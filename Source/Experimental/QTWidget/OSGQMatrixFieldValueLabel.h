@@ -6,6 +6,7 @@
 #pragma once
 #endif
 
+#include "OSGQTWidgetDef.h"
 #include "OSGQFieldValueLabel.h"
 
 OSG_BEGIN_NAMESPACE
@@ -14,7 +15,8 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <class MatrixTypeT>
-class QMatrixFieldValueLabel : public QFieldValueLabelBase
+class OSG_QTWIDGETLIB_DLLTMPLMAPPING QMatrixFieldValueLabel : 
+    public QFieldValueLabelBase
 {
 public:
     typedef          MatrixTypeT            MatrixType;
@@ -51,7 +53,7 @@ private:
 
 OSG_END_NAMESPACE
 
-#define OSGQMATRIXFIELDVALUELABEL_HEADER_CVSID "@(#)$Id: OSGQMatrixFieldValueLabel.h,v 1.1 2003/05/07 14:03:40 neumannc Exp $"
+#define OSGQMATRIXFIELDVALUELABEL_HEADER_CVSID "@(#)$Id: OSGQMatrixFieldValueLabel.h,v 1.2 2003/05/16 13:54:29 neumannc Exp $"
 
 #include "OSGQMatrixFieldValueLabel.inl"
 

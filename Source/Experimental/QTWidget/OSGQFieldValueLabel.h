@@ -5,6 +5,8 @@
 #pragma once
 #endif
 
+#include "OSGQTWidgetDef.h"
+
 #include <OSGBaseTypes.h>
 #include <OSGVector.h>
 #include <OSGFieldContainerPtr.h>
@@ -24,7 +26,7 @@ OSG_BEGIN_NAMESPACE
 
 class QFieldViewBase;
 
-class QFieldValueLabelBase : public Qt
+class OSG_QTWIDGETLIB_DLLMAPPING QFieldValueLabelBase : public Qt
 {
 public:
     QFieldValueLabelBase(QFieldViewBase *pView, UInt32 uiIndex);
@@ -64,7 +66,8 @@ private:
 /*! \brief Flyweight label, that uses the text representation of the fields.
  */
 
-class QGenericFieldValueLabel : public QFieldValueLabelBase
+class OSG_QTWIDGETLIB_DLLMAPPING QGenericFieldValueLabel : 
+    public QFieldValueLabelBase
 {
 public:
     QGenericFieldValueLabel(QFieldViewBase *pView, UInt32 uiIndex);
@@ -97,7 +100,7 @@ private:
 
 OSG_END_NAMESPACE
 
-#define OSGQFIELDVALUELABEL_HEADER_CVSID "@(#)$Id: OSGQFieldValueLabel.h,v 1.1 2003/05/07 14:03:40 neumannc Exp $"
+#define OSGQFIELDVALUELABEL_HEADER_CVSID "@(#)$Id: OSGQFieldValueLabel.h,v 1.2 2003/05/16 13:54:29 neumannc Exp $"
 
 #include "OSGQFieldValueLabel.inl"
 

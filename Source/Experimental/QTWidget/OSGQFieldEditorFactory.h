@@ -5,7 +5,10 @@
 #pragma once
 #endif
 
+#include "OSGQTWidgetDef.h"
+
 #include <OSGBaseTypes.h>
+
 #include <qnamespace.h>
 
 class QWidget;
@@ -15,7 +18,7 @@ OSG_BEGIN_NAMESPACE
 class QFieldViewBase;
 class QFieldEditorBase;
 
-class QFieldEditorFactory : public Qt
+class OSG_QTWIDGETLIB_DLLMAPPING QFieldEditorFactory : public Qt
 {
 public:
     ~QFieldEditorFactory(void);
@@ -36,7 +39,7 @@ private:
 
 OSG_END_NAMESPACE
 
-#define OSGQFIELDEDITORFACTORY_HEADER_CVSID "@(#)$Id: OSGQFieldEditorFactory.h,v 1.1 2003/05/07 14:03:40 neumannc Exp $"
+#define OSGQFIELDEDITORFACTORY_HEADER_CVSID "@(#)$Id: OSGQFieldEditorFactory.h,v 1.2 2003/05/16 13:54:29 neumannc Exp $"
 
 // #include "OSGQFieldEditorFactory.inl"
 

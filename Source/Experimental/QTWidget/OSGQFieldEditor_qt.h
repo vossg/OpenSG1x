@@ -5,6 +5,8 @@
 #pragma once
 #endif
 
+#include "OSGQTWidgetDef.h"
+
 #include <OSGField.h>
 
 #include <qwidget.h>
@@ -19,7 +21,7 @@ class QFieldViewBase;
 /*! \brief Base class for the field editor widgets
  */
 
-class QFieldEditorBase : public QWidget
+class OSG_QTWIDGETLIB_DLLMAPPING QFieldEditorBase : public QWidget
 {
     Q_OBJECT
 
@@ -96,7 +98,7 @@ private:
 
 OSG_END_NAMESPACE
 
-#define OSGQFIELDEDITOR_HEADER_CVSID "@(#)$Id: OSGQFieldEditor_qt.h,v 1.1 2003/05/07 14:03:40 neumannc Exp $"
+#define OSGQFIELDEDITOR_HEADER_CVSID "@(#)$Id: OSGQFieldEditor_qt.h,v 1.2 2003/05/16 13:54:29 neumannc Exp $"
 
 #include "OSGQFieldEditor_qt.inl"
 

@@ -5,6 +5,8 @@
 #pragma once
 #endif
 
+#include "OSGQTWidgetDef.h"
+
 #include <OSGBaseTypes.h>
 
 #include <string>
@@ -17,7 +19,7 @@ OSG_BEGIN_NAMESPACE
 class QFieldViewBase;
 class QFieldValueLabelBase;
 
-class QFieldLabelFactory : public Qt
+class OSG_QTWIDGETLIB_DLLMAPPING QFieldLabelFactory : public Qt
 {
 public:
     typedef QFieldValueLabelBase *(*LabelCreateF)(QFieldViewBase *, UInt32);
@@ -53,7 +55,7 @@ struct QLabelRegisterWrapper
 
 OSG_END_NAMESPACE
 
-#define OSGQFIELDLABELFACTORY_HEADER_CVSID "@(#)$Id: OSGQFieldLabelFactory.h,v 1.1 2003/05/07 14:03:40 neumannc Exp $"
+#define OSGQFIELDLABELFACTORY_HEADER_CVSID "@(#)$Id: OSGQFieldLabelFactory.h,v 1.2 2003/05/16 13:54:29 neumannc Exp $"
 
 #include "OSGQFieldLabelFactory.inl"
 

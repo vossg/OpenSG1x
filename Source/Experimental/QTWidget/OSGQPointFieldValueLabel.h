@@ -13,7 +13,8 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <class PointTypeT>
-class QPointFieldValueLabel : public QFieldValueLabelBase
+class OSG_QTWIDGETLIB_DLLTMPLMAPPING QPointFieldValueLabel : 
+    public QFieldValueLabelBase
 {
 public:
     typedef          PointTypeT            PointType;
@@ -52,7 +53,7 @@ private:
 
 OSG_END_NAMESPACE
 
-#define OSGQPOINTFIELDVALUELABEL_HEADER_CVSID "@(#)$Id: OSGQPointFieldValueLabel.h,v 1.1 2003/05/07 14:03:40 neumannc Exp $"
+#define OSGQPOINTFIELDVALUELABEL_HEADER_CVSID "@(#)$Id: OSGQPointFieldValueLabel.h,v 1.2 2003/05/16 13:54:29 neumannc Exp $"
 
 #include "OSGQPointFieldValueLabel.inl"
 

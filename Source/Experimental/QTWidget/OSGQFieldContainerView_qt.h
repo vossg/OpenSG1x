@@ -5,6 +5,8 @@
 #pragma once
 #endif
 
+#include "OSGQTWidgetDef.h"
+
 #include <OSGFieldContainer.h>
 
 #include <qwidget.h>
@@ -17,7 +19,7 @@ class QResizeEvent;
 
 OSG_BEGIN_NAMESPACE
 
-class QFieldContainerView : public QWidget
+class OSG_QTWIDGETLIB_DLLMAPPING QFieldContainerView : public QWidget
 {
     Q_OBJECT
 
@@ -102,7 +104,7 @@ private:
 
 OSG_END_NAMESPACE
 
-#define OSGQFIELDCONTAINERVIEW_HEADER_CVSID "@(#)$Id: OSGQFieldContainerView_qt.h,v 1.1 2003/05/07 14:03:40 neumannc Exp $"
+#define OSGQFIELDCONTAINERVIEW_HEADER_CVSID "@(#)$Id: OSGQFieldContainerView_qt.h,v 1.2 2003/05/16 13:54:29 neumannc Exp $"
 
 #include "OSGQFieldContainerView_qt.inl"
 

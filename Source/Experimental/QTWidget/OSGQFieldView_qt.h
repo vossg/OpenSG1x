@@ -5,6 +5,8 @@
 #pragma once
 #endif
 
+#include "OSGQTWidgetDef.h"
+
 #include <OSGField.h>
 #include <OSGFieldContainerPtr.h>
 
@@ -24,7 +26,7 @@ class QFieldEditorBase;
 /*! \brief Base class for the field display widgets
 */
 
-class QFieldViewBase : public QWidget
+class OSG_QTWIDGETLIB_DLLMAPPING QFieldViewBase : public QWidget
 {
     Q_OBJECT
 
@@ -85,7 +87,7 @@ private:
 /*! \brief The QT Widget to display an OpenSG SField
  */
 
-class QSFieldView : public QFieldViewBase
+class OSG_QTWIDGETLIB_DLLMAPPING QSFieldView : public QFieldViewBase
 {
     Q_OBJECT
 
@@ -136,7 +138,7 @@ private:
 /*! \brief QT Widget to display an OpenSG MField
  */
 
-class QMFieldView : public QFieldViewBase
+class OSG_QTWIDGETLIB_DLLMAPPING QMFieldView : public QFieldViewBase
 {
     Q_OBJECT
 
@@ -237,7 +239,7 @@ private:
 
 OSG_END_NAMESPACE
 
-#define OSGQFIELDVIEWBASE_HEADER_CVSID "@(#)$Id: OSGQFieldView_qt.h,v 1.1 2003/05/07 14:03:40 neumannc Exp $"
+#define OSGQFIELDVIEWBASE_HEADER_CVSID "@(#)$Id: OSGQFieldView_qt.h,v 1.2 2003/05/16 13:54:29 neumannc Exp $"
 
 #include "OSGQFieldView_qt.inl"
 

@@ -5,6 +5,8 @@
 #pragma once
 #endif
 
+#include "OSGQTWidgetDef.h"
+
 #include <OSGNode.h>
 #include <OSGFieldContainerFields.h>
 
@@ -16,7 +18,7 @@ OSG_BEGIN_NAMESPACE
 
 class QFCItem;
 
-class QHeaderItem : public QListViewItem
+class OSG_QTWIDGETLIB_DLLMAPPING QHeaderItem : public QListViewItem
 {
 public:
              QHeaderItem(QFCItem *parent, const QString &strText);
@@ -29,7 +31,7 @@ private:
     typedef QListViewItem Inherited;
 };
 
-class QSceneGraphItem : public QListViewItem
+class OSG_QTWIDGETLIB_DLLMAPPING QSceneGraphItem : public QListViewItem
 {
 public:
              QSceneGraphItem(QListView     *parent);
@@ -53,7 +55,7 @@ private:
 };
 
 
-class QFCItem : public QSceneGraphItem
+class OSG_QTWIDGETLIB_DLLMAPPING QFCItem : public QSceneGraphItem
 {
 public:
     QFCItem(QListView     *parent, const FieldContainerPtr &pFC);
@@ -82,7 +84,7 @@ private:
     FieldContainerPtr _pFC;
 };
 
-class QNodeItem : public QFCItem
+class OSG_QTWIDGETLIB_DLLMAPPING QNodeItem : public QFCItem
 {
 public:
     QNodeItem(QListView     *parent, const NodePtr &pNode);
@@ -96,7 +98,7 @@ private:
     typedef QFCItem Inherited;
 };
 
-class QNodeCoreItem : public QFCItem
+class OSG_QTWIDGETLIB_DLLMAPPING QNodeCoreItem : public QFCItem
 {
 public:
             QNodeCoreItem(QListView     *parent, const NodeCorePtr &pNodeCore);
@@ -109,7 +111,7 @@ private:
     typedef QFCItem Inherited;
 };
 
-class QNodeTreeView : public QListView
+class OSG_QTWIDGETLIB_DLLMAPPING QNodeTreeView : public QListView
 {
     Q_OBJECT
 
@@ -160,7 +162,7 @@ private:
 
 OSG_END_NAMESPACE
 
-#define OSGQNODETREEVIEW_HEADER_CVSID "@(#)$Id: OSGQNodeTreeView_qt.h,v 1.1 2003/05/07 14:03:40 neumannc Exp $"
+#define OSGQNODETREEVIEW_HEADER_CVSID "@(#)$Id: OSGQNodeTreeView_qt.h,v 1.2 2003/05/16 13:54:29 neumannc Exp $"
 
 // #include "OSGQNodeTreeView_qt.inl"
 
