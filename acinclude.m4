@@ -1419,24 +1419,6 @@ dnl e13
     ac_gdz_gif_incdir_e13=
     ac_gdz_gif_libdir_e13=
 
-    if test "$with_gif" = yes; then
-        if test $build_os = cygwin; then
-           ac_gdz_gif_lib_e13=
-        else
-           ac_gdz_gif_lib_e13=
-        fi
-    elif test -n "$ac_gdz_gif_dir"; then
-        if test $build_os = cygwin; then
-           ac_gdz_gif_incdir_e13=
-           ac_gdz_gif_libdir_e13=
-           ac_gdz_gif_lib_e13=
-        else
-           ac_gdz_gif_incdir_e13=
-           ac_gdz_gif_libdir_e13=
-           ac_gdz_gif_lib_e13=
-        fi
-    fi
-
     ac_gdz_common_gif_in_e13=$ac_gdz_commonconf_dir/commonGIF.in
     ac_gdz_common_gif_e13=$ac_gdz_commonpackage_dir/commonGIF.mk
 
@@ -1804,28 +1786,8 @@ dnl e15
     ac_gdz_gif_incdir_e15=
     ac_gdz_gif_libdir_e15=
 
-    if test "$with_gif" = yes; then
-        
+    if test "$enable_gif" = yes; then
         ac_gdz_have_gif_e15=yes
-
-        if test $build_os = cygwin; then
-           ac_gdz_gif_lib_e15=
-        else
-           ac_gdz_gif_lib_e15=
-        fi
-    elif test -n "$ac_gdz_gif_dir"; then
-
-        ac_gdz_have_gif_e15=yes
-
-        if test $build_os = cygwin; then
-           ac_gdz_gif_incdir_e15=
-           ac_gdz_gif_libdir_e15=
-           ac_gdz_gif_lib_e15=
-        else
-           ac_gdz_gif_incdir_e15=
-           ac_gdz_gif_libdir_e15=
-           ac_gdz_gif_lib_e15=
-        fi
     else
         ac_gdz_have_gif_e15=no
     fi

@@ -546,18 +546,13 @@ dnl ############# GIF Settings #####################
 AC_ARG_ENABLE(gif,     [  --enable-gif                       Build with gif support],
 			,enable_gif=no) 
 
-if test "$with_gif" = yes; then
+if test "$enable_gif" = yes; then
 	ac_gdz_gif_dir=
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_GIF'
 	ac_gdz_conf_package_gif='1'
 	ac_gdz_conf_package_gif_e1='1'
 elif test "$with_gif" = no; then
 	ac_gdz_gif_dir=
-else
-	ac_gdz_gif_dir=
-	ac_gdz_conf_package_gif='1'
-	ac_gdz_conf_package_gif_e1='1'
-	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_GIF'
 fi
 
 dnl ############# efence Settings #####################
