@@ -1843,6 +1843,53 @@ dnl e15
     AC_SUBST(ac_gdz_mng_lib_e15)
     AC_SUBST(ac_gdz_have_mng_e15)
 
+    ac_gdz_sepia_lib_e15=
+    ac_gdz_sepia_incdir_e15=
+    ac_gdz_sepia_libdir_e15=
+
+    if test "$enable_sepia" = yes; then
+
+        case $build_os in
+            cygwin*)
+                ac_gdz_sepia_lib_e15='sepia32.lib'
+            ;;
+            *)
+                ac_gdz_sepia_lib_e15='-lSepiaRT'
+            ;;
+        esac
+
+        if test -n "$ac_gdz_sepia_incdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_sepia_incdir_e15='"'`cygpath -w $ac_gdz_sepia_incdir`'"'
+                ;;
+                *)
+                    ac_gdz_sepia_incdir_e15=$ac_gdz_sepia_incdir
+                ;;
+            esac
+        fi
+
+        if test -n "$ac_gdz_sepia_libdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_sepia_libdir_e15='"'`cygpath -w $ac_gdz_sepia_libdir`'"'
+                ;;
+                *)
+                    ac_gdz_sepia_libdir_e15=$ac_gdz_sepia_libdir
+                ;;
+            esac
+        fi
+        ac_gdz_have_sepia_e15=yes
+    else
+        ac_gdz_have_sepia_e15=no
+    fi
+
+
+    AC_SUBST(ac_gdz_sepia_incdir_e15)
+    AC_SUBST(ac_gdz_sepia_libdir_e15)
+    AC_SUBST(ac_gdz_sepia_lib_e15)
+    AC_SUBST(ac_gdz_have_sepia_e15)
+
 
     ac_gdz_freetype1_lib_e15=
     ac_gdz_freetype1_incdir_e15=
@@ -2253,3 +2300,56 @@ dnl    ac_gdz__fix_out_e16=$ac_gdz_package_sub_dir_out/Base/
     AC_OUTPUT($ac_gdz_flexlexer_fix_out_e22:$ac_gdz_flexlexer_fix_in_e22)
 ])
  
+AC_DEFUN(AC_GDZ_WRITE_COMMON_SEPIA,
+[
+dnl e23
+    echo "SEPIA was called!"
+    ac_gdz_sepia_lib_e19=
+    ac_gdz_sepia_incdir_e19=
+    ac_gdz_sepia_libdir_e19=
+
+    if test "$enable_sepia" = yes; then
+        case $build_os in
+            cygwin*)
+                ac_gdz_sepia_lib_e19='SepiaRT.lib'
+            ;;
+            *)
+                ac_gdz_sepia_lib_e19='-lSepiaRT'
+            ;;
+        esac
+
+        if test -n "$ac_gdz_sepia_incdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_sepia_incdir_e19='"'`cygpath -w $ac_gdz_sepia_incdir`'"'
+                ;;
+                *)
+                    ac_gdz_sepia_incdir_e19=$ac_gdz_sepia_incdir
+                ;;
+            esac
+        fi
+
+        if test -n "$ac_gdz_sepia_libdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_sepia_libdir_e19='"'`cygpath -w $ac_gdz_sepia_libdir`'"'
+                ;;
+                *)
+                    ac_gdz_sepia_libdir_e19=$ac_gdz_sepia_libdir
+                ;;
+
+            esac
+        fi
+    fi
+
+    ac_gdz_common_sepia_in_e19=$ac_gdz_commonconf_dir/commonSEPIA.in
+    ac_gdz_common_sepia_e19=$ac_gdz_commonpackage_dir/commonSEPIA.mk
+
+    AC_SUBST(ac_gdz_sepia_incdir_e19)
+    AC_SUBST(ac_gdz_sepia_libdir_e19)
+    AC_SUBST(ac_gdz_sepia_lib_e19)
+   
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_common_sepia_e19:$ac_gdz_common_sepia_in_e19)
+])

@@ -1,0 +1,19 @@
+
+INCLUDE_SEPIA := @ac_gdz_sepia_incdir_e19@
+LINK_SEPIA    := @ac_gdz_sepia_libdir_e19@
+LIB_SEPIA     := @ac_gdz_sepia_lib_e19@
+
+ifneq ($(INCLUDE_SEPIA),)
+INCL_$(OS_BASE) += $(INC_OPTION)$(INCLUDE_SEPIA)
+endif
+
+ifneq ($(LINK_SEPIA),)
+LIBPATHS_SEPIA     := $(LIBPATH_OPTION)$(LINK_SEPIA)
+endif
+
+ifneq ($(LIB_SEPIA),)
+LIB_FILE_SEPIA     := $(LIB_SEPIA)
+LIB_FILE_SEPIA_LNK := $(LIB_SEPIA)
+OSG_LIB_EXT       := $(OSG_LIB_EXT) $(LIB_SEPIA)
+endif
+

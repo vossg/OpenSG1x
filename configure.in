@@ -52,6 +52,8 @@ ac_gdz_conf_package_mpatrol='0'
 ac_gdz_conf_package_mpatrol_e1='0'
 ac_gdz_conf_package_myrinet='0'
 ac_gdz_conf_package_myrinet_e1='0'
+ac_gdz_conf_package_sepia='0'
+ac_gdz_conf_package_sepia_e1='0'
 ac_gdz_conf_package_freetype1='0'
 ac_gdz_conf_package_freetype1_e1='0'
 
@@ -690,6 +692,82 @@ else
 	ac_gdz_conf_package_myrinet_e1='1'
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_MYRINET'
 fi
+
+dnl ############# SEPIA Settings #####################
+
+AC_ARG_ENABLE(sepia,     [  --enable-sepia                     Build with sepia support ],
+			,enable_sepia=no) 
+
+AC_ARG_WITH(sepia,     [  --with-sepia=DIR                   Use DIR/lib DIR/include to find the sepia files ],
+			,with_sepia=) 
+
+AC_ARG_WITH(sepiaincludedir,     [  --with-sepiaincludedir=DIR         Use sepia includes from the given directory ],
+			,with_sepiaincludedir=) 
+
+AC_ARG_WITH(sepialibdir,     [  --with-sepialibdir=DIR             Use sepia library from the given directory ],
+			,with_sepialibdir=) 
+
+if test "$enable_sepia" = no && test "$with_sepia" = yes; then
+    enable_sepia=yes
+    with_sepia=
+fi
+
+if test "$enable_sepia" = no && test "$with_sepia"X != "X"; then
+    enable_sepia=yes
+fi
+
+if test "$enable_sepia" = yes; then
+	ac_gdz_sepia_incdir=
+	ac_gdz_sepia_libdir=
+	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_SEPIA'
+	ac_gdz_conf_package_sepia='1'
+	ac_gdz_conf_package_sepia_e1='1'
+
+    if test -n "$with_sepia"; then
+		ac_gdz_sepia_incdir=$with_sepia/include
+
+        case $build_os in
+            hpux*)
+                ac_gdz_sepia_libdir=$with_sepia/lib/X11
+            ;;
+            *)
+		        ac_gdz_sepia_libdir=$with_sepia/lib
+            ;;
+        esac
+
+        if ! test -d "$ac_gdz_sepia_incdir" && ! test -n "$with_sepiaincludedir"; then
+            echo "ERROR sepia include dir does not seem to exist, please check the given base dir \"$with_sepia\""
+            exit
+        fi
+        if ! test -d "$ac_gdz_sepia_libdir" && ! test -n "$with_sepialibdir"; then
+            echo "ERROR sepia lib dir does not seem to exist, please check the given base dir \"$with_sepia\""
+            exit
+        fi
+    fi
+
+    if test -n "$with_sepiaincludedir"; then
+		ac_gdz_sepia_incdir=$with_sepiaincludedir
+
+        if ! test -d "$ac_gdz_sepia_incdir"; then
+            echo "ERROR sepia include dir does not seem to exist, please check the given dir \"$with_sepiaincludedir\""
+            exit
+        fi
+    fi
+
+    if test -n "$with_sepialibdir"; then
+	    ac_gdz_sepia_libdir=$with_sepialibdir
+
+        if ! test -d "$ac_gdz_sepia_libdir"; then
+            echo "ERROR sepia lib dir does not seem to exist, please check the given dir \"$with_sepialibdir\""
+            exit
+        fi
+    fi
+else
+	ac_gdz_sepia_dir=
+	ac_gdz_sepia_incdir=
+	ac_gdz_sepia_libdir=
+fi
+
 
 dnl ############# Freetype1 Settings #####################
 
@@ -1370,6 +1448,7 @@ AC_SUBST(ac_gdz_conf_package_tif_e1)
 AC_SUBST(ac_gdz_conf_package_jpg_e1)
 AC_SUBST(ac_gdz_conf_package_png_e1)
 AC_SUBST(ac_gdz_conf_package_mng_e1)
+AC_SUBST(ac_gdz_conf_package_sepia_e1)
 AC_SUBST(ac_gdz_conf_package_gif_e1)
 AC_SUBST(ac_gdz_conf_package_gl_e1)
 AC_SUBST(ac_gdz_conf_package_glut_e1)
@@ -1445,6 +1524,8 @@ AC_GDZ_WRITE_COMMON_JPG()
 AC_GDZ_WRITE_COMMON_PNG()
 
 AC_GDZ_WRITE_COMMON_MNG()
+
+AC_GDZ_WRITE_COMMON_SEPIA()
 
 AC_GDZ_WRITE_COMMON_GIF()
 
