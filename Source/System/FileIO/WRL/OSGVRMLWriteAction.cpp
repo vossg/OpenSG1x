@@ -440,7 +440,7 @@ Action::ResultE VRMLWriteAction::writeGroupLeave(CNodePtr &pGroup,
     return Action::Continue;
 }
 
-Action::ResultE VRMLWriteAction::writeVTransformEnter(CNodePtr &pGroup,
+Action::ResultE VRMLWriteAction::writeComponentTransformEnter(CNodePtr &pGroup,
                                                       Action   *pAction)
 {
     VRMLWriteAction *pWriter = dynamic_cast<VRMLWriteAction *>(pAction);
@@ -458,7 +458,7 @@ Action::ResultE VRMLWriteAction::writeVTransformEnter(CNodePtr &pGroup,
         return Action::Quit;
     }
 
-    FDEBUG(("Write VTransform Enter 0x%04x\n", pWriter->getMode()));
+    FDEBUG(("Write ComponentTransform Enter 0x%04x\n", pWriter->getMode()));
 
     if(pWriter->getMode() == VRMLWriteAction::OSGCollectFC)
     {
@@ -539,7 +539,7 @@ Action::ResultE VRMLWriteAction::writeVTransformEnter(CNodePtr &pGroup,
     return Action::Continue;
 }
 
-Action::ResultE VRMLWriteAction::writeVTransformLeave(CNodePtr &,
+Action::ResultE VRMLWriteAction::writeComponentTransformLeave(CNodePtr &,
                                                       Action   *pAction)
 {
     VRMLWriteAction *pWriter = dynamic_cast<VRMLWriteAction *>(pAction);
@@ -549,7 +549,146 @@ Action::ResultE VRMLWriteAction::writeVTransformLeave(CNodePtr &,
         return Action::Quit;
     }
 
-    FDEBUG(("Write VTransform Leave 0x%04x\n", pWriter->getMode()));
+    FDEBUG(("Write ComponentTransform Leave 0x%04x\n", pWriter->getMode()));
+
+    if(pWriter->getMode() != VRMLWriteAction::OSGCollectFC)
+    {
+        FILE *pFile = pWriter->getFilePtr();
+        
+        if(pFile == NULL)    
+        {
+            return Action::Quit;
+        }
+
+        pWriter->decIndent(4);
+
+        pWriter->printIndent();
+        fprintf(pFile, "]\n");
+
+        pWriter->decIndent(4);
+
+        pWriter->printIndent();
+        fprintf(pFile, "}\n");
+    }
+
+    return Action::Continue;
+}
+
+Action::ResultE VRMLWriteAction::writeTransformEnter(CNodePtr &pGroup,
+                                                     Action   *pAction)
+{
+    VRMLWriteAction *pWriter = dynamic_cast<VRMLWriteAction *>(pAction);
+
+    TransformPtr pTrans = TransformPtr::dcast(pGroup.getNode()->getCore());
+
+    Real32 rQX;
+    Real32 rQY;
+    Real32 rQZ;
+    Real32 rQW;
+
+    if(pWriter == NULL)
+    {
+        return Action::Quit;
+    }
+
+    FDEBUG(("Write Transform Enter 0x%04x\n", pWriter->getMode()));
+
+    if(pWriter->getMode() == VRMLWriteAction::OSGCollectFC)
+    {
+        pWriter->addNodeUse(pGroup);
+    }
+    else
+    {
+        FILE *pFile = pWriter->getFilePtr();
+        
+        if(pFile == NULL)    
+        {
+            return Action::Quit;
+        }
+
+        FCInfo *pInfo = pWriter->getInfo(pGroup);
+
+        if(pInfo == NULL)
+        {
+            return Action::Quit;
+        }
+
+        if((pInfo->getName() != NULL   ) &&
+           (pInfo->getWritten() == false) && 
+           (pInfo->getName()[0] != '\0'))
+        {
+            pWriter->printIndent();
+            fprintf(pFile, "DEF %s Transform\n", pInfo->getName());
+
+            pInfo->setWritten();
+        }
+        else
+        {
+            pWriter->printIndent();
+            fprintf(pFile, "Transform\n");
+        }
+
+        pWriter->printIndent();
+        fprintf(pFile, "{\n");
+
+        pWriter->incIndent(4);
+
+        // decompose matrix.
+        Matrix m = pTrans->getSFMatrix()->getValue();
+        Vec3f translation, scale, center;
+        Quaternion rotation, scaleOrientation;
+        m.getTransform(translation, rotation, scale, scaleOrientation);
+        
+        pWriter->printIndent();
+        fprintf(pFile, "center %f %f %f\n",
+                center[0],
+                center[1],
+                center[2]);
+
+        rotation.getValueAsAxisRad(rQX, rQY, rQZ, rQW);
+
+        pWriter->printIndent();
+        fprintf(pFile, "rotation %f %f %f %f\n",
+                rQX, rQY, rQZ, rQW);
+
+        pWriter->printIndent();
+        fprintf(pFile, "scale %f %f %f\n",
+                scale[0],
+                scale[1],
+                scale[2]);
+
+        scaleOrientation.getValueAsAxisRad(rQX, rQY, rQZ, rQW);
+
+        pWriter->printIndent();
+        fprintf(pFile, "scaleOrientation %f %f %f %f\n",
+                rQX, rQY, rQZ, rQW);
+
+        pWriter->printIndent();
+        fprintf(pFile, "translation %f %f %f\n", 
+                translation[0],
+                translation[1],
+                translation[2]);
+
+        pWriter->printIndent();
+        fprintf(pFile, "children [\n");
+
+        pWriter->incIndent(4);
+    }
+
+    return Action::Continue;
+}
+
+Action::ResultE VRMLWriteAction::writeTransformLeave(CNodePtr &,
+                                                      Action   *pAction)
+{
+    VRMLWriteAction *pWriter = dynamic_cast<VRMLWriteAction *>(pAction);
+
+    if(pWriter == NULL)
+    {
+        return Action::Quit;
+    }
+
+    FDEBUG(("Write Transform Leave 0x%04x\n", pWriter->getMode()));
 
     if(pWriter->getMode() != VRMLWriteAction::OSGCollectFC)
     {
@@ -1590,7 +1729,14 @@ bool VRMLWriteAction::initializeAction(void)
         osgTypedFunctionFunctor2CPtrRef<
             Action::ResultE,
             CNodePtr        , 
-            Action         *>(VRMLWriteAction::writeVTransformEnter));
+            Action         *>(VRMLWriteAction::writeComponentTransformEnter));
+
+    VRMLWriteAction::registerEnterDefault( 
+        Transform::getClassType(), 
+        osgTypedFunctionFunctor2CPtrRef<
+            Action::ResultE,
+            CNodePtr        , 
+            Action         *>(VRMLWriteAction::writeTransformEnter));
 
     VRMLWriteAction::registerEnterDefault( 
         Geometry::getClassType(), 
@@ -1620,7 +1766,14 @@ bool VRMLWriteAction::initializeAction(void)
         osgTypedFunctionFunctor2CPtrRef<
             Action::ResultE,
             CNodePtr        ,
-            Action         *>(&VRMLWriteAction::writeVTransformLeave));
+            Action         *>(&VRMLWriteAction::writeComponentTransformLeave));
+
+    VRMLWriteAction::registerLeaveDefault(
+        Transform::getClassType(), 
+        osgTypedFunctionFunctor2CPtrRef<
+            Action::ResultE,
+            CNodePtr        ,
+            Action         *>(&VRMLWriteAction::writeTransformLeave));
 
     VRMLWriteAction::registerLeaveDefault(
         Geometry::getClassType(), 

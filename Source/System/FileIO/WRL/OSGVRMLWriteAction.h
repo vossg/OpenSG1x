@@ -290,9 +290,14 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     static Action::ResultE writeMatGroupLeave(CNodePtr &pGroup,
                                               Action   *pAction);
 
-    static Action::ResultE writeVTransformEnter(CNodePtr &pGroup,
+    static Action::ResultE writeComponentTransformEnter(CNodePtr &pGroup,
                                                 Action   *pAction);
-    static Action::ResultE writeVTransformLeave(CNodePtr &pGroup,
+    static Action::ResultE writeComponentTransformLeave(CNodePtr &pGroup,
+                                                Action   *pAction);
+
+    static Action::ResultE writeTransformEnter(CNodePtr &pGroup,
+                                                Action   *pAction);
+    static Action::ResultE writeTransformLeave(CNodePtr &pGroup,
                                                 Action   *pAction);
 
     static void writePoints   (      GeometryPtr      pGeo, 
