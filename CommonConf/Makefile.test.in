@@ -23,6 +23,9 @@ LIB_REQUIRED_LNKPACKAGES := @ac_gdz_package_link_dep_out@
 LIB_REQUIRED_INCPACKAGES_FILES := @ac_gdz_package_inc_dep_out_files@
 LIB_REQUIRED_LNKPACKAGES_FILES := @ac_gdz_package_link_dep_out_files@
 
+LIB_REQUIRED_TESTINCPACKAGES       := @ac_gdz_package_testinc_dep_out@
+LIB_REQUIRED_TESTINCPACKAGES_FILES := @ac_gdz_package_testinc_dep_out_files@
+
 LIB_REQUIRED_TESTLNKPACKAGES       := @ac_gdz_package_testlink_dep_out@
 LIB_REQUIRED_TESTLNKPACKAGES_FILES := @ac_gdz_package_testlink_dep_out_files@
 

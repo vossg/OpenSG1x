@@ -501,8 +501,23 @@ dnl e2
             fi
         done
 
+        ac_gdz_package_testinc_dep_out=${ac_gdz_package_name_out}Lib' '${ac_gdz_package_testinc_dep[$i]}
+        ac_gdz_package_testinc_dep_out_files='$(BUILD_BASE)'/${ac_gdz_package_name_out}Lib/common.mk
+
+        for dir in ${ac_gdz_package_testinc_dep[$i]}; do
+            ac_gdz_package_check_file_e2=$ac_gdz_src_dir/$dir/common.mk
+            
+            if [[ -r $ac_gdz_package_check_file_e2 ]]; then
+                ac_gdz_package_testinc_dep_out_files="$ac_gdz_package_testinc_dep_out_files $ac_gdz_src_dir/$dir/common.mk"
+            else
+                ac_gdz_package_testinc_dep_out_files=$ac_gdz_package_testinc_dep_out_files' $(BUILD_BASE)'/$dir/common.mk
+            fi
+        done
+
+
         ac_gdz_package_testlink_dep_out=${ac_gdz_package_name_out}Lib' '${ac_gdz_package_testlink_dep[$i]}
-        ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_link_dep_out_files' $(BUILD_BASE)'/${ac_gdz_package_name_out}Lib/common.mk
+dnl        ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_link_dep_out_files' $(BUILD_BASE)'/${ac_gdz_package_name_out}Lib/common.mk
+        ac_gdz_package_testlink_dep_out_files='$(BUILD_BASE)'/${ac_gdz_package_name_out}Lib/common.mk
 
         for dir in ${ac_gdz_package_testlink_dep[$i]}; do
             ac_gdz_package_check_file_e2=$ac_gdz_commonpackage_dir/common$dir.mk
@@ -584,6 +599,8 @@ dnl e2
         AC_SUBST(ac_gdz_package_inc_dep_out_files)
         AC_SUBST(ac_gdz_package_link_dep_out)
         AC_SUBST(ac_gdz_package_link_dep_out_files)
+        AC_SUBST(ac_gdz_package_testinc_dep_out)
+        AC_SUBST(ac_gdz_package_testinc_dep_out_files)
         AC_SUBST(ac_gdz_package_testlink_dep_out)
         AC_SUBST(ac_gdz_package_testlink_dep_out_files)
 
