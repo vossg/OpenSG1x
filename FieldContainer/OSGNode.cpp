@@ -561,8 +561,10 @@ void Node::updateVolume(void)
 		(*it)->updateVolume();
 		vol.extendBy((*it)->getVolume());
 	}
-	
-	getCore()->adjustVolume(vol);
+
+	// test for null core. Shouldn't happen, but just in case...
+	if(getCore() != NullFC) 
+		getCore()->adjustVolume(vol);
 
     endEdit(VolumeFieldMask, _volume);
 }
