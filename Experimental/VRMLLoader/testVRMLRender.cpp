@@ -573,6 +573,7 @@ int main (int argc, char **argv)
 										OSG::VRMLFile::StripeGeometry |
                    		 				OSG::VRMLFile::CreateNormals);
 
+            dlight->addChild(file);
 /*
 			for(OSG::UInt32 i=0; i<file.size(); ++i)
 			{
