@@ -80,7 +80,7 @@ triangles, non-polygonal primitives like lines and points are ignored.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.7 2001/05/21 10:37:34 jbehr Exp $";
+char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.8 2001/05/23 23:00:33 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -119,20 +119,20 @@ char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.7 2001/05
 
 TriangleIterator::TriangleIterator(void) : 
 	_primIt(), _geo(),
-	_triIndex(0), _actPrimIndex(), _triPntIndex()
+	_triIndex(0), _actPrimIndex(0), _triPntIndex()
 {
 }
 
 TriangleIterator::TriangleIterator( const GeometryPtr& geo ) :
 	_primIt(), _geo( geo ),
-	_triIndex(0), _actPrimIndex(), _triPntIndex()
+	_triIndex(0), _actPrimIndex(0), _triPntIndex()
 {
 	_primIt.setGeo( geo );
 }
 
 TriangleIterator::TriangleIterator( const NodePtr& geo ) :
 	_primIt(), _geo( dcast<GeometryPtr>(geo->getCore()) ),
-	_triIndex(0), _actPrimIndex(), _triPntIndex()
+	_triIndex(0), _actPrimIndex(0), _triPntIndex()
 {
 	_primIt.setGeo( geo );
 }
@@ -168,19 +168,15 @@ void TriangleIterator::operator++ ()
 {
 	// already at end?
 	if ( _primIt.isAtEnd() )
-	{
 		return;
-	}
 	
 	++_triIndex;
 
 	// at end of primitive?
 	if ( _actPrimIndex >= _primIt.getLength() )
 	{
-		++_primIt;
-		
-		if ( ! _primIt.isAtEnd() )
-			startPrim();
+		++_primIt;		
+		startPrim();
 		
 		return;
 	}
@@ -218,53 +214,53 @@ void TriangleIterator::operator++ ()
 								_triPntIndex[2] = _actPrimIndex++;
 							}							
 							break;
-	default:			SWARNING << "TriangleIterator::++: encountered " 
-								  << "unknown primitive type " 
-								  << _primIt.getType()
-								  << ", ignoring!" << endl;
-						if ( ! _primIt.isAtEnd() )
+	default:				SWARNING << "TriangleIterator::++: encountered " 
+									  << "unknown primitive type " 
+									  << _primIt.getType()
+									  << ", ignoring!" << endl;
 							startPrim();
-						break;
+							break;
 	}			
 }
 
 void TriangleIterator::startPrim( void )
 {
+	// already at end?
+	if ( _primIt.isAtEnd() )
+		return;
+		
 	_triPntIndex[0] = 0;
 	_triPntIndex[1] = 1;
 	_triPntIndex[2] = 2;
 	_actPrimIndex = 3;
 	
-	switch ( _primIt.getType() )
+	// loop until you find a useful primitive or run out
+	while ( ! _primIt.isAtEnd() )
 	{
-	case GL_POINTS: 	// non-polygon types: ignored
-	case GL_LINES:
-	case GL_LINE_STRIP: 
-	case GL_LINE_LOOP:	++_primIt;
-						if ( ! _primIt.isAtEnd() )
-							startPrim();
-						break;
-	case GL_TRIANGLES: 	// polygon types
-	case GL_TRIANGLE_STRIP:
-	case GL_TRIANGLE_FAN:
-	case GL_QUADS:
-	case GL_QUAD_STRIP:
-	case GL_POLYGON:	if ( _primIt.getLength() < 3 )
-						{
-							++_primIt;
-							if ( ! _primIt.isAtEnd() )
-								startPrim();
-							break;
-						}
-						break;
-	default:			SWARNING << "TriangleIterator::startPrim: encountered " 
-								  << "unknown primitive type " 
-								  << _primIt.getType()
-								  << ", ignoring!" << endl;
-						++_primIt;
-						if ( ! _primIt.isAtEnd() )
-							startPrim();
-						break;
+		switch ( _primIt.getType() )
+		{
+		case GL_POINTS: 		// non-polygon types: ignored
+		case GL_LINES:
+		case GL_LINE_STRIP: 
+		case GL_LINE_LOOP:	
+								break;
+		case GL_TRIANGLES:  	// polygon types
+		case GL_TRIANGLE_STRIP:
+		case GL_TRIANGLE_FAN:
+		case GL_QUADS:
+		case GL_QUAD_STRIP:
+		case GL_POLYGON:		if ( _primIt.getLength() >= 3 )
+									return;
+								break;
+		default:				SWARNING << "TriangleIterator::startPrim: "
+										  << "encountered " 
+										  << "unknown primitive type " 
+										  << _primIt.getType()
+										  << ", ignoring!" << endl;
+								break;
+		}
+		
+		++_primIt;
 	}			
 }
 
