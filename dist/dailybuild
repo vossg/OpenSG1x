@@ -526,7 +526,8 @@ case $system in
     
     *-pc-linux-gnu )    
         
-        qt_dir="/usr/lib/qt3"
+        #qt_dir="/usr/lib/qt3"
+        qt_dir="/igd/a4/software/Linux/packages/qt-x11-commercial-3.1.2"
         qt_args=${qt_args:="--with-qt=${qt_dir}"}
         glut_args=${glut_args:="--with-glut"}
         tif_args=${tif_args:="--with-tif"}
