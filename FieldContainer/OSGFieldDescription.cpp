@@ -100,9 +100,45 @@ OSGFieldDescription::OSGFieldDescription(
     _fieldMask(fieldMask),
     _internal(internal),
     _accessMethod(accessMethod),
+    _indexAccessMethod(NULL),
     _defaultValue(defaultValue) 
 {
 }
+
+/*! \brief Default Constructor 
+ */
+
+OSGFieldDescription::OSGFieldDescription(
+    const OSGFieldType              &fieldType, 
+    const OSGChar8                  *name, 
+    const OSGUInt32                  fieldId,
+    const OSGBitVector               fieldMask,
+    const OSGBool                    internal,
+          OSGFieldIndexAccessMethod  indexAccessMethod,
+    const OSGChar8                  *defaultValue) :
+    _fieldType(fieldType), 
+    _name(name),
+    _fieldId(fieldId),
+    _fieldMask(fieldMask),
+    _internal(internal),
+    _accessMethod(NULL),
+    _indexAccessMethod(indexAccessMethod),
+    _defaultValue(defaultValue) 
+{
+}
+
+OSGFieldDescription::OSGFieldDescription(const OSGFieldDescription &source) :
+    _fieldType        (source._fieldType),
+    _name             (source._name),
+    _fieldId          (source._fieldId),
+    _fieldMask        (source._fieldMask),
+    _internal         (source._internal),
+    _accessMethod     (source._accessMethod),
+    _indexAccessMethod(source._indexAccessMethod),
+    _defaultValue     (source._defaultValue) 
+{
+}
+
 
 /*! \brief Destructor 
  */
@@ -144,15 +180,37 @@ OSGBitVector OSGFieldDescription::getFieldMask(void) const
     return _fieldMask;
 }
 
+void OSGFieldDescription::setFieldMask(OSGBitVector fieldMask)
+{
+    _fieldMask = fieldMask;
+}
+
 OSGUInt32 OSGFieldDescription::getFieldId(void) const
 {
     return _fieldId;
+}
+
+void OSGFieldDescription::setFieldId(OSGUInt32 fieldId)
+{
+    _fieldId = fieldId;
 }
 
 OSGBool OSGFieldDescription::isValid(void)  const
 {
     return (_name.length()) ? true : false; 
 } 
+
+void OSGFieldDescription::setAccessMethod(
+    OSGFieldAccessMethod accessMethod)
+{
+    _accessMethod = accessMethod;
+}
+
+void OSGFieldDescription::setIndexAccessMethod(
+    OSGFieldIndexAccessMethod indexAccessMethod)
+{
+    _indexAccessMethod = indexAccessMethod;
+}
 
 /*---------------------------- properties ---------------------------------*/
 
@@ -186,6 +244,10 @@ OSGField *OSGFieldDescription::getField(OSGFieldContainer &fc) const
 	if(_accessMethod != NULL)
     {
 		field = ( (&fc)->*_accessMethod) ();
+    }
+    else if(_indexAccessMethod != NULL)
+    {
+        field = ( (&fc)->*_indexAccessMethod)(_fieldId);
     }
 	else 
     {

@@ -53,7 +53,8 @@ class OSGField;
 //   Types
 //---------------------------------------------------------------------------
 
-typedef OSGField * (OSGFieldContainer::* OSGFieldAccessMethod)(void); 
+typedef OSGField * (OSGFieldContainer::* OSGFieldAccessMethod)     (void); 
+typedef OSGField * (OSGFieldContainer::* OSGFieldIndexAccessMethod)(OSGUInt32);
 
 //---------------------------------------------------------------------------
 //  Class
@@ -95,9 +96,15 @@ class OSGFieldDescription
                               OSGFieldAccessMethod  accessMethod,
                         const OSGChar8             *defaultValue = 0);
 
-#ifdef __linux
-    OSGFieldDescription (const OSGFieldDescription &obj);
-#endif
+    OSGFieldDescription(const OSGFieldType              &fieldType, 
+                        const OSGChar8                  *name, 
+                        const OSGUInt32                  fieldId,
+                        const OSGBitVector               fieldMask,
+                        const OSGBool                    internal,
+                              OSGFieldIndexAccessMethod  indexAccessMethod,
+                        const OSGChar8                  *defaultValue = 0);
+
+    OSGFieldDescription(const OSGFieldDescription &obj);
     
     ~OSGFieldDescription (void);
     
@@ -107,12 +114,19 @@ class OSGFieldDescription
     const OSGChar8 *getDefaultValue(void) const;
 
     OSGUInt32    getTypeId   (void)  const;  
-    OSGBitVector getFieldMask(void)  const;
-    OSGUInt32    getFieldId  (void)  const;
+
+    OSGBitVector getFieldMask(void                  )  const;
+    void         setFieldMask(OSGBitVector fieldMask);
+
+    OSGUInt32    getFieldId  (void                  )  const;
+    void         setFieldId  (OSGUInt32    fieldId  );
 
 	OSGBool      isValid     (void)  const;
 
-    /*------------------------- assignment ----------------------------------*/
+    /*-------------------------            ----------------------------------*/
+
+    void setAccessMethod     (OSGFieldAccessMethod      accessMethod     );
+    void setIndexAccessMethod(OSGFieldIndexAccessMethod indexAccessMethod);
 
     /*------------------------- comparison ----------------------------------*/
 
@@ -190,9 +204,10 @@ class OSGFieldDescription
 
 	OSGString            _name;
 
-	OSGFieldAccessMethod _accessMethod;
+	OSGFieldAccessMethod      _accessMethod;
+    OSGFieldIndexAccessMethod _indexAccessMethod;
 
-	OSGString            _defaultValue;
+	OSGString                 _defaultValue;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

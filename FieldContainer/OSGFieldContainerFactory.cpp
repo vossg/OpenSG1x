@@ -170,6 +170,8 @@ OSGBool OSGFieldContainerFactory::terminate(void)
     OSGThreadManager::the()->freeLock(_mapLock);
 
     _initialized = false;
+
+    return true;
 }
 
 OSGUInt32 OSGFieldContainerFactory::registerFieldContainer(

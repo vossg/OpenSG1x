@@ -103,6 +103,7 @@ class OSGFieldContainerType
                           OSGInitContainerF    initMethod       = NULL,
                           OSGFieldDescription *desc             = NULL,
                           OSGUInt32            descByteCounter  = 0);
+    OSGFieldContainerType(const OSGFieldContainerType &obj);
 
     virtual ~OSGFieldContainerType (void);
 
@@ -145,10 +146,14 @@ class OSGFieldContainerType
 	const OSGFieldDescription *findFieldDescription(
         const OSGChar8 *fieldName) const;
 
+          OSGFieldDescription *getFieldDescription (
+              OSGUInt32 index) ;
     const OSGFieldDescription *getFieldDescription (
               OSGUInt32 index) const;
 
     OSGUInt32            getNumFieldDescriptions(void) const;
+
+    OSGUInt32            addDescription(const OSGFieldDescription &desc);
 
     /*----------------------------- dump ------------------------------------*/
 
@@ -267,12 +272,16 @@ class OSGFieldContainerType
 
 	void registerType(const OSGChar8 *group);
 
+    void initPrototype   (void);
+    void initBaseType    (void);
+    void initFields      (void);
+    void initParentFields(void);
+
 	void initialize  (void);
     void terminate   (void);
 
 	// prohibit default functions (move to 'public' if you need one)
 
-    OSGFieldContainerType(const OSGFieldContainerType &obj);
     void operator =(const OSGFieldContainerType &source);
 };
 

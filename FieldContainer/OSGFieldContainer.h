@@ -612,6 +612,10 @@ const OSGBitVector OSG_CLASS<OSG_TMPL_PARAM>::OSGNextFieldMask =              \
     OSG_FC_GET_STATIC_TYPE_INL_TMPL_DEF   (OSG_TMPL_PARAM, OSG_CLASS)         \
     OSG_FC_GET_STATIC_TYPE_ID_INL_TMPL_DEF(OSG_TMPL_PARAM, OSG_CLASS)
 
+#define OSG_FC_ST_TYPE_FUNCTIONS_INL_TMPL_DEF(OSG_TMPL_PARAM, OSG_CLASS)      \
+    OSG_FC_GET_STATIC_TYPE_INL_TMPL_DEF   (OSG_TMPL_PARAM, OSG_CLASS)         \
+    OSG_FC_GET_STATIC_TYPE_ID_INL_TMPL_DEF(OSG_TMPL_PARAM, OSG_CLASS)
+
 
 /*---------------------------- create ---------------------------------------*/
 
@@ -829,6 +833,15 @@ const OSGBitVector OSG_CLASS<OSG_TMPL_PARAM>::OSGNextFieldMask =              \
     OSG_FC_CREATE_FUNCTIONS_INL_TMPL_DEF(OSG_TMPL_PARAM,             \
                                          OSG_CLASS,                  \
                                          OSG_CLASS_PTR)
+
+#define OSG_FIELD_CONTAINER_ST_INL_TMPL_DEF(OSG_CLASS,                  \
+                                            OSG_TMPL_PARAM,             \
+                                            OSG_CLASS_PTR)              \
+    OSG_FC_ST_TYPE_FUNCTIONS_INL_TMPL_DEF  (OSG_TMPL_PARAM, OSG_CLASS)  \
+    OSG_FC_SIZE_FUNCTIONS_INL_TMPL_DEF     (OSG_TMPL_PARAM, OSG_CLASS)  \
+    OSG_FC_CREATE_FUNCTIONS_INL_TMPL_DEF   (OSG_TMPL_PARAM,             \
+                                            OSG_CLASS,                  \
+                                            OSG_CLASS_PTR)
 
 /*---------------abstr template decl and def macros ------------------------*/
 

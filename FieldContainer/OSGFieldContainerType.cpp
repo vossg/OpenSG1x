@@ -129,10 +129,41 @@ OSGFieldContainerType::OSGFieldContainerType(
 		initMethod();
 }
 
+/** \brief Copy Constructor
+ */
+
+OSGFieldContainerType::OSGFieldContainerType(const OSGFieldContainerType &obj):
+    _name       (obj._name), 
+    _parentName (obj._parentName),
+
+    _initialized(false),
+
+    _Id     (obj._Id), 
+    _groupId(obj._groupId),
+
+    _prototypeP      (obj._prototypeP),
+    _prototypeCreateF(obj._prototypeCreateF),
+
+    _parentP(obj._parentP), 
+
+    _baseType(obj._baseType),
+
+    _descA          (obj._descA),
+    _byteSizeOfDescA(obj._byteSizeOfDescA)
+{
+    if(_prototypeP != OSGNullFC)
+        osgAddRefCP(_prototypeP);        
+
+    initFields();
+    initParentFields();
+    
+    _initialized = true;
+}
+
 /** \brief Destructor
  */
 
-OSGFieldContainerType::~OSGFieldContainerType (void )
+OSGFieldContainerType::~OSGFieldContainerType(void)
 {
 }
 
@@ -321,13 +352,60 @@ const OSGFieldDescription *OSGFieldContainerType::findFieldDescription(
     return (descIt == _descriptionMap.end()) ? NULL : (*descIt).second;
 }     
 
+OSGFieldDescription *OSGFieldContainerType::getFieldDescription(
+    OSGUInt32 index)
+{
+    if(index > 0 && (index - 1) < _descriptionVec.size())
+        return _descriptionVec[index - 1];
+    else
+        return NULL;
+}
+
 const OSGFieldDescription *OSGFieldContainerType::getFieldDescription(
     OSGUInt32 index) const
 {
-    if(index < _descriptionVec.size())
-        return _descriptionVec[index];
+    if(index > 0 && (index - 1) < _descriptionVec.size())
+        return _descriptionVec[index - 1];
     else
         return NULL;
+}
+
+OSGUInt32 OSGFieldContainerType::addDescription(
+    const OSGFieldDescription &desc)
+{
+    OSGUInt32            returnValue = 0;
+    OSGDescMapConstIt    descIt;
+    OSGFieldDescription *descP;
+
+    descIt = _descriptionMap.find(OSGStringLink(desc.getName()));
+
+    if(desc.isValid())
+    {
+        if(descIt == _descriptionMap.end()) 
+        {
+            descP = new OSGFieldDescription(desc);
+
+            _descriptionMap[OSGStringLink(descP->getName())] = descP;
+            _descriptionVec.push_back(descP);
+
+            returnValue = _descriptionVec.size();
+        }
+        else
+        {
+            SWARNING << "ERROR: Double field description " 
+                     << "in " << _name << "from " 
+                     << desc.getName() 
+                     << desc.getTypeId() << endl;
+        }
+    }
+    else
+    {
+        SWARNING << "ERROR: Invalid field description " 
+                 << "in " << _name << "from " 
+                 << desc.getTypeId() << endl;
+    }
+
+    return returnValue;
 }
 
 OSGUInt32 OSGFieldContainerType::getNumFieldDescriptions(void) const
@@ -373,38 +451,83 @@ void OSGFieldContainerType::registerType(const OSGChar8 *group)
         group != NULL ? group : _name.str());
 }
 
-void OSGFieldContainerType::initialize(void)
+void OSGFieldContainerType::initPrototype(void)
 {
-    OSGUInt32      i;
+    if(_initialized == true)
+        return;
 
-	OSGDescMapIt dPI;
+    if(_prototypeCreateF != NULL)
+    {
+        _prototypeP = _prototypeCreateF();
+
+        
+        osgAddRefCP(_prototypeP);
+    }	
+}
+
+void OSGFieldContainerType::initBaseType(void)
+{
+    if(_initialized == true)
+        return;
+
+    if     (isDerivedFrom(OSGNodeCore::getStaticType())   == true)
+    {
+        _baseType = OSGIsNodeCore;
+    }
+    else if(isDerivedFrom(OSGAttachment::getStaticType()) == true)
+    {
+        _baseType = OSGIsAttachment;
+    }
+    else if(isDerivedFrom(OSGNode::getStaticType())       == true)
+    {
+        _baseType = OSGIsNode;
+    }
+}
+
+void OSGFieldContainerType::initFields(void)
+{
+    OSGUInt32         i;
+    OSGDescMapConstIt descIt;
 
     if(_initialized == true)
         return;
 
     for(i = 0; i < _byteSizeOfDescA / sizeof(OSGFieldDescription); i++) 
     {
-        if (_descA[i].isValid()) 
+        if(_descA[i].isValid())
         {
-            _descriptionMap[OSGStringLink(_descA[i].getName())] = &_descA[i];
-            _descriptionVec.push_back(&_descA[i]);
+            descIt = _descriptionMap.find(OSGStringLink(_descA[i].getName()));
+            
+            if(descIt == _descriptionMap.end())
+            {
+                _descriptionMap[OSGStringLink(_descA[i].getName())] = 
+                    &_descA[i];
+                _descriptionVec.push_back(&_descA[i]);
+            }
+            else
+            {
+                SWARNING << "ERROR: Double field description " 
+                         << "in " << _name << "from " 
+                         << _descA[i].getName() 
+                         << _descA[i].getTypeId() << endl;
+            }
         }
         else
         {
             SWARNING << "ERROR: Invalid field description " 
                      << "in " << _name << "from " 
-                     << _descA[i].getName() 
                      << _descA[i].getTypeId() << endl;
         }
     }
+}
 
-    if(_prototypeCreateF != NULL)
-    {
-        _prototypeP = _prototypeCreateF();
-    }
+void OSGFieldContainerType::initParentFields(void)
+{
+	OSGDescMapIt dPI;
 
-    osgAddRefCP(_prototypeP);
-	
+    if(_initialized == true)
+        return;
+
     if(_parentName.str() != NULL) 
     {
         _parentP = OSGFieldContainerFactory::the().findType(_parentName.str());
@@ -446,20 +569,22 @@ void OSGFieldContainerType::initialize(void)
         }
     }
     
-    SDEBUG << "init OSGFieldContainerType " << _name << endl;
+}
 
-    if     (isDerivedFrom(OSGNodeCore::getStaticType())   == true)
-    {
-        _baseType = OSGIsNodeCore;
-    }
-    else if(isDerivedFrom(OSGAttachment::getStaticType()) == true)
-    {
-        _baseType = OSGIsAttachment;
-    }
-    else if(isDerivedFrom(OSGNode::getStaticType())       == true)
-    {
-        _baseType = OSGIsNode;
-    }
+void OSGFieldContainerType::initialize(void)
+{
+    if(_initialized == true)
+        return;
+
+    initFields();
+
+    initPrototype();
+
+    initParentFields();
+
+    initBaseType();
+
+    SDEBUG << "init OSGFieldContainerType " << _name << endl;
 
     _initialized = true;
 }
