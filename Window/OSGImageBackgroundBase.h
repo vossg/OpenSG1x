@@ -101,6 +101,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBackgroundBase : public Background
     static const osg::BitVector ImageFieldMask;
     static const osg::BitVector ScaleFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -237,6 +238,6 @@ typedef ImageBackgroundBase *ImageBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageBackgroundBase.h,v 1.4 2002/02/04 20:14:12 dirk Exp $"
+#define OSGIMAGEBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageBackgroundBase.h,v 1.5 2002/03/19 17:48:18 dirk Exp $"
 
 #endif /* _OSGIMAGEBACKGROUNDBASE_H_ */

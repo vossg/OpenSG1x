@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.19 2002/02/11 03:46:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.20 2002/03/19 17:48:18 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTILECAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTILECAMERADECORATORBASE_INLINE_CVSID;
 
@@ -139,6 +139,7 @@ const OSG::BitVector  TileCameraDecoratorBase::FullHeightFieldMask =
 /*! \var UInt32          TileCameraDecoratorBase::_sfFullHeight
     The height of the full image this is a tile of.
 */
+
 //! TileCameraDecorator description
 
 FieldDescription *TileCameraDecoratorBase::_desc[] = 
@@ -408,4 +409,5 @@ void TileCameraDecoratorBase::executeSyncImpl(      TileCameraDecoratorBase *pOt
 
 
 }
+
 

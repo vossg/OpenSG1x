@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.22 2002/02/11 03:46:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.23 2002/03/19 17:48:18 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPERSPECTIVECAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPERSPECTIVECAMERABASE_INLINE_CVSID;
 
@@ -109,6 +109,7 @@ const OSG::BitVector  PerspectiveCameraBase::FovFieldMask =
 /*! \var Real32          PerspectiveCameraBase::_sfFov
     The vertical field of view, in radians.
 */
+
 //! PerspectiveCamera description
 
 FieldDescription *PerspectiveCameraBase::_desc[] = 
@@ -253,4 +254,5 @@ void PerspectiveCameraBase::executeSyncImpl(      PerspectiveCameraBase *pOther,
 
 
 }
+
 

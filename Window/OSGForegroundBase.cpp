@@ -100,6 +100,7 @@ namespace
 #endif
 
 
+
 //! Foreground type
 
 FieldContainerType ForegroundBase::_type(
@@ -204,4 +205,5 @@ void ForegroundBase::executeSyncImpl(      ForegroundBase *pOther,
 
 
 }
+
 

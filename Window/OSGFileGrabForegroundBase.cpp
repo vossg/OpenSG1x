@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFileGrabForegroundBase.cpp,v 1.3 2002/02/11 03:46:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFileGrabForegroundBase.cpp,v 1.4 2002/03/19 17:48:18 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFILEGRABFOREGROUNDBASE_INLINE_CVSID;
 
@@ -127,6 +127,7 @@ const OSG::BitVector  FileGrabForegroundBase::IncrementFieldMask =
 /*! \var bool            FileGrabForegroundBase::_sfIncrement
     Flag to start/stop automatic frame increments after each grab.
 */
+
 //! FileGrabForeground description
 
 FieldDescription *FileGrabForegroundBase::_desc[] = 
@@ -346,4 +347,5 @@ void FileGrabForegroundBase::executeSyncImpl(      FileGrabForegroundBase *pOthe
 
 
 }
+
 

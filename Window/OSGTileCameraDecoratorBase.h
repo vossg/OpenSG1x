@@ -110,6 +110,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
     static const osg::BitVector FullWidthFieldMask;
     static const osg::BitVector FullHeightFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -261,6 +262,6 @@ typedef TileCameraDecoratorBase *TileCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTILECAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorBase.h,v 1.14 2001/11/09 08:17:07 vossg Exp $"
+#define OSGTILECAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorBase.h,v 1.15 2002/03/19 17:48:18 dirk Exp $"
 
 #endif /* _OSGTILECAMERADECORATORBASE_H_ */

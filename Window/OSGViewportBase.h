@@ -119,6 +119,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
     static const osg::BitVector BackgroundFieldMask;
     static const osg::BitVector ForegroundsFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -141,49 +142,49 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    SFReal32            *getSFLeft           (void);
-    SFReal32            *getSFRight          (void);
-    SFReal32            *getSFBottom         (void);
-    SFReal32            *getSFTop            (void);
-    SFWindowPtr         *getSFParent         (void);
-    SFCameraPtr         *getSFCamera         (void);
-    SFNodePtr           *getSFRoot           (void);
-    SFBackgroundPtr     *getSFBackground     (void);
-    MFForegroundPtr     *getMFForegrounds    (void);
+    inline       SFReal32            *getSFLeft           (void);
+    inline       SFReal32            *getSFRight          (void);
+    inline       SFReal32            *getSFBottom         (void);
+    inline       SFReal32            *getSFTop            (void);
+    inline       SFWindowPtr         *getSFParent         (void);
+    inline       SFCameraPtr         *getSFCamera         (void);
+    inline       SFNodePtr           *getSFRoot           (void);
+    inline       SFBackgroundPtr     *getSFBackground     (void);
+    inline       MFForegroundPtr     *getMFForegrounds    (void);
 
-          Real32              &getLeft           (void);
-    const Real32              &getLeft           (void) const;
-          Real32              &getRight          (void);
-    const Real32              &getRight          (void) const;
-          Real32              &getBottom         (void);
-    const Real32              &getBottom         (void) const;
-          Real32              &getTop            (void);
-    const Real32              &getTop            (void) const;
-          WindowPtr           &getParent         (void);
-    const WindowPtr           &getParent         (void) const;
-          CameraPtr           &getCamera         (void);
-    const CameraPtr           &getCamera         (void) const;
-          NodePtr             &getRoot           (void);
-    const NodePtr             &getRoot           (void) const;
-          BackgroundPtr       &getBackground     (void);
-    const BackgroundPtr       &getBackground     (void) const;
-          ForegroundPtr       &getForegrounds    (UInt32 index);
-          MFForegroundPtr     &getForegrounds    (void);
-    const MFForegroundPtr     &getForegrounds    (void) const;
+    inline       Real32              &getLeft           (void);
+    inline const Real32              &getLeft           (void) const;
+    inline       Real32              &getRight          (void);
+    inline const Real32              &getRight          (void) const;
+    inline       Real32              &getBottom         (void);
+    inline const Real32              &getBottom         (void) const;
+    inline       Real32              &getTop            (void);
+    inline const Real32              &getTop            (void) const;
+    inline       WindowPtr           &getParent         (void);
+    inline const WindowPtr           &getParent         (void) const;
+    inline       CameraPtr           &getCamera         (void);
+    inline const CameraPtr           &getCamera         (void) const;
+    inline       NodePtr             &getRoot           (void);
+    inline const NodePtr             &getRoot           (void) const;
+    inline       BackgroundPtr       &getBackground     (void);
+    inline const BackgroundPtr       &getBackground     (void) const;
+    inline       ForegroundPtr       &getForegrounds    (UInt32 index);
+    inline       MFForegroundPtr     &getForegrounds    (void);
+    inline const MFForegroundPtr     &getForegrounds    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    void setLeft           ( const Real32 &value );
-    void setRight          ( const Real32 &value );
-    void setBottom         ( const Real32 &value );
-    void setTop            ( const Real32 &value );
-    void setParent         ( const WindowPtr &value );
-    void setCamera         ( const CameraPtr &value );
-    void setRoot           ( const NodePtr &value );
-    void setBackground     ( const BackgroundPtr &value );
+    inline void setLeft           ( const Real32 &value );
+    inline void setRight          ( const Real32 &value );
+    inline void setBottom         ( const Real32 &value );
+    inline void setTop            ( const Real32 &value );
+    inline void setParent         ( const WindowPtr &value );
+    inline void setCamera         ( const CameraPtr &value );
+    inline void setRoot           ( const NodePtr &value );
+    inline void setBackground     ( const BackgroundPtr &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -285,6 +286,6 @@ typedef ViewportBase *ViewportBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGViewportBase.h,v 1.19 2002/02/27 09:34:18 vossg Exp $"
+#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGViewportBase.h,v 1.20 2002/03/19 17:48:18 dirk Exp $"
 
 #endif /* _OSGVIEWPORTBASE_H_ */

@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.25 2002/02/11 03:46:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.26 2002/03/19 17:48:18 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGVIEWPORTBASE_INLINE_CVSID;
 
@@ -157,6 +157,7 @@ const OSG::BitVector  ViewportBase::ForegroundsFieldMask =
 /*! \var ForegroundPtr   ViewportBase::_mfForegrounds
     The foreground additions to the rendered image.
 */
+
 //! Viewport description
 
 FieldDescription *ViewportBase::_desc[] = 
@@ -501,4 +502,5 @@ void ViewportBase::executeSyncImpl(      ViewportBase *pOther,
 
 
 }
+
 

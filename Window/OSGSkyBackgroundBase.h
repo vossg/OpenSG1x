@@ -125,6 +125,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
     static const osg::BitVector RightTextureFieldMask;
     static const osg::BitVector TopTextureFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -301,6 +302,6 @@ typedef SkyBackgroundBase *SkyBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSKYBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSkyBackgroundBase.h,v 1.1 2002/01/08 23:33:36 dirk Exp $"
+#define OSGSKYBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSkyBackgroundBase.h,v 1.2 2002/03/19 17:48:18 dirk Exp $"
 
 #endif /* _OSGSKYBACKGROUNDBASE_H_ */

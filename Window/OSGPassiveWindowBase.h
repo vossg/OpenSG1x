@@ -188,6 +188,6 @@ typedef PassiveWindowBase *PassiveWindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPASSIVEWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGPassiveWindowBase.h,v 1.1 2002/01/28 21:24:11 dirk Exp $"
+#define OSGPASSIVEWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGPassiveWindowBase.h,v 1.2 2002/03/19 17:48:18 dirk Exp $"
 
 #endif /* _OSGPASSIVEWINDOWBASE_H_ */

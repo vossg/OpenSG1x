@@ -98,6 +98,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageForegroundBase : public Foreground
     static const osg::BitVector ImagesFieldMask;
     static const osg::BitVector PositionsFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -229,6 +230,6 @@ typedef ImageForegroundBase *ImageForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageForegroundBase.h,v 1.5 2001/11/09 08:17:07 vossg Exp $"
+#define OSGIMAGEFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageForegroundBase.h,v 1.6 2002/03/19 17:48:18 dirk Exp $"
 
 #endif /* _OSGIMAGEFOREGROUNDBASE_H_ */

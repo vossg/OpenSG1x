@@ -57,9 +57,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
 #include <OSGSystemDef.h>
@@ -68,31 +65,19 @@
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
 
-#include <OSGCamera.h>
+#include <OSGCamera.h> // Parent
 
-#include <OSGMatrixFields.h>	// ProjectionMatrix type
-#include <OSGMatrixFields.h>	// ModelviewMatrix type
+#include <OSGMatrixFields.h> // ProjectionMatrix type
+#include <OSGMatrixFields.h> // ModelviewMatrix type
 
 #include <OSGMatrixCameraFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class MatrixCamera;
 class BinaryDataHandler;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! MatrixCamera Base Class. */
+//! \brief MatrixCamera Base Class.
 
 class OSG_SYSTEMLIB_DLLMAPPING MatrixCameraBase : public Camera
 {
@@ -100,181 +85,140 @@ class OSG_SYSTEMLIB_DLLMAPPING MatrixCameraBase : public Camera
 
     typedef Camera Inherited;
 
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
     enum
     {
         ProjectionMatrixFieldId = Inherited::NextFieldId,
-        ModelviewMatrixFieldId = ProjectionMatrixFieldId + 1,
-        NextFieldId = ModelviewMatrixFieldId + 1
-
+        ModelviewMatrixFieldId  = ProjectionMatrixFieldId + 1,
+        NextFieldId             = ModelviewMatrixFieldId  + 1
     };
 
     static const osg::BitVector ProjectionMatrixFieldMask;
     static const osg::BitVector ModelviewMatrixFieldMask;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    static        FieldContainerType &getClassType    (void); 
+    static        UInt32              getClassTypeId  (void); 
 
-    static const char *getClassname(void) { return "MatrixCameraBase"; };
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    virtual       FieldContainerType &getType  (void); 
+    virtual const FieldContainerType &getType  (void) const; 
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual       UInt32              getContainerSize(void) const;
 
-    virtual       OSG::FieldContainerType &getType  (void); 
-    virtual const OSG::FieldContainerType &getType  (void) const; 
-    
-    static OSG::FieldContainerType &getClassType    (void); 
-    static OSG::UInt32              getClassTypeId  (void); 
-    static MatrixCameraPtr         create          (void); 
-    static MatrixCameraPtr         createEmpty     (void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
-    virtual OSG::FieldContainerPtr  shallowCopy     (void) const; 
-    virtual OSG::UInt32             getContainerSize(void) const;
+    inline       SFMatrix            *getSFProjectionMatrix(void);
+    inline       SFMatrix            *getSFModelviewMatrix(void);
 
-    virtual void                    executeSync(      OSG::FieldContainer &other,
-                                                const OSG::BitVector      &whichField);
+    inline       Matrix              &getProjectionMatrix(void);
+    inline const Matrix              &getProjectionMatrix(void) const;
+    inline       Matrix              &getModelviewMatrix(void);
+    inline const Matrix              &getModelviewMatrix(void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    inline void setProjectionMatrix( const Matrix &value );
+    inline void setModelviewMatrix( const Matrix &value );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Binary Access                              */
+    /*! \{                                                                 */
+
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Construction                               */
+    /*! \{                                                                 */
 
-    /*--------------------------- access fields ----------------------------*/
+    static  MatrixCameraPtr      create          (void); 
+    static  MatrixCameraPtr      createEmpty     (void); 
 
-    //! Return the fields.
+    /*! \}                                                                 */
 
-    inline osg::SFMatrix	*getSFProjectionMatrix(void);
-    inline osg::SFMatrix	*getSFModelviewMatrix(void);
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Copy                                   */
+    /*! \{                                                                 */
 
-    /*----------------------------- access ----------------------------------*/
+    virtual FieldContainerPtr     shallowCopy     (void) const; 
 
-    //!@{ Return the fields' values.
-
-    inline       osg::Matrix	&getProjectionMatrix(void);
-    inline const osg::Matrix	&getProjectionMatrix(void) const;
-    inline       void	         setProjectionMatrix( const osg::Matrix &value );
-    inline       osg::Matrix	&getModelviewMatrix(void);
-    inline const osg::Matrix	&getModelviewMatrix(void) const;
-    inline       void	         setModelviewMatrix( const osg::Matrix &value );
-
-
-    //!@}
-
-    /*-------------------------- transformation ----------------------------*/
-
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    SFMatrix            _sfProjectionMatrix;
+    SFMatrix            _sfModelviewMatrix;
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //! The fields storing the data.
-
-    /*! 
-     */
-    SFMatrix	_sfProjectionMatrix;
-    /*! 
-     */
-    SFMatrix	_sfModelviewMatrix;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     MatrixCameraBase(void);
     MatrixCameraBase(const MatrixCameraBase &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~MatrixCameraBase(void); 
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
 
     void executeSyncImpl(      MatrixCameraBase *pOther,
                          const BitVector         &whichField);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
 
     friend class FieldContainer;
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
-
     static FieldContainerType  _type;
 
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-    
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const MatrixCamera &source);
+    void operator =(const MatrixCameraBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -282,10 +226,10 @@ class OSG_SYSTEMLIB_DLLMAPPING MatrixCameraBase : public Camera
 //---------------------------------------------------------------------------
 
 
-/** \brief class pointer
- */
 typedef MatrixCameraBase *MatrixCameraBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGMATRIXCAMERABASE_HEADER_CVSID "@(#)$Id: OSGMatrixCameraBase.h,v 1.2 2002/03/19 17:48:18 dirk Exp $"
 
 #endif /* _OSGMATRIXCAMERABASE_H_ */

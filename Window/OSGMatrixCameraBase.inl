@@ -48,66 +48,29 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
+//! access the type of the class
 inline OSG::FieldContainerType &MatrixCameraBase::getClassType(void)
 {
     return _type; 
 } 
 
+//! access the numerical type of the class
 inline OSG::UInt32 MatrixCameraBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
+//! create a new instance of the class
 inline MatrixCameraPtr MatrixCameraBase::create(void) 
 {
     MatrixCameraPtr fc; 
 
-    if(getClassType(). getPrototype() != OSG::NullFC) 
+    if(getClassType().getPrototype() != osg::NullFC) 
     {
         fc = MatrixCameraPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -116,6 +79,7 @@ inline MatrixCameraPtr MatrixCameraBase::create(void)
     return fc; 
 }
 
+//! create an empty new instance of the class, do not copy the prototype
 inline MatrixCameraPtr MatrixCameraBase::createEmpty(void) 
 { 
     MatrixCameraPtr returnValue; 
@@ -126,78 +90,60 @@ inline MatrixCameraPtr MatrixCameraBase::createEmpty(void)
 }
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
-osg::SFMatrix *MatrixCameraBase::getSFProjectionMatrix(void)
+SFMatrix *MatrixCameraBase::getSFProjectionMatrix(void)
 {
-	return &_sfProjectionMatrix;
+    return &_sfProjectionMatrix;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-osg::SFMatrix *MatrixCameraBase::getSFModelviewMatrix(void)
+SFMatrix *MatrixCameraBase::getSFModelviewMatrix(void)
 {
-	return &_sfModelviewMatrix;
+    return &_sfModelviewMatrix;
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
-osg::Matrix &MatrixCameraBase::getProjectionMatrix(void)
+Matrix &MatrixCameraBase::getProjectionMatrix(void)
 {
-	return _sfProjectionMatrix.getValue();
+    return _sfProjectionMatrix.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const osg::Matrix &MatrixCameraBase::getProjectionMatrix(void) const
+const Matrix &MatrixCameraBase::getProjectionMatrix(void) const
 {
-	return _sfProjectionMatrix.getValue();
+    return _sfProjectionMatrix.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void MatrixCameraBase::setProjectionMatrix( const osg::Matrix &value )
+void MatrixCameraBase::setProjectionMatrix(const Matrix &value)
 {
-	_sfProjectionMatrix.setValue(value);
+    _sfProjectionMatrix.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-osg::Matrix &MatrixCameraBase::getModelviewMatrix(void)
+Matrix &MatrixCameraBase::getModelviewMatrix(void)
 {
-	return _sfModelviewMatrix.getValue();
+    return _sfModelviewMatrix.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const osg::Matrix &MatrixCameraBase::getModelviewMatrix(void) const
+const Matrix &MatrixCameraBase::getModelviewMatrix(void) const
 {
-	return _sfModelviewMatrix.getValue();
+    return _sfModelviewMatrix.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void MatrixCameraBase::setModelviewMatrix( const osg::Matrix &value )
+void MatrixCameraBase::setModelviewMatrix(const Matrix &value)
 {
-	_sfModelviewMatrix.setValue(value);
+    _sfModelviewMatrix.setValue(value);
 }
 
-
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
 OSG_END_NAMESPACE
+
+#define OSGMATRIXCAMERABASE_INLINE_CVSID "@(#)$Id: OSGMatrixCameraBase.inl,v 1.2 2002/03/19 17:48:18 dirk Exp $"
 

@@ -104,6 +104,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FileGrabForegroundBase : public GrabForeground
     static const osg::BitVector FrameFieldMask;
     static const osg::BitVector IncrementFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -245,6 +246,6 @@ typedef FileGrabForegroundBase *FileGrabForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGFileGrabForegroundBase.h,v 1.2 2002/02/04 20:14:12 dirk Exp $"
+#define OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGFileGrabForegroundBase.h,v 1.3 2002/03/19 17:48:18 dirk Exp $"
 
 #endif /* _OSGFILEGRABFOREGROUNDBASE_H_ */

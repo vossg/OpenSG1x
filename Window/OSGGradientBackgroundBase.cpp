@@ -86,7 +86,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.22 2002/02/11 03:46:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.23 2002/03/19 17:48:18 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID;
 
@@ -113,6 +113,7 @@ const OSG::BitVector  GradientBackgroundBase::PositionFieldMask =
 /*! \var Real32          GradientBackgroundBase::_mfPosition
     The positions of the gradient.
 */
+
 //! GradientBackground description
 
 FieldDescription *GradientBackgroundBase::_desc[] = 
@@ -282,4 +283,5 @@ void GradientBackgroundBase::executeSyncImpl(      GradientBackgroundBase *pOthe
 
 
 }
+
 

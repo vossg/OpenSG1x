@@ -86,7 +86,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSkyBackgroundBase.cpp,v 1.2 2002/02/11 03:46:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSkyBackgroundBase.cpp,v 1.3 2002/03/19 17:48:18 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSKYBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSKYBACKGROUNDBASE_INLINE_CVSID;
 
@@ -167,6 +167,7 @@ const OSG::BitVector  SkyBackgroundBase::TopTextureFieldMask =
 /*! \var TextureChunkPtr SkyBackgroundBase::_sfTopTexture
     
 */
+
 //! SkyBackground description
 
 FieldDescription *SkyBackgroundBase::_desc[] = 
@@ -561,4 +562,5 @@ void SkyBackgroundBase::executeSyncImpl(      SkyBackgroundBase *pOther,
 
 
 }
+
 

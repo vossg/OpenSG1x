@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.21 2002/02/11 03:46:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.22 2002/03/19 17:48:18 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBACKGROUNDBASE_INLINE_CVSID;
 
@@ -98,6 +98,7 @@ namespace
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
+
 
 
 //! Background type
@@ -204,4 +205,5 @@ void BackgroundBase::executeSyncImpl(      BackgroundBase *pOther,
 
 
 }
+
 

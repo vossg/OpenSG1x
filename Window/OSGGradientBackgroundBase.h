@@ -98,6 +98,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
     static const osg::BitVector ColorFieldMask;
     static const osg::BitVector PositionFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -229,6 +230,6 @@ typedef GradientBackgroundBase *GradientBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGradientBackgroundBase.h,v 1.16 2001/11/09 08:17:07 vossg Exp $"
+#define OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGradientBackgroundBase.h,v 1.17 2002/03/19 17:48:18 dirk Exp $"
 
 #endif /* _OSGGRADIENTBACKGROUNDBASE_H_ */

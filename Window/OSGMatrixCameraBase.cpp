@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILEMATRIXCAMERAINST
 
@@ -66,46 +62,61 @@
 #include "OSGMatrixCamera.h"
 
 
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<MatrixCameraPtr>::_type("MatrixCameraPtr", "CameraPtr");
 
 #if defined(__sgi)
 
-#pragma instantiate SField<OSG::MatrixCameraPtr>::_fieldType
-#pragma instantiate MField<OSG::MatrixCameraPtr>::_fieldType
+#pragma instantiate SField<MatrixCameraPtr>::_fieldType
+#pragma instantiate MField<MatrixCameraPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, OSG::MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, OSG::MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
-const OSG::BitVector	MatrixCameraBase::ProjectionMatrixFieldMask = 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMatrixCameraBase.cpp,v 1.4 2002/03/19 17:48:18 dirk Exp $";
+    static Char8 cvsid_hpp       [] = OSGMATRIXCAMERABASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGMATRIXCAMERABASE_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGMATRIXCAMERAFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
+const OSG::BitVector  MatrixCameraBase::ProjectionMatrixFieldMask = 
     (1 << MatrixCameraBase::ProjectionMatrixFieldId);
 
-const OSG::BitVector	MatrixCameraBase::ModelviewMatrixFieldMask = 
+const OSG::BitVector  MatrixCameraBase::ModelviewMatrixFieldMask = 
     (1 << MatrixCameraBase::ModelviewMatrixFieldId);
 
 
 
-char MatrixCameraBase::cvsid[] = "@(#)$Id: OSGMatrixCameraBase.cpp,v 1.3 2002/02/18 08:18:19 vossg Exp $";
+// Field descriptions
 
-/** \brief Group field description
- */
+/*! \var Matrix          MatrixCameraBase::_sfProjectionMatrix
+    
+*/
+/*! \var Matrix          MatrixCameraBase::_sfModelviewMatrix
+    
+*/
+
+//! MatrixCamera description
 
 FieldDescription *MatrixCameraBase::_desc[] = 
 {
@@ -121,8 +132,7 @@ FieldDescription *MatrixCameraBase::_desc[] =
                      (FieldAccessMethod) &MatrixCameraBase::getSFModelviewMatrix)
 };
 
-/** \brief MatrixCamera type
- */
+//! MatrixCamera type
 
 FieldContainerType MatrixCameraBase::_type(
     "MatrixCamera",
@@ -133,32 +143,9 @@ FieldContainerType MatrixCameraBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(MatrixCameraBase, MatrixCameraPtr)
+
+/*------------------------------ get -----------------------------------*/
 
 FieldContainerType &MatrixCameraBase::getType(void) 
 {
@@ -169,6 +156,7 @@ const FieldContainerType &MatrixCameraBase::getType(void) const
 {
     return _type;
 } 
+
 
 FieldContainerPtr MatrixCameraBase::shallowCopy(void) const 
 { 
@@ -185,36 +173,43 @@ UInt32 MatrixCameraBase::getContainerSize(void) const
 }
 
 
-void MatrixCameraBase::executeSync(OSG::FieldContainer &other,
-                                    const OSG::BitVector &whichField)
+void MatrixCameraBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((MatrixCameraBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
 
 MatrixCameraBase::MatrixCameraBase(void) :
-	_sfProjectionMatrix	(), 
-	_sfModelviewMatrix	(), 
-	Inherited() 
+    _sfProjectionMatrix       (), 
+    _sfModelviewMatrix        (), 
+    Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
+
+//! Copy Constructor
 
 MatrixCameraBase::MatrixCameraBase(const MatrixCameraBase &source) :
-	_sfProjectionMatrix		(source._sfProjectionMatrix), 
-	_sfModelviewMatrix		(source._sfModelviewMatrix), 
-	Inherited        (source)
+    _sfProjectionMatrix       (source._sfProjectionMatrix       ), 
+    _sfModelviewMatrix        (source._sfModelviewMatrix        ), 
+    Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 MatrixCameraBase::~MatrixCameraBase(void)
 {
@@ -276,13 +271,6 @@ void MatrixCameraBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
 void MatrixCameraBase::executeSyncImpl(      MatrixCameraBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -290,19 +278,12 @@ void MatrixCameraBase::executeSyncImpl(      MatrixCameraBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (ProjectionMatrixFieldMask & whichField))
-    {
         _sfProjectionMatrix.syncWith(pOther->_sfProjectionMatrix);
-    }
 
     if(FieldBits::NoField != (ModelviewMatrixFieldMask & whichField))
-    {
         _sfModelviewMatrix.syncWith(pOther->_sfModelviewMatrix);
-    }
 
 
 }
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

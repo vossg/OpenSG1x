@@ -95,6 +95,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GrabForegroundBase : public Foreground
 
     static const osg::BitVector ImageFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -221,6 +222,6 @@ typedef GrabForegroundBase *GrabForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGrabForegroundBase.h,v 1.1 2002/01/18 22:58:09 dirk Exp $"
+#define OSGGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGrabForegroundBase.h,v 1.2 2002/03/19 17:48:18 dirk Exp $"
 
 #endif /* _OSGGRABFOREGROUNDBASE_H_ */

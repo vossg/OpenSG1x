@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGrabForegroundBase.cpp,v 1.2 2002/02/11 03:46:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGrabForegroundBase.cpp,v 1.3 2002/03/19 17:48:18 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRABFOREGROUNDBASE_INLINE_CVSID;
 
@@ -109,6 +109,7 @@ const OSG::BitVector  GrabForegroundBase::ImageFieldMask =
 /*! \var ImageP          GrabForegroundBase::_sfImage
     The image to write to.
 */
+
 //! GrabForeground description
 
 FieldDescription *GrabForegroundBase::_desc[] = 
@@ -253,4 +254,5 @@ void GrabForegroundBase::executeSyncImpl(      GrabForegroundBase *pOther,
 
 
 }
+
 

@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageForegroundBase.cpp,v 1.8 2002/02/11 03:46:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageForegroundBase.cpp,v 1.9 2002/03/19 17:48:18 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGIMAGEFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGIMAGEFOREGROUNDBASE_INLINE_CVSID;
 
@@ -115,6 +115,7 @@ const OSG::BitVector  ImageForegroundBase::PositionsFieldMask =
 /*! \var Pnt2f           ImageForegroundBase::_mfPositions
     The positions of the images.
 */
+
 //! ImageForeground description
 
 FieldDescription *ImageForegroundBase::_desc[] = 
@@ -284,4 +285,5 @@ void ImageForegroundBase::executeSyncImpl(      ImageForegroundBase *pOther,
 
 
 }
+
 

@@ -86,7 +86,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.22 2002/02/11 03:46:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.23 2002/03/19 17:48:18 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSOLIDBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSOLIDBACKGROUNDBASE_INLINE_CVSID;
 
@@ -107,6 +107,7 @@ const OSG::BitVector  SolidBackgroundBase::ColorFieldMask =
 /*! \var Color3f         SolidBackgroundBase::_sfColor
     The background color.
 */
+
 //! SolidBackground description
 
 FieldDescription *SolidBackgroundBase::_desc[] = 
@@ -251,4 +252,5 @@ void SolidBackgroundBase::executeSyncImpl(      SolidBackgroundBase *pOther,
 
 
 }
+
 

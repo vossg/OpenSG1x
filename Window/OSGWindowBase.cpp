@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.27 2002/02/11 03:46:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.28 2002/03/19 17:48:18 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWINDOWBASE_INLINE_CVSID;
 
@@ -111,11 +111,8 @@ const OSG::BitVector  WindowBase::PortFieldMask =
 const OSG::BitVector  WindowBase::ResizePendingFieldMask = 
     (1 << WindowBase::ResizePendingFieldId);
 
-const OSG::BitVector  WindowBase::GlObjectStatusFieldMask = 
-    (1 << WindowBase::GlObjectStatusFieldId);
-
-const OSG::BitVector  WindowBase::GlObjectInvalidateCounterFieldMask = 
-    (1 << WindowBase::GlObjectInvalidateCounterFieldId);
+const OSG::BitVector  WindowBase::GlObjectEventCounterFieldMask = 
+    (1 << WindowBase::GlObjectEventCounterFieldId);
 
 const OSG::BitVector  WindowBase::GlObjectLastRefreshFieldMask = 
     (1 << WindowBase::GlObjectLastRefreshFieldId);
@@ -139,11 +136,8 @@ const OSG::BitVector  WindowBase::GlObjectLastReinitializeFieldMask =
 /*! \var bool            WindowBase::_sfResizePending
     
 */
-/*! \var UInt32          WindowBase::_mfGlObjectStatus
-    The GL object's status in this window.
-*/
-/*! \var UInt32          WindowBase::_sfGlObjectInvalidateCounter
-    Counter for GL object invalidations. Needed for multi-aspect updates.
+/*! \var UInt32          WindowBase::_sfGlObjectEventCounter
+    Counter for GL object events. Needed for multi-aspect updates.         Is used in glObjectLastRefresh and glObjectLastReinitialize.
 */
 /*! \var UInt32          WindowBase::_mfGlObjectLastRefresh
     indicates the last refresh for the GL object
@@ -151,6 +145,7 @@ const OSG::BitVector  WindowBase::GlObjectLastReinitializeFieldMask =
 /*! \var UInt32          WindowBase::_mfGlObjectLastReinitialize
     indicates the last reinit for the GL object
 */
+
 //! Window description
 
 FieldDescription *WindowBase::_desc[] = 
@@ -175,16 +170,11 @@ FieldDescription *WindowBase::_desc[] =
                      ResizePendingFieldId, ResizePendingFieldMask,
                      true,
                      (FieldAccessMethod) &WindowBase::getSFResizePending),
-    new FieldDescription(MFUInt32::getClassType(), 
-                     "glObjectStatus", 
-                     GlObjectStatusFieldId, GlObjectStatusFieldMask,
-                     true,
-                     (FieldAccessMethod) &WindowBase::getMFGlObjectStatus),
     new FieldDescription(SFUInt32::getClassType(), 
-                     "glObjectInvalidateCounter", 
-                     GlObjectInvalidateCounterFieldId, GlObjectInvalidateCounterFieldMask,
+                     "glObjectEventCounter", 
+                     GlObjectEventCounterFieldId, GlObjectEventCounterFieldMask,
                      true,
-                     (FieldAccessMethod) &WindowBase::getSFGlObjectInvalidateCounter),
+                     (FieldAccessMethod) &WindowBase::getSFGlObjectEventCounter),
     new FieldDescription(MFUInt32::getClassType(), 
                      "glObjectLastRefresh", 
                      GlObjectLastRefreshFieldId, GlObjectLastRefreshFieldMask,
@@ -248,8 +238,7 @@ WindowBase::WindowBase(void) :
     _sfHeight                 (), 
     _mfPort                   (), 
     _sfResizePending          (), 
-    _mfGlObjectStatus         (), 
-    _sfGlObjectInvalidateCounter(UInt32(1)), 
+    _sfGlObjectEventCounter   (UInt32(1)), 
     _mfGlObjectLastRefresh    (), 
     _mfGlObjectLastReinitialize(), 
     Inherited() 
@@ -267,8 +256,7 @@ WindowBase::WindowBase(const WindowBase &source) :
     _sfHeight                 (source._sfHeight                 ), 
     _mfPort                   (source._mfPort                   ), 
     _sfResizePending          (source._sfResizePending          ), 
-    _mfGlObjectStatus         (source._mfGlObjectStatus         ), 
-    _sfGlObjectInvalidateCounter(source._sfGlObjectInvalidateCounter), 
+    _sfGlObjectEventCounter   (source._sfGlObjectEventCounter   ), 
     _mfGlObjectLastRefresh    (source._mfGlObjectLastRefresh    ), 
     _mfGlObjectLastReinitialize(source._mfGlObjectLastReinitialize), 
     Inherited                 (source)
@@ -309,14 +297,9 @@ UInt32 WindowBase::getBinSize(const BitVector &whichField)
         returnValue += _sfResizePending.getBinSize();
     }
 
-    if(FieldBits::NoField != (GlObjectStatusFieldMask & whichField))
+    if(FieldBits::NoField != (GlObjectEventCounterFieldMask & whichField))
     {
-        returnValue += _mfGlObjectStatus.getBinSize();
-    }
-
-    if(FieldBits::NoField != (GlObjectInvalidateCounterFieldMask & whichField))
-    {
-        returnValue += _sfGlObjectInvalidateCounter.getBinSize();
+        returnValue += _sfGlObjectEventCounter.getBinSize();
     }
 
     if(FieldBits::NoField != (GlObjectLastRefreshFieldMask & whichField))
@@ -358,14 +341,9 @@ void WindowBase::copyToBin(      BinaryDataHandler &pMem,
         _sfResizePending.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (GlObjectStatusFieldMask & whichField))
+    if(FieldBits::NoField != (GlObjectEventCounterFieldMask & whichField))
     {
-        _mfGlObjectStatus.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (GlObjectInvalidateCounterFieldMask & whichField))
-    {
-        _sfGlObjectInvalidateCounter.copyToBin(pMem);
+        _sfGlObjectEventCounter.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (GlObjectLastRefreshFieldMask & whichField))
@@ -406,14 +384,9 @@ void WindowBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfResizePending.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (GlObjectStatusFieldMask & whichField))
+    if(FieldBits::NoField != (GlObjectEventCounterFieldMask & whichField))
     {
-        _mfGlObjectStatus.copyFromBin(pMem);
-    }
-
-    if(FieldBits::NoField != (GlObjectInvalidateCounterFieldMask & whichField))
-    {
-        _sfGlObjectInvalidateCounter.copyFromBin(pMem);
+        _sfGlObjectEventCounter.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (GlObjectLastRefreshFieldMask & whichField))
@@ -447,11 +420,8 @@ void WindowBase::executeSyncImpl(      WindowBase *pOther,
     if(FieldBits::NoField != (ResizePendingFieldMask & whichField))
         _sfResizePending.syncWith(pOther->_sfResizePending);
 
-    if(FieldBits::NoField != (GlObjectStatusFieldMask & whichField))
-        _mfGlObjectStatus.syncWith(pOther->_mfGlObjectStatus);
-
-    if(FieldBits::NoField != (GlObjectInvalidateCounterFieldMask & whichField))
-        _sfGlObjectInvalidateCounter.syncWith(pOther->_sfGlObjectInvalidateCounter);
+    if(FieldBits::NoField != (GlObjectEventCounterFieldMask & whichField))
+        _sfGlObjectEventCounter.syncWith(pOther->_sfGlObjectEventCounter);
 
     if(FieldBits::NoField != (GlObjectLastRefreshFieldMask & whichField))
         _mfGlObjectLastRefresh.syncWith(pOther->_mfGlObjectLastRefresh);
@@ -461,4 +431,5 @@ void WindowBase::executeSyncImpl(      WindowBase *pOther,
 
 
 }
+
 
