@@ -72,25 +72,25 @@
 
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: $";
+    static char cvsid_cpp[] = "@(#)$Id: $";
 
-    char cvsid_sffcptr_hpp[] = OSGSFFIELDCONTAINERPTR_HEADER_CVSID;
-    char cvsid_mffcptr_hpp[] = OSGMFFIELDCONTAINERPTR_HEADER_CVSID;
+    static char cvsid_sffcptr_hpp[] = OSGSFFIELDCONTAINERPTR_HEADER_CVSID;
+    static char cvsid_mffcptr_hpp[] = OSGMFFIELDCONTAINERPTR_HEADER_CVSID;
 
-    char cvsid_sfacptr_hpp[] = OSGSFATTACHMENTCONTAINERPTR_HEADER_CVSID;
-    char cvsid_mfacptr_hpp[] = OSGMFATTACHMENTCONTAINERPTR_HEADER_CVSID;
+    static char cvsid_sfacptr_hpp[] = OSGSFATTACHMENTCONTAINERPTR_HEADER_CVSID;
+    static char cvsid_mfacptr_hpp[] = OSGMFATTACHMENTCONTAINERPTR_HEADER_CVSID;
 
-    char cvsid_sfndptr_hpp[] = OSGSFNODEPTR_HEADER_CVSID;
-    char cvsid_mfndptr_hpp[] = OSGMFNODEPTR_HEADER_CVSID;
+    static char cvsid_sfndptr_hpp[] = OSGSFNODEPTR_HEADER_CVSID;
+    static char cvsid_mfndptr_hpp[] = OSGMFNODEPTR_HEADER_CVSID;
 
-    char cvsid_sfncptr_hpp[] = OSGSFNODECOREPTR_HEADER_CVSID;
-    char cvsid_mfncptr_hpp[] = OSGMFNODECOREPTR_HEADER_CVSID;
+    static char cvsid_sfncptr_hpp[] = OSGSFNODECOREPTR_HEADER_CVSID;
+    static char cvsid_mfncptr_hpp[] = OSGMFNODECOREPTR_HEADER_CVSID;
 
-    char cvsid_sfatptr_hpp[] = OSGSFATTACHMENTPTR_HEADER_CVSID;
-    char cvsid_mfatptr_hpp[] = OSGMFATTACHMENTPTR_HEADER_CVSID;
+    static char cvsid_sfatptr_hpp[] = OSGSFATTACHMENTPTR_HEADER_CVSID;
+    static char cvsid_mfatptr_hpp[] = OSGMFATTACHMENTPTR_HEADER_CVSID;
 
-    char cvsid_sfattma_hpp[] = OSGSFATTACHMENTMAP_HEADER_CVSID;
-    char cvsid_mfattma_hpp[] = OSGMFATTACHMENTMAP_HEADER_CVSID;
+    static char cvsid_sfattma_hpp[] = OSGSFATTACHMENTMAP_HEADER_CVSID;
+    static char cvsid_mfattma_hpp[] = OSGMFATTACHMENTMAP_HEADER_CVSID;
 }
 
 OSG_BEGIN_NAMESPACE

@@ -57,8 +57,8 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: $";
-    char cvsid_hpp[] = OSGNODEPTR_HEADER_CVSID;
+    static char cvsid_cpp[] = "@(#)$Id: $";
+    static char cvsid_hpp[] = OSGNODEPTR_HEADER_CVSID;
 }
 
 /** \typedef NodePtr::Inherited
@@ -260,8 +260,6 @@ NodePtr::NodePtr(const Node   *source,
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-//char CNodePtr::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *

@@ -141,7 +141,7 @@ endif
 
 buildDepLibPath   = $(BUILD_BASE)/$(1)/$(LIBDIR)
 
-buildLibName      = $(LIBLNK_OPTION)$(PROJ)$(1)$(LNK_SUFFIX)
+buildLibName      = $(LIBLNK_OPTION)$(PROJ)$(1)$(LIB_SUFFIX)
 
 ifeq ($(OS_BASE), cygwin)
 buildDepLibName   = $(SO_PRAEFIX)$(PROJ)$(1)$(LIB_SUFFIX)

@@ -53,9 +53,9 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: $";
-    char cvsid_hpp[] = OSGATTACHMENTCONTAINER_HEADER_CVSID;
-    char cvsid_inl[] = OSGATTACHMENTCONTAINER_INLINE_CVSID;
+    static char cvsid_cpp[] = "@(#)$Id: $";
+    static char cvsid_hpp[] = OSGATTACHMENTCONTAINER_HEADER_CVSID;
+    static char cvsid_inl[] = OSGATTACHMENTCONTAINER_INLINE_CVSID;
 }
 
 /***************************************************************************\

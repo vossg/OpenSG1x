@@ -69,9 +69,9 @@ OSG_END_NAMESPACE
 
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: $";
-    char cvsid_hpp[] = OSGATTACHMENT_HEADER_CVSID;
-    char cvsid_inl[] = OSGATTACHMENT_INLINE_CVSID;
+    static char cvsid_cpp[] = "@(#)$Id: $";
+    static char cvsid_hpp[] = OSGATTACHMENT_HEADER_CVSID;
+    static char cvsid_inl[] = OSGATTACHMENT_INLINE_CVSID;
 }
 
 /** \var MFFieldContainerPtr Attachment::_parents

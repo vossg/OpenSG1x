@@ -52,9 +52,9 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: $";
-    char cvsid_hpp[] = OSGNODECORE_HEADER_CVSID;
-    char cvsid_inl[] = OSGNODECORE_INLINE_CVSID;
+    static char cvsid_cpp[] = "@(#)$Id: $";
+    static char cvsid_hpp[] = OSGNODECORE_HEADER_CVSID;
+    static char cvsid_inl[] = OSGNODECORE_INLINE_CVSID;
 }
 
 //const NodeCorePtr OSG::NullNodeCore;

@@ -184,7 +184,11 @@ glmAddGroup(GLMmodel* model, char* name)
     group = glmFindGroup(model, name);
     if (!group) {
         group = (GLMgroup*)malloc(sizeof(GLMgroup));
+#ifndef WIN32
         group->name = strdup(name);
+#else
+        group->name = _strdup(name);
+#endif
         group->material = 0;
         group->numtriangles = 0;
         group->triangles = NULL;
@@ -231,8 +235,12 @@ glmDirName(char* path)
     char* dir;
     char* s;
     
+#ifndef WIN32
     dir = strdup(path);
-    
+#else
+    dir = _strdup(path);
+#endif 
+   
     s = strrchr(dir, '/');
     if (s)
         s[1] = '\0';
@@ -313,7 +321,11 @@ glmReadMTL(GLMmodel* model, char* name)
         model->materials[i].specular[2] = 0.0;
         model->materials[i].specular[3] = 1.0;
     }
+#ifndef WIN32
     model->materials[0].name = strdup("default");
+#else
+    model->materials[0].name = _strdup("default");
+#endif
     
     /* now, read in the data */
     nummaterials = 0;
@@ -327,7 +339,11 @@ glmReadMTL(GLMmodel* model, char* name)
             fgets(buf, sizeof(buf), file);
             sscanf(buf, "%s %s", buf, buf);
             nummaterials++;
+#ifndef WIN32
             model->materials[nummaterials].name = strdup(buf);
+#else
+            model->materials[nummaterials].name = _strdup(buf);
+#endif
             break;
         case 'N':
             fscanf(file, "%f", &model->materials[nummaterials].shininess);
@@ -479,7 +495,11 @@ glmFirstPass(GLMmodel* model, FILE* file)
             case 'm':
                 fgets(buf, sizeof(buf), file);
                 sscanf(buf, "%s %s", buf, buf);
+#ifndef WIN32
                 model->mtllibname = strdup(buf);
+#else
+                model->mtllibname = _strdup(buf);
+#endif
                 glmReadMTL(model, buf);
                 break;
             case 'u':
@@ -1316,7 +1336,11 @@ glmReadOBJ(char* filename)
     
     /* allocate a new model */
     model = (GLMmodel*)malloc(sizeof(GLMmodel));
+#ifndef WIN32
     model->pathname    = strdup(filename);
+#else
+    model->pathname    = _strdup(filename);
+#endif
     model->mtllibname    = NULL;
     model->numvertices   = 0;
     model->vertices    = NULL;
