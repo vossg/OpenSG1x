@@ -63,7 +63,7 @@ OSG_USING_NAMESPACE
  * The StreamSockConnection implements the Connection interface. It
  * uses UDP to establish a reliable multicast connection.
  *
- * Multicast address syntax: host:port:id. The id is used to distinguish
+ * Multicast address syntax: group:port:id. The id is used to distinguish
  * two clients at the same host, using the same port. Bind is able
  * to generate a unique id if no id is given.
  *
@@ -71,9 +71,9 @@ OSG_USING_NAMESPACE
  * <PRE>
  * UInt32 intv=1234;
  * MulticastConnection con;
- * con.connect( "dagobert:3333:1" );
- * con.connect( "donald:3333:1" );
- * con.connect( "tric:3333:1" );
+ * con.connect( "224.100.100.100:3333:1" );
+ * con.connect( "224.100.100.100:3333:2" );
+ * con.connect( "224.100.100.100:3333:3" );
  * con.putValue(intv);
  * con.flush();
  * </PRE>
