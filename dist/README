@@ -3,7 +3,8 @@ Tools for distribution building and project management.
 
 Not part of the distribution.
 
-
+Dailybuild
+==========
 
 Use in a cron job like this:
 
@@ -25,4 +26,48 @@ Cygwin:
 
 copy dailybuild_copy, start_db_cygwin.bat and do_send_mail into an empty directory,
 Run start_db_cygwin.bat as a scheduled task.
+
+The dailybuild create an HMTL log that is copied to a central location. Use make_index 
+(which need index_skeleton.html) to create an index page for these logs.
+
+Use in a cronjob like this:
+
+# OpenSG logs update
+30 6 * * * \
+find /igd/a4/www/opensg/dailybuild_logs/opensg_dailybuild.* -ctime +5 -exec rm {} \; ;  \
+/igd/a4/home/reiners/opensg/OpenSG/dist/make_index  /igd/a4/www/opensg/dailybuild_logs/ \
+index_skeleton.html
+
+where index_skeleton.html is in the target directory
+
+
+Dist
+====
+
+The make_bindist and make_src_doc can be used to create distributions.
+
+Both expect one parameter, the location where the OpenSG CVS is that they should work on. 
+If it isn't there it will be checked out from the CVS.
+
+They're both very optimistic. If something goes wrong be afraid. 
+
+make_src_doc creates the following results (replace 1.0 by the current
+VERSION)
+
+OpenSG-1.0-src.tgz				the current source, minus some internal stuff
+OpenSG-1.0-srcdoc.tgz			the doxygen docs
+OpenSG-1.0-src+doc.tgz			the last two together
+OpenSG-1.0-srcdoc.zip			the doxygen docs, zipped for our Win friends
+OpenSG-1.0-Design.html			the design document, just as it is
+OpenSG-1.0-StarterGuide.ps.gz   the starter guide. Single document gzipped
+
+
+make_bindist create different things on Windows and UNIX systems:
+
+Windows:
+
+
+Unix:
+
+
 
