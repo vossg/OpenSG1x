@@ -1767,6 +1767,10 @@ void L3DS::ReadMaterial(const LChunk &parent)
             ReadMap(chunk, mat.GetSpecularMap());
             break;
         case MAT_REFLMAP:
+            // AMZ not really a bugfix but it seems to work!
+#if 1
+            ReadMap(chunk, mat.GetReflectionMap());
+#else
             child = ReadChunk();
             mat.GetReflectionMap().strength = ReadPercentage(child);
             SkipChunk(child);
@@ -1779,6 +1783,7 @@ void L3DS::ReadMaterial(const LChunk &parent)
             ReadASCIIZ(str, 30);
             if (strcmp(str, "") == 0)
                 strcpy(mat.GetReflectionMap().mapName, "auto");
+#endif
             break;
         }
 
