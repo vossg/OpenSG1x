@@ -13,10 +13,14 @@ DOCDIR     := $(DOCBASEDIR)/$(DOCCODEDIR)
 DOC_PROJECT_NAME = OpenSG
 DOC_PROJECT_NUMBER = $(shell cat VERSION)
 
-DOC_LIBS   ?= Base Field FieldContainer Image Loader Log Material 	\
-              MultiThreading Nodes/OSGNodes.doxygen Nodes/Geometry 	\
-			  Nodes/Light 											\
-              Nodes/Misc State Window 
+DOC_LIBS   ?= Base Field FieldContainer FieldContainer/Impl Image Loader 	\
+			  Log Material 													\
+              MultiThreading Nodes/OSGNodes.doxygen Nodes/Geometry 			\
+			  Nodes/Light Nodes/Particles									\
+              Nodes/Misc State Statistics									\
+			  Window Window/GLUT Window/X Window/QT Window/WIN32			\
+			  Network Network/Socket 										\
+			  Cluster Cluster/MultiDisplay Cluster/SortFirst
 
 DOC_LIBS   := $(DOC_LIBS) mainpage.doxygen Common/dummyClasses.doxygen
 
