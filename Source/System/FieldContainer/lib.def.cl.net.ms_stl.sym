@@ -179,3 +179,5 @@
     ?copyToBin@?$MField@VNodePtr@osg@@$0A@@osg@@QBEXAAVBinaryDataHandler@2@@Z
     ?copyFromBin@?$MField@VNodePtr@osg@@$0A@@osg@@QAEXAAVBinaryDataHandler@2@@Z
     ?syncWith@?$MField@VNodePtr@osg@@$0A@@osg@@QAEXAAV12@@Z
+
+    ?setValue@?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImageComposer@2@@osg@@$0A@@osg@@QAEXABV?$FCPtr@VAttachmentContainerPtr@osg@@VImageComposer@2@@2@@Z
