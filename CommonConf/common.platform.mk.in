@@ -1,16 +1,4 @@
 
-### Debug or not #######################################################
-
-JOB_TYPE := $(findstring opt,$(MAKECMDGOALS))
-
-ifeq ($(JOB_TYPE),opt)
-DBG := opt
-DEBUG_VERSION := 0
-else
-DBG := dbg
-DEBUG_VERSION := 1
-endif
-
 ### Binaries #######################################################
 
 CC_PATH    := @ac_gdz_compiler_path@
@@ -18,6 +6,8 @@ CC_PATH    := @ac_gdz_compiler_path@
 CC         := @ac_gdz_compiler_exe@
 
 LD_SHARED  := @ac_gdz_compiler_exe_shared@
+
+LD_LNK     := @ac_gdz_compiler_exe_lnk@
 
 LD         := @ac_gdz_compiler_exe_exe@
 
@@ -37,6 +27,8 @@ PEDANTIC_ERRORS      := @ac_gdz_ped_errors_e1@
 SO_PRAEFIX           := @ac_gdz_so_praefix@
 SO_SUFFIX            := @ac_gdz_so_suffix@
 LIB_SUFFIX           := @ac_gdz_lib_suffix@
+
+LNK_LIB_SUFFIX       := Lnk@ac_gdz_lib_suffix@
 
 OBJ_SUFFIX           := @ac_gdz_obj_suffix@
 EXE_SUFFIX           := @ac_gdz_exe_suffix@

@@ -43,11 +43,26 @@ dbg_internal: SUB_TARGET := dbg
 dbg_internal: SUB_JOB := build
 dbg_internal: $(SUB_LIBTARGETS) 
 
+dbgLnk:
+	@gmake -k -r $($(PROJ)TOPMAKEPAR) -f Makefile dbg_internalLnk
+
+dbg_internalLnk: SUB_TARGET := dbgLnk
+dbg_internalLnk: SUB_JOB := build
+dbg_internalLnk: $(SUB_LIBTARGETS) 
+
 opt:
 	@gmake -k -r $($(PROJ)TOPMAKEPAR) -f Makefile opt_internal
 
 
 opt_internal: SUB_TARGET := opt
+opt_internal: SUB_JOB := build
+opt_internal: $(SUB_LIBTARGETS) 
+
+optLnk:
+	@gmake -k -r $($(PROJ)TOPMAKEPAR) -f Makefile opt_internalLnk
+
+
+opt_internal: SUB_TARGET := optLnk
 opt_internal: SUB_JOB := build
 opt_internal: $(SUB_LIBTARGETS) 
 
@@ -63,6 +78,9 @@ optclean: $(SUB_LIBTARGETS)
 
 clean: SUB_TARGET := clean
 clean: $(SUB_LIBTARGETS)
+
+cleanLnk: SUB_TARGET := cleanLnk
+cleanLnk: $(SUB_LIBTARGETS) $(SUB_APPTARGETS)
 
 allclean: dbgclean optclean
 

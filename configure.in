@@ -310,6 +310,25 @@ function FK_GDZ_CREATE_PACKAGE_DIRS
     fi
 
 
+    if ! test -w $ac_gdz_package_dir_build/obj-dbglnk; then 
+	    echo Need $ac_gdz_package_dir_build/obj-dbglnk
+	    mkdir $ac_gdz_package_dir_build/obj-dbglnk
+    fi
+
+    if ! test -w $ac_gdz_package_dir_build/obj-optlnk; then 
+	   	echo Need $ac_gdz_package_dir_build/obj-optlnk
+	    mkdir $ac_gdz_package_dir_build/obj-optlnk
+    fi
+
+    if ! test -w $ac_gdz_package_dir_build/lib-dbglnk; then 
+	  	echo Need $ac_gdz_package_dir_build/lib-dbglnk
+	    mkdir $ac_gdz_package_dir_build/lib-dbglnk
+    fi
+
+    if ! test -w $ac_gdz_package_dir_build/lib-optlnk; then 
+	   	echo Need $ac_gdz_package_dir_build/lib-optlnk
+	    mkdir $ac_gdz_package_dir_build/lib-optlnk
+    fi
 
 
     if ! test -w $ac_gdz_package_dir_test; then 
@@ -365,6 +384,7 @@ then
 
 					ac_gdz_compiler_exe_shared='"$(CC_PATH)/'$ac_gdz_linker_exe'" -dll -map -NODEFAULTLIB'
 
+					ac_gdz_compiler_exe_lnk='"$(CC_PATH)/xilink" -lib -NODEFAULTLIB'
 					ac_gdz_compiler_exe_exe='"$(CC_PATH)/'$ac_gdz_linker_exe'" -NODEFAULTLIB'
 
 					ac_gdz_base_system_libs='user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib'
@@ -515,6 +535,7 @@ AC_SUBST(ac_gdz_compiler_base)
 AC_SUBST(ac_gdz_compiler_path)
 AC_SUBST(ac_gdz_compiler_exe)
 AC_SUBST(ac_gdz_compiler_exe_shared)
+AC_SUBST(ac_gdz_compiler_exe_lnk)
 AC_SUBST(ac_gdz_compiler_exe_exe)
 AC_SUBST(ac_gdz_flex_exe)
 AC_SUBST(ac_gdz_bison_exe)

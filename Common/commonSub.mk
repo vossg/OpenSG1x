@@ -1,18 +1,11 @@
 
--include .lastdbg
-
-DBG ?= $(LASTDBG)
-
-DBG := $(strip $(DBG))
-
-ifeq ($(DBG),)
-DBG := dbg
-endif
-
+$(warning $(DBG))
 
 OBJDIR = $(OBJDIR_BASE)-$(DBG)
 LIBDIR = $(LIBDIR_BASE)-$(DBG)
 EXEDIR = $(EXEDIR_BASE)-$(DBG)
+
+$(warning $(OBJDIR))
 
 OBJ_SUFFIX := $(strip $(OBJ_SUFFIX))
 

@@ -262,6 +262,16 @@ $(LIB_QTTARGET_DEPS): $(LIB_QTTARGET_CPP)
 
 endif
 
+ifneq ($(SUB_LNK_LIB),)
+SubLnkLib: $(SUB_LNK_LIB)
+	@echo "Done SubLib (LIB|$(SUB_LNK_LIB)"
+
+$(SUB_LNK_LIB): $(LIB_QTTARGET_CPP) $(LIB_OBJECTS) 
+	$(LD_LNK) $($(PROJ)SUBPRELINKPAR) 								\
+		$(LD_OUTOPT)$(LD_OUTSPACE)$(SUB_LNK_LIB) 					\
+		$(call cnvSubDirsUnix2Win,$(LIB_OBJECTS)) 
+endif
+
 #########################################################################
 # Automatic Targets Test Toplevel
 #########################################################################
@@ -340,10 +350,18 @@ dbg: DBG := dbg
 dbg: SubLib
 	@echo "LASTDBG=dbg" > .lastdbg
 
+dbgLnk: DBG := dbglnk
+dbgLnk: SubLnkLib
+	@echo "Done dbg (SubLibLnk)"
 
 opt: DBG := opt
 opt: SubLib
 	@echo "LASTDBG=dbg" > .lastdbg
+
+optLnk: DBG := optlnk
+optLnk: SubLnkLib
+	@echo "Done opt (SubLibLnk)"
+
 else
 dbg:
 	@echo "LASTDBG=dbg" > .lastdbg
@@ -396,8 +414,8 @@ dbgclean: commonclean
 optclean: DBG := opt
 optclean: commonclean
 
-clean: commonclean
-
+clean:    commonclean
+cleanLnk: commonclean
 
 #########################################################################
 # Clean
@@ -428,7 +446,8 @@ optClean: LIBDIR := $(LIBDIR_BASE)-$(DBG)
 optClean: commonClean
 	@echo "Done optClean"
 
-Clean: commonClean
+Clean:    commonClean
+CleanLnk: commonClean
 
 distclean: 
 	@$(SUB_MAKE) dbgClean 
