@@ -122,6 +122,16 @@ class OSG_MATERIAL_DLLMAPPING Material : public MaterialBase
 	
 	virtual void draw( Geometry* geo, DrawAction * action ) = 0;
 
+	/** sets up the OpenGL 
+	    note that this will not work for multipass materials etc.!
+	 */
+	
+	virtual void activate( void ) = 0;
+
+	/** resets the OpenGL */
+	
+	virtual void deactivate( void ) = 0;
+
     /*------------------------- comparison ----------------------------------*/
 
 	// defines an ordering for materials.

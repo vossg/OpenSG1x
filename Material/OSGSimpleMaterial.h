@@ -124,6 +124,14 @@ class OSG_MATERIAL_DLLMAPPING SimpleMaterial : public SimpleMaterialBase
     
     virtual void draw( Geometry* geo, DrawAction * action );
 
+	/** sets up the OpenGL */
+	
+	virtual void activate( void );
+
+	/** resets the OpenGL */
+	
+	virtual void deactivate( void );
+
   protected:
 
     //-----------------------------------------------------------------------

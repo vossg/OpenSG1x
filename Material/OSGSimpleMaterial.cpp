@@ -88,7 +88,7 @@ The simple material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.10 2001/04/15 01:57:09 dirk Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.11 2001/04/23 18:33:14 dirk Exp $";
 
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
@@ -201,6 +201,42 @@ void SimpleMaterial::draw( Geometry* geo, DrawAction * action )
 	state->deactivate( action );
 
 	subRefCP( state );
+}
+	
+void SimpleMaterial::activate( void )
+{
+	Color3f v3;
+	Color4f v4;
+	float alpha = 1.f - getTransparency();
+	
+	beginEditCP( _materialChunk );
+	
+	v3 = getAmbient(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
+	_materialChunk->setAmbient( v4 );
+	v3 = getDiffuse(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
+	_materialChunk->setDiffuse( v4 );
+	v3 = getSpecular(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
+	_materialChunk->setSpecular( v4 );
+	_materialChunk->setShininess( getShininess() );
+	v3 = getEmission(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
+	_materialChunk->setEmission( v4 );
+	
+	endEditCP( _materialChunk );
+
+	_materialChunk->activate();
+	
+	for ( MFStateChunkPtr::iterator i = _chunks.begin(); 
+			i != _chunks.end(); i++ )
+		i->activate();
+}
+	
+void SimpleMaterial::deactivate( void )
+{
+	_materialChunk->deactivate();
+
+	for ( MFStateChunkPtr::iterator i = _chunks.begin(); 
+			i != _chunks.end(); i++ )
+		i->deactivate();
 }
 
 /*-------------------------- assignment -----------------------------------*/

@@ -84,7 +84,7 @@ The chunk material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.8 2001/04/15 01:57:09 dirk Exp $";
+char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.9 2001/04/23 18:33:14 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -196,6 +196,20 @@ void ChunkMaterial::draw( Geometry* geo, DrawAction * action )
 	state->deactivate( action );
 
 	subRefCP( state ); // kill it
+}
+	
+void ChunkMaterial::activate( void )
+{
+	for ( MFStateChunkPtr::iterator i = _chunks.begin(); 
+			i != _chunks.end(); i++ )
+		i->activate();
+}
+	
+void ChunkMaterial::deactivate( void )
+{
+	for ( MFStateChunkPtr::iterator i = _chunks.begin(); 
+			i != _chunks.end(); i++ )
+		i->deactivate();
 }
 
 /*-------------------------- assignment -----------------------------------*/

@@ -25,6 +25,7 @@
 
 #include "OSGMaterial.h"
 #include "OSGChunkMaterial.h"
+#include "OSGSimpleMaterial.h"
 
 
 OSG_USING_NAMESPACE
@@ -33,6 +34,8 @@ OSG_USING_NAMESPACE
 DrawAction * dact;
 
 NodePtr plane,torus;
+ChunkMaterialPtr pm;
+SimpleMaterialPtr tm;	
 
 void 
 display(void)
@@ -56,6 +59,12 @@ display(void)
 	glRotatef( (a/3000) * 360 / 2, 1,0,0 );
 
 	dact->apply( torus );
+
+	// do some OpenGL rendering
+
+	pm->activate();
+	glutSolidSphere( .4, 8, 8 );
+	pm->deactivate();
 
 	glPopMatrix();
 	
@@ -102,8 +111,6 @@ int main (int argc, char **argv)
 	torus_geo = dcast<GeometryPtr>(torus->getCore());
 	
 	
-	ChunkMaterialPtr pm, tm;	
-	
 	pm = ChunkMaterial::create();
 
 	MaterialChunkPtr pmc = MaterialChunk::create();
@@ -117,13 +124,10 @@ int main (int argc, char **argv)
 	plane_geo->setMaterial( pm );
 	
 	
-	tm = ChunkMaterial::create();
+	tm = SimpleMaterial::create();
 
-	MaterialChunkPtr tmc = MaterialChunk::create();
-	tmc->setDiffuse( Color4f( 0,1,0,0 ) );
-	tmc->setAmbient( Color4f( 0,1,0,0 ) );
-	
-	tm->addChunk( tmc );
+	tm->setDiffuse( Color3f( 0,1,0 ) );
+	tm->setAmbient( Color3f( 0,1,0 ) );
 	
 	torus_geo->setMaterial( tm );
 	
