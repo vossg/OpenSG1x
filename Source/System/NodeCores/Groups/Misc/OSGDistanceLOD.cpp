@@ -135,7 +135,7 @@ Action::ResultE DistanceLOD::draw(Action *action)
     
     da->useNodeList();
     
-    if(numRanges != 0)
+    if(numRanges != 0 && numLevels!=0 )
     {
         if(dist < (*(getMFRange()))[0])
         {

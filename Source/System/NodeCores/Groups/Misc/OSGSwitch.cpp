@@ -108,7 +108,7 @@ Action::ResultE Switch::draw(Action *action)
             da->addNode(action->getNode(getChoice()));
         }
     }
-    else if(getChoice() == -2)
+    else if(getChoice() == ALL)
     {
         if(da->selectVisibles() == 0)
             returnValue = Action::Skip;
@@ -132,7 +132,7 @@ Action::ResultE Switch::intersect(Action *action)
     {
         da->addNode(action->getNode(getChoice()));
     }
-    else if(getChoice() == -2)
+    else if(getChoice() == ALL)
     {
         returnValue = Action::Continue;
     }
