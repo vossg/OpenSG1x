@@ -108,7 +108,11 @@ default:	$(PROGS)
 
 clean:
 	rm -f  *.o 
+	rm -f  *.obj 
 	rm -rf ii_files
+	rm -f *.pdb
+	rm -f *.ilk
+	rm -f *.idb
 
 Clean: clean
 	rm -f $(PROGS) 

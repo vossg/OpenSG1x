@@ -43,7 +43,7 @@ The directory contains a test image that can be passed to materials to be used
 as a texture: osg_power_trans.rgb, which is the "Powered by OpenSG" logo
 image. 
 
-It also contains two little test models: a set of dolphins in OBJ
+It also contains two little test models found in the data subdirectory : a set of dolphins in OBJ
 format and a TIE fighter in VRML97 format. loading and picking can load them.
 
 The TIE fighter model was taken from the AC3D website (www.ac3d.org),
