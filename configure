@@ -15,7 +15,7 @@ ac_help="$ac_help
   --with-compiler=<compiler> choose one of the following\
  compilers
         IRIX      : CC, CC64
-        Windows   : icl (==50), icl50, icl60, icl70, icl71, icl80, cl.net, cl.net2003
+        Windows   : icl (==50), icl50, icl60, icl70, icl71, icl80, cl.net, cl.net2003, cl.net2005
         GNU/Linux : g++,icc,g++3
         Darwin    : c++,c++3,g++,g++3
         HPUX      : aCC"
@@ -2514,6 +2514,56 @@ echo "configure:2369: checking "/ guessing compiler dir for $build-$ac_gdz_compi
 
             ;;
 
+            cl.net2005*|cl8*)
+            
+    
+    ac_gdz_find_prog_dir_result=""
+
+    for drive in c d e f g; do
+     for progdir in "Program Files" "Programme"; do
+      for vsnet in "Microsoft Visual Studio 8"; do
+       if test -d "/cygdrive/$drive/$progdir/$vsnet/"; then
+        ac_gdz_find_prog_dir_result="/cygdrive/$drive/$progdir/$vsnet"
+        break 3
+       fi
+      done
+     done
+    done
+
+
+    ac_gdz_compiler_dir=$ac_gdz_find_prog_dir_result/VC
+    ac_gdz_compiler_path=$ac_gdz_compiler_dir/bin
+    ac_gdz_compiler_incl=$ac_gdz_compiler_dir/include
+    ac_gdz_compiler_lib=$ac_gdz_compiler_dir/lib
+    ac_gdz_compiler_exe=cl.exe
+    ac_gdz_linker_exe=link.exe
+    ac_gdz_check_compiler_available=yes
+
+    ac_gdz_compiler_base=cl.net
+
+    if ! test -d "$ac_gdz_compiler_path"; then
+        echo
+        echo "ERROR could not determine compiler dir, tried :"
+
+        for drive in c d e f g; do
+            for progdir in "Program Files" "Programme"; do
+	        for vsnet in "Microsoft Visual Studio 8"; do
+                    echo "    /cygdrive/$drive/$progdir/$vsnet"
+                done
+            done
+        done
+
+        exit
+    fi
+
+        
+            if test "$enable_stlport" = yes; then
+                ac_gdz_stl_suffix=.stlport
+            else
+                ac_gdz_stl_suffix=.ms_stl
+            fi
+
+            ;;
 
             cl.net*)
             

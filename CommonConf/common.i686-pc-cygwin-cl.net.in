@@ -20,6 +20,9 @@ II_FILESDIR          :=
 
 ### Defines #######################################################
 
+COMPILERVERSION := $(shell $(CC) 2>&1 | head -1 | cut -d' ' -f 8)
+COMPILERMAJORVERSION := $(shell $(CC) 2>&1 | head -1 | cut -d' ' -f 8 | sed -e 's/\..*//')
+
 ifeq ($(CONFIGURED_GVBETA),1)
 DEF_GVBETA := -DOSG_GV_BETA
 else
@@ -81,7 +84,13 @@ LANG_FLAGS          =
 
 #-Qvc6 -Qansi
 #-GX
-COMPILER    		=  -GX -Gi- -FD -GR -Zm1200
+ifeq ($(COMPILERMAJORVERSION), 14)
+# Cl.net 2005 options
+COMPILER    		=  -EHsc -FD -GR -Zm1200
+else
+# other cl.net options
+COMPILER    		=  -GX -FD -GR -Zm1200
+endif
 
 ifeq ($(LNK),lnk)
 COMPILER_RUNTIME_DBG    = -MTd
@@ -92,7 +101,13 @@ COMPILER_RUNTIME_OPT    = -MD
 endif
 
 CCFLAGS_EXT_OPT  := -O2 -Ob1 -MD
+ifeq ($(COMPILERMAJORVERSION), 14)
+# Cl.net 2005 options
+CCFLAGS_EXT_DBG  := -ZI -Od -RTC1 -D_DEBUG -MDd
+else
+# other cl.net options
 CCFLAGS_EXT_DBG  := -ZI -Od -GZ -D_DEBUG -MDd
+endif
 
 ### Optimize / Debug ###############################################
 
@@ -103,11 +118,17 @@ endif
 ifeq ($(DEBUG_VERSION), 0)
 	COMP_OPTIMIZE    =  -O2 -Ob1
 	COMP_DEBUG       = 
-    COMPILER_RUNTIME = $(COMPILER_RUNTIME_OPT)
+        COMPILER_RUNTIME = $(COMPILER_RUNTIME_OPT)
 else
 	COMP_OPTIMIZE    =
+ifeq ($(COMPILERMAJORVERSION), 14)
+# Cl.net 2005 options
+	COMP_DEBUG       =  -ZI -Od -D_DEBUG
+else
+# other cl.net options
 	COMP_DEBUG       =  -ZI -Od -GZ -D_DEBUG
-    COMPILER_RUNTIME = $(COMPILER_RUNTIME_DBG)
+endif
+        COMPILER_RUNTIME = $(COMPILER_RUNTIME_DBG)
 endif
 
 ### Compiler Flags ################################################
