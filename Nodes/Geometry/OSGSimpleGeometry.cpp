@@ -398,13 +398,12 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
 		}
 
 		t->addValue(GL_POLYGON);
-		l->addValue( sides + 1 );
+		l->addValue( sides );
 
 		for ( j = 0; j < sides; j++ ) 
 		{
 				i->addValue( baseindex + j );
 		}
-		i->addValue( baseindex );
 	}
 	
 	if ( doBottom && botradius > 0  )
@@ -425,13 +424,12 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
 		}
 
 		t->addValue(GL_POLYGON);
-		l->addValue( sides + 1 );
+		l->addValue( sides );
 
 		for ( j = 0; j < sides; j++ ) 
 		{
 				i->addValue( baseindex + sides - 1 - j );
 		}
-		i->addValue( baseindex );
 	}
 	
 	endEditCP(pnts);
@@ -650,9 +648,9 @@ Real32 setVecLen(Vec3f &vec, Real32 length )
 								  )  / Pi + .5								\
 				) 		 ); 												\
 	p->addValue( norm * radius );											\
-	i->addValue( index );													\
 }
 
+	
 static void subdivideTriangle( UInt32 i1, 
 						UInt32 i2, 
 						UInt32 i3, 
@@ -662,7 +660,7 @@ static void subdivideTriangle( UInt32 i1,
 						GeoTexCoords2f::StoredFieldType *tx,
 						GeoIndexUI32::StoredFieldType   *i,
 						UInt32& z, Real32 radius) 
-{			
+{	
 	if (depth == 0) 
 	{
 		i->addValue( i1 );
@@ -761,10 +759,33 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
 	for ( j=0; j<12; j++ ) 
 	{
 		Vec3f pnt = v[j];
+		Vec3f norm = v[j];
 		setVecLen( pnt, radius );
-		addPoint( pnt, j );
+		norm.normalize();
+		//addPoint( pnt, j );
+		p->addValue( pnt );
+		n->addValue( norm );
+		tx->addValue( Vec2f(	osgatan2( -(pnt)[0], -(pnt)[2] ) / Pi / 2 + .5, \
+							osgabs( osgatan2( -(pnt)[1],  					\
+											  osgsqrt( (pnt)[2] * (pnt)[2] + 	\
+											  		   (pnt)[0] * (pnt)[0]		\
+													 )  					\
+									  		)								\
+								  )  / Pi + .5								\
+				) 		 ); 
 	}
 	
+	// if we do not subdivide then lets have the icosahedron at least
+	if( depth < 1 )
+	{
+		for( UInt32 c1=0; c1<20; ++c1 )
+		{
+			for( UInt32 c2=0; c2<3; ++c2 )
+			{
+				i->addValue( tr[c1][c2] );
+			}
+		}
+	}
 	// subdivide the triangles
 	z=12;
 	for ( j=0; j<20; j++ ) 

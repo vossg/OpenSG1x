@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.16 2001/08/07 13:54:39 neumannc Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.17 2001/08/08 15:02:44 neumannc Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -972,7 +972,7 @@ OSG_SYSTEMLIB_DLLMAPPING void osg::calcFaceNormals( GeometryPtr geo )
 		}
 	      newIndex->addValue(0);  //placeholder for normal index
 	    }
-
+	  
 	  beginEditCP(newNormals);
 	  for( UInt32 faceCnt=0; faceIter != geo->endFaces(); ++faceIter, ++faceCnt )
 	    {
@@ -1014,7 +1014,7 @@ OSG_SYSTEMLIB_DLLMAPPING void osg::calcFaceNormals( GeometryPtr geo )
 		    {
 		      base = faceIter.getIndexIndex(i);
 		      newIndex->setValue( faceCnt, base+(base/oldIMSize)+oldIMSize );
-		    }
+			}
 		  break;
 		}
 	    }
@@ -1028,61 +1028,60 @@ OSG_SYSTEMLIB_DLLMAPPING void osg::calcFaceNormals( GeometryPtr geo )
 	    {
 	      oldIndexMap.setValue( oldIndexMap.getValue(ni) & ~ Geometry::MapNormal, ni );
 	    }
-       	  oldIndexMap.addValue( Geometry::MapNormal );
+      oldIndexMap.addValue( Geometry::MapNormal );
 	  geo->setNormals( newNormals );
 	  geo->setIndex( newIndex );
 	  endEditCP(geo);
+	  return;
 	}
-    }
-  else
+    } 
+  //SINGLE INDEXED or NON INDEXED
+  UInt32 pointCnt = 0;
+  newNormals->resize( geo->getPositions()->getSize() );
+  for( ;faceIter!=geo->endFaces(); ++faceIter )
     {
-      //SINGLE INDEXED or NON INDEXED
-      UInt32 pointCnt = 0;
-      newNormals->resize( geo->getPositions()->getSize() );
-      for( ;faceIter!=geo->endFaces(); ++faceIter )
+      if( faceIter.getLength() == 3 )
 	{
-	  if( faceIter.getLength() == 3 )
-	    {
-	      //Face is a Triangle
-	      normal = (faceIter.getPosition(1)-faceIter.getPosition(0)).cross( faceIter.getPosition(2)-faceIter.getPosition(0) );
-	      normal.normalize();  
-	    }
-	  else
-	    {
-	      //Face must be a Quad then	
-	      normal = (faceIter.getPosition(1)-faceIter.getPosition(0)).cross( faceIter.getPosition(2)-faceIter.getPosition(0) );
-	      if( normal.length() == 0 )
-		{
-		  //Quad is degenerate, choose different points for normal
-		  normal = (faceIter.getPosition(1)-faceIter.getPosition(2)).cross( faceIter.getPosition(3)-faceIter.getPosition(2) );
-		}
-	      normal.normalize();
-	      
-	    }
-	  switch( faceIter.getType() )
-	    {
-	    case GL_TRIANGLE_STRIP:
-	      newNormals->setValue( normal, faceIter.getPositionIndex(2) );
-	      break;
-	    case GL_TRIANGLE_FAN:
-	      newNormals->setValue( normal, faceIter.getPositionIndex(2) );
-	      break;
-	    case GL_QUAD_STRIP:
-	      newNormals->setValue( normal, faceIter.getPositionIndex(3) );
-	      break;
-	    default:
-	      for( UInt32 i=0; i<faceIter.getLength(); ++i )
-		{
-		  newNormals->setValue( normal, faceIter.getPositionIndex(i) );
-		}
-	      break;
-	    }
-	  beginEditCP( geo );
-	  geo->setNormals( newNormals );
-	  endEditCP( geo );
+	  //Face is a Triangle
+	  normal = (faceIter.getPosition(1)-faceIter.getPosition(0)).cross( faceIter.getPosition(2)-faceIter.getPosition(0) );
+	  normal.normalize();  
 	}
+      else
+	{
+	  //Face must be a Quad then	
+	  normal = (faceIter.getPosition(1)-faceIter.getPosition(0)).cross( faceIter.getPosition(2)-faceIter.getPosition(0) );
+	  if( normal.length() == 0 )
+	    {
+	      //Quad is degenerate, choose different points for normal
+	      normal = (faceIter.getPosition(1)-faceIter.getPosition(2)).cross( faceIter.getPosition(3)-faceIter.getPosition(2) );
+	    }
+	  normal.normalize();
+	  
+	}
+      switch( faceIter.getType() )
+	{
+	case GL_TRIANGLE_STRIP:
+	  newNormals->setValue( normal, faceIter.getPositionIndex(2) );
+	  break;
+	case GL_TRIANGLE_FAN:
+	  newNormals->setValue( normal, faceIter.getPositionIndex(2) );
+	  break;
+	case GL_QUAD_STRIP:
+	  newNormals->setValue( normal, faceIter.getPositionIndex(3) );
+	  break;
+	default:
+	  for( UInt32 i=0; i<faceIter.getLength(); ++i )
+	    {
+	      newNormals->setValue( normal, faceIter.getPositionIndex(i) );
+	    }
+	  break;
+	}
+      beginEditCP( geo );
+      geo->setNormals( newNormals );
+	  endEditCP( geo );
     }
-} 
+}
+ 
 
 
 

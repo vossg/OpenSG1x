@@ -264,20 +264,20 @@ int main (int argc, char **argv)
   cam_trans = transCore;
   
   //OBJECT0: Plane
-  objects[0] = makePlane( 3,3, 4,4 );
+  objects[0] = makeBox( 3,3,2, 2,2,1 );
   calcFaceNormals( GeometryPtr::dcast(objects[0]->getCore()) );
   normals[0] = getFaceNormals( GeometryPtr::dcast(objects[0]->getCore()), 0.5 );
-
+  
   //OBJECT1: Sphere
-  objects[1] = makeSphere( 0, 2.5 );
+  objects[1] = makeSphere( 2, 2 );
   calcFaceNormals( GeometryPtr::dcast(objects[1]->getCore()) );
   normals[1] = getFaceNormals( GeometryPtr::dcast(objects[1]->getCore()), 0.5 );
-
+  
   //OBJECT2: Cone
-  objects[2] = makeCone( 3, 2, 16, true, true );
+  objects[2] = makeConicalFrustum( 1.5, 0.75, 2, 8, true, true, true );
   calcFaceNormals( GeometryPtr::dcast(objects[2]->getCore()) );
   normals[2] = getFaceNormals( GeometryPtr::dcast(objects[2]->getCore()), 0.5 );
-  
+    
   //OBJECT3: Custom Single Indexed Geometry
   objects[3] = Node::create();
   GeometryPtr obj3Core= Geometry::create();
@@ -294,27 +294,27 @@ int main (int argc, char **argv)
   
   obj3Pnts->addValue( Pnt3f(1, 1,0) );
   obj3Pnts->addValue( Pnt3f(1,-1,0) );
-  obj3Pnts->addValue( Pnt3f(3,-2,1) );
-  obj3Pnts->addValue( Pnt3f(3, 2,1) );
+  obj3Pnts->addValue( Pnt3f(3,-1.3,0) );
+  obj3Pnts->addValue( Pnt3f(3, 1.3,0) );
   
-  obj3Pnts->addValue( Pnt3f(3, 2,1) );
-  obj3Pnts->addValue( Pnt3f(3,-2,1) );
-  obj3Pnts->addValue( Pnt3f(4, 0,1) );
+  obj3Pnts->addValue( Pnt3f(3, 1.3,0) );
+  obj3Pnts->addValue( Pnt3f(3,-1.3,0) );
+  obj3Pnts->addValue( Pnt3f(4, 0,0) );
   endEditCP( obj3Pnts );
   
   beginEditCP( obj3Types );
-  obj3Types->addValue( GL_TRIANGLES );
-  obj3Types->addValue( GL_QUADS );
-  obj3Types->addValue( GL_TRIANGLES );
-  //obj3Types->addValue( GL_TRIANGLE_STRIP );
+  //obj3Types->addValue( GL_TRIANGLES );
+  //obj3Types->addValue( GL_QUADS );
+  //obj3Types->addValue( GL_TRIANGLES );
+  obj3Types->addValue( GL_POLYGON );
   endEditCP( obj3Types );
   
   beginEditCP( obj3Lengths );
-  obj3Lengths->addValue( 3 );
-  obj3Lengths->addValue( 4 );
-  obj3Lengths->addValue( 3 );
+  //obj3Lengths->addValue( 3 );
+  //obj3Lengths->addValue( 4 );
+  //obj3Lengths->addValue( 3 );
   
-  //obj3Lengths->addValue( 6 );
+  obj3Lengths->addValue( 6 );
   endEditCP( obj3Lengths );
    
   beginEditCP( obj3Colors );
@@ -325,16 +325,16 @@ int main (int argc, char **argv)
   endEditCP( obj3Colors );
   
   beginEditCP( obj3Index );
-  for( UInt32 i=0; i<obj3Pnts->getSize(); ++i )
-  {
-   obj3Index->addValue( i );
-  }
-  //obj3Index->addValue( 0 );
-  //obj3Index->addValue( 1 );
-  //obj3Index->addValue( 2 );
-  //obj3Index->addValue( 5 );
-  //obj3Index->addValue( 6 );
-  //obj3Index->addValue( 9 );
+  //for( UInt32 i=0; i<obj3Pnts->getSize(); ++i )
+  //{
+  // obj3Index->addValue( i );
+  //}
+  obj3Index->addValue( 0 );
+  obj3Index->addValue( 1 );
+  obj3Index->addValue( 5 );
+  obj3Index->addValue( 9 );
+  obj3Index->addValue( 6 );
+  obj3Index->addValue( 2 );
   endEditCP( obj3Index );
   
   beginEditCP( obj3Core );
@@ -350,8 +350,7 @@ int main (int argc, char **argv)
   endEditCP( objects[3] );
   calcFaceNormals( GeometryPtr::dcast(objects[3]->getCore()) );
   normals[3] = getFaceNormals( GeometryPtr::dcast(objects[3]->getCore()), 0.5 );
-  //normals[3] = getFaceNormals( GeometryPtr::dcast(objects[0]->getCore()), 0.1 );
-  
+    
   //ROOT
   root = Node::create();
   GroupPtr rootCore = Group::create();
