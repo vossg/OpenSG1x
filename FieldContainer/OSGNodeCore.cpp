@@ -134,9 +134,14 @@ void NodeCore::dump(      UInt32    uiIndent,
 {
     UInt32 i;
 
+    NodeCorePtr thisP = getPtr();
+
     indentLog(uiIndent, PLOG);
 
-    PLOG << "Core : " << getType().getName()
+    PLOG << "Core"
+         << "("
+         << thisP.getFieldContainerId()
+         << ") : " << getType().getName()
          << " "
          << _attachmentMap.getValue().size()
          << " attachments | "
@@ -217,7 +222,7 @@ void NodeCore::subParent(const NodePtr &parent)
 /*-------------------------------------------------------------------------*/
 /*                              Pointer                                    */
 
-NodeCorePtr NodeCore::getPtr(void)
+NodeCorePtr NodeCore::getPtr(void) const
 {
     return NodeCorePtr(*this);
 }
@@ -270,7 +275,7 @@ void NodeCore::invalidateVolume(void)
 /*                              cvs id's                                   */
 
 #ifdef __sgi
-#pragma set woff 1174
+#pragdma set woff 1174
 #endif
 
 #ifdef OSG_LINUX_ICC

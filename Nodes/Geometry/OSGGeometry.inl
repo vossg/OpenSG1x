@@ -99,7 +99,7 @@ void Geometry::setTypes(const GeoPTypesPtr &value)
         {
             _sfTypes.getValue()->subParent(thisP);
         }
-        beginEditCP(_sfTypes.getValue(), Attachment::ParentsFieldMask);
+        endEditCP  (_sfTypes.getValue(), Attachment::ParentsFieldMask);
 
         subRefCP(_sfTypes.getValue());
     }
@@ -112,7 +112,7 @@ void Geometry::setTypes(const GeoPTypesPtr &value)
         {
             value->addParent(thisP);
         }
-        beginEditCP(value, Attachment::ParentsFieldMask);
+        endEditCP  (value, Attachment::ParentsFieldMask);
     }
 
     _sfTypes.setValue(value);
@@ -131,7 +131,7 @@ void Geometry::setLengths(const GeoPLengthsPtr &value)
         {
             _sfLengths.getValue()->subParent(thisP);
         }
-        beginEditCP(_sfLengths.getValue(), Attachment::ParentsFieldMask);
+        endEditCP  (_sfLengths.getValue(), Attachment::ParentsFieldMask);
 
         subRefCP(_sfLengths.getValue());
     }
@@ -144,7 +144,7 @@ void Geometry::setLengths(const GeoPLengthsPtr &value)
         {
             value->addParent(thisP);
         }
-        beginEditCP(value, Attachment::ParentsFieldMask);
+        endEditCP  (value, Attachment::ParentsFieldMask);
     }
 
     _sfLengths.setValue(value);
@@ -163,7 +163,7 @@ void Geometry::setPositions(const GeoPositionsPtr &value)
         {
             _sfPositions.getValue()->subParent(thisP);
         }
-        beginEditCP(_sfPositions.getValue(), Attachment::ParentsFieldMask);
+        endEditCP  (_sfPositions.getValue(), Attachment::ParentsFieldMask);
 
         subRefCP(_sfPositions.getValue());
     }
@@ -176,7 +176,7 @@ void Geometry::setPositions(const GeoPositionsPtr &value)
         {
             value->addParent(thisP);
         }
-        beginEditCP(value, Attachment::ParentsFieldMask);
+        endEditCP  (value, Attachment::ParentsFieldMask);
     }
 
     _sfPositions.setValue(value);
@@ -195,7 +195,7 @@ void Geometry::setNormals(const GeoNormalsPtr &value)
         {
             _sfNormals.getValue()->subParent(thisP);
         }
-        beginEditCP(_sfNormals.getValue(), Attachment::ParentsFieldMask);
+        endEditCP  (_sfNormals.getValue(), Attachment::ParentsFieldMask);
 
         subRefCP(_sfNormals.getValue());
     }
@@ -208,7 +208,7 @@ void Geometry::setNormals(const GeoNormalsPtr &value)
         {
             value->addParent(thisP);
         }
-        beginEditCP(value, Attachment::ParentsFieldMask);
+        endEditCP  (value, Attachment::ParentsFieldMask);
     }
 
     _sfNormals.setValue(value);
@@ -227,7 +227,7 @@ void Geometry::setColors(const GeoColorsPtr &value)
         {
             _sfColors.getValue()->subParent(thisP);
         }
-        beginEditCP(_sfColors.getValue(), Attachment::ParentsFieldMask);
+        endEditCP  (_sfColors.getValue(), Attachment::ParentsFieldMask);
 
         subRefCP(_sfColors.getValue());
     }
@@ -240,7 +240,7 @@ void Geometry::setColors(const GeoColorsPtr &value)
         {
             value->addParent(thisP);
         }
-        beginEditCP(value, Attachment::ParentsFieldMask);
+        endEditCP  (value, Attachment::ParentsFieldMask);
     }
 
     _sfColors.setValue(value);
@@ -259,7 +259,7 @@ void Geometry::setTexCoords(const GeoTexCoordsPtr &value)
         {
             _sfTexCoords.getValue()->subParent(thisP);
         }
-        beginEditCP(_sfTexCoords.getValue(), Attachment::ParentsFieldMask);
+        endEditCP  (_sfTexCoords.getValue(), Attachment::ParentsFieldMask);
 
         subRefCP(_sfTexCoords.getValue());
     }
@@ -272,7 +272,7 @@ void Geometry::setTexCoords(const GeoTexCoordsPtr &value)
         {
             value->addParent(thisP);
         }
-        beginEditCP(value, Attachment::ParentsFieldMask);
+        endEditCP  (value, Attachment::ParentsFieldMask);
     }
 
     _sfTexCoords.setValue(value);
@@ -291,7 +291,7 @@ void Geometry::setIndices(const GeoIndicesPtr &value)
         {
             _sfIndices.getValue()->subParent(thisP);
         }
-        beginEditCP(_sfIndices.getValue(), Attachment::ParentsFieldMask);
+        endEditCP  (_sfIndices.getValue(), Attachment::ParentsFieldMask);
 
         subRefCP(_sfIndices.getValue());
     }
@@ -304,7 +304,7 @@ void Geometry::setIndices(const GeoIndicesPtr &value)
         {
             value->addParent(thisP);
         }
-        beginEditCP(value, Attachment::ParentsFieldMask);
+        endEditCP  (value, Attachment::ParentsFieldMask);
     }
 
     _sfIndices.setValue(value);

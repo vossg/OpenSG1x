@@ -209,10 +209,19 @@ void Attachment::dump(      UInt32                  uiIndent,
 {
     UInt32 i;
 
+    AttachmentPtr thisP(this);
+
     indentLog(uiIndent, PLOG);
 
-    PLOG << "Attachment : " << getType().getName()
-         << "("       << this << ")" << endl;
+    PLOG << "Attachment"
+         << "(" 
+         << thisP.getFieldContainerId()
+         << ") : " 
+         << getType().getName()
+         << "("       
+         << this 
+         << ")" 
+         << endl;
 
     indentLog(uiIndent, PLOG);
     PLOG << "[" << endl;

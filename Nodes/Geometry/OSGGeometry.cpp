@@ -405,9 +405,14 @@ void Geometry::dump(      UInt32    uiIndent,
 {
     UInt32 i;
 
+    GeometryPtr thisP = getPtr();
+
     indentLog(uiIndent, PLOG);
 
-    PLOG << "GeoCore : " 
+    PLOG << "GeoCore" 
+         << "("
+         << thisP.getFieldContainerId()
+         << ") : "
          << getType().getName()
          << " "
          << _attachmentMap.getValue().size()

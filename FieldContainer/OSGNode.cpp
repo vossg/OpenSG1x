@@ -634,10 +634,18 @@ void Node::dump(      UInt32    uiIndent,
 {
     UInt32 i;
 
+    NodePtr thisP = getPtr();
+
     indentLog(uiIndent, PLOG);
 
-    PLOG << "Node : " << _mfChildren.size() << " children | "
-         << _attachmentMap.getValue().size() << " attachments | "
+    PLOG << "Node"
+         << "("
+         << thisP.getFieldContainerId()
+         << ") : "
+         << _mfChildren.size() 
+         << " children | "
+         << _attachmentMap.getValue().size() 
+         << " attachments | "
          << "Parent : ";
 
     if(_sfParent.getValue() != NullFC)
@@ -853,7 +861,7 @@ void Node::executeSyncImpl(      Node      *pOther,
 /*-------------------------------------------------------------------------*/
 /*                              Pointer                                    */
 
-NodePtr Node::getPtr(void)
+NodePtr Node::getPtr(void) const
 {
     return NodePtr(*this);
 }

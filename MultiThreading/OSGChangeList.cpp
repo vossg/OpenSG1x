@@ -310,12 +310,24 @@ void ChangeList::applyTo(UInt32 uiAspectId)
 
     for(i = 0; i < _vAddRefdFieldContainers.size(); i++)
     {
-//        osgAddRefCP(_addRefdFieldContainerV[i]);
+        pTmp = FieldContainerFactory::the()->getContainer(
+            _vAddRefdFieldContainers[i]);
+
+        if(pTmp == NullFC)
+            continue;
+
+        addRefCP(pTmp);
     }
 
     for(i = 0; i < _vSubRefdFieldContainers.size(); i++)
     {
-//        osgSubRefCP(_subRefdFieldContainerV[i]);
+        pTmp = FieldContainerFactory::the()->getContainer(
+            _vSubRefdFieldContainers[i]);
+
+        if(pTmp == NullFC)
+            continue;
+
+        subRefCP(pTmp);
     }
 
     clearAll();
@@ -342,7 +354,7 @@ void ChangeList::dump(void)
     {
 //        fprintf(stderr, "\t%d\n", 
 //                _vChangedFieldContainers[i].first.getFieldContainerId());
-        fprintf(stderr, "\t%d\n", 
+        fprintf(stderr, "\t%u\n", 
                 _vChangedFieldContainers[i].first);
     }
 
@@ -351,7 +363,7 @@ void ChangeList::dump(void)
     {
 //        fprintf(stderr, "\t%d\n", 
 //                _vAddRefdFieldContainers[i].getFieldContainerId());
-        fprintf(stderr, "\t%d\n", 
+        fprintf(stderr, "\t%u\n", 
                 _vAddRefdFieldContainers[i]);
     }
 
@@ -360,20 +372,20 @@ void ChangeList::dump(void)
     {
 //        fprintf(stderr, "\t%d\n", 
 //                _vSubRefdFieldContainers[i].getFieldContainerId());
-        fprintf(stderr, "\t%d\n", 
+        fprintf(stderr, "\t%u\n", 
                 _vSubRefdFieldContainers[i]);
     }
 
     fprintf(stderr, "CLCreate:\n");
     for(i = 0; i < _vCreatedFieldContainers.size(); i++)
     {
-        fprintf(stderr, "\t%d\n", _vCreatedFieldContainers[i]);
+        fprintf(stderr, "\t%u\n", _vCreatedFieldContainers[i]);
     }
     
     fprintf(stderr, "CLDestroy:\n");
     for(i = 0; i < _vDestroyedFieldContainers.size(); i++)
     {
-        fprintf(stderr, "\t%d\n", _vDestroyedFieldContainers[i]);
+        fprintf(stderr, "\t%u\n", _vDestroyedFieldContainers[i]);
     }
 }
 

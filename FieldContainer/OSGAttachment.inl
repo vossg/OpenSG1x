@@ -406,11 +406,14 @@ template <class AttachmentDescT> inline
 void DynFieldAttachment<AttachmentDescT>::dump(      UInt32    uiIndent,
                                                const BitVector ) const
 {
-    indentLog(uiIndent, PLOG);
-    PLOG << "DynFieldAttachment (" ;
+    PtrType thisP(*this);
 
-//    _localType.dump();
-    PLOG << ")" << endl;
+    indentLog(uiIndent, PLOG);
+    PLOG << "DynFieldAttachment"
+         << "(" 
+         << thisP.getFieldContainerId()
+         << ")" 
+         << endl;
 
     indentLog(uiIndent, PLOG);
     PLOG << "{" << endl;

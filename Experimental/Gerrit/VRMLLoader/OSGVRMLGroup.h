@@ -50,6 +50,7 @@
 #include <OSGVRMLLimitedNode.h>
 
 #include <OSGNode.h>
+#include <OSGVRMLAction.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -313,6 +314,9 @@ class OSG_VRML_DLLMAPPING VRMLGroupBinder : public VRMLNodeBinder
 
     void finish  (VRMLToOSGAction *pAction);
 };
+
+VRMLAction::ActionResult osgVRMLGroupToOpenSG(VRMLNode   &oNode,
+                                              VRMLAction *pAction);
 
 OSG_END_NAMESPACE
 

@@ -174,7 +174,7 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public AttachmentContainer
     /*! \name                     Pointer                                  */
     /*! \{                                                                 */
 
-    NodeCorePtr getPtr(void);
+    NodeCorePtr getPtr(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -48,6 +48,8 @@
 #include <iostream>
 
 #include "OSGVRMLCollision.h"
+#include "OSGDataElementDesc.h"
+#include "OSGVRMLToOSGAction.h"
 
 OSG_USING_NAMESPACE
 
@@ -55,7 +57,7 @@ OSG_USING_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-#if !defined(VOSG_NO_FULL_DOC)
+#if !defined(OSG_NO_FULL_DOC)
 
 static void vrmlCollisionDescInserter(ReflexiveContainerType *pType)
 {
@@ -92,7 +94,7 @@ VRMLObjectType VRMLCollision::_type(
     "Group",
     "VRMLNodes",
     (VRMLProtoCreateF) &VRMLCollision::createEmpty,
-    NULL, // Init
+    VRMLCollision::init, // Init
     vrmlCollisionDescInserter,
     true);
 
@@ -118,6 +120,15 @@ VRMLObjectType VRMLCollision::_type(
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+void VRMLCollision::init(void)
+{
+    VRMLToOSGAction::registerDefaultTrav(
+        VRMLCollision::getClassType(),
+        osgTypedFunctionFunctor2Ref<VRMLAction::ActionResult,
+                                    VRMLNode,
+                                    VRMLAction *>(osgVRMLGroupToOpenSG));
+}
 
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -

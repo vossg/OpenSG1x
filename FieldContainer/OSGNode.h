@@ -289,7 +289,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \name                     Pointer                                  */
     /*! \{                                                                 */
 
-    NodePtr getPtr(void);
+    NodePtr getPtr(void) const;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

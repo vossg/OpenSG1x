@@ -55,13 +55,6 @@
 
 OSG_USING_NAMESPACE
 
-OSG_BEGIN_NAMESPACE
-
-VRMLAction::ActionResult osgVRMLGroupToOpenSG(VRMLNode   &oNode,
-                                              VRMLAction *pAction);
-
-OSG_END_NAMESPACE
-
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------

@@ -271,11 +271,11 @@ void VRMLShapeBinder::init(VRMLToOSGAction *)
 
     NodePtr          pGeoNode  = Node::create();
     
-    beginEditCP(pGeoNode, Node::ChildrenFieldMask);
+    beginEditCP(pMatNode, Node::ChildrenFieldMask);
     {
         pMatNode->addChild(pGeoNode);
     }
-    endEditCP  (pGeoNode, Node::ChildrenFieldMask);
+    endEditCP  (pMatNode, Node::ChildrenFieldMask);
 }
 
 void VRMLShapeBinder::setAppearance(MaterialPtr pMat)
