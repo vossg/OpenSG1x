@@ -104,7 +104,7 @@ class OSG_WINDOW_DLLMAPPING DynamicBackground : public DynamicBackgroundBase
 
 	void clear( DrawAction * action, Viewport * port );
 
-	void addColors(Color3f color, Real32 position);
+	void addColor(Color3f color, Real32 position);
 
     /*----------------------------- access ----------------------------------*/
 

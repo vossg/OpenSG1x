@@ -84,7 +84,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
  *                           Class variables                               *
 \***************************************************************************/
 
-char DynamicBackground::cvsid[] = "@(#)$Id: OSGDynamicBackground.cpp,v 1.1 2001/04/15 02:19:06 dirk Exp $";
+char DynamicBackground::cvsid[] = "@(#)$Id: OSGDynamicBackground.cpp,v 1.2 2001/05/23 23:02:42 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -161,7 +161,7 @@ void DynamicBackground::changed(BitVector, ChangeMode)
 
 /*------------------------------ access -----------------------------------*/
 
-void DynamicBackground::addColors( Color3f col, Real32 pos )
+void DynamicBackground::addColor( Color3f col, Real32 pos )
 {
 	if ( _angle.getSize() < 1 )
 	{
@@ -189,7 +189,7 @@ void DynamicBackground::addColors( Color3f col, Real32 pos )
 				{
 					_color.setValue( col, i );
 					_angle.setValue( pos, i );
-					i = 0;
+					break;
 				}
 			}
 		}
@@ -251,59 +251,59 @@ void DynamicBackground::clear(DrawAction *action, ViewportP viewport)
 
 		glMatrixMode(GL_MODELVIEW);
 		glPushMatrix();
-		glLoadIdentity();
 
 		action->getCamera()->getViewing( m, *viewport );
 		m[3][0] = m[3][1] = m[3][2] = 0;
 		glLoadMatrixf( m.getValues() );		
+		float scale = ( action->getCamera()->getFar() + 
+						action->getCamera()->getNear() ) / 2;
+		glScalef( scale, scale, scale );
 
 		glMatrixMode(GL_PROJECTION);
 		glPushMatrix();
-		glLoadIdentity();
 
 		action->getCamera()->getProjection( m, *viewport );
 		glLoadMatrixf( m.getValues() );		
 		
 		Real32 r1, g1, b1, r2, g2, b2;
 		Real32 pos;
-//		UInt32 size = _angle.getSize();
+		UInt32 size = _angle.getSize();
 		Real32 sin1, sin2, cos1, cos2, ank1, ank2;
 		Color3f col1, col2;
 
-// ignore values bigger than 180 and lower 0
+		// ignore values bigger than 1 and lower 0
 
-	int z;
-	int j;
-	for ( j = 0 ; j < _angle.getSize() ; j++ )
-	{
-		if ( _angle.getValue( j ) <= 180 )
+		int first;
+		int j;
+		for ( j = 0 ; j < size ; j++ )
 		{
-			z = j;
-			break;
+			if ( _angle.getValue( j ) <= 1 )
+			{
+				first = j;
+				break;
+			}
 		}
-	}
-
-	int size;
-	for ( j = _angle.getSize() - 1 ; j >= 0 ; j--)
-	{
-		if ( _angle.getValue( j ) >= 0 )
+	
+		int last;
+		for ( j = size - 1 ; j >= 0 ; j--)
 		{
-			size = j + 1;
-			break;
+			if ( _angle.getValue( j ) >= 0 )
+			{
+				last = j + 1;
+				break;
+			}
 		}
-	}
 
-// lower pole
+		// lower pole
 
 	
-		if (_angle.getValue(z) == 180) 
+		if (_angle.getValue(first) == 1) 
 		{
-			col1 = _color.getValue(z);
+			col1 = _color.getValue(first);
 			col1.getValuesRGB(r1, g1, b1);
-			col2 = _color.getValue(z + 1);
+			col2 = _color.getValue(first + 1);
 			col2.getValuesRGB(r2, g2, b2);
-			pos = _angle.getValue(z + 1);
-//			z++;
+			pos = _angle.getValue(first + 1);
 
 		}
 		else 
@@ -311,16 +311,57 @@ void DynamicBackground::clear(DrawAction *action, ViewportP viewport)
 			r1 = 0.0;
 			g1 = 0.0;
 			b1 = 0.0;
-			col2 = _color.getValue(z);
+			col2 = _color.getValue(first);
 			col2.getValuesRGB(r2, g2, b2);
-			pos = _angle.getValue(z);
+			pos = _angle.getValue(first);
 		}
 
-		sin2 = sin((pos * 2 * Pi) / 360);
-		cos2 = cos((pos * 2 * Pi) / 360);
+		sin2 = sin( pos * Pi );
+		cos2 = -cos( pos * Pi );
 		ank2 = cos(Pi / 4) * sin2;
 
 
+		glBegin(GL_TRIANGLE_FAN);
+			glColor3f( r1, g1, b1);
+			glVertex3f(0, 1, 0);
+			glColor3f( r2, g2, b2);
+			glVertex3f(sin2, cos2, 0);
+			glVertex3f(ank2, cos2, ank2);
+			glVertex3f(0, cos2, sin2);
+			glVertex3f(-ank2, cos2, ank2);
+			glVertex3f(-sin2, cos2, 0);
+			glVertex3f(-ank2, cos2, -ank2);
+			glVertex3f(0, cos2, -sin2);
+			glVertex3f(ank2, cos2, -ank2);
+			glVertex3f(sin2, cos2, 0);
+		glEnd();
+
+		// upper pole
+
+		if (_angle.getValue(last - 1) == 0) 
+		{
+			col1 = _color.getValue(last - 1);
+			col1.getValuesRGB(r1, g1, b1);
+			col2 = _color.getValue(last - 2);
+			col2.getValuesRGB(r2, g2, b2);
+			pos = _angle.getValue(last - 2);
+			last = last - 1;
+		}
+		else 
+		{
+			r1 = 0.0;
+			g1 = 0.0;
+			b1 = 0.0;
+			col2 = _color.getValue(last - 1);
+			col2.getValuesRGB(r2, g2, b2);
+			pos = _angle.getValue(last - 1);
+		}
+
+		cos2 = -cos( pos * Pi );
+		sin2 = sin( pos * Pi );
+		ank2 = cos(Pi / 4) * sin2;
+
+		
 		glBegin(GL_TRIANGLE_FAN);
 			glColor3f( r1, g1, b1);
 			glVertex3f(0, -1, 0);
@@ -336,59 +377,16 @@ void DynamicBackground::clear(DrawAction *action, ViewportP viewport)
 			glVertex3f(sin2, cos2, 0);
 		glEnd();
 
-// upper pole
-
-		if (_angle.getValue(size - 1) == 0) 
-		{
-			col1 = _color.getValue(size - 1);
-			col1.getValuesRGB(r1, g1, b1);
-			col2 = _color.getValue(size - 2);
-			col2.getValuesRGB(r2, g2, b2);
-			pos = _angle.getValue(size - 2);
-			size = size - 1;
-		}
-		else 
-		{
-			r1 = 0.0;
-			g1 = 0.0;
-			b1 = 0.0;
-			col2 = _color.getValue(size - 1);
-			col2.getValuesRGB(r2, g2, b2);
-			pos = _angle.getValue(size - 1);
-		}
-
-		cos2 = cos((pos * 2 * Pi) / 360);
-		sin2 = sin((pos * 2 * Pi) / 360);
-		ank2 = cos(Pi / 4) * sin2;
-
-		
-		glBegin(GL_TRIANGLE_FAN);
-			glColor3f( r1, g1, b1);
-			glVertex3f(0, 1, 0);
-			glColor3f( r2, g2, b2);
-			glVertex3f(sin2, cos2, 0);
-			glVertex3f(ank2, cos2, ank2);
-			glVertex3f(0, cos2, sin2);
-			glVertex3f(-ank2, cos2, ank2);
-			glVertex3f(-sin2, cos2, 0);
-			glVertex3f(-ank2, cos2, -ank2);
-			glVertex3f(0, cos2, -sin2);
-			glVertex3f(ank2, cos2, -ank2);
-			glVertex3f(sin2, cos2, 0);
-		glEnd();
-	
-// midle
-
-		for( int i = z; i < size - 1; i++)
+		for( int i = first; i < last - 1; i++)
 		{
 			
 			Real32 pos1 = _angle.getValue(i);
 			Real32 pos2 = _angle.getValue(i + 1);
-			sin1 = sin((pos1 * 2 * Pi) / 360);
-			sin2 = sin((pos2 * 2 * Pi) / 360);
+			sin1 = sin( pos1 * Pi );
+			sin2 = sin( pos2 * Pi );
 			ank1 = cos(Pi / 4) * sin1;
-			cos1 = cos((pos1 * 2 * Pi) / 360);
-			cos2 = cos((pos2 * 2 * Pi) / 360);
+			cos1 = -cos( pos1 * Pi );
+			cos2 = -cos( pos2 * Pi );
 			ank2 = cos(Pi / 4) * sin2;
 
 		
@@ -448,7 +446,6 @@ void DynamicBackground::clear(DrawAction *action, ViewportP viewport)
 		
 		glClear( GL_DEPTH_BUFFER_BIT );
 
-		glPopMatrix();
 		glPopMatrix();
 		glMatrixMode(GL_MODELVIEW);
 		glPopMatrix();
