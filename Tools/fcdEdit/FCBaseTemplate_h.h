@@ -122,7 +122,7 @@ char *FCBaseTemplate_h[]={
 "",
 "    /*! \\}                                                                 */",
 "    /*---------------------------------------------------------------------*/",
-"    /*! \\name                       Get                                    */",
+"    /*! \\name                FieldContainer Get                            */",
 "    /*! \\{                                                                 */",
 "",
 "    virtual       FieldContainerType &getType  (void); ",
@@ -373,7 +373,7 @@ char *FCBaseTemplate_h[]={
 "",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.27 2002/09/16 18:39:11 vossg Exp $\"",
+"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.28 2002/10/25 13:09:36 dirk Exp $\"",
 "", 
 "#endif /* _OSG@!CLASSNAME!@BASE_H_ */",
 NULL };
