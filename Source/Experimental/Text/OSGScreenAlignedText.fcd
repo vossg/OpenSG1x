@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="ScreenAlignedText"
+	parent="AbstractText"
+	library="WindowGLUT"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="false"
+	parentsystemcomponent="false"
+	decoratable="false"
+>
+	<Field
+		name="Color"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="RenderImage"
+		type="ImageP"
+		cardinality="single"
+		visibility="internal"
+		defaultValue="NULL"
+		access="protected"
+	>
+	Bitmap image used only for rendering
+	</Field>
+</FieldContainer>

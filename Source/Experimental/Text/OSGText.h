@@ -1,6 +1,7 @@
 #ifndef FONTSTYLE_CLASS_DECLARATION
 #define FONTSTYLE_CLASS_DECLARATION
 
+//#ifndef WIN32
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
 #include <OSGGeometry.h>
@@ -133,16 +134,17 @@ class Text
                                    Pnt3f                    *points, 
                                    Vec2f                    *texcoords);
 
-    virtual bool   fillImage      (Image                    &image, 
-                                   std::vector<std::string> &lineVec,
-                                   Color4ub         *fg          = 0, 
-                                   Color4ub         *bg          = 0,
-                                   bool              forcePower2 = false, 
-                                   Real32           *maxX        = 0,
-                                   Real32           *maxY        = 0,
-                                   ImageCreationMode creationMode=SET_TEX_TCM,
-                                   MergeMode         mergeMode   =CLEAR_ADD_MM,
-                                   Int32             pixelDepth  = 3) const;
+    virtual bool   fillImage      (Image & image, 
+                     std::vector<std::string> &lineVec, 
+                     Color4ub *fg,
+                     Color4ub *bg, 
+                     bool forcePower2, 
+                     Real32 *maxX,
+                     Real32 *maxY,
+                     ImageCreationMode OSG_CHECK_ARG(creationMode),
+                     MergeMode OSG_CHECK_ARG(mergeMode), 
+                     Int32 pixelDepth,
+					 bool bConvertToBitmap ) const;
 
     virtual bool   fillGeo        (Geometry                 &mesh, 
                                    std::vector<std::string> &lineVec,
@@ -156,5 +158,5 @@ class Text
 typedef Text *TextP;
 
 OSG_END_NAMESPACE
-
+//#endif
 #endif // FONTSTYLE_CLASS_DECLARATION

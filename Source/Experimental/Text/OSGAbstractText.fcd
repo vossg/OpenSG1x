@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="AbstractText"
+	parent="MaterialDrawable"
+	library="System"
+	pointerfieldtypes="both"
+	structure="abstract"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+	<Field
+		name="Position"
+		type="Vec3f"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Position of the text.
+	</Field>
+	<Field
+		name="Font"
+		type="SharedFontStylePtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The font to be used.
+	</Field>
+	<Field
+		name="Text"
+		type="string"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	The text strings. One string per line.
+	</Field>
+	<Field
+		name="VerticalLineDistance"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Vertical distance between the text lines
+	</Field>
+	<Field
+		name="Alignment"
+		type="UInt8"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	Left = 0, Centered = 1, Right = 2
+	</Field>
+</FieldContainer>

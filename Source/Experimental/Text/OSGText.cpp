@@ -350,7 +350,8 @@ bool Text::fillImage(Image & image,
                      Real32 *maxY,
                      ImageCreationMode OSG_CHECK_ARG(creationMode),
                      MergeMode OSG_CHECK_ARG(mergeMode), 
-                     Int32 pixelDepth) const
+                     Int32 pixelDepth,
+					 bool bConvertToBitmap ) const
 {
     ImageFontGlyph  ***g;
     UChar8          *img = 0;
@@ -592,8 +593,45 @@ bool Text::fillImage(Image & image,
             delete[] g[line];
         delete[] g;
 
-        return image.set(Image::OSG_RGB_PF, overallWidth, overallHeight, 1, 1,
-                                 1, 0.0, imageBuffer, false);
+
+		// AT: Convert Image Buffer for usage with glBitmap
+		Image::PixelFormat pixelFormat;
+		if( bConvertToBitmap )
+		{		
+			pixelFormat = Image::OSG_L_PF;
+#if 1
+			//Int32 newOverallWidth = ceil(((float)(overallWidth))/8.0);
+
+			UChar8* bitmapBuffer = new UChar8[ overallWidth * overallHeight ];
+			memset( bitmapBuffer, '\0', overallWidth * overallHeight );
+
+			for( int nY=0; nY<overallHeight; nY++ )
+			{
+				for( int nX=0; nX<overallWidth; nX +=8 )
+				{	
+					for( int nXplus = 0; (nXplus < 8) && (nXplus+nX < overallWidth); nXplus++ )
+					{
+						if( (imageBuffer[ ( nY*overallWidth*pixelDepth ) + nX + nXplus ] > 0) )
+							bitmapBuffer[ ( nY*overallWidth ) + nX/8 ] += (128 >> nXplus) ;
+					}
+				}
+			}
+			delete imageBuffer;
+			imageBuffer = bitmapBuffer;
+			//overallWidth = newOverallWidth;
+#endif
+
+			// AT's conversion ready
+		}
+		else
+		{
+			pixelFormat = Image::OSG_RGBA_PF;
+		}
+		
+        return image.set( pixelFormat, // Image::OSG_RGB_PF, 
+						  overallWidth, overallHeight, 1, 
+						  1, 
+						  1, 0.0, imageBuffer, false);
     }
 
     return false;
