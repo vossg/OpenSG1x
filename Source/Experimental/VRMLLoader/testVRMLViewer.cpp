@@ -50,7 +50,10 @@
 #include <OSGSceneFileHandler.h>
 #include <OSGAnimation.h>
 #include <OSGImageForeground.h>
+#include <OSGFileGrabForeground.h>
 #include <OSGStatCollector.h>
+
+#include <OSGOSGWriter.h>
 
 #ifdef TUBS
 #include "OSGTubsMesh.h"
@@ -115,6 +118,7 @@ OSG::Real32                 animDuration;
 OSG::Real32                 frameDuration = 0.0;
 bool                        bFixedDelta = false;
 int                         renderFrames     = -1;
+int                         numFrames;
 
 OSG::Vec3f                  interPnt;
 OSG::Quaternion             interQuat;
@@ -131,6 +135,7 @@ static OSG::Pnt2f           logoPos[2] = { OSG::Pnt2f(0.0, 0.0),
 
 OSG::UInt32                 uiLogoCount = 0;
 OSG::ImageForegroundPtr     pLogo       = OSG::NullFC;
+OSG::FileGrabForegroundPtr  pGrab       = OSG::NullFC;
 
 // --- animation creation
 
@@ -574,7 +579,7 @@ void display(void)
     
     if(!bFixedDelta)
         animDelta = 1.0/nrOfSteps;   
-        
+     
     if(renderFrames >= 0)
     {
         if(doStats)
@@ -584,10 +589,30 @@ void display(void)
             std::cout << str << std::endl;
         }
         if(renderFrames-- == 0)
+        {
+            OSG::Time stopTime = OSG::getSystemTime();
+            std::cerr << "Time taken: " << stopTime - startTime 
+                      << " seconds, " << numFrames / (stopTime - startTime) 
+                      << " fps" << std::endl;
             exit(0);
+        }
         
-        if((renderFrames % 10) == 0)
+        if((renderFrames % 10) == 0 && 0)
             std::cerr << renderFrames << " frames left" << std::endl;
+        
+        if(pGrab != OSG::NullFC && pGrab->getActive() == true)
+        {
+            beginEditCP(pGrab);
+            pGrab->setActive(false);
+            endEditCP(pGrab);
+        }
+        
+        if(renderFrames == numFrames / 2 && pGrab != OSG::NullFC)
+        {
+            beginEditCP(pGrab);
+            pGrab->setActive(true);
+            endEditCP(pGrab);
+        }
     }   
 }
 
@@ -946,7 +971,7 @@ void dumpUserAnim()
         f << "\nduration 10\n";
         
         // --- write Positions
-        f << "POSKEY_Pfad1 Kamera 1 Position {\n";
+        f << "POSKEY_Pfad1 Camera 1 Position {\n";
         
         // write keys
         f << "\tkey [ ";
@@ -970,7 +995,7 @@ void dumpUserAnim()
         
         // --- write Rotations
         // write keys
-        f << "ROTKEY_Pfad1 Kamera 1 Orientation {\n";
+        f << "ROTKEY_Pfad1 Camera 1 Orientation {\n";
         f << "\tkey [ ";
         
         for(  i=0; i<=nrOfKeys; ++i )
@@ -1214,6 +1239,25 @@ void addImageForeground(const char *szFilename)
         uiLogoCount++;
     }
 }
+
+void addGrabForeground(const char *szFilename)
+{
+    if(szFilename == NULL)
+        return;
+
+    std::cerr << "Adding Grabber " << szFilename << std::endl; 
+
+    if(pGrab == OSG::NullFC)
+    {
+        pGrab = OSG::FileGrabForeground::create();
+    }
+
+    beginEditCP(pGrab);
+    pGrab->setActive(false);
+    pGrab->setName(szFilename);    
+    endEditCP(pGrab);
+    
+}
 /*-------------------------------------------------------------------------*/
 
 #ifdef WIN32
@@ -1317,7 +1361,7 @@ void checkOptions( int argc, char** argv )
     bkgndgcol.setValuesRGB(.3, .3, 1);
     do
     {
-        option = getopt( argc, argv, "a:b:c:hB:n:d:rf:s" );
+        option = getopt( argc, argv, "a:b:c:hB:n:d:rf:sFg:" );
 
         if( option != '?' )
         {
@@ -1352,10 +1396,16 @@ void checkOptions( int argc, char** argv )
                     doInterpolators = true;
                      break;
                 case 'f':
-                    renderFrames = atoi( optarg );
+                    numFrames = renderFrames = atoi( optarg );
+                    break;
+                case 'F':
+                    glutFullScreen();
                     break;
                 case 's':
                     doStats = false;
+                    break;
+                case 'g':
+                    addGrabForeground(optarg);
                     break;
             }
         }
@@ -1401,8 +1451,8 @@ int main (int argc, char **argv)
     glutMouseFunc(mouse);   
     glutMotionFunc(motion); 
     
-    //glutIdleFunc( animate );  
-    glutIdleFunc( display );    
+    glutIdleFunc( animate );  
+    //glutIdleFunc( display );    
 
     // glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     
@@ -1544,6 +1594,13 @@ int main (int argc, char **argv)
     else
     {
         std::cerr << "No logo available" << std::endl;
+    }
+
+    if(pGrab != OSG::NullFC)
+    {
+        std::cerr << "Added grabber " << std::endl;
+
+        vp->getForegrounds().push_back(pGrab);
     }
 
     // Window
@@ -1774,8 +1831,23 @@ int main (int argc, char **argv)
 
 //    key('e', 0, 0);   
 
+    // init everything
+    win->render(ract);
+    glFinish();
+    glutSwapBuffers();
+    win->render(ract);
+    glFinish();
+    glutSwapBuffers();
+    
     globalTime = 0;
     startTime = OSG::getSystemTime();
+
+if(0)
+{
+    std::ofstream os( "test.osg" );
+    OSG::OSGWriter w(os,1);
+    w.write( root );
+}
     
     glutMainLoop();
     
