@@ -134,8 +134,8 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
       VERTEX_DE, VERTEX_TEXTURECOORD_DE, VERTEX_NORMAL_DE,
       MTL_LIB_DE, NEW_MTL_DE, 
       MTL_DIFFUSE_DE, MTL_AMBIENT_DE, MTL_SPECULAR_DE,
-      GROUP_DE,
-      FACE_DE 
+      FACE_DE, 
+      USE_MTL_DE, GROUP_DE, SMOOTHING_GROUP_DE
     };
 
     static map<string, DataElem> _dataElemMap;
@@ -168,7 +168,7 @@ typedef OBJSceneFileType* OBJSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSGOBJSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOBJSceneFileType.h,v 1.5 2001/10/08 05:21:54 vossg Exp $"
+#define OSGOBJSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOBJSceneFileType.h,v 1.6 2001/10/08 22:34:56 jbehr Exp $"
 
 #endif // _OSGOBJSCENEFILETYPE_H_
 

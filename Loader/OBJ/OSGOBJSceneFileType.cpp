@@ -61,6 +61,7 @@
 #include <OSGGeoProperty.h>
 #include <OSGGeoFunctions.h>
 #include <OSGSimpleMaterial.h>
+#include <OSGGroup.h>
 
 #include "OSGOBJSceneFileType.h"
 
@@ -72,7 +73,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.8 2001/10/08 05:21:54 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.9 2001/10/08 22:34:56 jbehr Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -151,6 +152,7 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
   map<string, SimpleMaterialPtr>::iterator mtlI;
   Mesh *mesh;
   Face *face;
+  TiePoint  *tie;
   Int32 indexMask, meshIndexMask;
 
   // create the first mesh entry
@@ -162,8 +164,8 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
   if (in)
     {
       primCount[0] = 0;
-      primCount[0] = 1;
-      primCount[0] = 2;  
+      primCount[1] = 0;
+      primCount[2] = 0;  
       for (in >> elem; in.eof() == false; in >> elem) 
         if (elem[0] == '#')
           in.ignore(INT_MAX, '\n'); 
@@ -171,18 +173,19 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
           {
             elemI = _dataElemMap.find(elem);
             dataElem = ((elemI == _dataElemMap.end()) ?
-                        elemI->second : UNKNOWN_DE);
+                        UNKNOWN_DE : elemI->second );
             switch (dataElem) 
               {
+              case SMOOTHING_GROUP_DE:
+                in.ignore(INT_MAX, '\n');
+                break;
               case GROUP_DE:
-                in >> elem;
                 if (faceNum) 
                   {
                     meshVec.resize(++meshNum);
-                    mesh = &(meshVec.front());
+                    mesh = &(meshVec.back());
                     faceNum = 0;
                   }
-                mesh->name = elem;
                 in.ignore(INT_MAX, '\n'); 
                 break;
               case VERTEX_DE:
@@ -208,9 +211,9 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                 readMTL (elem.c_str(), mtlMap);
                 in.ignore(INT_MAX, '\n'); 
                 break;
-              case NEW_MTL_DE:
+              case USE_MTL_DE:
                 in >> elem;
-                if (meshVec[meshNum].faceVec.empty())
+                if (mesh->faceVec.empty())
                   {
                     mtlI = mtlMap.find(elem);
                     if (mtlI == mtlMap.end())
@@ -218,38 +221,47 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                         FFATAL (("Unkown mtl %s\n", elem.c_str()));
                       }
                     else
-                      meshVec[meshNum].mtlPtr = mtlI->second;
+                      mesh->mtlPtr = mtlI->second;
                   }
                 break;
               case FACE_DE:
                 mesh->faceVec.resize(++faceNum);
                 face = &(mesh->faceVec.back());
-                  in.get(strBuf,strBufSize);
+                in.get(strBuf,strBufSize);
                 token = strBuf;
+                indexType = 0;
                 while (token && *token) 
                   {
                     for (; *token == '/'; token++)
                       indexType++;
-                    if (isspace(*token))
+                    for (; isspace(*token); token++)
                       indexType = 0;
                     index = strtol(token, &nextToken, 10);
                     if (token == nextToken)
                       break;
                     if (index == 0) 
                       {
-                        FFATAL (("Invalid index in face %d\n", faceNum));
+                        FFATAL (("Invalid index 0 in face %d\n", faceNum));
                       }
                     else
                       {
+                        if (indexType == 0)
+                          {
+                            face->tieVec.resize(face->tieVec.size()+1);
+                            tie = &(face->tieVec.back());
+                          }
                         index = (index > 0) 
                           ? (index - 1) : (primCount[indexType] - index);
-                        face->tieVec[indexType] = index;
+                        tie->index[indexType] = index;
                       }
                     token = nextToken;
                   }
+                break;
               case UNKNOWN_DE:
               default:
-                FFATAL (("Unkown obj data elem: %s\n", elem.c_str()));
+                FWARNING (( "Unkown obj data elem: %s\n", 
+                            elem.c_str()));
+                in.ignore(INT_MAX, '\n'); 
                 break;
               }
           }
@@ -302,6 +314,17 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                 geoPtr->setIndices   ( indexPtr );
                 geoPtr->setLengths   ( lensPtr );
                 geoPtr->setTypes     ( typePtr );
+                if (mesh[i].mtlPtr == NullFC)
+                  {
+                    mesh[i].mtlPtr = SimpleMaterial::create();
+                    beginEditCP( mesh[i].mtlPtr );
+                    {
+                      mesh[i].mtlPtr->setDiffuse( Color3f( .8, .8, .8 ) );
+                      mesh[i].mtlPtr->setSpecular( Color3f( 1, 1, 1 ) );
+                      mesh[i].mtlPtr->setShininess( 20 );
+                    }
+                    endEditCP( mesh[i].mtlPtr );
+                  }
                 geoPtr->setMaterial  ( mesh[i].mtlPtr ); 
               }
               endEditCP ( geoPtr );
@@ -323,38 +346,40 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                   {
                     typePtr->addValue(GL_POLYGON);
                   }
+                  endEditCP(typePtr);
                   
                   // create the index values
                   beginEditCP ( indexPtr );
                   {
-                    for (j = 0; j < 3; j++)
-                      if ( meshIndexMask && (1 << j))
-                        for (l = 0; l < n; l++)
+                    for (l = 0; l < n; l++)
+                      for (j = 0; j < 3; j++)
+                        if ( meshIndexMask & (1 << j))
                           indexPtr->addValue( face->tieVec[l].index[j]);
                   }
                   endEditCP ( indexPtr );
                 }
-              
-              // create and link the node
-              nodePtr = Node::create();
-              beginEditCP ( nodePtr );
-              {
-                rootPtr->setCore( geoPtr );
-              }
-              endEditCP ( nodePtr );
-              
+
               // check if we have normals
               if ((meshIndexMask & 4) == 0)
                 calcVertexNormals(geoPtr);
               
               // createOptimizedPrimitives(geoPtr);
-
+              
+              // create and link the node
+              nodePtr = Node::create();
+              beginEditCP ( nodePtr );
+              {
+                nodePtr->setCore( geoPtr );
+              }
+              endEditCP ( nodePtr );
+              
               if (meshNum > 1)
                 {
                   if (rootPtr == NullFC)
                     rootPtr = Node::create();
                   beginEditCP (rootPtr);
                   {
+                    rootPtr->setCore ( Group::create() );
                     rootPtr->addChild(nodePtr);
                   }
                   endEditCP (rootPtr);
@@ -555,10 +580,12 @@ void OBJSceneFileType::initDataElemMap(void)
       _dataElemMap["fo"]      = FACE_DE;
       _dataElemMap["mtllib"]  = MTL_LIB_DE;
       _dataElemMap["newmtl"]  = NEW_MTL_DE;
-      _dataElemMap["Ka"]      = MTL_DIFFUSE_DE;
+      _dataElemMap["Kd"]      = MTL_DIFFUSE_DE;
       _dataElemMap["Ka"]      = MTL_AMBIENT_DE;
       _dataElemMap["Ks"]      = MTL_SPECULAR_DE;
+      _dataElemMap["usemtl"]  = USE_MTL_DE;
       _dataElemMap["g"]       = GROUP_DE;
+      _dataElemMap["s"]       = SMOOTHING_GROUP_DE;
     }
 }
 
@@ -582,7 +609,7 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
         {
           elemI = _dataElemMap.find(elem);
           dataElem = ((elemI == _dataElemMap.end()) ?
-                      elemI->second : UNKNOWN_DE);
+                      UNKNOWN_DE : elemI->second);
           switch (dataElem) 
             {
             case NEW_MTL_DE:
@@ -592,7 +619,7 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
               mtlCount++;
               break;
             case MTL_DIFFUSE_DE:
-              if (mtlPtr != NullFC)
+              if (mtlPtr == NullFC)
                 {
                   FFATAL (( "Invalid %s entry in %s\n",
                             elem.c_str(), fileName ));
@@ -608,7 +635,7 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
                 }
               break;
             case MTL_AMBIENT_DE:
-              if (mtlPtr != NullFC)
+              if (mtlPtr == NullFC)
                 {
                   FFATAL (( "Invalid %s entry in %s\n",
                             elem.c_str(), fileName ));
@@ -624,7 +651,7 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
                 }
               break;
             case MTL_SPECULAR_DE:
-              if (mtlPtr != NullFC)
+              if (mtlPtr == NullFC)
                 {
                   FFATAL (( "Invalid %s entry in %s\n",
                             elem.c_str(), fileName ));
@@ -640,8 +667,9 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
                 }
               break;
             default:
-              FFATAL (( "Invalid %s entry in %s\n",
-                        elem.c_str(), fileName ));
+              FWARNING (( "Invalid %s entry in %s\n",
+                          elem.c_str(), fileName ));
+              in.ignore(INT_MAX, '\n'); 
             }
         }
 
