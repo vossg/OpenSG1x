@@ -15,10 +15,8 @@ split_name ()
     year=`echo $name | cut -c19-20`
     month=`echo $name | cut -c21-22`
     day=`echo $name | cut -c23-24`
-    hour=`echo $name | cut -c25-26`
-    minute=`echo $name | cut -c27-28`
     
-    system=`echo $name | sed -e 's|\.[a-zA-Z]*.html$||' | cut -c 30-`
+    system=`echo $name | sed -e 's|\.[a-zA-Z]*.html.gz$||' | cut -c 26-`
 }
 
 
@@ -57,7 +55,7 @@ EOF
 
 lastdate="00.00.00"
 
-for i in *.Main.html ;
+for i in `ls *.Main.html.gz | sort -r`;
 do
 
     split_name $i
@@ -73,7 +71,7 @@ do
     fi
     echo "<td style=system><a href=$i>$system</a></td>" >> $outfile
 
-    snap=`echo $i | sed -e 's|Main.html|source.tgz|'`    
+    snap=`echo $i | sed -e 's|Main.html.gz|source.tgz|'`    
     if test -f $snap
     then
     	echo "<td style=source><a href=$snap>Src</a></td>" >> $outfile
@@ -81,7 +79,7 @@ do
     	echo "<td style=source> </td>" >> $outfile
     fi
 
-    snap=`echo $i | sed -e 's|Main.html|snapshot.tgz|'`    
+    snap=`echo $i | sed -e 's|Main.html.gz|snapshot.tgz|'`    
     if test -f $snap
     then
     	echo "<td style=snap><a href=$snap>Lib</a></td>" >> $outfile
@@ -89,7 +87,7 @@ do
     	echo "<td style=snap> </td>" >> $outfile
     fi
  
-    status=`fgrep "had errors" $i | cut -c32- | sed -e 's|</font><br>||'`
+    status=`gzip -dc $i | fgrep "had errors" | cut -c32- | sed -e 's|</font><br>||'`
     
     echo "<td style=status>$status</td>" >> $outfile
    
