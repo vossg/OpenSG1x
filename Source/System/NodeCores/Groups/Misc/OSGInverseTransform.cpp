@@ -52,7 +52,6 @@
 #include "OSGIntersectAction.h"
 #include "OSGRenderAction.h"
 #include "OSGNode.h"
-#include "OSGMatrix.h"
 
 OSG_USING_NAMESPACE
 
@@ -137,12 +136,14 @@ void InverseTransform::initMethod (void)
 /*----------------------- constructors & destructors ----------------------*/
 
 InverseTransform::InverseTransform(void) :
-    Inherited()
+    Inherited(),
+    _invWorld()
 {
 }
 
 InverseTransform::InverseTransform(const InverseTransform &source) :
-    Inherited(source)
+    Inherited(source),
+    _invWorld(source._invWorld)
 {
 }
 
@@ -157,39 +158,33 @@ void InverseTransform::changed(BitVector whichField, UInt32 origin)
     Inherited::changed(whichField, origin);
 }
 
-void InverseTransform::dump(      UInt32    ,
-                         const BitVector ) const
+void InverseTransform::dump(      UInt32    uiIndent,
+                            const BitVector bvFlags ) const
 {
-    SLOG << "Dump InverseTransform NI" << std::endl;
+    Inherited::dump(uiIndent, bvFlags);
 }
 
 /*------------------------- volume update -------------------------------*/
 
 void InverseTransform::adjustVolume( Volume & volume )
 {
-    Inherited::adjustVolume(volume);
+    volume.transform(_invWorld);
+}
 
-    Pnt3f min, max;
-
-    volume.getBounds(min, max);
-
-    Vec3f  dia    = max - min;
-    Pnt3f  center = min + dia * .5;
-    Real32 extend = dia.maxValue();
-
-    dia.setValues(extend * Sqrt2, extend * Sqrt2, extend * Sqrt2);
-
-    volume.extendBy( center - dia );
-    volume.extendBy( center + dia );
+void InverseTransform::accumulateMatrix(Matrix &result)
+{
+    result.mult(_invWorld);
 }
 
 /*------------------------- calc matrix ---------------------------------*/
 
-void InverseTransform::calcMatrix(      DrawActionBase *pAction,
+void InverseTransform::calcMatrix(      DrawActionBase * OSG_CHECK_ARG(pAction),
                                   const Matrix         &mToWorld,
                                         Matrix         &mResult)
 {
     mResult.invertFrom(mToWorld);
+    
+    _invWorld = mResult;    // remember dynamically set matrix field
 }
 
 /*-------------------------------------------------------------------------*/
@@ -209,7 +204,7 @@ Action::ResultE InverseTransform::drawEnter(Action *action)
     return Action::Continue;
 }
 
-Action::ResultE InverseTransform::drawLeave(Action *action)
+Action::ResultE InverseTransform::drawLeave(Action * OSG_CHECK_ARG(action))
 {
     glPopMatrix();
 
@@ -219,15 +214,39 @@ Action::ResultE InverseTransform::drawLeave(Action *action)
 /*-------------------------------------------------------------------------*/
 /*                            Intersect                                    */
 
-Action::ResultE InverseTransform::intersectEnter(Action *)
+Action::ResultE InverseTransform::intersectEnter(Action *action)
 {
-    // TODO; impl. for picking!
+    IntersectAction *ia = dynamic_cast<IntersectAction *>(action);
+    Matrix           m(_invWorld);
+    
+    m.invert();
+
+    Pnt3f pos;
+    Vec3f dir;
+
+    m.multFullMatrixPnt(ia->getLine().getPosition (), pos);
+    m.multMatrixVec    (ia->getLine().getDirection(), dir);
+
+    ia->setLine(Line(pos, dir), ia->getMaxDist());
+    ia->scale(dir.length());
 
     return Action::Continue;
 }
 
-Action::ResultE InverseTransform::intersectLeave(Action *)
+Action::ResultE InverseTransform::intersectLeave(Action *action)
 {
+    IntersectAction *ia = dynamic_cast<IntersectAction *>(action);
+    Matrix           m(_invWorld);
+
+    Pnt3f pos;
+    Vec3f dir;
+
+    m.multFullMatrixPnt(ia->getLine().getPosition (), pos);
+    m.multMatrixVec    (ia->getLine().getDirection(), dir);
+
+    ia->setLine(Line(pos, dir), ia->getMaxDist());
+    ia->scale(dir.length());
+    
     return Action::Continue;
 }
 

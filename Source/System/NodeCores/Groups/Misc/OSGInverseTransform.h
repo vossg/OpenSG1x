@@ -46,6 +46,8 @@
 
 #include <OSGInverseTransformBase.h>
 
+#include "OSGMatrix.h"
+
 OSG_BEGIN_NAMESPACE
 
 class DrawActionBase;
@@ -114,6 +116,8 @@ class OSG_SYSTEMLIB_DLLMAPPING InverseTransform : public InverseTransformBase
     /*! \{                                                                 */
 
     void            adjustVolume  (Volume & volume);
+    
+    virtual void   accumulateMatrix(Matrix &result);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -138,6 +142,8 @@ class OSG_SYSTEMLIB_DLLMAPPING InverseTransform : public InverseTransformBase
     friend class InverseTransformBase;
 
     static void initMethod(void);
+
+    Matrix _invWorld;
 
     // prohibit default functions (move to 'public' if you need one)
 
