@@ -105,6 +105,21 @@ ShaderChunk::~ShaderChunk(void)
 {
 }
 
+void ShaderChunk::onCreate(const ShaderChunk */*source*/)
+{
+    // ignore prototypes.
+    if(GlobalSystemState == Startup)
+        return;
+
+    _parameter_access = new ShaderParameterAccess(getParameters());
+}
+
+void ShaderChunk::onDestroy(void)
+{
+    if(_parameter_access != NULL)
+        delete _parameter_access;
+}
+
 /*----------------------------- class specific ----------------------------*/
 
 void ShaderChunk::changed(BitVector whichField, UInt32 origin)
@@ -298,7 +313,7 @@ bool ShaderChunk::subUniformParameter(const char *name)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderChunk.cpp,v 1.1 2004/07/01 11:26:56 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderChunk.cpp,v 1.2 2004/07/02 17:59:45 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERCHUNKBASE_INLINE_CVSID;
 

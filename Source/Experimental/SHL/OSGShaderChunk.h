@@ -111,6 +111,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderChunk : public ShaderChunkBase
 
     // Variables should all be in ShaderChunkBase.
 
+    void onCreate(const ShaderChunk *source = NULL);
+    void onDestroy(void);
+
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */
@@ -153,6 +156,6 @@ OSG_END_NAMESPACE
 #include <OSGShaderChunkBase.inl>
 #include <OSGShaderChunk.inl>
 
-#define OSGSHADERCHUNK_HEADER_CVSID "@(#)$Id: OSGShaderChunk.h,v 1.1 2004/07/01 11:26:56 a-m-z Exp $"
+#define OSGSHADERCHUNK_HEADER_CVSID "@(#)$Id: OSGShaderChunk.h,v 1.2 2004/07/02 17:59:45 a-m-z Exp $"
 
 #endif /* _OSGSHADERCHUNK_H_ */
