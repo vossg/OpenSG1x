@@ -249,7 +249,7 @@ int main( int argc, char *argv[] )
     // blend chunk
 
     blchunk = BlendChunk::create();
-#ifndef WIN32
+#ifdef GL_EXT_blend_color
     blchunk->setSrcFactor( GL_CONSTANT_ALPHA );
     blchunk->setDestFactor( GL_ONE_MINUS_CONSTANT_ALPHA );
 #endif
