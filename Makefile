@@ -8,11 +8,12 @@ include Common/common.mk
 
 .PHONY: install ctags etags
 
+# make -C has had some problems for some people...
 default:
-	$(MAKE) -C Builds/${BUILD_ENV}* 
+	cd Builds/${BUILD_ENV}* && $(MAKE) dbg
 
 opt:
-	$(MAKE) -C Builds/${BUILD_ENV}* opt
+	cd Builds/${BUILD_ENV}* && $(MAKE) opt
 
 install:
 	cd Builds/${BUILD_ENV}* && $(MAKE) install
