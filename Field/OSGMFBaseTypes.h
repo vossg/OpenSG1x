@@ -46,7 +46,10 @@
  *
  * <UL>
  * <LI> osg::OSGMFString
- * <LI> osg::OSGMFColor
+ * <LI> osg::OSGMFTime
+ * <LI> osg::OSGMFColor3f
+ * <LI> osg::OSGMFColor4f
+ * <LI> osg::OSGMFVolume
  * </UL>
  */
 
@@ -55,22 +58,27 @@ OSG_BEGIN_NAMESPACE
 /** \brief OSGMFString
  */
 
-typedef OSGMField<OSGString> OSGMFString;
+typedef OSGMField<OSGString>  OSGMFString;
+
+/** \brief OSGMFTime
+ */
+
+typedef OSGMField<OSGTime>    OSGMFTime;
 
 /** \brief OSGMFColor3f
  */
 
 typedef OSGMField<OSGColor3f> OSGMFColor3f;
 
-/** \brief OSGMFColor3f
+/** \brief OSGMFColor4f
  */
 
-typedef OSGMField<OSGColor3f> OSGMFColor3f;
+typedef OSGMField<OSGColor4f> OSGMFColor4f;
 
 /** \brief OSGMFVolume
  */
 
-typedef OSGMField<OSGVolume> OSGMFVolume;
+typedef OSGMField<OSGVolume>  OSGMFVolume;
 
 OSG_END_NAMESPACE
 

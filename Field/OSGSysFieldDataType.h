@@ -306,6 +306,19 @@ struct OSGFieldDataTraits<OSGReal64> : public OSGTraits
     static char            *getMName(void)      { return "MFReal64";    }
 
     static OSGReal64        getDefault(void)    { return 0.; }
+
+    static bool             getFromString(OSGReal64   &target,
+                                          const char *&source)
+    {
+        // TO_BE_DONE
+        return false;
+    }
+
+    static void             putToString(const OSGReal64 &source,
+                                              OSGString &target)
+    {
+        // TO_BE_DONE
+    }
 };
 
 OSG_END_NAMESPACE

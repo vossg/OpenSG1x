@@ -11,13 +11,10 @@
 #include "OSGSFVecTypes.h"
 #include "OSGSFSysTypes.h"
 #include "OSGBaseFunctions.h"
+#include "OSGSFBaseTypes.h"
+#include "OSGMFBaseTypes.h"
 
-using OSG::OSGField;
-using OSG::OSGSFVec3f;
-using OSG::OSGFieldFactory;
-using OSG::OSGSFUInt32;
-using OSG::OSGSFInt32;
-using OSG::osgInit;
+OSG_USING_NAMESPACE
 
 int main (int argc, char **argv)
 {
@@ -26,6 +23,9 @@ int main (int argc, char **argv)
 
 	OSGSFInt32  *int32P;
 	OSGSFUInt32 *uint32P;
+
+    OSGMFTime *timem;
+    OSGSFTime *times;
 
     osgInit(argc, argv);
 

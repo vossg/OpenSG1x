@@ -31,6 +31,7 @@
 
 #include <OSGFieldDataType.h>
 #include <OSGString.h>
+#include <OSGTime.h>
 #include <OSGColor.h>
 #include <OSGDynamicVolume.h>
 
