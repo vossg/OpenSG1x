@@ -4,8 +4,6 @@ using namespace OSG;
 
 /*! \page Introduction Introduction
 
-Intro
-
-Opensg basics
+General Scenegraph intro with some references to OpenSG here
 
 */

@@ -15,18 +15,26 @@ the \ref Introduction. When looking for something specific the Class Hierarchy
 is a start, but as it is pretty big it might be more efficient to go via the
 Modules section.
 
-\ext This documentation contains information about extending the system, i.e.
-what to do when adding new classes to the system to make sure they are
-registered in all the right places and integrate themselves seamlessly. \endext
+\ext 
 
-\dev It also contains additional information that explains the internals and
-how things work inside the library itself. \enddev
+This documentation contains information about extending the system, i.e.
+what to do when adding new classes to the system to make sure they are
+registered in all the right places and integrate themselves seamlessly. 
+
+\endext
+
+\dev 
+
+It also contains additional information that explains the internals and
+how things work inside the library itself, for those who really need to know. 
+
+\enddev
 
 While we tried to make this documentation easy to understand and without
 mistakes and errors, we're very interested in getting feedback on omissions,
 improvement ideas or simply typos. Send them to info@opensg.org.
 
-Darmstadt, xx.10.2002
+Darmstadt, xx.xx.2002
 
 Dirk Reiners\n
 Technical Coordinator\n
