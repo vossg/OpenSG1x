@@ -48,7 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-class OSG_SYSTEMLIB_DLLMAPPING LinearCombinerGeometry : public LinearCombinerGeometryBase
+class OSG_CONTRIBLIB_DLLMAPPING LinearCombinerGeometry : public LinearCombinerGeometryBase
 {
   private:
 
@@ -136,11 +136,11 @@ class OSG_SYSTEMLIB_DLLMAPPING LinearCombinerGeometry : public LinearCombinerGeo
 };
 
 // FIXME: Documentation
-OSG_SYSTEMLIB_DLLMAPPING
+OSG_CONTRIBLIB_DLLMAPPING
 NodePtr     createLinearCombinerStructure(NodePtr source);
-OSG_SYSTEMLIB_DLLMAPPING
+OSG_CONTRIBLIB_DLLMAPPING
 void        addToLinearCombinerStructure(NodePtr source, NodePtr dest);
-OSG_SYSTEMLIB_DLLMAPPING
+OSG_CONTRIBLIB_DLLMAPPING
 void 	   getLinearCombinerCores(std::vector<LinearCombinerGeometryPtr> &cores, NodePtr node);
 
 
