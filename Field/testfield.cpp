@@ -115,5 +115,8 @@ int main (int argc, char **argv)
     testBField[0] = true;
     testBField[1] = false;
 
+    testBField.getValue(0);
+    testBField.setValue(true, 0);
+
     return 0;   
 }

@@ -486,6 +486,28 @@ typename MField<FieldTypeT, fieldNameSpace>::const_reference
     return _values[index];
 }
 
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+typename MField<FieldTypeT, fieldNameSpace>::reference 
+    MField<FieldTypeT, fieldNameSpace>::getValue (const UInt32 index)
+{
+    return operator[](index);
+}
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+MField<FieldTypeT, fieldNameSpace>::const_reference
+    MField<FieldTypeT, fieldNameSpace>::getValue (const UInt32 index) const
+{
+    return operator[](index);
+}
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void MField<FieldTypeT, fieldNameSpace>::setValue(       ArgumentType value,
+                                                  const UInt32       index)
+{
+    operator[](index) = value;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                              MT Sync                                    */
 

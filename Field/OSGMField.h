@@ -119,6 +119,9 @@ class MField : public Field
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
+          reference            getValue (const UInt32 index);
+    const_reference            getValue (const UInt32 index) const;
+
                   StorageType &getValues(void);
             const StorageType &getValues(void) const;
  
@@ -135,6 +138,9 @@ class MField : public Field
 
             void setValues    (const StorageType &value);
             void setValues    (const Self        &obj  );
+    
+            void setValue     (      ArgumentType value,
+                               const UInt32       index);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
