@@ -777,6 +777,20 @@
 
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
+/*! \name GL_SGIS_generate_mipmap                                      */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+
+#ifndef GL_SGIS_generate_mipmap
+#define GL_SGIS_generate_mipmap 1
+
+#define GL_GENERATE_MIPMAP_SGIS                             0x8191
+#define GL_GENERATE_MIPMAP_HINT_SGIS                        0x8192
+
+#endif
+
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
 
 #define OSGGLEXT_HEADER_CVSID "@(#)$Id: $"
 
