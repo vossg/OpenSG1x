@@ -33,8 +33,33 @@ Furthermore as all light sources are derived from node core they need to be inse
 I suppose you wonder why you neet to set is as a core and define a beacon. Well, the beacon defines the position in the world, where as
 the position of the core in the graph should define which objects will be lit. Yes, I said should, as this feature is not implemented in
 version 1.2 and as far as I know it will not be in 1.3 as well. For know simply all objects are lit by the lighsources thus the position
-of the core does not matter right know. Anyway, keep that in mind, as it may change in a future release of OpenSG. The folowing picture
+of the core does not matter right know. Anyway, keep that in mind, as it may change in a future release of OpenSG. The following picture
 shows two variants on how to set up a light source.
 
+\image html light_source_easy.png "Easy setup"
+\image latex light_source_easy.eps "Easy setup" width = 8cm
+
+<I>
+In this example we have a root node which has several children. One is a transformation node with the light source attachted to it. The other
+nodes represent the rest of the entire scenegraph. The light source node has no further children. 
+</I>
+This setup is very easy to handle. You can modifiy the transformation node to alter the position of the light source. The beacon of the
+light source is the node of the lightsource itself. Please note, that this setup will not work anymore, in that moment when the "correct" 
+method of handling light sources, as mentioned above, is implemented. If you want to be sure your application will work correctly with future
+versions of OpenSG the following setup is recommended!
+
+\image html light_source_setup.png "Recommended setup"
+\image latex light_source_setup.eps "Recommended setup" width = 8cm
+<I>
+There is still a transformation node with a single child attached to the root, but this time it is only a group node. Usually this
+construction would be useless if there won't be added any further children to that node. However the other child of the root is the
+point lightsource which sets the "useless" group node as it's beacon. Some other children have been added to the light source node.
+</I>
+
+Now we can still alter the light source's position by modifing the transformation matrix, but now only the children of the point 
+lightsource node should be lit. Again, please remember, that this functionality is not implemented yes, but may follow in the
+near future. If you now add children to the root directly, these should not be lit (but they are still).
+
+So these two setup variants are very different, but actually it makes no difference at all with the current version of OpenSG.
 
 */
