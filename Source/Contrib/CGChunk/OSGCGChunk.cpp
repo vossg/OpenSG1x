@@ -55,7 +55,9 @@
 OSG_USING_NAMESPACE
 
 CGcontext CGChunk::_current_context = NULL;
-
+CGprofile CGChunk::_vertexProfile = CG_PROFILE_UNKNOWN;
+CGprofile CGChunk::_fragmentProfile = CG_PROFILE_UNKNOWN;
+    
 /*! \class osg::CGChunk
 
 */
@@ -146,17 +148,11 @@ void CGChunk::onCreate(const CGChunk */*source*/)
     
     cgSetErrorCallback(CGChunk::cgErrorCallback);
 
-
     CGChunkPtr tmpPtr(*this);
     beginEditCP(tmpPtr, CGChunk::GLIdFieldMask);
         setGLId(Window::registerGLObject(osgTypedMethodVoidFunctor2ObjCPtrPtr<CGChunkPtr,
                                          Window , UInt32>(tmpPtr, &CGChunk::handleGL), 1));
     endEditCP(tmpPtr, CGChunk::GLIdFieldMask);
-
-
-#if 0
-    vLight = cgGetNamedParameter(_vProgram, "light_index");
-#endif
 }
 
 void CGChunk::onDestroy(void)
@@ -186,7 +182,12 @@ void CGChunk::changed(BitVector whichField, UInt32 origin)
     if((whichField & VertexProgramFieldMask) ||
        (whichField & FragmentProgramFieldMask))
     {
-        updateCGContext();
+        Window::reinitializeGLObject(getGLId());
+    }  
+     
+    if(whichField & ParamValuesFieldMask)
+    {
+        Window::refreshGLObject(getGLId());
     }
 }
 
@@ -212,17 +213,28 @@ void CGChunk::handleGL(Window */*win*/, UInt32 idstatus)
     }
     else if(mode == Window::finaldestroy)
     {
-        //SWARNING << "Last program user destroyed" << std::endl;
+        ;//SWARNING << "Last program user destroyed" << std::endl;
     }
     else if(mode == Window::initialize || mode == Window::reinitialize ||
             mode == Window::needrefresh)
     {
         if(mode != Window::needrefresh)
         {
-            createCGContext();
+            updateCGContext();
         }
         
         // set params
+        for(UInt16 i = 0; i < getParamValues().size(); ++i)
+        {
+            CGparameter vpparam = cgGetNamedParameter(_vProgram, getParamNames()[i].c_str());
+            CGparameter fpparam = cgGetNamedParameter(_fProgram, getParamNames()[i].c_str());
+            Vec4f &val = getParamValues()[i];
+            if(vpparam != 0)
+                cgGLSetParameter4fv(vpparam, val.getValues());
+            
+            if(fpparam != 0)
+                cgGLSetParameter4fv(fpparam, val.getValues());
+        }
     }
     else
     {
@@ -231,58 +243,28 @@ void CGChunk::handleGL(Window */*win*/, UInt32 idstatus)
     }
 }
 
-void CGChunk::createCGContext(void)
-{
-    // create a new cg context.
-    _context = cgCreateContext();
-    _vProgram = NULL;
-    _fProgram = NULL;
-    _vp_isvalid = false;
-    _fp_isvalid = false;
-
-    _current_context = _context;
-
-    if(hasVP() && !getVertexProgram().empty())
-    {
-        _vProgram = cgCreateProgram(_context, CG_SOURCE, getVertexProgram().c_str(),
-                                      CG_PROFILE_ARBVP1, NULL, NULL);
-
-        if(cgIsProgram(_vProgram))
-        {
-            _vp_isvalid = true;
-            cgGLLoadProgram(_vProgram);
-            //parseProgramParams(_vProgram);
-        }
-        else
-        {
-            FWARNING(("Couldn't load vertex program!\n"));
-        }
-    }
-
-    if(hasFP() && !getFragmentProgram().empty())
-    {
-        _fProgram = cgCreateProgram(_context, CG_SOURCE, getFragmentProgram().c_str(),
-                                      CG_PROFILE_ARBFP1, NULL, NULL);
-        if(cgIsProgram(_fProgram))
-        {
-            _fp_isvalid = true;
-            cgGLLoadProgram(_fProgram);
-            //parseProgramParams(_fProgram);
-        }
-        else
-        {
-            FWARNING(("Couldn't load fragment program!\n"));
-        }
-    }
-}
-
 void CGChunk::updateCGContext(void)
 {
     if(_context == NULL)
-        return;
-
+        _context = cgCreateContext();
+    
     _current_context = _context;
 
+    // can't do this in onCreate()
+    if(_vertexProfile == CG_PROFILE_UNKNOWN)
+    {
+        // CG_PROFILE_ARBVP1
+        _vertexProfile = cgGLGetLatestProfile(CG_GL_VERTEX);
+        cgGLSetOptimalOptions(_vertexProfile);
+    }
+    
+    if(_fragmentProfile == CG_PROFILE_UNKNOWN)
+    {
+        // CG_PROFILE_ARBFP1
+        _fragmentProfile = cgGLGetLatestProfile(CG_GL_FRAGMENT);
+        cgGLSetOptimalOptions(_fragmentProfile);
+    }
+    
     // reload programs
     if(hasVP() && !getVertexProgram().empty())
     {
@@ -290,7 +272,7 @@ void CGChunk::updateCGContext(void)
             cgDestroyProgram(_vProgram);
 
         _vProgram = cgCreateProgram(_context, CG_SOURCE, getVertexProgram().c_str(),
-                                    CG_PROFILE_ARBVP1, NULL, NULL);
+                                    _vertexProfile, NULL, NULL);
         if(_vProgram)
         {
             _vp_isvalid = true;
@@ -309,7 +291,7 @@ void CGChunk::updateCGContext(void)
             cgDestroyProgram(_fProgram);
 
         _fProgram = cgCreateProgram(_context, CG_SOURCE, getFragmentProgram().c_str(),
-                                               CG_PROFILE_ARBFP1, NULL, NULL);
+                                               _fragmentProfile, NULL, NULL);
         if(cgIsProgram(_fProgram))
         {
             _fp_isvalid = true;
@@ -323,6 +305,156 @@ void CGChunk::updateCGContext(void)
     }
 }
 
+/*---------------------------- Access ------------------------------------*/
+
+/*! Read the program string from the given file
+*/
+bool CGChunk::readVertexProgram(const char *file)
+{
+    std::ifstream s(file);
+    
+    if(s.good())
+    {
+        return readVertexProgram(s);
+    }
+    else
+    {
+        FWARNING(("ProgramChunk::read: couldn't open '%s' for reading!\n",
+                    file));
+        return true;
+    }
+}
+
+/*! Read the program string from the given stream
+*/
+bool CGChunk::readVertexProgram(std::istream &stream)
+{
+#define BUFSIZE 200
+    
+    getVertexProgram().erase();    
+    char buf[BUFSIZE];
+
+    if(!stream.good())
+    {
+        FWARNING(("ProgramChunk::read: stream is not good!\n"));
+        return true;
+   
+    }
+    
+    do
+    {
+        stream.read(buf, BUFSIZE);
+        getVertexProgram().append(buf, stream.gcount());
+    }
+    while(!stream.eof());
+    
+    return false;
+}
+
+/*! Read the program string from the given file
+*/
+bool CGChunk::readFragmentProgram(const char *file)
+{
+    std::ifstream s(file);
+    
+    if(s.good())
+    {
+        return readFragmentProgram(s);
+    }
+    else
+    {
+        FWARNING(("ProgramChunk::read: couldn't open '%s' for reading!\n",
+                    file));
+        return true;
+    }
+}
+
+/*! Read the program string from the given stream
+*/
+bool CGChunk::readFragmentProgram(std::istream &stream)
+{
+#define BUFSIZE 200
+    
+    getFragmentProgram().erase();    
+    char buf[BUFSIZE];
+
+    if(!stream.good())
+    {
+        FWARNING(("ProgramChunk::read: stream is not good!\n"));
+        return true;
+   
+    }
+    
+    do
+    {
+        stream.read(buf, BUFSIZE);
+        getFragmentProgram().append(buf, stream.gcount());
+    }
+    while(!stream.eof());
+    
+    return false;
+}
+
+/*! Add a named parameter 
+*/
+bool CGChunk::addParameter(const char   *name, 
+                                      Int16  index)
+{
+    if(index < 0)
+        return true;
+        
+    if(getParamNames().size() <= index)
+    {
+        getParamNames().resize(index + 1);
+    }
+    getParamNames()[index] = name;
+    return false;
+}
+    
+const Vec4f& CGChunk::getParameter(Int16 index)
+{
+    static const Vec4f bad(-1e10,-1e10,-1e10);
+    
+    if(index < 0)
+        return bad;
+        
+    if(getParamValues().size() <= index)
+    {
+        return getParamValues()[index];
+    }
+    
+    return bad;
+}
+ 
+/*! Set parameter value, create it if not set yet.
+*/
+bool CGChunk::setParameter(Int16 index, const Vec4f& value)
+{
+    if(index < 0)
+        return true;
+        
+    if(getParamValues().size() <= index)
+    {
+        getParamValues().resize(index + 1);
+    }
+    getParamValues()[index] = value;
+    return false;
+}
+
+/*! Find the index for a named parameter, return -1 if not found.
+*/
+Int16 CGChunk::findParameter(const std::string &name)
+{
+    MField<std::string>::iterator it;
+    
+    it = std::find(getParamNames().begin(), getParamNames().end(), name);
+
+    if(it == getParamNames().end())
+        return -1;
+
+    return it - getParamNames().begin();
+}
+
 /*------------------------------ State ------------------------------------*/
 
 void CGChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
@@ -333,13 +465,13 @@ void CGChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
 
     if(_vp_isvalid)
     {
-        cgGLEnableProfile(CG_PROFILE_ARBVP1);
+        cgGLEnableProfile(_vertexProfile);
         cgGLBindProgram(_vProgram);
     }
 
     if(_fp_isvalid)
     {
-        cgGLEnableProfile(CG_PROFILE_ARBFP1);
+        cgGLEnableProfile(_fragmentProfile);
         cgGLBindProgram(_fProgram);
     }
 }
@@ -364,13 +496,13 @@ void CGChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
 
     if(_vp_isvalid)
     {
-        cgGLEnableProfile(CG_PROFILE_ARBVP1);
+        cgGLEnableProfile(_vertexProfile);
         cgGLBindProgram(_vProgram);
     }
 
     if(_fp_isvalid)
     {
-        cgGLEnableProfile(CG_PROFILE_ARBFP1);
+        cgGLEnableProfile(_fragmentProfile);
         cgGLBindProgram(_fProgram);
     }
 }
@@ -379,10 +511,10 @@ void CGChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
 void CGChunk::deactivate(DrawActionBase */*action*/, UInt32 /*idx*/)
 {
     if(_fp_isvalid)
-        cgGLDisableProfile(CG_PROFILE_ARBFP1);
+        cgGLDisableProfile(_fragmentProfile);
 
     if(_vp_isvalid)
-        cgGLDisableProfile(CG_PROFILE_ARBVP1);
+        cgGLDisableProfile(_vertexProfile);
 }
 
 /*-------------------------- Comparison -----------------------------------*/
@@ -404,12 +536,13 @@ bool CGChunk::operator == (const StateChunk &other) const
     if(!tother)
         return false;
 
-    if(_sfVertexProgram.getValue() != tother->_sfVertexProgram.getValue())
+    if(getVertexProgram() != tother->getVertexProgram() ||
+       getFragmentProgram() != tother->getFragmentProgram() ||
+       getParamValues().size() != tother->getParamValues().size() ||
+       getParamNames().size()  != tother->getParamNames().size())
         return false;
-    if(_sfFragmentProgram.getValue() != tother->_sfFragmentProgram.getValue())
-        return false;
-    if(_sfActiveLightIndex.getValue() != tother->_sfActiveLightIndex.getValue())
-        return false;
+    
+    
 
     return true;
 }
@@ -422,21 +555,25 @@ bool CGChunk::operator != (const StateChunk &other) const
 
 bool CGChunk::hasVP(void)
 {
-    if(cgGLIsProfileSupported(CG_PROFILE_ARBVP1))
+    if(cgGLIsProfileSupported(_vertexProfile))
     {
         return true;
     }
-
-    FWARNING(("Vertex programming extensions GL_ARB_vertex_program not supported.\n"));
+    
+    SWARNING << "Vertex programming extensions "
+             << cgGetProfileString(_vertexProfile)
+             << " not supported!" << std::endl;
     return false;
 }
 
 bool CGChunk::hasFP(void)
 {
-    if (cgGLIsProfileSupported(CG_PROFILE_ARBFP1))
+    if (cgGLIsProfileSupported(_fragmentProfile))
         return true;
 
-    FWARNING(("Fragment programming extensions GL_ARB_fragment_program not supported.\n"));
+    SWARNING << "Fragment programming extensions "
+             << cgGetProfileString(_fragmentProfile)
+             << " not supported!" << std::endl;
     return false;
 }
 

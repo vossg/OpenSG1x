@@ -110,11 +110,18 @@ SFString *CGChunkBase::getSFFragmentProgram(void)
     return &_sfFragmentProgram;
 }
 
-//! Get the CGChunk::_sfActiveLightIndex field.
+//! Get the CGChunk::_mfParamNames field.
 inline
-SFUInt8 *CGChunkBase::getSFActiveLightIndex(void)
+MFString *CGChunkBase::getMFParamNames(void)
 {
-    return &_sfActiveLightIndex;
+    return &_mfParamNames;
+}
+
+//! Get the CGChunk::_mfParamValues field.
+inline
+MFVec4f *CGChunkBase::getMFParamValues(void)
+{
+    return &_mfParamValues;
 }
 
 //! Get the CGChunk::_sfGLId field.
@@ -167,27 +174,6 @@ void CGChunkBase::setFragmentProgram(const std::string &value)
     _sfFragmentProgram.setValue(value);
 }
 
-//! Get the value of the CGChunk::_sfActiveLightIndex field.
-inline
-UInt8 &CGChunkBase::getActiveLightIndex(void)
-{
-    return _sfActiveLightIndex.getValue();
-}
-
-//! Get the value of the CGChunk::_sfActiveLightIndex field.
-inline
-const UInt8 &CGChunkBase::getActiveLightIndex(void) const
-{
-    return _sfActiveLightIndex.getValue();
-}
-
-//! Set the value of the CGChunk::_sfActiveLightIndex field.
-inline
-void CGChunkBase::setActiveLightIndex(const UInt8 &value)
-{
-    _sfActiveLightIndex.setValue(value);
-}
-
 //! Get the value of the CGChunk::_sfGLId field.
 inline
 UInt32 &CGChunkBase::getGLId(void)
@@ -210,7 +196,49 @@ void CGChunkBase::setGLId(const UInt32 &value)
 }
 
 
+//! Get the value of the \a index element the CGChunk::_mfParamNames field.
+inline
+std::string &CGChunkBase::getParamNames(const UInt32 index)
+{
+    return _mfParamNames[index];
+}
+
+//! Get the CGChunk::_mfParamNames field.
+inline
+MFString &CGChunkBase::getParamNames(void)
+{
+    return _mfParamNames;
+}
+
+//! Get the CGChunk::_mfParamNames field.
+inline
+const MFString &CGChunkBase::getParamNames(void) const
+{
+    return _mfParamNames;
+}
+
+//! Get the value of the \a index element the CGChunk::_mfParamValues field.
+inline
+Vec4f &CGChunkBase::getParamValues(const UInt32 index)
+{
+    return _mfParamValues[index];
+}
+
+//! Get the CGChunk::_mfParamValues field.
+inline
+MFVec4f &CGChunkBase::getParamValues(void)
+{
+    return _mfParamValues;
+}
+
+//! Get the CGChunk::_mfParamValues field.
+inline
+const MFVec4f &CGChunkBase::getParamValues(void) const
+{
+    return _mfParamValues;
+}
+
 OSG_END_NAMESPACE
 
-#define OSGCGCHUNKBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGCGCHUNKBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 

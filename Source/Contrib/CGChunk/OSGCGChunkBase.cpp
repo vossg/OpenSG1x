@@ -70,8 +70,11 @@ const OSG::BitVector  CGChunkBase::VertexProgramFieldMask =
 const OSG::BitVector  CGChunkBase::FragmentProgramFieldMask = 
     (TypeTraits<BitVector>::One << CGChunkBase::FragmentProgramFieldId);
 
-const OSG::BitVector  CGChunkBase::ActiveLightIndexFieldMask = 
-    (TypeTraits<BitVector>::One << CGChunkBase::ActiveLightIndexFieldId);
+const OSG::BitVector  CGChunkBase::ParamNamesFieldMask = 
+    (TypeTraits<BitVector>::One << CGChunkBase::ParamNamesFieldId);
+
+const OSG::BitVector  CGChunkBase::ParamValuesFieldMask = 
+    (TypeTraits<BitVector>::One << CGChunkBase::ParamValuesFieldId);
 
 const OSG::BitVector  CGChunkBase::GLIdFieldMask = 
     (TypeTraits<BitVector>::One << CGChunkBase::GLIdFieldId);
@@ -84,13 +87,16 @@ const OSG::BitVector CGChunkBase::MTInfluenceMask =
 // Field descriptions
 
 /*! \var std::string     CGChunkBase::_sfVertexProgram
-    
+    vertex program source
 */
 /*! \var std::string     CGChunkBase::_sfFragmentProgram
-    
+    fragment program source
 */
-/*! \var UInt8           CGChunkBase::_sfActiveLightIndex
-    
+/*! \var std::string     CGChunkBase::_mfParamNames
+    program parameter names
+*/
+/*! \var Vec4f           CGChunkBase::_mfParamValues
+    program parameter
 */
 /*! \var UInt32          CGChunkBase::_sfGLId
     
@@ -110,11 +116,16 @@ FieldDescription *CGChunkBase::_desc[] =
                      FragmentProgramFieldId, FragmentProgramFieldMask,
                      false,
                      (FieldAccessMethod) &CGChunkBase::getSFFragmentProgram),
-    new FieldDescription(SFUInt8::getClassType(), 
-                     "activeLightIndex", 
-                     ActiveLightIndexFieldId, ActiveLightIndexFieldMask,
+    new FieldDescription(MFString::getClassType(), 
+                     "paramNames", 
+                     ParamNamesFieldId, ParamNamesFieldMask,
                      false,
-                     (FieldAccessMethod) &CGChunkBase::getSFActiveLightIndex),
+                     (FieldAccessMethod) &CGChunkBase::getMFParamNames),
+    new FieldDescription(MFVec4f::getClassType(), 
+                     "paramValues", 
+                     ParamValuesFieldId, ParamValuesFieldMask,
+                     false,
+                     (FieldAccessMethod) &CGChunkBase::getMFParamValues),
     new FieldDescription(SFUInt32::getClassType(), 
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
@@ -177,7 +188,8 @@ void CGChunkBase::executeSync(      FieldContainer &other,
 CGChunkBase::CGChunkBase(void) :
     _sfVertexProgram          (), 
     _sfFragmentProgram        (), 
-    _sfActiveLightIndex       (UInt8(0)), 
+    _mfParamNames             (), 
+    _mfParamValues            (), 
     _sfGLId                   (), 
     Inherited() 
 {
@@ -190,7 +202,8 @@ CGChunkBase::CGChunkBase(void) :
 CGChunkBase::CGChunkBase(const CGChunkBase &source) :
     _sfVertexProgram          (source._sfVertexProgram          ), 
     _sfFragmentProgram        (source._sfFragmentProgram        ), 
-    _sfActiveLightIndex       (source._sfActiveLightIndex       ), 
+    _mfParamNames             (source._mfParamNames             ), 
+    _mfParamValues            (source._mfParamValues            ), 
     _sfGLId                   (source._sfGLId                   ), 
     Inherited                 (source)
 {
@@ -218,9 +231,14 @@ UInt32 CGChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfFragmentProgram.getBinSize();
     }
 
-    if(FieldBits::NoField != (ActiveLightIndexFieldMask & whichField))
+    if(FieldBits::NoField != (ParamNamesFieldMask & whichField))
     {
-        returnValue += _sfActiveLightIndex.getBinSize();
+        returnValue += _mfParamNames.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ParamValuesFieldMask & whichField))
+    {
+        returnValue += _mfParamValues.getBinSize();
     }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
@@ -247,9 +265,14 @@ void CGChunkBase::copyToBin(      BinaryDataHandler &pMem,
         _sfFragmentProgram.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (ActiveLightIndexFieldMask & whichField))
+    if(FieldBits::NoField != (ParamNamesFieldMask & whichField))
     {
-        _sfActiveLightIndex.copyToBin(pMem);
+        _mfParamNames.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ParamValuesFieldMask & whichField))
+    {
+        _mfParamValues.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
@@ -275,9 +298,14 @@ void CGChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfFragmentProgram.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (ActiveLightIndexFieldMask & whichField))
+    if(FieldBits::NoField != (ParamNamesFieldMask & whichField))
     {
-        _sfActiveLightIndex.copyFromBin(pMem);
+        _mfParamNames.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ParamValuesFieldMask & whichField))
+    {
+        _mfParamValues.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
@@ -300,8 +328,11 @@ void CGChunkBase::executeSyncImpl(      CGChunkBase *pOther,
     if(FieldBits::NoField != (FragmentProgramFieldMask & whichField))
         _sfFragmentProgram.syncWith(pOther->_sfFragmentProgram);
 
-    if(FieldBits::NoField != (ActiveLightIndexFieldMask & whichField))
-        _sfActiveLightIndex.syncWith(pOther->_sfActiveLightIndex);
+    if(FieldBits::NoField != (ParamNamesFieldMask & whichField))
+        _mfParamNames.syncWith(pOther->_mfParamNames);
+
+    if(FieldBits::NoField != (ParamValuesFieldMask & whichField))
+        _mfParamValues.syncWith(pOther->_mfParamValues);
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
         _sfGLId.syncWith(pOther->_sfGLId);
@@ -339,7 +370,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCGCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGCHUNKBASE_INLINE_CVSID;
 

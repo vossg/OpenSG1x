@@ -67,7 +67,8 @@
 
 #include <OSGStringFields.h> // VertexProgram type
 #include <OSGStringFields.h> // FragmentProgram type
-#include <OSGUInt8Fields.h> // ActiveLightIndex type
+#include <OSGStringFields.h> // ParamNames type
+#include <OSGVec4fFields.h> // ParamValues type
 #include <OSGUInt32Fields.h> // GLId type
 
 #include <OSGCGChunkFields.h>
@@ -92,16 +93,18 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public StateChunk
 
     enum
     {
-        VertexProgramFieldId    = Inherited::NextFieldId,
-        FragmentProgramFieldId  = VertexProgramFieldId    + 1,
-        ActiveLightIndexFieldId = FragmentProgramFieldId  + 1,
-        GLIdFieldId             = ActiveLightIndexFieldId + 1,
-        NextFieldId             = GLIdFieldId             + 1
+        VertexProgramFieldId   = Inherited::NextFieldId,
+        FragmentProgramFieldId = VertexProgramFieldId   + 1,
+        ParamNamesFieldId      = FragmentProgramFieldId + 1,
+        ParamValuesFieldId     = ParamNamesFieldId      + 1,
+        GLIdFieldId            = ParamValuesFieldId     + 1,
+        NextFieldId            = GLIdFieldId            + 1
     };
 
     static const OSG::BitVector VertexProgramFieldMask;
     static const OSG::BitVector FragmentProgramFieldMask;
-    static const OSG::BitVector ActiveLightIndexFieldMask;
+    static const OSG::BitVector ParamNamesFieldMask;
+    static const OSG::BitVector ParamValuesFieldMask;
     static const OSG::BitVector GLIdFieldMask;
 
 
@@ -131,17 +134,22 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public StateChunk
 
            SFString            *getSFVertexProgram  (void);
            SFString            *getSFFragmentProgram(void);
-           SFUInt8             *getSFActiveLightIndex(void);
+           MFString            *getMFParamNames     (void);
+           MFVec4f             *getMFParamValues    (void);
            SFUInt32            *getSFGLId           (void);
 
            std::string         &getVertexProgram  (void);
      const std::string         &getVertexProgram  (void) const;
            std::string         &getFragmentProgram(void);
      const std::string         &getFragmentProgram(void) const;
-           UInt8               &getActiveLightIndex(void);
-     const UInt8               &getActiveLightIndex(void) const;
            UInt32              &getGLId           (void);
      const UInt32              &getGLId           (void) const;
+           std::string         &getParamNames     (const UInt32 index);
+           MFString            &getParamNames     (void);
+     const MFString            &getParamNames     (void) const;
+           Vec4f               &getParamValues    (const UInt32 index);
+           MFVec4f             &getParamValues    (void);
+     const MFVec4f             &getParamValues    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -150,7 +158,6 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public StateChunk
 
      void setVertexProgram  ( const std::string &value );
      void setFragmentProgram( const std::string &value );
-     void setActiveLightIndex( const UInt8 &value );
      void setGLId           ( const UInt32 &value );
 
     /*! \}                                                                 */
@@ -199,7 +206,8 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public StateChunk
 
     SFString            _sfVertexProgram;
     SFString            _sfFragmentProgram;
-    SFUInt8             _sfActiveLightIndex;
+    MFString            _mfParamNames;
+    MFVec4f             _mfParamValues;
     SFUInt32            _sfGLId;
 
     /*! \}                                                                 */
@@ -248,6 +256,6 @@ typedef CGChunkBase *CGChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCGCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGCGCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGCGCHUNKBASE_H_ */

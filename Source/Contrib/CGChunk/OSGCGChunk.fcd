@@ -9,6 +9,7 @@
 	systemcomponent="true"
 	parentsystemcomponent="true"
 	decoratable="false"
+	useLocalIncludes="false"
 >
 	<Field
 		name="vertexProgram"
@@ -17,6 +18,7 @@
 		visibility="external"
 		access="public"
 	>
+	vertex program source
 	</Field>
 	<Field
 		name="fragmentProgram"
@@ -25,15 +27,25 @@
 		visibility="external"
 		access="public"
 	>
+	fragment program source
 	</Field>
 	<Field
-		name="activeLightIndex"
-		type="UInt8"
-		cardinality="single"
+		name="paramNames"
+		type="std::string"
+		cardinality="multi"
 		visibility="external"
-		defaultValue="0"
 		access="public"
 	>
+	program parameter names
+	</Field>
+	<Field
+		name="paramValues"
+		type="Vec4f"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	program parameter
 	</Field>
 	<Field
 		name="GLId"
