@@ -68,7 +68,6 @@
 #include <OSGFieldContainer.h>
 #include <OSGSystemDef.h>
 #include <OSGNodeCore.h>
-#include <OSGNodeFields.h>	// Level type
 #include <OSGPnt3fFields.h>	// Center type
 #include <OSGReal32Fields.h>	// Range type
 
@@ -106,12 +105,10 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public NodeCore
     
     enum
     {
-        LevelFieldId = Inherited::NextFieldId,
-        CenterFieldId = LevelFieldId + 1,
+        CenterFieldId = Inherited::NextFieldId,
         RangeFieldId = CenterFieldId + 1
     };
 
-    static const osg::BitVector LevelFieldMask;
     static const osg::BitVector CenterFieldMask;
     static const osg::BitVector RangeFieldMask;
 
@@ -160,7 +157,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public NodeCore
 
     //! Return the fields.
 
-    inline MFNodePtr	*getMFLevel(void);
     inline SFPnt3f	*getSFCenter(void);
     inline MFReal32	*getMFRange(void);
 
@@ -172,9 +168,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public NodeCore
     inline const Pnt3f	&getCenter(void) const;
     inline       void	             setCenter( Pnt3f value );
 
-    inline       NodePtr	               &getLevel( UInt32 index );
-    inline       MFNodePtr &getLevel(void);
-    inline const MFNodePtr &getLevel(void) const;
     inline       Real32	               &getRange( UInt32 index );
     inline       MFReal32 &getRange(void);
     inline const MFReal32 &getRange(void) const;
@@ -211,9 +204,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public NodeCore
 
     //! The fields storing the data.
 
-    /*! Contains the different resolution geometries.
-     */
-    MFNodePtr	_mfLevel;
     /*! The center for distance calculation.
      */
     SFPnt3f	_sfCenter;

@@ -283,12 +283,12 @@ int main(int argc, char** argv)
 	DistanceLODPtr lodNodeCore = DistanceLOD::create();
 	beginEditCP(lodNode);
 	lodNode->setCore(lodNodeCore);
+	lodNode->addChild( highDetailNode );
+	lodNode->addChild( medDetailNode );
+	lodNode->addChild( lowDetailNode );
 	endEditCP(lodNode);
 	
 	beginEditCP(lodNodeCore);
-	lodNodeCore->getMFLevel()->addValue( highDetailNode );
-	lodNodeCore->getMFLevel()->addValue( medDetailNode );
-	lodNodeCore->getMFLevel()->addValue( lowDetailNode );
 	lodNodeCore->getSFCenter()->setValue( Pnt3f(0, 0, 0) );
 	lodNodeCore->getMFRange()->addValue( 4.0 );
 	lodNodeCore->getMFRange()->addValue( 8.0 );
@@ -299,7 +299,7 @@ int main(int argc, char** argv)
 	//TRANSFORM LOD
 	NodePtr transLODNode = Node::create();
 	TransformPtr transLODCore = Transform::create();
-	transMat.setTranslate( 3, -2, 0 );
+	transMat.setTranslate( 1, -1, -1 );
 	beginEditCP(transLODCore);
 	transLODCore->getSFMatrix()->setValue( transMat );
 	endEditCP(transLODCore);
@@ -322,18 +322,22 @@ int main(int argc, char** argv)
 	
 	
 	camera = PerspectiveCamera::create();
+	beginEditCP(camera);
 	camera->setBeacon( beaconNode );
-	camera->setFov( 90 );
+	camera->setFov( deg2rad(90) );
 	camera->setNear( 0.1 );
 	camera->setFar( 10000 );
+	endEditCP(camera);
 	
 	SolidBackgroundPtr background = SolidBackground::create();
 	
 	viewp = Viewport::create();
+	beginEditCP(viewp);
 	viewp->setCamera( camera );
 	viewp->setBackground( background );
 	viewp->setRoot( root );
 	viewp->setSize( 0,0, 1,1 );
+	endEditCP(viewp);
 	
 	GLint glVP[4];
 	glGetIntegerv( GL_VIEWPORT, glVP );
@@ -343,8 +347,10 @@ int main(int argc, char** argv)
 	gwin->setSize(glVP[2], glVP[3]);
 	
 	window = gwin;
+	beginEditCP(window);
 	window->addPort( viewp );
 	window->init();
+	endEditCP(window);
 	
 	drAct = DrawAction::create();
 	

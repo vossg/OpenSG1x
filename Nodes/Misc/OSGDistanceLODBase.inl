@@ -133,12 +133,6 @@ inline DistanceLODPtr DistanceLODBase::createEmpty(void)
 /*------------------------------ access -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
-MFNodePtr *DistanceLODBase::getMFLevel(void)
-{
-	return &_mfLevel;
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
 SFPnt3f *DistanceLODBase::getSFCenter(void)
 {
 	return &_sfCenter;
@@ -169,22 +163,6 @@ void DistanceLODBase::setCenter( Pnt3f value )
 	_sfCenter.setValue(value);
 }
 
-
-OSG_SYSTEMLIB_DLLMAPPING
-NodePtr &DistanceLODBase::getLevel( UInt32 index)
-{
-	return _mfLevel.getValue( index );
-}
-
-MFNodePtr &DistanceLODBase::getLevel(void)
-{
-	return _mfLevel;
-}
-
-const MFNodePtr &DistanceLODBase::getLevel(void) const
-{
-	return _mfLevel;
-}
 
 OSG_SYSTEMLIB_DLLMAPPING
 Real32 &DistanceLODBase::getRange( UInt32 index)

@@ -79,7 +79,7 @@ This Node manages the different levels of detail available for a Geometry and de
  *                           Class variables                               *
 \***************************************************************************/
 
-char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.5 2001/07/25 12:59:39 dirk Exp $";
+char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.6 2001/07/25 13:46:44 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -175,7 +175,7 @@ void DistanceLOD::dump(      UInt32     uiIndent,
 Action::ResultE DistanceLOD::draw(Action* action)
 {
 	DrawAction* da = dynamic_cast<DrawAction*>(action);
-	UInt32 numLevels = getMFLevel()->getSize();
+	UInt32 numLevels = action->getNNodes();
 	UInt32 numRanges = getMFRange()->getSize();
 	UInt32 limit = osgMin( numLevels, numRanges ); 
 	
@@ -191,20 +191,22 @@ Action::ResultE DistanceLOD::draw(Action* action)
 	
 	if( dist < getMFRange()->getValue(0) )
 	{
-		da->addNode( getMFLevel()->getValue(0) );
+		da->addNode( action->getNode(0) );
 	} 
 	else if( dist > getMFRange()->getValue(numRanges-1) )
 	{
-		da->addNode( getMFLevel()->getValue(limit-1) );
+		da->addNode( action->getNode(limit-1) );
 	}
 	else
 	{
 		UInt32 i=1;
-		while( i<numRanges && !((getMFRange()->getValue(i-1) <= dist)&&(dist < getMFRange()->getValue(i))) )
+		while( i<numRanges && !( ( getMFRange()->getValue(i-1) <= dist ) && 
+                                 ( dist < getMFRange()->getValue(i) ) 
+			 )                 )
 		{
 			i++;
 		}
-		da->addNode( getMFLevel()->getValue(osgMin(i, limit-1)) );
+		da->addNode( action->getNode(osgMin(i, limit-1)) );
 	} 
 	
 	return Action::Continue;

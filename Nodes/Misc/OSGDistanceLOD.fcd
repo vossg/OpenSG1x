@@ -10,15 +10,6 @@
 	parentsystemcomponent="true"
 >
 	<Field
-		name="level"
-		type="NodePtr"
-		cardinality="multi"
-		visibility="external"
-		access="public"
-	>
-	Contains the different resolution geometries.
-	</Field>
-	<Field
 		name="center"
 		type="Pnt3f"
 		cardinality="single"

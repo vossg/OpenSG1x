@@ -78,9 +78,6 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::BitVector	DistanceLODBase::LevelFieldMask = 
-    (1 << DistanceLODBase::LevelFieldId);
-
 const OSG::BitVector	DistanceLODBase::CenterFieldMask = 
     (1 << DistanceLODBase::CenterFieldId);
 
@@ -89,18 +86,13 @@ const OSG::BitVector	DistanceLODBase::RangeFieldMask =
 
 
 
-char DistanceLODBase::cvsid[] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.1 2001/07/25 09:29:11 neumannc Exp $";
+char DistanceLODBase::cvsid[] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.2 2001/07/25 13:46:44 dirk Exp $";
 
 /** \brief Group field description
  */
 
 FieldDescription *DistanceLODBase::_desc[] = 
 {
-    new FieldDescription(MFNodePtr::getClassType(), 
-                     "level", 
-                     LevelFieldId, LevelFieldMask,
-                     false,
-                     (FieldAccessMethod) &DistanceLODBase::getMFLevel),
     new FieldDescription(SFPnt3f::getClassType(), 
                      "center", 
                      CenterFieldId, CenterFieldMask,
@@ -189,7 +181,6 @@ void DistanceLODBase::executeSync(      FieldContainer &other,
  */
 
 DistanceLODBase::DistanceLODBase(void) :
-	_mfLevel	(), 
 	_sfCenter	(), 
 	_mfRange	(), 
 	Inherited() 
@@ -200,7 +191,6 @@ DistanceLODBase::DistanceLODBase(void) :
  */
 
 DistanceLODBase::DistanceLODBase(const DistanceLODBase &source) :
-	_mfLevel		(source._mfLevel), 
 	_sfCenter		(source._sfCenter), 
 	_mfRange		(source._mfRange), 
 	Inherited        (source)
@@ -219,11 +209,6 @@ DistanceLODBase::~DistanceLODBase(void)
 UInt32 DistanceLODBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
-
-    if(FieldBits::NoField != (LevelFieldMask & whichField))
-    {
-        returnValue += _mfLevel.getBinSize();
-    }
 
     if(FieldBits::NoField != (CenterFieldMask & whichField))
     {
@@ -244,11 +229,6 @@ MemoryHandle DistanceLODBase::copyToBin(      MemoryHandle  pMem,
 {
     pMem = Inherited::copyToBin(pMem, whichField);
 
-    if(FieldBits::NoField != (LevelFieldMask & whichField))
-    {
-        pMem = _mfLevel.copyToBin(pMem);
-    }
-
     if(FieldBits::NoField != (CenterFieldMask & whichField))
     {
         pMem = _sfCenter.copyToBin(pMem);
@@ -267,11 +247,6 @@ MemoryHandle DistanceLODBase::copyFromBin(      MemoryHandle  pMem,
                                             const BitVector    &whichField)
 {
     pMem = Inherited::copyFromBin(pMem, whichField);
-
-    if(FieldBits::NoField != (LevelFieldMask & whichField))
-    {
-        pMem = _mfLevel.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (CenterFieldMask & whichField))
     {
@@ -299,11 +274,6 @@ void DistanceLODBase::executeSyncImpl(      DistanceLODBase *pOther,
 {
 
     Inherited::executeSyncImpl(pOther, whichField);
-
-    if(FieldBits::NoField != (LevelFieldMask & whichField))
-    {
-        _mfLevel.syncWith(pOther->_mfLevel);
-    }
 
     if(FieldBits::NoField != (CenterFieldMask & whichField))
     {
