@@ -114,7 +114,7 @@
 		name="frameSize"
 		type="Int32"
 		cardinality="single"
-		visibility="external"
+		visibility="internal"
 		defaultValue="0"
 		access="public"
 	>
@@ -143,10 +143,28 @@
 		name="componentSize"
 		type="Int32"
 		cardinality="single"
-		visibility="external"
+		visibility="internal"
 		defaultValue="1"
 		access="protected"
 	>
 	Size (in byte) of a single component of the image. Necessary         for High Dynamic Range and other higher-level image types.
+	</Field>
+	<Field
+		name="sideCount"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="sideSize"
+		type="Int32"
+		cardinality="single"
+		visibility="internal"
+		defaultValue="0"
+		access="public"
+	>
 	</Field>
 </FieldContainer>

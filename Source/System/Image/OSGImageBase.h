@@ -80,6 +80,8 @@
 #include <OSGStringFields.h> // Name type
 #include <OSGInt32Fields.h> // DataType type
 #include <OSGInt32Fields.h> // ComponentSize type
+#include <OSGInt32Fields.h> // SideCount type
+#include <OSGInt32Fields.h> // SideSize type
 
 #include <OSGImageFields.h>
 
@@ -118,7 +120,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
         NameFieldId          = FrameSizeFieldId     + 1,
         DataTypeFieldId      = NameFieldId          + 1,
         ComponentSizeFieldId = DataTypeFieldId      + 1,
-        NextFieldId          = ComponentSizeFieldId + 1
+        SideCountFieldId     = ComponentSizeFieldId + 1,
+        SideSizeFieldId      = SideCountFieldId     + 1,
+        NextFieldId          = SideSizeFieldId      + 1
     };
 
     static const OSG::BitVector ParentsFieldMask;
@@ -136,6 +140,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
     static const OSG::BitVector NameFieldMask;
     static const OSG::BitVector DataTypeFieldMask;
     static const OSG::BitVector ComponentSizeFieldMask;
+    static const OSG::BitVector SideCountFieldMask;
+    static const OSG::BitVector SideSizeFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -176,6 +182,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
            SFInt32             *getSFFrameSize      (void);
            SFString            *getSFName           (void);
            SFInt32             *getSFDataType       (void);
+           SFInt32             *getSFSideCount      (void);
+           SFInt32             *getSFSideSize       (void);
 
            Int32               &getDimension      (void);
      const Int32               &getDimension      (void) const;
@@ -201,6 +209,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
      const std::string         &getName           (void) const;
            Int32               &getDataType       (void);
      const Int32               &getDataType       (void) const;
+           Int32               &getSideCount      (void);
+     const Int32               &getSideCount      (void) const;
+           Int32               &getSideSize       (void);
+     const Int32               &getSideSize       (void) const;
            FieldContainerPtr   &getParents        (const UInt32 index);
            MFFieldContainerPtr &getParents        (void);
      const MFFieldContainerPtr &getParents        (void) const;
@@ -225,6 +237,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
      void setFrameSize      ( const Int32 &value );
      void setName           ( const std::string &value );
      void setDataType       ( const Int32 &value );
+     void setSideCount      ( const Int32 &value );
+     void setSideSize       ( const Int32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -285,6 +299,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
     SFString            _sfName;
     SFInt32             _sfDataType;
     SFInt32             _sfComponentSize;
+    SFInt32             _sfSideCount;
+    SFInt32             _sfSideSize;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -63,6 +63,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     enum PixelFormat {   OSG_INVALID_PF = 0,
                          OSG_L_PF       = GL_LUMINANCE,
                          OSG_LA_PF      = GL_LUMINANCE_ALPHA,
+
+/*** BGR ***/
 #if defined(GL_BGR)
                          OSG_BGR_PF     = GL_BGR,
 #elif defined(GL_BGR_EXT)
@@ -71,6 +73,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
                          OSG_BGR_PF     = 0,
 #endif
 
+/*** BGRA ***/
 #if defined(GL_BGRA)
                          OSG_BGRA_PF    = GL_BGRA,
 #elif defined(GL_BGRA_EXT)
@@ -78,6 +81,35 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
 #else
                          OSG_BGRA_PF    = 0,
 #endif
+
+/*** RGB_DXT1 ***/
+#if defined(GL_COMPRESSED_RGB_S3TC_DXT1_EXT)
+												 OSG_RGB_DXT1   = GL_COMPRESSED_RGB_S3TC_DXT1_EXT,
+#else
+												 OSG_RGB_DXT1   = 0,
+#endif
+
+/*** RGBA_DXT1 ***/
+#if defined(GL_COMPRESSED_RGBA_S3TC_DXT1_EXT)
+												 OSG_RGBA_DXT1  = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT,
+#else
+												 OSG_RGBA_DXT1   = 0,
+#endif
+
+/*** RGBA_DXT3 ***/
+#if defined(GL_COMPRESSED_RGBA_S3TC_DXT3_EXT)
+												 OSG_RGBA_DXT3  = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT,
+#else
+												 OSG_RGBA_DXT3   = 0,
+#endif
+
+/*** RGBA_DXT5 ***/
+#if defined(GL_COMPRESSED_RGBA_S3TC_DXT5_EXT)
+												 OSG_RGBA_DXT5  = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT,
+#else
+												 OSG_RGBA_DXT5   = 0,
+#endif
+
                          OSG_RGB_PF     = GL_RGB,
                          OSG_RGBA_PF    = GL_RGBA
     };
@@ -117,9 +149,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
                                    Int32       mipmapCount = 1,
                                    Int32       frameCount = 1,
                                    Time        frameDelay = 0.0,
-                             const UInt8       *data = 0,
-                            Int32 type = OSG_UINT8_IMAGEDATA,
-                                   bool        allocMem = true );
+                                   const UInt8       *data = 0,
+                                   Int32 type = OSG_UINT8_IMAGEDATA,
+                                   bool        allocMem = true, 
+                                   Int32       sideCount = 1);
+
     bool set                (      ImagePtr   image            );
     bool setData            (const UInt8     *data = 0         );
     void clearData          (void                              );
@@ -217,9 +251,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     /*! \name                    Get  Methods                              */
     /*! \{                                                                 */
 
-    inline bool isValid        (void) const;
-           bool hasAlphaChannel(void);
-           bool hasColorChannel(void);
+    inline bool   isValid           (void) const;
+           bool   hasAlphaChannel   (void);
+           bool   hasColorChannel   (void);
+           bool   hasCompressedData (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -227,7 +262,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     /*! \{                                                                 */
 
     inline unsigned long getSize ( bool withMipmap = true,
-                                   bool withFrames = true) const;
+                                   bool withFrames = true,
+                                   bool withSides  = true ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -235,9 +271,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     /*! \{                                                                 */
 
     inline const UInt8 *getData ( UInt32 mipmapNum = 0,
-                                  UInt32 frameNum = 0) const;
+                                  UInt32 frameNum = 0,
+                                  UInt32 sideNum = 0 ) const;
     inline       UInt8 *getData ( UInt32 mipmapNum = 0,
-                                  UInt32 frameNum = 0);
+                                  UInt32 frameNum = 0,
+                                  UInt32 sideNum = 0 );
+
     UInt8 *getDataByTime(Time time, UInt32 mipmapNum = 1);
 
     /*! \}                                                                 */
@@ -246,9 +285,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     /*! \{                                                                 */
 
     void   calcMipmapGeometry   ( UInt32 mipmapNum,
-                                         UInt32 &width,
-                                         UInt32 &height,
-                                         UInt32 &depth       ) const;
+                                  UInt32 &width,
+                                  UInt32 &height,
+                                  UInt32 &depth       ) const;
+
     UInt32 calcMipmapLevelCount ( void                       ) const;
     UInt32 calcFrameNum         ( Time time, bool loop = true) const;
 
@@ -305,9 +345,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     /*! \name               Calculate Mipmap Size                          */
     /*! \{                                                                 */
 
-    UInt32 calcMipmapSize   ( UInt32 mipmapNum,
-                                     UInt32 w, UInt32 h, UInt32 d) const;
-    UInt32 calcMipmapSize   ( UInt32 mipmapNum                   ) const;
     UInt32 calcMipmapSumSize( UInt32 mipmapNum,
                                      UInt32 w, UInt32 h, UInt32 d) const;
     UInt32 calcMipmapSumSize( UInt32 mipmapNum                   ) const;

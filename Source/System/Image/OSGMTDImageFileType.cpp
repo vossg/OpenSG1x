@@ -123,7 +123,8 @@ bool MTDImageFileType::read (      ImagePtr &image   ,
                headSize) && head.netToHost() &&
        image->set ( Image::PixelFormat(head.pixelFormat), 
                     head.width, head.height, head.depth, head.mipmapCount, 
-                    head.frameCount, float(head.frameDelay) / 1000.0) &&
+                    head.frameCount, float(head.frameDelay) / 1000.0,
+                    0, Image::OSG_UINT8_IMAGEDATA, true, head.sideCount) &&
        (dataSize = image->getSize()) && 
        in.read((char *)(image->getData()), dataSize ))
       retCode = true;
@@ -156,6 +157,7 @@ bool MTDImageFileType::write(const ImagePtr &image   ,
     head.mipmapCount  = image->getMipMapCount();
     head.frameCount   = image->getFrameCount();
     head.frameDelay   = short(image->getFrameDelay() * 1000.0);
+    head.sideCount    = image->getSideCount();
     head.hostToNet();
   
     if ( out && out.write(static_cast<const char *>(headData), headSize) && 

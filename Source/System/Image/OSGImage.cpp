@@ -79,6 +79,10 @@ Int32 Image::_formatDic[][2] =
     { OSG_RGBA_PF, 4 },
     { OSG_BGR_PF, 3 },
     { OSG_BGRA_PF, 4 },
+    { OSG_RGB_DXT1, 3},
+    { OSG_RGBA_DXT1, 4},
+    { OSG_RGBA_DXT3, 4},
+    { OSG_RGBA_DXT5, 4},
 };
 
 Int32 Image::_typeDic[][2] =
@@ -131,21 +135,29 @@ void Image::dump(UInt32    ,
     case OSG_LA_PF:
         pfStr = "LUMINANCE_ALPHA";
         break;
-#if defined(GL_BGR) || defined(GL_BGR_EXT)
     case OSG_BGR_PF:
         pfStr = "BGR";
         break;
-#endif
-#if defined(GL_BGRA) || defined(GL_BGRA_EXT)
     case OSG_BGRA_PF:
         pfStr = "BGRA";
         break;
-#endif
     case OSG_RGB_PF:
         pfStr = "RGB";
         break;
     case OSG_RGBA_PF:
         pfStr = "RGBA";
+        break;
+    case OSG_RGB_DXT1:
+        pfStr = "RGB_DXT1";
+        break;
+    case OSG_RGBA_DXT1:
+        pfStr = "RGBA_DXT1";
+        break;
+    case OSG_RGBA_DXT3:
+        pfStr = "RGB_DXT3";
+        break;
+    case OSG_RGBA_DXT5:
+        pfStr = "RGB_DXT5";
         break;
     default:
         pfStr = "UNKNOWN_PIXEL_FORMAT";
@@ -172,12 +184,15 @@ void Image::dump(UInt32    ,
         break;
     };
 
-    FLOG (("ImageDump: %s; %d/%d/%d; #mm: %d, #frame: %d, frameDelay %g, dataType %s\n",
+    FLOG (("ImageDump: %s; %d/%d/%d; #mm: %d, #side: %d, #frame: %d, frameDelay %g, dataType %s, size: %d\n",
            pfStr, getWidth(),
            getHeight(), getDepth(),
-           getMipMapCount(), getFrameCount(),
-           getFrameDelay(), typeStr
-              ));
+           getMipMapCount(), 
+           getSideCount(),
+           getFrameCount(), getFrameDelay(), 
+           typeStr,
+           getSize()
+           ));
 }
 
 /*------------------------------ set object data --------------------------*/
@@ -188,7 +203,8 @@ void Image::dump(UInt32    ,
 bool Image::set(UInt32 pF,
                 Int32 w, Int32 h,
                 Int32 d, Int32 mmS, Int32 fS,
-                Time fD, const UChar8 *da, Int32 t, bool allocMem)
+                Time fD, const UChar8 *da, Int32 t, bool allocMem,
+                Int32 sS)
 {
     ImagePtr iPtr(this);
 
@@ -198,19 +214,21 @@ bool Image::set(UInt32 pF,
                 HeightFieldMask |
                 DepthFieldMask |
                 MipMapCountFieldMask |
+                SideCountFieldMask |
                 FrameCountFieldMask |
                 FrameDelayFieldMask |
                 DataTypeFieldMask);
 
     setPixelFormat(pF);
 
-    setWidth(w);
-    setHeight(h);
-    setDepth(d);
+    setWidth       ( osgMax ( 1, w)   );
+    setHeight      ( osgMax ( 1, h)   );
+    setDepth       ( osgMax ( 1, d)   );
 
-    setMipMapCount(mmS);
+    setMipMapCount ( osgMax ( 1, mmS) );
+    setSideCount   ( osgMax ( 1, sS)  );
+    setFrameCount  ( osgMax ( 1, fS)  );
 
-    setFrameCount(fS);
     setFrameDelay(fD);
 
     setDataType (t);
@@ -242,7 +260,10 @@ bool Image::set(ImagePtr image)
               image->getFrameCount(),
               image->getFrameDelay(),
               image->getData(),
-              image->getDataType());
+              image->getDataType(),
+              true,
+              image->getSideCount());
+
     return true;
 }
 
@@ -280,6 +301,12 @@ bool Image::setSubData ( Int32 offX, Int32 offY, Int32 offZ,
 
     FDEBUG(( "Image::setSubData (%d %d %d) - (%d %d %d) - src %p\n",
              offX, offY, offZ, srcW, srcH, srcD, src ));
+
+    if (hasCompressedData()) 
+    {
+        FFATAL (("Invalid Image::setSubData for compressed image\n"));
+        return false;
+    }
 
     if(!src || !dest)
     {
@@ -351,6 +378,12 @@ bool Image::addValue(const char *value)
            Int64        v;
 
            bool         isHead = strchr(value, ' ') ? true : false;
+
+    if (hasCompressedData()) 
+    {
+        FFATAL (("Invalid Image::addValue for compressed image\n"));
+        return false;
+    }
 
     // make sure we only read one image at a time
     if(currentImage == this)
@@ -524,6 +557,12 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
     UInt32 sum;
     Real64 sumReal;
     ImagePtr dest = destination;
+
+    if (hasCompressedData()) 
+    {
+        FFATAL (("Invalid Image::reformat for compressed image\n"));
+        return false;
+    }
 
     if(destination == NullFC)
     {
@@ -1304,6 +1343,12 @@ void Image::swapDataEndian(void)
 */
 bool Image::convertDataTypeTo (Int32 destDataType)
 {
+    if (hasCompressedData()) 
+    {
+        FFATAL (("Invalid Image::convertDataTypeTo for compressed image\n"));
+        return false;
+    }
+
     if (destDataType == getDataType())
     {
         FWARNING (( "source image and destination image have same data types: no conversion possible"));
@@ -1317,7 +1362,13 @@ bool Image::convertDataTypeTo (Int32 destDataType)
     dest = Image::create();
     addRefCP(dest);
 
-    dest->set(getPixelFormat(), getWidth(), getHeight(), getDepth(), getMipMapCount(), getFrameCount(), 0.0, 0, destDataType);
+    dest->set ( getPixelFormat(), 
+                getWidth(), getHeight(), getDepth(), 
+                getMipMapCount(), 
+                getFrameCount(), 0.0, 
+                0, destDataType,
+                true,
+                getSideCount());
 
     UChar8 *sourceData = getData();
     UChar8 *destData = dest->getData();
@@ -1630,12 +1681,18 @@ bool Image::scale(Int32 width, Int32 height, Int32 depth,
 {
     ImagePtr destImage;
     UInt32  sw, sh, sd, dw, dh, dd;
-    Int32   frame, mipmap;
+    Int32   frame, side, mipmap;
     UChar8  *src, *dest;
     Int32   oldWidth =getWidth();
     Int32   oldHeight=getHeight();
     Int32   oldDepth =getDepth();
     MFUInt8 srcPixel;
+
+    if (hasCompressedData()) 
+    {
+        FFATAL (("Invalid Image::scale for compressed image\n"));
+        return false;
+    }
 
     if(destination != NullFC)
         destImage=destination;
@@ -1647,33 +1704,38 @@ bool Image::scale(Int32 width, Int32 height, Int32 depth,
     // set image data
     destImage->set((PixelFormat)getPixelFormat(),
                    width, height, depth, getMipMapCount(),
-                   getFrameCount(), getFrameDelay(), 0, getDataType());
+                   getFrameCount(), getFrameDelay(), 0, getDataType(),
+                   true,
+                   getSideCount());
 
     beginEditCP(destImage,PixelFieldMask);
 
-    // copy every mipmap in every frame
+    // copy every mipmap in every side in every frame
     for(frame = 0; frame < getFrameCount(); frame++)
     {
+      for (side = 0; side < getSideCount(); side++) 
+      {
         for(mipmap = 0; mipmap < getMipMapCount(); mipmap++)
         {
-            // get the memory pointer
-            src = (&srcPixel[0]) +
-                (frame * getFrameSize() * getBpp());
-            if(mipmap)
-                src+=calcMipmapSumSize(
-                    mipmap - 1,
-                    oldWidth, oldHeight, oldDepth) * getBpp();
-            dest=destImage->getData(mipmap,frame);
-
-            // calc the mipmap size
-            sw = oldWidth  >> mipmap;
-            sh = oldHeight >> mipmap;
-            sd = oldDepth  >> mipmap;
-            destImage->calcMipmapGeometry(mipmap, dw, dh, dd);
-
-            // copy and scale the data
-            scaleData(src, sw, sh, sd, dest, dw, dh, dd);
+          // get the memory pointer
+          src = (&srcPixel[0]) +
+            (side  * getSideSize()) +
+            (frame * getFrameSize()) ;
+          if(mipmap)
+            src+=calcMipmapSumSize ( mipmap,
+                                     oldWidth, oldHeight, oldDepth);
+          dest=destImage->getData(mipmap,frame,side);
+          
+          // calc the mipmap size
+          sw = oldWidth  >> mipmap;
+          sh = oldHeight >> mipmap;
+          sd = oldDepth  >> mipmap;
+          destImage->calcMipmapGeometry(mipmap, dw, dh, dd);
+          
+          // copy and scale the data
+          scaleData(src, sw, sh, sd, dest, dw, dh, dd);
         }
+      }
     }
 
     endEditCP(destImage,PixelFieldMask);
@@ -1703,6 +1765,12 @@ bool Image::subImage ( Int32 offX, Int32 offY, Int32 offZ,
 {
     ImagePtr destImage = destination;
     bool     retCode   = true;
+
+    if (hasCompressedData()) 
+    {
+        FFATAL (("Invalid Image::subImage for compressed image\n"));
+        return false;
+    }
 
     if(destination == NullFC)
     {
@@ -1772,6 +1840,12 @@ bool Image::slice ( Int32 offX, Int32 offY, Int32 offZ,
     ImagePtr destImage = destination;
     bool     retCode   = true;
     UInt32   counter   = 0;
+
+    if (hasCompressedData()) 
+    {
+        FFATAL (("Invalid Image::slice for compressed image\n"));
+        return false;
+    }
 
     if(destination == NullFC)
     {
@@ -1906,6 +1980,12 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
     UInt32 *sourceDataUC32, *destDataUC32;
     Real32 *sourceDataF32,  *destDataF32;
 
+    if (hasCompressedData()) 
+    {
+        FFATAL (("Invalid Image::createMipmap for compressed image\n"));
+        return false;
+    }
+
     if(destImage == NullFC)
     {
         destImage = Image::create();
@@ -1913,7 +1993,7 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
     }
 
     Real32 valueFloat;
-    Int32   value, i, elem, dim, frame, size, mipmap;
+    Int32   value, i, elem, dim, side, frame, size, mipmap;
     Int32   channel, lineSize, sliceSize;
 
     // calc the level count
@@ -1926,7 +2006,9 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
     destImage->set(getPixelFormat(),
                    getWidth(), getHeight(), getDepth(),
                    level, getFrameCount(),
-                   getFrameDelay(), 0, getDataType());
+                   getFrameDelay(), 0, getDataType(),
+                   true,
+                   getSideCount() );
 
     // copy the data;
     switch (getDataType())
@@ -1934,8 +2016,10 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
         case OSG_UINT8_IMAGEDATA:
             for(frame = 0; frame < getFrameCount(); frame++)
             {
-                src = this->getData(0, frame);
-                dest = destImage->getData(0, frame);
+              for(side = 0; side < getSideCount(); side++) 
+              {
+                src = this->getData(0, frame, side);
+                dest = destImage->getData(0, frame, side);
                 size = getWidth() * getHeight() * getDepth() * getBpp();
                 memcpy(dest,src, size);
                 src = dest;
@@ -1983,15 +2067,18 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
                     h = hm;
                     d = dm;
                 }
+              }
             }
             break;
 
         case OSG_UINT16_IMAGEDATA:
             for(frame = 0; frame < getFrameCount(); frame++)
             {
-                src = this->getData(0, frame);
+              for(side = 0; side < getSideCount(); side++) 
+              {
+                src = this->getData(0, frame, side);
                 // sourceDataUC16 = (UInt16*) this->getData(0, frame);
-                dest = destImage->getData(0, frame);
+                dest = destImage->getData(0, frame, side);
                 // destDataUC16 = (UInt16*) destImage->getData(0, frame);
 
                 size = getWidth() * getHeight() * getDepth() * getBpp();
@@ -2051,15 +2138,18 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
                     h = hm;
                     d = dm;
                 }
+              }
             }
             break;
 
         case OSG_UINT32_IMAGEDATA:
             for(frame = 0; frame < getFrameCount(); frame++)
             {
-                src = this->getData(0, frame);
+              for(side = 0; side < getSideCount(); side++) 
+              {
+                src = this->getData(0, frame,side);
                 // sourceDataUC32 = (UInt32*) this->getData(0, frame);
-                dest = destImage->getData(0, frame);
+                dest = destImage->getData(0, frame,side);
                 // destDataUC32 = (UInt32*) destImage->getData(0, frame);
 
                 size = getWidth() * getHeight() * getDepth() * getBpp();
@@ -2118,14 +2208,17 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
                     h = hm;
                     d = dm;
                 }
+              }
             }
             break;
 
         case OSG_FLOAT32_IMAGEDATA:
             for(frame = 0; frame < getFrameCount(); frame++)
             {
-                src = this->getData(0, frame);
-                dest = destImage->getData(0, frame);
+              for(side = 0; side < getSideCount(); side++) 
+              {
+                src = this->getData(0, frame,side);
+                dest = destImage->getData(0, frame,side);
                 size = getWidth() * getHeight() * getDepth() * getBpp();
                 memcpy(dest,src, size);
                 src = dest;
@@ -2176,6 +2269,7 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
                     h = hm;
                     d = dm;
                 }
+              }
             }
             break;
 
@@ -2300,6 +2394,18 @@ bool Image::hasAlphaChannel(void)
     || getPixelFormat() == OSG_LA_PF;
 }
 
+/*! Method to check, whether the data is compressed
+ */
+bool Image::hasCompressedData(void)
+{
+  return 
+    (getPixelFormat() == OSG_RGB_DXT1)  ||
+    (getPixelFormat() == OSG_RGBA_DXT1) ||
+    (getPixelFormat() == OSG_RGBA_DXT3) ||
+    (getPixelFormat() == OSG_RGBA_DXT5);
+    
+}
+
 /*! Method to check, whether the object data defines a color channel or not
  */
 bool Image::hasColorChannel(void)
@@ -2368,48 +2474,46 @@ UInt32 Image::calcMipmapLevelCount ( void ) const
 #pragma reset woff 1209
 #endif
 
-/*! Internal used method to calculate the size in bpp of a single mipmap level
- */
-UInt32 Image::calcMipmapSize    ( UInt32 mipmapNum,
-                                  UInt32 w, UInt32 h, UInt32 d) const
-{
-  w >>= mipmapNum;
-  h >>= mipmapNum;
-  d >>= mipmapNum;
-
-  return (w?w:1) * (h?h:1) * (d?d:1);
-}
-
 /*-------------------------------------------------------------------------*/
 /*                            Calculate Mipmap Size                        */
 
-/*! Internal used method to calculate the size in bpp of a single mipmap
-    level for the current image settings
-*/
-UInt32 Image::calcMipmapSize(UInt32 mipmapNum) const
-{
-    return calcMipmapSize(mipmapNum,getWidth(),getHeight(),getDepth());
-}
 
-/*! Internal used method to calculate the mem sum of all mipmap levels in bpp
+/*! Internal used method to calculate the mem sum of all mipmap levels in byte
  */
 UInt32 Image::calcMipmapSumSize ( UInt32 mipmapNum,
-                                         UInt32 w, UInt32 h, UInt32 d) const
+                                  UInt32 w, UInt32 h, UInt32 d) const
 {
-    Int32 sum = w * h * d;
+    Int32 levelSum, sum = 0;
 
     while (mipmapNum--)
     {
-        w >>= 1;
-        h >>= 1;
-        d >>= 1;
-        sum += (w?w:1) * (h?h:1) * (d?d:1);
+      switch (getPixelFormat()) {
+      case OSG_RGB_DXT1:
+      case OSG_RGBA_DXT1:
+        levelSum = (((w?w:1)+3)/4) * (((h?h:1)+3)/4) * 8;
+        break;
+      case OSG_RGBA_DXT3:
+      case OSG_RGBA_DXT5:
+        levelSum = (((w?w:1)+3)/4) * (((h?h:1)+3)/4) * 16;
+        break;
+      default:
+        levelSum = (w?w:1) * (h?h:1) * getBpp();
+        break;
+      }
+      
+      levelSum *= (d?d:1);
+      
+      sum += levelSum;
+      
+      w >>= 1;
+      h >>= 1;
+      d >>= 1;
     }
 
     return sum;
 }
 
-/*! Internal used method to calculate the mem sum of all mipmap levels in bpp
+/*! Internal used method to calculate the mem sum of all mipmap levels in byte
     for the current Image paramter
 */
 UInt32 Image::calcMipmapSumSize (UInt32 mipmapNum) const
@@ -2471,10 +2575,11 @@ bool Image::createData(const UInt8 *data, bool allocMem)
     else
         setDimension(3);
 
-    // set frameSize
-    setFrameSize(calcMipmapSumSize(getMipMapCount() - 1));
+    // set sideSize
+    setSideSize ( calcMipmapSumSize(getMipMapCount()) );
 
-    FINFO(("FrameSize: %d\n", getFrameSize()));
+    // set frameSize
+    setFrameSize( getSideSize() * getSideCount() );
 
     // copy the data
     if(allocMem && (byteCount = getSize()))

@@ -201,6 +201,20 @@ SFInt32 *ImageBase::getSFComponentSize(void)
     return &_sfComponentSize;
 }
 
+//! Get the Image::_sfSideCount field.
+inline
+SFInt32 *ImageBase::getSFSideCount(void)
+{
+    return &_sfSideCount;
+}
+
+//! Get the Image::_sfSideSize field.
+inline
+SFInt32 *ImageBase::getSFSideSize(void)
+{
+    return &_sfSideSize;
+}
+
 
 //! Get the value of the Image::_sfDimension field.
 inline
@@ -473,6 +487,48 @@ inline
 void ImageBase::setComponentSize(const Int32 &value)
 {
     _sfComponentSize.setValue(value);
+}
+
+//! Get the value of the Image::_sfSideCount field.
+inline
+Int32 &ImageBase::getSideCount(void)
+{
+    return _sfSideCount.getValue();
+}
+
+//! Get the value of the Image::_sfSideCount field.
+inline
+const Int32 &ImageBase::getSideCount(void) const
+{
+    return _sfSideCount.getValue();
+}
+
+//! Set the value of the Image::_sfSideCount field.
+inline
+void ImageBase::setSideCount(const Int32 &value)
+{
+    _sfSideCount.setValue(value);
+}
+
+//! Get the value of the Image::_sfSideSize field.
+inline
+Int32 &ImageBase::getSideSize(void)
+{
+    return _sfSideSize.getValue();
+}
+
+//! Get the value of the Image::_sfSideSize field.
+inline
+const Int32 &ImageBase::getSideSize(void) const
+{
+    return _sfSideSize.getValue();
+}
+
+//! Set the value of the Image::_sfSideSize field.
+inline
+void ImageBase::setSideSize(const Int32 &value)
+{
+    _sfSideSize.setValue(value);
 }
 
 

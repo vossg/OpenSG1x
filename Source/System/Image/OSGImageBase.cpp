@@ -110,6 +110,12 @@ const OSG::BitVector  ImageBase::DataTypeFieldMask =
 const OSG::BitVector  ImageBase::ComponentSizeFieldMask = 
     (TypeTraits<BitVector>::One << ImageBase::ComponentSizeFieldId);
 
+const OSG::BitVector  ImageBase::SideCountFieldMask = 
+    (TypeTraits<BitVector>::One << ImageBase::SideCountFieldId);
+
+const OSG::BitVector  ImageBase::SideSizeFieldMask = 
+    (TypeTraits<BitVector>::One << ImageBase::SideSizeFieldId);
+
 const OSG::BitVector ImageBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -161,6 +167,12 @@ const OSG::BitVector ImageBase::MTInfluenceMask =
 */
 /*! \var Int32           ImageBase::_sfComponentSize
     Size (in byte) of a single component of the image. Necessary         for High Dynamic Range and other higher-level image types.
+*/
+/*! \var Int32           ImageBase::_sfSideCount
+    
+*/
+/*! \var Int32           ImageBase::_sfSideSize
+    
 */
 
 //! Image description
@@ -225,7 +237,7 @@ FieldDescription *ImageBase::_desc[] =
     new FieldDescription(SFInt32::getClassType(), 
                      "frameSize", 
                      FrameSizeFieldId, FrameSizeFieldMask,
-                     false,
+                     true,
                      (FieldAccessMethod) &ImageBase::getSFFrameSize),
     new FieldDescription(SFString::getClassType(), 
                      "name", 
@@ -240,8 +252,18 @@ FieldDescription *ImageBase::_desc[] =
     new FieldDescription(SFInt32::getClassType(), 
                      "componentSize", 
                      ComponentSizeFieldId, ComponentSizeFieldMask,
+                     true,
+                     (FieldAccessMethod) &ImageBase::getSFComponentSize),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "sideCount", 
+                     SideCountFieldId, SideCountFieldMask,
                      false,
-                     (FieldAccessMethod) &ImageBase::getSFComponentSize)
+                     (FieldAccessMethod) &ImageBase::getSFSideCount),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "sideSize", 
+                     SideSizeFieldId, SideSizeFieldMask,
+                     true,
+                     (FieldAccessMethod) &ImageBase::getSFSideSize)
 };
 
 
@@ -312,6 +334,8 @@ ImageBase::ImageBase(void) :
     _sfName                   (), 
     _sfDataType               (Int32(GL_UNSIGNED_BYTE)), 
     _sfComponentSize          (Int32(1)), 
+    _sfSideCount              (Int32(1)), 
+    _sfSideSize               (Int32(0)), 
     Inherited() 
 {
 }
@@ -336,6 +360,8 @@ ImageBase::ImageBase(const ImageBase &source) :
     _sfName                   (source._sfName                   ), 
     _sfDataType               (source._sfDataType               ), 
     _sfComponentSize          (source._sfComponentSize          ), 
+    _sfSideCount              (source._sfSideCount              ), 
+    _sfSideSize               (source._sfSideSize               ), 
     Inherited                 (source)
 {
 }
@@ -427,6 +453,16 @@ UInt32 ImageBase::getBinSize(const BitVector &whichField)
         returnValue += _sfComponentSize.getBinSize();
     }
 
+    if(FieldBits::NoField != (SideCountFieldMask & whichField))
+    {
+        returnValue += _sfSideCount.getBinSize();
+    }
+
+    if(FieldBits::NoField != (SideSizeFieldMask & whichField))
+    {
+        returnValue += _sfSideSize.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -509,6 +545,16 @@ void ImageBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ComponentSizeFieldMask & whichField))
     {
         _sfComponentSize.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SideCountFieldMask & whichField))
+    {
+        _sfSideCount.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SideSizeFieldMask & whichField))
+    {
+        _sfSideSize.copyToBin(pMem);
     }
 
 
@@ -594,6 +640,16 @@ void ImageBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfComponentSize.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (SideCountFieldMask & whichField))
+    {
+        _sfSideCount.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SideSizeFieldMask & whichField))
+    {
+        _sfSideSize.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -648,6 +704,12 @@ void ImageBase::executeSyncImpl(      ImageBase *pOther,
     if(FieldBits::NoField != (ComponentSizeFieldMask & whichField))
         _sfComponentSize.syncWith(pOther->_sfComponentSize);
 
+    if(FieldBits::NoField != (SideCountFieldMask & whichField))
+        _sfSideCount.syncWith(pOther->_sfSideCount);
+
+    if(FieldBits::NoField != (SideSizeFieldMask & whichField))
+        _sfSideSize.syncWith(pOther->_sfSideSize);
+
 
 }
 
@@ -681,7 +743,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGIMAGEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGIMAGEBASE_INLINE_CVSID;
 

@@ -36,88 +36,48 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef OSGIMAGEFILETYPE_CLASS_DECLARATION
-#define OSGIMAGEFILETYPE_CLASS_DECLARATION
+#ifndef OSGDDSIMAGEFILETYPE_CLASS_DECLARATION
+#define OSGDDSIMAGEFILETYPE_CLASS_DECLARATION
+#ifdef  __sig
+#pragma  once
+#endif
 
-#include <list>
-
+#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
-#include <OSGIDString.h>
-#include <OSGImage.h>
+#include <OSGImageFileType.h>
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief Abstract Base ImageFileType. Defines the Interface for
-all concrete ImageFileTypes. See \ref PageSystemImage for detailed description.
+/*! \brief DDS File Handler. Used to read/write DDS files.
+See \ref PageSystemImage for a detailed description.
 */
 
-class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
-
-
-  /*==========================  PUBLIC  =================================*/
-
+class OSG_SYSTEMLIB_DLLMAPPING DDSImageFileType : public ImageFileType
+{
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Flags                                    */
-    /*! \{                                                                 */
-  
-    enum
-    {
-        OSG_READ_SUPPORTED = 1,
-        OSG_WRITE_SUPPORTED = 2
-    };
-    
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual ~ImageFileType (void);
+    virtual ~DDSImageFileType (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                    Get  Methods                              */
+    /*! \name                  Get Methods                                 */
     /*! \{                                                                 */
-    
-    const Char8  *getMimeType (void) const;
 
-    const std::list<IDString> &getSuffixList(void) const;
-    
-    virtual UInt32 getFlags(void) const;
+    static DDSImageFileType & the (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    virtual bool read  (ImagePtr &image, const Char8 *fileName )       = 0;
+    virtual bool read  (ImagePtr &image, const Char8 *fileName);
 
-    virtual bool write (const ImagePtr &image, const Char8 *fileName ) = 0;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   store/restore                              */
-    /*! \{                                                                 */
-
-    static  UInt64 restore       ( ImagePtr &image, const UChar8 *buffer,
-                                   Int32 memSize = -1 );
-
-    static  UInt64 store         ( const ImagePtr &image,
-                                   const char *mimeType,
-                                   UChar8 *buffer, Int32 memSize = -1 );
-
-    UInt64 store                 ( const ImagePtr &image, UChar8 *buffer,
-                                   Int32 memSize = -1 );
-    
-    virtual UInt64 maxBufferSize ( const ImagePtr &image );
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                       dump                                   */
-    /*! \{                                                                 */
-
-    void dump(void);
+    virtual bool write (const ImagePtr &image, const Char8 *fileName);
 
     /*! \}                                                                 */
 
@@ -125,72 +85,33 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
   protected:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                   MTD Header                                 */
+    /*! \name               Default Constructor                            */
     /*! \{                                                                 */
 
-    struct Head {
-      Char8          mimeType[8];
-      unsigned short pixelFormat;
-      unsigned short width;
-      unsigned short height;
-      unsigned short depth;
-      unsigned short mipmapCount;
-      unsigned short frameCount;
-      unsigned short frameDelay;
-      unsigned short sideCount;
-      unsigned short _reserved2;
-      unsigned short _reserved3;
-      unsigned short _reserved4;
-      unsigned short attachmentSize;
-
-    bool netToHost (void);
-    bool hostToNet (void);
-
-    };
-
-    /*! \}                                                                 */
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                Default Constructor                           */
-    /*! \{                                                                 */
-
-    ImageFileType ( const Char8  *mimeType,
-                    const Char8  *suffixArray[], 
-                          UInt16  suffixByteCount,
-                          UInt32  flags = OSG_READ_SUPPORTED );
+    DDSImageFileType ( const Char8 *mimeType,
+                       const Char8 *suffixArray[], UInt16 suffixByteCount,
+                       UInt32 flags );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                Copy Constructor                              */
     /*! \{                                                                 */
 
-    ImageFileType ( const ImageFileType &obj);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Buffer                                   */
-    /*! \{                                                                 */
-
-    virtual UInt64 restoreData ( ImagePtr &image, const UChar8 *buffer,
-                                 Int32 memSize = -1 );
-
-    virtual UInt64 storeData   ( const ImagePtr &image, UChar8 *buffer,
-                                 Int32 memSize = -1 );
+    DDSImageFileType (const DDSImageFileType &obj);
 
     /*! \}                                                                 */
 
     /*==========================  PRIVATE  ================================*/
   private:
 
-    std::list<IDString> _suffixList;
+    typedef ImageFileType    Inherited;
 
-    IDString _mimeType;
+    static  DDSImageFileType _the;
 
-    UInt32              _flags;
 };
 
-typedef ImageFileType* ImageFileTypeP;
+typedef DDSImageFileType* DDSImageFileTypeP;
 
 OSG_END_NAMESPACE
 
-#endif // OSGIMAGEFILETYPE_CLASS_DECLARATION
+#endif // OSGDDSIMAGEFILETYPE_CLASS_DECLARATION

@@ -74,7 +74,7 @@ bool ImageFileType::Head::netToHost(void)
     mipmapCount    = ntohs(mipmapCount);
     frameCount     = ntohs(frameCount);
     frameDelay     = ntohs(frameDelay);
-    _reserved1     = 0;
+    sideCount      = ntohs(sideCount);
     _reserved2     = 0;
     _reserved3     = 0;
     _reserved4     = 0;
@@ -97,7 +97,7 @@ bool ImageFileType::Head::hostToNet(void)
     mipmapCount    = htons(mipmapCount);
     frameCount     = htons(frameCount);
     frameDelay     = htons(frameDelay);
-    _reserved1     = 0;
+    sideCount      = htons(sideCount);
     _reserved2     = 0;
     _reserved3     = 0;
     _reserved4     = 0;
@@ -240,7 +240,8 @@ UInt64 ImageFileType::restore( ImagePtr &image,
         {
             image->set(Image::PixelFormat(head.pixelFormat), head.width,
                        head.height, head.depth, head.mipmapCount,
-                       head.frameCount, float(head.frameDelay) / 1000.0, 0);
+                       head.frameCount, float(head.frameDelay) / 1000.0, 0,
+                       Image::OSG_UINT8_IMAGEDATA,true,head.sideCount );
             imageSize = static_cast<unsigned long>(
                 type->restoreData(image, data, memSize - headSize));
             attachmentSize = 0; // head->attachmentSize;
@@ -358,6 +359,7 @@ UInt64 ImageFileType::store(const ImagePtr &image,
         head->mipmapCount    = image->getMipMapCount();
         head->frameCount     = image->getFrameCount();
         head->frameDelay     = short(image->getFrameDelay() * 1000.0);
+        head->sideCount      = image->getSideCount();
         head->attachmentSize = static_cast<unsigned short>(attachmentSize);
         head->hostToNet();
       

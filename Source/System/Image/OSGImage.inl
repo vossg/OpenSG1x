@@ -55,25 +55,30 @@ inline bool Image::isValid (void) const
 /*! returns the data size in bytes. 
  */
 inline unsigned long Image::getSize ( bool withMipmap,
-                                      bool withFrames) const
+                                      bool withFrames,
+                                      bool withSides ) const
 { 
-    return  (calcMipmapSumSize((withMipmap ? (getMipMapCount()-1) : 0)) *
-              (withFrames ? getFrameCount() : 1) * getBpp());
+    return  ( calcMipmapSumSize((withMipmap ? getMipMapCount() : 0)) *
+              (withSides  ? getSideCount() : 1) *
+              (withFrames ? getFrameCount() : 1) ); 
 }
 
 /*! returns a data pointer for a single frame/mipmap chunk
  */
 inline UInt8 *Image::getData( UInt32 mipmapNum, 
-                              UInt32 frameNum)
+                              UInt32 frameNum,
+                              UInt32 sideNum )
 {
     if(getPixel().empty())
         return NULL;
+
     UInt8 *data = (&getPixel()[0]) + 
-        (frameNum * getFrameSize() * getBpp());
+      (sideNum * getSideSize()) +
+      (frameNum * getFrameSize());
     
     if (mipmapNum)
     {
-        data += calcMipmapSumSize(mipmapNum - 1) * getBpp();
+        data += calcMipmapSumSize(mipmapNum);
     }
   
     return data;
@@ -82,16 +87,19 @@ inline UInt8 *Image::getData( UInt32 mipmapNum,
 /*! returns a data pointer for a single frame/mipmap chunk
  */
 inline const UInt8 *Image::getData( UInt32 mipmapNum, 
-                                    UInt32 frameNum) const
+                                    UInt32 frameNum,
+                                    UInt32 sideNum ) const
 {
     if(getPixel().empty())
         return NULL;
+
     const UInt8 *data = (&getPixel()[0]) + 
-        (frameNum * getFrameSize() * getBpp());
+      (sideNum * getSideSize()) +
+      (frameNum * getFrameSize());
     
     if (mipmapNum)
     {
-        data += calcMipmapSumSize(mipmapNum - 1) * getBpp();
+        data += calcMipmapSumSize(mipmapNum);
     }
   
     return data;
