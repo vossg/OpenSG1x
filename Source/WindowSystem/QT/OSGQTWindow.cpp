@@ -100,7 +100,7 @@ void QTWindow::changed(BitVector whichField, UInt32 origin)
 void QTWindow::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump QTWindow NI" << endl;
+    SLOG << "Dump QTWindow NI" << std::endl;
 }
 
 
