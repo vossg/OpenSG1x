@@ -53,11 +53,9 @@ mouse(int button, int state, int x, int y)
     glutPostRedisplay();
 }
 
-void *load(void *arg)
+void load(void *arg)
 {
     scene = SceneFileHandler::the().read((char *) arg);
-
-    return NULL;
 }
 
 // Initialize GLUT & OpenSG and set up the scene
