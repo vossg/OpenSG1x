@@ -259,11 +259,11 @@ int main( int argc, char *argv[] )
     {  255,0,0,  0,255,0,  0,0,255,  255,255,255 };
 
 
-    Image image2( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata2 );
+    Image *pImage2 = new Image(Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata2);
 
     xchunk2 = TextureChunk::create();
     beginEditCP(xchunk2);
-    xchunk2->setImage( &image2 );
+    xchunk2->setImage( pImage2 );
     xchunk2->setMinFilter( GL_LINEAR );
     xchunk2->setMagFilter( GL_LINEAR );
     xchunk2->setWrapS( GL_REPEAT );
