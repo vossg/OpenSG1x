@@ -276,7 +276,8 @@ endif
 # Automatic Targets Test Toplevel
 #########################################################################
 
-$(TEST_TARGETS): $(TEST_OBJS) $(LIBS_DEP) $(TEST_DEPS)  
+Test: $(TEST_TARGETS_IN)
+	@echo Tests done  
 
 $(TEST_TARGETS_IN):  $(LIB_TESTQTTARGET_CPP) $(TEST_TARGETS) 
 	@for file in $@; do                \
@@ -285,8 +286,7 @@ $(TEST_TARGETS_IN):  $(LIB_TESTQTTARGET_CPP) $(TEST_TARGETS)
 		ln -s $(EXEDIR)/$$file $$file; \
 	done
 
-Test: $(TEST_TARGETS_IN)
-	@echo Tests done  
+$(TEST_TARGETS): $(TEST_OBJS) $(LIBS_DEP) $(TEST_DEPS)  
 
 $(LIB_TESTQT_TARGET)
 
@@ -302,9 +302,6 @@ list:
 	done
 	@echo 
 	@echo 
-
-dbgLnk:
-
 endif
 
 #########################################################################
@@ -366,10 +363,17 @@ optLnk: SubLnkLib
 	@echo "Done opt (SubLibLnk)"
 
 else
-dbg:
+dbg: Test
 	@echo "LASTDBG=dbg" > .lastdbg
-opt:
+opt: Test
 	@echo "LASTDBG=dbg" > .lastdbg
+
+dbgLnk: Test
+	@echo "LASTDBG=dbg" > .lastdbg
+
+optLnk: Test
+	@echo "LASTDBG=dbg" > .lastdbg
+
 endif
 
 #########################################################################
