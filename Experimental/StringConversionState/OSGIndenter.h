@@ -45,7 +45,7 @@
 #include <OSGBase.h>
 #include <OSGBaseTypes.h>
 
-#include <ostream>
+#include <iostream>
 
 OSG_BEGIN_NAMESPACE
 
@@ -199,7 +199,7 @@ inline ostream& operator<<(ostream& stream, const Indenter& indent);
 
 OSG_END_NAMESPACE
 
-#define OSGINDENTER_HEADER_CVSID "@(#)$Id: OSGIndenter.h,v 1.6 2002/05/13 12:12:38 vossg Exp $"
+#define OSGINDENTER_HEADER_CVSID "@(#)$Id: OSGIndenter.h,v 1.7 2002/05/13 12:33:31 vossg Exp $"
 
 #include "OSGIndenter.inl"
 
