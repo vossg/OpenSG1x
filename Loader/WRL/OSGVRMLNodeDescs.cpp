@@ -1475,6 +1475,525 @@ void VRMLGeometryDesc::dump(const Char8 *)
 
 
 
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/*! \class osg::VRMLGeometryPointSetDesc
+ */
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
+
+VRMLGeometryPointSetDesc::VRMLGeometryPointSetDesc(void) :
+    Inherited     (),
+
+    _bInIndex     (false),
+    _uiNumVertices(0),
+
+    _pTypeField   (NullFC    ),
+    _pLengthField (NullFC    )
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+VRMLGeometryPointSetDesc::~VRMLGeometryPointSetDesc(void)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Helper                                    */
+
+void VRMLGeometryPointSetDesc::init(const Char8 *OSG_VRML_ARG(szName))
+{
+#ifdef OSG_DEBUG_VRML
+    indentLog(getIndent(), PINFO);
+    PINFO << "GeoDesc::init : " << szName << endl;
+#endif
+
+    _pNodeProto     = Node::create();
+    _pNodeCoreProto = Geometry::create();
+
+    _pGenAtt = GenericAtt::create();
+    _pGenAtt->setInternal(true);
+}
+
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
+
+bool VRMLGeometryPointSetDesc::prototypeAddField(const Char8  *szFieldType,
+                                                 const UInt32  uiFieldTypeId,
+                                                 const Char8  *szFieldname)
+{
+    bool bFound = false;
+
+    _pCurrField = NULL;
+
+    if(szFieldname == NULL)
+        return false;
+
+    if(stringcasecmp("coord", szFieldname) == 0)
+    {
+        bFound = true;
+    }
+    else if(stringcasecmp("color", szFieldname) == 0)
+    {
+        bFound = true;
+    }
+
+    if(bFound == true)
+    {
+#ifdef OSG_DEBUG_VRML
+        indentLog(getIndent(), PINFO);
+        PINFO << "GeoDesc::prototypeAddField : internal " 
+              << szFieldname << endl;
+#endif
+
+        return true;
+    }
+    else
+    {
+        return Inherited::prototypeAddField(szFieldType,
+                                            uiFieldTypeId,
+                                            szFieldname);
+    }
+}
+
+ 
+void VRMLGeometryPointSetDesc::getFieldAndDesc(
+          FieldContainerPtr   pFC,
+    const Char8             * szFieldname,
+          Field             *&pField,
+    const FieldDescription  *&pDesc)
+{
+#ifdef OSG_DEBUG_VRML
+    indentLog(getIndent(), PINFO);
+    PINFO << "GeoDesc::getFieldAndDesc : request " 
+          << szFieldname 
+          << endl;
+#endif
+
+    if(szFieldname == NULL)
+        return;
+
+    if(pFC == NullFC)
+        return;
+
+    NodePtr pNode = NodePtr::dcast(pFC);
+
+    if(pNode == NullFC)
+    {
+        PWARNING << "GeoDesc::getFieldAndDesc : No Node" << endl;
+        return;
+    }
+
+    NodeCorePtr pNodeCore = pNode->getCore();
+
+    GeometryPtr pGeo      = GeometryPtr::dcast(pNodeCore);
+
+    if(pGeo == NullFC)
+    {
+        PWARNING << "GeoDesc::getFieldAndDesc : No Geo" << endl;
+        return;
+    }
+
+    _bInIndex = false;
+
+    if(stringcasecmp("coord", szFieldname) == 0)
+    {
+#ifdef OSG_DEBUG_VRML
+        indentLog(getIndent(), PINFO);
+        PINFO << "GeoDesc::getFieldAndDesc : internal " 
+              << szFieldname << endl;
+#endif
+        pField = pGeo->getField("positions");
+        
+        if(pField != NULL)
+            pDesc = pGeo->getType().findFieldDescription("positions");
+    }
+    else if(stringcasecmp("color", szFieldname) == 0)
+    {
+#ifdef OSG_DEBUG_VRML
+        indentLog(getIndent(), PINFO);
+        PINFO << "GeoDesc::getFieldAndDesc : internal " 
+              << szFieldname << endl;
+#endif
+
+        pField = pGeo->getField("colors");
+        
+        if(pField != NULL)
+            pDesc = pGeo->getType().findFieldDescription("colors");
+    }
+    else
+    {
+        VRMLNodeDesc::getFieldAndDesc(pGeo, 
+                                      szFieldname, 
+                                      pField,
+                                      pDesc);
+    }
+}
+
+/*-------------------------------------------------------------------------*/
+/*                                Node                                     */
+
+FieldContainerPtr VRMLGeometryPointSetDesc::beginNode(
+    const Char8       *,
+    const Char8       *,
+    FieldContainerPtr)
+{
+    FieldContainerPtr pFC         = NullFC;
+    NodePtr           pNode       = NullFC;
+    NodeCorePtr       pNodeCore   = NullFC;
+    GenericAttPtr     pAtt        = NullFC;
+
+    if(_pNodeProto != NullFC)
+    {
+        FieldContainerPtr pAttClone = _pGenAtt->clone();
+        
+        pAtt = GenericAttPtr::dcast(pAttClone);
+
+        if(pAtt != NullFC)
+        {
+            pAtt->setInternal(true);
+        }
+
+        pFC = _pNodeProto->shallowCopy();
+
+        pNode = NodePtr::dcast(pFC);
+
+        pFC = _pNodeCoreProto->shallowCopy();
+
+        pNodeCore = NodeCorePtr::dcast(pFC);
+       
+        beginEditCP(pNode);
+        {
+            pNode    ->setCore      (pNodeCore);
+            pNodeCore->addAttachment(pAtt);
+        }
+        endEditCP  (pNode);
+    }
+
+#ifdef OSG_DEBUG_VRML
+    indentLog(getIndent(), PINFO);
+    PINFO << "Begin Geo " << &(*pNode) << endl;
+
+    incIndent();
+#endif
+
+    return pNode;
+}
+
+void VRMLGeometryPointSetDesc::endNode(FieldContainerPtr pFC)
+{
+    NodePtr     pNode = NullFC;
+    GeometryPtr pGeo  = NullFC;
+
+    if(pFC == NullFC)
+    {
+        return;
+    }
+
+    pNode = NodePtr::dcast(pFC);
+    
+    if(pNode == NullFC)
+    {
+        return;
+    }
+
+    pGeo = GeometryPtr::dcast(pNode->getCore());
+
+    if(pGeo == NullFC)
+    {
+        return;
+    }
+
+    GeoPLengthsUI32Ptr pLengths = GeoPLengthsUI32::create();  
+    GeoPTypesUI8Ptr    pTypes   = GeoPTypesUI8::create();     
+
+    GeoPositionsPtr    pPos     = pGeo->getPositions();
+    GeoPositions3fPtr  pCoords  = GeoPositions3fPtr::dcast(pPos);
+
+    if(pCoords == NullFC)
+        return;
+
+    GeoPLengthsUI32::StoredFieldType *pLenField  = 
+        pLengths->getFieldPtr();
+
+    GeoPTypesUI8   ::StoredFieldType *pTypeField = 
+        pTypes ->getFieldPtr();
+
+    beginEditCP(pLengths);
+    {
+        pLenField->push_back(pCoords->getFieldPtr()->size());
+    }
+    endEditCP  (pLengths);
+
+    beginEditCP(pTypes);
+    {
+        pTypes->push_back(GL_POINTS);
+    }
+    endEditCP  (pTypes);
+
+    beginEditCP(pGeo, 
+                Geometry::TypesFieldMask | 
+                Geometry::LengthsFieldMask);
+    {
+        pGeo->setLengths(pLengths);
+        pGeo->setTypes  (pTypes  );
+    }
+    endEditCP  (pGeo, 
+                Geometry::TypesFieldMask | 
+                Geometry::LengthsFieldMask);
+
+#if 0
+          Field            *pField = NULL;
+    const FieldDescription *pDesc  = NULL;
+
+    MFInt32  *pCoordIndex           = NULL;
+    MFInt32  *pNormalIndex          = NULL;
+    MFInt32  *pColorIndex           = NULL;
+    MFInt32  *pTexCoordIndex        = NULL;
+    SFBool   *pConvex               = NULL;
+    SFBool   *pCcw                  = NULL;
+    SFBool   *pNormalPerVertex      = NULL;
+    SFBool   *pColorPerVertex       = NULL;
+    SFReal32 *pCreaseAngle          = NULL;
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "coordIndex", 
+                               pField,
+                               pDesc);
+
+    if(pField != NULL)
+    {
+        pCoordIndex = static_cast<MFInt32 *>(pField);
+    }
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "normalIndex", 
+                               pField,
+                               pDesc);
+
+    if(pField != NULL)
+    {
+        pNormalIndex = static_cast<MFInt32 *>(pField);
+    }
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "colorIndex", 
+                               pField,
+                               pDesc);
+
+    if(pField != NULL)
+    {
+        pColorIndex = static_cast<MFInt32 *>(pField);
+    }
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "texCoordIndex", 
+                               pField,
+                               pDesc);
+
+    if(pField != NULL)
+    {
+        pTexCoordIndex = static_cast<MFInt32 *>(pField);
+    }
+
+
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "convex", 
+                               pField,
+                               pDesc);
+
+    if(pField != NULL)
+    {
+        pConvex = static_cast<SFBool *>(pField);
+    }
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "ccw", 
+                               pField,
+                               pDesc);
+
+    if(pField != NULL)
+    {
+        pCcw = static_cast<SFBool *>(pField);
+    }
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "normalPerVertex", 
+                               pField,
+                               pDesc);
+
+    if(pField != NULL)
+    {
+        pNormalPerVertex = static_cast<SFBool *>(pField);
+    }
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "colorPerVertex", 
+                               pField,
+                               pDesc);
+
+    if(pField != NULL)
+    {
+        pColorPerVertex = static_cast<SFBool *>(pField);
+    }
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "creaseAngle", 
+                               pField,
+                               pDesc);
+
+    if(pField != NULL)
+    {
+        pCreaseAngle = static_cast<SFReal32 *>(pField);
+    }
+
+    beginEditCP(pGeo);
+
+    if(_bIsFaceSet == true)
+    {
+        if(pCoordIndex         != NULL &&
+           pCoordIndex->size() >     2 &&
+           pNormalIndex        != NULL &&
+           pColorIndex         != NULL &&
+           pTexCoordIndex      != NULL &&
+           pConvex             != NULL &&
+           pCcw                != NULL &&
+           pNormalPerVertex    != NULL &&
+           pColorPerVertex     != NULL &&
+           pCreaseAngle        != NULL)
+        {
+#ifdef OSG_DEBUG_VRML
+            indentLog(getIndent(), PINFO);
+            PINFO << "Geo create faceset " << &(*pNode) << endl;
+#endif
+
+            setIndexFromVRMLData(pGeo,
+                                 pCoordIndex     ->getValues(),
+                                 pNormalIndex    ->getValues(),
+                                 pColorIndex     ->getValues(),
+                                 pTexCoordIndex  ->getValues(),
+                                 pConvex         ->getValue() ,
+                                 pCcw            ->getValue() ,
+                                 pNormalPerVertex->getValue() ,
+                                 pColorPerVertex ->getValue() ,
+                                 false, // create normal; not yet :)
+                                 true);
+
+            if((0 != (_uiOptions & VRMLFile::CreateNormals) )    &&
+               (pGeo->getNormals() == NullFC))
+            {
+#ifdef OSG_DEBUG_VRML
+                indentLog(getIndent(), PINFO);
+                PINFO << "Geo create normals " << &(*pNode) << endl;
+#endif
+
+                OSG::calcVertexNormals(pGeo, pCreaseAngle->getValue());
+            }
+
+            if(0 != (_uiOptions & VRMLFile::StripeGeometry) ) 
+            {
+                createOptimizedPrimitives(pGeo, 1, true, true, 8, false);
+            }
+        }
+        else
+        {
+            PWARNING << "Invalid geometry replaced by a group" << endl;
+
+            GroupPtr pGr = Group::create();
+
+            MFNodePtr           pGeoParents = pGeo->getParents ();
+            MFNodePtr::iterator parentsIt   = pGeoParents.begin();
+            MFNodePtr::iterator endParents  = pGeoParents.end  ();
+
+            while(parentsIt != endParents)
+            {
+                (*parentsIt)->setCore(pGr);
+
+                ++parentsIt;
+            }
+        }
+    }
+    else
+    {
+        vector<Int32> dummyVec;
+        bool          dummybool = false;
+
+        if(pCoordIndex         != NULL &&
+           pCoordIndex->size() >     1 &&
+           pColorIndex         != NULL &&
+           pColorPerVertex     != NULL)
+        {
+#ifdef OSG_DEBUG_VRML
+            indentLog(getIndent(), PINFO);
+            PINFO << "Geo create lineset " << &(*pNode) << endl;
+#endif
+ 
+            setIndexFromVRMLData(pGeo,
+                                 pCoordIndex    ->getValues(),
+                                 dummyVec ,
+                                 pColorIndex    ->getValues(),
+                                 dummyVec ,
+                                 dummybool,
+                                 dummybool,
+                                 dummybool,
+                                 pColorPerVertex->getValue() ,
+                                 false,  // create normal; not yet :)
+                                 false);
+        }
+        else
+        {
+            PWARNING << "Invalid geometry replaced by a group" << endl;
+
+            GroupPtr pGr = Group::create();
+
+            MFNodePtr           pGeoParents = pGeo->getParents ();
+            MFNodePtr::iterator parentsIt   = pGeoParents.begin();
+            MFNodePtr::iterator endParents  = pGeoParents.end  ();
+
+            while(parentsIt != endParents)
+            {
+                (*parentsIt)->setCore(pGr);
+
+                ++parentsIt;
+            }
+        }
+    }
+
+    endEditCP(pGeo);
+
+#ifdef OSG_DEBUG_VRML
+    decIndent();
+
+    indentLog(getIndent(), PINFO);
+    PINFO << "End Geo " << &(*pNode) << endl;
+#endif
+#endif
+}
+
+void VRMLGeometryPointSetDesc::addFieldValue(      Field *pField,
+                                             const Char8 *szFieldVal)
+{
+    if(pField != NULL)
+    {
+        pField->pushValueByStr(szFieldVal);
+    }
+}
+
+/*-------------------------------------------------------------------------*/
+/*                                Dump                                     */
+
+void VRMLGeometryPointSetDesc::dump(const Char8 *)
+{
+}
+
+
+
 
 //---------------------------------------------------------------------------
 //  Class

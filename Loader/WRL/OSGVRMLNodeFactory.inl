@@ -126,6 +126,16 @@ void VRMLNodeFactory<BaseT>::beginProto(
 
             _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
+        else if(stringcasecmp("PointSet", szProtoname) == 0)
+        {
+            stringDup(szProtoname, szName);
+
+            _pCurrentNodeDesc = new VRMLGeometryPointSetDesc();
+
+            _pCurrentNodeDesc->init(szProtoname);
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
+        }
         else if(stringcasecmp("Shape", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);

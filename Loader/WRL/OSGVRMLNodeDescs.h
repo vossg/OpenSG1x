@@ -498,6 +498,105 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
+//! VRML Gemometry PointSet Desc
+//! \ingroup GeometryLoaderLib
+
+class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryPointSetDesc : public VRMLNodeDesc
+{
+    /*==========================  PUBLIC  =================================*/
+  public :
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    VRMLGeometryPointSetDesc(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    virtual ~VRMLGeometryPointSetDesc(void); 
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
+
+    virtual void init(const Char8 *szName);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Get                                     */
+    /*! \{                                                                 */
+
+    virtual bool prototypeAddField(const Char8             * szFieldType,
+                                   const UInt32              uiFieldTypeId,
+                                   const Char8             * szFieldName); 
+
+    virtual void getFieldAndDesc  (      FieldContainerPtr   pFC,
+                                   const Char8             * szFieldname,
+                                         Field             *&pField,
+                                   const FieldDescription  *&pDesc);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Node                                    */
+    /*! \{                                                                 */
+
+    virtual FieldContainerPtr beginNode(const Char8             *szTypename,
+                                        const Char8             *szName,
+                                              FieldContainerPtr  pCurrentFC);
+
+    virtual void              endNode  (      FieldContainerPtr  pFC);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Field Value                                 */
+    /*! \{                                                                 */
+
+    virtual void addFieldValue(      Field *pField,
+                               const Char8 *szFieldVal);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
+
+    virtual void dump(const Char8 *szNodeName);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    bool           _bInIndex;
+    UInt32         _uiNumVertices;
+
+    GeoPTypesPtr   _pTypeField;
+    GeoPLengthsPtr _pLengthField;
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    typedef VRMLNodeDesc Inherited;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLGeometryPointSetDesc(const VRMLGeometryPointSetDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLGeometryPointSetDesc &source);
+};
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
 //! VRML Gemetry Part Desc 
 //! \ingroup GeometryLoaderLib
 
