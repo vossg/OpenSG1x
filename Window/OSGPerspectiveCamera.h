@@ -120,11 +120,11 @@ class OSG_WINDOW_DLLMAPPING PerspectiveCamera : public Camera
     /*------------------------- your_category -------------------------------*/
 
     /** draw the camera's geometry (if any). Usually there is none. */
-    virtual void draw( DrawAction * action, Viewport * port );
+    virtual void draw( DrawAction * action, const Viewport& port );
 
     /** get the separate elements needed for rendering */
 
-    virtual void getProjection( Matrix& result, Viewport * port );
+    virtual void getProjection( Matrix& result, const Viewport& port );
 
     
     void      setDegrees  (Real32 degrees);

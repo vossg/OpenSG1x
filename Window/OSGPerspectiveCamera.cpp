@@ -174,15 +174,15 @@ PerspectiveCamera::~PerspectiveCamera(void)
 
 /*-------------------------- your_category---------------------------------*/
 
-void PerspectiveCamera::draw( DrawAction * action, Viewport * port )
+void PerspectiveCamera::draw( DrawAction * action, const Viewport& port )
 {
 }
 
 void PerspectiveCamera::getProjection( Matrix& result, 
-	Viewport * port )
+	const Viewport& port )
 {
 	MatrixPerspective( result, getDegrees() / 2, 
-			port->getPixelWidth() / (float) port->getPixelHeight(), 
+			port.getPixelWidth() / (float) port.getPixelHeight(), 
 			getNear(), getFar() );
 }
 	

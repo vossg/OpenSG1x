@@ -52,6 +52,8 @@ NodePtr  root;
 
 NodePtr  file;
 
+PerspectiveCameraPtr cam;
+ViewportPtr vp;
 WindowPtr win;
 
 TransformPtr cam_trans;
@@ -198,6 +200,11 @@ void key(unsigned char key, int x, int y)
 	case 'c':	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
 				cerr << "PolygonMode: Fill." << endl;
 				break;
+	case 'r':	cerr << "Sending ray through " << x << "," << y << endl;
+				Line l;
+				cam->calcViewRay( l, x, y, *vp );
+				cerr << "From " << l.getPosition() << ", dir " << l.getDirection() << endl;
+				break;
 	}
 }
 
@@ -300,10 +307,10 @@ int main (int argc, char **argv)
 	root->print();
 
 	// Camera
-	PerspectiveCameraPtr cam = PerspectiveCamera::create();
-
+	
+	cam = PerspectiveCamera::create();
 	cam->setBeacon( b1n );
-	cam->setDegrees( 60 );
+	cam->setDegrees( 90 );
 	cam->setNear( 0.1 );
 	cam->setFar( 10000 );
 
@@ -314,7 +321,7 @@ int main (int argc, char **argv)
 
 	// Viewport
 
-	ViewportPtr vp = Viewport::create();
+	vp = Viewport::create();
 	vp->setCamera( cam );
 	vp->setBackground( bkgnd );
 	vp->setRoot( root );

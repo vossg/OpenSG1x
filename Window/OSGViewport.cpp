@@ -233,7 +233,7 @@ Viewport::~Viewport(void)
 /*---------------------------- properties ---------------------------------*/
 
 
-Int32 Viewport::getPixelLeft( void )
+Int32 Viewport::getPixelLeft( void ) const
 {
 	if ( getLeft() > 1 )
 		return getLeft();
@@ -241,7 +241,7 @@ Int32 Viewport::getPixelLeft( void )
 	return getParent()->getWidth() * getLeft();
 }
 
-Int32 Viewport::getPixelRight( void )
+Int32 Viewport::getPixelRight( void ) const
 {
 	if ( getRight() > 1 )
 		return getRight();
@@ -249,7 +249,7 @@ Int32 Viewport::getPixelRight( void )
 	return getParent()->getWidth() * getRight() - 1;
 }
 
-Int32 Viewport::getPixelBottom( void )
+Int32 Viewport::getPixelBottom( void ) const
 {
 	if ( getBottom() > 1 )
 		return getBottom();
@@ -257,7 +257,7 @@ Int32 Viewport::getPixelBottom( void )
 	return getParent()->getHeight() * getBottom();
 }
 
-Int32 Viewport::getPixelTop( void )
+Int32 Viewport::getPixelTop( void ) const
 {
 	if ( getTop() > 1 )
 		return getTop();
@@ -265,7 +265,7 @@ Int32 Viewport::getPixelTop( void )
 	return getParent()->getHeight() * getTop() - 1;
 }
 
-Bool Viewport::isFullWindow( void )
+Bool Viewport::isFullWindow( void ) const
 {
 	return	getPixelBottom() == 0 &&
 			getPixelLeft()   == 0 &&
@@ -307,7 +307,7 @@ void Viewport::draw( DrawAction * action )
 	action->setCamera( getCamera().getCPtr() );
 	action->setBackground( getBackground().getCPtr() );
 	
-	getCamera()->setup( action, this );
+	getCamera()->setup( action, *this );
 	getBackground()->clear( action, this );
 
 	action->apply( getRoot() );

@@ -229,12 +229,12 @@ inline void Viewport::setTop( Real32 top )
 
 
 
-inline Int32 Viewport::getPixelWidth( void )
+inline Int32 Viewport::getPixelWidth( void ) const
 {
 	return getPixelRight() - getPixelLeft() + 1;
 }
 
-inline Int32 Viewport::getPixelHeight( void )
+inline Int32 Viewport::getPixelHeight( void ) const
 {
 	return getPixelTop() - getPixelBottom() + 1;
 }

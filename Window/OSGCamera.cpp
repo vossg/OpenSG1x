@@ -60,6 +60,7 @@
 
 #include "OSGNode.h"
 #include "OSGFieldContainerPtr.h"
+#include "OSGViewport.h"
 #include "OSGCamera.h"
 
 /** \enum VecBase::VectorSizeE
@@ -203,7 +204,7 @@ Camera::~Camera(void)
 
 /** setup the GL for rendering and tell the Action what it needs to know */
 
-void Camera::setup( DrawAction * action, Viewport * port )
+void Camera::setup( DrawAction * action, const Viewport& port )
 {
 	Matrix m;
 
@@ -229,24 +230,24 @@ void Camera::setup( DrawAction * action, Viewport * port )
 }
 
 /** draw the camera's geometry (if any). Usually there is none. */
-void Camera::draw( DrawAction * action, Viewport * port )
+void Camera::draw( DrawAction * action, const Viewport& port )
 {
 }
 
 /** get the separate elements needed for rendering */
 
-void Camera::getProjection( Matrix& result, Viewport * port )
+void Camera::getProjection( Matrix& result, const Viewport& port )
 {
 	SFATAL << "Camera::getProjection: NIY" << endl;
 	abort();
 }
 
-void Camera::getProjectionTranslation( Matrix& result, Viewport * port )
+void Camera::getProjectionTranslation( Matrix& result, const Viewport& port )
 {
 	result.setIdentity();
 }
 
-void Camera::getViewing( Matrix& result, Viewport * port )
+void Camera::getViewing( Matrix& result, const Viewport& port )
 {
 	if ( getBeacon() == NullNode )
 	{
@@ -258,10 +259,39 @@ void Camera::getViewing( Matrix& result, Viewport * port )
 	result.invert();
 }
 
-void Camera::getFrustum( FrustumVolume& result, Viewport * port )
+void Camera::getFrustum( FrustumVolume& result, const Viewport& port )
 {
 	SFATAL << "Camera::getFrustum: NIY" << endl;
 	abort();
+}
+
+Bool Camera::calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port)
+{
+	Matrix proj, projtrans, view;
+
+	getProjection( proj, port );
+	getProjectionTranslation( projtrans, port );
+	getViewing( view, port );
+	
+	Matrix wctocc = proj;
+	wctocc.mult( projtrans );
+	wctocc.mult( view );
+
+	Matrix cctowc;
+	cctowc.invertFrom( wctocc );
+	
+	Real32  rx = ( x / (Real32) port.getPixelWidth() ) * 2. - 1.,
+			ry = 1.f - ( y / (Real32) port.getPixelHeight() ) * 2.;
+			
+	Pnt3f from;
+	cctowc.multFullMatrixPnt( Pnt3f( 0,0,0 ), from );
+			
+	Pnt3f at;
+	cctowc.multFullMatrixPnt( Pnt3f( rx, ry, 1 ), at );
+	
+	line.setValue( from, at-from );
+	
+	return true;
 }
 
 /*-------------------------- assignment -----------------------------------*/

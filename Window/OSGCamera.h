@@ -129,26 +129,32 @@ class OSG_WINDOW_DLLMAPPING Camera : public FieldContainer
     /*------------------------- your_category -------------------------------*/
 
     /** setup the GL for rendering and tell the Action what it needs to know */
-    virtual void setup(DrawAction *action, Viewport *port);
+    virtual void setup(DrawAction *action, const Viewport& port);
 
     /** draw the camera's geometry (if any). Usually there is none. */
-    virtual void draw (DrawAction *action, Viewport *port);
+    virtual void draw (DrawAction *action, const Viewport& port);
 
     /** get the separate elements needed for rendering */
 
     virtual void getProjection           (Matrix        &result, 
-                                          Viewport      *port);
+                                          const Viewport& port);
 
     virtual void getProjectionTranslation(Matrix        &result, 
-                                          Viewport      *port);
+                                          const Viewport& port);
 
     virtual void getViewing              (Matrix        &result, 
-                                          Viewport      *port);
+                                          const Viewport& port);
 
     virtual void getFrustum              (FrustumVolume &result,
-                                          Viewport      *port);
+                                          const Viewport& port);
     
    
+	/* calc a ray from the eye through the given pixel into the scene */
+	/* pixel are from top-left */
+    Bool calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port);
+
+	/** access the fields */
+		
     void       setBeacon  (NodePtr beacon);
     NodePtr    getBeacon  (void) const;
     SFNodePtr *getSFBeacon(void);

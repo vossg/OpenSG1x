@@ -223,14 +223,14 @@ class OSG_WINDOW_DLLMAPPING Viewport : public FieldContainer
     SFReal32 *getSFTop(void);
 
     
-    Int32 getPixelLeft  (void);
-    Int32 getPixelRight (void);
-    Int32 getPixelBottom(void);
-    Int32 getPixelTop   (void);
-    Int32 getPixelWidth (void);
-    Int32 getPixelHeight(void);
+    Int32 getPixelLeft  (void) const;
+    Int32 getPixelRight (void) const;
+    Int32 getPixelBottom(void) const;
+    Int32 getPixelTop   (void) const;
+    Int32 getPixelWidth (void) const;
+    Int32 getPixelHeight(void) const;
     
-    Bool isFullWindow( void );
+    Bool isFullWindow( void ) const;
     
     /*------------------------- your_operators ------------------------------*/
 
