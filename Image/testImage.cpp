@@ -20,7 +20,7 @@ int main (int argc, char **argv)
 	
 	//ImageFileHandler::the().print();
 
-	image.set (256,256, "R5G5B5P1");
+	image.set ( Image::OSG_RGB_PF, 256, 256 );
 
 	if (argc > 1) {
 		image.read(argv[1]);
