@@ -655,6 +655,10 @@ dnl e4
     if [[ -n "$ac_gdz_stl_dir" ]]; then
         ac_gdz_stl_lib_e4='-lCio'
         ac_gdz_stl_dir_e4=$ac_gdz_stl_dir
+    else
+        if [[ $build_os = irix6.5 ]]; then
+            ac_gdz_stl_lib_e4='-lCio'
+        fi
     fi
 
     ac_gdz_common_stl_in_e4=$ac_gdz_commonconf_dir/commonSTL.in
