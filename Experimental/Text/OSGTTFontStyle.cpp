@@ -12,6 +12,10 @@
 #include <iostream>
 
 #include <stdio.h>
+#include <string.h>
+
+#include <OSGLog.h>
+
 
 // Application declarations
 #include "OSGTTVectorFontGlyph.h"
@@ -76,23 +80,20 @@ bool TTFontStyle::set_ttInstance (TT_Instance *ttInstance,
     _ttError = TT_New_Instance(*ttFace, ttInstance);
     
     if(_ttError){
-	cout << "ERROR: Create TT_New_Instance failed with TT_Error=" 
-	     << _ttError << endl;
-	return false;
+      FWARNING(("Create TT_New_Instance failed with TT_Error= %d", _ttError));
+      return false;
     }
 
     _ttError= TT_Set_Instance_Resolutions(*ttInstance, getXRes(), getYRes());
     if(_ttError){
-	cout << "ERROR: Create TT_Set_Instance_Resolutions failed "
-	     << "with TT_Error=" << _ttError << endl;
-	return false;
+      FWARNING(("Create TT_Set_Instance_Resolutions failed with TT_Error= %d", _ttError));
+      return false;
     }
 
     _ttError= TT_Set_Instance_PointSize( *ttInstance, (Int32)rint(64*getSize()));
     if(_ttError){
-	cout << "ERROR: Create TT_Set_Instance_PointSize failed"
-	     << " with TT_Error=" << _ttError << endl;
-	return false;
+      FWARNING(("Create Create TT_Set_Instance_PointSize failed with TT_Error= %d", _ttError));
+      return false;
     }
 
 
@@ -126,9 +127,8 @@ bool TTFontStyle::set_ttInstance (TT_Instance *ttInstance,
     }
 
     if(i==ttFaceProps.num_CharMaps){
-	cout << "ERROR: Font does not contain a unicode-character-map" 
-	     << endl;
-	return false;
+      FWARNING(("Font does not contain a unicode-character-map."));
+      return false;
     }
 
     TTVectorFontGlyph *vGlyphs = new TTVectorFontGlyph[256];
@@ -208,7 +208,7 @@ bool TTFontStyle::createTXFMap(UChar8 *characters, Int32 gap)
   TXFGlyphInfo *glyph=NULL;
   Real32 x_f, y_f, xstep, ystep, scale;
   bool retVal;
-  Int8 *dims;
+  Int16 *dims;
 
   if(characters) {
     numChars = strlen(reinterpret_cast<char*>(characters));
@@ -285,7 +285,8 @@ bool TTFontStyle::createTXFMap(UChar8 *characters, Int32 gap)
   height = 1;
   while(height < y+rowHeight+gap) height *=2;
   imageBuffer= new UChar8 [width*height*2];
-
+  memset(imageBuffer, 0, width*height*2);
+  
   i=0; x=gap; y=gap;
   xstep = 0.5 / width;
   ystep = 0.5 / height;
@@ -318,10 +319,10 @@ bool TTFontStyle::createTXFMap(UChar8 *characters, Int32 gap)
     glyph=_txfGlyphInfos[current];
     glyph->remap(0);
 
-    dims = new Int8[2];
-    dims[0] = (Int8) x;
-    dims[1] = (Int8) y;
-    glyph->setDimensions(dims);
+    dims = new Int16[2];
+    dims[0] = (Int16) x;
+    dims[1] = (Int16) y;
+    glyph->setOffset(dims);
 
     x_f  = ((Real32)(x))/width+xstep;
     y_f  = ((Real32)(y))/height+ystep;
@@ -360,8 +361,8 @@ bool TTFontStyle::createTXFMap(UChar8 *characters, Int32 gap)
   _txfFontWidth = width;
   _txfFontHeight = height;
 
-  delete createdIndices;
-  delete sortedIndices;
+  delete [] createdIndices;
+  delete [] sortedIndices;
 
   return retVal;
 }
@@ -395,38 +396,38 @@ bool TTFontStyle::dump(ostream & out)
   const Int32 *bb;
   UInt32 swapit = 0x12345678;
   UInt32 zero = 0, buffer, nc=0;
-  UInt16 sbuffer;
+  Int16 sbuffer;
   UChar8 *oBuffer;
 
-  out << (Char8)0xff << "txf";
-  out.write(reinterpret_cast<Char8*>(&swapit),4);
-  out.write(reinterpret_cast<Char8*>(&zero), 4);
-  out.write(reinterpret_cast<Char8*>(&_txfFontWidth), 4);
-  out.write(reinterpret_cast<Char8*>(&_txfFontHeight), 4);
+  out << (UChar8)0xff << "txf";
+  out.write(reinterpret_cast<char*>(&swapit),4);
+  out.write(reinterpret_cast<char*>(&zero), 4);
+  out.write(reinterpret_cast<char*>(&_txfFontWidth), 4);
+  out.write(reinterpret_cast<char*>(&_txfFontHeight), 4);
   buffer = (Int32)rint(getMaxAscent()*72);
-  out.write(reinterpret_cast<Char8*>(&buffer), 4);
+  out.write(reinterpret_cast<char*>(&buffer), 4);
   buffer = (Int32)rint(getMaxDescent()*72);
-  out.write(reinterpret_cast<Char8*>(&buffer), 4);
+  out.write(reinterpret_cast<char*>(&buffer), 4);
 
   for(Int16 i=0; i < _txfGlyphInfos.size(); i++)
     if(!(_txfGlyphInfos[i]->remapped())) nc++;
 
-  out.write(reinterpret_cast<Char8*>(&nc), 4);
+  out.write(reinterpret_cast<char*>(&nc), 4);
 
 
   for(Int16 i=0; i < _txfGlyphInfos.size(); i++)
     if(!(_txfGlyphInfos[i]->remapped())) {
       bb = _imageGlyphs[i]->getBoundingBox();
-      out.write(reinterpret_cast<Char8*>(&i), 2);
-      out << (Char8) (bb[1] - bb[0]);
-      out << (Char8) (bb[3] - bb[2]);
-      out << (Char8) bb[0] << (Char8) bb[2];
-      out << (Char8) _imageGlyphs[i]->getAdvance();
-      out << (Char8) 0;
-      sbuffer = (Int16) _txfGlyphInfos[i]->getDimensions()[0];
-      out.write(reinterpret_cast<Char8*>(&sbuffer), 2);
-      sbuffer = (Int16) _txfGlyphInfos[i]->getDimensions()[1];
-      out.write(reinterpret_cast<Char8*>(&sbuffer), 2);
+      out.write(reinterpret_cast<char*>(&i), 2);
+      out << (Int8) (bb[1] - bb[0]);
+      out << (Int8) (bb[3] - bb[2]);
+      out << (Int8) bb[0] << (Char8) bb[2];
+      out << (Int8) _imageGlyphs[i]->getAdvance();
+      out << (Int8) 0;
+      sbuffer =  _txfGlyphInfos[i]->getOffset()[0];
+      out.write(reinterpret_cast<char*>(&sbuffer), 2);
+      sbuffer =  _txfGlyphInfos[i]->getOffset()[1];
+      out.write(reinterpret_cast<char*>(&sbuffer), 2);
     }
 
   oBuffer = new UChar8 [_txfFontWidth*_txfFontHeight];

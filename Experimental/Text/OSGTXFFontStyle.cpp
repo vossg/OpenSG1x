@@ -86,9 +86,6 @@ bool TXFFontStyle::buildGlyphInfos (TXFFont::txfChar *txfGlyphs)
       continue;
     }
 
-// 		cerr << (char) i << endl;
-
-
     x = (Real32)current->x / (Real32)_txfFontWidth + xstep;
     y = (Real32)current->y / (Real32)_txfFontHeight + ystep;
     glyph->setTextureCoords(0, x, y);
@@ -107,23 +104,14 @@ bool TXFFontStyle::buildGlyphInfos (TXFFont::txfChar *txfGlyphs)
     y = (Real32)current->dimensions[3];
     glyph->setVertexCoords(0, x, y);
 
-// 		cerr << x << ", " << y << endl;
-
     x += (Real32)current->dimensions[0];
     glyph->setVertexCoords(1, x, y);
-
-// 		cerr << x << ", " << y << endl;
 
     y += (Real32)current->dimensions[1];
     glyph->setVertexCoords(2, x, y);
 
-// 		cerr << x << ", " << y << endl;
-
     x = (Real32)current->dimensions[2];
     glyph->setVertexCoords(3, x, y);
-
-// 		cerr << x << ", " << y << endl;
-
 
     glyph->setAdvance(current->dimensions[4]);
   }

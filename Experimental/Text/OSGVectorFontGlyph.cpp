@@ -13,6 +13,8 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+#include <OSGLog.h>
+
 
 // Class declarations
 #include "OSGVectorFontGlyph.h"
@@ -254,15 +256,10 @@ void VectorFontGlyph::addPoint(Real32 *point, bool OSG_CHECK_ARG(lower) )
 	   _points.size()-1 : begin + (_BLOCK_ALLOC/3)-1);
 
     if(tmp<0 || (pointIndex = findPoint(point, begin, end)) < 0) {
-	cout << "failed in finding point " << 
-	    point[0] <<", " << point[1] <<", " << point[2] << "within: ";
-
-	cout << "list of Size " << _numPoints << endl;
+      FWARNING(("failed in finding point (%f, %f, %f) within point-list of %d points.",
+		point[0], point[1], point[2], _numPoints));
 	
-	for(Int32 i = _numPoints-1; i >= 0; i--)
-	    cout <<  "i :" << _points[i][0] << ", " <<  _points[i][1]
-		 << ", " << _points[i][2] << endl;
-	return;
+      return;
     }
 
     _numIndices++;
@@ -300,7 +297,7 @@ void VectorFontGlyph::FloatBuffer::fBuffAlloc(Int32 OSG_CHECK_ARG(size) )
     if(_fBuffer) {
 	for(Int32 i=0; i< _fWhichBuffer; i++)
 	    buffers[i] = _fBuffer[i];
-	delete _fBuffer;
+	delete [] _fBuffer;
     }
     _fBuffer = buffers;
 

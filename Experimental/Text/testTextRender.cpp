@@ -19,6 +19,7 @@
 #include <OSGGroup.h>
 #include <OSGGeometry.h>
 #include <OSGPathHandler.h>
+#include <OSGBlendChunk.h>
 
 
 #include "OSGLog.h"
@@ -61,6 +62,8 @@ void next_child()
 }
 
 
+GeometryPtr txfGeo;
+
 // redraw the window
 void display( void )
 {
@@ -76,7 +79,24 @@ void display( void )
     sprintf(frameText,"%4.2f fps", fps);
 
     lineVec[0]->assign(frameText);
-    fontText.fillTxfNode(n[currentNode], lineVec);
+
+    beginEditCP(txfGeo, Geometry::TypesFieldMask          |
+		Geometry::LengthsFieldMask        |
+		Geometry::IndicesFieldMask        |
+		Geometry::IndexMappingFieldMask   |
+		Geometry::PositionsFieldMask      |
+		Geometry::NormalsFieldMask        );
+
+    {
+      fontText.fillTXFGeo(*txfGeo, false, lineVec);
+    }
+    endEditCP(txfGeo, Geometry::TypesFieldMask          |
+		Geometry::LengthsFieldMask        |
+		Geometry::IndicesFieldMask        |
+		Geometry::IndexMappingFieldMask   |
+		Geometry::PositionsFieldMask      |
+		Geometry::NormalsFieldMask        );
+
   }
 
   mgr->redraw();
@@ -119,11 +139,25 @@ int main(int argc, char **argv)
     textLine = new string;
     textLine->assign("OpenSG");
     lineVec.push_back(textLine);
-
+    textLine = new string;
+    textLine->assign("rules");
+    lineVec.push_back(textLine);
+#if 1
+    textLine = new string;
+    textLine->assign("rules");
+    lineVec.push_back(textLine);
+    textLine = new string;
+    textLine->assign("rules");
+    lineVec.push_back(textLine);
+    textLine = new string;
+    textLine->assign("rules");
+    lineVec.push_back(textLine);
+#endif
 
     // 3D-Glyphs
+
     GeometryPtr geo=Geometry::create();
-    if(fontText.fillGeo(geo, lineVec, 0.5, 1, 0, FILL_TEX_CHAR_MCM)) {
+    if(fontText.fillGeo(*geo, lineVec, 0.5, 1, 0, FILL_TEX_CHAR_MCM)) {
       n[numNodes] = Node::create();
       beginEditCP(n[numNodes], Node::CoreFieldMask);
       {
@@ -137,12 +171,14 @@ int main(int argc, char **argv)
 
 
     // Textured - Text
+
     Color4ub col1(102,175,250,0);
     Color4ub col2(255,225,41,0);
     Image img;
     
     if(fontText.fillImage(img, lineVec, &col1, &col2)) {
       geo = makeBoxGeo(4,1,0.001, 1, 1, 1);
+     
       SimpleTexturedMaterialPtr mat = SimpleTexturedMaterial::create();
       beginEditCP(mat);
       {
@@ -161,9 +197,38 @@ int main(int argc, char **argv)
     }
 
 
+
+
     // TXF-Style Texture+Geometry
+
     n[numNodes] = Node::create();
-    if(fontText.fillTxfNode(n[numNodes], lineVec)) numNodes++;
+    txfGeo=Geometry::create();
+    Image txfImg;
+    if(fontText.fillTXFGeo(*txfGeo, true, lineVec)) {
+      fontText.fillTXFImage(txfImg);
+      BlendChunkPtr bl = BlendChunk::create();
+      beginEditCP(bl);
+      {
+	bl->setAlphaFunc(GL_NOTEQUAL);
+        bl->setAlphaValue(0);   
+      }
+      endEditCP(bl);
+      SimpleTexturedMaterialPtr mat = SimpleTexturedMaterial::create();
+      beginEditCP(mat);
+      {
+	mat->setImage(&txfImg);
+	mat->addChunk(bl);
+      }
+      endEditCP(mat);
+      txfGeo->setMaterial(mat);
+      beginEditCP(n[numNodes], Node::CoreFieldMask);
+      {
+	n[numNodes]->setCore(txfGeo);
+      }
+      numNodes++;
+    }
+
+
 
     if(!numNodes) {
       cerr << "FATAL: could not create anything." << endl;

@@ -13,6 +13,8 @@
 #endif
 #include <assert.h>
 
+#include <OSGLog.h>
+
 
 // Application declarations
 #include <OSGConfig.h>
@@ -66,7 +68,28 @@ Text::~Text(void)
 
 
 
-bool Text::fillTxfNode(NodePtr node, vector<string*> lineVec)
+bool Text::fillTXFImage(Image &image)
+{
+  Int32 width, height;
+  UChar8 *imageMap=NULL;
+
+
+  if(!_fontInstance) return false;
+
+  if(!(imageMap = _fontInstance->getTXFImageMap()))
+    return false;
+
+  _fontInstance->getTXFImageSizes(width, height);
+  
+  image.set(Image::OSG_LA_PF, width, height, 1, 1, 1, 0.0,
+	    imageMap, false);
+
+  return true;
+}
+
+
+
+bool Text::fillTXFGeo(Geometry &  mesh, bool isNew, vector<string*> lineVec)
 {
   Int32 i, j, k, sStart, sStop, sStep, lStart, lStop, lStep;
   Int32 numChars, numLineChars, vertOff, stride=0, width, height;
@@ -78,14 +101,12 @@ bool Text::fillTxfNode(NodePtr node, vector<string*> lineVec)
   GeoPTypesPtr ftypes;        
   GeoPLengthsPtr flengths;    
   GeoIndicesPtr faces;
-  bool isNew=false;
 
   numChars = 0;
   for(i=0; i < lineVec.size(); i++)
     numChars += strlen(lineVec[i]->c_str());
 
-  if(!_txfGeo) {
-    _txfGeo = Geometry::create();
+  if(isNew) {
     points = GeoPositions3f::create();
     normals = GeoNormals3f::create();
     texCoords = GeoTexCoords2f::create();
@@ -96,16 +117,14 @@ bool Text::fillTxfNode(NodePtr node, vector<string*> lineVec)
 
     normals->resize(1);
     normals->setValue(Vec3f(0.0, 0.0, -1.0), 0);
-
-    isNew = true;
   }
   else {
-    points = _txfGeo->getPositions();
-    texCoords = _txfGeo->getTexCoords();
+    points = mesh.getPositions();
+    texCoords = mesh.getTexCoords();
 
-    ftypes = _txfGeo->getTypes();
-    flengths = _txfGeo->getLengths();
-    faces = _txfGeo->getIndices();
+    ftypes = mesh.getTypes();
+    flengths = mesh.getLengths();
+    faces = mesh.getIndices();
   }
 
   faces->resize(numChars*8);
@@ -113,14 +132,6 @@ bool Text::fillTxfNode(NodePtr node, vector<string*> lineVec)
   texCoords->resize(numChars*4);
   flengths->resize(numChars);
   ftypes->resize(numChars);
-
-  
-  beginEditCP(ftypes, GeoPTypesUI8::GeoPropDataFieldMask);
-  beginEditCP(flengths, GeoPLengthsUI32::GeoPropDataFieldMask);
-  beginEditCP(points, GeoPositions3f::GeoPropDataFieldMask);
-  beginEditCP(normals, GeoNormals3f::GeoPropDataFieldMask);
-  beginEditCP(texCoords, GeoNormals3f::GeoPropDataFieldMask);
-  beginEditCP(faces, GeoIndicesUI32::GeoPropDataFieldMask);
 
   scale = ((Real32)_fontInstance->getBaselineSkip()*_fontInstance->getYRes());
 
@@ -185,21 +196,14 @@ bool Text::fillTxfNode(NodePtr node, vector<string*> lineVec)
     }
     for (i=sStart; i != sStop; i+=sStep) {
       for(j=0; j<4;j++, vertOff++) {
-				currentGlyph = _fontInstance->getTXFGlyphInfo(text[i]);
-				points->setValue(Vec3f(currentGlyph->getVertexCoords(j)[0]/scale+xOff,
-															 currentGlyph->getVertexCoords(j)[1]/scale+yOff,
-															 0.0),
+	currentGlyph = _fontInstance->getTXFGlyphInfo(text[i]);
+	points->setValue(Vec3f(currentGlyph->getVertexCoords(j)[0]/scale+xOff,
+			       currentGlyph->getVertexCoords(j)[1]/scale+yOff, 0.0),
 			 vertOff);
 
-// 				cerr << "v: " << currentGlyph->getVertexCoords(j)[0]/scale+xOff << ", "
-// 						 << currentGlyph->getVertexCoords(j)[1]/scale+yOff << endl;
-
-				texCoords->setValue(Vec2f(currentGlyph->getTextureCoords(j)[0],
-																	currentGlyph->getTextureCoords(j)[1]),
-														vertOff);
-
-// 				cerr << "t: " << currentGlyph->getTextureCoords(j)[0] << ", " 
-// 						 << currentGlyph->getTextureCoords(j)[1] << endl;
+	texCoords->setValue(Vec2f(currentGlyph->getTextureCoords(j)[0],
+				  currentGlyph->getTextureCoords(j)[1]),
+			    vertOff);
       }
       xOff += currentGlyph->getAdvance()/scale;
     }
@@ -217,63 +221,20 @@ bool Text::fillTxfNode(NodePtr node, vector<string*> lineVec)
     faces->setValue(0, stride+1);
   }
     
-  endEditCP(faces, GeoIndicesUI32::GeoPropDataFieldMask);
-  endEditCP(texCoords, GeoNormals3f::GeoPropDataFieldMask);
-  endEditCP(normals, GeoNormals3f::GeoPropDataFieldMask);
-  endEditCP(points, GeoPositions3f::GeoPropDataFieldMask);
-  endEditCP(flengths, GeoPLengthsUI32::GeoPropDataFieldMask);
-  endEditCP(ftypes, GeoPTypesUI8::GeoPropDataFieldMask);
-
-  beginEditCP(_txfGeo, Geometry::TypesFieldMask          |
-	      Geometry::LengthsFieldMask        |
-	      Geometry::IndicesFieldMask        |
-	      Geometry::IndexMappingFieldMask   |
-	      Geometry::PositionsFieldMask      |
-	      Geometry::NormalsFieldMask        |
-	      Geometry::MaterialFieldMask       );
-
     
   if(isNew) {
-    _txfGeo->setPositions(points);
-    _txfGeo->setTexCoords(texCoords);
-    _txfGeo->setNormals(normals);
+    mesh.setPositions(points);
+    mesh.setTexCoords(texCoords);
+    mesh.setNormals(normals);
     
-    _txfGeo->setTypes(ftypes);
-    _txfGeo->setLengths(flengths);
-    _txfGeo->setIndices(faces);
-
-    _txfGeo->getIndexMapping().addValue(Geometry::MapPosition |
-				   Geometry::MapTexcoords);
-    _txfGeo->getIndexMapping().addValue(Geometry::MapNormal);
-
-    SimpleTexturedMaterialPtr mat = SimpleTexturedMaterial::create();
-
-    Image *txfTexture = new Image();
-    _fontInstance->getTXFImageSizes(width, height);
-    txfTexture->set(Image::OSG_LA_PF, width, height, 1, 1, 1, 0.0,
-		    _fontInstance->getTXFImageMap(), false);
-		txfTexture->write("font.ppm");
-
-    beginEditCP(mat);
-    {
-      mat->setImage(txfTexture);
-    }
-    endEditCP(mat);
-
-    _txfGeo->setMaterial(mat);
-
-    node->setCore(_txfGeo);
-
+    mesh.setTypes(ftypes);
+    mesh.setLengths(flengths);
+    mesh.setIndices(faces);
+    
+    mesh.getIndexMapping().addValue(Geometry::MapPosition |
+				    Geometry::MapTexcoords);
+    mesh.getIndexMapping().addValue(Geometry::MapNormal);
   }
-  endEditCP(_txfGeo, Geometry::TypesFieldMask          |
-	    Geometry::LengthsFieldMask        |
-	    Geometry::IndicesFieldMask        |
-	    Geometry::IndexMappingFieldMask   |
-	    Geometry::PositionsFieldMask      |
-	    Geometry::NormalsFieldMask        |
-	    Geometry::MaterialFieldMask       );
-
-
 
   return true;
 }
@@ -314,7 +275,12 @@ bool Text::fillImage (Image &image,
 		g[line][i] = _fontInstance->getImageGlyph(text[i]);
 		if(g[line][i]) {
 		    retVal =  g[line][i]->create();
-		    if(!retVal) {cout << "whoops" <<endl;exit(false);}
+		    if(!retVal) {
+		      FWARNING(("Glyph generation failed."));
+		      for(line = 0; line < (Int32)lineVec.size(); line++)
+			delete [] g[line];
+		      delete []g;
+		    }
  		    width += g[line][i]->getAdvance();
 		    tmpMinY = g[line][i]->getBoundingBox()[2] < tmpMinY ?
 			g[line][i]->getBoundingBox()[2] : tmpMinY;
@@ -356,7 +322,7 @@ bool Text::fillImage (Image &image,
 	    memcpy(imageBuffer+i*overallWidth*pixelDepth, 
 		   row, overallWidth*pixelDepth);
 
-	delete row;
+	delete [] row;
 
 	tmpMinY =  INT_MAX;
 	tmpMaxY = -INT_MAX;
@@ -473,7 +439,7 @@ bool Text::fillImage (Image &image,
 }
 
 
-bool Text::fillGeo ( GeometryPtr mesh,
+bool Text::fillGeo ( Geometry & mesh,
 			     vector<string*> lineVec,
 			     Real32 precision,
 			     Real32 extFac,
@@ -508,16 +474,6 @@ bool Text::fillGeo ( GeometryPtr mesh,
     GeoPLengthsPtr flengths = GeoPLengthsUI32::create();    
     GeoIndicesUI32Ptr faces = GeoIndicesUI32::create();
 
-    beginEditCP(ftypes, GeoPTypesUI8::GeoPropDataFieldMask);
-    beginEditCP(flengths, GeoPLengthsUI32::GeoPropDataFieldMask);
-    beginEditCP(points, GeoPositions3f::GeoPropDataFieldMask);
-    beginEditCP(normals, GeoNormals3f::GeoPropDataFieldMask);
-    if(creationMode == FILL_TEX_CHAR_MCM || creationMode == FILL_TEX_ALL_MCM)
-      beginEditCP(texCoords, GeoNormals3f::GeoPropDataFieldMask);
-    beginEditCP(faces, GeoIndicesUI32::GeoPropDataFieldMask);
-
-
-
 
     if(_fontInstance) {
 	bb[2] = 0;
@@ -534,7 +490,12 @@ bool Text::fillGeo ( GeometryPtr mesh,
 		    g[line][i]->setPrecision(precision*2);
 		    g[line][i]->setDepth(extFac*g[line][i]->getDepth());
 		    retVal =  g[line][i]->create();
-		    if(!retVal) exit(false);
+		    if(!retVal) {
+		      FWARNING(("Glyph generation failed."));
+		      for(line = 0; line < (Int32)lineVec.size(); line++)
+			delete [] g[line];
+		      delete []g;
+		    }
 		    numVertices += g[line][i]->getNumPoints() *
 			(extFac != 0.0 ? 2 : 1);
 		    if(extFac != 0.0)
@@ -754,46 +715,28 @@ bool Text::fillGeo ( GeometryPtr mesh,
 				  fabs(points->getValue(i)[1]-trY) / localHeight),i);
 	}
 
-
-	endEditCP(faces, GeoIndicesUI32::GeoPropDataFieldMask);
-	if(creationMode == FILL_TEX_CHAR_MCM || creationMode == FILL_TEX_ALL_MCM)
-	  endEditCP(texCoords, GeoNormals3f::GeoPropDataFieldMask);
-	endEditCP(normals, GeoNormals3f::GeoPropDataFieldMask);
-	endEditCP(points, GeoPositions3f::GeoPropDataFieldMask);
-	endEditCP(flengths, GeoPLengthsUI32::GeoPropDataFieldMask);
-	endEditCP(ftypes, GeoPTypesUI8::GeoPropDataFieldMask);
+        mesh.setPositions(points);
+        mesh.setNormals(normals);
 
 
-	beginEditCP(mesh, Geometry::TypesFieldMask          |
-		          Geometry::LengthsFieldMask        |
-		          Geometry::IndicesFieldMask        |
-		          Geometry::IndexMappingFieldMask   |
-		          Geometry::PositionsFieldMask      |
-		          Geometry::NormalsFieldMask        |
-		          Geometry::MaterialFieldMask       );
-
-        mesh->setPositions(points);
-        mesh->setNormals(normals);
-
-
-        mesh->setTypes(ftypes);
-        mesh->setLengths(flengths);
-        mesh->setIndices(faces);
+        mesh.setTypes(ftypes);
+        mesh.setLengths(flengths);
+        mesh.setIndices(faces);
 
 	if(creationMode == FILL_TEX_CHAR_MCM ||
 	   creationMode == FILL_TEX_ALL_MCM)
-	  mesh->getIndexMapping().addValue(Geometry::MapPosition |
+	  mesh.getIndexMapping().addValue(Geometry::MapPosition |
 					   Geometry::MapTexcoords);
 	else
-	  mesh->getIndexMapping().addValue(Geometry::MapPosition);
+	  mesh.getIndexMapping().addValue(Geometry::MapPosition);
 
-        mesh->getIndexMapping().addValue(Geometry::MapNormal);
+        mesh.getIndexMapping().addValue(Geometry::MapNormal);
 
 
 
 	if(creationMode == FILL_TEX_CHAR_MCM ||
 	   creationMode == FILL_TEX_ALL_MCM)
-	  mesh->setTexCoords(texCoords);
+	  mesh.setTexCoords(texCoords);
 
 	
 	for(line = 0; line < (Int32)lineVec.size(); line++)
@@ -801,16 +744,7 @@ bool Text::fillGeo ( GeometryPtr mesh,
 	delete []g;
 
 
-	mesh->setMaterial (getDefaultMaterial());   
-
-	endEditCP (mesh, Geometry::TypesFieldMask          |
-		         Geometry::LengthsFieldMask        |
-		         Geometry::IndicesFieldMask        |
-		         Geometry::IndexMappingFieldMask   |
-		         Geometry::PositionsFieldMask      |
-		         Geometry::NormalsFieldMask        |
-		         Geometry::MaterialFieldMask       );
-
+	mesh.setMaterial (getDefaultMaterial());   
 
 	return true;
     }

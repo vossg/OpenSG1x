@@ -51,6 +51,7 @@ string *textLine;
 vector<string *> lineVec;
 Real32 lastT;
 
+GeometryPtr txfGeo;
 
 // redraw the window
 void display( void )
@@ -65,7 +66,23 @@ void display( void )
   sprintf(frameText,"%4.2f fps", fps);
 
   lineVec[0]->assign(frameText);
-  fontText.fillTxfNode(n, lineVec);
+
+    beginEditCP(txfGeo, Geometry::TypesFieldMask          |
+		Geometry::LengthsFieldMask        |
+		Geometry::IndicesFieldMask        |
+		Geometry::IndexMappingFieldMask   |
+		Geometry::PositionsFieldMask      |
+		Geometry::NormalsFieldMask        );
+
+    {
+      fontText.fillTXFGeo(*txfGeo, false, lineVec);
+    }
+    endEditCP(txfGeo, Geometry::TypesFieldMask          |
+		Geometry::LengthsFieldMask        |
+		Geometry::IndicesFieldMask        |
+		Geometry::IndexMappingFieldMask   |
+		Geometry::PositionsFieldMask      |
+		Geometry::NormalsFieldMask        );
 
   mgr->redraw();
 }
@@ -90,10 +107,7 @@ int main(int argc, char **argv)
     gwin->init();
 
     PathHandler paths;
-
-    //paths.push_backPath("/home/elmi/wrk/development/textMaker/tm_fonts");
-    //paths.push_backPath("/home/elmi/wrk/development/texFont");
-
+    paths.push_backPath(".");
 
     // create the scene
 
@@ -102,7 +116,7 @@ int main(int argc, char **argv)
     // build a special txf-font with only a small set of characters
     FontStyle *fontStyle = FontStyleFactory::the().create(paths, argv[1], 1);
     assert(fontStyle);
-    ((TTFontStyle *)fontStyle)->createTXFMap(". fps0123456789");
+    ((TTFontStyle *)fontStyle)->createTXFMap((UChar8*)". fps0123456789");
 
 
     // write it somewhere
@@ -113,6 +127,8 @@ int main(int argc, char **argv)
     // stream from memory
     istrstream source(target.str(), target.pcount());
 
+    FLOG(("Font size: %d byte\n", target.pcount()));
+    
     // create some font
     TXFFont *font = new TXFFont("whatever", source);
 
@@ -130,10 +146,23 @@ int main(int argc, char **argv)
 
 
     // TXF-Style Texture+Geometry
+
     n = Node::create();
-    if(!fontText.fillTxfNode(n, lineVec)) {
-      cerr << "FATAL: could not create anything." << endl;
-      exit(1);
+    txfGeo=Geometry::create();
+    Image txfImg;
+    if(fontText.fillTXFGeo(*txfGeo, true, lineVec)) {
+      fontText.fillTXFImage(txfImg);
+      SimpleTexturedMaterialPtr mat = SimpleTexturedMaterial::create();
+      beginEditCP(mat);
+      {
+	mat->setImage(&txfImg);
+      }
+      endEditCP(mat);
+      txfGeo->setMaterial(mat);
+      beginEditCP(n, Node::CoreFieldMask);
+      {
+	n->setCore(txfGeo);
+      }
     }
     
     scene = Node::create();  
@@ -193,7 +222,7 @@ void motion(int x, int y)
 }
 
 // react to keys
-void keyboard(unsigned char k, int x, int y)
+void keyboard(unsigned char k, int , int )
 {
     switch(k)
     {

@@ -527,7 +527,7 @@ bool TTVectorFontGlyph::create (void )
 
     _contours.resize(0);
 
-    delete normalStack;
+    delete [] normalStack;
 
     return retVal;
 

@@ -12,6 +12,8 @@
 #endif
 #include <iostream>
 
+#include <OSGLog.h>
+
 
 // Application declarations
 #include "OSGTXFFontStyle.h"
@@ -131,10 +133,6 @@ void TXFFont::initFromStream (istream & source)
   for(i = 0; i < _txfNumGlyphs; i++) {
     _valid &= sRead(source, &sbuff, 2, swapit);
 		source.read((Char8*)_txfGlyphs[(UChar8)sbuff].dimensions, 6);
-// 		cerr << (Char8) sbuff << ": ";
-// 		for(j=0;j<6;j++)
-// 			cerr << (Int32)(Char8)_txfGlyphs[(UChar8)sbuff].dimensions[j] << " ";
-// 		cerr << endl;
     _valid &= sRead(source, &_txfGlyphs[(UChar8)sbuff].x,
 		     2, swapit);
     _valid &= sRead(source, &_txfGlyphs[(UChar8)sbuff].y,
@@ -190,7 +188,7 @@ bool TXFFont::initFont (void)
     if(_valid) return(true);
 
     if(!_fontName || _fontPath.empty()) {
-      cout << "ERROR: No FontName or no path specified!"  << endl;
+      FWARNING(("No FontName or no path specified."));
       return(false);
     }
 

@@ -6,7 +6,6 @@
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
 #include <OSGGeometry.h>
-#include <OSGNode.h>
 #include <OSGImage.h>
 
 #include <vector>
@@ -161,7 +160,9 @@ public:
       { return _fontInstance; }
 
 
-  virtual bool fillTxfNode(NodePtr node, vector<string*> lineVec);
+  virtual bool fillTXFImage(Image &image);
+
+  virtual bool fillTXFGeo(Geometry &  mesh, bool isNew, vector<string*> lineVec);
 
   virtual bool fillImage(Image &image, 
 			 vector<string*> lineVec,
@@ -172,7 +173,7 @@ public:
 			 Int32 pixelDepth = 3
 			 ) const;
 
-  virtual bool fillGeo ( GeometryPtr mesh, 
+  virtual bool fillGeo ( Geometry & mesh, 
 			  vector<string*> lineVec,
 			  Real32 precision=1.f,
 			  Real32 extFac = 0.f,

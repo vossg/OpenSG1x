@@ -29,12 +29,14 @@ protected:
 
   Int8 *_dimensions;
 
+  Int16 *_offset;
+
   UInt8 _remapped;
 
 public:
 
   /** Default Constructor */
-  TXFGlyphInfo (void) {_remapped=0; _dimensions=NULL;}
+  TXFGlyphInfo (void) {_remapped=0; _dimensions=NULL; _offset=0;}
 
   /** Destructor */
   virtual ~TXFGlyphInfo (void) {;}
@@ -58,6 +60,10 @@ public:
   virtual void setDimensions(Int8 *dims) {_dimensions = dims;}
 
   virtual Int8 *getDimensions(void) { return _dimensions;}
+
+  virtual void setOffset(Int16 *off) {_offset = off;}
+
+  virtual Int16 *getOffset(void) { return _offset;}
 
 };
 

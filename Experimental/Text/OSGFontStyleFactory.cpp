@@ -8,6 +8,8 @@
 # include <cassert>
 #endif
 
+#include <OSGLog.h>
+
 
 // Application declarations
 #include "OSGFontStyle.h"
@@ -52,20 +54,18 @@ osg::FontStyle *FontStyleFactory::create(PathHandler & paths,
 	Font *font = FontFactory::the().queryFont(paths, fontName);
 
 	if (!font) {
-		cout << "ERROR: Font named " << fontName << " unknown " << endl;
+		FWARNING(("Font named %s unknown.", fontName));
 		return 0;
 	}
 
 	if (!font->initFont()) {
-		cout << "ERROR: Initialization failed for font "
-		     << fontName << endl;
+		FWARNING(("Initialization failed for font %s.", fontName));
 		return 0;
 	}
 
 	FontStyle *fi = font->createInstance(size);
 	if (fi == 0) {
-		cout << "ERROR: Instancing failed for font "
-		     << fontName << endl;
+		FWARNING(("Instancing failed for font %s.", fontName));
 		return 0;
 	}
 

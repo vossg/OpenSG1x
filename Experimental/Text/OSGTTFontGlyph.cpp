@@ -11,7 +11,9 @@
 #endif
 #include <iostream>
 
-#include "OSGBaseTypes.h"
+#include <OSGBaseTypes.h>
+#include <OSGLog.h>
+
 
 // Application declarations
 #include "freetype1/freetype/freetype.h"
@@ -65,19 +67,17 @@ bool TTFontGlyph::createGlyph (void )
 
     _ttError= TT_New_Glyph(*_ttFace, &_ttGlyph );
     if(_ttError) {
-	cout << "ERROR: Create TT_New_Glyph failed"
-	     << " with TT_Error=" << _ttError << endl;
-	setInvalid();
-	return false;
+      FWARNING(("Create TT_New_Glyph failed with TT_Error= %d", _ttError));
+      setInvalid();
+      return false;
     }
 
     _ttError= TT_Load_Glyph(*_ttInstance,_ttGlyph, getUniCode(),
 			    TTLOAD_DEFAULT );
     if(_ttError) {
-	cout << "ERROR: Create TT_Load_Glyph failed"
-	     << " with TT_Error=" << _ttError << endl;
-	setInvalid();
-	return false;
+      FWARNING(("Create TT_Load_Glyph failed with TT_Error= %d", _ttError));
+      setInvalid();
+      return false;
     }
 
     return true;
@@ -90,10 +90,9 @@ bool TTFontGlyph::getOutline(TT_Outline & ttOutline)
 {
     _ttError= TT_Get_Glyph_Outline(_ttGlyph, &ttOutline );
     if(_ttError) {
-	cout << "ERROR: Create TT_Get_Glyph_Outline failed"
-	     << " with TT_Error=" << _ttError << endl;
-	setInvalid();
-	return false;
+      FWARNING(("Create TT_Get_Glyph_Outline failed with TT_Error= %d", _ttError));
+      setInvalid();
+      return false;
     }
 
     return true;
@@ -144,10 +143,9 @@ bool TTFontGlyph::renderGlyph (TT_Raster_Map map, Int32 xOff, Int32 yOff)
     _ttError= TT_Get_Glyph_Pixmap(_ttGlyph, &map, xOff*64, yOff*64);
 
     if(_ttError) {
-	cout << "ERROR: Create TT_Get_Glyph_Pixmap failed"
-	     << " with TT_Error=" << _ttError << endl;
-	setInvalid();
-	return false;
+      FWARNING(("Create TT_Get_Glyph_Pixmap failed with TT_Error= %d", _ttError));
+      setInvalid();
+      return false;
     }
 
     return true;

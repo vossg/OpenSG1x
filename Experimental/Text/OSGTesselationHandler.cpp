@@ -8,6 +8,9 @@
 #include <iostream>
 #include <assert.h>
 
+#include <OSGLog.h>
+
+
 // Application declarations
 #include "OSGFontGlyphContour.h"
 #include "OSGVectorFontGlyph.h"
@@ -50,8 +53,7 @@ void OSG_SYSTEMLIB_DLLMAPPING  osg::tessEnd(void)
 void OSG_SYSTEMLIB_DLLMAPPING  osg::tessError(GLenum errno)
 {
     assert(tmTesselator);
-    cout << "got tesselation error : " << (int) errno << "(" 
-	 << gluErrorString(errno) << ")" << endl;
+    FWARNING(("got tesselation error %d (%s).", (int) errno, gluErrorString(errno)));
 }
 
 #endif

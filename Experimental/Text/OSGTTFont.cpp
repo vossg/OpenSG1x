@@ -12,6 +12,9 @@
 #endif
 #include <iostream>
 
+#include <OSGLog.h>
+
+
 #ifdef OSG_WITH_FREETYPE1
 
 // Application declarations
@@ -49,8 +52,7 @@ TTFont::TTFont (const Char8 *name, string path )
     _ttError = TT_Init_FreeType(&_ttEngine);
 
     if(_ttError) {
-	cout << "ERROR: Create TT_Engine failed with TT_Error=" 
-	     << _ttError << endl;
+      FWARNING(("Create TT_Engine failed with TT_Error=%d.", _ttError));
     }
 
     return;
@@ -69,7 +71,7 @@ bool TTFont::initFont (void)
     if(_valid) return(true);
 
     if(!_fontName || _fontPath.empty()) {
-      cout << "ERROR: No FontName or no path specified!"  << endl;
+      FWARNING(("No FontName or no path specified."));
       return(false);
     }
 
@@ -77,10 +79,8 @@ bool TTFont::initFont (void)
 
     _ttError = TT_Open_Face(_ttEngine, _fontPath.data(), &_ttFace);
     if(_ttError) {
-      cout << "ERROR: Create TT_Face failed for font " << _fontPath.data()
-	     << " with TT_Error=" << _ttError << endl;
-	perror("SystemErrorMessage");
-	_valid = false;
+      FWARNING(("Create TT_Face failed for font %s with TT_Error=%d.", _fontPath.c_str(), _ttError));
+      _valid = false;
     }
 
     return _valid;
