@@ -222,7 +222,7 @@ void ChunkMaterialBase::executeSyncImpl(      ChunkMaterialBase *pOther,
 
 
 #include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>@@endif
+#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
@@ -256,7 +256,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.22 2002/05/16 03:47:01 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.23 2002/05/16 04:10:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCHUNKMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHUNKMATERIALBASE_INLINE_CVSID;
 

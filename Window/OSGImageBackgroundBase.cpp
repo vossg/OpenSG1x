@@ -285,6 +285,22 @@ void ImageBackgroundBase::executeSyncImpl(      ImageBackgroundBase *pOther,
 
 #include <OSGSFieldTypeDef.inl>
 
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<ImageBackgroundPtr>::_type("ImageBackgroundPtr", "BackgroundPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<ImageBackgroundPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, ImageBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -299,7 +315,7 @@ void ImageBackgroundBase::executeSyncImpl(      ImageBackgroundBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageBackgroundBase.cpp,v 1.11 2002/05/16 03:47:02 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageBackgroundBase.cpp,v 1.12 2002/05/16 04:10:18 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGIMAGEBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGIMAGEBACKGROUNDBASE_INLINE_CVSID;
 

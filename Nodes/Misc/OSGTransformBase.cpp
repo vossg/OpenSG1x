@@ -222,7 +222,7 @@ void TransformBase::executeSyncImpl(      TransformBase *pOther,
 
 
 #include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>@@endif
+#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
@@ -256,7 +256,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTransformBase.cpp,v 1.25 2002/05/16 03:47:02 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTransformBase.cpp,v 1.26 2002/05/16 04:10:17 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTRANSFORMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTRANSFORMBASE_INLINE_CVSID;
 

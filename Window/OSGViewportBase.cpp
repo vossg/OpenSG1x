@@ -470,7 +470,7 @@ void ViewportBase::executeSyncImpl(      ViewportBase *pOther,
 
 
 #include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>@@endif
+#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
@@ -504,7 +504,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.29 2002/05/16 03:47:03 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.30 2002/05/16 04:10:19 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGVIEWPORTBASE_INLINE_CVSID;
 

@@ -253,7 +253,7 @@ void StereoBufferViewportBase::executeSyncImpl(      StereoBufferViewportBase *p
 
 
 #include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>@@endif
+#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
@@ -287,7 +287,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStereoBufferViewportBase.cpp,v 1.4 2002/05/16 03:47:03 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStereoBufferViewportBase.cpp,v 1.5 2002/05/16 04:10:19 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTEREOBUFFERVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTEREOBUFFERVIEWPORTBASE_INLINE_CVSID;
 

@@ -221,3 +221,25 @@ void PointLightBase::executeSyncImpl(      PointLightBase *pOther,
 }
 
 
+
+
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPointLightBase.cpp,v 1.23 2002/05/16 04:10:17 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGPOINTLIGHTBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGPOINTLIGHTBASE_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGPOINTLIGHTFIELDS_HEADER_CVSID;
+}
+

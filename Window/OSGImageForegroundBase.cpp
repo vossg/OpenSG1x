@@ -253,7 +253,7 @@ void ImageForegroundBase::executeSyncImpl(      ImageForegroundBase *pOther,
 
 
 #include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>@@endif
+#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
@@ -287,7 +287,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageForegroundBase.cpp,v 1.12 2002/05/16 03:47:02 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageForegroundBase.cpp,v 1.13 2002/05/16 04:10:18 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGIMAGEFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGIMAGEFOREGROUNDBASE_INLINE_CVSID;
 

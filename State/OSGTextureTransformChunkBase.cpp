@@ -181,3 +181,25 @@ void TextureTransformChunkBase::executeSyncImpl(      TextureTransformChunkBase 
 }
 
 
+
+
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureTransformChunkBase.cpp,v 1.6 2002/05/16 04:10:17 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGTEXTURETRANSFORMCHUNKBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGTEXTURETRANSFORMCHUNKBASE_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGTEXTURETRANSFORMCHUNKFIELDS_HEADER_CVSID;
+}
+

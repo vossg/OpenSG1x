@@ -386,7 +386,7 @@ char *FCBaseTemplate_cpp[]={
 "#include <OSGSFieldTypeDef.inl>",
 "@@endif",
 "@@if MFPointerfield",
-"#include <OSGMFieldTypeDef.inl>"
+"#include <OSGMFieldTypeDef.inl>",
 "@@endif",
 "",
 "OSG_BEGIN_NAMESPACE",
@@ -430,7 +430,7 @@ char *FCBaseTemplate_cpp[]={
 "",
 "namespace",
 "{",
-"    static Char8 cvsid_cpp       [] = \"@(#)$Id: FCBaseTemplate_cpp.h,v 1.29 2002/05/16 03:47:02 vossg Exp $\";",
+"    static Char8 cvsid_cpp       [] = \"@(#)$Id: FCBaseTemplate_cpp.h,v 1.30 2002/05/16 04:10:18 vossg Exp $\";",
 "    static Char8 cvsid_hpp       [] = OSG@!CLASSNAME!@BASE_HEADER_CVSID;",
 "    static Char8 cvsid_inl       [] = OSG@!CLASSNAME!@BASE_INLINE_CVSID;",
 "",
