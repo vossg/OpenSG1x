@@ -24,7 +24,8 @@ while (<>)
 
 		$fname =~ s/\s*//g ;
 		$line = join( "", 
-					  ("class ", $cname, ": private ", $ftype, "Field<", $fname ,"> {};")
+					  ("class ", $cname, ": private ", $ftype, "Field<", $fname, 
+					   "> { ", $fname, " * _val; };")
 					);
 		push( @fout, $line );
 	}
@@ -36,21 +37,24 @@ while (<>)
 		$fname =~ s/\s*//g ;
 
 		$line = join( "", 
-					  ("class ", $fname, ": private AbstractGeoProperty<", $ftype ,"> {};")
+					  ("class ", $fname, ": private AbstractGeoProperty<", $ftype ,
+					   "> { ", $ftype, " * _val; };")
 					);
 		push( @fout, $line );
 		
 	}
 	# GeoProperty
-	elsif  ( /^typedef\s+GeoProperty<\s*[^>]*\s*>\s+([^;\s]*);/ )
+	elsif  ( /^typedef\s+GeoProperty<\s*([^>]*)\s*>\s+([^;\s]*);/ )
 	{
-		$fname = $1;
+		$tname = $1;
+		$fname = $2;
 		($cname =  $fname) =~ s/[A-Z]*[0-9].*$// ;
 
 		if ( $fname ne $cname )
 		{
 			$line = join( "", 
-						  ("class ", $fname, ": private ",  $cname, " {};")
+						  ("class ", $fname, ": private ",  $cname, 
+						   " { ", $tname, " * _val; };")
 						);
 			push( @fout, $line );
 		}
@@ -84,7 +88,30 @@ while (<>)
 			if ( $n eq $tname )
 			{
 				$line = join( "", 
-						("class ", $cname, ": private ",  $tname, "<", $tparam, ">  {};")
+						("class ", $cname, ": private ",  $tname, "<", $tparam, ">  { ".
+						 $tparam, " * _val; };")
+							);
+				push( @fout, $line );				
+			}
+		}
+	}
+	# pretty simple ones: vectors have a <> inside the template parameter 
+	# doxygen doesn't like that and stops working there, so remove it
+	elsif  ( /^typedef\s+(\w+)\s*<\s*([^<]*)(<[^>]*>)([^>]*)\s*>\s+([^;\s]*);/ )
+	{
+		$tname = $1 ;
+		$tparam1 = $2 ;
+		$tparam2 = $4 ;
+		$cname = $5 ;
+		$tparam =~ s/\s*//g ;
+		
+		for $n ( @simplelist )
+		{
+			if ( $n eq $tname )
+			{
+				$line = join( "", 
+						("class ", $cname, ": private ",  $tname, "<", $tparam1, 
+							$tparam2, ">  {};")
 							);
 				push( @fout, $line );				
 			}
@@ -110,11 +137,12 @@ for $n ( @fout )
 	{
 		print	"/*!\n";
 		print	" This is a documentation wrapper. Its only purpose is to fool\n";
-		print	" doxygen into thinking of the typedef as a class.\n";
+		print	" doxygen into thinking of the typedef as a class and to allow\n";
+		print	" you to find all the needed info from this page.\n";
 		print	" Use 'List of all members' to see the interface of the class.\n";
 		print	" \n";
-		print	" \warning The real inheritance is not what you see here.\n";
-		print	" \warning This is just to give you an idea of the conceptual relations and to make exploring the relations easier.\n";
+		print	" \\warning The real inheritance is not what you see here.\n";
+		print	" \\warning This is just to give you an idea of the conceptual relations and to make exploring the relations easier.\n";
 		print	" */\n";
 
 		print $n, "\n\n"

@@ -92,15 +92,15 @@ install-includes:
 	rm -f *.h *.inl *.h;												\
 	find $($(PROJ)POOL) -follow							\
 		\( -type d \( -name CVS -o -name Test -o -name include -o 		\
-		   -name Tools \) -prune \) 									\
+		   -name Tools -o -name '.*' -o -name 'examples' \) -prune \) 	\
 		-o -type f -name '*\.hpp' -print -exec $(INSTLINK) {} . \; ;	\
 	find $($(PROJ)POOL)	-follow						\
 		\( -type d \( -name CVS -o -name Test -o -name include  -o 		\
-		   -name Tools \) -prune \) 									\
+		   -name Tools -o -name '.*' -o -name 'examples' \) -prune \) 	\
 		-o -type f -name '*\.h' -print -exec $(INSTLINK) {} . \; ;		\
 	find $($(PROJ)POOL) -follow           				\
-		\( -type d \( -name CVS -o -name Test -o -name include \)		\
-		   -prune \)													\
+		\( -type d \( -name CVS -o -name Test -o -name include -o		\
+			-name '.*' -o -name 'examples' \) -prune \) 				\
 		-o -type f -name '*\.inl' -print -exec $(INSTLINK) {} . \; ;	\
 	cd $$CURRDIR;
 
@@ -162,7 +162,7 @@ fcdToBase:
 	cd $($(PROJ)POOL) ;														\
 	for i in `find .														\
 		\( -type d \( -name CVS -o -name Test -o -name Builds -o			\
-		   -name Tools \) -prune \) 										\
+		   -name Tools -o -name '.*' \) -prune \) 							\
 		-o -type f -name '*\.fcd' -print` ;									\
 	do																		\
 		echo $$i ;															\
