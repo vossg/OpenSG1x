@@ -55,7 +55,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGNormalQuantifier.cpp,v 1.3 2002/04/25 02:49:40 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGNormalQuantifier.cpp,v 1.4 2002/04/25 03:55:09 vossg Exp $";
     static Char8 cvsid_hpp[] = OSG_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSG_INLINE_CVSID;
 }
@@ -279,7 +279,7 @@ UInt32 NormalQuantifier::getSubIndex ( Vec3f point,
     }
   
   return index;
-};
+}
 
 /*-------------------------------------------------------------------------*/
 /*                             get                                         */
