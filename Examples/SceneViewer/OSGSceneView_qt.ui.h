@@ -236,7 +236,7 @@ void OSGSceneView::setActiveNode( osg::NodePtr node )
               
               // mask
               col++;
-              qval.setNum(fDesc->getFieldMask());
+              qval.setNum((unsigned long)(fDesc->getFieldMask()));
               fieldsTable->setText(i,col,qval);
               
             }
