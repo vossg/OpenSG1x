@@ -87,6 +87,53 @@ set up this mask. The naming convention is
 These masks can be or-ed together to create the full mask of fields that are
 changed.
 
+To simplify the begin/endEdit sequences and make it easier to not forget closing
+the edit (which can result in pretty surprising error) there is a helper class
+osg::CPEditor.
+
+The CPEditor is an equivalent to the std::auto_ptr in the sense that as it calls
+the beginEdit as soon as it is created and calls the endEdit as soon as it goes
+out of scope.
+
+\example Use CPEditor for begin/endEdit:
+
+\code
+
+    GeoPTypesPtr type = GeoPTypesUI8::create();        
+    {
+        CPEditor te(type, GeoPTypesUI8::GeoPropDataFieldMask);
+        
+        type->addValue(GL_POLYGON  );
+        type->addValue(GL_TRIANGLES);
+        type->addValue(GL_QUADS    );
+    }
+
+\endcode
+
+\endexample
+
+As a further (small) simplification there is a CPEdit macro that creates the
+CPEditor instance automatically.
+
+\example Use CPEdit for begin/endEdit:
+
+\code
+
+    GeoPTypesPtr type = GeoPTypesUI8::create();        
+    {
+        CPEdit(type, GeoPTypesUI8::GeoPropDataFieldMask);
+        
+        type->addValue(GL_POLYGON  );
+        type->addValue(GL_TRIANGLES);
+        type->addValue(GL_QUADS    );
+    }
+
+\endcode
+
+\endexample
+
+
+
 \section PageSystemAttachments FieldContainer attachments
 
 OpenSG field containers and nodes do not feature an unused pointer to attach
@@ -361,3 +408,4 @@ Shutdown.
 */
 
 #endif
+
