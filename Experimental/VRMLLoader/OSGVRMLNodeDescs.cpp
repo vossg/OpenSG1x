@@ -75,6 +75,9 @@
 OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<GenericAttPtr>::_type("GenericAttPtr"  , true);
+
 #if defined(__sgi)
 
 #pragma instantiate DynFieldAttachment<GenericAttDesc>::_type

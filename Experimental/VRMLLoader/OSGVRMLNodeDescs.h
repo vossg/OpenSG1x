@@ -71,6 +71,7 @@
 #include <OSGSimpleMaterial.h>
 #include <OSGSFImageTypes.h>
 #include <OSGSFVecTypes.h>
+#include <OSGSFFieldContainerPtr.h>
 #include <OSGVRMLTransform.h>
 
 OSG_BEGIN_NAMESPACE
@@ -118,11 +119,13 @@ template <>
 struct FieldDataTraits<GenericAttPtr> : 
     public FieldTraitsRecurseBase<GenericAttPtr>
 {
-    enum                         { StringConvertable = 0x00  };
-    enum                         { bHasParent        = 0x01  };
+    static DataType                 _type;
+    enum                            { StringConvertable = 0x00  };
+    enum                            { bHasParent        = 0x01  };
 
-    static Char8 *getSName(void) { return "SFGenericAttPtr"; }
-    static Char8 *getMName(void) { return "MFGenericAttPtr"; }
+    static DataType &getType (void) { return _type;             }
+    static Char8    *getSName(void) { return "SFGenericAttPtr"; }
+    static Char8    *getMName(void) { return "MFGenericAttPtr"; }
 };
 
 
