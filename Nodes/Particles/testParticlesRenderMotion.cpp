@@ -290,7 +290,8 @@ int main(int argc, char **argv)
     
     beginEditCP(bl);
     bl->setSrcFactor(GL_SRC_ALPHA);
-    bl->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+    //bl->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+    bl->setDestFactor(GL_ONE);
 #if 0
     bl->setAlphaFunc(GL_EQUAL);
     bl->setAlphaValue(1);   
@@ -323,7 +324,7 @@ int main(int argc, char **argv)
     // show the whole scene
     mgr->showAll();
 
-    mgr->setHighlight(scene);
+    //mgr->setHighlight(scene);
     
     // GLUT main loop
     glutMainLoop();
