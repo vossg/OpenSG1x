@@ -228,7 +228,7 @@ void State::changeFrom(DrawActionBase *action, State *old)
             o->deactivate(action, UInt32(ind));
         }
 
-        if(++ind >= StateChunkClass::getNumSlots(cind))
+        if(++ind >= StateChunkClass::getNumSlots(i))
         {
             ind = 0;
         }
