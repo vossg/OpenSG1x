@@ -168,30 +168,94 @@ GeoPumpFactory::Index GeoPumpFactory::getIndex( Geometry * geo)
     if (geo->getIndices() == NullFC) return 128; //NON_INDEXED
     if (geo->getIndexMapping().size() < 2) return 129; //SINGLE_INDEXED
 
+    UInt32 uiIndexMask = 0;
+
+    for(Int32 i = 0; i < geo->getIndexMapping().size(); ++i)
+    {
+        uiIndexMask |= geo->getIndexMapping()[i];
+    }
+
     int a[7];
 
-    if (geo->getColors() != NullFC &&
-        geo->getColors()->getData()) a[0]=1; else a[0]=0;
+    if(uiIndexMask & Geometry::MapColor &&
+       geo->getColors() != NullFC       &&
+       geo->getColors()->getData()        ) 
+    {
+        a[0]=1;
+    } 
+    else 
+    {
+        a[0] = 0;
+    }
+    
+    if(uiIndexMask & Geometry::MapSecondaryColor &&
+       geo->getSecondaryColors() != NullFC       &&
+       geo->getSecondaryColors()->getData()       ) 
+    {
+        a[1]=1;
+    }
+    else 
+    {
+        a[1]=0;
+    }
 
-    if (geo->getSecondaryColors() != NullFC &&
-        geo->getSecondaryColors()->getData()) a[1]=1; else a[1]=0;
+    if(uiIndexMask & Geometry::MapNormal &&
+       geo->getNormals() != NullFC       &&
+       geo->getNormals()->getData()        ) 
+    {
+        a[2]=1;
+    }
+    else
+    {
+        a[2]=0;
+    }
 
-    if (geo->getNormals() != NullFC &&
-        geo->getNormals()->getData()) a[2]=1; else a[2]=0;
+    if(uiIndexMask & Geometry::MapTexCoords &&
+       geo->getTexCoords() != NullFC        &&
+       geo->getTexCoords()->getData()        ) 
+    {
+        a[3]=1; 
+    }
+    else
+    {
+        a[3]=0;
+    }
 
-    if (geo->getTexCoords() != NullFC &&
-        geo->getTexCoords()->getData()) a[3]=1; else a[3]=0;
+    if(uiIndexMask & Geometry::MapTexCoords1 &&
+       geo->getTexCoords1() != NullFC        &&
+       geo->getTexCoords1()->getData()        ) 
+    {
+        a[4]=1; 
+    }
+    else
+    {
+        a[4]=0;
+    }
 
-    if (geo->getTexCoords1() != NullFC &&
-        geo->getTexCoords1()->getData()) a[4]=1; else a[4]=0;
+    if(uiIndexMask & Geometry::MapTexCoords2 &&
+       geo->getTexCoords2() != NullFC        &&
+       geo->getTexCoords2()->getData()        ) 
+    {
+        a[5]=1;
+    }
+    else 
+    {
+        a[5]=0;
+    }
 
-    if (geo->getTexCoords2() != NullFC &&
-        geo->getTexCoords2()->getData()) a[5]=1; else a[5]=0;
-
-    if (geo->getTexCoords3() != NullFC &&
-        geo->getTexCoords3()->getData()) a[6]=1; else a[6]=0;
+    if(uiIndexMask & Geometry::MapTexCoords3 &&
+       geo->getTexCoords3() != NullFC        &&
+       geo->getTexCoords3()->getData()        ) 
+    {
+        a[6]=1;
+    }
+    else
+    {
+        a[6]=0;
+    }
 
     int index=0;
+
     for (int i=0; i<7; i++)
         if (a[i]) index=index|(1<<i);
 
