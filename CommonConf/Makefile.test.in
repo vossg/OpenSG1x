@@ -39,6 +39,7 @@ DEBUG_LIBS := @ac_gdz_package_test_debug_libs_e2@
 
 Tests: Test
 
+include $(@ac_gdz_project_praefix@POOL)/$(@ac_gdz_project_praefix@COMMON)/commonBuildDetect.mk
 include $(@ac_gdz_project_praefix@POOL)/$(@ac_gdz_project_praefix@COMMON)/@ac_gdz_package_sys_common_out@
 include $(@ac_gdz_project_praefix@POOL)/$(@ac_gdz_project_praefix@COMMON)/commonSub.mk
 

@@ -62,9 +62,9 @@ optLnk:
 	@gmake -k -r $($(PROJ)TOPMAKEPAR) -f Makefile opt_internalLnk
 
 
-opt_internal: SUB_TARGET := optLnk
-opt_internal: SUB_JOB := build
-opt_internal: $(SUB_LIBTARGETS) 
+opt_internalLnk: SUB_TARGET := optLnk
+opt_internalLnk: SUB_JOB := build
+opt_internalLnk: $(SUB_LIBTARGETS) 
 
 #########################################################################
 # clean
@@ -209,7 +209,7 @@ install-libs:
 	BUILDLIBS=`find $$CURRDIR -name 'lib-dbglnk'		        			\
 					-exec find {} -name '*\$(LNK_LIB_SUFFIX)' -print \;` ;	\
 	cd $(INSTALL_DIR)/lib/dbg;												\
-	rm -f *$(SO_SUFFIX);													\
+	rm -f *$(LNK_LIB_SUFFIX);												\
 	for t in $$BUILDLIBS; 													\
 	do																		\
 		echo $$t;															\
@@ -220,7 +220,7 @@ install-libs:
 	BUILDLIBS=`find $$CURRDIR -name 'lib-optlnk'		        			\
 					-exec find {} -name '*\$(LNK_LIB_SUFFIX)' -print \;` ;	\
 	cd $(INSTALL_DIR)/lib/opt;												\
-	rm -f *$(SO_SUFFIX);													\
+	rm -f *$(LNK_LIB_SUFFIX);												\
 	for t in $$BUILDLIBS; 													\
 	do																		\
 		echo $$t;															\
@@ -232,7 +232,6 @@ ifeq ($(OS_BASE),cygwin)
 	BUILDLIBS=`find $$CURRDIR -name 'lib-dbg' 			        			\
 						-exec find {} -name '*\$(LIB_SUFFIX)' -print \;` ;	\
 	cd $(INSTALL_DIR)/lib/dbg;												\
-	rm -f *$(LIB_SUFFIX);													\
 	for t in $$BUILDLIBS; 													\
 	do																		\
 		echo  $$t;															\
@@ -243,7 +242,6 @@ ifeq ($(OS_BASE),cygwin)
 	BUILDLIBS=`find $$CURRDIR -name 'lib-opt' 			        			\
 						-exec find {} -name '*\$(LIB_SUFFIX)' -print \;` ;	\
 	cd $(INSTALL_DIR)/lib/opt;												\
-	rm -f *$(LIB_SUFFIX);													\
 	for t in $$BUILDLIBS; 													\
 	do																		\
 		echo  $$t;															\

@@ -303,8 +303,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
 
     SFNodeCorePtr   _core;
 
-    SFAttachmentMap _attachmentMap;
-
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------

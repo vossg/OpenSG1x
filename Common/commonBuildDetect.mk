@@ -34,10 +34,12 @@ DBGCMDGOAL := $(strip $(filter $(OPT_TARGETS),$(MAKECMDGOALS)))
 
 ifneq ($(DBGCMDGOAL),)
 DBG_BASE=opt
+DEBUG_VERSION=0
 $(warning Detected OPT)
 else
 $(warning Detected DBG)
 DBG_BASE=dbg
+DEBUG_VERSION=1
 endif
 
 DBGLNKCMDGOAL := $(strip $(filter $(LNK_TARGETS),$(MAKECMDGOALS)))
