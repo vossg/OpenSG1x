@@ -1,6 +1,6 @@
 // -*- Mode:C++ -*-
 
-// $Id: osg-conv.cpp,v 1.1 2004/09/20 15:16:30 dirk Exp $
+// $Id: osg-conv.cpp,v 1.2 2004/11/20 01:18:17 dirk Exp $
 
 #include <OpenSG/OSGConfig.h>
 #include <OpenSG/OSGGraphOpSeq.h>
@@ -9,7 +9,11 @@
 #include <OpenSG/OSGMergeGraphOp.h>
 #include <OpenSG/OSGNode.h>
 #include <OpenSG/OSGSceneFileHandler.h>
+#include <OpenSG/OSGPruneGraphOp.h>
 #include <OpenSG/OSGSharePtrGraphOp.h>
+#include <OpenSG/OSGSingleTypeGraphOp.h>
+#include <OpenSG/OSGSplitGraphOp.h>
+#include <OpenSG/OSGStringTokenizer.h>
 #include <OpenSG/OSGStripeGraphOp.h>
 #include <OpenSG/OSGVerifyGeoGraphOp.h>
 
@@ -67,9 +71,11 @@ namespace {
               << (options.help ? "true" : "false") << ")\n"
               << "  -v\tbe verbose\t\t\t\t(default: "
               << (options.verbose ? "true" : "false") << ")\n"
-              << "  -g\tgraph ops (colon separated string)\t(default: "
-              << (!options.graphops.empty() ? options.graphops : "<none specified>") << ")\n"
-              << "    \tsupported: none, default, ...\n"
+              << "  -g\tgraph ops (colon separated string)\t(default: '"
+              << (!options.graphops.empty() ? options.graphops : "<none specified>") << "')\n"
+              << "    \tsupported: none, default,\n"
+              << "    \t           materialmerge, merge, prune,\n"
+              << "    \t           shareptr, split, stripe, verify\n"
               << std::endl;
     
     std::list<char const*> suffixes;
@@ -186,12 +192,12 @@ main(int argc, char* argv[])
     print_help_and_exit(argc, argv, options, EXIT_SUCCESS);
 
   if (options.in_filename_list.empty()) {
-    std::cout << "\nno input file(s) specified; terminating!" << std::endl;
+    std::cout << "\nno input file(s) specified; terminating" << std::endl;
     print_help_and_exit(argc, argv, options, EXIT_FAILURE);
   }
 
   if (options.out_filename.empty()) {
-    std::cout << "\nno output file specified; terminating!" << std::endl;
+    std::cout << "\nno output file specified; terminating" << std::endl;
     print_help_and_exit(argc, argv, options, EXIT_FAILURE);
   }
   
@@ -231,7 +237,11 @@ main(int argc, char* argv[])
     
     catch(std::exception &e) {
       std::cout << "received exception '" << e.what() << "'while loading file '" << *current
-                << "'" << std::endl;
+                << "'; terminating" << std::endl;
+
+      osgExit();
+
+      return EXIT_FAILURE;
     }
   }
   
@@ -239,32 +249,75 @@ main(int argc, char* argv[])
     GraphOpSeq* graphOpSeq = new GraphOpSeq;
 
     if (std::string("default") == options.graphops) {
+      options.graphops = "verify:stripe:shareptr:verify";
+
       if (options.verbose)
-        std::cout << "using default graph ops "
-          // << "[verify:stripe:merge:mergematerial:shareptr:verify]"
-                  << "[verify:stripe:shareptr:verify]"
-                  << std::endl;
+        std::cout << "using default graph ops '" << options.graphops << "'" << std::endl;
+    }
+    
+    std::string token_string(options.graphops);
+    
+    std::replace(token_string.begin(), token_string.end(), ':', ' '); // ':' -> ' '
+    
+    StringTokenizer tokens(token_string);
+    
+    while (tokens.hasNext()) {
+      const std::string& current = tokens.getNext();
+      GraphOp*           graph_op = 0;
       
-      // keep ordering!
-      graphOpSeq->addGraphOp(new VerifyGeoGraphOp);
-      graphOpSeq->addGraphOp(new StripeGraphOp);
-      // graphOpSeq->addGraphOp(new MergeGraphOp);
-      // graphOpSeq->addGraphOp(new MaterialMergeGraphOp);
-      graphOpSeq->addGraphOp(new SharePtrGraphOp);
-      graphOpSeq->addGraphOp(new VerifyGeoGraphOp);
-    } else {
-      // need a tokenizer here
-      std::cout << "using costum graph ops not implemented yet; assuming [none]!" << std::endl;
+      if      ("materialmerge" == current) {
+        graph_op = new MaterialMergeGraphOp /* ("MaterialMerge") */ ;
+      }
+      
+      else if ("merge" == current) {
+        graph_op = new MergeGraphOp /* ("Merge") */ ;
+      }
+      
+      else if ("prune" == current) {
+        graph_op = new PruneGraphOp(1.0, PruneGraphOp::SUM_OF_DIMENSIONS /* , "Prune" */ );
+      }
+      
+      else if ("shareptr" == current) {
+        graph_op = new SharePtrGraphOp /* ("ShareCores") */ ;
+      }
+
+#if 0
+      else if ("singletype" == current) {
+        graph_op = new SingleTypeGraphOp<T> /* ("") */ ;
+      }
+#endif
+      
+      else if ("split" == current) {
+        graph_op = new SplitGraphOp /* ("Split", 10000) */ ;
+      }
+      
+      else if ("stripe" == current) {
+        graph_op = new StripeGraphOp /* ("Stripe") */ ;
+      }
+      
+      else if ("verify" == current) {
+        graph_op = new VerifyGeoGraphOp /* ("Verify", repair = true) */ ;
+      }
+      
+      if (0 != graph_op) {
+        if (options.verbose)
+          std::cout << "adding '" << graph_op->getClassname() << "' to sequence" << std::endl;
+        
+        graphOpSeq->addGraphOp(graph_op);
+      } else {
+        std::cout << "unknown graphop '" << current << "' encountered" << std::endl;
+      }
     }
     
     if (options.verbose)
-      std::cout << "applying graph optimizations" << std::endl;
+      std::cout << "applying graph operations" << std::endl;
       
     graphOpSeq->run(scene_root);
     
     delete graphOpSeq;
   } else {
-    std::cout << "not using no graph ops" << std::endl;
+    if (options.verbose)
+      std::cout << "not using any graph ops" << std::endl;
   }
   
   if (options.out_compressed)
@@ -280,4 +333,4 @@ main(int argc, char* argv[])
   return EXIT_SUCCESS;
 }
 
-// $Id: osg-conv.cpp,v 1.1 2004/09/20 15:16:30 dirk Exp $
+// $Id: osg-conv.cpp,v 1.2 2004/11/20 01:18:17 dirk Exp $
