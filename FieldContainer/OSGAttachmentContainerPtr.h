@@ -106,7 +106,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainerPtr :
     static AttachmentContainerPtr dcast(const InTypeT oIn)
     {
         return AttachmentContainerPtr(
-            (dynamic_cast<const typename ObjectType *>(oIn.getCPtr())),
+            (dynamic_cast<const AttachmentContainer *>(oIn.getCPtr())),
              oIn.getContainerSize(),
              oIn.getParentFieldPos());
     }
