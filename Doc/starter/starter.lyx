@@ -324,7 +324,7 @@ OpenSG is not a complete VR system.
  are other systems for that.
 \layout Section
 
-Where do get it
+Where to get it
 \layout Standard
 
 If you read this you probably have it already, otherwise take a look at
@@ -689,12 +689,12 @@ All output that OpenSG generates is channeled through the Log class, which
 OSGLog.h
 \family default 
 .
- OpenSG supplies a global Log object that isused by the library, but the
+ OpenSG supplies a global Log object that is used by the library, but the
  application can create its own logs, if needed.
 \layout Standard
 
 Every log message has one specific level.
- The available levels are 
+ Available levels are 
 \family typewriter 
 LOG
 \family default 
@@ -769,7 +769,7 @@ FDEBUG
 \family default 
  can be compiled out.
  These print the position in the code where the log is executed.
- For multi-lines outputs you'll only want that on the first line, for the
+ For multi-line outputs you'll only want that on the first line, for the
  other lines use 
 \family typewriter 
 PLOG
@@ -853,8 +853,8 @@ What do you mean by %s?
 , s));
 \family default 
 .
- The nice think about the C style interace is that the hole output can be
- compiled out.
+ The nice thing about the C style interface is that the whole output can
+ be compiled out.
  Actually, the 
 \family typewriter 
 FDEBUG
@@ -878,14 +878,14 @@ The user can activate/deactivate various elements per log message during
 LogHeaderElem
 \family default 
  mask.
- The following elements are supported right know: 
+ The following elements are supported right now: 
 \layout Standard
 
 
 \family typewriter 
 LOG_BEGIN_NEWLINE_HEADER
 \family default 
- (creates a extra newline infront of every output), 
+ (creates an extra newline in front of every output), 
 \family typewriter 
 LOG_TYPE_HEADER
 \family default 
@@ -894,11 +894,11 @@ LOG_TYPE_HEADER
 \family typewriter 
 LOG_TIMESTAMP_HEADER
 \family default 
- (writes a timestamp ), 
+ (writes a timestamp), 
 \family typewriter 
 LOG_MODULE_HEADER
 \family default 
- (writes the name of the current module ), 
+ (writes the name of the current module), 
 \family typewriter 
 LOG_FILE_HEADER
 \family default 
@@ -910,7 +910,7 @@ LOG_LINE_HEADER
 \family typewriter 
 LOG_END_NEWLINE_HEADER
 \family default 
- (creates a extra newline at the end) 
+ (creates an extra newline at the end) 
 \layout Standard
 
 When unchanged, the timestamp will be the time in seconds since the programm
@@ -921,6 +921,26 @@ When unchanged, the timestamp will be the time in seconds since the programm
 osgLog().resetRefTime())
 \family default 
 .
+\layout Section
+
+Time & Date
+\layout Standard
+
+To wrap time and date handling we have a little abstraction for them.
+ 
+\layout Standard
+
+
+\family typewriter 
+getSystemTime()
+\family default 
+ returns the current time since system has been started in seconds, using
+ the highest resolution timer available.
+\layout Standard
+
+The Date class provides a second resolution timestamp, factored into second,
+ minute, hour, day, month and year.
+ Date::setSystemDate() can be used to set it to the current date/time.
 \layout Section
 
 Math
@@ -939,7 +959,7 @@ OpenSG matrices are similar to the OpenGL matrices in their storage structure
 \family typewriter 
 Real32
 \family default 
- matrix, and the multiplication convention is just like OpenGL: 
+ matrix, and the multiplication convention is just like OpenGL's: 
 \begin_inset Formula \( v'=M*v \)
 \end_inset 
 
@@ -947,28 +967,45 @@ Real32
  
 \layout Standard
 
-The matrix is stored column major, not row major like standard C/C++ 2D
- arrays.
- So is vector access to the matrix' parts, i.e.
+The matrix is stored column major and access methods respect the storage
+ format, i.e.
  
 \family typewriter 
 matrix[0]
 \family default 
- is the first column, not the first row.
+ yields the first column.
  This is also true for the vector-based constructor.
- It is not true for the constructor that takes 16 single elements, which
- expects its parameters row-major like the matrix is written on paper.
+ However, the constructor taking 16 single elements expects its parameters
+ row-major like the matrix is written on paper.
+ 
+\emph on 
+(Guys, this is weird!)
 \layout Standard
 
 The positive side effect of this setup is the ability to access the base
- vectors of the matrix' coordinate space by accessing the vectors, i.e.
+ vectors of the matrix' coordinate space 
+\emph on 
+(what should that be?)
+\emph default 
+ by accessing the vectors, i.e.
  
 \family typewriter 
 matrix[3]
 \family default 
- is the translation to the origin of the local coordinate space.
+ is the translation to the origin of the local coordinate space 
+\emph on 
+(assuming w = 1...
+ generally the column vectors describe what's being done to the components
+ of the vector to be transformed, the row vectors the results per component.
+ Neither access is necessarily preferable)
+\emph default 
+.
  This is useful if you want to create your matrices from vectors, if you
  don't want to do that, dont' worry about it.
+ 
+\emph on 
+(I would tend to recommend to waive this little discussion; it's more confusing
+ then helping)
 \layout Standard
 
 Setting the contents of a matrix is done by the 
@@ -1007,11 +1044,15 @@ setTranslate()
 \family default 
 , 
 \family typewriter 
-setRotate()
+setRotate(),
 \family default 
  etc.
- methods, but these only set the specified aspect of the matrix and don't
- clear the rest, so be careful when using these.
+ methods, but these only set the respective parts of the matrix and don't
+ clear the rest, so be careful when using these 
+\emph on 
+(so what happens to the scale if I set a rotation?)
+\emph default 
+.
 \layout Standard
 
 Matrices also supply the standard set of matrix operations like 
@@ -1039,9 +1080,9 @@ mult()
 multLeft()
 \family default 
 .
- There are some variantes that change the matrix in place, return their
- results in a different matrix or get their source data from a different
- matrix, see the class docs for details.
+ There are some variants that change the matrix in place, return their results
+ in a different matrix or get their source data from a different matrix,
+ see the class docs for details.
  
 \shape italic 
 What's the point of having both?
@@ -1076,8 +1117,8 @@ OpenSG is different from most other systems in differentiating between vectors,
  
 \layout Standard
 
-Vectors are the most common class, and they should behave like pretty much
- every other vector library on the planet.
+Vectors are the most common class, and they should behave like every other
+ vector library on the planet.
  They are templated to simplify having variants, and the standard ones that
  are available are 
 \family typewriter 
@@ -1110,8 +1151,8 @@ osg::VectorInterface
  no full matrix multiplication for vectors.
 \layout Standard
 
-Points represent positions in space, and as such they are a little more
- restricted than vectors.
+Points represent positions in space, and as such they are more restricted
+ than vectors.
  The available variants are 
 \family typewriter 
 Pnt2f
@@ -1125,9 +1166,8 @@ Pnt3f
 Pnt4f
 \family default 
 .
- Most of the standard vector operations (dot, cross, etc.) don't make sense
- for points.
- They can be subtracted (creating a vector), scaled and a vector can be
+ Some vector operations (dot, cross, etc.) don't make sense for points.
+ Points can be subtracted (creating a vector), scaled and a vector can be
  added to or subtraced from them.
  If you want to represent a position, use a point.
  It helps keeping the concepts in order and not mix up everything just because
@@ -1147,8 +1187,8 @@ When multiplied with a matrix, the w coordinate is set as 1 for 3 element
  
 \layout Standard
 
-Colors are RGB vectors, which also have acces functions to the named components.
- They also allow acces via the HSV color model and scalar multiplication,
+Colors are RGB vectors, which also have access functions to the named components.
+ They also allow access via the HSV color model and scalar multiplication,
  but no other operations.
  
 \shape italic 
@@ -1201,45 +1241,6 @@ multVec
 .
 \layout Section
 
-Functors
-\layout Standard
-
-Functors are the main method for OpenSG to call configurable actions.
- They are used in the Actions to call the actions for the node cores, and
- in the Window to call actions for the GL objects.
-\layout Standard
-
-The functors wrap calls to a standard function, to a member of a specific
- instance or to a member of the first parameter.
- 
-\layout Standard
-
-They will have to be redesigned for 1.1, as they don't compile using the
- Microsoft Visual Studio compiler.
- :( Thus we don't talk much about them here, if you need to add a new action
- or GL object, send us mail.
-\layout Section
-
-Time & Date
-\layout Standard
-
-To wrap time and date handling we have a little abstraction for them.
- 
-\layout Standard
-
-
-\family typewriter 
-getSystemTime()
-\family default 
- returns the current time since system start in seconds, using the highest
- resolution timer available.
-\layout Standard
-
-The Date class provides a second resolution timestamp, factored into second,
- minute, hour, day, month and year.
- Date::setSystemDate() can be used to set it to the current date/time.
-\layout Section
-
 Line 
 \begin_inset LatexCommand \label{sec:line}
 
@@ -1248,16 +1249,15 @@ Line
 
 \layout Standard
 
-The Line defines a ray in space.
- It is defined by a start point and a direction, which is normalized, but
- doesn't have to be specified as such.
- Lines can be constructed from two points or directory from a point and
- a direction.
+A Line defines a ray in space.
+ It is defined by an origin and a direction, which is stored normalized.
+ Lines can be constructed from two points or directly from a point and a
+ direction.
  
 \layout Standard
 
 A line can be intersected with all the bounding volumes and geometry.
- Only the positive half of the line is intersected.
+ Only the positive parameter range of the line is intersected.
 \layout Standard
 
 The line can also find the closest point on itself to a given point or another
@@ -1267,7 +1267,7 @@ The line can also find the closest point on itself to a given point or another
 Plane
 \layout Standard
 
-The Plane defines a 3D infinite halfspace.
+A Plane defines a 3D infinite halfspace.
  It is defined by a normal and the distance from the origin, and can be
  constructed from all useful combinations of points and vectors.
 \layout Standard
@@ -1303,11 +1303,11 @@ FrustumVolume
  frustum.
 \layout Standard
 
-Volumes are created empty and can be changed by extending them by a point
- or another volume.
- All volumes have sepcific access functions to access their attributes,
- but they also have generic access functions to simplify access to arbitrary
- volumes.
+Volumes are created empty (i.e.
+ zero volume) and can be changed by extending them by a point or another
+ volume.
+ All volumes have a variety of access functions, some specific to the type
+ of volume, some general.
  Every volume supports 
 \family typewriter 
 getBounds()
@@ -1320,7 +1320,7 @@ getCenter()
 \family typewriter 
 getScalarVolume()
 \family default 
- to access the enclosed volume.
+ to access the volume measure.
  Volumes can be intersected with points, lines and other volumes, and they
  can be transformed by a matrix.
 \layout Standard
@@ -1395,18 +1395,18 @@ Image
 
 \layout Standard
 
-Defines and holds a 1D/2D/3D image and optional a mipmap pyramid and/or
- an list of equally sized frames with a single frameDelay.
+Defines and holds a 1D/2D/3D image and optionally a mipmap pyramid and/or
+ a list of equally sized frames with a single frameDelay.
  Various pixelTypes are supported to handle grey and RGB color images with
  or without alpha channel.
  The image data starts in the lower left (front) corner and all bytes for
  a single pixel (e.g.
- RGB) are stored one after another in memoy.
- There are not organized in separate layers or channels.
+ RGB) are stored sequentially in memoy.
+ They are not organized in separate layers or channels.
  
 \layout Standard
 
-The Image is only a container for the pixel data and image descrition.
+An Image is only a container for the pixel data and image descrition.
  It does not create or handle any OpenGL state elements.
  However, image objects are utilized to handle the data for texture (e.g.
  SimpleTextureMaterial) or bitmap objects (e.g.
@@ -1420,28 +1420,43 @@ The system provides loader and writer for various formats (see section
 \end_inset 
 
 ).
- The graph loader (e.g.
- OSGLoader, VRMLLoader) use the image loader to fetch the raster data.
+ The graph loaders (e.g.
+ OSGLoader, VRMLLoader) use image loaders to fetch the raster data.
  
 \layout Section
 
 IDString
 \layout Standard
 
-A very primitive string class.
+A primitive string class.
  Mainly used for string IDs (e.g.
  node type names).
  It is not a generic class like the std::string implementation.
  It's only for internal use to built efficient maps for names, not for applicati
 on use.
- If you need a string class use use std::string instead.
+ If you need a string class use std::string instead.
  
 \layout Standard
 
 We decided to create our own specific string class since the std::string
  did not provide all features we needed (e.g.
- shared memory pointer, automatic prefered pointer comparison when comparing
+ shared memory pointer, automatic preferred pointer comparison when comparing
  objects)
+\layout Section
+
+Functors
+\layout Standard
+
+Functors are the main method for OpenSG to call configurable actions.
+ Functors wrap calls to a standard function, to a member of a specific instance
+ or to a member of the first parameter.
+ 
+\layout Standard
+
+Functors will have to be redesigned for 1.1, as they don't compile using
+ the Microsoft Visual Studio compiler.
+ :( Thus we don't talk much about them here, if you need to add a new action
+ or GL object, send us mail.
 \layout Chapter
 
 Fields and FieldContainers
@@ -1452,17 +1467,16 @@ Fields and FieldContainers
 
 \layout Standard
 
-One central goal of the OpenSG design is easy to use thread-safe data.
- To do that right you need to replicate the data so that every thread can
+One central goal in OpenSG's design is easy to use thread-safe data.
+ To do that right, you need to replicate the data so that every thread can
  have its private copy (called aspect) to work on.
- At some point these different copies will have to be synchronized again,
- and then the parts that actually changed need to be copied from one aspect
- to the other.
- To do that the system needs to know what actually changed, and to know
- that on a sub-class basis.
+ At some point these different copies will have to be synchronized, and
+ then the parts that actually changed need to be copied from one aspect
+ to another.
+ To do that, the system needs to know what actually changed.
  As C++ is not reflective, i.e.
  the classes cannot tell the system which members they have, OpenSG needs
- to that itself.
+ to keep track of the changes.
  That's what Fields and FieldContainers are for.
 \layout Section
 
@@ -1474,17 +1488,18 @@ Creating a FieldContainer instance
 
 \layout Standard
 
-FieldContainer can be created in two ways: via the 
+FieldContainer can be created in two ways: By using the 
 \family typewriter 
 FieldContainerFactory
 \family default 
  or from the class's prototype.
- You can not create instances of FieldContainers either via creating automatic
- or static variables or via 
+ You cannot create instances of FieldContainers neither by creating automatic
+ or static variables nor by calling 
 \family typewriter 
 new
 \family default 
-, you have to use the mentioned two ways.
+.
+ You have to use the mentioned two ways.
 \layout Standard
 
 For generic loaders it is useful to create an object by name, and this is
@@ -1494,11 +1509,11 @@ For generic loaders it is useful to create an object by name, and this is
 FieldContainerFactory::the()
 \family default 
 , which has functions to create arbitrary field containers, with some special
- versions to directly create different subsets of field conatiners (Nodes,
+ versions to directly create different subsets of field containers (Nodes,
  NodeCores, Attachments).
 \layout Standard
 
-For reasons connected to multi-thread support (s.
+For reasons connected to multi-threading (s.
  
 \begin_inset LatexCommand \ref{threadsafety}
 
@@ -1519,7 +1534,7 @@ fcPtr
 \family typewriter 
 ->
 \family default 
- and it can be downcast to a derived type via 
+ and it can be downcasted to a derived type by 
 \family typewriter 
 DerivedPtr.dcast( ParentPtr );
 \family default 
@@ -1537,9 +1552,9 @@ fcPtr var=fcPtr::create()
 Reference counting
 \layout Standard
 
-FieldContainers are reference counted.
+FieldContainers are reference-counted.
  They are created with a reference count of 0, and the reference count can
- be manipulated via 
+ be manipulated through 
 \family typewriter 
 addRefCP()
 \family default 
@@ -1571,7 +1586,7 @@ subRefCP()
 \family default 
 .
  If the reference count goes to or below 0, the object is removed.
- Note that object are created with a reference count of zero, so if a new
+ Note that objects are created with a reference count of zero, so if a new
  object (refCnt: 0) is attached to a node (increasing the refCnt to 1) and
  removed later on (decreasing it to 0), it will be destroyed.
  Increasing the reference count before removing it is needed to prevent
@@ -1592,26 +1607,25 @@ The FieldContainer is the basic unit for multi-thread safety.
 \layout Standard
 
 This has to be done explicitly by the program.
- Thus before changing a FieldContainer 
+ Thus, before changing a FieldContainer 
 \family typewriter 
 beginEditCP(fcPtr, fieldMask);
 \family default 
  has to be called.
  After the changes to the FieldContainer are done this also has to be communicat
-ed via calling 
+ed by calling 
 \family typewriter 
 endEditCP(fcPtr, fieldMask);
 \family default 
-.
- 
+.Here,
 \family typewriter 
-fcPtr
+ fcPtr
 \family default 
  is the pointer to the FieldContainer being changed, 
 \family typewriter 
 fieldMask
 \family default 
- a bitmask describing the fields that are changed.
+ is a bitmask describing the fields that are changed.
  Every FieldContainer defines 
 \layout Section
 
@@ -1628,8 +1642,8 @@ All data in FieldContainers is organized in fields.
 Single Fields
 \layout Standard
 
-Single fields hold, as the name says, a single value as their content.
- This content can be accessed directly using 
+Single fields hold, as the name says, a single value.
+ Their content can be accessed directly using 
 \family typewriter 
 getValue();
 \family default 
@@ -1638,13 +1652,13 @@ getValue();
 setValue();
 \family default 
 .
- It can also be copied from another field of the same type via 
+ It can also be copied from another field of the same type by 
 \family typewriter 
 setValue();
 \family default 
  (for fields of the same type) or by 
 \family typewriter 
-setAbstrValue():
+setAbstrValue();
 \family default 
  (for fields which have the same type, but are given as an abstract field).
 \layout Subsection
@@ -1652,7 +1666,7 @@ setAbstrValue():
 Multi Fields
 \layout Standard
 
-Multi fields hold, as the name says again, multiple values as their content.
+Multi fields hold multiple values.
  They are realized as STL vectors and offer a similar interface.
  The field defines types for iterators and references, and the standard
  
@@ -1698,7 +1712,7 @@ reserve()
  and other functions.
 \layout Standard
 
-In addition it has an interface closer to the single fields.
+In addition, Multi fields have an interface reminiscent of single fields.
  It features the 
 \family typewriter 
 setValue()
@@ -1775,11 +1789,11 @@ Of course the most important structures in a scenegraph are the actual nodes
 \layout Standard
 
 OpenSG uses a somewhat different approach than many other systems.
- The node is split into two parts: the actual 
+ A node is split into two parts: the 
 \family typewriter 
 Node
 \family default 
- and the 
+ and a 
 \family typewriter 
 NodeCore
 \family default 
@@ -1793,30 +1807,33 @@ NodeCore
  
 \layout Standard
 
-The 
+A 
 \family typewriter 
 Node
 \family default 
- keeps the general information: the children list, the parent pointer, the
- bounding volume and the core pointer.
- The 
+ keeps the general information: a children list, a parent pointer, a bounding
+ volume and a core pointer.
+ Note that the node itself contains no information about its type (e.g.
+ transform, group, etc.).
+ A 
 \family typewriter 
 Node
 \family default 
- can not be shared, every node can only be at one place in the graph, thus
+ cannot be shared, every node can only be at one place in the graph, thus
  a single parent pointer is enough.
- There is only one kind of node which keeps all the common information.
- Actions tht depend on the position in the graph, like accessing the accumulated
+ All nodes together define the topology of the graph, without defining any
+ content.
+ Actions that depend on a position in the graph, like accessing the accumulated
  matrix to the world coordinate system or the world bounding volume, have
  to be done on the node, as it uniquely defines and identifies the position
  in the graph.
 \layout Standard
 
-The 
+A 
 \family typewriter 
 NodeCore
 \family default 
- carries the differentiating information for the node.
+ carries the differentiating information for a node.
  There are 
 \family typewriter 
 NodeCore
@@ -1871,7 +1888,7 @@ s and
 \family typewriter 
 NodeCore
 \family default 
-s, but many others which are not used in large numbers like 
+s, but many other like 
 \family typewriter 
 Window
 \family default 
@@ -1883,15 +1900,15 @@ Viewport
 \family typewriter 
 Camera
 \family default 
- etc.
+, etc.
  are derived from 
 \family typewriter 
 AttachmentContainer
 \family default 
- and thus can carry attachments.
+ and, therefore, can carry attachments.
 \layout Standard
 
-The attachments themselves have to be derived from 
+Attachments have to be derived from 
 \family typewriter 
 Attachment
 \family default 
@@ -1913,10 +1930,10 @@ Every
 AttachmentContainer
 \family default 
  can hold an arbitrary number of attachments.
- The attachments are divided into separate groups, and there can be only
- one attachment of every group attached to an AC.
- Most attachments are a group by themselves, but if needed new ones can
- be used as replacements for their parents.
+ Attachments are divided into separate groups, and there can be only one
+ attachment of every group attached to an AC.
+ Most attachments are a group, but if needed new ones can be used as replacement
+s for their parents.
  
 \shape italic 
 Is that true? The grouping is somewhat vague.
@@ -1936,7 +1953,7 @@ ons.
  For asynchronous threads that means that every thread might need its private
  copy of the data.
  To combine that with easy usability and efficient access we decided to
- replicate at the flied container level.
+ replicate at the field container level.
  
 \layout Standard
 
@@ -1954,16 +1971,16 @@ shared MFIelds, Ptrs, begin/endEdit, Changelist sync
 Special Node Cores
 \layout Standard
 
-The NodeCores define the specific behaviour of the scenegraph nodes.
- Note that to simplify naming them we use the NodeCore's name to mean the
- Node + Core combination, i.e.
+NodeCores define the specific behaviour of the scenegraph nodes.
+ Note that we refer to the combination of a Node and the respective NodeCore
+ with the core's name, i.e.
  a Group node is a Node with a Group NodeCore.
 \layout Section
 
 Group
 \layout Standard
 
-The Group is the simplest NodeCore, it doesn't do much.
+A Group is the simplest NodeCore, it doesn't do much.
  If asked to do something it calls its children to do the same thing, if
  asked for information it gathers it from the children.
  Really basic.
@@ -1972,24 +1989,23 @@ The Group is the simplest NodeCore, it doesn't do much.
 Switch
 \layout Standard
 
-The Switch is not much more complicated than the Group, the only difference
- being that it selects one of its children during traversals instead of
- all of them.
+A Switch node allows to select one of its children for traversal instead
+ of all of them (as for the other nodes).
 \layout Section
 
 Transform
 \layout Standard
 
-The Transform Core is that basic means of moving objects around the scene.
+A Transform Core is the basic means of moving objects around the scene.
  It keeps a single Matrix that is applied to all its children.
 \layout Section
 
 ComponentTransform
 \layout Standard
 
-The ComponentTransform is close to the Transform, but the transformation
- is defined in an easier to use way, the same way it is done in systems
- like OpenInventor or VRML.
+A ComponentTransform is close to a Transform, but the transformation is
+ defined in an easier to use way, the same way it is done in systems like
+ OpenInventor or VRML.
  It consists of a center and a rotation around that center, followed by
  a scale relative to a given scaleOrientation, which is finally followed
  by a translation.
@@ -2004,7 +2020,7 @@ Levels of Detail are a simple way of increasing rendering performance.
  
 \layout Standard
 
-The DistanceLOD is the simplest version, which switches versions based on
+A DistanceLOD is the simplest version, which switches versions based on
  distance to the viewer.
  There is a distance associated with every child of the Node, the details
  follow the VRML specification.
@@ -2013,27 +2029,25 @@ The DistanceLOD is the simplest version, which switches versions based on
 Lights
 \layout Standard
 
-Lights have a problem.
- Localized lights to define a part of the scenegraph that is lit.
- This can be defined by their position in the tree, in the sense that everything
- below a light is lit by it.
- In addition it mkaes sense to control the position and orientation of the
- part using the scenegraph, to have a unified interface to manipulate lights
- and objects, and to associate lights with objects, e.g.
- headlights of a car.
- This can also be done using the scenegraph.
+A Light defines a source of light in the scene.
+ Generally, two types of information are of interested: The position of
+ the light source (geometry), and what elements of the scene are lit (semantics).
+ Since the graph structure essentially describes the semantics of the scene,
+ the node containing the Light describes what is lit: The subgraph attached
+ to the Light.
+ Necessarily, the position in space of a Light has to be defined by other
+ means than the accumulated transform to the Light's node as the subgraphs
+ position and orientation might coincide with the light source's.
 \layout Standard
 
-OpenSG uses the location of the light in the graph to define what is lit.
- To define the position and orientation of the light a separate node, the
- 
+To define the position and orientation of the light a separate node, a 
 \shape italic 
 beacon
 \shape default 
 , is used.
  The light has a SFNodePtr to reference the beacon, which can be anywhere
  in the scene.
- The light is positioned in the coordinate system of the beacon.
+ A light is positioned in the coordinate system of the beacon.
  Tip: Using the beacon of the camera (see 
 \begin_inset LatexCommand \ref{sec:camera}
 
@@ -2042,7 +2056,7 @@ beacon
 ) as the beacon of a light source creates a headlight.
 \layout Standard
 
-Every light is closely on OpenGL's light specification.
+Every light is closely related to OpenGL's light specification.
  It has a diffuse, specular and ambient color.
 \layout Standard
 
@@ -2063,9 +2077,10 @@ The DirectionalLight just has a direction.
 PointLight
 \layout Standard
 
-The Pointlight has a, surprise, position to define its location.
- In addition, as it really is located i the scene, it has attenuation parameters
- to change the light intensity depending on the distance to the light.
+The Pointlight has a position to define its location.
+ In addition, as it really is located in the scene, it has an attenuation
+ parameters to change the light's intensity depending on the distance to
+ the light.
 \layout Subsection
 
 SpotLight
@@ -2080,51 +2095,51 @@ The SpotLight adds a direction to the PointLight and a spotCutOff angle
 Geometry
 \layout Standard
 
-The geometries make up the leaves of the graph and ultimately define what's
- rendered.
- Geometry has to be flexible, to accomodate the needs of the application,
- so different data types for the ata that defines the geometry is useful,
+Geometries make up the leaves of the graph and ultimately define what's
+ being rendered.
+ Geometry has to be flexible, to accomodate the needs of the application.
+ Different data types for the data that defines the geometry are useful,
  as well as different indexing capabilities to reuse data as much as possible.
- But it also has to be efficient to render.
- Flexibility and performance don't always go well together, thus there are
- some simplifications to make.
+ On the other hand, it also has to be efficient to render.
+ Flexibility and performance don't always go well together, thus, there
+ are some simplifications to make.
 \layout Standard
 
 OpenSG geometry is modeled closely following OpenGL.
- The data that makes up the geometry is stored in separate arrays.
+ The data that make up the geometry are stored in separate arrays.
  Positions, Colors, Normals and Texture Coordinates all have their own arrays,
- or rather MultiFields.
+ (or MultiFields, to stay in OpenSG terminology)).
  As OpenGL can handle a lot of different formats for the data, some of which
  might be more appropriate due to speed and memeory consumption than others,
  depending on the application, OpenSG features different version of this
  data, allowing all the variants that OpenGL allows.
  To allow that with type sefaty and without having a separate geometry class
  for every possible combination the data fields are stored in separate field
- containers, the so called GeoProperties.
- There are separate GeoProperties for the different attributes, and variants
- for the different data types for each kind of GeoProperty.
- The most prominent are probably GeoPositions3f for Pnt3f positions, GeoNormals3
-f for Vec3f normals, GeoColors3f for Color3f colors and GeoTexCoords2f for
- Vec2f texture coordinates, but all the other variants are possible.
+ containers, so called GeoProperties.
+ There are separate GeoProperties for different attributes, and variants
+ for different data types for each kind of GeoProperty.
+ The most prominent types are probably GeoPositions3f for Pnt3f positions,
+ GeoNormals3f for Vec3f normals, GeoColors3f for Color3f colors and GeoTexCoords
+2f for Vec2f texture coordinates, but all other variants are possible.
  
 \layout Standard
 
-As the properties only have a single field they can mimic that field by
- exposing parts of the standrad MultiFeld interface for their contents,
- so you can use a GeoPropety pretty much just like a MultiField.
+As properties only have a single field they can mimic that field by exposing
+ parts of the standard MultiFeld interface for their contents, so you can
+ use a GeoProperty pretty much just like a MultiField.
  One problem with the type variety is that writing functions that work on
- every type of property can becme tedious, as you's have to have a big switch
+ every type of property can become tedious, as you have to have a big switch
  for every kind of data that could arrive.
- To make that easier for every propety there is defined generic format,
+ To make that easier for every property there is defined generic format,
  e.g.
  for Positions the format is Pnt3f.
- The property has a getValue()/setValue() interface for these genric types,
+ A property has a getValue()/setValue() interface for these generic types,
  i.e.
  every porperty, no matter in what format it stores the data, can be used
  as if it used the generic format.
- Of course this is not as efficient as directly accessing the data, but
- it speed is not the highest priority or as a fallback it's quite useful.
- And finally the GeoProperties feature an interface for OpenGL vertex arrays,
+ Of course, this is not as efficient as directly accessing the data, but
+ if speed is not the highest priority or as a fallback it's quite useful.
+ And, finally, GeoProperties feature an interface for OpenGL vertex arrays,
  giving access to the data and the types involved, which is used for rendering.
 \layout Standard
 
@@ -2133,14 +2148,14 @@ In addition to the abovementioned data there are some other GeoProperties.
  you can freely mix triangles, triangle strips and polygons in a single
  geometry node.
  The GeoPTypes property defines the type of the primitives used.
- Right now it only exists as a GeoPTypesUI32 variant, but others may follow.
+ Right now, it only exists as a GeoPTypesUI32 variant, but others may follow.
  The number of vertices per primitive is defined by another property, the
- GeoPLengths peroperty.
+ GeoPLengths property.
  This, too, only exists in a GeoPLengthsUI32 variant right now.
  
 \layout Standard
 
-Using these properties it is already possible to define geometry (see fig.
+Using these properties it is possible to define geometry (see fig.
  
 \begin_inset LatexCommand \ref{fig:geo_non_indexed}
 
@@ -2170,25 +2185,24 @@ flags 9
 
 Non-Indexed Geometry
 \end_float 
-One additional advantage of separating the properties from the Geometry
- is the ability to share properties between geometry nodecores.
+One additional advantage of separating properties from Geometry is the ability
+ to share properties between geometry nodecores.
  As geometries can only have one material right now that's useful for simplifyin
-g handling objects with multiple materials.
+g the handling of objects with multiple materials.
 \layout Standard
 
-But this simple geometry has a big problem: there is no way to reuse vertex
- data.
+This simple geometry has one problem: there is no way to reuse vertex data.
  When a vertex is to be used multiple times, it has to be replicated, which
- can increase the amount of memory needed up to fourfold or worse.
- Thus some sort of indexing to reuse vertices is needed.
+ can increase the amount of memory needed significantly.
+ Thus, some sort of indexing to reuse vertices is needed.
  You can guess what's coming? Right, another property.
 \layout Standard
 
 Indices are stored in the GeoIndices property, which only exists in the
  GeoIndicesUI32 variant right now.
  When indices are present the given lengths define how many indices are
- used to define the primitive, while that actual data is index by the indices
- (see fig.
+ used to define the primitive, while that actual data is indexed by the
+ indices (see fig.
  
 \begin_inset LatexCommand \ref{fig:geo_indexed}
 
@@ -2219,15 +2233,15 @@ flags 9
 Indexed Geometry
 \end_float 
 Indexed geometry is very close to OpenGL, and probably the most often used
- variant of geometry.
- it doesn't handle all the cases, though.
+ type of geometry.
+ It doesn't handle all the cases, though.
 \layout Standard
 
 Sometimes vertices need different additional attributes, even though they
  have the same position.
  One example are discontinuities in texture coordinates, e.g.
  when texturing a simple cube.
- The edges of the cube don't necessarily use the same texture coordinates.
+ The edges of the cube don't necessarily use the same texture coordinate.
  To support that a single indexed geometry has to replicate the vertices.
 \layout Standard
 
@@ -2265,9 +2279,8 @@ flags 9
 
 Multi-Indexed Geometry
 \end_float 
-In interleaved indices every vertex of a primitive has not one but multiple
- indices.
- Which index is used for which attribute is defined by a separate indexMapping
+Interleaved indices require every vertex to hold multiple indices.
+ Which index is used for what attribute is defined by a separate indexMapping
  field.
  The indexMapping field is a UInt32 multifield.
  The possible values are bitwise combinations of the available attribute
@@ -2277,16 +2290,17 @@ In interleaved indices every vertex of a primitive has not one but multiple
  none at all).
 \layout Standard
 
-In addition to the properties the geometry keeps a MaterialPtr to define
- the material that's used for rendering the geometry (see sec.
+In addition to the properties geometry keeps a MaterialPtr to define the
+ material that's used for rendering the geometry (see sec.
  
 \begin_inset LatexCommand \ref{sec:materials}
 
 \end_inset 
 
 ) and a flag that activates caching the geometry in OpenGL display lists.
- As the geometry rendering is not optimized very much right now that's the
- best way to get decent performance, and is on by default.
+ As geometry rendering is not optimized very much right now that's the best
+ way to get decent performance.
+ Display lists are turned on by default.
 \layout Subsection
 
 Geometry Iterators
@@ -2297,21 +2311,22 @@ The above setup is very nice and flexible to define: you can mix different
  kinds and the indexing allows the reuse of some or all of the data.
 \layout Standard
 
-But from the other side of the fence things look difficult: if you want
- to walk over all traingles of a geometry to calculate the average triangel
- size or the surface area, or for calculating face normals or for whatever
- reason you have to take care of all the flexibility and be prepared for
- lots of different ways to define geometry.
+From the other side of the fence things look difficult: if you want to walk
+ over all traingles of a geometry to calculate the average triangle size
+ or the surface area, or for calculating face normals or for whatever reason
+ you have to take care of all the flexibility and be prepared for lots of
+ different ways to define geometry.
 \layout Standard
 
-To simplify that the concept of a geometry iterator was introduced.
- They allow you to iterate over a given geometry primitive by primitive,
- or face by face (a face being a triangle or quad), or triangle by triangle.
+To simplify that the concept of a geometry iterator has been introduced.
+ A geometry iterator allows to iterate over a given geometry primitive by
+ primitive, face by face (a face being a triangle or quad), or triangle
+ by triangle.
  
 \layout Standard
 
-All of them are used like STL iterators: the geometry has methods to give
- you the first or last+1th iterator (
+All of them are used like STL iterators: the geometry has methods to pass
+ the first or last+1th iterator (
 \family typewriter 
 begin()
 \family default 
@@ -2333,7 +2348,7 @@ end()
 \layout Standard
 
 If you're used to having a separate Face object that keeps all the data
- for a separate face, the Iterators pretty mch mimic that behaviour.
+ for a separate face, the Iterators pretty much mimic that behaviour.
  The one thing you can't do using iterators is changing the data.
 \layout Standard
 
@@ -2369,7 +2384,7 @@ TriangleIterator
 FaceIterator
 \family default 
 , but it also splits Quads into two triangles, thus it does an implicit
- triangualtion.
+ triangulation.
  As OpenSG just like OpenGL doesn't support concave geometry that's not
  as hard as it sounds.
 \layout Standard
@@ -2381,11 +2396,11 @@ The iterators can also be used to indicate a specific primitive/face/triangle.
 getIndex()
 \family default 
 .
- Later a new iterator can be used to 
+ A new iterator can be used to 
 \family typewriter 
 seek()
 \family default 
- to the given primitive/face/triangle again and work on it.
+ a given primitive/face/triangle again and work on it.
  This is used for example in the 
 \family typewriter 
 IntersectAction
@@ -2401,18 +2416,17 @@ Materials
 
 \layout Standard
 
-The materials define the surface properties of the geometry.
+Materials define the surface properties of the geometry.
  For the standard Phong lighting model that OpenGL uses these are ambient,
  diffuse and specular color as well as shininess.
- But this is an area where extensions are added at an amazing pace and new
- approaches are developed fast.
- The purpose of the materials is to abstract that away and give the user
- an easy to use interface to define the surface properties without having
+ However, this is an area where extensions are added at an amazing pace.
+ The purpose of materials is to add a level of abstraction and give the
+ user an easy to use interface to define surface properties without having
  to worry about how to realize this.
 \layout Standard
 
-Thus every geometry needs to have a material associated with it via the
- 
+Thus, every geometry needs to have a material associated with it by means
+ of the 
 \family typewriter 
 material
 \family default 
@@ -2422,7 +2436,7 @@ material
 This area is quickly expanding, so what we have right now is just the beginning.
 \layout Section
 
-Kinds
+Material types
 \layout Standard
 
 Right now there are only the simple materials that OpenGL supports.
@@ -2434,7 +2448,7 @@ Right now there are only the simple materials that OpenGL supports.
 SimpleMaterial
 \layout Standard
 
-The 
+
 \family typewriter 
 SimpleMaterial
 \family default 
@@ -2464,11 +2478,11 @@ shininess
 \family typewriter 
 transparency
 \family default 
- setting, going from for opaque to 1 for fully transparent.
+ setting, ranging from 0 for opaque to 1 for fully transparent.
  
 \layout Standard
 
-There are two other attributes in the 
+There are two other attributes in a 
 \family typewriter 
 SimpleMaterial
 \family default 
@@ -2477,24 +2491,24 @@ SimpleMaterial
 \family typewriter 
 lit
 \family default 
- attribute, which defines if the material is influenced by the light sources
+ attribute, which defines if the material is influenced by light sources
  at all.
  If it isn't, the color is directly taken from the 
 \family typewriter 
 diffuseColor
 \family default 
- and the other color attributes are ignored.
+ component and other color attributes are ignored.
  
 \layout Standard
 
-The other is the 
+The other attribute is the 
 \family typewriter 
 colorMaterial
 \family default 
- field, which defines how the colors that are given in teh geometry influence
+ field, which defines how colors that are given in the geometry influence
  the lighting calculation.
  By default they replace the diffuse color only.
- The possible values are taken from the 
+ Possible values are taken from the 
 \family typewriter 
 glColorMaterial()
 \family default 
@@ -2520,11 +2534,11 @@ GL_NONE
 TexturedSimpleMaterial
 \layout Standard
 
-The 
+
 \family typewriter 
 TexturedSimpleMaterial
 \family default 
- is derived from the 
+ is derived from 
 \family typewriter 
 SimpleMaterial
 \family default 
@@ -2538,7 +2552,7 @@ SimpleMaterial
  
 \layout Standard
 
-Additionally there are some parameters to define the behaviour of the texture.
+Additionally there are some parameters to define the behaviour of a texture.
  
 \family typewriter 
 magFilter
@@ -2547,8 +2561,8 @@ magFilter
 \family typewriter 
 minFilter
 \family default 
- define how to scale the texture image up or down, the allowable values
- taken from 
+ define how to scale the texture image up or down, legal values taken from
+ 
 \family typewriter 
 glTexParameter()
 \family default 
@@ -2561,7 +2575,7 @@ GL_NEAREST
 \family typewriter 
 GL_LINEAR
 \family default 
- for the 
+ for 
 \family typewriter 
 magFilter
 \family default 
@@ -2569,7 +2583,7 @@ magFilter
 \family typewriter 
 GL_LINEAR_MIPMAP_LINEAR
 \family default 
- for the 
+ for 
 \family typewriter 
 minFilter
 \family default 
@@ -2577,12 +2591,12 @@ minFilter
  
 \layout Standard
 
-The 
+
 \family typewriter 
 envMode
 \family default 
- defines how the color from the texture is combined with the color from
- the lighting calculation.
+ defines how a color from the texture is combined with a color from the
+ lighting calculation.
  The default is 
 \family typewriter 
 GL_REPLACE
@@ -2600,7 +2614,7 @@ GL_DECAL
  alpha channel.
 \layout Standard
 
-Finally the texture can be used as a spherical environment map to simulate
+Finally, a texture can be used as a spherical environment map to simulate
  a reflective object by setting the 
 \family typewriter 
 envMap
@@ -2642,7 +2656,7 @@ Intersect
 Usage
 \layout Standard
 
-Actions use the same syntax for creating are actions that fieldcontainers
+Actions use the same syntax for creating as actions that fieldcontainers
  use, as they also use a prototype for that.
  Thus you need to call 
 \family typewriter 
@@ -2667,8 +2681,8 @@ action->apply(vector<NodePtr>::iterator begin, vector<NodePtr>::iterator
 DrawAction
 \layout Standard
 
-The DrawAction is a simple traversal that directly calls OpenGL.
- It was the first attempt at rendering and has been superseded by the 
+DrawAction is a simple traversal that directly calls OpenGL.
+ It was the first attempt at rendering and has been superseded by 
 \family typewriter 
 RenderAction
 \family default 
@@ -2678,10 +2692,10 @@ RenderAction
 RenderAction
 \layout Standard
 
-The RenderAction is the primary means of transforming the scenegraph into
- an image.
+RenderAction is the primary means of transforming the scenegraph into an
+ image.
  It does view volume culling and state sorting by building a draw tree.
- it also handles transparent objects by rendering them last and back to
+ It also handles transparent objects by rendering them last and back to
  front sorted.
  Put simple it does what a decent scenegraph needs to do.
  
@@ -2715,16 +2729,17 @@ setVolumeDraw()
 IntersectAction
 \layout Standard
 
-The 
+
 \family typewriter 
 IntersectAction
 \family default 
- is used for sending rays into the scene and retrieving the first hit object.
- Right now the intersection is not very optimized, which is okay for selecting
- an object, but probably too slow for programmatic use.
+ is used for sending rays into the scene and retrieving the first object
+ hit.
+ Right now, intersection testing is not very optimized, which is okay for
+ selecting an object, but probably too slow for programmatic use.
 \layout Standard
 
-The ray is defined by a 
+A ray is defined by a 
 \family typewriter 
 Line
 \family default 
@@ -2735,22 +2750,22 @@ Line
 \end_inset 
 
 ) and optionally a maximum distance.
- It can either be set at construction time or via 
+ It can either be set at construction time or by 
 \family typewriter 
 setLine()
 \family default 
 .
- To test the ray, apply the action to the root of the possible intersection
- objects.
+ To test the ray for intersection, apply the action to the root of the possible
+ intersection objects.
 \layout Standard
 
-If the ray did hit an object 
+If the ray hits an object 
 \family typewriter 
 didHit(
 \family default 
 ) will return true.
- In that case the detailed info about what was hit and where can be accessed
- via 
+ In that case, detailed info about what was hit and where can be accessed
+ through 
 \family typewriter 
 getHitT()
 \family default 
@@ -2777,8 +2792,8 @@ Simple Traversal
 
 \layout Standard
 
-Actions are somewhat complicated to derive, and furthermore they manage
- the callback functors on a 
+Actions are somewhat complicated to derive and, furthermore, they manage
+ callback functors on a 
 \family typewriter 
 NodeCore
 \family default 
@@ -2809,10 +2824,9 @@ Write your own action handler
 \layout Standard
 
 Don't.
- The Actions are being completely redesigned for 1.1 to become more flexible
+ Actions are being completely redesigned for 1.1 to become more flexible
  and clean.
- Use the available actions and for your own traversal needs try to stay
- with the 
+ Use the available actions and try to stay with the 
 \family typewriter 
 traverse()
 \family default 
@@ -2825,7 +2839,7 @@ traverse()
  
 \layout Standard
 
-If you really need to do your own action take a look at the 
+If you really need to do your own action take a look at 
 \family typewriter 
 IntersectAction
 \family default 
@@ -2851,7 +2865,7 @@ Windows are the general connection between OpenSG and the windowing system
  For other window systems its a little more work, but the goal is to have
  wrapper classes for the usual GUI toolkits like QT, Motif etc.
  that simplify the task.
- We have one for QT, the 
+ We have one for QT, 
 \family typewriter 
 OSGQGLManagedWidget
 \family default 
@@ -2861,14 +2875,13 @@ OSGQGLManagedWidget
 Window
 \layout Standard
 
-The Window is the connection to the used window system.
- There are variants for the different supported window systems like X, WIN32,
+A Window is the connection to the window system used.
+ There are variants for different supported window systems like X, WIN32,
  GLUT and QT.
- There needs to be an OpenSG window for each window system window used.
- The OpenSG object handles the OpenGL context creation and activation/deactivati
-on, and needs to be informed about resizes.
- It manages the OpenGL objects like display lists and texture objects and
- is also responsible for OpenGL extension detection and functions.
+ The OpenSG object handles OpenGL context creation and activation/deactivation,
+ and needs to be informed about resizes.
+ It manages OpenGL objects like display lists and texture objects and is
+ also responsible for OpenGL extension detection and functions.
 \layout Standard
 
 It doesn't do any input event handling or similar things, it's only for
@@ -2880,7 +2893,7 @@ It doesn't do any input event handling or similar things, it's only for
 
 \end_inset 
 
- for an easy to use wrapper for setting these up.
+ for an easy-to-use wrapper for setting these up.
  
 \layout Section
 
@@ -2896,9 +2909,9 @@ A Viewport is a part of the window that is being rendered into.
 \layout Standard
 
 If the value is bigger than 1, it's a position in pixel.
- That's independent of the window size, if the window is smaller parts of
- the viewport will be cut, if it's bigger parts of the window will not be
- covered.
+ That's independent of the window size, if the window is smaller, parts
+ of the viewport will be cut, if it's bigger parts of the window will not
+ be covered.
  If they are between 0 and 1 (inclusively) they are relative to the window
  and are rescaled when the window is resized.
  If they are -1 they use the extreme applicable value, i.e.
@@ -2912,7 +2925,7 @@ value * size - 1
  and left of the viewports that should fit.
 \layout Standard
 
-To define what is being rendered the viewport stores the root node of the
+To define what is being rendered a viewport stores the root node of the
  scene to be displayed, the camera to use and the background and foregrounds.
 \layout Section
 
@@ -2924,19 +2937,18 @@ Camera
 
 \layout Standard
 
-The camera defines the parts of the scene that are actually being rendered.
- The definition can be split in two parts: where in the scene the camera
- is located and where it is pointing, and what the internal parameters of
- the camera are.
+A camera defines the parts of the scene that are actually being rendered.
+ The definition can be split in two parts: location and direction, and internal
+ parameters.
 \layout Standard
 
-The position and orientation of the camera is defined by a node in the scenegrap
-h, the beacon, similarly to the definition used by the light sources.
+Position and orientation of the camera are defined by a node in the scenegraph,
+ a beacon, similarly to the definition used by light sources.
  The camera uses the OpenGL defaults for specifying the used coordinate
  system, i.e.
- the camera looks down the negative Z coordinate, X points to the right
+ the camera looks along the negative Z coordinate, X points to the right
  and Y is up.
- Thus to use a camera you need a veacon node in the scene to define its
+ Thus, to use a camera you need a beacon node in the scene to define its
  position.
  This can be an object you want to attach the camera to, but in general
  you'll probably have a Transform node somewhere close to the root to handle
@@ -2963,14 +2975,14 @@ OSGMatrixUtility.h
 The internal parameters of the camera can vary between different kinds of
  cameras.
  The only constant thing that a camera for OpenGL needs are the near and
- far clip distances, which therefore are defined in the general Camera class.
+ far clip distances, which are defined in the general Camera class.
  The others are defined in the specific camera classes.
 \layout Subsection
 
 Perspective Camera
 \layout Standard
 
-The standard camera used for OpenGL rendering is the perspective camera.
+The standard camera used for OpenGL rendering is a perspective camera.
  The only additional attribute it has is the vertical field of view, in
  radians.
  The horizontal field of view is automatically adjusted to the window size
@@ -2980,7 +2992,7 @@ The standard camera used for OpenGL rendering is the perspective camera.
 Background
 \layout Standard
 
-The background defines how the window is cleared before anything is rendered.
+A background defines how the window is cleared before anything is rendered.
  There are a couple of different backgrounds.There can be only one background
  per viewport.
 \layout Subsection
@@ -2990,12 +3002,12 @@ The background defines how the window is cleared before anything is rendered.
 SolidBackground
 \layout Standard
 
-The 
+
 \family typewriter 
 SolidBackground
 \family default 
- is teh simplest variant, it just fills the background wiht a single given
- in its 
+ is the simplest variant, it just fills the background with a single color
+ given in its 
 \family typewriter 
 color
 \family default 
@@ -3007,7 +3019,7 @@ color
 GradientBackground
 \layout Standard
 
-The 
+
 \family typewriter 
 GradientBackground
 \family default 
@@ -3024,10 +3036,9 @@ addColor()
 Foreground
 \layout Standard
 
-The foreground can be used to render something on top of the scenegraph
- image.
+A foreground can be used to render something on top of the scenegraph image.
  There can be an arbitrary number of active foregrounds.
- Right now the only foreground is the 
+ Right now the only foreground is 
 \family typewriter 
 ImageForeground
 \family default 
@@ -3039,12 +3050,12 @@ ImageForeground
 ImageForeground
 \layout Standard
 
-The Image Foreground renders images on top of the scenegraph image.
+ImageForeground renders images on top of the scenegraph image.
  The typical use is adding a logo to the image.
  
 \layout Standard
 
-The images have to be loaded as 
+Images have to be loaded as 
 \family typewriter 
 Image
 \family default 
@@ -3052,7 +3063,7 @@ s, their position has to be defined as a 2D position in the
 \begin_inset Formula \( [0,1]x[0,1] \)
 \end_inset 
 
- range and gievn to the 
+ range and given to the 
 \family typewriter 
 addImage()
 \family default 
@@ -3067,29 +3078,29 @@ SimpleSceneManager
 
 \layout Standard
 
-The SimpleSceneManager is a utility class to simplify creating simple applicatio
-ns.
+SimpleSceneManager is a utility class to simplify the creation of simple
+ applications.
  It manages a single window with a single viewport and a minimal scenegraph
- with a beacon for the camera it manges and a headlight.
+ with a beacon for the camera and a headlight.
  It keeps a Trackball to interactively manipulate the camera.
 \layout Standard
 
 It does not open a window itself, that is left to the user to keep the SSM
  useful for arbitrary window systems.
- The opened window has to be passed to the SSM by using 
+ The window has to be passed to the SSM by using 
 \family typewriter 
 setWindow()
 \family default 
 .
- That's one half of the necessary initialisation.
- Thus it also can't handle input itself, the application has to pass it
- the user input events.
+ That's one half of the necessary initialization.
+ It can't handle input itself, the application has to pass it user input
+ events.
  It's a lot simpler than it sounds, take a look at the tutorials to see
  how it works.
 \layout Standard
 
-The other half of the necessary initialisation is telling tht SSM what by
- draw by calling 
+The other half of the necessary initialization is telling SSM what to draw
+ by calling 
 \family typewriter 
 setRoot()
 \family default 
@@ -3099,11 +3110,11 @@ setRoot()
 \family typewriter 
 showAll()
 \family default 
- to position the camera at a sensible position, but that's not mandatory.
+ to position the camera at a reasonable position, but that's not mandatory.
 \layout Standard
 
 The SSM can be used in conjunction with any window system, it has been integrate
-d into an easy to use QT widget called 
+d into an easy-to-use QT widget called 
 \family typewriter 
 OSGQGLWidget
 \family default 
@@ -3111,7 +3122,7 @@ OSGQGLWidget
  See XXXX.cpp for an example on how to use it.
 \layout Standard
 
-As a littel bonus the SSM can display the 
+As a little bonus, SSM can display the 
 \begin_inset Quotes eld
 \end_inset 
 
@@ -3131,14 +3142,14 @@ useOpenSGLogo()
 Loader
 \layout Standard
 
-As OpenSG user/developer you can always instanciate all your nodes, cores
+As OpenSG user/developer you can always instantiate all your nodes, cores
  or whatever objects you need one by one in your application code.
  
 \layout Standard
 
-In addition, OpenSG also provides, as most scenegraph libraries, a set of
- loader which create a scene tree or image from a given file.
- The system creates singleton Handler for both types (
+In addition OpenSG also provides - as most scenegraph libraries - a set
+ of loaders, which create a scene tree or image from a given file.
+ The system creates singleton Handlers for both types (
 \family typewriter 
 SceneFileHandler
 \family default 
@@ -3146,21 +3157,21 @@ SceneFileHandler
 \family typewriter 
 ImageFileHandler
 \family default 
-) which handles all abstract requests.
- The concreate loader are coded in mime/file type handler (e.g.
+), which handle all abstract requests.
+ The concrete loaders are coded in mime/file type handler (e.g.
  
 \family typewriter 
 OSGTIFImageFileType.h/OSGTIFImageFileType.cpp
 \family default 
-) and autmatically registered.
+) and are automatically registered.
  
 \layout Standard
 
-The system architecture is designed to handle buildin types but and also
- to fetch loader for a specific type on request.
- In the current version (1.0) only build in types are provided since the
+The system architecture is designed to handle built-in types and to fetch
+ loaders for a specific type on request.
+ In the current version (1.0) only built-in types are provided since the
  meta interfaces may not be final yet.
- However the 1.0 version comes with a sufficient set of build in loaders
+ However the 1.0 version comes with a sufficient set of built-in loaders
  and you can always extend the library to handle you own file format.
 \layout Section
 
@@ -3218,11 +3229,11 @@ read
 \family typewriter 
 NullFC
 \family default 
- on fealture) or 
+ on failure) or 
 \family typewriter 
 readTopNodes
 \family default 
- (does not create a extra root but returns all top nodes ).
+ (does not create an extra root but returns all top nodes ).
  
 \layout Standard
 
@@ -3247,7 +3258,7 @@ wrl
 \begin_inset Quotes erd
 \end_inset 
 
-), parse the file and returns the result.
+), parse the file and return the result.
  
 \layout Subsection
 
@@ -3259,7 +3270,7 @@ Image
 
 \layout Standard
 
-The image loader works more or less the same way es the scene loader.
+The image loader works more or less the same way as the scene loader.
  Let the singleton handler pick the mime type and just check the return
  value: 
 \family typewriter 
@@ -3313,7 +3324,7 @@ Type
 FooImageType.h/FooImageType.cpp
 \family default 
 ).
- Every Type is handle as singleton object and must provide a 
+ Every Type is handled as a singleton object and must provide a 
 \family typewriter 
 the()
 \family default 
@@ -3358,7 +3369,7 @@ Loader/RAW
 )
 \layout Enumerate
 
-Change the file file/class name to match you type.
+Change the file file/class name to match your type.
 \layout Enumerate
 
 Change the _suffixA values in the *.cpp file (e.g 
@@ -3389,18 +3400,18 @@ configure/make opensg libs
 Image
 \layout Standard
 
-Image loader are usually not to complex.
- The just use some kind of extra lib (e.g.
+Image loaders are usually not too complex.
+ They just use some kind of extra lib (e.g.
  tiflib) to load the image data.
- Since the extra lib is normally not included in the opensg source tree
- we do not store the code in a extra, mime type specific directory.
- The are all stored in 
+ Since the extra lib is usually not included in the opensg source tree we
+ do not store the code in an extra, mime type specific directory.
+ They are all stored in 
 \family typewriter 
 OpenSG/Image.
  
 \layout Standard
 
-To write you own scene handler perform the following steps:
+To write you own image loader perform the following steps:
 \layout Enumerate
 
 Copy the code from a simple loader (e.g.
@@ -3517,7 +3528,7 @@ flags 9
 FcdEdit blabla
 \end_float 
  ).
- The tools is also able to create all the necessary C++ source files.
+ The tool is also able to create all necessary C++ source files.
  The fieldcontainer code is split into classes (e.g.
  for a Foo fieldcontainer: FooBase and Foo).
  This strategy has various advantages:
@@ -3529,9 +3540,9 @@ Type_system_changes: If the OpenSG core team decides to change the code
  No adaptions 'by hand' are needed.
 \layout Description
 
-Interface_changes: If you would like to change the interface of you fieldcontain
-er (e.g.
- add another field) later on you can just reedit the XML file in fcdEdit
+Interface_changes: If you would like to change the interface of your fieldcontai
+ner (e.g.
+ add another field) later on you can just re-edit the XML file in fcdEdit
  and recreate the base classes.
  All necessary access methods are created automatically.
 \layout Section
@@ -3568,7 +3579,7 @@ Holds all the meta and field information.
 
 Holds the 'user code'.
  The fcdEdit is able to create a skeleton for your fieldcontainer implementation.
- The code does not include any meta information therefore it is not necessary
+ The code does not include any meta information, therefore, it is not necessary
  to create it anew whenever you change the interface.
  
 \layout Standard
@@ -3619,8 +3630,8 @@ Code Style
 \layout Standard
 
 We have a pretty tightly specified code style.
- The style has developed over the course of the project, and not all code
- has been kept up-to-date with respect to the style.
+ The style has developed during the project, and not all code has been kept
+ up-to-date with respect to the style.
  That will be fixed over time.
  
 \layout Standard
@@ -3755,7 +3766,7 @@ Don't put inline code into the headers, use a separate
  
 \layout Standard
 
-Don't document every method and member in the headers either.
+Don't document every method and member in the headers.
  Doing that makes the actual code get lost, comment them at the implementation
  point instead.
  Use groups (
