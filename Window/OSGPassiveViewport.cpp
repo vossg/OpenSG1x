@@ -177,8 +177,8 @@ void PassiveViewport::render( RenderAction * action )
     glGetIntegerv(GL_VIEWPORT, vp);
     setLeft(vp[0]);
     setBottom(vp[1]);
-    setRight(vp[0] + vp[2]);
-    setTop(vp[1] + vp[3]); 
+    setRight(vp[0] + vp[2] - 1);
+    setTop(vp[1] + vp[3] - 1); 
 
 /*
     GLint pl=getPixelLeft(), pr=getPixelRight(), pb=getPixelBottom(), 
@@ -227,7 +227,7 @@ void PassiveViewport::render( RenderAction * action )
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveViewport.cpp,v 1.6 2002/06/30 05:04:24 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveViewport.cpp,v 1.7 2002/08/02 17:31:37 dirk Exp $";
     static char cvsid_hpp[] = OSGPASSIVEVIEWPORT_HEADER_CVSID;
     static char cvsid_inl[] = OSGPASSIVEVIEWPORT_INLINE_CVSID;
 }
