@@ -51,6 +51,7 @@
 #include <OSGFieldType.h>
 #include <OSGString.h>
 #include <OSGFieldContainerPtr.h>
+#include <OSGLog.h>
 
 OSG_BEGIN_NAMESPACE
 

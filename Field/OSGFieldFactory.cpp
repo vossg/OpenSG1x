@@ -172,7 +172,7 @@ FieldType * FieldFactory::getFieldType (const char *szName)
 		for(i = 0; i < _fieldTypeV->size(); i++)
         {
 			if( ((*_fieldTypeV)[i]  != NULL              ) && 
-                (! strcmp(szName, (*_fieldTypeV)[i]->_szName)) ) 
+                (! strcmp(szName, (*_fieldTypeV)[i]->getCName())) ) 
             {
 				type = (*_fieldTypeV)[i];
 				break;
@@ -205,7 +205,7 @@ const char *FieldFactory::getFieldTypeName(UInt32 typeId)
 	FieldType *fieldType = 
         _fieldTypeV ? (*_fieldTypeV)[typeId - 1] : NULL;
 
-	return fieldType ? fieldType->_szName : NULL;
+	return fieldType ? fieldType->getCName() : NULL;
 }
 
 /*---------------------------------- instance -------------------------------*/

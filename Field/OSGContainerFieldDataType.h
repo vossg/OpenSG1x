@@ -44,10 +44,15 @@
 OSG_BEGIN_NAMESPACE
 
 class FieldContainer;
-class NodePtr;
-class NodeCorePtr;
 
-class AttachmentPtr;
+class NodePtr;
+
+class NodeCore;
+typedef FCPtr<FieldContainerPtr, NodeCore> NodeCorePtr;
+
+class Attachment;
+typedef FCPtr<FieldContainerPtr, Attachment> AttachmentPtr;
+
 typedef map<UInt32, AttachmentPtr>  AttachmentMap;
 
 /** \ingroup FieldLib

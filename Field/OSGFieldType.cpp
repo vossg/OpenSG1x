@@ -128,12 +128,12 @@ char FieldType::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-FieldType::FieldType(const char           *szName,
+FieldType::FieldType(const Char8             *szName,
                            CreateFieldMethod  createMethod) :
-    _typeId(0), 
-    _szName(NULL), 
+    Inherited(szName, true),
     _createMethod(createMethod)
 {	
+/*
 	if((szName       != NULL        ) && 
        (*szName      != '\0'        ) && 
        (createMethod != NULL))
@@ -152,6 +152,7 @@ FieldType::FieldType(const char           *szName,
 		cerr << "ERROR: Invalid Field::Field() parameter" << endl;
 
     SDEBUG << "Initialized FieldType : " << _szName << endl;
+    */
 }
 
 
@@ -160,39 +161,6 @@ FieldType::FieldType(const char           *szName,
 
 FieldType::~FieldType(void)
 {
-	(*FieldFactory::_fieldTypeV)[_typeId] = 0;
-
-	delete [] _szName;
-}
-
-/*--------------------------------- access ----------------------------------*/
-
-/** \brief Get field data type. \sa FieldDataType
- */
-
-UInt32 FieldType::getTypeId(void) const
-{
-    return _typeId;
-}
-
-/** \brief Get type name
- */
-
-const char *FieldType::getName(void) const
-{
-    return _szName;
-}
-
-/*-------------------------------- comparision ------------------------------*/
-
-Bool FieldType::operator ==(const FieldType &source) const
-{
-    return _typeId == source._typeId;
-}
-
-Bool FieldType::operator !=(const FieldType &source) const
-{
-    return ! (*this == source);
 }
 
 /*-------------------------------------------------------------------------*\

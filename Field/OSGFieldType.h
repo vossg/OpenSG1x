@@ -50,6 +50,7 @@
 #include <typeinfo>
 #include <OSGBaseTypes.h>
 #include <OSGFieldDataType.h>
+#include <OSGTypeBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -57,9 +58,7 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class FieldFactory;
 class Field;
-class Node;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -75,7 +74,7 @@ class Node;
  *  \brief FieldType
  */
 
-class OSG_FIELD_DLLMAPPING FieldType
+class OSG_FIELD_DLLMAPPING FieldType : public TypeBase
 {
   public:
 
@@ -99,7 +98,7 @@ class OSG_FIELD_DLLMAPPING FieldType
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    FieldType(const char              *szName, 
+    FieldType(const Char8             *szName, 
                     CreateFieldMethod  createMethod);
 
     virtual ~FieldType (void);
@@ -138,14 +137,7 @@ class OSG_FIELD_DLLMAPPING FieldType
 
     /*------------------------------ access ---------------------------------*/
 
-	UInt32      getTypeId(void) const;
-    
-    const char *getName  (void) const;
-
     /*----------------------------- comparision -----------------------------*/
-
-    Bool operator ==(const FieldType &source) const;
-    Bool operator !=(const FieldType &source) const;
 
     /*----------------------------- assignment ------------------------------*/
 
@@ -186,6 +178,8 @@ class OSG_FIELD_DLLMAPPING FieldType
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef TypeBase Inherited;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
@@ -210,11 +204,8 @@ class OSG_FIELD_DLLMAPPING FieldType
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    UInt32  _typeId;
-
-    char      *_szName;
-
-    CreateFieldMethod _createMethod;
+//    const TypeBase          &_contentType;
+    const CreateFieldMethod  _createMethod;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
