@@ -2,17 +2,26 @@
 #include <GL/glut.h>
 #include <OSGLog.h>
 
+#include <OSGWindow.h>
+#include <OSGGLUTWindow.h>
+#include <OSGDrawAction.h>
+
 #include "OSGStateChunk.h"
 #include "OSGTransformChunk.h"
 #include "OSGMaterialChunk.h"
+#include "OSGTextureChunk.h"
 
 OSG_USING_NAMESPACE
 
 TransformChunkPtr tchunk1, tchunk2;
 MaterialChunkPtr mchunk1, mchunk2;
+TextureChunkPtr xchunk1;
 
-GLint dlid;
+GLint dlid, dlid2;
 
+WindowPtr win;
+
+DrawAction *dact;
 
 void 
 display(void)
@@ -27,8 +36,8 @@ display(void)
 	m.setRotate( q );
 	tchunk1->setMatrix( m );
 
-	tchunk1->activate();
-	mchunk1->activate();
+	tchunk1->activate( dact );
+	mchunk1->activate( dact );
 
 	glCallList( dlid );
 
@@ -36,13 +45,19 @@ display(void)
 	m.setTranslate( cos(t/1000), 0, sin(t/1000) );
 	tchunk2->setMatrix( m );
 
-	tchunk2->changeFrom( tchunk1.getCPtr() );
-	mchunk2->changeFrom( mchunk1.getCPtr() );
+	tchunk2->changeFrom( dact, tchunk1.getCPtr() );
+	mchunk2->changeFrom( dact, mchunk1.getCPtr() );
 
 	glCallList( dlid );
 
-	tchunk2->deactivate();
-	mchunk2->deactivate();
+	tchunk2->deactivate( dact );
+	mchunk2->deactivate( dact );
+
+	xchunk1->activate( dact );
+
+	glCallList( dlid2 );
+
+	xchunk1->deactivate( dact );
 
 	glutSwapBuffers();
 }
@@ -75,10 +90,26 @@ int main( int argc, char *argv[] )
 	glEnable( GL_LIGHT0 );
 
 	dlid = glGenLists( 1 );
-
 	glNewList( dlid, GL_COMPILE );
 	glutSolidSphere( .8, 8, 8 );
 	glEndList();
+
+	dlid2 = glGenLists( 1 );
+	glNewList( dlid2, GL_COMPILE );
+	glBegin( GL_POLYGON );
+	glNormal3f( 0, 1, 0 );
+	glColor3f( 1, 1, 1 );
+	glTexCoord2f( 0, 0 );
+	glVertex3f( -1.5, -1, -1.5 );
+	glTexCoord2f( 2, 0 );
+	glVertex3f(  1.5, -1, -1.5 );
+	glTexCoord2f( 2, 2 );
+	glVertex3f(  1.5, -1,  1.5 );
+	glTexCoord2f( 0, 2 );
+	glVertex3f( -1.5, -1,  1.5 );
+	glEnd();
+	glEndList();
+	
 	
 	Matrix m;
 
@@ -100,6 +131,34 @@ int main( int argc, char *argv[] )
 	mchunk2->setAmbient( Color4f( 0,1,0,0 ) );
 	mchunk2->setShininess( 50 );
 
+	// Texture chunk
+	
+	UChar8 imgdata[] = 
+		{  255,0,0,0,  0,255,0,0,  0,0,255,255,  255,255,255,255 };
+	UChar8 limgdata[] = 
+		{  0, 128, 64, 255 };
+	Image image( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
+
+	if ( argc > 1 )
+		image.read( argv[1] );
+	
+	xchunk1 = TextureChunk::create();
+	xchunk1->setImage( &image );
+	xchunk1->setMinFilter( GL_LINEAR_MIPMAP_LINEAR );
+	xchunk1->setMagFilter( GL_NEAREST );
+	xchunk1->setWrapS( GL_REPEAT );
+	xchunk1->setWrapT( GL_REPEAT );
+	xchunk1->setEnvMode( GL_REPLACE );
+
+	// create the dummy structures
+	
+	// the window is needed for the chunks that access GLObjects
+	
+	win = GLUTWindow::create();
+	
+	dact = DrawAction::create()();
+	dact->setWindow( win.getCPtr() );
+	
 	glutMainLoop();
 
 	return 0;

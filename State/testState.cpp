@@ -44,19 +44,19 @@ int main( int argc, char *argv[] )
 
 	state->print();
 
-	cerr << "TransforChunk present? " 
+	cerr << "TransformChunk present? " 
 		 << (state->chunkPresent( tchunk->getClassID() )?"Yes":"No") << endl;
-	cerr << "TransforChunk present (class)? " 
+	cerr << "TransformChunk present (class)? " 
 		 << (state->chunkPresent( tchunk )?"Yes":"No") << endl;
 
 	state->addChunk( tchunk );
 
 	state->print();
 
-	cerr << "TransforChunk present? " 
+	cerr << "TransformChunk present? " 
 		 << (state->chunkPresent( tchunk->getClassID() )?"Yes":"No") << endl;
 
-	cerr << "TransforChunk present (class)? " 
+	cerr << "TransformChunk present (class)? " 
 		 << (state->chunkPresent( tchunk )?"Yes":"No") << endl;
 
 

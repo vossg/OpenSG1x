@@ -5,6 +5,7 @@
 #include "OSGTransformChunk.h"
 #include "OSGMaterialChunk.h"
 #include "OSGLightChunk.h"
+#include "OSGTextureChunk.h"
 
 OSG_USING_NAMESPACE
 
@@ -28,7 +29,8 @@ int main( int argc, char *argv[] )
 	m1.setTranslate( 1,2,3 );
 
 	Real32 r1 = 123.45, r2;
-
+	UInt32 ui1 = 12345, ui2;
+	
 	Vec3f v31(1, 2, 3), v32;
 	Vec4f v41(1, 2, 3, 4), v42;
 	Color4f c41(1, 2, 3, 4), c42;
@@ -48,19 +50,22 @@ int main( int argc, char *argv[] )
 		cerr << " ok" << endl
 
 #define testMatrixField( name, set, get )  	\
-	testField( name, set, get, m1,m2, m1.equals( m2, Eps ) )
+	testField( name, set, get, m1, m2, m1.equals( m2, Eps ) )
 
 #define testVec3fField( name, set, get )  	\
-	testField( name, set, get, v31,v32, v31.equals( v32, Eps ) )
+	testField( name, set, get, v31, v32, v31.equals( v32, Eps ) )
 
 #define testVec4fField( name, set, get )  	\
-	testField( name, set, get, v41,v42, v41.equals( v42, Eps ) )
+	testField( name, set, get, v41, v42, v41.equals( v42, Eps ) )
 
 #define testColor4fField( name, set, get )  	\
-	testField( name, set, get, c41,c42, (c41 == c42) )
+	testField( name, set, get, c41, c42, (c41 == c42) )
 
 #define testRealField( name, set, get )  	\
-	testField( name, set, get, r1,r2, r1 == r2 )
+	testField( name, set, get, r1, r2, r1 == r2 )
+
+#define testUInt32Field( name, set, get )  	\
+	testField( name, set, get, ui1, ui2, r1 == r2 )
 
 	// Transform Chunk
 
@@ -110,5 +115,25 @@ int main( int argc, char *argv[] )
 			lchunk->getQuadraticAttenuation );
 	
 
+	// Texture chunk
+
+	TextureChunkPtr xchunk = TextureChunk::create();
+
+	cerr << "Texture chunk class: " << xchunk->getClass()->getName() << ", id "
+		 << xchunk->getClassID() << ", numslots " << xchunk->getClass()->getNumSlots() 
+		 << endl;
+
+	testUInt32Field( "TextureChunk: minFilter", xchunk->setMinFilter, 
+			xchunk->getMinFilter );
+	testUInt32Field( "TextureChunk: magFilter", xchunk->setMagFilter, 
+			xchunk->getMagFilter );
+	testUInt32Field( "TextureChunk: wrapR", xchunk->setWrapR, 
+			xchunk->getWrapR );
+	testUInt32Field( "TextureChunk: wrapS", xchunk->setWrapS, 
+			xchunk->getWrapS );
+	testUInt32Field( "TextureChunk: wrapT", xchunk->setWrapT, 
+			xchunk->getWrapT );
+	
+	
 	return 0;
 }
