@@ -119,7 +119,9 @@ int main (int argc, char **argv)
            255,0,0,128,  255,0,0,255,  255,0,255,0 };
     Image image( Image::OSG_RGBA_PF, 3, 2, 1, 1, 1, 0, imgdata );
 
-    pm->setImage( &image );
+    pm->setImage( &image ); // NOTE: the image is NOT copied, the variable
+                            // needs to be kept around as long as the texture
+                            // is used
     pm->setMagFilter( GL_NEAREST );
     endEditCP(pm);
 

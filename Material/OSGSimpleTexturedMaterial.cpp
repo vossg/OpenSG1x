@@ -74,7 +74,6 @@ texture, just the ones needed most often.
 SimpleTexturedMaterial::SimpleTexturedMaterial(void) :
     Inherited()
 {
-    _textureChunk = TextureChunk::create();
 }
 
 //! Copy Constructor
@@ -83,12 +82,15 @@ SimpleTexturedMaterial::SimpleTexturedMaterial(const SimpleTexturedMaterial &sou
     Inherited(source)
 {
     _textureChunk = TextureChunk::create();
+    _texGenChunk  = TexGenChunk::create();
 }
 
 //! Destructor
 
 SimpleTexturedMaterial::~SimpleTexturedMaterial(void)
 {
+    subRefCP(_textureChunk);
+    subRefCP(_texGenChunk);
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -127,13 +129,13 @@ void SimpleTexturedMaterial::changed(BitVector whichField, UInt32 origin)
     {
         if ( getEnvMap() )
         {
-            _textureChunk->setGenFuncS( GL_SPHERE_MAP );
-            _textureChunk->setGenFuncT( GL_SPHERE_MAP );
+            _texGenChunk->setGenFuncS( GL_SPHERE_MAP );
+            _texGenChunk->setGenFuncT( GL_SPHERE_MAP );
         }
         else
         {
-            _textureChunk->setGenFuncS( GL_NONE );
-            _textureChunk->setGenFuncT( GL_NONE );
+            _texGenChunk->setGenFuncS( GL_NONE );
+            _texGenChunk->setGenFuncT( GL_NONE );
         }
     }
 
@@ -149,6 +151,7 @@ StatePtr SimpleTexturedMaterial::makeState( void )
     StatePtr state = Inherited::makeState();
 
     state->addChunk( _textureChunk );
+    state->addChunk( _texGenChunk );
 
     return state;
 }
@@ -158,6 +161,7 @@ void SimpleTexturedMaterial::rebuildState(void)
     Inherited::rebuildState();
 
     _pState->addChunk(_textureChunk);
+    _pState->addChunk(_texGenChunk);
 }
 
 bool SimpleTexturedMaterial::isTransparent(void) const
@@ -190,7 +194,7 @@ void SimpleTexturedMaterial::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.11 2002/06/01 10:37:22 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.12 2002/06/10 21:56:40 dirk Exp $";
     static char cvsid_hpp[] = OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID;
     static char cvsid_inl[] = OSGTEXTUREDSIMPLEMATERIAL_INLINE_CVSID;
 }

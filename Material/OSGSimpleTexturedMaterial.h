@@ -45,6 +45,7 @@
 #include <OSGConfig.h>
 
 #include <OSGTextureChunk.h>
+#include <OSGTexGenChunk.h>
 #include <OSGSimpleTexturedMaterialBase.h>
 
 OSG_BEGIN_NAMESPACE
@@ -98,9 +99,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterial : public SimpleTexturedMat
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    // this chunk is used for rendering the material
+    // these chunks are used for rendering the material
 
     TextureChunkPtr    _textureChunk;
+    TexGenChunkPtr     _texGenChunk;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
@@ -138,6 +140,6 @@ OSG_END_NAMESPACE
 #include <OSGSimpleTexturedMaterialBase.inl>
 #include <OSGSimpleTexturedMaterial.inl>
 
-#define OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.h,v 1.8 2002/06/01 10:37:22 vossg Exp $"
+#define OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.h,v 1.9 2002/06/10 21:56:40 dirk Exp $"
 
 #endif /* _OSGTEXTUREDSIMPLEMATERIAL_H_ */
