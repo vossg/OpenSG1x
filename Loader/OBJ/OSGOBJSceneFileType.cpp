@@ -158,6 +158,11 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
       primCount[0] = 0;
       primCount[1] = 0;
       primCount[2] = 0;  
+
+      beginEditCP(coordPtr);
+      beginEditCP(texCoordPtr);
+      beginEditCP(normalPtr);
+
       for (in >> elem; in.eof() == false; in >> elem) 
         if (elem[0] == '#' ||
 	    elem[0] == '$'
@@ -246,6 +251,10 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                 break;
               }
           }
+
+      endEditCP(coordPtr);
+      endEditCP(texCoordPtr);
+      endEditCP(normalPtr);
 
 #if 0
       cerr << "--------------------------------------------------------" << endl;
@@ -385,10 +394,11 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                   }
                 else
                     {
-                      beginEditCP (rootPtr);
+                      beginEditCP(rootPtr);
                       {
                         rootPtr->addChild(nodePtr);
                       }
+                      endEditCP  (rootPtr);
                     }
               }
             else
@@ -784,7 +794,7 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.28 2002/06/10 21:52:45 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.29 2002/06/23 03:53:33 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 

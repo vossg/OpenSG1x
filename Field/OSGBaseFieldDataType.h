@@ -762,22 +762,24 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
         {
             case DynamicVolume::BOX_VOLUME : 
             {
-                const BoxVolume &bVol = 
-                    dynamic_cast<const BoxVolume &>(oObject.getInstance());
+                const BoxVolume *pBVol = 
+                    dynamic_cast<const BoxVolume *>(
+                        &(oObject.getInstance()));
 
-                pMem.putValues(&bVol.getMin()[0], 3);
-                pMem.putValues(&bVol.getMax()[0], 3);
+                pMem.putValues(&(pBVol->getMin()[0]), 3);
+                pMem.putValues(&(pBVol->getMax()[0]), 3);
 
                 break;
             }
             case DynamicVolume::SPHERE_VOLUME :
             {
-                const SphereVolume &sVol = 
-                    dynamic_cast<const SphereVolume &>(oObject.getInstance());
+                const SphereVolume *pSVol = 
+                    dynamic_cast<const SphereVolume *>(
+                        &(oObject.getInstance()));
 
-                Real32 radius = sVol.getRadius();
+                Real32 radius = pSVol->getRadius();
 
-                pMem.putValues(&sVol.getCenter()[0], 3);
+                pMem.putValues(&(pSVol->getCenter()[0]), 3);
                 pMem.putValue (radius);
 
                 break;
@@ -812,31 +814,31 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
         {
             case DynamicVolume::BOX_VOLUME : 
             {
-                BoxVolume &bVol = 
-                    dynamic_cast<BoxVolume&>(oObject.getInstance());
+                BoxVolume *pBVol = 
+                    dynamic_cast<BoxVolume *>(&(oObject.getInstance()));
 
                 Pnt3f min,max;
 
-                pMem.getValues(&min[0], 3);
-                pMem.getValues(&max[0], 3);
+                pMem.getValues(&(min[0]), 3);
+                pMem.getValues(&(max[0]), 3);
 
-                bVol.setBounds(min, max);
+                pBVol->setBounds(min, max);
 
                 break;
             }
             case DynamicVolume::SPHERE_VOLUME :
             {
-                SphereVolume &sVol = 
-                    dynamic_cast<SphereVolume&>(oObject.getInstance());
+                SphereVolume *pSVol = 
+                    dynamic_cast<SphereVolume *>(&(oObject.getInstance()));
 
                 Pnt3f center;
                 Real32 radius;
 
-                pMem.getValues(&center[0], 3);
+                pMem.getValues(&(center[0]), 3);
                 pMem.getValue (radius);
 
-                sVol.setCenter(center);
-                sVol.setRadius(radius);
+                pSVol->setCenter(center);
+                pSVol->setRadius(radius);
                 
                 break;
             }
