@@ -281,7 +281,7 @@ bool DATImageFileType::read (      ImagePtr &image,
 
                         // get length of the stream.
                         inVol->seekg(0, std::ios::end);
-                        UInt64 length = inVol->tellg() - file_offset;
+                        UInt64 length = inVol->tellg(); /*- file_offset; */
                         inVol->seekg(0, std::ios::beg);
 
                         if(length < dataSize)
