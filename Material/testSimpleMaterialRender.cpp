@@ -20,6 +20,7 @@
 #include <OSGDrawAction.h>
 #include <OSGGeometry.h>
 #include <OSGSimpleGeometry.h>
+#include <OSGFaceIterator.h>
 
 #include <OSGMaterialChunk.h>
 
@@ -106,14 +107,35 @@ int main (int argc, char **argv)
 
 	// OSG
 
-	plane = makePlane( 2, 2, 8, 8 );
+	plane = makePlane( 2, 2, 2, 2 );
 	torus = makeTorus( .2, 1, 16, 8 );
 
 	GeometryPtr plane_geo, torus_geo;
 	plane_geo = GeometryPtr::dcast(plane->getCore());
 	torus_geo = GeometryPtr::dcast(torus->getCore());
 	
-	
+    unsigned int ntris = 0;
+    unsigned int nquads = 0;
+    unsigned int ngons = 0;
+
+    osg::FaceIterator fi       = plane_geo->beginFaces();
+    osg::FaceIterator endFaces = plane_geo->endFaces();
+
+    for(; fi != endFaces; ++fi)
+    {
+        if ( fi.getLength() == 3 )
+            ntris ++ ;
+        else
+            if ( fi.getLength() == 4 )
+                nquads ++ ;
+            else
+                ngons ++ ;
+
+        fi.getLength();
+    } 
+
+    fprintf(stderr, "%d tris %d quats %d gons\n", ntris, nquads, ngons);
+
 	SimpleMaterialPtr pm, tm;	
 	
 	pm = SimpleMaterial::create();

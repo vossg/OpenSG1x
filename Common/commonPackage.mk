@@ -11,4 +11,7 @@ LIB_FILE_$(SUB_DIR)     := $(call buildLibName,$(PACKAGENAME))
 
 LIB_FILE_DEP_$(SUB_DIR) := \
 	$(call buildDepLibPath,$(SUB_DIR))/$(call buildDepLibName,$(PACKAGENAME))
+
+LIB_FILE_DEP_$(SUB_DIR)_LNK := \
+	$(call buildDepLibPath,$(SUB_DIR))/$(call buildDepLnkLibName,$(PACKAGENAME))
 endif

@@ -227,7 +227,7 @@ void Camera::getProjectionTranslation( Matrix& result, UInt32 width,
 
 void Camera::getViewing( Matrix& result, UInt32 width, UInt32 height )
 {
-	if ( getBeacon() == NullNode )
+	if ( getBeacon() == NullFC )
 	{
 		SWARNING << "Camera::setup: no beacon!" << endl;
 		return;

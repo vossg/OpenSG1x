@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 
     cerr << "Tree : " << endl;
 
-    if(pRoot == OSG::NullNode)
+    if(pRoot == OSG::NullFC)
     {
         cerr << "\t Empty" << endl;
     }

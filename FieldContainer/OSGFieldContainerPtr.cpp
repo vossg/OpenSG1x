@@ -60,7 +60,14 @@
 
 OSG_USING_NAMESPACE
 
-const FieldContainerPtr OSG::NullFC;
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: $";
+    char cvsid_hpp[] = OSGFIELDCONTAINERPTR_HEADER_CVSID;
+    char cvsid_inl[] = OSGFIELDCONTAINERPTR_INLINE_CVSID;
+}
+
+const NullFieldContainerPtr OSG::NullFC;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -75,8 +82,6 @@ const FieldContainerPtr OSG::NullFC;
 \***************************************************************************/
 
 const UInt16    FieldContainerPtrBase::InvalidParentEPos = 0xFFFF;
-
-      char      FieldContainerPtrBase::cvsid[]           = "@(#)$Id: $";
 
       LockPool *FieldContainerPtrBase::_pRefCountLock    = NULL;
 
@@ -171,8 +176,8 @@ FieldContainerPtrBase::FieldContainerPtrBase(
     const FieldContainerPtrBase &source) :
 
     _containerSize(source._containerSize),
-    _uiParentEPos   (source._uiParentEPos),
-	_storeP         (source._storeP)
+    _uiParentEPos (source._uiParentEPos),
+	_storeP       (source._storeP)
 {
 #ifdef OSG_DEBUG_TYPED_FCPTR
     if(_storeP == NULL)
@@ -534,10 +539,7 @@ void FieldContainerPtrBase::dump(      UInt32     uiIndent,
  *                           Class variables                               *
 \***************************************************************************/
 
-const FieldContainerPtr FieldContainerPtr::NullPtr;
-
-      char            FieldContainerPtr::cvsid[]       = "@(#)$Id: $";
-
+//const FieldContainerPtr FieldContainerPtr::NullPtr;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -700,9 +702,6 @@ FieldContainer *FieldContainerPtr::getCPtr(void) const
 
 void FieldContainerPtr::operator =(const FieldContainerPtr &source)
 {
-	if (this == &source)
-		return;
-
     *(static_cast<Inherited *>(this)) = source;
 }
 
@@ -721,9 +720,7 @@ void FieldContainerPtr::operator =(const FieldContainerPtr &source)
  *                           Class variables                               *
 \***************************************************************************/
 
-const ConstFieldContainerPtr ConstFieldContainerPtr::NullPtr;
-
-      char                 ConstFieldContainerPtr::cvsid[]   = "@(#)$Id: $";
+//const ConstFieldContainerPtr ConstFieldContainerPtr::NullPtr;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -864,48 +861,26 @@ const FieldContainer *ConstFieldContainerPtr::getCPtr(void) const
 
 void ConstFieldContainerPtr::operator =(const FieldContainerPtr &source)
 {
-	if (static_cast<Inherited *>(this) == 
-        static_cast<const Inherited *> (&source))
-    {
-		return;
-    }
-
     *(static_cast<Inherited *>(this)) = source;
 }
 
 void ConstFieldContainerPtr::operator =(const ConstFieldContainerPtr &source)
 {
-	if (this == &source)
-		return;
-
     *(static_cast<Inherited *>(this)) = source;
 }
 
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+NullFieldContainerPtr::NullFieldContainerPtr(void) : 
+    FieldContainerPtr()
+{
+}
+
+NullFieldContainerPtr::~NullFieldContainerPtr(void)
+{
+}

@@ -12,7 +12,7 @@ DEPEND_OPTION        := -QM -nologo
 
 LD_OUTOPT            := -out:
 
-LD_OUTSPACE          :=
+LNK_LD_OUTOPT        := -out:
 
 DIR_SEP              := /
 

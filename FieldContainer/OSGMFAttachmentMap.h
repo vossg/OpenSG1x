@@ -42,10 +42,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGSystemDef.h>
 #include <OSGSField.h>
 #include <OSGAttachmentMapFieldDataType.h>
@@ -80,6 +76,8 @@ OSG_DLLEXPORT_DECL1(MField, AttachmentMap, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 OSG_END_NAMESPACE
+
+#define OSGMFATTACHMENTMAP_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGMFATTACHMENTMAP_H_ */
 

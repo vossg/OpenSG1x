@@ -46,9 +46,11 @@ DBGLNKCMDGOAL := $(strip $(filter $(LNK_TARGETS),$(MAKECMDGOALS)))
 
 ifneq ($(DBGLNKCMDGOAL),)
 LNK=lnk
+LNK_SUFFIX=Lnk
 $(warning Detected Link)
 else
 LNK=
+LNK_SUFFIX=
 endif
 
 endif

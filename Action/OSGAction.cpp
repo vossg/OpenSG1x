@@ -269,7 +269,7 @@ Action::ResultE Action::apply(vector<NodePtr>::iterator begin,
 	
 	for ( ; begin != end; begin ++ )
 	{
-		if ( *begin == NullNode )
+		if ( *begin == NullFC )
 		{
 			SWARNING << "apply: encountered NullNode!" << endl;
 			return Quit;			
@@ -291,7 +291,7 @@ Action::ResultE Action::apply(vector<NodePtr>::iterator begin,
 
 Action::ResultE Action::apply( NodePtr node  )
 {
-	if ( node == NullNode )
+	if ( node == NullFC )
 	{
 		SWARNING << "apply: node is Null!" << endl;
 		return Quit;			
@@ -310,12 +310,12 @@ Action::ResultE Action::apply( NodePtr node  )
 
 Action::ResultE Action::recurse( NodePtr node  )
 {
-    if ( node == NullNode )
+    if ( node == NullFC )
         return Continue;
 
 	NodeCorePtr core = node->getCore();
 	
-	if ( core == NullNodeCore )
+	if ( core == NullFC )
 	{
 		SWARNING << "recurse: core is Null,  don't know what to do!" << endl;
 		return Quit;					

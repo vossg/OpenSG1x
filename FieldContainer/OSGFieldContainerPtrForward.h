@@ -42,20 +42,11 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGBaseTypes.h>
-
 #include <OSGFieldContainerPtr.h>
 #include <OSGAttachmentContainerPtr.h>
 
 OSG_BEGIN_NAMESPACE
-
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
 
 class NodePtr;
 class CNodePtr;
@@ -65,15 +56,8 @@ typedef FCPtr<AttachmentContainerPtr, NodeCore> NodeCorePtr;
 
 class AttachmentPtr;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-
 OSG_END_NAMESPACE
+
+#define OSGFIELDCONTAINERPTRFORWARD_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGFIELDCONTAINERPTRFORWARD_H_ */

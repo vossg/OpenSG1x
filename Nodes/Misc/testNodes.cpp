@@ -140,7 +140,7 @@ int main (int argc, char **argv)
     cout << "p4:" << endl << p4->getToWorld() << endl;
     cout << "p5:" << endl << p5->getToWorld() << endl;
 
-    p1 = NullNode;
+    p1 = NullFC;
 
     p1.dump();
 
@@ -152,7 +152,7 @@ int main (int argc, char **argv)
 
     p1.dump();
 
-    NodeCorePtr nc1 = NullNodeCore;
+    NodeCorePtr nc1 = NullFC;
 
     nc1.dump();
 

@@ -35,7 +35,7 @@
 #include "OSGPerspectiveCamera.h"
 #include "OSGSolidBackground.h"
 
-#include "OSGRAWSceneFileType.h"
+#include "RAW/OSGRAWSceneFileType.h"
 #include "OSGTrackball.h"
 
 using namespace OSG;
@@ -153,12 +153,12 @@ int main (int argc, char **argv)
 
 	// Load the file
 
-	NodePtr file = NullNode;
+	NodePtr file = NullFC;
 	
 	if ( argc > 1 )
 		file = SceneFileHandler::the().read(argv[1]);
 	
-	if ( file == NullNode )
+	if ( file == NullFC )
 	{
 		cerr << "Couldn't load file, ignoring" << endl;
 		file = makeTorus( .5, 2, 16, 16 );

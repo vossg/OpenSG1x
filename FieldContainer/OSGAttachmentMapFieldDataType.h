@@ -184,7 +184,7 @@ template <>
 struct FieldDataTraits<AttachmentMap> : 
     public FieldTraitsRecurseMapper<AttachmentMap>
 {
-    static DataType                 _type;
+    static DataType                  _type;
 
     enum                            { StringConvertable = 0x00  };
     enum                            { bHasParent        = 0x00  };
@@ -195,6 +195,8 @@ struct FieldDataTraits<AttachmentMap> :
 };
 
 OSG_END_NAMESPACE
+
+#define OSGATTACHMENTMAPFIELDDATATYPE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSG_ATTACHMENTMAPFIELDDATATYPE_H_ */
 

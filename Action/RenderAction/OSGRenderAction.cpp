@@ -434,7 +434,7 @@ void RenderAction::dropLight(LightBase *pLight)
 
         NodePtr beacon = pLight->getBeacon();
 
-        if(beacon == NullNode)
+        if(beacon == NullFC)
         {
             SINFO << "draw: no beacon set!" << endl;
         }

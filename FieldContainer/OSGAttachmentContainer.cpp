@@ -51,8 +51,12 @@
 
 OSG_USING_NAMESPACE
 
-/** \brief NULL node pointer
- */
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: $";
+    char cvsid_hpp[] = OSGATTACHMENTCONTAINER_HEADER_CVSID;
+    char cvsid_inl[] = OSGATTACHMENTCONTAINER_INLINE_CVSID;
+}
 
 /***************************************************************************\
  *                               Types                                     *
@@ -120,21 +124,13 @@ FieldContainerType AttachmentContainer::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-/*! @name AttachmentContainer Static Type Information
- */
-
-/*@{*/
-
-/*! \fn FieldContainerType &AttachmentContainer::getStaticType(void) 
+/*! \fn FieldContainerType &AttachmentContainer::getClassType(void) 
  *  \brief returns AttachmentContainer type
  */
 
-/*! \fn UInt32 AttachmentContainer::getStaticTypeId(void) 
+/*! \fn UInt32 AttachmentContainer::getClassTypeId(void) 
  *  \brief returns AttachmentContainer type id
  */
-
-/*@}*/
-
 
 OSG_ABSTR_FIELD_CONTAINER_DEF(AttachmentContainer, AttachmentContainerPtr)
 
@@ -145,7 +141,7 @@ void AttachmentContainer::addAttachment(const AttachmentPtr &fieldContainerP,
 {
     UInt32 key;
 
-    if(fieldContainerP == NullAttachment)
+    if(fieldContainerP == NullFC)
         return;
 
 	key = (UInt32 (fieldContainerP->getGroupId()) << 16) | binding;
@@ -178,7 +174,7 @@ void AttachmentContainer::subAttachment(const AttachmentPtr &fieldContainerP,
 
     AttachmentMap::iterator fcI;
 
-    if(fieldContainerP == NullAttachment)
+    if(fieldContainerP == NullFC)
         return;
 
     key = (UInt32(fieldContainerP->getGroupId()) << 16) | binding;
@@ -206,8 +202,7 @@ AttachmentPtr AttachmentContainer::findAttachment(UInt32 groupId,
 
     AttachmentMap::iterator fcI = _attachmentMap.getValue().find(key);
     
-    return (fcI == _attachmentMap.getValue().end()) ? 
-        NullAttachment : (*fcI).second;
+    return (fcI == _attachmentMap.getValue().end()) ? NullFC : (*fcI).second;
 }
 
 /*---------------------------- properties ---------------------------------*/

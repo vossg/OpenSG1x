@@ -141,13 +141,15 @@ endif
 
 buildDepLibPath   = $(BUILD_BASE)/$(1)/$(LIBDIR)
 
-buildLibName      = $(LIBLNK_OPTION)$(PROJ)$(1)$(LIB_SUFFIX)
+buildLibName      = $(LIBLNK_OPTION)$(PROJ)$(1)$(LNK_SUFFIX)
 
 ifeq ($(OS_BASE), cygwin)
 buildDepLibName   = $(SO_PRAEFIX)$(PROJ)$(1)$(LIB_SUFFIX)
 else
 buildDepLibName   = $(SO_PRAEFIX)$(PROJ)$(1)$(SO_SUFFIX)
 endif
+
+buildDepLnkLibName   = $(SO_PRAEFIX)$(PROJ)$(1)$(LNK_SUFFIX)$(LIB_SUFFIX)
 
 #########################################################################
 # Define Objects
@@ -346,7 +348,11 @@ LIBS      := $(foreach lp,$(RQ_LPACKS), $(LIB_FILE_$(lp)))
 
 LIBS      := $(LIBS) $(LIBS_$(OS_BASE))
 
+ifeq ($(LNK),)
 LIBS_DEP  := $(foreach lp,$(RQ_LPACKS), $(LIB_FILE_DEP_$(lp)))
+else
+LIBS_DEP  := $(foreach lp,$(RQ_LPACKS), $(LIB_FILE_DEP_$(lp)_LNK))
+endif
 
 include $($(PROJ)POOL)/$($(PROJ)COMMON)/DefaultRules.mk
 

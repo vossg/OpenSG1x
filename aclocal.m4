@@ -322,7 +322,7 @@ AC_DEFUN(AC_GDZ_LIBEXT,
         ;;
 
         *)
-        ac_gdz_lib_suffix=
+        ac_gdz_lib_suffix=.a
         ;;
 
     esac

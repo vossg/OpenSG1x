@@ -54,7 +54,7 @@ OSG_BEGIN_NAMESPACE
 template <>
 struct FieldDataTraits<NodePtr> : public FieldTraitsRecurseMapper<NodePtr>
 {
-    static DataType                 _type;
+    static DataType                  _type;
 
     enum                            { StringConvertable = 0x00 };
     enum                            { bHasParent        = 0x01 };
@@ -65,6 +65,8 @@ struct FieldDataTraits<NodePtr> : public FieldTraitsRecurseMapper<NodePtr>
 };
 
 OSG_END_NAMESPACE
+
+#define OSGNODEFIELDDATATYPE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSG_NODEFIELDDATATYPE_H_ */
 

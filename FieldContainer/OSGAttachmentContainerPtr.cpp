@@ -53,6 +53,13 @@
 
 OSG_USING_NAMESPACE
 
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: $";
+    char cvsid_hpp[] = OSGATTACHMENTCONTAINERPTR_HEADER_CVSID;
+}
+
+
 /** \fn const char *AttachmentContainerPtr::getClassname(void)
  *  \brief Classname
  */
@@ -65,9 +72,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char AttachmentContainerPtr::cvsid[] = "@(#)$Id: $";
-
-const AttachmentContainerPtr AttachmentContainerPtr::NullPtr;
+//const AttachmentContainerPtr AttachmentContainerPtr::NullPtr;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -108,6 +113,16 @@ AttachmentContainerPtr::AttachmentContainerPtr(void) :
 
 AttachmentContainerPtr::AttachmentContainerPtr(
     const AttachmentContainerPtr &source) :
+
+    Inherited(source)
+{
+}
+
+/** \brief NullPtr Constructor
+ */
+
+AttachmentContainerPtr::AttachmentContainerPtr(
+    const NullFieldContainerPtr &source) :
 
     Inherited(source)
 {
@@ -171,9 +186,15 @@ AttachmentContainer *AttachmentContainerPtr::getCPtr(void) const
 
 void AttachmentContainerPtr::operator = (const AttachmentContainerPtr &source)
 {
-	if (this == &source)
-		return;
+	// copy parts inherited from parent
+	*(static_cast<Inherited *>(this)) = source;
+}
 
+/** \brief NullPtr assignment
+ */
+
+void AttachmentContainerPtr::operator = (const NullFieldContainerPtr &source)
+{
 	// copy parts inherited from parent
 	*(static_cast<Inherited *>(this)) = source;
 }
@@ -220,7 +241,7 @@ OSG_SYSTEMLIB_DLLMAPPING
 ostream &OSG::operator <<(      ostream                 &os,
                           const AttachmentContainerPtr  &fc)
 {
-	if(fc == AttachmentContainerPtr::NullPtr)
+	if(fc == NullFC)
     {
 		os << hex << "NodePtr 0x" << &fc << dec << ":NullFC";
     }

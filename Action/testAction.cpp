@@ -153,7 +153,7 @@ Action::ResultE firstOnly(CNodePtr& node, Action * action)
 
 	const NodePtr p = action->getNode( 0 );
 
-	if ( p != NullNode )
+	if ( p != NullFC )
 		action->addNode( p );
 
 	return Action::Continue; 
@@ -313,13 +313,13 @@ int main( int argc, char *argv[] )
 	// NULL nodes
 
 	vector<NodePtr> nullvec;
-	nullvec.push_back( NullNode );
+	nullvec.push_back( NullFC );
 
 	cerr << "Apply(list) Null:" << endl;
 	act1->apply( nullvec.begin(), nullvec.end() );
 
 	cerr << "Apply(node) Null:" << endl;
-	act1->apply( NullNode );
+	act1->apply( NullFC );
 
 	NodePtr g3 = Node::create();
 	cerr << "Apply(node) without core:" << endl;

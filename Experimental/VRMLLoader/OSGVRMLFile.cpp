@@ -494,7 +494,7 @@ void VRMLFile::setContainerFieldValue(const FieldContainerPtr &pFC)
 VRMLFile::VRMLFile(void) :
     Inherited(),
 
-    _pRootNode    (NullNode),
+    _pRootNode    (NullFC),
 
     _pCurrNodeDesc(NULL),
     _sNodeDescs   (),
@@ -527,7 +527,7 @@ VRMLFile::~VRMLFile(void)
 
 void VRMLFile::scanFile(const Char8 *szFilename, UInt32 uiOptions)
 {
-    _pRootNode = NullNode;
+    _pRootNode = NullFC;
 
     VRMLNodeDesc::resetIndent();
 
@@ -652,7 +652,7 @@ void VRMLFile::beginNode(
     {
         NodePtr pNode = NodePtr::dcast(_pCurrentFC);
 
-        if(_pRootNode == NullNode)
+        if(_pRootNode == NullFC)
         {
             GroupPtr pGroup = Group::create();
 
@@ -719,7 +719,7 @@ void VRMLFile::endNode(void)
         {
             NodePtr pNode = NodePtr::dcast(_pCurrentFC);
             
-            if(pNode->getCore() == NullNodeCore)
+            if(pNode->getCore() == NullFC)
             {
                 GroupPtr pGroup = Group::create();
 
@@ -973,11 +973,11 @@ NodePtr VRMLFile::getRoot(void)
 
 NodePtr VRMLFile::cloneTree(NodePtr pRootNode)
 {
-    NodePtr returnValue = NullNode;
+    NodePtr returnValue = NullFC;
 
     if(pRootNode != NullFC)
     {
-        NodePtr pChildClone = NullNode;
+        NodePtr pChildClone = NullFC;
 
         returnValue = Node::create();
 

@@ -50,7 +50,14 @@
 
 OSG_USING_NAMESPACE
 
-const NodeCorePtr OSG::NullNodeCore;
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: $";
+    char cvsid_hpp[] = OSGNODECORE_HEADER_CVSID;
+    char cvsid_inl[] = OSGNODECORE_INLINE_CVSID;
+}
+
+//const NodeCorePtr OSG::NullNodeCore;
 
 /***************************************************************************\
  *                               Types                                     *

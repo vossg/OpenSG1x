@@ -236,7 +236,7 @@ void Animation::resolveTransform(      VRMLTransformPtr  pTransform,
 OSG::Action::ResultE animResolver(OSG::CNodePtr &, OSG::Action *action)
 {
     OSG::NodePtr            node        = action->getActNode();
-    OSG::VRMLTransformPtr   vrmlTrans   = OSG::VRMLTransformPtr::NullPtr;
+    OSG::VRMLTransformPtr   vrmlTrans   = OSG::NullFC;
     OSG::NamePtr            namePtr;
     string                  targetName;
     OSG::String             ostring;

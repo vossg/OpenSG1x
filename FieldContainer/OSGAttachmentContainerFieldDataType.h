@@ -55,17 +55,20 @@ template <>
 struct FieldDataTraits<AttachmentContainerPtr> : 
     public FieldTraitsRecurseMapper<AttachmentContainerPtr>
 {
-    static DataType                 _type;
-    enum                            { StringConvertable = 0x00  };
-    enum                            { bHasParent        = 0x01  };
+    static DataType                  _type;
 
-    static DataType &getType (void) { return _type;             }
+    enum                            { StringConvertable = 0x00           };
+    enum                            { bHasParent        = 0x01           };
+
+    static DataType &getType (void) { return _type;                      }
 
     static char     *getSName(void) { return "SFAttachmentContainerPtr"; }
     static char     *getMName(void) { return "MFAttachmentContainerPtr"; }
 };
 
 OSG_END_NAMESPACE
+
+#define OSGATTACHMENTCONTAINERFIELDDATATYPE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSG_ATTACHMENTCONTAINERFIELDDATATYPE_H_ */
 

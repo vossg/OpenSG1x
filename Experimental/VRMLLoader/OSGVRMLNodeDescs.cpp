@@ -218,7 +218,7 @@ Field *VRMLNodeDesc::getField(      FieldContainerPtr  pFC1,
     if(returnValue != NULL)
         return returnValue;
 
-    if(pGenAtt != GenericAtt::NullPtr)
+    if(pGenAtt != NullFC)
     {
         returnValue = pGenAtt->getField(szFieldname);
     }
@@ -332,8 +332,8 @@ void VRMLNodeDesc::getFieldAndDesc(
     const FieldDescription *&pDesc)
 {
     FieldContainerPtr pTmpFC    = NullFC;
-    NodePtr           pNode     = NullNode;
-    NodeCorePtr       pNodeCore = NullNodeCore;
+    NodePtr           pNode     = NullFC;
+    NodeCorePtr       pNodeCore = NullFC;
 
     pField = NULL;
     pDesc  = NULL;
@@ -519,7 +519,7 @@ Bool VRMLNodeDesc::prototypeAddField(const Char8  *szFieldType,
     }
     else
     {
-        if((_pGenAtt != GenericAtt::NullPtr        ) &&
+        if((_pGenAtt != NullFC                     ) &&
            (_pGenAtt->getField(szFieldName) != NULL))
         {
             PWARNING << "VRMLNodeDesc::prototypeAddField | "
@@ -556,10 +556,10 @@ FieldContainerPtr VRMLNodeDesc::beginNode(const Char8      *szTypename,
                                           const Char8      *szName,
                                           FieldContainerPtr)
 {
-    FieldContainerPtr returnValue = OSG::NullNode;
-    NodePtr           pNode       = OSG::NullNode;
-    NodeCorePtr       pCore       = OSG::NullNodeCore;
-    GenericAttPtr     pAtt        = GenericAttPtr::NullPtr;
+    FieldContainerPtr returnValue = NullFC;
+    NodePtr           pNode       = NullFC;
+    NodeCorePtr       pCore       = NullFC;
+    GenericAttPtr     pAtt        = NullFC;
 
     if(_pNodeProto != NullFC)
     {
@@ -827,11 +827,11 @@ FieldContainerPtr VRMLShapeDesc::beginNode(const Char8       *szTypename,
                                                  FieldContainerPtr)
 {
     FieldContainerPtr returnValue = NullFC;
-    NodePtr           pNode       = NullNode;
-    NodePtr           pGeoNode    = NullNode;
-    GenericAttPtr     pAtt        = GenericAttPtr::NullPtr;
+    NodePtr           pNode       = NullFC;
+    NodePtr           pGeoNode    = NullFC;
+    GenericAttPtr     pAtt        = NullFC;
 
-    if(_pNodeProto != NullNode)
+    if(_pNodeProto != NullFC)
     {
         returnValue = _pNodeProto->shallowCopy();
     }
@@ -953,8 +953,8 @@ VRMLGeometryDesc::VRMLGeometryDesc(Bool bIsFaceSet) :
     _bInIndex     (false),
     _uiNumVertices(0),
 
-    _pTypeField   (GeoPTypePtr::NullPtr  ),
-    _pLengthField (GeoPLengthPtr::NullPtr)
+    _pTypeField   (NullFC    ),
+    _pLengthField (NullFC    )
 {
 }
 
@@ -1124,11 +1124,11 @@ FieldContainerPtr VRMLGeometryDesc::beginNode(
     FieldContainerPtr)
 {
     FieldContainerPtr pFC         = NullFC;
-    NodePtr           pNode       = NullNode;
-    NodeCorePtr       pNodeCore   = NullNodeCore;
-    GenericAttPtr     pAtt        = GenericAttPtr::NullPtr;
+    NodePtr           pNode       = NullFC;
+    NodeCorePtr       pNodeCore   = NullFC;
+    GenericAttPtr     pAtt        = NullFC;
 
-    if(_pNodeProto != NullNode)
+    if(_pNodeProto != NullFC)
     {
         FieldContainerPtr pAttClone = _pGenAtt->clone();
         
@@ -1156,8 +1156,8 @@ FieldContainerPtr VRMLGeometryDesc::beginNode(
 
 void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
 {
-    NodePtr     pNode = NullNode;
-    GeometryPtr pGeo  = GeometryPtr::NullPtr;
+    NodePtr     pNode = NullFC;
+    GeometryPtr pGeo  = NullFC;
 
     if(pFC == NullFC)
     {
@@ -1299,7 +1299,7 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
                                  true);
 
             if((0 != (_uiOptions & VRMLFile::CreateNormals) )    &&
-               (pGeo->getNormals() == OSG::GeoNormalPtr::NullPtr))
+               (pGeo->getNormals() == NullFC))
             {
                 indentLog(getIndent(), PNOTICE);
                 PNOTICE << "Geo create normals " << &(*pNode) << endl;
@@ -1727,8 +1727,8 @@ FieldContainerPtr VRMLGeometryObjectDesc::beginNode(
     FieldContainerPtr)
 {
     FieldContainerPtr returnValue = NullFC;
-    NodePtr           pNode       = NullNode;
-    GenericAttPtr     pAtt        = GenericAttPtr::NullPtr;
+    NodePtr           pNode       = NullFC;
+    GenericAttPtr     pAtt        = NullFC;
 
     if(_pNodeProto != NullFC)
     {
@@ -1750,7 +1750,7 @@ void VRMLGeometryObjectDesc::endNode(FieldContainerPtr pFC)
 {
           Field            *pField = NULL;
     const FieldDescription *pDesc  = NULL;
-          NodePtr           pNode  = NullNode;
+          NodePtr           pNode  = NullFC;
 
     if(pFC == NullFC)
         return;
@@ -2149,8 +2149,8 @@ FieldContainerPtr VRMLAppearanceDesc::beginNode(
     FieldContainerPtr  pCurrentFC)
 {
     FieldContainerPtr returnValue = NullFC;
-    NodeCorePtr       pNodeCore   = NullNodeCore;
-    GenericAttPtr     pAtt        = GenericAttPtr::NullPtr;
+    NodeCorePtr       pNodeCore   = NullFC;
+    GenericAttPtr     pAtt        = NullFC;
 
     if(_pNodeCoreProto != NullFC)
     {
@@ -2360,7 +2360,7 @@ void VRMLMaterialDesc::init(const Char8 *szName)
 
 void VRMLMaterialDesc::reset(void)
 {
-    _pMat = SimpleMaterial::NullPtr;
+    _pMat = NullFC;
 
     _ambientIntensity.setValue(_defaultAmbientIntensity);
     _diffuseColor    .setValue(_defaultDiffuseColor);
@@ -2725,7 +2725,7 @@ FieldContainerPtr VRMLImageTextureDesc::beginNode(
 
 void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
 {    
-    TextureChunkPtr  pTexture = TextureChunkPtr::NullPtr;
+    TextureChunkPtr  pTexture = NullFC;
 
     Image           *pImage   = new Image();
 
@@ -2982,7 +2982,7 @@ FieldContainerPtr VRMLPixelTextureDesc::beginNode(
 
 void VRMLPixelTextureDesc::endNode(FieldContainerPtr pFC)
 {    
-    TextureChunkPtr  pTexture = TextureChunkPtr::NullPtr;
+    TextureChunkPtr  pTexture = NullFC;
 
     pTexture = TextureChunkPtr::dcast(pFC);
 
@@ -3260,11 +3260,11 @@ FieldContainerPtr VRMLLODDesc::beginNode(
     FieldContainerPtr  pCurrentFC)
 {
     FieldContainerPtr pFC         = NullFC;
-    NodePtr           pNode       = NullNode;
-    NodeCorePtr       pNodeCore   = NullNodeCore;
-    GenericAttPtr     pAtt        = GenericAttPtr::NullPtr;
+    NodePtr           pNode       = NullFC;
+    NodeCorePtr       pNodeCore   = NullFC;
+    GenericAttPtr     pAtt        = NullFC;
 
-    if(_pNodeProto != NullNode)
+    if(_pNodeProto != NullFC)
     {
         FieldContainerPtr pAttClone = _pGenAtt->emptyCopy();
         
@@ -3509,11 +3509,11 @@ FieldContainerPtr VRMLSwitchDesc::beginNode(
     FieldContainerPtr  pCurrentFC)
 {
     FieldContainerPtr pFC         = NullFC;
-    NodePtr           pNode       = NullNode;
-    NodeCorePtr       pNodeCore   = NullNodeCore;
-    GenericAttPtr     pAtt        = GenericAttPtr::NullPtr;
+    NodePtr           pNode       = NullFC;
+    NodeCorePtr       pNodeCore   = NullFC;
+    GenericAttPtr     pAtt        = NullFC;
 
-    if(_pNodeProto != NullNode)
+    if(_pNodeProto != NullFC)
     {
         FieldContainerPtr pAttClone = _pGenAtt->emptyCopy();
         
@@ -3777,11 +3777,11 @@ FieldContainerPtr VRMLGroupDesc::beginNode(
     FieldContainerPtr  pCurrentFC)
 {
     FieldContainerPtr pFC         = NullFC;
-    NodePtr           pNode       = NullNode;
-    NodeCorePtr       pNodeCore   = NullNodeCore;
-    GenericAttPtr     pAtt        = GenericAttPtr::NullPtr;
+    NodePtr           pNode       = NullFC;
+    NodeCorePtr       pNodeCore   = NullFC;
+    GenericAttPtr     pAtt        = NullFC;
 
-    if(_pNodeProto != NullNode)
+    if(_pNodeProto != NullFC)
     {
         FieldContainerPtr pAttClone = _pGenAtt->emptyCopy();
         
@@ -4034,11 +4034,11 @@ FieldContainerPtr VRMLInlineDesc::beginNode(
     FieldContainerPtr  pCurrentFC)
 {
     FieldContainerPtr pFC         = NullFC;
-    NodePtr           pNode       = NullNode;
-    NodeCorePtr       pNodeCore   = NullNodeCore;
-    GenericAttPtr     pAtt        = GenericAttPtr::NullPtr;
+    NodePtr           pNode       = NullFC;
+    NodeCorePtr       pNodeCore   = NullFC;
+    GenericAttPtr     pAtt        = NullFC;
 
-    if(_pNodeProto != NullNode)
+    if(_pNodeProto != NullFC)
     {
         FieldContainerPtr pAttClone = _pGenAtt->emptyCopy();
         
@@ -4190,7 +4190,7 @@ void VRMLViewpointDesc::reset(void)
 
 VRMLTransformPtr VRMLViewpointDesc::getDefaultBeacon(void)
 {
-    return VRMLTransformPtr::NullPtr;
+    return NullFC;
 }
 
 /*
@@ -4313,11 +4313,11 @@ FieldContainerPtr VRMLViewpointDesc::beginNode(
     FieldContainerPtr  pCurrentFC)
 {
     FieldContainerPtr pFC         = NullFC;
-    NodePtr           pNode       = NullNode;
-    NodeCorePtr       pNodeCore   = NullNodeCore;
-    GenericAttPtr     pAtt        = GenericAttPtr::NullPtr;
+    NodePtr           pNode       = NullFC;
+    NodeCorePtr       pNodeCore   = NullFC;
+    GenericAttPtr     pAtt        = NullFC;
 
-    if(_pNodeProto != NullNode)
+    if(_pNodeProto != NullFC)
     {
         FieldContainerPtr pAttClone = _pGenAtt->clone();
         

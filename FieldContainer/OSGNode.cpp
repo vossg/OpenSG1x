@@ -51,10 +51,17 @@
 
 OSG_USING_NAMESPACE
 
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: $";
+    char cvsid_hpp[] = OSGNODE_HEADER_CVSID;
+    char cvsid_inl[] = OSGNODE_INLINE_CVSID;
+}
+
 /** \brief NULL node pointer
  */
 
-const NodePtr OSG::NullNode;
+//const NodePtr OSG::NullNode;
 
 /***************************************************************************\
  *                               Types                                     *
@@ -110,6 +117,7 @@ FieldContainerType Node::_type(
     sizeof(_desc));
 
 
+const NodePtr Node::NullNode(NullFC);
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -141,35 +149,21 @@ FieldContainerType Node::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-/*! @name Node Static Type Information
- */
-
-/*@{*/
-
-/*! \fn FieldContainerType &Node::getStaticType(void) 
+/*! \fn FieldContainerType &Node::getClassType(void) 
  *  \brief returns node type
  */
 
-/*! \fn UInt32 Node::getStaticTypeId(void) 
+/*! \fn UInt32 Node::getClassTypeId(void) 
  *  \brief returns node type id
  */
 
-/*@}*/
-
-/*! @name Node Creation
- */
-
-/*@{*/
-
-/*! \fn NodePtr ::Node::create(void) 
+/*! \fn NodePtr Node::create(void) 
  *  \brief creates a clone of the prototype
  */
 
-/*! \fn NodePtr ::Node::createEmpty(void) 
+/*! \fn NodePtr Node::createEmpty(void) 
  *  \brief creates a empty node, does not clone the prototype
  */
-
-/*@}*/
 
 OSG_FIELD_CONTAINER_DEF(Node, NodePtr)
 
@@ -217,7 +211,7 @@ void Node::addChild(const NodePtr &childP)
 		addRefCP(childP);
 
 		// already somebody else's child?
-		if ( childP->getParent() != NullNode )
+		if ( childP->getParent() != NullFC )
 		{
 			childP->getParent()->subChild( childP );
 		}
@@ -245,7 +239,7 @@ void Node::insertChild(UInt32 childIndex, const NodePtr &childP)
 		addRefCP(childP);
 
 		// already somebody else's child?
-		if ( childP->getParent() != NullNode )
+		if ( childP->getParent() != NullFC )
 		{
 			childP->getParent()->subChild( childP );
 		}
@@ -324,7 +318,7 @@ Bool Node::replaceChildBy(const NodePtr &childP,
             subRefCP(childP);
 
 			// already somebody else's child?
-			if ( newChildP->getParent() != NullNode )
+			if ( newChildP->getParent() != NullFC )
 			{
 				newChildP->getParent()->subChild( newChildP );
 			}
@@ -452,7 +446,7 @@ Matrix Node::getToWorld(void)
 	
 void Node::getToWorld(Matrix &result)
 {
-	if(getParent() != NullNode)
+	if(getParent() != NullFC)
     {
 		getParent()->getToWorld(result);
     }
@@ -628,7 +622,7 @@ void Node::dump(      UInt32     uiIndent,
          << _attachmentMap.getValue().size() << " attachments | "
          << "Parent : ";
 
-    if(_parent.getValue() != NullNode)
+    if(_parent.getValue() != NullFC)
         PLOG << &(*(_parent.getValue())) << " | ";
     else
         PLOG << "NULL | ";
@@ -639,7 +633,7 @@ void Node::dump(      UInt32     uiIndent,
 
     PLOG << "[" << endl;
 
-    if(_core.getValue() != NullNode)
+    if(_core.getValue() != NullFC)
     {
         _core.getValue()->dump(uiIndent + 4, bvFlags);
     }
@@ -757,10 +751,10 @@ Node::~Node (void )
 
 void Node::setParent(const NodePtr &parent)
 { 
-	if ( parent != NullNode )
+	if ( parent != NullFC )
 	    addRefCP(parent);
 
-	if ( _parent.getValue() != NullNode )
+	if ( _parent.getValue() != NullFC )
 		subRefCP(_parent.getValue());
 
     _parent.setValue(parent);

@@ -76,7 +76,7 @@ int main (int argc, char **argv)
 
 	root = SceneFileHandler::the().read(fileName, 0);
 
-	if ( root == NullNode )
+	if ( root == NullFC )
 	{
 		cerr << "Error loading " << fileName << "!" << endl;
 		exit(1);

@@ -67,6 +67,7 @@ class OSG_BASE_DLLMAPPING BoxVolume : public Volume
 {
     /*==========================  PUBLIC  =================================*/
   public:
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -109,6 +110,7 @@ class OSG_BASE_DLLMAPPING BoxVolume : public Volume
     /*---------------------------------------------------------------------*/
     /*! \name                      Set                                     */
     /*! \{                                                                 */
+
     inline void setBounds(float w, float h, float d);
     inline void setBounds(float xmin, float ymin, float zmin,
                           float xmax, float ymax, float zmax);
@@ -163,10 +165,11 @@ class OSG_BASE_DLLMAPPING BoxVolume : public Volume
     virtual void dump(    UInt32              uiIndent = 0,
                         const BitVector &   bvFlags = 0) const;
     /*! \}                                                                 */
+
     /*==========================  PRIVATE  ================================*/
-private:
-  Pnt3f _min;
-  Pnt3f _max;
+  private:
+    Pnt3f _min;
+    Pnt3f _max;
 
 };
 

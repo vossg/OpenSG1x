@@ -82,14 +82,14 @@ OSG_USING_NAMESPACE
 /*------------- constructors & destructors --------------------------------*/
 
 InterpolatorBase::InterpolatorBase(InterpolType t) : 
-    _type      (t                        ), 
-    _pTransform(VRMLTransformPtr::NullPtr),
-    _targetName(                         ),
-    _name      (                         ),
-    _keys      (                         ),
-    _duration  (1.f                      ),
-    _keyDelta  (1.f                      ),
-    _loop      (true                     ) 
+    _type      (t     ), 
+    _pTransform(NullFC),
+    _targetName(      ),
+    _name      (      ),
+    _keys      (      ),
+    _duration  (1.f   ),
+    _keyDelta  (1.f   ),
+    _loop      (true  ) 
 {
 }
 

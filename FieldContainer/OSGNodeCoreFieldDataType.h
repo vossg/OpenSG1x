@@ -56,7 +56,8 @@ template <>
 struct FieldDataTraits<NodeCorePtr> : 
     public FieldTraitsRecurseMapper<NodeCorePtr>
 {
-    static DataType                 _type;
+    static DataType                  _type;
+
     enum                            { StringConvertable = 0x00 };
     enum                            { bHasParent        = 0x01 };
 
@@ -65,8 +66,9 @@ struct FieldDataTraits<NodeCorePtr> :
     static char     *getMName(void) { return "MFNodeCorePtr";  }
 };
 
-
 OSG_END_NAMESPACE
+
+#define OSGNODECOREFIELDDATATYPE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSG_NODECOREFIELDDATATYPE_H_ */
 

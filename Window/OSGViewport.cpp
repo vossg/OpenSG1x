@@ -209,17 +209,17 @@ Bool Viewport::isFullWindow( void ) const
 
 void Viewport::draw( DrawAction * action )
 {
-	if ( getCamera() == NullNode )
+	if ( getCamera() == NullFC )
 	{
 		SWARNING << "Viewport::draw: no camera!" << endl;
 		return;
 	}
-	if ( getBackground() == NullNode )
+	if ( getBackground() == NullFC )
 	{
 		SWARNING << "Viewport::draw: no background!" << endl;
 		return;
 	}
-	if ( getRoot() == NullNode )
+	if ( getRoot() == NullFC )
 	{
 		SWARNING << "Viewport::draw: no root!" << endl;
 		return;
@@ -255,17 +255,17 @@ void Viewport::draw( DrawAction * action )
 
 void Viewport::render( RenderAction * action )
 {
-	if ( getCamera() == NullNode )
+	if ( getCamera() == NullFC )
 	{
 		SWARNING << "Viewport::render: no camera!" << endl;
 		return;
 	}
-	if ( getBackground() == NullNode )
+	if ( getBackground() == NullFC )
 	{
 		SWARNING << "Viewport::render: no background!" << endl;
 		return;
 	}
-	if ( getRoot() == NullNode )
+	if ( getRoot() == NullFC )
 	{
 		SWARNING << "Viewport::render: no root!" << endl;
 		return;

@@ -36,16 +36,11 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGFIELDCONTAINERTYPE_H_
 #define _OSGFIELDCONTAINERTYPE_H_
 #ifdef __sgi
 #pragma once
 #endif
-
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
@@ -57,22 +52,11 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class FieldDescription;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
 
 typedef void              (*InitContainerF)  (void);
 typedef FieldContainerPtr (*PrototypeCreateF)(void);
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /*! \ingroup FieldContainerLib
  *  \brief FieldContainerType
@@ -80,69 +64,20 @@ typedef FieldContainerPtr (*PrototypeCreateF)(void);
 
 class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
 {
-  public:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
+    /*==========================  PRIVATE  ================================*/
   private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
 
     typedef DataType Inherited;
 
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
 
     friend class FieldContainerFactory;
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-	static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-	// prohibit default functions (move to 'public' if you need one)
+	/*!\brief prohibit default function (move to 'public' if needed) */
 
     void operator =(const FieldContainerType &source);
 
+    /*=========================  PROTECTED  ===============================*/
   protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
 
     enum BaseType
     {
@@ -152,30 +87,19 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
         IsAttachment
     };
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
 
     typedef map   <StringLink, FieldDescription *> DescMap;
     typedef vector<            FieldDescription *> DescVec;
 
-    typedef DescMap::iterator DescMapIt;
-    typedef DescVec::iterator DescVecIt;
+    typedef DescMap::iterator                      DescMapIt;
+    typedef DescVec::iterator                      DescVecIt;
 
-    typedef DescMap::const_iterator DescMapConstIt;
-    typedef DescVec::const_iterator DescVecConstIt;
+    typedef DescMap::const_iterator                DescMapConstIt;
+    typedef DescVec::const_iterator                DescVecConstIt;
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
 
     UInt16              _uiGroupId;
 
@@ -197,11 +121,17 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
 	DescMap             _mDescMap;
     DescVec             _vDescVec;
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Register                                  */
+    /*! \{                                                                 */
 
 	void registerType(const Char8 *szGroupName);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name             Intialization / Termination                      */
+    /*! \{                                                                 */
 
     Bool initPrototype   (void);
     Bool initBaseType    (void);
@@ -211,16 +141,14 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
 	Bool initialize      (void);
     void terminate       (void);
 
+    /*! \}                                                                 */
+    /*==========================  PUBLIC  =================================*/
   public :
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-    
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+   
     FieldContainerType(const Char8            *szName,
                        const Char8            *szParentName      = NULL,
                        const Char8            *szGroupName       = NULL,
@@ -229,21 +157,31 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
                        FieldDescription      **pDesc             = NULL,
                        UInt32                  uiDescByteCounter = 0,
                        Bool                    bDescsAddable     = false);
-    FieldContainerType(const FieldContainerType &source);
+
+    FieldContainerType(const FieldContainerType &source                 );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
     virtual ~FieldContainerType(void); 
 
-    /*----------------------------- id --------------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Type Information                            */
+    /*! \{                                                                 */
 
-    UInt16         getGroupId(void) const;
-
-    /*-------------------------- parent -------------------------------------*/
-
+    UInt16              getGroupId(void) const;
     FieldContainerType *getParent (void) const;
 
-    /*------------------------- description ---------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Description                                  */
+    /*! \{                                                                 */
 
-          FieldDescription *getFieldDescription(UInt32 uiFieldId);
-    const FieldDescription *getFieldDescription(UInt32 uiFieldId) const;
+          FieldDescription *getFieldDescription (UInt32 uiFieldId);
+    const FieldDescription *getFieldDescription (UInt32 uiFieldId) const;
 
           FieldDescription *findFieldDescription(const Char8 *szFieldName);
 
@@ -252,54 +190,62 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
 
     UInt32                 getNumFieldDescs(void) const;
 
-    UInt32                 addDescription(const FieldDescription   &desc);
-    Bool                   subDescription(      UInt32        uiFieldId);
+    UInt32                 addDescription  (const FieldDescription &desc     );
+    Bool                   subDescription  (      UInt32            uiFieldId);
 
-    /*------------------------- prototye ------------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Prototype                                    */
+    /*! \{                                                                 */
 
-    FieldContainerPtr getPrototype(void) const;
+    FieldContainerPtr getPrototype(void                        ) const;
     Bool              setPrototype(FieldContainerPtr pPrototype);
 
-    /*-------------------------- properties ---------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Query Properties                              */
+    /*! \{                                                                 */
 
-    Bool isInitialized(void) const;
+    Bool isInitialized(void                           ) const;
 
-	Bool isAbstract   (void) const;
+	Bool isAbstract   (void                           ) const;
 
-    Bool isDerivedFrom(const TypeBase      &other) const;
+    Bool isDerivedFrom(const TypeBase           &other) const;
     Bool isDerivedFrom(const FieldContainerType &other) const;    
 
-    /*----------------------------- create ----------------------------------*/
+    Bool isNode       (void                           ) const;
+    Bool isNodeCore   (void                           ) const;
+    Bool isAttachment (void                           ) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name              Create Base FieldContainer                      */
+    /*! \{                                                                 */
 
     FieldContainerPtr createFieldContainer(void) const;
     NodePtr           createNode          (void) const;
 	NodeCorePtr       createNodeCore      (void) const;
 	AttachmentPtr     createAttachment    (void) const;
 
-    /*-------------------------- properties ---------------------------------*/
-
-    Bool isNode          (void) const;
-    Bool isNodeCore      (void) const;
-    Bool isAttachment    (void) const;
-
-    /*------------------------- your_operators ------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector &bvFlags  = 0) const;
 
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
+    /*! \}                                                                 */
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
-// class pointer
-
 typedef FieldContainerType *FieldContainerTypeP;
 
 OSG_END_NAMESPACE
+
+#define OSGFIELDCONTAINERTYPE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGFIELDCONTAINERP_H_ */

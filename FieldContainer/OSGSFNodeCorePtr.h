@@ -42,15 +42,11 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGSystemDef.h>
 #include <OSGSField.h>
 #include <OSGNodeCoreFieldDataType.h>
 
-/** \file OSGSFFieldContainerTypes.h
+/** \file OSGSFNodeCorePtr.h
  *  \ingroup FieldLib
  *  \ingroup SingleFields
  *  \brief OpenSG field container single fields
@@ -81,5 +77,7 @@ OSG_DLLEXPORT_DECL1(SField, NodeCorePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGSFNODECORE_H_ */
+#define OSGSFNODECOREPTR_HEADER_CVSID "@(#)$Id: $"
+
+#endif /* _OSGSFNODECOREPTR_H_ */
 

@@ -127,7 +127,7 @@ static OSG::Pnt2f           logoPos[2] = { OSG::Pnt2f(0.0, 0.0),
                                            OSG::Pnt2f(0.8, 0.0) };
 
 OSG::UInt32                 uiLogoCount = 0;
-OSG::LogoForegroundPtr      pLogo       = OSG::LogoForegroundPtr::NullPtr;
+OSG::LogoForegroundPtr      pLogo       = OSG::NullFC;
 
 // --- animation creation
 
@@ -385,7 +385,7 @@ bool tryv2aFile( const string vrmlfile )
 
 OSG::NodePtr readModelFile( const string& modelfile )
 {
-    OSG::NodePtr f = OSG::NullNode;
+    OSG::NodePtr f = OSG::NullFC;
     
     cerr << "Trying to read model [" << modelfile << "]... ";
 
@@ -398,10 +398,10 @@ OSG::NodePtr readModelFile( const string& modelfile )
         f = OSG::SceneFileHandler::the().read(modelfile.c_str(), 
                                               OSG::VRMLFile::CreateNormals);    
         
-        if( f == OSG::NullNode )
+        if( f == OSG::NullFC )
         {
             cerr << "failed!\n";
-            return OSG::NullNode;
+            return OSG::NullFC;
         }
         else
         {
@@ -444,8 +444,8 @@ OSG::Real32 fps( OSG::Real32 frameTime )
  */
 void selectCamera(int cameraNr)
 {
-    OSG::AttachmentPtr     foundAttach = OSG::AttachmentPtr::NullPtr;
-    OSG::NodePtr           node        = OSG::NullNode;
+    OSG::AttachmentPtr     foundAttach = OSG::NullFC;
+    OSG::NodePtr           node        = OSG::NullFC;
     OSG::VRMLTransformPtr  vrmlTrans;
     OSG::SFReal32         *fieldOfViewField;
     OSG::Real32            fieldOfView = .75;
@@ -768,8 +768,8 @@ void vis(int visible)
 OSG::Action::ResultE viewpointCheck(OSG::CNodePtr &, OSG::Action *action)
 {
     OSG::NodePtr            node        = action->getActNode();
-    OSG::VRMLTransformPtr   vrmlTrans   = OSG::VRMLTransformPtr::NullPtr;
-    OSG::AttachmentPtr      foundAttach = OSG::AttachmentPtr::NullPtr;
+    OSG::VRMLTransformPtr   vrmlTrans   = OSG::NullFC;
+    OSG::AttachmentPtr      foundAttach = OSG::NullFC;
                     
     vrmlTrans = OSG::VRMLTransformPtr::dcast(node->getCore());
         
@@ -784,7 +784,7 @@ OSG::Action::ResultE viewpointCheck(OSG::CNodePtr &, OSG::Action *action)
             OSG::GenericAtt::getClassType().getGroupId());
 
         // if one is present -> the VRMLTransformation is a camera beacon
-        if(foundAttach != OSG::GenericAttPtr::NullPtr)
+        if(foundAttach != OSG::NullFC)
         {
             OSG::Field *pField = foundAttach->getField("isViewpoint");
 
@@ -867,7 +867,7 @@ OSG::Action::ResultE calcVNormal( OSG::CNodePtr &, OSG::Action * action )
     OSG::NodePtr node = action->getActNode();
     OSG::GeometryPtr g = OSG::GeometryPtr::dcast( node->getCore() );
 
-    if ( g->getNormals() == OSG::GeoNormalPtr::NullPtr )
+    if ( g->getNormals() == OSG::NullFC )
     {
         OSG::calcVertexNormals( g );
     }   

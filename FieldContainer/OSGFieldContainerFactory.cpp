@@ -65,6 +65,12 @@
 
 OSG_USING_NAMESPACE
 
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: $";
+    char cvsid_hpp[] = OSGFIELDCONTAINERFACTORY_HEADER_CVSID;
+}
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -76,8 +82,6 @@ OSG_USING_NAMESPACE
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char FieldContainerFactory::cvsid[] = "@(#)$Id: $";
 
 FieldContainerFactory *FieldContainerFactory::_the          = NULL;
 
@@ -663,6 +667,11 @@ void FieldContainerFactory::writeSingleTypeFCD( ostream &out, const FieldContain
 	out << "</FieldContainer>" << endl;
 
 }
+	/* type output */
+	/* name given: output only the given type,
+	   out given: output all types into the stream, 
+	   no name, no out: output all types into separate files
+       */
 
 void FieldContainerFactory::writeFCD( char * name, ostream * out )
 {

@@ -172,7 +172,7 @@ SceneFileType * SceneFileHandler::getFileType ( const char *fileName )
 NodePtr SceneFileHandler::read(const char *fileName,  UInt32 uiOptions)
 {
 	SceneFileType *type = getFileType(fileName);
-	NodePtr        node = NullNode;
+	NodePtr        node = NullFC;
 
 	if(! fileName)
 	{
@@ -187,7 +187,7 @@ NodePtr SceneFileHandler::read(const char *fileName,  UInt32 uiOptions)
 
         node = type->read(fileName, uiOptions);
 
-		if (node != NullNode)
+		if (node != NullFC)
         {
 			SINFO    << "read ok:"        << endl;
         }
@@ -246,7 +246,7 @@ vector<FieldContainerPtr> SceneFileHandler::readTopNodes(const char *fileName,
 
 		for( UInt32 i=0; i<nodeVec.size(); ++i )
 		{
-			if( nodeVec[i] == NullNode )
+			if( nodeVec[i] == NullFC )
 			{
 				SWARNING << "could not read node " << i << endl;
 				return nodeVec;

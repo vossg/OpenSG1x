@@ -99,6 +99,8 @@ The Window base class.
 
 char Window::cvsid[] = "@(#)$Id: $";
 
+const WindowPtr Window::NullWindow(NullFC);
+
 /** global window list, need by static refreshGLObject */
 
 vector<WindowPtr>	      Window::_allWindows;
@@ -247,7 +249,7 @@ void Window::replacePort(UInt32 portIndex, const ViewportPtr &portP)
 {
     if(portP != NullFC)
     {
-        _mfPort.getValue(portIndex)->setParent(WindowPtr::NullPtr);
+        _mfPort.getValue(portIndex)->setParent(NullWindow);
         _mfPort.getValue(portIndex) = portP;
 // CHECK CHECK
 //        _mfPort.getValue(portIndex)->setParent(
@@ -266,7 +268,7 @@ void Window::replacePortBy(const ViewportPtr &portP,
     {
         if(portIt != _mfPort.end())
         {
-            (*portIt)->setParent(WindowPtr::NullPtr);
+            (*portIt)->setParent(NullWindow);
             (*portIt) = newportP;
 // CHECK CHECK
 //            (*portIt)->setParent(
@@ -283,7 +285,7 @@ void Window::subPort(const ViewportPtr &portP)
 
     if(portIt != _mfPort.end())
     {
-        (*portIt)->setParent(WindowPtr::NullPtr);
+        (*portIt)->setParent(NullWindow);
 
         _mfPort.erase(portIt);
     }
@@ -298,7 +300,7 @@ void Window::subPort(UInt32  portIndex)
 
     if(portIt != _mfPort.end())
     {
-        (*portIt)->setParent(WindowPtr::NullPtr);
+        (*portIt)->setParent(NullWindow);
 
         _mfPort.erase(portIt);
     }

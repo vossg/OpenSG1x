@@ -55,6 +55,13 @@
 
 OSG_USING_NAMESPACE
 
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: $";
+    char cvsid_hpp[] = OSGFIELDCONTAINER_HEADER_CVSID;
+    char cvsid_inl[] = OSGFIELDCONTAINER_INLINE_CVSID;
+}
+
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -62,8 +69,6 @@ OSG_USING_NAMESPACE
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char FieldContainer::cvsid[] = "@(#)$Id: $";
 
 FieldContainerType FieldContainer::_type("FieldContainer");
 

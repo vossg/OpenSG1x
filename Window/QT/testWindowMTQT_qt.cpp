@@ -55,7 +55,7 @@
 #include "OSGGradientBackground.h"
 
 #if defined(__linux)
-#include "OSGRAWSceneFileType.h"
+#include "RAW/OSGRAWSceneFileType.h"
 #endif
 
 #include "OSGTrackball.h"
@@ -314,12 +314,12 @@ int main( int argc, char **argv )
 
 	// Load the file
 
-	NodePtr file = NullNode;
+	NodePtr file = NullFC;
 	
 	if ( argc > 1 )
 		file = SceneFileHandler::the().read(argv[1]);
 	
-	if ( file == NullNode )
+	if ( file == NullFC )
 	{
 		cerr << "Couldn't load file, ignoring" << endl;
 		file = makePlane( 2,2,2,2 );

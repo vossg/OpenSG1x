@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.24 2001/09/04 09:05:16 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.25 2001/09/17 04:02:51 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -222,7 +222,7 @@ faster; but not well tested code
 	GeoNormalPtr norms;
     int          i;
 
-	if ( geo->getNormals() == GeoNormal3fPtr::NullPtr )
+	if ( geo->getNormals() == NullFC )
 	{
 		norms = GeoNormal3f::create();
 	}
@@ -1097,7 +1097,7 @@ void osg::calcFaceNormals( GeometryPtr geo )
   FaceIterator faceIter = geo->beginFaces();
   GeoIndexPtr oldIndex = geo->getIndex();
   
-  if( oldIndex != GeoIndexPtr::NullPtr )
+  if( oldIndex != NullFC )
     {
       //Indexed
       if( geo->getIndexMapping().getSize() > 0 )
@@ -1312,7 +1312,7 @@ void osg::mergeGeometries	( std::vector<NodePtr> &nodes,
     {
     	GeometryPtr actnode = GeometryPtr::dcast((*n)->getCore());
 	
-	if ( actnode == GeometryPtr::NullPtr )
+	if ( actnode == NullFC )
 	{
 	    FWARNING(( "mergeGeometries: core of 0x%p is not a geometry!\n",
 	    	    	n->getCPtr() ));

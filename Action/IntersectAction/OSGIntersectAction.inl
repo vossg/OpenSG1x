@@ -135,7 +135,8 @@ inline Pnt3f IntersectAction::getHitPoint( void ) const
 inline NodePtr IntersectAction::getHitObject( void ) const
 {
 	if ( ! didHit() )
-		return NullNode;
+		return NullFC;
+
 	return _hitObject;
 }
 

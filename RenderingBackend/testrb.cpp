@@ -235,7 +235,7 @@ OSG::Action::ResultE calcVNormal( OSG::CNodePtr &, OSG::Action * action )
 	OSG::NodePtr node = action->getActNode();
 	OSG::GeometryPtr g = OSG::GeometryPtr::dcast( node->getCore() );
 
-	if ( g->getNormals() == OSG::GeoNormalPtr::NullPtr )
+	if ( g->getNormals() == OSG::NullFC )
 	{
 		OSG::calcVertexNormals( g );
 	}	

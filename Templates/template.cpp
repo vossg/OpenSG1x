@@ -51,6 +51,13 @@
 
 OSG_USING_NAMESPACE
 
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: $";
+    char cvsid_hpp[] = OSG_HEADER_CVSID;
+    char cvsid_inl[] = OSG_INLINE_CVSID;
+}
+
 /** \enum OSGVecBase::VectorSizeE
  *  \brief 
  */

@@ -118,15 +118,6 @@ template <class AttachmentDescT>
 const BitVector SimpleAttachment<AttachmentDescT>::SimpleFieldMask =
     (1 << SimpleAttachment<AttachmentDescT>::SimpleFieldId);
 
-template <class AttachmentDescT>
-char SimpleAttachment<AttachmentDescT>::cvsid[] = "@(#)$Id: $";
-
-/** \brief NULL pointer
- */
-
-template <class AttachmentDescT>
-const  SimpleAttachment<AttachmentDescT>::PtrType 
-    SimpleAttachment<AttachmentDescT>::NullPtr;
 
 /** \brief Attachment field description
  */
@@ -357,16 +348,6 @@ void SimpleAttachment<AttachmentDescT>::executeSyncImpl(
 \***************************************************************************/
 
 
-template <class AttachmentDescT> 
-char DynFieldAttachment<AttachmentDescT>::cvsid[] = "@(#)$Id: $";
-
-/** \brief NULL pointer
- */
-
-template <class AttachmentDescT> 
-const  DynFieldAttachment<AttachmentDescT>::PtrType 
-    DynFieldAttachment<AttachmentDescT>::NullPtr;
-
 /** \brief Attachment type
  */
 
@@ -427,7 +408,7 @@ OSG_FIELD_CONTAINER_ST_INL_TMPL_DEF(DynFieldAttachment,
 /*------------------------------ access -----------------------------------*/
 
 template <class AttachmentDescT> inline
-FieldContainerType& DynFieldAttachment<AttachmentDescT>::getType(void)
+FieldContainerType &DynFieldAttachment<AttachmentDescT>::getType(void)
 {
     return _localType;
 }
@@ -615,31 +596,6 @@ DynFieldAttachment<AttachmentDescT>::~DynFieldAttachment(void)
 
 OSG_END_NAMESPACE
 
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
+#define OSGATTACHMENT_INLINE_CVSID "@(#)$Id: $"
+
 

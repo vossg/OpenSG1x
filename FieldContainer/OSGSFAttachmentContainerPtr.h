@@ -42,15 +42,11 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGSystemDef.h>
 #include <OSGSField.h>
 #include <OSGAttachmentContainerFieldDataType.h>
 
-/** \file OSGSFFieldContainerTypes.h
+/** \file OSGSFAttachmentContainerPtr.h
  *  \ingroup FieldLib
  *  \ingroup SingleFields
  *  \brief OpenSG attachment container single fields
@@ -82,6 +78,8 @@ OSG_DLLEXPORT_DECL1(SField,
 #endif
 
 OSG_END_NAMESPACE
+
+#define OSGSFATTACHMENTCONTAINERPTR_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGSFATTACHMENTCONTAINERPTR_H_ */
 

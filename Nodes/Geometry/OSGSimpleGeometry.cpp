@@ -92,7 +92,7 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 	{
 		SWARNING << "makePlane: illegal parameters hor=" << hor << ", vert="
 				 << vert << endl;
-		return NullNode;
+		return NullFC;
 	}
 	
 	GeoPosition3fPtr    pnts  = GeoPosition3f::create();
@@ -306,7 +306,7 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
 				 << ", botradius=" << botradius 
 				 << ", sides=" << sides 
 				 << endl;
-		return GeometryPtr::NullPtr;
+		return NullFC;
 	}
 	
 	GeoPosition3fPtr	pnts  = GeoPosition3f::create();
@@ -477,7 +477,7 @@ NodePtr OSG::makeConicalFrustum(Real32 height,
 
     if(pGeo == NullFC)
     {
-        return NullNode;
+        return NullFC;
     }
     
     NodePtr node = Node::create();
@@ -509,7 +509,7 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
 				 << ", sides=" << sides 
 				 << ", rings=" << rings 
 				 << endl;
-		return NullNode;
+		return NullFC;
 	}
 	
 	GeoPosition3fPtr	pnts  = GeoPosition3f::create();
@@ -830,7 +830,7 @@ NodePtr OSG::makeSphere(UInt16 depth, Real32 radius)
 
     if(pGeo == NullFC)
     {
-        return NullNode;
+        return NullFC;
     }
 
     NodePtr node = Node::create();
@@ -865,7 +865,7 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
 	{
 		SWARNING << "makeBox: illegal parameters hor=" << hor << ", vert="
 				 << vert << ", depth=" << depth << endl;
-		return GeometryPtr::NullPtr;
+		return NullFC;
 	}
 	
 	GeoPosition3fPtr    pnts  = GeoPosition3f::create();
@@ -984,7 +984,7 @@ NodePtr OSG::makeBox(Real32 xsize, Real32 ysize, Real32 zsize,
 
     if(pGeo == NullFC)
     {
-        return NullNode;
+        return NullFC;
     }
 
     NodePtr node = Node::create();

@@ -423,7 +423,7 @@ void OSGLoader::setFieldContainerValue(FieldContainerPtr pNewNode)
 OSGLoader::OSGLoader(void) :
     Inherited(),
     _pCurrentFC   (NullFC),
-    _pRootNode    (NullNode),
+    _pRootNode    (NullFC),
     _pCurrentField(NULL),
     _fcStack      (),
     _fStack       (),
@@ -525,7 +525,7 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
                  << "is neither Node nor NodeCore " << endl;
         }
 
-        if(_pRootNode == NullNode)
+        if(_pRootNode == NullFC)
         {
             GroupPtr pGroup = Group::create();
 
@@ -547,7 +547,7 @@ void OSGLoader::endNode(void)
         {
             NodePtr pNode = NodePtr::dcast(_pCurrentFC);
             
-            if(pNode->getCore() == NullNodeCore)
+            if(pNode->getCore() == NullFC)
             {
                 GroupPtr pGroup = Group::create();
 

@@ -253,7 +253,7 @@ Action::ResultE LightBase::drawEnter(Action * action )
 
     NodePtr beacon = getBeacon();
 
-    if ( beacon == NullNode )
+    if ( beacon == NullFC )
     {
         SINFO << "draw: no beacon set!" << endl;
 

@@ -268,7 +268,7 @@ SubLnkLib: $(SUB_LNK_LIB)
 
 $(SUB_LNK_LIB): $(LIB_QTTARGET_CPP) $(LIB_OBJECTS) 
 	$(LD_LNK) $($(PROJ)SUBPRELINKPAR) 								\
-		$(LD_OUTOPT)$(LD_OUTSPACE)$(SUB_LNK_LIB) 					\
+		$(LNK_LD_OUTOPT) $(SUB_LNK_LIB)   		 					\
 		$(call cnvSubDirsUnix2Win,$(LIB_OBJECTS)) 
 endif
 
@@ -302,6 +302,9 @@ list:
 	done
 	@echo 
 	@echo 
+
+dbgLnk:
+
 endif
 
 #########################################################################

@@ -39,7 +39,7 @@
 //#include "OSGUniformBackground.h"
 
 #if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
-#include "OSGRAWSceneFileType.h"
+#include "RAW/OSGRAWSceneFileType.h"
 #endif
 
 #include "OSGTrackball.h"

@@ -156,6 +156,8 @@ struct FieldDataTraits<FieldContainerPtr> :
 
 OSG_END_NAMESPACE
 
+#define OSGFIELDCONTAINERFIELDDATATYPE_HEADER_CVSID "@(#)$Id: $"
+
 #endif /* _OSG_FIELDCONTAINERDATATYPE_H_ */
 
 

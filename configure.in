@@ -355,6 +355,21 @@ function FK_GDZ_CREATE_PACKAGE_DIRS
 	   	echo Need $ac_gdz_package_dir_test/exe-opt
 	    mkdir $ac_gdz_package_dir_test/exe-opt
     fi
+
+    if ! test -w $ac_gdz_package_dir_test/obj-optlnk; then 
+	   	echo Need $ac_gdz_package_dir_test/obj-optlnk
+	    mkdir $ac_gdz_package_dir_test/obj-optlnk
+    fi
+
+    if ! test -w $ac_gdz_package_dir_test/exe-dbglnk; then 
+	   	echo Need $ac_gdz_package_dir_test/exe-dbglnk
+	    mkdir $ac_gdz_package_dir_test/exe-dbglnk
+    fi
+
+    if ! test -w $ac_gdz_package_dir_test/exe-optlnk; then 
+	   	echo Need $ac_gdz_package_dir_test/exe-optlnk
+	    mkdir $ac_gdz_package_dir_test/exe-optlnk
+    fi
 }
 
 dnl ############# Run Tests #####################
@@ -437,6 +452,8 @@ else
 	else
 		ac_gdz_compiler_exe_shared='$(CC) -shared'
 	fi
+
+    ac_gdz_compiler_exe_lnk="ar -cr"
 
 	ac_gdz_flex_exe=flex
 	ac_gdz_bison_exe=bison

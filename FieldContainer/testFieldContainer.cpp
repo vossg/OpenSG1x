@@ -16,6 +16,7 @@
 #include <OSGChangeList.h>
 #include <OSGFieldContainer.h>
 #include <OSGGroup.h>
+#include <OSGFieldContainerPtr.h>
 
 int main (int argc, char **argv)
 {
@@ -166,7 +167,7 @@ int main (int argc, char **argv)
     p1->dump(0, OSG::FCDumpFlags::RefCount);
     g1.dump (0, OSG::FCDumpFlags::RefCount);
 
-    p1->setCore(OSG::NullNodeCore);
+    p1->setCore(OSG::NullFC);
 
     p1.dump (0, OSG::FCDumpFlags::RefCount);
     p1->dump(0, OSG::FCDumpFlags::RefCount);
@@ -193,7 +194,7 @@ int main (int argc, char **argv)
   
     cerr << endl << endl << "Indirect Del" << endl;
 
-    p2->setCore(OSG::NullNodeCore);
+    p2->setCore(OSG::NullFC);
 
     p1->dump(0, OSG::FCDumpFlags::RefCount);
     p2.dump(0, OSG::FCDumpFlags::RefCount);

@@ -34,16 +34,11 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGNODE_H_
 #define _OSGNODE_H_
 #ifdef __sgi
 #pragma once
 #endif
-
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
@@ -62,19 +57,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class NodeCore;
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /*! \ingroup FieldContainerLib
  *  \brief Node
@@ -82,23 +65,21 @@ class NodeCore;
 
 class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer 
 {
+    /*==========================  PRIVATE  ================================*/
   private:
 
     typedef AttachmentContainer Inherited;
 
+    /*==========================  PUBLIC  =================================*/
   public:
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
 
 	enum 
 	{ 
 		VolumeFieldId      = Inherited::NextFieldId, 
-		ParentFieldId      = VolumeFieldId      + 1,
-		ChildrenFieldId    = ParentFieldId      + 1,
-		CoreFieldId        = ChildrenFieldId    + 1,
-		NextFieldId        = CoreFieldId + 1
+		ParentFieldId      = VolumeFieldId         + 1,
+		ChildrenFieldId    = ParentFieldId         + 1,
+		CoreFieldId        = ChildrenFieldId       + 1,
+		NextFieldId        = CoreFieldId           + 1
 	};
 
 	static const BitVector VolumeFieldMask;
@@ -106,92 +87,106 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
 	static const BitVector ChildrenFieldMask;
 	static const BitVector CoreFieldMask;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
 
     typedef NodePtr Ptr;
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    /*-------------- general fieldcontainer declaration --------------------*/
+    /*---------------------------------------------------------------------*/
+    /*! \name        General Fieldcontainer Declaration                    */
+    /*! \{                                                                 */
 
     OSG_FIELD_CONTAINER_DECL(NodePtr)
 
-    /*-------------------------------- core --------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Core                                  */
+    /*! \{                                                                 */
 
-    NodeCorePtr getCore(void);
-    NodeCorePtr getCore(void) const;
+    NodeCorePtr getCore(      void             );
+    NodeCorePtr getCore(      void             ) const;
+
     void        setCore(const NodeCorePtr &core);
 
-    /*------------------------------ parent --------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                                                              */
+    /*! \{                           Parent                                */
 
     NodePtr    getParent  (void);
 
-    /*------------------------------ children ------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Children                               */
+    /*! \{                                                                 */
 
-    UInt32  getNChildren  (void) const;
+    UInt32  getNChildren  (void                     ) const;
     
-    void    addChild      (const NodePtr &childP);
+    void    addChild      (const NodePtr &childP    );
 
     void    insertChild   (      UInt32   childIndex, 
-                           const NodePtr &childP);
+                           const NodePtr &childP    );
 
     void    replaceChild  (      UInt32   childIndex,    
-                           const NodePtr &childP);
+                           const NodePtr &childP    );
 
     Bool    replaceChildBy(const NodePtr &childP, 
-                           const NodePtr &newChildP);
+                           const NodePtr &newChildP );
 
-    Int32   findChild     (const NodePtr &childP) const;
+    Int32   findChild     (const NodePtr &childP    ) const;
 
-    void    subChild      (const NodePtr &childP);
+    void    subChild      (const NodePtr &childP    );
     void    subChild      (      UInt32   childIndex);
 
     NodePtr getChild      (      UInt32   childIndex);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                                                              */
+    /*! \{                                                                 */
     /*--------------------------- access fields ----------------------------*/
 
-    SFDynamicVolume	*getSFVolume     (void);
+    SFDynamicVolume	*getSFVolume  (void);
 
-    SFNodePtr       *getSFParent     (void);
-    SFNodeCorePtr   *getSFCore       (void);
-    MFNodePtr       *getMFChildren   (void);
+    SFNodePtr       *getSFParent  (void);
+    SFNodeCorePtr   *getSFCore    (void);
+    MFNodePtr       *getMFChildren(void);
 
-    /*-------------------------- transformation ----------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Transformation                            */
+    /*! \{                                                                 */
 
-    Matrix getToWorld(void);
+    Matrix getToWorld(void          );
     
-    void   getToWorld(Matrix & result);
+    void   getToWorld(Matrix &result);
     
-    /*------------------------------ volume -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Volume                                 */
+    /*! \{                                                                 */
     
-    const DynamicVolume &getVolume       ( bool update = true );
+    const DynamicVolume &getVolume       (Bool update = true   );
     
-    const DynamicVolume &getVolume       (void) const;
+    const DynamicVolume &getVolume       (void                 ) const;
     
           void			 getWorldVolume  (DynamicVolume &result);
     
-          void			 updateVolume    (void);
+          void			 updateVolume    (void                 );
 
-          void			 invalidateVolume(void);
+          void			 invalidateVolume(void                 );
 
-    /*------------------------------ changed -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Changed                               */
+    /*! \{                                                                 */
 
     virtual void changed(BitVector  whichField, 
                          ChangeMode from);
 
-    /*--------------------------To / From Bin ------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Binary Access                              */
+    /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
 
@@ -200,101 +195,34 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     virtual MemoryHandle copyFromBin(      MemoryHandle  pMem, 
                                      const BitVector    &whichField);
     
-    /*------------------------------ dump ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector &bvFlags  = 0) const;
 
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
 
     friend class FieldContainer;
     friend class FieldContainerType;
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Type information                            */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
+    static       FieldDescription   *_desc[];
+    static       FieldContainerType  _type;
 
-    static FieldDescription   *_desc[];
-    static FieldContainerType  _type;
+    static const NodePtr              NullNode;
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    Node(void);
-    Node(const Node &source);
-    virtual ~Node (void);
-
-    void setParent(const NodePtr &_parent);
-
-    void onCreate (void);
-    void onCreate (const Node &source);
-
-    virtual void executeSync    (      FieldContainer &other,
-                                 const BitVector      &whichField);
-
-            void executeSyncImpl(      Node      *pOther,
-                                 const BitVector &whichField);
-
-    /*------------------------------ pointer -------------------------------*/
-
-    NodePtr getPtr(void);
-
-  private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
 
     SFDynamicVolume	_volume;
 
@@ -303,19 +231,64 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
 
     SFNodeCorePtr   _core;
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    Node(void);
+    Node(const Node &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    virtual ~Node (void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                MT Destruction                                */
+    /*! \{                                                                 */
+
+    void setParent(const NodePtr &parent);
+
+    void onCreate (void                 );
+    void onCreate (const Node    &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Sync                                     */
+    /*! \{                                                                 */
+
+    virtual void executeSync    (      FieldContainer &other,
+                                 const BitVector      &whichField);
+
+            void executeSyncImpl(      Node           *pOther,
+                                 const BitVector      &whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Pointer                                  */
+    /*! \{                                                                 */
+
+    NodePtr getPtr(void);
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
 };
 
-extern OSG_SYSTEMLIB_DLLMAPPING const NodePtr             NullNode;
+//---------------------------------------------------------------------------
+//   Exported Types
+//---------------------------------------------------------------------------
 
 typedef Node *NodeP;
-
-
 
 OSG_END_NAMESPACE
 
 #include <OSGNode.inl>
+
+#define OSGNODE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGNODE_H_ */

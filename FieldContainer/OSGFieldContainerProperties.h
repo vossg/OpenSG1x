@@ -43,30 +43,12 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGBaseTypes.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup FieldContainerLib 
+ *  \brief FieldContainerProperties
  */
 
 #ifdef __sgi
@@ -86,11 +68,9 @@ struct FIELDCONTAINER_ERROR
 OSG_PROPERTY_SPEC(FIELDCONTAINER_ERROR, Pointer     );
 OSG_PROPERTY_SPEC(FIELDCONTAINER_ERROR, ConstPointer);
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
 OSG_END_NAMESPACE
+
+#define OSGFIELDCONTAINERPROPERTIES_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGFIELDCONTAINERPROPERTIES_H_ */
 

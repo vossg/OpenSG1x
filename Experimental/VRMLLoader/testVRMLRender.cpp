@@ -53,8 +53,8 @@ OSG::Bool doWire = false;
 
 OSG::NodePtr  root;
 
-std::vector<OSG::NodePtr>  file;
-//OSG::NodePtr file;
+//std::vector<OSG::NodePtr>  file;
+OSG::NodePtr file;
 
 OSG::WindowPtr win;
 
@@ -374,7 +374,7 @@ OSG::Action::ResultE calcVNormal( OSG::CNodePtr &, OSG::Action * action )
 	OSG::NodePtr node = action->getActNode();
 	OSG::GeometryPtr g = OSG::GeometryPtr::dcast( node->getCore() );
 
-	if ( g->getNormals() == OSG::GeoNormalPtr::NullPtr )
+	if ( g->getNormals() == OSG::NullFC )
 	{
 		OSG::calcVertexNormals( g );
 	}	
@@ -561,20 +561,24 @@ int main (int argc, char **argv)
         }
         else
         {
+/*
             file = 
                 OSG::SceneFileHandler::the().readTopNodes(
                     argv[numFiles], 
                     OSG::VRMLFile::StripeGeometry |
                     OSG::VRMLFile::CreateNormals);
-            /*
+                    */
+
 			file = OSG::SceneFileHandler::the().read(argv[numFiles],
 										OSG::VRMLFile::StripeGeometry |
                    		 				OSG::VRMLFile::CreateNormals);
-			*/
+
+/*
 			for(OSG::UInt32 i=0; i<file.size(); ++i)
 			{
 				dlight->addChild(file[i]);
 			}
+            */
 		}
     }
     

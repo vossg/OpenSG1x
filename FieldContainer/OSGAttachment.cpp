@@ -67,9 +67,12 @@ OSG_FC_DLLEXPORT_DEF      (SimpleAttachment,
 
 OSG_END_NAMESPACE
 
-/** \fn const char *Attachment::getClassname(void)
- *  \brief Classname
- */
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: $";
+    char cvsid_hpp[] = OSGATTACHMENT_HEADER_CVSID;
+    char cvsid_inl[] = OSGATTACHMENT_INLINE_CVSID;
+}
 
 /** \var MFFieldContainerPtr Attachment::_parents
  *  \brief Parents multifield
@@ -79,10 +82,6 @@ OSG_END_NAMESPACE
  *  \brief Parent type
  */
 
-/** \brief NULL attachment pointer
- */
-
-const AttachmentPtr  OSG::NullAttachment;
 
 /***************************************************************************\
  *                               Types                                     *
@@ -95,7 +94,6 @@ const AttachmentPtr  OSG::NullAttachment;
 const BitVector 
 	Attachment::ParentsFieldMask  = (1 << Attachment::ParentsFieldId);
 
-char Attachment::cvsid[] = "@(#)$Id: $";
 
 /** \brief Attachment field description
  */

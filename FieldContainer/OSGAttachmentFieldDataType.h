@@ -45,7 +45,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
@@ -56,7 +55,8 @@ template <>
 struct FieldDataTraits<AttachmentPtr> : 
     public FieldTraitsRecurseMapper<AttachmentPtr>
 {
-    static DataType                 _type;
+    static DataType                  _type;
+
     enum                            { StringConvertable = 0x00  };
     enum                            { bHasParent        = 0x01  };
 
@@ -67,6 +67,8 @@ struct FieldDataTraits<AttachmentPtr> :
 };
 
 OSG_END_NAMESPACE
+
+#define OSGATTACHMENTFIELDDATATYPE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSG_ATTACHMENTFIELD_H_ */
 

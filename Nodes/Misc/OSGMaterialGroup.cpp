@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.10 2001/09/02 18:31:58 dirk Exp $";
+char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.11 2001/09/17 04:02:52 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -274,7 +274,7 @@ Action::ResultE MaterialGroup::drawEnter(Action * action)
 {
     DrawAction *da = dynamic_cast<DrawAction *>(action);
 
-    if(da != NULL && _sfMaterial.getValue() != MaterialPtr::NullPtr)
+    if(da != NULL && _sfMaterial.getValue() != NullFC)
     {
         da->setMaterial(&(*(_sfMaterial.getValue())));
     }
@@ -303,7 +303,7 @@ Action::ResultE MaterialGroup::renderEnter(Action * action)
 
     RenderAction *da = dynamic_cast<RenderAction *>(action);
 
-    if(da != NULL && _sfMaterial.getValue() != MaterialPtr::NullPtr)
+    if(da != NULL && _sfMaterial.getValue() != NullFC)
     {
         da->setMaterial(&(*(_sfMaterial.getValue())));
     }

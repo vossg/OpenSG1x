@@ -53,6 +53,5 @@
 #include <OSGSFAttachmentMap.h>
 #include <OSGSFAttachmentPtr.h>
 
-
 #endif /* _OSGSFFIELDCONTAINERTYPES_H_ */
 

@@ -218,6 +218,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    static const WindowPtr NullWindow;
+
     /*---------------------------------------------------------------------*/
     /*! \name           GL object handling helper class                    */
     /*! \{     

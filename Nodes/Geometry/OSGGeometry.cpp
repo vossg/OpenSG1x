@@ -429,14 +429,14 @@ Bool Geometry::isMergeable( const GeometryPtr other )
     // if no index mapping, compare the existing properties
     if ( ! getIndexMapping().getSize() )
     {
-    	if ( ( (        getNormals()   != GeoNormalPtr::NullPtr    ) ^
-			   ( other->getNormals()   != GeoNormalPtr::NullPtr    ) 
+    	if ( ( (        getNormals()   != NullFC ) ^
+			   ( other->getNormals()   != NullFC ) 
 			 ) ||
-			 ( (        getColors()    != GeoColorPtr::NullPtr     ) ^
-			   ( other->getColors()    != GeoColorPtr::NullPtr     ) 
+			 ( (        getColors()    != NullFC ) ^
+			   ( other->getColors()    != NullFC ) 
 			 ) ||
-			 ( (        getTexCoords() != GeoTexCoordsPtr::NullPtr ) ^
-			   ( other->getTexCoords() != GeoTexCoordsPtr::NullPtr ) 
+			 ( (        getTexCoords() != NullFC ) ^
+			   ( other->getTexCoords() != NullFC ) 
 		   ) )
 			return false;	 
     }
@@ -482,13 +482,13 @@ Bool Geometry::merge( const GeometryPtr other )
 	
 	// this is not perfect, I should test the index mapping if the property
 	// is used at all and not blindly copy it. later.
-	if ( getNormals() != GeoNormalPtr::NullPtr )
+	if ( getNormals() != NullFC )
 		copyAttrib( normal, GeoNormalPtr, getNormals );
 	
-	if ( getColors() != GeoColorPtr::NullPtr )
+	if ( getColors() != NullFC )
 		copyAttrib( color, GeoColorPtr, getColors );
 	
-	if ( getTexCoords() != GeoTexCoordsPtr::NullPtr )
+	if ( getTexCoords() != NullFC )
 		copyAttrib( texcoord, GeoTexCoordsPtr, getTexCoords );
 
 #undef copyAttrib
@@ -496,7 +496,7 @@ Bool Geometry::merge( const GeometryPtr other )
 	// now the fun part: indices
 	
 	// do we have indices? if not, we're done
-	if ( getIndex() != GeoIndexPtr::NullPtr )
+	if ( getIndex() != NullFC )
 	{
 		// indices
 		GeoIndexPtr ind  =        getIndex();

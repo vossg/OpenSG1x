@@ -14,6 +14,8 @@ DEPEND_OPTION        := -M
 
 LD_OUTOPT            := -o
 
+LNK_LD_OUTOPT        :=
+
 DIR_SEP              := /
 
 II_FILESDIR          := 

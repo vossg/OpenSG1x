@@ -34,16 +34,11 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGFIELDCONTAINER_H_
 #define _OSGFIELDCONTAINER_H_
 #ifdef __sgi
 #pragma once
 #endif
-
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGSystemDef.h>
 #include <OSGFieldContainerType.h>
@@ -149,14 +144,6 @@ void endEditNotChangedCP(const FieldContainerPtr &objectP,
                          BitVector          whichField = FieldBits::AllFields);
 
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
 /** \defgroup FieldContainerLib OpenSG Field Container Library
  *  \brief This lib contains all field container elements like NodeCore's,
  *  Attachments.
@@ -168,18 +155,12 @@ void endEditNotChangedCP(const FieldContainerPtr &objectP,
 
 class OSG_SYSTEMLIB_DLLMAPPING FieldContainer 
 {
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
 	enum { NextFieldId = 1 };
-	static const BitVector NextFieldMask;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+	static const BitVector NextFieldMask;
 
     enum ChangeMode
     {
@@ -188,25 +169,19 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
         Child    = 0x03
     };
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    /*------------------------- type information-----------------------------*/
+    /*---------------------------------------------------------------------*/
+    /*! \name             Get Class Type Information                       */
+    /*! \{                                                                 */
 
     static       FieldContainerType &getClassType  (void);
     static       UInt32              getClassTypeId(void);
     static       UInt16              getClassGroupId(void);
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
-    /*------------------------- type information-----------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name             Get Instance Type Information                    */
+    /*! \{                                                                 */
     
     virtual       FieldContainerType &getType    (void);
     virtual const FieldContainerType &getType    (void) const;
@@ -216,20 +191,32 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
 
             const Char8              *getTypeName(void) const;
 
-    /*------------------------------ size -----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Container Size                            */
+    /*! \{                                                                 */
 
     virtual UInt32            getContainerSize   (void) const = 0;
 
-    /*----------------------------- access ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                                                              */
+    /*! \{                    Generic Field Access                         */
 
             Field            *getField   (      UInt32 fieldId  );
             Field            *getField   (const Char8 *fieldName);
 
-    /*----------------------------- clone ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Clone                                  */
+    /*! \{                                                                 */
 
     virtual FieldContainerPtr shallowCopy(void) const = 0;
 
-    /*--------------------------- To/From Bin ------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Binary Access                              */
+    /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
     virtual MemoryHandle copyToBin  (      MemoryHandle  pMem, 
@@ -237,44 +224,50 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     virtual MemoryHandle copyFromBin(      MemoryHandle  pMem, 
                                      const BitVector    &whichField);
 
-    /*----------------------------- dump ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector &bvFlags  = 0) const = 0;
     
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Type information                            */
+    /*! \{                                                                 */
 
     static FieldContainerType _type;
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
 
     UInt32 _shares;
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     FieldContainer(void);
     FieldContainer(const FieldContainer &obj);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~FieldContainer (void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name              Create Fieldcontainer                           */
+    /*! \{                                                                 */
 
     template <class ObjectPtrT>
     static void newPtr(      
@@ -380,6 +373,11 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     }
 */
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    MT Edit                                   */
+    /*! \{                                                                 */
+
     template <class FieldTypeT>
     void beginEdit(const BitVector          &,
                          SField<FieldTypeT> &)
@@ -428,12 +426,32 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     }
 */
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Changed                               */
+    /*! \{                                                                 */
+
     virtual void changed        (BitVector whichField, ChangeMode from);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                MT Construction                               */
+    /*! \{                                                                 */
 
             void onCreate       (void);
             void onCreate       (const FieldContainer &source);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                MT Destruction                                */
+    /*! \{                                                                 */
+
     virtual void onDestroy      (void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Sync                                     */
+    /*! \{                                                                 */
 
     virtual void executeSync    (      FieldContainer &other,
                                  const BitVector      &whichField) = 0;
@@ -441,47 +459,14 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
             void executeSyncImpl(      FieldContainer *pOther,
                                  const BitVector      &whichField);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
-
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
 
     friend class FieldContainerPtrBase;
     friend class FieldContainerPtr;
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-	// prohibit default functions (move to 'public' if you need one)
+	/*!\brief prohibit default functions (move to 'public' if needed) */
 
     FieldContainer &operator = (const FieldContainer &other);
 };
@@ -1040,13 +1025,16 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
 	}																	
 
 
-
-// class pointer
+//---------------------------------------------------------------------------
+//   Exported Types
+//---------------------------------------------------------------------------
 
 typedef FieldContainer *FieldContainerP;
 
 OSG_END_NAMESPACE
 
 #include <OSGFieldContainer.inl>
+
+#define OSGFIELDCONTAINER_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGFIELDCONTAINER_H_ */

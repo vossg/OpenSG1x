@@ -121,12 +121,11 @@ OSG_BEGIN_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-template <class BasePtrTypeT, class FieldContainerTypeT>
-char FCPtr<BasePtrTypeT, FieldContainerTypeT>::cvsid[] = "@(#)$Id: $";
-
+/*
 template <class BasePtrTypeT, class FieldContainerTypeT> 
 const FCPtr<BasePtrTypeT, FieldContainerTypeT>
     FCPtr<BasePtrTypeT, FieldContainerTypeT>::NullPtr;
+    */
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -209,6 +208,17 @@ FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(const FCPtr &source):
 {
 }
 
+/** \brief NullPtr Constructor
+ */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(
+    const NullFieldContainerPtr &source) :
+
+	Inherited(source)
+{
+}
+
 /** \brief Destructor
  */
 
@@ -283,9 +293,17 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 void FCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
     const FCPtr &source)
 {
-	if (this == &source)
-		return;
+	// copy parts inherited from parent
+	*(static_cast<Inherited *>(this)) = source;
+}
 
+/** \brief NullPtr assignment
+ */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+void FCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
+    const NullFieldContainerPtr &source)
+{
 	// copy parts inherited from parent
 	*(static_cast<Inherited *>(this)) = source;
 }
@@ -373,12 +391,11 @@ void FCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
  *                           Class variables                               *
 \***************************************************************************/
 
-template <class BasePtrTypeT, class FieldContainerTypeT>
-char ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::cvsid[] = "@(#)$Id: $";
-
+/*
 template <class BasePtrTypeT, class FieldContainerTypeT> 
 const ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>
     ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::NullPtr;
+    */
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -457,7 +474,8 @@ ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(void) :
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
-    const NCFCPtr &source):
+    const NullFieldContainerPtr &source) :
+
 	Inherited(source)
 {
 }
@@ -467,7 +485,19 @@ ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
-    const ConstFCPtr &source):
+    const NCFCPtr &source) :
+
+	Inherited(source)
+{
+}
+
+/** \brief Copy Constructor
+ */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
+    const ConstFCPtr &source) :
+
 	Inherited(source)
 {
 }
@@ -549,12 +579,6 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 void ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
     const NCFCPtr &source)
 {
-	if (static_cast<FieldContainerPtrBase *>(this) == 
-        static_cast<const FieldContainerPtrBase *> (&source))
-    {
-		return;
-    }
-
 	// copy parts inherited from parent
 	*(static_cast<Inherited *>(this)) = source;
 }
@@ -566,9 +590,17 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 void ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
     const ConstFCPtr &source)
 {
-	if (this == &source)
-		return;
+	// copy parts inherited from parent
+	*(static_cast<Inherited *>(this)) = source;
+}
 
+/** \brief assignment
+ */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+void ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
+    const NullFieldContainerPtr &source)
+{
 	// copy parts inherited from parent
 	*(static_cast<Inherited *>(this)) = source;
 }
@@ -586,33 +618,6 @@ void ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
 
 
 
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 
 #if 0
 #ifdef __sgi
@@ -643,3 +648,5 @@ RetTypeT dyncast(const InTypeT oIn)
 #endif
 
 OSG_END_NAMESPACE
+
+#define OSGFIELDCONTAINERPTR_INLINE_CVSID "@(#)$Id: $"

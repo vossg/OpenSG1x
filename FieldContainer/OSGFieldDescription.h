@@ -36,16 +36,11 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGFIELDDESCRIPTION_H_
 #define _OSGFIELDDESCRIPTION_H_
 #ifdef __sgi
 #pragma once
 #endif
-
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
@@ -56,22 +51,10 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Field;
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
 
 typedef Field * (FieldContainer::*FieldAccessMethod)(void); 
 typedef Field * (FieldContainer::*FieldIndexAccessMethod)(UInt32);
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 /*! \ingroup FieldContainerLib
  *  \brief FieldDescription
@@ -79,84 +62,18 @@ typedef Field * (FieldContainer::*FieldIndexAccessMethod)(UInt32);
 
 class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
 {
-  public:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
+    /*==========================  PRIVATE  ================================*/
   private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
 
 	friend class FieldContainer;
     friend class FieldContainerPtr;
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-	static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-	// prohibit default functions (move to 'public' if you need one)
+	/*!\brief prohibit default function (move to 'public' if needed) */
 
     void operator =(const FieldDescription &source);
 
+    /*=========================  PROTECTED  ===============================*/
   protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
 
     String                   _szName;
 
@@ -172,29 +89,27 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
 
 	String                   _defaultValue;
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                                                              */
+    /*! \{                  Generic Field Access                           */
 
     Field *getField(FieldContainer &dataStore) const;
 
+    /*! \}                                                                 */
+    /*==========================  PUBLIC  =================================*/
   public :
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-     FieldDescription(const TypeBase          &elementType,
-                      const Char8             *szName,
-                      const UInt32             uiFieldId,
-                      const BitVector          vFieldMask,
-                      const Bool               bInternal,
-                            FieldAccessMethod  fAccessMethod,
-                      const Char8             *defaultValue = NULL);
+     FieldDescription(const TypeBase              &elementType,
+                      const Char8                 *szName,
+                      const UInt32                 uiFieldId,
+                      const BitVector              vFieldMask,
+                      const Bool                   bInternal,
+                            FieldAccessMethod      fAccessMethod,
+                      const Char8                 *defaultValue = NULL  );
 
      FieldDescription(const TypeBase               &elementType,
                       const Char8                  *szName,
@@ -202,43 +117,52 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
                       const BitVector               vFieldMask,
                       const Bool                    bInternal,
                             FieldIndexAccessMethod  fIndexedAccessMethod,
-                      const Char8                  *defaultValue = NULL);
+                      const Char8                  *defaultValue = NULL );
 
-    FieldDescription(const FieldDescription &source);
+    FieldDescription(const FieldDescription &source                     );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
     virtual ~FieldDescription(void); 
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Get                                     */
+    /*! \{                                                                 */
 
-	const Char8     *getCName    (void) const;
-    const String    &getName     (void) const;
+	const Char8     *getCName       (void                ) const;
+    const String    &getName        (void                ) const;
 
-          UInt32     getTypeId   (void) const;  
+          UInt32     getTypeId      (void                ) const;  
 
-          BitVector  getFieldMask(void                ) const;
-          void       setFieldMask(BitVector vFieldMask);
+          BitVector  getFieldMask   (void                ) const;
+          void       setFieldMask   (BitVector vFieldMask);
 
-          UInt32     getFieldId  (void            ) const;
-          void       setFieldId  (UInt32 uiFieldId);
+          UInt32     getFieldId     (void                ) const;
+          void       setFieldId     (UInt32 uiFieldId    );
 
-	      Bool       isInternal  (void) const;
+	      Bool       isInternal     (void                ) const;
 
-	      Bool       isValid     (void) const;
+	      Bool       isValid        (void                ) const;
 
-    /*-------------------------            ----------------------------------*/
+    const Char8     *getDefaultValue(void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Set                                     */
+    /*! \{                                                                 */
 
     void setAccessMethod     (FieldAccessMethod         fAccessMethod);
     void setIndexAccessMethod(FieldIndexAccessMethod  fIndexedAccessMethod);
 
-    /*------------------------- assignment ----------------------------------*/
-
-    const Char8 *getDefaultValue(void) const;
-
-    /*------------------------- comparison ----------------------------------*/
+    /*! \}                                                                 */
 };
 
 //---------------------------------------------------------------------------
-//   Exported Types
+//   Class         
 //---------------------------------------------------------------------------
 
 struct FieldDescriptionPLT
@@ -250,10 +174,15 @@ struct FieldDescriptionPLT
     }
 };
 
-// class pointer
+
+//---------------------------------------------------------------------------
+//   Exported Types
+//---------------------------------------------------------------------------
 
 typedef FieldDescription *FieldDescriptionP;
 
 OSG_END_NAMESPACE
+
+#define OSGFIELDDESCRIPTION_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGFIELDDESCRIPTION_H_ */

@@ -13,7 +13,9 @@ COMPONLY_OPTION      := -c
 DEPEND_OPTION        := -M
 
 LD_OUTOPT            := -o
-LD_OUTSPACE          :=  
+
+LNK_LD_OUTOPT        := -o
+
 DIR_SEP              := /
 
 II_FILESDIR          := ii_files

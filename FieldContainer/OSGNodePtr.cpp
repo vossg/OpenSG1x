@@ -55,9 +55,11 @@
 
 OSG_USING_NAMESPACE
 
-/** \fn const char *NodePtr::getClassname(void)
- *  \brief Classname
- */
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: $";
+    char cvsid_hpp[] = OSGNODEPTR_HEADER_CVSID;
+}
 
 /** \typedef NodePtr::Inherited
  *  \brief Parent type
@@ -67,9 +69,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char NodePtr::cvsid[] = "@(#)$Id: $";
-
-const NodePtr NodePtr::NullPtr;
+//const NodePtr NodePtr::NullPtr;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -109,6 +109,14 @@ NodePtr::NodePtr(void) :
  */
 
 NodePtr::NodePtr(const NodePtr &source) :
+    Inherited(source)
+{
+}
+
+/** \brief NullPtr Constructor
+ */
+
+NodePtr::NodePtr(const NullFieldContainerPtr &source) :
     Inherited(source)
 {
 }
@@ -202,9 +210,15 @@ void NodePtr::operator = (const CNodePtr &source)
 
 void NodePtr::operator = (const NodePtr &source)
 {
-	if (this == &source)
-		return;
+	// copy parts inherited from parent
+	*(static_cast<Inherited *>(this)) = source;
+}
 
+/** \brief assignment
+ */
+
+void NodePtr::operator = (const NullFieldContainerPtr &source)
+{
 	// copy parts inherited from parent
 	*(static_cast<Inherited *>(this)) = source;
 }
@@ -239,10 +253,6 @@ NodePtr::NodePtr(const Node   *source,
 \*-------------------------------------------------------------------------*/
 
 
-/** \fn const char *CNodePtr::getClassname(void)
- *  \brief Classname
- */
-
 /** \typedef CNodePtr::Inherited
  *  \brief Parent type
  */
@@ -251,7 +261,7 @@ NodePtr::NodePtr(const Node   *source,
  *                           Class variables                               *
 \***************************************************************************/
 
-char CNodePtr::cvsid[] = "@(#)$Id: $";
+//char CNodePtr::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -291,6 +301,14 @@ CNodePtr::CNodePtr(void) :
  */
 
 CNodePtr::CNodePtr(const CNodePtr &source) :
+    Inherited(source)
+{
+}
+
+/** \brief Copy Constructor
+ */
+
+CNodePtr::CNodePtr(const NullFieldContainerPtr &source) :
     Inherited(source)
 {
 }
@@ -388,9 +406,15 @@ void CNodePtr::operator = (const NodePtr &source)
 
 void CNodePtr::operator = (const CNodePtr &source)
 {
-	if (this == &source)
-		return;
+	// copy parts inherited from parent
+	*(static_cast<Inherited *>(this)) = source;
+}
 
+/** \brief assignment
+ */
+
+void CNodePtr::operator = (const NullFieldContainerPtr &source)
+{
 	// copy parts inherited from parent
 	*(static_cast<Inherited *>(this)) = source;
 }
@@ -430,7 +454,7 @@ OSG_SYSTEMLIB_DLLMAPPING
 ostream &OSG::operator <<(      ostream  &os,
                           const NodePtr  &fc)
 {
-	if(fc == NodePtr::NullPtr)
+	if(fc == NullFC)
     {
 		os << hex << "NodePtr 0x" << &fc << dec << ":NullFC";
     }
@@ -451,7 +475,7 @@ OSG_SYSTEMLIB_DLLMAPPING
 ostream &OSG::operator <<(      ostream  &os,
                           const CNodePtr &fc)
 {
-	if(fc == NodePtr::NullPtr)
+	if(fc == NullFC)
     {
 		os << hex << "NodePtr 0x" << &fc << dec << ":NullFC";
     }

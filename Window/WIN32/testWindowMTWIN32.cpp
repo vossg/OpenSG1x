@@ -45,7 +45,7 @@
 #include "OSGSolidBackground.h"
 
 #if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
-#include "OSGRAWSceneFileType.h"
+#include "RAW/OSGRAWSceneFileType.h"
 #endif
 
 #include "OSGTrackball.h"
@@ -226,7 +226,7 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
         case WM_SIZE:
 		    dpr << "Resize: " << wParam << " " << LOWORD(lParam)
 		    	<< " " << HIWORD( lParam ) << endl;
-		    if ( win[eventThread] != WindowPtr::NullPtr)
+		    if ( win[eventThread] != NullFC)
 		    	win[eventThread]->resize( LOWORD(lParam), HIWORD(lParam) );
 			break;
 									
@@ -305,12 +305,12 @@ int main (int argc, char **argv)
     
    	// Load the file
 
-	NodePtr file = NullNode;
+	NodePtr file = NullFC;
 	
 	if ( argc > 1 )
 		file = SceneFileHandler::the().read(argv[1]);
 	
-	if ( file == NullNode )
+	if ( file == NullFC )
 	{
 		cerr << "Couldn't load file, ignoring" << endl;
 		file = makeTorus( .5, 2, 16, 16 );
