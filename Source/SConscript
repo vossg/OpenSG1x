@@ -125,6 +125,8 @@ SystemDirs = [Dir('System').Dir(n) for n in Split("""
     NodeCores/Drawables/Base
     NodeCores/Drawables/Geometry
     NodeCores/Drawables/Misc
+    NodeCores/Drawables/Nurbs
+    NodeCores/Drawables/Nurbs/Internal
     NodeCores/Drawables/Particles
     NodeCores/Drawables/VolRen
     NodeCores/Groups/Base
