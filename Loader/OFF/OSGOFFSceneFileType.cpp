@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.6 2001/10/05 12:38:25 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.7 2001/10/08 05:21:54 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOFFSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -287,6 +287,13 @@ NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32) const
   createOptimizedPrimitives(geo);
 
 	return root;
+}
+
+NodePtr OFFSceneFileType::read(const Char8  *fileName, 
+                                     UInt32  uiAddOptions,
+                                     UInt32  uiSubOptions) const
+{
+    return read(fileName, uiAddOptions & ~uiSubOptions);
 }
 
 //----------------------------

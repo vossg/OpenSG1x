@@ -136,11 +136,29 @@ UInt32 SceneFileType::getOverridePriority(void)
 }
 
 //---------------------------------------------------------
+
 SceneFileType::FCPtrStore SceneFileType::readTopNodes(
     const Char8  *fileName,
-          UInt32  uiOpts) const 
+          UInt32  uiReplaceOptions) const 
 {
-  FieldContainerPtr fcPtr = read(fileName,uiOpts);
+  FieldContainerPtr fcPtr = read(fileName, uiReplaceOptions);
+
+  vector<FieldContainerPtr> fcVec;
+
+  FDEBUG (("Running generic SceneFileType::readTopNodes()\n"));
+
+  if (fcPtr != osg::NullFC)
+    fcVec.push_back(fcPtr);
+
+  return fcVec;
+}
+
+SceneFileType::FCPtrStore SceneFileType::readTopNodes(
+    const Char8  *fileName,
+          UInt32  uiAddOptions,
+          UInt32  uiSubOptions) const 
+{
+  FieldContainerPtr fcPtr = read(fileName, uiAddOptions, uiSubOptions);
   vector<FieldContainerPtr> fcVec;
 
   FDEBUG (("Running generic SceneFileType::readTopNodes()\n"));

@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.7 2001/10/06 15:12:49 jbehr Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.8 2001/10/08 05:21:54 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -367,6 +367,13 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
 
 
   return rootPtr;
+}
+
+NodePtr OBJSceneFileType::read(const Char8  *fileName, 
+                                     UInt32  uiAddOptions,
+                                     UInt32  uiSubOptions) const
+{
+    return read(fileName, uiAddOptions & ~uiSubOptions);
 }
 
 //----------------------------

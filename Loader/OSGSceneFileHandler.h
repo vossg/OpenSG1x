@@ -88,10 +88,19 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     /*! \name                   Read                                       */
     /*! \{                                                                 */
 
-    virtual NodePtr    read        (const  Char8  *fileName,
-                                           UInt32  uiOptions = 0);
-    virtual FCPtrStore readTopNodes(const  Char8  *fileName,
-                                           UInt32  uiOptions = 0);
+    virtual NodePtr    readOptReplace        (const  Char8  *fileName,
+                                                     UInt32  uiReplaceOptions);
+
+    virtual NodePtr    read                  (const  Char8  *fileName,
+                                                     UInt32  uiAddOptions = 0,
+                                                     UInt32  uiSubOptions = 0);
+
+    virtual FCPtrStore readTopNodesOptReplace(const  Char8  *fileName,
+                                                     UInt32  uiReplaceOptions);
+
+    virtual FCPtrStore readTopNodes          (const  Char8  *fileName,
+                                                     UInt32  uiAddOptions = 0,
+                                                     UInt32  uiSubOptions = 0);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

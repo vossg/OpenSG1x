@@ -118,7 +118,8 @@ const Char8 *VRMLSceneFileType::getName(void) const
 
 /*------------------------------ access -----------------------------------*/
 
-NodePtr VRMLSceneFileType::read(const Char8 *fileName, UInt32 uiOptions) const
+NodePtr VRMLSceneFileType::read(const Char8  *fileName, 
+                                      UInt32  uiReplaceOptions) const
 {
     if(_pVRMLLoader == NULL)
     {
@@ -128,18 +129,50 @@ NodePtr VRMLSceneFileType::read(const Char8 *fileName, UInt32 uiOptions) const
         _pVRMLLoader->createStandardPrototypes();
     }
 
-    _pVRMLLoader->scanFile(fileName, uiOptions);
+    _pVRMLLoader->scanFile(fileName, uiReplaceOptions);
+
+    return  _pVRMLLoader->getRoot();
+}
+
+NodePtr VRMLSceneFileType::read(const Char8  *fileName, 
+                                      UInt32  uiAddOptions,
+                                      UInt32  uiSubOptions) const
+{
+    if(_pVRMLLoader == NULL)
+    {
+        _pVRMLLoader = new VRMLFile();
+
+//        _pVRMLLoader->scanStandardPrototypes("std.wrl", 0);
+        _pVRMLLoader->createStandardPrototypes();
+    }
+
+    _pVRMLLoader->scanFile(fileName, uiAddOptions, uiSubOptions);
 
     return  _pVRMLLoader->getRoot();
 }
 
 VRMLSceneFileType::FCPtrStore VRMLSceneFileType::readTopNodes(
-    const Char8  *fName,
-          UInt32  uiOpts)const
+    const Char8  *fileName,
+          UInt32  uiReplaceOptions)const
 {
     FCPtrStore fcVec;
 
-    NodePtr    nodePtr = read(fName, uiOpts);
+    NodePtr    nodePtr = read(fileName, uiReplaceOptions);
+    
+    if(nodePtr != NullFC)
+        fcVec.push_back(nodePtr);
+    
+	return fcVec;
+}
+
+VRMLSceneFileType::FCPtrStore VRMLSceneFileType::readTopNodes(
+    const Char8  *fileName,
+          UInt32  uiAddOptions,
+          UInt32  uiSubOptions)const
+{
+    FCPtrStore fcVec;
+
+    NodePtr    nodePtr = read(fileName, uiAddOptions, uiSubOptions);
     
     if(nodePtr != NullFC)
         fcVec.push_back(nodePtr);

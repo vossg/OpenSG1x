@@ -121,7 +121,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     /*! \name                      Scan                                    */
     /*! \{                                                                 */
 
-    virtual void scanFile(const Char8 *szFilename, UInt32 uiOptions);
+    virtual void scanFile         (const Char8  *szFilename, 
+                                         UInt32  uiReplaceOptions);
+
+    virtual void scanFile         (const Char8  *szFilename, 
+                                         UInt32  uiAddOptions, 
+                                         UInt32  uiSubOptions);
+
+    virtual void setDefaultOptions(      UInt32  uiOptions   );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -205,7 +212,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    UInt32  _uiOptions;
+    UInt32  _uiCurrOptions;
+    UInt32  _uiDefOptions;
     Bool    _bMapTypeIds;
     Char8  *_szReferenceHeader;
 

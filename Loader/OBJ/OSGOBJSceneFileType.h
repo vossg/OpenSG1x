@@ -85,8 +85,13 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
     /*! \name                   Read                                       */
     /*! \{                                                                 */
 
-    virtual NodePtr read(const Char8 *fileName, UInt32 uiOptions) const;
+    virtual NodePtr read(const Char8  *fileName, 
+                               UInt32  uiReplaceOptions) const;
 
+    virtual NodePtr read(const Char8  *fileName, 
+                               UInt32  uiAddOptions,
+                               UInt32  uiSubOptions) const;
+    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Write                                      */
@@ -163,7 +168,7 @@ typedef OBJSceneFileType* OBJSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSGOBJSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOBJSceneFileType.h,v 1.4 2001/10/06 15:12:49 jbehr Exp $"
+#define OSGOBJSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOBJSceneFileType.h,v 1.5 2001/10/08 05:21:54 vossg Exp $"
 
 #endif // _OSGOBJSCENEFILETYPE_H_
 

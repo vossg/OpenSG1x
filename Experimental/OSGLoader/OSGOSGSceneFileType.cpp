@@ -117,22 +117,41 @@ const Char8 *OSGSceneFileType::getName(void) const
 }
 
 
-NodePtr OSGSceneFileType::read(const Char8 *fileName, UInt32 uiOptions) const
+NodePtr OSGSceneFileType::read(const Char8  *fileName, 
+                                     UInt32  uiReplaceOptions) const
 {
-    _pFile->scanFile(fileName, uiOptions);
+    _pFile->scanFile(fileName, uiReplaceOptions);
 
     return _pFile->getRootNode();
 }
 
+NodePtr OSGSceneFileType::read(const Char8  *fileName, 
+                                     UInt32  uiAddOptions,
+                                     UInt32  uiSubOptions) const
+{
+    _pFile->scanFile(fileName, uiAddOptions, uiSubOptions);
+
+    return _pFile->getRootNode();    
+}
+
 OSGSceneFileType::FCPtrStore OSGSceneFileType::readTopNodes(
     const Char8  *fileName,
-          UInt32  uiOptions) const
+          UInt32  uiReplaceOptions) const
 {
-	_pFile->scanFile(fileName, uiOptions);
+	_pFile->scanFile(fileName, uiReplaceOptions);
 
 	return _pFile->getRootNodes();
 }
 
+OSGSceneFileType::FCPtrStore OSGSceneFileType::readTopNodes(
+    const Char8  *fileName,
+          UInt32  uiAddOptions,
+          UInt32  uiSubOptions) const
+{
+	_pFile->scanFile(fileName, uiAddOptions, uiSubOptions);
+
+	return _pFile->getRootNodes();
+}
 
 Bool OSGSceneFileType::write(const NodePtr, const char *) const
 {

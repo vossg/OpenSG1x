@@ -201,7 +201,8 @@ Int32 SceneFileHandler::getSuffixList(list<const char *> & suffixList)
 //s:
 //
 //------------------------------
-NodePtr SceneFileHandler::read(const char *fileName,  UInt32 uiOptions)
+NodePtr SceneFileHandler::readOptReplace(const Char8  *fileName,  
+                                               UInt32  uiReplaceOptions)
 {
 	SceneFileType *type = getFileType(fileName);
 	NodePtr        node = NullFC;
@@ -217,7 +218,7 @@ NodePtr SceneFileHandler::read(const char *fileName,  UInt32 uiOptions)
 		SINFO << "try to read " << fileName 
               << " as "         << type->getName() << endl;
 
-        node = type->read(fileName, uiOptions);
+        node = type->read(fileName, uiReplaceOptions);
 
 		if (node != NullFC)
         {
@@ -236,6 +237,45 @@ NodePtr SceneFileHandler::read(const char *fileName,  UInt32 uiOptions)
 
 	return node;
 }
+
+NodePtr SceneFileHandler::read(const  Char8  *fileName,
+                                      UInt32  uiAddOptions,
+                                      UInt32  uiSubOptions)
+{
+	SceneFileType *type = getFileType(fileName);
+	NodePtr        node = NullFC;
+
+	if(! fileName)
+	{
+		SWARNING << "cannot read NULL file" << endl;
+		return node;
+	}
+	
+	if (type) 
+    {
+		SINFO << "try to read " << fileName 
+              << " as "         << type->getName() << endl;
+
+        node = type->read(fileName, uiAddOptions, uiSubOptions);
+
+		if (node != NullFC)
+        {
+			SINFO    << "read ok:"        << endl;
+        }
+		else
+        {
+			SWARNING << "could not read " << endl;
+        }
+	}
+	else
+    {
+		SWARNING << "could not read "       << fileName 
+                 << "; unknown file format" << endl;
+    }
+
+	return node;
+}
+
 
 //----------------------------
 // Function name: readTopNodes
@@ -257,9 +297,9 @@ NodePtr SceneFileHandler::read(const char *fileName,  UInt32 uiOptions)
 //s:
 //
 //------------------------------
-SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
+SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodesOptReplace(
     const Char8  *fileName,
-          UInt32  uiOptions)
+          UInt32  uiReplaceOptions)
 {
 	SceneFileType *type = getFileType(fileName);
 	vector<FieldContainerPtr> nodeVec;
@@ -275,7 +315,7 @@ SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
 		SINFO << "try to read " << fileName 
               << " as "         << type->getName() << endl;
 
-        nodeVec = type->readTopNodes(fileName, uiOptions);
+        nodeVec = type->readTopNodes(fileName, uiReplaceOptions);
 
 		for( UInt32 i=0; i<nodeVec.size(); ++i )
 		{
@@ -295,6 +335,47 @@ SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
 
 	return nodeVec;
 }
+
+SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
+    const  Char8  *fileName,
+           UInt32  uiAddOptions,
+           UInt32  uiSubOptions)
+{
+	SceneFileType *type = getFileType(fileName);
+	vector<FieldContainerPtr> nodeVec;
+	
+	if(! fileName)
+	{
+		SWARNING << "cannot read NULL file" << endl;
+		return nodeVec;
+	}
+	
+	if (type) 
+    {
+		SINFO << "try to read " << fileName 
+              << " as "         << type->getName() << endl;
+
+        nodeVec = type->readTopNodes(fileName, uiAddOptions, uiSubOptions);
+
+		for( UInt32 i=0; i<nodeVec.size(); ++i )
+		{
+			if( nodeVec[i] == NullFC )
+			{
+				SWARNING << "could not read node " << i << endl;
+				return nodeVec;
+			}
+        }
+		SWARNING << "read ok. " << endl;
+	}
+	else
+    {
+		SWARNING << "could not read "       << fileName 
+                 << "; unknown file format" << endl;
+    }
+
+	return nodeVec;
+}
+
 //----------------------------
 // Function name: write
 //----------------------------

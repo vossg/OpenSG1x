@@ -429,12 +429,12 @@ void VRMLFile::setContainerFieldValue(const FieldContainerPtr &pFC)
         if(_pCurrentFC   !=   NullFC && 
            _pCurrentField == _pCurrentFC->getField("children"))
         {
-            indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-            PNOTICE << "Add Child "
-                    << &(*_pCurrentFC)
-                    << " "
-                    << &(*pFC)
-                    << endl;
+            indentLog(VRMLNodeDesc::getIndent(), PINFO);
+            PINFO << "Add Child "
+                  << &(*_pCurrentFC)
+                  << " "
+                  << &(*pFC)
+                  << endl;
 
             NodePtr pNode      = NodePtr::dcast(_pCurrentFC);
             NodePtr pChildNode = NodePtr::dcast(pFC);
@@ -444,12 +444,12 @@ void VRMLFile::setContainerFieldValue(const FieldContainerPtr &pFC)
         else if(_pCurrentFC   !=   NullFC && 
                 _pCurrentField == _pCurrentFC->getField("core"))
         {
-            indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-            PNOTICE << "Add Core "
-                    << &(*_pCurrentFC)
-                    << " "
-                    << &(*pFC)
-                    << endl;
+            indentLog(VRMLNodeDesc::getIndent(), PINFO);
+            PINFO << "Add Core "
+                  << &(*_pCurrentFC)
+                  << " "
+                  << &(*pFC)
+                  << endl;
 
             NodePtr     pNode = NodePtr    ::dcast(_pCurrentFC);
             NodeCorePtr pCore = NodeCorePtr::dcast(pFC);
@@ -525,6 +525,9 @@ VRMLFile::VRMLFile(void) :
 {
     setReferenceHeader("#VRML V2.0 ");
 
+    setDefaultOptions (VRMLFile::StripeGeometry |
+                       VRMLFile::CreateNormals  );
+
     initIntExtFieldTypeMapper();
     initExtIntFieldTypeMapper();
 }
@@ -547,6 +550,17 @@ void VRMLFile::scanFile(const Char8 *szFilename, UInt32 uiOptions)
     Inherited::scanFile(szFilename, uiOptions);
 }
 
+void VRMLFile::scanFile(const Char8  *szFilename, 
+                              UInt32  uiAddOptions,
+                              UInt32  uiSubOptions)
+{
+    _pRootNode = NullFC;
+
+    VRMLNodeDesc::resetIndent();
+
+    Inherited::scanFile(szFilename, uiAddOptions, uiSubOptions);
+}
+
 void VRMLFile::beginNode(
     const Char8 *szNodeTypename,
     const Char8 *szNodename)
@@ -558,7 +572,7 @@ void VRMLFile::beginNode(
     if(_pCurrNodeDesc == NULL)
         return;
     
-    _pCurrNodeDesc->setOptions(_uiOptions);
+    _pCurrNodeDesc->setOptions(_uiCurrOptions);
 
     _sNodeDescs.push(_pCurrNodeDesc);
 
@@ -568,8 +582,8 @@ void VRMLFile::beginNode(
                                          szNodename,
                                          _pCurrentFC);
 
-    indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-    PNOTICE << "Begin Node " << szNodeTypename << endl;
+    indentLog(VRMLNodeDesc::getIndent(), PINFO);
+    PINFO << "Begin Node " << szNodeTypename << endl;
 
     VRMLNodeDesc::incIndent();
 
@@ -579,8 +593,8 @@ void VRMLFile::beginNode(
         {
             if(pNewNode->getType().isNode() == true)
             {
-                indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-                PNOTICE << "Node named : " << szNodename << endl;
+                indentLog(VRMLNodeDesc::getIndent(), PINFO);
+                PINFO << "Node named : " << szNodename << endl;
 
                 NodePtr pNode     = NodePtr::dcast(pNewNode);
                 NamePtr pNodename = Name::create();
@@ -596,8 +610,8 @@ void VRMLFile::beginNode(
             }
             else if(pNewNode->getType().isNodeCore() == true)
             {
-                indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-                PNOTICE << "Nodecore named : " << szNodename << endl;
+                indentLog(VRMLNodeDesc::getIndent(), PINFO);
+                PINFO << "Nodecore named : " << szNodename << endl;
 
                 NodeCorePtr pNodeCore = NodeCorePtr::dcast(pNewNode);
                 NamePtr     pNodename = Name::create();
@@ -613,9 +627,9 @@ void VRMLFile::beginNode(
             }
             else
             {
-                indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-                PNOTICE << "Fieldcontainer " << szNodeTypename 
-                        << " is neither node nor nodecore " << endl;
+                indentLog(VRMLNodeDesc::getIndent(), PINFO);
+                PINFO << "Fieldcontainer " << szNodeTypename 
+                      << " is neither node nor nodecore " << endl;
 
                 
                 NameContainerMap::iterator mIt = 
@@ -625,33 +639,33 @@ void VRMLFile::beginNode(
                 {
                     _nameFCMap[IDString(szNodename)] = pNewNode;
                     
-                    indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-                    PNOTICE << "Fieldcontainer " << szNodename 
-                            << " added to map " << endl;
+                    indentLog(VRMLNodeDesc::getIndent(), PINFO);
+                    PINFO << "Fieldcontainer " << szNodename 
+                          << " added to map " << endl;
                 }
                 
             }
 
             _nameDescMap[IDString(szNodename)] = _pCurrNodeDesc;
             
-            indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-            PNOTICE << "Desc for " << szNodename << " added to map " << endl;
+            indentLog(VRMLNodeDesc::getIndent(), PINFO);
+            PINFO << "Desc for " << szNodename << " added to map " << endl;
         }
         else
         {
-            indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-            PNOTICE << "Fieldcontainer " 
-                    << szNodeTypename 
-                    << "is empty, save on end " 
-                    << endl;
+            indentLog(VRMLNodeDesc::getIndent(), PINFO);
+            PINFO << "Fieldcontainer " 
+                  << szNodeTypename 
+                  << "is empty, save on end " 
+                  << endl;
             
             if(_pCurrNodeDesc != NULL)
                 _pCurrNodeDesc->setOnEndSave(szNodename);
             
             _nameDescMap[IDString(szNodename)] = _pCurrNodeDesc;
             
-            indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-            PNOTICE << "Desc for " << szNodename << " added to map " << endl;
+            indentLog(VRMLNodeDesc::getIndent(), PINFO);
+            PINFO << "Desc for " << szNodename << " added to map " << endl;
         }
     }
 
@@ -687,8 +701,8 @@ void VRMLFile::endNode(void)
     {
         VRMLNodeDesc::decIndent();
 
-        indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-        PNOTICE << "End Node " << endl;
+        indentLog(VRMLNodeDesc::getIndent(), PINFO);
+        PINFO << "End Node " << endl;
 
         return;
     }
@@ -756,8 +770,8 @@ void VRMLFile::endNode(void)
 
     VRMLNodeDesc::decIndent();
 
-    indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-    PNOTICE << "End Node " << endl;
+    indentLog(VRMLNodeDesc::getIndent(), PINFO);
+    PINFO << "End Node " << endl;
 }
 
 void VRMLFile::beginField(const Char8  *szFieldname,
@@ -766,17 +780,17 @@ void VRMLFile::beginField(const Char8  *szFieldname,
     if(szFieldname == NULL)
         return;
 
-    indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-    PNOTICE << "VRMLFile::beginField : looking for " 
-            << szFieldname 
-            << " ("
-            << uiFieldTypeId
-            << " | "
-            << _pCurrentField
-            << " | "
-            << _pCurrentFieldDesc
-            << ")"
-            << endl;
+    indentLog(VRMLNodeDesc::getIndent(), PINFO);
+    PINFO << "VRMLFile::beginField : looking for " 
+          << szFieldname 
+          << " ("
+          << uiFieldTypeId
+          << " | "
+          << _pCurrentField
+          << " | "
+          << _pCurrentFieldDesc
+          << ")"
+          << endl;
 
     VRMLNodeDesc::incIndent();
 
@@ -851,8 +865,8 @@ void VRMLFile::endField(void)
 
     VRMLNodeDesc::decIndent();
 
-    indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-    PNOTICE << "VRMLFile::endField " << endl;
+    indentLog(VRMLNodeDesc::getIndent(), PINFO);
+    PINFO << "VRMLFile::endField " << endl;
 }
 
 
@@ -889,16 +903,16 @@ UInt32 VRMLFile::getFieldType(const Char8 *szFieldname)
     if(_pCurrentField != NULL)
         returnValue = _pCurrentField->getType().getId();
 
-    indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-    PNOTICE << "VRMLFile::getFieldType : Got Field and type "
-            << returnValue        << " " 
-            << _pCurrentField     << " " 
-            << _pCurrentFieldDesc << " ";
+    indentLog(VRMLNodeDesc::getIndent(), PINFO);
+    PINFO << "VRMLFile::getFieldType : Got Field and type "
+          << returnValue        << " " 
+          << _pCurrentField     << " " 
+          << _pCurrentFieldDesc << " ";
     
     if(_pCurrentField != NULL)
-        PNOTICE << _pCurrentField->getType().getName() << endl;
+        PINFO << _pCurrentField->getType().getName() << endl;
     else
-        PNOTICE << endl;
+        PINFO << endl;
 
     return returnValue;
 }
@@ -911,10 +925,10 @@ void VRMLFile::use(const Char8 *szName)
 
     // try to find a container with the given name attachment
 
-    indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-    PNOTICE << "VRMLFile::use : looking for " 
-            << szName 
-            << endl;
+    indentLog(VRMLNodeDesc::getIndent(), PINFO);
+    PINFO << "VRMLFile::use : looking for " 
+          << szName 
+          << endl;
 
     VRMLNodeDesc::incIndent();
 

@@ -577,9 +577,18 @@ int main (int argc, char **argv)
                     OSG::VRMLFile::CreateNormals);
                     */
 
-			file = OSG::SceneFileHandler::the().read(argv[numFiles],
-										OSG::VRMLFile::StripeGeometry |
-                   		 				OSG::VRMLFile::CreateNormals);
+//										OSG::VRMLFile::StripeGeometry |
+//                   		 				OSG::VRMLFile::CreateNormals
+
+/*
+			file = OSG::SceneFileHandler::the().readOptReplace(
+                argv[numFiles],
+                OSG::VRMLFile::StripeGeometry |
+                OSG::VRMLFile::CreateNormals);
+*/
+
+			file = OSG::SceneFileHandler::the().read(argv[numFiles]);
+
 
             dlight->addChild(file);
 /*

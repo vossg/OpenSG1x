@@ -104,10 +104,10 @@ VRMLNodeDesc *VRMLNodeFactory<BaseT>::findNodeDesc(const Char8 *szNodeTypename)
 
     if(mNodeDescIt != _mNodeDescHash.end())
     {    
-        indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-        PNOTICE << "Found Node "
-                << mNodeDescIt->first << " ("
-                << szNodeTypename     << ")" << endl;
+        indentLog(VRMLNodeDesc::getIndent(), PINFO);
+        PINFO << "Found Node "
+              << mNodeDescIt->first << " ("
+              << szNodeTypename     << ")" << endl;
 
         returnValue = mNodeDescIt->second;
     }
@@ -215,8 +215,8 @@ template <class BaseT> inline
 void VRMLNodeFactory<BaseT>::beginProtoInterface(
     const Char8 *szProtoname)
 {
-    indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-    PNOTICE << "Begin Proto " << szProtoname << endl;
+    indentLog(VRMLNodeDesc::getIndent(), PINFO);
+    PINFO << "Begin Proto " << szProtoname << endl;
 
     Char8 *szName = NULL;
 
@@ -444,15 +444,15 @@ void VRMLNodeFactory<BaseT>::beginProtoInterface(
             _mNodeDescHash[szName] = _pCurrentNodeDesc; 
         }
 
-        _pCurrentNodeDesc->setOptions(_uiOptions);
+        _pCurrentNodeDesc->setOptions(_uiCurrOptions);
 
     }
     else
     {
-        indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-        PNOTICE << "Could not add second proto named " 
-                << szProtoname 
-                << endl;
+        indentLog(VRMLNodeDesc::getIndent(), PINFO);
+        PINFO << "Could not add second proto named " 
+              << szProtoname 
+              << endl;
 
         _bIgnoreProto = true;
     }
@@ -479,8 +479,8 @@ void VRMLNodeFactory<BaseT>::addProtoEventIn(
     if(_bIgnoreProto == true)
         return;
     
-    indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-    PNOTICE << "AddEventIn " << szEventType << " " << szEventName << endl;
+    indentLog(VRMLNodeDesc::getIndent(), PINFO);
+    PINFO << "AddEventIn " << szEventType << " " << szEventName << endl;
 }
 
 template <class BaseT> inline
@@ -491,8 +491,8 @@ void VRMLNodeFactory<BaseT>::addProtoEventOut(
     if(_bIgnoreProto == true)
         return;
 
-    indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-    PNOTICE << "AddEventOut " << szEventType << " " << szEventName << endl;
+    indentLog(VRMLNodeDesc::getIndent(), PINFO);
+    PINFO << "AddEventOut " << szEventType << " " << szEventName << endl;
 }
 
 template <class BaseT> inline
@@ -573,9 +573,9 @@ void VRMLNodeFactory<BaseT>::addFieldValue(const Char8 *szFieldVal)
 {
     if(_bInFieldProto == true)
     {
-        indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
+        indentLog(VRMLNodeDesc::getIndent(), PINFO);
     
-        PNOTICE << "Add proto field value : " << szFieldVal << endl;
+        PINFO << "Add proto field value : " << szFieldVal << endl;
     }
 
     if(_pCurrentNodeDesc != NULL)

@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.5 2001/10/05 12:38:25 vossg Exp $";
+    char cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.6 2001/10/08 05:21:54 vossg Exp $";
     char cvsid_hpp[] = OSGRAWSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -224,6 +224,13 @@ NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
 		SNOTICE << triCount << " triangle read " << endl;
 
 	return root;
+}
+
+NodePtr RAWSceneFileType::read(const Char8  *fileName, 
+                                     UInt32  uiAddOptions,
+                                     UInt32  uiSubOption ) const
+{
+    read(fileName, uiAddOptions & ~uiSubOption);
 }
 
 //----------------------------

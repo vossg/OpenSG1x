@@ -138,6 +138,8 @@ void ScanParseSkel::setReferenceHeader(const Char8 *szReferenceHeader)
  */
 
 ScanParseSkel::ScanParseSkel(void) :
+    _uiCurrOptions    (0),
+    _uiDefOptions     (0),
     _bMapTypeIds      (false),
     _szReferenceHeader(NULL )
 {
@@ -177,7 +179,7 @@ void ScanParseSkel::scanFile(const Char8 *szFilename,
 
         OSGScanParseSkel_in = pInFile;
 
-        _uiOptions = uiOptions;
+        _uiCurrOptions = uiOptions;
 
         OSGScanParseSkel_parse();
 
@@ -188,6 +190,24 @@ void ScanParseSkel::scanFile(const Char8 *szFilename,
         clearSkel();
     }
 }
+
+void ScanParseSkel::scanFile(const Char8  *szFilename, 
+                                   UInt32  uiAddOptions, 
+                                   UInt32  uiSubOptions)
+{
+    UInt32 uiOptions = _uiDefOptions;
+
+    uiOptions |=  uiAddOptions;
+    uiOptions &= ~uiSubOptions;
+
+    scanFile(szFilename, uiOptions);
+}
+
+void ScanParseSkel::setDefaultOptions(UInt32 uiOptions)
+{
+    _uiDefOptions = uiOptions;
+}
+
 
 /*-------------------------- your_category---------------------------------*/
 
@@ -290,9 +310,9 @@ void ScanParseSkel::addFieldValue(const Char8 *)
 }
 
 void ScanParseSkel::addRoute(const Char8 *,
-                                const Char8 *,
-                                const Char8 *,
-                                const Char8 *)
+                             const Char8 *,
+                             const Char8 *,
+                             const Char8 *)
 {
 }
 

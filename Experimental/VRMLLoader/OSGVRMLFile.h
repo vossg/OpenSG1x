@@ -112,7 +112,11 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     /*! \{                                                                 */
 
     virtual void   scanFile     (const Char8  *szFilename, 
-                                       UInt32  uiOptions);
+                                       UInt32  uiReplaceOptions);
+
+    virtual void   scanFile     (const Char8  *szFilename, 
+                                       UInt32  uiAddOptions,
+                                       UInt32  uiSubOption);
 
 
     virtual void   beginNode    (const Char8 *szNodeTypename,

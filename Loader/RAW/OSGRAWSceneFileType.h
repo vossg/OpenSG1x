@@ -82,7 +82,12 @@ class OSG_SYSTEMLIB_DLLMAPPING RAWSceneFileType : public SceneFileType
     /*! \name                   Read                                       */
     /*! \{                                                                 */
 
-    virtual NodePtr read(const Char8 *fileName, UInt32 uiOptions) const;
+    virtual NodePtr read(const Char8  *fileName, 
+                               UInt32  uiReplaceOptions) const;
+
+    virtual NodePtr read(const Char8  *fileName, 
+                               UInt32  uiAddOptions,
+                               UInt32  uiSubOption ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -128,6 +133,6 @@ typedef RAWSceneFileType* RAWSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSGRAWSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGRAWSceneFileType.h,v 1.3 2001/10/05 12:38:25 vossg Exp $"
+#define OSGRAWSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGRAWSceneFileType.h,v 1.4 2001/10/08 05:21:54 vossg Exp $"
 
 #endif // _OSGRAWSCENEFILETYPE_H_
