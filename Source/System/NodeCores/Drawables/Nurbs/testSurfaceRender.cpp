@@ -215,7 +215,7 @@ NodePtr makeScene( void )
     // Surface examples), it will just work automagically and tessellate 
     // your surface when needed (provided you don't forget the proper 
     // beginEditCP()/endEditCP() calls.
-    gpcl_surface->forceTessellate();
+    //gpcl_surface->forceTessellate();
 
     return root;
 }

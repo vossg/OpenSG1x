@@ -83,8 +83,8 @@ const char* vertexProgStandard =
 	"DP3		temp.y, state.light[0].half, temp2;\n"
 	"MOV		temp.w, state.material.shininess.x;\n"
 	"LIT		temp, temp;\n"
-//	"MAD		temp3, temp.y, state.lightprod[0].front.diffuse, state.lightprod[0].front.ambient;\n"
-	"MAD		temp3, temp.y, state.material.ambient, state.material.emission;\n"
+	"MAD		temp3, temp.y, state.lightprod[0].front.diffuse, state.lightprod[0].front.ambient;\n"
+	"ADD		temp3, temp3, state.material.emission;\n"
 	"MAD		temp3, temp.z, state.lightprod[0].front.specular, temp3;\n"
 
 //	# double sided lighting
@@ -93,9 +93,8 @@ const char* vertexProgStandard =
 	"DP3		temp.y, state.light[0].half, temp2;\n"
 	"MOV		temp.w, state.material.shininess.x;\n"
 	"LIT		temp, temp;\n"
-//	"MAD		temp3, temp.y, state.lightprod[0].back.diffuse, temp3;\n"
-	"MAD		temp3, temp.y, state.material.ambient, temp3;\n"
-//	"MAD		result.color, temp.z, state.lightprod[0].back.specular, temp3;\n"
+	"MAD		temp3, temp.y, state.lightprod[0].back.diffuse, temp3;\n"
+	"MAD		result.color, temp.z, state.lightprod[0].back.specular, temp3;\n"
 
 //	###########################################################
 //	# compute view direction
