@@ -598,7 +598,7 @@ void FieldContainerFactory::unregisterFieldContainer(
 
 UInt32 FieldContainerFactory::registerType(FieldContainerType *pType)
 {
-    UInt32 returnValue = TypeFactory::the()->registerType(pType);
+    UInt32 returnValue = 0;
 
     if(_pMapLock != NULL)
         _pMapLock->aquire();

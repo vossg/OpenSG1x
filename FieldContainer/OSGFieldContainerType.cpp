@@ -470,7 +470,7 @@ void FieldContainerType::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
 void FieldContainerType::registerType(const Char8 *szGroupName)
 {
-    _uiTypeId  = FieldContainerFactory::the()->registerType (this);
+    FieldContainerFactory::the()->registerType (this);
 
     _uiGroupId = FieldContainerFactory::the()->registerGroup(
         szGroupName != NULL ? szGroupName : _szName.str());
