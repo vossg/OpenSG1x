@@ -242,16 +242,28 @@ void BINWriter::write(vector<NodePtr> nodes)
 
 void BINWriter::doIndexFC(FieldContainerPtr fieldConPtr)
 {
-    //traverse
+    // traverse
 	if(fieldConPtr == NullFC)
 	{
-		//nothing to do
+		// nothing to do
         return;
 	}
 
     FieldContainerType &fcType = fieldConPtr->getType();
 	UInt32 i;
-	FCInfo fcInfo;
+
+    // insert into map
+    pair< map<UInt32, FCInfo>::iterator, bool>
+        element = _fcMap.insert(pair<UInt32, FCInfo>(
+            fieldConPtr.getFieldContainerId(),
+            FCInfo()));
+    // avoid loop. Element was already in the map
+    if(element.second==false)
+    {
+        return;
+    }
+    // get inserted element
+    FCInfo &fcInfo = element.first->second;
 
 	//go through all fields
 	for(i = 1; i <= fcType.getNumFieldDescs(); ++i)
@@ -260,7 +272,10 @@ void BINWriter::doIndexFC(FieldContainerPtr fieldConPtr)
         Field            *fieldPtr = fieldConPtr->getField(i);
         const FieldType  &fType    = fieldPtr->getType();
 
-        if(!fDesc->isInternal())
+        if(!fDesc->isInternal() ||
+           //parent fields are marked as internal
+           strcmp(fDesc->getCName(),"parent")==0 ||
+           strcmp(fDesc->getCName(),"parents")==0 )
         { 
             //detect referenced containers #DIRTY-HACK#
 			if( strstr(fType.getCName(), "Ptr") != NULL )
@@ -306,21 +321,11 @@ void BINWriter::doIndexFC(FieldContainerPtr fieldConPtr)
         }
 
 	}
-	//add container to the Map of containers to write
-	if( _fcMap.find(fieldConPtr.getFieldContainerId()) == _fcMap.end() )
-	{
-		fcInfo.ptr  = fieldConPtr;
-		fcInfo.type = fieldConPtr->getType().getName();
-        
-		if (!(_fcMap.insert(pair<UInt32, FCInfo>
-                            (fieldConPtr.getFieldContainerId(), fcInfo)).second))
-        {
-            SWARNING<<"BINWriter::doIndexFC(FieldContainerPtr):"<<endl
-                    <<"ERROR while inserting into _fcMap"<<endl;
-        };
-		//add container id to index
-        addToIdMap(fcInfo.ptr);
-    }		
+	// add container to the Map of containers to write
+    fcInfo.ptr  = fieldConPtr;
+    fcInfo.type = fieldConPtr->getType().getName();
+    // add container id to index
+    addToIdMap(fcInfo.ptr);
 }
 
 
