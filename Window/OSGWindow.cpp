@@ -582,26 +582,30 @@ void Window::dumpExtensions ( void )
 
 void Window::frameInit( void )
 {
-    // any new extension registered ? 
-    while ( _registeredExtensions.size() > _availExtensions.size() )
-    {                           
-        /* perform a binary search over the retrieved extension strings.
-           Push back the result as an availability flag for the extension
-           requested by the application */         
-        _availExtensions.push_back( binary_search( 
-                       _extensions.begin(),
-                       _extensions.end(),
-                       IDString(_registeredExtensions[_availExtensions.size()]) ) );
-    }
-    
-    while ( _registeredFunctions.size() > _extFunctions.size() )
-    {   
-        const Char8 *s = _registeredFunctions[_extFunctions.size()].str();
-        void *func     = (void*)getFunctionByName(s);
-                        
-        _extFunctions.push_back(func);
-    }
+    // Only check after we got them from OpenGL
+    if(!_extensions.empty())
+    {
+        // any new extension registered ? 
+        while ( _registeredExtensions.size() > _availExtensions.size() )
+        {                           
+            /* perform a binary search over the retrieved extension strings.
+               Push back the result as an availability flag for the extension
+               requested by the application */         
+            _availExtensions.push_back( binary_search( 
+                           _extensions.begin(),
+                           _extensions.end(),
+                           IDString(_registeredExtensions[
+                                _availExtensions.size()]) ) );
+        }
 
+        while ( _registeredFunctions.size() > _extFunctions.size() )
+        {   
+            const Char8 *s = _registeredFunctions[_extFunctions.size()].str();
+            void *func     = (void*)getFunctionByName(s);
+
+            _extFunctions.push_back(func);
+        }
+    }
 }
 
 void Window::frameExit( void )
