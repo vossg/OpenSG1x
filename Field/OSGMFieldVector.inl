@@ -82,7 +82,7 @@ MFieldVector<Tp, Alloc>::MFieldVector(size_type __n) :
 }
     
 template <class Tp, class Alloc> inline
-MFieldVector<Tp, Alloc>::MFieldVector(const vector<Tp, Alloc>& __x) :
+MFieldVector<Tp, Alloc>::MFieldVector(const std::vector<Tp, Alloc>& __x) :
     Inherited(__x)
 {
 }

@@ -2702,7 +2702,7 @@ std::ostream &operator <<(      std::ostream                     &os,
     {
         for(i = 0; i < 4; i++)
         {
-            os << setw(8) << obj[i][j] << " ";
+            os << std::setw(8) << obj[i][j] << " ";
         }
 
         os << "\n";

@@ -101,7 +101,7 @@ class MFieldVector : public std::vector<Tp, Alloc>
 
     explicit MFieldVector(size_type __n);
     
-             MFieldVector(const vector      <Tp, Alloc>& __x);
+             MFieldVector(const std::vector <Tp, Alloc>& __x);
              MFieldVector(const MFieldVector<Tp, Alloc>& __x);
 
 #ifdef __STL_MEMBER_TEMPLATES

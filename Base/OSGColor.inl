@@ -106,8 +106,8 @@ void Color3<ValueTypeT>::convertFromHSV(ValueType *rgbP,
                 rgbP[2] = TypeConstants<ValueTypeT>::getPortion(q);
                 break;
             default:
-                cerr << "ERROR i not in [0, 5] in Color::setHSV()!"
-                     << endl;
+                std::cerr << "ERROR i not in [0, 5] in Color::setHSV()!"
+                     << std::endl;
         }
     }
     else
