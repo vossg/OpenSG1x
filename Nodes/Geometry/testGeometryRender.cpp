@@ -167,20 +167,6 @@ int main (int argc, char **argv)
 	osgEndEditCP(type);
 
 	cerr << "Geometry type " << g1->getType().getId() << endl;
-
-	GeoColor4ub::PtrType cols = GeoColor4ub::create();
-	g1->setColors( cols );
-	g1->setColorPerVertex( true );
-	osgBeginEditCP(cols);
-	cols->getFieldPtr()->addValue( Vec4ub( 255, 255, 255, 255) );
-	cols->getFieldPtr()->addValue( Vec4ub( 255, 255, 255, 255) );
-	cols->getFieldPtr()->addValue( Vec4ub(   0, 255, 255, 255) );
-	cols->getFieldPtr()->addValue( Vec4ub(   0, 255, 255, 255) );
-	cols->getFieldPtr()->addValue( Vec4ub( 255,   0, 255, 255) );
-	cols->getFieldPtr()->addValue( Vec4ub( 255, 255,   0, 255) );
-	cols->getFieldPtr()->addValue( Vec4ub( 255,   0,   0, 255) );
-	cols->getFieldPtr()->addValue( Vec4ub(   0, 255,   0, 255) );
-	osgEndEditCP(cols);
 	
 	dact = new DrawAction;
 	
