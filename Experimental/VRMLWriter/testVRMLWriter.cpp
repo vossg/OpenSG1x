@@ -39,8 +39,8 @@ int main (int argc, char **argv)
     Vec3f center;
     node->getVolume().getCenter(center);
 
-    cerr << "Volume: center " << center << ", volume "
-         << node->getVolume().getScalarVolume() << endl;
+    std::cerr << "Volume: center " << center << ", volume "
+              << node->getVolume().getScalarVolume() << std::endl;
 
 
     pScene->addChild(node);

@@ -96,17 +96,17 @@ public:
             for(i=0;i<region.size();i+=4)
             {
 #if 1
-                cout << "Region: " << i << " ";
-                cout << region[i+0] << " ";
-                cout << region[i+1] << " ";
-                cout << region[i+2] << " ";
-                cout << region[i+3] << endl;
+                std::cout << "Region: " << i << " ";
+                std::cout << region[i+0] << " ";
+                std::cout << region[i+1] << " ";
+                std::cout << region[i+2] << " ";
+                std::cout << region[i+3] << std::endl;
                 if(region[i+0] >= region[i+2]) {
-                    cout << "!!!" << endl;
+                    std::cout << "!!!" << std::endl;
                     region[i+2]++;
                 }
                 if(region[i+1] >= region[i+3]) {
-                    cout << "!!!" << endl;
+                    std::cout << "!!!" << std::endl;
                     region[i+3]++;
                 }
 #endif
@@ -170,11 +170,11 @@ public:
         for(i=0;i<region.size();i+=4)
         {
 #if 0
-            cout << "Region: ";
-            cout << region[i+0] << " ";
-            cout << region[i+1] << " ";
-            cout << region[i+2] << " ";
-            cout << region[i+3] << endl;
+            std::cout << "Region: ";
+            std::cout << region[i+0] << " ";
+            std::cout << region[i+1] << " ";
+            std::cout << region[i+2] << " ";
+            std::cout << region[i+3] << std::endl;
 #endif
             glBegin(GL_LINE_LOOP);
             glColor3f(1, 1, 0);
@@ -196,7 +196,7 @@ public:
             Int32 w,h;
             w=_win->getPort(0)->getPixelWidth();
             h=_win->getPort(0)->getPixelHeight();
-            Image image(Image::OSG_RGB_PF,
+            Image *pImage = new Image(Image::OSG_RGB_PF,
                         w,h,1,
                         1,1,0.0,
                         NULL,true);
@@ -204,7 +204,7 @@ public:
             char filename[256];
             if(imgTransType==NULL)
             {
-                cerr << "Unknown image trans type" << endl;
+                std::cerr << "Unknown image trans type" << std::endl;
                 return;
             }
             sprintf(filename,"%s_%d.jpg",dumpImage,dumpImageNr++);
@@ -212,8 +212,10 @@ public:
             glPixelStorei(GL_PACK_ALIGNMENT,1);
             glReadPixels(0,0,w,h,
                          GL_RGB,GL_UNSIGNED_BYTE,
-                         image.getData());
-            imgTransType->write(image,filename);
+                         pImage->getData());
+            imgTransType->write(*pImage,filename);
+
+            subRefP(pImage);
         }
         _win->swap();
         _win->frameExit();
@@ -232,7 +234,7 @@ void display( void )
     mgr->redraw();
     if(loop)
     {
-        SLOG << loop << endl;
+        SLOG << loop << std::endl;
         loop--;
         serverCount++;
         if(!loop)

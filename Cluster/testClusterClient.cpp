@@ -27,30 +27,30 @@
 
 OSG_USING_NAMESPACE
 
-Trackball             tball;
-int                   mouseb = 0;
-int                   lastx=0, lasty=0;
-int                   winwidth=0, winheight=0;
-NodePtr		          root;
-TransformPtr          cam_trans;
-PerspectiveCameraPtr  cam;
-ClusterWindowPtr      clusterWindow;
-RenderAction         *ract,*ract1,*ract2;
-GLUTWindowPtr         clientWindow;
-SortFirstWindowPtr    sortfirst;
-MultiDisplayWindowPtr multidisplay;
-bool                  animate=false;
-bool                  multiport=false;
-float                 ca=-1,cb=-1,cc=-1;
-bool                  doStereo=false;
-float                 eyedistance=1,zeroparallax=10;
-int                   serverx=-1,servery=-1;
-vector<Quaternion>    animOri;
-vector<Vec3f     >    animPos;
-string                animName="animation.txt";
-Real32                animTime=0;
-string                broadcastAddress;
-bool                  broadcastAddressValid = false;
+Trackball                tball;
+int                      mouseb = 0;
+int                      lastx=0, lasty=0;
+int                      winwidth=0, winheight=0;
+NodePtr		             root;
+TransformPtr             cam_trans;
+PerspectiveCameraPtr     cam;
+ClusterWindowPtr         clusterWindow;
+RenderAction            *ract,*ract1,*ract2;
+GLUTWindowPtr            clientWindow;
+SortFirstWindowPtr       sortfirst;
+MultiDisplayWindowPtr    multidisplay;
+bool                     animate=false;
+bool                     multiport=false;
+float                    ca=-1,cb=-1,cc=-1;
+bool                     doStereo=false;
+float                    eyedistance=1,zeroparallax=10;
+int                      serverx=-1,servery=-1;
+std::vector<Quaternion>  animOri;
+std::vector<Vec3f     >  animPos;
+std::string              animName="animation.txt";
+Real32                   animTime=0;
+std::string              broadcastAddress;
+bool                     broadcastAddressValid = false;
 
 void loadAnim()
 {
@@ -100,9 +100,9 @@ void display(void)
         // clear changelist from prototypes
         OSG::Thread::getCurrentChangeList()->clearAll();
 	}
-    catch(exception &e)
+    catch(OSG_EX_NAMESPACE::exception &e)
     {
-        cout << e.what() << endl;
+        std::cout << e.what() << std::endl;
         exit(0);
     }
     
@@ -218,7 +218,7 @@ void key(unsigned char key, int /*x*/, int /*y*/)
         case 'S':
         {
             FILE *file=fopen((animName+".wrl").c_str(),"w");
-            vector<Quaternion>::iterator qit;
+            std::vector<Quaternion>::iterator qit;
             
             fprintf(file,"DEF OriInter OrientationInterpolator {\n\tkey [");
             for(int i = 0; i < animOri.size(); ++i)
@@ -239,7 +239,7 @@ void key(unsigned char key, int /*x*/, int /*y*/)
             }
             fprintf(file,"]\n}\n\n");
 
-            vector<Vec3f>::iterator vit;
+            std::vector<Vec3f>::iterator vit;
             
             fprintf(file,"DEF PosInter PositionInterpolator {\n\tkey [");
             for(int i = 0; i < animPos.size(); ++i)
@@ -330,7 +330,7 @@ Action::ResultE ignore( CNodePtr &, Action * )
     return Action::Continue;
 }
 
-void init(vector<char *> &filenames)
+void init(std::vector<char *> &filenames)
 {
     int i;
     OSG::DirectionalLightPtr dl;
@@ -395,7 +395,7 @@ void init(vector<char *> &filenames)
         if(file != NullFC)
             dlight->addChild(file);
         else
-            cerr << "Couldn't load file, ignoring " << filenames[i] << endl;
+            std::cerr << "Couldn't load file, ignoring " << filenames[i] << std::endl;
     }
 	if ( filenames.size()==0 )
 	{
@@ -462,7 +462,7 @@ void init(vector<char *> &filenames)
 
     size = max - min;
 
-    cout << "Volume: from " << min << " to " << max << endl;
+    std::cout << "Volume: from " << min << " to " << max << std::endl;
 
     // Camera
 
@@ -577,7 +577,7 @@ void init(vector<char *> &filenames)
     tball.setTranslationGen(OSG::Trackball::OSGAbsoluteTranslation);
 
     // run...
-    cout << size.length() << endl;
+    std::cout << size.length() << std::endl;
     cam->setFar (size.length() * 100.0);
     cam->setNear(size.length() * 100.0 / 10000.0);
 }
@@ -585,8 +585,8 @@ void init(vector<char *> &filenames)
 int main(int argc,char **argv)
 {
     int i,winid;
-    vector<char *> filenames;
-    string connectionType = "StreamSock";
+    std::vector<char *> filenames;
+    std::string connectionType = "StreamSock";
     int rows=1;
     char type='M';
     bool clientRendering=true;
@@ -668,22 +668,22 @@ int main(int argc,char **argv)
                         animate=true;
                         break;
                     case 'h':
-                        cout << argv[0] 
-                             << "-ffile -m -rrows -C -M"
-                             << endl;
-                        cout << "-m  use multicast" << endl
-                             << "-M  multi display" << endl
-                             << "-r  number of display rows" << endl
-                             << "-C  sort-first and compose" << endl
-                             << "-F  sort-first" << endl
-                             << "-h  this msg" << endl
-                             << "-s  stereo" << endl
-                             << "-e  eye distance" << endl
-                             << "-z  zero parallax" << endl
-                             << "-d  disable client rendering" << endl
-                             << "-v  use two viewports" << endl
-                             << "-x  server x resolution" << endl
-                             << "-y  server y resolution" << endl;
+                        std::cout << argv[0] 
+                                  << "-ffile -m -rrows -C -M"
+                                  << std::endl;
+                        std::cout << "-m  use multicast" << std::endl
+                                  << "-M  multi display" << std::endl
+                                  << "-r  number of display rows" << std::endl
+                                  << "-C  sort-first and compose" << std::endl
+                                  << "-F  sort-first" << std::endl
+                                  << "-h  this msg" << std::endl
+                                  << "-s  stereo" << std::endl
+                                  << "-e  eye distance" << std::endl
+                                  << "-z  zero parallax" << std::endl
+                                  << "-d  disable client rendering"<<std::endl
+                                  << "-v  use two viewports" << std::endl
+                                  << "-x  server x resolution" << std::endl
+                                  << "-y  server y resolution" << std::endl;
                         return 0;
                 }
             }
@@ -787,9 +787,9 @@ int main(int argc,char **argv)
 
         glutMainLoop();
     } 
-    catch(exception &e)
+    catch(OSG_EX_NAMESPACE::exception &e)
     {
-        SLOG << e.what() << endl;
+        SLOG << e.what() << std::endl;
     }
     return 0;
 }

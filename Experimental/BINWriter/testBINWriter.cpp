@@ -11,14 +11,14 @@
 int main (int argc, char *argv[])
 {
     for ( int i = 0; i < argc; i++ )
-        cout << "Param " << i << ":" << argv[i] << endl;
+        std::cout << "Param " << i << ":" << argv[i] << std::endl;
 
     OSG::osgInit(argc, argv);
 
     FILE *outFile;
     const char *inFileName  = "tie.wrl";
     const char *outFileName = "tie.bin";
-    string s;
+    std::string s;
     
     if( argc > 1 )
         inFileName  = argv[1];
@@ -37,21 +37,21 @@ int main (int argc, char *argv[])
 		outFile = fopen(outFileName, "wb");
 		
 		if (outFile==NULL)
-			cerr<<"ERROR: Cannot create file """<<outFileName<<""""<<endl;
+			std::cerr<<"ERROR: Cannot create file """<<outFileName<<""""<<std::endl;
 		else
 		{
-    		cout << "reading " << inFileName << "..." << endl;
+    		std::cout << "reading " << inFileName << "..." << std::endl;
 			OSG::NodePtr root = OSG::SceneFileHandler::the().read(inFileName,0);
-    		cout << "writing " << outFileName << "..." << endl;
+    		std::cout << "writing " << outFileName << "..." << std::endl;
 			OSG::BINWriter writer(outFile);
     		writer.write( root );
-			cout<<"done"<<endl;
+			std::cout<<"done"<<std::endl;
 //            root->dump();
 		}
 
 		fclose(outFile);
 	}
-	else cerr<<inFileName<<" not found!"<<endl;
+	else std::cerr<<inFileName<<" not found!"<<std::endl;
     
 	
 	return 0;

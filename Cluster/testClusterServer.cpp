@@ -32,11 +32,11 @@ void display()
         // clear changelist from prototypes
         OSG::Thread::getCurrentChangeList()->clearAll();
     } 
-    catch(exception &e)
+    catch(OSG_EX_NAMESPACE::exception &e)
     {
         if(exitOnError)
         {
-            SLOG << e.what() << endl;
+            SLOG << e.what() << std::endl;
             try
             {
                 delete server;
@@ -65,7 +65,7 @@ void display()
 
 void reshape( int width, int height )
 {
-    cout << "reshape " << width << " " << height << endl;
+    std::cout << "reshape " << width << " " << height << std::endl;
 	window->resize( width, height );
 }
 
@@ -77,10 +77,11 @@ void key(unsigned char key, int /*x*/, int /*y*/)
             window->getPort()[0]->getRoot()->dump();
             break;
         case 's':
-            ofstream outFileStream( "server.osg" );
+            std::ofstream outFileStream( "server.osg" );
             if( !outFileStream )
             {
-                SLOG << "Can not open output stream to file: server.osg" << endl;
+                SLOG << "Can not open output stream to file: server.osg" 
+                     << std::endl;
             }
             else
             {
@@ -96,7 +97,7 @@ int main(int argc,char **argv)
     char           *name          ="ClusterServer";
     char           *connectionType="StreamSock";
     bool           fullscreen     =true;
-    string         address        ="";
+    std::string    address        ="";
     int width=-1,height=300,x=0,y=0;
 
     for(int i=1;i<argc;i++)
@@ -121,23 +122,26 @@ int main(int argc,char **argv)
                     if(sscanf(&(argv[i][2]),"%d,%d,%d,%d",
                               &width,&height,&x,&y)!=4)
                     {
-                        SWARNING << "Wrong args in -g. Use -gw,h,x,y" << endl;
+                        SWARNING << "Wrong args in -g. Use -gw,h,x,y" 
+                                 << std::endl;
                         exit(0);
                     }
                     break;
                 case 'h':
-                    cout << argv[0] 
-                         << "-m "
-                         << "-w "
-                         << "-e "
-                         << "-gw,h,x,y "
-                         << "-aAddress "
-                         << endl;
-                    cout << "-m        use multicast" << endl;
-                    cout << "-w        no fullscreen" << endl;
-                    cout << "-e        exit after closed connection" << endl;
-                    cout << "-g        geometry" << endl;
-                    cout << "-aAddress Server network address" << endl;
+                    std::cout << argv[0] 
+                              << "-m "
+                              << "-w "
+                              << "-e "
+                              << "-gw,h,x,y "
+                              << "-aAddress "
+                              << std::endl;
+                    std::cout << "-m        use multicast" << std::endl;
+                    std::cout << "-w        no fullscreen" << std::endl;
+                    std::cout << "-e        exit after closed connection" 
+                              << std::endl;
+                    std::cout << "-g        geometry" << std::endl;
+                    std::cout << "-aAddress Server network address"
+                              << std::endl;
                     return 0;
             }
         }
@@ -184,9 +188,9 @@ int main(int argc,char **argv)
         running=true;
         glutMainLoop();
     } 
-    catch(exception &e)
+    catch(OSG_EX_NAMESPACE::exception &e)
     {
-        SLOG << e.what() << endl;
+        SLOG << e.what() << std::endl;
         delete server;
         osgExit(); 
     }

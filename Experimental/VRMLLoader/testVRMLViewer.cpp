@@ -87,9 +87,9 @@ OSG::NodePtr            sceneTransNode;
 OSG::ComponentTransformPtr   sceneTransCore;
 
 OSG::Animation         *animation = NULL;
-vector<string>          animTargetNames;
-map<string, OSG::ComponentTransformPtr> animMap;
-typedef map<string, OSG::ComponentTransformPtr>::iterator AnimIter;
+std::vector<std::string> animTargetNames;
+std::map<std::string, OSG::ComponentTransformPtr> animMap;
+typedef std::map<std::string, OSG::ComponentTransformPtr>::iterator AnimIter;
 bool                    doInterpolators = false;
 
 OSG::Time               startTime;
@@ -134,8 +134,8 @@ OSG::ImageForegroundPtr     pLogo       = OSG::NullFC;
 
 // --- animation creation
 
-vector<OSG::Vec3f>      aniPositions;
-vector<OSG::Quaternion> aniRotations;
+std::vector<OSG::Vec3f>      aniPositions;
+std::vector<OSG::Quaternion> aniRotations;
 
 // --- fps calculation
 
@@ -304,21 +304,21 @@ void loadMesh(const char *, OSG::NodePtr )
 #endif
 }
 
-bool readv2aFile(const string& filename)
+bool readv2aFile(const std::string& filename)
 {
     FILE        *f = NULL;
     bool   ok;
 
     if(filename[0] == '+')
     {
-        cerr << "Trying to read animation file: " 
+        std::cerr << "Trying to read animation file: " 
              << &(filename.c_str()[1]) << "... ";
 
         f = fopen( &(filename.c_str()[1]), "r" );
 
         if( f==NULL )
         {
-            cerr << "Couldn't read animation file [" 
+            std::cerr << "Couldn't read animation file [" 
                  << &(filename.c_str()[1]) << "].\n";
         }
         else
@@ -328,14 +328,14 @@ bool readv2aFile(const string& filename)
     }
     else
     {
-        cerr << "Trying to read animation file: " 
+        std::cerr << "Trying to read animation file: " 
              << filename << "... ";
 
         f = fopen( filename.c_str(), "r" );
 
         if( f==NULL )
         {
-            cerr << "Couldn't read animation file [" << filename << "].\n";
+            std::cerr << "Couldn't read animation file [" << filename << "].\n";
         }
         else
         {
@@ -344,7 +344,7 @@ bool readv2aFile(const string& filename)
     }
     
         
-    cerr << "Found " << animation->getNrOfInterpols() 
+    std::cerr << "Found " << animation->getNrOfInterpols() 
          << " interpolators in [" << filename << "].\n";
             
     return ok;
@@ -357,23 +357,23 @@ bool readv2aFile(const string& filename)
     If succesfull the animation data is parsed.
  */
 
-bool tryv2aFile( const string vrmlfile )
+bool tryv2aFile( const std::string vrmlfile )
 {
-    int     delimiter   = vrmlfile.find( '.' );
-    string  basename    = vrmlfile.substr( 0, delimiter );
-    string  v2aname     = basename + ".v2a";
-    FILE    *v2afile; 
+    int          delimiter   = vrmlfile.find( '.' );
+    std::string  basename    = vrmlfile.substr( 0, delimiter );
+    std::string  v2aname     = basename + ".v2a";
+    FILE        *v2afile; 
     
     if(v2aname[0] == '+')
     {
-        cerr << "Trying to read animation file: " 
+        std::cerr << "Trying to read animation file: " 
              << &(v2aname.c_str()[1]) << "... ";
 
         v2afile = fopen( &(v2aname.c_str()[1]), "r" );
     }
     else
     {
-        cerr << "Trying to read animation file: " 
+        std::cerr << "Trying to read animation file: " 
              << v2aname << "... ";
 
         v2afile = fopen( v2aname.c_str(), "r" );
@@ -381,25 +381,25 @@ bool tryv2aFile( const string vrmlfile )
 
     if( v2afile==NULL )
     {
-        cerr << "not found. No animation available.\n";
+        std::cerr << "not found. No animation available.\n";
         return false;
     }   
     else 
     {
-        cerr << "found. Reading animations..." << endl;
+        std::cerr << "found. Reading animations..." << std::endl;
         fclose( v2afile );      
         readv2aFile( v2aname );     
-        cerr << "done!\n";
+        std::cerr << "done!\n";
         return true;
     }
 
 }
 
-OSG::NodePtr readModelFile( const string& modelfile )
+OSG::NodePtr readModelFile( const std::string& modelfile )
 {
     OSG::NodePtr f = OSG::NullFC;
     
-    cerr << "Trying to read model [" << modelfile << "]... ";
+    std::cerr << "Trying to read model [" << modelfile << "]... ";
 
     if(modelfile[0] == '+')
     {
@@ -412,12 +412,12 @@ OSG::NodePtr readModelFile( const string& modelfile )
         
         if( f == OSG::NullFC )
         {
-            cerr << "failed!\n";
+            std::cerr << "failed!\n";
             return OSG::NullFC;
         }
         else
         {
-            cerr << "ok!\n";
+            std::cerr << "ok!\n";
             
             OSG::beginEditCP(dlight);
             dlight->addChild( f );
@@ -488,26 +488,26 @@ void selectCamera(int cameraNr)
     namePtr = OSG::NamePtr::dcast( 
         node->findAttachment(OSG::Name::getClassType().getGroupId()) );
 
-    cerr << "Activating viewpoint (" << cameraNr << ") : ";
+    std::cerr << "Activating viewpoint (" << cameraNr << ") : ";
     
     if(namePtr != OSG::NullFC)
     {
-        cerr << namePtr->getFieldPtr()->getValue() << endl;
+        std::cerr << namePtr->getFieldPtr()->getValue() << std::endl;
     }
     else
     {
-        cerr << "unnamed" << endl;
+        std::cerr << "unnamed" << std::endl;
     }
 
-    cerr << "Position:    " 
+    std::cerr << "Position:    " 
          << vrmlTrans->getSFTranslation()->getValue() 
-         << endl
+         << std::endl
          << "Orientation: " 
          << vrmlTrans->getSFRotation()->getValue() 
-         << endl
+         << std::endl
          << "Fov:         " 
          << fieldOfView
-         << endl << endl;
+         << std::endl << std::endl;
 
     cam_trans  = vrmlTrans; 
     startPoint = tball.getPosition();
@@ -570,7 +570,7 @@ void display(void)
     //nrOfSteps = (animDuration*1000) / ( diff/1000.0 );
     nrOfSteps = animDuration / diff;
     
-//  cout << "fps: " << fps( diff ) << endl;
+//  std::cout << "fps: " << fps( diff ) << std::endl;
     
     if(!bFixedDelta)
         animDelta = 1.0/nrOfSteps;   
@@ -579,15 +579,15 @@ void display(void)
     {
         if(doStats)
         {
-            string str;
+            std::string str;
             collector.putToString(str);
-            cout << str << endl;
+            std::cout << str << std::endl;
         }
         if(renderFrames-- == 0)
             exit(0);
         
         if((renderFrames % 10) == 0)
-            cerr << renderFrames << " frames left" << endl;
+            std::cerr << renderFrames << " frames left" << std::endl;
     }   
 }
 
@@ -595,7 +595,7 @@ void display(void)
 
 void reshape( int w, int h )
 {
-//  cerr << "Reshape: " << w << "," << h << endl;
+//  std::cerr << "Reshape: " << w << "," << h << std::endl;
     win->resize(w, h);
 }
 
@@ -617,8 +617,6 @@ void fly2examine(const OSG::Matrix &camFly,
 void animate(void)
 {
     OSG::Matrix m1, m2, caminv, camm, m1inv, m2inv, mtemp;
-    long        diff;
-    OSG::Real32 nrOfSteps;
 
     // --- interpolate the pos, rot and fov for animation
 
@@ -794,7 +792,7 @@ OSG::Action::ResultE viewpointCheck(OSG::CNodePtr &, OSG::Action *action)
         
     if(!vrmlTrans)
     {
-        cerr << "ERROR! The Node " << node << " does not have a core.\n";
+        std::cerr << "ERROR! The Node " << node << " does not have a core.\n";
     }
     else
     {
@@ -816,7 +814,7 @@ OSG::Action::ResultE viewpointCheck(OSG::CNodePtr &, OSG::Action *action)
         }   
         else
         {
-            //cerr << "viewpoint has NO Viewpoint attachment.\n";
+            //std::cerr << "viewpoint has NO Viewpoint attachment.\n";
         }
     }
     
@@ -896,7 +894,7 @@ OSG::Action::ResultE calcVNormal( OSG::CNodePtr &, OSG::Action * action )
 
 void printHelp()
 {
-    cerr << "\nUsage: testAnimViewer [OPTION] MODELFILE ...\n\n"
+    std::cerr << "\nUsage: testAnimViewer [OPTION] MODELFILE ...\n\n"
          << "  Options:\n"
          << "    -a v2afile\toptional animation file in .v2a format.\n"
          << "    -c camspeed\tspeed for the camera during viewpoint change [0.0,10.0]\n"
@@ -925,13 +923,13 @@ void printHelp()
          << "    d   - writes stored viewpoint to test.v2a\n"
          << "\n   PAGE_UP/DOWN - toggle viewpoints\n"        
          << "\n\n";
-//  cerr << "\nUsage: testVRMLViewer [-a<v2afile>] [-c <camspeed>] <vrmlfile> [<vrmlfile> ...]\n";
+//  std::cerr << "\nUsage: testVRMLViewer [-a<v2afile>] [-c <camspeed>] <vrmlfile> [<vrmlfile> ...]\n";
 }
 /*-------------------------------------------------------------------------*/
 
 void dumpUserAnim()
 {
-    ofstream f;
+    std::ofstream f;
     int      nrOfKeys = aniPositions.size();
     OSG::Vec3f      pos;
     OSG::Vec3f      axis;
@@ -993,13 +991,13 @@ void dumpUserAnim()
         }
         f << " ]\n}\n\n";
                                         
-        cerr << "Animation [test.v2a] file succesfully written.\n";
+        std::cerr << "Animation [test.v2a] file succesfully written.\n";
         
         f.close();
         
     }
     else
-        cerr << "ERROR! Could not write test.v2a.\n";
+        std::cerr << "ERROR! Could not write test.v2a.\n";
 }
 
 /*-------------------------------------------------------------------------*/
@@ -1017,39 +1015,39 @@ void key(unsigned char key, int , int )
     {
         case 27:    OSG::osgExit(); exit(0);
         case 'a':   glDisable( GL_LIGHTING );
-            cerr << "Lighting disabled." << endl;
+            std::cerr << "Lighting disabled." << std::endl;
             break;
         case 's':   glEnable( GL_LIGHTING );
-            cerr << "Lighting enabled." << endl;
+            std::cerr << "Lighting enabled." << std::endl;
             break;
         case 'z':   glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
-            cerr << "PolygonMode: Point." << endl;
+            std::cerr << "PolygonMode: Point." << std::endl;
             break;
         case 'x':   glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
-            cerr << "PolygonMode: Line." << endl;
+            std::cerr << "PolygonMode: Line." << std::endl;
             break;
         case 'c':   glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
-            cerr << "PolygonMode: Fill." << endl;
+            std::cerr << "PolygonMode: Fill." << std::endl;
             break;
         case 'w':   doWire = !doWire;
-            cerr << "BBox render: " << (doWire?"on":"off") << endl;
+            std::cerr << "BBox render: " << (doWire?"on":"off") << std::endl;
             break;
         case 'v':
             glEnable(GL_COLOR_MATERIAL);
-            cerr << "Color material on" << endl;
+            std::cerr << "Color material on" << std::endl;
             break;
         case 'V':
             glDisable(GL_COLOR_MATERIAL);
-            cerr << "Color material off" << endl;
+            std::cerr << "Color material off" << std::endl;
             break;
         case 'b':     
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            cerr << "Blending on" << endl;
+            std::cerr << "Blending on" << std::endl;
             break;
         case 'B':     
             glDisable(GL_BLEND);
-            cerr << "Blending off" << endl;
+            std::cerr << "Blending off" << std::endl;
             break;
         case 'f':   
             //tball.setMode( OSG::Trackball::OSGCamera );
@@ -1099,8 +1097,8 @@ void key(unsigned char key, int , int )
             //tball.setMode( OSG::Trackball::OSGCamera );
             startTime = OSG::getSystemTime();
             doInterpolators = !doInterpolators;
-            cerr << "doInterpolators: " 
-                 << (doInterpolators?"on":"off") << endl;
+            std::cerr << "doInterpolators: " 
+                 << (doInterpolators?"on":"off") << std::endl;
             break;
         case 'h':   
             printHelp();
@@ -1109,7 +1107,7 @@ void key(unsigned char key, int , int )
             bDraw = !bDraw;
             break;
         case 32:    
-            cerr << "creating viewpoint.\n";
+            std::cerr << "creating viewpoint.\n";
             m1   = cam_trans->getSFMatrix()->getValue();
             pos.setValues( m1[3][0], m1[3][1], m1[3][2]);
             ori.setValue( m1 );
@@ -1118,7 +1116,7 @@ void key(unsigned char key, int , int )
             aniPositions.push_back( pos );
             aniRotations.push_back( ori );
                                 
-            cout << "pos: " << pos << ", ori: " << axis << radians << endl;
+            std::cout << "pos: " << pos << ", ori: " << axis << radians << std::endl;
                 
             break;      
         case 'd':               
@@ -1138,15 +1136,15 @@ void key(unsigned char key, int , int )
         case '9':
             cameraNr = int(key) - 48;
 
-            cerr << "Trying to acticate : " << cameraNr 
-                 << "from  | "              << key      << endl;
+            std::cerr << "Trying to acticate : " << cameraNr 
+                 << "from  | "              << key      << std::endl;
 
             selectCamera(cameraNr);     
 
             break;  
     }
 
-    cerr << "Active " << selectedCam << " | " << lastSelectedCam << endl;
+    std::cerr << "Active " << selectedCam << " | " << lastSelectedCam << std::endl;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -1158,8 +1156,8 @@ void specialKey(int key, int , int )
         // forcing fall-through by ommiting break statement!            
         case GLUT_KEY_PAGE_UP:  
 
-            cerr << "inc camera " << selectedCam << "("
-                 << cameraBeacons.size() << endl;
+            std::cerr << "inc camera " << selectedCam << "("
+                 << cameraBeacons.size() << std::endl;
 
             if(selectedCam < cameraBeacons.size() - 1)
                 selectedCam++;
@@ -1170,8 +1168,8 @@ void specialKey(int key, int , int )
 
         case GLUT_KEY_PAGE_DOWN:                        
 
-            cerr << "dec camera " << selectedCam << "("
-                 << cameraBeacons.size() << endl;
+            std::cerr << "dec camera " << selectedCam << "("
+                 << cameraBeacons.size() << std::endl;
 
             if(selectedCam > 0)
                 selectedCam--;
@@ -1185,12 +1183,12 @@ void specialKey(int key, int , int )
             break;  
     }
 
-    cerr << "Trying to acticate : " << selectedCam 
-         << endl;
+    std::cerr << "Trying to acticate : " << selectedCam 
+         << std::endl;
 
     selectCamera(selectedCam);     
 
-    cerr << "Active " << selectedCam << " | " << lastSelectedCam << endl;
+    std::cerr << "Active " << selectedCam << " | " << lastSelectedCam << std::endl;
 }
 
 void addImageForeground(const char *szFilename)
@@ -1198,7 +1196,7 @@ void addImageForeground(const char *szFilename)
     if(szFilename == NULL)
         return;
 
-    cerr << "Adding Image " << szFilename << endl; 
+    std::cerr << "Adding Image " << szFilename << std::endl; 
 
     if(pLogo == OSG::NullFC)
     {
@@ -1305,9 +1303,9 @@ getopt(int argc, char **argv, char *opts)
 
 void checkOptions( int argc, char** argv )
 {
-    string      modelfile;
-    bool   hasOptionA = false;
-    bool   hasAnimDuration = false;
+    std::string modelfile;
+    bool        hasOptionA = false;
+    bool        hasAnimDuration = false;
     int         option;
     
     if( argc<2 )
@@ -1366,7 +1364,7 @@ void checkOptions( int argc, char** argv )
     
     if( optind >= argc )
     {
-        cerr << "No model specified for loading\n";
+        std::cerr << "No model specified for loading\n";
         printHelp();
         exit(0);
     }
@@ -1501,7 +1499,7 @@ int main (int argc, char **argv)
     cam->setBeacon(t1n                );
     cam->setFov   (60                 );
 
-    cerr << "Scene size: " << size.length() << endl;
+    std::cerr << "Scene size: " << size.length() << std::endl;
     
     if((size.length() * 4.5) > 10000.)
     {
@@ -1539,17 +1537,17 @@ int main (int argc, char **argv)
 
     if(pLogo != OSG::NullFC)
     {
-        cerr << "Added logo " << endl;
+        std::cerr << "Added logo " << std::endl;
 
         vp->getForegrounds().push_back(pLogo);
     }
     else
     {
-        cerr << "No logo available" << endl;
+        std::cerr << "No logo available" << std::endl;
     }
 
     // Window
-    cout << "GLUT winid: " << winid << endl;
+    std::cout << "GLUT winid: " << winid << std::endl;
 
     OSG::GLUTWindowPtr gwin;
 
@@ -1586,7 +1584,7 @@ int main (int argc, char **argv)
 //    ract->registerEnterFunction(OSG::Geometry::getClassType(),
 //                                OSG::osgFunctionFunctor2(wireDraw));
 
-    cerr << "Testing for viewpoints...\n";                          
+    std::cerr << "Testing for viewpoints...\n";                          
     
     // --- traverse graph and collect viewpoints
     OSG::Action *act1;  
@@ -1605,14 +1603,14 @@ int main (int argc, char **argv)
 
     for(OSG::UInt16 i = 0; i < cameraBeacons.size(); i++)
     {
-        cerr << "moving cam" << i << endl;
+        std::cerr << "moving cam" << i << std::endl;
 
         cameraBeacons[i]->getParent()->subChild(cameraBeacons[i]);
 
         root->addChild(cameraBeacons[i]);
     }
         
-    cerr << "Testing for viewpoints...done.\n";
+    std::cerr << "Testing for viewpoints...done.\n";
 
     // tball    
     OSG::Vec3f pos(min[0] + ((max[0] - min[0]) * 0.5), 
@@ -1638,7 +1636,7 @@ int main (int argc, char **argv)
         
         OSG::NamePtr namePtr = OSG::Name::create();     
         
-        namePtr->getFieldPtr()->setValue(string("Camera"));
+        namePtr->getFieldPtr()->setValue(std::string("Camera"));
         
         OSG::beginEditCP(stdCamNode);
         {
@@ -1669,16 +1667,16 @@ int main (int argc, char **argv)
 
         startPoint = pos;
 
-        cerr << "Activating default viewpoint: ";
-        cerr << "Position:    " 
+        std::cerr << "Activating default viewpoint: ";
+        std::cerr << "Position:    " 
              << startPoint 
-             << endl
+             << std::endl
              << "Orientation: " 
              << startQuat
-             << endl
+             << std::endl
              << "Fov:         " 
              << 0.75
-             << endl << endl;
+             << std::endl << std::endl;
     }
     else
     {
@@ -1727,38 +1725,38 @@ int main (int argc, char **argv)
         namePtr = OSG::NamePtr::dcast( 
             node->findAttachment(OSG::Name::getClassType().getGroupId()) );
 
-        cerr << "Activating viewpoint: ";
+        std::cerr << "Activating viewpoint: ";
         
         if(namePtr != OSG::NullFC)
         {
-            cerr << namePtr->getFieldPtr()->getValue() << endl;
+            std::cerr << namePtr->getFieldPtr()->getValue() << std::endl;
         }
         else
         {
-            cerr << "unnamed" << endl;
+            std::cerr << "unnamed" << std::endl;
         }
         
-        cerr << "Position:    " 
+        std::cerr << "Position:    " 
              << vrmlTrans->getSFTranslation()->getValue() 
-             << endl
+             << std::endl
              << "Orientation: " 
              << vrmlTrans->getSFRotation()->getValue() 
-             << endl
+             << std::endl
              << "Fov:         " 
              << fieldOfView
-             << endl << endl;
+             << std::endl << std::endl;
     }
     
-    cout << "Using camera speed: " << animDuration << "s\n";
+    std::cout << "Using camera speed: " << animDuration << "s\n";
     
     // --- check animation file data and search for target nodes
 
     animation->resolve(root);
 
-    cout << "Volume: from " << min << " to " << max << endl;
+    std::cout << "Volume: from " << min << " to " << max << std::endl;
 
-    cout << "Near-Plane: "  << cam->getNear() << endl;
-    cout << "Far-Plane:  "  << cam->getFar() << endl; 
+    std::cout << "Near-Plane: "  << cam->getNear() << std::endl;
+    std::cout << "Far-Plane:  "  << cam->getFar() << std::endl; 
 
     tball.setMode            (OSG::Trackball::OSGObject);
     tball.setStartPosition   (startPoint, true         );
