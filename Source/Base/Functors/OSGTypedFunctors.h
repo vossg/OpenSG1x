@@ -59,9 +59,15 @@ OSG_BEGIN_NAMESPACE
 //  osgTypedFunctionFunctor1Ptr
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctors
+ */
+
 template <class RetT, class Arg1T> inline
 TypedFunctionFunctor1<RetT, PtrCallArg<Arg1T> > osgTypedFunctionFunctor1Ptr   (
     RetT (*pFunc)(Arg1T *));
+
+/*! \ingroup BaseFunctors
+ */
 
 template <class Arg1T> inline
 TypedFunctionVoidFunctor1< PtrCallArg<Arg1T> > osgTypedFunctionVoidFunctor1Ptr(
@@ -71,9 +77,15 @@ TypedFunctionVoidFunctor1< PtrCallArg<Arg1T> > osgTypedFunctionVoidFunctor1Ptr(
 //  osgTypedFunctionFunctor1Ref
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctors
+ */
+
 template <class RetT, class Arg1T> inline
 TypedFunctionFunctor1<RetT, RefCallArg<Arg1T> > osgTypedFunctionFunctor1Ref   (
     RetT (*pFunc)(Arg1T &));
+
+/*! \ingroup BaseFunctors
+ */
 
 template <class Arg1T> inline
 TypedFunctionVoidFunctor1< RefCallArg<Arg1T> > osgTypedFunctionVoidFunctor1Ref(
@@ -83,6 +95,9 @@ TypedFunctionVoidFunctor1< RefCallArg<Arg1T> > osgTypedFunctionVoidFunctor1Ref(
 //  osgTypedFunctionFunctor1CPtr
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctors
+ */
+
 template <class Arg1T> inline
 TypedFunctionVoidFunctor1< CPtrCallArg<Arg1T> > 
     osgTypedFunctionVoidFunctor1CPtr(void (*pFunc)(Arg1T));
@@ -91,6 +106,9 @@ TypedFunctionVoidFunctor1< CPtrCallArg<Arg1T> >
 //  osgTypedFunctionFunctor1CPtrRef
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctors
+ */
+
 template <class RetT, class Arg1T> inline
 TypedFunctionFunctor1<RetT, CPtrRefCallArg<Arg1T> > 
     osgTypedFunctionFunctor1CPtrRef(RetT (*pFunc)(Arg1T &));
@@ -98,6 +116,9 @@ TypedFunctionFunctor1<RetT, CPtrRefCallArg<Arg1T> >
 //---------------------------------------------------------------------------
 //  osgTypedFunctionVoidFunctor1CPtrRef
 //---------------------------------------------------------------------------
+
+/*! \ingroup BaseFunctors
+ */
 
 template <class Arg1T> inline
 TypedFunctionVoidFunctor1< CPtrRefCallArg<Arg1T> > 
@@ -108,9 +129,15 @@ TypedFunctionVoidFunctor1< CPtrRefCallArg<Arg1T> >
 //  osgTypedMethodFunctor1Ref
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctors
+ */
+
 template <class RetT, class Arg1T> inline
 TypedObjectFunctor1<RetT, RefCallArg<Arg1T> > osgTypedMethodFunctor1Ref   (
     RetT (Arg1T::*pFunc)());
+
+/*! \ingroup BaseFunctors
+ */
 
 template <class Arg1T> inline
 TypedObjectVoidFunctor1< RefCallArg<Arg1T> > osgTypedMethodVoidFunctor1Ref(
@@ -120,9 +147,15 @@ TypedObjectVoidFunctor1< RefCallArg<Arg1T> > osgTypedMethodVoidFunctor1Ref(
 //  osgTypedMethodFunctor1Ptr
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctors
+ */
+
 template <class RetT, class Arg1T> inline
 TypedObjectFunctor1<RetT, PtrCallArg<Arg1T> > osgTypedMethodFunctor1Ptr   (
     RetT (Arg1T::*pFunc)());
+
+/*! \ingroup BaseFunctors
+ */
 
 template <class Arg1T> inline
 TypedObjectVoidFunctor1< PtrCallArg<Arg1T> > osgTypedMethodVoidFunctor1Ptr(
@@ -132,12 +165,18 @@ TypedObjectVoidFunctor1< PtrCallArg<Arg1T> > osgTypedMethodVoidFunctor1Ptr(
 //  osgTypedMethodFunctor1ObjPtr
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctors
+ */
+
 template <class RetT, class ObjectT, class Arg1T> inline
 TypedStoredObjectFunctor1<RetT, 
                           PtrCallArg<ObjectT>, 
                           PtrCallArg<Arg1T  > > 
     osgTypedMethodFunctor1ObjPtr(      ObjectT  *pObj, 
                                  RetT (ObjectT::*pFunc)(Arg1T *));
+
+/*! \ingroup BaseFunctors
+ */
 
 template <class ObjectT, class Arg1T> inline
 TypedStoredObjectVoidFunctor1<PtrCallArg<ObjectT>, 
@@ -149,12 +188,18 @@ TypedStoredObjectVoidFunctor1<PtrCallArg<ObjectT>,
 //  osgTypedMethodFunctor1ObjPtrCPtrRef
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctors
+ */
+
 template <class RetT, class ObjectT, class Arg1T> inline
 TypedStoredObjectFunctor1<RetT, 
                           PtrCallArg    <ObjectT>, 
                           CPtrRefCallArg<Arg1T  > > 
     osgTypedMethodFunctor1ObjPtrCPtrRef(      ObjectT  *pObj, 
                                         RetT (ObjectT::*pFunc)(Arg1T &));
+
+/*! \ingroup BaseFunctors
+ */
 
 template <class ObjectT, class Arg1T> inline
 TypedStoredObjectVoidFunctor1<PtrCallArg    <ObjectT>, 
@@ -165,6 +210,9 @@ TypedStoredObjectVoidFunctor1<PtrCallArg    <ObjectT>,
 //---------------------------------------------------------------------------
 //  osgTypedMethodFunctor1CPtr
 //---------------------------------------------------------------------------
+
+/*! \ingroup BaseFunctors
+ */
 
 template <class Arg1T> inline
 TypedObjectVoidFunctor1< CPtrCallArg<Arg1T> > 
@@ -178,6 +226,9 @@ TypedObjectVoidFunctor1< CPtrCallArg<Arg1T> >
 //  osgTypedMethodFunctor1CPtrRef
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctors
+ */
+
 template <class Arg1T> inline
 TypedObjectVoidFunctor1< CPtrRefCallArg<Arg1T> > 
     osgTypedMethodVoidFunctor1CPtrRef(
@@ -190,6 +241,9 @@ TypedObjectVoidFunctor1< CPtrRefCallArg<Arg1T> >
 //---------------------------------------------------------------------------
 //  osgTypedMethodFunctor1ObjCPtr
 //---------------------------------------------------------------------------
+
+/*! \ingroup BaseFunctor1Helper
+ */
 
 template<class T1, class T2, class T3>
 struct TypedMethodVoidFunctor1ObjCPtrFGen
@@ -208,6 +262,9 @@ struct TypedMethodVoidFunctor1ObjCPtrFGen
 
 #ifndef OSG_MICROSOFT_COMPILER_ALERT
 
+/*! \ingroup BaseFunctors
+ */
+
 template <class ObjectT, class Arg1T> inline
 TypedStoredObjectVoidFunctor1<
     CPtrCallArg<ObjectT>,
@@ -225,6 +282,9 @@ TypedStoredObjectVoidFunctor1<
 //  osgTypedMethodFunctor1ObjCPtrRef
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctor1Helper
+ */
+
 template<class T1, class T2, class T3>
 struct TypedMethodVoidFunctor1ObjCPtrRefFGen
 {
@@ -240,6 +300,9 @@ struct TypedMethodVoidFunctor1ObjCPtrRefFGen
 };
 
 #ifndef OSG_MICROSOFT_COMPILER_ALERT
+
+/*! \ingroup BaseFunctors
+ */
 
 template <class ObjectT, class Arg1T> inline
 TypedStoredObjectVoidFunctor1<
@@ -257,11 +320,17 @@ TypedStoredObjectVoidFunctor1<
 //  osgTypedFunctionFunctor2Ptr
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctors
+ */
+
 template <class RetT, class ObjectT, class Arg2T> inline
 TypedFunctionFunctor2<RetT, 
                       PtrCallArg<ObjectT>, 
                       ArgsCollector<Arg2T> > 
     osgTypedFunctionFunctor2Ptr    (RetT (*pFunc)(ObjectT *, Arg2T));
+
+/*! \ingroup BaseFunctors
+ */
 
 template <class ObjectT, class Arg2T> inline
 TypedFunctionVoidFunctor2<PtrCallArg <ObjectT>, 
@@ -272,12 +341,18 @@ TypedFunctionVoidFunctor2<PtrCallArg <ObjectT>,
 //  osgTypedFunctionFunctor2Ref
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctors
+ */
+
 template <class RetT, class ObjectT, class Arg2T> inline
 TypedFunctionFunctor2<RetT, 
                       RefCallArg<ObjectT>, 
                       ArgsCollector<Arg2T> > 
     osgTypedFunctionFunctor2Ref    (RetT (*pFunc)(ObjectT &, Arg2T));
 
+
+/*! \ingroup BaseFunctors
+ */
 
 template <class ObjectT, class Arg2T> inline
 TypedFunctionVoidFunctor2<RefCallArg <ObjectT>, 
@@ -288,6 +363,8 @@ TypedFunctionVoidFunctor2<RefCallArg <ObjectT>,
 //  osgTypedFunctionFunctor2CPtrRef
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctors
+ */
 
 template <class RetT, class ObjectT, class Arg2T> inline
 TypedFunctionFunctor2<RetT, 
@@ -295,16 +372,20 @@ TypedFunctionFunctor2<RetT,
                       ArgsCollector  <Arg2T> > 
     osgTypedFunctionFunctor2CPtrRef    (RetT (*pFunc)(ObjectT &, Arg2T));
 
+/*! \ingroup BaseFunctors
+ */
+
 template <class ObjectT, class Arg2T> inline
 TypedFunctionVoidFunctor2<CPtrRefCallArg <ObjectT>, 
                           ArgsCollector  <Arg2T> > 
     osgTypedFunctionVoidFunctor2CPtrRef(void (*pFunc)(ObjectT &, Arg2T));
 
-
 //---------------------------------------------------------------------------
 //  osgTypedMethodFunctor2Ref
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctors
+ */
 
 template <class RetT, class Arg1T, class Arg2T> inline
 TypedObjectFunctor2<RetT, 
@@ -312,17 +393,20 @@ TypedObjectFunctor2<RetT,
                     ArgsCollector<Arg2T> > 
     osgTypedMethodFunctor2Ref(RetT (Arg1T::*pFunc)(Arg2T));
 
+/*! \ingroup BaseFunctors
+ */
 
 template <class Arg1T, class Arg2T> inline
 TypedObjectVoidFunctor2<RefCallArg   <Arg1T>, 
                         ArgsCollector<Arg2T> > 
     osgTypedMethodVoidFunctor2Ref(void (Arg1T::*pFunc)(Arg2T));
 
-
 //---------------------------------------------------------------------------
 //  osgTypedMethodFunctor2Ptr
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctors
+ */
 
 template <class RetT, class Arg1T, class Arg2T> inline
 TypedObjectFunctor2<RetT, 
@@ -330,16 +414,20 @@ TypedObjectFunctor2<RetT,
                     ArgsCollector<Arg2T> > 
     osgTypedMethodFunctor2Ptr    (RetT (Arg1T::*pFunc)(Arg2T));
 
+/*! \ingroup BaseFunctors
+ */
+
 template <class Arg1T, class Arg2T> inline
 TypedObjectVoidFunctor2<PtrCallArg   <Arg1T>, 
                         ArgsCollector<Arg2T> > 
     osgTypedMethodVoidFunctor2Ptr(void (Arg1T::*pFunc)(Arg2T));
 
-
 //---------------------------------------------------------------------------
 //  osgTypedMethodFunctor2ObjPtr
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctors
+ */
 
 template <class RetT,  class ObjectT, 
           class Arg1T, class Arg2T  > inline
@@ -349,6 +437,9 @@ TypedStoredObjectFunctor2<RetT,
                           ArgsCollector<Arg2T  > > 
     osgTypedMethodFunctor2ObjPtr    (      ObjectT  *pObj, 
                                      RetT (ObjectT::*pFunc)(Arg1T *, Arg2T));
+
+/*! \ingroup BaseFunctors
+ */
 
 template <class ObjectT, class Arg1T, class Arg2T> inline
 TypedStoredObjectVoidFunctor2<PtrCallArg   <ObjectT>,
@@ -361,6 +452,8 @@ TypedStoredObjectVoidFunctor2<PtrCallArg   <ObjectT>,
 //  osgTypedMethodFunctor2ObjPtrCPtrRef
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctors
+ */
 
 template <class RetT,  class ObjectT, 
           class Arg1T, class Arg2T  > inline
@@ -372,6 +465,9 @@ TypedStoredObjectFunctor2<RetT,
           ObjectT  *pObj, 
     RetT (ObjectT::*pFunc)(Arg1T &, Arg2T));
 
+/*! \ingroup BaseFunctors
+ */
+
 template <class ObjectT, class Arg1T, class Arg2T> inline
 TypedStoredObjectVoidFunctor2<PtrCallArg    <ObjectT>,
                               CPtrRefCallArg<Arg1T  >, 
@@ -380,10 +476,12 @@ TypedStoredObjectVoidFunctor2<PtrCallArg    <ObjectT>,
           ObjectT  *pObj, 
     void (ObjectT::*pFunc)(Arg1T &, Arg2T));
 
-
 //---------------------------------------------------------------------------
 //  osgTypedMethodVoidFunctor2CPtrRef
 //---------------------------------------------------------------------------
+
+/*! \ingroup BaseFunctors
+ */
 
 template <class ObjectT, class Arg1T> inline
 TypedObjectVoidFunctor2<CPtrRefCallArg<ObjectT>, 
@@ -397,11 +495,12 @@ TypedObjectVoidFunctor2<CPtrRefCallArg<ObjectT>,
 
 #endif
 
-
 //---------------------------------------------------------------------------
 //  osgTypedMethodFunctor2ObjCPtrRef
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctor2Helper
+ */
 
 template<class T1, class T2, class T3, class T4>
 struct TypedMethodVoidFunctor2ObjCPtrRefFGen
@@ -422,6 +521,9 @@ struct TypedMethodVoidFunctor2ObjCPtrRefFGen
 
 #ifndef OSG_MICROSOFT_COMPILER_ALERT
 
+/*! \ingroup BaseFunctors
+ */
+
 template <class ObjectT, 
           class Arg1T, 
           class Arg2T> inline
@@ -438,11 +540,12 @@ TypedStoredObjectVoidFunctor2<CPtrRefCallArg<ObjectT>,
                                                    Arg2T  >::Func  pFunc);
 #endif
 
-
 //---------------------------------------------------------------------------
 //  osgTypedMethodVoidFunctor2ObjCPtrPtr
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctor2Helper
+ */
 
 template<class T1, class T2, class T3, class T4>
 struct TypedMethodVoidFunctor2ObjCPtrPtrFGen
@@ -463,6 +566,9 @@ struct TypedMethodVoidFunctor2ObjCPtrPtrFGen
 
 #ifndef OSG_MICROSOFT_COMPILER_ALERT
 
+/*! \ingroup BaseFunctors
+ */
+
 template <class ObjectT, 
           class Arg1T, 
           class Arg2T> inline
@@ -480,11 +586,12 @@ TypedStoredObjectVoidFunctor2<CPtrRefCallArg<ObjectT>,
 
 #endif
 
-
 //---------------------------------------------------------------------------
 //  osgTypedMethodFunctor2BaseCPtrRef
 //---------------------------------------------------------------------------
 
+/*! \ingroup BaseFunctor2Helper
+ */
 
 template<class T1, class T2, class T3>
 struct TypedMethodFunctor2BaseCPtrRefFGen
@@ -501,6 +608,9 @@ struct TypedMethodFunctor2BaseCPtrRefFGen
 #ifdef __sgi
 #pragma set woff 1424
 #endif
+
+/*! \ingroup BaseFunctors
+ */
 
 template <class RetT,  class ObjectT, 
           class Arg1T, class Arg2T> inline

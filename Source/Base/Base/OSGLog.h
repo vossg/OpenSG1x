@@ -116,7 +116,7 @@ enum LogModuleHandling
            plattforms
  */
 
-class OSG_BASE_DLLMAPPING LogOStream : public std::ostream
+struct OSG_BASE_DLLMAPPING LogOStream : public std::ostream
 {
   public:
 
@@ -135,6 +135,7 @@ class OSG_BASE_DLLMAPPING LogOStream : public std::ostream
 class OSG_BASE_DLLMAPPING LogBuf : public std::streambuf
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
   /// only temporary until the functors work with all compiler
@@ -220,6 +221,7 @@ class OSG_BASE_DLLMAPPING LogBuf : public std::streambuf
 class OSG_BASE_DLLMAPPING Log : public std::ostream
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     /*---------------------------------------------------------------------*/

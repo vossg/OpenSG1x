@@ -62,8 +62,7 @@ OSG_BEGIN_NAMESPACE
 //   Types
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseFunctors
- *  \brief DefaultFunctorSizeTraits
+/*! \ingroup BaseFunctorsHelper
  */
 
 struct DefaultFunctorSizeTraits
@@ -82,6 +81,9 @@ struct DefaultFunctorSizeTraits
     };
 };
 
+/*! \ingroup BaseFunctorsHelper
+ */
+
 template <class Argument1T>
 struct ArgsCollector
 {
@@ -89,12 +91,18 @@ struct ArgsCollector
     typedef Argument1T Arg1T;
 };
 
+/*! \ingroup BaseFunctorsHelper
+ */
+
 template <class Argument1T, class Argument2T>
 struct ArgsCollector2
 {
     typedef Argument1T Arg1T;
     typedef Argument2T Arg2T;
 };
+
+/*! \ingroup BaseFunctorsHelper
+ */
 
 template <class ArgT>
 struct ObjCallArg
@@ -104,6 +112,9 @@ struct ObjCallArg
 
     typedef ArgsCollector<ArgType> ArgsC;
 };
+
+/*! \ingroup BaseFunctorsHelper
+ */
 
 template <class ArgT>
 struct RefCallArg
@@ -116,6 +127,9 @@ struct RefCallArg
         return &obj;
     }
 };
+
+/*! \ingroup BaseFunctorsHelper
+ */
 
 template <class ArgT>
 struct PtrCallArg
@@ -131,6 +145,9 @@ struct PtrCallArg
     }
 };
 
+/*! \ingroup BaseFunctorsHelper
+ */
+
 template <class ArgT>
 struct CPtrCallArg
 {
@@ -144,6 +161,9 @@ struct CPtrCallArg
         return (&(*obj));
     }
 };
+
+/*! \ingroup BaseFunctorsHelper
+ */
 
 template <class ArgT>
 struct CPtrRefCallArg
@@ -159,11 +179,17 @@ struct CPtrRefCallArg
     }
 };
 
+/*! \ingroup BaseFunctorsHelper
+ */
+
 template <class RetT, class ClassT>
 struct ClassMemFunc
 {
     typedef RetT (ClassT::*MemFunc)(void);
 };
+
+/*! \ingroup BaseFunctorsHelper
+ */
 
 template <class RetT, class ClassT, class ArgsT>
 struct ClassMemFunc1
@@ -173,6 +199,9 @@ struct ClassMemFunc1
     typedef RetT (ClassT::*MemFunc)(Arg1T);
 };
 
+/*! \ingroup BaseFunctorsHelper
+ */
+
 template <class RetT, class ClassT, class ArgsT>
 struct ClassMemFunc2
 {
@@ -181,6 +210,9 @@ struct ClassMemFunc2
 
     typedef RetT (ClassT::*MemFunc)(Arg1T, Arg2T);
 };
+
+/*! \ingroup BaseFunctorsHelper
+ */
 
 template <class RetT, class CallArgT>
 struct FunctorBuildFuncType1
@@ -192,6 +224,9 @@ struct FunctorBuildFuncType1
 
     typedef RetT (*FuncFunctionType)(CallArgType);
 };
+
+/*! \ingroup BaseFunctorsHelper
+ */
 
 template <class RetT, class CallArgT, class ArgsT>
 struct FunctorBuildObjFuncType1
@@ -205,6 +240,9 @@ struct FunctorBuildObjFuncType1
                                    ObjType, 
                                    ArgColl>::MemFunc ObjFuncType;
 };
+
+/*! \ingroup BaseFunctorsHelper
+ */
 
 template <class RetT, class CallArgT, class ArgsT>
 struct FunctorBuildFuncType2
@@ -222,6 +260,9 @@ struct FunctorBuildFuncType2
 
     typedef RetT (*FuncFunctionType)(CallArgType, ArgType);
 };
+
+/*! \ingroup BaseFunctorsHelper
+ */
 
 template <class RetT, class ObjCallArgT, class CallArgT, class ArgsT>
 struct FunctorBuildObjFuncType2
@@ -243,118 +284,60 @@ struct FunctorBuildObjFuncType2
 //---------------------------------------------------------------------------
 
 /*! \ingroup BaseFunctors
- *  \brief FunctorBase
  */
 
 template <class SizeTraitsT = DefaultFunctorSizeTraits>
 class FunctorBase 
 {     
+    /*==========================  PUBLIC  =================================*/
+
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    virtual ~FunctorBase(void); 
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-  private:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
 
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Constants                                */
+    /*! \{                                                                 */
 
     static const UInt8 ObjectValid   = 0x01;
     static const UInt8 FuncPtrValid  = 0x02;
 
     static const UInt8 FunctorActive = 0x80;
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    // for testing
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Members                                 */
+    /*! \{                                                                 */
 
     UInt8 _data1[SizeTraitsT::_uiObjectSize];
     UInt8 _data2[SizeTraitsT::_uiFuncPointerSize];
     UInt8 _flags;
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     FunctorBase(void);
     FunctorBase(const FunctorBase &source);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+
+  private:
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const FunctorBase &source);
-
-  public :
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    virtual ~FunctorBase(void); 
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
 
 OSG_END_NAMESPACE
 

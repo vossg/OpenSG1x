@@ -1,0 +1,39 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \defgroup Base OpenSG Base Library
+
+    \brief The Base Library contains fundamental classes, functions and, 
+           abstractions.
+
+    See \ref Base for details.
+*/
+
+/*! \defgroup BaseBase Base
+    \ingroup Base
+
+    \brief ToDo
+*/
+
+/*! \defgroup BaseField Field
+    \ingroup Base
+
+    \brief ToDo
+*/
+
+/*! \defgroup BaseNetwork Network
+    \ingroup Base
+
+    \brief ToDo
+*/
+
+/*! \defgroup BaseStringConversion StringConversion
+    \ingroup Base
+
+    \brief ToDo
+*/
+
+/*! \page Base Base
+
+*/
