@@ -89,15 +89,15 @@ inline void* Window::getFunction(UInt32 id)
     }
     if(_extFunctions[id] == NULL)
     {
-        FINFO(("Window::getFunction: function \"%s\" is NULL!\n", 
+        FINFO(("Window::getFunction: function \"%s\" is NULL!\n",
                     _registeredFunctions[id].c_str()));
-        return NULL;       
+        return NULL;
     }
     return _extFunctions[id];
 }
 
 /*! Get the indicated extension function.
-    \warning No error checks are done on the passed index nor on the returned 
+    \warning No error checks are done on the passed index nor on the returned
     function!
 */
 inline void* Window::getFunctionNoCheck(UInt32 id)
@@ -106,7 +106,7 @@ inline void* Window::getFunctionNoCheck(UInt32 id)
 }
 
 
-/*! Return the value of the registered constant, Inf if not registered 
+/*! Return the value of the registered constant, Inf if not registered
     or no value received yet.
 */
 inline Real32 Window::getConstantValue(GLenum id)
@@ -114,18 +114,18 @@ inline Real32 Window::getConstantValue(GLenum id)
     return getConstantValuev(id)[0];
 }
 
-/*! Return the value of the registered constant, (Inf, Inf) if not 
+/*! Return the value of the registered constant, (Inf, Inf) if not
     registered or no value received yet.
 */
 inline const Vec2f& Window::getConstantValuev(GLenum id)
 {
     static Vec2f inf(Inf, Inf);
-    
+
     ConstHash::iterator it = _availConstants.find(id);
-    
+
     if(it != _availConstants.end())
         return _availConstants[id];
-        
+
     return inf;
 }
 
@@ -134,15 +134,15 @@ inline const Vec2f& Window::getConstantValuev(GLenum id)
 */
 inline Int32 Window::getExtensionId(const Char8  *s)
 {
-    vector<string>::iterator it;
-    
-    it = find(_registeredExtensions.begin(),
+    std::vector<std::string>::iterator it;
+
+    it = std::find(_registeredExtensions.begin(),
               _registeredExtensions.end(),
               s);
 
     if(it == _registeredExtensions.end())
         return -1;
-    
+
     return it -_registeredExtensions.begin();
 }
 
@@ -175,15 +175,15 @@ inline const std::vector<std::string> &Window::getIgnoredExtensions(void)
 }
 
 
-/*! Pack the id and the status into one UInt32. Used to pass the id and status 
+/*! Pack the id and the status into one UInt32. Used to pass the id and status
     to the actual implementation functions.
 
 \dev
 
-This packing is not really necessary and just done because I didn't want to 
+This packing is not really necessary and just done because I didn't want to
 change all the prototypes and implementations everywhere. Do it for 1.3.
 
-\enddev 
+\enddev
 */
 inline UInt32 Window::packIdStatus(UInt32 id, GLObjectStatusE status)
 {
@@ -192,7 +192,7 @@ inline UInt32 Window::packIdStatus(UInt32 id, GLObjectStatusE status)
 
 /*! Unpack the id and the status from one UInt32 packed by packIdStatus
 */
-inline void Window::unpackIdStatus(UInt32 idstatus, UInt32 &id, 
+inline void Window::unpackIdStatus(UInt32 idstatus, UInt32 &id,
                                    GLObjectStatusE &status)
 {
     id = idstatus >> statusShift;
@@ -201,17 +201,17 @@ inline void Window::unpackIdStatus(UInt32 idstatus, UInt32 &id,
 
 
 /* GLObject helper class */
-                                                               
+
 inline Window::GLObject::GLObject( GLObjectFunctor funct ) :
-            _functor(funct), 
-            _refCounter(0), 
+            _functor(funct),
+            _refCounter(0),
             _lastValidate(0)
 {
 }
 
-inline Window::GLObjectFunctor& Window::GLObject::getFunctor(void) 
-{ 
-    return _functor; 
+inline Window::GLObjectFunctor& Window::GLObject::getFunctor(void)
+{
+    return _functor;
 };
 
 inline void Window::GLObject::setFunctor(GLObjectFunctor funct)
@@ -266,7 +266,7 @@ inline UInt32 Window::GLObject::decRefCounter(void)
         val = 0;
     _GLObjectLock->release();
 
-    return val; 
+    return val;
 }
 
 OSG_END_NAMESPACE
