@@ -24,11 +24,11 @@ int main (int argc, char **argv)
 {
 	osgLog().setLogLevel ( OSG::LOG_WARNING );
 
-	OSG::SLOG     << "log test" << endLog;
-	OSG::SFATAL   << "fatal test" << endLog;
-	OSG::SWARNING << "warning test" << endLog;
-	OSG::SNOTICE  << "notice test" << endLog;
-	OSG::SINFO    << "info test" << endLog;
+	OSG::SLOG     << "log test" << OSG::endLog;
+	OSG::SFATAL   << "fatal test" << OSG::endLog;
+	OSG::SWARNING << "warning test" << OSG::endLog;
+	OSG::SNOTICE  << "notice test" << OSG::endLog;
+	OSG::SINFO    << "info test" << OSG::endLog;
 
 	// C-style log test
 
