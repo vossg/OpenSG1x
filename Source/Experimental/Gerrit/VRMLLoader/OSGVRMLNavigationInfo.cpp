@@ -181,7 +181,7 @@ VRMLNavigationInfo::VRMLNavigationInfo(void) :
     _mfAvatarSize.push_back(1.60f);
     _mfAvatarSize.push_back(0.75f);
 
-    string szType("WALK");
+    std::string szType("WALK");
 
     _mfType.push_back(szType);
 }

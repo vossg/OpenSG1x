@@ -127,7 +127,7 @@ bool VRMLObjectType::initialize(void)
           << " (" 
           << _bReflexTypeInitialized 
           << ")" 
-          << endl;
+          << std::endl;
 
     return _bReflexTypeInitialized;
 }

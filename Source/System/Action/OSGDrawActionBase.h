@@ -149,9 +149,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
     const FrustumVolume & getFrustum( void ) const;
     void            setFrustum( FrustumVolume & frust );    
     
-    // test a single node
-    bool            isVisible( Node* node );
-    
+    virtual bool    isVisible(Node* node) = 0;
+
     // select all visible nodes
     UInt32          selectVisibles( void );
     

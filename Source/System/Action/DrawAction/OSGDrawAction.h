@@ -126,6 +126,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public DrawActionBase
 
     /*------------------------- your_operators ------------------------------*/
 
+    // test a single node
+    bool            isVisible( Node* node );
+    
     /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/

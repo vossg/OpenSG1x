@@ -114,7 +114,7 @@ void VRMLLoader::decIndent(void)
 {
     if(_uiIndent < 4)
     {
-        PWARNING << "Indent smaller 4 decremented" << endl;
+        PWARNING << "Indent smaller 4 decremented" << std::endl;
 
         _uiIndent = 4;
     }
@@ -300,7 +300,7 @@ void VRMLLoader::insertNamedNode(VRMLNode *pNode)
         PLOG << "Error could not add node named " 
              << pNode->getCName() 
              << " a second time "
-             << endl;
+             << std::endl;
     }
 }
 
@@ -347,15 +347,15 @@ void VRMLLoader::beginNode(const Char8 *szNodeTypename,
     
     if(szNodename == NULL)
     {
-        PLOG << "NULL" << endl;
+        PLOG << "NULL" << std::endl;
     }
     else
     {
-        PLOG << szNodename << endl;
+        PLOG << szNodename << std::endl;
     }
 
     doIndent(PLOG);
-    PLOG << "{" << endl;
+    PLOG << "{" << std::endl;
 #else
     doIndent(PLOG);
 #endif
@@ -390,7 +390,7 @@ void VRMLLoader::beginNode(const Char8 *szNodeTypename,
     {
         PWARNING << "Could not create node with type " 
                  << szNodeTypename 
-                 << endl;
+                 << std::endl;
     }
 }
 
@@ -400,7 +400,7 @@ void VRMLLoader::endNode(void)
 
 #ifdef DEBUG_WRL
     doIndent(PLOG);
-    PLOG << "}" << endl;
+    PLOG << "}" << std::endl;
 #else
     doIndent(PLOG);
 #endif
@@ -435,11 +435,11 @@ void VRMLLoader::use(const Char8 *szName)
 
     if(szName != NULL)
     {
-        PLOG << szName << endl;
+        PLOG << szName << std::endl;
     }
     else
     {
-        PLOG << "NULL" << endl;
+        PLOG << "NULL" << std::endl;
     }
 #else
     doIndent(PLOG);
@@ -488,7 +488,7 @@ void VRMLLoader::beginField(const Char8 *szFieldname,
              << _pCurrentField 
              << " " 
              << _pCurrentFieldDesc
-             << endl;
+             << std::endl;
 #endif
 
         if(_pCurrentFieldDesc != NULL)
@@ -502,7 +502,7 @@ void VRMLLoader::beginField(const Char8 *szFieldname,
 
 #ifdef DEBUG_WRL
     doIndent(PLOG);
-    PLOG << "(" << endl;
+    PLOG << "(" << std::endl;
 #else
     doIndent(PLOG);
 #endif
@@ -516,7 +516,7 @@ void VRMLLoader::endField(void)
 
 #ifdef DEBUG_WRL
     doIndent(PLOG);
-    PLOG << "}" << endl;
+    PLOG << "}" << std::endl;
 #else
     doIndent(PLOG);
 #endif
@@ -579,7 +579,12 @@ UInt32 VRMLLoader::getFieldType(const Char8 *szFieldname)
 
 #ifdef DEBUG_WRL
         doIndent(PLOG);
-        PLOG << "Get field " << szFieldname << " " << pField << " " << endl;
+        PLOG << "Get field "
+             << szFieldname 
+             << " " 
+             << pField 
+             << " " 
+             << std::endl;
 #else
         doIndent(PLOG);
 #endif

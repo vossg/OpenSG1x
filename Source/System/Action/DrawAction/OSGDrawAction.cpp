@@ -53,6 +53,9 @@
 #include "OSGAction.h"
 #include "OSGDrawAction.h"
 
+#include <OSGGL.h>
+#include <OSGVolumeDraw.h>
+
 OSG_USING_NAMESPACE
 
 /***************************************************************************\
@@ -227,6 +230,29 @@ Action::ResultE DrawAction::start( void )
     _lightCount = 0;
     
     return Continue;
+}
+
+bool DrawAction::isVisible( Node* node )
+{
+    if ( getFrustumCulling() == false )
+        return true;
+        
+    getStatistics()->getElem(statCullTestedNodes)->inc();
+    
+    DynamicVolume vol;
+    node->getWorldVolume( vol );
+
+    if ( _frustum.intersect( vol ) )
+    {
+// fprintf(stderr,"%p: node 0x%p vis\n", Thread::getCurrent(), node);
+        return true;
+    }
+    
+    getStatistics()->getElem(statCulledNodes)->inc();
+
+// fprintf(stderr,"%p: node 0x%p invis\n", Thread::getCurrent(), node);
+// _frustum.dump();            
+    return false;
 }
 
 /*-------------------------- assignment -----------------------------------*/

@@ -282,33 +282,6 @@ void DrawActionBase::setFrustum(FrustumVolume &frustum)
     _frustum = frustum;
 }
 
-/*---------------------------- properties ---------------------------------*/
-
-/*---------------------------- culling ------------------------------------*/
-
-bool DrawActionBase::isVisible( Node* node )
-{
-    if ( getFrustumCulling() == false )
-        return true;
-        
-    getStatistics()->getElem(statCullTestedNodes)->inc();
-    
-    DynamicVolume vol;
-    node->getWorldVolume( vol );
-
-    if ( _frustum.intersect( vol ) )
-    {
-// fprintf(stderr,"%p: node 0x%p vis\n", Thread::getCurrent(), node);
-        return true;
-    }
-    
-    getStatistics()->getElem(statCulledNodes)->inc();
-
-// fprintf(stderr,"%p: node 0x%p invis\n", Thread::getCurrent(), node);
-// _frustum.dump();            
-    return false;
-}
-
 // select all visible nodes
 UInt32 DrawActionBase::selectVisibles( void )
 {
@@ -347,6 +320,10 @@ UInt32 DrawActionBase::selectVisibles( void )
     return count;
 }
 
+
+/*---------------------------- properties ---------------------------------*/
+
+/*---------------------------- culling ------------------------------------*/
 
 /*-------------------------- assignment -----------------------------------*/
 

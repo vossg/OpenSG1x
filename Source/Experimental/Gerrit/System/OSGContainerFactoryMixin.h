@@ -382,7 +382,7 @@ class ContainerStoreFactoryMixin : public ParentT
     typedef typename Desc  ::ContainerPtrT     ContainerPtr;
 
 
-    typedef          vector<ContainerPtr     > ContainerStore;
+    typedef          std::vector<ContainerPtr> ContainerStore;
     typedef typename ContainerStore::iterator  ContainerStoreIt;
 
     //-----------------------------------------------------------------------

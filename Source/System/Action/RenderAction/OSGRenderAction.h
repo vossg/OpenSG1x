@@ -152,6 +152,11 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
 
     void setSortTrans(bool bVal);
 
+    /*------------------------- comparison ----------------------------------*/
+
+    // test a single node
+    bool            isVisible( Node* node );
+    
   protected:
 
     //-----------------------------------------------------------------------

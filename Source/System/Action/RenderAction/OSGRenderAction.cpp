@@ -68,6 +68,7 @@
 #include <OSGLight.h>
 
 #include <OSGGL.h>
+#include <OSGVolumeDraw.h>
 
 OSG_USING_NAMESPACE
 
@@ -604,6 +605,35 @@ void RenderAction::dropLight(Light *pLight)
     }
 }
 
+bool RenderAction::isVisible( Node* node )
+{
+    if ( getFrustumCulling() == false )
+        return true;
+        
+    getStatistics()->getElem(statCullTestedNodes)->inc();
+    
+    DynamicVolume vol;
+
+//    node->getWorldVolume( vol );
+
+    node->updateVolume();
+    vol = node->getVolume();
+
+    vol.transform(top_matrix());
+
+    if ( _frustum.intersect( vol ) )
+    {
+// fprintf(stderr,"%p: node 0x%p vis\n", Thread::getCurrent(), node);
+        return true;
+    }
+    
+    getStatistics()->getElem(statCulledNodes)->inc();
+
+// fprintf(stderr,"%p: node 0x%p invis\n", Thread::getCurrent(), node);
+// _frustum.dump();            
+    return false;
+}
+
 /*-------------------------- your_category---------------------------------*/
 
 void RenderAction::dump(DrawTreeNode *pRoot, UInt32 uiIndent)
@@ -656,6 +686,8 @@ void RenderAction::draw(DrawTreeNode *pRoot)
         _uiActiveMatrix = uiNextMatrix;
 
         _uiNumMatrixChanges++;
+
+        _currMatrix.second = pRoot->getMatrixStore().second;
 
 #ifdef PRINT_MAT
         fprintf(stderr, "pushed to gl %d\n", _uiActiveMatrix);

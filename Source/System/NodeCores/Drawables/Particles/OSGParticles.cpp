@@ -1318,6 +1318,7 @@ struct drawViewerQuads : public ParticlesDrawer
             action->getActNode()->getToWorld(toworld);
         }
 
+
         // normalize them, we don't want to neutralize scales in toworld
         toworld[0].normalize();
         toworld[1].normalize();
@@ -2148,12 +2149,9 @@ Action::ResultE Particles::doDraw(DrawActionBase * action)
             {
                 action->getActNode()->getToWorld(toworld);
             }
-            
-/*
-            action->getCamera()->getBeacon()->getToWorld(
-                                                modelview);
-            action->getActNode()->getToWorld(toworld);
-            */
+
+//            action->getCamera()->getBeacon()->getToWorld(modelview);
+//            action->getActNode()->getToWorld(toworld);
 
             toworld.invert();
             modelview.mult(toworld);

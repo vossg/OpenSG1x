@@ -59,7 +59,7 @@ class OSG_VRML_DLLMAPPING VRMLSceneFileType : public SceneFileType
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef vector<FieldContainerPtr> FCPtrStore;
+    typedef std::vector<FieldContainerPtr> FCPtrStore;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Class Get                                  */

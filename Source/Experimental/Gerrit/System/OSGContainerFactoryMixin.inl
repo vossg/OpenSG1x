@@ -139,13 +139,13 @@ bool ContainerFactoryMixin<FactoryDescT>::initialize(void)
     if(_bInitialized == true)
         return true;
 
-    PINFO << "init singleton " << _szName.str() << endl;
+    PINFO << "init singleton " << _szName.str() << std::endl;
 
     _pVecLock   = ThreadManager::the()->getLock(Desc::getMapLockName());
     
     addRefP(_pVecLock);
 
-    PINFO << "Got map   lock " << _pVecLock   << endl;    
+    PINFO << "Got map   lock " << _pVecLock   << std::endl;    
 
     _bInitialized = (_pVecLock != NULL);
 
@@ -160,7 +160,7 @@ bool ContainerFactoryMixin<FactoryDescT>::initialize(void)
 template <class FactoryDescT> inline
 bool ContainerFactoryMixin<FactoryDescT>::terminate(void)
 {
-    PINFO << "terminate singleton " << _szName.str() << endl;
+    PINFO << "terminate singleton " << _szName.str() << std::endl;
 
     if(_bInitialized == false)
         return true;
@@ -184,7 +184,7 @@ bool ContainerFactoryMixin<FactoryDescT>::onLoadInitialize(void)
     if(_bInitialized == false)
         return false;
 
-    PINFO << _szName.str() << " init pending types" << endl;
+    PINFO << _szName.str() << " init pending types" << std::endl;
 
     if(_pVecLock != NULL)
         _pVecLock->aquire();
@@ -230,7 +230,7 @@ bool ContainerFactoryMixin<FactoryDescT>::onLoadInitialize(void)
              << "|"
              << _mTypeIdMap.size()
              << ")" 
-             << endl;
+             << std::endl;
 
     return returnValue;
 }
@@ -487,7 +487,7 @@ bool ContainerStoreFactoryMixin<ParentT>::initialize(void)
         
     addRefP(_pStoreLock);
 
-    PINFO << "Got store lock " << _pStoreLock << endl;    
+    PINFO << "Got store lock " << _pStoreLock << std::endl;    
 
     _bInitialized = (_pStoreLock != NULL);
 
