@@ -89,23 +89,14 @@ DynamicVolume::DynamicVolume ( Type type)
 DynamicVolume::DynamicVolume(const DynamicVolume &obj) :
     _type(obj._type)
 {
-	switch ( _type ) 
-	{
-        case BOX_VOLUME:
-            new (_volumeMem) 
-               BoxVolume(*((OSG::BoxVolume*)(obj._volumeMem)));
+	switch ( _type ) {
+	case BOX_VOLUME:
+		new (_volumeMem) BoxVolume(*((OSG::BoxVolume*)(obj._volumeMem)));
+		break;	
+	case SPHERE_VOLUME:
+		new (_volumeMem) SphereVolume(*((OSG::SphereVolume*)(obj._volumeMem)));
 		break;
-        
-        case SPHERE_VOLUME:
-            new (_volumeMem) 
-               SphereVolume(*((OSG::SphereVolume*)(obj._volumeMem)));
-		break;
-
-        case CYLINDER_VOLUME:
-            new (_volumeMem)
-               CylinderVolume(*((OSG::CylinderVolume*)(obj._volumeMem)));
-		break;
-	}	
+	}
 }
 
 /*------------------------------ feature ----------------------------------*/
@@ -121,27 +112,33 @@ void DynamicVolume::setVolumeType ( Type type )
 	case SPHERE_VOLUME:
 		new (_volumeMem) SphereVolume;
 		break;
-	case CYLINDER_VOLUME:
-		new (_volumeMem) CylinderVolume;
-		break;
 	}
 }
 
 void DynamicVolume::morphToType ( Type type )
 {
-	// TODO optimize;
+	Pnt3f min,max;
+	Vec3f vec;
+	BoxVolume *bv;
+	SphereVolume *sv;
 
-	switch (getType()) {
-	case BOX_VOLUME:
-		new (_volumeMem) BoxVolume;
-		break;
-	case SPHERE_VOLUME:
-		new (_volumeMem) SphereVolume;
-		break;
-	case CYLINDER_VOLUME:
-		new (_volumeMem) CylinderVolume;
-		break;
-	}
+	if (type == _type)
+		return;
+	else	
+		switch (getType()) {
+		case BOX_VOLUME:
+			getBounds(min,max);
+			bv = new (_volumeMem) BoxVolume;
+			bv->setBounds(min,max);
+			break;
+		case SPHERE_VOLUME:
+			getBounds(min,max);
+			sv = new (_volumeMem) SphereVolume;
+			vec.setValues(max.x(),max.y(),max.z());
+			vec -= Vec3f(min.x(),min.y(),min.z());
+			sv->setValue(vec,vec.length()/2);
+			break;
+		}
 }
 		
 OSG_BASE_DLLMAPPING
@@ -158,16 +155,13 @@ DynamicVolume & DynamicVolume::operator = (const DynamicVolume &source)
 	switch ( _type ) 
 	{
 	case BOX_VOLUME:
-		new (_volumeMem) BoxVolume( *((OSG::BoxVolume*)(source._volumeMem)) );
+		new (_volumeMem)BoxVolume( *((OSG::BoxVolume*)(source._volumeMem)));
 		break;
 	case SPHERE_VOLUME:
-		new (_volumeMem) SphereVolume( *((OSG::SphereVolume*)(source._volumeMem)) );
+		new (_volumeMem)SphereVolume( *((OSG::SphereVolume*)(source._volumeMem)));
 		break;
-	case CYLINDER_VOLUME:
-		new (_volumeMem) CylinderVolume( *((OSG::CylinderVolume*)(source._volumeMem)) );
-		break;
-	}	
-	
+	}
+
 	return *this;
 }
 

@@ -75,7 +75,7 @@ public:
     //   enums                                                               
     //-----------------------------------------------------------------------
 
-	enum Type { BOX_VOLUME, SPHERE_VOLUME, CYLINDER_VOLUME };    
+	enum Type { BOX_VOLUME, SPHERE_VOLUME };    
 
 private:
 
@@ -93,7 +93,7 @@ private:
 
 	Type _type;
 
-	UChar8 _volumeMem [36];
+	UChar8 _volumeMem [32];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
