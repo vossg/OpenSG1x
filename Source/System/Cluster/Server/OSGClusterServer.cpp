@@ -47,6 +47,7 @@
 #include "OSGDgramSocket.h"
 #include "OSGClusterWindow.h"
 #include "OSGBinaryMessage.h"
+#include "OSGClusterNetwork.h"
 
 OSG_USING_NAMESPACE
 
@@ -89,7 +90,8 @@ ClusterServer::ClusterServer(        WindowPtr    window,
                                         UInt32    servicePort):
     _window(window),
     _connection(NULL),
-    _address(address),
+    _requestAddress(address),
+    _boundAddress(""),
     _clusterWindow(),
     _aspect(NULL),
     _serviceName(serviceName),
@@ -109,10 +111,6 @@ ClusterServer::~ClusterServer(void)
 {
     try
     {
-        if(_clusterWindow != NullFC)
-        {
-            _clusterWindow = NullFC;
-        }
         if(_connection)
             delete _connection;
         if(_aspect)
@@ -149,7 +147,7 @@ void ClusterServer::start()
     _aspect = new RemoteAspect();
 
     // bind connection
-    _address = _connection->bind(_address);
+    _boundAddress = _connection->bind(_requestAddress);
 
     // start service proc
     _serviceAvailable=true;
@@ -157,7 +155,7 @@ void ClusterServer::start()
     serviceThread->runFunction( serviceProc, 0, (void *) (this) );
 
     // register interrest for all changed cluster windows
-    for(UInt32 i=0;i<OSG::TypeFactory::the()->getNumTypes();++i)
+    for(UInt32 i = 0; i < OSG::TypeFactory::the()->getNumTypes(); ++i)
     {
         fct=OSG::FieldContainerFactory::the()->findType(i);
         if(fct && fct->isDerivedFrom(ClusterWindow::getClassType()))
@@ -190,7 +188,7 @@ void ClusterServer::start()
         _connection->setNetworkOrder(forceNetworkOrder);
         _serviceAvailable=false;
 
-        SINFO << "Connection accepted " << _address << std::endl;
+        SINFO << "Connection accepted " << _boundAddress << std::endl;
 
         Thread::join(serviceThread);
     } 
@@ -201,40 +199,43 @@ void ClusterServer::start()
     }
 }
 
-
-/*! start server
- *
- * Start cluster server and wait for a client to connect. This method
- * will return after a client connection or an error situation.
+/*! Stop cluster server, remove current remote aspect and all its 
+    field containers.
  */
 void ClusterServer::stop()
 {
-    if(_clusterWindow!=NullFC)
+    // get aspect ownership
+    if(_clusterWindow != NullFC)
     {
-        _clusterWindow=NullFC;
+        _aspect=_clusterWindow->getNetwork()->getAspect();
+        _clusterWindow->getNetwork()->setAspect(NULL);
     }
-    if(_connection)
+    // destroy connection
+    try
     {
-        delete _connection;
-        _connection=NULL;
+        if(_connection)
+            delete _connection;
     }
+    catch(...)
+    {
+    }
+    // destroy aspect
     if(_aspect)
-    {
         delete _aspect;
-        _aspect=NULL;
-    }
+    // reset 
+    _connection=NULL;
+    _aspect=NULL;
+    _clusterWindow=NullFC;
 }
 
-/*! render server window
+/*! Synchronize all field containers with the client and call 
+ *  <code>serverInit</code>, <code>serverRender</code> and
+ *  <code>serverSwap</code> for the cluster window.
+ *  The cluster server uses the first synced ClusterWindow that 
+ *  contains the name of this server. <code>serverInit</code> is
+ *  called after the first ClusterWindow sync. 
  *
- * Synchronize all field containers with the client and call 
- * <code>serverInit</code>, <code>serverRender</code> and
- * <code>serverSwap</code> for the cluster window.
- * The cluster server uses the first synced ClusterWindow that 
- * contains the name of this server. <code>serverInit</code> is
- * called after the first ClusterWindow sync. 
- *
- * \todo Sync RenderAciton contents
+ *  \todo Sync RenderAciton contents
  */
 void ClusterServer::render(RenderAction *action)
 {
@@ -256,23 +257,23 @@ void ClusterServer::render(RenderAction *action)
         SINFO << "Start server " << _serviceName 
               << " with id "     << _serverId 
               << std::endl;
-        // initialize server window 
-        _clusterWindow->setConnection(_connection);
-        _clusterWindow->setRemoteAspect(_aspect);
+        // now the window is responsible for connection and aspect
+        _clusterWindow->getNetwork()->setMainConnection(_connection);
+        _clusterWindow->getNetwork()->setAspect        (_aspect);
+        _connection=NULL;
+        _aspect=NULL;
         _clusterWindow->serverInit(_window,_serverId);
     }
     // sync with render clinet
-    _aspect->receiveSync(*_connection);
+    _clusterWindow->getNetwork()->getAspect()->
+        receiveSync(*(_clusterWindow->getNetwork()->getMainConnection()));
     _clusterWindow->serverRender( _window,_serverId,action );
     _clusterWindow->serverSwap  ( _window,_serverId );
 }
 
-/*! clusterWindow changed callback
- *
- * this is a callback functor. It is called for each change of 
- * a ClusterWindow.
+/*! clusterWindow changed callback. This is a callback functor. 
+    It is called for each change of a ClusterWindow.
  */
-
 bool ClusterServer::windowChanged(FieldContainerPtr& fcp,
                                   RemoteAspect *)
 {
@@ -359,12 +360,12 @@ void ClusterServer::serviceProc(void *arg)
                     {
                         msg.clear    (                );
                         msg.putString(service         );
-                        msg.putString(server->_address);
+                        msg.putString(server->_boundAddress);
 
                         serviceSock.sendTo(msg, addr);
 
                         SINFO << "Response " 
-                              << server->_address 
+                              << server->_boundAddress 
                               << std::endl;
                     }
                 }

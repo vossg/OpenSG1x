@@ -53,52 +53,52 @@
 #include "OSGConnection.h"
 #include "OSGNode.h"
 
-
 OSG_USING_NAMESPACE
 
 /*! \class osg::MultiDisplayWindow
-Cluster rendering configuration for multible display
-*/
+ *  \ingroup GrpSystemCluster
+ *  \brief Cluster rendering configuration for multible display
+ */
 
 /*----------------------- constructors & destructors ----------------------*/
 
-//! Constructor
-
+/*! Constructor
+ */
 MultiDisplayWindow::MultiDisplayWindow(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
+/*! Copy Constructor
+ */
 MultiDisplayWindow::MultiDisplayWindow(const MultiDisplayWindow &source) :
     Inherited(source)
 {
 }
 
-//! Destructor
-
+/*! Destructor
+ */
 MultiDisplayWindow::~MultiDisplayWindow(void)
 {
 }
 
 /*----------------------------- class specific ----------------------------*/
 
-//! initialize the static features of the class, e.g. action callbacks
-
+/*! initialize the static features of the class, e.g. action callbacks
+ */
 void MultiDisplayWindow::initMethod (void)
 {
 }
 
-//! react to field changes
-
+/*! react to field changes
+ */
 void MultiDisplayWindow::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
 
-//! output the instance for debug purposes
-
+/*! output the instance for debug purposes
+ */
 void MultiDisplayWindow::dump(      UInt32    , 
                               const BitVector ) const
 {
@@ -113,12 +113,7 @@ void MultiDisplayWindow::dump(      UInt32    ,
  *  update all viewport parameters and render local viewports
  *  Width and height of the whole window are calculated by 
  *  multiplieing the local window size by hServers and vServers.
- *  
- *  !param window     server render window
- *  !param id         server id
- *  !param action     action
  */
-
 void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
                                        UInt32 id,
                                        RenderAction *action )
@@ -245,15 +240,16 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
 
 /*! swap server window
  */
-
 void MultiDisplayWindow::serverSwap( WindowPtr window,UInt32 id )
 {
+    Connection *connection=getNetwork()->getMainConnection();
+
     // clear command buffers
     glFinish();
     // tell client that we are finish
-    getConnection()->signal();
+    connection->signal();
     // wait for swap
-    getConnection()->wait();
+    connection->wait();
     Inherited::serverSwap(window,id);
 }
 
@@ -261,7 +257,6 @@ void MultiDisplayWindow::serverSwap( WindowPtr window,UInt32 id )
 
 /*! init client window
  */
-
 void MultiDisplayWindow::clientInit( void )
 {
     ViewportPtr cvp;
@@ -287,17 +282,17 @@ void MultiDisplayWindow::clientInit( void )
 
 /*! render client window
  */
-
 void MultiDisplayWindow::clientSwap( void )
 {
+    Connection *connection=getNetwork()->getMainConnection();
+
     // wait for all servers to finish
-    getConnection()->wait();
+    connection->wait();
     // initiate swap
-    getConnection()->signal();
+    connection->signal();
     // show client window 
     Inherited::clientSwap();
 }
-
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

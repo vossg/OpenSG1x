@@ -107,7 +107,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
 
     WindowPtr         _window;
     Connection       *_connection;
-    std::string       _address;
+    std::string       _requestAddress;
+    std::string       _boundAddress;
     ClusterWindowPtr  _clusterWindow;
     RemoteAspect     *_aspect;
     std::string       _serviceName;

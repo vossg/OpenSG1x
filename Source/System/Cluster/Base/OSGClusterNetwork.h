@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,160 +36,107 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGCLUSTERWINDOW_H_
-#define _OSGCLUSTERWINDOW_H_
+#ifndef _CLUSTERCONNECTINFO_H_
+#define _CLUSTERCONNECTINFO_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGClusterWindowBase.h>
-#include <OSGStatCollector.h>
-#include <OSGStatElemTypes.h>
-#include <OSGClusterNetwork.h>
+#include <OSGSystemDef.h>
+#include <OSGBaseTypes.h>
+#include <OSGMemoryObject.h>
+
+#include <vector>
+#include <map>
 
 OSG_BEGIN_NAMESPACE
 
 class Connection;
-class ClusterServer;
 class RemoteAspect;
 
-class OSG_SYSTEMLIB_DLLMAPPING ClusterWindow : public ClusterWindowBase
+class OSG_SYSTEMLIB_DLLMAPPING ClusterNetwork : public MemoryObject
 {
-  private:
-
-    typedef ClusterWindowBase Inherited;
-
     /*==========================  PUBLIC  =================================*/
   public:
 
+    typedef std::vector<Connection *>         ConnectionsT;
+    typedef std::map<UInt32,ClusterNetwork *> ConnectionInfoMapT;
+
     /*---------------------------------------------------------------------*/
-    /*! \name                   window functions                           */
+    /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector whichField, 
-                         UInt32    origin    );
+    Connection      *getMainConnection  (void     );
+    Connection      *getConnection      (UInt32 id);
+    RemoteAspect    *getAspect          (void     );
+    ConnectionsT    &getConnection      (void     );
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Set                                     */
+    /*! \{                                                                 */
+
+    void setAspect         (RemoteAspect *aspect            );
+    void setMainConnection (Connection *connection          );
+    void setConnection     (UInt32 id,Connection *connection);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                     Output                                   */
+    /*! \name                   establish connection                       */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0, 
-                      const BitVector  bvFlags  = 0) const;
+    void connectAll(           UInt32  id,
+                               UInt32  servers,
+                    const std::string &connectionType,
+                    const std::string &localAddress);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name            GL implementation functions                       */
+    /*! \name                  static access                               */
     /*! \{                                                                 */
 
-    virtual void    (*getFunctionByName ( const Char8 *s ))();
+    static ClusterNetwork *getInstance(UInt32 ClusterWindowId);
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name      Window system implementation functions                  */
-    /*! \{                                                                 */
-
-    virtual void    activate          ( void                        );
-    virtual void    deactivate        ( void                        );
-    virtual void    swap              ( void                        );
-    virtual void    init              ( void                        );
-    virtual void    render            ( RenderAction *action = NULL );
-    virtual void    renderAllViewports( RenderAction *action = NULL );
-    virtual void    frameInit         ( void                        );
-    virtual void    frameExit         ( void                        );
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Statistics                                 */
-    /*! \{                                                                 */
-
-    StatCollector *getStatistics(void                  ) const;
-    void           setStatistics(StatCollector * stat  );
-
-    /*! \}                                                                 */
-
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    typedef MemoryObject Inherited;
+
     /*---------------------------------------------------------------------*/
-    /*! \name      client window funcitons                                 */
+    /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    virtual void clientInit              ( void                        );
-    virtual void clientPreSync           ( void                        );
-    virtual void clientRender            ( RenderAction *action        );
-    virtual void clientSwap              ( void                        );
+    ClusterNetwork(UInt32 clusterWindowId);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name      server window funcitons                                 */
+    /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual void serverInit              ( WindowPtr window,UInt32 id  );
-    virtual void serverRender            ( WindowPtr window,UInt32 id,
-                                           RenderAction *action        );
-    virtual void serverSwap              ( WindowPtr window,UInt32 id  );
-
-    /*! \}                                                                 */
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                  Constructors / Destructor                   */
-    /*! \{                                                                 */
-
-    ClusterWindow(void);
-    ClusterWindow(const ClusterWindow &source);
-    virtual ~ClusterWindow(void); 
+    virtual ~ClusterNetwork(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name               connection pool                                */
+    /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    ClusterNetwork *getNetwork(void);
+    RemoteAspect             *_aspect;
+    Connection               *_mainConnection;
+    ConnectionsT              _connection;
+    UInt32                    _id;
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name               unsynced thread variables                      */
-    /*! \{                                                                 */
-
-    bool               _firstFrame;
-    StatCollector     *_statistics;
-
-    /*! \}                                                                 */
-
     /*==========================  PRIVATE  ================================*/
   private:
-    /*---------------------------------------------------------------------*/
-    /*! \name               private members                                */
-    /*! \{                                                                 */
+    ClusterNetwork(const ClusterNetwork &source);
+    ClusterNetwork &operator =(const ClusterNetwork &source);
 
-    ClusterNetwork    *_network;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name              init method                                     */
-    /*! \{                                                                 */
-
-    static void initMethod(void);
-
-    /*! \}                                                                 */
-    friend class FieldContainer;
-    friend class ClusterWindowBase;
-    friend class ClusterServer;
-    friend class ClusterClient;
-
-    // prohibit default functions (move to 'public' if you need one)
-    void operator =(const ClusterWindow &source);
+    static ConnectionInfoMapT _map;
 };
-
-typedef ClusterWindow *ClusterWindowP;
 
 OSG_END_NAMESPACE
 
-#include <OSGClusterWindow.inl>
-#include <OSGClusterWindowBase.inl>
+#define OSG_CLUSTERCONNECTINFOHEADER_CVSID "@(#)$Id:$"
 
-#define OSGCLUSTERWINDOW_HEADER_CVSID "@(#)$Id: $"
-
-#endif /* _OSGCLUSTERWINDOW_H_ */
+#endif /* _CLUSTERCONNECTINFO_H_ */

@@ -63,8 +63,9 @@ ClusterViewBuffer SortFirstWindow::_bufferHandler;
 // #define USE_VPORT_SLICES
 
 /*! \class osg::SortFirstWindow
-Cluster rendering configuration for sort first image composition
-*/
+ *  \ingroup GrpSystemCluster
+ *  \brief Cluster rendering configuration for sort first image composition
+ */
 
 /*----------------------- constructors & destructors ----------------------*/
 
@@ -132,7 +133,7 @@ void SortFirstWindow::serverInit( WindowPtr serverWindow,
 #else
     UInt32 sync;
     RenderNode renderNode;
-    Connection *connection=getConnection();
+    Connection *connection=getNetwork()->getMainConnection();
 
     // create cluster node information
     // get performance
@@ -250,7 +251,7 @@ void SortFirstWindow::serverRender( WindowPtr serverWindow,
         {
             // send image
             _bufferHandler.send(
-                *getConnection(),
+                *getNetwork()->getMainConnection(),
                 ClusterViewBuffer::RGB,
                 vp->getPixelLeft(),
                 vp->getPixelBottom(),
@@ -268,8 +269,9 @@ void SortFirstWindow::serverSwap( WindowPtr window,
 {
     if(!getCompose())
     {
-        getConnection()->signal();
-        getConnection()->wait();
+        Connection *connection=getNetwork()->getMainConnection();
+        connection->signal();
+        connection->wait();
     }
     window->swap();
 }
@@ -286,7 +288,7 @@ void SortFirstWindow::clientInit( void )
 #else
     UInt32 id;
     RenderNode renderNode;
-    Connection *connection = getConnection();
+    Connection *connection = getNetwork()->getMainConnection();
 
     _tileLoadBalancer=new TileLoadBalancer(getUseFaceDistribution());
     // read all node infos
@@ -400,7 +402,7 @@ void SortFirstWindow::clientRender( RenderAction *  /* action */ )
 void SortFirstWindow::clientSwap( void )
 {
     UInt32 cv;
-    Connection *connection=getConnection();
+    Connection *connection=getNetwork()->getMainConnection();
     if(getCompose())
     {
         if(getClientWindow()!=NullFC)

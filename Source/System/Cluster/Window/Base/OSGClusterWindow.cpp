@@ -53,11 +53,12 @@
 #include "OSGBinaryMessage.h"
 #include "OSGRemoteAspect.h"
 #include "OSGConnectionFactory.h"
+#include "OSGClusterNetwork.h"
 
 OSG_USING_NAMESPACE
 
 /** \class osg::ClusterWindow
- *  \ingroup Cluster
+ *  \ingroup GrpSystemCluster
  *  \brief Abstract base class for cluster configurations
  *
  * A ClusterWindow describes a clustering algorithm. A ClusterWindow
@@ -68,71 +69,8 @@ OSG_USING_NAMESPACE
  *
  **/
 
-std::map<UInt32, Connection  *> ClusterWindow::_connection   = 
-    std::map<UInt32, Connection   *>();
-std::map<UInt32, RemoteAspect*> ClusterWindow::_remoteAspect =
-    std::map<UInt32, RemoteAspect *>();
-
-/*----------------------- constructors & destructors ----------------------*/
-
-//! Constructor
-
-ClusterWindow::ClusterWindow(void) :
-     Inherited(),
-    _firstFrame(true),
-    _connectionAndAspectOwner(false),
-    _statistics(NULL)
-{
-}
-
-//! Copy Constructor
-
-ClusterWindow::ClusterWindow(const ClusterWindow &source) :
-    Inherited(source),
-    _firstFrame(true),
-    _connectionAndAspectOwner(false),
-    _statistics(NULL)
-{
-}
-
-//! Destructor
-
-ClusterWindow::~ClusterWindow(void)
-{
-    ClusterWindowPtr ptr(this);
-    if(_connectionAndAspectOwner)
-    {
-        std::map<UInt32, Connection *>::iterator cI=
-            _connection.find(ptr.getFieldContainerId());
-
-        if(cI!=_connection.end())
-        {
-            if(cI->second)
-                delete cI->second;
-
-            _connection.erase(cI);
-        }
-
-        std::map<UInt32, RemoteAspect *>::iterator aI=
-            _remoteAspect.find(ptr.getFieldContainerId());
-
-        if(aI!=_remoteAspect.end())
-        {
-            if(aI->second)
-                delete aI->second;
-
-            _remoteAspect.erase(aI);
-        }
-    }
-}
-
-/*----------------------------- class specific ----------------------------*/
-
-//! initialize the static features of the class, e.g. action callbacks
-
-void ClusterWindow::initMethod (void)
-{
-}
+/*-------------------------------------------------------------------------*/
+/*                          window functions                               */
 
 //! react to field changes
 
@@ -164,13 +102,11 @@ void ClusterWindow::init( void )
     int i;
     MFString::iterator s;
 
-    if(getConnection())
+    if(getNetwork()->getMainConnection())
     {
         SWARNING << "init called twice" << std::endl;
         return;
     }
-    // delete on destroy
-    _connectionAndAspectOwner=true;
     // create connection
     if(getConnectionType().empty())
     {
@@ -183,10 +119,10 @@ void ClusterWindow::init( void )
                << getConnectionType() 
                << std::endl;
     }
-    setConnection(connection);
+    getNetwork()->setMainConnection(connection);
     // create remote aspect
     remoteAspect = new RemoteAspect();
-    setRemoteAspect(remoteAspect);
+    getNetwork()->setAspect(remoteAspect);
     if(_statistics)
         remoteAspect->setStatistics(_statistics);
 
@@ -292,7 +228,7 @@ void ClusterWindow::deactivate( void )
 
 void ClusterWindow::swap( void )
 {
-    if(getConnection() && getRemoteAspect())
+    if(getNetwork()->getMainConnection() && getNetwork()->getAspect())
     {
         clientSwap();
     }
@@ -300,7 +236,7 @@ void ClusterWindow::swap( void )
 
 void ClusterWindow::renderAllViewports( RenderAction *action )
 {
-    if(getConnection() && getRemoteAspect())
+    if(getNetwork()->getMainConnection() && getNetwork()->getAspect())
     {
         clientRender(action);
     }
@@ -308,8 +244,8 @@ void ClusterWindow::renderAllViewports( RenderAction *action )
 
 void ClusterWindow::frameInit(void)
 {
-    Connection   *connection  =getConnection();
-    RemoteAspect *remoteAspect=getRemoteAspect();
+    Connection   *connection  =getNetwork()->getMainConnection();
+    RemoteAspect *remoteAspect=getNetwork()->getAspect();
 
     if(remoteAspect && connection)
     {
@@ -326,7 +262,7 @@ void ClusterWindow::frameInit(void)
             // last chance to modifie before sync
             clientPreSync();
             // send sync
-            getRemoteAspect()->sendSync(*connection);
+            getNetwork()->getAspect()->sendSync(*connection);
             cl.merge(*Thread::getCurrentChangeList());
             Thread::getCurrentChangeList()->clearAll();
             Thread::getCurrentChangeList()->merge(cl);
@@ -344,58 +280,23 @@ void ClusterWindow::frameExit(void)
 {
 }
 
-/*-------------------------- connection and aspect access -----------------*/
-
-Connection   *ClusterWindow::getConnection   ( void )
-{
-    std::map<UInt32, Connection *>::iterator cI=
-        _connection.find( ClusterWindowPtr(this).getFieldContainerId() );
-    if(cI!=_connection.end())
-        return cI->second;
-    else
-        return NULL;
-}
-
-void ClusterWindow::setConnection ( Connection *connection )
-{
-    _connection[ ClusterWindowPtr(this).getFieldContainerId() ] = 
-        connection;
-}
-
-RemoteAspect *ClusterWindow::getRemoteAspect ( void )
-{
-    std::map<UInt32, RemoteAspect *>::iterator aI=
-        _remoteAspect.find( ClusterWindowPtr(this).getFieldContainerId() );
-    if(aI!=_remoteAspect.end())
-        return aI->second;
-    else
-        return NULL;
-}
-
-void ClusterWindow::setRemoteAspect ( RemoteAspect *aspect )
-{
-    _remoteAspect[ ClusterWindowPtr(this).getFieldContainerId() ] = 
-        aspect;
-}
-
-/*-------------------------- statistics -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                          statistics                                     */
 
 void ClusterWindow::setStatistics(StatCollector *statistics)
 {
     _statistics = statistics;
-    if(getRemoteAspect())
-        getRemoteAspect()->setStatistics(statistics);
+    if(getNetwork()->getAspect())
+        getNetwork()->getAspect()->setStatistics(statistics);
 }
 
-/*----------------------------- client methods ----------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                         client methods                                  */
 
-/** init client window
- *  
- * In a derived cluster window this method is called before the first
- * sync with the rendering servers. There is no default action.
- *  
- **/
-
+/*! init client window. In a derived cluster window this method is called
+ *  before the first sync with the rendering servers. There is no default 
+ *  action.
+ */
 void ClusterWindow::clientInit( void )
 {
 }
@@ -446,7 +347,8 @@ void ClusterWindow::clientSwap( void )
     }
 }
 
-/*----------------------------- server methods ----------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                         server methods                                  */
 
 /** initialise the cluster window on the server side
  *  
@@ -490,14 +392,65 @@ void ClusterWindow::serverRender( WindowPtr window,
  * !param id         server id
  * !param connection connection to client
  **/
-
-void ClusterWindow::serverSwap        ( WindowPtr window,
-                                        UInt32 )
+void ClusterWindow::serverSwap( WindowPtr window,
+                                UInt32 )
 {
     window->swap();
     window->frameExit();
 }
 
+/*-------------------------------------------------------------------------*/
+/*                         constructor / destructor                        */
+
+//! Constructor
+
+ClusterWindow::ClusterWindow(void) :
+     Inherited(),
+    _firstFrame(true),
+     _statistics(NULL),
+    _network(NULL)
+{
+}
+
+//! Copy Constructor
+
+ClusterWindow::ClusterWindow(const ClusterWindow &source) :
+    Inherited(source),
+    _firstFrame(true),
+    _statistics(NULL),
+    _network(NULL)
+{
+}
+
+//! Destructor
+
+ClusterWindow::~ClusterWindow(void)
+{
+    if(_network)
+        subRefP(_network);
+}
+
+/*-------------------------------------------------------------------------*/
+/*                           connection pool                               */
+
+/*! Get connection pool
+ */
+ClusterNetwork *ClusterWindow::getNetwork(void)
+{
+    if(!_network)
+    {
+        ClusterWindowPtr ptr(this);
+        _network=ClusterNetwork::getInstance(ptr.getFieldContainerId());
+        addRefP(_network);
+    }
+    return _network;
+}
+
+/*! initialize the static features of the class, e.g. action callbacks
+ */
+void ClusterWindow::initMethod (void)
+{
+}
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
