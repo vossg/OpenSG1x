@@ -45,6 +45,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <locale.h>
 
 #include <string.h>
 
@@ -160,6 +161,9 @@ static void osgExitWrapper(void)
 
 bool osgInit(Int32, Char8 **)
 {
+    // without it floats could be written as "1,456" ...
+    setlocale(LC_NUMERIC, "English");
+    
     UInt32 i;
     bool   returnValue = true;
 
