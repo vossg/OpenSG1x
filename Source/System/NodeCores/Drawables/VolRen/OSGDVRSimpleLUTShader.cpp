@@ -139,22 +139,28 @@ DVRSimpleLUTShader::DVRSimpleLUTShader(void) :
        Window::registerExtension("GL_NV_register_combiners"                  );
 
     _funcColorTableSGI        = 
-       Window::registerFunction (OSG_DLSYM_UNDERSCORE"glColorTableSGI"       );
+       Window::registerFunction (OSG_DLSYM_UNDERSCORE"glColorTableSGI",
+                                 _sgiTexColorTable);
 
     _funcColorTableEXT        = 
-       Window::registerFunction (OSG_DLSYM_UNDERSCORE"glColorTableEXT"       );
+       Window::registerFunction (OSG_DLSYM_UNDERSCORE"glColorTableEXT",
+                                 _sgiTexColorTable);
 
     _funcActiveTextureARB     = 
-       Window::registerFunction (OSG_DLSYM_UNDERSCORE"glActiveTextureARB"    );
+       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glActiveTextureARB",
+                                _arbMultitexture    );
 
     _funcFinalCombinerInputNV = 
-       Window::registerFunction (OSG_DLSYM_UNDERSCORE"glFinalCombinerInputNV");
+       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glFinalCombinerInputNV",
+                                _nvRegisterCombiners);
 
     _funcCombinerInputNV      = 
-       Window::registerFunction (OSG_DLSYM_UNDERSCORE"glCombinerInputNV"     );
+       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glCombinerInputNV",
+                                _nvRegisterCombiners);
 
     _funcCombinerOutputNV     = 
-       Window::registerFunction (OSG_DLSYM_UNDERSCORE"glCombinerOutputNV"    );
+       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glCombinerOutputNV",
+                                _nvRegisterCombiners);
 }
 
 //! Copy Constructor

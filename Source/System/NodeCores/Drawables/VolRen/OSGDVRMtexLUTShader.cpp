@@ -113,22 +113,28 @@ DVRMtexLUTShader::DVRMtexLUTShader(void) :
     
 
     _funcMultiTexCoord2dARB    = 
-      Window::registerFunction (OSG_DLSYM_UNDERSCORE"glMultiTexCoord2dARB"   );
+      Window::registerFunction (OSG_DLSYM_UNDERSCORE"glMultiTexCoord2dARB",
+                                _arbMultitexture);
 
     _funcCombinerParameteriNV  = 
-      Window::registerFunction (OSG_DLSYM_UNDERSCORE"glCombinerParameteriNV" );
+      Window::registerFunction (OSG_DLSYM_UNDERSCORE"glCombinerParameteriNV",
+                                _nvRegisterCombiners);
 
     _funcCombinerParameterfvNV = 
-      Window::registerFunction (OSG_DLSYM_UNDERSCORE"glCombinerParameterfvNV");
+      Window::registerFunction (OSG_DLSYM_UNDERSCORE"glCombinerParameterfvNV",
+                                _nvRegisterCombiners);
 
     _funcCombinerInputNV       = 
-      Window::registerFunction (OSG_DLSYM_UNDERSCORE"glCombinerInputNV"      );
+      Window::registerFunction (OSG_DLSYM_UNDERSCORE"glCombinerInputNV",
+                                _nvRegisterCombiners);
 
     _funcCombinerOutputNV      = 
-      Window::registerFunction (OSG_DLSYM_UNDERSCORE"glCombinerOutputNV"     );
+      Window::registerFunction (OSG_DLSYM_UNDERSCORE"glCombinerOutputNV",
+                                _nvRegisterCombiners);
 
     _funcFinalCombinerInputNV  = 
-      Window::registerFunction (OSG_DLSYM_UNDERSCORE"glFinalCombinerInputNV" );
+      Window::registerFunction (OSG_DLSYM_UNDERSCORE"glFinalCombinerInputNV",
+                                _nvRegisterCombiners);
 }
 
 //! Copy Constructor

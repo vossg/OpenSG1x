@@ -63,6 +63,7 @@ UInt32 DVRIsoShader::_NV_register_combiners  = Window::invalidExtensionID;
 UInt32 DVRIsoShader::_NV_register_combiners2 = Window::invalidExtensionID;
 UInt32 DVRIsoShader::_SGI_color_matrix       = Window::invalidExtensionID;
 UInt32 DVRIsoShader::_ARB_fragment_program   = Window::invalidExtensionID;
+UInt32 DVRIsoShader::_EXT_secondaryColor     = Window::invalidExtensionID;
 
 
 UInt32 DVRIsoShader::_funcActiveTextureARB            =  
@@ -120,6 +121,9 @@ DVRIsoShader::DVRIsoShader(void) :
     _EXT_texture3D          = 
         Window::registerExtension("GL_EXT_texture3D"         );
 
+    _EXT_secondaryColor     = 
+        Window::registerExtension("GL_EXT_secondaryColor"    );
+
     _NV_register_combiners  = 
         Window::registerExtension("GL_NV_register_combiners" );
 
@@ -134,38 +138,49 @@ DVRIsoShader::DVRIsoShader(void) :
 
 
     _funcActiveTextureARB            =  
-       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glActiveTextureARB"     );
+       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glActiveTextureARB",    
+                                _ARB_multitexture);
 
     _funcMultiTexCoord2dARB          = 
-       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glMultiTexCoord2dARB"   );
+       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glMultiTexCoord2dARB",    
+                                _ARB_multitexture);
 
     _funcTexImage3DEXT               = 
-       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glTexImage3DEXT"        );
+       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glTexImage3DEXT",    
+                                _ARB_multitexture);
 
     _funcCombinerParameteriNV        = 
-       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glCombinerParameteriNV" );
+       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glCombinerParameteriNV",    
+                                _NV_register_combiners);
     
     _funcCombinerParameterfvNV       = 
-       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glCombinerParameterfvNV");
+       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glCombinerParameterfvNV",    
+                                _NV_register_combiners);
 
     _funcCombinerStageParameterfvNV  = 
        Window::registerFunction(
-           OSG_DLSYM_UNDERSCORE"glCombinerStageParameterfvNV");
+           OSG_DLSYM_UNDERSCORE"glCombinerStageParameterfvNV",    
+                                _NV_register_combiners);
 
     _funcSecondaryColor3fEXT         = 
-       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glSecondaryColor3fEXT"  );
+       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glSecondaryColor3fEXT",    
+                                _EXT_secondaryColor);
 
     _funcSecondaryColor3fvEXT        = 
-       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glSecondaryColor3fvEXT" );
+       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glSecondaryColor3fvEXT",    
+                                _EXT_secondaryColor);
 
     _funcCombinerInputNV             = 
-       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glCombinerInputNV"      );
+       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glCombinerInputNV",    
+                                _NV_register_combiners);
 
     _funcCombinerOutputNV            = 
-       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glCombinerOutputNV"     );
+       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glCombinerOutputNV",    
+                                _NV_register_combiners);
 
     _funcFinalCombinerInputNV        = 
-       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glFinalCombinerInputNV" );
+       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glFinalCombinerInputNV",    
+                                _NV_register_combiners);
 
 }
 

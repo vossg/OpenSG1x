@@ -311,6 +311,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRIsoShader : public DVRIsoShaderBase
     // extension indices for used extensions
     static UInt32 _ARB_multitexture;
     static UInt32 _EXT_texture3D; 
+    static UInt32 _EXT_secondaryColor; 
 
     static UInt32 _NV_register_combiners;
     static UInt32 _NV_register_combiners2;
