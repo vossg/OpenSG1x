@@ -108,6 +108,7 @@ struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<DisplayP> :
 /*! \hideinhierarchy */
 #endif
 
+#if ! (defined(__GNUC__) && defined(__linux) && defined(__ia64))
 template <>
 struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<X11Window> : 
     public FieldTraitsRecurseBase<X11Window>
@@ -135,6 +136,7 @@ struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<X11Window> :
         outStr.assign("X11Window");
     }
 };
+#endif
 
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \class  FieldTraitsRecurseBase<X11Window> */
@@ -188,6 +190,8 @@ typedef SField<DisplayP> SFDisplayP;
 
 typedef MField<DisplayP> MFDisplayP;
 
+# if defined(__GNUC__) && defined(__linux) && defined(__ia64)
+
 /*! \ingroup GrpWindowXFieldSingle
  */
 
@@ -197,6 +201,20 @@ typedef SField<X11Window> SFX11Window;
  */
 
 typedef MField<X11Window> MFX11Window;
+
+#else
+
+/*! \ingroup GrpWindowXFieldSingle
+ */
+
+typedef SField<UInt64> SFX11Window;
+
+/*! \ingroup GrpWindowXFieldMulti
+ */
+
+typedef MField<UInt64> MFX11Window;
+
+#endif
 
 /*! \ingroup GrpWindowXFieldSingle
  */
@@ -227,3 +245,4 @@ OSG_END_NAMESPACE
 #define OSGWINDOWXFIELDS_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGXWINDOWDATAFIELDS_H_ */
+
