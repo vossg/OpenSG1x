@@ -34,6 +34,9 @@ The currently available contributions are
 - LinearCombinerGeometry:   Geometric morphing between objects
 - MayaExporter:             Plugin for Maya to export OpenSG geometry, plus 
                               helper classes for some deformation support
+- InventorLoader:           Use the Inventor library to load .iv files
+- VideoGrab:                Grab an applications graphics to a video file
+- WindowFOX:                Support for the FOX window toolkit
 
 
 If you want to contribute: great! Take a look at the existing contributions
@@ -47,4 +50,4 @@ at least want to see that it works and what it does. ;)
 
 
 The OpenSG Core
-2003/06/02
+2003/11/04
