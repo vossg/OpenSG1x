@@ -293,36 +293,36 @@ inline OSG_DLLEXPORT Log  &osgLog    (void);
 inline OSG_DLLEXPORT void  indentLog (UInt32 indent, ostream &stream);
 
 #define SLOG \
-osgLog() << __FILE__ << ':' << __LINE__ \
+OSG::osgLog() << __FILE__ << ':' << __LINE__ \
 << ':' << " log: " << endl << "  "
 
 #define SFATAL \
-osgLog().stream(OSG::LOG_FATAL) << __FILE__ << ':' << __LINE__ \
+OSG::osgLog().stream(OSG::LOG_FATAL) << __FILE__ << ':' << __LINE__ \
 << ':' << " fatal: " << endl << "  "
 
 #define SWARNING \
-osgLog().stream(OSG::LOG_WARNING) << __FILE__ << ':' << __LINE__ \
+OSG::osgLog().stream(OSG::LOG_WARNING) << __FILE__ << ':' << __LINE__ \
 << ':' << " warning: " << endl << "  "
 
 #define SNOTICE \
-osgLog().stream(OSG::LOG_NOTICE) << __FILE__ << ':' << __LINE__ \
+OSG::osgLog().stream(OSG::LOG_NOTICE) << __FILE__ << ':' << __LINE__ \
 << ':' << " notice: " << endl << "  "
 
 #define SINFO \
-osgLog().stream(OSG::LOG_INFO) << __FILE__ << ':' << __LINE__ \
+OSG::osgLog().stream(OSG::LOG_INFO) << __FILE__ << ':' << __LINE__ \
 << ':' << " info: " << endl << "  "
 
 #define SDEBUG \
-osgLog().stream(OSG::LOG_DEBUG) << __FILE__ << ':' << __LINE__ \
+OSG::osgLog().stream(OSG::LOG_DEBUG) << __FILE__ << ':' << __LINE__ \
 << ':' << " debug: " << endl << "  "
 
 
-#define PLOG     osgLog() 
-#define PFATAL   osgLog().stream(OSG::LOG_FATAL) 
-#define PWARNING osgLog().stream(OSG::LOG_WARNING) 
-#define PNOTICE  osgLog().stream(OSG::LOG_NOTICE)
-#define PINFO    osgLog().stream(OSG::LOG_INFO)
-#define PDEBUG   osgLog().stream(OSG::LOG_DEBUG)
+#define PLOG     OSG::osgLog() 
+#define PFATAL   OSG::osgLog().stream(OSG::LOG_FATAL) 
+#define PWARNING OSG::osgLog().stream(OSG::LOG_WARNING) 
+#define PNOTICE  OSG::osgLog().stream(OSG::LOG_NOTICE)
+#define PINFO    OSG::osgLog().stream(OSG::LOG_INFO)
+#define PDEBUG   OSG::osgLog().stream(OSG::LOG_DEBUG)
 
 
 // C interface, because it can be compiled away
@@ -331,58 +331,58 @@ osgLog().stream(OSG::LOG_DEBUG) << __FILE__ << ':' << __LINE__ \
 
 #define FLOG( par )												\
 {				                            \
-   initLog();										\
-   osgLogP->doLog( "%s:%d: log:\n  ",  __FILE__,  __LINE__ );		\
-   osgLogP->doLog par;												\
+   OSG::initLog();										\
+   OSG::osgLogP->doLog( "%s:%d: log:\n  ",  __FILE__,  __LINE__ );		\
+   OSG::osgLogP->doLog par;												\
 }
 
 #define FFATAL( par )											\
 {																	\
-  initLog();    \
-	if ( osgLogP->getLogLevel() >= OSG::LOG_FATAL )					\
+    OSG::initLog();    \
+	if ( OSG::osgLogP->getLogLevel() >= OSG::LOG_FATAL )					\
 	{																\
-    osgLogP->doLog( "%s:%d: fatal:\n  ",  __FILE__,  __LINE__ );	\
-    osgLogP->doLog par;											\
+    OSG::osgLogP->doLog( "%s:%d: fatal:\n  ",  __FILE__,  __LINE__ );	\
+    OSG::osgLogP->doLog par;											\
 	}																\
 }
 
 #define FWARNING( par )											\
 {																	\
-  initLog();         \
-	if ( osgLogP->getLogLevel() >= OSG::LOG_WARNING )					\
+    OSG::initLog();         \
+	if ( OSG::osgLogP->getLogLevel() >= OSG::LOG_WARNING )					\
 	{																\
-    osgLogP->doLog( "%s:%d: warning:\n  ",  __FILE__,  __LINE__ );\
-    osgLogP->doLog par;											\
+    OSG::osgLogP->doLog( "%s:%d: warning:\n  ",  __FILE__,  __LINE__ );\
+    OSG::osgLogP->doLog par;											\
 	}																\
 }
 
 #define FNOTICE( par )											\
 {																	\
-  initLog();         \
-	if ( osgLogP->getLogLevel() >= OSG::LOG_NOTICE )					\
+    OSG::initLog();         \
+	if ( OSG::osgLogP->getLogLevel() >= OSG::LOG_NOTICE )					\
 	{																\
-		osgLogP->doLog( "%s:%d: notice:\n  ",  __FILE__,  __LINE__ );	\
-		osgLogP->doLog par;											\
+		OSG::osgLogP->doLog( "%s:%d: notice:\n  ",  __FILE__,  __LINE__ );	\
+		OSG::osgLogP->doLog par;											\
 	}																\
 }
 
 #define FINFO( par )												\
 {																	\
-  initLog();         \
-	if ( osgLogP->getLogLevel() >= OSG::LOG_INFO )					\
+    OSG::initLog();         \
+	if ( OSG::osgLogP->getLogLevel() >= OSG::LOG_INFO )					\
 	{																\
-		osgLogP->doLog( "%s:%d: info:\n  ",  __FILE__,  __LINE__ );	\
-		osgLogP->doLog par;											\
+		OSG::osgLogP->doLog( "%s:%d: info:\n  ",  __FILE__,  __LINE__ );	\
+		OSG::osgLogP->doLog par;											\
 	}																\
 }
 
 #define FDEBUG( par )											\
 {																	\
-  initLog();         \
-	if ( osgLogP->getLogLevel() >= OSG::LOG_DEBUG )					\
+    OSG::initLog();         \
+	if ( OSG::osgLogP->getLogLevel() >= OSG::LOG_DEBUG )					\
 	{																\
-		osgLogP->doLog( "%s:%d: debug:\n  ",  __FILE__,  __LINE__ );	\
-		osgLogP->doLog par;											\
+		OSG::osgLogP->doLog( "%s:%d: debug:\n  ",  __FILE__,  __LINE__ );	\
+		OSG::osgLogP->doLog par;											\
 	}																\
 }
 
@@ -390,7 +390,7 @@ osgLog().stream(OSG::LOG_DEBUG) << __FILE__ << ':' << __LINE__ \
 {        \
 	if (!condition)  \
   {                \
-    osgLog().stream(OSG::LOG_FATAL) \
+    OSG::osgLog().stream(OSG::LOG_FATAL) \
       << __FILE__ << ':' << __LINE__ \
       << "FATAL ASSERT: " \
       << (doExit ? "exit system" : "try to keep running") \
@@ -404,12 +404,12 @@ osgLog().stream(OSG::LOG_DEBUG) << __FILE__ << ':' << __LINE__ \
 {        \
 	if (!condition)  \
   {                \
-    osgLog().stream(OSG::LOG_FATAL) \
+    OSG::osgLog().stream(OSG::LOG_FATAL) \
       << __FILE__ << ':' << __LINE__ \
       << "FATAL ASSERT: " \
       << (doExit ? "exit system" : "try to keep running") \
       << flush << endl; \
-	  osgLogP->doLog par \
+	  OSG::osgLogP->doLog par \
 	  if (doExit) \
 			exit(-1); \
 	} \

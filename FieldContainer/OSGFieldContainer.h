@@ -716,10 +716,10 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
 
 
 #define OSG_FC_CLONE_DECL                                               \
-    virtual FieldContainerPtr clone(void) const;
+    virtual OSG::FieldContainerPtr clone(void) const;
 
 #define OSG_FC_CLONE_DEF(OSG_CLASS, OSG_CLASS_PTR)                      \
-    FieldContainerPtr OSG_CLASS::clone(void) const                      \
+    OSG::FieldContainerPtr OSG_CLASS::clone(void) const                 \
     {                                                                   \
         OSG_CLASS_PTR returnValue;                                      \
                                                                         \
@@ -732,7 +732,7 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
                                   OSG_CLASS,                            \
                                   OSG_CLASS_PTR)                        \
     template <class OSG_TMPL_PARAM>                                     \
-    FieldContainerPtr OSG_CLASS<OSG_TMPL_PARAM>::clone(void) const      \
+    OSG::FieldContainerPtr OSG_CLASS<OSG_TMPL_PARAM>::clone(void) const \
     {                                                                   \
         OSG_CLASS_PTR returnValue;                                      \
                                                                         \
