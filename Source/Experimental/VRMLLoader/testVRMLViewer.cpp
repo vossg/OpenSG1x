@@ -52,6 +52,8 @@
 #include <OSGImageForeground.h>
 #include <OSGFileGrabForeground.h>
 #include <OSGStatCollector.h>
+#include <OSGSimpleAttachments.h>
+#include <OSGImage.h>
 
 #include <OSGOSGWriter.h>
 
@@ -240,13 +242,13 @@ void loadMesh(const char *, OSG::NodePtr )
     textTrans1[2] = meshCenter[2] + 
         (-0.8 * (meshMax[2] - meshMin[2]));
     
-    beginEditCP(pTextTransform1);
+    OSG::beginEditCP(pTextTransform1);
     {
         pTextTransform1->setScale      (textScale1);
         pTextTransform1->setRotation   (textRot1  );
         pTextTransform1->setTranslation(textTrans1);
     }
-    endEditCP  (pTextTransform1);
+    OSG::endEditCP  (pTextTransform1);
     
     dlight->addChild(pTextTrNode1);
     
@@ -297,13 +299,13 @@ void loadMesh(const char *, OSG::NodePtr )
         meshCenter[2] + (-0.8 * (meshMax[2] - meshMin[2])) +
         -1.2 * (text1Max[2] - text1Min[2]);
 
-    beginEditCP(pTextTransform2);
+    OSG::beginEditCP(pTextTransform2);
     {
         pTextTransform2->setScale      (textScale2);
         pTextTransform2->setRotation   (textRot2  );
         pTextTransform2->setTranslation(textTrans2);
     }
-    endEditCP  (pTextTransform2);
+    OSG::endEditCP  (pTextTransform2);
 
     dlight->addChild(pTextTrNode2);
 #endif
@@ -602,16 +604,16 @@ void display(void)
         
         if(pGrab != OSG::NullFC && pGrab->getActive() == true)
         {
-            beginEditCP(pGrab);
+            OSG::beginEditCP(pGrab);
             pGrab->setActive(false);
-            endEditCP(pGrab);
+            OSG::endEditCP(pGrab);
         }
         
         if(renderFrames == numFrames / 2 && pGrab != OSG::NullFC)
         {
-            beginEditCP(pGrab);
+            OSG::beginEditCP(pGrab);
             pGrab->setActive(true);
-            endEditCP(pGrab);
+            OSG::endEditCP(pGrab);
         }
     }   
 }
@@ -1230,7 +1232,7 @@ void addImageForeground(const char *szFilename)
 
     if(uiLogoCount < 2)
     {
-        OSG::ImageP pImage = new OSG::Image;
+        OSG::ImagePtr pImage = OSG::Image::create();
 
         pImage->read(szFilename);
 
@@ -1252,10 +1254,10 @@ void addGrabForeground(const char *szFilename)
         pGrab = OSG::FileGrabForeground::create();
     }
 
-    beginEditCP(pGrab);
+    OSG::beginEditCP(pGrab);
     pGrab->setActive(false);
     pGrab->setName(szFilename);    
-    endEditCP(pGrab);
+    OSG::endEditCP(pGrab);
     
 }
 /*-------------------------------------------------------------------------*/
@@ -1373,7 +1375,7 @@ void checkOptions( int argc, char** argv )
                     break;
                 case 'c':
                     hasAnimDuration = true;
-                    animDuration = atoi( optarg );
+                    animDuration = atof( optarg );
                     break;
                 case 'n':
                     setNear = atof( optarg );
