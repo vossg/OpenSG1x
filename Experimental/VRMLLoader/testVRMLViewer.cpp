@@ -10,7 +10,7 @@
 #include <map>
 #include <string>
 
-#include <GL/glut.h>
+#include <OSGGLUT.h>
 
 #include <OSGTime.h>
 #include <OSGFieldContainerPtr.h>
@@ -900,6 +900,13 @@ void printHelp()
          << "  Options:\n"
          << "    -a v2afile\toptional animation file in .v2a format.\n"
          << "    -c camspeed\tspeed for the camera during viewpoint change [0.0,10.0]\n"
+         << "    -n val\tnear clipping plane distance.\n"
+         << "    -b imagefile\tadd logo image.\n"
+         << "    -B color\tbackground color.\n"
+         << "    -d delta\tuse fixed animation delta.\n"
+         << "    -r \tautomatically run animation.\n"
+         << "    -f nframes\trender nframes frames and exit.\n"
+         << "    -s \trecord and print statistics information.\n"
          << "\n    If no -a option is specified the v2a file is automatically searched\n"
          << "    using the VRMLFILE basename (foo.wrl -> foo.v2a)\n\n"
          << "  Keys:\n"
