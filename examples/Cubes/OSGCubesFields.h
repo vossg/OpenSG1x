@@ -58,9 +58,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGConfig.h>
+#include <OpenSG/OSGConfig.h>
 
-#include <OSGFieldContainerPtr.h>
+#include <OpenSG/OSGFieldContainerPtr.h>
 #include "OSGMyLibDef.h"
 
 OSG_BEGIN_NAMESPACE

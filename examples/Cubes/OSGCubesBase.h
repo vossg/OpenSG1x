@@ -61,17 +61,17 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGConfig.h>
+#include <OpenSG/OSGConfig.h>
 
-#include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
+#include <OpenSG/OSGBaseTypes.h>
+#include <OpenSG/OSGFieldDescription.h>
+#include <OpenSG/OSGFieldContainer.h>
 #include "OSGMyLibDef.h"
-#include <OSGNodeCore.h>
-#include <OSGMaterialFields.h>	// Material type
-#include <OSGPnt3fFields.h>	// Position type
-#include <OSGReal32Fields.h>	// Length type
-#include <OSGColor3fFields.h>	// Color type
+#include <OpenSG/OSGNodeCore.h>
+#include <OpenSG/OSGMaterialFields.h>	// Material type
+#include <OpenSG/OSGPnt3fFields.h>	// Position type
+#include <OpenSG/OSGReal32Fields.h>	// Length type
+#include <OpenSG/OSGColor3fFields.h>	// Color type
 
 #include "OSGCubesFields.h"
 

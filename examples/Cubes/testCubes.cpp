@@ -1,4 +1,4 @@
-#include <OSGConfig.h>
+#include <OpenSG/OSGConfig.h>
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
@@ -8,32 +8,32 @@
 
 #include <GL/glut.h>
 
-#include <OSGVector.h>
-#include <OSGQuaternion.h>
-#include <OSGMatrix.h>
+#include <OpenSG/OSGVector.h>
+#include <OpenSG/OSGQuaternion.h>
+#include <OpenSG/OSGMatrix.h>
 
-#include <OSGNode.h>
-#include <OSGGroup.h>
-#include <OSGTransform.h>
+#include <OpenSG/OSGNode.h>
+#include <OpenSG/OSGGroup.h>
+#include <OpenSG/OSGTransform.h>
 
-#include <OSGAction.h>
-#include <OSGDrawAction.h>
+#include <OpenSG/OSGAction.h>
+#include <OpenSG/OSGDrawAction.h>
 
-#include <OSGDirectionalLight.h>
-#include <OSGSimpleMaterial.h>
+#include <OpenSG/OSGDirectionalLight.h>
+#include <OpenSG/OSGSimpleMaterial.h>
 
-#include <OSGViewport.h>
-#include <OSGGLUTWindow.h>
-#include <OSGPerspectiveCamera.h>
-#include <OSGSolidBackground.h>
+#include <OpenSG/OSGViewport.h>
+#include <OpenSG/OSGGLUTWindow.h>
+#include <OpenSG/OSGPerspectiveCamera.h>
+#include <OpenSG/OSGSolidBackground.h>
 
-#include <OSGTrackball.h>
+#include <OpenSG/OSGTrackball.h>
 
 #include "OSGCubes.h"
 
 // little helper to create a random number between a and b
 #define random( a, b ) \
-( ( rand() / 32767. ) * ( (b) - (a) ) + (a) )
+( ( rand() / float(RAND_MAX) ) * ( (b) - (a) ) + (a) )
 
 using namespace OSG;
 
@@ -168,7 +168,7 @@ void key(unsigned char key, int x, int y)
 {
 	switch ( key )
 	{
-	case 27:	osgExit(); exit(0);
+	case 27:	exit(0);
 	case 'a':	glDisable( GL_LIGHTING );
 				cerr << "Lighting disabled." << endl;
 				break;

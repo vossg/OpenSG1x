@@ -44,7 +44,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <OSGConfig.h>
+#include <OpenSG/OSGConfig.h>
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
@@ -56,10 +56,10 @@
 
 #define OSG_COMPILEMYLIB
 
-#include <OSGAction.h>
-#include <OSGDrawAction.h>
-#include <OSGState.h>
-#include <OSGMaterial.h>
+#include <OpenSG/OSGAction.h>
+#include <OpenSG/OSGDrawAction.h>
+#include <OpenSG/OSGState.h>
+#include <OpenSG/OSGMaterial.h>
 
 #include "OSGCubes.h"
 
@@ -85,7 +85,7 @@ A test node for directly rendering to OpenGL.
  *                           Class variables                               *
 \***************************************************************************/
 
-char Cubes::cvsid[] = "@(#)$Id: OSGCubes.cpp,v 1.1 2001/05/22 18:48:08 dirk Exp $";
+char Cubes::cvsid[] = "@(#)$Id: OSGCubes.cpp,v 1.2 2001/05/22 19:57:58 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

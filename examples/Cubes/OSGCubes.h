@@ -47,11 +47,11 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGConfig.h>
+#include <OpenSG/OSGConfig.h>
 
 #include "OSGCubesBase.h"
 
-#include <OSGAction.h>
+#include <OpenSG/OSGAction.h>
 
 OSG_BEGIN_NAMESPACE
 
