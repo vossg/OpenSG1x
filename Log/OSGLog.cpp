@@ -134,7 +134,7 @@ Log::Log(LogType logType, LogLevel logLevel) :
     _logType   (logType), 
     _logLevel  (logLevel), 
     _fileStream(),
-		_headerElem(LOG_TYPE_HEADER),
+		_headerElem(0),
 		_moduleHandling(LOG_MODULE_ALL)
 {	
 
@@ -150,6 +150,9 @@ Log::Log(LogType logType, LogLevel logLevel) :
 #endif
     }
 
+  setHeaderElem (LOG_TYPE_HEADER);
+  _refTime = getSystemTime();
+
 	setLogLevel(logLevel);
 }
 
@@ -161,7 +164,7 @@ Log::Log(const char *fileName, LogLevel logLevel) :
     _logType   (LOG_FILE), 
     _logLevel  (logLevel), 
     _fileStream(),
-		_headerElem(LOG_TYPE_HEADER),
+		_headerElem(0),
 		_moduleHandling(LOG_MODULE_ALL)
 {
 
@@ -177,6 +180,9 @@ Log::Log(const char *fileName, LogLevel logLevel) :
 #endif
     }
 
+  _refTime = getSystemTime();
+
+  setHeaderElem (LOG_TYPE_HEADER);
 	setLogFile (fileName);
 	setLogLevel(logLevel);
 }
@@ -190,6 +196,22 @@ Log::~Log(void)
 }
 
 /*------------------------------ access -----------------------------------*/
+
+/*! \brief set method for attribute _headerElem
+ */
+void Log::setHeaderElem(LogHeaderElem elem)
+{
+	char *env;
+
+	if ((this == osgLogP) && (env = getenv( "OSG_LOG_HEADER" ) ) )
+    {
+      osgLog() << "Log::setHeaderElem: overriden by envvar OSG_LOG_HEADER '" 
+               << env << "'." << endLog;	
+      elem = LogHeaderElem(atoi(env));
+    }
+
+	_headerElem = elem;
+}
 
 /*! \brief add method for attribute _headerElem
  */

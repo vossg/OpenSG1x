@@ -48,6 +48,7 @@
 //---------------------------------------------------------------------------
 
 #include <OSGBaseTypes.h>
+#include <OSGTime.h>
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <fstream>
@@ -209,6 +210,8 @@ class OSG_LOG_DLLMAPPING Log : public ostream
 
         void unlock(void) {;} // TODO: implement
 
+        virtual void setHeaderElem(LogHeaderElem elem);
+
         virtual void addHeaderElem(LogHeaderElem elem);
 
         virtual void delHeaderElem(LogHeaderElem elem);
@@ -233,6 +236,15 @@ class OSG_LOG_DLLMAPPING Log : public ostream
         bool checkLevel(LogLevel logLevel);
 
         void        setLogFile (const Char8 *fileName);
+
+        inline
+        Time getRefTime(void);
+
+        inline
+        void setRefTime(Time refTime);
+
+        inline
+        void resetRefTime(void);
 
         inline
         ostream &stream(LogLevel level);
@@ -342,7 +354,9 @@ class OSG_LOG_DLLMAPPING Log : public ostream
     };
             
     list<Module> _moduleList;
-    
+
+    Time _refTime;
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -512,9 +526,9 @@ osgStartLog(false,OSG::LOG_INFO,OSG_LOG_MODULE, __FILE__, __LINE__)
     } \
 } \
 
-OSG_END_NAMESPACE
-
 inline OSG_LOG_DLLMAPPING ostream &endLog(ostream &strm);
+
+OSG_END_NAMESPACE
 
 #include <OSGLog.inl>
 

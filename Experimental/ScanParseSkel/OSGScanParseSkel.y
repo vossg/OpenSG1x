@@ -389,8 +389,6 @@ nodeBodyElement : fieldId
                       iFieldTypeId = _pSkel->mapExtIntFieldType(iFieldTypeId);
                      }
     
-                     fprintf(stderr, "Next FT : %d\n", iFieldTypeId);
-
                      expectType(iFieldTypeId); 
 
                      _pSkel->beginField(OSGScanParseSkel_text, 

@@ -197,6 +197,24 @@ bool Log::checkLevel(LogLevel level)
 }
 
 inline
+Time Log::getRefTime(void)
+{
+	return _refTime;
+}
+
+inline
+void Log::setRefTime(Time refTime)
+{
+  _refTime = refTime;
+}
+
+inline
+void Log::resetRefTime(void)
+{
+  _refTime = osg::getSystemTime();
+}
+
+inline
 ostream & Log::stream(LogLevel level)
 {
 	return *(_streamVec[level]); 
@@ -213,7 +231,6 @@ ostream & Log::doHeader ( LogLevel level, const char *module,
 								      	  const char *file, int line )
 {
 	LogOStream & sout = *(_streamVec[level]);
-	double timestamp = 0.0;
 
 	if (_headerElem) {
 		if (_headerElem & LOG_BEGIN_NEWLINE_HEADER)
@@ -223,8 +240,7 @@ ostream & Log::doHeader ( LogLevel level, const char *module,
 			sout << _levelName[level] << ":";
 
 		if (_headerElem & LOG_TIMESTAMP_HEADER) 
-			// TODO: get current time
-			sout << " ts: " << timestamp;
+			sout << " ts: " << (osg::getSystemTime() - _refTime);
 
 		if (module && *module && (_headerElem & LOG_MODULE_HEADER))
 			sout << " mod: " << module;
@@ -247,9 +263,6 @@ ostream & Log::doHeader ( LogLevel level, const char *module,
 	return sout;
 }
 
-OSG_END_NAMESPACE
-
-// shout this be inside of the osg name space ?
 inline OSG_LOG_DLLMAPPING 
 ostream &endLog(ostream &strm)
 {
@@ -260,5 +273,7 @@ ostream &endLog(ostream &strm)
 	strm << endl;
 	return strm;
 }
+
+OSG_END_NAMESPACE
 
 
