@@ -39,7 +39,13 @@ void display()
         osgExit(); 
 #else
         // try to restart server
-        server->stop();
+        try
+        {
+            server->stop();
+        }
+        catch(...)
+        {
+        }
         running=false;
         glutHideWindow();
 #endif
