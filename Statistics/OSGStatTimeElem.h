@@ -60,6 +60,8 @@ OSG_BEGIN_NAMESPACE
  *  detailed
  */
 
+class StatElemDescBase;
+
 class OSG_SYSTEMLIB_DLLMAPPING StatTimeElem : public StatElem {
 
     /*==========================  PUBLIC  =================================*/
@@ -76,7 +78,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatTimeElem : public StatElem {
     /*! \name                    your_category                             */
     /*! \{                                                                 */
  
-    static StatElem *create ( StatElemDesc *desc );
+    static StatElem *create ( StatElemDescBase *desc );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -113,7 +115,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatTimeElem : public StatElem {
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
   
-    StatTimeElem ( StatElemDesc *desc );
+    StatTimeElem ( StatElemDescBase *desc );
 
     /*! \}                                                                 */
     /*=========================  PRIVATE    ===============================*/

@@ -9,33 +9,36 @@
 
 #include <string>
 
-osg::StatElemDesc fpsDesc ("fps","fps desc", osg::StatTimeElem::create);
-osg::StatElemDesc fooDesc ("foo","foo desc", osg::StatIntElem::create);
-osg::StatElemDesc barDesc ("bar","bar desc", osg::StatRealElem::create);
+osg::StatElemDesc<osg::StatTimeElem> fpsDesc ("fps","fps desc");
+osg::StatElemDesc<osg::StatIntElem > fooDesc ("foo","foo desc");
+osg::StatElemDesc<osg::StatRealElem> barDesc ("bar","bar desc");
 
 int main (int argc, char **argv)
 {
     osg::StatCollector collector;
-    // osg::StatElem *elem;
+    osg::StatElem *elem;
     osg::Int32 fpsID = fpsDesc.getID();
     std::string str;
 
-    // elem = collector.getElem(fpsID);
+    elem = collector.getElem(fpsID);
 
-    collector.getElem<osg::StatTimeElem> (fpsDesc)->start();
-    collector.getElem<osg::StatIntElem>  (fooDesc)->inc();
-    collector.getElem<osg::StatRealElem> (barDesc)->set(2.0);
+    collector.getElem(fpsDesc)->start();
+    collector.getElem(fooDesc)->inc();
+    collector.getElem(barDesc)->set(2.0);
 
-    collector.getElem<osg::StatTimeElem> (fpsDesc)->stop();
-    collector.getElem ( fpsDesc )->putToString ( str );
-
+    collector.getElem(fpsDesc)->stop();
+    
+    elem->putToString(str);
     cerr << "Time out: " << str << endl;
 
-    collector.getElem ( fooDesc )->putToString ( str );
+    collector.getElem(fooDesc)->putToString(str);
     cerr << "Int  out: " << str << endl;
 
-    collector.getElem ( barDesc )->putToString ( str );
+    collector.getElem(barDesc)->putToString(str);
     cerr << "Real out: " << str << endl;
 
-    osg::StatElemDesc::printAll();
+    collector.putToString(str);
+    cerr << "Collector data:" << endl << str << endl;
+ 
+    osg::StatElemDescBase::printAll();
 }

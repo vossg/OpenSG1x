@@ -51,18 +51,18 @@
 OSG_BEGIN_NAMESPACE
 
 class StatElemCollector;
-class StatElemDesc;
+class StatElemDescBase;
 class StatElem;
 
-typedef StatElem * (*CreateStatElemMethod) ( StatElemDesc *desc );
+typedef StatElem *(*CreateStatElemMethod)(StatElemDescBase *desc);
 
 /*! \ingroup baselib
  *  \brief Brief
  *
  *  detailed
  */
-
-class OSG_SYSTEMLIB_DLLMAPPING StatElemDesc
+ 
+class StatElemDescBase
 {
   friend class StatCollector;
 
@@ -75,9 +75,9 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElemDesc
 
     inline  static Bool isValidID (Int32 ID);
 
-    inline  static StatElemDesc *getDesc (Int32 ID);
+    inline  static StatElemDescBase *getDesc (Int32 ID);
 
-    static StatElemDesc *findDescByName (const Char8 *name);
+    static StatElemDescBase *findDescByName (const Char8 *name);
 
     inline  static Int32 getNumOfDescs(void);
 
@@ -98,22 +98,21 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElemDesc
     /*! \name                    Constructors                              */
     /*! \{                                                                 */
 
-    StatElemDesc( const Char8 *name, const Char8 *description,
-                  CreateStatElemMethod createMethod );
+    StatElemDescBase( const Char8 *name, const Char8 *description);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual ~StatElemDesc(void);
+    virtual ~StatElemDescBase(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Comparison                                 */
     /*! \{                                                                 */
 
-         Bool operator < (const StatElemDesc &other) const;
+    Bool operator < (const StatElemDescBase &other) const;
 
     //OSGBool operator == (const CLASSNAME &other) const;
     //OSGBool operator != (const CLASSNAME &other) const;
@@ -129,10 +128,12 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElemDesc
 
     // typedef PARENTCLASS Inherited;
 
-    static vector<StatElemDesc*> *_descVec;
+    static vector<StatElemDescBase*> *_descVec;
 
     static char cvsid[];
 
+
+    CreateStatElemMethod _createMethod;
 
     Int32                _ID;
 
@@ -140,18 +141,55 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElemDesc
 
     IDString             _description;
 
-    CreateStatElemMethod _createMethod;
-
     // prohibit default functions (move to 'public' if you need one)
 
     // only called by OSGStatCollector friend
-    inline StatElem* createElem ( void );
+    virtual StatElem* createElem(void) = 0;
+
+    StatElemDescBase (const StatElemDescBase &source);
+    StatElemDescBase& operator =(const StatElemDescBase &source);
+
+};
+
+template <class Type>
+class OSG_SYSTEMLIB_DLLMAPPING StatElemDesc : public StatElemDescBase
+{
+    /*==========================  PUBLIC  =================================*/
+  public:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Constructors                              */
+    /*! \{                                                                 */
+
+    StatElemDesc( const Char8 *name, const Char8 *description );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    virtual ~StatElemDesc(void);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+
+    // typedef PARENTCLASS Inherited;
+
+    static char cvsid[];
+
+    virtual StatElem* createElem(void);
 
     StatElemDesc (const StatElemDesc &source);
     StatElemDesc& operator =(const StatElemDesc &source);
 };
 
-typedef StatElemDesc *StatElemDescP;
+typedef StatElemDescBase *StatElemDescBaseP;
 
 OSG_END_NAMESPACE
 

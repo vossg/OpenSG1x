@@ -50,6 +50,8 @@
 
 OSG_BEGIN_NAMESPACE
 
+class StatElemDescBase;
+
 /*! \ingroup baselib
  *  \brief Brief
  *
@@ -72,7 +74,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatIntElem : public StatElem {
     /*! \name                    your_category                             */
     /*! \{                                                                 */
     
-    static StatElem *create ( StatElemDesc *desc );
+    static StatElem *create ( StatElemDescBase *desc );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -115,7 +117,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatIntElem : public StatElem {
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    StatIntElem ( StatElemDesc *desc );
+    StatIntElem ( StatElemDescBase *desc );
 
     /*! \}                                                                 */
     /*=========================  PRIVATE    ===============================*/

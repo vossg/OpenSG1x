@@ -50,7 +50,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-class StatElemDesc;
+class StatElemDescBase;
 
 /*! \ingroup baselib
  *  \brief Brief
@@ -78,7 +78,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElem
 
     inline  void           setOn       (Bool on);
 
-    inline  StatElemDesc * getDesc     (void);
+    inline  StatElemDescBase * getDesc     (void);
 
     virtual std::string      &putToString ( std::string &str ) = 0;
 
@@ -105,7 +105,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElem
   protected:
 
 
-    StatElem (StatElemDesc *desc);
+    StatElem (StatElemDescBase *desc);
 
     /*==========================  PRIVATE  ================================*/
   private:
@@ -117,7 +117,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElem
 
     Bool _on;
 
-    StatElemDesc *_desc;
+    StatElemDescBase *_desc;
 
     // prohibit default functions (move to 'public' if you need one)
 

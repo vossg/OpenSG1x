@@ -46,6 +46,7 @@
 #include "OSGConfig.h"
 
 #include "OSGStatElemDesc.h"
+#include "OSGStatElem.h"
 
 #include "OSGStatCollector.h"
 
@@ -114,7 +115,7 @@ char StatCollector::cvsid[] = "@(#)$Id: $";
 
 StatCollector::StatCollector(void)
 {
-  _elemVec.resize(StatElemDesc::getNumOfDescs());
+  _elemVec.resize(StatElemDescBase::getNumOfDescs());
 }
 
 
@@ -136,6 +137,27 @@ StatCollector::~StatCollector(void)
 /*---------------------------- properties ---------------------------------*/
 
 /*-------------------------- your_category---------------------------------*/
+std::string &StatCollector::putToString( std::string &str )
+{
+    vector<StatElem*>::iterator it;
+    
+    str.clear();
+    
+    for(it = _elemVec.begin(); it != _elemVec.end(); ++it)
+    {
+        if(*it != NULL)
+        {
+            std:string elem;
+            
+            str.append((*it)->getDesc()->getName().str());
+            str.append(" ");
+            (*it)->putToString(elem);
+            str.append(elem);
+            str.append("\n");
+        }
+    }
+    return str;
+}
 
 /*-------------------------- assignment -----------------------------------*/
 

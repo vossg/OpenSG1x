@@ -110,7 +110,7 @@ char StatElem::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-StatElem::StatElem (StatElemDesc *desc) 
+StatElem::StatElem (StatElemDescBase *desc) 
   : _on(true),_desc(desc)
 {
   ;

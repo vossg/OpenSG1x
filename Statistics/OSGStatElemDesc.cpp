@@ -73,9 +73,9 @@ OSG_USING_NAMESPACE
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-vector<StatElemDesc*> *StatElemDesc::_descVec = 0;
+vector<StatElemDescBase*> *StatElemDescBase::_descVec = 0;
   
-char StatElemDesc::cvsid[] = "@(#)$Id: $";
+char StatElemDescBase::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -86,10 +86,10 @@ char StatElemDesc::cvsid[] = "@(#)$Id: $";
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
-StatElemDesc *StatElemDesc::findDescByName (const Char8 *name)
+StatElemDescBase *StatElemDescBase::findDescByName (const Char8 *name)
 {
   Int32 i,n = _descVec ? _descVec->size() : 0;
-  StatElemDesc *desc = 0;
+  StatElemDescBase *desc = 0;
 
   if (name && *name && n)
     for (i = 0; i < n; i++)
@@ -124,20 +124,18 @@ StatElemDesc *StatElemDesc::findDescByName (const Char8 *name)
 
 /** \brief Constructor
  */
-StatElemDesc::StatElemDesc ( const Char8 *name, const Char8 *description,
-                             CreateStatElemMethod createMethod )
-  :_ID(-1), _name(name), _description(description), 
-   _createMethod(createMethod)
+StatElemDescBase::StatElemDescBase(const Char8 *name, const Char8 *description)
+  :_ID(-1), _name(name), _description(description)
 {
-  StatElemDesc *desc = 0;
+  StatElemDescBase *desc = 0;
 
   if (_descVec) 
     desc = findDescByName (name);
   else
-    _descVec = new vector<StatElemDesc*>;
+    _descVec = new vector<StatElemDescBase*>;
   
   if (desc) {
-    FFATAL (( "Try to register the StatElemDesc name %s a second time\n",
+    FFATAL (( "Try to register the StatElemDescBase name %s a second time\n",
               name ));
   }
   else {
@@ -146,7 +144,7 @@ StatElemDesc::StatElemDesc ( const Char8 *name, const Char8 *description,
   }
 }  
 
-//StatElemDesc::StatElemDesc(const StatElemDesc &source) :
+//StatElemDescBase::StatElemDescBase(const StatElemDescBase &source) :
 //  Inherited(source),
 //    // TODO: initialize members
 //{
@@ -155,11 +153,11 @@ StatElemDesc::StatElemDesc ( const Char8 *name, const Char8 *description,
 /** \brief Destructor
  */
 
-StatElemDesc::~StatElemDesc(void)
+StatElemDescBase::~StatElemDescBase(void)
 {
 }
 
-void StatElemDesc::printAll(void)
+void StatElemDescBase::printAll(void)
 {
   Int32 i,n = _descVec ? _descVec->size() : 0;
 
@@ -167,9 +165,9 @@ void StatElemDesc::printAll(void)
     (*_descVec)[i]->print();
 }
 
-void StatElemDesc::print(void)
+void StatElemDescBase::print(void)
 {
-  FLOG (( "StatElemDesc: ID/Name/Description: %d/%s/%s\n",
+  FLOG (( "StatElemDescBase: ID/Name/Description: %d/%s/%s\n",
           _ID, _name.str(), _description.str() ));
 }
 
@@ -184,7 +182,7 @@ void StatElemDesc::print(void)
 /** \brief assignment
  */
 
-StatElemDesc& StatElemDesc::operator = (const StatElemDesc &source)
+StatElemDescBase& StatElemDescBase::operator = (const StatElemDescBase &source)
 {
     if (this == &source)
         return *this;
@@ -206,7 +204,7 @@ StatElemDesc& StatElemDesc::operator = (const StatElemDesc &source)
 /** \brief assignment
  */
 
-Bool StatElemDesc::operator < (const StatElemDesc &other) const
+Bool StatElemDescBase::operator < (const StatElemDescBase &other) const
 {
     return this < &other;
 }
@@ -220,5 +218,3 @@ Bool StatElemDesc::operator < (const StatElemDesc &other) const
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-

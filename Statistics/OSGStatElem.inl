@@ -51,7 +51,7 @@ inline  void StatElem::setOn       (Bool on)
 }
 
 /*-------------------------------------------------------------------------*/
-inline  StatElemDesc * StatElem::getDesc     (void)         
+inline  StatElemDescBase * StatElem::getDesc     (void)         
 { 
   return _desc; 
 }

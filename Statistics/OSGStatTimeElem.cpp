@@ -110,12 +110,12 @@ char StatTimeElem::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-StatTimeElem::StatTimeElem(StatElemDesc *desc)
+StatTimeElem::StatTimeElem(StatElemDescBase *desc)
   : StatElem(desc)
 {
 }
 
-StatElem *StatTimeElem::create ( StatElemDesc *desc)
+StatElem *StatTimeElem::create ( StatElemDescBase *desc)
 {
   return new StatTimeElem(desc);
 }

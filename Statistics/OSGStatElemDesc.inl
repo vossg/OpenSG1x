@@ -39,51 +39,82 @@
 OSG_BEGIN_NAMESPACE
 
 /*-------------------------------------------------------------------------*/
-inline Bool StatElemDesc::isValidID (Int32 ID)
+
+inline Bool StatElemDescBase::isValidID (Int32 ID)
 { 
   return (_descVec && (ID >= 0) && (ID < Int32(_descVec->size()))); 
 }
 
 /*-------------------------------------------------------------------------*/
-inline  StatElemDesc *StatElemDesc::getDesc (Int32 ID)
+
+inline  StatElemDescBase *StatElemDescBase::getDesc (Int32 ID)
 { 
   return (*_descVec)[ID]; 
 }
 
 /*-------------------------------------------------------------------------*/
-inline  Int32 StatElemDesc::getNumOfDescs(void)
+
+inline  Int32 StatElemDescBase::getNumOfDescs(void)
 { 
   return _descVec ? _descVec->size() : 0; 
 }
 
 /*-------------------------------------------------------------------------*/
-inline const Char8 *StatElemDesc::getClassname(void)
+
+inline const Char8 *StatElemDescBase::getClassname(void)
 { 
-  return "StatElemDesc"; 
+  return "StatElemDescBase"; 
 }
 
 /*-------------------------------------------------------------------------*/
-inline        Int32   StatElemDesc::getID            (void) 
+
+inline        Int32   StatElemDescBase::getID            (void) 
 { 
   return _ID; 
 }
 
 /*-------------------------------------------------------------------------*/
-inline  const IDString &StatElemDesc::getName        (void) 
+
+inline  const IDString &StatElemDescBase::getName        (void) 
 { 
   return _name; 
 }
 
 /*-------------------------------------------------------------------------*/
-inline  const IDString &StatElemDesc::getDescription (void) 
+
+inline  const IDString &StatElemDescBase::getDescription (void) 
 { 
   return _description; 
 }
 
-/*-------------------------------------------------------------------------*/
-inline StatElem* StatElemDesc::createElem ( void )
-{ 
-  return _createMethod ? _createMethod(this) : 0; 
+
+
+// The templated StatElemDesc
+
+template <class T>
+static char StatElemDesc<T>::cvsid[] = "@(#)$Id: OSGStatElemDesc.inl,v 1.2 2002/01/20 11:10:28 dirk Exp $";
+
+
+template <class T>
+StatElemDesc<T>::StatElemDesc( const Char8 *name, const Char8 *description ) :
+    StatElemDescBase(name, description)
+{
 }
+
+
+template <class T>
+StatElemDesc<T>::~StatElemDesc()
+{
+}
+
+
+template <class T>
+StatElem *StatElemDesc<T>::createElem(void)
+{
+    return T::create(this);
+}
+
+
+
 
 OSG_END_NAMESPACE

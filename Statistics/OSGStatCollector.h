@@ -51,8 +51,7 @@
 OSG_BEGIN_NAMESPACE
 
 class StatElem;
-class StatElemDesc;
-
+class StatElemDescBase;
 
 /*! \ingroup baselib
  *  \brief Brief
@@ -82,15 +81,15 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
 
     inline  StatElem *getElem      (Int32 ID, Bool create = true);
 
-    inline  StatElem *getElem      (StatElemDesc &desc, Bool create = true );
+    inline  StatElem *getElem      (StatElemDescBase &desc, Bool create = true );
 
 
     template <class T> 
-    inline  T        *getElem      (Int32 id, T *q=0);
+    inline  T        *getElem      (StatElemDesc<T> &desc, Bool create = true);
 
-    template <class T> 
-    inline  T        *getElem      (StatElemDesc &desc, T *q=0);
 
+            std::string &putToString( std::string &str );
+            
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructor                                 */

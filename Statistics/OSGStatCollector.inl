@@ -57,7 +57,7 @@ inline  StatElem *StatCollector::getElem (Int32 ID, Bool create)
 
   if (!elem && create) 
     {
-      StatElemDesc *desc = StatElemDesc::getDesc(ID);
+      StatElemDescBase *desc = StatElemDescBase::getDesc(ID);
       elem =_elemVec[ID] = desc->createElem();
     }
   
@@ -65,7 +65,7 @@ inline  StatElem *StatCollector::getElem (Int32 ID, Bool create)
 }
 
 /*-------------------------------------------------------------------------*/
-inline  StatElem  *StatCollector::getElem  (StatElemDesc &desc, 
+inline  StatElem  *StatCollector::getElem  (StatElemDescBase &desc, 
                                             Bool create)
 { 
   return getElem(desc.getID(),create); 
@@ -73,21 +73,10 @@ inline  StatElem  *StatCollector::getElem  (StatElemDesc &desc,
 
 /*-------------------------------------------------------------------------*/
 
-// This is a little hacky, but the SGI compiler won't take it any other 
-// way.
-
 template<class T> inline 
-T *StatCollector::getElem(Int32 id, T *q)
+T *StatCollector::getElem(StatElemDesc<T> &desc, Bool create)
 {
-    q = reinterpret_cast<T*>(getElem(id));
-    return q;
-}
-
-template<class T> inline 
-T *StatCollector::getElem(StatElemDesc &desc, T *q)
-{
-    q = reinterpret_cast<T*>(getElem(desc));
-    return q;
+    return reinterpret_cast<T*>(getElem(desc.getID(),create));
 }
 
 OSG_END_NAMESPACE
