@@ -9,6 +9,7 @@
 #include <fstream.h>
 #endif
 
+#include "OSGBaseFunctions.h"
 #include "OSGLog.h"
 #include "OSGImage.h"
 #include "OSGImageFileHandler.h"
@@ -24,7 +25,7 @@ int main (int argc, char **argv)
 
     OSG::ImageFileHandler::the().print();
 
-    if(argc >= 3 && !stringcasecmp(argv[1], "-type"))
+    if(argc >= 3 && !OSG::stringcasecmp(argv[1], "-type"))
     {
         fileType = osg::ImageFileHandler::the().getFileType(argv[2]);  
         argv += 2;
