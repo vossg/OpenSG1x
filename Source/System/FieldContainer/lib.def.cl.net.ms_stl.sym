@@ -161,7 +161,11 @@
     ??A?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAEAAVFieldContainerPtr@1@I@Z
     ?size@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QBEIXZ
 
-?getField@?$SimpleAttachment@UNameAttachmentDesc@osg@@@osg@@QAEAAV?$SField@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@$0A@@2@XZ
+    ?getField@?$SimpleAttachment@UNameAttachmentDesc@osg@@@osg@@QAEAAV?$SField@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@$0A@@2@XZ
     ?getClassType@?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
     ?getField@?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@osg@@QAEAAV?$SField@PAX$0A@@2@XZ
     ?create@?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@osg@@SA?AV?$FCPtr@VAttachmentPtr@osg@@V?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@2@@2@XZ 
+
+    ?addEventInDecl@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXPBD0@Z
+    ?addEventOutDecl@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXPBD0@Z
+    
