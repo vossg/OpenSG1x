@@ -221,7 +221,7 @@ int main(int argc,char **argv)
     }
     catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
     {
-        cout << e.what() << endl;
+        std::cout << e.what() << std::endl;
     }
     delete connection;
     delete aspect;
