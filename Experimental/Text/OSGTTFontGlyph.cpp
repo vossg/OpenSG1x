@@ -1,6 +1,6 @@
 // System declarations
 
-#ifdef FREETYPE1_LIB
+#ifdef OSG_WITH_FREETYPE1
 
 #ifdef __sgi
 # include <math.h>
@@ -150,4 +150,4 @@ bool TTFontGlyph::renderGlyph (TT_Raster_Map map, int xOff, int yOff)
     return true;
 }
 
-#endif // FREETYPE1_LIB
+#endif // OSG_WITH_FREETYPE1

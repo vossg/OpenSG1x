@@ -19,7 +19,7 @@
 #include <OSGGeometry.h>
 #include <OSGPathHandler.h>
 
-#ifdef FREETYPE1_LIB
+#ifdef OSG_WITH_FREETYPE1
 
 #include "OSGLog.h"
 #include "OSGFontStyleFactory.h"

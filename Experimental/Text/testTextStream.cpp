@@ -5,7 +5,7 @@
 
 #include <OSGLog.h>
 
-#ifdef FREETYPE1_LIB
+#ifdef OSG_WITH_FREETYPE1
 
 // Headers
 #include <fstream>

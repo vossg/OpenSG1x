@@ -3,7 +3,7 @@
 
 #include <OSGConfig.h>
 
-#ifdef FREETYPE1_LIB
+#ifdef OSG_WITH_FREETYPE1
 
 #include "OSGVectorFontGlyph.h"
 #include "OSGTTFontGlyph.h"
@@ -73,7 +73,7 @@ typedef TTVectorFontGlyph* TTVectorFontGlyphP;
 
 OSG_END_NAMESPACE
 
-#endif // FREETYPE1_LIB
+#endif // OSG_WITH_FREETYPE1
 
 #endif // TTVECTORGLYPH_CLASS_DECLARATION
 

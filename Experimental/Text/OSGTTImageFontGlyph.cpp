@@ -1,6 +1,6 @@
 // System declarations
 
-#ifdef FREETYPE1_LIB
+#ifdef OSG_WITH_FREETYPE1
 
 #ifdef __sgi
 # include <stdlib.h>
@@ -16,7 +16,7 @@
 
 
 // Application declarations
-#include "freetype1/freetype/freetype.h.h"
+#include "freetype1/freetype/freetype.h"
 
 // Class declarations
 #include "OSGTTImageFontGlyph.h"
@@ -101,4 +101,4 @@ bool TTImageFontGlyph::create (void )
     return(retVal);
 }
 
-#endif // FREETYPE1_LIB
+#endif // OSG_WITH_FREETYPE1

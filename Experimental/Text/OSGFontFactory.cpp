@@ -5,7 +5,7 @@
 
 // Application declarations
 
-#ifdef FREETYPE1_LIB
+#ifdef OSG_WITH_FREETYPE1
 
 #include "OSGTTFont.h"
 
@@ -60,12 +60,12 @@ Font * FontFactory::queryFont (PathHandler & paths, const char *fontName )
       if (fontFile.empty() == false) {
         switch(*(fontName+strlen(fontName)-2)) {
 
-#ifdef FREETYPE1_LIB
+#ifdef OSG_WITH_FREETYPE1
         case 't':
         case 'T':
           tmpFont = new TTFont(fontName, fontFile);
           break;
-#endif // FREETYPE1_LIB
+#endif // OSG_WITH_FREETYPE1
 
         case 'x':
         case 'X':

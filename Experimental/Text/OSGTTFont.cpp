@@ -10,7 +10,7 @@
 #endif
 #include <iostream>
 
-#ifdef FREETYPE1_LIB
+#ifdef OSG_WITH_FREETYPE1
 
 // Application declarations
 #include "OSGTTFontStyle.h"
@@ -129,4 +129,4 @@ osg::FontStyle *TTFont::createInstance(float size)
 }
 
 
-#endif // FREETYPE1_LIB
+#endif // OSG_WITH_FREETYPE1

@@ -1,6 +1,6 @@
 // System declarations
 
-#ifdef FREETYPE1_LIB
+#ifdef OSG_WITH_FREETYPE1
 
 #ifdef __sgi
 # include <math.h>
@@ -763,5 +763,5 @@ void TTVectorFontGlyph::cleanup(void)
     offsets.resize(0);
 }
 
-#endif // FREETYPE1_LIB
+#endif // OSG_WITH_FREETYPE1
 

@@ -1,7 +1,7 @@
 #ifndef TTGLYPH_CLASS_DECLARATION
 #define TTGLYPH_CLASS_DECLARATION
 
-#ifdef FREETYPE1_LIB
+#ifdef OSG_WITH_FREETYPE1
 
 #include <OSGConfig.h>
 
@@ -72,7 +72,7 @@ typedef TTFontGlyph* TTFontGlyphP;
 
 OSG_END_NAMESPACE
 
-#endif // FREETYPE1_LIB
+#endif // OSG_WITH_FREETYPE1
 
 
 #endif // TTGLYPH_CLASS_DECLARATION

@@ -3,7 +3,7 @@
 
 #include <OSGConfig.h>
 
-#ifdef FREETYPE1_LIB
+#ifdef OSG_WITH_FREETYPE1
 
 #include "OSGImageFontGlyph.h"
 #include "OSGTTFontGlyph.h"
@@ -48,7 +48,7 @@ typedef TTImageFontGlyph* TTImageFontGlyphP;
 
 OSG_END_NAMESPACE
 
-#endif // FREETYPE1_LIB
+#endif // OSG_WITH_FREETYPE1
 
 #endif // TTIMAGEGLYPH_CLASS_DECLARATION
 

@@ -1,6 +1,6 @@
 // System declarations
 
-#ifdef FREETYPE1_LIB
+#ifdef OSG_WITH_FREETYPE1
 
 #ifdef __sgi
 # include <math.h>
@@ -437,4 +437,4 @@ bool TTFontStyle::dump(ostream & out)
   return true;
 }
 
-#endif // FREETYPE1_LIB
+#endif // OSG_WITH_FREETYPE1

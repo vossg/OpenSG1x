@@ -1,7 +1,7 @@
 // System declarations
 #include <iostream>
 
-#ifdef FREETYPE1_LIB
+#ifdef OSG_WITH_FREETYPE1
 
 // Application declarations
 #include "freetype1/freetype/freetype.h"
@@ -78,4 +78,4 @@ bool TTFontGlyphContour::inside (FontGlyphContour *contour, TT_Outline outline )
     return true;
 }
 
-#endif // FREETYPE1_LIB
+#endif // OSG_WITH_FREETYPE1
