@@ -64,7 +64,7 @@ class State;
 //   Types
 //---------------------------------------------------------------------------
 
-typedef FCPtr<StateChunkPtr, State> StatePtr;
+typedef FCPtr<FieldContainerPtr, State> StatePtr;
 
 //---------------------------------------------------------------------------
 //  Class
