@@ -200,15 +200,15 @@ void qsortIGlyphs(int numGlyphs, unsigned char *indices,
 
 bool TTFontStyle::createTXFMap(char *characters, int gap)
 {
-  int i, numChars, numCreated=0, width, height, x, y;
-  int j, k, current, rowHeight, spaceLeft, numSorted;
-  int *dims, start;
+  int i, j, k numChars, numCreated=0, width, height, x, y;
+  int start, current, rowHeight, spaceLeft, numSorted;
   const int *res, *bb;
   unsigned char *createdIndices=NULL, *sortedIndices=NULL, *imageBuffer=NULL;
   unsigned char *img, *srcPixel, *dstPixel;
   TXFGlyphInfo *glyph=NULL;
   float x_f, y_f, xstep, ystep, scale;
   bool retVal;
+  char *dims;
 
   if(characters) {
     numChars = strlen(characters);
@@ -318,9 +318,9 @@ bool TTFontStyle::createTXFMap(char *characters, int gap)
     glyph=_txfGlyphInfos[current];
     glyph->remap(0);
 
-    dims = new int[2];
-    dims[0] = x;
-    dims[1] = y;
+    dims = new char[2];
+    dims[0] = (char) x;
+    dims[1] = (char) y;
     glyph->setDimensions(dims);
 
     x_f  = ((float)(x))/width+xstep;

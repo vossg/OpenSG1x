@@ -26,7 +26,7 @@ protected:
 
   float _advance;
 
-  int *_dimensions;
+  char *_dimensions;
 
   int _remapped;
 
@@ -54,9 +54,9 @@ public:
 
   virtual float getAdvance(void) {return _advance;}
 
-  virtual void setDimensions(int *dims) {_dimensions = dims;}
+  virtual void setDimensions(char *dims) {_dimensions = dims;}
 
-  virtual int *getDimensions(void) { return _dimensions;}
+  virtual char *getDimensions(void) { return _dimensions;}
 
 };
 
