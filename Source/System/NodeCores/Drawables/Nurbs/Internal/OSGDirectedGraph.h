@@ -54,7 +54,7 @@
 OSG_BEGIN_NAMESPACE
 
 template <class T1>
-class  OSG_NURBSLIB_DLLMAPPING DirectedEdge {
+class  OSG_SYSTEMLIB_DLLMAPPING DirectedEdge {
 public:
   bool direction; // true if directed 
   int from; // starting node
@@ -68,7 +68,7 @@ typedef std::vector < DirectedEdge<T1> > edgevector;
 
 
 template <class T0>
-class OSG_NURBSLIB_DLLMAPPING DirectedNode {
+class OSG_SYSTEMLIB_DLLMAPPING DirectedNode {
 public:
   ivector edges;  // vector (pointers) of edges going to/from this node
   T0 nodeinfo;
@@ -77,7 +77,7 @@ typedef std::vector < DirectedNode<T0> > nodevector;
 };
 
 template <class T0, class T1>
-class OSG_NURBSLIB_DLLMAPPING DirectedGraph {
+class OSG_SYSTEMLIB_DLLMAPPING DirectedGraph {
 
 public:
   DirectedGraph();

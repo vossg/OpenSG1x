@@ -52,7 +52,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-class OSG_NURBSLIB_DLLMAPPING BSplineBasisFunction {
+class OSG_SYSTEMLIB_DLLMAPPING BSplineBasisFunction {
 
 public:
   BSplineBasisFunction(); //sets invalid knots, you must set them later

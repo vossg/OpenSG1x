@@ -80,7 +80,7 @@ OSG_END_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
-class OSG_NURBSLIB_DLLMAPPING DCTPEdge {
+class OSG_SYSTEMLIB_DLLMAPPING DCTPEdge {
 public:
   DCTPEdge( DCTPVertex *vx1, DCTPVertex *vx2, int orient ) 
   {

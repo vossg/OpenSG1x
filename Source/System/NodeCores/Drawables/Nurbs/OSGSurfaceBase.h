@@ -59,7 +59,7 @@
 
 
 #include <OSGConfig.h>
-#include <OSGNurbsDef.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 
@@ -91,14 +91,16 @@ class BinaryDataHandler;
 
 //! \brief Surface Base Class.
 
-class OSG_NURBSLIB_DLLMAPPING SurfaceBase : public Geometry
+class OSG_SYSTEMLIB_DLLMAPPING SurfaceBase : public Geometry
 {
   private:
 
-    typedef Geometry Inherited;
+    typedef Geometry    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef SurfacePtr  Ptr;
 
     enum
     {
@@ -355,6 +357,6 @@ typedef SurfaceBase *SurfaceBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSURFACEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGSURFACEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGSURFACEBASE_H_ */

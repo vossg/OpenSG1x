@@ -79,7 +79,7 @@ class vec3d;
 #ifdef OSG_INTEGER_MESH
 class vec2d;
 
-class OSG_NURBSLIB_DLLMAPPING vec3i {
+class OSG_SYSTEMLIB_DLLMAPPING vec3i {
 public:
   int x;
   int y;
@@ -175,7 +175,7 @@ public:
 };
 #endif
 
-class OSG_NURBSLIB_DLLMAPPING vec2d {
+class OSG_SYSTEMLIB_DLLMAPPING vec2d {
 public:
   double x;
   double y;
@@ -420,7 +420,7 @@ struct vec2dless {
 }; // class vec2d
 
 
-class OSG_NURBSLIB_DLLMAPPING vec3d {
+class OSG_SYSTEMLIB_DLLMAPPING vec3d {
 public:
   double x;
   double y;

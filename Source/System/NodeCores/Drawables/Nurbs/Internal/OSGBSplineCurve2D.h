@@ -51,7 +51,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-class OSG_NURBSLIB_DLLMAPPING BSplineCurve2D {
+class OSG_SYSTEMLIB_DLLMAPPING BSplineCurve2D {
 protected:
   vec2dvector control_points; //control points of the curve
   int dimension; //dimension of the B-spline (degree)

@@ -58,7 +58,7 @@
 
 #include <OSGFieldContainerPtr.h>
 #include <OSGNodeCoreFieldDataType.h>
-#include <OSGNurbsDef.h>
+#include <OSGSystemDef.h>
 
 #include <OSGGeometryFields.h>
 
@@ -74,7 +74,7 @@ typedef FCPtr<GeometryPtr, Surface> SurfacePtr;
 #endif
 
 #if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-/*! \ingroup GrpNurbsFieldTraits
+/*! \ingroup GrpSystemFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -105,27 +105,27 @@ struct FieldDataTraits<SurfacePtr> :
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpNurbsFieldSingle */
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<SurfacePtr> SFSurfacePtr;
 #endif
 
 #ifndef OSG_COMPILESURFACEINST
-OSG_DLLEXPORT_DECL1(SField, SurfacePtr, OSG_NURBSLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, SurfacePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpNurbsFieldMulti */
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<SurfacePtr> MFSurfacePtr;
 #endif
 
 #ifndef OSG_COMPILESURFACEINST
-OSG_DLLEXPORT_DECL1(MField, SurfacePtr, OSG_NURBSLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, SurfacePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSURFACEFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
+#define OSGSURFACEFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.24 2004/08/03 05:53:03 dirk Exp $"
 
 #endif /* _OSGSURFACEFIELDS_H_ */

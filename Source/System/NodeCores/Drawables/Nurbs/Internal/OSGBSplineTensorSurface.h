@@ -52,7 +52,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-class OSG_NURBSLIB_DLLMAPPING BSplineTensorSurface {
+class OSG_SYSTEMLIB_DLLMAPPING BSplineTensorSurface {
 protected:
   vec3dmatrix control_points; //control points of the surface
   int dimension_u, dimension_v; //dimension of the surface in u and v directions

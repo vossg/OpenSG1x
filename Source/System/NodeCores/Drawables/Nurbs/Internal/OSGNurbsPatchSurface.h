@@ -121,7 +121,7 @@ struct SSurface
 #endif
 };
 
-class OSG_NURBSLIB_DLLMAPPING CNurbsPatchSurface
+class OSG_SYSTEMLIB_DLLMAPPING CNurbsPatchSurface
 {
 
 public:

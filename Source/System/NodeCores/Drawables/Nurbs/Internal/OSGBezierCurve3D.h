@@ -61,7 +61,7 @@ typedef std::vector< bezier3dvector> bezier3dmatrix;
 typedef std::deque< BezierCurve3D > bezier3ddeque;
 typedef std::vector< bezier3ddeque > bezier3ddequevector;
 
-class OSG_NURBSLIB_DLLMAPPING BezierCurve3D {
+class OSG_SYSTEMLIB_DLLMAPPING BezierCurve3D {
 protected:
   int approximate_sub( std::vector< double > &vertices, double delta, double min, double max, unsigned char strategy );
   int loadCreateMatrices( );

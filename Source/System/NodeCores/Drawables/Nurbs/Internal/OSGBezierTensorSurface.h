@@ -61,7 +61,7 @@ typedef std::vector< BezierTensorSurface > beziersurfacevector;
 typedef std::vector< beziersurfacevector > beziersurfacematrix;
 
 
-class OSG_NURBSLIB_DLLMAPPING BezierTensorSurface {
+class OSG_SYSTEMLIB_DLLMAPPING BezierTensorSurface {
 protected:
   vec3dmatrix control_points; //control points of the curve
 

@@ -59,7 +59,7 @@
 
 
 #include <OSGConfig.h>
-#include <OSGNurbsDef.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 
@@ -75,14 +75,16 @@ class BinaryDataHandler;
 
 //! \brief FatBorderChunk Base Class.
 
-class OSG_NURBSLIB_DLLMAPPING FatBorderChunkBase : public VertexProgramChunk
+class OSG_SYSTEMLIB_DLLMAPPING FatBorderChunkBase : public VertexProgramChunk
 {
   private:
 
-    typedef VertexProgramChunk Inherited;
+    typedef VertexProgramChunk    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef FatBorderChunkPtr  Ptr;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -188,6 +190,6 @@ typedef FatBorderChunkBase *FatBorderChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGFATBORDERCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGFATBORDERCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGFATBORDERCHUNKBASE_H_ */

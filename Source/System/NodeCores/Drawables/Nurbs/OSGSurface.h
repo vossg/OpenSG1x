@@ -64,7 +64,7 @@ class BSplineCurve2D;
 
 class vec3d;
 
-class OSG_NURBSLIB_DLLMAPPING Surface : public SurfaceBase
+class OSG_SYSTEMLIB_DLLMAPPING Surface : public SurfaceBase
 {
   private:
 

@@ -692,8 +692,8 @@ OSG_BEGIN_NAMESPACE
 DataType FieldDataTraits<SurfacePtr>::_type("SurfacePtr", "GeometryPtr");
 #endif
 
-OSG_DLLEXPORT_SFIELD_DEF1(SurfacePtr, OSG_NURBSLIB_DLLTMPLMAPPING);
-OSG_DLLEXPORT_MFIELD_DEF1(SurfacePtr, OSG_NURBSLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_SFIELD_DEF1(SurfacePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(SurfacePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE
 
@@ -711,7 +711,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSURFACEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSURFACEBASE_INLINE_CVSID;
 

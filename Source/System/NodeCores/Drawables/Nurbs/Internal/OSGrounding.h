@@ -66,6 +66,11 @@ OSG_BEGIN_NAMESPACE
 #  endif /* not OSG_HAVE_FLOATINGPOINT_H */
 #endif /* not OSG_HAVE_FPU_CONTROL_H */
 
+#else // Other systems: not needed, define empty
+
+#define OSG_FPU_ROUND_DOUBLE
+#define OSG_FPU_RESTORE
+
 #endif
 
 OSG_END_NAMESPACE

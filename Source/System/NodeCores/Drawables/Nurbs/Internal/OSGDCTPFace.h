@@ -62,7 +62,7 @@ OSG_END_NAMESPACE
 OSG_BEGIN_NAMESPACE
 class DCTPEdge;
 
-class OSG_NURBSLIB_DLLMAPPING TrimSegment {
+class OSG_SYSTEMLIB_DLLMAPPING TrimSegment {
 public:
   TrimSegment() { start = end = NULL; }
   TrimSegment( const TrimSegment & ts ) {
@@ -76,7 +76,7 @@ public:
   DCTPVertex *end;
 };
 
-class OSG_NURBSLIB_DLLMAPPING DCTPFace {
+class OSG_SYSTEMLIB_DLLMAPPING DCTPFace {
 public:
 	DCTPFace() {}
   ~DCTPFace() {}

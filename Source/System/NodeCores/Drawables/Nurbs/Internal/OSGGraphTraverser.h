@@ -58,7 +58,7 @@ OSG_BEGIN_NAMESPACE
   static const int ERR_ALL_ZERO = -4;
   static const int ERR_TRIANGULATE = -5;
 
-class OSG_NURBSLIB_DLLMAPPING GraphTraverserError {
+class OSG_SYSTEMLIB_DLLMAPPING GraphTraverserError {
 public:
   int errtype;
   
@@ -67,7 +67,7 @@ public:
   GraphTraverserError(int t ) { errtype = t; }
 };
 
-class OSG_NURBSLIB_DLLMAPPING GraphTraverser {
+class OSG_SYSTEMLIB_DLLMAPPING GraphTraverser {
         DirectedGraph< vec2d, unsigned char >* g;
         simplepolygonvector polys;
         vec2dvector globalverts;

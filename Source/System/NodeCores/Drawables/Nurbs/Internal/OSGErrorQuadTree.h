@@ -117,7 +117,7 @@ struct SFaceTreeCell
 #endif*/
 };
 
-class OSG_NURBSLIB_DLLMAPPING CErrorQuadTree
+class OSG_SYSTEMLIB_DLLMAPPING CErrorQuadTree
 {
 
 public:

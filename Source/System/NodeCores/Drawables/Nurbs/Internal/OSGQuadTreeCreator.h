@@ -56,7 +56,7 @@ OSG_BEGIN_NAMESPACE
 
 class ParSpaceTrimmer;
 
-class OSG_NURBSLIB_DLLMAPPING QuadTreeCreator {
+class OSG_SYSTEMLIB_DLLMAPPING QuadTreeCreator {
 
 	friend class ParSpaceTrimmer;
 

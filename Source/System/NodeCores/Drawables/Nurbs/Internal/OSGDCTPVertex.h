@@ -56,7 +56,7 @@ OSG_BEGIN_NAMESPACE
 class DCTPFace;
 class DCTPEdge;
 
-class OSG_NURBSLIB_DLLMAPPING DCTPVertex {
+class OSG_SYSTEMLIB_DLLMAPPING DCTPVertex {
 public:
   DCTPVertex() { vertexinfo = NULL; }
   ~DCTPVertex() {}

@@ -60,7 +60,7 @@ typedef std::vector< bezier2dvector > bezier2dmatrix;
 typedef std::deque< BezierCurve2D > bezier2ddeque;
 typedef std::vector< bezier2ddeque > bezier2ddequevector;
 
-class OSG_NURBSLIB_DLLMAPPING BezierCurve2D {
+class OSG_SYSTEMLIB_DLLMAPPING BezierCurve2D {
 protected:
   vec2dvector control_points; //control points of the curve
 

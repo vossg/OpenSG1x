@@ -49,7 +49,7 @@ class SimplePolygon;
 
 typedef std::vector < SimplePolygon > simplepolygonvector;
 
-class OSG_NURBSLIB_DLLMAPPING SimplePolygon {
+class OSG_SYSTEMLIB_DLLMAPPING SimplePolygon {
 public:
 	SimplePolygon();
   // copy constructor

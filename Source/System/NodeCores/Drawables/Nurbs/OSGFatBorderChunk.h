@@ -52,7 +52,7 @@ OSG_BEGIN_NAMESPACE
            PageMyExtensionFatBorderChunk for a description.
 */
 
-class OSG_NURBSLIB_DLLMAPPING FatBorderChunk : public FatBorderChunkBase
+class OSG_SYSTEMLIB_DLLMAPPING FatBorderChunk : public FatBorderChunkBase
 {
   private:
 

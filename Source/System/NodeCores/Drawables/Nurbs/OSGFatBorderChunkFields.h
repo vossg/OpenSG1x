@@ -58,7 +58,7 @@
 
 #include <OSGFieldContainerPtr.h>
 #include <OSGNodeCoreFieldDataType.h>
-#include <OSGNurbsDef.h>
+#include <OSGSystemDef.h>
 
 #include <OSGVertexProgramChunkFields.h>
 
@@ -74,7 +74,7 @@ typedef FCPtr<VertexProgramChunkPtr, FatBorderChunk> FatBorderChunkPtr;
 #endif
 
 #if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-/*! \ingroup GrpNurbsFieldTraits
+/*! \ingroup GrpSystemFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -105,27 +105,27 @@ struct FieldDataTraits<FatBorderChunkPtr> :
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpNurbsFieldSingle */
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<FatBorderChunkPtr> SFFatBorderChunkPtr;
 #endif
 
 #ifndef OSG_COMPILEFATBORDERCHUNKINST
-OSG_DLLEXPORT_DECL1(SField, FatBorderChunkPtr, OSG_NURBSLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, FatBorderChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpNurbsFieldMulti */
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<FatBorderChunkPtr> MFFatBorderChunkPtr;
 #endif
 
 #ifndef OSG_COMPILEFATBORDERCHUNKINST
-OSG_DLLEXPORT_DECL1(MField, FatBorderChunkPtr, OSG_NURBSLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, FatBorderChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGFATBORDERCHUNKFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
+#define OSGFATBORDERCHUNKFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.24 2004/08/03 05:53:03 dirk Exp $"
 
 #endif /* _OSGFATBORDERCHUNKFIELDS_H_ */

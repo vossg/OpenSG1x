@@ -3,7 +3,7 @@
 <FieldContainer
 	name="Surface"
 	parent="Geometry"
-	library="Nurbs"
+	library="System"
 	pointerfieldtypes="both"
 	structure="concrete"
 	systemcomponent="true"

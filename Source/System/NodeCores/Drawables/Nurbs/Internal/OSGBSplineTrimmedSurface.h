@@ -58,7 +58,7 @@ typedef std::vector< BSplineCurve2D > bscvector;
 typedef std::vector< bscvector > trimmingloop;
 
 
-class OSG_NURBSLIB_DLLMAPPING BSplineTrimmedSurface {
+class OSG_SYSTEMLIB_DLLMAPPING BSplineTrimmedSurface {
 
 // FIXME: proper support for getting/setting stuph
 public:

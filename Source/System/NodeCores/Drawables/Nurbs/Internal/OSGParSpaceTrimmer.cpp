@@ -3209,7 +3209,7 @@ bool ParSpaceTrimmer::isSLEntryLess( SScanLineEdge *ptEdge1, SScanLineEdge *ptEd
 	}
 
 	// this can only be false for both ways, if it is the same edge!
-	return( ( ( int ) ptEdge1 ) < ( ( int ) ptEdge2 ) );
+	return ptEdge1 <ptEdge2;
 }
 
 void ParSpaceTrimmer::removeSLEntry( SScanLineEntry *ptEntry, ScanLineEventSet &rsptEvents )

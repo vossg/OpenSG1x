@@ -93,7 +93,7 @@ class QuadTreeCreator;
 
 class ParSpaceTrimmer;
 
-class OSG_NURBSLIB_DLLMAPPING ParSpaceTrimmerError {
+class OSG_SYSTEMLIB_DLLMAPPING ParSpaceTrimmerError {
 public:
   int errtype;
 
@@ -104,7 +104,7 @@ public:
 
 
 
-class OSG_NURBSLIB_DLLMAPPING TrimState {
+class OSG_SYSTEMLIB_DLLMAPPING TrimState {
 friend class ParSpaceTrimmer;
         typedef enum { IN_VERTEX, OVER_FACE } state_type;
         state_type state;
@@ -140,12 +140,12 @@ struct SScanLineEvent
 	vec2d			clOther;
 };
 
-struct OSG_NURBSLIB_DLLMAPPING SScanLineEventLess
+struct OSG_SYSTEMLIB_DLLMAPPING SScanLineEventLess
 {
 	bool operator( )( const SScanLineEvent *ptEvent1, const SScanLineEvent *ptEvent2 ) const
 	{
-		const unsigned int	cui_e1 = ( unsigned int ) ptEvent1->ptEdge;
-		const unsigned int	cui_e2 = ( unsigned int ) ptEvent2->ptEdge;
+		const SScanLineEdge	*cui_e1 = ptEvent1->ptEdge;
+		const SScanLineEdge	*cui_e2 = ptEvent2->ptEdge;
 
 //		std::cerr << cui_e1 << " " << cui_e2 << std::endl;
 		if( ( cui_e1 == cui_e2 ) && ( ptEvent1->bStart == ptEvent2->bStart ) )
@@ -245,7 +245,7 @@ struct SPolySimVertex
 	double			dSimplifyError;
 };
 
-struct OSG_NURBSLIB_DLLMAPPING SPolySimVertexLess
+struct OSG_SYSTEMLIB_DLLMAPPING SPolySimVertexLess
 {
 	bool operator( )( const SPolySimVertex *ptVertex1, const SPolySimVertex *ptVertex2 ) const
 	{
@@ -258,7 +258,7 @@ struct OSG_NURBSLIB_DLLMAPPING SPolySimVertexLess
 typedef std::set< SPolySimVertex*, SPolySimVertexLess > SPolySimVertexSet;
 #endif
 
-class OSG_NURBSLIB_DLLMAPPING ParSpaceTrimmer {
+class OSG_SYSTEMLIB_DLLMAPPING ParSpaceTrimmer {
         DCTPMesh					*mesh;
         bezier2ddequevector			*tcs; //trimming curves
 		bezier3ddequevector			*tcs3d; // 3d trimming curves
