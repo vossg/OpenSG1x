@@ -2,14 +2,14 @@
 INCLUDE_GL := @ac_gdz_gl_incdir_e8@
 LINK_GL    :=
 
+LIB_GL   := -lGLU -lGL -lXmu -lXi -lXt -lX11
+
 ifeq ($(OS_BASE), cygwin)
 LIB_GL   := opengl32.lib glu32.lib gdi32.lib
-else
-LIB_GL   := -lGLU -lGL 
-
-ifneq ($(OS_BASE), darwin1.4)
-LIB_GL   := $(LIB_GL) -lXmu -lXi -lXt -lX11
 endif
+
+ifeq ($(OS_BASE), darwin)
+LIB_GL   := -framework OpenGL
 endif
 
 ifneq ($(INCLUDE_GL),)

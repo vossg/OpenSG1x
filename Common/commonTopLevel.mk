@@ -88,6 +88,12 @@ optclean: $(SUB_LIBTARGETS)
 clean: SUB_TARGET := clean
 clean: $(SUB_LIBTARGETS)
 
+dbgcleanLnk: SUB_TARGET := dbgcleanLnk
+dbgcleanLnk: $(SUB_LIBTARGETS)
+
+optcleanLnk: SUB_TARGET := optcleanLnk
+optcleanLnk: $(SUB_LIBTARGETS)
+
 cleanLnk: SUB_TARGET := cleanLnk
 cleanLnk: $(SUB_LIBTARGETS) $(SUB_APPTARGETS)
 

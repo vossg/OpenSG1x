@@ -60,7 +60,7 @@
 #include "OSGBackground.h"
 #include "OSGGLUTWindow.h"
 
-#ifndef WIN32
+#if !defined(WIN32) && !defined(darwin)
 #include <GL/glx.h>
 #endif
 
@@ -211,6 +211,8 @@ GLUTWindow::GLExtensionFunc GLUTWindow::getFunctionByName(const Char8 *s)
     return (void (*)(void)) dlsym( libHandle, s);
 #elif defined( WIN32 )
     return GLExtensionFunc(wglGetProcAddress(s));
+#elif defined(darwin)
+    return NULL;
 #else
     return (  glXGetProcAddressARB((const GLubyte *)s )  );
 #endif

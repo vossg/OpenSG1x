@@ -626,7 +626,7 @@ OSG_USING_STD_NAMESPACE
 #endif
 
 
-#if defined(WIN32) && defined(__ICL)
+#if (defined(WIN32) && defined(__ICL)) || defined (darwin)
 
 #define OSG_EXTERN_EXPORT
 
@@ -935,7 +935,7 @@ OSG_USING_STD_NAMESPACE
     OSG_FC_EXPORT_TYPE_DEF   (CLASSNAME, T1, DLLMAPPING)                     \
     OSG_FC_EXPORT_GETTYPE_DEF(CLASSNAME, T1, DLLMAPPING)     
 
-#elif defined (__linux) || defined(__sun) || defined (darwin)
+#elif defined (__linux) || defined(__sun) 
 
 #if 0
 

@@ -460,6 +460,18 @@ dnl ############# Run Tests #####################
 
 AC_CANONICAL_SYSTEM()
 
+case "$build_os" in
+    darwin*)
+        build_os="darwin"
+    ;;
+esac
+
+case "$build" in
+    powerpc-apple-darwin*)
+        build="powerpc-apple-darwin"
+    ;;
+esac
+
 AC_GDZ_GUESS_COMPILER_DEFAULTS()
 
 ac_gdz_os_base=$build_os
@@ -857,6 +869,17 @@ esac
 
 AC_GDZ_WRITE_SYSTEM_COMMON()
 
+case "$build_os" in
+    darwin*)
+        echo "#############################"
+        echo "WARNING"
+        echo "#############################"
+        echo "This port is highly experimental, currently only the {dbg|opt}Lnk"
+        echo "targets are working, but even this not out of the box." 
+        echo "In case you are interested in the OSX port"
+        echo "please contact me (vossg@camtech.ntu.edu.sg) beforehand"
+    ;;
+esac
 
 
 

@@ -4,7 +4,7 @@
 #########################################################################
 
 .SUFFIXES:	.src $(OBJ_SUFFIX) .cpp .c .hpp .l .y .tab.cpp .tab.h .s 	\
-			$(SO_SUFFIX) _moc.o _moc.cpp _qt.hpp .inl
+			$(SO_SUFFIX) _moc.o _moc.cpp _qt.hpp .inl _as.s _ias.s
 
 
 cnvUnix2Win = "$(shell cygpath -w $(1))"
@@ -80,6 +80,23 @@ $(OBJDIR)/%$(OBJ_SUFFIX): $(OBJDIR)/%.cpp
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(INC_OPTION)$(OBJDIR) $(INC_OPTION).						\
 	$(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
+
+$(OBJDIR)/%_ias.s: %.cpp
+	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(ASONLY_OPTION) $(INCL) \
+	$(INC_OPTION)$(OBJDIR) $(INC_OPTION).						\
+	$(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
+
+$(OBJDIR)/%_as.s: $(OBJDIR)/%_ias.s
+	cat $< > $@
+#	cat $< |														\
+#	$(SED) -e 's/private_extern _getClassType/globl _getClassType/' \
+#		   -e 's/private_extern _getType__CQ/globl _getType__CQ/' 	\
+#	> $@ 
+
+$(OBJDIR)/%$(OBJ_SUFFIX): $(OBJDIR)/%.s
+	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
+	$(INC_OPTION)$(OBJDIR) $(INC_OPTION).						\
+	$(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
 endif
 
 ifeq ($(OS_BASE), cygwin)
@@ -139,6 +156,20 @@ define irix_make_depend
 				-e '/:.*\.\.\/Base\//d'								\
 				-e 's/^\([^\.]*\)$(OBJ_SUFFIX):/\1$(DEP_SUFFIX) \1$(OBJ_SUFFIX):/1' \
 			>> $@
+endef
+
+define darwin_make_depend
+	@echo "# Building dependency $(@F) from $(<F)"
+	@-rm -f $@
+	@echo '# Module dependencies' > $@
+	@$(CC) $(DEPEND_OPTION) $< $(CCFLAGS) $(CCLOCALFLAGS) $(INCL) 	\
+	 $(INC_OPTION)$(OBJDIR) $(INC_OPTION). 							\
+	 | $(SED) -e 's/^\([^:]*:\)/$(OBJDIR)\/\1/1' 					\
+	 		  -e 's/\/usr\/include\/[^ ]*//g'						\
+			  -e 's/.*\.\.\/Base\/[^ ]*//g'							\
+			  -e 's/^\([^\.]*\)$(OBJ_SUFFIX):/\1$(DEP_SUFFIX) \1$(OBJ_SUFFIX):/1' \
+			  -e 's/^[ \t]*\\/\\/g' \
+	 >> $@ 
 endef
 
 ifeq ($(OS_BASE), cygwin)
@@ -205,6 +236,29 @@ endif
 $(OBJDIR)/%$(DEP_SUFFIX): %.c
 ifneq ($(OSGNODEPSREBUILD),1)
 	$(linux_make_depend)
+else
+	@echo "# Skipping dependency $(@F) from $(<F) "
+endif
+endif
+
+ifeq ($(OS_BASE), darwin)
+$(OBJDIR)/%$(DEP_SUFFIX): %.cpp
+ifneq ($(OSGNODEPSREBUILD),1)
+	$(darwin_make_depend)
+else
+	@echo "# Skipping dependency $(@F) from $(<F) "
+endif
+
+$(OBJDIR)/%$(DEP_SUFFIX): $(OBJDIR)/%.cpp
+ifneq ($(OSGNODEPSREBUILD),1)
+	$(darwin_make_depend)
+else
+	@echo "# Skipping dependency $(@F) from $(<F) "
+endif
+
+$(OBJDIR)/%$(DEP_SUFFIX): %.c
+ifneq ($(OSGNODEPSREBUILD),1)
+	$(darwin_make_depend)
 else
 	@echo "# Skipping dependency $(@F) from $(<F) "
 endif
@@ -279,10 +333,20 @@ SubLnkLib: $(SUB_LNK_LIB)
 	@echo "Done SubLib (LIB|$(SUB_LNK_LIB)"
 
 $(SUB_LNK_LIB): $(LIB_QTTARGET_CPP) $(LIB_OBJECTS) 
+	@-rm -f $(SUB_LNK_LIB)											
 	$(LD_LNK) $($(PROJ)SUBPRELINKPAR) 								\
 		$(LNK_LD_OUTOPT)$(LD_OUTSPACE)$(SUB_LNK_LIB)				\
 		$(call cnvSubDirsUnix2Win,$(LIB_OBJECTS)) 
+ifneq ($(RANLIB),)
+	$(RANLIB) $(SUB_LNK_LIB)
 endif
+endif
+
+ifeq ($(OS_BASE),darwin)
+$(MACHACK_I_TARGETS)
+$(MACHACK_TARGETS)
+endif
+
 
 #########################################################################
 # Automatic Targets Test Toplevel
@@ -439,6 +503,7 @@ commonclean:
 	-rm -f *.h                        2>/dev/null
 	-rm -f .lastdbg                   2>/dev/null
 	-rm -f $(OBJDIR)/*$(OBJ_SUFFIX)   2>/dev/null
+	-rm -f $(OBJDIR)/*.s			  2>/dev/null
 	-rm -f $(OBJDIR)/*_moc.cpp        2>/dev/null
 	-rm -f $(OBJDIR)/*.lex.cpp        2>/dev/null
 	-rm -f $(OBJDIR)/*.tab.cpp        2>/dev/null
@@ -453,6 +518,12 @@ dbgclean: commonclean
 
 optclean: DBG := opt
 optclean: commonclean
+
+dbgcleanLnk: DBG := dbglnk
+dbgcleanLnk: commonclean
+
+optcleanLnk: DBG := optlnk
+optcleanLnk: commonclean
 
 clean:    commonclean
 cleanLnk: commonclean

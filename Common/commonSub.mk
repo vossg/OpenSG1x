@@ -52,6 +52,10 @@ getProjLibDefHeader    = $(foreach dir,$(1),$(call getLibDefHdrFiles,$(dir)))
 getLibDefFiles         = $(wildcard $(1)/lib.def.sym)
 getProjLibDefFiles     = $(foreach dir,$(1),$(call getLibDefFiles,$(dir)))
 
+getMacHackFiles        = $(shell fgrep -l instantiate $(1)/OSG*.cpp)
+
+getMacHackSourceFiles  = $(foreach dir,$(1),$(call getMacHackFiles,$(dir)))
+
 #########################################################################
 # Get Flex/Bison Source Files
 #########################################################################
@@ -81,7 +85,26 @@ cnvSourceToObject        = \
 	$(call asSourceToObject, \
 		$(call cnvCandCPPSourceToObject,$(1),$(OBJ_SUFFIX)),$(OBJ_SUFFIX))
 
-cnvSourceToDep        = \
+cnvMHFilename   = $(call addObjectDir,$(basename $(1))_as.s)
+cnvMHIFilename  = $(call addObjectDir,$(basename $(1))_ias.s)
+
+cnvMHNOFilename = $(basename $(1))_as.s
+
+cnvMHSourceToObject      = \
+	$(call asSourceToObject, \
+		$(call cnvCandCPPSourceToObject, \
+			$(call cnvMHNOFilename,$(1)),$(OBJ_SUFFIX)),$(OBJ_SUFFIX))
+
+cnvMHSourcesToObject     = \
+	$(foreach file,$(1),$(call cnvMHSourceToObject,$(file)))
+
+cnvMHFilenames           = \
+	$(foreach file,$(1),$(call cnvMHFilename,$(file)))
+
+cnvMHIFilenames          = \
+	$(foreach file,$(1),$(call cnvMHIFilename,$(file)))
+
+cnvSourceToDep           = \
 	$(call asSourceToObject, \
 		$(call cnvCandCPPSourceToObject,$(1),$(DEP_SUFFIX)),$(DEP_SUFFIX))
 
@@ -130,7 +153,11 @@ else
 buildLibName      = $(LIBLNK_OPTION)$(PROJ)$(1)
 endif
 
+ifeq ($(OS_BASE), cygwin)
 buildLnkLibName   = $(LIBLNK_OPTION)$(PROJ)$(1)$(LNK_SUFFIX)$(LIB_SUFFIX)
+else
+buildLnkLibName   = $(LIBLNK_OPTION)$(PROJ)$(1)$(LNK_SUFFIX)
+endif
 
 ifeq ($(OS_BASE), cygwin)
 buildDepLibName   = $(SO_PRAEFIX)$(PROJ)$(1)$(LIB_SUFFIX)
@@ -166,17 +193,49 @@ LIB_SOURCES        := $(call getProjSourceFiles,$(LIB_ABSSOURCEDIRS))
 LIB_SOURCES        := $(notdir $(LIB_SOURCES))
 LIB_SOURCES        := $(filter-out $(LIB_RMMDSOURCES),$(LIB_SOURCES))
 
-LIB_OBJECTS        := $(call cnvSourceToObject,$(LIB_SOURCES))
+LIB_ALL_SOURCES    := $(LIB_SOURCES)
 
 TEST_SOURCES       := $(call getProjTestSourceFiles,$(LIB_ABSSOURCEDIRS))
-TEST_SOURCES        := $(notdir $(TEST_SOURCES))
+TEST_SOURCES       := $(notdir $(TEST_SOURCES))
+
+ifeq ($(OS_BASE),darwin)
+
+ifeq ($(LNK),)
+MACHACK_SOURCES    := $(call getMacHackSourceFiles,$(LIB_ABSSOURCEDIRS))
+MACHACK_SOURCES    := $(notdir $(MACHACK_SOURCES))
+
+MACHACK_AS_SOURCES  := $(call cnvMHFilenames,$(MACHACK_SOURCES))
+MACHACK_IAS_SOURCES := $(call cnvMHIFilenames,$(MACHACK_SOURCES))
+
+MACHACK_OBJECTS    := $(call cnvMHSourcesToObject,$(MACHACK_SOURCES))
+
+LIB_SOURCES        := $(filter-out $(MACHACK_SOURCES),$(LIB_SOURCES))
+endif
+
+$(warning -$(MACHACK_SOURCES)-)
+$(warning -$(LIB_SOURCES)-)
+endif
+
+LIB_OBJECTS        := $(call cnvSourceToObject,$(LIB_SOURCES))
+
+ifeq ($(OS_BASE),darwin)
+
+ifeq ($(LNK),)
+LIB_OBJECTS        := $(LIB_OBJECTS) $(MACHACK_OBJECTS)
+
+MACHACK_I_TARGETS  := $(MACHACK_IAS_SOURCES) : $(MACHACK_SOURCES)
+MACHACK_TARGETS    := $(MACHACK_AS_SOURCES)  : $(MACHACK_IAS_SOURCES)
+
+endif
+
+endif
 
 #########################################################################
 # Define Dep Objects
 #########################################################################
 
 ifeq ($($(PROJ)NODEPS),)
-LIB_DEPS           := $(call cnvSourceToDep,$(LIB_SOURCES))
+LIB_DEPS           := $(call cnvSourceToDep,$(LIB_ALL_SOURCES))
 endif
 
 #########################################################################
@@ -341,7 +400,6 @@ RQ_LPACKS    := $(LIB_REQUIRED_TESTLNKPACKAGES) \
 else
 RQ_LPACKS    := $(LIB_REQUIRED_TESTLNKPACKAGES) \
 				$(filter-out $(LIB_REQUIRED_TESTLNKPACKAGES), $(RQ_LPACKS))
-#$(error $(LIBS) $(RQ_LPACKS))
 endif
 else
 ifeq ($(OS_BASE), cygwin)
@@ -358,6 +416,8 @@ LIBS      := $(foreach lp,$(RQ_LPACKS), $(LIB_FILE_$(lp)))
 else
 LIBS      := $(foreach lp,$(RQ_LPACKS), $(LIB_FILE_$(lp)_LNK))
 endif
+
+$(warning $(LIBS))
 
 LIBS      := $(LIBS) $(LIBS_$(OS_BASE))
 

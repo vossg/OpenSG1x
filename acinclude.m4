@@ -548,7 +548,7 @@ dnl e2
                 if test -r $ac_gdz_package_check_file_e2; then
                     ac_gdz_package_inc_dep_out_files="$ac_gdz_package_inc_dep_out_files $ac_gdz_commonpackage_dir/common$dir.mk"
     
-                    if test $build_os = cygwin; then
+                    if test $build_os = cygwin || test $build_os = darwin; then
                         ac_gdz_package_link_dep_out="$ac_gdz_package_link_dep_out $dir"
                     fi
                 else
