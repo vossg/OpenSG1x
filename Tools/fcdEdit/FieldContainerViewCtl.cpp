@@ -11,6 +11,7 @@
 #include <qlineedit.h>
 #include <qlistview.h>
 #include <qlistbox.h>
+#include <qdir.h>
 
 using namespace std;
 
@@ -508,7 +509,7 @@ void FieldContainerViewCtl::writeFieldContainerBaseSlot()
 	sync();
 
 	if (_fieldContainer.name()) {
-		QString s( QFileDialog::getExistingDirectory( QString::null, NULL,
+		QString s( QFileDialog::getExistingDirectory( QDir::current().path(), NULL,
 			"name", QString("Choose directory to save base files to"), true ) );
 
 		if ( s.isEmpty() )
@@ -605,7 +606,7 @@ void FieldContainerViewCtl::writeFieldContainerSlot()
 	sync();
 
 	if (_fieldContainer.name()) {
-		QString s( QFileDialog::getExistingDirectory( QString::null, NULL,
+		QString s( QFileDialog::getExistingDirectory( QDir::current().path(), NULL,
 			"name", QString("Choose directory to save files to"), true ) );
 
 		if ( s.isEmpty() )
