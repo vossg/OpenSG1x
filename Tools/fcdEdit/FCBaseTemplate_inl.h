@@ -170,7 +170,7 @@ char *FCBaseTemplate_inl[]={
 "}",
 "",
 "OSG_@!LIBNAME!@LIB_DLLMAPPING",
-"void @!Classname!@Base::set@!Fieldname!@( @!Fieldtype!@ value )",
+"void @!Classname!@Base::set@!Fieldname!@( const @!Fieldtype!@ &value )",
 "{",
 "	_@!fieldname!@.setValue(value);",
 "}",
