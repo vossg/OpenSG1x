@@ -821,6 +821,87 @@
 
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
+/*! \name GL_ARB_shader_objects                                        */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+
+#ifndef GL_ARB_shader_objects
+#define GL_ARB_shader_objects 1
+
+#define GL_PROGRAM_OBJECT_ARB                               0x8B40
+#define GL_SHADER_OBJECT_ARB                                0x8B48
+#define GL_OBJECT_TYPE_ARB                                  0x8B4E
+#define GL_OBJECT_SUBTYPE_ARB                               0x8B4F
+#define GL_FLOAT_VEC2_ARB                                   0x8B50
+#define GL_FLOAT_VEC3_ARB                                   0x8B51
+#define GL_FLOAT_VEC4_ARB                                   0x8B52
+#define GL_INT_VEC2_ARB                                     0x8B53
+#define GL_INT_VEC3_ARB                                     0x8B54
+#define GL_INT_VEC4_ARB                                     0x8B55
+#define GL_BOOL_ARB                                         0x8B56
+#define GL_BOOL_VEC2_ARB                                    0x8B57
+#define GL_BOOL_VEC3_ARB                                    0x8B58
+#define GL_BOOL_VEC4_ARB                                    0x8B59
+#define GL_FLOAT_MAT2_ARB                                   0x8B5A
+#define GL_FLOAT_MAT3_ARB                                   0x8B5B
+#define GL_FLOAT_MAT4_ARB                                   0x8B5C
+#define GL_OBJECT_DELETE_STATUS_ARB                         0x8B80
+#define GL_OBJECT_COMPILE_STATUS_ARB                        0x8B81
+#define GL_OBJECT_LINK_STATUS_ARB                           0x8B82
+#define GL_OBJECT_VALIDATE_STATUS_ARB                       0x8B83
+#define GL_OBJECT_INFO_LOG_LENGTH_ARB                       0x8B84
+#define GL_OBJECT_ATTACHED_OBJECTS_ARB                      0x8B85
+#define GL_OBJECT_ACTIVE_UNIFORMS_ARB                       0x8B86
+#define GL_OBJECT_ACTIVE_UNIFORM_MAX_LENGTH_ARB             0x8B87
+#define GL_OBJECT_SHADER_SOURCE_LENGTH_ARB                  0x8B88
+
+#endif
+
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name GL_ARB_vertex_shader                                         */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+
+#ifndef GL_ARB_vertex_shader
+#define GL_ARB_vertex_shader 1
+
+#define GL_VERTEX_SHADER_ARB                                0x8B31
+#define GL_MAX_VERTEX_UNIFORM_COMPONENTS_ARB                0x8B4A
+#define GL_MAX_VARYING_FLOATS_ARB                           0x8B4B
+#define GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS_ARB               0x8B4C
+#define GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS_ARB             0x8B4D
+#define GL_OBJECT_ACTIVE_ATTRIBUTES_ARB                     0x8B89
+#define GL_OBJECT_ACTIVE_ATTRIBUTE_MAX_LENGTH_ARB           0x8B8A
+
+#endif
+
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name GL_ARB_fragment_shader                                       */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+
+#ifndef GL_ARB_fragment_shader
+#define GL_ARB_fragment_shader 1
+
+#define GL_FRAGMENT_SHADER_ARB                              0x8B30
+#define GL_MAX_FRAGMENT_UNIFORM_COMPONENTS_ARB              0x8B49
+
+#endif
+
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name GL_ARB_shading_language_100                                  */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+
+#ifndef GL_ARB_shading_language_100
+#define GL_ARB_shading_language_100 1
+#endif
+
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
 
 #ifndef GL_VERSION_1_2
 #define GL_CLAMP_TO_EDGE                  0x812F
