@@ -52,7 +52,7 @@ OSG_BEGIN_NAMESPACE
 
 class DrawActionBase;
 
-/*! \brief InverseTransform class. See \ref 
+/*! \brief InverseTransform class. See \ref
            PageSystemInverseTransform for a description.
 */
 
@@ -69,13 +69,15 @@ class OSG_SYSTEMLIB_DLLMAPPING InverseTransform : public InverseTransformBase
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
+    virtual void changed(BitVector  whichField,
                          UInt32     origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name               calc the inverse matrix                        */
     /*! \{                                                                 */
+
+    void initMatrix(const Matrix         &mToWorld);
 
     void calcMatrix(      DrawActionBase *pAction,
                     const Matrix         &mToWorld,
@@ -86,7 +88,7 @@ class OSG_SYSTEMLIB_DLLMAPPING InverseTransform : public InverseTransformBase
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0, 
+    virtual void dump(      UInt32     uiIndent = 0,
                       const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
@@ -107,7 +109,7 @@ class OSG_SYSTEMLIB_DLLMAPPING InverseTransform : public InverseTransformBase
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~InverseTransform(void); 
+    virtual ~InverseTransform(void);
 
     /*! \}                                                                 */
 
@@ -116,7 +118,7 @@ class OSG_SYSTEMLIB_DLLMAPPING InverseTransform : public InverseTransformBase
     /*! \{                                                                 */
 
     void            adjustVolume  (Volume & volume);
-    
+
     virtual void   accumulateMatrix(Matrix &result);
 
     /*! \}                                                                 */
@@ -134,7 +136,7 @@ class OSG_SYSTEMLIB_DLLMAPPING InverseTransform : public InverseTransformBase
     Action::ResultE renderLeave   (Action *action);
 
     /*! \}    */
-    
+
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -157,6 +159,6 @@ OSG_END_NAMESPACE
 #include <OSGInverseTransformBase.inl>
 #include <OSGInverseTransform.inl>
 
-#define OSGINVERSETRANSFORM_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.21 2003/07/11 18:39:08 dirk Exp $"
+#define OSGINVERSETRANSFORM_HEADER_CVSID "@(#)$Id: OSGInverseTransform.h,v 1.2 2004/10/13 14:51:34 a-m-z Exp $"
 
 #endif /* _OSGINVERSETRANSFORM_H_ */

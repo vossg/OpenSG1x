@@ -86,37 +86,37 @@ void InverseTransform::initMethod (void)
         osgTypedMethodFunctor2BaseCPtrRef<
             Action::ResultE,
             InverseTransformPtr    ,
-            CNodePtr        ,  
+            CNodePtr        ,
             Action         *>(&InverseTransform::drawLeave));
 
 
-    IntersectAction::registerEnterDefault( 
+    IntersectAction::registerEnterDefault(
         getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<
             Action::ResultE,
             InverseTransformPtr    ,
-            CNodePtr        ,  
+            CNodePtr        ,
             Action         *>(&InverseTransform::intersectEnter));
 
-    IntersectAction::registerLeaveDefault( 
-        getClassType(), 
+    IntersectAction::registerLeaveDefault(
+        getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<
             Action::ResultE,
             InverseTransformPtr    ,
-            CNodePtr        ,   
+            CNodePtr        ,
             Action         *>(&InverseTransform::intersectLeave));
 
 
     RenderAction::registerEnterDefault(
-        getClassType(), 
+        getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<
             Action::ResultE,
             InverseTransformPtr    ,
-            CNodePtr        ,  
+            CNodePtr        ,
             Action         *>(&InverseTransform::renderEnter));
 
     RenderAction::registerLeaveDefault(
-        getClassType(), 
+        getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<
             Action::ResultE,
             InverseTransformPtr    ,
@@ -183,8 +183,13 @@ void InverseTransform::calcMatrix(      DrawActionBase * OSG_CHECK_ARG(pAction),
                                         Matrix         &mResult)
 {
     mResult.invertFrom(mToWorld);
-    
+
     _invWorld = mResult;    // remember dynamically set matrix field
+}
+
+void InverseTransform::initMatrix(const Matrix &mToWorld)
+{
+    _invWorld.invertFrom(mToWorld);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -218,7 +223,7 @@ Action::ResultE InverseTransform::intersectEnter(Action *action)
 {
     IntersectAction *ia = dynamic_cast<IntersectAction *>(action);
     Matrix           m(_invWorld);
-    
+
     m.invert();
 
     Pnt3f pos;
@@ -246,7 +251,7 @@ Action::ResultE InverseTransform::intersectLeave(Action *action)
 
     ia->setLine(Line(pos, dir), ia->getMaxDist());
     ia->scale(dir.length());
-    
+
     return Action::Continue;
 }
 
@@ -287,7 +292,7 @@ Action::ResultE InverseTransform::renderLeave(Action *action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.19 2003/05/05 10:05:28 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGInverseTransform.cpp,v 1.2 2004/10/13 14:51:34 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGINVERSETRANSFORMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGINVERSETRANSFORMBASE_INLINE_CVSID;
 
