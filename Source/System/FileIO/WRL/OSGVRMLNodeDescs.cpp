@@ -1401,12 +1401,14 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
             MFNodePtr::iterator parentsIt   = pGeoParents.begin();
             MFNodePtr::iterator endParents  = pGeoParents.end  ();
 
+            // this makes pGeo invalid!
             while(parentsIt != endParents)
             {
                 (*parentsIt)->setCore(pGr);
 
                 ++parentsIt;
             }
+            pGeo = NullFC;
         }
     }
     else
@@ -1455,7 +1457,9 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
         }
     }
 
-    endEditCP(pGeo);
+    // on invalid geometries pGeo is set to NullFC!
+    if(pGeo != NullFC)
+        endEditCP(pGeo);
 
 #ifdef OSG_DEBUG_VRML
     decIndent();
