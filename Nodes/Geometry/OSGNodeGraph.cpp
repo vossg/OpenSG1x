@@ -1,3 +1,6 @@
+
+#include <OSGConfig.h>
+
 // System declarations
 #include <iostream>
 #include <stdlib.h>
@@ -133,7 +136,12 @@ bool NodeGraph::verify (bool printInfo )
 }
 
 // macro to compile randomization in and out -- just for debuging
+#ifndef WIN32
 #define RANDBOOL (random() & 1)
+#else
+#define RANDBOOL (rand() & 1)
+#endif
+
 //#define RANDBOOL true
 
 //----------------------------------------------------------------------

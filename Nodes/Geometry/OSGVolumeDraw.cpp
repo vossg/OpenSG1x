@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGVolumeDraw.cpp,v 1.4 2001/08/06 07:10:13 dirk Exp $";
+static char cvsid[] = "@(#)$Id: OSGVolumeDraw.cpp,v 1.5 2001/08/06 10:46:15 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -133,7 +133,7 @@ void osg::drawVolume ( const BoxVolume &volume )
 OSG_SYSTEMLIB_DLLMAPPING 
 void osg::drawVolume ( const SphereVolume &volume )
 {
-	PWARNING(( "drawVolume(SphereVolume): not implemented yet!\n" ));
+	FWARNING(( "drawVolume(SphereVolume): not implemented yet!\n" ));
     return;
 }
 
@@ -254,6 +254,6 @@ void osg::drawVolume ( const FrustumVolume &volume )
 OSG_SYSTEMLIB_DLLMAPPING 
 void osg::drawVolume ( const CylinderVolume &volume )
 {
-	PWARNING(( "drawVolume(CylinderVolume): not implemented yet!\n" ));
+	FWARNING(( "drawVolume(CylinderVolume): not implemented yet!\n" ));
     return;
 }
