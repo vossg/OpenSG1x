@@ -58,6 +58,7 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 //  Forward References
 //---------------------------------------------------------------------------
+
 class BinaryDataHandler;
 
 //---------------------------------------------------------------------------
@@ -342,6 +343,8 @@ typedef SimpleAttachment<NameAttachmentDesc> Name;
 
 typedef FCPtr<AttachmentPtr,  Name> NamePtr;
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+
 #ifndef OSG_COMPILEATTACHMENTINST
 #if defined(__sgi)
 
@@ -357,12 +360,15 @@ OSG_FC_DLLEXPORT_DECL(SimpleAttachment,
 #endif
 #endif
 
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
 /*! \ingroup FieldContainerLib
- *  \brief DynFieldAttachment.
+ *  \brief Template to build simple attachment classes which store only one 
+ *  field.
  */
 
 template <class AttachmentDescT>

@@ -62,7 +62,7 @@
 */
 OSG_USING_NAMESPACE 
 
-/*! class osg::Image 
+/*! \class osg::Image 
  */
 
 

@@ -121,10 +121,6 @@ Int32 osgnextpower2(Int32 rValue)
     return result;
 }
 
-/*! @name Generic Versions
- */
-
-/*@{*/
 
 /*! \brief osgabs
  *  \ingroup BaseMathFunctions
@@ -159,7 +155,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
    return osgrad2degree(rValue);
 }
 
-/*@}*/
+
 
 /*! @name Default Implementation
  */
@@ -529,6 +525,8 @@ Real32 osgfloor(const Real32 rValue)
 #endif
 }
 
+/*@}*/
+
 /*! \brief osgMin
  *  \ingroup BaseMathFunctions
  */
@@ -558,8 +556,6 @@ UInt32 osgfinite(const FloatTypeT rVal)
     return  finite(rVal);
 #endif
 }
-
-/*@}*/
 
 /*! @name Real64 Specializations
  */
@@ -733,11 +729,6 @@ Real64 osgfloor(const Real64 rValue)
 
 /*@}*/
 
-/*! @name String Functions
- */
-
-/*@{*/
-
 /*! \brief copy c strings, allocate new memory using new []
  *  \ingroup BaseFunctions
  */
@@ -803,8 +794,6 @@ Int32 stringcasecmp(const char *string1,
 #endif
 }
 
-/*@}*/
-
 inline
 OSG_BASE_DLLMAPPING
 int putenv(char *string)
@@ -815,11 +804,6 @@ int putenv(char *string)
     return ::_putenv(string);
 #endif
 }
-
-/*! @name Sleep
- */
-
-/*@{*/
 
 inline
 OSG_BASE_DLLMAPPING
@@ -841,7 +825,5 @@ void osgsleep(UInt32 millisecs)
     }
 #endif
 }
-
-/*@}*/
 
 OSG_END_NAMESPACE

@@ -335,7 +335,6 @@ void SimpleAttachment<AttachmentDescT>::executeSyncImpl(
 \*-------------------------------------------------------------------------*/
 
 
-
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -345,7 +344,7 @@ void SimpleAttachment<AttachmentDescT>::executeSyncImpl(
 \***************************************************************************/
 
 
-/** \brief Attachment type
+/*! \brief Attachment type
  */
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)

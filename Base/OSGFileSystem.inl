@@ -70,6 +70,8 @@ const UInt32 OSGWRITEFLAG = _S_IWRITE;
 #error "Could not find your system, check your system/compiler combination"
 #endif
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+
 inline
 Bool File::tstAttr(const Char8  *szFilename,
                          UInt32  uiAccessFlags)
@@ -293,6 +295,8 @@ vector<Char8 *> *Directory::getEntries(const Char8 *szDirname)
 
     return returnValue;
 }
+
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 OSG_END_NAMESPACE
 
