@@ -51,20 +51,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id:$";
-    static Char8 cvsid_hpp[] = OSG_CONNECTIONFACTORYHEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 ConnectionFactory *ConnectionFactory::_the=NULL;
 
 /** \class osg::ConnectionFactory
@@ -158,7 +144,22 @@ void ConnectionFactory::subType(ConnectionType *type)
     SINFO << "Connection type " << type->getName() << " removed" << endl;
 }
 
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id:$";
+    static Char8 cvsid_hpp[] = OSG_CONNECTIONFACTORYHEADER_CVSID;
+}
 
 
 

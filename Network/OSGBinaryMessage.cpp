@@ -49,20 +49,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id:$";
-    static Char8 cvsid_hpp[] = OSG_BINSOCKETMESSAGEHEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /** \class osg::BinaryMessage
  *  \ingroup Network
  *  \brief Little-, Big endian independent message buffer
@@ -203,7 +189,22 @@ MemoryHandle BinaryMessage::getBuffer(void)
         return 0;
 }
 
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id:$";
+    static Char8 cvsid_hpp[] = OSG_BINSOCKETMESSAGEHEADER_CVSID;
+}
 
 
 
