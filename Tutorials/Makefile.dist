@@ -3,32 +3,69 @@
 # use debug or opt libs?
 LIBTYPE := ##DBG##
 
-# where to find GLUT?
-# You can ignore this on Linux, it's in the system pathes.
-SYSTEM := $(shell uname)
-GLUTROOT := /igd/a4/software/$(SYSTEM)/
-
 # set the path to the installed OpenSG root directory here
 # if you installed in /usr/local:
 # OSGROOT := /usr/local
 # use this if you just unpacked the binary distribution
 OSGROOT := ..
 
+### System dependencies ###############################################
+
+# Set the system we're running on
+SYSTEM := $(shell uname)
+
+# which extension to be used for executables
+EXEEXT :=
+
+# be very careful with these lines. There needs to be a space after the Unix
+# lines and nothing after the win lines!!
+
+ifeq ($(SYSTEM),IRIX)
+        CCOUT := -o 
+        LDOUT := -o 
+	LINK  := 
+endif
+ifeq ($(SYSTEM),IRIX64)
+        CCOUT := -o 
+        LDOUT := -o 
+	LINK  := 
+endif
+ifeq ($(SYSTEM),Linux)
+        CCOUT := -o 
+        LDOUT := -o 
+	LINK  := 
+endif
+ifeq ($(findstring WIN,$(SYSTEM)),WIN)
+        OS := WIN32
+        CCOUT := -Fo
+        LDOUT := /out:
+	LINK   := -link
+	EXEEXT :=.exe
+endif
+ifeq ($(SYSTEM),HP-UX)
+        CCOUT := -o 
+        LDOUT := -o 
+	LINK  := 
+endif
+ifeq ($(SYSTEM),Darwin)
+        CCOUT := -o 
+        LDOUT := -o 
+	LINK  := 
+endif
+
 # Var settings
 
-CC = $(shell $(OSGROOT)/bin/osg-config --compiler)
+CC = "$(shell $(OSGROOT/bin/osg-config) --compiler)"
 
-CCFLAGS = -I$(GLUTROOT)/include -I$(OSGROOT)/include \
-  $(shell $(OSGROOT)/bin/osg-config --$(LIBTYPE) --cflags Base System GLUT)
+CCFLAGS = $(shell $(OSGROOT/bin/osg-config) --cflags --$(LIBTYPE) Base System GLUT)
 
-LDFLAGS = -L$(GLUTROOT)/lib -L$(OSGROOT)/lib/$(LIBTYPE) \
-  $(shell $(OSGROOT)/bin/osg-config --$(LIBTYPE) --libs Base System GLUT)
+LDFLAGS = $(LINK) $(shell $(OSGROOT/bin/osg-config) --libs --$(LIBTYPE) Base System GLUT)
 
 
 # all tutorials in this directory
 
 TUTS :=  $(wildcard [0-9][0-9]*.cpp) 
-PROGS := $(TUTS:.cpp=) 
+PROGS := $(TUTS:.cpp=$(EXEEXT)) 
 
 # program dependencies
 
@@ -39,16 +76,21 @@ default:	$(PROGS)
 .PHONY: clean Clean
 
 clean:
-	rm -fr *.o ii_files
+	rm -f  *.o 
+	rm -f  *.obj 
+	rm -rf ii_files
+	rm -f *.pdb
+	rm -f *.ilk
+	rm -f *.idb
 
 Clean: clean
-	rm -fr $(PROGS) 
+	rm -f $(PROGS) 
 
 %.o: %.cpp
 	$(CC) -c $(CCFLAGS) $<
 
 %: %.o
-	$(CC) -o $@ $< $(LDFLAGS)
+	$(CC) $(LDOUT)$@ $< $(LDFLAGS)
 
-%: %.cpp
-	$(CC) $(CCFLAGS) $< $(LDFLAGS) -o $@ 
+%$(EXEEXT): %.cpp
+	$(CC) $(CCFLAGS) $< $(LDFLAGS) $(LDOUT)$@ 
