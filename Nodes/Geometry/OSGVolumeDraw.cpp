@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGVolumeDraw.cpp,v 1.6 2001/08/07 13:45:08 neumannc Exp $";
+static char cvsid[] = "@(#)$Id: OSGVolumeDraw.cpp,v 1.7 2001/09/30 19:33:58 dirk Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -237,12 +237,14 @@ void osg::drawVolume ( const FrustumVolume &volume )
     glEnd();
 
     glBegin( GL_LINES );
+ 	glVertex3fv( pnts[0].getValues() );
+ 	glVertex3fv( pnts[2].getValues() );
  	glVertex3fv( pnts[1].getValues() );
  	glVertex3fv( pnts[5].getValues() );
  	glVertex3fv( pnts[2].getValues() );
  	glVertex3fv( pnts[6].getValues() );
- 	glVertex3fv( pnts[3].getValues() );
- 	glVertex3fv( pnts[7].getValues() );
+ 	glVertex3fv( pnts[4].getValues() );
+ 	glVertex3fv( pnts[6].getValues() );
     glEnd();
 
     return;
