@@ -169,10 +169,9 @@ const std::string &WebInterface::getFooter(void)
  */
 void WebInterface::addHandler(char *path,MethodT method)
 {
-    HandlerT::value_type newEntry;
 
-    newEntry.first  = IDString(path);
-    newEntry.second = method;
+    HandlerT::value_type newEntry = HandlerT::value_type(IDString(path),
+                                                         method       );
 
     std::pair<HandlerT::iterator, bool> retVal;
     
