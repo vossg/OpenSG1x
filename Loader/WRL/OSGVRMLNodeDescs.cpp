@@ -2578,7 +2578,7 @@ void VRMLMaterialDesc::endProtoInterface(void)
                            1.f - _defaultTransparency.getValue());
     pMatChunk->setSpecular(cCol);
 
-    pMatChunk->setShininess(_defaultShininess.getValue());
+    pMatChunk->setShininess(_defaultShininess.getValue() * 128.f);
 
     cCol.setValuesRGBA    (_defaultEmissiveColor.getValue()[0],
                            _defaultEmissiveColor.getValue()[1],
@@ -2667,7 +2667,7 @@ void VRMLMaterialDesc::endNode(FieldContainerPtr)
                             1.f - _transparency.getValue());
         _pMat->setSpecular (cCol);
 
-        _pMat->setShininess(_shininess.getValue()    );
+        _pMat->setShininess(_shininess.getValue() * 128.f );
 
         cCol.setValuesRGBA (_emissiveColor.getValue()[0],
                             _emissiveColor.getValue()[1],
