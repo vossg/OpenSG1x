@@ -362,11 +362,11 @@ int main (int argc, char **argv)
     SkyBackgroundPtr sbkgnd = SkyBackground::create();
 
 
-    sbkgnd->getMFSkyColor()->push_back(Color3f(1, 0, 0));
+    sbkgnd->getMFSkyColor()->push_back(Color4f(1, 0, 0,0.5));
     sbkgnd->getMFSkyAngle()->push_back(Pi / 2);
-    sbkgnd->getMFSkyColor()->push_back(Color3f(0, 1, 0));
+    sbkgnd->getMFSkyColor()->push_back(Color4f(0, 1, 0,0.5));
     sbkgnd->getMFSkyAngle()->push_back(Pi);
-    sbkgnd->getMFSkyColor()->push_back(Color3f(0, 0, 1)); 
+    sbkgnd->getMFSkyColor()->push_back(Color4f(0, 0, 1,0.5)); 
 
 #else
     SolidBackgroundPtr sbkgnd = SolidBackground::create();

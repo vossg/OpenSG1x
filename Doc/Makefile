@@ -21,37 +21,6 @@ DOCS_BASE  := ../Source/Base/Base 				\
 			  ../Source/Base/StringConversion  
 
 DOCS_SYS   := ../Source/System/Action  										\
-			  ../Source/System/Action/DrawAction  				    		\
-			  ../Source/System/Action/IntersectAction  						\
-			  ../Source/System/Action/RenderAction  						\
-			  ../Source/System/Cluster/Base                                 \
-              ../Source/System/Cluster/Server		                        \
-			  ../Source/System/Cluster/Window  								\
-			  ../Source/System/Cluster/Window/Base							\
-			  ../Source/System/Cluster/Window/MultiDisplay					\
-			  ../Source/System/Cluster/Window/SortFirst						\
-			  ../Source/System/FieldContainer  								\
-			  ../Source/System/FieldContainer/Impl							\
-			  ../Source/System/FileIO  										\
-			  ../Source/System/FileIO/Base									\
-			  ../Source/System/FileIO/BIN									\
-			  ../Source/System/FileIO/OBJ									\
-			  ../Source/System/FileIO/OFF									\
-			  ../Source/System/FileIO/OSG									\
-			  ../Source/System/FileIO/RAW									\
-			  ../Source/System/FileIO/WRL									\
-			  ../Source/System/FileIO/ScanParseSkel							\
-			  ../Source/System/Image										\
-			  ../Source/System/Material										\
-			  ../Source/System/NodeCores/Drawables/Base						\
-			  ../Source/System/NodeCores/Drawables/Geometry					\
-			  ../Source/System/NodeCores/Drawables/Misc						\
-			  ../Source/System/NodeCores/Drawables/Particles				\
-			  ../Source/System/NodeCores/Groups/Base						\
-			  ../Source/System/NodeCores/Groups/Light						\
-			  ../Source/System/NodeCores/Groups/Misc						\
-			  ../Source/System/RenderingBackend								\
-			  ../Source/System/State										\
 			  ../Source/System/Statistics									\
 			  ../Source/System/Window
 
@@ -210,7 +179,7 @@ dostarter:
 	# link the images
 	cd $(DOCDIR)/$(DOC_STARTER)/latex/ ; \
 	../../../../Common/refmanToStarter refman.tex StarterGuide.tex ;  \
-	latex StarterGuide && latex StarterGuide && dvips StarterGuide && \
+	latex StarterGuide && latex StarterGuide && dvips StarterGuide -o && \
 		ps2pdf StarterGuide.ps
 
 userstarter:

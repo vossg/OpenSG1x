@@ -55,7 +55,7 @@ coordinate system by a series of intermediate transformations. In matrix transfo
 where C (center), SR (scaleOrientation), T (translation), R (rotation), and S (scale) 
 are the equivalent transformation matrices,
 
-    P' = T × C × R × SR × S × -SR × -C × P
+P' = T × C × R × SR × S × -SR × -C × P
 
 \section NCGroupsDistanceLOD DistanceLOD
 
@@ -64,8 +64,15 @@ basic idea is to have a number of differently detailed versions of an object
 and use low-res versions for objects that are far away. 
 
 A DistanceLOD is the simplest version, which switches versions based on
-distance to the viewer. There is a distance associated with every child of the
-Node, the details follow the VRML specification.
+distance to the viewer. The children is selected based on the
+center and range settings.
+
+The center field is a translation offset in the local coordinate system that specifies the centre of the LOD node for distance calculations.
+
+The number of children shall exceed the number of values in the range field by one (i.e., N+1 children for N range values). The range field contains monotonic increasing values that shall be greater than 0. In order to calculate which level to display, the distance is calculated from the viewer's location, transformed into the local coordinate system of the LOD node (including any scaling transformations), to the center point of the LOD node. 
+
+\image html distanceLOD.png "DistanceLOD example"
+\image latex distanceLOD.eps "DistanceLOD example" width=8cm
 
 \section NCGroupsLights Lights
 
@@ -75,7 +82,7 @@ what elements of the scene are lit (semantics). Since the graph structure
 essentially describes the semantics of the scene, the node containing the
 Light describes what is lit: The subgraph attached to the Light. Necessarily,
 the position in space of a Light has to be defined by other means than the
-accumulated transform to the Light's node as the subgraphs position and
+accumulatedatransform to the Light's node as the subgraphs position and
 orientation might coincide with the light source's.
 
 To define the position and orientation of the light a separate node, a beacon,
