@@ -53,9 +53,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup baselib
- *  \brief Brief
- */
+/*! \brief Managed QT Widget. See 
+    \ref PageOSGQGLManagedWidget "OSGQGLManagedWidget" for a description. 
+*/
 
 class OSG_WINDOWQTLIB_DLLMAPPING OSGQGLManagedWidget : public OSGQGLWidget
 {
@@ -116,15 +116,15 @@ class OSG_WINDOWQTLIB_DLLMAPPING OSGQGLManagedWidget : public OSGQGLWidget
 
     SimpleSceneManager *_manager;
 
-    virtual void initializeGL (void);
-    virtual void paintGL (void);
-    virtual void resizeGL (int w, int h);
-    virtual void mousePressEvent ( QMouseEvent* );
-    virtual void mouseReleaseEvent ( QMouseEvent* );
-    virtual void mouseMoveEvent ( QMouseEvent* );
-    virtual void wheelEvent ( QWheelEvent* );
-    virtual void keyPressEvent ( QKeyEvent* );
-    virtual void closeEvent ( QCloseEvent * );
+    virtual void initializeGL      (void);
+    virtual void paintGL           (void);
+    virtual void resizeGL          (int w, int h);
+    virtual void mousePressEvent   (QMouseEvent*);
+    virtual void mouseReleaseEvent (QMouseEvent*);
+    virtual void mouseMoveEvent    (QMouseEvent*);
+    virtual void wheelEvent        (QWheelEvent*);
+    virtual void keyPressEvent     (QKeyEvent  *);
+    virtual void closeEvent        (QCloseEvent*);
 
     /*! \}                                                                 */
 
@@ -133,17 +133,10 @@ class OSG_WINDOWQTLIB_DLLMAPPING OSGQGLManagedWidget : public OSGQGLWidget
 
     typedef OSGQGLWidget Inherited;
 
-
     /*!\brief prohibit default function (move to 'public' if needed) */
     OSGQGLManagedWidget(const OSGQGLManagedWidget &source);
     OSGQGLManagedWidget & operator =(const OSGQGLManagedWidget &source);
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-// class pointer
 
 typedef OSGQGLManagedWidget *OSGQGLManagedWidgetP;
 

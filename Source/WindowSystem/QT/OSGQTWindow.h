@@ -48,8 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
- */
+/*! \brief QT Window class. See \ref PageWindowQT for a description. */
 
 class OSG_WINDOWQTLIB_DLLMAPPING QTWindow : public QTWindowBase
 {

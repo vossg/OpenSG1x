@@ -48,8 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
- */
+/*! \brief X Window class. See \ref PageWindowX for a description. */
 
 class OSG_WINDOWXLIB_DLLMAPPING XWindow : public XWindowBase
 {

@@ -40,13 +40,4 @@ The class for WIN32 windows.
 		access="public"
 	>
 	</Field>
-	<Field
-		name="paintstruct"
-		type="PAINTSTRUCT"
-		cardinality="single"
-		visibility="internal"
-		header="OSGWIN32WindowDataFields.h"
-		access="public"
-	>
-	</Field>
 </FieldContainer>

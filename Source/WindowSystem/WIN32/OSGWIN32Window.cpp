@@ -120,7 +120,8 @@ void WIN32Window::dump(      UInt32    ,
 
 /*-------------------------- your_category---------------------------------*/
 
-// init the window: create the HDC and context
+/*! init the window: create the HDC and HGLRC
+*/
 void WIN32Window::init( void )
 {
     setHdc(GetDC(getHwnd()));
@@ -140,10 +141,10 @@ void WIN32Window::init( void )
     ReleaseDC(getHwnd(),getHdc());
     activate();
     setupGL();
-    deactivate();
 }
 
-// activate the window: bind the OGL context
+/*! activate the window: set the HDC and bind the OGL context
+*/
 void WIN32Window::activate( void )
 {    
     setHdc(GetDC(getHwnd()));
@@ -170,5 +171,20 @@ void WIN32Window::swap( void )
 {
     SwapBuffers(getHdc());
 }
+
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: $";
+    static char cvsid_hpp[] = OSGWIN32WINDOW_HEADER_CVSID;
+    static char cvsid_inl[] = OSGWIN32WINDOW_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGWIN32WINDOWFIELDS_HEADER_CVSID;
+}
+
 
 #endif // WIN32

@@ -52,7 +52,9 @@
 OSG_USING_NAMESPACE
 
 /*! \class osg::XWindow
-The class windows on X.
+
+The class for X-based windows. See \ref PageWindowX for a description.
+
 */
 
 /*----------------------- constructors & destructors ----------------------*/
@@ -102,32 +104,33 @@ void XWindow::dump(      UInt32    ,
 
 
 
-// init the window: create the context  
-void XWindow::init( void )
+/*! Init the window: create the context and setup the OpenGL.
+*/
+void XWindow::init(void)
 {    
     XVisualInfo       *vi, visInfo;
     XWindowAttributes winAttr;
 
-    XGetWindowAttributes( getDisplay(), getWindow(), &winAttr );
+    XGetWindowAttributes(getDisplay(), getWindow(), &winAttr);
 
     // get the existing glWidget's visual-id
-    memset( &visInfo, 0, sizeof(XVisualInfo) );
-    visInfo.visualid = XVisualIDFromVisual( winAttr.visual );
+    memset(&visInfo, 0, sizeof(XVisualInfo));
+    visInfo.visualid = XVisualIDFromVisual(winAttr.visual);
 
     // get new display-variable
     setDisplay(XOpenDisplay(DisplayString(getDisplay())));  
 
     // get a visual for the glx context
     int nvis;
-    vi = XGetVisualInfo( getDisplay(), VisualIDMask, &visInfo, &nvis );
+    vi = XGetVisualInfo(getDisplay(), VisualIDMask, &visInfo, &nvis);
 
     // is the visual GL-capable ?
     int useGL;
-    glXGetConfig( getDisplay(), 
-                  vi, 
-                  GLX_USE_GL, 
-                  &useGL );
-    if ( !useGL )
+    glXGetConfig(getDisplay(), 
+                 vi, 
+                 GLX_USE_GL, 
+                 &useGL );
+    if (!useGL)
     {
         SFATAL << "Visual is not OpenGL-capable!" << std::endl;
     }    
@@ -135,29 +138,29 @@ void XWindow::init( void )
     XWindowPtr win(*this);
     beginEditCP(win, ContextFieldMask);
     // create the new context
-    setContext(glXCreateContext( getDisplay(), vi, None, GL_TRUE ));
+    setContext(glXCreateContext(getDisplay(), vi, None, GL_TRUE));
     endEditCP  (win, ContextFieldMask);
 
-    glXMakeCurrent( getDisplay(), getWindow(), getContext() );
+    glXMakeCurrent(getDisplay(), getWindow(), getContext());
     setupGL();
 }
     
 // activate the window: bind the OGL context    
 void XWindow::activate( void )
 {
-    glXMakeCurrent( getDisplay(), getWindow(), getContext() );
+    glXMakeCurrent(getDisplay(), getWindow(), getContext());
 }
     
 // activate the window: bind the OGL context    
 void XWindow::deactivate( void )
 {
-    glXMakeCurrent( getDisplay(), None, NULL );
+    glXMakeCurrent(getDisplay(), None, NULL);
 }
     
 // swap front and back buffers  
 void XWindow::swap( void )
 {
-    glXSwapBuffers( getDisplay(), getWindow() );
+    glXSwapBuffers(getDisplay(), getWindow());
 }
 
 #include <OSGMFieldTypeDef.inl>

@@ -53,66 +53,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace 
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.13 2002/02/05 20:39:34 dirk Exp $";
-    static Char8 cvsid_hpp[] = OSGQGLMANAGEDWIDGET_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
-/** \enum OSGVecBase::VectorSizeE
- *  \brief 
- */
-
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
- * 
- */
-
-/** \fn const char *OSGVecBase::getClassname(void)
- *  \brief Classname
- */
-
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
- *  \brief Value store
- */
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
 /***************************************************************************\
  *                           Instance methods                              *
 \***************************************************************************/
@@ -123,34 +63,34 @@ namespace
 
 /*------------- constructors & destructors --------------------------------*/
 
-/** \brief Constructor
- */
+/*! Constructor
+*/
 
 OSGQGLManagedWidget::OSGQGLManagedWidget ( QWidget *parent, 
                                            const char *name,
                                            SimpleSceneManager *manager ) 
   : Inherited(parent,name)
 {
-  FDEBUG (("OSGQGLManagedWidget constructor called\n"));
+    FDEBUG(("OSGQGLManagedWidget constructor called\n"));
 
-  OSG::QTWindowPtr qtWinPtr = OSG::QTWindow::create();
+    OSG::QTWindowPtr qtWinPtr = OSG::QTWindow::create();
 
-  OSG::beginEditCP(qtWinPtr);
-  {
-    qtWinPtr->setGlWidget( this );
-  }
-  OSG::endEditCP(qtWinPtr);
+    OSG::beginEditCP(qtWinPtr);
+    {
+        qtWinPtr->setGlWidget(this);
+    }
+    OSG::endEditCP(qtWinPtr);
 
-  if(manager != NULL)
-  {
-    _manager = manager;
-  }
-  else
-  {
-    _manager = new SimpleSceneManager; // mem leak here
-  }
+    if(manager != NULL)
+    {
+        _manager = manager;
+    }
+    else
+    {
+        _manager = new SimpleSceneManager; // mem leak here
+    }
   
-  _manager->setWindow ( qtWinPtr );
+    _manager->setWindow ( qtWinPtr );
 }
 
 
@@ -159,206 +99,161 @@ OSGQGLManagedWidget::OSGQGLManagedWidget(
 
     Inherited()
 {
-  FDEBUG (("OSGQGLManagedWidget copy constructor called\n"));
+    FDEBUG(("OSGQGLManagedWidget copy constructor called\n"));
 }
 
-/** Destructor
- */
+/*! Destructor
+*/
 
 OSGQGLManagedWidget::~OSGQGLManagedWidget(void)
 {
-  FDEBUG (("OSGQGLManagedWidget destructor called\n"));
+    FDEBUG(("OSGQGLManagedWidget destructor called\n"));
 }
 
-/*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/** assignment
- */
-
+/*! assignment
+*/
 OSGQGLManagedWidget& OSGQGLManagedWidget::operator = (const OSGQGLManagedWidget &source)
 {
     if (this != &source)
     {
-      ;     // TODO; copy parts inherited from parent
+        ;     // TODO; copy parts inherited from parent
     }
 
-  return *this;
+    return *this;
 }
 
 /*-------------------------- comparison -----------------------------------*/
-
-/** assignment
- */
 
 bool OSGQGLManagedWidget::operator < (const OSGQGLManagedWidget &other) const
 {
     return this < &other;
 }
 
-//----------------------------------------------------------------------
-// Method: getManager
-//----------------------------------------------------------------------
 SimpleSceneManager & OSGQGLManagedWidget::getManager ( void )
 {
-  return *_manager;
+    return *_manager;
 }
 
-//----------------------------------------------------------------------
-// Method: initializeGL
-//----------------------------------------------------------------------
-void OSGQGLManagedWidget::initializeGL ( void )
+/*! initialize the OpenGL part of the OpenSG window 
+*/
+void OSGQGLManagedWidget::initializeGL(void)
 {
-  FDEBUG (("OSGQGLManagedWidget::initializeGL()\n"));
+    FDEBUG(("OSGQGLManagedWidget::initializeGL()\n"));
 
-  _manager->getWindow()->init();      // create the context
+    _manager->getWindow()->init();      // create the context
  
-  FDEBUG (("after init()\n"));
-
-  _manager->getWindow()->activate();  // and activate it
-
-  // some manual init, will be moved into StateChunks later
-  glEnable( GL_LIGHTING );
-  glEnable( GL_LIGHT0 );
-  glEnable( GL_DEPTH_TEST );
-  glEnable( GL_NORMALIZE );
-  // glEnable( GL_CULL_FACE );                              not a good idea
-  // glEnable ( GL_BLEND );                                 not needed
-  // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);     not needed
-
+    FDEBUG (("after init()\n"));
 }
 
-//----------------------------------------------------------------------
-// Method: paintGL
-//----------------------------------------------------------------------
-void OSGQGLManagedWidget::paintGL ( void )
+
+void OSGQGLManagedWidget::paintGL(void)
 {
-  FDEBUG (("OSGQGLManagedWidget::paintGL() \n"));
+    FDEBUG(("OSGQGLManagedWidget::paintGL() \n"));
 
-  _manager->getWindow()->activate(); // and activate it
+    _manager->getWindow()->activate(); // and activate it
 
-  _manager->redraw();
+    _manager->redraw();
 }
 
-//----------------------------------------------------------------------
-// Method: resizeGL
-//----------------------------------------------------------------------
-void OSGQGLManagedWidget::resizeGL ( int w, int h )
+void OSGQGLManagedWidget::resizeGL(int w, int h)
 {   
-  FDEBUG (("OSGQGLManagedWidget::resizeGL()\n"));
+    FDEBUG (("OSGQGLManagedWidget::resizeGL()\n"));
 
-  _manager->resize(w,h);
-  paintGL();
+    _manager->resize(w,h);
+    paintGL();
 }
 
-//----------------------------------------------------------------------
-// Method: mousePressEvent
-//----------------------------------------------------------------------
-void OSGQGLManagedWidget::mousePressEvent ( QMouseEvent *me )
+void OSGQGLManagedWidget::mousePressEvent(QMouseEvent *me)
 {
-  FDEBUG (("OSGQGLManagedWidget::mousePressEvent()\n"));
+    FDEBUG(("OSGQGLManagedWidget::mousePressEvent()\n"));
   
-  switch ( me->button() ) 
+    switch(me->button()) 
     {
     case LeftButton:
-      _manager->mouseButtonPress ( SimpleSceneManager::MouseLeft, 
-                                   me->x(), me->y()  );
-      break;
+        _manager->mouseButtonPress(SimpleSceneManager::MouseLeft, 
+                                        me->x(), me->y()); 
+        break;
     case MidButton:
-      _manager->mouseButtonPress ( SimpleSceneManager::MouseMiddle, 
-                                   me->x(), me->y()   );
-      break;
+        _manager->mouseButtonPress(SimpleSceneManager::MouseMiddle, 
+                                        me->x(), me->y()); 
+        break;
     case RightButton:
-      _manager->mouseButtonPress ( SimpleSceneManager::MouseRight, 
-                                   me->x(), me->y() );
-      break;
+        _manager->mouseButtonPress(SimpleSceneManager::MouseRight, 
+                                        me->x(), me->y()); 
+        break;
+    default:
+        break;
     }
   
-  paintGL();
+    paintGL();
 }
 
-//----------------------------------------------------------------------
-// Method: mouseReleaseEvent
-//----------------------------------------------------------------------
-void OSGQGLManagedWidget::mouseReleaseEvent ( QMouseEvent *me )
+void OSGQGLManagedWidget::mouseReleaseEvent(QMouseEvent *me)
 {
-  FDEBUG (("OSGQGLManagedWidget::mouseReleaseEvent()\n"));
+    FDEBUG(("OSGQGLManagedWidget::mouseReleaseEvent()\n"));
   
-  switch ( me->button() ) 
+    switch(me->button()) 
     {
     case LeftButton:
-      _manager->mouseButtonRelease ( SimpleSceneManager::MouseLeft, 
-                                     me->x(), me->y()  );
-      break;
+        _manager->mouseButtonRelease(SimpleSceneManager::MouseLeft, 
+                                        me->x(), me->y()); 
+        break;
     case MidButton:
-      _manager->mouseButtonRelease ( SimpleSceneManager::MouseMiddle, 
-                                     me->x(), me->y()   );
-      break;
+        _manager->mouseButtonRelease(SimpleSceneManager::MouseMiddle, 
+                                        me->x(), me->y()); 
+        break;
     case RightButton:
-      _manager->mouseButtonRelease ( SimpleSceneManager::MouseRight, 
-                                     me->x(), me->y() );
-      break;
+        _manager->mouseButtonRelease(SimpleSceneManager::MouseRight, 
+                                        me->x(), me->y()); 
+        break;
+    default:
+        break;
     }
-  
-  paintGL();
+   
+    paintGL();
 }
 
-//----------------------------------------------------------------------
-// Method: mouseMoveEvent
-//----------------------------------------------------------------------
 void OSGQGLManagedWidget::mouseMoveEvent ( QMouseEvent *me )
 {
-  FDEBUG (("OSGQGLManagedWidget::mouseMoveEvent()\n"));
+    FDEBUG(("OSGQGLManagedWidget::mouseMoveEvent()\n"));
   
-  _manager->mouseMove ( me->pos().x(), me->pos().y());
+    _manager->mouseMove(me->pos().x(), me->pos().y());
   
-  paintGL();
+    paintGL();
 }
 
-//----------------------------------------------------------------------
-// Method: mouseMoveEvent
-//----------------------------------------------------------------------
 void OSGQGLManagedWidget::wheelEvent ( QWheelEvent* we)
 {
-  int button;
+    int button;
 
-  FDEBUG (("OSGQGLManagedWidget::wheelEvent()\n"));
+     FDEBUG (("OSGQGLManagedWidget::wheelEvent()\n"));
 
-  if (we->delta() > 0)
-    button = SimpleSceneManager::MouseUp;
-  else
-    button = SimpleSceneManager::MouseDown;
+    if(we->delta() > 0)
+    {
+        button = SimpleSceneManager::MouseUp;
+    }
+    else
+    {
+        button = SimpleSceneManager::MouseDown;
+    }
 
-  _manager->mouseButtonPress ( button, we->x(), we->y() );
+    _manager->mouseButtonPress(button, we->x(), we->y());
 
-  paintGL();
+    paintGL();
 }
-
-//----------------------------------------------------------------------
-// Method: keyPressEvent
-//----------------------------------------------------------------------
 
 void OSGQGLManagedWidget::keyPressEvent(QKeyEvent *OSG_CHECK_ARG(ke))
 {
-  FDEBUG (("OSGQGLManagedWidget::keyPressEvent()\n"));
+    FDEBUG(("OSGQGLManagedWidget::keyPressEvent()\n"));
 }
-
-//----------------------------------------------------------------------
-// Method: closeEvent
-//----------------------------------------------------------------------
 
 void OSGQGLManagedWidget::closeEvent(QCloseEvent *event)
 {
-  FDEBUG (("OSGQGLManagedWidget::closeEvent()\n"));
+    FDEBUG(("OSGQGLManagedWidget::closeEvent()\n"));
   
-  emit closed(this);
+    emit closed(this);
 
-  Inherited::closeEvent(event);
+    Inherited::closeEvent(event);
 }
 
 #ifdef __sgi
@@ -366,3 +261,20 @@ void OSGQGLManagedWidget::closeEvent(QCloseEvent *event)
 #endif
 
 #include "OSGQGLManagedWidget_qt_moc.cpp"
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: $";
+    static char cvsid_hpp[] = OSGQGLMANAGEDWIDGET_HEADER_CVSID;
+}

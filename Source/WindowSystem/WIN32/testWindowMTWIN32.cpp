@@ -408,7 +408,7 @@ int main (int argc, char **argv)
     
         // init the OSG window  
         win[i] = WIN32Window::create();
-        win[i]->setHdc ( hDC );
+//        win[i]->setHdc ( hDC );
         win[i]->setHwnd ( hwnd[i] );
         
         // Viewport
@@ -419,6 +419,7 @@ int main (int argc, char **argv)
         win[i]->addPort( vp );
         
         win[i]->init();
+        win[i]->deactivate();
     }
     
     for (i = 0; i < NUM_THREADS; i++)

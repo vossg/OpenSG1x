@@ -221,12 +221,6 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
 //            win->setHDC ( hDC );
             
             win->init();
-    
-            // some manual init, will be moved into StateChunks later
-            win->activate();
-            glEnable( GL_LIGHTING );
-            glEnable( GL_LIGHT0 );
-            glEnable( GL_DEPTH_TEST );
             win->deactivate();
             break;
 

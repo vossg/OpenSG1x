@@ -44,15 +44,13 @@
 
 #include <OSGConfig.h>
 
-// Forget everything if we're not doing a windows compile
 #ifdef WIN32
 
 #include <OSGWIN32WindowBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
- */
+/*! \brief Win32 Window class. See \ref PageWindowWin32 for a description. */
 
 class OSG_WINDOWWIN32LIB_DLLMAPPING WIN32Window : public WIN32WindowBase
 {
@@ -83,20 +81,10 @@ class OSG_WINDOWWIN32LIB_DLLMAPPING WIN32Window : public WIN32WindowBase
     /*! \name                Window functions                              */
     /*! \{                                                                 */
     
-    // init the window: create the context  
-    virtual void init( void );
-    
-    // activate the window: bind the OGL context    
-    // set the active window, if needed
-    virtual void activate( void );
-    
-    // deactivate the window: release the OGL context
-    // release the hardware device context
-    virtual void deactivate ( void );
-    
-    // swap buffers     for this window
-    // does not set the active window!
-    virtual void swap( void );
+    virtual void init       (void);
+    virtual void activate   (void);
+    virtual void deactivate (void);
+    virtual void swap       (void);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

@@ -2,15 +2,16 @@
 
 using namespace OSG;
 
-/*! \defgroup GrpWindowQt OpenSG QT Window System Library
+/*! \defgroup GrpWindowQT OpenSG QT Window System Library
+    \ingroup GrpWindowSystems
+    
+    \brief The library for QT windows.
 
-    \brief The System Library contains the main system-independent parts of OpenSG.
-
-    See \ref WindowQt for details.
+    See \ref PageWindowQT for details.
 */
 
 /*! \defgroup GrpWindowQTField Fields
-    \ingroup GrpWindowQt
+    \ingroup GrpWindowQT
     
     See \ref PageBaseField for details.
 */
@@ -35,7 +36,28 @@ using namespace OSG;
     ToDo
 */
 
-/*! \page WindowQt QT Window System Library
+/*! \page PageWindowQT QT Window System Library
 
+QT is a portable GUI toolkit written by Trolltech (www.trolltech.com), which is
+used for a large number of Linux applications, especially the KDE project.
+Current versions do much more than windowing, but OpenSG is only concerned about
+that.
+
+The osg::QTWindow itself is only the OpenSG half of using OpenSG in QT, it has
+to be accompanied by an OSGQGLWidget, which is the QT half. Usually, in
+standard QT style, an application would derive its own widget from the
+OSGQGLWidget and add its data to the widget. The QTWindow needs to know which
+OSGQGLWidget it is associated with. 
+
+The main purpose of the special QGLWidget
+is to prevent OT from taking over the OpenGL context and let the osg::QTWindow
+handle that. The standard QT methods for OpenGL handling (makeCurrent,
+swapBuffers, initializeGL, paintGL, resizeGL) need to be redirected to the
+QTWindow, see testWindowQT_qt.cpp for an example.
+
+\anchor "PageOSGQGLManagedWidget" As a convenience class there is a
+osg::OSGQGLManagedWidget, which is derived from osg::QGLWidget and implements
+all the necessary functions. Furthermore it has an osg::SimpleSceneManager
+built in to provide some basic interaction features. 
 
 */

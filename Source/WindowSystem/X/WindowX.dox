@@ -3,10 +3,11 @@
 using namespace OSG;
 
 /*! \defgroup GrpWindowX OpenSG X Window System Library
+    \ingroup GrpWindowSystems
+    
+    \brief The library for X windows.
 
-    \brief The System Library contains the main system-independent parts of OpenSG.
-
-    See \ref WindowX for details.
+    See \ref PageWindowX for details.
 */
 
 /*! \defgroup GrpWindowXField Fields
@@ -23,7 +24,7 @@ using namespace OSG;
 */
 #endif
 
-/*! \defgroup GrpWindowXSingle Single-Element Fields
+/*! \defgroup GrpWindowXFieldSingle Single-Element Fields
     \ingroup GrpWindowXField
 
     ToDo
@@ -35,7 +36,14 @@ using namespace OSG;
     ToDo
 */
 
-/*! \page WindowX X Window System Library
+/*! \page PageWindowX X Window System Library
 
+The X Window System (www.x.org) is the base for the graphical user interfaces
+of nearly all Unix systems. 
+
+The OpenSG X Window needs the X Display and the X Window it should render
+into. It creates the OpenGL context itself during init(), but the X Window
+needs to have been created with a Visual that is OpenGL-capable. activate(),
+deactivate() and swap() do just that. ;)
 
 */

@@ -52,25 +52,10 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: $";
-    static char cvsid_hpp[] = OSGQTWINDOW_HEADER_CVSID;
-    static char cvsid_inl[] = OSGQTWINDOW_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
-
-
 /*! \class osg::QTWindow
-The class for QT windows. 	
+
+The class for QT-based windows. See \ref PageWindowQT for a description.
+
 */
 
 /*----------------------- constructors & destructors ----------------------*/
@@ -122,14 +107,13 @@ void QTWindow::dump(      UInt32    ,
 /*-------------------------- your_category---------------------------------*/
 
     
-// init the window: create the context  
+//! init the window: create the context  
 void QTWindow::init( void )
 {
 #ifdef WIN32
     if(getGlWidget() != NULL)
     {
-        setHwnd ( getGlWidget()->winId() );
-//        setHDC    ( GetDC(_glWidget->winId()) );
+        setHwnd(getGlWidget()->winId());
         
         Inherited::init();
     }
@@ -137,13 +121,14 @@ void QTWindow::init( void )
     XVisualInfo *vi;
 
     ///// create a new GLX context
-    setDisplay( XOpenDisplay(NULL) );
-    setWindow( ((QWidget*)getGlWidget())->winId() );
+    setDisplay(XOpenDisplay(NULL));
+    setWindow(((QWidget*)getGlWidget())->winId());
 
     // get the existing glWidget's visual-id and a visual for the new context
     XVisualInfo visInfo;
-    memset( &visInfo, 0, sizeof(XVisualInfo) );
-    visInfo.visualid = XVisualIDFromVisual( ((Visual*)getGlWidget()->context()->device()->x11Visual()) );
+    memset(&visInfo, 0, sizeof(XVisualInfo));
+    visInfo.visualid = XVisualIDFromVisual(
+                       ((Visual*)getGlWidget()->context()->device()->x11Visual()));
     int nvis;
     vi = XGetVisualInfo( getDisplay(), VisualIDMask, &visInfo, &nvis );
 
@@ -153,13 +138,13 @@ void QTWindow::init( void )
                   vi, 
                   GLX_USE_GL, 
                   &useGL );
-    if ( !useGL )
+    if (!useGL)
     {
         SFATAL << "Visual is not OpenGL-capable!" << endl;
     }    
 
     // create the new context
-    setContext(  glXCreateContext( getDisplay(), vi, None, GL_TRUE )  );
+    setContext(glXCreateContext(getDisplay(), vi, None, GL_TRUE));
 #endif
     
     activate();
@@ -178,3 +163,24 @@ OSG_DLLEXPORT_SFIELD_DEF1(OSGQGLWidgetP, OSG_WINDOWQTLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(OSGQGLWidgetP, OSG_WINDOWQTLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: $";
+    static char cvsid_hpp[] = OSGQTWINDOW_HEADER_CVSID;
+    static char cvsid_inl[] = OSGQTWINDOW_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGQTWINDOWFIELDS_HEADER_CVSID;
+    static Char8 cvsid_datafields_hpp[] = OSGQTWINDOWDATAFIELDS_HEADER_CVSID;
+}
