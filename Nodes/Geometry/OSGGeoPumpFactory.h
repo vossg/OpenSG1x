@@ -85,7 +85,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 
     typedef void (*InterfacePump)( Window *win,
         GeoPositionsInterface *pos, GeoNormalsInterface *norm,
-        GeoColorsInterface *col, GeoColorsInterface *seccol, 
+        GeoColorsInterface *col, GeoColorsInterface *seccol,
         GeoTexCoordsInterface *texcoords,
         GeoTexCoordsInterface *texcoords1,
         GeoTexCoordsInterface *texcoords2,
@@ -95,7 +95,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 
     typedef void (*PartialInterfacePump)( Window *win,
         GeoPositionsInterface *pos, GeoNormalsInterface *norm,
-        GeoColorsInterface *col, GeoColorsInterface *seccol, 
+        GeoColorsInterface *col, GeoColorsInterface *seccol,
         GeoTexCoordsInterface *texcoords,
         GeoTexCoordsInterface *texcoords1,
         GeoTexCoordsInterface *texcoords2,
@@ -142,6 +142,17 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
     static GeoPumpFactory *the( void );
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name               OpenGL Extension handling                      */
+    /*! \{                                                                 */
+
+    static UInt32          _extSecondaryColor;
+    static UInt32          _extMultitexture;
+
+    static UInt32          _funcglSecondaryColorPointer;
+    static UInt32          _funcglClientActiveTextureARB;
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -160,17 +171,15 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
     static char cvsid[];
 
     static GeoPumpFactory *_the;
-    
+    static GeoPump GeoPumps[130];
+
     /*---------------------------------------------------------------------*/
     /*! \name               OpenGL Extension handling                      */
     /*! \{                                                                 */
 
     static bool             glextInitFunction(void);
     static InitFuncWrapper _glextInitFuncWrapper;
-    
-    static UInt32          _extSecondaryColor;
-    static UInt32          _extMultitexture;
-    
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       The Pumps                              */
@@ -183,7 +192,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 
     static void masterInterfacePump( Window *win,
         GeoPositionsInterface *pos, GeoNormalsInterface *norm,
-        GeoColorsInterface *col, GeoColorsInterface *seccol, 
+        GeoColorsInterface *col, GeoColorsInterface *seccol,
         GeoTexCoordsInterface *texcoords,
         GeoTexCoordsInterface *texcoords2,
         GeoTexCoordsInterface *texcoords3,
@@ -193,7 +202,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 
     static void masterPartialInterfacePump( Window *win,
         GeoPositionsInterface *pos, GeoNormalsInterface *norm,
-        GeoColorsInterface *col, GeoColorsInterface *seccol, 
+        GeoColorsInterface *col, GeoColorsInterface *seccol,
         GeoTexCoordsInterface *texcoords,
         GeoTexCoordsInterface *texcoords2,
         GeoTexCoordsInterface *texcoords3,
@@ -208,9 +217,9 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
     /*! \{                                                                 */
 
     GeoPumpFactory(const GeoPumpFactory &source);
-    
+
     /*! \}                                                                 */
-    
+
     void operator =(const GeoPumpFactory &source);
 
 };
