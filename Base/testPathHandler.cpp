@@ -52,11 +52,16 @@ int main( int argc, char** argv )
   ph.dump();
 */
   
+
     ph.setBaseFile("../../../Experimental/VRMLLoader/tie.wrl");
     ph.push_frontCurrentDir();
 
     ph.dump();
-    
+  
+	ph.push_backPath( "~" );
+	ph.dump();
+
+	
     SLOG << "Looking for tie.wrl: "
          << endl
          << ph.findFile("../../../Experimental/VRMLLoader/tie.wrl")

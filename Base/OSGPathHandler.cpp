@@ -45,15 +45,19 @@
 
 #include "OSGFileSystem.h"
 
+#ifndef WIN32
+#include <pwd.h>
+#endif
+
 OSG_USING_NAMESPACE
 
 #ifdef __sgi
 #pragma set woff 1174
 #endif
 
-namespace 
+namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.6 2001/10/10 06:14:24 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.7 2001/10/12 11:01:05 neumannc Exp $";
     static Char8 cvsid_hpp[] = OSGPATHHANDLER_HEADER_CVSID;
 }
 
@@ -114,7 +118,7 @@ string PathHandler::findFile(const Char8 *fileName)
         {
             PNOTICE << "Check abs : " << tmpList.front() << endl;
 
-            if(File::tstAttr(tmpList.front().c_str(), 
+            if(File::tstAttr(tmpList.front().c_str(),
                              AccessFlags::IsReadable))
             {
                 returnValue.assign(fileName);
@@ -125,12 +129,12 @@ string PathHandler::findFile(const Char8 *fileName)
             if(_baseFilePath.empty() == false)
             {
                 returnValue.assign(_baseFilePath);
-                
+
                 returnValue.append(tmpList.front());
 
                 PNOTICE << "Check base : " << returnValue << endl;
-                
-                if(File::tstAttr(returnValue.c_str(), 
+
+                if(File::tstAttr(returnValue.c_str(),
                                  AccessFlags::IsReadable) == false)
                 {
                     returnValue.erase();
@@ -149,16 +153,16 @@ string PathHandler::findFile(const Char8 *fileName)
                     returnValue.append(tmpList.front());
 
                     PNOTICE << "Check from pl : " << returnValue << endl;
-                    
-                    if(File::tstAttr(returnValue.c_str(), 
+
+                    if(File::tstAttr(returnValue.c_str(),
                                      AccessFlags::IsReadable) == true)
                     {
                         break;
                     }
-                    
+
                     ++iter;
                 }
-                
+
                 if(iter == listEnd)
                 {
                     returnValue.erase();
@@ -354,9 +358,9 @@ void PathHandler::validateList(void)
             {
                 (*iter) += _dirSep;
             }
-        } 
+        }
 
-        ++iter; 
+        ++iter;
     }
 }
 
@@ -417,13 +421,19 @@ void PathHandler::expandWin32Path(string &path)
         {
             currPos++;
         }
-    } 
+    }
 }
 
 void PathHandler::expandUnixPath(string &path)
 {
-    string envVar;
-
+    string  envVar;
+    string  userName;
+    string  userHome;
+    Bool    stop;
+#ifndef WIN32
+    passwd* userInfo;
+#endif
+    
     string::size_type currPos  = 0;
     string::size_type startPos = 0;
 
@@ -437,7 +447,7 @@ void PathHandler::expandUnixPath(string &path)
             envVar.erase();
             startPos = currPos++;
 
-            while(path[currPos] != ':' && 
+            while(path[currPos] != ':' &&
                   path[currPos] != '/' &&
                   path[currPos] != '$' &&
                   path[currPos] != '\0')
@@ -456,11 +466,65 @@ void PathHandler::expandUnixPath(string &path)
                 path.replace(startPos, currPos - startPos, szEnvVal);
             }
         }
+#ifndef WIN32
+        else if(path[currPos] == '~')
+        {
+            userName.erase();
+            startPos = currPos++;
+
+            while(path[currPos] != ':' &&
+                  path[currPos] != '/' &&
+                  path[currPos] != '$' &&
+                  path[currPos] != '\0')
+            {
+                userName += path[currPos++];
+            }
+            
+            if( !userName.empty() )
+            {
+                setpwent();     //prepare access to user db
+                stop = false;
+                while( !stop )
+                {
+                    if((userInfo=getpwent()) != NULL )
+                    {
+                        if(strcmp(userName.c_str(), userInfo->pw_name) == 0)
+                        {
+                            stop = true;
+                            userHome = userInfo->pw_dir;
+                        }
+                    }
+                    else
+                    {
+                        stop = true;
+                    }
+                }
+                endpwent();
+            }
+            else
+            {
+                if((userInfo=getpwuid(getuid())) != NULL)
+                {
+                    userHome = userInfo->pw_dir;
+                }
+            }
+            
+            if(!userHome.empty())
+            {
+                path.replace(startPos, currPos - startPos, userHome);
+            }
+            else
+            {
+                fprintf(stderr, "Could not find user home %s\n",
+                        userHome.c_str());
+            }
+        }
+#endif
         else
         {
             currPos++;
         }
-    } 
+    }
 }
 
 void PathHandler::convertPath(string &path)
@@ -474,7 +538,7 @@ void PathHandler::convertPath(string &path)
         {
             *stringIt = _dirSep;
         }
-        
+
         stringIt++;
     };
 }
@@ -513,7 +577,7 @@ void PathHandler::convertUnixPathList(PathList &result)
     };
 }
 
-void PathHandler::splitPathList(const Char8    *pathList, 
+void PathHandler::splitPathList(const Char8    *pathList,
                                 const Char8     pathSep,
                                       PathList &result)
 {
@@ -535,7 +599,7 @@ void PathHandler::splitPathList(const Char8    *pathList,
                                                currPos - startPos));
 
             startPos = currPos + 1;
-            
+
             currPos = workString.find(pathSep, startPos);
         }
 
@@ -589,7 +653,7 @@ PathHandler::PathType PathHandler::analysePathList(const Char8 *pathList)
                 break;
             }
         }
-        
+
         pCurr++;
     }
 
@@ -601,7 +665,7 @@ PathHandler::PathType PathHandler::analysePath(const Char8 *path)
           PathType  returnValue = UnixPath;
           UInt32    uiSize      = 0;
     const Char8    *pCurr       = path;
-          
+
     if(path == NULL)
         return returnValue;
 
@@ -641,7 +705,7 @@ PathHandler::PathType PathHandler::analysePath(const Char8 *path)
                 break;
             }
         }
-        
+
         pCurr++;
         uiSize++;
     }
