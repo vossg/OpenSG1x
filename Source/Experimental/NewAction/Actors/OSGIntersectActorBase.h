@@ -60,6 +60,10 @@
 
 OSG_BEGIN_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1375
+#endif
+
 class OSG_SYSTEMLIB_DLLMAPPING IntersectActorBase : 
     public  ActorBase,
     private MultiFunctorStore<EnterTag>,
@@ -223,6 +227,10 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectActorBase :
     Int32 _asHitTriangle;
     bool _asHit;
 };
+
+#ifdef __sgi
+#pragma reset woff 1375
+#endif
 
 OSG_END_NAMESPACE
 

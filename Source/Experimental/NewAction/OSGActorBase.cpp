@@ -70,7 +70,7 @@ ActorBase::ActorStateBase::ActorStateBase(void)
 {
 }
 
-ActorBase::ActorStateBase::ActorStateBase(const ActorStateBase &source)
+ActorBase::ActorStateBase::ActorStateBase(const ActorStateBase &)
 {
 }
 
@@ -172,13 +172,13 @@ ActorBase::hasOrderedState(void) const
 }
 
 bool
-ActorBase::acceptsIterator(IteratorBase *pIterator) const
+ActorBase::acceptsIterator(IteratorBase *) const
 {
     return true;
 }
 
 void
-ActorBase::receiveIteratorSet(IteratorBase *pIterator)
+ActorBase::receiveIteratorSet(IteratorBase *)
 {
 }
 

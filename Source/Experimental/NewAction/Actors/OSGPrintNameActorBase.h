@@ -53,6 +53,10 @@
 
 OSG_BEGIN_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1375
+#endif
+
 class OSG_SYSTEMLIB_DLLMAPPING PrintNameActorBase : 
     public  ActorBase,
     private EmptyFunctorStore<EnterTag>,
@@ -175,6 +179,10 @@ class OSG_SYSTEMLIB_DLLMAPPING PrintNameActorBase :
     bool _asPrintOnEnter;
     bool _asPrintOnLeave;
 };
+
+#ifdef __sgi
+#pragma reset woff 1375
+#endif
 
 OSG_END_NAMESPACE
 

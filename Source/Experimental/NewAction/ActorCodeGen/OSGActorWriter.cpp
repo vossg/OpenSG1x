@@ -343,7 +343,6 @@ ActorWriter::writeTemplate(std::ostream &os, char **pTemplate)
 {
     char  **pStateLoopStart;
     int     skipIf          = 0;
-    bool    bInStateLoop    = false;
     bool    bSkipStateLoop  = false;
     bool    retVal          = true;
 
@@ -379,7 +378,6 @@ ActorWriter::writeTemplate(std::ostream &os, char **pTemplate)
         {
             if(strLine.compare(0, 18, "@@BeginStateLoop@@") == 0)
             {
-                bInStateLoop    = true;
                 pStateLoopStart = pTemplate;
                 _itStateElem    = _pAI->beginStateElems();
 
@@ -390,7 +388,6 @@ ActorWriter::writeTemplate(std::ostream &os, char **pTemplate)
             {
                 if(bSkipStateLoop == true)
                 {
-                    bInStateLoop   = false;
                     bSkipStateLoop = false;
 
                     continue;
@@ -404,7 +401,6 @@ ActorWriter::writeTemplate(std::ostream &os, char **pTemplate)
                 }
                 else
                 {
-                    bInStateLoop   = false;
                     bSkipStateLoop = false;
                 }
             }

@@ -50,6 +50,10 @@
 
 OSG_BEGIN_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1375
+#endif
+
 class OSG_SYSTEMLIB_DLLMAPPING PriorityIterator : public StateAwareIterator
 {
     /*==========================  PUBLIC  =================================*/
@@ -474,6 +478,10 @@ protected:
     PILeave    *_pLeaveIter;
     PILeaveOrd *_pLeaveOrdIter;
 };
+
+#ifdef __sgi
+#pragma reset woff 1375
+#endif
 
 OSG_END_NAMESPACE
 

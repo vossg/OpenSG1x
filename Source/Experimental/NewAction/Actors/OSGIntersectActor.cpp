@@ -73,7 +73,7 @@ IntersectActor::IntersectActor(void)
 }
 
 IntersectActor::ResultE
-IntersectActor::defaultFunctor(NodeCorePtr &refCore, ActorBase *pActor)
+IntersectActor::defaultFunctor(NodeCorePtr &, ActorBase *pActor)
 {
     FDEBUG(("IntersectActor::defaultFunctor: \n"));
 

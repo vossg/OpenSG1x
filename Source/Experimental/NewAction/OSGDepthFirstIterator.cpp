@@ -125,12 +125,12 @@ DepthFirstIterator::receiveActorsClear(void)
 }
 
 void
-DepthFirstIterator::receiveStateRead(UInt32 uiActorId)
+DepthFirstIterator::receiveStateRead(UInt32)
 {
 }
 
 void
-DepthFirstIterator::receiveStateWrite(UInt32 uiActorId)
+DepthFirstIterator::receiveStateWrite(UInt32)
 {
 }
 

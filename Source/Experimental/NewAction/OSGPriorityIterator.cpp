@@ -344,12 +344,12 @@ PriorityIterator::PILeave::traverse(NodePtr pRoot)
 }
 
 void
-PriorityIterator::PILeave::receiveStateRead(UInt32 uiActorId)
+PriorityIterator::PILeave::receiveStateRead(UInt32)
 {
 }
 
 void
-PriorityIterator::PILeave::receiveStateWrite(UInt32 uiActorId)
+PriorityIterator::PILeave::receiveStateWrite(UInt32)
 {
 }
 
@@ -466,7 +466,7 @@ PriorityIterator::PIEnterOrd::traverse(NodePtr pRoot)
 }
 
 void
-PriorityIterator::PIEnterOrd::receiveStateRead(UInt32 uiActorId)
+PriorityIterator::PIEnterOrd::receiveStateRead(UInt32)
 {
     if(_bStateValid == false)
     {
@@ -644,7 +644,7 @@ PriorityIterator::PILeaveOrd::traverse(NodePtr pRoot)
 }
 
 void
-PriorityIterator::PILeaveOrd::receiveStateRead(UInt32 uiActorId)
+PriorityIterator::PILeaveOrd::receiveStateRead(UInt32)
 {
     if(_bStateValid == false)
     {
