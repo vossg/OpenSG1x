@@ -75,6 +75,7 @@ NFIOOptions::NFIOOptions(void) :
 _inlineTextures(true),
 _compressTextures(false),
 _texturesCompressionQuality(75),
+_texturesImageType("png"),
 _quantizePositions(Quantizer::QRES_OFF),
 _quantizeNormals(Quantizer::QRES_OFF),
 _quantizeTexCoords(Quantizer::QRES_OFF),
@@ -96,6 +97,7 @@ void NFIOOptions::init(const std::string &options)
     _inlineTextures = true;
     _compressTextures = false;
     _texturesCompressionQuality = 75;
+    _texturesImageType = "png";
     _quantizePositions = Quantizer::QRES_OFF;
     _quantizeNormals = Quantizer::QRES_OFF;
     _quantizeTexCoords = Quantizer::QRES_OFF;
@@ -118,6 +120,10 @@ void NFIOOptions::init(const std::string &options)
     option = "texturesCompressionQuality=";
     if((i=options.find(option)) != std::string::npos)
         _texturesCompressionQuality = getInteger(options.substr(i+option.size()));
+
+    option = "texturesImageType=";
+    if((i=options.find(option)) != std::string::npos)
+        _texturesImageType = getString(options.substr(i+option.size()));
     
     if(options.find("quantizePositions=0") != std::string::npos)
         _quantizePositions = Quantizer::QRES_OFF;
@@ -169,6 +175,11 @@ UInt32 NFIOOptions::texturesCompressionQuality(void) const
     return _texturesCompressionQuality;
 }
 
+std::string NFIOOptions::texturesImageType(void) const
+{
+    return _texturesImageType;
+}
+
 UInt8 NFIOOptions::quantizePositions(void) const
 {
     return _quantizePositions;
@@ -205,6 +216,17 @@ Int32 NFIOOptions::getInteger(const std::string &str)
     return r;
 }
 
+std::string NFIOOptions::getString(const std::string &str)
+{
+    std::string rstr;
+    UInt32 i = 0;
+    while(i < str.length() && str[i] != ',')
+    {
+        rstr += str[i++];
+    }
+    return rstr;
+}
+
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
 
@@ -218,6 +240,6 @@ Int32 NFIOOptions::getInteger(const std::string &str)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOOptions.cpp,v 1.4 2005/01/14 00:34:37 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOOptions.cpp,v 1.5 2005/02/17 14:30:42 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOOPTIONS_HEADER_CVSID;
 }

@@ -85,6 +85,7 @@ class NFIOOptions
     bool inlineTextures(void) const;
     bool compressTextures(void) const;
     UInt32 texturesCompressionQuality(void) const;
+    std::string texturesImageType(void) const;
     
     UInt8 quantizePositions(void) const;
     UInt8 quantizeNormals(void) const;
@@ -100,18 +101,21 @@ protected:
 private:
     
     Int32 getInteger(const std::string &str);
+    std::string getString(const std::string &str);
 
-    bool    _inlineTextures;
-    bool    _compressTextures;
-    UInt32  _texturesCompressionQuality;
-    UInt8   _quantizePositions;
-    UInt8   _quantizeNormals;
-    UInt8   _quantizeTexCoords;
-    bool    _packIndices;
+    bool        _inlineTextures;
+    bool        _compressTextures;
+    UInt32      _texturesCompressionQuality;
+    std::string _texturesImageType;
+
+    UInt8       _quantizePositions;
+    UInt8       _quantizeNormals;
+    UInt8       _quantizeTexCoords;
+    bool        _packIndices;
 };
 
 OSG_END_NAMESPACE
 
-#define OSGNFIOOPTIONS_HEADER_CVSID "@(#)$Id: OSGNFIOOptions.h,v 1.1 2004/01/08 18:00:04 a-m-z Exp $"
+#define OSGNFIOOPTIONS_HEADER_CVSID "@(#)$Id: OSGNFIOOptions.h,v 1.2 2005/02/17 14:30:42 a-m-z Exp $"
 
 #endif /* _OSGNFIOOPTIONS_H_ */

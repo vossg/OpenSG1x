@@ -2586,7 +2586,7 @@ bool Image::read(const Char8 *fileName)
     object as uncompressed mtd data.
     Returns the number of bytes used.
 */
-UInt64 Image::store(Char8 *mimeType, UChar8 *mem, Int32 memSize)
+UInt64 Image::store(const Char8 *mimeType, UChar8 *mem, Int32 memSize)
 {
     ImagePtr iPtr(this);
     return ImageFileHandler::the().store(iPtr,

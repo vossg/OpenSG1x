@@ -168,6 +168,8 @@ int main (int argc, char **argv)
         // Default settings:
         // "inlineTextures=true,"
         // "compressTextures=false,"
+        // "texturesCompressionQuality=75,"
+        // "texturesImageType=png,"
         // "quantizePositions=0,"
         // "quantizeNormals=0,"
         // "quantizeTexCoords=0,"
@@ -175,6 +177,7 @@ int main (int argc, char **argv)
 
         SceneFileHandler::the().setOptions("osb", "compressTextures=true,"
                                                   "texturesCompressionQuality=75,"
+                                                  "texturesImageType=jpeg,"
                                                   "quantizePositions=16,"
                                                   "quantizeNormals=8,"
                                                   "quantizeTexCoords=16");

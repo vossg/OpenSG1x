@@ -411,7 +411,7 @@ UInt64 JPGImageFileType::restoreData(      ImagePtr &OSG_JPG_ARG(image  ),
                                            Int32     OSG_JPG_ARG(memSize))
 {
 #ifdef OSG_WITH_JPG
-    bool    retCode = false;
+    UInt64    retCode = 0;
     struct local_error_mgr
     {
         struct jpeg_error_mgr   pub;
@@ -470,10 +470,10 @@ UInt64 JPGImageFileType::restoreData(      ImagePtr &OSG_JPG_ARG(image  ),
             memcpy(destData, *imagebuffer, row_stride);
         }
 
-        retCode = true;
+        retCode = imageSize;
     }
     else
-        retCode = false;
+        retCode = 0;
 
     jpeg_finish_decompress(&cinfo);
     jpeg_destroy_decompress(&cinfo);
@@ -485,7 +485,7 @@ UInt64 JPGImageFileType::restoreData(      ImagePtr &OSG_JPG_ARG(image  ),
         getMimeType() <<
         " read is not compiled into the current binary " <<
         std::endl;
-    return false;
+    return 0;
 #endif
 }
 
@@ -561,7 +561,7 @@ UInt64 JPGImageFileType::storeData(const ImagePtr &OSG_JPG_ARG(image  ),
         getMimeType() <<
         " write is not compiled into the current binary " <<
         std::endl;
-    return false;
+    return 0;
 #endif
 }
 

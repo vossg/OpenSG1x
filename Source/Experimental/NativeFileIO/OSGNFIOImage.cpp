@@ -74,7 +74,9 @@ NFIOImage NFIOImage::_the;
 /*----------------------------- constructors  -----------------------------*/
 
 NFIOImage::NFIOImage(void) :
-    NFIOBase("Image")
+    NFIOBase("Image"),
+    _imageTypeInitialized(false),
+    _imageTypes()
 {
     _version = 100;
 }
@@ -121,9 +123,7 @@ FieldContainerPtr NFIOImage::readFC(const std::string &/*typeName*/)
 void NFIOImage::writeFC(const FieldContainerPtr &fc)
 {
     FDEBUG(("NFIOImage::witeFC\n"));
-    
-    static bool jpeg = isJPEGSupported();
-    
+
     ImagePtr img = ImagePtr::dcast(fc);
     
     _out->putValue(_version);
@@ -139,16 +139,39 @@ void NFIOImage::writeFC(const FieldContainerPtr &fc)
     }
     else
     {
-        // jpeg supports only 1 and 3 byte per pixel images :-(
-        if(jpeg && getOptions().compressTextures() &&
-           img->getDataType() == Image::OSG_UINT8_IMAGEDATA &&
-           (img->getBpp() == 1 || img->getBpp() == 3))
+        if(getOptions().compressTextures())
         {
-            compressTextures = true;
-            exclude += " 'pixel'";
+            std::string imageType = getOptions().texturesImageType();
+            if(isImageTypeSupported(imageType))
+            {
+                if(img->getDataType() == Image::OSG_UINT8_IMAGEDATA &&
+                   img->getDepth() == 1 &&
+                   img->getMipMapCount() == 1 &&
+                   img->getFrameCount() == 1 &&
+                   img->getSideCount() == 1)
+                {
+                    if(imageType == "jpeg" &&
+                       (img->getBpp() == 1 || img->getBpp() == 3))
+                    {
+                        // jpeg supports only 1 and 3 byte per pixel images :-(
+                        compressTextures = true;
+                    }
+                    else if(imageType == "png")
+                    {
+                        compressTextures = true;
+                    }
+                }
+            }
+            else
+            {
+                FWARNING(("NFIOImage::witeFC : Image type '%s' not supported!\n", imageType.c_str()));
+            }
         }
     }
-    
+
+    if(compressTextures)
+        exclude += " 'pixel'";
+
     writeFCFields(img, exclude, false);
     
     if(compressTextures)
@@ -159,8 +182,6 @@ void NFIOImage::writeFC(const FieldContainerPtr &fc)
 
 void NFIOImage::readCompressedPixel(ImagePtr &img)
 {
-    static bool jpeg = isJPEGSupported();
-    
     std::string fieldType;
     _in->getValue(fieldType);
     
@@ -168,16 +189,6 @@ void NFIOImage::readCompressedPixel(ImagePtr &img)
     UInt32 noe;
     
     _in->getValue(size);
-    
-    // skip data if jpeg is not supported.
-    if(!jpeg)
-    {
-        FWARNING(("NFIOImage::readCompressedPixel : skipping compressed texture"
-                  ", jpeg is not supported\n"));
-        _in->skip(size);
-        return;
-    }
-    
     _in->getValue(noe);
     
     std::vector<UInt8> buffer;
@@ -198,11 +209,11 @@ void NFIOImage::writeCompressedPixel(const ImagePtr &img)
 {
     _out->putValue(std::string("cpixel"));
     _out->putValue(std::string("MFUInt8"));
-    
+
     std::vector<UInt8> buffer;
     buffer.resize(OSG::ImageFileHandler::the().getDefaultType()->maxBufferSize(img));
     JPGImageFileType::the().setQuality(getOptions().texturesCompressionQuality());
-    UInt64 msize = img->store("jpeg", &buffer[0]);
+    UInt64 msize = img->store(getOptions().texturesImageType().c_str(), &buffer[0]);
 
     UInt32 noe = (UInt32) msize;
     UInt32 size = sizeof(UInt32) + sizeof(UInt8) * noe;
@@ -214,18 +225,21 @@ void NFIOImage::writeCompressedPixel(const ImagePtr &img)
         _out->putValue(buffer[i]);
 }
 
-bool NFIOImage::isJPEGSupported(void)
+bool NFIOImage::isImageTypeSupported(const std::string &imageType)
 {
-    std::list<const Char8*> sl;
-    if(ImageFileHandler::the().getSuffixList(sl) > 0)
+    if(!_imageTypeInitialized)
     {
-        for(std::list<const Char8*>::iterator i=sl.begin();i!=sl.end();++i)
+        std::list<const Char8*> sl;
+        if(ImageFileHandler::the().getSuffixList(sl) > 0)
         {
-            if(!strcmp(*i, "jpeg"))
-                return true;
+            for(std::list<const Char8*>::iterator i=sl.begin();i!=sl.end();++i)
+            {
+                _imageTypes.insert(std::string(*i));
+            }
         }
+        _imageTypeInitialized = true;
     }
-    return false;
+    return (_imageTypes.count(imageType) > 0);
 }
 
 /*------------------------------------------------------------------------*/
@@ -241,6 +255,6 @@ bool NFIOImage::isJPEGSupported(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOImage.cpp,v 1.4 2005/02/05 12:23:40 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOImage.cpp,v 1.5 2005/02/17 14:30:42 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOIMAGE_HEADER_CVSID;
 }

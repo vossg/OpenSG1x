@@ -42,6 +42,9 @@
 #pragma once
 #endif
 
+#include <set>
+#include <string>
+
 #include "OSGNFIOBase.h"
 #include <OSGImage.h>
 
@@ -86,14 +89,17 @@ private:
 
     void readCompressedPixel(ImagePtr &img);
     void writeCompressedPixel(const ImagePtr &img);
-    bool isJPEGSupported(void);
+    bool isImageTypeSupported(const std::string &imageType);
 
-    static NFIOImage _the;
+    bool                    _imageTypeInitialized;
+    std::set<std::string>   _imageTypes;
+
+    static NFIOImage        _the;
 
 };
 
 OSG_END_NAMESPACE
 
-#define OSGNFIOIMAGE_HEADER_CVSID "@(#)$Id: OSGNFIOImage.h,v 1.1 2004/01/08 18:00:04 a-m-z Exp $"
+#define OSGNFIOIMAGE_HEADER_CVSID "@(#)$Id: OSGNFIOImage.h,v 1.2 2005/02/17 14:30:42 a-m-z Exp $"
 
 #endif /* _OSGNFIOIMAGE_H_ */
