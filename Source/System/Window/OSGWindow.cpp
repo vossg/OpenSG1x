@@ -769,7 +769,7 @@ void OSG::Window::dumpExtensions(void)
 #include <iterator>
 
 struct string_token_iterator : 
-#if defined(__sgi) || defined(__linux)
+#if defined(__sgi) || defined(WIN32) || defined(__linux)
     public std::iterator<std::input_iterator_tag, std::string>
 #else
     public std::input_iterator<std::string, std::ptrdiff_t>
@@ -854,13 +854,15 @@ void OSG::Window::frameInit(void)
         FDEBUG(("Window %p: GL Extensions: %s\n", this, 
                 glGetString(GL_EXTENSIONS) ));
         
-        _extensions.insert(_extensions.begin(),
-                           string_token_iterator(
+        std::back_insert_iterator< std::vector<std::string> > 
+            extension_front_inserter(_extensions);
+
+        std::copy(string_token_iterator(
                                 std::string(reinterpret_cast<const char*>
                                         (glGetString(GL_EXTENSIONS))),
                                 ",. "),
-                           string_token_iterator()
-                          );
+                  string_token_iterator(),
+                  extension_front_inserter);
 
         std::sort(_extensions.begin(), _extensions.end());
                  
