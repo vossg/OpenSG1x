@@ -794,86 +794,81 @@ void RenderAction::dump(DrawTreeNode *pRoot, UInt32 uiIndent)
 
 void RenderAction::draw(DrawTreeNode *pRoot)
 {
-    if(pRoot == NULL)
+    while(pRoot != NULL)
     {
-        return;
-    }
+        UInt32 uiNextMatrix = pRoot->getMatrixStore().first;
 
-    UInt32 uiNextMatrix = pRoot->getMatrixStore().first;
-
-    if(uiNextMatrix != 0 && uiNextMatrix != _uiActiveMatrix)
-    {
-        glLoadMatrixf(pRoot->getMatrixStore().second.getValues());
-
-        _uiActiveMatrix = uiNextMatrix;
-
-        _uiNumMatrixChanges++;
-
-        _currMatrix.second = pRoot->getMatrixStore().second;
-        updateTopMatrix();
-        
-#ifdef PRINT_MAT
-        fprintf(stderr, "pushed to gl %d\n", _uiActiveMatrix);
-        
-        for(int i = 0; i < 4; i++)
+        if(uiNextMatrix != 0 && uiNextMatrix != _uiActiveMatrix)
         {
-            fprintf(stderr, "% 5.2f % 5.2f % 5.2f % 5.2f\n",
-                    pRoot->getMatrixStore().second[i][0],
-                    pRoot->getMatrixStore().second[i][1],
-                    pRoot->getMatrixStore().second[i][2],
-                    pRoot->getMatrixStore().second[i][3]);
-        }
-#endif
-    }
+            glLoadMatrixf(pRoot->getMatrixStore().second.getValues());
 
-    State *pNewState = pRoot->getState();
+            _uiActiveMatrix = uiNextMatrix;
 
-    if(pNewState != NULL)
-    {
-        if(_pActiveState != NULL)
-        {
-            if(pNewState != _pActiveState)
+            _uiNumMatrixChanges++;
+
+            _currMatrix.second = pRoot->getMatrixStore().second;
+            updateTopMatrix();
+
+    #ifdef PRINT_MAT
+            fprintf(stderr, "pushed to gl %d\n", _uiActiveMatrix);
+
+            for(int i = 0; i < 4; i++)
             {
-                pNewState->changeFrom(this, _pActiveState);
+                fprintf(stderr, "% 5.2f % 5.2f % 5.2f % 5.2f\n",
+                        pRoot->getMatrixStore().second[i][0],
+                        pRoot->getMatrixStore().second[i][1],
+                        pRoot->getMatrixStore().second[i][2],
+                        pRoot->getMatrixStore().second[i][3]);
+            }
+    #endif
+        }
 
-                _pActiveState = pNewState;
-                
+        State *pNewState = pRoot->getState();
+
+        if(pNewState != NULL)
+        {
+            if(_pActiveState != NULL)
+            {
+                if(pNewState != _pActiveState)
+                {
+                    pNewState->changeFrom(this, _pActiveState);
+
+                    _pActiveState = pNewState;
+
+                    _uiNumMaterialChanges++;
+                }
+            }
+            else
+            {
+                _pActiveState = pRoot->getState();
+
+                _pActiveState->activate(this);
+
                 _uiNumMaterialChanges++;
             }
         }
-        else
+
+        setActNode(pRoot->getNode());
+
+        if(pRoot->getGeometry() != NULL)
         {
-            _pActiveState = pRoot->getState();
-             
-            _pActiveState->activate(this);
+            pRoot->getGeometry()->drawPrimitives(this);
 
-            _uiNumMaterialChanges++;
+            _uiNumGeometries++;
         }
-    }
+        else if(pRoot->hasFunctor())
+        {
+            pRoot->getFunctor().call(this);
 
-    setActNode(pRoot->getNode());
-    
-    if(pRoot->getGeometry() != NULL)
-    {
-        pRoot->getGeometry()->drawPrimitives(this);
+            _uiNumGeometries++;
+        }
 
-        _uiNumGeometries++;
-    }
-    else if(pRoot->hasFunctor())
-    {
-        pRoot->getFunctor().call(this);
+        if(pRoot->getFirstChild() != NULL)
+        {
+            draw(pRoot->getFirstChild());
+        }
 
-        _uiNumGeometries++;
-    }
-    
-    if(pRoot->getFirstChild() != NULL)
-    {
-        draw(pRoot->getFirstChild());
-    }
-
-    if(pRoot->getBrother() != NULL)
-    {
-        draw(pRoot->getBrother());
+        pRoot = pRoot->getBrother();
     }
 }
 
