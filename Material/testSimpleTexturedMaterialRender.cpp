@@ -140,7 +140,7 @@ int main (int argc, char **argv)
     Image image2( Image::OSG_RGB_PF, 3, 2, 1, 1, 1, 0, imgdata2 );
 
     tm->setImage( &image2 );
-    tm->setEnvMode( GL_MODULATE );
+    tm->setEnvMode( GL_REPLACE );
     tm->setEnvMap( true );
     endEditCP(tm);
 

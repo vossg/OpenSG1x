@@ -77,7 +77,7 @@ The material base class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.21 2002/06/30 05:04:21 vossg Exp $";
+char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.22 2002/08/29 16:00:06 dirk Exp $";
 
 OSG_BEGIN_NAMESPACE
 OSG_SYSTEMLIB_DLLMAPPING MaterialPtr NullMaterial;
@@ -141,7 +141,10 @@ Material::Material(const Material &source) :
     Inherited(source),
     _pState  ()
 {
-    setRefdCP(_pState, source._pState);
+// Doing this kills using prototypes with preset states. 
+// What's the point of this anyway? Sharing _pState between Materials never
+// makes sense
+//    setRefdCP(_pState, source._pState); 
 }
 
 /** \brief Destructor
