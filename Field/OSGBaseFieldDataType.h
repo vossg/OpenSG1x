@@ -65,11 +65,12 @@ struct FieldDataTraits<Color3f> : public Traits
 
     static Color3f           getDefault(void)    { return Color3f();      }
 
-    static Bool              getFromString(      Color3f  &,
-                                           const Char8   *&)
+    static Bool              getFromString(      Color3f  &outVal,
+                                           const Char8   *&inVal)
     {
-        // TO_BE_DONE
-        return false;
+        outVal.setValue(inVal);
+        
+        return true;
     }
 
     static void             putToString(const Color3f &,
@@ -91,11 +92,12 @@ struct FieldDataTraits<Color4f> : public Traits
 
     static Color4f           getDefault(void)    { return Color4f();      }
  
-    static Bool              getFromString(      Color4f  &,
-                                           const Char8   *&)
+    static Bool              getFromString(      Color4f  &outVal,
+                                           const Char8   *&inVal)
     {
-        // TO_BE_DONE
-        return false;
+        outVal.setValue(inVal);
+        
+        return true;
     }
 
     static void             putToString(const Color4f &,
