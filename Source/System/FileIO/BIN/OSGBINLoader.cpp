@@ -64,8 +64,7 @@ BINLoader::BINLoader(FILE *file) :
 {
 }
 
-
-BINLoader::FCInfoStruct::FCInfoStruct() :
+BINLoader::FCInfoStruct::FCInfoStruct(void) :
             newId (0),
             ptr   (NullFC),
             read  (false)
@@ -77,7 +76,6 @@ BINLoader::FCIdMapper::FCIdMapper(IDLookupMap *m) :
 {
 	
 }
-		
 
 BINLoader::BinaryFileHandler::BinaryFileHandler(FILE *file)
 		: BinaryDataHandler(0), _file(file)
@@ -101,19 +99,23 @@ BINLoader::BinaryFileHandler::~BinaryFileHandler()
 /*-------------------------------------------------------------------------*\
  -  PUBLIC                                                                 -
 \*-------------------------------------------------------------------------*/
-void BINLoader::read()
+void BINLoader::read(void)
 {
     _vec_pRootNodes.clear();
     createFieldContainers();
 	chargeFieldContainers();
 }
 
-NodePtr BINLoader::getRootNode()
+/** return first root node
+ **/
+NodePtr BINLoader::getRootNode(void)
 {
     return _vec_pRootNodes[0];
 }
 
-std::vector<NodePtr> BINLoader::getRootNodes()
+/** return all root nodes
+ **/
+std::vector<NodePtr> BINLoader::getRootNodes(void)
 {
     return _vec_pRootNodes;
 }
@@ -135,7 +137,6 @@ UInt32 BINLoader::FCIdMapper::map(UInt32 uiId)
 	return id;
 }
 
-
 void BINLoader::BinaryFileHandler::read(MemoryHandle mem, UInt32 size)
 {
 	fread(mem, size, 1, _file);
@@ -146,7 +147,7 @@ void BINLoader::BinaryFileHandler::write(MemoryHandle mem, UInt32 size)
 	fwrite(mem, size, 1, _file);
 }
 
-void BINLoader::createFieldContainers()
+void BINLoader::createFieldContainers(void)
 {
 	UInt32 countTypes       = 0,
 		   countCurrentType = 0,
@@ -204,18 +205,16 @@ void BINLoader::createFieldContainers()
           << std::endl;
 }
 
-
-
-void BINLoader::chargeFieldContainers()
+void BINLoader::chargeFieldContainers(void)
 {
     FCIdMapper mapper(&_fcInfoMap);
           IDLookupMap::iterator fcInfoIter = _fcInfoMap.begin();
     const IDLookupMap::iterator fcInfoEnd  = _fcInfoMap.end();
 
     UInt32 mapSize = _fcInfoMap.size(),
-           mask,
            currentFieldContainerOldId,
            count = 0;
+    BitVector mask;
 	FieldContainerFactory *factory = FieldContainerFactory::the();
 	
     factory->setMapper(&mapper);

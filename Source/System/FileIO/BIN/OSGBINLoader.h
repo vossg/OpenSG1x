@@ -54,20 +54,29 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
     /*==========================  PUBLIC  =================================*/
 
   public:
-                void     read();
-                NodePtr  getRootNode();
-    std::vector<NodePtr> getRootNodes();
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
+
     BINLoader(FILE *file);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
+
     virtual ~BINLoader();
 
-       
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   read / root access                         */
+    /*! \{                                                                 */
+
+         void            read        (void);
+         NodePtr         getRootNode (void);
+    std::vector<NodePtr> getRootNodes(void);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
     /*---------------------------------------------------------------------*/
@@ -115,9 +124,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
   
         std::vector<UInt8>  _readMemory;
         std::vector<UInt8>  _writeMemory;
-             FILE          *_file;
+        FILE               *_file;
     };
-
          
     /*==========================  PRIVATE  ================================*/
   private:
@@ -126,7 +134,6 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
          IDLookupMap       _fcInfoMap;
          UInt32            _countContainers;
     std::vector<NodePtr>   _vec_pRootNodes;
-
 
     void createFieldContainers(void);
     void chargeFieldContainers(void);
