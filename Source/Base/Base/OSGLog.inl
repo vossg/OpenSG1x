@@ -91,7 +91,7 @@ LogBuf::Chunk::Chunk(void) :
 inline
 LogBuf::Chunk::~Chunk(void)
 {
-    delete data; 
+    delete [] data; 
 }
 
 
