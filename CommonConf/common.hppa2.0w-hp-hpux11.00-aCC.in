@@ -10,7 +10,8 @@ NO_STDINC_DEP_OPTION := -Y
 
 COMPONLY_OPTION      := -c
 
-DEPEND_OPTION        := +M -E +p
+// later versions use +Make DEPEND_OPTION        := +M -E +p
+DEPEND_OPTION        := +Make -E +p
 
 LD_OUTOPT            := -o
 
