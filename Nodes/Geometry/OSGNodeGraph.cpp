@@ -102,7 +102,17 @@ bool NodeGraph::verify (bool printInfo )
     
     for (i = 0; i < n; i++)
         if (_nodeVec[i].index == i)
-            nodeDegree[_nodeVec[i].degree]++;
+        {
+            if(_nodeVec[i].degree >= 0 && _nodeVec[i].degree < 4)
+            {
+                nodeDegree[_nodeVec[i].degree]++;
+            }
+            else
+            {
+                FWARNING (( "Invalid node degree %d for face %d\n",
+                  _nodeVec[i].degree, i ));               
+            }
+        }
         else
             if (_nodeVec[i].index == -1)
                 nodeDegree[3]++;
