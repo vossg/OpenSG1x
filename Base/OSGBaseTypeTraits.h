@@ -558,7 +558,7 @@ struct TypeTraits<UInt64> : public TypeTraitsBase
 #else
     static        UInt64             getMax        (void)
     {
-        reutrn 0xFFFFFFFFFFFFFFFF;
+        return 0xFFFFFFFFFFFFFFFF;
     }
 
     static        UInt64             getMin        (void)

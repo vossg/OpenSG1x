@@ -45,6 +45,7 @@ OSG_BEGIN_NAMESPACE
 inline
 UInt64 htonl64(const UInt64 &src)  
 {
+#ifdef OSG_LONGLONG_HAS_LL
     return 
         ((src&0x00000000000000ffLL) << 56) |
         ((src&0x000000000000ff00LL) << 40) |
@@ -54,11 +55,23 @@ UInt64 htonl64(const UInt64 &src)
         ((src&0x0000ff0000000000LL) >> 24) |
         ((src&0x00ff000000000000LL) >> 40) |
         ((src&0xff00000000000000LL) >> 56);
+#else
+    return 
+        ((src&0x00000000000000ff) << 56) |
+        ((src&0x000000000000ff00) << 40) |
+        ((src&0x0000000000ff0000) << 24) |
+        ((src&0x00000000ff000000) << 8 ) |
+        ((src&0x000000ff00000000) >> 8 ) |
+        ((src&0x0000ff0000000000) >> 24) |
+        ((src&0x00ff000000000000) >> 40) |
+        ((src&0xff00000000000000) >> 56);
+#endif
 }
 
 inline
 UInt64 ntohl64(const UInt64 &src)  
 {
+#ifdef OSG_LONGLONG_HAS_LL
     return
         ((src&0x00000000000000ffLL) << 56) |
         ((src&0x000000000000ff00LL) << 40) |
@@ -68,6 +81,17 @@ UInt64 ntohl64(const UInt64 &src)
         ((src&0x0000ff0000000000LL) >> 24) |
         ((src&0x00ff000000000000LL) >> 40) |
         ((src&0xff00000000000000LL) >> 56);
+#else
+    return
+        ((src&0x00000000000000ff) << 56) |
+        ((src&0x000000000000ff00) << 40) |
+        ((src&0x0000000000ff0000) << 24) |
+        ((src&0x00000000ff000000) << 8 ) |
+        ((src&0x000000ff00000000) >> 8 ) |
+        ((src&0x0000ff0000000000) >> 24) |
+        ((src&0x00ff000000000000) >> 40) |
+        ((src&0xff00000000000000) >> 56);
+#endif
 }
 #else
 inline

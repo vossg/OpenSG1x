@@ -133,8 +133,8 @@ class MFieldVector : public vector<Ty, A>
     typedef          vector<Ty, A>             Inherited;
 	typedef typename Inherited::const_iterator It;
 
-    template <class FieldTypeT, Int32 fieldNameSpace>
-    friend class MField;
+//    template <class FieldTypeT, Int32 fieldNameSpace>
+//    friend class MField;
 
     UChar8 *getStart       (void);
     UChar8 *getFinish      (void);
