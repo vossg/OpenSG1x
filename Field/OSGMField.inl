@@ -689,9 +689,18 @@ void MField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 std::string &MField<FieldTypeT, fieldNameSpace>::getValueByStr(std::string &string) const
 {
-    SWARNING << "getStrValue: not implemented yet!" << endl;
-
-    return string;
+    std::string tmpString;
+	typedef osgIF< (MFieldTraits::StringConvertable &
+					Traits::FromStringConvertable),
+					MFieldTraits,
+					ErrorFromToString<FieldTypeT> >::_IRet Converter;
+	for( UInt32 i=0; i<getSize(); ++i )
+	{
+		Converter::putToString( _values[i], tmpString );
+		string.append( tmpString );
+		string.append( " " );
+	}
+	return string;
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
