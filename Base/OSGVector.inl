@@ -763,8 +763,8 @@ Bool PointInterface<ValueTypeT, StorageInterfaceT>::equals(
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
-PointInterface<ValueTypeT, 
-               StorageInterfaceT>::VecInterface &
+typename PointInterface<ValueTypeT, 
+                        StorageInterfaceT>::VecInterface &
     PointInterface<ValueTypeT, 
                    StorageInterfaceT>::subZero(void)
 {
@@ -775,8 +775,8 @@ PointInterface<ValueTypeT,
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
-const PointInterface<ValueTypeT, 
-                     StorageInterfaceT>::VecInterface &
+const typename PointInterface<ValueTypeT, 
+                              StorageInterfaceT>::VecInterface &
     PointInterface<ValueTypeT, 
                    StorageInterfaceT>::subZero(void) const
 {
@@ -820,7 +820,7 @@ void PointInterface<ValueTypeT,
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
-PointInterface<ValueTypeT, StorageInterfaceT>::VecInterface
+typename PointInterface<ValueTypeT, StorageInterfaceT>::VecInterface
     PointInterface<ValueTypeT, StorageInterfaceT>::operator -(
         const PointInterface &vec) const
 {
@@ -1210,7 +1210,7 @@ VectorInterface<ValueTypeT,
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
-VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
+typename VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
     VectorInterface<ValueTypeT, StorageInterfaceT>::length(void) const
 {
     UInt32 i;
@@ -1382,7 +1382,7 @@ ValueTypeT VectorInterface<ValueTypeT, StorageInterfaceT>::operator * (
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
-VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
+typename VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
      VectorInterface<ValueTypeT, StorageInterfaceT>::enclosedAngle(
          const VectorInterface &vec) const
 {
@@ -1416,7 +1416,7 @@ VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
-VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
+typename VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
     VectorInterface<ValueTypeT, StorageInterfaceT>::projectTo(
         const VectorInterface &toVec)
 {

@@ -149,7 +149,7 @@ MField<FieldTypeT, fieldNameSpace>::~MField(void)
 //! Return a reference to the stored value at index index
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, fieldNameSpace>::reference 
+typename MField<FieldTypeT, fieldNameSpace>::reference 
     MField<FieldTypeT, fieldNameSpace>::getValue(const UInt32 index)
 {
     return _values[index];
@@ -158,7 +158,7 @@ MField<FieldTypeT, fieldNameSpace>::reference
 //! Return a const reference to the stored value at index index
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, fieldNameSpace>::const_reference
+typename MField<FieldTypeT, fieldNameSpace>::const_reference
     MField<FieldTypeT, fieldNameSpace>::getValue(const UInt32 index) const
 {
     return _values[index];
@@ -167,9 +167,8 @@ MField<FieldTypeT, fieldNameSpace>::const_reference
 //! Return a reference to the value store 
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, 
-       fieldNameSpace>::StorageType &MField<FieldTypeT, 
-                                            fieldNameSpace>::getValues(void)
+typename MField<FieldTypeT, fieldNameSpace>::StorageType &
+    MField<FieldTypeT, fieldNameSpace>::getValues(void)
 {
     return _values;
 }
@@ -177,7 +176,7 @@ MField<FieldTypeT,
 //! Return a const reference to the value store 
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-const MField<FieldTypeT, fieldNameSpace>::StorageType &
+const typename MField<FieldTypeT, fieldNameSpace>::StorageType &
     MField<FieldTypeT, fieldNameSpace>::getValues(void) const
 {
     return _values;
@@ -257,9 +256,9 @@ void MField<FieldTypeT, fieldNameSpace>::addValue(const FieldTypeT &value)
 //! Return an iterator to the first element
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, 
-       fieldNameSpace>::iterator MField<FieldTypeT, 
-                                        fieldNameSpace>::begin (void)
+typename MField<FieldTypeT, 
+                fieldNameSpace>::iterator MField<FieldTypeT, 
+                                                 fieldNameSpace>::begin (void)
 {
     return _values.begin();
 }
@@ -267,9 +266,9 @@ MField<FieldTypeT,
 //! Return an iterator to the end of the store
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, 
-       fieldNameSpace>::iterator MField<FieldTypeT, 
-                                        fieldNameSpace>::end(void)
+typename MField<FieldTypeT, 
+                fieldNameSpace>::iterator MField<FieldTypeT, 
+                                                 fieldNameSpace>::end(void)
 {
     return _values.end();
 }
@@ -277,9 +276,10 @@ MField<FieldTypeT,
 //! Return a const iterator to the first element
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, 
-       fieldNameSpace>::const_iterator MField<FieldTypeT, 
-                                             fieldNameSpace>::begin(void) const
+typename MField<FieldTypeT, 
+                fieldNameSpace>::const_iterator MField<FieldTypeT, 
+                                                       fieldNameSpace>::begin(
+                                                           void) const
 {
     return _values.begin();
 }
@@ -287,9 +287,10 @@ MField<FieldTypeT,
 //! Return a const iterator to the end of the store
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, 
-       fieldNameSpace>::const_iterator MField<FieldTypeT,
-                                              fieldNameSpace>::end(void) const
+typename MField<FieldTypeT, 
+                fieldNameSpace>::const_iterator MField<FieldTypeT,
+                                                       fieldNameSpace>::end(
+                                                           void) const
 {
     return _values.end();
 }
@@ -297,9 +298,9 @@ MField<FieldTypeT,
 //! Returns an interator to the first element
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, 
-       fieldNameSpace>::reference MField<FieldTypeT, 
-                                         fieldNameSpace>::front(void)
+typename MField<FieldTypeT, 
+                fieldNameSpace>::reference MField<FieldTypeT, 
+                                                  fieldNameSpace>::front(void)
 {
     return _values.front();
 }
@@ -307,9 +308,10 @@ MField<FieldTypeT,
 //! Returns a const interator to the first element
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, 
-      fieldNameSpace>::const_reference MField<FieldTypeT, 
-                                             fieldNameSpace>::front(void) const
+typename MField<FieldTypeT, 
+                fieldNameSpace>::const_reference MField<FieldTypeT, 
+                                                        fieldNameSpace>::front(
+                                                            void) const
 {
     return _values.front();
 }
@@ -317,9 +319,9 @@ MField<FieldTypeT,
 //! Returns an interator to the last element
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, 
-       fieldNameSpace>::reference MField<FieldTypeT, 
-                                         fieldNameSpace>::back(void)
+typename MField<FieldTypeT, 
+                fieldNameSpace>::reference MField<FieldTypeT, 
+                                                  fieldNameSpace>::back(void)
 {
     return _values.back();
 }
@@ -327,9 +329,10 @@ MField<FieldTypeT,
 //! Returns a const interator to the last element
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, 
-       fieldNameSpace>::const_reference MField<FieldTypeT, 
-                                              fieldNameSpace>::back(void) const
+typename MField<FieldTypeT, 
+                fieldNameSpace>::const_reference MField<FieldTypeT, 
+                                                        fieldNameSpace>::back(
+                                                            void) const
 {
     return _values.back();
 }
@@ -345,9 +348,9 @@ void MField<FieldTypeT, fieldNameSpace>::clear(void)
 //! Inserts value at the given pos
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, 
-       fieldNameSpace>::iterator MField<FieldTypeT, 
-                                        fieldNameSpace>::insert(
+typename MField<FieldTypeT, 
+                fieldNameSpace>::iterator MField<FieldTypeT, 
+                                                 fieldNameSpace>::insert(
     iterator pos, const FieldTypeT &value)
 {
     return _values.insert(pos, value);
@@ -356,9 +359,10 @@ MField<FieldTypeT,
 //! Removes values from the given pos
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, 
-       fieldNameSpace>::iterator MField<FieldTypeT, 
-                                        fieldNameSpace>::erase(iterator pos)
+typename MField<FieldTypeT, 
+                fieldNameSpace>::iterator MField<FieldTypeT, 
+                                                 fieldNameSpace>::erase(
+                                                     iterator pos)
 {
     return _values.erase(pos);
 }
@@ -367,8 +371,9 @@ MField<FieldTypeT,
 //! Returns an iterator to the given value if found otherwise end()
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, 
-       fieldNameSpace>::iterator MField<FieldTypeT, fieldNameSpace>::find(
+typename MField<FieldTypeT, 
+                fieldNameSpace>::iterator MField<FieldTypeT, 
+                                                 fieldNameSpace>::find(
     const FieldTypeT &value)
 {
     return STD::find(_values.begin(), _values.end(), value);
@@ -377,9 +382,9 @@ MField<FieldTypeT,
 //! Returns a const iterator to the given value if found otherwise end()
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, 
-       fieldNameSpace>::const_iterator MField<FieldTypeT, 
-                                              fieldNameSpace>::find(
+typename MField<FieldTypeT, 
+                fieldNameSpace>::const_iterator MField<FieldTypeT, 
+                                                       fieldNameSpace>::find(
     const FieldTypeT &value) const
 {
     return STD::find(_values.begin(), _values.end(), value);
@@ -440,10 +445,10 @@ void MField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
 {
     FieldTypeT  tmpVal;
 
-    typedef osgIF< (MFieldTraits::StringConvertable &
-                    Traits::FromStringConvertable), 
-                  MFieldTraits, 
-                  ErrorFromToString<FieldTypeT> >::_IRet Converter;
+    typedef typename osgIF< (MFieldTraits::StringConvertable &
+                             Traits::FromStringConvertable), 
+                            MFieldTraits, 
+                            ErrorFromToString<FieldTypeT> >::_IRet Converter;
     
     Converter::getFromString(tmpVal, str);
     
@@ -458,10 +463,10 @@ string &MField<FieldTypeT,
 {
     string tmpString;
 
-    typedef osgIF< (MFieldTraits::StringConvertable &
-                    Traits::FromStringConvertable),
-                   MFieldTraits,
-                   ErrorFromToString<FieldTypeT> >::_IRet Converter;
+    typedef typename osgIF< (MFieldTraits::StringConvertable &
+                             Traits::FromStringConvertable),
+                            MFieldTraits,
+                            ErrorFromToString<FieldTypeT> >::_IRet Converter;
 
     for(UInt32 i = 0; i < getSize(); ++i)
     {
@@ -485,7 +490,7 @@ string &MField<FieldTypeT,
 //! Returns a reference to the value at the given index 
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, fieldNameSpace>::reference
+typename MField<FieldTypeT, fieldNameSpace>::reference
     MField<FieldTypeT, fieldNameSpace>::operator [](UInt32 index)
 {
     return _values[index];
@@ -494,7 +499,7 @@ MField<FieldTypeT, fieldNameSpace>::reference
 //! Returns a const reference to the value at the given index 
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, fieldNameSpace>::const_reference
+typename MField<FieldTypeT, fieldNameSpace>::const_reference
     MField<FieldTypeT, fieldNameSpace>::operator [](UInt32 index) const
 {
     return _values[index];
@@ -578,3 +583,5 @@ Field *MField<FieldTypeT, fieldNameSpace>::create(void)
 OSG_END_NAMESPACE
 
 #define OSGMFIELD_INLINE_CVSID "@(#)$Id: $"
+
+

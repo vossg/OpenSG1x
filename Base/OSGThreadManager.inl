@@ -121,7 +121,7 @@ MPFieldT *MPFieldStore<MPFieldT>::findMPField(const Char8 *szName)
 }
 
 template <class MPFieldT>
-MPFieldStore<MPFieldT>::MPFieldType *
+typename MPFieldStore<MPFieldT>::MPFieldType *
     MPFieldStore<MPFieldT>::findMPFieldType(const Char8 *szName) const
 {
     MPFieldTypeMapCIt gIt;

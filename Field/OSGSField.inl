@@ -193,10 +193,10 @@ void SField<FieldTypeT,
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void SField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
 {
-    typedef osgIF< (SFieldTraits::StringConvertable &
-                    Traits::FromStringConvertable), 
-                   SFieldTraits, 
-                   ErrorFromToString<FieldTypeT> >::_IRet Converter;
+    typedef typename osgIF< (SFieldTraits::StringConvertable &
+                             Traits::FromStringConvertable), 
+                            SFieldTraits, 
+                            ErrorFromToString<FieldTypeT> >::_IRet Converter;
     
     Converter::getFromString(_value, str);
 }
@@ -207,10 +207,10 @@ template <class FieldTypeT, Int32 fieldNameSpace> inline
 string &SField<FieldTypeT, 
                fieldNameSpace>::getValueByStr(string &stringVal) const
 {
-    typedef osgIF< (SFieldTraits::StringConvertable &
-                    Traits::ToStringConvertable), 
-                   SFieldTraits, 
-                   ErrorFromToString<FieldTypeT> >::_IRet Converter;
+    typedef typename osgIF< (SFieldTraits::StringConvertable &
+                             Traits::ToStringConvertable), 
+                            SFieldTraits, 
+                            ErrorFromToString<FieldTypeT> >::_IRet Converter;
     
     Converter::putToString(_value, stringVal);
     

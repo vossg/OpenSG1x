@@ -2415,14 +2415,14 @@ Bool TransformationMatrix<ValueTypeT>::expOf(
 /*                          Element Access                                 */
 
 template<class ValueTypeT> inline
-TransformationMatrix<ValueTypeT>::VectorType &
+typename TransformationMatrix<ValueTypeT>::VectorType &
     TransformationMatrix<ValueTypeT>::operator [](UInt32 uiIndex)
 {
     return _matrix[uiIndex];
 }
 
 template<class ValueTypeT> inline
-const TransformationMatrix<ValueTypeT>::VectorType &
+const typename TransformationMatrix<ValueTypeT>::VectorType &
     TransformationMatrix<ValueTypeT>::operator [](UInt32 uiIndex) const
 {
     return _matrix[uiIndex];

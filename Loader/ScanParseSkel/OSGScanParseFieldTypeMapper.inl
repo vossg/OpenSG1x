@@ -93,7 +93,7 @@ Int32 ScanParseFieldTypeMapper<BaseT>::mapExtIntFieldType(
     const Char8 *,
     const Int32  iFieldTypeId)
 {
-    ExtIntMap::iterator gMIt = _mExtInt.find(iFieldTypeId);
+    typename ExtIntMap::iterator gMIt = _mExtInt.find(iFieldTypeId);
 
     if(gMIt != _mExtInt.end())
     {
@@ -110,7 +110,7 @@ Int32 ScanParseFieldTypeMapper<BaseT>::mapIntExtFieldType(
     const Char8 *,
     const Int32  iFieldTypeId)
 {
-    IntExtMap::iterator gMIt = _mIntExt.find(
+    typename IntExtMap::iterator gMIt = _mIntExt.find(
         (BuildInFieldTypes) iFieldTypeId);
 
     if(gMIt != _mIntExt.end())
@@ -126,3 +126,5 @@ Int32 ScanParseFieldTypeMapper<BaseT>::mapIntExtFieldType(
 OSG_END_NAMESPACE
 
 #define OSGSCANPARSEFIELDTYPEMAPPER_INLINE_CVSID "@(#)$Id: $"
+
+
