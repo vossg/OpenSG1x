@@ -78,6 +78,8 @@ OSGSceneFileType OSGSceneFileType::_the(_suffixA,
                                         false,
                                         10);
 
+OSGLoader *OSGSceneFileType::_pFile = NULL;
+
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -118,6 +120,9 @@ const Char8 *OSGSceneFileType::getName(void) const
 NodePtr OSGSceneFileType::read(const Char8  *fileName, 
                                      UInt32  uiReplaceOptions) const
 {
+    if(_pFile == NULL)
+        _pFile = new OSGLoader;
+
     _pFile->scanFile(fileName, uiReplaceOptions);
 
     return _pFile->getRootNode();
@@ -127,6 +132,9 @@ NodePtr OSGSceneFileType::read(const Char8  *fileName,
                                      UInt32  uiAddOptions,
                                      UInt32  uiSubOptions) const
 {
+    if(_pFile == NULL)
+        _pFile = new OSGLoader;
+
     _pFile->scanFile(fileName, uiAddOptions, uiSubOptions);
 
     return _pFile->getRootNode();    
@@ -136,6 +144,9 @@ OSGSceneFileType::FCPtrStore OSGSceneFileType::readTopNodes(
     const Char8  *fileName,
           UInt32  uiReplaceOptions) const
 {
+    if(_pFile == NULL)
+        _pFile = new OSGLoader;
+
     _pFile->scanFile(fileName, uiReplaceOptions);
 
     return _pFile->getRootNodes();
@@ -146,6 +157,9 @@ OSGSceneFileType::FCPtrStore OSGSceneFileType::readTopNodes(
           UInt32  uiAddOptions,
           UInt32  uiSubOptions) const
 {
+    if(_pFile == NULL)
+        _pFile = new OSGLoader;
+
     _pFile->scanFile(fileName, uiAddOptions, uiSubOptions);
 
     return _pFile->getRootNodes();
@@ -182,8 +196,6 @@ OSGSceneFileType::OSGSceneFileType(const char   *suffixArray[],
               override, 
               overridePriority)
 {
-    _pFile = new OSGLoader;
-
     return;
 }
 

@@ -116,7 +116,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGSceneFileType : public SceneFileType
     static const Char8            *_suffixA[];
     static       OSGSceneFileType  _the;
 
-                 OSGLoader        *_pFile;
+    static       OSGLoader        *_pFile;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
