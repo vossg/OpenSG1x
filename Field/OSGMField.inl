@@ -149,7 +149,8 @@ MField<FieldTypeT, fieldNameSpace>::~MField(void)
 //! Return a reference to the stored value at index index
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-FieldTypeT &MField<FieldTypeT, fieldNameSpace>::getValue(const UInt32 index)
+MField<FieldTypeT, fieldNameSpace>::reference 
+    MField<FieldTypeT, fieldNameSpace>::getValue(const UInt32 index)
 {
     return _values[index];
 }
@@ -157,8 +158,8 @@ FieldTypeT &MField<FieldTypeT, fieldNameSpace>::getValue(const UInt32 index)
 //! Return a const reference to the stored value at index index
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-const FieldTypeT &MField<FieldTypeT, fieldNameSpace>::getValue(
-    const UInt32 index) const
+MField<FieldTypeT, fieldNameSpace>::const_reference
+    MField<FieldTypeT, fieldNameSpace>::getValue(const UInt32 index) const
 {
     return _values[index];
 }
@@ -484,7 +485,8 @@ string &MField<FieldTypeT,
 //! Returns a reference to the value at the given index 
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-FieldTypeT &MField<FieldTypeT, fieldNameSpace>::operator [](UInt32 index)
+MField<FieldTypeT, fieldNameSpace>::reference
+    MField<FieldTypeT, fieldNameSpace>::operator [](UInt32 index)
 {
     return _values[index];
 }
@@ -492,8 +494,8 @@ FieldTypeT &MField<FieldTypeT, fieldNameSpace>::operator [](UInt32 index)
 //! Returns a const reference to the value at the given index 
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-const FieldTypeT &MField<FieldTypeT, 
-                         fieldNameSpace>::operator [](UInt32 index) const
+MField<FieldTypeT, fieldNameSpace>::const_reference
+    MField<FieldTypeT, fieldNameSpace>::operator [](UInt32 index) const
 {
     return _values[index];
 }

@@ -114,8 +114,8 @@ class MField : public Field
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-                  FieldTypeT  &getValue (const UInt32 index);
-            const FieldTypeT  &getValue (const UInt32 index) const;
+                  reference    getValue (const UInt32 index);
+            const_reference    getValue (const UInt32 index) const;
 
                   StorageType &getValues(void);
             const StorageType &getValues(void) const;
@@ -189,8 +189,8 @@ class MField : public Field
     /*! \name                  Index Operator                              */
     /*! \{                                                                 */
 
-          FieldTypeT &operator [](UInt32 index);
-    const FieldTypeT &operator [](UInt32 index) const;
+          reference operator [](UInt32 index);
+    const_reference operator [](UInt32 index) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

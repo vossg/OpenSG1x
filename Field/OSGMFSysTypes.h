@@ -61,6 +61,9 @@ OSG_BEGIN_NAMESPACE
 
 /*! \brief MFBool
     \ingroup MultiFields
+    \warning the getValue and operator[] functions may not return what
+             you expect them to return. Descent STL implementation will 
+             certainly not return 'Bool &' nor 'const Bool &'.
  */
 
 typedef MField<Bool, 2>   MFBool;
