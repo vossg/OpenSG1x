@@ -56,9 +56,8 @@
 
 #define OSG_COMPILELIGHT
 
-#include <OSGFieldContainerPtr.h>
-#include <OSGFieldContainerType.h>
 #include <OSGDrawAction.h>
+
 #include "OSGPointLight.h"
 
 OSG_USING_NAMESPACE
@@ -72,6 +71,16 @@ OSG_USING_NAMESPACE
  */
 
 /***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
+/*! \class osg::PointLight
+
+
+
+*/
+
+/***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
 
@@ -79,64 +88,15 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(PointLight, PositionField)
-
-OSG_FC_FIELD_IDM_DEF      (PointLight, 
-                           ConstAttenField, 
-                           PositionField)
-
-OSG_FC_FIELD_IDM_DEF      (PointLight, 
-                           LinAttenField,   
-                           ConstAttenField)
-
-OSG_FC_FIELD_IDM_DEF      (PointLight, 
-                           QuadAttenField, 
-                           LinAttenField)
-
-OSG_FC_LAST_FIELD_IDM_DEF (PointLight, QuadAttenField)
-
 char PointLight::cvsid[] = "@(#)$Id: $";
 
-FieldDescription PointLight::_desc[] = 
-{
-	FieldDescription(
-        SFPnt3f::getClassType(),
-        "position", 
-        OSG_FC_FIELD_IDM_DESC(PositionField),
-        false,
-        (FieldAccessMethod) &PointLight::getSFPosition), 
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-	FieldDescription(
-        SFReal32::getClassType(),
-        "constantAttenuation", 
-        OSG_FC_FIELD_IDM_DESC(ConstAttenField),
-        false,
-        (FieldAccessMethod) &PointLight::getSFConstantAttenuation), 
-
-	FieldDescription(
-        SFReal32::getClassType(),
-        "linearAttenuation", 
-        OSG_FC_FIELD_IDM_DESC(LinAttenField),
-        false,
-        (FieldAccessMethod) &PointLight::getSFLinearAttenuation), 
-
-	FieldDescription(
-        SFReal32::getClassType(),
-        "quadraticAttenuation", 
-        OSG_FC_FIELD_IDM_DESC(QuadAttenField),
-        false,
-        (FieldAccessMethod) &PointLight::getSFQuadraticAttenuation)
-};
-
-FieldContainerType PointLight::_type(
-    "PointLight",
-    "LightBase",
-    NULL,
-    (PrototypeCreateF) &PointLight::createEmpty,
-    initMethod,
-    _desc,
-    sizeof(_desc));
-
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -153,6 +113,9 @@ FieldContainerType PointLight::_type(
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
+
+/** \brief initialize the static features of the class, e.g. action callbacks
+ */
 
 void PointLight::initMethod (void)
 {
@@ -171,7 +134,6 @@ void PointLight::initMethod (void)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(PointLight, PointLightPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -179,11 +141,7 @@ OSG_FIELD_CONTAINER_DEF(PointLight, PointLightPtr)
  */
 
 PointLight::PointLight(void) :
-    Inherited(),
-    _position(),
-    _constantAttenuation(),
-    _linearAttenuation(),
-    _quadraticAttenuation()
+    Inherited()
 {
 }
 
@@ -191,11 +149,7 @@ PointLight::PointLight(void) :
  */
 
 PointLight::PointLight(const PointLight &source) :
-    Inherited(),
-    _position            (source._position            ),
-    _constantAttenuation (source._constantAttenuation ),
-    _linearAttenuation   (source._linearAttenuation   ),
-    _quadraticAttenuation(source._quadraticAttenuation)
+    Inherited(source)
 {
 }
 
@@ -213,11 +167,6 @@ void PointLight::setPosition(Real32 rX, Real32 rY, Real32 rZ)
     _position.getValue().setValues(rX, rY, rZ);
 }
 
-void PointLight::setPosition(const Pnt3f &gPosition)
-{
-    _position.setValue(gPosition);
-}
-
 void PointLight::setAttenuation(Real32 rConstant, 
                                 Real32 rLinear, 
                                 Real32 rQuadratic)
@@ -227,78 +176,25 @@ void PointLight::setAttenuation(Real32 rConstant,
     _quadraticAttenuation.setValue(rQuadratic);
 }
 
+/** \brief react to field changes
+ */
 
-/*------------------------------- get ---------------------------------------*/
-
-SFPnt3f  *PointLight::getSFPosition(void)
+void PointLight::changed(BitVector, ChangeMode)
 {
-    return &_position;
-}
-
-SFReal32 *PointLight::getSFConstantAttenuation (void)
-{
-    return &_constantAttenuation;
-}
-
-SFReal32 *PointLight::getSFLinearAttenuation   (void)
-{
-    return &_linearAttenuation;
-}
-
-SFReal32 *PointLight::getSFQuadraticAttenuation(void)
-{
-    return &_quadraticAttenuation;
-}
-    
-Pnt3f &PointLight::getPosition(void)
-{
-    return _position.getValue();
-}
-
-const Pnt3f &PointLight::getPosition(void) const
-{
-    return _position.getValue();
-}
-
-Real32 &PointLight::getConstantAttenuation (void)
-{
-    return _constantAttenuation.getValue();
-}
-
-Real32  PointLight::getConstantAttenuation (void) const
-{
-    return _constantAttenuation.getValue();
-}
-
-
-Real32 &PointLight::getLinearAttenuation   (void)
-{
-    return _linearAttenuation.getValue();
-}
-
-Real32  PointLight::getLinearAttenuation   (void) const
-{
-    return _linearAttenuation.getValue();
-}
-
-
-Real32 &PointLight::getQuadraticAttenuation(void)
-{
-    return _quadraticAttenuation.getValue();
-}
-
-Real32  PointLight::getQuadraticAttenuation(void) const
-{
-    return _quadraticAttenuation.getValue();
 }
 
 /*------------------------------- dump ----------------------------------*/
 
+/** \brief output the instance for debug purposes
+ */
+
 void PointLight::dump(      UInt32     uiIndent, 
-                      const BitVector &bvFlags) const
+                         const BitVector &bvFlags) const
 {
-    Inherited::dump(uiIndent, bvFlags);
+   Inherited::dump(uiIndent, bvFlags);
 }
+
+    
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
@@ -327,31 +223,4 @@ Action::ResultE PointLight::draw(Action * action )
 	return Action::Continue;
 }
 
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

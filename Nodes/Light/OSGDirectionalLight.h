@@ -47,21 +47,15 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGLightBase.h>
-#include <OSGSFVecTypes.h>
+#include <OSGConfig.h>
+
+#include <OSGDirectionalLightBase.h>
 
 OSG_BEGIN_NAMESPACE
 
 //---------------------------------------------------------------------------
 //  Forward References
 //---------------------------------------------------------------------------
-
-class   DirectionalLight;
-
-//! \ingroup FieldContainerPtr
-/*! the directional light pointer 
- */
-typedef FCPtr<LightPtr, DirectionalLight> DirectionalLightPtr;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -75,22 +69,14 @@ typedef FCPtr<LightPtr, DirectionalLight> DirectionalLightPtr;
  *  \brief Directional light
  */
 
-class OSG_LIGHT_DLLMAPPING DirectionalLight : public LightBase
+class OSG_LIGHT_DLLMAPPING DirectionalLight : public DirectionalLightBase
 {
-  private:
-
-    typedef LightBase Inherited;
-
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
-
-    OSG_FC_FIRST_FIELD_IDM_DECL(DirectionField)
-
-    OSG_FC_LAST_FIELD_IDM_DECL (DirectionField)
-
+    
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -111,7 +97,9 @@ class OSG_LIGHT_DLLMAPPING DirectionalLight : public LightBase
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(DirectionalLightPtr)
+    /*--------------------------- access fields ----------------------------*/
+
+    /*----------------------------- access ----------------------------------*/
 
     /*------------------------------- set -----------------------------------*/
 
@@ -121,16 +109,10 @@ class OSG_LIGHT_DLLMAPPING DirectionalLight : public LightBase
     void setDirection(const Vec3f &gDirection);
     //@}
 
-    /*------------------------------- get -----------------------------------*/
-
-    //! get the light's field
-    SFVec3f *getSFDirection(void);
-
-    //@{ 
-    //! get the light's attribute
-          Vec3f &getDirection(void);
-    const Vec3f &getDirection(void) const;
-    //@}
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
+ 
+    /*------------------------------ volume -------------------------------*/
 
     /*------------------------------ dump -----------------------------------*/
 
@@ -159,8 +141,7 @@ class OSG_LIGHT_DLLMAPPING DirectionalLight : public LightBase
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    //! the light's field
-    SFVec3f _direction;
+    // They should all be in DirectionalLightBase.
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -182,10 +163,17 @@ class OSG_LIGHT_DLLMAPPING DirectionalLight : public LightBase
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    typedef DirectionalLightBase Inherited;
+
+    //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
     friend class FieldContainer;
+    friend class DirectionalLightBase;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -197,15 +185,11 @@ class OSG_LIGHT_DLLMAPPING DirectionalLight : public LightBase
 
     static char cvsid[];
 
-    static FieldDescription   _desc[];
-
-    static FieldContainerType _type;
-
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static void   initMethod (void);
+    static void initMethod( void );
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -224,8 +208,14 @@ class OSG_LIGHT_DLLMAPPING DirectionalLight : public LightBase
 //   Exported Types
 //---------------------------------------------------------------------------
 
+
+/** \brief class pointer
+ */
+typedef DirectionalLight *DirectionalLightP;
+
 OSG_END_NAMESPACE
 
 #include <OSGDirectionalLight.inl>
+#include <OSGDirectionalLightBase.inl>
 
 #endif /* _OSGDIRECTIONALLIGHT_H_ */

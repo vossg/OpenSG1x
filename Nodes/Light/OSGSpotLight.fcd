@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="SpotLight"
+	parent="PointLight"
+	library="Light"
+	structure="concrete"
+	pointerfieldtypes="none"
+>
+	<Field
+		name="direction"
+		type="Vec3f"
+		cardinality="single"
+		visibility="external"
+	>
+	</Field>
+	<Field
+		name="spotExponent"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+	>
+	</Field>
+	<Field
+		name="spotCutOff"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+	>
+	</Field>
+</FieldContainer>

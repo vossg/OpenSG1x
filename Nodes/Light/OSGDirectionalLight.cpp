@@ -56,12 +56,15 @@
 
 #define OSG_COMPILELIGHT
 
-#include <OSGFieldContainerPtr.h>
-#include <OSGFieldContainerType.h>
-#include <OSGDrawAction.h>
 #include "OSGDirectionalLight.h"
+#include <OSGDrawAction.h>
 
 OSG_USING_NAMESPACE
+
+
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
 /*! \class osg::DirectionalLight
  *  DirectionalLight is an infinitely distant lightsource. Its only
@@ -76,31 +79,15 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(DirectionalLight, DirectionField)
-
-OSG_FC_LAST_FIELD_IDM_DEF (DirectionalLight, DirectionField)
-
 char DirectionalLight::cvsid[] = "@(#)$Id: $";
 
-FieldDescription DirectionalLight::_desc[] = 
-{
-    FieldDescription(
-        SFVec3f::getClassType(),
-        "direction", 
-        OSG_FC_FIELD_IDM_DESC(DirectionField),
-        false,
-        (FieldAccessMethod) &DirectionalLight::getSFDirection)
-};
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-FieldContainerType DirectionalLight::_type(
-    "DirectionalLight",
-    "LightBase",
-    NULL,
-    (PrototypeCreateF) &DirectionalLight::createEmpty,
-    initMethod,
-    _desc,
-    sizeof(_desc));
-
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -118,6 +105,9 @@ FieldContainerType DirectionalLight::_type(
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
+/** \brief initialize the static features of the class, e.g. action callbacks
+ */
+
 void DirectionalLight::initMethod (void)
 {
     DrawAction::registerEnterDefault( getClassType(), 
@@ -127,7 +117,6 @@ void DirectionalLight::initMethod (void)
                                 Action *>(&DirectionalLight::draw));
 }
 
-
 /***************************************************************************\
  *                           Instance methods                              *
 \***************************************************************************/
@@ -136,7 +125,6 @@ void DirectionalLight::initMethod (void)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(DirectionalLight, DirectionalLightPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -144,17 +132,15 @@ OSG_FIELD_CONTAINER_DEF(DirectionalLight, DirectionalLightPtr)
  */
 
 DirectionalLight::DirectionalLight(void) :
-    Inherited(),
-    _direction()
+    Inherited()
 {
 }
 
 /** \brief Copy Constructor
  */
 
-DirectionalLight::DirectionalLight(const DirectionalLight & source) :
-    Inherited(),
-    _direction(source._direction)
+DirectionalLight::DirectionalLight(const DirectionalLight &source) :
+    Inherited(source)
 {
 }
 
@@ -174,35 +160,26 @@ void DirectionalLight::setDirection(Real32 rX,
     _direction.getValue().setValues(rX, rY, rZ);
 }
 
-void DirectionalLight::setDirection(const Vec3f &gDirection)
-{
-    _direction.setValue(gDirection);
-}
 
-/*------------------------------- get ---------------------------------------*/
+/** \brief react to field changes
+ */
 
-SFVec3f *DirectionalLight::getSFDirection(void)
+void DirectionalLight::changed(BitVector, ChangeMode)
 {
-    return &_direction;
-}
-
-Vec3f &DirectionalLight::getDirection(void)
-{
-    return _direction.getValue();
-}
-
-const Vec3f &DirectionalLight::getDirection(void) const
-{
-    return _direction.getValue();
 }
 
 /*------------------------------- dump ----------------------------------*/
 
+/** \brief output the instance for debug purposes
+ */
+
 void DirectionalLight::dump(      UInt32     uiIndent, 
-                            const BitVector &bvFlags) const
+                         const BitVector &bvFlags) const
 {
-    Inherited::dump(uiIndent, bvFlags);
+   Inherited::dump(uiIndent, bvFlags);
 }
+
+    
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
@@ -231,34 +208,4 @@ Action::ResultE DirectionalLight::draw(Action * action )
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

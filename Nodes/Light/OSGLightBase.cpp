@@ -56,12 +56,14 @@
 
 #define OSG_COMPILELIGHT
 
-#include <OSGFieldContainerPtr.h>
-#include <OSGFieldContainerType.h>
 #include "OSGLightBase.h"
 
 OSG_USING_NAMESPACE
 
+
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
 /*! \class osg::LightBase
  *	\defgroup LightNodes
@@ -73,7 +75,6 @@ OSG_USING_NAMESPACE
  *  the position in the graph defines the objects that are lit.
  */
 
-
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -82,54 +83,15 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(LightBase, AmbientField)
-
-OSG_FC_FIELD_IDM_DEF      (LightBase, DiffuseField,  AmbientField)
-OSG_FC_FIELD_IDM_DEF      (LightBase, SpecularField, DiffuseField)
-OSG_FC_FIELD_IDM_DEF      (LightBase, BeaconField,   SpecularField)
-
-OSG_FC_LAST_FIELD_IDM_DEF (LightBase, BeaconField)
-
 char LightBase::cvsid[] = "@(#)$Id: $";
 
-FieldDescription LightBase::_desc[] = 
-{
-    FieldDescription(
-        SFColor4f::getClassType(),
-        "ambient", 
-        OSG_FC_FIELD_IDM_DESC(AmbientField),
-        false,
-        (FieldAccessMethod) &LightBase::getSFAmbientColor), 
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-    FieldDescription(
-        SFColor4f::getClassType(),
-        "diffuse", 
-        OSG_FC_FIELD_IDM_DESC(DiffuseField),
-        false,
-        (FieldAccessMethod) &LightBase::getSFDiffuseColor), 
-
-    FieldDescription(
-        SFColor4f::getClassType(),
-        "specular", 
-        OSG_FC_FIELD_IDM_DESC(SpecularField),
-        false,
-        (FieldAccessMethod) &LightBase::getSFSpecularColor),
-
-    FieldDescription(
-        SFNodePtr::getClassType(),
-        "beacon", 
-        OSG_FC_FIELD_IDM_DESC(BeaconField),
-        false,
-        (FieldAccessMethod) &LightBase::getSFBeacon)
-};
-
-FieldContainerType LightBase::_type("LightBase",
-                                    "NodeCore",
-                                    NULL,
-                                    NULL,
-                                    NULL, //initMethod,
-                                    _desc,
-                                    sizeof(_desc));
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -147,15 +109,21 @@ FieldContainerType LightBase::_type("LightBase",
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
+/** \brief initialize the static features of the class, e.g. action callbacks
+ */
+
+void LightBase::initMethod (void)
+{
+}
+
 /***************************************************************************\
  *                           Instance methods                              *
 \***************************************************************************/
 
-OSG_ABSTR_FIELD_CONTAINER_DEF(LightBase, LightPtr)
-
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
+
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -163,12 +131,42 @@ OSG_ABSTR_FIELD_CONTAINER_DEF(LightBase, LightPtr)
  */
 
 LightBase::LightBase(void) :
-    Inherited(),
-    _ambientTerm(),
-    _diffuseTerm(),
-    _specularTerm(),
-    _beacon()
+    Inherited()
 {
+}
+
+/** \brief Copy Constructor
+ */
+
+LightBase::LightBase(const LightBase &source) :
+    Inherited(source)
+{
+}
+
+/*--------------------------- set color terms ------------------------------*/
+
+void LightBase::setAmbient(Real32 rRed, 
+                                Real32 rGreen, 
+                                Real32 rBlue, 
+                                Real32 rAlpha)
+{
+    _ambient.getValue().setValuesRGBA(rRed, rGreen, rBlue, rAlpha);
+}
+
+void LightBase::setDiffuse(Real32 rRed, 
+                                Real32 rGreen, 
+                                Real32 rBlue, 
+                                Real32 rAlpha)
+{
+    _diffuse.getValue().setValuesRGBA(rRed, rGreen, rBlue, rAlpha);
+}
+
+void LightBase::setSpecular(Real32 rRed, 
+                                 Real32 rGreen, 
+                                 Real32 rBlue, 
+                                 Real32 rAlpha)
+{
+    _specular.getValue().setValuesRGBA(rRed, rGreen, rBlue, rAlpha);
 }
 
 
@@ -179,123 +177,26 @@ LightBase::~LightBase(void)
 {
 }
 
-/*--------------------------- set color terms ------------------------------*/
 
-void LightBase::setAmbientColor(Real32 rRed, 
-                                Real32 rGreen, 
-                                Real32 rBlue, 
-                                Real32 rAlpha)
+/** \brief react to field changes
+ */
+
+void LightBase::changed(BitVector, ChangeMode)
 {
-    _ambientTerm.getValue().setValuesRGBA(rRed, rGreen, rBlue, rAlpha);
-}
-
-void LightBase::setAmbientColor(const Color4f &color)
-{
-    _ambientTerm.setValue(color);
-}
-
-void LightBase::setDiffuseColor(Real32 rRed, 
-                                Real32 rGreen, 
-                                Real32 rBlue, 
-                                Real32 rAlpha)
-{
-    _diffuseTerm.getValue().setValuesRGBA(rRed, rGreen, rBlue, rAlpha);
-}
-
-void LightBase::setDiffuseColor(const Color4f &color)
-{
-    _diffuseTerm.setValue(color);
-}
-
-void LightBase::setSpecularColor(Real32 rRed, 
-                                 Real32 rGreen, 
-                                 Real32 rBlue, 
-                                 Real32 rAlpha)
-{
-    _specularTerm.getValue().setValuesRGBA(rRed, rGreen, rBlue, rAlpha);
-}
-
-void LightBase::setSpecularColor(const Color4f &color)
-{
-    _specularTerm.setValue(color);
-}
-
-void LightBase::setBeacon(const NodePtr & beacon)
-{
-    _beacon.setValue(beacon);
-}
-
-/*------------------------- get color terms fields --------------------------*/
-
-SFColor4f *LightBase::getSFAmbientColor (void)
-{
-    return &_ambientTerm;
-}
-
-SFColor4f *LightBase::getSFDiffuseColor (void)
-{
-    return &_diffuseTerm;
-}
-
-SFColor4f *LightBase::getSFSpecularColor(void)
-{
-    return &_specularTerm;
-}
-
-SFNodePtr *LightBase::getSFBeacon(void)
-{
-    return &_beacon;
-}
-
-/*------------------------- get color terms ---------------------------------*/
-
-Color4f &LightBase::getAmbientColor(void)
-{
-    return _ambientTerm.getValue();
-}
-
-const Color4f &LightBase::getAmbientColor(void) const
-{
-    return _ambientTerm.getValue();
-}
-
-Color4f &LightBase::getDiffuseColor(void)
-{
-    return _diffuseTerm.getValue();
-}
-
-const Color4f &LightBase::getDiffuseColor(void) const
-{
-    return _diffuseTerm.getValue();
-}
-
-Color4f &LightBase::getSpecularColor(void)
-{
-    return _specularTerm.getValue();
-}
-
-const Color4f &LightBase::getSpecularColor(void) const
-{
-    return _specularTerm.getValue();
-}
-
-NodePtr &LightBase::getBeacon(void)
-{
-    return _beacon.getValue();
-}
-
-const NodePtr &LightBase::getBeacon(void) const
-{
-    return _beacon.getValue();
 }
 
 /*------------------------------- dump ----------------------------------*/
 
+/** \brief output the instance for debug purposes
+ */
+
 void LightBase::dump(      UInt32     uiIndent, 
-                     const BitVector &bvFlags) const
+                         const BitVector &bvFlags) const
 {
-    Inherited::dump(uiIndent, bvFlags);
+   Inherited::dump(uiIndent, bvFlags);
 }
+
+    
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
@@ -308,14 +209,14 @@ void LightBase::dump(      UInt32     uiIndent,
 Action::ResultE LightBase::draw(Action * action )
 {
     glLightfv( GL_LIGHT0, GL_DIFFUSE,   
-                                    _diffuseTerm.getValue().getValueRef() );
+                                    _diffuse.getValue().getValueRef() );
     glLightfv( GL_LIGHT0, GL_AMBIENT,   
-                                    _ambientTerm.getValue().getValueRef() );
+                                    _ambient.getValue().getValueRef() );
     glLightfv( GL_LIGHT0, GL_SPECULAR,   
-                                    _specularTerm.getValue().getValueRef() );
+                                    _specular.getValue().getValueRef() );
 
 
-    // add the matrix to get into the beacpon's coordinate system onto the stack
+    // add the matrix to get into the beacon's coordinate system onto the stack
 
     Matrix fromworld,tobeacon;
 
@@ -346,32 +247,4 @@ Action::ResultE LightBase::draw(Action * action )
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

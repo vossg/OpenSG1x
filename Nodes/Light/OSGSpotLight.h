@@ -47,20 +47,15 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGPointLight.h>
+#include <OSGConfig.h>
+
+#include <OSGSpotLightBase.h>
 
 OSG_BEGIN_NAMESPACE
 
 //---------------------------------------------------------------------------
 //  Forward References
 //---------------------------------------------------------------------------
-
-class   SpotLight;
-
-//! \ingroup FieldContainerPtr
-/*! the spot light pointer 
- */
-typedef FCPtr<PointLightPtr, SpotLight> SpotLightPtr;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -74,25 +69,14 @@ typedef FCPtr<PointLightPtr, SpotLight> SpotLightPtr;
  *  \brief Spotlight
  */
 
-class OSG_LIGHT_DLLMAPPING SpotLight : public PointLight
+class OSG_LIGHT_DLLMAPPING SpotLight : public SpotLightBase
 {
-  private:
-
-    typedef PointLight Inherited;
-
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
-
-    OSG_FC_FIRST_FIELD_IDM_DECL(DirectionField                 )
-
-    OSG_FC_FIELD_IDM_DECL      (SpotExpField,    DirectionField)  
-    OSG_FC_FIELD_IDM_DECL      (SpotCutOffField, SpotExpField  )  
-
-    OSG_FC_LAST_FIELD_IDM_DECL (SpotCutOffField                )
-
+    
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -106,47 +90,29 @@ class OSG_LIGHT_DLLMAPPING SpotLight : public PointLight
     //-----------------------------------------------------------------------
 
     static const char *getClassname(void) { return "SpotLight"; };
- 
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(SpotLightPtr)
-
+    /*--------------------------- access fields ----------------------------*/
     /*------------------------------- set -----------------------------------*/
 
     //@{ 
     //! set the light's attributes
     void setSpotDirection(Real32 rX, Real32 rY, Real32 rZ);
-    void setSpotDirection(const Vec3f &gDirection);
 
-    void setSpotExponent(Real32 rSpotExponent);
-    void setSpotCutOff  (Real32 rSpotCutOff);
+    /*----------------------------- access ----------------------------------*/
     //@}
 
-    /*------------------------------- get -----------------------------------*/
+    /*-------------------------- transformation ----------------------------*/
 
-    //@{ 
-    //! get the light's fields
-    SFVec3f  *getSFDirection(void);
-
-    SFReal32 *getSFSpotExponent(void);
-    SFReal32 *getSFSpotCutOff  (void);
-    //@}
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
  
-    //@{ 
-    //! get the light's attributes
-          Vec3f &getDirection  (void);
-    const Vec3f &getDirection  (void) const;
-
-    Real32 &getSpotExponent    (void);
-    Real32  getSpotExponent    (void) const;
-
-    Real32 &getSpotCutOff      (void);
-    Real32  getSpotCutOff      (void) const;
-    //@}
+    /*------------------------------ volume -------------------------------*/
 
     /*------------------------------ dump -----------------------------------*/
 
@@ -175,13 +141,7 @@ class OSG_LIGHT_DLLMAPPING SpotLight : public PointLight
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    //@{ 
-    //! the light's fields
-    SFVec3f  _direction;
-
-    SFReal32 _spotExponent;
-    SFReal32 _spotCutOff;
-    //@}
+    // They should all be in SpotLightBase.
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -205,11 +165,14 @@ class OSG_LIGHT_DLLMAPPING SpotLight : public PointLight
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef SpotLightBase Inherited;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
     friend class FieldContainer;
+    friend class SpotLightBase;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -221,15 +184,11 @@ class OSG_LIGHT_DLLMAPPING SpotLight : public PointLight
 
     static char cvsid[];
 
-    static FieldDescription   _desc[];
-
-    static FieldContainerType _type;
-
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static void   initMethod (void);
+    static void initMethod( void );
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -248,8 +207,14 @@ class OSG_LIGHT_DLLMAPPING SpotLight : public PointLight
 //   Exported Types
 //---------------------------------------------------------------------------
 
+
+/** \brief class pointer
+ */
+typedef SpotLight *SpotLightP;
+
 OSG_END_NAMESPACE
 
 #include <OSGSpotLight.inl>
+#include <OSGSpotLightBase.inl>
 
 #endif /* _OSGSPOTLIGHT_H_ */

@@ -138,8 +138,8 @@ int main (int argc, char **argv)
 	endEditCP(dlight);
 	
 	beginEditCP(dl);
-	dl->setAmbientColor( .2, .2, .2, .2 );
-	dl->setDiffuseColor( 1, 1, 1, 1 );
+	dl->setAmbient( .2, .2, .2, .2 );
+	dl->setDiffuse( 1, 1, 1, 1 );
 	dl->setDirection(0,0,1);
 	dl->setBeacon( tnode );
 	endEditCP(dl);
@@ -154,8 +154,8 @@ int main (int argc, char **argv)
 	endEditCP(plight);
 	
 	beginEditCP(pl);
-	pl->setAmbientColor( .2, .2, .2, .2 );
-	pl->setDiffuseColor( 1, 1, 1, 1 );
+	pl->setAmbient( .2, .2, .2, .2 );
+	pl->setDiffuse( 1, 1, 1, 1 );
 	pl->setPosition(0,0,0);
 	pl->setBeacon( tnode );
 	endEditCP(pl);
@@ -170,8 +170,8 @@ int main (int argc, char **argv)
 	endEditCP(slight);
 	
 	beginEditCP(sl);
-	sl->setAmbientColor( .2, .2, .2, .2 );
-	sl->setDiffuseColor( 1, 1, 1, 1 );
+	sl->setAmbient( .2, .2, .2, .2 );
+	sl->setDiffuse( 1, 1, 1, 1 );
 	sl->setPosition(0,0,0);
 	sl->setSpotDirection(0,0,-1);
 	sl->setSpotExponent(10);

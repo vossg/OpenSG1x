@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="LightBase"
+	parent="NodeCore"
+	library="Light"
+	structure="abstract"
+	pointerfieldtypes="none"
+>
+	<Field
+		name="ambient"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+	>
+	</Field>
+	<Field
+		name="diffuse"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+	>
+	</Field>
+	<Field
+		name="specular"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+	>
+	</Field>
+	<Field
+		name="beacon"
+		type="NodePtr"
+		cardinality="single"
+		visibility="external"
+	>
+	</Field>
+</FieldContainer>

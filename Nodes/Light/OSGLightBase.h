@@ -47,39 +47,10 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILELIGHT
-#       define OSG_LIGHT_DLLMAPPING __declspec(dllexport)
-#   else
-#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILEDRAWACTION)        || \
-                                     defined(OSG_COMPILEINTERSECTACTION)   || \
-                                     defined(OSG_COMPILEFIELD)             || \
-                                     defined(OSG_COMPILEFIELDCONTAINER)    || \
-                                     defined(OSG_COMPILEIMAGE)             || \
-                                     defined(OSG_COMPILELOADER)            || \
-                                     defined(OSG_COMPILEMULTITHREADING)    || \
-                                     defined(OSG_COMPILEMATERIAL)          || \
-                                     defined(OSG_COMPILEMISC)              || \
-                                     defined(OSG_COMPILEACTIION)           || \
-                                     defined(OSG_COMPILEGEOMETRY)          || \
-                                     defined(OSG_COMPILESTATE)             || \
-                                     defined(OSG_COMPILEWINDOW)            || \
-                                     defined(OSG_COMPILESYSTEMLIB))
-#           define OSG_LIGHT_DLLMAPPING __declspec(dllexport)
-#       else
-#           define OSG_LIGHT_DLLMAPPING __declspec(dllimport)
-#       endif
-#   endif
-#else
-#define OSG_LIGHT_DLLMAPPING
-#endif
+#include <OSGConfig.h>
 
-#include <OSGBaseTypes.h>
-#include <OSGNodeCore.h>
-#include <OSGFieldContainer.h>
-#include <OSGFieldContainerPtr.h>
-#include <OSGSFBaseTypes.h>
-#include <OSGFieldDescription.h>
+#include <OSGLightBaseBase.h>
+
 #include <OSGAction.h>
 
 OSG_BEGIN_NAMESPACE
@@ -88,48 +59,25 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class LightBase;
-
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
 
-//! \ingroup FieldContainerPtr
-
-typedef FCPtr<NodeCorePtr, LightBase> LightPtr;
-
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
- 
-/*! \defgroup LightNodes
- *  Group for the different light nodes.
+
+/*! \brief *put brief class description here* 
  */
 
-/*! \ingroup LightNodes
- *  \brief Base for the different OGL lights.
- */
-
-class OSG_LIGHT_DLLMAPPING LightBase : public NodeCore
+class OSG_LIGHT_DLLMAPPING LightBase : public LightBaseBase
 {
-  private:
-
-    typedef NodeCore Inherited;
-
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
-
-    OSG_FC_FIRST_FIELD_IDM_DECL(AmbientField                )
-
-    OSG_FC_FIELD_IDM_DECL      (DiffuseField,  AmbientField )  
-    OSG_FC_FIELD_IDM_DECL      (SpecularField, DiffuseField )  
-    OSG_FC_FIELD_IDM_DECL      (BeaconField,   SpecularField)
-
-    OSG_FC_LAST_FIELD_IDM_DECL (BeaconField                 )
-
+    
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -150,54 +98,24 @@ class OSG_LIGHT_DLLMAPPING LightBase : public NodeCore
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_ABSTR_FIELD_CONTAINER_DECL(LightPtr)
+    /*--------------------------- access fields ----------------------------*/
 
-    /*------------------------- set color terms -----------------------------*/
+    /*----------------------------- access ----------------------------------*/
+
+    /*-------------------------- transformation ----------------------------*/
+
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
+ 
+    /*------------------------------ volume -------------------------------*/
 
     //@{ 
     //! set the light's attributes
-    void setAmbientColor(Real32 rRed, Real32 rGreen, Real32 rBlue, 
-                         Real32 rAlpha);
-    void setAmbientColor(const Color4f &color);
-
-    void setDiffuseColor(Real32 rRed, Real32 rGreen, Real32 rBlue, 
-                         Real32 rAlpha);
-    void setDiffuseColor(const Color4f &color);
-
-    void setSpecularColor(Real32 rRed, Real32 rGreen, Real32 rBlue, 
-                          Real32 rAlpha);
-    void setSpecularColor(const Color4f &color);
-
-    void setBeacon(const NodePtr &beacon);
-    //@}
-
-    /*------------------------- get color terms fields ----------------------*/
-
-    //@{ 
-    //! get the light's fields
-    SFColor4f *getSFAmbientColor (void);
-    SFColor4f *getSFDiffuseColor (void);
-    SFColor4f *getSFSpecularColor(void);
-    SFNodePtr *getSFBeacon       (void);
-    //@}
-   
-    /*------------------------- get color terms -----------------------------*/
-
-    //@{ 
-    //! get the light's attributes
-          Color4f &getAmbientColor(void);
-    const Color4f &getAmbientColor(void) const;
-
-          Color4f &getDiffuseColor(void);
-    const Color4f &getDiffuseColor(void) const;
-
-          Color4f &getSpecularColor(void);
-    const Color4f &getSpecularColor(void) const;
-
-          NodePtr &getBeacon(void);
-    const NodePtr &getBeacon(void) const;
-    //@}
-
+    void setAmbient(Real32 rRed, Real32 rGreen, Real32 rBlue, Real32 rAlpha);
+    void setDiffuse(Real32 rRed, Real32 rGreen, Real32 rBlue, Real32 rAlpha);
+    void setSpecular(Real32 rRed, Real32 rGreen, Real32 rBlue, Real32 rAlpha);
+	//@}
+	
     /*------------------------------ dump -----------------------------------*/
 
     virtual void dump(      UInt32     uiIndent = 0, 
@@ -225,13 +143,7 @@ class OSG_LIGHT_DLLMAPPING LightBase : public NodeCore
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    //@{ 
-    //! the light's fields
-    SFColor4f _ambientTerm;
-    SFColor4f _diffuseTerm;
-    SFColor4f _specularTerm;
-    SFNodePtr _beacon;
-    //@}
+    // They should all be in LightBaseBase.
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -259,11 +171,14 @@ class OSG_LIGHT_DLLMAPPING LightBase : public NodeCore
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef LightBaseBase Inherited;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
     friend class FieldContainer;
+    friend class LightBaseBase;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -275,13 +190,11 @@ class OSG_LIGHT_DLLMAPPING LightBase : public NodeCore
 
     static char cvsid[];
 
-    static FieldDescription   _desc[];
-
-    static FieldContainerType _type;
-
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
+
+    static void initMethod( void );
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -293,15 +206,21 @@ class OSG_LIGHT_DLLMAPPING LightBase : public NodeCore
 
     // prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const NodeCore &source);
+    void operator =(const LightBase &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
+
+/** \brief class pointer
+ */
+typedef LightBase *LightBaseP;
+
 OSG_END_NAMESPACE
 
 #include <OSGLightBase.inl>
+#include <OSGLightBaseBase.inl>
 
 #endif /* _OSGLIGHTBASE_H_ */

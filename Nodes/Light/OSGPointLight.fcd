@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="PointLight"
+	parent="LightBase"
+	library="Light"
+	structure="concrete"
+	pointerfieldtypes="none"
+>
+	<Field
+		name="position"
+		type="Pnt3f"
+		cardinality="single"
+		visibility="external"
+	>
+	</Field>
+	<Field
+		name="constantAttenuation"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+	>
+	</Field>
+	<Field
+		name="linearAttenuation"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+	>
+	</Field>
+	<Field
+		name="quadraticAttenuation"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+	>
+	</Field>
+</FieldContainer>
