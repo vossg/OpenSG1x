@@ -422,7 +422,7 @@ install-bin: install-test
 	$(SED) -e 's/@am_gdz_system_flags@/\"$(CCFLAGS_EXT)\"/g'                \
 	       -e 's/@am_gdz_system_flags_opt@/\"$(CCFLAGS_EXT_OPT)\"/g'        \
 	       -e 's/@am_gdz_system_flags_dbg@/\"$(CCFLAGS_EXT_DBG)\"/g'        \
-		   -e 's/@am_gdz_base_libs@/\"$(LIBS_$(OS_BASE))\"/g' 				\
+		   -e 's|@am_gdz_base_libs@|\"$(LIBS_$(OS_BASE))\"|g' 				\
 		   -e 's|@am_gdz_add_inc@|\"$(ADD_INCL_$(OS_BASE))\"|g'				\
 		   -e 's|@am_gdz_add_link@|\"$(ADD_LIBPATHS_$(OS_BASE))\"|g'		\
 	       -e 's/@am_gdz_link_flags@/\"$(LD_FLAGS_EXT_SED)\"/g'             \
