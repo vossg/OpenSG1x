@@ -65,10 +65,14 @@
 #   ifdef OSG_COMPILESCANPARSE
 #       define OSG_SCANPARSE_DLLMAPPING __declspec(dllexport)
 #   else
-#       define OSG_SCANPARSE_DLLMAPPING __declspec(dllimport)
+#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILESYSTEMLIB))
+#           define OSG_SCANPARSE_DLLMAPPING __declspec(dllexport)
+#       else
+#           define OSG_SCANPARSE_DLLMAPPING __declspec(dllimport)
+#       endif
 #   endif
 #else
 #define OSG_SCANPARSE_DLLMAPPING
 #endif
 
-#endif /* _CLASSNAME_H_ */
+#endif /* _OSGSCANPARSEBASE_H_ */

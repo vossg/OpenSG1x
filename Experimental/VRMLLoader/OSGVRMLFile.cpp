@@ -41,6 +41,7 @@
 //---------------------------------------------------------------------------
 
 #define OSG_COMPILEVRMLLOADER
+#define OSG_COMPILESYSTEMLIB
 
 #include <stdlib.h>
 #include <stdio.h>

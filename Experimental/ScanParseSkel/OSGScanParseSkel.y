@@ -38,6 +38,7 @@
 %{
 
 #define OSG_COMPILESCANPARSE
+#define OSG_COMPILESYSTEMLIB
 
 #include <malloc.h>
 #include <OSGScanParseSkel.tab.h>

@@ -51,7 +51,11 @@
 #   ifdef OSG_COMPILEOSGLOADER
 #       define OSG_OSGLOADER_DLLMAPPING __declspec(dllexport)
 #   else
-#       define OSG_OSGLOADER_DLLMAPPING __declspec(dllimport)
+#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILESYSTEMLIB))
+#           define OSG_OSGLOADER_DLLMAPPING __declspec(dllexport)
+#       else
+#           define OSG_OSGLOADER_DLLMAPPING __declspec(dllimport)
+#       endif
 #   endif
 #else
 #define OSG_OSGLOADER_DLLMAPPING

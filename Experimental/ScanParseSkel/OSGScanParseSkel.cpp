@@ -41,6 +41,7 @@
 //---------------------------------------------------------------------------
 
 #define OSG_COMPILESCANPARSE
+#define OSG_COMPILESYSTEMLIB
 
 #include <stdlib.h>
 #include <stdio.h>

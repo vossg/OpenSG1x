@@ -50,10 +50,15 @@
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
 #   ifdef OSG_COMPILEVRMLLOADER
 #       define OSG_VRMLLOADER_DLLMAPPING     __declspec(dllexport)
-#       define OSG_VRMLLOADER_DLLTMPLMAPPING 
+#       define OSG_VRMLLOADER_DLLTMPLMAPPING __declspec(dllexport)
 #   else
-#       define OSG_VRMLLOADER_DLLMAPPING     __declspec(dllimport)
-#       define OSG_VRMLLOADER_DLLTMPLMAPPING __declspec(dllimport)
+#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILESYSTEMLIB))
+#           define OSG_VRMLLOADER_DLLMAPPING     __declspec(dllexport)
+#           define OSG_VRMLLOADER_DLLTMPLMAPPING __declspec(dllexport)
+#       else
+#           define OSG_VRMLLOADER_DLLMAPPING     __declspec(dllimport)
+#           define OSG_VRMLLOADER_DLLTMPLMAPPING __declspec(dllimport)
+#       endif
 #   endif
 #else
 #define OSG_VRMLLOADER_DLLMAPPING

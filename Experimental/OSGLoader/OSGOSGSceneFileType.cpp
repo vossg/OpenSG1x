@@ -53,6 +53,8 @@
 #endif
 
 #define OSG_COMPILEOSGLOADER
+#define OSG_COMPILESYSTEMLIB
+
 #include "OSGOSGSceneFileType.h"
 
 OSG_USING_NAMESPACE

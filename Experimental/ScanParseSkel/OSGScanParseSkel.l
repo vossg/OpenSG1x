@@ -39,6 +39,7 @@
 %{
 
 #define OSG_COMPILESCANPARSE
+#define OSG_COMPILESYSTEMLIB
 #define YY_NEVER_INTERACTIVE 1
 
 #include <OSGScanParseSkel.tab.h>

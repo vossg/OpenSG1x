@@ -45,6 +45,7 @@
 #include <stdio.h>
 
 #define OSG_COMPILEOSGLOADER
+#define OSG_COMPILESYSTEMLIB
 
 #include "OSGConfig.h"
 
@@ -82,7 +83,6 @@
 #include "OSGPerspectiveCamera.h"
 #include "OSGBackground.h"
 
-OSG_USING_NAMESPACE
 OSG_USING_NAMESPACE
 
 //---------------------------------------------------------------------------
