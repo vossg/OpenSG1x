@@ -1662,9 +1662,9 @@ VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
         returnValue /= (length() * vec.length());
 
         if((returnValue - Eps) < -1.)
-            returnValue = TypeConstants<RealReturnType>::getZeroElement();
-        else if((returnValue + Eps) > 1.)
             returnValue = Pi;
+        else if((returnValue + Eps) > 1.)
+            returnValue = TypeConstants<RealReturnType>::getZeroElement();
         else
         {
             returnValue = osgacos(returnValue);
