@@ -332,7 +332,7 @@ bool ImageFileHandler::write ( const Image &image,
 //
 //------------------------------
 UInt64 ImageFileHandler::restore ( Image &image, const char *mimeType,
-                                   const UChar8 *buffer, UInt32 memSize = -1 )
+                                   const UChar8 *buffer, UInt32 memSize )
 {
 	ImageFileType *type;
 
@@ -362,7 +362,7 @@ UInt64 ImageFileHandler::restore ( Image &image, const char *mimeType,
 //
 //------------------------------
 UInt64 ImageFileHandler::store ( const Image &image, const char *mimeType,
-                                 UChar8 *buffer, UInt32 memSize = -1 )
+                                 UChar8 *buffer, UInt32 memSize )
 {
 	ImageFileType *type;
 
@@ -393,7 +393,7 @@ UInt64 ImageFileHandler::store ( const Image &image, const char *mimeType,
 //------------------------------
 UChar8* ImageFileHandler::store ( const Image &image,
                                   UInt64 &memSize,
-                                  const char *mimeType = 0)
+                                  const char *mimeType)
 {
   ImageFileType *type = 0;
   UChar8 *mem = 0;

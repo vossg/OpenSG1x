@@ -66,7 +66,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.13 2001/08/04 19:49:36 jbehr Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.14 2001/08/05 13:42:32 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -679,7 +679,7 @@ Int32 osg::createOptimizedPrimitives ( GeometryPtr geoPtr,
 	vector<NodeGraph::Path> pathVec;	
   TriangleIterator tI;
   GeoPositionPtr posPtr;
-  Int32 cost = 0, i, j, n, pN, primN, triCount, sysPType;
+  Int32 cost = 0, i, j, n, pN, triCount, sysPType;
 	Bool multiIndex;
 	vector<int> primitive;
 	GeoPLengthPtr lensPtr;

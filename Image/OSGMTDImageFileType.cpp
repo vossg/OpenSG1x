@@ -143,13 +143,17 @@ bool MTDImageFileType::read (Image &image, const Char8 *fileName )
   ifstream in(fileName);
   Head head;
   void *headData = (void*)(&head);
-  unsigned n, dataSize, headSize = sizeof(Head);
+  unsigned dataSize, headSize = sizeof(Head);
 
-  if ( in && in.read(headData, headSize) && head.netToHost() &&
+  if ( in && 
+       
+       in.read(static_cast<char *>(headData), 
+               headSize) && head.netToHost() &&
        image.set ( Image::PixelFormat(head.pixelFormat), 
                    head.width, head.height, head.depth, head.mipmapCount, 
                    head.frameCount, float(head.frameDelay) / 1000.0) &&
-       (dataSize = image.getSize()) && in.read(image.getData(), dataSize ))
+       (dataSize = image.getSize()) && 
+       in.read((char *)(image.getData()), dataSize ))
     retCode = true;
   else
     retCode = false;
@@ -182,8 +186,8 @@ bool MTDImageFileType::write ( const Image &image, const Char8 *fileName )
   bool retCode = false;
   ofstream out(fileName);
   Head head;
-  void *headData = (void*)(&head);
-  unsigned n, dataSize = image.getSize(), headSize = sizeof(Head);
+  const void *headData = (void*)(&head);
+  unsigned dataSize = image.getSize(), headSize = sizeof(Head);
 
   head.pixelFormat  = image.getPixelFormat();
   head.width        = image.getWidth();
@@ -194,8 +198,9 @@ bool MTDImageFileType::write ( const Image &image, const Char8 *fileName )
   head.frameDelay   = short(image.getFrameDelay() * 1000.0);
   head.hostToNet();
   
-  if ( out && out.write(headData, headSize) && dataSize &&
-       out.write(image.getData(), dataSize) )
+  if ( out && out.write(static_cast<const char *>(headData), headSize) && 
+       dataSize &&
+       out.write((char *)(image.getData()), dataSize) )
     retCode = true;
   else
     retCode = false;
@@ -235,9 +240,8 @@ UInt64 MTDImageFileType::restore (Image &image, const UChar8 *buffer,
 UInt64 MTDImageFileType::store ( const Image &image, UChar8 *buffer,
                                  Int32 memSize )
 {
-  bool retCode = false;
   Head *head = (Head*)(buffer);
-  unsigned n, dataSize = image.getSize(), headSize = sizeof(Head);
+  unsigned dataSize = image.getSize(), headSize = sizeof(Head);
   UChar8 *dest = (UChar8*)(buffer ? (buffer + headSize) : 0);
   const UChar8 *src = image.getData();
 

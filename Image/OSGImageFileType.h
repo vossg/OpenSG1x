@@ -88,11 +88,11 @@ public:
 
   /** fill the given image with the content of the mem 'buffer' */
   virtual UInt64 restore ( Image &image, const UChar8 *buffer, 
-                           UInt32 memSize = -1 );
+                           Int32 memSize = -1 );
 
   /** store the given image to the mem 'buffer' */
   virtual UInt64 store ( const Image &image, UChar8 *buffer,
-                         UInt32 memSize = -1 );
+                         Int32 memSize = -1 );
 
   /** returns the max needed buffer size */ 
   virtual UInt64 maxBufferSize(const Image &image );

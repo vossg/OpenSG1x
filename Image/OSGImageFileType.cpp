@@ -114,7 +114,7 @@ ImageFileType::~ImageFileType (void )
 //         Destructor
 //----------------------------------------------------------------------
 UInt64 ImageFileType::restore ( Image &image, const UChar8 *buffer,
-                                UInt32 memSize )
+                                Int32 memSize )
 {
   return 0;
 }
@@ -127,7 +127,7 @@ UInt64 ImageFileType::restore ( Image &image, const UChar8 *buffer,
 //         Destructor
 //----------------------------------------------------------------------
 UInt64 ImageFileType::store ( const Image &image, UChar8 *buffer,
-                              UInt32 memSize )
+                              Int32 memSize )
 {
   return 0;
 }
