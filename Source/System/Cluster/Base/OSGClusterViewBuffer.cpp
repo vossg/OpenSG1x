@@ -99,11 +99,10 @@ ClusterViewBuffer::~ClusterViewBuffer(void)
 /*! Receive image data from all channels of a conneciton. The receive is
  *  finished, when the last channel signals a transmission end.
  */
-void ClusterViewBuffer::recv(Connection &connection)
+void ClusterViewBuffer::recv(Connection &connection,UInt32 channel)
 {
     UInt32  tx, ty, tw, th;
-    UInt32  missing = connection.getChannelCount();
-//    Image   *pImage;
+    UInt32  missing;
     BufferT data;
     BufferT imageData;
     UInt32  dataSize;
@@ -111,6 +110,11 @@ void ClusterViewBuffer::recv(Connection &connection)
     GLenum  glformat;
     int     componentCnt;
     UInt32  sync;
+
+    if(channel == Connection::ALL_CHANNELS)
+        missing = connection.getChannelCount();
+    else
+        missing = 1;
 
     glPushMatrix();
     glLoadIdentity();
@@ -124,7 +128,7 @@ void ClusterViewBuffer::recv(Connection &connection)
     // we expect tiles form all connected servers
     while(missing)
     {
-        connection.selectChannel();
+        connection.selectChannel(channel);
         connection.getValue(component);
         if(!component)
         {
@@ -215,9 +219,10 @@ void ClusterViewBuffer::recv(Connection &connection)
             glDisable(GL_STENCIL_TEST);
         }
     }
-
+/*
     connection.putValue(sync);
     connection.flush();
+*/
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
@@ -348,22 +353,381 @@ void ClusterViewBuffer::send(Connection &connection,
     component = 0;
     connection.putValue(component);
     connection.flush();
+
+/*
     connection.selectChannel();
     connection.getValue(sync);
+*/
 }
 
 /*! Send parts of a view buffer to a Connection
- *
- * \param connection   send to this connection
- * \param component    Component to transfer
- * \param toX          copy to this x position on destination buffer
- * \param toY          copy to this y position on destination buffer
  */
 void ClusterViewBuffer::send(Connection &connection, UInt32 component,
                              UInt32 toX, UInt32 toY)
 {
     send(connection, component, 0, 0, getBufferWidth(), getBufferHeight(), toX,
-             toY);
+         toY);
+}
+
+
+/*! Send parts of a view buffer to a Connection
+ */
+void ClusterViewBuffer::pipe(Connection *srcConnection,
+                             Connection *dstConnection,
+                             UInt32 dstComponent,
+                             UInt32 vpx1,UInt32 vpy1,
+                             UInt32 vpx2,UInt32 vpy2,
+                             UInt32 x1  ,UInt32 y1,
+                             UInt32 x2  ,UInt32 y2,
+                             UInt32 dstMaxDepth,
+                             UInt32 srcChannel)
+{
+    UInt32              tx, ty, tw, th;
+    BufferT             stencilData;
+    BufferT             zData;
+    BufferT             colorData;
+    UInt32              dataSize;
+    GLenum              glformat;
+    int                 componentCnt;
+    int                 imgtranssize = 0;
+    UInt32              sync;
+    UInt32              srcComponent;
+    UInt32              sendComponent;
+    UInt32              colorRemoved=0;
+    UInt32              depthRemoved=0;
+    UInt32              colorSent=0;
+    UInt32              depthSent=0;
+    UInt32              colorCliped=0;
+    UInt32              depthCliped=0;
+    UInt32              colorBBoxCliped=0;
+    UInt32              depthBBoxCliped=0;
+    Real64              readTime=0;
+    Real64              composeTime=0;
+    Real64              sendTime=0;
+    UInt32              maxSend=0;
+
+//    dstComponent=RGBA|DEPTH;
+
+    // resize buffers
+    stencilData.resize(_subTileSize * _subTileSize * 1);
+    zData      .resize(_subTileSize * _subTileSize * 4);
+    colorData  .resize(_subTileSize * _subTileSize * 4);
+
+    glPixelStorei(GL_PACK_ALIGNMENT, 1);
+
+    if(srcConnection)
+        srcConnection->selectChannel(srcChannel);
+
+    glPushMatrix();
+    glLoadIdentity();
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    glOrtho(0, getBufferWidth(), 0, getBufferHeight(),-1,1);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glClear(GL_STENCIL_BUFFER_BIT);
+    glDisable(GL_BLEND);
+    glDepthFunc(GL_LEQUAL);
+
+    // bug in getPixelLeft... when win size=0;
+    if(vpx2==0xffffffff ||
+       vpy2==0xffffffff)
+        vpx2=vpy2=0;
+
+    for(ty = vpy1; ty <= vpy2; ty += _subTileSize)
+    {
+        for(tx = vpx1; tx <= vpx2; tx += _subTileSize)
+        {
+            tw = osgMin(_subTileSize, vpx2 - tx + 1);
+            th = osgMin(_subTileSize, vpy2 - ty + 1);
+
+            readTime-=getSystemTime();
+            srcComponent=0;
+            if(srcConnection)
+            {
+                srcConnection->getValue(srcComponent);
+            }
+            sendComponent=0;
+            if(dstConnection)
+                sendComponent=srcComponent;
+
+            // start reading the components
+            
+            // read depth
+            if(srcComponent & DEPTH)
+            {
+                srcConnection->get(&zData[0], tw * th * 4);
+            }
+
+            // read color
+            if((srcComponent & RGBA) == RGBA)
+            {
+                srcConnection->get(&colorData[0], tw * th * 4);
+            }
+            if((srcComponent & RGBA) == RGB)
+            {
+                srcConnection->get(&colorData[0], tw * th * 3);
+            }
+
+            readTime+=getSystemTime();
+
+            // if the received buffer overlaps 
+            if( tx      <= x2             &&
+                tx+tw-1 >= x1             &&
+                ty      <= y2             &&
+                ty+th-1 >= y1 )
+            {
+                if(dstConnection)
+                    sendComponent=dstComponent;
+
+                // set raster pos
+
+                composeTime-=getSystemTime();
+                glRasterPos3f(tx, ty, -0.999997);
+
+                // write depth buffer. Result of comparision in stencil buf.
+                if(srcComponent & DEPTH)
+                {
+                    glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
+                    glEnable(GL_STENCIL_TEST);
+                    glStencilFunc(GL_ALWAYS, 1, 1);
+                    glStencilOp(GL_KEEP, GL_ZERO, GL_REPLACE);
+                    glDrawPixels(tw, th, 
+                                 GL_DEPTH_COMPONENT, 
+                                 GL_UNSIGNED_INT, &zData[0]);
+                    glDisable(GL_DEPTH_TEST);
+                    glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
+                    glStencilFunc(GL_EQUAL, 1, 1);
+                }
+
+                // write color buffer
+                if((srcComponent & RGBA) == RGBA)
+                {
+                    glDrawPixels(tw, th, GL_RGBA,
+                                 GL_UNSIGNED_BYTE, &colorData[0]);
+                }
+                if((srcComponent & RGBA) == RGB)
+                {
+                    glDrawPixels(tw, th, GL_RGB,
+                                 GL_UNSIGNED_BYTE, &colorData[0]);
+                }
+
+                if(srcComponent & DEPTH)
+                {
+                    glDisable(GL_STENCIL_TEST);
+                    glEnable(GL_DEPTH_TEST);
+                }
+
+                // read depth buffer
+                if(sendComponent & DEPTH)
+                {
+                    glReadPixels(tx, ty, tw, th, 
+                                 GL_DEPTH_COMPONENT, GL_UNSIGNED_INT,
+                                 &zData[0]);
+                }
+                
+                // read color buffer
+                if((sendComponent & RGBA) == RGBA)
+                {
+                    glReadPixels(tx, ty, tw, th, 
+                                 GL_RGBA, GL_UNSIGNED_BYTE,
+                                 &colorData[0]);
+
+                }
+                if((sendComponent & RGBA) == RGB)
+                {
+                    glReadPixels(tx, ty, tw, th, 
+                                 GL_RGB, GL_UNSIGNED_BYTE,
+                                 &colorData[0]);
+                }
+
+//                glFinish();
+                composeTime+=getSystemTime();
+            }
+
+//            if(dstConnection && dstMinDepth != 0xffffffff)
+            if(dstConnection)
+            {
+                if((dstComponent & DEPTH)  == 0 &&
+                   (sendComponent & DEPTH) == 0)
+                    depthRemoved+=tw*th*4;
+                else
+                    if((sendComponent & DEPTH) == 0)
+                        depthBBoxCliped+=tw*th*4;
+
+                if((sendComponent & RGBA) == 0)
+                    colorBBoxCliped+=tw*th*3;
+/*
+                if((sendComponent & RGBA) == 0)
+                {
+                    sendComponent|=RGBA;
+                    for(int i=0;i<tw*th;++i)
+                    {
+                        colorData[i*4+0]=255;
+                        colorData[i*4+1]=255;
+                        colorData[i*4+2]=0;
+                        colorData[i*4+3]=255;
+                    }
+                }
+*/
+            }
+
+            sendTime-=getSystemTime();
+#if 1
+            // check if DEPTH is needed
+            if(dstMaxDepth != 0xffffffff)
+            {
+                if(sendComponent & DEPTH)
+                {
+                    UInt32 *depth=(UInt32*)(&zData[0]);
+                    UInt32 *depthEnd=depth + tw * th;
+                    UInt32  depthMin=*depth;
+                    while(++depth != depthEnd)
+                    {
+                        if(depthMin>*depth)
+                            depthMin=*depth;
+                    }
+                    if(depthMin==0xffffffff)             // nothing rendered
+                    {
+                        depthCliped+=tw*th*4;
+                        if((sendComponent & RGBA)==RGB) 
+                            colorCliped+=tw*th*3;
+                        if((sendComponent & RGBA)==RGBA)
+                            colorCliped+=tw*th*4;
+                        sendComponent &= 0xffff^(RGBA | DEPTH);
+/*
+                        for(int i=0;i<tw*th;++i)
+                            colorData[i*4+0]=255;
+*/
+                    }
+                    else
+                    {
+                        if(depthMin>dstMaxDepth)
+                        {
+                            sendComponent &= 0xffff^DEPTH;
+                            depthRemoved+=tw*th*4;
+                        }
+                    }
+                }
+            }
+
+#endif
+            // send components
+            if(dstConnection)
+            {
+                dstConnection->putValue(sendComponent);
+            }
+
+            // send depth buffer
+            if(sendComponent & DEPTH)
+            {
+                dstConnection->put(&zData[0], tw * th * 4);
+//                if(dstMaxDepth != 0xffffffff)
+                    depthSent+=tw*th*4;
+            }
+
+            // send color buffer
+            if((sendComponent & RGBA) == RGBA)
+            {
+                dstConnection->put(&colorData[0], tw * th * 4);
+                colorSent+=tw*th*4;
+            }
+            if((sendComponent & RGBA) == RGB)
+            {
+                dstConnection->put(&colorData[0], tw * th * 3);
+                colorSent+=tw*th*3;
+            }
+/*
+            if(dstConnection)
+                dstConnection->flush();
+*/
+            sendTime+=getSystemTime();
+        }
+    }
+            if(dstConnection)
+                dstConnection->flush();
+    glEnable(GL_DEPTH_TEST);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
+    glDisable(GL_BLEND);
+    glDepthFunc(GL_LESS);
+
+    maxSend=depthSent+colorSent;
+    if(srcConnection)
+    {
+        UInt32 dr,cr,ds,cs,dc,cc,db,cb;
+        Real64 readT,composeT,sendT;
+        UInt32 maxS;
+        srcConnection->getValue(dr);
+        srcConnection->getValue(cr);
+        srcConnection->getValue(ds);
+        srcConnection->getValue(cs);
+        srcConnection->getValue(dc);
+        srcConnection->getValue(cc);
+        srcConnection->getValue(db);
+        srcConnection->getValue(cb);
+        srcConnection->getValue(readT);
+        srcConnection->getValue(composeT);
+        srcConnection->getValue(sendT);
+        srcConnection->getValue(maxS);
+        depthRemoved+=dr;
+        colorRemoved+=cr;
+        depthSent+=ds;
+        colorSent+=cs;
+        depthCliped+=dc;
+        colorCliped+=cc;
+        depthBBoxCliped+=db;
+        colorBBoxCliped+=cb;
+        maxSend=osgMax(maxS,maxSend);
+        if(readT+composeT+sendT > readTime+composeTime+sendTime)
+        {
+            readTime   =readT;
+            composeTime=composeT;
+            sendTime   =sendT;
+        }
+    }
+    if(dstConnection)
+    {
+        dstConnection->putValue(depthRemoved);
+        dstConnection->putValue(colorRemoved);
+        dstConnection->putValue(depthSent);
+        dstConnection->putValue(colorSent);
+        dstConnection->putValue(depthCliped);
+        dstConnection->putValue(colorCliped);
+        dstConnection->putValue(depthBBoxCliped);
+        dstConnection->putValue(colorBBoxCliped);
+        dstConnection->putValue(readTime);
+        dstConnection->putValue(composeTime);
+        dstConnection->putValue(sendTime);
+        dstConnection->putValue(maxSend);
+        dstConnection->flush();
+    }
+    if(!dstConnection)
+    {
+        printf("Statistics:\n"
+               "send    : d %10d c %10d sum %10d\n"
+               "pipesort: d %10d\n"
+               "clip    : d %10d c %10d\n"
+               "bbox    : d %10d c %10d\n"
+               "Sum     : d %10d c %10d\n"
+               "WholeSum: d %10d\n"
+               "MaxTime : r%0.5f c%0.5f s%0.5f\n"
+               "MaxSend : %d\n",
+               depthSent   ,colorSent, depthSent+colorSent,
+               depthRemoved,
+               depthCliped ,colorCliped,
+               depthBBoxCliped ,colorBBoxCliped,
+               
+               depthSent+depthRemoved+depthCliped+depthBBoxCliped,
+               colorSent+colorRemoved+colorCliped+colorBBoxCliped,
+
+               depthSent+depthRemoved+depthCliped+depthBBoxCliped+
+               colorSent+colorRemoved+colorCliped+colorBBoxCliped,
+
+               readTime,composeTime,sendTime,
+               maxSend);
+    }
 }
 
 /*-------------------------------------------------------------------------*/

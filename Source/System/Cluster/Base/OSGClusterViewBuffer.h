@@ -45,6 +45,7 @@
 #include <vector>
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
+#include <OSGConnection.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -58,14 +59,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterViewBuffer
 
     /** \brief Buffer component */
     enum {
-        RED      =1,
-        GREEN    =2,
-        BLUE     =4,
-        ALPHA    =8,
-        STENCIL  =16,
-        DEPTH    =32,
-        RGB      =RED|GREEN|BLUE,
-        RGBA     =RED|GREEN|BLUE|ALPHA
+        RED           =1,
+        GREEN         =2,
+        BLUE          =4,
+        ALPHA         =8,
+        STENCIL       =16,
+        DEPTH         =32,
+        RGB           =RED|GREEN|BLUE,
+        RGBA          =RED|GREEN|BLUE|ALPHA
     } Component;
     /** \brief stl vector used as char buffer */
     typedef std::vector<Int8> BufferT;
@@ -82,7 +83,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterViewBuffer
     /*! \name                 send/recv                                    */
     /*! \{                                                                 */
 
-    void recv( Connection &connection );
+    void recv( Connection &connection,
+               UInt32      channel   =Connection::ALL_CHANNELS );
     void send( Connection &connection,
                UInt32      component,
                UInt32      x1,
@@ -95,6 +97,19 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterViewBuffer
                UInt32      component,
                UInt32      toX,
                UInt32      toY        );
+    void pipe( Connection *srcConnection,
+               Connection *dstConnection,
+               UInt32      component,
+               UInt32      vpx1,
+               UInt32      vpy1,
+               UInt32      vpx2,
+               UInt32      vpy2,
+               UInt32      x1,
+               UInt32      y1,
+               UInt32      x2,
+               UInt32      y2, 
+               UInt32      dstMinDepth=0,
+               UInt32      srcChannel=Connection::ALL_CHANNELS );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
