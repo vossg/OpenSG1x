@@ -76,7 +76,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.21 2001/11/10 16:21:36 jbehr Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.22 2002/02/04 16:08:08 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -174,7 +174,9 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
       primCount[1] = 0;
       primCount[2] = 0;  
       for (in >> elem; in.eof() == false; in >> elem) 
-        if (elem[0] == '#')
+        if (elem[0] == '#' ||
+	    elem[0] == '$'
+	    )
           in.ignore(INT_MAX, '\n'); 
         else
           {
@@ -608,6 +610,7 @@ void OBJSceneFileType::initDataElemMap(void)
       _dataElemMap["map_Ka"]  = MTL_MAP_KA_DE;
       _dataElemMap["map_Ks"]  = MTL_MAP_KS_DE;
       _dataElemMap["illum"]   = MTL_ILLUM_DE;
+      _dataElemMap["refl"]    = MTL_REFL_DE;
       _dataElemMap["usemtl"]  = USE_MTL_DE;
       _dataElemMap["g"]       = GROUP_DE;
       _dataElemMap["s"]       = SMOOTHING_GROUP_DE;
@@ -633,7 +636,9 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
 
   if (in)
     for (in >> elem; in.eof() == false; in >> elem) 
-      if (elem[0] == '#')
+      if (elem[0] == '#' ||
+    	  elem[0] == '$'
+    	  )
         in.ignore(INT_MAX, '\n'); 
       else
         {
@@ -733,6 +738,11 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
                   endEditCP(mtlPtr);
                 }
               break;
+	    case MTL_REFL_DE:
+		beginEditCP(mtlPtr, SimpleTexturedMaterial::EnvMapFieldMask);
+		mtlPtr->setEnvMap(true);
+		endEditCP(mtlPtr);
+	    	break;
             case MTL_MAP_KD_DE:
             case MTL_MAP_KA_DE:
             case MTL_MAP_KS_DE:
