@@ -31,19 +31,30 @@ Plattform :
         actually use gmake in combination with cygwin. So when you get a new
         gmake PLEASE DO NOT try to build it with native windows dev tools,
         use the gcc provided by cygwin instead. You can download an build the
-        usual unix distribution using the cygwin environment. Please do not
-        try to use a microsoft compiler. Believe us, it will fail and we are
+        usual unix distribution using the cygwin environment. For OpenSG, 
+        please do not try to use a microsoft compiler, even if there are 
+        config files available. Believe us, it will fail and we are 
         working on it to find all the ways around their interpretation of
         doing C++ compilations.
+
+        IMPORTANT : There is still one minor bug within the Makefile/Common
+                    structure I was not able to fix up to now. As a result
+                    the directory containing addional libs like glut or SGI's
+                    stdlib must not have a space within.                    
+        
 
         Compiler : Intel C++ 4.5 + latest patchset
         Cygwin   : > B20
         gmake    : > gmake 3.78.1
         glut     : 3.7
+
         STL      : SGI stdlib_20000608.zip 
                    http://www.sgi.com/Technology/STL/standard_library.html
 
                    STLport should be ok too, but I never tried it.
+                   
+                   The current default is the original Microsoft 
+                   implementation. I have tested it and it seems to work.
 
 OpenSG Configuration :
 
@@ -95,13 +106,19 @@ Plattform :
                      your glut package. (Common/directoriesNT40ICL.mk)
 
             stdlib : set LINK_STL and INCLUDE_STL to define where we find 
-                     your glut package. (Common/directoriesNT40ICL.mk)
-    
+                     your C++ StdLib package. (Common/directoriesNT40ICL.mk)
+                     If you want to use the M$ version you do not need to 
+                     set anything here.
 
-            Intel C++ : Set the environment variable OSGCOMPEXT to ICL, 
-                        Set the SOFTDIR / MEDSOFTDIR to define the base
+            Intel C++ : Set the SOFTDIR / MEDSOFTDIR to define the base
                         compiler directory. (Common/directoriesNT40ICL.mk)
 
+                        IMPORTANT:
+
+                        Set the environment variable OSGCOMPEXT to ICL,
+                        otherwise the M$ compiler is used and you will see
+                        a lot of strange errors running through your shell :-(
+        
             MSVC   : Set INCLUDE_SYSTEM to define where the compiler should
                      look for the windows include files, this has to be done
                      independent of the compiler you actually use. 
@@ -139,7 +156,7 @@ you an overview and browse through the structure but nothing more (Currently).
     make doc
 
 This uses doxygen to create documentation in Doc/Code/html. We use version 
-1.1.5, which is pretty new, but 1.1.4 should be ok, too. For now we include 
+1.2.0, which is pretty new, but 1.1.5 should be ok, too. For now we include 
 the docs per default. 
 
 A rather large number of classes does not show up in the right places
@@ -155,3 +172,4 @@ If you really really need some free disk space again use
                     you try to recompile OpenSG)
     
    
+
