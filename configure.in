@@ -705,6 +705,11 @@ dnl ############# Bool=unsigned int Settings #####################
 AC_ARG_ENABLE(win-bool-is-unsigned,     [  --enable-win-bool-is-unsigned      Define Bool as unsigned, required to combine the software with Microsoft stuff, since preprocessors ignore namespaces ],
 			,enable_win_bool_is_unsigned=no) 
 
+dnl ############# Win Default Path Settings #####################
+
+AC_ARG_ENABLE(win-exclude-default-path,     [  --enable-win-exclude-default-path      Do not include the default compiler and include path's on the command line, use INCLUDE and LIB instead ],
+			,enable_win_exlucde_default_path=no) 
+
 dnl ############# TLS Settings #####################
 
 AC_ARG_ENABLE(sgi-pthread,     [  --enable-sgi-pthread               Use pthreads instead of sproc on sgi plattforms],
@@ -940,25 +945,25 @@ if test $build_os = cygwin; then
 
 		ac_gdz_ln_exe="cp"
 
-		ac_gdz_system_incl_dir_e1=
-dnl `cygpath -w "$ac_gdz_system_incl_dir"`
-		ac_gdz_system_lib_dir_e1=
-dnl `cygpath -w "$ac_gdz_system_lib_dir"`
+        if test $enable_win_exclude_default_path = yes; then
+    		ac_gdz_system_incl_dir_e1=
+	    	ac_gdz_system_lib_dir_e1=
 
-		ac_gdz_system_incl_dir_e1=
-dnl '"'$ac_gdz_system_incl_dir_e1'"'
-		ac_gdz_system_lib_dir_e1=
-dnl '"'$ac_gdz_system_lib_dir_e1'"'
+    		ac_gdz_compiler_incl=
+	    	ac_gdz_compiler_lib=
+        else
+    		ac_gdz_system_incl_dir_e1=`cygpath -w "$ac_gdz_system_incl_dir"`
+	    	ac_gdz_system_lib_dir_e1=`cygpath -w "$ac_gdz_system_lib_dir"`
 
-		ac_gdz_compiler_incl=
-dnl `cygpath -w "$ac_gdz_compiler_incl"`
-		ac_gdz_compiler_lib=
-dnl `cygpath -w "$ac_gdz_compiler_lib"`
+		    ac_gdz_system_incl_dir_e1='"'$ac_gdz_system_incl_dir_e1'"'
+    		ac_gdz_system_lib_dir_e1='"'$ac_gdz_system_lib_dir_e1'"'
 
-		ac_gdz_compiler_incl=
-dnl '"'$ac_gdz_compiler_incl'"'
-		ac_gdz_compiler_lib=
-dnl '"'$ac_gdz_compiler_lib'"'
+	    	ac_gdz_compiler_incl=`cygpath -w "$ac_gdz_compiler_incl"`
+		    ac_gdz_compiler_lib=`cygpath -w "$ac_gdz_compiler_lib"`
+
+    		ac_gdz_compiler_incl='"'$ac_gdz_compiler_incl'"'
+	    	ac_gdz_compiler_lib='"'$ac_gdz_compiler_lib'"'
+        fi
 	else
 		ac_gdz_compiler_exe_shared='$(CC) -shared'
 
