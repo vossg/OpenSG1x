@@ -149,6 +149,7 @@
 
 #    if __GNUC_MINOR__ >=1
 #        define OSG_STDEXTENSION_NAMESPACE  __gnu_cxx
+#        define OSG_HAS_SSTREAM
 #    else
 #        define OSG_STDEXTENSION_NAMESPACE  std
 #    endif
@@ -330,6 +331,8 @@
 # define OSG_STDEXCEPTION_NAMESPACE std
 
 # define OSG_STL_HAS_HASH_MAP
+
+# define OSG_HAS_SSTREAM
 
 # endif // defined(__INTEL_COMPILER) && defined(__linux)
 

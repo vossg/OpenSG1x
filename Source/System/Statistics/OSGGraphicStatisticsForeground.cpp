@@ -8,7 +8,7 @@
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
- \*---------------------------------------------------------------------------*/
+\*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
@@ -25,7 +25,7 @@
  * License along with this library; if not, write to the Free Software       *
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
- \*---------------------------------------------------------------------------*/
+\*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                Changes                                    *
  *                                                                           *
@@ -34,7 +34,7 @@
  *                                                                           *
  *                                                                           *
  *                                                                           *
- \*---------------------------------------------------------------------------*/
+\*---------------------------------------------------------------------------*/
 //---------------------------------------------------------------------------
 //  Includes
 //---------------------------------------------------------------------------
@@ -1156,8 +1156,7 @@ void GraphicStatisticsForeground::initText(void)
 {
     // create the text needed
 #ifdef OSG_HAS_SSTREAM
-    std::istringstream stream((char *) GraphicsStatisticsFontData,
-                                  GraphicsStatisticsFontDataSize);
+    std::istringstream stream((char *) GraphicsStatisticsFontData);
 #else
     std::istrstream stream((char *) GraphicsStatisticsFontData,
                                GraphicsStatisticsFontDataSize);

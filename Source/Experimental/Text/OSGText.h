@@ -135,16 +135,16 @@ class OSG_SYSTEMLIB_DLLMAPPING Text
                                    Vec2f                    *texcoords);
 
     virtual bool   fillImage      (ImagePtr & image, 
-                     std::vector<std::string> &lineVec, 
-                     Color4ub *fg,
-                     Color4ub *bg, 
-                     bool forcePower2, 
-                     Real32 *maxX,
-                     Real32 *maxY,
-                     ImageCreationMode OSG_CHECK_ARG(creationMode),
-                     MergeMode OSG_CHECK_ARG(mergeMode), 
-                     Int32 pixelDepth,
-					 bool bConvertToBitmap ) const;
+                                   std::vector<std::string> &lineVec, 
+                                   Color4ub *fg,
+                                   Color4ub *bg, 
+                                   bool forcePower2, 
+                                   Real32 *maxX,
+                                   Real32 *maxY,
+                                   ImageCreationMode creationMode,
+                                   MergeMode         mergeMode, 
+                                   Int32 pixelDepth,
+                                   bool bConvertToBitmap) const;
 
     virtual bool   fillGeo        (Geometry                 &mesh, 
                                    std::vector<std::string> &lineVec,

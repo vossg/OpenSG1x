@@ -2,11 +2,19 @@
 //
 // This example shows how to use TrueType(tm) Fonts with OSGText
 //
+
+#include <OSGConfig.h>
+
 #include <fstream>
-#include <strstream>
+
+#ifdef OSG_HAS_SSTREAM
+# include <sstream>
+#else
+# include <strstream>
+#endif
+
 #include <string>
 #include <OSGGLUT.h>
-#include <OSGConfig.h>
 #include "OSGLog.h"
 
 #ifndef WIN32
@@ -109,13 +117,22 @@ int main(int argc, char **argv)
     ((TTFontStyle *) fontStyle)->createTXFMap((UChar8 *) ". fps0123456789");
 
     // write it somewhere
-    std::ostrstream  target;
+#ifdef OSG_HAS_SSTREAM
+    std::ostringstream  target;
+#else
+    std::ostrstream     target;
+#endif
+
     fontStyle->dump(target);
 
     // stream from memory
-    std::istrstream  source(target.str(), target.pcount());
-
+#ifdef OSG_HAS_SSTREAM
+    std::istringstream source(target.str());
+#else
+    std::istrstream    source(target.str(), target.pcount());
     FLOG(("Font size: %d byte\n", target.pcount()));
+#endif
+
 
     // create some font
     TXFFont *font = new TXFFont("whatever", source);
@@ -132,10 +149,10 @@ int main(int argc, char **argv)
     n = Node::create();
     txfGeo = Geometry::create();
 
-    Image   *pTxfImg = new Image();
+    ImagePtr   pTxfImg = Image::create();
     if(fontText.fillTXFGeo(*txfGeo, true, lineVec))
     {
-        fontText.fillTXFImage(*pTxfImg);
+        fontText.fillTXFImage(pTxfImg);
 
         SimpleTexturedMaterialPtr   mat = SimpleTexturedMaterial::create();
         beginEditCP(mat);

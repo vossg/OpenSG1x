@@ -2,11 +2,19 @@
 //
 // This example shows how to use TrueType(tm) Fonts with OSGText
 //
+
+#include <OSGConfig.h>
+
 #include <fstream>
-#include <strstream>
+
+#ifdef OSG_HAS_SSTREAM
+# include <sstream>
+#else
+# include <strstream>
+#endif
+
 #include <string>
 #include <OSGGLUT.h>
-#include <OSGConfig.h>
 #include "OSGLog.h"
 
 #ifndef WIN32
@@ -104,7 +112,7 @@ int main(int argc, char **argv)
 
     // write it somewhere
 #if 1
-    ofstream    target;
+    std::ofstream    target;
     target.open("statistics.txf");
     fontStyle->dump(target);
     target.close();
@@ -113,7 +121,7 @@ int main(int argc, char **argv)
     fontStyle->dump(target);
 #endif
 #if 1
-    ifstream    source;
+    std::ifstream    source;
     source.open("statistics.txf");
 #else
 #if 0
@@ -146,10 +154,11 @@ int main(int argc, char **argv)
     n = Node::create();
     txfGeo = Geometry::create();
 
-    Image   *pTxfImg = new Image;
+    ImagePtr  pTxfImg = Image::create();
+
     if(fontText.fillTXFGeo(*txfGeo, true, lineVec))
     {
-        fontText.fillTXFImage(*pTxfImg);
+        fontText.fillTXFImage(pTxfImg);
 
         SimpleTexturedMaterialPtr   mat = SimpleTexturedMaterial::create();
         beginEditCP(mat);

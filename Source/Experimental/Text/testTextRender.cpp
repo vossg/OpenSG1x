@@ -2,11 +2,19 @@
 //
 // This example shows how to use TrueType(tm) Fonts with OSGText
 //
+
+#include <OSGConfig.h>
+
 #include <fstream>
-#include <strstream>
+
+#ifdef OSG_HAS_SSTREAM
+# include <sstream>
+#else
+# include <strstream>
+#endif
+
 #include <string>
 #include <OSGGLUT.h>
-#include <OSGConfig.h>
 #include "OSGLog.h"
 
 #ifndef xxx

@@ -2,11 +2,19 @@
 //
 // This example shows how to use TrueType(tm) Fonts with OSGText
 //
+
+#include <OSGConfig.h>
+
 #include <fstream>
-#include <strstream>
+
+#ifdef OSG_HAS_SSTREAM
+# include <sstream>
+#else
+# include <strstream>
+#endif
+
 #include <string>
 #include <OSGGLUT.h>
-#include <OSGConfig.h>
 #include "OSGLog.h"
 
 #ifndef WIN32
@@ -157,9 +165,10 @@ int main(int argc, char **argv)
     // Textured - Text
     Color4ub    col1(102, 175, 250, 0);
     Color4ub    col2(255, 225, 41, 0);
-    Image      *pImg = new Image();
+    ImagePtr    pImg = Image::create();
 
-    if(fontText.fillImage(*pImg, lineVec, &col1, &col2))
+#if 0
+    if(fontText.fillImage(pImg, lineVec, &col1, &col2))
     {
         geo = makeBoxGeo(4, 1, 0.001, 1, 1, 1);
 
@@ -180,15 +189,17 @@ int main(int argc, char **argv)
         endEditCP(n[numNodes], Node::CoreFieldMask);
         numNodes++;
     }
+#endif
 
     // TXF-Style Texture+Geometry
     n[numNodes] = Node::create();
     txfGeo = Geometry::create();
 
-    Image   *pTxfImg = new Image();
+    ImagePtr pTxfImg = Image::create();
+
     if(fontText.fillTXFGeo(*txfGeo, true, lineVec))
     {
-        fontText.fillTXFImage(*pTxfImg);
+        fontText.fillTXFImage(pTxfImg);
 
         BlendChunkPtr   bl = BlendChunk::create();
         beginEditCP(bl);
