@@ -645,6 +645,7 @@ void PointInterface<ValueTypeT,
     }
 }
 
+#if 0
 /*! \brief Set function which take a lot of types as it's argument :-).
   
   The argument type must provide a _iSize enum entry, a *getValues(void)
@@ -689,6 +690,7 @@ void PointInterface<ValueTypeT,
 
 #ifdef __sgi
 #pragma reset woff 1209
+#endif
 #endif
 
 //! Set value from a given array, be sure to match sizes

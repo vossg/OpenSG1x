@@ -377,8 +377,19 @@ class PointInterface : public StorageInterfaceT
 
     void setValue(const PointInterface &vec     );
 
+    /* This inline code was brought to you by Microsoft */
+
     template<class VectorT>
-    void setValue(const VectorT        &vec     );
+    void setValue(const VectorT        &vec     )
+    {
+        for(UInt32   i = 0;
+                     i < (Self::_iSize < VectorT::_iSize ? 
+                          Self::_iSize : VectorT::_iSize);
+                   ++i)
+        {
+            Self::_values[i] = vec.getValues()[i];
+        }
+    }
 
     void setValue(const ValueTypeT     *pVals   );
     void setValue(const Char8          *szString);
