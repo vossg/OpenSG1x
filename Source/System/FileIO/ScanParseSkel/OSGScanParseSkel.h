@@ -51,7 +51,7 @@
 #include <iosfwd>
 #endif
 
-class OSGScanParseSkel_l_FlexLexer;
+class OSGScanParseSkel_FlexLexer;
 
 OSG_BEGIN_NAMESPACE
 
@@ -262,11 +262,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    UInt32                        _uiCurrOptions;
-    UInt32                        _uiDefOptions;
-    bool                          _bMapTypeIds;
-    Char8                        *_szReferenceHeader;
-    OSGScanParseSkel_l_FlexLexer *_pLexer;
+    UInt32                      _uiCurrOptions;
+    UInt32                      _uiDefOptions;
+    bool                        _bMapTypeIds;
+    Char8                      *_szReferenceHeader;
+    OSGScanParseSkel_FlexLexer *_pLexer;
 
     void reset             (      void);
 

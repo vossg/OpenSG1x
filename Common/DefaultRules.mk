@@ -510,16 +510,32 @@ endif
 
 ifneq ($(LIB_FLEXTARGET_CPP),)
 $(OBJDIR)/%.lex.cpp: %.l
+	$(FLEX) -l -P$(call flex_int,$<) $<
+	cat lex.$(call flex_int,$<).c | 								\
+		sed -e 's/\(yy\)\(text_ptr\)/$(call flex_int,$<)\2/g'		\
+		> $(OBJDIR)/$(call flex_ext,$<).lex.cpp
+	-rm lex.$(call flex_int,$<).c
+
+$(LIB_FLEXTARGET_CPP) : $(LIB_FLEXSOURCES)
+
+ifneq ($(OSGNODEPS),1) 
+$(LIB_FLEXTARGET_DEPS): $(LIB_FLEXTARGET_CPP)
+endif
+
+endif
+
+ifneq ($(LIB_FLEXPPTARGET_CPP),)
+$(OBJDIR)/%.lex.cpp: %.lpp
 	$(FLEX) -+ -P$(call flex_int,$<) $<
 	cat lex.$(call flex_int,$<).cc | 								\
 		sed -e 's/\(yy\)\(text_ptr\)/$(call flex_int,$<)\2/g'		\
 		> $(OBJDIR)/$(call flex_ext,$<).lex.cpp
 	-rm lex.$(call flex_int,$<).cc
 
-$(LIB_FLEXTARGET_CPP) : $(LIB_FLEXSOURCES)
+$(LIB_FLEXPPTARGET_CPP) : $(LIB_FLEXPPSOURCES)
 
 ifneq ($(OSGNODEPS),1) 
-$(LIB_FLEXTARGET_DEPS): $(LIB_FLEXTARGET_CPP)
+$(LIB_FLEXPPTARGET_DEPS): $(LIB_FLEXPPTARGET_CPP)
 endif
 
 endif

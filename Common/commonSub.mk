@@ -74,9 +74,11 @@ getMacHackSourceFiles  = $(foreach dir,$(1),$(call getMacHackFiles,$(dir)))
 
 getBisonSources  = $(wildcard $(1)/*.y)
 getFlexSources   = $(wildcard $(1)/*.l)
+getFlexPPSources = $(wildcard $(1)/*.lpp)
 
-getProjFlexSourceFiles  = $(foreach dir,$(1),$(call getFlexSources,$(dir)))
-getProjBisonSourceFiles = $(foreach dir,$(1),$(call getBisonSources,$(dir)))
+getProjFlexSourceFiles   = $(foreach dir,$(1),$(call getFlexSources,$(dir)))
+getProjFlexPPSourceFiles = $(foreach dir,$(1),$(call getFlexPPSources,$(dir)))
+getProjBisonSourceFiles  = $(foreach dir,$(1),$(call getBisonSources,$(dir)))
 
 #########################################################################
 # Create Objectfilenames
@@ -257,6 +259,9 @@ endif
 LIB_FLEXSOURCES   := $(call getProjFlexSourceFiles,$(LIB_ABSSOURCEDIRS))
 LIB_FLEXSOURCES   := $(strip $(LIB_FLEXSOURCES))
 
+LIB_FLEXPPSOURCES := $(call getProjFlexPPSourceFiles,$(LIB_ABSSOURCEDIRS))
+LIB_FLEXPPSOURCES := $(strip $(LIB_FLEXPPSOURCES))
+
 LIB_BISONSOURCES  := $(call getProjBisonSourceFiles,$(LIB_ABSSOURCEDIRS))
 LIB_BISONSOURCES  := $(strip $(LIB_BISONSOURCES))
 
@@ -273,10 +278,25 @@ else
 LIB_FLEXTARGET_DEPS     :=
 endif
 
-flex_int = $(strip $(basename $(notdir $(1))))_l_
-flex_ext =  $(strip $(basename $(notdir $(1))))
 endif
 
+ifneq ($(LIB_FLEXPPSOURCES),)
+LIB_FLEXPPSOURCES_CPP := $(notdir $(patsubst %.lpp,%.cpp,$(LIB_FLEXPPSOURCES)))
+LIB_FLEXPPTARGET_CPP  := $(patsubst %.lpp,%.lex.cpp,$(LIB_FLEXPPSOURCES)) 
+LIB_FLEXPPTARGET_CPP  := $(notdir $(LIB_FLEXPPTARGET_CPP))
+
+LIB_FLEXPPTARGET_CPP  := $(addprefix $(OBJDIR)/,$(LIB_FLEXPPTARGET_CPP))
+
+ifneq ($($(PROJ)NODEPS),1)
+LIB_FLEXPPTARGET_DEPS := $(patsubst %.cpp,%.d,$(LIB_FLEXPPTARGET_CPP))
+else
+LIB_FLEXPPTARGET_DEPS :=
+endif
+
+endif
+
+flex_int = $(strip $(basename $(notdir $(1))))_
+flex_ext =  $(strip $(basename $(notdir $(1))))
 
 ifneq ($(LIB_BISONSOURCES),)
 LIB_BISONSOURCES_CPP := $(notdir $(patsubst %.y,%.cpp,$(LIB_BISONSOURCES)))
@@ -300,6 +320,11 @@ endif
 
 ifneq ($(LIB_FLEXSOURCES),)
 LIB_OBJECTS := $(call cnvSourceToObject, $(notdir $(LIB_FLEXTARGET_CPP))) \
+			   $(LIB_OBJECTS)
+endif
+
+ifneq ($(LIB_FLEXPPSOURCES),)
+LIB_OBJECTS := $(call cnvSourceToObject, $(notdir $(LIB_FLEXPPTARGET_CPP))) \
 			   $(LIB_OBJECTS)
 endif
 

@@ -1161,7 +1161,7 @@ header (#[^\n]*\n)
 
 extern "C"
 {
-int OSGScanParseSkel_l_wrap(void)
+int OSGScanParseSkel_wrap(void)
 {
 //    BEGIN INITIAL; 
     return 1;

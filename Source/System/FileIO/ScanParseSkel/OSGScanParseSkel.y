@@ -752,7 +752,7 @@ void freeName(char *&szName)
 }
 
 
-int OSGScanParseSkel_lex(YYSTYPE *lvalp, void *pSkel)
+int OSGScanParseSkel_lex(YYSTYPE *, void *pSkel)
 {
     setSkel(SKEL);
 

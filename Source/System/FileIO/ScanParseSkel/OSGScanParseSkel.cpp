@@ -55,13 +55,13 @@
 #include "OSGBaseFunctions.h"
 #include "OSGLog.h"
 
-#define yyFlexLexer OSGScanParseSkel_l_FlexLexer
+#define yyFlexLexer OSGScanParseSkel_FlexLexer
 #include <FlexLexer.h>
 #undef yyFlexLexer
 
 OSG_USING_NAMESPACE
 
-//extern int  OSGScanParseSkel_l_char;
+//extern int  OSGScanParseSkel_char;
 extern void resetScanner(void);
 
 /*-------------------------------------------------------------------------*/
@@ -110,7 +110,7 @@ void ScanParseSkel::scanStream(std::istream &is,
 
         delete _pLexer;
 
-        _pLexer = new OSGScanParseSkel_l_FlexLexer(&is);
+        _pLexer = new OSGScanParseSkel_FlexLexer(&is);
 
         _uiCurrOptions = uiOptions;
 
