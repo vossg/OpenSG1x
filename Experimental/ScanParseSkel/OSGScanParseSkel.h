@@ -263,7 +263,7 @@ class OSG_SCANPARSE_DLLMAPPING ScanParseSkel
 
     /*------------------------- assignment ----------------------------------*/
 
-    bool              getMapFieldTypes  (void);
+    Bool              getMapFieldTypes  (void);
 
     virtual Int32  mapExtIntFieldType(const Int32 iFieldTypeId);
 

@@ -98,7 +98,7 @@ char ScanParseSkel::cvsid[] = "@(#)$Id: $";
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-void ScanParseSkel::setMapTypeIds(bool bVal)
+void ScanParseSkel::setMapTypeIds(Bool bVal)
 {
     _bMapTypeIds = bVal;
 }
