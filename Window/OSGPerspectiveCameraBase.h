@@ -197,7 +197,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
 
     //! The fields storing the data.
 
-    /*! The vertical field of view, in degrees.
+    /*! The vertical field of view, in radians.
      */
     SFReal32	_sfFov;
 

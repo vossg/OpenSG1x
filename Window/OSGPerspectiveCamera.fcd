@@ -16,6 +16,6 @@ A perspective camera with a symmetric frustum.
 		cardinality="single"
 		visibility="external"
 	>
-	The vertical field of view, in degrees.
+	The vertical field of view, in radians.
 	</Field>
 </FieldContainer>
