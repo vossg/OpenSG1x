@@ -95,7 +95,6 @@ typedef GeoProperty<GeoPTypesUI8PropertyDesc> GeoPTypesUI8;
 #if defined(__sgi)
 
 #pragma do_not_instantiate GeoProperty<GeoPTypesUI8PropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoPTypesUI8PropertyDesc>::_desc
 
 #else
 

@@ -98,7 +98,6 @@ typedef GeoProperty<GeoColors3fPropertyDesc> GeoColors3f;
 #if defined(__sgi)
 
 #pragma do_not_instantiate GeoProperty<GeoColors3fPropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoColors3fPropertyDesc>::_desc
 
 #else
 
@@ -162,7 +161,6 @@ typedef GeoProperty<GeoColors4fPropertyDesc> GeoColors4f;
 #if defined(__sgi)
 
 #pragma do_not_instantiate GeoProperty<GeoColors4fPropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoColors4fPropertyDesc>::_desc
 
 #else
 
@@ -225,7 +223,6 @@ typedef GeoProperty<GeoColors3ubPropertyDesc> GeoColors3ub;
 #if defined(__sgi)
 
 #pragma do_not_instantiate GeoProperty<GeoColors3ubPropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoColors3ubPropertyDesc>::_desc
 
 #else
 
@@ -288,7 +285,6 @@ typedef GeoProperty<GeoColors4ubPropertyDesc> GeoColors4ub;
 #if defined(__sgi)
 
 #pragma do_not_instantiate GeoProperty<GeoColors4ubPropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoColors4ubPropertyDesc>::_desc
 
 #else
 

@@ -95,7 +95,6 @@ typedef GeoProperty<GeoNormals3fPropertyDesc> GeoNormals3f;
 #if defined(__sgi)
 
 #pragma do_not_instantiate GeoProperty<GeoNormals3fPropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoNormals3fPropertyDesc>::_desc
 
 #else
 

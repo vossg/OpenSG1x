@@ -733,8 +733,6 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
                                  FILE            *pFile,
                                  VRMLWriteAction *pWriter)
 {
-    UInt32 j;
-
     if(pGeo == NullFC)
         return;
 

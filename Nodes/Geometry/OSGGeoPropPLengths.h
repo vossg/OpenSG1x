@@ -100,7 +100,6 @@ typedef GeoProperty<GeoPLengthsUI32PropertyDesc> GeoPLengthsUI32;
 #if defined(__sgi)
 
 #pragma do_not_instantiate GeoProperty<GeoPLengthsUI32PropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoPLengthsUI32PropertyDesc>::_desc
 
 #else
 

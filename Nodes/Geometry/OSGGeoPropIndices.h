@@ -97,7 +97,6 @@ typedef GeoProperty<GeoIndicesUI32PropertyDesc> GeoIndicesUI32;
 #if defined(__sgi)
 
 #pragma do_not_instantiate GeoProperty<GeoIndicesUI32PropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoIndicesUI32PropertyDesc>::_desc
 
 #else
 
