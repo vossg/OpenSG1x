@@ -165,11 +165,14 @@ void Camera::changed(BitVector, ChangeMode)
 void Camera::setup(      DrawActionBase *OSG_CHECK_ARG(action), 
                    const Viewport       &port                 )
 {
-    Matrix m;
+    Matrix m, t;
 
     // set the projection
 
-    getProjection( m, port.getPixelWidth(), port.getPixelHeight() );
+    getProjection           ( m, port.getPixelWidth(), port.getPixelHeight() );
+    getProjectionTranslation( t, port.getPixelWidth(), port.getPixelHeight() );
+
+    m.mult(t);
 
     //SDEBUG << "Projection matrix: " << m << endl;
 
@@ -191,11 +194,14 @@ void Camera::setup(      DrawActionBase *OSG_CHECK_ARG(action),
 void Camera::setupProjection(      DrawActionBase *OSG_CHECK_ARG(action),
                              const Viewport       &port                 )
 {
-    Matrix m;
+    Matrix m, t;
 
     // set the projection
 
-    getProjection( m, port.getPixelWidth(), port.getPixelHeight() );
+    getProjection           ( m, port.getPixelWidth(), port.getPixelHeight() );
+    getProjectionTranslation( t, port.getPixelWidth(), port.getPixelHeight() );
+
+    m.mult(t);
 
     //SDEBUG << "Projection matrix: " << m << endl;
 
