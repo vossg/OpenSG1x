@@ -27,6 +27,7 @@ The currently available contributions are
 
 - CGChunk:                  Chunk for nVidia's CG library
 - DrawFunctorCore:          Callback-based OpenGL NodeCore
+- LinearCombinerGeometry:   Geometrx morphing between objects
 
 
 If you want to contribute: great! Take a look at the existing contributions

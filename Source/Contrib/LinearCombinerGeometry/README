@@ -1,0 +1,37 @@
+
+README for LinearCombinerGeometry
+=================================
+
+Name:                   LinearCombinerGeometry
+License:                LGPL
+Maintainer:             Tobias Klug <tklug@hartle-klug.de>
+Initial Author:         Tobias Klug <tklug@hartle-klug.de>
+Additional Libraries:   -
+Added:                  2003/06/01
+Last modified:          2003/06/01
+Last tested:            2003/06/01
+
+Description:
+
+The LinearCombinerGeometry adds a new kind of NodeCore which can efficiently
+interpolate between a number of different position sets and combine them given
+a set of weights. This effect is commonly called morphing, even though that's a
+pretty undefined term. 
+
+There are some convenience functions to create an LCG from a set of Geometries,
+see the example for details. 
+
+Note that the LCG does not attempt to solve the point correspondence problem:
+all the different versions of the model have to have the same number of
+vertices, and they all have to be in the same order, i.e. the interpolation
+will always be between the nth element of the arrays, no matter where they are
+located.
+
+Note also that the normals are not recalculated or interpolated. For small
+motions that's ok and will probably not be visible. If you use large motions
+you will have to recalculate or interpolate the normals, though.
+
+Enjoy!
+
+    Tobias
+    

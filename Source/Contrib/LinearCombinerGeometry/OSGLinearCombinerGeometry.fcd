@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="LinearCombinerGeometry"
+	parent="Geometry"
+	library="Contrib"
+	pointerfieldtypes="none"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+This node allows linear interpolation of different topologically equal geometries with a set of weights. In fact only the GeoPositions field is interpolated.
+	<Field
+		name="weights"
+		type="Real32"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	Weights for each of the GeoPositions.
+	</Field>
+	<Field
+		name="srcpositions"
+		type="GeoPositionsPtr"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	GeoPositions of the different states.
+	</Field>
+	<Field
+		name="srcvolumes"
+		type="Volume"
+		cardinality="multi"
+		visibility="internal"
+		header="OSGDynamicVolume.h"
+		access="protected"
+	>
+	Bounding volumes of the source GeoPositions.
+	</Field>
+	<Field
+		name="recalconrender"
+		type="bool"
+		cardinality="single"
+		visibility="internal"
+		access="protected"
+	>
+	Determines if GeoPositions are recalculated on weight change or on render event.
+	</Field>
+	<Field
+		name="allgeometries3f"
+		type="bool"
+		cardinality="single"
+		visibility="internal"
+		access="protected"
+	>
+	Stores if all GeoPositions in srcpositions are GeoPositions3f as this interface is faster.
+	</Field>
+	<Field
+		name="positionsdirty"
+		type="bool"
+		cardinality="single"
+		visibility="internal"
+		access="protected"
+	>
+	Stores if positions have to be recalculated.
+	</Field>
+</FieldContainer>
