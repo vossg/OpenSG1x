@@ -46,6 +46,8 @@
 #error not for direct use, please include OSGBaseTypes.h instead
 #endif
 
+#include <OSGGL.h>
+
 OSG_BEGIN_NAMESPACE
 
 /*! \ingroup GrpBaseBaseBaseTypeTraits
@@ -874,6 +876,70 @@ struct TypeTraits<Real64> : public TypeTraitsBase
         return std::string(buffer);
     }
 };
+
+
+#ifdef OSG_GLENUM_NEQ_UINT32
+
+/*! \ingroup GrpBaseBaseBaseTypeTraits
+ */
+
+template <>
+struct TypeTraits<GLenum> : public TypeTraitsBase
+{
+    typedef       Real32                RealReturnType;
+
+
+    static const  bool               IsPOD       = true;
+    static const  MathTypeProperties MathProp    = IntValue;
+
+    static const  UInt32             BitsSet     = 0xFFFFFFFF;
+    static const  UInt32             BitsClear   = 0x00000000;
+
+
+    static        GLenum             getZeroElement(void)
+    {
+        return 0;
+    }
+
+    static        GLenum             getOneElement (void)
+    {
+        return 1;
+    }
+
+    static        GLenum             getMax        (void) 
+    { 
+        return 0xFFFFFFFF;
+    }
+
+    static        GLenum             getMin        (void)
+    {
+        return 0x00000000;
+    }
+
+
+    static GLEnum      getFromString(const Char8 *szString)
+    {
+        if(szString != NULL)
+        {
+            return atol(szString);
+        }
+        else
+        {
+            return getZeroElement();
+        }
+    }
+
+    static std::string putToString  (const GLenum val)
+    {
+        Char8 buffer[15];
+
+        sprintf(buffer, "%u", val);
+
+        return std::string(buffer);
+    }
+};
+
+#endif
 
 OSG_END_NAMESPACE
 
