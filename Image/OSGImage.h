@@ -77,21 +77,21 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
   public:
 
     enum PixelFormat {   OSG_INVALID_PF = 0,
-                        OSG_L_PF       = GL_LUMINANCE,
-                        OSG_LA_PF      = GL_LUMINANCE_ALPHA,
+                         OSG_L_PF       = GL_LUMINANCE,
+                         OSG_LA_PF      = GL_LUMINANCE_ALPHA,
 #if defined(GL_BGR)
-                        OSG_BGR_PF     = GL_BGR,
+                         OSG_BGR_PF     = GL_BGR,
 #elif defined(GL_BGR_EXT)
-                        OSG_BGR_PF     = GL_BGR_EXT,
+                         OSG_BGR_PF     = GL_BGR_EXT,
 #endif
-
+                         
 #if defined(GL_BGRA)
-                        OSG_BGRA_PF    = GL_BGRA,
+                         OSG_BGRA_PF    = GL_BGRA,
 #elif defined(GL_BGRA_EXT)
-                        OSG_BGRA_PF    = GL_BGRA_EXT,
+                         OSG_BGRA_PF    = GL_BGRA_EXT,
 #endif
-                        OSG_RGB_PF     = GL_RGB,
-                        OSG_RGBA_PF    = GL_RGBA
+                         OSG_RGB_PF     = GL_RGB,
+                         OSG_RGBA_PF    = GL_RGBA
     };
 
     /*---------------------------------------------------------------------*/
@@ -274,13 +274,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
       }
 
     inline 
-      void setAttachment (std::string &key, std::string &data)
+      void setAttachment ( const std::string &key, 
+                           const std::string &data)
       { 
         _attachmentMap[key] = data; 
       }
 
     inline
-      std::string * findAttachment (std::string &key) 
+      std::string * findAttachment ( const std::string &key) 
       { 
         std::map<std::string,std::string>::iterator ssI;
         ssI = _attachmentMap.find(key);
@@ -288,7 +289,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
       }
 
     inline 
-      void eraseAttachment (std::string &key) 
+      void eraseAttachment ( const std::string &key) 
       {
         _attachmentMap.erase(key);
       }
