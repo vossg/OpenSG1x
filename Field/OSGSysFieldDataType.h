@@ -136,7 +136,6 @@ struct FieldDataTraits2<bool> :
         return outVal;
     }
 
-
     static void      putToString   (const bool                  &inVal,
                                           string                &outStr)
     {
@@ -150,6 +149,26 @@ struct FieldDataTraits2<bool> :
         }
     }
          
+    static       UInt32    getBinSize (const bool & )
+    {
+        return sizeof(UInt8);
+    }
+
+    static void   copyToBin  (      BinaryDataHandler &pMem, 
+                              const bool              &oObject)
+    {
+        UInt8 value=oObject;
+        pMem.putValue(value);
+    }
+
+    static void   copyFromBin(      BinaryDataHandler &pMem, 
+                                    bool              &oObject)
+    {
+        UInt8 value;
+        pMem.getValue(value);
+        oObject=value;
+    }
+
 };
 
 

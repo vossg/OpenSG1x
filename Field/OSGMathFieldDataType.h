@@ -123,6 +123,44 @@ struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
         outStr.append(" ");
         outStr.append(TypeConst::putToString((inVal.getValues())[15]));
     }
+
+    static       UInt32    getBinSize (const Matrix &)
+    {
+        return sizeof(Real32)*16;
+    }
+
+    static       UInt32    getBinSize (const Matrix  *,
+                                             UInt32  uiNumObjects)
+    {
+        return sizeof(Real32)*16*uiNumObjects;
+    }
+
+    static void   copyToBin  (      BinaryDataHandler &pMem, 
+                              const Matrix           &oObject)
+    {
+        pMem.putValues(&oObject[0][0], 16);
+    }
+
+
+    static void   copyFromBin(      BinaryDataHandler &pMem, 
+                                    Matrix           &oObject)
+    {
+        pMem.getValues(&oObject[0][0], 16);
+    }
+
+    static void copyToBin(      BinaryDataHandler &pMem,
+                                const Matrix     *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+        pMem.putValues(&pObjectStore[0][0][0], uiNumObjects*16);
+    }
+    
+    static void copyFromBin(    BinaryDataHandler &pMem,
+                                Matrix           *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+        pMem.getValues(&pObjectStore[0][0][0], uiNumObjects*16);
+    }
 };
 
 /*! \brief Quaternion field traits 
@@ -179,6 +217,50 @@ struct FieldDataTraits<Quaternion> :
 
         outStr.append( " " );
         outStr.append(TypeConst::putToString(angleRad) );
+    }
+
+    static       UInt32    getBinSize (const Quaternion &)
+    {
+        return sizeof(Real32)*4;
+    }
+
+    static       UInt32    getBinSize (const Quaternion *,
+                                             UInt32     uiNumObjects)
+    {
+        return sizeof(Real32)*4*uiNumObjects;
+    }
+
+    static void   copyToBin  (      BinaryDataHandler &pMem, 
+                              const Quaternion        &oObject)
+    {
+        pMem.putValues(&oObject[0], 4);
+    }
+
+
+    static void   copyFromBin(      BinaryDataHandler &pMem, 
+                                    Quaternion        &oObject)
+    {
+        pMem.getValues(&oObject[0], 4);
+    }
+
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const Quaternion        *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        {
+            copyToBin(pMem, pObjectStore[i]);
+        }
+    }
+    
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            Quaternion        *pObjectStore,
+                            UInt32             uiNumObjects)
+    {
+        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        {
+            copyFromBin(pMem, pObjectStore[i]);
+        }
     }
 };
 

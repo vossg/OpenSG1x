@@ -186,8 +186,9 @@ void StreamSockConnection::readBuffer()
     if(len==0)
         throw ReadError("peek got 0 bytes!");
     // read remaining data
-    size=((SocketBufferHeader*)&_socketReadBuffer[0])->size;
-    len=_readSocket.recv(&_socketReadBuffer[sizeof(SocketBufferHeader)],size);
+    size=ntohl(((SocketBufferHeader*)&_socketReadBuffer[0])->size);
+    len=_readSocket.recv(&_socketReadBuffer[sizeof(SocketBufferHeader)],
+                         size);
     if(len==0)
         throw ReadError("read got 0 bytes!");
     readBufBegin()->setDataSize(size);
@@ -222,7 +223,7 @@ void StreamSockConnection::writeBuffer(void)
 {
     UInt32 size = writeBufBegin()->getDataSize();
     // write size to header
-    ((SocketBufferHeader*)&_socketWriteBuffer[0])->size=size;
+    ((SocketBufferHeader*)&_socketWriteBuffer[0])->size=htonl(size);
     // write data to all sockets
     for(SocketsT::iterator socket =_sockets.begin();
         socket!=_sockets.end();

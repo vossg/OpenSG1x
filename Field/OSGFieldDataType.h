@@ -94,20 +94,22 @@ struct FieldTraitsRecurseBase : public Traits
 {
     enum { bHasParent = 0x00 };
 
-    static UInt32 getBinSize(const FieldTypeT &)
-    {
-        return sizeof(FieldTypeT);
-    }
-
-    static UInt32 getBinSize(const FieldTypeT   *pObjectStore,
-                                   UInt32        uiNumObjects)
+    static       UInt32    getBinSize (const FieldTypeT &oObject)
     {
         typedef FieldDataTraits<FieldTypeT> MappedTrait;
+        string value;
 
-        UInt32 size = 0;
+        MappedTrait::putToString(oObject,value);
+        return value.length() + 1 + sizeof(UInt32);
+    }
 
-        // defaut: individual field sizes
-        for(UInt32 i=0; i <uiNumObjects; ++i)
+    static       UInt32    getBinSize (const FieldTypeT    *pObjectStore,
+                                             UInt32         uiNumObjects)
+    {
+        typedef FieldDataTraits<FieldTypeT> MappedTrait;
+        UInt32 size=0;
+
+        for(UInt32 i = 0; i < uiNumObjects; ++i)
         {
             size += MappedTrait::getBinSize(pObjectStore[i]);
         }
@@ -115,12 +117,16 @@ struct FieldTraitsRecurseBase : public Traits
         return size;
     }
 
-    static void copyToBin(      BinaryDataHandler &pMem, 
-                          const FieldTypeT        &oObject)
+    static void copyToBin(      BinaryDataHandler   &pMem, 
+                          const FieldTypeT          &oObject)
     {
         typedef FieldDataTraits<FieldTypeT> MappedTrait;
-        pMem.put(&oObject, MappedTrait::getBinSize(oObject));
+        string value;
+
+        MappedTrait::putToString(oObject,value);
+    	pMem.putValue(value);
     }
+
 
     static void copyToBin(      BinaryDataHandler &pMem, 
                           const FieldTypeT        *pObjectStore,
@@ -139,8 +145,12 @@ struct FieldTraitsRecurseBase : public Traits
                             FieldTypeT        &oObject)
     {
         typedef FieldDataTraits<FieldTypeT> MappedTrait;
+        const Char8 *c;
+        string value;
 
-        pMem.get(&oObject, MappedTrait::getBinSize(oObject));
+        pMem.getValue(value);
+        c=value.c_str();
+        MappedTrait::getFromString(oObject,c);
     }
 
     static void copyFromBin(BinaryDataHandler &pMem, 
@@ -182,27 +192,27 @@ struct FieldTraitsIntegralRecurseMapper :
     static void copyToBin(      BinaryDataHandler &pMem, 
                           const FieldTypeT        &oObject)
     {
-        pMem.put(&oObject, getBinSize(oObject));
+        pMem.putValue(oObject);
     }
 
     static void copyToBin(      BinaryDataHandler &pMem, 
                           const FieldTypeT        *pObjectStore,
                                 UInt32             uiNumObjects)
     {
-        pMem.put(&pObjectStore[0], getBinSize(pObjectStore, uiNumObjects));
+        pMem.putValues(&pObjectStore[0], uiNumObjects);
     }
 
     static void copyFromBin(BinaryDataHandler &pMem, 
                             FieldTypeT        &oObject)
     {
-        pMem.get(&oObject, getBinSize(oObject));
+        pMem.getValue(oObject);
     }
 
     static void copyFromBin(BinaryDataHandler &pMem, 
                             FieldTypeT        *pObjectStore,
                             UInt32             uiNumObjects)
     {
-        pMem.get(&pObjectStore[0], getBinSize(pObjectStore, uiNumObjects));
+        pMem.getValues(&pObjectStore[0], uiNumObjects);
     }
 };
 

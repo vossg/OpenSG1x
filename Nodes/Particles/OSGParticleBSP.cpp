@@ -215,29 +215,63 @@ bool ParticleBSPTree::getFromString(const Char8 *&inVal)
     return true;
 }
 
-    
 UInt32 ParticleBSPTree::getBinSize(void) const
 {
-    return sizeof(UInt32) + _tree.size() * sizeof(ParticleBSPNode);
+    return sizeof(UInt32) // num elements
+        + (sizeof(UInt8)+sizeof(UInt32)) * _tree.size();
 }
     
 void ParticleBSPTree::copyToBin(BinaryDataHandler &pMem) const
 {
+    UInt8  axis;
+    Int32  value;
+    Real32 splitvalue;
+    UInt32 i;
     UInt32 size = _tree.size();
-    pMem.put(&size, sizeof(UInt32));
+    pMem.putValue(size);
 
-    pMem.put(&_tree[0], _tree.size() * sizeof(ParticleBSPNode));
+    for(i=0;i<size;++i)
+    {
+        axis=_tree[i].getAxis();
+        pMem.putValue(axis);
+        if(axis==ParticleBSPNode::Leaf)
+        {
+            value=_tree[i].getValue();
+            pMem.putValue(value);
+        }
+        else
+        {
+            splitvalue=_tree[i].getSplitValue();
+            pMem.putValue(splitvalue);
+        }
+    }
 }
     
 void ParticleBSPTree::copyFromBin(BinaryDataHandler &pMem)
 {
-    UInt32 size = _tree.size();
-    pMem.get(&size, sizeof(UInt32));
-
+    UInt8  axis;
+    Int32  value;
+    Real32 splitvalue;
+    UInt32 i;
+    UInt32 size;
+    pMem.getValue(size);
     _tree.resize(size);
-    pMem.get(&_tree[0], _tree.size() * sizeof(ParticleBSPNode));
-}
 
+    for(i=0;i<size;++i)
+    {
+        pMem.getValue(axis);
+        if(axis==ParticleBSPNode::Leaf)
+        {
+            pMem.getValue(value);
+            _tree[i].setValue(value);
+        }
+        else
+        {
+            pMem.getValue(splitvalue);
+            _tree[i].setSplit(axis,value);
+        }
+    }
+}
 
 /*-------------------------------- traversal ------------------------------*/
 
@@ -487,7 +521,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.12 2002/05/24 09:48:39 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.13 2002/06/17 14:52:51 mroth Exp $";
     static char cvsid_hpp[] = OSGPARTICLEBSP_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLEBSP_INLINE_CVSID;
 }

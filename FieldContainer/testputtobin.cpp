@@ -12,7 +12,7 @@ using std::vector;
 class TestHandler:public OSG::BinaryDataHandler
 {
 public:
-    TestHandler(FILE *file):OSG::BinaryDataHandler(5),_file(file) {
+    TestHandler(FILE *file):OSG::BinaryDataHandler(1024),_file(file) {
         unsigned int i;
         _memory.resize(7*2);
         for(i=0;i<_memory.size();i+=2)
@@ -24,11 +24,9 @@ public:
         }
     }
     void read(OSG::MemoryHandle mem,OSG::UInt32 size) {
-        fprintf(stderr,"direct read %d bytes\n",size);
         fread(mem,size,1,_file);
     }
     void write(OSG::MemoryHandle mem,OSG::UInt32 size) {
-        fprintf(stderr,"direct write %d bytes\n",size);
         fwrite(mem,size,1,_file);
     }
 private:

@@ -81,7 +81,6 @@ struct FieldTraitsRecurseMapper<AttachmentMap> :
         UInt32 size = 0;
 
         // defaut: individual field sizes
-
         for(UInt32 i = 0; i < uiNumObjects; ++i)
         {
             size += getBinSize(pObjectStore[i]);
@@ -100,18 +99,17 @@ struct FieldTraitsRecurseMapper<AttachmentMap> :
         AttachmentMap::const_iterator mapIt  = pObject.begin();
         AttachmentMap::const_iterator mapEnd = pObject.end();
 
-
         size = pObject.size();
 
-        pMem.put(&size, sizeof(UInt32));
+        pMem.putValue(size);
 
         for(; mapIt != mapEnd; ++mapIt)
         {
             binding = mapIt->first & 0xffff;
             id      = mapIt->second.getFieldContainerId();
 
-            pMem.put(&binding, sizeof(UInt16));
-            pMem.put(&id, sizeof(UInt32));
+            pMem.putValue(binding);
+            pMem.putValue(id);
         }
     }
 
@@ -135,14 +133,14 @@ struct FieldTraitsRecurseMapper<AttachmentMap> :
         UInt32 id;
         UInt32 size;
 
-        pMem.get(&size, sizeof(UInt32));
+        pMem.getValue(size);
 
         pObject.clear();
 
         for(UInt32 i = 0; i < size; ++i)
         {
-            pMem.get(&binding, sizeof(UInt16));
-            pMem.get(&id,      sizeof(UInt32));
+            pMem.getValue(binding);
+            pMem.getValue(id);
 
             fcp = FieldContainerFactory::the()->getMappedContainer(id);
 

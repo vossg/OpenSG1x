@@ -183,7 +183,19 @@ void ClusterServer::start()
     }
     // accept incomming connections
     try {
+        UInt8                    forceNetworkOrder;
+#if BYTE_ORDER == LITTLE_ENDIAN
+        UInt8                    littleEndian = true;
+#else
+        UInt8                    littleEndian = false;
+#endif
         _connection->accept();
+        // determine network order
+        _connection->putValue(littleEndian);
+        _connection->flush();
+        _connection->selectChannel();
+        _connection->getValue(forceNetworkOrder);
+        _connection->setNetworkOrder(forceNetworkOrder);
         _serviceAvailable=false;
         Thread::join(serviceThread);
     } catch(...)

@@ -162,23 +162,23 @@ void BINWriter::writeFileHeader()
 	UInt32 numOfRoots = _vec_pRootNodes.size();
     UInt32 i = 0, j = 0;
     
-    _outFileHandler.putUInt32(numOfRoots);
+    _outFileHandler.putValue(numOfRoots);
     for(i=0; i!=numOfRoots; ++i, ++iRoots)
     {
-       _outFileHandler.putUInt32(iRoots->getFieldContainerId());
+       _outFileHandler.putValue(iRoots->getFieldContainerId());
     }
 
-    _outFileHandler.putUInt32(mapSize);
+    _outFileHandler.putValue(mapSize);
    	for(i=0; i<mapSize ; ++i, ++iIdMap)
 	{
-		_outFileHandler.putString(iIdMap->first);
+		_outFileHandler.putValue(iIdMap->first);
 
         vector<UInt32>::iterator intIt  = iIdMap->second.begin();
         vector<UInt32>::iterator intEnd = iIdMap->second.end();
 
         while(intIt != intEnd)
         {
-			_outFileHandler.putUInt32(*intIt);
+			_outFileHandler.putValue(*intIt);
 
             ++intIt;
 		}
@@ -354,9 +354,9 @@ void BINWriter::doWriteIndexedFC()
              <<count<<"/"<<mapSize<<"..."<<endl;
         //for each entry in _fcMap
 	    //write ID
-        _outFileHandler.putUInt32(i->first);
+        _outFileHandler.putValue(i->first);
         //write FieldMask
-        _outFileHandler.putUInt32(i->second.mask);
+        _outFileHandler.putValue(i->second.mask);
 	    //write data
 	    i->second.ptr->copyToBin(_outFileHandler, i->second.mask);
 	}

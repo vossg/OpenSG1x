@@ -73,8 +73,15 @@ struct OSG_WINDOWQTLIB_DLLMAPPING FieldDataTraits<OSGQGLWidgetP> :
     static char     *getSName(void) { return "SFOSGQGLWidgetP"; }
     static char     *getMName(void) { return "MFOSGQGLWidgetP"; }
 
+    static bool      getFromString(      OSGQGLWidgetP &widget,
+                                   const Char8         *)
+    {
+        widget=NULL;
+        return true;
+    }
+
     static void      putToString  (const OSGQGLWidgetP &,
-                                         string   &outStr)
+                                         string        &outStr)
     {
         outStr.assign("OSGQGLWidgetP");
     }
@@ -99,6 +106,6 @@ OSG_DLLEXPORT_DECL1(MField, OSGQGLWidgetP, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGQTWINDOWDATAFIELDS_HEADER_CVSID "@(#)$Id: OSGQTWindowDataFields.h,v 1.4 2002/05/24 09:48:41 vossg Exp $"
+#define OSGQTWINDOWDATAFIELDS_HEADER_CVSID "@(#)$Id: OSGQTWindowDataFields.h,v 1.5 2002/06/17 14:52:51 mroth Exp $"
 
 #endif /* _OSGQTWINDOWDATAFIELDS_H_ */

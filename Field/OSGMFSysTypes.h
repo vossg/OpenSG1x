@@ -68,6 +68,54 @@ OSG_BEGIN_NAMESPACE
 
 typedef MField<bool, 2>   MFBool;
 
+template <> inline
+UInt32 MField<bool, 2>::getBinSize(void)
+{
+    return sizeof(UInt32) + // num elements
+           sizeof(UInt8) * _values.size();
+}
+
+template <> inline
+void MField<bool, 2>::copyToBin(BinaryDataHandler &pMem)
+{
+    UInt32 n = _values.size();
+
+    pMem.putValue(n);
+
+    for(UInt32 i = 0; i < n; ++i)
+    {
+        UInt8 bval = _values[i];
+
+        pMem.putValue(bval);
+    }
+}
+
+template <> inline
+void MField<bool, 2>::copyFromBin(BinaryDataHandler &pMem)
+{
+    UInt32 n;
+    
+     pMem  .getValue(n);
+    _values.clear ( );
+
+#ifdef __hpux
+    FieldTypeT tmpVal;
+
+    _values.resize(n, tmpVal);
+#else
+    _values.resize(n);
+#endif
+
+    UInt8 tmpBVal;
+
+    for(UInt32 i = 0; i < n; ++i)
+    {
+        pMem.getValue(tmpBVal);
+
+        _values[i] = tmpBVal;
+    }
+}
+
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL2(MField, bool, 2, OSG_BASE_DLLTMPLMAPPING)
 #endif

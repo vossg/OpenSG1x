@@ -556,7 +556,7 @@ void MField<FieldTypeT, fieldNameSpace>::copyToBin(BinaryDataHandler &pMem)
 {
     UInt32 n = _values.size();
 
-    pMem.put(&n, sizeof(n));
+    pMem.putValue(n);
     MFieldTraits::copyToBin(   pMem, 
                             &(_values[0]),
                               _values.size());
@@ -567,7 +567,7 @@ void MField<FieldTypeT, fieldNameSpace>::copyFromBin(BinaryDataHandler &pMem)
 {
     UInt32 n;
 
-     pMem  .get   (&n, sizeof(UInt32));
+     pMem  .getValue(n);
     _values.clear ( );
     _values.resize(n);
 

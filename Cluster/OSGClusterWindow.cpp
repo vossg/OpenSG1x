@@ -142,6 +142,7 @@ void (*ClusterWindow::getFunctionByName ( const Char8 * ))()
 
 void ClusterWindow::init( void )
 {
+    int i;
     MFString::iterator s;
 
     if(_connection)
@@ -209,6 +210,30 @@ void ClusterWindow::init( void )
             }
         }
         serviceSock.close();
+    }
+    // determine byte order
+    UInt8 serverLittleEndian;
+    UInt8 forceNetworkOrder=false;
+#if BYTE_ORDER == LITTLE_ENDIAN
+    UInt8 littleEndian = true;
+#else
+    UInt8 littleEndian = false;
+#endif
+    for(i=0;i<getServers().size();++i)
+    {
+        _connection->selectChannel();
+        _connection->getValue(serverLittleEndian);
+        if(serverLittleEndian != littleEndian)
+        {
+            forceNetworkOrder=true;
+        }
+    }
+    _connection->putValue(forceNetworkOrder);
+    _connection->flush();
+    _connection->setNetworkOrder(forceNetworkOrder);
+    if(forceNetworkOrder)
+    {
+        SLOG << "Run clustering in network order mode" << endl;
     }
     _firstFrame=true;
 }

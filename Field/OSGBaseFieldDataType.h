@@ -100,6 +100,45 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3f> :
         outStr.append(" ");
         outStr.append(TypeConst::putToString(inVal.blue() ));
     }
+    
+    static       UInt32    getBinSize (const Color3f &)
+    {
+        return sizeof(Real32)*3;
+    }
+
+    static       UInt32    getBinSize (const Color3f *,
+                                             UInt32  uiNumObjects)
+    {
+        return sizeof(Real32)*3*uiNumObjects;
+    }
+
+    static void   copyToBin  (      BinaryDataHandler &pMem, 
+                              const Color3f           &oObject)
+    {
+        pMem.putValues(&oObject[0], 3);
+    }
+
+    static void   copyFromBin(      BinaryDataHandler &pMem, 
+                                    Color3f           &oObject)
+    {
+        pMem.getValues(&oObject[0], 3);
+    }
+
+    static void copyToBin(      BinaryDataHandler &pMem,
+                                const Color3f     *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+        pMem.putValues(&pObjectStore[0][0], uiNumObjects*3);
+    }
+    
+    static void copyFromBin(    BinaryDataHandler &pMem,
+                                Color3f           *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+        pMem.getValues(&pObjectStore[0][0], uiNumObjects*3);
+    }
+
+
 };
 
 
@@ -147,6 +186,48 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color4f> :
         outStr.append(" ");
         outStr.append(TypeConst::putToString(inVal.alpha()));
     }
+    
+    static       UInt32    getBinSize (const Color4f &)
+    {
+        return sizeof(Real32)*4;
+    }
+
+    static       UInt32    getBinSize (const Color4f *,
+                                             UInt32  uiNumObjects)
+    {
+        return sizeof(Real32)*4*uiNumObjects;
+    }
+
+    static void   copyToBin  (      BinaryDataHandler &pMem, 
+                              const Color4f        &oObject)
+    {
+        pMem.putValues(&oObject[0], 4);
+    }
+
+
+    static void   copyFromBin(      BinaryDataHandler &pMem, 
+                                    Color4f           &oObject)
+        {
+        pMem.getValues(&oObject[0], 4);
+        }
+    
+    
+    static void copyToBin(      BinaryDataHandler &pMem,
+                                const Color4f     *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+	    pMem.putValues(&pObjectStore[0][0], uiNumObjects*4);
+    }
+    
+    static void copyFromBin(    BinaryDataHandler &pMem,
+                                Color4f           *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+	    pMem.getValues(&pObjectStore[0][0], uiNumObjects*4);
+    }
+
+
+
 };
 
 
@@ -190,6 +271,44 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3ub> :
         outStr.append(TypeConst::putToString(inVal.green()));
         outStr.append(" ");
         outStr.append(TypeConst::putToString(inVal.blue() ));
+    }
+
+    static       UInt32    getBinSize (const Color3ub &)
+    {
+        return sizeof(UInt8)*3;
+    }
+
+    static       UInt32    getBinSize (const Color3ub *,
+                                             UInt32    uiNumObjects)
+    {
+        return sizeof(UInt8)*3*uiNumObjects;
+    }
+
+    static void   copyToBin  (      BinaryDataHandler &pMem, 
+                              const Color3ub        &oObject)
+    {
+        pMem.putValues(&oObject[0], 3);
+    }
+
+
+    static void   copyFromBin(      BinaryDataHandler &pMem, 
+                                    Color3ub           &oObject)
+    {
+        pMem.getValues(&oObject[0], 3);
+    }
+
+    static void copyToBin(      BinaryDataHandler &pMem,
+                                const Color3ub    *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+	    pMem.putValues(&pObjectStore[0][0], uiNumObjects*3);
+    }
+    
+    static void copyFromBin(    BinaryDataHandler &pMem,
+                                Color3ub          *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+	    pMem.getValues(&pObjectStore[0][0], uiNumObjects*3);
     }
 };
 
@@ -237,6 +356,49 @@ struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
         outStr.append(" ");
         outStr.append(TypeConst::putToString(inVal.alpha()));
     }
+
+    static       UInt32    getBinSize (const Color4ub &)
+    {
+        return sizeof(UInt8)*4;
+    }
+
+    static       UInt32    getBinSize (const Color4ub *,
+                                             UInt32    uiNumObjects)
+    {
+        return sizeof(UInt8)*4*uiNumObjects;
+    }
+
+    static void   copyToBin  (      BinaryDataHandler &pMem, 
+                              const Color4ub        &oObject)
+    {
+        pMem.putValues(&oObject[0], 4);
+    }
+
+
+    static void   copyFromBin(      BinaryDataHandler &pMem, 
+                                    Color4ub         &oObject)
+    {
+        pMem.getValues(&oObject[0], 4);
+    }
+
+
+    static void copyToBin(      BinaryDataHandler &pMem,
+                                const Color4ub    *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+	    pMem.putValues(&pObjectStore[0][0], uiNumObjects*4);
+    }
+    
+    static void copyFromBin(    BinaryDataHandler &pMem,
+                                Color4ub          *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+	    pMem.getValues(&pObjectStore[0][0], uiNumObjects*4);
+    }
+
+
+
+
 };
 
 
@@ -297,7 +459,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<string> :
 
         for(UInt32 i = 0; i < uiNumObjects; ++i)
         {
-            size += getBinSize(pObjectStore,uiNumObjects);
+            size += getBinSize(pObjectStore[i]);
         }
 
         return size;
@@ -307,25 +469,14 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<string> :
     static void copyToBin(      BinaryDataHandler   &pMem, 
                           const string              &oObject)
     {
-        UInt32 size = 0;
-
-        if(oObject.empty())
-        {
-            pMem.put(&size, sizeof(UInt32));
-        }
-        else
-        {
-            size = oObject.length() + 1;
-            pMem.put(&size          , sizeof(UInt32));
-            pMem.put(oObject.c_str(), size);
-        }
+    	pMem.putValue(oObject);
     }
 
     static void copyToBin(      BinaryDataHandler &pMem, 
                           const string            *pObjectStore,
                                 UInt32             uiNumObjects)
     {
-        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        for(UInt32 i=0; i < uiNumObjects; ++i)
         {
             copyToBin(pMem, pObjectStore[i]);
         }
@@ -334,27 +485,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<string> :
     static void copyFromBin(BinaryDataHandler &pMem, 
                             string            &oObject)
     {
-        UInt32  size;
-        Char8  *str;
-
-        pMem.get(&size, sizeof(UInt32));
-
-        if(size == 0)
-        {
-            oObject.erase();
-        }
-        else
-        {
-            // we have to copy because the string maight not be
-            // continous in pMem.
-
-            str = new Char8[size];
-
-            pMem   .get   (str, size);
-            oObject.assign(str      );
-
-            delete [] str;
-        }
+        pMem.getValue(oObject);
     }
 
     static void copyFromBin(BinaryDataHandler &pMem, 
@@ -404,6 +535,43 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<Time> :
                                              string &outStr)
     {
         outStr.assign(TypeConstants<Time>::putToString(inVal));
+    }
+
+    static       UInt32    getBinSize (const Time &)
+    {
+        return sizeof(Time);
+    }
+
+    static       UInt32    getBinSize (const Time   *,
+                                             UInt32  uiNumObjects)
+    {
+        return sizeof(Time)*uiNumObjects;
+    }
+
+    static void copyToBin(      BinaryDataHandler   &pMem, 
+                          const Time                &oObject)
+    {
+    	pMem.putValue(oObject);
+    }
+
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            Time              &oObject)
+    {
+        pMem.getValue(oObject);
+    }
+
+    static void copyToBin(      BinaryDataHandler &pMem,
+                                const Time        *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+        pMem.putValues(&pObjectStore[0], uiNumObjects);
+    }
+    
+    static void copyFromBin(    BinaryDataHandler &pMem,
+                                Time              *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+        pMem.getValues(&pObjectStore[0], uiNumObjects);
     }
 };
 
@@ -550,8 +718,8 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
         
     static UInt32 getBinSize(const DynamicVolume &oObject)
     {
-        DynamicVolume::Type type = oObject.getType();
-        UInt32              size = sizeof(DynamicVolume::Type);
+        UInt32  type = oObject.getType();
+        UInt32  size = sizeof(DynamicVolume::Type);
 
         switch(type)
         {
@@ -577,7 +745,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
 
         for(UInt32 i = 0; i < uiNumObjects; ++i)
         {
-            size += getBinSize(pObjectStore[uiNumObjects]);
+            size += getBinSize(pObjectStore[i]);
         }
 
         return size;
@@ -586,9 +754,9 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
     static void copyToBin(      BinaryDataHandler   &pMem, 
                           const DynamicVolume       &oObject)
     {
-        DynamicVolume::Type type = oObject.getType();
+        UInt32 type = (UInt32)(oObject.getType());
 
-        pMem.put(&type, sizeof(DynamicVolume::Type));
+        pMem.putValue(type);
 
         switch(type)
         {
@@ -597,8 +765,8 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
                 const BoxVolume &bVol = 
                     dynamic_cast<const BoxVolume &>(oObject.getInstance());
 
-                pMem.put(&bVol.getMin(), sizeof(Pnt3f));
-                pMem.put(&bVol.getMax(), sizeof(Pnt3f));
+                pMem.putValues(&bVol.getMin()[0], 3);
+                pMem.putValues(&bVol.getMax()[0], 3);
 
                 break;
             }
@@ -609,8 +777,8 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
 
                 Real32 radius = sVol.getRadius();
 
-                pMem.put(&sVol.getCenter(), sizeof(Pnt3f ));
-                pMem.put(&radius,           sizeof(Real32));
+                pMem.putValues(&sVol.getCenter()[0], 3);
+                pMem.putValue (radius);
 
                 break;
             }
@@ -633,11 +801,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
     static void copyFromBin(BinaryDataHandler &pMem, 
                             DynamicVolume     &oObject)
     {
-        DynamicVolume::Type type;
-
-        pMem.get(&type, sizeof(DynamicVolume::Type));
-
-        oObject.setVolumeType(type);
+        UInt32 type;
+        
+        pMem.getValue(type);
+        DynamicVolume::Type volumeType=
+            static_cast<DynamicVolume::Type>(type);
+        oObject.setVolumeType(volumeType);
 
         switch(type)
         {
@@ -648,8 +817,8 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
 
                 Pnt3f min,max;
 
-                pMem.get(&min, sizeof(Pnt3f));
-                pMem.get(&max, sizeof(Pnt3f));
+                pMem.getValues(&min[0], 3);
+                pMem.getValues(&max[0], 3);
 
                 bVol.setBounds(min, max);
 
@@ -663,8 +832,8 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
                 Pnt3f center;
                 Real32 radius;
 
-                pMem.get(&center, sizeof(Pnt3f ));
-                pMem.get(&radius, sizeof(Real32));
+                pMem.getValues(&center[0], 3);
+                pMem.getValue (radius);
 
                 sVol.setCenter(center);
                 sVol.setRadius(radius);
@@ -709,6 +878,53 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<BitVector> :
     static const Char8     *getMName(void)   { return "MFBitVector";   }
 
     static       BitVector  getDefault(void) { return BitVector();     }
+
+    static       UInt32    getBinSize (const BitVector &)
+    {
+        return sizeof(UInt32);
+    }
+
+    static       UInt32    getBinSize (const BitVector *,
+                                             UInt32     uiNumObjects)
+    {
+        return sizeof(UInt32)*uiNumObjects;
+    }
+
+    static void   copyToBin  (      BinaryDataHandler &pMem, 
+                              const BitVector         &oObject)
+    {
+        UInt32 value=oObject;
+        pMem.putValue(value);
+    }
+
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const BitVector         *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        {
+            copyToBin(pMem, pObjectStore[i]);
+        }
+    }
+
+    static void   copyFromBin(      BinaryDataHandler &pMem, 
+                                    BitVector         &oObject)
+    {
+        UInt32 value;
+        pMem.getValue(value);
+        oObject=value;
+    }
+
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            BitVector         *pObjectStore,
+                            UInt32             uiNumObjects)
+    {
+        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        {
+            copyFromBin(pMem, pObjectStore[i]);
+        }
+    }
+
 };
 
 
@@ -757,6 +973,56 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Plane> :
         outStr.append(", ");
         outStr.append(TypeConstants<Real32>::putToString(dist));
     }
+
+    static       UInt32    getBinSize (const Plane &)
+    {
+        return sizeof(UInt32)*4;
+    }
+
+    static       UInt32    getBinSize (const Plane     *,
+                                             UInt32     uiNumObjects)
+    {
+        return sizeof(UInt32)*4*uiNumObjects;
+    }
+
+    static void   copyToBin  (      BinaryDataHandler &pMem, 
+                              const Plane            &oObject)
+    {
+        const Vec3f &normal   = oObject.getNormal();
+        Real32       distance = oObject.getDistanceFromOrigin();
+        pMem.putValues(&normal[0],3);
+        pMem.putValue (distance);
+    }
+
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const Plane             *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        {
+            copyToBin(pMem, pObjectStore[i]);
+        }
+    }
+
+    static void   copyFromBin(      BinaryDataHandler &pMem, 
+                                    Plane            &oObject)
+    {
+        Vec3f  normal;
+        Real32 distance;
+        pMem.getValues(&normal[0],3);
+        pMem.getValue (distance);
+        oObject.set(normal,distance);
+    }
+
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            Plane             *pObjectStore,
+                            UInt32             uiNumObjects)
+    {
+        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        {
+            copyFromBin(pMem, pObjectStore[i]);
+        }
+    }
 };
 
 OSG_END_NAMESPACE
@@ -764,4 +1030,10 @@ OSG_END_NAMESPACE
 #define OSGBASEFIELDDATATYPE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSG_BASEFIELDDATATYPE_H_ */
+
+
+
+
+
+
 

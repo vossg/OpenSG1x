@@ -75,6 +75,12 @@ struct OSG_WINDOWWIN32LIB_DLLMAPPING FieldDataTraits<HWND> :
     static char     *getSName(void) { return "SFHWND"; }
     static char     *getMName(void) { return "MFHWND"; }
 
+    static bool      getFromString(      HWND          &,
+                                   const Char8         *)
+    {
+        return true;
+    }
+
     static void      putToString  (const HWND &,
                                          string   &outStr)
     {
@@ -95,6 +101,12 @@ struct OSG_WINDOWWIN32LIB_DLLMAPPING FieldDataTraits<HDC> :
 
     static char     *getSName(void) { return "SFHDC"; }
     static char     *getMName(void) { return "MFHDC"; }
+
+    static bool      getFromString(      HDC           &,
+                                   const Char8         *)
+    {
+        return true;
+    }
 
     static void      putToString  (const HDC &,
                                          string    &outStr)
@@ -117,6 +129,12 @@ struct OSG_WINDOWWIN32LIB_DLLMAPPING FieldDataTraits<HGLRC> :
     static char     *getSName(void) { return "SFHGLRC"; }
     static char     *getMName(void) { return "MFHGLRC"; }
 
+    static bool      getFromString(      HGLRC         &,
+                                   const Char8         *)
+    {
+        return true;
+    }
+
     static void      putToString  (const HGLRC &,
                                          string     &outStr)
     {
@@ -137,6 +155,12 @@ struct OSG_WINDOWWIN32LIB_DLLMAPPING FieldDataTraits<PAINTSTRUCT> :
 
     static char     *getSName(void) { return "SFPAINTSTRUCT"; }
     static char     *getMName(void) { return "MFPAINTSTRUCT"; }
+
+    static bool      getFromString(      PAINTSTRUCT   &,
+                                   const Char8         *)
+    {
+        return true;
+    }
 
     static void      putToString  (const PAINTSTRUCT &,
                                          string     &outStr)
@@ -208,7 +232,7 @@ OSG_DLLEXPORT_DECL1(MField, PAINTSTRUCT, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWWIN32DATAFIELDS_HEADER_CVSID "@(#)$Id: OSGWIN32WindowDataFields.h,v 1.6 2002/02/27 09:34:19 vossg Exp $"
+#define OSGWINDOWWIN32DATAFIELDS_HEADER_CVSID "@(#)$Id: OSGWIN32WindowDataFields.h,v 1.7 2002/06/17 14:52:51 mroth Exp $"
 
 #endif /* WIN32 */
 

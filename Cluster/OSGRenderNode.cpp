@@ -339,11 +339,11 @@ void RenderNode::determinePerformance( WindowPtr &window )
 
 void RenderNode::copyToBin(BinaryDataHandler &handle)
 {
-    handle.putReal32( _invisibleFaceCost );
-    handle.putReal32( _visibleFaceCost );
-    handle.putReal32( _drawPixelCost );
-    handle.putReal32( _readPixelCost );
-    handle.putReal32( _writePixelCost );
+    handle.putValue( _invisibleFaceCost );
+    handle.putValue( _visibleFaceCost );
+    handle.putValue( _drawPixelCost );
+    handle.putValue( _readPixelCost );
+    handle.putValue( _writePixelCost );
 }
 
 /** Read class contents from the given data stream
@@ -352,11 +352,11 @@ void RenderNode::copyToBin(BinaryDataHandler &handle)
 
 void RenderNode::copyFromBin(BinaryDataHandler &handle)
 {
-    handle.getReal32(_invisibleFaceCost);
-    handle.getReal32(_visibleFaceCost);
-    handle.getReal32(_drawPixelCost);
-    handle.getReal32(_readPixelCost);
-    handle.getReal32(_writePixelCost);
+    handle.getValue(_invisibleFaceCost);
+    handle.getValue(_visibleFaceCost);
+    handle.getValue(_drawPixelCost);
+    handle.getValue(_readPixelCost);
+    handle.getValue(_writePixelCost);
 }
 
 /** Set render performance values for a group of render nodes

@@ -91,7 +91,7 @@ struct FieldTraitsRecurseMapper<FieldContainerPtr> :
             id = pObject.getFieldContainerId();
         }
 
-        pMem.put(&id, sizeof(UInt32));
+        pMem.putValue(id);
     }
 
     static void copyToBin(      BinaryDataHandler &pMem, 
@@ -109,7 +109,7 @@ struct FieldTraitsRecurseMapper<FieldContainerPtr> :
     {
         UInt32 id;
 
-        pMem.get(&id, sizeof(UInt32));
+        pMem.getValue(id);
 
         if(0 != id)
         {

@@ -159,24 +159,24 @@ void BINLoader::createFieldContainers()
     set<UInt32>    setOfRootIds;
 	
     //fetch the number of roots
-    _inFileHandler.getUInt32(numOfRoots);    
+    _inFileHandler.getValue(numOfRoots);    
     //fetch the root IDs
     for (i=0; i!=numOfRoots; ++i)
     {
-       _inFileHandler.getUInt32(currentId);
+       _inFileHandler.getValue(currentId);
        setOfRootIds.insert(currentId);
     }
     
     //fetch number of different types
-    _inFileHandler.getUInt32(countTypes);
+    _inFileHandler.getValue(countTypes);
     //fetch number of and IDs themselves
     for(i=0; i!=countTypes; ++i)
 	{
-        _inFileHandler.getString(fcTypeCName);
-		_inFileHandler.getUInt32(countCurrentType);
+        _inFileHandler.getValue(fcTypeCName);
+		_inFileHandler.getValue(countCurrentType);
 		for(j=0; j!=countCurrentType; j++)
 		{
-			_inFileHandler.getUInt32(oldFCId);
+			_inFileHandler.getValue(oldFCId);
 			newFCInfo.ptr = FieldContainerFactory::the()
                                ->createFieldContainer(fcTypeCName.c_str());
             _countContainers++;
@@ -220,7 +220,7 @@ void BINLoader::chargeFieldContainers()
              <<count<<"/"<<mapSize<<"..."<<endl;
 
         //fetch container id
-        _inFileHandler.getUInt32(currentFieldContainerOldId);
+        _inFileHandler.getValue(currentFieldContainerOldId);
         fcInfoIter = _fcInfoMap.find(currentFieldContainerOldId);
         
         if (fcInfoIter == fcInfoEnd)
@@ -246,7 +246,7 @@ void BINLoader::chargeFieldContainers()
         }
         
         //fetch mask
-        _inFileHandler.getUInt32(mask);
+        _inFileHandler.getValue(mask);
         //fetch container data
         beginEditCP(fcInfoIter->second.ptr, mask);
         fcInfoIter->second.ptr->copyFromBin(_inFileHandler, BitVector(mask));

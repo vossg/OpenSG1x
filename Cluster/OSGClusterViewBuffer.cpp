@@ -115,6 +115,7 @@ void ClusterViewBuffer::recv(Connection &connection)
     UInt32             component;
     GLenum             glformat;
     int                componentCnt;
+    UInt32             sync;
 
     glPushMatrix();
     glLoadIdentity();
@@ -130,17 +131,17 @@ void ClusterViewBuffer::recv(Connection &connection)
     while(missing)
     {
         connection.selectChannel();
-        connection.getUInt32(component);
+        connection.getValue(component);
         if(!component)
         {
             missing--;
             continue;
         }
         // get dimension
-        connection.getUInt32(tx);
-        connection.getUInt32(ty);
-        connection.getUInt32(tw);
-        connection.getUInt32(th);
+        connection.getValue(tx);
+        connection.getValue(ty);
+        connection.getValue(tw);
+        connection.getValue(th);
         glRasterPos2i(tx,ty);
         // =========== recv stencil =====================================
         if(component & STENCIL)
@@ -185,7 +186,7 @@ void ClusterViewBuffer::recv(Connection &connection)
                     SFATAL << "Component combination not supported" << endl;
                     return;
             }
-            connection.getUInt32(dataSize);
+            connection.getValue(dataSize);
             // compression ?
             if(dataSize>0)
             {
@@ -208,7 +209,7 @@ void ClusterViewBuffer::recv(Connection &connection)
             glDisable(GL_STENCIL_TEST);  
         }
     }
-    connection.putUInt32(0);
+    connection.putValue(sync);
     connection.flush();
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
@@ -245,6 +246,7 @@ void ClusterViewBuffer::send(Connection &connection,
     Image::PixelFormat imgformat;
     int                componentCnt;
     int                imgtranssize=0;
+    UInt32             sync;
 
     switch(component&RGBA)
     {
@@ -274,11 +276,11 @@ void ClusterViewBuffer::send(Connection &connection,
             tw = osgMin(_subTileSize,x2+1-tx);
             th = osgMin(_subTileSize,y2+1-ty);
 
-            connection.putUInt32(component);
-            connection.putUInt32(tx+toX);
-            connection.putUInt32(ty+toY);
-            connection.putUInt32(tw);
-            connection.putUInt32(th);
+            connection.putValue(component);
+            connection.putValue(tx+toX);
+            connection.putValue(ty+toY);
+            connection.putValue(tw);
+            connection.putValue(th);
 
             // =========== send STENCIL =======================================
             if(component & STENCIL)
@@ -322,7 +324,7 @@ void ClusterViewBuffer::send(Connection &connection,
                     dataSize=_imgTransType->store(image,
                                                   (UChar8*)&data[0],
                                                   data.size());
-                    connection.putUInt32(dataSize);
+                    connection.putValue(dataSize);
                     connection.put(&data[0],dataSize);
                     imgtranssize+=dataSize;
                 }
@@ -333,7 +335,8 @@ void ClusterViewBuffer::send(Connection &connection,
                     glReadPixels(tx,ty,tw,th,
                                  glformat,GL_UNSIGNED_BYTE,
                                  &data[0]);
-                    connection.putUInt32(0);
+                    dataSize=0;
+                    connection.putValue(dataSize);
                     connection.put(&data[0],tw*th*componentCnt);
                     imgtranssize+=tw*th*componentCnt;
                 }
@@ -342,10 +345,11 @@ void ClusterViewBuffer::send(Connection &connection,
             connection.flush();
         }
     }
-    connection.putUInt32(0);
+    component=0;
+    connection.putValue(component);
     connection.flush();
     connection.selectChannel();
-    connection.getUInt32(component);
+    connection.getValue(sync);
     cout << "IMG size" << imgtranssize << endl;
 
 }

@@ -175,6 +175,7 @@ struct FieldDataTraits<StatCollector> :
     {
         inVal.putToString(outVal);
     }
+
 };
 
 /*! \brief StatCollector fields

@@ -162,13 +162,13 @@ void RemoteAspect::receiveSync(Connection &connection)
     factory->setMapper(&mapper);
     do
     {
-        connection.getUInt8(cmd);
+        connection.getValue(cmd);
         switch(cmd)
         {
             case NEWTYPE:
             {
-                connection.getUInt32(remoteTypeId);
-                connection.getString(name);
+                connection.getValue(remoteTypeId);
+                connection.getValue(name);
                 // find local type
                 fcType=FieldContainerFactory::the()->findType(name.c_str());
                 if(!fcType)
@@ -186,8 +186,8 @@ void RemoteAspect::receiveSync(Connection &connection)
             }
             case CREATED:
             {
-                connection.getUInt32(remoteTypeId);
-                connection.getUInt32(remoteId);
+                connection.getValue(remoteTypeId);
+                connection.getValue(remoteId);
                 receivedTypeI=_receivedType.find(remoteTypeId);
                 if(receivedTypeI == _receivedType.end())
                 {
@@ -206,7 +206,7 @@ void RemoteAspect::receiveSync(Connection &connection)
             }
             case DESTROYED:
             {
-                connection.getUInt32(remoteId);
+                connection.getValue(remoteId);
                 receivedFCI=_receivedFC.find(remoteId);
                 if(receivedFCI == _receivedFC.end())
                 {
@@ -223,8 +223,10 @@ void RemoteAspect::receiveSync(Connection &connection)
             }
             case CHANGED:
             {
-                connection.getUInt32(remoteId);
-                connection.getUInt32(mask);
+                UInt32 maskUInt32;
+                connection.getValue(remoteId);
+                connection.getValue(maskUInt32);
+                mask=maskUInt32;
                 receivedFCI=_receivedFC.find(remoteId);
                 if(receivedFCI == _receivedFC.end())
                 {
@@ -256,7 +258,7 @@ void RemoteAspect::receiveSync(Connection &connection)
             }
             case ADDREFED:
             {
-                connection.getUInt32(remoteId);
+                connection.getValue(remoteId);
                 receivedFCI=_receivedFC.find(remoteId);
                 if(receivedFCI == _receivedFC.end())
                 {
@@ -275,7 +277,7 @@ void RemoteAspect::receiveSync(Connection &connection)
             }
             case SUBREFED:
             {
-                connection.getUInt32(remoteId);
+                connection.getValue(remoteId);
                 receivedFCI=_receivedFC.find(remoteId);
                 if(receivedFCI == _receivedFC.end())
                 {
@@ -327,6 +329,9 @@ void RemoteAspect::sendSync(Connection &connection,
     FieldContainerPtr fcPtr;
     UInt32 typeId;
     BitVector mask;
+    UInt32 maskUInt32;
+    UInt8 cmd;
+    string typeName;
 
     if(_statistics)
         _statistics->getElem(statSyncTime)->start();
@@ -353,14 +358,17 @@ void RemoteAspect::sendSync(Connection &connection,
             // mark type as known
             _sentType.insert(typeId);
             // send new type
-            connection.putUInt8(NEWTYPE);
-            connection.putUInt32(typeId);
-            connection.putString(fcPtr->getType().getName().str());
+            cmd=NEWTYPE;
+            typeName=fcPtr->getType().getName().str();
+            connection.putValue(cmd);
+            connection.putValue(typeId);
+            connection.putValue(typeName);
         }
         // send container to create
-        connection.putUInt8(CREATED);
-        connection.putUInt32(typeId);
-        connection.putUInt32(*createdI);
+        cmd=CREATED;
+        connection.putValue(cmd);
+        connection.putValue(typeId);
+        connection.putValue(*createdI);
     }
 
     // changed fields
@@ -382,9 +390,11 @@ void RemoteAspect::sendSync(Connection &connection,
             mask &= 0xFFFFFFFF ^ filterI->second;
         }
         // send changes
-        connection.putUInt8(CHANGED);
-        connection.putUInt32(fcPtr.getFieldContainerId());   // id
-        connection.putUInt32(mask);                          // mask
+        maskUInt32=mask;
+        cmd=CHANGED;
+        connection.putValue(cmd);
+        connection.putValue(fcPtr.getFieldContainerId());   // id
+        connection.putValue(maskUInt32);                  // mask
         fcPtr->copyToBin(connection,mask);
         FDEBUG (( "Changed: %s ID:%d Mask:%d\n",
                   fcPtr->getType().getName().str(),
@@ -401,8 +411,9 @@ void RemoteAspect::sendSync(Connection &connection,
           !!! BUG, If it is destroyed, then there is no 
           container ID. -> Bug in opensg sync
 
-          connection.putUInt8(DESTROYED);
-          connection.putUInt32(*destroyedI);
+          cmd=DESTROYED;
+          connection.putValue(cmd);
+          connection.putValue(*destroyedI);
           FDEBUG (( "Destroyed: ID:%d\n",*destroyedI ))
         */
     }
@@ -412,8 +423,9 @@ void RemoteAspect::sendSync(Connection &connection,
         addRefedI!=changeList->endAddRefd();
         addRefedI++)
     {
-        connection.putUInt8(ADDREFED);
-        connection.putUInt32(*addRefedI);
+        cmd=ADDREFED;
+        connection.putValue(cmd);
+        connection.putValue(*addRefedI);
     }
     
     // subref
@@ -421,11 +433,12 @@ void RemoteAspect::sendSync(Connection &connection,
         subRefedI!=changeList->endSubRefd();
         subRefedI++)
     {
-        connection.putUInt8(SUBREFED);
-        connection.putUInt32(*subRefedI);
+        cmd=SUBREFED;
+        connection.putValue(cmd);
+        connection.putValue(*subRefedI);
     }
-
-    connection.putUInt8(SYNCENDED);
+    cmd=SYNCENDED;
+    connection.putValue(cmd);
     // write buffer 
     connection.flush();
 
@@ -627,15 +640,19 @@ bool RemoteAspect::_defaultChangedFunction(FieldContainerPtr& fcp,
 
 UInt32 RemoteAspectFieldContainerMapper::map(UInt32 uiId)
 {
-    UInt32 mappedId=0;
+    UInt32 mappedId;
     std::map<UInt32,UInt32>::iterator i;
 
     i=_remoteAspect->_receivedFC.find(uiId);
     if(i==_remoteAspect->_receivedFC.end())
     {
         SWARNING << "Can't find container id:\n" << uiId << endl;
+        mappedId=0;
     }
-    mappedId=i->second;
+    else
+    {
+        mappedId=i->second;
+    }
     FDEBUG (( "Map: %d to %d\n",uiId,mappedId ))
     return mappedId;
 }

@@ -69,11 +69,12 @@ OSG_USING_NAMESPACE
  *
  * Connect: 
  * <PRE>
+ * UInt32 intv=1234;
  * MulticastConnection con;
  * con.connect( "dagobert:3333:1" );
  * con.connect( "donald:3333:1" );
  * con.connect( "tric:3333:1" );
- * con.putUInt32(1234);
+ * con.putValue(intv);
  * con.flush();
  * </PRE>
  *
@@ -84,7 +85,7 @@ OSG_USING_NAMESPACE
  * con.accept();
  * con.selectChannel();
  * UInt32 x;
- * con.getUInt32(x);
+ * con.getValue(x);
  * </PRE>
  *
  **/
@@ -247,7 +248,7 @@ void MulticastConnection::accept( void )
             size=_inSocket.recvFrom(&connect,sizeof(connect),destination);
         }
         while(connect.header.type != CONNECT ||
-              connect.member      != _member);
+              connect.member      != htonl(_member));
         // send connection response
         _socket.sendTo(&connect,size,destination);
         // wait max 4 sec for response acknolage
@@ -259,7 +260,7 @@ void MulticastConnection::accept( void )
             {
                 size=_socket.recvFrom(&connect,sizeof(connect),destination);
                 if(connect.header.type == CONNECT &&
-                   connect.member      == _member)
+                   connect.member      == htonl(_member))
                 {
                     break;
                 }
@@ -308,8 +309,8 @@ void MulticastConnection::connect( const string &address )
     }
     // prepare connection request
     connectRequest.header.type      = CONNECT;
-    connectRequest.header.seqNumber = 0;
-    connectRequest.member           = member;
+    connectRequest.header.seqNumber = htonl(0);
+    connectRequest.member           = htonl(member);
     size=sizeof(connectRequest.header) + sizeof(connectRequest.member);
     for(;;)
     {
@@ -342,7 +343,7 @@ void MulticastConnection::wait(void)
 
     // read sync tag;
     selectChannel();
-    getUInt32(tag);
+    getValue(tag);
 }
 
 /** send sync
@@ -350,8 +351,10 @@ void MulticastConnection::wait(void)
  **/
 void MulticastConnection::signal(void)
 {
+    UInt32 tag=0;
+
     // send signal
-    putUInt32(0);
+    putValue(tag);
     flush();
 }
 
@@ -395,7 +398,7 @@ void MulticastConnection::selectChannel()
                 if(_channelAddress[i]==from &&
                    ( header.type == DATA ||
                      (header.type == ACK_REQUEST && 
-                      header.seqNumber > _channelSeqNumber[i])))
+                      ntohl(header.seqNumber) > _channelSeqNumber[i])))
                 {
                     _channel=i;
                     return;
@@ -435,9 +438,11 @@ void MulticastConnection::readBuffer()
     UDPHeader            *header;
     UDPBuffer             responseAck;
     UInt32                pos;
-    SocketAddress               from;
-    SocketSelection             selection;
+    SocketAddress         from;
+    SocketSelection       selection;
     UInt32                dataSize;
+    UInt32                nacks;
+    UInt32                seqNumber;
 
     // clear read buffers
     for(buffer=readBufBegin();buffer!=readBufEnd();++buffer)
@@ -455,56 +460,60 @@ void MulticastConnection::readBuffer()
                                       from);
         if(from != _channelAddress[_channel])
             continue;
-        header   = (UDPHeader*)&(*currentBuffer)[0];
+        header    = (UDPHeader*)&(*currentBuffer)[0];
+        seqNumber = ntohl(header->seqNumber);
+
         if(header->type == ACK_REQUEST)
         {
             responseAck.header.type      = ACK;
             responseAck.header.seqNumber = header->seqNumber;
-            responseAck.nack.size        = 0;
-            if(header->seqNumber > _channelSeqNumber[_channel])
+            nacks                        = 0;
+            if(seqNumber > _channelSeqNumber[_channel])
             {
                 for(pos = 0 , buffer=readBufBegin();
-                    pos < (header->seqNumber - _channelSeqNumber[_channel]);
+                    pos < (seqNumber - _channelSeqNumber[_channel]);
                     pos++   , buffer++)
                 {
                     if(buffer->getDataSize()==0)
                     {
                         SINFO << "missing" << pos << " " 
                               << _channelSeqNumber[_channel] << " "
-                              << header->seqNumber << endl;
-                        responseAck.nack.missing[responseAck.nack.size++]=pos;
+                              << seqNumber << endl;
+                        responseAck.nack.missing[nacks++]=htonl(pos);
                     }
                 }
             }
+            responseAck.nack.size        = htonl(nacks);
             // send ack
             _socket.sendTo(&responseAck,
                              (MemoryHandle)(&responseAck.nack.missing
-                                            [responseAck.nack.size])-
+                                            [nacks])-
                              (MemoryHandle)(&responseAck),
                              from);
-            if(responseAck.nack.size==0 && 
-               _channelSeqNumber[_channel] < header->seqNumber)
+            if(nacks==0 && 
+               _channelSeqNumber[_channel] < seqNumber)
             {
                 // ok we got all packages
-                _channelSeqNumber[_channel] = header->seqNumber+1;
+                _channelSeqNumber[_channel] = seqNumber+1;
                 break;
             }
         }
         if(header->type == DATA)
         {
             // ignore old packages
-            if(header->seqNumber < _channelSeqNumber[_channel])
+            if(seqNumber < _channelSeqNumber[_channel])
             {
                 continue;
             }
-            buffer=readBufBegin() + (header->seqNumber -
+            buffer=readBufBegin() + (seqNumber -
                                      _channelSeqNumber[_channel]);
             // ignore retransmitted packages
             if(buffer->getDataSize()>0)
             {
                 continue;
             }
-            buffer->setMem ( (MemoryHandle)&(*currentBuffer)[sizeof(UDPHeader)] );
+            buffer->setMem ( (MemoryHandle)&(*currentBuffer)
+                             [sizeof(UDPHeader)] );
             buffer->setDataSize ( dataSize - sizeof(UDPHeader) );
             buffer->setSize ( currentBuffer->size() );
             currentBuffer++;
@@ -534,6 +543,7 @@ void MulticastConnection::writeBuffer(void)
     Time                   waitTime,t0,t1;
     SocketAddress          from;
     UDPHeader             *header;
+    UInt32                 nacks;
 
     for(bufferI=writeBufBegin() ; 
         bufferI!=writeBufEnd() && bufferI->getDataSize()>0 ;
@@ -541,12 +551,12 @@ void MulticastConnection::writeBuffer(void)
     {
         header = (UDPHeader*)(bufferI->getMem()-sizeof(UDPHeader));
         header->type      = DATA;
-        header->seqNumber = _seqNumber++;
+        header->seqNumber = htonl(_seqNumber++);
         send.push_back(true);
     }
 
     // prepate ackRequest
-    ackRequest.seqNumber       = _seqNumber++;
+    ackRequest.seqNumber       = htonl(_seqNumber++);
     ackRequest.type            = ACK_REQUEST;
 
     // loop as long as one receiver needs some data
@@ -596,7 +606,8 @@ void MulticastConnection::writeBuffer(void)
                     }
                     // we got it, so we do not longer wait for this
                     missingAcks.erase(from);
-                    if(responseAck.nack.size==0)
+                    nacks=ntohl(responseAck.nack.size);
+                    if(nacks==0)
                     {
                         // receiver has got all packages, so we can remove 
                         // from list of receivers for this transmission
@@ -605,13 +616,13 @@ void MulticastConnection::writeBuffer(void)
                     else
                     {
                         // mark packages for retransmission
-                        for(UInt32 i=0;i<responseAck.nack.size;i++) 
+                        for(UInt32 i=0;i<nacks;i++) 
                         {
                             SINFO << "Missing package "
                                   << responseAck.nack.missing[i] << " "
                                   << from.getHost().c_str() << ":"
                                   << from.getPort() << endl;
-                            send[responseAck.nack.missing[i]]=true;
+                            send[ntohl(responseAck.nack.missing[i])]=true;
                         }
                     }
                 }
@@ -680,9 +691,9 @@ void *MulticastConnection::aliveProc(void *arg)
         {
             // send ALIVE package
             // receivers should ignore this
-            alive.header.seqNumber = 0;
+            alive.header.seqNumber = htonl(0);
             alive.header.type      = ALIVE;
-            alive.member           = connection->_member;
+            alive.member           = htonl(connection->_member);
             connection->_socket.sendTo(
                 &alive,
                 sizeof(UDPHeader)+sizeof(alive.member),

@@ -131,7 +131,7 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
         {
             imgSize=(UInt32)type->maxBufferSize(*oObject);
         }
-        pMem.put(&imgSize,sizeof(imgSize));
+        pMem.putValue(imgSize);
         if(oObject)
         {
             UInt8 *image = new UInt8 [imgSize];
@@ -163,7 +163,7 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
             delete oObject;
             oObject=NULL;
         }
-        pMem.get(&imgSize,sizeof(imgSize));
+        pMem.getValue(imgSize);
         if(imgSize)
         {
             UInt8 *image;

@@ -131,11 +131,11 @@ void SortFirstWindow::serverInit( WindowPtr serverWindow,
     renderNode.determinePerformance(serverWindow);
     renderNode.dump();
     // transfer to client for load balancing
-    _connection->putUInt32(id);
+    _connection->putValue(id);
     renderNode.copyToBin(*_connection);
     _connection->flush();
     _connection->selectChannel();
-    _connection->getUInt32(sync);
+    _connection->getValue(sync);
 }
 
 /** update server window
@@ -284,17 +284,15 @@ void SortFirstWindow::clientInit( void )
     {
         cout << "read cluster node info" << endl;
         _connection->selectChannel();
-        _connection->getUInt32(id);
+        _connection->getValue(id);
         renderNode.copyFromBin(*_connection);
         cout << id << endl;
         renderNode.dump();
         _tileLoadBalancer->addRenderNode(renderNode,id);    
     }
-    cout << "sync" << endl;
     // sync servers
-    _connection->putUInt32(0);
+    _connection->putValue(id);
     _connection->flush();
-    cout << "end" << endl;
 }
 
 /*! client frame init

@@ -57,7 +57,8 @@ OSG_USING_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
-BinaryDataHandler::BinaryDataHandler(UInt32 zeroCopyThreshold) :
+BinaryDataHandler::BinaryDataHandler(UInt32 zeroCopyThreshold,
+                                     bool networkOrder) :
     _readBuffers          (),
     _writeBuffers         (),
     _zeroCopyBuffers      (),
@@ -66,7 +67,8 @@ BinaryDataHandler::BinaryDataHandler(UInt32 zeroCopyThreshold) :
     _currentReadBuffer    (),
     _currentReadBufferPos (0),
     _currentWriteBuffer   (),
-    _currentWriteBufferPos(0)
+    _currentWriteBufferPos(0),
+    _networkOrder         (networkOrder)
 {
 }
 
@@ -260,6 +262,18 @@ void BinaryDataHandler::flush(void)
     pushBuffer();
 }
 
+/*--------------------------------------------------------------------------*/
+/*                             NetworkOrder mode                            */
+void BinaryDataHandler::setNetworkOrder(bool value)
+{
+    _networkOrder = value;    
+}
+
+bool BinaryDataHandler::getNetworkOrder(void)
+{
+    return _networkOrder;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                               Read                                      */
 
@@ -318,14 +332,14 @@ void BinaryDataHandler::writeBufClear(void)
 void BinaryDataHandler::readBuffer(void)
 {
     BuffersT::iterator i;
-    UInt32             size;
+    UInt32             size,nsize;
     UInt32             readSize;
 
     // read buffer size
-    read((MemoryHandle) &size, sizeof(UInt32));
+    read((MemoryHandle) &nsize, sizeof(UInt32));
+    size=ntohl(nsize);
 
     // read rest of buffer
-
     for(i = readBufBegin(); size; ++i)
     {
         if(i == readBufEnd())
@@ -377,6 +391,7 @@ void BinaryDataHandler::writeBuffer(void)
 {
     BuffersT::iterator i;
     UInt32             size = 0;
+    UInt32             nsize;
 
     // calculate blocksize
     for(i = writeBufBegin(); i != writeBufEnd(); ++i)
@@ -385,7 +400,8 @@ void BinaryDataHandler::writeBuffer(void)
     }
 
     // write buffer size
-    write((MemoryHandle) &size, sizeof(UInt32));
+    nsize=htonl(size);
+    write((MemoryHandle) &nsize, sizeof(UInt32));
 
     // write buffers
     for(i = writeBufBegin(); i != writeBufEnd(); ++i)

@@ -89,27 +89,27 @@ struct FieldTraitsRecurseVecStoreBase : public Traits
     static void   copyToBin  (      BinaryDataHandler &pMem, 
                               const ValueTypeT        &oObject)
     {
-        pMem.put(&oObject, getBinSize(oObject));
+        pMem.putValues(&oObject[0], ValueTypeT::_iSize);
     }
 
     static void   copyToBin  (      BinaryDataHandler &pMem, 
                               const ValueTypeT        *pObjectStore,
                                     UInt32             uiNumObjects)
     {
-        pMem.put(&pObjectStore[0], getBinSize(pObjectStore, uiNumObjects));
+        pMem.putValues(&pObjectStore[0][0], ValueTypeT::_iSize*uiNumObjects);
     }
 
     static void   copyFromBin(      BinaryDataHandler &pMem, 
                                     ValueTypeT        &oObject)
     {
-        pMem.get(&oObject, getBinSize(oObject));
+        pMem.getValues(&oObject[0], ValueTypeT::_iSize);
     }
 
     static void   copyFromBin(      BinaryDataHandler &pMem, 
                                     ValueTypeT        *pObjectStore,
                                     UInt32             uiNumObjects)
     {
-        pMem.get(&pObjectStore[0], getBinSize(pObjectStore, uiNumObjects));
+        pMem.getValues(&pObjectStore[0][0], ValueTypeT::_iSize*uiNumObjects);
     }
 };
 

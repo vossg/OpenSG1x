@@ -42,6 +42,7 @@
 #pragma once
 #endif
 
+#include <OSGConfig.h>
 #include <OSGBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGException.h>
@@ -79,7 +80,8 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    BinaryDataHandler(UInt32 zeroCopyThreshold=0);
+    BinaryDataHandler(UInt32 zeroCopyThreshold=0,
+                      bool   networkOrder=true);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -93,34 +95,64 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     /*! \name                   Class Specific                             */
     /*! \{                                                                 */
 
-    void put       (      void const   *src, UInt32 size);
-    void putAndFree(      MemoryHandle  src, UInt32 size);
+    void put        (      void const   *src, UInt32 size);
+    void putAndFree (      MemoryHandle  src, UInt32 size);
 
-    void putUInt8  (const UInt8        &value);
-    void putUInt16 (const UInt16       &value);
-    void putUInt32 (const UInt32       &value);
-    void putInt8   (const Int8         &value);
-    void putInt16  (const Int16        &value);
-    void putInt32  (const Int32        &value);
-    void putReal32 (const Real32       &value);
-    void putReal64 (const Real64       &value);
-    void putString (const string       &value);
+    void putValue   (const UInt8        &value);
+    void putValue   (const UInt16       &value);
+    void putValue   (const UInt32       &value);
+    void putValue   (const UInt64       &value);
+    void putValue   (const Int8         &value);
+    void putValue   (const Int16        &value);
+    void putValue   (const Int32        &value);
+    void putValue   (const Int64        &value);
+    void putValue   (const Real32       &value);
+    void putValue   (const Real64       &value);
+    void putValue   (const string       &value);
+
+    void putValues  (const UInt8        *value, UInt32 size);
+    void putValues  (const UInt16       *value, UInt32 size);
+    void putValues  (const UInt32       *value, UInt32 size);
+    void putValues  (const UInt64       *value, UInt32 size);
+    void putValues  (const Int8         *value, UInt32 size);
+    void putValues  (const Int16        *value, UInt32 size);
+    void putValues  (const Int32        *value, UInt32 size);
+    void putValues  (const Int64        *value, UInt32 size);
+    void putValues  (const Real32       *value, UInt32 size);
+    void putValues  (const Real64       *value, UInt32 size);
+    void putValues  (const string       *value, UInt32 size);
 
     void get        (     void         *dst, UInt32 size);
     void getAndAlloc(     MemoryHandle &src, UInt32 size);
 
-    void getUInt8   (     UInt8        &value);
-    void getUInt16  (     UInt16       &value);
-    void getUInt32  (     UInt32       &value);
-    void getInt8    (     Int8         &value);
-    void getInt16   (     Int16        &value);
-    void getInt32   (     Int32        &value);
-    void getReal32  (     Real32       &value);
-    void getReal64  (     Real64       &value);
-    void getString  (     string       &value);
+    void getValue   (     UInt8        &value);
+    void getValue   (     UInt16       &value);
+    void getValue   (     UInt32       &value);
+    void getValue   (     UInt64       &value);
+    void getValue   (     Int8         &value);
+    void getValue   (     Int16        &value);
+    void getValue   (     Int32        &value);
+    void getValue   (     Int64        &value);
+    void getValue   (     Real32       &value);
+    void getValue   (     Real64       &value);
+    void getValue   (     string       &value);
+    
+    void getValues  (     UInt8        *value, UInt32 size);
+    void getValues  (     UInt16       *value, UInt32 size);
+    void getValues  (     UInt32       *value, UInt32 size);
+    void getValues  (     UInt64       *value, UInt32 size);
+    void getValues  (     Int8         *value, UInt32 size);
+    void getValues  (     Int16        *value, UInt32 size);
+    void getValues  (     Int32        *value, UInt32 size);
+    void getValues  (     Int64        *value, UInt32 size);
+    void getValues  (     Real32       *value, UInt32 size);
+    void getValues  (     Real64       *value, UInt32 size);
+    void getValues  (     string       *value, UInt32 size);
 
     void flush      (     void               );
 
+    void setNetworkOrder( bool          value);
+    bool getNetworkOrder( void               );
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -187,6 +219,8 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     UInt32             _currentReadBufferPos;
     BuffersT::iterator _currentWriteBuffer;
     UInt32             _currentWriteBufferPos;
+    
+    bool               _networkOrder;
 
     void pushBuffer(void);
     void pullBuffer(void);
