@@ -226,7 +226,9 @@ UInt64 ImageFileType::restore( ImagePtr &image,
                        head->height, head->depth, head->mipmapCount,
                        head->frameCount, float(head->frameDelay) / 1000.0, 0);
             imageSize = type->restoreData(image, data, memSize - headSize);
+            attachmentSize = head->attachmentSize;
 
+            /*
             if ((attachmentSize = head->attachmentSize))
             {
                 attData = (char*)(buffer + headSize + imageSize);
@@ -246,7 +248,8 @@ UInt64 ImageFileType::restore( ImagePtr &image,
                     FFATAL (("Attachment restore error\n"));
                 }
             }
-          
+            */
+
             size = headSize + imageSize + attachmentSize;
       
             FDEBUG (( "Restore image data: %lu (%lu/%lu/%lu)\n",
@@ -302,6 +305,7 @@ UInt64 ImageFileType::store(const ImagePtr &image,
     attachmentSize = 0;
 
     // get attachment size
+    /*
     ImageGenericAttPtr att=ImageGenericAttPtr::dcast(
         const_cast<Image*>(image.getCPtr())->findAttachment(
             ImageGenericAtt::getClassType().getGroupId()));
@@ -326,6 +330,7 @@ UInt64 ImageFileType::store(const ImagePtr &image,
             }
         }
     }
+    */
 
     if (buffer) 
     {
@@ -350,6 +355,7 @@ UInt64 ImageFileType::store(const ImagePtr &image,
 
         dest = (UChar8 *) (buffer + headSize + dataSize);
 
+        /*
         if(att != NullFC)
         {
             for(i = 0; i < (att->getType().getNumFieldDescs()-1); ++i)
@@ -375,6 +381,7 @@ UInt64 ImageFileType::store(const ImagePtr &image,
                 }
             }
         }
+        */
 
         FDEBUG (( "Store image data: %lu (%lu/%lu/%lu)\n",
                   headSize + dataSize + attachmentSize, headSize, dataSize, 
