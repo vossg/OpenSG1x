@@ -58,7 +58,7 @@ struct TextureRecord
 typedef std::vector<TextureRecord *> TextureSet;
 
 
-class TextureManager 
+class OSG_SYSTEMLIB_DLLMAPPING TextureManager 
 {
   public:
 
