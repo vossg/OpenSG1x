@@ -164,6 +164,9 @@ class OSGFieldContainerType
 
     /*------------------------- your_operators ------------------------------*/
 
+    OSGBool operator ==(const OSGFieldContainerType &other);
+    OSGBool operator !=(const OSGFieldContainerType &other);
+
     /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/

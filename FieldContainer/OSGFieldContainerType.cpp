@@ -498,6 +498,17 @@ void OSGFieldContainerType::print(void) const
 
 /*-------------------------- your_category---------------------------------*/
 
+OSGBool OSGFieldContainerType::operator ==(const OSGFieldContainerType &other)
+{
+    return (_Id == other._Id);
+}
+
+OSGBool OSGFieldContainerType::operator !=(const OSGFieldContainerType &other)
+{
+    return ! (*this == other);
+}
+
+
 /*-------------------------- assignment -----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
