@@ -56,7 +56,7 @@
 #include <OSGSimpleMaterial.h>
 #include <OSGPerspectiveCamera.h>
 #include <OSGDirectionalLight.h>
-#include <OSGTrackball.h>
+#include <OSGNavigator.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -118,6 +118,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     virtual void  showAll          ( void );
 
     virtual void  useOpenSGLogo    ( void );
+    
+            void setNavigationMode ( Navigator::Mode new_mode );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -128,6 +130,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     virtual void mouseMove(Int16 x, Int16 y);
     virtual void mouseButtonPress(UInt16 button, Int16 x, Int16 y);
     virtual void mouseButtonRelease(UInt16 button, Int16 x, Int16 y);
+    virtual void key(UChar8 key, Int16 x, Int16 y);
 
             Line calcViewRay(Int16 x, Int16 y);
 
@@ -137,6 +140,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     /*! \{                                                                 */
 
     virtual void redraw( void );
+    virtual void idle( void );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -180,7 +184,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     TransformPtr         _cart;
     PerspectiveCameraPtr _camera;
 
-    Trackball            _trackball;
+    Navigator            _navigator;
 
     Int16                _lastx;
     Int16                _lasty;
@@ -210,6 +214,6 @@ OSG_END_NAMESPACE
 
 #include "OSGSimpleSceneManager.inl"
 
-#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.9 2001/11/01 09:03:30 vossg Exp $"
+#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.10 2001/11/14 14:31:24 istoynov Exp $"
 
 #endif /* _OSGSIMPLESCENEMANAGER_H_ */

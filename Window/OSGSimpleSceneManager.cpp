@@ -125,23 +125,23 @@ OSG_USING_NAMESPACE
  */
 
 /*! \var SimpleSceneManager::_cart
-    The core of the camera beacon. Manipulated by the trackball.
+    The core of the camera beacon. Manipulated by the navigator.
  */
 
 /*! \var SimpleSceneManager::_camera
     The camera used to view the scene.
  */
 
-/*! \var SimpleSceneManager::_trackball
-    The trackball for viewer manipulation.
+/*! \var SimpleSceneManager::_navigator
+    The navigator for viewer manipulation.
  */
 
 /*! \var SimpleSceneManager::_lastx
-    The x position of the last mouse event, needed by the trackball.
+    The x position of the last mouse event, needed by the navigator.
  */
 
 /*! \var SimpleSceneManager::_lasty
-    The y position of the last mouse event, needed by the trackball.
+    The y position of the last mouse event, needed by the navigator.
  */
 
 /*! \var SimpleSceneManager::_mousebuttons
@@ -161,7 +161,7 @@ SimpleMaterialPtr SimpleSceneManager::_highlightMaterial;
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.14 2001/10/22 11:35:05 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.15 2001/11/14 14:31:24 istoynov Exp $";
     static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
@@ -190,7 +190,7 @@ SimpleSceneManager::SimpleSceneManager(void) :
     _action         (NULL  ), 
     _cart           (NullFC),
     _camera         (NullFC),
-    _trackball      (      ),
+    _navigator      (      ),    
 
     _lastx          (TypeConstants<Int16>::getMax()),
     _lasty          (TypeConstants<Int16>::getMax()),
@@ -356,11 +356,6 @@ void SimpleSceneManager::initialize(void)
     _headlight->setBeacon   (cartN);
     endEditCP(_headlight);
 
-    // the trackball
-    _trackball.setMode(Trackball::OSGObject);
-    _trackball.setSum(true);
-    _trackball.setTranslationMode(Trackball::OSGFree);
-
     // the camera
     _camera = PerspectiveCamera::create();
     beginEditCP(_camera);
@@ -396,6 +391,9 @@ void SimpleSceneManager::initialize(void)
         _win->addPort(vp);
         endEditCP(_win);
     }
+    
+    _navigator.setMode(Navigator::TRACKBALL);
+    _navigator.setViewport(_win->getPort(0));    
 }
 
 /*! show the whole scene: move out far enough  to see everything
@@ -413,21 +411,20 @@ void SimpleSceneManager::showAll(void)
 
     Real32 dist = osgMax(d[0],d[1]) / (2 * osgtan(_camera->getFov() / 2.f));
 
-    Vec3f pos(0, 0, max[2] + dist );
-
-    _trackball.setStartPosition (pos, true);
-    _trackball.setRotationCenter(Pnt3f((min[0] + max[0]) * .5,
-                                       (min[1] + max[1]) * .5,
-                                       (min[2] + max[2]) * .5));
+    _navigator.setCenter(Pnt3f((min[0] + max[0]) * .5,
+                               (min[1] + max[1]) * .5,
+                               (min[2] + max[2]) * .5));
+    _navigator.setDistance(max[2] + dist);
+    _navigator.setUp(Vec3f(0,1,0));
 
     // adjust the translation factors so that motions are sort of scaled
-    _trackball.setTranslationScale((d[0] + d[1] + d[2]) / 6.f);
+    _navigator.setMotionFactor((d[0] + d[1] + d[2]) / 100.f);
     
     // set the camera to go from 1% of the object to twice its size
     Real32 diag = osgMax(osgMax(d[0], d[1]), d[2]);
     beginEditCP(_camera);
     _camera->setNear (diag / 100.f);
-    _camera->setFar  (3 * diag);
+    _camera->setFar  (10 * diag);
     endEditCP(_camera);
 }
 
@@ -443,6 +440,23 @@ void SimpleSceneManager::useOpenSGLogo(void)
     endEditCP  (_foreground);
 }
 
+/*! Sets the navigation mode
+ */
+void SimpleSceneManager::setNavigationMode (Navigator::Mode new_mode)
+{
+    _navigator.setMode(new_mode);
+    showAll();
+}
+
+
+/*! Draw the next frame, update if needed.
+ */
+void SimpleSceneManager::idle(void)
+{
+    if (_navigator.getMode()==Navigator::FLY && _mousebuttons) 
+        _navigator.moveTo(_lastx,_lasty);    
+}
+
 /*! Draw the next frame, update if needed.
  */
 void SimpleSceneManager::redraw(void)
@@ -453,7 +467,7 @@ void SimpleSceneManager::redraw(void)
         showAll();
     }
 
-    _cart->getSFMatrix()->setValue(_trackball.getFullTrackballMatrix());
+    _cart->getSFMatrix()->setValue(_navigator.getMatrix());    
 
     updateHighlight();
 
@@ -612,30 +626,10 @@ void SimpleSceneManager::resize(UInt16 width, UInt16 height)
  */
 void SimpleSceneManager::mouseMove(Int16 x, Int16 y)
 {
-    OSG::Real32 w = _win->getWidth(), h = _win->getHeight();
-
-    OSG::Real32 a = -2. * (_lastx / w - .5),
-                b = -2. * (.5 - _lasty / h),
-                c = -2. * (x / w - .5),
-                d = -2. * (.5 - y / h);
-
-    if (_lastx != TypeConstants<Int16>::getMax())
-    {
-        if (_mousebuttons & 1)
-        {
-            _trackball.updateRotation(a, b, c, d);
-        }
-        else if (_mousebuttons & 2)
-        {
-            _trackball.updatePosition(a, b, c, d);
-        }
-        else if (_mousebuttons & 4)
-        {
-            _trackball.updatePositionNeg(a, b, c, d);
-        }
-    }
+    if ( _mousebuttons) _navigator.moveTo(x,y);            
     _lastx = x;
     _lasty = y;
+    
 }
 
 /*! call when a mouse button is pressed. button is the number of the pressed
@@ -645,18 +639,19 @@ void SimpleSceneManager::mouseMove(Int16 x, Int16 y)
  */
 
 void SimpleSceneManager::mouseButtonPress(UInt16 button, Int16 x, Int16 y)
-{
+{            
     switch (button)
     {
-    case MouseLeft:     break;
-    case MouseMiddle:   _trackball.setAutoPosition(true);
+    case MouseLeft:     _navigator.buttonPress(Navigator::LEFT_BUTTON,x,y); 
                         break;
-    case MouseRight:    _trackball.setAutoPositionNeg(true);
+    case MouseMiddle:   _navigator.buttonPress(Navigator::MIDDLE_BUTTON,x,y); 
+                        break;
+    case MouseRight:    _navigator.buttonPress(Navigator::RIGHT_BUTTON,x,y); 
                         break;
     }
     _mousebuttons |= 1 << button;
     _lastx = x;
-    _lasty = y;
+    _lasty = y;            
 }
 
 
@@ -666,20 +661,31 @@ void SimpleSceneManager::mouseButtonPress(UInt16 button, Int16 x, Int16 y)
     upper left corner.
  */
 void SimpleSceneManager::mouseButtonRelease(UInt16 button, Int16 x, Int16 y)
-{
+{    
     switch (button)
     {
-    case MouseLeft:     break;
-    case MouseMiddle:   _trackball.setAutoPosition(false);
+    case MouseLeft:     _navigator.buttonRelease(Navigator::LEFT_BUTTON,x,y); 
                         break;
-    case MouseRight:    _trackball.setAutoPositionNeg(false);
+    case MouseMiddle:   _navigator.buttonRelease(Navigator::MIDDLE_BUTTON,x,y); 
+                        break;
+    case MouseRight:    _navigator.buttonRelease(Navigator::RIGHT_BUTTON,x,y); 
                         break;
     }
     _mousebuttons &= ~(1 << button);
     _lastx = x;
-    _lasty = y;
+    _lasty = y;    
 }
 
+void SimpleSceneManager::key(UChar8 key, Int16 x, Int16 y)
+{
+    switch ( key )
+    {
+        case 'j': _navigator.keyPress(Navigator::LEFT,x,y); break;   
+        case 'g': _navigator.keyPress(Navigator::RIGHT,x,y); break;   
+        case 'y': _navigator.keyPress(Navigator::FORWARDS,x,y); break;   
+        case 'h': _navigator.keyPress(Navigator::BACKWARDS,x,y); break;   
+    }
+}
 
 /*! Calculate a ray that starts at the eye and goes through the position on the
     screen given by x,y.

@@ -38,9 +38,8 @@
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
-
 OSG_END_NAMESPACE
 
-#define OSGSIMPLESCENEMANAGER_INLINE_CVSID "@(#)$Id: OSGSimpleSceneManager.inl,v 1.7 2001/10/22 11:35:05 dirk Exp $"
+#define OSGSIMPLESCENEMANAGER_INLINE_CVSID "@(#)$Id: OSGSimpleSceneManager.inl,v 1.8 2001/11/14 14:31:24 istoynov Exp $"
 
 
