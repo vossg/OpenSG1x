@@ -101,7 +101,7 @@ WindowPtr win;
 
 SlicesPtr slicesCore;
 TransformPtr cam_trans;
-unsigned numberOfSlices;
+float sliceDistance = 1;
 
 BlendChunkPtr blendChunkPtr;
 
@@ -249,13 +249,16 @@ void key(unsigned char key, int x, int y)
     case 'S':
       {
         float f = (key == 's') ? 0.9 : 1.1;
-        numberOfSlices = unsigned(f * numberOfSlices) + 1;
+        sliceDistance *= f;
         beginEditCP(slicesCore);
         {
-          slicesCore->setNumberOfSlices(numberOfSlices);
+          slicesCore->setSliceDistance(sliceDistance);
         }
         endEditCP(slicesCore);
-        std::cout << numberOfSlices << std::endl;
+        std::cout << "sliceDistance: " << sliceDistance << std::endl;
+        std::cout << "obj size:      " << size.x() << "x" 
+		                       << size.y() << "x" 
+				       << size.z() << std::endl;
       }
       break;
     case 'q':     
@@ -538,8 +541,7 @@ int main (int argc, char **argv)
         }
         endEditCP   (texMatPtr);
         matPtr = texMatPtr;
-        //numberOfSlices = unsigned((size.x() + size.y() + size.z()) / 3);
-        numberOfSlices = unsigned(size.length() * 3);
+        sliceDistance = size.length() / 3;
         size.normalize();
       }
     else 
@@ -556,17 +558,18 @@ int main (int argc, char **argv)
         endEditCP   (colMatPtr);
         matPtr = colMatPtr;
         size.setValues(1,1,1);
-        numberOfSlices = 10;
+        sliceDistance = 1;
       }
     
-    std::cout << size << std::endl;
-    std::cout << numberOfSlices << std::endl;
+    sliceDistance = size.length() / 100;
+    std::cout << "size:          " << size << std::endl;
+    std::cout << "sliceDistance: " << sliceDistance << std::endl;
     
     beginEditCP(slicesCore);
     {
       slicesCore->setMaterial       (matPtr);
       slicesCore->setSize           (size);
-      slicesCore->setNumberOfSlices (numberOfSlices);
+      slicesCore->setSliceDistance  (sliceDistance);
     }
     endEditCP(slicesCore);
     

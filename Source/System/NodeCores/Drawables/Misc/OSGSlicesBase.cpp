@@ -67,8 +67,8 @@ OSG_USING_NAMESPACE
 const OSG::BitVector  SlicesBase::SizeFieldMask = 
     (TypeTraits<BitVector>::One << SlicesBase::SizeFieldId);
 
-const OSG::BitVector  SlicesBase::NumberOfSlicesFieldMask = 
-    (TypeTraits<BitVector>::One << SlicesBase::NumberOfSlicesFieldId);
+const OSG::BitVector  SlicesBase::SliceDistanceFieldMask = 
+    (TypeTraits<BitVector>::One << SlicesBase::SliceDistanceFieldId);
 
 const OSG::BitVector SlicesBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -80,7 +80,7 @@ const OSG::BitVector SlicesBase::MTInfluenceMask =
 /*! \var Vec3f           SlicesBase::_sfSize
     terrain size in local coords
 */
-/*! \var Int32           SlicesBase::_sfNumberOfSlices
+/*! \var Real32          SlicesBase::_sfSliceDistance
     
 */
 
@@ -93,11 +93,11 @@ FieldDescription *SlicesBase::_desc[] =
                      SizeFieldId, SizeFieldMask,
                      false,
                      (FieldAccessMethod) &SlicesBase::getSFSize),
-    new FieldDescription(SFInt32::getClassType(), 
-                     "numberOfSlices", 
-                     NumberOfSlicesFieldId, NumberOfSlicesFieldMask,
+    new FieldDescription(SFReal32::getClassType(), 
+                     "sliceDistance", 
+                     SliceDistanceFieldId, SliceDistanceFieldMask,
                      false,
-                     (FieldAccessMethod) &SlicesBase::getSFNumberOfSlices)
+                     (FieldAccessMethod) &SlicesBase::getSFSliceDistance)
 };
 
 
@@ -154,7 +154,7 @@ void SlicesBase::executeSync(      FieldContainer &other,
 
 SlicesBase::SlicesBase(void) :
     _sfSize                   (Vec3f(1, 1, 1)), 
-    _sfNumberOfSlices         (Int32(100)), 
+    _sfSliceDistance          (Real32(100)), 
     Inherited() 
 {
 }
@@ -165,7 +165,7 @@ SlicesBase::SlicesBase(void) :
 
 SlicesBase::SlicesBase(const SlicesBase &source) :
     _sfSize                   (source._sfSize                   ), 
-    _sfNumberOfSlices         (source._sfNumberOfSlices         ), 
+    _sfSliceDistance          (source._sfSliceDistance          ), 
     Inherited                 (source)
 {
 }
@@ -187,9 +187,9 @@ UInt32 SlicesBase::getBinSize(const BitVector &whichField)
         returnValue += _sfSize.getBinSize();
     }
 
-    if(FieldBits::NoField != (NumberOfSlicesFieldMask & whichField))
+    if(FieldBits::NoField != (SliceDistanceFieldMask & whichField))
     {
-        returnValue += _sfNumberOfSlices.getBinSize();
+        returnValue += _sfSliceDistance.getBinSize();
     }
 
 
@@ -206,9 +206,9 @@ void SlicesBase::copyToBin(      BinaryDataHandler &pMem,
         _sfSize.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (NumberOfSlicesFieldMask & whichField))
+    if(FieldBits::NoField != (SliceDistanceFieldMask & whichField))
     {
-        _sfNumberOfSlices.copyToBin(pMem);
+        _sfSliceDistance.copyToBin(pMem);
     }
 
 
@@ -224,9 +224,9 @@ void SlicesBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfSize.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (NumberOfSlicesFieldMask & whichField))
+    if(FieldBits::NoField != (SliceDistanceFieldMask & whichField))
     {
-        _sfNumberOfSlices.copyFromBin(pMem);
+        _sfSliceDistance.copyFromBin(pMem);
     }
 
 
@@ -241,8 +241,8 @@ void SlicesBase::executeSyncImpl(      SlicesBase *pOther,
     if(FieldBits::NoField != (SizeFieldMask & whichField))
         _sfSize.syncWith(pOther->_sfSize);
 
-    if(FieldBits::NoField != (NumberOfSlicesFieldMask & whichField))
-        _sfNumberOfSlices.syncWith(pOther->_sfNumberOfSlices);
+    if(FieldBits::NoField != (SliceDistanceFieldMask & whichField))
+        _sfSliceDistance.syncWith(pOther->_sfSliceDistance);
 
 
 }
@@ -277,7 +277,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSLICESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSLICESBASE_INLINE_CVSID;
 

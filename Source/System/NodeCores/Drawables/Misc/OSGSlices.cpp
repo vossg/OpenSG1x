@@ -445,30 +445,29 @@ void Slices::drawSlices ( const Vec3f &planeNormal,
 	Slice slice;
   Plane plane;
   Real32 distance, sliceDistance, volumeDiagonal = getSize().length();
-  Int32 i, si, numOfSlices = getNumberOfSlices();
-	Vec3f vPos, vDist;
+  Int32 i, si, numOfSlices;
+	Vec3f texPos0, texPos1, texPos2, texOff, texSliceNormal;
 	
   if (_edgeVec.empty())
     initEdgeVec();
 
-  // create slice and plane distance
-  if (numOfSlices <= 1)
-    sliceDistance = distance = 0;
-  else 
-  {
-    sliceDistance =  volumeDiagonal/ Real32( numOfSlices + 1);
-    distance = - volumeDiagonal / 2;
-		vDist = planeNormal;
-		vDist.normalize();
-		vDist *= -sliceDistance;
-  }
+  sliceDistance = getSliceDistance();
+  numOfSlices = int (volumeDiagonal / sliceDistance) + 1;
+  distance = - volumeDiagonal / 2;
+  texOff = planeNormal;
+  texOff.normalize();
+  texOff *= sliceDistance * 0.5;
 
+  texSliceNormal.setValues ( planeNormal.x() * sliceDistance * ssx,
+                             planeNormal.y() * sliceDistance * ssy,
+                             planeNormal.z() * sliceDistance * ssz );
+  
   triCount = 0;
   vertexCount = 0;
 
 	if (numOfSlices) 
   {
-		glNormal3fv ( planeNormal.getValues() );
+		glNormal3fv ( texSliceNormal.getValues() );
 
 		for (si = 0; si < numOfSlices; si++ ) 
     {
@@ -483,29 +482,54 @@ void Slices::drawSlices ( const Vec3f &planeNormal,
         if (slice.ccw)
           for (i = 0; i < slice.numOfIntersection; i++) 
             {
-              vPos = slice.pointVec[i];
-						  vPos += vDist;
+              texPos0 = texPos1 = texPos2 = slice.pointVec[i];
+              texPos1 += texOff;
+              texPos2 -= texOff;
 							
-              glTexCoord3f ( (hsx + slice.pointVec[i][0]) * ssx,
-                             (hsy + slice.pointVec[i][1]) * ssy,
-                             (hsz + slice.pointVec[i][2]) * ssz );
-              glColor3f    ( (hsx + vPos.x()) * ssx,
-                             (hsy + vPos.y()) * ssy,
-                             (hsz + vPos.z()) * ssz );
+              texSliceNormal = texPos1;
+              texSliceNormal -= texPos2;
+              
+              glTexCoord3f ( (hsx + texPos0.x()) * ssx,
+                             (hsy + texPos0.y()) * ssy,
+                             (hsz + texPos0.z()) * ssz );
+
+#if defined(GL_TEXTURE1) && defined (GL_TEXTURE2)
+              glMultiTexCoord3f ( GL_TEXTURE1,
+                                  (hsx + texPos1.x()) * ssx,
+                                  (hsy + texPos1.y()) * ssy,
+                                  (hsz + texPos1.z()) * ssz );
+
+              glMultiTexCoord3f ( GL_TEXTURE2,
+                                  (hsx + texPos2.x()) * ssx,
+                                  (hsy + texPos2.y()) * ssy,
+                                  (hsz + texPos2.z()) * ssz );
+#endif
+
               glVertex3fv  ( slice.pointVec[i].getValues() );
             }
         else
           for (i = slice.numOfIntersection - 1; i >= 0; i--) 
             {
-              vPos = slice.pointVec[i];
-						  vPos += vDist;
+              texPos0 = texPos1 = texPos2 = slice.pointVec[i];
+              texPos1 += texOff;
+              texPos2 -= texOff;
 							
-              glTexCoord3f ( (hsx + slice.pointVec[i][0]) * ssx,
-                             (hsy + slice.pointVec[i][1]) * ssy,
-                             (hsz + slice.pointVec[i][2]) * ssz );
-              glColor3f    ( (hsx + vPos.x()) * ssx,
-                             (hsy + vPos.y()) * ssy,
-                             (hsz + vPos.z()) * ssz );
+              glTexCoord3f ( (hsx + texPos0.x()) * ssx,
+                             (hsy + texPos0.y()) * ssy,
+                             (hsz + texPos0.z()) * ssz );
+              
+#if defined(GL_TEXTURE1) && defined (GL_TEXTURE2)
+              glMultiTexCoord3f ( GL_TEXTURE1,
+                                  (hsx + texPos1.x()) * ssx,
+                                  (hsy + texPos1.y()) * ssy,
+                                  (hsz + texPos1.z()) * ssz );
+
+              glMultiTexCoord3f ( GL_TEXTURE2,
+                                  (hsx + texPos2.x()) * ssx,
+                                  (hsy + texPos2.y()) * ssy,
+                                  (hsz + texPos2.z()) * ssz );
+#endif
+
               glVertex3fv  ( slice.pointVec[i].getValues() );
             }
         ::glEnd();

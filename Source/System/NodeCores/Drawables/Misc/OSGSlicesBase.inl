@@ -103,11 +103,11 @@ SFVec3f *SlicesBase::getSFSize(void)
     return &_sfSize;
 }
 
-//! Get the Slices::_sfNumberOfSlices field.
+//! Get the Slices::_sfSliceDistance field.
 inline
-SFInt32 *SlicesBase::getSFNumberOfSlices(void)
+SFReal32 *SlicesBase::getSFSliceDistance(void)
 {
-    return &_sfNumberOfSlices;
+    return &_sfSliceDistance;
 }
 
 
@@ -132,29 +132,29 @@ void SlicesBase::setSize(const Vec3f &value)
     _sfSize.setValue(value);
 }
 
-//! Get the value of the Slices::_sfNumberOfSlices field.
+//! Get the value of the Slices::_sfSliceDistance field.
 inline
-Int32 &SlicesBase::getNumberOfSlices(void)
+Real32 &SlicesBase::getSliceDistance(void)
 {
-    return _sfNumberOfSlices.getValue();
+    return _sfSliceDistance.getValue();
 }
 
-//! Get the value of the Slices::_sfNumberOfSlices field.
+//! Get the value of the Slices::_sfSliceDistance field.
 inline
-const Int32 &SlicesBase::getNumberOfSlices(void) const
+const Real32 &SlicesBase::getSliceDistance(void) const
 {
-    return _sfNumberOfSlices.getValue();
+    return _sfSliceDistance.getValue();
 }
 
-//! Set the value of the Slices::_sfNumberOfSlices field.
+//! Set the value of the Slices::_sfSliceDistance field.
 inline
-void SlicesBase::setNumberOfSlices(const Int32 &value)
+void SlicesBase::setSliceDistance(const Real32 &value)
 {
-    _sfNumberOfSlices.setValue(value);
+    _sfSliceDistance.setValue(value);
 }
 
 
 OSG_END_NAMESPACE
 
-#define OSGSLICESBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGSLICESBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 

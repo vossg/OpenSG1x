@@ -66,7 +66,7 @@
 #include <OSGMaterialDrawable.h> // Parent
 
 #include <OSGVec3fFields.h> // Size type
-#include <OSGInt32Fields.h> // NumberOfSlices type
+#include <OSGReal32Fields.h> // SliceDistance type
 
 #include <OSGSlicesFields.h>
 
@@ -90,13 +90,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SlicesBase : public MaterialDrawable
 
     enum
     {
-        SizeFieldId           = Inherited::NextFieldId,
-        NumberOfSlicesFieldId = SizeFieldId           + 1,
-        NextFieldId           = NumberOfSlicesFieldId + 1
+        SizeFieldId          = Inherited::NextFieldId,
+        SliceDistanceFieldId = SizeFieldId          + 1,
+        NextFieldId          = SliceDistanceFieldId + 1
     };
 
     static const OSG::BitVector SizeFieldMask;
-    static const OSG::BitVector NumberOfSlicesFieldMask;
+    static const OSG::BitVector SliceDistanceFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -124,12 +124,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SlicesBase : public MaterialDrawable
     /*! \{                                                                 */
 
            SFVec3f             *getSFSize           (void);
-           SFInt32             *getSFNumberOfSlices (void);
+           SFReal32            *getSFSliceDistance  (void);
 
            Vec3f               &getSize           (void);
      const Vec3f               &getSize           (void) const;
-           Int32               &getNumberOfSlices (void);
-     const Int32               &getNumberOfSlices (void) const;
+           Real32              &getSliceDistance  (void);
+     const Real32              &getSliceDistance  (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -137,7 +137,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SlicesBase : public MaterialDrawable
     /*! \{                                                                 */
 
      void setSize           ( const Vec3f &value );
-     void setNumberOfSlices ( const Int32 &value );
+     void setSliceDistance  ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -184,7 +184,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SlicesBase : public MaterialDrawable
     /*! \{                                                                 */
 
     SFVec3f             _sfSize;
-    SFInt32             _sfNumberOfSlices;
+    SFReal32            _sfSliceDistance;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -232,6 +232,6 @@ typedef SlicesBase *SlicesBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSLICESBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGSLICESBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGSLICESBASE_H_ */

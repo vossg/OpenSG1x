@@ -21,8 +21,8 @@
 	terrain size in local coords
 	</Field>
 	<Field
-		name="numberOfSlices"
-		type="Int32"
+		name="sliceDistance"
+		type="Real32"
 		cardinality="single"
 		visibility="external"
 		defaultValue="100"
