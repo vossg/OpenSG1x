@@ -281,16 +281,16 @@ bool DATImageFileType::read (      ImagePtr &image,
 
                         // get length of the stream.
                         inVol->seekg(0, std::ios::end);
-                        UInt64 length = inVol->tellg(); /*- file_offset; */
+                        UInt64 length = inVol->tellg();
                         inVol->seekg(0, std::ios::beg);
 
-                        if(length < dataSize)
+                        if(length < dataSize - fileOffset)
                         {
                             // correct dataSize.
                             fileDataSize = length;
                             FWARNING (( "RAW file length to small!\n" ));
                         }
-                        else if(length > dataSize)
+                        else if(length > dataSize - fileOffset)
                         {
                             FWARNING (( "RAW file length to big!\n" ));
                         }
