@@ -88,7 +88,7 @@ image_incs_path=
 image_defs=
 
 if test "$system_win" = "yes"; then
-    compiler_libs_in="@ac_gdz_compiler_lib_e15@"
+    compiler_libs_in=@ac_gdz_compiler_lib_e15@
     sys_libs_in="@ac_gdz_system_lib_dir_e15@"
 
     sys_libs=" $win_sys_libs"
@@ -328,14 +328,17 @@ if test "$echo_exec_prefix" = "yes"; then
     echo $exec_prefix
 fi
 
-
-
 opensg_libs=
 system_libs=
 
 system_libs_path=
 system_incs_path=
 system_defs=
+
+sys_incl_dir_in="@ac_gdz_system_incl_dir_e15@"
+if test "yes$sys_incl_dir_in" != "yes"; then
+	system_incs_path="$system_incs_path $incdir_pre$sys_incl_dir_in$incdir_suf"
+fi
 
 if test "$lib_suf" = "dbg"; then
     link_flags="$link_flags $link_flags_dbg"
