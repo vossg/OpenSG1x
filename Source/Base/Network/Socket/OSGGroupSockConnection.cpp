@@ -279,7 +279,6 @@ bool GroupSockConnection::wait(Time timeout) throw (ReadError)
                     missing--;
                     if(tag)
                     {
-                        printf("%d\n",tag);
                         FFATAL(("Stream out of sync in SockConnection\n"));
                         throw ReadError("Stream out of sync");
                     }
