@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="DrawFunctorCore"
+	parent="MaterialDrawable"
+	pointerfieldtypes="none"
+	structure="concrete"
+        library="Contrib"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+A NodeCore that uses two Functors to define the geometry to be drawn.
+	<Field
+		name="volumeUpdate"
+		type="VolumeFunctor"
+		cardinality="single"
+		visibility="external"
+		header="OSGDFFunctors.h"
+		access="public"
+	>
+	The Functor called for updating the volume
+	</Field>
+	<Field
+		name="draw"
+		type="DrawFunctor"
+		cardinality="single"
+		visibility="external"
+		header="OSGDFFunctors.h"
+		access="public"
+	>
+	The Functor called for drawing
+	</Field>
+</FieldContainer>

@@ -1,0 +1,43 @@
+
+OpenSG Contributed Packages
+===========================
+
+This area of the source tree contains packages that have been contributed by
+users. They are not part of the official distributions, and they are not
+supported by the core team. That might change over time, depending on
+development, demand and licensing constraints as given by the authors(s). They
+can have licenses that differ significantly from the LGPL license used for
+OpenSG itself.
+
+That's why nothing is enabled by default. To use anything from this directory
+you first need to rename the file common.libs.in.disabled in this directory to
+common.libs.in. After that you need to do the same rename in the directories
+of the parts you want to include in your OSGContrib library. Again: note that
+every contribution has its own usage license, it's your responsibility to
+adhere to that license!
+
+Every directory has a README file that lists contact information for the
+author(s) and some general information about the contribution. The primary
+thing to watch out for are additional libraries needed by the contributions.
+These have to be added manually to the configure call in the --with-add-lib=,
+and possibly using the --with-add-incdir= and --with-add-libdir= options for
+libraries that are not in the standard pathes.
+
+The currently available contributions are
+
+- CGChunk:                  Chunk for nVidia's CG library
+- DrawFunctorCore:          Callback-based OpenGL NodeCore
+
+
+If you want to contribute: great! Take a look at the existing contributions
+and structure your contribution similar to them. Your FieldContainer should be
+part of the Contrib library, the code should adhere to the OpenSG code style
+(see 
+http://opensg.sourceforge.net/cgi-bin/twiki/view/Main/DocumentationTopics).
+What we definitely need are some examples, preferrably in the style of the
+Tutorials. While none of this code is actively maintained by the core team, we
+at least want to see that it works and what it does. ;)
+
+
+The OpenSG Core
+2003/06/01

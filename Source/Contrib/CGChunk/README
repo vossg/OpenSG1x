@@ -1,0 +1,25 @@
+
+README for CGChunk
+==================
+
+Name:                   CGChunk
+License:                LGPL
+Maintainer:             Andreas Zieringer <amz@a-m-z.org>
+Initial Author:         Andreas Zieringer <amz@a-m-z.org>
+Additional Libraries:   Cg:CgGL (ftp://download.nvidia.com/developer/cg/)
+Added:                  2003/06/01
+Last modified:          2003/06/01
+Last tested:            2003/06/01
+
+Description:
+
+The CGChunk is a StateChunk to integrate nVidia's CG library into OpenSG. It is
+relatively simple and not full-featured, but it's a start, you're welcome to
+make it more complete. ;)
+
+It just keeps the vertex and fragment program in strings and manages the
+context, but always uses the ARB_FP1 and ARB_VP1 profiles for portability.
+
+Have fun
+
+    Andreas

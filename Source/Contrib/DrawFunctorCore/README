@@ -1,0 +1,29 @@
+
+README for DrawFunctorCore
+==========================
+
+Name:                   DrawFunctorCore
+License:                LGPL
+Maintainer:             Dirk Reiners <dirk@opensg.org>
+Initial Author:         Dirk Reiners <dirk@opensg.org>
+Additional Libraries:   -
+Added:                  2003/06/01
+Last modified:          2003/06/01
+Last tested:            2003/06/01
+
+Description:
+
+The DrawFunctorCore is a workaround helper class for those cases where you want
+to quickly add some drawing to the graph, but don't have the time or
+inclination to write a new NodeCore. It keeps two functors, one for bounding
+volume calculation, one for actual OpenGL drawing.
+
+It is not part of the core because it doesn't handle any multi-thread safety
+issues and consequently doesn't work across a cluster. So it's ok to use it for
+quick tests, but for serious apps I strongly recommend against it! Come on,
+write a NodeCore, using fcdEdit it's simple enough! ;)
+
+Yours
+
+    Dirk
+    
