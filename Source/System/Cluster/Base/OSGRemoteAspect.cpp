@@ -325,7 +325,7 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
                             if(strcmp(desc->getName().str(),"beacon")==0)
                                 continue;
                             const FieldType &fType = fieldPtr->getType();
-                            char *ptrStr = strstr(fType.getCName(), "Ptr");
+                            const char *ptrStr = strstr(fType.getCName(), "Ptr");
                             if(ptrStr && strlen(ptrStr) == 3)
                             {
                                 if(fieldPtr->getCardinality() == FieldType::SINGLE_FIELD)
