@@ -136,7 +136,7 @@ void ProgramChunk::onCreate(const ProgramChunk *)
 {
     if(GlobalSystemState == Startup)
         return;
-        
+
     // !!! this temporary is needed to work around compiler problems (sgi)
     // CHECK CHECK
     //  ProgramChunkPtr tmpPtr = FieldContainer::getPtr<ProgramChunkPtr>(*this);
@@ -272,7 +272,7 @@ Int16 ProgramChunk::findParameter(const std::string &name)
     MField<std::string>::iterator it;
     
     it = std::find(getParamNames().begin(), getParamNames().end(), name);
-    
+
     if(it == getParamNames().end())
         return -1;
 
@@ -308,16 +308,16 @@ void ProgramChunk::printCompileError(Window *win, UInt32 idstatus)
     {
         if(i == pos)
         {
-            mesg.push_back('>');
-            mesg.push_back('>');
+            mesg += '>';
+            mesg += '>';
         }
         
-        mesg.push_back(getProgram()[i]);
- 
+        mesg += getProgram()[i];
+
         if(i == pos)
         {
-            mesg.push_back('<');  
-            mesg.push_back('<');  
+            mesg += '<';
+            mesg += '<';
         }
     }
     
