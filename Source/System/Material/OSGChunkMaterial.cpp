@@ -161,15 +161,15 @@ bool ChunkMaterial::subChunk(StateChunkPtr chunk, Int32 slot)
     for(i = 0; i < _mfChunks.size(); ++i)
     {
         if(_mfChunks[i] == chunk &&
-           (i < _mfSlots.size() || _mfSlots[i] == slot)
-          )
+           ((i < _mfSlots.size() || _mfSlots[i] == slot) ||
+            slot == State::AutoSlotReplace))
         {
             subRefCP(chunk);
             _mfChunks.erase(_mfChunks.begin() + i);
             return true;
         }
     }
-    
+
     SWARNING << "ChunkMaterial::subChunk(" << this << ") has no chunk "
              << chunk << " with slot " << slot << std::endl;
              
