@@ -175,11 +175,11 @@ mouse(int button, int state, int x, int y)
     {
         switch ( button )
         {
-        case GLUT_LEFT_BUTTON:  trackball.buttonPress(Navigator::LEFT_BUTTON,x,y);
+        case GLUT_LEFT_BUTTON:  trackball.buttonPress(Navigator::LEFT_MOUSE,x,y);
                                 break;
-        case GLUT_MIDDLE_BUTTON:trackball.buttonPress(Navigator::MIDDLE_BUTTON,x,y);
+        case GLUT_MIDDLE_BUTTON:trackball.buttonPress(Navigator::MIDDLE_MOUSE,x,y);
                                 break;
-        case GLUT_RIGHT_BUTTON: trackball.buttonPress(Navigator::RIGHT_BUTTON,x,y);
+        case GLUT_RIGHT_BUTTON: trackball.buttonPress(Navigator::RIGHT_MOUSE,x,y);
                                 break;
         }
         mouseb |= 1 << button;
@@ -189,11 +189,11 @@ mouse(int button, int state, int x, int y)
     {
         switch ( button )
         {
-        case GLUT_LEFT_BUTTON:  trackball.buttonRelease(Navigator::LEFT_BUTTON,x,y);
+        case GLUT_LEFT_BUTTON:  trackball.buttonRelease(Navigator::LEFT_MOUSE,x,y);
                                 break;
-        case GLUT_MIDDLE_BUTTON:trackball.buttonRelease(Navigator::MIDDLE_BUTTON,x,y);
+        case GLUT_MIDDLE_BUTTON:trackball.buttonRelease(Navigator::MIDDLE_MOUSE,x,y);
                                 break;
-        case GLUT_RIGHT_BUTTON: trackball.buttonRelease(Navigator::RIGHT_BUTTON,x,y);
+        case GLUT_RIGHT_BUTTON: trackball.buttonRelease(Navigator::RIGHT_MOUSE,x,y);
                                 break;
         }
         mouseb &= ~(1 << button);

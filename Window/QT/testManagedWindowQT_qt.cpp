@@ -13,6 +13,10 @@
 #include <OSGSceneFileHandler.h>
 #include <OSGQGLManagedWidget_qt.h>
 
+#include <OSGNode.h>
+#include <OSGSimpleGeometry.h>
+#include <OSGGroup.h>
+
 int main( int argc, char ** argv )
 {
   osg::osgInit(argc,argv);
@@ -33,11 +37,23 @@ int main( int argc, char ** argv )
           FFATAL (( "Couldn't load %s", argv[1]));
         }
       else
-        {
-          widget.getManager().setRoot(root);
-          widget.getManager().showAll();
-          widget.show();
-          retCode = qapp.exec();
+        {       
+osg::NodePtr scene = osg::makeTorus(.5, 1, 8, 8);
+osg::NodePtr scene2 = osg::makeTorus(.1, 2, 10, 12);
+
+osg::NodePtr grn = osg::Node::create();
+osg::GroupPtr gr = osg::Group::create();
+
+osg::beginEditCP(grn, osg::Node::CoreFieldMask | osg::Node::ChildrenFieldMask );
+grn->setCore(gr);
+grn->addChild(scene);
+grn->addChild(scene2);
+osg::endEditCP  (grn, osg::Node::CoreFieldMask | osg::Node::ChildrenFieldMask );
+
+widget.getManager().setRoot(grn);
+widget.getManager().showAll();
+widget.show();
+retCode = qapp.exec();
         }
     }
   else
