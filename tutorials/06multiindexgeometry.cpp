@@ -198,7 +198,7 @@ int main (int argc, char **argv)
  	beginEditCP(geo);
     geo->setTypes(type);
     geo->setLengths(lens);
-    geo->setIndex(index);
+    geo->setIndices(index);
     geo->setPositions(pnts);
     geo->setNormals(norm);
      

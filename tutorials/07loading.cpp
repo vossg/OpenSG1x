@@ -11,6 +11,7 @@
 #include <OpenSG/OSGSimpleGeometry.h>
 
 #include <OpenSG/OSGSceneFileHandler.h>
+#include <OpenSG/OSGVRMLFile.h>
 
 OSG_USING_NAMESPACE
 

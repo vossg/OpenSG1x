@@ -16,7 +16,6 @@
 #include <OpenSG/OSGGLUTWindow.h>
 #include <OpenSG/OSGSimpleSceneManager.h>
 #include <OpenSG/OSGSimpleGeometry.h>
-#include <OpenSG/OSGSimpleGeometry.h>
 
 OSG_USING_NAMESPACE
 
@@ -160,7 +159,7 @@ int main (int argc, char **argv)
  	beginEditCP(geo);
     geo->setTypes(type);
     geo->setLengths(lens);
-    geo->setIndex(index);
+    geo->setIndices(index);
     geo->setPositions(pnts);
     endEditCP(geo);
     
