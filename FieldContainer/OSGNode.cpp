@@ -608,6 +608,11 @@ UInt32 Node::getBinSize(const BitVector &whichField)
         returnValue += _sfVolume       .getBinSize();
     }
 
+    if(FieldBits::NoField != (ActiveFieldMask & whichField))
+    {
+        returnValue += _sfActive       .getBinSize();
+    }
+
     if(FieldBits::NoField != (ParentFieldMask & whichField))
     {
         returnValue += _sfParent       .getBinSize();
@@ -636,6 +641,11 @@ void Node::copyToBin(      BinaryDataHandler &pMem,
         _sfVolume.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (ActiveFieldMask & whichField))
+    {
+        _sfActive.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (ParentFieldMask & whichField))
     {
         _sfParent.copyToBin(pMem);
@@ -660,6 +670,11 @@ void Node::copyFromBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (VolumeFieldMask & whichField))
     {
         _sfVolume.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ActiveFieldMask & whichField))
+    {
+        _sfActive.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (ParentFieldMask & whichField))
@@ -877,6 +892,11 @@ void Node::executeSyncImpl(      Node      *pOther,
     if (FieldBits::NoField != (VolumeFieldMask & whichField))
     {
         _sfVolume.syncWith(pOther->_sfVolume);
+    }
+
+    if (FieldBits::NoField != (ActiveFieldMask & whichField))
+    {
+        _sfActive.syncWith(pOther->_sfActive);
     }
 
     if (FieldBits::NoField != (ParentFieldMask & whichField))
