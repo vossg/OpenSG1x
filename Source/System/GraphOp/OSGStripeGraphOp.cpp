@@ -90,18 +90,15 @@ void StripeGraphOp::setParams(const std::string /*params*/)
 
 bool StripeGraphOp::travNodeEnter(NodePtr node)
 {
-    if (!node->getCore()->getType().isDerivedFrom(Geometry::getClassType()))
-    {
-        FWARNING(("StripeGraphOp: travNodeEnter got a non-Geometry Node\n"));
-        return false;
-    }
-
     GeometryPtr geo = GeometryPtr::dcast(node->getCore());
+
+    if(geo != NullFC)
+    {
+        createSharedIndex(geo);
+        createOptimizedPrimitives(geo);
+    }
     
-    createSharedIndex(geo);
-    createOptimizedPrimitives(geo);
-    
-    return Action::Continue;
+    return true;
 }
 
 bool StripeGraphOp::travNodeLeave(NodePtr)
