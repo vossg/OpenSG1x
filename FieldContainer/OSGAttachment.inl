@@ -249,10 +249,10 @@ const SimpleAttachment<AttachmentDescT>::FieldType &
 /*------------------------------- dump ----------------------------------*/
 
 template <class AttachmentDescT> inline
-void SimpleAttachment<AttachmentDescT>::dump(void) const
+void SimpleAttachment<AttachmentDescT>::dump(      UInt32     uiIndent, 
+                                             const BitVector &bvFlags ) const
 {
-    SDEBUG << "Dump SimpleAttachment<FieldTypeT, " 
-           << "AttachmentDescT> NI" << endl;
+    Inherited::dump(uiIndent, bvFlags);
 }
 
 /*-------------------------------------------------------------------------*\
@@ -463,7 +463,8 @@ FieldContainerPtr DynFieldAttachment<AttachmentDescT>::emptyCopy(void)
 /*------------------------------- dump ----------------------------------*/
 
 template <class AttachmentDescT> inline
-void DynFieldAttachment<AttachmentDescT>::dump(void) const
+void DynFieldAttachment<AttachmentDescT>::dump(      UInt32     , 
+                                               const BitVector &) const
 {
     SDEBUG << "Dump DynFieldAttachment<> NI" << endl;
 

@@ -107,31 +107,44 @@ namespace FieldBits
     const BitVector Field31   = 0x80000000;
 }
 
-OSG_FIELDCONTAINER_DLLMAPPING
-void osgAddRefCP   (FieldContainerPtr &objectP);
+namespace FCDumpFlags
+{
+    const BitVector RefCount   = 0x00000001;
+
+    const BitVector AllAspects = 0x00000002;
+
+    const BitVector All        = 0xFFFFFFFF;
+}
 
 OSG_FIELDCONTAINER_DLLMAPPING
-void osgSubRefCP   (FieldContainerPtr &objectP);
+void addRefCP   (const FieldContainerPtrBase &objectP);
 
 OSG_FIELDCONTAINER_DLLMAPPING
-void osgBeginEditCP(FieldContainerPtr &objectP, 
-                    BitVector          whichField = FieldBits::AllFields);
+void subRefCP   (const FieldContainerPtrBase &objectP);
 
 OSG_FIELDCONTAINER_DLLMAPPING
-void osgEndEditCP  (FieldContainerPtr &objectP, 
-                    BitVector          whichField = FieldBits::AllFields);
+void setRefdCP  (const FieldContainerPtrBase &objectP,
+                 const FieldContainerPtrBase &newObjectP);
 
 OSG_FIELDCONTAINER_DLLMAPPING
-void osgChangedCP  (FieldContainerPtr &objectP, 
-                    BitVector          whichField = FieldBits::AllFields);
+void clearRefCP(FieldContainerPtrBase &objectP);
 
 OSG_FIELDCONTAINER_DLLMAPPING
-void osgEndEditNoChangedCP(FieldContainerPtr &objectP, 
-                           BitVector        whichField = FieldBits::AllFields);
+void beginEditCP(const FieldContainerPtr &objectP, 
+                       BitVector          whichField = FieldBits::AllFields);
 
 OSG_FIELDCONTAINER_DLLMAPPING
-void osgSetRefdCP  (FieldContainerPtr &objectP,
-                    FieldContainerPtr &newObjectP);
+void endEditCP  (const FieldContainerPtr &objectP, 
+                       BitVector          whichField = FieldBits::AllFields);
+
+OSG_FIELDCONTAINER_DLLMAPPING
+void changedCP  (const FieldContainerPtr &objectP, 
+                       BitVector          whichField = FieldBits::AllFields);
+
+OSG_FIELDCONTAINER_DLLMAPPING
+void endEditNotChangedCP(const FieldContainerPtr &objectP, 
+                         BitVector          whichField = FieldBits::AllFields);
+
 
 //---------------------------------------------------------------------------
 //   Types
@@ -182,8 +195,8 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer
 
     /*------------------------- type information-----------------------------*/
 
-    static       FieldContainerType &getStaticType  (void);
-    static       UInt32              getStaticTypeId(void);
+    static       FieldContainerType &getClassType  (void);
+    static       UInt32              getClassTypeId(void);
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -214,7 +227,8 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer
 
     /*----------------------------- dump ----------------------------------*/
 
-    virtual void dump(void) const = 0;
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector &bvFlags  = 0) const = 0;
     
   protected:
 
@@ -250,6 +264,8 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer
     FieldContainer(const FieldContainer &obj);
     virtual ~FieldContainer (void);
 
+    virtual void finalize(void);
+
     template <class ObjectPtrT>
     static void newPtr(      
                        ObjectPtrT                &result, 
@@ -272,7 +288,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer
         pTmp += sizeof(Int32);
 
         *((UInt32 *) pTmp) = 
-            FieldContainerFactory::registerFieldContainer(result);
+            FieldContainerFactory::the()->registerFieldContainer(result);
 
         pTmp += sizeof(UInt32);
 
@@ -311,7 +327,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer
         pTmp  += sizeof(Int32);
 
         *((UInt32 *) pTmp) = 
-            FieldContainerFactory::registerFieldContainer(result);
+            FieldContainerFactory::the()->registerFieldContainer(result);
 
         pTmp += sizeof(UInt32);
         
@@ -336,6 +352,13 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer
         return returnValue; 
     }
 
+    template <class T>
+    T getPtr(const typename T::ObjectType &object) const
+    {
+        T returnValue(object); 
+        return returnValue; 
+    }
+
     template <class FieldTypeT>
     void beginEdit(const BitVector             &,
                          SField<FieldTypeT> &fieldR)
@@ -354,16 +377,16 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer
     void endEdit(const BitVector             &whichField,
                        SField<FieldTypeT> &)
     {
-        FieldContainerPtr tmpPtr(*this);
-        osgEndEditCP(tmpPtr, whichField);
+        FieldContainerPtr tmpPtr(this);
+        endEditCP(tmpPtr, whichField);
     }
 
     template <class FieldTypeT>
     void endEdit(const BitVector             &whichField,
                        MField<FieldTypeT> &)
     {
-        FieldContainerPtr tmpPtr(*this);
-        osgEndEditCP(tmpPtr, whichField);
+        FieldContainerPtr tmpPtr(this);
+        endEditCP(tmpPtr, whichField);
     }
 
 
@@ -384,6 +407,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
+    friend class FieldContainerPtrBase;
     friend class FieldContainerPtr;
 
     //-----------------------------------------------------------------------
@@ -622,11 +646,11 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
 
 
 #define OSG_FC_GET_STATIC_TYPE_DECL                                           \
-    static OSG::FieldContainerType & getStaticType(void);           
+    static OSG::FieldContainerType & getClassType(void);           
 
 #define OSG_FC_GET_STATIC_TYPE_INL_DEF(OSG_CLASS)                             \
     inline                                                                    \
-    OSG::FieldContainerType &OSG_CLASS::getStaticType(void)                   \
+    OSG::FieldContainerType &OSG_CLASS::getClassType(void)                    \
     {                                                                         \
         return _type;                                                         \
     }
@@ -634,17 +658,17 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
 #define OSG_FC_GET_STATIC_TYPE_INL_TMPL_DEF(OSG_TMPL_PARAM,                   \
                                             OSG_CLASS)                        \
     template <class OSG_TMPL_PARAM> inline                                    \
-    OSG::FieldContainerType &OSG_CLASS<OSG_TMPL_PARAM>::getStaticType(void)   \
+    OSG::FieldContainerType &OSG_CLASS<OSG_TMPL_PARAM>::getClassType(void)    \
     {                                                                         \
         return _type;                                                         \
     }
 
 #define OSG_FC_GET_STATIC_TYPE_ID_DECL                                        \
-    static OSG::UInt32 getStaticTypeId(void);             
+    static OSG::UInt32 getClassTypeId(void);             
 
 #define OSG_FC_GET_STATIC_TYPE_ID_INL_DEF(OSG_CLASS)                          \
     inline                                                                    \
-    OSG::UInt32 OSG_CLASS::getStaticTypeId(void)                              \
+    OSG::UInt32 OSG_CLASS::getClassTypeId(void)                               \
     {                                                                         \
         return _type.getId();                                                 \
     }
@@ -652,7 +676,7 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
 #define OSG_FC_GET_STATIC_TYPE_ID_INL_TMPL_DEF(OSG_TMPL_PARAM,                \
                                                OSG_CLASS)                     \
     template <class OSG_TMPL_PARAM> inline                                    \
-    OSG::UInt32 OSG_CLASS<OSG_TMPL_PARAM>::getStaticTypeId(void)              \
+    OSG::UInt32 OSG_CLASS<OSG_TMPL_PARAM>::getClassTypeId(void)               \
     {                                                                         \
         return _type.getId();                                                 \
     }
@@ -682,19 +706,18 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
 
 /*---------------------------- create ---------------------------------------*/
 
-#define OSG_FC_CREATE_DECL(OSG_CLASS_PTR)                               \
+#define OSG_FC_CREATE_DECL(OSG_CLASS_PTR)                                     \
     static OSG_CLASS_PTR create(void);
 
-#ifdef OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
 #define OSG_FC_CREATE_INL_DEF(OSG_CLASS, OSG_CLASS_PTR)                       \
     inline                                                                    \
     OSG_CLASS_PTR OSG_CLASS::create(void)                                     \
     {                                                                         \
         OSG_CLASS_PTR fc;                                                     \
                                                                               \
-        if(getStaticType().getPrototype() != OSG::NullFC)                     \
-         fc = getStaticType().getPrototype()->                                \
-           shallowCopy().dcast<OSG_CLASS_PTR>();                              \
+        if(getClassType().getPrototype() != OSG::NullFC)                      \
+         fc = dcast<OSG_CLASS_PTR>(getClassType().getPrototype()->            \
+                 shallowCopy());                                              \
                                                                               \
         return fc;                                                            \
     }
@@ -708,41 +731,12 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
     {                                                                         \
         OSG_CLASS_PTR fc;                                                     \
                                                                               \
-        if(getStaticType().getPrototype() != OSG::NullFC)                     \
-         fc = getStaticType().getPrototype()->                                \
-           shallowCopy().dcast<OSG_CLASS_PTR>();                              \
+        if(getClassType().getPrototype() != OSG::NullFC)                      \
+         fc = dcast<OSG_CLASS_PTR>(getClassType().getPrototype()->            \
+                  shallowCopy());                                             \
                                                                               \
         return fc;                                                            \
     }
-#else
-#define OSG_FC_CREATE_INL_DEF(OSG_CLASS, OSG_CLASS_PTR)                 \
-    inline                                                              \
-    OSG_CLASS_PTR OSG_CLASS::create(void)                               \
-    {                                                                   \
-        OSG_CLASS_PTR fc;                                               \
-                                                                        \
-        if(getStaticType().getPrototype() != OSG::NullFC)               \
-            getStaticType().getPrototype()->shallowCopy().dcast(fc);    \
-                                                                        \
-        return fc;                                                      \
-}
-
-#define OSG_FC_CREATE_INL_TMPL_DEF(OSG_TMPL_PARAM,                      \
-                                   OSG_CLASS,                           \
-                                   OSG_CLASS_PTR)                       \
-    template <class OSG_TMPL_PARAM> inline                              \
-    OSG_CLASS<OSG_TMPL_PARAM>::OSG_CLASS_PTR                            \
-        OSG_CLASS<OSG_TMPL_PARAM>::create(void)                         \
-    {                                                                   \
-        OSG_CLASS_PTR fc;                                               \
-                                                                        \
-        if(getStaticType().getPrototype() != OSG::NullFC)               \
-            getStaticType().getPrototype()->shallowCopy().dcast(fc);    \
-                                                                        \
-        return fc;                                                      \
-}
-#endif
-
 
 #define OSG_FC_CREATE_EMPTY_DECL(OSG_CLASS_PTR)                         \
     static OSG_CLASS_PTR createEmpty(void);

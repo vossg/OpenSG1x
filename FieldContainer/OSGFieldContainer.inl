@@ -71,13 +71,13 @@ OSG_BEGIN_NAMESPACE
 \*-------------------------------------------------------------------------*/
 
 inline
-FieldContainerType &FieldContainer::getStaticType(void)
+FieldContainerType &FieldContainer::getClassType(void)
 { 
     return _type; 
 }
 
 inline
-UInt32 FieldContainer::getStaticTypeId(void)
+UInt32 FieldContainer::getClassTypeId(void)
 { 
     return _type.getId();
 }
@@ -164,7 +164,7 @@ ostream &operator <<(
     {
 		os << hex << "FCPtr 0x" 
            << &fc << dec << ":" << fc->getType().getName() << "Ptr(0x" 
-		   << hex << (int)fc._storeP << dec << ")";
+		   << hex << (int) (&(*fc)) << dec << ")";
     }
 
 	return os;

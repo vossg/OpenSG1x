@@ -57,6 +57,8 @@
 
 OSG_USING_NAMESPACE
 
+OSG_FIELDCONTAINER_DLLMAPPING const NodeCorePtr OSG::NullNodeCore;
+
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -123,6 +125,16 @@ OSG_ABSTR_FIELD_CONTAINER_DEF(NodeCore, NodeCorePtr)
 
 /*------------------------------ access -----------------------------------*/
 
+MFNodePtr &NodeCore::getParents(void)
+{
+    return _parents;
+}
+
+const MFNodePtr &NodeCore::getParents(void) const
+{
+    return _parents;
+}
+
 MFNodePtr *NodeCore::getMFParents(void)
 {
     return &_parents;
@@ -133,8 +145,8 @@ SFAttachmentMap *NodeCore::getSFAttachments(void)
     return &_attachmentMap;
 }
 
-void NodeCore::addAttachment(AttachmentPtr &fieldContainerP,
-                                UInt16         binding)
+void NodeCore::addAttachment(const AttachmentPtr &fieldContainerP,
+                                   UInt16         binding)
 {
 	UInt32 key;
 
@@ -142,14 +154,30 @@ void NodeCore::addAttachment(AttachmentPtr &fieldContainerP,
         return;
 
 	key = (UInt32 (fieldContainerP->getGroupId()) << 16) | binding;
-	
-	fieldContainerP->addParent(getPtr());
 
-	_attachmentMap.getValue()[key] = fieldContainerP;
+    addRefCP(fieldContainerP);
+
+	AttachmentMap::iterator fcI = _attachmentMap.getValue().find(key);
+
+    beginEditCP(fieldContainerP, Attachment::ParentsFieldMask);
+    {
+        fieldContainerP->addParent(getPtr());
+    }
+    endEditCP  (fieldContainerP, Attachment::ParentsFieldMask);    
+	
+	if(fcI != _attachmentMap.getValue().end())
+    {
+        subRefCP((*fcI).second);
+        (*fcI).second = fieldContainerP;
+    }	
+    else
+    {
+        _attachmentMap.getValue()[key] = fieldContainerP;
+    }
 }
 
-void NodeCore::subAttachment(AttachmentPtr &fieldContainerP,
-                                UInt16         binding)
+void NodeCore::subAttachment(const AttachmentPtr &fieldContainerP,
+                                   UInt16         binding)
 {
     UInt32 key;
     AttachmentMap::iterator fcI;
@@ -163,13 +191,20 @@ void NodeCore::subAttachment(AttachmentPtr &fieldContainerP,
 
     if(fcI != _attachmentMap.getValue().end())
     {
-        (*fcI).second->subParent(getPtr());
+        beginEditCP(fieldContainerP, Attachment::ParentsFieldMask);
+        {
+            (*fcI).second->subParent(getPtr());
+        }
+        endEditCP  (fieldContainerP, Attachment::ParentsFieldMask);
+        
+        subRefCP((*fcI).second);
+        
         _attachmentMap.getValue().erase(fcI);
     }  
 }
 
 AttachmentPtr NodeCore::findAttachment(UInt16 groupId, 
-                                             UInt16 binding)
+                                       UInt16 binding)
 {
 	UInt32 key = (UInt32(groupId) << 16) | binding;
 
@@ -185,9 +220,7 @@ AttachmentPtr NodeCore::findAttachment(UInt16 groupId,
 
 NodeCorePtr NodeCore::getPtr(void)
 {
-    NodeCorePtr returnValue(*this);
-
-    return returnValue;
+    return Inherited::getPtr<NodeCorePtr>(*this);
 }
 
 /*-------------------------- your_category---------------------------------*/
@@ -202,36 +235,33 @@ void NodeCore::adjustVolume(Volume &)
 
 /*-------------------------- assignment -----------------------------------*/
 
-void NodeCore::print(UInt32 indent) const
+void NodeCore::dump(      UInt32     uiIndent, 
+                    const BitVector &bvFlags) const
 {
-/*
     UInt32 i;
-    UInt32 j;
-*/
 
-    indentLog(indent, PLOG);
+    indentLog(uiIndent, PLOG);
 
     PLOG << "Core : " << getType().getName()
          << "("       << this << ")" << endl;
 
-/*
-    for(i = 0; i < indent; i++)
-        fprintf(stderr, " ");
+    indentLog(uiIndent, PLOG);
+    PLOG << "[" << endl;
 
-    fprintf(stderr, "NCParents : \n");
-
+    indentLog(uiIndent + 4, PLOG);
+    PLOG << "Parents : " << endl;
+        
     for(i = 0; i < _parents.size(); i++)
     {
-        for(j = 0; j < indent + 1; j++)
-            fprintf(stderr, " ");
-
-        _parents[i].dump();
+        indentLog(uiIndent + 4, PLOG);
+        PLOG << "           " << i << ") " << &(*(_parents[i])) << endl;
     }
 
-    for(i = 0; i < indent; i++)
-        fprintf(stderr, " ");
+    indentLog(uiIndent, PLOG);
+    PLOG << "]" << endl;
 
-    fprintf(stderr, "NCAttachments : \n");
+    indentLog(uiIndent, PLOG);
+    PLOG << "{" << endl;
 
     AttachmentMap::const_iterator fcI;
 
@@ -239,17 +269,12 @@ void NodeCore::print(UInt32 indent) const
 
     while(fcI != _attachmentMap.getValue().end())
     {
-        (*fcI).second->print(indent + 2);
+        (*fcI).second->dump(uiIndent + 4, bvFlags);
         ++fcI;
     }
-*/
-}
 
-/*------------------------------- dump ----------------------------------*/
-
-void NodeCore::dump(void) const
-{
-    SDEBUG << "Dump NodeCore NI" << endl;
+    indentLog(uiIndent, PLOG);
+    PLOG << "}" << endl;
 }
 
 /*-------------------------- comparison -----------------------------------*/
@@ -278,8 +303,16 @@ NodeCore::NodeCore(void) :
 NodeCore::NodeCore(const NodeCore &obj) :
     Inherited     (obj),
     _parents      (),
-    _attachmentMap(obj._attachmentMap)
+    _attachmentMap()
 {
+    AttachmentMap::const_iterator fcI = obj._attachmentMap.getValue().begin();
+
+    while(fcI != obj._attachmentMap.getValue().end())
+    {
+        addAttachment((*fcI).second);
+
+        fcI++;
+    }
 }
 
 /** \brief Destructor
@@ -289,8 +322,20 @@ NodeCore::~NodeCore (void )
 {
 }
 
+void NodeCore::finalize(void)
+{
+    MFNodePtr::iterator parentIt = _parents.begin();
+
+    while(parentIt != _parents.end())
+    {
+        subRefCP(*parentIt);
+        parentIt++;
+    }
+}
+
 void NodeCore::addParent(const NodePtr &parent)
 {
+     addRefCP(parent);
     _parents.addValue(parent);
 }
 
@@ -300,6 +345,7 @@ void NodeCore::subParent(const NodePtr &parent)
 
     if(parentIt != _parents.end())
     {
+         subRefCP(parent);
         _parents.erase(parentIt);
     }
 }

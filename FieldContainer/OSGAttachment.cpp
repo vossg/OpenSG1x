@@ -84,6 +84,11 @@ OSG_END_NAMESPACE
  *  \brief Parent type
  */
 
+/** \brief NULL attachment pointer
+ */
+
+OSG_FIELDCONTAINER_DLLMAPPING const AttachmentPtr       OSG::NullAttachment;
+
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -152,6 +157,16 @@ OSG_FIELD_CONTAINER_DEF(Attachment, AttachmentPtr)
 
 /*------------------------------ access -----------------------------------*/
 
+MFFieldContainerPtr &Attachment::getParents(void)
+{
+    return _parents;
+}
+
+const MFFieldContainerPtr &Attachment::getParents(void) const
+{
+    return _parents;
+}
+
 /** \brief Returns pointer to parent field
  */
 
@@ -165,6 +180,7 @@ MFFieldContainerPtr *Attachment::getMFParents(void)
 
 void Attachment::addParent(FieldContainerPtr parent)
 {
+     addRefCP(parent);
     _parents.addValue(parent);
 }
 
@@ -177,6 +193,7 @@ void Attachment::subParent(FieldContainerPtr parent)
 
     if(parentIt != _parents.end())
     {
+         subRefCP(parent);
         _parents.erase(parentIt);
     }
 }
@@ -187,33 +204,36 @@ void Attachment::subParent(FieldContainerPtr parent)
  *  log stream instead
  */
 
-void Attachment::print(UInt32 indent) const
+void Attachment::dump(      UInt32     uiIndent, 
+                      const BitVector &bvFlags) const
 {
     UInt32 i;
-    UInt32 j;
 
-    for(i = 0; i < indent; i++)
-        fprintf(stderr, " ");
+    indentLog(uiIndent, PLOG);
 
-    getType().print();
+    PLOG << "Attachment : " << getType().getName()
+         << "("       << this << ")" << endl;
 
-    for(i = 0; i < indent; i++)
-        fprintf(stderr, " ");
+    indentLog(uiIndent, PLOG);
+    PLOG << "[" << endl;
 
-    fprintf(stderr, "NCParents : \n");
-
+    indentLog(uiIndent + 4, PLOG);
+    PLOG << "Parents : " << endl;
+        
     for(i = 0; i < _parents.size(); i++)
     {
-        for(j = 0; j < indent + 1; j++)
-            fprintf(stderr, " ");
-
-        _parents[i].dump();
+        indentLog(uiIndent + 4, PLOG);
+        PLOG << "           " << i << ") " << &(*(_parents[i])) << endl;
     }
-}
 
-void Attachment::dump(void) const
-{
-    SDEBUG << "Dump Attachment NI" << endl;
+    indentLog(uiIndent, PLOG);
+    PLOG << "]" << endl;
+
+    indentLog(uiIndent, PLOG);
+    PLOG << "{" << endl;
+
+    indentLog(uiIndent, PLOG);
+    PLOG << "}" << endl;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -245,6 +265,17 @@ Attachment::Attachment(const Attachment &obj) :
 
 Attachment::~Attachment(void)
 {
+}
+
+void Attachment::finalize(void)
+{
+    MFFieldContainerPtr::iterator parentIt = _parents.begin();
+
+    while(parentIt != _parents.end())
+    {
+        subRefCP(*parentIt);
+        parentIt++;
+    }
 }
 
 /*-------------------------------------------------------------------------*\

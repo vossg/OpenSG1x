@@ -113,15 +113,18 @@ class OSG_FIELDCONTAINER_DLLMAPPING Attachment : public FieldContainer
 
     /*------------------------------ parents -------------------------------*/
 
-    MFFieldContainerPtr *getMFParents(void);
+          MFFieldContainerPtr &getParents  (void);
+    const MFFieldContainerPtr &getParents  (void) const;
+    
+          MFFieldContainerPtr *getMFParents(void);
 
-	void                 addParent   (FieldContainerPtr parent);
-	void                 subParent   (FieldContainerPtr parent);
+	void                       addParent   (FieldContainerPtr parent);
+	void                       subParent   (FieldContainerPtr parent);
 
     /*------------------------------ dump -----------------------------------*/
 
-            void print(UInt32 indent) const;
-    virtual void dump (void) const;
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector &bvFlags  = 0) const;
 
   protected:
 
@@ -158,6 +161,8 @@ class OSG_FIELDCONTAINER_DLLMAPPING Attachment : public FieldContainer
     Attachment(const Attachment &obj);
 
     virtual ~Attachment(void);
+
+    virtual void finalize(void);
 
   private:
 
@@ -269,8 +274,8 @@ class OSG_FIELDCONTAINER_DLLMAPPING SimpleAttachment : public Attachment
 
     /*------------------------------ dump -----------------------------------*/
 
-    virtual void dump(void) const;
-
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector &bvFlags  = 0) const;
 
   protected:
 
@@ -458,7 +463,8 @@ class OSG_FIELDCONTAINER_DLLMAPPING DynFieldAttachment :
 
     /*--------------------------- dump --------------------------------------*/
 
-    void dump(void) const;
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector &bvFlags  = 0) const;
 
   protected:
 
@@ -549,7 +555,12 @@ class OSG_FIELDCONTAINER_DLLMAPPING DynFieldAttachment :
 /** \brief AttachmentP
  */
 
-typedef Attachment                 *AttachmentP;
+typedef Attachment                          *AttachmentP;
+
+typedef FCPtr<FieldContainerPtr, Attachment> AttachmentPtr;
+
+extern OSG_FIELDCONTAINER_DLLMAPPING const AttachmentPtr NullAttachment;
+
 
 typedef map<UInt32, AttachmentPtr>  AttachmentMap;
 

@@ -40,35 +40,30 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILEFIELDCONTAINER
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "OSGConfig.h"
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
-#else
-#include <iostream.h>
-#endif
 
 #include <algorithm>
 
-#define OSG_COMPILEFIELDCONTAINER
-
-#include "OSGLog.h"
-
-#include "OSGFieldDescription.h"
 #include "OSGFieldContainerType.h"
 #include "OSGFieldContainerFactory.h"
+#include "OSGFieldDescription.h"
 
 #include "OSGNode.h"
-#include "OSGAttachment.h"
 #include "OSGNodeCore.h"
-
-#include "OSGFieldContainerPtr.h"
+#include "OSGAttachment.h"
 
 OSG_USING_NAMESPACE
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
 
 /***************************************************************************\
  *                               Types                                     *
@@ -85,7 +80,7 @@ char FieldContainerType::cvsid[] = "@(#)$Id: $";
 \***************************************************************************/
 
 /*-------------------------------------------------------------------------*\
- -  public                                                                 -
+ -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -93,12 +88,201 @@ char FieldContainerType::cvsid[] = "@(#)$Id: $";
 \*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------*\
- -  private                                                                -
+ -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
 /***************************************************************************\
  *                           Instance methods                              *
 \***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+void FieldContainerType::registerType(const Char8 *szGroupName)
+{
+	_uiTypeId  = FieldContainerFactory::the()->registerType (this);
+
+	_uiGroupId = FieldContainerFactory::the()->registerGroup( 
+        szGroupName != NULL ? szGroupName : _szName.str());
+}
+
+Bool FieldContainerType::initPrototype(void)
+{
+    _bInitialized = true;
+
+    if(_fPrototypeCreate != NULL)
+    {
+        _pPrototype = _fPrototypeCreate();
+
+        addRefCP(_pPrototype);
+    }
+
+    return _bInitialized;
+}
+
+Bool FieldContainerType::initBaseType(void)
+{
+    if     (isDerivedFrom(NodeCore::getClassType())   == true)
+    {
+        _baseType = IsNodeCore;
+    }
+    else if(isDerivedFrom(Attachment::getClassType()) == true)
+    {
+        _baseType = IsAttachment;
+    }
+    else if(isDerivedFrom(Node::getClassType())       == true)
+    {
+        _baseType = IsNode;
+    }
+
+    return true;
+}
+
+Bool FieldContainerType::initFields(void)
+{
+    UInt32    i;
+	DescMapIt descIt;
+
+    _bInitialized = true;
+
+    for(i = 0; i < _uiDescByteCounter / sizeof(FieldDescription); i++) 
+    {
+        if(_pDesc[i].isValid()) 
+        {
+            descIt = _mDescMap.find(StringLink(_pDesc[i].getCName()));
+
+            if(descIt == _mDescMap.end())
+            {
+                _mDescMap[StringLink(_pDesc[i].getCName())] = &_pDesc[i];
+
+                _vDescVec.push_back(&_pDesc[i]); 
+            }
+            else
+            {
+                SWARNING << "ERROR: Double field description " 
+                            << "in " << _szName.str() << "from " 
+                            << _pDesc[i].getCName() 
+                            << _pDesc[i].getTypeId() << endl;
+
+                _bInitialized = false;
+            }
+        }
+        else
+        {
+            SWARNING << "ERROR: Invalid field description " 
+                        << "in " << _szName.str() << "from " 
+                        << _pDesc[i].getTypeId() << endl;
+
+            _bInitialized = false;
+        }
+
+    }
+
+    sort(_vDescVec.begin(), _vDescVec.end(), FieldDescriptionPLT());
+
+    return _bInitialized;
+}
+
+Bool FieldContainerType::initParentFields(void)
+{
+	DescMapIt dPIt;
+
+    _bInitialized = true;
+
+    if(_szParentName.str() != NULL) 
+    {
+        _pParent = 
+            FieldContainerFactory::the()->findType(_szParentName.str());
+
+        if(_pParent == NULL)
+        {
+            _pParent = 
+                FieldContainerFactory::the()->findUninitializedType(
+                    _szParentName.str());
+        }
+
+        if(_pParent != NULL) 
+        {
+            _bInitialized = _pParent->initialize();
+            
+            if(_bInitialized == false)
+            {
+                return _bInitialized;
+            }
+
+            for(  dPIt  = _pParent->_mDescMap.begin();
+                  dPIt != _pParent->_mDescMap.end(); 
+                ++dPIt) 
+            {
+                if(_mDescMap.find((*dPIt).first) == _mDescMap.end())
+                {
+                    _mDescMap[(*dPIt).first] = (*dPIt).second;
+                }
+                else
+                {
+                    SWARNING << "ERROR: Can't add field "
+                                << "description a second time: " 
+                                << (*dPIt).first.str() << endl; 
+                }
+            } 				
+            
+            _vDescVec.insert(_vDescVec.end(),
+                             _pParent->_vDescVec.begin(),
+                             _pParent->_vDescVec.end());
+            
+        }
+        else 
+        {
+            SWARNING << "ERROR: Can't find type with "
+                        << "name " << _szParentName.str() 
+                        << endl;
+
+            _bInitialized = false;
+        }
+    }
+
+    return _bInitialized;
+}
+
+Bool FieldContainerType::initialize(void)
+{
+    if(_bInitialized == true)
+        return _bInitialized;
+
+    _bInitialized = initParentFields();
+
+    if(_bInitialized == false)
+        return _bInitialized;
+
+    _bInitialized = initFields      ();
+
+    if(_bInitialized == false)
+        return _bInitialized;
+
+    _bInitialized = initPrototype   ();
+
+    if(_bInitialized == false)
+        return _bInitialized;
+
+    _bInitialized = initBaseType    ();
+    
+    PDEBUG << "init FieldContainerType " << _szName.str() 
+              << " (" << _bInitialized << ")" << endl;
+
+    return _bInitialized;
+}
+
+void FieldContainerType::terminate(void)
+{
+    clearRefCP(_pPrototype);
+
+    _bInitialized = false;
+}
 
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
@@ -109,71 +293,40 @@ char FieldContainerType::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-FieldContainerType::FieldContainerType(
-    const Char8      *name,
-    const Char8      *parentName,
-    const Char8      *group,
-    PrototypeCreateF  prototypeCreateF,
-    InitContainerF    initMethod,
-    FieldDescription *desc,
-    UInt32            descByteCounter,
-    Bool              descsAddable) :
+FieldContainerType::FieldContainerType(const Char8            *szName,
+                                   const Char8            *szParentName,
+                                   const Char8            *szGroupName,
+                                   PrototypeCreateF        fPrototypeCreate,
+                                   InitContainerF          fInitMethod,
+                                   FieldDescription        *pDesc,
+                                   UInt32                 uiDescByteCounter,
+                                   Bool                   bDescsAddable) :
+    Inherited(szName),
+    _uiGroupId(0),
 
-    _name       (name), 
-    _parentName (parentName),
-
-    _initialized(false),
-    _descsAddable(descsAddable),
-
-    _Id     (0), 
-    _groupId(0),
-
-    _prototypeP      (NullFC),
-    _prototypeCreateF(prototypeCreateF),
-
-    _parentP(NULL), 
+    _bInitialized(false),
+    _bDescsAddable(bDescsAddable),
 
     _baseType(IsFieldContainer),
 
-    _descA          (desc),
-    _byteSizeOfDescA(descByteCounter)
+    _pParent(NULL),
+
+    _szParentName(szParentName),
+    _szGroupName (szGroupName),
+
+    _pPrototype(NullFC),
+    _fPrototypeCreate(fPrototypeCreate),
+
+    _pDesc            (pDesc),
+    _uiDescByteCounter(uiDescByteCounter),
+
+	_mDescMap(),
+    _vDescVec(0)
 {
-	registerType(group);
+	registerType(szGroupName);
 
-	if(initMethod != NULL)
-		initMethod();
-}
-
-/** \brief Copy Constructor
- */
-
-FieldContainerType::FieldContainerType(const FieldContainerType &obj):
-    _name       (obj._name), 
-    _parentName (obj._parentName),
-
-    _initialized(false),
-    _descsAddable(obj._descsAddable),
-
-    _Id     (obj._Id), 
-    _groupId(obj._groupId),
-
-    _prototypeP      (obj._prototypeP),
-    _prototypeCreateF(obj._prototypeCreateF),
-
-    _parentP(obj._parentP), 
-
-    _baseType(obj._baseType),
-
-    _descA          (obj._descA),
-    _byteSizeOfDescA(obj._byteSizeOfDescA)
-{
-    if(_prototypeP != NullFC)
-        osgAddRefCP(_prototypeP);        
-
-    initFields();
-    initParentFields();
-    
-    _initialized = true;
+	if(fInitMethod != NULL)
+		fInitMethod();
 }
 
 /** \brief Destructor
@@ -181,24 +334,19 @@ FieldContainerType::FieldContainerType(const FieldContainerType &obj):
 
 FieldContainerType::~FieldContainerType(void)
 {
+    terminate();
+    FieldContainerFactory::the()->unregisterType(this);
 }
+
 
 /*------------------------------ access -----------------------------------*/
 
 /** \brief Get method for attribute Id
  */
 
-UInt32 FieldContainerType::getId(void) const 
-{
-    return _Id; 
-}
-
-/** \brief Get method for attribute Id
- */
-
 UInt16 FieldContainerType::getGroupId (void) const 
 {
-    return _groupId; 
+    return _uiGroupId; 
 }
 
 /** \brief Get method for attribute parent 
@@ -206,37 +354,209 @@ UInt16 FieldContainerType::getGroupId (void) const
 
 FieldContainerType *FieldContainerType::getParent(void) const
 {
-    return _parentP; 
+    return _pParent; 
 }
 
-/** \brief Get method for attribute name 
- */
 
-const Char8 *FieldContainerType::getName(void) const 
+FieldDescription *FieldContainerType::getFieldDescription(UInt32 uiFieldId)
 {
-    return _name.str(); 
+    if(uiFieldId < _vDescVec.size())
+        return _vDescVec[uiFieldId];
+    else
+        return NULL;
 }
 
-/** \brief Retrieve prototype object for type
+const FieldDescription *FieldContainerType::getFieldDescription(
+    UInt32 uiFieldId) const
+{
+    if(uiFieldId < _vDescVec.size())
+        return _vDescVec[uiFieldId];
+    else
+        return NULL;
+}
+
+FieldDescription *FieldContainerType::findFieldDescription(
+    const Char8 *szFieldName)
+{
+    DescMapIt descIt = _mDescMap.find(StringLink(szFieldName));
+
+    return (descIt == _mDescMap.end()) ? NULL : (*descIt).second;
+}     
+
+const FieldDescription *FieldContainerType::findFieldDescription(
+    const Char8 *szFieldName) const
+{
+    DescMapConstIt descIt = _mDescMap.find(StringLink(szFieldName));
+
+    return (descIt == _mDescMap.end()) ? NULL : (*descIt).second;
+}     
+
+UInt32 FieldContainerType::getNumFieldDescs(void) const
+{
+    return _vDescVec.size();
+}
+
+UInt32 FieldContainerType::addDescription(const FieldDescription &desc)
+{
+    UInt32            returnValue = 0;
+    DescMapConstIt    descIt;
+    DescVecIt         descVIt;
+
+    FieldDescription  *pDesc;
+    FieldDescription  *pNullDesc = NULL;
+
+    if(_bDescsAddable == false)
+        return returnValue;
+
+    descIt = _mDescMap.find(StringLink(desc.getCName()));
+
+    if(desc.isValid())
+    {
+        if(descIt == _mDescMap.end()) 
+        {
+            pDesc = new FieldDescription(desc);
+
+            _mDescMap[StringLink(pDesc->getCName())] = pDesc;
+
+            descVIt = find(_vDescVec.begin(), 
+                           _vDescVec.end(),
+                           pNullDesc);
+
+            if(descVIt == _vDescVec.end())
+            {
+                _vDescVec.push_back(pDesc);
+
+                returnValue = _vDescVec.size();
+            }
+            else
+            {
+                (*descVIt) = pDesc;
+
+                returnValue  = descVIt - _vDescVec.begin();
+                returnValue += 1;
+            }
+        }
+        else
+        {
+            SWARNING << "ERROR: Double field description " 
+                        << "in " << _szName.str() << "from " 
+                        << desc.getCName() 
+                        << desc.getTypeId() << endl;
+        }
+    }
+    else
+    {
+        SWARNING << "ERROR: Invalid field description " 
+                    << "in " << _szName.str() << "from " 
+                    << desc.getTypeId() << endl;
+    }
+
+    return returnValue;
+}
+
+Bool FieldContainerType::subDescription(UInt32 uiFieldId)
+{
+    FieldDescription  *pDesc = getFieldDescription(uiFieldId);
+    DescMapIt          descMIt;
+    DescVecIt          descVIt;
+    Bool               returnValue = true;
+
+    if(pDesc == NULL || _bDescsAddable == false)
+        return false;
+
+    descMIt = _mDescMap.find(StringLink(pDesc->getCName()));
+
+    if(descMIt != _mDescMap.end())
+    {
+        _mDescMap.erase(descMIt);       
+    }
+    else
+    {
+        returnValue = false;
+    }
+
+    descVIt = find(_vDescVec.begin(), _vDescVec.end(), pDesc);
+
+    if(descVIt != _vDescVec.end())
+    {
+        (*descVIt) = NULL;
+
+        returnValue &= true;
+    }
+    else
+    {
+        returnValue = false;
+    }
+
+    delete pDesc;
+
+    return returnValue;
+}
+
+/*! \brief Retrieve prototype object for type
  */
 
 FieldContainerPtr FieldContainerType::getPrototype(void) const
 {
-    return _prototypeP;
+    return _pPrototype;
 }
 
-Bool FieldContainerType::setPrototype(FieldContainerPtr prototypeP)
+Bool FieldContainerType::setPrototype(FieldContainerPtr pPrototype)
 {
 	Bool returnValue = false;
 
-    if(prototypeP != NullFC)
+    if(pPrototype != NullFC)
     {
-        osgSetRefdCP(_prototypeP, prototypeP);
+        setRefdCP(_pPrototype, pPrototype);
 		returnValue = true;
     }
 
 	return returnValue;
 }
+
+Bool FieldContainerType::isInitialized(void) const
+{
+    return _bInitialized;
+}
+
+Bool FieldContainerType::isAbstract(void) const
+{
+    return (_pPrototype != NullFC) ? false : true;
+}
+
+Bool FieldContainerType::isDerivedFrom(const TypeBase &other) const
+{
+    return false;
+}
+
+Bool FieldContainerType::isDerivedFrom(const FieldContainerType &other) const
+{
+    Bool                returnValue = false;
+    FieldContainerType *pCurrType   = _pParent;
+
+    if(_uiTypeId == other._uiTypeId)
+    {
+        returnValue = true;
+    }
+    else
+    {
+        while(pCurrType != NULL && returnValue == false)
+        {
+            if(other._uiTypeId == pCurrType->_uiTypeId)
+            {
+                returnValue = true;
+            }
+            else
+            {
+                pCurrType = pCurrType->_pParent;
+            }
+        }
+    }
+
+    return returnValue;
+}
+
+/*------------------------------ access -----------------------------------*/
 
 FieldContainerPtr FieldContainerType::createFieldContainer(void) const
 {
@@ -244,11 +564,7 @@ FieldContainerPtr FieldContainerType::createFieldContainer(void) const
 
     if(isAbstract()       == false)
     {
-#ifdef OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
-        fc = _prototypeP->shallowCopy().dcast<FieldContainerPtr>();
-#else
-        _prototypeP->shallowCopy().dcast(fc);
-#endif
+        fc = _pPrototype->shallowCopy();
     }
 
 	return fc;
@@ -262,11 +578,7 @@ NodePtr  FieldContainerType::createNode(void) const
     if(isAbstract() == false &&
        isNode()     == true)
     {
-#ifdef OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
-        fc = _prototypeP->shallowCopy().dcast<NodePtr>();
-#else
-        _prototypeP->shallowCopy().dcast(fc);
-#endif
+        fc = dcast<NodePtr>(_pPrototype->shallowCopy());
     }
 
 	return fc;
@@ -279,11 +591,7 @@ NodeCorePtr FieldContainerType::createNodeCore(void) const
     if(isAbstract() == false &&
        isNodeCore() == true)
     {
-#ifdef OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
-        fc = _prototypeP->shallowCopy().dcast<NodeCorePtr>();
-#else
-        _prototypeP->shallowCopy().dcast(fc);
-#endif
+        fc = dcast<NodeCorePtr>(_pPrototype->shallowCopy());
     }
 
 	return fc;
@@ -296,20 +604,12 @@ AttachmentPtr FieldContainerType::createAttachment(void) const
     if(isAbstract()   == false &&
        isAttachment() == true)
     {
-#ifdef OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
-    fc = _prototypeP->shallowCopy().dcast<AttachmentPtr>();
-#else
-    _prototypeP->shallowCopy().dcast(fc);
-#endif
+        fc = dcast<AttachmentPtr>(_pPrototype->shallowCopy());
     }
 
 	return fc;
 }
 
-Bool FieldContainerType::isAbstract(void) const
-{
-    return (_prototypeP != NullFC) ? false : true;
-}
 
 Bool FieldContainerType::isNode(void) const
 {
@@ -326,359 +626,26 @@ Bool FieldContainerType::isAttachment(void) const
     return (_baseType == IsAttachment);
 }
 
-Bool FieldContainerType::isDerivedFrom(
-    const FieldContainerType &other) const
-{
-    Bool                returnValue = false;
-    FieldContainerType *currTypeP   = _parentP;
-
-    if(_Id == other._Id)
-    {
-        returnValue = true;
-    }
-    else
-    {
-        while(currTypeP != NULL && returnValue == false)
-        {
-            if(other._Id == currTypeP->_Id)
-            {
-                returnValue = true;
-            }
-            else
-            {
-                currTypeP = currTypeP->_parentP;
-            }
-        }
-    }
-
-    return returnValue;
-}
- 
-const FieldDescription *FieldContainerType::findFieldDescription(
-    const Char8 *fieldName) const 
-{
-    DescMapConstIt descIt = _descriptionMap.find(StringLink(fieldName));
-
-    return (descIt == _descriptionMap.end()) ? NULL : (*descIt).second;
-}     
-
-FieldDescription *FieldContainerType::getFieldDescription(
-    UInt32 index)
-{
-    if(index > 0 && (index - 1) < _descriptionVec.size())
-        return _descriptionVec[index - 1];
-    else
-        return NULL;
-}
-
-const FieldDescription *FieldContainerType::getFieldDescription(
-    UInt32 index) const
-{
-    if(index > 0 && (index - 1) < _descriptionVec.size())
-        return _descriptionVec[index - 1];
-    else
-        return NULL;
-}
-
-UInt32 FieldContainerType::addDescription(
-    const FieldDescription &desc)
-{
-    UInt32            returnValue = 0;
-    DescMapConstIt    descIt;
-    DescVecIt         descVIt;
-
-    FieldDescription *descP;
-    FieldDescription *nullDescP = NULL;
-
-    if(_descsAddable == false)
-        return returnValue;
-
-    descIt = _descriptionMap.find(StringLink(desc.getName()));
-
-    if(desc.isValid())
-    {
-        if(descIt == _descriptionMap.end()) 
-        {
-            descP = new FieldDescription(desc);
-
-            _descriptionMap[StringLink(descP->getName())] = descP;
-
-            descVIt = find(_descriptionVec.begin(), 
-                           _descriptionVec.end(),
-                           nullDescP);
-
-            if(descVIt == _descriptionVec.end())
-            {
-                _descriptionVec.push_back(descP);
-
-                returnValue = _descriptionVec.size();
-            }
-            else
-            {
-                (*descVIt) = descP;
-
-                returnValue  = descVIt - _descriptionVec.begin();
-                returnValue += 1;
-            }
-        }
-        else
-        {
-            SWARNING << "ERROR: Double field description " 
-                     << "in " << _name << "from " 
-                     << desc.getName() 
-                     << desc.getTypeId() << endl;
-        }
-    }
-    else
-    {
-        SWARNING << "ERROR: Invalid field description " 
-                 << "in " << _name << "from " 
-                 << desc.getTypeId() << endl;
-    }
-
-    return returnValue;
-}
-
-Bool FieldContainerType::subDescription(UInt32 fieldId)
-{
-    FieldDescription *descP = getFieldDescription(fieldId);
-    DescMapIt         descMIt;
-    DescVecIt         descVIt;
-    Bool              returnValue = true;
-
-    if(descP == NULL || _descsAddable == false)
-        return false;
-
-    descMIt = _descriptionMap.find(StringLink(descP->getName()));
-
-    if(descMIt != _descriptionMap.end())
-    {
-        _descriptionMap.erase(descMIt);       
-    }
-    else
-    {
-        returnValue = false;
-    }
-
-    descVIt = find(_descriptionVec.begin(), _descriptionVec.end(), descP);
-
-    if(descVIt != _descriptionVec.end())
-    {
-        (*descVIt) = NULL;
-
-        returnValue &= true;
-    }
-    else
-    {
-        returnValue = false;
-    }
-
-    delete descP;
-
-    return returnValue;
-}
-
-UInt32 FieldContainerType::getNumFieldDescriptions(void) const
-{
-    return _descriptionVec.size();
-}
-
-void FieldContainerType::print(void) const
-{
-	map    <StringLink, FieldDescription *>::const_iterator dI;
-	vector <               FieldDescription *>::const_iterator dVI;
-
- 	cerr << "FieldContainerType: " << _name 
-         << ", Id: "      << _Id 
-         << ", parentP: "  << (_parentP ? _parentP->getName() : "NONE")
-         << ", groupId: " << _groupId 
-         << ", abstract: " 
-         << ((_prototypeP != NullFC) ? "false" : "true")
-         << endl;
-
-	for (	dVI  = _descriptionVec.begin(); 
-            dVI != _descriptionVec.end(); 
-          ++dVI)
-    {
-        if( (*dVI) != NULL)
-            (*dVI)->print();        
-        else
-            fprintf(stderr, "NULL DESC\n");
-    }
-}
-
-/*---------------------------- properties ---------------------------------*/
 
 /*-------------------------- your_category---------------------------------*/
 
-Bool FieldContainerType::operator ==(const FieldContainerType &other)
+void FieldContainerType::dump(      UInt32     uiIndent, 
+                              const BitVector &bvFlags) const
 {
-    return (_Id == other._Id);
+    SDEBUG << "FieldContainerType: " << getCName() 
+           << ", Id: "       << getId() 
+           << ", parentP: "  << (_pParent ? _pParent->getCName() : "NONE")
+           << ", groupId: "  << _uiGroupId 
+           << ", abstract: " 
+           << ((_pPrototype != NullFC) ? "false" : "true")
+           << endl;
 }
-
-Bool FieldContainerType::operator !=(const FieldContainerType &other)
-{
-    return ! (*this == other);
-}
-
 
 /*-------------------------- assignment -----------------------------------*/
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+/*-------------------------- comparison -----------------------------------*/
 
-void FieldContainerType::registerType(const Char8 *group)
-{
-	_Id      = FieldContainerFactory::registerType (this);
-	_groupId = FieldContainerFactory::registerGroup( 
-        group != NULL ? group : _name.str());
-}
 
-void FieldContainerType::initPrototype(void)
-{
-    if(_initialized == true)
-        return;
-
-    if(_prototypeCreateF != NULL)
-    {
-        _prototypeP = _prototypeCreateF();
-
-        
-        osgAddRefCP(_prototypeP);
-    }	
-}
-
-void FieldContainerType::initBaseType(void)
-{
-    if(_initialized == true)
-        return;
-
-    if     (isDerivedFrom(NodeCore::getStaticType())   == true)
-    {
-        _baseType = IsNodeCore;
-    }
-    else if(isDerivedFrom(Attachment::getStaticType()) == true)
-    {
-        _baseType = IsAttachment;
-    }
-    else if(isDerivedFrom(Node::getStaticType())       == true)
-    {
-        _baseType = IsNode;
-    }
-}
-
-void FieldContainerType::initFields(void)
-{
-    UInt32         i;
-    DescMapConstIt descIt;
-
-    if(_initialized == true)
-        return;
-
-    for(i = 0; i < _byteSizeOfDescA / sizeof(FieldDescription); i++) 
-    {
-        if(_descA[i].isValid())
-        {
-            descIt = _descriptionMap.find(StringLink(_descA[i].getName()));
-            
-            if(descIt == _descriptionMap.end())
-            {
-                _descriptionMap[StringLink(_descA[i].getName())] = 
-                    &_descA[i];
-                _descriptionVec.push_back(&_descA[i]);
-            }
-            else
-            {
-                SWARNING << "ERROR: Double field description " 
-                         << "in " << _name << "from " 
-                         << _descA[i].getName() 
-                         << _descA[i].getTypeId() << endl;
-            }
-        }
-        else
-        {
-            SWARNING << "ERROR: Invalid field description " 
-                     << "in " << _name << "from " 
-                     << _descA[i].getTypeId() << endl;
-        }
-    }
-}
-
-void FieldContainerType::initParentFields(void)
-{
-	DescMapIt dPI;
-
-    if(_initialized == true)
-        return;
-
-    if(_parentName.str() != NULL) 
-    {
-        _parentP = FieldContainerFactory::the().findType(_parentName.str());
-        
-        if(_parentP != NULL) 
-        {
-            _parentP->initialize();
-            
-            for(  dPI  = _parentP->_descriptionMap.begin();
-                  dPI != _parentP->_descriptionMap.end(); 
-                ++dPI) 
-            {
-                if(_descriptionMap.find((*dPI).first) == 
-                   _descriptionMap.end())
-                {
-                    _descriptionMap[(*dPI).first] = (*dPI).second;
-                }
-                else
-                {
-                    SWARNING << "ERROR: Can't add field "
-                             << "description a second time: " 
-                             << (*dPI).first << endl; 
-                }
-            } 				
-            
-            _descriptionVec.insert(_descriptionVec.end(),
-                                   _parentP->_descriptionVec.begin(),
-                                   _parentP->_descriptionVec.end());
-            
-            sort(_descriptionVec.begin(),
-                 _descriptionVec.end(),
-                 FieldDescriptionPLT());
-        }
-        else 
-        {
-            SWARNING << "ERROR: Can't find type with "
-                     << "name " << _parentName.str() 
-                     << endl;
-        }
-    }
-    
-}
-
-void FieldContainerType::initialize(void)
-{
-    if(_initialized == true)
-        return;
-
-    initFields();
-
-    initPrototype();
-
-    initParentFields();
-
-    initBaseType();
-
-    SDEBUG << "init FieldContainerType " << _name << endl;
-
-    _initialized = true;
-}
-
-void FieldContainerType::terminate(void)
-{
-    osgSubRefCP(_prototypeP);    
-
-    _initialized = false;
-}
 
 ///---------------------------------------------------------------------------
 ///  FUNCTION: 
@@ -707,3 +674,4 @@ void FieldContainerType::terminate(void)
 //s: SeeAlso:
 //s: 
 ///---------------------------------------------------------------------------
+

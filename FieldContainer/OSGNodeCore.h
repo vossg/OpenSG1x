@@ -116,23 +116,25 @@ class OSG_FIELDCONTAINER_DLLMAPPING NodeCore : public FieldContainer
 
     /*------------------------------ parents -------------------------------*/
 
-    MFNodePtr       *getMFParents    (void);
-    SFAttachmentMap *getSFAttachments(void);
+          MFNodePtr       &getParents      (void);
+    const MFNodePtr       &getParents      (void) const;
+ 
+          MFNodePtr       *getMFParents    (void);
+
+          SFAttachmentMap *getSFAttachments(void);
 
     /*------------------------------ attachments ---------------------------*/
 
-    void          addAttachment (AttachmentPtr &fieldContainerP, 
-                                 UInt16         binding = 0);
+    void          addAttachment (const AttachmentPtr &fieldContainerP, 
+                                       UInt16         binding = 0);
 
-    void          subAttachment (AttachmentPtr &fieldContainerP,
-                                 UInt16         binding = 0);
+    void          subAttachment (const AttachmentPtr &fieldContainerP,
+                                       UInt16         binding = 0);
 
     AttachmentPtr findAttachment(UInt16 groupId, 
                                  UInt16 binding = 0);
 
     /*------------------------------ pointer -------------------------------*/
-
-    NodeCorePtr getPtr(void);
 
     /*-------------------------- transformation ----------------------------*/
 
@@ -144,8 +146,8 @@ class OSG_FIELDCONTAINER_DLLMAPPING NodeCore : public FieldContainer
     
     /*------------------------------ dump -----------------------------------*/
 
-            void print(UInt32 indent) const;
-    virtual void dump (void) const;
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector &bvFlags  = 0) const;
 
   protected:
 
@@ -180,8 +182,12 @@ class OSG_FIELDCONTAINER_DLLMAPPING NodeCore : public FieldContainer
     NodeCore(const NodeCore &obj);
     virtual ~NodeCore(void);
 
+    virtual void finalize(void);
+
     void addParent(const NodePtr &parent);
     void subParent(const NodePtr &parent);
+
+    NodeCorePtr getPtr(void);
 
   private:
 
@@ -227,11 +233,16 @@ class OSG_FIELDCONTAINER_DLLMAPPING NodeCore : public FieldContainer
     //-----------------------------------------------------------------------
 };
 
+
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
 // class pointer
+
+typedef FCPtr<FieldContainerPtr, NodeCore> NodeCorePtr;
+
+extern OSG_FIELDCONTAINER_DLLMAPPING const NodeCorePtr         NullNodeCore;
 
 typedef NodeCore *NodeCoreP;
 

@@ -36,6 +36,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+
 #ifndef _OSGFIELDCONTAINERFACTORY_H_
 #define _OSGFIELDCONTAINERFACTORY_H_
 #ifdef __sgi
@@ -46,11 +47,14 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <OSGFieldContainerBase.h>
+#include <OSGBaseTypes.h>
+#include <OSGString.h>
+#include <OSGFieldContainerPtr.h>
+
 #include <map>
 #include <vector>
-#include <OSGStringLink.h>
-#include <OSGFieldContainerBase.h>
-#include <OSGFieldContainerPtr.h>
+
 
 OSG_BEGIN_NAMESPACE
 
@@ -58,9 +62,16 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class FieldContainer;
-class FieldContainerType;
 class Lock;
+class FieldContainerType;
+
+class NodePtr;
+
+class NodeCore;
+typedef FCPtr<FieldContainerPtr, NodeCore  > NodeCorePtr;
+
+class Attachment;
+typedef FCPtr<FieldContainerPtr, Attachment> AttachmentPtr;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -74,7 +85,7 @@ class Lock;
  *  \brief FieldContainerFactory
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerFactory 
+class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerFactory
 {
   public:
 
@@ -90,103 +101,6 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerFactory
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    static const FieldContainerFactory &the(void);
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-   /*--------------------------- types -------------------------------------*/
-        
-    FieldContainerType *findType    (      UInt32  Id)   const;
-    FieldContainerType *findType    (const Char8  *name) const;
-    UInt32              getTypeCount(void)                  const;
-
-   /*--------------------------- groups ------------------------------------*/
-
-          UInt16  findGroupId  (const Char8  *name) const;
-    const Char8  *findGroupName(      UInt16  Id)   const;
-        
-          UInt16  getGroupCount(void)                  const;
-
-   /*---------------------------- create -----------------------------------*/
-
-    FieldContainerPtr createFieldContainer(const Char8 *name) const;
-    NodePtr           createNode          (const Char8 *name) const;
-    NodeCorePtr       createNodeCore      (const Char8 *name) const;
-    AttachmentPtr     createAttachment    (const Char8 *name) const;
-
-   /*------------------------------- get -----------------------------------*/
-
-    FieldContainerPtr getContainer(UInt32 uiContainerId) const;
-
-   /*---------------------------- dump -------------------------------------*/
-
-    void dump(void) const;
-    
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef map<UInt32, FieldContainerType *>  TypeIdMap;
-    typedef map<String, FieldContainerType *>  TypeNameMap;
-    typedef map<String, UInt16>                GroupMap;
-
-    typedef vector<FieldContainerPtr>          FieldContainerStore;
-
-    typedef TypeIdMap::iterator           TypeIdMapIt;
-    typedef TypeNameMap::iterator         TypeNameMapIt;
-    typedef GroupMap::iterator            GroupMapIt;
-    typedef FieldContainerStore::iterator FieldContainerStoreIt;
-
-    typedef TypeIdMap::const_iterator     TypeIdMapConstIt;
-    typedef TypeNameMap::const_iterator   TypeNameMapCnstIt;
-    typedef GroupMap::const_iterator      GroupMapConstIt;
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    static void      initTypeMap(void);
-
-    static Bool   initialize (int argc, char **argv);
-    static Bool   terminate  (void);
-
-
-    static UInt32 registerFieldContainer(
-        const FieldContainerPtr &fieldP);
-
-    static const FieldContainerStore *getFieldStore(void);
-
-    static FieldContainerType *findTypeStatic   (const Char8  *name);
-    static FieldContainerType *findTypeStatic   (      UInt32 typeId);
-    static UInt16              findGroupIdStatic(const Char8  *name);
-
-    static UInt32 registerType (      FieldContainerType *typeP);
-    static UInt16 registerGroup(const Char8              *name);
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
   private:
 
     //-----------------------------------------------------------------------
@@ -197,12 +111,29 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerFactory
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef map<UInt32,     FieldContainerType *>  TypeIdMap;
+    typedef map<StringLink, FieldContainerType *>  TypeNameMap;
+    typedef map<StringLink, UInt16              >  GroupMap;
+
+    typedef vector<FieldContainerType          *>  UninitializedTypeStore;
+    typedef vector<FieldContainerPtr            >  FieldContainerStore;
+
+    typedef TypeIdMap::iterator                    TypeIdMapIt;
+    typedef TypeNameMap::iterator                  TypeNameMapIt;
+    typedef GroupMap::iterator                     GroupMapIt;
+    typedef UninitializedTypeStore::iterator       UninitTypeStoreIt;
+    typedef FieldContainerStore::iterator          FieldContainerStoreIt;
+
+    typedef TypeIdMap::const_iterator              TypeIdMapConstIt;
+    typedef TypeNameMap::const_iterator            TypeNameMapCnstIt;
+    typedef GroupMap::const_iterator               GroupMapConstIt;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class FieldContainer;
     friend class FieldContainerType;
+    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -214,19 +145,6 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerFactory
 
 	static char cvsid[];
 
-    static FieldContainerFactory  _the;
-
-    static Bool                   _initialized;
-
-    static TypeIdMap             *_typeIdMap;
-    static TypeNameMap           *_typeNameMap;
-    static GroupMap              *_groupMap;
-
-    static FieldContainerStore   *_fieldcontainerStoreV;
-
-    static Lock                  *_storeLock;
-    static Lock                  *_mapLock;
-
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
@@ -239,12 +157,116 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerFactory
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    FieldContainerFactory (void);
-    virtual ~FieldContainerFactory (void);
+	// prohibit default functions (move to 'public' if you need one)
 
-    // prohibit default functions (move to 'public' if you need one)
+    FieldContainerFactory(const FieldContainerFactory &source);
+    void operator =(const FieldContainerFactory &source);
 
-    FieldContainerFactory (const FieldContainerFactory &obj);
+  protected:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    static FieldContainerFactory *_the;
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    static Bool   initializeFactory (int &argc, char **argv);
+    static Bool   terminateFactory  (void);
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    Bool                    _bInitialized;
+
+    TypeIdMap              *_pTypeIdMap;
+    TypeNameMap            *_pTypeNameMap;
+    GroupMap               *_pGroupMap;
+    UninitializedTypeStore *_pUnitTypesStore;
+    FieldContainerStore    *_pFieldContainerStore;
+
+    Lock                   *_pStoreLock;
+    Lock                   *_pMapLock;
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    FieldContainerFactory(void);
+    virtual ~FieldContainerFactory(void); 
+
+    Bool   initialize            (int &argc, char **argv);
+    Bool   terminate             (void);
+
+    void   initTypeMap           (void);
+
+    UInt32 registerFieldContainer(const FieldContainerPtr &pFieldContainer);
+
+    UInt32 registerType          (      FieldContainerType *pType );
+    UInt16 registerGroup         (const Char8              *szName);
+    void   unregisterType        (      FieldContainerType *pType );
+
+    const FieldContainerStore *getFieldContainerStore(void);
+
+  public :
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    static FieldContainerFactory *the(void);
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+   /*--------------------------- types -------------------------------------*/
+        
+    FieldContainerType *findType    (      UInt32  uiTypeId) const;
+    FieldContainerType *findType    (const Char8  *szName  ) const;
+    UInt32              getNumTypes (void                  ) const;
+
+    FieldContainerType *findUninitializedType (const Char8  *szName) const;
+
+    Bool                initializePendingTypes(void);
+
+   /*--------------------------- groups ------------------------------------*/
+
+          UInt16  findGroupId  (const Char8  *szName   ) const;
+    const Char8  *findGroupName(      UInt16  uiGroupId) const;
+        
+          UInt16  getNumGroups (void)                       const;
+
+   /*------------------------------- get -----------------------------------*/
+
+    FieldContainerPtr getContainer(UInt32 uiFieldContainerId) const;
+
+   /*---------------------------- create -----------------------------------*/
+
+    FieldContainerPtr createFieldContainer(const Char8 *name) const;
+    NodePtr           createNode          (const Char8 *name) const;
+    NodeCorePtr       createNodeCore      (const Char8 *name) const;
+    AttachmentPtr     createAttachment    (const Char8 *name) const;
+
+    /*------------------------- your_category -------------------------------*/
+
+    /*------------------------- your_operators ------------------------------*/
+
+    /*------------------------- assignment ----------------------------------*/
+
+    /*------------------------- comparison ----------------------------------*/
 };
 
 //---------------------------------------------------------------------------
@@ -253,7 +275,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerFactory
 
 // class pointer
 
-typedef FieldContainerFactory* FieldContainerFactoryP;
+typedef FieldContainerFactory *FieldContainerFactoryP;
 
 OSG_END_NAMESPACE
 

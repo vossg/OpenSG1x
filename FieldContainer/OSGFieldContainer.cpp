@@ -120,7 +120,7 @@ UInt16 FieldContainer::getGroupId(void) const
 
 const Char8 *FieldContainer::getTypeName(void) const 
 {
-    return getType().getName(); 
+    return getType().getCName(); 
 }
 
 
@@ -179,6 +179,10 @@ FieldContainer::~FieldContainer(void)
 {
 }
 
+void FieldContainer::finalize(void)
+{
+}
+
 void FieldContainer::changed(BitVector whichField, ChangeMode from)
 {
     // fprintf(stderr, "FC Changed %d %d\n", whichField, fromSync);
@@ -220,51 +224,29 @@ void FieldContainer::changed(BitVector whichField, ChangeMode from)
 
 OSG_BEGIN_NAMESPACE
 
-void osgAddRefCP(FieldContainerPtr &objectP)
+void addRefCP(const FieldContainerPtrBase &objectP)
 {
     if(objectP != NullFC)
         objectP.addRef();
 }
 
-/*! osgSubRefP */
-void osgSubRefCP(FieldContainerPtr &objectP)
+/*! subRefP */
+void subRefCP(const FieldContainerPtrBase &objectP)
 {
     if(objectP != NullFC)
         objectP.subRef();
 }
 
-/*! osgBeginEditCP */
-void osgBeginEditCP(FieldContainerPtr &objectP, 
-                    BitVector          whichField)
+void clearRefCP(FieldContainerPtrBase &objectP)
 {
     if(objectP != NullFC)
-        objectP.beginEdit(whichField);
+        objectP.subRef();
+
+    objectP = NullFC;
 }
 
-/*! osgEndEditCP */
-void osgEndEditCP(FieldContainerPtr &objectP, 
-                  BitVector          whichField)
-{
-    if(objectP != NullFC)
-        objectP.endEdit(whichField);
-}
-
-void osgChangedCP(FieldContainerPtr &objectP, 
-                  BitVector          whichField)
-{
-    if(objectP != NullFC)
-        objectP.changed(whichField);
-}
-
-void osgEndEditNotChangedCP(FieldContainerPtr &objectP, 
-                            BitVector          whichField)
-{
-    if(objectP != NullFC)
-        objectP.endEditNotChanged(whichField);
-}
-
-void osgSetRefdCP(FieldContainerPtr &objectP,
-                  FieldContainerPtr &newObjectP)
+void setRefdCP(      FieldContainerPtrBase &objectP,
+               const FieldContainerPtrBase &newObjectP)
 {
     if(objectP != newObjectP)
     {
@@ -276,6 +258,36 @@ void osgSetRefdCP(FieldContainerPtr &objectP,
         if(objectP != NullFC)
             objectP.addRef();        
     }
+}
+
+/*! osgBeginEditCP */
+void beginEditCP(const FieldContainerPtr &objectP, 
+                       BitVector         whichField)
+{
+    if(objectP != NullFC)
+        objectP.beginEdit(whichField);
+}
+
+/*! osgEndEditCP */
+void endEditCP(const FieldContainerPtr &objectP, 
+                     BitVector          whichField)
+{
+    if(objectP != NullFC)
+        objectP.endEdit(whichField);
+}
+
+void changedCP(const FieldContainerPtr &objectP, 
+                     BitVector          whichField)
+{
+    if(objectP != NullFC)
+        objectP.changed(whichField);
+}
+
+void endEditNotChangedCP(const FieldContainerPtr &objectP, 
+                               BitVector          whichField)
+{
+    if(objectP != NullFC)
+        objectP.endEditNotChanged(whichField);
 }
 
 OSG_END_NAMESPACE

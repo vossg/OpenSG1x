@@ -46,24 +46,15 @@
 
 #include "OSGConfig.h"
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
-#else
-#include <iostream.h>
-#endif
 
-#include <OSGLog.h>
 #include <OSGThread.h>
 
 OSG_BEGIN_NAMESPACE
 
-/** \fn const char *FCPtr::getClassname(void)
- *  \brief Classname
- */
-
-/** \typedef FCPtr::Inherited
- *  \brief Parent type
- */
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
 
 /***************************************************************************\
  *                               Types                                     *
@@ -73,21 +64,12 @@ OSG_BEGIN_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-template <class BaseFieldContainerTypeT, class FieldContainerTypeT>
-char FCPtr<BaseFieldContainerTypeT,
-              FieldContainerTypeT    >::cvsid[] = "@(#)$Id: $";
-
-template <class BasePtrTypeT, class FieldContainerTypeT> 
-const FCPtr<BasePtrTypeT, FieldContainerTypeT>
-    FCPtr<BasePtrTypeT, FieldContainerTypeT>::NullPtr;
-
-
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
 
 /*-------------------------------------------------------------------------*\
- -  public                                                                 -
+ -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -95,12 +77,113 @@ const FCPtr<BasePtrTypeT, FieldContainerTypeT>
 \*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------*\
- -  private                                                                -
+ -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
 /***************************************************************************\
  *                           Instance methods                              *
 \***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------------------------- cast ------------------------------------*/
+
+/*---------------------------- properties ---------------------------------*/
+
+/*-------------------------- your_category---------------------------------*/
+
+/*-------------------------- assignment -----------------------------------*/
+
+/*-------------------------- comparison -----------------------------------*/
+
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+template <class BasePtrTypeT, class FieldContainerTypeT>
+char FCPtr<BasePtrTypeT, FieldContainerTypeT>::cvsid[] = "@(#)$Id: $";
+
+template <class BasePtrTypeT, class FieldContainerTypeT> 
+const FCPtr<BasePtrTypeT, FieldContainerTypeT>
+    FCPtr<BasePtrTypeT, FieldContainerTypeT>::NullPtr;
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/** \brief Construct a pointer from a give node.
+ */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(
+    const FieldContainerTypeT &source) :
+
+    Inherited(source)
+{
+}
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(
+    const FieldContainerTypeT *source) :
+
+    Inherited(source)
+{
+}
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(
+    const FieldContainerTypeT *source,
+    const UInt16               uiSize,
+    const UInt16               uiParentEPos) :
+
+    Inherited(source, uiSize, uiParentEPos)
+{
+}
 
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
@@ -121,24 +204,9 @@ FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(void) :
  */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(
-    const FCPtr &source) :
+FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(const FCPtr &source):
 	Inherited(source)
 {
-}
-
-/** \brief Construct a pointer from a give node.
- */
-
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(
-    const FieldContainerTypeT &source) :
-
-    Inherited()
-{
-    _containerSize = source.getSize();
-    _storeP        = (UInt8 *) &source;
-    _storeP       -= getElemOff(Thread::getAspect());
 }
 
 /** \brief Destructor
@@ -155,8 +223,8 @@ FCPtr<BasePtrTypeT, FieldContainerTypeT>::~FCPtr(void)
  */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-FieldContainerTypeT *FCPtr<BasePtrTypeT, 
-                           FieldContainerTypeT>::operator ->(void)
+FieldContainerTypeT *FCPtr<BasePtrTypeT, FieldContainerTypeT>::operator ->(
+    void)
 {
     return (FieldContainerTypeT *) getElemP(Thread::getAspect());
 }
@@ -165,9 +233,8 @@ FieldContainerTypeT *FCPtr<BasePtrTypeT,
  */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-const FieldContainerTypeT *FCPtr<BasePtrTypeT, 
-                                 FieldContainerTypeT>::operator ->(
-                                     void) const
+FieldContainerTypeT *FCPtr<BasePtrTypeT, 
+                            FieldContainerTypeT>::operator ->(void) const
 {
     return (FieldContainerTypeT *) getElemP(Thread::getAspect());
 }
@@ -176,8 +243,8 @@ const FieldContainerTypeT *FCPtr<BasePtrTypeT,
  */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-FieldContainerTypeT &FCPtr<BasePtrTypeT, 
-                           FieldContainerTypeT>::operator *(void)
+FieldContainerTypeT &FCPtr<BasePtrTypeT, FieldContainerTypeT>::operator *(
+    void)
 {
     return *((FieldContainerTypeT *) getElemP(Thread::getAspect()));
 }
@@ -186,40 +253,26 @@ FieldContainerTypeT &FCPtr<BasePtrTypeT,
  */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-const FieldContainerTypeT &FCPtr<BasePtrTypeT, 
-                                 FieldContainerTypeT>::operator *(void) const
+FieldContainerTypeT &FCPtr<BasePtrTypeT, 
+                            FieldContainerTypeT>::operator *(void) const
 {
     return *((FieldContainerTypeT *) getElemP(Thread::getAspect()));
 }
 
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-FieldContainerTypeT *FCPtr<BasePtrTypeT, 
-                           FieldContainerTypeT>::getCPtr(void)
+FieldContainerTypeT *FCPtr<BasePtrTypeT, FieldContainerTypeT>::getCPtr(void)
 
 {
     return (FieldContainerTypeT *) getElemP(Thread::getAspect());
 }
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-const FieldContainerTypeT *
+FieldContainerTypeT *
     FCPtr<BasePtrTypeT, FieldContainerTypeT>::getCPtr(void) const
 {
     return (FieldContainerTypeT *) getElemP(Thread::getAspect());
 }
-
-
-#ifdef _FCPTR_HAS_CAST_OPERATOR
-/** \brief FieldContainerTypeT * cast operator
- */
-
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-FCPtr<BasePtrTypeT, 
-         FieldContainerTypeT>::operator FieldContainerTypeT *(void)
-{
-    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
-}
-#endif
 
 /*-------------------------- assignment -----------------------------------*/
 
@@ -227,51 +280,310 @@ FCPtr<BasePtrTypeT,
  */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-FCPtr<BasePtrTypeT, FieldContainerTypeT> & 
-    FCPtr<BasePtrTypeT, 
-          FieldContainerTypeT>::operator = (const FCPtr &source)
+void FCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
+    const FCPtr &source)
 {
 	if (this == &source)
-		return *this;
+		return;
 
 	// copy parts inherited from parent
 	*(static_cast<Inherited *>(this)) = source;
-
-    return *this;
 }
 
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-void FCPtr<BasePtrTypeT, 
-           FieldContainerTypeT>::dump(void) const
-{
-    if(_storeP != NULL)
-    {
-        SDEBUG << "CFC Dump" << endl;
-        
-        dumpContent();
-    }
-    else
-    {
-        SDEBUG << "CFC Dump : (NULL)" << endl;
-    }
-}
+/*------------------------------ access -----------------------------------*/
 
-/*
-template <class BasePtr, class ContainerType>
-    OSG_FIELDCONTAINER_DLLMAPPING
-	inline ostream &operator 
-			<<(ostream &os, const FCPtr<BasePtr, ContainerType> &fc)
-{
-}
-*/
+/*---------------------------- properties ---------------------------------*/
+
+/*-------------------------- your_category---------------------------------*/
+
+/*-------------------------- assignment -----------------------------------*/
+
+/*-------------------------- comparison -----------------------------------*/
+
+
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------------------------- cast ------------------------------------*/
+
+/*---------------------------- properties ---------------------------------*/
+
+/*-------------------------- your_category---------------------------------*/
+
+/*-------------------------- assignment -----------------------------------*/
+
+/*-------------------------- comparison -----------------------------------*/
+
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+template <class BasePtrTypeT, class FieldContainerTypeT>
+char ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::cvsid[] = "@(#)$Id: $";
+
+template <class BasePtrTypeT, class FieldContainerTypeT> 
+const ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>
+    ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::NullPtr;
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/** \brief Construct a pointer from a give node.
+ */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
+    const FieldContainerTypeT &source) :
+
+    Inherited(source)
+{
+}
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
+    const FieldContainerTypeT *source) :
+    
+    Inherited(source)
+{
+}
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
+    const FieldContainerTypeT *source, 
+    const UInt16               uiSize,
+    const UInt16               uiParentEPos) :
+    
+    Inherited(source, uiSize, uiParentEPos)
+{
+}
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+/** \brief Constructor
+ */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(void) :
+	Inherited()
+{
+}
+
+/** \brief Copy Constructor
+ */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
+    const NCFCPtr &source):
+	Inherited(source)
+{
+}
+
+/** \brief Copy Constructor
+ */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
+    const ConstFCPtr &source):
+	Inherited(source)
+{
+}
+
+/** \brief Destructor
+ */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::~ConstFCPtr(void)
+{
+}
+
+/*-------------------------- pointer operators ------------------------------*/
+
+/** \brief Arrow operator
+ */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT, 
+                                       FieldContainerTypeT>::operator ->(void)
+{
+    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
+}
+
+/** \brief Const arrow operator
+ */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT, 
+                                       FieldContainerTypeT>::operator ->(
+                                           void) const
+{
+    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
+}
+
+/** \brief Dereference operator
+ */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT, 
+                                       FieldContainerTypeT>::operator *(void)
+{
+    return *((FieldContainerTypeT *) getElemP(Thread::getAspect()));
+}
+
+/** \brief Const dereference operator
+ */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT, 
+                                       FieldContainerTypeT>::operator *(
+                                           void) const
+{
+    return *((FieldContainerTypeT *) getElemP(Thread::getAspect()));
+}
+
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT, 
+                                       FieldContainerTypeT>::getCPtr(void)
+
+{
+    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
+}
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+const FieldContainerTypeT *
+    ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::getCPtr(void) const
+{
+    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
+}
+
+/*-------------------------- assignment -----------------------------------*/
+
+/** \brief assignment
+ */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+void ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
+    const NCFCPtr &source)
+{
+	if (static_cast<FieldContainerPtrBase *>(this) == 
+        static_cast<const FieldContainerPtrBase *> (&source))
+    {
+		return;
+    }
+
+	// copy parts inherited from parent
+	*(static_cast<Inherited *>(this)) = source;
+}
+
+/** \brief assignment
+ */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+void ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
+    const ConstFCPtr &source)
+{
+	if (this == &source)
+		return;
+
+	// copy parts inherited from parent
+	*(static_cast<Inherited *>(this)) = source;
+}
+
+/*------------------------------ access -----------------------------------*/
+
+/*---------------------------- properties ---------------------------------*/
+
+/*-------------------------- your_category---------------------------------*/
+
+/*-------------------------- assignment -----------------------------------*/
+
+/*-------------------------- comparison -----------------------------------*/
+
+
 
 
 ///---------------------------------------------------------------------------
@@ -302,5 +614,21 @@ template <class BasePtr, class ContainerType>
 //s: 
 ///---------------------------------------------------------------------------
 
-OSG_END_NAMESPACE
+#ifdef __sgi
+#pragma set woff 1424
+#endif
 
+template <class RetTypeT, class InTypeT> inline
+RetTypeT dcast(const InTypeT oIn)
+{
+    return RetTypeT(
+        (dynamic_cast<const RetTypeT::ObjectType *>(oIn.getCPtr())),
+        oIn._containerSize,
+        oIn._uiParentEPos);
+}
+
+#ifdef __sgi
+#pragma reset woff 1424
+#endif
+
+OSG_END_NAMESPACE

@@ -2,7 +2,9 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -34,9 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
-#ifndef _OSGNODE_H_
-#define _OSGNODE_H_
+#ifndef _OSGNODEPTR_H_
+#define _OSGNODEPTR_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -45,16 +46,10 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGFieldContainerBase.h>
 #include <OSGBaseTypes.h>
-#include <OSGMatrix.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
-#include <OSGSFSysTypes.h>
-#include <OSGSFBaseTypes.h>
-#include <OSGSFFieldContainerTypes.h>
-#include <OSGMFFieldContainerTypes.h>
-#include <OSGAttachment.h>
+#include <OSGString.h>
+#include <OSGFieldContainerBase.h>
+#include <OSGFieldContainerPtr.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -62,9 +57,10 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
+class Node;
 class NodeCore;
 
-class NodePtr;
+class CNodePtr;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -75,31 +71,16 @@ class NodePtr;
 //---------------------------------------------------------------------------
 
 /*! \ingroup FieldContainerLib
- *  \brief Node
+ *  \brief Pointer to a node
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING Node : public FieldContainer 
+#ifdef __sgi
+#pragma set woff 1375,1424
+#endif
+
+class OSG_FIELDCONTAINER_DLLMAPPING NodePtr : public FieldContainerPtr
 {
-  private:
-
-    typedef FieldContainer Inherited;
-
   public:
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    OSG_FC_FIRST_FIELD_IDM_DECL(VolumeField                    )
-
-    OSG_FC_FIELD_IDM_DECL      (ParentField,      VolumeField  )
-    OSG_FC_FIELD_IDM_DECL      (ChildrenField,    ParentField  )
-
-    OSG_FC_FIELD_IDM_DECL      (CoreField,        ChildrenField)
-
-    OSG_FC_FIELD_IDM_DECL      (AttachmentsField, CoreField    )
-
-    OSG_FC_LAST_FIELD_IDM_DECL (AttachmentsField               )
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -109,7 +90,9 @@ class OSG_FIELDCONTAINER_DLLMAPPING Node : public FieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef NodePtr Ptr;
+    typedef Node ObjectType;
+
+    typedef FieldContainerPtr Inherited;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -119,90 +102,69 @@ class OSG_FIELDCONTAINER_DLLMAPPING Node : public FieldContainer
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+             NodePtr(void);
+             NodePtr(const NodePtr &source);
+    explicit NodePtr(const CNodePtr &source);
 
-    OSG_FIELD_CONTAINER_DECL(NodePtr)
+    virtual ~NodePtr(void); 
 
-    /*------------------------------ attachments ---------------------------*/
+    /*--------------------------- core access ------------------------------*/
 
-    void addAttachment(const AttachmentPtr &fieldContainerP, 
-                             UInt16         binding = 0);
+    NodeCore *getCore(void);
+    NodeCore *getCore(void) const;
 
-    void subAttachment(const AttachmentPtr &fieldContainerP,
-                             UInt16         binding = 0);
+    /*----------------------- pointer operators ----------------------------*/
 
-    AttachmentPtr findAttachment(UInt32 groupId,
-                                 UInt16 binding = 0);
+    Node *operator->(void);
+    Node *operator->(void) const;
 
-    /*-------------------------------- core --------------------------------*/
+    Node &operator *(void);
+    Node &operator *(void) const;
 
-    NodeCorePtr getCore(void);
-    NodeCorePtr getCore(void) const;
-    void        setCore(const NodeCorePtr &core);
+    Node *getCPtr   (void);
+    Node *getCPtr   (void) const;
 
-    /*------------------------------ parent --------------------------------*/
+    /*------------------------- assignment ----------------------------------*/
 
-    NodePtr    getParent  (void);
+    void operator =(const CNodePtr &source);
+    void operator =(const NodePtr  &source);
 
-    /*------------------------------ children ------------------------------*/
-
-    UInt32  getNChildren  (void) const;
-    
-    void    addChild      (const NodePtr &childP);
-
-    void    insertChild   (      UInt32   childIndex, 
-                           const NodePtr &childP);
-
-    void    replaceChild  (      UInt32   childIndex,    
-                           const NodePtr &childP);
-
-    void    replaceChildBy(const NodePtr &childP, 
-                           const NodePtr &newChildP);
-
-    Int32   findChild     (const NodePtr &childP) const;
-
-    void    subChild      (const NodePtr &childP);
-    void    subChild      (      UInt32   childIndex);
-
-    NodePtr getChild      (      UInt32   childIndex);
-
-    /*--------------------------- access fields ----------------------------*/
-
-    SFVolume        *getSFVolume     (void);
-
-    SFNodePtr       *getSFParent     (void);
-    SFNodeCorePtr   *getSFCore       (void);
-    MFNodePtr       *getMFChildren   (void);
-
-    SFAttachmentMap *getSFAttachments(void);
-
-    /*-------------------------- transformation ----------------------------*/
-
-    Matrix getToWorld(void);
-    
-    void   getToWorld(Matrix & result);
-    
-    /*------------------------------ volume -------------------------------*/
-    
-    const Volume &getVolume       (void)             const;
-    
-          void    getWorldVolume  (Volume &result);
-    
-          void    updateVolume    (void);
-
-          void    invalidateVolume(void);
-
-    /*------------------------------ changed -------------------------------*/
-
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
-    
     /*------------------------------ dump ----------------------------------*/
-
-    virtual void dump(      UInt32     uiIndent = 0, 
-                      const BitVector &bvFlags  = 0) const;
-
+    
   protected:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    explicit NodePtr(const Node   &source);
+    explicit NodePtr(const Node   *source);
+
+             NodePtr(const Node   *source,
+                     const UInt16  uiSize,
+                     const UInt16  uiParentPos);
+
+  private:
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -217,18 +179,107 @@ class OSG_FIELDCONTAINER_DLLMAPPING Node : public FieldContainer
     //-----------------------------------------------------------------------
 
     friend class FieldContainer;
-    friend class FieldContainerType;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
+    template <class RetTypeT, class InTypeT> inline
+    friend RetTypeT dcast(const InTypeT oIn);
+
     //-----------------------------------------------------------------------
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    static FieldDescription   _desc[];
-    static FieldContainerType _type;
+	static char cvsid[];
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+};
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/*! \ingroup FieldContainerLib
+ *  \brief Pointer to a node
+ */
+
+class OSG_FIELDCONTAINER_DLLMAPPING CNodePtr : public FieldContainerPtr
+{
+  public:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    typedef Node ObjectType;
+
+    typedef FieldContainerPtr Inherited;
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+             CNodePtr(void);
+             CNodePtr(const CNodePtr &source);
+    explicit CNodePtr(const NodePtr &source);
+
+    virtual ~CNodePtr(void); 
+
+    /*--------------------------- node access ------------------------------*/
+
+    Node *getNode(void);
+    Node *getNode(void) const;
+
+    /*----------------------- pointer operators ----------------------------*/
+
+    NodeCore *operator->(void);
+    NodeCore *operator->(void) const;
+
+    NodeCore &operator *(void);
+    NodeCore &operator *(void) const;
+
+    NodeCore *getCPtr   (void);
+    NodeCore *getCPtr   (void) const;
+
+    /*------------------------- assignment ----------------------------------*/
+
+    void operator =(const NodePtr  &source);
+    void operator =(const CNodePtr &source);
+
+    /*------------------------------ dump ----------------------------------*/
+
+  protected:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -242,15 +293,12 @@ class OSG_FIELDCONTAINER_DLLMAPPING Node : public FieldContainer
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    Node(void);
-    Node(const Node &source);
-    virtual ~Node (void);
+    explicit CNodePtr(const Node   &source);
+    explicit CNodePtr(const Node   *source);
 
-    void setParent(const NodePtr &_parent);
-
-    /*------------------------------ pointer -------------------------------*/
-
-    NodePtr getPtr(void);
+             CNodePtr(const Node   *source,
+                      const UInt16  uiSize,
+                      const UInt16  uiParentPos);
 
   private:
 
@@ -266,15 +314,20 @@ class OSG_FIELDCONTAINER_DLLMAPPING Node : public FieldContainer
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
+    friend class FieldContainer;
+
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------
+
+    template <class RetTypeT, class InTypeT> inline
+    friend RetTypeT dcast(const InTypeT oIn);
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    static char cvsid[];
+	static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -284,28 +337,24 @@ class OSG_FIELDCONTAINER_DLLMAPPING Node : public FieldContainer
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    SFVolume        _volume;
-
-    SFNodePtr       _parent;
-    MFNodePtr       _children;
-
-    SFNodeCorePtr   _core;
-
-    SFAttachmentMap _attachmentMap;
-
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 };
 
-extern OSG_FIELDCONTAINER_DLLMAPPING const NodePtr             NullNode;
+#ifdef __sgi
+#pragma reset woff 1375,1424
+#endif
 
-typedef Node *NodeP;
+//---------------------------------------------------------------------------
+//   Exported Types
+//---------------------------------------------------------------------------
 
-
+ostream &operator <<(      ostream  &os,
+                     const NodePtr  &fc);
+ostream &operator <<(      ostream  &os,
+                     const CNodePtr &fc);
 
 OSG_END_NAMESPACE
 
-#include <OSGNode.inl>
-
-#endif /* _OSGNODE_H_ */
+#endif /* _OSGNODEPTR_H_ */

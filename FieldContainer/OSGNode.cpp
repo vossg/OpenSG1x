@@ -61,6 +61,13 @@
 
 OSG_USING_NAMESPACE
 
+/** \brief NULL node pointer
+ */
+
+OSG_FIELDCONTAINER_DLLMAPPING const NodePtr             OSG::NullNode;
+
+
+
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -190,32 +197,71 @@ OSG_FIELD_CONTAINER_DEF(Node, NodePtr)
 
 /*------------------------------ access -----------------------------------*/
 
-void Node::addAttachment(const AttachmentPtr &fieldContainerP)
+void Node::addAttachment(const AttachmentPtr &fieldContainerP,
+                               UInt16         binding)
 {
+    UInt32 key;
+
     if(fieldContainerP == NullAttachment)
         return;
 
-    _attachmentMap.getValue()[fieldContainerP->getTypeId()] = fieldContainerP;
-    _attachmentMap.getValue()[fieldContainerP->getTypeId()]->addParent(
-        getPtr());
+	key = (UInt32 (fieldContainerP->getGroupId()) << 16) | binding;
+
+    addRefCP(fieldContainerP);
+
+	AttachmentMap::iterator fcI = _attachmentMap.getValue().find(key);
+
+    beginEditCP(fieldContainerP, Attachment::ParentsFieldMask);
+    {
+        fieldContainerP->addParent(getPtr());
+    }
+    endEditCP  (fieldContainerP, Attachment::ParentsFieldMask);
+
+	if(fcI != _attachmentMap.getValue().end())
+    {
+        subRefCP((*fcI).second);
+        (*fcI).second = fieldContainerP;
+    }	
+    else
+    {
+        _attachmentMap.getValue()[key] = fieldContainerP;
+    }
 }
 
-void Node::subAttachment(const AttachmentPtr &fieldContainerP)
+void Node::subAttachment(const AttachmentPtr &fieldContainerP,
+                               UInt16         binding)
 {
+    UInt32 key;
+
     AttachmentMap::iterator fcI;
 
-    fcI = _attachmentMap.getValue().find(fieldContainerP->getTypeId());
+    if(fieldContainerP == NullAttachment)
+        return;
+
+    key = (UInt32(fieldContainerP->getGroupId()) << 16) | binding;
+
+    fcI = _attachmentMap.getValue().find(key);
 
     if(fcI != _attachmentMap.getValue().end())
     {
-        (*fcI).second->subParent(getPtr());
+        beginEditCP(fieldContainerP, Attachment::ParentsFieldMask);
+        {
+            (*fcI).second->subParent(getPtr());
+        }
+        endEditCP  (fieldContainerP, Attachment::ParentsFieldMask);
+
+        subRefCP((*fcI).second);
+
         _attachmentMap.getValue().erase(fcI);
     }  
 }
 
-AttachmentPtr Node::findAttachment(UInt32 typeID) 
+AttachmentPtr Node::findAttachment(UInt32 groupId, 
+                                   UInt16 binding) 
 {
-    AttachmentMap::iterator fcI = _attachmentMap.getValue().find(typeID);
+    UInt32 key = (UInt32(groupId) << 16) | binding;
+
+    AttachmentMap::iterator fcI = _attachmentMap.getValue().find(key);
     
     return (fcI == _attachmentMap.getValue().end()) ? 
         NullAttachment : (*fcI).second;
@@ -229,15 +275,29 @@ void Node::setCore(const NodeCorePtr &core)
 
 	if(_core.getValue() != NullFC)
     {
-        _core.getValue()->subParent(thisP);
+        beginEditCP(_core.getValue(), NodeCore::ParentsFieldMask);
+        {
+            _core.getValue()->subParent(thisP);
+        }
+        endEditCP  (_core.getValue(), NodeCore::ParentsFieldMask);
+
+        subRefCP(_core.getValue());
     }
 
 	_core.setValue(core);
 	
 	if(_core.getValue() != NullFC) 
     {
-        _core.getValue()->addParent(thisP);
-	}	
+        beginEditCP(_core.getValue(), NodeCore::ParentsFieldMask);
+        {
+            _core.getValue()->addParent(thisP);
+        }
+        endEditCP  (_core.getValue(), NodeCore::ParentsFieldMask);
+
+        addRefCP(_core.getValue());
+	}
+
+    // TODO Check if required (GV)
 	invalidateVolume();
 }
 
@@ -245,13 +305,18 @@ void Node::addChild(const NodePtr &childP)
 {
     if(childP != NullFC)
     {
-        beginEdit(ChildrenFieldMask, _children);
-
         _children.addValue(childP);
-        _children.back()->setParent(getPtr());
 
-        endEdit(ChildrenFieldMask, _children);
+        beginEditCP(childP, Node::ParentFieldMask);
+        {
+            childP->setParent(getPtr());
+        }
+        endEditCP  (childP, Node::ParentFieldMask);
+
+        addRefCP(childP);
     }
+
+    // TODO Check if required (GV)
 	invalidateVolume();
 }
 
@@ -261,10 +326,20 @@ void Node::insertChild(UInt32 childIndex, const NodePtr &childP)
 
     if(childP != NullFC)
     {
-        childIt += childIndex;
-        
-        (*(_children.insert(childIt, childP)))->setParent(getPtr());       
+        childIt   += childIndex;
+
+        _children.insert(childIt, childP);
+
+        beginEditCP(childP, Node::ParentFieldMask);
+        {
+            childP->setParent(getPtr());
+        }
+        endEditCP  (childP, Node::ParentFieldMask);
+
+        addRefCP(childP);
     }
+
+    // TODO check if required (GV)
 	invalidateVolume();
 }
 
@@ -272,10 +347,28 @@ void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
 {
     if(childP != NullFC)
     {
-        _children.getValue(childIndex)->setParent(NullNode);
+        addRefCP(childP);
+
+        beginEditCP(_children.getValue(childIndex), Node::ParentFieldMask);
+        {
+            _children.getValue(childIndex)->setParent(NullNode);
+        }
+        endEditCP  (_children.getValue(childIndex), Node::ParentFieldMask);
+
+        subRefCP(_children.getValue(childIndex));
+
+
         _children.getValue(childIndex) = childP;
-        _children.getValue(childIndex)->setParent(getPtr());
+
+
+        beginEditCP(childP, Node::ParentFieldMask);
+        {
+            childP->setParent(getPtr());
+        }
+        endEditCP  (childP, Node::ParentFieldMask);
     }
+
+    // TODO check if required (GV)
 	invalidateVolume();
 }
 
@@ -288,11 +381,27 @@ void Node::replaceChildBy(const NodePtr &childP,
     {
         if(childIt != _children.end())
         {
-            (*childIt)->setParent(NullNode);
+            addRefCP(newChildP);
+
+            beginEditCP(childP, Node::ParentFieldMask);
+            {
+                childP->setParent(NullNode);
+            }
+            endEditCP  (childP, Node::ParentFieldMask);
+
+            subRefCP(childP);
+
             (*childIt) = newChildP;
-            (*childIt)->setParent(getPtr());
+
+            beginEditCP(newChildP, Node::ParentFieldMask);
+            {
+                newChildP->setParent(getPtr());
+            }
+            endEditCP  (newChildP, Node::ParentFieldMask);
         }
     }
+
+    // TODO check if required (GV)
 	invalidateVolume();
 }
 
@@ -300,11 +409,13 @@ Int32 Node::findChild(const NodePtr &childP) const
 {
 	Int32 index;
 
-	for ( index = 0; index < _children.size(); index++ )
-		if ( _children[index] == childP )
+	for(index = 0; index < _children.size(); index++)
+    {
+		if( _children[index] == childP)
 			break;
+    }
 
-	if ( index < _children.size() )
+	if(index < _children.size())
 		return index;
 	else
 		return -1;
@@ -316,14 +427,22 @@ void Node::subChild(const NodePtr &childP)
 
     if(childIt != _children.end())
     {
-        (*childIt)->setParent(NullNode);
+        beginEditCP(childP, Node::ParentFieldMask);
+        {
+            childP->setParent(NullNode);
+        }
+        endEditCP  (childP, Node::ParentFieldMask);
+
+        subRefCP(childP);
 
         _children.erase(childIt);
     }
+
+    // TODO check if required (GV)
 	invalidateVolume();
 }
 
-void Node::subChild(UInt32  childIndex)
+void Node::subChild(UInt32 childIndex)
 {
     MFNodePtr::iterator childIt = _children.begin();
 
@@ -331,14 +450,22 @@ void Node::subChild(UInt32  childIndex)
 
     if(childIt != _children.end())
     {
-        (*childIt)->setParent(NullNode);
+        beginEditCP(*childIt, Node::ParentFieldMask);
+        {
+            (*childIt)->setParent(NullNode);
+        }
+        endEditCP  (*childIt, Node::ParentFieldMask);
+
+        subRefCP(*childIt);
 
         _children.erase(childIt);
     }
+
+    // TODO check if required (GV)
 	invalidateVolume();
 }
 
-NodePtr Node::getChild(UInt32  childIndex)
+NodePtr Node::getChild(UInt32 childIndex)
 {
     return _children.getValue(childIndex);
 }
@@ -376,7 +503,6 @@ NodePtr Node::getPtr(void)
 }
 
 /*-------------------------- your_category---------------------------------*/
-
 
 Matrix Node::getToWorld(void)
 {
@@ -459,7 +585,7 @@ void Node::invalidateVolume(void)
 }
 
 void Node::changed(BitVector  whichField, 
-                      ChangeMode from)
+                   ChangeMode from)
 {
     if(whichField & (CoreFieldMask | ChildrenFieldMask))
     {
@@ -469,11 +595,12 @@ void Node::changed(BitVector  whichField,
 
 /*------------------------------- dump ----------------------------------*/
 
-void Node::print(UInt32 indent) const
+void Node::dump(      UInt32     uiIndent, 
+                const BitVector &bvFlags) const
 {
     UInt32 i;
 
-    indentLog(indent, PLOG);
+    indentLog(uiIndent, PLOG);
     
     PLOG << "Node : " << _children.size() << " children | "
          << _attachmentMap.getValue().size() << " attachments | "
@@ -486,37 +613,45 @@ void Node::print(UInt32 indent) const
 
     PLOG << this << endl;
     
-    indentLog(indent, PLOG);
+    indentLog(uiIndent, PLOG);
 
     PLOG << "[" << endl;
 
     if(_core.getValue() != NullNode)
     {
-        _core.getValue()->print(indent + 4);
+        _core.getValue()->dump(uiIndent + 4, bvFlags);
     }
     else
     {
-        indentLog(indent + 4, PLOG);
+        indentLog(uiIndent + 4, PLOG);
         PLOG << "Core : " << "NULL" << endl;
     }
 
-    indentLog(indent, PLOG);
+    AttachmentMap::const_iterator fcI;
 
+    fcI = _attachmentMap.getValue().begin();
+
+    while(fcI != _attachmentMap.getValue().end())
+    {
+        (*fcI).second->dump(uiIndent + 4, bvFlags);
+        ++fcI;
+    }
+
+    indentLog(uiIndent, PLOG);
     PLOG << "]" << endl;
 
-    indentLog(indent, PLOG);
+    indentLog(uiIndent, PLOG);
 
     PLOG << "{" << endl;
 
-
     for(i = 0; i < _children.size(); i++)
     {
-        _children[i]->print(indent + 4);
+        _children[i]->dump(uiIndent + 4, bvFlags);
         PLOG << endl;
     }
 
 
-    indentLog(indent, PLOG);
+    indentLog(uiIndent, PLOG);
 
     PLOG << "}" << endl;
 
@@ -544,7 +679,7 @@ void Node::print(UInt32 indent) const
 
     while(fcI != _attachmentMap.getValue().end())
     {
-        (*fcI).second->print(indent + 2);
+        (*fcI).second->dump(indent + 2);
         ++fcI;
     }
 
@@ -563,11 +698,6 @@ void Node::print(UInt32 indent) const
 
     cerr << "}" << endl;
 */
-}
-
-void Node::dump(void) const
-{
-    print(0);
 }
 
 /*-------------------------- comparison -----------------------------------*/
@@ -596,11 +726,21 @@ Node::Node(void) :
 
 Node::Node(const Node &source) :
     Inherited     (source),
-    _parent       (source._parent),
-    _children     (source._children),
-    _core         (source._core),
-    _attachmentMap(source._attachmentMap)
+    _parent       (),
+    _children     (),
+    _core         (),
+    _attachmentMap()
 {
+    setCore(source.getCore());
+
+    AttachmentMap::const_iterator fcI=source._attachmentMap.getValue().begin();
+
+    while(fcI != source._attachmentMap.getValue().end())
+    {
+        addAttachment((*fcI).second);
+
+        fcI++;
+    }
 }
 
 /** \brief Destructor
@@ -608,12 +748,17 @@ Node::Node(const Node &source) :
 
 Node::~Node (void )
 {
+    // TODO Unlink Tree
 }
 
 /*------------------------------ access -----------------------------------*/
 
 void Node::setParent(const NodePtr &parent)
-{
+{ 
+    addRefCP(parent);
+
+    subRefCP(_parent.getValue());
+
     _parent.setValue(parent);
 }
 

@@ -1,4 +1,3 @@
-
 /*---------------------------------------------------------------------------*\
  *                                OpenSG                                     *
  *                                                                           *
@@ -47,9 +46,13 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGString.h>
+#include <OSGConceptPropertyChecks.h>
+#include <OSGFieldContainerProperties.h>
 #include <OSGFieldContainerBase.h>
+#include <OSGBaseTypes.h>
+
+
+#include <utility>
 
 OSG_BEGIN_NAMESPACE
 
@@ -58,9 +61,6 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 class FieldContainer;
-class Node;
-class NodeCore;
-class Attachment;
 class LockPool;
 
 //---------------------------------------------------------------------------
@@ -72,113 +72,22 @@ class LockPool;
 //---------------------------------------------------------------------------
 
 /*! \ingroup FieldContainerLib
- *  \brief FieldContainerPtr is the base class of all field container
- *  pointer. This and the derived classes form the base for the thread safe
- *  data store used by OSG.
+ *  \brief FieldContainerPtr
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerPtr
-{
-  public:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    static const UInt16 InvalidParentFPos;
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef FieldContainer ObjectType;
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    static const char *getClassname(void) 
-        { return "FieldContainerPtr"; };
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-    
-    FieldContainerPtr(void);
-    FieldContainerPtr(const FieldContainerPtr &source);
-    virtual ~FieldContainerPtr(void); 
-
-    /*------------------------------ cast ----------------------------------*/
-
-    /** \brief Must do it this way because of MipsPro 7.2 support
-     */
-
-#ifdef OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
 #ifdef __sgi
 #pragma set woff 1424
 #endif
 
-    template <class T>
-    T dcast(void) const
-	{
-		return T(* ((T *) this));
-	}
+class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerPtrBase
+{
+  public:
 
-#ifdef __sgi
-#pragma reset woff 1424
-#endif
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
 
-#else
-    template <class T>
-    T &dcast(T &result) const
-	{
-	    result = * ((T *) this);
-		return result;
-	}
-#endif
-
-    /*----------------------------- parent field pos -----------------------*/
-
-    void      setParentFieldPos(UInt16 parentFPos);
-    UInt16 getParentFieldPos(void) const;
-
-    /*------------------------------ information ---------------------------*/
-
-    UInt32 getContainerId(void) const;
-
-    /*------------------------- pointer operators --------------------------*/
-
-          FieldContainer *operator->(void);
-    const FieldContainer *operator->(void) const;
-
-          FieldContainer &operator *(void);
-    const FieldContainer &operator *(void) const;
-
-          FieldContainer *getCPtr   (void);
-    const FieldContainer *getCPtr   (void) const;
-
-#ifdef OSG_FCPTR_HAS_CAST_OPERATOR
-    operator FieldContainer *(void);
-#endif
-
-    /*------------------------- assignment ----------------------------------*/
-
-    FieldContainerPtr &operator =(const FieldContainerPtr &source);
-
-    /*------------------------- comparison ----------------------------------*/
-
-    Bool operator < (const FieldContainerPtr &other) const;
-    
-	Bool operator == (const FieldContainerPtr &other) const;
-	Bool operator != (const FieldContainerPtr &other) const;
-
-    Bool operator !(void) const;
-
-    /*------------------------------ dump ----------------------------------*/
-
-    virtual void dump(void) const;
-
-  protected:
+    static const UInt16           InvalidParentEPos;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -187,80 +96,6 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerPtr
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-	static Bool initialize(int argc, char **argv);
-    static Bool terminate(void);
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    UInt16  _containerSize;
-    UInt16  _parentFPos;
-    UInt8  *_storeP;
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    const char        *_typename;
-#endif
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    /*-------------------------------- Debug -------------------------------*/
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    virtual void updateTypedStore(void);
-#endif
-
-    /*-------------------------------- Sync --------------------------------*/
-
-    void executeSync(UInt32    fromAspect,
-                     UInt32    toAspect, 
-                     BitVector whichField);
-
-    /*-------------------------------- Mem ---------------------------------*/
-    
-          Int32  *getRefCountP (void);
-    const Int32  *getRefCountP (void) const;
-
-          UInt32 *getIdP       (void);    
-    const UInt32 *getIdP       (void) const;    
-
-          UInt8  *getFirstElemP(void);
-    const UInt8  *getFirstElemP(void) const;
-
-          UInt8  *getElemP     (UInt32 elemNum);
-    const UInt8  *getElemP     (UInt32 elemNum) const;
-
-    Int32  getRefCountOff (void) const;
-    Int32  getIdOff       (void) const;
-    Int32  getFirstElemOff(void) const;
-    Int32  getElemOff     (UInt32 elemNum) const;
-
-    /*------------------------- ReferenceCounting --------------------------*/
-
-    void addRef(void);
-    void subRef(void);
-
-    /*----------------------------- Edit -----------------------------------*/
-
-    void beginEdit        (BitVector whichField);
-    void endEdit          (BitVector whichField);
-    void changed          (BitVector whichField);
-    void endEditNotChanged(BitVector whichField);
-
-    /*----------------------------- Dump -----------------------------------*/
-
-    void dumpContent(void) const;
 
   private:
 
@@ -284,30 +119,17 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerPtr
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-	friend OSG_FIELDCONTAINER_DLLMAPPING 
-           ostream &operator <<(ostream &os, const FieldContainerPtr &fc);
+    friend void addRefCP   (const FieldContainerPtrBase &objectP);
 
-    friend OSG_FIELDCONTAINER_DLLMAPPING 
-        void osgAddRefCP   (FieldContainerPtr &pObject);
-    friend OSG_FIELDCONTAINER_DLLMAPPING 
-        void osgSubRefCP   (FieldContainerPtr &pObject);
-    friend OSG_FIELDCONTAINER_DLLMAPPING 
-        void osgBeginEditCP(FieldContainerPtr &pObject, 
-                            BitVector          whichField);
-    friend OSG_FIELDCONTAINER_DLLMAPPING 
-        void osgEndEditCP  (FieldContainerPtr &pObject,
-                            BitVector          whichField);
-    friend OSG_FIELDCONTAINER_DLLMAPPING 
-        void osgChangedCP  (FieldContainerPtr &objectP, 
-                            BitVector          whichField);
+    friend void subRefCP   (const FieldContainerPtrBase &objectP);
 
-    friend OSG_FIELDCONTAINER_DLLMAPPING 
-        void osgEndEditNotChangedCP(FieldContainerPtr &objectP, 
-                                    BitVector          whichField);
-        
-    friend OSG_FIELDCONTAINER_DLLMAPPING 
-        void osgSetRefdCP  (FieldContainerPtr &objectP,
-                            FieldContainerPtr &newObjectP);
+    friend void setRefdCP  (      FieldContainerPtrBase &objectP,
+                            const FieldContainerPtrBase &newObjectP);
+
+    friend void clearRefCP (      FieldContainerPtrBase &objectP);
+
+    template <class RetTypeT, class InTypeT> inline
+    friend RetTypeT dcast(const InTypeT oIn);
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
@@ -315,7 +137,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerPtr
 
 	static char cvsid[];
 
-    static LockPool *_refCountLockP;
+    static LockPool *_pRefCountLock;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -328,435 +150,322 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerPtr
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
+
+  protected:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+	static Bool initialize(int &argc, char **argv);
+    static Bool terminate(void);
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    UInt16  _containerSize;
+    UInt16  _uiParentEPos;
+    UInt8  *_storeP;
+
+#ifdef OSG_DEBUG_TYPED_FCPTR
+    const Char8 *_szTypename;
+#endif
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+#ifdef OSG_DEBUG_TYPED_FCPTR
+    void updateTypedStore(void);
+#endif
+
+    explicit FieldContainerPtrBase(const FieldContainer &source);
+    explicit FieldContainerPtrBase(const FieldContainer *source);
+
+             FieldContainerPtrBase(const FieldContainer *source,
+                                   const UInt16          uiSize,
+                                   const UInt16          uiParentEPos);
+
+    /*-------------------------------- Sync --------------------------------*/
+
+    void executeSync(UInt32    uiFromAspect,
+                     UInt32    uiToAspect, 
+                     BitVector whichField);
+
+    /*-------------------------------- Mem ---------------------------------*/
+    
+    Int32  *getRefCountP (void);
+    Int32  *getRefCountP (void) const;
+    
+    UInt32 *getIdP       (void);    
+    UInt32 *getIdP       (void) const;    
+    
+    UInt8  *getFirstElemP(void);
+    UInt8  *getFirstElemP(void) const;
+    
+    UInt8  *getElemP     (UInt32 uiElemNum);
+    UInt8  *getElemP     (UInt32 uiElemNum) const;
+
+    /*-------------------------------- Mem Off -----------------------------*/
+
+    Int32  getRefCountOff (void) const;
+    Int32  getIdOff       (void) const;
+    Int32  getFirstElemOff(void) const;
+    Int32  getElemOff     (UInt32 uiElemNum) const;
+
+    /*------------------------- ReferenceCounting --------------------------*/
+
+    void addRef(void) const;
+    void subRef(void) const;
+
+    /*----------------------------- Edit -----------------------------------*/
+
+  public :
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    /*----------------------------- casting ---------------------------------*/
+
+    FieldContainerPtrBase(void);
+    FieldContainerPtrBase(const FieldContainerPtrBase &source);
+
+    ~FieldContainerPtrBase(void); 
+
+    /*----------------------------- parent field pos -----------------------*/
+
+    void      setParentFieldPos(UInt16 uiParentEPos);
+    UInt16 getParentFieldPos(void) const;
+
+    /*------------------------------ information ---------------------------*/
+
+    UInt32 getFieldContainerId(void) const;
+
+    /*------------------------- your_operators ------------------------------*/
+
+    /*------------------------- assignment ----------------------------------*/
+
+    void operator =(const FieldContainerPtrBase &source);
+
+    /*------------------------- comparison ----------------------------------*/
+
+    Bool operator <  (const FieldContainerPtrBase &other) const;
+    
+    Bool operator == (const FieldContainerPtrBase &other) const;
+	Bool operator != (const FieldContainerPtrBase &other) const;
+
+    Bool operator !(void) const;
+
+    void dump      (      UInt32     uiIndent = 0, 
+                    const BitVector &bvFlags  = 0) const;
+};
+
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/*! \ingroup FieldContainerLib
+ *  \brief FieldContainerPtr
+ */
+
+#ifdef __sgi
+#pragma set woff 1375
+#endif
+
+class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerPtr : public FieldContainerPtrBase
+{
+  public:
+
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
+
+    OSG_PROPERTY_DECL(Pointer);
+
+    static const FieldContainerPtr NullPtr;
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    typedef FieldContainer        ObjectType;
+
+    typedef FieldContainerPtrBase Inherited;
+
+  private:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   friend classes                                                      
+    //-----------------------------------------------------------------------
+
+    friend class FieldContainer;
+
+    //-----------------------------------------------------------------------
+    //   friend functions                                                    
+    //-----------------------------------------------------------------------
+
+    friend void beginEditCP(const FieldContainerPtr &objectP, 
+                                  BitVector          whichField);
+
+    friend void endEditCP  (const FieldContainerPtr &objectP, 
+                                  BitVector          whichField);
+
+    friend void changedCP  (const FieldContainerPtr &objectP, 
+                                  BitVector          whichField);
+
+    friend void endEditNotChangedCP(const FieldContainerPtr &objectP, 
+                                          BitVector          whichField);
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+	static char cvsid[];
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+  protected:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    /*----------------------------- Edit -----------------------------------*/
+
+    void beginEdit        (BitVector whichField) const;
+    void endEdit          (BitVector whichField) const;
+    void changed          (BitVector whichField) const;
+    void endEditNotChanged(BitVector whichField) const;
 
     explicit FieldContainerPtr(const FieldContainer &source);
-};
+    explicit FieldContainerPtr(const FieldContainer *source);
 
-OSG_FIELDCONTAINER_DLLMAPPING ostream &operator <<(ostream &outStream,
-                                   const FieldContainerPtr &color);
+             FieldContainerPtr(const FieldContainer *source,
+                               const UInt16          uiSize,
+                               const UInt16          uiParentEPos);
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! \ingroup FieldContainerLib
- *  \brief Pointer to a node
- */
-
-class Node;
-class NodeCore;
-class CNodePtr;
-
-class OSG_FIELDCONTAINER_DLLMAPPING NodePtr : public FieldContainerPtr
-{
-  public:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef Node ObjectType;
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    static const char *getClassname(void) 
-        { return "NodePtr"; };
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-             NodePtr(void);
-             NodePtr(const NodePtr &source);
-    explicit NodePtr(const CNodePtr &source);
-
-    virtual ~NodePtr(void); 
-
-    /*--------------------------- core access ------------------------------*/
-
-    NodeCore *getCore(void);
-
-    /*----------------------- pointer operators ----------------------------*/
-
-          Node *operator->(void);
-    const Node *operator->(void) const;
-
-          Node &operator *(void);
-    const Node &operator *(void) const;
-
-          Node *getCPtr   (void);
-    const Node *getCPtr   (void) const;
-
-#ifdef OSG_FCPTR_HAS_CAST_OPERATOR
-    operator Node *(void);
-#endif
-
-    /*------------------------- assignment ----------------------------------*/
-
-    NodePtr &operator =(const CNodePtr &source);
-    NodePtr &operator =(const NodePtr  &source);
-
-    /*------------------------------ dump ----------------------------------*/
-
-    virtual void dump(void) const;
-    
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
+  public :
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-  private:
+    FieldContainerPtr(void);
+    FieldContainerPtr(const FieldContainerPtr &source);
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    ~FieldContainerPtr(void); 
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef FieldContainerPtr Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    friend class Node;
-    friend class FieldContainer;
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-	static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    explicit NodePtr(const Node &source);
-};
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! \ingroup FieldContainerLib
- *  \brief Pointer to a node
- */
-
-class OSG_FIELDCONTAINER_DLLMAPPING CNodePtr : public FieldContainerPtr
-{
-  public:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef Node ObjectType;
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    static const char *getClassname(void) 
-        { return "CNodePtr"; };
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-             CNodePtr(void);
-             CNodePtr(const CNodePtr &source);
-    explicit CNodePtr(const NodePtr &source);
-
-    virtual ~CNodePtr(void); 
-
-    /*--------------------------- node access ------------------------------*/
-
-    Node *getNode(void);
-
-    /*----------------------- pointer operators ----------------------------*/
-
-          NodeCore *operator->(void);
-    const NodeCore *operator->(void) const;
-
-          NodeCore &operator *(void);
-    const NodeCore &operator *(void) const;
-
-          NodeCore *getCPtr   (void);
-    const NodeCore *getCPtr   (void) const;
-
-#ifdef OSG_FCPTR_HAS_CAST_OPERATOR
-    operator NodeCore *(void);
-#endif
-
-    /*------------------------- assignment ----------------------------------*/
-
-    CNodePtr &operator =(const NodePtr  &source);
-    CNodePtr &operator =(const CNodePtr &source);
-
-    /*------------------------------ dump ----------------------------------*/
-
-    virtual void dump(void) const;
-    
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-  private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef FieldContainerPtr Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    friend class Node;
-    friend class FieldContainer;
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-	static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    explicit CNodePtr(const Node &source);
-};
-
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! \ingroup FieldContainerLib
- *  \brief Pointer to node cores
- *
- *  detailed
- */
-
-class OSG_FIELDCONTAINER_DLLMAPPING NodeCorePtr : public FieldContainerPtr
-{
-  public:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef NodeCore ObjectType;
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    static const char *getClassname(void) { return "NodeCorePtr"; };
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    NodeCorePtr(void);
-    NodeCorePtr(const NodeCorePtr &source);
-    virtual ~NodeCorePtr(void); 
+    /*----------------------------- casting ---------------------------------*/
 
     /*------------------------- pointer operators --------------------------*/
 
-          NodeCore *operator->(void);
-    const NodeCore *operator->(void) const;
+    FieldContainer *operator->(void);
+    FieldContainer *operator->(void) const;
 
-          NodeCore &operator *(void);
-    const NodeCore &operator *(void) const;
+    FieldContainer &operator *(void);
+    FieldContainer &operator *(void) const;
+ 
+    FieldContainer *getCPtr   (void);
+    FieldContainer *getCPtr   (void) const;
 
-          NodeCore *getCPtr   (void);
-    const NodeCore *getCPtr   (void) const;
+   /*------------------------- your_operators ------------------------------*/
 
-#ifdef OSG_FCPTR_HAS_CAST_OPERATOR
-    operator NodeCore *(void);
-#endif
+   /*------------------------- assignment ----------------------------------*/
 
-    /*------------------------- assignment ----------------------------------*/
-
-    NodeCorePtr &operator =(const NodeCorePtr &source);
-
-    /*------------------------------ dump ----------------------------------*/
-
-    virtual void dump(void) const;
-
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-  private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef FieldContainerPtr Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    friend class NodeCore;
-    friend class FieldContainer;
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-	static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    explicit NodeCorePtr(const NodeCore &source);
+    void operator =(const FieldContainerPtr &source);
 };
+
+
 
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup FieldContainterLib
- *  \brief Pointer to attachment
+/*! \ingroup FieldContainerLib
+ *  \brief ConstFieldContainerPtr, read FieldContainer const *pFieldContainer not
+ *  FieldContainer * const pFieldContainer
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING AttachmentPtr : public FieldContainerPtr
+class OSG_FIELDCONTAINER_DLLMAPPING ConstFieldContainerPtr : 
+    public FieldContainerPtrBase
 {
   public:
+
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
+
+    OSG_PROPERTY_DECL(ConstPointer);
+
+    static const ConstFieldContainerPtr NullPtr;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -766,44 +475,45 @@ class OSG_FIELDCONTAINER_DLLMAPPING AttachmentPtr : public FieldContainerPtr
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef Attachment ObjectType;
+    typedef FieldContainer        ObjectType;
+
+    typedef FieldContainerPtrBase Inherited;
+
+  private:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   friend classes                                                      
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   friend functions                                                    
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+	static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "AttachmentPtr"; };
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
-    AttachmentPtr(void);
-    AttachmentPtr(const AttachmentPtr &source);
-    virtual ~AttachmentPtr(void); 
-
-    /*---------------------- pointer operators -----------------------------*/
-
-          Attachment *operator->(void);
-    const Attachment *operator->(void) const;
-
-          Attachment &operator *(void);
-    const Attachment &operator *(void) const;
-
-          Attachment *getCPtr   (void);
-    const Attachment *getCPtr   (void) const;
-
-#ifdef OSG_FCPTR_HAS_CAST_OPERATOR
-    operator Attachment *(void);
-#endif
-
-    /*------------------------- assignment ----------------------------------*/
-
-    AttachmentPtr &operator =(const AttachmentPtr &source);
-
-    /*------------------------------ dump ----------------------------------*/
-
-    virtual void dump(void) const;
 
   protected:
 
@@ -831,47 +541,48 @@ class OSG_FIELDCONTAINER_DLLMAPPING AttachmentPtr : public FieldContainerPtr
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-  private:
+    explicit ConstFieldContainerPtr(const FieldContainer &source);
+    explicit ConstFieldContainerPtr(const FieldContainer *source);
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+             ConstFieldContainerPtr(const FieldContainer *source,
+                                    const UInt16          uiSize,
+                                    const UInt16          uiParentEPos);
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef FieldContainerPtr Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    friend class FieldContainer;
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-	static char cvsid[];
+  public :
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    explicit AttachmentPtr(const Attachment &source);
+    ConstFieldContainerPtr(void);
+    ConstFieldContainerPtr(const FieldContainerPtr &source);
+    ConstFieldContainerPtr(const ConstFieldContainerPtr &source);
+
+    ~ConstFieldContainerPtr(void); 
+
+    /*----------------------------- casting ---------------------------------*/
+
+    /*------------------------- pointer operators --------------------------*/
+
+    const FieldContainer *operator->(void);
+    const FieldContainer *operator->(void) const;
+
+    const FieldContainer &operator *(void);
+    const FieldContainer &operator *(void) const;
+ 
+    const FieldContainer *getCPtr   (void);
+    const FieldContainer *getCPtr   (void) const;
+
+   /*------------------------- your_operators ------------------------------*/
+
+   /*------------------------- assignment ----------------------------------*/
+
+    void operator =(const FieldContainerPtr &source);
+    void operator =(const ConstFieldContainerPtr &source);
 };
 
 
@@ -881,12 +592,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING AttachmentPtr : public FieldContainerPtr
 //---------------------------------------------------------------------------
 
 /*! \ingroup FieldContainerLib
- *  \brief Template to construct custom field container pointer. A custom
- *  pointer is created by instantiating the template with type and the parent
- *  pointer type. For example :
- *  \code
- *  typedef FCPtr<NodeCorePtr, Transform> TransformPtr;
- *  \endcode
+ *  \brief Template to construct custom data store pointers
  */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> 
@@ -895,6 +601,14 @@ class OSG_FIELDCONTAINER_DLLMAPPING FCPtr : public BasePtrTypeT
   public:
 
     //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
+
+    OSG_PROPERTY_REQUIREMENT(BasePtrTypeT, Pointer);
+
+    static const FCPtr NullPtr;
+
+    //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
 
@@ -902,48 +616,50 @@ class OSG_FIELDCONTAINER_DLLMAPPING FCPtr : public BasePtrTypeT
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef FieldContainerTypeT ContainerType;
 	typedef FieldContainerTypeT ObjectType;
-	
+
+    typedef BasePtrTypeT   Inherited;
+
+  private:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   friend classes                                                      
+    //-----------------------------------------------------------------------
+
+    friend class FieldContainer;
+
+    //-----------------------------------------------------------------------
+    //   friend functions                                                    
+    //-----------------------------------------------------------------------
+
+    template <class RetTypeT, class InTypeT> inline
+    friend RetTypeT dcast(const InTypeT oIn);
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+	static char cvsid[];
+
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "FCPtr"; };
-
-    static const FCPtr NullPtr;
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
-    FCPtr(void); 
-    FCPtr(const FCPtr &source);
-    explicit FCPtr(const FieldContainerTypeT &source);
-    virtual ~FCPtr(void); 
-
-    /*------------------------- pointer operators ---------------------------*/
-
-          FieldContainerTypeT *operator ->(void);
-    const FieldContainerTypeT *operator ->(void) const;
-
-          FieldContainerTypeT &operator *(void);
-    const FieldContainerTypeT &operator *(void) const;
-
-          FieldContainerTypeT *getCPtr   (void);
-    const FieldContainerTypeT *getCPtr   (void) const;
-
-#ifdef OSG_FCPTR_HAS_CAST_OPERATOR
-    operator FieldContainerTypeT *(void);
-#endif
-
-    /*------------------------- assignment ----------------------------------*/
-
-    FCPtr &operator =(const FCPtr &source);
-
-    /*------------------------------ dump ----------------------------------*/
-
-    virtual void dump(void) const;
 
   protected:
 
@@ -971,6 +687,81 @@ class OSG_FIELDCONTAINER_DLLMAPPING FCPtr : public BasePtrTypeT
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
+    explicit FCPtr(const FieldContainerTypeT &source);
+    explicit FCPtr(const FieldContainerTypeT *source);
+
+             FCPtr(const FieldContainerTypeT *source,
+                   const UInt16               uiSize,
+                   const UInt16               uiParentPos);
+
+  public :
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    FCPtr(void); 
+    FCPtr(const FCPtr &source);
+
+    ~FCPtr(void); 
+
+    /*------------------------- pointer operators ---------------------------*/
+
+    FieldContainerTypeT *operator ->(void);
+    FieldContainerTypeT *operator ->(void) const;
+
+    FieldContainerTypeT &operator *(void);
+    FieldContainerTypeT &operator *(void) const;
+
+    FieldContainerTypeT *getCPtr   (void);
+    FieldContainerTypeT *getCPtr   (void) const;
+
+    /*------------------------- assignment ----------------------------------*/
+
+    void operator =(const FCPtr &source);
+};
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/*! \ingroup FieldContainerLib
+ *  \brief Template to construct custom data store pointers
+ */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> 
+class OSG_FIELDCONTAINER_DLLMAPPING ConstFCPtr : public BasePtrTypeT
+{
+  public:
+
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
+
+    OSG_PROPERTY_REQUIREMENT(BasePtrTypeT, ConstPointer);
+
+    static const ConstFCPtr NullPtr;
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+	typedef FieldContainerTypeT  ObjectType;
+
+    typedef BasePtrTypeT    Inherited;
+
+    typedef FCPtr<typename FieldContainerTypeT::Ptr::Inherited,
+                     FieldContainerTypeT                            > NCFCPtr;
   private:
 
     //-----------------------------------------------------------------------
@@ -981,7 +772,6 @@ class OSG_FIELDCONTAINER_DLLMAPPING FCPtr : public BasePtrTypeT
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef BasePtrTypeT Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -993,10 +783,9 @@ class OSG_FIELDCONTAINER_DLLMAPPING FCPtr : public BasePtrTypeT
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-	template <class BasePtr, class ContainerType>
-	friend inline ostream &operator 
-			<<(ostream &os, const FCPtr<BasePtr, ContainerType> &fc);
-				
+    template <class RetTypeT, class InTypeT> inline
+    friend RetTypeT dcast(const InTypeT oIn);
+
     //-----------------------------------------------------------------------
     //   class variables                                                     
     //-----------------------------------------------------------------------
@@ -1014,19 +803,98 @@ class OSG_FIELDCONTAINER_DLLMAPPING FCPtr : public BasePtrTypeT
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
+
+  protected:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    explicit ConstFCPtr(const FieldContainerTypeT &source);
+    explicit ConstFCPtr(const FieldContainerTypeT *source);
+
+             ConstFCPtr(const FieldContainerTypeT *source,
+                        const UInt16               uiSize,
+                        const UInt16               uiParentPos);
+
+  public :
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    ConstFCPtr(void); 
+    ConstFCPtr(const NCFCPtr    &source);
+    ConstFCPtr(const ConstFCPtr &source);
+
+    ~ConstFCPtr(void); 
+
+    /*------------------------- pointer operators ---------------------------*/
+
+    const FieldContainerTypeT *operator ->(void);
+    const FieldContainerTypeT *operator ->(void) const;
+
+    const FieldContainerTypeT &operator *(void);
+    const FieldContainerTypeT &operator *(void) const;
+
+    const FieldContainerTypeT *getCPtr   (void);
+    const FieldContainerTypeT *getCPtr   (void) const;
+
+    /*------------------------- assignment ----------------------------------*/
+
+    void operator =(const NCFCPtr    &source);
+    void operator =(const ConstFCPtr &source);
 };
+
+#ifdef __sgi
+#pragma reset woff 1375
+#endif
+
+
+template <class RetTypeT, class InTypeT> inline
+RetTypeT dcast(const InTypeT oIn);
+
+#ifdef __sgi
+#pragma reset woff 1424
+#endif
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
+// class pointer
+
+typedef FieldContainerPtr *FieldContainerPtrP;
+
 extern OSG_FIELDCONTAINER_DLLMAPPING const FieldContainerPtr   NullFC;
-extern OSG_FIELDCONTAINER_DLLMAPPING const NodePtr             NullNode;
-extern OSG_FIELDCONTAINER_DLLMAPPING const NodeCorePtr         NullNodeCore;
-extern OSG_FIELDCONTAINER_DLLMAPPING const AttachmentPtr       NullAttachment;
 
 OSG_END_NAMESPACE
 
 #include <OSGFieldContainerPtr.inl>
+#include <OSGNodePtr.h>
 
 #endif /* _OSGFIELDCONTAINERPTR_H_ */
