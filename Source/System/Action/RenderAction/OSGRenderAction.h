@@ -149,6 +149,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     /*------------------------- assignment ----------------------------------*/
 
+    void dropGeometry(Geometry  *pGeo);
     void dropLight     (Light     *pLight);
     void undropLight   (Light     *pLight);
     void dropFunctor (Material::DrawFunctor &func, Material *mat);
@@ -258,6 +259,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     virtual void draw(DrawTreeNode *pRoot);
 
     inline  void updateTopMatrix(void);
+            void activateLocalLights(DrawTreeNode *pRoot);
 
   private:
 
