@@ -110,7 +110,7 @@ LDFLAGS    :=  /dll OSGNSPlugin.res /def:OSGNSPlugin.def
 else
 LDFLAGS    :=  -shared
 endif
-LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base System QT )
+LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base System QT GLUT )
 CMPLR_ID   :=  $(shell $(OSG_CONFIG) --compiler-id)
 
 SYSDEP     := $(OS)-$(CMPLR_ID)
