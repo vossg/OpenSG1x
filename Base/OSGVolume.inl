@@ -62,11 +62,13 @@ OSG_BEGIN_NAMESPACE
 /** set the volume to contain nothing */
 void Volume::setValid (const Bool value = true) 
 { 
-	if (isStatic())
+	if ( ! isStatic() )
+	{
 		if (value)
 		  _state |= OSGVALID;
 		else 
 		  _state &= ~OSGVALID; 
+	}
 }
 
 /**  Checks if the volume is valid */
@@ -78,13 +80,13 @@ Bool Volume::isValid (void) const
 /** set the volume to contain nothing */
 void Volume::setEmpty (const Bool value = true) 
 { 
-	if (value)
-	  if (value) {
-			_state |= OSGEMPTY;
-			_state &= ~OSGINFINITE;
-		}	
-		else 
-			_state &= ~OSGEMPTY;
+	if (value) 
+	{
+		_state |= OSGEMPTY;
+		_state &= ~OSGINFINITE;
+	}	
+	else 
+		_state &= ~OSGEMPTY;
 }
 
 /**  Checks if the volume is empty */
@@ -111,8 +113,9 @@ Bool Volume::isStatic (void) const
 /** set the volume to contain nothing */
 void Volume::setInfinite (const Bool value = true) 
 { 
-	if (value) {
-		_state != OSGINFINITE;
+	if (value) 
+	{
+		_state |= OSGINFINITE;
 		_state &= ~OSGEMPTY;
 	}
 	else 
