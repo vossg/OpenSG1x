@@ -1081,3 +1081,42 @@ dnl e13
 
     AC_OUTPUT($ac_gdz_common_gif_e13:$ac_gdz_common_gif_in_e13)
 ])
+
+
+AC_DEFUN(AC_GDZ_WRITE_COMMON_MYRINET,
+[
+dnl e14
+
+    ac_gdz_myrinet_lib_e14=
+    ac_gdz_myrinet_incdir_e14=
+    ac_gdz_myrinet_libdir_e14=
+
+    if [[ "$with_myrinet" = yes ]]; then
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_myrinet_lib_e14='gm32.lib'
+        else
+           ac_gdz_myrinet_lib_e14='-lgm'
+        fi
+    elif [[ -n "$ac_gdz_myrinet_dir" ]]; then
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_myrinet_incdir_e14='"'`cygpath -w $ac_gdz_myrinet_dir/include`'"'
+           ac_gdz_myrinet_libdir_e14='"'`cygpath -w $ac_gdz_myrinet_dir/lib`'"'
+           ac_gdz_myrinet_lib_e14='gm32.lib'
+        else
+           ac_gdz_myrinet_incdir_e14=$ac_gdz_myrinet_dir/include
+           ac_gdz_myrinet_libdir_e14=$ac_gdz_myrinet_dir/lib
+           ac_gdz_myrinet_lib_e14='-lgm'
+        fi
+    fi
+
+    ac_gdz_common_myrinet_in_e14=$ac_gdz_commonconf_dir/commonMYRINET.in
+    ac_gdz_common_myrinet_e14=$ac_gdz_commonpackage_dir/commonMYRINET.mk
+
+    AC_SUBST(ac_gdz_myrinet_incdir_e14)
+    AC_SUBST(ac_gdz_myrinet_libdir_e14)
+    AC_SUBST(ac_gdz_myrinet_lib_e14)
+   
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_common_myrinet_e14:$ac_gdz_common_myrinet_in_e14)
+])

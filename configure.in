@@ -44,6 +44,8 @@ ac_gdz_conf_package_gif='0'
 ac_gdz_conf_package_gif_e1='0'
 ac_gdz_conf_package_efence='0'
 ac_gdz_conf_package_efence_e1='0'
+ac_gdz_conf_package_myrinet='0'
+ac_gdz_conf_package_myrinet_e1='0'
 
 ac_gdz_test_debug_libs=
 
@@ -236,6 +238,26 @@ else
 	ac_gdz_conf_package_efence='1'
 	ac_gdz_conf_package_efence_e1='1'
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs
+fi
+
+
+dnl ############# Myrinet Settings #####################
+
+AC_ARG_WITH(myrinet,   [  --with-myrinet=DIR                     Use Myrinet lib, if DIR is given use the file from the give directory],
+			,with_myrinet=no) 
+
+if [[ "$with_myrinet" = yes ]]; then
+	ac_gdz_myrinet_dir=
+	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_MYRINET'
+	ac_gdz_conf_package_myrinet='1'
+	ac_gdz_conf_package_myrinet_e1='1'
+elif [[ "$with_myrinet" = no ]]; then
+	ac_gdz_myrinet_dir=
+else
+	ac_gdz_myrinet_dir=$with_myrinet
+	ac_gdz_conf_package_myrinet='1'
+	ac_gdz_conf_package_myrinet_e1='1'
+	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_MYRINET'
 fi
 
 dnl ############# TLS Settings #####################
@@ -579,6 +601,8 @@ AC_GDZ_WRITE_COMMON_MNG()
 AC_GDZ_WRITE_COMMON_GIF()
 
 AC_GDZ_WRITE_COMMON_GL()
+
+AC_GDZ_WRITE_COMMON_MYRINET()
 
 ac_gdz_package_sys_common_out=common.$build-$ac_gdz_compiler$ac_gdz_suffix.mk
 
