@@ -5,6 +5,7 @@
 #include <OSGBaseFunctions.h>
 #include <OSGThread.h>
 #include <OSGThreadManager.h>
+#include <OSGLock.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -22,6 +23,8 @@ class MyThread : public Thread
     void operator =(const MyThread &source);
 
   protected:
+
+    Lock *pLock;
   
     static MPThreadType _type;
 
@@ -53,8 +56,13 @@ Thread *MyThread::create(const Char8  *szName, UInt32  uiId)
 }
 
 MyThread::MyThread(const Char8 *szName, UInt32  uiId) :
-    Inherited(szName, uiId)
+    Inherited(szName, uiId),
+    pLock(NULL)
 {
+    fprintf(stderr, "Create Lock\n");
+    fflush(stderr);
+
+    pLock = ThreadManager::the()->getLock(NULL);
 }
 
 MyThread::~MyThread(void)
