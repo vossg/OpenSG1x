@@ -232,7 +232,7 @@ coordval_list   :   /* leer */
                     }
                 }
                 */
-                cerr << "v2a_parse.y::ignoring coordinate-interpolator (temporarly)\n";
+                std::cerr << "v2a_parse.y::ignoring coordinate-interpolator (temporarly)\n";
             }
             ;   
             
@@ -255,11 +255,11 @@ orival_list :   /* leer */
                     if( currInterpol->nrOfKeyValues() <= currInterpol->nrOfKeys() )
                     {
 
-                        //cerr << $2 << ", " << $3 << ", " << $4 << ", " << $5 << endl;
+                        //std::cerr << $2 << ", " << $3 << ", " << $4 << ", " << $5 << std::endl;
                         value.setValueAsAxisRad( OSG::Vec3f($2, $3, $4), $5 );
-                        //cerr << "#" << value << endl;
+                        //std::cerr << "#" << value << std::endl;
                         value.getValueAsAxisRad( x,y,z,w );
-                        //cerr << "#" << x << ", " << y << ", " << z << ", " << w << endl;
+                        //std::cerr << "#" << x << ", " << y << ", " << z << ", " << w << std::endl;
                         currInterpol->addKeyValue( value );
                     }
                     else
@@ -290,7 +290,7 @@ scval_list  :   /* leer */
                         fprintf(stderr, "v2a_parse(): not enough keys!\n");
                 }
                 */
-                cerr << "v2a_parse.y::ignoring scalar-interpolators\n";
+                std::cerr << "v2a_parse.y::ignoring scalar-interpolators\n";
             }
             ;
 
@@ -316,7 +316,7 @@ colval_list :   /* leer */
                         fprintf(stderr, "v2a_parse(): not enough keys!\n");
                 }
                 */
-                cerr << "v2a_parse.y::ignoring color-interpolators\n";              
+                std::cerr << "v2a_parse.y::ignoring color-interpolators\n";              
             }
             ;
 
@@ -360,7 +360,7 @@ norval_list :   /* leer */
                     }
                 }
                 */
-                cerr << "v2a_parse.y::ignoring normal-interpolators\n";             
+                std::cerr << "v2a_parse.y::ignoring normal-interpolators\n";             
             }
             ;   
 

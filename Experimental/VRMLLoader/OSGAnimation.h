@@ -61,7 +61,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Animation
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef vector<InterpolatorBase *> InterpolatorVec;
+    typedef std::vector<InterpolatorBase *> InterpolatorVec;
 
     //-----------------------------------------------------------------------
     //   constants                                                           
@@ -93,7 +93,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Animation
             
     Int32             getNrOfInterpols   (                          ) const;
         
-    bool              parse              (const string& filename    );    
+    bool              parse              (const std::string &filename);    
 
     InterpolatorVec   findInterpolator   (const Char8 *szName);
     
@@ -162,8 +162,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Animation
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    vector<InterpolatorBase *> _interpols;
-    Int32                      _currentInterpol;
+    std::vector<InterpolatorBase *> _interpols;
+    Int32                           _currentInterpol;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

@@ -258,11 +258,12 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
   protected:
 
 #ifdef OSG_SGI_STL
-    typedef hash_map<     const Char8 *,  UInt32, 
-                     hash<const Char8 *>, EQString> FieldNameTypeHash;
+    typedef 
+        std::hash_map<          const Char8 *,  UInt32, 
+                      std::hash<const Char8 *>, EQString> FieldNameTypeHash;
 #else
-    typedef std::map<     const Char8 *,  UInt32, 
-                                          LTString> FieldNameTypeHash;
+    typedef 
+        std::map<     const Char8 *,  UInt32,   LTString> FieldNameTypeHash;
 #endif
 
     /*---------------------------------------------------------------------*/

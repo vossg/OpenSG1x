@@ -94,13 +94,13 @@ InterpolatorBase::InterpolType InterpolatorBase::getType(void) const
 }
 
 inline 
-void InterpolatorBase::setTargetName(const string& name) 
+void InterpolatorBase::setTargetName(const std::string& name) 
 { 
     _targetName = name; 
 }
 
 inline 
-const string& InterpolatorBase::getTargetName(void) 
+const std::string& InterpolatorBase::getTargetName(void) 
 { 
     return _targetName; 
 }
@@ -124,7 +124,7 @@ Int32 InterpolatorBase::nrOfKeys() const
 }
 
 inline 
-vector<Real32> &InterpolatorBase::getKeys() 
+std::vector<Real32> &InterpolatorBase::getKeys() 
 { 
     return _keys;
 }   
@@ -168,9 +168,9 @@ bool InterpolatorBase::isScaleInterpol(void) const
 
 inline Real32 InterpolatorBase::time2key(Real32 time)
 {
-    vector<Real32> &keys         = getKeys();
-    int             lastKeyIndex;
-    Real64          lambda;
+    std::vector<Real32> &keys         = getKeys();
+    int                  lastKeyIndex;
+    Real64               lambda;
     
     lambda        = time / getDuration();  
     lambda       -= floor(lambda);    
@@ -188,31 +188,31 @@ inline Real32 InterpolatorBase::time2key(Real32 time)
 }
 
 inline 
-const string InterpolatorBase::type2String(InterpolType t)
+const std::string InterpolatorBase::type2String(InterpolType t)
 { 
     switch(t)
     {
         case Position:
-            return string("Position");
+            return std::string("Position");
         case Orientation:
-            return string("Orientation");
+            return std::string("Orientation");
         case Unused:
-            return string("Unused");
+            return std::string("Unused");
         case Other:
-            return string("Other");
+            return std::string("Other");
         default:
-            return string("Unknown");
+            return std::string("Unknown");
     }
 }
 
 inline 
-void InterpolatorBase::setName(const string& name) 
+void InterpolatorBase::setName(const std::string& name) 
 { 
     _name = name; 
 }
 
 inline 
-string& InterpolatorBase::getName(void) 
+std::string& InterpolatorBase::getName(void) 
 { 
     return _name; 
 }
@@ -253,12 +253,12 @@ Int32 Interpolator<KeyValueType>::nrOfKeyValues(void) const
 template <class KeyValueType>
 KeyValueType Interpolator<KeyValueType>::getValue(Real32 key)
 {
-    vector<Real32>::iterator keyIter;
-    vector<Real32>          &keys    = getKeys();
-    Int32                    ipos    = -1;
-    Real32                   keyDiff; 
+    std::vector<Real32>::iterator keyIter;
+    std::vector<Real32>          &keys    = getKeys();
+    Int32                         ipos    = -1;
+    Real32                        keyDiff; 
     
-    keyIter = find(keys.begin(), keys.end(), key);
+    keyIter = std::find(keys.begin(), keys.end(), key);
     
     if(keyIter != keys.end())
     {
@@ -267,9 +267,9 @@ KeyValueType Interpolator<KeyValueType>::getValue(Real32 key)
         return _keyValues[ipos];
     }
     
-    keyIter = find_if(keys.begin(), 
-                      keys.end(), 
-                      bind2nd(greater<Real32>(), key));
+    keyIter = std::find_if(keys.begin(), 
+                           keys.end(), 
+                           std::bind2nd(std::greater<Real32>(), key));
 
     ipos    = keyIter - keys.begin();
 
@@ -283,13 +283,13 @@ KeyValueType Interpolator<KeyValueType>::getValue(Real32 key)
 template <>
 inline Quaternion Interpolator<Quaternion>::getValue(Real32 key)
 {
-    vector<Real32>::iterator keyIter;
-    Quaternion               q1,q2,q3;
-    Real32                   keyDiff; 
-    Int32                    ipos     = -1;
-    vector<Real32>          &keys     = getKeys();
+    std::vector<Real32>::iterator keyIter;
+    Quaternion                    q1,q2,q3;
+    Real32                        keyDiff; 
+    Int32                         ipos     = -1;
+    std::vector<Real32>          &keys     = getKeys();
     
-    keyIter = find(keys.begin(), keys.end(), key);
+    keyIter = std::find(keys.begin(), keys.end(), key);
     
     // --- found desired key
     if(keyIter != keys.end())
@@ -302,8 +302,8 @@ inline Quaternion Interpolator<Quaternion>::getValue(Real32 key)
     // --- didn't find key -> interpolate   
     
     // find key greater than the desired one
-    keyIter = find_if(keys.begin(), keys.end(), 
-                      bind2nd(greater<Real32>(), key));
+    keyIter = std::find_if(keys.begin(), keys.end(), 
+                           std::bind2nd(std::greater<Real32>(), key));
 
     // calc key position                      
     ipos = keyIter - keys.begin();
@@ -365,27 +365,27 @@ inline void Interpolator<KeyValueType>::dump(void)
 {
     Int32 i;
 
-    cerr << "------------------------------------------" << endl
-         << "Name: "   << getName()                      << endl
-         << "Type: "   << type2String(getType())         << endl
-         << "Dura: "   << getDuration()                  << endl
-         << "Target: " << getTargetName()                << endl
-         << "#Keys:"   << nrOfKeys()                     << " [ ";
+    std::cerr << "------------------------------------------" << std::endl
+              << "Name: "   << getName()                      << std::endl
+              << "Type: "   << type2String(getType())         << std::endl
+              << "Dura: "   << getDuration()                  << std::endl
+              << "Target: " << getTargetName()                << std::endl
+              << "#Keys:"   << nrOfKeys()                     << " [ ";
          
     for(i = 0; i < nrOfKeys(); ++i)
     {
-        cerr << getKeys()[i] << ", ";
+        std::cerr << getKeys()[i] << ", ";
     }
 
-    cerr << " ]"     << endl;
-    cerr << "#Vals:" << nrOfKeyValues() << " [ ";
+    std::cerr << " ]"     << std::endl;
+    std::cerr << "#Vals:" << nrOfKeyValues() << " [ ";
      
     for(i = 0; i < nrOfKeyValues(); ++i)
     {
-        cerr << _keyValues[i] << ", ";
+        std::cerr << _keyValues[i] << ", ";
     } 
    
-    cerr << endl;
+    std::cerr << std::endl;
 }
 
 template <class KeyValueType>

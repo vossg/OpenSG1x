@@ -73,7 +73,7 @@ class OSG_SYSTEMLIB_DLLMAPPING InterpolatorBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
     
-    static const string type2String(InterpolType t);
+    static const std::string type2String(InterpolType t);
     
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -84,38 +84,38 @@ class OSG_SYSTEMLIB_DLLMAPPING InterpolatorBase
     
     /*------------------------- your_category -------------------------------*/
 
-    InterpolType    getType           (void                       ) const;
+    InterpolType         getType         (void                       ) const;
     
-    void            setTargetName     (const string &name         );
-    const string   &getTargetName     (void                       );
+    void                 setTargetName   (const std::string &name    );
+    const std::string   &getTargetName   (void                       );
 
-    void            setTargetTransform(ComponentTransformPtr pTransform);
+    void                 setName         (const std::string& name    );
+    std::string         &getName         (void                       );
+    
+    void                 addKey          (Real32 key                 ); 
+    
+    Int32                nrOfKeys        (void                       ) const;
+    virtual Int32        nrOfKeyValues   (void                       ) const=0;
 
-    void            setName           (const string& name         );
-    string         &getName           (void                       );
+    Real32               time2key        (Real32 time                ); 
+    std::vector<Real32> &getKeys         (void                       );  
     
-    void            addKey            (Real32 key                 ); 
-    
-    Int32           nrOfKeys          (void                       ) const;
-    virtual Int32   nrOfKeyValues     (void                       ) const = 0;
-    
-    Real32          time2key          (Real32 time                ); 
-    vector<Real32> &getKeys           (void                       );  
-    
-    void            setDuration       (const Real32 duration      );
-    Real32          getDuration       (void                       ) const;
+    void                 setDuration     (const Real32 duration      );
+    Real32               getDuration     (void                       ) const;
         
-    void            setLoop           (bool loopon                );
-    bool            isLooping         (void                       ) const;
+    void                 setLoop         (bool loopon                );
+    bool                 isLooping       (void                       ) const;
     
-    void            setScaleInterpol  (bool scale                 );
-    bool            isScaleInterpol   (                           ) const;
+    void                 setScaleInterpol(bool scale                 );
+    bool                 isScaleInterpol (                           ) const;
 
-    virtual void    setTime           (Real32 globalTime          ) = 0;
+    virtual void         setTime         (Real32 globalTime          ) = 0;
         
-    virtual void    dump              (void                       ) = 0;
+    virtual void         dump            (void                       ) = 0;
     
     /*------------------------- your_operators ------------------------------*/
+
+    void setTargetTransform(ComponentTransformPtr pTransform);
     
   protected:
 
@@ -142,13 +142,13 @@ class OSG_SYSTEMLIB_DLLMAPPING InterpolatorBase
     InterpolType     _type;
     ComponentTransformPtr _pTransform;
 
-    string           _targetName;
-    string           _name;
-    vector<Real32>   _keys;
-    Real32           _duration;
-    Real32           _keyDelta;
-    bool             _loop;
-    bool             _isScale;
+    std::string         _targetName;
+    std::string         _name;
+    std::vector<Real32> _keys;
+    Real32              _duration;
+    Real32              _keyDelta;
+    bool                _loop;
+    bool                _isScale;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -293,7 +293,7 @@ class Interpolator : public InterpolatorBase
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    vector<KeyValueType> _keyValues;
+    std::vector<KeyValueType> _keyValues;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

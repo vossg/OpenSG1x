@@ -77,11 +77,14 @@ class VRMLNodeFactory : public BaseT
   private:
 
 #ifdef OSG_SGI_STL
-    typedef hash_map<     const Char8 *,  VRMLNodeDesc *, 
-                     hash<const Char8 *>, EQString      > NodeNameDescHash;
+    typedef 
+        std::hash_map
+            <          const Char8 *,  VRMLNodeDesc *, 
+             std::hash<const Char8 *>, EQString      > NodeNameDescHash;
 #else
-    typedef std::map<     const Char8 *,  VRMLNodeDesc *, 
-                                          LTString      > NodeNameDescHash;
+    typedef 
+        std::map<     const Char8 *,  VRMLNodeDesc  *, 
+                                      LTString       > NodeNameDescHash;
 #endif
 
     typedef VRMLNodeFactory<BaseT> Self;
