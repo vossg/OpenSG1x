@@ -88,7 +88,7 @@ using namespace OSG;
  *                           Class variables                               *
 \***************************************************************************/
 
-char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.1 2001/01/26 10:37:12 dirk Exp $";
+char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.2 2001/01/26 12:20:30 dirk Exp $";
 
 vector<Action::Functor> *IntersectAction::_defaultEnterFunctors;
 
@@ -161,7 +161,7 @@ void IntersectAction::registerLeaveDefault(	const FieldContainerType &type,
 
 IntersectAction::IntersectAction(void) :
 	_line(), _maxdist(), 
-	_hit(false), _enter(-1), _leave(-1), _hitT(-1), _hitObject(),
+	_hit(false), _enterT(-1), _leaveT(-1), _hitT(-1), _hitObject(),
 	_hitTriangle(-1)
 {
 	if ( _defaultEnterFunctors )
@@ -174,7 +174,7 @@ IntersectAction::IntersectAction(void) :
 
 IntersectAction::IntersectAction( const Line &line, const Real32 maxdist ) :
 	_line( line ), _maxdist( maxdist ), 
-	_hit(false), _enter(-1), _leave(-1), _hitT(-1), _hitObject(),
+	_hit(false), _enterT(-1), _leaveT(-1), _hitT(-1), _hitObject(),
 	_hitTriangle(-1)
 {
 	if ( _defaultEnterFunctors )

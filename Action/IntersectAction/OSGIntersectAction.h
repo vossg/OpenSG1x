@@ -242,8 +242,8 @@ class OSG_INTERSECTACTION_DLLMAPPING IntersectAction : public Action
 	// hit at all (either bv or face)
 	Bool 	_hit;
 	// enter leave distance for bounding volume
-	Real32  _enter;
-	Real32  _leave;
+	Real32  _enterT;
+	Real32  _leaveT;
 	
 	// Hit distance
 	Real32  _hitT;
