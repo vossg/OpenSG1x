@@ -1,4 +1,16 @@
 
+### Debug or not #######################################################
+
+JOB_TYPE := $(findstring opt,$(MAKECMDGOALS))
+
+ifeq ($(JOB_TYPE),opt)
+DBG := opt
+DEBUG_VERSION := 0
+else
+DBG := dbg
+DEBUG_VERSION := 1
+endif
+
 ### Binaries #######################################################
 
 CC_PATH    := @ac_gdz_compiler_path@

@@ -34,6 +34,13 @@ SUB_JOB := admin
 else
 SUB_JOB := build
 endif
+
+JOB_TYPE := $(findstring opt,$(MAKECMDGOALS))
+
+ifeq ($(JOB_TYPE),opt)
+DBG := opt
+endif
+
 endif
 
 #########################################################################
