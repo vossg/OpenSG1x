@@ -74,7 +74,7 @@ node: Plane is all p such that normalVec . p - distance = 0
 
 */
 
-class OSG_DLLEXPORT Plane {
+class OSG_BASE_DLLMAPPING Plane {
 
 	/// Normal to the plane
 	Vec3f _normalVec;

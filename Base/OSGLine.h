@@ -46,7 +46,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-class OSG_DLLEXPORT BoxVolume;
+class OSG_BASE_DLLMAPPING BoxVolume;
 
 /** Directed line in 3D space defined by pos and dir.
 

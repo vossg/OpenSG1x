@@ -82,7 +82,7 @@ class ChangeList;
  *  \brief ThreadManager
  */
 
-class OSG_DLLEXPORT ThreadManager 
+class OSG_BASE_DLLMAPPING ThreadManager 
 {
   public:
 

@@ -60,6 +60,8 @@
   #include <sys/time.h>
 #endif      
 
+#define OSG_COMPILEBASE
+
 #include "OSGTime.h"
 
 ///---------------------------------------------------------------------------
@@ -92,7 +94,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-Time getSystemTime (void)
+OSG_BASE_DLLMAPPING Time getSystemTime (void)
 {
 	Time time;
 

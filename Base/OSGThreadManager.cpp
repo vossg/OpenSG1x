@@ -54,6 +54,8 @@
 #include <iostream.h>
 #endif /* OSG_STREAM_IN_STD_NAMESPACE */ 
 
+#define OSG_COMPILEBASE
+
 #include "OSGThreadManager.h"
 #include "OSGThread.h"
 #include "OSGBarrier.h"

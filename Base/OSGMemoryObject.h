@@ -66,7 +66,7 @@ OSG_BEGIN_NAMESPACE
     \brief Memory, simple not thread safe reference counted memory object.
 */
 
-class OSG_DLLEXPORT MemoryObject
+class OSG_BASE_DLLMAPPING MemoryObject
 {
   public:
 

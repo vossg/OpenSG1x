@@ -52,6 +52,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEBASE
+
 #include "OSGChangeList.h"
 #include "OSGFieldContainerPtr.h"
 #include "OSGFieldContainerFactory.h"

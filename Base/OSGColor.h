@@ -67,7 +67,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <class ValueTypeT>
-class OSG_DLLEXPORT Color3
+class OSG_BASE_DLLMAPPING Color3
 {
   public:
 
@@ -234,7 +234,7 @@ class OSG_DLLEXPORT Color3
  */
 
 template <class ValueTypeT>
-class OSG_DLLEXPORT Color4
+class OSG_BASE_DLLMAPPING Color4
 {
   public:
 
@@ -386,12 +386,12 @@ class OSG_DLLEXPORT Color4
 
 
 template <class ValueTypeT>
-OSG_DLLEXPORT ostream &operator <<(      ostream            &outStream,
-                                   const Color3<ValueTypeT> &color);
+ostream &operator <<(      ostream            &outStream,
+                     const Color3<ValueTypeT> &color);
 
 template <class ValueTypeT>
-OSG_DLLEXPORT ostream &operator <<(      ostream            &outStream,
-                                   const Color4<ValueTypeT> &color);
+ostream &operator <<(      ostream            &outStream,
+                     const Color4<ValueTypeT> &color);
 
 /*! \var Color3<Real32> Color3f;
  *  \ingroup BaseColors

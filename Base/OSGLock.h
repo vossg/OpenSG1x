@@ -42,7 +42,6 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
 #include <OSGBaseTypes.h>
 
 #if defined (OSG_USE_PTHREADS)
@@ -78,7 +77,7 @@ static const UInt32 uiLockPoolMask = 0x0f80;
  *  \brief LockCommonBase
  */
 
-class OSG_DLLEXPORT LockCommonBase 
+class OSG_BASE_DLLMAPPING LockCommonBase 
 {
   public:
 
@@ -476,7 +475,7 @@ typedef SprocLockBase LockBase;
  *  \brief WinThreadLockBase
  */
 
-class OSG_DLLEXPORT WinThreadLockBase : public LockCommonBase
+class OSG_BASE_DLLMAPPING WinThreadLockBase : public LockCommonBase
 {
   public:
 
@@ -628,7 +627,7 @@ class Lock : public LockBase
  *  \brief LockPool
  */
 
-class LockPool : public LockCommonBase
+class OSG_BASE_DLLMAPPING LockPool : public LockCommonBase
 {
   public:
 

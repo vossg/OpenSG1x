@@ -52,6 +52,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEBASE
+
 #include "OSGMemoryObject.h"
 
 OSG_USING_NAMESPACE

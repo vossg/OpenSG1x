@@ -9,8 +9,7 @@
 #include <iostream.h>
 #endif
 
-// Application declarations
-
+#define OSG_COMPILEBASE
 
 // Class declarations
 #include "OSGStringLink.h"

@@ -71,7 +71,7 @@ OSG_BEGIN_NAMESPACE
 
 typedef Real64 Time;
 
-OSG_DLLEXPORT Time getSystemTime(void);
+OSG_BASE_DLLMAPPING Time getSystemTime(void);
 
 //---------------------------------------------------------------------------
 //   Exported Types

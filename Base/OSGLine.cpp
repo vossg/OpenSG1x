@@ -48,6 +48,8 @@
 
 #include <assert.h>
 
+#define OSG_COMPILEBASE
+
 #include "OSGLine.h"
 
 OSG_USING_NAMESPACE

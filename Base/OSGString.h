@@ -68,7 +68,7 @@ OSG_BEGIN_NAMESPACE
  *  detailed
  */
 
-class OSG_DLLEXPORT String
+class OSG_BASE_DLLMAPPING String
 {
   public:
 
@@ -190,9 +190,8 @@ class OSG_DLLEXPORT String
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-	friend ostream &operator <<(      ostream &os, 
-                                const String  &obj);
-
+	friend OSG_BASE_DLLMAPPING ostream &operator <<(      ostream &os, 
+                                                    const String  &obj);
 
     //-----------------------------------------------------------------------
     //   class variables                                                     

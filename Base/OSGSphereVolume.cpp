@@ -48,7 +48,8 @@
 
 #include <assert.h>
 
-// Application declarations
+#define OSG_COMPILEBASE
+
 #include "OSGLine.h"
 #include "OSGBoxVolume.h"
 

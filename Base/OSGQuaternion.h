@@ -71,7 +71,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <class ValueTypeT>
-class QuaternionBase
+class OSG_BASE_DLLMAPPING QuaternionBase
 {
   public:
 

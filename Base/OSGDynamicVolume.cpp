@@ -48,9 +48,7 @@
 #include <iostream.h>
 #endif
 
-
-// Application declarations
-
+#define OSG_COMPILEBASE
 
 // Class declarations
 #include "OSGDynamicVolume.h"
@@ -123,6 +121,7 @@ void DynamicVolume::morphToType ( Type type )
 	}
 }
 		
+OSG_BASE_DLLMAPPING
 ostream &OSG::operator <<(ostream &outStream,
                           const DynamicVolume &vol)
 {

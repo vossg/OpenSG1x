@@ -52,7 +52,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-class OSG_DLLEXPORT DynamicVolume {
+class OSG_BASE_DLLMAPPING DynamicVolume {
 		
 public:
 
@@ -95,6 +95,7 @@ public:
 
 };
 
+OSG_BASE_DLLMAPPING
 ostream &operator <<(ostream &outStream,
                      const DynamicVolume &vol);
 

@@ -58,6 +58,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEBASE
+
 #include "OSGBaseFunctions.h"
 #include "OSGThreadManager.h"
 #include "OSGAspect.h"
@@ -97,7 +99,7 @@ OSG_USING_NAMESPACE
 //s: 
 ///---------------------------------------------------------------------------
 
-OSG_DLLEXPORT 
+OSG_BASE_DLLMAPPING 
 void OSG::osgAddInitFunction(InitFuncF initFunc)
 {
     if(osgInitFunctions == NULL)
@@ -108,7 +110,7 @@ void OSG::osgAddInitFunction(InitFuncF initFunc)
     osgInitFunctions->push_back(initFunc);
 }
 
-OSG_DLLEXPORT 
+OSG_BASE_DLLMAPPING 
 void OSG::osgAddExitFunction(ExitFuncF exitFunc)
 {
     if(osgExitFunctions == NULL)
@@ -119,7 +121,7 @@ void OSG::osgAddExitFunction(ExitFuncF exitFunc)
     osgExitFunctions->push_back(exitFunc);
 }
 
-OSG_DLLEXPORT 
+OSG_BASE_DLLMAPPING 
 Bool OSG::osgInit(int argc, char **argv)
 {
     Bool returnValue = true;
@@ -141,7 +143,7 @@ Bool OSG::osgInit(int argc, char **argv)
     return returnValue;
 }
 
-OSG_DLLEXPORT 
+OSG_BASE_DLLMAPPING 
 Bool OSG::osgExit(void)
 {
     Bool returnValue = true;

@@ -58,6 +58,8 @@
 
 #include <time.h>
 
+#define OSG_COMPILEBASE
+
 #include "OSGDate.h"
 
 OSG_USING_NAMESPACE

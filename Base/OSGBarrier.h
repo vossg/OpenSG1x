@@ -46,7 +46,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGConfig.h>
 #include <OSGBaseTypes.h>
 
 #if defined (OSG_USE_PTHREADS)
@@ -76,7 +75,7 @@ OSG_BEGIN_NAMESPACE
  *  \brief BarrierCommonBase
  */
 
-class OSG_DLLEXPORT BarrierCommonBase 
+class OSG_BASE_DLLMAPPING BarrierCommonBase 
 {
   public:
 
@@ -466,7 +465,7 @@ typedef SprocBarrierBase BarrierBase;
  *  \brief WinThreadBarrierBase
  */
 
-class OSG_DLLEXPORT WinThreadBarrierBase : public BarrierCommonBase
+class OSG_BASE_DLLMAPPING WinThreadBarrierBase : public BarrierCommonBase
 {
   public:
 
@@ -591,7 +590,7 @@ typedef WinThreadBarrierBase BarrierBase;
  *  \brief OSGBarrier
  */
 
-class OSG_DLLEXPORT Barrier : public BarrierBase
+class OSG_BASE_DLLMAPPING Barrier : public BarrierBase
 {
   protected:
 

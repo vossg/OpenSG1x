@@ -47,13 +47,9 @@
 #include <iostream.h>
 #endif
 
-
 #include <assert.h>
 
-
-// Application declarations
-
-#include <OSGVolume.h>
+#define OSG_COMPILEBASE
 
 // Class declarations
 #include "OSGCylinderVolume.h"

@@ -71,7 +71,7 @@ class OSGLine;
  *  detailed
  */
 
-class OSG_DLLEXPORT FrustumVolume : public Volume
+class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
 {
   public:
 

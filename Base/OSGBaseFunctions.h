@@ -59,11 +59,8 @@
 #endif
 
 #include <OSGConfig.h>
+#include <OSGBase.h>
 #include <OSGBaseTypes.h>
-
-
-#ifndef WIN32
-#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -81,93 +78,93 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <class FloatTypeT>
-OSG_DLLEXPORT FloatTypeT osgsqrt(const FloatTypeT &rVal);
+OSG_BASE_DLLMAPPING FloatTypeT osgsqrt(const FloatTypeT &rVal);
 
 /*! \brief osgcos
  *  \ingroup BaseMathFunctions
  */
 
 template <class FloatTypeT> 
-OSG_DLLEXPORT FloatTypeT osgcos(const FloatTypeT &rVal);
+OSG_BASE_DLLMAPPING FloatTypeT osgcos(const FloatTypeT &rVal);
 
 /*! \brief osgsin
  *  \ingroup BaseMathFunctions
  */
 
 template <class FloatTypeT> 
-OSG_DLLEXPORT FloatTypeT osgsin(const FloatTypeT &rVal);
+OSG_BASE_DLLMAPPING FloatTypeT osgsin(const FloatTypeT &rVal);
 
 /*! \brief osgtan
  *  \ingroup BaseMathFunctions
  */
 
 template <class FloatTypeT> 
-OSG_DLLEXPORT FloatTypeT osgtan(const FloatTypeT &rVal);
+OSG_BASE_DLLMAPPING FloatTypeT osgtan(const FloatTypeT &rVal);
 
 /*! \brief osgacos
  *  \ingroup BaseMathFunctions
  */
 
 template <class FloatTypeT> 
-OSG_DLLEXPORT FloatTypeT osgacos(const FloatTypeT &rVal);
+OSG_BASE_DLLMAPPING FloatTypeT osgacos(const FloatTypeT &rVal);
 
 /*! \brief osgasin
  *  \ingroup BaseMathFunctions
  */
 
 template <class FloatTypeT> 
-OSG_DLLEXPORT FloatTypeT osgasin(const FloatTypeT &rVal);
+OSG_BASE_DLLMAPPING FloatTypeT osgasin(const FloatTypeT &rVal);
 
 /*! \brief osgatan
  *  \ingroup BaseMathFunctions
  */
 
 template <class FloatTypeT> 
-OSG_DLLEXPORT FloatTypeT osgatan(const FloatTypeT &rVal);
+OSG_BASE_DLLMAPPING FloatTypeT osgatan(const FloatTypeT &rVal);
 
 /*! \brief osgratan2
  *  \ingroup BaseMathFunctions
  */
 
 template <class FloatTypeT> 
-OSG_DLLEXPORT FloatTypeT osgatan2(const FloatTypeT &rVal1, 
-                                  const FloatTypeT &rVal2);
+OSG_BASE_DLLMAPPING FloatTypeT osgatan2(const FloatTypeT &rVal1, 
+                                        const FloatTypeT &rVal2);
 
 /*! \brief osgdegree2rad
  *  \ingroup BaseMathFunctions
  */
 
 template <class FloatTypeT> 
-OSG_DLLEXPORT FloatTypeT osgdegree2rad(const FloatTypeT &rVal);
+OSG_BASE_DLLMAPPING FloatTypeT osgdegree2rad(const FloatTypeT &rVal);
 
 /*! \brief osgrad2degree
  *  \ingroup BaseMathFunctions
  */
 
 template <class FloatTypeT> 
-OSG_DLLEXPORT FloatTypeT osgrad2degree(const FloatTypeT &rVal);
+OSG_BASE_DLLMAPPING FloatTypeT osgrad2degree(const FloatTypeT &rVal);
 
 /*! \brief osgabs
  *  \ingroup BaseMathFunctions
  */
 
 template <class FloatTypeT> 
-OSG_DLLEXPORT FloatTypeT osgabs(const FloatTypeT &rVal);
+OSG_BASE_DLLMAPPING FloatTypeT osgabs(const FloatTypeT &rVal);
 
 /*! \brief osgpow
  *  \ingroup BaseMathFunctions
  */
 
 template <class FloatTypeT> 
-OSG_DLLEXPORT FloatTypeT osgpow(const FloatTypeT &rVal, 
-                                const FloatTypeT &rExp);
+OSG_BASE_DLLMAPPING FloatTypeT osgpow(const FloatTypeT &rVal, 
+                                      const FloatTypeT &rExp);
 
 /*! \brief osgfloor
  *  \ingroup BaseMathFunctions
  */
 
 template <class FloatTypeT> 
-OSG_DLLEXPORT FloatTypeT osgfloor(const FloatTypeT &rVal);
+OSG_BASE_DLLMAPPING FloatTypeT osgfloor(const FloatTypeT &rVal);
 
 /*@}*/
 
@@ -496,7 +493,7 @@ Real64 osgfloor(const Real64 &rValue)
  */
 
 template <Int32 uiValue1, Int32 uiValue2>
-struct OSG_DLLEXPORT osgMax
+struct OSG_BASE_DLLMAPPING osgMax
 {
     enum _iMax { iMax = uiValue1 < uiValue2 ? uiValue2 : uiValue1 };
 };
@@ -535,7 +532,7 @@ struct osgIF<false, IThenT, IElseT>
  */
 
 inline
-OSG_DLLEXPORT void osgstringDup(const char *szInput, char *&szOutput)
+OSG_BASE_DLLMAPPING void osgstringDup(const char *szInput, char *&szOutput)
 {
     delete [] szOutput;
     szOutput = NULL;
@@ -552,7 +549,7 @@ OSG_DLLEXPORT void osgstringDup(const char *szInput, char *&szOutput)
  */
 
 inline 
-OSG_DLLEXPORT Int32 osgstrcmp(const char *string1, const char *string2)
+OSG_BASE_DLLMAPPING Int32 osgstrcmp(const char *string1, const char *string2)
 {
 	return strcmp(string1, string2);
 }
@@ -562,7 +559,8 @@ OSG_DLLEXPORT Int32 osgstrcmp(const char *string1, const char *string2)
  */
 
 inline 
-OSG_DLLEXPORT Int32 osgstrcasecmp(const char *string1, const char *string2)
+OSG_BASE_DLLMAPPING Int32 osgstrcasecmp(const char *string1, 
+                                        const char *string2)
 {
 #ifndef WIN32
 	return strcasecmp(string1, string2);
@@ -575,7 +573,7 @@ OSG_DLLEXPORT Int32 osgstrcasecmp(const char *string1, const char *string2)
  *  \ingroup BaseFunctions
  */
 
-OSG_DLLEXPORT struct LTString
+OSG_BASE_DLLMAPPING struct LTString
 {
     bool operator()(const char* s1, const char* s2) const
     {
@@ -591,7 +589,7 @@ OSG_DLLEXPORT struct LTString
 /*@{*/
 
 inline
-OSG_DLLEXPORT void osgsleep(UInt32 usecs)
+OSG_BASE_DLLMAPPING void osgsleep(UInt32 usecs)
 {
 #ifdef WIN32
     Sleep(usecs);
@@ -635,25 +633,25 @@ typedef Bool (*ExitFuncF)(void);
  *  \ingroup BaseFunctions
  */
 
-OSG_DLLEXPORT void osgAddInitFunction(InitFuncF initFunc);
+OSG_BASE_DLLMAPPING void osgAddInitFunction(InitFuncF initFunc);
 
 /*! \brief AddExitFunction
  *  \ingroup BaseFunctions
  */
 
-OSG_DLLEXPORT void osgAddExitFunction(ExitFuncF exitFunc);
+OSG_BASE_DLLMAPPING void osgAddExitFunction(ExitFuncF exitFunc);
 
 /*! \brief Init
  *  \ingroup BaseFunctions
  */
 
-OSG_DLLEXPORT Bool osgInit(int argc, char **argv);
+OSG_BASE_DLLMAPPING Bool osgInit(int argc, char **argv);
 
 /*! \brief Exit  
  *  \ingroup BaseFunctions
  */
 
-OSG_DLLEXPORT Bool osgExit(void);
+OSG_BASE_DLLMAPPING Bool osgExit(void);
 
 /*@}*/
 

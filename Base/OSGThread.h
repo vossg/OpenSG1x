@@ -84,7 +84,7 @@ class Thread;
  *  \brief ThreadCommonBase
  */
 
-class OSG_DLLEXPORT ThreadCommonBase 
+class OSG_BASE_DLLMAPPING ThreadCommonBase 
 {
   public:
 
@@ -572,7 +572,7 @@ typedef SprocBase ThreadBase;
  *  \brief WinThreadBase
  */
 
-class OSG_DLLEXPORT WinThreadBase : public ThreadCommonBase
+class OSG_BASE_DLLMAPPING WinThreadBase : public ThreadCommonBase
 {
   public:
 
@@ -737,7 +737,7 @@ typedef WinThreadBase ThreadBase;
  *  \brief Thread
  */
 
-class OSG_DLLEXPORT Thread : public ThreadBase
+class OSG_BASE_DLLMAPPING Thread : public ThreadBase
 {
   public:
 

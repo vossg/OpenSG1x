@@ -52,6 +52,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEBASE
+
 #include "OSGAspect.h"
 #include "OSGThreadManager.h"
 

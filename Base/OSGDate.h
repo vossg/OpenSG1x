@@ -82,7 +82,7 @@ istream& operator>> (istream & is, Date &obj);
 * @autor jBehr, Wed Oct 27 13:16:07
 */
 
-class OSG_DLLEXPORT Date 
+class OSG_BASE_DLLMAPPING Date 
 {
 
 public:

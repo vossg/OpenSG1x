@@ -48,6 +48,8 @@
 
 #include <assert.h>
 
+#define OSG_COMPILEBASE
+
 #include "OSGPlane.h"
 #include "OSGLine.h"
 

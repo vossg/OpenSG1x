@@ -70,7 +70,7 @@ template <class ValueTypeT> class QuaternionBase;
  */
 
 template<class ValueTypeT>
-class OSG_DLLEXPORT TransformationMatrix
+class OSG_BASE_DLLMAPPING TransformationMatrix
 {
   public:
 

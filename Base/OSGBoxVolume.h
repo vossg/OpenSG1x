@@ -61,7 +61,7 @@ box in 3D space.
 
 */
 
-class BoxVolume : public Volume {
+class OSG_BASE_DLLMAPPING BoxVolume : public Volume {
 
   /// Minimum point
   Vec3f _min;

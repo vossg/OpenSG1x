@@ -54,7 +54,7 @@ OSG_BEGIN_NAMESPACE
  * @author jbehr, Wed Feb 16 20:04:15 2000
  */
 
-class OSG_DLLEXPORT Volume {
+class OSG_BASE_DLLMAPPING Volume {
 
 private:
 

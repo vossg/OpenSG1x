@@ -47,6 +47,7 @@
 //---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
+#include <OSGBase.h>
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
@@ -80,7 +81,7 @@ class PointInterface;
  */
 
 template <class ValueTypeT>
-class OSG_DLLEXPORT VecStorage2 
+class OSG_BASE_DLLMAPPING VecStorage2 
 {
   public:
 
@@ -197,7 +198,7 @@ class OSG_DLLEXPORT VecStorage2
  */
 
 template <class ValueTypeT>
-class OSG_DLLEXPORT VecStorage3
+class OSG_BASE_DLLMAPPING VecStorage3
 {
   public:
 
@@ -319,7 +320,7 @@ class OSG_DLLEXPORT VecStorage3
  */
 
 template <class ValueTypeT>
-class OSG_DLLEXPORT VecStorage4
+class OSG_BASE_DLLMAPPING VecStorage4
 {
   public:
 
@@ -448,7 +449,7 @@ class OSG_DLLEXPORT VecStorage4
 #endif
 
 template<class ValueTypeT, class StorageInterfaceT>
-class OSG_DLLEXPORT PointInterface : public StorageInterfaceT
+class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 {
   public:
 
@@ -758,7 +759,7 @@ class OSG_DLLEXPORT PointInterface : public StorageInterfaceT
  */
 
 template<class ValueTypeT, class StorageInterfaceT>
-class OSG_DLLEXPORT VectorInterface : 
+class OSG_BASE_DLLMAPPING VectorInterface : 
     public PointInterface<ValueTypeT, StorageInterfaceT>
 {
   public:

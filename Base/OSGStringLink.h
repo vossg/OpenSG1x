@@ -69,7 +69,7 @@ OSG_BEGIN_NAMESPACE
  *  detailed
  */
 
-class OSG_DLLEXPORT StringLink : public String
+class OSG_BASE_DLLMAPPING StringLink : public String
 {
   public:
 
@@ -191,4 +191,4 @@ typedef StringLink *StringLinkP;
 
 OSG_END_NAMESPACE
 
-#endif /* _CLASSNAME_H_ */
+#endif /* _OSGSTRINGLINK_H_ */

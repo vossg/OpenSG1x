@@ -1817,7 +1817,7 @@ Bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator != (
  */
 template <class    ValueTypeT, 
           class    StorageInterfaceT> inline
-OSG_DLLEXPORT
+OSG_BASE_DLLMAPPING
 VectorInterface<ValueTypeT, StorageInterfaceT>
     operator *(const ValueTypeT                             val, 
                const VectorInterface<ValueTypeT, 
@@ -1839,7 +1839,6 @@ VectorInterface<ValueTypeT, StorageInterfaceT>
  */
 template <class    ValueTypeT, 
           class    StorageInterfaceT> inline
-OSG_DLLEXPORT
 ostream &operator <<(ostream                                  &os,
                      const   VectorInterface<ValueTypeT, 
                                                 StorageInterfaceT> &obj)

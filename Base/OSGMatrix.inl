@@ -1791,7 +1791,6 @@ ValueTypeT TransformationMatrix<ValueTypeT>::det3(
 /** \brief write vector to stream
  */
 template<class ValueTypeT> inline 
-OSG_DLLEXPORT 
 ostream &operator <<(ostream                                  &os,
                      const   TransformationMatrix<ValueTypeT> &obj)
 {

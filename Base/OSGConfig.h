@@ -534,12 +534,6 @@ OSG_USING_STD_NAMESPACE
 #include <windows.h>
 #endif
 
-#ifdef OSG_WIN_TYPES
-#define OSG_DLLEXPORT __declspec(dllexport)
-#else
-#define OSG_DLLEXPORT
-#endif
-
 #ifndef OSG_WIN_TYPES
 #define OSG_APIENTRY
 #else

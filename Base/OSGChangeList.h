@@ -72,7 +72,7 @@ class Field;
  *  \brief ChangeList
  */
 
-class ChangeList : public MemoryObject
+class OSG_BASE_DLLMAPPING ChangeList : public MemoryObject
 {
   public:
 
@@ -201,7 +201,7 @@ class ChangeList : public MemoryObject
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-    friend class Thread;
+    friend class OSG_BASE_DLLMAPPING Thread;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    

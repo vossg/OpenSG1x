@@ -11,8 +11,7 @@
 #include <string.h>
 #include <ctype.h>
 
-// Application declarations
-
+#define OSG_COMPILEBASE
 
 // Class declarations
 #include "OSGString.h"
@@ -184,7 +183,7 @@ void String::set(const Char8 *str, MemType memType)
 
 OSG_BEGIN_NAMESPACE
 
-ostream &operator <<(ostream &os, const String &obj)
+OSG_BASE_DLLMAPPING ostream &operator <<(ostream &os, const String &obj)
 {
 	return os << (obj.str() ? obj.str() : "0 String");
 } 

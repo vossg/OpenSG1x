@@ -55,7 +55,7 @@ length.
 
 */
 
-class CylinderVolume : public Volume {
+class OSG_BASE_DLLMAPPING CylinderVolume : public Volume {
 
   /// Axis
   Line _axis;

@@ -53,7 +53,7 @@ class Line;
 
 */
 
-class SphereVolume : public Volume {
+class OSG_BASE_DLLMAPPING SphereVolume : public Volume {
 
 	/// center of the sphere
 	Vec3f _center;

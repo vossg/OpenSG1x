@@ -51,6 +51,8 @@
 #include <iostream.h>
 #endif /* OSG_STREAM_IN_STD_NAMESPACE */
 
+#define OSG_COMPILEBASE
+
 #include "OSGThread.h"
 #include "OSGBaseFunctions.h"
 #include "OSGChangeList.h"

@@ -48,6 +48,7 @@
 //---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
+#include <OSGBase.h>
 
 #if defined(OSG_SGI_TYPES) || defined (OSG_LINUX_TYPES) || \
     defined (OSG_SUNOS_TYPES)
@@ -487,7 +488,7 @@ enum MathTypeProperties
  *  \ingroup BaseConstants
  */
 
-struct OSG_DLLEXPORT TypeConstantsBase
+struct OSG_BASE_DLLMAPPING TypeConstantsBase
 {
 };
 
@@ -496,7 +497,7 @@ struct OSG_DLLEXPORT TypeConstantsBase
  */
 
 template <class LookupTypeT>
-struct OSG_DLLEXPORT TypeConstants : public TypeConstantsBase
+struct OSG_BASE_DLLMAPPING TypeConstants : public TypeConstantsBase
 {
 };
 
@@ -505,7 +506,7 @@ struct OSG_DLLEXPORT TypeConstants : public TypeConstantsBase
  */
 
 template <> 
-struct OSG_DLLEXPORT TypeConstants<UInt8> : public TypeConstantsBase
+struct TypeConstants<UInt8> : public TypeConstantsBase
 {
     typedef       Real32 RealReturnType;
 
@@ -546,7 +547,7 @@ struct OSG_DLLEXPORT TypeConstants<UInt8> : public TypeConstantsBase
  */
 
 template <> 
-struct OSG_DLLEXPORT TypeConstants<Int8> : public TypeConstantsBase
+struct TypeConstants<Int8> : public TypeConstantsBase
 {
     typedef       Real32 RealReturnType;
 
@@ -587,7 +588,7 @@ struct OSG_DLLEXPORT TypeConstants<Int8> : public TypeConstantsBase
  */
 
 template <> 
-struct OSG_DLLEXPORT TypeConstants<UInt16> : public TypeConstantsBase
+struct TypeConstants<UInt16> : public TypeConstantsBase
 {
     typedef       Real32 RealReturnType;
 
@@ -628,7 +629,7 @@ struct OSG_DLLEXPORT TypeConstants<UInt16> : public TypeConstantsBase
  */
 
 template <> 
-struct OSG_DLLEXPORT TypeConstants<Int16> : public TypeConstantsBase
+struct TypeConstants<Int16> : public TypeConstantsBase
 {
     typedef       Real32 RealReturnType;
 
@@ -669,7 +670,7 @@ struct OSG_DLLEXPORT TypeConstants<Int16> : public TypeConstantsBase
  */
 
 template <> 
-struct OSG_DLLEXPORT TypeConstants<UInt32> : public TypeConstantsBase
+struct TypeConstants<UInt32> : public TypeConstantsBase
 {
     typedef       Real32 RealReturnType;
 
@@ -710,7 +711,7 @@ struct OSG_DLLEXPORT TypeConstants<UInt32> : public TypeConstantsBase
  */
 
 template <> 
-struct OSG_DLLEXPORT TypeConstants<Int32> : public TypeConstantsBase
+struct TypeConstants<Int32> : public TypeConstantsBase
 {
     typedef       Real32 RealReturnType;
 
@@ -751,7 +752,7 @@ struct OSG_DLLEXPORT TypeConstants<Int32> : public TypeConstantsBase
  */
 
 template <> 
-struct OSG_DLLEXPORT TypeConstants<UInt64> : public TypeConstantsBase
+struct TypeConstants<UInt64> : public TypeConstantsBase
 {
     typedef       Real32 RealReturnType;
 
@@ -805,7 +806,7 @@ struct OSG_DLLEXPORT TypeConstants<UInt64> : public TypeConstantsBase
  */
 
 template <> 
-struct OSG_DLLEXPORT TypeConstants<Int64> : public TypeConstantsBase
+struct TypeConstants<Int64> : public TypeConstantsBase
 {
     typedef       Real32 RealReturnType;
 
@@ -860,7 +861,7 @@ struct OSG_DLLEXPORT TypeConstants<Int64> : public TypeConstantsBase
  */
 
 template <>
-struct OSG_DLLEXPORT TypeConstants<Real64> : public TypeConstantsBase
+struct TypeConstants<Real64> : public TypeConstantsBase
 {
     typedef       Real64 RealReturnType;
 
@@ -886,7 +887,7 @@ struct OSG_DLLEXPORT TypeConstants<Real64> : public TypeConstantsBase
  */
 
 template <>
-struct OSG_DLLEXPORT TypeConstants<Real32> : public TypeConstantsBase
+struct TypeConstants<Real32> : public TypeConstantsBase
 {
     typedef       Real32 RealReturnType;
 
