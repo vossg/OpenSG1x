@@ -75,7 +75,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.40 2002/06/13 03:16:18 vossg Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.41 2002/06/17 12:27:14 jbehr Exp $";
 
 StateChunkClass TextureChunk::_class("Texture", osgMaxTextures);
 
@@ -279,6 +279,10 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
     GLenum imgtarget, 
     Window::GLObjectStatusE mode, Image *img)
 {
+
+    if(! img || ! img->getDimension()) // no image ?
+        return;
+
     if(mode == Window::initialize || mode == Window::reinitialize)
     {
 		if(bindtarget == GL_TEXTURE_3D && !win->hasExtension(_extTex3D))
@@ -781,21 +785,25 @@ void TextureChunk::handleGL(Window *win, UInt32 idstatus)
         GLenum target;
         
         ImageP img = getImage();
-        if(img->getDepth() > 1)
+
+        if (img) 
         {
-            if(win->hasExtension(_extTex3D))
+           if(img->getDepth() > 1)
+           {
+              if(win->hasExtension(_extTex3D))
                   target = GL_TEXTURE_3D;
-            else
-            {
+              else
+              {
                 FWARNING(("TextureChunk::initialize: 3D textures not "
                             "supported for this window!\n"));
                 return;
-            }
-        }
-        else if(img->getHeight() > 1)        target = GL_TEXTURE_2D;
-        else                                 target = GL_TEXTURE_1D;
+              }
+           }
+           else if(img->getHeight() > 1)        target = GL_TEXTURE_2D;
+           else                                 target = GL_TEXTURE_1D;
 
-        handleTexture(win, id, target, target, target, mode, img);        
+           handleTexture(win, id, target, target, target, mode, img);        
+        }
     }
     else
     {
