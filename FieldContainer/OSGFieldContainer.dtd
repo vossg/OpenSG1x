@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+
+<!ELEMENT FieldContainer ( PCDATA | Field* ) >
+<!ATTLIST FieldContainer 	name 	CDATA 	#REQUIRED
+							parent	CDATA	#REQUIRED
+							library	CDATA	#REQUIRED
+							pointerfieldtypes	( none | single | multi | both )	"none"
+							abstract			( true | false )	"false"
+>
+
+<!ELEMENT Field ( PCDATA ) >
+<!ATTLIST Field name 			CDATA 						#REQUIRED
+				type			CDATA						#REQUIRED
+				cardinality		( single | multi )  		#REQUIRED
+				visibility		( internal | external )  	"external"
+				defaultValue	CDATA						
+				defaultHeader	CDATA						
+				header			CDATA						"auto"
+				access			( private | protected | public ) "public"
+>
