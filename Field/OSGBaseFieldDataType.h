@@ -44,6 +44,7 @@
 #include <OSGTime.h>
 #include <OSGColor.h>
 #include <OSGDynamicVolume.h>
+#include <OSGPlane.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -265,6 +266,34 @@ struct FieldDataTraits1<BitVector> :
     static Char8            *getMName(void)      { return "MFBitVector";   }
 
     static BitVector         getDefault(void)    { return BitVector(); }
+};
+
+
+template <>
+struct FieldDataTraits<Plane> : 
+    public Traits
+{
+    enum                     { StringConvertable = ToStringConvertable | 
+                                                   FromStringConvertable };
+
+    static Char8            *getSName(void)      { return "SFPlane";      }
+
+    static Char8            *getMName(void)      { return "MFPlane";      }
+
+    static Plane     getDefault(void)    { return Plane(); }
+
+    static Bool             getFromString(      Plane  &,
+                                          const Char8         *&)
+    {
+        // TO_BE_DONE
+        return false;
+    }
+
+    static void             putToString(const Plane &,
+                                              String        &)
+    {
+        // TO_BE_DONE
+    }
 };
 
 
