@@ -1,5 +1,5 @@
 
-SUB_DIR     := Base/OSHelper/darwin
+SUB_DIR     := Base/OSHelpers/darwin
 PACKAGENAME := BaseOSHelper
 
 INCL_DIR    := $($(PROJ)POOL)/$(SUB_DIR)

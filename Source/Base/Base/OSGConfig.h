@@ -435,13 +435,14 @@
 
 # define OSG_LINUX_TYPES
 # define OSG_NO_CONCEPT_CHECKS 
-# define OSG_THROW_NOTHING() 
 # define SIZE_T_NEQ_UINT32
 # define OSG_NOGLSUBDIR
 
 # define OSG_USE_PTHREADS
 
 # define OSG_DLSYM_NEEDS_UNDERSCORE
+
+#define OSG_FOUND_OS
 
 # endif // if defined(darwin)
 
