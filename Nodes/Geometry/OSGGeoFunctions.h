@@ -46,9 +46,9 @@
 //---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
+#include <OSGGeometryDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGNode.h>
-#include <OSGGeometryDef.h>
 
 
 OSG_BEGIN_NAMESPACE
@@ -62,6 +62,11 @@ OSG_BEGIN_NAMESPACE
  *  \ingroup Geometry
  */
 OSG_GEOMETRY_DLLMAPPING void calcVertexNormals( GeometryPtr geo );
+
+/*! \brief create a geometry that shows the normals of the geometry
+ *  \ingroup Geometry
+ */
+OSG_GEOMETRY_DLLMAPPING NodePtr getNormals( GeometryPtr geo, Real32 length );
 
 
 OSG_END_NAMESPACE

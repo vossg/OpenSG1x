@@ -41,6 +41,7 @@ NodePtr  normalobjects[nobjects];
 
 Bool autoswitch = true;
 Bool autowire = true;
+Bool shownormals = true;
 int obj = 0;
 
 void 
@@ -65,6 +66,8 @@ display(void)
 	glRotatef( a / 36, 0,0,1 );
 
 	dact->apply( objects[ obj ] );
+	if ( shownormals )
+		dact->apply( normalobjects[ obj ] );
 
 	glPopMatrix();
 
@@ -84,6 +87,9 @@ void key( unsigned char key, int x, int y )
 				break;
 	case 'a':	obj = ( ++ obj ) % nobjects;
 				cerr << "object now " << obj << endl;
+				break;
+	case 'n':	shownormals = ! shownormals;
+				cerr << "shownormals " << (shownormals?"on":"off") << endl;
 				break;
 	case 's':	obj = ( -- obj + nobjects ) % nobjects;
 				cerr << "object now " << obj << endl;
@@ -210,6 +216,22 @@ int main (int argc, char **argv)
 	// try the vertex normal calc
     //OSG::GeometryPtr pGeo = dcast<GeometryPtr>(objects[3]->getCore());
 	//calcVertexNormals(pGeo);
+
+	// Normals
+	
+	// normals material
+	
+	SimpleMaterialPtr nmat;	
+	
+	nmat = SimpleMaterial::create();
+	mat->setEmission( Color3f( 0,1,0 ) );
+	
+	for ( UInt16 i = 0; i < nobjects; i++ )
+	{
+		normalobjects[i] = getNormals( dcast<GeometryPtr>(objects[i]->getCore()),
+										.5 );
+		dcast<GeometryPtr>(normalobjects[i]->getCore())->setMaterial( nmat );
+	}
 	
 	// 
 	// The action

@@ -73,7 +73,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.3 2001/04/15 02:01:14 dirk Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.4 2001/04/23 20:59:51 dirk Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -137,4 +137,90 @@ void osg::calcVertexNormals( GeometryPtr geo )
 	geo->setNormals( norms );
 	geo->setNormalPerVertex( true );
 	endEditCP( geo );
+}
+
+
+/*! \ingroup Geometry
+	\param geo		the geometry to work on
+	\param length	the length of the normal vectors
+
+getNormals creates a geometry that consists of the normals of \a geo
+as lines. Every line starts of the position the normals is associated
+with (vertex for vertex normals, center of face for face normals) and
+has the length \a length.
+
+*/
+OSG_GEOMETRY_DLLMAPPING NodePtr osg::getNormals( GeometryPtr geo, Real32 length )
+{
+    NodePtr  p = Node::create();
+    GeometryPtr g = Geometry::create();
+	GeoPosition3f::PtrType pnts = GeoPosition3f::create();
+	GeoIndexUI32Ptr index = GeoIndexUI32::create();	
+	GeoPTypePtr type = GeoPType::create();	
+	GeoPLengthPtr lens = GeoPLength::create();	
+
+	// calculate
+	beginEditCP(pnts);
+
+	PrimitiveIterator pi(geo);
+	
+	if ( geo->getNormalPerVertex() )
+	{
+		for ( pi  = geo->beginPrimitives(); 
+			  pi != geo->endPrimitives(); ++pi )
+		{
+			for ( UInt16 k = 0; k < pi.getLength(); k++ )
+			{
+				pnts->addValue( pi.getPosition( k ) );
+				pnts->addValue( pi.getPosition( k ) + 
+									length * pi.getNormal( k ) );
+			}	
+		}
+	}
+	else
+	{
+		Pnt3f center(0,0,0);
+		
+		for ( pi  = geo->beginPrimitives(); 
+			  pi != geo->endPrimitives(); ++pi )
+		{
+			for ( UInt16 k = 0; k < pi.getLength(); k++ )
+			{
+				center[0] += pi.getPosition( k )[0];
+				center[1] += pi.getPosition( k )[1];
+				center[2] += pi.getPosition( k )[2];
+			}
+			pnts->addValue( center );
+			pnts->addValue( center +  length * pi.getNormal( 0 ) );
+		}
+	}
+
+	endEditCP(pnts);
+	
+	// create the geometry
+	beginEditCP(index);
+	for ( UInt32 i = 0; i < pnts->getSize(); i++ )
+		index->addValue( i );
+	endEditCP(index);
+
+	beginEditCP(type);
+	type->addValue( GL_LINES );
+	endEditCP(type);
+
+	beginEditCP(lens);
+	lens->addValue( index->getSize() );
+	endEditCP(lens);
+	
+	beginEditCP(g);
+	g->setTypes( type );
+	g->setLengths( lens );
+	g->setIndex( index );
+	g->setPositions( pnts );
+	endEditCP(g);
+	
+	beginEditCP(p);
+	p->setCore(g);
+	endEditCP(p);
+	
+	return p;
 }
