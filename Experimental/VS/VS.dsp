@@ -80,5 +80,13 @@ LINK32=xilink6.exe
 
 # Name "VS - Win32 Release"
 # Name "VS - Win32 Debug"
+# Begin Group "tmpfiles"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\Loader\testLoaderRender.cpp
+# End Source File
+# End Group
 # End Target
 # End Project
