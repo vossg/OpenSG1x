@@ -158,6 +158,10 @@ class OSG_BASE_DLLMAPPING SField : public Field
     MemoryHandle copyToBin  (MemoryHandle  pMem);
     MemoryHandle copyFromBin(MemoryHandle  pMem);
 
+    /*----------------------------- assign ----------------------------------*/
+
+    void operator =(const SField &source);
+
     /*------------------------------- dump ----------------------------------*/
 
     virtual void dump(void) const;
@@ -231,10 +235,6 @@ class OSG_BASE_DLLMAPPING SField : public Field
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
-	// prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const SField &source);
 };
 
 //---------------------------------------------------------------------------

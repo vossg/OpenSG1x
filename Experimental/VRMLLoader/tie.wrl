@@ -1,5 +1,12 @@
 #VRML V2.0 utf8
 
+DEF Camera01 Viewpoint {
+  position -420.4 65.16 348.6
+  orientation 0 1 0 -0.9385
+  fieldOfView 0.7854
+  description "Camera01"
+}
+
 Group {
 children [
 
@@ -28,15 +35,6 @@ children [
 # Object "TF_WINDOW" 
 
 Shape {
-appearance Appearance { 
- material Material {
-  diffuseColor 0.266667 0.14902 0.14902
-  specularColor 0.498039 0.498039 0.498039
-  emissiveColor 0 0 0
-  shininess 0.078125
-  transparency 0.000000
- }
-}
 geometry IndexedFaceSet {
 solid FALSE
 creaseAngle 0.5
@@ -802,6 +800,16 @@ coordIndex [
  206, 194, 195, -1,
  166, 169, 168, -1,
  107, 118, 116, -1]
+}
+
+appearance Appearance { 
+ material Material {
+  diffuseColor 0.266667 0.14902 0.14902
+  specularColor 0.498039 0.498039 0.498039
+  emissiveColor 0 0 0
+  shininess 0.078125
+  transparency 0.000000
+ }
 }
 }
 

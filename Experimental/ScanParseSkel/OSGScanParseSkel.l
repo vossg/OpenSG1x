@@ -135,9 +135,9 @@ header (#[^\n]*\n)
 //    fprintf(stderr,"LEX--> Start State %d\n", expectToken);
 
     if(expectToken != 0)
-	{   
+    {   
         switch(expectToken)
-		{
+        {
             case TOK_SFBOOL:     BEGIN sfboolValue;         break;
             case TOK_SFCOLOR:    BEGIN sfcolorValue;        break;
             case TOK_SFFLOAT:    BEGIN sffloatValue;        break;
@@ -184,7 +184,7 @@ header (#[^\n]*\n)
             default: 
                 fprintf(stderr, "ACK: Bad expectToken"); 
                 break;
-		}
+        }
     }
 %}
 
@@ -207,18 +207,18 @@ header (#[^\n]*\n)
  /* VRML-Datei, in einer Prototyp-Implementierung oder beim */
  /* Lesen des Inhaltes von SFNode- oder MFNode-Feldern. */
 
-<NODE>PROTO			{ return PROTO; }
-<NODE>EXTERNPROTO	{ return EXTERNPROTO; }
-<NODE>DEF			{ return DEF; }
-<NODE>USE			{ return USE; }
-<NODE>TO			{ return TO; }
-<NODE>IS			{ return IS; }
-<NODE>ROUTE			{ return ROUTE; }
-<NODE>NULL			{ return SFN_NULL; }
-<NODE>eventIn		{ return EVENTIN; }
-<NODE>eventOut		{ return EVENTOUT; }
-<NODE>field			{ return FIELD; }
-<NODE>exposedField	{ return EXPOSEDFIELD; }
+<NODE>PROTO         { return PROTO; }
+<NODE>EXTERNPROTO   { return EXTERNPROTO; }
+<NODE>DEF           { return DEF; }
+<NODE>USE           { return USE; }
+<NODE>TO            { return TO; }
+<NODE>IS            { return IS; }
+<NODE>ROUTE         { return ROUTE; }
+<NODE>NULL          { return SFN_NULL; }
+<NODE>eventIn       { return EVENTIN; }
+<NODE>eventOut      { return EVENTOUT; }
+<NODE>field         { return FIELD; }
+<NODE>exposedField  { return EXPOSEDFIELD; }
 
 <NODE>MFColor       { return Tok_MFColor;    } 
 <NODE>MFFloat       { return Tok_MFFloat;    } 
@@ -350,9 +350,9 @@ header (#[^\n]*\n)
     }
     else 
     {
-	    BEGIN NODE;
-	    expectToken = 0;
-	    return TOK_MFCOLOR;
+        BEGIN NODE;
+        expectToken = 0;
+        return TOK_MFCOLOR;
     }
 }
 
@@ -377,14 +377,14 @@ header (#[^\n]*\n)
         _pSkel->addFieldValue(OSGScanParseSkel_text);
 
     if(parsing_mf)
-	{	
-	}
+    {   
+    }
     else
-	{
+    {
         BEGIN NODE;
         expectToken = 0;
         return TOK_MFFLOAT;
-	}
+    }
 }
 
     /* sfint32Value ::= int32; */
@@ -408,14 +408,14 @@ header (#[^\n]*\n)
         _pSkel->addFieldValue(OSGScanParseSkel_text);
 
     if (parsing_mf)
-	{
-	}  
+    {
+    }  
     else
-	{  
+    {  
         BEGIN NODE; 
         expectToken = 0;
         return TOK_MFINT32;
-	}
+    }
 }
 
     /* sfimageValue ::=  int32 int32 int32 ... */
@@ -424,31 +424,47 @@ header (#[^\n]*\n)
     int w, h, d;
     sscanf(OSGScanParseSkel_text, "%d %d %d", &w, &h, &d);
 
-   	if(_pSkel != NULL)
-			_pSkel->addFieldValue(OSGScanParseSkel_text);
+    if(_pSkel != NULL)
+    {
+        _pSkel->addFieldValue(OSGScanParseSkel_text);
+    }
 
     sfImageIntsExpected = w*h;
     sfImageIntsParsed   = 0;                          
 
-    BEGIN IN_SFIMG;
+    if(sfImageIntsExpected != 0)
+    {
+        BEGIN IN_SFIMG;
+    }
+    else
+    {
+        expectToken = 0;
+        BEGIN NODE;
+        return TOK_SFIMAGE;
+    }
 }
 
 <IN_SFIMG>{int32} {
     ++sfImageIntsParsed;
 
-		/* std extention: stop pixelread neg values */
-		if (*OSGScanParseSkel_text == '-')
-			sfImageIntsParsed = sfImageIntsExpected;
+    /* std extention: stop pixelread neg values */
 
-		if(_pSkel != NULL)
-      _pSkel->addFieldValue(OSGScanParseSkel_text);
-		
+    if(*OSGScanParseSkel_text == '-')
+    {
+        sfImageIntsParsed = sfImageIntsExpected;
+    }
+
+    if(_pSkel != NULL)
+    {
+        _pSkel->addFieldValue(OSGScanParseSkel_text);
+    }
+        
     if (sfImageIntsParsed == sfImageIntsExpected)
-	{
+    {
         BEGIN NODE;
         expectToken = 0;
         return TOK_SFIMAGE;
-	}
+    }
 }
 
 
@@ -477,9 +493,9 @@ header (#[^\n]*\n)
     }
     else 
     {
-    	BEGIN NODE;
-    	expectToken = 0;
-    	return TOK_MFCOLOR;
+        BEGIN NODE;
+        expectToken = 0;
+        return TOK_MFCOLOR;
     }
 }
 
@@ -490,7 +506,7 @@ header (#[^\n]*\n)
     /* mfstringValue  ::= sfstringValue | [ ] | [ sfstringValues ];     */
     /* sfstringValues ::= sfstringValue | sfstringValue sfstringValues; */
 
-<sfstringValue>\"	{ BEGIN IN_SFS; }
+<sfstringValue>\"   { BEGIN IN_SFS; }
 <mfstringValue>\"   { BEGIN IN_MFS; }
 
 <sfstringValue>[^ \"\t\r\,\n]+ {
@@ -513,8 +529,8 @@ header (#[^\n]*\n)
     return TOK_MFSTRING;
 }
 
-<IN_SFS,IN_MFS>\\\"	   	{ yymore(); }
-<IN_SFS,IN_MFS>[^\"\n]+	{ yymore(); }
+<IN_SFS,IN_MFS>\\\"     { yymore(); }
+<IN_SFS,IN_MFS>[^\"\n]+ { yymore(); }
 
 <IN_SFS>\" {
     BEGIN NODE;
@@ -570,14 +586,14 @@ header (#[^\n]*\n)
         _pSkel->addFieldValue(OSGScanParseSkel_text);
 
     if(parsing_mf)
-	{	
-	}
+    {   
+    }
     else
-	{
+    {
         BEGIN NODE;
         expectToken = 0;
         return TOK_MFFLOAT;
-	}
+    }
 }
 
 
@@ -601,14 +617,14 @@ header (#[^\n]*\n)
         _pSkel->addFieldValue(OSGScanParseSkel_text);
 
     if(parsing_mf)
-	{
-	}
+    {
+    }
     else
-	{ 
+    { 
         BEGIN NODE;
         expectToken = 0;
         return TOK_MFVEC2F;
-	}
+    }
 }
 
     /* sfvec3fValue ::= float float float; */
@@ -775,9 +791,9 @@ header (#[^\n]*\n)
     }
     else 
     {
-	    BEGIN NODE;
-	    expectToken = 0;
-	    return TOK_MFCOLOR4F;
+        BEGIN NODE;
+        expectToken = 0;
+        return TOK_MFCOLOR4F;
     }
 }
 
@@ -794,9 +810,9 @@ header (#[^\n]*\n)
     }
     else 
     {
-	    BEGIN NODE;
-	    expectToken = 0;
-	    return TOK_MFMATRIX;
+        BEGIN NODE;
+        expectToken = 0;
+        return TOK_MFMATRIX;
     }
 }
 
@@ -808,14 +824,14 @@ header (#[^\n]*\n)
         _pSkel->addFieldValue(OSGScanParseSkel_text);
 
     if(parsing_mf)
-	{
-	}
+    {
+    }
     else
-	{ 
+    { 
         BEGIN NODE;
         expectToken = 0;
         return TOK_MFPNT2F;
-	}
+    }
 }
 
     /* mfpnt3fValue  ::= sfpnt3fValue | [ ] | [ sfpnt3fValues ];    */
@@ -882,8 +898,7 @@ header (#[^\n]*\n)
 
  /* Diese Regel erkennt Whitespace oder ansonsten nicht */
  /* erkannte Token in allen Startzustaenden */
-
-<*>{wsnnl}+ 
+ /* <*>{wsnnl}+ */
 
  /* Diese Regel erkennt Whitespace, wobei aber Zeilentrenner */
  /* beachtet werden, damit die Zeilenangabe bei eventuellen */
@@ -891,9 +906,9 @@ header (#[^\n]*\n)
 
 <*>{wsnnl}* 
 
-<*>{nl}		{ ++iLineNum; }
+<*>{nl}     { ++iLineNum; }
 
-<*>. 	{ fprintf(stderr, "%c", OSGScanParseSkel_text[0]); }
+<*>.    { fprintf(stderr, "%c", OSGScanParseSkel_text[0]); }
 
 %%
 
@@ -918,6 +933,7 @@ void abortParser(void)
 
 void resetScanner(void)
 {
+    iLineNum = 1;
     yy_flush_buffer( YY_CURRENT_BUFFER );
 }
 

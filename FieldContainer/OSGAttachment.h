@@ -496,6 +496,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DynFieldAttachment :
     /*------------------------- your_operators ------------------------------*/
 
     FieldContainerPtr emptyCopy(void);
+    FieldContainerPtr clone    (void);
 
     /*------------------------- assignment ----------------------------------*/
 

@@ -195,10 +195,34 @@ Each part of the cone (bottom cap, sides) can be enabled or disabled.
 
 */
 
-NodePtr OSG::makeCone( Real32 height, Real32 botradius, 
-	UInt16 sides, Bool doSide, Bool doBottom )
+GeometryPtr OSG::makeConeGeo(Real32 height, 
+                             Real32 botradius, 
+                             UInt16 sides, 
+                             Bool   doSide, 
+                             Bool   doBottom)
 {
-	return makeConicalFrustum( height, 0, botradius, sides, doSide, false, doBottom);
+	return makeConicalFrustumGeo(height, 
+                                 0, 
+                                 botradius, 
+                                 sides, 
+                                 doSide, 
+                                 false, 
+                                 doBottom);
+}
+
+NodePtr OSG::makeCone(Real32 height, 
+                      Real32 botradius, 
+                      UInt16 sides, 
+                      Bool   doSide, 
+                      Bool   doBottom)
+{
+	return makeConicalFrustum(height, 
+                              0, 
+                              botradius, 
+                              sides, 
+                              doSide, 
+                              false, 
+                              doBottom);
 }
 
 /*! \ingroup SimpleGeometry
@@ -214,10 +238,36 @@ Each part of the cylinder (top cap, bottom cap, sides) can be enabled or disable
 
 */
 
-NodePtr OSG::makeCylinder( Real32 height, Real32 radius,
-	UInt16 sides, Bool doSide, Bool doTop, Bool doBottom )
+GeometryPtr OSG::makeCylinderGeo(Real32 height, 
+                                 Real32 radius,
+                                 UInt16 sides, 
+                                 Bool   doSide, 
+                                 Bool   doTop, 
+                                 Bool   doBottom)
 {
-	return makeConicalFrustum( height, radius, radius, sides, doSide, doTop, doBottom);
+	return makeConicalFrustumGeo(height, 
+                                 radius, 
+                                 radius, 
+                                 sides, 
+                                 doSide, 
+                                 doTop, 
+                                 doBottom);
+}
+
+NodePtr OSG::makeCylinder(Real32 height, 
+                          Real32 radius,
+                          UInt16 sides, 
+                          Bool   doSide, 
+                          Bool   doTop, 
+                          Bool   doBottom)
+{
+	return makeConicalFrustum(height, 
+                              radius, 
+                              radius, 
+                              sides, 
+                              doSide, 
+                              doTop, 
+                              doBottom);
 }
 
 
@@ -241,8 +291,13 @@ Caps for radius 0 are automatically disabled.
 
 */
 
-NodePtr OSG::makeConicalFrustum( Real32 height, Real32 topradius, Real32 botradius, 
-	UInt16 sides, Bool doSide, Bool doTop, Bool doBottom )
+GeometryPtr OSG::makeConicalFrustumGeo(Real32 height, 
+                                       Real32 topradius, 
+                                       Real32 botradius, 
+                                       UInt16 sides, 
+                                       Bool   doSide, 
+                                       Bool   doTop, 
+                                       Bool   doBottom)
 {
 	if ( height <= 0 || topradius < 0 || botradius < 0 || sides < 3 )
 	{
@@ -251,7 +306,7 @@ NodePtr OSG::makeConicalFrustum( Real32 height, Real32 topradius, Real32 botradi
 				 << ", botradius=" << botradius 
 				 << ", sides=" << sides 
 				 << endl;
-		return NullNode;
+		return GeometryPtr::NullPtr;
 	}
 	
 	GeoPosition3fPtr	pnts  = GeoPosition3f::create();
@@ -402,15 +457,39 @@ NodePtr OSG::makeConicalFrustum( Real32 height, Real32 topradius, Real32 botradi
 	geo->setTypes( types );
 	geo->setLengths( lens );
 	endEditCP(geo);
-		
-    NodePtr node = Node::create();
-	beginEditCP(node);
-	node->setCore( geo );
-	endEditCP(node);
-		
-	return node;
+
+    return geo;
 }
 
+NodePtr OSG::makeConicalFrustum(Real32 height, 
+                                Real32 topradius, 
+                                Real32 botradius, 
+                                UInt16 sides, 
+                                Bool   doSide, 
+                                Bool   doTop, 
+                                Bool   doBottom)
+{
+    GeometryPtr pGeo = makeConicalFrustumGeo(height, 
+                                             topradius, 
+                                             botradius,
+                                             sides, 
+                                             doSide, 
+                                             doTop, 
+                                             doBottom);
+
+    if(pGeo == NullFC)
+    {
+        return NullNode;
+    }
+    
+    NodePtr node = Node::create();
+
+    beginEditCP  (node);
+    node->setCore(pGeo);
+    endEditCP    (node);
+
+	return node;
+}
 
 /*! \ingroup SimpleGeometry
 	\return NodePtr the created torus
@@ -628,7 +707,7 @@ subdivision of an icosahedron, with \a depth giving the number of subdivisions.
 
 */
 
-NodePtr OSG::makeSphere( UInt16 depth, Real32 radius )
+GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
 {	
 	
 	#define X .525731112119133606
@@ -720,15 +799,27 @@ NodePtr OSG::makeSphere( UInt16 depth, Real32 radius )
 	geo->setLengths( lens );
 	endEditCP(geo);
 		
-    NodePtr node = Node::create();
-	beginEditCP(node);
-	node->setCore( geo );
-	endEditCP(node);	
-		
-	return node;
+    return geo;
 }
 
 
+NodePtr OSG::makeSphere(UInt16 depth, Real32 radius)
+{	
+    GeometryPtr pGeo = makeSphereGeo(depth, radius);
+
+    if(pGeo == NullFC)
+    {
+        return NullNode;
+    }
+
+    NodePtr node = Node::create();
+
+	beginEditCP  (node);
+	node->setCore(pGeo);
+	endEditCP    (node);	
+		
+	return node;
+}
 
 /*! \ingroup SimpleGeometry
 	\return NodePtr the created box
@@ -746,14 +837,14 @@ makeBox creates a box around the origin. It spans the [-\a xsize /2,\a xsize /2]
 */
 
 OSG_SYSTEMLIB_DLLMAPPING
-NodePtr OSG::makeBox( Real32 xsize, Real32 ysize, Real32 zsize, 
-	UInt16 hor, UInt16 vert, UInt16 depth )
+GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize, 
+                            UInt16 hor  , UInt16 vert , UInt16 depth)
 {
 	if ( ! hor || ! vert || ! depth)
 	{
 		SWARNING << "makeBox: illegal parameters hor=" << hor << ", vert="
 				 << vert << ", depth=" << depth << endl;
-		return NullNode;
+		return GeometryPtr::NullPtr;
 	}
 	
 	GeoPosition3fPtr    pnts  = GeoPosition3f::create();
@@ -860,11 +951,26 @@ NodePtr OSG::makeBox( Real32 xsize, Real32 ysize, Real32 zsize,
 	geo->setTypes( types );
 	geo->setLengths( lens );
 	endEditCP(geo);
-		
+
+    return geo;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+NodePtr OSG::makeBox(Real32 xsize, Real32 ysize, Real32 zsize, 
+                     UInt16 hor  , UInt16 vert , UInt16 depth)
+{
+    GeometryPtr pGeo = makeBoxGeo(xsize, ysize, zsize, hor, vert, depth);
+
+    if(pGeo == NullFC)
+    {
+        return NullNode;
+    }
+
     NodePtr node = Node::create();
-	beginEditCP(node);
-	node->setCore( geo );
-	endEditCP(node);
+
+	beginEditCP  (node);
+	node->setCore(pGeo );
+	endEditCP    (node);
 	
 	return node;
 }

@@ -153,8 +153,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeFactory : public BaseT
     VRMLNodeDesc     *_pCurrentNodeDesc;
     NodeNameDescHash  _mNodeDescHash;
 
-    Bool             _bInFieldProto;
-    Bool             _bIgnoreProto;
+    Bool              _bInFieldProto;
+    Bool              _bIgnoreProto;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

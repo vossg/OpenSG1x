@@ -117,147 +117,148 @@ NodePtr OFFSceneFileType::read (const char *fileName ) const
 	GeoIndexUI32Ptr index;
 	GeoPLengthPtr lens;
 	GeoPTypePtr type;
-	Vec3f vec[3];
-  Int32 magic, uk, vertexCount, faceCount, faceType = 0;
-	Int32 i = 0, n, triCount = 0;
-	Real32 x,y,z;
+//	Vec3f vec[3];
+//    Int32 magic, uk ;
+//    Int32 vertexCount, faceCount, faceType = 0;
+//	Int32 i = 0, n, triCount = 0;
+//	Real32 x,y,z;
 
-  /* not yet :)
+    /* not yet :)
 
- if (inStream) {
+       if (inStream) {
  
-    mesh.vertexVec().resize(nV);
-    mesh.faceVec().resize(nF);
+       mesh.vertexVec().resize(nV);
+       mesh.faceVec().resize(nF);
  
-    for (i = 0; (!inStream.eof()) && (i < nV); i++) {
-      inStream >> x >> y >> z;
-      mesh.vertex(i).setValue(x,y,z);
-    }
+       for (i = 0; (!inStream.eof()) && (i < nV); i++) {
+       inStream >> x >> y >> z;
+       mesh.vertex(i).setValue(x,y,z);
+       }
  
-    inStream.close();
-    retCode = true;
-  }
+       inStream.close();
+       retCode = true;
+       }
 
-	if (in) 
-    {
-      in >> magic >> vetexCount >> faceCount >> uk;
+       if (in) 
+       {
+       in >> magic >> vetexCount >> faceCount >> uk;
 
-      root = Node::create();
-      geo = Geometry::create();
+       root = Node::create();
+       geo = Geometry::create();
       
-      beginEditCP(root, Node::CoreFieldMask);
-      root->setCore( geo );
-      endEditCP(root, Node::CoreFieldMask);
+       beginEditCP(root, Node::CoreFieldMask);
+       root->setCore( geo );
+       endEditCP(root, Node::CoreFieldMask);
       
-      points = GeoPosition3f::create();
-  		geo->setPositions( points );
-      normals = GeoNormal3f::create();
-      geo->setNormals ( normals );
+       points = GeoPosition3f::create();
+       geo->setPositions( points );
+       normals = GeoNormal3f::create();
+       geo->setNormals ( normals );
       
-      triCount = i = 0;
+       triCount = i = 0;
       
-      beginEditCP(points,  FieldBits::AllFields);
-      beginEditCP(normals, FieldBits::AllFields);
+       beginEditCP(points,  FieldBits::AllFields);
+       beginEditCP(normals, FieldBits::AllFields);
 
-      for (i = 0; (!inStream.eof()) && (i < vertexCount); i++) {
-        in >> x >> y >> z;
-        points->getFieldPtr()->addValue( Pnt3f ( x, y, z) );
-      }
+       for (i = 0; (!inStream.eof()) && (i < vertexCount); i++) {
+       in >> x >> y >> z;
+       points->getFieldPtr()->addValue( Pnt3f ( x, y, z) );
+       }
 
-      for (i = 0; (!inStream.eof()) && (i < nF); i++) {
-        inStream >> nV;
-        switch (nV) {
-        case 0:
-        case 1:
-        case 2:
-          FWARNING (("face vertex count < 3"));
-          break;
-        case 3:
+       for (i = 0; (!inStream.eof()) && (i < nF); i++) {
+       inStream >> nV;
+       switch (nV) {
+       case 0:
+       case 1:
+       case 2:
+       FWARNING (("face vertex count < 3"));
+       break;
+       case 3:
           
-          mesh.face(i).clear ( GSFace::TRIANGLE, nV );
-          break;
-        case 4:
-          mesh.face(i).clear ( GSFace::QUAD, nV );
-          break;
-        default:
-          mesh.face(i).clear ( GSFace::POLYGON, nV );
-          break;
-        }
-        mesh.face(i)._vertex.resize(nV);
-        for (j = 0; j < nV; j++) {
-          inStream >> index;
-          mesh.face(i)._vertex[nV - 1 - j] = index;
-        }
-      }
+       mesh.face(i).clear ( GSFace::TRIANGLE, nV );
+       break;
+       case 4:
+       mesh.face(i).clear ( GSFace::QUAD, nV );
+       break;
+       default:
+       mesh.face(i).clear ( GSFace::POLYGON, nV );
+       break;
+       }
+       mesh.face(i)._vertex.resize(nV);
+       for (j = 0; j < nV; j++) {
+       inStream >> index;
+       mesh.face(i)._vertex[nV - 1 - j] = index;
+       }
+       }
  
 
-      if (in.eof()) 
-        break;
-      else {
-          vec[i].setValues(x,y,z);
-          if (i == 2) {
-            vec[0] -= vec[1];
-            vec[1] -= vec[2];
-            vec[0].crossThis(vec[1]);
-            vec[0].normalize();
+       if (in.eof()) 
+       break;
+       else {
+       vec[i].setValues(x,y,z);
+       if (i == 2) {
+       vec[0] -= vec[1];
+       vec[1] -= vec[2];
+       vec[0].crossThis(vec[1]);
+       vec[0].normalize();
             
-            normals->getFieldPtr()->addValue ( vec[0] );
-            normals->getFieldPtr()->addValue ( vec[0] );
-            normals->getFieldPtr()->addValue ( vec[0] );
+       normals->getFieldPtr()->addValue ( vec[0] );
+       normals->getFieldPtr()->addValue ( vec[0] );
+       normals->getFieldPtr()->addValue ( vec[0] );
             
-            i = 0;
-            triCount++;
-          }
-          else 
-            i++;
-			}
-		}
+       i = 0;
+       triCount++;
+       }
+       else 
+       i++;
+       }
+       }
 
-		endEditCP(points,  FieldBits::AllFields);
-		endEditCP(normals, FieldBits::AllFields);
+       endEditCP(points,  FieldBits::AllFields);
+       endEditCP(normals, FieldBits::AllFields);
 		
-		if (triCount) 
-		{
+       if (triCount) 
+       {
 		
-			index = GeoIndexUI32::create();
-			geo->setIndex( index );
-			beginEditCP(index, FieldBits::AllFields);
-			n = triCount * 3;
-			for (i = 0; i < n; i++) 
-				index->getFieldPtr()->addValue( i );
-			endEditCP(index, FieldBits::AllFields);
+       index = GeoIndexUI32::create();
+       geo->setIndex( index );
+       beginEditCP(index, FieldBits::AllFields);
+       n = triCount * 3;
+       for (i = 0; i < n; i++) 
+       index->getFieldPtr()->addValue( i );
+       endEditCP(index, FieldBits::AllFields);
 			
 
-			lens = GeoPLength::create();
-			geo->setLengths( lens );
-            beginEditCP(lens, FieldBits::AllFields);
-			lens->getFieldPtr()->addValue( n );
-			endEditCP(lens, FieldBits::AllFields);
+       lens = GeoPLength::create();
+       geo->setLengths( lens );
+       beginEditCP(lens, FieldBits::AllFields);
+       lens->getFieldPtr()->addValue( n );
+       endEditCP(lens, FieldBits::AllFields);
 
-			type = GeoPType::create();
-			geo->setTypes( type );
-			beginEditCP(type, FieldBits::AllFields);
-			type->getFieldPtr()->addValue( GL_TRIANGLES );
-			endEditCP(type, FieldBits::AllFields);
-		}
+       type = GeoPType::create();
+       geo->setTypes( type );
+       beginEditCP(type, FieldBits::AllFields);
+       type->getFieldPtr()->addValue( GL_TRIANGLES );
+       endEditCP(type, FieldBits::AllFields);
+       }
 
-		SimpleMaterialPtr mat = SimpleMaterial::create();
-        beginEditCP(mat, FieldBits::AllFields);
-		mat->setDiffuse( Color3f( .8, .8, .8 ) );
-		mat->setSpecular( Color3f( 1, 1, 1 ) );
-		mat->setShininess( 20 );
-        endEditCP(mat, FieldBits::AllFields);
+       SimpleMaterialPtr mat = SimpleMaterial::create();
+       beginEditCP(mat, FieldBits::AllFields);
+       mat->setDiffuse( Color3f( .8, .8, .8 ) );
+       mat->setSpecular( Color3f( 1, 1, 1 ) );
+       mat->setShininess( 20 );
+       endEditCP(mat, FieldBits::AllFields);
 		
-		geo->setMaterial( mat );
-        endEditCP(geo, FieldBits::AllFields);
+       geo->setMaterial( mat );
+       endEditCP(geo, FieldBits::AllFields);
 	
-		in.close();
-	}
+       in.close();
+       }
 
-	if (triCount)
-		SNOTICE << triCount << " triangle read " << endl;
+       if (triCount)
+       SNOTICE << triCount << " triangle read " << endl;
 
-  */
+       */
 
 	return root;
 }
@@ -283,7 +284,7 @@ NodePtr OFFSceneFileType::read (const char *fileName ) const
 //
 //------------------------------
 Bool OFFSceneFileType::write ( const NodePtr node, 
-																  const char *fileName) const
+                               const char *fileName) const
 {	
 	return false;
 }
@@ -332,7 +333,7 @@ Bool OFFSceneFileType::write ( const NodePtr node,
 //
 //------------------------------
 OFFSceneFileType::OFFSceneFileType ( const char *suffixArray[], 
-																					 UInt16 suffixByteCount )
+                                     UInt16 suffixByteCount )
 	: SceneFileType ( suffixArray, suffixByteCount)
 {
     fprintf(stderr, "Init Raw Scene File Type %d\n", this);
@@ -402,12 +403,12 @@ OFFSceneFileType::~OFFSceneFileType (void )
 
 
 /****************************
-*protected	
-****************************/
+ *protected	
+ ****************************/
 
 
 /****************************
-*private
-****************************/
+ *private
+ ****************************/
 
 

@@ -99,8 +99,7 @@ typedef Functor1Base<Real32, Int32> benchFunctor;
 int main( int argc, char *argv[] )
 {
 	Real32 result = 0;
-	Int32 i;
-    Int32 l;
+	Int32 l;
 
     osgInit(argc, argv);
 

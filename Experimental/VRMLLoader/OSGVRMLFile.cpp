@@ -69,6 +69,8 @@
 #include <OSGMFFieldContainerTypes.h>
 #include <OSGSFFieldContainerTypes.h>
 
+#include <OSGSFImageTypes.h>
+
 #include <OSGGeoProperty.h>
 
 OSG_USING_NAMESPACE
@@ -134,14 +136,11 @@ void VRMLFile::initIntExtFieldTypeMapper(void)
     setIntExtMapping(SFReal32::getClassType().getId(), 
                      ScanParseSkel::OSGsfFloat);
 
-/*
-    setIntExtMapping(ScanParseSkel::OSGsfImage   , 
-               ::getClassType().getId());
-*/
+    setIntExtMapping(SFImageP::getClassType().getId(),
+                     ScanParseSkel::OSGsfImage);
 
     setIntExtMapping(SFInt32::getClassType().getId(),
                      ScanParseSkel::OSGsfInt32);
-
 
     setIntExtMapping(SFQuaternion::getClassType().getId(),
                      ScanParseSkel::OSGsfRotation);
@@ -209,6 +208,9 @@ void VRMLFile::initIntExtFieldTypeMapper(void)
 
     setIntExtMapping(SFNodeCorePtr::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
+
+    setIntExtMapping(SFMaterialPtr::getClassType().getId(),
+                     ScanParseSkel::OSGsfNode);
     
     setIntExtMapping(SFGeoPTypePtr::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
@@ -228,8 +230,14 @@ void VRMLFile::initIntExtFieldTypeMapper(void)
     setIntExtMapping(SFGeoNormalPtr::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
 
+    setIntExtMapping(SFGeoTexCoordsPtr::getClassType().getId(),
+                     ScanParseSkel::OSGsfNode);
+
     setIntExtMapping(SFAttachmentMap::getClassType().getId(),
                      ScanParseSkel::OSGmfNode);
+
+    setIntExtMapping(SFFieldContainerPtr::getClassType().getId(),
+                     ScanParseSkel::OSGsfNode);
 
     /* extended types */
 
@@ -256,9 +264,12 @@ void VRMLFile::initExtIntFieldTypeMapper(void)
                      SFReal32::getClassType().getId());
 
 /*
-    setExtIntMapping(ScanParseSkel::OSGsfImage   , 
-               ::getClassType().getId());
-*/
+    setExtIntMapping(SFImage::getClassType().getId(),
+                     ScanParseSkel::OSGsfInt32);
+                     */
+
+    setExtIntMapping(ScanParseSkel::OSGsfImage, 
+                     SFImageP::getClassType().getId());
 
     setExtIntMapping(ScanParseSkel::OSGsfInt32, 
                      SFInt32::getClassType().getId());
@@ -405,10 +416,21 @@ void VRMLFile::setContainerFieldValue(const FieldContainerPtr &pFC)
         if(_pCurrentFC   !=   NullFC && 
            _pCurrentField == _pCurrentFC->getField("children"))
         {
+            fprintf(stderr, "Add Child %p %p\n", &(*_pCurrentFC), &(*pFC));
             NodePtr pNode      = NodePtr::dcast(_pCurrentFC);
             NodePtr pChildNode = NodePtr::dcast(pFC);
             
             pNode->addChild(pChildNode);
+        }
+        else if(_pCurrentFC   !=   NullFC && 
+                _pCurrentField == _pCurrentFC->getField("core"))
+        {
+            fprintf(stderr, "Add Core %p %p\n", &(*_pCurrentFC), &(*pFC));
+
+            NodePtr     pNode = NodePtr    ::dcast(_pCurrentFC);
+            NodeCorePtr pCore = NodeCorePtr::dcast(pFC);
+            
+            pNode->setCore(pCore);
         }
 
 /*
@@ -498,6 +520,8 @@ void VRMLFile::beginNode(
 {
     FieldContainerPtr pNewNode;
 
+    fprintf(stderr, " %p \n", &(*_pCurrentFC));
+
     _pCurrNodeDesc = findNodeDesc(szNodeTypename);
 
     if(_pCurrNodeDesc == NULL)
@@ -507,11 +531,17 @@ void VRMLFile::beginNode(
 
     _pCurrNodeDesc->reset();
 
+    fprintf(stderr, " %p \n", &(*_pCurrentFC));
+
     pNewNode = _pCurrNodeDesc->beginNode(szNodeTypename, 
                                          szNodename,
                                          _pCurrentFC);
 
-    SLOG << "BEGIN " << szNodeTypename << endl;
+    fprintf(stderr, " %p \n", &(*_pCurrentFC));
+
+    cerr << "BEGIN " << szNodeTypename;
+    fprintf(stderr, " %p \n", &(*pNewNode));
+    
 
     if(szNodename != NULL)
     {
@@ -548,10 +578,6 @@ void VRMLFile::beginNode(
                 
                 if(mIt == _nameFCMap.end())
                 {
-                    //Char8 *szName = NULL;
-                    
-                    //osgstringDup(szNodename, szName);
-                    
                     _nameFCMap[String(szNodename)] = pNewNode;
                     
                     SLOG << "Fieldcontainer " << szNodename 
@@ -578,11 +604,18 @@ void VRMLFile::beginNode(
         }
     }
 
+    fprintf(stderr, " %p \n", &(*_pCurrentFC));
+
     setContainerFieldValue(pNewNode);
+
+    fprintf(stderr, " %p \n", &(*_pCurrentFC));
 
     _pCurrentFC = pNewNode;
 
     _fcStack.push(_pCurrentFC);
+
+    cerr << "BEGIN END" << szNodeTypename;
+    fprintf(stderr, " %p\n", &(*_pCurrentFC));
 
     if(_fcStack.size() == 1)
     {
@@ -788,9 +821,8 @@ UInt32 VRMLFile::getFieldType(const Char8 *szFieldname)
     if(_pCurrentField != NULL)
         returnValue = _pCurrentField->getType().getId();
 
-    cerr << "Got Field and type " << returnValue << " " 
-         << _pCurrentField        << " " 
-         << _pCurrentFieldDesc    << " ";
+    fprintf(stderr, "Got Field and type %d %p %p ",
+            returnValue, _pCurrentField, _pCurrentFieldDesc);
     
     if(_pCurrentField != NULL)
         cerr << _pCurrentField->getType().getName() << endl;
@@ -810,6 +842,8 @@ void VRMLFile::use(const Char8 *szName)
 
     pUsedFC = findReference(szName);
 
+    fprintf(stderr, "Use : %s\n", szName);
+
     if(pUsedFC == NullFC)
     {
         SLOG << "No FieldContainer found with name " << szName << endl; 
@@ -826,6 +860,13 @@ void VRMLFile::use(const Char8 *szName)
         if(mIt != _nameDescMap.end())
         {
             pDesc = mIt->second;
+        }
+        
+        if(pUsedFC->getType().isNode())
+        {
+            NodePtr pRootNode = NodePtr::dcast(pUsedFC);
+
+            pUsedFC = cloneTree(pRootNode);
         }
 
         if(pDesc != NULL)
@@ -861,6 +902,28 @@ NodePtr VRMLFile::getRoot(void)
     return _pRootNode;
 }
 
+NodePtr VRMLFile::cloneTree(NodePtr pRootNode)
+{
+    NodePtr returnValue = NullNode;
+
+    if(pRootNode != NullFC)
+    {
+        NodePtr pChildClone = NullNode;
+
+        returnValue = Node::create();
+
+        returnValue->setCore(pRootNode->getCore());
+
+        for(UInt32 i = 0; i < pRootNode->getNChildren(); i++)
+        {
+            pChildClone = cloneTree(pRootNode->getChild(i));
+            
+            returnValue->addChild(pChildClone);
+        }
+    }
+
+    return returnValue;
+}
 
 //---------------------------------------------------------------------------
 //  FUNCTION: 

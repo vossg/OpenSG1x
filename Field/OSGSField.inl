@@ -293,6 +293,18 @@ void SField<FieldTypeT, fieldNameSpace>::syncWith(Self &source)
     setValue(source);
 }
 
+/** \brief Sets the stored value from a given one
+ */
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void SField<FieldTypeT, fieldNameSpace>::operator =(const SField &source)
+{
+    if(this != &source)
+    {
+        _value = source._value;
+    }
+}
+
 /*---------------------------- To / From Bin --------------------------------*/
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline

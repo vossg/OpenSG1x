@@ -456,7 +456,7 @@ UInt32 DynFieldAttachment<AttachmentDescT>::addField(
         if(descP != NULL)
         {
             descP->setFieldId  (returnValue);
-            descP->setFieldMask(1 << (returnValue - 1));
+            descP->setFieldMask(1 << returnValue);
 
             fieldP = FieldFactory::the().createField(fieldDesc.getTypeId());
 
@@ -504,9 +504,34 @@ FieldContainerPtr DynFieldAttachment<AttachmentDescT>::emptyCopy(void)
 {
     PtrType returnValue = DynFieldAttachment<AttachmentDescT>::createEmpty();
 
-    for(UInt32 i = 2; i <= _localType.getNumFieldDescs(); i++)
+    for(UInt32 i  = Inherited::NextFieldId; 
+               i <= _localType.getNumFieldDescs(); 
+               i++)
     {
         returnValue->addField(*(_localType.getFieldDescription(i)));
+    }
+
+    return returnValue;
+}
+
+template <class AttachmentDescT> inline
+FieldContainerPtr DynFieldAttachment<AttachmentDescT>::clone(void)
+{
+    PtrType returnValue = DynFieldAttachment<AttachmentDescT>::createEmpty();
+
+    for(UInt32 i  = Inherited::NextFieldId; 
+               i <= _localType.getNumFieldDescs(); 
+               i++)
+    {
+        returnValue->addField(*(_localType.getFieldDescription(i)));
+    }
+
+    for(UInt32 i  = Inherited::NextFieldId; 
+               i <= _localType.getNumFieldDescs(); 
+               i++)
+    {
+        returnValue->getDynamicField(i)->setAbstrValue(
+            *(_dynFieldsV[i - Inherited::NextFieldId]));
     }
 
     return returnValue;
@@ -515,17 +540,35 @@ FieldContainerPtr DynFieldAttachment<AttachmentDescT>::emptyCopy(void)
 /*------------------------------- dump ----------------------------------*/
 
 template <class AttachmentDescT> inline
-void DynFieldAttachment<AttachmentDescT>::dump(      UInt32     , 
+void DynFieldAttachment<AttachmentDescT>::dump(      UInt32     uiIndent, 
                                                const BitVector &) const
 {
-	SLOG << "Dump DynFieldAttachment<> NI" << endl;
+    indentLog(uiIndent, PLOG);
+	PLOG << "DynFieldAttachment (" ;
 
     _localType.dump();
+    PLOG << endl;
 
-    for(UInt32 i = 0; i < _dynFieldsV.size(); i++)
+    indentLog(uiIndent, PLOG);
+	PLOG << "{" << endl;
+
+    uiIndent += 4;
+
+    for(UInt32 i = 1; i <= getType().getNumFieldDescs(); i++)
     {
-      	FLOG(("%d\n", _dynFieldsV[i]));
+        indentLog(uiIndent, PLOG);
+      	PLOG <<      getType().getFieldDescription(i)->getCName () 
+             << " ("
+             << const_cast<DynFieldAttType *>(this)->getField(
+                     getType().getFieldDescription(i)->getFieldId()) 
+             << ")"
+             << endl;
     }
+
+    uiIndent -= 4;
+
+    indentLog(uiIndent, PLOG);
+	PLOG << "}" << endl;
 }
 
 /*-------------------------------------------------------------------------*\

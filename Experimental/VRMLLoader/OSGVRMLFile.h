@@ -257,6 +257,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
                                            UInt32  uiOptions);
 
             NodePtr getRoot               (void);
+
+            NodePtr cloneTree             (NodePtr pRootNode);
 };
 
 //---------------------------------------------------------------------------

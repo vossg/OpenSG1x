@@ -244,7 +244,11 @@ void NodeCore::dump(      UInt32     uiIndent,
     indentLog(uiIndent, PLOG);
 
     PLOG << "Core : " << getType().getName()
-         << "("       << this << ")" << endl;
+         << " " 
+         << _attachmentMap.getValue().size() 
+         << " attachments | "
+         << this 
+         << endl;
 
     indentLog(uiIndent, PLOG);
     PLOG << "[" << endl;

@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
+char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.6 2001/07/29 17:57:20 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -209,7 +209,7 @@ void MaterialGroup::changed(BitVector, ChangeMode)
 void MaterialGroup::dump(      UInt32     uiIndent, 
                          const BitVector &bvFlags) const
 {
-	SLOG << "Dump MaterialGroup NI" << endl;
+    Inherited::dump(uiIndent, bvFlags);
 }
 
     
@@ -219,32 +219,32 @@ void MaterialGroup::dump(      UInt32     uiIndent,
 \*-------------------------------------------------------------------------*/
 
 //! DrawAction:  execute the OpenGL commands directly   
-Action::ResultE MaterialGroup::drawEnter(Action * action )
+Action::ResultE MaterialGroup::drawEnter(Action * action)
 {
-  DrawAction *da = dynamic_cast<DrawAction *>(action);
+    DrawAction *da = dynamic_cast<DrawAction *>(action);
 
-  if(da != NULL && _sfMaterial.getValue() != MaterialPtr::NullPtr)
-  {
-    da->setMaterial(&(*(_sfMaterial.getValue())));
-  }
+    if(da != NULL && _sfMaterial.getValue() != MaterialPtr::NullPtr)
+    {
+        da->setMaterial(&(*(_sfMaterial.getValue())));
+    }
 
-  return Action::Continue;
+    return Action::Continue;
 }
 
-Action::ResultE MaterialGroup::drawLeave(Action * action )
+Action::ResultE MaterialGroup::drawLeave(Action * action)
 {
-  DrawAction *da = dynamic_cast<DrawAction *>(action);
+    DrawAction *da = dynamic_cast<DrawAction *>(action);
 
-  if(da != NULL)
-  {
-    da->setMaterial(NULL);
-  }
+    if(da != NULL)
+    {
+        da->setMaterial(NULL);
+    }
 
-  return Action::Continue;
+    return Action::Continue;
 }
 
  
 /*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+  -  private                                                                -
+  \*-------------------------------------------------------------------------*/
 

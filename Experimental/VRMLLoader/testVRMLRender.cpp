@@ -396,7 +396,7 @@ int main (int argc, char **argv)
 	ract->registerEnterFunction( OSG::Geometry::getClassType(),
 									OSG::osgFunctionFunctor2( calcVNormal ) );
 	
-	ract->apply( dlight );
+//	ract->apply( dlight );
 
 	cerr << "done." << endl;
 	

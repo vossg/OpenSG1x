@@ -58,6 +58,11 @@
 #include <OSGGroup.h>
 #include <OSGVRMLTransform.h>
 #include <OSGGeometry.h>
+#include <OSGMaterialGroup.h>
+#include <OSGSimpleGeometry.h>
+#include <OSGTextureChunk.h>
+#include <OSGGeoFunctions.h>
+#include <OSGDistanceLOD.h>
 
 OSG_USING_NAMESPACE
 
@@ -308,7 +313,8 @@ void VRMLNodeDesc::getFieldAndDesc(
         }        
         else
         {
-            pTmpFC = pNode->findAttachment(GenericAtt::getClassTypeId());
+            pTmpFC = pNode->findAttachment(
+                GenericAtt::getClassType().getGroupId());
             
             if(pTmpFC != NullFC)
             {
@@ -578,8 +584,9 @@ char VRMLShapeDesc::cvsid[] = "@(#)$Id: $";
  */
 
 VRMLShapeDesc::VRMLShapeDesc(void) : 
-    Inherited   (),
-    _pAppearanceDesc(NULL)
+    Inherited     (),
+    
+    _pMaterialDesc(NULL)
 {
 }
 
@@ -594,11 +601,16 @@ VRMLShapeDesc::~VRMLShapeDesc(void)
 
 void VRMLShapeDesc::init(const Char8 *szName)
 {
-    fprintf(stderr, "Geo init : %s\n", szName);
+    fprintf(stderr, "Shape init : %s\n", szName);
 
     _pNodeProto = Node::create();
 
-    _pGenAtt = GenericAtt::create();
+    _pGenAtt    = GenericAtt::create();
+}
+
+void VRMLShapeDesc::setMaterialDesc(VRMLMaterialDesc *pMaterialDesc)
+{
+    _pMaterialDesc = pMaterialDesc;
 }
 
 /*---------------------------- properties ---------------------------------*/
@@ -617,6 +629,13 @@ Bool VRMLShapeDesc::prototypeAddField(const Char8  *szFieldType,
     if(stringcasecmp("geometry", szFieldname) == 0)
     {
         fprintf(stderr, "Request Geometry : \n");
+
+        _pCurrField = _pNodeProto->getField("children");
+    }
+
+    if(stringcasecmp("apperance", szFieldname) == 0)
+    {
+        fprintf(stderr, "Request Appearance : \n");
 
         _pCurrField = _pNodeProto->getField("core");
     }
@@ -653,16 +672,19 @@ void VRMLShapeDesc::getFieldAndDesc(
     {
         fprintf(stderr, "Request Geometry : \n");
 
-        pField = pFC->getField("core");
+        pField = pFC->getField("children");
         
         if(pField != NULL)
-            pDesc = pFC->getType().findFieldDescription("core");
+            pDesc = pFC->getType().findFieldDescription("children");
     }
     else if(stringcasecmp("appearance", szFieldname) == 0)
     {
         fprintf(stderr, "Request App : \n");
 
-        pField = getField(NullFC, NullFC, _pGenAtt, szFieldname);
+        pField = pFC->getField("core");
+        
+        if(pField != NULL)
+            pDesc = pFC->getType().findFieldDescription("core");
     }
     else
     {
@@ -677,27 +699,17 @@ void VRMLShapeDesc::getFieldAndDesc(
 
 FieldContainerPtr VRMLShapeDesc::beginNode(const Char8       *szTypename,
                                            const Char8       *szName,
-                                           FieldContainerPtr)
+                                                 FieldContainerPtr)
 {
     FieldContainerPtr returnValue = NullFC;
     NodePtr           pNode       = NullNode;
+    NodePtr           pGeoNode    = NullNode;
     GenericAttPtr     pAtt        = GenericAttPtr::NullPtr;
 
     if(_pNodeProto != NullNode)
     {
-//        FieldContainerPtr pAttClone = _pGenAtt->emptyCopy();
-        
-//        pAtt = pAttClone.dcast<GenericAttPtr>();
-        
         returnValue = _pNodeProto->shallowCopy();
-        
-//        pNode = returnValue.dcast<NodePtr>();
-        
-//        pNode->addAttachment(pAtt);
     }
-
-    if(_pAppearanceDesc != NULL)
-        _pAppearanceDesc->resetMat();
 
     return returnValue;
 }
@@ -706,26 +718,19 @@ void VRMLShapeDesc::endNode(FieldContainerPtr pFC)
 {
     fprintf(stderr, "ShapeEnd\n");
 
-    if(_pAppearanceDesc != NULL)
+    if(pFC != NullFC)
     {
-        NodePtr     pNode =  NodePtr::dcast(pFC);
-        MaterialPtr pMat  = _pAppearanceDesc->getMat();
+        NodePtr pNode = NodePtr::dcast(pFC);
 
-        if(pNode != NullFC)
+        if(pNode != NullFC && pNode->getCore() == NullFC)
         {
-            GeometryPtr pGeo = GeometryPtr::dcast(pNode->getCore());
+            MaterialGroupPtr pMatGroup = MaterialGroup::create();
 
-            if(pGeo != NullFC)
-            {
-                pGeo->setMaterial(pMat);
-            }
+            pMatGroup->setMaterial(_pMaterialDesc->getDefaultMaterial());
+
+            pNode->setCore(pMatGroup);
         }
     }
-}
-
-void VRMLShapeDesc::setAppearanceDesc(VRMLAppearanceDesc *pAppearanceDesc)
-{
-    _pAppearanceDesc = pAppearanceDesc;
 }
 
 /*-------------------------- assignment -----------------------------------*/
@@ -798,8 +803,10 @@ char VRMLGeometryDesc::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-VRMLGeometryDesc::VRMLGeometryDesc(void) :
+VRMLGeometryDesc::VRMLGeometryDesc(Bool bIsFaceSet) :
     Inherited     (),
+
+    _bIsFaceSet   (bIsFaceSet),
 
     _bInIndex     (false),
     _uiNumVertices(0),
@@ -823,7 +830,8 @@ void VRMLGeometryDesc::init(const Char8 *szName)
 {
     fprintf(stderr, "Geo init : %s\n", szName);
 
-    _pNodeProto = Geometry::create();
+    _pNodeProto     = Node::create();
+    _pNodeCoreProto = Geometry::create();
 
     _pGenAtt = GenericAtt::create();
 }
@@ -853,7 +861,7 @@ Bool VRMLGeometryDesc::prototypeAddField(const Char8  *szFieldType,
     {
         bFound = true;
     }
-    else if(stringcasecmp("coordIndex", szFieldname) == 0)
+    else if(stringcasecmp("texCoord", szFieldname) == 0)
     {
         bFound = true;
     }
@@ -863,30 +871,11 @@ Bool VRMLGeometryDesc::prototypeAddField(const Char8  *szFieldType,
         fprintf(stderr, "Request Geometry Node: %s\n", szFieldname);
         return true;
     }
-        
-
-    if(stringcasecmp("normalPerVertex", szFieldname) == 0)
-    {
-        fprintf(stderr, "Request Geometry : NormalPV\n");
-
-        _pCurrField = _pNodeProto->getField("normalPerVertex");       
-    }
-    else if(stringcasecmp("colorPerVertex", szFieldname) == 0)
-    {
-        fprintf(stderr, "Request Geometry : ColorPV\n");
-
-        _pCurrField = _pNodeProto->getField("colorPerVertex");       
-    }
-
-    if(_pCurrField == NULL)
+    else
     {
         return Inherited::prototypeAddField(szFieldType,
                                             uiFieldTypeId,
                                             szFieldname);
-    }
-    else
-    {
-        return true;
     }
 }
 
@@ -905,37 +894,64 @@ void VRMLGeometryDesc::getFieldAndDesc(
     if(pFC == NullFC)
         return;
 
-    GeometryPtr pGeo = GeometryPtr::dcast(pFC);
+    NodePtr pNode = NodePtr::dcast(pFC);
+
+    if(pNode == NullFC)
+    {
+        fprintf(stderr, "No Node\n");
+        return;
+    }
+
+    NodeCorePtr pNodeCore = pNode->getCore();
+
+    GeometryPtr pGeo      = GeometryPtr::dcast(pNodeCore);
+
+    if(pGeo == NullFC)
+    {
+        fprintf(stderr, "No Geo\n");
+        return;
+    }
 
     _bInIndex = false;
 
     if(stringcasecmp("coord", szFieldname) == 0)
     {
-        fprintf(stderr, "Request Geometry : \n");
+        fprintf(stderr, "Request Geometry : coord \n");
 
-        pField = pFC->getField("positions");
+        pField = pGeo->getField("positions");
         
         if(pField != NULL)
-            pDesc = pFC->getType().findFieldDescription("positions");
+            pDesc = pGeo->getType().findFieldDescription("positions");
     }
     else if(stringcasecmp("normal", szFieldname) == 0)
     {
-        fprintf(stderr, "Request Geometry : \n");
+        fprintf(stderr, "Request Geometry : normal\n");
 
-        pField = pFC->getField("normals");
+        pField = pGeo->getField("normals");
         
         if(pField != NULL)
-            pDesc = pFC->getType().findFieldDescription("normals");
+            pDesc = pGeo->getType().findFieldDescription("normals");
     }
     else if(stringcasecmp("color", szFieldname) == 0)
     {
         fprintf(stderr, "Request Geometry : color \n");
 
-        pField = pFC->getField("colors");
+        pField = pGeo->getField("colors");
         
         if(pField != NULL)
-            pDesc = pFC->getType().findFieldDescription("colors");
+            pDesc = pGeo->getType().findFieldDescription("colors");
     }
+    else if(stringcasecmp("texCoord", szFieldname) == 0)
+    {
+        fprintf(stderr, "Request Geometry : texCoord \n");
+
+        pField = pGeo->getField("texCoords");
+        
+        if(pField != NULL)
+            pDesc = pGeo->getType().findFieldDescription("texCoords");
+    }
+
+/*
     else if(stringcasecmp("coordIndex", szFieldname) == 0)
     {
         FieldContainerPtr pIndexFC = NullFC;
@@ -973,29 +989,10 @@ void VRMLGeometryDesc::getFieldAndDesc(
 
         _bInIndex = true;
     }
-    else if(stringcasecmp("normalPerVertex", szFieldname) == 0)
-    {
-        fprintf(stderr, "Request Geometry : Normal\n");
-        pField = pGeo->getField("normalPerVertex");
-        
-        if(pField != NULL)
-        {
-            pDesc = pGeo->getType().findFieldDescription("normalPerVertex");
-        }
-    }
-    else if(stringcasecmp("colorPerVertex", szFieldname) == 0)
-    {
-        fprintf(stderr, "Request Geometry : Normal\n");
-        pField = pGeo->getField("colorPerVertex");
-        
-        if(pField != NULL)
-        {
-            pDesc = pGeo->getType().findFieldDescription("colorPerVertex");
-        }
-    }
+    */
     else
     {
-        VRMLNodeDesc::getFieldAndDesc(pFC, 
+        VRMLNodeDesc::getFieldAndDesc(pGeo, 
                                       szFieldname, 
                                       pField,
                                       pDesc);
@@ -1009,7 +1006,8 @@ FieldContainerPtr VRMLGeometryDesc::beginNode(
     const Char8       *szName,
     FieldContainerPtr)
 {
-    FieldContainerPtr returnValue = NullFC;
+    FieldContainerPtr pFC         = NullFC;
+    NodePtr           pNode       = NullNode;
     NodeCorePtr       pNodeCore   = NullNodeCore;
     GenericAttPtr     pAtt        = GenericAttPtr::NullPtr;
 
@@ -1019,26 +1017,193 @@ FieldContainerPtr VRMLGeometryDesc::beginNode(
         
         pAtt = GenericAttPtr::dcast(pAttClone);
 
-        returnValue = _pNodeProto->shallowCopy();
+        pFC = _pNodeProto->shallowCopy();
 
-        pNodeCore = NodeCorePtr::dcast(returnValue);
+        pNode = NodePtr::dcast(pFC);
+
+        pFC = _pNodeCoreProto->shallowCopy();
+
+        pNodeCore = NodeCorePtr::dcast(pFC);
        
+        pNode    ->setCore      (pNodeCore);
         pNodeCore->addAttachment(pAtt);
     }
 
-    fprintf(stderr, "Begin Geo %x\n", &(*returnValue));
+    fprintf(stderr, "Begin Geo %x\n", &(*pNode));
 
-    return returnValue;
+    return pNode;
 }
 
 void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
 {
     fprintf(stderr, "End Geo\n");
+
+    NodePtr     pNode = NullNode;
+    GeometryPtr pGeo  = GeometryPtr::NullPtr;
+
+    if(pFC == NullFC)
+    {
+        return;
+    }
+
+    pNode = NodePtr::dcast(pFC);
+    
+    if(pNode == NullFC)
+    {
+        return;
+    }
+
+    pGeo = GeometryPtr::dcast(pNode->getCore());
+
+    if(pGeo == NullFC)
+    {
+        return;
+    }
+
+          Field            *pField = NULL;
+    const FieldDescription *pDesc  = NULL;
+
+    MFInt32 *pCoordIndex           = NULL;
+    MFInt32 *pNormalIndex          = NULL;
+    MFInt32 *pColorIndex           = NULL;
+    MFInt32 *pTexCoordIndex        = NULL;
+    SFBool  *pConvex               = NULL;
+    SFBool  *pCcw                  = NULL;
+    SFBool  *pNormalPerVertex      = NULL;
+    SFBool  *pColorPerVertex       = NULL;
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "coordIndex", 
+                               pField,
+                               pDesc);
+
+    if(pField != NULL)
+    {
+        pCoordIndex = static_cast<MFInt32 *>(pField);
+    }
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "normalIndex", 
+                               pField,
+                               pDesc);
+
+    if(pField != NULL)
+    {
+        pNormalIndex = static_cast<MFInt32 *>(pField);
+    }
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "colorIndex", 
+                               pField,
+                               pDesc);
+
+    if(pField != NULL)
+    {
+        pColorIndex = static_cast<MFInt32 *>(pField);
+    }
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "texCoordIndex", 
+                               pField,
+                               pDesc);
+
+    if(pField != NULL)
+    {
+        pTexCoordIndex = static_cast<MFInt32 *>(pField);
+    }
+
+
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "convex", 
+                               pField,
+                               pDesc);
+
+    if(pField != NULL)
+    {
+        pConvex = static_cast<SFBool *>(pField);
+    }
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "ccw", 
+                               pField,
+                               pDesc);
+
+    if(pField != NULL)
+    {
+        pCcw = static_cast<SFBool *>(pField);
+    }
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "normalPerVertex", 
+                               pField,
+                               pDesc);
+
+    if(pField != NULL)
+    {
+        pNormalPerVertex = static_cast<SFBool *>(pField);
+    }
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "colorPerVertex", 
+                               pField,
+                               pDesc);
+
+    if(pField != NULL)
+    {
+        pColorPerVertex = static_cast<SFBool *>(pField);
+    }
+
+    if(_bIsFaceSet == true)
+    {
+        if(pCoordIndex      != NULL &&
+           pNormalIndex     != NULL &&
+           pColorIndex      != NULL &&
+           pTexCoordIndex   != NULL &&
+           pConvex          != NULL &&
+           pCcw             != NULL &&
+           pNormalPerVertex != NULL &&
+           pColorPerVertex  != NULL)
+        {
+            setIndexFromVRMLData(pGeo,
+                                 pCoordIndex     ->getValues(),
+                                 pNormalIndex    ->getValues(),
+                                 pColorIndex     ->getValues(),
+                                 pTexCoordIndex  ->getValues(),
+                                 pConvex         ->getValue() ,
+                                 pCcw            ->getValue() ,
+                                 pNormalPerVertex->getValue() ,
+                                 pColorPerVertex ->getValue() ,
+                                 true);
+        }
+    }
+    else
+    {
+        vector<Int32> dummyVec;
+        Bool          dummyBool = false;
+
+        if(pCoordIndex      != NULL &&
+           pColorIndex      != NULL &&
+           pColorPerVertex  != NULL)
+        {
+            setIndexFromVRMLData(pGeo,
+                                 pCoordIndex    ->getValues(),
+                                 dummyVec ,
+                                 pColorIndex    ->getValues(),
+                                 dummyVec ,
+                                 dummyBool,
+                                 dummyBool,
+                                 dummyBool,
+                                 pColorPerVertex->getValue() ,
+                                 false);
+        }
+    }
 }
 
 void VRMLGeometryDesc::addFieldValue(      Field *pField,
                                      const Char8 *szFieldVal)
 {
+/*
     if(_bInIndex == true)
     {
         if(pField != NULL && szFieldVal[0] != '-')
@@ -1060,6 +1225,12 @@ void VRMLGeometryDesc::addFieldValue(      Field *pField,
         {
             pField->pushValueByStr(szFieldVal);
         }
+    }
+    */
+
+    if(pField != NULL)
+    {
+        pField->pushValueByStr(szFieldVal);
     }
 }
 
@@ -1275,6 +1446,366 @@ FieldContainerPtr VRMLGeometryPartDesc::beginNode(
 
 
 
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+char VRMLGeometryObjectDesc::cvsid[] = "@(#)$Id: $";
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+/** \brief Constructor
+ */
+
+VRMLGeometryObjectDesc::VRMLGeometryObjectDesc(Char8 *szVRMLObjectname) :
+    Inherited(),
+
+    _szVRMLObjectname(NULL)
+{
+    stringDup(szVRMLObjectname, _szVRMLObjectname);
+}
+
+/** \brief Destructor
+ */
+
+VRMLGeometryObjectDesc::~VRMLGeometryObjectDesc(void)
+{
+}
+
+/*------------------------------ access -----------------------------------*/
+
+void VRMLGeometryObjectDesc::init(const Char8 *szName)
+{
+    fprintf(stderr, "GeoObject init : %s %s\n", 
+            szName,
+            _szVRMLObjectname);
+
+    _pNodeProto = Node::create();
+
+    if(_pNodeProto == NullFC)
+    {
+        fprintf(stderr, "ERROR no prototype available\n");
+    }
+
+    _pGenAtt = GenericAtt::create();
+}
+
+/*---------------------------- properties ---------------------------------*/
+ 
+Bool VRMLGeometryObjectDesc::prototypeAddField(const Char8  *szFieldType,
+                                               const UInt32  uiFieldTypeId,
+                                               const Char8  *szFieldname)
+{
+    _pCurrField = NULL;
+
+    Bool rc = VRMLNodeDesc::prototypeAddField(szFieldType,
+                                              uiFieldTypeId,
+                                              szFieldname);
+
+    _pGenAtt->dump(0,0);
+
+    return rc;
+}
+
+void VRMLGeometryObjectDesc::getFieldAndDesc(      
+          FieldContainerPtr  pFC,
+    const Char8            * szFieldname,
+          Field            *&pField,
+    const FieldDescription *&pDesc)
+{
+    fprintf(stderr, "GeometryObject request : %s\n", szFieldname);
+
+    if(szFieldname == NULL)
+        return;
+
+    if(pFC == NullFC)
+        return;
+
+    pFC->dump(0, 0);
+
+    Inherited::getFieldAndDesc(pFC, 
+                               szFieldname, 
+                               pField,
+                               pDesc);
+}
+
+/*-------------------------- your_category---------------------------------*/
+
+FieldContainerPtr VRMLGeometryObjectDesc::beginNode(
+    const Char8       *szTypename,
+    const Char8       *szName,
+    FieldContainerPtr)
+{
+    FieldContainerPtr returnValue = NullFC;
+    NodePtr           pNode       = NullNode;
+    GenericAttPtr     pAtt        = GenericAttPtr::NullPtr;
+
+    if(_pNodeProto != NullFC)
+    {
+        FieldContainerPtr pAttClone = _pGenAtt->clone();
+        
+        pAtt = GenericAttPtr::dcast(pAttClone);
+
+        returnValue = _pNodeProto->shallowCopy();
+
+        pNode = NodePtr::dcast(returnValue);
+
+        pNode->addAttachment(pAtt);
+    }
+
+    return returnValue;
+}
+
+void VRMLGeometryObjectDesc::endNode(FieldContainerPtr pFC)
+{
+          Field            *pField = NULL;
+    const FieldDescription *pDesc  = NULL;
+          NodePtr           pNode  = NullNode;
+
+    if(pFC == NullFC)
+        return;
+
+    pNode = NodePtr::dcast(pFC);
+
+    if(pNode == NullFC)
+        return;
+    
+    if(     stringcasecmp("Box",      _szVRMLObjectname) == 0)
+    {
+        Inherited::getFieldAndDesc(pFC, 
+                                   "size", 
+                                   pField,
+                                   pDesc);
+
+        if(pField != NULL)
+        {
+            SFVec3f *pVec = static_cast<SFVec3f *>(pField);
+
+            GeometryPtr pGeo = makeBoxGeo(pVec->getValue()[0],
+                                          pVec->getValue()[1],
+                                          pVec->getValue()[2],
+                                          2, 2, 2);
+
+            pNode->setCore(pGeo);
+        }
+    }
+    else if(stringcasecmp("Cone",     _szVRMLObjectname) == 0)
+    {
+        SFReal32 *pBotRad = NULL;
+        SFReal32 *pHeight = NULL;
+        SFBool   *pSide   = NULL;
+        SFBool   *pBottom = NULL;
+            
+        Inherited::getFieldAndDesc(pFC, 
+                                   "bottomRadius", 
+                                   pField,
+                                   pDesc);
+
+        if(pField != NULL)
+        {
+            pBotRad = static_cast<SFReal32 *>(pField);
+        }
+
+        Inherited::getFieldAndDesc(pFC, 
+                                   "height", 
+                                   pField,
+                                   pDesc);
+
+        if(pField != NULL)
+        {
+            pHeight = static_cast<SFReal32 *>(pField);
+        }
+
+        Inherited::getFieldAndDesc(pFC, 
+                                   "side", 
+                                   pField,
+                                   pDesc);
+
+        if(pField != NULL)
+        {
+            pSide = static_cast<SFBool *>(pField);
+        }
+
+        Inherited::getFieldAndDesc(pFC, 
+                                   "bottom", 
+                                   pField,
+                                   pDesc);
+
+        if(pField != NULL)
+        {
+            pBottom = static_cast<SFBool *>(pField);
+        }
+
+        if(pBotRad != NULL &&
+           pHeight != NULL &&
+           pSide   != NULL &&
+           pBottom != NULL)
+        {
+            fprintf(stderr, "Create Cone\n");
+
+            GeometryPtr pGeo = makeConeGeo(pHeight->getValue(),
+                                           pBotRad->getValue(),
+                                           32,
+                                           pHeight->getValue(),
+                                           pBottom->getValue());
+
+            pNode->setCore(pGeo);
+        }
+    }
+    else if(stringcasecmp("Cylinder", _szVRMLObjectname) == 0)
+    {
+        SFBool   *pBottom = NULL;
+        SFReal32 *pHeight = NULL;
+        SFReal32 *pRadius = NULL;
+        SFBool   *pSide   = NULL;
+        SFBool   *pTop    = NULL;
+
+        Inherited::getFieldAndDesc(pFC, 
+                                   "bottom", 
+                                   pField,
+                                   pDesc);
+
+        if(pField != NULL)
+        {
+            pBottom = static_cast<SFBool *>(pField);
+        }
+
+        Inherited::getFieldAndDesc(pFC, 
+                                   "height", 
+                                   pField,
+                                   pDesc);
+
+        if(pField != NULL)
+        {
+            pHeight = static_cast<SFReal32 *>(pField);
+        }
+
+        Inherited::getFieldAndDesc(pFC, 
+                                   "radius", 
+                                   pField,
+                                   pDesc);
+
+        if(pField != NULL)
+        {
+            pRadius = static_cast<SFReal32 *>(pField);
+        }
+
+        Inherited::getFieldAndDesc(pFC, 
+                                   "side", 
+                                   pField,
+                                   pDesc);
+
+        if(pField != NULL)
+        {
+            pSide = static_cast<SFBool *>(pField);
+        }
+
+        Inherited::getFieldAndDesc(pFC, 
+                                   "top", 
+                                   pField,
+                                   pDesc);
+
+        if(pField != NULL)
+        {
+            pTop = static_cast<SFBool *>(pField);
+        }
+
+
+        if(pBottom != NULL &&
+           pHeight != NULL &&
+           pRadius != NULL &&
+           pSide   != NULL &&
+           pTop    != NULL)
+        {
+            fprintf(stderr, "Create Cylinder\n");
+
+            GeometryPtr pGeo = makeCylinderGeo(pHeight->getValue(),
+                                               pRadius->getValue(),
+                                               32,
+                                               pSide  ->getValue(),
+                                               pTop   ->getValue(),
+                                               pBottom->getValue());
+
+            pNode->setCore(pGeo);
+        }
+    }
+    else if(stringcasecmp("Sphere",   _szVRMLObjectname) == 0)
+    {
+        Inherited::getFieldAndDesc(pFC, 
+                                   "radius", 
+                                   pField,
+                                   pDesc);
+
+        if(pField != NULL)
+        {
+            SFReal32 *pValue = static_cast<SFReal32 *>(pField);
+
+            GeometryPtr pGeo = makeSphereGeo(3, pValue->getValue());
+
+            pNode->setCore(pGeo);
+        }
+        
+    }
+}
+
+/*-------------------------- assignment -----------------------------------*/
+
+/** \brief assignment
+ */
+
+/*-------------------------- comparison -----------------------------------*/
+
+/** \brief assignment
+ */
+
+/** \brief equal
+ */
+
+/** \brief unequal
+ */
+
+
+
 
 
 
@@ -1330,9 +1861,10 @@ char VRMLAppearanceDesc::cvsid[] = "@(#)$Id: $";
  */
 
 VRMLAppearanceDesc::VRMLAppearanceDesc(void) :
-    Inherited     (),
+    Inherited         (),
 
-    _pMaterialDesc(NULL)
+    _sfTexture        (),
+    _pMaterialDesc    (NULL)
 {
 }
 
@@ -1349,36 +1881,9 @@ void VRMLAppearanceDesc::init(const Char8 *szName)
 {
     fprintf(stderr, "Appearance init :  %s\n", szName);
 
+    _pNodeCoreProto = MaterialGroup::create();
+
     _pGenAtt    = GenericAtt::create();
-}
-
-void VRMLAppearanceDesc::resetMat(void)
-{
-    Field *pField = Inherited::getField(NullFC, NullFC, _pGenAtt, "material");
-
-    if(pField != NULL)
-    {
-        ((SFFieldContainerPtr *) pField)->setValue(NullFC);
-    }
-}
-
-MaterialPtr VRMLAppearanceDesc::getMat(void)
-{
-    MaterialPtr returnValue = NullMaterial;
-
-    Field *pField = Inherited::getField(NullFC, NullFC, _pGenAtt, "material");
-
-    if(pField != NULL)
-    {
-        returnValue = ((SFMaterialPtr *) pField)->getValue();
-    }
-
-    if(returnValue == NullFC && _pMaterialDesc != NULL)
-    {
-        returnValue = _pMaterialDesc->getDefaultMaterial();
-    }
-
-    return returnValue;
 }
 
 void VRMLAppearanceDesc::setMaterialDesc(VRMLMaterialDesc *pMaterialDesc)
@@ -1388,7 +1893,7 @@ void VRMLAppearanceDesc::setMaterialDesc(VRMLMaterialDesc *pMaterialDesc)
 
 FieldContainerPtr VRMLAppearanceDesc::getSaveFieldContainer(void)
 {
-    return getMat();
+    return NullFC;
 }
 
 /*---------------------------- properties ---------------------------------*/
@@ -1398,10 +1903,24 @@ Bool VRMLAppearanceDesc::prototypeAddField(const Char8  *szFieldType,
                                            const Char8  *szFieldname)
 {
     _pCurrField = NULL;
-    
-    return VRMLNodeDesc::prototypeAddField(szFieldType,
-                                           uiFieldTypeId,
-                                           szFieldname);
+
+    if(szFieldname == NULL)
+        return false;
+
+    if(stringcasecmp("material", szFieldname) == 0)
+    {
+        return true;
+    }
+    else if(stringcasecmp("texture", szFieldname) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        return VRMLNodeDesc::prototypeAddField(szFieldType,
+                                               uiFieldTypeId,
+                                               szFieldname);
+    }
 }
 
 void VRMLAppearanceDesc::getFieldAndDesc(      
@@ -1413,19 +1932,35 @@ void VRMLAppearanceDesc::getFieldAndDesc(
 
     fprintf(stderr, "Appearance request : %s\n", szFieldname);
 
+    if(pFC == NullFC)
+        return;
+
     if(szFieldname == NULL)
         return;
 
-    pField = Inherited::getField( NullFC,
-                                  NullFC,
-                                 _pGenAtt,
-                                  szFieldname);
-/*
-    Inherited::getFieldAndDesc(pFC, 
-                               szFieldname, 
-                               pField,
-                               pDesc);
-*/
+    if(stringcasecmp("material", szFieldname) == 0)
+    {
+        fprintf(stderr, "Request Appearance : material \n");
+        
+        pField = pFC->getField("material");
+        
+        if(pField != NULL)
+            pDesc = pFC->getType().findFieldDescription("material");
+    }
+    else if(stringcasecmp("texture", szFieldname) == 0)
+    {
+        _sfTexture.setValue(NullFC);
+
+        pField = &_sfTexture;
+        pDesc  = NULL;
+    }
+    else
+    {
+        Inherited::getFieldAndDesc(pFC, 
+                                   szFieldname, 
+                                   pField,
+                                   pDesc);
+    }
 }
 
 /*-------------------------- your_category---------------------------------*/
@@ -1436,19 +1971,80 @@ FieldContainerPtr VRMLAppearanceDesc::beginNode(
     FieldContainerPtr  pCurrentFC)
 {
     FieldContainerPtr returnValue = NullFC;
+    NodeCorePtr       pNodeCore   = NullNodeCore;
+    GenericAttPtr     pAtt        = GenericAttPtr::NullPtr;
+
+    if(_pNodeCoreProto != NullFC)
+    {
+        FieldContainerPtr pAttClone = _pGenAtt->clone();
+        
+        pAtt = GenericAttPtr::dcast(pAttClone);
+
+        returnValue = _pNodeCoreProto->shallowCopy();
+
+        pNodeCore   = NodeCorePtr::dcast(returnValue);
+
+        pNodeCore->addAttachment(pAtt);
+    }    
 
     return returnValue;
 }
 
+void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
+{
+    fprintf(stderr, "EndNode Apperance %p\n", &(*(_sfTexture.getValue())));
+
+    if(pFC != NullFC)
+    {
+        MaterialGroupPtr pMatGroup = MaterialGroupPtr::dcast(pFC);
+
+        if(pMatGroup != NullFC)
+        {
+            ChunkMaterialPtr pChunkMat = 
+                ChunkMaterialPtr::dcast(pMatGroup->getMaterial());
+
+            TextureChunkPtr pTexture = 
+                TextureChunkPtr::dcast(_sfTexture.getValue());
+
+            if(pChunkMat != NullFC)
+            {
+                if(pTexture != NullFC)
+                {                    
+                    pChunkMat->addChunk(pTexture);
+                }
+            }
+            else
+            {
+                if(pTexture != NullFC)
+                {     
+                    FieldContainerPtr pMat = 
+                        _pMaterialDesc->getDefaultMaterial()->shallowCopy();
+
+                    ChunkMaterialPtr pChunkMat = 
+                        ChunkMaterialPtr::dcast(pMat);
+
+                    if(pChunkMat != NullFC)
+                    {
+                        if(pTexture != NullFC)
+                        {                    
+                            pChunkMat->addChunk(pTexture);
+                        }
+
+                        pMatGroup->setMaterial(pChunkMat);
+                    }
+                }
+                else
+                {
+                    pMatGroup->setMaterial(
+                        _pMaterialDesc->getDefaultMaterial());
+                }
+            }
+        }
+    }
+}
+
 Bool VRMLAppearanceDesc::use(FieldContainerPtr pFC)
 {
-    Field *pField = Inherited::getField(NullFC, NullFC, _pGenAtt, "material");
-
-    if(pField != NULL)
-    {
-        ((SFFieldContainerPtr *) pField)->setValue(pFC);
-    }
-
     return true;
 }
 
@@ -1468,6 +2064,9 @@ Bool VRMLAppearanceDesc::use(FieldContainerPtr pFC)
 
 /** \brief unequal
  */
+
+
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -1553,30 +2152,18 @@ VRMLMaterialDesc::~VRMLMaterialDesc(void)
 void VRMLMaterialDesc::init(const Char8 *szName)
 {
     fprintf(stderr, "Material init : %s \n", szName);
-
-//    _pNodeProto = SimpleMaterial::create();
-
-/*
-    _pNodeProto =
-       FieldContainerFactory::the().createFieldContainer("Material");
-
-    if(_pNodeProto == NullFC)
-    {
-        fprintf(stderr, "ERROR no prototype available\n");
-    }
-    */
 }
 
 void VRMLMaterialDesc::reset(void)
 {
     _pMat = SimpleMaterial::NullPtr;
 
-    _defaultAmbientIntensity.setValue(_ambientIntensity);
-    _defaultDiffuseColor    .setValue(_diffuseColor);
-    _defaultEmissiveColor   .setValue(_emissiveColor);
-    _defaultShininess       .setValue(_shininess);
-    _defaultSpecularColor   .setValue(_specularColor);
-    _defaultTransparency    .setValue(_transparency);
+//    _defaultAmbientIntensity.setValue(_ambientIntensity);
+//    _defaultDiffuseColor    .setValue(_diffuseColor);
+//    _defaultEmissiveColor   .setValue(_emissiveColor);
+//    _defaultShininess       .setValue(_shininess);
+//    _defaultSpecularColor   .setValue(_specularColor);
+//    _defaultTransparency    .setValue(_transparency);
 }
 
 MaterialPtr VRMLMaterialDesc::getDefaultMaterial(void)
@@ -1729,6 +2316,721 @@ void VRMLMaterialDesc::endNode(FieldContainerPtr)
         _pMat->setEmission    (_emissiveColor.getValue());
         _pMat->setTransparency(_transparency.getValue() );
     }
+}
+
+/*-------------------------- assignment -----------------------------------*/
+
+/** \brief assignment
+ */
+
+/*-------------------------- comparison -----------------------------------*/
+
+/** \brief assignment
+ */
+
+/** \brief equal
+ */
+
+/** \brief unequal
+ */
+
+
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+char VRMLImageTextureDesc::cvsid[] = "@(#)$Id: $";
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+/** \brief Constructor
+ */
+
+VRMLImageTextureDesc::VRMLImageTextureDesc(void) :
+    Inherited(),
+
+    _defaultURL    (),
+    _defaultRepeatS(),
+    _defaultRepeatT(),
+
+    _url           (),
+    _repeatS       (),
+    _repeatT       ()
+{
+}
+
+/** \brief Destructor
+ */
+
+VRMLImageTextureDesc::~VRMLImageTextureDesc(void)
+{
+}
+
+/*------------------------------ access -----------------------------------*/
+
+void VRMLImageTextureDesc::init(const Char8 *szName)
+{
+    fprintf(stderr, "Material init : %s \n", szName);
+}
+
+void VRMLImageTextureDesc::reset(void)
+{
+}
+
+/*---------------------------- properties ---------------------------------*/
+ 
+Bool VRMLImageTextureDesc::prototypeAddField(const Char8  *szFieldType,
+                                             const UInt32  uiFieldTypeId,
+                                             const Char8  *szFieldname)
+{
+    Bool bFound;
+
+    _pCurrField = NULL;
+
+    if(stringcasecmp("url", szFieldname) == 0)
+    {
+        _pCurrField = &_defaultURL;
+
+        bFound = true;
+    }
+    else if(stringcasecmp("repeatS", szFieldname) == 0)
+    {
+        _pCurrField = &_defaultRepeatS;
+
+        bFound = true;
+    }
+    else if(stringcasecmp("repeatT", szFieldname) == 0)
+    {
+        _pCurrField = &_defaultRepeatT;
+
+        bFound = true;
+    }
+
+    if(bFound == true)
+    {
+        fprintf(stderr, "Add ImageTexturePart : %s\n", szFieldname);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void VRMLImageTextureDesc::endProtoInterface(void)
+{
+}
+
+void VRMLImageTextureDesc::getFieldAndDesc(      
+          FieldContainerPtr  pFC,
+    const Char8            * szFieldname,
+          Field            *&pField,
+    const FieldDescription *&pDesc)
+{
+    if(stringcasecmp("url", szFieldname) == 0)
+    {
+        pField = &_url;
+    }
+    else if(stringcasecmp("repeatS", szFieldname) == 0)
+    {
+        pField = &_repeatS;
+    }
+    else if(stringcasecmp("repeatT", szFieldname) == 0)
+    {
+        pField = &_repeatT;
+    }
+
+    pDesc = NULL;
+}
+
+/*-------------------------- your_category---------------------------------*/
+
+FieldContainerPtr VRMLImageTextureDesc::beginNode(
+    const Char8       *,
+    const Char8       *,
+    FieldContainerPtr  pCurrentFC)
+{
+    TextureChunkPtr returnValue = TextureChunk::create();
+
+    fprintf(stderr, "BeginNode Image Texture %p\n", &(*(returnValue)));
+
+    _url.clear();
+
+    _repeatS = _defaultRepeatS;
+    _repeatT = _defaultRepeatT;
+
+    return returnValue;
+}
+
+void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
+{    
+    fprintf(stderr, "EndNode ImageTexture %s %d %d %p\n",
+            _url.getValue(0).str(),
+            _repeatS.getValue(),
+            _repeatT.getValue(),
+            &(*(pFC)));
+
+    TextureChunkPtr  pTexture = TextureChunkPtr::NullPtr;
+
+    Image           *pImage   = new Image();
+
+    pTexture = TextureChunkPtr::dcast(pFC);
+
+    if(pTexture != NullFC)
+    {
+        cerr << "Reading texture " << _url.getValue(0).str() << endl;
+        
+        if(pImage->read(_url.getValue(0).str()))
+        {
+            pTexture->setImage(pImage);
+            
+            if(_repeatS.getValue() == true)
+            {
+                pTexture->setWrapS(GL_REPEAT);
+            }
+            else
+            {
+                pTexture->setWrapS(GL_CLAMP);
+            }
+
+            if(_repeatT.getValue() == true)
+            {
+                pTexture->setWrapT(GL_REPEAT);
+            }
+            else
+            {
+                 pTexture->setWrapS(GL_CLAMP);
+            }
+        }
+        else
+        {
+            cerr << "Couldn't read texture " 
+                 << _url.getValue(0).str()  
+                 << "!!!" << endl;
+            
+            delete pImage;
+        }
+    }
+    else
+    {
+        fprintf(stderr, "Invalid texture ptr\n");
+    }
+}
+
+/*-------------------------- assignment -----------------------------------*/
+
+/** \brief assignment
+ */
+
+/*-------------------------- comparison -----------------------------------*/
+
+/** \brief assignment
+ */
+
+/** \brief equal
+ */
+
+/** \brief unequal
+ */
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+char VRMLPixelTextureDesc::cvsid[] = "@(#)$Id: $";
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+/** \brief Constructor
+ */
+
+VRMLPixelTextureDesc::VRMLPixelTextureDesc(void) :
+    Inherited(),
+
+    _defaultImage  (),
+    _defaultRepeatS(),
+    _defaultRepeatT(),
+
+    _image         (),
+    _repeatS       (),
+    _repeatT       ()
+{
+}
+
+/** \brief Destructor
+ */
+
+VRMLPixelTextureDesc::~VRMLPixelTextureDesc(void)
+{
+}
+
+/*------------------------------ access -----------------------------------*/
+
+void VRMLPixelTextureDesc::init(const Char8 *szName)
+{
+    fprintf(stderr, "Pixel Texture init : %s \n", szName);
+}
+
+void VRMLPixelTextureDesc::reset(void)
+{
+}
+
+/*---------------------------- properties ---------------------------------*/
+ 
+Bool VRMLPixelTextureDesc::prototypeAddField(const Char8  *szFieldType,
+                                             const UInt32  uiFieldTypeId,
+                                             const Char8  *szFieldname)
+{
+    Bool bFound;
+
+    _pCurrField = NULL;
+
+    if(stringcasecmp("image", szFieldname) == 0)
+    {
+        _pCurrField = &_defaultImage;
+
+        bFound = true;
+    }
+    else if(stringcasecmp("repeatS", szFieldname) == 0)
+    {
+        _pCurrField = &_defaultRepeatS;
+
+        bFound = true;
+    }
+    else if(stringcasecmp("repeatT", szFieldname) == 0)
+    {
+        _pCurrField = &_defaultRepeatT;
+
+        bFound = true;
+    }
+
+    if(bFound == true)
+    {
+        fprintf(stderr, "Add PixelTexturePart : %s\n", szFieldname);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void VRMLPixelTextureDesc::endProtoInterface(void)
+{
+}
+
+void VRMLPixelTextureDesc::getFieldAndDesc(      
+          FieldContainerPtr  pFC,
+    const Char8            * szFieldname,
+          Field            *&pField,
+    const FieldDescription *&pDesc)
+{
+    if(stringcasecmp("image", szFieldname) == 0)
+    {
+        pField = &_image;
+    }
+    else if(stringcasecmp("repeatS", szFieldname) == 0)
+    {
+        pField = &_repeatS;
+    }
+    else if(stringcasecmp("repeatT", szFieldname) == 0)
+    {
+        pField = &_repeatT;
+    }
+
+    pDesc = NULL;
+}
+
+/*-------------------------- your_category---------------------------------*/
+
+FieldContainerPtr VRMLPixelTextureDesc::beginNode(
+    const Char8       *,
+    const Char8       *,
+    FieldContainerPtr  pCurrentFC)
+{
+    TextureChunkPtr returnValue = TextureChunk::create();
+
+    fprintf(stderr, "BeginNode Pixel Texture %p\n", &(*(returnValue)));
+
+    _image.setValue(new Image());
+
+    _repeatS = _defaultRepeatS;
+    _repeatT = _defaultRepeatT;
+
+    return returnValue;
+}
+
+void VRMLPixelTextureDesc::endNode(FieldContainerPtr pFC)
+{    
+    fprintf(stderr, "EndNode Pixel Texture %d %d %p\n",
+            _repeatS.getValue(),
+            _repeatT.getValue(),
+            &(*(pFC)));
+
+    TextureChunkPtr  pTexture = TextureChunkPtr::NullPtr;
+
+    pTexture = TextureChunkPtr::dcast(pFC);
+
+    if(pTexture != NullFC)
+    {
+        if(_image.getValue() != NULL)
+        {
+            pTexture->setImage(_image.getValue());
+            
+            if(_repeatS.getValue() == true)
+            {
+                pTexture->setWrapS(GL_REPEAT);
+            }
+            else
+            {
+                pTexture->setWrapS(GL_CLAMP);
+            }
+
+            if(_repeatT.getValue() == true)
+            {
+                pTexture->setWrapT(GL_REPEAT);
+            }
+            else
+            {
+                pTexture->setWrapS(GL_CLAMP);
+            }
+        }
+    }
+    else
+    {
+        fprintf(stderr, "Invalid texture ptr\n");
+    }
+}
+
+void VRMLPixelTextureDesc::addFieldValue(      Field *,
+                                         const Char8 *szFieldVal)
+{
+    if(_image.getValue() != NULL)
+    {
+        _image.getValue()->addValue(szFieldVal);
+    }
+}
+
+/*-------------------------- assignment -----------------------------------*/
+
+/** \brief assignment
+ */
+
+/*-------------------------- comparison -----------------------------------*/
+
+/** \brief assignment
+ */
+
+/** \brief equal
+ */
+
+/** \brief unequal
+ */
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+char VRMLLODDesc::cvsid[] = "@(#)$Id: $";
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+/** \brief Constructor
+ */
+
+VRMLLODDesc::VRMLLODDesc(void) :
+    Inherited()
+{
+}
+
+/** \brief Destructor
+ */
+
+VRMLLODDesc::~VRMLLODDesc(void)
+{
+}
+
+/*------------------------------ access -----------------------------------*/
+
+void VRMLLODDesc::init(const Char8 *szName)
+{
+    fprintf(stderr, "LOD init : %s \n", szName);
+
+    _pNodeProto     = Node::create();
+    _pNodeCoreProto = DistanceLOD::create();
+
+    _pGenAtt        = GenericAtt::create();
+}
+
+/*---------------------------- properties ---------------------------------*/
+ 
+Bool VRMLLODDesc::prototypeAddField(const Char8  *szFieldType,
+                                    const UInt32  uiFieldTypeId,
+                                    const Char8  *szFieldname)
+{
+    Bool bFound;
+
+    _pCurrField = NULL;
+
+    if(stringcasecmp("level", szFieldname) == 0)
+    {
+        bFound = true;
+    }
+    else if(stringcasecmp("center", szFieldname) == 0)
+    {
+        bFound = true;
+    }
+    else if(stringcasecmp("range", szFieldname) == 0)
+    {
+        bFound = true;
+    }
+
+    if(bFound == true)
+    {
+        return true;
+    }
+    else
+    {
+        return Inherited::prototypeAddField(szFieldType,
+                                            uiFieldTypeId,
+                                            szFieldname);
+    }
+}
+
+void VRMLLODDesc::endProtoInterface(void)
+{
+}
+
+void VRMLLODDesc::getFieldAndDesc(      
+          FieldContainerPtr  pFC,
+    const Char8            * szFieldname,
+          Field            *&pField,
+    const FieldDescription *&pDesc)
+{
+    if(szFieldname == NULL)
+        return;
+
+    if(pFC == NullFC)
+        return;
+
+    NodePtr pNode = NodePtr::dcast(pFC);
+
+    if(pNode == NullFC)
+    {
+        fprintf(stderr, "No Node\n");
+        return;
+    }
+
+    NodeCorePtr pNodeCore = pNode->getCore();
+
+    DistanceLODPtr pLOD      = DistanceLODPtr::dcast(pNodeCore);
+
+    if(pLOD == NullFC)
+    {
+        fprintf(stderr, "No LOD\n");
+        return;
+    }
+
+    if(stringcasecmp("level", szFieldname) == 0)
+    {
+        fprintf(stderr, "Request LOD : level \n");
+
+        pField = pNode->getField("children");
+        
+        if(pField != NULL)
+            pDesc = pNode->getType().findFieldDescription("children");
+    }
+    else if(stringcasecmp("center", szFieldname) == 0)
+    {
+        fprintf(stderr, "Request LOD : center \n");
+
+        pField = pLOD->getField("center");
+        
+        if(pField != NULL)
+            pDesc = pLOD->getType().findFieldDescription("children");
+    }
+    else if(stringcasecmp("range", szFieldname) == 0)
+    {
+        fprintf(stderr, "Request LOD : range \n");
+
+        pField = pLOD->getField("range");
+        
+        if(pField != NULL)
+            pDesc = pLOD->getType().findFieldDescription("range");
+    }
+    else
+    {
+        VRMLNodeDesc::getFieldAndDesc(pLOD, 
+                                      szFieldname, 
+                                      pField,
+                                      pDesc);
+    }
+}
+
+/*-------------------------- your_category---------------------------------*/
+
+FieldContainerPtr VRMLLODDesc::beginNode(
+    const Char8       *,
+    const Char8       *,
+    FieldContainerPtr  pCurrentFC)
+{
+    FieldContainerPtr pFC         = NullFC;
+    NodePtr           pNode       = NullNode;
+    NodeCorePtr       pNodeCore   = NullNodeCore;
+    GenericAttPtr     pAtt        = GenericAttPtr::NullPtr;
+
+    if(_pNodeProto != NullNode)
+    {
+        FieldContainerPtr pAttClone = _pGenAtt->emptyCopy();
+        
+        pAtt = GenericAttPtr::dcast(pAttClone);
+
+        pFC = _pNodeProto->shallowCopy();
+
+        pNode = NodePtr::dcast(pFC);
+
+        pFC = _pNodeCoreProto->shallowCopy();
+
+        pNodeCore = NodeCorePtr::dcast(pFC);
+       
+        pNode    ->setCore      (pNodeCore);
+        pNodeCore->addAttachment(pAtt);
+    }
+
+    fprintf(stderr, "Begin LOD %x\n", &(*pNode));
+
+    return pNode;
+}
+
+void VRMLLODDesc::endNode(FieldContainerPtr pFC)
+{    
 }
 
 /*-------------------------- assignment -----------------------------------*/
