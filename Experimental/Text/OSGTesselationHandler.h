@@ -1,6 +1,8 @@
 #ifndef TESSELATION_HANDLER_H
 #define TESSELATION_HANDLER_H
 
+#ifndef WIN32
+
 #include <OSGConfig.h>
 #include <OSGSystemDef.h>
 
@@ -25,6 +27,7 @@ extern OSG_SYSTEMLIB_DLLMAPPING void tessError(GLenum);
 
 OSG_END_NAMESPACE
 
-		  
+
+#endif		  
 #endif
 

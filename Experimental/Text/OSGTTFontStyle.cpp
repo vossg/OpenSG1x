@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 // System declarations
 
 #ifdef OSG_WITH_FREETYPE1
@@ -438,3 +440,4 @@ bool TTFontStyle::dump(ostream & out)
 }
 
 #endif // OSG_WITH_FREETYPE1
+#endif

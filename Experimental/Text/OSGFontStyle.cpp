@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 // System declarations
 #include <iostream>
 
@@ -57,3 +59,5 @@ bool FontStyle::getTXFImageSizes (int &width, int &height)
 
   return width*height > 0;
 }
+
+#endif

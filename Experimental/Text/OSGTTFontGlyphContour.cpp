@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 // System declarations
 #include <iostream>
 
@@ -80,3 +82,4 @@ bool TTFontGlyphContour::inside (FontGlyphContour *contour, TT_Outline outline )
 }
 
 #endif // OSG_WITH_FREETYPE1
+#endif

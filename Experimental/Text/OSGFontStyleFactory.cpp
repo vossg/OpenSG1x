@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 // System declarations
 #include <iostream>
 #ifdef __sgi
@@ -72,4 +74,6 @@ osg::FontStyle *FontStyleFactory::create(PathHandler & paths,
 	return fi;
 }
 
+
+#endif
 

@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 #ifdef __sgi
 # include <stdlib.h>
 #else
@@ -58,3 +60,4 @@ float *TXFGlyphInfo::getVertexCoords(int corner)
   return _vCoords[corner];
 }
 
+#endif

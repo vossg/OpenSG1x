@@ -3,6 +3,8 @@
 // This example shows how to use TrueType(tm) Fonts with OSGText
 //
 
+#ifndef WIN32
+
 // Headers
 #include <fstream>
 #include <string>
@@ -253,3 +255,4 @@ int setupGLUT(int *argc, char *argv[])
 
     return winid;
 }
+#endif

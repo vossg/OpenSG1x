@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 // System declarations
 
 #include <iostream>
@@ -83,3 +85,4 @@ Font * FontFactory::queryFont (PathHandler & paths, const char *fontName )
     return(tmpFont);
 }
 
+#endif

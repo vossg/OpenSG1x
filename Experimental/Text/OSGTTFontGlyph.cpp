@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 // System declarations
 
 #ifdef OSG_WITH_FREETYPE1
@@ -152,3 +154,5 @@ bool TTFontGlyph::renderGlyph (TT_Raster_Map map, int xOff, int yOff)
 }
 
 #endif // OSG_WITH_FREETYPE1
+#endif
+

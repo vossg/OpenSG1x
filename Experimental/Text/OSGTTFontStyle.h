@@ -1,6 +1,8 @@
 #ifndef TTFONTINSTANCE_CLASS_DECLARATION
 #define TTFONTINSTANCE_CLASS_DECLARATION
 
+#ifndef WIN32
+
 #include <OSGConfig.h>
 
 #ifdef OSG_WITH_FREETYPE1
@@ -68,4 +70,5 @@ typedef osg::TTFontStyle* TTFontStyleP;
 #endif // OSG_WITH_FREETYPE1
 
 
+#endif
 #endif // TTFONTINSTANCE_CLASS_DECLARATION

@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 // System declarations
 
 #ifdef OSG_WITH_FREETYPE1
@@ -103,3 +105,4 @@ bool TTImageFontGlyph::create (void )
 }
 
 #endif // OSG_WITH_FREETYPE1
+#endif

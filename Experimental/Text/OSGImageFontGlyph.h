@@ -1,6 +1,8 @@
 #ifndef IMAGEGLYPH_CLASS_DECLARATION
 #define IMAGEGLYPH_CLASS_DECLARATION
 
+#ifndef WIN32
+
 #include <OSGConfig.h>
 
 #include "OSGFontGlyph.h"
@@ -82,4 +84,5 @@ typedef ImageFontGlyph* ImageFontGlyphP;
 OSG_END_NAMESPACE
 
 
+#endif
 #endif // IMAGEGLYPH_CLASS_DECLARATION

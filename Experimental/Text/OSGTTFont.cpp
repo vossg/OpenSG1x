@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 // System declarations
 #ifdef __sgi
 # include <stdio.h>
@@ -130,3 +132,4 @@ osg::FontStyle *TTFont::createInstance(float size)
 
 
 #endif // OSG_WITH_FREETYPE1
+#endif

@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 // System declarations
 #include <iostream>
 
@@ -46,4 +48,6 @@ bool ImageFontGlyph::clear (void )
 {
     return true;
 }
+
+#endif
 

@@ -1,6 +1,8 @@
 #ifndef TXFGLYPH_CLASS_DECLARATION
 #define TXFGLYPH_CLASS_DECLARATION
 
+#ifndef WIN32
+
 #include <OSGConfig.h>
 
 #include "OSGFontGlyph.h"
@@ -49,5 +51,6 @@ typedef TXFFontGlyph* TXFFontGlyphP;
 OSG_END_NAMESPACE
 
 
+#endif
 #endif // TXFGLYPH_CLASS_DECLARATION
 

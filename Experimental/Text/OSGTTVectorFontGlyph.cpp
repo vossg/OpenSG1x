@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 // System declarations
 
 #ifdef OSG_WITH_FREETYPE1
@@ -775,3 +777,4 @@ void TTVectorFontGlyph::cleanup(void)
 
 #endif // OSG_WITH_FREETYPE1
 
+#endif

@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 // System declarations
 #ifdef __sgi
 # include <math.h>
@@ -91,3 +93,5 @@ bool FontGlyphContour::inside (FontGlyphContour *contour)
 
     return false;
 }
+
+#endif

@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 // System declarations
 #ifdef __sgi
 # include <math.h>
@@ -82,4 +84,6 @@ bool TXFFontGlyph::setSizes (int *OSG_CHECK_ARG(_boundingBox),
 {
     return true;
 }
+
+#endif
 

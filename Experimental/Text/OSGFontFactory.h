@@ -1,6 +1,8 @@
 #ifndef FONTFACTORY_CLASS_DECLARATION
 #define FONTFACTORY_CLASS_DECLARATION
 
+#ifndef WIN32
+
 #include <OSGConfig.h>
 #include <OSGPathHandler.h>
 
@@ -54,4 +56,5 @@ OSG_END_NAMESPACE
 typedef osg::FontFactory* FontFactoryP;
 
 
+#endif
 #endif // FONTFACTORY_CLASS_DECLARATION

@@ -1,6 +1,8 @@
 #ifndef FONTINSTANCEFACTORY_CLASS_DECLARATION
 #define FONTINSTANCEFACTORY_CLASS_DECLARATION
 
+#ifndef WIN32
+
 #include <OSGConfig.h>
 #include <OSGPathHandler.h>
 
@@ -47,4 +49,5 @@ public:
 OSG_END_NAMESPACE
 
 
+#endif
 #endif // FONTINSTANCEFACTORY_CLASS_DECLARATION

@@ -1,3 +1,6 @@
+
+#ifndef WIN32
+
 // System declarations
 #ifdef __sgi
 # include <math.h>
@@ -367,3 +370,4 @@ bool VectorFontGlyph::checkAngle(float **joint)
     return (angle/l > -0.86);
 }
 
+#endif

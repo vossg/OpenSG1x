@@ -1,6 +1,8 @@
 #ifndef TXFIMAGEGLYPH_CLASS_DECLARATION
 #define TXFIMAGEGLYPH_CLASS_DECLARATION
 
+#ifndef WIN32
+
 #include <OSGConfig.h>
 
 #include "OSGImageFontGlyph.h"
@@ -56,5 +58,6 @@ OSG_END_NAMESPACE
 
 
 
+#endif
 #endif // TXFIMAGEGLYPH_CLASS_DECLARATION
 

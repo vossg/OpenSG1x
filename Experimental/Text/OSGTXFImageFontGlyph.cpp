@@ -1,3 +1,6 @@
+
+#ifndef WIN32
+
 // System declarations
 #ifdef __sgi
 # include <stdlib.h>
@@ -96,3 +99,6 @@ bool TXFImageFontGlyph::create (void )
 
     return(true);
 }
+
+#endif
+

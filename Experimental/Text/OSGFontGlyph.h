@@ -1,6 +1,8 @@
 #ifndef GLYPH_CLASS_DECLARATION
 #define GLYPH_CLASS_DECLARATION
 
+#ifndef WIN32
+
 #include <OSGConfig.h>
 
 
@@ -86,4 +88,5 @@ OSG_END_NAMESPACE
 typedef osg::FontGlyph* FontGlyphP;
 
 
+#endif
 #endif // GLYPH_CLASS_DECLARATION

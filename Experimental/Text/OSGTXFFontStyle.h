@@ -1,6 +1,8 @@
 #ifndef TXFFONTINSTANCE_CLASS_DECLARATION
 #define TXFFONTINSTANCE_CLASS_DECLARATION
 
+#ifndef WIN32
+
 #include <OSGConfig.h>
 
 #include "OSGFontStyle.h"
@@ -57,4 +59,5 @@ typedef osg::TXFFontStyle* TXFFontStyleP;
 
 
 
+#endif
 #endif // TXFFONTINSTANCE_CLASS_DECLARATION

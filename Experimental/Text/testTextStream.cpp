@@ -3,6 +3,8 @@
 // This example shows how to use TrueType(tm) Fonts with OSGText
 //
 
+#ifndef WIN32
+
 #include <OSGLog.h>
 
 #ifdef OSG_WITH_FREETYPE1
@@ -257,4 +259,4 @@ int main (int argc, char **argv)
 }
 
 #endif
-
+#endif

@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 // System declarations
 #include <iostream>
 
@@ -49,3 +51,4 @@ Font::~Font (void )
 	return;
 }
 
+#endif

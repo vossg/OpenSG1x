@@ -1,6 +1,7 @@
 #ifndef VECTORGLYPH_CLASS_DECLARATION
 #define VECTORGLYPH_CLASS_DECLARATION
 
+#ifndef WIN32
 
 enum VGlyphType { VGLYPH_NONE=0, VGLYPH_FACE, VGLYPH_OUTLINE};
 
@@ -197,5 +198,5 @@ typedef osg::VectorFontGlyph* VectorFontGlyphP;
 
 
 
-
+#endif
 #endif // VECTORGLYPH_CLASS_DECLARATION

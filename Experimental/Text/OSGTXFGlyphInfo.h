@@ -1,6 +1,8 @@
 #ifndef TXFGLYPHINFO_CLASS_DECLARATION
 #define TXFGLYPHINFO_CLASS_DECLARATION
 
+#ifndef WIN32
+
 #include <OSGConfig.h>
 
 
@@ -64,4 +66,5 @@ typedef TXFGlyphInfo* TXFGlyphInfoP;
 OSG_END_NAMESPACE
 
 
+#endif
 #endif // TXFGLYPHINFO_CLASS_DECLARATION

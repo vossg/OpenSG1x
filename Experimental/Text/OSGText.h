@@ -1,6 +1,7 @@
 #ifndef FONTSTYLE_CLASS_DECLARATION
 #define FONTSTYLE_CLASS_DECLARATION
 
+#ifndef WIN32
 
 #include <OSGConfig.h>
 #include <OSGGeometry.h>
@@ -187,4 +188,5 @@ typedef Text *TextP;
 OSG_END_NAMESPACE
 
 
+#endif
 #endif // FONTSTYLE_CLASS_DECLARATION

@@ -1,6 +1,8 @@
 #ifndef TTGLYPH_CLASS_DECLARATION
 #define TTGLYPH_CLASS_DECLARATION
 
+#ifndef WIN32
+
 #ifdef OSG_WITH_FREETYPE1
 
 #include <OSGConfig.h>
@@ -75,5 +77,6 @@ OSG_END_NAMESPACE
 #endif // OSG_WITH_FREETYPE1
 
 
+#endif
 #endif // TTGLYPH_CLASS_DECLARATION
 

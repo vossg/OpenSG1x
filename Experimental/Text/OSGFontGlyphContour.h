@@ -1,6 +1,8 @@
 #ifndef GLYPHCONTOUR_CLASS_DECLARATION
 #define GLYPHCONTOUR_CLASS_DECLARATION
 
+#ifndef WIN32
+
 #include <OSGConfig.h>
 
 #include <vector>
@@ -124,4 +126,5 @@ typedef FontGlyphContour* FontGlyphContourP;
 OSG_END_NAMESPACE
 
 
+#endif
 #endif // GLYPHCONTOUR_CLASS_DECLARATION

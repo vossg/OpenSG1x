@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 // System declarations
 #include <iostream>
 #ifdef __sgi
@@ -804,3 +806,4 @@ bool Text::fillGeo ( GeometryPtr mesh,
 
 
 
+#endif

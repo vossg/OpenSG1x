@@ -1,6 +1,8 @@
 #ifndef TTGLYPHCONTOUR_CLASS_DECLARATION
 #define TTGLYPHCONTOUR_CLASS_DECLARATION
 
+#ifndef WIN32
+
 #include <OSGConfig.h>
 
 #include "OSGFontGlyphContour.h"
@@ -39,4 +41,5 @@ typedef TTFontGlyphContour* TTFontGlyphContourP;
 OSG_END_NAMESPACE
 
 
+#endif
 #endif // TTGLYPHCONTOUR_CLASS_DECLARATION

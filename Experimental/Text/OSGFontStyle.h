@@ -1,6 +1,8 @@
 #ifndef FONTINSTANCE_CLASS_DECLARATION
 #define FONTINSTANCE_CLASS_DECLARATION
 
+#ifndef WIN32
+
 #include <OSGConfig.h>
 
 #include <vector>
@@ -158,4 +160,5 @@ typedef osg::FontStyle* FontStyleP;
 
 
 
+#endif
 #endif // FONTINSTANCE_CLASS_DECLARATION

@@ -1,6 +1,8 @@
 #ifndef FONT_CLASS_DECLARATION
 #define FONT_CLASS_DECLARATION
 
+#ifndef WIN32
+
 #include <OSGConfig.h>
 #include <string>
 
@@ -72,4 +74,5 @@ OSG_END_NAMESPACE
 typedef osg::Font* FontP;
 
 
+#endif
 #endif // FONT_CLASS_DECLARATION

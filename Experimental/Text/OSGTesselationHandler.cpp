@@ -1,3 +1,5 @@
+
+#ifndef WIN32
 // System declarations
 
 #include <GL/gl.h>
@@ -52,3 +54,4 @@ void OSG_SYSTEMLIB_DLLMAPPING  osg::tessError(GLenum errno)
 	 << gluErrorString(errno) << ")" << endl;
 }
 
+#endif

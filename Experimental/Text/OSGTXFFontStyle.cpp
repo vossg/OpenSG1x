@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 // System declarations
 #ifdef __sgi
 # include <math.h>
@@ -147,3 +149,5 @@ bool TXFFontStyle::setTXFInstance (int width, int height,
 
     return true;
 }
+
+#endif

@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 // System declarations
 #ifdef __sgi
 # include <stdio.h>
@@ -252,3 +254,4 @@ osg::FontStyle *TXFFont::createInstance(float size)
 
 
 
+#endif

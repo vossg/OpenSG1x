@@ -3,6 +3,8 @@
 // This example shows how to use TrueType(tm) Fonts with OSGText
 //
 
+#ifndef WIN32
+
 // Headers
 #include <fstream>
 #include <strstream>
@@ -228,4 +230,5 @@ int main (int argc, char **argv)
 	return -1;
 }
 
+#endif
 #endif
