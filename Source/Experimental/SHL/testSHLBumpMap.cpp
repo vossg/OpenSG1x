@@ -26,6 +26,82 @@
 #include <OSGTextureChunk.h>
 #include <OSGSHLChunk.h>
 
+// vertex shader program for bump mapping in surface local coordinates
+static std::string _vp_program =
+"varying vec3 lightDir;    // interpolated surface local coordinate light direction\n"
+"varying vec3 viewDir;     // interpolated surface local coordinate view direction\n"
+
+"void main(void)\n"
+"{\n"
+"    // Do standard vertex stuff\n"
+
+"    gl_Position  = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
+"    gl_TexCoord[0] = gl_MultiTexCoord0;\n"
+
+"    // Compute the binormal\n"
+
+"    vec3 n = normalize(gl_NormalMatrix * gl_Normal);\n"
+"    //vec3 t = normalize(gl_NormalMatrix * vec3 (gl_Color));\n"
+"    vec3 t = normalize(cross(vec3(1.141, 2.78, 3.14), n));\n"
+"    vec3 b = cross(n, t);\n"
+
+"    // Transform light position into surface local coordinates\n"
+
+"    vec3 LightPosition = gl_LightSource[0].position.xyz;\n"
+
+"    vec3 v;\n"
+"    v.x = dot(LightPosition, t);\n"
+"    v.y = dot(LightPosition, b);\n"
+"    v.z = dot(LightPosition, n);\n"
+
+"    lightDir = normalize(v);\n"
+
+"    vec3 pos      = vec3 (gl_ModelViewMatrix * gl_Vertex);\n"
+
+"    v.x = dot(pos, t);\n"
+"    v.y = dot(pos, b);\n"
+"    v.z = dot(pos, n);\n"
+
+"    viewDir = normalize(v);\n"
+"\n"
+"}\n";
+
+// fragment shader program for bump mapping in surface local coordinates
+static std::string _fp_program =
+"uniform sampler2D sampler2d; // value of sampler2d = 3\n"
+"varying vec3 lightDir;       // interpolated surface local coordinate light direction\n"
+"varying vec3 viewDir;        // interpolated surface local coordinate view direction\n"
+
+"const float diffuseFactor  = 0.7;\n"
+"const float specularFactor = 0.7;\n"
+"vec3 basecolor = vec3 (0.8, 0.7, 0.3);\n"
+
+"void main (void)\n"
+"{\n"
+"    vec3 norm;\n"
+"    vec3 r;\n"
+"    vec3 color;\n"
+"    float intensity;\n"
+"    float spec;\n"
+"    float d;\n"
+"    // Fetch normal from normal map\n"
+"    norm = vec3(texture2D(sampler2d, vec2 (gl_TexCoord[0])));\n"
+"    norm = (norm - 0.5) * 2.0;\n"
+"    norm.y = -norm.y;\n"
+"    intensity = max(dot(lightDir, norm), 0.0) * diffuseFactor;\n"
+"    // Compute specular reflection component\n"
+"    d = 2.0 * dot(lightDir, norm);\n"
+"    r = d * norm;\n"
+"    r = lightDir - r;\n"
+"    spec = pow(max(dot(r, viewDir), 0.0) , 6.0) * specularFactor;\n"
+"    intensity += min (spec, 1.0);\n"
+"     // Compute final color value\n"
+"    color = clamp(basecolor * intensity, 0.0, 1.0);\n"
+"    // Write out final fragment color\n"
+"    gl_FragColor = vec4 (color, 1.0);\n"
+"\n"
+"}\n";
+
 
 // Activate the OpenSG namespace
 OSG_USING_NAMESPACE
@@ -44,11 +120,14 @@ int setupGLUT( int *argc, char *argv[] );
 // Initialize GLUT & OpenSG and set up the scene
 int main(int argc, char **argv)
 {
-    printf("Usage: testCGShader <filename.vp> <filename.fp>\n");
+    printf("Usage: testCGShader [normal map filename]\n");
+    char *normal_map_img_name = "3dlabsbump.png";
 
-    if( argc < 3 )
-        return 0;
-    
+    Color4f tmp;
+
+    if( argc > 1 )
+        normal_map_img_name = argv[1];
+
     // OSG init
     osgInit(argc,argv);
 
@@ -62,6 +141,15 @@ int main(int argc, char **argv)
     gwin->init();
 
     // Create the shader material
+
+    // Read the image for the normal texture
+    ImagePtr normal_map_img = Image::create();
+    if(!normal_map_img->read(normal_map_img_name))
+    {
+        fprintf(stderr, "Couldn't read normalmap texture '%s'!\n", normal_map_img_name);
+        return 1;
+    }
+
     ChunkMaterialPtr cmat = ChunkMaterial::create();
 
     MaterialChunkPtr matc = MaterialChunk::create();
@@ -75,12 +163,24 @@ int main(int argc, char **argv)
 
     SHLChunkPtr shl = SHLChunk::create();
     beginEditCP(shl);
-        shl->readVertexProgram(argv[1]);
-        shl->readFragmentProgram(argv[2]);
+        shl->setVertexProgram(_vp_program);
+        shl->setFragmentProgram(_fp_program);
     endEditCP(shl);
 
+    TextureChunkPtr tex_normal_map = TextureChunk::create();
+    beginEditCP(tex_normal_map);
+        tex_normal_map->setImage(normal_map_img);
+        tex_normal_map->setMinFilter(GL_LINEAR_MIPMAP_LINEAR);
+        tex_normal_map->setMagFilter(GL_LINEAR);
+        tex_normal_map->setWrapS(GL_REPEAT);
+        tex_normal_map->setWrapT(GL_REPEAT);
+        tex_normal_map->setEnvMode(GL_MODULATE);
+    endEditCP(tex_normal_map);
+
     beginEditCP(cmat);
+        //cmat->addChunk(matc);
         cmat->addChunk(shl);
+        cmat->addChunk(tex_normal_map);
     endEditCP(cmat);
 
 

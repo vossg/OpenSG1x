@@ -293,14 +293,19 @@ void SHLChunk::handleGL(Window *win, UInt32 idstatus)
             (void (OSG_APIENTRY*)(GLint location, GLsizei count, GLfloat *value))
             win->getFunction(_funcUniform4fv);
     
-            //location = glGetUniformLocation(_program, name);
+            // get "glGetUniformLocationARB" function pointer
+            GLint (OSG_APIENTRY* getUniformLocation)(GLuint programObj, const char *name) =
+            (GLint (OSG_APIENTRY*)(GLuint programObj, const char *name))
+            win->getFunction(_funcGetUniformLocation);
+            
             
             // HACK need to add all parameter types.
             // set params
             for(UInt16 i = 0; i < getParamValues().size(); ++i)
             {
+                GLint location = getUniformLocation(_program, getParamNames()[i].c_str());
                 Vec4f &val = getParamValues()[i];
-                uniform4fv(i, 1, val.getValues());
+                uniform4fv(location, 1, val.getValues());
             }
         }
     }
@@ -645,11 +650,16 @@ void SHLChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
 }
 
 
-void SHLChunk::deactivate(DrawActionBase */*action*/, UInt32 /*idx*/)
+void SHLChunk::deactivate(DrawActionBase *action, UInt32 /*idx*/)
 {
     if(_program != 0)
     {
-        ; // do nothing?
+        // get "glUseProgramObjectARB" function pointer
+        void (OSG_APIENTRY* useProgramObject)(GLuint programObj) =
+        (void (OSG_APIENTRY*)(GLuint programObj))
+        action->getWindow()->getFunction(_funcUseProgramObject);
+
+        useProgramObject(0);
     }
 }
 
@@ -701,7 +711,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.2 2004/05/07 16:21:02 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.3 2004/05/14 15:47:24 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
