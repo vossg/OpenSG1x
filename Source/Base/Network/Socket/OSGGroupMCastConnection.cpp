@@ -282,8 +282,8 @@ bool GroupMCastConnection::checkChannels(void)
  */
 bool GroupMCastConnection::sendQueue(void)
 {
-    Dgram                  *dgram   [_windowSize];
-    std::set<SocketAddress> missing [_windowSize];
+    std::vector<Dgram*>                   dgram;
+    std::vector<std::set<SocketAddress> > missing;
     UInt32                  count    = 0;
     UInt32                  maxCount = _windowSize-1;
     UInt32                  ack  = 0;
@@ -304,6 +304,10 @@ bool GroupMCastConnection::sendQueue(void)
     UInt16                  lastNak=0;
     Time                    lastNakTime=0;
     bool                    stopAfterSend=false;
+
+    // prepate buffers
+    dgram.resize(_windowSize);
+    missing.resize(_windowSize);
 
 #ifdef TEST_LOST_DGRAM_RATE
     srand48((int)getSystemTime());
