@@ -4,8 +4,9 @@
 
 #include <OSGFontStylePFields.h>
 
-#include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>
+#define OSG_
+#include <OSGSFieldTypeScanTypeDef.inl>
+#include <OSGMFieldTypeScanTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
