@@ -205,10 +205,11 @@ GeoPumpFactory::Index GeoPumpFactory::getIndex( Geometry * geo)
 
 GeoPumpFactory::GeoPump GeoPumpFactory::getGeoPump(
                 Window * ,
-                GeoPumpFactory::Index  index)
+                GeoPumpFactory::Index  OSG_CHECK_ARG(index) )
 {
     //FWARNING(("GeoPump%d used\n",index));
-    return GeoPumps[index];//&masterGeoPump;
+    //return GeoPumps[index]; //crashed windows while testing, disabled for now.
+    return &masterGeoPump;
 }
 
 GeoPumpFactory::PartialGeoPump GeoPumpFactory::getPartialGeoPump(
@@ -845,7 +846,8 @@ void GeoPump129(Window   *win,
         UInt32 * vind = (UInt32*)(IndicesData + IndicesStride * IndicesInd);
         IndicesInd += count;
 
-        glDrawElements(*(TypesData + TypesInd++ * TypesStride),count,IndicesPtr->getFormat(),vind);
+        glDrawElements(*(TypesData + TypesInd++ * TypesStride),count,
+                        IndicesPtr->getFormat(),vind);
     }
 
     if(modified&(1<<0)) glDisableClientState(GL_VERTEX_ARRAY);
