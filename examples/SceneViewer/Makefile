@@ -11,7 +11,14 @@
 # for details.
 #
 
-OSGROOT := $(wildcard ../../Builds/$(shell ../../CommonConf/config.guess)-*)
+# try to get configured information first, will not work if more
+# than one system is configured from one dir. Just for the 1.0
+
+-include .prefix
+
+OSGROOT ?= $(OSGINSTALLPREFIX)
+
+OSGROOT ?= $(wildcard ../../Builds/$(shell ../../CommonConf/config.guess)-*)
 
 ### PROJECT ##########################################################
 TARGET = osgSceneViewer

@@ -6,7 +6,15 @@ SYSTEM := $(shell uname)
 # if you installed in /usr/local:
 # OSGROOT := /usr/local
 # use this if you installed in Builds/*/
-OSGROOT ?= $(wildcard ../Builds/$(shell ../CommonConf/config.guess)-*)
+
+# try to get configured information first, will not work if more
+# than one system is configured from one dir. Just for the 1.0
+
+-include .prefix
+
+OSGROOT ?= $(OSGINSTALLPREFIX)
+
+OSGROOT ?= $(wildcard ../../Builds/$(shell ../../CommonConf/config.guess)-*)
 
 # the path where GLUT is found
 # you can ignore this on Linux, it's in the system libs
