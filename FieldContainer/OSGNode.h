@@ -55,7 +55,7 @@
 #include <OSGSFFieldContainerTypes.h>
 #include <OSGMFFieldContainerTypes.h>
 #include <OSGAttachment.h>
-
+#include <OSGNodePtr.h>
 OSG_BEGIN_NAMESPACE
 
 //---------------------------------------------------------------------------
@@ -64,7 +64,7 @@ OSG_BEGIN_NAMESPACE
 
 class NodeCore;
 
-class NodePtr;
+//class NodePtr;
 
 //---------------------------------------------------------------------------
 //   Types

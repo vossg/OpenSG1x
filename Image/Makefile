@@ -14,4 +14,4 @@ include $(OSGPOOL)/$(OSGCOMMON)/common.mk
 include $(OSGPOOL)/$(OSGCOMMON)/commonSub.mk
 
 # include the TIFF and JPEG
-SOURCE_DEFINES += -DTIFF_LIB -DJPEG_LIB
+#SOURCE_DEFINES += -DTIFF_LIB -DJPEG_LIB

@@ -106,7 +106,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING NodePtr : public FieldContainerPtr
              NodePtr(const NodePtr &source);
     explicit NodePtr(const CNodePtr &source);
 
-    virtual ~NodePtr(void); 
+            ~NodePtr(void); 
 
     /*--------------------------- core access ------------------------------*/
 
@@ -242,7 +242,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING CNodePtr : public FieldContainerPtr
              CNodePtr(const CNodePtr &source);
     explicit CNodePtr(const NodePtr &source);
 
-    virtual ~CNodePtr(void); 
+            ~CNodePtr(void); 
 
     /*--------------------------- node access ------------------------------*/
 

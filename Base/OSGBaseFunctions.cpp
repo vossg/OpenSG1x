@@ -73,8 +73,6 @@ OSG_END_NAMESPACE
 OSG_USING_NAMESPACE
 
 
-
-OSG_BASE_DLLMAPPING 
 void OSG::addInitFunction(InitFuncF initFunc)
 {
     if(osgInitFunctions == NULL)
@@ -85,7 +83,6 @@ void OSG::addInitFunction(InitFuncF initFunc)
     osgInitFunctions->push_back(initFunc);
 }
 
-OSG_BASE_DLLMAPPING 
 void OSG::addExitFunction(ExitFuncF exitFunc)
 {
     if(osgExitFunctions == NULL)
@@ -96,7 +93,6 @@ void OSG::addExitFunction(ExitFuncF exitFunc)
     osgExitFunctions->push_back(exitFunc);
 }
 
-OSG_BASE_DLLMAPPING 
 void OSG::addMPInitFunction(InitFuncF initFunc)
 {
     if(osgMPInitFunctions == NULL)
@@ -107,7 +103,6 @@ void OSG::addMPInitFunction(InitFuncF initFunc)
     osgMPInitFunctions->push_back(initFunc);
 }
 
-OSG_BASE_DLLMAPPING 
 void osg::addMPExitFunction(ExitFuncF exitFunc)
 {
     if(osgMPExitFunctions == NULL)
@@ -118,7 +113,6 @@ void osg::addMPExitFunction(ExitFuncF exitFunc)
     osgMPExitFunctions->push_back(exitFunc);
 }
 
-OSG_BASE_DLLMAPPING 
 Bool OSG::osgInit(int argc, char **argv)
 {
     UInt32 i;
@@ -152,7 +146,6 @@ Bool OSG::osgInit(int argc, char **argv)
     return returnValue;
 }
 
-OSG_BASE_DLLMAPPING 
 Bool OSG::osgExit(void)
 {
     Bool returnValue = true;

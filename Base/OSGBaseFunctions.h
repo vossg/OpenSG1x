@@ -438,13 +438,13 @@ OSG_BASE_DLLMAPPING void addMPExitFunction(ExitFuncF exitFunc);
  *  \ingroup BaseFunctions
  */
 
-OSG_BASE_DLLMAPPING Bool osgInit(int argc, char **argv);
+Bool OSG_BASE_DLLMAPPING osgInit(int argc, char **argv);
 
 /*! \brief Exit  
  *  \ingroup BaseFunctions
  */
 
-OSG_BASE_DLLMAPPING Bool osgExit(void);
+Bool OSG_BASE_DLLMAPPING osgExit(void);
 
 /*@}*/
 
