@@ -128,6 +128,39 @@ install-includes:
 		-o -type f -name '*\.inl'  										\
 	-exec $($(PROJ)POOL)/Common/sedInl {} $(INSTALL_DIR)/include/OpenSG \; ; \
 
+install-includes-gabe:
+	@if [ ! -w $(INSTALL_DIR)/include ]; then mkdir $(INSTALL_DIR)/include; fi
+	@if [ ! -w $(INSTALL_DIR)/include/OpenSG ]; then 						 \
+		mkdir $(INSTALL_DIR)/include/OpenSG; 								 \
+	 fi
+	@CURRDIR=`pwd`;                                                     	 \
+	find $(INSTALL_DIR)/include/OpenSG -follow  -name '*.h' 				 \
+		-exec rm -f {} \;       ;											 \
+	find $(INSTALL_DIR)/include/OpenSG -follow  -name '*.inl'				 \
+		-exec rm -f {} \;       ;											 \
+	find $($(PROJ)POOL)	-follow												 \
+		\( -type d \( -name CVS -o -name Test -o -name include  -o 			 \
+		   -name Tools -o -name '.*' -o -name examples -o					 \
+		   -name Templates -o -name Builds -o -name VS \) -prune \) -o 		 \
+		   -type f -name '*.h' 			 									 \
+	-exec $(INSTLINK) {} $(INSTALL_DIR)/include/OpenSG \; -print;			 \
+	find $($(PROJ)POOL)	-follow												 \
+		\( -type d \( -name CVS -o -name Test -o -name include  -o 			 \
+		   -name Tools -o -name '.*' -o -name examples -o					 \
+		   -name Templates -o -name Builds -o -name VS \) -prune \) -o 		 \
+		   -type f -name '*.inl'			 								 \
+	-exec $(INSTLINK) {} $(INSTALL_DIR)/include/OpenSG \; -print;			 \
+	find $$CURRDIR	-follow												\
+		\( -type d \( -name CVS -o -name '*Test' -o -name include  -o	\
+		   -name Tools -o -name Builds \) -prune \) 					\
+		-o -type f -name '*\.h' 										\
+	-exec $(INSTLINK) {} $(INSTALL_DIR)/include/OpenSG \; -print;		\
+	find $$CURRDIR -follow           									\
+		\( -type d \( -name CVS -o -name '*Test' -o -name include -o	\
+		   -name Tools -o -name Builds \) -prune \)						\
+		-o -type f -name '*\.inl'  										\
+	-exec $(INSTLINK) {} $(INSTALL_DIR)/include/OpenSG \; -print; 		\
+
 install-libs:
 	@if [ ! -w $(INSTALL_DIR)/lib ]; then mkdir $(INSTALL_DIR)/lib; fi
 	@if [ ! -w $(INSTALL_DIR)/lib/dbg ]; then mkdir $(INSTALL_DIR)/lib/dbg; fi
@@ -207,6 +240,9 @@ install-libs-cp: install-libs
 install-ln: install-includes install-libs-ln
 install-cp: install-includes install-libs-cp
 install: install-includes install-libs-cp
+
+install-gabe: INSTLINK := cp
+install-gabe: install-includes-gabe install-libs-cp
 
 %.src:
 	@if [ -d $* ]; then 													\
