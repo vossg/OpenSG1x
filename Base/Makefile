@@ -7,8 +7,8 @@ ifndef OSGPOOL
 OSGPOOL         = $(shell expr `pwd` : '\(.*/OpenSG\).*' )
 endif
 
-REQUIRED_INCPACKAGES := Log FieldContainer Field
-REQUIRED_LNKPACKAGES := Log FieldContainer Field
+REQUIRED_INCPACKAGES := FieldContainer Field Log
+REQUIRED_LNKPACKAGES := FieldContainer Field Log
 
 include $(OSGPOOL)/$(OSGCOMMON)/common.mk
 include $(OSGPOOL)/$(OSGCOMMON)/commonSub.mk
