@@ -697,6 +697,8 @@
 
 # define OSG_FOUND_OS 
 
+# define OSG_NO_INT8_PNT
+
 // # define OSG_NOGLUTSUBDIR
 
 # define OSG_STDEXCEPTION_NAMESPACE std

@@ -2123,3 +2123,17 @@ dnl e18
     AC_OUTPUT($ac_gdz_common_stlport_e18:$ac_gdz_common_stlport_in_e18)
 ])
 
+AC_DEFUN(AC_GDZ_FIX_SUN_INCLUDES,
+[
+dnl e19
+
+    ac_gdz_flexlexer_fix_in_e19=$ac_gdz_commonconf_dir/FlexLexer.h.in
+    ac_gdz_flexlexer_fix_out_e19=$ac_gdz_package_sub_dir_out/Base/FlexLexer.h
+
+dnl    ac_gdz__fix_in_e16=$ac_gdz_commonconf_dir/.in
+dnl    ac_gdz__fix_out_e16=$ac_gdz_package_sub_dir_out/Base/
+
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_flexlexer_fix_out_e19:$ac_gdz_flexlexer_fix_in_e19)
+])

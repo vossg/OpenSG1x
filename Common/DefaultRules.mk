@@ -537,11 +537,37 @@ else
 FLEXLEXER_H_DEP :=
 endif
 
+define fix_lexer
+	cat lex.$(call flex_int,$<).cc | 									\
+		sed -e 's/\(yy\)\(text_ptr\)/$(call flex_int,$<)\2/g'			\
+			-e 's/\&cin/\&std::cin/g'									\
+			-e 's/\&cout/\&std::cout/g'									\
+			-e 's/cerr/std::cerr/g'										\
+			-e 's/class istream;/#include <iosfwd>/g'					\
+			-e 's/istream\*/\std::istream\*/g'							\
+			-e 's/ostream\*/\std::ostream\*/g'							\
+		> $(OBJDIR)/$(call flex_ext,$<).lex.cpp
+endef
+
+OSG_FIX_LEXER := 0
+
+ifeq ($(OS_BASE),irix6.5)
+OSG_FIX_LEXER := 1
+endif
+
+ifeq ($(OS_BASE), cygwin)
+OSG_FIX_LEXER := 1
+endif
+
+ifeq ($(OS_BASE), solaris2.9)
+OSG_FIX_LEXER := 1
+endif
+
 ifneq ($(LIB_FLEXPPTARGET_CPP),)
 $(OBJDIR)/%.lex.cpp: %.lpp $(FLEXLEXER_H_DEP)
 	$(FLEX) -+ -P$(call flex_int,$<) $<
-ifneq ($(OS_BASE),irix6.5)
-ifeq ($(OS_BASE), cygwin)
+
+ifeq ($(OSG_FIX_LEXER),1)
 	cat lex.$(call flex_int,$<).cc | 									\
 		sed -e 's/\(yy\)\(text_ptr\)/$(call flex_int,$<)\2/g'			\
 			-e 's/\&cin/\&std::cin/g'									\
@@ -556,17 +582,7 @@ else
 		sed -e 's/\(yy\)\(text_ptr\)/$(call flex_int,$<)\2/g'		\
 		> $(OBJDIR)/$(call flex_ext,$<).lex.cpp
 endif
-else
-	cat lex.$(call flex_int,$<).cc | 									\
-		sed -e 's/\(yy\)\(text_ptr\)/$(call flex_int,$<)\2/g'			\
-			-e 's/\&cin/\&std::cin/g'									\
-			-e 's/\&cout/\&std::cout/g'									\
-			-e 's/cerr/std::cerr/g'										\
-			-e 's/class istream;/#include <iosfwd>/g'					\
-			-e 's/istream\*/\std::istream\*/g'							\
-			-e 's/ostream\*/\std::ostream\*/g'							\
-		> $(OBJDIR)/$(call flex_ext,$<).lex.cpp
-endif
+
 	-rm lex.$(call flex_int,$<).cc
 
 $(LIB_FLEXPPTARGET_CPP) : $(LIB_FLEXPPSOURCES)

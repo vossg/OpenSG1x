@@ -1165,7 +1165,8 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
 
     retval = (void(__cdecl*)(void)) wglGetProcAddress(s);
     
-#elif defined(__sgi) || defined(darwin) || defined(__hpux) || defined(__linux)
+#elif defined(__sgi)   || defined(darwin) || defined(__hpux) || \
+      defined(__linux) || defined(__sun)
 
     /* Workaround for multiple nVidia/Linux installation bugs, based on code by */
     /* Manfred Weiler (Patch 783637) */
@@ -1207,7 +1208,7 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
 #else
 
     FWARNING(("Window::getFunctionByName: couldn't find implementation!\n"
-              "Please contact the developers at info@opensg.org.\n");
+              "Please contact the developers at info@opensg.org.\n"));
     retval = NULL;
 
 #endif
