@@ -104,7 +104,7 @@ void freeName(char *&szName);
 %token IMPORT
 %token PROFILE
 %token COMPONENT
-%token META
+%token OSG_META
 %token AS
 
 %token EVENTIN
@@ -249,7 +249,7 @@ metaStatementsRec : metaStatementsRec metaStatement
                |                      metaStatement
 ;
 
-metaStatement : META
+metaStatement : OSG_META
                 ID { setName(szName1, SKELTEXT); }
                 ID
                 {
