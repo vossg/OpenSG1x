@@ -49,8 +49,14 @@ void keyboard(unsigned char k, int x, int y)
 {
     switch(k)
     {
-    case 27 :   exit(1);
-    case ' ':   // send a ray through the clicked pixel
+        case 27:    
+        {
+            OSG::osgExit();
+            exit(0);
+        }
+        break;
+
+        case ' ':   // send a ray through the clicked pixel
                 /*
                     Intersection testing for rays is done using an
                     IntersectAction. The ray itself is calculated by the
