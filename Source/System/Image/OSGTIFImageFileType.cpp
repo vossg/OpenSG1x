@@ -155,8 +155,10 @@ Class method to get the singleton Object
 */
 TIFImageFileType& TIFImageFileType::the (void)
 {
+#ifdef OSG_WITH_TIF
   TIFFSetWarningHandler(&warningHandler);
   TIFFSetErrorHandler(&errorHandler);
+#endif
 
   return _the;
 }
