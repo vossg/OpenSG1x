@@ -2,6 +2,8 @@
 
 OS_BASE= $(shell 'CommonConf/config.guess')
 
+include Common/common.mk
+
 #########################################################################
 # Documenation Settings
 #########################################################################
@@ -35,6 +37,9 @@ DOC_ENV += OSGPOOL="$(OSGPOOL)"
 
 default:
 	$(MAKE) -C Builds/${OS_BASE}* 
+        
+opt:
+	$(MAKE) -C Builds/${OS_BASE}* opt
 
 install:
 	cd Builds/${OS_BASE}* && $(MAKE) install
@@ -42,14 +47,11 @@ install:
 clean:
 	cd Builds/${OS_BASE}* && $(MAKE) clean
 
-
 ctags:
 	ctags -R --c-types=+c --totals -h +.inl --langmap=c++:.h.hpp.cpp.cxx.inl .
 
 etags:
 	etags -R --c-types=+c --totals -h +.inl --langmap=c++:.h.hpp.cpp.cxx.inl .
-
-# standard targets
 
 help: 
 	@echo "Most targets are only supported inside the Builds/* directories!"
@@ -63,6 +65,8 @@ help:
 	@echo "<default>    go into the Builds directory and call $(MAKE)"
 	@echo "install      go into the Builds directory and call $(MAKE) install"
 	@echo "clean        go into the Builds directory and call $(MAKE) clean"
+	@echo "ctags        create tags file using ctags"
+	@echo "etags        create tags file using etags"
 
 
 .PHONY: doc
