@@ -66,22 +66,31 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.5 2001/10/05 04:17:42 vossg Exp $";
-    char cvsid_hpp[] = OSGOFFSCENEFILETYPE_HEADER_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.6 2001/10/05 12:38:25 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGOFFSCENEFILETYPE_HEADER_CVSID;
 }
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /*****************************
  *   Types
  *****************************/
 // Static Class Varible implementations: 
-static const Char8 *suffixA[] =  { "off" };
 
-OFFSceneFileType OFFSceneFileType::_the(suffixA, 
-                                        sizeof(suffixA),
-                                        false,
-                                        10);
+const Char8            *OFFSceneFileType::_suffixA[] = {"off"};
+
+      OFFSceneFileType  OFFSceneFileType::_the(_suffixA, 
+                                               sizeof(_suffixA),
+                                               false,
+                                               10);
 
 /*****************************
  *	  Classvariables
@@ -410,9 +419,19 @@ OFFSceneFileType::OFFSceneFileType(const OFFSceneFileType &obj) :
 //
 //------------------------------
 
-OFFSceneFileType::~OFFSceneFileType (void )
+OFFSceneFileType &OFFSceneFileType::the(void)
+{
+    return _the;
+}
+
+OFFSceneFileType::~OFFSceneFileType(void)
 {
 	return;
+}
+
+const Char8 *OFFSceneFileType::getName(void) const 
+{
+    return "OFF GEOMETRY";
 }
 
 /*------------access----------------*/

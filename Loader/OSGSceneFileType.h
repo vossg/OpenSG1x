@@ -50,10 +50,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*!\ingroup baselib 
- * \brief Brief 
- * 
- * detailed 
+/*!\ingroup GeometryLoaderLib 
+ * \brief OSGSceneFileType
  */ 
 
 class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
@@ -67,7 +65,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
     /*! \name                   Class Get                                  */
     /*! \{                                                                 */
 
-    virtual const char *getName(void) const = 0;
+    virtual const Char8 *getName(void) const = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -117,6 +115,16 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
   protected:
 
     /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    list<IDString> _suffixList;
+    
+    Bool           _override;
+    UInt32         _overridePriority;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
@@ -131,10 +139,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
     /*==========================  PRIVATE  ================================*/
   private:
 
-    list<IDString> _suffixList;
-    
-    Bool         _override;
-    UInt32       _overridePriority;
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const SceneFileType &source);
 };
 
 typedef SceneFileType* SceneFileTypeP;

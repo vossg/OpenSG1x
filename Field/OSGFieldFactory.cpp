@@ -53,6 +53,20 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace 
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGFIELDFACTORY_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 /** \fn const char *FieldFactory::getClassname(void)
  *  \brief Classname
  */
@@ -72,8 +86,6 @@ OSG_USING_NAMESPACE
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char FieldFactory::cvsid[] = "@(#)$Id: $";
 
 /** \brief Factory instance
  */
@@ -143,7 +155,7 @@ Field * FieldFactory::createField(UInt32 typeId)
 /** \brief Create a field of the type given by the type name
  */
 
-Field * FieldFactory::createField(const char *szName)
+Field * FieldFactory::createField(const Char8 *szName)
 {
 	FieldType *pType          = getFieldType(szName);
 
@@ -175,7 +187,7 @@ UInt32 FieldFactory::getNFieldTypes( void )
 /** \Brief Get type by name
  */
 
-FieldType * FieldFactory::getFieldType (const char *szName)
+FieldType * FieldFactory::getFieldType (const Char8 *szName)
 {
     map<UInt32, FieldType *>::iterator  mIt;
 	FieldType                          *returnValue = NULL;
@@ -227,7 +239,7 @@ FieldType *FieldFactory::getFieldType(UInt32 typeId)
 /** \brief Get the name of the given data type
  */
 
-const char *FieldFactory::getFieldTypeName(UInt32 typeId)
+const Char8 *FieldFactory::getFieldTypeName(UInt32 typeId)
 {
 	FieldType *pFieldType = getFieldType(typeId);
 

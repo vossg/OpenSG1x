@@ -48,11 +48,22 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*!\ingroup GeometryLoaderLib 
+ * \brief OSGRAWSceneFileType
+ */ 
+
 class OSG_SYSTEMLIB_DLLMAPPING RAWSceneFileType : public SceneFileType
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Static Get                                 */
+    /*! \{                                                                 */
+
+    static RAWSceneFileType &the(void);
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
@@ -64,13 +75,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RAWSceneFileType : public SceneFileType
     /*! \name                   Get                                        */
     /*! \{                                                                 */
 
-    virtual       RAWSceneFileType &the    (void)       { return _the; }
-    virtual const Char8            *getName(void) const 
-        { return "RAW GEOMETRY"; }
-
-#if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
-    static  RAWSceneFileType &staticThe(void) { return _the; }
-#endif
+    virtual const Char8 *getName(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -91,6 +96,14 @@ class OSG_SYSTEMLIB_DLLMAPPING RAWSceneFileType : public SceneFileType
   protected:
 
     /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    static const Char8            *_suffixA[];
+    static       RAWSceneFileType  _the;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
@@ -107,13 +120,14 @@ class OSG_SYSTEMLIB_DLLMAPPING RAWSceneFileType : public SceneFileType
 
     typedef SceneFileType Inherited;
 
-    static RAWSceneFileType _the;
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const RAWSceneFileType &source);
 };
 
 typedef RAWSceneFileType* RAWSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSGRAWSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGRAWSceneFileType.h,v 1.2 2001/09/25 04:10:11 vossg Exp $"
+#define OSGRAWSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGRAWSceneFileType.h,v 1.3 2001/10/05 12:38:25 vossg Exp $"
 
 #endif // _OSGRAWSCENEFILETYPE_H_

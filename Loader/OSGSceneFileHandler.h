@@ -51,33 +51,36 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \ingroup GeometryLoaderLib
+ *  \brief Brief OSGSceneFileHandler
+ */
+
 class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
 {
-
-    friend class OSG_SYSTEMLIB_DLLMAPPING SceneFileType;
-
     /*==========================  PUBLIC  =================================*/
   public:
 
     typedef vector<FieldContainerPtr> FCPtrStore;
 
     /*---------------------------------------------------------------------*/
+    /*! \name                   Class Get                                  */
+    /*! \{                                                                 */
+
+    static SceneFileHandler &the(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~SceneFileHandler (void);
+    virtual ~SceneFileHandler(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
     /*! \{                                                                 */
 
-    static  SceneFileHandler &the        (void                 ) 
-    {
-        return *_the;
-    }
-
-    virtual SceneFileType    *getFileType(const Char8 *fileName);
+    virtual SceneFileType *getFileType(const Char8 *fileName);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -107,17 +110,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    SceneFileHandler (void);
-    SceneFileHandler (const SceneFileHandler &obj);
-
-    /*! \}                                                                 */
-    /*==========================  PRIVATE  ================================*/
-  private:
-
     typedef list<          SceneFileType *> FileTypeList;
     typedef map <IDString, FileTypeList  *> FileTypeMap;
 
@@ -128,11 +120,33 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
         Bool operator() (SceneFileType *fileTypeP);
     };
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
     static SceneFileHandler *_the;
 
-    FileTypeMap _suffixTypeMap;
+           FileTypeMap       _suffixTypeMap;
 
-    static Bool addSceneFileType(SceneFileType &fileType);
+
+    static Bool               addSceneFileType(SceneFileType &fileType);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    SceneFileHandler(void);
+    SceneFileHandler(const SceneFileHandler &obj);
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    friend class OSG_SYSTEMLIB_DLLMAPPING SceneFileType;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const SceneFileHandler &source);
 };
 
 typedef SceneFileHandler* SceneFileHandlerP;

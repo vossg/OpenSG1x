@@ -67,8 +67,7 @@ class OSG_BASE_DLLMAPPING FieldType : public DataType
         MULTI_FIELD 
     };
 
-
-    typedef Field * (*CreateFieldMethod)(void);
+    typedef Field *(*CreateFieldMethod)(void);
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -85,7 +84,7 @@ class OSG_BASE_DLLMAPPING FieldType : public DataType
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual ~FieldType (void);
+    virtual ~FieldType(void);
 
     /*! \}                                                                 */
 
@@ -150,7 +149,9 @@ class OSG_BASE_DLLMAPPING FieldType : public DataType
     friend class FieldFactory;
 
 #if !defined(OSG_MICROSOFT_COMPILER_ALERT)
+    /*!\brief prohibit default function (move to 'public' if needed) */
     FieldType(const FieldType &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
     FieldType &operator =(const FieldType &obj);
 #endif
 };

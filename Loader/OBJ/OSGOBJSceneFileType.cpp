@@ -66,23 +66,31 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
 namespace 
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.5 2001/10/05 04:17:42 vossg Exp $";
-    static char cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.6 2001/10/05 12:38:25 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /*****************************
  *   Types
  *****************************/
 // Static Class Varible implementations: 
-static const Char8 *suffixA[] =  { "obj" };
 
-OBJSceneFileType OBJSceneFileType::_the(suffixA, 
-                                        sizeof(suffixA),
-                                        false,
-                                        10);
+const Char8            *OBJSceneFileType::_suffixA[] = { "obj" };
+
+      OBJSceneFileType  OBJSceneFileType::_the         (_suffixA, 
+                                                        sizeof(_suffixA),
+                                                        false,
+                                                        10);
 
 /*****************************
  *	  Classvariables
@@ -411,10 +419,21 @@ OBJSceneFileType::OBJSceneFileType(const OBJSceneFileType &obj) :
 //
 //------------------------------
 
+OBJSceneFileType &OBJSceneFileType::the(void) 
+{
+    return _the; 
+}
+
 OBJSceneFileType::~OBJSceneFileType(void)
 {
 	return;
 }
+
+const Char8 *OBJSceneFileType::getName(void) const
+{
+    return "OBJ GEOMETRY"; 
+}
+
 
 /*------------access----------------*/
 

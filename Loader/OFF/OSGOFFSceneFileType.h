@@ -48,27 +48,34 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \ingroup GeometryLoaderLib
+ *  \brief Brief OSGOFFSceneFileType
+ */
+
 class OSG_SYSTEMLIB_DLLMAPPING OFFSceneFileType : public SceneFileType
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
     /*---------------------------------------------------------------------*/
+    /*! \name                   Class Get                                  */
+    /*! \{                                                                 */
+
+    static OFFSceneFileType &the(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~OFFSceneFileType (void);
+    virtual ~OFFSceneFileType(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
     /*! \{                                                                 */
 
-    virtual OFFSceneFileType &the(void) { return _the; }
-
-#if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
-    static  OFFSceneFileType & staticThe (void) { return _the; }
-#endif
+    virtual const Char8 *getName(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -85,16 +92,17 @@ class OSG_SYSTEMLIB_DLLMAPPING OFFSceneFileType : public SceneFileType
     virtual Bool write(const NodePtr node, const Char8 *fileName) const;
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Class Get                                  */
-    /*! \{                                                                 */
-
-    virtual const Char8 *getName(void) const { return "OFF GEOMETRY"; }
-
-    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    static const Char8            *_suffixA[];
+    static       OFFSceneFileType  _the;
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -112,13 +120,14 @@ class OSG_SYSTEMLIB_DLLMAPPING OFFSceneFileType : public SceneFileType
 
     typedef SceneFileType Inherited;
 
-    static OFFSceneFileType _the;
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const OFFSceneFileType &source);
 };
 
 typedef OFFSceneFileType* OFFSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSGOFFSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOFFSceneFileType.h,v 1.2 2001/09/25 04:10:11 vossg Exp $"
+#define OSGOFFSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOFFSceneFileType.h,v 1.3 2001/10/05 12:38:25 vossg Exp $"
 
 #endif // _OSGOFFSCENEFILETYPE_H_

@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.4 2001/10/03 20:37:34 dirk Exp $";
+    char cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.5 2001/10/05 12:38:25 vossg Exp $";
     char cvsid_hpp[] = OSGRAWSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -76,12 +76,13 @@ namespace
  *   Types
  *****************************/
 // Static Class Varible implementations: 
-static const Char8 *suffixA[] =  { "raw" };
 
-RAWSceneFileType RAWSceneFileType::_the(suffixA, 
-                                        sizeof(suffixA),
-                                        false,
-                                        10);
+const Char8            *RAWSceneFileType::_suffixA[] = {"raw"};
+
+      RAWSceneFileType  RAWSceneFileType::_the         (_suffixA, 
+                                                        sizeof(_suffixA),
+                                                        false,
+                                                        10);
 
 /*****************************
  *	  Classvariables
@@ -305,6 +306,16 @@ RAWSceneFileType::RAWSceneFileType(const Char8  *suffixArray[],
                   override,
                   overridePriority)
 {
+}
+
+RAWSceneFileType &RAWSceneFileType::the(void)
+{ 
+    return _the; 
+}
+
+const Char8 *RAWSceneFileType::getName(void) const 
+{ 
+    return "RAW GEOMETRY"; 
 }
 
 //----------------------------
