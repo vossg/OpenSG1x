@@ -45,6 +45,134 @@ OSG_BEGIN_NAMESPACE
 /*------------------------------ access -----------------------------------*/
 
 inline
+void Particles::setPositions(const GeoPositionsPtr &value)
+{
+    ParticlesPtr thisP(*this);
+
+    addRefCP(value);
+
+    if(_sfPositions.getValue() != NullFC)
+    {
+        beginEditCP(_sfPositions.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfPositions.getValue()->subParent(thisP);
+        }
+        endEditCP  (_sfPositions.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfPositions.getValue());
+    }
+
+    if(value != NullFC)
+    {
+        thisP.setParentFieldPos(PositionsFieldId);
+
+        beginEditCP(value, Attachment::ParentsFieldMask);
+        {
+            value->addParent(thisP);
+        }
+        endEditCP  (value, Attachment::ParentsFieldMask);
+    }
+
+    _sfPositions.setValue(value);
+}
+
+inline
+void Particles::setSecPositions(const GeoPositionsPtr &value)
+{
+    ParticlesPtr thisP(*this);
+
+    addRefCP(value);
+
+    if(_sfSecPositions.getValue() != NullFC)
+    {
+        beginEditCP(_sfSecPositions.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfSecPositions.getValue()->subParent(thisP);
+        }
+        endEditCP  (_sfSecPositions.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfSecPositions.getValue());
+    }
+
+    if(value != NullFC)
+    {
+        thisP.setParentFieldPos(SecPositionsFieldId);
+
+        beginEditCP(value, Attachment::ParentsFieldMask);
+        {
+            value->addParent(thisP);
+        }
+        endEditCP  (value, Attachment::ParentsFieldMask);
+    }
+
+    _sfSecPositions.setValue(value);
+}
+
+inline
+void Particles::setColors(const GeoColorsPtr &value)
+{
+    ParticlesPtr thisP(*this);
+
+    addRefCP(value);
+
+    if(_sfColors.getValue() != NullFC)
+    {
+        beginEditCP(_sfColors.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfColors.getValue()->subParent(thisP);
+        }
+        endEditCP  (_sfColors.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfColors.getValue());
+    }
+
+    if(value != NullFC)
+    {
+        thisP.setParentFieldPos(ColorsFieldId);
+
+        beginEditCP(value, Attachment::ParentsFieldMask);
+        {
+            value->addParent(thisP);
+        }
+        endEditCP  (value, Attachment::ParentsFieldMask);
+    }
+
+    _sfColors.setValue(value);
+}
+
+inline
+void Particles::setNormals(const GeoNormalsPtr &value)
+{
+    ParticlesPtr thisP(*this);
+
+    addRefCP(value);
+
+    if(_sfNormals.getValue() != NullFC)
+    {
+        beginEditCP(_sfNormals.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfNormals.getValue()->subParent(thisP);
+        }
+        endEditCP  (_sfNormals.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfNormals.getValue());
+    }
+
+    if(value != NullFC)
+    {
+        thisP.setParentFieldPos(NormalsFieldId);
+
+        beginEditCP(value, Attachment::ParentsFieldMask);
+        {
+            value->addParent(thisP);
+        }
+        endEditCP  (value, Attachment::ParentsFieldMask);
+    }
+
+    _sfNormals.setValue(value);
+}
+
+inline
 void Particles::setMaterial(const MaterialPtr &value)
 {
     setRefdCP(_sfMaterial.getValue(), value);

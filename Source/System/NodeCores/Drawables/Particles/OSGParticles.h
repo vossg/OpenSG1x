@@ -100,8 +100,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Particles : public ParticlesBase
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
     
+    void setPositions      (const GeoPositionsPtr &value);
+    void setSecPositions      (const GeoPositionsPtr &value);
+    void setColors         (const GeoColorsPtr    &value);
+    void setNormals        (const GeoNormalsPtr   &value);
     void setMaterial       (const MaterialPtr     &value);
-    
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

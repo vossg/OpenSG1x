@@ -109,7 +109,53 @@ Particles::Particles(const Particles &source) :
 
 Particles::~Particles(void)
 {
-	subRefCP(_sfMaterial.getValue());
+    ParticlesPtr thisP(*this);
+
+    if(_sfPositions.getValue() != NullFC)
+    {
+        beginEditCP(_sfPositions.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfPositions.getValue()->subParent(thisP);
+        }
+        endEditCP(_sfPositions.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfPositions.getValue());
+    }
+
+    if(_sfSecPositions.getValue() != NullFC)
+    {
+        beginEditCP(_sfSecPositions.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfSecPositions.getValue()->subParent(thisP);
+        }
+        endEditCP(_sfSecPositions.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfSecPositions.getValue());
+    }
+
+    if(_sfColors.getValue() != NullFC)
+    {
+        beginEditCP(_sfColors.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfColors.getValue()->subParent(thisP);
+        }
+        endEditCP(_sfColors.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfColors.getValue());
+    }
+
+    if(_sfNormals.getValue() != NullFC)
+    {
+        beginEditCP(_sfNormals.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfNormals.getValue()->subParent(thisP);
+        }
+        endEditCP(_sfNormals.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfNormals.getValue());
+    }
+
+    subRefCP(_sfMaterial.getValue());
 }
 
 /*------------------------------- Sync -----------------------------------*/
@@ -123,15 +169,152 @@ void Particles::changed(BitVector whichField, UInt32 origin)
             _parents[i]->invalidateVolume();
         }
         getBsp().destroy();
+
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                ParticlesPtr thisP(*this);
+
+                if(_sfPositions.getValue()                    != NullFC &&
+                   _sfPositions.getValue()->findParent(thisP) ==     -1 )
+                {
+                    GeoPositionsPtr pPos = _sfPositions.getValue();
+
+                    _sfPositions.setValue(NullFC);
+
+                    setPositions(pPos);
+                }
+            }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfPositions.getValue());
+            }
+            else
+            {
+                GeoPositionsPtr pPos = _sfPositions.getValue();
+
+                _sfPositions.setValue(NullFC);
+
+                setPositions(pPos);
+            }
+        }
     }
 
-	if(whichField & MaterialFieldMask)
+    if(whichField & SecPositionsFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                ParticlesPtr thisP(*this);
+
+                if(_sfSecPositions.getValue()                    != NullFC &&
+                   _sfSecPositions.getValue()->findParent(thisP) ==     -1 )
+                {
+                    GeoPositionsPtr pPos = _sfSecPositions.getValue();
+
+                    _sfSecPositions.setValue(NullFC);
+
+                    setSecPositions(pPos);
+                }
+            }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfSecPositions.getValue());
+            }
+            else
+            {
+                GeoPositionsPtr pPos = _sfSecPositions.getValue();
+
+                _sfSecPositions.setValue(NullFC);
+
+                setSecPositions(pPos);
+            }
+        }
+    }
+
+    if(whichField & ColorsFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                ParticlesPtr thisP(*this);
+
+                if(_sfColors.getValue()                    != NullFC &&
+                   _sfColors.getValue()->findParent(thisP) ==     -1 )
+                {
+                    GeoColorsPtr pCol = _sfColors.getValue();
+
+                    _sfColors.setValue(NullFC);
+
+                    setColors(pCol);
+                }
+            }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfColors.getValue());
+            }
+            else
+            {
+                GeoColorsPtr pCol = _sfColors.getValue();
+
+                _sfColors.setValue(NullFC);
+
+                setColors(pCol);
+            }
+        }
+    }
+
+    if(whichField & NormalsFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                ParticlesPtr thisP(*this);
+
+                if(_sfNormals.getValue()                    != NullFC &&
+                   _sfNormals.getValue()->findParent(thisP) ==     -1 )
+                {
+                    GeoNormalsPtr pNorm = _sfNormals.getValue();
+
+                    _sfNormals.setValue(NullFC);
+
+                    setNormals(pNorm);
+                }
+            }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfNormals.getValue());
+            }
+            else
+            {
+                GeoNormalsPtr pNorm = _sfNormals.getValue();
+
+                _sfNormals.setValue(NullFC);
+
+                setNormals(pNorm);
+            }
+        }
+    }
+
+    if(whichField & MaterialFieldMask)
     {
         if(origin & ChangedOrigin::Abstract)
         {
             if(origin & ChangedOrigin::AbstrIncRefCount)
             {
                 addRefCP(_sfMaterial.getValue());
+            }
+            else
+            {
+                MaterialPtr pMat = _sfMaterial.getValue();
+                
+                _sfMaterial.setValue(NullFC);
+                
+                setMaterial(pMat);
             }
         }
     }
@@ -2393,6 +2576,9 @@ Action::ResultE Particles::drawPrimitives(DrawActionBase * action)
 
 ParticlesDrawer *Particles::findDrawer(void)
 {
+    if(getPositions() == NullFC)
+        return NULL;
+
     UInt8 mode;
     enum { part = 0, sing, none } size,normal,color,tex;
     
