@@ -138,10 +138,10 @@ void OSGLoader::initFieldTypeMapper(void)
 
     setIntExtMapping(SFReal32::getClassType().getId(),
                      ScanParseSkel::OSGsfFloat);
-
+/*
     setIntExtMapping(SFImagePtr::getClassType().getId(),
                      ScanParseSkel::OSGsfString);
-
+*/
     setIntExtMapping(SFInt32::getClassType().getId(),
                      ScanParseSkel::OSGsfInt32);
 
