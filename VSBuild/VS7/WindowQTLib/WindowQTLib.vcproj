@@ -1082,6 +1082,186 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
+			<Filter
+				Name="SourceWindowSystemQT Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\WindowSystem\QT\OSGQFieldContainerView_qt.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldContainerView_qt.inl &gt; ../include/OpenSG/OSGQFieldContainerView_qt.inl
+"
+							Outputs="../include/OpenSG/OSGQFieldContainerView_qt.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceWindowSystemQT Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\WindowSystem\QT\OSGQFieldEditor_qt.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldEditor_qt.inl &gt; ../include/OpenSG/OSGQFieldEditor_qt.inl
+"
+							Outputs="../include/OpenSG/OSGQFieldEditor_qt.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceWindowSystemQT Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\WindowSystem\QT\OSGQFieldLabelFactory.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldLabelFactory.inl &gt; ../include/OpenSG/OSGQFieldLabelFactory.inl
+"
+							Outputs="../include/OpenSG/OSGQFieldLabelFactory.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceWindowSystemQT Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\WindowSystem\QT\OSGQFieldValueLabel.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldValueLabel.inl &gt; ../include/OpenSG/OSGQFieldValueLabel.inl
+"
+							Outputs="../include/OpenSG/OSGQFieldValueLabel.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceWindowSystemQT Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\WindowSystem\QT\OSGQFieldView_qt.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldView_qt.inl &gt; ../include/OpenSG/OSGQFieldView_qt.inl
+"
+							Outputs="../include/OpenSG/OSGQFieldView_qt.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceWindowSystemQT Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\WindowSystem\QT\OSGQGLWidget_qt.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQGLWidget_qt.inl &gt; ../include/OpenSG/OSGQGLWidget_qt.inl
+"
+							Outputs="../include/OpenSG/OSGQGLWidget_qt.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceWindowSystemQT Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\WindowSystem\QT\OSGQMatrixFieldValueLabel.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQMatrixFieldValueLabel.inl &gt; ../include/OpenSG/OSGQMatrixFieldValueLabel.inl
+"
+							Outputs="../include/OpenSG/OSGQMatrixFieldValueLabel.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceWindowSystemQT Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\WindowSystem\QT\OSGQPointFieldValueLabel.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQPointFieldValueLabel.inl &gt; ../include/OpenSG/OSGQPointFieldValueLabel.inl
+"
+							Outputs="../include/OpenSG/OSGQPointFieldValueLabel.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceWindowSystemQT Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\WindowSystem\QT\OSGQTWindow.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindow.inl &gt; ../include/OpenSG/OSGQTWindow.inl
+"
+							Outputs="../include/OpenSG/OSGQTWindow.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceWindowSystemQT Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\WindowSystem\QT\OSGQTWindowBase.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindowBase.inl &gt; ../include/OpenSG/OSGQTWindowBase.inl
+"
+							Outputs="../include/OpenSG/OSGQTWindowBase.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceWindowSystemQT Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\WindowSystem\QT\OSGQVectorFieldValueLabel.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQVectorFieldValueLabel.inl &gt; ../include/OpenSG/OSGQVectorFieldValueLabel.inl
+"
+							Outputs="../include/OpenSG/OSGQVectorFieldValueLabel.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceWindowSystemQT Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\WindowSystem\QT\OSGQWidgetFunctions.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQWidgetFunctions.inl &gt; ../include/OpenSG/OSGQWidgetFunctions.inl
+"
+							Outputs="../include/OpenSG/OSGQWidgetFunctions.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Scan/Parse Files"

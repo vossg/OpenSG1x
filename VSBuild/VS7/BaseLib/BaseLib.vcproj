@@ -2790,6 +2790,396 @@
 				</File>
 			</Filter>
 			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGBarrier.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBarrier.inl &gt; ../include/OpenSG/OSGBarrier.inl
+"
+							Outputs="../include/OpenSG/OSGBarrier.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGBaseFunctions.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBaseFunctions.inl &gt; ../include/OpenSG/OSGBaseFunctions.inl
+"
+							Outputs="../include/OpenSG/OSGBaseFunctions.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGBinaryDataHandler.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBinaryDataHandler.inl &gt; ../include/OpenSG/OSGBinaryDataHandler.inl
+"
+							Outputs="../include/OpenSG/OSGBinaryDataHandler.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGBoxVolume.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBoxVolume.inl &gt; ../include/OpenSG/OSGBoxVolume.inl
+"
+							Outputs="../include/OpenSG/OSGBoxVolume.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGColor.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGColor.inl &gt; ../include/OpenSG/OSGColor.inl
+"
+							Outputs="../include/OpenSG/OSGColor.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGCylinderVolume.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGCylinderVolume.inl &gt; ../include/OpenSG/OSGCylinderVolume.inl
+"
+							Outputs="../include/OpenSG/OSGCylinderVolume.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGDate.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGDate.inl &gt; ../include/OpenSG/OSGDate.inl
+"
+							Outputs="../include/OpenSG/OSGDate.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGDynamicVolume.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGDynamicVolume.inl &gt; ../include/OpenSG/OSGDynamicVolume.inl
+"
+							Outputs="../include/OpenSG/OSGDynamicVolume.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGFileSystem.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGFileSystem.inl &gt; ../include/OpenSG/OSGFileSystem.inl
+"
+							Outputs="../include/OpenSG/OSGFileSystem.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGFrustumVolume.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGFrustumVolume.inl &gt; ../include/OpenSG/OSGFrustumVolume.inl
+"
+							Outputs="../include/OpenSG/OSGFrustumVolume.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGIDString.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGIDString.inl &gt; ../include/OpenSG/OSGIDString.inl
+"
+							Outputs="../include/OpenSG/OSGIDString.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGIDStringLink.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGIDStringLink.inl &gt; ../include/OpenSG/OSGIDStringLink.inl
+"
+							Outputs="../include/OpenSG/OSGIDStringLink.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGLine.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGLine.inl &gt; ../include/OpenSG/OSGLine.inl
+"
+							Outputs="../include/OpenSG/OSGLine.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGLinearTransform.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGLinearTransform.inl &gt; ../include/OpenSG/OSGLinearTransform.inl
+"
+							Outputs="../include/OpenSG/OSGLinearTransform.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGLog.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGLog.inl &gt; ../include/OpenSG/OSGLog.inl
+"
+							Outputs="../include/OpenSG/OSGLog.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGMatrix.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGMatrix.inl &gt; ../include/OpenSG/OSGMatrix.inl
+"
+							Outputs="../include/OpenSG/OSGMatrix.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGNormalQuantifier.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGNormalQuantifier.inl &gt; ../include/OpenSG/OSGNormalQuantifier.inl
+"
+							Outputs="../include/OpenSG/OSGNormalQuantifier.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGPlane.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGPlane.inl &gt; ../include/OpenSG/OSGPlane.inl
+"
+							Outputs="../include/OpenSG/OSGPlane.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGPolytopeVolume.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGPolytopeVolume.inl &gt; ../include/OpenSG/OSGPolytopeVolume.inl
+"
+							Outputs="../include/OpenSG/OSGPolytopeVolume.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGQuaternion.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGQuaternion.inl &gt; ../include/OpenSG/OSGQuaternion.inl
+"
+							Outputs="../include/OpenSG/OSGQuaternion.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGSphereVolume.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGSphereVolume.inl &gt; ../include/OpenSG/OSGSphereVolume.inl
+"
+							Outputs="../include/OpenSG/OSGSphereVolume.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGThreadManager.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGThreadManager.inl &gt; ../include/OpenSG/OSGThreadManager.inl
+"
+							Outputs="../include/OpenSG/OSGThreadManager.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGTime.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGTime.inl &gt; ../include/OpenSG/OSGTime.inl
+"
+							Outputs="../include/OpenSG/OSGTime.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGVector.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGVector.inl &gt; ../include/OpenSG/OSGVector.inl
+"
+							Outputs="../include/OpenSG/OSGVector.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGVolume.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGVolume.inl &gt; ../include/OpenSG/OSGVolume.inl
+"
+							Outputs="../include/OpenSG/OSGVolume.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGVolumeFunctions.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGVolumeFunctions.inl &gt; ../include/OpenSG/OSGVolumeFunctions.inl
+"
+							Outputs="../include/OpenSG/OSGVolumeFunctions.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
 				Name="SourceBaseField Install"
 				Filter="">
 				<File
@@ -3555,6 +3945,111 @@
 				</File>
 			</Filter>
 			<Filter
+				Name="SourceBaseField Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Field\OSGMField.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMField.inl &gt; ../include/OpenSG/OSGMField.inl
+"
+							Outputs="../include/OpenSG/OSGMField.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseField Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Field\OSGMFieldTypeDef.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMFieldTypeDef.inl &gt; ../include/OpenSG/OSGMFieldTypeDef.inl
+"
+							Outputs="../include/OpenSG/OSGMFieldTypeDef.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseField Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Field\OSGMFieldTypeScanTypeDef.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMFieldTypeScanTypeDef.inl &gt; ../include/OpenSG/OSGMFieldTypeScanTypeDef.inl
+"
+							Outputs="../include/OpenSG/OSGMFieldTypeScanTypeDef.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseField Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Field\OSGMFieldVector.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMFieldVector.inl &gt; ../include/OpenSG/OSGMFieldVector.inl
+"
+							Outputs="../include/OpenSG/OSGMFieldVector.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseField Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Field\OSGSField.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGSField.inl &gt; ../include/OpenSG/OSGSField.inl
+"
+							Outputs="../include/OpenSG/OSGSField.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseField Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Field\OSGSFieldTypeDef.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGSFieldTypeDef.inl &gt; ../include/OpenSG/OSGSFieldTypeDef.inl
+"
+							Outputs="../include/OpenSG/OSGSFieldTypeDef.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseField Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Field\OSGSFieldTypeScanTypeDef.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGSFieldTypeScanTypeDef.inl &gt; ../include/OpenSG/OSGSFieldTypeScanTypeDef.inl
+"
+							Outputs="../include/OpenSG/OSGSFieldTypeScanTypeDef.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
 				Name="SourceBaseFunctors Install"
 				Filter="">
 				<File
@@ -3626,6 +4121,81 @@
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGTypedFunctors2.h &gt; ../include/OpenSG/OSGTypedFunctors2.h
 "
 							Outputs="../include/OpenSG/OSGTypedFunctors2.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseFunctors Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Functors\OSGFunctorBase.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGFunctorBase.inl &gt; ../include/OpenSG/OSGFunctorBase.inl
+"
+							Outputs="../include/OpenSG/OSGFunctorBase.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseFunctors Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctorBase.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGTypedFunctorBase.inl &gt; ../include/OpenSG/OSGTypedFunctorBase.inl
+"
+							Outputs="../include/OpenSG/OSGTypedFunctorBase.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseFunctors Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctors.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGTypedFunctors.inl &gt; ../include/OpenSG/OSGTypedFunctors.inl
+"
+							Outputs="../include/OpenSG/OSGTypedFunctors.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseFunctors Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctors1.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGTypedFunctors1.inl &gt; ../include/OpenSG/OSGTypedFunctors1.inl
+"
+							Outputs="../include/OpenSG/OSGTypedFunctors1.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseFunctors Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctors2.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGTypedFunctors2.inl &gt; ../include/OpenSG/OSGTypedFunctors2.inl
+"
+							Outputs="../include/OpenSG/OSGTypedFunctors2.inl"/>
 					</FileConfiguration>
 				</File>
 			</Filter>
@@ -3731,6 +4301,36 @@
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Base/OSGPointConnection.h &gt; ../include/OpenSG/OSGPointConnection.h
 "
 							Outputs="../include/OpenSG/OSGPointConnection.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseNetworkBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Network\Base\OSGBinaryMessage.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Base/OSGBinaryMessage.inl &gt; ../include/OpenSG/OSGBinaryMessage.inl
+"
+							Outputs="../include/OpenSG/OSGBinaryMessage.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseNetworkBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Network\Base\OSGConnection.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Base/OSGConnection.inl &gt; ../include/OpenSG/OSGConnection.inl
+"
+							Outputs="../include/OpenSG/OSGConnection.inl"/>
 					</FileConfiguration>
 				</File>
 			</Filter>
@@ -3945,6 +4545,21 @@
 				</File>
 			</Filter>
 			<Filter
+				Name="SourceBaseNetworkSocket Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Network\Socket\OSGDgram.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGDgram.inl &gt; ../include/OpenSG/OSGDgram.inl
+"
+							Outputs="../include/OpenSG/OSGDgram.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
 				Name="SourceBaseStringConversion Install"
 				Filter="">
 				<File
@@ -4001,6 +4616,66 @@
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/StringConversion/OSGStringTokenizer.h &gt; ../include/OpenSG/OSGStringTokenizer.h
 "
 							Outputs="../include/OpenSG/OSGStringTokenizer.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseStringConversion Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\StringConversion\OSGIndenter.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/StringConversion/OSGIndenter.inl &gt; ../include/OpenSG/OSGIndenter.inl
+"
+							Outputs="../include/OpenSG/OSGIndenter.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseStringConversion Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\StringConversion\OSGStandardStringConversionState.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/StringConversion/OSGStandardStringConversionState.inl &gt; ../include/OpenSG/OSGStandardStringConversionState.inl
+"
+							Outputs="../include/OpenSG/OSGStandardStringConversionState.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseStringConversion Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\StringConversion\OSGStringConversionStateBase.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/StringConversion/OSGStringConversionStateBase.inl &gt; ../include/OpenSG/OSGStringConversionStateBase.inl
+"
+							Outputs="../include/OpenSG/OSGStringConversionStateBase.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceBaseStringConversion Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\StringConversion\OSGStringTokenizer.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/StringConversion/OSGStringTokenizer.inl &gt; ../include/OpenSG/OSGStringTokenizer.inl
+"
+							Outputs="../include/OpenSG/OSGStringTokenizer.inl"/>
 					</FileConfiguration>
 				</File>
 			</Filter>

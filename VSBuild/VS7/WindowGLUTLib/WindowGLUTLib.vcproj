@@ -286,6 +286,36 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
+			<Filter
+				Name="SourceWindowSystemGLUT Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\WindowSystem\GLUT\OSGGLUTWindow.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindow.inl &gt; ../include/OpenSG/OSGGLUTWindow.inl
+"
+							Outputs="../include/OpenSG/OSGGLUTWindow.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceWindowSystemGLUT Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\WindowSystem\GLUT\OSGGLUTWindowBase.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindowBase.inl &gt; ../include/OpenSG/OSGGLUTWindowBase.inl
+"
+							Outputs="../include/OpenSG/OSGGLUTWindowBase.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Scan/Parse Files"
