@@ -232,8 +232,8 @@ void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const ValueTypeT x,
 template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::setValueAsAxisDeg(const ValueTypeT x,
                                                    const ValueTypeT y,
-                                                    const ValueTypeT z,
-                                                    const ValueTypeT w)
+                                                   const ValueTypeT z,
+                                                   const ValueTypeT w)
 {
     setValueAsAxisRad(x,y,z,osgdegree2rad(w));
 }

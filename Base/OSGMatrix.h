@@ -49,7 +49,10 @@ OSG_BEGIN_NAMESPACE
 template <class ValueTypeT> class QuaternionBase;
 
 //! TransformationMatrix, for details about the vector, point and
-//!  matrix desing see \ref vecpointmat
+//! matrix desing see \ref vecpointmat, nevertheless
+//! the following applies : M=(V0 V1 V2 V3), M[Column][Row], M[0] = V0
+//! M[0][0] = V0[0]
+//! M.getValues() returns M transposed (as it returns the raw storage)
 //! \ingroup BaseMathMatrices
 
 template<class ValueTypeT>
@@ -415,8 +418,8 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
 #pragma set woff 1424
 #endif
 
+    static const UInt32 JacobiRank = 3;
 
-    template<UInt32 JacobiRank>
     Bool jacobi(ValueTypeT    evalues [JacobiRank],
                 VectorType3f  evectors[JacobiRank],
                 Int32        &rots);

@@ -884,7 +884,7 @@ Bool TransformationMatrix<ValueTypeT>::factor(TransformationMatrix &r,
     b = a;
     b.mult(aT);
     
-    b.jacobi<3>(evalues, evectors, junk);
+    b.jacobi(evalues, evectors, junk);
     
     r.setValue(evectors[0][0], evectors[0][1], evectors[0][2], 0.0, 
                evectors[1][0], evectors[1][1], evectors[1][2], 0.0, 
@@ -2517,8 +2517,7 @@ ValueTypeT TransformationMatrix<ValueTypeT>::det3(
 #pragma set woff 1424
 #endif
 
-template<class ValueTypeT> 
-template<UInt32 JacobiRank> inline
+template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::jacobi(
     ValueTypeT    evalues [JacobiRank],
     VectorType3f  evectors[JacobiRank],
