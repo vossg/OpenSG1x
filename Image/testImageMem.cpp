@@ -30,7 +30,7 @@ bool readMemDump (osg::Image &image, const char *fileName)
     if (dataSize) {
       data = new osg::UChar8 [dataSize];
       ins.seekg ( 0, std::ios::beg );
-      ins.read ( data, dataSize );
+      ins.read ( reinterpret_cast<char*>(data), dataSize );
       readData = ins.gcount();
       if (readData == dataSize) {
         image.restore ( data, dataSize );
@@ -56,7 +56,7 @@ bool writeMemDump (osg::Image &image, const char *fileName)
     maxSize = fType->maxBufferSize(image);
     data = new osg::UChar8[maxSize];
     dataSize = fType->store(image, (osg::UChar8*)data );
-    outs.write ( data, dataSize );
+    outs.write ( reinterpret_cast<char*>(data), dataSize );
     retCode = (dataSize && (dataSize <= maxSize));
   }
   
