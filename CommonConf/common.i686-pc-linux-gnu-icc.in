@@ -60,7 +60,9 @@ SOURCE_DEFINES   = -D_GNU_SOURCE -DQT_CLEAN_NAMESPACE   \
                    $(CONFIGURED_PACKAGE_DEFS)           \
 
 ifneq ($(COMPILERVERSION),710)
+ifneq ($(COMPILERVERSION),710)
 SOURCE_DEFINES  := $(SOURCE_DEFINES) -DOSG_SUPPORT_NO_GEO_INTERFACE=1
+endif
 endif
 
 #-DMNG_LIB -DPNG_LIB
@@ -103,7 +105,11 @@ endif
 
 LANG_FLAGS          = 
 #-frepo  -fno-implicit-templates
+ifeq ($(COMPILERVERSION),800)
+COMPILER    		= -fpic -Kc++eh -Krtti -ansi
+else
 COMPILER    		= -Tnoauto -KPIC -Kc++eh -Krtti -ansi
+endif
 
 ### Optimize / Debug ###############################################
 
