@@ -12,10 +12,7 @@ OSGMAINMAKE    = 1
 SUBLIBS        = Action Action/DrawAction Base Field FieldContainer Log \
 				 Material Nodes State Window Loader
 
-#Base Field FieldContainer Log
-# \
-#			     Loader 
-#				 Image 
+TAGS_EXCLUDEDIRS := Action/DrawAction
 
 
 include $(OSGPOOL)/$(OSGCOMMON)/common.mk
