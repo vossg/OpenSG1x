@@ -78,6 +78,13 @@ class OSG_BASE_DLLMAPPING FieldType : public DataType
                     CreateFieldMethod  createMethod,
                     Cardinality        cardinality);
 
+    FieldType(const Char8             *szName, 
+              const Char8             *szParentName,
+              const DataType          &contentType ,
+                    CreateFieldMethod  createMethod,
+                    Cardinality        cardinality ,
+              const FieldType         &pScanAsType );
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
@@ -99,6 +106,8 @@ class OSG_BASE_DLLMAPPING FieldType : public DataType
     const DataType    &getContentType(void) const;
           Cardinality  getCardinality(void) const;
 
+          UInt32       getScanTypeId (void) const;
+
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -109,8 +118,11 @@ class OSG_BASE_DLLMAPPING FieldType : public DataType
     /*                             Member                                  */
 
           Cardinality        _cardinality;
+          UInt32             _uiLoadTypeId;
 
     const DataType          &_contentType;
+    const FieldType         *_pScanAsType;
+
     const CreateFieldMethod  _createMethod;
 
     /*==========================  PRIVATE  ================================*/

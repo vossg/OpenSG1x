@@ -613,7 +613,7 @@ UInt32 OSGLoader::getFieldType(const Char8 *szFieldname)
 
         if(pField != NULL)
         {
-            returnValue = pField->getType().getId();
+            returnValue = pField->getType().getScanTypeId();
         }    
     }
 

@@ -95,7 +95,24 @@ FieldType::FieldType(const Char8             *szName,
      Inherited   (szName, szParentName),
     _cardinality (cardinality         ),
     _contentType (contentType         ),
+    _pScanAsType (NULL                ),
     _createMethod(createMethod        )
+{
+    FieldFactory::addType(this);
+    FDEBUG (("Initialized FieldType : %s %p\n", getCName(), this));
+}
+
+FieldType::FieldType(const Char8              *szName,
+                     const Char8              *szParentName,
+                     const DataType           &contentType,
+                           CreateFieldMethod   createMethod,
+                           Cardinality         cardinality,
+                     const FieldType          &pScanAsType ) :
+     Inherited   ( szName, szParentName),
+    _cardinality ( cardinality         ),
+    _contentType ( contentType         ),
+    _pScanAsType (&pScanAsType         ),
+    _createMethod( createMethod        )
 {
     FieldFactory::addType(this);
     FDEBUG (("Initialized FieldType : %s %p\n", getCName(), this));
@@ -122,6 +139,17 @@ FieldType::Cardinality FieldType::getCardinality(void) const
     return _cardinality;
 }
 
+UInt32 FieldType::getScanTypeId(void) const
+{
+    if(_pScanAsType == NULL)
+    {
+        return getId();
+    }
+    else
+    {
+        return _pScanAsType->getId();
+    }
+}
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

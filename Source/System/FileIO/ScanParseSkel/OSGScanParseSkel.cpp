@@ -265,9 +265,9 @@ bool ScanParseSkel::getMapFieldTypes(void)
     return _bMapTypeIds;
 }
 
-Int32 ScanParseSkel::mapExtIntFieldType(const Char8*, const Int32)
+Int32 ScanParseSkel::mapExtIntFieldType(const Char8*, const Int32 iFieldType)
 {
-    return 0;
+    return iFieldType;
 }
 
 UInt32 ScanParseSkel::getFieldType(const Char8 *)
