@@ -19,9 +19,14 @@ using namespace std;
 // Static Class Varible implementations: 
 const char *Field::_defaultTypeName[] = {	
 	"Bool",
+	"Int8",
+	"UInt8",
 	"Int16",
+	"UInt16",
 	"Int32",
+	"UInt32",
 	"Int64", 
+	"UInt64", 
 	"Real32", 
 	"Real64", 
 	"Color3f",
@@ -37,7 +42,8 @@ const char *Field::_defaultTypeName[] = {
 	"String",
 	"Time",
 	"Image",
-	"FieldContainerPtr"
+	"FieldContainerPtr",
+	"NodePtr"
 };
 
 const char *Field::_cardinalityName[] = {
