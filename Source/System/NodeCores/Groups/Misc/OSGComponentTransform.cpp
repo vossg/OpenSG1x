@@ -81,7 +81,7 @@ void ComponentTransform::changed(BitVector whichField, UInt32 origin)
     Inherited::changed(whichField, origin);
 }
 
-void ComponentTransform::dump(      UInt32    uiIndent, 
+void ComponentTransform::dump(      UInt32    uiIndent,
                               const BitVector bvFlags) const
 {
     Inherited::dump(uiIndent, bvFlags);
@@ -93,7 +93,7 @@ void ComponentTransform::dump(      UInt32    uiIndent,
 ComponentTransform::ComponentTransform(void) :
     Inherited()
 {
-    _sfScale.getValue().setValues(1.f, 1.f, 1.f);         
+    _sfScale.getValue().setValues(1.f, 1.f, 1.f);
 }
 
 ComponentTransform::ComponentTransform(const ComponentTransform &source) :
@@ -113,64 +113,71 @@ ComponentTransform::~ComponentTransform(void)
 
 void ComponentTransform::initMethod (void)
 {
-    DrawAction::registerEnterDefault( 
-        getClassType(), 
+    DrawAction::registerEnterDefault(
+        getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<
             Action::ResultE,
-            ComponentTransformPtr  , 
-            CNodePtr               ,  
+            ComponentTransformPtr  ,
+            CNodePtr               ,
             Action                *>(&ComponentTransform::drawEnter));
 
-    DrawAction::registerLeaveDefault( 
-        getClassType(), 
+    DrawAction::registerLeaveDefault(
+        getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<
             Action::ResultE,
-            ComponentTransformPtr  , 
-            CNodePtr               ,  
+            ComponentTransformPtr  ,
+            CNodePtr               ,
             Action                *>(&ComponentTransform::drawLeave));
 
 
     RenderAction::registerEnterDefault(
-        getClassType(), 
+        getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<
             Action::ResultE,
-            ComponentTransformPtr  , 
-            CNodePtr               ,  
+            ComponentTransformPtr  ,
+            CNodePtr               ,
             Action                *>(&ComponentTransform::renderEnter));
 
     RenderAction::registerLeaveDefault(
-        getClassType(), 
+        getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<
             Action::ResultE,
-            ComponentTransformPtr  , 
-            CNodePtr               ,  
+            ComponentTransformPtr  ,
+            CNodePtr               ,
             Action                *>(&ComponentTransform::renderLeave));
 
 
     IntersectAction::registerEnterDefault(
-        getClassType(), 
+        getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<
             Action::ResultE,
-            ComponentTransformPtr  , 
-            CNodePtr               ,  
+            ComponentTransformPtr  ,
+            CNodePtr               ,
             Action                *>(&ComponentTransform::intersectEnter));
 
     IntersectAction::registerLeaveDefault(
-        getClassType(), 
+        getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<
             Action::ResultE,
-            ComponentTransformPtr  , 
-            CNodePtr               ,  
+            ComponentTransformPtr  ,
+            CNodePtr               ,
             Action                *>(&ComponentTransform::intersectLeave));
 
     IntersectActor::regClassEnter(
-        osgTypedMethodFunctor2BaseCPtrRef<
-            NewActionBase::ResultE,
-            TransformPtr          ,
-            NodeCorePtr           ,
-            ActorBase            *>(&ComponentTransform::intersect),
+        osgTypedMethodFunctor2BaseCPtr<
+            NewActionTypes::ResultE,
+            ComponentTransformPtr  ,
+            NodeCorePtr            ,
+            ActorBase              *>(&ComponentTransform::intersectEnter),
         getClassType());
 
+    IntersectActor::regClassLeave(
+        osgTypedMethodFunctor2BaseCPtr<
+            NewActionTypes::ResultE,
+            ComponentTransformPtr  ,
+            NodeCorePtr            ,
+            ActorBase              *>(&ComponentTransform::intersectLeave),
+        getClassType());
 }
 
 

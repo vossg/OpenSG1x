@@ -36,116 +36,81 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGTRANSFORM_H_
-#define _OSGTRANSFORM_H_
+#ifndef _OSGINTERSECTACTOR_H_
+#define _OSGINTERSECTACTOR_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGConfig.h>
 
-#include <OSGAction.h>
-#include <OSGTransformBase.h>
-
-#include <OSGActorBase.h>
+#include <OSGIntersectActorBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief Transform provides one matrix to transform objects.
-    \ingroup GrpSystemNodeCoresMisc
-*/
-
-class OSG_SYSTEMLIB_DLLMAPPING Transform : public TransformBase
+class OSG_SYSTEMLIB_DLLMAPPING IntersectActor : public IntersectActorBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
-
     /*---------------------------------------------------------------------*/
-    /*! \name                       Sync                                   */
+    /*! \name    Types                                                     */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector whichField,
-                         UInt32    origin    );
+    typedef ActorBase::ResultE ResultE;
+    typedef ActorBase::Functor Functor;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                    Helper                                    */
+    /*! \name    Create                                                    */
     /*! \{                                                                 */
 
-    virtual void accumulateMatrix(Matrix &result);
-
-            void adjustVolume    (Volume &volume);
+    static IntersectActor *create(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                        Dump                                  */
+    /*! \name    Destructor                                                */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32    uiIndent = 0,
-                      const BitVector bvFlags  = 0) const;
+    virtual ~IntersectActor(void);
 
     /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
+    /*---------------------------------------------------------------------*/
+    /*! \name    Apply                                                     */
+    /*! \{                                                                 */
+
+    virtual ResultE applyLeave(const NodePtr &pNode);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name    Class specific helper                                     */
+    /*! \{                                                                 */
+
+    inline void reset             (void                               );
+    inline void setHit            (Real32 hitDist,   NodePtr pHitObj,
+                                   Int32  iTriIndex, Vec3f   hitNormal);
+
+    inline void prioritizeChildren(void                               );
+
+    /*! \}                                                                 */
+    /*============================== PROTECTED ============================*/
   protected:
-
-    typedef TransformBase Inherited;
-
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name    Constructor                                               */
     /*! \{                                                                 */
 
-    Transform(void);
-    Transform(const Transform &source);
+    IntersectActor(void);
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
-    /*! \{                                                                 */
-
-    virtual ~Transform(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name              Draw & Intersect & Render                       */
-    /*! \{                                                                 */
-
-    Action::ResultE drawEnter     (Action *action);
-    Action::ResultE drawLeave     (Action *action);
-
-    Action::ResultE intersectEnter(Action *action);
-    Action::ResultE intersectLeave(Action *action);
-
-    NewActionTypes::ResultE intersectEnter(ActorBase *pActor);
-    NewActionTypes::ResultE intersectLeave(ActorBase *pActor);
-
-    Action::ResultE renderEnter   (Action *action);
-    Action::ResultE renderLeave   (Action *action);
-
-    /*! \}                                                                 */
-    /*==========================  PRIVATE  ================================*/
+    /*=============================== PRIVATE =============================*/
   private:
-
-    friend class FieldContainer;
-    friend class TransformBase;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Init                                       */
-    /*! \{                                                                 */
-
-    static void initMethod(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const Transform &source);
+    typedef IntersectActorBase Inherited;
 };
 
 OSG_END_NAMESPACE
 
-#include <OSGTransformBase.inl>
-#include <OSGTransform.inl>
+#include <OSGIntersectActor.inl>
 
-#define OSGTRANSFORM_HEADER_CVSID "@(#)$Id: $"
+#define OSGINTERSECTACTOR_HEADER_CVSID "@(#)$Id:"
 
-#endif /* _OSGTRANSFORM_H_ */
+#endif /* _OSGINTERSECTACTOR_H_ */
+

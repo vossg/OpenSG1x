@@ -1,0 +1,93 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \defgroup GrpSystemNewAction NewAction
+    \ingroup GrpSystem
+
+The Actions are the active components that traverse the tree of nodes and
+perform function (or rather functors) on them.
+
+See \ref PageSystemNewAction for a detailed description.
+*/
+
+/*! \page PageSystemNewAction NewAction
+
+\latexonly Starter:NewChapter \endlatexonly
+
+Creating a scene-graph is usually only one step in an application, and not very
+usefull in itself. Operations on the graph usually take the form of a traversal
+through the tree of nodes and performing actions depending on the type of
+NodeCore. OpenSG calls this an Action.
+
+To maximize flexibility in what operations are performed during a traversal
+the NewAction splits the traversal logic (basically this determines just the
+next node to visit) from the actual operations. The traversal logic is in
+NewAction and its derived classes
+\ref PageSystemNewActionDepthFirstAction DepthFirstAction and
+\ref PageSystemNewActionPriorityAction PriorityAction. While the active parts
+are called \ref PageSystemNewActionActorBase Actors.
+
+
+\section PageSystemNewActionUsage Usage
+
+Using NewAction together with any of the predefined actors is quite simple.
+First decide if you want to traverse depth-first or priority based and create
+the appropriate action like this:
+
+DepthFirstAction *pDFAction = DepthFirstAction::create();
+or
+PriorityAction   *pPAction  = PriorityAction::create();
+
+Then create the actors you wish to use, by calling their create methods, e.g.
+
+IntersectActor *pIntActor = IntersectActor::create();
+
+Next attach the actor to the action by calling:
+pDFAction->attach(pIntActor); or pPAction->attachActor(pIntActor);
+Note however that an action assumes exclusive ownership of its attached actors,
+i.e. you can only attach an actor to one action at a time.
+
+As a final step call one of the apply methods with the node(s) you wish to
+use as starting point(s) for the traversal, e.g.
+
+pDFAction->apply(pNode); or pPAction->apply(pNode);
+
+\section PageSystemNewActionActorState State data in Actors
+
+The data stored in data members of an actor is collectively called the actor's
+state. With scenegraphs it is quite common to accumulate state along a path in
+the graph, just think of the transformation matrices that are multiplied. Now,
+in conjunction with the
+\ref PageSystemNewActionDepthFirstAction DepthFirstAction this happens inside
+the respective enter or leave functor, but when using the
+\ref PageSystemNewActionPriorityAction PriorityAction the traversal "jumps"
+between different paths in the graph. Therefore all state that is accumulated
+along a path must be saved and later, when the path is resumed, restored.
+The PriorityAction takes care of these necessities, but there is one caveat:
+some of the state elements of an actor might only be accessible after it was
+attached to an action.
+
+
+\section PageSystemNewActionDepthFirstAction DepthFirstAction
+
+The DepthFirstAction traverses the tree of nodes in depth-first order and
+can perform operations upon "entering" and/or "leaving" a node.
+
+
+\section PageSystemNewActionPriorityAction PriorityAction
+
+The PriorityAction traverses the tree of nodes according to the priorities
+assigned to a node during the traversal. As opposed to the
+\ref PageSystemNewActionDepthFirstAction DepthFirstAction only upon "entering"
+a node operations are performed. This is partially due to the difficulty of
+defining what "leaving" a node actually means in the context of priority based
+traversal.
+
+
+\section PageSystemNewActionActorBase ActorBase
+
+The base class of all actors provides access to the action the actor is
+attached to, as well as its actor id.
+
+*/

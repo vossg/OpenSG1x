@@ -120,7 +120,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
     virtual GeoPropertyArrayInterface *getProperty(Int32 mapID);
 #endif
-                                        
+
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -147,7 +147,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 
     TriangleIterator   beginTriangles   (void) const;
     TriangleIterator   endTriangles     (void) const;
-    
+
     PrimitiveIterator  beginPrimitives  (void) const;
     PrimitiveIterator  endPrimitives    (void) const;
 
@@ -159,11 +159,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     /*! \name                       Draw                                   */
     /*! \{                                                                 */
 
-    // should these be public?	
+    // should these be public?
     virtual Action::ResultE drawPrimitives (DrawActionBase * action );
             Action::ResultE intersect      (Action * action );
 
-    NewActionBase::ResultE  intersect      (ActorBase *pActor);
+    NewActionTypes::ResultE intersect      (ActorBase *pActor);
 
     void            invalidateDlistCache (void);
 

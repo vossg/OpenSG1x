@@ -36,116 +36,57 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGTRANSFORM_H_
-#define _OSGTRANSFORM_H_
+#ifndef _OSGEMPTYFUNCTORSTORE_H_
+#define _OSGEMPTYFUNCTORSTORE_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGConfig.h>
-
-#include <OSGAction.h>
-#include <OSGTransformBase.h>
-
-#include <OSGActorBase.h>
+#include <OSGSystemDef.h>
+#include "OSGNewActionTypes.h"
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief Transform provides one matrix to transform objects.
-    \ingroup GrpSystemNodeCoresMisc
-*/
-
-class OSG_SYSTEMLIB_DLLMAPPING Transform : public TransformBase
+class OSG_SYSTEMLIB_DLLMAPPING EmptyFunctorStore
 {
     /*==========================  PUBLIC  =================================*/
   public:
-
     /*---------------------------------------------------------------------*/
-    /*! \name                       Sync                                   */
+    /*! \name    Types                                                     */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector whichField,
-                         UInt32    origin    );
+    typedef NewActionTypes::Functor Functor;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                    Helper                                    */
+    /*! \name    Constructors                                              */
     /*! \{                                                                 */
 
-    virtual void accumulateMatrix(Matrix &result);
-
-            void adjustVolume    (Volume &volume);
+    inline  EmptyFunctorStore(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                        Dump                                  */
+    /*! \name    Destructor                                                */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32    uiIndent = 0,
-                      const BitVector bvFlags  = 0) const;
-
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-    typedef TransformBase Inherited;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    Transform(void);
-    Transform(const Transform &source);
+    inline ~EmptyFunctorStore(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
+    /*! \name    Empty                                                     */
     /*! \{                                                                 */
 
-    virtual ~Transform(void);
+    inline bool empty(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name              Draw & Intersect & Render                       */
-    /*! \{                                                                 */
-
-    Action::ResultE drawEnter     (Action *action);
-    Action::ResultE drawLeave     (Action *action);
-
-    Action::ResultE intersectEnter(Action *action);
-    Action::ResultE intersectLeave(Action *action);
-
-    NewActionTypes::ResultE intersectEnter(ActorBase *pActor);
-    NewActionTypes::ResultE intersectLeave(ActorBase *pActor);
-
-    Action::ResultE renderEnter   (Action *action);
-    Action::ResultE renderLeave   (Action *action);
-
-    /*! \}                                                                 */
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    friend class FieldContainer;
-    friend class TransformBase;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Init                                       */
-    /*! \{                                                                 */
-
-    static void initMethod(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const Transform &source);
 };
 
 OSG_END_NAMESPACE
 
-#include <OSGTransformBase.inl>
-#include <OSGTransform.inl>
+#include "OSGEmptyFunctorStore.inl"
 
-#define OSGTRANSFORM_HEADER_CVSID "@(#)$Id: $"
+#define OSGEMPTYFUNCTORSTORE_HEADER_CVSID "@(#)$Id: OSGEmptyFunctorStore.h,v 1.3 2004/04/20 13:47:08 neumannc Exp $"
 
-#endif /* _OSGTRANSFORM_H_ */
+#endif /* _OSGEMPTYFUNCTORSTORE_H_ */

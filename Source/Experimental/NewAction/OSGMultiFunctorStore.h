@@ -36,116 +36,101 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGTRANSFORM_H_
-#define _OSGTRANSFORM_H_
+#ifndef _OSGMULTIFUNCTORSTORE_H_
+#define _OSGMULTIFUNCTORSTORE_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
+#include "OSGNewActionTypes.h"
 
-#include <OSGAction.h>
-#include <OSGTransformBase.h>
-
-#include <OSGActorBase.h>
+#include <list>
+#include <vector>
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief Transform provides one matrix to transform objects.
-    \ingroup GrpSystemNodeCoresMisc
-*/
-
-class OSG_SYSTEMLIB_DLLMAPPING Transform : public TransformBase
+class OSG_SYSTEMLIB_DLLMAPPING MultiFunctorStore
 {
     /*==========================  PUBLIC  =================================*/
   public:
-
     /*---------------------------------------------------------------------*/
-    /*! \name                       Sync                                   */
+    /*! \name    Types                                                     */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector whichField,
-                         UInt32    origin    );
+    typedef NewActionTypes::Functor Functor;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                    Helper                                    */
+    /*! \name    Constructors                                              */
     /*! \{                                                                 */
 
-    virtual void accumulateMatrix(Matrix &result);
-
-            void adjustVolume    (Volume &volume);
+    inline  MultiFunctorStore(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                        Dump                                  */
+    /*! \name    Destructor                                                */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32    uiIndent = 0,
-                      const BitVector bvFlags  = 0) const;
-
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-    typedef TransformBase Inherited;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    Transform(void);
-    Transform(const Transform &source);
+    inline ~MultiFunctorStore(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
+    /*! \name    Empty                                                     */
     /*! \{                                                                 */
 
-    virtual ~Transform(void);
+    inline bool empty(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name              Draw & Intersect & Render                       */
+    /*! \name    Functor Registration                                      */
     /*! \{                                                                 */
 
-    Action::ResultE drawEnter     (Action *action);
-    Action::ResultE drawLeave     (Action *action);
+    inline void     regFunctor         (const Functor            &refFunc,
+                                        const FieldContainerType &refType);
+    inline void     unregFunctor       (const FieldContainerType &refType);
 
-    Action::ResultE intersectEnter(Action *action);
-    Action::ResultE intersectLeave(Action *action);
+    inline void     regDefaultFunctor  (const Functor            &refFunc);
+    inline void     unregDefaultFunctor(      void                       );
 
-    NewActionTypes::ResultE intersectEnter(ActorBase *pActor);
-    NewActionTypes::ResultE intersectLeave(ActorBase *pActor);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name    Functor Access                                            */
+    /*! \{                                                                 */
 
-    Action::ResultE renderEnter   (Action *action);
-    Action::ResultE renderLeave   (Action *action);
+    inline Functor *getFunctor         (const FieldContainerType &refType);
+    inline Functor *getDefaultFunctor  (      void                       );
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
-
-    friend class FieldContainer;
-    friend class TransformBase;
-
     /*---------------------------------------------------------------------*/
-    /*! \name                   Init                                       */
+    /*! \name    Types                                                     */
     /*! \{                                                                 */
 
-    static void initMethod(void);
+    typedef std::list<Functor>           FunctorStore;
+    typedef FunctorStore::iterator       FunctorStoreIt;
+    typedef FunctorStore::const_iterator FunctorStoreConstIt;
+
+    typedef std::vector<FunctorStoreIt>  FunctorMap;
+    typedef FunctorMap::iterator         FunctorMapIt;
+    typedef FunctorMap::const_iterator   FunctorMapConstIt;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
 
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const Transform &source);
+    FunctorStore _funcStore;
+    FunctorMap   _funcMap;
+
+    Functor      _defaultFunc;
+    bool         _bHasDefaultFunctor;
 };
 
 OSG_END_NAMESPACE
 
-#include <OSGTransformBase.inl>
-#include <OSGTransform.inl>
+#include "OSGMultiFunctorStore.inl"
 
-#define OSGTRANSFORM_HEADER_CVSID "@(#)$Id: $"
+#define OSGMULTIFUNCTORSTORE_HEADER_CVSID "@(#)$Id: OSGMultiFunctorStore.h,v 1.4 2004/04/20 13:47:08 neumannc Exp $"
 
-#endif /* _OSGTRANSFORM_H_ */
+#endif /* _OSGMULTIFUNCTORSTORE_H_ */

@@ -36,116 +36,132 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGTRANSFORM_H_
-#define _OSGTRANSFORM_H_
+#ifndef _OSGACTIVECHILDRENLIST_H_
+#define _OSGACTIVECHILDRENLIST_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGConfig.h>
-
-#include <OSGAction.h>
-#include <OSGTransformBase.h>
-
-#include <OSGActorBase.h>
+#include <OSGSystemDef.h>
+#include "OSGNewActionTypes.h"
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief Transform provides one matrix to transform objects.
-    \ingroup GrpSystemNodeCoresMisc
-*/
-
-class OSG_SYSTEMLIB_DLLMAPPING Transform : public TransformBase
+class OSG_SYSTEMLIB_DLLMAPPING ActiveChildrenList
 {
     /*==========================  PUBLIC  =================================*/
   public:
-
     /*---------------------------------------------------------------------*/
-    /*! \name                       Sync                                   */
+    /*! \name    Types                                                     */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector whichField,
-                         UInt32    origin    );
+    typedef NewActionTypes::PriorityType PriorityType;
+    typedef MFNodePtr::iterator          MFNodePtrIt;
+    typedef MFNodePtr::const_iterator    MFNodePtrConstIt;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                    Helper                                    */
+    /*! \name    Constructors                                              */
     /*! \{                                                                 */
 
-    virtual void accumulateMatrix(Matrix &result);
-
-            void adjustVolume    (Volume &volume);
+    inline  ActiveChildrenList(void                      );
+    inline  ActiveChildrenList(const NodePtr &pParentNode);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                        Dump                                  */
+    /*! \name    Destructor                                                */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32    uiIndent = 0,
-                      const BitVector bvFlags  = 0) const;
-
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-    typedef TransformBase Inherited;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    Transform(void);
-    Transform(const Transform &source);
+    inline ~ActiveChildrenList(void                      );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
+    /*! \name    Parent Access                                             */
     /*! \{                                                                 */
 
-    virtual ~Transform(void);
+    inline void    buildList    (void                      );
+
+    inline NodePtr getParentNode(void                      ) const;
+    inline void    setParentNode(const NodePtr &pParentNode);
+
+    inline UInt32  getNumActive (void                      ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name              Draw & Intersect & Render                       */
+    /*! \name    Children Active Access                                   */
     /*! \{                                                                 */
 
-    Action::ResultE drawEnter     (Action *action);
-    Action::ResultE drawLeave     (Action *action);
+    inline bool         getActive  (MFNodePtrConstIt itChild ) const;
+    inline bool         getActive  (UInt32           uiIndex ) const;
+    inline void         setActive  (MFNodePtrConstIt itChild,
+                                    bool             bActive );
+    inline void         setActive  (UInt32           uiIndex,
+                                    bool             bActive );
 
-    Action::ResultE intersectEnter(Action *action);
-    Action::ResultE intersectLeave(Action *action);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name    Children Priority Access                                  */
+    /*! \{                                                                 */
 
-    NewActionTypes::ResultE intersectEnter(ActorBase *pActor);
-    NewActionTypes::ResultE intersectLeave(ActorBase *pActor);
+    inline PriorityType getPriority(MFNodePtrConstIt itChild ) const;
+    inline PriorityType getPriority(UInt32           uiIndex ) const;
+    inline void         setPriority(MFNodePtrConstIt itChild,
+                                    PriorityType     priority);
+    inline void         setPriority(UInt32           uiIndex,
+                                    PriorityType     priority);
 
-    Action::ResultE renderEnter   (Action *action);
-    Action::ResultE renderLeave   (Action *action);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name    Children Iterator Access                                  */
+    /*! \{                                                                 */
+
+    inline MFNodePtrConstIt beginChildren(void) const;
+    inline MFNodePtrIt      beginChildren(void);
+
+    inline MFNodePtrConstIt endChildren  (void) const;
+    inline MFNodePtrIt      endChildren  (void);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
-
-    friend class FieldContainer;
-    friend class TransformBase;
-
     /*---------------------------------------------------------------------*/
-    /*! \name                   Init                                       */
+    /*! \name    Types                                                     */
     /*! \{                                                                 */
 
-    static void initMethod(void);
+    class ChildrenListEntry
+    {
+      public:
+        inline ChildrenListEntry(void                               );
+        inline ChildrenListEntry(bool bActive, PriorityType priority);
+
+        inline bool         getActive  (void                 ) const;
+        inline void         setActive  (bool         bActive );
+
+        inline PriorityType getPriority(void                 ) const;
+        inline void         setPriority(PriorityType priority);
+
+      private:
+        bool         _bActive;
+        PriorityType _priority;
+    };
+
+    typedef std::vector<ChildrenListEntry> ChildrenList;
+    typedef ChildrenList::iterator         ChildrenListIt;
+    typedef ChildrenList::const_iterator   ChildrenListConstIt;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
 
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const Transform &source);
+    NodePtr      _pParentNode;
+    UInt32       _uiNumActive;
+    ChildrenList _children;
 };
 
 OSG_END_NAMESPACE
 
-#include <OSGTransformBase.inl>
-#include <OSGTransform.inl>
+#include "OSGActiveChildrenList.inl"
 
-#define OSGTRANSFORM_HEADER_CVSID "@(#)$Id: $"
+#define OSGACTIVECHILDRENLIST_HEADER_CVSID "@(#)$Id: OSGActiveChildrenList.h,v 1.1 2004/04/20 13:47:08 neumannc Exp $"
 
-#endif /* _OSGTRANSFORM_H_ */
+#endif /* _OSGACTIVECHILDRENLIST_H_ */

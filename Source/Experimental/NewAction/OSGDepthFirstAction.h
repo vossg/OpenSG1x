@@ -36,116 +36,127 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGTRANSFORM_H_
-#define _OSGTRANSFORM_H_
+#ifndef _OSGDEPTHFIRSTACTION_H_
+#define _OSGDEPTHFIRSTACTION_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
+#include "OSGNewAction.h"
 
-#include <OSGAction.h>
-#include <OSGTransformBase.h>
-
-#include <OSGActorBase.h>
+#include <deque>
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief Transform provides one matrix to transform objects.
-    \ingroup GrpSystemNodeCoresMisc
-*/
-
-class OSG_SYSTEMLIB_DLLMAPPING Transform : public TransformBase
+class OSG_SYSTEMLIB_DLLMAPPING DepthFirstAction : public NewAction
 {
     /*==========================  PUBLIC  =================================*/
   public:
-
     /*---------------------------------------------------------------------*/
-    /*! \name                       Sync                                   */
+    /*! \name    Create                                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector whichField,
-                         UInt32    origin    );
+    static  DepthFirstAction *create(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                    Helper                                    */
+    /*! \name    Destructor                                                */
     /*! \{                                                                 */
 
-    virtual void accumulateMatrix(Matrix &result);
-
-            void adjustVolume    (Volume &volume);
+    virtual ~DepthFirstAction(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                        Dump                                  */
+    /*! \name    Apply                                                     */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32    uiIndent = 0,
-                      const BitVector bvFlags  = 0) const;
+    virtual ResultE apply(const NodePtr         &pRootNode,
+                                PriorityType     priority );
+    virtual ResultE apply(      NodeListConstIt  begin,
+                                NodeListConstIt  end      );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    typedef TransformBase Inherited;
-
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name    Constructors                                              */
     /*! \{                                                                 */
 
-    Transform(void);
-    Transform(const Transform &source);
+    DepthFirstAction(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
+    /*! \name    Events                                                    */
     /*! \{                                                                 */
 
-    virtual ~Transform(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name              Draw & Intersect & Render                       */
-    /*! \{                                                                 */
-
-    Action::ResultE drawEnter     (Action *action);
-    Action::ResultE drawLeave     (Action *action);
-
-    Action::ResultE intersectEnter(Action *action);
-    Action::ResultE intersectLeave(Action *action);
-
-    NewActionTypes::ResultE intersectEnter(ActorBase *pActor);
-    NewActionTypes::ResultE intersectLeave(ActorBase *pActor);
-
-    Action::ResultE renderEnter   (Action *action);
-    Action::ResultE renderLeave   (Action *action);
+    virtual void attachEvent(ActorBase *pActor, UInt32 uiActorId);
+    virtual void detachEvent(ActorBase *pActor, UInt32 uiActorId);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
-
-    friend class FieldContainer;
-    friend class TransformBase;
-
     /*---------------------------------------------------------------------*/
-    /*! \name                   Init                                       */
+    /*! \name    Types                                                     */
     /*! \{                                                                 */
 
-    static void initMethod(void);
+    typedef NewAction                       Inherited;
+
+    typedef std::vector<ActorBase *>        ActorApplyStore;
+    typedef ActorApplyStore::iterator       ActorApplyStoreIt;
+    typedef ActorApplyStore::const_iterator ActorApplyStoreConstIt;
+
+    class NodeStackEntry
+    {
+      public:
+        inline NodeStackEntry(const NodePtr &pNode                 );
+        inline NodeStackEntry(const NodePtr &pNode, bool bEnterNode);
+
+        inline NodePtr getNode     (      void           ) const;
+        inline void    setNode     (const NodePtr &pNode );
+
+        inline bool    getEnterNode(      void           ) const;
+        inline void    setEnterNode(      bool bEnterNode);
+
+      private:
+        NodePtr _pNode;
+        bool    _bEnterNode;
+    };
+
+    typedef std::deque<NodeStackEntry> NodeStack;
+
+    /*!\brief prohibit default function (move to 'public' of needed) */
+    DepthFirstAction(const DepthFirstAction &source);
+    /*!\brief prohibit default function (move to 'public' of needed) */
+    void operator =(const DepthFirstAction &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name    Helper Methods                                            */
+    /*! \{                                                                 */
+
+           ResultE applyEnter     (void                                );
+           ResultE applyEnterLeave(void                                );
+
+    inline ResultE callEnter      (const NodePtr &pNode                );
+    inline ResultE callLeave      (const NodePtr &pNode                );
+
+    inline void    pushChildren   (const NodePtr &pNode, ResultE result);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
 
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const Transform &source);
+    NodeStack       _nodeStack;
+    ActorApplyStore _actorsEnter;
+    ActorApplyStore _actorsLeave;
 };
 
 OSG_END_NAMESPACE
 
-#include <OSGTransformBase.inl>
-#include <OSGTransform.inl>
+#include "OSGDepthFirstAction.inl"
 
-#define OSGTRANSFORM_HEADER_CVSID "@(#)$Id: $"
+#define OSGDEPTHFIRSTACTION_HEADER_CVSID "@(#)$Id: OSGDepthFirstAction.h,v 1.1 2004/04/20 13:47:08 neumannc Exp $"
 
-#endif /* _OSGTRANSFORM_H_ */
+#endif /* _OSGDEPTHFIRSTACTION_H_ */

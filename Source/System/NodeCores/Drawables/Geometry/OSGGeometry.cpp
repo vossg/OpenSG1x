@@ -76,7 +76,7 @@ OSG_USING_NAMESPACE
 
 /*! \class osg::Geometry
     \ingroup GrpSystemNodeCoresDrawablesGeometry
-    
+
 The base class for all Geometry node types, see \ref PageSystemGeometry for a
 description.
 
@@ -85,7 +85,7 @@ description.
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-    
+
 const UInt16 Geometry::MapPosition       = 1;
 const UInt16 Geometry::MapNormal         = Geometry::MapPosition << 1;
 const UInt16 Geometry::MapColor          = Geometry::MapNormal << 1;
@@ -122,34 +122,34 @@ const char *Geometry::mapType(UInt8 type)
     case GL_QUAD_STRIP:     return "QuadStrip";
     case GL_POLYGON:        return "Polygon";
     }
-    
+
     return "Unknown Primitive";
 }
- 
+
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
 void Geometry::initMethod(void)
 {
-    DrawAction::registerEnterDefault(getClassType(), 
-        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr, 
+    DrawAction::registerEnterDefault(getClassType(),
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr,
               CNodePtr, Action *>(&MaterialDrawable::drawActionHandler));
 
-    IntersectAction::registerEnterDefault(getClassType(), 
-        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, GeometryPtr,  
+    IntersectAction::registerEnterDefault(getClassType(),
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, GeometryPtr,
               CNodePtr, Action *>(&Geometry::intersect));
 
     IntersectActor::regClassEnter(
-        osgTypedMethodFunctor2BaseCPtrRef<
-          NewActionBase::ResultE,
+        osgTypedMethodFunctor2BaseCPtr<
+          NewActionTypes::ResultE,
           GeometryPtr           ,
           NodeCorePtr           ,
           ActorBase            *>(&Geometry::intersect),
         getClassType());
 
-    RenderAction::registerEnterDefault(getClassType(), 
-        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr,  
+    RenderAction::registerEnterDefault(getClassType(),
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr,
               CNodePtr, Action *>(&MaterialDrawable::renderActionHandler));
 }
 
@@ -239,12 +239,12 @@ Geometry::~Geometry(void)
 
     if(_sfSecondaryColors.getValue() != NullFC)
     {
-        beginEditCP(_sfSecondaryColors.getValue(), 
+        beginEditCP(_sfSecondaryColors.getValue(),
                         Attachment::ParentsFieldMask);
         {
             _sfSecondaryColors.getValue()->subParent(thisP);
         }
-        endEditCP(_sfSecondaryColors.getValue(), 
+        endEditCP(_sfSecondaryColors.getValue(),
                         Attachment::ParentsFieldMask);
 
         subRefCP(_sfSecondaryColors.getValue());
@@ -326,9 +326,9 @@ void Geometry::onCreate(const Geometry *)
 
     setGLId(
           Window::registerGLObject(
-            osgTypedMethodVoidFunctor2ObjCPtrPtr<GeometryPtr, 
-                                                 Window , 
-                                                 UInt32>(tmpPtr, 
+            osgTypedMethodVoidFunctor2ObjCPtrPtr<GeometryPtr,
+                                                 Window ,
+                                                 UInt32>(tmpPtr,
                                                          &Geometry::handleGL),
             1));
 
@@ -340,7 +340,7 @@ void Geometry::onCreate(const Geometry *)
 void Geometry::adjustVolume(Volume & volume)
 {
     GeoPositionsPtr pos = getPositions();
-    
+
     volume.setValid();
     volume.setEmpty();
 
@@ -372,16 +372,16 @@ void Geometry::handleGL(Window* win, UInt32 idstatus)
 {
     Window::GLObjectStatusE mode;
     UInt32 id;
-   
+
     Window::unpackIdStatus(idstatus, id, mode);
-    
+
     if(mode == Window::initialize || mode == Window::needrefresh ||
        mode == Window::reinitialize)
-    {       
+    {
         glNewList(id, GL_COMPILE);
-        
+
         GeoPumpFactory::Index ind = GeoPumpFactory::the()->getIndex(this);
-        GeoPumpFactory::GeoPump p = 
+        GeoPumpFactory::GeoPump p =
             GeoPumpFactory::the()->getGeoPump(win, ind);
 
         // call the pump
@@ -390,11 +390,11 @@ void Geometry::handleGL(Window* win, UInt32 idstatus)
             p(win, this);
         else
         {
-            SWARNING << "Geometry::handleGL: no Pump found for geometry " 
-                     << this 
+            SWARNING << "Geometry::handleGL: no Pump found for geometry "
+                     << this
                      << std::endl;
         }
-        
+
         glEndList();
     }
     else if(mode == Window::destroy)
@@ -407,15 +407,15 @@ void Geometry::handleGL(Window* win, UInt32 idstatus)
     }
     else
     {
-        SWARNING << "Geometry(" << this << "::handleGL: Illegal mode: " 
+        SWARNING << "Geometry(" << this << "::handleGL: Illegal mode: "
                  << mode << " for id " << id << std::endl;
     }
-    
+
 }
 
 /*------------------------------- dump ----------------------------------*/
 
-void Geometry::dump(      UInt32    uiIndent, 
+void Geometry::dump(      UInt32    uiIndent,
                     const BitVector bvFlags) const
 {
     UInt32 i;
@@ -424,7 +424,7 @@ void Geometry::dump(      UInt32    uiIndent,
 
     indentLog(uiIndent, PLOG);
 
-    PLOG << "GeoCore" 
+    PLOG << "GeoCore"
          << "("
          << thisP.getFieldContainerId()
          << ") : "
@@ -521,13 +521,13 @@ void Geometry::dump(      UInt32    uiIndent,
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
 
 /*! Find the property pointer for the given mapID, i.e.
-osg::Geometry::MapPosition and relatives. 
+osg::Geometry::MapPosition and relatives.
 */
 GeoPropertyArrayInterface *Geometry::getProperty(Int32 mapID)
 {
     GeoPropertyArrayInterface *pP = 0;
-    
-    switch(mapID) 
+
+    switch(mapID)
     {
         case 0:
             pP = 0;
@@ -557,11 +557,11 @@ GeoPropertyArrayInterface *Geometry::getProperty(Int32 mapID)
             pP =(getTexCoords3()      == NullFC) ? 0 : &(*getTexCoords3());
             break;
         default:
-            FFATAL(("Invalid mapID(%d) in Geometry::getProperty()\n", 
+            FFATAL(("Invalid mapID(%d) in Geometry::getProperty()\n",
                     mapID));
           break;
     }
-    
+
     return pP;
 }
 
@@ -569,7 +569,7 @@ GeoPropertyArrayInterface *Geometry::getProperty(Int32 mapID)
 
 /*! Calc the indices into the index field for the given attributes. This is the
     index of the given attribute's index in a multi-index block.
-    
+
     Returns -1 for non- or single-indexed geometries, or if the given attribute
     is not used.
 */
@@ -580,16 +580,16 @@ Int16  Geometry::calcMappingIndex(UInt16 attrib) const
 
     for(i = nmappings - 1; i >= 0; i--)
     {
-        if(getIndexMapping()[i] & attrib ) 
+        if(getIndexMapping()[i] & attrib )
             break;
-    }   
-    
+    }
+
     return i;
 }
 
-    
 
-/*! Check if the geometry can be merged into this one, return true if yes 
+
+/*! Check if the geometry can be merged into this one, return true if yes
 They need to have the same material and the same mappings or the same set of
 attributes.
 */
@@ -599,7 +599,7 @@ bool Geometry::isMergeable( const GeometryPtr other )
     else return false;
 }
 
-/*! Merge the geometry into this one, return true if successful.     
+/*! Merge the geometry into this one, return true if successful.
 */
 bool Geometry::merge( const GeometryPtr other )
 {
@@ -674,7 +674,7 @@ bool Geometry::merge( const GeometryPtr other )
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
-    
+
 Action::ResultE Geometry::drawPrimitives(DrawActionBase * action)
 {
     if(getDlistCache() == true)
@@ -685,7 +685,7 @@ Action::ResultE Geometry::drawPrimitives(DrawActionBase * action)
     else
     {
         GeoPumpFactory::Index ind = GeoPumpFactory::the()->getIndex(this);
-        GeoPumpFactory::GeoPump p = 
+        GeoPumpFactory::GeoPump p =
             GeoPumpFactory::the()->getGeoPump(action->getWindow(), ind);
 
         // call the pump
@@ -699,7 +699,7 @@ Action::ResultE Geometry::drawPrimitives(DrawActionBase * action)
                      << std::endl;
         }
     }
-    
+
     StatCollector *coll = action->getStatistics();
 
     if(coll != NULL)
@@ -709,12 +709,12 @@ Action::ResultE Geometry::drawPrimitives(DrawActionBase * action)
         {
             GeometryPtr geo(this);
             UInt32 ntri,nl,np,is;
-            
+
             calcPrimitiveCount(geo, ntri, nl, np);
             el->add(ntri);
             coll->getElem(Drawable::statNLines)->add(nl);
             coll->getElem(Drawable::statNLines)->add(np);
-            
+
             if(getIndices() == NullFC)
             {
                 if(getPositions() != NullFC)
@@ -734,25 +734,25 @@ Action::ResultE Geometry::drawPrimitives(DrawActionBase * action)
             coll->getElem(Drawable::statNVertices)->add(is);
         }
     }
-    
+
     return Action::Continue;
 }
 
 Action::ResultE Geometry::intersect(Action * action)
-{ 
+{
     IntersectAction     * ia = dynamic_cast<IntersectAction*>(action);
     const DynamicVolume  &dv = ia->getActNode()->getVolume(true);
-    
+
     if(dv.isValid() && !dv.intersect(ia->getLine()))
     {
         return Action::Skip; //bv missed -> can not hit children
     }
-    
+
     TriangleIterator it  = this->beginTriangles();
     TriangleIterator end = this->endTriangles  ();
     Real32 t;
     Vec3f norm;
-    
+
     for(; it != end; ++it)
     {
         if(ia->getLine().intersect(it.getPosition(0),
@@ -762,78 +762,43 @@ Action::ResultE Geometry::intersect(Action * action)
             ia->setHit(t, ia->getActNode(), it.getIndex(), norm);
         }
     }
-    
+
     return Action::Continue;
 }
- 
-NewActionBase::ResultE
+
+NewActionTypes::ResultE
 Geometry::intersect(ActorBase *pActor)
 {
-          IntersectActor *pIA         = dynamic_cast<IntersectActor *>(pActor);
-    const DynamicVolume  &dynVol      = pIA->getCurrNode   ()->getVolume(true);
-          Real32          scaleFactor = pIA->getScaleFactor();
+    IntersectActor   *pIA         = dynamic_cast<IntersectActor *>(pActor);
+    Real32            scaleFactor = pIA->getScaleFactor();
 
-    bool   bvHit;
-    Real32 bvEnterDist;
-    Real32 bvExitDist;
-    
-    pIA->setUseNodeList();
+    TriangleIterator  itTris      = this->beginTriangles();
+    TriangleIterator  endTris     = this->endTriangles  ();
 
-    ActiveNodeListIt itNodes = pIA->beginNodes();
-    ActiveNodeListIt end     = pIA->endNodes  ();
+    Real32            hitDist;
+    Vec3f             hitNormal;
 
-    bvHit = dynVol.intersect(pIA->getLine(), bvEnterDist, bvExitDist);
-
-    if(bvHit == false)
-    {   
-        // bv missed -> can't hit children nor this geo
-        
-        for(; itNodes != end; ++itNodes)
-        {
-            itNodes.deactivate();
-        }
-    }
-    else if((bvEnterDist * scaleFactor) >= pIA->getHitDist())
+    for(; itTris != endTris; ++itTris)
     {
-        // bv hit but behind a tri of a different geo -> can't get better
-
-        for(; itNodes != end; ++itNodes)
+        if(pIA->getRay().intersect(itTris.getPosition(0),
+                                   itTris.getPosition(1),
+                                   itTris.getPosition(2),
+                                   hitDist,                &hitNormal) == true)
         {
-            itNodes.deactivate();
-        }
-    }
-    else
-    {    
-        TriangleIterator itTris  = this->beginTriangles();
-        TriangleIterator endTris = this->endTriangles  ();
-        
-        Real32 triHitDist;
-        Vec3f  triHitNormal;
-
-        for(; itTris != endTris; ++itTris)
-        {
-            if((pIA->getLine().intersect(itTris.getPosition(0),
-                                         itTris.getPosition(1),
-                                         itTris.getPosition(2), 
-                                         triHitDist, &triHitNormal   )) &&
-               (triHitDist               >= 0                         ) &&
-               (triHitDist * scaleFactor <  pIA->getHitDist()         )   )
-            {
-                pIA->setHit        (true                    );
-                pIA->setHitObject  (pIA->getCurrNode()      );
-                pIA->setHitTriangle(itTris.getIndex()       );
-                pIA->setHitDist    (triHitDist * scaleFactor);
-            }
+            pIA->setHit(hitDist * scaleFactor, pIA->getCurrNode(),
+                        itTris.getIndex(),     hitNormal          );
         }
     }
 
-    return NewActionBase::Continue;
+    pIA->prioritizeChildren();
+
+    return NewActionTypes::Continue;
 }
 
 /*! React to field changes, take care of incrementing/decrementing the
     reference count of the changed properties.
 */
-void Geometry::changed(BitVector whichField, 
+void Geometry::changed(BitVector whichField,
                        UInt32    origin   )
 {
     if(whichField & TypesFieldMask)
@@ -843,14 +808,14 @@ void Geometry::changed(BitVector whichField,
             if(origin & ChangedOrigin::AbstrCheckValid)
             {
                 GeometryPtr thisP = getPtr();
-                
+
                 if(_sfTypes.getValue()                    != NullFC &&
                    _sfTypes.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoPTypesPtr pType = _sfTypes.getValue();
-                    
+
                     _sfTypes.setValue(NullFC);
-                    
+
                     setTypes(pType);
                 }
             }
@@ -861,14 +826,14 @@ void Geometry::changed(BitVector whichField,
             else
             {
                 GeoPTypesPtr pType = _sfTypes.getValue();
-                
+
                 _sfTypes.setValue(NullFC);
-                
+
                 setTypes(pType);
             }
         }
     }
-    
+
     if(whichField & LengthsFieldMask)
     {
         if(origin & ChangedOrigin::Abstract)
@@ -876,14 +841,14 @@ void Geometry::changed(BitVector whichField,
             if(origin & ChangedOrigin::AbstrCheckValid)
             {
                 GeometryPtr thisP = getPtr();
-                
+
                 if(_sfLengths.getValue()                    != NullFC &&
                    _sfLengths.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoPLengthsPtr pLength = _sfLengths.getValue();
-                    
+
                     _sfLengths.setValue(NullFC);
-                    
+
                     setLengths(pLength);
                 }
             }
@@ -894,9 +859,9 @@ void Geometry::changed(BitVector whichField,
             else
             {
                 GeoPLengthsPtr pLength = _sfLengths.getValue();
-                
+
                 _sfLengths.setValue(NullFC);
-                
+
                 setLengths(pLength);
             }
         }
@@ -907,21 +872,21 @@ void Geometry::changed(BitVector whichField,
         for(UInt32 i = 0; i < _parents.size(); i++)
         {
             _parents[i]->invalidateVolume();
-        }            
+        }
 
         if(origin & ChangedOrigin::Abstract)
         {
             if(origin & ChangedOrigin::AbstrCheckValid)
             {
                 GeometryPtr thisP = getPtr();
-                
+
                 if(_sfPositions.getValue()                    != NullFC &&
                    _sfPositions.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoPositionsPtr pPos = _sfPositions.getValue();
-                    
+
                     _sfPositions.setValue(NullFC);
-                    
+
                     setPositions(pPos);
                 }
             }
@@ -932,9 +897,9 @@ void Geometry::changed(BitVector whichField,
             else
             {
                 GeoPositionsPtr pPos = _sfPositions.getValue();
-                
+
                 _sfPositions.setValue(NullFC);
-                
+
                 setPositions(pPos);
             }
         }
@@ -950,14 +915,14 @@ void Geometry::changed(BitVector whichField,
             if(origin & ChangedOrigin::AbstrCheckValid)
             {
                 GeometryPtr thisP = getPtr();
-                
+
                 if(_sfNormals.getValue()                    != NullFC &&
                    _sfNormals.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoNormalsPtr pNorm = _sfNormals.getValue();
-                    
+
                     _sfNormals.setValue(NullFC);
-                    
+
                     setNormals(pNorm);
                 }
             }
@@ -968,9 +933,9 @@ void Geometry::changed(BitVector whichField,
             else
             {
                 GeoNormalsPtr pNorm = _sfNormals.getValue();
-                
+
                 _sfNormals.setValue(NullFC);
-                
+
                 setNormals(pNorm);
             }
         }
@@ -983,14 +948,14 @@ void Geometry::changed(BitVector whichField,
             if(origin & ChangedOrigin::AbstrCheckValid)
             {
                 GeometryPtr thisP = getPtr();
-                
+
                 if(_sfColors.getValue()                    != NullFC &&
                    _sfColors.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoColorsPtr pColor = _sfColors.getValue();
-                    
+
                     _sfColors.setValue(NullFC);
-                    
+
                     setColors(pColor);
                 }
             }
@@ -1001,9 +966,9 @@ void Geometry::changed(BitVector whichField,
             else
             {
                 GeoColorsPtr pColor = _sfColors.getValue();
-                
+
                 _sfColors.setValue(NullFC);
-                
+
                 setColors(pColor);
             }
         }
@@ -1016,14 +981,14 @@ void Geometry::changed(BitVector whichField,
             if(origin & ChangedOrigin::AbstrCheckValid)
             {
                 GeometryPtr thisP = getPtr();
-                
+
                 if(_sfSecondaryColors.getValue()                   != NullFC &&
                    _sfSecondaryColors.getValue()->findParent(thisP)==     -1 )
                 {
                     GeoColorsPtr pColor = _sfSecondaryColors.getValue();
-                    
+
                     _sfSecondaryColors.setValue(NullFC);
-                    
+
                     setSecondaryColors(pColor);
                 }
             }
@@ -1034,9 +999,9 @@ void Geometry::changed(BitVector whichField,
             else
             {
                 GeoColorsPtr pColor = _sfSecondaryColors.getValue();
-                
+
                 _sfSecondaryColors.setValue(NullFC);
-                
+
                 setSecondaryColors(pColor);
             }
         }
@@ -1049,14 +1014,14 @@ void Geometry::changed(BitVector whichField,
             if(origin & ChangedOrigin::AbstrCheckValid)
             {
                 GeometryPtr thisP = getPtr();
-                
+
                 if(_sfTexCoords.getValue()                    != NullFC &&
                    _sfTexCoords.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoTexCoordsPtr pTexCoord = _sfTexCoords.getValue();
-                    
+
                     _sfTexCoords.setValue(NullFC);
-                    
+
                     setTexCoords(pTexCoord);
                 }
             }
@@ -1067,9 +1032,9 @@ void Geometry::changed(BitVector whichField,
             else
             {
                 GeoTexCoordsPtr pTexCoord = _sfTexCoords.getValue();
-                
+
                 _sfTexCoords.setValue(NullFC);
-                
+
                 setTexCoords(pTexCoord);
             }
         }
@@ -1082,14 +1047,14 @@ void Geometry::changed(BitVector whichField,
             if(origin & ChangedOrigin::AbstrCheckValid)
             {
                 GeometryPtr thisP = getPtr();
-                
+
                 if(_sfTexCoords1.getValue()                    != NullFC &&
                    _sfTexCoords1.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoTexCoordsPtr pTexCoord = _sfTexCoords1.getValue();
-                    
+
                     _sfTexCoords1.setValue(NullFC);
-                    
+
                     setTexCoords1(pTexCoord);
                 }
             }
@@ -1100,9 +1065,9 @@ void Geometry::changed(BitVector whichField,
             else
             {
                 GeoTexCoordsPtr pTexCoord = _sfTexCoords1.getValue();
-                
+
                 _sfTexCoords1.setValue(NullFC);
-                
+
                 setTexCoords1(pTexCoord);
             }
         }
@@ -1115,14 +1080,14 @@ void Geometry::changed(BitVector whichField,
             if(origin & ChangedOrigin::AbstrCheckValid)
             {
                 GeometryPtr thisP = getPtr();
-                
+
                 if(_sfTexCoords2.getValue()                    != NullFC &&
                    _sfTexCoords2.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoTexCoordsPtr pTexCoord = _sfTexCoords2.getValue();
-                    
+
                     _sfTexCoords2.setValue(NullFC);
-                    
+
                     setTexCoords2(pTexCoord);
                 }
             }
@@ -1133,9 +1098,9 @@ void Geometry::changed(BitVector whichField,
             else
             {
                 GeoTexCoordsPtr pTexCoord = _sfTexCoords2.getValue();
-                
+
                 _sfTexCoords2.setValue(NullFC);
-                
+
                 setTexCoords2(pTexCoord);
             }
         }
@@ -1148,14 +1113,14 @@ void Geometry::changed(BitVector whichField,
             if(origin & ChangedOrigin::AbstrCheckValid)
             {
                 GeometryPtr thisP = getPtr();
-                
+
                 if(_sfTexCoords3.getValue()                    != NullFC &&
                    _sfTexCoords3.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoTexCoordsPtr pTexCoord = _sfTexCoords3.getValue();
-                    
+
                     _sfTexCoords3.setValue(NullFC);
-                    
+
                     setTexCoords3(pTexCoord);
                 }
             }
@@ -1166,9 +1131,9 @@ void Geometry::changed(BitVector whichField,
             else
             {
                 GeoTexCoordsPtr pTexCoord = _sfTexCoords3.getValue();
-                
+
                 _sfTexCoords3.setValue(NullFC);
-                
+
                 setTexCoords3(pTexCoord);
             }
         }
@@ -1181,14 +1146,14 @@ void Geometry::changed(BitVector whichField,
             if(origin & ChangedOrigin::AbstrCheckValid)
             {
                 GeometryPtr thisP = getPtr();
-                
+
                 if(_sfIndices.getValue()                    != NullFC &&
                    _sfIndices.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoIndicesPtr pIndex = _sfIndices.getValue();
-                    
+
                     _sfIndices.setValue(NullFC);
-                    
+
                     setIndices(pIndex);
                 }
             }
@@ -1199,9 +1164,9 @@ void Geometry::changed(BitVector whichField,
             else
             {
                 GeoIndicesPtr pIndex = _sfIndices.getValue();
-                
+
                 _sfIndices.setValue(NullFC);
-                
+
                 setIndices(pIndex);
             }
         }
@@ -1218,9 +1183,9 @@ void Geometry::changed(BitVector whichField,
             else
             {
                 MaterialPtr pMat = _sfMaterial.getValue();
-                
+
                 _sfMaterial.setValue(NullFC);
-                
+
                 setMaterial(pMat);
             }
         }
@@ -1236,27 +1201,27 @@ void Geometry::changed(BitVector whichField,
             beginEditCP(tmpPtr, Geometry::GLIdFieldMask);
 
             setGLId(
-                Window::registerGLObject( 
+                Window::registerGLObject(
                     osgTypedMethodVoidFunctor2ObjCPtrPtr<
-                                GeometryPtr, 
-                                Window , 
-                                UInt32>(tmpPtr, 
+                                GeometryPtr,
+                                Window ,
+                                UInt32>(tmpPtr,
                                         &Geometry::handleGL),
                     1));
 
             endEditCP(tmpPtr, Geometry::GLIdFieldMask);
         }
-        
+
         Window::refreshGLObject(getGLId());
     }
-    else 
+    else
     {
         if(getGLId() != 0)
             Window::destroyGLObject(getGLId(), 1);
-        
+
         setGLId(0);
     }
-    
+
     Inherited::changed(whichField, origin);
 }
 
@@ -1269,7 +1234,7 @@ TriangleIterator Geometry::beginTriangles(void) const
     TriangleIterator it(this->getPtr());
 
     it.setToBegin();
-    
+
     return it;
 }
 
@@ -1280,7 +1245,7 @@ TriangleIterator Geometry::endTriangles(void) const
     TriangleIterator it(this->getPtr());
 
     it.setToEnd();
-    
+
     return it;
 }
 
@@ -1293,7 +1258,7 @@ PrimitiveIterator Geometry::beginPrimitives(void) const
     PrimitiveIterator it(this->getPtr());
 
     it.setToBegin();
-    
+
     return it;
 }
 
@@ -1304,10 +1269,10 @@ PrimitiveIterator Geometry::endPrimitives(void) const
     PrimitiveIterator it(this->getPtr());
 
     it.setToEnd();
-    
+
     return it;
 }
-    
+
 /*---------------------------- Face Iterator ---------------------------------*/
 
 /*! Return a FaceIterator poiting to the beginning of the Geometry.
@@ -1317,7 +1282,7 @@ FaceIterator Geometry::beginFaces(void) const
     FaceIterator it(this->getPtr());
 
     it.setToBegin();
-    
+
     return it;
 }
 
@@ -1328,20 +1293,20 @@ FaceIterator Geometry::endFaces(void) const
     FaceIterator it(this->getPtr());
 
     it.setToEnd();
-    
+
     return it;
 }
 
 
 /*! Clone the geometry, i.e. create a new Geometry that uses all the same
-    properties the given one uses. 
+    properties the given one uses.
 */
 
 GeometryPtr Geometry::clone(void)
 {
     GeometryPtr geo = Geometry::create();
 //  FieldContainerFactory * fcf = FieldContainerFactory::the();
-    
+
    //  create copies of the attributes
 
     beginEditCP(geo);
@@ -1415,47 +1380,47 @@ GeometryPtr Geometry::clone(void)
 }
 
 bool Geometry::CompareMaterials(MaterialPtr m1, MaterialPtr m2)
-{   
+{
     ChunkMaterialPtr cm1=ChunkMaterialPtr::dcast(m1);
     ChunkMaterialPtr cm2=ChunkMaterialPtr::dcast(m2);
     if (cm1==NullFC || cm2==NullFC) return false;
-        
+
     MFStateChunkPtr &chunks1=cm1->getChunks();
     MFStateChunkPtr &chunks2=cm2->getChunks();
-    
+
     if (chunks1.size()!=chunks2.size()) return false;
-    
+
     MFStateChunkPtr::iterator matIt  = chunks1.begin();
     MFStateChunkPtr::iterator matEnd = chunks1.end ();
-    
-    MFStateChunkPtr::iterator i; 
-    
+
+    MFStateChunkPtr::iterator i;
+
     while (matIt!=matEnd)
     {
         i = chunks2.find(*matIt);
-        
+
         if (i == chunks2.end()) return false;
-        
+
         ++matIt;
     }
-    
+
     MFStateChunkPtr &statechunks1=cm1->getState()->getChunks();
     MFStateChunkPtr &statechunks2=cm2->getState()->getChunks();
-    
+
     if (statechunks1.size()!=statechunks2.size()) return false;
-    
+
     matIt  = statechunks1.begin();
-    matEnd = statechunks1.end (); 
-    
+    matEnd = statechunks1.end ();
+
     while (matIt!=matEnd)
     {
         i = statechunks2.find(*matIt);
-        
+
         if (i == statechunks2.end()) return false;
-        
+
         ++matIt;
     }
-    
+
     return true;
 }
 
@@ -1478,25 +1443,25 @@ Int16 Geometry::MergeIndex( const GeometryPtr other )
 
     //compare the existing attributes
     if ( ( (        getNormals()            != NullFC ) ^
-           ( other->getNormals()            != NullFC ) 
+           ( other->getNormals()            != NullFC )
         ) ||
         ( (        getColors()              != NullFC ) ^
-          ( other->getColors()              != NullFC ) 
+          ( other->getColors()              != NullFC )
         ) ||
         ( (        getSecondaryColors()     != NullFC ) ^
-          ( other->getSecondaryColors()     != NullFC ) 
+          ( other->getSecondaryColors()     != NullFC )
         ) ||
         ( (        getTexCoords()           != NullFC ) ^
-          ( other->getTexCoords()           != NullFC ) 
+          ( other->getTexCoords()           != NullFC )
         ) ||
         ( (        getTexCoords1()          != NullFC ) ^
-          ( other->getTexCoords1()          != NullFC ) 
+          ( other->getTexCoords1()          != NullFC )
         ) ||
         ( (        getTexCoords2()          != NullFC ) ^
-          ( other->getTexCoords2()          != NullFC ) 
+          ( other->getTexCoords2()          != NullFC )
         ) ||
         ( (        getTexCoords3()          != NullFC ) ^
-          ( other->getTexCoords3()          != NullFC ) 
+          ( other->getTexCoords3()          != NullFC )
         ) )
         return -1;
 
@@ -1573,9 +1538,9 @@ Int16 Geometry::MergeIndex( const GeometryPtr other )
 //merge two identical geometries
 void Geometry::merge0( const GeometryPtr other )
 {
-    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,        
-        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,   
-        texcoord3Base;                                           
+    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,
+        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
+        texcoord3Base;
 
     // append the data
     UInt32 i;
@@ -1584,7 +1549,7 @@ void Geometry::merge0( const GeometryPtr other )
 
     if ( getIndices() != NullFC )
     {
-        // indices	
+        // indices
 
         GeoIndicesPtr ind  =        getIndices();
         GeoIndicesPtr oind = other->getIndices();
@@ -1592,16 +1557,16 @@ void Geometry::merge0( const GeometryPtr other )
         beginEditCP( ind );
 
         UInt32 indBase = ind->getSize();
-        ind->resize( indBase + oind->getSize() );        
+        ind->resize( indBase + oind->getSize() );
 
         // single index?
         if ( getIndexMapping().size() < 2 )
         {
             for ( i = 0; i < oind->getSize(); i++ )
-                ind->setValue( oind->getValue(i) + posBase, indBase + i );          
+                ind->setValue( oind->getValue(i) + posBase, indBase + i );
         }
         else // multi-index
-        {            
+        {
             UInt32 * offsets = new UInt32 [ getIndexMapping().size() ];
             Int16 mind;
             UInt16 nmap = getIndexMapping().size();
@@ -1633,10 +1598,10 @@ void Geometry::merge0( const GeometryPtr other )
 
 
             // bump every index by its offset
-            for ( i = 0, j = 0; i < oind->getSize(); 
+            for ( i = 0, j = 0; i < oind->getSize();
                 i++, j = ( j + 1 ) % nmap )
             {
-                ind->setValue(oind->getValue(i) + offsets[j], 
+                ind->setValue(oind->getValue(i) + offsets[j],
                     indBase + i );
             }
 
@@ -1651,9 +1616,9 @@ void Geometry::merge0( const GeometryPtr other )
 //merges non-indexed geometry in single-indexed one
 void Geometry::merge1( const GeometryPtr other )
 {
-    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,        
-        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,   
-        texcoord3Base;                                           
+    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,
+        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
+        texcoord3Base;
 
     UInt32 i;
 
@@ -1662,12 +1627,12 @@ void Geometry::merge1( const GeometryPtr other )
     GeoIndicesPtr ind = getIndices();
 
     UInt32 indBase = ind->getSize();
-    ind->resize(indBase + other->getPositions()->getSize()); 
+    ind->resize(indBase + other->getPositions()->getSize());
 
     beginEditCP(ind);
 
     for (i = 0; i < other->getPositions()->getSize(); i++ )
-        ind->setValue( i + posBase, indBase + i );          
+        ind->setValue( i + posBase, indBase + i );
 
     endEditCP( ind );
 }
@@ -1676,9 +1641,9 @@ void Geometry::merge1( const GeometryPtr other )
 //the non-indexed geometry is converted to single-indexed
 void Geometry::merge2( const GeometryPtr other )
 {
-    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,        
-        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,   
-        texcoord3Base;                                           
+    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,
+        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
+        texcoord3Base;
 
     UInt32 i;
 
@@ -1687,7 +1652,7 @@ void Geometry::merge2( const GeometryPtr other )
     GeoIndicesUI32Ptr indices = GeoIndicesUI32::create();
     beginEditCP(indices, GeoIndicesUI32::GeoPropDataFieldMask);
 
-    indices->resize(posBase + other->getIndices()->getSize()); 
+    indices->resize(posBase + other->getIndices()->getSize());
 
     for (i = 0; i < posBase; i++)
         indices->setValue(i, i);
@@ -1707,22 +1672,22 @@ void Geometry::merge2( const GeometryPtr other )
 //merges non-indexed geometry in multi-indexed one
 void Geometry::merge3( const GeometryPtr other )
 {
-    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,        
-        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,   
-        texcoord3Base;                                           
+    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,
+        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
+        texcoord3Base;
 
     UInt32 i;
 
     copyAllAttrib;
 
     // indices
-    GeoIndicesPtr ind = getIndices();    
+    GeoIndicesPtr ind = getIndices();
     UInt16 nmap = getIndexMapping().size();
     Int16 mind;
     UInt32 indBase = ind->getSize();
-    ind->resize( indBase + other->getPositions()->getSize()*nmap ); 
+    ind->resize( indBase + other->getPositions()->getSize()*nmap );
 
-    beginEditCP( ind ); 
+    beginEditCP( ind );
 
     for (i = 0; i < other->getPositions()->getSize(); i++)
     {
@@ -1748,7 +1713,7 @@ void Geometry::merge3( const GeometryPtr other )
             ind->setValue(texcoord2Base + i, indBase + i*nmap + mind);
 
         if ( ( mind = calcMappingIndex( MapTexCoords3 ) ) >= 0 )
-            ind->setValue(texcoord3Base + i, indBase + i*nmap + mind);        
+            ind->setValue(texcoord3Base + i, indBase + i*nmap + mind);
     }
 
     endEditCP( ind );
@@ -1758,21 +1723,21 @@ void Geometry::merge3( const GeometryPtr other )
 //the non-indexed geometry is converted to multi-indexed
 void Geometry::merge4( const GeometryPtr other )
 {
-    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,        
-        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,   
-        texcoord3Base;                                           
+    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,
+        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
+        texcoord3Base;
 
     UInt32 i;
 
     copyAllAttrib;
 
-    GeoIndicesPtr oind = other->getIndices();    
+    GeoIndicesPtr oind = other->getIndices();
     UInt16 nmap = other->getIndexMapping().size();
     Int16 mind;
     GeoIndicesUI32Ptr indices = GeoIndicesUI32::create();
     beginEditCP(indices, GeoIndicesUI32::GeoPropDataFieldMask);
 
-    indices->resize( posBase*nmap + oind->getSize() ); 
+    indices->resize( posBase*nmap + oind->getSize() );
 
     for (i = 0; i < posBase; i++)
     {
@@ -1816,23 +1781,23 @@ void Geometry::merge4( const GeometryPtr other )
 //merges single-indexed geometry in multi-indexed one
 void Geometry::merge5( const GeometryPtr other )
 {
-    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,        
-        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,   
-        texcoord3Base;                                           
+    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,
+        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
+        texcoord3Base;
 
     UInt32 i;
 
     copyAllAttrib;
 
     // indices
-    GeoIndicesPtr ind = getIndices();    
-    GeoIndicesPtr oind = other->getIndices();    
+    GeoIndicesPtr ind = getIndices();
+    GeoIndicesPtr oind = other->getIndices();
     UInt16 nmap = getIndexMapping().size();
     Int16 mind;
     UInt32 indBase = ind->getSize();
-    ind->resize( indBase + oind->getSize()*nmap ); 
+    ind->resize( indBase + oind->getSize()*nmap );
 
-    beginEditCP( ind ); 
+    beginEditCP( ind );
 
     for (i = 0; i < oind->getSize(); i++)
     {
@@ -1858,7 +1823,7 @@ void Geometry::merge5( const GeometryPtr other )
             ind->setValue(texcoord2Base + oind->getValue(i), indBase + i*nmap + mind);
 
         if ( ( mind = calcMappingIndex( MapTexCoords3 ) ) >= 0 )
-            ind->setValue(texcoord3Base + oind->getValue(i), indBase + i*nmap + mind);        
+            ind->setValue(texcoord3Base + oind->getValue(i), indBase + i*nmap + mind);
     }
 
     endEditCP( ind );
@@ -1868,24 +1833,24 @@ void Geometry::merge5( const GeometryPtr other )
 //the single-indexed geometry is converted to multi-indexed
 void Geometry::merge6( const GeometryPtr other )
 {
-    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,        
-        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,   
-        texcoord3Base;                                           
+    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,
+        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
+        texcoord3Base;
 
     UInt32 i;
 
     copyAllAttrib;
 
     // indices
-    GeoIndicesPtr ind = getIndices();    
-    GeoIndicesPtr indclone = getIndices()->clone();    
-    GeoIndicesPtr oind = other->getIndices();    
+    GeoIndicesPtr ind = getIndices();
+    GeoIndicesPtr indclone = getIndices()->clone();
+    GeoIndicesPtr oind = other->getIndices();
     UInt16 nmap = other->getIndexMapping().size();
     Int16 mind;
     UInt32 indBase = ind->getSize();
-    ind->resize( indBase*nmap + oind->getSize() ); 
+    ind->resize( indBase*nmap + oind->getSize() );
 
-    beginEditCP( ind ); 
+    beginEditCP( ind );
 
     for (i = 0; i < indclone->getSize(); i++)
     {
