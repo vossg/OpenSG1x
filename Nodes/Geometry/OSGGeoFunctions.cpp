@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.46 2002/04/18 11:45:32 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.47 2002/04/22 18:20:58 jbehr Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -580,8 +580,9 @@ has the length \a length.
 #pragma set woff 1209
 #endif
 
-OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getNormals(GeometryPtr geo,
-                                                 Real32      length)
+OSG_SYSTEMLIB_DLLMAPPING 
+NodePtr osg::getNormals ( GeometryPtr geo,
+                          Real32      length)
 {
   NodePtr  p = Node::create();
   GeometryPtr g = Geometry::create();
@@ -1133,6 +1134,7 @@ Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
  *  returns the number of points to be tranformed
  *  \ingroup Geometry
  */
+OSG_SYSTEMLIB_DLLMAPPING
 Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
                                      UInt32     iteration,
                                      bool       OSG_CHECK_ARG(createStrips   ),
@@ -1173,9 +1175,6 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
       pN = 0;
     }
 
-  if (multiIndex)
-    return 0;
-
   if (pN && (indexPtr != NullFC))
     {
 
@@ -1201,7 +1200,7 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
                 }
               graph.setNode ( triCount++, v[0], v[1], v[2] );
             }
-          FLOG (( "IndexDic entry: %d/%d\n", 
+          FLOG (( "XXXXX IndexDic entry: %d/%d\n", 
                   indexDic.entryCount(), (triN * 3) ));
         }
       else
@@ -1369,32 +1368,35 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
 
-Int32 createSingleIndex ( GeometryPtr geoPtr )
+OSG_SYSTEMLIB_DLLMAPPING
+Int32 osg::createSingleIndex ( GeometryPtr geoPtr )
 {
-  Int16 mask, maskID;
+  Int16 mask, maskID, finalMask;
   Int32 indexMapSize, indexCount, i, j,  vCount = 0, pCount;
   Int32 index;
   Int32 memSize, valueSize;
   UInt8  *pData, *data;
   GeoIndicesPtr indexPtr;
   IndexDic indexDic;
-  vector<Int32> indexVec;
+  vector<Int32> indexVec, sIndex;
   AbstractGeoPropertyInterface * pP = 0;
   
   if ( (geoPtr != NullFC) &&
        (indexMapSize = (geoPtr->getIndexMapping().size()) ) )
     {
       indexPtr = geoPtr->getIndices();
+      indexVec.resize(indexMapSize);
 
       // fill the indexDic
       if (indexPtr != NullFC)
         {
-          indexCount = indexPtr->size();
+          indexCount = indexPtr->size() / indexMapSize;
+          sIndex.resize(indexCount);
           for (i = 0; i < indexCount; i++)
             {
               for (j = 0; j < indexMapSize; j++) 
-                indexVec[j] = indexPtr->getValue(j);
-              indexDic.entry(indexVec);
+                indexVec[j] = indexPtr->getValue(i * indexMapSize + j);
+              sIndex[i] = indexDic.entry(indexVec);
             }
           vCount = indexDic.entryCount();
         }      
@@ -1402,6 +1404,7 @@ Int32 createSingleIndex ( GeometryPtr geoPtr )
         vCount = 0;
 
       // sort/copy property values
+      finalMask = 0;
       if (vCount)
         {
           for (i = 0; i < indexMapSize; i++)
@@ -1411,13 +1414,16 @@ Int32 createSingleIndex ( GeometryPtr geoPtr )
                 if ( (mask & maskID) &&
                      (pP = geoPtr->getProperty(maskID) ) )
                   {
-                    memSize = pP->size();
+                    valueSize = 
+                      pP->getFormatSize() * pP->getDimension() + 
+                      pP->getStride();
+                    finalMask |= maskID;
+                    memSize = pP->size() * valueSize;
                     data = new UInt8 [memSize];
                     pData = pP->getData();
                     memcpy (data,pData,memSize);
                     pP->resize(vCount);
                     pData = pP->getData();
-                    valueSize = pP->getFormatSize();
                     for (j = 0; j < vCount; j++)
                       {
                         index = indexDic.entry(j)[i];
@@ -1429,6 +1435,20 @@ Int32 createSingleIndex ( GeometryPtr geoPtr )
                   }
             }
         }
+
+      // copy single index and set the single mask
+      if (finalMask) 
+        {
+          indexPtr->clear();
+          for (i = 0; i < indexCount; i++)
+            indexPtr->addValue(sIndex[i]);
+          geoPtr->getIndexMapping().clear();
+          geoPtr->getIndexMapping().addValue(finalMask);
+        }
+      else 
+        {
+          FFATAL (("No valid finalMask in createSingleIndex()\n"));
+        }
     }
 
   return vCount;
@@ -1439,6 +1459,7 @@ Int32 createSingleIndex ( GeometryPtr geoPtr )
 /*! \brief return the number of triangle/line/point elem
  *  \ingroup Geometry
  */
+OSG_SYSTEMLIB_DLLMAPPING
 UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
                                  UInt32 &triangle,
                                  UInt32 &line,
