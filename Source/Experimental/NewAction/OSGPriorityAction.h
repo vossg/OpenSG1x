@@ -108,6 +108,10 @@ class OSG_SYSTEMLIB_DLLMAPPING PriorityAction : public NewAction
     /*! \name    Types                                                     */
     /*! \{                                                                 */
 
+    class StateUseCounter;
+
+    friend class StateUseCounter;
+
     typedef NewAction                    Inherited;
     typedef ActorBase::ActorBaseState    ActorBaseState;
 
@@ -131,6 +135,9 @@ class OSG_SYSTEMLIB_DLLMAPPING PriorityAction : public NewAction
         StateStoreIt _itState;
         Int32        _iUseCount;
     };
+
+    class NodeQueueEntry;
+    friend class NodeQueueEntry;
 
     typedef std::list<ActorBaseState *>   StateStore;
     typedef StateStore::iterator          StateStoreIt;
@@ -222,6 +229,6 @@ OSG_END_NAMESPACE
 
 #include "OSGPriorityAction.inl"
 
-#define OSGPRIORITYACTION_HEADER_CVSID "@(#)$Id: OSGPriorityAction.h,v 1.3 2004/04/22 08:00:37 a-m-z Exp $"
+#define OSGPRIORITYACTION_HEADER_CVSID "@(#)$Id: OSGPriorityAction.h,v 1.4 2004/05/08 08:25:40 vossg Exp $"
 
 #endif /* _OSGPRIORITYACTION_H_ */
