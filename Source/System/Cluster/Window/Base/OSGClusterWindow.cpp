@@ -689,6 +689,7 @@ bool ClusterWindow::saveCalibration(std::ostream &out)
         out << "</server>\n";
     }
     out << "</displaycalibration>\n";
+    return true;
 }
 
 /*-------------------------------------------------------------------------*/

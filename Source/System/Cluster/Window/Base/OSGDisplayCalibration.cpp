@@ -295,12 +295,12 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
     int extension = osg::Window::registerExtension("GL_ARB_fragment_program");
     if(window->hasExtension(extension))
     {
-        OSG::SINFO << "Use fragment program for color crrection" << std::endl;
+        SINFO << "Use fragment program for color crrection" << std::endl;
         _useFragmentProgram = true;
     }
     else
     {
-        OSG::SINFO << "Use reg combiner for color crrection" << std::endl;
+        SINFO << "Use reg combiner for color crrection" << std::endl;
         _useFragmentProgram = false;
     }
     
