@@ -37,6 +37,8 @@
 \*---------------------------------------------------------------------------*/
 %{
 
+#define YYLTYPE_IS_TRIVIAL 1
+
 #ifdef WIN32
 #include <malloc.h>
 #define YYSIZE_T size_t
