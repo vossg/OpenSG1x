@@ -215,6 +215,12 @@
 #define GL_COMBINER7_NV                   0x8557
 #endif
 
-#define OSGGLEXT_HEADER_CVSID "@(#)$Id: OSGGLEXT.h,v 1.2 2002/06/13 07:35:13 vossg Exp $"
+// Register Combiners 2
+#ifndef GL_NV_register_combiners2
+#define GL_NV_register_combiners2        1
+#define GL_PER_STAGE_CONSTANTS_NV        0x8535
+#endif
+
+#define OSGGLEXT_HEADER_CVSID "@(#)$Id: OSGGLEXT.h,v 1.3 2002/06/24 14:36:22 vossg Exp $"
 
 #endif /* _OSGGL_H_ */
