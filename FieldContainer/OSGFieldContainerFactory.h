@@ -218,8 +218,6 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerFactory
     UInt16 registerGroup         (const Char8              *szName);
     void   unregisterType        (      FieldContainerType *pType );
 
-    const FieldContainerStore *getFieldContainerStore(void);
-
 	void writeSingleTypeFCD( ostream &out, const FieldContainerType *type );
 
   public :
@@ -272,6 +270,8 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerFactory
 	void writeFCD( char * name = NULL, ostream * out = NULL );
 	
     /*------------------------- your_operators ------------------------------*/
+
+    const FieldContainerStore *getFieldContainerStore(void) const;
 
     /*------------------------- assignment ----------------------------------*/
 

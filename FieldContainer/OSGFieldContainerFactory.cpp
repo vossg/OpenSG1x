@@ -383,12 +383,6 @@ void  FieldContainerFactory::unregisterType(FieldContainerType *pType)
 	}
 }
 
-const FieldContainerFactory::FieldContainerStore *
-    FieldContainerFactory::getFieldContainerStore(void)
-{
-    return _pFieldContainerStore;
-}
-
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
@@ -684,6 +678,12 @@ void FieldContainerFactory::writeFCD( char * name, ostream * out )
 }
 
 /*-------------------------- assignment -----------------------------------*/
+
+const FieldContainerFactory::FieldContainerStore *
+    FieldContainerFactory::getFieldContainerStore(void) const
+{
+    return _pFieldContainerStore;
+}
 
 /*-------------------------- comparison -----------------------------------*/
 

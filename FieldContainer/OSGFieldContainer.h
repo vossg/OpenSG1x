@@ -784,7 +784,7 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
 #define OSG_FC_SHALLOWCOPY_INL_TMPL_DEF(OSG_TMPL_PARAM,                       \
                                         OSG_CLASS,                            \
                                         OSG_CLASS_PTR)                        \
-    template <class OSG_TMPL_PARAM>                                           \
+    template <class OSG_TMPL_PARAM> inline                                    \
     OSG::FieldContainerPtr OSG_CLASS<OSG_TMPL_PARAM>::shallowCopy(void) const \
     {                                                                         \
         OSG_CLASS_PTR returnValue;                                            \
