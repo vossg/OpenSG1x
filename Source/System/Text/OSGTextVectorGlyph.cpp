@@ -278,10 +278,11 @@ static void OSG_APIENTRY gluTessVertexDataCB(void *vertexData, void *polygonData
     TextVectorGlyph::PolygonOutline *outline = reinterpret_cast<TextVectorGlyph::PolygonOutline*>(polygonData);
 #ifdef __sgi
     // the reinterpret_cast doesn't compile on irix with mips pro 7.4 compiler ...
-    UInt32 coordIndex;
     char str[20];
     sprintf(str, "%p", vertexData);
-    sscanf(str, "%x", &coordIndex);
+    UInt64 value;
+    sscanf(str, "%llx", &value);
+    UInt32 coordIndex = UInt32(value);
 #else
     UInt32 coordIndex = reinterpret_cast<UInt32>(vertexData);
 #endif
@@ -632,7 +633,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextVectorGlyph.cpp,v 1.6 2005/03/18 17:52:48 a-m-z Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextVectorGlyph.cpp,v 1.7 2005/03/24 10:25:38 a-m-z Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTVECTORGLYPH_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTVECTORGLYPH_INLINE_CVSID;
 }
