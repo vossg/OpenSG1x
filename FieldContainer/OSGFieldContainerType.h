@@ -200,6 +200,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
     DescMap             _mDescMap;
     DescVec             _vDescVec;
 
+    bool                _bCopy;
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Register                                  */

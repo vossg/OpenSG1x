@@ -94,7 +94,8 @@ FieldContainerType::FieldContainerType(const Char8    *szName,
     _uiDescByteCounter(uiDescByteCounter),
 
     _mDescMap         (                 ),
-    _vDescVec         (0                )
+    _vDescVec         (0                ),
+    _bCopy            (false            )
 {
     registerType(szGroupName);
 
@@ -124,7 +125,8 @@ FieldContainerType::FieldContainerType(const FieldContainerType &obj) :
     _uiDescByteCounter(obj._uiDescByteCounter),
 
     _mDescMap         (                      ),
-    _vDescVec         (0                     )
+    _vDescVec         (0                     ),
+    _bCopy            (true                  )
 {
     if(_pPrototype != NullFC)
         addRefCP(_pPrototype);
@@ -143,7 +145,10 @@ FieldContainerType::~FieldContainerType(void)
     if(GlobalSystemState != Shutdown)
     {
         terminate();
-        FieldContainerFactory::the()->unregisterType(this);
+        if(_bCopy == false)
+        {
+            FieldContainerFactory::the()->unregisterType(this);
+        }
     }
 }
 
