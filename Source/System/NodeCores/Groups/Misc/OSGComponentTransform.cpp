@@ -168,7 +168,7 @@ void ComponentTransform::initMethod (void)
             NewActionTypes::ResultE,
             ComponentTransformPtr  ,
             NodeCorePtr            ,
-            ActorBase              *>(&ComponentTransform::intersectEnter),
+            ActorBase::FunctorArgumentType &>(&ComponentTransform::intersectEnter),
         getClassType());
 
     IntersectActor::regClassLeave(
@@ -176,7 +176,7 @@ void ComponentTransform::initMethod (void)
             NewActionTypes::ResultE,
             ComponentTransformPtr  ,
             NodeCorePtr            ,
-            ActorBase              *>(&ComponentTransform::intersectLeave),
+            ActorBase::FunctorArgumentType &>(&ComponentTransform::intersectLeave),
         getClassType());
 }
 

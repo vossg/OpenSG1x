@@ -767,9 +767,9 @@ Action::ResultE Geometry::intersect(Action * action)
 }
 
 NewActionTypes::ResultE
-Geometry::intersect(ActorBase *pActor)
+Geometry::intersect(ActorBase::FunctorArgumentType &funcArg)
 {
-    IntersectActor   *pIA         = dynamic_cast<IntersectActor *>(pActor);
+    IntersectActor   *pIA         = dynamic_cast<IntersectActor *>(funcArg.getActor());
     Real32            scaleFactor = pIA->getScaleFactor();
 
     TriangleIterator  itTris      = this->beginTriangles();
@@ -785,8 +785,8 @@ Geometry::intersect(ActorBase *pActor)
                                    itTris.getPosition(2),
                                    hitDist,                &hitNormal) == true)
         {
-            pIA->setHit(hitDist * scaleFactor, pIA->getNode(),
-                        itTris.getIndex(),     hitNormal      );
+            pIA->setHit(hitDist * scaleFactor, funcArg.getNode(),
+                        itTris.getIndex(),     hitNormal        );
         }
     }
 

@@ -163,7 +163,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     virtual Action::ResultE drawPrimitives (DrawActionBase * action );
             Action::ResultE intersect      (Action * action );
 
-    NewActionTypes::ResultE intersect      (ActorBase *pActor);
+    NewActionTypes::ResultE intersect      (ActorBase::FunctorArgumentType &funcArg);
 
     void            invalidateDlistCache (void);
 
