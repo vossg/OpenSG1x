@@ -248,7 +248,7 @@ int main(int argc, char **argv)
         svp->setMapSize(1024);
         // you can add the light sources here, as default all light source in
         // the scenegraph are used.
-        svp->getLightNodes().addValue(point1);
+        svp->getLightNodes().push_back(point1);
     endEditCP(svp);
 
     // the connection between GLUT and OpenSG
