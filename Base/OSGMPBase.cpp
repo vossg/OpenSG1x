@@ -109,7 +109,7 @@ MPThreadType::MPThreadType(const Char8          *szName,
 
     _fCreateThread(fCreateThread)
 {
-    _uiTypeId = ThreadManager::the()->registerThreadType(this);
+    ThreadManager::the()->registerThreadType(this);
 
     if(fInitThreading != NULL)
         fInitThreading();
@@ -166,7 +166,7 @@ MPBarrierType::MPBarrierType(const Char8          *szName,
      Inherited     (szName, szParentName),
     _fCreateBarrier(fCreateBarrier)
 {
-    _uiTypeId = ThreadManager::the()->registerBarrierType(this);
+    ThreadManager::the()->registerBarrierType(this);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -209,7 +209,7 @@ MPLockType::MPLockType(const Char8       *szName,
     Inherited(szName, szParentName),
     _fCreateLock(fCreateLock)
 {
-    _uiTypeId = ThreadManager::the()->registerLockType(this);
+    ThreadManager::the()->registerLockType(this);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -254,7 +254,7 @@ MPLockPoolType::MPLockPoolType(
     Inherited(szName, szParentName),
     _fCreateLockPool(fCreateLockPool)
 {
-    _uiTypeId = ThreadManager::the()->registerLockPoolType(this);
+    ThreadManager::the()->registerLockPoolType(this);
 }
 
 /*-------------------------------------------------------------------------*/

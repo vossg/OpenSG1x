@@ -198,6 +198,7 @@ UInt32 MPFieldStore<MPFieldT>::registerMPType(MPFieldType *pType)
         return returnValue;
     }
 
+/*
     returnValue = TypeFactory::the()->registerType(pType);
 
     if(returnValue == 0)
@@ -205,6 +206,7 @@ UInt32 MPFieldStore<MPFieldT>::registerMPType(MPFieldType *pType)
         SLOG << "Error in base type registration" << endl;
         return returnValue;
     }
+*/
 
     _mFieldTypeMap[IDStringLink(pType->getCName())] = pType;
 
