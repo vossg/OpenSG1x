@@ -106,7 +106,7 @@ ActiveNodeList::setParent(NodePtr pNode)
     _uiNumActive = pNode->getNChildren();
 
     _list.assign(_uiNumActive, ListEntry());
-};
+}
     
 inline NodePtr
 ActiveNodeList::getParent(void) const
@@ -474,4 +474,4 @@ namespace std
     }
 }
 
-#define OSGACTIVENODELIST_INLINE_CVSID "@(#)$Id: OSGActiveNodeList.inl,v 1.1 2003/10/10 13:51:06 neumannc Exp $"
+#define OSGACTIVENODELIST_INLINE_CVSID "@(#)$Id: OSGActiveNodeList.inl,v 1.2 2004/01/16 09:28:37 a-m-z Exp $"

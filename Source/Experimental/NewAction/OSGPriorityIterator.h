@@ -287,7 +287,7 @@ protected:
         };
         
         // special hack for vs net 7.0
-        typedef PIBase::LeaveEntryBase LeaveEntryBase2;
+        typedef PIBase::LeaveEntryBase LeaveEntryBase;
 
         /*====================== PQEntry =================================*/
 
@@ -316,7 +316,7 @@ protected:
                                     PQEntryLessCompare   > PrioQueueType;
 
         // special hack for vs net 7.0
-        typedef PIBase::PQEntryBase PQEntryBase2;
+        typedef PIBase::PQEntryBase PQEntryBase;
         
     private:
         typedef PIBase Inherited;
@@ -434,7 +434,7 @@ protected:
 
         /*======================= LeaveEntry =============================*/
 
-        class LeaveEntry : public PILeave::LeaveEntryBase2
+        class LeaveEntry : public PILeave::LeaveEntryBase
         {
         public:
             typedef PILeaveOrd::PriorityType PriorityType;
@@ -448,7 +448,7 @@ protected:
             inline StateListIt getState (void) const;
 
         private:
-            typedef PILeave::LeaveEntryBase2 Inherited;
+            typedef PILeave::LeaveEntryBase Inherited;
 
             LeaveListIt _itParent;
             StateListIt _itState;
@@ -456,7 +456,7 @@ protected:
 
         /*========================= PQEntry ==============================*/
 
-        class PQEntry : public PILeave::PQEntryBase2
+        class PQEntry : public PILeave::PQEntryBase
         {
         public:
             typedef PILeaveOrd::PriorityType PriorityType;
@@ -473,7 +473,7 @@ protected:
             inline StateListIt getParentState     (void) const;
 
         private:
-            typedef PILeave::PQEntryBase2 Inherited;
+            typedef PILeave::PQEntryBase Inherited;
 
             LeaveListIt _itParentLeaveEntry;
             StateListIt _itState;
