@@ -52,8 +52,7 @@ int main (int argc, char **argv)
     }
   }
   else {
-    FLOG (( "usage: %s [inputImageFile] [outputAsciiFile]\n",
-            argv[0] ));
+    FLOG (( "usage: %s inputImageFile outputAsciiFile\n", argv[0] ));
     retCode = -1;
   }
 

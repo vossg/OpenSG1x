@@ -114,10 +114,11 @@ PNMImageFileType PNMImageFileType::_the ( 	suffixArray,
 //------------------------------
 bool PNMImageFileType::read (Image &image, const Char8 *fileName )
 {
-	Int16 type, width, height, lineSize, maxValue = 0, value, x, y;
+  bool isBinary = true;
+	Int16 dataSize, type = 0;
+	Int16 width, height, lineSize, maxValue = 0, value, x, y;
 	UInt16 i;
-    UInt8 id, commentKey = '#';
-// *line;
+  UInt8 id, commentKey = '#';
 	ifstream in(fileName, ios::in );
 	
 	if (in.rdbuf()->is_open()) {
@@ -126,6 +127,7 @@ bool PNMImageFileType::read (Image &image, const Char8 *fileName )
 		while (in.peek() == commentKey) 
 			in.ignore(INT_MAX, '\n');
 		in >> width >> height;
+    isBinary = (type > 3) ? true : false;
 	}
 
 	switch (type) {
@@ -164,30 +166,30 @@ bool PNMImageFileType::read (Image &image, const Char8 *fileName )
 	in.ignore(INT_MAX, '\n');
 	
 	
-	if (maxValue && (image.getSize())) {
-		
-		SINFO << "read pnm file of type " << type << ", "
-					<< width << "x" << height << endl;
-
-		lineSize = width * image.getBpp();
-		if (type >= 4) { // image is binary
-			for (y = height - 1; y >= 0; y--) 
-				in.read((Char8 *) &(image.getData()[y * lineSize]), lineSize);
-		}
-		else {           // image is ascii
-			for (y = height - 1; y >= 0; y--) {
-//				line = image.getData() + (y * lineSize);
-				for (x = 0; x < lineSize; x++) {
-					in >> value;
-	}
-			}
-		}
-
-		if (maxValue == 1) 
-			for (i = 0; i < image.getSize(); i++) 
-				image.getData()[i] = image.getData()[i] * 255;
-		
-	}
+	if (maxValue && (dataSize = image.getSize())) 
+    {
+      
+      SINFO << "read pnm file of type " << type << ", "
+            << width << "x" << height << endl;
+      
+      lineSize = width * image.getBpp();
+      if (isBinary) 
+        { // image is binary
+          for (y = height - 1; y >= 0; y--) 
+            in.read((Char8 *) &(image.getData()[y * lineSize]), lineSize);
+        }
+      else 
+        { // image is ascii
+          for (y = height - 1; y >= 0; y--) 
+            {
+              for (x = 0; x < lineSize; x++) 
+                {
+                  in >> value;
+                  image.getData()[y * lineSize + x] = UChar8(value);
+                }
+            }
+        }
+    }
 
 	return true;
 }

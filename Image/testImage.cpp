@@ -9,6 +9,8 @@
 #include <fstream.h>
 #endif
 
+#include "OSGLog.h"
+
 #include "OSGImageFileHandler.h"
 #include "OSGImage.h"
 
@@ -16,23 +18,20 @@ using osg::Image;
 
 int main (int argc, char **argv)
 {
+	int retCode = 0;
+	char defaultOutImage[] = "out.pnm"; 
 	Image image, image2;
 	
 	OSG::ImageFileHandler::the().print();
 
-	image.set ( Image::OSG_RGB_PF, 256, 256 );
-
 	if (argc > 1) {
 		image.read(argv[1]);
-
-		// image.scale (512,512);
-
-		if (argc > 2) 
-			image.write(argv[2]);
-		else
-		  image.write("image.ppm");
-	 	
+		image.write( (argc > 2) ? argv[2] : defaultOutImage);
+	}
+	else {
+		FLOG (("usage: %s inputimage [ouputimage]\n", argv[0]));
+		retCode = -1;
 	}
 
-	return 0;
+	return retCode;
 }

@@ -164,6 +164,44 @@ Bool Image::set ( PixelFormat pF,
 //----------------------------
 //
 //Parameters:
+//p: PixelFormat pixelFormat, Int32 width, Int32 height, Int32 depth, Int32 mipmapCount, Int32 frameCount, Time frameDelay, const UChar8 *data
+//GlobalVars:
+//g: 
+//Returns:
+//r:bool
+// Caution
+//c: 
+//Assumations:
+//a: 
+//Describtions:
+//d: set methode wich sets the image data
+//SeeAlso:
+//s:
+//
+//------------------------------
+Bool Image::set ( const Image &image, bool doCopy )
+{
+	this->set ( image._pixelFormat,
+							image._width, image._height, image._depth,
+							image._mipmapCount, 
+							image._frameCount, image._frameDelay,
+							image._data, doCopy );
+
+#ifdef OSG_DEBUG	
+
+	FDEBUG (( "Running image set(image) \n"));
+	this->dump();
+
+#endif
+
+  return true;
+}
+
+//----------------------------
+// Function name: set
+//----------------------------
+//
+//Parameters:
 //p:obalVars:
 //g: 
 //Returns:
@@ -998,7 +1036,7 @@ Image::Image (void )
 //s:
 //
 //------------------------------
-Image::Image (const Image &obj, Bool doCopy )
+Image::Image (const Image &obj )
     : _pixelFormat(obj._pixelFormat),
       _width(obj._width), _height(obj._height), _depth(obj._depth),
       _mipmapCount(obj._mipmapCount), 
@@ -1007,7 +1045,16 @@ Image::Image (const Image &obj, Bool doCopy )
       _isCopy(true),
       _data(0)
 {
-	createData ( doCopy ? obj._data : 0, true );
+	createData ( obj._data, true);
+
+
+#ifdef OSG_DEBUG	
+
+	FDEBUG (("Running OSGImage copy constructor\n"));
+	this->dump();
+
+#endif
+
 }
 
 //----------------------------
@@ -1151,8 +1198,6 @@ Bool Image::operator == (const Image &image )
 //------------------------------
 Image &Image::operator= (const Image &image )
 {
-	FDEBUG (( "Running image assign operator\n"));
-
 	this->set ( image._pixelFormat,
 							image._width, image._height, image._depth,
 							image._mipmapCount, 
@@ -1160,7 +1205,10 @@ Image &Image::operator= (const Image &image )
 							image._data );
 
 #ifdef OSG_DEBUG	
+
+	FDEBUG (( "Running image assign operator\n"));
 	this->dump();
+
 #endif
 	
 	return *this;

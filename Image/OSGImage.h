@@ -119,7 +119,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     Image (void);
 
     /** Copy Constructor */
-    Image (const Image &obj, Bool doCopy = true );
+    Image (const Image &obj);
 
     /** Destructor */
     virtual ~Image (void);
@@ -137,6 +137,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
                Int32 mipmapCount = 1, 
                Int32 frameCount = 1, Time frameDelay = 0.0,
                const UChar8 *data = 0, Bool doCopy = true );
+		
+		/** set method */
+		Bool set ( const Image &image, Bool doCopy = true );
 
     /** set only the data pointer */
     Bool setData ( const UChar8 *data = 0, Bool doCopy = true );
