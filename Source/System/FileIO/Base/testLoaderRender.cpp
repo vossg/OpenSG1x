@@ -84,7 +84,7 @@ key(unsigned char key, int , int )
 
 static void progress(UInt32 p)
 {
-    std::cout << "Loading " << p << "%" << '\r';
+    std::cerr << "Loading " << p << "%" << '\r';
 }
 
 // Initialize GLUT & OpenSG and set up the scene
