@@ -246,7 +246,7 @@ RenderAction::RenderAction(void) :
 
     _bSortTrans              (true),
     _bZWriteTrans            (false),
-    _bLocalLights            (false),
+    _bLocalLights            (true),
     _bCorrectTwoSidedLighting(false),
 
     _vLights(),
@@ -753,7 +753,7 @@ void RenderAction::dropLight(Light *pLight)
         if(!light_limit_reached)
         {
             _lightsMap[pLight] = lightState;
-            _lightsState += (1 << lightState);
+            _lightsState += (TypeTraits<UInt64>::One << lightState);
         }
     }
 }
@@ -770,7 +770,7 @@ void RenderAction::undropLight(Light *pLight)
     if(it == _lightsMap.end())
         return;
     
-    _lightsState -= (1 << (*it).second);
+    _lightsState -= (TypeTraits<UInt64>::One << (*it).second);
 }
 
 bool RenderAction::isVisible( Node* node )
@@ -919,15 +919,15 @@ void RenderAction::activateLocalLights(DrawTreeNode *pRoot)
     UInt32 light_id = 0;
     for(UInt32 i = 0;i < _vLights.size();++i)
     {
-        if((_activeLightsState & (1 << i)) ==
-           (pRoot->getLightsState() & (1 << i)))
+        if((_activeLightsState & (TypeTraits<UInt64>::One << i)) ==
+           (pRoot->getLightsState() & (TypeTraits<UInt64>::One << i)))
         {
-            if(_activeLightsState & (1 << i))
+            if(_activeLightsState & (TypeTraits<UInt64>::One << i))
                 ++light_id;
             continue;
         }
         
-        if(pRoot->getLightsState() & (1 << i))
+        if(pRoot->getLightsState() & (TypeTraits<UInt64>::One << i))
         {
             //printf("activate light: %u\n", light_id);
             glPushMatrix();
