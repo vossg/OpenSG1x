@@ -165,3 +165,12 @@
     ?getClassType@?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
     ?getField@?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@osg@@QAEAAV?$SField@PAX$0A@@2@XZ
     ?create@?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@osg@@SA?AV?$FCPtr@VAttachmentPtr@osg@@V?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@2@@2@XZ 
+
+    ?getValue@?$SField@VNodePtr@osg@@$0A@@osg@@QBEABVNodePtr@2@XZ
+    ?getClassType@?$SField@VNodePtr@osg@@$0A@@osg@@SAABVFieldType@2@XZ
+    ??0?$SField@VNodePtr@osg@@$0A@@osg@@QAE@ABVNodePtr@1@@Z
+    ?getBinSize@?$SField@VNodePtr@osg@@$0A@@osg@@QAEIXZ
+    ??0?$SField@VNodePtr@osg@@$0A@@osg@@QAE@ABV01@@Z
+    ?copyToBin@?$SField@VNodePtr@osg@@$0A@@osg@@QAEXAAVBinaryDataHandler@2@@Z
+    ?copyFromBin@?$SField@VNodePtr@osg@@$0A@@osg@@QAEXAAVBinaryDataHandler@2@@Z
+    ?syncWith@?$SField@VNodePtr@osg@@$0A@@osg@@QAEXAAV12@@Z

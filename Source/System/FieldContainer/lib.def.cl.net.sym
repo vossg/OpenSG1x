@@ -106,3 +106,12 @@
 
     ??A?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAEAAVFieldContainerPtr@1@I@Z
     ?size@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QBEIXZ
+
+    ?getValue@?$SField@VNodePtr@osg@@$0A@@osg@@QBEABVNodePtr@2@XZ
+    ?getClassType@?$SField@VNodePtr@osg@@$0A@@osg@@SAABVFieldType@2@XZ
+    ??0?$SField@VNodePtr@osg@@$0A@@osg@@QAE@ABVNodePtr@1@@Z
+    ?getBinSize@?$SField@VNodePtr@osg@@$0A@@osg@@QAEIXZ
+    ??0?$SField@VNodePtr@osg@@$0A@@osg@@QAE@ABV01@@Z
+    ?copyToBin@?$SField@VNodePtr@osg@@$0A@@osg@@QAEXAAVBinaryDataHandler@2@@Z
+    ?copyFromBin@?$SField@VNodePtr@osg@@$0A@@osg@@QAEXAAVBinaryDataHandler@2@@Z
+    ?syncWith@?$SField@VNodePtr@osg@@$0A@@osg@@QAEXAAV12@@Z

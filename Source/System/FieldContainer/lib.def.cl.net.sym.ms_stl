@@ -64,3 +64,5 @@
 
     ??A?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAEAAVFieldContainerPtr@1@I@Z
     ?size@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QBEIXZ
+
+    ?getValue@?$SField@VNodePtr@osg@@$0A@@osg@@QBEABVNodePtr@2@XZ
