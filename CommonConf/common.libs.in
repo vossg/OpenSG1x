@@ -2,5 +2,12 @@
 ac_gdz_package_order="BaseLib SystemLib"
 
 ac_gdz_package[0]="Base:0:Base@ Log@::::" 
-ac_gdz_package[1]="System:1:Action@ Action/DrawAction@ Action/IntersectAction@ Field@ FieldContainer@ Image@ Loader@ Material@ MultiThreading@ Nodes/Geometry@ Nodes/Light@ Nodes/Misc@ State@ Window@ Experimental/ScanParseSkel@ Experimental/OSGLoader@ Experimental/VRMLLoader@ : Base Log QT GLUT GL:BaseLib::QT GLUT GL:" 
+ac_gdz_package[1]="System:1:Action@ Action/DrawAction@ Action/IntersectAction@ Field@ FieldContainer@ Image@ Loader@ Material@ MultiThreading@ Nodes/Geometry@ Nodes/Light@ Nodes/Misc@ State@ Window@ Experimental/ScanParseSkel@ Experimental/OSGLoader@ Experimental/VRMLLoader@ : Base Log GL:BaseLib::GLUT GL:" 
+
+ac_gdz_package[2]="WindowGLUT:1:Window/GLUT@: Action Action/DrawAction Action/IntersectAction Base Field FieldContainer Loader Log Material MultiThreading Nodes/Misc Nodes/Geometry Nodes/Light State Window GLUT GL:SystemLib BaseLib :: GLUT GL:" 
+ac_gdz_package[3]="WindowX:1:Window/X@: Action Action/DrawAction Base Field FieldContainer Loader Log MultiThreading Nodes/Misc Nodes/Geometry Nodes/Light Window GL:SystemLib BaseLib :: GL:" 
+ac_gdz_package[4]="WindowQT:1:Window/QT@:  Action Action/DrawAction Base Field FieldContainer Loader Log MultiThreading Nodes/Misc Nodes/Geometry Nodes/Light Window Window/X QT GL:WindowXLib  SystemLib BaseLib ::QT GL:" 
+ac_gdz_package[5]="WindowWIN32:1:Window/WIN32@: Base Log Window QT GLUT GL:SystemLib BaseLib ::QT GLUT GL:" 
+
+
 

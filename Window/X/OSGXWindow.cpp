@@ -87,7 +87,7 @@ The XWindow class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char XWindow::cvsid[] = "@(#)$Id: OSGXWindow.cpp,v 1.4 2001/02/13 16:01:29 dirk Exp $";
+char XWindow::cvsid[] = "@(#)$Id: OSGXWindow.cpp,v 1.2 2001/02/12 15:59:17 vossg Exp $";
 
 // Static Class Varible implementations: 
 

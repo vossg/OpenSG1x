@@ -138,14 +138,24 @@ SO_INIT_FLAGS =
 endif
 endif
 
+$(PROJ)SUBPRELINKPAR :=
+
+ifeq ($(OS_BASE), irix6.5)
+ifneq ($($(PROJ)SUBPARJOBS),)
+ifneq ($($(PROJ)SUBPARJOBS),0)
+$(PROJ)SUBPRELINKPAR = -J $($(PROJ)SUBPARJOBS)
+endif
+endif
+endif
+
 ifneq ($(SUB_SO),)
 SubLib: $(LIB_DEPS) $(SUB_SO) 
 	@echo "LASTDBG=$(DBG)" > .lastdbg
 
 $(SUB_SO): $(LIBS_DEP) $(LIB_QTTARGET_CPP) $(LIB_OBJECTS) 
 	@echo $(LIB_OBJECTS) $(AR_FLAGS) $(SUB_SO)
-	$(LD_SHARED) $(LD_OUTOPT)$(LD_OUTSPACE)$(SUB_SO) \
-		$(LIBPATHS) $(call cnvSubDirsUnix2Win,$(LIB_OBJECTS)) $(LIBS) \
+	$(LD_SHARED) $($(PROJ)SUBPRELINKPAR) $(LD_OUTOPT)$(LD_OUTSPACE)$(SUB_SO) \
+		$(LIBPATHS) $(call cnvSubDirsUnix2Win,$(LIB_OBJECTS)) $(LIBS) 		 \
 		$(SO_INIT_FLAGS) $(LD_FLAGS)
 
 $(LIB_QT_TARGET)

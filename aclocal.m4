@@ -415,6 +415,44 @@ dnl e2
 
         echo configuring package $i ${ac_gdz_package_name[$i]}
 
+        if [[ ${ac_gdz_package_name[$i]} = "WindowGLUT" ]]; then
+            if [[ ${ac_gdz_conf_package_glut} = 0 ]]; then
+                echo Skipping ${ac_gdz_package_name[$i]}
+                let i=i+1
+                continue
+            else
+                ac_gdz_package_order="${ac_gdz_package_order} WindowGLUTLib"
+            fi
+        fi
+        if [[ ${ac_gdz_package_name[$i]} = "WindowX" ]]; then
+            if [[ ${build_os} = "cygwin" ]]; then
+                echo Skipping ${ac_gdz_package_name[$i]}
+                let i=i+1
+                continue
+            else
+                ac_gdz_package_order="${ac_gdz_package_order} WindowXLib"
+            fi
+        fi
+        if [[ ${ac_gdz_package_name[$i]} = "WindowQT" ]]; then
+            if [[ ${ac_gdz_conf_package_qt} = 0 ]]; then
+                echo Skipping ${ac_gdz_package_name[$i]}
+                let i=i+1
+                continue
+            else
+                ac_gdz_package_order="${ac_gdz_package_order} WindowQTLib"
+            fi
+        fi
+        if [[ ${ac_gdz_package_name[$i]} = "WindowWIN32" ]]; then
+            if [[ ${build_os} != "cygwin" ]]; then
+                echo Skipping ${ac_gdz_package_name[$i]}
+                let i=i+1
+                continue
+            else
+                ac_gdz_package_order="${ac_gdz_package_order} WindowWIN32Lib"
+            fi
+        fi
+
+
         ac_gdz_package_name_out=${ac_gdz_package_name[$i]}
 
         ac_gdz_package_inc_dep_out=${ac_gdz_package_inc_dep[$i]}
@@ -567,12 +605,14 @@ AC_DEFUN(AC_GDZ_WRITE_BUILDS_MAKE,
 dnl e3
 
     ac_gdz_common_builds_make_e3=$ac_gdz_package_sub_dir_out/Makefile
+    ac_gdz_install_prefix_e3=$ac_gdz_install_prefix
 
     AC_SUBST(ac_gdz_lib_src_dir)
     AC_SUBST(ac_gdz_package_order)
     AC_SUBST(ac_gdz_lib_package_sys_common_out)
     AC_SUBST(ac_gdz_lib_project_praefix)
-      
+    AC_SUBST(ac_gdz_install_prefix_e3)
+
     touch confdefs.h
 
     AC_OUTPUT($ac_gdz_common_builds_make_e3:$ac_gdz_common_buildsmake_in)
@@ -703,4 +743,15 @@ dnl e7
     AC_OUTPUT($ac_gdz_common_sys_mk_e7:$ac_gdz_common_sys_mk_in_e7)
 ])
 
+AC_DEFUN(AC_GDZ_WRITE_COMMON_GL,
+[
+dnl e8
+
+    ac_gdz_common_gl_in_e4=$ac_gdz_commonconf_dir/commonGL.in
+    ac_gdz_common_gl_e4=$ac_gdz_commonpackage_dir/commonGL.mk
+
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_common_gl_e4:$ac_gdz_common_gl_in_e4)
+])
 

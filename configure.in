@@ -18,7 +18,6 @@ else
 fi
 
 ac_gdz_common_dir=$ac_gdz_src_dir/Common
-ac_gdz_commonpackage_dir=$ac_gdz_src_dir/CommonPackages
 ac_gdz_commonconf_dir=CommonConf
 ac_gdz_so_praefix=
 ac_gdz_so_suffix=
@@ -30,7 +29,9 @@ ac_gdz_build_dir=`pwd`
 ac_gdz_compiler_exe=
 ac_gdz_conf_package_defs=
 ac_gdz_conf_package_qt='0'
+ac_gdz_conf_package_qt_e1='0'
 ac_gdz_conf_package_glut='0'
+ac_gdz_conf_package_glut_e1='0'
 
 AC_CONFIG_AUX_DIR($ac_gdz_commonconf_dir) 
 
@@ -66,12 +67,14 @@ if [[ "$with_glut" = yes ]]; then
 	ac_gdz_glut_dir=yes
 	ac_gdz_conf_package_defs=-DOSG_WITH_GLUT
 	ac_gdz_conf_package_glut='1'
+	ac_gdz_conf_package_glut_e1='1'
 elif [[ "$with_glut" = no ]]; then
 	ac_gdz_glut_dir=
 else
 	ac_gdz_glut_dir=$with_glut
 	ac_gdz_conf_package_defs=-DOSG_WITH_GLUT
 	ac_gdz_conf_package_glut='1'
+	ac_gdz_conf_package_glut_e1='1'
 fi
 
 dnl ############# QT Settings #####################
@@ -83,11 +86,13 @@ if [[ "$with_qt" = yes ]]; then
 	ac_gdz_qt_dir=
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_QT'
 	ac_gdz_conf_package_qt='1'
+	ac_gdz_conf_package_qt_e1='1'
 elif [[ "$with_qt" = no ]]; then
 	ac_gdz_qt_dir=
 else
 	ac_gdz_qt_dir=$with_qt
 	ac_gdz_conf_package_qt='1'
+	ac_gdz_conf_package_qt_e1='1'
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_QT'
 fi
 
@@ -261,10 +266,12 @@ if ! test -w Builds; then
 fi
 
 ac_gdz_lib_base_dir=Builds/$build-$ac_gdz_compiler
+ac_gdz_commonpackage_dir=$ac_gdz_src_dir/$ac_gdz_lib_base_dir/CommonPackages
 
 if ! test -w $ac_gdz_lib_base_dir; then 
 	echo Need $ac_gdz_lib_base_dir
 	mkdir $ac_gdz_lib_base_dir
+    mkdir $ac_gdz_lib_base_dir/CommonPackages
 fi
 
 ac_gdz_common_system=$ac_gdz_commonconf_dir/common.$build-$ac_gdz_compiler_base.in
@@ -335,8 +342,8 @@ AC_SUBST(ac_gdz_plat_project_praefix)
 AC_SUBST(ac_gdz_gen_base_inc_e1)
 
 AC_SUBST(ac_gdz_conf_package_defs)
-AC_SUBST(ac_gdz_conf_package_qt)
-AC_SUBST(ac_gdz_conf_package_glut)
+AC_SUBST(ac_gdz_conf_package_qt_e1)
+AC_SUBST(ac_gdz_conf_package_glut_e1)
 
 AC_SUBST_FILE(ac_gdz_common_patterns)
 AC_SUBST_FILE(ac_gdz_common_system)
@@ -348,6 +355,20 @@ else
 fi
 
 AC_SUBST(ac_gdz_ped_errors_e1)
+
+ac_gdz_commonpackage_dir_e1=$ac_gdz_commonpackage_dir
+
+AC_SUBST(ac_gdz_commonpackage_dir_e1)
+
+if [[ "$prefix" = NONE ]]; then
+ac_gdz_install_prefix=$ac_gdz_src_dir/$ac_gdz_lib_base_dir
+else
+if [[ "$prefix" = "" ]]; then
+ac_gdz_install_prefix=$ac_gdz_src_dir/$ac_gdz_lib_base_dir
+else
+ac_gdz_install_prefix=$prefix
+fi
+fi
 
 ac_gdz_common_platform_in=$ac_gdz_commonconf_dir/common.platform.mk.in
 ac_gdz_common_platform=$ac_gdz_common_dir/common.$build-$ac_gdz_compiler.mk
@@ -363,6 +384,8 @@ AC_GDZ_WRITE_COMMON_STL()
 AC_GDZ_WRITE_COMMON_GLUT()
 
 AC_GDZ_WRITE_COMMON_QT()
+
+AC_GDZ_WRITE_COMMON_GL()
 
 ac_gdz_package_sys_common_out=common.$build-$ac_gdz_compiler.mk
 
@@ -383,6 +406,7 @@ if [[ "$enable_win_bool_is_unsigned" = yes ]]; then
 fi
 
 AC_GDZ_WRITE_SYSTEM_COMMON()
+
 
 
 

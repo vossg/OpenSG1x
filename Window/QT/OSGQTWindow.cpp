@@ -83,7 +83,7 @@ The QTWindow class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char QTWindow::cvsid[] = "@(#)$Id: OSGQTWindow.cpp,v 1.6 2001/02/16 09:11:53 vossg Exp $";
+char QTWindow::cvsid[] = "@(#)$Id: OSGQTWindow.cpp,v 1.2 2001/02/12 15:59:17 vossg Exp $";
 
 // Static Class Varible implementations: 
 

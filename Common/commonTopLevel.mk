@@ -3,6 +3,8 @@
 
 SUB_JOB := admin
 
+INSTLINK := ln -s
+
 #########################################################################
 # Parallel Settings
 #########################################################################
@@ -84,75 +86,90 @@ DepClean: $(SUB_LIBTARGETS)
 #########################################################################
 
 install-includes:
-	@if [ ! -w include ]; then mkdir include; fi
-	@cd include; 														\
+	@if [ ! -w $(INSTALL_DIR)/include ]; then mkdir $(INSTALL_DIR)/include; fi
+	@CURRDIR=`pwd`;                                                     \
+	cd $(INSTALL_DIR)/include;											\
 	rm -f *.h *.inl *.h;												\
 	find $($(PROJ)POOL)							\
 		\( -type d \( -name CVS -o -name Test -o -name include -o 		\
 		   -name Tools \) -prune \) 									\
-		-o -type f -name '*\.hpp' -print -exec $(LINK) {} . \; ;		\
+		-o -type f -name '*\.hpp' -print -exec $(INSTLINK) {} . \; ;	\
 	find $($(PROJ)POOL)							\
 		\( -type d \( -name CVS -o -name Test -o -name include  -o 		\
 		   -name Tools \) -prune \) 									\
-		-o -type f -name '*\.h' -print -exec $(LINK) {} . \; ;			\
+		-o -type f -name '*\.h' -print -exec $(INSTLINK) {} . \; ;		\
 	find $($(PROJ)POOL)            				\
 		\( -type d \( -name CVS -o -name Test -o -name include \)		\
 		   -prune \)													\
-		-o -type f -name '*\.inl' -print -exec $(LINK) {} . \; ;		\
-	cd ..;
+		-o -type f -name '*\.inl' -print -exec $(INSTLINK) {} . \; ;	\
+	cd $$CURRDIR;
 
 install-libs:
-	@if [ ! -w lib ]; then mkdir lib; fi
-	@if [ ! -w lib/dbg ]; then mkdir lib/dbg; fi
-	@if [ ! -w lib/opt ]; then mkdir lib/opt; fi
-	@CURRDIR=`pwd`;                                                          \
+	@if [ ! -w $(INSTALL_DIR)/lib ]; then mkdir $(INSTALL_DIR)/lib; fi
+	@if [ ! -w $(INSTALL_DIR)/lib/dbg ]; then mkdir $(INSTALL_DIR)/lib/dbg; fi
+	@if [ ! -w $(INSTALL_DIR)/lib/opt ]; then mkdir $(INSTALL_DIR)/lib/opt; fi
+	@CURRDIR=`pwd`;                                                         \
 	BUILDLIBS=`find $$CURRDIR -name 'lib-dbg' 			        			\
 						-exec find {} -name '*\$(SO_SUFFIX)' -print \;` ;	\
-	cd lib/dbg;																\
+	cd $(INSTALL_DIR)/lib/dbg;												\
 	rm -f *$(SO_SUFFIX);													\
 	for t in $$BUILDLIBS; 													\
 	do																		\
 		echo $$t;															\
-		$(LINK) $$t .;														\
+		$(INSTLINK) $$t .;													\
 	done;                                                                   \
-	cd ..;
+	cd $$CURRDIR;
 	@CURRDIR=`pwd`;															\
 	BUILDLIBS=`find $$CURRDIR -name 'lib-opt' 			        			\
 						-exec find {} -name '*\$(SO_SUFFIX)' -print \;` ;	\
-	cd lib/opt;																\
+	cd $(INSTALL_DIR)/lib/opt;												\
 	rm -f *$(SO_SUFFIX);													\
 	for t in $$BUILDLIBS; 													\
 	do																		\
 		echo $$t;															\
-		$(LINK) $$t .;														\
+		$(INSTLINK) $$t .;													\
 	done;																	\
-	cd ..;
+	cd $$CURRDIR;
 ifeq ($(OS_BASE),cygwin)
 	@CURRDIR=`pwd`;															\
 	BUILDLIBS=`find $$CURRDIR -name 'lib-dbg' 			        			\
 						-exec find {} -name '*\$(LIB_SUFFIX)' -print \;` ;	\
-	cd lib/dbg;																\
+	cd $(INSTALL_DIR)/lib/dbg;												\
 	rm -f *$(LIB_SUFFIX);													\
 	for t in $$BUILDLIBS; 													\
 	do																		\
 		echo  $$t;															\
-		$(LINK) $$t .;														\
+		$(INSTLINK) $$t .;													\
 	done;																	\
-	cd ..;
+	cd $$CURRDIR;
 	@CURRDIR=`pwd`;															\
 	BUILDLIBS=`find $$CURRDIR -name 'lib-opt' 			        			\
 						-exec find {} -name '*\$(LIB_SUFFIX)' -print \;` ;	\
-	cd lib/opt;																\
+	cd $(INSTALL_DIR)/lib/opt;												\
 	rm -f *$(LIB_SUFFIX);													\
 	for t in $$BUILDLIBS; 													\
 	do																		\
 		echo  $$t;															\
-		$(LINK) $$t .;														\
+		$(INSTLINK) $$t .;													\
 	done;																	\
-	cd ..;
+	cd $$CURRDIR;
 endif
 
-install: install-includes install-libs
+install-includes-ln: INSTLINK := $(LINK)
+install-includes-ln: install-includes
+
+install-includes-cp: INSTLINK := cp
+install-includes-cp: install-includes
+
+install-libs-ln: INSTLINK := $(LINK)
+install-libs-ln: install-libs
+
+install-libs-cp: INSTLINK := cp
+install-libs-cp: install-libs
+
+install-ln: install-includes-ln install-libs-ln
+install-cp: install-includes-cp install-libs-cp
+install: install-includes-ln install-libs-ln
 
 %.src:
 	@if [ -d $* ]; then 													\

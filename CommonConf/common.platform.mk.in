@@ -47,8 +47,8 @@ OS_CMPLR             := @ac_gdz_compiler_base@
 
 @ac_gdz_common_patterns@
 
-CONFIGURED_QT           :=@ac_gdz_conf_package_qt@
-CONFIGURED_GLUT         :=@ac_gdz_conf_package_glut@
+CONFIGURED_QT           :=@ac_gdz_conf_package_qt_e1@
+CONFIGURED_GLUT         :=@ac_gdz_conf_package_glut_e1@
 CONFIGURED_PACKAGE_DEFS :=@ac_gdz_conf_package_defs@
 
 @ac_gdz_common_system@
@@ -62,7 +62,7 @@ LIBS_$(OS_BASE) := @ac_gdz_base_system_libs@
 INCLUDE_SYSTEM  := @ac_gdz_system_incl_dir_e1@
 LINK_SYSTEM     := @ac_gdz_system_lib_dir_e1@
 
-include $(@ac_gdz_plat_project_praefix@POOL)/$(@ac_gdz_plat_project_praefix@COMMONPACK)/commonSTL.mk
+include @ac_gdz_commonpackage_dir_e1@/commonSTL.mk
 
 
 LINK_COMPILER   := @ac_gdz_compiler_lib@
