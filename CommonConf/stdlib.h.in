@@ -1,0 +1,20 @@
+#ifndef OSG_STDLIBH_SGI_REPLACEMENT
+#define OSG_STDLIBH_SGI_REPLACEMENT
+
+// This file is here provide the missing using declarations for C lib functions
+// Yes I know this might be rated as a hack ;-)
+// The usual "Don't try this at home kids" disclaimer apply ;-) (GV)
+
+#ifdef __sgi
+
+#include "/usr/include/stdlib.h"
+
+# if _COMPILER_VERSION > 740
+__SGI_LIBC_USING_FROM_STD(strtold)
+__SGI_LIBC_USING_FROM_STD(strtoll)
+__SGI_LIBC_USING_FROM_STD(strtoull)
+# endif
+
+#endif
+
+#endif
