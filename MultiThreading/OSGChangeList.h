@@ -61,7 +61,7 @@ OSG_BEGIN_NAMESPACE
 
 class Thread;
 class Field;
-class FieldContainerPtrBase;
+
 
 //---------------------------------------------------------------------------
 //   Types
@@ -93,9 +93,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef pair<FieldContainerPtrBase, BitVector> ChangeEntry;
-    typedef FieldContainerPtrBase                  RefEntry;    
-    typedef UInt32                                 IdRefEntry;
+    typedef pair<FieldContainerPtr, BitVector>  ChangeEntry;
+    typedef FieldContainerPtr                   RefEntry;    
+    typedef UInt32                              IdRefEntry;
 
     typedef vector<ChangeEntry>::size_type      changed_size_type;
     typedef vector<ChangeEntry>::const_iterator changed_const_iterator;
@@ -230,10 +230,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
 
     idrefd_size_type       sizeDestroyed (void) const;
 
-    void addChanged  (const FieldContainerPtrBase &pFieldContainer, 
-                               BitVector         bvWhichField);
-    void addAddRefd  (const FieldContainerPtrBase &pFieldContainer);
-    void addSubRefd  (const FieldContainerPtrBase &pFieldContainer);
+    void addChanged  (const FieldContainerPtr &pFieldContainer, 
+                               BitVector       bvWhichField);
+    void addAddRefd  (const FieldContainerPtr &pFieldContainer);
+    void addSubRefd  (const FieldContainerPtr &pFieldContainer);
 
     void addCreated  (const UInt32 uiContainerId);
     void addDestroyed(const UInt32 uiContainerId);

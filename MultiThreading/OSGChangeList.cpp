@@ -202,8 +202,8 @@ ChangeList::idrefd_size_type ChangeList::sizeDestroyed(void) const
     return _vDestroyedFieldContainers.size();
 }
 
-void ChangeList::addChanged(const FieldContainerPtrBase &pFieldContainer, 
-                                  BitVector              bvWhichField)
+void ChangeList::addChanged(const FieldContainerPtr &pFieldContainer, 
+                                  BitVector          bvWhichField)
 {
     if(_bReadOnly == true)
         return;
@@ -213,7 +213,7 @@ void ChangeList::addChanged(const FieldContainerPtrBase &pFieldContainer,
     _vChangedFieldContainers.push_back(tmpEntry);
 }
 
-void ChangeList::addAddRefd(const FieldContainerPtrBase &pFieldContainer)
+void ChangeList::addAddRefd(const FieldContainerPtr &pFieldContainer)
 {
     if(_bReadOnly == true)
         return;
@@ -221,7 +221,7 @@ void ChangeList::addAddRefd(const FieldContainerPtrBase &pFieldContainer)
     _vAddRefdFieldContainers.push_back(pFieldContainer);
 }
 
-void ChangeList::addSubRefd(const FieldContainerPtrBase &pFieldContainer)
+void ChangeList::addSubRefd(const FieldContainerPtr &pFieldContainer)
 {
     if(_bReadOnly == true)
         return;

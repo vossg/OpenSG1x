@@ -345,7 +345,7 @@ void FieldContainerPtrBase::addRef(void) const
     
     _pRefCountLock->release(_storeP);
 
-    Thread::getCurrentChangeList()->addAddRefd(*this);
+    Thread::getCurrentChangeList()->addAddRefd(*((FieldContainerPtr *) this));
 }
 
 void FieldContainerPtrBase::subRef(void) const
@@ -361,7 +361,7 @@ void FieldContainerPtrBase::subRef(void) const
 
 void FieldContainerPtrBase::subRefUnlocked(void) const
 {
-    Thread::getCurrentChangeList()->addSubRefd(*this);
+    Thread::getCurrentChangeList()->addSubRefd(*((FieldContainerPtr *) this));
 
     if((*getRefCountP()) <= 0)
     {
