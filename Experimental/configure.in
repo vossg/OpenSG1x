@@ -209,7 +209,7 @@ then
 	ac_gdz_compiler_incl='"'$ac_gdz_compiler_incl'"'
 	ac_gdz_compiler_lib='"'$ac_gdz_compiler_lib'"'
 
-	ac_gdz_base_system_libs='kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib'
+	ac_gdz_base_system_libs='user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib'
 	ac_gdz_base_system_libs="$ac_gdz_base_system_libs winmm.lib wsock32.lib"
 else 
 	ac_gdz_compiler_exe_shared='$(CC) -shared'
