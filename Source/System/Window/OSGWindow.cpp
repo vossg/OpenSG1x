@@ -713,6 +713,8 @@ void OSG::Window::setupGL( void )
     
     glDepthFunc( GL_LEQUAL );
     glEnable( GL_DEPTH_TEST );
+    
+    glEnable( GL_NORMALIZE );
 }
 
 /*---------------------------- properties ---------------------------------*/
