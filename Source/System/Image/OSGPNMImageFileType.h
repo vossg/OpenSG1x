@@ -89,7 +89,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PNMImageFileType : public ImageFileType
     /*! \{                                                                 */
 
     PNMImageFileType ( const Char8 *mimeType,
-                       const Char8 *suffixArray[], UInt16 suffixByteCount );
+                       const Char8 *suffixArray[], UInt16 suffixByteCount,
+                       UInt32 flags );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

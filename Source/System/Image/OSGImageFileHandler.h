@@ -65,7 +65,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
 
     /*==========================  PUBLIC  =================================*/
   public:
-
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
@@ -115,6 +114,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
                                      const char *fileName = 0 );
 
     ImageFileType * getDefaultType (void);
+
+    virtual int getSuffixList(std::list<const Char8*> & suffixList,
+                            UInt32 flags = ImageFileType::OSG_READ_SUPPORTED |
+                                           ImageFileType::OSG_WRITE_SUPPORTED);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

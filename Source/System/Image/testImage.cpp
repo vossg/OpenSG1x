@@ -3,6 +3,9 @@
 
 #include <iostream>
 #include <fstream>
+#include <algorithm>
+#include <iterator>
+#include <list>
 
 #include "OSGLog.h"
 
@@ -21,7 +24,21 @@ int main (int argc, char **argv)
 
     OSG::osgInit(argc,argv);
 
-    OSG::ImageFileHandler::the().dump();
+    std::list<const OSG::Char8 *> l;
+    
+    OSG::ImageFileHandler::the().getSuffixList(l,
+                    OSG::ImageFileType::OSG_READ_SUPPORTED);
+                    
+    std::cout << "Formats supported for reading: ";
+    std::copy(l.begin(), l.end(), std::ostream_iterator<std::string>(std::cout, ","));
+    std::cout << std::endl;
+     
+    OSG::ImageFileHandler::the().getSuffixList(l,
+                    OSG::ImageFileType::OSG_WRITE_SUPPORTED);
+                    
+    std::cout << "Formats supported for writing: ";
+    std::copy(l.begin(), l.end(), std::ostream_iterator<std::string>(std::cout, ","));
+    std::cout << std::endl;
 
     if (argc > 1)
     {

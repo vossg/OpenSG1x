@@ -169,6 +169,32 @@ ImageFileType *ImageFileHandler::getDefaultType(void)
   return type;
 }
 
+
+//-------------------------------------------------------------------------
+/*!
+Returns the list of supported image suffixes
+*/
+Int32 ImageFileHandler::getSuffixList(std::list<const Char8 *> & suffixList,
+                                      UInt32 flags)
+{
+    Int32                                         count = 0;
+    std::map<IDString, ImageFileType *>::iterator sI;
+
+    suffixList.clear();
+    
+    for ( sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); ++sI)
+    {
+        ImageFileType *type = sI->second;
+        if(type->getFlags() & flags)
+        {
+            suffixList.push_back(sI->first.str());
+            count++;
+        }
+    }
+
+  return count;
+}
+
 //-------------------------------------------------------------------------
 /*!
 Creates a new image and tries to read the raster data from

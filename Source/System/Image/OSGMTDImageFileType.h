@@ -90,7 +90,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MTDImageFileType : public ImageFileType
     /*! \{                                                                 */
 
     MTDImageFileType ( const Char8 *mimeType,
-                       const Char8 *suffixArray[], UInt16 suffixByteCount );
+                       const Char8 *suffixArray[], UInt16 suffixByteCount,
+                       UInt32 flags );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

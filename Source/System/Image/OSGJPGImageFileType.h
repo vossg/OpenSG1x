@@ -104,7 +104,9 @@ class OSG_SYSTEMLIB_DLLMAPPING JPGImageFileType : public ImageFileType
     /*! \{                                                                 */
 
     JPGImageFileType ( const Char8 *mimeType,
-                       const Char8 *suffixArray[], UInt16 suffixByteCount );
+                       const Char8 *suffixArray[], 
+                             UInt16 suffixByteCount,
+                             UInt32 flags );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

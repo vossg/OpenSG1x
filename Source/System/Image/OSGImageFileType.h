@@ -59,6 +59,17 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
   public:
 
     /*---------------------------------------------------------------------*/
+    /*! \name                     Flags                                    */
+    /*! \{                                                                 */
+  
+    enum
+    {
+        OSG_READ_SUPPORTED = 1,
+        OSG_WRITE_SUPPORTED = 2
+    };
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
@@ -72,6 +83,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
     const Char8  *getMimeType (void) const;
 
     const std::list<IDString> &getSuffixList(void) const;
+    
+    virtual UInt32 getFlags(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -141,8 +154,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
     /*! \name                Default Constructor                           */
     /*! \{                                                                 */
 
-    ImageFileType ( const Char8 *mimeType,
-                    const Char8 * suffixArray[], UInt16 suffixByteCount );
+    ImageFileType ( const Char8  *mimeType,
+                    const Char8  *suffixArray[], 
+                          UInt16  suffixByteCount,
+                          UInt32  flags = OSG_READ_SUPPORTED );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -170,6 +185,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
     std::list<IDString> _suffixList;
 
     IDString _mimeType;
+
+    UInt32              _flags;
 };
 
 typedef ImageFileType* ImageFileTypeP;

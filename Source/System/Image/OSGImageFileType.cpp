@@ -112,7 +112,17 @@ Get method for the mime type
 */
 const Char8 *ImageFileType::getMimeType(void) const
 {
-  return _mimeType.str();
+    return _mimeType.str();
+}
+
+//-------------------------------------------------------------------------
+/*!
+Get method for the flags indicating read/write support. Most image types
+only support reading.
+*/
+UInt32 ImageFileType::getFlags(void) const
+{
+    return _flags;
 }
 
 //-------------------------------------------------------------------------
@@ -121,7 +131,7 @@ Get method for the suffix list container
 */
 const std::list<IDString> &ImageFileType::getSuffixList(void) const
 {
-  return _suffixList; 
+    return _suffixList; 
 }
 
 //-------------------------------------------------------------------------
@@ -131,7 +141,8 @@ ImageFileType to the Singleton ImageFileHandler
 */
 ImageFileType::ImageFileType( const char *mimeType,
                               const Char8 *suffixArray[], 
-                              UInt16 suffixByteCount)
+                              UInt16 suffixByteCount,
+                              UInt32 flags)
 {
     Int32 suffixCount = suffixByteCount / sizeof(const Char8 *);
     Int32 i = 0;
@@ -149,6 +160,8 @@ ImageFileType::ImageFileType( const char *mimeType,
         SINFO << "add image suffix: " << *sI << endLog;
     }
 
+    _flags = flags;
+    
     ImageFileHandler::addImageFileType(*this);
 }
 

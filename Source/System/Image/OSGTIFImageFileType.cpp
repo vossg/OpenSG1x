@@ -90,7 +90,9 @@ static const Char8 *suffixArray[] = {
 };
 
 TIFImageFileType TIFImageFileType:: _the("tiff",
-                                         suffixArray, sizeof(suffixArray));
+                                         suffixArray, sizeof(suffixArray),
+                                         OSG_READ_SUPPORTED | 
+                                         OSG_WRITE_SUPPORTED);
 
 /* enum VecBase::VectorSizeE
  * brief 
@@ -361,8 +363,9 @@ Constructor used for the singleton object
 */
 TIFImageFileType::TIFImageFileType(const Char8 *mimeType,
                                    const Char8 *suffixArray[],
-                                   UInt16 suffixByteCount) :
-    ImageFileType(mimeType,suffixArray, suffixByteCount)
+                                   UInt16 suffixByteCount,
+                                   UInt32 flags) :
+    ImageFileType(mimeType,suffixArray, suffixByteCount, flags)
 {
     return;
 }
