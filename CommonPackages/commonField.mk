@@ -21,7 +21,7 @@ REQUIRED_SYSTEM_LIBS$(OS) += -lpthread
 endif
 
 ifeq ($(OS_BASE), NT)
-REQUIRED_SYSTEM_LIBS$(OS) := libCio.lib
+REQUIRED_SYSTEM_LIBS$(OS) := $(LIBCIO)
 else
 REQUIRED_SYSTEM_LIBS$(OS) += $(LIBCIO) -lm
 endif
