@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,7 +66,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGStateDef.h>
+#include <OSGSystemDef.h>
 #include <OSGFieldContainer.h>
 
 #include <OSGStateChunkFields.h>
@@ -89,7 +89,7 @@ class StateChunk;
 
 /*! StateChunk Base Class. */
 
-class OSG_STATE_DLLMAPPING StateChunkBase : public FieldContainer
+class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public FieldContainer
 {
   private:
 

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -48,20 +48,10 @@
 
 #include <vector>
 
+#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGAction.h>
 #include <OSGGeometry.h>
-
-#if defined(WIN32) && defined(OSG_BUILD_DLL)
-#    if defined(OSG_COMPILESYSTEMLIB)
-#        define OSG_VRMLWRITER_DLLMAPPING __declspec(dllexport)
-#    else
-#        define OSG_VRMLWRITER_DLLMAPPING __declspec(dllimport)
-#    endif
-#else
-#define OSG_VRMLWRITER_DLLMAPPING
-#endif
-
 #include <OSGGroup.h>
 
 #include <map>
@@ -88,7 +78,7 @@ class Material;
 /*! \brief DrawAction class
  */
 
-class OSG_VRMLWRITER_DLLMAPPING VRMLWriteAction : public Action
+class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
 {
   public:
 

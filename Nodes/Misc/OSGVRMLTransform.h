@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGVRMLTRANSFORM_H_
 #define _OSGVRMLTRANSFORM_H_
 #ifdef __sgi
@@ -69,7 +68,7 @@ OSG_BEGIN_NAMESPACE
  *	\ingroup NodesLib
  */
 
-class OSG_MISC_DLLMAPPING VRMLTransform : public VRMLTransformBase
+class OSG_SYSTEMLIB_DLLMAPPING VRMLTransform : public VRMLTransformBase
 {
   public:
 

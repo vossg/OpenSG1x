@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -48,7 +48,7 @@
 
 #include <OSGConceptPropertyChecks.h>
 #include <OSGFieldContainerProperties.h>
-#include <OSGFieldContainerDef.h>
+#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 
 
@@ -79,7 +79,7 @@ class LockPool;
 #pragma set woff 1424
 #endif
 
-class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerPtrBase
+class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
 {
   public:
 
@@ -119,17 +119,17 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerPtrBase
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-    friend OSG_FIELDCONTAINER_DLLMAPPING
+    friend OSG_SYSTEMLIB_DLLMAPPING
     void addRefCP   (const FieldContainerPtrBase &objectP);
 
-    friend OSG_FIELDCONTAINER_DLLMAPPING
+    friend OSG_SYSTEMLIB_DLLMAPPING
     void subRefCP   (const FieldContainerPtrBase &objectP);
 
-    friend OSG_FIELDCONTAINER_DLLMAPPING
+    friend OSG_SYSTEMLIB_DLLMAPPING
     void setRefdCP  (      FieldContainerPtrBase &objectP,
                      const FieldContainerPtrBase &newObjectP);
 
-    friend OSG_FIELDCONTAINER_DLLMAPPING
+    friend OSG_SYSTEMLIB_DLLMAPPING
     void clearRefCP (      FieldContainerPtrBase &objectP);
 
     template <class RetTypeT, class InTypeT> inline
@@ -297,7 +297,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerPtrBase
 #pragma set woff 1375
 #endif
 
-class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerPtr : public FieldContainerPtrBase
+class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtr : public FieldContainerPtrBase
 {
   public:
 
@@ -341,19 +341,19 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerPtr : public FieldContainerPtr
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-    friend OSG_FIELDCONTAINER_DLLMAPPING
+    friend OSG_SYSTEMLIB_DLLMAPPING
     void beginEditCP(const FieldContainerPtr &objectP, 
                            BitVector          whichField);
 
-    friend OSG_FIELDCONTAINER_DLLMAPPING
+    friend OSG_SYSTEMLIB_DLLMAPPING
     void endEditCP  (const FieldContainerPtr &objectP, 
                            BitVector          whichField);
 
-    friend OSG_FIELDCONTAINER_DLLMAPPING
+    friend OSG_SYSTEMLIB_DLLMAPPING
     void changedCP  (const FieldContainerPtr &objectP, 
                            BitVector          whichField);
 
-    friend OSG_FIELDCONTAINER_DLLMAPPING
+    friend OSG_SYSTEMLIB_DLLMAPPING
     void endEditNotChangedCP(const FieldContainerPtr &objectP, 
                                    BitVector          whichField);
 
@@ -462,7 +462,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerPtr : public FieldContainerPtr
  *  FieldContainer * const pFieldContainer
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING ConstFieldContainerPtr : 
+class OSG_SYSTEMLIB_DLLMAPPING ConstFieldContainerPtr : 
     public FieldContainerPtrBase
 {
   public:
@@ -604,7 +604,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING ConstFieldContainerPtr :
  */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> 
-class OSG_FIELDCONTAINER_DLLMAPPING FCPtr : public BasePtrTypeT
+class OSG_SYSTEMLIB_DLLMAPPING FCPtr : public BasePtrTypeT
 {
   public:
 
@@ -744,7 +744,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING FCPtr : public BasePtrTypeT
  */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> 
-class OSG_FIELDCONTAINER_DLLMAPPING ConstFCPtr : public BasePtrTypeT
+class OSG_SYSTEMLIB_DLLMAPPING ConstFCPtr : public BasePtrTypeT
 {
   public:
 
@@ -898,7 +898,7 @@ RetTypeT dcast(const InTypeT oIn);
 
 typedef FieldContainerPtr *FieldContainerPtrP;
 
-extern OSG_FIELDCONTAINER_DLLMAPPING const FieldContainerPtr   NullFC;
+extern OSG_SYSTEMLIB_DLLMAPPING const FieldContainerPtr   NullFC;
 
 OSG_END_NAMESPACE
 

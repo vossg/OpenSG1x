@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -68,7 +68,7 @@ OSG_BEGIN_NAMESPACE
 /*! \brief chunk for glMaterial() attributes 
  */
 
-class OSG_STATE_DLLMAPPING MaterialChunk : public MaterialChunkBase
+class OSG_SYSTEMLIB_DLLMAPPING MaterialChunk : public MaterialChunkBase
 {
   public:
 

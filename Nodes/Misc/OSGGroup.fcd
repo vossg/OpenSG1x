@@ -3,7 +3,7 @@
 <FieldContainer
 	name="Group"
 	parent="NodeCore"
-	library="Misc"
+	library="System"
 	structure="concrete"
 	pointerfieldtypes="both"
 	systemcomponent="true"

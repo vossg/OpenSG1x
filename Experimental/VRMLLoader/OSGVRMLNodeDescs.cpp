@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -40,7 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILEVRMLLOADER
 #define OSG_COMPILEVRMLNODEDESCINST
 #define OSG_COMPILESYSTEMLIB
         
@@ -62,8 +61,6 @@
 
 OSG_USING_NAMESPACE
 
-
-
 OSG_BEGIN_NAMESPACE
 #if defined(__sgi)
 
@@ -76,10 +73,10 @@ OSG_BEGIN_NAMESPACE
 
 OSG_ABSTR_FC_DLLEXPORT_DEF(DynFieldAttachment, 
                            GenericAttDesc, 
-                           OSG_VRMLLOADER_DLLTMPLMAPPING)
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
-OSG_DLLEXPORT_DEF1(SField, GenericAttPtr, OSG_VRMLLOADER_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, GenericAttPtr, OSG_VRMLLOADER_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 OSG_END_NAMESPACE

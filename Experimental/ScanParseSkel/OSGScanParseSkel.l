@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -38,8 +38,8 @@
 
 %{
 
-#define OSG_COMPILESCANPARSE
 #define OSG_COMPILESYSTEMLIB
+
 #define YY_NEVER_INTERACTIVE 1
 
 #include <OSGScanParseSkel.tab.h>

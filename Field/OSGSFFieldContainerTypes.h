@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -46,6 +46,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <OSGSystemDef.h>
 #include <OSGSField.h>
 #include <OSGContainerFieldDataType.h>
 
@@ -77,7 +78,7 @@ typedef SField<FieldContainerPtr> SFFieldContainerPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, FieldContainerPtr, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, FieldContainerPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -94,7 +95,7 @@ typedef SField<NodePtr>           SFNodePtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, NodePtr, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, NodePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -111,7 +112,7 @@ typedef SField<NodeCorePtr>       SFNodeCorePtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, NodeCorePtr, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, NodeCorePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -128,7 +129,7 @@ typedef SField<AttachmentMap>     SFAttachmentMap;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, AttachmentMap, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, AttachmentMap, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif

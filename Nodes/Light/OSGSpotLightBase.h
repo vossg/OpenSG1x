@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,7 +66,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGLightDef.h>
+#include <OSGSystemDef.h>
 #include <OSGPointLight.h>
 #include <OSGVec3fFields.h>	// Direction type
 #include <OSGReal32Fields.h>	// SpotExponent type
@@ -92,7 +92,7 @@ class SpotLight;
 
 /*! SpotLight Base Class. */
 
-class OSG_LIGHT_DLLMAPPING SpotLightBase : public PointLight
+class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
 {
   private:
 

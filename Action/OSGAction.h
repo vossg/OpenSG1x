@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -48,37 +48,11 @@
 
 #include <vector>
 
+#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGFieldContainerType.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGFunctors.h>
-
-#if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILEACTION
-#       define OSG_ACTION_DLLMAPPING __declspec(dllexport)
-#   else
-#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILEDRAWACTION)        || \
-                                     defined(OSG_COMPILEINTERSECTACTION)   || \
-                                     defined(OSG_COMPILEFIELD)             || \
-                                     defined(OSG_COMPILEFIELDCONTAINER)    || \
-                                     defined(OSG_COMPILEIMAGE)             || \
-                                     defined(OSG_COMPILELOADER)            || \
-                                     defined(OSG_COMPILEMATERIAL)          || \
-                                     defined(OSG_COMPILEMULTITHREADING)    || \
-                                     defined(OSG_COMPILEMISC)              || \
-                                     defined(OSG_COMPILELIGHT)             || \
-                                     defined(OSG_COMPILEGEOMETRY)          || \
-                                     defined(OSG_COMPILESTATE)             || \
-                                     defined(OSG_COMPILEWINDOW)            || \
-                                     defined(OSG_COMPILESYSTEMLIB))
-#           define OSG_ACTION_DLLMAPPING __declspec(dllexport)
-#       else
-#           define OSG_ACTION_DLLMAPPING __declspec(dllimport)
-#       endif
-#   endif
-#else
-#define OSG_ACTION_DLLMAPPING
-#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -100,7 +74,7 @@ class Action;
 /*! \brief Action base class
  */
 
-class OSG_ACTION_DLLMAPPING Action 
+class OSG_SYSTEMLIB_DLLMAPPING Action 
 {
   public:
 

@@ -3,7 +3,7 @@
 <FieldContainer
 	name="SimpleMaterial"
 	parent="ChunkMaterial"
-	library="Material"
+	library="System"
 	structure="concrete"
 	pointerfieldtypes="none"
 	systemcomponent="true"

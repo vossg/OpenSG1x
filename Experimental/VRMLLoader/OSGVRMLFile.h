@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -47,7 +47,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGVRMLBase.h>
+#include <OSGSystemDef.h>
 
 #include <map>
 
@@ -78,10 +78,17 @@ typedef VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >
     Parent;
 
 #ifndef OSG_COMPILEVRMLLOADERINST
+
 #ifndef __sgi
-extern template ScanParseFieldTypeMapper<ScanParseSkel>;
-extern template VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >;
+extern 
+template OSG_SYSTEMLIB_DLLMAPPING 
+ScanParseFieldTypeMapper<ScanParseSkel>;
+
+extern 
+template OSG_SYSTEMLIB_DLLMAPPING 
+VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >;
 #endif
+
 #endif
 
 //---------------------------------------------------------------------------
@@ -94,7 +101,7 @@ extern template VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >;
  *  detailed
  */
 
-class OSG_VRMLLOADER_DLLMAPPING VRMLFile : public Parent
+class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
 {
   public:
 

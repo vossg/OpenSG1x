@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -71,7 +71,8 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <class BaseT>
-class ScanParseFieldTypeMapper : public BaseT 
+class OSG_SYSTEMLIB_DLLMAPPING ScanParseFieldTypeMapper 
+    : public BaseT 
 {
   public:
 

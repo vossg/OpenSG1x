@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -50,8 +50,8 @@
 #include <list>
 #include <map>
 
-#include<OSGBaseTypes.h>
-
+#include <OSGSystemDef.h>
+#include <OSGBaseTypes.h>
 #include <OSGStringLink.h>
 #include <OSGImageFileType.h>
 
@@ -72,7 +72,7 @@
 OSG_BEGIN_NAMESPACE
 
 
-class OSG_IMAGE_DLLMAPPING ImageFileHandler {
+class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
 
 	friend class ImageFileType;
 		

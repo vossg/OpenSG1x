@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class MaterialGroup!
+ **     class MaterialGroup
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -70,7 +70,7 @@
 #include <OSGNodeCore.h>
 #include <OSGMaterial.h>	// Material type
 
-#include "OSGMaterialGroupFields.h"
+#include <OSGMaterialGroupFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -140,6 +140,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroupBase : public NodeCore
     virtual OSG::FieldContainerPtr shallowCopy(void) const; 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     //! Return the fields.
@@ -199,11 +201,9 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroupBase : public NodeCore
     MaterialGroupBase(const MaterialGroupBase &source);
     virtual ~MaterialGroupBase(void); 
     
-    virtual void executeSync(FieldContainer &other,
-                             BitVector       whichField);
 
-    void executeSyncImpl(MaterialGroup *pOther,
-                         BitVector      whichField);
+    void executeSyncImpl(MaterialGroupBase *pOther,
+                         BitVector          whichField);
 
   private:
 

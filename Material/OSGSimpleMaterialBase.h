@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,7 +66,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGMaterialDef.h>
+#include <OSGSystemDef.h>
 #include <OSGChunkMaterial.h>
 #include <OSGColor3fFields.h>	// Ambient type
 #include <OSGColor3fFields.h>	// Diffuse type
@@ -95,7 +95,7 @@ class SimpleMaterial;
 
 /*! SimpleMaterial Base Class. */
 
-class OSG_MATERIAL_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
+class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
 {
   private:
 

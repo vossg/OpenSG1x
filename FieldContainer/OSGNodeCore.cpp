@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                     Copyright 2000,2001 by OpenSG Forum                   *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -38,18 +38,12 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILESYSTEMLIB
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "OSGConfig.h"
-
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
-
-#define OSG_COMPILEFIELDCONTAINER
 
 #include "OSGNode.h"
 #include "OSGNodeCore.h"
@@ -57,7 +51,7 @@
 
 OSG_USING_NAMESPACE
 
-OSG_FIELDCONTAINER_DLLMAPPING const NodeCorePtr OSG::NullNodeCore;
+OSG_SYSTEMLIB_DLLMAPPING const NodeCorePtr OSG::NullNodeCore;
 
 /***************************************************************************\
  *                               Types                                     *

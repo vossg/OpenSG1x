@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -49,16 +49,16 @@
 #ifdef OSG_WITH_GLUT
 
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILEGLUTWINDOW
-#       define OSG_GLUTWINDOW_DLLMAPPING     __declspec(dllexport)
-#       define OSG_GLUTWINDOW_DLLTMPLMAPPING __declspec(dllexport)
+#   ifdef OSG_COMPILEGLUTWINDOWLIB
+#       define OSG_GLUTWINDOWLIB_DLLMAPPING     __declspec(dllexport)
+#       define OSG_GLUTWINDOWLIB_DLLTMPLMAPPING __declspec(dllexport)
 #   else
-#       define OSG_GLUTWINDOW_DLLMAPPING     __declspec(dllimport)
-#       define OSG_GLUTWINDOW_DLLTMPLMAPPING __declspec(dllimport)
+#       define OSG_GLUTWINDOWLIB_DLLMAPPING     __declspec(dllimport)
+#       define OSG_GLUTWINDOWLIB_DLLTMPLMAPPING __declspec(dllimport)
 #   endif
 #else
-#define OSG_GLUTWINDOW_DLLMAPPING
-#define OSG_GLUTWINDOW_DLLTMPLMAPPING
+#define OSG_GLUTWINDOWLIB_DLLMAPPING
+#define OSG_GLUTWINDOWLIB_DLLTMPLMAPPING
 #endif
 
 #include "OSGWindowBase.h"
@@ -84,7 +84,7 @@ typedef FCPtr <WindowPtr, GLUTWindow> GLUTWindowPtr;
 /*! \brief GLUT window class
  */
 
-class OSG_GLUTWINDOW_DLLMAPPING GLUTWindow : public Window
+class OSG_GLUTWINDOWLIB_DLLMAPPING GLUTWindow : public Window
 {
   public:
 
@@ -267,7 +267,7 @@ typedef SField<GLUTWindowPtr>       SFGLUTWindowPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GLUTWindowPtr, OSG_GLUTWINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GLUTWindowPtr, OSG_GLUTWINDOWLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -284,7 +284,7 @@ typedef MField<GLUTWindowPtr>       MFGLUTWindowPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, GLUTWindowPtr, OSG_GLUTWINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, GLUTWindowPtr, OSG_GLUTWINDOWLIB_DLLTMPLMAPPING)
 
 #endif
 #endif

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,7 +66,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGWindowDef.h>
+#include <OSGSystemDef.h>
 #include <OSGFieldContainer.h>
 #include <OSGUInt16Fields.h>	// Width type
 #include <OSGUInt16Fields.h>	// Height type
@@ -94,7 +94,7 @@ class Window;
 
 /*! Window Base Class. */
 
-class OSG_WINDOW_DLLMAPPING WindowBase : public FieldContainer
+class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public FieldContainer
 {
   private:
 

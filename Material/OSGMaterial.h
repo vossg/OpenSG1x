@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -72,7 +72,7 @@ class DrawAction;
 /*! \brief *put brief class description here* 
  */
 
-class OSG_MATERIAL_DLLMAPPING Material : public MaterialBase
+class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
 {
   public:
 
@@ -229,7 +229,7 @@ typedef Material *MaterialP;
 
 // null pointer
 
-extern OSG_MATERIAL_DLLMAPPING MaterialPtr NullMaterial;
+extern OSG_SYSTEMLIB_DLLMAPPING MaterialPtr NullMaterial;
 
 OSG_END_NAMESPACE
 

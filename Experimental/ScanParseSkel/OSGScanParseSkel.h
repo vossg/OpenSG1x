@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -47,7 +47,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGScanParseBase.h>
+#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGScanParseSkel.tab.h>
 
@@ -71,7 +71,7 @@ OSG_BEGIN_NAMESPACE
  *  detailed
  */
 
-class OSG_SCANPARSE_DLLMAPPING ScanParseSkel
+class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
 {
   public:
 

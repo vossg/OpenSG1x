@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,7 +66,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGMaterialDef.h>
+#include <OSGSystemDef.h>
 #include <OSGFieldContainer.h>
 
 #include <OSGMaterialFields.h>
@@ -89,7 +89,7 @@ class Material;
 
 /*! Material Base Class. */
 
-class OSG_MATERIAL_DLLMAPPING MaterialBase : public FieldContainer
+class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public FieldContainer
 {
   private:
 

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -46,6 +46,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <OSGSystemDef.h>
 #include <OSGMField.h>
 #include <OSGSysFieldDataType.h>
 
@@ -83,7 +84,7 @@ typedef MField<Bool, 2>   MFBool;
 
 #else
 
-OSG_DLLEXPORT_DECL2(MField, Bool, 2, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL2(MField, Bool, 2, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -100,7 +101,7 @@ typedef MField<Int8>   MFInt8;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Int8, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Int8, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -117,7 +118,7 @@ typedef MField<UInt8>  MFUInt8;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, UInt8, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, UInt8, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -134,7 +135,7 @@ typedef MField<Int16>  MFInt16;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Int16, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Int16, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -151,7 +152,7 @@ typedef MField<UInt16> MFUInt16;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, UInt16, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, UInt16, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -168,7 +169,7 @@ typedef MField<Int32>  MFInt32;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Int32, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Int32, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -185,7 +186,7 @@ typedef MField<UInt32> MFUInt32;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, UInt32, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, UInt32, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -202,7 +203,7 @@ typedef MField<Int64>  MFInt64;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Int64, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Int64, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -219,7 +220,7 @@ typedef MField<UInt64> MFUInt64;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, UInt64, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, UInt64, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -236,7 +237,7 @@ typedef MField<Real32> MFReal32;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Real32, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Real32, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -253,7 +254,7 @@ typedef MField<Real64> MFReal64;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Real64, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Real64, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif

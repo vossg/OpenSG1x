@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -58,7 +58,6 @@
 #pragma reset woff 1375
 #endif
 
-#include <OSGWindowDef.h>
 #include "OSGWindow.h"
 
 #ifdef WIN32
@@ -91,9 +90,9 @@ typedef FCPtr <WindowPtr, QTWindow> QTWindowPtr;
  */
 
 #ifdef WIN32
-class OSG_QTWINDOW_DLLMAPPING QTWindow : public WIN32Window
+class OSG_QTWINDOWLIB_DLLMAPPING QTWindow : public WIN32Window
 #else
-class OSG_QTWINDOW_DLLMAPPING QTWindow : public XWindow
+class OSG_QTWINDOWLIB_DLLMAPPING QTWindow : public XWindow
 #endif
 {
   public:
@@ -276,7 +275,7 @@ typedef SField<QTWindowPtr>       SFQTWindowPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, QTWindowPtr, OSG_QTWINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, QTWindowPtr, OSG_QTWINDOWLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -292,7 +291,7 @@ typedef MField<QTWindowPtr>       MFQTWindowPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, QTWindowPtr, OSG_QTWINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, QTWindowPtr, OSG_QTWINDOWLIB_DLLTMPLMAPPING)
 
 #endif
 #endif

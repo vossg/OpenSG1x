@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -78,7 +78,7 @@ typedef FCPtr <WindowPtr, XWindow> XWindowPtr;
 /*! \brief X11 window class
  */
 
-class OSG_XWINDOW_DLLMAPPING XWindow : public Window
+class OSG_XWINDOWLIB_DLLMAPPING XWindow : public Window
 {
   public:
 
@@ -267,7 +267,7 @@ typedef SField<XWindowPtr>       SFXWindowPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, XWindowPtr, OSG_XWINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, XWindowPtr, OSG_XWINDOWLIB_DLLTMPLMAPPING)
 
 #endif
 
@@ -281,7 +281,7 @@ typedef MField<XWindowPtr>       MFXWindowPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, XWindowPtr, OSG_XWINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, XWindowPtr, OSG_XWINDOWLIB_DLLTMPLMAPPING)
 
 #endif
 

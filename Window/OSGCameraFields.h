@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -61,7 +61,7 @@
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
-#include <OSGWindowDef.h>
+#include <OSGSystemDef.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -98,7 +98,7 @@ typedef SField<CameraPtr> SFCameraPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, CameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -114,7 +114,7 @@ typedef MField<CameraPtr> MFCameraPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, CameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif

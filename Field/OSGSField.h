@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -47,6 +47,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
 
@@ -79,7 +80,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <class FieldTypeT, Int32 fieldNameSpace = 0>
-class OSG_FIELD_DLLMAPPING SField : public Field 
+class OSG_SYSTEMLIB_DLLMAPPING SField : public Field 
 {
   public:
 

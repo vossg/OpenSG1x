@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -48,9 +48,7 @@
 //---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
-
 #include <OSGLightBaseBase.h>
-
 #include <OSGAction.h>
 
 OSG_BEGIN_NAMESPACE
@@ -70,7 +68,7 @@ OSG_BEGIN_NAMESPACE
 /*! \brief *put brief class description here* 
  */
 
-class OSG_LIGHT_DLLMAPPING LightBase : public LightBaseBase
+class OSG_SYSTEMLIB_DLLMAPPING LightBase : public LightBaseBase
 {
   private:
 

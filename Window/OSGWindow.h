@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -71,7 +71,7 @@ class DrawAction;
 /*! \brief *put brief class description here* 
  */
 
-class OSG_WINDOW_DLLMAPPING Window : public WindowBase
+class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 {
   public:
 

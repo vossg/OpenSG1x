@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -40,20 +40,13 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILEGEOPROPCOLORINST
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "OSGConfig.h"
-
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
-
-#define OSG_COMPILEGEOMETRY
-#define OSG_COMPILEGEOPROPCOLORINST
 
 #include "OSGGeoPropColors.h"
 
@@ -72,15 +65,15 @@ OSG_BEGIN_NAMESPACE
 
 OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
                            GeoColor3fPropertyDesc, 
-                           OSG_GEOMETRY_DLLTMPLMAPPING)
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
                            GeoColor3ubPropertyDesc, 
-                           OSG_GEOMETRY_DLLTMPLMAPPING)
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
                            GeoColor4ubPropertyDesc, 
-                           OSG_GEOMETRY_DLLTMPLMAPPING)
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 

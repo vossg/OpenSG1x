@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -40,22 +40,17 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILEBASELIB
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "OSGConfig.h"
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
-#else
-#include <iostream.h>
-#endif
 
 #include <stdio.h>
 #include <stdarg.h>
-
-#define OSG_COMPILELOG
 
 #include "OSGLog.h"
 #include "OSGBaseFunctions.h"
@@ -86,7 +81,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_LOG_DLLMAPPING LogP OSG::osgLogP = NULL;
+OSG_BASE_DLLMAPPING LogP OSG::osgLogP = NULL;
 
 /*! \brief holds the nil buffer 
  */
@@ -237,7 +232,7 @@ void Log::delModuleHandling  (LogModuleHandling handling)
 	_moduleHandling &= ~handling;
 }
 
-void Log::addModuleName(const char *module, bool isStatic)
+void Log::addModuleName(const Char8 *module, Bool isStatic)
 {
 	Module m;
 	int len;
@@ -258,14 +253,13 @@ void Log::addModuleName(const char *module, bool isStatic)
 	}
 }
 
-void Log::delModuleName(const char *module)
+void Log::delModuleName(const Char8 *module)
 {
-	;
 }
 
-bool Log::hasModule(const char *module)
+Bool Log::hasModule(const Char8 *module)
 {
-	bool retCode = false;
+	Bool retCode = false;
 	list<Module>::iterator mI;
 
 	if (module && *module) {
@@ -277,9 +271,9 @@ bool Log::hasModule(const char *module)
 	return retCode;
 }
 
-bool Log::checkModule(const char *module)
+Bool Log::checkModule(const Char8 *module)
 {
-	bool retCode = false;
+	Bool retCode = false;
 	list<Module>::iterator mI;
 
 	if (_moduleHandling != LOG_MODULE_NONE) {
@@ -626,3 +620,24 @@ void Log::connect(void)
 //s: 
 ///---------------------------------------------------------------------------
 
+
+void OSG::initLog(void)
+{
+#ifdef OSG_HAS_NILBUF
+    if(Log::_nilbufP == NULL)
+        Log::_nilbufP = new Log::nilbuf();
+#else
+    if(Log::_nilstreamP == NULL)
+        Log::_nilstreamP = new fstream("/dev/null", ios::out);
+#endif
+
+	if(osgLogP == NULL)
+    {
+		osgLogP = new Log();
+
+        osgLogP->setLogLevel(LOG_NOTICE);
+        osgLogP->setLogFile (NULL);
+        osgLogP->setLogType (LOG_STDERR);
+        
+    }
+}

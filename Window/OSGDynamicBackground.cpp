@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -40,6 +40,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILESYSTEMLIB
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -47,14 +48,6 @@
 #include <OSGConfig.h>
 
 #include <GL/gl.h>
-
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
-
-#define OSG_COMPILEWINDOW
 
 #include <OSGDrawAction.h>
 
@@ -84,7 +77,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
  *                           Class variables                               *
 \***************************************************************************/
 
-char DynamicBackground::cvsid[] = "@(#)$Id: OSGDynamicBackground.cpp,v 1.2 2001/05/23 23:02:42 dirk Exp $";
+char DynamicBackground::cvsid[] = "@(#)$Id: OSGDynamicBackground.cpp,v 1.3 2001/06/10 12:42:07 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

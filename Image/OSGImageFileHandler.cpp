@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -40,18 +40,12 @@
 // 	Includes 					 			    
 //-------------------------------
 
-#define OSG_COMPILEIMAGE
+#define OSG_COMPILESYSTEMLIB
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "OSGConfig.h"
-
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
 
 #include <OSGLog.h>
 #include <OSGBaseTypes.h>

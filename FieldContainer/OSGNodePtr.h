@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -48,7 +48,7 @@
 
 #include <OSGBaseTypes.h>
 #include <OSGString.h>
-#include <OSGFieldContainerDef.h>
+#include <OSGSystemDef.h>
 #include <OSGFieldContainerPtr.h>
 
 OSG_BEGIN_NAMESPACE
@@ -78,7 +78,7 @@ class CNodePtr;
 #pragma set woff 1375,1424
 #endif
 
-class OSG_FIELDCONTAINER_DLLMAPPING NodePtr : public FieldContainerPtr
+class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public FieldContainerPtr
 {
   public:
 
@@ -214,7 +214,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING NodePtr : public FieldContainerPtr
  *  \brief Pointer to a node
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING CNodePtr : public FieldContainerPtr
+class OSG_SYSTEMLIB_DLLMAPPING CNodePtr : public FieldContainerPtr
 {
   public:
 
@@ -350,10 +350,10 @@ class OSG_FIELDCONTAINER_DLLMAPPING CNodePtr : public FieldContainerPtr
 //   Exported Types
 //---------------------------------------------------------------------------
 
-OSG_FIELDCONTAINER_DLLMAPPING
+OSG_SYSTEMLIB_DLLMAPPING
 ostream &operator <<(      ostream  &os,
                      const NodePtr  &fc);
-OSG_FIELDCONTAINER_DLLMAPPING
+OSG_SYSTEMLIB_DLLMAPPING
 ostream &operator <<(      ostream  &os,
                      const CNodePtr &fc);
 

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -46,7 +46,7 @@
 //---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
-#include <OSGGeometryDef.h>
+#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGNode.h>
 
@@ -61,12 +61,12 @@ OSG_BEGIN_NAMESPACE
 /*! \brief calculate vertex normals for the geometry
  *  \ingroup Geometry
  */
-OSG_GEOMETRY_DLLMAPPING void calcVertexNormals( GeometryPtr geo );
+OSG_SYSTEMLIB_DLLMAPPING void calcVertexNormals( GeometryPtr geo );
 
 /*! \brief create a geometry that shows the normals of the geometry
  *  \ingroup Geometry
  */
-OSG_GEOMETRY_DLLMAPPING NodePtr getNormals( GeometryPtr geo, Real32 length );
+OSG_SYSTEMLIB_DLLMAPPING NodePtr getNormals( GeometryPtr geo, Real32 length );
 
 
 OSG_END_NAMESPACE

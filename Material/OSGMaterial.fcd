@@ -3,7 +3,7 @@
 <FieldContainer
 	name="Material"
 	parent="FieldContainer"
-	library="Material"
+	library="System"
 	structure="abstract"
 	pointerfieldtypes="both"
 	systemcomponent="true"

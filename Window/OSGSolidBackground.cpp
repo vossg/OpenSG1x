@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -40,6 +40,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILESYSTEMLIB
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -47,15 +48,6 @@
 #include "OSGConfig.h"
 
 #include <GL/gl.h>
-
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
-
-#define OSG_COMPILEWINDOW
-#define OSG_COMPILEBACKGROUNDINST
 
 #include <OSGFieldContainer.h>
 #include <OSGNode.h>
@@ -89,7 +81,7 @@ A single colored background.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.5 2001/04/15 02:19:06 dirk Exp $";
+char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.6 2001/06/10 12:42:07 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

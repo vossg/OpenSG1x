@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -47,20 +47,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILEOSGLOADER
-#       define OSG_OSGLOADER_DLLMAPPING __declspec(dllexport)
-#   else
-#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILESYSTEMLIB))
-#           define OSG_OSGLOADER_DLLMAPPING __declspec(dllexport)
-#       else
-#           define OSG_OSGLOADER_DLLMAPPING __declspec(dllimport)
-#       endif
-#   endif
-#else
-#define OSG_OSGLOADER_DLLMAPPING
-#endif
-
+#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGScanParseSkel.h>
 #include <OSGScanParseFieldTypeMapper.h>
@@ -70,8 +57,6 @@
 #include <OSGFieldContainer.h>
 
 #include <stack>
-
-OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
@@ -93,7 +78,7 @@ OSG_BEGIN_NAMESPACE
  *  detailed
  */
 
-class OSG_OSGLOADER_DLLMAPPING OSGLoader : 
+class OSG_SYSTEMLIB_DLLMAPPING OSGLoader : 
     public ScanParseFieldTypeMapper<ScanParseSkel>
 {
   public:

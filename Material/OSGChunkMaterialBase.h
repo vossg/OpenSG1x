@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,7 +66,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGMaterialDef.h>
+#include <OSGSystemDef.h>
 #include <OSGMaterial.h>
 #include <OSGStateChunkFields.h>	// Chunks type
 
@@ -90,7 +90,7 @@ class ChunkMaterial;
 
 /*! ChunkMaterial Base Class. */
 
-class OSG_MATERIAL_DLLMAPPING ChunkMaterialBase : public Material
+class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterialBase : public Material
 {
   private:
 

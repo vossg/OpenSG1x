@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -40,6 +40,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILESYSTEMLIB
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -48,14 +49,6 @@
 
 #include <GL/gl.h>
 #include <GL/glu.h>
-
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
-
-#define OSG_COMPILESTATE
 
 #include "OSGDrawAction.h"
 
@@ -83,7 +76,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.6 2001/04/15 02:12:54 dirk Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.7 2001/06/10 12:42:07 vossg Exp $";
 
 StateChunkClass TextureChunk::_class(String("Texture"));
 

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,7 +66,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGStateDef.h>
+#include <OSGSystemDef.h>
 #include <OSGStateChunk.h>
 #include <OSGColor4fFields.h>	// Diffuse type
 #include <OSGColor4fFields.h>	// Ambient type
@@ -99,7 +99,7 @@ class LightChunk;
 
 /*! LightChunk Base Class. */
 
-class OSG_STATE_DLLMAPPING LightChunkBase : public StateChunk
+class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
 {
   private:
 

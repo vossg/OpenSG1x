@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -69,7 +69,7 @@ class DrawAction;
 /*! \brief PerspectiveCamera class
  */
 
-class OSG_WINDOW_DLLMAPPING PerspectiveCamera : public PerspectiveCameraBase
+class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCamera : public PerspectiveCameraBase
 {
   public:
 

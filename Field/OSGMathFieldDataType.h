@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -39,6 +39,7 @@
 #ifndef _OSG_MATHFIELDDATATYPE_H_
 #define _OSG_MATHFIELDDATATYPE_H_
 
+#include <OSGSystemDef.h>
 #include <OSGFieldDataType.h>
 #include <OSGMatrix.h>
 #include <OSGQuaternion.h>
@@ -110,4 +111,3 @@ struct FieldDataTraits<Quaternion> : public Traits
 OSG_END_NAMESPACE
 
 #endif /* _OSG_MATHFIELDDATATYPE_H_ */
-

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -46,6 +46,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 
 #include <OSGFieldType.h>
@@ -93,7 +94,7 @@ struct ErrorFromToString
  *  \brief Base class for all fields
  */
 
-class OSG_FIELD_DLLMAPPING Field
+class OSG_SYSTEMLIB_DLLMAPPING Field
 {
   public:
 
@@ -225,3 +226,5 @@ typedef Field* FieldP;
 OSG_END_NAMESPACE
 
 #endif /* _OSGFIELD_HPP_ */
+
+

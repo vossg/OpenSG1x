@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -71,7 +71,7 @@ class DrawAction;
 // the id is a low int to index into the state's chunk vector
 // A static instance of this is part of every new chunk class
 
-class OSG_STATE_DLLMAPPING StateChunkClass
+class OSG_SYSTEMLIB_DLLMAPPING StateChunkClass
 {
   public:
 
@@ -103,7 +103,7 @@ class OSG_STATE_DLLMAPPING StateChunkClass
  *  \ingroup StateChunks
  */
 
-class OSG_STATE_DLLMAPPING StateChunk : public StateChunkBase
+class OSG_SYSTEMLIB_DLLMAPPING StateChunk : public StateChunkBase
 {
   public:
 
@@ -267,7 +267,7 @@ typedef StateChunk *StateChunkP;
 
 //! null pointer
 
-extern OSG_STATE_DLLMAPPING StateChunkPtr NullStateChunk;
+extern OSG_SYSTEMLIB_DLLMAPPING StateChunkPtr NullStateChunk;
 
 OSG_END_NAMESPACE
 

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -77,7 +77,7 @@ class FaceIterator;
  *  \brief Geometry base class
  */
 
-class OSG_GEOMETRY_DLLMAPPING Geometry : public GeometryBase
+class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 {
   public:
 
@@ -243,7 +243,7 @@ typedef Geometry *GeometryP;
 
 /** empty geometry instance
  */
-extern OSG_GEOMETRY_DLLMAPPING GeometryPtr NullGeo;
+extern OSG_SYSTEMLIB_DLLMAPPING GeometryPtr NullGeo;
 
 OSG_END_NAMESPACE
 

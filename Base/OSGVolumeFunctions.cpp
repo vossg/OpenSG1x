@@ -39,7 +39,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILEBASE
+#define OSG_COMPILEBASELIB
 
 #include "OSGVolume.h"
 #include "OSGBoxVolume.h"

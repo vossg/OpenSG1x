@@ -3,7 +3,7 @@
 <FieldContainer
 	name="TextureChunk"
 	parent="StateChunk"
-	library="State"
+	library="System"
 	structure="concrete"
 	pointerfieldtypes="none"
 	systemcomponent="true"

@@ -1,6 +1,0 @@
-LIBRARY   libOSGState
-DESCRIPTION "State lib"
-EXPORTS
-
-    ?getClassType@?$MField@V?$FCPtr@VFieldContainerPtr@osg@@VStateChunk@2@@osg@@$0A@@osg@@SAABVFieldType@2@XZ @1
-    ?getType@?$MField@V?$FCPtr@VFieldContainerPtr@osg@@VStateChunk@2@@osg@@$0A@@osg@@UBEABVFieldType@2@XZ     @2

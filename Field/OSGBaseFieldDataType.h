@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -300,7 +300,3 @@ struct FieldDataTraits<Plane> :
 OSG_END_NAMESPACE
 
 #endif /* _OSG_VECFIELDDATATYPE_H_ */
-
-
-
-

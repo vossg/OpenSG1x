@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,7 +66,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGWindowDef.h>
+#include <OSGSystemDef.h>
 #include <OSGFieldContainer.h>
 #include <OSGNodeFields.h>	// Beacon type
 #include <OSGReal32Fields.h>	// Near type
@@ -92,7 +92,7 @@ class Camera;
 
 /*! Camera Base Class. */
 
-class OSG_WINDOW_DLLMAPPING CameraBase : public FieldContainer
+class OSG_SYSTEMLIB_DLLMAPPING CameraBase : public FieldContainer
 {
   private:
 

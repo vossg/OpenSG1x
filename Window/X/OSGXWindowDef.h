@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -48,34 +48,16 @@
 //---------------------------------------------------------------------------
 
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILEXWINDOW
-#       define OSG_XWINDOW_DLLMAPPING     __declspec(dllexport)
-#       define OSG_XWINDOW_DLLTMPLMAPPING __declspec(dllexport)
+#   ifdef OSG_COMPILEXWINDOWLIB
+#       define OSG_XWINDOWLIB_DLLMAPPING     __declspec(dllexport)
+#       define OSG_XWINDOWLIB_DLLTMPLMAPPING __declspec(dllexport)
 #   else
-#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILEDRAWACTION)        || \
-                                     defined(OSG_COMPILEINTERSECTACTION)   || \
-                                     defined(OSG_COMPILEFIELD)             || \
-                                     defined(OSG_COMPILEFIELDCONTAINER)    || \
-                                     defined(OSG_COMPILEIMAGE)             || \
-                                     defined(OSG_COMPILELOADER)            || \
-                                     defined(OSG_COMPILEMULTITHREADING)    || \
-                                     defined(OSG_COMPILEMATERIAL)          || \
-                                     defined(OSG_COMPILEMISC)              || \
-                                     defined(OSG_COMPILELIGHT)             || \
-                                     defined(OSG_COMPILEGEOMETRY)          || \
-                                     defined(OSG_COMPILESTATE)             || \
-                                     defined(OSG_COMPILEACTION)            || \
-                                     defined(OSG_COMPILESYSTEMLIB))
-#           define OSG_XWINDOW_DLLMAPPING     __declspec(dllexport)
-#           define OSG_XWINDOW_DLLTMPLMAPPING __declspec(dllexport)
-#       else
-#           define OSG_XWINDOW_DLLMAPPING     __declspec(dllimport)
-#           define OSG_XWINDOW_DLLTMPLMAPPING __declspec(dllimport)
-#       endif
+#       define OSG_XWINDOWLIB_DLLMAPPING     __declspec(dllimport)
+#       define OSG_XWINDOWLIB_DLLTMPLMAPPING __declspec(dllimport)
 #   endif
 #else
-#define OSG_XWINDOW_DLLMAPPING
-#define OSG_XWINDOW_DLLTMPLMAPPING
+#define OSG_XWINDOWLIB_DLLMAPPING
+#define OSG_XWINDOWLIB_DLLTMPLMAPPING
 #endif
 
 #endif /* _OSGXWINDOWDEF_H_ */

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -46,6 +46,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <OSGSystemDef.h>
 #include <OSGMField.h>
 #include <OSGBaseFieldDataType.h>
 
@@ -77,7 +78,7 @@ typedef MField<String>        MFString;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, String, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, String, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -94,7 +95,7 @@ typedef MField<Time, 1>       MFTime;
 
 #else
 
-OSG_DLLEXPORT_DECL2(MField, Time, 1, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL2(MField, Time, 1, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -111,7 +112,7 @@ typedef MField<Color3f>       MFColor3f;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Color3f, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Color3f, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -128,7 +129,7 @@ typedef MField<Color4f>       MFColor4f;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Color4f, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Color4f, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -145,7 +146,7 @@ typedef MField<Color3ub>       MFColor3ub;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Color3ub, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Color3ub, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -162,7 +163,7 @@ typedef MField<Color4ub>       MFColor4ub;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Color4ub, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Color4ub, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -180,7 +181,7 @@ typedef MField<DynamicVolume> MFVolume;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, DynamicVolume, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, DynamicVolume, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -197,7 +198,7 @@ typedef MField<BitVector, 1>  MFBitVector;
 
 #else
 
-OSG_DLLEXPORT_DECL2(MField, BitVector, 1, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL2(MField, BitVector, 1, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -214,7 +215,7 @@ typedef MField<Plane> MFPlane;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Plane, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Plane, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif

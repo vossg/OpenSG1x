@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                     Copyright 2000,2001 by OpenSG Forum                   *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -45,7 +45,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGFieldContainerDef.h>
+#include <OSGSystemDef.h>
 #include <OSGFieldContainerType.h>
 #include <OSGStringLink.h>
 #include <OSGFieldContainerFactory.h>
@@ -118,32 +118,32 @@ namespace FCDumpFlags
     const BitVector All        = 0xFFFFFFFF;
 }
 
-OSG_FIELDCONTAINER_DLLMAPPING
+OSG_SYSTEMLIB_DLLMAPPING
 void addRefCP   (const FieldContainerPtrBase &objectP);
 
-OSG_FIELDCONTAINER_DLLMAPPING
+OSG_SYSTEMLIB_DLLMAPPING
 void subRefCP   (const FieldContainerPtrBase &objectP);
 
-OSG_FIELDCONTAINER_DLLMAPPING
+OSG_SYSTEMLIB_DLLMAPPING
 void setRefdCP  (const FieldContainerPtrBase &objectP,
                  const FieldContainerPtrBase &newObjectP);
 
-OSG_FIELDCONTAINER_DLLMAPPING
+OSG_SYSTEMLIB_DLLMAPPING
 void clearRefCP(FieldContainerPtrBase &objectP);
 
-OSG_FIELDCONTAINER_DLLMAPPING
+OSG_SYSTEMLIB_DLLMAPPING
 void beginEditCP(const FieldContainerPtr &objectP, 
                        BitVector          whichField = FieldBits::AllFields);
 
-OSG_FIELDCONTAINER_DLLMAPPING
+OSG_SYSTEMLIB_DLLMAPPING
 void endEditCP  (const FieldContainerPtr &objectP, 
                        BitVector          whichField = FieldBits::AllFields);
 
-OSG_FIELDCONTAINER_DLLMAPPING
+OSG_SYSTEMLIB_DLLMAPPING
 void changedCP  (const FieldContainerPtr &objectP, 
                        BitVector          whichField = FieldBits::AllFields);
 
-OSG_FIELDCONTAINER_DLLMAPPING
+OSG_SYSTEMLIB_DLLMAPPING
 void endEditNotChangedCP(const FieldContainerPtr &objectP, 
                          BitVector          whichField = FieldBits::AllFields);
 
@@ -165,7 +165,7 @@ void endEditNotChangedCP(const FieldContainerPtr &objectP,
  *  \brief FieldContainer
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer 
+class OSG_SYSTEMLIB_DLLMAPPING FieldContainer 
 {
   public:
 

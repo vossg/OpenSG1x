@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,7 +66,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGMiscDef.h>
+#include <OSGSystemDef.h>
 #include <OSGTransform.h>
 #include <OSGVec3fFields.h>	// Center type
 #include <OSGQuaternionFields.h>	// Rotation type
@@ -94,7 +94,7 @@ class VRMLTransform;
 
 /*! VRMLTransform Base Class. */
 
-class OSG_MISC_DLLMAPPING VRMLTransformBase : public Transform
+class OSG_SYSTEMLIB_DLLMAPPING VRMLTransformBase : public Transform
 {
   private:
 

@@ -3,7 +3,7 @@
 <FieldContainer
 	name="LightBase"
 	parent="NodeCore"
-	library="Light"
+	library="System"
 	structure="abstract"
 	pointerfieldtypes="none"
 	systemcomponent="true"

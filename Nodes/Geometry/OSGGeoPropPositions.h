@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -99,7 +99,7 @@ typedef GeoProperty<GeoPosition3fPropertyDesc> GeoPosition3f;
 
 OSG_FC_DLLEXPORT_DECL(GeoProperty, 
                       GeoPosition3fPropertyDesc,
-                      OSG_GEOMETRY_DLLTMPLMAPPING)
+                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif

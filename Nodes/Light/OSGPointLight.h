@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGPOINTLIGHT_H_
 #define _OSGPOINTLIGHT_H_
 #ifdef __sgi
@@ -48,7 +47,6 @@
 //---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
-
 #include <OSGPointLightBase.h>
 
 OSG_BEGIN_NAMESPACE
@@ -69,7 +67,7 @@ OSG_BEGIN_NAMESPACE
  *  \brief Pointlight
  */
 
-class OSG_LIGHT_DLLMAPPING PointLight : public PointLightBase
+class OSG_SYSTEMLIB_DLLMAPPING PointLight : public PointLightBase
 {
   public:
 

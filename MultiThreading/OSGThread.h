@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -47,7 +47,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGMultithreadingBase.h>
+#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGBaseThread.h>
 
@@ -83,7 +83,7 @@ class ChangeList;
  *  \brief ThreadCommonBase
  */
 
-class OSG_MULTITHREADING_DLLMAPPING ThreadCommonBase : public BaseThread
+class OSG_SYSTEMLIB_DLLMAPPING ThreadCommonBase : public BaseThread
 {
   public:
 
@@ -514,7 +514,7 @@ typedef SprocBase ThreadBase;
  *  \brief Brief WinThreadBase
  */
 
-class OSG_MULTITHREADING_DLLMAPPING WinThreadBase : public ThreadCommonBase
+class OSG_SYSTEMLIB_DLLMAPPING WinThreadBase : public ThreadCommonBase
 {
    public:
 
@@ -663,7 +663,7 @@ typedef WinThreadBase ThreadBase;
  *  \brief Thread
  */
 
-class OSG_MULTITHREADING_DLLMAPPING Thread : public ThreadBase
+class OSG_SYSTEMLIB_DLLMAPPING Thread : public ThreadBase
 {
   public:
 

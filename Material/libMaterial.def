@@ -1,6 +1,0 @@
-LIBRARY   libOSGMaterial
-DESCRIPTION "Material lib"
-EXPORTS
-
-    ?getClassType@?$SField@V?$FCPtr@VFieldContainerPtr@osg@@VMaterial@2@@osg@@$0A@@osg@@SAABVFieldType@2@XZ @1
-    ?getType@?$SField@V?$FCPtr@VFieldContainerPtr@osg@@VMaterial@2@@osg@@$0A@@osg@@UBEABVFieldType@2@XZ     @2

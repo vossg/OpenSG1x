@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -46,6 +46,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <OSGSystemDef.h>
 #include <OSGSField.h>
 #include <OSGVecFieldDataType.h>
 
@@ -78,7 +79,7 @@ typedef SField<Vec2f> SFVec2f;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, Vec2f, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, Vec2f, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -95,7 +96,7 @@ typedef SField<Vec3f> SFVec3f;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, Vec3f, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, Vec3f, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -112,7 +113,7 @@ typedef SField<Vec4f> SFVec4f;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, Vec4f, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, Vec4f, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -129,7 +130,7 @@ typedef SField<Pnt2f> SFPnt2f;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, Pnt2f, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, Pnt2f, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -146,7 +147,7 @@ typedef SField<Pnt3f> SFPnt3f;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, Pnt3f, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, Pnt3f, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -163,7 +164,7 @@ typedef SField<Pnt4f> SFPnt4f;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, Pnt4f, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, Pnt4f, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif

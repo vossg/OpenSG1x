@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -46,8 +46,8 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
-
 #include <OSGFieldDataType.h>
 
 #include <map>
@@ -73,7 +73,7 @@ class FieldType;
  *  \brief Factory for field
  */
 
-class OSG_FIELD_DLLMAPPING FieldFactory 
+class OSG_SYSTEMLIB_DLLMAPPING FieldFactory 
 {
   public:
 
@@ -207,4 +207,5 @@ typedef FieldFactory* FieldFactoryP;
 OSG_END_NAMESPACE
 
 #endif /* _OSGFIELDFACTORY_H_ */
+
 

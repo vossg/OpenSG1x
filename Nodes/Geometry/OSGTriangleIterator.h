@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -50,7 +50,6 @@
 #include <OSGBaseTypes.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGNodeCore.h>
-#include <OSGGeometryDef.h>
 #include <OSGGeoProperty.h>
 #include <OSGPrimitiveIterator.h>
 
@@ -75,7 +74,7 @@ typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
  *  \ingroup GeoIterators
  */
 
-class OSG_GEOMETRY_DLLMAPPING TriangleIterator
+class OSG_SYSTEMLIB_DLLMAPPING TriangleIterator
 {
   public:
 

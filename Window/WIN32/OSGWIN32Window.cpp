@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -40,6 +40,8 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILEWIN32WINDOWLIB
+#define OSG_COMPILEWINDOWWIN32INST
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -48,15 +50,6 @@
 
 // Forget everything if we're not doing a windows compile
 #ifdef WIN32
-
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
-
-#define OSG_COMPILEWIN32WINDOW
-#define OSG_COMPILEWINDOWWIN32INST
 
 #include "OSGViewport.h"
 #include "OSGCamera.h"

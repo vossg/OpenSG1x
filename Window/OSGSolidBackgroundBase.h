@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,7 +66,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGWindowDef.h>
+#include <OSGSystemDef.h>
 #include <OSGBackground.h>
 #include <OSGColor3fFields.h>	// Color type
 
@@ -90,7 +90,7 @@ class SolidBackground;
 
 /*! SolidBackground Base Class. */
 
-class OSG_WINDOW_DLLMAPPING SolidBackgroundBase : public Background
+class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
 {
   private:
 

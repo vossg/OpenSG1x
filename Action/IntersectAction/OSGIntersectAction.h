@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -48,35 +48,9 @@
 
 #include <vector>
 
+#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGAction.h>
-
-#if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILEINTERSECTACTION
-#       define OSG_INTERSECTACTION_DLLMAPPING __declspec(dllexport)
-#   else
-#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILEDRAWACTION)        || \
-                                     defined(OSG_COMPILEACTION)            || \
-                                     defined(OSG_COMPILEFIELD)             || \
-                                     defined(OSG_COMPILEFIELDCONTAINER)    || \
-                                     defined(OSG_COMPILEIMAGE)             || \
-                                     defined(OSG_COMPILELOADER)            || \
-                                     defined(OSG_COMPILEMATERIAL)          || \
-                                     defined(OSG_COMPILEMULTITHREADING)    || \
-                                     defined(OSG_COMPILEMISC)              || \
-                                     defined(OSG_COMPILELIGHT)             || \
-                                     defined(OSG_COMPILEGEOMETRY)          || \
-                                     defined(OSG_COMPILESTATE)             || \
-                                     defined(OSG_COMPILEWINDOW)            || \
-                                     defined(OSG_COMPILESYSTEMLIB))
-#           define OSG_INTERSECTACTION_DLLMAPPING __declspec(dllexport)
-#       else
-#           define OSG_INTERSECTACTION_DLLMAPPING __declspec(dllimport)
-#       endif
-#   endif
-#else
-#define OSG_INTERSECTACTION_DLLMAPPING
-#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -97,7 +71,7 @@ class Node;
 /*! \brief IntersectAction class
  */
 
-class OSG_INTERSECTACTION_DLLMAPPING IntersectAction : public Action
+class OSG_SYSTEMLIB_DLLMAPPING IntersectAction : public Action
 {
   public:
 

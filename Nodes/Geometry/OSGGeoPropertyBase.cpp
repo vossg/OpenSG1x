@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -40,20 +40,13 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILEGEOPROPINST
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "OSGConfig.h"
-
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
-
-#define OSG_COMPILEGEOMETRY
-#define OSG_COMPILEGEOPROPINST
 
 #include "OSGGeoPropertyBase.h"
 
@@ -69,36 +62,6 @@ tehy also have a generic interface, which is easy to use, but not as
 efficient as the specific one.
 
 */
-
-// explicit instantiation to work around compiler problems with static
-// init for templated classes
-
-#if 0
-#ifdef OSG_NEED_EXPLICIT_INST_FOR_STATIC
-
-template class OSG_GEOMETRY_DLLMAPPING 
-     AbstractGeoProperty<GeoPositionPropertyDesc>;
-
-template class OSG_GEOMETRY_DLLMAPPING GeoProperty<GeoPosition3fPropertyDesc>;
-
-template class OSG_GEOMETRY_DLLMAPPING 
-    AbstractGeoProperty<GeoNormalPropertyDesc>;
-
-template class OSG_GEOMETRY_DLLMAPPING GeoProperty<GeoNormal3fPropertyDesc>;
-
-template class OSG_GEOMETRY_DLLMAPPING GeoProperty<GeoTexCoord2fPropertyDesc>;
-
-template class OSG_GEOMETRY_DLLMAPPING AbstractGeoProperty<
-    GeoIndexPropertyDesc>;
-
-template class OSG_GEOMETRY_DLLMAPPING GeoProperty<GeoIndexUI32PropertyDesc>;
-
-
-template class OSG_GEOMETRY_DLLMAPPING GeoProperty<GeoPTypePropertyDesc>;
-template class OSG_GEOMETRY_DLLMAPPING GeoProperty<GeoPLengthPropertyDesc>;
-
-#endif
-#endif
 
 #if defined(__sgi)
 
@@ -122,31 +85,31 @@ template class OSG_GEOMETRY_DLLMAPPING GeoProperty<GeoPLengthPropertyDesc>;
 
 OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty, 
                            GeoPositionPropertyDesc, 
-                           OSG_GEOMETRY_DLLTMPLMAPPING)
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty,
                            GeoNormalPropertyDesc, 
-                           OSG_GEOMETRY_DLLTMPLMAPPING)
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty,
                            GeoColorPropertyDesc, 
-                           OSG_GEOMETRY_DLLTMPLMAPPING)
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty,
                            GeoTexCoordsPropertyDesc, 
-                           OSG_GEOMETRY_DLLTMPLMAPPING)
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty,
                            GeoIndexPropertyDesc, 
-                           OSG_GEOMETRY_DLLTMPLMAPPING)
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
                            GeoPTypePropertyDesc, 
-                           OSG_GEOMETRY_DLLTMPLMAPPING)
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
                            GeoPLengthPropertyDesc, 
-                           OSG_GEOMETRY_DLLTMPLMAPPING)
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 

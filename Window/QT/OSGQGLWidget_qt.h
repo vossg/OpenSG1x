@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -49,16 +49,16 @@
 #ifdef OSG_WITH_QT
 
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILEQTWINDOW
-#       define OSG_QTWINDOW_DLLMAPPING     __declspec(dllexport)
-#       define OSG_QTWINDOW_DLLTMPLMAPPING __declspec(dllexport)
+#   ifdef OSG_COMPILEQTWINDOWLIB
+#       define OSG_QTWINDOWLIB_DLLMAPPING     __declspec(dllexport)
+#       define OSG_QTWINDOWLIB_DLLTMPLMAPPING __declspec(dllexport)
 #   else
-#       define OSG_QTWINDOW_DLLMAPPING     __declspec(dllimport)
-#       define OSG_QTWINDOW_DLLTMPLMAPPING __declspec(dllimport)
+#       define OSG_QTWINDOWLIB_DLLMAPPING     __declspec(dllimport)
+#       define OSG_QTWINDOWLIB_DLLTMPLMAPPING __declspec(dllimport)
 #   endif
 #else
-#define OSG_QTWINDOW_DLLMAPPING
-#define OSG_QTWINDOW_DLLTMPLMAPPING
+#define OSG_QTWINDOWLIB_DLLMAPPING
+#define OSG_QTWINDOWLIB_DLLTMPLMAPPING
 #endif
 
 #include <stdlib.h>
@@ -75,14 +75,6 @@
 #endif
 
 #include "OSGConfig.h"
-
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
-
-#include <OSGWindowDef.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -101,7 +93,7 @@ OSG_BEGIN_NAMESPACE
 /*! OSGQGL widget class
  */
 
-class OSG_QTWINDOW_DLLMAPPING OSGQGLWidget : public QGLWidget
+class OSG_QTWINDOWLIB_DLLMAPPING OSGQGLWidget : public QGLWidget
 {
   Q_OBJECT
 
@@ -236,3 +228,6 @@ OSG_END_NAMESPACE
 #endif /* OSG_WITH_QT */
 
 #endif /* _OSG_QGLWIDGET_H_ */
+
+
+

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -40,6 +40,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILESYSTEMLIB
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -47,15 +48,6 @@
 #include "OSGConfig.h"
 
 #include <GL/gl.h>
-
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
-
-#define OSG_COMPILEMATERIAL
-
 #include "OSGMaterial.h"
 
 OSG_USING_NAMESPACE
@@ -87,9 +79,9 @@ The material base class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.8 2001/04/18 11:42:21 vossg Exp $";
+char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.9 2001/06/10 12:42:07 vossg Exp $";
 
-OSG_MATERIAL_DLLMAPPING MaterialPtr OSG::NullMaterial;
+OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::NullMaterial;
 
 /***************************************************************************\
  *                           Class methods                                 *

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,7 +66,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGLightDef.h>
+#include <OSGSystemDef.h>
 #include <OSGLightBase.h>
 #include <OSGVec3fFields.h>	// Direction type
 
@@ -90,7 +90,7 @@ class DirectionalLight;
 
 /*! DirectionalLight Base Class. */
 
-class OSG_LIGHT_DLLMAPPING DirectionalLightBase : public LightBase
+class OSG_SYSTEMLIB_DLLMAPPING DirectionalLightBase : public LightBase
 {
   private:
 

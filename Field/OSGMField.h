@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -46,6 +46,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
 #include <OSGField.h>
@@ -224,7 +225,7 @@ class MFieldVector : public vector<_Tp, _Alloc>
  */
 
 template <class FieldTypeT, Int32 fieldNameSpace = 0>
-class OSG_FIELD_DLLMAPPING MField : public Field
+class OSG_SYSTEMLIB_DLLMAPPING MField : public Field
 {
   public:
 

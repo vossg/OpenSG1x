@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,7 +66,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGLightDef.h>
+#include <OSGSystemDef.h>
 #include <OSGLightBase.h>
 #include <OSGPnt3fFields.h>	// Position type
 #include <OSGReal32Fields.h>	// ConstantAttenuation type
@@ -93,7 +93,7 @@ class PointLight;
 
 /*! PointLight Base Class. */
 
-class OSG_LIGHT_DLLMAPPING PointLightBase : public LightBase
+class OSG_SYSTEMLIB_DLLMAPPING PointLightBase : public LightBase
 {
   private:
 

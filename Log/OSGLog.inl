@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -46,11 +46,7 @@
 
 #include "OSGConfig.h"
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
-#else
-#include <iostream.h>
-#endif
 
 /***************************************************************************\
  *                               Types                                     *
@@ -136,35 +132,16 @@
 
 OSG_BEGIN_NAMESPACE
 
-inline OSG_LOG_DLLMAPPING void initLog(void)
-{
-#ifdef OSG_HAS_NILBUF
-    if(Log::_nilbufP == NULL)
-        Log::_nilbufP = new Log::nilbuf();
-#else
-    if(Log::_nilstreamP == NULL)
-        Log::_nilstreamP = new fstream("/dev/null", ios::out);
-#endif
-
-	if(osgLogP == NULL)
-    {
-		osgLogP = new Log();
-
-        osgLogP->setLogLevel(LOG_NOTICE);
-        osgLogP->setLogFile (NULL);
-        osgLogP->setLogType (LOG_STDERR);
-        
-    }
-}
-
-inline OSG_LOG_DLLMAPPING Log &osgLog() 
+inline 
+Log &osgLog() 
 {
 	initLog();
 
 	return *osgLogP;
 }
 
-inline OSG_LOG_DLLMAPPING void indentLog(UInt32 indent, ostream &stream)
+inline 
+void indentLog(UInt32 indent, ostream &stream)
 {
     for(UInt32 i = 0; i < indent; i++)
     {
@@ -172,10 +149,12 @@ inline OSG_LOG_DLLMAPPING void indentLog(UInt32 indent, ostream &stream)
     }
 }
 
-inline OSG_LOG_DLLMAPPING 
-ostream & osgStartLog ( bool logHeader,
-												LogLevel level, const char *module,
-												const char *file, int line)
+inline 
+ostream &osgStartLog(      Bool      logHeader,
+                           LogLevel  level, 
+                     const Char8    *module,
+                     const Char8    *file, 
+                           UInt32    line)
 {
 	initLog();
 
@@ -191,7 +170,7 @@ ostream & osgStartLog ( bool logHeader,
 }
 
 inline 
-bool Log::checkLevel(LogLevel level)
+Bool Log::checkLevel(LogLevel level)
 {
 	return (_logLevel >= level) ? true : false;
 }
@@ -205,30 +184,32 @@ Time Log::getRefTime(void)
 inline
 void Log::setRefTime(Time refTime)
 {
-  _refTime = refTime;
+    _refTime = refTime;
 }
 
 inline
 void Log::resetRefTime(void)
 {
-  _refTime = osg::getSystemTime();
+    _refTime = osg::getSystemTime();
 }
 
 inline
-ostream & Log::stream(LogLevel level)
+ostream &Log::stream(LogLevel level)
 {
 	return *(_streamVec[level]); 
 }
 
 inline
-ostream & Log::nilstream(void)
+ostream &Log::nilstream(void)
 {
 	return *_nilstreamP;
 }
 
 inline 
-ostream & Log::doHeader ( LogLevel level, const char *module, 
-								      	  const char *file, int line )
+ostream &Log::doHeader(      LogLevel  level, 
+                       const Char8    *module, 
+                       const Char8    *file, 
+                             UInt32    line)
 {
 	LogOStream & sout = *(_streamVec[level]);
 
@@ -263,7 +244,7 @@ ostream & Log::doHeader ( LogLevel level, const char *module,
 	return sout;
 }
 
-inline OSG_LOG_DLLMAPPING 
+inline  
 ostream &endLog(ostream &strm)
 {
 	osg::initLog();

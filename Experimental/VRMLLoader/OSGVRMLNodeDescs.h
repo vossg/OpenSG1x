@@ -47,7 +47,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGVRMLBase.h>
+#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
 #include <vector>
@@ -105,7 +105,7 @@ typedef GenericAtt::PtrType                 GenericAttPtr;
 
 OSG_ABSTR_FC_DLLEXPORT_DECL(DynFieldAttachment, 
                             GenericAttDesc,
-                            OSG_VRMLLOADER_DLLTMPLMAPPING)
+                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -129,7 +129,7 @@ typedef SField<GenericAttPtr>       SFGenericPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GenericAttPtr, OSG_VRMLLOADER_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -148,7 +148,7 @@ typedef MField<GenericAttPtr>       MFGenericAttPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, GenericAttPtr, OSG_VRMLLOADER_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -163,7 +163,7 @@ OSG_DLLEXPORT_DECL1(MField, GenericAttPtr, OSG_VRMLLOADER_DLLTMPLMAPPING)
  *  detailed
  */
 
-class OSG_VRMLLOADER_DLLMAPPING VRMLNodeDesc 
+class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc 
 {
   public:
 
@@ -346,7 +346,7 @@ class OSG_VRMLLOADER_DLLMAPPING VRMLNodeDesc
  *  detailed
  */
 
-class OSG_VRMLLOADER_DLLMAPPING VRMLShapeDesc : public VRMLNodeDesc 
+class OSG_SYSTEMLIB_DLLMAPPING VRMLShapeDesc : public VRMLNodeDesc 
 {
   public:
 
@@ -490,7 +490,7 @@ class OSG_VRMLLOADER_DLLMAPPING VRMLShapeDesc : public VRMLNodeDesc
  *  detailed
  */
 
-class OSG_VRMLLOADER_DLLMAPPING VRMLGeometryDesc : public VRMLNodeDesc
+class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryDesc : public VRMLNodeDesc
 {
   public:
 
@@ -640,7 +640,7 @@ class OSG_VRMLLOADER_DLLMAPPING VRMLGeometryDesc : public VRMLNodeDesc
  *  detailed
  */
 
-class OSG_VRMLLOADER_DLLMAPPING VRMLGeometryPartDesc : public VRMLNodeDesc
+class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryPartDesc : public VRMLNodeDesc
 {
   public:
 
@@ -784,7 +784,7 @@ class OSG_VRMLLOADER_DLLMAPPING VRMLGeometryPartDesc : public VRMLNodeDesc
  *  detailed
  */
 
-class OSG_VRMLLOADER_DLLMAPPING VRMLAppearanceDesc : public VRMLNodeDesc
+class OSG_SYSTEMLIB_DLLMAPPING VRMLAppearanceDesc : public VRMLNodeDesc
 {
   public:
 
@@ -933,7 +933,7 @@ class OSG_VRMLLOADER_DLLMAPPING VRMLAppearanceDesc : public VRMLNodeDesc
  *  detailed
  */
 
-class OSG_VRMLLOADER_DLLMAPPING VRMLMaterialDesc : public VRMLNodeDesc
+class OSG_SYSTEMLIB_DLLMAPPING VRMLMaterialDesc : public VRMLNodeDesc
 {
   public:
 

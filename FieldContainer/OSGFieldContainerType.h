@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -47,7 +47,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGFieldContainerDef.h>
+#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGString.h>
 #include <OSGFieldContainerPtr.h>
@@ -86,7 +86,7 @@ typedef FieldContainerPtr (*PrototypeCreateF)(void);
  *  \brief FieldContainerType
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerType : public TypeBase
+class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public TypeBase
 {
   public:
 

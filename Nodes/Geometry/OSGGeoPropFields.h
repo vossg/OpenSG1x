@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -78,7 +78,7 @@ typedef SField<GeoPositionPtr> SFGeoPositionPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GeoPositionPtr, OSG_GEOMETRY_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GeoPositionPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -106,7 +106,7 @@ typedef SField<GeoNormalPtr> SFGeoNormalPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GeoNormalPtr, OSG_GEOMETRY_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GeoNormalPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -133,7 +133,7 @@ typedef SField<GeoColorPtr> SFGeoColorPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GeoColorPtr, OSG_GEOMETRY_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GeoColorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -161,7 +161,7 @@ typedef SField<GeoTexCoordsPtr> SFGeoTexCoordsPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GeoTexCoordsPtr, OSG_GEOMETRY_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GeoTexCoordsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -188,7 +188,7 @@ typedef SField<GeoIndexPtr> SFGeoIndexPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GeoIndexPtr, OSG_GEOMETRY_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GeoIndexPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -216,7 +216,7 @@ typedef SField<GeoPTypePtr> SFGeoPTypePtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GeoPTypePtr, OSG_GEOMETRY_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GeoPTypePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -243,7 +243,7 @@ typedef SField<GeoPLengthPtr> SFGeoPLengthPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GeoPLengthPtr, OSG_GEOMETRY_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GeoPLengthPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif

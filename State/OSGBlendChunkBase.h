@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,7 +66,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGStateDef.h>
+#include <OSGSystemDef.h>
 #include <OSGStateChunk.h>
 #include <OSGUInt32Fields.h>	// SrcFactor type
 #include <OSGUInt32Fields.h>	// DestFactor type
@@ -93,7 +93,7 @@ class BlendChunk;
 
 /*! BlendChunk Base Class. */
 
-class OSG_STATE_DLLMAPPING BlendChunkBase : public StateChunk
+class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
 {
   private:
 

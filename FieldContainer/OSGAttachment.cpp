@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                     Copyright 2000,2001 by OpenSG Forum                   *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -38,20 +38,13 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILEATTACHMENTINST
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "OSGConfig.h"
-
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
-
-#define OSG_COMPILEFIELDCONTAINER
-#define OSG_COMPILEATTACHMENTINST
 
 #include "OSGAttachment.h"
 
@@ -67,7 +60,7 @@ OSG_BEGIN_NAMESPACE
 
 OSG_FC_DLLEXPORT_DEF      (SimpleAttachment, 
                            NameAttachmentDesc, 
-                           OSG_FIELDCONTAINER_TMPLDLLMAPPING)
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 OSG_END_NAMESPACE
@@ -87,7 +80,7 @@ OSG_END_NAMESPACE
 /** \brief NULL attachment pointer
  */
 
-OSG_FIELDCONTAINER_DLLMAPPING const AttachmentPtr       OSG::NullAttachment;
+OSG_SYSTEMLIB_DLLMAPPING const AttachmentPtr       OSG::NullAttachment;
 
 /***************************************************************************\
  *                               Types                                     *
@@ -315,7 +308,7 @@ void Attachment::executeSync(FieldContainer &other,
 //s: 
 ///---------------------------------------------------------------------------
 
-OSG_FIELDCONTAINER_DLLMAPPING
+OSG_SYSTEMLIB_DLLMAPPING
 ostream &OSG::operator <<(ostream                &stream,
                           const AttachmentMap &map)
 {

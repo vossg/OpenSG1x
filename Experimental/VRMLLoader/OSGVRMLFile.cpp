@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -40,9 +40,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILEVRMLLOADER
 #define OSG_COMPILESYSTEMLIB
-
 #define OSG_COMPILEVRMLLOADERINST
 
 #include <stdlib.h>
@@ -76,8 +74,11 @@
 OSG_USING_NAMESPACE
 
 #ifndef __sgi
-template OSG_VRMLLOADER_DLLMAPPING ScanParseFieldTypeMapper<ScanParseSkel>;
-template OSG_VRMLLOADER_DLLMAPPING VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >;
+template OSG_SYSTEMLIB_DLLMAPPING 
+ScanParseFieldTypeMapper<ScanParseSkel>;
+
+template OSG_SYSTEMLIB_DLLMAPPING 
+VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >;
 #endif
 
 //---------------------------------------------------------------------------

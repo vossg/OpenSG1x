@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -24,7 +35,6 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 #ifndef _OSG_WIN32_WINDOW_H_
 #define _OSG_WIN32_WINDOW_H_
@@ -42,16 +52,16 @@
 #ifdef WIN32
 
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILEWIN32WINDOW
-#       define OSG_WIN32WINDOW_DLLMAPPING     __declspec(dllexport)
-#       define OSG_WIN32WINDOW_DLLTMPLMAPPING __declspec(dllexport)
+#   ifdef OSG_COMPILEWIN32WINDOWLIB
+#       define OSG_WIN32WINDOWLIB_DLLMAPPING     __declspec(dllexport)
+#       define OSG_WIN32WINDOWLIB_DLLTMPLMAPPING __declspec(dllexport)
 #   else
-#       define OSG_WIN32WINDOW_DLLMAPPING     __declspec(dllimport)
-#       define OSG_WIN32WINDOW_DLLTMPLMAPPING __declspec(dllimport)
+#       define OSG_WIN32WINDOWLIB_DLLMAPPING     __declspec(dllimport)
+#       define OSG_WIN32WINDOWLIB_DLLTMPLMAPPING __declspec(dllimport)
 #   endif
 #else
-#define OSG_WIN32WINDOW_DLLMAPPING
-#define OSG_WIN32WINDOW_DLLTMPLMAPPING
+#define OSG_WIN32WINDOWLIB_DLLMAPPING
+#define OSG_WIN32WINDOWLIB_DLLTMPLMAPPING
 #endif
 
 
@@ -80,7 +90,7 @@ typedef FCPtr <WindowPtr, WIN32Window> WIN32WindowPtr;
 /*! \brief WIN32 window class
  */
 
-class OSG_WIN32WINDOW_DLLMAPPING WIN32Window : public Window
+class OSG_WIN32WINDOWLIB_DLLMAPPING WIN32Window : public Window
 {
   public:
 
@@ -274,7 +284,7 @@ typedef SField<WIN32WindowPtr>       SFWIN32WindowPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, WIN32WindowPtr, OSG_WIN32WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, WIN32WindowPtr, OSG_WIN32WINDOWLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -291,7 +301,7 @@ typedef MField<WIN32WindowPtr>       MFWIN32WindowPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, WIN32WindowPtr, OSG_WIN32WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, WIN32WindowPtr, OSG_WIN32WINDOWLIB_DLLTMPLMAPPING)
 
 #endif
 #endif

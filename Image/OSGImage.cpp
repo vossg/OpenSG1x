@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -41,7 +41,7 @@
 // 	Includes 					 			    
 //-------------------------------
 
-#define OSG_COMPILEIMAGE
+#define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEIMAGEINST
 
 #include "OSGConfig.h"
@@ -55,15 +55,11 @@
 
 #include <OSGLog.h>
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
-
-
 #include "OSGImage.h"
 #include "OSGImageFileHandler.h"
+#include "OSGSFImageTypes.h"
+#include "OSGMFImageTypes.h"
+
 
 /*
 #include "OSGSFImageTypes.h"
@@ -937,4 +933,17 @@ Bool Image::operator < (const Image &image )
 *private
 ****************************/
 
+#if defined(__sgi)
 
+#pragma instantiate SField<ImageP>::_fieldType
+#pragma instantiate MField<ImageP>::_fieldType
+
+#pragma instantiate SField<Plane>::_fieldType
+#pragma instantiate MField<Plane>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, ImageP,	OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, ImageP,	OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif

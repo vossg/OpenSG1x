@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -38,31 +38,16 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILESYSTEMLIB
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "OSGConfig.h"
-
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
-
-#define OSG_COMPILEGEOMETRY
-
-#include <OSGGeometryDef.h>
-
 #include <OSGLog.h>
-
 #include "OSGSimpleGeometry.h"
-#include "OSGGeometry.h"
-#include "OSGGeoPropPtrs.h"
 
 OSG_USING_NAMESPACE
-
-
 
 /***************************************************************************\
  *                            Description                                  *
@@ -100,7 +85,7 @@ makePlane creates a plane in the x/y plane. It spans the [-\a xsize /2,\a xsize 
 
 */
 
-OSG_GEOMETRY_DLLMAPPING
+OSG_SYSTEMLIB_DLLMAPPING
 NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 {
 	if ( ! hor || ! vert )
@@ -752,7 +737,7 @@ makeBox creates a box around the origin. It spans the [-\a xsize /2,\a xsize /2]
 
 */
 
-OSG_GEOMETRY_DLLMAPPING
+OSG_SYSTEMLIB_DLLMAPPING
 NodePtr OSG::makeBox( Real32 xsize, Real32 ysize, Real32 zsize, 
 	UInt16 hor, UInt16 vert, UInt16 depth )
 {
@@ -874,6 +859,41 @@ NodePtr OSG::makeBox( Real32 xsize, Real32 ysize, Real32 zsize,
 	return node;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING GeoPosition3fPtr OSG::makeGeoPosition3f(UInt32 uiSize)
+{
+    GeoPosition3fPtr returnValue = GeoPosition3f::create();
+
+    returnValue->resize(uiSize);
+
+    return returnValue;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING GeoIndexUI32Ptr OSG::makeGeoIndexUI32Ptr(UInt32 uiSize)
+{
+    GeoIndexUI32Ptr returnValue = GeoIndexUI32::create();
+
+    returnValue->resize(uiSize);
+
+    return returnValue;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING GeoPLengthPtr OSG::makeGeoPLengthPtr(UInt32 uiSize)
+{
+    GeoPLengthPtr returnValue = GeoPLength::create();
+
+    returnValue->resize(uiSize);
+
+    return returnValue;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING GeoPTypePtr OSG::makeGeoPTypePtr(UInt32 uiSize)
+{
+    GeoPTypePtr returnValue = GeoPType::create();
+
+    returnValue->resize(uiSize);
+
+    return returnValue;
+}
 
 
 ///---------------------------------------------------------------------------

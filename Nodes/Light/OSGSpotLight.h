@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -48,7 +48,6 @@
 //---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
-
 #include <OSGSpotLightBase.h>
 
 OSG_BEGIN_NAMESPACE
@@ -69,7 +68,7 @@ OSG_BEGIN_NAMESPACE
  *  \brief Spotlight
  */
 
-class OSG_LIGHT_DLLMAPPING SpotLight : public SpotLightBase
+class OSG_SYSTEMLIB_DLLMAPPING SpotLight : public SpotLightBase
 {
   public:
 

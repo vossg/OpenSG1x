@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -39,7 +39,8 @@
 #ifndef _OSG_TRACKBALL_H_
 #define _OSG_TRACKBALL_H_
 
-#include "OSGWindowBase.h"
+#include <OSGSystemDef.h>
+#include <OSGWindowBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGVector.h>
 #include <OSGQuaternion.h>
@@ -49,7 +50,7 @@ OSG_BEGIN_NAMESPACE
 /*! \brief Trackball class
  */
 
-class OSG_WINDOW_DLLMAPPING Trackball
+class OSG_SYSTEMLIB_DLLMAPPING Trackball
 {
   public:
 

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                     Copyright 2000,2001 by OpenSG Forum                   *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -47,7 +47,7 @@
 
 #include <GL/gl.h>
 
-#include <OSGGeometryDef.h>
+#include <OSGSystemDef.h>
 #include <OSGMFVecTypes.h>
 #include <OSGMFSysTypes.h>
 #include <OSGMFBaseTypes.h>
@@ -75,7 +75,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <class GeoPropertyDesc>
-class OSG_GEOMETRY_DLLTMPLMAPPING AbstractGeoProperty : 
+class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty : 
     public GeoPropertyDesc::Inherit
 {
   public:
@@ -179,7 +179,7 @@ class OSG_GEOMETRY_DLLTMPLMAPPING AbstractGeoProperty :
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    friend class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer;
+    friend class OSG_SYSTEMLIB_DLLMAPPING FieldContainer;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -246,7 +246,7 @@ class OSG_GEOMETRY_DLLTMPLMAPPING AbstractGeoProperty :
 //---------------------------------------------------------------------------
 
 template <class GeoPropertyDesc>
-class OSG_GEOMETRY_DLLMAPPING GeoProperty : public GeoPropertyDesc::Inherit
+class OSG_SYSTEMLIB_DLLMAPPING GeoProperty : public GeoPropertyDesc::Inherit
 {
   private:
 
@@ -377,7 +377,7 @@ class OSG_GEOMETRY_DLLMAPPING GeoProperty : public GeoPropertyDesc::Inherit
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    friend class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer;
+    friend class OSG_SYSTEMLIB_DLLMAPPING FieldContainer;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -494,7 +494,7 @@ typedef AbstractGeoProperty<GeoPositionPropertyDesc> GeoPosition;
 
 OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty, 
                             GeoPositionPropertyDesc, 
-                            OSG_GEOMETRY_DLLTMPLMAPPING)
+                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -531,7 +531,7 @@ typedef AbstractGeoProperty<GeoNormalPropertyDesc> GeoNormal;
 
 OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty, 
                             GeoNormalPropertyDesc, 
-                            OSG_GEOMETRY_DLLTMPLMAPPING)
+                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -569,7 +569,7 @@ typedef AbstractGeoProperty<GeoColorPropertyDesc> GeoColor;
 
 OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty, 
                             GeoColorPropertyDesc,
-                            OSG_GEOMETRY_DLLTMPLMAPPING)
+                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -603,7 +603,7 @@ typedef AbstractGeoProperty<GeoTexCoordsPropertyDesc> GeoTexCoords;
 
 OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty, 
                             GeoTexCoordsPropertyDesc,
-                            OSG_GEOMETRY_DLLTMPLMAPPING)
+                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -640,7 +640,7 @@ typedef AbstractGeoProperty<GeoIndexPropertyDesc> GeoIndex;
 
 OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty, 
                             GeoIndexPropertyDesc, 
-                            OSG_GEOMETRY_DLLTMPLMAPPING)
+                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -694,7 +694,7 @@ typedef GeoProperty<GeoPTypePropertyDesc> GeoPType;
 
 OSG_FC_DLLEXPORT_DECL(GeoProperty, 
                       GeoPTypePropertyDesc, 
-                      OSG_GEOMETRY_DLLTMPLMAPPING)
+                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -745,7 +745,7 @@ typedef GeoProperty<GeoPLengthPropertyDesc> GeoPLength;
 
 OSG_FC_DLLEXPORT_DECL(GeoProperty, 
                       GeoPLengthPropertyDesc, 
-                      OSG_GEOMETRY_DLLTMPLMAPPING)
+                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif

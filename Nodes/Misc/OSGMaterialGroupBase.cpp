@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -58,13 +58,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OSGConfig.h"
-
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
+#include <OSGConfig.h>
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEMATERIALGROUPINST
@@ -107,7 +101,7 @@ const OSG::UInt32    	MaterialGroupBase::NextFieldId;
 const OSG::BitVector 	MaterialGroupBase::NextFieldMask;
 
 
-char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.3 2001/05/30 16:25:24 vossg Exp $";
+char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.4 2001/06/10 12:42:07 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -184,6 +178,13 @@ UInt32 MaterialGroupBase::getSize(void) const
     return sizeof(MaterialGroupBase); 
 }
 
+
+void MaterialGroupBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((MaterialGroupBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -219,23 +220,20 @@ MaterialGroupBase::~MaterialGroupBase(void)
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-void MaterialGroupBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
-{
-    this->executeSyncImpl((MaterialGroup *) &other, whichField);
-}
 
-void MaterialGroupBase::executeSyncImpl(MaterialGroup *pOther,
-                                        BitVector      whichField)
+void MaterialGroupBase::executeSyncImpl(MaterialGroupBase *pOther,
+                                        BitVector          whichField)
 {
+
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
     {
         _material.syncWith(pOther->_material);
     }
-}
 
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

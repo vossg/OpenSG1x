@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -46,6 +46,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <OSGSystemDef.h>
 #include <OSGMField.h>
 #include <OSGVecFieldDataType.h>
 
@@ -79,7 +80,7 @@ typedef MField<Vec2f> MFVec2f;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Vec2f, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Vec2f, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -96,7 +97,7 @@ typedef MField<Vec3f> MFVec3f;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Vec3f, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Vec3f, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -113,7 +114,7 @@ typedef MField<Vec4f> MFVec4f;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Vec4f, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Vec4f, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -130,7 +131,7 @@ typedef MField<Vec4ub> MFVec4ub;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Vec4ub, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Vec4ub, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -147,7 +148,7 @@ typedef MField<Pnt2f> MFPnt2f;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Pnt2f, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Pnt2f, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -164,7 +165,7 @@ typedef MField<Pnt3f> MFPnt3f;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Pnt3f, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Pnt3f, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -181,7 +182,7 @@ typedef MField<Pnt4f> MFPnt4f;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Pnt4f, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Pnt4f, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif

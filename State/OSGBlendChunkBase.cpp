@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -60,13 +60,7 @@
 
 #include <OSGConfig.h>
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
-
-#define OSG_COMPILESTATE
+#define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEBLENDCHUNKINST
 
 #include "OSGBlendChunkBase.h"
@@ -101,7 +95,7 @@ const OSG::UInt32    	BlendChunkBase::NextFieldId;
 const OSG::BitVector 	BlendChunkBase::NextFieldMask;
 
 
-char BlendChunkBase::cvsid[] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.3 2001/05/30 16:25:24 vossg Exp $";
+char BlendChunkBase::cvsid[] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.4 2001/06/10 12:42:07 vossg Exp $";
 
 /** \brief Group field description
  */

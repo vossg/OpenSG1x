@@ -3,7 +3,7 @@
 <FieldContainer
 	name="Geometry"
 	parent="NodeCore"
-	library="Geometry"
+	library="System"
 	structure="concrete"
 	pointerfieldtypes="none"
 	systemcomponent="true"

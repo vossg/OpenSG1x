@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -61,7 +61,7 @@
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
-#include <OSGStateDef.h>
+#include <OSGSystemDef.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -98,7 +98,7 @@ typedef SField<StateChunkPtr> SFStateChunkPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, StateChunkPtr, OSG_STATE_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -114,7 +114,7 @@ typedef MField<StateChunkPtr> MFStateChunkPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, StateChunkPtr, OSG_STATE_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif

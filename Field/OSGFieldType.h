@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -74,7 +74,7 @@ class Field;
  *  \brief FieldType
  */
 
-class OSG_FIELD_DLLMAPPING FieldType : public TypeBase
+class OSG_SYSTEMLIB_DLLMAPPING FieldType : public TypeBase
 {
   public:
 

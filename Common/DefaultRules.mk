@@ -4,7 +4,7 @@
 #########################################################################
 
 .SUFFIXES:	.src $(OBJ_SUFFIX) .cpp .c .hpp .l .y .tab.cpp .tab.h .s 	\
-			$(SO_SUFFIX) _moc.o _moc.cpp _qt.hpp 
+			$(SO_SUFFIX) _moc.o _moc.cpp _qt.hpp .inl
 
 
 cnvUnix2Win = "$(shell cygpath -w $(1))"

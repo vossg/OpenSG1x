@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -40,24 +40,16 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILESYSTEMLIB
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "OSGConfig.h"
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
-
-#define OSG_COMPILESTATE
-
 #include "OSGStateChunk.h"
 
 OSG_USING_NAMESPACE
-
 
 /***************************************************************************\
  *                            Description                                  *
@@ -155,7 +147,7 @@ const String StateChunkClass::getName( UInt32 index )
 
 char StateChunk::cvsid[] = "@(#)$Id: $";
 
-OSG_STATE_DLLMAPPING StateChunkPtr osg::NullStateChunk;
+OSG_SYSTEMLIB_DLLMAPPING StateChunkPtr osg::NullStateChunk;
 
 /***************************************************************************\
  *                           Class methods                                 *

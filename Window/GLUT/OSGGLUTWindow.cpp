@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -40,6 +40,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILEGLUTWINDOWLIB
+#define OSG_COMPILEGLUTWINDOWINST
+
 #ifdef OSG_WITH_GLUT
 
 #include <stdlib.h>
@@ -49,18 +52,9 @@
 
 #include <GL/glut.h>
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
-
 #ifdef sgi
 #include <dlfcn.h>
 #endif
-
-#define OSG_COMPILEGLUTWINDOW
-#define OSG_COMPILEGLUTWINDOWINST
 
 #include "OSGViewport.h"
 #include "OSGCamera.h"
@@ -98,8 +92,8 @@ OSG_BEGIN_NAMESPACE
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, GLUTWindowPtr, OSG_GLUTWINDOW_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, GLUTWindowPtr, OSG_GLUTWINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, GLUTWindowPtr, OSG_GLUTWINDOWLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, GLUTWindowPtr, OSG_GLUTWINDOWLIB_DLLTMPLMAPPING)
 
 #endif
 

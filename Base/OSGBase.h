@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -48,14 +48,10 @@
 //---------------------------------------------------------------------------
 
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILEBASE
+#   ifdef OSG_COMPILEBASELIB
 #       define OSG_BASE_DLLMAPPING __declspec(dllexport)
 #   else
-#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILELOG))
-#           define OSG_BASE_DLLMAPPING __declspec(dllexport)
-#       else
-#           define OSG_BASE_DLLMAPPING __declspec(dllimport)
-#       endif
+#       define OSG_BASE_DLLMAPPING __declspec(dllimport)
 #   endif
 #else
 #define OSG_BASE_DLLMAPPING

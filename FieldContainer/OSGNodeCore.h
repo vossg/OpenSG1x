@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                     Copyright 2000,2001 by OpenSG Forum                   *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -47,7 +47,7 @@
 
 #include <map>
 
-#include <OSGFieldContainerDef.h>
+#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGMatrix.h>
 #include <OSGFieldContainer.h>
@@ -76,7 +76,7 @@ OSG_BEGIN_NAMESPACE
  *  \brief NodeCore
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING NodeCore : public FieldContainer 
+class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public FieldContainer 
 {
   private:
 
@@ -246,7 +246,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING NodeCore : public FieldContainer
 
 typedef FCPtr<FieldContainerPtr, NodeCore> NodeCorePtr;
 
-extern OSG_FIELDCONTAINER_DLLMAPPING const NodeCorePtr         NullNodeCore;
+extern OSG_SYSTEMLIB_DLLMAPPING const NodeCorePtr         NullNodeCore;
 
 typedef NodeCore *NodeCoreP;
 

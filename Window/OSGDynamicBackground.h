@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -71,7 +71,7 @@ class Viewport;
 /*! \brief *put brief class description here* 
  */
 
-class OSG_WINDOW_DLLMAPPING DynamicBackground : public DynamicBackgroundBase
+class OSG_SYSTEMLIB_DLLMAPPING DynamicBackground : public DynamicBackgroundBase
 {
   public:
 

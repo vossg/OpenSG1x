@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -60,13 +60,7 @@
 
 #include <OSGConfig.h>
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
-
-#define OSG_COMPILEWINDOW
+#define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEDYNAMICBACKGROUNDINST
 
 #include "OSGDynamicBackgroundBase.h"
@@ -87,7 +81,7 @@ OSG_BEGIN_NAMESPACE
 
 #else
 
-OSG_DLLEXPORT_DEF1(MField, DynamicBackgroundPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, DynamicBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
@@ -108,7 +102,7 @@ const OSG::UInt32    	DynamicBackgroundBase::NextFieldId;
 const OSG::BitVector 	DynamicBackgroundBase::NextFieldMask;
 
 
-char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.4 2001/05/30 16:25:24 vossg Exp $";
+char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.5 2001/06/10 12:42:07 vossg Exp $";
 
 /** \brief Group field description
  */

@@ -3,7 +3,7 @@
 <FieldContainer
 	name="SpotLight"
 	parent="PointLight"
-	library="Light"
+	library="System"
 	structure="concrete"
 	pointerfieldtypes="none"
 	systemcomponent="true"

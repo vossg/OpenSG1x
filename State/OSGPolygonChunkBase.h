@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,7 +66,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGStateDef.h>
+#include <OSGSystemDef.h>
 #include <OSGStateChunk.h>
 #include <OSGInt32Fields.h>	// CullFace type
 #include <OSGInt32Fields.h>	// FrontFace type
@@ -100,7 +100,7 @@ class PolygonChunk;
 
 /*! PolygonChunk Base Class. */
 
-class OSG_STATE_DLLMAPPING PolygonChunkBase : public StateChunk
+class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
 {
   private:
 

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,7 +66,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGGeometryDef.h>
+#include <OSGSystemDef.h>
 #include <OSGNodeCore.h>
 #include <OSGGeoPTypeFields.h>	// Types type
 #include <OSGGeoPLengthFields.h>	// Lengths type
@@ -99,7 +99,7 @@ class Geometry;
 
 /*! Geometry Base Class. */
 
-class OSG_GEOMETRY_DLLMAPPING GeometryBase : public NodeCore
+class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
 {
   private:
 

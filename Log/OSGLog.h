@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGLOG_H_
 #define _OSGLOG_H_
 #ifdef __sgi
@@ -50,27 +49,8 @@
 #include <OSGBaseTypes.h>
 #include <OSGTime.h>
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <fstream>
-#else
-#include <fstream.h>
-#endif
-
 #include <list>
-
-#if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILELOG
-#       define OSG_LOG_DLLMAPPING __declspec(dllexport)
-#   else
-#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILEBASE))
-#           define OSG_LOG_DLLMAPPING __declspec(dllexport)
-#       else
-#           define OSG_LOG_DLLMAPPING __declspec(dllimport)
-#       endif
-#   endif
-#else
-#define OSG_LOG_DLLMAPPING
-#endif
 
 /*! \defgroup LogLib OpenSG Log Library
     OpenSG Log Library 
@@ -147,7 +127,7 @@ enum LogModuleHandling
  *         plattforms
  */
 
-class OSG_LOG_DLLMAPPING LogOStream : public ostream
+class OSG_BASE_DLLMAPPING LogOStream : public ostream
 {
   public:
 
@@ -171,7 +151,7 @@ class OSG_LOG_DLLMAPPING LogOStream : public ostream
 
 
 
-class OSG_LOG_DLLMAPPING Log : public ostream 
+class OSG_BASE_DLLMAPPING Log : public ostream 
 {
   public:
 
@@ -206,55 +186,48 @@ class OSG_LOG_DLLMAPPING Log : public ostream
 
     /*------------------------- your_category -------------------------------*/
 
-        void lock(void) {;}   // TODO: implement
+    void lock(void) {;}   // TODO: implement
 
-        void unlock(void) {;} // TODO: implement
+    void unlock(void) {;} // TODO: implement
 
-        virtual void setHeaderElem(LogHeaderElem elem);
+    virtual void setHeaderElem(LogHeaderElem elem);
 
-        virtual void addHeaderElem(LogHeaderElem elem);
+    virtual void addHeaderElem(LogHeaderElem elem);
 
-        virtual void delHeaderElem(LogHeaderElem elem);
+    virtual void delHeaderElem(LogHeaderElem elem);
 
-        virtual void addModuleHandling  (LogModuleHandling handling);
+    virtual void addModuleHandling(LogModuleHandling handling);
 
-        virtual void delModuleHandling  (LogModuleHandling handling);
+    virtual void delModuleHandling(LogModuleHandling handling);
 
-        virtual void addModuleName(const char *module, bool isStatic = false);
+    virtual void addModuleName(const Char8 *module, Bool isStatic = false);
 
-        virtual void delModuleName(const char *module);
+    virtual void delModuleName(const Char8 *module);
 
-        bool hasModule(const char *module);
+    Bool hasModule  (const Char8 *module);
+    Bool checkModule(const Char8 *module);
 
-        bool checkModule(const char *module);
+    LogType getLogType(void);
+    void    setLogType(LogType logType);
 
-        LogType getLogType(void);
-        void       setLogType(LogType logType);
+    LogLevel getLogLevel(void);
+    void     setLogLevel(LogLevel logLevel); 
+    Bool     checkLevel (LogLevel logLevel);
 
-        LogLevel getLogLevel(void);
-        void        setLogLevel(LogLevel logLevel); 
-        bool checkLevel(LogLevel logLevel);
+    void     setLogFile (const Char8 *fileName);
 
-        void        setLogFile (const Char8 *fileName);
+    inline Time getRefTime  (void);
+    inline void setRefTime  (Time refTime);
 
-        inline
-        Time getRefTime(void);
+    inline void resetRefTime(void);
 
-        inline
-        void setRefTime(Time refTime);
+    inline ostream &stream   (LogLevel level);
+    inline ostream &nilstream(void);
 
-        inline
-        void resetRefTime(void);
-
-        inline
-        ostream &stream(LogLevel level);
-
-        inline
-        ostream &nilstream(void);
-
-      inline 
-        ostream &doHeader ( LogLevel level, const char *module, 
-                                                const char *file, int line );
+    inline ostream &doHeader (      LogLevel  level, 
+                              const Char8    *module, 
+                              const Char8    *file, 
+                                    UInt32    line);
 
     void  doLog (char * format, ...);
                                     
@@ -312,7 +285,7 @@ class OSG_LOG_DLLMAPPING Log : public ostream
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-    friend OSG_LOG_DLLMAPPING inline void initLog(void);
+    friend OSG_BASE_DLLMAPPING inline void initLog(void);
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
@@ -329,12 +302,12 @@ class OSG_LOG_DLLMAPPING Log : public ostream
     //-----------------------------------------------------------------------
 
     /** defines a nil buffer */
-    class OSG_LOG_DLLMAPPING nilbuf : public streambuf {    };
+    class OSG_BASE_DLLMAPPING nilbuf : public streambuf { };
 
     static nilbuf  *_nilbufP;
     static ostream *_nilstreamP;
 
-        static const char *_levelName[];
+    static const char *_levelName[];
 
     LogType     _logType;
     LogLevel    _logLevel;
@@ -343,14 +316,20 @@ class OSG_LOG_DLLMAPPING Log : public ostream
 
     LogOStream *_streamVec[6];
 
-    int _headerElem;
+    UInt32 _headerElem;
 
-    int _moduleHandling;
+    UInt32 _moduleHandling;
 
-    struct Module {
-        const char *name;
-        bool isStatic;
-        Module() :name(0),isStatic(true) {;}
+    struct Module 
+    {
+        const Char8 *name;
+              Bool   isStatic;
+        
+        Module() :
+            name    (NULL),
+            isStatic(true) 
+        {
+        }
     };
             
     list<Module> _moduleList;
@@ -381,18 +360,18 @@ typedef Log *LogP;
 #define OSG_LOG_MODULE "UNKNOWN MODULE"
 #endif
 
-extern OSG_LOG_DLLMAPPING LogP osgLogP;
+extern OSG_BASE_DLLMAPPING LogP osgLogP;
 
 
-inline OSG_LOG_DLLMAPPING void    initLog   (void);
-inline OSG_LOG_DLLMAPPING Log     &osgLog    (void);
-inline OSG_LOG_DLLMAPPING ostream &osgStartLog ( bool logHeader,
-                                                                                                 LogLevel level, 
-                                                                                                 const char *module,
-                                                                                                 const char *file, 
-                                                                                                 int line);
-
-inline OSG_LOG_DLLMAPPING void  indentLog (UInt32 indent, ostream &stream);
+inline OSG_BASE_DLLMAPPING void     initLog    (void);
+inline OSG_BASE_DLLMAPPING Log     &osgLog     (void);
+inline OSG_BASE_DLLMAPPING ostream &osgStartLog(      Bool      logHeader,
+                                                      LogLevel  level,
+                                                const Char8    *module,
+                                                const Char8    *file, 
+                                                      UInt32    line);
+inline OSG_BASE_DLLMAPPING void  indentLog     (UInt32   indent, 
+                                                ostream &stream);
 
 #define SLOG \
 osgStartLog(true,OSG::LOG_LOG,OSG_LOG_MODULE, __FILE__, __LINE__)
@@ -526,10 +505,21 @@ osgStartLog(false,OSG::LOG_INFO,OSG_LOG_MODULE, __FILE__, __LINE__)
     } \
 } \
 
-inline OSG_LOG_DLLMAPPING ostream &endLog(ostream &strm);
+inline OSG_BASE_DLLMAPPING ostream &endLog(ostream &strm);
 
 OSG_END_NAMESPACE
 
 #include <OSGLog.inl>
 
 #endif /* _OSGLOG_H_ */
+
+
+
+
+
+
+
+
+
+
+

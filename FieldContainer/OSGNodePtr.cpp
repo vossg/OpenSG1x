@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -40,19 +40,12 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILESYSTEMLIB
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "OSGConfig.h"
-
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
-
-#define OSG_COMPILEFIELDCONTAINER
 
 #include "OSGNodePtr.h"
 #include "OSGNode.h"
@@ -430,7 +423,7 @@ CNodePtr::CNodePtr(const Node   *source,
 /** \brief Write FC to the given stream
  */
 
-OSG_FIELDCONTAINER_DLLMAPPING
+OSG_SYSTEMLIB_DLLMAPPING
 ostream &OSG::operator <<(      ostream  &os,
                           const NodePtr  &fc)
 {
@@ -451,7 +444,7 @@ ostream &OSG::operator <<(      ostream  &os,
 /** \brief Write FC to the given stream
  */
 
-OSG_FIELDCONTAINER_DLLMAPPING
+OSG_SYSTEMLIB_DLLMAPPING
 ostream &OSG::operator <<(      ostream  &os,
                           const CNodePtr &fc)
 {

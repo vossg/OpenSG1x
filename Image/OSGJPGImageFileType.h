@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -48,9 +48,10 @@
 //-------------------------------
 
 
+#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 
-#include "OSGImageFileType.h"
+#include <OSGImageFileType.h>
 
 
 OSG_BEGIN_NAMESPACE
@@ -71,7 +72,7 @@ OSG_BEGIN_NAMESPACE
 //------------------------------
 
 
-class OSG_IMAGE_DLLMAPPING JPGImageFileType : public ImageFileType
+class OSG_SYSTEMLIB_DLLMAPPING JPGImageFileType : public ImageFileType
 {
 
 public:

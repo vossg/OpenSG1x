@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                     Copyright 2000,2001 by OpenSG Forum                   *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -45,7 +45,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGFieldContainerDef.h>
+#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGFieldContainer.h>
 #include <OSGFieldDescription.h>
@@ -56,6 +56,7 @@
 #include <OSGSFBaseTypes.h>
 
 #include <map>
+#include <iostream>
 
 OSG_BEGIN_NAMESPACE
 
@@ -77,7 +78,7 @@ OSG_BEGIN_NAMESPACE
  *  which could be attached to other fieldcontainers than Attachments.
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING Attachment : public FieldContainer 
+class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer 
 {
   private:
 
@@ -221,7 +222,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING Attachment : public FieldContainer
  */
 
 template <class AttachmentDescT>
-class OSG_FIELDCONTAINER_DLLMAPPING SimpleAttachment : public Attachment
+class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
 {
   private:
 
@@ -396,7 +397,7 @@ typedef FCPtr<AttachmentPtr,  Name> NamePtr;
 
 OSG_FC_DLLEXPORT_DECL(SimpleAttachment, 
                       NameAttachmentDesc,
-                      OSG_FIELDCONTAINER_TMPLDLLMAPPING)
+                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -412,7 +413,7 @@ OSG_FC_DLLEXPORT_DECL(SimpleAttachment,
  */
 
 template <class AttachmentDescT>
-class OSG_FIELDCONTAINER_DLLMAPPING DynFieldAttachment : 
+class OSG_SYSTEMLIB_DLLMAPPING DynFieldAttachment : 
     public AttachmentDescT::Parent
 {
   public:
@@ -562,12 +563,12 @@ typedef Attachment                          *AttachmentP;
 
 typedef FCPtr<FieldContainerPtr, Attachment> AttachmentPtr;
 
-extern OSG_FIELDCONTAINER_DLLMAPPING const AttachmentPtr NullAttachment;
+extern OSG_SYSTEMLIB_DLLMAPPING const AttachmentPtr NullAttachment;
 
 
 typedef map<UInt32, AttachmentPtr>  AttachmentMap;
 
-OSG_FIELDCONTAINER_DLLMAPPING
+OSG_SYSTEMLIB_DLLMAPPING
 ostream &operator <<(      ostream       &stream,
                      const AttachmentMap &map);
 

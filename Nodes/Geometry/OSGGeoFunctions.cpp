@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -38,21 +38,12 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILESYSTEMLIB
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "OSGConfig.h"
-
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
-
-#define OSG_COMPILEGEOMETRY
-
-#include <OSGGeometryDef.h>
 
 #include <OSGLog.h>
 
@@ -73,7 +64,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.4 2001/04/23 20:59:51 dirk Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.5 2001/06/10 12:42:07 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -90,7 +81,7 @@ use the vertex and renormalizing.
 
 */
 
-OSG_GEOMETRY_DLLMAPPING
+OSG_SYSTEMLIB_DLLMAPPING
 void osg::calcVertexNormals( GeometryPtr geo )
 {
 	GeoNormalPtr norms;
@@ -150,7 +141,8 @@ with (vertex for vertex normals, center of face for face normals) and
 has the length \a length.
 
 */
-OSG_GEOMETRY_DLLMAPPING NodePtr osg::getNormals( GeometryPtr geo, Real32 length )
+OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getNormals(GeometryPtr geo, 
+                                                 Real32      length)
 {
     NodePtr  p = Node::create();
     GeometryPtr g = Geometry::create();

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -108,7 +108,7 @@ typedef GeoProperty<GeoColor3fPropertyDesc> GeoColor3f;
 
 OSG_FC_DLLEXPORT_DECL(GeoProperty, 
                       GeoColor3fPropertyDesc, 
-                      OSG_GEOMETRY_DLLTMPLMAPPING)
+                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -159,7 +159,7 @@ typedef GeoProperty<GeoColor3ubPropertyDesc> GeoColor3ub;
 
 OSG_FC_DLLEXPORT_DECL(GeoProperty, 
                       GeoColor3ubPropertyDesc, 
-                      OSG_GEOMETRY_DLLTMPLMAPPING)
+                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -210,7 +210,7 @@ typedef GeoProperty<GeoColor4ubPropertyDesc> GeoColor4ub;
 
 OSG_FC_DLLEXPORT_DECL(GeoProperty, 
                       GeoColor4ubPropertyDesc, 
-                      OSG_GEOMETRY_DLLTMPLMAPPING)
+                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif

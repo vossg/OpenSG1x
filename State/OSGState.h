@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -73,7 +73,7 @@ class DrawAction;
  *  \ingroup StateLib
  */
 
-class OSG_STATE_DLLMAPPING State : public StateBase
+class OSG_SYSTEMLIB_DLLMAPPING State : public StateBase
 {
   public:
 
