@@ -1,9 +1,7 @@
 
 %{
 
-#ifdef OSG_WIN32_ICL
-#pragma warning (disable : 111 810)
-#endif
+#include <OSGConfig.h>
 
 #define YY_NEVER_INTERACTIVE 1
 
@@ -45,6 +43,12 @@ extern int   v2aLineNumber;
 
 #ifdef __sgi
 #pragma set woff 1110,1174,1209
+#endif
+
+
+#ifdef OSG_WIN32_ICL
+#pragma warning( disable : 193 177 279 111 )
+#pragma warning( disable : 810 )
 #endif
 
 static char *tmpChar = yy_full_match;
@@ -152,7 +156,3 @@ static char *tmpChar = yy_full_match;
         }
 
 %%
-
-#ifdef OSG_WIN32_ICL
-#pragma warning (default : 111 810)
-#endif
