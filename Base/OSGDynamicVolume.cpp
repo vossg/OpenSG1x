@@ -45,8 +45,6 @@
 
 #include "new.h"
 
-#define OSG_COMPILEBASELIB
-
 // Class declarations
 #include "OSGDynamicVolume.h"
 #include "OSGBoxVolume.h"

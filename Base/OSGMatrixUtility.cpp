@@ -41,8 +41,6 @@
 #include <math.h>
 #include <OSGConfig.h>
 
-#define OSG_COMPILEBASELIB
-
 #include <OSGBaseFunctions.h>
 #include <OSGBaseTypes.h>
 #include <OSGVector.h>

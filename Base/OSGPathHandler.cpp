@@ -36,8 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#define OSG_COMPILEBASELIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -55,7 +53,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.5 2001/10/09 10:01:14 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.6 2001/10/10 06:14:24 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGPATHHANDLER_HEADER_CVSID;
 }
 

@@ -36,8 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#define OSG_COMPILEBASELIB
-
 // System declarations
 
 #include "OSGConfig.h"

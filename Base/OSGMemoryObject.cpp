@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILEBASELIB
-
 #include "OSGConfig.h"
 
 #include <stdlib.h>

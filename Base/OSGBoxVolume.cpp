@@ -49,8 +49,6 @@
 
 #include "OSGConfig.h"
 
-#define OSG_COMPILEBASELIB
-
 #include <OSGLog.h>  
 
 #include <assert.h>

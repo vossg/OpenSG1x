@@ -440,26 +440,29 @@ AC_DEFUN(AC_GDZ_SCAN_PACKET_DESC,
 
     until [[ $i = ${#ac_gdz_package[*]} ]]; do
 
-        p1=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\1/'`
+        p1=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\1/'`
         p1=`echo $p1 | sed 's/://g'`
 
-        p2=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\2/'`
+        p2=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\2/'`
         p2=`echo $p2 | sed 's/://g'`
 
-        p3=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\3/'`
+        p3=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\3/'`
         p3=`echo $p3 | sed 's/://g'`
 
-        p4=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\4/'`
+        p4=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\4/'`
         p4=`echo $p4 | sed 's/://g'`
 
-        p5=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\5/'`
+        p5=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\5/'`
         p5=`echo $p5 | sed 's/://g'`
 
-        p6=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\6/'`
+        p6=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\6/'`
         p6=`echo $p6 | sed 's/://g'`
 
-        p7=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\7/'`
+        p7=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\7/'`
         p7=`echo $p7 | sed 's/://g'`
+
+        p8=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\8/'`
+        p8=`echo $p8 | sed 's/://g'`
     
         if [[ ${build_os} = "cygwin" ]]; then
             p4=`echo $p4 | sed 's/@WINDOWSYSTEM@/WIN32/g'`
@@ -470,12 +473,13 @@ AC_DEFUN(AC_GDZ_SCAN_PACKET_DESC,
         fi
 
         ac_gdz_package_name[$i]=$p1;
-        ac_gdz_package_fact_init[$i]=$p2
+        ac_gdz_package_fact_init[$i]=$p2;
         ac_gdz_package_dirs[$i]=$p3;
         ac_gdz_package_inc_dep[$i]=$p4;
         ac_gdz_package_link_dep[$i]=$p5;
         ac_gdz_package_testinc_dep[$i]=$p6;
         ac_gdz_package_testlink_dep[$i]=$p7;
+        ac_gdz_package_def[$i]=$p8;
 
         let i=i+1
     done
@@ -495,7 +499,7 @@ dnl e2
 
     until [[ $i = ${#ac_gdz_package[*]} ]]; do
 
-        echo configuring package $i ${ac_gdz_package_name[$i]}
+        echo configuring package $i ${ac_gdz_package_name[$i]} ${ac_gdz_package_def[$i]}
 
         if [[ ${ac_gdz_package_name[$i]} = "WindowX" ]]; then
             if [[ ${build_os} = "cygwin" ]]; then
@@ -534,6 +538,7 @@ dnl e2
             fi
         fi
 
+        ac_gdz_package_def_out=${ac_gdz_package_def[$i]}
 
         ac_gdz_package_name_out=${ac_gdz_package_name[$i]}
 
@@ -719,6 +724,7 @@ dnl        ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_link_dep_out_fi
         AC_SUBST(ac_gdz_build_dir_e2)
         AC_SUBST(ac_gdz_win_pool_e2)
         AC_SUBST(ac_gdz_win_build_base_e2)
+        AC_SUBST(ac_gdz_package_def_out)
         AC_SUBST(ac_gdz_package_name_out)
         AC_SUBST(ac_gdz_package_inc_dep_out)
         AC_SUBST(ac_gdz_package_inc_dep_out_files)

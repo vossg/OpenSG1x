@@ -51,8 +51,6 @@
 
 #include <vector>
 
-#define OSG_COMPILEBASELIB
-
 #include "OSGBaseFunctions.h"
 
 OSG_BEGIN_NAMESPACE

@@ -46,8 +46,6 @@
 
 #include <assert.h>
 
-#define OSG_COMPILEBASELIB
-
 #include "OSGPlane.h"
 #include "OSGLine.h"
 

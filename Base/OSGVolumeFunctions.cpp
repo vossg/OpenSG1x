@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILEBASELIB
-
 #include "OSGVolume.h"
 #include "OSGBoxVolume.h"
 #include "OSGSphereVolume.h"

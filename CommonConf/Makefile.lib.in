@@ -18,6 +18,8 @@ SUB_LNK_LIB = $(LIBDIR)/$(SO_PRAEFIX)@ac_gdz_project_praefix@@ac_gdz_package_nam
 
 SUB_SO_DEF = @ac_gdz_package_def_e2@
 
+CURRENT_LIB_DEF = @ac_gdz_package_def_out@
+
 VPATH := @ac_gdz_vpath_out@
 
 LIB_REQUIRED_INCPACKAGES := @ac_gdz_package_inc_dep_out@

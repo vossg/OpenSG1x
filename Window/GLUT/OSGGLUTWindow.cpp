@@ -40,7 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILEGLUTWINDOWLIB
 #define OSG_COMPILEGLUTWINDOWINST
 
 #ifdef OSG_WITH_GLUT

@@ -40,7 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILEWIN32WINDOWLIB
 #define OSG_COMPILEWINDOWWIN32INST
 
 #include <stdlib.h>

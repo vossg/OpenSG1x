@@ -52,8 +52,6 @@
 
 #include <time.h>
 
-#define OSG_COMPILEBASELIB
-
 #include "OSGDate.h"
 
 OSG_USING_NAMESPACE

@@ -42,8 +42,6 @@
 
 #include "OSGConfig.h"
 
-#define OSG_COMPILEBASELIB
-
 // Class declarations
 #include "OSGColor.h"
 

@@ -44,8 +44,6 @@
 
 #include <assert.h>
 
-#define OSG_COMPILEBASELIB
-
 #include "OSGBaseTypes.h"
 
 // Application declarations
