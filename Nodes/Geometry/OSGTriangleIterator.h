@@ -118,6 +118,9 @@ class OSG_GEOMETRY_DLLMAPPING TriangleIterator
 	// get the triangle index
 	inline Int32    	getIndex		( void 	      ) const;
 
+	// type of currently processed primitive
+	inline UInt8 		getType			( void ) const;
+
 	// get the data indices/values. Indices < 0 indicate data not present
 	// in that case the value will be Nullxxx
 

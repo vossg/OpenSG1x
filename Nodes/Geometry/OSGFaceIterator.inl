@@ -118,6 +118,12 @@ Int32 FaceIterator::getIndex( void) const
 }
 
 inline		 
+UInt8 FaceIterator::getType( void ) const
+{
+	return _primIt.getType();
+}
+
+inline		 
 Int32 FaceIterator::getLength( void) const
 {
 	return _facePntIndex[3] == -1 ? 3 : 4;

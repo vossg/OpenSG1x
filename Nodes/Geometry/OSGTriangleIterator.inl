@@ -118,6 +118,12 @@ Int32 TriangleIterator::getIndex( void) const
 }
 
 inline		 
+UInt8 TriangleIterator::getType( void ) const
+{
+	return _primIt.getType();
+}
+
+inline		 
 Int32 TriangleIterator::getPositionIndex( Int32 which ) const
 {
 	return _primIt.getPositionIndex( _triPntIndex[which] );

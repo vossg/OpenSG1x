@@ -118,6 +118,9 @@ class OSG_GEOMETRY_DLLMAPPING FaceIterator
 	// get the triangle index
 	inline Int32    	getIndex		( void 	      ) const;
 
+	// type of currently processed primitive
+	inline UInt8 getType				( void ) const;
+
 	// get the length of the face
 	inline Int32    	getLength		( void 	      ) const;
 
