@@ -197,7 +197,7 @@ OSG_BASE_DLLMAPPING bool MatrixStereoPerspective(Matrix &projection,
     MatrixFrustum( projection, rLeft, rRight, rBottom, rTop, rNear, rFar );
 
     projtrans.setIdentity();
-    projtrans[0][3] = rEye;
+    projtrans[3][0] = rEye;
 
     return false;
 }
