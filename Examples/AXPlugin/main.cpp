@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: main.cpp,v 1.1 2004/04/01 09:23:06 a-m-z Exp $
+** $Id: main.cpp,v 1.2 2004/06/18 14:31:18 a-m-z Exp $
 **
 ** Copyright (C) 1992-2000 Trolltech AS.  All rights reserved.
 **
@@ -35,6 +35,10 @@
 #include <OpenSG/OSGVRMLSceneFileType.h>
 #endif
 
+#ifdef HAS_CGCHUNK
+#include <OpenSG/OSGCGChunk.h>
+#endif
+
 QAXFACTORY_DEFAULT( OSGAXPlugin, 
             "{7CDDF9C3-F9DD-4245-ADF3-965DA5998FE4}",
             "{D5DFDF01-A3C3-4bb0-A397-E55F5CAEC78B}",
@@ -60,10 +64,16 @@ int main(int argc, char **argv)
     }
 
     // init OpenSG
+    //OSG::ChangeList::setReadWriteDefault();
     OSG::osgInit(argc, argv);
     
 #if defined(EXPERIMENTAL_VRML_LOADER) && !defined(__sgi)
     OSG::VRMLSceneFileType::the();
+#endif
+
+#ifdef HAS_CGCHUNK
+    // without the printf O2 optimizes it away.
+    printf("Class id %d\n", OSG::CGChunk::getClassTypeId());
 #endif
 
     int r;

@@ -26,6 +26,8 @@ OSGROOT ?= $(wildcard ../../Builds/$(PREFIXSUFFIX)-*)
 # use debug or opt libs?
 LIBTYPE ?= dbg
 
+CGCHUNK ?= false
+
 ### PROJECT ##########################################################
 TARGET = OpenSGax
 PROJINC = -I. -DQT_CLEAN_NAMESPACE # -DOSG_DEBUG
@@ -95,14 +97,24 @@ OSG_CONFIG := $(OSGROOT)/bin/osg-config
 MOC        :=  $(shell $(OSG_CONFIG) --moc)
 UIC        :=  $(shell $(OSG_CONFIG) --uic)
 CXX        := "$(shell $(OSG_CONFIG) --compiler --$(LIBTYPE) )"
+ifeq ($(CGCHUNK),true)
+CXXFLAGS   :=  -DHAS_CGCHUNK $(shell $(OSG_CONFIG) --cflags --$(LIBTYPE) Base System QT )
+else
 CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags --$(LIBTYPE) Base System QT )
+endif
+
 ifeq ($(findstring WIN,$(OS)),WIN)
 LD         := "$(shell $(OSG_CONFIG) --exe-linker --$(LIBTYPE) )"
 else
 LD         := $(shell $(OSG_CONFIG) --exe-linker --$(LIBTYPE) )
 endif
 LDFLAGS    := /subsystem:windows
+ifeq ($(CGCHUNK),true)
+LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base System QT GLUT Contrib) qaxserver.lib delayimp.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib imm32.lib qtmain.lib
+else
 LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base System QT GLUT ) qaxserver.lib delayimp.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib imm32.lib qtmain.lib
+endif
+
 CMPLR_ID   :=  $(shell $(OSG_CONFIG) --compiler-id)
 
 SYSDEP     := $(OS)-$(CMPLR_ID)

@@ -4,6 +4,11 @@
  * \author Andreas Zieringer
  */
 
+// ./OpenSGax.exe -dumpidl OpenSGax.idl -version 1.0
+// midl /nologo OpenSGax.idl /tlb OpenSGax.tlb
+
+#include <sstream>
+
 // Qt stuff
 #include <qapplication.h>
 #include <qpainter.h>
@@ -38,7 +43,9 @@ OSG_USING_NAMESPACE
 OpenSGWidget::OpenSGWidget( QGLFormat f, QWidget *parent, const char *name )
      : QGLWidget( f, parent, name ),
     _mgr(NULL),
-    _pwin(NullFC)
+    _pwin(NullFC),
+    _render_wireframe(false),
+    _render_statistic(false)
 {
     setAcceptDrops(true);
     setAutoBufferSwap(false);
@@ -49,6 +56,7 @@ OpenSGWidget::OpenSGWidget( QGLFormat f, QWidget *parent, const char *name )
     addRefCP(_pwin);
     
     _mgr->setWindow(_pwin);
+    _mgr->setClickCenter(false);
 }
 
 OpenSGWidget::~OpenSGWidget()
@@ -56,16 +64,19 @@ OpenSGWidget::~OpenSGWidget()
     if(_mgr != NULL)
         delete _mgr;
     
-    // remove all viewports
-    beginEditCP(_pwin);
-        while(_pwin->getPort().size() > 0)
-        {
-            ViewportPtr vp = _pwin->getPort()[0];
-            _pwin->subPort(vp);
-        }
-    endEditCP(_pwin);
-    
-    subRefCP(_pwin);
+    if(_pwin != NullFC)
+    {
+        // remove all viewports
+        beginEditCP(_pwin);
+            while(_pwin->getPort().size() > 0)
+            {
+                ViewportPtr vp = _pwin->getPort()[0];
+                _pwin->subPort(vp);
+            }
+        endEditCP(_pwin);
+        
+        subRefCP(_pwin);
+    }
 }
 
 SimpleSceneManager *OpenSGWidget::getManager(void)
@@ -96,7 +107,9 @@ void OpenSGWidget::initializeGL()
         ract->setSortTrans(true);
         ract->setZWriteTrans(true);
     }
-    
+
+    _mgr->useOpenSGLogo();
+
     emit initializedGL();
 }
 
@@ -123,7 +136,7 @@ void OpenSGWidget::mousePressEvent( QMouseEvent *ev )
         default:          return;
     }
     _mgr->mouseButtonPress(button, ev->x(), ev->y());
-    update();
+    updateGL();
 }
 
 void OpenSGWidget::mouseReleaseEvent( QMouseEvent *ev )
@@ -139,23 +152,23 @@ void OpenSGWidget::mouseReleaseEvent( QMouseEvent *ev )
     }
 
     _mgr->mouseButtonRelease(button, ev->x(), ev->y());
-    update();
+    updateGL();
 }
 
 void OpenSGWidget::mouseMoveEvent( QMouseEvent *ev )
 {
     _mgr->mouseMove(ev->x(), ev->y());
-    update();
+    updateGL();
 }
 
 void OpenSGWidget::wheelEvent( QWheelEvent *ev )
 {
-    _mgr->mouseButtonPress(ev->delta() > 0 ? SimpleSceneManager::MouseUp
-                                          : SimpleSceneManager::MouseDown, 
+    _mgr->mouseButtonPress(ev->delta() > 0 ? SimpleSceneManager::MouseDown
+                                          : SimpleSceneManager::MouseUp, 
                               ev->x(), ev->y());
 
     ev->accept();
-    update();
+    updateGL();
 }
 
 /*!
@@ -191,6 +204,68 @@ void OpenSGWidget::dropEvent(QDropEvent *e)
     }
 }
 
+/*!
+ * \brief Drop event, accepts urls
+ * \param event
+ */
+void OpenSGWidget::keyPressEvent(QKeyEvent *e)
+{
+    switch(e->key())
+    {
+        case Key_F1:
+            emit toggleTools();
+        break;
+        case Key_F5:
+            _mgr->showAll();
+            updateGL();
+        break;
+        case Key_F10:
+            setHeadlightEnabled(!isHeadlightEnabled());
+        break;
+        case Key_F11:
+            toggleWireframe();
+        break;
+        case Key_F12:
+            toggleStatistic();
+        break;
+    }
+}
+
+void OpenSGWidget::toggleWireframe(void)
+{
+    _render_wireframe = !_render_wireframe;
+
+    if(_render_wireframe)
+            glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
+        else
+            glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
+            
+    updateGL();
+}
+
+void OpenSGWidget::setHeadlightEnabled(bool s)
+{
+    if(s)
+        _mgr->turnHeadlightOn();
+    else
+        _mgr->turnHeadlightOff();
+    
+    updateGL();
+
+    emit changedHeadlight(s);
+}
+
+bool OpenSGWidget::isHeadlightEnabled(void)
+{
+    return _mgr->getHeadlightState();
+}
+
+void OpenSGWidget::toggleStatistic(void)
+{
+    _render_statistic = !_render_statistic;
+    _mgr->setStatistics(_render_statistic);
+    updateGL();
+}
 
 // ****************************
 // AXPlugin
@@ -202,7 +277,8 @@ OSGAXPlugin::OSGAXPlugin(QWidget *parent, const char *name) :
         _tools(NULL),
         _gl(NULL),
         _root(NullFC),
-        _show_tools(false)
+        _show_tools(true),
+        _headlight(NULL)
 {
     // When we register the server with "OpenSGax.exe -regserver"
     // the OSGAXPlugin instance is created directly
@@ -235,17 +311,22 @@ OSGAXPlugin::OSGAXPlugin(QWidget *parent, const char *name) :
     // tool bar.
     _tools = new QHBox(_main);
     _tools->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
+    setShowTools(false);
+    
+    connect(_gl, SIGNAL(toggleTools()), this, SLOT(toggleTools()));
     
     // add show all button
     QPushButton *show_all = new QPushButton("ShowAll", _tools);
     connect(show_all, SIGNAL(clicked()), this, SLOT(showAll()));
     
-    QPushButton *headlight = new QPushButton("Headlight", _tools);
-    headlight->setToggleButton(true);
-    connect(headlight, SIGNAL(toggled(bool)), this, SLOT(toggledHeadlight(bool)));
-    headlight->blockSignals(true);
-    headlight->setOn(true);
-    headlight->blockSignals(false);
+    _headlight = new QPushButton("Headlight", _tools);
+    _headlight->setToggleButton(true);
+    connect(_headlight, SIGNAL(toggled(bool)), this, SLOT(toggledHeadlight(bool)));
+    _headlight->blockSignals(true);
+    _headlight->setOn(true);
+    _headlight->blockSignals(false);
+    
+    connect(_gl, SIGNAL(changedHeadlight(bool)), this, SLOT(changedHeadlight(bool)));
     
     // create root node.
     _root = Node::create();
@@ -287,28 +368,35 @@ OSGAXPlugin::OSGAXPlugin(QWidget *parent, const char *name) :
         
     _gl->getManager()->setRoot(_root);
     _gl->getManager()->showAll();
-    _gl->update();
+    _gl->updateGL();
 }
 
 OSGAXPlugin::~OSGAXPlugin()
 {
-    destroyScene();
-    subRefCP(_root);
+    if(_root != NullFC)
+    {
+        destroyScene();
+        subRefCP(_root);
+    }
 }
 
 void OSGAXPlugin::destroyScene(void)
 {
+    if(_root == NullFC)
+        return;
+
     beginEditCP(_root);
     while(_root->getNChildren() > 0)
         _root->subChild(_root->getChild(0));
     endEditCP(_root);
+    _gl->updateGL();
 }
 
 NodePtr OSGAXPlugin::load(const QString &filename)
 {
     QString fname = QDir::convertSeparators(filename);
     QApplication::setOverrideCursor(QCursor(Qt::waitCursor));
-    NodePtr scene = SceneFileHandler::the().read(fname.latin1());
+    NodePtr scene = SceneFileHandler::the().read(fname.latin1(), NULL);
     QApplication::restoreOverrideCursor();
     
     if(scene != NullFC)
@@ -325,7 +413,7 @@ NodePtr OSGAXPlugin::load(const QString &filename)
     }
     
     _gl->getManager()->showAll();
-    _gl->update();
+    _gl->updateGL();
 
     return scene;
 }
@@ -347,8 +435,163 @@ QString OSGAXPlugin::getSrc(void) const
 void OSGAXPlugin::setSrc(const QString &src)
 {
     //QString path = QDir::currentDirPath();
-    //QMessageBox::warning(NULL, "bla", path);
+    //QMessageBox::warning(NULL, "OSGAXPlugin::setSrc", src);
+    
+    // Destroy old scene
+    destroyScene();
+
     load(src);
+}
+
+QString OSGAXPlugin::getFrom(void) const
+{
+    Navigator *nav = _gl->getManager()->getNavigator();
+    if(nav == NULL)
+        return QString("");
+    
+    Pnt3f from = nav->getFrom();
+    std::stringstream fromstr;
+    fromstr << from;
+    return QString(fromstr.str().c_str());
+}
+
+void OSGAXPlugin::setFrom(const QString &fromstr)
+{
+    Navigator *nav = _gl->getManager()->getNavigator();
+    if(nav == NULL)
+        return;
+    
+    Pnt3f from;
+    from.setValueFromCString(fromstr);
+    
+    nav->setFrom(from);
+    _gl->updateGL();
+}
+
+QString OSGAXPlugin::getAt(void) const
+{
+    Navigator *nav = _gl->getManager()->getNavigator();
+    if(nav == NULL)
+        return QString("");
+    
+    Pnt3f at = nav->getAt();
+    std::stringstream atstr;
+    atstr << at;
+    return QString(atstr.str().c_str());
+}
+
+void OSGAXPlugin::setAt(const QString &atstr)
+{
+    Navigator *nav = _gl->getManager()->getNavigator();
+    if(nav == NULL)
+        return;
+    
+    Pnt3f at;
+    at.setValueFromCString(atstr);
+    
+    nav->setAt(at);
+    _gl->updateGL();
+}
+
+QString OSGAXPlugin::getUp(void) const
+{
+    Navigator *nav = _gl->getManager()->getNavigator();
+    if(nav == NULL)
+        return QString("");
+    
+    Vec3f up = nav->getUp();
+    std::stringstream upstr;
+    upstr << up;
+    return QString(upstr.str().c_str());
+}
+
+void OSGAXPlugin::setUp(const QString &upstr)
+{
+    Navigator *nav = _gl->getManager()->getNavigator();
+    if(nav == NULL)
+        return;
+    
+    Vec3f up;
+    up.setValueFromCString(upstr);
+    
+    nav->setUp(up);
+    _gl->updateGL();
+}
+
+QString OSGAXPlugin::getNear(void) const
+{
+    CameraPtr cam = _gl->getManager()->getWindow()->getPort()[0]->getCamera();
+
+    Real32 nearp = cam->getNear();
+
+    std::stringstream nearstr;
+    nearstr << nearp;
+
+    return QString(nearstr.str().c_str());
+}
+
+void OSGAXPlugin::setNear(const QString &nearstr)
+{
+    CameraPtr cam = _gl->getManager()->getWindow()->getPort()[0]->getCamera();
+
+    beginEditCP(cam);
+        cam->setNear(nearstr.toFloat());
+    endEditCP(cam);
+
+    _gl->updateGL();
+}
+
+QString OSGAXPlugin::getFar(void) const
+{
+    CameraPtr cam = _gl->getManager()->getWindow()->getPort()[0]->getCamera();
+
+    Real32 farp = cam->getFar();
+
+    std::stringstream farstr;
+    farstr << farp;
+
+    return QString(farstr.str().c_str());
+}
+
+void OSGAXPlugin::setFar(const QString &farstr)
+{
+    CameraPtr cam = _gl->getManager()->getWindow()->getPort()[0]->getCamera();
+
+    beginEditCP(cam);
+        cam->setFar(farstr.toFloat());
+    endEditCP(cam);
+
+    _gl->updateGL();
+}
+
+QString OSGAXPlugin::getMotionFactor(void) const
+{
+    return QString("");
+    /*
+    Navigator *nav = _gl->getManager()->getNavigator();
+    if(nav == NULL)
+        return QString("");
+    
+    Real32 mf = nav->getMotionFactor();
+    std::stringstream mfstr;
+    mfstr << mf;
+    return QString(mfstr.str().c_str());
+    */
+}
+
+void OSGAXPlugin::setMotionFactor(const QString &mfstr)
+{
+    Navigator *nav = _gl->getManager()->getNavigator();
+    if(nav == NULL)
+        return;
+
+    nav->setMotionFactor(mfstr.toFloat());
+    _gl->updateGL();
+}
+
+void OSGAXPlugin::about(void)
+{
+    QMessageBox::warning(NULL, "OSGAXPlugin", "OpenSG ActiveX Render Plugin");
 }
 
 void OSGAXPlugin::initializedGL(void)
@@ -376,16 +619,19 @@ void OSGAXPlugin::initializedGL(void)
 void OSGAXPlugin::showAll(void)
 {
     _gl->getManager()->showAll();
-    _gl->update();
+    _gl->updateGL();
 }
 
 void OSGAXPlugin::toggledHeadlight(bool s)
 {
-    if(s)
-        _gl->getManager()->turnHeadlightOn();
-    else
-        _gl->getManager()->turnHeadlightOff();
-    _gl->update();
+    _gl->setHeadlightEnabled(s);
+}
+
+void OSGAXPlugin::changedHeadlight(bool s)
+{
+    _headlight->blockSignals(true);
+    _headlight->setOn(s);
+    _headlight->blockSignals(false);
 }
 
 void OSGAXPlugin::droppedFiles(const QStringList &files)
@@ -397,10 +643,13 @@ void OSGAXPlugin::droppedFiles(const QStringList &files)
         NodePtr scene = load((*it));
 
     _gl->getManager()->showAll();
-    _gl->update();
+    _gl->updateGL();
 }
 
-
+void OSGAXPlugin::toggleTools(void)
+{
+    OSGAXPlugin::setShowTools(!_show_tools);
+}
 
 
 // --------------------------------------------------

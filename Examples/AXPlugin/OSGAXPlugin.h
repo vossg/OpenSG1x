@@ -6,6 +6,7 @@
  
 #include <qgl.h>
 #include <qaxbindable.h>
+#include <qpushbutton.h>
 
 #include <OpenSG/OSGSimpleSceneManager.h>
 #include <OpenSG/OSGPassiveWindow.h>
@@ -22,10 +23,17 @@ public:
 
     OSG::SimpleSceneManager *getManager(void);
 
+    void toggleWireframe(void);
+    void setHeadlightEnabled(bool s);
+    bool isHeadlightEnabled(void);
+    void toggleStatistic(void);
+
 signals:
 
     void droppedFiles(const QStringList &files);
     void initializedGL(void);
+    void changedHeadlight(bool s);
+    void toggleTools(void);
 
 protected:
     
@@ -39,9 +47,13 @@ protected:
     virtual void wheelEvent( QWheelEvent *ev );
     virtual void dragEnterEvent(QDragEnterEvent *e);
     virtual void dropEvent(QDropEvent *e);
+    virtual void keyPressEvent(QKeyEvent *e);
 
     OSG::SimpleSceneManager  *_mgr;
     OSG::PassiveWindowPtr    _pwin;
+
+    bool _render_wireframe;
+    bool _render_statistic;
 };
 
 // -----------------------------
@@ -50,6 +62,12 @@ class OSGAXPlugin : public QWidget, public QAxBindable
 {
     Q_OBJECT
     Q_PROPERTY( QString src READ getSrc WRITE setSrc )
+    Q_PROPERTY( QString from READ getFrom WRITE setFrom )
+    Q_PROPERTY( QString at READ getAt WRITE setAt )
+    Q_PROPERTY( QString up READ getUp WRITE setUp )
+    Q_PROPERTY( QString near READ getNear WRITE setNear )
+    Q_PROPERTY( QString far READ getFar WRITE setFar )
+    Q_PROPERTY( QString motionFactor READ getMotionFactor WRITE setMotionFactor )
 
 public:
     
@@ -64,9 +82,27 @@ public:
 
     QString getSrc(void) const;
 
+    QString getFrom(void) const;
+    QString getAt(void) const;
+    QString getUp(void) const;
+
+    QString getNear(void) const;
+    QString getFar(void) const;
+    QString getMotionFactor(void) const;
+
 public slots:
     
     void setSrc(const QString &src);
+
+    void setFrom(const QString &fromstr);
+    void setAt(const QString &atstr);
+    void setUp(const QString &upstr);
+
+    void setNear(const QString &nearstr);
+    void setFar(const QString &farstr);
+    void setMotionFactor(const QString &mfstr);
+
+    void about(void);
 
 private slots:
 
@@ -74,6 +110,8 @@ private slots:
     void showAll(void);
     void toggledHeadlight(bool s);
     void droppedFiles(const QStringList &files);
+    void changedHeadlight(bool s);
+    void toggleTools(void);
 
 protected:
 
@@ -85,4 +123,6 @@ private:
     OpenSGWidget *_gl;
     OSG::NodePtr _root;
     bool _show_tools;
+
+    QPushButton *_headlight;
 };
