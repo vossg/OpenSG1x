@@ -61,7 +61,7 @@
  * <LI> osg::SFColor4f
  * <LI> osg::SFColor3ub
  * <LI> osg::SFColor4ub
- * <LI> osg::SFVolume
+ * <LI> osg::SFDynamicVolume
  * </UL>
  */
 
@@ -169,10 +169,10 @@ OSG_DLLEXPORT_DECL1(SField, Color4ub, OSG_FIELD_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFVolume
+/** \brief SFDynamicVolume
  */
 
-typedef SField<DynamicVolume> SFVolume;
+typedef SField<DynamicVolume> SFDynamicVolume;
 
 #ifndef OSG_COMPILEFIELDINST
 #if defined(__sgi)

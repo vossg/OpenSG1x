@@ -235,9 +235,9 @@ struct FieldDataTraits<DynamicVolume> :
     enum                     { StringConvertable = ToStringConvertable | 
                                                    FromStringConvertable };
 
-    static Char8            *getSName(void)      { return "SFVolume";      }
+    static Char8            *getSName(void)      { return "SFDynamicVolume";      }
 
-    static Char8            *getMName(void)      { return "MFVolume";      }
+    static Char8            *getMName(void)      { return "MFDynamicVolume";      }
 
     static DynamicVolume     getDefault(void)    { return DynamicVolume(); }
 
