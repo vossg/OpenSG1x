@@ -280,12 +280,12 @@ void ClusterWindow::frameInit(void)
         {
             // send sync
             _remoteAspect->sendSync(*_connection);
-            // init client window
-            clientInit();
             ChangeList cl;
             cl.clearAll();
             cl.merge(*Thread::getCurrentChangeList());
             Thread::getCurrentChangeList()->clearAll();
+            // init client window
+            clientInit();
             // last chance to modifie before sync
             clientPreSync();
             // send sync
