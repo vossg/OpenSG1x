@@ -339,7 +339,7 @@ void DynFieldAttachment<AttachmentDescT>::subField(UInt32 fieldId)
 {
     if(_localType.subDescription(fieldId) == true)
     {
-        vector<Field *>::iterator vIt = _dynFieldsV.begin();
+        std::vector<Field *>::iterator vIt = _dynFieldsV.begin();
 
         vIt += fieldId - Inherited::NextFieldId;
 
