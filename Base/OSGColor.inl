@@ -441,6 +441,45 @@ const Color3<ValueTypeT>::ValueType *
 
 
 
+template <class ValueTypeT> inline
+void Color3<ValueTypeT>::setValue( const char *szString )
+{
+	// this is the easiest way, not the most efficient...
+	Vec3f v;
+	v.setValue( szString );
+
+	_rgb[0] = v[0];
+	_rgb[1] = v[1];
+	_rgb[2] = v[2];
+}
+
+template <class ValueTypeT> inline
+void Color3<ValueTypeT>::setValue( char *szString )
+{
+    setValue(static_cast<const char *>(szString));
+}
+
+
+template <class ValueTypeT> inline
+void Color4<ValueTypeT>::setValue( const char *szString )
+{
+	// this is the easiest way, not the most efficient...
+	Vec4f v;
+	v.setValue( szString );
+
+	_rgba[0] = v[0];
+	_rgba[1] = v[1];
+	_rgba[2] = v[2];
+	_rgba[3] = v[3];
+}
+
+template <class ValueTypeT> inline
+void Color4<ValueTypeT>::setValue( char *szString )
+{
+    setValue(static_cast<const char *>(szString));
+}
+
+
 /*---------------------------- properties ---------------------------------*/
 
 /*-------------------------- your_category---------------------------------*/

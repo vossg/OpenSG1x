@@ -110,7 +110,7 @@ class OSG_BASE_DLLMAPPING Color3
     Color3(ValueType red,
            ValueType green,
            ValueType blue);
-    virtual ~Color3(void); 
+    ~Color3(void); 
 
     /*------------------------- your_category -------------------------------*/
 
@@ -145,6 +145,10 @@ class OSG_BASE_DLLMAPPING Color3
 
           ValueType *getValueRef(void);
     const ValueType *getValueRef(void) const;
+
+
+    void setValue(const char *szString);
+    void setValue(      char *szString);
 
 
     /*------------------------- your_operators ------------------------------*/
@@ -264,7 +268,7 @@ class OSG_BASE_DLLMAPPING Color4
            ValueType green,
            ValueType blue,
            ValueType alpha);
-    virtual ~Color4(void); 
+    ~Color4(void); 
 
     /*------------------------- your_category -------------------------------*/
 
@@ -304,6 +308,10 @@ class OSG_BASE_DLLMAPPING Color4
 
           ValueType *getValueRef(void);
     const ValueType *getValueRef(void) const;
+
+
+    void setValue(const char *szString);
+    void setValue(      char *szString);
 
 
     /*------------------------- your_operators ------------------------------*/
@@ -399,6 +407,7 @@ ostream &operator <<(      ostream            &outStream,
  */
 
 typedef Color3<Real32> Color3f;
+extern Color3f NullColor3f;
 
 /*! \var Color4<Real32> Color4f;
  *  \ingroup BaseColors
@@ -406,6 +415,7 @@ typedef Color3<Real32> Color3f;
  */
 
 typedef Color4<Real32> Color4f;
+extern Color4f NullColor4f;
 
 /*! \var Color3<UInt8> Color3ub;
  *  \ingroup BaseColors
@@ -413,6 +423,7 @@ typedef Color4<Real32> Color4f;
  */
 
 typedef Color3<UInt8> Color3ub;
+extern Color3ub NullColor3ub;
 
 /*! \var Color4<UInt8> Color4ub;
  *  \ingroup BaseColors
@@ -420,6 +431,7 @@ typedef Color3<UInt8> Color3ub;
  */
 
 typedef Color4<UInt8> Color4ub;
+extern Color4ub NullColor4ub;
 
 OSG_END_NAMESPACE
 
