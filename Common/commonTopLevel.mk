@@ -485,6 +485,8 @@ help:
 	@echo "<default>  compile the same versions of the configured libraries as last time"
 	@echo "dbg        compile the debug versions of the configured libraries"
 	@echo "opt        compile the optimized versions of the configured libraries"
+	@echo "dbgLnk     compile the debug versions of the configured libraries (static libs)"
+	@echo "optLnk     compile the optimized versions of the configured libraries (static libs)"
 	@echo "depend     explicitly create the dependency information"
 	@echo 
 	@echo "dsp        create dsp files in VSBuild/* from the current config" 
