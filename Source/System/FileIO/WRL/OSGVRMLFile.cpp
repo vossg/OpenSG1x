@@ -151,9 +151,9 @@ void VRMLFile::scanStream(std::istream &is)
         Inherited::scanStream(is);
     }
 
-    fprintf(stderr, "Full Time : %lf | Use Time %lf\n",
+    FINFO(("Full Time : %lf | Use Time %lf\n",
             getSystemTime() - startTime,
-            useTime);
+            useTime));
 }
 
 void VRMLFile::scanFile(const Char8 *szFilename)
@@ -176,9 +176,9 @@ void VRMLFile::scanFile(const Char8 *szFilename)
         Inherited::scanFile(szFilename);
     }
 
-    fprintf(stderr, "Full Time : %lf | Use Time %lf\n",
+    FINFO(("Full Time : %lf | Use Time %lf\n",
             getSystemTime() - startTime,
-            useTime);
+            useTime));
 }
 
 void VRMLFile::beginNode(const Char8 *szNodeTypename,

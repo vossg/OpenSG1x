@@ -4566,6 +4566,7 @@ void VRMLExtrusionDesc::endNode(FieldContainerPtr pFC)
                                               );
 
 
+/*
 // snip remove later
         fprintf(stderr, "%u %u %u %f | %u | %u | %u %u | %u | %u\n",
                 pBeginCap    ->getValue (),
@@ -4580,6 +4581,7 @@ void VRMLExtrusionDesc::endNode(FieldContainerPtr pFC)
                 pSpine       ->size     ());
 
 // snap end remove later2
+*/
 
         beginEditCP(pNode, Node::CoreFieldMask);
         {
@@ -4589,7 +4591,7 @@ void VRMLExtrusionDesc::endNode(FieldContainerPtr pFC)
     }
     else
     {
-        fprintf(stderr, "\n\nExtrusion parameter missing\n");
+        FWARNING(("\n\nExtrusion parameter missing\n"));
     }
 }
 
@@ -4831,7 +4833,7 @@ void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
 
     MFString *pUrl = dynamic_cast<MFString *>(pField);
 
-    fprintf(stderr, "Inline : %s\n",  (*pUrl)[0].c_str());
+    FDEBUG(("Inline : %s\n",  (*pUrl)[0].c_str()));
 
     VRMLFile *pVRMLLoader = new VRMLFile();
 
