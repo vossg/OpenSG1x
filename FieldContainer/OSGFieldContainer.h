@@ -486,6 +486,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
 
 #define OSG_FC_TMPL_VAR_INL 
 
+#ifdef 0
 #ifdef FMSCOMPILER
 
 // Macros used to derive a new fieldcontainer
@@ -649,6 +650,50 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
   const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask;
 
 #endif
+#endif
+
+#define OSG_FC_FIRST_FIELD_IDM_DECL(OSG_ELEMNAME)                             \
+  enum { OSG_ELEMNAME##Id   = Inherited::NextFieldId };                       \
+  static const OSG::BitVector OSG_ELEMNAME##Mask;
+
+#define OSG_FC_FIELD_IDM_DECL(OSG_ELEMNAME, OSG_PREV_ELEMNAME)                \
+  enum { OSG_ELEMNAME##Id   = OSG_PREV_ELEMNAME##Id + 1 };                    \
+  static const OSG::BitVector OSG_ELEMNAME##Mask;
+
+#define OSG_FC_LAST_FIELD_IDM_DECL(OSG_PREV_ELEMNAME)                         \
+  enum { NextFieldId   = OSG_PREV_ELEMNAME##Id + 1 };                         \
+
+ 
+#define OSG_FC_FIRST_FIELD_IDM_DEF(OSG_CLASS, OSG_ELEMNAME)                   \
+  const OSG::BitVector OSG_CLASS::OSG_ELEMNAME##Mask =                        \
+      (1 << OSG_CLASS::OSG_ELEMNAME##Id);
+
+#define OSG_FC_FIRST_FIELD_IDM_INL_TMPL_DEF(OSG_CLASS,                        \
+                                            OSG_TMPL_PARAM,                   \
+                                            OSG_ELEMNAME)                     \
+  template <class OSG_TMPL_PARAM> OSG_FC_TMPL_VAR_INL                         \
+  const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::OSG_ELEMNAME##Mask =        \
+    (1 << OSG_CLASS<OSG_TMPL_PARAM>::OSG_ELEMNAME##Id);
+
+
+#define OSG_FC_FIELD_IDM_DEF(OSG_CLASS, OSG_ELEMNAME, OSG_PREV_ELEMNAME)      \
+  const OSG::BitVector OSG_CLASS::OSG_ELEMNAME##Mask =                        \
+    (1 << OSG_CLASS::OSG_ELEMNAME##Id);
+
+#define OSG_FC_FIELD_IDM_INL_TMPL_DEF(OSG_CLASS,                              \
+                                      OSG_TMPL_PARAM,                         \
+                                      OSG_ELEMNAME,                           \
+                                      OSG_PREV_ELEMNAME)                      \
+  template <class OSG_TMPL_PARAM> OSG_FC_TMPL_VAR_INL                         \
+  const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::OSG_ELEMNAME##Mask =        \
+    (1 << OSG_CLASS<OSG_TMPL_PARAM>::OSG_ELEMNAME##);
+
+#define OSG_FC_LAST_FIELD_IDM_DEF(OSG_CLASS, OSG_PREV_ELEMNAME)
+
+#define OSG_FC_LAST_FIELD_IDM_INL_TMPL_DEF(OSG_CLASS,                         \
+                                           OSG_TMPL_PARAM,                    \
+                                           OSG_PREV_FIELDNAME)
+
 
 #define OSG_FC_FIELD_IDM_DESC(OSG_FIELDNAME)                                  \
     OSG_FIELDNAME##Id, OSG_FIELDNAME##Mask
