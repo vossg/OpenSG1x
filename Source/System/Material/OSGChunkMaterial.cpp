@@ -176,7 +176,7 @@ void ChunkMaterial::draw(Geometry* geo, DrawActionBase * action)
 
     state->activate(action);
 
-    geo->draw(action);
+    geo->drawPrimitives(action);
 
     state->deactivate(action);
 
