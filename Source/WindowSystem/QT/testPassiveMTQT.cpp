@@ -14,6 +14,7 @@
 #include <qgl.h>
 #include <qapplication.h>
 #include <math.h>
+#include <vector>
 
 #if defined(Q_CC_MSVC)
 #pragma warning(disable:4305) // init: truncation from const double to float
@@ -27,7 +28,6 @@
 #include <OSGGradientBackground.h>
 #include <OSGThread.h>
 #include <OSGThreadManager.h>
-#include <OSGSHLChunk.h>
 
 OSG_USING_NAMESPACE
 
@@ -37,63 +37,17 @@ static OpenSGWidget *_render_widget = NULL;
 static ThreadBase   *_main_thread = NULL;
 static Barrier      *_sync_barrier = NULL;
 static Thread       *_render_thread = NULL;
+static bool         _do_quit = false;
 static bool         _quit = false;
-static SHLChunkPtr  _shl = NullFC;
+static GeometryPtr _geo = NullFC;
 
-// vertex shader program for 
-static std::string _vp_program =
-"varying vec3 DiffuseColor;\n"
-"varying vec3 SpecularColor;\n"
-"\n"
-"void main(void)\n"
-"{\n"
-"	vec3 LightColor = vec3(1.0);\n"
-"	vec3 Specular	= vec3(1.0);\n"
-"	vec3 Ambient	= vec3(0.2);\n"
-"	float Kd		= 0.3;\n"
-"\n"
-"	vec3 LightPosition = gl_LightSource[0].position.xyz;\n"
-"\n"
-"	vec3 ecPosition	= vec3(gl_ModelViewMatrix * gl_Vertex);\n"
-"\n"
-"	vec3 tnorm		= normalize(gl_NormalMatrix * gl_Normal);\n"
-"\n"
-"	vec3 lightVec	= normalize(LightPosition - ecPosition);\n"
-"\n"
-"	vec3 hvec		= normalize(lightVec - ecPosition);\n"
-"\n"
-"	float spec		= clamp(dot(hvec, tnorm), 0.0, 1.0);\n"
-"	spec			= pow(spec, 16.0);\n"
-"\n"
-"	DiffuseColor	= LightColor * vec3(Kd * dot(lightVec, tnorm));\n"
-"	DiffuseColor	= clamp(Ambient + DiffuseColor, 0.0, 1.0);\n"
-"	SpecularColor	= clamp((LightColor * Specular * spec), 0.0 ,1.0);\n"
-"\n"
-"	gl_TexCoord[0]	= gl_MultiTexCoord0;\n"
-"	gl_Position		= ftransform();\n"
-"}\n";
+static UInt32 _size = 0;
+static std::vector<std::vector<Real32> > _surf;
+static std::vector<std::vector<Real32> > _force;
+static std::vector<std::vector<Real32> > _veloc;
+static std::vector<std::vector<Real32> > _surfo;
 
-
-// fragment shader program for
-static std::string _fp_program =
-"varying vec3 DiffuseColor;\n"
-"varying vec3 SpecularColor;\n"
-"\n"
-"uniform vec2 Scale;\n"
-"uniform vec2 Threshold;\n"
-"uniform vec3 SurfaceColor;\n"
-"\n"
-"void main (void)\n"
-"{\n"
-"	float ss = fract(gl_TexCoord[0].s * Scale.s);\n"
-"	float tt = fract(gl_TexCoord[0].t * Scale.t);\n"
-"\n"
-"	if ((ss > Threshold.s) && (tt > Threshold.t))\n"
-"		discard;\n"
-"\n"
-"	vec3 finalColor = SurfaceColor * DiffuseColor + SpecularColor;\n"
-"	gl_FragColor = vec4(finalColor, 1.0);\n"
-"}\n";
+#define SQRTOFTWOINV 1.0f / 1.414213562f
 
 // This is needed to make doneCurrent() public.
 class OpenSGGLContext : public QGLContext
@@ -268,12 +222,12 @@ void OpenSGWidget::wheelEvent( QWheelEvent *ev )
 void OpenSGWidget::closeEvent(QCloseEvent *e)
 {
     QGLWidget::closeEvent(e);
-    _quit = true;
+    _do_quit = true;
 }
 
 // ---------------------------
 
-void renderThread(void *)
+static void renderThread(void *)
 {
     while(!_quit)
     {
@@ -288,18 +242,232 @@ void renderThread(void *)
     }
 }
 
-void mainThread(void)
+static void initWave(void)
+{
+    _size = (int) sqrt((float) _geo->getPositions()->getSize());
+
+    _surf.resize(_size);
+    for(UInt32 i=0;i<_size;++i)
+        _surf[i].resize(_size);
+    
+    _force.resize(_size);
+    for(UInt32 i=0;i<_size;++i)
+        _force[i].resize(_size);
+    
+    _veloc.resize(_size);
+    for(UInt32 i=0;i<_size;++i)
+        _veloc[i].resize(_size);
+    
+    _surfo.resize(_size);
+    for(UInt32 i=0;i<_size;++i)
+        _surfo[i].resize(_size);
+
+    GeoPositions3fPtr pos = GeoPositions3fPtr::dcast(_geo->getPositions());
+    MFPnt3f *p = pos->getFieldPtr();
+
+    beginEditCP(pos);
+    {
+        int c = 0;
+
+        for(int i=0;i<_size;i++)
+        {
+            for(int j=0;j<_size;j++)
+                _surfo[i][j] = (*p)[c++][2];
+        }
+    }
+    endEditCP(pos);
+}
+
+static void startWave(int x, int y, Real32 hw)
+{
+    if(x == -1 || y == -1)
+    {
+        x = _size/2;
+        y = _size/2;
+    }
+
+    _surf[x][y] = hw;
+    _surf[x][y+1] = hw;
+    _surf[x+1][y] = hw;
+    _surf[x+1][y+1] = hw;
+}
+
+static void resetWave(void)
+{
+    for(int i=0; i<_size; i++)
+    for(int j=0; j<_size; j++)
+    {
+        _surf[i][j] = 0.0f;
+        _force[i][j] = 0.0f;
+        _veloc[i][j] = 0.0f;
+    }
+}
+
+static void calcWave(void)
+{
+    int i,j;
+    float d;
+
+    for(i=0; i<_size; ++i)
+    {
+        for(j=0; j<_size; ++j)
+        {
+            _force[i][j] = 0.0f;
+        }
+    }
+
+    for(i=1; i<_size-1; ++i)
+    {
+        for(j=1; j<_size-1; ++j)
+        {
+            d=_surf[i][j]-_surf[i][j-1];
+            _force[i][j] -= d;
+            _force[i][j-1] += d;
+    
+            d=_surf[i-1][j]-_surf[i-1][j];
+            _force[i][j] -= d;
+            _force[i-1][j] += d;
+    
+            d=_surf[i][j]-_surf[i][j+1];
+            _force[i][j] -= d;
+            _force[i][j+1] += d;
+    
+            d=_surf[i][j]-_surf[i+1][j];
+            _force[i][j] -= d;
+            _force[i+1][j] += d;
+    
+            d=(_surf[i][j]-_surf[i+1][j+1])*SQRTOFTWOINV;
+            _force[i][j] -= d;
+            _force[i+1][j+1] += d;
+    
+            d=(_surf[i][j]-_surf[i-1][j-1])*SQRTOFTWOINV;
+            _force[i][j] -= d;
+            _force[i-1][j-1] += d;
+    
+            d=(_surf[i][j]-_surf[i+1][j-1])*SQRTOFTWOINV;
+            _force[i][j] -= d;
+            _force[i+1][j-1] += d;
+    
+            d=(_surf[i][j]-_surf[i+1][j-1])*SQRTOFTWOINV;
+            _force[i][j] -= d;
+            _force[i+1][j-1] += d;
+        }
+    }
+
+    float dt = 0.002f;
+    for(i=0; i<_size; ++i)
+    {
+        for(j=0; j<_size; j++)
+            _veloc[i][j] += _force[i][j] * dt;
+    }
+
+    for(i=0; i<_size; ++i)
+    {
+        for(j=0; j<_size; ++j)
+        {
+            _surf[i][j] += _veloc[i][j];
+
+            //if(_surf[i][j] > 0)
+            _surf[i][j] -= _surf[i][j]/_size;
+        }
+    }
+}
+
+static void updateGeometry(GeometryPtr geo)
+{
+    GeoPositions3fPtr pos = GeoPositions3fPtr::dcast(geo->getPositions());
+    // p->setValue() is faster than pos->setValue()
+    MFPnt3f *p = pos->getFieldPtr();
+    beginEditCP(pos);
+    int c = 0;
+        for(int i=0;i<_size;++i)
+        {
+            for(int j=0;j<_size;++j)
+            {
+                Pnt3f &pp = (*p)[c++];
+                pp[2] = _surfo[i][j] + _surf[i][j];
+            }
+        }
+    endEditCP(pos);
+}
+
+static void calcVertexNormals(GeometryPtr geo)
+{
+    GeoNormals3fPtr norms = GeoNormals3fPtr::dcast(geo->getNormals());
+    GeoPositions3fPtr pos = GeoPositions3fPtr::dcast(geo->getPositions());
+
+    MFPnt3f *p = pos->getFieldPtr();
+    MFVec3f *n = norms->getFieldPtr();
+
+    beginEditCP(norms);
+
+    Vec3f a, b, c;
+    int l = 0;
+        for(int i=0; i<_size; ++i)
+        {
+            for(int j=0; j<_size; ++j)
+            {
+                int m = i*_size+j;
+
+                if (i!=_size-1 && j!=_size-1)
+                {
+                    a = (*p)[l+m+1] - (*p)[l+m];
+                    b = (*p)[l+m+_size] - (*p)[l+m];
+                }
+                else
+                {
+                    a = (*p)[l+m-1] - (*p)[l+m];
+                    
+                    int index = l+m-_size;
+                    if(index < 0)
+                        index += norms->getSize();
+                    
+                    b = (*p)[index] - (*p)[l+m];
+                }
+
+                c = a.cross(b);
+                c.normalize();
+        
+                if (i==0 && j==_size-1)
+                {
+                    a = (*p)[l+m-1] - (*p)[l+m];
+                    b = (*p)[l+m+_size] - (*p)[l+m];
+        
+                    c = a.cross(b);
+                    c.normalize();
+                    c.negate();
+                }
+
+                if (i==_size-1 && j==0)
+                {
+                    a = (*p)[l+m-_size] - (*p)[l+m];
+                    b = (*p)[l+m+1] - (*p)[l+m];
+        
+                    c = a.cross(b);
+                    c.normalize();
+                }
+                (*n)[l+m] = c;
+            }
+        }
+        l += _size*_size;
+    endEditCP(norms);
+}
+
+static void mainThread(void)
 {
     // do some animation in the main thread.
-    static float scale = 10.0f;
+    static Real64 t = 0.0;
 
-    beginEditCP(_shl, SHLChunk::ParametersFieldMask);
-        _shl->setUniformParameter("Scale", Vec2f(scale, scale / 8.0f));
-    endEditCP(_shl, SHLChunk::ParametersFieldMask);
-    
-    scale += 0.01f;
-    if(scale > 100.0f)
-        scale = 10.0f;
+    if(OSG::getSystemTime() - t > 2.0)
+    {
+        // create a wave in the center of the plane.
+        startWave(-1, -1, 0.1);
+        t = OSG::getSystemTime();
+    }
+
+    calcWave();
+    updateGeometry(_geo);
+    calcVertexNormals(_geo);
 }
 
 int main( int argc, char **argv )
@@ -322,30 +490,35 @@ int main( int argc, char **argv )
     _render_widget = new OpenSGWidget(QGLFormat(QGL::DoubleBuffer | QGL::DepthBuffer | QGL::Rgba |
                                       QGL::DirectRendering));
 
-    NodePtr scene = makeTorus(.5, 3, 128, 128);
-    
-    // share the chunk
-    _shl = SHLChunk::create();
-    beginEditCP(_shl);
-        _shl->setVertexProgram(_vp_program);
-        _shl->setFragmentProgram(_fp_program);
-        _shl->setUniformParameter("Scale", Vec2f(20.0f, 20.0f));
-        _shl->setUniformParameter("Threshold", Vec2f(0.7f, 0.7f));
-        _shl->setUniformParameter("SurfaceColor", Vec3f(1.0f, 1.0f, 1.0f));
-    endEditCP(_shl);
+    NodePtr scene = makePlane(1.0, 1.0, 50, 50);
+
+    MaterialChunkPtr matc = MaterialChunk::create();
+    beginEditCP(matc);
+        matc->setAmbient(Color4f(0.3, 0.3, 0.3, 1.0));
+        matc->setDiffuse(Color4f(0.2, 0.2, 0.8, 1.0));
+        matc->setSpecular(Color4f(0.6, 0.6, 0.6, 1.0));
+        matc->setShininess(100);
+    endEditCP(matc);
     
     ChunkMaterialPtr cmat = ChunkMaterial::create();
     beginEditCP(cmat);
-        cmat->addChunk(_shl);
+        cmat->addChunk(matc);
     endEditCP(cmat);
     
-    GeometryPtr geo = GeometryPtr::dcast(scene->getCore());
-    beginEditCP(geo);
-        geo->setMaterial(cmat);
-    endEditCP(geo);
+    _geo = GeometryPtr::dcast(scene->getCore());
+    beginEditCP(_geo);
+        _geo->setDlistCache(false);
+        _geo->setMaterial(cmat);
+    endEditCP(_geo);
+
+    initWave();
+    resetWave();
+
 
     _render_widget->getManager()->setRoot(scene);
     _render_widget->getManager()->showAll();
+    _render_widget->getManager()->getNavigator()->setFrom(Pnt3f(1.0f, -1.0f, 1.0f));
+    _render_widget->getManager()->getNavigator()->setUp(Vec3f(0.0f, 0.0f, 1.0f));
     
     a.setMainWidget(_render_widget);
     _render_widget->show();
@@ -369,6 +542,8 @@ int main( int argc, char **argv )
 
         // sync
         _sync_barrier->enter(2);
+        if(_do_quit)
+            _quit = true;
         _sync_barrier->enter(2);
         
         _main_thread->getChangeList()->clearAll();
@@ -376,10 +551,7 @@ int main( int argc, char **argv )
         qApp->processEvents();
     }
 
-    // sync
-    _sync_barrier->enter(2);
-    _sync_barrier->enter(2);
     Thread::join(_render_thread);
-
     return 0;
 }
+
