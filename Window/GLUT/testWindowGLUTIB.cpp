@@ -201,7 +201,7 @@ void key(unsigned char key, int, int)
                     UChar8 *data,*start;
                     start = data = image->getData();
                     data += image->getSize() - 1;
-                    UChar8 off = UChar8(random());
+                    UChar8 off = UChar8(rand());
                     
                     for(; data >= start; data--)
                         *data = UChar8(UInt32(data) & 255) + off;
