@@ -67,8 +67,29 @@ OSG_BEGIN_NAMESPACE
  *  \ingroup BaseMathFunctions
  */
 
+template <> inline 
 OSG_MS_BASE_DLLMAPPING 
-inline Bool osgispower2(UInt32 rValue)
+Bool osgispower2(UInt32 rValue)
+{
+	// find the lowest 1 bit
+    while ( rValue && ! ( rValue & 1 ) )
+		rValue >>= 1;
+
+	// shift the 1 bit out
+	rValue >>= 1;
+
+	// if another 1 left => not 2^
+	if ( rValue )	return false;
+	else			return true;
+}
+
+/*! \brief osgispower2
+ *  \ingroup BaseMathFunctions
+ */
+
+template <> inline 
+OSG_MS_BASE_DLLMAPPING 
+Bool osgispower2(Int32 rValue)
 {
 	// find the lowest 1 bit
     while ( rValue && ! ( rValue & 1 ) )
@@ -87,8 +108,25 @@ inline Bool osgispower2(UInt32 rValue)
  *  \ingroup BaseMathFunctions
  */
 
+template <> inline 
 OSG_MS_BASE_DLLMAPPING 
-inline UInt32 osgnextpower2(UInt32 rValue)
+UInt32 osgnextpower2(UInt32 rValue)
+{
+	UInt32 result = 1;
+
+    while ( result < rValue )
+		result <<= 1;
+
+	return result;
+}
+
+/*! \brief osgnextpower2
+ *  \ingroup BaseMathFunctions
+ */
+
+template <> inline 
+OSG_MS_BASE_DLLMAPPING 
+Int32 osgnextpower2(Int32 rValue)
 {
 	UInt32 result = 1;
 
@@ -108,10 +146,9 @@ inline UInt32 osgnextpower2(UInt32 rValue)
  */
 
 template <class TypeT> inline 
-OSG_MS_BASE_DLLMAPPING 
 TypeT osgabs(const TypeT &rValue)
 {
-	return (rValue>0)?rValue:-rValue;
+	return (rValue > 0) ? rValue : -rValue;
 }
 
 /*! \brief deg2rad
@@ -466,26 +503,6 @@ Real64 osgrad2degree(const Real64 &rValue)
    return (rValue/(2 * 3.1415926535)) * 360;
 }
 
-/*! \brief deg2rad
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline 
-Real64 deg2rad(const Real64 &rValue)
-{
-   return (rValue/360) * 2 * 3.1415926535;
-}
-
-/*! \brief rad2deg
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline
-Real64 rad2deg(const Real64 &rValue)
-{
-   return (rValue/(2 * 3.1415926535)) * 360;
-}
-
 /*! \brief osgabs
  *  \ingroup BaseMathFunctions
  */
@@ -531,7 +548,8 @@ Real64 osgfloor(const Real64 &rValue)
  */
 
 inline
-OSG_BASE_DLLMAPPING void stringDup(const char *szInput, char *&szOutput)
+OSG_BASE_DLLMAPPING 
+void stringDup(const char *szInput, char *&szOutput)
 {
     delete [] szOutput;
     szOutput = NULL;
@@ -556,7 +574,8 @@ Int32 stringncmp(const char *string1, const char *string2, size_t count)
 
 
 inline 
-OSG_BASE_DLLMAPPING Int32 stringlen(const char *string1)
+OSG_BASE_DLLMAPPING 
+Int32 stringlen(const char *string1)
 {
     return ::strlen(string1);
 }
@@ -567,7 +586,8 @@ OSG_BASE_DLLMAPPING Int32 stringlen(const char *string1)
  */
 
 inline 
-OSG_BASE_DLLMAPPING Int32 stringcmp(const char *string1, const char *string2)
+OSG_BASE_DLLMAPPING 
+Int32 stringcmp(const char *string1, const char *string2)
 {
 	return ::strcmp(string1, string2);
 }
@@ -577,8 +597,9 @@ OSG_BASE_DLLMAPPING Int32 stringcmp(const char *string1, const char *string2)
  */
 
 inline 
-OSG_BASE_DLLMAPPING Int32 stringcasecmp(const char *string1, 
-                                        const char *string2)
+OSG_BASE_DLLMAPPING 
+Int32 stringcasecmp(const char *string1, 
+                    const char *string2)
 {
 #if !defined(WIN32)
 	return ::strcasecmp(string1, string2);
@@ -590,7 +611,8 @@ OSG_BASE_DLLMAPPING Int32 stringcasecmp(const char *string1,
 /*@}*/
 
 inline
-OSG_BASE_DLLMAPPING int putenv(char *string)
+OSG_BASE_DLLMAPPING 
+int putenv(char *string)
 {
 #if !defined(WIN32) || defined(BCC)
     return ::putenv(string);
@@ -605,7 +627,8 @@ OSG_BASE_DLLMAPPING int putenv(char *string)
 /*@{*/
 
 inline
-OSG_BASE_DLLMAPPING void osgsleep(UInt32 millisecs)
+OSG_BASE_DLLMAPPING 
+void osgsleep(UInt32 millisecs)
 {
 #ifdef WIN32
     Sleep(millisecs);

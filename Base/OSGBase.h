@@ -52,17 +52,21 @@
 #       define OSG_BASE_DLLMAPPING        __declspec(dllexport)
 #       define OSG_BASE_DLLTMPLMAPPING    __declspec(dllexport)
 #       if defined(_MSC_VER) && defined(__ICL)
-#           define OSG_MS_BASE_DLLMAPPING 
+#           define OSG_MS_BASE_DLLMAPPING  __declspec(dllimport)
+#           define OSG_ICL_BASE_DLLMAPPING 
 #       else
-#           define OSG_MS_BASE_DLLMAPPING __declspec(dllexport)
+#           define OSG_MS_BASE_DLLMAPPING  __declspec(dllexport)
+#           define OSG_ICL_BASE_DLLMAPPING __declspec(dllexport)
 #       endif
 #   else
 #       define OSG_BASE_DLLMAPPING        __declspec(dllimport)
 #       define OSG_BASE_DLLTMPLMAPPING    __declspec(dllimport)
 #       if defined(_MSC_VER) && defined(__ICL)
-#           define OSG_MS_BASE_DLLMAPPING 
+#           define OSG_MS_BASE_DLLMAPPING  __declspec(dllimport)
+#           define OSG_ICL_BASE_DLLMAPPING 
 #       else
-#           define OSG_MS_BASE_DLLMAPPING __declspec(dllimport)
+#           define OSG_MS_BASE_DLLMAPPING  __declspec(dllimport)
+#           define OSG_ICL_BASE_DLLMAPPING __declspec(dllimport)
 #       endif
 #   endif
 #else

@@ -77,7 +77,7 @@ OSG_BEGIN_NAMESPACE
 
 template <class GeoPropertyDesc>
 class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty : 
-    public GeoPropertyDesc::Inherit, public GeoPropertyDesc::Interface
+    public GeoPropertyDesc::Interface
 {
   public:
 
@@ -208,7 +208,7 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef typename GeoPropertyDesc::Inherit     Inherited;
+    typedef typename GeoPropertyDesc::Interface   Inherited;
     typedef typename GeoPropertyDesc::InheritDesc InheritDesc;
 
     //-----------------------------------------------------------------------

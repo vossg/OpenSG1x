@@ -1915,6 +1915,7 @@ Bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator != (
 
 /** \brief Component wise binary scalar multiplication
  */
+
 template <class    ValueTypeT, 
           class    StorageInterfaceT> inline
 VectorInterface<ValueTypeT, StorageInterfaceT>
@@ -1936,11 +1937,11 @@ VectorInterface<ValueTypeT, StorageInterfaceT>
 
 /** \brief Write vector to stream
  */
-template <class    ValueTypeT, 
-          class    StorageInterfaceT> inline
-ostream &operator <<(ostream                                  &os,
+template <class ValueTypeT, 
+          class StorageInterfaceT> inline
+ostream &operator <<(        ostream                            &os,
                      const   VectorInterface<ValueTypeT, 
-                                                StorageInterfaceT> &obj)
+                                             StorageInterfaceT> &obj)
 {
 
     UInt32 i;

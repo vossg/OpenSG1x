@@ -81,121 +81,121 @@ OSG_BEGIN_NAMESPACE
  *  \ingroup BaseMathFunctions
  */
 
-template <class FloatTypeT>
-OSG_BASE_DLLMAPPING FloatTypeT osgsqrt(const FloatTypeT &rVal);
+template <class FloatTypeT> inline
+FloatTypeT osgsqrt(const FloatTypeT &rVal);
 
 /*! \brief osgcos
  *  \ingroup BaseMathFunctions
  */
 
-template <class FloatTypeT> 
-OSG_BASE_DLLMAPPING FloatTypeT osgcos(const FloatTypeT &rVal);
+template <class FloatTypeT> inline
+FloatTypeT osgcos(const FloatTypeT &rVal);
 
 /*! \brief osgsin
  *  \ingroup BaseMathFunctions
  */
 
-template <class FloatTypeT> 
-OSG_BASE_DLLMAPPING FloatTypeT osgsin(const FloatTypeT &rVal);
+template <class FloatTypeT> inline
+FloatTypeT osgsin(const FloatTypeT &rVal);
 
 /*! \brief osgtan
  *  \ingroup BaseMathFunctions
  */
 
-template <class FloatTypeT> 
-OSG_BASE_DLLMAPPING FloatTypeT osgtan(const FloatTypeT &rVal);
+template <class FloatTypeT> inline
+FloatTypeT osgtan(const FloatTypeT &rVal);
 
 /*! \brief osgacos
  *  \ingroup BaseMathFunctions
  */
 
-template <class FloatTypeT> 
-OSG_BASE_DLLMAPPING FloatTypeT osgacos(const FloatTypeT &rVal);
+template <class FloatTypeT> inline
+FloatTypeT osgacos(const FloatTypeT &rVal);
 
 /*! \brief osgasin
  *  \ingroup BaseMathFunctions
  */
 
-template <class FloatTypeT> 
-OSG_BASE_DLLMAPPING FloatTypeT osgasin(const FloatTypeT &rVal);
+template <class FloatTypeT> inline
+FloatTypeT osgasin(const FloatTypeT &rVal);
 
 /*! \brief osgatan
  *  \ingroup BaseMathFunctions
  */
 
-template <class FloatTypeT> 
-OSG_BASE_DLLMAPPING FloatTypeT osgatan(const FloatTypeT &rVal);
+template <class FloatTypeT> inline
+FloatTypeT osgatan(const FloatTypeT &rVal);
 
 /*! \brief osgatan2
  *  \ingroup BaseMathFunctions
  */
 
-template <class FloatTypeT> 
-OSG_BASE_DLLMAPPING FloatTypeT osgatan2(const FloatTypeT &rVal1, 
-                                        const FloatTypeT &rVal2);
+template <class FloatTypeT> inline
+FloatTypeT osgatan2(const FloatTypeT &rVal1, 
+                    const FloatTypeT &rVal2);
 
 /*! \brief osgdegree2rad
  *  \ingroup BaseMathFunctions
  */
 
-template <class FloatTypeT> 
+template <class FloatTypeT> inline
 FloatTypeT osgdegree2rad(const FloatTypeT &rVal);
 
 /*! \brief osgrad2degree
  *  \ingroup BaseMathFunctions
  */
 
-template <class FloatTypeT> 
+template <class FloatTypeT> inline
 FloatTypeT osgrad2degree(const FloatTypeT &rVal);
 
 /*! \brief deg2rad
  *  \ingroup BaseMathFunctions
  */
 
-template <class FloatTypeT> 
+template <class FloatTypeT> inline
 FloatTypeT deg2rad(const FloatTypeT &rVal);
 
 /*! \brief rad2deg
  *  \ingroup BaseMathFunctions
  */
 
-template <class FloatTypeT> 
+template <class FloatTypeT> inline
 FloatTypeT rad2deg(const FloatTypeT &rVal);
 
 /*! \brief osgabs
  *  \ingroup BaseMathFunctions
  */
 
-template <class FloatTypeT> 
-OSG_BASE_DLLMAPPING FloatTypeT osgabs(const FloatTypeT &rVal);
+template <class FloatTypeT> inline
+FloatTypeT osgabs(const FloatTypeT &rVal);
 
 /*! \brief osgpow
  *  \ingroup BaseMathFunctions
  */
 
-template <class FloatTypeT> 
-OSG_BASE_DLLMAPPING FloatTypeT osgpow(const FloatTypeT &rVal, 
-                                      const FloatTypeT &rExp);
+template <class FloatTypeT> inline
+FloatTypeT osgpow(const FloatTypeT &rVal, 
+                  const FloatTypeT &rExp);
 
 /*! \brief osgfloor
  *  \ingroup BaseMathFunctions
  */
 
-template <class FloatTypeT> 
-OSG_BASE_DLLMAPPING FloatTypeT osgfloor(const FloatTypeT &rVal);
+template <class FloatTypeT> inline
+FloatTypeT osgfloor(const FloatTypeT &rVal);
 
 /*! \brief osgMin
  *  \ingroup BaseMathFunctions
  */
 
-template <class TypeT> 
+template <class TypeT> inline
 TypeT osgMin(const TypeT &lVal, const TypeT &rVal);
 
 /*! \brief osgMax
  *  \ingroup BaseMathFunctions
  */
 
-template <class TypeT> 
+template <class TypeT> inline
 TypeT osgMax(const TypeT &lVal, const TypeT &rVal);
 
 /*! \brief osgMax
@@ -281,13 +281,15 @@ struct osgIF
  *  \ingroup BaseMathFunctions
  */
 
-OSG_BASE_DLLMAPPING inline Bool osgispower2(UInt32 rVal);
+template <class TypeT> inline
+Bool osgispower2(TypeT rVal);
 
 /*! \brief osgnextpower2
  *  \ingroup BaseMathFunctions
  */
 
-OSG_BASE_DLLMAPPING inline UInt32 osgnextpower2(UInt32 rVal);
+template <class TypeT> inline
+TypeT osgnextpower2(TypeT rVal);
 
 /*@}*/
 

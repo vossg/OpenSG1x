@@ -76,9 +76,12 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <class GeoPropertyDesc>
-class OSG_SYSTEMLIB_DLLTMPLMAPPING GeoPropertyInterface
+class OSG_SYSTEMLIB_DLLTMPLMAPPING GeoPropertyInterface :
+    public GeoPropertyDesc::Inherit
 {
   public:
+
+    typedef GeoPropertyDesc::Inherit Inherited;
    
     virtual UInt32  getFormat    (void) = 0;
     // number of bytes per format element
@@ -128,7 +131,9 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING GeoPropertyInterface
 
     // even though this is just an interface class, they need to be accessible?!?
     
-    GeoPropertyInterface() {}
+    GeoPropertyInterface() : Inherited() {}
+    GeoPropertyInterface(const GeoPropertyInterface &source) :
+        Inherited(source) {}
     virtual ~GeoPropertyInterface() {}
 
    protected:

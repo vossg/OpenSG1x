@@ -500,7 +500,7 @@ void GeoPumpFactory::masterInterfacePump( Window *win,
 	    GeoTexCoordsInterface *texcoords3,
 	    GeoTexCoordsInterface *texcoords4,
 	    GeoPTypeInterface *type, GeoPLengthInterface*len,
-	    GeoIndexInterface *ind, UInt16 *map, UInt16 nmap )
+	    GeoIndexInterface *ind, UInt16 *pMap, UInt16 nmap )
 {
     	FWARNING(("GeoPumpFactory::masterInterfacePump: not implemented yet!\n"));
 }
@@ -512,7 +512,7 @@ void GeoPumpFactory::masterPartialInterfacePump( Window *win,
 	    GeoTexCoordsInterface *texcoords3,
 	    GeoTexCoordsInterface *texcoords4,
 	    GeoPTypeInterface *type, GeoPLengthInterface*len,
-	    GeoIndexInterface *ind, UInt16 *map, UInt16 nmap,
+	    GeoIndexInterface *ind, UInt16 *pMap, UInt16 nmap,
 	    UInt32 primtype, UInt32 firstvert, UInt32 nvert )
 {
     	FWARNING(("GeoPumpFactory::masterPartialInterfacePump: not implemented yet!\n"));

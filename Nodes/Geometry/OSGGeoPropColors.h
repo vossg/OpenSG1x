@@ -95,7 +95,7 @@ struct GeoColor3fPropertyDesc
 
     typedef InheritDesc::GenericType GenericType;
  
-    typedef GeoPropertyInterface<GeoColorPropertyDesc> Interface;
+//    typedef GeoPropertyInterface<GeoColorPropertyDesc> Interface;
 };
 
 typedef GeoProperty<GeoColor3fPropertyDesc> GeoColor3f;

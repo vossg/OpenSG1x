@@ -474,7 +474,7 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-   /*------------ constructors & destructors -------------------------------*/
+    /*------------ constructors & destructors -------------------------------*/
 
     PointInterface(void);
 
@@ -505,38 +505,38 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 	 *  the header file, but at least it seems work ;-) (GV)
 	 */
 
-    #ifdef __sgi
-    #pragma set woff 1209
-    #endif
+#ifdef __sgi
+#pragma set woff 1209
+#endif
 
     template<class VectorT> explicit PointInterface(
         const VectorT &vec) : Inherited()
-	{
-        UInt32 i;
+        {
+            UInt32 i;
 
-	    if(_iSize < VectorT::_iSize)
-		{
-	        for(i = 0; i < _iSize; i++)
-		    {
-			    _values[i] = vec.getValuesRef()[i];
-			}
-		}
-		else	
-		{
-			for(i = 0; i < VectorT::_iSize; i++)
-			{
-	            _values[i] = vec.getValuesRef()[i];
-			}
-			for(i = VectorT::_iSize; i < _iSize; i++)
-			{
-	            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
-			}
-		}
-	}
+            if(_iSize < VectorT::_iSize)
+            {
+                for(i = 0; i < _iSize; i++)
+                {
+                    _values[i] = vec.getValuesRef()[i];
+                }
+            }
+            else	
+            {
+                for(i = 0; i < VectorT::_iSize; i++)
+                {
+                    _values[i] = vec.getValuesRef()[i];
+                }
+                for(i = VectorT::_iSize; i < _iSize; i++)
+                {
+                    _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+                }
+            }
+        }
 
-    #ifdef __sgi
-    #pragma reset woff 1209
-    #endif
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
 
     PointInterface(const PointInterface &source);    
 
@@ -604,26 +604,26 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 	 *  the header file, but at least it seems to work ;-) (GV)
      */
 
-    #ifdef __sgi
-    #pragma set woff 1209
-    #endif
+#ifdef __sgi
+#pragma set woff 1209
+#endif
 
     template<class VectorT>
     void setValue(const VectorT &vec)
-	{
-		UInt32 i;
+        {
+            UInt32 i;
 
-		for(i = 0; 
-			i < (_iSize < VectorT::_iSize ? _iSize : VectorT::_iSize); 
-			i++)
-		{
-	        _values[i] = vec.getValuesRef()[i];
-	    }
-	}
+            for(i = 0; 
+                i < (_iSize < VectorT::_iSize ? _iSize : VectorT::_iSize); 
+                i++)
+            {
+                _values[i] = vec.getValuesRef()[i];
+            }
+        }
 
-    #ifdef __sgi
-    #pragma reset woff 1209
-    #endif
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
 
     void setValue(const ValueTypeT *pVals);
 
@@ -632,7 +632,7 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 
     /*------------------------- get values -------------------------------*/
 
-          ValueTypeT *getValuesRef(void);
+    ValueTypeT *getValuesRef(void);
     const ValueTypeT *getValuesRef(void) const;
 
     /*--------------------------- common math -------------------------------*/
@@ -664,15 +664,15 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 
     /*------------------------- element access ------------------------------*/
 
-           ValueTypeT &operator[](const UInt32 uiVal);
+    ValueTypeT &operator[](const UInt32 uiVal);
     const  ValueTypeT &operator[](const UInt32 uiVal) const;   
 
     /* Cast operator, cast VecBase to ValueTypeT *
        Bad Bad idea, in my opion to buggy to be used, use getValues
        Const cast operator, cast VecBase to ValueTypeT *
 
-    operator       ValueTypeT *(void);
-    operator const ValueTypeT *(void);
+       operator       ValueTypeT *(void);
+       operator const ValueTypeT *(void);
     */
 
     /*------------------------- assignment ----------------------------------*/
@@ -775,11 +775,14 @@ class OSG_BASE_DLLMAPPING VectorInterface :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef PointInterface<ValueTypeT, StorageInterfaceT> Inherited;
+    typedef          PointInterface<ValueTypeT, 
+                                    StorageInterfaceT>         Inherited;
 
     typedef typename TypeConstants<ValueTypeT>::RealReturnType RealReturnType;
 
     typedef                        ValueTypeT                  ValueType;
+
+    typedef          Inherited                                 PntInterface;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -791,7 +794,7 @@ class OSG_BASE_DLLMAPPING VectorInterface :
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-   /*------------ constructors & destructors -------------------------------*/
+    /*------------ constructors & destructors -------------------------------*/
 
     VectorInterface(void);
 
@@ -822,38 +825,38 @@ class OSG_BASE_DLLMAPPING VectorInterface :
 	 *  the header file, but at least it seems work ;-) (GV)
 	 */
 
-    #ifdef __sgi
-    #pragma set woff 1209
-    #endif
+#ifdef __sgi
+#pragma set woff 1209
+#endif
 
     template<class VectorT> explicit VectorInterface(
         const VectorT &vec) : Inherited()
-	{
-        UInt32 i;
+        {
+            UInt32 i;
 
-	    if(_iSize < VectorT::_iSize)
-		{
-	        for(i = 0; i < _iSize; i++)
-		    {
-			    _values[i] = vec.getValuesRef()[i];
-			}
-		}
-		else	
-		{
-			for(i = 0; i < VectorT::_iSize; i++)
-			{
-	            _values[i] = vec.getValuesRef()[i];
-			}
-			for(i = VectorT::_iSize; i < _iSize; i++)
-			{
-	            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
-			}
-		}
-	}
+            if(_iSize < VectorT::_iSize)
+            {
+                for(i = 0; i < _iSize; i++)
+                {
+                    _values[i] = vec.getValuesRef()[i];
+                }
+            }
+            else	
+            {
+                for(i = 0; i < VectorT::_iSize; i++)
+                {
+                    _values[i] = vec.getValuesRef()[i];
+                }
+                for(i = VectorT::_iSize; i < _iSize; i++)
+                {
+                    _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+                }
+            }
+        }
 
-    #ifdef __sgi
-    #pragma reset woff 1209
-    #endif
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
 
     VectorInterface(const VectorInterface &source);    
 
@@ -886,17 +889,15 @@ class OSG_BASE_DLLMAPPING VectorInterface :
 
     void            normalize(void);
 
-    VectorInterface cross    (const VectorInterface &vec) const;
-    VectorInterface operator % (const VectorInterface &vec) const;
+    VectorInterface cross     (const VectorInterface &vec) const;
+    VectorInterface operator %(const VectorInterface &vec) const;
 
-    void            crossThis(const VectorInterface &vec);
+    void            crossThis (const VectorInterface &vec);
 
-    ValueTypeT      dot        (const VectorInterface &vec) const;
-    ValueTypeT  	operator * (const VectorInterface &vec) const;
-    ValueTypeT      dot        (const PointInterface<ValueTypeT, 
-											StorageInterfaceT> &pnt) const;
-    ValueTypeT  	operator * (const PointInterface<ValueTypeT, 
-											StorageInterfaceT> &pnt) const;
+    ValueTypeT      dot       (const VectorInterface &vec) const;
+    ValueTypeT  	operator *(const VectorInterface &vec) const;
+    ValueTypeT      dot       (const PntInterface &pnt   ) const;
+    ValueTypeT  	operator *(const PntInterface &pnt   ) const;
 
     RealReturnType  enclosedAngle(const VectorInterface &vec) const;
 

@@ -12,9 +12,6 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name ACG_Mesh
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name ACG_MeshIO
     End Project Dependency
 }}}

@@ -141,6 +141,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     typedef TypeNameMap::const_iterator            TypeNameMapCnstIt;
     typedef GroupMap::const_iterator               GroupMapConstIt;
 
+//    typedef 
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
