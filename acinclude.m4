@@ -514,41 +514,43 @@ AC_DEFUN(AC_GDZ_SET_SYSTEM_DIRS,
 [
     AC_MSG_CHECKING(system dir)
 
-    case "$build_os" in
-        cygwin*)
-            case "$ac_gdz_compiler" in
-                icl*)
-                    AC_GDZ_FIND_STUDIO_DIR()
-
-                    ac_gdz_studio_dir=$ac_gdz_find_prog_dir_result
-
-                    ac_gdz_system_incl_dir=$ac_gdz_studio_dir/VC98/Include
-                    ac_gdz_system_lib_dir=$ac_gdz_studio_dir/VC98/Lib
-
-                    if ! test -d "$ac_gdz_studio_dir"; then
-                        echo
-                        echo "ERROR could not determine compiler dir, tried :"
-
-                        for drive in c d e f g; do
-                            for progdir in "Program Files" "Programme"; do
-                                echo "    /cygdrive/$drive/$progdir/Microsoft Visual Studio"
+    if test $enable_win_exclude_default_path = no; then
+        case "$build_os" in
+            cygwin*)
+                case "$ac_gdz_compiler" in
+                    icl*)
+                        AC_GDZ_FIND_STUDIO_DIR()
+    
+                        ac_gdz_studio_dir=$ac_gdz_find_prog_dir_result
+    
+                        ac_gdz_system_incl_dir=$ac_gdz_studio_dir/VC98/Include
+                        ac_gdz_system_lib_dir=$ac_gdz_studio_dir/VC98/Lib
+    
+                        if ! test -d "$ac_gdz_studio_dir"; then
+                            echo
+                            echo "ERROR could not determine compiler dir, tried :"
+    
+                            for drive in c d e f g; do
+                                for progdir in "Program Files" "Programme"; do
+                                    echo "    /cygdrive/$drive/$progdir/Microsoft Visual Studio"
+                                done
                             done
-                        done
-                    
-                        exit
-                    fi
-                ;;
-                *)
-                    ac_gdz_system_incl_dir=$ac_gdz_compiler_incl
-                    ac_gdz_system_lib_dir=$ac_gdz_compiler_lib
-                ;;
-            esac
-        ;;
+                        
+                            exit
+                        fi
+                    ;;
+                    *)
+                        ac_gdz_system_incl_dir=$ac_gdz_compiler_incl
+                        ac_gdz_system_lib_dir=$ac_gdz_compiler_lib
+                    ;;  
+                esac
+            ;;
 
-        *)
-        ac_gdz_so_praefix=lib
-        ;;
-    esac
+            *)
+            ac_gdz_so_praefix=lib
+            ;;
+        esac
+    fi
 
     AC_MSG_RESULT($ac_gdz_studio_dir)
 ])

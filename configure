@@ -3092,11 +3092,12 @@ if test $build_os = cygwin; then
     echo $ac_n "checking system dir""... $ac_c" 1>&6
 echo "configure:3094: checking system dir" >&5
 
-    case "$build_os" in
-        cygwin*)
-            case "$ac_gdz_compiler" in
-                icl*)
-                    
+    if test $enable_win_exclude_default_path = no; then
+        case "$build_os" in
+            cygwin*)
+                case "$ac_gdz_compiler" in
+                    icl*)
+                        
     ac_gdz_find_prog_dir_result=""
 
     for drive in c d e f g; do
@@ -3108,36 +3109,37 @@ echo "configure:3094: checking system dir" >&5
      done
     done
 
-
-                    ac_gdz_studio_dir=$ac_gdz_find_prog_dir_result
-
-                    ac_gdz_system_incl_dir=$ac_gdz_studio_dir/VC98/Include
-                    ac_gdz_system_lib_dir=$ac_gdz_studio_dir/VC98/Lib
-
-                    if ! test -d "$ac_gdz_studio_dir"; then
-                        echo
-                        echo "ERROR could not determine compiler dir, tried :"
-
-                        for drive in c d e f g; do
-                            for progdir in "Program Files" "Programme"; do
-                                echo "    /cygdrive/$drive/$progdir/Microsoft Visual Studio"
+    
+                        ac_gdz_studio_dir=$ac_gdz_find_prog_dir_result
+    
+                        ac_gdz_system_incl_dir=$ac_gdz_studio_dir/VC98/Include
+                        ac_gdz_system_lib_dir=$ac_gdz_studio_dir/VC98/Lib
+    
+                        if ! test -d "$ac_gdz_studio_dir"; then
+                            echo
+                            echo "ERROR could not determine compiler dir, tried :"
+    
+                            for drive in c d e f g; do
+                                for progdir in "Program Files" "Programme"; do
+                                    echo "    /cygdrive/$drive/$progdir/Microsoft Visual Studio"
+                                done
                             done
-                        done
-                    
-                        exit
-                    fi
-                ;;
-                *)
-                    ac_gdz_system_incl_dir=$ac_gdz_compiler_incl
-                    ac_gdz_system_lib_dir=$ac_gdz_compiler_lib
-                ;;
-            esac
-        ;;
+                        
+                            exit
+                        fi
+                    ;;
+                    *)
+                        ac_gdz_system_incl_dir=$ac_gdz_compiler_incl
+                        ac_gdz_system_lib_dir=$ac_gdz_compiler_lib
+                    ;;  
+                esac
+            ;;
 
-        *)
-        ac_gdz_so_praefix=lib
-        ;;
-    esac
+            *)
+            ac_gdz_so_praefix=lib
+            ;;
+        esac
+    fi
 
     echo "$ac_t""$ac_gdz_studio_dir" 1>&6
 
@@ -3316,7 +3318,7 @@ fi
 ac_gdz_common_system=$ac_gdz_commonconf_dir/common.$build-$ac_gdz_compiler_base.in
 
 echo $ac_n "checking project config common.project.in""... $ac_c" 1>&6
-echo "configure:3320: checking project config common.project.in" >&5
+echo "configure:3322: checking project config common.project.in" >&5
 
 if test -r "$ac_gdz_commonconf_dir/common.project.in"; then
     echo "$ac_t"""yes"" 1>&6
@@ -3327,7 +3329,7 @@ else
 fi
 
 echo $ac_n "checking package config common.libs.in""... $ac_c" 1>&6
-echo "configure:3331: checking package config common.libs.in" >&5
+echo "configure:3333: checking package config common.libs.in" >&5
 
 if test -r "$ac_gdz_commonconf_dir/common.libs.in"; then
     echo "$ac_t"""yes"" 1>&6
@@ -3339,7 +3341,7 @@ fi
 
 
 echo $ac_n "checking additional package configs""... $ac_c" 1>&6
-echo "configure:3343: checking additional package configs" >&5
+echo "configure:3345: checking additional package configs" >&5
 
 for i in `find . -name common.libs.in | sed -e 's|^./||'` ;
 do
