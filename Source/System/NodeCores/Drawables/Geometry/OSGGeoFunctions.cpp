@@ -975,7 +975,7 @@ Int32 OSG::setIndexFromVRMLData(GeometryPtr geoPtr,
     Int32 minPType = (faceSet ? 3 : 2);
     Int32 beginIndex, endIndex, step, len, sysPType = 0;
     Int32 piN = 0, ciN = 0, niN = 0, tiN = 0;
-    Int32 pN = 0, nN = 0, cN = 0, tN = 0;
+    Int32 pN = 0, nN = 0, cN = 0, tN = 0, tN1 = 0, tN2 = 0, tN3 = 0;
     IndexType indexType[4];
     IndexType &coordIT = indexType[0];
     IndexType &normalIT = indexType[1];
@@ -984,6 +984,8 @@ Int32 OSG::setIndexFromVRMLData(GeometryPtr geoPtr,
     Int32 primitiveTypeCount[6];
     UInt32 triCount = 0;
     Int16 indexMap[4], indexMapID[4];
+    UInt32 uiNumTextures = 0;
+
     IndexBagP indexBag[4] =
     {
         &coordIndex,
@@ -1010,6 +1012,15 @@ Int32 OSG::setIndexFromVRMLData(GeometryPtr geoPtr,
 
     texCoordsPtr = geoPtr->getTexCoords();
     tN = ((texCoordsPtr == OSG::NullFC) ? 0 : texCoordsPtr->getSize());
+
+    texCoordsPtr = geoPtr->getTexCoords1();
+    tN1 = ((texCoordsPtr == OSG::NullFC) ? 0 : texCoordsPtr->getSize());
+
+    texCoordsPtr = geoPtr->getTexCoords2();
+    tN2 = ((texCoordsPtr == OSG::NullFC) ? 0 : texCoordsPtr->getSize());
+
+    texCoordsPtr = geoPtr->getTexCoords3();
+    tN3 = ((texCoordsPtr == OSG::NullFC) ? 0 : texCoordsPtr->getSize());
 
     FDEBUG(("vertex attrib count P/N/C/T: %d/%d/%d/%d\n", pN, nN, cN, tN));
 
@@ -1301,6 +1312,7 @@ else
     indexMapID[1] = Geometry::MapNormal;
     indexMapID[2] = Geometry::MapColor;
     indexMapID[3] = Geometry::MapTexCoords;
+
     for(mapi = i = 1; i <= 3; i++)
     {
         indexMap[i] = 0;
@@ -1338,10 +1350,65 @@ else
         // if (indexMap[1])
         for(i = 0; ((i <= 3) && indexMap[i]); i++)
         {
-            geoPtr->getIndexMapping().push_back(indexMap[i]);
+            if(i == 0)
+            {
+                if(indexMap[i] & Geometry::MapTexCoords)
+                {
+                    ++uiNumTextures;
+                    
+                    if(tN1 != 0)
+                    {
+                        indexMap[i] |= Geometry::MapTexCoords1;
+                    }
+                    
+                    if(tN2 != 0)
+                    {
+                        indexMap[i] |= Geometry::MapTexCoords2;
+                    }
+                    
+                    if(tN3 != 0)
+                    {
+                        indexMap[i] |= Geometry::MapTexCoords3;
+                    }
+                }
+
+                geoPtr->getIndexMapping().push_back(indexMap[i]);
+            }
+            else
+            {
+                geoPtr->getIndexMapping().push_back(indexMap[i]);
+                
+                if(indexMap[i] & Geometry::MapTexCoords)
+                {
+                    ++uiNumTextures;
+                    
+                    if(tN1 != 0)
+                    {
+                        geoPtr->getIndexMapping().push_back(
+                            Geometry::MapTexCoords1);
+                        
+                        ++uiNumTextures;
+                    }
+                    
+                    if(tN2 != 0)
+                    {
+                        geoPtr->getIndexMapping().push_back(
+                            Geometry::MapTexCoords2);
+                        
+                        ++uiNumTextures;
+                    }
+                    
+                    if(tN3 != 0)
+                    {
+                        geoPtr->getIndexMapping().push_back(
+                            Geometry::MapTexCoords3);
+                        
+                        ++uiNumTextures;
+                    }
+                }
+            }
         }
     }
-
     OSG::endEditCP(geoPtr);
 
     //----------------------------------------------------------------------
@@ -1465,7 +1532,16 @@ else
                                         }
 
                                         indexPtr->push_back(index);
+                                        
+                                        if(indexMap[mapi] & Geometry::MapTexCoords)
+                                        {
+                                            for(UInt32 ti = 0; ti < uiNumTextures - 1; ++ti)
+                                            {
+                                                indexPtr->push_back(index);
+                                            }
+                                        }
                                     }
+                                    
                                 }
                             }
                         }
