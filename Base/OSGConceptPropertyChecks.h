@@ -76,7 +76,9 @@ static void __OSG_##OSGPROP##_Property_violation(T1)                     \
     }                                                                    \
 }
 
-
+#ifdef OSG_NO_CONCEPT_CHECKS
+#define OSG_PROPERTY_REQUIREMENT(OSGCLASS, OSGPROP)
+#else
 #define OSG_PROPERTY_REQUIREMENT(OSGCLASS, OSGPROP)                      \
 typedef void (* _OSG##OSGPROP##PropReqDummyFuncFor##OSGCLASS)(OSGCLASS); \
                                                                          \
@@ -89,6 +91,7 @@ static _OSG##OSGPROP##PropReqDummyStructFor##OSGCLASS<                   \
     _OSG_##OSGPROP##_Property_Spec<OSGCLASS>::                           \
         _OSG_##OSGPROP##_Property_violation>                             \
             _OSG##OSGPROP##PropReqDummyStructInstFor##OSGCLASS
+#endif
 
 OSG_END_NAMESPACE
 
