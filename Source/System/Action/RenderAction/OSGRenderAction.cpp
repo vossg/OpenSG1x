@@ -948,7 +948,7 @@ Action::ResultE RenderAction::stop(ResultE res)
 //    dump(_pTransMatRoot, 0);
 
 #if defined(OSG_OPT_DRAWTREE)
-    _pNodeFactory->printStat();    
+//    _pNodeFactory->printStat();    
 #endif
 
     for(i = 0; i < _vLights.size(); i++)
