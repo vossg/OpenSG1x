@@ -272,7 +272,7 @@ void State::subChunk( UInt32 classid, Int32 index )
 
 void State::clearChunks(void)
 {
-    std::fill(_mfChunks.begin(), _mfChunks.end(), NullStateChunk);
+    fill(_mfChunks.begin(), _mfChunks.end(), NullStateChunk);
 }
 
 

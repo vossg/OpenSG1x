@@ -199,10 +199,10 @@ void key(unsigned char key, int x, int y)
 
 int main(int argc, char** argv)
 {
-	std::cout << "osgInit()..." << endl;
+	cout << "osgInit()..." << endl;
 	osgInit( argc, argv );
 	
-	std::cout << "glutInit()..." <<  endl;
+	cout << "glutInit()..." <<  endl;
 	glutInit( &argc, argv );
 	glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE );
 	int winID = glutCreateWindow("OpenSG");
@@ -221,7 +221,7 @@ int main(int argc, char** argv)
 	glEnable( GL_LIGHT0 );
 	glClearColor( .3, .3, .8, 1 );
 	
-	std::cout << "Creating objects..." << endl;
+	cout << "Creating objects..." << endl;
 	
 	//BEACON
 	NodePtr beaconNode = Node::create();

@@ -373,7 +373,7 @@ int main (int argc, char **argv)
 	GeometryPtr testgeocore = Geometry::create();
 	beginEditCP(testgeocore);
 	testgeocore->setPositions( isect_points );
-	testgeocore->setIndex( index );
+	testgeocore->setIndices( index );
 	testgeocore->setLengths( lens );
 	testgeocore->setTypes( type );
 	testgeocore->setMaterial( red );

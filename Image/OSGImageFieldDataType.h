@@ -80,10 +80,10 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
 
     //This image into a file and returns the name in outVal
     static void             putToString(const ImageP &inVal,
-                                              std::string  &outVal)
+                                              string &outVal)
     {
         static UInt32 counter = 0;
-        std::string fileName;
+        string fileName;
         fileName.assign("Image");
         fileName.append( TypeConstants<UInt32>::putToString(counter++) );
         fileName.append(".ppm");

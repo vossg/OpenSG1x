@@ -74,10 +74,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
 
     virtual Image * read  ( const char *fileName, const char *mimeType = 0);
 
-    virtual bool    read  ( Image &image,
+    virtual Bool    read  ( Image &image,
                             const char *fileName, const char *mimeType = 0);
 
-    virtual bool    write ( const Image &image,
+    virtual Bool    write ( const Image &image,
                             const char *fileName, const char *mimeType = 0);
 
     /*! \}                                                                 */
@@ -144,7 +144,7 @@ private:
 
     map    <IDString, ImageFileType *>  _suffixTypeMap;
 
-    static bool addImageFileType (ImageFileType &fileType);
+    static Bool addImageFileType (ImageFileType &fileType);
 
 };
 

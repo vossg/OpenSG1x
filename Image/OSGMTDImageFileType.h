@@ -73,9 +73,9 @@ class OSG_SYSTEMLIB_DLLMAPPING MTDImageFileType : public ImageFileType
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    virtual bool read  (Image &image, const Char8 *fileName);
+    virtual Bool read  (Image &image, const Char8 *fileName);
 
-    virtual bool write (const Image &image, const Char8 *fileName);
+    virtual Bool write (const Image &image, const Char8 *fileName);
 
     /*! \}                                                                 */
 
@@ -113,7 +113,6 @@ class OSG_SYSTEMLIB_DLLMAPPING MTDImageFileType : public ImageFileType
     typedef ImageFileType Inherited;
 
     static  MTDImageFileType _the;
-
 };
 
 typedef MTDImageFileType* MTDImageFileTypeP;

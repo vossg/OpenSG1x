@@ -53,8 +53,8 @@ OSG_BEGIN_NAMESPACE
 
 
 class IDString;
-OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream &os,
-                                              const IDString       &obj);
+OSG_BASE_DLLMAPPING ostream &operator <<(      ostream  &os,
+                                         const IDString &obj);
 
 /*! \ingroup BaseTypes
  *  \brief OSGIDString
@@ -115,8 +115,8 @@ class OSG_BASE_DLLMAPPING IDString
 
     void   setLength (UInt32 length);
 
-    void   tokenize  (std::vector <IDString> &v);
-    void   tokenize  (std::vector <IDString*> &v);
+    void   tokenize  (vector <IDString  > &v);
+    void   tokenize  (vector <IDString *> &v);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -174,8 +174,8 @@ class OSG_BASE_DLLMAPPING IDString
     private:
 
     friend OSG_BASE_DLLMAPPING
-    std::ostream &operator <<(      std::ostream &os,
-                              const IDString       &obj);
+    ostream &operator <<(      ostream  &os,
+                         const IDString &obj);
 
     static char cvsid[];
 

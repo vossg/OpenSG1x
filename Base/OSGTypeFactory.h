@@ -69,17 +69,16 @@ class OSG_BASE_DLLMAPPING TypeFactory
     /*! \name                      Types                                   */
     /*! \{                                                                 */
 
-    typedef std::map<IDStringLink, UInt32>     TypeNameMap;
+    typedef map<IDStringLink, UInt32>   TypeNameMap;
 
-    typedef TypeNameMap::iterator            TypeNameMapIt;
-    typedef TypeNameMap::const_iterator      TypeNameMapCnstIt;
+    typedef TypeNameMap::iterator       TypeNameMapIt;
+    typedef TypeNameMap::const_iterator TypeNameMapCnstIt;
 
     /*! \}                                                                 */
 
-    static char        cvsid[];
+    static char          cvsid[];
 
     static TypeFactory *_the;
-
 
     // prohibit default functions (move to 'public' if you need one)
 

@@ -74,9 +74,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TIFImageFileType : public ImageFileType
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    virtual bool read  (Image &image, const Char8 *fileName);
+    virtual Bool read  (Image &image, const Char8 *fileName);
 
-    virtual bool write (const Image &image, const Char8 *fileName);
+    virtual Bool write (const Image &image, const Char8 *fileName);
 
     /*! \}                                                                 */
 

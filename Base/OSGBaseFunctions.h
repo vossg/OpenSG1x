@@ -242,7 +242,7 @@ struct OSG_BASE_DLLMAPPING osgStaticMax
  *  \brief osgIF
  */
 
-template<bool IConditionV, class IThenT, class IElseT>
+template<Bool IConditionV, class IThenT, class IElseT>
 struct osgIF
 {
     typedef IThenT _IRet;
@@ -266,7 +266,7 @@ struct osgIF<false, IThenT, IElseT>
  *  \brief osgIFGen
  */
 
-template <bool IConditionV>
+template <Bool IConditionV>
 struct osgIFGen
 {
     template<class IThenT, class IElseT>
@@ -297,7 +297,7 @@ struct osgIFGen<false>
  *  \brief osgIF
  */
 
-template<bool IConditionV, class IThenT, class IElseT>
+template<Bool IConditionV, class IThenT, class IElseT>
 struct osgIF
 {
     typedef osgIFGen<IConditionV>::osgIFSwitch<IThenT, IElseT>::_IRet _IRet;
@@ -387,7 +387,7 @@ void clearRefP(T *&pObject)
 
 #if 1
 template <class T> inline
-void clearRefPVector(std::vector<T *> &gVector)
+void clearRefPVector(vector<T *> &gVector)
 {
     for(UInt32 i = 0; i < gVector.size(); i++)
         gVector[i]->subRef();
@@ -400,7 +400,7 @@ void clearRefPVector(std::vector<T *> &gVector)
  */
 
 template <class T> inline
-void clearRefPVectorP(std::vector<T *> *pVector)
+void clearRefPVectorP(vector<T *> *pVector)
 {
     if(pVector != NULL)
     {

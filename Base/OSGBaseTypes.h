@@ -558,11 +558,11 @@ struct TypeConstants<UInt8> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline std::string putToString (const UInt8 val)
+    static inline string putToString (const UInt8 val)
     {
         char buffer[10];
         sprintf( buffer, "%u", val );
-        return std::string( buffer );
+        return string( buffer );
     }
 };
 
@@ -606,11 +606,11 @@ struct TypeConstants<Int8> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline std::string putToString (const Int8 val)
+    static inline string putToString (const Int8 val)
     {
         char buffer[10];
         sprintf( buffer, "%i", val );
-        return std::string( buffer );
+        return string( buffer );
     }
 };
 
@@ -654,11 +654,11 @@ struct TypeConstants<UInt16> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline std::string putToString (const UInt16 val)
+    static inline string putToString (const UInt16 val)
     {
         char buffer[10];
         sprintf( buffer, "%u", val );
-        return std::string( buffer );
+        return string( buffer );
     }
 };
 
@@ -702,11 +702,11 @@ struct TypeConstants<Int16> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline std::string putToString (const Int16 val)
+    static inline string putToString (const Int16 val)
     {
       char buffer[10];
         sprintf( buffer, "%i", val );
-        return std::string( buffer );
+        return string( buffer );
     }
 };
 
@@ -750,11 +750,11 @@ struct TypeConstants<UInt32> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline std::string putToString (const UInt32 val)
+    static inline string putToString (const UInt32 val)
     {
         char buffer[15];
         sprintf( buffer, "%u", val );
-        return std::string( buffer );
+        return string( buffer );
     }
 };
 
@@ -798,11 +798,11 @@ struct TypeConstants<Int32> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline std::string putToString (const Int32 val)
+    static inline string putToString (const Int32 val)
     {
         char buffer[15];
         sprintf( buffer, "%i", val );
-        return std::string( buffer );
+        return string( buffer );
     }
 };
 
@@ -859,11 +859,11 @@ struct TypeConstants<UInt64> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline std::string putToString (const UInt64 val)
+    static inline string putToString (const UInt64 val)
     {
         char buffer[25];
         sprintf( buffer, "%llu", val );
-        return std::string( buffer );
+        return string( buffer );
     }
 };
 
@@ -921,11 +921,11 @@ struct TypeConstants<Int64> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline std::string putToString (const Int64 val)
+    static inline string putToString (const Int64 val)
     {
         char buffer[25];
         sprintf( buffer, "%lli", val );
-        return std::string( buffer );
+        return string( buffer );
     }
 };
 
@@ -954,11 +954,11 @@ struct TypeConstants<Real64> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline std::string putToString (const Real64 val)
+    static inline string putToString (const Real64 val)
     {
         char buffer[25];
         sprintf( buffer, "%e", val );
-        return std::string( buffer );
+        return string( buffer );
     }
 
     static inline Real64 getMax(void) { return DBL_MAX; };
@@ -990,11 +990,11 @@ struct TypeConstants<Real32> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline std::string putToString (const Real32 val)
+    static inline string putToString (const Real32 val)
     {
         char buffer[20];
         sprintf( buffer, "%e", val );
-        return std::string( buffer );
+        return string( buffer );
     }
 
     static inline Real32 getMax(void) { return FLT_MAX; };

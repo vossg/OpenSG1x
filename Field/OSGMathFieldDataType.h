@@ -77,7 +77,7 @@ struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
     }
 
     static void             putToString(const Matrix &inVal,
-                                              std::string &outVal)
+                                              string &outVal)
     {
        outVal.assign( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[0]) );
       outVal.append( " " );
@@ -149,7 +149,7 @@ struct FieldDataTraits<Quaternion> :
     }
 
     static void             putToString(const Quaternion &inVal,
-                                              std::string     &outVal)
+                                              string     &outVal)
     {
         Quaternion::VectorType::ValueType axisX;
         Quaternion::VectorType::ValueType axisY;

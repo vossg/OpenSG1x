@@ -124,8 +124,8 @@ struct FieldDataTraits2<Bool> :
         return outVal;
     }
 
-    static void             putToString(const Bool &inVal,
-                                              std::string &outVal)
+    static void             putToString(const Bool   &inVal,
+                                              string &outVal)
     {
         if( inVal == true ){
     outVal.assign( "TRUE" );
@@ -165,8 +165,8 @@ struct FieldDataTraits<Int8> : public FieldTraitsIntegralRecurseMapper<Int8>
         return true;
     }
 
-    static void             putToString(const Int8 &inVal,
-                                              std::string &outVal)
+    static void             putToString(const Int8   &inVal,
+                                              string &outVal)
     {
        outVal.assign( TypeConstants<Int8>::putToString(inVal) );
     }
@@ -201,8 +201,8 @@ struct FieldDataTraits<UInt8> : public FieldTraitsIntegralRecurseMapper<UInt8>
         return true;
     }
 
-    static void             putToString(const UInt8 &inVal,
-                                              std::string &outVal)
+    static void             putToString(const UInt8  &inVal,
+                                              string &outVal)
     {
        outVal.assign( TypeConstants<UInt8>::putToString(inVal) );
     }
@@ -238,8 +238,8 @@ struct FieldDataTraits<Int16> : public FieldTraitsIntegralRecurseMapper<Int16>
         return true;
     }
 
-    static void             putToString(const Int16 &inVal,
-                                              std::string &outVal)
+    static void             putToString(const Int16  &inVal,
+                                              string &outVal)
     {
        outVal.assign( TypeConstants<Int16>::putToString(inVal) ); 
     }
@@ -275,8 +275,8 @@ struct FieldDataTraits<UInt16> :
         return true;
     }
 
-    static void             putToString(const UInt16  &inVal,
-                                              std::string &outVal)
+    static void             putToString(const UInt16 &inVal,
+                                              string &outVal)
     {
         outVal.assign( TypeConstants<UInt16>::putToString(inVal) );
     }
@@ -313,8 +313,8 @@ struct FieldDataTraits<Int32> :
         return true;
     }
 
-    static void             putToString(const Int32 &inVal,
-                                              std::string &outVal)
+    static void             putToString(const Int32  &inVal,
+                                              string &outVal)
     {
         outVal.assign( TypeConstants<Int32>::putToString(inVal) );
     }
@@ -350,8 +350,8 @@ struct FieldDataTraits<UInt32> :
         return false;
     }
 
-    static void             putToString(const UInt32  &inVal,
-                                              std::string &outVal)
+    static void             putToString(const UInt32 &inVal,
+                                              string &outVal)
     {
          outVal.assign( TypeConstants<UInt32>::putToString(inVal) );
     }
@@ -389,7 +389,7 @@ struct FieldDataTraits<Int64> :
     }
 
     static void             putToString(const Int64  &inVal,
-                                              std::string &outVal)
+                                              string &outVal)
     {
         outVal.assign( TypeConstants<Int64>::putToString(inVal) );
     }
@@ -426,7 +426,7 @@ struct FieldDataTraits<UInt64> :
     }
 
     static void             putToString(const UInt64 &inVal,
-                                              std::string &outVal)
+                                              string &outVal)
     {
         outVal.assign( TypeConstants<UInt64>::putToString(inVal) );
     }
@@ -465,7 +465,7 @@ struct FieldDataTraits<Real32> :
     }
 
     static void             putToString(const Real32 &inVal,
-                                              std::string &outVal)
+                                              string &outVal)
     {
        outVal.assign( TypeConstants<Real32>::putToString(inVal) );
     }
@@ -503,7 +503,7 @@ struct FieldDataTraits<Real64> :
     }
 
     static void             putToString(const Real64 &inVal,
-                                              std::string &outVal)
+                                              string &outVal)
     {
         outVal.assign( TypeConstants<Real64>::putToString(inVal) );
     }

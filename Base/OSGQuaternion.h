@@ -88,10 +88,6 @@ class OSG_BASE_DLLMAPPING QuaternionBase
     /*! \{                                                                 */
                 QuaternionBase(      void                               );
                 QuaternionBase(const QuaternionBase &source             );
-                QuaternionBase(      ValueTypeT      x,
-                                     ValueTypeT      y,
-                                     ValueTypeT      z,
-                                     ValueTypeT      w                  );
     explicit    QuaternionBase(const MatrixType     &matrix             );
                 QuaternionBase(const VectorType     &axis,
                                const ValueTypeT      angle              );

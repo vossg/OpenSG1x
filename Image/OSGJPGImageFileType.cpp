@@ -97,7 +97,7 @@ JPGImageFileType JPGImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -108,7 +108,7 @@ JPGImageFileType JPGImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //s:
 //
 //------------------------------
-bool JPGImageFileType::read (Image &image, const Char8 *fileName )
+Bool JPGImageFileType::read (Image &image, const Char8 *fileName )
 {
 
 #ifdef OSG_WITH_JPG
@@ -205,7 +205,7 @@ bool JPGImageFileType::read (Image &image, const Char8 *fileName )
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -216,7 +216,7 @@ bool JPGImageFileType::read (Image &image, const Char8 *fileName )
 //s:
 //
 //------------------------------
-bool JPGImageFileType::write (const Image &image, const Char8 *fileName )
+Bool JPGImageFileType::write (const Image &image, const Char8 *fileName )
 {
 #ifdef OSG_WITH_JPG
 
@@ -230,7 +230,7 @@ bool JPGImageFileType::write (const Image &image, const Char8 *fileName )
 		return false;
 	}
 
-	bool retCode = false;
+	Bool retCode = false;
 
 	struct local_error_mgr 
 	{

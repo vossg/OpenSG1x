@@ -131,7 +131,7 @@ struct FieldTraitsRecurseMapper<FieldContainerPtr> :
  */
 
 template <>
-struct FieldDataTraits<FieldContainerPtr> : 
+struct OSG_SYSTEMLIB_DLLMAPPING FieldDataTraits<FieldContainerPtr> : 
     public FieldTraitsRecurseMapper<FieldContainerPtr>
 {
     static DataType                 _type;

@@ -64,15 +64,12 @@
 
 #include "OSGOBJSceneFileType.h"
 
-// #include "glm.exh"
-// #include "glm.exc"
-
 OSG_USING_NAMESPACE
 
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.4 2001/10/03 20:37:33 dirk Exp $";
-    char cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
+    static char cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.5 2001/10/05 04:17:42 vossg Exp $";
+    static char cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 
 
@@ -123,9 +120,9 @@ OBJSceneFileType OBJSceneFileType::_the(suffixA,
 //------------------------------
 NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
 {
-  typedef std::vector<int> Face;
+  typedef vector<int> Face;
 
-  std::vector<Face> faceVec;
+  vector<Face> faceVec;
 
   char head[256];
 	ifstream in(fileName);

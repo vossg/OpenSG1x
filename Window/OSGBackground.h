@@ -67,7 +67,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Background : public BackgroundBase
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const char *getClassname(void) { return "Background"; };
+    static const Char8 *getClassname(void) { return "Background"; };
 
   
     /*! \}                                                                 */

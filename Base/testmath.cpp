@@ -1021,8 +1021,10 @@ void quattest(void)
     v3.setValues(0., 1., 0.);
 
     Quaternion q1;
-    Quaternion q2(0., 0., 1., 90.);
+    Quaternion q2;
     Quaternion q3(q2);
+
+    q2.setValueAsAxisDeg(0., 0., 1., 90.);
 
     Quaternion q4(v1, 90.);
     Quaternion q5(v2, v3);

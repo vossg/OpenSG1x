@@ -53,8 +53,8 @@ OSG_BEGIN_NAMESPACE
 
 
 class String;
-OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream &os,
-                                              const String       &obj);
+OSG_BASE_DLLMAPPING ostream &operator <<(      ostream &os,
+                                         const String  &obj);
 
 /*! \ingroup BaseTypes
  *  \brief OSGString
@@ -115,8 +115,8 @@ class OSG_BASE_DLLMAPPING String
 
     void   setLength (UInt32 length);
 
-    void   tokenize  (std::vector <String> &v);
-    void   tokenize  (std::vector <String*> &v);
+    void   tokenize  (vector <String> &v);
+    void   tokenize  (vector <String*> &v);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -174,8 +174,8 @@ class OSG_BASE_DLLMAPPING String
     private:
 
     friend OSG_BASE_DLLMAPPING
-    std::ostream &operator <<(      std::ostream &os,
-                              const String       &obj);
+    ostream &operator <<(      ostream &os,
+                         const String  &obj);
 
     static char cvsid[];
 

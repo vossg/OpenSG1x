@@ -160,7 +160,7 @@ struct FieldDataTraits<Vec2f> : public FieldTraitsRecurseVecStore2Base<Vec2f>
     }
 
     static void   putToString(const Vec2f  &inVal,
-                                    std::string &outVal)
+                                    string &outVal)
     {
         outVal.assign( TypeConstants<Vec2f::ValueType>::putToString((inVal.getValues())[0]) );
       outVal.append( "  " );
@@ -199,7 +199,7 @@ struct FieldDataTraits<Vec3f> : public FieldTraitsRecurseVecStore3Base<Vec3f>
     }
 
     static void   putToString(const Vec3f  &inVal,
-                                    std::string &outVal)
+                                    string &outVal)
     {
        outVal.assign( TypeConstants<Vec3f::ValueType>::putToString((inVal.getValues())[0]) );
       outVal.append( "  " );
@@ -242,7 +242,7 @@ struct FieldDataTraits<Vec4f> : public FieldTraitsRecurseVecStore4Base<Vec4f>
     }
 
     static void   putToString(const Vec4f  &inVal,
-                                    std::string &outVal)
+                                    string &outVal)
     {
       outVal.assign( TypeConstants<Vec4f::ValueType>::putToString((inVal.getValues())[0]) );
       outVal.append( "  " );
@@ -284,7 +284,7 @@ struct FieldDataTraits<Vec4ub> : public FieldTraitsRecurseVecStore4Base<Vec4ub>
     }
 
     static void   putToString(const Vec4ub &inVal,
-                                    std::string &outVal)
+                                    string &outVal)
     {
         outVal.assign( TypeConstants<Vec4ub::ValueType>::putToString((inVal.getValues())[0]) );
       outVal.append( "  " );
@@ -328,7 +328,7 @@ struct FieldDataTraits<Pnt2f> : public FieldTraitsRecurseVecStore2Base<Pnt2f>
     }
 
     static void   putToString(const Pnt2f  &inVal,
-                                    std::string &outVal)
+                                    string &outVal)
     {
         outVal.assign( TypeConstants<Pnt2f::ValueType>::putToString((inVal.getValues())[0]) ); 
       outVal.append( "  " );
@@ -367,7 +367,7 @@ struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseVecStore3Base<Pnt3f>
     }
 
     static void   putToString(const Pnt3f  &inVal,
-                                    std::string &outVal)
+                                    string &outVal)
     {
         outVal.assign( TypeConstants<Pnt3f::ValueType>::putToString((inVal.getValues())[0]) );
       outVal.append( "  " );
@@ -408,7 +408,7 @@ struct FieldDataTraits<Pnt4f> : public FieldTraitsRecurseVecStore4Base<Pnt4f>
     }
 
     static void   putToString(const Pnt4f  &inVal,
-                                    std::string &outVal)
+                                    string &outVal)
     {
         outVal.assign( TypeConstants<Pnt4f::ValueType>::putToString((inVal.getValues())[0]) );
       outVal.append( "  " );

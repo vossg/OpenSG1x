@@ -169,7 +169,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
 
 struct FieldDescriptionPLT
 {
-    bool operator()(const FieldDescription *pElemDesc1, 
+    Bool operator()(const FieldDescription *pElemDesc1, 
                     const FieldDescription *pElemDesc2) const
     {
         return (pElemDesc1->getFieldId() < pElemDesc2->getFieldId());

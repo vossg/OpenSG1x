@@ -83,7 +83,7 @@ struct FieldDataTraits<Color3f> : public FieldTraitsRecurseBase<Color3f>
     }
 
     static void             putToString(const Color3f &inVal,
-                                              std::string &outVal)
+                                              string  &outVal)
     {
         typedef TypeConstants<Color3f::ValueType> TypeConst;
 
@@ -120,7 +120,7 @@ struct FieldDataTraits<Color4f> : public FieldTraitsRecurseBase<Color4f>
     }
 
     static void             putToString(const Color4f &inVal,
-                                              std::string  &outVal)
+                                              string  &outVal)
     {
         outVal.assign( TypeConstants<Color4f::ValueType>::putToString(inVal.red()) );
       outVal.append( "  " );
@@ -156,7 +156,7 @@ struct FieldDataTraits<Color3ub> : public FieldTraitsRecurseBase<Color3ub>
     }
 
     static void   putToString(const Color3ub &inVal,
-                                    std::string &outVal)
+                                    string   &outVal)
     {
        outVal.assign( TypeConstants<Color3ub::ValueType>::putToString(inVal.red()) );
       outVal.append( "  " );
@@ -198,7 +198,7 @@ struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
     }
 
     static void   putToString(const Color4ub &inVal,
-                                    std::string &outVal )
+                                    string   &outVal )
     {
         outVal.assign( TypeConstants<Color4ub::ValueType>::putToString(
                         inVal.red()) );
@@ -245,7 +245,7 @@ struct FieldDataTraits<String> : public FieldTraitsRecurseBase<String>
     }
 
     static void             putToString(const String &inVal,
-                                              std::string &outVal )
+                                              string &outVal )
     {
         outVal.assign( "\"" );
         outVal.append( inVal.str() );
@@ -353,8 +353,8 @@ struct FieldDataTraits1<Time> : public FieldTraitsRecurseBase<Time>
         return true;
     }
 
-    static void             putToString(const Time &inVal,
-                                              std::string &outVal)
+    static void             putToString(const Time   &inVal,
+                                              string &outVal)
     {
         outVal.assign( TypeConstants<Real64>::putToString( inVal ) );
     }
@@ -434,7 +434,7 @@ struct FieldDataTraits<DynamicVolume> :
     }
 
     static void             putToString(const DynamicVolume &inVal,
-                                              std::string   &outVal)
+                                              string        &outVal)
     {
         
         Pnt3f min, max;
@@ -523,8 +523,8 @@ struct FieldDataTraits<Plane> : public FieldTraitsRecurseBase<Plane>
         return false;
     }
 
-    static void             putToString(const Plane &inVal,
-                                              std::string &outVal)
+    static void             putToString(const Plane  &inVal,
+                                              string &outVal)
     {
         Vec3f normal = inVal.getNormal();
         Real32 dist = inVal.getDistanceFromOrigin();

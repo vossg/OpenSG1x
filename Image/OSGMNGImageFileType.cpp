@@ -94,7 +94,7 @@ MNGImageFileType MNGImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -105,7 +105,7 @@ MNGImageFileType MNGImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //s:
 //
 //------------------------------
-bool MNGImageFileType::read (Image &image, const Char8 *fileName )
+Bool MNGImageFileType::read (Image &image, const Char8 *fileName )
 {
 
 #ifdef MNG_LIB
@@ -218,7 +218,7 @@ bool MNGImageFileType::read (Image &image, const Char8 *fileName )
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -229,7 +229,7 @@ bool MNGImageFileType::read (Image &image, const Char8 *fileName )
 //s:
 //
 //------------------------------
-bool MNGImageFileType::write (const Image &image, const Char8 *fileName )
+Bool MNGImageFileType::write (const Image &image, const Char8 *fileName )
 {
 
 #ifdef MNG_LIB

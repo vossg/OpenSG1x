@@ -54,8 +54,8 @@ class OSGWriter
 	{
 		Bool printed;
 		Bool named;
-		std::string name;
-		static std::string buildName(FieldContainerPtr fcptr,
+		string name;
+		static string buildName(FieldContainerPtr fcptr,
 									 UInt32 num);
 		SharedFCInfoHelper(void) : printed(false), named(false) {}
 	};
@@ -241,7 +241,7 @@ void OSGWriter::doPrintListedFC( FieldContainerPtr fieldConPtr )
 				}
 				else
 				{
-					std::string val;
+					string val;
 					fieldPtr->getValueByStr(val);
 					if( fieldPtr->getCardinality() == FieldType::SINGLE_FIELD )
 					{
@@ -272,11 +272,11 @@ void OSGWriter::doPrintListedFC( FieldContainerPtr fieldConPtr )
 }
 
 
-std::string OSGWriter::SharedFCInfoHelper::buildName(
+string OSGWriter::SharedFCInfoHelper::buildName(
 											FieldContainerPtr fcptr,
 									 		UInt32 num)
 {
-	std::string temp;
+	string temp;
 	temp.assign( "FCName" );
 	temp.append( TypeConstants<UInt32>::putToString(num) );
 	return temp;
@@ -302,7 +302,7 @@ int main (int argc, char *argv[])
 	
 	NodePtr root = SceneFileHandler::the().read(inFileName,0);
   	
-	std::ofstream outFileStream( outFileName );
+	ofstream outFileStream( outFileName );
 	if( !outFileStream )
 	{
 		cerr << "Can not open output stream to file: " << outFileName << endl;

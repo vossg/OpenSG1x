@@ -353,8 +353,8 @@ class MField : public Field
 
     /*-------------------------- string io ----------------------------------*/
 
-    virtual void    pushValueByStr(const Char8 *str);
-    virtual std::string &getValueByStr (std::string &string) const;
+    virtual void    pushValueByStr(const Char8  *str   );
+    virtual string &getValueByStr (      string &string) const;
 
     /*-------------------------- index operator------------------------------*/
 

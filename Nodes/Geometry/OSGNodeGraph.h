@@ -118,7 +118,7 @@ class NodeGraph
         /*! \{                                                             */
       
         inline int          size        (void)           { return _size; }
-        inline bool         empty       (void)           { return _size ? 
+        inline Bool         empty       (void)           { return _size ? 
                                                            false : true; }
         inline NodeList    *down        (void)           { return _down; }
         inline void         setDown     (NodeList *down) { _down = down; }
@@ -161,7 +161,7 @@ class NodeGraph
             _size++;
             node.list = this;
         }
-        inline void add (Node &node, bool back)
+        inline void add (Node &node, Bool back)
             { back ? push_back(node) : push_front(node); }
         /*! \{                                                             */        
     };
@@ -242,12 +242,12 @@ class NodeGraph
                 list = 0;
             }
         }
-        inline void drop (bool back)
+        inline void drop (Bool back)
         {
             if (list && list->_down)
                 list->_down->add(*this,back);
         }
-        inline void dropNeighbors (bool back)
+        inline void dropNeighbors (Bool back)
         {
             int i;
             Edge *edge;
@@ -258,10 +258,10 @@ class NodeGraph
         /*! \}                                                             */
     };
 
-    typedef std::vector<Edge *> EdgeMap;
+    typedef vector<Edge *> EdgeMap;
 
-    std::vector<Node> _nodeVec;
-    std::vector<EdgeMap> _edgeMapVec;
+    vector<Node> _nodeVec;
+    vector<EdgeMap> _edgeMapVec;
     
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -350,15 +350,15 @@ class NodeGraph
     }
     /*! \}                                                                 */        
 
-    bool verify (bool printNotice = false );
+    Bool verify (Bool printNotice = false );
 
     class Path
     {
         /*========================  PUBLIC  ===============================*/
       public:
-        int             type;
-        bool            flip;
-        std::list<int>  path;
+        int        type;
+        Bool       flip;
+        list<int>  path;
         
         /*-----------------------------------------------------------------*/
         /*! \name                 Constructors                             */
@@ -387,8 +387,8 @@ class NodeGraph
     /*! \name                   Construction                               */
     /*! \{                                                                 */
     
-    int createPathVec (std::vector<Path> &stripVec,
-                       bool createStrips = true, bool createFans = true,
+    int createPathVec (vector<Path> &stripVec,
+                       Bool createStrips = true, Bool createFans = true,
                        int minFanEdgeCount = 8);
     
     /*! \}                                                                 */    
@@ -422,8 +422,8 @@ class NodeGraph
     /*! \name                       Get                                    */
     /*! \{                                                                 */
     
-    int getPrimitive          (Path &path, std::vector <int> &primitive );        
-    int getEdges              (std::list <IndexEdge> & edgeList);
+    int getPrimitive          (Path &path, vector <int> &primitive );        
+    int getEdges              (list <IndexEdge> & edgeList);
     inline int getStartOfEdge (int index, int side)
         { return _nodeVec[index].edgeVec[side]->vertexStart; }
     inline int getEndOfEdge   (int index, int side)

@@ -60,13 +60,14 @@ OSG_USING_NAMESPACE
  *   Types
  *****************************/
 // Static Class Varible implementations: 
+
 static const Char8 *suffixArray[] = 
 {
 	"mtd","opensg","opensgImage"
 };
 
-MTDImageFileType MTDImageFileType::_the ( 	suffixArray,
-																						sizeof(suffixArray) );
+MTDImageFileType MTDImageFileType::_the(suffixArray,
+                                        sizeof(suffixArray) );
 
 /*****************************
  *	  Classvariables
@@ -91,7 +92,7 @@ MTDImageFileType MTDImageFileType::_the ( 	suffixArray,
 //GlobalVars:
 //g: c
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -102,9 +103,9 @@ MTDImageFileType MTDImageFileType::_the ( 	suffixArray,
 //s:
 //
 //------------------------------
-bool MTDImageFileType::read (Image &image, const Char8 *fileName )
+Bool MTDImageFileType::read (Image &image, const Char8 *fileName )
 {
-  bool retCode = false;
+  Bool retCode = false;
 
   /* TODO
   ifstream in(fileName);
@@ -137,7 +138,7 @@ bool MTDImageFileType::read (Image &image, const Char8 *fileName )
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -148,9 +149,9 @@ bool MTDImageFileType::read (Image &image, const Char8 *fileName )
 //s:
 //
 //------------------------------
-bool MTDImageFileType::write ( const Image &image, const Char8 *fileName )
+Bool MTDImageFileType::write ( const Image &image, const Char8 *fileName )
 {	
-  bool retCode = false;
+  Bool retCode = false;
 
   /*
   ofstream out(fileName);

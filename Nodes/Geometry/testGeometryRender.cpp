@@ -100,7 +100,9 @@ int main (int argc, char **argv)
 
 	// OSG
 
-    Quaternion stepQ(0., 1., 0., 1.);
+    Quaternion stepQ;
+
+    stepQ.setValueAsAxisDeg(0., 1., 0., 1.);
 
     stepM.setRotate(stepQ);
 

@@ -131,7 +131,7 @@ Int32 Image::_formatMap[][2] = {
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -172,7 +172,7 @@ Bool Image::set ( PixelFormat pF,
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -183,7 +183,7 @@ Bool Image::set ( PixelFormat pF,
 //s:
 //
 //------------------------------
-Bool Image::set ( const Image &image, bool doCopy )
+Bool Image::set ( const Image &image, Bool doCopy )
 {
 	this->set ( image._pixelFormat,
 							image._width, image._height, image._depth,
@@ -209,7 +209,7 @@ Bool Image::set ( const Image &image, bool doCopy )
 //p:obalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -234,7 +234,7 @@ Bool Image::setData ( const UChar8 *da, Bool doCopy )
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -325,7 +325,7 @@ Bool Image::addValue (const char *value)
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -556,7 +556,7 @@ void Image::dump (void)
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -622,7 +622,7 @@ Bool Image::scale ( int width, int height, int depth, Image *destination )
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -756,7 +756,7 @@ Bool Image::createMipmap ( Int32 level, Image *destination)
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -781,7 +781,7 @@ Bool Image::write (const Char8 *fileName )
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -807,7 +807,7 @@ Bool Image::read (const Char8 *fileName )
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -832,7 +832,7 @@ UInt64 Image::store (Char8 *mimeType, UChar8* mem, UInt32 memSize)
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -866,7 +866,7 @@ UInt64 Image::restore ( const UChar8* mem, UInt32 memSize )
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -934,7 +934,7 @@ Bool Image::createData (const UChar8 *data, Bool doCopy )
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -1156,7 +1156,7 @@ Bool Image::hasAlphaChannel(void)
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -1233,7 +1233,7 @@ Image &Image::operator= (const Image &image )
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:

@@ -75,7 +75,7 @@ static const Char8 *suffixArray[] =
 };
 
 PNMImageFileType PNMImageFileType::_the ( 	suffixArray,
-																						sizeof(suffixArray) );
+                                            sizeof(suffixArray) );
 
 
 /*****************************
@@ -101,7 +101,7 @@ PNMImageFileType PNMImageFileType::_the ( 	suffixArray,
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -112,7 +112,7 @@ PNMImageFileType PNMImageFileType::_the ( 	suffixArray,
 //s:
 //
 //------------------------------
-bool PNMImageFileType::read (Image &image, const Char8 *fileName )
+Bool PNMImageFileType::read (Image &image, const Char8 *fileName )
 {
   Bool isBinary = true;
 	Int16 type = 0, width, height, lineSize, maxValue = 0, value, x, y;
@@ -213,7 +213,7 @@ bool PNMImageFileType::read (Image &image, const Char8 *fileName )
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -224,7 +224,7 @@ bool PNMImageFileType::read (Image &image, const Char8 *fileName )
 //s:
 //
 //------------------------------
-bool PNMImageFileType::write (const Image &image, const Char8 *fileName )
+Bool PNMImageFileType::write (const Image &image, const Char8 *fileName )
 {	
 	Int16  p, y, x, lineSize;
 	ofstream  out(fileName);

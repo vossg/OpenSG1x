@@ -191,7 +191,7 @@ void String::set(const char *str, MemType memType)
 // Description:
 //         
 //----------------------------------------------------------------------
-void String::tokenize( std::vector <String*> &v)
+void String::tokenize(vector <String*> &v)
 {
 	int l        = length(),
 		oldpos   = 0,
@@ -282,7 +282,7 @@ void String::tokenize( std::vector <String*> &v)
 	}
 }
 
-void String::tokenize( std::vector <String> &v)
+void String::tokenize(vector <String> &v)
 {
 	int l        = length(),
 		oldpos   = 0,

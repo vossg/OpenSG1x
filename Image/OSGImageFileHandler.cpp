@@ -207,7 +207,7 @@ ImageFileType * ImageFileHandler::getDefaultType (void)
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -239,7 +239,7 @@ Image * ImageFileHandler::read ( const char *fileName, const char *mimeType )
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -250,10 +250,10 @@ Image * ImageFileHandler::read ( const char *fileName, const char *mimeType )
 //s:
 //
 //------------------------------
-bool ImageFileHandler::read (Image &image, 
+Bool ImageFileHandler::read (Image &image, 
                              const char *fileName, const char *mimeType)
 {
-	bool retCode = false;
+	Bool retCode = false;
 	ImageFileType *type = getFileType(mimeType, fileName);
 
 	if (type) {
@@ -282,7 +282,7 @@ bool ImageFileHandler::read (Image &image,
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -293,11 +293,11 @@ bool ImageFileHandler::read (Image &image,
 //s:
 //
 //------------------------------
-bool ImageFileHandler::write ( const Image &image, 
+Bool ImageFileHandler::write ( const Image &image, 
                                const char *fileName,
                                const char *mimeType )
 {
-	bool retCode = false;
+	Bool retCode = false;
 	ImageFileType *type = getFileType(mimeType,fileName);
 
 	if (type) {
@@ -320,7 +320,7 @@ bool ImageFileHandler::write ( const Image &image,
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -346,7 +346,7 @@ UInt64 ImageFileHandler::restore ( Image &image,
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -376,7 +376,7 @@ UInt64 ImageFileHandler::store ( const Image &image, const char *mimeType,
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -457,7 +457,7 @@ void ImageFileHandler::print (void )
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -468,9 +468,9 @@ void ImageFileHandler::print (void )
 //s:
 //
 //------------------------------
-bool ImageFileHandler::addImageFileType (ImageFileType &fileType )
+Bool ImageFileHandler::addImageFileType (ImageFileType &fileType )
 {
-	bool retCode = false;
+	Bool retCode = false;
 	list<IDString>::iterator sI;
 	map <IDString, ImageFileType *>::iterator smI;
 	IDString suffix;

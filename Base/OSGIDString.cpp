@@ -191,7 +191,7 @@ void IDString::set(const char *str, MemType memType)
 // Description:
 //         
 //----------------------------------------------------------------------
-void IDString::tokenize( std::vector <IDString*> &v)
+void IDString::tokenize(vector <IDString*> &v)
 {
 	int l        = length(),
 		oldpos   = 0,
@@ -282,7 +282,7 @@ void IDString::tokenize( std::vector <IDString*> &v)
 	}
 }
 
-void IDString::tokenize( std::vector <IDString> &v)
+void IDString::tokenize(vector <IDString> &v)
 {
 	int l        = length(),
 		oldpos   = 0,

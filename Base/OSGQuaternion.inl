@@ -200,18 +200,6 @@ QuaternionBase<ValueTypeT>::QuaternionBase(
     }
 }
 
-/** \brief Construtor from axis and angle in radians
- */
-
-template <class ValueTypeT> inline
-QuaternionBase<ValueTypeT>::QuaternionBase(ValueTypeT x,
-                                           ValueTypeT y,
-                                           ValueTypeT z,
-                                           ValueTypeT w)
-{
-    setValueAsAxisRad(x, y, z, w);
-}
-
 /** \brief Constructor from matrix
  */
 

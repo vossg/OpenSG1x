@@ -55,10 +55,10 @@ OSG_BEGIN_NAMESPACE
  */
 
 class Exception;
-OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream &os,
-                                              const Exception    &obj);
+OSG_BASE_DLLMAPPING ostream &operator <<(      ostream   &os,
+                                         const Exception &obj);
 
-class OSG_BASE_DLLMAPPING Exception : public std::exception
+class OSG_BASE_DLLMAPPING Exception : public exception
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -106,18 +106,18 @@ class OSG_BASE_DLLMAPPING Exception : public std::exception
     /*! \name                    Class Specific                            */
     /*! \{                                                                 */
 
-    std::string _what;
+    string _what;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
 
-    typedef std::exception Inherited;
+    typedef exception Inherited;
 
     friend OSG_BASE_DLLMAPPING
-    std::ostream &operator <<(std::ostream &os,
-                              const Exception    &obj);
+    ostream &operator <<(      ostream   &os,
+                         const Exception &obj);
 
     static char cvsid[];
 

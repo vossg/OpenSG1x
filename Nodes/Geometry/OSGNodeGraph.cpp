@@ -87,9 +87,9 @@ void NodeGraph::init ( int vertexNum, int nodeNum, int reserveEdges )
 // Description:
 //         
 //----------------------------------------------------------------------
-bool NodeGraph::verify (bool printInfo )
+Bool NodeGraph::verify (Bool printInfo )
 {
-	bool retCode = true;
+	Bool retCode = true;
 	int i, n = _nodeVec.size(); 
 	int nodeDegree[4];
 	int edgeCount = 0;
@@ -152,7 +152,7 @@ bool NodeGraph::verify (bool printInfo )
 //         
 //----------------------------------------------------------------------
 int NodeGraph::createPathVec ( vector<Path> &pathVec,
-                               bool createStrips, bool createFans,
+                               Bool createStrips, Bool createFans,
                                int minFanEdgeCount )
 {
 	NodeList nodeList[4], nonManifoldList, *down = 0;
@@ -163,13 +163,13 @@ int NodeGraph::createPathVec ( vector<Path> &pathVec,
 	int pathI = -1;
 	Node *currentNode = 0, *nextNode = 0;
 	Edge *firstEdge = 0, *lastEdge = 0, *brotherEdge = 0;
-	bool tryFlip = true;
+	Bool tryFlip = true;
 	int stayCounter = 0, reverseCounter = 0;
 	list<int>::iterator listI;
 	list<int>::reverse_iterator listRI;
 	int pathCost = 0;
 	int pathEntrySide, pathExitSide;
-	bool pathWalkRight;
+	Bool pathWalkRight;
 
 	down = 0;
 	for (i = 0; i < 4; i++) {
@@ -385,7 +385,7 @@ int NodeGraph::getPrimitive ( Path &path, vector< int > & primitive )
 	unsigned pi, j, cost = 0;
 	int index, firstIndex, firstSide, entrySide, exitSide;
 	Node *node;
-	bool walkRight;
+	Bool walkRight;
 	list<int>::iterator listI;
 	list<int>::reverse_iterator listRI;
 

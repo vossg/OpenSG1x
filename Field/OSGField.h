@@ -84,7 +84,7 @@ struct ErrorFromToString
     }
 
     static void             putToString(const T      &,
-                                              std::string &)
+                                              string &)
     {
         SLOG << "Error To String Conversion not available for " << endl;
     }
@@ -125,8 +125,8 @@ class OSG_BASE_DLLMAPPING Field
 
     /*-------------------------- string io ----------------------------------*/
 
-    virtual void          pushValueByStr(const char *str        )       = 0;
-    virtual std::string  &getValueByStr (std::string     &string) const = 0;
+    virtual void     pushValueByStr(const Char8  *str   )       = 0;
+    virtual string  &getValueByStr (      string &string) const = 0;
 
     /*----------------------- field information -----------------------------*/
 

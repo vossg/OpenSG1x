@@ -68,7 +68,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.4 2001/10/03 20:37:33 dirk Exp $";
+    char cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.5 2001/10/05 04:17:42 vossg Exp $";
     char cvsid_hpp[] = OSGOFFSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -119,9 +119,9 @@ OFFSceneFileType OFFSceneFileType::_the(suffixA,
 //------------------------------
 NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32) const
 {
-  typedef std::vector<int> Face;
+  typedef vector<int> Face;
 
-  std::vector<Face> faceVec;
+  vector<Face> faceVec;
 
   char head[256];
 	ifstream in(fileName);

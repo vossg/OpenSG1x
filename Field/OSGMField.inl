@@ -44,6 +44,11 @@
 
 OSG_BEGIN_NAMESPACE
 
+#ifndef STD
+#define STD std
+#endif
+
+
 #if defined(FU) && !defined(__sun) && !defined(WIN32)  && !defined(__linux)
 
 /** \fn const char *OSGMFieldVector::getClassname(void)
@@ -556,7 +561,7 @@ MField<FieldTypeT,
        fieldNameSpace>::iterator MField<FieldTypeT, fieldNameSpace>::find(
     const FieldTypeT &value)
 {
-    return std::find(_values.begin(), _values.end(), value);
+    return STD::find(_values.begin(), _values.end(), value);
 }
 
 /** \brief Returns a const iterator to the given value if found otherwise end()
@@ -568,7 +573,7 @@ MField<FieldTypeT,
                                               fieldNameSpace>::find(
     const FieldTypeT &value) const
 {
-    return std::find(_values.begin(), _values.end(), value);
+    return STD::find(_values.begin(), _values.end(), value);
 }
 
 /** \brief resizes the container to given size. Depends on the underlying
@@ -689,23 +694,29 @@ void MField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
 
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-std::string &MField<FieldTypeT, fieldNameSpace>::getValueByStr(std::string &string) const
+string &MField<FieldTypeT, fieldNameSpace>::getValueByStr(
+    string &stringVal) const
 {
-    std::string tmpString;
+    string tmpString;
+
 	typedef osgIF< (MFieldTraits::StringConvertable &
 					Traits::FromStringConvertable),
 					MFieldTraits,
 					ErrorFromToString<FieldTypeT> >::_IRet Converter;
-	for( UInt32 i=0; i<getSize(); ++i )
+
+	for(UInt32 i = 0; i < getSize(); ++i)
 	{
 		Converter::putToString( _values[i], tmpString );
-		string.append( tmpString );
+
+		stringVal.append( tmpString );
+
 		if( i < (getSize()-1) )
 		{
-			string.append( ", " );
+			stringVal.append( ", " );
 		}
 	}
-	return string;
+
+	return stringVal;
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
@@ -728,10 +739,10 @@ void MField<FieldTypeT, fieldNameSpace>::copyToBin(BinaryDataHandler &pMem)
 {
     UInt32 n = _values.size();
 
-    pMem.put(&n,sizeof(n));
+    pMem.put(&n, sizeof(n));
     MFieldTraits::copyToBin(   pMem, 
-                               &(_values[0]),
-                               _values.size());
+                            &(_values[0]),
+                              _values.size());
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline

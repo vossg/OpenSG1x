@@ -26,13 +26,13 @@ int main (int argc, char **argv)
 
 	collector.getElem<osg::StatTimeElem> (fpsDesc)->stop();
 	collector.getElem ( fpsDesc )->putToString ( str );
-	std::cerr << "Time out: " << str << std::endl;
+	cerr << "Time out: " << str << endl;
 
 	collector.getElem ( fooDesc )->putToString ( str );
-	std::cerr << "Int  out: " << str << std::endl;
+	cerr << "Int  out: " << str << endl;
 
 	collector.getElem ( barDesc )->putToString ( str );
-	std::cerr << "Real out: " << str << std::endl;
+	cerr << "Real out: " << str << endl;
 
 	osg::StatElemDesc::printAll();
 }

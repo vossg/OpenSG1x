@@ -338,7 +338,7 @@ SGIImageFileType SGIImageFileType::_the ( suffixArray,
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -349,7 +349,7 @@ SGIImageFileType SGIImageFileType::_the ( suffixArray,
 //s:
 //
 //------------------------------
-bool SGIImageFileType::read (Image &image, const char *fileName )
+Bool SGIImageFileType::read (Image &image, const char *fileName )
 {
  
     ImageRec *img = ImageOpen(fileName);
@@ -436,7 +436,7 @@ bool SGIImageFileType::read (Image &image, const char *fileName )
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -447,7 +447,7 @@ bool SGIImageFileType::read (Image &image, const char *fileName )
 //s:
 //
 //------------------------------
-bool SGIImageFileType::write (const Image &image, const char *fileName )
+Bool SGIImageFileType::write (const Image &image, const char *fileName )
 {	
     return false;
 }

@@ -119,7 +119,7 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectAction : public Action
     inline Real32 getMaxDist( void ) const;
     
     // get result data
-    inline bool didHit( void ) const;
+    inline Bool didHit( void ) const;
     
     inline Real32 getHitT( void ) const;
     
