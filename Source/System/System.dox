@@ -6,7 +6,7 @@ using namespace OSG;
 
     \brief The System Library contains the main system-independent parts of OpenSG.
 
-    See \ref PageSystemPageSystem for details.
+    See \ref PageSystem for details.
 */
 
 /*! \defgroup GrpSystemField Fields
