@@ -96,7 +96,7 @@ OSG_FIELD_CONTAINER_INL_DEF(Node, NodePtr)
 inline
 const Volume &Node::getVolume(void) const
 {
-	return _volume.getValue().getVolume();
+	return _volume.getValue().getBaseVolume();
 }
 
 inline

@@ -94,16 +94,6 @@ void SphereVolume::circumscribe(const BoxVolume &box)
 \*-------------------------------------------------------------------------*/
 
 
-void SphereVolume::initEnclose (const Volume &volume)
-{
-	assert(false);
-}
-
-void SphereVolume::initInside (const Volume &volume)
-{
-	assert(false);
-}
-
 float SphereVolume::getVolume (void) const
 {
 	return 4.f / 3.f * Pi * _radius * _radius * _radius;

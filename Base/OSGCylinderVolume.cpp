@@ -131,16 +131,6 @@ void CylinderVolume::getBounds( Pnt3f &min, Pnt3f &max ) const
 	}
 }
 
-void CylinderVolume::initEnclose (const Volume &volume)
-{
-	assert(false);
-}
-
-void CylinderVolume::initInside (const Volume &volume)
-{
-	assert(false);
-}
-
 /*-------------------------- extending ------------------------------------*/
 
 /** extends (if necessary) to contain the given 3D point */

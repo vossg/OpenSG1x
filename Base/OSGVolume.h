@@ -210,14 +210,6 @@ public:
   /** gives the boundaries of the volume */
   virtual void getBounds( Pnt3f &min, Pnt3f &max ) const = 0;
 
-/*-------------------------- initialize -----------------------------------*/
-
-	/** init the object by enclosing the given volume */
-	virtual void initEnclose (const Volume &volume) = 0;
-
-	/** init the object by fitting into the given volume */
-	virtual void initInside (const Volume &volume) = 0;
-
 
 /*-------------------------- extending ------------------------------------*/
 
@@ -226,8 +218,6 @@ public:
 
   /** extend the volume by the given volume */
   virtual void extendBy (const Volume &volume) = 0;   
-
-
 
 /*-------------------------- intersection ---------------------------------*/
 
@@ -239,14 +229,13 @@ public:
 
 	/** intersect the volume with the given Line */
 	virtual Bool intersect ( const Line &line, 
-							 Real32 &enter, Real32 &exit  ) const = 0;
+													 Real32 &enter, Real32 &exit  ) const = 0;
 
   /** intersect the volume with another volume */
   virtual Bool intersect (const Volume &volume) const = 0;
 
   /** check if the point is on the volume's surface */
   virtual Bool isOnSurface (const Pnt3f &point) const = 0;
-
 
 
 /*-------------------------- transformation -------------------------------*/

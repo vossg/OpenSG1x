@@ -128,30 +128,6 @@ void BoxVolume::setBoundsByCenterAndSize(const Pnt3f &center,
 	Volume::setInfinite(true);
 }                                          
 
-/*-------------------------- initialize -----------------------------------*/
-
-/// init the object by enclosing the given volume 
-void BoxVolume::initEnclose (const Volume &volume) 
-{
-	const BoxVolume *box = dynamic_cast<const BoxVolume *>(&volume);
-
-	if (box)
-		*this = *box;
-	else
-		cerr << "BoxVolume::initEnclose NOT IMPLEMENTED" << endl;
-}
-
-/// init the object by fitting into the given volume 
-void BoxVolume::initInside (const Volume &volume)
-{
-	const BoxVolume *box = dynamic_cast<const BoxVolume *>(&volume);
-
-	if (box)
-		*this = *box;
-	else
-		cerr << "BoxVolume::initInside NOT IMPLEMENTED" << endl;
-}
-
 /*-------------------------- extending ------------------------------------*/
 
 /// Extends Box3f (if necessary) to contain given 3D point

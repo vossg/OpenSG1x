@@ -137,16 +137,6 @@ public:
 
 
 
-/*-------------------------- initialize -----------------------------------*/
-
-	/** init the object by enclosing the given volume */
-	virtual void initEnclose (const Volume &volume);
-
-	/** init the object by fitting into the given volume */
-	virtual void initInside (const Volume &volume);	
-
-
-
 /*-------------------------- extending ------------------------------------*/
 
   /** extends (if necessary) to contain the given 3D point */

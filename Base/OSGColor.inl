@@ -59,6 +59,7 @@
 #include <unistd.h>
 #endif
 
+#include "OSGVector.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -291,13 +292,13 @@ Color3<ValueTypeT>::Color3(const Color3 &source)
 }
 
 template <class ValueTypeT> inline
-Color3<ValueTypeT>::Color3(ValueType red,
-                           ValueType green,
-                           ValueType blue)
+Color3<ValueTypeT>::Color3(ValueType r,
+                           ValueType g,
+                           ValueType b)
 {
-    _rgb[0] = red;
-    _rgb[1] = green;
-    _rgb[2] = blue;    
+    _rgb[0] = r;
+    _rgb[1] = g;
+    _rgb[2] = b;    
 }
 
 /** \brief Destructor

@@ -663,8 +663,8 @@ const ValueTypeT *QuaternionBase<ValueTypeT>::getValues(void) const
  */
 
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::getValueAsAxis(ValueTypeT &x, 
-                                                      ValueTypeT &y, 
+void QuaternionBase<ValueTypeT>::getValueAsAxis ( ValueTypeT &x, 
+                                                 	 	    ValueTypeT &y, 
                                                       ValueTypeT &z,
                                                       ValueTypeT &w) const
 {

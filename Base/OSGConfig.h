@@ -317,7 +317,8 @@
 // Use pthreads
 # define OSG_USE_PTHREADS
 // compiler supports the use of template types for return values only
-//# define  OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
+# define  OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
+		 //# define  OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
 // # define OSG_HAS_TEMPLATE_RETURNVALUES
 // stream->rdbuf get the new buffer as a parameter
 # define OSG_STREAM_HAS_ISOPEN

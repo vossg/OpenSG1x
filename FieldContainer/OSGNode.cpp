@@ -414,7 +414,7 @@ void Node::getWorldVolume(Volume &result)
 	
 void Node::updateVolume(void)
 {
-	Volume & vol = _volume.getValue().getVolume();
+	Volume & vol = _volume.getValue().getBaseVolume();
 
 	if(vol.isValid())
 		return;				// still valid, nothing to do
@@ -439,11 +439,11 @@ void Node::updateVolume(void)
 
 void Node::invalidateVolume(void)
 {
-    if(_volume.getValue().getVolume().isValid() == true)
+    if(_volume.getValue().getBaseVolume().isValid() == true)
     {
         beginEdit(VolumeFieldMask, _volume);
 
-        _volume.getValue().getVolume().setValid(false);
+        _volume.getValue().getBaseVolume().setValid(false);
 
         endEdit(VolumeFieldMask, _volume);
 
