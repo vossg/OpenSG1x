@@ -65,7 +65,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ActorBase
 
     typedef NewActionTypes::ResultE             ResultE;
     typedef NewActionTypes::PriorityType        PriorityType;
-    typedef NewActionTypes::PriorityTypeTraits PriorityTypeTraits;
+    typedef NewActionTypes::PriorityTypeTraits  PriorityTypeTraits;
     typedef NewActionTypes::Functor             Functor;
     typedef NewActionTypes::FunctorArgumentType FunctorArgumentType;
 
@@ -257,6 +257,6 @@ OSG_END_NAMESPACE
 
 #include "OSGActorBase.inl"
 
-#define OSGACTORBASE_HEADER_CVSID "@(#)$Id: OSGActorBase.h,v 1.6 2004/09/17 14:09:41 neumannc Exp $"
+#define OSGACTORBASE_HEADER_CVSID "@(#)$Id: OSGActorBase.h,v 1.7 2004/09/19 12:55:56 neumannc Exp $"
 
 #endif /* _OSGACTORBASE_H_ */

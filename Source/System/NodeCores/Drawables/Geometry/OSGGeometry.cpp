@@ -142,10 +142,10 @@ void Geometry::initMethod(void)
 
     IntersectActor::regClassEnter(
         osgTypedMethodFunctor2BaseCPtr<
-          NewActionTypes::ResultE,
-          GeometryPtr           ,
-          NodeCorePtr           ,
-          ActorBase            *>(&Geometry::intersect),
+            NewActionTypes::ResultE,
+            GeometryPtr,
+            NodeCorePtr,
+            ActorBase::FunctorArgumentType &>(&Geometry::intersect),
         getClassType());
 
     RenderAction::registerEnterDefault(getClassType(),
