@@ -96,9 +96,11 @@ class OSG_BASE_DLLMAPPING Plane
 
     void   transform        (const Matrix &matrix                  );
 
-    inline bool   isOnPlane     (const Pnt3f  &point               ) const;
-    inline bool   isInHalfSpace (const Pnt3f  &point               ) const;
-    inline Real32 distance      (const Pnt3f  &point               ) const;
+    int    clip             (Pnt3f *polyIn, Pnt3f *polyOut, int count) const;
+
+    inline bool   isOnPlane          (const Pnt3f  &point          ) const;
+    inline bool   isInHalfSpace      (const Pnt3f  &point          ) const;
+    inline Real32 distance           (const Pnt3f  &point          ) const;
 
     inline bool   isInHalfSpace  (const Pnt3f  &min, const Pnt3f  &max) const;
     inline bool   isOutHalfSpace (const Pnt3f  &min, const Pnt3f  &max) const;
@@ -161,4 +163,3 @@ OSG_END_NAMESPACE
 #include "OSGPlane.inl"
 
 #endif // _OSG_PLANE_H_
-

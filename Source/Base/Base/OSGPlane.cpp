@@ -314,6 +314,44 @@ bool Plane::intersectInfinite(const Line &line, Pnt3f &point) const
     }
 }
 
+/*! Clip Polygon, defined by count points through polyIn, at plane, 
+	output is copied into polyOut; returns number of output points.
+ */
+
+int Plane::clip(Pnt3f *polyIn, Pnt3f *polyOut, int count) const
+{
+    Pnt3f i, s, p;
+    int j, n;
+    
+    n = 0;
+    s = polyIn[count-1];
+    
+    for (j = 0; j < count; j++) {
+        p = polyIn[j];
+    
+        if (isInHalfSpace(p)) {
+            if (isInHalfSpace(s))
+                polyOut[n++] = p;
+            else {
+                Line lp(s, p);
+                if (intersectInfinite(lp, i)) {
+                    polyOut[n++] = i;
+                    polyOut[n++] = p;
+                }
+            }
+        }
+        else if (isInHalfSpace(s)) {
+            Line ls(s, p);
+            if (intersectInfinite(ls, i)) 
+                polyOut[n++] = i;
+        }
+    
+        s = p;
+    }
+    
+    return n;
+}
+
 
 void Plane::transform(const Matrix &matrix)
 {
@@ -382,4 +420,3 @@ std::ostream &operator <<(std::ostream &outStream, const Plane &obj)
 }
 
 OSG_END_NAMESPACE
-
