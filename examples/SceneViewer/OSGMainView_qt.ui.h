@@ -11,6 +11,8 @@
 //////////////////////////////////////////////////////////////////
 void OSGMainView::init()
 {
+  int i,n;
+  osg::NodePtr node;
   osg::NodeCorePtr core;
   sceneView = new OSGSceneView(tabView,"OSGSceneView");
   tabView->insertTab( sceneView, "SceneView");
@@ -23,6 +25,20 @@ void OSGMainView::init()
     root->setCore(core);
   }
   osg::endEditCP(root);
+
+  // load all args
+  for (i = 1; i < qApp->argc(); i++)
+    {
+      node = osg::SceneFileHandler::the().read(qApp->argv()[i]);
+      if (node != osg::NullFC)
+        {
+          osg::beginEditCP(root);
+          {
+            root->addChild(node);
+          }
+          osg::endEditCP(root);
+        }
+    }
 
   sceneView->setRootNode(root);
 }

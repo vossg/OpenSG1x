@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Tue Oct 16 18:13:36 2001
+** Created: Wed Oct 17 15:38:11 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -13,6 +13,8 @@
 #include <OpenSG/OSGLog.h>
 #include <OpenSG/OSGNode.h>
 #include <OpenSG/OSGNodeCore.h>
+#include <OpenSG/OSGSceneFileHandler.h>
+#include <qapplication.h>
 #include <qmessagebox.h>
 #include <qstring.h>
 #include <qtabwidget.h>

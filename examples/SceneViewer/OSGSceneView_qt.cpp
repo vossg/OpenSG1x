@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGSceneView_qt.ui'
 **
-** Created: Tue Oct 16 18:13:35 2001
+** Created: Wed Oct 17 13:32:10 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -29,6 +29,9 @@
 #include <qtooltip.h>
 #include <qwhatsthis.h>
 #include "OSGSceneView_qt.ui.h"
+#include <qimage.h>
+#include <qpixmap.h>
+
 
 /* 
  *  Constructs a OSGSceneView which is a child of 'parent', with the 
@@ -39,7 +42,7 @@ OSGSceneView::OSGSceneView( QWidget* parent,  const char* name, WFlags fl )
 {
     if ( !name )
 	setName( "OSGSceneView" );
-    resize( 773, 744 ); 
+    resize( 771, 744 ); 
     setCaption( trUtf8( "Form1", "" ) );
     OSGSceneViewLayout = new QHBoxLayout( this ); 
     OSGSceneViewLayout->setSpacing( 6 );
@@ -66,6 +69,8 @@ OSGSceneView::OSGSceneView( QWidget* parent,  const char* name, WFlags fl )
     treeListView = new QListView( GroupBox1, "treeListView" );
     treeListView->addColumn( trUtf8( "Node Type", "" ) );
     treeListView->addColumn( trUtf8( "Core Type", "" ) );
+    treeListView->addColumn( trUtf8( "Node Name", "" ) );
+    treeListView->addColumn( trUtf8( "Core Name", "" ) );
     treeListView->addColumn( trUtf8( "Core USEed", "" ) );
     treeListView->setRootIsDecorated( TRUE );
     GroupBox1Layout->addWidget( treeListView );
@@ -86,9 +91,11 @@ OSGSceneView::OSGSceneView( QWidget* parent,  const char* name, WFlags fl )
     infoTable = new QTable( GroupBox3, "infoTable" );
     infoTable->setNumCols( infoTable->numCols() + 1 );    infoTable->horizontalHeader()->setLabel( infoTable->numCols() - 1, trUtf8( "Value", "" ) );
     infoTable->setNumRows( infoTable->numRows() + 1 );    infoTable->verticalHeader()->setLabel( infoTable->numRows() - 1, trUtf8( "Node Type Name", "" ) );
+    infoTable->setNumRows( infoTable->numRows() + 1 );    infoTable->verticalHeader()->setLabel( infoTable->numRows() - 1, trUtf8( "Node Name", "" ) );
     infoTable->setNumRows( infoTable->numRows() + 1 );    infoTable->verticalHeader()->setLabel( infoTable->numRows() - 1, trUtf8( "Core Type Name", "" ) );
+    infoTable->setNumRows( infoTable->numRows() + 1 );    infoTable->verticalHeader()->setLabel( infoTable->numRows() - 1, trUtf8( "Core Name", "" ) );
     infoTable->setNumRows( infoTable->numRows() + 1 );    infoTable->verticalHeader()->setLabel( infoTable->numRows() - 1, trUtf8( "Core USEed count", "" ) );
-    infoTable->setNumRows( 3 );
+    infoTable->setNumRows( 5 );
     infoTable->setNumCols( 1 );
     GroupBox3Layout->addWidget( infoTable );
 

@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>773</width>
+            <width>771</width>
             <height>744</height>
         </rect>
     </property>
@@ -87,6 +87,28 @@
                             </column>
                             <column>
                                 <property name="text">
+                                    <string>Node Name</string>
+                                </property>
+                                <property name="clickable">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="resizeable">
+                                    <bool>true</bool>
+                                </property>
+                            </column>
+                            <column>
+                                <property name="text">
+                                    <string>Core Name</string>
+                                </property>
+                                <property name="clickable">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="resizeable">
+                                    <bool>true</bool>
+                                </property>
+                            </column>
+                            <column>
+                                <property name="text">
                                     <string>Core USEed</string>
                                 </property>
                                 <property name="clickable">
@@ -135,27 +157,55 @@
                                 <property name="text">
                                     <string>Value</string>
                                 </property>
+                                <property name="pixmap">
+                                    <pixmap></pixmap>
+                                </property>
                             </column>
                             <row>
                                 <property name="text">
                                     <string>Node Type Name</string>
+                                </property>
+                                <property name="pixmap">
+                                    <pixmap></pixmap>
+                                </property>
+                            </row>
+                            <row>
+                                <property name="text">
+                                    <string>Node Name</string>
+                                </property>
+                                <property name="pixmap">
+                                    <pixmap></pixmap>
                                 </property>
                             </row>
                             <row>
                                 <property name="text">
                                     <string>Core Type Name</string>
                                 </property>
+                                <property name="pixmap">
+                                    <pixmap></pixmap>
+                                </property>
+                            </row>
+                            <row>
+                                <property name="text">
+                                    <string>Core Name</string>
+                                </property>
+                                <property name="pixmap">
+                                    <pixmap></pixmap>
+                                </property>
                             </row>
                             <row>
                                 <property name="text">
                                     <string>Core USEed count</string>
+                                </property>
+                                <property name="pixmap">
+                                    <pixmap></pixmap>
                                 </property>
                             </row>
                             <property name="name">
                                 <cstring>infoTable</cstring>
                             </property>
                             <property name="numRows">
-                                <number>3</number>
+                                <number>5</number>
                             </property>
                             <property name="numCols">
                                 <number>1</number>
@@ -274,8 +324,8 @@
     <slot>setActiveNode(osg::NodePtr node)</slot>
     <slot>setActiveNodeFromListItem(QListViewItem * item)</slot>
     <slot>createView(osg::NodePtr node)</slot>
-    <slot>updateAllViews()</slot>
-    <slot>closeAllViews()</slot>
+    <slot>updateAllViews(void)</slot>
+    <slot>closeAllViews(void)</slot>
     <slot>deleteNode(osg::NodePtr node)</slot>
     <slot>popupTreeMenu(QListViewItem * parentItem)</slot>
     <slot>menuHandler(int id)</slot>

@@ -329,6 +329,8 @@
     </connection>
 </connections>
 <includes>
+    <include location="global" impldecl="in implementation">qapplication.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGSceneFileHandler.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGGroup.h</include>
     <include location="global" impldecl="in implementation">qtimer.h</include>
     <include location="global" impldecl="in implementation">qstring.h</include>

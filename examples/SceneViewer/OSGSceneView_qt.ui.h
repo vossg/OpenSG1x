@@ -36,10 +36,11 @@ void OSGSceneView::addListItem( osg::NodePtr node, QListViewItem *parentItem )
 {
   osg::Int32 i,n;
   osg::NodeCorePtr core;
+  osg::NamePtr namePtr;
   QListViewItem *listItem;
   QString qstr;
-  const char *coreTypeName, *notSet = "Not set";
-
+  const char *nodeName, *coreName, *coreTypeName, *notSet = "Not set";
+  
   if (node != osg::NullFC) 
     {
       if (parentItem)
@@ -47,22 +48,35 @@ void OSGSceneView::addListItem( osg::NodePtr node, QListViewItem *parentItem )
       else
         rootTreeItem = listItem = new TreeViewItem (treeListView,node);
 
+      namePtr = osg::NamePtr::dcast(node->findAttachment(osg::Name::getClassType().getGroupId()));
+      if (namePtr == osg::NullFC)
+        nodeName = notSet;
+      else
+        nodeName = namePtr->getFieldPtr()->getValue().c_str();
+      
       core = node->getCore();
       if (core == osg::NullFC)
         {
-                    coreTypeName = notSet;
-                    qstr.setNum(0);
+          coreTypeName = notSet;
+          qstr.setNum(0);
         }
       else
         {
           coreTypeName = core->getType().getCName();
           qstr.setNum(core->getParents().size());
           listItem->setText(2, qstr);
+          namePtr = osg::NamePtr::dcast(core->findAttachment(osg::Name::getClassType().getGroupId()));
+          if (namePtr == osg::NullFC)
+            coreName = notSet;
+          else
+            coreName = namePtr->getFieldPtr()->getValue().c_str();
         }
-
+      
       listItem->setText(0, node->getType().getCName());
       listItem->setText(1, coreTypeName);
-      listItem->setText(2, qstr);
+      listItem->setText(2, nodeName);
+      listItem->setText(3, coreName);
+      listItem->setText(4, qstr);
       
       n = node->getNChildren();
       for ( i = 0; i < n; i++)
@@ -144,11 +158,13 @@ void OSGSceneView::setActiveNode( osg::NodePtr node )
   osg::FieldDescription* fDesc;
   osg::Field* fieldPtr;
   std::string val;
+  osg::SFFieldContainerPtr* sfFieldPtr;
   osg::MFFieldContainerPtr* mfFieldPtr;
   QString qval;
   std::list<QWidget*>::iterator wI;
   osg::OSGQGLManagedWidget *w;
-  
+  osg::NamePtr namePtr;
+ 
   activeNode = node;
 	
   for (wI = viewList.begin(); wI != viewList.end(); ++wI)
@@ -183,14 +199,26 @@ void OSGSceneView::setActiveNode( osg::NodePtr node )
               
               // Value
               col++;
+              sfFieldPtr = dynamic_cast<osg::SFFieldContainerPtr*>(fieldPtr);
               mfFieldPtr = dynamic_cast<osg::MFFieldContainerPtr*>(fieldPtr);
-              if ( mfFieldPtr )
-                qval.setNum(mfFieldPtr->getSize());
+
+              cerr << "name: " << fDesc->getCName()
+                   << ", sfFieldPtr: " << sfFieldPtr
+                   << ", mfFieldPtr: " << mfFieldPtr << endl;
+
+              if (sfFieldPtr)
+                if (sfFieldPtr->getValue() == osg::NullFC)
+                  qval = "unset";
+                else
+                  qval = "set";
               else
-                { 
-                  fieldPtr->getValueByStr(val);
-                  qval = val.c_str();
-                }
+                if (mfFieldPtr)
+                  qval.setNum(mfFieldPtr->getSize());
+                else
+                  { 
+                    fieldPtr->getValueByStr(val);
+                    qval = val.c_str();
+                  }
               fieldsTable->setText(i,col,qval);
               
               // Cardinality
@@ -217,9 +245,27 @@ void OSGSceneView::setActiveNode( osg::NodePtr node )
           row = 0;
           infoTable->setText(row,0,node->getType().getCName());
           
+          // node name
+          row++;
+          namePtr = osg::NamePtr::dcast(node->findAttachment(osg::Name::getClassType().getGroupId()));
+          if (namePtr == osg::NullFC)
+            qval = "";
+          else
+            qval = namePtr->getFieldPtr()->getValue().c_str();
+          infoTable->setText(row,0,qval);
+
           // node core type name
           row++;
           infoTable->setText(row,0,core->getType().getCName());
+
+          // node name
+          row++;
+          namePtr = osg::NamePtr::dcast(core->findAttachment(osg::Name::getClassType().getGroupId()));
+          if (namePtr == osg::NullFC)
+            qval = "";
+          else
+            qval = namePtr->getFieldPtr()->getValue().c_str();
+          infoTable->setText(row,0,qval);
 
           // core used count
           row++;

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Tue Oct 16 18:13:37 2001
+** Created: Wed Oct 17 15:37:52 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
