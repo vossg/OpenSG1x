@@ -75,13 +75,17 @@ class SField : public Field
 
   public:
 
-    typedef typename osgIF<fieldNameSpace == 1,
-                           FieldDataTraits1<FieldTypeT>, 
-                           FieldDataTraits2<FieldTypeT> >::_IRet SF1Trait;
+    typedef typename osgIF<fieldNameSpace == 0,
+                           FieldDataTraits <FieldTypeT>,
+                           InvalidTrait                >::_IRet SF0Trait;
 
-    typedef typename osgIF<fieldNameSpace == 0, 
-                           FieldDataTraits <FieldTypeT>, 
-                           SF1Trait>::_IRet                      SFieldTraits;
+    typedef typename osgIF<fieldNameSpace == 1,
+                           FieldDataTraits1<FieldTypeT>,
+                           SF0Trait                    >::_IRet SF1Trait;
+
+    typedef typename osgIF<fieldNameSpace == 2, 
+                           FieldDataTraits2<FieldTypeT>, 
+                           SF1Trait                     >::_IRet SFieldTraits;
 
     typedef          SField<FieldTypeT, fieldNameSpace>          Self;
 

@@ -40,6 +40,11 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#if defined(__sun)
+#define BSD_COMP
+#endif
+
+
 #include <sys/types.h>
 #ifdef WIN32
 #include <windows.h>

@@ -334,7 +334,10 @@
 #ifndef GL_EXT_paletted_texture
 #define GL_EXT_paletted_texture 1
 
-#define GL_TABLE_TOO_LARGE_EXT                  0x8031
+#if !defined(GL_TABLE_TOO_LARGE_EXT)
+# define GL_TABLE_TOO_LARGE_EXT                  0x8031
+#endif
+
 #define GL_COLOR_TABLE_FORMAT_EXT               0x80D8
 #define GL_COLOR_TABLE_WIDTH_EXT                0x80D9
 #define GL_COLOR_TABLE_RED_SIZE_EXT             0x80DA

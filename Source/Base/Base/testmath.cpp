@@ -1503,7 +1503,7 @@ void matNSMTest(void)
 
 Real32 nonFloatTest(void)
 {
-    Real32 rVal = osgsqrt(90);
+    Real32 rVal = osgsqrt(90.f);
 
     rVal = osgcos(90);
     rVal = osgsin(90);

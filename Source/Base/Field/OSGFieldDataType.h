@@ -75,6 +75,10 @@ struct FieldTraits
     static const Char8 *getPName(void) { return "Field"; }
 };
 
+struct InvalidTrait 
+{
+};
+
 /*! \ingroup GrpBaseFieldTraits */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy            */

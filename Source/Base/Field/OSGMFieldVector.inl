@@ -38,7 +38,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-#if defined(__sgi) || defined(__linux) || defined(darwin) || defined(__hpux)
+#if defined(__sgi) || defined(__linux) || defined(darwin) || \
+    defined(__sun) || defined(__hpux)
 
 template <class Tp, class Alloc> inline
 UChar8 *MFieldVector<Tp, Alloc>::getStart(void)

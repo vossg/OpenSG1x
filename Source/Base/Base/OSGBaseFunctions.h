@@ -54,6 +54,7 @@
 
 #ifdef __sun
 #include <stdlib.h>
+#include <ieeefp.h>
 #endif
 
 #include <OSGConfig.h>

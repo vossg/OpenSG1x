@@ -56,6 +56,8 @@
 #elif defined(__hpux)
 #include <arpa/nameser.h>
 #include <pthread.h>
+#elif defined(__sun)
+#include <arpa/nameser_compat.h>
 #elif defined(darwin)
 #include <machine/endian.h>
 #elif defined(__linux)
@@ -550,6 +552,102 @@
 # define OSG_STDEXCEPTION_NAMESPACE std
 
 # endif // defined(__hpux) && !defined(__GNUC__)
+
+
+/*-------------------------------------------------------------------------*/
+/*                               Sun CC                                    */
+
+# if defined(__sun) && !defined(__GNUC__)
+
+/*! \brief compiler supports namespaces
+ *  \ingroup GrpBaseDefines
+ */
+
+# define OSG_HAS_NAMESPACE
+
+/*! \brief compiler supports std namespace
+ *  \ingroup GrpBaseDefines
+ */
+
+# define OSG_HAS_STD_NAMESPACE
+
+# if defined(_STANDARD_C_PLUS_PLUS)
+
+# endif  /* _STANDARD_C_PLUS_PLUS */
+
+/*! \brief stream->rdbuf get the new buffer as a parameter
+ *  \ingroup GrpBaseDefines
+ */
+
+# define OSG_STREAM_RDBUF_HAS_PARAM
+
+/*! \brief stream->isopen is available
+ *  \ingroup GrpBaseDefines
+ */
+
+# define OSG_STREAM_HAS_ISOPEN
+
+/*! \brief vsnprintf is available
+ *  \ingroup GrpBaseDefines
+ */
+
+# define OSG_HAS_VSNPRINTF
+
+/*! \brief nilbuffer is defined in the stdlib
+ *  \ingroup GrpBaseDefines
+ */
+
+# define OSG_HAS_NILBUF
+
+/*! \brief Use SGI internal types to define OpenSG base types
+ *  \ingroup GrpBaseDefines
+ */
+
+# define OSG_SUN_TYPES
+
+/*! \brief atan2f function available
+ *  \ingroup GrpBaseDefines
+ */
+
+//# define OSG_HAS_ATANF2
+
+/*! \brief General float math
+ *  \ingroup GrpBaseDefines
+ */
+
+//# define OSG_HAS_FLOATMATH
+
+/*! \brief SGI's stl implementation is available
+ *  \ingroup GrpBaseDefines
+ */
+
+# define OSG_SGI_STL
+
+/*! \brief Use GLX 
+ *  \ingroup GrpBaseDefines
+ */
+
+# define OSG_USE_GLX
+
+/*! \brief LongLong constants have LL suffix
+ *  \ingroup GrpBaseDefines
+ */
+
+# define OSG_LONGLONG_HAS_LL
+
+# define OSG_THROW_NOTHING() throw()
+
+# define OSG_USE_PTHREADS
+
+# define OSG_SUN_CC
+
+# define OSG_FOUND_OS 
+
+// # define OSG_NOGLUTSUBDIR
+
+# define OSG_STDEXCEPTION_NAMESPACE std
+
+# endif // defined(__sun) && !defined(__GNUC__)
 
 
 #ifndef OSG_FOUND_OS

@@ -84,13 +84,17 @@ class MField : public Field
     typedef typename StorageType::reference       reference;
     typedef typename StorageType::const_reference const_reference;
     
+    typedef typename osgIF<fieldNameSpace == 0,
+                           FieldDataTraits <FieldTypeT>,
+                           InvalidTrait                >::_IRet MF0Trait;
+
     typedef typename osgIF<fieldNameSpace == 1,
                            FieldDataTraits1<FieldTypeT>,
-                           FieldDataTraits2<FieldTypeT> >::_IRet MF1Trait;
+                           MF0Trait                    >::_IRet MF1Trait;
 
-    typedef typename osgIF<fieldNameSpace == 0, 
-                           FieldDataTraits <FieldTypeT>, 
-                           MF1Trait>::_IRet MFieldTraits;
+    typedef typename osgIF<fieldNameSpace == 2, 
+                           FieldDataTraits2<FieldTypeT>, 
+                           MF1Trait                    >::_IRet MFieldTraits;
 
     typedef          MField<FieldTypeT, fieldNameSpace>          Self;
 

@@ -402,7 +402,7 @@ typedef float     Real32;
 
 typedef double    Real64;
 
-#elif defined(OSG_SUNOS_TYPES)
+#elif defined(OSG_SUN_TYPES)
 
 /*! \var typedef char Char8;
  *  \ingroup GrpBaseBaseBaseTypes
