@@ -67,10 +67,6 @@ private:
 
   bool _smoothing;
 
-  NodePtr _txfNode;
-  GeometryPtr _txfGeo;
-  Image* _txfTexture;
-
 protected:
 
   /** Copy Constructor */

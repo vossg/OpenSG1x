@@ -47,7 +47,7 @@ Text::Text (void )
 : _horizontal(true), _justifyMajor(BEGIN_JT), _justifyMinor(FIRST_JT),
   _leftToRight(true), _size(1),  _precision(1.f), _spacing(1),
   _style(PLAIN_ST), _topToBottom(true), _fontInstance(0),
-  _smoothing(false), _txfNode(NULL), _txfGeo(NULL), _txfTexture(NULL)
+  _smoothing(false)
   
 {
     return;
@@ -281,7 +281,9 @@ bool Text::fillImage (Image &image,
 			delete [] g[line];
 		      delete []g;
 		    }
- 		    width += g[line][i]->getAdvance();
+ 		    width += (i+1 == (Int32)strlen(text) ?
+			      g[line][i]->getImageSize()[0] :
+			      g[line][i]->getAdvance());
 		    tmpMinY = g[line][i]->getBoundingBox()[2] < tmpMinY ?
 			g[line][i]->getBoundingBox()[2] : tmpMinY;
 		    tmpMaxY = g[line][i]->getBoundingBox()[3] > tmpMaxY ?
@@ -334,7 +336,9 @@ bool Text::fillImage (Image &image,
 	    g[line][i]->getBoundingBox()[2] : tmpMinY;
 	  tmpMaxY = g[line][i]->getBoundingBox()[3] > tmpMaxY ?
 	    g[line][i]->getBoundingBox()[3] : tmpMaxY;
-	  tmpWidth += (g[line][i]->getAdvance());
+	  tmpWidth += (i+1 == (Int32)strlen(text) ?
+		    g[line][i]->getImageSize()[0] :
+		    g[line][i]->getAdvance());
 	}
 
 
@@ -358,7 +362,8 @@ bool Text::fillImage (Image &image,
       FFATAL (("Invalid _justifyMajor entry (%d)\n", _justifyMajor));
       xoff = 0;
     }
-// 	xoff-=g[line][0]->getBoundingBox()[0]*pixelDepth;
+ 	xoff-=g[line][0]->getBoundingBox()[0]*pixelDepth;
+
 	tmpWidth = 0;
 
 	for(line = 0; line < (Int32)lineVec.size(); line++) {
