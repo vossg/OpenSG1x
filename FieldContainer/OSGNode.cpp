@@ -59,24 +59,7 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
- *  \brief 
- */
-
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
- * 
- */
-
-/** \fn const char *OSGVecBase::getClassname(void)
- *  \brief Classname
- */
-
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
- *  \brief Value store
- */
-
-
- /***************************************************************************\
+/***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
 
@@ -178,7 +161,39 @@ OSGFieldContainerType OSGNode::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
+/*! @name Node Static Type Information
+ */
+
+/*@{*/
+
+/*! \fn OSGFieldContainerType &OSGNode::getStaticType(void) 
+ *  \brief returns node type
+ */
+
+/*! \fn OSGUInt32 OSGNode::getStaticTypeID(void) 
+ *  \brief returns node type id
+ */
+
+/*@}*/
+
+/*! @name Node Creation
+ */
+
+/*@{*/
+
+/*! \fn OSGNodePtr osg::OSGNode::create(void) 
+ *  \brief creates a clone of the prototype
+ */
+
+/*! \fn OSGNodePtr osg::OSGNode::createEmpty(void) 
+ *  \brief creates a empty node, does not clone the prototype
+ */
+
+/*@}*/
+
 OSG_FIELD_CONTAINER_DEF(OSGNode, OSGNodePtr)
+
+
 
 /*------------- constructors & destructors --------------------------------*/
 
