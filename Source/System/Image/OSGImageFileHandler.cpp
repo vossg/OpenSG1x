@@ -237,6 +237,12 @@ bool ImageFileHandler::read(ImagePtr &image, const char *fileName,
         fullFilePath = fileName;
     }
     
+    if(fullFilePath.empty())
+    {
+        SWARNING << "couldn't find image file " << fileName << std::endl;
+        return false;
+    }
+
     ImageFileType   *type = getFileType(mimeType, fullFilePath.c_str());
 
     if(type)
