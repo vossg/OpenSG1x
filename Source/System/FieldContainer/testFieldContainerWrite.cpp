@@ -274,7 +274,7 @@ std::string OSGWriter::SharedFCInfoHelper::buildName(
 {
     std::string temp;
     temp.assign( "FCName" );
-    temp.append( TypeConstants<UInt32>::putToString(num) );
+    temp.append( TypeTraits<UInt32>::putToString(num) );
     return temp;
 }
 

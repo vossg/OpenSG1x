@@ -707,6 +707,11 @@ dnl ############# Depreciated Settings #####################
 AC_ARG_ENABLE(depreciated,     [  --disable-depreciated              Exclude depreciated interfaces ],
 		disable_depreciated=yes, disable_depreciated=no) 
 
+dnl ############# Depreciated Settings #####################
+
+AC_ARG_ENABLE(glut-glsubdir,     [  --disable-glut-glsubdir            do not use GL subdir while including glut.h ],
+		disable_glut_glsubdir=yes, disable_glut_glsubdir=no) 
+
 dnl ############# Compiler Logo Settings #####################
 
 AC_ARG_ENABLE(compilerLogo,     [  --disable-compilerLogo             Disable compiler logo (WIn32 cl, icl) ],
@@ -1356,6 +1361,10 @@ if test "$disable_depreciated" = yes; then
     AC_DEFINE(OSG_DISABLE_DEPRECIATED)
 fi
 
+if test "$disable_glut_glsubdir" = yes; then
+    AC_DEFINE(OSG_NO_GLUT_GLSUBDIR)
+fi
+
 if test "$with_mpatrol" != no; then
     AC_DEFINE(OSG_USE_MPATROL)
 fi
@@ -1405,6 +1414,7 @@ case $with_log_type in
 		AC_DEFINE(OSG_DEFAULT_LOG_TYPE, LOG_STDERR)
 		;;
 esac
+
 
 
 AC_GDZ_WRITE_SYSTEM_COMMON()

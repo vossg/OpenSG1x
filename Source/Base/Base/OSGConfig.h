@@ -444,7 +444,7 @@
 # define SIZE_T_NEQ_UINT32
 
 # define OSG_NOGLSUBDIR
-# define OSG_NOGLUTSUBDIR
+# define OSG_NO_GLUT_GLSUBDIR
  
 # define OSG_USE_PTHREADS
 
