@@ -143,110 +143,10 @@ Compiler: $compiler<br>
 </p>
 EOF
 
-    # loop through the file, counting lines, highlight error & warning lines
-
-    if test -s $errfile ;
-    then
- 	ind=1
-
-    	echo "<h4>Errors:</h4>" >> $file
-
-    	echo "<table border=0>" >> $file
-	
-	IFS='@'	
-	cat $errfile | sed -e 's|:|@|' -e 's|\\|\&#92|g' | sort -n | \
-        while read line err ;
-     	do
-	    echo -n '<tr class="normal"><td class="line">' >> $file
-	    echo -n "<a href=#$line>$line</a></td>" >> $file
-	    echo    '<td class="log">'$err'</td></tr>' >> $file
-	    
-	    elist[$ind]=$line
-	    (( ind=$ind + 1 ))   
-	done
-	elist[$ind]=0
-
-	IFS=''
-	
-    	echo "</table>" >> $file
-    else
-    	elist[1]=0
-    fi
-
-    if test -s $warnfile ;
-    then
- 	ind=1
-
-    	echo "<h4>Warnings:</h4>" >> $file
-
-    	echo "<table border=0>" >> $file
-
-	IFS='@'	
-	cat $warnfile | sed -e 's|:|@|' -e 's|\\|\&#92|g' | sort -n | \
-        while read line err ;
-     	do
-	    echo -n '<tr class="normal"><td class="line">' >> $file
-	    echo -n "<a href=#$line>$line</a></td>" >> $file
-	    echo    '<td class="log">'$err'</td></tr>' >> $file
-	    
-	    #echo A $ind $line
-	    wlist[$ind]=$line
-	    #echo B $ind $line ${wlist[$ind]}
-	    (( ind=$ind + 1 ))
-	    #echo C $ind ${wlist[0]} ${wlist[1]} ${wlist[2]} ${wlist[3]}
-	done
-	IFS=''
-	
-	#echo D $ind ${wlist[0]} ${wlist[1]} ${wlist[2]} ${wlist[3]}
-	wlist[$ind]=0
-	
-	#echo E $ind ${wlist[0]} ${wlist[1]} ${wlist[2]} ${wlist[3]}
-
-    	echo "</table>" >> $file
-    else
-    	wlist[1]=0
-    fi
-    ln=1
-    acterr=1
-    acterrline=${elist[$acterr]}
-    actwarn=1
-    actwarnline=${wlist[$actwarn]}
-    #echo F $title $actwarn $actwarnline ${#wlist} @${wlist}@
-
-    echo "<h4>Log:</h4>" >> $file
-
-    echo "<table border=0>" >> $file
+    # This used to be done in the shell, but it just took too long,
+    # especially on Windows.
     
-    # convert spaces to nbsp to prevent read from killing them
-    cat $log | sed -e 's| |\&nbsp;|g' | while read -r line
-    do
-     	#echo G $ln $acterr $acterrline $actwarn $actwarnline	
-	if test $ln -eq $acterrline ; 
-	then
-	    echo -n '<tr class="error">' >> $file
-	    (( acterr=$acterr + 1 ))
-	    acterrline=${elist[$acterr]}
-	    if test $ln -eq $actwarnline ;
-	    then
-	    	(( actwarn=$actwarn + 1 ))
-	    	actwarnline=${elist[$actwarn]}
-	    fi
-	elif test $ln -eq $actwarnline ; 
-	then
-	    echo -n '<tr class="warning">' >> $file
-	    (( actwarn=$actwarn + 1 ))
-	    actwarnline=${wlist[$actwarn]}
-    	else
-	    echo -n '<tr class="normal">' >> $file
-	fi
- 	echo -n '<td class="line">'  >> $file
-	echo $ln '</td> <td class="log"><a name='$ln'>' >> $file
-	echo $line | sed -e 's|\&nbsp;| |g' -e 's|&|&amp;|g' -e 's|<|\&lt;|g' \
-	    >> $file
-	echo '</a></td></tr>' >> $file
-   	
-	(( ln=$ln + 1 ))
-    done	
+    $tmpdir/analyze_log.pl $log $errfile $warnfile > $file
  
     cat << EOF >> $file
 </table>
@@ -324,8 +224,115 @@ checkerror ()
 tmpdir=/tmp
 basedir=`pwd`
 
+# Init perl script for log analysis
+# Need this in this script, as it might be needed before CVS worked
+
+cat << EOF > $tmpdir/analyze_log.pl
+#!/bin/perl
+
+$logfile=$ARGV[0];
+$errfile=$ARGV[1];
+$warnfile=$ARGV[2];
+
+@elist=();
+
+if ( -r $errfile )
+{
+    print "<h4>Errors:</h4>\n";
+    print "<table border=0>\n";
+
+    open(IN, $errfile);
+
+    while (<IN>)
+    {
+        /:/;
+        $line = $`;
+        $err  = $';
+        $err  =~ s/\\/&#92/g;
+        chomp($err);
+       
+        push(@elist, $line);
+        
+	print '<tr class="normal"><td class="line">';
+	print "<a href=#$line>$line</a></td>";
+	print "<td class=\"log\"> $err </td></tr>\n";       
+    }
+    
+    print "</table>";
+}
+push(@elist, 0);
+
+@wlist=();
+
+if ( -r $warnfile )
+{
+    print "<h4>Warnings:</h4>\n";
+    print "<table border=0>\n";
+
+    open(IN, $warnfile);
+
+    while (<IN>)
+    {
+        /:/;
+        $line = $`;
+        $warn = $';
+        $warn =~ s/\\/&#92/g;
+        chomp($warn);
+        
+        push(@wlist, $line);
+        
+	print '<tr class="normal"><td class="line">';
+	print "<a href=#$line>$line</a></td>";
+	print "<td class=\"log\"> $warn </td></tr>\n";       
+    }
+    
+    print "</table>";
+}
+push(@wlist, 0);
+ 
+print "<h4>Log:</h4>\n";
+print "<table border=0>\n";
+
+$acterr  = shift @elist;
+$actwarn = shift @wlist;
+$actline = 1;
+
+open(IN, $logfile);
+while (<IN>)
+{
+    if ( $actline == $acterr )
+    {
+        print '<tr class="error">';
+        $acterr = shift @elist;
+        if ( $actline == $actwarn )
+        {
+            $actwarn = shift @wlist;
+        }
+    }
+    elsif ( $actline == $actwarn )
+    {
+        print '<tr class="warning">';
+        $actwarn = shift @wlist;
+    }
+    else
+    {
+        print '<tr class="normal">';
+    }
+
+    chomp($_);
+    $_ =~ s/&/&amp;/g;
+    $_ =~ s/</&lt;/g;
+    
+    print "<td class=\"line\">$actline</td> <td class=\"log\">";
+    print "<a name=\"$actline\">$_</a></td></tr>\n";
+
+    $actline = $actline + 1;
+}    
+EOF
+
+# ' Just to keep the syntax highlighting happy
+
 extra_args=""
-par_jobs=1
 config_shell=sh
 mail=echo
 # Only some machines can write the Web files, scp via one of them
@@ -509,7 +516,7 @@ case $system in
 	png_args=${png_args:="--with-png=`pwd`/../supportlibs"}
 	qt_dir="`pwd`/../packages/qt-3.12"
 	qt_args=${qt_args:="--with-qt=${qt_dir}"}
-    	par_jobs=${par_jobs:=2}
+    	par_jobs=${par_jobs:=1}
 	compiler=${compiler:=icl50}
         do_copy='cd $basedir; tar cf - opensg_dailybuild* | ssh -i /home/reiners/.ssh/id_dsa pc1107 tar xf - -C $log_destination'
 	config_shell=bash
@@ -560,7 +567,7 @@ glut_args=${glut_args:=""}
 tif_args=${tif_args:=""}
 jpeg_args=${jpeg_args:=""}
 png_args=${png_args:=""}
-
+par_jobs=${par_jobs:=1}
 
 # Start output
 # do it here so that $compiler and $system are set
@@ -605,7 +612,7 @@ checkerror "Configure" $log_configure
 if type doxygen > /dev/null 2>&1
 then
 	has_doxygen=1
-	( rm -f $doc_flag ; $make doc 1>$log_doc 2>&1 ; touch $doc_flag ) &
+	( rm -f $doc_flag ; $make alldocs 1>$log_doc 2>&1 ; touch $doc_flag ) &
 else
 	has_doxygen=0
 fi
@@ -693,8 +700,8 @@ then
 fi
 
 cd $basedir
-echo $SHELL OpenSG/dist/make_bindist --compiler $compiler --qt $qt_dir > $log_dist 2>&1
-$SHELL OpenSG/dist/make_bindist --compiler $compiler --qt $qt_dir >> $log_dist 2>&1
+echo /bin/sh OpenSG/dist/make_bindist --compiler $compiler --qt $qt_dir > $log_dist 2>&1
+/bin/sh OpenSG/dist/make_bindist --compiler $compiler --qt $qt_dir >> $log_dist 2>&1
 
 checkerror "Dist" $log_dist
 
