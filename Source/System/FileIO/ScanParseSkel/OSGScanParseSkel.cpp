@@ -337,21 +337,34 @@ void ScanParseSkel::is(const Char8 *)
 {
 }
 
-void ScanParseSkel::profile(const Char8 *szProfileName)
+void ScanParseSkel::profileElement(const Char8 *szProfileName)
 {
     fprintf(stderr, "PROFILE %s\n", szProfileName);
 }
 
-void ScanParseSkel::importElement(const Char8 *szLookupName,
-                                  const Char8 *szImportAs   )
+void ScanParseSkel::componentElement    (const Char8 *szComponentName)
 {
-    fprintf(stderr, "IMPORT %s AS %s\n", szLookupName, szImportAs);
+    fprintf(stderr, "COMPONENT %s\n", szComponentName);
 }
 
-void ScanParseSkel::exportElement(const Char8 *szLookupName,
+void ScanParseSkel::metaElement  (const Char8 *szMetaKey,
+                                  const Char8 *szMetaValue)
+{
+    fprintf(stderr, "META %s %s\n", szMetaKey, szMetaValue);
+}
+
+void ScanParseSkel::importElement(const Char8 *szInlineName,
+                                  const Char8 *szNodeName,
+                                  const Char8 *szImportAs   )
+{
+    fprintf(stderr, "IMPORT %s.%s AS %s\n", 
+                    szInlineName, szNodeName, szImportAs);
+}
+
+void ScanParseSkel::exportElement(const Char8 *szNodeName,
                                   const Char8 *szExportAs )
 {
-    fprintf(stderr, "EXPORT %s AS %s\n", szLookupName, szExportAs);
+    fprintf(stderr, "EXPORT %s AS %s\n", szNodeName, szExportAs);
 }
 
 /*-------------------------------------------------------------------------*/

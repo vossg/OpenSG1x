@@ -103,6 +103,8 @@ void freeName(char *&szName);
 %token EXPORT
 %token IMPORT
 %token PROFILE
+%token COMPONENT
+%token META
 %token AS
 
 %token EVENTIN
@@ -205,24 +207,56 @@ void freeName(char *&szName);
 
 %%
 
-vrmlScene : statementsORempty
+vrmlScene : profileStatement
+            componentStatements
+            metaStatements
+            statements
 ;
 
-statementsORempty : PROFILE 
+profileStatement : PROFILE 
                     ID
                     {
                         if(SKEL != NULL)
                         {
-                            SKEL->profile(SKELTEXT);
+                            SKEL->profileElement(SKELTEXT);
                         }
-                    } 
-                    statements 
-                  | statements
-                  | empty 
+                    }
+          |empty 
 ;
+
+componentStatements : componentStatements componentStatement
+                    |                     componentStatement
+                    | empty
+;
+
+componentStatement : COMPONENT
+                     ID
+                    {
+                        if(SKEL != NULL)
+                        {
+                            SKEL->componentElement(SKELTEXT);
+                        }
+                    }
+
+metaStatements : metaStatements metaStatement
+                    |                     metaStatement
+                    | empty
+;
+
+metaStatement : META
+                     ID { setName(szName1, SKELTEXT); }
+                     ID
+                    {
+                        if(SKEL != NULL)
+                        {
+                            SKEL->metaElement(szName1, SKELTEXT);
+                        }
+                        freeName(szName1);
+                    }
 
 statements : statements statement 
            |            statement  
+           | empty 
 ;
 
 statement : nodeStatement 
@@ -281,7 +315,7 @@ protoBodyORempty : protoBody
                  | empty
 ;
 
-protoBody : protoStatementsORempty rootNodeStatement statementsORempty
+protoBody : protoStatementsORempty rootNodeStatement statements
 ;
 
 interfaceDeclarationsORempty : interfaceDeclarations
@@ -457,15 +491,21 @@ importStatement : IMPORT
                   {
                       setName(szName1, SKELTEXT);
                   }
+                  PERIOD
+                  ID
+                  {
+                      setName(szName3, SKELTEXT);
+                  }
                   importExportEnd
                   {
                       if(SKEL != NULL)
                       {
-                          SKEL->importElement(szName1, szName2);
+                          SKEL->importElement(szName1, szName3, szName2);
                       }
                     
                       freeName(szName1);
                       freeName(szName2);
+                      freeName(szName3);
                   }
 ;
 
@@ -473,7 +513,7 @@ importExportEnd : AS ID
                   {
                         setName(szName2, SKELTEXT);
                   }
-                |
+                | empty
 ;
 
 URLList : fieldValue

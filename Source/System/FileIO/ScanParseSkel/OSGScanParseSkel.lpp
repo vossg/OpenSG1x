@@ -256,6 +256,8 @@ header (#[^\n]*\n)
 <INITIAL,NODE>EXPORT        { return EXPORT;         }
 <INITIAL,NODE>IMPORT        { return IMPORT;         }
 <INITIAL,NODE>PROFILE       { return PROFILE;        }
+<INITIAL,NODE>COMPONENT     { return COMPONENT;      }
+<INITIAL,NODE>META          { return META;           }
 <INITIAL,NODE>AS            { return AS;             }
 
 <INITIAL,NODE>MFColor       { return Tok_MFColor;    } 
