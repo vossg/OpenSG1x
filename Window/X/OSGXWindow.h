@@ -54,8 +54,9 @@
 #include <GL/glx.h>
 #undef Bool
 
-#include <OSGWindowBase.h>
+#include <OSGXWindowDef.h>
 #include "OSGWindow.h"
+#include "OSGString.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -77,7 +78,7 @@ typedef FCPtr <WindowPtr, XWindow> XWindowPtr;
 /*! \brief X11 window class
  */
 
-class OSG_WINDOW_DLLMAPPING XWindow : public Window
+class OSG_XWINDOW_DLLMAPPING XWindow : public Window
 {
   public:
 
@@ -105,7 +106,12 @@ class OSG_WINDOW_DLLMAPPING XWindow : public Window
 
     /*------------------------- your_category -------------------------------*/
 	
-	// Window-system dependent functions
+	/** GL implementation dependent function **/
+	
+	// query the system for a GL function
+	virtual void (*getFunctionByName( const String &s ))();
+	
+	/** Window-system dependent functions **/
 	
 	// init the window: create the context	
 	virtual void init( void );
@@ -113,6 +119,8 @@ class OSG_WINDOW_DLLMAPPING XWindow : public Window
 	// activate the window: bind the OGL context	
 	// set the active window, if needed
 	virtual void activate( void );
+	
+	virtual void deactivate ( void ) {}
 	
 	// swap buffers	for this window
 	// does not set the active window!
@@ -259,7 +267,7 @@ typedef SField<XWindowPtr>       SFXWindowPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, XWindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, XWindowPtr, OSG_XWINDOW_DLLTMPLMAPPING)
 
 #endif
 
@@ -273,7 +281,7 @@ typedef MField<XWindowPtr>       MFXWindowPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, XWindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, XWindowPtr, OSG_XWINDOW_DLLTMPLMAPPING)
 
 #endif
 

@@ -51,6 +51,9 @@
 
 #include <GL/glx.h>
 #undef Bool
+#ifdef sgi
+#include <dlfcn.h>
+#endif
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
@@ -58,7 +61,7 @@
 #include <iostream.h>
 #endif
 
-#define OSG_COMPILEWINDOW
+#define OSG_COMPILEXWINDOW
 
 #include "OSGViewport.h"
 #include "OSGCamera.h"
@@ -87,7 +90,7 @@ The XWindow class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char XWindow::cvsid[] = "@(#)$Id: OSGXWindow.cpp,v 1.2 2001/02/12 15:59:17 vossg Exp $";
+char XWindow::cvsid[] = "@(#)$Id: OSGXWindow.cpp,v 1.4 2001/02/13 16:01:29 dirk Exp $";
 
 // Static Class Varible implementations: 
 
@@ -162,7 +165,6 @@ XWindow::~XWindow(void)
 
 /*-------------------------- your_category---------------------------------*/
 
-	
 // init the window: create the context	
 void XWindow::init( void )
 {    
@@ -211,6 +213,20 @@ void XWindow::swap( void )
 {
     glXSwapBuffers( _dpy, _hwin );
 }
+
+// Query for a GL extension function
+void (*XWindow::getFunctionByName( const String &s ))(void)
+{
+#ifdef __sgi
+	void *libHandle = dlopen("libgl.so", RTLD_LAZY);
+	void *func = dlsym( libHandle, (Char8*)s.str() );
+	dlclose(libHandle);
+	return (void (*)(void))func;   	 
+#else
+	return glXGetProcAddressARB( (UChar8 *)s.str() );
+#endif
+}
+
 
 
 /*-------------------------- assignment -----------------------------------*/
