@@ -99,11 +99,26 @@ RemoteAspect::RemoteAspect():
     _changedFunctors(),
     _statistics(NULL)
 {
+    FieldContainerFactory::TypeMapIterator typeI;
+
     // initialize field filter
     _fieldFilter[Geometry::getClassType().getId()] 
     = Geometry::GLIdFieldMask;
     _fieldFilter[TextureChunk::getClassType().getId()] 
     = TextureChunk::GLIdFieldMask;
+
+    for(typeI =FieldContainerFactory::the()->beginTypes();
+        typeI!=FieldContainerFactory::the()->endTypes();
+        ++typeI)
+    {
+        if(typeI->second->isDerivedFrom(Window::getClassType()))
+        {
+            _fieldFilter[typeI->second->getId()] = 
+                Window::GlObjectEventCounterFieldMask |
+                Window::GlObjectLastRefreshFieldMask |
+                Window::GlObjectLastReinitializeFieldMask;
+        }
+    }
 }
 
 /** \brief Destructor
@@ -114,6 +129,7 @@ RemoteAspect::~RemoteAspect(void)
     FieldContainerFactory *factory=FieldContainerFactory::the();
     ReceivedFCT::iterator i;
     FieldContainerPtr fcPtr;
+    NodePtr node;
 
     // subRef received field container
     for(i =_receivedFC.begin();
@@ -124,6 +140,25 @@ RemoteAspect::~RemoteAspect(void)
         if(fcPtr != NullFC)
         {
             callDestroyed(fcPtr);
+
+            // currently it is not save to subref all
+            // containers because we don't know whether 
+            // they are referenced by other nodes.
+            // It's only save to remove nodes without parents
+            node=NodePtr::dcast(fcPtr);
+            if(node!=NullFC)
+            {
+                if(node->getParent()==NullFC)
+                {
+                    do
+                    {
+                        subRefCP(fcPtr);
+                        fcPtr=factory->getContainer(i->second);
+                    }
+                    while(fcPtr!=NullFC);
+                }
+            }
+            /*
             // subref twice because we have two addrefs on reate
             // It is not possible to subref until the node is removed
             // because if this node is referenced by another node
@@ -131,6 +166,7 @@ RemoteAspect::~RemoteAspect(void)
             // other node.
             subRefCP(fcPtr);
             subRefCP(fcPtr);
+            */
         }
     }
 }
@@ -330,7 +366,10 @@ void RemoteAspect::receiveSync(Connection &connection,
                     FDEBUG (( "SubRef: %s ID:%d\n",
                               fcPtr->getType().getName().str(),
                               fcPtr.getFieldContainerId() ))
+#if 0                        
+        //ignore until solution is found for subrefs in destructors
                     subRefCP(fcPtr);
+#endif
                 }
                 break;
             }
@@ -368,7 +407,9 @@ void RemoteAspect::sendSync(Connection &connection,
     UInt32 maskUInt32;
     UInt8 cmd;
     std::string typeName;
-    std::map<UInt32,BitVector>::iterator sentFCI;
+    FieldMaskMapT::iterator sentFCI;
+    FieldMaskMapT changedMap;
+    FieldMaskMapT::iterator changedMapI;
 
     if(_statistics)
         _statistics->getElem(statSyncTime)->start();
@@ -428,19 +469,33 @@ void RemoteAspect::sendSync(Connection &connection,
     }
 
     // changed fields
+    // first create a condensed map, where each container is stored
+    // only once
     for(changedI =changeList->beginChanged() ;
         changedI!=changeList->endChanged() ;
         changedI++)
     {
-        sentFCI=_sentFC.find(changedI->first);
+        changedMapI=changedMap.find(changedI->first);
+        if(changedMapI==changedMap.end())
+            changedMap.insert(std::pair<UInt32,BitVector>(
+                                  changedI->first,changedI->second));
+        else
+            changedMapI->second|=changedI->second;
+    }
+    for(FieldMaskMapT::iterator condensedI=changedMap.begin();
+        condensedI != changedMap.end();
+        ++condensedI)
+    {
+        sentFCI=_sentFC.find(condensedI->first);
         // ignore changes for not transmitted fieldcontainers
         if(sentFCI == _sentFC.end())
             continue;
         FieldContainerPtr fcPtr = 
-            FieldContainerFactory::the()->getContainer(changedI->first);
+            FieldContainerFactory::the()->getContainer(condensedI->first);
+        // ignore removed containers
         if(fcPtr == NullFC)
             continue;
-        mask = changedI->second;
+        mask = condensedI->second;
         filterI=_fieldFilter.find(fcPtr->getType().getId());
         // apply field filter
         if(filterI != _fieldFilter.end())
@@ -449,18 +504,21 @@ void RemoteAspect::sendSync(Connection &connection,
                       fcPtr->getType().getName().str() ))
             mask &= 0xFFFFFFFF ^ filterI->second;
         }
-        // send changes
-        maskUInt32=mask;
-        sentFCI->second|=mask;
-        cmd=CHANGED;
-        connection.putValue(cmd);
-        connection.putValue(fcPtr.getFieldContainerId());   // id
-        connection.putValue(maskUInt32);                  // mask
-        fcPtr->copyToBin(connection,mask);
-        FDEBUG (( "Changed: %s ID:%d Mask:%d\n",
-                  fcPtr->getType().getName().str(),
-                  fcPtr.getFieldContainerId(),
-                  mask ))
+        if(mask)
+        {
+            // send changes
+            maskUInt32=mask;
+            condensedI->second|=mask;
+            cmd=CHANGED;
+            connection.putValue(cmd);
+            connection.putValue(condensedI->first);   // id
+            connection.putValue(maskUInt32);          // mask
+            fcPtr->copyToBin(connection,mask);
+            FDEBUG (( "Changed: %s ID:%d Mask:%d\n",
+                      fcPtr->getType().getName().str(),
+                      fcPtr.getFieldContainerId(),
+                      mask ))
+        }
     }
 
     // addref
