@@ -106,7 +106,7 @@ NodePtr VRMLSceneFileType::read(std::istream &is) const
     return  _pVRMLToOSGAction->getRoot();
 }
 
-NodePtr VRMLSceneFileType::read(const Char8 *fileName) const
+NodePtr VRMLSceneFileType::read(const Char8 *) const
 {
     FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
     return NullFC;
