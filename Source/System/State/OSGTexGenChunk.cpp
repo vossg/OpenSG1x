@@ -177,8 +177,11 @@ void TexGenChunk::activate(DrawActionBase *action, UInt32 idx )
 
     Matrix cameraMat;   
     Viewport *vp = action->getViewport();
-    action->getCamera()->getViewing(cameraMat, vp->getPixelWidth(), 
-                                               vp->getPixelHeight());
+	if(vp != NULL)
+	{
+		action->getCamera()->getViewing(cameraMat, vp->getPixelWidth(), 
+                                        vp->getPixelHeight());
+	}
 
     // genfuncs
     setGenFunc(GL_S, GL_TEXTURE_GEN_S, getGenFuncS(), getGenFuncSPlane(),
