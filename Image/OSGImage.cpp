@@ -367,8 +367,7 @@ Bool Image::scale ( int width, int height, int depth, Image *destination )
 		// set image data
 		destImage->set ( _pixelFormat, width, height, depth,
 										 _mipmapCount, _frameCount, _frameDelay, 0 );
-		
-		// copy every mipmap in every frame
+    // copy every mipmap in every frame
 		for (frame = 0; frame < _frameCount; frame++) {
 			for (mipmap = 0; mipmap < _mipmapCount; mipmap++) {
 
@@ -957,3 +956,5 @@ OSG_DLLEXPORT_DEF1(MField, ImageP,	OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 OSG_END_NAMESPACE
+
+

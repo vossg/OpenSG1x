@@ -188,7 +188,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     inline 
     unsigned long getSize ( Bool withMipmap = true, 
                             Bool withFrames = true) const
-		{ return  (calcMipmapSumSize((withMipmap ? _mipmapCount : 0)) *
+		{ return  (calcMipmapSumSize((withMipmap ? (_mipmapCount-1) : 0)) *
                    (withFrames ? _frameCount : 1) * _bpp);
 		}
 

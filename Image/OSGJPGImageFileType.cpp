@@ -113,9 +113,9 @@ bool JPGImageFileType::read (Image &image, const char *fileName )
 
 #ifdef OSG_WITH_JPG
 
-    bool retCode = false;
+  Bool retCode = false;
 
-  struct my_error_mgr {
+  struct local_error_mgr {
     struct jpeg_error_mgr pub;
     jmp_buf setjmp_buffer;
   };
@@ -123,8 +123,9 @@ bool JPGImageFileType::read (Image &image, const char *fileName )
   unsigned char *destData;
 	Image::PixelFormat pixelFormat;
 
-  typedef struct my_error_mgr * my_error_ptr;
-  struct my_error_mgr jerr;
+  int imageSize;
+  typedef struct local_error_mgr * local_error_ptr;
+  struct local_error_mgr jerr;
   struct jpeg_decompress_struct cinfo;
   FILE * infile;
   JSAMPARRAY buffer;
@@ -152,15 +153,17 @@ bool JPGImageFileType::read (Image &image, const char *fileName )
       pixelFormat = Image::OSG_LA_PF;
       break;
     case 3:
-		pixelFormat = Image::OSG_RGB_PF;
-		break;
+      pixelFormat = Image::OSG_RGB_PF;
+      break;
     case 4:
-		pixelFormat = Image::OSG_RGBA_PF;
-		break;
+      pixelFormat = Image::OSG_RGBA_PF;
+      break;
     };
     
-    if ( image.set(pixelFormat,cinfo.output_width,cinfo.output_height)) {
-      destData = image.getData() + image.getSize();
+    if (image.set(pixelFormat,cinfo.output_width,cinfo.output_height)) {
+      imageSize = image.getSize();
+      cout << imageSize  << endl;
+      destData = image.getData() + imageSize;
       row_stride = cinfo.output_width * cinfo.output_components;
       buffer = (*cinfo.mem->alloc_sarray)
         ((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride,1 );
@@ -229,14 +232,14 @@ bool JPGImageFileType::write (const Image &image, const char *fileName )
 
 	bool retCode = false;
 
-	struct my_error_mgr 
+	struct local_error_mgr 
 	{
 		struct jpeg_error_mgr pub;
 		jmp_buf setjmp_buffer;
 	};
-	typedef struct my_error_mgr * my_error_ptr;
+	typedef struct local_error_mgr * local_error_ptr;
 
-	struct my_error_mgr jerr;
+	struct local_error_mgr jerr;
 	struct jpeg_compress_struct cinfo;
 	FILE * outfile;
 	JSAMPARRAY buffer;
