@@ -155,6 +155,16 @@ typedef SField<UInt64> SFUInt64;
 OSG_DLLEXPORT_DECL1(SField, UInt64, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldSingle */
+
+typedef SField<Real16> SFReal16;
+#endif
+
+#ifndef OSG_COMPILEFIELDINST
+OSG_DLLEXPORT_DECL1(SField, Real16, OSG_BASE_DLLTMPLMAPPING)
+#endif
+
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
 /*! \ingroup GrpBaseFieldSingle */

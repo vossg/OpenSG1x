@@ -73,6 +73,7 @@ DataType FieldDataTraits< Int32>::_type("Int32" , "IntegralType");
 DataType FieldDataTraits<UInt32>::_type("UInt32", "IntegralType");
 DataType FieldDataTraits< Int64>::_type("Int64" , "IntegralType");
 DataType FieldDataTraits<UInt64>::_type("UInt64", "IntegralType");
+DataType FieldDataTraits<Real16>::_type("Real16", "IntegralType");
 DataType FieldDataTraits<Real32>::_type("Real32", "IntegralType");
 DataType FieldDataTraits<Real64>::_type("Real64", "IntegralType");
 DataType FieldDataTraits<void *>::_type("VoidP" , "IntegralType");

@@ -92,7 +92,7 @@ Int32 Image::_typeDic[][2] =
     { OSG_UINT16_IMAGEDATA, 2 },
     { OSG_UINT32_IMAGEDATA, 4 },
     { OSG_FLOAT32_IMAGEDATA, 4 },
-
+    { OSG_FLOAT16_IMAGEDATA, 2 },
 };
 
 /*----------------------------- class specific ----------------------------*/
@@ -174,6 +174,9 @@ void Image::dump(UInt32    ,
         break;
     case OSG_UINT32_IMAGEDATA:
         typeStr = "IMAGEDATA_TYPE UCHAR32";
+        break;
+    case OSG_FLOAT16_IMAGEDATA:
+        typeStr = "IMAGEDATA_TYPE FLOAT16";
         break;
     case OSG_FLOAT32_IMAGEDATA:
         typeStr = "IMAGEDATA_TYPE FLOAT32";
@@ -421,8 +424,6 @@ bool Image::addValue(const char *value)
             case OSG_UINT8_IMAGEDATA:
                 switch(pixelDepth)
                 {
-										case 0:
-												pf = osg::Image::OSG_INVALID_PF;
                     case 1:
                         pf = osg::Image::OSG_L_PF;
                         break;
@@ -444,8 +445,6 @@ bool Image::addValue(const char *value)
             case OSG_UINT16_IMAGEDATA:
                 switch(pixelDepth)
                 {
-										case 0:
-												pf = osg::Image::OSG_INVALID_PF;
                     case 2:
                         pf = osg::Image::OSG_L_PF;
                         break;
@@ -467,8 +466,6 @@ bool Image::addValue(const char *value)
             case OSG_UINT32_IMAGEDATA:
                 switch(pixelDepth)
                 {
-										case 0:
-												pf = osg::Image::OSG_INVALID_PF;
                     case 4:
                         pf = osg::Image::OSG_L_PF;
                         break;
@@ -490,8 +487,6 @@ bool Image::addValue(const char *value)
             case OSG_FLOAT32_IMAGEDATA:
                 switch(pixelDepth)
                 {
-										case 0:
-												pf = osg::Image::OSG_INVALID_PF;
                     case 4:
                         pf = osg::Image::OSG_L_PF;
                         break;
@@ -502,6 +497,27 @@ bool Image::addValue(const char *value)
                         pf = osg::Image::OSG_RGB_PF;
                         break;
                     case 16:
+                        pf = osg::Image::OSG_RGBA_PF;
+                        break;
+                    default:
+                        pf = osg::Image::OSG_INVALID_PF;
+                        FFATAL(("Invalid pixel depth: %d\n", pixelDepth));
+                        break;
+                }
+                break;
+            case OSG_FLOAT16_IMAGEDATA:
+                switch(pixelDepth)
+                {
+                    case 2:
+                        pf = osg::Image::OSG_L_PF;
+                        break;
+                    case 4:
+                        pf = osg::Image::OSG_LA_PF;
+                        break;
+                    case 6:
+                        pf = osg::Image::OSG_RGB_PF;
+                        break;
+                    case 8:
                         pf = osg::Image::OSG_RGBA_PF;
                         break;
                     default:
@@ -590,6 +606,8 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
         UInt32 *destDataUC32 = (UInt32*) data;
         Real32 *sourceDataF32 = (Real32*) sourceData;
         Real32 *destDataF32 = (Real32*) data;
+        Real16 *sourceDataH16 = (Real16*) sourceData;
+        Real16 *destDataH16 = (Real16* ) data;
 
         if (data)
         {
@@ -611,6 +629,9 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                                 memcpy (getData(), data, destSize);
                                 break;
                             case OSG_FLOAT32_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
+                            case OSG_FLOAT16_IMAGEDATA:
                                 memcpy (getData(), data, destSize);
                                 break;
 
@@ -652,6 +673,13 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                                 }
                                 break;
 
+                            case OSG_FLOAT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataH16[destI++] = sourceDataH16[srcI];
+                                    destDataH16[destI++] = sourceDataH16[srcI++];
+                                }
+                                break;
                             default:
                                 FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
                                 break;
@@ -693,7 +721,14 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                                     destDataF32[destI++] = sourceDataF32[srcI++];
                                 }
                                 break;
-
+                            case OSG_FLOAT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataH16[destI++] = sourceDataH16[srcI];
+                                    destDataH16[destI++] = sourceDataH16[srcI];
+                                    destDataH16[destI++] = sourceDataH16[srcI++];
+                                }
+                                break;
                             default:
                                 FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
                                 break;
@@ -739,7 +774,15 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                                     destDataF32[destI++] = sourceDataF32[srcI++];
                                 }
                                 break;
-
+                            case OSG_FLOAT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataH16[destI++] = sourceDataH16[srcI];
+                                    destDataH16[destI++] = sourceDataH16[srcI];
+                                    destDataH16[destI++] = sourceDataH16[srcI];
+                                    destDataH16[destI++] = sourceDataH16[srcI++];
+                                }
+                                break;
                             default:
                                 FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
                                 break;
@@ -775,7 +818,6 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                                     srcI++;
                                 }
                                 break;
-
                             case OSG_FLOAT32_IMAGEDATA:
                                 for (srcI = destI = 0; destI < destSize/getComponentSize();)
                                 {
@@ -783,7 +825,13 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                                     srcI++;
                                 }
                                 break;
-
+                            case OSG_FLOAT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataH16[destI++] = sourceDataH16[srcI];
+                                    srcI++;
+                                }
+                                break;
                             default:
                                 FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
                                 break;
@@ -804,7 +852,9 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                             case OSG_FLOAT32_IMAGEDATA:
                                 memcpy (getData(), data, destSize);
                                 break;
-
+                            case OSG_FLOAT16_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
                             default:
                                 FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
                                 break;
@@ -850,7 +900,15 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                                     srcI++;
                                 }
                                 break;
-
+                            case OSG_FLOAT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataH16[destI++] = sourceDataH16[srcI];
+                                    destDataH16[destI++] = sourceDataH16[srcI];
+                                    destDataH16[destI++] = sourceDataH16[srcI++];
+                                    srcI++;
+                                }
+                                break;
                             default:
                                 FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
                                 break;
@@ -896,7 +954,15 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                                     destDataF32[destI++] = sourceDataF32[srcI++];
                                 }
                                 break;
-
+                            case OSG_FLOAT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataH16[destI++] = sourceDataH16[srcI];
+                                    destDataH16[destI++] = sourceDataH16[srcI];
+                                    destDataH16[destI++] = sourceDataH16[srcI++];
+                                    destDataH16[destI++] = sourceDataH16[srcI++];
+                                }
+                                break;
                             default:
                                 FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
                                 break;
@@ -951,7 +1017,16 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                                     destDataF32[destI++] = sumReal / 3.0;
                                 }
                                 break;
-
+                            case OSG_FLOAT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sumReal = 0;
+                                    sumReal += sourceDataH16[srcI++];
+                                    sumReal += sourceDataH16[srcI++];
+                                    sumReal += sourceDataH16[srcI++];
+                                    destDataH16[destI++] = sumReal / 3.0;
+                                }
+                                break;
                             default:
                                 FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
                                 break;
@@ -1004,7 +1079,17 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                                     destDataF32[destI++] = sumReal / 3.0;
                                 }
                                 break;
-
+                            case OSG_FLOAT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sumReal = 0;
+                                    sumReal += sourceDataH16[srcI++];
+                                    sumReal += sourceDataH16[srcI++];
+                                    sumReal += sourceDataH16[srcI++];
+                                    destDataH16[destI++] = sumReal / 3.0;
+                                    destDataH16[destI++] = sumReal / 3.0;
+                                }
+                                break;
                             default:
                                 FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
                                 break;
@@ -1025,7 +1110,9 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                             case OSG_FLOAT32_IMAGEDATA:
                                 memcpy (getData(), data, destSize);
                                 break;
-
+                            case OSG_FLOAT16_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
                             default:
                                 FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
                                 break;
@@ -1075,7 +1162,16 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                                     destDataF32[destI++] = sumReal / 3.0;
                                 }
                                 break;
-
+                            case OSG_FLOAT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sumReal = 0;
+                                    sumReal += destDataH16[destI++] = sourceDataH16[srcI++];
+                                    sumReal += destDataH16[destI++] = sourceDataH16[srcI++];
+                                    sumReal += destDataH16[destI++] = sourceDataH16[srcI++];
+                                    destDataH16[destI++] = sumReal / 3.0;
+                                }
+                                break;
                             default:
                                 FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
                                 break;
@@ -1133,7 +1229,17 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                                     srcI++;
                                 }
                                 break;
-
+                            case OSG_FLOAT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sumReal = 0;
+                                    sumReal += sourceDataH16[srcI++];
+                                    sumReal += sourceDataH16[srcI++];
+                                    sumReal += sourceDataH16[srcI++];
+                                    destDataH16[destI++] = sumReal / 3.0;
+                                    srcI++;
+                                }
+                                break;
                             default:
                                 FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
                                 break;
@@ -1186,7 +1292,17 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                                     destDataF32[destI++] = sourceDataF32[srcI++];
                                 }
                                 break;
-
+                            case OSG_FLOAT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sumReal = 0;
+                                    sumReal += sourceDataH16[srcI++];
+                                    sumReal += sourceDataH16[srcI++];
+                                    sumReal += sourceDataH16[srcI++];
+                                    destDataH16[destI++] = sumReal / 3.0;
+                                    destDataH16[destI++] = sourceDataH16[srcI++];
+                                }
+                                break;
                             default:
                                 FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
                                 break;
@@ -1231,7 +1347,15 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                                     srcI++;
                                 }
                                 break;
-
+                            case OSG_FLOAT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataH16[destI++] = sourceDataH16[srcI++];
+                                    destDataH16[destI++] = sourceDataH16[srcI++];
+                                    destDataH16[destI++] = sourceDataH16[srcI++];
+                                    srcI++;
+                                }
+                                break;
                             default:
                                 FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
                                 break;
@@ -1252,7 +1376,9 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                             case OSG_FLOAT32_IMAGEDATA:
                                 memcpy (getData(), data, destSize);
                                 break;
-
+                            case OSG_FLOAT16_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
                             default:
                                 FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
                                 break;
@@ -1382,6 +1508,8 @@ bool Image::convertDataTypeTo (Int32 destDataType)
     UInt32 *destDataUC32 = (UInt32*) destData;
     Real32 *sourceDataF32 = (Real32*) sourceData;
     Real32 *destDataF32 = (Real32*) destData;
+    Real16 *sourceDataH16 = (Real16*) sourceData;
+    Real16 *destDataH16 = (Real16*) destData;
 
     switch (getDataType())
     {
@@ -1404,6 +1532,12 @@ bool Image::convertDataTypeTo (Int32 destDataType)
                     for (int i = 0; i < sourceSize; i++)
                     {
                         destDataF32[i] = (Real32) (sourceData[i]/255.0);
+                    }
+                    break;
+                case OSG_FLOAT16_IMAGEDATA:
+                    for (int i = 0; i < sourceSize; i++)
+                    {
+                        destDataH16[i] = (Real16) (sourceData[i]/255.0);
                     }
                     break;
                 default:
@@ -1451,6 +1585,12 @@ bool Image::convertDataTypeTo (Int32 destDataType)
                     for (int i = 0; i < sourceSize; i++)
                     {
                         destDataF32[i] = (Real32) (sourceDataUC16[i]/65535.0);
+                    }
+                    break;
+                case OSG_FLOAT16_IMAGEDATA:
+                    for (int i = 0; i < sourceSize; i++)
+                    {
+                        destDataH16[i] = (Real16) (sourceDataUC16[i]/255.0);
                     }
                     break;
                 default:
@@ -1518,6 +1658,12 @@ bool Image::convertDataTypeTo (Int32 destDataType)
                         destDataF32[i] = ((Real32) sourceDataUC32[i]) / 4294967295.0;
                     }
                     break;
+                case OSG_FLOAT16_IMAGEDATA:
+                    for (int i = 0; i < sourceSize; i++)
+                    {
+                        destDataH16[i] = ((Real16) sourceDataUC32[i]) / REAL16_MAX;
+                    }
+                    break;
                 default:
                     FWARNING (( "invalid destination data type \n" ));
                     break;
@@ -1543,6 +1689,12 @@ bool Image::convertDataTypeTo (Int32 destDataType)
                     for (int i = 0; i < sourceSize; i++)
                     {
                         destDataUC32[i] = (UInt32) (sourceDataF32[i]*4294967295.0);
+                    }
+                    break;
+                case OSG_FLOAT16_IMAGEDATA:
+                    for (int i = 0; i < sourceSize; i++)
+                    {
+                        destDataH16[i] = Real16 (sourceDataF32[i]); // half-constructor
                     }
                     break;
                 default:
@@ -1582,6 +1734,16 @@ void Image::clearFloat(Real32 pixelValue)
 {
     unsigned long   n = getSize()/getComponentSize();
     Real32       *d = (Real32*) getData();
+
+    if(n && d)
+        while(n--)
+            *d++ = pixelValue;
+}
+
+void Image::clearHalf(Real16 pixelValue)
+{
+    unsigned long   n = getSize()/getComponentSize();
+    Real16       *d = (Real16*) getData();
 
     if(n && d)
         while(n--)
@@ -1978,7 +2140,8 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
     UChar8  *src, *dest;
     UInt16 *sourceDataUC16, *destDataUC16;
     UInt32 *sourceDataUC32, *destDataUC32;
-    Real32 *sourceDataF32,  *destDataF32;
+    Real32 *sourceDataF32, *destDataF32;
+    Real16 *sourceDataH16, *destDataH16;
 
     if (hasCompressedData()) 
     {
@@ -2258,7 +2421,7 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
                                             ((di * 2) + offset[dim][i].d) * sliceSize +
                                                         channel];
                                     }
-                                *destDataF32++ = (Real32) (valueFloat / elem);
+                                    *destDataF32++ = (Real32) (valueFloat / elem);
                                 }
                             }
                         }
@@ -2272,7 +2435,65 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
               }
             }
             break;
-
+        case OSG_FLOAT16_IMAGEDATA:
+            for(frame = 0; frame < getFrameCount(); frame++)
+            {
+              for(side = 0; side < getSideCount(); side++) 
+              {
+                src = this->getData(0, frame,side);
+                dest = destImage->getData(0, frame,side);
+                size = getWidth() * getHeight() * getDepth() * getBpp();
+                memcpy(dest,src, size);
+                src = dest;
+                dest = src + size;
+                w = getWidth();
+                h = getHeight();
+                d = getDepth();
+    
+                sourceDataH16 = (Real16*) src;
+                destDataH16 = (Real16*) dest;
+    
+                for(mipmap = 1; mipmap < level; mipmap++)
+                {
+                    lineSize = w * (getBpp() / getComponentSize());
+                    sliceSize = w * h * (getBpp() / getComponentSize());
+                    wm = (w == 1) ? w : (w >> 1);
+                    hm = (h == 1) ? h : (h >> 1);
+                    dm = (d == 1) ? d : (d >> 1);
+    
+                    dim = (d > dm) * 1 + (h > hm) * 2 + (w > wm) * 4;
+                    elem = offsetSize[dim];
+    
+                    for(di = 0; di < dm; di++)
+                    {
+                        for(hi = 0; hi < hm; hi++)
+                        {
+                            for(wi = 0; wi < wm; wi++)
+                            {
+                                for(channel = 0; channel < (getBpp()/getComponentSize()); channel++)
+                                {
+                                    valueFloat = 0;
+                                    for(i = 0; i < elem; i++)
+                                    {
+                                        valueFloat += sourceDataH16[
+                                            ((wi * 2) + offset[dim][i].w) * (getBpp() / getComponentSize()) +
+                                            ((hi * 2) + offset[dim][i].h) * lineSize +
+                                            ((di * 2) + offset[dim][i].d) * sliceSize +
+                                                        channel];
+                                    }
+                                    *destDataH16++ = (Real16) (valueFloat / elem);
+                                }
+                            }
+                        }
+                    }
+                    sourceDataH16 += sliceSize;
+                    w = wm;
+                    h = hm;
+                    d = dm;
+                }
+              }
+            }
+            break;
         default:
             FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
             break;

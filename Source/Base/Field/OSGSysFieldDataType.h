@@ -527,6 +527,50 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<UInt64> :
 /*! \hideinhierarchy                                 */
 #endif
 
+
+/*! \ingroup GrpBaseFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
+
+template <>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Real16> : 
+    public FieldTraitsIntegralRecurseMapper<Real16>
+{
+    static  DataType                _type;
+    typedef FieldDataTraits<Real16>  Self;
+
+    enum             { StringConvertable = Self::ToStringConvertable   | 
+                                           Self::FromStringConvertable };
+
+    static DataType &getType      (void) { return _type;               }
+
+    static Char8    *getSName     (void) { return "SFReal16";          }
+    static Char8    *getMName     (void) { return "MFReal16";          }
+
+    static Real16    getDefault   (void) { return 0.f;                 }
+
+    static bool      getFromString(      Real16  &outVal,
+                                   const Char8  *&inVal)
+    {
+        outVal = TypeTraits<Real16>::getFromString(inVal);
+
+        return true;
+    }
+
+    static void      putToString  (const      Real16 &inVal,
+                                         std::string &outStr)
+    {
+        outStr.assign(TypeTraits<Real16>::putToString(inVal));
+    }
+};
+
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsIntegralRecurseMapper<Real16> */
+/*! \hideinhierarchy                                 */
+#endif
+
 /*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)

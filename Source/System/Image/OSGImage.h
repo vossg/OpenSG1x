@@ -45,6 +45,7 @@
 #include <OSGConfig.h>
 #include <OSGImageBase.h>
 #include <OSGGLEXT.h>
+#include <OSGReal16.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -120,6 +121,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
                          OSG_UINT8_IMAGEDATA        = GL_UNSIGNED_BYTE,
                          OSG_UINT16_IMAGEDATA       = GL_UNSIGNED_SHORT,
                          OSG_UINT32_IMAGEDATA       = GL_UNSIGNED_INT,
+                         OSG_FLOAT16_IMAGEDATA      = GL_HALF_FLOAT_NV,
                          OSG_FLOAT32_IMAGEDATA      = GL_FLOAT
     };
 
@@ -300,6 +302,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
 
     virtual void clear (UChar8 pixelValue = 0);
     virtual void clearFloat (Real32 pixelValue = 0.0);
+    virtual void clearHalf (Real16 pixelValue = Real16( 0.0 ));
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

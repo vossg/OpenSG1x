@@ -754,6 +754,71 @@ struct TypeTraits<Int64> : public TypeTraitsBase
 };
 
 /*! \ingroup GrpBaseBaseBaseTypeTraits 
+*/
+
+template <>
+struct TypeTraits<Real16> : public TypeTraitsBase
+{
+    typedef       Real16             RealReturnType;
+
+
+    static const  bool               IsPOD       = true;
+    static const  MathTypeProperties MathProp    = RealValue;
+
+    static        Real16             getZeroElement(void)
+    {
+        return Real16( 0.f );
+    }
+
+    static        Real16             getOneElement (void)
+    {
+        return Real16( 1.f );
+    }
+
+    static        Real16             getMax        (void)
+    {
+        return REAL16_MAX;
+    }
+
+    static        Real16             getMin        (void)
+    {
+        return REAL16_MIN;
+    }
+
+
+    static Real16 getFraction     (Real16 rVal) { return rVal; };
+    static Real16 getPortion      (Real16 rVal) { return rVal; };
+
+
+    static Real16 getFromString   (const Char8 *szString)
+    {
+        if(szString != NULL)
+        {
+#if defined(__sgi) || defined(WIN32)
+            return Real16(atof  (szString));
+#else
+            return Real16(strtof(szString, NULL));
+#endif
+        }
+        else
+        {
+            return getZeroElement();
+        }
+    }
+
+    static std::string putToString(const Real32 val)
+    {
+        Char8 buffer[20];
+
+        sprintf(buffer, "%e", val);
+
+        return std::string(buffer);
+    }
+
+};
+
+
+/*! \ingroup GrpBaseBaseBaseTypeTraits 
  */
 
 template <>

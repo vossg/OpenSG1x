@@ -986,6 +986,16 @@
 #define GL_COMPRESSED_RGBA_S3TC_DXT5_EXT  0x83F3
 #endif
 
+/*---------------------------------------------------------------------*/
+/*! \name GL_NV_half_float                                             */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+#ifndef GL_NV_half_float
+#define GL_HALF_FLOAT_NV                  0x140B
+#endif
+
 #ifndef GL_VERSION_1_2
 #define GL_CLAMP_TO_EDGE                  0x812F
 #endif
