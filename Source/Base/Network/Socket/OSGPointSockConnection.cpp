@@ -252,8 +252,6 @@ bool PointSockConnection::wait(Time timeout) throw (ReadError)
     {
         throw ReadError(e.what());
     }
-    if(tag)
-        FWARNING(("Stream out of sync in SockConnection\n"));
     return true;
 }
 
