@@ -43,7 +43,6 @@
 #endif
 
 #include <OSGBaseTypes.h>
-#include <OSGString.h>
 #include <OSGSystemDef.h>
 #include <OSGFieldContainerPtr.h>
 
@@ -63,8 +62,6 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentPtr : public FieldContainerPtr
 {
     /*==========================  PUBLIC  =================================*/
   public:
-
-//    static const AttachmentPtr NullPtr;
 
     typedef Attachment        ObjectType;
 

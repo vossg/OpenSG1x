@@ -46,7 +46,6 @@
 #include <OSGSphereVolume.h>
 #include <OSGBoxVolume.h>
 #include <OSGPlane.h>
-#include <OSGString.h>
 
 #include <string>
 
@@ -59,31 +58,32 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <>
-struct FieldDataTraits<Color3f> : public FieldTraitsRecurseBase<Color3f>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3f> : 
+    public FieldTraitsRecurseBase<Color3f>
 {
-    static DataType         _type;
+    static DataType _type;
 
-    enum                     { StringConvertable = ToStringConvertable | 
-                                                   FromStringConvertable };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
 
-    static DataType         &getType (void)      { return _type;          }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8            *getSName(void)      { return "SFColor3f";    }
+    static Char8    *getSName     (void) { return "SFColor3f";   }
 
-    static Char8            *getMName(void)      { return "MFColor3f";    }
+    static Char8    *getMName     (void) { return "MFColor3f";   }
 
-    static Color3f           getDefault(void)    { return Color3f();      }
+    static Color3f   getDefault   (void) { return Color3f();     }
 
-    static Bool              getFromString(      Color3f  &outVal,
-                                           const Char8    *&inVal)
+    static Bool      getFromString(      Color3f  &outVal,
+                                   const Char8    *&inVal)
     {
         outVal.setValue(inVal);
         
         return true;
     }
 
-    static void             putToString(const Color3f &inVal,
-                                              string  &outVal)
+    static void      putToString  (const Color3f &inVal,
+                                         string  &outVal)
     {
         typedef TypeConstants<Color3f::ValueType> TypeConst;
 
@@ -96,56 +96,65 @@ struct FieldDataTraits<Color3f> : public FieldTraitsRecurseBase<Color3f>
 };
 
 template <>
-struct FieldDataTraits<Color4f> : public FieldTraitsRecurseBase<Color4f>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Color4f> : 
+    public FieldTraitsRecurseBase<Color4f>
 {
-    static DataType         _type;
+    static DataType _type;
 
-    enum                     { StringConvertable = ToStringConvertable | 
-                                                   FromStringConvertable };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
 
-    static DataType         &getType (void)      { return _type;          }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8            *getSName(void)      { return "SFColor4f";    }
+    static Char8    *getSName     (void) { return "SFColor4f";   }
 
-    static Char8            *getMName(void)      { return "MFColor4f";    }
+    static Char8    *getMName     (void) { return "MFColor4f";   }
 
-    static Color4f           getDefault(void)    { return Color4f();      }
+    static Color4f   getDefault   (void){ return Color4f();     }
  
-    static Bool              getFromString(      Color4f  &outVal,
-                                           const Char8   *&inVal)
+    static Bool      getFromString(      Color4f  &outVal,
+                                   const Char8   *&inVal)
     {
         outVal.setValue(inVal);
         
         return true;
     }
 
-    static void             putToString(const Color4f &inVal,
-                                              string  &outVal)
+    static void      putToString  (const Color4f &inVal,
+                                         string  &outVal)
     {
-        outVal.assign( TypeConstants<Color4f::ValueType>::putToString(inVal.red()) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Color4f::ValueType>::putToString(inVal.green()) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Color4f::ValueType>::putToString(inVal.blue()) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Color4f::ValueType>::putToString(inVal.alpha()) );
+        outVal.assign( 
+            TypeConstants<Color4f::ValueType>::putToString(inVal.red()));
+
+        outVal.append("  ");
+        outVal.append(
+            TypeConstants<Color4f::ValueType>::putToString(inVal.green()));
+
+        outVal.append("  ");
+        outVal.append(
+            TypeConstants<Color4f::ValueType>::putToString(inVal.blue()));
+        
+        outVal.append("  ");
+        outVal.append(
+            TypeConstants<Color4f::ValueType>::putToString(inVal.alpha()));
     }
 };
 
 template <>
-struct FieldDataTraits<Color3ub> : public FieldTraitsRecurseBase<Color3ub>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3ub> : 
+    public FieldTraitsRecurseBase<Color3ub>
 {
-    static DataType              _type;
+    static DataType _type;
 
-    enum                         { StringConvertable = ToStringConvertable | 
-                                                       FromStringConvertable };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
 
-    static DataType &getType      (void)   { return _type;          }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8    *getSName     (void)   { return "SFColor3ub"; }
-    static Char8    *getMName     (void)   { return "MFColor3ub"; }
+    static Char8    *getSName     (void) { return "SFColor3ub";  }
+    static Char8    *getMName     (void) { return "MFColor3ub";  }
 
-    static Color3ub  getDefault   (void) { return Color3ub();   }
+    static Color3ub  getDefault   (void) { return Color3ub();    }
 
     static Bool      getFromString(      Color3ub  &outVal,
                                    const Char8 *&inVal)
@@ -155,14 +164,19 @@ struct FieldDataTraits<Color3ub> : public FieldTraitsRecurseBase<Color3ub>
         return true;
     }
 
-    static void   putToString(const Color3ub &inVal,
-                                    string   &outVal)
+    static void      putToString  (const Color3ub &inVal,
+                                         string   &outVal)
     {
-       outVal.assign( TypeConstants<Color3ub::ValueType>::putToString(inVal.red()) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Color3ub::ValueType>::putToString(inVal.green()) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Color3ub::ValueType>::putToString(inVal.blue()) );
+        outVal.assign(
+            TypeConstants<Color3ub::ValueType>::putToString(inVal.red()));
+
+        outVal.append("  ");
+        outVal.append(
+            TypeConstants<Color3ub::ValueType>::putToString(inVal.green()));
+
+        outVal.append("  ");
+        outVal.append(
+            TypeConstants<Color3ub::ValueType>::putToString(inVal.blue()));
     }
 };
 
@@ -176,65 +190,69 @@ struct FieldDataTraits<Color3ub> : public FieldTraitsRecurseBase<Color3ub>
 template <>
 struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
 {
-    static DataType              _type;
+    static DataType _type;
 
-    enum                         { StringConvertable = ToStringConvertable | 
-                                                       FromStringConvertable };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
 
-    static DataType &getType (void)      { return _type;           }
+    static DataType &getType (void)      { return _type;         }
 
-    static Char8    *getSName     (void) { return "SFColor4ub";    }
+    static Char8    *getSName     (void) { return "SFColor4ub";  }
 
-    static Char8    *getMName     (void) { return "MFColor4ub";    }
+    static Char8    *getMName     (void) { return "MFColor4ub";  }
 
-    static Color4ub  getDefault   (void) { return Color4ub();      }
+    static Color4ub  getDefault   (void) { return Color4ub();    }
 
     static Bool      getFromString(      Color4ub  &outVal,
-                                const Char8 *&inVal)
+                                   const Char8    *&inVal)
     {
         outVal.setValue(inVal);
 
         return true;
     }
 
-    static void   putToString(const Color4ub &inVal,
-                                    string   &outVal )
+    static void      putToString  (const Color4ub &inVal,
+                                         string   &outVal )
     {
-        outVal.assign( TypeConstants<Color4ub::ValueType>::putToString(
-                        inVal.red()) );
-        outVal.append( "  " );
-        outVal.append( TypeConstants<Color4ub::ValueType>::putToString(
-                        inVal.green()) );
-        outVal.append( "  " );
-        outVal.append( TypeConstants<Color4ub::ValueType>::putToString(
-                        inVal.blue()) );
-        outVal.append( "  " );
-        outVal.append( TypeConstants<Color4ub::ValueType>::putToString(
-                        inVal.alpha()) );
+        outVal.assign(
+            TypeConstants<Color4ub::ValueType>::putToString(inVal.red()));
+
+        outVal.append("  ");
+        outVal.append(
+            TypeConstants<Color4ub::ValueType>::putToString(inVal.green()));
+
+        outVal.append("  ");
+        outVal.append( 
+            TypeConstants<Color4ub::ValueType>::putToString(inVal.blue()));
+
+        outVal.append("  ");
+        outVal.append( 
+            TypeConstants<Color4ub::ValueType>::putToString(inVal.alpha()));
     }
 };
 
 
 template <>
-struct FieldDataTraits<String> : public FieldTraitsRecurseBase<String>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<string> : 
+    public FieldTraitsRecurseBase<string>
 {
-    static DataType         _type;
+    static DataType _type;
 
-    enum                     { StringConvertable = ToStringConvertable | 
-                                                   FromStringConvertable };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
 
-    static DataType         &getType (void)      { return _type;         }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8            *getSName(void)      { return "SFString";    }
+    static Char8    *getSName     (void) { return "SFString";    }
 
-    static Char8            *getMName(void)      { return "MFString";    }
+    static Char8    *getMName     (void) { return "MFString";    }
 
-    static String            getDefault(void)    { return String();      }
+    static string    getDefault   (void) { return string();      }
 
-    static Bool              getFromString(     String  &target,
-                                          const Char8  *&source)
+    static Bool      getFromString(      string  &target,
+                                   const Char8  *&source)
     {
-        target.set(source);
+        target.assign(source);
 
         if(source != NULL)
         {
@@ -244,21 +262,21 @@ struct FieldDataTraits<String> : public FieldTraitsRecurseBase<String>
         return true;
     }
 
-    static void             putToString(const String &inVal,
-                                              string &outVal )
+    static void      putToString(const string &inVal,
+                                       string &outVal)
     {
-        outVal.assign( "\"" );
-        outVal.append( inVal.str() );
-        outVal.append( "\"" );
+        outVal.assign("\"" );
+        outVal.append(inVal);
+        outVal.append("\"" );
     }
 
-    static UInt32 getBinSize(const String   &oObject)
+    static UInt32    getBinSize (const string &oObject)
     {
         return oObject.length() + 1 + sizeof(UInt32);
     }
 
-    static UInt32 getBinSize(const String     *pObjectStore,
-                                   UInt32      uiNumObjects)
+    static UInt32    getBinSize (const string *pObjectStore,
+                                       UInt32  uiNumObjects)
     {
         UInt32 size=0;
 
@@ -271,23 +289,23 @@ struct FieldDataTraits<String> : public FieldTraitsRecurseBase<String>
     }
 
     static void copyToBin(      BinaryDataHandler   &pMem, 
-                          const String              &oObject)
+                          const string              &oObject)
     {
         UInt32 size = 0;
         if(oObject.empty())
         {
-            pMem.put(&size        , sizeof(size));
+            pMem.put(&size, sizeof(size));
         }
         else
         {
             size = oObject.length() + 1;
-            pMem.put(&size        , sizeof(size));
-            pMem.put(oObject.str(), size);
+            pMem.put(&size          , sizeof(size));
+            pMem.put(oObject.c_str(), size);
         }
     }
 
     static void copyToBin(      BinaryDataHandler &pMem, 
-                          const String            *pObjectStore,
+                          const string            *pObjectStore,
                                 UInt32             uiNumObjects)
     {
         for(UInt32 i = 0; i < uiNumObjects; ++i)
@@ -297,29 +315,33 @@ struct FieldDataTraits<String> : public FieldTraitsRecurseBase<String>
     }
 
     static void copyFromBin(BinaryDataHandler &pMem, 
-                            String            &oObject)
+                            string            &oObject)
     {
         UInt32 size;
         Char8 *str;
 
         pMem.get(&size, sizeof(size));
-        if(size==0)
+
+        if(size == 0)
         {
-            oObject.set(NULL);
+            oObject.assign(NULL);
         }
         else
         {
             // we have to copy because the string maight not be
             // continous in pMem.
+
             str = new Char8[size];
-            pMem.get(str,size);
-            oObject.set(str);
+
+            pMem   .get   (str, size);
+            oObject.assign(str     );
+
             delete [] str;
         }
     }
 
     static void copyFromBin(BinaryDataHandler &pMem, 
-                            String            *pObjectStore,
+                            string            *pObjectStore,
                             UInt32             uiNumObjects)
     {
         for(UInt32 i = 0; i < uiNumObjects; ++i)
@@ -330,98 +352,110 @@ struct FieldDataTraits<String> : public FieldTraitsRecurseBase<String>
 };
 
 template <>
-struct FieldDataTraits1<Time> : public FieldTraitsRecurseBase<Time>
+struct OSG_BASE_DLLMAPPING FieldDataTraits1<Time> : 
+    public FieldTraitsRecurseBase<Time>
 {
-    static DataType         _type;
+    static DataType _type;
 
-    enum                     { StringConvertable = ToStringConvertable | 
-                                                   FromStringConvertable };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
 
-    static DataType         &getType (void)      { return _type;         }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8            *getSName(void)      { return "SFTime";      }
+    static Char8    *getSName     (void) { return "SFTime";      }
 
-    static Char8            *getMName(void)      { return "MFTime";      }
+    static Char8    *getMName     (void) { return "MFTime";      }
 
-    static Time              getDefault(void)    { return Time();        }
+    static Time      getDefault   (void) { return Time();        }
 
-    static Bool              getFromString(      Time   &outVal,
-                                           const Char8 *&inVal)
+    static Bool      getFromString(      Time   &outVal,
+                                   const Char8 *&inVal)
     {
         outVal = TypeConstants<Time>::getFromString(inVal);
 
         return true;
     }
 
-    static void             putToString(const Time   &inVal,
-                                              string &outVal)
+    static void      putToString(const Time   &inVal,
+                                       string &outVal)
     {
-        outVal.assign( TypeConstants<Real64>::putToString( inVal ) );
+        outVal.assign(TypeConstants<Real64>::putToString(inVal));
     }
 };
 
 template <>
-struct FieldDataTraits<DynamicVolume> : 
+struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> : 
     public FieldTraitsRecurseBase<DynamicVolume>
 {
-    static DataType         _type;
+    static DataType      _type;
 
-    enum                     { StringConvertable = ToStringConvertable | 
-                                                   FromStringConvertable     };
+    enum                  { StringConvertable = ToStringConvertable       | 
+                                                FromStringConvertable     };
 
-    static DataType         &getType (void)      { return _type;             }
+    static DataType      &getType      (void) { return _type;             }
 
-    static Char8            *getSName(void)      { return "SFDynamicVolume"; }
+    static Char8         *getSName     (void) { return "SFDynamicVolume"; }
 
-    static Char8            *getMName(void)      { return "MFDynamicVolume"; }
+    static Char8         *getMName     (void) { return "MFDynamicVolume"; }
 
-    static DynamicVolume     getDefault(void)    { return DynamicVolume();   }
+    static DynamicVolume  getDefault   (void) { return DynamicVolume();   }
 
-    static Bool             getFromString(      DynamicVolume  &outVal,
-                                          const Char8         *&inVal)
+    static Bool           getFromString(      DynamicVolume  &outVal,
+                                        const Char8         *&inVal)
     {
-        Real32 valStore[6];
-        UInt32 length = strlen( inVal );
-        Char8 str[256];
-        Char8 *c = str;
+        Real32 valStore[  6];
+        Char8  str     [256];
+
+        UInt32  length = strlen(inVal);
+        Char8  *c      = str;
     
-        if( length > 256 )
+        if(length > 256)
         {
             cerr << "FieldDataTraits<DynamicVolume>::getFromString(): "
                  << "Input too long" << endl;
+
             return false;
         }
-        strncpy( str, inVal, length );
-        while( *c != '\0' )
+
+        strncpy(str, inVal, length);
+
+        while(*c != '\0')
         {
-            if( *c == '[' )
+            if(*c == '[')
                 *c = ' ';
-            if( *c == ']' )
+            if(*c == ']')
                 *c = ' ';
-            if( *c == ',' )
+            if(*c == ',')
                 *c = ' ';
+
             c++;
         }
         
-        Int16 count = sscanf( str, "%f %f %f %f %f %f",
-                            &valStore[0], &valStore[1], &valStore[2],
-                            &valStore[3], &valStore[4], &valStore[5] );
+        Int16 count = sscanf(str, "%f %f %f %f %f %f",
+                             &valStore[0], &valStore[1], &valStore[2],
+                             &valStore[3], &valStore[4], &valStore[5]);
         
-        if( count == 4 )
+        if(count == 4)
         {
-            outVal.setVolumeType( DynamicVolume::SPHERE_VOLUME );
-            SphereVolume &sVol = dynamic_cast<SphereVolume&>(
-                                            outVal.getInstance() );
-            sVol.setCenter( Pnt3f(valStore[0], valStore[1], valStore[2]) );
-            sVol.setRadius( valStore[3] );
+            outVal.setVolumeType(DynamicVolume::SPHERE_VOLUME);
+
+            SphereVolume &sVol = 
+                dynamic_cast<SphereVolume&>(outVal.getInstance());
+
+            sVol.setCenter(Pnt3f(valStore[0], valStore[1], valStore[2]));
+            sVol.setRadius(valStore[3]);
+
             return true;
         }
-        else if( count == 6 )
+        else if(count == 6)
         {
-            outVal.setVolumeType( DynamicVolume::BOX_VOLUME );
-            BoxVolume &bVol = dynamic_cast<BoxVolume&>( outVal.getInstance() );
-            bVol.setBounds( valStore[0], valStore[1], valStore[2],
-                            valStore[3], valStore[4], valStore[5] );
+            outVal.setVolumeType(DynamicVolume::BOX_VOLUME);
+
+            BoxVolume &bVol = dynamic_cast<BoxVolume&>(outVal.getInstance());
+
+            bVol.setBounds(valStore[0], valStore[1], valStore[2],
+                           valStore[3], valStore[4], valStore[5]);
+
             return true;
         }
         else
@@ -433,81 +467,109 @@ struct FieldDataTraits<DynamicVolume> :
         }
     }
 
-    static void             putToString(const DynamicVolume &inVal,
-                                              string        &outVal)
+    static void      putToString(const DynamicVolume &inVal,
+                                       string        &outVal)
     {
-        
         Pnt3f min, max;
         
-        outVal.assign( "[ " );
-        switch( inVal.getType() )
+        outVal.assign("[ ");
+
+        switch(inVal.getType())
         {
-        case DynamicVolume::BOX_VOLUME : 
-            inVal.getBounds( min, max );
-            outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
-                                                    min.getValues()[0]) );
-            outVal.append( " " );
-            outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
-                                                    min.getValues()[1]) );
-            outVal.append( " " );
-            outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
-                                                    min.getValues()[2]) );
-            outVal.append( ", " );
-            outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
-                                                    max.getValues()[0]) );
-            outVal.append( " " );
-            outVal.append(TypeConstants<Pnt3f::ValueType>::putToString(
-                                                    max.getValues()[1]) );
-            outVal.append( " " );
-            outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
-                                                    max.getValues()[2]) );
+            case DynamicVolume::BOX_VOLUME : 
+
+                inVal.getBounds(min, max);
+
+                outVal.append( 
+                    TypeConstants<Pnt3f::ValueType>::
+                        putToString(min.getValues()[0]));
+
+                outVal.append(" ");
+
+                outVal.append(
+                    TypeConstants<Pnt3f::ValueType>::
+                        putToString(min.getValues()[1]));
+
+                outVal.append(" ");
+                outVal.append(
+                    TypeConstants<Pnt3f::ValueType>::
+                        putToString(min.getValues()[2]));
+
+                outVal.append(", ");
+                outVal.append(
+                    TypeConstants<Pnt3f::ValueType>::
+                        putToString(max.getValues()[0]));
+
+                outVal.append(" ");
+                outVal.append(
+                    TypeConstants<Pnt3f::ValueType>::
+                        putToString(max.getValues()[1]));
+
+                outVal.append(" ");
+                outVal.append( 
+                    TypeConstants<Pnt3f::ValueType>::
+                        putToString(max.getValues()[2]));
             break;
-        case DynamicVolume::SPHERE_VOLUME :
-            const SphereVolume &sVol = dynamic_cast<const SphereVolume&>(
-                                                inVal.getInstance());
-            outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
-                                                    sVol.getCenter()[0]) );
-            outVal.append( " " );
-            outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
-                                                    sVol.getCenter()[1]) );
-            outVal.append( " " );
-            outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
-                                                    sVol.getCenter()[2]) );
-            outVal.append( ", " );
-            outVal.append( TypeConstants<Real32>::putToString(
-                                                    sVol.getRadius()) );
-            break;
+
+            case DynamicVolume::SPHERE_VOLUME :
+            
+                const SphereVolume &sVol = 
+                    dynamic_cast<const SphereVolume&>(inVal.getInstance());
+
+                outVal.append( 
+                    TypeConstants<Pnt3f::ValueType>::
+                        putToString(sVol.getCenter()[0]));
+
+                outVal.append(" ");
+                outVal.append(
+                    TypeConstants<Pnt3f::ValueType>::
+                        putToString(sVol.getCenter()[1]));
+
+                outVal.append(" ");
+                outVal.append( 
+                    TypeConstants<Pnt3f::ValueType>::
+                        putToString(sVol.getCenter()[2]));
+
+                outVal.append(", ");
+                outVal.append( 
+                    TypeConstants<Real32>::
+                        putToString(sVol.getRadius()));
+                break;
         }
-        outVal.append( " ]" );
-                    
+
+        outVal.append(" ]");
     }
 
     static UInt32 getBinSize(const DynamicVolume  &oObject)
     {
-        DynamicVolume::Type type=oObject.getType();
-        UInt32 size=sizeof(type);
-        switch( type )
+        DynamicVolume::Type type = oObject.getType();
+        UInt32              size = sizeof(type);
+
+        switch(type)
         {
-        case DynamicVolume::BOX_VOLUME : 
-            size+= sizeof(Pnt3f) + sizeof(Pnt3f);
-            break;
-        case DynamicVolume::SPHERE_VOLUME :
-            size+= sizeof(Pnt3f) + sizeof(float);
-            break;
-        default :
-            SWARNING << "Unknown volume type in getBinSize" << endl;
+            case DynamicVolume::BOX_VOLUME : 
+                size += sizeof(Pnt3f) + sizeof(Pnt3f);
+                break;
+
+            case DynamicVolume::SPHERE_VOLUME :
+                size += sizeof(Pnt3f) + sizeof(float);
+                break;
+
+            default :
+                SWARNING << "Unknown volume type in getBinSize" << endl;
         }
+
         return sizeof(size);
     }
 
     static UInt32 getBinSize(const DynamicVolume *pObjectStore,
                                    UInt32         uiNumObjects)
     {
-        UInt32 size=0;
+        UInt32 size = 0;
 
         for(UInt32 i = 0; i < uiNumObjects; ++i)
         {
-            size += getBinSize(pObjectStore,uiNumObjects);
+            size += getBinSize(pObjectStore, uiNumObjects);
         }
 
         return size;
@@ -516,28 +578,37 @@ struct FieldDataTraits<DynamicVolume> :
     static void copyToBin(      BinaryDataHandler   &pMem, 
                           const DynamicVolume       &oObject)
     {
-        DynamicVolume::Type type=oObject.getType();
-        pMem.put(&type,sizeof(type));
-        switch( type )
+        DynamicVolume::Type type = oObject.getType();
+
+        pMem.put(&type, sizeof(type));
+
+        switch(type)
         {
-        case DynamicVolume::BOX_VOLUME : 
-        {
-            const BoxVolume   &bVol = dynamic_cast<const BoxVolume&>(
-                oObject.getInstance());
-            pMem.put(&bVol.getMin(),sizeof(Pnt3f));
-            pMem.put(&bVol.getMax(),sizeof(Pnt3f));
-            break;
-        }
-        case DynamicVolume::SPHERE_VOLUME :
-        {
-            const SphereVolume &sVol = dynamic_cast<const SphereVolume&>(
-                oObject.getInstance());
-            float radius=sVol.getRadius();
-            pMem.put(&sVol.getCenter(),sizeof(Pnt3f));
-            pMem.put(&radius,sizeof(radius));
-        }
-        default:
-            SWARNING << "Unknown volume type in copyToBin" << endl;
+            case DynamicVolume::BOX_VOLUME : 
+            {
+                const BoxVolume &bVol = 
+                    dynamic_cast<const BoxVolume&>(oObject.getInstance());
+
+                pMem.put(&bVol.getMin(), sizeof(Pnt3f));
+                pMem.put(&bVol.getMax(), sizeof(Pnt3f));
+
+                break;
+            }
+            case DynamicVolume::SPHERE_VOLUME :
+            {
+                const SphereVolume &sVol = 
+                    dynamic_cast<const SphereVolume&>(oObject.getInstance());
+
+                float radius = sVol.getRadius();
+
+                pMem.put(&sVol.getCenter(), sizeof(Pnt3f ));
+                pMem.put(&radius,           sizeof(radius));
+
+                break;
+            }
+
+            default:
+                SWARNING << "Unknown volume type in copyToBin" << endl;
         }
     }
 
@@ -555,33 +626,46 @@ struct FieldDataTraits<DynamicVolume> :
                             DynamicVolume     &oObject)
     {
         DynamicVolume::Type type;
-        pMem.get(&type,sizeof(type));
+
+        pMem.get(&type, sizeof(type));
+
         oObject.setVolumeType(type);
-        switch( type )
+
+        switch(type)
         {
-        case DynamicVolume::BOX_VOLUME : 
-        {
-            BoxVolume   &bVol = dynamic_cast<BoxVolume&>(
-                oObject.getInstance());
-            Pnt3f min,max;
-            pMem.get(&min,sizeof(Pnt3f));
-            pMem.get(&max,sizeof(Pnt3f));
-            bVol.setBounds(min,max);
-            break;
-        }
-        case DynamicVolume::SPHERE_VOLUME :
-        {
-            SphereVolume &sVol = dynamic_cast<SphereVolume&>(
-                oObject.getInstance());
-            Pnt3f center;
-            float radius;
-            pMem.get(&center,sizeof(Pnt3f));
-            pMem.get(&radius,sizeof(float));
-            sVol.setCenter(center);
-            sVol.setRadius(radius);
-        }
-        default:
-            SWARNING << "Unknown volume type in copyFronBin" << endl;
+            case DynamicVolume::BOX_VOLUME : 
+            {
+                BoxVolume &bVol = 
+                    dynamic_cast<BoxVolume&>(oObject.getInstance());
+
+                Pnt3f min,max;
+
+                pMem.get(&min, sizeof(Pnt3f));
+                pMem.get(&max, sizeof(Pnt3f));
+
+                bVol.setBounds(min, max);
+
+                break;
+            }
+            case DynamicVolume::SPHERE_VOLUME :
+            {
+                SphereVolume &sVol = 
+                    dynamic_cast<SphereVolume&>(oObject.getInstance());
+
+                Pnt3f center;
+                float radius;
+
+                pMem.get(&center, sizeof(Pnt3f));
+                pMem.get(&radius, sizeof(float));
+
+                sVol.setCenter(center);
+                sVol.setRadius(radius);
+                
+                break;
+            }
+
+            default:
+                SWARNING << "Unknown volume type in copyFronBin" << endl;
         }
     }
 
@@ -597,61 +681,75 @@ struct FieldDataTraits<DynamicVolume> :
 };
 
 template <>
-struct FieldDataTraits1<BitVector> : public FieldTraitsRecurseBase<BitVector>
+struct OSG_BASE_DLLMAPPING FieldDataTraits1<BitVector> : 
+    public FieldTraitsRecurseBase<BitVector>
 {
-    static DataType         _type;
+    static DataType  _type;
 
-    enum                     { StringConvertable = 0x00 };
+    enum              { StringConvertable = 0x00 };
 
-    static DataType         &getType (void)      { return _type;          }
+    static DataType  &getType (void)   { return _type;           }
 
-    static Char8            *getSName(void)      { return "SFBitVector";   }
+    static Char8     *getSName(void)   { return "SFBitVector";   }
 
-    static Char8            *getMName(void)      { return "MFBitVector";   }
+    static Char8     *getMName(void)   { return "MFBitVector";   }
 
-    static BitVector         getDefault(void)    { return BitVector();     }
+    static BitVector  getDefault(void) { return BitVector();     }
 };
 
 
 template <>
-struct FieldDataTraits<Plane> : public FieldTraitsRecurseBase<Plane>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Plane> : 
+    public FieldTraitsRecurseBase<Plane>
 {
-    static DataType         _type;
+    static DataType _type;
 
-    enum                     { StringConvertable = ToStringConvertable | 
-                                                   FromStringConvertable  };
+    enum             { StringConvertable = ToStringConvertable    | 
+                                           FromStringConvertable  };
 
-    static DataType         &getType (void)      { return _type;          }
+    static DataType &getType      (void) { return _type;          }
 
-    static Char8            *getSName(void)      { return "SFPlane";      }
+    static Char8    *getSName     (void) { return "SFPlane";      }
 
-    static Char8            *getMName(void)      { return "MFPlane";      }
+    static Char8    *getMName     (void) { return "MFPlane";      }
 
-    static Plane     getDefault(void)    { return Plane(); }
+    static Plane     getDefault   (void) { return Plane(); }
 
-    static Bool             getFromString(      Plane  &,
-                                          const Char8         *&)
+    static Bool      getFromString(      Plane  &,
+                                   const Char8         *&)
     {
         // TO_BE_DONE
         return false;
     }
 
-    static void             putToString(const Plane  &inVal,
-                                              string &outVal)
+    static void      putToString(const Plane  &inVal,
+                                       string &outVal)
     {
-        Vec3f normal = inVal.getNormal();
-        Real32 dist = inVal.getDistanceFromOrigin();
-        outVal.assign( TypeConstants<Vec3f::ValueType>::putToString( normal.getValues()[0]) );
-        outVal.append( "  " );
-        outVal.append( TypeConstants<Vec3f::ValueType>::putToString( normal.getValues()[1]) );
-        outVal.append( "  " );
-        outVal.append( TypeConstants<Vec3f::ValueType>::putToString( normal.getValues()[2]) );
-        outVal.append( "  " );
-        outVal.append( TypeConstants<Real32>::putToString(dist) );
+        Vec3f  normal = inVal.getNormal();
+        Real32 dist   = inVal.getDistanceFromOrigin();
+
+        outVal.assign(
+            TypeConstants<Vec3f::ValueType>::
+                putToString( normal.getValues()[0]));
+
+        outVal.append("  ");
+        outVal.append(
+            TypeConstants<Vec3f::ValueType>::
+                putToString( normal.getValues()[1]));
+
+        outVal.append("  ");
+        outVal.append(
+            TypeConstants<Vec3f::ValueType>::
+                putToString( normal.getValues()[2]));
+
+        outVal.append("  ");
+        outVal.append(TypeConstants<Real32>::putToString(dist));
     }
 };
 
 
 OSG_END_NAMESPACE
+
+#define OSGBASEFIELDDATATYPE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSG_VECFIELDDATATYPE_H_ */

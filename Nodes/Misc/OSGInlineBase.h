@@ -119,9 +119,9 @@ class OSG_SYSTEMLIB_DLLMAPPING InlineBase : public NodeCore
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       MFString            *getMFUrl            (void);
+    inline       MFString            *getMFUrl          (void);
 
-    inline       String              &getUrl            (UInt32 index);
+    inline       string              &getUrl            (UInt32 index);
     inline       MFString            &getUrl            (void);
     inline const MFString            &getUrl            (void) const;
 

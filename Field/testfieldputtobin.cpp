@@ -152,7 +152,7 @@ int main(void)
     OSG::FieldDataTraits<OSG::Matrix    >::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits<OSG::Quaternion>::copyToBin(pMem, NULL, 0);
 
-    OSG::String        str("xxx");;
+         string        str("xxx");;
     OSG::Time          tim;
     OSG::Color3f       c3;
     OSG::Color4f       c4;
@@ -161,7 +161,7 @@ int main(void)
     OSG::DynamicVolume dv;
     OSG::BitVector     bv;
 
-    OSG::FieldDataTraits <OSG::String       >::copyToBin(pMem, str);
+    OSG::FieldDataTraits <     string       >::copyToBin(pMem, str);
     OSG::FieldDataTraits1<OSG::Time         >::copyToBin(pMem, tim);
     OSG::FieldDataTraits <OSG::Color3f      >::copyToBin(pMem, c3);
     OSG::FieldDataTraits <OSG::Color4f      >::copyToBin(pMem, c4);
@@ -170,7 +170,7 @@ int main(void)
     OSG::FieldDataTraits <OSG::DynamicVolume>::copyToBin(pMem, dv);
     OSG::FieldDataTraits1<OSG::BitVector    >::copyToBin(pMem, bv);
 
-    OSG::FieldDataTraits <OSG::String       >::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits <     string       >::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits1<OSG::Time         >::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits <OSG::Color3f      >::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits <OSG::Color4f      >::copyToBin(pMem, NULL, 0);
@@ -188,14 +188,14 @@ int main(void)
     src.muint32.push_back(6);
     src.muint32.push_back(3);
     src.uint16.setValue(2);
-    src.str.setValue(OSG::String("teststr"));
+    src.str.setValue(string("teststr"));
     src.v2.setValue(OSG::Vec2f(1,2));
     src.v3.setValue(OSG::Vec3f(3,4,5));
     src.v4.setValue(OSG::Vec4f(6,7,8,9));
     
     src.uint32.setValue(0x1111);
     src.uint16.setValue(2);
-    src.str.setValue(OSG::String("teststr"));
+    src.str.setValue(string("teststr"));
     src.v2.setValue(OSG::Vec2f(1,2));
     src.v3.setValue(OSG::Vec3f(3,4,5));
     src.v4.setValue(OSG::Vec4f(6,7,8,9));

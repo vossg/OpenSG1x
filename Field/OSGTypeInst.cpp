@@ -64,6 +64,26 @@
 
 OSG_BEGIN_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace 
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+
+    static Char8 cvsid_sfbt_hpp[] = OSGSFBASETYPES_HEADER_CVSID;
+    static Char8 cvsid_mfbt_hpp[] = OSGMFBASETYPES_HEADER_CVSID;
+    static Char8 cvsid_bfdt_hpp[] = OSGBASEFIELDDATATYPE_HEADER_CVSID;
+
+//    static Char8 cvsid_hpp[] = OSG_HEADER_CVSID;
+//    static Char8 cvsid_inl[] = OSG_INLINE_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 
 DataType FieldDataTraits2<Bool >::_type("Bool"  , "IntegralType", true);
 DataType FieldDataTraits< Int8 >::_type("Int8"  , "IntegralType", true);
@@ -77,7 +97,7 @@ DataType FieldDataTraits<UInt64>::_type("UInt64", "IntegralType", true);
 DataType FieldDataTraits<Real32>::_type("Real32", "IntegralType", true);
 DataType FieldDataTraits<Real64>::_type("Real64", "IntegralType", true);
 
-DataType FieldDataTraits<String       >::_type("String", 
+DataType FieldDataTraits<string       >::_type("string", 
                                                "BaseType",
                                                true);
 DataType FieldDataTraits1<Time        >::_type("Time",
@@ -144,7 +164,7 @@ DataType FieldDataTraits<Plane>::_type("Plane", "BaseType", true);
 #pragma instantiate MField<Real32>::_fieldType
 #pragma instantiate MField<Real64>::_fieldType
 
-#pragma instantiate SField<String       >::_fieldType
+#pragma instantiate SField<string       >::_fieldType
 #pragma instantiate SField<Time, 1      >::_fieldType
 #pragma instantiate SField<Color3f      >::_fieldType
 #pragma instantiate SField<Color4f      >::_fieldType
@@ -153,7 +173,7 @@ DataType FieldDataTraits<Plane>::_type("Plane", "BaseType", true);
 #pragma instantiate SField<DynamicVolume>::_fieldType
 #pragma instantiate SField<BitVector, 1 >::_fieldType
 
-#pragma instantiate MField<String       >::_fieldType
+#pragma instantiate MField<string       >::_fieldType
 #pragma instantiate MField<Time, 1      >::_fieldType
 #pragma instantiate MField<Color3f      >::_fieldType
 #pragma instantiate MField<Color4f      >::_fieldType
@@ -214,7 +234,7 @@ OSG_DLLEXPORT_DEF1(MField, UInt64, OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(MField, Real32, OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(MField, Real64, OSG_BASE_DLLTMPLMAPPING)
 
-OSG_DLLEXPORT_DEF1(SField, String,        OSG_BASE_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, string,        OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF2(SField, Time, 1,       OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(SField, Color3f,       OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(SField, Color4f,       OSG_BASE_DLLTMPLMAPPING)
@@ -223,7 +243,7 @@ OSG_DLLEXPORT_DEF1(SField, Color4ub,      OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(SField, DynamicVolume, OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF2(SField, BitVector, 1,  OSG_BASE_DLLTMPLMAPPING)
 
-OSG_DLLEXPORT_DEF1(MField, String,        OSG_BASE_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, string,        OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF2(MField, Time, 1,       OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(MField, Color3f,       OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(MField, Color4f,       OSG_BASE_DLLTMPLMAPPING)

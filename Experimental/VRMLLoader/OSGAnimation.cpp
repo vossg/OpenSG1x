@@ -255,7 +255,7 @@ OSG::Action::ResultE animResolver(OSG::CNodePtr &, OSG::Action *action)
         {
             OSG::Animation::getAnim()->resolveTransform(
                 vrmlTrans, 
-                namePtr->getFieldPtr()->getValue().str());
+                namePtr->getFieldPtr()->getValue().c_str());
         }
     }
     

@@ -1579,7 +1579,7 @@ int main (int argc, char **argv)
         
         OSG::NamePtr namePtr = OSG::Name::create();     
         
-        namePtr->getFieldPtr()->setValue(OSG::String("Camera"));
+        namePtr->getFieldPtr()->setValue(string("Camera"));
         
         OSG::beginEditCP(stdCamNode);
         {

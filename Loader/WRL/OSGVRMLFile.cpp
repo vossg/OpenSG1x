@@ -367,7 +367,7 @@ FieldContainerPtr VRMLFile::findFCByName(const Char8  *szName,
 
     if(pNodename != NullFC)
     {
-        if(strcmp(szName, pNodename->getFieldPtr()->getValue().str())==0)
+        if(strcmp(szName, pNodename->getFieldPtr()->getValue().c_str())==0)
             return pNode;
     }
     // check if name matches corename
@@ -381,7 +381,7 @@ FieldContainerPtr VRMLFile::findFCByName(const Char8  *szName,
 
         if(pNodename != NullFC)
         {
-            if(strcmp(szName, pNodename->getFieldPtr()->getValue().str())==0)
+            if(strcmp(szName, pNodename->getFieldPtr()->getValue().c_str())==0)
                 return pCore;
         }
     }
@@ -634,7 +634,7 @@ void VRMLFile::beginNode(
                 beginEditCP(pNodename);
                 beginEditCP(pNode,Node::AttachmentsFieldMask);
 
-                pNodename->getFieldPtr()->getValue().set(szNodename);
+                pNodename->getFieldPtr()->getValue().assign(szNodename);
                 pNode->addAttachment(pNodename);
 
                 endEditCP(pNode,Node::AttachmentsFieldMask);
@@ -651,7 +651,7 @@ void VRMLFile::beginNode(
                 beginEditCP(pNodename);
                 beginEditCP(pNodeCore,NodeCore::AttachmentsFieldMask);
 
-                pNodename->getFieldPtr()->getValue().set(szNodename);
+                pNodename->getFieldPtr()->getValue().assign(szNodename);
                 pNodeCore->addAttachment(pNodename);           
 
                 endEditCP(pNodeCore,NodeCore::AttachmentsFieldMask);

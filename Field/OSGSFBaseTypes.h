@@ -71,16 +71,16 @@ OSG_BEGIN_NAMESPACE
 /** \brief SFString
  */
 
-typedef SField<String>        SFString;
+typedef SField<string> SFString;
 
 #ifndef OSG_COMPILEFIELDINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate SField<String>::_fieldType
+#pragma do_not_instantiate SField<string>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, String, OSG_BASE_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, string, OSG_BASE_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -88,7 +88,7 @@ OSG_DLLEXPORT_DECL1(SField, String, OSG_BASE_DLLTMPLMAPPING)
 /** \brief SFTime
  */
 
-typedef SField<Time, 1>       SFTime;
+typedef SField<Time, 1> SFTime;
 
 #ifndef OSG_COMPILEFIELDINST
 #if defined(__sgi)
@@ -105,7 +105,7 @@ OSG_DLLEXPORT_DECL2(SField,Time, 1, OSG_BASE_DLLTMPLMAPPING)
 /** \brief SFColor3f
  */
 
-typedef SField<Color3f>       SFColor3f;
+typedef SField<Color3f> SFColor3f;
 
 #ifndef OSG_COMPILEFIELDINST
 #if defined(__sgi)
@@ -122,7 +122,7 @@ OSG_DLLEXPORT_DECL1(SField, Color3f, OSG_BASE_DLLTMPLMAPPING)
 /** \brief SFColor4f
  */
 
-typedef SField<Color4f>       SFColor4f;
+typedef SField<Color4f> SFColor4f;
 
 #ifndef OSG_COMPILEFIELDINST
 #if defined(__sgi)
@@ -139,7 +139,7 @@ OSG_DLLEXPORT_DECL1(SField, Color4f, OSG_BASE_DLLTMPLMAPPING)
 /** \brief SFColor3ub
  */
 
-typedef SField<Color3ub>       SFColor3ub;
+typedef SField<Color3ub> SFColor3ub;
 
 #ifndef OSG_COMPILEFIELDINST
 #if defined(__sgi)
@@ -156,7 +156,7 @@ OSG_DLLEXPORT_DECL1(SField, Color3ub, OSG_BASE_DLLTMPLMAPPING)
 /** \brief SFColor4ub
  */
 
-typedef SField<Color4ub>       SFColor4ub;
+typedef SField<Color4ub> SFColor4ub;
 
 #ifndef OSG_COMPILEFIELDINST
 #if defined(__sgi)
@@ -222,5 +222,7 @@ OSG_DLLEXPORT_DECL1(SField, Plane, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 OSG_END_NAMESPACE
+
+#define OSGSFBASETYPES_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGSFVECBASE_H_ */

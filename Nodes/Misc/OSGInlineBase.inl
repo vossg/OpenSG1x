@@ -101,7 +101,7 @@ MFString *InlineBase::getMFUrl(void)
 
 
 OSG_SYSTEMLIB_DLLMAPPING
-String &InlineBase::getUrl(UInt32 index)
+string &InlineBase::getUrl(UInt32 index)
 {
     return _mfUrl.getValue( index );
 }

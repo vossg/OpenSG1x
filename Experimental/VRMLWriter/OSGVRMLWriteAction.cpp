@@ -1222,12 +1222,12 @@ void VRMLWriteAction::addNodeUse(CNodePtr &pCNode)
 
     if(pNodename != NullFC)
     {
-        pInfoNode->setName(pNodename->getFieldPtr()->getValue().str());
+        pInfoNode->setName(pNodename->getFieldPtr()->getValue().c_str());
     }
 
     if(pCorename != NullFC)
     {
-        pInfoCore->setName(pCorename->getFieldPtr()->getValue().str());
+        pInfoCore->setName(pCorename->getFieldPtr()->getValue().c_str());
     }
 
     if(pInfoCore->getUse() > 1)

@@ -271,7 +271,7 @@ FieldContainerPtr OSGLoader::findFCByName(const Char8 *szName,
 
     if(nodename != NullFC)
     {
-        if(strcmp(szName,nodename->getFieldPtr()->getValue().str())==0)
+        if(strcmp(szName,nodename->getFieldPtr()->getValue().c_str())==0)
             return np;
     }
     // check if name matches corename
@@ -283,7 +283,7 @@ FieldContainerPtr OSGLoader::findFCByName(const Char8 *szName,
 
         if(nodename != NullFC)
         {
-            if(strcmp(szName,nodename->getFieldPtr()->getValue().str())==0)
+            if(strcmp(szName,nodename->getFieldPtr()->getValue().c_str())==0)
                 return cp;
         }
     }
@@ -432,7 +432,7 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
             NodePtr pNode     = NodePtr::dcast(pNewNode);
             NamePtr pNodename = Name::create();
 
-            pNodename->getFieldPtr()->getValue().set(szNodename);
+            pNodename->getFieldPtr()->getValue().assign(szNodename);
   
             pNode->addAttachment(pNodename);
         }
@@ -441,7 +441,7 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
             NodeCorePtr pNodeCore = NodeCorePtr::dcast(pNewNode);
             NamePtr     pNodename = Name::create();
 
-            pNodename->getFieldPtr()->getValue().set(szNodename);
+            pNodename->getFieldPtr()->getValue().assign(szNodename);
   
             pNodeCore->addAttachment(pNodename);           
         }
