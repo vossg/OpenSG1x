@@ -20,7 +20,6 @@ cleanup ()
     gzip -9f $out_html*.html
     
     # LOCAL: copy the HTML logs to the destination location
-    # echo 'Copy: ' $do_copy
     eval $do_copy 
     
     rm -f $log_configure $log_make $log_errors
@@ -445,7 +444,7 @@ case $system in
 
     hppa2.0w-hp* )	
         	
-	qt_args=${qt_args:="--with-qt=/igd/a4/software/HP-UX/packages/qt-3.0"}
+	qt_args=""
 	glut_args=${glut_args:="--with-glut --with-glutincludedir=/opt/graphics/OpenGL/contrib/libglut --with-glutlibdir=/opt/graphics/OpenGL/contrib/libglut"}
 	tif_args=${tif_args:="--with-tif=/igd/a4/software/HP-UX/"}
 	jpeg_args=${jpeg_args:="--with-jpeg=/igd/a4/software/HP-UX/"}
@@ -490,8 +489,8 @@ case $system in
 	mail=`pwd`/../do_send_mail
 	# LOCAL: for the cygwins that don't have full NFS access
 	# note: rcp is a Windows command and thus can't handle /cygdrive pathes
-	win_base=`echo $basedir | sed -e 's|^/cygdrive/||' -e 's|/|:\\|' -e 's|/|\\|g'`
-	do_copy='rcp $win_base/$link_html* $win_base/opensg_dailybuild.$today.source.tgz rubens:$log_destination'
+        # and it can't handle <drive>:<file> pathes either, mistaking them for hosts :(
+	do_copy='cd $basedir ; rcp -b $link_html* opensg_dailybuild.$today.source.tgz rubens:$log_destination'
 	export PATH=$PATH
         loginfo="OS: `uname -a` <br>"
 	;;
@@ -546,9 +545,17 @@ echo '<p>' >> $out_html.Main.html
 checkerror "Cvs" $log_cvs
 
 # create the source snapshot
-cd ..
-tar cf - OpenSG | gzip -9f > $basedir/opensg_dailybuild.$today.source.tgz
-cd OpenSG
+# Only on Irix, one is enough
+
+case $system in
+
+    mips-sgi-irix6* )	
+                        cd ..
+                        tar cf - OpenSG | \
+                            gzip -9f > $basedir/opensg_dailybuild.$today.source.tgz
+                        cd OpenSG
+                        ;;
+esac
 
 # configure it
 
@@ -597,8 +604,8 @@ for i in *Test;
 do
     cd $i
     # keep going after errors to catch them all
-    $make -k dbg 1>$log_test.$i 2>&1
-    $make -k opt 1>>$log_test.$i 2>&1
+    $make -j$par_jobs -k dbg 1>$log_test.$i 2>&1
+    $make -j$par_jobs -k opt 1>>$log_test.$i 2>&1
     checkerror $i $log_test.$i no
     (( errcount = $errcount + $? ))
     echo "Running ${i}s:<br>" >> $out_html.Main.html

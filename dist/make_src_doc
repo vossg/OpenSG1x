@@ -51,7 +51,7 @@ then
     # cvs needs to be in the path!
     cvs -d:pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg co -P OpenSG 
 
-    mv OpenSG `basename $OSGPOOL`
+    # mv OpenSG `basename $OSGPOOL`
 fi
 
 # lets do it
@@ -61,7 +61,7 @@ cd $OSGPOOL
 VERSION=`cat VERSION`
 
 # remove the internal stuff
-rm -rf dist Stuff Statistics Tools/newClass examples/DeriveFCExample examples/Cubes
+rm -rf dist Stuff Tools/newClass examples/DeriveFCExample
 
 # remove the CVS stuff
 find . -name CVS | xargs rm -rf
@@ -75,6 +75,8 @@ tar cf - OpenSG-$VERSION | gzip -9 > OpenSG-$VERSION-src.tgz
 
 # go back and make the docs
 cd OpenSG-$VERSION
+
+./configure
 
 make doc
 

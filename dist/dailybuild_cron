@@ -1,0 +1,25 @@
+#!/bin/sh 
+
+cd /igd/a4/www/opensg/dailybuild_logs/
+
+# copy zulli logs, still don't work automatically... :(
+
+cp /net/zulli/disk_f/user/reiners/opensg_dailybuild/opensg_dailybuild* .
+sleep 30
+
+# remove the old snapshots/data
+
+# remove logs after 5 days
+find . -name 'opensg_dailybuild.*' -mtime +5 -exec rm {} \; 
+
+# walk the systems and only keep the latest snapshot
+for i in `ls *snap* | sort -t. -k3,4 -u | \
+          sed -e 's/opensg_dailybuild.[0-9]*.//g' -e 's/.snapshot.tgz//'`;
+do
+
+    \ls -1 opensg_dailybuild.[0-9]*.$i.snapshot.tgz | sort -nr | tail +2 | xargs rm -f
+
+done
+
+# create the web pages
+/igd/a4/home/reiners/opensg/OpenSG/dist/make_index  ./ index_skeleton.EN.html index.EN.html ; /igd/a4/home/reiners/opensg/OpenSG/dist/make_index  /igd/a4/www/opensg/dailybuild_logs/ index_skeleton.DE.html index.DE.html

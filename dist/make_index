@@ -42,18 +42,19 @@ then
     exit 1
 fi
 
-outfile=index_raw.html
+outfile=/tmp/index_raw.html
 
 # HTML header
 cat << EOF > $outfile
 <table border=1>
 <tr>
 <td><center>Date</center></td><td>System</td>
-<td colspan=2><center>Snapshots</center></td><td>Status</td>
+<td><center>Snapshots</center></td><td>Status</td>
 </tr>
 EOF
 
 lastdate="00.00.00"
+secondline=0
 
 for i in `ls *.Main.html.gz | sort -r`;
 do
@@ -66,35 +67,36 @@ do
     then
     	echo "<td style=date>$date</td>" >> $outfile
 	lastdate=$date
+        secondline=1
     else
-    	echo "<td style=date> </td>" >> $outfile
+        snap=`echo $i | sed -e "s|${system}.Main.html.gz|source.tgz|"`    
+        if test $secondline = 1 -a -f $snap
+        then
+            secondline=0
+            echo "<td style=source><a href=$snap>Sources</a></td>" >> $outfile
+        else
+    	    echo "<td style=date> </td>" >> $outfile
+        fi
     fi
     echo "<td style=system><a href=$i>$system</a></td>" >> $outfile
-
-    snap=`echo $i | sed -e 's|Main.html.gz|source.tgz|'`    
-    if test -f $snap
-    then
-    	echo "<td style=source><a href=$snap>Src</a></td>" >> $outfile
-    else
-    	echo "<td style=source> </td>" >> $outfile
-    fi
 
     snap=`echo $i | sed -e 's|Main.html.gz|snapshot.tgz|'`    
     if test -f $snap
     then
-    	echo "<td style=snap><a href=$snap>Lib</a></td>" >> $outfile
+    	echo "<td style=snap><a href=$snap>Binary</a></td>" >> $outfile
     else
     	echo "<td style=snap> </td>" >> $outfile
     fi
  
-    status=`gzip -dc $i | fgrep "had errors" | cut -c32- | sed -e 's|</font><br>||' -e 's|!|!<br>|g`
-    
-		if test "x$status" == "x"
-		then
-				echo "<td style=status>No errors.</td>" >> $outfile
+    status=`gzip -dc $i | fgrep "had errors" | cut -c32- | sed -e 's|</font><br>||' -e 's|!|!<br>|g'`
+
+	if test "x$status" = "x"
+	then
+			echo "<td style=status>No errors.</td>" >> $outfile
     else
-				echo "<td style=status>$status</td>" >> $outfile
-		fi				
+			echo "<td style=status>$status</td>" >> $outfile
+	fi
+    				
     echo "</tr>" >> $outfile
 
 done
@@ -106,9 +108,9 @@ EOF
 
 # merge with index_skeleton.html
 
-sed -e '/DAILYBUILD_LOGS/r index_raw.html' \
-	-e '/DAILYBUILD_LOGS/d' < $skeleton > $target
+sed -e "/DAILYBUILD_LOGS/r $outfile" \
+    -e "/DAILYBUILD_LOGS/d" < $skeleton > $target
 
 # remove temporary
 
-rm index_raw.html
+rm $outfile
