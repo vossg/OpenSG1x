@@ -234,7 +234,7 @@ bool TXFFont::initFont(void)
 
     _valid = true;
 
-    source.open(_fontPath.data());
+	source.open(_fontPath.data(), std::ios_base::in | std::ios_base::binary );
     initFromStream(source);
     source.close();
 

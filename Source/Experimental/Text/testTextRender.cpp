@@ -9,7 +9,7 @@
 #include <OSGConfig.h>
 #include "OSGLog.h"
 
-#ifndef WIN32
+#ifndef xxx
 
 // Headers
 #include <OSGSimpleGeometry.h>
