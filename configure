@@ -2530,7 +2530,7 @@ do
     then
         dir=`echo "$i" | sed -e 's|/common.libs.in$||'`
         echo -n " $dir"
-        . "$i "
+        . "$i"
     fi
 done
 echo "$ac_t""""" 1>&6

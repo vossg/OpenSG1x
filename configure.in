@@ -664,7 +664,7 @@ do
     then
         dir=`echo "$i" | sed -e 's|/common.libs.in$||'`
         echo -n " $dir"
-        . "$i "
+        . "$i"
     fi
 done
 AC_MSG_RESULT("")
