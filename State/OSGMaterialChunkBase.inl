@@ -176,7 +176,7 @@ const Color4f &MaterialChunkBase::getDiffuse(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void MaterialChunkBase::setDiffuse( Color4f value )
+void MaterialChunkBase::setDiffuse( const Color4f &value )
 {
 	_sfDiffuse.setValue(value);
 }
@@ -194,7 +194,7 @@ const Color4f &MaterialChunkBase::getAmbient(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void MaterialChunkBase::setAmbient( Color4f value )
+void MaterialChunkBase::setAmbient( const Color4f &value )
 {
 	_sfAmbient.setValue(value);
 }
@@ -212,7 +212,7 @@ const Color4f &MaterialChunkBase::getSpecular(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void MaterialChunkBase::setSpecular( Color4f value )
+void MaterialChunkBase::setSpecular( const Color4f &value )
 {
 	_sfSpecular.setValue(value);
 }
@@ -230,7 +230,7 @@ const Color4f &MaterialChunkBase::getEmission(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void MaterialChunkBase::setEmission( Color4f value )
+void MaterialChunkBase::setEmission( const Color4f &value )
 {
 	_sfEmission.setValue(value);
 }
@@ -248,7 +248,7 @@ const Real32 &MaterialChunkBase::getShininess(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void MaterialChunkBase::setShininess( Real32 value )
+void MaterialChunkBase::setShininess( const Real32 &value )
 {
 	_sfShininess.setValue(value);
 }

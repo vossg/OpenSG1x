@@ -152,7 +152,7 @@ const Int32 &SwitchBase::getChoice(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SwitchBase::setChoice( Int32 value )
+void SwitchBase::setChoice( const Int32 &value )
 {
 	_sfChoice.setValue(value);
 }

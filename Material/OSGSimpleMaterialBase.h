@@ -184,22 +184,22 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
 
     inline       Color3f	&getAmbient(void);
     inline const Color3f	&getAmbient(void) const;
-    inline       void	             setAmbient( Color3f value );
+    inline       void	         setAmbient( const Color3f &value );
     inline       Color3f	&getDiffuse(void);
     inline const Color3f	&getDiffuse(void) const;
-    inline       void	             setDiffuse( Color3f value );
+    inline       void	         setDiffuse( const Color3f &value );
     inline       Color3f	&getSpecular(void);
     inline const Color3f	&getSpecular(void) const;
-    inline       void	             setSpecular( Color3f value );
+    inline       void	         setSpecular( const Color3f &value );
     inline       Real32	&getShininess(void);
     inline const Real32	&getShininess(void) const;
-    inline       void	             setShininess( Real32 value );
+    inline       void	         setShininess( const Real32 &value );
     inline       Color3f	&getEmission(void);
     inline const Color3f	&getEmission(void) const;
-    inline       void	             setEmission( Color3f value );
+    inline       void	         setEmission( const Color3f &value );
     inline       Real32	&getTransparency(void);
     inline const Real32	&getTransparency(void) const;
-    inline       void	             setTransparency( Real32 value );
+    inline       void	         setTransparency( const Real32 &value );
 
 
     //!@}

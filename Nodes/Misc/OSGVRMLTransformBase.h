@@ -180,19 +180,19 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransformBase : public Transform
 
     inline       Vec3f	&getCenter(void);
     inline const Vec3f	&getCenter(void) const;
-    inline       void	             setCenter( Vec3f value );
+    inline       void	         setCenter( const Vec3f &value );
     inline       Quaternion	&getRotation(void);
     inline const Quaternion	&getRotation(void) const;
-    inline       void	             setRotation( Quaternion value );
+    inline       void	         setRotation( const Quaternion &value );
     inline       Vec3f	&getScale(void);
     inline const Vec3f	&getScale(void) const;
-    inline       void	             setScale( Vec3f value );
+    inline       void	         setScale( const Vec3f &value );
     inline       Quaternion	&getScaleOrientation(void);
     inline const Quaternion	&getScaleOrientation(void) const;
-    inline       void	             setScaleOrientation( Quaternion value );
+    inline       void	         setScaleOrientation( const Quaternion &value );
     inline       Vec3f	&getTranslation(void);
     inline const Vec3f	&getTranslation(void) const;
-    inline       void	             setTranslation( Vec3f value );
+    inline       void	         setTranslation( const Vec3f &value );
 
 
     //!@}

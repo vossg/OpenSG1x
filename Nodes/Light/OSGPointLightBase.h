@@ -176,16 +176,16 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLightBase : public LightBase
 
     inline       Pnt3f	&getPosition(void);
     inline const Pnt3f	&getPosition(void) const;
-    inline       void	             setPosition( Pnt3f value );
+    inline       void	         setPosition( const Pnt3f &value );
     inline       Real32	&getConstantAttenuation(void);
     inline const Real32	&getConstantAttenuation(void) const;
-    inline       void	             setConstantAttenuation( Real32 value );
+    inline       void	         setConstantAttenuation( const Real32 &value );
     inline       Real32	&getLinearAttenuation(void);
     inline const Real32	&getLinearAttenuation(void) const;
-    inline       void	             setLinearAttenuation( Real32 value );
+    inline       void	         setLinearAttenuation( const Real32 &value );
     inline       Real32	&getQuadraticAttenuation(void);
     inline const Real32	&getQuadraticAttenuation(void) const;
-    inline       void	             setQuadraticAttenuation( Real32 value );
+    inline       void	         setQuadraticAttenuation( const Real32 &value );
 
 
     //!@}

@@ -212,7 +212,7 @@ const GeoPTypePtr &GeometryBase::getTypes(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setTypes( GeoPTypePtr value )
+void GeometryBase::setTypes( const GeoPTypePtr &value )
 {
 	_sfTypes.setValue(value);
 }
@@ -230,7 +230,7 @@ const GeoPLengthPtr &GeometryBase::getLengths(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setLengths( GeoPLengthPtr value )
+void GeometryBase::setLengths( const GeoPLengthPtr &value )
 {
 	_sfLengths.setValue(value);
 }
@@ -248,7 +248,7 @@ const GeoPositionPtr &GeometryBase::getPositions(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setPositions( GeoPositionPtr value )
+void GeometryBase::setPositions( const GeoPositionPtr &value )
 {
 	_sfPositions.setValue(value);
 }
@@ -266,7 +266,7 @@ const GeoNormalPtr &GeometryBase::getNormals(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setNormals( GeoNormalPtr value )
+void GeometryBase::setNormals( const GeoNormalPtr &value )
 {
 	_sfNormals.setValue(value);
 }
@@ -284,7 +284,7 @@ const GeoColorPtr &GeometryBase::getColors(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setColors( GeoColorPtr value )
+void GeometryBase::setColors( const GeoColorPtr &value )
 {
 	_sfColors.setValue(value);
 }
@@ -302,7 +302,7 @@ const GeoTexCoordsPtr &GeometryBase::getTexCoords(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setTexCoords( GeoTexCoordsPtr value )
+void GeometryBase::setTexCoords( const GeoTexCoordsPtr &value )
 {
 	_sfTexCoords.setValue(value);
 }
@@ -320,7 +320,7 @@ const GeoIndexPtr &GeometryBase::getIndex(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setIndex( GeoIndexPtr value )
+void GeometryBase::setIndex( const GeoIndexPtr &value )
 {
 	_sfIndex.setValue(value);
 }
@@ -338,7 +338,7 @@ const MaterialPtr &GeometryBase::getMaterial(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setMaterial( MaterialPtr value )
+void GeometryBase::setMaterial( const MaterialPtr &value )
 {
 	_sfMaterial.setValue(value);
 }
@@ -356,7 +356,7 @@ const Bool &GeometryBase::getDlistCache(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setDlistCache( Bool value )
+void GeometryBase::setDlistCache( const Bool &value )
 {
 	_sfDlistCache.setValue(value);
 }
@@ -374,7 +374,7 @@ const Int32 &GeometryBase::getGLId(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setGLId( Int32 value )
+void GeometryBase::setGLId( const Int32 &value )
 {
 	_sfGLId.setValue(value);
 }

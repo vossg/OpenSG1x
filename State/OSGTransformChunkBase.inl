@@ -152,7 +152,7 @@ const Matrix &TransformChunkBase::getMatrix(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TransformChunkBase::setMatrix( Matrix value )
+void TransformChunkBase::setMatrix( const Matrix &value )
 {
 	_sfMatrix.setValue(value);
 }

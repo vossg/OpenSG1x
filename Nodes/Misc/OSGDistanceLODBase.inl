@@ -158,7 +158,7 @@ const Pnt3f &DistanceLODBase::getCenter(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void DistanceLODBase::setCenter( Pnt3f value )
+void DistanceLODBase::setCenter( const Pnt3f &value )
 {
 	_sfCenter.setValue(value);
 }

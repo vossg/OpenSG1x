@@ -204,31 +204,31 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
 
     inline       GeoPTypePtr	&getTypes(void);
     inline const GeoPTypePtr	&getTypes(void) const;
-    inline       void	             setTypes( GeoPTypePtr value );
+    inline       void	         setTypes( const GeoPTypePtr &value );
     inline       GeoPLengthPtr	&getLengths(void);
     inline const GeoPLengthPtr	&getLengths(void) const;
-    inline       void	             setLengths( GeoPLengthPtr value );
+    inline       void	         setLengths( const GeoPLengthPtr &value );
     inline       GeoPositionPtr	&getPositions(void);
     inline const GeoPositionPtr	&getPositions(void) const;
-    inline       void	             setPositions( GeoPositionPtr value );
+    inline       void	         setPositions( const GeoPositionPtr &value );
     inline       GeoNormalPtr	&getNormals(void);
     inline const GeoNormalPtr	&getNormals(void) const;
-    inline       void	             setNormals( GeoNormalPtr value );
+    inline       void	         setNormals( const GeoNormalPtr &value );
     inline       GeoColorPtr	&getColors(void);
     inline const GeoColorPtr	&getColors(void) const;
-    inline       void	             setColors( GeoColorPtr value );
+    inline       void	         setColors( const GeoColorPtr &value );
     inline       GeoTexCoordsPtr	&getTexCoords(void);
     inline const GeoTexCoordsPtr	&getTexCoords(void) const;
-    inline       void	             setTexCoords( GeoTexCoordsPtr value );
+    inline       void	         setTexCoords( const GeoTexCoordsPtr &value );
     inline       GeoIndexPtr	&getIndex(void);
     inline const GeoIndexPtr	&getIndex(void) const;
-    inline       void	             setIndex( GeoIndexPtr value );
+    inline       void	         setIndex( const GeoIndexPtr &value );
     inline       MaterialPtr	&getMaterial(void);
     inline const MaterialPtr	&getMaterial(void) const;
-    inline       void	             setMaterial( MaterialPtr value );
+    inline       void	         setMaterial( const MaterialPtr &value );
     inline       Bool	&getDlistCache(void);
     inline const Bool	&getDlistCache(void) const;
-    inline       void	             setDlistCache( Bool value );
+    inline       void	         setDlistCache( const Bool &value );
 
     inline       UInt16	               &getIndexMapping( UInt32 index );
     inline       MFUInt16 &getIndexMapping(void);
@@ -316,7 +316,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
 
     inline       Int32	&getGLId(void);
     inline const Int32	&getGLId(void) const;
-    inline       void	             setGLId( Int32 value );
+    inline       void	         setGLId( const Int32 &value );
 
 
     //!@}

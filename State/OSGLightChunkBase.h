@@ -200,34 +200,34 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
 
     inline       Color4f	&getDiffuse(void);
     inline const Color4f	&getDiffuse(void) const;
-    inline       void	             setDiffuse( Color4f value );
+    inline       void	         setDiffuse( const Color4f &value );
     inline       Color4f	&getAmbient(void);
     inline const Color4f	&getAmbient(void) const;
-    inline       void	             setAmbient( Color4f value );
+    inline       void	         setAmbient( const Color4f &value );
     inline       Color4f	&getSpecular(void);
     inline const Color4f	&getSpecular(void) const;
-    inline       void	             setSpecular( Color4f value );
+    inline       void	         setSpecular( const Color4f &value );
     inline       Vec4f	&getPosition(void);
     inline const Vec4f	&getPosition(void) const;
-    inline       void	             setPosition( Vec4f value );
+    inline       void	         setPosition( const Vec4f &value );
     inline       Vec3f	&getDirection(void);
     inline const Vec3f	&getDirection(void) const;
-    inline       void	             setDirection( Vec3f value );
+    inline       void	         setDirection( const Vec3f &value );
     inline       Real32	&getExponent(void);
     inline const Real32	&getExponent(void) const;
-    inline       void	             setExponent( Real32 value );
+    inline       void	         setExponent( const Real32 &value );
     inline       Real32	&getCutoff(void);
     inline const Real32	&getCutoff(void) const;
-    inline       void	             setCutoff( Real32 value );
+    inline       void	         setCutoff( const Real32 &value );
     inline       Real32	&getConstantAttenuation(void);
     inline const Real32	&getConstantAttenuation(void) const;
-    inline       void	             setConstantAttenuation( Real32 value );
+    inline       void	         setConstantAttenuation( const Real32 &value );
     inline       Real32	&getLinearAttenuation(void);
     inline const Real32	&getLinearAttenuation(void) const;
-    inline       void	             setLinearAttenuation( Real32 value );
+    inline       void	         setLinearAttenuation( const Real32 &value );
     inline       Real32	&getQuadraticAttenuation(void);
     inline const Real32	&getQuadraticAttenuation(void) const;
-    inline       void	             setQuadraticAttenuation( Real32 value );
+    inline       void	         setQuadraticAttenuation( const Real32 &value );
 
 
     //!@}

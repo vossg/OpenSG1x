@@ -176,19 +176,19 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
 
     inline       Color4f	&getAmbient(void);
     inline const Color4f	&getAmbient(void) const;
-    inline       void	             setAmbient( Color4f value );
+    inline       void	         setAmbient( const Color4f &value );
     inline       Color4f	&getDiffuse(void);
     inline const Color4f	&getDiffuse(void) const;
-    inline       void	             setDiffuse( Color4f value );
+    inline       void	         setDiffuse( const Color4f &value );
     inline       Color4f	&getSpecular(void);
     inline const Color4f	&getSpecular(void) const;
-    inline       void	             setSpecular( Color4f value );
+    inline       void	         setSpecular( const Color4f &value );
     inline       NodePtr	&getBeacon(void);
     inline const NodePtr	&getBeacon(void) const;
-    inline       void	             setBeacon( NodePtr value );
+    inline       void	         setBeacon( const NodePtr &value );
     inline       Bool	&getOn(void);
     inline const Bool	&getOn(void) const;
-    inline       void	             setOn( Bool value );
+    inline       void	         setOn( const Bool &value );
 
 
     //!@}

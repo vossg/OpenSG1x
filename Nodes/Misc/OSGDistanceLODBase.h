@@ -168,7 +168,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public NodeCore
 
     inline       Pnt3f	&getCenter(void);
     inline const Pnt3f	&getCenter(void) const;
-    inline       void	             setCenter( Pnt3f value );
+    inline       void	         setCenter( const Pnt3f &value );
 
     inline       Real32	               &getRange( UInt32 index );
     inline       MFReal32 &getRange(void);

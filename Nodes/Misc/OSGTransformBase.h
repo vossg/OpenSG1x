@@ -164,7 +164,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TransformBase : public NodeCore
 
     inline       Matrix	&getMatrix(void);
     inline const Matrix	&getMatrix(void) const;
-    inline       void	             setMatrix( Matrix value );
+    inline       void	         setMatrix( const Matrix &value );
 
 
     //!@}

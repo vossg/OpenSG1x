@@ -172,13 +172,13 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
 
     inline       UInt32	&getSrcFactor(void);
     inline const UInt32	&getSrcFactor(void) const;
-    inline       void	             setSrcFactor( UInt32 value );
+    inline       void	         setSrcFactor( const UInt32 &value );
     inline       UInt32	&getDestFactor(void);
     inline const UInt32	&getDestFactor(void) const;
-    inline       void	             setDestFactor( UInt32 value );
+    inline       void	         setDestFactor( const UInt32 &value );
     inline       Color4f	&getColor(void);
     inline const Color4f	&getColor(void) const;
-    inline       void	             setColor( Color4f value );
+    inline       void	         setColor( const Color4f &value );
 
 
     //!@}

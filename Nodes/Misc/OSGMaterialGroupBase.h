@@ -164,7 +164,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroupBase : public NodeCore
 
     inline       MaterialPtr	&getMaterial(void);
     inline const MaterialPtr	&getMaterial(void) const;
-    inline       void	             setMaterial( MaterialPtr value );
+    inline       void	         setMaterial( const MaterialPtr &value );
 
 
     //!@}

@@ -182,7 +182,7 @@ const Color3f &SimpleMaterialBase::getAmbient(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SimpleMaterialBase::setAmbient( Color3f value )
+void SimpleMaterialBase::setAmbient( const Color3f &value )
 {
 	_sfAmbient.setValue(value);
 }
@@ -200,7 +200,7 @@ const Color3f &SimpleMaterialBase::getDiffuse(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SimpleMaterialBase::setDiffuse( Color3f value )
+void SimpleMaterialBase::setDiffuse( const Color3f &value )
 {
 	_sfDiffuse.setValue(value);
 }
@@ -218,7 +218,7 @@ const Color3f &SimpleMaterialBase::getSpecular(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SimpleMaterialBase::setSpecular( Color3f value )
+void SimpleMaterialBase::setSpecular( const Color3f &value )
 {
 	_sfSpecular.setValue(value);
 }
@@ -236,7 +236,7 @@ const Real32 &SimpleMaterialBase::getShininess(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SimpleMaterialBase::setShininess( Real32 value )
+void SimpleMaterialBase::setShininess( const Real32 &value )
 {
 	_sfShininess.setValue(value);
 }
@@ -254,7 +254,7 @@ const Color3f &SimpleMaterialBase::getEmission(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SimpleMaterialBase::setEmission( Color3f value )
+void SimpleMaterialBase::setEmission( const Color3f &value )
 {
 	_sfEmission.setValue(value);
 }
@@ -272,7 +272,7 @@ const Real32 &SimpleMaterialBase::getTransparency(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SimpleMaterialBase::setTransparency( Real32 value )
+void SimpleMaterialBase::setTransparency( const Real32 &value )
 {
 	_sfTransparency.setValue(value);
 }

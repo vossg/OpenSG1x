@@ -152,7 +152,7 @@ const MaterialPtr &MaterialGroupBase::getMaterial(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void MaterialGroupBase::setMaterial( MaterialPtr value )
+void MaterialGroupBase::setMaterial( const MaterialPtr &value )
 {
 	_sfMaterial.setValue(value);
 }

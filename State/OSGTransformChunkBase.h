@@ -164,7 +164,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TransformChunkBase : public StateChunk
 
     inline       Matrix	&getMatrix(void);
     inline const Matrix	&getMatrix(void) const;
-    inline       void	             setMatrix( Matrix value );
+    inline       void	         setMatrix( const Matrix &value );
 
 
     //!@}

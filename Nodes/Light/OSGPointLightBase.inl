@@ -170,7 +170,7 @@ const Pnt3f &PointLightBase::getPosition(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PointLightBase::setPosition( Pnt3f value )
+void PointLightBase::setPosition( const Pnt3f &value )
 {
 	_sfPosition.setValue(value);
 }
@@ -188,7 +188,7 @@ const Real32 &PointLightBase::getConstantAttenuation(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PointLightBase::setConstantAttenuation( Real32 value )
+void PointLightBase::setConstantAttenuation( const Real32 &value )
 {
 	_sfConstantAttenuation.setValue(value);
 }
@@ -206,7 +206,7 @@ const Real32 &PointLightBase::getLinearAttenuation(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PointLightBase::setLinearAttenuation( Real32 value )
+void PointLightBase::setLinearAttenuation( const Real32 &value )
 {
 	_sfLinearAttenuation.setValue(value);
 }
@@ -224,7 +224,7 @@ const Real32 &PointLightBase::getQuadraticAttenuation(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PointLightBase::setQuadraticAttenuation( Real32 value )
+void PointLightBase::setQuadraticAttenuation( const Real32 &value )
 {
 	_sfQuadraticAttenuation.setValue(value);
 }

@@ -164,7 +164,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SwitchBase : public NodeCore
 
     inline       Int32	&getChoice(void);
     inline const Int32	&getChoice(void) const;
-    inline       void	             setChoice( Int32 value );
+    inline       void	         setChoice( const Int32 &value );
 
 
     //!@}

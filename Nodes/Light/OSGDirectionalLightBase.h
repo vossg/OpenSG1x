@@ -164,7 +164,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLightBase : public LightBase
 
     inline       Vec3f	&getDirection(void);
     inline const Vec3f	&getDirection(void) const;
-    inline       void	             setDirection( Vec3f value );
+    inline       void	         setDirection( const Vec3f &value );
 
 
     //!@}

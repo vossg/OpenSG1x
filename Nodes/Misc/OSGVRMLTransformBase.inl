@@ -176,7 +176,7 @@ const Vec3f &VRMLTransformBase::getCenter(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void VRMLTransformBase::setCenter( Vec3f value )
+void VRMLTransformBase::setCenter( const Vec3f &value )
 {
 	_sfCenter.setValue(value);
 }
@@ -194,7 +194,7 @@ const Quaternion &VRMLTransformBase::getRotation(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void VRMLTransformBase::setRotation( Quaternion value )
+void VRMLTransformBase::setRotation( const Quaternion &value )
 {
 	_sfRotation.setValue(value);
 }
@@ -212,7 +212,7 @@ const Vec3f &VRMLTransformBase::getScale(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void VRMLTransformBase::setScale( Vec3f value )
+void VRMLTransformBase::setScale( const Vec3f &value )
 {
 	_sfScale.setValue(value);
 }
@@ -230,7 +230,7 @@ const Quaternion &VRMLTransformBase::getScaleOrientation(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void VRMLTransformBase::setScaleOrientation( Quaternion value )
+void VRMLTransformBase::setScaleOrientation( const Quaternion &value )
 {
 	_sfScaleOrientation.setValue(value);
 }
@@ -248,7 +248,7 @@ const Vec3f &VRMLTransformBase::getTranslation(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void VRMLTransformBase::setTranslation( Vec3f value )
+void VRMLTransformBase::setTranslation( const Vec3f &value )
 {
 	_sfTranslation.setValue(value);
 }

@@ -180,19 +180,19 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
 
     inline       Color4f	&getDiffuse(void);
     inline const Color4f	&getDiffuse(void) const;
-    inline       void	             setDiffuse( Color4f value );
+    inline       void	         setDiffuse( const Color4f &value );
     inline       Color4f	&getAmbient(void);
     inline const Color4f	&getAmbient(void) const;
-    inline       void	             setAmbient( Color4f value );
+    inline       void	         setAmbient( const Color4f &value );
     inline       Color4f	&getSpecular(void);
     inline const Color4f	&getSpecular(void) const;
-    inline       void	             setSpecular( Color4f value );
+    inline       void	         setSpecular( const Color4f &value );
     inline       Color4f	&getEmission(void);
     inline const Color4f	&getEmission(void) const;
-    inline       void	             setEmission( Color4f value );
+    inline       void	         setEmission( const Color4f &value );
     inline       Real32	&getShininess(void);
     inline const Real32	&getShininess(void) const;
-    inline       void	             setShininess( Real32 value );
+    inline       void	         setShininess( const Real32 &value );
 
 
     //!@}

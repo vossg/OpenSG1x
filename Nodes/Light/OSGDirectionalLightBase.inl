@@ -152,7 +152,7 @@ const Vec3f &DirectionalLightBase::getDirection(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void DirectionalLightBase::setDirection( Vec3f value )
+void DirectionalLightBase::setDirection( const Vec3f &value )
 {
 	_sfDirection.setValue(value);
 }

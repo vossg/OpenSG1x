@@ -69,6 +69,7 @@
 #include <OSGSystemDef.h>
 #include <OSGStateChunk.h>
 #include <OSGImagePFields.h>	// Image type
+#include <OSGUInt32Fields.h>	// InternalFormat type
 #include <OSGBoolFields.h>	// Scale type
 #include <OSGUInt32Fields.h>	// Frame type
 #include <OSGUInt32Fields.h>	// MinFilter type
@@ -122,7 +123,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     enum
     {
         ImageFieldId = Inherited::NextFieldId,
-        ScaleFieldId = ImageFieldId + 1,
+        InternalFormatFieldId = ImageFieldId + 1,
+        ScaleFieldId = InternalFormatFieldId + 1,
         FrameFieldId = ScaleFieldId + 1,
         MinFilterFieldId = FrameFieldId + 1,
         MagFilterFieldId = MinFilterFieldId + 1,
@@ -144,6 +146,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     };
 
     static const osg::BitVector ImageFieldMask;
+    static const osg::BitVector InternalFormatFieldMask;
     static const osg::BitVector ScaleFieldMask;
     static const osg::BitVector FrameFieldMask;
     static const osg::BitVector MinFilterFieldMask;
@@ -208,6 +211,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     //! Return the fields.
 
     inline SFImageP	*getSFImage(void);
+    inline SFUInt32	*getSFInternalFormat(void);
     inline SFBool	*getSFScale(void);
     inline SFUInt32	*getSFFrame(void);
     inline SFUInt32	*getSFMinFilter(void);
@@ -232,58 +236,61 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 
     inline       ImageP	&getImage(void);
     inline const ImageP	&getImage(void) const;
-    inline       void	             setImage( ImageP value );
+    inline       void	         setImage( const ImageP &value );
+    inline       UInt32	&getInternalFormat(void);
+    inline const UInt32	&getInternalFormat(void) const;
+    inline       void	         setInternalFormat( const UInt32 &value );
     inline       Bool	&getScale(void);
     inline const Bool	&getScale(void) const;
-    inline       void	             setScale( Bool value );
+    inline       void	         setScale( const Bool &value );
     inline       UInt32	&getFrame(void);
     inline const UInt32	&getFrame(void) const;
-    inline       void	             setFrame( UInt32 value );
+    inline       void	         setFrame( const UInt32 &value );
     inline       UInt32	&getMinFilter(void);
     inline const UInt32	&getMinFilter(void) const;
-    inline       void	             setMinFilter( UInt32 value );
+    inline       void	         setMinFilter( const UInt32 &value );
     inline       UInt32	&getMagFilter(void);
     inline const UInt32	&getMagFilter(void) const;
-    inline       void	             setMagFilter( UInt32 value );
+    inline       void	         setMagFilter( const UInt32 &value );
     inline       UInt32	&getWrapS(void);
     inline const UInt32	&getWrapS(void) const;
-    inline       void	             setWrapS( UInt32 value );
+    inline       void	         setWrapS( const UInt32 &value );
     inline       UInt32	&getWrapT(void);
     inline const UInt32	&getWrapT(void) const;
-    inline       void	             setWrapT( UInt32 value );
+    inline       void	         setWrapT( const UInt32 &value );
     inline       UInt32	&getWrapR(void);
     inline const UInt32	&getWrapR(void) const;
-    inline       void	             setWrapR( UInt32 value );
+    inline       void	         setWrapR( const UInt32 &value );
     inline       UInt32	&getEnvMode(void);
     inline const UInt32	&getEnvMode(void) const;
-    inline       void	             setEnvMode( UInt32 value );
+    inline       void	         setEnvMode( const UInt32 &value );
     inline       UInt32	&getGenFuncS(void);
     inline const UInt32	&getGenFuncS(void) const;
-    inline       void	             setGenFuncS( UInt32 value );
+    inline       void	         setGenFuncS( const UInt32 &value );
     inline       UInt32	&getGenFuncT(void);
     inline const UInt32	&getGenFuncT(void) const;
-    inline       void	             setGenFuncT( UInt32 value );
+    inline       void	         setGenFuncT( const UInt32 &value );
     inline       UInt32	&getGenFuncR(void);
     inline const UInt32	&getGenFuncR(void) const;
-    inline       void	             setGenFuncR( UInt32 value );
+    inline       void	         setGenFuncR( const UInt32 &value );
     inline       UInt32	&getGenFuncQ(void);
     inline const UInt32	&getGenFuncQ(void) const;
-    inline       void	             setGenFuncQ( UInt32 value );
+    inline       void	         setGenFuncQ( const UInt32 &value );
     inline       Plane	&getGenFuncSPlane(void);
     inline const Plane	&getGenFuncSPlane(void) const;
-    inline       void	             setGenFuncSPlane( Plane value );
+    inline       void	         setGenFuncSPlane( const Plane &value );
     inline       Plane	&getGenFuncTPlane(void);
     inline const Plane	&getGenFuncTPlane(void) const;
-    inline       void	             setGenFuncTPlane( Plane value );
+    inline       void	         setGenFuncTPlane( const Plane &value );
     inline       Plane	&getGenFuncRPlane(void);
     inline const Plane	&getGenFuncRPlane(void) const;
-    inline       void	             setGenFuncRPlane( Plane value );
+    inline       void	         setGenFuncRPlane( const Plane &value );
     inline       Plane	&getGenFuncQPlane(void);
     inline const Plane	&getGenFuncQPlane(void) const;
-    inline       void	             setGenFuncQPlane( Plane value );
+    inline       void	         setGenFuncQPlane( const Plane &value );
     inline       UInt32	&getGLId(void);
     inline const UInt32	&getGLId(void) const;
-    inline       void	             setGLId( UInt32 value );
+    inline       void	         setGLId( const UInt32 &value );
 
 
     //!@}
@@ -321,6 +328,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     /*! 
      */
     SFImageP	_sfImage;
+    /*! The internal texture format.
+     */
+    SFUInt32	_sfInternalFormat;
     /*! 
      */
     SFBool	_sfScale;

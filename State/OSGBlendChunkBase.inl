@@ -164,7 +164,7 @@ const UInt32 &BlendChunkBase::getSrcFactor(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void BlendChunkBase::setSrcFactor( UInt32 value )
+void BlendChunkBase::setSrcFactor( const UInt32 &value )
 {
 	_sfSrcFactor.setValue(value);
 }
@@ -182,7 +182,7 @@ const UInt32 &BlendChunkBase::getDestFactor(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void BlendChunkBase::setDestFactor( UInt32 value )
+void BlendChunkBase::setDestFactor( const UInt32 &value )
 {
 	_sfDestFactor.setValue(value);
 }
@@ -200,7 +200,7 @@ const Color4f &BlendChunkBase::getColor(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void BlendChunkBase::setColor( Color4f value )
+void BlendChunkBase::setColor( const Color4f &value )
 {
 	_sfColor.setValue(value);
 }

@@ -152,7 +152,7 @@ const Matrix &TransformBase::getMatrix(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TransformBase::setMatrix( Matrix value )
+void TransformBase::setMatrix( const Matrix &value )
 {
 	_sfMatrix.setValue(value);
 }

@@ -154,7 +154,7 @@ const Color4f &LightBaseBase::getAmbient(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void LightBaseBase::setAmbient( Color4f value )
+void LightBaseBase::setAmbient( const Color4f &value )
 {
 	_sfAmbient.setValue(value);
 }
@@ -172,7 +172,7 @@ const Color4f &LightBaseBase::getDiffuse(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void LightBaseBase::setDiffuse( Color4f value )
+void LightBaseBase::setDiffuse( const Color4f &value )
 {
 	_sfDiffuse.setValue(value);
 }
@@ -190,7 +190,7 @@ const Color4f &LightBaseBase::getSpecular(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void LightBaseBase::setSpecular( Color4f value )
+void LightBaseBase::setSpecular( const Color4f &value )
 {
 	_sfSpecular.setValue(value);
 }
@@ -208,7 +208,7 @@ const NodePtr &LightBaseBase::getBeacon(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void LightBaseBase::setBeacon( NodePtr value )
+void LightBaseBase::setBeacon( const NodePtr &value )
 {
 	_sfBeacon.setValue(value);
 }
@@ -226,7 +226,7 @@ const Bool &LightBaseBase::getOn(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void LightBaseBase::setOn( Bool value )
+void LightBaseBase::setOn( const Bool &value )
 {
 	_sfOn.setValue(value);
 }
