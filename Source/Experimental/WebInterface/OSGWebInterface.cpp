@@ -169,9 +169,16 @@ const std::string &WebInterface::getFooter(void)
  */
 void WebInterface::addHandler(char *path,MethodT method)
 {
+    // This is a workaround for gcc 3.1 on OS X
 
-    HandlerT::value_type newEntry = HandlerT::value_type(IDString(path),
-                                                         method       );
+    HandlerT::value_type newEntry;
+
+    // Especially this ;-)
+    IDString *pString = const_cast<IDString *>(&newEntry.first);
+
+    pString->set(path);
+    
+    newEntry.second = method;
 
     std::pair<HandlerT::iterator, bool> retVal;
     

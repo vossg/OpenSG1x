@@ -17,8 +17,11 @@ class OSG_SYSTEMLIB_DLLMAPPING WebInterface {
     /*==========================  PUBLIC  =================================*/
 public:
     typedef std::map<IDString,IDString> ParameterT;
-    typedef void (WebInterface::*MethodT)(std::ostream &,const char*,ParameterT &);
-    typedef std::map<IDString,MethodT> HandlerT;
+    typedef void (WebInterface::*MethodT)(      std::ostream &,
+                                          const char*,
+                                                ParameterT   &);
+
+    typedef std::map<IDString, MethodT> HandlerT;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
