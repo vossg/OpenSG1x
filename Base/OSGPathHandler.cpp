@@ -39,6 +39,9 @@
 #define OSG_COMPILEBASELIB
 
 #include "OSGPathHandler.h"
+
+#if 0
+
 #include <pwd.h>
 
 OSG_USING_NAMESPACE
@@ -980,7 +983,7 @@ void PathHandler::clearPathList(void)
 
 
 
-
+#endif
 
 
 
