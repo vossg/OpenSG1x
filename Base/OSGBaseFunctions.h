@@ -273,7 +273,9 @@ struct osgIFGen<false>
 template<bool IConditionV, class IThenT, class IElseT>
 struct osgIF
 {
-	typedef typename osgIFGen<IConditionV>::osgIFSwitch<IThenT, IElseT>::_IRet _IRet;
+    typedef typename osgIFGen<IConditionV> _IfGen;
+
+	typedef typename _IfGen::osgIFSwitch<IThenT, IElseT>::_IRet _IRet;
 };
 
 /*! \brief osgispower2
