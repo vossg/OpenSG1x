@@ -54,8 +54,8 @@ OSG_BEGIN_NAMESPACE
 
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class FrustumVolume;
-Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
-Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
+       Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
+inline Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
 ostream& operator<< (ostream & os, const FrustumVolume &obj);
 #endif
 
@@ -145,8 +145,7 @@ public:
 	const Plane *getPlanes(void); 
 
 	/** set method for all planes */
-	inline
-	void setPlanes( const Plane &pnear, const Plane &pfar,
+	inline void setPlanes( const Plane &pnear, const Plane &pfar,
 								 const Plane &left, const Plane &right,
 								 const Plane &top,  const Plane &bottom);
 
@@ -211,7 +210,7 @@ public:
   friend Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
 
   /// Unequality comparisons
-  friend Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
+  friend inline Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
 
   /// Assignment operator
   const FrustumVolume &operator =(const FrustumVolume &b1);

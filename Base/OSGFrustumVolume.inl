@@ -37,8 +37,8 @@ OSG_BEGIN_NAMESPACE
 
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class FrustumVolume;
-Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
-Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
+       Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
+inline Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
 ostream& operator<< (ostream & os, const FrustumVolume &obj);
 #endif
 
