@@ -18,6 +18,7 @@ OSG_USING_NAMESPACE
 
 // The pointer to the transformation
 TransformPtr trans;
+TransformPtr trans2;
 
 
 // The SimpleSceneManager to manage simple applications
@@ -55,12 +56,14 @@ int main(int argc, char **argv)
         
         Right now this is only done for Nodes, i.e. when adding a node to
         another Node its reference count is increased. When subbing it from
-        another Node its reference count is decreased.
+        another Node its reference count is decreased. Same thing for cores.
 
         Think about that for a second.
         
         What that means is that as soon as a node is taken out of another node
-        it is destryed, as its reference count goes to zero.
+        it is destryed, as its reference count goes to zero. Iff the node
+        in question does not hold a core.
+        
         
         When you remove a node from the graph, be aware of the reference counts
         involved, or you will get into trouble. See below for ways how to
@@ -69,18 +72,19 @@ int main(int argc, char **argv)
 
     // create the scene
 
-    // the torus is created. RefCnt: 0
+    // the torus is created. RefCnt: 1 / Do not forget the hidden geo core
     NodePtr torus = makeTorus( .5, 2, 16, 16 );
 
     // create the transformation node. RefCnt: 0
     NodePtr scene = Node::create();
+    // create the transformation node core. RefCnt: 1
     trans = Transform::create();
     
     beginEditCP(scene, Node::CoreFieldMask | Node::ChildrenFieldMask);
     {
         scene->setCore(trans);
 
-        // add the torus to the scene. RefCnt: 1
+        // add the torus to the scene. RefCnt: 2
         scene->addChild(torus);
     }
     endEditCP  (scene, Node::CoreFieldMask | Node::ChildrenFieldMask);
@@ -88,10 +92,12 @@ int main(int argc, char **argv)
     // create a second transformation node. 
     // RefCnt (after the following line): 0
     NodePtr scene2 = Node::create();
-    TransformPtr trans2 = Transform::create();
+    // RefCnt (after the following line): 1
+    trans2 = Transform::create();
+
     beginEditCP(scene2, Node::CoreFieldMask);
     {
-        scene->setCore(trans2);
+        scene2->setCore(trans2);
     }
     endEditCP  (scene2, Node::CoreFieldMask);
  
@@ -100,33 +106,43 @@ int main(int argc, char **argv)
         Now let's say we want to move the torus from scene to scene2.
     */
     
-    // simple approach: remove it from scene, add it to scene2
-     
+    /*
+      simple approach: remove it from scene, add it to scene2, which is 
+      only ok iff both nodes contain cores (or are referenced otherwise
+    */
+
     beginEditCP(scene, Node::ChildrenFieldMask);
     {
-        // sub the torus from scene. RefCnt: 1->0! The torus is destroyed!
+        // sub the torus from scene. RefCnt: 2->1! The torus is not destroyed!
         scene->subChild(torus);
     }
     endEditCP  (scene, Node::ChildrenFieldMask);
     
     /*
-       You can't do the following, the torus is already gone.
-       It would probably work in this simple example, but in a real application
-       sooner or later the memory used by torus will be overwritten and from
-       that point on torus will be garbage. Finding these kinds of disconnected
-       errors is extremely tedious.
+       You can do the following, again iff both nodes contain a core or
+       are referenced otherwise.
     */
-    // beginEditCP(scene2, Node::ChildrenFieldMask);
-    // {
-    //     // add the torus to scene2.
-    //     scene2->addChild(torus);
-    // }
-    // endEditCP  (scene2, Node::ChildrenFieldMask);
+    beginEditCP(scene2, Node::ChildrenFieldMask);
+    {
+        // add the torus to scene2.
+        scene2->addChild(torus);
+    }
+    endEditCP  (scene2, Node::ChildrenFieldMask);
+
+    beginEditCP(scene2, Node::ChildrenFieldMask);
+    {
+        // add the torus to scene2.
+        scene2->subChild(torus);
+    }
+    endEditCP  (scene2, Node::ChildrenFieldMask);
+
+    // destroy the torus;
+    torus->unlinkSubTree();
    
-   
-    // Let's try again.
+    // Let's try again, this time independend of the presence of cores or
+    // other refcounts.
     
-    // Get a new torus. RefCnt: 0
+    // Get a new torus. RefCnt: 1
     torus = makeTorus( .5, 2, 16, 16 );
     
     // add it to scene
@@ -161,9 +177,16 @@ int main(int argc, char **argv)
     endEditCP  (scene2, Node::ChildrenFieldMask);
    
     // unbump the refcount. RefCnt: 1, just the way we want it
-    addRefCP(torus);
-    
-    
+    subRefCP(torus);
+
+    /*
+      The way to move a child from a to b shown below MUST not be used !
+      It creates the situation that torus is referenced by scene1 and
+      scene2 which is not intendend. 
+      */
+
+//#define BUGGY_MOVE_CHILD
+#ifdef BUGGY_MOVE_CHILD
     /*
         This is a bit complicated, just for moving nodes around in the
         scenegraph. But it's important to be aware of what's happening behind
@@ -193,16 +216,24 @@ int main(int argc, char **argv)
         its reference count goes to or below 0.
     */    
     // Let's remove scene2, as it's not needed anymore. RefCnt: -1 -> deletion
-    subRefCP(scene2);
-    
-    
+    scene2->unlinkSubTree();
+#else
+    // Let's remove scene, as it's not needed anymore. 
+    scene->unlinkSubTree();
+#endif    
+
     // create the SimpleSceneManager helper
     mgr = new SimpleSceneManager;
 
     // tell the manager what to manage
     mgr->setWindow(gwin );
-    mgr->setRoot  (scene);
 
+#ifdef BUGGY_MOVE_CHILD 
+   mgr->setRoot  (scene);
+#else
+    mgr->setRoot  (scene2);
+#endif
+    
     // show the whole scene
     mgr->showAll();
 
@@ -230,11 +261,19 @@ void display( void )
                                t / 1000.f));
     
     // set the transform's matrix
+#ifdef BUGGY_MOVE_CHILD
     beginEditCP(trans, Transform::MatrixFieldMask);
     {
         trans->setMatrix(m);
     }   
     endEditCP  (trans, Transform::MatrixFieldMask);
+#else
+    beginEditCP(trans2, Transform::MatrixFieldMask);
+    {
+        trans2->setMatrix(m);
+    }   
+    endEditCP  (trans2, Transform::MatrixFieldMask);
+#endif
    
     mgr->redraw();
 }
