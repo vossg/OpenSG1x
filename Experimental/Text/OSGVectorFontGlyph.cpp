@@ -77,7 +77,7 @@ void VectorFontGlyph::extrude (void )
 
     if(_numIndices*2 > (Int32)_indices.capacity())
 	_indices.resize(_numIndices*2);
-    memcpy(_indices.begin()+_numIndices, _indices.begin(),
+    memcpy(&(_indices[0])+_numIndices, &(_indices[0]),
 	   _numIndices * sizeof(Int32));
 
     for(Int32 i=_numIndices+2; i<_numIndices*2; i+=3, indices+=3) {
@@ -118,9 +118,9 @@ bool VectorFontGlyph::createTriangles(void)
 	totalPoints += (*cIter)->getNumPoints();
 	_points.resize(totalPoints);
 	_normals.resize(totalPoints);
-	memcpy(_points.begin()+last, (*cIter)->getPoints().begin(),
+	memcpy(&(_points[0])+last, &((*cIter)->getPoints()[0]),
 	       (totalPoints-last) * sizeof(Real32 *));
-	memcpy(_normals.begin()+last, (*cIter)->getNormals().begin(),
+	memcpy(&(_normals[0])+last, &((*cIter)->getNormals()[0]),
 	       (totalPoints-last) * sizeof(Real32 *));
     }
 

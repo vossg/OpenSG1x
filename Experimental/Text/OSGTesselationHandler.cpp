@@ -50,10 +50,10 @@ void OSG_SYSTEMLIB_DLLMAPPING  osg::tessEnd(void)
     assert(tmTesselator);
 }
 
-void OSG_SYSTEMLIB_DLLMAPPING  osg::tessError(GLenum errno)
+void OSG_SYSTEMLIB_DLLMAPPING  osg::tessError(GLenum errorNum)
 {
     assert(tmTesselator);
-    FWARNING(("got tesselation error %d (%s).", (int) errno, gluErrorString(errno)));
+    FWARNING(("got tesselation error %d (%s).", (int) errorNum, gluErrorString(errorNum)));
 }
 
 #endif

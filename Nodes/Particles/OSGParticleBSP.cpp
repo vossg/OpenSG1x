@@ -80,7 +80,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.4 2002/02/11 03:46:27 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.5 2002/02/25 04:01:55 vossg Exp $";
     static char cvsid_hpp[] = OSGPARTICLEBSP_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLEBSP_INLINE_CVSID;
 }
@@ -380,7 +380,7 @@ void ParticleBSPTree::build(Particles *core)
     // 3. remove the unneeded elements from the end
     
     if(nnodes < _tree.size())
-        _tree.erase( &_tree[nnodes], _tree.end());
+        _tree.erase( _tree.begin() + nnodes, _tree.end());
 
     // done
 }
