@@ -59,6 +59,11 @@
 #include <signal.h>
 #endif
 
+#if defined (OSG_USE_PTHREADS)
+#include <signal.h>
+#endif
+
+
 OSG_USING_NAMESPACE
 
 //---------------------------------------------------------------------------
@@ -176,6 +181,8 @@ bool BasePThreadBase::runFunction(ThreadFuncF  fThreadFunc,
         if(_pThreadDesc == NULL)
             _pThreadDesc = new pthread_t;
 
+        pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, &rc);
+
         _pThreadData[0] = (void *) fThreadFunc;
         _pThreadData[1] =          pThreadArg;
         _pThreadData[2] = (void *) this;
@@ -226,10 +233,12 @@ bool BasePThreadBase::exists(void)
 
 void BasePThreadBase::terminate(void)
 {
+    pthread_cancel(*_pThreadDesc);
 }
 
 void BasePThreadBase::kill(void)
 {
+    pthread_cancel(*_pThreadDesc);
 }
 
 /*-------------------------------------------------------------------------*/
