@@ -48,9 +48,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
- *  \brief Brief OSGOSGSceneFileType
- */
+/*! \brief OSGSceneFileType
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING OSGSceneFileType : public SceneFileType
 {

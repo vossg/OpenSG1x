@@ -48,8 +48,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! VRML97 SceneFileType
-//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
+/*! \brief VRMLSceneFileType
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLSceneFileType : public SceneFileType
 {

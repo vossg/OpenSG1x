@@ -120,9 +120,9 @@ aspect that's associated with it is changed, the rest is left as is.
 
 */
 
-#if !defined(OSG_DO_DOC) || OSG_DOC_LEVEL > 1
+#if defined(OSG_DO_DOC) || OSG_DOC_LEVEL > 1
 
-/*!page PageSystemFieldContainerExt Creating new FieldContainer Classes
+/*!page PageSystemFieldContainerExt Creating New FieldContainer Classes
 
 Most developers who use OpenSG as a scene-graph library will probable never
 create their own OpenSG FieldContainer classes. Similar to widget libs (e.g.
@@ -133,7 +133,7 @@ However, you can always extend the type system of OpenSG to integrate new
 cores (e.g. a fancy LOD switch) or application specific FieldContainers.
 
 FieldContainers are the system's central mechanisms to deal with any kind of
-thread safe data (see section [sec:Fields_and_FieldContainer]). Therefore, the
+thread safe data (see \ref PageSystemFieldsNFieldContainers). Therefore, the
 class declaration must include various extra meta information for the field
 and FieldContainer type handling. 
 
@@ -145,22 +145,18 @@ provide a graphical tool to create and manage the FieldContainer description
 and implementation.
 
 The basic idea is that you use the 'field container description editor'
-($OSGROOT/tools/fcdEdit) to create an XML file including the description of
+($OSGROOT/Tools/fcdEdit) to create an XML file including the description of
 your FieldContainer fields and interfaces.
-
-\image html fcdEdit-numbered.png "fcdEdit"
-\image latex fcdEdit-numbered.eps "fcdEdit" width=8cm
 
 The tool is also able to create all necessary C++ source files. The
 FieldContainer code is split into classes (e.g. for a Foo FieldContainer:
 FooBase and Foo). This strategy has various advantages:
 
-
- MM Type system changes: If the OpenSG core team decides to change the code
+\li Type system changes: If the OpenSG core team decides to change the code
 interface for the FieldContainer type management we can just recreate the base
 classes from the XML description. No adaptations 'by hand' are needed.
 
-MM Interface changes: If you would like to change the interface of your
+\li Interface changes: If you would like to change the interface of your
 FieldContainer (e.g. add another field) later on you can just re-edit the XML
 file in fcdEdit and recreate the base classes. All necessary access methods
 are created automatically.
@@ -193,6 +189,119 @@ interface.
 
 Include new action handlers or whatever you need as functionality. 
 
+\image html fcdEdit-numbered.png "fcdEdit"
+
+\image latex fcdEdit-numbered.eps "fcdEdit" width=8cm
+
+A quick explanation of the different buttons/input fields:
+
+<ol>
+
+<li>The name of the FieldContainer. Should follow the capitalization rules.</li>
+
+<li>Defines whether the FC is a part of the OpenSG system. This mainly
+influences the way system headers are included (with or without the OpenSG/
+prefix). </li>
+
+<li>Defines whether the FC can be decorated. Currentl only used for
+osg::CameraDecorator classes, but usable in general. The main effect is to turn
+all Field access emthods into virtual functions, to allow overriding them, and
+creating the necessary default Decorator classes.</li>
+
+<li>The name of the parent class of the FC.</li>
+
+<li>Defines if the parent class is a system component.</li>
+
+<li>The name of the library this FC will be included in. If it is only to be
+used in application programs, just leave it blank and the appropriate code for
+an application component will be generated.</li>
+
+<li>Define whether Field types for pointers to this type of FC should be
+created.</li>
+
+<li>Defines whether this FC is abstract or concrete (i.e. whether it can be
+instantiated or not).</li>
+
+<li>A general description of this FC. It will be included in the actual FC
+code. As this code cannot be regenerated changing this description after the
+code has been generated will not make a difference.</li>
+
+<li>A list of the Fields of this FC.</li>
+
+<li>The name of the currently selected Field.</li>
+
+<li>The type of the currently selected Field. There is a list of predefined
+types that can be selected from, but it is also possible to just write the type
+of the Field here.</li>
+
+<li>The cardinality of the Field, i.e. if it's a single (osg::SField) or multi
+element (osg::MField) field.</li>
+
+<li>The access type of the field: private, protected or public. In general
+Fields should be public, if they are internal they should be protected.</li>
+
+<li>The visibility of the Field mainly influences whether the Field is written
+to files etc. Fields that have no meaning beyond the current execution of the
+program should be internal, Fields that hold configuration data should be
+external.</li>
+
+<li>The header containing the declaration of the Field's type. If left empty a
+name is guessed, using the name <tt>OSG<type>Fields.h</tt>. For type names
+ending in \c Ptr (the default for FieldContainerPtr types) the \c Ptr is
+removed. This works for all system types and for standard user-defined types.
+For other types, just enter the header file name into this field, excluding the "
+delimiters. </li>
+
+<li>The default value of the Field. Used to initialize the Field, and put
+verbatim into the constructor definition for the given Field (e.g. <tt>FC::FC() :
+Field(default) { }</tt>) </li>
+
+<li>The header needed to declare the default value. Useful to access enum or
+constants from external files (like opengl.h).</li>
+
+<li>A short description of the Field's contents and function. Will be put into
+the code documentation.</li>
+
+<li>Creates a new Field.</li>
+
+<li>Deletes a Field.</li>
+
+<li>Clones a Field.</li>
+
+<li>Moves the Field up in the list.</li>
+
+<li>Moves the Field down in the list.</li>
+
+<li>Clear the whole system, start from scratch.</li>
+
+<li>Load an .fcd file.</li>
+
+<li>Currently unused.</li>
+
+<li>Save the current settings to the .fcd file.</li>
+
+<li>Write the FieldContainer Base code. This can also be done by calling
+fcdEdit with the <tt>-b</tt> command line option and the .fcd file. It is safe
+to do that, as no user changes should be done to the Base code.</li>
+
+<li>Currently unused.</li>
+
+<li>Currently unused.</li>
+
+<li>Save the current settings to a different .fcd file.</li>
+
+<li>Write the actual FieldContainer code. This can also be done by calling
+fcdEdit with the <tt>-f</tt> command line option and the .fcd file. This will
+not keep any changes made to the FC code, and thus can quickly destroy whatever
+work has been done to it. To prevent that from happening on accident, it will not
+overwrite existing files.</li>
+
+<li>Minimal info about the progam.</li>
+
+<li>Leave the program.</li>
+
+</ol>
+
 \section PageSystemFieldContainerExtPrototype Prototype Replacement
 
 If you create a replacement for a system component, e.g. a smarter DistanceLOD
@@ -207,8 +316,6 @@ Be careful to only replace the prototype with classes derived from the
 original class, or the behavior of the system is undefined.
 
 \section PageSystemFieldContainerExtInit Initialization / Deinitalization
-
-GV: please check if this is correct
 
 As OpenSG uses object replication for thread-safe data, constructors and
 destructors are not always the right place for initialisation and deletion

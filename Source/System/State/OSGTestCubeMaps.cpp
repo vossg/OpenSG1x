@@ -43,14 +43,14 @@
 #include <OSGTestCubeMaps.h>
 
 
+OSG_USING_NAMESPACE
+
 /*! 
 
 The textures for CubeMap reflection testing plus a function to set the images.
 
 */
 
-
-OSG_USING_NAMESPACE
 
 static unsigned char TestCubeFrontData[800] = {
 77, 84, 68, 0, 40, 53, 246, 64, 

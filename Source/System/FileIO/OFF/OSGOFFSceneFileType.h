@@ -49,7 +49,7 @@
 OSG_BEGIN_NAMESPACE
 
 /*! \brief OSGOFFSceneFileType
- */
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING OFFSceneFileType : public SceneFileType
 {

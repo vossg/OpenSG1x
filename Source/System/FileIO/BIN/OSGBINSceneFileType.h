@@ -48,6 +48,9 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief BINSceneFileType
+*/
+
 class OSG_SYSTEMLIB_DLLMAPPING BINSceneFileType : public SceneFileType
 {
     /*==========================  PUBLIC  =================================*/

@@ -114,7 +114,7 @@ void GrabForeground::draw(DrawActionBase *, Viewport *port)
 
     // If image is smaller than 2x2, resize it to vp size
     // the 2x2 is because you can't create 0x0 images
-    if(i->getWidth() <= 1 || i->getHeight() <= 1)
+    if(i->getWidth() <= 1 && i->getHeight() <= 1)
     {
         i->set(i->getPixelFormat(),
                port->getPixelWidth(), 
@@ -125,7 +125,7 @@ void GrabForeground::draw(DrawActionBase *, Viewport *port)
     UInt32 h = osgMin(i->getHeight(), port->getPixelHeight());
     
     bool storeChanged = false;    
-    if(i->getWidth() != port->getPixelWidth() )
+    if(i->getWidth() != port->getPixelWidth())
     {
         glPixelStorei(GL_PACK_ROW_LENGTH, i->getWidth());
         storeChanged = true;

@@ -122,7 +122,7 @@ struct FieldDataTraits<ImageGenericAttPtr> :
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class FieldTraitsRecurseMapper<GenericAttPtr, true> */
+/*! \class FieldTraitsRecurseMapper<ImageGenericAttPtr, true> */
 /*! \hideinhierarchy                                     */
 #endif
 

@@ -84,11 +84,6 @@ the singleton object.
     
 */
 
-/*! \class osg::MNGImageFileType 
-    \ingroup GrpSystemImage
-    
-*/
-
 /*****************************
  *   Types
  *****************************/
