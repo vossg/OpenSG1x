@@ -106,11 +106,13 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecorator : public TileCameraDecoratorB
     
     void setSize(Real32 left,  Real32 bottom, 
                  Real32 right, Real32 top);
+    
+    void setFullSize(UInt32 width, UInt32 height);
  
     /** get the separate elements needed for rendering */
 
     virtual void getProjection           (Matrix        &result, 
-                                          const Viewport& port);
+                                          UInt32 width, UInt32 height);
  
     /*------------------------------ dump -----------------------------------*/
 

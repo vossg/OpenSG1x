@@ -50,4 +50,24 @@ The decorator to select a rectangular part of the image.
 	>
 	The top border of the selected tile.
 	</Field>
+	<Field
+		name="fullWidth"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	The width of the full image this is a tile of.
+	</Field>
+	<Field
+		name="fullHeight"
+		type="UInt32"
+		cardinality="single"
+		visibility="internal"
+		defaultValue="0"
+		access="public"
+	>
+	The height of the full image this is a tile of.
+	</Field>
 </FieldContainer>
