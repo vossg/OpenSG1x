@@ -28,49 +28,49 @@ if test -w Base/tmp_gv; then
         mv Base/tmp_gv/OSGConfig.h Base
     fi
 
-    if test -w Base/tmp_gv/OSGBaseTypeTraits.h; then
-        echo "mv Base/tmp_gv/OSGBaseTypeTraits.h Base"
-        mv Base/tmp_gv/OSGBaseTypeTraits.h Base
-    fi
+#    if test -w Base/tmp_gv/OSGBaseTypeTraits.h; then
+#        echo "mv Base/tmp_gv/OSGBaseTypeTraits.h Base"
+#        mv Base/tmp_gv/OSGBaseTypeTraits.h Base
+#    fi
 fi
 
-if test -w Field/tmp_gv; then 
+#if test -w Field/tmp_gv; then 
 
-    if test -w Field/tmp_gv/OSGFieldDataType.h; then
-        echo "mv Field/tmp_gv/OSGFieldDataType.h Field"
-        mv Field/tmp_gv/OSGFieldDataType.h Field
-    fi
+#    if test -w Field/tmp_gv/OSGFieldDataType.h; then
+#        echo "mv Field/tmp_gv/OSGFieldDataType.h Field"
+#        mv Field/tmp_gv/OSGFieldDataType.h Field
+#    fi
 
-    if test -w Field/tmp_gv/OSGField.h; then
-        echo "mv Field/tmp_gv/OSGField.h Field"
-        mv Field/tmp_gv/OSGField.h Field
-    fi
+#    if test -w Field/tmp_gv/OSGField.h; then
+#        echo "mv Field/tmp_gv/OSGField.h Field"
+#        mv Field/tmp_gv/OSGField.h Field
+#    fi
 
-    if test -w Field/tmp_gv/OSGField.cpp; then
-        echo "mv Field/tmp_gv/OSMField.cpp Field"
-        mv Field/tmp_gv/OSGField.cpp Field
-    fi
+#    if test -w Field/tmp_gv/OSGField.cpp; then
+#        echo "mv Field/tmp_gv/OSMField.cpp Field"
+#        mv Field/tmp_gv/OSGField.cpp Field
+#    fi
 
-    if test -w Field/tmp_gv/OSGMField.h; then
-        echo "mv Field/tmp_gv/OSGMField.h Field"
-        mv Field/tmp_gv/OSGMField.h Field
-    fi
+#    if test -w Field/tmp_gv/OSGMField.h; then
+#        echo "mv Field/tmp_gv/OSGMField.h Field"
+#        mv Field/tmp_gv/OSGMField.h Field
+#    fi
 
-    if test -w Field/tmp_gv/OSGMField.inl; then
-        echo "mv Field/tmp_gv/OSGMField.inl Field"
-        mv Field/tmp_gv/OSGMField.inl Field
-    fi
+#    if test -w Field/tmp_gv/OSGMField.inl; then
+#        echo "mv Field/tmp_gv/OSGMField.inl Field"
+#        mv Field/tmp_gv/OSGMField.inl Field
+#    fi
 
-    if test -w Field/tmp_gv/OSGSField.h; then
-        echo "mv Field/tmp_gv/OSGSField.h Field"
-        mv Field/tmp_gv/OSGSField.h Field
-    fi
+#    if test -w Field/tmp_gv/OSGSField.h; then
+#        echo "mv Field/tmp_gv/OSGSField.h Field"
+#        mv Field/tmp_gv/OSGSField.h Field
+#    fi
 
-    if test -w Field/tmp_gv/OSGSField.inl; then
-        echo "mv Field/tmp_gv/OSGSField.inl Field"
-        mv Field/tmp_gv/OSGSField.inl Field
-    fi
-fi
+#    if test -w Field/tmp_gv/OSGSField.inl; then
+#        echo "mv Field/tmp_gv/OSGSField.inl Field"
+#        mv Field/tmp_gv/OSGSField.inl Field
+#    fi
+#fi
 
 
 if test -w Loader/OBJ/tmp_gv; then 
