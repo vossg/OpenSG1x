@@ -57,8 +57,6 @@
 #include <OSGGeoProperty.h>
 #include <OSGAction.h>
 #include <OSGMaterial.h>
-// #include <OSGTriangleIterator.h>
-// #include <OSGPrimitiveIterator.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -72,6 +70,11 @@ OSG_BEGIN_NAMESPACE
 
 class Geometry;
 typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
+
+// Iterators
+class TriangleIterator;
+class PrimitiveIterator;
+class FaceIterator;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -124,6 +127,9 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
 
     static const char *getClassname(void) { return "Geometry"; };
 
+	// map the primitive type to a name
+    static const char *mapType( UInt8 type );
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -134,31 +140,31 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
 
     /** property access. Returns FCNULL if not set or available. */
 
-    inline GeoPTypePtr      getTypes( void );
+    inline GeoPTypePtr      getTypes( void ) const;
     inline void             setTypes( GeoPTypePtr types );
 
-    inline GeoPLengthPtr    getLengths( void );
+    inline GeoPLengthPtr    getLengths( void ) const;
     inline void             setLengths( GeoPLengthPtr lengths );    
     
-    inline GeoPositionPtr   getPositions( void );
+    inline GeoPositionPtr   getPositions( void ) const;
     inline void             setPositions( GeoPositionPtr positions );
         
-    inline GeoColorPtr      getColors( void );
+    inline GeoColorPtr      getColors( void ) const;
     inline void             setColors( GeoColorPtr Colors );    
-    inline Bool             getColorPerVertex( void );
+    inline Bool             getColorPerVertex( void ) const;
     inline void             setColorPerVertex( Bool npv );
         
-    inline GeoNormalPtr     getNormals( void );
+    inline GeoNormalPtr     getNormals( void ) const;
     inline void             setNormals( GeoNormalPtr normals ); 
-    inline Bool             getNormalPerVertex( void );
+    inline Bool             getNormalPerVertex( void ) const;
     inline void             setNormalPerVertex( Bool npv );
     
     // The single index for all attributes. 
     // This will probably move out into a derived class
-    inline GeoIndexPtr      getIndex( void );
+    inline GeoIndexPtr      getIndex( void ) const;
     inline void             setIndex( GeoIndexPtr index );
 	
-	inline MaterialPtr		getMaterial( void );
+	inline MaterialPtr		getMaterial( void ) const;
 	inline void					setMaterial( MaterialPtr material );
     
     // TODO: separate indices, texcoords, ...
@@ -173,11 +179,11 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
     SFGeoNormalPtr      *getSFNormals( void );
     SFBool              *getSFNormalPerVertex( void );
     SFGeoIndexPtr       *getSFIndex( void );
-	SFMaterialPtr	*getSFMaterial( void );
+	SFMaterialPtr		*getSFMaterial( void );
 
     /** pointer */
 
-    GeometryPtr getPtr(void);
+    GeometryPtr getPtr(void) const;
     
     /** updates */
     
@@ -185,8 +191,20 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
     
     /** Triangle iterator functions */
     
+	TriangleIterator beginTriangles( void ) const;
+	TriangleIterator endTriangles  ( void ) const;
+	
     
     /** Primitive iterator functions */
+
+	PrimitiveIterator beginPrimitives( void ) const;
+	PrimitiveIterator endPrimitives  ( void ) const;
+	
+    
+    /** Face iterator functions */
+
+	FaceIterator beginFaces( void ) const;
+	FaceIterator endFaces  ( void ) const;
 
     /*------------------------------ dump -----------------------------------*/
 

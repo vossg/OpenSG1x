@@ -113,7 +113,7 @@ OSG_FIELD_CONTAINER_INL_DEF(Geometry, GeometryPtr)
 /*------------------------------ access -----------------------------------*/
 
 inline
-GeoPTypePtr		Geometry::getTypes( void )
+GeoPTypePtr		Geometry::getTypes( void ) const
 {
     return _types.getValue();
 }
@@ -125,7 +125,7 @@ void				Geometry::setTypes( GeoPTypePtr types )
 }
 
 inline
-GeoPLengthPtr	Geometry::getLengths( void )
+GeoPLengthPtr	Geometry::getLengths( void ) const
 {
     return _lengths.getValue();
 }
@@ -137,7 +137,7 @@ void				Geometry::setLengths( GeoPLengthPtr lengths )
 }
 	
 inline
-GeoPositionPtr	Geometry::getPositions( void )
+GeoPositionPtr	Geometry::getPositions( void ) const
 {
     return _positions.getValue();
 }
@@ -149,7 +149,7 @@ void				Geometry::setPositions( GeoPositionPtr pos )
 }
 		
 inline
-GeoNormalPtr		Geometry::getNormals( void )
+GeoNormalPtr		Geometry::getNormals( void ) const
 {
     return _normals.getValue();
 }
@@ -161,7 +161,7 @@ void				Geometry::setNormals( GeoNormalPtr normals )
 }
 
 inline
-Bool				Geometry::getNormalPerVertex( void )
+Bool				Geometry::getNormalPerVertex( void ) const
 {
     return _normalsPerVertex.getValue();
 }
@@ -173,7 +173,7 @@ void				Geometry::setNormalPerVertex( Bool npv )
 }
 		
 inline
-GeoColorPtr		Geometry::getColors( void )
+GeoColorPtr		Geometry::getColors( void ) const
 {
     return _colors.getValue();
 }
@@ -185,7 +185,7 @@ void				Geometry::setColors( GeoColorPtr colors )
 }
 
 inline
-Bool				Geometry::getColorPerVertex( void )
+Bool				Geometry::getColorPerVertex( void ) const
 {
     return _colorsPerVertex.getValue();
 }
@@ -197,7 +197,7 @@ void				Geometry::setColorPerVertex( Bool npv )
 }
 		
 inline
-GeoIndexPtr		Geometry::getIndex( void )
+GeoIndexPtr		Geometry::getIndex( void ) const
 {
     return _index.getValue();
 }
@@ -209,7 +209,7 @@ void				Geometry::setIndex( GeoIndexPtr index )
 }
 		
 inline
-MaterialPtr		Geometry::getMaterial( void )
+MaterialPtr		Geometry::getMaterial( void ) const
 {
     return _material.getValue();
 }

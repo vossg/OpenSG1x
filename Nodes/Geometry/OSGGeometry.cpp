@@ -65,6 +65,9 @@
 
 #include "OSGGeometry.h"
 #include "OSGGeoPumpFactory.h"
+#include "OSGPrimitiveIterator.h"
+#include "OSGTriangleIterator.h"
+#include "OSGFaceIterator.h"
 
 OSG_USING_NAMESPACE
 
@@ -220,6 +223,25 @@ FieldContainerType Geometry::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
+const char *Geometry::mapType( UInt8 type )
+{
+	switch ( type )
+	{
+	case GL_POINTS: 		return "Points";
+	case GL_LINES: 			return "Lines";
+	case GL_LINE_LOOP: 		return "LineLoop";
+	case GL_LINE_STRIP: 	return "LineStrip";
+	case GL_TRIANGLES: 		return "Triangles";
+	case GL_TRIANGLE_STRIP: return "TriangleStrip";
+	case GL_TRIANGLE_FAN: 	return "TriangleFan";
+	case GL_QUADS: 			return "Quads";
+	case GL_QUAD_STRIP:  	return "QuadStrip";
+	case GL_POLYGON: 		return "Polygon";
+	}
+	
+	return "Unknown Primitive";
+}
+	
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
@@ -314,7 +336,7 @@ void Geometry::adjustVolume( Volume & volume )
 
 /*---------------------------- pointer ------------------------------------*/
 
-GeometryPtr Geometry::getPtr(void)
+GeometryPtr Geometry::getPtr(void) const
 {
     GeometryPtr returnValue(*this);
 
@@ -473,6 +495,72 @@ void Geometry::changed(BitVector whichField, ChangeMode from)
             _parents[i]->invalidateVolume();
         }            
     }
+}
+    
+/** Triangle iterator functions */
+    
+
+TriangleIterator Geometry::beginTriangles( void ) const
+{
+	TriangleIterator it( this->getPtr() );
+
+	it.setToBegin();
+	
+	return it;
+}
+
+
+TriangleIterator Geometry::endTriangles  ( void ) const
+{
+	TriangleIterator it( this->getPtr() );
+
+	it.setToEnd();
+	
+	return it;
+}
+    
+/** Primitive iterator functions */
+    
+
+PrimitiveIterator Geometry::beginPrimitives( void ) const
+{
+	PrimitiveIterator it( this->getPtr() );
+
+	it.setToBegin();
+	
+	return it;
+}
+
+
+PrimitiveIterator Geometry::endPrimitives  ( void ) const
+{
+	PrimitiveIterator it( this->getPtr() );
+
+	it.setToEnd();
+	
+	return it;
+}
+    
+/** Face iterator functions */
+    
+
+FaceIterator Geometry::beginFaces( void ) const
+{
+	FaceIterator it( this->getPtr() );
+
+	it.setToBegin();
+	
+	return it;
+}
+
+
+FaceIterator Geometry::endFaces  ( void ) const
+{
+	FaceIterator it( this->getPtr() );
+
+	it.setToEnd();
+	
+	return it;
 }
 
 /*-------------------------------------------------------------------------*\
