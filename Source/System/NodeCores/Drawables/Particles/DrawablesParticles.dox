@@ -25,21 +25,21 @@ simpler setups can result in vastly improved performance\ext (if it doesn't, add
 fast path to Particles::findDrawer ;) \endext.
 
 The supported styles are:
-  - Points
-  - Lines
-  - ViewDirQuads
-  - Arrows
-  - ViewerArrows
+ - Points
+ - Lines
+ - ViewDirQuads
+ - Arrows
+ - ViewerArrows
 
 The available attributes are:
 
-  - Positions
-  - secPositions
-  - Colors
-  - Normals
-  - Sizes
-  - textureZs
-  - Indices
+ - Positions
+ - secPositions
+ - Colors
+ - Normals
+ - Sizes
+ - textureZs
+ - Indices
 
 The first 4 are realized similarly to the Geometry Properties, to allow
 unified manipulation of data and sharing with geometry nodes. They can handle
