@@ -378,6 +378,13 @@ const BoxVolume &BoxVolume::operator =(const BoxVolume &b1)
 	return *this;
 }
 
+/// print the volume */
+void BoxVolume::dump( UInt32 uiIndent, const BitVector &bvFlags) const
+{
+	PLOG << "Box(" << _min << "|" << _max << ")";
+}
+
+
 OSG_BEGIN_NAMESPACE
 
 /// Equality comparisons

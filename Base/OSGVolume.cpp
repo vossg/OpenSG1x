@@ -53,6 +53,13 @@
 // Class declarations
 #include "OSGVolume.h"
 
+OSG_USING_NAMESPACE
+
+//! helper functions to dump a volume. Useful for debugger.
+void  volDump( Volume * vol )
+{
+	vol->dump();
+}
 
 /***************************************************************************\
  *                               Types                                     *

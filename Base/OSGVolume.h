@@ -246,6 +246,14 @@ public:
 	/** transform the volume bye the given matrix*/
   virtual void transform (const Matrix &matrix) = 0;
 
+
+/*-------------------------- output -------------------------------*/
+
+
+	/** print the volume */
+  virtual void dump(	UInt32				uiIndent = 0, 
+						const BitVector &	bvFlags = 0) const = 0;
+
 			
 	//-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -259,6 +267,10 @@ public:
 };
 
 typedef Volume* VolumeP;
+
+//! helper functions to dump a volume. Useful for debuggers.
+OSG_BASE_DLLMAPPING void  volDump( Volume * vol );
+
 
 OSG_END_NAMESPACE
 

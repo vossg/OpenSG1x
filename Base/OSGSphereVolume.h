@@ -180,6 +180,13 @@ public:
   /// Transforms Box3f by matrix
   virtual void transform(const Matrix &mat);
 
+
+/*-------------------------- output -------------------------------*/
+
+	/** print the volume */
+  virtual void dump(	UInt32				uiIndent = 0, 
+						const BitVector &	bvFlags = 0) const;
+
 	//-----------------------------------------------------------------------
 	//   instance variables                                                  
 	//-----------------------------------------------------------------------

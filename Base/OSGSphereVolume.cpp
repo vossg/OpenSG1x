@@ -162,6 +162,12 @@ void SphereVolume::transform (const Matrix &mat)
 }
 
 
+/// print the volume */
+void SphereVolume::dump( UInt32 uiIndent, const BitVector &bvFlags) const
+{
+	PLOG << "Sphere(" << _center << "|" << _radius << ")";
+}
+
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/

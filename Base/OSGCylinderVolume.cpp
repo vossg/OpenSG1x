@@ -193,6 +193,12 @@ void CylinderVolume::transform (const Matrix &mat)
 	assert(false);
 }
 
+/// print the volume */
+void CylinderVolume::dump( UInt32 uiIndent, const BitVector &bvFlags) const
+{
+	PLOG << "Cylinder(" << _axisPos << "|" << _axisDir << "|" << _radius << ")";
+}
+
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/

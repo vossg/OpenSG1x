@@ -140,13 +140,6 @@ void DynamicVolume::morphToType ( Type type )
 			break;
 		}
 }
-		
-OSG_BASE_DLLMAPPING
-ostream &OSG::operator <<(ostream &outStream,
-                          const DynamicVolume &vol)
-{
-    return outStream << "DynVol << NI ";
-}
 
 DynamicVolume & DynamicVolume::operator = (const DynamicVolume &source)
 {
@@ -163,6 +156,13 @@ DynamicVolume & DynamicVolume::operator = (const DynamicVolume &source)
 	}
 
 	return *this;
+}
+
+/// print the volume */
+void DynamicVolume::dump( UInt32 uiIndent, const BitVector &bvFlags) const
+{
+	PLOG << "Dyn:";
+	getInstance().dump( uiIndent, bvFlags );
 }
 
 /***************************************************************************\

@@ -55,8 +55,9 @@ int main (int argc, char **argv) {
 
 	b.setBounds(xmin, ymin, zmin, xmax, ymax, zmax);
 
-	cout << "Box: (" << xmin << "," << ymin << "," << zmin << ") (" << xmax 
-		 << "," << ymax << "," << zmax << ")" << endl;
+	cout << endl;
+	b.dump();
+	cout << endl;
 
 	for ( int i = 0 ; i < nlines; i++ )
 	{
@@ -103,7 +104,9 @@ int main (int argc, char **argv) {
 	s.setCenter(center);
 	s.setRadius(radius);
 
-	cout << endl << "Sphere: " << center << "   " << radius << endl;
+	cout << endl;
+	s.dump();
+	cout << endl;
 
 
 	for ( int i = 0 ; i < nlines; i++ )
@@ -162,9 +165,8 @@ int main (int argc, char **argv) {
 //	c.setRadius(rad);
 
 	cout << endl;
-	cout << "Cylinder: " << p << "   " << d << "   " << rad << endl;
-//	cout << "La%nge " << l_adir << endl;
-//	cout << "Richtung " << n_dir[0] << n_dir[1] << n_dir[2] << endl << endl;
+	c.dump();
+	cout << endl;
 
 
 	for ( int i = 0 ; i < nlines; i++ )

@@ -229,6 +229,12 @@ public:
   virtual void transform (const Matrix &matrix);
 
 
+/*-------------------------- output -------------------------------*/
+
+	/** print the volume */
+  virtual void dump(	UInt32				uiIndent = 0, 
+						const BitVector &	bvFlags = 0) const;
+
 	//-----------------------------------------------------------------------
 	//   instance variables                                                  
 	//-----------------------------------------------------------------------

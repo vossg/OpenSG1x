@@ -212,8 +212,12 @@ public:
   /// Assignment operator
   const BoxVolume &operator =(const BoxVolume &b1);
 
-  /// write values in stream
-  friend ostream &operator <<(ostream &os, const BoxVolume &obj);
+
+/*-------------------------- output -------------------------------*/
+
+	/** print the volume */
+  virtual void dump(	UInt32				uiIndent = 0, 
+						const BitVector &	bvFlags = 0) const;
 
 private:
 

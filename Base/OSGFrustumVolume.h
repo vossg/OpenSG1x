@@ -144,6 +144,13 @@ class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
 
     /*------------------------- comparison ----------------------------------*/
 
+	/*-------------------------- output -------------------------------*/
+
+	/** print the volume */
+	virtual void dump(	UInt32				uiIndent = 0, 
+						const BitVector &	bvFlags = 0) const 
+			{ return; };
+
   protected:
 
     //-----------------------------------------------------------------------
