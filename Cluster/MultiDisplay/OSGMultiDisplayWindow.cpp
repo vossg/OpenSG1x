@@ -148,18 +148,18 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
     Int32 bottom = row    * height;
     Int32 right  = left   + width  - 1;
     Int32 top    = bottom + height - 1;
-    Real32 scaleCWidth  = width  * getHServers() -1;
-    Real32 scaleCHeight = height * getVServers() -1;
+    Real32 scaleCWidth  = width  * getHServers() / (float)getWidth();
+    Real32 scaleCHeight = height * getVServers() / (float)getHeight();
 
     // duplicate viewports
     for(cv=0,sv=0;cv<getPort().size();cv++)
     {
         clientPort = getPort()[cv];
-	clientStereoPort = StereoBufferViewportPtr::dcast(clientPort);
-        cleft   = (Int32)(clientPort->getLeft()   * scaleCWidth);
-        cbottom = (Int32)(clientPort->getBottom() * scaleCHeight);
-        cright  = (Int32)(clientPort->getRight()  * scaleCWidth);
-        ctop    = (Int32)(clientPort->getTop()    * scaleCHeight);
+        clientStereoPort = StereoBufferViewportPtr::dcast(clientPort);
+        cleft   = (Int32)(clientPort->getPixelLeft()      * scaleCWidth)   ;
+        cbottom = (Int32)(clientPort->getPixelBottom()    * scaleCHeight)  ;
+        cright  = (Int32)((clientPort->getPixelRight()+1) * scaleCWidth) -1;
+        ctop    = (Int32)((clientPort->getPixelTop()+1)   * scaleCHeight)-1;
         if(cright  < left   ||
            cleft   > right  ||
            ctop    < bottom ||
@@ -190,17 +190,22 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
         }
         // duplicate values
         beginEditCP(serverPort);
-	if(clientStereoPort!=NullFC)
-	{
-	    serverPort->setRightBuffer( clientStereoPort->getRightBuffer() );
-	    serverPort->setLeftBuffer( clientStereoPort->getLeftBuffer() );
-	}
-	else
-	{
-	    serverPort->setRightBuffer( true );
-	    serverPort->setLeftBuffer( true );
-	}
+        if(clientStereoPort!=NullFC)
+        {
+            serverPort->setRightBuffer( clientStereoPort->getRightBuffer() );
+            serverPort->setLeftBuffer( clientStereoPort->getLeftBuffer() );
+        }
+        else
+        {
+            serverPort->setRightBuffer( true );
+            serverPort->setLeftBuffer( true );
+        }
         serverPort->setSize(l,b,r,t);
+        // use pixel even if pixel = 1
+        if(serverPort->getLeft() == 1.0)
+            serverPort->setLeft(1.0001);
+        if(serverPort->getRight() == 1.0)
+            serverPort->setRight(1.0001);
         serverPort->setRoot      ( clientPort->getRoot()       );
         serverPort->setBackground( clientPort->getBackground() );
         serverPort->getMFForegrounds()->setValues( clientPort->getForegrounds() );        
