@@ -67,7 +67,7 @@
 
 #include <OSGNodeCore.h> // Parent
 
-#include <OSGstringFields.h> // Url type
+#include <OSGStringFields.h> // Url type
 
 #include <OSGInlineFields.h>
 
