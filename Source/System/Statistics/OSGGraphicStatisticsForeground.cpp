@@ -250,6 +250,7 @@ void GraphicStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     }                                       //for()
 
     //reset OpenGL matrices
+    glMatrixMode(GL_PROJECTION);
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();

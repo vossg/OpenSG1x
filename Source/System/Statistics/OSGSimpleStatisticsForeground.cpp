@@ -177,8 +177,8 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 
     bool    light = glIsEnabled(GL_LIGHTING);
 
-    GLint   fill;
-    glGetIntegerv(GL_POLYGON_MODE, &fill);
+    GLint   fill[2];
+    glGetIntegerv(GL_POLYGON_MODE, fill);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     bool    depth = glIsEnabled(GL_DEPTH_TEST);
@@ -274,7 +274,9 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     glDisable(GL_ALPHA_TEST);
     glDisable(GL_BLEND);
 
+    glMatrixMode(GL_PROJECTION);
     glPopMatrix();
+
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 
@@ -284,7 +286,8 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
         glEnable(GL_LIGHTING);
     if(colmat)
         glEnable(GL_COLOR_MATERIAL);
-    glPolygonMode(GL_FRONT_AND_BACK, fill);
+
+    glPolygonMode(GL_FRONT_AND_BACK, fill[0]);
 }
 
 /*-------------------------------------------------------------------------*/

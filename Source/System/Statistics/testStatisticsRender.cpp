@@ -56,7 +56,11 @@ void keyboard(unsigned char k, int, int)
 {
     switch(k)
     {
-    case 27:    exit(1);
+        case 27:    
+        {
+            osgExit();
+            exit(0);
+        }
     }
 }
 
