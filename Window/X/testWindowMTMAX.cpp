@@ -1,9 +1,6 @@
 
 // An early example showing how to do multi-threaded rendering in X
 // 
-// This is by no means a prototype on how to do it, quite the contrary.
-// It only uses one aspect due to some synch problems we're working on,
-// so don't do it like this. It's just to prove that it's possible.
 
 #include <OSGConfig.h>
 
@@ -14,7 +11,6 @@
 #endif
 
 #include <GL/glx.h>
-#undef bool
 
 #include <OSGFieldContainerFactory.h>
 #include <OSGSFSysTypes.h>
@@ -133,7 +129,7 @@ void *drawThreadProc (void *arg)
     // otherwise XFree might crash...
     
     sleep(2+my_id);
-    dpr << "drawThead " << my_id << " started." << endl;
+    FLOG(( "display::started %d\n", my_id));
     
     my_win->activate();
        
@@ -151,8 +147,6 @@ void *drawThreadProc (void *arg)
         doCamTrans( my_id );
         my_win->renderAllViewports( ract[my_id] );
         
-        // dpr << "swap" << endl;
-
         FLOG(( "display::waitSwap\n"));
         // check for the mainThread to finish its part
         syncBarrier->enter( usedThreads+1 );
@@ -184,6 +178,16 @@ int main (int argc, char **argv)
     osgInit(argc, argv);
     basetime = getSystemTime();
     gThreadManager = ThreadManager::the();  
+
+#if 0
+    FieldContainerPtr pProto = Geometry::getClassType().getPrototype();
+    GeometryPtr pGeoProto = GeometryPtr::dcast(pProto);
+
+    if(pGeoProto != NullFC)
+    {
+        pGeoProto->setDlistCache(false);
+    }
+#endif
 
     // create the graph
 
@@ -406,6 +410,7 @@ int main (int argc, char **argv)
         // wait for drawer to finish drawing
         syncBarrier->enter(usedThreads + 1);
         
+        FLOG(( "main::merged\n"));
         mainThread->getChangeList()->clearAll();
 
         for (int i=0;i<usedThreads;i++)
