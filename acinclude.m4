@@ -1316,7 +1316,7 @@ dnl e11
                 ac_gdz_png_lib_e11='png32.lib'
             ;;
             *)
-                ac_gdz_png_lib_e11='-lpng -lz'
+                ac_gdz_png_lib_e11='"-lpng -lz"'
             ;;
         esac
 
@@ -1462,7 +1462,7 @@ dnl e14
 
         case $build_os in
             cygwin*)
-                ac_gdz_freetype1_lib_e14='freetype.lib'
+                ac_gdz_freetype1_lib_e14='ttf.lib'
             ;;
             *)
                 ac_gdz_freetype1_lib_e14='-lfreetype -lttf'
@@ -1720,7 +1720,7 @@ dnl e15
                 ac_gdz_png_lib_e15='png32.lib'
             ;;
             *)
-                ac_gdz_png_lib_e15='-lpng -lz'
+                ac_gdz_png_lib_e15='"-lpng -lz"'
             ;;
         esac
 
