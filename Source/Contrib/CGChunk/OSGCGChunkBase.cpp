@@ -153,8 +153,8 @@ void CGChunkBase::executeSync(      FieldContainer &other,
 #endif
 
 CGChunkBase::CGChunkBase(void) :
-    _sfVertexProfile          (UInt32(CG_PROFILE_UNKNOWN)), 
-    _sfFragmentProfile        (UInt32(CG_PROFILE_UNKNOWN)), 
+    _sfVertexProfile          (UInt32(6145)), 
+    _sfFragmentProfile        (UInt32(6145)), 
     Inherited() 
 {
 }

@@ -59,10 +59,12 @@
 
 #include "OSGCGChunk.h"
 
+#include <Cg/cgGL.h>
+
 OSG_USING_NAMESPACE
 
-CGcontext CGChunk::_current_context = NULL;
-    
+CGChunk::OSGCGcontext CGChunk::_current_context = NULL;
+
 /*! \class osg::CGChunk
 
 */
@@ -97,9 +99,9 @@ void CGChunk::cgErrorCallback(void)
     if(LastError)
     {
         FWARNING(("Cg error occured!\n\n"));
-        if(cgIsContext(_current_context))
+        if(cgIsContext((CGcontext) _current_context))
         {
-            const char *Listing = cgGetLastListing(_current_context);
+            const char *Listing = cgGetLastListing((CGcontext) _current_context);
             FWARNING(("\n---------------------------------------------------\n"));
             FWARNING(("%s\n\n", cgGetErrorString(LastError)));
             FWARNING(("%s\n", Listing));
@@ -144,8 +146,11 @@ void CGChunk::onCreate(const CGChunk *source)
     if(GlobalSystemState == Startup)
         return;
 
+    printf("CG_PROFILE_UNKNOWN: %d\n", CG_PROFILE_UNKNOWN);
+
     // we need this for clustering without it handleGL is never called.
-    RemoteAspect::addFieldFilter(CGChunk::getClassType().getId(), CGChunk::GLIdFieldMask);
+    RemoteAspect::addFieldFilter(CGChunk::getClassType().getId(),
+                                 CGChunk::GLIdFieldMask);
     
     cgSetErrorCallback(CGChunk::cgErrorCallback);
 
@@ -160,12 +165,12 @@ void CGChunk::onDestroy(void)
 {
     Inherited::onDestroy();
 
-    if(cgIsProgram(_vProgram))
-        cgDestroyProgram(_vProgram);
-    if(cgIsProgram(_fProgram))
-        cgDestroyProgram(_fProgram);
-    if(cgIsContext(_context))
-        cgDestroyContext(_context);
+    if(cgIsProgram((CGprogram) _vProgram))
+        cgDestroyProgram((CGprogram) _vProgram);
+    if(cgIsProgram((CGprogram) _fProgram))
+        cgDestroyProgram((CGprogram) _fProgram);
+    if(cgIsContext((CGcontext) _context))
+        cgDestroyContext((CGcontext) _context);
         
     if(getGLId() > 0)
         Window::destroyGLObject(getGLId(), 1);
@@ -238,7 +243,7 @@ void CGChunk::handleGL(Window *win, UInt32 idstatus)
 void CGChunk::updateCGContext(void)
 {
     if(_context == NULL)
-        _context = cgCreateContext();
+        _context = (OSGCGcontext) cgCreateContext();
     
     _current_context = _context;
 
@@ -254,15 +259,16 @@ void CGChunk::updateCGContext(void)
     // reload programs
     if(hasVP() && !getVertexProgram().empty())
     {
-        if(cgIsProgram(_vProgram))
-            cgDestroyProgram(_vProgram);
+        if(cgIsProgram((CGprogram) _vProgram))
+            cgDestroyProgram((CGprogram) _vProgram);
 
-        _vProgram = cgCreateProgram(_context, CG_SOURCE, getVertexProgram().c_str(),
+        _vProgram = (OSGCGprogram) cgCreateProgram((CGcontext) _context,
+                                    CG_SOURCE, getVertexProgram().c_str(),
                                     (CGprofile) getVertexProfile(), NULL, NULL);
         if(_vProgram)
         {
             _vp_isvalid = true;
-            cgGLLoadProgram(_vProgram);
+            cgGLLoadProgram((CGprogram) _vProgram);
         }
         else
         {
@@ -273,15 +279,16 @@ void CGChunk::updateCGContext(void)
 
     if(hasFP() && !getFragmentProgram().empty())
     {
-        if(cgIsProgram(_fProgram))
-            cgDestroyProgram(_fProgram);
+        if(cgIsProgram((CGprogram) _fProgram))
+            cgDestroyProgram((CGprogram) _fProgram);
 
-        _fProgram = cgCreateProgram(_context, CG_SOURCE, getFragmentProgram().c_str(),
+        _fProgram = (OSGCGprogram) cgCreateProgram((CGcontext) _context,
+                                    CG_SOURCE, getFragmentProgram().c_str(),
                                     (CGprofile) getFragmentProfile(), NULL, NULL);
-        if(cgIsProgram(_fProgram))
+        if(cgIsProgram((CGprogram) _fProgram))
         {
             _fp_isvalid = true;
-            cgGLLoadProgram(_fProgram);
+            cgGLLoadProgram((CGprogram) _fProgram);
         }
         else
         {
@@ -318,7 +325,7 @@ void CGChunk::updateParameters(Window *win, bool all)
 
                 if(_vp_isvalid)
                 {
-                    CGparameter vpparam = cgGetNamedParameter(_vProgram, p->getName().c_str());
+                    CGparameter vpparam = cgGetNamedParameter((CGprogram) _vProgram, p->getName().c_str());
                     if(vpparam != 0)
                         cgGLSetParameter1f(vpparam, p->getValue());
                     //FWARNING(("Unknown parameter '%s'!\n", p->getName().c_str()));
@@ -326,7 +333,7 @@ void CGChunk::updateParameters(Window *win, bool all)
                 
                 if(_fp_isvalid)
                 {
-                    CGparameter fpparam = cgGetNamedParameter(_fProgram, p->getName().c_str());
+                    CGparameter fpparam = cgGetNamedParameter((CGprogram) _fProgram, p->getName().c_str());
                     if(fpparam != 0)
                         cgGLSetParameter1f(fpparam, p->getValue());
                 }
@@ -338,14 +345,16 @@ void CGChunk::updateParameters(Window *win, bool all)
 
                 if(_vp_isvalid)
                 {
-                    CGparameter vpparam = cgGetNamedParameter(_vProgram, p->getName().c_str());
+                    CGparameter vpparam = cgGetNamedParameter((CGprogram) _vProgram,
+                                                        p->getName().c_str());
                     if(vpparam != 0)
                         cgGLSetParameter2fv(vpparam, p->getValue().getValues());
                 }
                 
                 if(_fp_isvalid)
                 {
-                    CGparameter fpparam = cgGetNamedParameter(_fProgram, p->getName().c_str());
+                    CGparameter fpparam = cgGetNamedParameter((CGprogram) _fProgram,
+                                                        p->getName().c_str());
                     if(fpparam != 0)
                         cgGLSetParameter2fv(fpparam, p->getValue().getValues());
                 }
@@ -357,14 +366,16 @@ void CGChunk::updateParameters(Window *win, bool all)
 
                 if(_vp_isvalid)
                 {
-                    CGparameter vpparam = cgGetNamedParameter(_vProgram, p->getName().c_str());
+                    CGparameter vpparam = cgGetNamedParameter((CGprogram) _vProgram,
+                                                        p->getName().c_str());
                     if(vpparam != 0)
                         cgGLSetParameter3fv(vpparam, p->getValue().getValues());
                 }
                 
                 if(_fp_isvalid)
                 {
-                    CGparameter fpparam = cgGetNamedParameter(_fProgram, p->getName().c_str());
+                    CGparameter fpparam = cgGetNamedParameter((CGprogram) _fProgram,
+                                                        p->getName().c_str());
                     if(fpparam != 0)
                         cgGLSetParameter3fv(fpparam, p->getValue().getValues());
                 }
@@ -376,14 +387,16 @@ void CGChunk::updateParameters(Window *win, bool all)
                 
                 if(_vp_isvalid)
                 {
-                    CGparameter vpparam = cgGetNamedParameter(_vProgram, p->getName().c_str());
+                    CGparameter vpparam = cgGetNamedParameter((CGprogram) _vProgram,
+                                                        p->getName().c_str());
                     if(vpparam != 0)
                         cgGLSetParameter4fv(vpparam, p->getValue().getValues());
                 }
                 
                 if(_fp_isvalid)
                 {
-                    CGparameter fpparam = cgGetNamedParameter(_fProgram, p->getName().c_str());
+                    CGparameter fpparam = cgGetNamedParameter((CGprogram) _fProgram,
+                                                        p->getName().c_str());
                     if(fpparam != 0)
                         cgGLSetParameter4fv(fpparam, p->getValue().getValues());
                 }
@@ -395,14 +408,16 @@ void CGChunk::updateParameters(Window *win, bool all)
                 
                 if(_vp_isvalid)
                 {
-                    CGparameter vpparam = cgGetNamedParameter(_vProgram, p->getName().c_str());
+                    CGparameter vpparam = cgGetNamedParameter((CGprogram) _vProgram,
+                                                        p->getName().c_str());
                     if(vpparam != 0)
                         cgGLSetMatrixParameterfr(vpparam, p->getValue().getValues());
                 }
                 
                 if(_fp_isvalid)
                 {
-                    CGparameter fpparam = cgGetNamedParameter(_fProgram, p->getName().c_str());
+                    CGparameter fpparam = cgGetNamedParameter((CGprogram) _fProgram,
+                                                        p->getName().c_str());
                     if(fpparam != 0)
                         cgGLSetMatrixParameterfr(fpparam, p->getValue().getValues());
                 }
@@ -452,13 +467,13 @@ void CGChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
     if(_vp_isvalid)
     {
         cgGLEnableProfile((CGprofile) getVertexProfile());
-        cgGLBindProgram(_vProgram);
+        cgGLBindProgram((CGprogram) _vProgram);
     }
 
     if(_fp_isvalid)
     {
         cgGLEnableProfile((CGprofile) getFragmentProfile());
-        cgGLBindProgram(_fProgram);
+        cgGLBindProgram((CGprogram) _fProgram);
     }
 }
 
@@ -476,24 +491,39 @@ void CGChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
         return;
     }
 
+    // CGChunk didn't change so do nothing.
+    if(old == this)
+        return;
+
     _current_context = _context;
 
     action->getWindow()->validateGLObject(getGLId());
 
-    // fixme need to deactivate the old one here.
+    // now deactivate the old.
+    if(old->_fp_isvalid)
+    {
+        // unbinds program too
+        cgGLDisableProfile((CGprofile) old->getFragmentProfile());
+    }
+
+    if(old->_vp_isvalid)
+    {
+        // unbinds program too
+        cgGLDisableProfile((CGprofile) old->getVertexProfile());
+    }
 
     resetParameters();
 
     if(_vp_isvalid)
     {
         cgGLEnableProfile((CGprofile) getVertexProfile());
-        cgGLBindProgram(_vProgram);
+        cgGLBindProgram((CGprogram) _vProgram);
     }
 
     if(_fp_isvalid)
     {
         cgGLEnableProfile((CGprofile) getFragmentProfile());
-        cgGLBindProgram(_fProgram);
+        cgGLBindProgram((CGprogram) _fProgram);
     }
 }
 
@@ -566,44 +596,46 @@ bool CGChunk::hasFP(void)
     return false;
 }
 
-void CGChunk::parseProgramParams(CGprogram prog)
+#if 0
+void CGChunk::parseProgramParams(OSGCGprogram prog)
 {
     parseParams(cgGetFirstParameter(prog, CG_PROGRAM));
 }
 
-void CGChunk::parseParams(CGparameter param)
+void CGChunk::parseParams(OSGCGparameter param)
 {
     if(!param)
         return;
 
     do
     {
-        switch(cgGetParameterType(param))
+        switch(cgGetParameterType((CGparameter) param))
         {
             case CG_STRUCT :
-                parseParams(cgGetFirstStructParameter(param));
+                parseParams(cgGetFirstStructParameter((CGparameter) param));
             break;
             case CG_ARRAY :
             {
-                int ArraySize = cgGetArraySize(param, 0);
+                int ArraySize = cgGetArraySize((CGparameter) param, 0);
                 int i;
                 for(i=0; i < ArraySize; ++i)
-                    parseParams(cgGetArrayParameter(param, i));
+                    parseParams(cgGetArrayParameter((CGparameter) param, i));
             }
             break;
             default: // Display parameter information
-                const char *name = cgGetParameterName(param);
-                CGtype paramType = cgGetParameterType(param);
+                const char *name = cgGetParameterName((CGparameter) param);
+                CGtype paramType = cgGetParameterType((CGparameter) param);
                 const char *type = cgGetTypeString(paramType);
-                CGresource paramRes = cgGetParameterResource(param);
+                CGresource paramRes = cgGetParameterResource((CGparameter) param);
                 const char *resource = cgGetResourceString(paramRes);
                 printf("-- Name = '%s'\n", name);
                 printf("-- Type = '%s'\n", type);
                 printf("-- Resource = '%s'\n\n", resource);
         }
     }
-    while((param = cgGetNextParameter(param)) != 0);
+    while((param = cgGetNextParameter((CGparameter) param)) != 0);
 }
+#endif
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */

@@ -26,6 +26,8 @@
 #include <OSGTextureChunk.h>
 #include <OSGCGChunk.h>
 
+#include <Cg/cgGL.h>
+
 // vertex shader program
 static std::string _vp_program =
 "struct a2v\n"

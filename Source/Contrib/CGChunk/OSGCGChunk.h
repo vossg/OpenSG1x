@@ -50,8 +50,6 @@
 
 #include <OSGCGChunkBase.h>
 
-#include <Cg/cgGL.h>
-
 OSG_BEGIN_NAMESPACE
 
 /*! \brief CGChunk class. See \ref
@@ -154,21 +152,27 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunk : public CGChunkBase
     bool hasVP(void);
     bool hasFP(void);
 
-    CGcontext   _context;
-    CGprogram   _vProgram;
-    bool        _vp_isvalid;
-    CGprogram   _fProgram;
-    bool        _fp_isvalid;
-    Int32       _reset;
+    typedef struct _OSGCGcontext    *OSGCGcontext;
+    typedef struct _OSGCGprogram    *OSGCGprogram;
+    typedef struct _OSGCGparameter  *OSGCGparameter;
+
+    OSGCGcontext   _context;
+    OSGCGprogram   _vProgram;
+    bool           _vp_isvalid;
+    OSGCGprogram   _fProgram;
+    bool           _fp_isvalid;
+    Int32          _reset;
 
     void updateCGContext(void);
     void updateParameters(Window *win, bool all = false);
     void resetParameters(void);
 
-    void parseProgramParams(CGprogram prog);
-    void parseParams(CGparameter param);
+#if 0
+    void parseProgramParams(OSGCGprogram prog);
+    void parseParams(OSGCGparameter param);
+#endif
 
-    static CGcontext _current_context;
+    static OSGCGcontext _current_context;
 };
 
 typedef CGChunk *CGChunkP;
