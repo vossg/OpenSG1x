@@ -116,8 +116,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
                             const Functor &func            );
     void registerChanged  ( const FieldContainerType &type, 
                             const Functor &func            );
-    void addFieldFilter   ( UInt32 typeId,BitVector mask   );
-    void subFieldFilter   ( UInt32 typeId,BitVector mask   );
+    static void addFieldFilter   ( UInt32 typeId,BitVector mask   );
+    static void subFieldFilter   ( UInt32 typeId,BitVector mask   );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -162,7 +162,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
 #endif
 
     /** fild filter **/
-    FieldFilterT                      _fieldFilter;
+    static FieldFilterT               _fieldFilter;
     std::vector<Functor>              _createdFunctors;
     std::vector<Functor>              _destroyedFunctors;
     std::vector<Functor>              _changedFunctors;

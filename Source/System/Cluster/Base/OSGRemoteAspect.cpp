@@ -69,6 +69,8 @@ OSG_USING_NAMESPACE
  *
  **/
 
+RemoteAspect::FieldFilterT RemoteAspect::_fieldFilter;
+
 StatElemDesc<StatTimeElem> RemoteAspect::statSyncTime
     ("remoteSyncTime", "time for scenegraph distribution");
 
@@ -89,7 +91,6 @@ RemoteAspect::RemoteAspect(UInt32 aspectId) :
     _mappedFC(),
     _mappedType(),
 
-    _fieldFilter(),
     _createdFunctors(),
     _destroyedFunctors(),
     _changedFunctors(),
