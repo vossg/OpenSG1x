@@ -65,11 +65,6 @@ struct OSG_SYSTEMLIB_DLLMAPPING Traits
         ToStringConvertable   = 0x01,
         FromStringConvertable = 0x02
     };
-
-    enum                        
-    { 
-        bHasParent        = 0x00      
-    };
 };
 
 template<class FieldTypeT>
@@ -85,6 +80,8 @@ struct FieldDataTraits;
 template<class FieldTypeT>
 struct FieldTraitsRecurseBase : public Traits
 {
+    enum { bHasParent = 0x00 };
+
     static void putToBin(void)
     {
         fprintf(stderr, "FieldTraitsRecurseBase<FieldTypeT>\n");
@@ -94,6 +91,8 @@ struct FieldTraitsRecurseBase : public Traits
 template<class FieldTypeT>
 struct FieldTraitsRecurseBase1 : public Traits
 {
+    enum { bHasParent = 0x00 };
+
     static void putToBin(void)
     {
         fprintf(stderr, "FieldTraitsRecurseBase1<FieldTypeT>\n");
@@ -103,9 +102,41 @@ struct FieldTraitsRecurseBase1 : public Traits
 template<class FieldTypeT>
 struct FieldTraitsRecurseBase2 : public Traits
 {
+    enum { bHasParent = 0x00 };
+
     static void putToBin(void)
     {
         fprintf(stderr, "FieldTraitsRecurseBase2<FieldTypeT>\n");
+    }
+};
+
+template <class FieldTypeT>
+struct FieldTraitsIntegralRecurseMapper : 
+    public FieldTraitsRecurseBase<FieldTypeT>
+{
+    static void putToBin(void)
+    {
+        fprintf(stderr, "FieldTraitsIntegralRecurseMapper<FieldTypeT>\n");
+    }
+};
+
+template <class FieldTypeT>
+struct FieldTraitsIntegralRecurseMapper1 : 
+    public FieldTraitsRecurseBase1<FieldTypeT>
+{
+    static void putToBin(void)
+    {
+        fprintf(stderr, "FieldTraitsIntegralRecurseMapper<FieldTypeT>\n");
+    }
+};
+
+template <class FieldTypeT>
+struct FieldTraitsIntegralRecurseMapper2 : 
+    public FieldTraitsRecurseBase2<FieldTypeT>
+{
+    static void putToBin(void)
+    {
+        fprintf(stderr, "FieldTraitsIntegralRecurseMapper<FieldTypeT>\n");
     }
 };
 

@@ -235,5 +235,6 @@ OSG_DLLEXPORT_DEF1(MField, Plane,	OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
+//char *currentClass = NULL;
 
 OSG_END_NAMESPACE

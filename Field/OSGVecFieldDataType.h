@@ -46,6 +46,46 @@
 
 OSG_BEGIN_NAMESPACE
 
+
+template<class ValueTypeT>
+struct FieldTraitsRecurseMapper<VecStorage2<ValueTypeT> > : 
+    public FieldTraitsRecurseBase<VecStorage2<ValueTypeT> >
+{
+    enum                         { bHasParent        = 0x00                  };
+
+    static void putToBin(void)
+    {
+        fprintf(stderr, 
+                "FieldTraitsRecurseMapper<VecStorage2<ValueTypeT> >\n");
+    }
+};
+
+template<class ValueTypeT>
+struct FieldTraitsRecurseMapper<VecStorage3<ValueTypeT> > : 
+    public FieldTraitsRecurseBase<VecStorage3<ValueTypeT> >
+{
+    enum                         { bHasParent        = 0x00                  };
+
+    static void putToBin(void)
+    {
+        fprintf(stderr, 
+                "FieldTraitsRecurseMapper<VecStorage3<ValueTypeT> >\n");
+    }
+};
+
+template<class ValueTypeT>
+struct FieldTraitsRecurseMapper<VecStorage4<ValueTypeT> > : 
+    public FieldTraitsRecurseBase<VecStorage4<ValueTypeT> >
+{
+    enum                         { bHasParent        = 0x00                  };
+
+    static void putToBin(void)
+    {
+        fprintf(stderr, 
+                "FieldTraitsRecurseMapper<VecStorage4<ValueTypeT> >\n");
+    }
+};
+
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields
@@ -53,7 +93,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <>
-struct FieldDataTraits<Vec2f> : public Traits
+struct FieldDataTraits<Vec2f> : public FieldTraitsRecurseMapper<Vec2f>
 {
     enum                         { StringConvertable = ToStringConvertable | 
                                                        FromStringConvertable };
@@ -83,18 +123,6 @@ struct FieldDataTraits<Vec2f> : public Traits
  *  \ingroup MultiFields
  *  \brief Vec3f field traits 
  */
-
-template<>
-struct FieldTraitsRecurseMapper<VecStorage3<Real32> > : 
-    public FieldTraitsRecurseBase<VecStorage3<Real32> >
-{
-    enum                         { bHasParent        = 0x00                  };
-
-    static void putToBin(void)
-    {
-        fprintf(stderr, "FieldTraitsRecurseBase<VecStorage3<Real32> >\n");
-    }
-};
 
 template <>
 struct FieldDataTraits<Vec3f> : public FieldTraitsRecurseMapper<Vec3f>
@@ -131,10 +159,11 @@ struct FieldDataTraits<Vec3f> : public FieldTraitsRecurseMapper<Vec3f>
  */
 
 template <>
-struct FieldDataTraits<Vec4f> : public Traits
+struct FieldDataTraits<Vec4f> : public FieldTraitsRecurseMapper<Vec4f>
 {
     enum                         { StringConvertable = ToStringConvertable | 
                                                        FromStringConvertable };
+    enum                         { bHasParent        = 0x01                  };
 
     static Char8 *getSName(void)   { return "SFVec4f";    }
 
@@ -164,10 +193,11 @@ struct FieldDataTraits<Vec4f> : public Traits
  */
 
 template <>
-struct FieldDataTraits<Pnt2f> : public Traits
+struct FieldDataTraits<Pnt2f> : public FieldTraitsRecurseMapper<Pnt2f>
 {
-    enum                        { StringConvertable = ToStringConvertable | 
-                                                      FromStringConvertable };
+    enum                         { StringConvertable = ToStringConvertable | 
+                                                      FromStringConvertable  };
+    enum                         { bHasParent        = 0x01                  };
 
     static Char8 *getSName(void)   { return "SFPnt2f";    }
 
@@ -197,10 +227,11 @@ struct FieldDataTraits<Pnt2f> : public Traits
  */
 
 template <>
-struct FieldDataTraits<Vec4ub> : public Traits
+struct FieldDataTraits<Vec4ub> : public FieldTraitsRecurseMapper<Vec4ub>
 {
     enum                        { StringConvertable = ToStringConvertable | 
                                                       FromStringConvertable };
+    enum                        { bHasParent        = 0x01                  };
 
     static Char8 *getSName(void)   { return "SFVec4ub";    }
 
@@ -230,7 +261,7 @@ struct FieldDataTraits<Vec4ub> : public Traits
  */
 
 template <>
-struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseMapper<Vec3f>
+struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseMapper<Pnt3f>
 {
     enum                        { StringConvertable = ToStringConvertable | 
                                                       FromStringConvertable };
@@ -263,10 +294,11 @@ struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseMapper<Vec3f>
  */
 
 template <>
-struct FieldDataTraits<Pnt4f> : public Traits
+struct FieldDataTraits<Pnt4f> : public FieldTraitsRecurseMapper<Pnt4f>
 {
     enum                        { StringConvertable = ToStringConvertable | 
                                                       FromStringConvertable };
+    enum                        { bHasParent        = 0x01                  };
 
     static Char8 *getSName(void)   { return "SFPnt4f";    }
 

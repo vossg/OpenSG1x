@@ -79,13 +79,6 @@ struct FieldDataTraits<FieldContainerPtr> :
  
     static char *getSName(void) { return "SFFieldContainerPtr"; }
     static char *getMName(void) { return "MFFieldContainerPtr"; }
-
-/*
-    static void putToBin (void) 
-    { 
-        fprintf(stderr, "FieldTraitsToBin<FieldContainerPtr>\n");
-    }
-*/
 };
 
 /** \ingroup FieldLib
@@ -132,7 +125,7 @@ struct FieldDataTraits<AttachmentMap> :
     public FieldTraitsRecurseMapper<AttachmentMap>
 {
     enum                        { StringConvertable = 0x00      };
-    enum                        { bHasParent        = 0x01      };
+    enum                        { bHasParent        = 0x00      };
 
     static char *getSName(void) { return "SFAttachmentMap"; }
     static char *getMName(void) { return "MFAttachmentMap"; }

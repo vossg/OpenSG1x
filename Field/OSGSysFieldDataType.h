@@ -392,8 +392,10 @@ struct FieldDataTraits<UInt64> : public Traits
  *  \brief Real32 field traits 
  */
 
+
 template <>
-struct FieldDataTraits<Real32> : public Traits
+struct FieldDataTraits<Real32> : 
+    public FieldTraitsIntegralRecurseMapper<Real32>
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
