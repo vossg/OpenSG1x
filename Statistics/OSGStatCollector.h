@@ -82,11 +82,13 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
 
     inline  UInt32   getNumOfElems (void);
 
-    inline  Bool     isValidID     (Int32 ID);
+    inline  Bool     isValidID     (Int32 id);
 
             void     clearElems    (void);
 
-    inline  StatElem *getElem      (Int32 ID, Bool create = true);
+            void     reset         (void);
+
+    inline  StatElem *getElem      (Int32 id, Bool create = true);
 
     inline  StatElem *getElem      (StatElemDescBase &desc, Bool create = true);
 
@@ -105,6 +107,10 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
     /*! \{                                                                 */
 
     StatCollector(void);
+
+    StatCollector(const StatCollector &source);
+
+    static StatCollector *create(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -134,13 +140,10 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
 
     //typedef PARENTCLASS Inherited;
 
-    static char cvsid[];
-
     vector<StatElem*> _elemVec;
 
     // prohibit default functions (move to 'public' if you need one)
 
-    StatCollector            (const StatCollector &source);
     StatCollector& operator =(const StatCollector &source);
 };
 

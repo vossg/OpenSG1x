@@ -140,7 +140,7 @@ StatElemDescBase *StatElemDescBase::findDescByName (const Char8 *name)
 /** \brief Constructor
  */
 StatElemDescBase::StatElemDescBase(const Char8 *name, const Char8 *description)
-  :_ID(-1), _name(name), _description(description)
+  :_id(-1), _name(name), _description(description)
 {
   StatElemDescBase *desc = 0;
 
@@ -154,7 +154,7 @@ StatElemDescBase::StatElemDescBase(const Char8 *name, const Char8 *description)
               name ));
   }
   else {
-    _ID = _descVec->size();
+    _id = _descVec->size();
     _descVec->push_back(this);
   }
 }  
@@ -183,7 +183,7 @@ void StatElemDescBase::printAll(void)
 void StatElemDescBase::print(void)
 {
   FLOG (( "StatElemDescBase: ID/Name/Description: %d/%s/%s\n",
-          _ID, _name.str(), _description.str() ));
+          _id, _name.str(), _description.str() ));
 }
 
 /*------------------------------ access -----------------------------------*/

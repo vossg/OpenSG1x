@@ -45,20 +45,20 @@ inline  UInt32 StatCollector::getNumOfElems (void)
 }
 
 /*-------------------------------------------------------------------------*/
-inline  Bool StatCollector::isValidID     (Int32 ID)
+inline  Bool StatCollector::isValidID     (Int32 id)
 { 
-  return ((ID >= 0) && (ID < Int32(_elemVec.size()))); 
+  return ((id >= 0) && (id < Int32(_elemVec.size()))); 
 }
 
 /*-------------------------------------------------------------------------*/
-inline  StatElem *StatCollector::getElem (Int32 ID, Bool create)  
+inline  StatElem *StatCollector::getElem (Int32 id, Bool create)  
 {
-  StatElem *elem = _elemVec[ID];
+  StatElem *elem = _elemVec[id];
 
   if (!elem && create) 
     {
-      StatElemDescBase *desc = StatElemDescBase::getDesc(ID);
-      elem =_elemVec[ID] = desc->createElem();
+      StatElemDescBase *desc = StatElemDescBase::getDesc(id);
+      elem =_elemVec[id] = desc->createElem();
     }
   
   return elem;
@@ -81,4 +81,4 @@ T *StatCollector::getElem(StatElemDesc<T> &desc, Bool create)
 
 OSG_END_NAMESPACE
 
-#define OSGSTATCOLLECTOR_INLINE_CVSID "@(#)$Id: OSGStatCollector.inl,v 1.5 2002/01/21 17:38:40 dirk Exp $"
+#define OSGSTATCOLLECTOR_INLINE_CVSID "@(#)$Id: OSGStatCollector.inl,v 1.6 2002/01/24 22:55:05 dirk Exp $"

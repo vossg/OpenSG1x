@@ -70,9 +70,9 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElemDescBase
    /*! \name                    instance                                  */
    /*! \{                                                                 */
 
-    inline  static Bool isValidID (Int32 ID);
+    inline  static Bool isValidID (Int32 id);
 
-    inline  static StatElemDescBase *getDesc (Int32 ID);
+    inline  static StatElemDescBase *getDesc (Int32 id);
 
     static StatElemDescBase *findDescByName (const Char8 *name);
 
@@ -130,7 +130,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElemDescBase
     static char cvsid[];
 
 
-    Int32                _ID;
+    Int32                _id;
 
     IDString             _name;
 

@@ -91,8 +91,6 @@ namespace
  *                           Class variables                               *
 \***************************************************************************/
 
-char StatCollector::cvsid[] = "@(#)$Id: $";
-
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -133,6 +131,17 @@ StatCollector::StatCollector(void)
   _elemVec.resize(StatElemDescBase::getNumOfDescs());
 }
 
+StatCollector::StatCollector(const StatCollector &source) :
+    _elemVec(source._elemVec)
+{
+}
+
+StatCollector *StatCollector::create(void)
+
+{
+    return new StatCollector();
+}
+
 
 //StatCollector::StatCollector(const StatCollector &source) :
 //  Inherited(source),
@@ -164,12 +173,12 @@ void StatCollector::putToString(string &str) const
     {
         if(*it != NULL)
         {
-            std::string elem;
+            string elem;
             
             if(!first)
                 str.append("|");
             str.append((*it)->getDesc()->getName().str());
-            str.append(":");
+            str.append("=");
             (*it)->putToString(elem);
             str.append(elem);
             first = false;
@@ -194,7 +203,7 @@ Bool StatCollector::getFromString(const Char8 *&inVal)
     {
         const Char8 *end = c;
         
-        while(*end != 0 && *end != ':' && *end != '}' && *end != '|')
+        while(*end != 0 && *end != '=' && *end != '}' && *end != '|')
             end++;
             
         if(*end == 0 || *end == '}' || *end == '|')
