@@ -1,0 +1,102 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="LightChunk"
+	parent="StateChunk"
+	library="State"
+	structure="concrete"
+	pointerfieldtypes="none"
+>
+The light chunk contains the parameter set for a single light source. It's taken
+straight from the glLight() manpage.
+	<Field
+		name="diffuse"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1,1,1,0"
+	>
+	The light's diffuse color.
+	</Field>
+	<Field
+		name="ambient"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue=".1,.1,.1,0"
+	>
+	The light's ambient color.
+	</Field>
+	<Field
+		name="specular"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1,1,1,0"
+	>
+	The light's specular color.
+	</Field>
+	<Field
+		name="position"
+		type="Vec4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0,-1,0,0"
+	>
+	The light's position.
+	</Field>
+	<Field
+		name="direction"
+		type="Vec3f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0,0,1"
+	>
+	The light's direction (only for spotlights).
+	</Field>
+	<Field
+		name="exponent"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="2"
+	>
+	The light's spotlight exponent.
+	</Field>
+	<Field
+		name="cutoff"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="180"
+	>
+	The light's spotlight cutoff.
+	</Field>
+	<Field
+		name="constantAttenuation"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1"
+	>
+	The light's constant attenuation.
+	</Field>
+	<Field
+		name="linearAttenuation"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+	>
+	The light's linear attenuation.
+	</Field>
+	<Field
+		name="quadraticAttenuation"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+	>
+	The light's quadratic attenuation.
+	</Field>
+</FieldContainer>

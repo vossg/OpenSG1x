@@ -58,11 +58,11 @@
 #define OSG_COMPILESTATE
 
 #include "OSGDrawAction.h"
-#include "OSGWindow.h"
 
 #include "OSGTextureChunk.h"
 
 OSG_USING_NAMESPACE
+
 
 /***************************************************************************\
  *                            Description                                  *
@@ -83,153 +83,17 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(TextureChunk, ImageField)
-OSG_FC_FIELD_IDM_DEF      (TextureChunk, MinFilterField, 	ImageField )  
-OSG_FC_FIELD_IDM_DEF      (TextureChunk, MagFilterField, 	MinFilterField )  
-OSG_FC_FIELD_IDM_DEF      (TextureChunk, WrapSField, 		MagFilterField )  
-OSG_FC_FIELD_IDM_DEF      (TextureChunk, WrapTField, 		WrapSField )  
-OSG_FC_FIELD_IDM_DEF      (TextureChunk, WrapRField, 		WrapTField )  
-OSG_FC_FIELD_IDM_DEF      (TextureChunk, EnvModeField, 		WrapRField )  
-OSG_FC_FIELD_IDM_DEF      (TextureChunk, GenFuncSField, 	EnvModeField )  
-OSG_FC_FIELD_IDM_DEF      (TextureChunk, GenFuncTField,  	GenFuncSField )  
-OSG_FC_FIELD_IDM_DEF      (TextureChunk, GenFuncRField, 	GenFuncTField )  
-OSG_FC_FIELD_IDM_DEF      (TextureChunk, GenFuncQField, 	GenFuncRField )  
-OSG_FC_FIELD_IDM_DEF      (TextureChunk, GenFuncSPlaneField,GenFuncQField )  
-OSG_FC_FIELD_IDM_DEF      (TextureChunk, GenFuncTPlaneField,GenFuncSPlaneField )  
-OSG_FC_FIELD_IDM_DEF      (TextureChunk, GenFuncRPlaneField,GenFuncTPlaneField )  
-OSG_FC_FIELD_IDM_DEF      (TextureChunk, GenFuncQPlaneField,GenFuncRPlaneField )  
-OSG_FC_FIELD_IDM_DEF      (TextureChunk, GLIdField, 		GenFuncQPlaneField )  
-OSG_FC_LAST_FIELD_IDM_DEF (TextureChunk, GLIdField)
-
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.5 2001/04/06 16:28:59 jbehr Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.6 2001/04/15 02:12:54 dirk Exp $";
 
 StateChunkClass TextureChunk::_class(String("Texture"));
 
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-FieldDescription TextureChunk::_desc[] = 
-{
-        FieldDescription(
-        SFImageP::getClassType(), 
-        "image", 
-        OSG_FC_FIELD_IDM_DESC(ImageField),
-        false,
-        (FieldAccessMethod) &TextureChunk::getSFImage,
-        ""),
-        FieldDescription(
-        SFUInt32::getClassType(), 
-        "minFilter", 
-        OSG_FC_FIELD_IDM_DESC(MinFilterField),
-        false,
-        (FieldAccessMethod) &TextureChunk::getSFMinFilter,
-        ""),
-        FieldDescription(
-        SFUInt32::getClassType(), 
-        "magFilter", 
-        OSG_FC_FIELD_IDM_DESC(MagFilterField),
-        false,
-        (FieldAccessMethod) &TextureChunk::getSFMagFilter,
-        ""),
-        FieldDescription(
-        SFUInt32::getClassType(), 
-        "wrapS", 
-        OSG_FC_FIELD_IDM_DESC(WrapSField),
-        false,
-        (FieldAccessMethod) &TextureChunk::getSFWrapS,
-        ""),
-        FieldDescription(
-        SFUInt32::getClassType(), 
-        "wrapT", 
-        OSG_FC_FIELD_IDM_DESC(WrapTField),
-        false,
-        (FieldAccessMethod) &TextureChunk::getSFWrapT,
-        ""),
-        FieldDescription(
-        SFUInt32::getClassType(), 
-        "wrapR", 
-        OSG_FC_FIELD_IDM_DESC(WrapRField),
-        false,
-        (FieldAccessMethod) &TextureChunk::getSFWrapR,
-        ""),
-        FieldDescription(
-        SFUInt32::getClassType(), 
-        "envMode", 
-        OSG_FC_FIELD_IDM_DESC(EnvModeField),
-        false,
-        (FieldAccessMethod) &TextureChunk::getSFEnvMode,
-        ""),
-        FieldDescription(
-        SFUInt32::getClassType(), 
-        "genFuncS", 
-        OSG_FC_FIELD_IDM_DESC(GenFuncSField),
-        false,
-        (FieldAccessMethod) &TextureChunk::getSFGenFuncS,
-        ""),
-        FieldDescription(
-        SFUInt32::getClassType(), 
-        "genFuncT", 
-        OSG_FC_FIELD_IDM_DESC(GenFuncTField),
-        false,
-        (FieldAccessMethod) &TextureChunk::getSFGenFuncT,
-        ""),
-        FieldDescription(
-        SFUInt32::getClassType(), 
-        "genFuncR", 
-        OSG_FC_FIELD_IDM_DESC(GenFuncRField),
-        false,
-        (FieldAccessMethod) &TextureChunk::getSFGenFuncR,
-        ""),
-        FieldDescription(
-        SFUInt32::getClassType(), 
-        "genFuncQ", 
-        OSG_FC_FIELD_IDM_DESC(GenFuncQField),
-        false,
-        (FieldAccessMethod) &TextureChunk::getSFGenFuncQ,
-        ""),
-        FieldDescription(
-        SFPlane::getClassType(), 
-        "genFuncSPlane", 
-        OSG_FC_FIELD_IDM_DESC(GenFuncSPlaneField),
-        false,
-        (FieldAccessMethod) &TextureChunk::getSFGenFuncSPlane,
-        ""),
-        FieldDescription(
-        SFPlane::getClassType(), 
-        "genFuncTPlane", 
-        OSG_FC_FIELD_IDM_DESC(GenFuncTPlaneField),
-        false,
-        (FieldAccessMethod) &TextureChunk::getSFGenFuncTPlane,
-        ""),
-        FieldDescription(
-        SFPlane::getClassType(), 
-        "genFuncRPlane", 
-        OSG_FC_FIELD_IDM_DESC(GenFuncRPlaneField),
-        false,
-        (FieldAccessMethod) &TextureChunk::getSFGenFuncRPlane,
-        ""),
-        FieldDescription(
-        SFPlane::getClassType(), 
-        "genFuncQPlane", 
-        OSG_FC_FIELD_IDM_DESC(GenFuncQPlaneField),
-        false,
-        (FieldAccessMethod) &TextureChunk::getSFGenFuncQPlane,
-        ""),
-        FieldDescription(
-        SFUInt32::getClassType(), 
-        "GLId", 
-        OSG_FC_FIELD_IDM_DESC(GLIdField),
-        true,
-        (FieldAccessMethod) &TextureChunk::getSFGLId,
-        "")
-};
-
-FieldContainerType TextureChunk::_type(
-	"TextureChunk", 
-	"StateChunk", 
-	NULL,
-	(PrototypeCreateF) &TextureChunk::createEmpty,
-	NULL,
-	_desc, 
-	sizeof(_desc));
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -246,6 +110,13 @@ FieldContainerType TextureChunk::_type(
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
+
+/** \brief initialize the static features of the class, e.g. action callbacks
+ */
+
+void TextureChunk::initMethod (void)
+{
+}
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -265,46 +136,26 @@ FieldContainerType TextureChunk::_type(
         }								\
 }
 
-
-
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(TextureChunk, TextureChunkPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-// only used to create the prototype. don't use to create real chunks 
-
 TextureChunk::TextureChunk(void) :
-	Inherited(),
-	_Image(), _MinFilter( GL_LINEAR_MIPMAP_LINEAR), _MagFilter(GL_LINEAR), 
-	_WrapS(GL_REPEAT), _WrapT(GL_REPEAT), _WrapR(GL_REPEAT), 
-	_GenFuncS( GL_NONE ), _GenFuncT( GL_NONE ), _GenFuncR( GL_NONE ), 
-	_GenFuncQ( GL_NONE ), 
-	_GenFuncSPlane(), _GenFuncTPlane(), _GenFuncRPlane(), _GenFuncQPlane(), 
-	_GLId(0)
+    Inherited()
 {
-	_ownClass = _class.getID();
 }
 
+/** \brief Copy Constructor
+ */
 
-TextureChunk::TextureChunk( const TextureChunk& source ) :
-	Inherited(source),
-	_Image( source._Image ), _MinFilter( source._MinFilter ), 
-	_MagFilter( source._MagFilter ), _WrapS( source._WrapS ), 
-	_WrapT( source._WrapT ), _WrapR( source._WrapR ), 
-	_GenFuncS( source._GenFuncS ), _GenFuncT( source._GenFuncT ), 
-	_GenFuncR( source._GenFuncR ), _GenFuncQ( source._GenFuncQ ), 
-	_GenFuncSPlane( source._GenFuncSPlane ), 
-	_GenFuncTPlane( source._GenFuncTPlane ), 
-	_GenFuncRPlane( source._GenFuncRPlane ), 
-	_GenFuncQPlane( source._GenFuncQPlane ), 
-	_GLId( source._GLId )
+TextureChunk::TextureChunk(const TextureChunk &source) :
+    Inherited(source)
 {
 	// already assigned a GLId?
 	// if not this is the copy from the prototype
@@ -323,7 +174,6 @@ TextureChunk::TextureChunk( const TextureChunk& source ) :
 			   )                         );
 }
 
-
 /** \brief Destructor
  */
 
@@ -331,9 +181,24 @@ TextureChunk::~TextureChunk(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
 
-/*---------------------------- properties ---------------------------------*/
+/** \brief react to field changes
+ */
+
+void TextureChunk::changed(BitVector, ChangeMode)
+{
+}
+
+/*------------------------------- dump ----------------------------------*/
+
+/** \brief output the instance for debug purposes
+ */
+
+void TextureChunk::dump(      UInt32     uiIndent, 
+                         const BitVector &bvFlags) const
+{
+	SLOG << "Dump TextureChunk NI" << endl;
+}
 
 
 /*-------------------------- your_category---------------------------------*/
@@ -690,17 +555,6 @@ void TextureChunk::deactivate ( DrawAction *, UInt32 )
 	glErr( "TextureChunk::deactivate" );
 }
 
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-void TextureChunk::dump(      UInt32     uiIndent, 
-                        const BitVector &bvFlags) const
-{
-	SLOG << "Dump TextureChunk NI" << endl;
-}
-
 /*-------------------------- comparison -----------------------------------*/
 
 Real32 TextureChunk::switchCost( StateChunk * chunk )
@@ -755,43 +609,13 @@ Bool TextureChunk::operator != (const StateChunk &other) const
 	return ! (*this == other);
 }
 
+    
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

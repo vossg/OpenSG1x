@@ -36,6 +36,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+
 #ifndef _OSGSTATECHUNK_H_
 #define _OSGSTATECHUNK_H_
 #ifdef __sgi
@@ -46,44 +47,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILESTATE
-#       define OSG_STATE_DLLMAPPING     __declspec(dllexport)
-#       define OSG_STATE_DLLTMPLMAPPING __declspec(dllexport)
-#   else
-#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILEDRAWACTION)        || \
-                                     defined(OSG_COMPILEINTERSECTACTION)   || \
-                                     defined(OSG_COMPILEFIELD)             || \
-                                     defined(OSG_COMPILEFIELDCONTAINER)    || \
-                                     defined(OSG_COMPILEIMAGE)             || \
-                                     defined(OSG_COMPILELOADER)            || \
-                                     defined(OSG_COMPILEMULTITHREADING)    || \
-                                     defined(OSG_COMPILEMATERIAL)          || \
-                                     defined(OSG_COMPILEMISC)              || \
-                                     defined(OSG_COMPILELIGHT)             || \
-                                     defined(OSG_COMPILEGEOMETRY)          || \
-                                     defined(OSG_COMPILEACTION)            || \
-                                     defined(OSG_COMPILEWINDOW)            || \
-                                     defined(OSG_COMPILESYSTEMLIB))
-#           define OSG_STATE_DLLMAPPING     __declspec(dllexport)
-#           define OSG_STATE_DLLTMPLMAPPING __declspec(dllexport)
-#       else
-#           define OSG_STATE_DLLMAPPING     __declspec(dllimport)
-#           define OSG_STATE_DLLTMPLMAPPING __declspec(dllimport)
-#       endif
-#   endif
-#else
-#define OSG_STATE_DLLMAPPING
-#define OSG_STATE_DLLTMPLMAPPING
-#endif
+#include <OSGConfig.h>
 
-#include <vector>
-
-#include "OSGBaseTypes.h"
-#include "OSGMField.h"
-#include "OSGSFBaseTypes.h"
-#include "OSGFieldDescription.h"
-#include "OSGFieldContainer.h"
+#include <OSGStateChunkBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,14 +57,11 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class StateChunk;
 class DrawAction;
 
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
-
-typedef FCPtr<FieldContainerPtr, StateChunk> StateChunkPtr;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -117,11 +80,11 @@ class OSG_STATE_DLLMAPPING StateChunkClass
 	// get name and id of this class
 	UInt32 getID( void ) const;	
 	const String getName( void ) const;
-	UInt32 getNumSlots( void ) const;
+	Int32 getNumSlots( void ) const;
 	
 	// get name and id of indicated class
 	static const String getName( UInt32 index ) ;
-	static UInt32 getNumSlots( UInt32 index ) ;
+	static Int32 getNumSlots( UInt32 index ) ;
 	
 	// access to the class name list
 	typedef vector<String>::const_iterator iterator;
@@ -136,40 +99,50 @@ class OSG_STATE_DLLMAPPING StateChunkClass
 	static vector<UInt32>* _numslots;
 };
 
-/*! \ingroup StateChunks
- *  \brief StateChunk base class
+/*! \brief StateChunk base class
+ *  \ingroup StateChunks
  */
 
-class OSG_STATE_DLLMAPPING StateChunk : public FieldContainer
+class OSG_STATE_DLLMAPPING StateChunk : public StateChunkBase
 {
   public:
 
     //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
+    
+    //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
-	
+
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
-
-	typedef FieldContainer Inherited;
-    typedef StateChunkPtr Ptr;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "StateChunk"; }
- 
+    static const char *getClassname(void) { return "StateChunk"; };
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_ABSTR_FIELD_CONTAINER_DECL(StateChunkPtr)
+    /*--------------------------- access fields ----------------------------*/
 
-    /*----------------------------- dump ----------------------------------*/
+    /*----------------------------- access ----------------------------------*/
+
+    /*-------------------------- transformation ----------------------------*/
+
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
+ 
+    /*------------------------------ volume -------------------------------*/
+
+    /*------------------------------ dump -----------------------------------*/
 
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector &bvFlags  = 0) const;
@@ -190,8 +163,6 @@ class OSG_STATE_DLLMAPPING StateChunk : public FieldContainer
 
 	inline UInt32 getClassID( void ) const;	
 	virtual const StateChunkClass * getClass( void ) const;	
-
-    /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
 
@@ -229,18 +200,14 @@ class OSG_STATE_DLLMAPPING StateChunk : public FieldContainer
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-	// chunks class
-	// set in constructor, never changed after that
-	UInt32 _ownClass;
-
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
     StateChunk(void);
-	StateChunk( const StateChunk& source );
+    StateChunk(const StateChunk &source);
     virtual ~StateChunk(void); 
-
+    
   private:
 
     //-----------------------------------------------------------------------
@@ -251,12 +218,15 @@ class OSG_STATE_DLLMAPPING StateChunk : public FieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef StateChunkBase Inherited;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend class FieldContainer;
-	
+    friend class FieldContainer;
+    friend class StateChunkBase;
+
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------
@@ -265,83 +235,43 @@ class OSG_STATE_DLLMAPPING StateChunk : public FieldContainer
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
-
-	static FieldContainerType _type;
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+    static void initMethod( void );
+
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-	
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
-	// StateChunk & operator =(const StateChunk &source);
+    // void operator =(const StateChunk &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
-// class pointer
 
+/** \brief class pointer
+ */
 typedef StateChunk *StateChunkP;
 
-// pointer field
-
-template <>
-struct FieldDataTraits<StateChunkPtr> : public Traits
-{
-    enum                           { StringConvertable = 0x00  };
-
-    static Char8 *getSName(void)   { return "SFStateChunkPtr"; }
-    static Char8 *getMName(void)   { return "MFStateChunkPtr"; }
-
-//  static Bool   getDefault(void) { return false;             }
-};
-
-typedef SField<StateChunkPtr> SFStateChunkPtr;
-
-#ifndef OSG_COMPILESTATECHUNKINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<StateChunkPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, StateChunkPtr, OSG_STATE_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-typedef MField<StateChunkPtr> MFStateChunkPtr;
-
-#ifndef OSG_COMPILESTATECHUNKINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<StateChunkPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(MField, StateChunkPtr, OSG_STATE_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-
-// null pointer
+//! null pointer
 
 extern OSG_STATE_DLLMAPPING StateChunkPtr NullStateChunk;
 
 OSG_END_NAMESPACE
 
-#include "OSGStateChunk.inl"
+#include <OSGStateChunk.inl>
+#include <OSGStateChunkBase.inl>
 
 #endif /* _OSGSTATECHUNK_H_ */

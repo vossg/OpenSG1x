@@ -56,7 +56,8 @@
 
 #define OSG_COMPILESTATE
 
-#include "OSGFieldDescription.h"
+#include "OSGStateChunk.h"
+
 #include "OSGState.h"
 
 OSG_USING_NAMESPACE
@@ -65,25 +66,6 @@ OSG_USING_NAMESPACE
 /***************************************************************************\
  *                            Description                                  *
 \***************************************************************************/
-
-/*! \defgroup StateLib
-
-The State encapsulates the OpenGL state. 
-
-It's main purpose is being a container that holds the state for a renderable
-object and be the basis for state sorting and state change minimisation.
-
-The State is comprimsed of a number of smaller parts (StateChunks). These
-encapsulate a logical part of the OpenGL state and are used as the
-minimisation unit.
-
-*/
-
-/*! \class osg::State
-
-The state base class.
-
-*/
 
 
 /***************************************************************************\
@@ -94,31 +76,15 @@ The state base class.
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(State, ChunksField)
-OSG_FC_LAST_FIELD_IDM_DEF (State, ChunksField)
-
 char State::cvsid[] = "@(#)$Id: $";
 
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-FieldDescription State::_desc[] = 
-{
-        FieldDescription(
-        MFStateChunkPtr::getClassType(), 
-        "chunks", 
-        OSG_FC_FIELD_IDM_DESC(ChunksField),
-        false,
-        (FieldAccessMethod) &State::getMFChunks,
-        "")
-};
-
-FieldContainerType State::_type(
-	"State", 
-	"FieldContainer", 
-	NULL,
-	(PrototypeCreateF) &State::createEmpty,
-	NULL,
-	_desc, 
-	sizeof(_desc));
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -136,6 +102,13 @@ FieldContainerType State::_type(
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
+/** \brief initialize the static features of the class, e.g. action callbacks
+ */
+
+void State::initMethod (void)
+{
+}
+
 /***************************************************************************\
  *                           Instance methods                              *
 \***************************************************************************/
@@ -144,7 +117,6 @@ FieldContainerType State::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(State, StatePtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -152,12 +124,15 @@ OSG_FIELD_CONTAINER_DEF(State, StatePtr)
  */
 
 State::State(void) :
-	Inherited()
+    Inherited()
 {
 }
 
-State::State( const State& source ) :
-	Inherited(source)
+/** \brief Copy Constructor
+ */
+
+State::State(const State &source) :
+    Inherited(source)
 {
 }
 
@@ -168,14 +143,36 @@ State::~State(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
 
-MFStateChunkPtr *State::getMFChunks( void )
+/** \brief react to field changes
+ */
+
+void State::changed(BitVector, ChangeMode)
 {
-	return &_chunks;
 }
 
-/*---------------------------- properties ---------------------------------*/
+/*------------------------------- dump ----------------------------------*/
+
+/** \brief output the instance for debug purposes
+ */
+
+void State::dump(      UInt32     uiIndent, 
+                         const BitVector &bvFlags) const
+{
+	cerr << "State at " << this << endl;
+
+	MFStateChunkPtr::const_iterator it;
+	UInt32 cind;
+	
+	for ( it = _chunks.begin(), cind = 0; it != _chunks.end(); it++, cind++ )
+	{
+		cerr << StateChunkClass::getName(cind) << "\t";
+		if ( *it == NullStateChunk )
+			cerr << "NullChunk" << endl;
+		else
+			cerr << *it << endl;
+	}
+}
 
 
 /*-------------------------- your_category---------------------------------*/
@@ -284,14 +281,14 @@ void State::subChunk( UInt32 classid, Int32 index )
 void State::activate ( DrawAction * action )
 {
 	MFStateChunkPtr::iterator it;
-	UInt32 ind = 0;
+	Int32 ind = 0;
 	UInt32 cind;
 
 	for ( it = _chunks.begin(), cind = 0; it != _chunks.end(); 
 		  it++, cind++,  ind++ )
 	{
 		if ( *it != NullStateChunk )
-			(*it)->activate( action, ind );
+			(*it)->activate( action, UInt32(ind) );
 		if ( ind >= StateChunkClass::getNumSlots( cind ) )
 			ind = -1;
 	}
@@ -301,7 +298,7 @@ void State::activate ( DrawAction * action )
 void State::changeFrom( DrawAction * action, State * old )
 {
 	MFStateChunkPtr::iterator it;
-	UInt32 ind = 0;
+	Int32 ind = 0;
 	UInt32 cind;
 
 	for ( it = _chunks.begin(), cind = 0; it != _chunks.end(); 
@@ -313,12 +310,12 @@ void State::changeFrom( DrawAction * action, State * old )
 		if ( n != NullStateChunk )
 		{			
 			if ( o != NullStateChunk )
-				n->changeFrom( action, o.getCPtr(), ind );
+				n->changeFrom( action, o.getCPtr(), UInt32(ind) );
 			else
-				n->activate( action, ind );
+				n->activate( action, UInt32(ind) );
 		}
 		else if ( o != NullStateChunk )
-			o->deactivate( action, ind );
+			o->deactivate( action, UInt32(ind) );
 			
 		if ( ind >= StateChunkClass::getNumSlots( cind ) )
 			ind = -1;
@@ -330,27 +327,17 @@ void State::changeFrom( DrawAction * action, State * old )
 void State::deactivate ( DrawAction * action )
 {
 	MFStateChunkPtr::iterator it;
-	UInt32 ind = 0;
+	Int32 ind = 0;
 	UInt32 cind;
 
 	for ( it = _chunks.begin(), cind = 0; it != _chunks.end(); 
 		  it++, cind++,  ind++ )
 	{
 		if ( *it != NullStateChunk )
-			(*it)->deactivate( action, ind );
+			(*it)->deactivate( action, UInt32(ind) );
 		if ( ind >= StateChunkClass::getNumSlots( cind ) )
 			ind = -1;
 	}
-}
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-void State::dump(      UInt32     uiIndent, 
-                 const BitVector &bvFlags) const
-{
-	SLOG << "Dump State NI" << endl;
 }
 
 /*-------------------------- comparison -----------------------------------*/
@@ -383,64 +370,13 @@ Bool State::operator != (const State &other) const
 {
 	return ! (*this == other);
 }
-
-/*------------------------- debug ----------------------------------*/
-
-void State::print( void )
-{
-	cerr << "State at " << this << endl;
-
-	MFStateChunkPtr::iterator it;
-	UInt32 cind;
-	
-	for ( it = _chunks.begin(), cind = 0; it != _chunks.end(); it++, cind++ )
-	{
-		cerr << StateChunkClass::getName(cind) << "\t";
-		if ( *it == NullStateChunk )
-			cerr << "NullChunk" << endl;
-		else
-			cerr << *it << endl;
-	}
-
-}
-
+    
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

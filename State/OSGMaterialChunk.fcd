@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="MaterialChunk"
+	parent="StateChunk"
+	library="State"
+	structure="concrete"
+	pointerfieldtypes="none"
+>
+	<Field
+		name="diffuse"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1,1,1,0"
+	>
+	</Field>
+	<Field
+		name="ambient"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue=".2,.2,.2,0"
+	>
+	</Field>
+	<Field
+		name="specular"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue=".5,.5,.5,0"
+	>
+	</Field>
+	<Field
+		name="emission"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0,0,0,0"
+	>
+	</Field>
+	<Field
+		name="shininess"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="10"
+	>
+	</Field>
+</FieldContainer>

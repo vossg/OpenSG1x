@@ -110,20 +110,20 @@ int main( int argc, char *argv[] )
 	LightChunkPtr lchunk1, lchunk2;
 
 	lchunk1 = LightChunk::create();
-	lchunk1->setDiffuse( Vec4f( 1,1,1,1 ) );
+	lchunk1->setDiffuse( Color4f( 1,1,1,1 ) );
 	lchunk1->setPosition( Vec4f( 0,1,0,0 ) );
 	state1->addChunk( lchunk1 );
 
 	lchunk2 = LightChunk::create();
-	lchunk2->setDiffuse( Vec4f( 1,0,0,1 ) );
+	lchunk2->setDiffuse( Color4f( 1,0,0,1 ) );
 	lchunk2->setPosition( Vec4f( 0,0,-2,1 ) );
 	state2->addChunk( lchunk2 );
 
 	cerr << "State1:" << endl;
-	state1->print();
+	state1->dump();
 
 	cerr << "State2:" << endl;
-	state2->print();
+	state2->dump();
 
 	glutMainLoop();
 

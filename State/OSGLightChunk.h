@@ -36,6 +36,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+
 #ifndef _OSGLIGHTCHUNK_H_
 #define _OSGLIGHTCHUNK_H_
 #ifdef __sgi
@@ -46,14 +47,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <vector>
+#include <OSGConfig.h>
 
-#include "OSGFieldContainer.h"
-#include "OSGFieldContainerPtr.h"
-#include "OSGSFMathTypes.h"
-#include "OSGSFVecTypes.h"
-#include "OSGSFSysTypes.h"
-#include "OSGStateChunk.h"
+#include <OSGLightChunkBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -61,56 +57,25 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class LightChunk;
-
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
-
-typedef FCPtr<StateChunkPtr, LightChunk> LightChunkPtr;
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-/*! class for light source chunks.
- */ 
+/*! \brief class for light source chunks.
+ */
 
-class OSG_STATE_DLLMAPPING LightChunk : public StateChunk
+class OSG_STATE_DLLMAPPING LightChunk : public LightChunkBase
 {
-  private:
-
-	typedef StateChunk Inherited;
-
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
-
-    OSG_FC_FIRST_FIELD_IDM_DECL(DiffuseField)
-
-    OSG_FC_FIELD_IDM_DECL      (AmbientField, 
-                                DiffuseField)  
-    OSG_FC_FIELD_IDM_DECL      (SpecularField, 
-                                AmbientField)  
-    OSG_FC_FIELD_IDM_DECL      (PositionField,  
-                                SpecularField)  
-    OSG_FC_FIELD_IDM_DECL      (DirectionField, 
-                                PositionField)   
-    OSG_FC_FIELD_IDM_DECL      (ExponentField,  
-                                DirectionField)
-    OSG_FC_FIELD_IDM_DECL      (CutoffField,   
-                                ExponentField)  
-    OSG_FC_FIELD_IDM_DECL      (ConstantAttenuationField, 
-                                CutoffField)  
-    OSG_FC_FIELD_IDM_DECL      (LinearAttenuationField,  
-                                ConstantAttenuationField)  
-    OSG_FC_FIELD_IDM_DECL      (QuadraticAttenuationField,
-                                LinearAttenuationField)  
-
-    OSG_FC_LAST_FIELD_IDM_DECL (QuadraticAttenuationField)  
-
+    
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -119,25 +84,32 @@ class OSG_STATE_DLLMAPPING LightChunk : public StateChunk
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef LightChunkPtr Ptr;
-
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "LightChunk"; }
- 
+    static const char *getClassname(void) { return "LightChunk"; };
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(LightChunkPtr)
-
 	virtual const StateChunkClass *  getClass( void ) const;
 
-    /*----------------------------- dump ----------------------------------*/
+    /*--------------------------- access fields ----------------------------*/
+
+    /*----------------------------- access ----------------------------------*/
+
+    /*-------------------------- transformation ----------------------------*/
+
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
+ 
+    /*------------------------------ volume -------------------------------*/
+
+    /*------------------------------ dump -----------------------------------*/
 
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector &bvFlags  = 0) const;
@@ -153,80 +125,6 @@ class OSG_STATE_DLLMAPPING LightChunk : public StateChunk
 
 	// reset my part of the state
 	virtual void deactivate ( DrawAction * action, UInt32 index );
-
-    /*----------------------------- access ----------------------------------*/
-
-	// Diffuse Color
-	
-        SFVec4f  *getSFDiffuse( void );
-          Vec4f   &getDiffuse  ( void );
-    const Vec4f   &getDiffuse  ( void ) const;
-	void           setDiffuse  ( const Vec4f & color );
-
-	// Ambient Color
-	
-        SFVec4f   *getSFAmbient( void );
-          Vec4f   &getAmbient  ( void );
-    const Vec4f   &getAmbient  ( void ) const;
-	void           setAmbient  ( const Vec4f & color );
-
-	// Specular Color
-	
-        SFVec4f   *getSFSpecular( void );
-          Vec4f   &getSpecular  ( void );
-    const Vec4f   &getSpecular  ( void ) const;
-	void           setSpecular  ( const Vec4f & color );
-
-	// Position
-	
-        SFVec4f   *getSFPosition( void );
-          Vec4f   &getPosition  ( void );
-    const Vec4f   &getPosition  ( void ) const;
-	void           setPosition  ( const Vec4f & pos );
-
-	// Direction
-	
-        SFVec3f   *getSFDirection( void );
-          Vec3f   &getDirection  ( void );
-    const Vec3f   &getDirection  ( void ) const;
-	void           setDirection  ( const Vec3f & dir );
-
-	// Exponent
-	
-        SFReal32   *getSFExponent( void );
-          Real32    getExponent  ( void );
-          Real32    getExponent  ( void ) const;
-	void            setExponent  ( const Real32 exponent );
-
-	// Cutoff
-	
-        SFReal32   *getSFCutoff( void );
-          Real32    getCutoff  ( void );
-          Real32    getCutoff  ( void ) const;
-	void            setCutoff  ( const Real32 cutoff );
-
-	// Constant Attenuation
-	
-        SFReal32   *getSFConstantAttenuation( void );
-          Real32    getConstantAttenuation  ( void );
-          Real32    getConstantAttenuation  ( void ) const;
-	void            setConstantAttenuation  ( const Real32 constAtt );
-
-	// Linear Attenuation
-	
-        SFReal32   *getSFLinearAttenuation( void );
-          Real32    getLinearAttenuation  ( void );
-          Real32    getLinearAttenuation  ( void ) const;
-	void            setLinearAttenuation  ( const Real32 linAtt );
-
-	// Quadratic Attenuation
-	
-        SFReal32   *getSFQuadraticAttenuation( void );
-          Real32    getQuadraticAttenuation  ( void );
-          Real32    getQuadraticAttenuation  ( void ) const;
-	void            setQuadraticAttenuation  ( const Real32 quadAtt );
-
-    /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
 
@@ -264,12 +162,16 @@ class OSG_STATE_DLLMAPPING LightChunk : public StateChunk
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
+    // They should all be in LightChunkBase.
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-
-
+    LightChunk(void);
+    LightChunk(const LightChunk &source);
+    virtual ~LightChunk(void); 
+    
   private:
 
     //-----------------------------------------------------------------------
@@ -280,12 +182,15 @@ class OSG_STATE_DLLMAPPING LightChunk : public StateChunk
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef LightChunkBase Inherited;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend class FieldContainer;
-	
+    friend class FieldContainer;
+    friend class LightChunkBase;
+
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------
@@ -294,10 +199,7 @@ class OSG_STATE_DLLMAPPING LightChunk : public StateChunk
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
-
-	static FieldDescription   _desc[];
-	static FieldContainerType _type;
+    static char cvsid[];
 
 	// class. Used for indexing in State
 	static StateChunkClass _class;
@@ -306,42 +208,33 @@ class OSG_STATE_DLLMAPPING LightChunk : public StateChunk
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+    static void initMethod( void );
+
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-	
-	SFVec4f _diffuse;
-	SFVec4f _ambient;
-	SFVec4f _specular;
-	SFVec4f _position;
-	SFVec3f _direction;
-	SFReal32 _exponent;
-	SFReal32 _cutoff;
-	SFReal32 _constantAttenuation;
-	SFReal32 _linearAttenuation;
-	SFReal32 _quadraticAttenuation;
-	
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    LightChunk(void);
-    LightChunk(const LightChunk &source);    
-    virtual ~LightChunk(void); 
+    // prohibit default functions (move to 'public' if you need one)
 
-	LightChunk &operator =(const LightChunk &source);
+    // void operator =(const LightChunk &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
-// class pointer
 
+/** \brief class pointer
+ */
 typedef LightChunk *LightChunkP;
 
 OSG_END_NAMESPACE
 
-#include "OSGLightChunk.inl"
+#include <OSGLightChunk.inl>
+#include <OSGLightChunkBase.inl>
 
 #endif /* _OSGLIGHTCHUNK_H_ */

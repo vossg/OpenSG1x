@@ -60,6 +60,7 @@
 
 OSG_USING_NAMESPACE
 
+
 /***************************************************************************\
  *                            Description                                  *
 \***************************************************************************/
@@ -79,33 +80,17 @@ The transformation chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(TransformChunk, MatrixField)
-OSG_FC_LAST_FIELD_IDM_DEF (TransformChunk, MatrixField)
-
 char TransformChunk::cvsid[] = "@(#)$Id: $";
 
 StateChunkClass TransformChunk::_class(String("Transform"));
 
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-FieldDescription TransformChunk::_desc[] = 
-{
-        FieldDescription(
-        SFMatrix::getClassType(), 
-        "matrix", 
-        OSG_FC_FIELD_IDM_DESC(MatrixField),
-        false,
-        (FieldAccessMethod) &TransformChunk::getSFMatrix,
-        "")
-};
-
-FieldContainerType TransformChunk::_type(
-	"TransformChunk", 
-	"StateChunk", 
-	NULL,
-	(PrototypeCreateF) &TransformChunk::createEmpty,
-	NULL,
-	_desc, 
-	sizeof(_desc));
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -123,6 +108,14 @@ FieldContainerType TransformChunk::_type(
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
+/** \brief initialize the static features of the class, e.g. action callbacks
+ */
+
+void TransformChunk::initMethod (void)
+{
+
+}
+
 /***************************************************************************\
  *                           Instance methods                              *
 \***************************************************************************/
@@ -131,7 +124,6 @@ FieldContainerType TransformChunk::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(TransformChunk, TransformChunkPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -139,17 +131,17 @@ OSG_FIELD_CONTAINER_DEF(TransformChunk, TransformChunkPtr)
  */
 
 TransformChunk::TransformChunk(void) :
-	Inherited()
-{
-	_ownClass = _class.getID();
-}
-
-
-TransformChunk::TransformChunk( const TransformChunk& source ) :
-	Inherited(source), _matrix( source.getMatrix() )
+    Inherited()
 {
 }
 
+/** \brief Copy Constructor
+ */
+
+TransformChunk::TransformChunk(const TransformChunk &source) :
+    Inherited(source)
+{
+}
 
 /** \brief Destructor
  */
@@ -158,28 +150,23 @@ TransformChunk::~TransformChunk(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
 
-/*---------------------------- properties ---------------------------------*/
+/** \brief react to field changes
+ */
 
-SFMatrix *TransformChunk::getSFMatrix(void)
+void TransformChunk::changed(BitVector, ChangeMode)
 {
-	return &_matrix;
 }
 
-Matrix &TransformChunk::getMatrix(void)
-{
-	return _matrix.getValue();
-}
+/*------------------------------- dump ----------------------------------*/
 
-const Matrix &TransformChunk::getMatrix(void) const
-{
-	return _matrix.getValue();
-}
+/** \brief output the instance for debug purposes
+ */
 
-void TransformChunk::setMatrix( const Matrix & matrix )
+void TransformChunk::dump(      UInt32     uiIndent, 
+                         const BitVector &bvFlags) const
 {
-	_matrix.setValue( matrix );
+	SLOG << "Dump TransformChunk NI" << endl;
 }
 
 
@@ -206,17 +193,6 @@ void TransformChunk::changeFrom( DrawAction *,  StateChunk * old, UInt32 )
 void TransformChunk::deactivate ( DrawAction *,  UInt32 )
 {
 	glPopMatrix();
-}
-
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-void TransformChunk::dump(      UInt32     uiIndent, 
-                          const BitVector &bvFlags) const
-{
-	SLOG << "Dump TransformChunk NI" << endl;
 }
 
 /*-------------------------- comparison -----------------------------------*/
@@ -254,44 +230,13 @@ Bool TransformChunk::operator != (const StateChunk &other) const
 {
 	return ! (*this == other);
 }
-
+    
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

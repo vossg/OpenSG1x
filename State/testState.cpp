@@ -42,7 +42,7 @@ int main( int argc, char *argv[] )
 
 	StatePtr state = State::create();
 
-	state->print();
+	state->dump();
 
 	cerr << "TransformChunk present? " 
 		 << (state->chunkPresent( tchunk->getClassID() )?"Yes":"No") << endl;
@@ -51,7 +51,7 @@ int main( int argc, char *argv[] )
 
 	state->addChunk( tchunk );
 
-	state->print();
+	state->dump();
 
 	cerr << "TransformChunk present? " 
 		 << (state->chunkPresent( tchunk->getClassID() )?"Yes":"No") << endl;
@@ -64,11 +64,11 @@ int main( int argc, char *argv[] )
 
 	cerr << "Single add..." << endl;
 	state->addChunk( lchunks[0], -1 );
-	state->print();
+	state->dump();
 
 	cerr << "Specific set (index = 2)..." << endl;
 	state->addChunk( lchunks[1], 2 );
-	state->print();
+	state->dump();
 
 	cerr << "Multiple adds..." << endl;
 	state->addChunk( lchunks[2], -1 );
@@ -77,21 +77,21 @@ int main( int argc, char *argv[] )
 	state->addChunk( lchunks[5], -1 );
 	state->addChunk( lchunks[6], -1 );
 	state->addChunk( lchunks[7], -1 );
-	state->print();
+	state->dump();
 	
 	cerr << "This one shouldn't work..." << endl;
 	state->addChunk( lchunks[8], -1 );
-	state->print();
+	state->dump();
 	
 	cerr << "Now try to get rid of them..." << endl;
 	
 	cerr << "direct index (0)" << endl;
 	state->subChunk( lchunks[0], 0 );
-	state->print();
+	state->dump();
 
 	cerr << "automatic find (last)" << endl;	
 	state->subChunk( lchunks[7] );
-	state->print();
+	state->dump();
 	
 	cerr << "automatic find (rest)" << endl;	
 	state->subChunk( lchunks[1] );
@@ -101,7 +101,7 @@ int main( int argc, char *argv[] )
 	state->subChunk( lchunks[5] );
 	state->subChunk( lchunks[6] );
 	state->subChunk( tchunk );
-	state->print();
+	state->dump();
 
 	cerr << "should be empty now" << endl;	
 	

@@ -2,9 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
- *                                                                           *
- *                            www.opensg.org                                 *
+ *                         Copyright 2000 by OpenSG Forum                    *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -52,8 +50,6 @@
 #include <iostream.h>
 #endif
 
-#include "OSGStateChunk.h"
-
 OSG_BEGIN_NAMESPACE
 
 /***************************************************************************\
@@ -81,12 +77,9 @@ OSG_BEGIN_NAMESPACE
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-
 /***************************************************************************\
  *                           Instance methods                              *
 \***************************************************************************/
-
-OSG_FIELD_CONTAINER_INL_DEF(TextureChunk, TextureChunkPtr)
 
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
@@ -105,22 +98,11 @@ const StateChunkClass *  TextureChunk::getClass( void ) const
 
 /*------------------------------ access -----------------------------------*/
 
-OSG_SFIELD_ACCESS_FUNCTIONS_INL( TextureChunk, SFImageP, ImageP, Image )
-OSG_SFIELD_ACCESS_FUNCTIONS_INL( TextureChunk, SFUInt32, UInt32, MinFilter )
-OSG_SFIELD_ACCESS_FUNCTIONS_INL( TextureChunk, SFUInt32, UInt32, MagFilter )
-OSG_SFIELD_ACCESS_FUNCTIONS_INL( TextureChunk, SFUInt32, UInt32, WrapS )
-OSG_SFIELD_ACCESS_FUNCTIONS_INL( TextureChunk, SFUInt32, UInt32, WrapT )
-OSG_SFIELD_ACCESS_FUNCTIONS_INL( TextureChunk, SFUInt32, UInt32, WrapR )
-OSG_SFIELD_ACCESS_FUNCTIONS_INL( TextureChunk, SFUInt32, UInt32, EnvMode )
-OSG_SFIELD_ACCESS_FUNCTIONS_INL( TextureChunk, SFUInt32, UInt32, GenFuncS )
-OSG_SFIELD_ACCESS_FUNCTIONS_INL( TextureChunk, SFUInt32, UInt32, GenFuncT )
-OSG_SFIELD_ACCESS_FUNCTIONS_INL( TextureChunk, SFUInt32, UInt32, GenFuncR )
-OSG_SFIELD_ACCESS_FUNCTIONS_INL( TextureChunk, SFUInt32, UInt32, GenFuncQ )
-OSG_SFIELD_ACCESS_FUNCTIONS_INL( TextureChunk, SFPlane,  Plane,  GenFuncSPlane )
-OSG_SFIELD_ACCESS_FUNCTIONS_INL( TextureChunk, SFPlane,  Plane,  GenFuncTPlane )
-OSG_SFIELD_ACCESS_FUNCTIONS_INL( TextureChunk, SFPlane,  Plane,  GenFuncRPlane )
-OSG_SFIELD_ACCESS_FUNCTIONS_INL( TextureChunk, SFPlane,  Plane,  GenFuncQPlane )
-OSG_SFIELD_ACCESS_FUNCTIONS_INL( TextureChunk, SFUInt32, UInt32, GLId )
+/*------------------------------ access -----------------------------------*/
+
+/*------------------------------- size ----------------------------------*/
+
+/*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
@@ -133,32 +115,4 @@ OSG_SFIELD_ACCESS_FUNCTIONS_INL( TextureChunk, SFUInt32, UInt32, GLId )
 
 
 OSG_END_NAMESPACE
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

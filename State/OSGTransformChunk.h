@@ -36,6 +36,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+
 #ifndef _OSGTRANSFORMCHUNK_H_
 #define _OSGTRANSFORMCHUNK_H_
 #ifdef __sgi
@@ -46,12 +47,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <vector>
+#include <OSGConfig.h>
 
-#include "OSGFieldContainer.h"
-#include "OSGFieldContainerPtr.h"
-#include "OSGSFMathTypes.h"
-#include "OSGStateChunk.h"
+#include <OSGTransformChunkBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -59,37 +57,25 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class TransformChunk;
-
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
-
-typedef FCPtr<StateChunkPtr, TransformChunk> TransformChunkPtr;
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-/*! chunk for modelview transformations
+/*! \brief chunk for modelview transformations
  */
 
-class OSG_STATE_DLLMAPPING TransformChunk : public StateChunk
+class OSG_STATE_DLLMAPPING TransformChunk : public TransformChunkBase
 {
-  private:
-
-	typedef StateChunk Inherited;
-
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
     
-    OSG_FC_FIRST_FIELD_IDM_DECL(MatrixField)
-
-    OSG_FC_LAST_FIELD_IDM_DECL (MatrixField)
-
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -98,25 +84,32 @@ class OSG_STATE_DLLMAPPING TransformChunk : public StateChunk
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef TransformChunkPtr Ptr;
-
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "TransformChunk"; }
- 
+    static const char *getClassname(void) { return "TransformChunk"; };
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(TransformChunkPtr)
-
 	virtual const StateChunkClass *  getClass( void ) const;
 
-    /*----------------------------- dump ----------------------------------*/
+    /*--------------------------- access fields ----------------------------*/
+
+    /*----------------------------- access ----------------------------------*/
+
+    /*-------------------------- transformation ----------------------------*/
+
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
+ 
+    /*------------------------------ volume -------------------------------*/
+
+    /*------------------------------ dump -----------------------------------*/
 
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector &bvFlags  = 0) const;
@@ -133,16 +126,6 @@ class OSG_STATE_DLLMAPPING TransformChunk : public StateChunk
 	// reset my part of the state
 	virtual void deactivate ( DrawAction * action, UInt32 index = 0 );
 
-    /*----------------------------- access ----------------------------------*/
-
-        SFMatrix *getSFMatrix(void);
-
-          Matrix   &getMatrix(void);
-    const Matrix   &getMatrix(void) const;
-
-	void            setMatrix(const Matrix & matrix);
-
-    /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
 
@@ -180,12 +163,16 @@ class OSG_STATE_DLLMAPPING TransformChunk : public StateChunk
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
+    // They should all be in TransformChunkBase.
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-
-
+    TransformChunk(void);
+    TransformChunk(const TransformChunk &source);
+    virtual ~TransformChunk(void); 
+    
   private:
 
     //-----------------------------------------------------------------------
@@ -196,12 +183,15 @@ class OSG_STATE_DLLMAPPING TransformChunk : public StateChunk
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef TransformChunkBase Inherited;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend class FieldContainer;
-	
+    friend class FieldContainer;
+    friend class TransformChunkBase;
+
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------
@@ -210,10 +200,7 @@ class OSG_STATE_DLLMAPPING TransformChunk : public StateChunk
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
-
-	static FieldDescription   _desc[];
-	static FieldContainerType _type;
+    static char cvsid[];
 
 	// class. Used for indexing in State
 	static StateChunkClass _class;
@@ -222,35 +209,33 @@ class OSG_STATE_DLLMAPPING TransformChunk : public StateChunk
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+    static void initMethod( void );
+
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-	
-	SFMatrix _matrix;
-	
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
-    TransformChunk(void);
-    TransformChunk(const TransformChunk &source);    
-    virtual ~TransformChunk(void); 
-
-	TransformChunk & operator =(const TransformChunk &source);
+    void operator =(const TransformChunk &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
-// class pointer
 
+/** \brief class pointer
+ */
 typedef TransformChunk *TransformChunkP;
 
 OSG_END_NAMESPACE
 
-#include "OSGTransformChunk.inl"
+#include <OSGTransformChunk.inl>
+#include <OSGTransformChunkBase.inl>
 
 #endif /* _OSGTRANSFORMCHUNK_H_ */

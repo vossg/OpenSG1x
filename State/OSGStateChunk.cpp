@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -42,7 +53,6 @@
 #endif
 
 #define OSG_COMPILESTATE
-#define OSG_COMPILESTATECHUNKINST
 
 #include "OSGStateChunk.h"
 
@@ -70,21 +80,6 @@ The state chunk base class.
  *                               Types                                     *
 \***************************************************************************/
 
-OSG_BEGIN_NAMESPACE
-
-#if defined(__sgi)
-
-#pragma instantiate SField<StateChunkPtr>::_fieldType
-#pragma instantiate MField<StateChunkPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, StateChunkPtr, OSG_STATE_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, StateChunkPtr, OSG_STATE_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
 
 // StateChunkClass code
 
@@ -125,7 +120,7 @@ UInt32 StateChunkClass::getID( void ) const
 	return _classId;
 }
 
-UInt32 StateChunkClass::getNumSlots( void ) const
+Int32 StateChunkClass::getNumSlots( void ) const
 {
 	return (*_numslots)[_classId];
 }
@@ -137,7 +132,7 @@ const String StateChunkClass::getName( void ) const
 
 // static access
 
-UInt32 StateChunkClass::getNumSlots( UInt32 index ) 
+Int32 StateChunkClass::getNumSlots( UInt32 index ) 
 {
 	if ( index >= (*_numslots).size() )
 		return -1;
@@ -160,10 +155,15 @@ const String StateChunkClass::getName( UInt32 index )
 
 char StateChunk::cvsid[] = "@(#)$Id: $";
 
-FieldContainerType StateChunk::_type("StateChunk", 
-                                     "FieldContainer");
+OSG_STATE_DLLMAPPING StateChunkPtr osg::NullStateChunk;
 
-OSG_STATE_DLLMAPPING StateChunkPtr OSG::NullStateChunk;
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -181,6 +181,13 @@ OSG_STATE_DLLMAPPING StateChunkPtr OSG::NullStateChunk;
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
+/** \brief initialize the static features of the class, e.g. action callbacks
+ */
+
+void StateChunk::initMethod (void)
+{
+}
+
 /***************************************************************************\
  *                           Instance methods                              *
 \***************************************************************************/
@@ -189,7 +196,6 @@ OSG_STATE_DLLMAPPING StateChunkPtr OSG::NullStateChunk;
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_ABSTR_FIELD_CONTAINER_DEF(StateChunk, StateChunkPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -197,13 +203,15 @@ OSG_ABSTR_FIELD_CONTAINER_DEF(StateChunk, StateChunkPtr)
  */
 
 StateChunk::StateChunk(void) :
-	Inherited(), _ownClass()
+    Inherited()
 {
 }
 
+/** \brief Copy Constructor
+ */
 
-StateChunk::StateChunk( const StateChunk & source ) :
-	Inherited(source), _ownClass(source._ownClass)
+StateChunk::StateChunk(const StateChunk &source) :
+    Inherited(source)
 {
 }
 
@@ -214,7 +222,25 @@ StateChunk::~StateChunk(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
+
+/** \brief react to field changes
+ */
+
+void StateChunk::changed(BitVector, ChangeMode)
+{
+}
+
+/*------------------------------- dump ----------------------------------*/
+
+/** \brief output the instance for debug purposes
+ */
+
+void StateChunk::dump(      UInt32     uiIndent, 
+                         const BitVector &bvFlags) const
+{
+	SLOG << "Dump StateChunk NI" << endl;
+}
+
 
 /*---------------------------- properties ---------------------------------*/
 
@@ -237,18 +263,7 @@ void StateChunk::deactivate ( DrawAction * action, UInt32 index )
 {
 }
 
-/*-------------------------- assignment -----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-void StateChunk::dump(      UInt32     uiIndent, 
-                      const BitVector &bvFlags) const
-{  
-	SLOG << "Dump StateChunk NI" << endl;
-}
-
 /*-------------------------- comparison -----------------------------------*/
-
 
 Real32 StateChunk::switchCost( StateChunk * chunk )
 {
@@ -279,41 +294,13 @@ Bool StateChunk::operator != (const StateChunk &other) const
 	return ! (*this == other);
 }
 
+    
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

@@ -10,12 +10,16 @@
 #include "OSGTransformChunk.h"
 #include "OSGMaterialChunk.h"
 #include "OSGTextureChunk.h"
+#include "OSGBlendChunk.h"
+#include "OSGPolygonChunk.h"
 
 OSG_USING_NAMESPACE
 
 TransformChunkPtr tchunk1, tchunk2;
 MaterialChunkPtr mchunk1, mchunk2;
 TextureChunkPtr xchunk1;
+BlendChunkPtr blchunk;
+PolygonChunkPtr pchunk;
 
 GLint dlid, dlid2;
 
@@ -28,6 +32,8 @@ display(void)
 {
 	float t = glutGet( GLUT_ELAPSED_TIME );
 
+	win->frameInit();
+
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 	Matrix m;
@@ -38,6 +44,7 @@ display(void)
 
 	tchunk1->activate( dact );
 	mchunk1->activate( dact );
+	pchunk->activate( dact );
 
 	glCallList( dlid );
 
@@ -45,19 +52,25 @@ display(void)
 	m.setTranslate( cos(t/1000), 0, sin(t/1000) );
 	tchunk2->setMatrix( m );
 
+
+	pchunk->deactivate( dact );
 	tchunk2->changeFrom( dact, tchunk1.getCPtr() );
 	mchunk2->changeFrom( dact, mchunk1.getCPtr() );
+	blchunk->activate( dact );
 
 	glCallList( dlid );
 
 	tchunk2->deactivate( dact );
 	mchunk2->deactivate( dact );
+	blchunk->deactivate( dact );
 
 	xchunk1->activate( dact );
 
 	glCallList( dlid2 );
 
 	xchunk1->deactivate( dact );
+
+	win->frameExit();
 
 	glutSwapBuffers();
 }
@@ -150,6 +163,33 @@ int main( int argc, char *argv[] )
 	xchunk1->setWrapT( GL_REPEAT );
 	xchunk1->setEnvMode( GL_REPLACE );
 
+	// blend chunk
+
+	blchunk = BlendChunk::create();
+	blchunk->setSrcFactor( GL_CONSTANT_ALPHA );
+	blchunk->setDestFactor( GL_ONE_MINUS_CONSTANT_ALPHA );
+	blchunk->setColor( Color4f( 1,1,1,0.1 ) );
+
+	// polygon chunk
+
+	pchunk = PolygonChunk::create();
+	{
+	UInt32 stipple[32] = { 
+		0xffff0000, 0x0000ffff, 0xffff0000, 0x0000ffff, 
+		0xffff0000, 0x0000ffff, 0xffff0000, 0x0000ffff, 
+		0xffff0000, 0x0000ffff, 0xffff0000, 0x0000ffff, 
+		0xffff0000, 0x0000ffff, 0xffff0000, 0x0000ffff, 
+		0xffff0000, 0x0000ffff, 0xffff0000, 0x0000ffff, 
+		0xffff0000, 0x0000ffff, 0xffff0000, 0x0000ffff, 
+		0xffff0000, 0x0000ffff, 0xffff0000, 0x0000ffff, 
+		0xffff0000, 0x0000ffff, 0xffff0000, 0x0000ffff
+		};
+	
+	pchunk->getMFStipple()->clear();
+	for ( int i = 0; i < 32; i++ )
+		pchunk->getMFStipple()->push_back( stipple[i] );
+	}
+	
 	// create the dummy structures
 	
 	// the window is needed for the chunks that access GLObjects

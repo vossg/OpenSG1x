@@ -36,6 +36,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+
 #ifndef _OSGMATERIALCHUNK_H_
 #define _OSGMATERIALCHUNK_H_
 #ifdef __sgi
@@ -46,15 +47,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <vector>
+#include <OSGConfig.h>
 
-#include "OSGFieldContainer.h"
-#include "OSGFieldContainerPtr.h"
-#include "OSGSFMathTypes.h"
-#include "OSGSFVecTypes.h"
-#include "OSGSFSysTypes.h"
-#include "OSGSFBaseTypes.h"
-#include "OSGStateChunk.h"
+#include <OSGMaterialChunkBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -62,43 +57,25 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSG_STATE_DLLMAPPING MaterialChunk;
-
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
-
-typedef FCPtr<StateChunkPtr, MaterialChunk> MaterialChunkPtr;
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-
-/*! chunk for glMaterial() attributes
+/*! \brief chunk for glMaterial() attributes 
  */
 
-class MaterialChunk : public StateChunk
+class OSG_STATE_DLLMAPPING MaterialChunk : public MaterialChunkBase
 {
-  private:
-
-	typedef StateChunk Inherited;
-
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
-
-    OSG_FC_FIRST_FIELD_IDM_DECL(DiffuseField                 )
-
-    OSG_FC_FIELD_IDM_DECL      (AmbientField,   DiffuseField )  
-    OSG_FC_FIELD_IDM_DECL      (SpecularField,  AmbientField )  
-    OSG_FC_FIELD_IDM_DECL      (EmissionField,  SpecularField)  
-    OSG_FC_FIELD_IDM_DECL      (ShininessField, EmissionField)   
-
-    OSG_FC_LAST_FIELD_IDM_DECL(ShininessField                )
-
+    
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -107,29 +84,36 @@ class MaterialChunk : public StateChunk
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef MaterialChunkPtr Ptr;
-
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "MaterialChunk"; }
- 
+    static const char *getClassname(void) { return "MaterialChunk"; };
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(MaterialChunkPtr)
-
 	virtual const StateChunkClass *  getClass( void ) const;
 
-    /*----------------------------- dump ----------------------------------*/
+    /*--------------------------- access fields ----------------------------*/
+
+    /*----------------------------- access ----------------------------------*/
+
+    /*-------------------------- transformation ----------------------------*/
+
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
+ 
+    /*------------------------------ volume -------------------------------*/
+
+    /*------------------------------ dump -----------------------------------*/
 
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector &bvFlags  = 0) const;
- 
+
     /*------------------------- your_category -------------------------------*/
 
 	// call the OpenGL commands to set my part of the state 
@@ -141,45 +125,6 @@ class MaterialChunk : public StateChunk
 
 	// reset my part of the state
 	virtual void deactivate ( DrawAction * action, UInt32 index = 0 );
-
-    /*----------------------------- access ----------------------------------*/
-
-	// Diffuse Color
-	
-        SFColor4f   *getSFDiffuse( void );
-          Color4f   &getDiffuse  ( void );
-    const Color4f   &getDiffuse  ( void ) const;
-	void             setDiffuse  ( const Color4f & color );
-
-	// Ambient Color
-	
-        SFColor4f   *getSFAmbient( void );
-          Color4f   &getAmbient  ( void );
-    const Color4f   &getAmbient  ( void ) const;
-	void             setAmbient  ( const Color4f & color );
-
-	// Specular Color
-	
-        SFColor4f   *getSFSpecular( void );
-          Color4f   &getSpecular  ( void );
-    const Color4f   &getSpecular  ( void ) const;
-	void             setSpecular  ( const Color4f & color );
-
-	// Emission Color
-	
-        SFColor4f   *getSFEmission( void );
-          Color4f   &getEmission  ( void );
-    const Color4f   &getEmission  ( void ) const;
-	void             setEmission  ( const Color4f & color );
-
-	// Shininess
-	
-        SFReal32   *getSFShininess( void );
-          Real32    getShininess  ( void );
-          Real32    getShininess  ( void ) const;
-	void            setShininess  ( const Real32 shininess );
-
-    /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
 
@@ -217,12 +162,16 @@ class MaterialChunk : public StateChunk
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
+    // They should all be in MaterialChunkBase.
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-
-
+    MaterialChunk(void);
+    MaterialChunk(const MaterialChunk &source);
+    virtual ~MaterialChunk(void); 
+    
   private:
 
     //-----------------------------------------------------------------------
@@ -233,12 +182,15 @@ class MaterialChunk : public StateChunk
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef MaterialChunkBase Inherited;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend class FieldContainer;
-	
+    friend class FieldContainer;
+    friend class MaterialChunkBase;
+
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------
@@ -247,10 +199,7 @@ class MaterialChunk : public StateChunk
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
-
-	static FieldDescription   _desc[];
-	static FieldContainerType _type;
+    static char cvsid[];
 
 	// class. Used for indexing in State
 	static StateChunkClass _class;
@@ -259,39 +208,33 @@ class MaterialChunk : public StateChunk
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+    static void initMethod( void );
+
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-	
-	SFColor4f _diffuse;
-	SFColor4f _ambient;
-	SFColor4f _specular;
-	SFColor4f _emission;
-	SFReal32  _shininess;
-	
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
-    MaterialChunk(void);
-    MaterialChunk(const MaterialChunk &source);    
-    virtual ~MaterialChunk(void); 
-
-	MaterialChunk & operator =(const MaterialChunk &source);
+    // void operator =(const MaterialChunk &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
-// class pointer
 
+/** \brief class pointer
+ */
 typedef MaterialChunk *MaterialChunkP;
 
 OSG_END_NAMESPACE
 
-#include "OSGMaterialChunk.inl"
+#include <OSGMaterialChunk.inl>
+#include <OSGMaterialChunkBase.inl>
 
 #endif /* _OSGMATERIALCHUNK_H_ */

@@ -1,0 +1,115 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="PolygonChunk"
+	parent="StateChunk"
+	library="State"
+	structure="concrete"
+	pointerfieldtypes="none"
+>
+The polygon chunk contains the parameter that is specific set for filled surfaces, 
+i.e. polygons.
+	<Field
+		name="cullFace"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_FALSE"
+		defaultHeader="<GL/gl.h>"
+	>
+	Defines which side of the polygon is invisible.
+	</Field>
+	<Field
+		name="frontFace"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_CCW"
+		defaultHeader="<GL/gl.h>"
+	>
+	Defines which side of the polygon is considered the front side.
+	</Field>
+	<Field
+		name="modeFace"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_FRONT"
+		defaultHeader="<GL/gl.h>"
+	>
+	</Field>
+	<Field
+		name="mode"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_FILL"
+		defaultHeader="<GL/gl.h>"
+	>
+	Defines if polygons are rendered filled, outlined or as points.
+	</Field>
+	<Field
+		name="smooth"
+		type="Bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_TRUE"
+		defaultHeader="<GL/gl.h>"
+	>
+	Defines if gouraud or flat shading is used.
+	</Field>
+	<Field
+		name="offsetFactor"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+	>
+	Defines the polygon offset factor.
+	</Field>
+	<Field
+		name="offsetBias"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+	>
+	Defines the polygon offset bias.
+	</Field>
+	<Field
+		name="offsetPoint"
+		type="Bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_FALSE"
+		defaultHeader="<GL/gl.h>"
+	>
+	</Field>
+	<Field
+		name="offsetLine"
+		type="Bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_FALSE"
+		defaultHeader="<GL/gl.h>"
+	>
+	</Field>
+	<Field
+		name="offsetFill"
+		type="Bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_FALSE"
+		defaultHeader="<GL/gl.h>"
+	>
+	</Field>
+	<Field
+		name="stipple"
+		type="Int32"
+		cardinality="multi"
+		visibility="external"
+		defaultValue=""
+	>
+	Defines the stipple pattern. Is only valid and used if it contains 32 elements.
+	</Field>
+</FieldContainer>

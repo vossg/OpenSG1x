@@ -36,6 +36,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+
 #ifndef _OSGSTATE_H_
 #define _OSGSTATE_H_
 #ifdef __sgi
@@ -46,11 +47,11 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <vector>
+#include <OSGConfig.h>
 
-#include "OSGFieldDescription.h"
-#include "OSGFieldContainer.h"
-#include "OSGStateChunk.h"
+#include <OSGStateBase.h>
+
+#include <OSGStateChunk.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -58,39 +59,28 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class State;
 class DrawAction;
 
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
 
-typedef FCPtr<FieldContainerPtr, State> StatePtr;
-
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup StateLib
- *  \brief State base class
+/*! \brief State base class
+ *  \ingroup StateLib
  */
 
-class OSG_STATE_DLLMAPPING State : public FieldContainer
+class OSG_STATE_DLLMAPPING State : public StateBase
 {
-  private:
-
-	typedef FieldContainer Inherited;
-
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
-
-    OSG_FC_FIRST_FIELD_IDM_DECL(ChunksField)
-	
-    OSG_FC_LAST_FIELD_IDM_DECL (ChunksField)
-
+    
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -99,27 +89,34 @@ class OSG_STATE_DLLMAPPING State : public FieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef StateChunkPtr Ptr;
-
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "State"; }
- 
+    static const char *getClassname(void) { return "State"; };
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(StatePtr)
+    /*--------------------------- access fields ----------------------------*/
 
-    /*----------------------------- dump ----------------------------------*/
+    /*----------------------------- access ----------------------------------*/
+
+    /*-------------------------- transformation ----------------------------*/
+
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
+ 
+    /*------------------------------ volume -------------------------------*/
+
+    /*------------------------------ dump -----------------------------------*/
 
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector &bvFlags  = 0) const;
- 
+
     /*------------------------- your_category -------------------------------*/
 
 	// call the OpenGL commands to set my part of the state.
@@ -153,8 +150,6 @@ class OSG_STATE_DLLMAPPING State : public FieldContainer
 	// remove the chunk of the given class from the state
 	void subChunk( UInt32 classid, Int32 index = -1 );
 	
-    /*------------------------- assignment ----------------------------------*/
-
     /*------------------------- comparison ----------------------------------*/
 
 	// estimate the cost to switch to the state 
@@ -168,10 +163,6 @@ class OSG_STATE_DLLMAPPING State : public FieldContainer
 	virtual Bool operator == (const State &other) const;
 	virtual Bool operator != (const State &other) const;
 
-    /*------------------------- debug ----------------------------------*/
-
-	void print( void );
-	
   protected:
 
     //-----------------------------------------------------------------------
@@ -194,14 +185,16 @@ class OSG_STATE_DLLMAPPING State : public FieldContainer
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-	MFStateChunkPtr _chunks;
-	
+    // They should all be in StateBase.
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	MFStateChunkPtr *getMFChunks( void );
-
+    State(void);
+    State(const State &source);
+    virtual ~State(void); 
+    
   private:
 
     //-----------------------------------------------------------------------
@@ -212,12 +205,15 @@ class OSG_STATE_DLLMAPPING State : public FieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef StateBase Inherited;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend class FieldContainer;
-	
+    friend class FieldContainer;
+    friend class StateBase;
+
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------
@@ -226,42 +222,39 @@ class OSG_STATE_DLLMAPPING State : public FieldContainer
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
-
-	static FieldDescription   _desc[];
-	static FieldContainerType _type;
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+    static void initMethod( void );
+
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-	
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
-    State(void);
-    virtual ~State(void); 
-
-    State(const State &source);    
-	State & operator =(const State &source);
+    void operator =(const State &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
-// class pointer
 
+/** \brief class pointer
+ */
 typedef State *StateP;
 
 OSG_END_NAMESPACE
 
-#include "OSGState.inl"
+#include <OSGState.inl>
+#include <OSGStateBase.inl>
 
 #endif /* _OSGSTATE_H_ */

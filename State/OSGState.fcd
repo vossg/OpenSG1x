@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="State"
+	parent="FieldContainer"
+	library="State"
+	structure="concrete"
+	pointerfieldtypes="none"
+>
+	<Field
+		name="chunks"
+		type="StateChunkPtr"
+		cardinality="multi"
+		visibility="external"
+	>
+	</Field>
+</FieldContainer>

@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="StateChunk"
+	parent="FieldContainer"
+	library="State"
+	structure="abstract"
+	pointerfieldtypes="both"
+>
+</FieldContainer>

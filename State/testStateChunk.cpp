@@ -99,9 +99,9 @@ int main( int argc, char *argv[] )
 		 << lchunk->getClassID() << ", numslots " << lchunk->getClass()->getNumSlots() 
 		 << endl;
 
-	testVec4fField( "LightChunk: diffuse", lchunk->setDiffuse, lchunk->getDiffuse );
-	testVec4fField( "LightChunk: ambient", lchunk->setAmbient, lchunk->getAmbient );
-	testVec4fField( "LightChunk: specular", lchunk->setSpecular, lchunk->getSpecular );
+	testColor4fField( "LightChunk: diffuse", lchunk->setDiffuse, lchunk->getDiffuse );
+	testColor4fField( "LightChunk: ambient", lchunk->setAmbient, lchunk->getAmbient );
+	testColor4fField( "LightChunk: specular", lchunk->setSpecular, lchunk->getSpecular );
 	testVec4fField( "LightChunk: position", lchunk->setPosition, lchunk->getPosition );
 	testVec3fField( "LightChunk: direction", lchunk->setDirection, lchunk->getDirection );
 	testRealField( "LightChunk: exponent", lchunk->setExponent, lchunk->getExponent);
