@@ -4,6 +4,7 @@
 #ifndef WIN32
 
 #include <OSGConfig.h>
+#include <OSGBaseTypes.h>
 
 #ifdef OSG_WITH_FREETYPE1
 
@@ -48,15 +49,15 @@ public:
   virtual bool set_ttInstance (TT_Instance *ttInstance, TT_Face *ttFace);
 
   /** return specified (ASCII-) Glyph */
-  virtual VectorFontGlyph * getVectorGlyph (int which);
+  virtual VectorFontGlyph * getVectorGlyph (Int32 which);
 
-  virtual ImageFontGlyph * getImageGlyph (int which);
+  virtual ImageFontGlyph * getImageGlyph (Int32 which);
 
-  virtual bool createTXFMap(char *characters=NULL, int gap=1);
+  virtual bool createTXFMap(UChar8 *characters=NULL, Int32 gap=1);
 
   virtual unsigned char *getTXFImageMap (void);
 
-  virtual TXFGlyphInfo *getTXFGlyphInfo (int ascii);
+  virtual TXFGlyphInfo *getTXFGlyphInfo (Int32 ascii);
 
   virtual bool dump(ostream & out);
 

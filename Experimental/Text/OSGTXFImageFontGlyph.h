@@ -4,6 +4,7 @@
 #ifndef WIN32
 
 #include <OSGConfig.h>
+#include <OSGBaseTypes.h>
 
 #include "OSGImageFontGlyph.h"
 #include "OSGTXFFontGlyph.h"
@@ -18,10 +19,10 @@ class TXFImageFontGlyph : public ImageFontGlyph, public virtual TXFFontGlyph {
 
 private:
 
-  unsigned char *_srcImage;
-  int _srcWidth, _srcHeight;
+  UChar8 *_srcImage;
+  Int32 _srcWidth, _srcHeight;
 
-  int _xOff, _yOff;
+  Int32 _xOff, _yOff;
 
 protected:
 
@@ -34,17 +35,17 @@ public:
   TXFImageFontGlyph (const TXFImageFontGlyph &obj);
 
   /** Constructor */
-  TXFImageFontGlyph (IGlyphType type, int ascii, int unicode);
+  TXFImageFontGlyph (IGlyphType type, Int32 ascii, Int32 unicode);
 
   /** Destructor */
   virtual ~TXFImageFontGlyph (void);
 
   /** Constructor */
-  void setup(IGlyphType type, int ascii, int unicode);
+  void setup(IGlyphType type, Int32 ascii, Int32 unicode);
 
-  void setFontDefs(short x, short y, char *dimensions);
+  void setFontDefs(short x, short y, Int8 *dimensions);
 
-  void setFontSource(unsigned char *srcImage, int width, int height);
+  void setFontSource(UChar8 *srcImage, Int32 width, Int32 height);
 
   /** creates desired representation */
   virtual bool create (void);

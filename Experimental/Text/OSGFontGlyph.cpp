@@ -32,7 +32,7 @@ FontGlyph::FontGlyph (const FontGlyph &obj )
 }
 */
 
-FontGlyph::FontGlyph (int ascii, int unicode)
+FontGlyph::FontGlyph (Int32 ascii, Int32 unicode)
 : _valid(true), _asciiCode(ascii), _uniCode(unicode)
 {
 	return;

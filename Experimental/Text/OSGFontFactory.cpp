@@ -45,7 +45,7 @@ FontFactory::~FontFactory (void )
 	return;
 }
 
-Font * FontFactory::queryFont (PathHandler & paths, const char *fontName )
+Font * FontFactory::queryFont (PathHandler & paths, const Char8 *fontName )
 {
     list<Font *>::iterator fIter;
     string fontFile;

@@ -4,6 +4,7 @@
 #ifndef WIN32
 
 #include <OSGConfig.h>
+#include <OSGBaseTypes.h>
 
 #ifdef OSG_WITH_FREETYPE1
 
@@ -39,7 +40,7 @@ public:
   TTFont (const TTFont &obj);
 
   /** Constructor */
-  TTFont (const char *name, string path);
+  TTFont (const Char8 *name, string path);
 
   /** Destructor */
   virtual ~TTFont (void);

@@ -39,7 +39,7 @@ TTFontGlyph::TTFontGlyph (const TTFontGlyph &OSG_CHECK_ARG(obj) )
 	assert(false);
 }
 
-TTFontGlyph::TTFontGlyph (int ascii, int unicode)
+TTFontGlyph::TTFontGlyph (Int32 ascii, Int32 unicode)
 : FontGlyph(ascii, unicode)
 {
 	return;
@@ -51,7 +51,7 @@ TTFontGlyph::~TTFontGlyph (void )
 	return;
 }
 
-void TTFontGlyph::setupGlyph (int ascii, int unicode)
+void TTFontGlyph::setupGlyph (Int32 ascii, Int32 unicode)
 {
     setAsciiCode(ascii);
     setUniCode(unicode);
@@ -118,7 +118,7 @@ bool TTFontGlyph::setSizes (float *_boundingBox, float & _advance)
 
 
 
-bool TTFontGlyph::setSizes (int *_boundingBox, int & _advance)
+bool TTFontGlyph::setSizes (Int32 *_boundingBox, Int32 & _advance)
 {
     TT_Get_Glyph_Metrics(_ttGlyph, &_ttGlyphMetrics );
     TT_BBox& bbox= _ttGlyphMetrics.bbox;
@@ -139,7 +139,7 @@ bool TTFontGlyph::setSizes (int *_boundingBox, int & _advance)
 }
 
 
-bool TTFontGlyph::renderGlyph (TT_Raster_Map map, int xOff, int yOff)
+bool TTFontGlyph::renderGlyph (TT_Raster_Map map, Int32 xOff, Int32 yOff)
 {
     _ttError= TT_Get_Glyph_Pixmap(_ttGlyph, &map, xOff*64, yOff*64);
 

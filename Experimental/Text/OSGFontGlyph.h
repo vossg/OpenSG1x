@@ -4,6 +4,7 @@
 #ifndef WIN32
 
 #include <OSGConfig.h>
+#include <OSGBaseTypes.h>
 
 
 
@@ -19,14 +20,14 @@ private:
   bool _valid;
 
   /** the ASCII-Code this Glyph Represents */
-  int _asciiCode;
+  Int32 _asciiCode;
 
   /** The UniCode this Glyph represents */
-  int _uniCode;
+  Int32 _uniCode;
 
 protected:
 
-  float _size;
+  Real32 _size;
 
 public:
 
@@ -37,7 +38,7 @@ public:
   FontGlyph (const FontGlyph &obj);
 
   /** Constructor */
-  FontGlyph (int ascii, int unicode);
+  FontGlyph (Int32 ascii, Int32 unicode);
 
   /** Destructor */
   virtual ~FontGlyph (void);
@@ -57,27 +58,27 @@ public:
      { _valid = false; }
 
   /** get method for attribute asciiCode */
-  virtual inline int getAsciiCode (void)
+  virtual inline Int32 getAsciiCode (void)
      { return _asciiCode; }
 
 
   /** set method for attribute asciiCode */
-  virtual void setAsciiCode (int asciiCode)
+  virtual void setAsciiCode (Int32 asciiCode)
      { _asciiCode = asciiCode; }
 
   /** get method for attribute uniCode */
-  virtual inline int getUniCode (void)
+  virtual inline Int32 getUniCode (void)
      { return _uniCode; }
 
   /** set method for attribute uniCode */
-  virtual void setUniCode (int uniCode)
+  virtual void setUniCode (Int32 uniCode)
      { _uniCode = uniCode; }
 
 
-  virtual void setSize (float size)
+  virtual void setSize (Real32 size)
      { _size = size; }
 
-  virtual inline float getSize (void)
+  virtual inline Real32 getSize (void)
      { return _size; }
 
 };

@@ -4,9 +4,9 @@
 #ifndef WIN32
 
 #include <OSGConfig.h>
+#include <OSGBaseTypes.h>
+
 #include <string>
-
-
 #include <list>
 
 
@@ -29,7 +29,7 @@ protected:
   string _fontPath;
 
   /** Name of Font */
-  const char * _fontName;
+  const Char8 * _fontName;
 
   bool _valid;
 
@@ -44,16 +44,16 @@ public:
   Font (const Font &obj);
 
   /** Constructor */
-  Font (const char *name);
+  Font (const Char8 *name);
 
   /** Constructor */
-  Font (const char *name, string path);
+  Font (const Char8 *name, string path);
 
   /** Destructor */
   virtual ~Font (void);
 
   /**  **/
-  virtual inline const char *getName(void) {return _fontName;}
+  virtual inline const Char8 *getName(void) {return _fontName;}
 
   /** loading and storing of font-contents */
   virtual bool initFont (void) = 0;
@@ -62,7 +62,7 @@ public:
   virtual bool createInstance (Text *fontStyle) = 0;
 
   /** creates FontStyle */
-  virtual FontStyle *createInstance (float size) = 0;
+  virtual FontStyle *createInstance (Real32 size) = 0;
 
 };
 

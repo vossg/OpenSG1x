@@ -4,6 +4,7 @@
 #ifndef WIN32
 
 #include <OSGConfig.h>
+#include <OSGBaseTypes.h>
 
 
 
@@ -18,17 +19,17 @@ protected:
 
   //  texture coordinates  (ccw)
 
-  float _tCoords[4][2];
+  Real32 _tCoords[4][2];
   
   //  vertex coordinates  (ccw)
   
-  float _vCoords[4][2];
+  Real32 _vCoords[4][2];
 
-  float _advance;
+  Real32 _advance;
 
-  char *_dimensions;
+  Int8 *_dimensions;
 
-  int _remapped;
+  UInt8 _remapped;
 
 public:
 
@@ -38,25 +39,25 @@ public:
   /** Destructor */
   virtual ~TXFGlyphInfo (void) {;}
 
-  void remap(int dest) { _remapped = dest;}
+  void remap(UInt8 dest) { _remapped = dest;}
 
-  int remapped(void) { return _remapped;}
+  UInt8 remapped(void) { return _remapped;}
 
-  virtual bool setTextureCoords(int corner, float x, float y);
+  virtual bool setTextureCoords(Int8 corner, Real32 x, Real32 y);
 
-  virtual bool setVertexCoords(int corner, float x, float y);
+  virtual bool setVertexCoords(Int8 corner, Real32 x, Real32 y);
 
-  virtual float *getTextureCoords(int corner);
+  virtual Real32 *getTextureCoords(Int8 corner);
 	  
-  virtual float *getVertexCoords(int corner);
+  virtual Real32 *getVertexCoords(Int8 corner);
 
-  virtual void setAdvance(float advance) {_advance = advance;}
+  virtual void setAdvance(Real32 advance) {_advance = advance;}
 
-  virtual float getAdvance(void) {return _advance;}
+  virtual Real32 getAdvance(void) {return _advance;}
 
-  virtual void setDimensions(char *dims) {_dimensions = dims;}
+  virtual void setDimensions(Int8 *dims) {_dimensions = dims;}
 
-  virtual char *getDimensions(void) { return _dimensions;}
+  virtual Int8 *getDimensions(void) { return _dimensions;}
 
 };
 

@@ -29,7 +29,7 @@ OSG_USING_NAMESPACE
 
 // Static Class Variable implementations: 
 
-double TTVectorFontGlyph::_ttScale =  1.f / 64;
+Real64 TTVectorFontGlyph::_ttScale =  1.f / 64;
 
 TTVectorFontGlyph::TTVectorFontGlyph (void )
  : VectorFontGlyph(), TTFontGlyph(), _ttScaleToVRML(1.f)
@@ -43,7 +43,7 @@ TTVectorFontGlyph::TTVectorFontGlyph (const TTVectorFontGlyph
 	assert(false);
 }
 
-TTVectorFontGlyph::TTVectorFontGlyph (VGlyphType type, int ascii, int unicode)
+TTVectorFontGlyph::TTVectorFontGlyph (VGlyphType type, Int32 ascii, Int32 unicode)
 : VectorFontGlyph(type),  TTFontGlyph(ascii, unicode)
 {
 	return;
@@ -55,24 +55,24 @@ TTVectorFontGlyph::~TTVectorFontGlyph (void )
 	return;
 }
 
-void TTVectorFontGlyph::setup (VGlyphType type, int ascii, int unicode)
+void TTVectorFontGlyph::setup (VGlyphType type, Int32 ascii, Int32 unicode)
 {
     setupGlyph(ascii, unicode);
     setType(type);
 }
 
 
-float endSeg[2], s1[2], s2[2];
-int TTVectorFontGlyph::processArc(FontGlyphContour* glyphContour, 
-				 TT_Outline outline, int start, int contour,
-				 float ** normalStack, int & numOnStack,
-				 int & counter, int step, bool dryRun)
+Real32 endSeg[2], s1[2], s2[2];
+Int32 TTVectorFontGlyph::processArc(FontGlyphContour* glyphContour, 
+				 TT_Outline outline, Int32 start, Int32 contour,
+				 Real32 ** normalStack, Int32 & numOnStack,
+				 Int32 & counter, Int32 step, bool dryRun)
 {
-    int numOffPoints = 1, s, f, result=0, steps, end, 
+    Int32 numOffPoints = 1, s, f, result=0, steps, end, 
 	step2=2*step;
-    float a, *point=0, *last, *normal=0;
-    double dt;
-    double tt, t1, t2, t3, x, y, t;
+    Real32 a, *point=0, *last, *normal=0;
+    Real64 dt;
+    Real64 tt, t1, t2, t3, x, y, t;
     bool doFirst=false;
 
     if(step > 0) {
@@ -181,10 +181,10 @@ int TTVectorFontGlyph::processArc(FontGlyphContour* glyphContour,
 		     min(min(s1[0], s2[0]), endSeg[0])),
 		fabs(max(max(s1[1], s2[1]), endSeg[1]) -
 		     min(min(s1[1], s2[1]),endSeg[1])))/_precision;
-	steps = (int)ceil(a);
+	steps = (Int32)ceil(a);
 	result += steps;
 
-	dt= 1. / (float)steps ;
+	dt= 1. / (Real32)steps ;
 	t= dt;
 	if(!dryRun) {
 	    if(steps==1 && numOnStack==2) {
@@ -196,7 +196,7 @@ int TTVectorFontGlyph::processArc(FontGlyphContour* glyphContour,
 		calcNormal(normalStack, numOnStack, normal);
 		glyphContour->addPoint(point, normal);
 	    }
-	    for(register int j= 1; j < steps; ++j, t+= dt ) {
+	    for(register Int32 j= 1; j < steps; ++j, t+= dt ) {
 		tt= 1. - t; t1= tt * tt;
 		t2= 2. * t * tt; t3= t * t;
 		x= t1 * (s1[0]) + t2 * (s2[0]) + t3 * (endSeg[0]);
@@ -246,8 +246,8 @@ bool TTVectorFontGlyph::create (void )
 {
     FontGlyphContour *glyphContour=0;
     TT_Outline ttOutline;
-    int i = 0, j, k, numOnStack=0, numPoints=0, step;
-    float *point=0, *last, *first=0,  firstX, firstY, *normal=0, **normalStack,
+    Int32 i = 0, j, k, numOnStack=0, numPoints=0, step;
+    Real32 *point=0, *last, *first=0,  firstX, firstY, *normal=0, **normalStack,
 	length, lastN[3];
     bool retVal, dontAddFirst=false;
     vector<FontGlyphContour *>::iterator gIter;
@@ -258,7 +258,7 @@ bool TTVectorFontGlyph::create (void )
 
     if(!getOutline(ttOutline)) return false;
 
-    normalStack = new float *[3];
+    normalStack = new Real32 *[3];
 
     i=j=0;
     while(j < ttOutline.n_contours) {
@@ -523,7 +523,7 @@ bool TTVectorFontGlyph::create (void )
 
     glyphDone();
 
-    for(i=0; i < (int)_contours.size(); i++) delete _contours[i];
+    for(i=0; i < (Int32)_contours.size(); i++) delete _contours[i];
 
     _contours.resize(0);
 
@@ -533,15 +533,15 @@ bool TTVectorFontGlyph::create (void )
 
 }
 
-int TTVectorFontGlyph::sortContours(TT_Outline outline)
+Int32 TTVectorFontGlyph::sortContours(TT_Outline outline)
 {
-    int i,j, largestIsClockwise=-1;
-    float bb[4], order;
-    float last[2];
+    Int32 i,j, largestIsClockwise=-1;
+    Real32 bb[4], order;
+    Real32 last[2];
     bool clockwise=false;
     vector<FontGlyphContour *> contourList, contourLeftList;
     FontGlyphContour *doThis=NULL, *cIter=NULL;
-    int ret=1;
+    Int32 ret=1;
 
     j=0;
     for(i=0; i < outline.n_contours; i++) {
@@ -589,21 +589,21 @@ int TTVectorFontGlyph::sortContours(TT_Outline outline)
     contourLeftList.resize(_contours.size());
 
     if(_contours.size() != 1) {
-	int total, left=_contours.size();
-	float area=0.0;
-	for(i=0; i<(int)_contours.size(); i++) {
+	Int32 total, left=_contours.size();
+	Real32 area=0.0;
+	for(i=0; i<(Int32)_contours.size(); i++) {
 	    contourLeftList[i]  = _contours[i];
 	    contourList[i]  = 0;
 	}
 	
  	while(left) {
 	    total = left;
-	    for(i=0; i<(int)_contours.size(); i++) {
+	    for(i=0; i<(Int32)_contours.size(); i++) {
 		cIter = contourLeftList[i];
 		if(cIter==0) continue;
 		if(fabs(cIter->getArea()) > area ) {
 		    if(largestIsClockwise == -1 ||
-		       (int)cIter->isClockwise() == largestIsClockwise) {
+		       (Int32)cIter->isClockwise() == largestIsClockwise) {
 			doThis = contourList[_contours.size()-total];
 			contourList[_contours.size()-total] = 
 			    contourLeftList[i];
@@ -619,10 +619,10 @@ int TTVectorFontGlyph::sortContours(TT_Outline outline)
 	    if(largestIsClockwise==-1)  
 		largestIsClockwise=doThis->isClockwise();
 
-	    for(i=0; i<(int)_contours.size(); i++) {
+	    for(i=0; i<(Int32)_contours.size(); i++) {
 		cIter = contourLeftList[i];
 		if(cIter==0) continue;
-		if(((int)cIter->isClockwise() == largestIsClockwise) &&
+		if(((Int32)cIter->isClockwise() == largestIsClockwise) &&
 		   fabs(cIter->getArea()) < area) {
 		    doThis = contourList[_contours.size()-total];
 		    contourList[_contours.size()-total] = 
@@ -633,7 +633,7 @@ int TTVectorFontGlyph::sortContours(TT_Outline outline)
 		}
 	    }
 
-	    for(i=0; i<(int)_contours.size(); i++) {
+	    for(i=0; i<(Int32)_contours.size(); i++) {
 		cIter = contourLeftList[i];
 		if(!cIter) continue;
 		if(cIter->isClockwise() != doThis->isClockwise() &&
@@ -645,7 +645,7 @@ int TTVectorFontGlyph::sortContours(TT_Outline outline)
 	    }
 
 	    if(left==total) {
-		for(i=0; i<(int)_contours.size(); i++) {
+		for(i=0; i<(Int32)_contours.size(); i++) {
 		    cIter = contourLeftList[i];
 		    if(!cIter) continue;
 		    contourList[_contours.size()-left] = contourLeftList[i];
@@ -682,26 +682,26 @@ int TTVectorFontGlyph::sortContours(TT_Outline outline)
 
 void TTVectorFontGlyph::cleanup(void)
 {
-    vector <int *> offsets;
-    int *offset=0, totalOffset=0, i, current=0, index, inSize, num;
+    vector <Int32 *> offsets;
+    Int32 *offset=0, totalOffset=0, i, current=0, index, inSize, num;
 
     _indices.resize(_numIndices);
     _normalIndices.resize(_indices.size());
     memcpy(_normalIndices.begin(), _indices.begin(),
-           (_indices.size()) * sizeof(int));
+           (_indices.size()) * sizeof(Int32));
     
     _numNormals = _numPoints;
 
-    offset = new int[2];
+    offset = new Int32[2];
     offset[0] = 0;
     offset[1] = 0;
     offsets.push_back(offset);
 
-    for(i=1; i < (int)_points.size(); i++)
+    for(i=1; i < (Int32)_points.size(); i++)
         if(_points[i][0] == _points[i-1][0] &&
            _points[i][1] == _points[i-1][1] &&
            _points[i][2] == _points[i-1][2]) {
-            offset = new int[2];
+            offset = new Int32[2];
             totalOffset++;
             offset[0] = i;
             offset[1] = totalOffset;
@@ -709,10 +709,10 @@ void TTVectorFontGlyph::cleanup(void)
         }
 
     totalOffset = 0;
-    for(i=0; i <(int) _points.size(); i++) {
+    for(i=0; i <(Int32) _points.size(); i++) {
         if(i==offsets[current][0]) {
             totalOffset = offsets[current][1];
-            if(current+1 < (int)offsets.size())
+            if(current+1 < (Int32)offsets.size())
                 current++;
             continue;
         }
@@ -722,7 +722,7 @@ void TTVectorFontGlyph::cleanup(void)
     inSize = offsets.size();
     
     for(i=0; i< inSize; i++) {
-        offset = new int[2];
+        offset = new Int32[2];
         offset[0] = offsets[i][0] + _numPoints;
         offset[1] = totalOffset + offsets[i][1];
         offsets.push_back(offset);
@@ -731,17 +731,17 @@ void TTVectorFontGlyph::cleanup(void)
     _points.resize(_numPoints);
 
     totalOffset = 0;
-    for(i=0; i < (int)_indices.size(); i++) {
+    for(i=0; i < (Int32)_indices.size(); i++) {
         current = 0;
         index=_indices[i];
-        while(index > offsets[current][0] && current != (int)offsets.size()-1)
+        while(index > offsets[current][0] && current != (Int32)offsets.size()-1)
             current++;
-        if(current == (int)offsets.size()) current--;
+        if(current == (Int32)offsets.size()) current--;
         if(index < offsets[current][0]) current--;
         _indices[i] = index - offsets[current][1];
     }
 
-    for(i=0; i < (int)_indices.size(); i+=3) {
+    for(i=0; i < (Int32)_indices.size(); i+=3) {
         num=0;
         if(_indices[i]==_indices[i+1]) num++;;
         if(_indices[i+1]==_indices[i+2]) num++;;
@@ -751,7 +751,7 @@ void TTVectorFontGlyph::cleanup(void)
        }
     }
     num=0;
-    for(i=0; i < (int)_indices.size(); i+=3) {
+    for(i=0; i < (Int32)_indices.size(); i+=3) {
         if(_indices[i]==-1)
             num+=3;
         else if(num) {
@@ -768,7 +768,7 @@ void TTVectorFontGlyph::cleanup(void)
     _indices.resize(_numIndices);
     _normalIndices.resize(_numIndices);
 
-    for(i=0; i< (int)offsets.size(); i++) {
+    for(i=0; i< (Int32)offsets.size(); i++) {
         delete [] offsets[i];
         offsets[i] = 0;
     }

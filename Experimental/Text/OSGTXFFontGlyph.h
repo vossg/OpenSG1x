@@ -4,6 +4,7 @@
 #ifndef WIN32
 
 #include <OSGConfig.h>
+#include <OSGBaseTypes.h>
 
 #include "OSGFontGlyph.h"
 
@@ -28,20 +29,20 @@ public:
   TXFFontGlyph (const TXFFontGlyph &obj);
 
   /** Constructor */
-  TXFFontGlyph (int ascii, int unicode);
+  TXFFontGlyph (Int32 ascii, Int32 unicode);
 
   /** Destructor */
   virtual ~TXFFontGlyph (void);
 
   /** Constructor */
-  void setupGlyph(int ascii, int unicode);
+  void setupGlyph(Int32 ascii, Int32 unicode);
 
   /** creates desired representation */
   virtual bool createGlyph (void);
 
-  virtual bool setSizes (float *_boundingBox, float & _advance);
+  virtual bool setSizes (Real32 *_boundingBox, Real32 & _advance);
 
-  virtual bool setSizes (int *_boundingBox, int & _advance);
+  virtual bool setSizes (Int32 *_boundingBox, Int32 & _advance);
 
 };
 

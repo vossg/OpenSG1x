@@ -4,6 +4,7 @@
 #ifndef WIN32
 
 #include <OSGConfig.h>
+#include <OSGBaseTypes.h>
 
 #ifdef OSG_WITH_FREETYPE1
 
@@ -32,13 +33,13 @@ public:
   TTImageFontGlyph (const TTImageFontGlyph &obj);
 
   /** Constructor */
-  TTImageFontGlyph (IGlyphType type, int ascii, int unicode);
+  TTImageFontGlyph (IGlyphType type, Int32 ascii, Int32 unicode);
 
   /** Destructor */
   virtual ~TTImageFontGlyph (void);
 
   /** Constructor */
-  void setup(IGlyphType type, int ascii, int unicode);
+  void setup(IGlyphType type, Int32 ascii, Int32 unicode);
 
   /** creates desired representation */
   virtual bool create (void);

@@ -4,6 +4,7 @@
 #ifndef WIN32
 
 #include <OSGConfig.h>
+#include <OSGBaseTypes.h>
 #include <OSGGeometry.h>
 #include <OSGNode.h>
 #include <OSGImage.h>
@@ -52,12 +53,12 @@ private:
 
   string _language;
 
-  float _size;
+  Real32 _size;
 
   /** For Bezier-Interpolation */
-  float _precision;
+  Real32 _precision;
 
-  float _spacing;
+  Real32 _spacing;
 
   FONT_STYLE_TYPE _style;
 
@@ -120,19 +121,19 @@ public:
      { _language = string(language); }
 
   /** get method for attribute size */
-  virtual float size (void)
+  virtual Real32 size (void)
      { return _size; }
 
   /** set method for attribute size */
-  virtual void setSize (float size)
+  virtual void setSize (Real32 size)
      { _size = size; }
 
   /** get method for attribute spacing */
-  virtual float spacing (void)
+  virtual Real32 spacing (void)
      { return _spacing; }
 
   /** set method for attribute spacing */
-  virtual void setSpacing ( float spacing)
+  virtual void setSpacing ( Real32 spacing)
      { _spacing = spacing; }
 
   /** get method for attribute style */
@@ -168,14 +169,14 @@ public:
 			 bool forcePower2=false, Real32 *maxX=0, Real32 *maxY=0,
 			 ImageCreationMode creationMode = SET_TEX_TCM,
 			 MergeMode mergeMode = CLEAR_ADD_MM,
-			 int pixelDepth = 3
+			 Int32 pixelDepth = 3
 			 ) const;
 
   virtual bool fillGeo ( GeometryPtr mesh, 
 			  vector<string*> lineVec,
-			  float precision=1.f,
-			  float extFac = 0.f,
-			  float maxExtend = 0.f,
+			  Real32 precision=1.f,
+			  Real32 extFac = 0.f,
+			  Real32 maxExtend = 0.f,
 			  MeshCreationMode creationMode = FILL_MCM,
 			  MergeMode mergeMode = CLEAR_ADD_MM
 			  ) ;

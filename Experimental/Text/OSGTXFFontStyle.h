@@ -4,6 +4,7 @@
 #ifndef WIN32
 
 #include <OSGConfig.h>
+#include <OSGBaseTypes.h>
 
 #include "OSGFontStyle.h"
 #include "OSGTXFFont.h"
@@ -36,18 +37,18 @@ public:
   virtual ~TXFFontStyle (void);
 
   /** set method for image map and glyph-info */
-  virtual bool setTXFInstance (int width, int height,
+  virtual bool setTXFInstance (Int32 width, Int32 height,
 			       TXFFont::txfChar *glyphList,
-			       unsigned char *imageMap);
+			       UChar8 *imageMap);
 
   /** set method for image map and glyph-info */
-  virtual TXFGlyphInfo *getTXFGlyphInfo (int which);
+  virtual TXFGlyphInfo *getTXFGlyphInfo (UInt8 which);
 
   /** return specified (ASCII-) Glyph */
-  virtual VectorFontGlyph * getVectorGlyph (int OSG_CHECK_ARG(which)) 
+  virtual VectorFontGlyph * getVectorGlyph (UInt8 OSG_CHECK_ARG(which)) 
     {return NULL;}
 
-  virtual ImageFontGlyph * getImageGlyph (int which);
+  virtual ImageFontGlyph * getImageGlyph (UInt8 which);
 
 };
 

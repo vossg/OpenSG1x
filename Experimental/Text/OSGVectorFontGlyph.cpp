@@ -71,14 +71,14 @@ bool VectorFontGlyph::clear (void )
 
 void VectorFontGlyph::extrude (void )
 {
-    int *indices, tmp;
+    Int32 *indices, tmp;
 
-    if(_numIndices*2 > (int)_indices.capacity())
+    if(_numIndices*2 > (Int32)_indices.capacity())
 	_indices.resize(_numIndices*2);
     memcpy(_indices.begin()+_numIndices, _indices.begin(),
-	   _numIndices * sizeof(int));
+	   _numIndices * sizeof(Int32));
 
-    for(int i=_numIndices+2; i<_numIndices*2; i+=3, indices+=3) {
+    for(Int32 i=_numIndices+2; i<_numIndices*2; i+=3, indices+=3) {
 	tmp = _indices[i] +_numPoints;
 	_indices[i]=_indices[i-2] +_numPoints;
 	_indices[i-2]=tmp;
@@ -94,8 +94,8 @@ bool VectorFontGlyph::createTriangles(void)
     FontGlyphContour * doThis;
     GLUtriangulatorObj *triangulator  = gluNewTess();
     GLdouble vertex[3];
-    float *point, tmpDepth;
-    int totalPoints =0, last, tmp, i, j, k;
+    Real32 *point, tmpDepth;
+    Int32 totalPoints =0, last, tmp, i, j, k;
     bool lastOrdering=false;
 
     tmTesselator = this;
@@ -117,9 +117,9 @@ bool VectorFontGlyph::createTriangles(void)
 	_points.resize(totalPoints);
 	_normals.resize(totalPoints);
 	memcpy(_points.begin()+last, (*cIter)->getPoints().begin(),
-	       (totalPoints-last) * sizeof(float *));
+	       (totalPoints-last) * sizeof(Real32 *));
 	memcpy(_normals.begin()+last, (*cIter)->getNormals().begin(),
-	       (totalPoints-last) * sizeof(float *));
+	       (totalPoints-last) * sizeof(Real32 *));
     }
 
     _depth/=10;
@@ -127,7 +127,7 @@ bool VectorFontGlyph::createTriangles(void)
     totalPoints=0;
 
     tmpDepth = _depth;
-    for(k=0;k < (int)_contours.size();k++) {
+    for(k=0;k < (Int32)_contours.size();k++) {
 	doThis = _contours[k];
 	
 	last = totalPoints;
@@ -178,7 +178,7 @@ bool VectorFontGlyph::createTriangles(void)
 	
 	totalPoints = 0;
 	
-	for(j=0; j < (int)_contours.size(); j++) {
+	for(j=0; j < (Int32)_contours.size(); j++) {
 	    tmp = totalPoints;
 	    doThis = _contours[j];
 	    for(i=0; i < doThis->getNumPoints()-1; i++, totalPoints++) {
@@ -208,9 +208,9 @@ bool VectorFontGlyph::createTriangles(void)
 
 
 
-int VectorFontGlyph::findPoint(float *point, int lower, int upper)
+Int32 VectorFontGlyph::findPoint(Real32 *point, Int32 lower, Int32 upper)
 {
-    int l=lower, u=upper, m,f=-1;
+    Int32 l=lower, u=upper, m,f=-1;
 
     while(!(l>u)) {
 	m = (u+l)/2;
@@ -224,16 +224,16 @@ int VectorFontGlyph::findPoint(float *point, int lower, int upper)
 	return m;
     }
 
-     for(int i = _numPoints-1; i >= 0; i--)
+     for(Int32 i = _numPoints-1; i >= 0; i--)
   	if(point[0] == _points[i][0] && point[1] == _points[i][1])
  	    return(i);
 
     return f;
 }
 
-void VectorFontGlyph::addPoint(float *point, bool OSG_CHECK_ARG(lower) )
+void VectorFontGlyph::addPoint(Real32 *point, bool OSG_CHECK_ARG(lower) )
 {
-    int pointIndex=-1, tmp, begin, end, bad=0;
+    Int32 pointIndex=-1, tmp, begin, end, bad=0;
 
     if(!point || _numBad) {
 	_bad = true;
@@ -250,7 +250,7 @@ void VectorFontGlyph::addPoint(float *point, bool OSG_CHECK_ARG(lower) )
 
     tmp = _vertexBuffer.getBufferForPointer(point);
     begin = tmp * (_BLOCK_ALLOC/3);
-    end = (begin + (_BLOCK_ALLOC/3) >= (int)_points.size() ?
+    end = (begin + (_BLOCK_ALLOC/3) >= (Int32)_points.size() ?
 	   _points.size()-1 : begin + (_BLOCK_ALLOC/3)-1);
 
     if(tmp<0 || (pointIndex = findPoint(point, begin, end)) < 0) {
@@ -259,14 +259,14 @@ void VectorFontGlyph::addPoint(float *point, bool OSG_CHECK_ARG(lower) )
 
 	cout << "list of Size " << _numPoints << endl;
 	
-	for(int i = _numPoints-1; i >= 0; i--)
+	for(Int32 i = _numPoints-1; i >= 0; i--)
 	    cout <<  "i :" << _points[i][0] << ", " <<  _points[i][1]
 		 << ", " << _points[i][2] << endl;
 	return;
     }
 
     _numIndices++;
-    if(_numIndices > (int)_indices.size()) 
+    if(_numIndices > (Int32)_indices.size()) 
 	_indices.resize(_indices.capacity()+_BLOCK_ALLOC);
     _indices[_numIndices-1] = pointIndex;
 }
@@ -279,9 +279,9 @@ VectorFontGlyph::FloatBuffer::FloatBuffer(void)
     return;
 }
 
-float *VectorFontGlyph::FloatBuffer::allocFloat(int num)
+Real32 *VectorFontGlyph::FloatBuffer::allocFloat(Int32 num)
 {
-    float *retPtr;
+    Real32 *retPtr;
     if(_fWhichBuffer < 0 || num + _fBuffNext > _BLOCK_ALLOC) 
 	fBuffAlloc(_BLOCK_ALLOC);
 
@@ -291,14 +291,14 @@ float *VectorFontGlyph::FloatBuffer::allocFloat(int num)
     return retPtr;
 }
 
-void VectorFontGlyph::FloatBuffer::fBuffAlloc(int OSG_CHECK_ARG(size) )
+void VectorFontGlyph::FloatBuffer::fBuffAlloc(Int32 OSG_CHECK_ARG(size) )
 {
-    float *nBuf = new float[_BLOCK_ALLOC];
-    float **buffers = new float*[_fWhichBuffer+2];
+    Real32 *nBuf = new Real32[_BLOCK_ALLOC];
+    Real32 **buffers = new Real32*[_fWhichBuffer+2];
 
     _fWhichBuffer++;
     if(_fBuffer) {
-	for(int i=0; i< _fWhichBuffer; i++)
+	for(Int32 i=0; i< _fWhichBuffer; i++)
 	    buffers[i] = _fBuffer[i];
 	delete _fBuffer;
     }
@@ -309,12 +309,12 @@ void VectorFontGlyph::FloatBuffer::fBuffAlloc(int OSG_CHECK_ARG(size) )
 }
 
 
-int VectorFontGlyph::FloatBuffer::getBufferForPointer(float *pointer)
+Int32 VectorFontGlyph::FloatBuffer::getBufferForPointer(Real32 *pointer)
 {
-    int tmp=0;
+    Int32 tmp=0;
     
     while(tmp <= _fWhichBuffer && !((pointer >= _fBuffer[tmp]) && 
-	    (pointer < _fBuffer[tmp]+(_BLOCK_ALLOC*sizeof(float)))))
+	    (pointer < _fBuffer[tmp]+(_BLOCK_ALLOC*sizeof(Real32)))))
 	tmp++;
 
     if(tmp > _fWhichBuffer) return -1;
@@ -323,17 +323,17 @@ int VectorFontGlyph::FloatBuffer::getBufferForPointer(float *pointer)
 }
 
 
-void VectorFontGlyph::pushIt(float ** &stack, int & num, float * &elem)
+void VectorFontGlyph::pushIt(Real32 ** &stack, Int32 & num, Real32 * &elem)
 {
     if(num == 3)
-	for(int i=1; i<num;i++) stack[i-1] = stack[i];
+	for(Int32 i=1; i<num;i++) stack[i-1] = stack[i];
     num = num !=3 ? num+1 : num;
     stack[num-1]=elem;
 }
 
-void VectorFontGlyph::calcNormal(float **&stack, int num, float* result)
+void VectorFontGlyph::calcNormal(Real32 **&stack, Int32 num, Real32* result)
 {
-    float length;
+    Real32 length;
 
     result[0] = -1*(stack[0][1]) + stack[num-1][1];
     result[1] = (-1*(stack[0][0]) + stack[num-1][0])*-1;
@@ -352,9 +352,9 @@ void VectorFontGlyph::calcNormal(float **&stack, int num, float* result)
 
 
 
-bool VectorFontGlyph::checkAngle(float **joint)
+bool VectorFontGlyph::checkAngle(Real32 **joint)
 {
-    float v1[3], v2[3], angle, l;
+    Real32 v1[3], v2[3], angle, l;
 
     v1[0] = joint[0][0]-joint[1][0];
     v1[1] = joint[0][1]-joint[1][1];

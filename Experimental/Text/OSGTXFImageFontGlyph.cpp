@@ -38,7 +38,7 @@ TXFImageFontGlyph::TXFImageFontGlyph (const TXFImageFontGlyph &obj )
 }
 */
 
-TXFImageFontGlyph::TXFImageFontGlyph (IGlyphType type, int ascii, int unicode)
+TXFImageFontGlyph::TXFImageFontGlyph (IGlyphType type, Int32 ascii, Int32 unicode)
 : ImageFontGlyph(type), TXFFontGlyph(ascii, unicode)
 {
 	return;
@@ -49,7 +49,7 @@ TXFImageFontGlyph::~TXFImageFontGlyph (void )
 	return;
 }
 
-void TXFImageFontGlyph::setup (IGlyphType type, int ascii, int unicode)
+void TXFImageFontGlyph::setup (IGlyphType type, Int32 ascii, Int32 unicode)
 {
     setupGlyph(ascii, unicode);
     setType(type);
@@ -57,7 +57,7 @@ void TXFImageFontGlyph::setup (IGlyphType type, int ascii, int unicode)
 
 
 
-void TXFImageFontGlyph::setFontDefs(short x, short y, char *dimensions)
+void TXFImageFontGlyph::setFontDefs(Int16 x, Int16 y, Int8 *dimensions)
 {
   _xOff = x;
   _yOff = y;
@@ -76,7 +76,7 @@ void TXFImageFontGlyph::setFontDefs(short x, short y, char *dimensions)
 
 
 
-void TXFImageFontGlyph::setFontSource(unsigned char *srcImage, int width, int height)
+void TXFImageFontGlyph::setFontSource(UChar8 *srcImage, Int32 width, Int32 height)
 {
   _srcImage = srcImage;
   _srcWidth = width;
@@ -90,10 +90,10 @@ bool TXFImageFontGlyph::create (void )
 {
   if(_pixmapBuffer) return true;
     
-  _pixmapBuffer = new unsigned char[_imageSize[0]*_imageSize[1]];
+  _pixmapBuffer = new UChar8[_imageSize[0]*_imageSize[1]];
 
-  for(int i=_yOff, k=0; i< _yOff+_imageSize[1]; i++, k++)
-    for(int j=_xOff*2, l=0; j< _xOff*2+_imageSize[0]*2; j+=2, l++)
+  for(Int32 i=_yOff, k=0; i< _yOff+_imageSize[1]; i++, k++)
+    for(Int32 j=_xOff*2, l=0; j< _xOff*2+_imageSize[0]*2; j+=2, l++)
       _pixmapBuffer[(_imageSize[1]-k-1)*_imageSize[0]+l] =
 	(_srcImage[i*_srcWidth*2+j])/64;
 

@@ -7,6 +7,7 @@ enum VGlyphType { VGLYPH_NONE=0, VGLYPH_FACE, VGLYPH_OUTLINE};
 
 
 #include <OSGConfig.h>
+#include <OSGBaseTypes.h>
 
 #include <list>
 #include <vector>
@@ -35,45 +36,45 @@ private:
   VGlyphType _type;
 
   /** adding Points is done with this */
-  void addPoint(float *point, bool lower=false);
+  void addPoint(Real32 *point, bool lower=false);
 
   /** look if given point already exist and return its index */
-  int findPoint(float *point, int lower, int upper);
+  Int32 findPoint(Real32 *point, Int32 lower, Int32 upper);
 
   void extrude(void);
 
 protected:
 
   /** desired Z-depth of glyph */
-  float _depth;
+  Real32 _depth;
 
-  float _precision;
+  Real32 _precision;
 
   /** All Points that Make up the Glyph */
-  vector<float*> _points;
+  vector<Real32*> _points;
 
-  vector<float *> _normals;
+  vector<Real32 *> _normals;
   
-  int _numPoints;
+  Int32 _numPoints;
 
-  int _numNormals;
+  Int32 _numNormals;
 
-  int _pointBufferSize;
+  Int32 _pointBufferSize;
 
   /** The indices defining the order of points */
-  vector<int> _indices;
+  vector<Int32> _indices;
 
-  vector<int> _normalIndices;
+  vector<Int32> _normalIndices;
 
-  int _numIndices, _numBad;
+  Int32 _numIndices, _numBad;
 
   bool _bad;
 
-  int _numFrontFaces;
+  Int32 _numFrontFaces;
 
-  int _indexBufferSize;
+  Int32 _indexBufferSize;
 
-  int _contourStart;
+  Int32 _contourStart;
 
   vector<FontGlyphContour *> _contours;
 
@@ -81,41 +82,41 @@ protected:
 
   private:
       
-      float **_fBuffer;
+      Real32 **_fBuffer;
 
-      int _fBuffSize, _fBuffNext, _fWhichBuffer;
+      Int32 _fBuffSize, _fBuffNext, _fWhichBuffer;
 
-      void fBuffAlloc(int size);
+      void fBuffAlloc(Int32 size);
 
   public:
 
       FloatBuffer(void);
 
-      float *allocFloat(int num);
+      Real32 *allocFloat(Int32 num);
 
-      int getBufferForPointer(float *pointer);
+      Int32 getBufferForPointer(Real32 *pointer);
 
-      float *getBuffer(int which) 
+      Real32 *getBuffer(Int32 which) 
 	  {return (which <= _fWhichBuffer ? _fBuffer[which] : 0);}
 
   };
 
   FloatBuffer _vertexBuffer, _normalBuffer;
 
-  float _boundingBox[6];
+  Real32 _boundingBox[6];
   
-  float _advance;
+  Real32 _advance;
 
   /** creates triangle-list */
   bool createTriangles(void);
 
   friend void tessVertex(void *);
 
-  void pushIt(float ** &stack, int & num, float* & elem);
+  void pushIt(Real32 ** &stack, Int32 & num, Real32* & elem);
   
-  void calcNormal(float ** &stack, int num, float* result);
+  void calcNormal(Real32 ** &stack, Int32 num, Real32* result);
 
-  bool checkAngle(float **joint);
+  bool checkAngle(Real32 **joint);
 
 public:
 
@@ -132,53 +133,53 @@ public:
   virtual ~VectorFontGlyph (void);
 
   /** get method for attribute points */
-  virtual vector<float*> & getPoints (void)
+  virtual vector<Real32*> & getPoints (void)
      { return _points; }
 
   /** get method for attribute normals */
-  virtual vector<float*> & getNormals (void)
+  virtual vector<Real32*> & getNormals (void)
      { return _normals; }
 
   /** get method for attribute indices */
-  virtual vector<int> & getIndices (void)
+  virtual vector<Int32> & getIndices (void)
      { return _indices; }
 
   /** get method for attribute indices */
-  virtual vector<int> & getNormalIndices (void)
+  virtual vector<Int32> & getNormalIndices (void)
      { return _normalIndices; }
 
   /** get method for attribute numPoints */
-  virtual int getNumPoints (void)
+  virtual Int32 getNumPoints (void)
      { return _numPoints; }
 
   /** get method for attribute numNormals */
-  virtual int getNumNormals (void)
+  virtual Int32 getNumNormals (void)
      { return _numNormals; }
 
   /** get method for attribute numIndices */
-  virtual int getNumIndices (void)
+  virtual Int32 getNumIndices (void)
      { return _numIndices; }
 
-  virtual int getNumFrontFaces(void)
+  virtual Int32 getNumFrontFaces(void)
       { return _numFrontFaces; }
 
   /** clears 3D-data */
   virtual bool clear (void);
 
-  const float* getBoundingBox(void) { return _boundingBox;}
+  const Real32* getBoundingBox(void) { return _boundingBox;}
 
-        float getAdvance(void) { return _advance;}
+        Real32 getAdvance(void) { return _advance;}
 
   /** set method for attribute depth */
-  virtual void setDepth (float size)
+  virtual void setDepth (Real32 size)
      { _depth = size; }
 
   /** get method for attribute depth */
-  virtual float getDepth (void)
+  virtual Real32 getDepth (void)
      { return _depth; }
 
   /** set method for attribute depth */
-  virtual void setPrecision (float precision)
+  virtual void setPrecision (Real32 precision)
      { _precision = precision; }
 
   /** get method for attribute type */

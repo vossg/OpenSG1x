@@ -13,7 +13,7 @@ OSG_USING_NAMESPACE
 
 
 
-bool TXFGlyphInfo::setTextureCoords(int corner, float x, float y)
+bool TXFGlyphInfo::setTextureCoords(Int8 corner, Real32 x, Real32 y)
 {
   bool retCode;
 
@@ -29,7 +29,7 @@ bool TXFGlyphInfo::setTextureCoords(int corner, float x, float y)
 }
 
 
-bool TXFGlyphInfo::setVertexCoords(int corner, float x, float y)
+bool TXFGlyphInfo::setVertexCoords(Int8 corner, Real32 x, Real32 y)
 {
   bool retCode;
 
@@ -45,7 +45,7 @@ bool TXFGlyphInfo::setVertexCoords(int corner, float x, float y)
 }
 
 
-float *TXFGlyphInfo::getTextureCoords(int corner)
+Real32 *TXFGlyphInfo::getTextureCoords(Int8 corner)
 {
   if(corner > 3) return NULL;
 
@@ -53,7 +53,7 @@ float *TXFGlyphInfo::getTextureCoords(int corner)
 }
 
 	  
-float *TXFGlyphInfo::getVertexCoords(int corner)
+Real32 *TXFGlyphInfo::getVertexCoords(Int8 corner)
 {
   if(corner > 3) return NULL;
 

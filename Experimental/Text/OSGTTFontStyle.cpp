@@ -47,12 +47,12 @@ TTFontStyle::~TTFontStyle (void )
 	return;
 }
 
-VectorFontGlyph * TTFontStyle::getVectorGlyph (int ascii)
+VectorFontGlyph * TTFontStyle::getVectorGlyph (Int32 ascii)
 {
     return _vectorGlyphs[ascii];
 }
 
-ImageFontGlyph * TTFontStyle::getImageGlyph (int ascii)
+ImageFontGlyph * TTFontStyle::getImageGlyph (Int32 ascii)
 {
     return _imageGlyphs[ascii];
 }
@@ -70,8 +70,8 @@ bool TTFontStyle::set_ttInstance (TT_Instance *ttInstance,
     TT_CharMap ttCharMap;
     TT_Face_Properties  ttFaceProps;
     TT_Instance_Metrics ttInstMetrics;
-    int i;
-    float scaling;
+    Int32 i;
+    Real32 scaling;
 
     _ttError = TT_New_Instance(*ttFace, ttInstance);
     
@@ -88,7 +88,7 @@ bool TTFontStyle::set_ttInstance (TT_Instance *ttInstance,
 	return false;
     }
 
-    _ttError= TT_Set_Instance_PointSize( *ttInstance, (int)rint(64*getSize()));
+    _ttError= TT_Set_Instance_PointSize( *ttInstance, (Int32)rint(64*getSize()));
     if(_ttError){
 	cout << "ERROR: Create TT_Set_Instance_PointSize failed"
 	     << " with TT_Error=" << _ttError << endl;
@@ -101,13 +101,13 @@ bool TTFontStyle::set_ttInstance (TT_Instance *ttInstance,
     TT_Get_Instance_Metrics(* ttInstance, &ttInstMetrics );
 
     setMaxAscent((ttFaceProps.os2->sTypoAscender *
-		  (((float)ttInstMetrics.y_scale)/65536)) / 4096);
+		  (((Real32)ttInstMetrics.y_scale)/65536)) / 4096);
 
     setMaxDescent((ttFaceProps.os2->sTypoDescender *
-		   (((float)ttInstMetrics.y_scale)/65536)) / 4096);
+		   (((Real32)ttInstMetrics.y_scale)/65536)) / 4096);
 
 //     setBaselineSkip(getMaxAscent() - getMaxDescent() + 
-// 		    (float)ttFaceProps.os2->sTypoLineGap/4096);
+// 		    (Real32)ttFaceProps.os2->sTypoLineGap/4096);
 
 //     scaling = getBaselineSkip()*getYRes();
 
@@ -133,7 +133,7 @@ bool TTFontStyle::set_ttInstance (TT_Instance *ttInstance,
 
     TTVectorFontGlyph *vGlyphs = new TTVectorFontGlyph[256];
     TTImageFontGlyph *iGlyphs = new TTImageFontGlyph[256];
-    for(int i= 0; i < 256; i++) {
+    for(Int32 i= 0; i < 256; i++) {
 	vGlyphs[i].setup(VGLYPH_FACE, i, TT_Char_Index(ttCharMap, i));
 	vGlyphs[i].setFontDefs(ttFace, ttInstance);
 	vGlyphs[i].setDepth(getSize());
@@ -159,17 +159,17 @@ bool TTFontStyle::set_ttInstance (TT_Instance *ttInstance,
 
 // compare glyph height
 
-int cmpIGlyphs(void *g1, void *g2)
+Int32 cmpIGlyphs(void *g1, void *g2)
 {
   return (((ImageFontGlyph *)g2)->getImageSize()[1] -
 	  ((ImageFontGlyph *)g1)->getImageSize()[1]);
 }
 
 
-void qsortIGlyphs(int numGlyphs, unsigned char *indices,
+void qsortIGlyphs(Int32 numGlyphs, Uchar8 *indices,
 		  vector<ImageFontGlyph *> iGlyphs)
 {
-  unsigned char split, *upper, *lower, up=1;
+  Uchar8 split, *upper, *lower, up=1;
 
   if(numGlyphs <= 1) return;
    
@@ -198,17 +198,17 @@ void qsortIGlyphs(int numGlyphs, unsigned char *indices,
 
 
 
-bool TTFontStyle::createTXFMap(char *characters, int gap)
+bool TTFontStyle::createTXFMap(Char8 *characters, Int32 gap)
 {
-  int i, j, k numChars, numCreated=0, width, height, x, y;
-  int start, current, rowHeight, spaceLeft, numSorted;
-  const int *res, *bb;
-  unsigned char *createdIndices=NULL, *sortedIndices=NULL, *imageBuffer=NULL;
-  unsigned char *img, *srcPixel, *dstPixel;
+  Int32 i, j, k numChars, numCreated=0, width, height, x, y;
+  Int32 start, current, rowHeight, spaceLeft, numSorted;
+  const Int32 *res, *bb;
+  Uchar8 *createdIndices=NULL, *sortedIndices=NULL, *imageBuffer=NULL;
+  Uchar8 *img, *srcPixel, *dstPixel;
   TXFGlyphInfo *glyph=NULL;
-  float x_f, y_f, xstep, ystep, scale;
+  Real32 x_f, y_f, xstep, ystep, scale;
   bool retVal;
-  char *dims;
+  Int8 *dims;
 
   if(characters) {
     numChars = strlen(characters);
@@ -219,13 +219,13 @@ bool TTFontStyle::createTXFMap(char *characters, int gap)
     start = 1;
   }
 
-  createdIndices = new unsigned char[numChars];
+  createdIndices = new Uchar8[numChars];
     
   for(i=start; i<numChars; i++) {
     retVal = _imageGlyphs[characters ? characters[i] : i]->create();
     if(retVal) {
       createdIndices[numCreated++]=
-	(unsigned char)(characters ? characters[i] : i);
+	(Uchar8)(characters ? characters[i] : i);
     }
   }
 
@@ -241,7 +241,7 @@ bool TTFontStyle::createTXFMap(char *characters, int gap)
   width = 512;
   i=0; x=gap; y=gap;
 
-  sortedIndices = new unsigned char[numCreated];
+  sortedIndices = new Uchar8[numCreated];
   numSorted = 0;
   while (true) {
     current = createdIndices[i];
@@ -284,12 +284,12 @@ bool TTFontStyle::createTXFMap(char *characters, int gap)
 
   height = 1;
   while(height < y+rowHeight+gap) height *=2;
-  imageBuffer= new unsigned char [width*height*2];
+  imageBuffer= new Uchar8 [width*height*2];
 
   i=0; x=gap; y=gap;
   xstep = 0.5 / width;
   ystep = 0.5 / height;
-  scale = (float)getMaxAscent() - (float)getMaxDescent();
+  scale = (Real32)getMaxAscent() - (Real32)getMaxDescent();
 
   for(i=0;i<numSorted;i++) {
     current = sortedIndices[i];
@@ -318,40 +318,40 @@ bool TTFontStyle::createTXFMap(char *characters, int gap)
     glyph=_txfGlyphInfos[current];
     glyph->remap(0);
 
-    dims = new char[2];
-    dims[0] = (char) x;
-    dims[1] = (char) y;
+    dims = new Int8[2];
+    dims[0] = (Int8) x;
+    dims[1] = (Int8) y;
     glyph->setDimensions(dims);
 
-    x_f  = ((float)(x))/width+xstep;
-    y_f  = ((float)(y))/height+ystep;
+    x_f  = ((Real32)(x))/width+xstep;
+    y_f  = ((Real32)(y))/height+ystep;
     glyph->setTextureCoords(0, x_f, y_f);
 
-    x_f += ((float)(res[0]))/width;
+    x_f += ((Real32)(res[0]))/width;
     glyph->setTextureCoords(1, x_f, y_f);
 
-    y_f += ((float)(res[1]))/height;
+    y_f += ((Real32)(res[1]))/height;
     glyph->setTextureCoords(2, x_f, y_f);
 
-    x_f  = ((float)(x))/width+xstep;
+    x_f  = ((Real32)(x))/width+xstep;
     glyph->setTextureCoords(3, x_f, y_f);
 
     bb = _imageGlyphs[current]->getBoundingBox();
 
-    x_f = (float)bb[0]/scale;
-    y_f = (float)bb[2]/scale;
+    x_f = (Real32)bb[0]/scale;
+    y_f = (Real32)bb[2]/scale;
     glyph->setVertexCoords(0, x_f, y_f);
 
-    x_f = (float)bb[1]/scale;
+    x_f = (Real32)bb[1]/scale;
     glyph->setVertexCoords(1, x_f, y_f);
 
-    y_f = (float)bb[3]/scale;
+    y_f = (Real32)bb[3]/scale;
     glyph->setVertexCoords(2, x_f, y_f);
 
-    x_f = (float)bb[0]/scale;
+    x_f = (Real32)bb[0]/scale;
     glyph->setVertexCoords(3, x_f, y_f);
 
-    glyph->setAdvance((float) _imageGlyphs[current]->getAdvance()/scale);
+    glyph->setAdvance((Real32) _imageGlyphs[current]->getAdvance()/scale);
 
     x += res[0]+gap;
   }
@@ -368,7 +368,7 @@ bool TTFontStyle::createTXFMap(char *characters, int gap)
 
 
 
-unsigned char *TTFontStyle::getTXFImageMap (void)
+Uchar8 *TTFontStyle::getTXFImageMap (void)
 {
   if(!_txfImageMap) createTXFMap();
 
@@ -376,7 +376,7 @@ unsigned char *TTFontStyle::getTXFImageMap (void)
 }
 
 
-TXFGlyphInfo *TTFontStyle::getTXFGlyphInfo (int which)
+TXFGlyphInfo *TTFontStyle::getTXFGlyphInfo (Int32 which)
 {
   if(!_txfImageMap) createTXFMap();
 
@@ -392,47 +392,47 @@ TXFGlyphInfo *TTFontStyle::getTXFGlyphInfo (int which)
 
 bool TTFontStyle::dump(ostream & out)
 {
-  const int *bb;
-  unsigned int swapit = 0x12345678;
-  unsigned int zero = 0, buffer, nc=0;
-  unsigned short sbuffer;
-  unsigned char *oBuffer;
+  const Int32 *bb;
+  UInt32 swapit = 0x12345678;
+  UInt32 zero = 0, buffer, nc=0;
+  UInt16 sbuffer;
+  Uchar8 *oBuffer;
 
-  out << (char)0xff << "txf";
-  out.write(reinterpret_cast<char*>(&swapit),4);
-  out.write(reinterpret_cast<char*>(&zero), 4);
-  out.write(reinterpret_cast<char*>(&_txfFontWidth), 4);
-  out.write(reinterpret_cast<char*>(&_txfFontHeight), 4);
-  buffer = (int)rint(getMaxAscent()*72);
-  out.write(reinterpret_cast<char*>(&buffer), 4);
-  buffer = (int)rint(getMaxDescent()*72);
-  out.write(reinterpret_cast<char*>(&buffer), 4);
+  out << (Char8)0xff << "txf";
+  out.write(reinterpret_cast<Char8*>(&swapit),4);
+  out.write(reinterpret_cast<Char8*>(&zero), 4);
+  out.write(reinterpret_cast<Char8*>(&_txfFontWidth), 4);
+  out.write(reinterpret_cast<Char8*>(&_txfFontHeight), 4);
+  buffer = (Int32)rint(getMaxAscent()*72);
+  out.write(reinterpret_cast<Char8*>(&buffer), 4);
+  buffer = (Int32)rint(getMaxDescent()*72);
+  out.write(reinterpret_cast<Char8*>(&buffer), 4);
 
-  for(short i=0; i < _txfGlyphInfos.size(); i++)
+  for(Int16 i=0; i < _txfGlyphInfos.size(); i++)
     if(!(_txfGlyphInfos[i]->remapped())) nc++;
 
-  out.write(reinterpret_cast<char*>(&nc), 4);
+  out.write(reinterpret_cast<Char8*>(&nc), 4);
 
 
-  for(short i=0; i < _txfGlyphInfos.size(); i++)
+  for(Int16 i=0; i < _txfGlyphInfos.size(); i++)
     if(!(_txfGlyphInfos[i]->remapped())) {
       bb = _imageGlyphs[i]->getBoundingBox();
-      out.write(reinterpret_cast<char*>(&i), 2);
-      out << (char) (bb[1] - bb[0]);
-      out << (char) (bb[3] - bb[2]);
-      out << (char) bb[0] << (char) bb[2];
-      out << (char) _imageGlyphs[i]->getAdvance();
-      out << (char) 0;
-      sbuffer = (short) _txfGlyphInfos[i]->getDimensions()[0];
-      out.write(reinterpret_cast<char*>(&sbuffer), 2);
-      sbuffer = (short) _txfGlyphInfos[i]->getDimensions()[1];
-      out.write(reinterpret_cast<char*>(&sbuffer), 2);
+      out.write(reinterpret_cast<Char8*>(&i), 2);
+      out << (Char8) (bb[1] - bb[0]);
+      out << (Char8) (bb[3] - bb[2]);
+      out << (Char8) bb[0] << (Char8) bb[2];
+      out << (Char8) _imageGlyphs[i]->getAdvance();
+      out << (Char8) 0;
+      sbuffer = (Int16) _txfGlyphInfos[i]->getDimensions()[0];
+      out.write(reinterpret_cast<Char8*>(&sbuffer), 2);
+      sbuffer = (Int16) _txfGlyphInfos[i]->getDimensions()[1];
+      out.write(reinterpret_cast<Char8*>(&sbuffer), 2);
     }
 
-  oBuffer = new unsigned char [_txfFontWidth*_txfFontHeight];
-  for (int j=0; j< _txfFontWidth*_txfFontHeight; j++)
+  oBuffer = new Uchar8 [_txfFontWidth*_txfFontHeight];
+  for (Int32 j=0; j< _txfFontWidth*_txfFontHeight; j++)
     oBuffer[j] = _txfImageMap[2*j];
-  out.write(reinterpret_cast<char*>(oBuffer), _txfFontWidth*_txfFontHeight);
+  out.write(reinterpret_cast<Char8*>(oBuffer), _txfFontWidth*_txfFontHeight);
 
   delete oBuffer;
 

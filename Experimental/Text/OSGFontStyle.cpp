@@ -52,7 +52,7 @@ bool FontStyle::processChange(void)
 }
 
 
-bool FontStyle::getTXFImageSizes (int &width, int &height)
+bool FontStyle::getTXFImageSizes (Int32 &width, Int32 &height)
 {
   width = _txfFontWidth;
   height = _txfFontHeight;

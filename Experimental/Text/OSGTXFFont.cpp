@@ -23,27 +23,27 @@
 
 
 
-bool sRead(istream &file, void *value, int size, bool swapit)
+OSG_USING_NAMESPACE
+
+
+
+bool sRead(istream &file, void *value, Int32 size, bool swapit)
 {
-  char buffer[4];
+  Char8 buffer[4];
 
   if(size>4) return false;
 
   if(swapit) {
     file.read(buffer, size);
 
-    for(int i=0;i<size;i++)
-      ((char *)value)[i] = buffer[size-i-1];
+    for(Int32 i=0;i<size;i++)
+      ((Char8 *)value)[i] = buffer[size-i-1];
   }
   else
-    file.read(static_cast<char*>(value), size);
+    file.read(static_cast<Char8*>(value), size);
 
   return !file.fail();
 }
-
-
-OSG_USING_NAMESPACE
-
 
 
 // Static Class Variable implementations: 
@@ -62,14 +62,14 @@ TXFFont::TXFFont (const TXFFont &obj )
 }
 */
 
-TXFFont::TXFFont (const char *name, string path )
+TXFFont::TXFFont (const Char8 *name, string path )
 : Font (name, path )
 {
     return;
 }
 
 
-TXFFont::TXFFont (const char *name, istream & source )
+TXFFont::TXFFont (const Char8 *name, istream & source )
 : Font (name)
 {
   _valid = true;
@@ -92,11 +92,11 @@ TXFFont::~TXFFont (void )
 void TXFFont::initFromStream (istream & source)
 {
   bool swapit;
-  unsigned char u_magic, *imageBuffer=NULL;
-  char  c_magic[3];
-  unsigned int ibuff, bitWidth, stride;
-  unsigned short sbuff;
-  int i, j;
+  UChar8 u_magic, *imageBuffer=NULL;
+  Char8  c_magic[3];
+  UInt32 ibuff, bitWidth = 0, stride;
+  UInt16 sbuff;
+  Int32 i, j;
 
   // checking filetype
 
@@ -106,7 +106,7 @@ void TXFFont::initFromStream (istream & source)
   source.read(c_magic, 3);
   if(strncmp(c_magic, "txf", 3)) _valid = false;
 
-  source.read(reinterpret_cast<char*>(&ibuff), 4);
+  source.read(reinterpret_cast<Char8*>(&ibuff), 4);
   swapit = (ibuff == 0x12345678 ? false : true);
 
   if(swapit && (ibuff - 0x78563412)) _valid = false;
@@ -130,12 +130,16 @@ void TXFFont::initFromStream (istream & source)
   _txfGlyphs = new txfChar[256];
   for(i = 0; i < _txfNumGlyphs; i++) {
     _valid &= sRead(source, &sbuff, 2, swapit);
-    source.read(_txfGlyphs[(unsigned char)sbuff].dimensions, 6);
-    _valid &= sRead(source, &_txfGlyphs[(unsigned char)sbuff].x,
+		source.read((Char8*)_txfGlyphs[(UChar8)sbuff].dimensions, 6);
+// 		cerr << (Char8) sbuff << ": ";
+// 		for(j=0;j<6;j++)
+// 			cerr << (Int32)(Char8)_txfGlyphs[(UChar8)sbuff].dimensions[j] << " ";
+// 		cerr << endl;
+    _valid &= sRead(source, &_txfGlyphs[(UChar8)sbuff].x,
 		     2, swapit);
-    _valid &= sRead(source, &_txfGlyphs[(unsigned char)sbuff].y,
+    _valid &= sRead(source, &_txfGlyphs[(UChar8)sbuff].y,
 		     2, swapit);
-    _txfGlyphs[(unsigned char)sbuff].remapped = 0;
+    _txfGlyphs[(UChar8)sbuff].remapped = 0;
 
     if(!_valid) {
       delete _txfGlyphs;
@@ -146,12 +150,12 @@ void TXFFont::initFromStream (istream & source)
 
   if(_txfIsBitmap) {
     bitWidth = (_txfFontWidth + 7)/8;
-    imageBuffer = new unsigned char [bitWidth*_txfFontHeight];
-    source.read(reinterpret_cast<char*>(imageBuffer), bitWidth*_txfFontHeight);
+    imageBuffer = new UChar8 [bitWidth*_txfFontHeight];
+    source.read(reinterpret_cast<Char8*>(imageBuffer), bitWidth*_txfFontHeight);
   }
   else {
-    imageBuffer = new unsigned char [_txfFontWidth*_txfFontHeight];
-    source.read(reinterpret_cast<char*>(imageBuffer), _txfFontWidth*_txfFontHeight);
+    imageBuffer = new UChar8 [_txfFontWidth*_txfFontHeight];
+    source.read(reinterpret_cast<Char8*>(imageBuffer), _txfFontWidth*_txfFontHeight);
   }
   _valid &= !source.fail();
 
@@ -161,7 +165,7 @@ void TXFFont::initFromStream (istream & source)
     return;
   }
 
-  _txfImageMap = new unsigned char [_txfFontWidth*_txfFontHeight*2];
+  _txfImageMap = new UChar8 [_txfFontWidth*_txfFontHeight*2];
 
   stride = 0;
   if(_txfIsBitmap)
@@ -212,7 +216,7 @@ bool TXFFont::createInstance (Text *fs)
     fInst->setFontName(_fontName);
     fInst->setMaxAscent(_txfFontMaxAscent);
     fInst->setMaxDescent(_txfFontMaxDescent);
-    fInst->setBaselineSkip(((float)(_txfFontMaxAscent - _txfFontMaxDescent))/fInst->getYRes());
+    fInst->setBaselineSkip(((Real32)(_txfFontMaxAscent - _txfFontMaxDescent))/fInst->getYRes());
     fInst->setSize(fs->size());
 
     retVal = fInst->setTXFInstance (_txfFontWidth, _txfFontHeight,
@@ -230,7 +234,7 @@ bool TXFFont::createInstance (Text *fs)
 
 
 
-osg::FontStyle *TXFFont::createInstance(float size)
+osg::FontStyle *TXFFont::createInstance(Real32 size)
 {
     bool retVal=false;
     TXFFontStyle *fInst = new TXFFontStyle;
@@ -239,7 +243,7 @@ osg::FontStyle *TXFFont::createInstance(float size)
     fInst->setSize(size);
     fInst->setMaxAscent(_txfFontMaxAscent);
     fInst->setMaxDescent(_txfFontMaxDescent);
-    fInst->setBaselineSkip(((float)(_txfFontMaxAscent - _txfFontMaxDescent))/fInst->getYRes());
+    fInst->setBaselineSkip(((Real32)(_txfFontMaxAscent - _txfFontMaxDescent))/fInst->getYRes());
 
     retVal = fInst->setTXFInstance (_txfFontWidth, _txfFontHeight,
 				    _txfGlyphs, _txfImageMap);

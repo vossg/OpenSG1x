@@ -4,6 +4,7 @@
 #ifndef WIN32
 
 #include <OSGConfig.h>
+#include <OSGBaseTypes.h>
 
 #include "OSGFontGlyph.h"
 
@@ -32,15 +33,15 @@ protected:
   /** wether its bitmap or pixmap */
   IGlyphType _type;
 
-  int _boundingBox[4];
+  Int32 _boundingBox[4];
 
-  int _imageSize[3];
+  Int32 _imageSize[3];
 
-  int _advance;
+  Int32 _advance;
 
-  unsigned char *_bitmapBuffer;
+  UChar8 *_bitmapBuffer;
 
-  unsigned char *_pixmapBuffer;
+  UChar8 *_pixmapBuffer;
 
 public:
 
@@ -59,13 +60,13 @@ public:
   /** clears image-data */
   virtual bool clear (void);
 
-  const int* getBoundingBox(void) { return _boundingBox;}
+  const Int32* getBoundingBox(void) { return _boundingBox;}
 
-  const int* getImageSize(void) { return _imageSize;}
+  const Int32* getImageSize(void) { return _imageSize;}
 
-        int getAdvance(void) { return _advance;}
+        Int32 getAdvance(void) { return _advance;}
 
-  unsigned char *getImage(void)
+  UChar8 *getImage(void)
       { return (_type==IGLYPH_BIAP ? _bitmapBuffer : _pixmapBuffer); }
 
   /** get method for attribute type */

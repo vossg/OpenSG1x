@@ -41,13 +41,13 @@ TXFFontStyle::~TXFFontStyle (void )
 	return;
 }
 
-ImageFontGlyph * TXFFontStyle::getImageGlyph (int ascii)
+ImageFontGlyph * TXFFontStyle::getImageGlyph (UInt8 ascii)
 {
     return _imageGlyphs[ascii];
 }
 
 
-TXFGlyphInfo * TXFFontStyle::getTXFGlyphInfo (int which)
+TXFGlyphInfo * TXFFontStyle::getTXFGlyphInfo (UInt8 which)
 {
   if(which >= _txfGlyphInfos.size())
     return _txfGlyphInfos[_txfGlyphInfos[0]->remapped()];
@@ -61,17 +61,17 @@ TXFGlyphInfo * TXFFontStyle::getTXFGlyphInfo (int which)
 
 bool TXFFontStyle::processChange (void)
 {
-	return 0;
+	return false;
 }
 
 
 
 bool TXFFontStyle::buildGlyphInfos (TXFFont::txfChar *txfGlyphs)
 {
-  float x, y, xstep, ystep;
+  Real32 x, y, xstep, ystep;
   TXFGlyphInfo *glyph;
   TXFFont::txfChar *current;
-  int i;
+  Int32 i;
 
   xstep = 0.5 / _txfFontWidth;
   ystep = 0.5 / _txfFontHeight;
@@ -86,33 +86,44 @@ bool TXFFontStyle::buildGlyphInfos (TXFFont::txfChar *txfGlyphs)
       continue;
     }
 
+// 		cerr << (char) i << endl;
 
-    x = (float)current->x / (float)_txfFontWidth + xstep;
-    y = (float)current->y / (float)_txfFontHeight + ystep;
+
+    x = (Real32)current->x / (Real32)_txfFontWidth + xstep;
+    y = (Real32)current->y / (Real32)_txfFontHeight + ystep;
     glyph->setTextureCoords(0, x, y);
 
-    x += (float)(current->dimensions[0]) / (float)_txfFontWidth;
+    x += (Real32)(current->dimensions[0]) / (Real32)_txfFontWidth;
     glyph->setTextureCoords(1, x, y);
 
-    y += (float)(current->dimensions[1]) / (float)_txfFontHeight;
+    y += (Real32)(current->dimensions[1]) / (Real32)_txfFontHeight;
     glyph->setTextureCoords(2, x, y);
 
-    x = (float)current->x / (float)_txfFontWidth + xstep;
+    x = (Real32)current->x / (Real32)_txfFontWidth + xstep;
     glyph->setTextureCoords(3, x, y);
 
 
-    x = current->dimensions[2];
-    y = current->dimensions[3];
+    x = (Real32)current->dimensions[2];
+    y = (Real32)current->dimensions[3];
     glyph->setVertexCoords(0, x, y);
 
-    x += current->dimensions[0];
+// 		cerr << x << ", " << y << endl;
+
+    x += (Real32)current->dimensions[0];
     glyph->setVertexCoords(1, x, y);
 
-    y += current->dimensions[1];
+// 		cerr << x << ", " << y << endl;
+
+    y += (Real32)current->dimensions[1];
     glyph->setVertexCoords(2, x, y);
 
-    x = current->dimensions[2];
+// 		cerr << x << ", " << y << endl;
+
+    x = (Real32)current->dimensions[2];
     glyph->setVertexCoords(3, x, y);
+
+// 		cerr << x << ", " << y << endl;
+
 
     glyph->setAdvance(current->dimensions[4]);
   }
@@ -122,14 +133,14 @@ bool TXFFontStyle::buildGlyphInfos (TXFFont::txfChar *txfGlyphs)
 
 
 
-bool TXFFontStyle::setTXFInstance (int width, int height,
+bool TXFFontStyle::setTXFInstance (Int32 width, Int32 height,
 				   TXFFont::txfChar *glyphList,
-				   unsigned char *imageMap)
+				   UChar8 *imageMap)
 {
     TXFFont::txfChar *current;
 
     TXFImageFontGlyph *iGlyphs = new TXFImageFontGlyph[256];
-    for(int i= 0; i < 256; i++) {
+    for(Int32 i= 0; i < 256; i++) {
       current = glyphList[i].remapped ? 
 	&(glyphList[glyphList[i].remapped]) : &(glyphList[i]);
 

@@ -49,7 +49,7 @@ FontGlyphContour::~FontGlyphContour (void )
 	return;
 }
 
-vector<float *> & FontGlyphContour::getNormals(void)
+vector<Real32 *> & FontGlyphContour::getNormals(void)
 {
     while(_numNormals != _numPoints) {
 	_normals[_numNormals] = _normals[_numNormals-1];
@@ -59,7 +59,7 @@ vector<float *> & FontGlyphContour::getNormals(void)
 }
 
 
-void FontGlyphContour::addPoint (float *point, float *normal, bool copy)
+void FontGlyphContour::addPoint (Real32 *point, Real32 *normal, bool copy)
 {
     if(_numPoints==(int)_points.size())
 	_points.push_back(point);

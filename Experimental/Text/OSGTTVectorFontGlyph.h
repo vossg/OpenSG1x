@@ -4,6 +4,7 @@
 #ifndef WIN32
 
 #include <OSGConfig.h>
+#include <OSGBaseTypes.h>
 
 #ifdef OSG_WITH_FREETYPE1
 
@@ -23,24 +24,24 @@ class TTVectorFontGlyph : public virtual FontGlyph,
 
 private:
 
-  static double _ttScale;
+  static Real64 _ttScale;
 
-  float _ttScaleToVRML;
+  Real32 _ttScaleToVRML;
 
-  float *_tmpNormalBuffer;
+  Real32 *_tmpNormalBuffer;
 
-  int processArc(FontGlyphContour *glyphContour, TT_Outline outline, int start,
-		int contour, float** normalStack, int & numnStack,
-		int & counter, int step = 1, bool dryRun = false);
+  Int32 processArc(FontGlyphContour *glyphContour, TT_Outline outline, Int32 start,
+		Int32 contour, Real32** normalStack, Int32 & numnStack,
+		Int32 & counter, Int32 step = 1, bool dryRun = false);
 
-  int sortContours(TT_Outline outline);
+  Int32 sortContours(TT_Outline outline);
 
   void cleanup(void);
 
-  inline float max(float a, float b)
+  inline Real32 max(Real32 a, Real32 b)
       { return ( a > b ? a : b);}
 
-  inline float min(float a, float b)
+  inline Real32 min(Real32 a, Real32 b)
       { return ( a < b ? a : b);}
 
 protected:
@@ -54,15 +55,15 @@ public:
   TTVectorFontGlyph (const TTVectorFontGlyph &obj);
 
   /** Constructor */
-  TTVectorFontGlyph (VGlyphType type, int ascii, int unicode);
+  TTVectorFontGlyph (VGlyphType type, Int32 ascii, Int32 unicode);
 
   /** Destructor */
   virtual ~TTVectorFontGlyph (void);
 
   /** Constructor */
-  void setup(VGlyphType type, int ascii, int unicode);
+  void setup(VGlyphType type, Int32 ascii, Int32 unicode);
 
-  void setScaleFactor(float scaleFactor)
+  void setScaleFactor(Real32 scaleFactor)
       {_ttScaleToVRML = (scaleFactor*64.0)/_size;}
 
   /** creates desired representation */

@@ -44,7 +44,7 @@ TTImageFontGlyph::TTImageFontGlyph (const TTImageFontGlyph &OSG_CHECK_ARG(obj) )
 	assert(false);
 }
 
-TTImageFontGlyph::TTImageFontGlyph (IGlyphType type, int ascii, int unicode)
+TTImageFontGlyph::TTImageFontGlyph (IGlyphType type, Int32 ascii, Int32 unicode)
 : ImageFontGlyph(type), TTFontGlyph(ascii, unicode)
 {
 	return;
@@ -56,7 +56,7 @@ TTImageFontGlyph::~TTImageFontGlyph (void )
 	return;
 }
 
-void TTImageFontGlyph::setup (IGlyphType type, int ascii, int unicode)
+void TTImageFontGlyph::setup (IGlyphType type, Int32 ascii, Int32 unicode)
 {
     setupGlyph(ascii, unicode);
     setType(type);
@@ -66,7 +66,7 @@ void TTImageFontGlyph::setup (IGlyphType type, int ascii, int unicode)
 
 bool TTImageFontGlyph::create (void )
 {
-    int size;
+    Int32 size;
     TT_Raster_Map ttMap;
     bool retVal;
 

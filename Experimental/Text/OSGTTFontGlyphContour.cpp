@@ -38,8 +38,8 @@ TTFontGlyphContour::~TTFontGlyphContour (void )
 
 bool TTFontGlyphContour::inside (FontGlyphContour *contour, TT_Outline outline )
 {
-    double x, y, x1, x2=0.0, y1, y2=0.0, ix;
-    int intersections=0, i, i2, which, start, end, off;
+    Real64 x, y, x1, x2=0.0, y1, y2=0.0, ix;
+    Int32 intersections=0, i, i2, which, start, end, off;
 
     if(!((_bb[0] > contour->getBB()[0]) && (_bb[1] > contour->getBB()[1]) && 
 	 (_bb[2] < contour->getBB()[2]) && (_bb[3] < contour->getBB()[3])))

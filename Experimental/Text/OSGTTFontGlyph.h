@@ -6,6 +6,7 @@
 #ifdef OSG_WITH_FREETYPE1
 
 #include <OSGConfig.h>
+#include <OSGBaseTypes.h>
 
 #include "OSGFontGlyph.h"
 
@@ -30,7 +31,7 @@ private:
 
   TT_Instance *_ttInstance;
 
-  static double _ttScale;
+  static Real64 _ttScale;
 
 protected:
 
@@ -43,13 +44,13 @@ public:
   TTFontGlyph (const TTFontGlyph &obj);
 
   /** Constructor */
-  TTFontGlyph (int ascii, int unicode);
+  TTFontGlyph (Int32 ascii, Int32 unicode);
 
   /** Destructor */
   virtual ~TTFontGlyph (void);
 
   /** Constructor */
-  void setupGlyph(int ascii, int unicode);
+  void setupGlyph(Int32 ascii, Int32 unicode);
 
   /** stores needed FreeType definitions */
   virtual void setFontDefs (TT_Face *ttFacte, TT_Instance *ttInstance)
@@ -60,13 +61,13 @@ public:
 
   virtual bool getOutline (TT_Outline & ttOutline);
 
-  virtual bool setSizes (float *_boundingBox, float & _advance);
+  virtual bool setSizes (Real32 *_boundingBox, Real32 & _advance);
 
-  virtual bool setSizes (int *_boundingBox, int & _advance);
+  virtual bool setSizes (Int32 *_boundingBox, Int32 & _advance);
 
   virtual void glyphDone(void) { TT_Done_Glyph(_ttGlyph ); }
 
-  virtual bool renderGlyph(TT_Raster_Map map, int xOff, int yOff);
+  virtual bool renderGlyph(TT_Raster_Map map, Int32 xOff, Int32 yOff);
 };
 
 typedef TTFontGlyph* TTFontGlyphP;

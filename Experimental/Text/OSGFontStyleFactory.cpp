@@ -38,7 +38,7 @@ FontStyleFactory::~FontStyleFactory()
 
 
 osg::FontStyle *FontStyleFactory::create(PathHandler & paths, 
-                                         const char *fontName, float size)
+                                         const Char8 *fontName, Real32 size)
 {
 	list<FontStyle*>::const_iterator pos;
 

@@ -4,6 +4,7 @@
 #ifndef WIN32
 
 #include <OSGConfig.h>
+#include <OSGBaseTypes.h>
 
 #include <vector>
 #include <iostream>
@@ -31,22 +32,22 @@ class FontStyle {
 private:
 
   /** x Resolution of device */
-  int _xRes;
+  Int32 _xRes;
 
   /** x Resolution of device */
-  int _yRes;
+  Int32 _yRes;
 
   /** desired 'Point-Size' of font */
-  float _size;
+  Real32 _size;
 
   /** desired z-dpeth of font */
-  float _depth;
+  Real32 _depth;
 
-  float _maxDescent;
+  Real32 _maxDescent;
 
-  float _maxAscent;
+  Real32 _maxAscent;
 
-  float _baselineSkip;
+  Real32 _baselineSkip;
 
   const char *_fontName;
 
@@ -57,10 +58,10 @@ protected:
   vector<ImageFontGlyph *> _imageGlyphs;
   vector<TXFGlyphInfo *> _txfGlyphInfos;
 
-  unsigned char           *_txfImageMap;
+  UChar8           *_txfImageMap;
 
-  int                      _txfFontWidth;
-  int                      _txfFontHeight;
+  Int32                      _txfFontWidth;
+  Int32                      _txfFontHeight;
 
   /** rerenders stored glyphs in case of resize */
   virtual bool processChange (void);
@@ -77,13 +78,13 @@ public:
   virtual ~FontStyle (void);
 
   /** get method for attribute glyphs */
-  virtual VectorFontGlyph *getVectorGlyph (int ascii) = 0;
+  virtual VectorFontGlyph *getVectorGlyph (UInt8 ascii) = 0;
 
   /** get method for attribute glyphs */
-  virtual ImageFontGlyph *getImageGlyph (int ascii) = 0;
+  virtual ImageFontGlyph *getImageGlyph (UInt8 ascii) = 0;
 
   /** get method for attribute glyphs */
-  virtual TXFGlyphInfo *getTXFGlyphInfo (int ascii) = 0;
+  virtual TXFGlyphInfo *getTXFGlyphInfo (UInt8 ascii) = 0;
 
   /** set method for image map */
   virtual void setTXFImageMap (unsigned char * image) {_txfImageMap = image;}
@@ -92,61 +93,61 @@ public:
   virtual unsigned char *getTXFImageMap (void) {return _txfImageMap;}
 
   /** get method for image map dimmensions */
-  virtual bool getTXFImageSizes (int &width, int &height);
+  virtual bool getTXFImageSizes (Int32 &width, Int32 &height);
 
   virtual bool dump(ostream & OSG_CHECK_ARG(out)) {return false;}
 
   /** get method for attribute _xRes */
-  virtual inline int getXRes (void)
+  virtual inline Int32 getXRes (void)
      { return _xRes; }
 
 
   /** set method for attribute _xRes */
-  virtual void setXRes (int xRes)
+  virtual void setXRes (Int32 xRes)
      { _xRes = xRes; }
 
 
   /** get method for attribute _yRes */
-  virtual inline int getYRes (void)
+  virtual inline Int32 getYRes (void)
      { return _yRes; }
 
 
   /** set method for attribute _yRes */
-  virtual void setYRes (int yRes)
+  virtual void setYRes (Int32 yRes)
      { _yRes = yRes; }
 
 
   /** get method for attribute _size */
-  virtual inline float getSize (void)
+  virtual inline Real32 getSize (void)
      { return _size; }
 
 
   /** set method for attribute _size */
-  virtual void setSize (float size)
+  virtual void setSize (Real32 size)
       { _size = size;}
 
-  virtual void setMaxDescent(float maxDescent)
+  virtual void setMaxDescent(Real32 maxDescent)
     { _maxDescent = maxDescent; }
 
-  virtual inline float getMaxDescent(void)
+  virtual inline Real32 getMaxDescent(void)
     { return _maxDescent; }
 
-  virtual void setMaxAscent(float maxAscent)
+  virtual void setMaxAscent(Real32 maxAscent)
     { _maxAscent = maxAscent; }
 
-  virtual inline float getMaxAscent(void)
+  virtual inline Real32 getMaxAscent(void)
     { return _maxAscent; }
 
-  virtual void setBaselineSkip(float baselineSkip)
+  virtual void setBaselineSkip(Real32 baselineSkip)
     { _baselineSkip = baselineSkip ; }
 
-  virtual inline float getBaselineSkip(void)
+  virtual inline Real32 getBaselineSkip(void)
     { return _baselineSkip; }
 
-  virtual const char *getFontName(void)
+  virtual const Char8 *getFontName(void)
       { return _fontName;}
 
-  virtual void setFontName(const char *name)
+  virtual void setFontName(const Char8 *name)
       { _fontName = name;}
 
  };

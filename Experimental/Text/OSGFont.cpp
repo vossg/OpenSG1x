@@ -32,14 +32,14 @@ Font::Font (const Font &obj)
 }
 */
 
-Font::Font (const char *name)
+Font::Font (const Char8 *name)
 : _fontName(name), _valid(false)
 {
     return;
 }
 
 
-Font::Font (const char *name, string path )
+Font::Font (const Char8 *name, string path )
 : _fontPath(path), _fontName(name), _valid(false)
 {
     return;

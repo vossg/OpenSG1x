@@ -4,6 +4,7 @@
 #ifndef WIN32
 
 #include <OSGConfig.h>
+#include <OSGBaseTypes.h>
 #include <OSGPathHandler.h>
 
 
@@ -40,10 +41,10 @@ public:
     virtual ~FontFactory (void);
     
     /** Queries a Font */
-    virtual Font * queryFont (PathHandler & paths, const char *fontName);
+    virtual Font * queryFont (PathHandler & paths, const Char8 *fontName);
     
     /** returns the number of fonts found within path list */
-    virtual int getNumFonts (void) {return _knownFonts.size();}
+    virtual Int32 getNumFonts (void) {return _knownFonts.size();}
 
     static FontFactory &the(void) { return _the; }
 

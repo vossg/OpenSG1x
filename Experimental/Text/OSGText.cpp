@@ -68,9 +68,9 @@ Text::~Text(void)
 
 bool Text::fillTxfNode(NodePtr node, vector<string*> lineVec)
 {
-  int i, j, k, sStart, sStop, sStep, lStart, lStop, lStep;
-  int numChars, numLineChars, vertOff, stride=0, width, height;
-  float xOff, yOff, scale, tmpWidth, oaWidth;
+  Int32 i, j, k, sStart, sStop, sStep, lStart, lStop, lStep;
+  Int32 numChars, numLineChars, vertOff, stride=0, width, height;
+  Real32 xOff, yOff, scale, tmpWidth, oaWidth;
   TXFGlyphInfo *currentGlyph;
   GeoPositionsPtr points;
   GeoNormalsPtr normals;
@@ -122,12 +122,12 @@ bool Text::fillTxfNode(NodePtr node, vector<string*> lineVec)
   beginEditCP(texCoords, GeoNormals3f::GeoPropDataFieldMask);
   beginEditCP(faces, GeoIndicesUI32::GeoPropDataFieldMask);
 
-  scale = ((float)_fontInstance->getBaselineSkip()*_fontInstance->getYRes());
+  scale = ((Real32)_fontInstance->getBaselineSkip()*_fontInstance->getYRes());
 
   oaWidth=0.f;
   tmpWidth=0.f;
   for(i=0; i<lineVec.size(); i++) {
-    const char *text = lineVec[i]->c_str();
+    const Char8 *text = lineVec[i]->c_str();
     numLineChars = strlen(text);
     for(j=0; j< numLineChars; j++)
       tmpWidth += _fontInstance->getTXFGlyphInfo(text[j])->getAdvance()/scale;
@@ -150,7 +150,7 @@ bool Text::fillTxfNode(NodePtr node, vector<string*> lineVec)
   }
   for(k=lStart; k != lStop; k+=lStep) {
     numLineChars = strlen(lineVec[k]->c_str());
-    const char *text = lineVec[k]->c_str();
+    const Char8 *text = lineVec[k]->c_str();
 
     if(_justifyMajor == MIDDLE_JT || _justifyMajor == END_JT)
       for(j=0; j< numLineChars; j++)
@@ -167,6 +167,9 @@ bool Text::fillTxfNode(NodePtr node, vector<string*> lineVec)
     case END_JT:
       xOff=-tmpWidth;
       break;
+    default:
+      FFATAL (("Invalid _jusifyMajor entry\n"));
+      xOff = 0;
     }
     tmpWidth = 0;
 
@@ -182,18 +185,25 @@ bool Text::fillTxfNode(NodePtr node, vector<string*> lineVec)
     }
     for (i=sStart; i != sStop; i+=sStep) {
       for(j=0; j<4;j++, vertOff++) {
-	currentGlyph = _fontInstance->getTXFGlyphInfo(text[i]);
-	points->setValue(Vec3f(currentGlyph->getVertexCoords(j)[0]/scale+xOff,
-			       currentGlyph->getVertexCoords(j)[1]/scale+yOff, 0.0),
+				currentGlyph = _fontInstance->getTXFGlyphInfo(text[i]);
+				points->setValue(Vec3f(currentGlyph->getVertexCoords(j)[0]/scale+xOff,
+															 currentGlyph->getVertexCoords(j)[1]/scale+yOff,
+															 0.0),
 			 vertOff);
 
-	texCoords->setValue(Vec2f(currentGlyph->getTextureCoords(j)[0],
-				  currentGlyph->getTextureCoords(j)[1]),
-			    vertOff);
+// 				cerr << "v: " << currentGlyph->getVertexCoords(j)[0]/scale+xOff << ", "
+// 						 << currentGlyph->getVertexCoords(j)[1]/scale+yOff << endl;
+
+				texCoords->setValue(Vec2f(currentGlyph->getTextureCoords(j)[0],
+																	currentGlyph->getTextureCoords(j)[1]),
+														vertOff);
+
+// 				cerr << "t: " << currentGlyph->getTextureCoords(j)[0] << ", " 
+// 						 << currentGlyph->getTextureCoords(j)[1] << endl;
       }
       xOff += currentGlyph->getAdvance()/scale;
     }
-    yOff -= (float)_fontInstance->getBaselineSkip();
+    yOff -= (Real32)_fontInstance->getBaselineSkip();
   }
 
 
@@ -242,6 +252,7 @@ bool Text::fillTxfNode(NodePtr node, vector<string*> lineVec)
     _fontInstance->getTXFImageSizes(width, height);
     txfTexture->set(Image::OSG_LA_PF, width, height, 1, 1, 1, 0.0,
 		    _fontInstance->getTXFImageMap(), false);
+		txfTexture->write("font.ppm");
 
     beginEditCP(mat);
     {
@@ -276,30 +287,30 @@ bool Text::fillImage (Image &image,
 		      bool forcePower2, Real32 *maxX, Real32 *maxY,
 		      ImageCreationMode OSG_CHECK_ARG(creationMode),
 		      MergeMode OSG_CHECK_ARG(mergeMode),
-		      int pixelDepth
+		      Int32 pixelDepth
 		      ) const
     
 {
     ImageFontGlyph ***g;
-    unsigned char *img=0;
-    const int *res;
-    const char *text;
-    int pen_x, pen_y, line, xoff, yoff, width=0, overallWidth=0, height=0;
-    int overallHeight=0, i, j, k, l, tmpMinY, tmpMaxY, strStart, strEnd, strStep;
-    int p, tmpWidth;
-    unsigned char *srcPixel, *imageBuffer=0, *row=0, *dstPixel;
+    UChar8 *img=0;
+    const Int32 *res;
+    const Char8 *text;
+    Int32 pen_x, pen_y, line, xoff, yoff, width=0, overallWidth=0, height=0;
+    Int32 overallHeight=0, i, j, k, l, tmpMinY, tmpMaxY, strStart, strEnd, strStep;
+    Int32 p, tmpWidth;
+    UChar8 *srcPixel, *imageBuffer=0, *row=0, *dstPixel;
     bool retVal;
 
     if(forcePower2 && (!maxX || !maxY)) return false;
 
     if(_fontInstance) {
 	g = new ImageFontGlyph **[lineVec.size()];
-	for(line = 0; line < (int)lineVec.size(); line++) {
+	for(line = 0; line < (Int32)lineVec.size(); line++) {
 	    text = lineVec[line]->c_str();
 	    g[line] = new ImageFontGlyph*[strlen(text)];
 	    tmpMinY =  INT_MAX;
 	    tmpMaxY = -INT_MAX;
-	    for(i=0; i< (int)strlen(text); i++) {
+	    for(i=0; i< (Int32)strlen(text); i++) {
 		g[line][i] = _fontInstance->getImageGlyph(text[i]);
 		if(g[line][i]) {
 		    retVal =  g[line][i]->create();
@@ -314,28 +325,28 @@ bool Text::fillImage (Image &image,
 	    if(width > overallWidth) overallWidth = width;
 
 	    if(!tmpMinY && !tmpMaxY) // TXF-character not present -> all blanks..
-	      tmpMaxY = (int)rint((float)_fontInstance->getBaselineSkip());
+	      tmpMaxY = (Int32)rint((Real32)_fontInstance->getBaselineSkip());
  	    overallHeight += (line+1 == lineVec.size() ?
-			      (int)rint((abs(tmpMaxY) + abs(tmpMinY))*_spacing) :
-			      (int)rint((float)_fontInstance->getBaselineSkip()*
-					(float)_fontInstance->getYRes()*_spacing));
+			      (Int32)rint((abs(tmpMaxY) + abs(tmpMinY))*_spacing) :
+			      (Int32)rint((Real32)_fontInstance->getBaselineSkip()*
+					(Real32)_fontInstance->getYRes()*_spacing));
 	    width=0;
 	}
 
 	if(forcePower2) {
 	  height = 1;
 	  while(height < overallHeight) height *=2;
-	  *maxY = ((float) height) / ((float)overallHeight);
+	  *maxY = ((Real32) height) / ((Real32)overallHeight);
 	  overallHeight = height;
 
 	  width = 1;
 	  while(width < overallWidth) width *=2;
-	  *maxX = ((float)width) / ((float)overallWidth);
+	  *maxX = ((Real32)width) / ((Real32)overallWidth);
 	  overallWidth = width;
 	}
 
-	imageBuffer = new unsigned char[overallWidth*overallHeight*pixelDepth];
-	row = new unsigned char[overallWidth*pixelDepth];
+	imageBuffer = new UChar8[overallWidth*overallHeight*pixelDepth];
+	row = new UChar8[overallWidth*pixelDepth];
 
 	for(i=0; i<overallWidth*pixelDepth;)
 	  for(l=0; l < pixelDepth; l++, i++)
@@ -352,7 +363,7 @@ bool Text::fillImage (Image &image,
 
 	tmpWidth=0;
 	line=0;
-	for(i=0; i!=(int)strlen(lineVec[line]->c_str()); i++) {
+	for(i=0; i!=(Int32)strlen(lineVec[line]->c_str()); i++) {
 	  tmpMinY = g[line][i]->getBoundingBox()[2] < tmpMinY ?
 	    g[line][i]->getBoundingBox()[2] : tmpMinY;
 	  tmpMaxY = g[line][i]->getBoundingBox()[3] > tmpMaxY ?
@@ -365,22 +376,26 @@ bool Text::fillImage (Image &image,
 	height = abs(tmpMaxY) + abs(tmpMinY);
 	yoff = _topToBottom ? overallHeight-height : 0;
 
-	switch(_justifyMajor) {
-	case FIRST_JT:
-	case BEGIN_JT:
-	  xoff=0;
-	  break;
-	case MIDDLE_JT:
-	  xoff = (overallWidth-tmpWidth)/2*pixelDepth;
-	  break;
-	case END_JT:
-	  xoff = (overallWidth-tmpWidth)*pixelDepth;
-	  break;
-	}
+	switch(_justifyMajor) 
+    {
+    case FIRST_JT:
+    case BEGIN_JT:
+      xoff = 0;
+      break;
+    case MIDDLE_JT:
+      xoff = (overallWidth-tmpWidth)/2*pixelDepth;
+      break;
+    case END_JT:
+      xoff = (overallWidth-tmpWidth)*pixelDepth;
+      break;
+    default:
+      FFATAL (("Invalid _justifyMajor entry (%d)\n", _justifyMajor));
+      xoff = 0;
+    }
 // 	xoff-=g[line][0]->getBoundingBox()[0]*pixelDepth;
 	tmpWidth = 0;
 
-	for(line = 0; line < (int)lineVec.size(); line++) {
+	for(line = 0; line < (Int32)lineVec.size(); line++) {
 	  text = lineVec[line]->c_str();
 
 	    if(_leftToRight) {
@@ -418,11 +433,11 @@ bool Text::fillImage (Image &image,
 		xoff += (g[line][i]->getAdvance()*pixelDepth);
 	    }
 
-	    if(line+1 < (int)lineVec.size()) {
+	    if(line+1 < (Int32)lineVec.size()) {
 	      tmpWidth = 0;
 	      if(_justifyMajor == MIDDLE_JT || _justifyMajor == END_JT)
-		for(i=0; i!=(int)strlen(lineVec[line+1]->c_str()); i++)
-		  tmpWidth += (int)rint(g[line+1][i]->getAdvance());
+		for(i=0; i!=(Int32)strlen(lineVec[line+1]->c_str()); i++)
+		  tmpWidth += (Int32)rint(g[line+1][i]->getAdvance());
 
 	      switch(_justifyMajor) {
 	      case FIRST_JT:
@@ -437,16 +452,16 @@ bool Text::fillImage (Image &image,
 		break;
 	      }
 
-	      if(line+1 == (int)lineVec.size()-1)
+	      if(line+1 == (Int32)lineVec.size()-1)
 		yoff = _topToBottom ? 0 : overallHeight-height;
 	      else 
 		yoff += (_topToBottom ? -1 : 1) *
-		  (int)rint((float)_fontInstance->getBaselineSkip()*
+		  (Int32)rint((Real32)_fontInstance->getBaselineSkip()*
 			    _fontInstance->getYRes()*_spacing);
 	    }
 	}
 
-	for(line = 0; line < (int)lineVec.size(); line++)
+	for(line = 0; line < (Int32)lineVec.size(); line++)
 	    delete [] g[line];
 	delete []g;
 
@@ -460,22 +475,22 @@ bool Text::fillImage (Image &image,
 
 bool Text::fillGeo ( GeometryPtr mesh,
 			     vector<string*> lineVec,
-			     float precision,
-			     float extFac,
-			     float OSG_CHECK_ARG(maxExtend),
+			     Real32 precision,
+			     Real32 extFac,
+			     Real32 OSG_CHECK_ARG(maxExtend),
 			     MeshCreationMode creationMode,
 			     MergeMode OSG_CHECK_ARG(mergeMode)
 			     ) 
 {
-    int i, j, line, vertOff=0, faceOff=0, strOff=0, glyphOff=0, diff=0,
+    Int32 i, j, line, vertOff=0, faceOff=0, strOff=0, glyphOff=0, diff=0,
 	numVertices=0, numFaces=0, numFrontFaces=0, numNormals=0, strStart,
 	strEnd, strStep, lastVert=0, lastFace=0, lastNormal=0, normalOff=0,
       glyphNOff=2, reuseNormals, nstride, facestride=2, f_norm=1;
     bool retVal=false;
-    float lineOff=0.f, off=0.f, zCoord, bb[4], trX=0.0, trY=0.0, maxWidth=0.0,
+    Real32 lineOff=0.f, off=0.f, zCoord, bb[4], trX=0.0, trY=0.0, maxWidth=0.0,
 	tmpMinY=HUGE_VAL, tmpMaxY=-HUGE_VAL, localWidth, localHeight, descent;
     VectorFontGlyph ***g=0;
-    const char *text;
+    const Char8 *text;
 
 
     if(creationMode != FILL_TEX_CHAR_MCM &&
@@ -509,11 +524,11 @@ bool Text::fillGeo ( GeometryPtr mesh,
 	bb[3] = 0;
 	g = new VectorFontGlyph **[lineVec.size()];
 
-	for(line = 0; line < (int)lineVec.size(); line++) {
+	for(line = 0; line < (Int32)lineVec.size(); line++) {
 	  text = lineVec[line]->c_str();
 	    g[line] = new VectorFontGlyph*[strlen(text)];
 
-	    for(i=0; i< (int)strlen(text); i++) {
+	    for(i=0; i< (Int32)strlen(text); i++) {
  		g[line][i] = _fontInstance->getVectorGlyph(text[i]);
 		if(g[line][i]) {
 		    g[line][i]->setPrecision(precision*2);
@@ -726,7 +741,7 @@ bool Text::fillGeo ( GeometryPtr mesh,
 	}
 	
 	if(trY != 0.0) {
-	    for(i=0; i<(int)points->getSize(); i++)
+	    for(i=0; i<(Int32)points->getSize(); i++)
 		    points->setValue(points->getValue(lastVert+i) + Vec3f(0.0, trY, 0.0), i);
 	}
 
@@ -734,7 +749,7 @@ bool Text::fillGeo ( GeometryPtr mesh,
 	if(creationMode == FILL_TEX_ALL_MCM) {
 	    localHeight = fabs(bb[2])+fabs(bb[3]);
 
-	    for(i = 0; i < (int)points->getSize(); i++)
+	    for(i = 0; i < (Int32)points->getSize(); i++)
 	      texCoords->setValue(Vec2f(points->getValue(i)[0] / maxWidth,
 				  fabs(points->getValue(i)[1]-trY) / localHeight),i);
 	}
@@ -781,7 +796,7 @@ bool Text::fillGeo ( GeometryPtr mesh,
 	  mesh->setTexCoords(texCoords);
 
 	
-	for(line = 0; line < (int)lineVec.size(); line++)
+	for(line = 0; line < (Int32)lineVec.size(); line++)
 	    delete [] g[line];
 	delete []g;
 

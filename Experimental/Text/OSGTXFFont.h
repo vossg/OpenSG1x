@@ -4,6 +4,7 @@
 #ifndef WIN32
 
 #include <OSGConfig.h>
+#include <OSGBaseTypes.h>
 
 #include "OSGFont.h"
 #include "OSGTXFGlyphInfo.h"
@@ -22,22 +23,22 @@ class TXFFont : public virtual Font {
 public:
 
     struct txfChar {
-      char           dimensions[6];
-      short          x, y;
-      unsigned char  remapped;
+      Int8           dimensions[6];
+      Int16          x, y;
+      UChar8  remapped;
       txfChar(void) : remapped(' ') {;}
     };
 
 private:
 
-    int             _txfIsBitmap;
-    int             _txfFontMaxAscent;
-    int             _txfFontMaxDescent;
-    int             _txfFontWidth;
-    int             _txfFontHeight;
-    int             _txfNumGlyphs;
-    txfChar        *_txfGlyphs;
-    unsigned char  *_txfImageMap;
+    Int32             _txfIsBitmap;
+    Int32             _txfFontMaxAscent;
+    Int32             _txfFontMaxDescent;
+    Int32             _txfFontWidth;
+    Int32             _txfFontHeight;
+    Int32             _txfNumGlyphs;
+    txfChar          *_txfGlyphs;
+    UChar8           *_txfImageMap;
 
 
 protected:
@@ -53,10 +54,10 @@ public:
   TXFFont (const TXFFont &obj);
 
   /** Constructor */
-  TXFFont (const char *name, string path);
+  TXFFont (const Char8 *name, string path);
 
   /** Constructor */
-  TXFFont (const char *name, istream & source);
+  TXFFont (const Char8 *name, istream & source);
 
   /** Destructor */
   virtual ~TXFFont (void);
@@ -68,7 +69,7 @@ public:
   virtual bool createInstance (Text *text);
 
   /** creates FontStyle */
-  virtual FontStyle *createInstance (float size);
+  virtual FontStyle *createInstance (Real32 size);
 
 };
 

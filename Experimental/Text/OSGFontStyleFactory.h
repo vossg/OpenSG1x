@@ -37,7 +37,7 @@ public:
 	/** Destructor */
 	virtual ~FontStyleFactory();
 
-	FontStyle *create(PathHandler & paths, const char *fontName, float size);
+	FontStyle *create(PathHandler & paths, const Char8 *fontName, Real32 size);
 
 	bool  discard(FontStyle *OSG_CHECK_ARG(fs)) {return false;}
 
