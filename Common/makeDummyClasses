@@ -194,7 +194,7 @@ for $n ( @ageoout )
         printCommon();
         print   " \\ingroup GrpSystemDrawablesGeometryProperties\n\n";
         print   " \\brief An abstract GeometryProperty, see \\ref ";
-        print   " GrpSystemDrawablesGeometryProperties for a description.\n";
+        print   " PageSystemGeoProperties for a description.\n";
 		print	"*/\n";
 
 		print $n, "\n\n"
@@ -210,11 +210,11 @@ for $n ( @cgeoout )
         print	"/*!\n";
         print   " \\ingroup GrpSystemDrawablesGeometryProperties\n\n";
         print   " \\brief A concrete GeometryProperty, see \\ref ",
-                  " GrpSystemDrawablesGeometryProperties for a description.\n\n";
+                  " PageSystemGeoProperties for a description.\n\n";
         printCommon();
         print   "\nThe actual inheritance is ",
                 "nowhere near as complicated as it looks here, see \\ref ",
-                "GrpSystemDrawablesGeometryProperties for a description.\n\n",
+                "PageSystemGeoProperties for a description.\n\n",
                 "The primarily interesting parts of this are: the GenericType in ",
                 "the first \b Typedefs section, which describes the generic type for ",
                 "this kind of property, the StoredFieldType, which describes the ",

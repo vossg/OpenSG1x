@@ -6,7 +6,7 @@ if($#ARGV < 0)
     exit;
 }
 
-$rel_path = "../../..";
+$rel_path = "../../../Source";
 
 @out_packages = ();
 @out_h        = ();
@@ -71,8 +71,8 @@ sub processPack
     local $l_package   = shift(@l_input);
     local $l_basedir   = shift(@l_input)."/";
     
-#    print "Package : $l_package\n";
-#    print "Basedir : $l_basedir\n";
+#    print "Package : $l_package\r\n";
+#    print "Basedir : $l_basedir\r\n";
     
     for $entry (@l_input)
     {
@@ -101,7 +101,7 @@ sub processPack
         }
         else
         {
-            print "Error unknown filetype $_\n";
+            print "Error unknown filetype $_\r\n";
         }
     }
 
