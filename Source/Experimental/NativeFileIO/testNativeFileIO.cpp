@@ -171,7 +171,7 @@ int main (int argc, char **argv)
         // "quantizePositions=0,"
         // "quantizeNormals=0,"
         // "quantizeTexCoords=0,"
-        // "packIndices=true"
+        // "packIndices=false"
 
         SceneFileHandler::the().setOptions("osb", "compressTextures=true,"
                                                   "texturesCompressionQuality=75,"

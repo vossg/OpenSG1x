@@ -78,7 +78,7 @@ _texturesCompressionQuality(75),
 _quantizePositions(Quantizer::QRES_OFF),
 _quantizeNormals(Quantizer::QRES_OFF),
 _quantizeTexCoords(Quantizer::QRES_OFF),
-_packIndices(true)
+_packIndices(false)
 {
 }
 
@@ -99,7 +99,7 @@ void NFIOOptions::init(const std::string &options)
     _quantizePositions = Quantizer::QRES_OFF;
     _quantizeNormals = Quantizer::QRES_OFF;
     _quantizeTexCoords = Quantizer::QRES_OFF;
-    _packIndices = true;
+    _packIndices = false;
     
     std::string option;
     UInt32 i = 0;
@@ -218,6 +218,6 @@ Int32 NFIOOptions::getInteger(const std::string &str)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOOptions.cpp,v 1.2 2004/01/10 15:17:31 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOOptions.cpp,v 1.3 2004/04/08 13:44:14 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOOPTIONS_HEADER_CVSID;
 }
