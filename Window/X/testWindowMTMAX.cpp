@@ -397,7 +397,7 @@ int main (int argc, char **argv)
             dynamic_cast<Thread *>(gThreadManager->getThread(NULL));
         if ( drawThread[i] != NULL )   // and spin it ...
         {      
-            drawThread[i]->run( drawThreadProc, 1, (void *)i );
+            drawThread[i]->runFunction( drawThreadProc, 1, (void *)i );
         }
     }
 

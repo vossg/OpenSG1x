@@ -409,7 +409,7 @@ int main( int argc, char **argv )
         if ( drawThread[i] != NULL )
         {      
             drawThreadID[i] = i;
-            drawThread[i]->run( drawThreadProc, 0, (void *) &(drawThreadID[i]) );
+            drawThread[i]->runFunction( drawThreadProc, 0, (void *) &(drawThreadID[i]) );
         }
     }
 
