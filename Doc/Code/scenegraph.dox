@@ -1,0 +1,77 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \page PageScenegraph Scene Graphs
+
+The most prominent standard library used for writing interactive 3D graphics
+applications is OpenGL. OpenGL is cleanyl and well designed and has a very
+specific goal: be a layer on top of the graphics hardware, as thin as possible,
+as thick as necessary to abstract away the differences between different
+graphics hardware variants.
+
+A consequence of this design is that OpenGL is very fine-grained and flexible.
+Every object has to be specified vertex by vertex including all its data. Newer
+OpenGL functions (e.g. Vertex Arrays) simplify this somewhat, but only in 
+a limited sense. The closest thing to an object in OpenGL is a display list,
+which is just like a macro recording of the executed OpenGL commands, and don't
+feature any object-specific interface.
+
+The idea of a scene graph is to provide a higher level of abstraction. A scene
+graph actually stores the whole scene in the form of a graph of connected
+objects. 
+
+\image html scene_example.png "Example Scene"
+
+\image html graph_example.png "Example Scene's Graph"
+
+\image latex scene_example.eps "Example Scene" width=8cm
+
+\image latex graph_example.eps "Example Scene's Graph" width=8cm
+
+Graphs are used in many places in computer science, scene graphs are a subset
+of general graphs. They are acyclic, i.e. there can be no loops in the scene
+graph, as they would lead to infinite loops when trying to walk the graph.
+They are directed, i.e. there is a defined direction of the connections
+between the nodes. Thus nodes can be grouped together by attaching them to a
+parent node. This conceptually allows manipulation of a large number of nodes
+by manipulating this parent node. Of course this is recursive, i.e. these
+parent nodes themselves can also be grouped and attached to another parent. In
+the end this leads to a single root node, which defines the whole
+scene to be rendered. In general there can be more than one graph in an
+application, but whatever is displayed in a single window is usually defined
+by a single root node.
+
+One aspect that scene graphs make more explicit than OpenGL is the sharing of
+data. It is desirable to use the data of a node in multiple places in the
+graph, e.g. store only one copy of the wheel's geometry and use it in multiple
+places. The disadvantage of the simple multi-use is that it is not possible any
+more to identify a single wheel, as they are all the same object. Thus OpenSG
+uses a different method to do sharing, the Node-Core split, see \ref
+PageSystemNodesNCores.
+
+Scene graphs, in contrast to many other graphs in computer science, are also
+heterogeneous, i.e. there are many different types of nodes with different
+functions (see \ref PageSystemNodesNCores for the different types OpenSG
+supports). There are two general types of nodes: groups and drawables.
+
+Groups (see \ref PageSystemNCGroups) are used to structure the graph into
+parts and to control either attributes of their subgraph (e.g. \ref
+NCGroupsTransform) or to select only a selection of their children for
+traversal (e.g. \ref NCGroupsSwitch).
+
+Drawables (see \ref PageSystemDrawables) are usually put in the leaves of the
+tree (i.e. they have no children) and contain the actual elements to be
+rendered. In most cases this will be polygonal geometry (see \ref
+PageSystemGeometry), but other types are possible (e.g. \ref
+PageSystemParticles or \ref PageSystemSlices). The parameters that define the
+surface charaterictics of the rendered objects e.g. surface color, shininess
+or texture (or rendering paramaters in general, as some Drawables don't have a
+surface) are usually associated with the Drawable wrapped in a separate
+object, in OpenGL it is called \ref PageSystemMaterial. This Material can and
+should be used by as many object as possible, to get good performance.
+
+I hope this page can give you a first rough idea of what scene graphs are
+about.
+
+*/
