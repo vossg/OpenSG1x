@@ -130,7 +130,7 @@ bool DATImageFileType::read (      ImagePtr &image,
     KeyType key;
     Image::Type formatType;
     UInt32 res[3];
-    int bpv, dataSize = 0;
+    UInt32 bpv, dataSize = 0;
     Image::PixelFormat pixelFormat;
     char *dataBuffer = 0;
     bool needConversion;
@@ -232,15 +232,34 @@ bool DATImageFileType::read (      ImagePtr &image,
                 }
                 if (inVol.good())
                 {
-                    image->set ( pixelFormat, res[0], res[1], res[2], 1, 1, 0.0, 0, formatType);
+                    // get length of the stream.
+                    inVol.seekg(0, std::ios::end);
+                    UInt64 length = inVol.tellg();
+                    inVol.seekg(0, std::ios::beg);
+                    
                     dataSize = bpv * res[0] * res[1] * res[2];
+                    
+                    UInt32 fileDataSize = dataSize;
+                    if(length < dataSize)
+                    {
+                        // correct dataSize.
+                        fileDataSize = length;
+                        FWARNING (( "RAW file length to small!\n" ));
+                    }
+                    else if(length > dataSize)
+                    {
+                        FWARNING (( "RAW file length to big!\n" ));
+                    }
+                    
+                    image->set ( pixelFormat, res[0], res[1], res[2], 1, 1, 0.0, 0, formatType);
+
                     if (needConversion)
                         dataBuffer = new char [ dataSize ];
                     else
                         dataBuffer = ((char *)(image->getData()));
 
                     inVol.ignore ( fileOffset );
-                    inVol.read ( dataBuffer, dataSize );
+                    inVol.read ( dataBuffer, fileDataSize );
                 }
                 else 
                 {
@@ -376,7 +395,7 @@ UInt64 DATImageFileType::storeData(const ImagePtr &image,
                                          UChar8   *buffer,
                                          Int32     OSG_CHECK_ARG(memSize))
 {
-    unsigned dataSize = image->getSize();
+    UInt32 dataSize = image->getSize();
     const UChar8 *src = image->getData();
 
     if ( dataSize && src && buffer )
