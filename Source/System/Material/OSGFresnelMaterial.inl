@@ -42,7 +42,17 @@
 
 OSG_BEGIN_NAMESPACE
 
+inline
+void FresnelMaterial::setImage(ImagePtr &pImage)
+{
+     addRefCP(pImage);
+
+     subRefCP(_sfImage.getValue());
+
+    _sfImage.setValue(pImage);
+}
+
 OSG_END_NAMESPACE
 
-#define OSGFRESNELMATERIAL_INLINE_CVSID "@(#)$Id: OSGFresnelMaterial.inl,v 1.1 2004/02/01 20:07:03 a-m-z Exp $"
+#define OSGFRESNELMATERIAL_INLINE_CVSID "@(#)$Id: OSGFresnelMaterial.inl,v 1.2 2004/02/05 21:49:58 a-m-z Exp $"
 

@@ -225,6 +225,22 @@ void FresnelMaterial::changed(BitVector whichField, UInt32 origin)
 
     if(whichField & ImageFieldMask)
     {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfImage.getValue());
+            }
+            else
+            {
+                ImagePtr pImage = _sfImage.getValue();
+
+                _sfImage.setValue(NullFC);
+
+                setImage(pImage);
+            }
+        }
+        
         if(getImage() != NullFC)
         {
             beginEditCP(_img);
@@ -383,7 +399,7 @@ bool FresnelMaterial::isTransparent(void) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFresnelMaterial.cpp,v 1.2 2004/02/05 18:03:29 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFresnelMaterial.cpp,v 1.3 2004/02/05 21:49:58 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGFRESNELMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFRESNELMATERIAL_INLINE_CVSID;
 

@@ -86,6 +86,14 @@ class OSG_SYSTEMLIB_DLLMAPPING FresnelMaterial : public FresnelMaterialBase
     virtual bool        isTransparent   (void) const;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Texture specific                              */
+    /*! \{                                                                 */
+    
+    void setImage           (ImagePtr &pImage);
+      
+      
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -135,6 +143,6 @@ OSG_END_NAMESPACE
 #include <OSGFresnelMaterialBase.inl>
 #include <OSGFresnelMaterial.inl>
 
-#define OSGFRESNELMATERIAL_HEADER_CVSID "@(#)$Id: OSGFresnelMaterial.h,v 1.1 2004/02/01 20:07:03 a-m-z Exp $"
+#define OSGFRESNELMATERIAL_HEADER_CVSID "@(#)$Id: OSGFresnelMaterial.h,v 1.2 2004/02/05 21:49:58 a-m-z Exp $"
 
 #endif /* _OSGFRESNELMATERIAL_H_ */
