@@ -52,9 +52,20 @@
 #       define OSG_FIELDCONTAINER_DLLMAPPING     __declspec(dllexport)
 #       define OSG_FIELDCONTAINER_TMPLDLLMAPPING __declspec(dllexport)
 #   else
-#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILELOG)   || \
-                                     defined(OSG_COMPILEFIELD) || \
-                                     defined(OSG_COMPILEBASE))
+#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILEDRAWACTION)        || \
+                                     defined(OSG_COMPILEACTION)            || \
+                                     defined(OSG_COMPILEINTERSECTACTION)   || \
+                                     defined(OSG_COMPILEFIELD)             || \
+                                     defined(OSG_COMPILEIMAGE)             || \
+                                     defined(OSG_COMPILELOADER)            || \
+                                     defined(OSG_COMPILEMATERIAL)          || \
+                                     defined(OSG_COMPILEMULTITHREADING)    || \
+                                     defined(OSG_COMPILEMISC)              || \
+                                     defined(OSG_COMPILELIGHT)             || \
+                                     defined(OSG_COMPILEGEOMETRY)          || \
+                                     defined(OSG_COMPILESTATE)             || \
+                                     defined(OSG_COMPILEWINDOW)            || \
+                                     defined(OSG_COMPILESYSTEMLIB))
 #           define OSG_FIELDCONTAINER_DLLMAPPING     __declspec(dllexport)
 #           define OSG_FIELDCONTAINER_TMPLDLLMAPPING __declspec(dllexport)
 #       else

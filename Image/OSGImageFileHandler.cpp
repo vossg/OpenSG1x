@@ -40,6 +40,7 @@
 // 	Includes 					 			    
 //-------------------------------
 
+#define OSG_COMPILEIMAGE
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -54,8 +55,6 @@
 
 #include <OSGLog.h>
 #include <OSGBaseTypes.h>
-
-#define OSG_COMPILEIMAGE
 
 #include "OSGImageFileHandler.h"
 

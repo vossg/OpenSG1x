@@ -122,7 +122,7 @@ OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty,
                            OSG_GEOMETRY_DLLTMPLMAPPING)
 
 OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty,
-                           GeoTexCoordPropertyDesc, 
+                           GeoTexCoordsPropertyDesc, 
                            OSG_GEOMETRY_DLLTMPLMAPPING)
 
 OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty,

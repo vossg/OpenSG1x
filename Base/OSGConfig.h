@@ -640,9 +640,9 @@ OSG_USING_STD_NAMESPACE
     extern template DLLMAPPING                                               \
         const FieldContainerType &CLASSNAME<T1>::getType(void) const;        \
     extern template DLLMAPPING                                               \
-              FieldContainerType &CLASSNAME<T1>::getStaticType(void);        \
+              FieldContainerType &CLASSNAME<T1>::getClassType(void);         \
     extern template DLLMAPPING                                               \
-              UInt32              CLASSNAME<T1>::getStaticTypeId(void);
+              UInt32              CLASSNAME<T1>::getClassTypeId(void);
 
 #define OSG_FC_DLLEXPORT_DECL(CLASSNAME, T1, DLLMAPPING)                     \
     OSG_FC_EXPORT_TYPE_DECL   (CLASSNAME, T1, DLLMAPPING)                    \
@@ -669,9 +669,9 @@ OSG_USING_STD_NAMESPACE
     template DLLMAPPING                                                      \
         const FieldContainerType &CLASSNAME<T1>::getType(void) const;        \
     template DLLMAPPING                                                      \
-              FieldContainerType &CLASSNAME<T1>::getStaticType(void);        \
+              FieldContainerType &CLASSNAME<T1>::getClassType(void);         \
     template DLLMAPPING                                                      \
-              UInt32              CLASSNAME<T1>::getStaticTypeId(void);
+              UInt32              CLASSNAME<T1>::getClassTypeId(void);
 
 #define OSG_FC_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING)                      \
     OSG_FC_EXPORT_TYPE_DEF   (CLASSNAME, T1, DLLMAPPING)                     \

@@ -74,7 +74,7 @@ typedef SField<ImageP> SFImageP;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, SFImageP, OSG_IMAGE_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, SFImageP, OSG_FIELD_DLLTMPLMAPPING)
 
 #endif
 #endif

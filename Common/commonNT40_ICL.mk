@@ -181,6 +181,10 @@ ifneq ($(INCLUDE_GLUT),)
 INCL$(OS) += /I$(INCLUDE_GLUT)
 endif
 
+ifneq ($(INCLUDE_QT),)
+INCL$(OS) += /I$(INCLUDE_QT)
+endif
+
 ifdef OSG_BUILD_DLL
 POST_LINK_LIBS$(OS) := \
 	/LIBPATH:$(LIB_SYSTEM)		\

@@ -91,7 +91,7 @@ class MPFieldStore;
  *  \brief LockCommonBase
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING LockCommonBase : public MPBase
+class OSG_MULTITHREADING_DLLMAPPING LockCommonBase : public MPBase
 {
   public:
 
@@ -485,7 +485,7 @@ typedef SprocLockBase LockBase;
  *  \brief WinThreadLockBase
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING WinThreadLockBase : public LockCommonBase
+class OSG_MULTITHREADING_DLLMAPPING WinThreadLockBase : public LockCommonBase
 {
   public:
 
@@ -621,7 +621,7 @@ typedef WinThreadLockBase LockBase;
  *  \brief Lock
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING Lock : public LockBase
+class OSG_MULTITHREADING_DLLMAPPING Lock : public LockBase
 {
   public:
 
@@ -746,7 +746,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING Lock : public LockBase
  *  \brief LockPool
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING LockPool : public LockCommonBase
+class OSG_MULTITHREADING_DLLMAPPING LockPool : public LockCommonBase
 {
   public:
 

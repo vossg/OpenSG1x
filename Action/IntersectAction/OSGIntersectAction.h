@@ -57,7 +57,12 @@
 #   else
 #       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILEDRAWACTION)        || \
                                      defined(OSG_COMPILEACTION)            || \
+                                     defined(OSG_COMPILEFIELD)             || \
+                                     defined(OSG_COMPILEFIELDCONTAINER)    || \
+                                     defined(OSG_COMPILEIMAGE)             || \
+                                     defined(OSG_COMPILELOADER)            || \
                                      defined(OSG_COMPILEMATERIAL)          || \
+                                     defined(OSG_COMPILEMULTITHREADING)    || \
                                      defined(OSG_COMPILEMISC)              || \
                                      defined(OSG_COMPILELIGHT)             || \
                                      defined(OSG_COMPILEGEOMETRY)          || \

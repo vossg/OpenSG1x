@@ -90,7 +90,7 @@ class MPFieldStore;
  *  \brief ThreadCommonBase
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING ThreadCommonBase : public MPBase
+class OSG_MULTITHREADING_DLLMAPPING ThreadCommonBase : public MPBase
 {
   public:
 
@@ -578,7 +578,7 @@ typedef SprocBase ThreadBase;
  *  \brief Brief WinThreadBase
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING WinThreadBase : public ThreadCommonBase
+class OSG_MULTITHREADING_DLLMAPPING WinThreadBase : public ThreadCommonBase
 {
    public:
 
@@ -756,7 +756,7 @@ typedef WinThreadBase ThreadBase;
  *  \brief Thread
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING Thread : public ThreadBase
+class OSG_MULTITHREADING_DLLMAPPING Thread : public ThreadBase
 {
   public:
 

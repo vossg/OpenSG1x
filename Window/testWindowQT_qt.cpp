@@ -207,7 +207,7 @@ int main( int argc, char **argv )
 
     osgInit(argc, argv);
  
-#ifdef WIN32
+#if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
     RAWSceneFileType *pR = &(RAWSceneFileType::staticThe());
 #endif
 

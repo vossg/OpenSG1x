@@ -217,6 +217,7 @@ Bool Plane::isOnPlane(const Pnt3f &point) const
 OSG_BEGIN_NAMESPACE
 
 /// Equality comparison operators
+OSG_BASE_DLLMAPPING
 Bool operator ==(const Plane &p1, const Plane &p2)
 {
 	return ((p1._distance == p2._distance) &&

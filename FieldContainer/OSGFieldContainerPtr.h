@@ -119,14 +119,18 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerPtrBase
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-    friend void addRefCP   (const FieldContainerPtrBase &objectP);
+    friend OSG_FIELDCONTAINER_DLLMAPPING
+    void addRefCP   (const FieldContainerPtrBase &objectP);
 
-    friend void subRefCP   (const FieldContainerPtrBase &objectP);
+    friend OSG_FIELDCONTAINER_DLLMAPPING
+    void subRefCP   (const FieldContainerPtrBase &objectP);
 
-    friend void setRefdCP  (      FieldContainerPtrBase &objectP,
-                            const FieldContainerPtrBase &newObjectP);
+    friend OSG_FIELDCONTAINER_DLLMAPPING
+    void setRefdCP  (      FieldContainerPtrBase &objectP,
+                     const FieldContainerPtrBase &newObjectP);
 
-    friend void clearRefCP (      FieldContainerPtrBase &objectP);
+    friend OSG_FIELDCONTAINER_DLLMAPPING
+    void clearRefCP (      FieldContainerPtrBase &objectP);
 
     template <class RetTypeT, class InTypeT> inline
     friend RetTypeT dcast(const InTypeT oIn);
@@ -337,17 +341,21 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerPtr : public FieldContainerPtr
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-    friend void beginEditCP(const FieldContainerPtr &objectP, 
-                                  BitVector          whichField);
+    friend OSG_FIELDCONTAINER_DLLMAPPING
+    void beginEditCP(const FieldContainerPtr &objectP, 
+                           BitVector          whichField);
 
-    friend void endEditCP  (const FieldContainerPtr &objectP, 
-                                  BitVector          whichField);
+    friend OSG_FIELDCONTAINER_DLLMAPPING
+    void endEditCP  (const FieldContainerPtr &objectP, 
+                           BitVector          whichField);
 
-    friend void changedCP  (const FieldContainerPtr &objectP, 
-                                  BitVector          whichField);
+    friend OSG_FIELDCONTAINER_DLLMAPPING
+    void changedCP  (const FieldContainerPtr &objectP, 
+                           BitVector          whichField);
 
-    friend void endEditNotChangedCP(const FieldContainerPtr &objectP, 
-                                          BitVector          whichField);
+    friend OSG_FIELDCONTAINER_DLLMAPPING
+    void endEditNotChangedCP(const FieldContainerPtr &objectP, 
+                                   BitVector          whichField);
 
     //-----------------------------------------------------------------------
     //   class variables                                                     

@@ -54,6 +54,33 @@
 
 OSG_BEGIN_NAMESPACE
 
+#if defined(WIN32) && defined(OSG_BUILD_DLL)
+#   ifdef OSG_COMPILEMULTITHREADING
+#       define OSG_MULTITHREADING_DLLMAPPING __declspec(dllexport)
+#   else
+#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILEDRAWACTION)        || \
+                                     defined(OSG_COMPILEINTERSECTACTION)   || \
+                                     defined(OSG_COMPILEFIELD)             || \
+                                     defined(OSG_COMPILEFIELDCONTAINER)    || \
+                                     defined(OSG_COMPILEIMAGE)             || \
+                                     defined(OSG_COMPILELOADER)            || \
+                                     defined(OSG_COMPILEMATERIAL)          || \
+                                     defined(OSG_COMPILEACTION)            || \
+                                     defined(OSG_COMPILEMISC)              || \
+                                     defined(OSG_COMPILELIGHT)             || \
+                                     defined(OSG_COMPILEGEOMETRY)          || \
+                                     defined(OSG_COMPILESTATE)             || \
+                                     defined(OSG_COMPILEWINDOW)            || \
+                                     defined(OSG_COMPILESYSTEMLIB))
+#           define OSG_MULTITHREADING_DLLMAPPING __declspec(dllexport)
+#       else
+#           define OSG_MULTITHREADING_DLLMAPPING __declspec(dllimport)
+#       endif
+#   endif
+#else
+#define OSG_MULTITHREADING_DLLMAPPING
+#endif
+
 //---------------------------------------------------------------------------
 //  Forward References
 //---------------------------------------------------------------------------
@@ -86,7 +113,7 @@ typedef LockPool *(*CreateLockPoolF)(const Char8 *szName,
  *  \brief MPType
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING MPType : public TypeBase
+class OSG_MULTITHREADING_DLLMAPPING MPType : public TypeBase
 {
   public:
 
@@ -203,7 +230,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING MPType : public TypeBase
  *  \brief TypeBase
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING MPThreadType : public MPType
+class OSG_MULTITHREADING_DLLMAPPING MPThreadType : public MPType
 {
   public:
 
@@ -327,7 +354,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING MPThreadType : public MPType
  *  \brief TypeBase
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING MPBarrierType : public MPType
+class OSG_MULTITHREADING_DLLMAPPING MPBarrierType : public MPType
 {
   public:
 
@@ -453,7 +480,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING MPBarrierType : public MPType
  *  \brief TypeBase
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING MPLockType : public MPType
+class OSG_MULTITHREADING_DLLMAPPING MPLockType : public MPType
 {
   public:
 
@@ -578,7 +605,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING MPLockType : public MPType
  *  \brief TypeBase
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING MPLockPoolType : public MPType
+class OSG_MULTITHREADING_DLLMAPPING MPLockPoolType : public MPType
 {
   public:
 
@@ -708,7 +735,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING MPLockPoolType : public MPType
  *  detailed
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING MPBase : public MemoryObject
+class OSG_MULTITHREADING_DLLMAPPING MPBase : public MemoryObject
 {
   public:
 

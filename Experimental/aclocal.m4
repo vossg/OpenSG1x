@@ -203,6 +203,8 @@ AC_DEFUN(AC_GDZ_EXEEXT,
 
     esac
 
+    ac_gdz_exe_suffix=.$EXEEXT
+
 ])
 
 AC_DEFUN(AC_GDZ_OBJEXT,
@@ -380,6 +382,8 @@ dnl e2
         ac_gdz_package_inc_dep_out=${ac_gdz_package_inc_dep[$i]}
         ac_gdz_package_inc_dep_out_files= 
 
+        ac_gdz_package_link_dep_out=${ac_gdz_package_link_dep[$i]}
+
         for dir in ${ac_gdz_package_inc_dep[$i]}; do
 
             ac_gdz_package_check_dir_e2=$ac_gdz_src_dir/$dir
@@ -391,13 +395,16 @@ dnl e2
 
                 if [[ -r $ac_gdz_package_check_file_e2 ]]; then
                     ac_gdz_package_inc_dep_out_files="$ac_gdz_package_inc_dep_out_files $ac_gdz_commonpackage_dir/common$dir.mk"
+    
+                    if [[ $build_os = cygwin ]]; then
+                        ac_gdz_package_link_dep_out="$ac_gdz_package_link_dep_out $dir"
+                    fi
                 else
                     ac_gdz_package_inc_dep_out_files=$ac_gdz_package_inc_dep_out_files' $('${ac_gdz_project_praefix}'POOL)'/$dir/common.mk
                 fi
             fi
         done
 
-        ac_gdz_package_link_dep_out=${ac_gdz_package_link_dep[$i]}
         ac_gdz_package_link_dep_out_files=
 
         for dir in ${ac_gdz_package_link_dep[$i]}; do
@@ -474,6 +481,7 @@ dnl e2
 
         ac_gdz_win_pool_e2=
         ac_gdz_win_build_base_e2=
+        ac_gdz_build_dir_e2=$ac_gdz_build_dir        
 
         if [[ $build_os = cygwin ]]; then
             ac_gdz_src_dir_win_e2=`cygpath -w $ac_gdz_src_dir`
@@ -482,8 +490,6 @@ dnl e2
             ac_gdz_package_sub_dir_win_e2=`cygpath -w $ac_gdz_build_dir_e2/$ac_gdz_package_sub_dir_out`
             ac_gdz_win_build_base_e2="BUILD_BASE_WIN := "$ac_gdz_package_sub_dir_win_e2
         fi
-
-        ac_gdz_build_dir_e2=$ac_gdz_build_dir        
 
         AC_SUBST(ac_gdz_src_dir)
         AC_SUBST(ac_gdz_build_dir_e2)

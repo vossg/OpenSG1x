@@ -121,12 +121,13 @@ void osg::addMPExitFunction(ExitFuncF exitFunc)
 OSG_BASE_DLLMAPPING 
 Bool OSG::osgInit(int argc, char **argv)
 {
+    UInt32 i;
     Bool returnValue = true;
 
     if(osgMPInitFunctions == NULL)
         return false;
 
-    for(UInt32 i = 0; i < osgMPInitFunctions->size(); i++)
+    for(i = 0; i < osgMPInitFunctions->size(); i++)
     {
         returnValue &= (*osgMPInitFunctions)[i](argc, argv);
 
@@ -140,7 +141,7 @@ Bool OSG::osgInit(int argc, char **argv)
     if(osgInitFunctions == NULL)
         return returnValue;
 
-    for(UInt32 i = 0; i < osgInitFunctions->size(); i++)
+    for(i = 0; i < osgInitFunctions->size(); i++)
     {
         returnValue &= (*osgInitFunctions)[i](argc, argv);
 

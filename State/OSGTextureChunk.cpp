@@ -55,10 +55,10 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILESTATE
+
 #include "OSGDrawAction.h"
 #include "OSGWindow.h"
-
-#define OSG_COMPILESTATE
 
 #include "OSGTextureChunk.h"
 
@@ -106,7 +106,7 @@ OSG_FC_FIELD_IDM_DEF      (TextureChunk, GenFuncQPlaneField,GenFuncRPlaneField )
 OSG_FC_FIELD_IDM_DEF      (TextureChunk, GLIdField, 		GenFuncQPlaneField )  
 OSG_FC_LAST_FIELD_IDM_DEF (TextureChunk, GLIdField)
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.2 2001/02/12 16:00:07 vossg Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.3 2001/02/13 03:53:31 vossg Exp $";
 
 StateChunkClass TextureChunk::_class(String("Texture"));
 
@@ -315,7 +315,7 @@ TextureChunk::TextureChunk( const TextureChunk& source ) :
 	// if not this is the copy from the prototype
 	
 	// !!! this temporary is needed to work around compiler problems (sgi)
-	TextureChunkPtr tmpPtr = getPtr<TextureChunkPtr>(*this);
+	TextureChunkPtr tmpPtr = FieldContainer::getPtr<TextureChunkPtr>(*this);
 	
 	if ( ! getGLId() )	
 		setGLId( Window::registerGLObject( 

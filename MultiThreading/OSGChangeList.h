@@ -75,7 +75,7 @@ class FieldContainerPtrBase;
  *  \brief ChangeList
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING ChangeList : public MemoryObject
+class OSG_MULTITHREADING_DLLMAPPING ChangeList : public MemoryObject
 {
   public:
 

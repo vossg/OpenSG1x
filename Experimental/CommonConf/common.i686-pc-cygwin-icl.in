@@ -21,7 +21,7 @@ II_FILESDIR          :=
 ### Defines #######################################################
 
 # For QT
-DEP_PLATTFORMDEF = 
+DEP_PLATTFORMDEF = -DQT_CLEAN_NAMESPACE -D_STANDARD_C_PLUS_PLUS 
 
 SOURCE_DEFINES   = 
 
@@ -108,3 +108,4 @@ else
 	LINK_DEBUG       = -Debug 
 endif
 
+LD_FLAGS += $(LINK_OPTIMIZE) $(LINK_DEBUG)

@@ -40,6 +40,7 @@
 // 	Includes 					 			    
 //-------------------------------
 
+#define OSG_COMPILEIMAGE
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -51,8 +52,6 @@
 #else
 #include <iostream.h>
 #endif
-
-#define OSG_COMPILEIMAGE
 
 #include "OSGTIFImageFileType.h"
 

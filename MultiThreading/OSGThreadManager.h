@@ -90,7 +90,7 @@ class ChangeList;
  */
 
 template <class MPFieldT>
-class OSG_FIELDCONTAINER_DLLMAPPING MPFieldStore 
+class OSG_MULTITHREADING_DLLMAPPING MPFieldStore 
 {
   public:
 
@@ -234,7 +234,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING MPFieldStore
  *  \brief ThreadManager
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING ThreadManager 
+class OSG_MULTITHREADING_DLLMAPPING ThreadManager 
 {
   public:
 

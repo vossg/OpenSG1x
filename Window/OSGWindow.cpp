@@ -54,10 +54,10 @@
 #include <iostream.h>
 #endif
 
-#include <OSGDrawAction.h>
-
 #define OSG_COMPILEWINDOW
 #define OSG_COMPILEWINDOWINST
+
+#include <OSGDrawAction.h>
 
 #include "OSGViewport.h"
 // #include "OSGPipe.h"
@@ -87,6 +87,7 @@ OSG_DLLEXPORT_DEF1(MField, WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
 #endif
 
 OSG_END_NAMESPACE
+
 
 /***************************************************************************\
  *                           Class variables                               *
@@ -132,7 +133,7 @@ FieldDescription Window::_desc[] =
                             "globjectflags", 
                             OSG_FC_FIELD_IDM_DESC(GLObjectFlagsField),
                             true,
-                            (FieldAccessMethod) &Window::getMFGLObjectFlags),
+                            (FieldAccessMethod) &Window::getMFGLObjectFlags)
 };
 
 FieldContainerType Window::_type(
@@ -144,7 +145,7 @@ FieldContainerType Window::_type(
     _desc, 
     sizeof(_desc));
 	
-	
+
 // GLobject handling
 
 Lock                      *Window::_GLObjectLock;
@@ -194,6 +195,7 @@ Window::Window(void) :
 		_glObjects.push_back( NULL );	
 }
 
+
 /** \brief Copy Constructor
  */
 
@@ -225,7 +227,7 @@ void Window::addPort(const ViewportPtr &portP)
     if(portP != NullFC)
     {
         _ports.addValue(portP);
-        _ports.back()->setParent(getPtr<WindowPtr>(*this));
+        _ports.back()->setParent(FieldContainer::getPtr<WindowPtr>(*this));
     }
 }
 
@@ -237,9 +239,11 @@ void Window::insertPort(UInt32 portIndex, const ViewportPtr &portP)
     {
         portIt += portIndex;
         
-        (*(_ports.insert(portIt, portP)))->setParent(getPtr<WindowPtr>(*this));
+        (*(_ports.insert(portIt, portP)))->setParent(
+            FieldContainer::getPtr<WindowPtr>(*this));
     }
 }
+
 
 void Window::replacePort(UInt32 portIndex, const ViewportPtr &portP)
 {
@@ -247,7 +251,8 @@ void Window::replacePort(UInt32 portIndex, const ViewportPtr &portP)
     {
         _ports.getValue(portIndex)->setParent(WindowPtr::NullPtr);
         _ports.getValue(portIndex) = portP;
-        _ports.getValue(portIndex)->setParent(getPtr<WindowPtr>(*this));
+        _ports.getValue(portIndex)->setParent(
+            FieldContainer::getPtr<WindowPtr>(*this));
     }
 }
 
@@ -262,7 +267,8 @@ void Window::replacePortBy(const ViewportPtr &portP,
         {
             (*portIt)->setParent(WindowPtr::NullPtr);
             (*portIt) = newportP;
-            (*portIt)->setParent(getPtr<WindowPtr>(*this));
+            (*portIt)->setParent(
+                FieldContainer::getPtr<WindowPtr>(*this));
         }
     }
 }
@@ -476,7 +482,6 @@ void Window::frame( void )
 	}
 }
 
-
 void Window::setupGL ( void )
 {	
 	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
@@ -571,8 +576,6 @@ void Window::dump(      UInt32     uiIndent,
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-
 
 ///---------------------------------------------------------------------------
 ///  FUNCTION: 

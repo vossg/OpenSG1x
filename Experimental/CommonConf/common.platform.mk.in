@@ -7,6 +7,8 @@ CC         := @ac_gdz_compiler_exe@
 
 LD_SHARED  := @ac_gdz_compiler_exe_shared@
 
+LD         := @ac_gdz_compiler_exe_exe@
+
 FLEX       := @ac_gdz_flex_exe@
 BISON      := @ac_gdz_bison_exe@
 
@@ -23,6 +25,7 @@ SO_SUFFIX            := @ac_gdz_so_suffix@
 LIB_SUFFIX           := @ac_gdz_lib_suffix@
 
 OBJ_SUFFIX           := @ac_gdz_obj_suffix@
+EXE_SUFFIX           := @ac_gdz_exe_suffix@
 
 
 OS_BASE              := @ac_gdz_os_base@
@@ -36,7 +39,11 @@ OS_BASE              := @ac_gdz_os_base@
 ### BASE DIRS #########################################################
 
 INCL_$(OS_BASE) := $(INC_OPTION)"@ac_gdz_gen_base_inc_e1@" $(INCL_$(OS_BASE))
+ifeq ($(OS_BASE), cygwin)
+LIBS_$(OS_BASE) := @ac_gdz_base_system_libs@ 
+else
 LIBS_$(OS_BASE) := @ac_gdz_base_system_libs@ -lm
+endif
 
 INCLUDE_SYSTEM  := @ac_gdz_system_incl_dir@
 LINK_SYSTEM     := @ac_gdz_system_lib_dir@

@@ -36,6 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#define OSG_COMPILEIMAGE
+
 // System declarations
 #include <OSGConfig.h>
 #include <iostream>
@@ -45,8 +47,6 @@
 
 
 // Class declarations
-
-#define OSG_COMPILEIMAGE
 
 #include "OSGImageFileType.h"
 #include "OSGImageFileHandler.h"

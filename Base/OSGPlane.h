@@ -62,7 +62,9 @@ class Line;
 
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class Plane;
+OSG_BASE_DLLMAPPING
 Bool operator ==(const Plane &p1, const Plane &p2);
+OSG_BASE_DLLMAPPING
 Bool operator !=(const Plane &p1, const Plane &p2);
 #endif
 
@@ -192,10 +194,12 @@ public:
 	/*-------------------------- comparison -----------------------------------*/
 
 	/// Equality comparison operators
+    OSG_BASE_DLLMAPPING
 	friend Bool operator ==(const Plane &p1, const Plane &p2);
 
 	/// Inequality comparison operators
-	inline friend Bool operator !=(const Plane &p1, const Plane &p2)
+	inline OSG_BASE_DLLMAPPING
+    friend Bool operator !=(const Plane &p1, const Plane &p2)
 	{ return !(p1 == p2); }
 
 	//-----------------------------------------------------------------------

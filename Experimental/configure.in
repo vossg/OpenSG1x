@@ -24,6 +24,7 @@ ac_gdz_so_praefix=
 ac_gdz_so_suffix=
 ac_gdz_lib_suffix=
 ac_gdz_obj_suffix=
+ac_gdz_exe_suffix=
 ac_gdz_common_patterns=$ac_gdz_commonconf_dir/common.pattern.in
 ac_gdz_build_dir=`pwd`
 
@@ -103,22 +104,22 @@ function FK_GDZ_CREATE_PACKAGE_DIRS
     fi
 
     if ! test -w $ac_gdz_package_dir_build/obj-dbg; then 
-     	echo Need $ac_gdz_package_dir_build/obj-dbg
+	    echo Need $ac_gdz_package_dir_build/obj-dbg
 	    mkdir $ac_gdz_package_dir_build/obj-dbg
     fi
 
     if ! test -w $ac_gdz_package_dir_build/obj-opt; then 
-       	echo Need $ac_gdz_package_dir_build/obj-opt
+	   	echo Need $ac_gdz_package_dir_build/obj-opt
 	    mkdir $ac_gdz_package_dir_build/obj-opt
     fi
 
     if ! test -w $ac_gdz_package_dir_build/lib-dbg; then 
-      	echo Need $ac_gdz_package_dir_build/lib-dbg
+	  	echo Need $ac_gdz_package_dir_build/lib-dbg
 	    mkdir $ac_gdz_package_dir_build/lib-dbg
     fi
 
     if ! test -w $ac_gdz_package_dir_build/lib-opt; then 
-      	echo Need $ac_gdz_package_dir_build/lib-opt
+	   	echo Need $ac_gdz_package_dir_build/lib-opt
 	    mkdir $ac_gdz_package_dir_build/lib-opt
     fi
 
@@ -131,22 +132,22 @@ function FK_GDZ_CREATE_PACKAGE_DIRS
     fi
 
     if ! test -w $ac_gdz_package_dir_test/obj-dbg; then 
-     	echo Need $ac_gdz_package_dir_test/obj-dbg
+	   	echo Need $ac_gdz_package_dir_test/obj-dbg
 	    mkdir $ac_gdz_package_dir_test/obj-dbg
     fi
 
     if ! test -w $ac_gdz_package_dir_test/obj-opt; then 
-       	echo Need $ac_gdz_package_dir_test/obj-opt
+	   	echo Need $ac_gdz_package_dir_test/obj-opt
 	    mkdir $ac_gdz_package_dir_test/obj-opt
     fi
 
     if ! test -w $ac_gdz_package_dir_test/exe-dbg; then 
-      	echo Need $ac_gdz_package_dir_test/exe-dbg
+	   	echo Need $ac_gdz_package_dir_test/exe-dbg
 	    mkdir $ac_gdz_package_dir_test/exe-dbg
     fi
 
     if ! test -w $ac_gdz_package_dir_test/exe-opt; then 
-      	echo Need $ac_gdz_package_dir_test/exe-opt
+	   	echo Need $ac_gdz_package_dir_test/exe-opt
 	    mkdir $ac_gdz_package_dir_test/exe-opt
     fi
 }
@@ -174,6 +175,8 @@ then
 	ac_gdz_compiler_exe='"$(CC_PATH)/'$ac_gdz_compiler_exe'" -nologo'
 
 	ac_gdz_compiler_exe_shared='"$(CC_PATH)/xilink" -dll -map -NODEFAULTLIB'
+
+	ac_gdz_compiler_exe_exe='"$(CC_PATH)/xilink" -NODEFAULTLIB'
 
 	ac_gdz_flex_exe=//v/Win/NT/cygwin/bin/flex.exe
 	ac_gdz_bison_exe=//v/Win/NT/cygwin/bin/bison.exe
@@ -267,11 +270,13 @@ AC_SUBST(ac_gdz_so_praefix)
 AC_SUBST(ac_gdz_so_suffix)
 AC_SUBST(ac_gdz_lib_suffix)
 AC_SUBST(ac_gdz_obj_suffix)
+AC_SUBST(ac_gdz_exe_suffix)
 AC_SUBST(ac_gdz_os_base)
 
 AC_SUBST(ac_gdz_compiler_path)
 AC_SUBST(ac_gdz_compiler_exe)
 AC_SUBST(ac_gdz_compiler_exe_shared)
+AC_SUBST(ac_gdz_compiler_exe_exe)
 AC_SUBST(ac_gdz_flex_exe)
 AC_SUBST(ac_gdz_bison_exe)
 AC_SUBST(ac_gdz_gmake_exe)

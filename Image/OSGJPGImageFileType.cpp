@@ -40,6 +40,8 @@
 // 	Includes 					 			    
 //-------------------------------
 
+#define OSG_COMPILEIMAGE
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -61,8 +63,6 @@ extern "C" {
 #include <jpeglib.h>
 }
 #endif     
-
-#define OSG_COMPILEIMAGE
 
 #include "OSGJPGImageFileType.h"
 #include <OSGLog.h>

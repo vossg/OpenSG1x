@@ -80,7 +80,7 @@ class MPFieldStore;
  *  \brief BarrierCommonBase
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING BarrierCommonBase : public MPBase
+class OSG_MULTITHREADING_DLLMAPPING BarrierCommonBase : public MPBase
 {
   public:
 
@@ -465,7 +465,7 @@ typedef SprocBarrierBase BarrierBase;
  *  \brief WinThreadBarrierBase
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING WinThreadBarrierBase : 
+class OSG_MULTITHREADING_DLLMAPPING WinThreadBarrierBase : 
     public BarrierCommonBase
 {
   public:
@@ -596,7 +596,7 @@ typedef WinThreadBarrierBase BarrierBase;
  *  \brief Barrier
  */
 
-class OSG_FIELDCONTAINER_DLLMAPPING Barrier : public BarrierBase
+class OSG_MULTITHREADING_DLLMAPPING Barrier : public BarrierBase
 {
   public:
 

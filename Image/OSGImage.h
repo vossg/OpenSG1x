@@ -50,12 +50,30 @@
 //-------------------------------
 
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILESTATE
+#   ifdef OSG_COMPILEIMAGE
 #       define OSG_IMAGE_DLLMAPPING     __declspec(dllexport)
-#       define OSG_IMAGE_DLLTMPLMAPPING
+#       define OSG_IMAGE_DLLTMPLMAPPING __declspec(dllexport)
 #   else
-#       define OSG_IMAGE_DLLMAPPING     __declspec(dllimport)
-#       define OSG_IMAGE_DLLTMPLMAPPING __declspec(dllimport)
+#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILEDRAWACTION)        || \
+                                     defined(OSG_COMPILEACTION)            || \
+                                     defined(OSG_COMPILEINTERSECTACTION)   || \
+                                     defined(OSG_COMPILEFIELD)             || \
+                                     defined(OSG_COMPILEFIELDCONTAINER)    || \
+                                     defined(OSG_COMPILELOADER)            || \
+                                     defined(OSG_COMPILEMATERIAL)          || \
+                                     defined(OSG_COMPILEMULTITHREADING)   || \
+                                     defined(OSG_COMPILEMISC)              || \
+                                     defined(OSG_COMPILELIGHT)             || \
+                                     defined(OSG_COMPILEGEOMETRY)          || \
+                                     defined(OSG_COMPILESTATE)             || \
+                                     defined(OSG_COMPILEWINDOW)            || \
+                                     defined(OSG_COMPILESYSTEMLIB))
+#           define OSG_IMAGE_DLLMAPPING     __declspec(dllexport)
+#           define OSG_IMAGE_TMPLDLLMAPPING __declspec(dllexport)
+#       else
+#           define OSG_IMAGE_DLLMAPPING     __declspec(dllimport)
+#           define OSG_IMAGE_DLLTMPLMAPPING __declspec(dllimport)
+#       endif
 #   endif
 #else
 #define OSG_IMAGE_DLLMAPPING

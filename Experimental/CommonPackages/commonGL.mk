@@ -3,7 +3,7 @@ INCLUDE_GL :=
 LINK_GL    :=
 
 ifeq ($(OS_BASE), cygwin)
-LIB_GL   := opengl32.lib glu32.lib
+LIB_GL   := opengl32.lib glu32.lib gdi32.lib
 else
 LIB_GL   := -lGLU -lGL -lXmu -lXi -lXt -lX11
 endif

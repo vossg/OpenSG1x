@@ -41,6 +41,9 @@
 // 	Includes 					 			    
 //-------------------------------
 
+#define OSG_COMPILEIMAGE
+#define OSG_COMPILEIMAGEINST
+
 #include "OSGConfig.h"
 
 #include <math.h>
@@ -51,9 +54,6 @@
 #include <ctype.h>     
 
 #include <OSGLog.h>
-
-#define OSG_COMPILEIMAGE
-#define OSG_COMPILEIMAGEINST
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>

@@ -4,7 +4,8 @@
 #########################################################################
 
 .SUFFIXES:	.src $(OBJ_SUFFIX) .cpp .c .hpp .l .y .tab.cpp .tab.h .s 	\
-			$(SO_SUFFIX) _moc.o _moc.cpp _qt.hpp
+			$(SO_SUFFIX) _moc.o _moc.cpp _qt.hpp 
+
 
 cnvUnix2Win = "$(shell cygpath -w $(1))"
 
@@ -35,10 +36,15 @@ $(OBJDIR)/%$(OBJ_SUFFIX): $(OBJDIR)/%.cpp
 	$(INC_OPTION)$(OBJDIR) $(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
 endif
 
+ifeq ($(OS_BASE), cygwin)
+$(EXEDIR)/%.exe: $(OBJDIR)/%.obj
+	$(LD) $< $(LD_FLAGS) $(LDLOCALFLAGS) \
+		     $(LIBPATHS) $(LIBS) /out:$@ 
+else
 $(EXEDIR)/%: $(OBJDIR)/%.o 
-	@echo test
 	$(CC) $(LD_OUTOPT)$(LD_OUTSPACE)$@ $(LD_FLAGS) $(LDLOCALFLAGS) \
 		$(call cnvSubDirsUnix2Win,$<) $(LIBPATHS) $(LIBS)
+endif
 
 define win_make_depend 	
 	@echo "# Building dependency $(@F) from $(<F)" 				
@@ -84,12 +90,19 @@ $(OBJDIR)/%$(DEP_SUFFIX): %.c
 	$(unix_make_depend)
 endif
 
+ifeq ($(OS_BASE), cygwin)
+$(OBJDIR)/%_qt_moc.cpp: %_qt.h
+	$(MOC) $(call cnvUnix2Win,$<) -i -o $@
+
+$(OBJDIR)/%_qt_moc.cpp: %_qt.cpp
+	$(MOC) $(call cnvUnix2Win,$<) -i -o $@
+else
 $(OBJDIR)/%_qt_moc.cpp: %_qt.h
 	$(MOC) $< -i -o $@
 
 $(OBJDIR)/%_qt_moc.cpp: %_qt.cpp
 	$(MOC) $< -i -o $@
-
+endif
 
 #########################################################################
 # Automatic Targets Lib Toplevel
@@ -122,10 +135,7 @@ endif
 # Automatic Targets Test Toplevel
 #########################################################################
 
-
-
 $(TEST_TARGETS): $(TEST_OBJS) $(LIBS_DEP) $(TEST_DEPS)  
-
 
 $(TEST_TARGETS_IN): $(LIB_TESTQTTARGET_CPP) $(TEST_TARGETS) 
 	@for file in $@; do                \
@@ -138,7 +148,6 @@ Test: $(TEST_TARGETS_IN)
 	@echo Test
 
 $(LIB_TESTQT_TARGET)
-
 
 #########################################################################
 # Automatic Targets Flex
