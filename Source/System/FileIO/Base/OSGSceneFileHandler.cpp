@@ -137,17 +137,22 @@ SceneFileType *SceneFileHandler::getFileType(const Char8 *fileNameOrExtension)
     
     Int32 p = fe.rfind(separator);
     
-    if(p == -1)
-        return NULL;
+    std::string ext;
     
-    std::string ext = fe.substr(p+1, fe.length() - p - 1);
+    if(p != -1)
+        ext = fe.substr(p+1, fe.length() - p - 1);
+    else
+        ext = fe; // extension without '.'
     
     // skip .gz extension
     if(ext == "gz")
     {
         fe = fe.substr(0, p);
         p = fe.rfind(separator);
-        ext = fe.substr(p+1, fe.length() - p - 1);
+        if(p != -1)
+            ext = fe.substr(p+1, fe.length() - p - 1);
+        else
+            ext = fe;
     }
     
     IDString suffix;
@@ -577,7 +582,35 @@ std::string SceneFileHandler::initPathHandler(const Char8 *fileName)
 
     return fullFilePath;
 }
+
+
+bool SceneFileHandler::setOptions(const char *suffix, const char *options)
+{
+    if(suffix == NULL)
+        return false;
     
+    SceneFileType *type = getFileType(suffix);
+    if(type == NULL)
+        return false;
+    
+    type->setOptions(options);
+    
+    return true;
+}
+
+const char *SceneFileHandler::getOptions(const char *suffix)
+{
+    if(suffix == NULL)
+        return NULL;
+    
+    SceneFileType *type = getFileType(suffix);
+    
+    if(type == NULL)
+        return NULL;
+    
+    return type->getOptions();
+}
+
 //----------------------------
 // Function name: print
 //----------------------------

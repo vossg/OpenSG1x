@@ -134,6 +134,14 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                   Options                                    */
+    /*! \{                                                                 */
+
+    virtual bool               setOptions(const char *suffix, const char *options);
+    virtual const char         *getOptions(const char *suffix);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Debug                                      */
     /*! \{                                                                 */
 
@@ -164,7 +172,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
 
     static bool               addSceneFileType(SceneFileType &fileType);
     static bool               subSceneFileType(SceneFileType &fileType);
-
+    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */

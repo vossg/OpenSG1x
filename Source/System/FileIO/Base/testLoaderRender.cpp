@@ -127,6 +127,10 @@ int main (int argc, char **argv)
     SceneFileHandler::the().setPathHandler(&pathHandler);
     */
 
+    // This sets loader specific options. 
+    // Format of the options string: <OpName1>(<param1>,<param2>,...,<paramN>) <OpName2>() ...
+    //SceneFileHandler::the().setOptions("wrl", "LineWidth(2.2)");
+    
     // set a callback for reading progress.
     SceneFileHandler::the().setReadProgressCB(progress);
 #if 0

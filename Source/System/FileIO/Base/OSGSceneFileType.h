@@ -45,6 +45,7 @@
 #include <OSGSystemDef.h>
 #include <list>
 #include <iostream>
+#include <string>
 
 #include <OSGBaseTypes.h>
 #include <OSGIDString.h>
@@ -89,6 +90,14 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                   Set                                        */
+    /*! \{                                                                 */
+    
+    void setOptions(const char *options);
+
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
     /*! \{                                                                 */
 
@@ -97,6 +106,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
             bool                 doOverride         (void);
             UInt32               getOverridePriority(void);
             UInt32               getFlags           (void);
+    
+            const char          *getOptions         (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -143,6 +154,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
     bool                _override;
     UInt32              _overridePriority;
     UInt32              _flags;
+  
+    std::string         _options;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

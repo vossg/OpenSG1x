@@ -76,7 +76,8 @@ SceneFileType::SceneFileType(const Char8  *suffixArray[],
     _suffixList      (                ),
     _override        (override        ),
     _overridePriority(overridePriority),
-    _flags           (flags           )
+    _flags           (flags           ),
+    _options         (                )
 {
     FINFO(( "Init %s Scene File Type %d\n", suffixArray[0], this ));
 
@@ -96,7 +97,8 @@ SceneFileType::SceneFileType(const SceneFileType &obj) :
     _suffixList      (obj._suffixList      ),
     _override        (obj._override        ),
     _overridePriority(obj._overridePriority),
-    _flags           (obj._flags)
+    _flags           (obj._flags),
+    _options         (obj._options)
 {
     SWARNING << "In SceneFileType copy constructor" << std::endl;
 }
@@ -106,6 +108,13 @@ SceneFileType::~SceneFileType(void)
 {
     SceneFileHandler::subSceneFileType(*this);
     return;
+}
+
+//---------------------------------------------------------
+
+void SceneFileType::setOptions(const char *options)
+{
+    _options = options;
 }
 
 //---------------------------------------------------------
@@ -150,6 +159,13 @@ UInt32 SceneFileType::getOverridePriority(void)
 UInt32 SceneFileType::getFlags(void)
 {
     return _flags;
+}
+
+//---------------------------------------------------------
+
+const char *SceneFileType::getOptions(void)
+{
+    return _options.c_str();
 }
 
 //---------------------------------------------------------
