@@ -196,4 +196,10 @@ Int32 FaceIterator::getIndexIndex( Int32 which ) const
         return -1;
 }
 
+inline
+GeometryPtr FaceIterator::getGeometry(void) const
+{
+    return _geo;
+}
+
 OSG_END_NAMESPACE

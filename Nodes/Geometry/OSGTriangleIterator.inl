@@ -143,4 +143,10 @@ Int32 TriangleIterator::getIndexIndex( Int32 which ) const
         return -1;
 }
 
+inline
+GeometryPtr TriangleIterator::getGeometry(void) const
+{
+    return _geo;
+}
+
 OSG_END_NAMESPACE

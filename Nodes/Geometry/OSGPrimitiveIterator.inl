@@ -201,4 +201,10 @@ Int32 PrimitiveIterator::getIndexIndex( Int32 which ) const
         return -1;
 }
 
+inline
+GeometryPtr PrimitiveIterator::getGeometry(void) const
+{
+    return _geo;
+}
+
 OSG_END_NAMESPACE

@@ -107,6 +107,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TriangleIterator
 
     inline Int32        getIndexIndex       ( Int32 which ) const;
 
+ 
+           GeometryPtr  getGeometry         (void         ) const;
+ 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Operators                              */
