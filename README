@@ -3,7 +3,7 @@
     OpenSG - an Open Source Scenegraph
     ==================================
 
-Version  0.1 alpha
+Version  0.2 beta, 2001/02/14
 
 
     What is it / will it be?
@@ -20,9 +20,9 @@ heterogenous multi-pipe applications, i.e. multiple different graphics
 cards running one application. Many things are quite easy to do with a
 little program, but are sometimes hard to fit into an existing system.
 Thus extendibility is an important goal, and we're striving to make
-OpenSG very extendible.
+OpenSG very extendable.
 
-It should work on different Unix systems and Windows. 
+It works on different Unix systems and Windows. 
 
 It's primary use (i.e. what we are doing with it) is for VR
 applications, mainly in the automotive context. But it can be used for
@@ -31,23 +31,85 @@ however, not a complete VR system. Things like device access and
 interaction are left out on purpose, there are other systems for that.
 
 
-This is an alpha release. Which means that it's not complete, not
-bug-free and not very useful for applications. But it's good enough to
+    What's new?
+    -----------
+
+We completely moved to SourceForge now, so everybody who wants an up to
+the minute version can use cvs.opensg.sourceforge.net:/cvsroot/OpenSG
+to get it. Carefully note the spelling, as the SourceForge pages are
+wrong, they have problems with capitals. Alas, the CVS version is not
+guaranteed to work, that's the price you pay for bleeding edge code. ;)
+
+Materials are there, so no more black and white only images (unless you
+use the RAW loader, which still only creates white objects). Textures
+have been added (not really complete, and single textures only, but
+working). As these need some sort of GL object handling for the texture
+objects, that's there, too. They also need to be loaded from somewhere,
+that's where the Image module comes in. And of course they needed
+texture coordinates.
+
+The geometry access has been made easier. GeoProperties have a generic
+access interface now, which allows access to a property of any type as
+if it was the generic type. Furthermore there are Geometry Iterators
+that simplify iterating through a geometry node core.
+
+The window interface has been defined and example window classes for
+GLUT, QT, X and WIN32 have been written. There are examples for all of
+them, some in multi-threaded variants, too, even though the
+multi-threading is not using multiple aspects yet.
+
+We also added a VRML97 loader, so that it's easier to load data to try stuff.
+It's not quite solid yet, so it's still in the Experimental path. And it's
+still very noisy, so loading large models can take time. It also needs the
+std.wrl file in the same directory to know about the standard VRML prototypes.
+See Experimental/using_configure on how to make it. It doesn't support
+all geometry yet, especially textures are missing. :( Coming soon...
+
+Before you start digging out your biggest models to benchmark
+it:  don't bother. It will be slow. Very slow. We've been concentrating
+on solidifying the infrastructure, not on optimization. The geometry
+pumps don't even use vertex arrays yet.
+
+To simplify compiling we're working on using configure. It's in
+Experimental, so give it a try. Read Experimental/using_configure to
+see how. We're not using it extensively, but for identifying pathes
+etc. We still haven't been able to get our code to compile with the
+Microsoft Visual C++ compiler, you still need the Intel compiler. There 
+are VS6 workspace files, but as we don't use them regularly, they
+might be out of date.
+
+The system can build dynamic libraries (SOs/DLLs) now. That introduced
+a whole lot of nasty preprocessor comments to sort out template
+instantiation, which we're not happy about but have to live with right
+now.
+
+We started adding documentation using (and fooling) doxygen. There's
+not a lot there yet, but it should be possible to browse the class
+graph to get a feeling for the system.
+
+
+
+    Status
+    ------
+
+This is a beta release. Which means that it's not complete, not
+bug-free and not really useful for applications. But it's good enough to
 take a look at the basis and the inner working to see if it might be
 able to do what you want (and if not, to tell us about it).
 Multi-processing and heterogenous multi-pipe makes some things quite a
 bit more complicated, and for some problems we don't have a solution yet.
 For some we have an idea, but we just haven't coded yet.
 
-The advantage of it being alpha is that nothing is fixed yet. We're
-open to all kinds of suggestions of what and why to change. The reasons
-would have to be very good to change the low-level inner workings
-(Field/FieldContainer), but for a significant speed increase we might
-be willing to do that. All the high-level stuff is definitely open for
-changes. 
+The advantage of it being beta is that nearly nothing is really fixed
+yet. We're open to all kinds of suggestions of what and why to change.
+The reasons would have to be very good to change the low-level inner
+workings (Field/FieldContainer), but for a significant speed increase
+we might be willing to do that. Much of the high-level stuff is
+definitely open for changes.
 
 Comments and discussion are best served on SourceForge's web boards, but
 you can also send me mail (dirk@opensg.org).
+
 
     Structure
     ---------
@@ -56,12 +118,15 @@ The code tree is structured as follows:
 
     README              this file
     COPYING             the LGPL license file
-    INSTALL             how to compile
+    INSTALL             how to compile/install
     Makefile            top-level makefile
     Doc/                documentation
-    Common/             helper files for make
-    Base/               base classes for math, multithreading, volumes etc.
+    Common/             general helper files for make
+    CommonPackages/     helper files for make, for specific modules
+    Base/               base classes for math, volumes etc.
+    MultiThreading/     basic multi-threading support classes
     Log/                log output classes
+    Image/              image handling (loading, writing etc.) classes
     Field/              separate field classes 
     FieldContainer/     field container, i.e. field aggregation classes.
                         Also contains most of the multi-thread structure
@@ -69,9 +134,13 @@ The code tree is structured as follows:
     Nodes/Misc/         Group and Transform nodes
     Nodes/Geometry/     Geometry node
     Nodes/Lights/       Light nodes
-    Loader/             Loader infrastructure and simple RAW loader
+    Loader/             Loader infrastructure and loaders (RAW, VRML97)
     State/              State wrappers and handling
+    Material/           Material wrappers and handling
     Window/             window handling
+    Experimental/       experimental stuff. don't go here unless you're
+                        adventurous. And know how access SourceForge, as
+                        this is not part of the distribution.
 
 
     Compiling
@@ -82,7 +151,35 @@ anything special, but the standard tools we need have to be fairly
 recent.
 
 
-Take a look, enjoy, and tell us what you think!
+    What's next?
+    ------------
+
+Creating new FieldContainers is becoming very complicated (we have a
+simple example, if you need it). Macros help, but are not really a
+solution. We're thinking of adding some meta-information to describe a
+FieldContainer's field and automatically generate the code for that.
+That's a pretty major change and will take some planning and work.
+
+Automated testing needs to be adressed. The system is growing in size
+and in complexity, and testing becomes tedious. Our goal is to come to
+an automated build and test process, so that we can run a daily build
+cycle to test the consistency and performance of the system. We're not
+sure what the best tool for managing these tests is, comments are
+welcome. We need to handle text output, image output and if possible
+also performance tests.
+
+The State is pretty minimal right now, new chunks will be added to cover
+more of the OpenGL state, e.g. Blending. The MT Window examples will
+become real MT, i.e. use separate aspects. The windows need support for
+working with OpenGL extensions.
+
+The documentation still has lots of holes, these will be gradually
+filled.
+
+
+
+
+So take a look, enjoy, and tell us what you think!
 
 Yours
 
@@ -90,5 +187,5 @@ Yours
 
 
 Homepage:       www.opensg.org
-Source Home:    www.sourceforge.net/projects/OpenSG (source not here yet)
+Source Home:    www.sourceforge.net/projects/OpenSG
 Mail contact:   dirk@opensg.org
