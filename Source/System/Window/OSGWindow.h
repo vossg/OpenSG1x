@@ -150,6 +150,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \{                                                                 */
 
     static 
+    inline void                 setGLLibraryName  (const Char8  *s   );
+
+    static 
     inline Int32                getExtensionId    (const Char8  *s   );
     inline bool                 hasExtension      (      UInt32  id  );
            bool                 hasExtension      (const Char8  *s   );
@@ -367,7 +370,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*---------------------------------------------------------------------*/
     /*! \name        GL Object / Extension variables                       */
     /*! \{                                                                 */
-
+    
     std::vector<UInt32     > _lastValidate;
     std::vector<UInt32     > _ids;
 
