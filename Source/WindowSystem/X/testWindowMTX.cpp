@@ -107,7 +107,7 @@ void doCamTrans (UInt32 )
 
 void drawThreadProc (void *arg) 
 {               
-    UInt32            my_id = static_cast<Uint32>(arg);
+    UInt32            my_id = static_cast<UInt32>(arg);
     XWindowPtr my_win = win[my_id];
     
     // give the window some time to open and X to settle down
