@@ -94,6 +94,26 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecorator : public CameraDecoratorBase
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                     decoration                               */
+    /*! \{                                                                 */
+
+    virtual       SFNodePtr      *getSFBeacon   (void);
+    virtual       SFReal32       *getSFNear     (void);
+    virtual       SFReal32       *getSFFar      (void);
+
+    virtual       NodePtr        &getBeacon     (void);
+    virtual const NodePtr        &getBeacon     (void) const;
+    virtual       Real32         &getNear       (void);
+    virtual const Real32         &getNear       (void) const;
+    virtual       Real32         &getFar        (void);
+    virtual const Real32         &getFar        (void) const;
+
+    virtual       void            setBeacon     ( const NodePtr &value );
+    virtual       void            setNear       ( const Real32  &value );
+    virtual       void            setFar        ( const Real32  &value );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                  dump                                        */
     /*! \{                                                                 */
 

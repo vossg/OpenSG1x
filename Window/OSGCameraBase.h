@@ -123,25 +123,25 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraBase : public AttachmentContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFNodePtr           *getSFBeacon         (void);
-    inline       SFReal32            *getSFNear           (void);
-    inline       SFReal32            *getSFFar            (void);
+    virtual       SFNodePtr           *getSFBeacon         (void);
+    virtual       SFReal32            *getSFNear           (void);
+    virtual       SFReal32            *getSFFar            (void);
 
-    inline       NodePtr             &getBeacon         (void);
-    inline const NodePtr             &getBeacon         (void) const;
-    inline       Real32              &getNear           (void);
-    inline const Real32              &getNear           (void) const;
-    inline       Real32              &getFar            (void);
-    inline const Real32              &getFar            (void) const;
+    virtual       NodePtr             &getBeacon         (void);
+    virtual const NodePtr             &getBeacon         (void) const;
+    virtual       Real32              &getNear           (void);
+    virtual const Real32              &getNear           (void) const;
+    virtual       Real32              &getFar            (void);
+    virtual const Real32              &getFar            (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setBeacon         ( const NodePtr &value );
-    inline void setNear           ( const Real32 &value );
-    inline void setFar            ( const Real32 &value );
+    virtual void setBeacon         ( const NodePtr &value );
+    virtual void setNear           ( const Real32 &value );
+    virtual void setFar            ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -221,6 +221,6 @@ typedef CameraBase *CameraBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERABASE_HEADER_CVSID "@(#)$Id: OSGCameraBase.h,v 1.17 2001/11/09 08:17:07 vossg Exp $"
+#define OSGCAMERABASE_HEADER_CVSID "@(#)$Id: OSGCameraBase.h,v 1.18 2002/01/18 03:09:20 dirk Exp $"
 
 #endif /* _OSGCAMERABASE_H_ */

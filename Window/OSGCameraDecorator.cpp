@@ -69,7 +69,7 @@ The base class for the camera.
  *                           Class variables                               *
 \***************************************************************************/
 
-char CameraDecorator::cvsid[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.5 2001/10/15 04:52:17 vossg Exp $";
+char CameraDecorator::cvsid[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.6 2002/01/18 03:09:20 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -177,7 +177,74 @@ void CameraDecorator::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
     SLOG << "Dump CameraDecorator NI" << endl;
 }
 
-    
+
+/*--------------------------- decoration --------------------------------*/
+
+
+
+SFNodePtr *CameraDecorator::getSFBeacon(void)
+{
+    return getCamera()->getSFBeacon();
+}
+
+SFReal32 *CameraDecorator::getSFNear(void)
+{
+    return getCamera()->getSFNear();
+}
+
+SFReal32 *CameraDecorator::getSFFar(void)
+{
+    return getCamera()->getSFFar();
+}
+
+
+NodePtr &CameraDecorator::getBeacon(void)
+{
+    return getCamera()->getBeacon();
+}
+
+const NodePtr &CameraDecorator::getBeacon(void) const
+{
+    return getCamera()->getBeacon();
+}
+
+Real32 &CameraDecorator::getNear(void)
+{
+    return getCamera()->getNear();
+}
+
+const Real32 &CameraDecorator::getNear(void) const
+{
+    return getCamera()->getNear();
+}
+
+Real32 &CameraDecorator::getFar(void)
+{
+    return getCamera()->getFar();
+}
+
+const Real32 &CameraDecorator::getFar(void) const
+{
+    return getCamera()->getFar();
+}
+
+
+void CameraDecorator::setBeacon( const NodePtr &value )
+{
+    getCamera()->setBeacon(value);
+}
+
+void CameraDecorator::setNear( const Real32 &value )
+{
+    getCamera()->setNear(value);
+}
+
+void CameraDecorator::setFar( const Real32 &value )
+{
+    getCamera()->setFar(value);
+}
+
+
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
