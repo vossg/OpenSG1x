@@ -67,6 +67,7 @@ typedef TransformationMatrix<Real32> Matrix;
 //---------------------------------------------------------------------------
 
 /*! \ingroup BaseLib
+ *  \ingroup BaseMathMatrices
  *  \brief Matrix utility functions to create and analyze special kinds of matrices
  */
 
