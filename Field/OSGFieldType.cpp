@@ -181,7 +181,7 @@ OSGBool OSGFieldType::operator ==(const OSGFieldType &source) const
 
 OSGBool OSGFieldType::operator !=(const OSGFieldType &source) const
 {
-    return ! (*this != source);
+    return ! (*this == source);
 }
 
 /*-------------------------------------------------------------------------*\
