@@ -49,6 +49,7 @@
 #include <OSGGLU.h>
 #include <OSGGLEXT.h>
 #include <OSGRemoteAspect.h>
+#include <OSGCamera.h>
 
 #include <OSGShaderParameter.h>
 #include <OSGShaderParameterBool.h>
@@ -156,12 +157,14 @@ void SHLChunk::initMethod (void)
 /*----------------------- constructors & destructors ----------------------*/
 
 SHLChunk::SHLChunk(void) :
-    Inherited()
+    Inherited(),
+    _osgParameters()
 {
 }
 
 SHLChunk::SHLChunk(const SHLChunk &source) :
-    Inherited(source)
+    Inherited(source),
+    _osgParameters(source._osgParameters)
 {
     _shl_extension = Window::registerExtension("GL_ARB_shading_language_100");
     
@@ -318,6 +321,7 @@ void SHLChunk::changed(BitVector whichField, UInt32 origin)
 
     if(whichField & ParametersFieldMask)
     {
+        checkOSGParameters();
         Window::refreshGLObject(getGLId());
     }
 
@@ -568,6 +572,15 @@ void SHLChunk::updateParameters(Window *win,
     for(UInt32 i = 0; i < parameters.size(); ++i)
     {
         ShaderParameterPtr parameter = parameters[i];
+
+        // ignore special osg parameters
+        if(parameter->getName().size() > 3 &&
+           parameter->getName()[0] == 'O' &&
+           parameter->getName()[1] == 'S' &&
+           parameter->getName()[2] == 'G')
+        {
+            continue;
+        }
         
         // works also but is not possible with a switch and a switch is much faster.
         //UInt16 groupid = parameter->getType().getGroupId();
@@ -696,6 +709,65 @@ void SHLChunk::updateParameters(Window *win,
         useProgramObject(0);
 }
 
+void SHLChunk::checkOSGParameters(void)
+{
+    _osgParameters.clear();
+    const MFShaderParameterPtr &parameters = getParameters();
+    for(UInt32 i = 0; i < parameters.size(); ++i)
+    {
+        ShaderParameterPtr parameter = parameters[i];
+        if(parameter->getName().size() > 3 &&
+           parameter->getName()[0] == 'O' &&
+           parameter->getName()[1] == 'S' &&
+           parameter->getName()[2] == 'G')
+        {
+            _osgParameters.insert(parameter->getName());
+        }
+    }
+}
+
+void SHLChunk::updateOSGParameters(DrawActionBase *action, GLuint program)
+{
+    if(_osgParameters.empty())
+        return;
+
+    // get "glGetUniformLocationARB" function pointer
+    PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation = (PFNGLGETUNIFORMLOCATIONARBPROC)
+        action->getWindow()->getFunction(_funcGetUniformLocation);
+
+    // update camera orientation
+    if(_osgParameters.count("OSGCameraOrientation") > 0)
+    {
+        Matrix m;
+        NodePtr beacon = action->getCamera()->getBeacon();
+        beacon->getToWorld(m);
+        m[3].setValues(0,0,0,0);
+    
+        // get "glUniformMatrix4fvARB" function pointer
+        PFNGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = (PFNGLUNIFORMMATRIXFVARBPROC)
+            action->getWindow()->getFunction(_funcUniformMatrix4fv);
+        GLint location = getUniformLocation(program, "OSGCameraOrientation");
+        if(location != -1)
+            uniformMatrix4fv(location, 1, GL_FALSE, m.getValues());
+    }
+
+    // update camera position
+    if(_osgParameters.count("OSGCameraPosition") > 0)
+    {
+        Matrix m;
+        NodePtr beacon = action->getCamera()->getBeacon();
+        beacon->getToWorld(m);
+        Vec3f cameraPos(m[3][0], m[3][1], m[3][2]);
+    
+        // get "glUniform3fvARB" function pointer
+        PFNGLUNIFORMFVARBPROC uniform3fv = (PFNGLUNIFORMFVARBPROC)
+            action->getWindow()->getFunction(_funcUniform3fv);
+        GLint location = getUniformLocation(program, "OSGCameraPosition");
+        if(location != -1)
+            uniform3fv(location, 1, cameraPos.getValues());
+    }
+}
+
 /*------------------------------ State ------------------------------------*/
 
 void SHLChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
@@ -714,6 +786,8 @@ void SHLChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
         action->getWindow()->getFunction(_funcUseProgramObject);
     
     useProgramObject(program);
+
+    updateOSGParameters(action, program);
 }
 
 void SHLChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
@@ -745,7 +819,10 @@ void SHLChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
     GLuint program = (GLuint) action->getWindow()->getGLObjectId(getGLId());
 
     if(program != 0)
+    {
         useProgramObject(program);
+        updateOSGParameters(action, program);
+    }
 }
 
 
@@ -806,7 +883,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.22 2004/09/06 17:12:14 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.23 2004/09/08 13:00:30 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

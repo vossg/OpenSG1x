@@ -43,6 +43,10 @@
 #endif
 
 #include <OSGConfig.h>
+
+#include <set>
+#include <string>
+
 #include "OSGDrawActionBase.h"
 #include "OSGWindow.h"
 
@@ -196,6 +200,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     void operator =(const SHLChunk &source);
 
     void updateProgram(Window *win);
+    void checkOSGParameters(void);
+    void updateOSGParameters(DrawActionBase *action, GLuint program);
+
+    std::set<std::string> _osgParameters;
 };
 
 typedef SHLChunk *SHLChunkP;
@@ -205,6 +213,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.12 2004/09/02 13:43:54 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.13 2004/09/08 13:00:31 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */
