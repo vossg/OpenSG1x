@@ -167,7 +167,8 @@ bool DATImageFileType::read (      ImagePtr &image,
                     image->setAttachmentField ( keyStr, value );
                     break;
                 case RESOLUTION_KT:
-                    sscanf ( value, "%d %d %d", &(res[0]), &(res[1]), &(res[2]));
+                    sscanf ( value, "%d %d %d", 
+                             &(res[0]), &(res[1]), &(res[2]));
                     image->setAttachmentField ( keyStr, value );
                     break;
                 case FORMAT_KT:
@@ -193,7 +194,8 @@ bool DATImageFileType::read (      ImagePtr &image,
                     image->setAttachmentField ( keyStr, value );
                     break;
                 case UNKNOWN_KT:
-                    FWARNING (( "Uknown DAT file key: >%s<\n", keyStr.c_str() ));
+                    FWARNING (( "Uknown DAT file key: >%s<\n",
+                                 keyStr.c_str() ));
                     image->setAttachmentField ( keyStr, value );
                     break;
                 case SLICE_THICKNESS_KT:

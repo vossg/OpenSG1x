@@ -47,8 +47,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! rief Image class. See ef 
-           PageSYSTEMImage for a description.
+/*! \brief Image class. See \ref PageSystemImage
+           for a description.
 */
 
 class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase

@@ -203,7 +203,7 @@ bool GIFImageFileType::read(      ImagePtr &OSG_GIF_ARG(image),
 
 #ifdef OSG_WITH_GIF
     Image::PixelFormat  pixelFormat;
-    GIFStream           *gifStream = GIFRead(const_cast < char * > (fileName));
+    GIFStream           *gifStream = GIFRead(const_cast <char *> (fileName));
     GIFData             *gifData = 0;
     bool                isColor;
     int                 i, j, destI, lineSize;
@@ -268,7 +268,7 @@ bool GIFImageFileType::read(      ImagePtr &OSG_GIF_ARG(image),
                 }
                 else
                 {
-                    FWARNING(("Invalid color map in GIFImageFileType::read()\n"));
+                    FWARNING(("Bad color map in GIFImageFileType::read()\n"));
                     colorMapSize = 0;
                 }
 
@@ -301,7 +301,7 @@ bool GIFImageFileType::read(      ImagePtr &OSG_GIF_ARG(image),
                     }
                     else
                     {
-                        FWARNING(("GIF Anim with miscellaneous image dimensions\n"));
+                        FWARNING(("GIF Anim with misc. image dimensions\n"));
                         return false;
                     }
                 }
@@ -404,7 +404,8 @@ bool GIFImageFileType::read(      ImagePtr &OSG_GIF_ARG(image),
                         {
                             for(j = 0; j < 3; j++)
                             {
-                                destData[destI++] = colorMap[colorIndex * 3 + j];   // RGB
+                                destData[destI++] = 
+																	colorMap[colorIndex * 3 + j];   // RGB
                             }
 
                             destData[destI++] = 255;                                // ALPHA
@@ -552,7 +553,7 @@ GIFImageFileType::~GIFImageFileType(void)
 #else
 #if 0 
 #define INFO_MSG(fmt)   
-#define ERROR(str)      do { RWSetMsg(str); longjmp(setjmp_buffer, 1); } while(0)
+#define ERROR(str) do { RWSetMsg(str); longjmp(setjmp_buffer, 1); } while(0)
 #else
 #define INFO_MSG(fmt)   
 #define GIF_ERROR(str)      longjmp(setjmp_buffer, 1)
@@ -788,7 +789,8 @@ static GIFStream *GIFReadFP(FILE *fd)
                 cur->data.image.cmapSize = 0;
             }
 
-            cur->data.image.data = (unsigned char *) malloc(cur->width * cur->height);
+            cur->data.image.data = (unsigned char *) 
+              malloc(cur->width * cur->height);
             cur->data.image.interlaced = BitSet(buf[8], INTERLACE);
             readImage(fd, BitSet(buf[8], INTERLACE), cur->width, cur->height,
                       cur->data.image.data);

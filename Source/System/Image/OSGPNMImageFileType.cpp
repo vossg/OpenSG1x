@@ -275,7 +275,8 @@ bool PNMImageFileType::write(const ImagePtr &image, const Char8 *fileName)
             lineSize = image->getBpp() * image->getWidth();
             for(y = image->getHeight() - 1; y >= 0; y--)
             {
-                out.write((char *) (image->getData() + (lineSize * y)), lineSize);
+                out.write((char *) (image->getData() + (lineSize * y)), 
+                          lineSize);
             }
         }
         else

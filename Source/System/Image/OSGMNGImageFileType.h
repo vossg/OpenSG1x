@@ -54,6 +54,7 @@ See \ref PageSystemImage for a detailed description.
 
 class OSG_SYSTEMLIB_DLLMAPPING MNGImageFileType : public ImageFileType
 {
+
     /*==========================  PUBLIC  =================================*/
   public:
 

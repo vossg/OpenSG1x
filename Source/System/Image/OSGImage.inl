@@ -57,7 +57,7 @@ inline bool Image::isValid (void) const
 inline unsigned long Image::getSize ( bool withMipmap,
                                       bool withFrames) const
 { 
-    return  ( calcMipmapSumSize((withMipmap ? (getMipMapCount()-1) : 0)) *
+    return  (calcMipmapSumSize((withMipmap ? (getMipMapCount()-1) : 0)) *
               (withFrames ? getFrameCount() : 1) * getBpp());
 }
 

@@ -280,7 +280,7 @@ bool Image::flipDepthFrameData (void)
   bool retCode = false;
   Int32 value;
 
-  if ( (getMipMapCount() == 1) && ((getFrameCount() == 1) || (getDepth() == 1)) ) 
+  if ((getMipMapCount() == 1)&&((getFrameCount() == 1)||(getDepth() == 1))) 
   {
       value = getFrameCount();
       setFrameCount(getDepth());
@@ -375,7 +375,7 @@ bool Image::addValue(const char *value)
         if(currentData != NULL)
         {
             // add data
-            // TODO; should we check the bounds, should be done by the parser ?
+            // TODO; should we check the bounds, should be done by the parser 
 
             v = strtoul(value, 0, strchr(value, 'x') ? 16 : 10);
 
@@ -575,7 +575,7 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                     }
                     break;
                 default:
-                    FWARNING (( "Unvalid pixeldepth (%d) in Image::reformat() !\n",
+                    FWARNING (( "Unvalid pixeldepth (%d) in reformat() !\n",
                                 pixelFormat ));
             }
         }
@@ -811,7 +811,8 @@ bool Image::subImage ( Int32 offX, Int32 offY, Int32 offZ,
             {
                 for(UInt32 i = 0; i < getBpp(); i++) 
                 {
-                    dest[destIdx] = src[((z * getHeight() + y) * getWidth() + x) * getBpp() + i];
+                    dest[destIdx] = src[((z * getHeight() + y) * 
+											getWidth() + x) * getBpp() + i];
                     destIdx++;
                 }
             }
@@ -861,12 +862,14 @@ bool Image::slice ( Int32 offX, Int32 offY, Int32 offZ,
 	
     if (offZ >= 0) {
         // XY slice
-        retCode = subImage( 0, 0, offZ, getWidth(), getHeight(), 1, destImage );
+        retCode = subImage( 0, 0, offZ, getWidth(), getHeight(), 1, 
+                            destImage );
     }
 
     if (offY >= 0) {
         // XZ slice
-        destImage->set((PixelFormat)getPixelFormat(), getWidth(), getDepth(), 1);
+        destImage->set((PixelFormat)getPixelFormat(), 
+                       getWidth(), getDepth(), 1);
     
         UChar8  *src  = getData();
         UChar8  *dest = destImage->getData();
