@@ -20,15 +20,18 @@ These nodes can have and actually use their children.
 
 A Group is the simplest NodeCore, it doesn't do much. If asked to do something
 it calls its children to do the same thing, if asked for information it
-gathers it from the children. Really basic.
+gathers it from the children. It does not intoduce a new transformation.
 
 \section NCGroupsSwitch Switch
 
-A Switch node allows to select one of its children for traversal instead of
-all of them (as for the other nodes).
+A Switch node allows to select one of its children for 
+traversal instead of all of them (as for the other nodes).
+The Switch grouping node traverses zero, all or one of the children.
 
 \section NCGroupsTransform Transform
 
+The Transform node is a grouping node that defines a coordinate system for its 
+children that is relative to the coordinate systems of its ancestors.
 A Transform Core is the basic means of moving objects around the scene. It
 keeps a single Matrix that is applied to all its children.
 
@@ -36,9 +39,23 @@ keeps a single Matrix that is applied to all its children.
 
 A ComponentTransform is close to a Transform, but the transformation is
 defined in an easier to use way, the same way it is done in systems like
-OpenInventor or VRML. It consists of a center and a rotation around that
-center, followed by a scale relative to a given scaleOrientation, which is
-finally followed by a translation.
+OpenInventor or VRML: 
+
+The center field specifies a translation offset from the origin of the local coordinate system (0,0,0). 
+The rotation field specifies a rotation of the coordinate system. 
+The scale field specifies a non-uniform scale of the coordinate system. 
+scale values shall be greater than zero. 
+The scaleOrientation specifies a rotation of the coordinate system before 
+the scale (to specify scales in arbitrary orientations). 
+The scaleOrientation applies only to the scale operation. 
+The translation field specifies a translation to the coordinate system.
+
+Given a 3-dimensional point P and Transform node, P is transformed into point P' in its parent's 
+coordinate system by a series of intermediate transformations. In matrix transformation notation, 
+where C (center), SR (scaleOrientation), T (translation), R (rotation), and S (scale) 
+are the equivalent transformation matrices,
+
+    P' = T × C × R × SR × S × -SR × -C × P
 
 \section NCGroupsDistanceLOD DistanceLOD
 
