@@ -227,8 +227,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const BlendChunk &source);
+    void operator =(const BlendChunkBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -240,6 +239,6 @@ typedef BlendChunkBase *BlendChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGBLENDCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGBlendChunkBase.h,v 1.15 2001/10/03 20:37:35 dirk Exp $"
+#define OSGBLENDCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGBlendChunkBase.h,v 1.16 2001/10/15 03:10:24 vossg Exp $"
 
 #endif /* _OSGBLENDCHUNKBASE_H_ */

@@ -51,11 +51,11 @@ struct GeoPositions3fPropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
-    /*! \{                                                                 */        
+    /*! \{                                                                 */
     
     static const Char8 *getTypeName (void) { return "GeoPositions3f";         }
     static const Char8 *getClassName(void) { return "GeoPositions3fProperty"; }
-    static const Char8 *getFieldName(void) { return "positions";             }
+    static const Char8 *getFieldName(void) { return "positions";              }
     static const Char8 *getGroupName(void) { return "GeoPositions";           }
 
     static InitContainerF getInitMethod(void) { return NULL; }
@@ -68,16 +68,21 @@ struct GeoPositions3fPropertyDesc
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Typedefs                                  */
-    /*! \{                                                                 */    
+    /*! \{                                                                 */
     
-    typedef GeoPositions              Inherit;
-    typedef GeoPositions::PtrType     InheritPtr;
-    typedef GeoPositionsPropertyDesc  InheritDesc;
-    typedef MFPnt3f                  FieldType;
-    typedef InheritDesc::GenericType GenericType;
+    typedef GeoPositions               Inherited;
+    typedef GeoPositions::PtrType      InheritedPtr;
 
+    typedef GeoPositionsPropertyDesc   InheritedDesc;
+
+    typedef MFPnt3f                    FieldType;
+    typedef InheritedDesc::GenericType GenericType;
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
     typedef GeoPropertyInterface<GeoPositionsPropertyDesc> Interface;
-    /*! \}                                                                 */        
+#endif
+
+    /*! \}                                                                 */
 };
 
 typedef GeoProperty<GeoPositions3fPropertyDesc> GeoPositions3f;

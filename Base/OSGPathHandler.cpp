@@ -57,7 +57,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.7 2001/10/12 11:01:05 neumannc Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.8 2001/10/15 03:10:20 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGPATHHANDLER_HEADER_CVSID;
 }
 
@@ -185,9 +185,10 @@ void PathHandler::push_backPath(const Char8 *pathList)
 
 void PathHandler::push_backCurrentDir(void)
 {
-    Char8 *pCurrentDir = Directory::getCurrent();
+    Char8  *pCurrentDir = Directory::getCurrent();
+    string  tmpString   = pCurrentDir;
 
-    _pathList.push_back(pCurrentDir);
+    _pathList.push_back(tmpString);
 
     validateList();
 
@@ -224,9 +225,10 @@ void PathHandler::push_frontPath(const Char8 *pathList)
 
 void PathHandler::push_frontCurrentDir(void)
 {
-    Char8 *pCurrentDir = Directory::getCurrent();
+    Char8  *pCurrentDir = Directory::getCurrent();
+    string  tmpString   = pCurrentDir;
 
-    _pathList.push_front(pCurrentDir);
+    _pathList.push_front(tmpString);
 
     validateList();
 
@@ -252,11 +254,11 @@ void PathHandler::push_frontWin32Path(const Char8 *pathList)
 }
 
 
-void PathHandler::subUnixPath(const Char8 *pathList)
+void PathHandler::subUnixPath(const Char8 *OSG_CHECK_ARG(pathList))
 {
 }
 
-void PathHandler::subWin32Path(const Char8 *pathList)
+void PathHandler::subWin32Path(const Char8 *OSG_CHECK_ARG(pathList))
 {
 }
 

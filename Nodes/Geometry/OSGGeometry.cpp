@@ -82,8 +82,6 @@ and minimal though, so don't expect them to be blindingly fast.
 
 */
 
-OSG_SYSTEMLIB_DLLMAPPING GeometryPtr OSG::NullGeo;
-
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -380,8 +378,8 @@ void Geometry::handleGL( Window* win, UInt32 id )
 /** \brief output the instance for debug purposes
  */
 
-void Geometry::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
+void Geometry::dump(      UInt32    uiIndent, 
+                    const BitVector bvFlags) const
 {
    Inherited::dump(uiIndent, bvFlags);
 }
@@ -641,7 +639,7 @@ Action::ResultE Geometry::render(Action *action)
 /** \brief react to field changes
  */
 
-void Geometry::changed(BitVector whichField, ChangeMode from)
+void Geometry::changed(BitVector whichField, ChangeMode OSG_CHECK_ARG(from))
 {
     UInt32 i;
 

@@ -69,7 +69,7 @@ The base class for the camera.
  *                           Class variables                               *
 \***************************************************************************/
 
-char CameraDecorator::cvsid[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.3 2001/10/10 10:42:57 vossg Exp $";
+char CameraDecorator::cvsid[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.4 2001/10/15 03:10:25 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -171,8 +171,8 @@ void CameraDecorator::getViewing( Matrix& result, UInt32 width, UInt32 height )
 /** \brief output the instance for debug purposes
  */
 
-void CameraDecorator::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
+void CameraDecorator::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                           const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
 	SLOG << "Dump CameraDecorator NI" << endl;
 }

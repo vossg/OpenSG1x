@@ -53,6 +53,12 @@
 #include <OSGLog.h>
 
 #ifdef OSG_WITH_GIF
+#define OSG_GIF_ARG(ARG) ARG
+#else
+#define OSG_GIF_ARG(ARG)
+#endif
+
+#ifdef OSG_WITH_GIF
 
 //--- GIF-INCLUDE START ----------------------------------------------------
 #define GIF_MAXCOLORS   256
@@ -161,6 +167,7 @@ GIFImageFileType GIFImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 *public
 *******************************/
 
+
 //----------------------------
 // Function name: read
 //----------------------------
@@ -181,7 +188,8 @@ GIFImageFileType GIFImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //s:
 //
 //------------------------------
-Bool GIFImageFileType::read(Image &image, const Char8 *fileName)
+Bool GIFImageFileType::read(      Image &OSG_GIF_ARG(image), 
+                            const Char8 *OSG_GIF_ARG(fileName))
 {
     Bool                retCode = false;
 
@@ -443,7 +451,8 @@ Bool GIFImageFileType::read(Image &image, const Char8 *fileName)
 //s:
 //
 //------------------------------
-Bool GIFImageFileType::write(const Image &image, const Char8 *fileName)
+Bool GIFImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
+                             const Char8 *OSG_CHECK_ARG(fileName))
 {
 #ifdef OSG_WITH_GIF
     SWARNING << getMimeType() << " write is not implemented " << endLog;

@@ -55,7 +55,7 @@ struct GeoPTypesUI8PropertyDesc
         
     static const Char8 *getTypeName (void) { return "GeoPTypesUI8";         }
     static const Char8 *getClassName(void) { return "GeoPTypesUI8Property"; }
-    static const Char8 *getFieldName(void) { return "Types";               }
+    static const Char8 *getFieldName(void) { return "Types";                }
     static const Char8 *getGroupName(void) { return "GeoPTypes";            }
 
     static InitContainerF getInitMethod(void) { return NULL; }
@@ -68,16 +68,20 @@ struct GeoPTypesUI8PropertyDesc
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Typedefs                                  */
-    /*! \{                                                                 */    
+    /*! \{                                                                 */
     
-    typedef GeoPTypes                 Inherit;
-    typedef GeoPTypes::PtrType        InheritPtr;
-    typedef GeoPTypesPropertyDesc     InheritDesc;
-    typedef MFUInt8                  FieldType;
-    typedef InheritDesc::GenericType GenericType;
+    typedef GeoPTypes                  Inherited;
+    typedef GeoPTypes::PtrType         InheritedPtr;
 
+    typedef GeoPTypesPropertyDesc      InheritedDesc;
+
+    typedef MFUInt8                    FieldType;
+    typedef InheritedDesc::GenericType GenericType;
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
     typedef GeoPropertyInterface<GeoPTypesPropertyDesc> Interface;
-    /*! \}                                                                 */    
+#endif
+    /*! \}                                                                 */
 };
 
 typedef GeoProperty<GeoPTypesUI8PropertyDesc> GeoPTypesUI8;

@@ -304,8 +304,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const Geometry &source);
+    void operator =(const GeometryBase &source);
 };
 
 //---------------------------------------------------------------------------

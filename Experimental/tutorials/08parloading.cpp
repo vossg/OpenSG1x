@@ -87,8 +87,7 @@ int main (int argc, char **argv)
     }
 
     // create the loader thread
-    pLoader =  dynamic_cast<OSG::Thread *>(
-                    ThreadManager::the()->getThread("Loader", "OSGThread") );
+    pLoader = OSG::Thread::get("Loader");
     
     if(pLoader == NULL)
     {

@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.15 2001/10/10 10:42:55 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.16 2001/10/15 03:10:22 vossg Exp $";
     static char cvsid_hpp       [] = OSGSIMPLEMATERIALBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGSIMPLEMATERIALBASE_INLINE_CVSID;
 
@@ -237,6 +237,10 @@ void SimpleMaterialBase::executeSync(      FieldContainer &other,
 
 //! Constructor
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 SimpleMaterialBase::SimpleMaterialBase(void) :
     _sfAmbient                (Color3f(0,0,0)), 
     _sfDiffuse                (Color3f(0,0,0)), 
@@ -249,6 +253,10 @@ SimpleMaterialBase::SimpleMaterialBase(void) :
     Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //! Copy Constructor
 

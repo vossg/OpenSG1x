@@ -252,8 +252,8 @@ void Group::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void Group::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
+void Group::dump(      UInt32    uiIndent, 
+                 const BitVector bvFlags) const
 {
    Inherited::dump(uiIndent, bvFlags);
 }
@@ -275,7 +275,7 @@ Action::ResultE Group::drawEnter(Action * action)
     return Action::Continue;
 }
 
-Action::ResultE Group::drawLeave(Action * action)
+Action::ResultE Group::drawLeave(Action *)
 {
     return Action::Continue;
 }

@@ -72,7 +72,7 @@ i.e. polygons.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PolygonChunk::cvsid[] = "@(#)$Id: OSGPolygonChunk.cpp,v 1.8 2001/10/11 16:41:18 neumannc Exp $";
+char PolygonChunk::cvsid[] = "@(#)$Id: OSGPolygonChunk.cpp,v 1.9 2001/10/15 03:10:24 vossg Exp $";
 
 StateChunkClass PolygonChunk::_class("Polygon");
 
@@ -154,8 +154,8 @@ void PolygonChunk::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void PolygonChunk::dump(      UInt32     uiIndent,
-                         const BitVector &bvFlags) const
+void PolygonChunk::dump(      UInt32    uiIndent,
+                        const BitVector bvFlags) const
 {
    Inherited::dump(uiIndent, bvFlags);
 }
@@ -338,7 +338,7 @@ void PolygonChunk::deactivate ( DrawActionBase *, UInt32 )
 
 /*-------------------------- comparison -----------------------------------*/
 
-Real32 PolygonChunk::switchCost( StateChunk * chunk )
+Real32 PolygonChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
 {
     return 0;
 }

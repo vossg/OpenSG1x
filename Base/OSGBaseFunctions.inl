@@ -132,7 +132,7 @@ Int32 osgnextpower2(Int32 rValue)
 
 template <class TypeT> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-TypeT osgabs(const TypeT &rValue)
+TypeT osgabs(const TypeT rValue)
 {
     return (rValue > 0) ? rValue : -rValue;
 }
@@ -143,7 +143,7 @@ TypeT osgabs(const TypeT &rValue)
 
 template <class FloatTypeT> inline
 typename TypeConstants<FloatTypeT>::RealReturnType
-    deg2rad(const FloatTypeT &rValue)
+    deg2rad(const FloatTypeT rValue)
 {
    return osgdegree2rad(rValue);
 }
@@ -154,7 +154,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 
 template <class FloatTypeT> inline
 typename TypeConstants<FloatTypeT>::RealReturnType 
-    rad2deg(const FloatTypeT &rValue)
+    rad2deg(const FloatTypeT rValue)
 {
    return osgrad2degree(rValue);
 }
@@ -169,7 +169,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType 
-    osgsqrt(const FloatTypeT &rVal)
+    osgsqrt(const FloatTypeT rVal)
 {
     typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
 
@@ -179,7 +179,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType 
-    osgcos(const FloatTypeT &rVal)
+    osgcos(const FloatTypeT rVal)
 {
     typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
 
@@ -189,7 +189,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType 
-    osgsin(const FloatTypeT &rVal)
+    osgsin(const FloatTypeT rVal)
 {
     typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
 
@@ -199,7 +199,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType
-    osgtan(const FloatTypeT &rVal)
+    osgtan(const FloatTypeT rVal)
 {
     typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
 
@@ -209,7 +209,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType 
-    osgacos(const FloatTypeT &rVal)
+    osgacos(const FloatTypeT rVal)
 {
     typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
 
@@ -219,7 +219,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType
-    osgasin(const FloatTypeT &rVal)
+    osgasin(const FloatTypeT rVal)
 {
     typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
 
@@ -229,7 +229,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType 
-    osgatan(const FloatTypeT &rVal)
+    osgatan(const FloatTypeT rVal)
 {
     typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
 
@@ -239,8 +239,8 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType 
-    osgatan2(const FloatTypeT &rVal1,
-             const FloatTypeT &rVal2)
+    osgatan2(const FloatTypeT rVal1,
+             const FloatTypeT rVal2)
 {
     typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
 
@@ -250,7 +250,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType 
-    osgdegree2rad(const FloatTypeT &rVal)
+    osgdegree2rad(const FloatTypeT rVal)
 {
     typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
 
@@ -260,7 +260,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType
-    osgrad2degree(const FloatTypeT &rVal)
+    osgrad2degree(const FloatTypeT rVal)
 {
     typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
 
@@ -270,8 +270,8 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType
-    osgpow(const FloatTypeT &rVal,
-           const FloatTypeT &rExp)
+    osgpow(const FloatTypeT rVal,
+           const FloatTypeT rExp)
 {
     typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
 
@@ -281,7 +281,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType
-    osglog(const FloatTypeT &rVal)
+    osglog(const FloatTypeT rVal)
 {
     typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
 
@@ -291,7 +291,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType
-    osgexp(const FloatTypeT &rVal)
+    osgexp(const FloatTypeT rVal)
 {
     typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
 
@@ -301,7 +301,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 template <class FloatTypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType
-    osgfloor(const FloatTypeT &rVal)
+    osgfloor(const FloatTypeT rVal)
 {
     typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
 
@@ -322,7 +322,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real32 osgsqrt<Real32>(const Real32 &rVal)
+Real32 osgsqrt<Real32>(const Real32 rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return sqrtf(rVal);
@@ -337,7 +337,7 @@ Real32 osgsqrt<Real32>(const Real32 &rVal)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real32 osgcos(const Real32 &rVal)
+Real32 osgcos(const Real32 rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return cosf(rVal);
@@ -348,7 +348,7 @@ Real32 osgcos(const Real32 &rVal)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real32 osgsin(const Real32 &rVal)
+Real32 osgsin(const Real32 rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return sinf(rVal);
@@ -363,7 +363,7 @@ Real32 osgsin(const Real32 &rVal)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real32 osgtan(const Real32 &rVal)
+Real32 osgtan(const Real32 rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return tanf(rVal);
@@ -378,7 +378,7 @@ Real32 osgtan(const Real32 &rVal)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real32 osgacos(const Real32 &rVal)
+Real32 osgacos(const Real32 rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return acosf(rVal);
@@ -393,7 +393,7 @@ Real32 osgacos(const Real32 &rVal)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real32 osgasin(const Real32 &rVal)
+Real32 osgasin(const Real32 rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return asinf(rVal);
@@ -408,7 +408,7 @@ Real32 osgasin(const Real32 &rVal)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real32 osgatan(const Real32 &rVal)
+Real32 osgatan(const Real32 rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return atanf(rVal);
@@ -423,7 +423,7 @@ Real32 osgatan(const Real32 &rVal)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real32 osgatan2(const Real32 &rVal1, const Real32 &rVal2)
+Real32 osgatan2(const Real32 rVal1, const Real32 rVal2)
 {
 #ifdef OSG_HAS_FLOATMATH
 #ifndef _OSG_HAS_ATANF2__
@@ -442,7 +442,7 @@ Real32 osgatan2(const Real32 &rVal1, const Real32 &rVal2)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real32 osgdegree2rad(const Real32 &rValue)
+Real32 osgdegree2rad(const Real32 rValue)
 {
    return (rValue/360.f) * 2.f * 3.1415926535f;
 }
@@ -453,7 +453,7 @@ Real32 osgdegree2rad(const Real32 &rValue)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real32 osgrad2degree(const Real32 &rValue)
+Real32 osgrad2degree(const Real32 rValue)
 {
    return (rValue/(2.f * 3.1415926535f)) * 360.f;
 }
@@ -464,7 +464,7 @@ Real32 osgrad2degree(const Real32 &rValue)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real32 osgabs(const Real32 &rValue)
+Real32 osgabs(const Real32 rValue)
 {
 #ifdef OSG_HAS_FLOATMATH
     return fabsf(rValue);
@@ -479,7 +479,7 @@ Real32 osgabs(const Real32 &rValue)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real32 osgpow(const Real32 &rValue, const Real32 &rExp)
+Real32 osgpow(const Real32 rValue, const Real32 rExp)
 {
 #ifdef OSG_HAS_FLOATMATH
     return powf(rValue, rExp);
@@ -494,7 +494,7 @@ Real32 osgpow(const Real32 &rValue, const Real32 &rExp)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real32 osglog(const Real32 &rVal)
+Real32 osglog(const Real32 rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return logf(rVal);
@@ -509,7 +509,7 @@ Real32 osglog(const Real32 &rVal)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real32 osgexp(const Real32 &rVal)
+Real32 osgexp(const Real32 rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return expf(rVal);
@@ -524,7 +524,7 @@ Real32 osgexp(const Real32 &rVal)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real32 osgfloor(const Real32 &rValue)
+Real32 osgfloor(const Real32 rValue)
 {
 #ifdef OSG_HAS_FLOATMATH
     return floorf(rValue);
@@ -538,7 +538,7 @@ Real32 osgfloor(const Real32 &rValue)
  */
 
 template <class TypeT> inline
-TypeT osgMin(const TypeT &lVal, const TypeT &rVal)
+TypeT osgMin(const TypeT lVal, const TypeT rVal)
 {
     return ((lVal < rVal) ? lVal : rVal);
 }
@@ -548,13 +548,13 @@ TypeT osgMin(const TypeT &lVal, const TypeT &rVal)
  */
 
 template <class TypeT> inline
-TypeT osgMax(const TypeT &lVal, const TypeT &rVal)
+TypeT osgMax(const TypeT lVal, const TypeT rVal)
 {
     return ((lVal > rVal) ? lVal : rVal);
 }
 
 template <class FloatTypeT>
-UInt32 osgfinite(const FloatTypeT &rVal)
+UInt32 osgfinite(const FloatTypeT rVal)
 {
 #ifdef WIN32
     return _finite(rVal);
@@ -576,7 +576,7 @@ UInt32 osgfinite(const FloatTypeT &rVal)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real64 osgsqrt(const Real64 &rVal)
+Real64 osgsqrt(const Real64 rVal)
 {
     return sqrt(rVal);
 }
@@ -587,7 +587,7 @@ Real64 osgsqrt(const Real64 &rVal)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real64 osgcos(const Real64 &rVal)
+Real64 osgcos(const Real64 rVal)
 {
     return cos(rVal);
 }
@@ -598,7 +598,7 @@ Real64 osgcos(const Real64 &rVal)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real64 osgsin(const Real64 &rVal)
+Real64 osgsin(const Real64 rVal)
 {
     return sin(rVal);
 }
@@ -609,7 +609,7 @@ Real64 osgsin(const Real64 &rVal)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real64 osgtan(const Real64 &rVal)
+Real64 osgtan(const Real64 rVal)
 {
     return tan(rVal);
 }
@@ -620,7 +620,7 @@ Real64 osgtan(const Real64 &rVal)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real64 osgacos(const Real64 &rVal)
+Real64 osgacos(const Real64 rVal)
 {
     return acos(rVal);
 }
@@ -631,7 +631,7 @@ Real64 osgacos(const Real64 &rVal)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real64 osgasin(const Real64 &rVal)
+Real64 osgasin(const Real64 rVal)
 {
     return asin(rVal);
 }
@@ -642,7 +642,7 @@ Real64 osgasin(const Real64 &rVal)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real64 osgatan(const Real64 &rVal)
+Real64 osgatan(const Real64 rVal)
 {
     return atan(rVal);
 }
@@ -653,7 +653,7 @@ Real64 osgatan(const Real64 &rVal)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real64 osgatan2(const Real64 &rVal1, const Real64 &rVal2)
+Real64 osgatan2(const Real64 rVal1, const Real64 rVal2)
 {
     return atan2(rVal1, rVal2);
 }
@@ -664,7 +664,7 @@ Real64 osgatan2(const Real64 &rVal1, const Real64 &rVal2)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real64 osgdegree2rad(const Real64 &rValue)
+Real64 osgdegree2rad(const Real64 rValue)
 {
    return (rValue/360) * 2 * 3.1415926535;
 }
@@ -675,7 +675,7 @@ Real64 osgdegree2rad(const Real64 &rValue)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real64 osgrad2degree(const Real64 &rValue)
+Real64 osgrad2degree(const Real64 rValue)
 {
    return (rValue/(2 * 3.1415926535)) * 360;
 }
@@ -686,7 +686,7 @@ Real64 osgrad2degree(const Real64 &rValue)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real64 osgabs(const Real64 &rValue)
+Real64 osgabs(const Real64 rValue)
 {
     return fabs(rValue);
 }
@@ -697,7 +697,7 @@ Real64 osgabs(const Real64 &rValue)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real64 osgpow(const Real64 &rValue, const Real64 &rExp)
+Real64 osgpow(const Real64 rValue, const Real64 rExp)
 {
     return pow(rValue, rExp);
 }
@@ -708,7 +708,7 @@ Real64 osgpow(const Real64 &rValue, const Real64 &rExp)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real64 osglog(const Real64 &rVal)
+Real64 osglog(const Real64 rVal)
 {
     return log(rVal);
 }
@@ -719,7 +719,7 @@ Real64 osglog(const Real64 &rVal)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real64 osgexp(const Real64 &rVal)
+Real64 osgexp(const Real64 rVal)
 {
     return exp(rVal);
 }
@@ -730,7 +730,7 @@ Real64 osgexp(const Real64 &rVal)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Real64 osgfloor(const Real64 &rValue)
+Real64 osgfloor(const Real64 rValue)
 {
     return floor(rValue);
 }

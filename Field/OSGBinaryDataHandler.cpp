@@ -317,6 +317,11 @@ void BinaryDataHandler::writeBufClear( void )
  *
  * @return buffer iterator points behind the last buffer containing data
  */
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 void BinaryDataHandler::readBuffer()
 {
     BuffersT::iterator i;
@@ -331,6 +336,7 @@ void BinaryDataHandler::readBuffer()
         {
             SFATAL << "Read buffer is to small. " << size
                    << "bytes missing" << endl;
+
             throw ReadError("Read buffer to small for whole block");
         }
         readSize=osgMin(size, i->getSize());
@@ -344,6 +350,10 @@ void BinaryDataHandler::readBuffer()
     }
 }
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
+
 /** \brief direct buffer read
  *
  * \param mem    destination 
@@ -352,7 +362,9 @@ void BinaryDataHandler::readBuffer()
  * write data into given buffer
  *
  */
-void BinaryDataHandler::read(MemoryHandle mem,UInt32 size)
+
+void BinaryDataHandler::read(MemoryHandle OSG_CHECK_ARG(mem ),
+                             UInt32       OSG_CHECK_ARG(size))
 {
     SWARNING << "BinaryDataHandler::read(MemoryHandle mem,int size) called" 
              << endl;
@@ -363,7 +375,8 @@ void BinaryDataHandler::read(MemoryHandle mem,UInt32 size)
  * Use direct write to implement buffer write.
  *
  */
-void BinaryDataHandler::writeBuffer()
+
+void BinaryDataHandler::writeBuffer(void)
 {
     BuffersT::iterator i;
     UInt32 size=0;
@@ -391,7 +404,8 @@ void BinaryDataHandler::writeBuffer()
  * write data into given buffer
  *
  */
-void BinaryDataHandler::write(MemoryHandle mem,UInt32 size)
+void BinaryDataHandler::write(MemoryHandle OSG_CHECK_ARG(mem ),
+                              UInt32       OSG_CHECK_ARG(size))
 {
     SWARNING << "BinaryDataHandler::write(MemoryHandle mem,int size) called" 
              << endl;

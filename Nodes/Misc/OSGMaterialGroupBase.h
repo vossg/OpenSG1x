@@ -211,8 +211,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroupBase : public NodeCore
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const MaterialGroup &source);
+    void operator =(const MaterialGroupBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -224,6 +223,6 @@ typedef MaterialGroupBase *MaterialGroupBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALGROUPBASE_HEADER_CVSID "@(#)$Id: OSGMaterialGroupBase.h,v 1.14 2001/10/03 20:37:35 dirk Exp $"
+#define OSGMATERIALGROUPBASE_HEADER_CVSID "@(#)$Id: OSGMaterialGroupBase.h,v 1.15 2001/10/15 03:10:23 vossg Exp $"
 
 #endif /* _OSGMATERIALGROUPBASE_H_ */

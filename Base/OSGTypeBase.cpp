@@ -176,7 +176,7 @@ const Char8  *TypeBase::getCParentName(void) const
 
 /*-------------------------- inheriteance ---------------------------------*/
 
-Bool TypeBase::isDerivedFrom(const TypeBase &other) const
+Bool TypeBase::isDerivedFrom(const TypeBase &OSG_CHECK_ARG(other)) const
 {
     return false;
 }

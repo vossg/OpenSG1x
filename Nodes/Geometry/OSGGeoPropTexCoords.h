@@ -54,7 +54,7 @@ struct GeoTexCoords2fPropertyDesc
 
     static const Char8 *getTypeName (void) { return "GeoTexCoords2f";         }
     static const Char8 *getClassName(void) { return "GeoTexCoords2fProperty"; }
-    static const Char8 *getFieldName(void) { return "TexCoords";             }
+    static const Char8 *getFieldName(void) { return "TexCoords";              }
     static const Char8 *getGroupName(void) { return "GeoTexCoords";           }
 
     static InitContainerF getInitMethod(void) { return NULL; }
@@ -69,13 +69,18 @@ struct GeoTexCoords2fPropertyDesc
     /*! \name                    Typedefs                                  */
     /*! \{                                                                 */
 
-    typedef GeoTexCoords                Inherit;
-    typedef GeoTexCoords::PtrType       InheritPtr;
-    typedef GeoTexCoordsPropertyDesc    InheritDesc;
-    typedef MFVec2f                     FieldType;
-    typedef InheritDesc::GenericType    GenericType;
+    typedef GeoTexCoords                Inherited;
+    typedef GeoTexCoords::PtrType       InheritedPtr;
 
+    typedef GeoTexCoordsPropertyDesc    InheritedDesc;
+
+    typedef MFVec2f                     FieldType;
+    typedef InheritedDesc::GenericType  GenericType;
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
     typedef GeoPropertyInterface<GeoTexCoordsPropertyDesc> Interface;
+#endif
+
     /*! \}                                                                 */
 };
 

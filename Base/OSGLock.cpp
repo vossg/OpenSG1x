@@ -801,7 +801,7 @@ void LockPool::shutdown(void)
  */
 
 LockPool::LockPool(const Char8  *szName,
-                               UInt32  uiId) :
+                         UInt32  uiId) :
     Inherited(szName, uiId)
 {
 }
@@ -824,20 +824,28 @@ LockPool::~LockPool(void)
 
 /*------------------------------ access -----------------------------------*/
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 171)
+#endif
+
 void LockPool::aquire(void *keyP)
 {
-    _pLocks[(((UInt32) keyP) & uiLockPoolMask) >> 7].aquire();
+    _pLocks[((UInt32(keyP)) & uiLockPoolMask) >> 7].aquire();
 }
 
 void LockPool::release(void *keyP)
 {
-    _pLocks[(((UInt32) keyP) & uiLockPoolMask) >> 7].release();
+    _pLocks[((UInt32(keyP)) & uiLockPoolMask) >> 7].release();
 }
 
 Bool LockPool::request(void *keyP)
 {
-    return _pLocks[(((UInt32) keyP) & uiLockPoolMask) >> 7].request();
+    return _pLocks[((UInt32(keyP)) & uiLockPoolMask) >> 7].request();
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (error : 171)
+#endif
 
 /*---------------------------- properties ---------------------------------*/
 

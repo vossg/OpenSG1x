@@ -543,7 +543,13 @@ struct TypeConstants<UInt8> : public TypeConstantsBase
     };
     static inline UInt8 getPortion    (Real32 val)
     {
-        return (UInt8) (val * Real32(getMax()));
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 810)
+#endif
+        return UInt8((val * Real32(getMax())));
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 810)
+#endif
     };
 
 
@@ -561,7 +567,7 @@ struct TypeConstants<UInt8> : public TypeConstantsBase
     static inline string putToString (const UInt8 val)
     {
         char buffer[10];
-        sprintf( buffer, "%u", val );
+        sprintf( buffer, "%c", val );
         return string( buffer );
     }
 };
@@ -609,7 +615,7 @@ struct TypeConstants<Int8> : public TypeConstantsBase
     static inline string putToString (const Int8 val)
     {
         char buffer[10];
-        sprintf( buffer, "%i", val );
+        sprintf( buffer, "%c", val );
         return string( buffer );
     }
 };
@@ -657,7 +663,13 @@ struct TypeConstants<UInt16> : public TypeConstantsBase
     static inline string putToString (const UInt16 val)
     {
         char buffer[10];
+
+//      Check WIN32 Version
+#ifdef WIN32
+        sprintf( buffer, "%u", UInt32(val));
+#else
         sprintf( buffer, "%u", val );
+#endif
         return string( buffer );
     }
 };

@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.14 2001/10/10 10:42:57 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.15 2001/10/15 03:10:24 vossg Exp $";
     static char cvsid_hpp       [] = OSGLIGHTCHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGLIGHTCHUNKBASE_INLINE_CVSID;
 
@@ -258,6 +258,10 @@ void LightChunkBase::executeSync(      FieldContainer &other,
 
 //! Constructor
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 LightChunkBase::LightChunkBase(void) :
     _sfDiffuse                (Color4f(1,1,1,0)), 
     _sfAmbient                (Color4f(.1,.1,.1,0)), 
@@ -272,6 +276,10 @@ LightChunkBase::LightChunkBase(void) :
     Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //! Copy Constructor
 

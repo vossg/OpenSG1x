@@ -147,8 +147,8 @@ void State::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void State::dump(      UInt32     uiIndent,
-                         const BitVector &bvFlags) const
+void State::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
+                 const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
     cerr << "State at " << this << endl;
 
@@ -357,7 +357,7 @@ void State::deactivate ( DrawActionBase *action )
 
 /*-------------------------- comparison -----------------------------------*/
 
-Real32 State::switchCost( State * state )
+Real32 State::switchCost(State *OSG_CHECK_ARG(state))
 {
     return 0;
 }
@@ -373,7 +373,7 @@ Bool State::operator < (const State &other) const
 /** \brief equal
  */
 
-Bool State::operator == (const State &other) const
+Bool State::operator == (const State &OSG_CHECK_ARG(other)) const
 {
     return false;
 }

@@ -211,8 +211,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateBase : public FieldContainer
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const State &source);
+    void operator =(const StateBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -224,6 +223,6 @@ typedef StateBase *StateBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: OSGStateBase.h,v 1.13 2001/10/03 20:37:35 dirk Exp $"
+#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: OSGStateBase.h,v 1.14 2001/10/15 03:10:24 vossg Exp $"
 
 #endif /* _OSGSTATEBASE_H_ */

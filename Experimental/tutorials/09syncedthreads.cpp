@@ -183,11 +183,10 @@ int main (int argc, char **argv)
     osgLog().addHeaderElem(LOG_TIMESTAMP_HEADER);
     
     // create the barrier
-    syncBarrier = ThreadManager::the()->getBarrier("Producer");
+    syncBarrier = Barrier::get("Producer");
    
     // create the producer thread
-    producer =  dynamic_cast<OSG::Thread *>(
-                    ThreadManager::the()->getThread("Producer", "OSGThread") );
+    producer =  OSG::Thread::get("Producer");
     
     if(producer == NULL)
     {

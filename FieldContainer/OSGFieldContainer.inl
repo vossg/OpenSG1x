@@ -137,7 +137,7 @@ ostream &operator <<(
     {
         os << hex << "FCPtr 0x"
            << &fc << dec << ":" << fc->getType().getName() << "Ptr(0x"
-           << hex << (int) (&(*fc)) << dec << ")";
+           << hex << (&(*fc)) << dec << ")";
     }
 
     return os;

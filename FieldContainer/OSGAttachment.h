@@ -124,8 +124,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
     /*! \name                        Dump                                  */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0, 
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0, 
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -260,8 +260,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
     /*! \name                        Dump                                  */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0, 
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0, 
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -352,7 +352,7 @@ typedef FCPtr<AttachmentPtr,  Name> NamePtr;
 
 OSG_FC_DLLEXPORT_DECL(SimpleAttachment, 
                       NameAttachmentDesc,
-                      OSG_SYSTEMLIB_DLLTMPLMAPPING);
+                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -407,8 +407,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DynFieldAttachment :
     /*! \name                        Dump                                  */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0, 
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0, 
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

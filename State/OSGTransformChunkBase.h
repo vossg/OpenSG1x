@@ -211,8 +211,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TransformChunkBase : public StateChunk
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const TransformChunk &source);
+    void operator =(const TransformChunkBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -224,6 +223,6 @@ typedef TransformChunkBase *TransformChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTransformChunkBase.h,v 1.14 2001/10/03 20:37:35 dirk Exp $"
+#define OSGTRANSFORMCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTransformChunkBase.h,v 1.15 2001/10/15 03:10:24 vossg Exp $"
 
 #endif /* _OSGTRANSFORMCHUNKBASE_H_ */

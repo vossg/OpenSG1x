@@ -291,8 +291,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const PolygonChunk &source);
+    void operator =(const PolygonChunkBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -304,6 +303,6 @@ typedef PolygonChunkBase *PolygonChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.14 2001/10/03 20:37:35 dirk Exp $"
+#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.15 2001/10/15 03:10:24 vossg Exp $"
 
 #endif /* _OSGPOLYGONCHUNKBASE_H_ */

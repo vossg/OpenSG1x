@@ -75,7 +75,7 @@ The chunk material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.15 2001/10/11 16:41:18 neumannc Exp $";
+char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.16 2001/10/15 03:10:22 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -235,8 +235,8 @@ Bool ChunkMaterial::isTransparent(void) const
 
 /*------------------------------- dump ----------------------------------*/
 
-void ChunkMaterial::dump(      UInt32     uiIndent,
-                         const BitVector &bvFlags) const
+void ChunkMaterial::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
+                         const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
     SLOG << "ChunkMaterial at " << this << endl;
     SLOG << "Chunks: " << endl;

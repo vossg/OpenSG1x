@@ -38,17 +38,12 @@
 #include <stdio.h>
 
 #include "OSGConfig.h"
-#include "OSGGeoPropInterfaceFields.h"
 
 OSG_BEGIN_NAMESPACE
 
 template <class GeoPropertyDesc>
 char AbstractGeoProperty<GeoPropertyDesc>::cvsid[] = 
     "@(#)$Id: $";
-
-template <class GeoPropertyDesc>
-const  AbstractGeoProperty<GeoPropertyDesc>::PtrType
-    AbstractGeoProperty<GeoPropertyDesc>::NullPtr;
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class GeoPropertyDesc>
@@ -81,7 +76,10 @@ OSG_ABSTR_FIELD_CONTAINER_INL_TMPL_DEF(AbstractGeoProperty,
 
 template <class GeoPropertyDesc> inline
 AbstractGeoProperty<GeoPropertyDesc>::AbstractGeoProperty(void) :
-    Inherited()
+      Inherited()
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    , Interface()
+#endif
 {
 }
 
@@ -89,7 +87,11 @@ AbstractGeoProperty<GeoPropertyDesc>::AbstractGeoProperty(void) :
 template <class GeoPropertyDesc> inline
 AbstractGeoProperty<GeoPropertyDesc>::AbstractGeoProperty(
     const AbstractGeoProperty &source) :
-        Inherited(source)
+
+      Inherited(source)
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    , Interface(source)
+#endif
 {
 }
 
@@ -100,8 +102,8 @@ AbstractGeoProperty<GeoPropertyDesc>::~AbstractGeoProperty(void)
 }
 
 template <class GeoPropertyDesc> inline
-void AbstractGeoProperty<GeoPropertyDesc>::dump(      UInt32     uiIndent, 
-                                                const BitVector &bvFlags) const
+void AbstractGeoProperty<GeoPropertyDesc>::dump(      UInt32    uiIndent, 
+                                                const BitVector bvFlags) const
 {
     Inherited::dump(uiIndent, bvFlags);
 }
@@ -113,15 +115,6 @@ char GeoProperty<GeoPropertyDesc>::cvsid[] =
 template <class GeoPropertyDesc>
 const BitVector GeoProperty<GeoPropertyDesc>::GeoPropDataFieldMask = 
     (1 << GeoProperty<GeoPropertyDesc>::GeoPropDataFieldId);
-
-/** \brief NULL pointer
- */
-
-
-template <class GeoPropertyDesc>
-const  GeoProperty<GeoPropertyDesc>::PtrType 
-    GeoProperty<GeoPropertyDesc>::NullPtr;
-
 
 /** \brief Property field description
  */
@@ -294,7 +287,7 @@ const GeoProperty<GeoPropertyDesc>::StoredFieldType &
  */
 
 template <class GeoPropertyDesc> 
-typename GeoPropertyDesc::InheritPtr
+typename GeoPropertyDesc::InheritedPtr
 GeoProperty<GeoPropertyDesc>::clone(void)
 {
     PtrType obj = GeoProperty<GeoPropertyDesc>::create();
@@ -408,8 +401,8 @@ inline void GeoProperty<propertyDesc>::resize( size_t newsize )
 }
 
 template <class GeoPropertyDesc> inline
-void GeoProperty<GeoPropertyDesc>::dump(      UInt32     uiIndent, 
-                                        const BitVector &bvFlags) const
+void GeoProperty<GeoPropertyDesc>::dump(      UInt32    uiIndent, 
+                                        const BitVector bvFlags) const
 {
     Inherited::dump(uiIndent, bvFlags);
 }

@@ -153,10 +153,17 @@ DynamicVolume & DynamicVolume::operator = (const DynamicVolume &source)
 }
 
 /// print the volume */
-void DynamicVolume::dump( UInt32 uiIndent, const BitVector &bvFlags) const
+void DynamicVolume::dump(UInt32 uiIndent, const BitVector bvFlags) const
 {
     PLOG << "Dyn:";
-    getInstance().dump( uiIndent, bvFlags );
+
+    getInstance().dump(uiIndent, bvFlags);
+}
+
+Bool DynamicVolume::operator ==(
+    const DynamicVolume &OSG_CHECK_ARG(other)) const
+{
+    return false; 
 }
 
 /***************************************************************************\

@@ -243,8 +243,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransformBase : public Transform
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const ComponentTransform &source);
+    void operator =(const ComponentTransformBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -256,6 +255,6 @@ typedef ComponentTransformBase *ComponentTransformBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGComponentTransformBase.h,v 1.1 2001/10/03 20:37:35 dirk Exp $"
+#define OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGComponentTransformBase.h,v 1.2 2001/10/15 03:10:23 vossg Exp $"
 
 #endif /* _OSGCOMPONENTTRANSFORMBASE_H_ */

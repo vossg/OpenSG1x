@@ -147,10 +147,18 @@ void ForegroundBase::executeSync(      FieldContainer &other,
 
 //! Constructor
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 ForegroundBase::ForegroundBase(void) :
     Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //! Copy Constructor
 

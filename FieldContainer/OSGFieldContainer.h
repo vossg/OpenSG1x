@@ -230,8 +230,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     /*! \name                        Dump                                  */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0, 
-                      const BitVector &bvFlags  = 0) const = 0;
+    virtual void dump(      UInt32    uiIndent = 0, 
+                      const BitVector bvFlags  = 0) const = 0;
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

@@ -377,12 +377,14 @@ Bool Log::hasHeaderElem(LogHeaderElem elem)
     return (_headerElem & elem);
 }
 
-void Log::addModuleHandling  (LogModuleHandling handling, Bool force)
+void Log::addModuleHandling(LogModuleHandling handling, 
+                            Bool              OSG_CHECK_ARG(force))
 {
     _moduleHandling |= handling;
 }
 
-void Log::delModuleHandling  (LogModuleHandling handling, Bool force)
+void Log::delModuleHandling(LogModuleHandling handling, 
+                            Bool              OSG_CHECK_ARG(force))
 {
     _moduleHandling &= ~handling;
 }
@@ -408,7 +410,7 @@ void Log::addModuleName(const Char8 *module, Bool isStatic)
     }
 }
 
-void Log::delModuleName(const Char8 *module)
+void Log::delModuleName(const Char8 *OSG_CHECK_ARG(module))
 {
 }
 

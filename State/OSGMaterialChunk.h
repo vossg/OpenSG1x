@@ -84,8 +84,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunk : public MaterialChunkBase
     /*! \name                      Output                                  */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0,
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0,
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -155,8 +155,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunk : public MaterialChunkBase
     static void initMethod( void );
 
     // prohibit default functions (move to 'public' if you need one)
-
-    // void operator =(const MaterialChunk &source);
+    void operator =(const MaterialChunk &source);
 };
 
 typedef MaterialChunk *MaterialChunkP;

@@ -29,8 +29,9 @@ Animation *addAnim(InterpolatorBase::InterpolType  type,
 	PositionInterpolatorPtr 	posInterpol=0;
 	OrientationInterpolatorPtr 	oriInterpol=0;
 
-	string					    sname(name);
-	
+	string					    sname   (name);
+	string                      sobjname(objname);
+
 	if(type == InterpolatorBase::Position)
 	{
 		posInterpol = new PositionInterpolator(type);
@@ -47,7 +48,7 @@ Animation *addAnim(InterpolatorBase::InterpolType  type,
 	if(interpol)
 	{
 		interpol->setName      (sname   );
-		interpol->setTargetName(objname );
+		interpol->setTargetName(sobjname);
 		interpol->setDuration  (duration);
 
 		if(destNr >= 0)	//hack: is a position interpolator

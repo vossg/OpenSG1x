@@ -197,8 +197,8 @@ void Switch::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void Switch::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
+void Switch::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                  const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
 	SLOG << "Dump Switch NI" << endl;
 }

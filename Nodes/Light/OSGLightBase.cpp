@@ -203,8 +203,8 @@ void LightBase::makeChunk(void)
 /** \brief output the instance for debug purposes
  */
 
-void LightBase::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
+void LightBase::dump(      UInt32    uiIndent, 
+                     const BitVector bvFlags) const
 {
    Inherited::dump(uiIndent, bvFlags);
 }
@@ -294,7 +294,7 @@ Action::ResultE LightBase::renderEnter(Action *action)
     return Action::Continue;
 }
 
-Action::ResultE LightBase::renderLeave(Action *action)
+Action::ResultE LightBase::renderLeave(Action *OSG_CHECK_ARG(action))
 {
 //    fprintf(stderr, "LightBase::renderLeave\n");
     return Action::Continue;

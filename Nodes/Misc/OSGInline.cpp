@@ -204,8 +204,8 @@ void Inline::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void Inline::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
+void Inline::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                  const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
 	SLOG << "Dump Inline NI" << endl;
 }
@@ -227,7 +227,7 @@ Action::ResultE Inline::drawEnter(Action * action)
     return Action::Continue;
 }
 
-Action::ResultE Inline::drawLeave(Action * action)
+Action::ResultE Inline::drawLeave(Action *)
 {
     return Action::Continue;
 }

@@ -63,11 +63,15 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
+#if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
+#pragma warning (disable : 383)
+#endif
+
 #ifdef __sgi
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.33 2001/10/14 20:50:42 dirk Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.34 2001/10/15 03:10:23 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -646,17 +650,17 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getNormals(GeometryPtr geo,
  *  \ingroup Geometry
  */
 OSG_SYSTEMLIB_DLLMAPPING
-Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
-                                  vector<Int32> & coordIndex,
-                                  vector<Int32> & normalIndex,
-                                  vector<Int32> & colorIndex,
-                                  vector<Int32> & texCoordIndex,
-                                  Bool convex,
-                                  Bool ccw,
-                                  Bool normalPerVertex,
-                                  Bool colorPerVertex,
-                                  Bool createNormal,
-                                  Bool faceSet )
+Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
+                                vector<Int32> &coordIndex,
+                                vector<Int32> &normalIndex,
+                                vector<Int32> &colorIndex,
+                                vector<Int32> &texCoordIndex,
+                                  Bool         OSG_CHECK_ARG(convex),
+                                  Bool         ccw,
+                                  Bool         normalPerVertex,
+                                  Bool         colorPerVertex,
+                                  Bool         OSG_CHECK_ARG(createNormal),
+                                  Bool         faceSet)
 {
   /** define the bag type */
   typedef vector<Int32>* IndexBagP;
@@ -1099,12 +1103,12 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
  *  returns the number of points to be tranformed
  *  \ingroup Geometry
  */
-Int32 osg::createOptimizedPrimitives ( GeometryPtr geoPtr,
-                                       UInt32 iteration,
-                                       Bool createStrips,
-                                       Bool createFans,
-                                       UInt32 minFanEdgeCount,
-                                       Bool colorCode)
+Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
+                                     UInt32     iteration,
+                                     Bool       OSG_CHECK_ARG(createStrips   ),
+                                     Bool       OSG_CHECK_ARG(createFans     ),
+                                     UInt32     OSG_CHECK_ARG(minFanEdgeCount),
+                                     Bool       OSG_CHECK_ARG(colorCode      ))
 {
   NodeGraph graph;
     vector<NodeGraph::Path> pathVec[2];

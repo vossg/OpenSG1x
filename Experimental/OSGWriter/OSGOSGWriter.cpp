@@ -48,7 +48,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.4 2001/10/10 10:42:53 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.5 2001/10/15 03:10:20 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOSGWRITER_HEADER_CVSID;
 }
 
@@ -128,6 +128,10 @@ void OSGWriter::setIndentStep(UInt32 newStep)
 	_indentStep = newStep;
 }
 
+#if defined(OSG_WIN32_ICL)
+#pragma warning (disable : 383)
+#endif
+
 void OSGWriter::doListFC(FieldContainerPtr fieldConPtr)
 {
 	if(fieldConPtr == NullFC)
@@ -189,6 +193,9 @@ void OSGWriter::doListFC(FieldContainerPtr fieldConPtr)
 	}
 }
 
+#if defined(OSG_WIN32_ICL)
+#pragma warning (default : 383)
+#endif
 
 void OSGWriter::doPrintListedFC(FieldContainerPtr fieldConPtr)
 {
@@ -317,7 +324,7 @@ void OSGWriter::doPrintListedFC(FieldContainerPtr fieldConPtr)
 }
 
 
-string OSGWriter::SharedFCInfoHelper::buildName(FieldContainerPtr fcptr,
+string OSGWriter::SharedFCInfoHelper::buildName(FieldContainerPtr ,
                                                 UInt32            num)
 {
 	string temp;

@@ -466,7 +466,7 @@ ostream &OSG::operator <<(      ostream  &os,
     {
         os << hex << "NodePtr 0x"
            << &fc << dec << ":" << fc->getType().getName() << "Ptr(0x"
-           << hex << (int) (&(*fc)) << dec << ")";
+           << hex << (&(*fc)) << dec << ")";
     }
 
     return os;
@@ -487,7 +487,7 @@ ostream &OSG::operator <<(      ostream  &os,
     {
         os << hex << "NodePtr 0x"
            << &fc << dec << ":" << fc->getType().getName() << "Ptr(0x"
-           << hex << (int) (&(*fc)) << dec << ")";
+           << hex << (&(*fc)) << dec << ")";
     }
 
     return os;

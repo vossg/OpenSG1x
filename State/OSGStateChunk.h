@@ -112,8 +112,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunk : public StateChunkBase
     /*! \name                      Output                                  */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0,
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0,
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -183,8 +183,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunk : public StateChunkBase
     static void initMethod( void );
 
     // prohibit default functions (move to 'public' if you need one)
-
-    // void operator =(const StateChunk &source);
+    void operator =(const StateChunk &source);
 };
 
 typedef StateChunk *StateChunkP;

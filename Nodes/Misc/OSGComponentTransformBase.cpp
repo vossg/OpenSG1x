@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGComponentTransformBase.cpp,v 1.2 2001/10/10 10:42:56 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGComponentTransformBase.cpp,v 1.3 2001/10/15 03:10:23 vossg Exp $";
     static char cvsid_hpp       [] = OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGCOMPONENTTRANSFORMBASE_INLINE_CVSID;
 
@@ -220,6 +220,10 @@ void ComponentTransformBase::executeSync(      FieldContainer &other,
 
 //! Constructor
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 ComponentTransformBase::ComponentTransformBase(void) :
     _sfCenter                 (), 
     _sfRotation               (), 
@@ -229,6 +233,10 @@ ComponentTransformBase::ComponentTransformBase(void) :
     Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //! Copy Constructor
 

@@ -243,8 +243,8 @@ void DirectionalLight::makeChunk(void)
 /** \brief output the instance for debug purposes
  */
 
-void DirectionalLight::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
+void DirectionalLight::dump(      UInt32    uiIndent, 
+                            const BitVector bvFlags) const
 {
    Inherited::dump(uiIndent, bvFlags);
 }

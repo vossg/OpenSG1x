@@ -68,7 +68,15 @@
 #pragma set woff 1375
 #endif
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 171)
+#endif
+
 #include <qgl.h>
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (error : 171)
+#endif
 
 #ifdef __sgi
 #pragma reset woff 1375

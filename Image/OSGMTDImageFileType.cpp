@@ -100,7 +100,8 @@ MTDImageFileType MTDImageFileType::_the(suffixArray, sizeof(suffixArray) );
 //s:
 //
 //------------------------------
-Bool MTDImageFileType::read (Image &image, const Char8 *fileName )
+Bool MTDImageFileType::read (      Image &OSG_CHECK_ARG(image   ), 
+                             const Char8 *OSG_CHECK_ARG(fileName))
 {
   Bool retCode = false;
 
@@ -146,7 +147,8 @@ Bool MTDImageFileType::read (Image &image, const Char8 *fileName )
 //s:
 //
 //------------------------------
-Bool MTDImageFileType::write ( const Image &image, const Char8 *fileName )
+Bool MTDImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
+                             const Char8 *OSG_CHECK_ARG(fileName))
 {
 	Bool retCode = false;
 
@@ -183,8 +185,9 @@ Bool MTDImageFileType::write ( const Image &image, const Char8 *fileName )
 // Description:
 //         Destructor
 //----------------------------------------------------------------------
-UInt64 MTDImageFileType::restoreData ( Image &image, const UChar8 *buffer,
-                                       Int32 memSize )
+UInt64 MTDImageFileType::restoreData(      Image  &image, 
+                                     const UChar8 *buffer,
+                                           Int32   OSG_CHECK_ARG(memSize) )
 {
   	image.setData(buffer);
 
@@ -198,8 +201,9 @@ UInt64 MTDImageFileType::restoreData ( Image &image, const UChar8 *buffer,
 // Description:
 //         Destructor
 //----------------------------------------------------------------------
-UInt64 MTDImageFileType::storeData ( const Image &image, UChar8 *buffer,
-                                     Int32 memSize )
+UInt64 MTDImageFileType::storeData(const Image  &image, 
+                                         UChar8 *buffer,
+                                         Int32   OSG_CHECK_ARG(memSize))
 {
   	unsigned dataSize = image.getSize();
   	const UChar8 *src = image.getData();

@@ -211,8 +211,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLightBase : public LightBase
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const DirectionalLight &source);
+    void operator =(const DirectionalLightBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -224,6 +223,6 @@ typedef DirectionalLightBase *DirectionalLightBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDIRECTIONALLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGDirectionalLightBase.h,v 1.14 2001/10/03 20:37:34 dirk Exp $"
+#define OSGDIRECTIONALLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGDirectionalLightBase.h,v 1.15 2001/10/15 03:10:23 vossg Exp $"
 
 #endif /* _OSGDIRECTIONALLIGHTBASE_H_ */

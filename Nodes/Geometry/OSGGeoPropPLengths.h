@@ -57,10 +57,10 @@ struct GeoPLengthsUI32PropertyDesc
     /*! \name                          Get                                 */
     /*! \{                                                                 */
     
-    static const Char8 *getTypeName (void) { return "GeoPLengthsUI32";         }
-    static const Char8 *getClassName(void) { return "GeoPLengthsUI32Property"; }
-    static const Char8 *getFieldName(void) { return "Indices";              }
-    static const Char8 *getGroupName(void) { return "GeoPLengths";             }
+    static const Char8 *getTypeName (void) { return "GeoPLengthsUI32";        }
+    static const Char8 *getClassName(void) { return "GeoPLengthsUI32Property";}
+    static const Char8 *getFieldName(void) { return "Indices";                }
+    static const Char8 *getGroupName(void) { return "GeoPLengths";            }
 
     static InitContainerF getInitMethod(void) { return NULL; }
 
@@ -73,17 +73,20 @@ struct GeoPLengthsUI32PropertyDesc
     /*---------------------------------------------------------------------*/
     /*! \name                    Typedefs                                  */
     /*! \{                                                                 */    
+    typedef GeoPLengths                Inherited;
+    typedef GeoPLengths::PtrType       InheritedPtr;
 
-    typedef GeoPLengths                 Inherit;
-    typedef GeoPLengths::PtrType        InheritPtr;
-    typedef GeoPLengthsPropertyDesc     InheritDesc;
-    typedef MFUInt32                 FieldType;
+    typedef GeoPLengthsPropertyDesc    InheritedDesc;
 
-    typedef InheritDesc::GenericType GenericType;
+    typedef MFUInt32                   FieldType;
 
+    typedef InheritedDesc::GenericType GenericType;
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
     typedef GeoPropertyInterface<GeoPLengthsPropertyDesc> Interface;
-    
-    /*! \}                                                                 */    
+#endif    
+
+    /*! \}                                                                 */
 };
 
 typedef GeoProperty<GeoPLengthsUI32PropertyDesc> GeoPLengthsUI32;

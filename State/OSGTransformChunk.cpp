@@ -154,8 +154,8 @@ void TransformChunk::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void TransformChunk::dump(      UInt32     uiIndent,
-                         const BitVector &bvFlags) const
+void TransformChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
+                          const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
     SLOG << "Dump TransformChunk NI" << endl;
 }
@@ -188,7 +188,7 @@ void TransformChunk::deactivate ( DrawActionBase *,  UInt32 )
 
 /*-------------------------- comparison -----------------------------------*/
 
-Real32 TransformChunk::switchCost( StateChunk * chunk )
+Real32 TransformChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
 {
     return 0;
 }

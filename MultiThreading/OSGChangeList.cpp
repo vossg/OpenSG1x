@@ -207,8 +207,9 @@ void ChangeList::addChanged(const FieldContainerPtr &pFieldContainer,
     if(_bReadOnly == true)
         return;
 
-//  ChangeEntry tmpEntry(pFieldContainer, bvWhichField);
-    ChangeEntry tmpEntry(pFieldContainer.getFieldContainerId(), bvWhichField);
+    UInt32      uiContainerId(pFieldContainer.getFieldContainerId());
+
+    ChangeEntry tmpEntry     (uiContainerId, bvWhichField);
 
     _vChangedFieldContainers.push_back(tmpEntry);
 }
@@ -218,8 +219,9 @@ void ChangeList::addAddRefd(const FieldContainerPtr &pFieldContainer)
     if(_bReadOnly == true)
         return;
 
-//    _vAddRefdFieldContainers.push_back(pFieldContainer);
-    _vAddRefdFieldContainers.push_back(pFieldContainer.getFieldContainerId());
+    UInt32 uiContainerId = pFieldContainer.getFieldContainerId();
+
+    _vAddRefdFieldContainers.push_back(uiContainerId);
 }
 
 void ChangeList::addSubRefd(const FieldContainerPtr &pFieldContainer)
@@ -227,8 +229,9 @@ void ChangeList::addSubRefd(const FieldContainerPtr &pFieldContainer)
     if(_bReadOnly == true)
         return;
 
-//    _vSubRefdFieldContainers.push_back(pFieldContainer);
-    _vSubRefdFieldContainers.push_back(pFieldContainer.getFieldContainerId());
+    UInt32 uiContainerId = pFieldContainer.getFieldContainerId();
+
+    _vSubRefdFieldContainers.push_back(uiContainerId);
 }
 
 void ChangeList::addCreated  (const UInt32 uiContainerId)

@@ -86,7 +86,7 @@ class OSG_SYSTEMLIB_DLLMAPPING InterpolatorBase
 
     InterpolType    getType           (void                       ) const;
     
-    void            setTargetName     (const string& name         );
+    void            setTargetName     (const string &name         );
     const string   &getTargetName     (void                       );
 
     void            setTargetTransform(ComponentTransformPtr pTransform);

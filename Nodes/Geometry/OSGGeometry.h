@@ -112,8 +112,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 
     GeometryPtr        clone            (void);
 
-    virtual void       dump             (UInt32     uiIndent = 0,
-                                         const BitVector &bvFlags = 0) const;
+    virtual void       dump             (      UInt32    uiIndent = 0,
+                                         const BitVector bvFlags = 0) const;
 
     inline void        invalidateDlistCache    (void);
 
@@ -209,8 +209,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 };
 
 typedef Geometry *GeometryP;
-
-extern OSG_SYSTEMLIB_DLLMAPPING GeometryPtr NullGeo;
 
 OSG_END_NAMESPACE
 

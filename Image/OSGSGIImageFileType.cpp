@@ -445,7 +445,8 @@ Bool SGIImageFileType::read (Image &image, const char *fileName )
 //s:
 //
 //------------------------------
-Bool SGIImageFileType::write (const Image &image, const char *fileName )
+Bool SGIImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
+                             const char  *OSG_CHECK_ARG(fileName))
 {	
     return false;
 }

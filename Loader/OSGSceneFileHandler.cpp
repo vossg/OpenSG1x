@@ -165,19 +165,30 @@ SceneFileType *SceneFileHandler::getFileType(const Char8 *fileName)
     return type;
 }
 
+//CHECK
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 Int32 SceneFileHandler::getSuffixList(list<const char *> & suffixList)
 {
-    Int32 count = 0;
+    Int32                 count = 0;
     FileTypeMap::iterator sI;
 
     for ( sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); sI++)
     {
+
       suffixList.push_back(sI->first.str());
       count++;
     }
 
   return count;
 }
+
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //----------------------------
 // Function name: read
@@ -487,6 +498,11 @@ Bool SceneFileHandler::FindOverride::operator() (SceneFileType *fileTypeP)
     return false;
 }
 
+//CHECK
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 Bool SceneFileHandler::addSceneFileType(SceneFileType &fileType)
 {
     Bool retCode = false;
@@ -554,6 +570,11 @@ Bool SceneFileHandler::addSceneFileType(SceneFileType &fileType)
 
     return retCode;
 }
+
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 /***************************
 *instance methodes

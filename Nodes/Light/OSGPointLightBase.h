@@ -211,8 +211,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLightBase : public LightBase
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const PointLight &source);
+    void operator =(const PointLightBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -224,6 +223,6 @@ typedef PointLightBase *PointLightBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPOINTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGPointLightBase.h,v 1.14 2001/10/03 20:37:35 dirk Exp $"
+#define OSGPOINTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGPointLightBase.h,v 1.15 2001/10/15 03:10:23 vossg Exp $"
 
 #endif /* _OSGPOINTLIGHTBASE_H_ */

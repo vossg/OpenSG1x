@@ -52,6 +52,11 @@
 
 #include "OSGSimpleSceneManager.h"
 
+#if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
+#pragma warning (disable : 383)
+#endif
+
+
 OSG_USING_NAMESPACE
 
 /*! \class osg::SimpleSceneManager
@@ -153,7 +158,7 @@ SimpleMaterialPtr SimpleSceneManager::_highlightMaterial;
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.8 2001/10/11 23:51:52 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.9 2001/10/15 03:10:25 vossg Exp $";
     static char cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static char cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }

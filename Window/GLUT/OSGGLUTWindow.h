@@ -96,6 +96,8 @@ class OSG_GLUTWINDOWLIB_DLLMAPPING GLUTWindow : public Window
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef void (*GLExtensionFunc)(void);
+
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
@@ -115,7 +117,7 @@ class OSG_GLUTWINDOWLIB_DLLMAPPING GLUTWindow : public Window
     /** GL implementation dependent function **/
     
     // query the system for a GL function
-    virtual void (*getFunctionByName( const Char8 *s ))();
+    virtual GLExtensionFunc getFunctionByName(const Char8 *s);
     
     // Window-system dependent functions
     
@@ -144,8 +146,8 @@ class OSG_GLUTWINDOWLIB_DLLMAPPING GLUTWindow : public Window
 
     /*------------------------------ dump -----------------------------------*/
 
-    virtual void dump(      UInt32     uiIndent = 0, 
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0, 
+                      const BitVector bvFlags  = 0) const;
 
   protected:
 

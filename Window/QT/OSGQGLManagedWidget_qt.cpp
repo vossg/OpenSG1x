@@ -51,14 +51,12 @@
 
 #include "OSGQGLManagedWidget_qt.h"
 
-//OSG_USING_NAMESPACE
-using namespace osg;
+OSG_USING_NAMESPACE
 
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.3 2001/10/14 19:07:26 dirk Exp $";
-    char cvsid_hpp[] = OSG_HEADER_CVSID;
-    char cvsid_inl[] = OSG_INLINE_CVSID;
+    char cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.4 2001/10/15 03:10:26 vossg Exp $";
+    char cvsid_hpp[] = OSGQGLMANAGEDWIDGET_HEADER_CVSID;
 }
 
 /** \enum OSGVecBase::VectorSizeE
@@ -303,7 +301,8 @@ void OSGQGLManagedWidget::mouseMoveEvent ( QMouseEvent *me )
 //----------------------------------------------------------------------
 // Method: keyPressEvent
 //----------------------------------------------------------------------
-void OSGQGLManagedWidget::keyPressEvent ( QKeyEvent *ke )
+
+void OSGQGLManagedWidget::keyPressEvent(QKeyEvent *OSG_CHECK_ARG(ke))
 {
   FDEBUG (("OSGQGLManagedWidget::keyPressEvent()\n"));
 }
@@ -311,7 +310,8 @@ void OSGQGLManagedWidget::keyPressEvent ( QKeyEvent *ke )
 //----------------------------------------------------------------------
 // Method: closeEvent
 //----------------------------------------------------------------------
-void OSGQGLManagedWidget::closeEvent ( QCloseEvent *event )
+
+void OSGQGLManagedWidget::closeEvent(QCloseEvent *OSG_CHECK_ARG(event))
 {
   FDEBUG (("OSGQGLManagedWidget::closeEvent()\n"));
   

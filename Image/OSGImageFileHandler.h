@@ -95,10 +95,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
     /*! \{                                                                 */
 
     virtual UInt64 restore ( Image &image,
-                             const UChar8 *buffer, UInt32 memSize = -1 );
+                             const UChar8 *buffer, Int32 memSize = -1 );
 
     virtual UInt64 store   ( const Image &image, const char *mimeType,
-                             UChar8 *buffer, UInt32 memSize = -1 );
+                             UChar8 *buffer, Int32 memSize = -1 );
 
     virtual UChar8* store  ( const Image &image, UInt64 &memSize,
                              const char *mimeType = 0);
@@ -138,14 +138,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
     ImageFileHandler (void);
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                Copy Constructor                              */
-    /*! \{                                                                 */
-
-    ImageFileHandler (const ImageFileHandler &obj);
-
-    /*! \}                                                                 */
-
     /*==========================  PRIVATE  ================================*/
 private:
 
@@ -157,6 +149,8 @@ private:
     
     PathHandler* _pPathHandler;
 
+    /* prohibit default function (move to 'public' if needed) */
+    ImageFileHandler(const ImageFileHandler &obj);
 };
 
 typedef ImageFileHandler* ImageFileHandlerP;

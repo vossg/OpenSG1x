@@ -442,7 +442,9 @@ void OSGLoader::scanFile(const Char8   *szFilename,
     }
 }
     
-
+#if defined(OSG_WIN32_ICL)
+#pragma warning (disable : 383)
+#endif
 
 void OSGLoader::beginNode(const Char8 *szNodeTypename,
                           const Char8 *szNodename)
@@ -494,6 +496,7 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
                  << " is neither Node nor NodeCore. "
 				 << "Can not use attachment to store Nodename " << endl
 			     << "Adding to _defMap instead. " << endl;
+
 			if( _defMap.insert(
 				make_pair(string(szNodename), pNewNode) ).second == true )
 			{
@@ -538,6 +541,10 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
         _pRootNode->addChild(pNode);
     }
 }
+
+#if defined(OSG_WIN32_ICL)
+#pragma warning (default : 383)
+#endif
     
 void OSGLoader::endNode(void)
 {
@@ -690,7 +697,7 @@ Int32 OSGLoader::mapExtIntFieldType(const Char8 *szFieldname,
 }
 
 void OSGLoader::beginField(const Char8 *szFieldname,
-                           const UInt32 uiFieldTypeId)
+                           const UInt32 )
 {
     PINFO << "BeginField " << szFieldname << " " << _pCurrentField << endl;
 

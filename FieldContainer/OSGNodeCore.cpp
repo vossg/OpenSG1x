@@ -165,8 +165,8 @@ void NodeCore::invalidateVolume( void)
 
 /*-------------------------- assignment -----------------------------------*/
 
-void NodeCore::dump(      UInt32     uiIndent,
-                    const BitVector &bvFlags) const
+void NodeCore::dump(      UInt32    uiIndent,
+                    const BitVector bvFlags) const
 {
     UInt32 i;
 

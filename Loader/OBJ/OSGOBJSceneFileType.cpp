@@ -65,13 +65,17 @@
 
 OSG_USING_NAMESPACE
 
+#if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
+#pragma warning (disable : 383)
+#endif
+
 #ifdef __sgi
 #pragma set woff 1174
 #endif
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.13 2001/10/12 22:33:05 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.14 2001/10/15 03:10:21 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -432,8 +436,8 @@ NodePtr OBJSceneFileType::read(const Char8  *fileName,
 //s:
 //
 //------------------------------
-Bool OBJSceneFileType::write ( const NodePtr node,
-                               const Char8 *fileName) const
+Bool OBJSceneFileType::write (const NodePtr  OSG_CHECK_ARG(node    ),
+                              const Char8   *OSG_CHECK_ARG(fileName)) const
 {
     FFATAL (("OBJSceneFileType::write() is not impl.\n"));
     return false;

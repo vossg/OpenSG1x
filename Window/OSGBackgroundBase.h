@@ -164,8 +164,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BackgroundBase : public AttachmentContainer
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const Background &source);
+    void operator =(const BackgroundBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -177,6 +176,6 @@ typedef BackgroundBase *BackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGBackgroundBase.h,v 1.11 2001/09/19 14:36:41 mroth Exp $"
+#define OSGBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGBackgroundBase.h,v 1.12 2001/10/15 03:10:25 vossg Exp $"
 
 #endif /* _OSGBACKGROUNDBASE_H_ */

@@ -164,8 +164,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public FieldContainer
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const Material &source);
+    void operator =(const MaterialBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -177,6 +176,6 @@ typedef MaterialBase *MaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMaterialBase.h,v 1.10 2001/09/19 14:36:40 mroth Exp $"
+#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMaterialBase.h,v 1.11 2001/10/15 03:10:22 vossg Exp $"
 
 #endif /* _OSGMATERIALBASE_H_ */

@@ -202,7 +202,7 @@ void GLUTWindow::swap( void )
 
 
 // Query for a GL extension function
-inline void (*GLUTWindow::getFunctionByName( const Char8 *s ))()
+GLUTWindow::GLExtensionFunc GLUTWindow::getFunctionByName(const Char8 *s)
 {
 #ifdef sgi
 	static void *libHandle = NULL;
@@ -210,7 +210,7 @@ inline void (*GLUTWindow::getFunctionByName( const Char8 *s ))()
 		libHandle = dlopen("libgl.so", RTLD_LAZY);
 	return (void (*)(void)) dlsym( libHandle, s);
 #elif defined( WIN32 )
-	return (  wglGetProcAddress( s )  );
+	return GLExtensionFunc(wglGetProcAddress(s));
 #else
 	return (  glXGetProcAddressARB((const GLubyte *)s )  );
 #endif
@@ -222,8 +222,8 @@ inline void (*GLUTWindow::getFunctionByName( const Char8 *s ))()
 
 /*------------------------------- dump ----------------------------------*/
 
-void GLUTWindow::dump(      UInt32     uiIndent, 
-                      const BitVector &bvFlags) const
+void GLUTWindow::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                      const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
 	SLOG << "Dump GLUTWindow NI" << endl;
 }

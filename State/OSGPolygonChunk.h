@@ -82,8 +82,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunk : public PolygonChunkBase
     /*! \name                      Output                                  */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0,
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0,
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -146,8 +146,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunk : public PolygonChunkBase
     static void initMethod( void );
 
     // prohibit default functions (move to 'public' if you need one)
-
-    // void operator =(const PolygonChunk &source);
+    void operator =(const PolygonChunk &source);
 };
 
 typedef PolygonChunk *PolygonChunkP;

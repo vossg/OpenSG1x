@@ -589,7 +589,7 @@ Bool FieldContainerType::isAbstract(void) const
 
 Bool FieldContainerType::isDerivedFrom(const TypeBase &other) const
 {
-    return false;
+    return Inherited::isDerivedFrom(other);
 }
 
 Bool FieldContainerType::isDerivedFrom(const FieldContainerType &other) const
@@ -692,8 +692,8 @@ Bool FieldContainerType::isAttachment(void) const
 
 /*-------------------------- your_category---------------------------------*/
 
-void FieldContainerType::dump(      UInt32     uiIndent,
-                              const BitVector &bvFlags) const
+void FieldContainerType::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
+                              const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
     SLOG << "FieldContainerType: " << getCName()
                  << ", Id: "       << getId()

@@ -90,7 +90,8 @@ Bool           ThreadManager::_bNumAspectSet       = false;
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-Bool ThreadManager::initialize(Int32 &argc, Char8 **argv)
+Bool ThreadManager::initialize(Int32  &OSG_CHECK_ARG(argc), 
+                               Char8 **OSG_CHECK_ARG(argv))
 {
     return the()->init();
 }
@@ -123,7 +124,7 @@ BaseThread *ThreadManager::getAppThread(void)
     return _pAppThread;
 }
 
-void ThreadManager::setNumAspects(UInt32 uiNumAspects)
+void ThreadManager::setNumAspects(UInt32 OSG_CHECK_ARG(uiNumAspects))
 {
 #if defined(OSG_RUNTIME_NUM_ASPECTS)    
     if(_bNumAspectSet == false && uiNumAspects > 1)

@@ -267,8 +267,8 @@ void SimpleAttachment<AttachmentDescT>::copyFromBin(
 /*------------------------------- dump ----------------------------------*/
 
 template <class AttachmentDescT> inline
-void SimpleAttachment<AttachmentDescT>::dump(      UInt32     uiIndent,
-                                             const BitVector &bvFlags ) const
+void SimpleAttachment<AttachmentDescT>::dump(      UInt32    uiIndent,
+                                             const BitVector bvFlags ) const
 {
     Inherited::dump(uiIndent, bvFlags);
 }
@@ -519,8 +519,8 @@ FieldContainerPtr DynFieldAttachment<AttachmentDescT>::clone(void)
 /*------------------------------- dump ----------------------------------*/
 
 template <class AttachmentDescT> inline
-void DynFieldAttachment<AttachmentDescT>::dump(      UInt32     uiIndent,
-                                               const BitVector &) const
+void DynFieldAttachment<AttachmentDescT>::dump(      UInt32    uiIndent,
+                                               const BitVector ) const
 {
     indentLog(uiIndent, PLOG);
     PLOG << "DynFieldAttachment (" ;

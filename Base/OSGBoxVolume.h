@@ -95,7 +95,7 @@ class OSG_BASE_DLLMAPPING BoxVolume : public Volume
 
             void     getCenter(Pnt3f &center) const;
 
-    virtual float    getScalarVolume (void) const;
+    virtual Real32   getScalarVolume (void) const;
     inline  void     getBounds(float &xmin, float &ymin, float &zmin,
                                float &xmax, float &ymax, float &zmax ) const;
     
@@ -162,15 +162,15 @@ class OSG_BASE_DLLMAPPING BoxVolume : public Volume
     /*! \name                      Output                                  */
     /*! \{                                                                 */
 
-    virtual void dump(    UInt32              uiIndent = 0,
-                        const BitVector &   bvFlags = 0) const;
+    virtual void dump(      UInt32     uiIndent = 0,
+                      const BitVector  bvFlags  = 0) const;
+
     /*! \}                                                                 */
 
     /*==========================  PRIVATE  ================================*/
   private:
     Pnt3f _min;
     Pnt3f _max;
-
 };
 
 OSG_END_NAMESPACE

@@ -516,7 +516,7 @@ Action::ResultE VRMLWriteAction::writeVTransformEnter(CNodePtr &pGroup,
     return Action::Continue;
 }
 
-Action::ResultE VRMLWriteAction::writeVTransformLeave(CNodePtr &pGroup,
+Action::ResultE VRMLWriteAction::writeVTransformLeave(CNodePtr &,
                                                       Action   *pAction)
 {
     VRMLWriteAction *pWriter = dynamic_cast<VRMLWriteAction *>(pAction);
@@ -1027,7 +1027,7 @@ Action::ResultE VRMLWriteAction::writeGeoEnter(CNodePtr &pGroup,
     return Action::Continue;
 }
 
-Action::ResultE VRMLWriteAction::writeGeoLeave(CNodePtr &pGroup,
+Action::ResultE VRMLWriteAction::writeGeoLeave(CNodePtr &,
                                                Action   *pAction)
 {
     VRMLWriteAction *pWriter = dynamic_cast<VRMLWriteAction *>(pAction);
@@ -1057,15 +1057,15 @@ Action::ResultE VRMLWriteAction::writeGeoLeave(CNodePtr &pGroup,
     return Action::Continue;
 }
 
-Action::ResultE VRMLWriteAction::writeMatGroupEnter(CNodePtr &pGroup,
-                                                    Action   *pAction)
+Action::ResultE VRMLWriteAction::writeMatGroupEnter(CNodePtr &,
+                                                    Action   *)
 {
     
     return Action::Continue;
 }
 
-Action::ResultE VRMLWriteAction::writeMatGroupLeave(CNodePtr &pGroup,
-                                                    Action   *pAction)
+Action::ResultE VRMLWriteAction::writeMatGroupLeave(CNodePtr &,
+                                                    Action   *)
 {
 
     return Action::Continue;
@@ -1433,7 +1433,8 @@ Bool VRMLWriteAction::operator < (const VRMLWriteAction &other) const
 /** \brief equal
  */
 
-Bool VRMLWriteAction::operator == (const VRMLWriteAction &other) const
+Bool VRMLWriteAction::operator == (
+    const VRMLWriteAction &OSG_CHECK_ARG(other)) const
 {
     return false;
 }

@@ -79,7 +79,7 @@ The simple material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.18 2001/10/11 16:41:18 neumannc Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.19 2001/10/15 03:10:22 vossg Exp $";
 
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
@@ -269,8 +269,8 @@ Bool SimpleMaterial::isTransparent(void) const
 
 /*------------------------------- dump ----------------------------------*/
 
-void SimpleMaterial::dump(      UInt32     uiIndent,
-                          const BitVector &bvFlags) const
+void SimpleMaterial::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
+                          const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
     SLOG << "SimpleMaterial at " << this << endl;
     PLOG << "\tambient: " << getAmbient() << endl;

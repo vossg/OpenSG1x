@@ -5,11 +5,8 @@
 #include <OSGFieldContainerFactory.h>
 
 extern "C" int APIENTRY
-DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
+DllMain(HINSTANCE /*hInstance*/, DWORD dwReason, LPVOID /*lpReserved*/)
 {
-	// Remove this if you use lpReserved
-	UNREFERENCED_PARAMETER(lpReserved);
-
 	if(dwReason == DLL_PROCESS_ATTACH)
 	{
         OSG::SINFO << "Init Shared Object : @ac_gdz_package_name_out@"

@@ -251,8 +251,7 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const LightBase &source);
+    void operator =(const LightBaseBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -264,6 +263,6 @@ typedef LightBaseBase *LightBaseBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTBASEBASE_HEADER_CVSID "@(#)$Id: OSGLightBaseBase.h,v 1.15 2001/10/03 20:37:35 dirk Exp $"
+#define OSGLIGHTBASEBASE_HEADER_CVSID "@(#)$Id: OSGLightBaseBase.h,v 1.16 2001/10/15 03:10:23 vossg Exp $"
 
 #endif /* _OSGLIGHTBASEBASE_H_ */

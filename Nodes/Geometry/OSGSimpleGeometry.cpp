@@ -70,6 +70,11 @@ static char cvsid[] = "@(#)$Id: $";
 #pragma reset woff 1174
 #endif
 
+#if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
+#pragma warning (disable : 383)
+#endif
+
+
 /*! The default materials used for simple geometries. 
  */
 

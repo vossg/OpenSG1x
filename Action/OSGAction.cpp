@@ -446,7 +446,7 @@ Bool Action::operator < (const Action &other)
 /** \brief equal
  */
 
-Bool Action::operator == (const Action &other)
+Bool Action::operator == (const Action &OSG_CHECK_ARG(other))
 {
 	return false;
 }
@@ -481,12 +481,14 @@ vector<Action::Functor>* Action::getDefaultLeaveFunctors( void )
 
 // default Action function: just call all kids
 
-Action::ResultE Action::_defaultEnterFunction(CNodePtr& node, Action * action)
+Action::ResultE Action::_defaultEnterFunction(CNodePtr &OSG_CHECK_ARG(node  ), 
+                                              Action   *OSG_CHECK_ARG(action))
 {
 	return Continue;
 }
 
-Action::ResultE Action::_defaultLeaveFunction(CNodePtr& node, Action * action)
+Action::ResultE Action::_defaultLeaveFunction(CNodePtr &OSG_CHECK_ARG(node  ), 
+                                              Action   *OSG_CHECK_ARG(action))
 {
 	return Continue;
 }

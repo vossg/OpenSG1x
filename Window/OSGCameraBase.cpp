@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGCameraBase.cpp,v 1.18 2001/10/10 10:42:57 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGCameraBase.cpp,v 1.19 2001/10/15 03:10:25 vossg Exp $";
     static char cvsid_hpp       [] = OSGCAMERABASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGCAMERABASE_INLINE_CVSID;
 
@@ -189,6 +189,10 @@ void CameraBase::executeSync(      FieldContainer &other,
 
 //! Constructor
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 CameraBase::CameraBase(void) :
     _sfBeacon                 (), 
     _sfNear                   (), 
@@ -196,6 +200,10 @@ CameraBase::CameraBase(void) :
     Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //! Copy Constructor
 

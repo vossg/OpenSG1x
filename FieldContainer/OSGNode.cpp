@@ -176,6 +176,10 @@ OSG_FIELD_CONTAINER_DEF(Node, NodePtr)
 
 /*------------------------------ access -----------------------------------*/
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 void Node::unlink(void)
 {
     MFNodePtr::iterator vChildIt = _children.begin();
@@ -232,6 +236,10 @@ void Node::unlinkSubTree(void)
 
     subRefCP(getPtr());
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 void Node::setCore(const NodeCorePtr &core)
 {
@@ -582,7 +590,7 @@ void Node::invalidateVolume(void)
 }
 
 void Node::changed(BitVector  whichField,
-                   ChangeMode from)
+                   ChangeMode OSG_CHECK_ARG(from))
 {
     if(whichField & (CoreFieldMask | ChildrenFieldMask))
     {
@@ -671,8 +679,8 @@ void Node::copyFromBin(      BinaryDataHandler &pMem,
 
 /*------------------------------- dump ----------------------------------*/
 
-void Node::dump(      UInt32     uiIndent,
-                const BitVector &bvFlags) const
+void Node::dump(      UInt32    uiIndent,
+                const BitVector bvFlags) const
 {
     UInt32 i;
 

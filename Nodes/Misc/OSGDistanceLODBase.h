@@ -219,8 +219,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public NodeCore
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const DistanceLOD &source);
+    void operator =(const DistanceLODBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -232,6 +231,6 @@ typedef DistanceLODBase *DistanceLODBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: OSGDistanceLODBase.h,v 1.9 2001/10/03 20:37:35 dirk Exp $"
+#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: OSGDistanceLODBase.h,v 1.10 2001/10/15 03:10:23 vossg Exp $"
 
 #endif /* _OSGDISTANCELODBASE_H_ */

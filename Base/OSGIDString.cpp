@@ -111,6 +111,10 @@ IDString::~IDString()
 
 /*------------------------------ access -----------------------------------*/
 
+#ifdef OSG_WIN32_ICL
+#pragma warning ( disable : 810 )
+#endif
+
 void IDString::toUpper(void)
 {
     int i, l = length();
@@ -128,6 +132,10 @@ void IDString::toLower(void)
         _str[i] = tolower(_str[i]);
 
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning ( default : 810 )
+#endif
 
 /** get the str length
 */
@@ -191,11 +199,13 @@ void IDString::set(const char *str, MemType memType)
 //----------------------------------------------------------------------
 void IDString::tokenize(vector <IDString*> &v)
 {
-    int l        = length(),
-        oldpos   = 0,
-        pos      = 0,
-        inQuotes = 0,
-        inToken  = 0;
+    int l             = length(),
+        oldpos        = 0,
+        pos           = 0,
+        inQuotes      = 0,
+        inToken       = 0;
+
+    IDString *pString = NULL;
 
     if ( l > 0 )
     {
@@ -228,7 +238,9 @@ void IDString::tokenize(vector <IDString*> &v)
 
                         strncpy( buf, _str + oldpos, pos - oldpos );
                         buf [ pos - oldpos ] = '\0';
-                        v.push_back( new IDString( buf ) );
+
+                        pString =  new IDString(buf);
+                        v.push_back(pString);
 
                         inQuotes = 1;
                         oldpos = pos;
@@ -240,13 +252,17 @@ void IDString::tokenize(vector <IDString*> &v)
 
                         strncpy( buf, _str + oldpos, pos - oldpos );
                         buf [ pos - oldpos ] = '\0';
-                        v.push_back( new IDString( buf ) );
+
+                        pString =  new IDString(buf);
+                        v.push_back(pString);
                     }
                     else if ( pos == l )
                     {
                         strncpy( buf, _str + oldpos, pos - oldpos );
                         buf [ pos - oldpos ] = '\0';
-                        v.push_back( new IDString( buf ) );
+
+                        pString =  new IDString(buf);
+                        v.push_back(pString);
                     }
 
                 }
@@ -262,7 +278,9 @@ void IDString::tokenize(vector <IDString*> &v)
                     {
                         strncpy( buf, _str + oldpos, pos - oldpos );
                         buf [ pos - oldpos ] = '\0';
-                        v.push_back( new IDString( buf ) );
+
+                        pString =  new IDString(buf);
+                        v.push_back(pString);
                     }
                 }
                 else if ( pos == l )
@@ -271,7 +289,9 @@ void IDString::tokenize(vector <IDString*> &v)
                     {
                         strncpy( buf, _str + oldpos, pos - oldpos );
                         buf [ pos - oldpos ] = '\0';
-                        v.push_back( new IDString( buf ) );
+
+                        pString =  new IDString(buf);
+                        v.push_back(pString);
                     }
                 }
             }

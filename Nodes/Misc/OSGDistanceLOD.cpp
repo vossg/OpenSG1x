@@ -78,7 +78,7 @@ This Node manages the different levels of detail available for a Geometry and de
  *                           Class variables                               *
 \***************************************************************************/
 
-char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.13 2001/10/10 10:42:56 vossg Exp $";
+char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.14 2001/10/15 03:10:23 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -202,8 +202,8 @@ void DistanceLOD::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void DistanceLOD::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
+void DistanceLOD::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                       const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
 	SLOG << "Dump DistanceLOD NI" << endl;
 }
@@ -217,7 +217,7 @@ Action::ResultE DistanceLOD::draw(Action* action)
 	UInt32 numRanges = getMFRange()->getSize();
 	UInt32 limit = osgMin( numLevels, numRanges ); 
 	
-	UInt32 index = -1;
+	Int32 index = -1;
 
 	Pnt3f eyepos;
 	Pnt3f objpos;

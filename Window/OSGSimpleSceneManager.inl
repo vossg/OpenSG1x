@@ -108,16 +108,32 @@ inline void SimpleSceneManager::setHeadlight(Bool on)
  */
 inline void SimpleSceneManager::turnHeadlightOn(void)
 {
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
     if(_headlight != NullFC)
         _headlight->setOn(true);
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 }
 
 /*! turn headlight off.
  */
 inline void SimpleSceneManager::turnHeadlightOff(void)
 {
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
     if(_headlight != NullFC)
         _headlight->setOn(false);
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 }
 
 /*! set the highlight object
@@ -137,6 +153,6 @@ inline NodePtr SimpleSceneManager::getHighlight(void)
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLESCENEMANAGER_INLINE_CVSID "@(#)$Id: OSGSimpleSceneManager.inl,v 1.5 2001/10/11 08:26:09 dirk Exp $"
+#define OSGSIMPLESCENEMANAGER_INLINE_CVSID "@(#)$Id: OSGSimpleSceneManager.inl,v 1.6 2001/10/15 03:10:25 vossg Exp $"
 
 

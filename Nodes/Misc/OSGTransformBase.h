@@ -211,8 +211,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TransformBase : public NodeCore
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const Transform &source);
+    void operator =(const TransformBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -224,6 +223,6 @@ typedef TransformBase *TransformBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGTransformBase.h,v 1.14 2001/10/03 20:37:35 dirk Exp $"
+#define OSGTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGTransformBase.h,v 1.15 2001/10/15 03:10:23 vossg Exp $"
 
 #endif /* _OSGTRANSFORMBASE_H_ */

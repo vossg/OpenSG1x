@@ -73,6 +73,10 @@
 
 OSG_USING_NAMESPACE
 
+#if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
+#pragma warning (disable : 383)
+#endif
+
 #ifdef __sgi
 #pragma set woff 1174
 #endif
@@ -575,8 +579,8 @@ Bool VRMLNodeDesc::use(FieldContainerPtr)
 
 /*-------------------------- assignment -----------------------------------*/
 
-FieldContainerPtr VRMLNodeDesc::beginNode(const Char8      *szTypename,
-                                          const Char8      *szName,
+FieldContainerPtr VRMLNodeDesc::beginNode(const Char8      *,
+                                          const Char8      *,
                                           FieldContainerPtr)
 {
     FieldContainerPtr returnValue = NullFC;
@@ -898,8 +902,8 @@ void VRMLShapeDesc::getFieldAndDesc(
 
 /*-------------------------- your_category---------------------------------*/
 
-FieldContainerPtr VRMLShapeDesc::beginNode(const Char8       *szTypename,
-                                           const Char8       *szName,
+FieldContainerPtr VRMLShapeDesc::beginNode(const Char8            *,
+                                           const Char8            *,
                                                  FieldContainerPtr)
 {
     NodePtr           pNode     = NullFC;
@@ -977,7 +981,7 @@ void VRMLShapeDesc::endNode(FieldContainerPtr pFC)
 /** \brief assignment
  */
 
-void VRMLShapeDesc::dump(const Char8 *szNodeName)
+void VRMLShapeDesc::dump(const Char8 *)
 {
 }
 
@@ -1218,8 +1222,8 @@ void VRMLGeometryDesc::getFieldAndDesc(
 /*-------------------------- your_category---------------------------------*/
 
 FieldContainerPtr VRMLGeometryDesc::beginNode(
-    const Char8       *szTypename,
-    const Char8       *szName,
+    const Char8       *,
+    const Char8       *,
     FieldContainerPtr)
 {
     FieldContainerPtr pFC         = NullFC;
@@ -1470,7 +1474,7 @@ void VRMLGeometryDesc::addFieldValue(      Field *pField,
 /** \brief assignment
  */
 
-void VRMLGeometryDesc::dump(const Char8 *szNodeName)
+void VRMLGeometryDesc::dump(const Char8 *)
 {
 }
 
@@ -1673,8 +1677,8 @@ void VRMLGeometryPartDesc::getFieldAndDesc(
 /*-------------------------- your_category---------------------------------*/
 
 FieldContainerPtr VRMLGeometryPartDesc::beginNode(
-    const Char8       *szTypename,
-    const Char8       *szName,
+    const Char8       *,
+    const Char8       *,
     FieldContainerPtr)
 {
     FieldContainerPtr returnValue = NullFC;
@@ -1690,7 +1694,7 @@ FieldContainerPtr VRMLGeometryPartDesc::beginNode(
 /** \brief assignment
  */
 
-void VRMLGeometryPartDesc::dump(const Char8 *szNodeName)
+void VRMLGeometryPartDesc::dump(const Char8 *)
 {
 }
 
@@ -1836,8 +1840,8 @@ void VRMLGeometryObjectDesc::getFieldAndDesc(
 /*-------------------------- your_category---------------------------------*/
 
 FieldContainerPtr VRMLGeometryObjectDesc::beginNode(
-    const Char8       *szTypename,
-    const Char8       *szName,
+    const Char8       *,
+    const Char8       *,
     FieldContainerPtr)
 {
     FieldContainerPtr returnValue = NullFC;
@@ -2069,7 +2073,7 @@ void VRMLGeometryObjectDesc::endNode(FieldContainerPtr pFC)
 /** \brief assignment
  */
 
-void VRMLGeometryObjectDesc::dump(const Char8 *szNodeName)
+void VRMLGeometryObjectDesc::dump(const Char8 *)
 {
 }
 
@@ -2259,9 +2263,9 @@ void VRMLAppearanceDesc::getFieldAndDesc(
 /*-------------------------- your_category---------------------------------*/
 
 FieldContainerPtr VRMLAppearanceDesc::beginNode(
-    const Char8       *szTypename,
-    const Char8       *szName,
-    FieldContainerPtr  pCurrentFC)
+    const Char8       *,
+    const Char8       *,
+    FieldContainerPtr  )
 {
     FieldContainerPtr returnValue = NullFC;
 
@@ -2350,7 +2354,7 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
     PINFO << "End Appearance " <<  endl;
 }
 
-Bool VRMLAppearanceDesc::use(FieldContainerPtr pFC)
+Bool VRMLAppearanceDesc::use(FieldContainerPtr)
 {
     return false;
 }
@@ -2361,7 +2365,7 @@ Bool VRMLAppearanceDesc::use(FieldContainerPtr pFC)
 /** \brief assignment
  */
 
-void VRMLAppearanceDesc::dump(const Char8 *szNodeName)
+void VRMLAppearanceDesc::dump(const Char8 *)
 {
 }
 
@@ -2483,8 +2487,8 @@ MaterialPtr VRMLMaterialDesc::getDefaultMaterial(void)
 
 /*---------------------------- properties ---------------------------------*/
  
-Bool VRMLMaterialDesc::prototypeAddField(const Char8  *szFieldType,
-                                         const UInt32  uiFieldTypeId,
+Bool VRMLMaterialDesc::prototypeAddField(const Char8  *,
+                                         const UInt32  ,
                                          const Char8  *szFieldname)
 {
     Bool bFound;
@@ -2586,7 +2590,7 @@ void VRMLMaterialDesc::endProtoInterface(void)
 }
 
 void VRMLMaterialDesc::getFieldAndDesc(      
-          FieldContainerPtr  pFC,
+          FieldContainerPtr  ,
     const Char8            * szFieldname,
           Field            *&pField,
     const FieldDescription *&pDesc)
@@ -2624,7 +2628,7 @@ void VRMLMaterialDesc::getFieldAndDesc(
 FieldContainerPtr VRMLMaterialDesc::beginNode(
     const Char8       *,
     const Char8       *,
-    FieldContainerPtr  pCurrentFC)
+    FieldContainerPtr  )
 {
     reset();
 
@@ -2680,7 +2684,7 @@ void VRMLMaterialDesc::endNode(FieldContainerPtr)
 /** \brief assignment
  */
 
-void VRMLMaterialDesc::dump(const Char8 *szNodeName)
+void VRMLMaterialDesc::dump(const Char8 *)
 {
 }
 
@@ -2782,8 +2786,8 @@ void VRMLImageTextureDesc::reset(void)
 
 /*---------------------------- properties ---------------------------------*/
  
-Bool VRMLImageTextureDesc::prototypeAddField(const Char8  *szFieldType,
-                                             const UInt32  uiFieldTypeId,
+Bool VRMLImageTextureDesc::prototypeAddField(const Char8  *,
+                                             const UInt32  ,
                                              const Char8  *szFieldname)
 {
     Bool bFound;
@@ -2829,7 +2833,7 @@ void VRMLImageTextureDesc::endProtoInterface(void)
 }
 
 void VRMLImageTextureDesc::getFieldAndDesc(      
-          FieldContainerPtr  pFC,
+          FieldContainerPtr  ,
     const Char8            * szFieldname,
           Field            *&pField,
     const FieldDescription *&pDesc)
@@ -2855,7 +2859,7 @@ void VRMLImageTextureDesc::getFieldAndDesc(
 FieldContainerPtr VRMLImageTextureDesc::beginNode(
     const Char8       *,
     const Char8       *,
-    FieldContainerPtr  pCurrentFC)
+    FieldContainerPtr  )
 {
     TextureChunkPtr returnValue = TextureChunk::create();
 
@@ -2962,7 +2966,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
 /** \brief assignment
  */
 
-void VRMLImageTextureDesc::dump(const Char8 *szNodeName)
+void VRMLImageTextureDesc::dump(const Char8 *)
 {
 }
 
@@ -3062,8 +3066,8 @@ void VRMLPixelTextureDesc::reset(void)
 
 /*---------------------------- properties ---------------------------------*/
  
-Bool VRMLPixelTextureDesc::prototypeAddField(const Char8  *szFieldType,
-                                             const UInt32  uiFieldTypeId,
+Bool VRMLPixelTextureDesc::prototypeAddField(const Char8  *,
+                                             const UInt32  ,
                                              const Char8  *szFieldname)
 {
     Bool bFound;
@@ -3109,7 +3113,7 @@ void VRMLPixelTextureDesc::endProtoInterface(void)
 }
 
 void VRMLPixelTextureDesc::getFieldAndDesc(      
-          FieldContainerPtr  pFC,
+          FieldContainerPtr  ,
     const Char8            * szFieldname,
           Field            *&pField,
     const FieldDescription *&pDesc)
@@ -3135,7 +3139,7 @@ void VRMLPixelTextureDesc::getFieldAndDesc(
 FieldContainerPtr VRMLPixelTextureDesc::beginNode(
     const Char8       *,
     const Char8       *,
-    FieldContainerPtr  pCurrentFC)
+    FieldContainerPtr  )
 {
     TextureChunkPtr returnValue = TextureChunk::create();
 
@@ -3212,7 +3216,7 @@ void VRMLPixelTextureDesc::addFieldValue(      Field *,
 /** \brief assignment
  */
 
-void VRMLPixelTextureDesc::dump(const Char8 *szNodeName)
+void VRMLPixelTextureDesc::dump(const Char8 *)
 {
 }
 
@@ -3431,7 +3435,7 @@ void VRMLLODDesc::getFieldAndDesc(
 FieldContainerPtr VRMLLODDesc::beginNode(
     const Char8       *,
     const Char8       *,
-    FieldContainerPtr  pCurrentFC)
+    FieldContainerPtr  )
 {
     FieldContainerPtr pFC         = NullFC;
     NodePtr           pNode       = NullFC;
@@ -3478,7 +3482,7 @@ void VRMLLODDesc::endNode(FieldContainerPtr pFC)
 /** \brief assignment
  */
 
-void VRMLLODDesc::dump(const Char8 *szNodeName)
+void VRMLLODDesc::dump(const Char8 *)
 {
 }
 
@@ -3682,7 +3686,7 @@ void VRMLSwitchDesc::getFieldAndDesc(
 FieldContainerPtr VRMLSwitchDesc::beginNode(
     const Char8       *,
     const Char8       *,
-    FieldContainerPtr  pCurrentFC)
+    FieldContainerPtr  )
 {
     FieldContainerPtr pFC         = NullFC;
     NodePtr           pNode       = NullFC;
@@ -3729,7 +3733,7 @@ void VRMLSwitchDesc::endNode(FieldContainerPtr pFC)
 /** \brief assignment
  */
 
-void VRMLSwitchDesc::dump(const Char8 *szNodeName)
+void VRMLSwitchDesc::dump(const Char8 *)
 {
 }
 
@@ -3952,7 +3956,7 @@ void VRMLGroupDesc::getFieldAndDesc(
 FieldContainerPtr VRMLGroupDesc::beginNode(
     const Char8       *,
     const Char8       *,
-    FieldContainerPtr  pCurrentFC)
+    FieldContainerPtr  )
 {
     FieldContainerPtr pFC         = NullFC;
     NodePtr           pNode       = NullFC;
@@ -3999,7 +4003,7 @@ void VRMLGroupDesc::endNode(FieldContainerPtr pFC)
 /** \brief assignment
  */
 
-void VRMLGroupDesc::dump(const Char8 *szNodeName)
+void VRMLGroupDesc::dump(const Char8 *)
 {
 }
 
@@ -4211,7 +4215,7 @@ void VRMLInlineDesc::getFieldAndDesc(
 FieldContainerPtr VRMLInlineDesc::beginNode(
     const Char8       *,
     const Char8       *,
-    FieldContainerPtr  pCurrentFC)
+    FieldContainerPtr  )
 {
     FieldContainerPtr pFC         = NullFC;
     NodePtr           pNode       = NullFC;
@@ -4258,7 +4262,7 @@ void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
 /** \brief assignment
  */
 
-void VRMLInlineDesc::dump(const Char8 *szNodeName)
+void VRMLInlineDesc::dump(const Char8 *)
 {
 }
 
@@ -4492,7 +4496,7 @@ void VRMLViewpointDesc::getFieldAndDesc(
 FieldContainerPtr VRMLViewpointDesc::beginNode(
     const Char8       *,
     const Char8       *,
-    FieldContainerPtr  pCurrentFC)
+    FieldContainerPtr  )
 {
     FieldContainerPtr pFC         = NullFC;
     NodePtr           pNode       = NullFC;
@@ -4538,7 +4542,7 @@ void VRMLViewpointDesc::endNode(FieldContainerPtr pFC)
 /** \brief assignment
  */
 
-void VRMLViewpointDesc::dump(const Char8 *szNodeName)
+void VRMLViewpointDesc::dump(const Char8 *)
 {
 }
 

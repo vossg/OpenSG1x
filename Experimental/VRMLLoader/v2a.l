@@ -1,7 +1,9 @@
 
 %{
 
-#define OSG_COMPILESYSTEMLIB
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 111 810)
+#endif
 
 #define YY_NEVER_INTERACTIVE 1
 
@@ -152,3 +154,6 @@ static char *tmpChar = yy_full_match;
 
 %%
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 111 810)
+#endif

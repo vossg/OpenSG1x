@@ -160,8 +160,8 @@ class OSG_WIN32WINDOWLIB_DLLMAPPING WIN32Window : public Window
 
     /*------------------------------ dump -----------------------------------*/
 
-    virtual void dump(      UInt32     uiIndent = 0, 
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0, 
+                      const BitVector bvFlags  = 0) const;
 
   protected:
 
@@ -190,6 +190,7 @@ class OSG_WIN32WINDOWLIB_DLLMAPPING WIN32Window : public Window
     //-----------------------------------------------------------------------
 
     WIN32Window (void);
+    WIN32Window(const WIN32Window &source);
 
     virtual ~WIN32Window (void);        
 
@@ -243,7 +244,6 @@ class OSG_WIN32WINDOWLIB_DLLMAPPING WIN32Window : public Window
     //-----------------------------------------------------------------------   
 
     // prohibit default functions (move to 'public' if you need one)    
-    WIN32Window(const WIN32Window &source);
     void operator =(const WIN32Window &source);
 };
 

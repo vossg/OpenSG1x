@@ -82,7 +82,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.17 2001/10/10 10:42:57 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.18 2001/10/15 03:10:24 vossg Exp $";
     static char cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 
@@ -368,6 +368,10 @@ void TextureChunkBase::executeSync(      FieldContainer &other,
 
 //! Constructor
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 TextureChunkBase::TextureChunkBase(void) :
     _sfImage                  (), 
     _sfInternalFormat         (UInt32(GL_NONE)), 
@@ -391,6 +395,10 @@ TextureChunkBase::TextureChunkBase(void) :
     Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //! Copy Constructor
 

@@ -580,8 +580,9 @@ OSG_BASE_DLLMAPPING Bool intersect(const CylinderVolume &cylinder,
 }
 
 // # Frustum ########################################################
-OSG_BASE_DLLMAPPING Bool intersect(const FrustumVolume &frustum1,
-                                   const FrustumVolume &frustum2)
+OSG_BASE_DLLMAPPING 
+Bool intersect(const FrustumVolume &OSG_CHECK_ARG(frustum1),
+               const FrustumVolume &OSG_CHECK_ARG(frustum2))
 {
     FFATAL(("intersect (frustum/frustum) is not impl.\n"));
     return false;
@@ -621,7 +622,8 @@ OSG_BASE_DLLMAPPING Bool intersect(const FrustumVolume &frustum, const Volume &v
 // ###################################################################
 // # Volume Extend Functions #########################################
 // ###################################################################
-OSG_BASE_DLLMAPPING void extend(Volume &srcVol, const Volume &vol)
+OSG_BASE_DLLMAPPING 
+void extend(Volume &OSG_CHECK_ARG(srcVol), const Volume &OSG_CHECK_ARG(vol))
 {
     FFATAL(("extend (frustum/volume) is not impl.\n"));
     return;
@@ -747,7 +749,9 @@ OSG_BASE_DLLMAPPING void extend(BoxVolume &srcVol, const CylinderVolume &vol)
 }
 
 /* */
-OSG_BASE_DLLMAPPING void extend(BoxVolume &srcVol, const FrustumVolume &vol)
+OSG_BASE_DLLMAPPING 
+void extend(      BoxVolume     &OSG_CHECK_ARG(srcVol), 
+            const FrustumVolume &OSG_CHECK_ARG(vol   ))
 {
     FFATAL(("extend (box/frustum) is not impl.\n"));
     return;
@@ -926,7 +930,9 @@ OSG_BASE_DLLMAPPING void extend(SphereVolume &srcVol, const CylinderVolume &vol)
 }
 
 /* */
-OSG_BASE_DLLMAPPING void extend(SphereVolume &srcVol, const FrustumVolume &vol)
+OSG_BASE_DLLMAPPING 
+void extend(      SphereVolume  &OSG_CHECK_ARG(srcVol), 
+            const FrustumVolume &OSG_CHECK_ARG(vol   ))
 {
     FFATAL(("extend (sphere/frustum) is not impl.\n"));
     return;
@@ -1116,7 +1122,9 @@ OSG_BASE_DLLMAPPING void extend(CylinderVolume &srcVol, const CylinderVolume &vo
 }
 
 /* */
-OSG_BASE_DLLMAPPING void extend(CylinderVolume &srcVol, const FrustumVolume &vol)
+OSG_BASE_DLLMAPPING 
+void extend(      CylinderVolume &OSG_CHECK_ARG(srcVol),
+            const FrustumVolume  &OSG_CHECK_ARG(vol   ))
 {
     FFATAL(("extend (cylinder/frustum) is not impl.\n"));
     return;
@@ -1155,38 +1163,49 @@ OSG_BASE_DLLMAPPING void extend(CylinderVolume &srcVol, const Volume &vol)
 }
 
 // # Frustum ########################################################
-OSG_BASE_DLLMAPPING void extend(FrustumVolume &srcVol, const BoxVolume &vol)
+OSG_BASE_DLLMAPPING 
+void extend(      FrustumVolume &OSG_CHECK_ARG(srcVol), 
+            const BoxVolume     &OSG_CHECK_ARG(vol   ))
 {
     FFATAL(("extend (frustum/box) is not impl.\n"));
     return;
 }
 
 /* */
-OSG_BASE_DLLMAPPING void extend(FrustumVolume &srcVol, const SphereVolume &vol)
+OSG_BASE_DLLMAPPING 
+void extend(      FrustumVolume &OSG_CHECK_ARG(srcVol), 
+            const SphereVolume  &OSG_CHECK_ARG(vol   ))
 {
     FFATAL(("extend (frustum/sphere) is not impl.\n"));
     return;
 }
 
 /* */
-OSG_BASE_DLLMAPPING void extend(FrustumVolume &srcVol, const CylinderVolume &vol)
+OSG_BASE_DLLMAPPING 
+void extend(      FrustumVolume  &OSG_CHECK_ARG(srcVol),
+            const CylinderVolume &OSG_CHECK_ARG(vol   ))
 {
     FFATAL(("extend (frustum/cylinder) is not impl.\n"));
     return;
 }
 
 /* */
-OSG_BASE_DLLMAPPING void extend(FrustumVolume &srcVol, const FrustumVolume &vol)
+OSG_BASE_DLLMAPPING 
+void extend(      FrustumVolume &OSG_CHECK_ARG(srcVol),
+            const FrustumVolume &OSG_CHECK_ARG(vol   ))
 {
     FFATAL(("extend (frustum/frustum) is not impl.\n"));
     return;
 }
 
 /* */
-OSG_BASE_DLLMAPPING void extend(FrustumVolume &srcVol, const Volume &vol)
+OSG_BASE_DLLMAPPING 
+void extend(      FrustumVolume &OSG_CHECK_ARG(srcVol),
+            const Volume        &OSG_CHECK_ARG(vol   ))
 {
     FFATAL(("extend (frustum/volume) is not impl.\n"));
     return;
 }
 
 OSG_END_NAMESPACE
+

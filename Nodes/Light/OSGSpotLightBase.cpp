@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.14 2001/10/10 10:42:56 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.15 2001/10/15 03:10:23 vossg Exp $";
     static char cvsid_hpp       [] = OSGSPOTLIGHTBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGSPOTLIGHTBASE_INLINE_CVSID;
 
@@ -181,6 +181,10 @@ void SpotLightBase::executeSync(      FieldContainer &other,
 
 //! Constructor
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 SpotLightBase::SpotLightBase(void) :
     _sfDirection              (), 
     _sfSpotExponent           (), 
@@ -188,6 +192,10 @@ SpotLightBase::SpotLightBase(void) :
     Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //! Copy Constructor
 

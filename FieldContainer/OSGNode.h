@@ -208,8 +208,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \name                        Dump                                  */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0, 
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0, 
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -285,6 +285,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
+
+    /* prohibit default function (move to 'public' if needed) */
+    void operator =(const Node &source);
 };
 
 //---------------------------------------------------------------------------

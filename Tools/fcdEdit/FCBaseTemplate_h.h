@@ -324,8 +324,7 @@ char *FCBaseTemplate_h[]={
 "@@endif", 
 "",
 "    // prohibit default functions (move to 'public' if you need one)",
-"",
-"    void operator =(const @!Classname!@ &source);",
+"    void operator =(const @!Classname!@Base &source);",
 "};",
 "",
 "//---------------------------------------------------------------------------",
@@ -337,7 +336,7 @@ char *FCBaseTemplate_h[]={
 "",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.17 2001/10/10 13:46:23 vossg Exp $\"",
+"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.18 2001/10/15 03:10:25 vossg Exp $\"",
 "", 
 "#endif /* _OSG@!CLASSNAME!@BASE_H_ */",
 NULL };

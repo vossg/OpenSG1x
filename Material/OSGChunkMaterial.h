@@ -75,8 +75,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterial : public ChunkMaterialBase
     /*! \name                      Output                                  */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0,
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0,
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -132,8 +132,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterial : public ChunkMaterialBase
     static void initMethod( void );
 
     // prohibit default functions (move to 'public' if you need one)
-
-    // void operator =(const ChunkMaterial &source);
+    void operator =(const ChunkMaterial &source);
 };
 
 typedef ChunkMaterial *ChunkMaterialP;

@@ -289,8 +289,8 @@ void Transform::adjustVolume( Volume & volume )
 
 /*------------------------------- dump ----------------------------------*/
 
-void Transform::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
+void Transform::dump(      UInt32    uiIndent, 
+                     const BitVector bvFlags) const
 {
    Inherited::dump(uiIndent, bvFlags);
 }

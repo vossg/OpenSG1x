@@ -50,16 +50,18 @@ DBGLNKCMDGOAL := $(strip $(filter $(LNK_TARGETS),$(MAKECMDGOALS)))
 ifneq ($(DBGLNKCMDGOAL),)
 LNK=lnk
 LNK_SUFFIX=Lnk
-$(warning Detected Link)
+$(warning Detected Link Lib)
 else
 LNK=
 LNK_SUFFIX=
+$(warning Detected Shared Lib)
 endif
 
 endif
 
 DBG := $(DBG_BASE)$(LNK)
 
+ifeq ($(DEBUG_MAKE),1)
 $(warning DBG=$(DBG))
-
+endif
 

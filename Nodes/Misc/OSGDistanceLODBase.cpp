@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.8 2001/10/10 10:42:56 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.9 2001/10/15 03:10:23 vossg Exp $";
     static char cvsid_hpp       [] = OSGDISTANCELODBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGDISTANCELODBASE_INLINE_CVSID;
 
@@ -170,12 +170,20 @@ void DistanceLODBase::executeSync(      FieldContainer &other,
 
 //! Constructor
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 DistanceLODBase::DistanceLODBase(void) :
     _sfCenter                 (), 
     _mfRange                  (), 
     Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //! Copy Constructor
 

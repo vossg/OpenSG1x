@@ -259,8 +259,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const MaterialChunk &source);
+    void operator =(const MaterialChunkBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -272,6 +271,6 @@ typedef MaterialChunkBase *MaterialChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGMaterialChunkBase.h,v 1.15 2001/10/03 20:37:35 dirk Exp $"
+#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGMaterialChunkBase.h,v 1.16 2001/10/15 03:10:24 vossg Exp $"
 
 #endif /* _OSGMATERIALCHUNKBASE_H_ */

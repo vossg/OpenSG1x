@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.16 2001/10/11 16:41:18 neumannc Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.17 2001/10/15 03:10:24 vossg Exp $";
     static char cvsid_hpp       [] = OSGBLENDCHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGBLENDCHUNKBASE_INLINE_CVSID;
 
@@ -82,13 +82,13 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector  BlendChunkBase::SrcFactorFieldMask =
+const OSG::BitVector  BlendChunkBase::SrcFactorFieldMask = 
     (1 << BlendChunkBase::SrcFactorFieldId);
 
-const OSG::BitVector  BlendChunkBase::DestFactorFieldMask =
+const OSG::BitVector  BlendChunkBase::DestFactorFieldMask = 
     (1 << BlendChunkBase::DestFactorFieldId);
 
-const OSG::BitVector  BlendChunkBase::ColorFieldMask =
+const OSG::BitVector  BlendChunkBase::ColorFieldMask = 
     (1 << BlendChunkBase::ColorFieldId);
 
 
@@ -96,30 +96,30 @@ const OSG::BitVector  BlendChunkBase::ColorFieldMask =
 // Field descriptions
 
 /*! \var UInt32          BlendChunkBase::_sfSrcFactor
-    The incoming pixel is multiplied by the source factor. Legal values are directly    taken from the glBlendFunc() manpage.
+    The incoming pixel is multiplied by the source factor. Legal values are directly 	taken from the glBlendFunc() manpage.
 */
 /*! \var UInt32          BlendChunkBase::_sfDestFactor
-    The frame buffer pixel is multiplied by the destination factor. Legal values are    directly taken from the glBlendFunc() manpage.
+    The frame buffer pixel is multiplied by the destination factor. Legal values are  	directly taken from the glBlendFunc() manpage.
 */
 /*! \var Color4f         BlendChunkBase::_sfColor
     This is the constant color used by blend modes *_CONSTANT_*.
 */
 //! BlendChunk description
 
-FieldDescription *BlendChunkBase::_desc[] =
+FieldDescription *BlendChunkBase::_desc[] = 
 {
-    new FieldDescription(SFUInt32::getClassType(),
-                     "SrcFactor",
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "SrcFactor", 
                      SrcFactorFieldId, SrcFactorFieldMask,
                      false,
                      (FieldAccessMethod) &BlendChunkBase::getSFSrcFactor),
-    new FieldDescription(SFUInt32::getClassType(),
-                     "DestFactor",
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "DestFactor", 
                      DestFactorFieldId, DestFactorFieldMask,
                      false,
                      (FieldAccessMethod) &BlendChunkBase::getSFDestFactor),
-    new FieldDescription(SFColor4f::getClassType(),
-                     "Color",
+    new FieldDescription(SFColor4f::getClassType(), 
+                     "Color", 
                      ColorFieldId, ColorFieldMask,
                      false,
                      (FieldAccessMethod) &BlendChunkBase::getSFColor)
@@ -142,36 +142,36 @@ FieldContainerType BlendChunkBase::_type(
 
 static const char *getClassname(void)
 {
-    return "BlendChunk";
+    return "BlendChunk"; 
 }
 
-FieldContainerType &BlendChunkBase::getType(void)
+FieldContainerType &BlendChunkBase::getType(void) 
 {
-    return _type;
-}
+    return _type; 
+} 
 
-const FieldContainerType &BlendChunkBase::getType(void) const
+const FieldContainerType &BlendChunkBase::getType(void) const 
 {
     return _type;
-}
+} 
 /*! \}                                                                 */
 
-FieldContainerPtr BlendChunkBase::shallowCopy(void) const
-{
-    BlendChunkPtr returnValue;
+FieldContainerPtr BlendChunkBase::shallowCopy(void) const 
+{ 
+    BlendChunkPtr returnValue; 
 
-    newPtr(returnValue, dynamic_cast<const BlendChunk *>(this));
+    newPtr(returnValue, dynamic_cast<const BlendChunk *>(this)); 
 
-    return returnValue;
+    return returnValue; 
 }
 
-UInt32 BlendChunkBase::getContainerSize(void) const
-{
-    return sizeof(BlendChunkBase);
+UInt32 BlendChunkBase::getContainerSize(void) const 
+{ 
+    return sizeof(BlendChunkBase); 
 }
 
 
-void BlendChunkBase::executeSync(         FieldContainer &other,
+void BlendChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((BlendChunkBase *) &other, whichField);
@@ -181,20 +181,28 @@ void BlendChunkBase::executeSync(         FieldContainer &other,
 
 //! Constructor
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 BlendChunkBase::BlendChunkBase(void) :
-    _sfSrcFactor              (),
-    _sfDestFactor             (),
-    _sfColor                  (Color4f(0,0,0,0)),
-    Inherited()
+    _sfSrcFactor              (), 
+    _sfDestFactor             (), 
+    _sfColor                  (Color4f(0,0,0,0)), 
+    Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //! Copy Constructor
 
 BlendChunkBase::BlendChunkBase(const BlendChunkBase &source) :
-    _sfSrcFactor              (source._sfSrcFactor              ),
-    _sfDestFactor             (source._sfDestFactor             ),
-    _sfColor                  (source._sfColor                  ),
+    _sfSrcFactor              (source._sfSrcFactor              ), 
+    _sfDestFactor             (source._sfDestFactor             ), 
+    _sfColor                  (source._sfColor                  ), 
     Inherited                 (source)
 {
 }
@@ -232,7 +240,7 @@ UInt32 BlendChunkBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-void BlendChunkBase::copyToBin(         BinaryDataHandler &pMem,
+void BlendChunkBase::copyToBin(      BinaryDataHandler &pMem,
                                   const BitVector         &whichField)
 {
     Inherited::copyToBin(pMem, whichField);
@@ -255,8 +263,8 @@ void BlendChunkBase::copyToBin(         BinaryDataHandler &pMem,
 
 }
 
-void BlendChunkBase::copyFromBin(         BinaryDataHandler &pMem,
-                                    const BitVector         &whichField)
+void BlendChunkBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
 
@@ -278,7 +286,7 @@ void BlendChunkBase::copyFromBin(         BinaryDataHandler &pMem,
 
 }
 
-void BlendChunkBase::executeSyncImpl(         BlendChunkBase    *pOther,
+void BlendChunkBase::executeSyncImpl(      BlendChunkBase *pOther,
                                         const BitVector         &whichField)
 {
 

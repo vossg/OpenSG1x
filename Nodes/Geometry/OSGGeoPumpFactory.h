@@ -49,6 +49,16 @@ OSG_BEGIN_NAMESPACE
 
 class Window;
 
+#ifdef OSG_SUPPORT_NO_GEO_INTERFACE
+class GeoPositionsInterface;
+class GeoNormalsInterface;
+class GeoColorsInterface;
+class GeoTexCoordsInterface;
+class GeoPTypesInterface;
+class GeoPLengthsInterface;
+class GeoIndicesInterface;
+#endif
+
 /*! \ingroup GeometryLib
  *  \brief Pump factory. Selects a fitting pump for the given geometry.
  *

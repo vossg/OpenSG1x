@@ -211,8 +211,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const SolidBackground &source);
+    void operator =(const SolidBackgroundBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -224,6 +223,6 @@ typedef SolidBackgroundBase *SolidBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSOLIDBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSolidBackgroundBase.h,v 1.14 2001/10/03 20:37:36 dirk Exp $"
+#define OSGSOLIDBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSolidBackgroundBase.h,v 1.15 2001/10/15 03:10:25 vossg Exp $"
 
 #endif /* _OSGSOLIDBACKGROUNDBASE_H_ */

@@ -59,6 +59,9 @@
 
 OSG_USING_NAMESPACE
 
+#if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
+#pragma warning (disable)
+#endif
 
 /***************************************************************************\
  *                            Description                                  *
@@ -732,8 +735,8 @@ Window& Window::operator = (const Window &source)
 /** \brief output the instance for debug purposes
  */
 
-void Window::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
+void Window::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                  const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
 	SLOG << "Dump Window NI" << endl;
 }

@@ -227,8 +227,7 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const Window &source);
+    void operator =(const WindowBase &source);
 };
 
 //---------------------------------------------------------------------------

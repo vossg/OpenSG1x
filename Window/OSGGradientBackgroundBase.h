@@ -219,8 +219,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const GradientBackground &source);
+    void operator =(const GradientBackgroundBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -232,6 +231,6 @@ typedef GradientBackgroundBase *GradientBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGradientBackgroundBase.h,v 1.13 2001/10/03 20:37:36 dirk Exp $"
+#define OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGradientBackgroundBase.h,v 1.14 2001/10/15 03:10:25 vossg Exp $"
 
 #endif /* _OSGGRADIENTBACKGROUNDBASE_H_ */

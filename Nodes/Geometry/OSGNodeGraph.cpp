@@ -151,9 +151,10 @@ Bool NodeGraph::verify (Bool printInfo )
 // Description:
 //         
 //----------------------------------------------------------------------
-int NodeGraph::createPathVec ( vector<Path> &pathVec,
-                               Bool createStrips, Bool createFans,
-                               int minFanEdgeCount )
+int NodeGraph::createPathVec (vector<Path> &pathVec,
+                              Bool OSG_CHECK_ARG(createStrips   ), 
+                              Bool OSG_CHECK_ARG(createFans     ),
+                              int  OSG_CHECK_ARG(minFanEdgeCount))
 {
 	NodeList nodeList[4], nonManifoldList, *down = 0;
   int i,n = _nodeVec.size();
@@ -382,7 +383,8 @@ int NodeGraph::createPathVec ( vector<Path> &pathVec,
 //----------------------------------------------------------------------
 int NodeGraph::getPrimitive ( Path &path, vector< int > & primitive )
 {
-	unsigned pi, j, cost = 0;
+	int pi;
+    unsigned j, cost = 0;
 	int index, firstIndex, firstSide, entrySide, exitSide;
 	Node *node;
 	Bool walkRight;

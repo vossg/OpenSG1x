@@ -307,8 +307,8 @@ void Viewport::render( RenderAction * action )
 /** \brief output the instance for debug purposes
  */
 
-void Viewport::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
+void Viewport::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                    const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
 	SLOG << "Dump Viewport NI" << endl;
 }

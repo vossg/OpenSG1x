@@ -252,7 +252,11 @@ vector<Char8 *> *Directory::getEntries(const Char8 *szDirname)
 
             pDir = FindFirstFile(szTmpDirname, &pDirEntry);
 
-            if(pDir != INVALID_HANDLE_VALUE)
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 171)
+#endif
+
+            if(INVALID_HANDLE_VALUE != pDir)
             {
                 returnValue = new vector<Char8 *>;
 
@@ -269,6 +273,10 @@ vector<Char8 *> *Directory::getEntries(const Char8 *szDirname)
 
                 FindClose(pDir);
             }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (error : 171)
+#endif
 
             delete szTmpDirname;
 #endif

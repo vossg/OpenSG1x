@@ -143,7 +143,7 @@ Field *FieldContainer::getField(const Char8 *fieldName)
     return desc ? desc->getField(*this) : NULL;
 }
 
-UInt32 FieldContainer::getBinSize(const BitVector    &whichField)
+UInt32 FieldContainer::getBinSize(const BitVector &)
 {
     return 0;
 }
@@ -203,7 +203,8 @@ void FieldContainer::onDestroy(void)
 {
 }
 
-void FieldContainer::changed(BitVector whichField, ChangeMode from)
+void FieldContainer::changed(BitVector  OSG_CHECK_ARG(whichField),
+                             ChangeMode OSG_CHECK_ARG(from      ))
 {
     // fprintf(stderr, "FC Changed %d %d\n", whichField, fromSync);
 }
@@ -212,7 +213,7 @@ void FieldContainer::onCreate(void)
 {
 }
 
-void FieldContainer::onCreate(const FieldContainer &source)
+void FieldContainer::onCreate(const FieldContainer &)
 {
 }
 

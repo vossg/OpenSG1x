@@ -112,11 +112,11 @@ class OSG_BASE_DLLMAPPING Line
                                                       Real32 &exit      ) const;
     Bool intersect(const BoxVolume              &box,     Real32 &enter,
                                                       Real32 &exit      ) const;
-    Bool intersect(          float                  angle,
+    Bool intersect(          Real32                  angle,
                    const BoxVolume              &box                        ) const;
-    Bool intersect(          float                  angle,
+    Bool intersect(          Real32                  angle,
                    const Vec3f                  &point                      ) const;
-    Bool intersect(          float              angle,
+    Bool intersect(          Real32              angle,
                    const Vec3f                  &v0,
                    const Vec3f                  &v1,
                          Vec3f                  &pt                             ) const;

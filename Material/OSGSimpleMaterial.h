@@ -84,8 +84,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterial : public SimpleMaterialBase
     /*! \name                      Output                                  */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0,
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0,
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -139,8 +139,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterial : public SimpleMaterialBase
     MaterialChunkPtr    _materialChunk;
 
     // prohibit default functions (move to 'public' if you need one)
-
-    // void operator =(const SimpleMaterial &source);
+    void operator =(const SimpleMaterial &source);
 };
 
 typedef SimpleMaterial *SimpleMaterialP;

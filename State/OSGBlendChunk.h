@@ -82,8 +82,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunk : public BlendChunkBase
     /*! \name                      Output                                  */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0,
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0,
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -150,8 +150,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunk : public BlendChunkBase
     static void initMethod( void );
 
     // prohibit default functions (move to 'public' if you need one)
-
-    // void operator =(const BlendChunk &source);
+    void operator =(const BlendChunk &source);
 };
 
 typedef BlendChunk *BlendChunkP;

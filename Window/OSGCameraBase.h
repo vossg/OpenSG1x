@@ -211,8 +211,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraBase : public AttachmentContainer
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const Camera &source);
+    void operator =(const CameraBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -224,6 +223,6 @@ typedef CameraBase *CameraBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERABASE_HEADER_CVSID "@(#)$Id: OSGCameraBase.h,v 1.14 2001/10/03 20:37:36 dirk Exp $"
+#define OSGCAMERABASE_HEADER_CVSID "@(#)$Id: OSGCameraBase.h,v 1.15 2001/10/15 03:10:25 vossg Exp $"
 
 #endif /* _OSGCAMERABASE_H_ */

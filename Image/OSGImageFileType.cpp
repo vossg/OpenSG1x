@@ -131,8 +131,9 @@ ImageFileType::~ImageFileType(void)
 }
 
 /** fill the given image with the content of the mem 'buffer' */
-UInt64 ImageFileType::restoreData(Image &image, const UChar8 *buffer,
-                                  Int32 memSize)
+UInt64 ImageFileType::restoreData(      Image  &OSG_CHECK_ARG(image  ), 
+                                  const UChar8 *OSG_CHECK_ARG(buffer ),
+                                        Int32   OSG_CHECK_ARG(memSize))
 {
     FWARNING(("ImageXFileType::restoreData() not impl. for mimeType %s\n",
              getMimeType()));
@@ -141,7 +142,9 @@ UInt64 ImageFileType::restoreData(Image &image, const UChar8 *buffer,
 }
 
 /** store the given image to the mem 'buffer' */
-UInt64 ImageFileType::storeData(const Image &image, UChar8 *buffer, Int32 memSize)
+UInt64 ImageFileType::storeData(const Image  &OSG_CHECK_ARG(image  ), 
+                                      UChar8 *OSG_CHECK_ARG(buffer ),
+                                      Int32   OSG_CHECK_ARG(memSize))
 {
     FWARNING(("ImageXFileType::storeData() not impl. for mimeType %s\n",
              getMimeType()));

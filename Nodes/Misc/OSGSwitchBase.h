@@ -211,8 +211,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SwitchBase : public NodeCore
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const Switch &source);
+    void operator =(const SwitchBase &source);
 };
 
 //---------------------------------------------------------------------------

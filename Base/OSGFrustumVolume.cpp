@@ -198,7 +198,7 @@ void FrustumVolume::setPlanes(const Matrix &objectClipMat)
 }
 
 /// Returns the center of a box
-void FrustumVolume::getCenter(Pnt3f &center) const
+void FrustumVolume::getCenter(Pnt3f &OSG_CHECK_ARG(center)) const
 {
     // not implemented !!!
     return;
@@ -212,7 +212,8 @@ float FrustumVolume::getScalarVolume() const
 }
 
 /// Gives the boundaries of the volume
-void FrustumVolume::getBounds( Pnt3f &minPnt, Pnt3f &maxPnt ) const
+void FrustumVolume::getBounds(Pnt3f &OSG_CHECK_ARG(minPnt), 
+                              Pnt3f &OSG_CHECK_ARG(maxPnt)) const
 {
     // not implemented !!!
     return;
@@ -221,7 +222,7 @@ void FrustumVolume::getBounds( Pnt3f &minPnt, Pnt3f &maxPnt ) const
 /*-------------------------- extending ------------------------------------*/
 
 /// Extends Frustum3f (if necessary) to contain given 3D point
-void FrustumVolume::extendBy(const Pnt3f &pt)
+void FrustumVolume::extendBy(const Pnt3f &OSG_CHECK_ARG(pt))
 {
     // not implemented !!!
     return;
@@ -265,7 +266,7 @@ Bool FrustumVolume::intersect ( const Line &line,
 }
 
 
-Bool FrustumVolume::isOnSurface (const Pnt3f &point) const
+Bool FrustumVolume::isOnSurface (const Pnt3f &OSG_CHECK_ARG(point)) const
 {
     // not implemented
     return false;
@@ -273,7 +274,7 @@ Bool FrustumVolume::isOnSurface (const Pnt3f &point) const
 
 
 /// Transforms Frustum3f by matrix, enlarging Frustum3f to contain result
-void FrustumVolume::transform(const Matrix &m)
+void FrustumVolume::transform(const Matrix &OSG_CHECK_ARG(m))
 {
     // not implemented
     return;
@@ -290,7 +291,8 @@ const FrustumVolume &FrustumVolume::operator =(const FrustumVolume &b1)
 }
 
 /// print the volume */
-void FrustumVolume::dump( UInt32 uiIndent, const BitVector &bvFlags) const
+void FrustumVolume::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                         const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
     // not implemented !!!
     /*
@@ -313,12 +315,12 @@ OSG_BASE_DLLMAPPING
 Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2)
 {
     return ((b1._planeVec[0] == b2._planeVec[0]) &&
-                    (b1._planeVec[1] == b2._planeVec[1]) &&
-                    (b1._planeVec[2] == b2._planeVec[2]) &&
-                    (b1._planeVec[3] == b2._planeVec[3]) &&
-                    (b1._planeVec[4] == b2._planeVec[4]) &&
-                    (b1._planeVec[5] == b2._planeVec[5]) &&
-                    b1._state == b2._state );
+            (b1._planeVec[1] == b2._planeVec[1]) &&
+            (b1._planeVec[2] == b2._planeVec[2]) &&
+            (b1._planeVec[3] == b2._planeVec[3]) &&
+            (b1._planeVec[4] == b2._planeVec[4]) &&
+            (b1._planeVec[5] == b2._planeVec[5]) &&
+            b1._state == b2._state );
 }
 
 

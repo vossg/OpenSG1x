@@ -270,6 +270,10 @@ FieldFactory::FieldFactory(void)
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 void FieldFactory::addType(FieldType *pType)
 {
     if(pType == NULL)
@@ -284,6 +288,9 @@ void FieldFactory::addType(FieldType *pType)
     (*_fieldTypeM)[pType->getId()] = pType;
 }
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 ///---------------------------------------------------------------------------
 ///  FUNCTION: 

@@ -56,6 +56,13 @@
 #include "OSGMNGImageFileType.h"
 #include <OSGLog.h>
 
+#ifdef OSG_WITH_MNG
+#define OSG_MNG_ARG(ARG) ARG
+#else
+#define OSG_MNG_ARG(ARG)
+#endif
+
+
 OSG_USING_NAMESPACE
 
 /*****************************
@@ -103,7 +110,8 @@ MNGImageFileType MNGImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //s:
 //
 //------------------------------
-Bool MNGImageFileType::read (Image &image, const Char8 *fileName )
+Bool MNGImageFileType::read(      Image &OSG_MNG_ARG(image   ),
+                            const Char8 *OSG_MNG_ARG(fileName))
 {
 
 #ifdef MNG_LIB
@@ -227,7 +235,8 @@ Bool MNGImageFileType::read (Image &image, const Char8 *fileName )
 //s:
 //
 //------------------------------
-Bool MNGImageFileType::write (const Image &image, const Char8 *fileName )
+Bool MNGImageFileType::write(const Image &OSG_MNG_ARG(image   ), 
+                             const Char8 *OSG_MNG_ARG(fileName))
 {
 
 #ifdef MNG_LIB

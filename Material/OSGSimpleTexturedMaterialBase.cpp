@@ -91,7 +91,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGSimpleTexturedMaterialBase.cpp,v 1.2 2001/10/10 10:42:55 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGSimpleTexturedMaterialBase.cpp,v 1.3 2001/10/15 03:10:22 vossg Exp $";
     static char cvsid_hpp       [] = OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGSIMPLETEXTUREDMATERIALBASE_INLINE_CVSID;
 
@@ -223,6 +223,10 @@ void SimpleTexturedMaterialBase::executeSync(      FieldContainer &other,
 
 //! Constructor
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 SimpleTexturedMaterialBase::SimpleTexturedMaterialBase(void) :
     _sfImage                  (), 
     _sfMinFilter              (UInt32(GL_LINEAR_MIPMAP_LINEAR)), 
@@ -232,6 +236,10 @@ SimpleTexturedMaterialBase::SimpleTexturedMaterialBase(void) :
     Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //! Copy Constructor
 

@@ -165,8 +165,8 @@ void Background::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void Background::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
+void Background::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                      const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
 	SLOG << "Dump Background NI" << endl;
 }

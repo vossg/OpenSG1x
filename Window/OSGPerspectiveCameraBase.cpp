@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.17 2001/10/10 10:42:57 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.18 2001/10/15 03:10:25 vossg Exp $";
     static char cvsid_hpp       [] = OSGPERSPECTIVECAMERABASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGPERSPECTIVECAMERABASE_INLINE_CVSID;
 
@@ -176,11 +176,19 @@ void PerspectiveCameraBase::executeSync(      FieldContainer &other,
 
 //! Constructor
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 PerspectiveCameraBase::PerspectiveCameraBase(void) :
     _sfFov                    (), 
     Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //! Copy Constructor
 

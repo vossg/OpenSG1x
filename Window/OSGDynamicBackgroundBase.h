@@ -219,8 +219,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const DynamicBackground &source);
+    void operator =(const DynamicBackgroundBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -232,6 +231,6 @@ typedef DynamicBackgroundBase *DynamicBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDYNAMICBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDynamicBackgroundBase.h,v 1.14 2001/10/03 20:37:36 dirk Exp $"
+#define OSGDYNAMICBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDynamicBackgroundBase.h,v 1.15 2001/10/15 03:10:25 vossg Exp $"
 
 #endif /* _OSGDYNAMICBACKGROUNDBASE_H_ */

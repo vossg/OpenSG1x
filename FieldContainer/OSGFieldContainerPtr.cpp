@@ -324,7 +324,7 @@ UInt8 *FieldContainerPtrBase::getFirstElemP(void) const
 
 Int32  FieldContainerPtrBase::getRefCountOff(void) const
 {
-    return - sizeof(Int32) - sizeof(UInt32);
+    return - (sizeof(Int32) + sizeof(UInt32));
 }
 
 Int32  FieldContainerPtrBase::getIdOff(void) const
@@ -496,8 +496,8 @@ Bool FieldContainerPtrBase::operator !(void) const
 
 
 
-void FieldContainerPtrBase::dump(      UInt32     uiIndent,
-                                 const BitVector &bvFlags) const
+void FieldContainerPtrBase::dump(      UInt32    uiIndent,
+                                 const BitVector bvFlags) const
 {
     if(_storeP != NULL)
     {
@@ -510,7 +510,7 @@ void FieldContainerPtrBase::dump(      UInt32     uiIndent,
         PLOG << "Id       : " << (*(getIdP()))   << endl;
 
         indentLog(uiIndent, PLOG);
-        PLOG << "Storage  : " << UInt32(getFirstElemP()) << endl;
+        PLOG << "Storage  : " << getFirstElemP() << endl;
 
         if(bvFlags & FCDumpFlags::RefCount)
         {
@@ -602,7 +602,7 @@ FieldContainerPtr::FieldContainerPtr(const FieldContainer *source,
 
 /*-------------------------------- Edit -----------------------------------*/
 
-void FieldContainerPtr::beginEdit(BitVector whichField) const
+void FieldContainerPtr::beginEdit(BitVector OSG_CHECK_ARG(whichField)) const
 {
 }
 

@@ -182,10 +182,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     /*! \name                    Storage                                   */
     /*! \{                                                                 */
 
-    UInt64 store   ( Char8 *mimeType, UChar8* mem,
-                     UInt32 memSize = -1);
+    UInt64 store   (Char8 *mimeType, 
+                    UChar8* mem,
+                    Int32 memSize = -1);
 
-    UInt64 restore ( const UChar8* mem, UInt32 memSize = -1);
+    UInt64 restore ( const UChar8* mem, Int32 memSize = -1);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -251,10 +252,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
             return data;
         }
 
-    inline UChar8 *getDataByTime ( Time time, UInt32 mipmapNum = 1)
-        {
-            return _data;
-        }
+           UChar8 *getDataByTime(Time time, UInt32 mipmapNum = 1);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -289,13 +287,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
         }
 
 
-    inline UInt32 calcFrameNum         ( Time time, Bool loop = true )
-    {
-        int frameNum = ((_frameDelay > 0) && (_frameCount > 0)) ?
-                                        (int(time / _frameDelay) % _frameCount) : 0;
-
-        return ((frameNum > 0) ? frameNum : 0);
-    }
+           UInt32 calcFrameNum(Time time, Bool loop = true);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

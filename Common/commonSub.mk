@@ -1,11 +1,15 @@
 
+ifeq ($(DEBUG_MAKE),1)
 $(warning $(DBG))
+endif
 
 OBJDIR = $(OBJDIR_BASE)-$(DBG)
 LIBDIR = $(LIBDIR_BASE)-$(DBG)
 EXEDIR = $(EXEDIR_BASE)-$(DBG)
 
+ifeq ($(DEBUG_MAKE),1)
 $(warning $(OBJDIR))
+endif
 
 OBJ_SUFFIX := $(strip $(OBJ_SUFFIX))
 

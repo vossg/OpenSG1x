@@ -261,8 +261,8 @@ void AttachmentContainer::copyFromBin(      BinaryDataHandler &pMem,
 
 /*------------------------------- dump ----------------------------------*/
 
-void AttachmentContainer::dump(      UInt32     uiIndent,
-                               const BitVector &bvFlags) const
+void AttachmentContainer::dump(      UInt32    uiIndent,
+                               const BitVector bvFlags) const
 {
     AttachmentMap::const_iterator fcI;
 

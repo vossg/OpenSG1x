@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGImageForegroundBase.cpp,v 1.3 2001/10/10 10:42:57 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGImageForegroundBase.cpp,v 1.4 2001/10/15 03:10:25 vossg Exp $";
     static char cvsid_hpp       [] = OSGIMAGEFOREGROUNDBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGIMAGEFOREGROUNDBASE_INLINE_CVSID;
 
@@ -187,12 +187,20 @@ void ImageForegroundBase::executeSync(      FieldContainer &other,
 
 //! Constructor
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 ImageForegroundBase::ImageForegroundBase(void) :
     _mfImages                 (), 
     _mfPositions              (), 
     Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //! Copy Constructor
 

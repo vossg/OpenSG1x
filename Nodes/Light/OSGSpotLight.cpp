@@ -247,8 +247,8 @@ void SpotLight::makeChunk(void)
 /** \brief output the instance for debug purposes
  */
 
-void SpotLight::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
+void SpotLight::dump(      UInt32    uiIndent, 
+                     const BitVector bvFlags) const
 {
    Inherited::dump(uiIndent, bvFlags);
 }

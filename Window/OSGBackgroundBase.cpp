@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.16 2001/10/10 10:42:57 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.17 2001/10/15 03:10:25 vossg Exp $";
     static char cvsid_hpp       [] = OSGBACKGROUNDBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGBACKGROUNDBASE_INLINE_CVSID;
 
@@ -147,10 +147,18 @@ void BackgroundBase::executeSync(      FieldContainer &other,
 
 //! Constructor
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 BackgroundBase::BackgroundBase(void) :
     Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //! Copy Constructor
 

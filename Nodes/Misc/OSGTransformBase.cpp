@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGTransformBase.cpp,v 1.16 2001/10/10 10:42:56 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGTransformBase.cpp,v 1.17 2001/10/15 03:10:23 vossg Exp $";
     static char cvsid_hpp       [] = OSGTRANSFORMBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGTRANSFORMBASE_INLINE_CVSID;
 
@@ -176,11 +176,19 @@ void TransformBase::executeSync(      FieldContainer &other,
 
 //! Constructor
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 TransformBase::TransformBase(void) :
     _sfMatrix                 (), 
     Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //! Copy Constructor
 

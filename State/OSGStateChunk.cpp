@@ -88,8 +88,8 @@ StateChunkClass::StateChunkClass( Char8 *name, UInt32 numslots )
 
     for ( unsigned i = 0; i < numslots; i++ )
     {
-        _classNames->push_back( name );
-        _numslots->push_back( numslots );
+        _classNames->push_back(string(name));
+        _numslots->push_back  (numslots);
     }
 }
 
@@ -225,8 +225,8 @@ void StateChunk::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void StateChunk::dump(         UInt32     uiIndent,
-                         const BitVector &bvFlags) const
+void StateChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
+                      const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
     SLOG << "Dump StateChunk NI" << endl;
 }
@@ -246,23 +246,27 @@ Bool StateChunk::isTransparent(void) const
 
 /*-------------------------- your_category---------------------------------*/
 
-void StateChunk::activate ( DrawActionBase * action, UInt32 index )
+void StateChunk::activate(DrawActionBase *OSG_CHECK_ARG(action), 
+                          UInt32          OSG_CHECK_ARG(index ))
 {
 }
 
-void StateChunk::changeFrom( DrawActionBase * action, StateChunk * old, UInt32 index )
+void StateChunk::changeFrom(DrawActionBase *action, 
+                            StateChunk     *old, 
+                            UInt32          index)
 {
     old->deactivate( action, index );
     activate( action, index );
 }
 
-void StateChunk::deactivate ( DrawActionBase * action, UInt32 index )
+void StateChunk::deactivate(DrawActionBase *OSG_CHECK_ARG(action), 
+                            UInt32          OSG_CHECK_ARG(index ))
 {
 }
 
 /*-------------------------- comparison -----------------------------------*/
 
-Real32 StateChunk::switchCost( StateChunk * chunk )
+Real32 StateChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
 {
     return 0;
 }
@@ -278,7 +282,7 @@ Bool StateChunk::operator < (const StateChunk &other) const
 /** \brief equal
  */
 
-Bool StateChunk::operator == (const StateChunk &other) const
+Bool StateChunk::operator == (const StateChunk &OSG_CHECK_ARG(other)) const
 {
     return false;
 }

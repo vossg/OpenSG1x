@@ -180,8 +180,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GroupBase : public NodeCore
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const Group &source);
+    void operator =(const GroupBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -193,6 +192,6 @@ typedef GroupBase *GroupBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGROUPBASE_HEADER_CVSID "@(#)$Id: OSGGroupBase.h,v 1.10 2001/09/19 14:36:41 mroth Exp $"
+#define OSGGROUPBASE_HEADER_CVSID "@(#)$Id: OSGGroupBase.h,v 1.11 2001/10/15 03:10:23 vossg Exp $"
 
 #endif /* _OSGGROUPBASE_H_ */

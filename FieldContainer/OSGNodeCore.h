@@ -111,8 +111,8 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public AttachmentContainer
     /*! \name                        Dump                                  */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0, 
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0, 
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -203,6 +203,9 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public AttachmentContainer
     friend class Node;
     friend class Attachment;
     friend class FieldContainer;
+
+    /* prohibit default function (move to 'public' if needed) */
+    void operator =(const NodeCore &source);
 };
 
 

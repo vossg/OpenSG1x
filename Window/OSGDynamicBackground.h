@@ -90,8 +90,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackground : public DynamicBackgroundBase
     /*! \name                     dump                                     */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0, 
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0, 
+                      const BitVector bvFlags  = 0) const;
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
  protected:

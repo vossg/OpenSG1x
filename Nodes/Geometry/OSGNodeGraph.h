@@ -51,7 +51,7 @@
 #include <OSGConfig.h>
 #include <OSGLog.h>
 
-OSG_BEGIN_NAMESPACE;
+OSG_BEGIN_NAMESPACE
 
 
 class NodeGraph
@@ -436,6 +436,6 @@ class NodeGraph
 
 typedef NodeGraph* NodeGraphP;
 
-OSG_END_NAMESPACE;
+OSG_END_NAMESPACE
 
 #endif // _OSGNODEGRAPH_H_

@@ -211,8 +211,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterialBase : public Material
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const ChunkMaterial &source);
+    void operator =(const ChunkMaterialBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -224,6 +223,6 @@ typedef ChunkMaterialBase *ChunkMaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCHUNKMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGChunkMaterialBase.h,v 1.13 2001/10/03 20:37:34 dirk Exp $"
+#define OSGCHUNKMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGChunkMaterialBase.h,v 1.14 2001/10/15 03:10:22 vossg Exp $"
 
 #endif /* _OSGCHUNKMATERIALBASE_H_ */

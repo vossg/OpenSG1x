@@ -148,15 +148,15 @@ class OSG_BASE_DLLMAPPING DynamicVolume : public Volume
     /*! \name                       Output                                 */
     /*! \{                                                                 */
 
-    virtual void dump(UInt32 uiIndent = 0,
-                      const BitVector & bvFlags = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0,
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Operators                              */
     /*! \{                                                                 */
 
-    Bool operator ==(const DynamicVolume &other) const { return false; }
+    Bool operator ==(const DynamicVolume &other) const;
 
     /*! \}                                                                 */
 };

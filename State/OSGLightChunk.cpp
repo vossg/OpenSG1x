@@ -154,8 +154,8 @@ void LightChunk::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void LightChunk::dump(      UInt32     uiIndent,
-                         const BitVector &bvFlags) const
+void LightChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
+                      const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
     SLOG << "Dump LightChunk NI" << endl;
 }
@@ -233,7 +233,7 @@ void LightChunk::deactivate( DrawActionBase *, UInt32 index )
 
 /*-------------------------- comparison -----------------------------------*/
 
-Real32 LightChunk::switchCost( StateChunk * chunk )
+Real32 LightChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
 {
     return 0;
 }

@@ -61,13 +61,19 @@
 #include "OSGOFFSceneFileType.h"
 
 OSG_USING_NAMESPACE
+
+#if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
+#pragma warning (disable : 383)
+#endif
+
 #ifdef __sgi
 #pragma set woff 1174
 #endif
+
 namespace
 {
-static Char8    cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.9 2001/10/11 21:17:51 dirk Exp $";
-static Char8    cvsid_hpp[] = OSGOFFSCENEFILETYPE_HEADER_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.10 2001/10/15 03:10:22 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGOFFSCENEFILETYPE_HEADER_CVSID;
 }
 #ifdef __sgi
 #pragma reset woff 1174
@@ -322,7 +328,8 @@ NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32 uiAddOptions,
 //s:
 //
 //------------------------------
-Bool OFFSceneFileType::write(const NodePtr node, const Char8 *fileName) const
+Bool OFFSceneFileType::write(const NodePtr  OSG_CHECK_ARG(node    ), 
+                             const Char8   *OSG_CHECK_ARG(fileName)) const
 {
     FFATAL(("OFFSceneFileType::write() is not impl.\n"));
     return false;

@@ -49,6 +49,5 @@ inline void CLASSNAME::inline(void)
 
 OSG_END_NAMESPACE
 
-#define OSG_INLINE_CVSID "@(#)$Id: template.inl,v 1.1 2001/10/10 22:05:40 dirk Exp $"
+#define OSG_INLINE_CVSID "@(#)$Id: template.inl,v 1.2 2001/10/15 03:10:24 vossg Exp $"
 
-#endif /* _CLASSNAME_H_ */

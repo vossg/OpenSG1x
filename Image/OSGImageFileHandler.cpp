@@ -352,7 +352,7 @@ void ImageFileHandler::setPathHandler(PathHandler *pPathHandler)
 }
 
 UInt64 ImageFileHandler::restore(Image &image, const UChar8 *buffer,
-                                 UInt32 memSize)
+                                 Int32 memSize)
 {
     return ImageFileType::restore(image, buffer, memSize);
 }
@@ -378,7 +378,7 @@ UInt64 ImageFileHandler::restore(Image &image, const UChar8 *buffer,
 //
 //------------------------------
 UInt64 ImageFileHandler::store(const Image &image, const char *mimeType,
-                               UChar8 *buffer, UInt32 memSize)
+                               UChar8 *buffer, Int32 memSize)
 {
     ImageFileType   *type;
 
@@ -575,10 +575,6 @@ ImageFileHandler::ImageFileHandler(void)
 //s:
 //
 //------------------------------
-ImageFileHandler::ImageFileHandler(const ImageFileHandler &obj)
-{
-    SWARNING << "In copy constructor; I shouldn't be in this corner" << endl;
-}
 
 //----------------------------
 // Function name: ~ImageFileHandler

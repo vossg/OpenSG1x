@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialBase.cpp,v 1.15 2001/10/10 10:42:55 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialBase.cpp,v 1.16 2001/10/15 03:10:22 vossg Exp $";
     static char cvsid_hpp       [] = OSGMATERIALBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGMATERIALBASE_INLINE_CVSID;
 
@@ -147,10 +147,18 @@ void MaterialBase::executeSync(      FieldContainer &other,
 
 //! Constructor
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 MaterialBase::MaterialBase(void) :
     Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //! Copy Constructor
 

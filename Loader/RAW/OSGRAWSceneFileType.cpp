@@ -63,13 +63,17 @@
 
 OSG_USING_NAMESPACE
 
+#if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
+#pragma warning (disable : 383)
+#endif
+
 #ifdef __sgi
 #pragma set woff 1174
 #endif
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.9 2001/10/11 16:41:18 neumannc Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.10 2001/10/15 03:10:22 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGRAWSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -134,7 +138,7 @@ NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
     GeoPLengthsUI32Ptr lens;
     GeoPTypesUI8Ptr type;
     Vec3f vec[3];
-    Int32 i = 0, n, triCount = 0;
+    UInt32 i = 0, n, triCount = 0;
     Real32 x,y,z;
 
     fprintf(stderr, "Loading using Loader 0\n");
@@ -259,8 +263,8 @@ NodePtr RAWSceneFileType::read(const Char8  *fileName,
 //
 //------------------------------
 
-Bool RAWSceneFileType::write(const NodePtr  node,
-                             const Char8   *fileName) const
+Bool RAWSceneFileType::write(const NodePtr  OSG_CHECK_ARG(node    ),
+                             const Char8   *OSG_CHECK_ARG(fileName)) const
 {
     return false;
 }

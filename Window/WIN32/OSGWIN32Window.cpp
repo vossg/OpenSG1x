@@ -133,7 +133,7 @@ WIN32Window::WIN32Window( void ) :
 }
 
 WIN32Window::WIN32Window( const WIN32Window& source ) :
-	Inherited()
+	Inherited(source)
 {
 }
 
@@ -200,8 +200,8 @@ void WIN32Window::swap( void )
 
 /*------------------------------- dump ----------------------------------*/
 
-void WIN32Window::dump(      UInt32     uiIndent, 
-                       const BitVector &bvFlags) const
+void WIN32Window::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                       const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
     SLOG << "Dump WIN32Window NI" << endLog;
 }

@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.14 2001/10/10 10:42:56 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.15 2001/10/15 03:10:23 vossg Exp $";
     static char cvsid_hpp       [] = OSGDIRECTIONALLIGHTBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGDIRECTIONALLIGHTBASE_INLINE_CVSID;
 
@@ -159,11 +159,19 @@ void DirectionalLightBase::executeSync(      FieldContainer &other,
 
 //! Constructor
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 DirectionalLightBase::DirectionalLightBase(void) :
     _sfDirection              (), 
     Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //! Copy Constructor
 

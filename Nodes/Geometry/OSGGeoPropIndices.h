@@ -55,7 +55,7 @@ struct GeoIndicesUI32PropertyDesc
 
     static const Char8 *getTypeName (void) { return "GeoIndicesUI32";         }
     static const Char8 *getClassName(void) { return "GeoIndicesUI32Property"; }
-    static const Char8 *getFieldName(void) { return "Indices";              }
+    static const Char8 *getFieldName(void) { return "Indices";                }
     static const Char8 *getGroupName(void) { return "GeoIndices";             }
 
     static InitContainerF getInitMethod(void) { return NULL; }
@@ -70,14 +70,19 @@ struct GeoIndicesUI32PropertyDesc
     /*! \name                    Typedefs                                  */
     /*! \{                                                                 */
 
-    typedef GeoIndices                 Inherit;
-    typedef GeoIndices::PtrType        InheritPtr;
-    typedef GeoIndicesPropertyDesc     InheritDesc;
-    typedef MFUInt32                 FieldType;
+    typedef GeoIndices                 Inherited;
+    typedef GeoIndices::PtrType        InheritedPtr;
 
-    typedef InheritDesc::GenericType GenericType;
+    typedef GeoIndicesPropertyDesc     InheritedDesc;
 
+    typedef MFUInt32                   FieldType;
+
+    typedef InheritedDesc::GenericType GenericType;
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
     typedef GeoPropertyInterface<GeoIndicesPropertyDesc> Interface;
+#endif
+
     /*! \}                                                                 */
 };
 

@@ -87,8 +87,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Inline : public InlineBase
  
     /*------------------------------ dump -----------------------------------*/
 
-    virtual void dump(      UInt32     uiIndent = 0, 
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0, 
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

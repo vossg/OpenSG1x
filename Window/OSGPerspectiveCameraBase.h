@@ -211,8 +211,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const PerspectiveCamera &source);
+    void operator =(const PerspectiveCameraBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -224,6 +223,6 @@ typedef PerspectiveCameraBase *PerspectiveCameraBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: OSGPerspectiveCameraBase.h,v 1.15 2001/10/03 20:37:36 dirk Exp $"
+#define OSGPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: OSGPerspectiveCameraBase.h,v 1.16 2001/10/15 03:10:25 vossg Exp $"
 
 #endif /* _OSGPERSPECTIVECAMERABASE_H_ */

@@ -275,8 +275,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const Viewport &source);
+    void operator =(const ViewportBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -288,6 +287,6 @@ typedef ViewportBase *ViewportBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGViewportBase.h,v 1.15 2001/10/03 20:37:36 dirk Exp $"
+#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGViewportBase.h,v 1.16 2001/10/15 03:10:25 vossg Exp $"
 
 #endif /* _OSGVIEWPORTBASE_H_ */

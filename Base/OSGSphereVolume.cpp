@@ -147,7 +147,7 @@ Bool SphereVolume::isOnSurface (const Pnt3f &point) const
 /*-------------------------- transformation -------------------------------*/
 
  /// Transforms Box3f by matrix
-void SphereVolume::transform (const Matrix &mat)
+void SphereVolume::transform (const Matrix &OSG_CHECK_ARG(mat))
 {
     // TODO; not impl.
     assert(false);
@@ -155,7 +155,8 @@ void SphereVolume::transform (const Matrix &mat)
 
 
 /// print the volume */
-void SphereVolume::dump( UInt32 uiIndent, const BitVector &bvFlags) const
+void SphereVolume::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                        const BitVector OSG_CHECK_ARG(bvFlags)) const
 {
     PLOG << "Sphere(" << _center << "|" << _radius << ")";
 }

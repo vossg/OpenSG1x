@@ -74,7 +74,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.22 2001/10/13 11:28:31 vossg Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.23 2001/10/15 03:10:24 vossg Exp $";
 
 StateChunkClass TextureChunk::_class("Texture");
 
@@ -226,8 +226,8 @@ void TextureChunk::onCreate( const FieldContainer & )
 /** \brief output the instance for debug purposes
  */
 
-void TextureChunk::dump(      UInt32     uiIndent,
-                         const BitVector &bvFlags) const
+void TextureChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
+                        const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
     SLOG << "Dump TextureChunk NI" << endl;
 }
@@ -777,7 +777,7 @@ void TextureChunk::deactivate ( DrawActionBase *, UInt32 )
 
 /*-------------------------- comparison -----------------------------------*/
 
-Real32 TextureChunk::switchCost( StateChunk * chunk )
+Real32 TextureChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
 {
     return 0;
 }

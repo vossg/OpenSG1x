@@ -164,8 +164,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public FieldContainer
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const StateChunk &source);
+    void operator =(const StateChunkBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -177,6 +176,6 @@ typedef StateChunkBase *StateChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStateChunkBase.h,v 1.10 2001/09/19 14:36:41 mroth Exp $"
+#define OSGSTATECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStateChunkBase.h,v 1.11 2001/10/15 03:10:24 vossg Exp $"
 
 #endif /* _OSGSTATECHUNKBASE_H_ */

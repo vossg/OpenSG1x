@@ -211,8 +211,7 @@ class OSG_SYSTEMLIB_DLLMAPPING InlineBase : public NodeCore
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const Inline &source);
+    void operator =(const InlineBase &source);
 };
 
 //---------------------------------------------------------------------------

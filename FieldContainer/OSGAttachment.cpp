@@ -234,8 +234,8 @@ void Attachment::copyFromBin(      BinaryDataHandler &pMem,
  *  log stream instead
  */
 
-void Attachment::dump(      UInt32     uiIndent,
-                      const BitVector &bvFlags) const
+void Attachment::dump(      UInt32    uiIndent,
+                      const BitVector OSG_CHECK_ARG(bvFlags)) const
 {
     UInt32 i;
 
@@ -359,7 +359,7 @@ void Attachment::executeSyncImpl(      Attachment     *pOther,
 
 OSG_SYSTEMLIB_DLLMAPPING
 ostream &OSG::operator <<(ostream             &stream,
-                          const AttachmentMap &amap)
+                          const AttachmentMap &OSG_CHECK_ARG(amap))
 {
     stream << "Attachment << NI" << endl;
 

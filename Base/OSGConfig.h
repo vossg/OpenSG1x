@@ -411,6 +411,7 @@
 # define OSG_NEED_EXPLICIT_INST_FOR_STATIC
 # define OSG_LONGLONG_HAS_LL
 # define OSG_THROW_NOTHING()
+# define OSG_WIN32_ICL
 # endif
 
 
@@ -598,6 +599,7 @@ OSG_USING_STD_NAMESPACE
 #define OSG_DEBUG_LOCK_STAT
 #endif
 
+#define OSG_CHECK_ARG(ARG)
 
 #if defined(WIN32) && defined(__ICL)
 

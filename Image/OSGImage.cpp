@@ -323,7 +323,8 @@ Bool Image::addValue(const char *value)
 //s:
 //
 //------------------------------
-Bool Image::reformat(const PixelFormat pF, Image *destination)
+Bool Image::reformat(const PixelFormat  OSG_CHECK_ARG(pF         ), 
+                           Image       *OSG_CHECK_ARG(destination))
 {
     /*
       UChar8 *data;
@@ -818,7 +819,7 @@ Bool Image::read(const Char8 *fileName)
 //s:
 //
 //------------------------------
-UInt64 Image::store(Char8 *mimeType, UChar8 *mem, UInt32 memSize)
+UInt64 Image::store(Char8 *mimeType, UChar8 *mem, Int32 memSize)
 {
     return ImageFileHandler::the().store(*this, mimeType, mem, memSize);
 }
@@ -843,7 +844,7 @@ UInt64 Image::store(Char8 *mimeType, UChar8 *mem, UInt32 memSize)
 //s:
 //
 //------------------------------
-UInt64 Image::restore(const UChar8 *mem, UInt32 memSize)
+UInt64 Image::restore(const UChar8 *mem, Int32 memSize)
 {
     return ImageFileHandler::the().restore(*this, mem, memSize);;
 }
@@ -1158,6 +1159,20 @@ Bool Image::hasAlphaChannel(void)
     || _pixelFormat == OSG_BGRA_PF
 #endif
     || _pixelFormat == OSG_LA_PF;
+}
+
+UChar8 *Image::getDataByTime (Time   OSG_CHECK_ARG(time     ), 
+                              UInt32 OSG_CHECK_ARG(mipmapNum))
+{
+    return _data;
+}
+
+UInt32 Image::calcFrameNum(Time time, Bool OSG_CHECK_ARG(loop))
+{
+    int frameNum = ((_frameDelay > 0) && (_frameCount > 0)) ?
+        (int(time / _frameDelay) % _frameCount) : 0;
+    
+    return ((frameNum > 0) ? frameNum : 0);
 }
 
 /*------------properies-------------*/

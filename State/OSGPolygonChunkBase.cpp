@@ -79,7 +79,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.14 2001/10/10 10:42:57 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.15 2001/10/15 03:10:24 vossg Exp $";
     static char cvsid_hpp       [] = OSGPOLYGONCHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGPOLYGONCHUNKBASE_INLINE_CVSID;
 
@@ -277,6 +277,10 @@ void PolygonChunkBase::executeSync(      FieldContainer &other,
 
 //! Constructor
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 PolygonChunkBase::PolygonChunkBase(void) :
     _sfCullFace               (Int32(GL_FALSE)), 
     _sfFrontFace              (Int32(GL_CCW)), 
@@ -292,6 +296,10 @@ PolygonChunkBase::PolygonChunkBase(void) :
     Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //! Copy Constructor
 

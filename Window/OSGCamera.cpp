@@ -162,7 +162,8 @@ void Camera::changed(BitVector, ChangeMode)
 
 /** setup the GL for rendering and tell the Action what it needs to know */
 
-void Camera::setup( DrawActionBase * action, const Viewport& port )
+void Camera::setup(      DrawActionBase *OSG_CHECK_ARG(action), 
+                   const Viewport       &port                 )
 {
 	Matrix m;
 
@@ -187,7 +188,8 @@ void Camera::setup( DrawActionBase * action, const Viewport& port )
 	glLoadMatrixf( m.getValues() );
 }
 
-void Camera::setupProjection( DrawActionBase * action, const Viewport& port )
+void Camera::setupProjection(      DrawActionBase *OSG_CHECK_ARG(action),
+                             const Viewport       &port                 )
 {
 	Matrix m;
 
@@ -205,25 +207,31 @@ void Camera::setupProjection( DrawActionBase * action, const Viewport& port )
 
 
 /** draw the camera's geometry (if any). Usually there is none. */
-void Camera::draw( DrawAction * action, const Viewport& port )
+void Camera::draw(      DrawAction *OSG_CHECK_ARG(action), 
+                  const Viewport   &OSG_CHECK_ARG(port  ))
 {
 }
 
 /** get the separate elements needed for rendering */
 
-void Camera::getProjection( Matrix& result, UInt32 width, UInt32 height )
+void Camera::getProjection(Matrix &OSG_CHECK_ARG(result),
+                           UInt32  OSG_CHECK_ARG(width ),
+                           UInt32  OSG_CHECK_ARG(height))
 {
 	SFATAL << "Camera::getProjection: NIY" << endl;
 	abort();
 }
 
-void Camera::getProjectionTranslation( Matrix& result, UInt32 width, 
-    	    UInt32 height )
+void Camera::getProjectionTranslation(Matrix &result, 
+                                      UInt32  OSG_CHECK_ARG(width ), 
+                                      UInt32  OSG_CHECK_ARG(height))
 {
 	result.setIdentity();
 }
 
-void Camera::getViewing( Matrix& result, UInt32 width, UInt32 height )
+void Camera::getViewing(Matrix &result, 
+                        UInt32  OSG_CHECK_ARG(width ),
+                        UInt32  OSG_CHECK_ARG(height))
 {
 	if ( getBeacon() == NullFC )
 	{
@@ -282,8 +290,8 @@ Bool Camera::calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port)
 /** \brief output the instance for debug purposes
  */
 
-void Camera::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
+void Camera::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                  const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
 	SLOG << "Dump Camera NI" << endl;
 }

@@ -260,7 +260,7 @@ Bool DrawAction::operator < (const DrawAction &other) const
 /** \brief equal
  */
 
-Bool DrawAction::operator == (const DrawAction &other) const
+Bool DrawAction::operator == (const DrawAction &OSG_CHECK_ARG(other)) const
 {
     return false;
 }

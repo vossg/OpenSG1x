@@ -75,7 +75,7 @@ The intersect action class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.8 2001/10/10 10:42:53 vossg Exp $";
+char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.9 2001/10/15 03:10:19 vossg Exp $";
 
 IntersectAction * IntersectAction::_prototype = NULL;
 
@@ -301,7 +301,8 @@ Bool IntersectAction::operator < (const IntersectAction &other) const
 /** \brief equal
  */
 
-Bool IntersectAction::operator == (const IntersectAction &other) const
+Bool IntersectAction::operator == (
+    const IntersectAction &OSG_CHECK_ARG(other)) const
 {
     return false;
 }

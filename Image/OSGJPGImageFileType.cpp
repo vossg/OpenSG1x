@@ -55,6 +55,12 @@ extern "C" {
 #include "OSGJPGImageFileType.h"
 #include <OSGLog.h>
 
+#ifdef OSG_WITH_JPG
+#define OSG_JPG_ARG(ARG) ARG
+#else
+#define OSG_JPG_ARG(ARG)
+#endif
+
 OSG_USING_NAMESPACE
 #ifdef OSG_WITH_JPG
 struct
@@ -182,7 +188,8 @@ JPGImageFileType JPGImageFileType:: _the(suffixArray, sizeof(suffixArray));
 //s:
 //
 //------------------------------
-Bool JPGImageFileType::read(Image &image, const Char8 *fileName)
+Bool JPGImageFileType::read(      Image &OSG_JPG_ARG(image   ), 
+                            const Char8 *OSG_JPG_ARG(fileName))
 {
 #ifdef OSG_WITH_JPG
     Bool    retCode = false;
@@ -289,7 +296,9 @@ Bool JPGImageFileType::read(Image &image, const Char8 *fileName)
 //s:
 //
 //------------------------------
-Bool JPGImageFileType::write(const Image &image, const Char8 *fileName)
+
+Bool JPGImageFileType::write(const Image &OSG_JPG_ARG(image), 
+                             const Char8 *OSG_JPG_ARG(fileName))
 {
 #ifdef OSG_WITH_JPG
     if((image.getBpp() != 1 && image.getBpp() != 3) || image.getDepth() != 1)
@@ -369,8 +378,9 @@ Bool JPGImageFileType::write(const Image &image, const Char8 *fileName)
 }
 
 /* */
-UInt64 JPGImageFileType::restoreData(Image &image, const UChar8 *buffer,
-                                     Int32 memSize)
+UInt64 JPGImageFileType::restoreData(      Image  &OSG_JPG_ARG(image  ), 
+                                     const UChar8 *OSG_JPG_ARG(buffer ),
+                                           Int32   OSG_JPG_ARG(memSize))
 {
 #ifdef OSG_WITH_JPG
     Bool    retCode = false;
@@ -452,8 +462,9 @@ UInt64 JPGImageFileType::restoreData(Image &image, const UChar8 *buffer,
 }
 
 /* */
-UInt64 JPGImageFileType::storeData(const Image &image, UChar8 *buffer,
-                                   Int32 memSize)
+UInt64 JPGImageFileType::storeData(const Image  &OSG_JPG_ARG(image  ), 
+                                         UChar8 *OSG_JPG_ARG(buffer ),
+                                         Int32   OSG_JPG_ARG(memSize))
 {
 #ifdef OSG_WITH_JPG
     if((image.getBpp() != 1 && image.getBpp() != 3) || image.getDepth() != 1)

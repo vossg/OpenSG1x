@@ -261,8 +261,8 @@ void PointLight::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void PointLight::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
+void PointLight::dump(      UInt32    uiIndent, 
+                      const BitVector bvFlags) const
 {
    Inherited::dump(uiIndent, bvFlags);
 }

@@ -251,8 +251,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const TileCameraDecorator &source);
+    void operator =(const TileCameraDecoratorBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -264,6 +263,6 @@ typedef TileCameraDecoratorBase *TileCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTILECAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorBase.h,v 1.11 2001/10/03 20:37:36 dirk Exp $"
+#define OSGTILECAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorBase.h,v 1.12 2001/10/15 03:10:25 vossg Exp $"
 
 #endif /* _OSGTILECAMERADECORATORBASE_H_ */

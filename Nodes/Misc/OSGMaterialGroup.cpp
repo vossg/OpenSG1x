@@ -70,7 +70,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.12 2001/10/10 10:42:56 vossg Exp $";
+char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.13 2001/10/15 03:10:23 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -255,8 +255,8 @@ void MaterialGroup::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void MaterialGroup::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
+void MaterialGroup::dump(      UInt32    uiIndent, 
+                         const BitVector bvFlags) const
 {
     Inherited::dump(uiIndent, bvFlags);
 }

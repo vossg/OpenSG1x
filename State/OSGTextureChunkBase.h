@@ -355,8 +355,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const TextureChunk &source);
+    void operator =(const TextureChunkBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -368,6 +367,6 @@ typedef TextureChunkBase *TextureChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.15 2001/10/03 20:37:35 dirk Exp $"
+#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.16 2001/10/15 03:10:24 vossg Exp $"
 
 #endif /* _OSGTEXTURECHUNKBASE_H_ */

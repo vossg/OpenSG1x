@@ -53,6 +53,12 @@
 #include "OSGPNGImageFileType.h"
 #include <OSGLog.h>
 
+#ifdef OSG_WITH_PNG
+#define OSG_PNG_ARG(ARG) ARG
+#else
+#define OSG_PNG_ARG(ARG)
+#endif
+
 OSG_USING_NAMESPACE
 
 /*****************************
@@ -96,7 +102,8 @@ PNGImageFileType PNGImageFileType:: _the(suffixArray, sizeof(suffixArray));
 //s:
 //
 //------------------------------
-Bool PNGImageFileType::read(Image &image, const Char8 *fileName)
+Bool PNGImageFileType::read(      Image &OSG_PNG_ARG(image), 
+                            const Char8 *OSG_PNG_ARG(fileName))
 {
 #ifdef OSG_WITH_PNG
     Bool                retCode;
@@ -231,7 +238,8 @@ Bool PNGImageFileType::read(Image &image, const Char8 *fileName)
 //s:
 //
 //------------------------------
-Bool PNGImageFileType::write(const Image &image, const Char8 *fileName)
+Bool PNGImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
+                             const Char8 *OSG_CHECK_ARG(fileName))
 {
 #ifdef PNG_LIB
     SWARNING << getMimeType() << " write is not implemented " << endLog;

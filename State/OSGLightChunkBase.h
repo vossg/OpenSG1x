@@ -283,8 +283,7 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const LightChunk &source);
+    void operator =(const LightChunkBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -296,6 +295,6 @@ typedef LightChunkBase *LightChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLightChunkBase.h,v 1.14 2001/10/03 20:37:35 dirk Exp $"
+#define OSGLIGHTCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLightChunkBase.h,v 1.15 2001/10/15 03:10:24 vossg Exp $"
 
 #endif /* _OSGLIGHTCHUNKBASE_H_ */

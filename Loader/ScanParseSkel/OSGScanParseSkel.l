@@ -38,6 +38,10 @@
 
 %{
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 111 810)
+#endif
+
 #define YY_NEVER_INTERACTIVE 1
 
 #include <OSGScanParseSkel.tab.h>
@@ -1006,4 +1010,7 @@ void resetScanner(void)
     yy_flush_buffer( YY_CURRENT_BUFFER );
 }
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 111 810)
+#endif
 

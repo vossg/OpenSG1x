@@ -250,8 +250,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
     /*! \name                        Dump                                  */
     /*! \{                                                                 */
 
-    void dump      (      UInt32     uiIndent = 0, 
-                    const BitVector &bvFlags  = 0) const;
+    void dump      (      UInt32    uiIndent = 0, 
+                    const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
 };

@@ -181,6 +181,9 @@ void FieldContainerFactory::initTypeMap(void)
     }
 }
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
 
 Bool FieldContainerFactory::initializePendingTypes(void)
 {
@@ -242,7 +245,12 @@ Bool FieldContainerFactory::initializePendingTypes(void)
     return returnValue;
 }
 
-Bool FieldContainerFactory::initialize(int &argc, char **argv)
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
+
+Bool FieldContainerFactory::initialize(int   &OSG_CHECK_ARG(argc), 
+                                       char **OSG_CHECK_ARG(argv))
 {
     TypeIdMapIt typeIt;
 
@@ -402,7 +410,9 @@ void  FieldContainerFactory::unregisterType(FieldContainerType *pType)
 
     if(_pTypeIdMap)
     {
-        typeIdIt = _pTypeIdMap->find(pType->getId());
+        UInt32 uiId = pType->getId();
+
+        typeIdIt = _pTypeIdMap->find(uiId);
 
         if(typeIdIt != _pTypeIdMap->end())
         {

@@ -59,19 +59,16 @@ OSG_BEGIN_NAMESPACE
  *  overhead.
  */
 
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
 template <class GeoPropertyDesc>
-class OSG_SYSTEMLIB_DLLTMPLMAPPING GeoPropertyInterface :
-    public GeoPropertyDesc::Inherit
+class OSG_SYSTEMLIB_DLLTMPLMAPPING GeoPropertyInterface
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef GeoPropertyInterface<GeoPropertyDesc>       InterfaceType;
+    typedef          GeoPropertyInterface<GeoPropertyDesc> InterfaceType;
 
-    typedef FCPtr<typename GeoPropertyDesc::InheritPtr,
-                           InterfaceType              > PtrType;
-
-    typedef typename GeoPropertyDesc::Inherit Inherited;
+    typedef typename GeoPropertyDesc::GenericType          GenericType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                       Get                                    */
@@ -82,60 +79,55 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING GeoPropertyInterface :
     virtual UInt32  getStride    (void) = 0;
     virtual UInt32  getDimension (void) = 0;
     virtual UInt32  getSize      (void) = 0;
-    virtual UInt8   *getData     (void) = 0;
+    virtual UInt8  *getData      (void) = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Generic Access                         */
     /*! \{                                                                 */
 
-    virtual typename GeoPropertyDesc::GenericType
-                    getValue( const UInt32 index ) = 0;
+    virtual GenericType getValue (const UInt32       index )       = 0;
 
-    virtual typename GeoPropertyDesc::GenericType
-                    getValue( const UInt32 index ) const = 0;
+    virtual GenericType getValue (const UInt32       index ) const = 0;
 
-    virtual void    getValue( typename GeoPropertyDesc::GenericType & val,
-                        const UInt32 index ) = 0;
+    virtual void        getValue (      GenericType &val,
+                                  const UInt32       index )       = 0;
 
-    virtual void    getValue( typename GeoPropertyDesc::GenericType & val,
-                        const UInt32 index ) const = 0;
+    virtual void        getValue (      GenericType &val,
+                                  const UInt32       index ) const = 0;
 
-    virtual void    setValue(
-                        const typename GeoPropertyDesc::GenericType & val,
-                        const UInt32 index ) = 0;
 
-    virtual void    addValue(
-                        const typename GeoPropertyDesc::GenericType & val )= 0;
+    virtual void        setValue (const GenericType &val,
+                                  const UInt32       index )       = 0;
 
-    virtual void    clear( void ) = 0;
+    virtual void        addValue (const GenericType &val   )       = 0;
 
-    virtual void    resize(size_t newsize) = 0;
 
-    virtual void    push_back(
-                    const typename GeoPropertyDesc::GenericType & val ) = 0;
+    virtual void        clear    (      void               )       = 0;
+    virtual void        resize   (      size_t      newsize)       = 0;
+    virtual void        push_back(const GenericType &val   )       = 0;
 
     // size clashes with another size()...
     // virtual UInt32   size( void ) const;
-
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    GeoPropertyInterface() : Inherited() {}
-    GeoPropertyInterface(const GeoPropertyInterface &source) :
-        Inherited(source) {}
+    GeoPropertyInterface(void);
+    GeoPropertyInterface(const GeoPropertyInterface &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~GeoPropertyInterface() {}
+    virtual ~GeoPropertyInterface(void);
+
     /*! \}                                                                 */
 };
+#endif
 
 struct AttachmentPropertyDesc
 {
@@ -144,7 +136,8 @@ struct AttachmentPropertyDesc
     /*! \{                                                                 */
     
     static const char *getTypeName (void)  { return "Attachment"; }
-    /*! \}                                                                 */    
+
+    /*! \}                                                                 */ 
 };
 
 struct GeoPositionsPropertyDesc
@@ -165,18 +158,23 @@ struct GeoPositionsPropertyDesc
     /*! \name                   Typedefs                                   */
     /*! \{                                                                 */
     
-    typedef Attachment             Inherit;
-    typedef AttachmentPropertyDesc InheritDesc;
-    typedef AttachmentPtr          InheritPtr;
+    typedef Attachment             Inherited;
+    typedef AttachmentPtr          InheritedPtr;
+
+    typedef AttachmentPropertyDesc InheritedDesc;
 
     typedef Pnt3f                  GenericType;
 
-    typedef GeoPropertyInterface<GeoPositionsPropertyDesc>          Interface;
-    typedef GeoPropertyInterface<GeoPositionsPropertyDesc>::PtrType InterfacePtr;
-    /*! \}                                                                 */    
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    typedef GeoPropertyInterface<GeoPositionsPropertyDesc> Interface;
+#endif
+
+    /*! \}                                                                 */ 
 };
 
-typedef GeoPropertyInterface<GeoPositionsPropertyDesc> GeoPositionsInterface;
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+typedef GeoPositionsPropertyDesc::Interface GeoPositionsInterface;
+#endif
 
 struct GeoNormalsPropertyDesc
 {
@@ -195,18 +193,23 @@ struct GeoNormalsPropertyDesc
     /*! \name                   Typedefs                                   */
     /*! \{                                                                 */
     
-    typedef Attachment             Inherit;
-    typedef AttachmentPropertyDesc InheritDesc;
-    typedef AttachmentPtr          InheritPtr;
+    typedef Attachment             Inherited;
+    typedef AttachmentPtr          InheritedPtr;
+
+    typedef AttachmentPropertyDesc InheritedDesc;
 
     typedef Vec3f                  GenericType;
 
-    typedef GeoPropertyInterface<GeoNormalsPropertyDesc>          Interface;
-    typedef GeoPropertyInterface<GeoNormalsPropertyDesc>::PtrType InterfacePtr;
-    /*! \}                                                                 */        
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    typedef GeoPropertyInterface<GeoNormalsPropertyDesc> Interface;
+#endif
+
+    /*! \}                                                                 */
 };
 
-typedef GeoPropertyInterface<GeoNormalsPropertyDesc> GeoNormalsInterface;
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+typedef GeoNormalsPropertyDesc::Interface GeoNormalsInterface;
+#endif
 
 struct GeoColorsPropertyDesc
 {
@@ -225,18 +228,23 @@ struct GeoColorsPropertyDesc
     /*! \name                   Typedefs                                   */
     /*! \{                                                                 */
     
-    typedef Attachment             Inherit;
-    typedef AttachmentPropertyDesc InheritDesc;
-    typedef AttachmentPtr          InheritPtr;
+    typedef Attachment             Inherited;
+    typedef AttachmentPtr          InheritedPtr;
+
+    typedef AttachmentPropertyDesc InheritedDesc;
 
     typedef Color3f                GenericType;
 
-    typedef GeoPropertyInterface<GeoColorsPropertyDesc>          Interface;
-    typedef GeoPropertyInterface<GeoColorsPropertyDesc>::PtrType InterfacePtr;
-    /*! \}                                                                 */        
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    typedef GeoPropertyInterface<GeoColorsPropertyDesc> Interface;
+#endif
+
+    /*! \}                                                                 */ 
 };
 
-typedef GeoPropertyInterface<GeoColorsPropertyDesc> GeoColorsInterface;
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+typedef GeoColorsPropertyDesc::Interface GeoColorsInterface;
+#endif
 
 struct GeoTexCoordsPropertyDesc
 {
@@ -255,20 +263,23 @@ struct GeoTexCoordsPropertyDesc
     /*! \name                   Typedefs                                   */
     /*! \{                                                                 */
     
-    typedef Attachment              Inherit;
-    typedef AttachmentPropertyDesc  InheritDesc;
-    typedef AttachmentPtr           InheritPtr;
+    typedef Attachment              Inherited;
+    typedef AttachmentPtr           InheritedPtr;
+
+    typedef AttachmentPropertyDesc  InheritedDesc;
 
     typedef Vec2f                   GenericType;
 
-    typedef
-        GeoPropertyInterface<GeoTexCoordsPropertyDesc>          Interface;
-    typedef
-        GeoPropertyInterface<GeoTexCoordsPropertyDesc>::PtrType InterfacePtr;
-    /*! \}                                                                 */        
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    typedef GeoPropertyInterface<GeoTexCoordsPropertyDesc> Interface;
+#endif
+
+    /*! \}                                                                 */
 };
 
-typedef GeoPropertyInterface<GeoTexCoordsPropertyDesc> GeoTexCoordsInterface;
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+typedef GeoTexCoordsPropertyDesc::Interface GeoTexCoordsInterface;
+#endif
 
 struct GeoIndicesPropertyDesc
 {
@@ -287,18 +298,23 @@ struct GeoIndicesPropertyDesc
     /*! \name                   Typedefs                                   */
     /*! \{                                                                 */
 
-    typedef Attachment             Inherit;
-    typedef AttachmentPropertyDesc InheritDesc;
-    typedef AttachmentPtr          InheritPtr;
+    typedef Attachment             Inherited;
+    typedef AttachmentPtr          InheritedPtr;
+
+    typedef AttachmentPropertyDesc InheritedDesc;
 
     typedef UInt32                 GenericType;
 
-    typedef GeoPropertyInterface<GeoIndicesPropertyDesc>          Interface;
-    typedef GeoPropertyInterface<GeoIndicesPropertyDesc>::PtrType InterfacePtr;
-    /*! \}                                                                 */        
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    typedef GeoPropertyInterface<GeoIndicesPropertyDesc> Interface;
+#endif
+
+    /*! \}                                                                 */
 };
 
-typedef GeoPropertyInterface<GeoIndicesPropertyDesc> GeoIndicesInterface;
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+typedef GeoIndicesPropertyDesc::Interface GeoIndicesInterface;
+#endif
 
 struct GeoPTypesPropertyDesc
 {
@@ -317,19 +333,24 @@ struct GeoPTypesPropertyDesc
     /*! \name                   Typedefs                                   */
     /*! \{                                                                 */
     
-    typedef Attachment             Inherit;
-    typedef AttachmentPtr          InheritPtr;
-    typedef AttachmentPropertyDesc InheritDesc;
+    typedef Attachment             Inherited;
+    typedef AttachmentPropertyDesc InheritedDesc;
+
+    typedef AttachmentPtr          InheritedPtr;
 
     typedef UInt8                  GenericType;
 
-    typedef GeoPropertyInterface<GeoPTypesPropertyDesc>          Interface;
-    typedef GeoPropertyInterface<GeoPTypesPropertyDesc>::PtrType InterfacePtr;
-    /*! \}                                                                 */        
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    typedef GeoPropertyInterface<GeoPTypesPropertyDesc> Interface;
+#endif
+
+    /*! \}                                                                 */
 };
 
 
-typedef GeoPropertyInterface<GeoPTypesPropertyDesc> GeoPTypesInterface;
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+typedef GeoPTypesPropertyDesc::Interface GeoPTypesInterface;
+#endif
 
 struct GeoPLengthsPropertyDesc
 {
@@ -348,20 +369,40 @@ struct GeoPLengthsPropertyDesc
     /*! \name                   Typedefs                                   */
     /*! \{                                                                 */
 
-    typedef Attachment             Inherit;
-    typedef AttachmentPtr          InheritPtr;
-    typedef AttachmentPropertyDesc InheritDesc;
+    typedef Attachment             Inherited;
+    typedef AttachmentPtr          InheritedPtr;
+
+    typedef AttachmentPropertyDesc InheritedDesc;
 
     typedef UInt32                 GenericType;
 
-    typedef GeoPropertyInterface<GeoPLengthsPropertyDesc>          Interface;
-    typedef GeoPropertyInterface<GeoPLengthsPropertyDesc>::PtrType InterfacePtr;
-    /*! \}                                                                 */        
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    typedef GeoPropertyInterface<GeoPLengthsPropertyDesc> Interface;
+#endif
+
+    /*! \}                                                                 */
 };
 
-typedef GeoPropertyInterface<GeoPLengthsPropertyDesc> GeoPLengthsInterface;
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+typedef GeoPLengthsPropertyDesc::Interface GeoPLengthsInterface;
+#endif
 
 OSG_END_NAMESPACE
 
+#include <OSGGeoPropertyInterface.inl>
 
 #endif /* _OSGGEOPROPERTYINTERFACES_H_ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+

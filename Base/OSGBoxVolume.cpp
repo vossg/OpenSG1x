@@ -89,35 +89,35 @@ void BoxVolume::getCenter(Pnt3f &center) const
 {
     if (isEmpty())
     {
-        center.setValues(0.0, 0.0, 0.0);
+        center.setValues(0.0f, 0.0f, 0.0f);
     }
     else
     {
-        center = _min + ( _max - _min ) * .5;
+        center = _min + ( _max - _min ) * .5f;
     }
 }
 
 /// Gives the volume of the box (0 for an empty box)
-float BoxVolume::getScalarVolume() const
+Real32 BoxVolume::getScalarVolume() const
 {
-    return isEmpty() ? 0.0 : (_max[0] - _min[0]) *
-                             (_max[1] - _min[1]) *
-                             (_max[2] - _min[2]);
+    return isEmpty() ? 0.0f : (_max[0] - _min[0]) *
+                              (_max[1] - _min[1]) *
+                              (_max[2] - _min[2]);
 }
 
 /// set method
 void BoxVolume::setBoundsByCenterAndSize(const Pnt3f &center,
                                          const Vec3f &size)
 {
-    _min.setValues(center.x() - size.x() / 2.0,
-                   center.y() - size.y() / 2.0,
-                   center.z() - size.z() / 2.0);
-    _max.setValues(center.x() + size.x() / 2.0,
-                   center.y() + size.y() / 2.0,
-                   center.z() + size.z() / 2.0);
+    _min.setValues(center.x() - size.x() / 2.0f,
+                   center.y() - size.y() / 2.0f,
+                   center.z() - size.z() / 2.0f);
+    _max.setValues(center.x() + size.x() / 2.0f,
+                   center.y() + size.y() / 2.0f,
+                   center.z() + size.z() / 2.0f);
 
-    Volume::setValid(true);
-    Volume::setEmpty(false);
+    Volume::setValid   (true);
+    Volume::setEmpty   (false);
     Volume::setInfinite(true);
 }
 
@@ -371,7 +371,8 @@ const BoxVolume &BoxVolume::operator =(const BoxVolume &b1)
 }
 
 /// print the volume */
-void BoxVolume::dump( UInt32 uiIndent, const BitVector &bvFlags) const
+void BoxVolume::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                     const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
     PLOG << "Box(" << _min << "|" << _max << ")";
 }

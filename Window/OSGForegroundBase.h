@@ -164,8 +164,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ForegroundBase : public AttachmentContainer
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const Foreground &source);
+    void operator =(const ForegroundBase &source);
 };
 
 //---------------------------------------------------------------------------

@@ -219,8 +219,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageForegroundBase : public Foreground
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const ImageForeground &source);
+    void operator =(const ImageForegroundBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -232,6 +231,6 @@ typedef ImageForegroundBase *ImageForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageForegroundBase.h,v 1.2 2001/10/04 03:02:03 vossg Exp $"
+#define OSGIMAGEFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageForegroundBase.h,v 1.3 2001/10/15 03:10:25 vossg Exp $"
 
 #endif /* _OSGIMAGEFOREGROUNDBASE_H_ */

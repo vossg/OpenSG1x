@@ -78,9 +78,9 @@ void CylinderVolume::getCenter(Pnt3f &center) const
 }
 
 /**  */
-float CylinderVolume::getScalarVolume(void) const
+Real32 CylinderVolume::getScalarVolume(void) const
 {
-    return isEmpty() ? 0.0 : (_radius * _radius * Pi * _axisDir.length());
+    return isEmpty() ? 0.0f : (_radius * _radius * Pi * _axisDir.length());
 }
 
 /** gives the boundaries of the volume */
@@ -125,7 +125,7 @@ void CylinderVolume::getBounds( Pnt3f &min, Pnt3f &max ) const
 /*-------------------------- extending ------------------------------------*/
 
 /** extends (if necessary) to contain the given 3D point */
-void CylinderVolume::extendBy (const Pnt3f &pt)
+void CylinderVolume::extendBy(const Pnt3f &OSG_CHECK_ARG(pt))
 {
     assert(false);
 }
@@ -179,13 +179,14 @@ Bool CylinderVolume::isOnSurface (const Pnt3f &point) const
 /*-------------------------- transformation -------------------------------*/
 
 /** transform volume by the given matrix */
-void CylinderVolume::transform (const Matrix &mat)
+void CylinderVolume::transform(const Matrix &OSG_CHECK_ARG(mat))
 {
     assert(false);
 }
 
 /// print the volume */
-void CylinderVolume::dump( UInt32 uiIndent, const BitVector &bvFlags) const
+void CylinderVolume::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                          const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
     PLOG << "Cylinder(" << _axisPos << "|" << _axisDir << "|" << _radius << ")";
 }

@@ -179,8 +179,8 @@ class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
     /*! \{                                                                 */
 
 
-    virtual void dump(  UInt32              uiIndent = 0, 
-                        const BitVector     &bvFlags = 0    ) const;
+    virtual void dump(      UInt32    uiIndent = 0, 
+                      const BitVector bvFlags  = 0) const;
     
     /*! \}                                                                 */
 

@@ -267,8 +267,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const SimpleMaterial &source);
+    void operator =(const SimpleMaterialBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -280,6 +279,6 @@ typedef SimpleMaterialBase *SimpleMaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLEMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleMaterialBase.h,v 1.15 2001/10/03 20:37:34 dirk Exp $"
+#define OSGSIMPLEMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleMaterialBase.h,v 1.16 2001/10/15 03:10:22 vossg Exp $"
 
 #endif /* _OSGSIMPLEMATERIALBASE_H_ */

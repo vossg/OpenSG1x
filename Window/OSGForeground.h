@@ -85,8 +85,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Foreground : public ForegroundBase
     /*! \name                   dump                                       */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0, 
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0, 
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

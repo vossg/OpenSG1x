@@ -243,8 +243,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMateria
 
 
     // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const SimpleTexturedMaterial &source);
+    void operator =(const SimpleTexturedMaterialBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -256,6 +255,6 @@ typedef SimpleTexturedMaterialBase *SimpleTexturedMaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialBase.h,v 1.2 2001/10/10 10:42:55 vossg Exp $"
+#define OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialBase.h,v 1.3 2001/10/15 03:10:22 vossg Exp $"
 
 #endif /* _OSGSIMPLETEXTUREDMATERIALBASE_H_ */

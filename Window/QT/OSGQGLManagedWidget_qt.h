@@ -49,8 +49,7 @@
 #include "OSGSimpleSceneManager.h"
 
 
-//OSG_BEGIN_NAMESPACE
-namespace osg {
+OSG_BEGIN_NAMESPACE
 
 /*! \ingroup baselib
  *  \brief Brief
@@ -144,10 +143,8 @@ class OSGQGLManagedWidget : public OSGQGLWidget
 
 typedef OSGQGLManagedWidget *OSGQGLManagedWidgetP;
 
-//OSG_END_NAMESPACE
-}; // namespace osg
+OSG_END_NAMESPACE
 
-#define OSG_HEADER_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.1 2001/10/12 10:44:19 jbehr Exp $"
-#define OSG_INLINE_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.1 2001/10/12 10:44:19 jbehr Exp $"
+#define OSGQGLMANAGEDWIDGET_HEADER_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.2 2001/10/15 03:10:26 vossg Exp $"
 
 #endif /* _OSGQGLManagedWidget_H_ */

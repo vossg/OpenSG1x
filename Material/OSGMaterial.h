@@ -81,8 +81,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
     /*! \name                      Output                                  */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0,
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0,
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -147,8 +147,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
     static void initMethod( void );
 
     // prohibit default functions (move to 'public' if you need one)
-
-    // void operator =(const Material &source);
+    void operator =(const Material &source);
 };
 
 /** \brief class pointer

@@ -367,7 +367,8 @@ static pumpFunc TexCoordsFuncs[numFormats][4] = {
 #pragma set woff 1174
 #endif
 
-void GeoPumpFactory::masterGeoPump( Window *win, Geometry * geo )
+void GeoPumpFactory::masterGeoPump(Window   *OSG_CHECK_ARG(win), 
+                                   Geometry *geo               )
 {
 	// Setup: get all the data
 	
@@ -485,35 +486,53 @@ void GeoPumpFactory::masterGeoPump( Window *win, Geometry * geo )
 }
 
 		
-void GeoPumpFactory::masterPartialGeoPump( Window *win, Geometry * geo,
-	    UInt32 primtype, UInt32 firstvert, UInt32 nvert )	
+void GeoPumpFactory::masterPartialGeoPump(Window   *OSG_CHECK_ARG(win      ), 
+                                          Geometry *OSG_CHECK_ARG(geo      ),
+                                          UInt32    OSG_CHECK_ARG(primtype ), 
+                                          UInt32    OSG_CHECK_ARG(firstvert), 
+                                          UInt32    OSG_CHECK_ARG(nvert    ))
 {
-    	FWARNING(("GeoPumpFactory::masterPartialGeoPump: not implemented yet!\n"));
+    FWARNING(("GeoPumpFactory::masterPartialGeoPump: not implemented yet!\n"));
 }
 	
-void GeoPumpFactory::masterInterfacePump( Window *win, 
-	    GeoPositionsInterface *pos, GeoNormalsInterface *norm,
-	    GeoColorsInterface *col, GeoTexCoordsInterface *texcoords,
-	    GeoTexCoordsInterface *texcoords2,
-	    GeoTexCoordsInterface *texcoords3,
-	    GeoTexCoordsInterface *texcoords4,
-	    GeoPTypesInterface *type, GeoPLengthsInterface*len,
-	    GeoIndicesInterface *ind, UInt16 *pMap, UInt16 nmap )
+void GeoPumpFactory::masterInterfacePump(
+    Window                *OSG_CHECK_ARG(win       ), 
+    GeoPositionsInterface *OSG_CHECK_ARG(pos       ), 
+    GeoNormalsInterface   *OSG_CHECK_ARG(norm      ),
+    GeoColorsInterface    *OSG_CHECK_ARG(col       ), 
+    GeoTexCoordsInterface *OSG_CHECK_ARG(texcoords ),
+    GeoTexCoordsInterface *OSG_CHECK_ARG(texcoords2),
+    GeoTexCoordsInterface *OSG_CHECK_ARG(texcoords3),
+    GeoTexCoordsInterface *OSG_CHECK_ARG(texcoords4),
+    GeoPTypesInterface    *OSG_CHECK_ARG(type      ), 
+    GeoPLengthsInterface  *OSG_CHECK_ARG(len       ),
+    GeoIndicesInterface   *OSG_CHECK_ARG(ind       ), 
+    UInt16                *OSG_CHECK_ARG(pMap      ),
+    UInt16                 OSG_CHECK_ARG(nmap      ))
 {
-    	FWARNING(("GeoPumpFactory::masterInterfacePump: not implemented yet!\n"));
+    FWARNING(("GeoPumpFactory::masterInterfacePump: not implemented yet!\n"));
 }
 	
-void GeoPumpFactory::masterPartialInterfacePump( Window *win, 
-	    GeoPositionsInterface *pos, GeoNormalsInterface *norm,
-	    GeoColorsInterface *col, GeoTexCoordsInterface *texcoords,
-	    GeoTexCoordsInterface *texcoords2,
-	    GeoTexCoordsInterface *texcoords3,
-	    GeoTexCoordsInterface *texcoords4,
-	    GeoPTypesInterface *type, GeoPLengthsInterface*len,
-	    GeoIndicesInterface *ind, UInt16 *pMap, UInt16 nmap,
-	    UInt32 primtype, UInt32 firstvert, UInt32 nvert )
+void GeoPumpFactory::masterPartialInterfacePump( 
+    Window                *OSG_CHECK_ARG(win       ), 
+    GeoPositionsInterface *OSG_CHECK_ARG(pos       ), 
+    GeoNormalsInterface   *OSG_CHECK_ARG(norm      ),
+    GeoColorsInterface    *OSG_CHECK_ARG(col       ), 
+    GeoTexCoordsInterface *OSG_CHECK_ARG(texcoords ),
+    GeoTexCoordsInterface *OSG_CHECK_ARG(texcoords2),
+    GeoTexCoordsInterface *OSG_CHECK_ARG(texcoords3),
+    GeoTexCoordsInterface *OSG_CHECK_ARG(texcoords4),
+    GeoPTypesInterface    *OSG_CHECK_ARG(type      ), 
+    GeoPLengthsInterface  *OSG_CHECK_ARG(len       ),
+    GeoIndicesInterface   *OSG_CHECK_ARG(ind       ), 
+    UInt16                *OSG_CHECK_ARG(pMap      ), 
+    UInt16                 OSG_CHECK_ARG(nmap      ),
+    UInt32                 OSG_CHECK_ARG(primtype  ), 
+    UInt32                 OSG_CHECK_ARG(firstvert ), 
+    UInt32                 OSG_CHECK_ARG(nvert     ))
 {
-    	FWARNING(("GeoPumpFactory::masterPartialInterfacePump: not implemented yet!\n"));
+    FWARNING(
+        ("GeoPumpFactory::masterPartialInterfacePump not implemented yet!\n"));
 }
 
 #ifdef __sgi

@@ -74,8 +74,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroup : public MaterialGroupBase
     virtual void changed(BitVector  whichField,
                          ChangeMode from);
 
-    virtual void dump(      UInt32     uiIndent = 0,
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0,
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

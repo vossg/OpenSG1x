@@ -75,7 +75,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
  *                           Class variables                               *
 \***************************************************************************/
 
-char DynamicBackground::cvsid[] = "@(#)$Id: OSGDynamicBackground.cpp,v 1.8 2001/10/10 10:42:57 vossg Exp $";
+char DynamicBackground::cvsid[] = "@(#)$Id: OSGDynamicBackground.cpp,v 1.9 2001/10/15 03:10:25 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -199,8 +199,8 @@ void DynamicBackground::addColor( Color3f col, Real32 pos )
 /** \brief output the instance for debug purposes
  */
 
-void DynamicBackground::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
+void DynamicBackground::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                             const BitVector OSG_CHECK_ARG(bvFlags)) const
 {
 	SLOG << "Dump DynamicBackground NI" << endl;
 }

@@ -91,11 +91,11 @@ class OSG_BASE_DLLMAPPING CylinderVolume : public Volume
     /*! \name                        Get                                   */
     /*! \{                                                                 */
     
-    inline  void  getAxis         (Pnt3f &apos, Vec3f &adir) const;
-    inline  float getRadius       (void) const;
-    virtual void  getCenter       (Pnt3f &center) const;
-    virtual float getScalarVolume (void) const;
-    virtual void  getBounds       ( Pnt3f &min, Pnt3f &max ) const;
+    inline  void   getAxis        (Pnt3f &apos, Vec3f &adir) const;
+    inline  float  getRadius      (void                    ) const;
+    virtual void   getCenter      (Pnt3f &center           ) const;
+    virtual Real32 getScalarVolume(void                    ) const;
+    virtual void   getBounds      (Pnt3f &min, Pnt3f &max  ) const;
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -132,8 +132,8 @@ class OSG_BASE_DLLMAPPING CylinderVolume : public Volume
     /*! \name                        Output                                */
     /*! \{                                                                 */
 
-    virtual void dump(UInt32 uiIndent = 0,
-                      const BitVector & bvFlags = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0,
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

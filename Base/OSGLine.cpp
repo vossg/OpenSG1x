@@ -119,9 +119,9 @@ void Line::setValue(const Pnt3f &pos, const Vec3f &dir)
 /** Find closest points between the two lines. Return false if they are
     parallel, otherwise return true.
 */
-Bool Line::getClosestPoints(const Line &line2,
-                                Pnt3f &ptOnThis,
-                                Pnt3f &ptOnLine2 ) const
+Bool Line::getClosestPoints(const Line  &OSG_CHECK_ARG(line2    ),
+                                  Pnt3f &OSG_CHECK_ARG(ptOnThis ),
+                                  Pnt3f &OSG_CHECK_ARG(ptOnLine2)) const
 {
     // TODO
     assert(false);
@@ -184,7 +184,7 @@ Bool Line::intersect(const SphereVolume &sphere,
     if (d < 0)
         return false;
 
-    d = sqrt(d);
+    d = osgsqrt(d);
     t1 = b - d;
 
 //    if (t1 > 1)
@@ -266,7 +266,7 @@ Bool Line::intersect(const CylinderVolume &cyl, Real32 &enter, Real32 &exit) con
             O = n.cross(adir);
             O.normalize();
             s = osgabs (
-                (sqrt ((radius * radius) - (dl * dl))) / (_dir.dot(O)));
+                (osgsqrt ((radius * radius) - (dl * dl))) / (_dir.dot(O)));
 
             exit = t + s;
             if ( exit < 0 )
@@ -323,7 +323,9 @@ Bool Line::intersect(const FrustumVolume &cyl) const
 /**Intersect the line with a frustum, returns points of intersection
   based on GGems IV
 */
-Bool Line::intersect(const FrustumVolume &cyl, Real32 &enter, Real32 &exit) const
+Bool Line::intersect(const FrustumVolume &OSG_CHECK_ARG(cyl  ), 
+                           Real32        &OSG_CHECK_ARG(enter), 
+                           Real32        &OSG_CHECK_ARG(exit )) const
 {
     // not implemented;
     return false;
@@ -420,7 +422,8 @@ Bool Line::intersect(const BoxVolume &box,
 
 /**Intersect the line with a box.
 */
-Bool Line::intersect(float angle, const BoxVolume &box) const
+Bool Line::intersect(      Real32     OSG_CHECK_ARG(angle), 
+                     const BoxVolume &OSG_CHECK_ARG(box  )) const
 {
     // TODO
     assert(false);
@@ -429,7 +432,8 @@ Bool Line::intersect(float angle, const BoxVolume &box) const
 
 /** Intersect the line with a point.
 */
-Bool Line::intersect(float angle, const Vec3f &point) const
+Bool Line::intersect(      Real32  OSG_CHECK_ARG(angle), 
+                     const Vec3f  &OSG_CHECK_ARG(point)) const
 {
     // TODO
     assert(false);
@@ -438,8 +442,10 @@ Bool Line::intersect(float angle, const Vec3f &point) const
 
 /** Intersect the line with a line.
 */
-Bool Line::intersect(float angle, const Vec3f &v0,
-                 const Vec3f &v1, Vec3f &pt) const
+Bool Line::intersect(      Real32  OSG_CHECK_ARG(angle), 
+                     const Vec3f  &OSG_CHECK_ARG(v0),
+                     const Vec3f  &OSG_CHECK_ARG(v1), 
+                           Vec3f  &OSG_CHECK_ARG(pt)) const
 {
     // TODO
     assert(false);

@@ -61,73 +61,71 @@ OSG_BEGIN_NAMESPACE
 
 template <class GeoPropertyDesc>
 class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty :
-    public GeoPropertyDesc::Interface
+    public GeoPropertyDesc::Inherited
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    , public GeoPropertyDesc::Interface
+#endif
 {
     /*==========================  PUBLIC  =================================*/
   public:
+
     typedef AbstractGeoProperty<GeoPropertyDesc>          PropertyType;
 
-    typedef FCPtr<typename GeoPropertyDesc::InterfacePtr,
+    typedef FCPtr<typename GeoPropertyDesc::InheritedPtr,
                            PropertyType                 > PtrType;
-
-    static const PtrType NullPtr;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
-
-    static const char *getClassname(void)
-        { return GeoPropertyDesc::getClassName(); }
-    /*! \}                                                                 */
 
     OSG_ABSTR_FIELD_CONTAINER_TMPL_DECL(PtrType)
 
     /*---------------------------------------------------------------------*/
-    /*! \name                     Access                                   */
+    /*! \name                    Access                                    */
     /*! \{                                                                 */
 
-    virtual PtrType clone        (void) = 0;
+    virtual PtrType clone(void) = 0;
+
+    /*! \}                                                                 */
+#ifdef OSG_SUPPORT_NO_GEO_INTERFACE
+    /*---------------------------------------------------------------------*/
+    /*! \name              Temp Interface Stuff                            */
+    /*! \{                                                                 */
+
+    typedef typename GeoPropertyDesc::GenericType          GenericType;
 
     virtual UInt32  getFormat    (void) = 0;
     virtual UInt32  getFormatSize(void) = 0;
     virtual UInt32  getStride    (void) = 0;
     virtual UInt32  getDimension (void) = 0;
     virtual UInt32  getSize      (void) = 0;
-    virtual UInt8   *getData     (void) = 0;
+    virtual UInt8  *getData      (void) = 0;
 
-    virtual typename GeoPropertyDesc::GenericType
-                    getValue( const UInt32 index ) = 0;
+    virtual GenericType getValue (const UInt32       index )       = 0;
 
-    virtual typename GeoPropertyDesc::GenericType
-                    getValue( const UInt32 index ) const = 0;
+    virtual GenericType getValue (const UInt32       index ) const = 0;
 
-    virtual void    getValue( typename GeoPropertyDesc::GenericType & val,
-                        const UInt32 index ) = 0;
+    virtual void        getValue (      GenericType &val,
+                                  const UInt32       index )       = 0;
 
-    virtual void    getValue( typename GeoPropertyDesc::GenericType & val,
-                        const UInt32 index ) const = 0;
+    virtual void        getValue (      GenericType &val,
+                                  const UInt32       index ) const = 0;
 
-    virtual void    setValue(
-                        const typename GeoPropertyDesc::GenericType & val,
-                        const UInt32 index ) = 0;
 
-    virtual void    addValue(
-                        const typename GeoPropertyDesc::GenericType & val )= 0;
+    virtual void        setValue (const GenericType &val,
+                                  const UInt32       index )       = 0;
 
-    virtual void    clear( void ) = 0;
+    virtual void        addValue (const GenericType &val   )       = 0;
 
-    virtual void    resize(size_t newsize) = 0;
 
-    virtual void    push_back(
-                    const typename GeoPropertyDesc::GenericType & val ) = 0;
+    virtual void        clear    (      void               )       = 0;
+    virtual void        resize   (      size_t      newsize)       = 0;
+    virtual void        push_back(const GenericType &val   )       = 0;
 
     /*! \}                                                                 */
+#endif
     /*---------------------------------------------------------------------*/
-    /*! \name                         Sync                                 */
+    /*! \name                         Dump                                 */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0,
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0,
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -153,8 +151,12 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty :
     /*==========================  PRIVATE  ================================*/
   private:
 
-    typedef typename GeoPropertyDesc::Interface   Inherited;
-    typedef typename GeoPropertyDesc::InheritDesc InheritDesc;
+    typedef typename GeoPropertyDesc::Inherited            Inherited;
+    typedef typename GeoPropertyDesc::InheritedDesc        InheritDesc;
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    typedef          GeoPropertyInterface<GeoPropertyDesc> Interface;
+#endif
 
     static char cvsid[];
 
@@ -163,12 +165,12 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty :
 
 template <class GeoPropertyDesc>
 class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
-    public GeoPropertyDesc::Inherit
+    public GeoPropertyDesc::Inherited
 {
     /*==========================  PRIVATE  ================================*/
   private:
 
-    typedef typename GeoPropertyDesc::Inherit Inherited;
+    typedef typename GeoPropertyDesc::Inherited Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -181,24 +183,13 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
 
     static const BitVector GeoPropDataFieldMask;
 
-    typedef GeoProperty<GeoPropertyDesc>                PropertyType;
+    typedef GeoProperty<GeoPropertyDesc>                  PropertyType;
 
-    typedef FCPtr<typename GeoPropertyDesc::InheritPtr,
-                           PropertyType               > PtrType;
+    typedef FCPtr<typename GeoPropertyDesc::InheritedPtr,
+                           PropertyType                 > PtrType;
 
-    typedef typename GeoPropertyDesc::FieldType   StoredFieldType;
-    typedef typename GeoPropertyDesc::GenericType StoredGenericType;
-
-    static const PtrType NullPtr;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
-
-    static const char *getClassname(void)
-        { return GeoPropertyDesc::getClassName(); }
-
-    /*! \}                                                                 */
+    typedef typename GeoPropertyDesc::FieldType           StoredFieldType;
+    typedef typename GeoPropertyDesc::GenericType         StoredGenericType;
 
     OSG_FIELD_CONTAINER_TMPL_DECL(PtrType)
 
@@ -212,7 +203,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
     const StoredFieldType &getField(void) const;
 
 
-    virtual typename GeoPropertyDesc::InheritPtr clone(void);
+    virtual typename GeoPropertyDesc::InheritedPtr clone(void);
 
     virtual UInt32  getFormat    (void);
     virtual UInt32  getFormatSize(void);
@@ -256,14 +247,14 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
     /*! \name                      Output                                  */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0,
-                      const BitVector &bvFlags  = 0) const;
+    virtual void dump(      UInt32    uiIndent = 0,
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/    
   protected:
 
-    typedef typename GeoPropertyDesc::InheritDesc InheritDesc;
+    typedef typename GeoPropertyDesc::InheritedDesc InheritedDesc;
 
     friend class OSG_SYSTEMLIB_DLLMAPPING FieldContainer;
 
@@ -434,3 +425,4 @@ OSG_END_NAMESPACE
 
 
 #endif /* _OSGGEOPROPERTYBASE_H_ */
+

@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGStateBase.cpp,v 1.16 2001/10/10 10:42:57 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGStateBase.cpp,v 1.17 2001/10/15 03:10:24 vossg Exp $";
     static char cvsid_hpp       [] = OSGSTATEBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGSTATEBASE_INLINE_CVSID;
 
@@ -176,11 +176,19 @@ void StateBase::executeSync(      FieldContainer &other,
 
 //! Constructor
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 StateBase::StateBase(void) :
     _mfChunks                 (), 
     Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 //! Copy Constructor
 

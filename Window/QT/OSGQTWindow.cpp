@@ -136,8 +136,8 @@ QTWindow::QTWindow( void ) :
 {
 }
 
-QTWindow::QTWindow( const QTWindow& source ) :
-	Inherited()
+QTWindow::QTWindow(const QTWindow& source) :
+	Inherited(source)
 {
 }
 
@@ -208,8 +208,8 @@ void QTWindow::init( void )
 
 /*------------------------------- dump ----------------------------------*/
 
-void QTWindow::dump(      UInt32     uiIndent, 
-                    const BitVector &bvFlags) const
+void QTWindow::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                    const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
 	SLOG << "Dump QTWindow NI" << endl;
 }

@@ -55,7 +55,7 @@ struct GeoNormals3fPropertyDesc
 
     static const Char8 *getTypeName  (void) { return "GeoNormals3f";         }
     static const Char8 *getClassName (void) { return "GeoNormals3fProperty"; }
-    static const Char8 *getFieldName (void) { return "Normals";             }
+    static const Char8 *getFieldName (void) { return "Normals";              }
     static const Char8 *getGroupName (void) { return "GeoNormals";           }
 
     static InitContainerF getInitMethod(void) { return NULL; }
@@ -70,14 +70,18 @@ struct GeoNormals3fPropertyDesc
     /*! \name                    Typedefs                                  */
     /*! \{                                                                 */
 
-    typedef GeoNormals                Inherit;
-    typedef GeoNormals::PtrType       InheritPtr;
-    typedef GeoNormalsPropertyDesc    InheritDesc;
-    typedef MFVec3f                  FieldType;
+    typedef GeoNormals                 Inherited;
+    typedef GeoNormals::PtrType        InheritedPtr;
 
-    typedef InheritDesc::GenericType GenericType;
+    typedef GeoNormalsPropertyDesc     InheritedDesc;
 
+    typedef MFVec3f                    FieldType;
+    typedef InheritedDesc::GenericType GenericType;
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
     typedef GeoPropertyInterface<GeoNormalsPropertyDesc> Interface;
+#endif
+
     /*! \}                                                                 */
 };
 

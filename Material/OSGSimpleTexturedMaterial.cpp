@@ -65,7 +65,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.3 2001/10/11 16:41:18 neumannc Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.4 2001/10/15 03:10:22 vossg Exp $";
     static char cvsid_hpp[] = OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID;
     static char cvsid_inl[] = OSGTEXTUREDSIMPLEMATERIAL_INLINE_CVSID;
 }
@@ -111,7 +111,7 @@ SimpleTexturedMaterial::~SimpleTexturedMaterial(void)
 static const char *getClassname(void)
 {
     return "SimpleTexturedMaterial";
-};
+}
 
 /*----------------------------- class specific ----------------------------*/
 
@@ -122,6 +122,10 @@ void SimpleTexturedMaterial::initMethod (void)
 }
 
 //! react to field changes
+
+#if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
+#pragma warning (disable : 383)
+#endif
 
 void SimpleTexturedMaterial::changed(BitVector whichField, ChangeMode from)
 {
@@ -159,6 +163,9 @@ void SimpleTexturedMaterial::changed(BitVector whichField, ChangeMode from)
 
 }
 
+#if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
+#pragma warning (default : 383)
+#endif
 
 StatePtr SimpleTexturedMaterial::makeState( void )
 {
@@ -184,8 +191,8 @@ Bool SimpleTexturedMaterial::isTransparent(void) const
 
 //! output the instance for debug purposes
 
-void SimpleTexturedMaterial::dump(      UInt32     uiIndent,
-                         const BitVector &bvFlags) const
+void SimpleTexturedMaterial::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
+                                  const BitVector OSG_CHECK_ARG(bvFlags)) const
 {
     SLOG << "Dump SimpleTexturedMaterial NI" << endl;
 }

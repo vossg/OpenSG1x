@@ -60,9 +60,9 @@ OSG_BASE_DLLMAPPING Bool MatrixOrthogonal(Matrix &result,
                                           Real32 rFar)
 {
     result.setValueTransposed(
-        2. / ( rRight - rLeft ), 0., 0., 0.,
-        0., 2. / ( rTop - rBottom ), 0., 0.,
-        0., 0., -2. / ( rFar - rNear ), 0.,
+        2.f / ( rRight - rLeft ), 0.f, 0.f, 0.f,
+        0.f, 2.f / ( rTop - rBottom ), 0.f, 0.f,
+        0.f, 0.f, -2.f / ( rFar - rNear ), 0.f,
         -( rRight + rLeft ) / ( rRight - rLeft ),
         -( rTop + rBottom ) / ( rTop - rBottom ),
         -( rFar + rNear )   / ( rFar - rNear ), 1. );
@@ -150,7 +150,7 @@ OSG_BASE_DLLMAPPING Bool MatrixStereoPerspective(Matrix &projection,
             rBottom;
 
     Real32  gltan,
-            rEye = - rEyedistance * ( rWhicheye - .5 ),
+            rEye = - rEyedistance * ( rWhicheye - .5f ),
             d;
 
     if ( rNear > rFar )
@@ -190,8 +190,8 @@ OSG_BASE_DLLMAPPING Bool MatrixStereoPerspective(Matrix &projection,
 
     d = rRight - rLeft;
 
-    rLeft += d * ( 1  - rOverlap ) * ( rWhicheye - .5 );
-    rRight += d * ( 1  - rOverlap ) * ( rWhicheye - .5 );
+    rLeft += d * ( 1  - rOverlap ) * ( rWhicheye - .5f );
+    rRight += d * ( 1  - rOverlap ) * ( rWhicheye - .5f );
 
     MatrixFrustum( projection, rLeft, rRight, rBottom, rTop, rNear, rFar );
 
@@ -271,13 +271,13 @@ OSG_BASE_DLLMAPPING Bool MatrixLookAt(Matrix & result,
 
 
 
-OSG_BASE_DLLMAPPING Bool MatrixProjection(Matrix &result,
-                                          Real32  rLeft,
-                                          Real32  rRight,
-                                          Real32  rBottom,
-                                          Real32  rTop,
-                                          Real32  rNear,
-                                          Real32  rFar )
+OSG_BASE_DLLMAPPING Bool MatrixProjection(Matrix &OSG_CHECK_ARG(result),
+                                          Real32  OSG_CHECK_ARG(rLeft),
+                                          Real32  OSG_CHECK_ARG(rRight),
+                                          Real32  OSG_CHECK_ARG(rBottom),
+                                          Real32  OSG_CHECK_ARG(rTop),
+                                          Real32  OSG_CHECK_ARG(rNear),
+                                          Real32  OSG_CHECK_ARG(rFar) )
 {
     SFATAL << "MatrixProjection: Not yet implemented!" << endl;
     abort();
