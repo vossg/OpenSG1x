@@ -45,20 +45,21 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <GL/gl.h>
+
 #include "OSGConfig.h"
 
 #include <iostream>
 #include <fstream>
 
-#ifdef OSG_SGI_STL
-//#include <limits>
-#endif
+#include <vector>
 
 #include <OSGLog.h>
 
 #include <OSGNode.h>
 #include <OSGGeometry.h>
 #include <OSGGeoProperty.h>
+#include <OSGGeoFunctions.h>
 #include <OSGSimpleMaterial.h>
 
 #include "OSGOFFSceneFileType.h"
@@ -109,156 +110,163 @@ OFFSceneFileType OFFSceneFileType::_the ( suffixA, sizeof(suffixA));
 //------------------------------
 NodePtr OFFSceneFileType::read (const char *fileName ) const
 {
-	NodePtr root;
+  typedef std::vector<int> Face;
+
+  std::vector<Face> faceVec;
+
+  char head[256];
 	ifstream in(fileName);
+	NodePtr root;
 	GeometryPtr geo;
-	GeoPosition3f::PtrType points;
-	GeoNormal3f::PtrType   normals;
-	GeoIndexUI32Ptr index;
+  Vec3f point;
+  GeoPosition3fPtr points;
+ 	GeoIndexUI32Ptr index;
 	GeoPLengthPtr lens;
-	GeoPTypePtr type;
-//	Vec3f vec[3];
-//    Int32 magic, uk ;
-//    Int32 vertexCount, faceCount, faceType = 0;
-//	Int32 i = 0, n, triCount = 0;
-//	Real32 x,y,z;
+	GeoPTypePtr type;   
+  SimpleMaterialPtr mat;
+  Int32 i,j,k,n,vN,faceI,fN,pType;
+  Int32 triCount = 0, vertexCount, faceCount, uk;
+  Real64 x, y, z;
 
-    /* not yet :)
+  if (in) {
+    in >> head >> vertexCount >> faceCount >> uk;
 
-       if (inStream) {
+    FDEBUG (( "OFF Head/vertexCount/faceCount: %s/%d/%d\n",
+              head, vertexCount, faceCount ));
  
-       mesh.vertexVec().resize(nV);
-       mesh.faceVec().resize(nF);
- 
-       for (i = 0; (!inStream.eof()) && (i < nV); i++) {
-       inStream >> x >> y >> z;
-       mesh.vertex(i).setValue(x,y,z);
-       }
- 
-       inStream.close();
-       retCode = true;
-       }
+    if (vertexCount && faceCount) {
 
-       if (in) 
-       {
-       in >> magic >> vetexCount >> faceCount >> uk;
-
-       root = Node::create();
-       geo = Geometry::create();
+      //-------------------------------------------------------------------
+      // create the OSG objects
+      root = Node::create();
+      geo = Geometry::create();
+      points = GeoPosition3f::create();
+      index = GeoIndexUI32::create();  
+      lens = GeoPLength::create();  
+      type = GeoPType::create();
+      mat = SimpleMaterial::create();
       
-       beginEditCP(root, Node::CoreFieldMask);
-       root->setCore( geo );
-       endEditCP(root, Node::CoreFieldMask);
+      beginEditCP(mat);
+      {
+         mat->setDiffuse( Color3f( .8, .8, .8 ) );
+         mat->setSpecular( Color3f( 1, 1, 1 ) );
+         mat->setShininess( 20 );
+      }
+      endEditCP(mat);
+		
       
-       points = GeoPosition3f::create();
-       geo->setPositions( points );
-       normals = GeoNormal3f::create();
-       geo->setNormals ( normals );
+      beginEditCP ( root, Node::CoreFieldMask);
+      {
+        root->setCore( geo );
+      }
+      endEditCP ( root, Node::CoreFieldMask);
       
-       triCount = i = 0;
+      beginEditCP ( geo );
+      {
+        geo->setPositions ( points );
+        geo->setIndex     ( index );
+        geo->setLengths   ( lens );
+        geo->setTypes     ( type );
+        geo->setMaterial  ( mat ); 
+      }
       
-       beginEditCP(points,  FieldBits::AllFields);
-       beginEditCP(normals, FieldBits::AllFields);
-
-       for (i = 0; (!inStream.eof()) && (i < vertexCount); i++) {
-       in >> x >> y >> z;
-       points->getFieldPtr()->addValue( Pnt3f ( x, y, z) );
-       }
-
-       for (i = 0; (!inStream.eof()) && (i < nF); i++) {
-       inStream >> nV;
-       switch (nV) {
-       case 0:
-       case 1:
-       case 2:
-       FWARNING (("face vertex count < 3"));
-       break;
-       case 3:
-          
-       mesh.face(i).clear ( GSFace::TRIANGLE, nV );
-       break;
-       case 4:
-       mesh.face(i).clear ( GSFace::QUAD, nV );
-       break;
-       default:
-       mesh.face(i).clear ( GSFace::POLYGON, nV );
-       break;
-       }
-       mesh.face(i)._vertex.resize(nV);
-       for (j = 0; j < nV; j++) {
-       inStream >> index;
-       mesh.face(i)._vertex[nV - 1 - j] = index;
-       }
-       }
- 
-
-       if (in.eof()) 
-       break;
-       else {
-       vec[i].setValues(x,y,z);
-       if (i == 2) {
-       vec[0] -= vec[1];
-       vec[1] -= vec[2];
-       vec[0].crossThis(vec[1]);
-       vec[0].normalize();
+      //-------------------------------------------------------------------
+      // read/set the points
+      beginEditCP ( points );
+      {
+        for (i = 0; (!in.eof()) && (i < vertexCount); i++) {
+          in >> x >> y >> z;
+          point.setValues (x,y,z);
+          points->push_back(point);
+        }
+      }
+      beginEditCP ( points );
+      
+      //-------------------------------------------------------------------
+      // read the faces
+      // TODO; should we 'reserve' some index mem (3,4,..) ?
+      faceVec.resize(faceCount);
+      triCount = 0;
+      for (i = 0; (!in.eof()) && (i < faceCount); i++) {
+        in >> n;
+        if (n >= 0) {
+          triCount += n - 2;
+          for (j = 0; (!in.eof()) && (j < n); j++) {
+            in >> k;
+            if ((k >= 0) && (k < vertexCount))
+              faceVec[i].push_back(k);
+            else {
+              FFATAL (("Invalid vertex index %d in face %d\n", k, i));
+            }     
+          }
+        }
+        else {
+          FFATAL (("Invalid face vec num %d\n",n));
+        }
+      }
+      
+      //-------------------------------------------------------------------
+      // set the faces
+      for (i = 3; i <= 5; i++) {
+        n = 0;
+        for (j = 0; j < faceCount; j++) {
+          fN = faceVec[j].size();
+          if (fN >= 5)
+            fN = 5;
+          if (fN == i) {
+            n += vN = faceVec[j].size();
+            for (k = vN-1; k >= 0; k--) {
+              index->getFieldPtr()->addValue( faceVec[j][k] );    
+            }       
+            if (i == 5) {
+              beginEditCP(lens);
+              {
+                lens->getFieldPtr()->addValue( n );
+              }
+              endEditCP(lens);
+              
+              beginEditCP(type, FieldBits::AllFields);
+              {
+                type->getFieldPtr()->addValue( GL_POLYGON );
+              }
+            endEditCP(type, FieldBits::AllFields);
+            }
+          }
+        }
+        if (n) { 
+          switch (i) {
+          case 3:
+            pType = GL_TRIANGLES;
+            break;
+          case 4:
+            pType = GL_QUADS;
+            break;
+          default:
+            pType = 0;
+            break;
+          }
+          if (pType) {
+            beginEditCP(lens);
+            {
+              lens->getFieldPtr()->addValue( n );
+            }
+            endEditCP(lens);
             
-       normals->getFieldPtr()->addValue ( vec[0] );
-       normals->getFieldPtr()->addValue ( vec[0] );
-       normals->getFieldPtr()->addValue ( vec[0] );
-            
-       i = 0;
-       triCount++;
-       }
-       else 
-       i++;
-       }
-       }
+            beginEditCP(type, FieldBits::AllFields);
+            {
+              type->getFieldPtr()->addValue( pType );
+            }
+            endEditCP(type, FieldBits::AllFields);
+          }
+        }
+      }
+    }
+  }
 
-       endEditCP(points,  FieldBits::AllFields);
-       endEditCP(normals, FieldBits::AllFields);
-		
-       if (triCount) 
-       {
-		
-       index = GeoIndexUI32::create();
-       geo->setIndex( index );
-       beginEditCP(index, FieldBits::AllFields);
-       n = triCount * 3;
-       for (i = 0; i < n; i++) 
-       index->getFieldPtr()->addValue( i );
-       endEditCP(index, FieldBits::AllFields);
-			
+  FNOTICE (("Number of triangle read: %d\n", triCount));
 
-       lens = GeoPLength::create();
-       geo->setLengths( lens );
-       beginEditCP(lens, FieldBits::AllFields);
-       lens->getFieldPtr()->addValue( n );
-       endEditCP(lens, FieldBits::AllFields);
-
-       type = GeoPType::create();
-       geo->setTypes( type );
-       beginEditCP(type, FieldBits::AllFields);
-       type->getFieldPtr()->addValue( GL_TRIANGLES );
-       endEditCP(type, FieldBits::AllFields);
-       }
-
-       SimpleMaterialPtr mat = SimpleMaterial::create();
-       beginEditCP(mat, FieldBits::AllFields);
-       mat->setDiffuse( Color3f( .8, .8, .8 ) );
-       mat->setSpecular( Color3f( 1, 1, 1 ) );
-       mat->setShininess( 20 );
-       endEditCP(mat, FieldBits::AllFields);
-		
-       geo->setMaterial( mat );
-       endEditCP(geo, FieldBits::AllFields);
-	
-       in.close();
-       }
-
-       if (triCount)
-       SNOTICE << triCount << " triangle read " << endl;
-
-       */
+  calcVertexNormals(geo);
+  createOptimizedPrimitives(geo);
 
 	return root;
 }
@@ -286,6 +294,7 @@ NodePtr OFFSceneFileType::read (const char *fileName ) const
 Bool OFFSceneFileType::write ( const NodePtr node, 
                                const char *fileName) const
 {	
+  FFATAL (("OFFSceneFileType::write() is not impl.\n"));
 	return false;
 }
 
