@@ -18,7 +18,7 @@ echo "Making binary dist in" $OSGPOOL
 
 build_make=gmake
 
-if ! test -z $OSG_DIST_FORCE_FULL_REBUILD
+if ! test x$OSG_DIST_FORCE_FULL_REBUILD = x
 then
     unset OSG_DIST_NO_DISTASSEMBLY
     unset OSG_DIST_NO_EXAMPLEBUILD
@@ -180,7 +180,7 @@ echo "Dist" $distname
 
 # configure it
 
-if ! test -z $OSG_DIST_REMOVE_BUILDDIR
+if ! test x$OSG_DIST_REMOVE_BUILDDIR = x
 then
     echo "OSG_DIST_REMOVE_BUILDDIR set, remove build dir " Builds/$system-$compiler$suffix
     rm -rf Builds/$system-$compiler$suffix
@@ -327,13 +327,22 @@ case $system in
         echo "OSG_DIST_NO_EXAMPLEBUILD  set, skipping example build"
 
         # copy the SceneViewer
-        cp Examples/SceneViewer/osgSceneViewer.exe .
+        
+        if test -r Examples/SceneViewer/osgSceneViewer.exe
+        then
+            cp Examples/SceneViewer/osgSceneViewer.exe .
+        fi
     fi
  
     if test x$OSG_DIST_NO_TUTORIALBUILD = x
     then
         # do the tutorials
-       
+
+        if test -w Tutorials
+        then
+            rm -rf Tutorials
+        fi
+
         cp -r $OSGPOOL/Tutorials .
 
         cd Tutorials
@@ -344,7 +353,7 @@ case $system in
         echo "OSG_DIST_NO_TUTORIALBUILD set, skipping tutorial build"
     fi
 
-#    $build_make -f Makefile.win dsw
+    $build_make COMP=$compiler$suffix -f Makefile.win dsw
 
     # cleanup the garbage
     rm -rf CVS Makefile* common.* template.* Tutorials.dsp.raw README BUILD \

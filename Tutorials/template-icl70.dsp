@@ -25,7 +25,7 @@ CFG=##NAME## - Win32 Debug%
 # PROP AllowPerConfigDependencies 0%
 # PROP Scc_ProjName ""%
 # PROP Scc_LocalPath ""%
-CPP=cl.exe%
+CPP=xicl6.exe%
 RSC=rc.exe%
 %
 !IF  "$(CFG)" == "##NAME## - Win32 Release"%
@@ -41,16 +41,16 @@ RSC=rc.exe%
 # PROP Intermediate_Dir "Release"%
 # PROP Target_Dir ""%
 # ADD BASE CPP %
-# ADD CPP -DWIN32 -D_WINDOWS -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 -D_WIN32_WINNT=0x0400 -D_OSG_HAVE_CONFIGURED_H_ -DOSG_BUILD_DLL -GX -Gi- -FD -GR -Zm1200 -O2 -Ob1 -MD -DOSG_WITH_GLUT -DOSG_WITH_GIF -DOSG_WITH_TIF -DOSG_WITH_JPG -I../include -I../lib/glut_3.7/include -I../lib/jpg6b/include -I../lib/tiff-3.5.4/include /FD /c %
+# ADD CPP -Qwd985 -Qwd530 -Qwd981 -Qwd193 -Qwd444 -Qwd279 -Qwe698  -Qwe47 -Qwe373 -Qwe171 -Qwe373 -Qwe261 -DWIN32 -D_WINDOWS -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 -D_WIN32_WINNT=0x0400 -D_OSG_HAVE_CONFIGURED_H_ -D__INTEL_COMPILER_VERSION=600  -DOSG_BUILD_DLL -Qvc6 -GX -Gi- -Qansi -GR -O2 -Ob1 -MD -DOSG_WITH_GLUT -DOSG_WITH_GIF -DOSG_WITH_TIF -DOSG_WITH_JPG -I../include -I../lib/glut_3.7/include -I../lib/jpg6b/include -I../lib/tiff-3.5.4/include /FD /c %
 # SUBTRACT CPP %
 # ADD BASE RSC /l 0x409 /d "NDEBUG"%
 # ADD RSC /l 0x409 /d "NDEBUG"%
 BSC32=bscmake.exe%
 # ADD BASE BSC32 /nologo%
 # ADD BSC32 /nologo%
-LINK32=link.exe%
+LINK32=xilink6.exe%
 # ADD BASE LINK32 %
-# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib OSGBase.lib OSGSystem.lib OSGWindowGLUT.lib glut32.lib opengl32.lib tif32.lib libjpeg.lib -NODEFAULTLIB /LIBPATH:"..\lib" /LIBPATH:"..\lib\glut_3.7\lib" /LIBPATH:"../lib/jpg6b/lib" /LIBPATH:"../lib/tiff-3.5.4/lib" %
+# ADD LINK32 user32.lib kernel32.lib MSVCPRT.lib MSVCRT.lib libmmd.lib winmm.lib wsock32.lib OSGBase.lib OSGSystem.lib OSGWindowGLUT.lib glut32.lib opengl32.lib tif32.lib libjpeg.lib -NODEFAULTLIB /LIBPATH:"..\lib" /LIBPATH:"..\lib\glut_3.7\lib" /LIBPATH:"../lib/jpg6b/lib" /LIBPATH:"../lib/tiff-3.5.4/lib" %
 %
 !ELSEIF  "$(CFG)" == "##NAME## - Win32 Debug"%
 %
@@ -66,16 +66,16 @@ LINK32=link.exe%
 # PROP Ignore_Export_Lib 0%
 # PROP Target_Dir ""%
 # ADD BASE CPP %
-# ADD CPP -DWIN32 -D_WINDOWS -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 -D_WIN32_WINNT=0x0400 -D_OSG_HAVE_CONFIGURED_H_ -DOSG_BUILD_DLL -GX -Gi- -FD -GR -Zm400 -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG -MDd -DOSG_WITH_GLUT -DOSG_WITH_GIF -DOSG_WITH_TIF -DOSG_WITH_JPG -I../include -I../lib/glut_3.7/include -I../lib/jpg6b/include -I../lib/tiff-3.5.4/include /FD /c %
+# ADD CPP -Qwd985 -Qwd530 -Qwd981 -Qwd193 -Qwd444 -Qwd279 -Qwe698  -Qwe47 -Qwe373 -Qwe171 -Qwe373 -Qwe261 -DWIN32 -D_WINDOWS -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 -D_WIN32_WINNT=0x0400 -D_OSG_HAVE_CONFIGURED_H_ -D__INTEL_COMPILER_VERSION=600  -DOSG_BUILD_DLL -Qvc6 -GX -Gi- -Qansi -GR -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG -MDd -DOSG_WITH_GLUT -DOSG_WITH_GIF -DOSG_WITH_TIF -DOSG_WITH_JPG -I../include -I../lib/glut_3.7/include -I../lib/jpg6b/include -I../lib/tiff-3.5.4/include /FD /c %
 # SUBTRACT CPP %
 # ADD BASE RSC /l 0x409 /d "_DEBUG"%
 # ADD RSC /l 0x409 /d "_DEBUG"%
 BSC32=bscmake.exe%
 # ADD BASE BSC32 /nologo%
 # ADD BSC32 /nologo%
-LINK32=link.exe%
+LINK32=xilink6.exe%
 # ADD BASE LINK32 %
-# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib OSGBaseD.lib OSGSystemD.lib OSGWindowGLUTD.lib glut32.lib opengl32.lib tif32.lib libjpeg.lib -NODEFAULTLIB -Debug /LIBPATH:"..\lib" /LIBPATH:"..\lib\glut_3.7\lib" /LIBPATH:"../lib/jpg6b/lib" /LIBPATH:"../lib/tiff-3.5.4/lib" %
+# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib OSGBaseD.lib OSGSystemD.lib OSGWindowGLUTD.lib glut32.lib opengl32.lib tif32.lib libjpeg.lib -NODEFAULTLIB -Debug /LIBPATH:"..\lib" /LIBPATH:"..\lib\glut_3.7\lib" /LIBPATH:"../lib/jpg6b/lib" /LIBPATH:"../lib/tiff-3.5.4/lib" %
 # SUBTRACT LINK32 %
 %
 !ENDIF %

@@ -15,7 +15,7 @@ LIBTYPE :=
 # and picking the options out of the OpenSG makefiles is hairy :(
 # You need to make the libs and 'make install' before trying to compile this
 
-include common.cygwin
+-include common.cygwin
 
 
 # all tutorials in this directory
@@ -39,15 +39,11 @@ Clean: clean
 	rm -fr $(PROGS) $(DSPS) Debug Tutorials.dsp Tutorials.dsw Tutorials.ncb \
 	       Tutorials.opt Tutorials.plg *.idb
 
-%.obj: %.cpp
-	$(COMPILE) $<
-
-%.exe: %.obj
-	$(LINK) $< /out:$@
-
+cleandsp:
+	rm -fr $(DSPS)
 
 # create the windows .dsp/.dsw files
-
+#
 dsw: $(DSPS)
 	dsps="";\
 	deps="";\
@@ -67,6 +63,6 @@ dsw: $(DSPS)
 	do\
 		deps="$$deps%@# Begin Source File%@%@SOURCE=$$i.cpp%@# End Source File%@";\
 	done;\
-	sed -e "s|##NAME##|$(@:.dsp=)|g" -e "s|##DEPS##|$$deps|g" < template.dsp | \
+	sed -e "s|##NAME##|$(@:.dsp=)|g" -e "s|##DEPS##|$$deps|g" < template-$(COMP).dsp | \
 	tr '@' '\012' | tr '%' '\015' > $@
 
