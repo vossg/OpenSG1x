@@ -27,81 +27,503 @@ circle around the sun whereas the moon is doing the same around the planet. We a
 There is not only one way to solve this problem. We will have a closer look at two variants: One possibility is to have a deep graph, where the 
 planet is attached to the sun whereas the moon is attached to the planet with each having a transformation describing the rotation around their 
 parent object. That is the moon is moving in a circle around the planet which also is moving in a circile around the sun. Figure (xxx) is 
-illustrating what I mean. The other way is to have a transformation describing the complete movement, so all geometry nodes are located directly 
+illustrating what I mean. 
+
+\image html solarsystem_deep.png "The easy way to solve our problem..."
+\image latex solarsystem_deep.eps "The easy way to solve our problem..." width = 3cm
+
+<I>
+As you can see, the rotation of the moon is dependant on the rotation of the earth, thus describing the rotation of these both objects in an
+intuitive manner, but this may become unefficient if used extensevly
+</I>
+
+The other way is to have a transformation describing the complete movement, so all geometry nodes are located directly 
 below the root node. This approach is not as intuitive than the other is, but it might be faster to compute. Figure (xxx) is illustrating this 
 variant. 
 
-Well, first we create our objects we will need
+\image html solarsystem_flat.png "The more efficient way..."
+\image latex solarsystem_flat.eps "The more efficient way..." width = 8cm
+
+<I>
+On one hand this graph looks quite a bit friendlier, on the other hand the transformation for the moon will be a bit more difficult 
+</I>
+
+\subsection TutorialNodeCoresTransformFirstVariant Deep Graph
+
+Well, let us give both variants a try. Like ever here is our createScenegraph method to begin with:
 
 \code
-
 NodePtr createScenegraph(){
+
+    //create sun, planet & moon geometry
+    GeometryPtr sun = makeSphereGeo(3, 6);
+    NodePtr planet = makeSphere(3, 3);
+    NodePtr moon = makeSphere(2,1);
 	
-	//create all the stuff we need
-	NodePtr root = Node::create();
-	beginEditCP(root, Node::CoreFieldMask);
-		root->setCore(Group::create());
-	endEditCP(root, Node::CoreFieldMask);
+    //the root node will be the sun
+    NodePtr root = Node::create();
+    beginEditCP(root, Node::CoreFieldMask);
+	root->setCore(sun);
+    endEditCP(root, Node::CoreFieldMask);
 	
-	NodePtr sun = makeSphere(3, 6);
-	NodePtr planet = makeSphere(3, 3);
-	NodePtr moon = makeSphere(2,1);
+    NodePtr planetTransformNode = Node::create();
+    NodePtr moonTransformNode = Node::create();
+
+    // these were declared globally
+    planetTransform = Transform::create();
+    moonTransform = Transform::create();
 	
-	NodePtr planetTransformNode = Node::create();
-	NodePtr moonTransformNode = Node::create();
+    // Now we need to fill it with live
+    // We want to have the planet some distance away from the sun, 
+    // but initial with no rotation. The same aplies to the moon
+    Matrix m,n;
 	
-	TransformPtr planetTransform = Transform::create();
-	TransformPtr moonTransform = Transform::create();
+    m.setIdentity();
+    n.setIdentity();
 	
-	// Now we need to fill it with live
-	// We want to have the planet some distance away from the sun, 
-	// but initial with no rotation. The same aplies to the moon
-	Matrix m,n;
+    m.setTranslate(20,0,0);
+    n.setTranslate(8,0,0);
 	
-	m.setIdentity();
-	n.setIdentity();
+    beginEditCP(planetTransform, Transform::MatrixFieldMask);
+	planetTransform->setMatrix(m);
+    endEditCP(planetTransform, Transform::MatrixFieldMask);
 	
-	m.setTranslate(10,0,0);
-	n.setTranslate(3,0,0);
+    beginEditCP(moonTransform, Transform::MatrixFieldMask);
+        moonTransform->setMatrix(n);
+    endEditCP(moonTransform, Transform::MatrixFieldMask);
 	
-	beginEditCP(planetTransform, Transform::MatrixFieldMask);
-		planetTransform->setMatrix(m);
-	endEditCP(planetTransform, Transform::MatrixFieldMask);
+    //Insert the cores into the apropiate nodes and add the geometry
+    beginEditCP(planetTransformNode, Node::CoreFieldMask | Node::ChildrenFieldMask);
+	planetTransformNode->setCore(planetTransform);
+	planetTransformNode->addChild(planet);
+    endEditCP(planetTransformNode, Node::CoreFieldMask | Node::ChildrenFieldMask);
 	
-	beginEditCP(moonTransform, Transform::MatrixFieldMask);
-		moonTransform->setMatrix(n);
-	endEditCP(moonTransform, Transform::MatrixFieldMask);
+    beginEditCP(moonTransformNode, Node::CoreFieldMask | Node::ChildrenFieldMask);
+        moonTransformNode->setCore(moonTransform);
+	moonTransformNode->addChild(moon);
+    endEditCP(moonTransformNode, Node::CoreFieldMask | Node::ChildrenFieldMask);
 	
-	//Insert the cores into the apropiate nodes and add the geometry
-	beginEditCP(planetTransformNode, Node::CoreFieldMask | Node::ChildrenFieldMask);
-		planetTransformNode->setCore(planetTransform);
-		planetTransformNode->addChild(planet);
-	endEditCP(planetTransformNode, Node::CoreFieldMask | Node::ChildrenFieldMask);
+    //add the planet to the sun
+    beginEditCP(root, Node::ChildrenFieldMask);
+	root->addChild(planetTransformNode);
+    endEditCP(root, Node::ChildrenFieldMask);
 	
-	beginEditCP(moonTransformNode, Node::CoreFieldMask | Node::ChildrenFieldMask);
-		moonTransformNode->setCore(moonTransform);
-		planetTransformNode->addChild(moon);
-	endEditCP(moonTransformNode, Node::CoreFieldMask | Node::ChildrenFieldMask);
+    //add the moon to the planet
+    beginEditCP(planet, Node::ChildrenFieldMask);
+	planet->addChild(moonTransformNode);
+    endEditCP(planet, Node::ChildrenFieldMask);
 	
-	//add the planet to the sun
-	beginEditCP(root, Node::ChildrenFieldMask);
-		root->addChild(planetTransformNode);
-	endEditCP(root, Node::ChildrenFieldMask);
-	
-	//add the moon to the planet
-	beginEditCP(planet, Node::ChildrenFieldMask);
-		planet->addChild();
-	endEditCP(planet, Node::ChildrenFieldMask);
-	
-	//now we are done
-	return root;
+    //now we are done
+    return root;
 }
+\endcode
+
+We need to declare both TransformPtr, which will rotate the planet and moon, globally as this will make it much easier to manipulate the
+transform matrices during rendering. 
+
+\code
+TransformPtr planetTransform;
+TransformPtr moonTransform;
+\endcode
+
+If you compile this code now and zoom out a bit, you will see three different balls in one row. Well, it is not quite a realistic simulation
+of our solar system... Anyway, the first thing we add now are the rotations I am talking all the time about. Replace the display() method with
+the following code
+
+\code
+void display(void)
+{
+    Real32 time = glutGet(GLUT_ELAPSED_TIME );
+    
+    //create the Quaternion the describes the rotation of
+    //the planet around the sun
+    Quaternion planetRot = Quaternion(Vec3f(0,1,0), time/float(1000));
+    
+    //now the rotation of the moon around the planet
+    //the factor 12 slows down the rotation by 12 compared to the
+    //planet rotation
+    Quaternion moonRot = Quaternion(Vec3f(0,1,0), time/float(12*1000));
+    
+    //generate the Matrices
+    Matrix p,m;
+    
+    p.setIdentity();
+    m.setIdentity();
+    
+    p.setRotate(planetRot);
+    m.setRotate(moonRot);
+    
+    beginEditCP(planetTransform, Transform::MatrixFieldMask);
+        planetTransform->setMatrix(p);
+    endEditCP(planetTransform, Transform::MatrixFieldMask);
+    
+    beginEditCP(moonTransform, Transform::MatrixFieldMask);
+        moonTransform->setMatrix(m);
+    endEditCP(moonTransform, Transform::MatrixFieldMask);
+    
+    mgr->redraw();
+}
+\endcode
+
+Allright, compile and execute... and what do you see? Only one planet, right? But why? Think about it, before reading any further!
+
+Got it? Yes, we have overwritten the translation we set up in the first place. That is not so good, isn't it? We could try to extract the old
+matrix out of our graph and then apply the rotation our we could create a completly new matrix and assigning the translation again. That is what
+we will do for now, but in the next section we will learn about another possibility that solves our problem easy and efficient. Add the following
+code right after we set the rotation
+
+\code
+// old code ------
+    p.setRotate(planetRot);
+    m.setRotate(moonRot);
+// insert new code here:
+
+p.setTranslate(20,0,0);
+m.setTranslate(8,0,0);
 
 \endcode
 
+The terrible thing is that it still does not work! Do you have an idea what went wrong this time? Try to put a texture onto the spheres, or replace
+these with cubes for example and you will see what actually is happening.
+
+Something with the order of the transformations seem not to be correct: The rotation is applied locally to the pivot of the sphere itself, which
+is of course not what we desire. The best solution for now is to do it simply by hand. If we multiply the seperate parts together we should
+get what we want. So let's remember some math from college: The matrix multiplied last is executed first, thus
+<PRE>
+    M = Rotation * Translation
+</PRE>
+yields the correct transformation matrix. So again replace some code in the display function
+
+\code
+
+/*
+locate the following lines in the display() function
+and comment them out or delete them
+
+p.setIdentity();
+m.setIdentity();
+    
+p.setRotate(planetRot);
+m.setRotate(moonRot);
+    
+p.setTranslate(20,0,0);
+m.setTranslate(8,0,0);
+*/
+
+// add the following lines, replace these from above
+
+
+//temporary matrices for translation and rotation    
+Matrix t,r;
+    
+t.setTransform(Vec3f(20,0,0));
+r.setTransform(planetRot);
+
+//multiplying them together 
+r.mult(t);
+//the usage of matrix p is just cosmetic as it is
+//and will be identical to r 
+p.setValue(r);
+    
+t.setTransform(Vec3f(8,0,0));
+r.setTransform(moonRot);
+r.mult(t);
+m.setValue(r);
+    
+\endcode
+
+<I>
+matrixA.mult(matrixB) multiplies matrix B from the right to matrix A, overwriting matrix A with the result (i.e. A=A*B).
+</I>
+
+Finally it works! The moon should now rotate quickly around the planet which rotates around the sun! The source file can be found here : 
+<A HREF="progs/06solarsystem2.cpp">progs/06solarsystem2.cpp</A>
+
+
+\subsection TutorialNodeCoresTransformSecondVariant Flat Graph
+
+Please take the results from above (06solarsystem2.cpp) as a starting point for modifying the code. First we need to rearrange the graph. I will
+not present the full code here again, because the cahnges are not so spectaular, but you can find the full code named 06solarsystem3.cpp. Here
+are the necessary changes:
+
+1. Locate the pice of code where the moonTransformation is added to the planet node - remove these lines, because the moon will no longer be
+a child of the planet
+
+2. Attach the moonTransformation you just removed to the root node
+
+If you execute the application you will see that both the moon and planet are rotating around the sun, which makes sense, of course as the are both
+children of the sun. Next we need to alter the transformation of the moon. The planets transformation may stay untouched as this is still correct.
+
+The new transformation matrix for the moon can be calculated by
+<PRE>
+    M = PlanetRotation * PlanetTranslate * MoonRotation * MoonTranslate
+</PRE>
+
 \subsection TutorialNodeCoresTransformMatrix Matrix-Magic
 
-Here you will find many possibilities how to create and manipulate matrices. I also presented some basic operations on metrices here: \ref
-BasicMathWorkWithMarices. These will not be repeated here.
+Here you will find many possibilities how to create and manipulate matrices. Some basic examples can also be found here: \ref
+BasicMathWorkWithMarices. These will not be repeated here! 
+
+There are a lot of different possibilities to set up a matrix depending on what you desire. There are seperate methods to set a translation,
+scalation, rotation or even the whole transformation. These methods often take real values, vectors or quaternions. I will show examples for all 
+methods provided. Have a look at the matrix class documentation for additional reference.
+
+\code
+Matrix m;
+
+m.setTranslate(1,2,3);
+m.setTranslate(Vec3f(1,2,3));
+m.setTranslate(Pntef(1,2,3));
+
+m.setRotate(Quaternion(Vec3f(1,2,3),90));
+
+//this is a uniform scale in all dimensions
+m.setScale(2);
+m.setScale(1,2,3);
+m.setScale(Vec3f(1,2,3));
+\endcode
+
+Additionally there are some methods to set up the whole transformation at once. If you would like to set up a matrix which scales everything by
+factor two, rotates 30 degrees around the y-axis and translates by some vector you would need at least 4 commands (including setIdentity()). 
+This can also accomplished by just one command
+
+\code
+
+//just to shorten the code...
+//used for rotations
+Quaternion r = Quaternion(Vec(1,2,3), 90);
+//used for translations
+Vec3f t = Vec3f(1,2,3);
+//used for scalation
+Vec3f s = Vec3f(1,2,3);
+
+// the first two commands are equal to setTranslate or setRotate
+m.setTransform(t);
+m.setTransform(r);
+
+// but you can set rotation and translation at once
+m.setTransform(t,r);
+// the first vector specifies the translation whereas 
+// the second defines the rotation
+
+// like above with an additional scalation
+m.setTransform(t,r,s);
+
+// this adds an additional scaling orientation
+m.setTransform(t,r,s,Vec3f(1,1,0));
+
+// and and additional center point for scalation (or rotation???) [TODO: test it]
+m.setTransform(t,r,s,Vec3f(1,1,0),Vec3f(10,0,0));
+\endcode
+
+You also can do it the other way round: it is possible to retrive the rotation etc. from a matrix by using getTransform. Here is an example:
+
+\code
+// lets assume m is any sound matrix
+
+Quaternion rotation;
+Vec3f translation;
+Vec3f scaleOrientation;
+Vec3f scalation;
+
+m.getTransform(translation, rotation, scalation, scaleOrientation);
+
+// there is another variant which provides the possibility to extract 
+// the center point
+Vec3f center;
+
+m.getTransform(translation, rotation, scalation, scaleOrientation, center);
+
+// the result will be written into the variables you passed to the method
+// translation would be (1,2,3) if we take m from the example above
+[TODO: Test it]
+\endcode
+
+In addition to these methods there are of course other expected functions for inverting a matrix and other operations.
+
+\code
+m.invert();        //calculates the inverse matrix;
+m.transpose();      //as you expect it...
+Real32 d = m.det(); //calculates the determinant
+\endcode
+
+In the above example the results will overwrite the original matrix. You must not create a copies by hand, as these methods are intended for
+
+\code
+Matrix result;
+
+result.invertFrom(m);
+m.transposed(result);
+\endcode
+
+As always you should have a look at the matrix documentation class for full reference.
+
+[TODO: check examples]
+
+\section TutorialNodeCoresTransformComponentTransform Component Transform
+
+Remember the problems we had setting up the correct transformation matrices for our solar system example? Now imagine working with more
+complex transformations than we did, which were in fact realativly easy ones. Another important issue is alteration of a matrix during 
+runtime. In the solar system we recalculated the whole matrix by multiplying the rotation with the translation, altough we only wanted to
+modify the rotation. I many cases it is just to complicated or even impossible to reconstruct the single parts of a transformation. That is when
+component transforms are coming into play. 
+
+Component Transform cores are able to stores translation, rotation, scalation, scale orientation and a center point seperatly apart from each other
+thus every component can be edited without afecting the other parts. There are appropiate getter and setter methods for these fields. The 
+following little example will illustrate the usage of a component transform core
+
+\code
+
+ComponentTransformPtr ct = ComponentTransform::create();
+
+beginEditCP(ct, ComponentTransform::TranslationFieldMask |
+                ComponentTransform::RotationFieldMask);
+                
+    ct->setTranslation(Vec3f(20,0,0));
+    ct->setRotation(Quaternion(Vec3f(0,1,0),PI/4));
+    
+endEditCP(ct, ComponentTransform::TranslationFieldMask |
+              ComponentTransform::RotationFieldMask);
+
+\endcode
+
+If you now want to alter the rotation you only need to call the setRotation method and provide a new quaternion and that's it. The bad news is
+that you might get the same multiplication order problems we had before, thus resulting in a undesired rotation of the object itslelf. That can be
+adjusted with the center field which defines a position around the rotation will be calculated.
+
+[TODO: verify this] 
+
+\section TutorialNodeCoresMaterial Materials
+
+We already had a short look at textures here: \ref TutorialBasicTutorial3. There are of cource a lot more possibilities than just to map an
+image onto an object. Here you will find a more detailed overview about how to use materials in OpenSG. 
+
+\subsection TutorialNodeCoresMaterialSimpleMaterial Simple Material
+
+The Simple Material class provides an easy to use interface for materials without textures or other advanced fatures. It features all basic
+attributes like diffuse and specular color, as well as transparency, emission, shininess ans ambien color. Here is an little example
+of an red material that is 50% transparent and has a dark gray as ambient color
+
+\code
+SimpleMaterialPtr m = SimpleMaterial::create();
+
+beginEditCP (m, SimpleMaterial::DiffuseColorFieldMask |
+                SimpleMaterial::AmbientColorFieldMask |
+                SimpleMaterial::TransparencyFieldMask);
+                
+    m->setDiffuse(Color3f(1,0,0));
+    m->setAmbient(Color3f(0.2, 0.2, 0.2));
+    m->setTransparency(0.5);
+
+endEditCP   (m, SimpleMaterial::DiffuseColorFieldMask |
+                SimpleMaterial::AmbientColorFieldMask |
+                SimpleMaterial::TransparencyFieldMask);
+\endcode
+
+
+\image html red_transparent_material.png "50% transparent red Material on a sphere"
+\image latex red_transparent_material.png "50% transparent red Material on a sphere" width = 3cm
+
+<I>
+As you can see, there are artifacts on the sphere. You might know that transparent surfaces quickly get highly complicated to solve if some 
+are occluding other transparent surfaces which is of course the case here. OpenSG can sort faces and render them from back to front (what is
+actually needed to capture multi trancaprencies correctly) but OpenSG can do so only on the node level. That is sorting does not work within
+a single node. 
+</I>
+
+<A HREF = "progs/07materials.cpp">progs/07materials.cpp</A> shows the implementation. Quite unsual might be the fact, that SimpleMaterial
+is not derived from NodeCore and thus cannot be inserted as a core directly. 
+
+One possibility is to use a material group. This class is nearly identical
+to the usual group core but it has a setMaterial() method added with which you can assign a material to that core. Every node which is added
+to the appropiate node containing such a core will be rendered with this material.
+
+Another possibiliy is to set the material field in the geometry using setMaterial().
+
+\subsection TutorialNodeCoresMaterialSimpleTexturedMaterial Simple Textured Material
+
+You already saw simple textured material in action here : \ref TutorialBasicTutorial3. I will show some more interesting features in the next
+tutorial!
+
+\subsection TutorialNodeCoresMaterialChunks Chunks
+
+A scene graph system is expected to do rendering as fast as possible. As I mentioned before, OpenGL state changes can be very expensive operations,
+for example changing some color paramers of a material or light source. Loading and switching textures is even more expensive in most cases. 
+Thus it is very important to handle these state changes in a most efficent way. It is very useful to group all primitives together which use the
+same set of OpenSG states. In addition to that is is necessary to minimize costs if the state is changed - i.e. changing only the diffuse color
+is more efficent than changing twelve states at once.
+
+Of course that is not as easy as it sounds, unfortunately sorting all primitives in the most efficent manner is a NP-complete problem (If you are 
+not familiar with complexity-therory: NP-complete problems are really, really bad). To simplify the problem OpenGL states that are usually changed
+together have been grouped in larger pices : osg::StateChunks
+
+[TODO: continue]
+
+\section TutorialNodeCoresSwitch Switch
+
+Switches are quite similar to switches in C++. You can add several children to a node with a switch core and depending on what you want to be
+rendered you can tell the switch to render none, one specific or all of it's children. Please note that this behaviour is not restricted to 
+rendering only but applies to every traversal of the graph. All children which are not selected by the switch are virtually cut off the graph 
+until you change the setting of the switch.
+
+The usage is very easy to handle. It behaves like a normal group node with some additional functionallity demonstarted in the next example
+
+\code
+
+SwitchPtr switch = switch::create();
+
+//insert this sw into some node and add some children
+
+beginEditCP(sw, Switch::ChoiceFieldMask);
+    //select the second children to be rendered
+    sw->setChoice(2);
+    //please be careful not to select a non existend child
+endEditCP(sw, Switch::ChoiceFieldMask);
+
+//Switch::ALL or Switch::None would have selected all or no children
+
+\endcode
+
+\section TutorialNodeCoresLOD Level of Detail (LOD)
+
+A must have feature for scene graph systems is the possibility to define some, often two or three, different models representing the same object
+in different resolutions. The system will display one of the provided models depending on the distance from the user to the object. The 
+advantage lies at hand: If you are close to the model it is rendered in high resolution thus details are well visible, if you are far
+away the object is approximated by a handful polygons and thus saving memory and rendering time. The only problem occuring is when the actual 
+swapping takes places. If the difference between the two models is too great the swap will be visible to the user. An idea is to morph 
+dynamically between two of the key models, but OpenSG does not support morphing right know.
+ 
+The usage of LOD cores is quite simple. Notice the class is called DistanceLOD and not LOD!
+
+\code
+
+DistanceLOD lod = DistanceLOD::create();
+beginEditCP(lod);
+    // this is supposed to be the center of the LOD modell,
+    // that is, this is the point the ditance is measured to
+    lod->setCenter(12,1,5);
+    // now we add the distances when models will change
+    lod->getMFRange()->push_back(6.0);
+    lod->getMFRange()->push_back(12.0);
+    lod->getMFRange()->push_back(24.0);
+    
+endEditCP(lod);
+\endcode
+
+The way we add the distance values might seem a bit unsual to you, but this is a very easy way to manipulate data if you are used to it. If you
+want to refresh your knowledge about these multifield-things then just jump back to \ref BasicFieldContainerSingleMulti. The following figure
+shows how the LOD object we just created works.
+
+\image html lod.png "Example of a LOD setup"
+\image latex lod.eps "Example of a LOD setup" width = 6cm
+
+<I>
+This figure illustrates how a level of detail object works. The numbers at the bottom are distances taken from the code example. These values are
+of course highly depended on your environment, so these values may be totally useless for your application. You can see that the high detailed model
+is rendered if the distance from the camera to the LOD center point is less than 6 units. Is the distance between 6 and 12 the medium resolution
+model is rendered and so one. The lowest detailed model (in the case only a billboard) is rendered if the distance is greater than 24 units. Notice
+that this is just one example, so the lowest detailed model must not be a billboard nor are you bound to four levels of detail - it is entirely up
+to you. The polygon count given in the figure are rough possible values that would make sense in most cases, but they are no law!
+</I>
 
 */

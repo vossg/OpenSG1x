@@ -213,7 +213,7 @@ m.setIdentity();
 // we set the scale factor
 m.setScale(1,2,1);
 // and the translation
-m.setTranslation(2,2,3);
+m.setTranslate(2,2,3);
 
 // ... and here we go
 
@@ -573,7 +573,7 @@ how you can create a node containing a transformation, which will translate all 
     TransformPtr t = Transform::create();
     
     Matrix m;
-    m->setTranslation(Vec3f(0,0,5));
+    m->setTranslate(Vec3f(0,0,5));
     
     // we want to modify our fresh transform object 
     // so we need to call begin-/ and endEditCP on it
@@ -1387,9 +1387,9 @@ void keyboard(unsigned char k, int , int ){
         
             // create an output stream (this is STL code, and
             // is not OpenSG specific!)
-            FILE *out = fopen("data/output.bin", "wb");
+            ofstream out("data/output.bin");
             if(!out){
-                cout << "File could not be created!" << endl;
+                cout << "Output stream could not be created!" << endl;
                 return;
             }
             
