@@ -75,6 +75,7 @@ OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::getDefaultMaterial(void)
     if(_defaultMaterial == NullFC)
     {
         _defaultMaterial = SimpleMaterial::create();
+	addRefCP(_defaultMaterial);
         beginEditCP(_defaultMaterial);
         _defaultMaterial->setDiffuse(Color3f(.7,.7,.5));
         _defaultMaterial->setAmbient(Color3f(0.1,0.1,0.1));
@@ -95,6 +96,7 @@ OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::getDefaultUnlitMaterial(void)
     if(_defaultUnlitMaterial == NullFC)
     {
         _defaultUnlitMaterial = SimpleMaterial::create();
+	addRefCP(_defaultUnlitMaterial);
         beginEditCP(_defaultUnlitMaterial);
         _defaultUnlitMaterial->setDiffuse(Color3f(1,1,.5));
         _defaultUnlitMaterial->setLit(false);
@@ -215,7 +217,7 @@ GeometryPtr OSG::makePlaneGeo(Real32 xsize, Real32 ysize,
     geo->setIndices(index);
     geo->getIndexMapping().push_back(Geometry::MapPosition | 
                                     Geometry::MapNormal   |
-                                    Geometry::MapTexcoords);
+                                    Geometry::MapTexCoords);
     geo->setTypes(types);
     geo->setLengths(lens);
     endEditCP(geo);
@@ -415,8 +417,8 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
         for(j = 0; j < sides; j++)
         {
             beta = j * delta;
-            x    =  topradius * cos(beta);
-            z    = -topradius * sin(beta);        
+            x    =  topradius * sin(beta);
+            z    = -topradius * cos(beta);        
 
             p->push_back(Pnt3f(x, height/2, z));
             n->push_back(Vec3f(0, 1, 0));
@@ -441,8 +443,8 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
         for(j = 0; j < sides; j++)
         {
             beta = j * delta;
-            x    = -botradius * cos(beta);
-            z    =  botradius * sin(beta);      
+            x    =  botradius * sin(beta);
+            z    = -botradius * cos(beta);      
 
             p->push_back(Pnt3f(x, -height/2, z));
             n->push_back(Vec3f(0, -1, 0));
@@ -476,7 +478,7 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
     geo->setNormals(norms);
     geo->getIndexMapping().push_back(Geometry::MapPosition | 
                                     Geometry::MapNormal   |
-                                    Geometry::MapTexcoords);
+                                    Geometry::MapTexCoords);
     geo->setTexCoords(tex);
     geo->setIndices(index);
     geo->setTypes(types);
@@ -624,7 +626,7 @@ GeometryPtr OSG::makeTorusGeo(Real32 innerRadius, Real32 outerRadius, UInt16 sid
     geo->setNormals(norms);
     geo->getIndexMapping().push_back(Geometry::MapPosition | 
                                     Geometry::MapNormal   |
-                                    Geometry::MapTexcoords);
+                                    Geometry::MapTexCoords);
     geo->setTexCoords(tex);
     geo->setIndices(index);
     geo->setTypes(types);
@@ -851,7 +853,7 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
     geo->setNormals(norms);
     geo->getIndexMapping().push_back(Geometry::MapPosition | 
                                       Geometry::MapNormal |
-                      Geometry::MapTexcoords);
+                      Geometry::MapTexCoords);
     geo->setTexCoords(tex);
     geo->setIndices(index);
     geo->setTypes(types);
@@ -989,7 +991,7 @@ GeometryPtr OSG::makeLatLongSphereGeo(UInt16 latres, UInt16 longres,
     geo->setNormals(norms);
     geo->getIndexMapping().push_back(Geometry::MapPosition | 
                                     Geometry::MapNormal   |
-                                    Geometry::MapTexcoords);
+                                    Geometry::MapTexCoords);
     geo->setTexCoords(tex);
     geo->setIndices(index);
     geo->setTypes(types);
@@ -1137,7 +1139,7 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
     geo->setNormals(norms);
     geo->getIndexMapping().push_back(Geometry::MapPosition | 
                                     Geometry::MapNormal |
-                                    Geometry::MapTexcoords);
+                                    Geometry::MapTexCoords);
     geo->setTexCoords(tex);
     geo->setIndices(index);
     geo->setTypes(types);
