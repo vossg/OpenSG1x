@@ -18,7 +18,7 @@ int main( int argc, char *argv[] )
 	
 	ChunkMaterialPtr b = ChunkMaterial::create();	
 
-	b->print();
+	b->dump();
 	
 	MaterialChunkPtr mchunk1, mchunk2;
 
@@ -28,11 +28,11 @@ int main( int argc, char *argv[] )
 	mchunk1->setShininess( 20 );
 	b->addChunk( mchunk1 );
 
-	b->print();
+	b->dump();
 
 	b->subChunk( mchunk1 );
 
-	b->print();
-			
+	b->dump();
+
 	return 0;
 }
