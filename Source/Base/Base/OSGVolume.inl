@@ -57,6 +57,25 @@ Volume::~Volume(void)
 
 /*-------------------------- state -----------------------------------------*/
 
+/** set the volume to be static */
+
+inline
+void Volume::setStatic(const bool value)
+{
+    if(value == true)
+        _state |= OSGSTATIC;
+    else
+        _state &= ~OSGSTATIC;
+}
+
+/**  Checks if the volume is static */
+
+inline
+bool Volume::isStatic(void) const
+{
+    return (_state & OSGSTATIC) ? true : false;
+}
+
 /*! set the volume to be valid */
 
 inline
@@ -102,25 +121,6 @@ inline
 bool Volume::isEmpty(void) const
 {
     return (_state & OSGEMPTY) ? true : false;
-}
-
-/** set the volume to be static */
-
-inline
-void Volume::setStatic(const bool value)
-{
-    if(value == true)
-        _state |= OSGSTATIC;
-    else
-        _state &= ~OSGSTATIC;
-}
-
-/**  Checks if the volume is static */
-
-inline
-bool Volume::isStatic(void) const
-{
-    return (_state & OSGSTATIC) ? true : false;
 }
 
 /** set the volume to be infinite */
