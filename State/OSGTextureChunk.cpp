@@ -74,7 +74,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.28 2002/01/16 16:12:05 dirk Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.29 2002/01/20 21:25:39 dirk Exp $";
 
 StateChunkClass TextureChunk::_class("Texture");
 
@@ -136,11 +136,11 @@ void TextureChunk::initMethod (void)
 // this should go somewhere central...
 
 #include <GL/glu.h>
-#define glErr( text )                           \
+#define glErr(text)                           \
 {                                   \
         GLenum glerr;                           \
         glerr=glGetError();                     \
-        if (glerr!=GL_NO_ERROR)                     \
+        if(glerr!=GL_NO_ERROR)                     \
         {                               \
                 fprintf(stderr, "%s failed: %s (%#x)\n", (text),    \
                                         gluErrorString(glerr), glerr);  \
@@ -160,9 +160,9 @@ void TextureChunk::initMethod (void)
 TextureChunk::TextureChunk(void) :
     Inherited()
 {
-    _extTex3D          = Window::registerExtension( "GL_EXT_texture3D" );
-    _funcTexImage3D    = Window::registerFunction ( GL_FUNC_TEXIMAGE3D );
-    _funcTexSubImage3D = Window::registerFunction ( GL_FUNC_TEXSUBIMAGE3D );
+    _extTex3D          = Window::registerExtension("GL_EXT_texture3D");
+    _funcTexImage3D    = Window::registerFunction (GL_FUNC_TEXIMAGE3D);
+    _funcTexSubImage3D = Window::registerFunction (GL_FUNC_TEXSUBIMAGE3D);
 }
 
 /** \brief Copy Constructor
@@ -186,13 +186,13 @@ TextureChunk::~TextureChunk(void)
 
 void TextureChunk::changed(BitVector fields, ChangeMode)
 {
-    if ( fields & ImageFieldMask )
+    if(fields & ImageFieldMask)
     {
-        Window::reinitializeGLObject( getGLId() );
+        Window::reinitializeGLObject(getGLId());
     }
     else
     {
-        Window::refreshGLObject( getGLId() );
+        Window::refreshGLObject(getGLId());
     }
 }
 
@@ -214,28 +214,28 @@ Bool TextureChunk::isTransparent(void) const
 /** \brief instance initialization
  */
 
-void TextureChunk::onCreate( const FieldContainer & )
+void TextureChunk::onCreate(const FieldContainer &)
 {
     // !!! this temporary is needed to work around compiler problems (sgi)
     // CHECK CHECK
     //  TextureChunkPtr tmpPtr = FieldContainer::getPtr<TextureChunkPtr>(*this);
     TextureChunkPtr tmpPtr(*this);
 
-    beginEditCP( tmpPtr, TextureChunk::GLIdFieldMask );
+    beginEditCP(tmpPtr, TextureChunk::GLIdFieldMask);
 #ifndef OSG_NOFUNCTORS
-    setGLId( Window::registerGLObject(
+    setGLId(Window::registerGLObject(
                     osgMethodFunctor2CPtr<
                                     void,
                                     Window*,
                                     UInt32,
                                     TextureChunkPtr
-                                    >( tmpPtr, &TextureChunk::handleGL ), 1 )                );
+                                    >(tmpPtr, &TextureChunk::handleGL), 1)               );
 #else
     setGLId(Window::registerGLObject(
                         osgMethodFunctor2CPtr(tmpPtr,
                                                 &TextureChunk::handleGL), 1));
 #endif
-    endEditCP( tmpPtr, TextureChunk::GLIdFieldMask );
+    endEditCP(tmpPtr, TextureChunk::GLIdFieldMask);
 }
 
 
@@ -244,8 +244,8 @@ void TextureChunk::onCreate( const FieldContainer & )
 /** \brief output the instance for debug purposes
  */
 
-void TextureChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
-                        const BitVector OSG_CHECK_ARG(bvFlags )) const
+void TextureChunk::dump(     UInt32    OSG_CHECK_ARG(uiIndent),
+                        const BitVector OSG_CHECK_ARG(bvFlags)) const
 {
     SLOG << "Dump TextureChunk NI" << endl;
 }
@@ -255,25 +255,25 @@ void TextureChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
 // GL object handler
 // create the texture and destroy it
-void TextureChunk::handleGL( Window *win, UInt32 id )
+void TextureChunk::handleGL(Window *win, UInt32 id)
 {
-    Window::GLObjectStatusE mode = win->getGLObjectStatus( id );
+    Window::GLObjectStatusE mode = win->getGLObjectStatus(id);
 
-    if ( mode == Window::destroy )
+    if(mode == Window::destroy)
     {
         GLuint tex = id;
-        glDeleteTextures( 1, &tex );
+        glDeleteTextures(1, &tex);
     }
-    else if ( mode == Window::finaldestroy )
+    else if(mode == Window::finaldestroy)
     {
         //SWARNING << "Last texture user destroyed" << endl;
     }
-    else if ( mode == Window::initialize || mode == Window::reinitialize )
+    else if(mode == Window::initialize || mode == Window::reinitialize)
     {
         if(mode == Window::reinitialize)
         {
             GLuint tex = id;
-            glDeleteTextures( 1, &tex );
+            glDeleteTextures(1, &tex);
         }
         
         // 3D texture functions
@@ -286,10 +286,10 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
                       GLint border, GLenum format, GLenum type, 
                       const GLvoid *pixels))
 #ifdef GL_TEXTURE_3D
-            win->getFunction( _funcTexImage3D );
+            win->getFunction(_funcTexImage3D);
 #else
             NULL;
-#endif                          
+#endif                         
         void (*TexSubImage3D)
                           (GLenum target, GLint level, GLint xoffset, 
                            GLint yoffset, GLint zoffset, GLsizei width, 
@@ -300,61 +300,61 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
                       GLsizei height, GLsizei depth, GLenum format, 
                       GLenum type, const GLvoid *pixels)) 
 #ifdef GL_TEXTURE_3D
-            win->getFunction( _funcTexSubImage3D );
+            win->getFunction(_funcTexSubImage3D);
 #else
             NULL;
-#endif                          
+#endif                         
         // as we're not allocating anything here, the same code can be used
         // for reinitialization
         ImageP img = getImage();
 
-        if ( ! img || ! img->getDimension() ) // no image ?
+        if(! img || ! img->getDimension()) // no image ?
             return;
 
-        glErr( "TextureChunk::initialize precheck" );
+        glErr("TextureChunk::initialize precheck");
 
         GLenum target;
-        if ( img->getDepth() > 1 )
+        if(img->getDepth() > 1)
         {
 #ifdef GL_TEXTURE_3D
-            if ( win->hasExtension( _extTex3D ) )
+            if(win->hasExtension(_extTex3D))
                   target = GL_TEXTURE_3D;
             else
             {
-                FWARNING(( "TextureChunk::initialize: 3D textures not "
-                            "supported for this window!\n" ));
+                FWARNING(("TextureChunk::initialize: 3D textures not "
+                            "supported for this window!\n"));
                 return;
             }
 #else
-            FWARNING(( "TextureChunk::initialize: 3D textures not "
-                            "supported for this executable!\n" ));
+            FWARNING(("TextureChunk::initialize: 3D textures not "
+                            "supported for this executable!\n"));
             return;
 #endif
         }
-        else if ( img->getHeight() > 1 )        target = GL_TEXTURE_2D;
+        else if(img->getHeight() > 1)        target = GL_TEXTURE_2D;
         else                                    target = GL_TEXTURE_1D;
 
         // activate the texture
-        glBindTexture( target, id );
+        glBindTexture(target, id);
 
         // set the parameters
-        glTexParameteri( target, GL_TEXTURE_MIN_FILTER, getMinFilter() );
-        glTexParameteri( target, GL_TEXTURE_MAG_FILTER, getMagFilter() );
-        glTexParameteri( target, GL_TEXTURE_WRAP_S, getWrapS() );
-        if ( target == GL_TEXTURE_2D || 
+        glTexParameteri(target, GL_TEXTURE_MIN_FILTER, getMinFilter());
+        glTexParameteri(target, GL_TEXTURE_MAG_FILTER, getMagFilter());
+        glTexParameteri(target, GL_TEXTURE_WRAP_S, getWrapS());
+        if(target == GL_TEXTURE_2D || 
 #ifdef GL_TEXTURE_3D
              target == GL_TEXTURE_3D 
 #else
              true
 #endif
-           )
-            glTexParameteri( target, GL_TEXTURE_WRAP_T, getWrapT() );
+          )
+            glTexParameteri(target, GL_TEXTURE_WRAP_T, getWrapT());
 #ifdef GL_TEXTURE_3D
-        if ( target == GL_TEXTURE_3D )
-            glTexParameteri( target, GL_TEXTURE_WRAP_R, getWrapR() );
+        if(target == GL_TEXTURE_3D)
+            glTexParameteri(target, GL_TEXTURE_WRAP_R, getWrapR());
 #endif
 
-        glErr( "TextureChunk::initialize params" );
+        glErr("TextureChunk::initialize params");
 
         // set the image
         GLenum internalFormat = getInternalFormat();
@@ -373,43 +373,43 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
                             getMinFilter() == GL_NEAREST_MIPMAP_LINEAR  ||
                             getMinFilter() == GL_LINEAR_MIPMAP_LINEAR   ;
 
-        if ( internalFormat == GL_NONE )
+        if(internalFormat == GL_NONE)
             internalFormat = externalFormat;
 
         // do we need mipmaps?
-        if ( needMipmaps )
+        if(needMipmaps)
         {
             // do we have usable mipmaps ?
-            if ( img->getMipMapCount() == img->calcMipmapLevelCount() &&
-                 osgispower2( width ) && osgispower2( height ) && 
-                 osgispower2( depth )
-               )
+            if(img->getMipMapCount() == img->calcMipmapLevelCount() &&
+                 osgispower2(width) && osgispower2(height) && 
+                 osgispower2(depth)
+              )
             {
-                for ( UInt16 i = 0; i < img->getMipMapCount(); i++ )
+                for(UInt16 i = 0; i < img->getMipMapCount(); i++)
                 {
                     UInt32 w, h, d;
-                    img->calcMipmapGeometry( i, w, h, d );
+                    img->calcMipmapGeometry(i, w, h, d);
 
-                    switch ( target )
+                    switch (target)
                     {
                     case GL_TEXTURE_1D:
-                        glTexImage1D( GL_TEXTURE_1D, 0, internalFormat,
+                        glTexImage1D(GL_TEXTURE_1D, 0, internalFormat,
                                         w, 0,
                                         externalFormat, type,
-                                        img->getData( i, frame ) );
+                                        img->getData(i, frame));
                         break;
                     case GL_TEXTURE_2D:
-                        glTexImage2D( GL_TEXTURE_2D, 0, internalFormat,
+                        glTexImage2D(GL_TEXTURE_2D, 0, internalFormat,
                                         w, h, 0,
                                         externalFormat, type,
-                                        img->getData( i, frame ) );
+                                        img->getData(i, frame));
                         break;
 #ifdef GL_TEXTURE_3D
                     case GL_TEXTURE_3D:
-                          TexImage3D( GL_TEXTURE_3D, 0, internalFormat,
+                          TexImage3D(GL_TEXTURE_3D, 0, internalFormat,
                                         w, h, d, 0,
                                         externalFormat, type,
-                                        img->getData( i, frame ) );
+                                        img->getData(i, frame));
                         break;
 #endif
                     default:
@@ -421,19 +421,19 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
                 defined = true;
             }
 
-            if ( ! defined )
+            if(! defined)
             {
                 // Nope, try to use gluBuild?DMipmaps
                 void * data = NULL;
 
                 // can we use it directly?
-                if ( ! osgispower2( width ) ||
-                     ! osgispower2( height ) ||
-                     ! osgispower2( depth )
-                   )
+                if(! osgispower2(width) ||
+                     ! osgispower2(height) ||
+                     ! osgispower2(depth)
+                  )
                 {
                     // scale is only implemented for 2D
-                    if ( target != GL_TEXTURE_2D )
+                    if(target != GL_TEXTURE_2D)
                     {
                         SWARNING << "TextureChunk::initialize: can't mipmap "
                                  << "non-2D textures that are not 2^x !!!"
@@ -441,26 +441,26 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
                     }
                     else
                     {
-                        UInt32 outw = osgnextpower2( width );
-                        UInt32 outh = osgnextpower2( height );
+                        UInt32 outw = osgnextpower2(width);
+                        UInt32 outh = osgnextpower2(height);
 
                         // type is always ubyte right now
-                        data = malloc( outw * outh * sizeof( GLubyte ) * 4 );
+                        data = malloc(outw * outh * sizeof(GLubyte) * 4);
 
                         // should we scale to next power of 2?
-                        if ( doScale )
+                        if(doScale)
                         {
-                            GLint res = gluScaleImage( externalFormat,
-                                            width, height, type, img->getData( 0, frame ),
-                                            outw, outh, type, data );
+                            GLint res = gluScaleImage(externalFormat,
+                                            width, height, type, img->getData(0, frame),
+                                            outw, outh, type, data);
 
-                            if ( res )
+                            if(res)
                             {
                                 SWARNING << "TextureChunk::initialize: "
                                          << "gluScaleImage failed: "
-                                         << gluErrorString( res ) << "("
+                                         << gluErrorString(res) << "("
                                          << res << ")!" << endl;
-                                free( data );
+                                free(data);
                                 data = NULL;
                             }
                             else
@@ -471,15 +471,15 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
                         }
                         else // nope, just copy the image to the lower left part
                         {
-                            memset( data, 0, outw * outh * sizeof( GLubyte ) * 4 );
+                            memset(data, 0, outw * outh * sizeof(GLubyte) * 4);
 
                             UInt16 bpl = width * img->getBpp();
                             UInt8 * src = (UInt8 *) img->getData();
                             UInt8 * dest= (UInt8 *) data;
 
-                            for ( int y = 0; y < height; y++ )
+                            for(int y = 0; y < height; y++)
                             {
-                                memcpy( dest, src, bpl );
+                                memcpy(dest, src, bpl);
 
                                 src  += bpl;
                                 dest += outw * img->getBpp();
@@ -490,27 +490,27 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
                     }
                 }
                 else
-                    data = img->getData( 0, frame );
+                    data = img->getData(0, frame);
 
-                if ( data )
+                if(data)
                 {
-                    switch ( target )
+                    switch (target)
                     {
                     case GL_TEXTURE_1D:
-                            gluBuild1DMipmaps( target, internalFormat, width,
-                                                externalFormat, type, data );
+                            gluBuild1DMipmaps(target, internalFormat, width,
+                                                externalFormat, type, data);
                             break;
                     case GL_TEXTURE_2D:
-                            gluBuild2DMipmaps( target, internalFormat,
+                            gluBuild2DMipmaps(target, internalFormat,
                                                 width, height,
-                                                externalFormat, type, data );
+                                                externalFormat, type, data);
                             break;
 #ifdef GL_TEXTURE_3D
                     case GL_TEXTURE_3D:
 #  ifdef GLU_VERSION_1_3
-                            gluBuild3DMipmaps( target, internalFormat,
+                            gluBuild3DMipmaps(target, internalFormat,
                                                 width, height, depth,
-                                                externalFormat, type, data );
+                                                externalFormat, type, data);
 #  else
                             FWARNING(("TextureChunk::initialize: 3d textures "
                                       "supported, but GLU version < 1.3, thus "
@@ -523,32 +523,32 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
                                    << target << "!!!" << endl;
                     }
 
-                    if ( data != img->getData( 0, frame ) )
-                        free( data );
+                    if(data != img->getData(0, frame))
+                        free(data);
                     defined = true;
                 } // data
             } // use gluBuildMipmaps
         } // need mipmaps?
 
         // no mipmaps, or mipmapping failed?
-        if ( ! defined )
+        if(! defined)
         {
             // got here needing mipmaps?
-            if ( needMipmaps )  // turn them off
-                glTexParameteri( target, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+            if(needMipmaps)  // turn them off
+                glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
             void * data = NULL;
 
             // should we scale to next power of 2?
-            if ( doScale )
+            if(doScale)
             {
                 // can we use the texture directly?
-                if ( ! osgispower2( width ) ||
-                     ! osgispower2( height )
-                   )
+                if(! osgispower2(width) ||
+                     ! osgispower2(height)
+                  )
                 {
                     // scale is only implemented for 2D
-                    if ( target != GL_TEXTURE_2D )
+                    if(target != GL_TEXTURE_2D)
                     {
                         SWARNING << "TextureChunk::initialize: can't scale "
                                  << "non-2D textures that are not 2^x !!!"
@@ -556,23 +556,23 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
                     }
                     else
                     {
-                        UInt32 outw = osgnextpower2( width );
-                        UInt32 outh = osgnextpower2( height );
+                        UInt32 outw = osgnextpower2(width);
+                        UInt32 outh = osgnextpower2(height);
 
                         // biggest possible: RGBA FLOAT
-                        data = malloc( outw * outh * sizeof( GL_FLOAT ) * 4 );
+                        data = malloc(outw * outh * sizeof(GL_FLOAT) * 4);
 
-                        GLint res = gluScaleImage( externalFormat,
-                                        width, height, type, img->getData( 0, frame ),
-                                        outw, outh, type, data );
+                        GLint res = gluScaleImage(externalFormat,
+                                        width, height, type, img->getData(0, frame),
+                                        outw, outh, type, data);
 
-                        if ( res )
+                        if(res)
                         {
                             SWARNING << "TextureChunk::initialize: "
                                      << "gluScaleImage failed: "
-                                     << gluErrorString( res ) << "("
+                                     << gluErrorString(res) << "("
                                      << res << ")!" << endl;
-                            free( data );
+                            free(data);
                             data = NULL;
                         }
                         else
@@ -583,30 +583,30 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
                     }
                 }
                 else
-                    data = img->getData( 0, frame );
+                    data = img->getData(0, frame);
 
-                if ( data )
+                if(data)
                 {
-                    switch ( target )
+                    switch (target)
                     {
                     case GL_TEXTURE_1D:
-                        glTexImage1D( GL_TEXTURE_1D, 0, internalFormat,
+                        glTexImage1D(GL_TEXTURE_1D, 0, internalFormat,
                                         width, 0,
                                         externalFormat, type,
-                                        data );
+                                        data);
                         break;
                     case GL_TEXTURE_2D:
-                        glTexImage2D( GL_TEXTURE_2D, 0, internalFormat,
+                        glTexImage2D(GL_TEXTURE_2D, 0, internalFormat,
                                         width, height, 0,
                                         externalFormat, type,
-                                        data );
+                                        data);
                         break;
 #ifdef GL_TEXTURE_3D
                     case GL_TEXTURE_3D:
-                          TexImage3D( GL_TEXTURE_3D, 0, internalFormat,
+                          TexImage3D(GL_TEXTURE_3D, 0, internalFormat,
                                         width, height, depth, 0,
                                         externalFormat, type,
-                                        data );
+                                        data);
                         break;
 #endif
                     default:
@@ -617,38 +617,38 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
             }
             else // don't scale, just use ll corner
             {
-                switch ( target )
+                switch (target)
                 {
                 case GL_TEXTURE_1D:
-                    glTexImage1D( GL_TEXTURE_1D, 0, internalFormat,
-                                    osgnextpower2( width ), 0,
+                    glTexImage1D(GL_TEXTURE_1D, 0, internalFormat,
+                                    osgnextpower2(width), 0,
                                     externalFormat, type,
-                                    NULL );
-                    glTexSubImage1D( GL_TEXTURE_1D, 0, 0, width,
+                                    NULL);
+                    glTexSubImage1D(GL_TEXTURE_1D, 0, 0, width,
                                     externalFormat, type, 
-                                    img->getData( 0, frame ) );
+                                    img->getData(0, frame));
                     break;
                 case GL_TEXTURE_2D:
-                    glTexImage2D( GL_TEXTURE_2D, 0, internalFormat,
-                                    osgnextpower2( width ), 
-                                    osgnextpower2( height ), 0,
+                    glTexImage2D(GL_TEXTURE_2D, 0, internalFormat,
+                                    osgnextpower2(width), 
+                                    osgnextpower2(height), 0,
                                     externalFormat, type,
-                                    NULL );
-                    glTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0, width, height,
+                                    NULL);
+                    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height,
                                     externalFormat, type, 
-                                    img->getData( 0, frame ) );
+                                    img->getData(0, frame));
                     break;
 #ifdef GL_TEXTURE_3D
                 case GL_TEXTURE_3D:
-                      TexImage3D( GL_TEXTURE_3D, 0, internalFormat,
-                                    osgnextpower2( width ), 
-                                    osgnextpower2( height ), 
-                                    osgnextpower2( depth ), 
-                                    0, externalFormat, type, NULL );
-                      TexSubImage3D( GL_TEXTURE_3D, 0,  0, 0, 0,
+                      TexImage3D(GL_TEXTURE_3D, 0, internalFormat,
+                                    osgnextpower2(width), 
+                                    osgnextpower2(height), 
+                                    osgnextpower2(depth), 
+                                    0, externalFormat, type, NULL);
+                      TexSubImage3D(GL_TEXTURE_3D, 0,  0, 0, 0,
                                     width, height, depth,
                                     externalFormat, type, 
-                                    img->getData( 0, frame ) );
+                                    img->getData(0, frame));
 #endif
                     break;
                 default:
@@ -658,13 +658,13 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
 
             }
 
-            if ( data != img->getData( 0, frame ) )
-                free( data );
+            if(data != img->getData(0, frame))
+                free(data);
         }
 
-        glErr( "TextureChunk::initialize image" );
+        glErr("TextureChunk::initialize image");
     }
-    else if ( mode == Window::needrefresh )
+    else if(mode == Window::needrefresh)
     {
         // TODO: mipmap recreation/handling
 
@@ -678,65 +678,65 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
                       GLsizei height, GLsizei depth, GLenum format, 
                       GLenum type, const GLvoid *pixels)) 
 #ifdef GL_TEXTURE_3D
-            win->getFunction( _funcTexSubImage3D );
+            win->getFunction(_funcTexSubImage3D);
 #else
             NULL;
-#endif                          
+#endif                         
 
         ImageP img = getImage();
 
-        if ( ! img ) // no image ?
+        if(! img) // no image ?
             return;
 
-        if ( ! getScale() || ( osgispower2( img->getWidth()  ) &&
-                               osgispower2( img->getHeight() ) &&
-                               osgispower2( img->getDepth() )
-           )                 )
+        if(! getScale() || (osgispower2(img->getWidth() ) &&
+                               osgispower2(img->getHeight()) &&
+                               osgispower2(img->getDepth())
+          )                )
         {
             GLenum target;
-            if ( img->getDepth() > 1 )
+            if(img->getDepth() > 1)
             {
 #ifdef GL_TEXTURE_3D
-                if ( win->hasExtension( _extTex3D ) )
+                if(win->hasExtension(_extTex3D))
                       target = GL_TEXTURE_3D;
                 else
                 {
-                    FWARNING(( "TextureChunk::refresh: 3D textures not "
-                                "supported for this window!\n" ));
+                    FWARNING(("TextureChunk::refresh: 3D textures not "
+                                "supported for this window!\n"));
                     return;
                 }
 #else
-                FWARNING(( "TextureChunk::refresh: 3D textures not "
-                            "supported for this executable!\n" ));
+                FWARNING(("TextureChunk::refresh: 3D textures not "
+                            "supported for this executable!\n"));
                 return;            
 #endif
             }
-            else if ( img->getHeight() > 1 )        target = GL_TEXTURE_2D;
+            else if(img->getHeight() > 1)        target = GL_TEXTURE_2D;
             else                                    target = GL_TEXTURE_1D;
 
             // activate the texture
-            glBindTexture( target, id );
+            glBindTexture(target, id);
 
-            switch ( target )
+            switch (target)
             {
             case GL_TEXTURE_1D:
-                glTexSubImage1D( GL_TEXTURE_1D, 0, 0, img->getWidth(),
+                glTexSubImage1D(GL_TEXTURE_1D, 0, 0, img->getWidth(),
                                 img->getPixelFormat(), GL_UNSIGNED_BYTE,
-                                img->getData( 0, getFrame() ) );
+                                img->getData(0, getFrame()));
                 break;
             case GL_TEXTURE_2D:
-                glTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0, img->getWidth(),
+                glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, img->getWidth(),
                                 img->getHeight(),
                                 img->getPixelFormat(), GL_UNSIGNED_BYTE,
-                                img->getData( 0, getFrame() ) );
+                                img->getData(0, getFrame()));
                 break;
 #ifdef GL_TEXTURE_3D
             case GL_TEXTURE_3D:
-                  TexSubImage3D( GL_TEXTURE_3D, 0,  0, 0, 0,
+                  TexSubImage3D(GL_TEXTURE_3D, 0,  0, 0, 0,
                                 img->getWidth(),
                                 img->getHeight(), img->getDepth(),
                                 img->getPixelFormat(), GL_UNSIGNED_BYTE,
-                                img->getData( 0, getFrame() ) );
+                                img->getData(0, getFrame()));
                 break;
 #endif
             default:
@@ -750,7 +750,7 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
                      << "scaling!!!" << endl;
         }
 
-        glErr( "TextureChunk::refresh image" );
+        glErr("TextureChunk::refresh image");
     }
     else
     {
@@ -761,77 +761,94 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
 }
 
 // little helper macro to activate genfuncs
-#define setGenFunc( func, genfunc, getfunc, getplane )                  \
-    if ( getfunc() != GL_NONE )                                         \
+#define setGenFunc(func, genfunc, getfunc, getplane)                  \
+    if(getfunc() != GL_NONE)                                         \
     {                                                                   \
         GLfloat p[4] = { getplane()[0],                                 \
                          getplane()[1],                                 \
                          getplane()[2],                                 \
                          getplane()[3] };                               \
-        glTexGeni( func, GL_TEXTURE_GEN_MODE, getfunc() );              \
-        if ( getfunc() == GL_OBJECT_LINEAR )                            \
-            glTexGenfv( func, GL_OBJECT_PLANE, p );                     \
-        else if ( getfunc() == GL_EYE_LINEAR )                          \
-            glTexGenfv( func, GL_EYE_PLANE, p );                        \
-        glEnable( genfunc );                                            \
-    }                                                                   \
-    else                                                                \
-        glDisable( genfunc )
+        glTexGeni(func, GL_TEXTURE_GEN_MODE, getfunc());              \
+        if(getfunc() == GL_OBJECT_LINEAR)                            \
+            glTexGenfv(func, GL_OBJECT_PLANE, p);                     \
+        else if(getfunc() == GL_EYE_LINEAR)                          \
+            glTexGenfv(func, GL_EYE_PLANE, p);                        \
+        glEnable(genfunc);                                            \
+    }
 
-void TextureChunk::activate( DrawActionBase *action, UInt32 )
+void TextureChunk::activate(DrawActionBase *action, UInt32)
 {
-    action->getWindow()->validateGLObject( getGLId() );
+    action->getWindow()->validateGLObject(getGLId());
 
     ImageP img = getImage();
     GLenum target;
 
-    if ( ! img || ! img->getDimension() ) // no image ?
+    if(! img || ! img->getDimension()) // no image ?
         return;
 
-    glErr( "TextureChunk::activate precheck" );
+    glErr("TextureChunk::activate precheck");
 
-    if ( img->getDepth() > 1 )
+    if(img->getDepth() > 1)
     {
 #ifdef GL_TEXTURE_3D
-            if ( action->getWindow()->hasExtension( _extTex3D ) )
+            if(action->getWindow()->hasExtension(_extTex3D))
                   target = GL_TEXTURE_3D;
             else
             {
-                FWARNING(( "TextureChunk::activate: 3D textures not "
-                            "supported for this window!\n" ));
+                FWARNING(("TextureChunk::activate: 3D textures not "
+                            "supported for this window!\n"));
                 return;
             }
 #else
-            FWARNING(( "TextureChunk::activate: 3D textures not "
-                            "supported for this executable!\n" ));
+            FWARNING(("TextureChunk::activate: 3D textures not "
+                            "supported for this executable!\n"));
             return;
 #endif
     }
-    else if ( img->getHeight() > 1 )        target = GL_TEXTURE_2D;
+    else if(img->getHeight() > 1)        target = GL_TEXTURE_2D;
     else                                    target = GL_TEXTURE_1D;
 
 
-    glBindTexture( target, getGLId() );
+    glBindTexture(target, getGLId());
 
     // texture env
-    glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode() );
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
 
     // register combiners etc. goes here
 
     // genfuncs
-    setGenFunc( GL_S, GL_TEXTURE_GEN_S, getGenFuncS, getGenFuncSPlane );
-    setGenFunc( GL_T, GL_TEXTURE_GEN_T, getGenFuncT, getGenFuncTPlane );
-    setGenFunc( GL_R, GL_TEXTURE_GEN_R, getGenFuncR, getGenFuncRPlane );
-    setGenFunc( GL_Q, GL_TEXTURE_GEN_Q, getGenFuncQ, getGenFuncQPlane );
+    setGenFunc(GL_S, GL_TEXTURE_GEN_S, getGenFuncS, getGenFuncSPlane);
+    setGenFunc(GL_T, GL_TEXTURE_GEN_T, getGenFuncT, getGenFuncTPlane);
+    setGenFunc(GL_R, GL_TEXTURE_GEN_R, getGenFuncR, getGenFuncRPlane);
+    setGenFunc(GL_Q, GL_TEXTURE_GEN_Q, getGenFuncQ, getGenFuncQPlane);
 
-    glEnable( target );
+    glEnable(target);
 
-    glErr( "TextureChunk::activate" );
+    glErr("TextureChunk::activate");
 }
+
+
+#define changeGenFunc(func, genfunc, getfunc, getplane)              \
+    if(getfunc() != GL_NONE)                                         \
+    {                                                                \
+        GLfloat p[4] = { getplane()[0],                              \
+                         getplane()[1],                              \
+                         getplane()[2],                              \
+                         getplane()[3] };                            \
+        glTexGeni(func, GL_TEXTURE_GEN_MODE, getfunc());             \
+        if(getfunc() == GL_OBJECT_LINEAR)                            \
+            glTexGenfv(func, GL_OBJECT_PLANE, p);                    \
+        else if(getfunc() == GL_EYE_LINEAR)                          \
+            glTexGenfv(func, GL_EYE_PLANE, p);                       \
+        if(oldp->getfunc() == GL_NONE)                               \
+            glEnable(genfunc);                                       \
+    }                                                                \
+    else if(oldp->getfunc() != GL_NONE)                              \
+        glDisable(genfunc)
 
 void TextureChunk::changeFrom(DrawActionBase *action, 
                               StateChunk     *old   , 
-                              UInt32                )
+                              UInt32               )
 {
     // change from me to me?
     // this assumes I haven't changed in the meantime. 
@@ -852,17 +869,17 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     if(img->getDepth() > 1)
     {
 #ifdef GL_TEXTURE_3D
-        if ( action->getWindow()->hasExtension( _extTex3D ) )
+        if(action->getWindow()->hasExtension(_extTex3D))
               target = GL_TEXTURE_3D;
         else
         {
-            FWARNING(( "TextureChunk::changeFrom: 3D textures not "
-                        "supported for this window!\n" ));
+            FWARNING(("TextureChunk::changeFrom: 3D textures not "
+                        "supported for this window!\n"));
             return;
         }
 #else
-        FWARNING(( "TextureChunk::changeFrom: 3D textures not "
-                        "supported for this executable!\n" ));
+        FWARNING(("TextureChunk::changeFrom: 3D textures not "
+                        "supported for this executable!\n"));
         return;
 #endif
     }
@@ -880,21 +897,21 @@ void TextureChunk::changeFrom(DrawActionBase *action,
         if(oldp->getImage()->getDepth() > 1)
         {
 #ifdef GL_TEXTURE_3D
-            if ( action->getWindow()->hasExtension( _extTex3D ) )
+            if(action->getWindow()->hasExtension(_extTex3D))
                   oldtarget = GL_TEXTURE_3D;
             else
             {
-                FWARNING(( "TextureChunk::changeFrom: 3D textures not "
-                            "supported for this window!\n" ));
+                FWARNING(("TextureChunk::changeFrom: 3D textures not "
+                            "supported for this window!\n"));
                 return;
             }
 #else
-            FWARNING(( "TextureChunk::changeFrom: 3D textures not "
-                            "supported for this executable!\n" ));
+            FWARNING(("TextureChunk::changeFrom: 3D textures not "
+                            "supported for this executable!\n"));
             return;
 #endif
         }
-        else if( oldp->getImage()->getHeight() > 1)
+        else if(oldp->getImage()->getHeight() > 1)
         {
             oldtarget = GL_TEXTURE_2D;
         }
@@ -909,15 +926,15 @@ void TextureChunk::changeFrom(DrawActionBase *action,
         }
     }
 
-    action->getWindow()->validateGLObject( getGLId() );
+    action->getWindow()->validateGLObject(getGLId());
 
     // just set them
     glTexEnvi (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
 
-    setGenFunc(GL_S, GL_TEXTURE_GEN_S, getGenFuncS, getGenFuncSPlane);
-    setGenFunc(GL_T, GL_TEXTURE_GEN_T, getGenFuncT, getGenFuncTPlane);
-    setGenFunc(GL_R, GL_TEXTURE_GEN_R, getGenFuncR, getGenFuncRPlane);
-    setGenFunc(GL_Q, GL_TEXTURE_GEN_Q, getGenFuncQ, getGenFuncQPlane);
+    changeGenFunc(GL_S, GL_TEXTURE_GEN_S, getGenFuncS, getGenFuncSPlane);
+    changeGenFunc(GL_T, GL_TEXTURE_GEN_T, getGenFuncT, getGenFuncTPlane);
+    changeGenFunc(GL_R, GL_TEXTURE_GEN_R, getGenFuncR, getGenFuncRPlane);
+    changeGenFunc(GL_Q, GL_TEXTURE_GEN_Q, getGenFuncQ, getGenFuncQPlane);
 
     glBindTexture(target, getGLId());
 
@@ -926,50 +943,62 @@ void TextureChunk::changeFrom(DrawActionBase *action,
         glEnable(target);
     }
 
-    glErr( "TextureChunk::changeFrom" );
+    glErr("TextureChunk::changeFrom");
 }
 
-void TextureChunk::deactivate ( DrawActionBase *action, UInt32 )
+void TextureChunk::deactivate (DrawActionBase *action, UInt32)
 {
     ImageP img = getImage();
     GLenum target;
 
-    if ( ! img || ! img->getDimension() )
+    if(! img || ! img->getDimension())
       return;
 
-    glErr( "TextureChunk::deactivate precheck" );
+    glErr("TextureChunk::deactivate precheck");
 
-    if ( img->getDepth() > 1 )
+    if(img->getDepth() > 1)
     {
 #ifdef GL_TEXTURE_3D
-        if ( action->getWindow()->hasExtension( _extTex3D ) )
+        if(action->getWindow()->hasExtension(_extTex3D))
               target = GL_TEXTURE_3D;
         else
         {
-            FWARNING(( "TextureChunk::deactivate: 3D textures not "
-                        "supported for this window!\n" ));
+            FWARNING(("TextureChunk::deactivate: 3D textures not "
+                        "supported for this window!\n"));
             return;
         }
 #else
-        FWARNING(( "TextureChunk::deactivate: 3D textures not "
-                        "supported for this executable!\n" ));
+        FWARNING(("TextureChunk::deactivate: 3D textures not "
+                        "supported for this executable!\n"));
         return;
 #endif
     }
-    else if ( img->getHeight() > 1 )        target = GL_TEXTURE_2D;
-    else                                    target = GL_TEXTURE_1D;
+    else if(img->getHeight() > 1) 
+    {       
+        target = GL_TEXTURE_2D;
+    }
+    else
+    {                                    
+        target = GL_TEXTURE_1D;
+    }
+    
+    glDisable(target);
 
-    glDisable( target );
+    if(getGenFuncS() != GL_NONE)
+        glDisable(GL_TEXTURE_GEN_S);
 
-    // not really needed, the init sets/resets it anyway, but cleaner
-    if ( getGenFuncS() != GL_NONE )     glDisable( GL_TEXTURE_GEN_S );
-    if ( getGenFuncT() != GL_NONE )     glDisable( GL_TEXTURE_GEN_T );
-    if ( getGenFuncR() != GL_NONE )     glDisable( GL_TEXTURE_GEN_R );
-    if ( getGenFuncQ() != GL_NONE )     glDisable( GL_TEXTURE_GEN_Q );
+    if(getGenFuncS() != GL_NONE)
+        glDisable(GL_TEXTURE_GEN_T);
 
-    glBindTexture( target, 0 );
+    if(getGenFuncS() != GL_NONE)
+        glDisable(GL_TEXTURE_GEN_R);
 
-    glErr( "TextureChunk::deactivate" );
+    if(getGenFuncS() != GL_NONE)
+        glDisable(GL_TEXTURE_GEN_Q);
+
+    glBindTexture(target, 0);
+
+    glErr("TextureChunk::deactivate");
 }
 
 /*-------------------------- comparison -----------------------------------*/
@@ -994,10 +1023,10 @@ Bool TextureChunk::operator == (const StateChunk &other) const
 {
     TextureChunk const *tother = dynamic_cast<TextureChunk const*>(&other);
 
-    if ( !tother )
+    if(!tother)
         return false;
 
-    if ( tother == this )
+    if(tother == this)
         return true;
 
     return getImage()       == tother->getImage() &&
