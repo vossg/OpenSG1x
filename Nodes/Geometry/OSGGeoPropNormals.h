@@ -57,7 +57,7 @@ struct GeoNormals3fPropertyDesc
 
     static const Char8 *getTypeName  (void) { return "GeoNormals3f";         }
     static const Char8 *getClassName (void) { return "GeoNormals3fProperty"; }
-    static const Char8 *getFieldName (void) { return "Normals";              }
+    static const Char8 *getFieldName (void) { return "normals";              }
     static const Char8 *getGroupName (void) { return "GeoNormals";           }
 
     static InitContainerF     getInitMethod(void) { return NULL;            }

@@ -57,7 +57,7 @@ struct GeoIndicesUI32PropertyDesc
 
     static const Char8 *getTypeName (void) { return "GeoIndicesUI32";         }
     static const Char8 *getClassName(void) { return "GeoIndicesUI32Property"; }
-    static const Char8 *getFieldName(void) { return "Indices";                }
+    static const Char8 *getFieldName(void) { return "indices";                }
     static const Char8 *getGroupName(void) { return "GeoIndices";             }
 
     static InitContainerF     getInitMethod(void) { return NULL;            }

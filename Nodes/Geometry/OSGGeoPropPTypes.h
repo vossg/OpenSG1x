@@ -57,7 +57,7 @@ struct GeoPTypesUI8PropertyDesc
         
     static const Char8 *getTypeName (void) { return "GeoPTypesUI8";         }
     static const Char8 *getClassName(void) { return "GeoPTypesUI8Property"; }
-    static const Char8 *getFieldName(void) { return "Types";                }
+    static const Char8 *getFieldName(void) { return "types";                }
     static const Char8 *getGroupName(void) { return "GeoPTypes";            }
 
     static InitContainerF     getInitMethod(void) { return NULL;             }

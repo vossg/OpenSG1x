@@ -61,7 +61,7 @@ struct GeoPLengthsUI32PropertyDesc
     
     static const Char8 *getTypeName (void) { return "GeoPLengthsUI32";        }
     static const Char8 *getClassName(void) { return "GeoPLengthsUI32Property";}
-    static const Char8 *getFieldName(void) { return "Indices";                }
+    static const Char8 *getFieldName(void) { return "lengths";                }
     static const Char8 *getGroupName(void) { return "GeoPLengths";            }
 
     static InitContainerF     getInitMethod(void) { return NULL;            }

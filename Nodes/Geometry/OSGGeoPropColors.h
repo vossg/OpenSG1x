@@ -60,7 +60,7 @@ struct GeoColors3fPropertyDesc
     
     static const Char8 *getTypeName (void) { return "GeoColors3f";         }
     static const Char8 *getClassName(void) { return "GeoColors3fProperty"; }
-    static const Char8 *getFieldName(void) { return "Colors";              }
+    static const Char8 *getFieldName(void) { return "colors";              }
     static const Char8 *getGroupName(void) { return "GeoColors";           }
 
     static InitContainerF     getInitMethod(void) { return NULL;            }
