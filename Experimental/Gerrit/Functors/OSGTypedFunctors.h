@@ -91,6 +91,14 @@ TypedFunctionVoidFunctor1< CPtrCallArg<Arg1T> >
 //  osgTypedFunctionFunctor1CPtrRef
 //---------------------------------------------------------------------------
 
+template <class RetT, class Arg1T> inline
+TypedFunctionFunctor1<RetT, CPtrRefCallArg<Arg1T> > 
+    osgTypedFunctionFunctor1CPtrRef(RetT (*pFunc)(Arg1T &));
+
+//---------------------------------------------------------------------------
+//  osgTypedFunctionVoidFunctor1CPtrRef
+//---------------------------------------------------------------------------
+
 template <class Arg1T> inline
 TypedFunctionVoidFunctor1< CPtrRefCallArg<Arg1T> > 
     osgTypedFunctionVoidFunctor1CPtrRef(void (*pFunc)(Arg1T &));
@@ -136,6 +144,23 @@ TypedStoredObjectVoidFunctor1<PtrCallArg<ObjectT>,
                               PtrCallArg<Arg1T  > > 
     osgTypedMethodVoidFunctor1ObjPtr(      ObjectT  *pObj, 
                                      void (ObjectT::*pFunc)(Arg1T *));
+
+//---------------------------------------------------------------------------
+//  osgTypedMethodFunctor1ObjPtrCPtrRef
+//---------------------------------------------------------------------------
+
+template <class RetT, class ObjectT, class Arg1T> inline
+TypedStoredObjectFunctor1<RetT, 
+                          PtrCallArg    <ObjectT>, 
+                          CPtrRefCallArg<Arg1T  > > 
+    osgTypedMethodFunctor1ObjPtrCPtrRef(      ObjectT  *pObj, 
+                                        RetT (ObjectT::*pFunc)(Arg1T &));
+
+template <class ObjectT, class Arg1T> inline
+TypedStoredObjectVoidFunctor1<PtrCallArg    <ObjectT>, 
+                              CPtrRefCallArg<Arg1T  > > 
+    osgTypedMethodVoidFunctor1ObjPtrCPtrRef(      ObjectT  *pObj, 
+                                            void (ObjectT::*pFunc)(Arg1T &));
 
 //---------------------------------------------------------------------------
 //  osgTypedMethodFunctor1CPtr
@@ -331,6 +356,29 @@ TypedStoredObjectVoidFunctor2<PtrCallArg   <ObjectT>,
                               ArgsCollector<Arg2T  > > 
     osgTypedMethodVoidFunctor2ObjPtr(      ObjectT  *pObj, 
                                      void (ObjectT::*pFunc)(Arg1T *, Arg2T));
+
+//---------------------------------------------------------------------------
+//  osgTypedMethodFunctor2ObjPtrCPtrRef
+//---------------------------------------------------------------------------
+
+
+template <class RetT,  class ObjectT, 
+          class Arg1T, class Arg2T  > inline
+TypedStoredObjectFunctor2<RetT, 
+                          PtrCallArg    <ObjectT>,
+                          CPtrRefCallArg<Arg1T  >, 
+                          ArgsCollector <Arg2T  > > 
+    osgTypedMethodFunctor2ObjPtrCPtrRef(      
+          ObjectT  *pObj, 
+    RetT (ObjectT::*pFunc)(Arg1T &, Arg2T));
+
+template <class ObjectT, class Arg1T, class Arg2T> inline
+TypedStoredObjectVoidFunctor2<PtrCallArg    <ObjectT>,
+                              CPtrRefCallArg<Arg1T  >, 
+                              ArgsCollector <Arg2T  > > 
+    osgTypedMethodVoidFunctor2ObjPtrCPtrRef(
+          ObjectT  *pObj, 
+    void (ObjectT::*pFunc)(Arg1T &, Arg2T));
 
 
 //---------------------------------------------------------------------------

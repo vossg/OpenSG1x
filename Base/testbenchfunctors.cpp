@@ -1,4 +1,6 @@
+
 #include <OSGConfig.h>
+
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
@@ -11,7 +13,7 @@
 #endif
 
 #include <OSGBaseFunctions.h>
-#include "OSGFunctors.h"
+//#include "OSGFunctors.h"
 
 using namespace OSG;
 
@@ -98,11 +100,12 @@ Real32 test::vmethod( Int32 )
 
 // Functors
 
-typedef Functor1Base<Real32, Int32> benchFunctor;
+//typedef Functor1Base<Real32, Int32> benchFunctor;
 
 
 int main( int argc, char *argv[] )
 {
+#if 0
     Real32 result = 0;
     Int32 l;
 
@@ -233,4 +236,6 @@ int main( int argc, char *argv[] )
 
     // just use result, otherwise naked is optimized away
     return result > 0 ? 1 : 0;
+#endif
+    return 0;
 }

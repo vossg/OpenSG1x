@@ -256,9 +256,16 @@ int main( int argc, char *argv[] )
     // instantiation time
 
     Action::registerEnterDefault(Core1::getClassType(), 
-                               osgFunctionFunctor2(defenter1));
+                                 osgTypedFunctionFunctor2CPtrRef<
+                                     Action::ResultE, 
+                                     CNodePtr,
+                                     Action *                   >(defenter1));
+
     Action::registerLeaveDefault(Core1::getClassType(), 
-                               osgFunctionFunctor2(defleave1));
+                                 osgTypedFunctionFunctor2CPtrRef<
+                                     Action::ResultE, 
+                                     CNodePtr,
+                                     Action *                   >(defleave1));
 
     Action *act1;
     act1 = Action::create();
@@ -267,9 +274,16 @@ int main( int argc, char *argv[] )
     act1->apply(g2);    
 
     Action::registerEnterDefault(Core2::getClassType(), 
-                               osgFunctionFunctor2(defenter2));
+                                 osgTypedFunctionFunctor2CPtrRef<
+                                     Action::ResultE, 
+                                     CNodePtr,
+                                     Action *                   >(defenter2));
     Action::registerLeaveDefault(Core2::getClassType(), 
-                               osgFunctionFunctor2(defleave2));
+                                 osgTypedFunctionFunctor2CPtrRef<
+                                     Action::ResultE, 
+                                     CNodePtr,
+                                     Action *                   >(defleave2));
+
 
     cerr << "Apply (c2 unset, pickup from default):" << endl;
     act1->apply(g2);    
@@ -283,14 +297,29 @@ int main( int argc, char *argv[] )
 
     // assign functors
     act1->registerEnterFunction(Core1::getClassType(), 
-                         osgMethodFunctor2Ptr(&gf1, &Core1Action::enter));
+                                osgTypedMethodFunctor2ObjPtrCPtrRef<
+                                    Action::ResultE,
+                                    Core1Action,
+                                    CNodePtr,
+                                    Action     *>(&gf1, &Core1Action::enter));
+
     act1->registerLeaveFunction(Core1::getClassType(), 
-                         osgMethodFunctor2Ptr(&gf2, &Core1Action::leave));
+                                osgTypedMethodFunctor2ObjPtrCPtrRef<
+                                    Action::ResultE,
+                                    Core1Action,
+                                    CNodePtr,
+                                    Action     *>(&gf2, &Core1Action::leave));
     
     act1->registerEnterFunction(Core2::getClassType(), 
-                               osgFunctionFunctor2(Core2Enter));
+                                osgTypedFunctionFunctor2CPtrRef<
+                                     Action::ResultE, 
+                                     CNodePtr,
+                                     Action *                  >(Core2Enter));
     act1->registerLeaveFunction(Core2::getClassType(), 
-                               osgFunctionFunctor2(Core2Leave));
+                                osgTypedFunctionFunctor2CPtrRef<
+                                     Action::ResultE, 
+                                     CNodePtr,
+                                     Action *                  >(Core2Leave));
 
     // set act1 as the prototype
     
@@ -327,7 +356,10 @@ int main( int argc, char *argv[] )
 
     //use a function that only traverses the first node (if any)
     act1->registerEnterFunction(Core1::getClassType(), 
-                         osgFunctionFunctor2(firstOnly));
+                                osgTypedFunctionFunctor2CPtrRef<
+                                     Action::ResultE, 
+                                     CNodePtr,
+                                     Action *                  >(firstOnly));
 
     cerr << "Apply(single child traversal):" << endl;
 
@@ -342,46 +374,87 @@ int main( int argc, char *argv[] )
     {
     
     TravActor tact1,tact2;
-
     // traversal function test
     cerr << "Traverse(node,enter):" << endl;
-    traverse(g1, osgMethodFunctor1Ptr(&tact1, &TravActor::enter));    
+    traverse(g1, 
+             osgTypedMethodFunctor1ObjPtrCPtrRef<
+                 Action::ResultE,
+                 TravActor,
+                 NodePtr        >(&tact1, &TravActor::enter));    
 
-    
     cerr << "Traverse(node,enter):" << endl;
-    traverse(g1, osgMethodFunctor1Ptr(&tact1, &TravActor::enter));    
+    traverse(g1, 
+             osgTypedMethodFunctor1ObjPtrCPtrRef<
+                 Action::ResultE,
+                 TravActor,
+                 NodePtr        >(&tact1, &TravActor::enter));    
     
     cerr << "Traverse(list,enter):" << endl;
     traverse(g1->getMFChildren()->getValues(), 
-             osgMethodFunctor1Ptr(&tact2, &TravActor::enter) );
+             osgTypedMethodFunctor1ObjPtrCPtrRef<
+                 Action::ResultE,
+                 TravActor,
+                 NodePtr        >(&tact2, &TravActor::enter) );
+
     
     cerr << "Traverse(node,enter&leave):" << endl;
-    traverse(g1, osgMethodFunctor1Ptr(&tact1, &TravActor::enter), 
-                 osgMethodFunctor2Ptr(&tact1, &TravActor::leave) );
+    traverse(g1, 
+             osgTypedMethodFunctor1ObjPtrCPtrRef<
+                 Action::ResultE,
+                 TravActor,
+                 NodePtr        >(&tact1, &TravActor::enter), 
+
+             osgTypedMethodFunctor2ObjPtrCPtrRef<
+                 Action::ResultE,
+                 TravActor,
+                 NodePtr,
+                 Action::ResultE>(&tact1, &TravActor::leave) );
     
     cerr << "Traverse(list,enter&leave):" << endl;
     traverse(g1->getMFChildren()->getValues(), 
-             osgMethodFunctor1Ptr(&tact2, &TravActor::enter), 
-             osgMethodFunctor2Ptr(&tact2, &TravActor::leave) );
+             osgTypedMethodFunctor1ObjPtrCPtrRef<
+                 Action::ResultE,
+                 TravActor,
+                 NodePtr        >(&tact2, &TravActor::enter), 
+             osgTypedMethodFunctor2ObjPtrCPtrRef<
+                 Action::ResultE,
+                 TravActor,
+                 NodePtr,
+                 Action::ResultE>(&tact2, &TravActor::leave) );
  
     
     cerr << "Traverse(node,enter):" << endl;
-    traverse(g1, osgFunctionFunctor1(traventer));    
+    traverse(g1, 
+             osgTypedFunctionFunctor1CPtrRef<
+                 Action::ResultE, 
+                 NodePtr        >(traventer));    
     
     cerr << "Traverse(list,enter):" << endl;
     traverse(g1->getMFChildren()->getValues(), 
-             osgFunctionFunctor1(traventer) );
+             osgTypedFunctionFunctor1CPtrRef<
+                 Action::ResultE, 
+                 NodePtr        >(traventer) );
     
     cerr << "Traverse(node,enter&leave):" << endl;
-    traverse(g1, osgFunctionFunctor1(traventer), 
-                 osgFunctionFunctor2(travleave) );
+    traverse(g1, 
+             osgTypedFunctionFunctor1CPtrRef<
+                 Action::ResultE, 
+                 NodePtr        >(traventer), 
+             osgTypedFunctionFunctor2CPtrRef<
+                 Action::ResultE,
+                 NodePtr,
+                 Action::ResultE>(travleave) );
     
     cerr << "Traverse(list,enter&leave):" << endl;
     traverse(g1->getMFChildren()->getValues(), 
-             osgFunctionFunctor1(traventer), 
-             osgFunctionFunctor2(travleave) );
+             osgTypedFunctionFunctor1CPtrRef<
+                 Action::ResultE, 
+                 NodePtr        >(traventer), 
+             osgTypedFunctionFunctor2CPtrRef<
+                 Action::ResultE,
+                 NodePtr,
+                 Action::ResultE>(travleave) );
     }
-    
 
     // try the error checks
 
@@ -399,4 +472,5 @@ int main( int argc, char *argv[] )
     NodePtr g3 = Node::create();
     cerr << "Apply(node) without core:" << endl;
     act1->apply( g3 );
+
 }
