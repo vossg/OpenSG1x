@@ -273,7 +273,10 @@ void Animation::resolve(NodePtr pRoot)
 
     act2 = OSG::Action::create (                                      );   
     act2->registerEnterFunction(OSG::ComponentTransform::getClassType(),
-                                OSG::osgFunctionFunctor2(animResolver));      
+                                OSG::osgTypedFunctionFunctor2CPtrRef<
+                                     OSG::Action::ResultE, 
+                                     OSG::CNodePtr,
+                                     OSG::Action *         >(animResolver));      
     act2->apply(pRoot);
 
 #endif

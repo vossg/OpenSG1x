@@ -50,6 +50,7 @@
 #include <OSGSceneFileHandler.h>
 #include <OSGAnimation.h>
 #include <OSGImageForeground.h>
+#include <OSGStatCollector.h>
 
 #ifdef TUBS
 #include "OSGTubsMesh.h"
@@ -67,7 +68,7 @@ OSG::OSGTubsMeshPtr pMesh;
 OSG::DrawAction   *dact;
 OSG::RenderAction *ract;
 
-OSG::bool doWire = false;
+bool doWire = false;
 
 OSG::NodePtr            file;
 
@@ -101,7 +102,7 @@ int     lastx=0, lasty=0;
 int                        selectedCam     = 0;
 int                        lastSelectedCam = 0;
 OSG::MField<OSG::NodePtr>   cameraBeacons;  
-//OSG::bool                 doAnim = false;
+//bool                 doAnim = false;
 OSG::Real32                 animFraction = 0.0;
 OSG::Real32                 animDelta = 0.05;
 OSG::Vec3f                  startPoint, endPoint;
@@ -112,6 +113,8 @@ OSG::ComponentTransformPtr       stdCamBeacon;
 
 OSG::Real32                 animDuration;
 OSG::Real32                 frameDuration = 0.0;
+bool                        bFixedDelta = false;
+int                         renderFrames     = -1;
 
 OSG::Vec3f                  interPnt;
 OSG::Quaternion             interQuat;
@@ -121,7 +124,7 @@ OSG::Vec3f                  flyPos;
 OSG::Vec3f                  flyOri;
 OSG::Matrix                 lastTBallMatrix;
 
-OSG::bool                   bDraw = false;
+bool                        bDraw = false;
  
 static OSG::Pnt2f           logoPos[2] = { OSG::Pnt2f(0.0, 0.0), 
                                            OSG::Pnt2f(0.8, 0.0) };
@@ -135,6 +138,9 @@ vector<OSG::Vec3f>      aniPositions;
 vector<OSG::Quaternion> aniRotations;
 
 // --- fps calculation
+
+OSG::StatCollector   collector;
+bool                 doStats = true;
 
 OSG::Time              timeOld, timeNew;
 
@@ -154,7 +160,7 @@ OSG::Real32                 setNear = -1;
 
 /*------------- v2a file check & read -------------------------------------*/
 
-void loadMesh(const char *szFilename, OSG::NodePtr dlight)
+void loadMesh(const char *, OSG::NodePtr )
 {
 #ifdef TUBS
     // Mesh
@@ -301,7 +307,7 @@ void loadMesh(const char *szFilename, OSG::NodePtr dlight)
 bool readv2aFile(const string& filename)
 {
     FILE        *f = NULL;
-    OSG::bool   ok;
+    bool   ok;
 
     if(filename[0] == '+')
     {
@@ -566,7 +572,23 @@ void display(void)
     
 //  cout << "fps: " << fps( diff ) << endl;
     
-    animDelta = 1.0/nrOfSteps;      
+    if(!bFixedDelta)
+        animDelta = 1.0/nrOfSteps;   
+        
+    if(renderFrames >= 0)
+    {
+        if(doStats)
+        {
+            string str;
+            collector.putToString(str);
+            cout << str << endl;
+        }
+        if(renderFrames-- == 0)
+            exit(0);
+        
+        if((renderFrames % 10) == 0)
+            cerr << renderFrames << " frames left" << endl;
+    }   
 }
 
 /*-------------------------------------------------------------------------*/
@@ -649,7 +671,10 @@ void animate(void)
 
     // --- interpolator animation
     
-    globalTime = OSG::getSystemTime() - startTime;
+    if(bFixedDelta)
+        globalTime += animDelta;
+    else
+        globalTime = OSG::getSystemTime() - startTime;
     
     if(doInterpolators)
     {
@@ -819,7 +844,7 @@ OSG::Action::ResultE wireDraw( OSG::CNodePtr &, OSG::Action * action )
         OSG::Pnt3f min,max;
         vol.getBounds( min, max );
 
-        OSG::bool l = glIsEnabled( GL_LIGHTING );
+        bool l = glIsEnabled( GL_LIGHTING );
         glDisable( GL_LIGHTING );
         
         glColor3f( .8,.8,.8 );
@@ -972,7 +997,7 @@ void dumpUserAnim()
 
 /*-------------------------------------------------------------------------*/
 
-void key(unsigned char key, int x, int y)
+void key(unsigned char key, int , int )
 {
     int cameraNr;
     OSG::Matrix m1,m2;
@@ -1119,7 +1144,7 @@ void key(unsigned char key, int x, int y)
 
 /*-------------------------------------------------------------------------*/
 
-void specialKey(int key, int x, int y)
+void specialKey(int key, int , int )
 {
     switch ( key )
     {               
@@ -1274,8 +1299,8 @@ getopt(int argc, char **argv, char *opts)
 void checkOptions( int argc, char** argv )
 {
     string      modelfile;
-    OSG::bool   hasOptionA = false;
-    OSG::bool   hasAnimDuration = false;
+    bool   hasOptionA = false;
+    bool   hasAnimDuration = false;
     int         option;
     
     if( argc<2 )
@@ -1287,7 +1312,7 @@ void checkOptions( int argc, char** argv )
     bkgndgcol.setValuesRGB(.3, .3, 1);
     do
     {
-        option = getopt( argc, argv, "a:b:c:hB:n:" );
+        option = getopt( argc, argv, "a:b:c:hB:n:d:rf:s" );
 
         if( option != '?' )
         {
@@ -1313,6 +1338,19 @@ void checkOptions( int argc, char** argv )
                 case 'h':
                     printHelp();
                     exit(0);
+                    break;
+                case 'd':
+                    bFixedDelta = true;
+                    animDelta = atof( optarg );
+                    break;
+                case 'r':
+                    doInterpolators = true;
+                     break;
+                case 'f':
+                    renderFrames = atoi( optarg );
+                    break;
+                case 's':
+                    doStats = false;
                     break;
             }
         }
@@ -1514,18 +1552,29 @@ int main (int argc, char **argv)
 
     gwin = OSG::GLUTWindow::create();
 
-    gwin->setWinID(winid);
-    gwin->setSize (glvp[2], glvp[3]);
+    gwin->setId  (winid);
+    gwin->setSize(glvp[2], glvp[3]);
 
     win = gwin;
 
     win->addPort(vp);
 
+    // Statistics
+    
+    // add optional elements
+    collector.getElem(OSG::Geometry::statNTriangles);
+    
     // Action
     
     dact = OSG::DrawAction::create();
     ract = OSG::RenderAction::create();
 
+    if(doStats)
+    {
+        dact->setStatistics(&collector);
+        ract->setStatistics(&collector);
+    }
+    
     // Task 2: draw wireframe bbox, if wanted
 //    ract->registerEnterFunction(OSG::Geometry::getClassType(),
 //                                OSG::osgFunctionFunctor2(wireDraw));
@@ -1538,7 +1587,10 @@ int main (int argc, char **argv)
     act1 = OSG::Action::create();   
 
     act1->registerEnterFunction(OSG::ComponentTransform::getClassType(),
-                                OSG::osgFunctionFunctor2(viewpointCheck));
+                                OSG::osgTypedFunctionFunctor2CPtrRef<
+                                     OSG::Action::ResultE, 
+                                     OSG::CNodePtr,
+                                     OSG::Action *         >(viewpointCheck));
     act1->apply(dlight);
     
     
@@ -1717,6 +1769,7 @@ int main (int argc, char **argv)
 
 //    key('e', 0, 0);   
 
+    globalTime = 0;
     startTime = OSG::getSystemTime();
     
     glutMainLoop();
