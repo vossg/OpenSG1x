@@ -82,6 +82,22 @@ QTWindow::~QTWindow(void)
 
 /*----------------------------- class specific ----------------------------*/
 
+//! test QT versions, give a warning 
+
+bool qtVersionCheckWrapper(void)
+{
+    if(strcmp(qVersion(), QT_VERSION_STR))
+    {
+        FWARNING(("WindowQTLib was compiled against QT version %s, but "
+                  "the application is using %s!", QT_VERSION_STR, qVersion()));
+        FWARNING(("This might result in problems. It usually doesn't, but be"
+                  " warned."));
+    }
+    return true;
+}
+
+static StaticInitFuncWrapper qtVersionCheck(qtVersionCheckWrapper);
+
 //! initialize the static features of the class, e.g. action callbacks
 
 void QTWindow::initMethod (void)
