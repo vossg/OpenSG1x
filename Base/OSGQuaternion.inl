@@ -1085,7 +1085,7 @@ const QuaternionBase<ValueTypeT> &
 
 template <class ValueTypeT> inline
 Bool QuaternionBase<ValueTypeT>::operator <(
-    const QuaternionBase &other)
+    const QuaternionBase &other) const
 {
     return this < &other;
 }

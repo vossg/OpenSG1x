@@ -232,7 +232,7 @@ class OSG_BASE_DLLMAPPING QuaternionBase
 
     /*------------------------- comparison ----------------------------------*/
 
-    Bool operator <  (const QuaternionBase &other);
+    Bool operator <  (const QuaternionBase &other) const;
     
 	Bool operator == (const QuaternionBase &other) const;
 	Bool operator != (const QuaternionBase &other) const;
