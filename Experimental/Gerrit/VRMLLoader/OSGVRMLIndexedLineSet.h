@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGTYPEBASE_HPP_
-#define _OSGTYPEBASE_HPP_
+#ifndef _OSGVRMLINDEXEDLINESET_HPP_
+#define _OSGVRMLINDEXEDLINESET_HPP_
 #ifdef __sgi
 #pragma once
 #endif
@@ -46,17 +46,20 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBase.h>
 #include <OSGBaseTypes.h>
-#include <OSGSupportTypes.h>
-#include <OSGIDString.h>
-#include <OSGLog.h>
+#include <OSGVRMLGeometry.h>
+#include <OSGSFBaseTypes.h>
+#include <OSGMFBaseTypes.h>
+
+#include <OSGGeometry.h>
 
 OSG_BEGIN_NAMESPACE
 
 //---------------------------------------------------------------------------
 //  Forward References
 //---------------------------------------------------------------------------
+
+class VRMLToOSGAction;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -66,25 +69,43 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-//! TypeBase
-//! \ingroup TypeLib
+//! VRMLIndexedLineSet
+//! \ingroup VRMLNodeLib
 
-class OSG_BASE_DLLMAPPING TypeBase
+class OSG_VRML_DLLMAPPING VRMLIndexedLineSet : public VRMLGeometry
 {
+  private:
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    typedef VRMLGeometry Inherited;
+
   public:
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    typedef       VRMLIndexedLineSet *Ptr;
+    typedef const VRMLIndexedLineSet *ConstPtr;
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    static const UInt32 GlobalNameSpace = 0;
+    OSG_RC_FIRST_ELEM_IDM_DECL(ColorField                              );
+
+    OSG_RC_ELEM_IDM_DECL      (CoordField,          ColorField         );
+    OSG_RC_ELEM_IDM_DECL      (ColorIndexField,     CoordField         );
+    OSG_RC_ELEM_IDM_DECL      (ColorPerVertexField, ColorIndexField    );
+    OSG_RC_ELEM_IDM_DECL      (CoordIndexField,     ColorPerVertexField);
+
+    OSG_RC_LAST_ELEM_IDM_DECL (CoordIndexField                         );
 
     //-----------------------------------------------------------------------
     //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
     //-----------------------------------------------------------------------
 
   private:
@@ -122,7 +143,143 @@ class OSG_BASE_DLLMAPPING TypeBase
     //-----------------------------------------------------------------------
 
     //! prohibit default function (move to 'public' if needed) 
-    void operator =(const TypeBase &source);
+    void operator =(const VRMLIndexedLineSet &source);
+
+  protected:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    static VRMLObjectType _type;
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    static void init(void);
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    SFVRMLNode _sfColor;
+    SFVRMLNode _sfCoord;
+
+    MFInt32    _mfColorIndex;
+    SFBool     _sfColorPerVertex;
+    MFInt32    _mfCoordIndex;
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    VRMLIndexedLineSet(void);
+    VRMLIndexedLineSet(const VRMLIndexedLineSet &source);
+
+  public :
+
+    OSG_VRMLOBJ_DECL(Ptr);
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    virtual ~VRMLIndexedLineSet(void); 
+
+    /*-------------------------- field access -------------------------------*/
+
+    SFVRMLNode *getSFColor          (void);
+    SFVRMLNode *getSFCoord          (void);
+
+    MFInt32    *getMFColorIndex     (void);
+    SFBool     *getSFColorPerVertex (void);
+    MFInt32    *getMFCoordIndex     (void);
+};
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+//! VRMLIndexedLineSetBinder
+//! \ingroup VRMLOSGBindingLib
+
+class OSG_VRML_DLLMAPPING VRMLIndexedLineSetBinder : 
+    public VRMLGeometryBinder
+{
+  private:
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    typedef VRMLGeometryBinder Inherited;
+
+  public:
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+  private:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   friend classes                                                      
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   friend functions                                                    
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    //! prohibit default function (move to 'public' if needed) 
+    VRMLIndexedLineSetBinder(const VRMLIndexedLineSetBinder &source);
+    //! prohibit default function (move to 'public' if needed) 
+    void operator =(const VRMLIndexedLineSetBinder &source);
 
   protected:
 
@@ -146,25 +303,9 @@ class OSG_BASE_DLLMAPPING TypeBase
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    UInt32    _uiTypeId;
-    UInt32    _uiTypeRootId;
-    UInt32    _uiNameSpace;
-
-    TypeBase *_pParentType;
-
-    IDString  _szName;
-    IDString  _szParentName;
-
-    bool      _bTypeBaseInitialized;
-
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
-    TypeBase(const TypeBase &source);
-
-    virtual bool initialize(void);
-    virtual void terminate (void);
 
   public :
 
@@ -176,48 +317,25 @@ class OSG_BASE_DLLMAPPING TypeBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    TypeBase(const Char8 *szName, 
-             const Char8 *szParentName,
-             const UInt32 uiNamespace = GlobalNameSpace);
+    VRMLIndexedLineSetBinder(void);
 
-    virtual ~TypeBase(void); 
+    virtual ~VRMLIndexedLineSetBinder(void); 
 
-    /*----------------------------- id --------------------------------------*/
+    /*------------------------- your_category -------------------------------*/
 
-          UInt32    getId         (void) const;
+    void init        (VRMLToOSGAction *pAction     );
 
-    const IDString &getName       (void) const;
-    const Char8    *getCName      (void) const;
+    void setCoords   (VRMLNodeBinder  *pCoordBinder);
+    void setColors   (VRMLNodeBinder  *pColorBinder);
 
-    const IDString &getParentName (void) const;
-    const Char8    *getCParentName(void) const;
-
-          UInt32    getNameSpace  (void) const;
-
-    /*------------------------- your_operators ------------------------------*/
-
-    virtual bool isInitialized(void) const;
-
-    virtual bool isDerivedFrom(const TypeBase &other) const;
-
-
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
-
-    bool operator ==(const TypeBase &other) const;
-    bool operator !=(const TypeBase &other) const;
-
-
-    /*------------------------- comparison ----------------------------------*/
-
-    virtual void dump(      UInt32    uiIndent = 0, 
-                      const BitVector bvFlags  = 0) const;
+    void finish      (VRMLToOSGAction *pAction     );
 };
 
 OSG_END_NAMESPACE
 
-#define OSGTYPEBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGVRMLINDEXEDLINESET_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSGTYPEBASE_HPP_ */
+#endif /* _OSGVRMLINDEXEDLINESET_HPP_ */
+
+
 

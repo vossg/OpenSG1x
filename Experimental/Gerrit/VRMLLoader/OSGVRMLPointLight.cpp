@@ -47,8 +47,9 @@
 
 #include <iostream>
 
-#include "OSGTypeBase.h"
-#include <OSGTypeFactory.h>
+#include "OSGVRMLPointLight.h"
+
+#include <OSGDataElementDesc.h>
 
 OSG_USING_NAMESPACE
 
@@ -59,7 +60,7 @@ OSG_USING_NAMESPACE
 namespace 
 {
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGTYPEBASE_HEADER_CVSID;
+    static Char8 cvsid_hpp[] = OSGVRMLPOINTLIGHT_HEADER_CVSID;
 }
 
 #ifdef __sgi
@@ -69,6 +70,61 @@ namespace
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
+
+#if !defined(OSG_NO_FULL_DOC)
+
+static void vrmlPointLightDescInserter(ReflexiveContainerType *pType)
+{
+    if(pType == NULL)
+        return;
+
+    DataElementDesc *pDesc = NULL;
+
+    pDesc = new DataElementDesc(
+        SFVec3f::getClassType(),
+        "attenuation",
+        OSG_RC_ELEM_IDM_DESC(VRMLPointLight::AttenuationField),
+        false,
+        (DataElemGetMethod) &VRMLPointLight::getSFAttenuation,
+        NULL,
+        NULL);
+
+    pType->addInitialDesc(pDesc);
+
+    pDesc = new DataElementDesc(
+        SFVec3f::getClassType(),
+        "location",
+        OSG_RC_ELEM_IDM_DESC(VRMLPointLight::LocationField),
+        false,
+        (DataElemGetMethod) &VRMLPointLight::getSFLocation,
+        NULL,
+        NULL);
+
+    pType->addInitialDesc(pDesc);
+
+    pDesc = new DataElementDesc(
+        SFReal32::getClassType(),
+        "radius",
+        OSG_RC_ELEM_IDM_DESC(VRMLPointLight::RadiusField),
+        false,
+        (DataElemGetMethod) &VRMLPointLight::getSFRadius,
+        NULL,
+        NULL);
+
+    pType->addInitialDesc(pDesc);
+}
+
+
+VRMLObjectType VRMLPointLight::_type(
+    "PointLight",
+    "VRMLLight",
+    "VRMLNodes",
+    (VRMLProtoCreateF) &VRMLPointLight::createEmpty,
+    NULL, // Init
+    vrmlPointLightDescInserter,
+    true);
+
+#endif
 
 /***************************************************************************\
  *                               Types                                     *
@@ -106,190 +162,61 @@ namespace
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-TypeBase::TypeBase(const TypeBase &source) :
-    _uiTypeId            (source._uiTypeId),
-    _uiTypeRootId        (source._uiTypeRootId),
-    _uiNameSpace         (source._uiNameSpace),
+VRMLPointLight::VRMLPointLight(void) :
+ 	 Inherited    (),
 
-    _pParentType         (source._pParentType),
+    _sfAttenuation(),
+    _sfLocation   (),
+    _sfRadius     (100.f)
+{
+    _sfAttenuation.getValue().setValues(1.f, 0.f, 0.f);
+    _sfLocation   .getValue().setValues(0.f, 0.f, 0.f);
+}
 
-    _szName              (source._szName),
-    _szParentName        (source._szParentName),
 
-    _bTypeBaseInitialized(source._bTypeBaseInitialized)
+VRMLPointLight::VRMLPointLight(const VRMLPointLight &source) :
+	 Inherited    (source               ),
+
+    _sfAttenuation(source._sfAttenuation),
+    _sfLocation   (source._sfLocation   ),
+    _sfRadius     (source._sfRadius     )
 {
 }
 
-bool TypeBase::initialize(void)
-{
-    if(_bTypeBaseInitialized == true)
-        return _bTypeBaseInitialized;
-
-    if(_szParentName.isEmpty() == false)
-    {
-        _pParentType = 
-            TypeFactory::the()->findType(_szParentName.str(), _uiNameSpace);
-
-        if(_pParentType == NULL)
-        {
-            _pParentType = 
-                TypeFactory::the()->findType(_szParentName.str(), 
-                                              GlobalNameSpace);
-        }
-
-        if(_pParentType == NULL)
-        {
-            SWARNING << "ERROR: could not find parent type named "
-                     << _szParentName.str()
-                     << endl;
-        }
-        else
-        {
-            _bTypeBaseInitialized = _pParentType->initialize();
-        }
-    }
-    else
-    {
-        _bTypeBaseInitialized = true;
-    }
-
-    PNOTICE << "Initialized Type " 
-            << _szName.str() 
-            << " | "
-            << _bTypeBaseInitialized
-            << endl;
-
-    return _bTypeBaseInitialized;
-}
-
-void TypeBase::terminate (void)
-{
-}
 
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
+#ifdef WIN32
+#pragma warning (disable : 424)
+#endif
+
+OSG_VRMLOBJ_DEF(VRMLPointLight, Ptr);
+
+#ifdef WIN32
+#pragma warning (default : 424)
+#endif
+
 /*------------- constructors & destructors --------------------------------*/
 
-TypeBase::TypeBase(const Char8 *szName,
-                   const Char8 *szParentName,
-                   const UInt32 uiNameSpace) :
-    _uiTypeId            (0),
-    _uiTypeRootId        (0),
-    _uiNameSpace         (uiNameSpace),
-
-    _pParentType         (NULL),
-
-    _szName              (szName      ),
-    _szParentName        (szParentName),
-
-    _bTypeBaseInitialized(false)
-{
-    _uiTypeId = TypeFactory::the()->registerType(this);
-}
-
-TypeBase::~TypeBase(void)
+VRMLPointLight::~VRMLPointLight(void)
 {
 }
 
+/*------------------------------ access -----------------------------------*/
 
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/** \brief Get method for attribute Id
- */
-
-UInt32 TypeBase::getId(void) const 
+SFVec3f  *VRMLPointLight::getSFAttenuation(void)
 {
-    return _uiTypeId; 
+    return &_sfAttenuation;
 }
 
-/** \brief Get method for attribute name 
- */
-
-const IDString &TypeBase::getName(void) const
+SFVec3f  *VRMLPointLight::getSFLocation(void)
 {
-    return _szName;
+    return &_sfLocation;
 }
 
-/** \brief Get method for name as c string
- */
-
-const Char8 *TypeBase::getCName(void) const 
+SFReal32 *VRMLPointLight::getSFRadius(void)
 {
-    return _szName.str(); 
-}
-
-const IDString &TypeBase::getParentName (void) const
-{
-    return _szParentName;
-}
-
-const Char8 *TypeBase::getCParentName(void) const
-{
-    return _szParentName.str();
-}
-
-UInt32 TypeBase::getNameSpace(void) const
-{
-    return _uiNameSpace;
-}
-
-/*-------------------------- inheriteance ---------------------------------*/
-
-bool TypeBase::isInitialized(void) const
-{
-    return _bTypeBaseInitialized;
-}
-
-bool TypeBase::isDerivedFrom(const TypeBase &other) const
-{
-    bool      returnValue = false;
-    TypeBase *pCurrType   = _pParentType;
-
-    if(_uiTypeId == other._uiTypeId)
-    {
-        returnValue = true;
-    }
-    else
-    {
-        while(pCurrType != NULL && returnValue == false)
-        {
-            if(other._uiTypeId == pCurrType->_uiTypeId)
-            {
-                returnValue = true;
-            }
-            else
-            {
-                pCurrType = pCurrType->_pParentType;
-            }
-        }
-    }
-
-    return returnValue;
-}
-
-/*-------------------------- comparison -----------------------------------*/
-
-bool TypeBase::operator ==(const TypeBase &other) const
-{
-    return _uiTypeId == other._uiTypeId;
-}
-
-bool TypeBase::operator !=(const TypeBase &other) const
-{
-    return ! (*this == other);
-}
-
-/*------------------------- comparison ----------------------------------*/
-
-void TypeBase::dump(      UInt32    uiIndent, 
-                    const BitVector         ) const
-{
-    indentLog(uiIndent, PLOG);
-    PLOG << "TypeBase : " << getId() << " | " << getCName() << endl;
+    return &_sfRadius;
 }

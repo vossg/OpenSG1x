@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGTYPEBASE_HPP_
-#define _OSGTYPEBASE_HPP_
+#ifndef _OSGVRMLSWITCH_HPP_
+#define _OSGVRMLSWITCH_HPP_
 #ifdef __sgi
 #pragma once
 #endif
@@ -46,17 +46,18 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBase.h>
 #include <OSGBaseTypes.h>
-#include <OSGSupportTypes.h>
-#include <OSGIDString.h>
-#include <OSGLog.h>
+#include <OSGVRMLUnlimitedNode.h>
+#include <OSGSFSysTypes.h>
+#include <OSGNode.h>
 
 OSG_BEGIN_NAMESPACE
 
 //---------------------------------------------------------------------------
 //  Forward References
 //---------------------------------------------------------------------------
+
+class VRMLToOSGAction;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -66,25 +67,40 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-//! TypeBase
-//! \ingroup TypeLib
+//! VRMLSwitch
+//! \ingroup VRMLNodeLib
 
-class OSG_BASE_DLLMAPPING TypeBase
+class OSG_VRML_DLLMAPPING VRMLSwitch : public VRMLUnlimitedNode
 {
+  private:
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    typedef VRMLUnlimitedNode Inherited;
+
   public:
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    typedef       VRMLSwitch *Ptr;
+    typedef const VRMLSwitch *ConstPtr;
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    static const UInt32 GlobalNameSpace = 0;
+    OSG_RC_FIRST_ELEM_IDM_DECL(ChoiceField                     );
+
+    OSG_RC_ELEM_IDM_DECL      (WhichChoiceField, ChoiceField);
+
+    OSG_RC_LAST_ELEM_IDM_DECL (WhichChoiceField                );
 
     //-----------------------------------------------------------------------
     //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
     //-----------------------------------------------------------------------
 
   private:
@@ -122,7 +138,139 @@ class OSG_BASE_DLLMAPPING TypeBase
     //-----------------------------------------------------------------------
 
     //! prohibit default function (move to 'public' if needed) 
-    void operator =(const TypeBase &source);
+    void operator =(const VRMLSwitch &source);
+
+  protected:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    static VRMLObjectType _type;
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    static void init(void);
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    MFVRMLNode _mfChoice;
+    SFInt32    _sfWhichChoice;
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    VRMLSwitch(void);
+    VRMLSwitch(const VRMLSwitch &source);
+
+  public :
+
+    OSG_VRMLOBJ_DECL(Ptr);
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    virtual ~VRMLSwitch(void); 
+
+    /*----------------------------- access ----------------------------------*/
+
+    void setWhichChoice(Int32     iChoice);
+    void addChoice     (VRMLNode *pChoice);
+
+    /*-------------------------- field access -------------------------------*/
+
+    MFVRMLNode *getMFChoice     (void);
+    SFInt32    *getSFWhichChoice(void);
+};
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+//! VRMLSwitchBinder
+//! \ingroup VRMLOSGBindingLib
+
+class OSG_VRML_DLLMAPPING VRMLSwitchBinder : public VRMLNodeBinder
+{
+  private:
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    typedef VRMLNodeBinder Inherited;
+
+  public:
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+  private:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   friend classes                                                      
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   friend functions                                                    
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    //! prohibit default function (move to 'public' if needed) 
+    VRMLSwitchBinder(const VRMLSwitchBinder &source);
+    //! prohibit default function (move to 'public' if needed) 
+    void operator =(const VRMLSwitchBinder &source);
 
   protected:
 
@@ -146,25 +294,9 @@ class OSG_BASE_DLLMAPPING TypeBase
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    UInt32    _uiTypeId;
-    UInt32    _uiTypeRootId;
-    UInt32    _uiNameSpace;
-
-    TypeBase *_pParentType;
-
-    IDString  _szName;
-    IDString  _szParentName;
-
-    bool      _bTypeBaseInitialized;
-
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
-    TypeBase(const TypeBase &source);
-
-    virtual bool initialize(void);
-    virtual void terminate (void);
 
   public :
 
@@ -176,48 +308,21 @@ class OSG_BASE_DLLMAPPING TypeBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    TypeBase(const Char8 *szName, 
-             const Char8 *szParentName,
-             const UInt32 uiNamespace = GlobalNameSpace);
+    VRMLSwitchBinder(void);
 
-    virtual ~TypeBase(void); 
+    virtual ~VRMLSwitchBinder(void); 
 
-    /*----------------------------- id --------------------------------------*/
+    /*------------------------- your_category -------------------------------*/
 
-          UInt32    getId         (void) const;
+    void init     (VRMLToOSGAction *pAction);
 
-    const IDString &getName       (void) const;
-    const Char8    *getCName      (void) const;
+    void addChoice(NodePtr          pChoice);
 
-    const IDString &getParentName (void) const;
-    const Char8    *getCParentName(void) const;
-
-          UInt32    getNameSpace  (void) const;
-
-    /*------------------------- your_operators ------------------------------*/
-
-    virtual bool isInitialized(void) const;
-
-    virtual bool isDerivedFrom(const TypeBase &other) const;
-
-
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
-
-    bool operator ==(const TypeBase &other) const;
-    bool operator !=(const TypeBase &other) const;
-
-
-    /*------------------------- comparison ----------------------------------*/
-
-    virtual void dump(      UInt32    uiIndent = 0, 
-                      const BitVector bvFlags  = 0) const;
+    void finish   (VRMLToOSGAction *pAction);
 };
 
 OSG_END_NAMESPACE
 
-#define OSGTYPEBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGVRMLSWITCH_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSGTYPEBASE_HPP_ */
-
+#endif /* _OSGVRMLSWITCH_HPP_ */

@@ -47,8 +47,8 @@
 
 #include <iostream>
 
-#include "OSGTypeBase.h"
-#include <OSGTypeFactory.h>
+#include "OSGVRMLBackground.h"
+#include <OSGDataElementDesc.h>
 
 OSG_USING_NAMESPACE
 
@@ -59,7 +59,7 @@ OSG_USING_NAMESPACE
 namespace 
 {
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGTYPEBASE_HEADER_CVSID;
+    static Char8 cvsid_hpp[] = OSGVRMLBACKGROUND_HEADER_CVSID;
 }
 
 #ifdef __sgi
@@ -69,6 +69,138 @@ namespace
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
+
+#if !defined(OSG_NO_FULL_DOC)
+
+static void vrmlBackgroundDescInserter(ReflexiveContainerType *pType)
+{
+    if(pType == NULL)
+        return;
+
+    DataElementDesc *pDesc = NULL;
+
+    pDesc = new DataElementDesc(
+        MFReal32::getClassType(),
+        "groundAngle",
+        OSG_RC_ELEM_IDM_DESC(VRMLBackground::GroundAngleField),
+        false,
+        (DataElemGetMethod) &VRMLBackground::getMFGroundAngle,
+        NULL,
+        NULL);
+
+    pType->addInitialDesc(pDesc);
+
+    pDesc = new DataElementDesc(
+        MFColor3f::getClassType(),
+        "groundColor",
+        OSG_RC_ELEM_IDM_DESC(VRMLBackground::GroundColorField),
+        false,
+        (DataElemGetMethod) &VRMLBackground::getMFGroundColor,
+        NULL,
+        NULL);
+
+    pType->addInitialDesc(pDesc);
+
+    pDesc = new DataElementDesc(
+        MFString::getClassType(),
+        "backUrl",
+        OSG_RC_ELEM_IDM_DESC(VRMLBackground::BackUrlField),
+        false,
+        (DataElemGetMethod) &VRMLBackground::getMFBackUrl,
+        NULL,
+        NULL);
+
+    pType->addInitialDesc(pDesc);
+
+    pDesc = new DataElementDesc(
+        MFString::getClassType(),
+        "bottomUrl",
+        OSG_RC_ELEM_IDM_DESC(VRMLBackground::BackUrlField),
+        false,
+        (DataElemGetMethod) &VRMLBackground::getMFBackUrl,
+        NULL,
+        NULL);
+
+    pType->addInitialDesc(pDesc);
+
+    pDesc = new DataElementDesc(
+        MFString::getClassType(),
+        "frontUrl",
+        OSG_RC_ELEM_IDM_DESC(VRMLBackground::FrontUrlField),
+        false,
+        (DataElemGetMethod) &VRMLBackground::getMFFrontUrl,
+        NULL,
+        NULL);
+
+    pType->addInitialDesc(pDesc);
+
+    pDesc = new DataElementDesc(
+        MFString::getClassType(),
+        "leftUrl",
+        OSG_RC_ELEM_IDM_DESC(VRMLBackground::LeftUrlField),
+        false,
+        (DataElemGetMethod) &VRMLBackground::getMFLeftUrl,
+        NULL,
+        NULL);
+
+    pType->addInitialDesc(pDesc);
+
+    pDesc = new DataElementDesc(
+        MFString::getClassType(),
+        "rightUrl",
+        OSG_RC_ELEM_IDM_DESC(VRMLBackground::RightUrlField),
+        false,
+        (DataElemGetMethod) &VRMLBackground::getMFRightUrl,
+        NULL,
+        NULL);
+
+    pType->addInitialDesc(pDesc);
+
+    pDesc = new DataElementDesc(
+        MFString::getClassType(),
+        "topUrl",
+        OSG_RC_ELEM_IDM_DESC(VRMLBackground::TopUrlField),
+        false,
+        (DataElemGetMethod) &VRMLBackground::getMFTopUrl,
+        NULL,
+        NULL);
+
+    pType->addInitialDesc(pDesc);
+
+    pDesc = new DataElementDesc(
+        MFReal32::getClassType(),
+        "skyAngle",
+        OSG_RC_ELEM_IDM_DESC(VRMLBackground::SkyAngleField),
+        false,
+        (DataElemGetMethod) &VRMLBackground::getMFSkyAngle,
+        NULL,
+        NULL);
+
+    pType->addInitialDesc(pDesc);
+
+    pDesc = new DataElementDesc(
+        MFColor3f::getClassType(),
+        "skyColor",
+        OSG_RC_ELEM_IDM_DESC(VRMLBackground::SkyColorField),
+        false,
+        (DataElemGetMethod) &VRMLBackground::getMFSkyColor,
+        NULL,
+        NULL);
+
+    pType->addInitialDesc(pDesc);
+}
+
+
+VRMLObjectType VRMLBackground::_type(
+    "Background",
+    "VRMLUnlimitedNode",
+    "VRMLNodes",
+    (VRMLProtoCreateF) &VRMLBackground::createEmpty,
+    NULL, // Init
+    vrmlBackgroundDescInserter,
+    true);
+
+#endif
 
 /***************************************************************************\
  *                               Types                                     *
@@ -106,63 +238,39 @@ namespace
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-TypeBase::TypeBase(const TypeBase &source) :
-    _uiTypeId            (source._uiTypeId),
-    _uiTypeRootId        (source._uiTypeRootId),
-    _uiNameSpace         (source._uiNameSpace),
+VRMLBackground::VRMLBackground(void) :
+	Inherited(),
 
-    _pParentType         (source._pParentType),
-
-    _szName              (source._szName),
-    _szParentName        (source._szParentName),
-
-    _bTypeBaseInitialized(source._bTypeBaseInitialized)
+    _mfGroundAngle(),
+    _mfGroundColor(),
+    _mfBackUrl    (),
+    _mfBottomUrl  (),
+    _mfFrontUrl   (),
+    _mfLeftUrl    (),
+    _mfRightUrl   (),
+    _mfTopUrl     (),
+    _mfSkyAngle   (),
+    _mfSkyColor   ()
 {
+    Color3f oBlack(0.f, 0.f, 0.f);
+
+    _mfSkyColor.addValue(oBlack);
 }
 
-bool TypeBase::initialize(void)
-{
-    if(_bTypeBaseInitialized == true)
-        return _bTypeBaseInitialized;
 
-    if(_szParentName.isEmpty() == false)
-    {
-        _pParentType = 
-            TypeFactory::the()->findType(_szParentName.str(), _uiNameSpace);
+VRMLBackground::VRMLBackground(const VRMLBackground &source) :
+	 Inherited    (source               ),
 
-        if(_pParentType == NULL)
-        {
-            _pParentType = 
-                TypeFactory::the()->findType(_szParentName.str(), 
-                                              GlobalNameSpace);
-        }
-
-        if(_pParentType == NULL)
-        {
-            SWARNING << "ERROR: could not find parent type named "
-                     << _szParentName.str()
-                     << endl;
-        }
-        else
-        {
-            _bTypeBaseInitialized = _pParentType->initialize();
-        }
-    }
-    else
-    {
-        _bTypeBaseInitialized = true;
-    }
-
-    PNOTICE << "Initialized Type " 
-            << _szName.str() 
-            << " | "
-            << _bTypeBaseInitialized
-            << endl;
-
-    return _bTypeBaseInitialized;
-}
-
-void TypeBase::terminate (void)
+    _mfGroundAngle(source._mfGroundAngle),
+    _mfGroundColor(source._mfGroundColor),
+    _mfBackUrl    (source._mfBackUrl    ),
+    _mfBottomUrl  (source._mfBottomUrl  ),
+    _mfFrontUrl   (source._mfFrontUrl   ),
+    _mfLeftUrl    (source._mfLeftUrl    ),
+    _mfRightUrl   (source._mfRightUrl   ),
+    _mfTopUrl     (source._mfTopUrl     ),
+    _mfSkyAngle   (source._mfSkyAngle   ),
+    _mfSkyColor   (source._mfSkyColor   )
 {
 }
 
@@ -170,126 +278,71 @@ void TypeBase::terminate (void)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
+#ifdef WIN32
+#pragma warning (disable : 424)
+#endif
+
+OSG_VRMLOBJ_DEF(VRMLBackground, Ptr);
+
+#ifdef WIN32
+#pragma warning (default : 424)
+#endif
+
 /*------------- constructors & destructors --------------------------------*/
 
-TypeBase::TypeBase(const Char8 *szName,
-                   const Char8 *szParentName,
-                   const UInt32 uiNameSpace) :
-    _uiTypeId            (0),
-    _uiTypeRootId        (0),
-    _uiNameSpace         (uiNameSpace),
-
-    _pParentType         (NULL),
-
-    _szName              (szName      ),
-    _szParentName        (szParentName),
-
-    _bTypeBaseInitialized(false)
-{
-    _uiTypeId = TypeFactory::the()->registerType(this);
-}
-
-TypeBase::~TypeBase(void)
+VRMLBackground::~VRMLBackground(void)
 {
 }
 
+/*------------------------------ access -----------------------------------*/
 
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/** \brief Get method for attribute Id
- */
-
-UInt32 TypeBase::getId(void) const 
+MFReal32 *VRMLBackground::getMFGroundAngle(void)
 {
-    return _uiTypeId; 
+    return &_mfGroundAngle;
 }
 
-/** \brief Get method for attribute name 
- */
-
-const IDString &TypeBase::getName(void) const
+MFColor3f *VRMLBackground::getMFGroundColor(void)
 {
-    return _szName;
+    return &_mfGroundColor;
 }
 
-/** \brief Get method for name as c string
- */
-
-const Char8 *TypeBase::getCName(void) const 
+MFString *VRMLBackground::getMFBackUrl(void)
 {
-    return _szName.str(); 
+    return &_mfBackUrl;
 }
 
-const IDString &TypeBase::getParentName (void) const
+MFString *VRMLBackground::getMFBottomUrl(void)
 {
-    return _szParentName;
+    return &_mfBottomUrl;
 }
 
-const Char8 *TypeBase::getCParentName(void) const
+MFString *VRMLBackground::getMFFrontUrl(void)
 {
-    return _szParentName.str();
+    return &_mfFrontUrl;
 }
 
-UInt32 TypeBase::getNameSpace(void) const
+MFString *VRMLBackground::getMFLeftUrl(void)
 {
-    return _uiNameSpace;
+    return &_mfLeftUrl;
 }
 
-/*-------------------------- inheriteance ---------------------------------*/
-
-bool TypeBase::isInitialized(void) const
+MFString *VRMLBackground::getMFRightUrl(void)
 {
-    return _bTypeBaseInitialized;
+    return &_mfRightUrl;
 }
 
-bool TypeBase::isDerivedFrom(const TypeBase &other) const
+MFString *VRMLBackground::getMFTopUrl(void)
 {
-    bool      returnValue = false;
-    TypeBase *pCurrType   = _pParentType;
-
-    if(_uiTypeId == other._uiTypeId)
-    {
-        returnValue = true;
-    }
-    else
-    {
-        while(pCurrType != NULL && returnValue == false)
-        {
-            if(other._uiTypeId == pCurrType->_uiTypeId)
-            {
-                returnValue = true;
-            }
-            else
-            {
-                pCurrType = pCurrType->_pParentType;
-            }
-        }
-    }
-
-    return returnValue;
+    return &_mfTopUrl;
 }
 
-/*-------------------------- comparison -----------------------------------*/
-
-bool TypeBase::operator ==(const TypeBase &other) const
+MFReal32 *VRMLBackground::getMFSkyAngle(void)
 {
-    return _uiTypeId == other._uiTypeId;
+    return &_mfSkyAngle;
 }
 
-bool TypeBase::operator !=(const TypeBase &other) const
+MFColor3f *VRMLBackground::getMFSkyColor(void)
 {
-    return ! (*this == other);
+    return &_mfSkyColor;
 }
 
-/*------------------------- comparison ----------------------------------*/
-
-void TypeBase::dump(      UInt32    uiIndent, 
-                    const BitVector         ) const
-{
-    indentLog(uiIndent, PLOG);
-    PLOG << "TypeBase : " << getId() << " | " << getCName() << endl;
-}

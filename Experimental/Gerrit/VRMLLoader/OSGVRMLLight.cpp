@@ -47,8 +47,9 @@
 
 #include <iostream>
 
-#include "OSGTypeBase.h"
-#include <OSGTypeFactory.h>
+#include "OSGVRMLLight.h"
+
+#include <OSGDataElementDesc.h>
 
 OSG_USING_NAMESPACE
 
@@ -59,7 +60,7 @@ OSG_USING_NAMESPACE
 namespace 
 {
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGTYPEBASE_HEADER_CVSID;
+    static Char8 cvsid_hpp[] = OSGVRMLLIGHT_HEADER_CVSID;
 }
 
 #ifdef __sgi
@@ -69,6 +70,71 @@ namespace
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
+
+#if !defined(OSG_NO_FULL_DOC)
+
+static void vrmlLightDescInserter(ReflexiveContainerType *pType)
+{
+    if(pType == NULL)
+        return;
+
+    DataElementDesc *pDesc = NULL;
+
+    pDesc = new DataElementDesc(
+        SFReal32::getClassType(),
+        "ambientIntensity",
+        OSG_RC_ELEM_IDM_DESC(VRMLLight::AmbientIntensityField),
+        false,
+        (DataElemGetMethod) &VRMLLight::getSFAmbientIntensity,
+        NULL,
+        NULL);
+
+    pType->addInitialDesc(pDesc);
+
+    pDesc = new DataElementDesc(
+        SFColor3f::getClassType(),
+        "color",
+        OSG_RC_ELEM_IDM_DESC(VRMLLight::ColorField),
+        false,
+        (DataElemGetMethod) &VRMLLight::getSFColor,
+        NULL,
+        NULL);
+
+    pType->addInitialDesc(pDesc);
+
+    pDesc = new DataElementDesc(
+        SFReal32::getClassType(),
+        "intensity",
+        OSG_RC_ELEM_IDM_DESC(VRMLLight::IntensityField),
+        false,
+        (DataElemGetMethod) &VRMLLight::getSFIntensity,
+        NULL,
+        NULL);
+
+    pType->addInitialDesc(pDesc);
+
+    pDesc = new DataElementDesc(
+        SFBool::getClassType(),
+        "on",
+        OSG_RC_ELEM_IDM_DESC(VRMLLight::OnField),
+        false,
+        (DataElemGetMethod) &VRMLLight::getSFOn,
+        NULL,
+        NULL);
+
+    pType->addInitialDesc(pDesc);
+}
+
+VRMLObjectType VRMLLight::_type(
+    "VRMLLight",
+    "VRMLUnlimitedNode",
+    "VRMLNodes",
+    NULL,
+    NULL, // Init
+    vrmlLightDescInserter,
+    true);
+
+#endif
 
 /***************************************************************************\
  *                               Types                                     *
@@ -106,190 +172,68 @@ namespace
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-TypeBase::TypeBase(const TypeBase &source) :
-    _uiTypeId            (source._uiTypeId),
-    _uiTypeRootId        (source._uiTypeRootId),
-    _uiNameSpace         (source._uiNameSpace),
+VRMLLight::VRMLLight(void) :
+	 Inherited         (    ),
 
-    _pParentType         (source._pParentType),
+    _sfAmbientIntensity(0.f ),
+    _sfColor           (    ),
+    _sfIntensity       (1.f ),
+    _sfOn              (true)
+{
+    _sfColor.getValue().setValuesRGB(1.f, 1.f, 1.f);
+}
 
-    _szName              (source._szName),
-    _szParentName        (source._szParentName),
 
-    _bTypeBaseInitialized(source._bTypeBaseInitialized)
+VRMLLight::VRMLLight(const VRMLLight &source) :
+	 Inherited         (source                    ),
+
+    _sfAmbientIntensity(source._sfAmbientIntensity),
+    _sfColor           (source._sfColor           ),
+    _sfIntensity       (source._sfIntensity       ),
+    _sfOn              (source._sfOn              )
 {
 }
 
-bool TypeBase::initialize(void)
-{
-    if(_bTypeBaseInitialized == true)
-        return _bTypeBaseInitialized;
-
-    if(_szParentName.isEmpty() == false)
-    {
-        _pParentType = 
-            TypeFactory::the()->findType(_szParentName.str(), _uiNameSpace);
-
-        if(_pParentType == NULL)
-        {
-            _pParentType = 
-                TypeFactory::the()->findType(_szParentName.str(), 
-                                              GlobalNameSpace);
-        }
-
-        if(_pParentType == NULL)
-        {
-            SWARNING << "ERROR: could not find parent type named "
-                     << _szParentName.str()
-                     << endl;
-        }
-        else
-        {
-            _bTypeBaseInitialized = _pParentType->initialize();
-        }
-    }
-    else
-    {
-        _bTypeBaseInitialized = true;
-    }
-
-    PNOTICE << "Initialized Type " 
-            << _szName.str() 
-            << " | "
-            << _bTypeBaseInitialized
-            << endl;
-
-    return _bTypeBaseInitialized;
-}
-
-void TypeBase::terminate (void)
-{
-}
 
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
+#ifdef WIN32
+#pragma warning (disable : 424)
+#endif
+
+OSG_ABSTR_VRMLOBJ_DEF(VRMLLight, Ptr);
+
+#ifdef WIN32
+#pragma warning (default : 424)
+#endif
+
 /*------------- constructors & destructors --------------------------------*/
 
-TypeBase::TypeBase(const Char8 *szName,
-                   const Char8 *szParentName,
-                   const UInt32 uiNameSpace) :
-    _uiTypeId            (0),
-    _uiTypeRootId        (0),
-    _uiNameSpace         (uiNameSpace),
-
-    _pParentType         (NULL),
-
-    _szName              (szName      ),
-    _szParentName        (szParentName),
-
-    _bTypeBaseInitialized(false)
-{
-    _uiTypeId = TypeFactory::the()->registerType(this);
-}
-
-TypeBase::~TypeBase(void)
+VRMLLight::~VRMLLight(void)
 {
 }
 
+/*------------------------------ access -----------------------------------*/
 
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/** \brief Get method for attribute Id
- */
-
-UInt32 TypeBase::getId(void) const 
+SFReal32 *VRMLLight::getSFAmbientIntensity(void)
 {
-    return _uiTypeId; 
+    return &_sfAmbientIntensity;
 }
 
-/** \brief Get method for attribute name 
- */
-
-const IDString &TypeBase::getName(void) const
+SFColor3f  *VRMLLight::getSFColor(void)
 {
-    return _szName;
+    return &_sfColor;
 }
 
-/** \brief Get method for name as c string
- */
-
-const Char8 *TypeBase::getCName(void) const 
+SFReal32 *VRMLLight::getSFIntensity(void)
 {
-    return _szName.str(); 
+    return &_sfIntensity;
 }
 
-const IDString &TypeBase::getParentName (void) const
+SFBool *VRMLLight::getSFOn(void)
 {
-    return _szParentName;
+    return &_sfOn;
 }
 
-const Char8 *TypeBase::getCParentName(void) const
-{
-    return _szParentName.str();
-}
-
-UInt32 TypeBase::getNameSpace(void) const
-{
-    return _uiNameSpace;
-}
-
-/*-------------------------- inheriteance ---------------------------------*/
-
-bool TypeBase::isInitialized(void) const
-{
-    return _bTypeBaseInitialized;
-}
-
-bool TypeBase::isDerivedFrom(const TypeBase &other) const
-{
-    bool      returnValue = false;
-    TypeBase *pCurrType   = _pParentType;
-
-    if(_uiTypeId == other._uiTypeId)
-    {
-        returnValue = true;
-    }
-    else
-    {
-        while(pCurrType != NULL && returnValue == false)
-        {
-            if(other._uiTypeId == pCurrType->_uiTypeId)
-            {
-                returnValue = true;
-            }
-            else
-            {
-                pCurrType = pCurrType->_pParentType;
-            }
-        }
-    }
-
-    return returnValue;
-}
-
-/*-------------------------- comparison -----------------------------------*/
-
-bool TypeBase::operator ==(const TypeBase &other) const
-{
-    return _uiTypeId == other._uiTypeId;
-}
-
-bool TypeBase::operator !=(const TypeBase &other) const
-{
-    return ! (*this == other);
-}
-
-/*------------------------- comparison ----------------------------------*/
-
-void TypeBase::dump(      UInt32    uiIndent, 
-                    const BitVector         ) const
-{
-    indentLog(uiIndent, PLOG);
-    PLOG << "TypeBase : " << getId() << " | " << getCName() << endl;
-}

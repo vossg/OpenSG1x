@@ -220,27 +220,6 @@ class OSG_VRML_DLLMAPPING VRMLToOSGAction : public VRMLToOSGMixin
 #if 0
 void vscInitToOpenSGAction(void);
 
-
-VSCVRMLAction::VSCActionResult vscVRMLSwitchToOpenSG(VSCVRMLNode   &oNode,
-                                                     VSCVRMLAction *pAction);
-
-VSCVRMLAction::VSCActionResult vscVRMLLODToOpenSG(VSCVRMLNode   &oNode,
-                                                  VSCVRMLAction *pAction);
-
-VSCVRMLAction::VSCActionResult vscVRMLInlineToOpenSG(VSCVRMLNode   &oNode,
-                                                     VSCVRMLAction *pAction);
-
-
-
-
-
-VSCVRMLAction::VSCActionResult vscVRMLIndexedLineSetToOpenSG(
-    VSCVRMLNode   &oNode,
-    VSCVRMLAction *pAction);
-
-
-
-
 VSCVRMLAction::VSCActionResult vscVRMLScalarInterpolatorToOpenSG(
     VSCVRMLNode   &oNode,
     VSCVRMLAction *pAction);
@@ -256,15 +235,6 @@ VSCVRMLAction::VSCActionResult vscVRMLOrientationInterpolatorToOpenSG(
 VSCVRMLAction::VSCActionResult vscVRMLTimeSensorToOpenSG(
     VSCVRMLNode   &oNode,
     VSCVRMLAction *pAction);
-
-
-
-
-
-VSCVRMLAction::VSCActionResult vscVRMLBillboardToOpenSG(
-    VSCVRMLNode   &oNode,
-    VSCVRMLAction *pAction);
-
 
 VSCVRMLAction::VSCActionResult vscVRMLHumanoidToOpenSG(VSCVRMLNode   &oNode,
                                                        VSCVRMLAction *pAction);

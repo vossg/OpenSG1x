@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGTYPEBASE_HPP_
-#define _OSGTYPEBASE_HPP_
+#ifndef _OSGVRMLPOINTLIGHT_HPP_
+#define _OSGVRMLPOINTLIGHT_HPP_
 #ifdef __sgi
 #pragma once
 #endif
@@ -46,11 +46,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBase.h>
 #include <OSGBaseTypes.h>
-#include <OSGSupportTypes.h>
-#include <OSGIDString.h>
-#include <OSGLog.h>
+#include <OSGVRMLLight.h>
+#include <OSGSFVecTypes.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -66,25 +64,41 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-//! TypeBase
-//! \ingroup TypeLib
+//! VRMLPointLight
+//! \ingroup VRMLNodeLib
 
-class OSG_BASE_DLLMAPPING TypeBase
+class OSG_VRML_DLLMAPPING VRMLPointLight : public VRMLLight
 {
+  private:
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    typedef VRMLLight Inherited;
+
   public:
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    typedef       VRMLPointLight *Ptr;
+    typedef const VRMLPointLight *ConstPtr;
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    static const UInt32 GlobalNameSpace = 0;
+    OSG_RC_FIRST_ELEM_IDM_DECL(AttenuationField               );
+
+    OSG_RC_ELEM_IDM_DECL      (LocationField, AttenuationField);
+    OSG_RC_ELEM_IDM_DECL      (RadiusField  , LocationField   );
+
+    OSG_RC_LAST_ELEM_IDM_DECL (RadiusField                    );
 
     //-----------------------------------------------------------------------
     //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
     //-----------------------------------------------------------------------
 
   private:
@@ -122,7 +136,7 @@ class OSG_BASE_DLLMAPPING TypeBase
     //-----------------------------------------------------------------------
 
     //! prohibit default function (move to 'public' if needed) 
-    void operator =(const TypeBase &source);
+    void operator =(const VRMLPointLight &source);
 
   protected:
 
@@ -138,6 +152,8 @@ class OSG_BASE_DLLMAPPING TypeBase
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
+    static VRMLObjectType _type;
+
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
@@ -146,27 +162,20 @@ class OSG_BASE_DLLMAPPING TypeBase
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    UInt32    _uiTypeId;
-    UInt32    _uiTypeRootId;
-    UInt32    _uiNameSpace;
-
-    TypeBase *_pParentType;
-
-    IDString  _szName;
-    IDString  _szParentName;
-
-    bool      _bTypeBaseInitialized;
+    SFVec3f  _sfAttenuation;
+    SFVec3f  _sfLocation;
+    SFReal32 _sfRadius;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    TypeBase(const TypeBase &source);
-
-    virtual bool initialize(void);
-    virtual void terminate (void);
+    VRMLPointLight(void);
+    VRMLPointLight(const VRMLPointLight &source);
 
   public :
+
+    OSG_VRMLOBJ_DECL(Ptr);
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -176,48 +185,17 @@ class OSG_BASE_DLLMAPPING TypeBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    TypeBase(const Char8 *szName, 
-             const Char8 *szParentName,
-             const UInt32 uiNamespace = GlobalNameSpace);
+    virtual ~VRMLPointLight(void); 
 
-    virtual ~TypeBase(void); 
+    /*-------------------------- field access -------------------------------*/
 
-    /*----------------------------- id --------------------------------------*/
-
-          UInt32    getId         (void) const;
-
-    const IDString &getName       (void) const;
-    const Char8    *getCName      (void) const;
-
-    const IDString &getParentName (void) const;
-    const Char8    *getCParentName(void) const;
-
-          UInt32    getNameSpace  (void) const;
-
-    /*------------------------- your_operators ------------------------------*/
-
-    virtual bool isInitialized(void) const;
-
-    virtual bool isDerivedFrom(const TypeBase &other) const;
-
-
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
-
-    bool operator ==(const TypeBase &other) const;
-    bool operator !=(const TypeBase &other) const;
-
-
-    /*------------------------- comparison ----------------------------------*/
-
-    virtual void dump(      UInt32    uiIndent = 0, 
-                      const BitVector bvFlags  = 0) const;
+    SFVec3f  *getSFAttenuation(void);
+    SFVec3f  *getSFLocation   (void);
+    SFReal32 *getSFRadius     (void);
 };
 
 OSG_END_NAMESPACE
 
-#define OSGTYPEBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGVRMLPOINTLIGHT_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSGTYPEBASE_HPP_ */
-
+#endif /* _OSGVRMLPOINTLIGHT_HPP_ */
