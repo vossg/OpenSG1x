@@ -69,7 +69,7 @@ OSG_USING_NAMESPACE
 /*------------- constructors & destructors --------------------------------*/
 
 StatTimeElem::StatTimeElem(StatElemDescBase *desc)
-  : StatElem(desc)
+  : StatElem(desc), _time(0)
 {
 }
 
@@ -94,7 +94,7 @@ void StatTimeElem::putToString(std::string &str, const char *format) const
     else
     {
         const char *proc = strchr(format,'%');        
-              char *temp = new char [strlen(format) + 40];
+              char *temp = new char [strlen(format) + 60];
 
         if(proc)
         {
