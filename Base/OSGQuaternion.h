@@ -134,7 +134,7 @@ class OSG_BASE_DLLMAPPING QuaternionBase
                              const  ValueTypeT beta,
                              const  ValueTypeT gamma                        );
 
-    //*! \}                                                                */
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
     /*! \{                                                                 */

@@ -84,6 +84,8 @@ class OSG_BASE_DLLMAPPING MemoryObject
     MemoryObject(       void                );
     MemoryObject(const  MemoryObject &source);
 
+    /*! \}                                                                 */
+
     /*==========================  PUBLIC  =================================*/
   public:
 

@@ -408,7 +408,6 @@ class OSG_BASE_DLLMAPPING Barrier : public BarrierBase
                                      UInt32  uiId);
 
     /*! \}                                                                 */
-    /*! \}                                                                 */
     /*==========================  PUBLIC  =================================*/
   public:
 

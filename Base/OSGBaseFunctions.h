@@ -68,11 +68,6 @@ OSG_BEGIN_NAMESPACE
 /*! \name                    Base Math Functions                       */
 /*! \{                                                                 */
 
-/*! @name General Declarations
- */
-
-/*@{*/
-
 /*! \brief osgsqrt
  *  \ingroup BaseMathFunctions
  */
@@ -242,7 +237,29 @@ TypeT osgMax(const TypeT lVal, const TypeT rVal);
 template <class FloatTypeT>
 UInt32 osgfinite(const FloatTypeT rVal);
 
-/*! \brief osgMax
+
+/*! \brief osgispower2
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class TypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
+Bool osgispower2(TypeT rVal);
+
+/*! \brief osgnextpower2
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class TypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
+TypeT osgnextpower2(TypeT rVal);
+
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name            Static (compile time) functions                   */
+/*! \{                                                                 */
+
+/*! \brief osgStaticMax
  *  \ingroup BaseMathFunctions
  */
 
@@ -321,30 +338,10 @@ struct osgIF
 
 #endif
 
-/*! \brief osgispower2
- *  \ingroup BaseMathFunctions
- */
-
-template <class TypeT> inline
-OSG_BASE_SPEZ_HEAD_DLLMAPPING
-Bool osgispower2(TypeT rVal);
-
-/*! \brief osgnextpower2
- *  \ingroup BaseMathFunctions
- */
-
-template <class TypeT> inline
-OSG_BASE_SPEZ_HEAD_DLLMAPPING
-TypeT osgnextpower2(TypeT rVal);
-
 /*! \}                                                                 */
-
-/*@}*/
-
-/*! @name MemoryObject Reference Count Functions
- */
-
-/*@{*/
+/*---------------------------------------------------------------------*/
+/*! \name         MemoryObject Reference Count Functions               */
+/*! \{                                                                 */
 
 /*! \brief setRefP
  *  \ingroup BaseFunctions
@@ -428,13 +425,11 @@ void clearRefPVectorP(vector<T *> *pVector)
 }
 #endif
 
-/*@}*/
 
-
-/*! @name String Functions
- */
-
-/*@{*/
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name                    String Functions                          */
+/*! \{                                                                 */
 
 /*! \brief copy c strings, allocate new memory using new []
  *  \ingroup BaseFunctions
@@ -499,7 +494,14 @@ struct OSG_BASE_DLLMAPPING EQString
     }
 };
 
-/*@}*/
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name                     Misc Functions                           */
+/*! \{                                                                 */
+
+/*! \brief find the index that has the largest absolute value for a vec3
+ *  \ingroup BaseFunctions
+ */
 
 template<class VecPntT> inline
 UInt32 getMaxIndexAbs3(const VecPntT &v)
@@ -508,25 +510,25 @@ UInt32 getMaxIndexAbs3(const VecPntT &v)
         fabsf(v[0]) > fabsf(v[2]) ? 0 : 2 : fabsf(v[1]) > fabsf(v[2]) ? 1 : 2;
 }
 
+/*! \brief set the value of an environment variable
+ *  \ingroup BaseFunctions
+ */
+
 inline
 OSG_BASE_DLLMAPPING int putenv(char *string);
 
 
-
-/*! @name Sleep
+/*! \brief sleep
+ *  \ingroup BaseFunctions
  */
-
-/*@{*/
 
 inline
 OSG_BASE_DLLMAPPING void osgsleep(UInt32 millisecs);
 
-/*@}*/
-
-/*! @name Initialization
- */
-
-/*@{*/
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name                     Initialization                           */
+/*! \{                                                                 */
 
 enum SystemState
 {
@@ -587,7 +589,7 @@ Bool OSG_BASE_DLLMAPPING osgInit(int argc, char **argv);
 
 Bool OSG_BASE_DLLMAPPING osgExit(void);
 
-/*@}*/
+/*! \}                                                                 */
 
 OSG_END_NAMESPACE
 

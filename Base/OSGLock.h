@@ -428,7 +428,6 @@ class OSG_BASE_DLLMAPPING Lock : public LockBase
     virtual ~Lock(void);
 
     /*! \}                                                                 */
-    /*! \}                                                                 */
     /*==========================  PUBLIC  =================================*/
   public:
 

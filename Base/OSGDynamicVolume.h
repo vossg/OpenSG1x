@@ -82,6 +82,7 @@ class OSG_BASE_DLLMAPPING DynamicVolume : public Volume
     /*! \{                                                                 */
     virtual ~DynamicVolume (void) {;}
 
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Specific                            */
     /*! \{                                                                 */

@@ -308,8 +308,6 @@ typename TypeConstants<FloatTypeT>::RealReturnType
     return  osgfloor(RealType(rVal));
 }
 
-/*@}*/
-
 
 /*! @name Real32 Specializations
  */
