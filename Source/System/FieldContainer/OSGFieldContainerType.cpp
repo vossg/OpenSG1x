@@ -524,6 +524,12 @@ bool FieldContainerType::initialize(void)
     FDEBUG ( ( "init FieldContainerType %s (%d)\n",
                _szName.str(), int(_bInitialized) ));
 
+    if(_vDescVec.size() > sizeof(BitVector) * 8)
+    {
+        FWARNING(("FCType %s has %d (>%d) fields!\n", getCName(),
+                    _vDescVec.size(), sizeof(BitVector) * 8));
+    }
+    
     return _bInitialized;
 }
 
