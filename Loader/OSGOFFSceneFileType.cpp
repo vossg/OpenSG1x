@@ -69,7 +69,7 @@ OSG_USING_NAMESPACE
  *   Types
  *****************************/
 // Static Class Varible implementations: 
-static const char *suffixA[] =  { "raw" };
+static const char *suffixA[] =  { "off" };
 
 OFFSceneFileType OFFSceneFileType::_the ( suffixA, sizeof(suffixA));
 

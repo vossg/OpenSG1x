@@ -139,28 +139,28 @@ OSG_BASE_DLLMAPPING FloatTypeT osgatan2(const FloatTypeT &rVal1,
  */
 
 template <class FloatTypeT> 
-OSG_BASE_DLLMAPPING FloatTypeT osgdegree2rad(const FloatTypeT &rVal);
+FloatTypeT osgdegree2rad(const FloatTypeT &rVal);
 
 /*! \brief osgrad2degree
  *  \ingroup BaseMathFunctions
  */
 
 template <class FloatTypeT> 
-OSG_BASE_DLLMAPPING FloatTypeT osgrad2degree(const FloatTypeT &rVal);
+FloatTypeT osgrad2degree(const FloatTypeT &rVal);
 
 /*! \brief deg2rad
  *  \ingroup BaseMathFunctions
  */
 
 template <class FloatTypeT> 
-OSG_BASE_DLLMAPPING FloatTypeT deg2rad(const FloatTypeT &rVal);
+FloatTypeT deg2rad(const FloatTypeT &rVal);
 
 /*! \brief rad2deg
  *  \ingroup BaseMathFunctions
  */
 
 template <class FloatTypeT> 
-OSG_BASE_DLLMAPPING FloatTypeT rad2deg(const FloatTypeT &rVal);
+FloatTypeT rad2deg(const FloatTypeT &rVal);
 
 /*! \brief osgabs
  *  \ingroup BaseMathFunctions

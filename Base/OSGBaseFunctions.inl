@@ -119,7 +119,6 @@ TypeT osgabs(const TypeT &rValue)
  */
 
 template <class FloatTypeT> inline 
-OSG_MS_BASE_DLLMAPPING 
 FloatTypeT deg2rad(const FloatTypeT &rValue)
 {
    return osgdegree2rad( Real32(rValue) );
@@ -130,7 +129,6 @@ FloatTypeT deg2rad(const FloatTypeT &rValue)
  */
 
 template <class FloatTypeT> inline
-OSG_MS_BASE_DLLMAPPING 
 FloatTypeT rad2deg(const FloatTypeT &rValue)
 {
    return osgrad2degree( Real32(rValue) );
