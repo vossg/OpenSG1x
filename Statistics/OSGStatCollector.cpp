@@ -168,6 +168,8 @@ StatCollector *StatCollector::create(void)
 
 StatCollector::~StatCollector(void)
 {
+	for(UInt32 i = 0; i < _elemVec.size(); ++i)
+		delete _elemVec[i];
 }
 
 /*------------------------------ access -----------------------------------*/

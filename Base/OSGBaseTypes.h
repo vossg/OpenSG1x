@@ -67,7 +67,7 @@ OSG_BEGIN_NAMESPACE
  *  \ingroup BaseTypes
  */
 
-typedef char          Char8;
+typedef char           Char8;
 
 /*! \var typedef unsigned char UChar8;
  *  \brief UChar8
@@ -75,6 +75,13 @@ typedef char          Char8;
  */
 
 typedef unsigned char UChar8;
+
+/*! \var typedef signed signed char SChar8;
+ *  \brief UChar8
+ *  \ingroup BaseTypes
+ */
+
+typedef signed char   SChar8;
 
 /*! \var typedef int8_t Int8;
  *  \brief Int8
@@ -153,7 +160,7 @@ typedef double    Real64;
  *  \ingroup BaseTypes
  */
 
-typedef char          Char8;
+typedef char           Char8;
 
 /*! \var typedef unsigned char UChar8;
  *  \brief UChar8
@@ -161,6 +168,13 @@ typedef char          Char8;
  */
 
 typedef unsigned char UChar8;
+
+/*! \var typedef signed char SChar8;
+ *  \brief UChar8
+ *  \ingroup BaseTypes
+ */
+
+typedef signed char   SChar8;
 
 /*! \var typedef int8_t Int8;
  *  \brief Int8
@@ -245,26 +259,33 @@ typedef unsigned      bool;
 #endif
 #endif
 
-/*! \var typedef char Char8;
+/*! \var typedef unsigned char Char8;
  *  \brief Char8
  *  \ingroup BaseTypes
  */
 
-typedef char          Char8;
+typedef CHAR           Char8;
 
 /*! \var typedef unsigned char UChar8;
  *  \brief UChar8
  *  \ingroup BaseTypes
  */
 
-typedef unsigned char UChar8;
+typedef UCHAR         UChar8;
+
+/*! \var typedef signed char SChar8;
+ *  \brief UChar8
+ *  \ingroup BaseTypes
+ */
+
+typedef signed char   SChar8;
 
 /*! \var typedef CHAR Int8;
  *  \brief Int8
  *  \ingroup BaseTypes
  */
 
-typedef CHAR    Int8;
+typedef signed char   Int8;
 
 /*! \var typedef UCHAR UInt8;
  *  \brief UInt8
@@ -345,12 +366,12 @@ typedef double    Real64;
 
 #elif defined(OSG_SUNOS_TYPES)
 
-/*! \var typedef charChar8;
+/*! \var typedef char Char8;
  *  \brief Char8
  *  \ingroup BaseTypes
  */
 
-typedef char          Char8;
+typedef char           Char8;
 
 /*! \var typedef unsigned char UChar8;
  *  \brief UChar8
@@ -358,6 +379,13 @@ typedef char          Char8;
  */
 
 typedef unsigned char UChar8;
+
+/*! \var typedef signed char SChar8;
+ *  \brief UChar8
+ *  \ingroup BaseTypes
+ */
+
+typedef signed char   SChar8;
 
 /*! \var typedef int8_t Int8;
  *  \brief Int8
