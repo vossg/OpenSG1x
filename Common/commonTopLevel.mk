@@ -116,183 +116,196 @@ depend: $(SUB_LIBTARGETS)
 # install
 #########################################################################
 
-install-includes:
-	@if [ ! -w $(INSTALL_DIR)/include ]; then mkdir $(INSTALL_DIR)/include; fi
-	@if [ ! -w $(INSTALL_DIR)/include/OpenSG ]; then 						 \
-		mkdir $(INSTALL_DIR)/include/OpenSG; 								 \
-	 fi
-	CURRDIR=`pwd`;                                                     	 \
-	find $(INSTALL_DIR)/include/OpenSG -follow  -name '*.h' 				 \
-		-exec rm -f {} \;       ;											 \
-	find $(INSTALL_DIR)/include/OpenSG -follow  -name '*.inl'				 \
-		-exec rm -f {} \;       ;											 \
-	find $($(PROJ)POOL)	-follow												 \
-		\( -type d \( -name CVS -o -name Test -o -name include  -o 			 \
-		   -name Tools -o -name '.*' -o -name examples -o					 \
-		   -name Templates -o -name Builds -o -name VS \) -prune \) -o 		 \
-		   -type f -name '*.h' 			 									 \
-	-exec $($(PROJ)POOL)/Common/sedInc {} $(INSTALL_DIR)/include/OpenSG \; ; \
-	find $($(PROJ)POOL)	-follow												 \
-		\( -type d \( -name CVS -o -name Test -o -name include  -o 			 \
-		   -name Tools -o -name '.*' -o -name examples -o					 \
-		   -name Templates -o -name Builds -o -name VS \) -prune \) -o 		 \
-		   -type f -name '*.inl'			 								 \
-	-exec $($(PROJ)POOL)/Common/sedInl {} $(INSTALL_DIR)/include/OpenSG \; ; \
-	find $$CURRDIR	-follow												\
-		\( -type d \( -name CVS -o -name '*Test' -o -name include  -o	\
-		   -name Tools -o -name Builds \) -prune \) 					\
-		-o -type f -name '*\.h' 										\
+INSTALL_EXISTS := $(shell if test ! -d $(INSTALL_DIR) ; then echo "not"; fi  )
+INSTALL_WRITABLE := $(shell if test ! -w $(INSTALL_DIR) ; then echo "not"; fi  )
+
+install-test:
+ifeq ($(INSTALL_EXISTS),not)
+        $(error Install dir $(INSTALL_DIR) doesn't exist! I can't install there)
+endif
+ifeq ($(INSTALL_WRITABLE),not)
+        $(error Install dir $(INSTALL_DIR) exists but is not writable! I can't install there)
+endif
+
+install-includes: install-test
+	if [ ! -w $(INSTALL_DIR)/include ]; then                                \
+            mkdir $(INSTALL_DIR)/include;                                       \
+        fi;                                                                     \
+	if [ ! -w $(INSTALL_DIR)/include/OpenSG ]; then                         \
+	    mkdir $(INSTALL_DIR)/include/OpenSG ;                               \
+	fi;                                                                     \
+	CURRDIR=`pwd`;                                                          \
+	find $(INSTALL_DIR)/include/OpenSG -follow  -name '*.h'                 \
+	    -exec rm -f {} \;       ;                                           \
+	find $(INSTALL_DIR)/include/OpenSG -follow  -name '*.inl'               \
+	    -exec rm -f {} \;       ;                                           \
+	find $($(PROJ)POOL) -follow                                             \
+	    \( -type d \( -name CVS -o -name Test -o -name include  -o          \
+	       -name Tools -o -name '.*' -o -name examples -o                   \
+	       -name Templates -o -name Builds -o -name VS \) -prune \) -o      \
+	       -type f -name '*.h'                                              \
+	-exec $($(PROJ)POOL)/Common/sedInc {} $(INSTALL_DIR)/include/OpenSG \; ;\
+	find $($(PROJ)POOL) -follow                                             \
+	    \( -type d \( -name CVS -o -name Test -o -name include  -o          \
+	       -name Tools -o -name '.*' -o -name examples -o                   \
+	       -name Templates -o -name Builds -o -name VS \) -prune \) -o      \
+	       -type f -name '*.inl'                                            \
+	-exec $($(PROJ)POOL)/Common/sedInl {} $(INSTALL_DIR)/include/OpenSG \; ;\
+	find $$CURRDIR  -follow                                                 \
+	    \( -type d \( -name CVS -o -name '*Test' -o -name include  -o       \
+	       -name Tools -o -name Builds \) -prune \)                         \
+	    -o -type f -name '*\.h'                                             \
 	-exec $($(PROJ)POOL)/Common/sedIncBuild {} $(INSTALL_DIR)/include/OpenSG \; ; \
-	find $$CURRDIR -follow           									\
-		\( -type d \( -name CVS -o -name '*Test' -o -name include -o	\
-		   -name Tools -o -name Builds \) -prune \)						\
-		-o -type f -name '*\.inl'  										\
-	-exec $($(PROJ)POOL)/Common/sedInl {} $(INSTALL_DIR)/include/OpenSG \; ; \
+	find $$CURRDIR -follow                                                  \
+	    \( -type d \( -name CVS -o -name '*Test' -o -name include -o        \
+	       -name Tools -o -name Builds \) -prune \)                         \
+	    -o -type f -name '*\.inl'                                           \
+	-exec $($(PROJ)POOL)/Common/sedInl {} $(INSTALL_DIR)/include/OpenSG \;
 
-install-includes-gabe:
+install-includes-gabe: install-test
 	@if [ ! -w $(INSTALL_DIR)/include ]; then mkdir $(INSTALL_DIR)/include; fi
-	@if [ ! -w $(INSTALL_DIR)/include/OpenSG ]; then 						 \
-		mkdir $(INSTALL_DIR)/include/OpenSG; 								 \
+	@if [ ! -w $(INSTALL_DIR)/include/OpenSG ]; then                        \
+	    mkdir $(INSTALL_DIR)/include/OpenSG;                                \
 	 fi
-	@CURRDIR=`pwd`;                                                     	 \
-	find $(INSTALL_DIR)/include/OpenSG -follow  -name '*.h' 				 \
-		-exec rm -f {} \;       ;											 \
-	find $(INSTALL_DIR)/include/OpenSG -follow  -name '*.inl'				 \
-		-exec rm -f {} \;       ;											 \
-	find $($(PROJ)POOL)	-follow												 \
-		\( -type d \( -name CVS -o -name Test -o -name include  -o 			 \
-		   -name Tools -o -name '.*' -o -name examples -o					 \
-		   -name Templates -o -name Builds -o -name VS \) -prune \) -o 		 \
-		   -type f -name '*.h' 			 									 \
-	-exec $(INSTLINK) {} $(INSTALL_DIR)/include/OpenSG \; -print;			 \
-	find $($(PROJ)POOL)	-follow												 \
-		\( -type d \( -name CVS -o -name Test -o -name include  -o 			 \
-		   -name Tools -o -name '.*' -o -name examples -o					 \
-		   -name Templates -o -name Builds -o -name VS \) -prune \) -o 		 \
-		   -type f -name '*.inl'			 								 \
-	-exec $(INSTLINK) {} $(INSTALL_DIR)/include/OpenSG \; -print;			 \
-	find $$CURRDIR	-follow												\
-		\( -type d \( -name CVS -o -name '*Test' -o -name include  -o	\
-		   -name Tools -o -name Builds \) -prune \) 					\
-		-o -type f -name '*\.h' 										\
-	-exec $(INSTLINK) {} $(INSTALL_DIR)/include/OpenSG \; -print;		\
-	find $$CURRDIR -follow           									\
-		\( -type d \( -name CVS -o -name '*Test' -o -name include -o	\
-		   -name Tools -o -name Builds \) -prune \)						\
-		-o -type f -name '*\.inl'  										\
-	-exec $(INSTLINK) {} $(INSTALL_DIR)/include/OpenSG \; -print; 		\
+	@CURRDIR=`pwd`;                                                         \
+	find $(INSTALL_DIR)/include/OpenSG -follow  -name '*.h'                 \
+	    -exec rm -f {} \;       ;                                           \
+	find $(INSTALL_DIR)/include/OpenSG -follow  -name '*.inl'               \
+	    -exec rm -f {} \;       ;                                           \
+	find $($(PROJ)POOL) -follow                                             \
+	    \( -type d \( -name CVS -o -name Test -o -name include  -o          \
+	       -name Tools -o -name '.*' -o -name examples -o                   \
+	       -name Templates -o -name Builds -o -name VS \) -prune \) -o      \
+	       -type f -name '*.h'                                              \
+	-exec $(INSTLINK) {} $(INSTALL_DIR)/include/OpenSG \; -print;           \
+	find $($(PROJ)POOL) -follow                                             \
+	    \( -type d \( -name CVS -o -name Test -o -name include  -o          \
+	       -name Tools -o -name '.*' -o -name examples -o                   \
+	       -name Templates -o -name Builds -o -name VS \) -prune \) -o      \
+	       -type f -name '*.inl'                                            \
+	-exec $(INSTLINK) {} $(INSTALL_DIR)/include/OpenSG \; -print;           \
+	find $$CURRDIR  -follow                                                 \
+	    \( -type d \( -name CVS -o -name '*Test' -o -name include  -o       \
+	       -name Tools -o -name Builds \) -prune \)                         \
+	    -o -type f -name '*\.h'                                             \
+	-exec $(INSTLINK) {} $(INSTALL_DIR)/include/OpenSG \; -print;           \
+	find $$CURRDIR -follow                                                  \
+	    \( -type d \( -name CVS -o -name '*Test' -o -name include -o        \
+	       -name Tools -o -name Builds \) -prune \)                         \
+	    -o -type f -name '*\.inl'                                           \
+	-exec $(INSTLINK) {} $(INSTALL_DIR)/include/OpenSG \; -print;           \
 
-install-libs:
+install-libs: install-test
 	@if [ ! -w $(INSTALL_DIR)/lib ]; then mkdir $(INSTALL_DIR)/lib; fi
 	@if [ ! -w $(INSTALL_DIR)/lib/dbg ]; then mkdir $(INSTALL_DIR)/lib/dbg; fi
 	@if [ ! -w $(INSTALL_DIR)/lib/opt ]; then mkdir $(INSTALL_DIR)/lib/opt; fi
 	@CURRDIR=`pwd`;                                                         \
-	BUILDLIBS=`find $$CURRDIR -name 'lib-dbg' 			        			\
-						-exec find {} -name '*\$(SO_SUFFIX)' -print \;` ;	\
-	cd $(INSTALL_DIR)/lib/dbg;												\
-	rm -f *$(SO_SUFFIX);													\
-	for t in $$BUILDLIBS; 													\
-	do																		\
-		echo $$t;															\
-		$(INSTLINK) $$t .;													\
+	BUILDLIBS=`find $$CURRDIR -name 'lib-dbg'                               \
+	                    -exec find {} -name '*\$(SO_SUFFIX)' -print \;` ;   \
+	cd $(INSTALL_DIR)/lib/dbg;                                              \
+	rm -f *$(SO_SUFFIX);                                                    \
+	for t in $$BUILDLIBS;                                                   \
+	do                                                                      \
+	    echo $$t;                                                           \
+	    $(INSTLINK) $$t .;                                                  \
 	done;                                                                   \
-	cd $$CURRDIR;
-	@CURRDIR=`pwd`;															\
-	BUILDLIBS=`find $$CURRDIR -name 'lib-opt' 			        			\
-						-exec find {} -name '*\$(SO_SUFFIX)' -print \;` ;	\
-	cd $(INSTALL_DIR)/lib/opt;												\
-	rm -f *$(SO_SUFFIX);													\
-	for t in $$BUILDLIBS; 													\
-	do																		\
-		echo $$t;															\
-		$(INSTLINK) $$t .;													\
-	done;																	\
 	cd $$CURRDIR;
 	@CURRDIR=`pwd`;                                                         \
-	BUILDLIBS=`find $$CURRDIR -name 'lib-dbglnk'		        			\
-					-exec find {} -name '*\$(LNK_LIB_SUFFIX)' -print \;` ;	\
-	cd $(INSTALL_DIR)/lib/dbg;												\
-	rm -f *$(LNK_LIB_SUFFIX);												\
-	for t in $$BUILDLIBS; 													\
-	do																		\
-		echo $$t;															\
-		$(INSTLINK) $$t .;													\
+	BUILDLIBS=`find $$CURRDIR -name 'lib-opt'                               \
+	                    -exec find {} -name '*\$(SO_SUFFIX)' -print \;` ;   \
+	cd $(INSTALL_DIR)/lib/opt;                                              \
+	rm -f *$(SO_SUFFIX);                                                    \
+	for t in $$BUILDLIBS;                                                   \
+	do                                                                      \
+	    echo $$t;                                                           \
+	    $(INSTLINK) $$t .;                                                  \
 	done;                                                                   \
 	cd $$CURRDIR;
-	@CURRDIR=`pwd`;															\
-	BUILDLIBS=`find $$CURRDIR -name 'lib-optlnk'		        			\
-					-exec find {} -name '*\$(LNK_LIB_SUFFIX)' -print \;` ;	\
-	cd $(INSTALL_DIR)/lib/opt;												\
-	rm -f *$(LNK_LIB_SUFFIX);												\
-	for t in $$BUILDLIBS; 													\
-	do																		\
-		echo $$t;															\
-		$(INSTLINK) $$t .;													\
-	done;																	\
+	@CURRDIR=`pwd`;                                                         \
+	BUILDLIBS=`find $$CURRDIR -name 'lib-dbglnk'                            \
+	                -exec find {} -name '*\$(LNK_LIB_SUFFIX)' -print \;` ;  \
+	cd $(INSTALL_DIR)/lib/dbg;                                              \
+	rm -f *$(LNK_LIB_SUFFIX);                                               \
+	for t in $$BUILDLIBS;                                                   \
+	do                                                                      \
+	    echo $$t;                                                           \
+	    $(INSTLINK) $$t .;                                                  \
+	done;                                                                   \
+	cd $$CURRDIR;
+	@CURRDIR=`pwd`;                                                         \
+	BUILDLIBS=`find $$CURRDIR -name 'lib-optlnk'                            \
+	                -exec find {} -name '*\$(LNK_LIB_SUFFIX)' -print \;` ;  \
+	cd $(INSTALL_DIR)/lib/opt;                                              \
+	rm -f *$(LNK_LIB_SUFFIX);                                               \
+	for t in $$BUILDLIBS;                                                   \
+	do                                                                      \
+	    echo $$t;                                                           \
+	    $(INSTLINK) $$t .;                                                  \
+	done;                                                                   \
 	cd $$CURRDIR;
 ifeq ($(OS_BASE),cygwin)
-	@CURRDIR=`pwd`;															\
-	BUILDLIBS=`find $$CURRDIR -name 'lib-dbg' 			        			\
-						-exec find {} -name '*\$(LIB_SUFFIX)' -print \;` ;	\
-	cd $(INSTALL_DIR)/lib/dbg;												\
-	for t in $$BUILDLIBS; 													\
-	do																		\
-		echo  $$t;															\
-		$(INSTLINK) $$t .;													\
-	done;																	\
+	@CURRDIR=`pwd`;                                                         \
+	BUILDLIBS=`find $$CURRDIR -name 'lib-dbg'                               \
+	                    -exec find {} -name '*\$(LIB_SUFFIX)' -print \;` ;  \
+	cd $(INSTALL_DIR)/lib/dbg;                                              \
+	for t in $$BUILDLIBS;                                                   \
+	do                                                                      \
+	    echo  $$t;                                                          \
+	    $(INSTLINK) $$t .;                                                  \
+	done;                                                                   \
 	cd $$CURRDIR;
-	@CURRDIR=`pwd`;															\
-	BUILDLIBS=`find $$CURRDIR -name 'lib-opt' 			        			\
-						-exec find {} -name '*\$(LIB_SUFFIX)' -print \;` ;	\
-	cd $(INSTALL_DIR)/lib/opt;												\
-	for t in $$BUILDLIBS; 													\
-	do																		\
-		echo  $$t;															\
-		$(INSTLINK) $$t .;													\
-	done;																	\
+	@CURRDIR=`pwd`;                                                         \
+	BUILDLIBS=`find $$CURRDIR -name 'lib-opt'                               \
+	                    -exec find {} -name '*\$(LIB_SUFFIX)' -print \;` ;  \
+	cd $(INSTALL_DIR)/lib/opt;                                              \
+	for t in $$BUILDLIBS;                                                   \
+	do                                                                      \
+	    echo  $$t;                                                          \
+	    $(INSTLINK) $$t .;                                                  \
+	done;                                                                   \
 	cd $$CURRDIR;
 endif
 
 
 fcdToBase:
-	@FCDEDIT=$($(PROJ)POOL)/Tools/fcdEdit/fcdEdit;							\
-	CURRDIRBASE=`pwd` ;														\
-	cd $($(PROJ)POOL) ;														\
-	for i in `find .														\
-		\( -type d \( -name CVS -o -name Test -o -name Builds -o			\
-		   -name Tools -o -name examples -o -name '*/.*' \) -prune \) 		\
-		-o -type f -name '*\.fcd' -print` ;									\
-	do																		\
-		echo $$i ;															\
-		CURRDIR=`pwd` ;														\
-		cd `dirname $$i` ;													\
-		$$FCDEDIT -b `basename $$i`;										\
-		cd $$CURRDIR ;														\
-	done;																	\
+	@FCDEDIT=$($(PROJ)POOL)/Tools/fcdEdit/fcdEdit;                          \
+	CURRDIRBASE=`pwd` ;                                                     \
+	cd $($(PROJ)POOL) ;                                                     \
+	for i in `find .                                                        \
+	    \( -type d \( -name CVS -o -name Test -o -name Builds -o            \
+	       -name Tools -o -name examples -o -name '*/.*' \) -prune \)       \
+	    -o -type f -name '*\.fcd' -print` ;                                 \
+	do                                                                      \
+	    echo $$i ;                                                          \
+	    CURRDIR=`pwd` ;                                                     \
+	    cd `dirname $$i` ;                                                  \
+	    $$FCDEDIT -b `basename $$i`;                                        \
+	    cd $$CURRDIR ;                                                      \
+	done;                                                                   \
 	cd $$CURRDIRBASE
 
 INSTALL_DIR_SED  := $(shell echo $(INSTALL_DIR)  | sed -e 's/\//\\\//g')
 LD_SED           := $(shell echo $(LD)           | sed -e 's/\//\\\//g')
 LD_FLAGS_EXT_SED := $(shell echo $(LD_FLAGS_EXT) | sed -e 's/\//\\\//g')
 
-install-bin:
+install-bin: install-test
 	@if [ ! -w $(INSTALL_DIR)/bin ]; then mkdir $(INSTALL_DIR)/bin; fi
-	VERSION=`cat $($(PROJ)POOL)/VERSION`; \
-	ICOMP=`echo $(CC) | sed -e 's|^[ ]*||' -e 's|[ ]*$$||'`;\
-	cat CommonPackages/osg-config |										\
-	$(SED) -e 's/@am_gdz_system_flags@/\"$(CCFLAGS_EXT)\"/g'			\
-	       -e 's/@am_gdz_system_flags_opt@/\"$(CCFLAGS_EXT_OPT)\"/g'	\
-	       -e 's/@am_gdz_system_flags_dbg@/\"$(CCFLAGS_EXT_DBG)\"/g'	\
-		   -e 's/@am_gdz_link_flags@/\"$(LD_FLAGS_EXT_SED)\"/g'			\
-		   -e 's/@am_gdz_link_flags_opt@/\"$(LD_FLAGS_EXT_OPT)\"/g'		\
-		   -e 's/@am_gdz_link_flags_dbg@/\"$(LD_FLAGS_EXT_DBG)\"/g'		\
-		   -e 's/@am_gdz_install_dir@/"$(INSTALL_DIR_SED)\"/g'			\
-		   -e "s|@am_gdz_compiler@|\"$$ICOMP\"|g"						\
-		   -e "s/@am_gdz_version@/$$VERSION/g"							\
-		   -e 's/@am_gdz_qt_cflags@/\"$(QT_PLATTFORMDEF_EXT)\"/g'		\
-		   -e 's/@am_gdz_exe_linker@/\"$(LD_SED)\"/g'					\
-		   -e "s/@am_gdz_compiler_id@/$(OS_CMPLR)/g"					\
-		> $(INSTALL_DIR)/bin/osg-config
+	VERSION=`cat $($(PROJ)POOL)/VERSION`;                                   \
+	ICOMP=`echo $(CC) | sed -e 's|^[ ]*||' -e 's|[ ]*$$||'`;                \
+	cat CommonPackages/osg-config |                                         \
+	$(SED) -e 's/@am_gdz_system_flags@/\"$(CCFLAGS_EXT)\"/g'                \
+	       -e 's/@am_gdz_system_flags_opt@/\"$(CCFLAGS_EXT_OPT)\"/g'        \
+	       -e 's/@am_gdz_system_flags_dbg@/\"$(CCFLAGS_EXT_DBG)\"/g'        \
+	       -e 's/@am_gdz_link_flags@/\"$(LD_FLAGS_EXT_SED)\"/g'             \
+	       -e 's/@am_gdz_link_flags_opt@/\"$(LD_FLAGS_EXT_OPT)\"/g'         \
+	       -e 's/@am_gdz_link_flags_dbg@/\"$(LD_FLAGS_EXT_DBG)\"/g'         \
+	       -e 's/@am_gdz_install_dir@/"$(INSTALL_DIR_SED)\"/g'              \
+	       -e "s|@am_gdz_compiler@|\"$$ICOMP\"|g"                           \
+	       -e "s/@am_gdz_version@/$$VERSION/g"                              \
+	       -e 's/@am_gdz_qt_cflags@/\"$(QT_PLATTFORMDEF_EXT)\"/g'           \
+	       -e 's/@am_gdz_exe_linker@/\"$(LD_SED)\"/g'                       \
+	       -e "s/@am_gdz_compiler_id@/$(OS_CMPLR)/g"                        \
+	    > $(INSTALL_DIR)/bin/osg-config
 	chmod 755 $(INSTALL_DIR)/bin/osg-config
 
 install-libs-ln: INSTLINK := $(LINK)
@@ -309,10 +322,10 @@ install-gabe: INSTLINK := cp
 install-gabe: install-includes-gabe install-libs-cp
 
 %.src:
-	@if [ -d $* ]; then 													\
-		cd $*; 																\
-		$(SUB_MAKE) -f $(SUB_MAKEFILE) $(SUB_TARGET) SUB_JOB=$(SUB_JOB); 	\
-		cd ..; 																\
+	@if [ -d $* ]; then                                                     \
+	    cd $*;                                                              \
+	    $(SUB_MAKE) -f $(SUB_MAKEFILE) $(SUB_TARGET) SUB_JOB=$(SUB_JOB);    \
+	    cd ..;                                                              \
 	fi
 
 
