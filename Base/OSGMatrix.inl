@@ -2563,7 +2563,7 @@ Bool TransformationMatrix<ValueTypeT>::jacobi(
         }
 
         if (sm == 0.0)
-            return;
+            return false;
         
         thresh = (i < 3 ?
                   (.2 * sm / (JacobiRank * JacobiRank)) :
@@ -2657,6 +2657,8 @@ Bool TransformationMatrix<ValueTypeT>::jacobi(
             z[p] = 0;
         }
     }
+
+    return true;
 }
 
 #ifdef __sgi
