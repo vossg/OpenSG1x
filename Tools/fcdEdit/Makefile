@@ -83,6 +83,13 @@ ifeq ($(OS),HP-UX)
 	BINSUF:=
 
 endif
+ifeq ($(OS),Darwin)
+    
+    	CCOUT := -o 
+    	LDOUT := -o 
+	BINSUF:=
+
+endif
 
 ### Retrieve osg-info ##########################################
 
