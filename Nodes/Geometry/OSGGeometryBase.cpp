@@ -79,8 +79,20 @@ const OSG::BitVector  GeometryBase::NormalsFieldMask =
 const OSG::BitVector  GeometryBase::ColorsFieldMask = 
     (1 << GeometryBase::ColorsFieldId);
 
+const OSG::BitVector  GeometryBase::SecondaryColorsFieldMask = 
+    (1 << GeometryBase::SecondaryColorsFieldId);
+
 const OSG::BitVector  GeometryBase::TexCoordsFieldMask = 
     (1 << GeometryBase::TexCoordsFieldId);
+
+const OSG::BitVector  GeometryBase::TexCoords1FieldMask = 
+    (1 << GeometryBase::TexCoords1FieldId);
+
+const OSG::BitVector  GeometryBase::TexCoords2FieldMask = 
+    (1 << GeometryBase::TexCoords2FieldId);
+
+const OSG::BitVector  GeometryBase::TexCoords3FieldMask = 
+    (1 << GeometryBase::TexCoords3FieldId);
 
 const OSG::BitVector  GeometryBase::IndicesFieldMask = 
     (1 << GeometryBase::IndicesFieldId);
@@ -116,7 +128,19 @@ const OSG::BitVector  GeometryBase::GLIdFieldMask =
 /*! \var GeoColorsPtr    GeometryBase::_sfColors
     
 */
+/*! \var GeoColorsPtr    GeometryBase::_sfSecondaryColors
+    
+*/
 /*! \var GeoTexCoordsPtr GeometryBase::_sfTexCoords
+    
+*/
+/*! \var GeoTexCoordsPtr GeometryBase::_sfTexCoords1
+    
+*/
+/*! \var GeoTexCoordsPtr GeometryBase::_sfTexCoords2
+    
+*/
+/*! \var GeoTexCoordsPtr GeometryBase::_sfTexCoords3
     
 */
 /*! \var GeoIndicesPtr   GeometryBase::_sfIndices
@@ -164,11 +188,31 @@ FieldDescription *GeometryBase::_desc[] =
                      ColorsFieldId, ColorsFieldMask,
                      false,
                      (FieldAccessMethod) &GeometryBase::getSFColors),
+    new FieldDescription(SFGeoColorsPtr::getClassType(), 
+                     "secondaryColors", 
+                     SecondaryColorsFieldId, SecondaryColorsFieldMask,
+                     false,
+                     (FieldAccessMethod) &GeometryBase::getSFSecondaryColors),
     new FieldDescription(SFGeoTexCoordsPtr::getClassType(), 
                      "texCoords", 
                      TexCoordsFieldId, TexCoordsFieldMask,
                      false,
                      (FieldAccessMethod) &GeometryBase::getSFTexCoords),
+    new FieldDescription(SFGeoTexCoordsPtr::getClassType(), 
+                     "texCoords1", 
+                     TexCoords1FieldId, TexCoords1FieldMask,
+                     false,
+                     (FieldAccessMethod) &GeometryBase::getSFTexCoords1),
+    new FieldDescription(SFGeoTexCoordsPtr::getClassType(), 
+                     "texCoords2", 
+                     TexCoords2FieldId, TexCoords2FieldMask,
+                     false,
+                     (FieldAccessMethod) &GeometryBase::getSFTexCoords2),
+    new FieldDescription(SFGeoTexCoordsPtr::getClassType(), 
+                     "texCoords3", 
+                     TexCoords3FieldId, TexCoords3FieldMask,
+                     false,
+                     (FieldAccessMethod) &GeometryBase::getSFTexCoords3),
     new FieldDescription(SFGeoIndicesPtr::getClassType(), 
                      "indices", 
                      IndicesFieldId, IndicesFieldMask,
@@ -257,7 +301,11 @@ GeometryBase::GeometryBase(void) :
     _sfPositions              (), 
     _sfNormals                (), 
     _sfColors                 (), 
+    _sfSecondaryColors        (), 
     _sfTexCoords              (), 
+    _sfTexCoords1             (), 
+    _sfTexCoords2             (), 
+    _sfTexCoords3             (), 
     _sfIndices                (), 
     _mfIndexMapping           (), 
     _sfMaterial               (), 
@@ -279,7 +327,11 @@ GeometryBase::GeometryBase(const GeometryBase &source) :
     _sfPositions              (source._sfPositions              ), 
     _sfNormals                (source._sfNormals                ), 
     _sfColors                 (source._sfColors                 ), 
+    _sfSecondaryColors        (source._sfSecondaryColors        ), 
     _sfTexCoords              (source._sfTexCoords              ), 
+    _sfTexCoords1             (source._sfTexCoords1             ), 
+    _sfTexCoords2             (source._sfTexCoords2             ), 
+    _sfTexCoords3             (source._sfTexCoords3             ), 
     _sfIndices                (source._sfIndices                ), 
     _mfIndexMapping           (source._mfIndexMapping           ), 
     _sfMaterial               (source._sfMaterial               ), 
@@ -328,9 +380,29 @@ UInt32 GeometryBase::getBinSize(const BitVector &whichField)
         returnValue += _sfColors.getBinSize();
     }
 
+    if(FieldBits::NoField != (SecondaryColorsFieldMask & whichField))
+    {
+        returnValue += _sfSecondaryColors.getBinSize();
+    }
+
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
     {
         returnValue += _sfTexCoords.getBinSize();
+    }
+
+    if(FieldBits::NoField != (TexCoords1FieldMask & whichField))
+    {
+        returnValue += _sfTexCoords1.getBinSize();
+    }
+
+    if(FieldBits::NoField != (TexCoords2FieldMask & whichField))
+    {
+        returnValue += _sfTexCoords2.getBinSize();
+    }
+
+    if(FieldBits::NoField != (TexCoords3FieldMask & whichField))
+    {
+        returnValue += _sfTexCoords3.getBinSize();
     }
 
     if(FieldBits::NoField != (IndicesFieldMask & whichField))
@@ -392,9 +464,29 @@ void GeometryBase::copyToBin(      BinaryDataHandler &pMem,
         _sfColors.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (SecondaryColorsFieldMask & whichField))
+    {
+        _sfSecondaryColors.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
     {
         _sfTexCoords.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TexCoords1FieldMask & whichField))
+    {
+        _sfTexCoords1.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TexCoords2FieldMask & whichField))
+    {
+        _sfTexCoords2.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TexCoords3FieldMask & whichField))
+    {
+        _sfTexCoords3.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (IndicesFieldMask & whichField))
@@ -455,9 +547,29 @@ void GeometryBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfColors.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (SecondaryColorsFieldMask & whichField))
+    {
+        _sfSecondaryColors.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
     {
         _sfTexCoords.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TexCoords1FieldMask & whichField))
+    {
+        _sfTexCoords1.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TexCoords2FieldMask & whichField))
+    {
+        _sfTexCoords2.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TexCoords3FieldMask & whichField))
+    {
+        _sfTexCoords3.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (IndicesFieldMask & whichField))
@@ -509,8 +621,20 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
     if(FieldBits::NoField != (ColorsFieldMask & whichField))
         _sfColors.syncWith(pOther->_sfColors);
 
+    if(FieldBits::NoField != (SecondaryColorsFieldMask & whichField))
+        _sfSecondaryColors.syncWith(pOther->_sfSecondaryColors);
+
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
         _sfTexCoords.syncWith(pOther->_sfTexCoords);
+
+    if(FieldBits::NoField != (TexCoords1FieldMask & whichField))
+        _sfTexCoords1.syncWith(pOther->_sfTexCoords1);
+
+    if(FieldBits::NoField != (TexCoords2FieldMask & whichField))
+        _sfTexCoords2.syncWith(pOther->_sfTexCoords2);
+
+    if(FieldBits::NoField != (TexCoords3FieldMask & whichField))
+        _sfTexCoords3.syncWith(pOther->_sfTexCoords3);
 
     if(FieldBits::NoField != (IndicesFieldMask & whichField))
         _sfIndices.syncWith(pOther->_sfIndices);
@@ -546,7 +670,7 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGeometryBase.cpp,v 1.28 2002/05/16 04:10:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGeometryBase.cpp,v 1.29 2002/06/10 22:08:18 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGGEOMETRYBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGEOMETRYBASE_INLINE_CVSID;
 

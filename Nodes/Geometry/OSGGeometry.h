@@ -70,10 +70,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     static const UInt16 MapPosition;
     static const UInt16 MapNormal;
     static const UInt16 MapColor;
-    static const UInt16 MapTexcoords;
-    static const UInt16 MapTexcoords2;  // not used yet
-    static const UInt16 MapTexcoords3;  // not used yet
-    static const UInt16 MapTexcoords4;  // not used yet
+    static const UInt16 MapSecondaryColor;
+    static const UInt16 MapTexCoords;
+    static const UInt16 MapTexCoords1;
+    static const UInt16 MapTexCoords2;
+    static const UInt16 MapTexCoords3;
     static const UInt16 MapEmpty;
 
     static StatElemDesc<StatIntElem>  statNTriangles;
@@ -125,14 +126,18 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    void setTypes    (const GeoPTypesPtr    &value);
-    void setLengths  (const GeoPLengthsPtr  &value);
-    void setPositions(const GeoPositionsPtr &value);
-    void setNormals  (const GeoNormalsPtr   &value);
-    void setColors   (const GeoColorsPtr    &value);
-    void setTexCoords(const GeoTexCoordsPtr &value);
-    void setIndices  (const GeoIndicesPtr   &value);
-    void setMaterial (const MaterialPtr     &value);
+    void setTypes          (const GeoPTypesPtr    &value);
+    void setLengths        (const GeoPLengthsPtr  &value);
+    void setPositions      (const GeoPositionsPtr &value);
+    void setNormals        (const GeoNormalsPtr   &value);
+    void setColors         (const GeoColorsPtr    &value);
+    void setSecondaryColors(const GeoColorsPtr    &value);
+    void setTexCoords      (const GeoTexCoordsPtr &value);
+    void setTexCoords1     (const GeoTexCoordsPtr &value);
+    void setTexCoords2     (const GeoTexCoordsPtr &value);
+    void setTexCoords3     (const GeoTexCoordsPtr &value);
+    void setIndices        (const GeoIndicesPtr   &value);
+    void setMaterial       (const MaterialPtr     &value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

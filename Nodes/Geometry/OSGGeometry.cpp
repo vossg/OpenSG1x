@@ -94,15 +94,15 @@ and minimal though, so don't expect them to be blindingly fast.
 char Geometry::cvsid[] = "@(#)$Id: $";
 
     
-const UInt16 Geometry::MapPosition   = 1;
-const UInt16 Geometry::MapNormal     = Geometry::MapPosition << 1;
-const UInt16 Geometry::MapColor      = Geometry::MapNormal << 1;
-const UInt16 Geometry::MapTexcoords  = Geometry::MapColor << 1;
-const UInt16 Geometry::MapTexcoords2 = Geometry::MapTexcoords << 1;
-const UInt16 Geometry::MapTexcoords3 = Geometry::MapTexcoords2 << 1;
-const UInt16 Geometry::MapTexcoords4 = Geometry::MapTexcoords3 << 1;
-const UInt16 Geometry::MapEmpty      = Geometry::MapTexcoords4 << 1;
-
+const UInt16 Geometry::MapPosition       = 1;
+const UInt16 Geometry::MapNormal         = Geometry::MapPosition << 1;
+const UInt16 Geometry::MapColor          = Geometry::MapNormal << 1;
+const UInt16 Geometry::MapSecondaryColor = Geometry::MapColor << 1;
+const UInt16 Geometry::MapTexCoords      = Geometry::MapSecondaryColor << 1;
+const UInt16 Geometry::MapTexCoords1     = Geometry::MapTexCoords << 1;
+const UInt16 Geometry::MapTexCoords2     = Geometry::MapTexCoords1 << 1;
+const UInt16 Geometry::MapTexCoords3     = Geometry::MapTexCoords2 << 1;
+const UInt16 Geometry::MapEmpty          = Geometry::MapTexCoords3 << 1;
 
 StatElemDesc<StatIntElem>  Geometry::statNTriangles("NTriangles",
 "number of rendered triangles");
@@ -269,6 +269,19 @@ Geometry::~Geometry(void)
         beginEditCP(_sfColors.getValue(), Attachment::ParentsFieldMask);
 
         subRefCP(_sfColors.getValue());
+    }
+
+    if(_sfSecondaryColors.getValue() != NullFC)
+    {
+        beginEditCP(_sfSecondaryColors.getValue(), 
+                        Attachment::ParentsFieldMask);
+        {
+            _sfSecondaryColors.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfSecondaryColors.getValue(), 
+                        Attachment::ParentsFieldMask);
+
+        subRefCP(_sfSecondaryColors.getValue());
     }
 
     if(_sfTexCoords.getValue() != NullFC)
@@ -507,18 +520,18 @@ AbstractGeoPropertyInterface *Geometry::getProperty(Int32 mapID)
         case MapColor:
             pP = (getColors() == NullFC) ? 0 : &(*getColors());
             break;
-        case MapTexcoords:
+        case MapTexCoords:
             pP = (getTexCoords() == NullFC) ? 0 : &(*getTexCoords());
             break;
             // TODO; multitexture stuff
             /*
-              case MapTexcoords2:
+              case MapTexCoords2:
               pP = (getTexCoords2() == NullFC) ? 0 : &(*getTexCoords2());
               break;
-              case MapTexcoords3:
+              case MapTexCoords3:
               pP = (getTexCoords3() == NullFC) ? 0 : &(*getTexCoords3());
               break;
-              case MapTexcoords4:
+              case MapTexCoords4:
               pP = (getTexCoords4() == NullFC) ? 0 : &(*getTexCoords4());
               break;
             */
@@ -573,14 +586,17 @@ bool Geometry::isMergeable( const GeometryPtr other )
     // if no index mapping, compare the existing properties
     if ( ! getIndexMapping().size() )
     {
-        if ( ( (        getNormals()   != NullFC ) ^
-               ( other->getNormals()   != NullFC ) 
+        if ( ( (        getNormals()            != NullFC ) ^
+               ( other->getNormals()            != NullFC ) 
              ) ||
-             ( (        getColors()    != NullFC ) ^
-               ( other->getColors()    != NullFC ) 
+             ( (        getColors()             != NullFC ) ^
+               ( other->getColors()             != NullFC ) 
              ) ||
-             ( (        getTexCoords() != NullFC ) ^
-               ( other->getTexCoords() != NullFC ) 
+             ( (        getSecondaryColors()    != NullFC ) ^
+               ( other->getSecondaryColors()    != NullFC ) 
+             ) ||
+             ( (        getTexCoords()          != NullFC ) ^
+               ( other->getTexCoords()          != NullFC ) 
            ) )
             return false;    
     }
@@ -677,7 +693,7 @@ bool Geometry::merge( const GeometryPtr other )
             if ( ( mind = calcMappingIndex( MapColor ) ) >= 0 )
                 offsets[ mind ] = colorBase;
             
-            if ( ( mind = calcMappingIndex( MapTexcoords ) ) >= 0 )
+            if ( ( mind = calcMappingIndex( MapTexCoords ) ) >= 0 )
                 offsets[ mind ] = texcoordBase;
                 
             // bump every index by its offset
@@ -764,14 +780,14 @@ Action::ResultE Geometry::draw(DrawActionBase * action)
             
             if(getIndices() == NullFC)
             {
-              if (getPositions() != NullFC) 
-              {
-                is = getPositions()->getSize();
-              }
-              else
-              {
-                is = 0;
-              }
+                if(getPositions() != NullFC)
+                {
+                    is = getPositions()->getSize();
+                }
+                else
+                {
+                    is = 0;
+                }
             }
             else
             {
@@ -1136,18 +1152,19 @@ GeometryPtr Geometry::clone( void )
 
     beginEditCP( geo );
     
-    geo->setTypes    ( getTypes    ()->clone() );
-    geo->setLengths  ( getLengths  ()->clone() );
-    geo->setPositions( getPositions()->clone() );
-    geo->setNormals  ( getNormals  ()->clone() );
-    geo->setColors   ( getColors   ()->clone() );
-    geo->setTexCoords( getTexCoords()->clone() );
-    geo->setIndices  ( getIndices  ()->clone() );
+    geo->setTypes             ( getTypes             ()->clone() );
+    geo->setLengths           ( getLengths           ()->clone() );
+    geo->setPositions         ( getPositions         ()->clone() );
+    geo->setNormals           ( getNormals           ()->clone() );
+    geo->setColors            ( getColors            ()->clone() );
+    geo->setSecondaryColors   ( getSecondaryColors   ()->clone() );
+    geo->setTexCoords         ( getTexCoords         ()->clone() );
+    geo->setIndices           ( getIndices           ()->clone() );
     
     geo->getMFIndexMapping()->setValues( *getMFIndexMapping() );
 
-    geo->setMaterial  ( getMaterial  () );
-    geo->setDlistCache( getDlistCache() );
+    geo->setMaterial           ( getMaterial  () );
+    geo->setDlistCache         ( getDlistCache() );
     
     return geo;
 }

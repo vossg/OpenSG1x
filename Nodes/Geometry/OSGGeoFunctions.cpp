@@ -402,7 +402,7 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
             UInt32 map = Geometry::MapPosition;
             
             if(geo->getTexCoords() != NullFC)   
-                map |= Geometry::MapTexcoords;
+                map |= Geometry::MapTexCoords;
                 
             if(geo->getColors()    != NullFC)   
                 map |= Geometry::MapColor;
@@ -967,7 +967,7 @@ Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
     indexMapID[0] = Geometry::MapPosition;
     indexMapID[1] = Geometry::MapNormal;
     indexMapID[2] = Geometry::MapColor;
-    indexMapID[3] = Geometry::MapTexcoords;
+    indexMapID[3] = Geometry::MapTexCoords;
     for (mapi = i = 1; i <= 3; i++) {
       indexMap[i] = 0;
       switch (indexType[i]) {

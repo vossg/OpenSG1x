@@ -8,6 +8,7 @@
 	structure="concrete"
 	systemcomponent="true"
 	parentsystemcomponent="true"
+	decoratable="false"
 >
 	<Field
 		name="types"
@@ -50,7 +51,39 @@
 	>
 	</Field>
 	<Field
+		name="secondaryColors"
+		type="GeoColorsPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
 		name="texCoords"
+		type="GeoTexCoordsPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="texCoords1"
+		type="GeoTexCoordsPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="texCoords2"
+		type="GeoTexCoordsPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="texCoords3"
 		type="GeoTexCoordsPtr"
 		cardinality="single"
 		visibility="external"

@@ -42,7 +42,9 @@
 #pragma once
 #endif
 
+#include <utility>
 #include <OSGBaseTypes.h>
+#include <OSGBaseFunctions.h>
 #include <OSGGeometry.h>
 
 OSG_BEGIN_NAMESPACE
@@ -83,19 +85,21 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 
     typedef void (*InterfacePump)( Window *win,
         GeoPositionsInterface *pos, GeoNormalsInterface *norm,
-        GeoColorsInterface *col, GeoTexCoordsInterface *texcoords,
+        GeoColorsInterface *col, GeoColorsInterface *seccol, 
+        GeoTexCoordsInterface *texcoords,
+        GeoTexCoordsInterface *texcoords1,
         GeoTexCoordsInterface *texcoords2,
         GeoTexCoordsInterface *texcoords3,
-        GeoTexCoordsInterface *texcoords4,
         GeoPTypesInterface *type, GeoPLengthsInterface *len,
         GeoIndicesInterface *ind, UInt16 *map, UInt16 nmap );
 
     typedef void (*PartialInterfacePump)( Window *win,
         GeoPositionsInterface *pos, GeoNormalsInterface *norm,
-        GeoColorsInterface *col, GeoTexCoordsInterface *texcoords,
+        GeoColorsInterface *col, GeoColorsInterface *seccol, 
+        GeoTexCoordsInterface *texcoords,
+        GeoTexCoordsInterface *texcoords1,
         GeoTexCoordsInterface *texcoords2,
         GeoTexCoordsInterface *texcoords3,
-        GeoTexCoordsInterface *texcoords4,
         GeoPTypesInterface *type, GeoPLengthsInterface *len,
         GeoIndicesInterface *ind, UInt16 *map, UInt16 nmap,
         UInt32 primtype, UInt32 firstvert, UInt32 nvert );
@@ -121,14 +125,13 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 
     Index                getIndex( Geometry * geo );
 
-    GeoPump              getGeoPump      ( Window *win, Index index );
+    GeoPump              getGeoPump       ( Window *win, Index index );
 
-    PartialGeoPump       getPartialGeoPump(Window *win, Index index );
+    PartialGeoPump       getPartialGeoPump( Window *win, Index index );
 
-    InterfacePump        getInterfacePump( Window *win, Index index );
+    InterfacePump        getInterfacePump ( Window *win, Index index );
 
-    PartialInterfacePump getPartialInterfacePump( Window *win,
-                                                    Index index );
+    PartialInterfacePump getPartialInterfacePump( Window *win, Index index );
 
 
     /*! \}                                                                 */
@@ -157,7 +160,18 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
     static char cvsid[];
 
     static GeoPumpFactory *_the;
+    
+    /*---------------------------------------------------------------------*/
+    /*! \name               OpenGL Extension handling                      */
+    /*! \{                                                                 */
 
+    static bool             glextInitFunction(void);
+    static InitFuncWrapper _glextInitFuncWrapper;
+    
+    static UInt32          _extSecondaryColor;
+    static UInt32          _extMultitexture;
+    
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       The Pumps                              */
     /*! \{                                                                 */
@@ -169,7 +183,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 
     static void masterInterfacePump( Window *win,
         GeoPositionsInterface *pos, GeoNormalsInterface *norm,
-        GeoColorsInterface *col, GeoTexCoordsInterface *texcoords,
+        GeoColorsInterface *col, GeoColorsInterface *seccol, 
+        GeoTexCoordsInterface *texcoords,
         GeoTexCoordsInterface *texcoords2,
         GeoTexCoordsInterface *texcoords3,
         GeoTexCoordsInterface *texcoords4,
@@ -178,7 +193,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 
     static void masterPartialInterfacePump( Window *win,
         GeoPositionsInterface *pos, GeoNormalsInterface *norm,
-        GeoColorsInterface *col, GeoTexCoordsInterface *texcoords,
+        GeoColorsInterface *col, GeoColorsInterface *seccol, 
+        GeoTexCoordsInterface *texcoords,
         GeoTexCoordsInterface *texcoords2,
         GeoTexCoordsInterface *texcoords3,
         GeoTexCoordsInterface *texcoords4,

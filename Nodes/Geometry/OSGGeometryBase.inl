@@ -127,9 +127,33 @@ SFGeoColorsPtr *GeometryBase::getSFColors(void)
 }
 
 inline
+SFGeoColorsPtr *GeometryBase::getSFSecondaryColors(void)
+{
+    return &_sfSecondaryColors;
+}
+
+inline
 SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords(void)
 {
     return &_sfTexCoords;
+}
+
+inline
+SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords1(void)
+{
+    return &_sfTexCoords1;
+}
+
+inline
+SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords2(void)
+{
+    return &_sfTexCoords2;
+}
+
+inline
+SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords3(void)
+{
+    return &_sfTexCoords3;
 }
 
 inline
@@ -254,6 +278,24 @@ void GeometryBase::setColors(const GeoColorsPtr &value)
 }
 
 inline
+GeoColorsPtr &GeometryBase::getSecondaryColors(void)
+{
+    return _sfSecondaryColors.getValue();
+}
+
+inline
+const GeoColorsPtr &GeometryBase::getSecondaryColors(void) const
+{
+    return _sfSecondaryColors.getValue();
+}
+
+inline
+void GeometryBase::setSecondaryColors(const GeoColorsPtr &value)
+{
+    _sfSecondaryColors.setValue(value);
+}
+
+inline
 GeoTexCoordsPtr &GeometryBase::getTexCoords(void)
 {
     return _sfTexCoords.getValue();
@@ -269,6 +311,60 @@ inline
 void GeometryBase::setTexCoords(const GeoTexCoordsPtr &value)
 {
     _sfTexCoords.setValue(value);
+}
+
+inline
+GeoTexCoordsPtr &GeometryBase::getTexCoords1(void)
+{
+    return _sfTexCoords1.getValue();
+}
+
+inline
+const GeoTexCoordsPtr &GeometryBase::getTexCoords1(void) const
+{
+    return _sfTexCoords1.getValue();
+}
+
+inline
+void GeometryBase::setTexCoords1(const GeoTexCoordsPtr &value)
+{
+    _sfTexCoords1.setValue(value);
+}
+
+inline
+GeoTexCoordsPtr &GeometryBase::getTexCoords2(void)
+{
+    return _sfTexCoords2.getValue();
+}
+
+inline
+const GeoTexCoordsPtr &GeometryBase::getTexCoords2(void) const
+{
+    return _sfTexCoords2.getValue();
+}
+
+inline
+void GeometryBase::setTexCoords2(const GeoTexCoordsPtr &value)
+{
+    _sfTexCoords2.setValue(value);
+}
+
+inline
+GeoTexCoordsPtr &GeometryBase::getTexCoords3(void)
+{
+    return _sfTexCoords3.getValue();
+}
+
+inline
+const GeoTexCoordsPtr &GeometryBase::getTexCoords3(void) const
+{
+    return _sfTexCoords3.getValue();
+}
+
+inline
+void GeometryBase::setTexCoords3(const GeoTexCoordsPtr &value)
+{
+    _sfTexCoords3.setValue(value);
 }
 
 inline
@@ -365,5 +461,5 @@ const MFUInt16 &GeometryBase::getIndexMapping(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGGEOMETRYBASE_INLINE_CVSID "@(#)$Id: OSGGeometryBase.inl,v 1.15 2002/05/13 09:21:10 vossg Exp $"
+#define OSGGEOMETRYBASE_INLINE_CVSID "@(#)$Id: OSGGeometryBase.inl,v 1.16 2002/06/10 22:08:18 dirk Exp $"
 

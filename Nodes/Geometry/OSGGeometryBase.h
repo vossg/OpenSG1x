@@ -72,7 +72,11 @@
 #include <OSGGeoPositionsFields.h> // Positions type
 #include <OSGGeoNormalsFields.h> // Normals type
 #include <OSGGeoColorsFields.h> // Colors type
+#include <OSGGeoColorsFields.h> // SecondaryColors type
 #include <OSGGeoTexCoordsFields.h> // TexCoords type
+#include <OSGGeoTexCoordsFields.h> // TexCoords1 type
+#include <OSGGeoTexCoordsFields.h> // TexCoords2 type
+#include <OSGGeoTexCoordsFields.h> // TexCoords3 type
 #include <OSGGeoIndicesFields.h> // Indices type
 #include <OSGUInt16Fields.h> // IndexMapping type
 #include <OSGMaterialFields.h> // Material type
@@ -99,18 +103,22 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
 
     enum
     {
-        TypesFieldId        = Inherited::NextFieldId,
-        LengthsFieldId      = TypesFieldId        + 1,
-        PositionsFieldId    = LengthsFieldId      + 1,
-        NormalsFieldId      = PositionsFieldId    + 1,
-        ColorsFieldId       = NormalsFieldId      + 1,
-        TexCoordsFieldId    = ColorsFieldId       + 1,
-        IndicesFieldId      = TexCoordsFieldId    + 1,
-        IndexMappingFieldId = IndicesFieldId      + 1,
-        MaterialFieldId     = IndexMappingFieldId + 1,
-        DlistCacheFieldId   = MaterialFieldId     + 1,
-        GLIdFieldId         = DlistCacheFieldId   + 1,
-        NextFieldId         = GLIdFieldId         + 1
+        TypesFieldId           = Inherited::NextFieldId,
+        LengthsFieldId         = TypesFieldId           + 1,
+        PositionsFieldId       = LengthsFieldId         + 1,
+        NormalsFieldId         = PositionsFieldId       + 1,
+        ColorsFieldId          = NormalsFieldId         + 1,
+        SecondaryColorsFieldId = ColorsFieldId          + 1,
+        TexCoordsFieldId       = SecondaryColorsFieldId + 1,
+        TexCoords1FieldId      = TexCoordsFieldId       + 1,
+        TexCoords2FieldId      = TexCoords1FieldId      + 1,
+        TexCoords3FieldId      = TexCoords2FieldId      + 1,
+        IndicesFieldId         = TexCoords3FieldId      + 1,
+        IndexMappingFieldId    = IndicesFieldId         + 1,
+        MaterialFieldId        = IndexMappingFieldId    + 1,
+        DlistCacheFieldId      = MaterialFieldId        + 1,
+        GLIdFieldId            = DlistCacheFieldId      + 1,
+        NextFieldId            = GLIdFieldId            + 1
     };
 
     static const osg::BitVector TypesFieldMask;
@@ -118,7 +126,11 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     static const osg::BitVector PositionsFieldMask;
     static const osg::BitVector NormalsFieldMask;
     static const osg::BitVector ColorsFieldMask;
+    static const osg::BitVector SecondaryColorsFieldMask;
     static const osg::BitVector TexCoordsFieldMask;
+    static const osg::BitVector TexCoords1FieldMask;
+    static const osg::BitVector TexCoords2FieldMask;
+    static const osg::BitVector TexCoords3FieldMask;
     static const osg::BitVector IndicesFieldMask;
     static const osg::BitVector IndexMappingFieldMask;
     static const osg::BitVector MaterialFieldMask;
@@ -153,7 +165,11 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
            SFGeoPositionsPtr   *getSFPositions      (void);
            SFGeoNormalsPtr     *getSFNormals        (void);
            SFGeoColorsPtr      *getSFColors         (void);
+           SFGeoColorsPtr      *getSFSecondaryColors(void);
            SFGeoTexCoordsPtr   *getSFTexCoords      (void);
+           SFGeoTexCoordsPtr   *getSFTexCoords1     (void);
+           SFGeoTexCoordsPtr   *getSFTexCoords2     (void);
+           SFGeoTexCoordsPtr   *getSFTexCoords3     (void);
            SFGeoIndicesPtr     *getSFIndices        (void);
            MFUInt16            *getMFIndexMapping   (void);
            SFMaterialPtr       *getSFMaterial       (void);
@@ -169,8 +185,16 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
      const GeoNormalsPtr       &getNormals        (void) const;
            GeoColorsPtr        &getColors         (void);
      const GeoColorsPtr        &getColors         (void) const;
+           GeoColorsPtr        &getSecondaryColors(void);
+     const GeoColorsPtr        &getSecondaryColors(void) const;
            GeoTexCoordsPtr     &getTexCoords      (void);
      const GeoTexCoordsPtr     &getTexCoords      (void) const;
+           GeoTexCoordsPtr     &getTexCoords1     (void);
+     const GeoTexCoordsPtr     &getTexCoords1     (void) const;
+           GeoTexCoordsPtr     &getTexCoords2     (void);
+     const GeoTexCoordsPtr     &getTexCoords2     (void) const;
+           GeoTexCoordsPtr     &getTexCoords3     (void);
+     const GeoTexCoordsPtr     &getTexCoords3     (void) const;
            GeoIndicesPtr       &getIndices        (void);
      const GeoIndicesPtr       &getIndices        (void) const;
            MaterialPtr         &getMaterial       (void);
@@ -191,7 +215,11 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
      void setPositions      ( const GeoPositionsPtr &value );
      void setNormals        ( const GeoNormalsPtr &value );
      void setColors         ( const GeoColorsPtr &value );
+     void setSecondaryColors( const GeoColorsPtr &value );
      void setTexCoords      ( const GeoTexCoordsPtr &value );
+     void setTexCoords1     ( const GeoTexCoordsPtr &value );
+     void setTexCoords2     ( const GeoTexCoordsPtr &value );
+     void setTexCoords3     ( const GeoTexCoordsPtr &value );
      void setIndices        ( const GeoIndicesPtr &value );
      void setMaterial       ( const MaterialPtr &value );
      void setDlistCache     ( const bool &value );
@@ -245,7 +273,11 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     SFGeoPositionsPtr   _sfPositions;
     SFGeoNormalsPtr     _sfNormals;
     SFGeoColorsPtr      _sfColors;
+    SFGeoColorsPtr      _sfSecondaryColors;
     SFGeoTexCoordsPtr   _sfTexCoords;
+    SFGeoTexCoordsPtr   _sfTexCoords1;
+    SFGeoTexCoordsPtr   _sfTexCoords2;
+    SFGeoTexCoordsPtr   _sfTexCoords3;
     SFGeoIndicesPtr     _sfIndices;
     MFUInt16            _mfIndexMapping;
     SFMaterialPtr       _sfMaterial;

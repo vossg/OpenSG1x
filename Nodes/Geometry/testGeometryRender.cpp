@@ -159,6 +159,20 @@ int main (int argc, char **argv)
     texs->addValue( Vec2f( 2, 2 ) );
     texs->addValue( Vec2f( 0, 2 ) );
     endEditCP(texs);
+
+    // use second texture coordinates
+    texs = GeoTexCoords2f::create();
+    g1->setTexCoords1( texs );
+    beginEditCP(texs);
+    texs->addValue( Vec2f( 0, 0 ) );
+    texs->addValue( Vec2f( 1, 0 ) );
+    texs->addValue( Vec2f( 1, 1 ) );
+    texs->addValue( Vec2f( 0, 1 ) );
+    texs->addValue( Vec2f( 0, 0 ) );
+    texs->addValue( Vec2f( 2, 0 ) );
+    texs->addValue( Vec2f( 2, 2 ) );
+    texs->addValue( Vec2f( 0, 2 ) );
+    endEditCP(texs);
     
     GeoTexCoords3fPtr texs3 = GeoTexCoords3f::create();
     g1->setTexCoords( texs3 );
@@ -196,7 +210,7 @@ int main (int argc, char **argv)
 
 //    g1->getIndexMapping().addValue( 
 //      Geometry::MapPosition | Geometry::MapNormal |
-//      Geometry::MapTexcoords );
+//      Geometry::MapTexCoords );
 //    g1->getIndexMapping().addValue( Geometry::MapColor );
 
 

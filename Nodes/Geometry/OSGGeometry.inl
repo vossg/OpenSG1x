@@ -247,6 +247,38 @@ void Geometry::setColors(const GeoColorsPtr &value)
 }
 
 inline
+void Geometry::setSecondaryColors(const GeoColorsPtr &value)
+{
+    GeometryPtr thisP = getPtr();
+
+    addRefCP(value);
+
+    if(_sfSecondaryColors.getValue() != NullFC)
+    {
+        beginEditCP(_sfSecondaryColors.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfSecondaryColors.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfSecondaryColors.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfSecondaryColors.getValue());
+    }
+
+    if(value != NullFC)
+    {
+        thisP.setParentFieldPos(SecondaryColorsFieldId);
+
+        beginEditCP(value, Attachment::ParentsFieldMask);
+        {
+            value->addParent(thisP);
+        }
+        beginEditCP(value, Attachment::ParentsFieldMask);
+    }
+
+    _sfSecondaryColors.setValue(value);
+}
+
+inline
 void Geometry::setTexCoords(const GeoTexCoordsPtr &value)
 {
     GeometryPtr thisP = getPtr();
@@ -277,6 +309,103 @@ void Geometry::setTexCoords(const GeoTexCoordsPtr &value)
 
     _sfTexCoords.setValue(value);
 }
+
+inline
+void Geometry::setTexCoords1(const GeoTexCoordsPtr &value)
+{
+    GeometryPtr thisP = getPtr();
+
+    addRefCP(value);
+
+    if(_sfTexCoords1.getValue() != NullFC)
+    {
+        beginEditCP(_sfTexCoords1.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfTexCoords1.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfTexCoords1.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfTexCoords1.getValue());
+    }
+
+    if(value != NullFC)
+    {
+        thisP.setParentFieldPos(TexCoords1FieldId);
+
+        beginEditCP(value, Attachment::ParentsFieldMask);
+        {
+            value->addParent(thisP);
+        }
+        beginEditCP(value, Attachment::ParentsFieldMask);
+    }
+
+    _sfTexCoords1.setValue(value);
+}
+
+inline
+void Geometry::setTexCoords2(const GeoTexCoordsPtr &value)
+{
+    GeometryPtr thisP = getPtr();
+
+    addRefCP(value);
+
+    if(_sfTexCoords2.getValue() != NullFC)
+    {
+        beginEditCP(_sfTexCoords2.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfTexCoords2.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfTexCoords2.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfTexCoords2.getValue());
+    }
+
+    if(value != NullFC)
+    {
+        thisP.setParentFieldPos(TexCoords2FieldId);
+
+        beginEditCP(value, Attachment::ParentsFieldMask);
+        {
+            value->addParent(thisP);
+        }
+        beginEditCP(value, Attachment::ParentsFieldMask);
+    }
+
+    _sfTexCoords2.setValue(value);
+}
+
+inline
+void Geometry::setTexCoords3(const GeoTexCoordsPtr &value)
+{
+    GeometryPtr thisP = getPtr();
+
+    addRefCP(value);
+
+    if(_sfTexCoords3.getValue() != NullFC)
+    {
+        beginEditCP(_sfTexCoords3.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfTexCoords3.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfTexCoords3.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfTexCoords3.getValue());
+    }
+
+    if(value != NullFC)
+    {
+        thisP.setParentFieldPos(TexCoords3FieldId);
+
+        beginEditCP(value, Attachment::ParentsFieldMask);
+        {
+            value->addParent(thisP);
+        }
+        beginEditCP(value, Attachment::ParentsFieldMask);
+    }
+
+    _sfTexCoords3.setValue(value);
+}
+
 
 inline
 void Geometry::setIndices(const GeoIndicesPtr &value)

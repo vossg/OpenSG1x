@@ -235,7 +235,7 @@ int main (int argc, char **argv)
     GeometryPtr::dcast(objects[4]->getCore())->setMaterial( mat );
     cerr << "Cylinder Node: " << hex << objects[4] << endl;
     
-    objects[5] = makeConicalFrustum( 3, 2, 1, 20, true, true, true );
+    objects[5] = makeConicalFrustum( 3, 2, 1, 3, true, true, true );
     GeometryPtr::dcast(objects[5]->getCore())->setMaterial( mat );
     cerr << "Frustum Node: " << hex << objects[5] << endl;
 

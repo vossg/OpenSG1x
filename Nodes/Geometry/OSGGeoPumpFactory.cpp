@@ -86,6 +86,12 @@ char GeoPumpFactory::cvsid[] = "@(#)$Id: $";
 
 GeoPumpFactory *GeoPumpFactory::_the = NULL;
 
+InitFuncWrapper
+GeoPumpFactory::_glextInitFuncWrapper(GeoPumpFactory::glextInitFunction);
+
+UInt32 GeoPumpFactory::_extSecondaryColor;
+UInt32 GeoPumpFactory::_extMultitexture;
+   
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -157,7 +163,7 @@ GeoPumpFactory::PartialGeoPump GeoPumpFactory::getPartialGeoPump(
                 Window * , 
                 GeoPumpFactory::Index  )
 {
-        FWARNING(("GeoPumpFactory::getPartialGeoPump: not implemented yet!\n"));
+    FWARNING(("GeoPumpFactory::getPartialGeoPump: not implemented yet!\n"));
     return NULL;
 }
 
@@ -165,7 +171,7 @@ GeoPumpFactory::InterfacePump GeoPumpFactory::getInterfacePump(
                 Window * , 
                 GeoPumpFactory::Index  )
 {
-        FWARNING(("GeoPumpFactory::getInterfacePump: not implemented yet!\n"));
+    FWARNING(("GeoPumpFactory::getInterfacePump: not implemented yet!\n"));
     return NULL;
 }
 
@@ -173,7 +179,7 @@ GeoPumpFactory::PartialInterfacePump GeoPumpFactory::getPartialInterfacePump(
                 Window * , 
                 GeoPumpFactory::Index  )
 {
-        FWARNING(("GeoPumpFactory::getPartialInterfacePump: not "
+    FWARNING(("GeoPumpFactory::getPartialInterfacePump: not "
                 "implemented yet!\n"));
     return NULL;
 }
@@ -197,9 +203,20 @@ GeoPumpFactory::Index GeoPumpFactory::numIndices( void )
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-// The real pumping functions
+// a little hack to get around ifdefs
 
-typedef void (OSG_APIENTRY *pumpFunc)( GLubyte * data );
+#ifndef GL_TEXTURE1_ARB
+
+#define GL_TEXTURE1_ARB 0x84C1
+#define GL_TEXTURE2_ARB 0x84C2
+#define GL_TEXTURE3_ARB 0x84C3
+
+#endif
+
+// Pumping function definitions
+
+typedef void (OSG_APIENTRY *pumpFunc)(GLubyte * data);
+typedef void (OSG_APIENTRY *multiPumpFunc)(GLenum which, GLubyte * data);
 
 // Some helper arrays for function selection
 // indexed by data type and dimension
@@ -213,82 +230,138 @@ static char *formatNames[] =
     "GL_3_BYTES", "GL_4_BYTES", "GL_DOUBLE"
 };
 
+// little helper class for function init
+
+class glextFuncInit
+{
+    public:
+
+        glextFuncInit(char *name, UInt32 format, UInt32 dim) : 
+            _name(name), _format(format), _dim(dim) {};
+
+        void init(UInt32 (&extids)[numFormats][4])
+        {
+            extids[_format - formatBase][_dim] = 
+                                        Window::registerFunction(_name);
+        }
+
+    private:
+
+        char   *_name;
+        UInt32  _format;
+        UInt32  _dim;
+};
+
+glextFuncInit secondaryColorInitFuncs[8] = {
+    glextFuncInit("glSecondaryColor3bvEXT",  GL_BYTE,           3),
+    glextFuncInit("glSecondaryColor3ubvEXT", GL_UNSIGNED_BYTE,  3),
+    glextFuncInit("glSecondaryColor3svEXT",  GL_SHORT,          3),
+    glextFuncInit("glSecondaryColor3usvEXT", GL_UNSIGNED_SHORT, 3),
+    glextFuncInit("glSecondaryColor3ivEXT",  GL_INT,            3),
+    glextFuncInit("glSecondaryColor3uivEXT", GL_UNSIGNED_INT,   3),
+    glextFuncInit("glSecondaryColor3fvEXT",  GL_FLOAT,          3),
+    glextFuncInit("glSecondaryColor3dvEXT",  GL_DOUBLE,         3)
+};
+
+glextFuncInit multiTexCoordsInitFuncs[16] = {
+    glextFuncInit("glMultiTexCoord1svARB",   GL_SHORT,          1),
+    glextFuncInit("glMultiTexCoord2svARB",   GL_SHORT,          2),
+    glextFuncInit("glMultiTexCoord3svARB",   GL_SHORT,          3),
+    glextFuncInit("glMultiTexCoord4svARB",   GL_SHORT,          4),
+    glextFuncInit("glMultiTexCoord1ivARB",   GL_INT,            1),
+    glextFuncInit("glMultiTexCoord2ivARB",   GL_INT,            2),
+    glextFuncInit("glMultiTexCoord3ivARB",   GL_INT,            3),
+    glextFuncInit("glMultiTexCoord4ivARB",   GL_INT,            4),
+    glextFuncInit("glMultiTexCoord1fvARB",   GL_FLOAT,          1),
+    glextFuncInit("glMultiTexCoord2fvARB",   GL_FLOAT,          2),
+    glextFuncInit("glMultiTexCoord3fvARB",   GL_FLOAT,          3),
+    glextFuncInit("glMultiTexCoord4fvARB",   GL_FLOAT,          4),
+    glextFuncInit("glMultiTexCoord1dvARB",   GL_DOUBLE,         1),
+    glextFuncInit("glMultiTexCoord2dvARB",   GL_DOUBLE,         2),
+    glextFuncInit("glMultiTexCoord3dvARB",   GL_DOUBLE,         3),
+    glextFuncInit("glMultiTexCoord4dvARB",   GL_DOUBLE,         4)
+};
+
+// The real pumping functions
+
 static pumpFunc PositionFuncs[numFormats][4] = {
-    { NULL, NULL, NULL, NULL },                             // GL_BYTE
-    { NULL, NULL, NULL, NULL },                             // GL_UNSIGNED_BYTE
+    { NULL, NULL, NULL, NULL },                           // GL_BYTE
+    { NULL, NULL, NULL, NULL },                           // GL_UNSIGNED_BYTE
     { NULL, (pumpFunc)glVertex2sv, 
-      (pumpFunc)glVertex3sv, (pumpFunc)glVertex4sv },   // GL_SHORT
-    { NULL, NULL, NULL, NULL },                             // GL_UNSIGNED_SHORT
+      (pumpFunc)glVertex3sv, (pumpFunc)glVertex4sv },     // GL_SHORT
+    { NULL, NULL, NULL, NULL },                           // GL_UNSIGNED_SHORT
     { NULL, (pumpFunc)glVertex2iv, 
-      (pumpFunc)glVertex3iv, (pumpFunc)glVertex4iv },   // GL_INT
-    { NULL, NULL, NULL, NULL },                             // GL_UNSIGNED_INT
+      (pumpFunc)glVertex3iv, (pumpFunc)glVertex4iv },     // GL_INT
+    { NULL, NULL, NULL, NULL },                           // GL_UNSIGNED_INT
     { NULL, (pumpFunc)glVertex2fv,
-      (pumpFunc)glVertex3fv, (pumpFunc)glVertex4fv },   // GL_FLOAT
-    { NULL, NULL, NULL, NULL },                             // GL_2_BYTES
-    { NULL, NULL, NULL, NULL },                             // GL_3_BYTES
-    { NULL, NULL, NULL, NULL },                             // GL_4_BYTES
+      (pumpFunc)glVertex3fv, (pumpFunc)glVertex4fv },     // GL_FLOAT
+    { NULL, NULL, NULL, NULL },                           // GL_2_BYTES
+    { NULL, NULL, NULL, NULL },                           // GL_3_BYTES
+    { NULL, NULL, NULL, NULL },                           // GL_4_BYTES
     { NULL, (pumpFunc)glVertex2dv, 
-      (pumpFunc)glVertex3dv, (pumpFunc)glVertex4dv },   // GL_DOUBLE
+      (pumpFunc)glVertex3dv, (pumpFunc)glVertex4dv },     // GL_DOUBLE
 };
 
 static pumpFunc NormalFuncs[numFormats][4] = {
-    { NULL, NULL, (pumpFunc)glNormal3sv, NULL },        // GL_BYTE
-    { NULL, NULL, NULL, NULL },                             // GL_UNSIGNED_BYTE
-    { NULL, NULL, (pumpFunc)glNormal3sv, NULL },        // GL_SHORT
-    { NULL, NULL, NULL, NULL },                             // GL_UNSIGNED_SHORT
-    { NULL, NULL, (pumpFunc)glNormal3iv, NULL },        // GL_INT
-    { NULL, NULL, NULL, NULL },                             // GL_UNSIGNED_INT
-    { NULL, NULL, (pumpFunc)glNormal3fv, NULL },        // GL_FLOAT
-    { NULL, NULL, NULL, NULL },                             // GL_2_BYTES
-    { NULL, NULL, NULL, NULL },                             // GL_3_BYTES
-    { NULL, NULL, NULL, NULL },                             // GL_4_BYTES
-    { NULL, NULL, (pumpFunc)glNormal3dv, NULL },        // GL_DOUBLE
+    { NULL, NULL, (pumpFunc)glNormal3sv, NULL },          // GL_BYTE
+    { NULL, NULL, NULL, NULL },                           // GL_UNSIGNED_BYTE
+    { NULL, NULL, (pumpFunc)glNormal3sv, NULL },          // GL_SHORT
+    { NULL, NULL, NULL, NULL },                           // GL_UNSIGNED_SHORT
+    { NULL, NULL, (pumpFunc)glNormal3iv, NULL },          // GL_INT
+    { NULL, NULL, NULL, NULL },                           // GL_UNSIGNED_INT
+    { NULL, NULL, (pumpFunc)glNormal3fv, NULL },          // GL_FLOAT
+    { NULL, NULL, NULL, NULL },                           // GL_2_BYTES
+    { NULL, NULL, NULL, NULL },                           // GL_3_BYTES
+    { NULL, NULL, NULL, NULL },                           // GL_4_BYTES
+    { NULL, NULL, (pumpFunc)glNormal3dv, NULL },          // GL_DOUBLE
 };
 
 static pumpFunc ColorFuncs[numFormats][4] = {
     { NULL, NULL, 
-      (pumpFunc)glColor3bv, (pumpFunc)glColor4bv },         // GL_BYTE
+      (pumpFunc)glColor3bv, (pumpFunc)glColor4bv },       // GL_BYTE
     { NULL, NULL, 
-      (pumpFunc)glColor3ubv, (pumpFunc)glColor4ubv },   // GL_UNSIGNED_BYTE
+      (pumpFunc)glColor3ubv, (pumpFunc)glColor4ubv },     // GL_UNSIGNED_BYTE
     { NULL, NULL, 
-      (pumpFunc)glColor3sv, (pumpFunc)glColor4sv },         // GL_SHORT
+      (pumpFunc)glColor3sv, (pumpFunc)glColor4sv },       // GL_SHORT
     { NULL, NULL,  
-      (pumpFunc)glColor3usv, (pumpFunc)glColor4usv },   // GL_UNSIGNED_SHORT
+      (pumpFunc)glColor3usv, (pumpFunc)glColor4usv },     // GL_UNSIGNED_SHORT
     { NULL, NULL,  
-      (pumpFunc)glColor3iv, (pumpFunc)glColor4iv },         // GL_INT
+      (pumpFunc)glColor3iv, (pumpFunc)glColor4iv },       // GL_INT
     { NULL, NULL,  
-      (pumpFunc)glColor3uiv, (pumpFunc)glColor4uiv },   // GL_UNSIGNED_INT
+      (pumpFunc)glColor3uiv, (pumpFunc)glColor4uiv },     // GL_UNSIGNED_INT
     { NULL, NULL,  
-      (pumpFunc)glColor3fv, (pumpFunc)glColor4fv },         // GL_FLOAT
-    { NULL, NULL, NULL, NULL },                             // GL_2_BYTES
-    { NULL, NULL, NULL, NULL },                             // GL_3_BYTES
-    { NULL, NULL, NULL, NULL },                             // GL_4_BYTES
-    { NULL, NULL,  
-      (pumpFunc)glColor3dv, (pumpFunc)glColor4dv },         // GL_DOUBLE
+      (pumpFunc)glColor3fv, (pumpFunc)glColor4fv },       // GL_FLOAT
+    { NULL, NULL, NULL, NULL },                           // GL_2_BYTES
+    { NULL, NULL, NULL, NULL },                           // GL_3_BYTES
+    { NULL, NULL, NULL, NULL },                           // GL_4_BYTES
+    { NULL, NULL,   
+      (pumpFunc)glColor3dv, (pumpFunc)glColor4dv },       // GL_DOUBLE
 };
 
+static UInt32 SecColorIDs[numFormats][4];
 
 static pumpFunc TexCoordsFuncs[numFormats][4] = {
-    { NULL, NULL, NULL, NULL },                              // GL_BYTE
-    { NULL, NULL, NULL, NULL },                              // GL_UNSIGNED_BYTE
+    { NULL, NULL, NULL, NULL },                           // GL_BYTE
+    { NULL, NULL, NULL, NULL },                           // GL_UNSIGNED_BYTE
     { (pumpFunc)glTexCoord1sv, (pumpFunc)glTexCoord2sv, 
-      (pumpFunc)glTexCoord3sv, (pumpFunc)glTexCoord4sv },// GL_SHORT
-    { NULL, NULL, NULL, NULL },                              // GL_UNSIGNED_SHORT
+      (pumpFunc)glTexCoord3sv, (pumpFunc)glTexCoord4sv }, // GL_SHORT
+    { NULL, NULL, NULL, NULL },                           // GL_UNSIGNED_SHORT
     { (pumpFunc)glTexCoord1iv, (pumpFunc)glTexCoord2iv, 
-      (pumpFunc)glTexCoord3iv, (pumpFunc)glTexCoord4iv },// GL_INT
-    { NULL, NULL, NULL, NULL },                              // GL_UNSIGNED_INT
+      (pumpFunc)glTexCoord3iv, (pumpFunc)glTexCoord4iv }, // GL_INT
+    { NULL, NULL, NULL, NULL },                           // GL_UNSIGNED_INT
     { (pumpFunc)glTexCoord1fv, (pumpFunc)glTexCoord2fv, 
-      (pumpFunc)glTexCoord3fv, (pumpFunc)glTexCoord4fv },// GL_FLOAT
-    { NULL, NULL, NULL, NULL },                              // GL_2_BYTES
-    { NULL, NULL, NULL, NULL },                              // GL_3_BYTES
-    { NULL, NULL, NULL, NULL },                              // GL_4_BYTES
+      (pumpFunc)glTexCoord3fv, (pumpFunc)glTexCoord4fv }, // GL_FLOAT
+    { NULL, NULL, NULL, NULL },                           // GL_2_BYTES
+    { NULL, NULL, NULL, NULL },                           // GL_3_BYTES
+    { NULL, NULL, NULL, NULL },                           // GL_4_BYTES
     { (pumpFunc)glTexCoord1dv, (pumpFunc)glTexCoord2dv, 
-      (pumpFunc)glTexCoord3dv, (pumpFunc)glTexCoord4dv },// GL_DOUBLE
+      (pumpFunc)glTexCoord3dv, (pumpFunc)glTexCoord4dv }, // GL_DOUBLE
 };
 
+static UInt32 TexCoords1IDs[numFormats][4];
 
-// TODO: Multitexture
-
+#define TexCoords2IDs TexCoords1IDs
+#define TexCoords3IDs TexCoords1IDs
 
 // The master pump. Can render everything, but takes ages to do so.
 // A real fallback, when everything else fails.
@@ -303,20 +376,20 @@ static pumpFunc TexCoordsFuncs[numFormats][4] = {
 #define pumpInternalSetup( name, typename, getmethod, mandatory )           \
     GLubyte * name##Data;                                                   \
     UInt32 name##Stride;                                                    \
-    UInt32 name##Ind = 0;                                               \
-    typename name##Ptr;                                                         \
+    UInt32 name##Ind = 0;                                                   \
+    typename name##Ptr;                                                     \
                                                                             \
     name##Ptr = geo->getmethod();                                           \
-    if ( mandatory && name##Ptr == NullFC )                                 \
+    if(mandatory && name##Ptr == NullFC)                                    \
     {                                                                       \
         SWARNING << "masterPump: Geometry " << geo << " has no "            \
                  << #name << "s!" << endl;                                  \
-        return;                                                                 \
+        return;                                                             \
     }                                                                       \
-    else if ( name##Ptr != NullFC )                                         \
+    else if(name##Ptr != NullFC)                                            \
     {                                                                       \
         name##Data = name##Ptr->getData();                                  \
-        if ( ! ( name##Stride = name##Ptr->getStride() ) )                  \
+        if(!(name##Stride = name##Ptr->getStride()))                        \
             name##Stride =  name##Ptr->getFormatSize() *                    \
                             name##Ptr->getDimension();                      \
     }                                                                       \
@@ -329,28 +402,120 @@ static pumpFunc TexCoordsFuncs[numFormats][4] = {
 #define pumpGLSetup( name, typename, getmethod )                            \
     GLubyte * name##Data;                                                   \
     UInt32 name##Stride;                                                    \
-    UInt32 name##Ind = 0;                                               \
-    typename name##Ptr;                                                         \
+    UInt32 name##Ind = 0;                                                   \
+    typename name##Ptr;                                                     \
     pumpFunc name##Func;                                                    \
                                                                             \
     name##Ptr = geo->getmethod();                                           \
-    if ( name##Ptr != NullFC )                                          \
+    if(name##Ptr != NullFC)                                                 \
     {                                                                       \
         name##Data = name##Ptr->getData();                                  \
-        if ( ! ( name##Stride = name##Ptr->getStride() ) )                  \
-            name##Stride = name##Ptr->getFormatSize() *                         \
+        if(!(name##Stride = name##Ptr->getStride()))                        \
+            name##Stride = name##Ptr->getFormatSize() *                     \
             name##Ptr->getDimension();                                      \
-        if ( ! ( name##Func = name##Funcs[ name##Ptr->getFormat() -             \
+        if(!(name##Func = name##Funcs[name##Ptr->getFormat() -              \
+                                            formatBase]                     \
+                                     [name##Ptr->getDimension() - 1]        \
+          ) )                                                               \
+        {                                                                   \
+            SWARNING << "masterPump: Geometry " << geo << " has illegal "   \
+                     << #name << "s: " << name##Ptr->getDimension()         \
+                     << "D " << formatNames[ name##Ptr->getFormat() -       \
                                             formatBase ]                    \
-                                         [ name##Ptr->getDimension() - 1 ]  \
-           )   )                                                            \
+                     << "!" << endl;                                        \
+            return;                                                         \
+        }                                                                   \
+    }                                                                       \
+    else                                                                    \
+    {                                                                       \
+        name##Data = NULL;                                                  \
+        name##Func = NULL;                                                  \
+        name##Stride = 0;                                                   \
+    }
+
+#define pumpGLExtSetup( name, typename, getmethod )                         \
+    GLubyte * name##Data;                                                   \
+    UInt32 name##Stride;                                                    \
+    UInt32 name##Ind = 0;                                                   \
+    typename name##Ptr;                                                     \
+    pumpFunc name##Func;                                                    \
+                                                                            \
+    name##Ptr = geo->getmethod();                                           \
+    if(name##Ptr != NullFC)                                                 \
+    {                                                                       \
+        name##Data = name##Ptr->getData();                                  \
+        if(!(name##Stride = name##Ptr->getStride()))                        \
+            name##Stride = name##Ptr->getFormatSize() *                     \
+            name##Ptr->getDimension();                                      \
+        if(name##IDs[name##Ptr->getFormat() - formatBase]                   \
+                    [name##Ptr->getDimension() - 1] ==                      \
+                    Window::invalidFunctionID)                              \
+        {                                                                   \
+            SWARNING << "masterPump: Geometry " << geo << " has illegal "   \
+                     << #name << "s: " << name##Ptr->getDimension()         \
+                     << "D " << formatNames[ name##Ptr->getFormat() -       \
+                                            formatBase ]                    \
+                     << "!" << endl;                                        \
+            return;                                                         \
+        }                                                                   \
+        if(!(name##Func = (pumpFunc)win->getFunction(name##IDs              \
+                                     [name##Ptr->getFormat() - formatBase]  \
+                                     [name##Ptr->getDimension() - 1])       \
+          ) )                                                               \
+        {                                                                   \
+            SWARNING << "masterPump: Geometry " << geo << " uses "          \
+                     << #name << "s: " << name##Ptr->getDimension()         \
+                     << "D " << formatNames[ name##Ptr->getFormat() -       \
+                                            formatBase ]                    \
+                     << " which are not supported by Window " << win        \
+                     <<  "!" << endl;                                       \
+            return;                                                         \
+        }                                                                   \
+    }                                                                       \
+    else                                                                    \
+    {                                                                       \
+        name##Data = NULL;                                                  \
+        name##Func = NULL;                                                  \
+        name##Stride = 0;                                                   \
+    }
+
+#define pumpMultiGLExtSetup(name, typename, getmethod)                      \
+    GLubyte * name##Data;                                                   \
+    UInt32 name##Stride;                                                    \
+    UInt32 name##Ind = 0;                                                   \
+    typename name##Ptr;                                                     \
+    multiPumpFunc name##Func;                                               \
+                                                                            \
+    name##Ptr = geo->getmethod();                                           \
+    if(name##Ptr != NullFC)                                                 \
+    {                                                                       \
+        name##Data = name##Ptr->getData();                                  \
+        if(!(name##Stride = name##Ptr->getStride() ) )                      \
+            name##Stride = name##Ptr->getFormatSize() *                     \
+            name##Ptr->getDimension();                                      \
+        if(name##IDs[name##Ptr->getFormat() - formatBase]                   \
+                    [name##Ptr->getDimension() - 1] ==                      \
+                    Window::invalidFunctionID)                              \
         {                                                                   \
             SWARNING << "masterPump: Geometry " << geo << "has illegal "    \
                      << #name << "s: " << name##Ptr->getDimension()         \
                      << "D " << formatNames[ name##Ptr->getFormat() -       \
                                             formatBase ]                    \
                      << "!" << endl;                                        \
-            return;                                                             \
+            return;                                                         \
+        }                                                                   \
+        if(!(name##Func = (multiPumpFunc)win->getFunction(name##IDs         \
+                                     [name##Ptr->getFormat() - formatBase]  \
+                                     [name##Ptr->getDimension() - 1])       \
+          ) )                                                               \
+        {                                                                   \
+            SWARNING << "masterPump: Geometry " << geo << "uses "           \
+                     << #name << "s: " << name##Ptr->getDimension()         \
+                     << "D " << formatNames[ name##Ptr->getFormat() -       \
+                                            formatBase ]                    \
+                     << "which are not supported by Window " << win         \
+                     <<  "!" << endl;                                       \
+            return;                                                         \
         }                                                                   \
     }                                                                       \
     else                                                                    \
@@ -366,8 +531,8 @@ static pumpFunc TexCoordsFuncs[numFormats][4] = {
 #pragma set woff 1174
 #endif
 
-void GeoPumpFactory::masterGeoPump(Window   *OSG_CHECK_ARG(win), 
-                                   Geometry *geo               )
+void GeoPumpFactory::masterGeoPump(Window   *win, 
+                                   Geometry *geo)
 {
     // Setup: get all the data
     
@@ -375,17 +540,21 @@ void GeoPumpFactory::masterGeoPump(Window   *OSG_CHECK_ARG(win),
     pumpInternalSetup( Length, GeoPLengthsPtr, getLengths, false );
     pumpInternalSetup( Index, GeoIndicesPtr, getIndices, false );
 
-    pumpGLSetup( Position, GeoPositionsPtr, getPositions );
-    pumpGLSetup( Color, GeoColorsPtr, getColors );
-    pumpGLSetup( Normal, GeoNormalsPtr, getNormals );
-    pumpGLSetup( TexCoords, GeoTexCoordsPtr, getTexCoords );
-    
+    pumpGLSetup        ( Position,   GeoPositionsPtr, getPositions      );
+    pumpGLSetup        ( Color,      GeoColorsPtr,    getColors         );
+    pumpGLExtSetup     ( SecColor,   GeoColorsPtr,    getSecondaryColors);
+    pumpGLSetup        ( Normal,     GeoNormalsPtr,   getNormals        );
+    pumpGLSetup        ( TexCoords,  GeoTexCoordsPtr, getTexCoords      );
+    pumpMultiGLExtSetup( TexCoords1, GeoTexCoordsPtr, getTexCoords1     );
+    pumpMultiGLExtSetup( TexCoords2, GeoTexCoordsPtr, getTexCoords2     );
+    pumpMultiGLExtSetup( TexCoords3, GeoTexCoordsPtr, getTexCoords3     );
+  
     // check if the node is empty
-    if ( ! TypeData || TypePtr->getSize() == 0 )
+    if(! TypeData || TypePtr->getSize() == 0)
         return;
     
     // if it's not empty we need positions
-    if ( ! PositionData )
+    if(! PositionData)
     {
         SWARNING << "masterPump: Geometry " << geo << " has no positions!?!"
                  << endl;
@@ -394,19 +563,27 @@ void GeoPumpFactory::masterGeoPump(Window   *OSG_CHECK_ARG(win),
     
     // find the mapping indices
     UInt16 nmappings = geo->getIndexMapping().size();
-    Int16 PositionIndex = -1, 
-          NormalIndex = -1, 
-          ColorIndex = -1, 
-          TexCoordsIndex = -1;
+    Int16 PositionIndex   = -1, 
+          NormalIndex     = -1, 
+          ColorIndex      = -1, 
+          SecColorIndex   = -1, 
+          TexCoordsIndex  = -1,
+          TexCoords1Index = -1,
+          TexCoords2Index = -1,
+          TexCoords3Index = -1;
 
-    if ( nmappings )
+    if(nmappings)
     {
-        PositionIndex  = geo->calcMappingIndex( Geometry::MapPosition  );
-        NormalIndex    = geo->calcMappingIndex( Geometry::MapNormal    );
-        ColorIndex     = geo->calcMappingIndex( Geometry::MapColor     );
-        TexCoordsIndex = geo->calcMappingIndex( Geometry::MapTexcoords );
+        PositionIndex   = geo->calcMappingIndex(Geometry::MapPosition      );
+        NormalIndex     = geo->calcMappingIndex(Geometry::MapNormal        );
+        ColorIndex      = geo->calcMappingIndex(Geometry::MapColor         );
+        SecColorIndex   = geo->calcMappingIndex(Geometry::MapSecondaryColor);
+        TexCoordsIndex  = geo->calcMappingIndex(Geometry::MapTexCoords     );
+        TexCoords1Index = geo->calcMappingIndex(Geometry::MapTexCoords1    );
+        TexCoords2Index = geo->calcMappingIndex(Geometry::MapTexCoords2    );
+        TexCoords3Index = geo->calcMappingIndex(Geometry::MapTexCoords3    );
         
-        if ( ! PositionData )
+        if(! PositionData)
         {
             SWARNING << "masterPump: Geometry " << geo << "has no position index!?!"
                      << endl;
@@ -414,18 +591,22 @@ void GeoPumpFactory::masterGeoPump(Window   *OSG_CHECK_ARG(win),
         }
         
     }
-    else if ( IndexData )
+    else if(IndexData)
     {
         nmappings = 1;
         PositionIndex = 
         NormalIndex =
         ColorIndex =
-        TexCoordsIndex = 0;
+        SecColorIndex =
+        TexCoordsIndex = 
+        TexCoords1Index = 
+        TexCoords2Index = 
+        TexCoords3Index = 0;
     }
     
     // overall color?
-    if ( ColorData && ColorPtr->getSize() == 1 )
-        ColorFunc( ColorData );
+    if(ColorData && ColorPtr->getSize() == 1)
+        ColorFunc(ColorData);
 
     // Length handling. Special case: no length given
     
@@ -433,7 +614,7 @@ void GeoPumpFactory::masterGeoPump(Window   *OSG_CHECK_ARG(win),
     UInt32 LengthSize;
 
     // no lengths? use all available data for the first type
-    if ( ! LengthData )
+    if(! LengthData)
     {
         LengthSize = 1;
         LengthData = (UChar8*) &lendummy;
@@ -451,56 +632,110 @@ void GeoPumpFactory::masterGeoPump(Window   *OSG_CHECK_ARG(win),
         LengthSize = LengthPtr->getSize();
     }
 
-    for ( LengthInd = 0; LengthInd < LengthSize; LengthInd++ )
+    for(LengthInd = 0; LengthInd < LengthSize; LengthInd++)
     {
-        glBegin( *(TypeData + TypeInd++ * TypeStride) );
+        glBegin(*(TypeData + TypeInd++ * TypeStride));
         
-        for ( UInt32 l = *(UInt32*)(LengthData + LengthInd * LengthStride); 
-                       l > 0; l-- )
+        for(UInt32 l = *(UInt32*)(LengthData + LengthInd * LengthStride); 
+                       l > 0; l--)
         {
-            if ( IndexData )
+            if(IndexData)
             {
                 UInt32 * vind;
             
                 vind = (UInt32*)(IndexData + IndexStride * IndexInd);
                 IndexInd += nmappings;
                 
-                if ( ColorData && ColorIndex >= 0 )
+                if(ColorData && ColorIndex >= 0)
                 {
-                    ColorFunc( ColorData + ColorStride * vind[ColorIndex] );
+                    ColorFunc(ColorData + ColorStride * vind[ColorIndex]);
                 }       
                 
-                if ( NormalData && NormalIndex >= 0 )
+                if(SecColorData && SecColorIndex >= 0)
                 {
-                    NormalFunc( NormalData + NormalStride * vind[NormalIndex] );
+                    SecColorFunc(SecColorData + SecColorStride * 
+                                    vind[SecColorIndex]);
                 }       
                 
-                if ( TexCoordsData && TexCoordsIndex >= 0  )
+                if(NormalData && NormalIndex >= 0)
                 {
-                    TexCoordsFunc( TexCoordsData + TexCoordsStride * vind[TexCoordsIndex] );
+                    NormalFunc(NormalData + NormalStride * vind[NormalIndex]);
+                }       
+                
+                if(TexCoordsData && TexCoordsIndex >= 0)
+                {
+                    TexCoordsFunc(TexCoordsData + TexCoordsStride * 
+                                    vind[TexCoordsIndex]);
+                }       
+
+                if(TexCoords1Data && TexCoords1Index >= 0)
+                {
+                    TexCoords1Func(GL_TEXTURE1_ARB,
+                                     TexCoords1Data + TexCoords1Stride *
+                                     vind[TexCoords1Index]);
+                }       
+                
+                if(TexCoords2Data && TexCoords2Index >= 0)
+                {
+                    TexCoords2Func(GL_TEXTURE2_ARB,
+                                     TexCoords2Data + TexCoords2Stride *
+                                     vind[TexCoords2Index]);
+                }       
+                
+                if(TexCoords3Data && TexCoords3Index >= 0)
+                {
+                    TexCoords3Func(GL_TEXTURE3_ARB,
+                                     TexCoords3Data + TexCoords3Stride *
+                                     vind[TexCoords3Index]);
                 }       
                     
-                PositionFunc( PositionData + PositionStride * vind[PositionIndex] );
+                PositionFunc(PositionData + PositionStride * vind[PositionIndex]);
             }
             else
             {   
-                if ( ColorData )
+                if(ColorData)
                 {
-                    ColorFunc( ColorData + ColorStride * PositionInd );
+                    ColorFunc(ColorData + ColorStride * PositionInd);
+                }       
+
+                if(SecColorData)
+                {
+                    SecColorFunc(SecColorData + SecColorStride * PositionInd);
+                }       
+               
+                if(NormalData)
+                {
+                    NormalFunc(NormalData + NormalStride * PositionInd);
                 }       
                 
-                if ( NormalData )
+                if(TexCoordsData)
                 {
-                    NormalFunc( NormalData + NormalStride * PositionInd );
+                    TexCoordsFunc(TexCoordsData + TexCoordsStride * 
+                                                    PositionInd);
                 }       
                 
-                if ( TexCoordsData  )
+                if(TexCoords1Data)
                 {
-                    TexCoordsFunc( TexCoordsData + TexCoordsStride * 
-                                                    PositionInd );
+                    TexCoords1Func(GL_TEXTURE1_ARB,
+                                   TexCoords1Data + TexCoords1Stride * 
+                                                    PositionInd);
+                }       
+                
+                if(TexCoords2Data)
+                {
+                    TexCoords2Func(GL_TEXTURE2_ARB,
+                                   TexCoords2Data + TexCoords2Stride * 
+                                                    PositionInd);
+                }       
+                
+                if(TexCoords3Data)
+                {
+                    TexCoords3Func(GL_TEXTURE3_ARB,
+                                   TexCoords3Data + TexCoords3Stride * 
+                                                    PositionInd);
                 }       
                     
-                PositionFunc( PositionData + PositionStride * PositionInd );
+                PositionFunc(PositionData + PositionStride * PositionInd);
                 
                 PositionInd++;
             }
@@ -508,11 +743,10 @@ void GeoPumpFactory::masterGeoPump(Window   *OSG_CHECK_ARG(win),
         
         glEnd();
     }
-
 }
 
         
-void GeoPumpFactory::masterPartialGeoPump(Window   *OSG_CHECK_ARG(win      ), 
+void GeoPumpFactory::masterPartialGeoPump(Window   *OSG_CHECK_ARG(win     ), 
                                           Geometry *OSG_CHECK_ARG(geo      ),
                                           UInt32    OSG_CHECK_ARG(primtype ), 
                                           UInt32    OSG_CHECK_ARG(firstvert), 
@@ -526,10 +760,11 @@ void GeoPumpFactory::masterInterfacePump(
     GeoPositionsInterface *OSG_CHECK_ARG(pos       ), 
     GeoNormalsInterface   *OSG_CHECK_ARG(norm      ),
     GeoColorsInterface    *OSG_CHECK_ARG(col       ), 
+    GeoColorsInterface    *OSG_CHECK_ARG(seccol    ), 
     GeoTexCoordsInterface *OSG_CHECK_ARG(texcoords ),
+    GeoTexCoordsInterface *OSG_CHECK_ARG(texcoords1),
     GeoTexCoordsInterface *OSG_CHECK_ARG(texcoords2),
     GeoTexCoordsInterface *OSG_CHECK_ARG(texcoords3),
-    GeoTexCoordsInterface *OSG_CHECK_ARG(texcoords4),
     GeoPTypesInterface    *OSG_CHECK_ARG(type      ), 
     GeoPLengthsInterface  *OSG_CHECK_ARG(len       ),
     GeoIndicesInterface   *OSG_CHECK_ARG(ind       ), 
@@ -544,10 +779,11 @@ void GeoPumpFactory::masterPartialInterfacePump(
     GeoPositionsInterface *OSG_CHECK_ARG(pos       ), 
     GeoNormalsInterface   *OSG_CHECK_ARG(norm      ),
     GeoColorsInterface    *OSG_CHECK_ARG(col       ), 
+    GeoColorsInterface    *OSG_CHECK_ARG(seccol    ), 
     GeoTexCoordsInterface *OSG_CHECK_ARG(texcoords ),
+    GeoTexCoordsInterface *OSG_CHECK_ARG(texcoords1),
     GeoTexCoordsInterface *OSG_CHECK_ARG(texcoords2),
     GeoTexCoordsInterface *OSG_CHECK_ARG(texcoords3),
-    GeoTexCoordsInterface *OSG_CHECK_ARG(texcoords4),
     GeoPTypesInterface    *OSG_CHECK_ARG(type      ), 
     GeoPLengthsInterface  *OSG_CHECK_ARG(len       ),
     GeoIndicesInterface   *OSG_CHECK_ARG(ind       ), 
@@ -561,35 +797,31 @@ void GeoPumpFactory::masterPartialInterfacePump(
         ("GeoPumpFactory::masterPartialInterfacePump not implemented yet!\n"));
 }
 
+
+bool GeoPumpFactory::glextInitFunction(void)
+{
+    _extSecondaryColor = Window::registerExtension("GL_EXT_secondary_color");
+    _extMultitexture   = Window::registerExtension("GL_ARB_multitexture");
+    
+    UInt16 i,j;
+    for(i = 0; i < numFormats; i++)
+    {
+        for(j = 0; j < 4; j++)
+        {
+            SecColorIDs  [i][j] = Window::invalidFunctionID;
+            TexCoords1IDs[i][j] = Window::invalidFunctionID;
+        }
+    }
+
+    for(i = 0; i < 8; i++)
+        secondaryColorInitFuncs[i].init(SecColorIDs);
+
+    for(i = 0; i < 16; i++)
+        multiTexCoordsInitFuncs[i].init(TexCoords1IDs);
+    
+    return true;
+}
+
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
-
