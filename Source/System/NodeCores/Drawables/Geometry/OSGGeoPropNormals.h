@@ -47,6 +47,10 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief The descriptor trait for osg::GeoNormals3f.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
 struct GeoNormals3fPropertyDesc : public GeoNormalsPropertyDesc
 {
     static FieldDescription *_desc[];
@@ -93,7 +97,7 @@ struct GeoNormals3fPropertyDesc : public GeoNormalsPropertyDesc
 typedef GeoProperty<GeoNormals3fPropertyDesc> GeoNormals3f;
 #endif
 
-#ifndef OSG_COMPILEGEOPROPNORMALINST
+#if !defined(OSG_COMPILEGEOPROPNORMALINST) && !defined(OSG_DO_DOC)
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoNormals3fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)

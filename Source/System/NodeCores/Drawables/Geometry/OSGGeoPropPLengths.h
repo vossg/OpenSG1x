@@ -51,6 +51,10 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief The descriptor trait for osg::GeoPLengthsUI32.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
 struct GeoPLengthsUI32PropertyDesc : public GeoPLengthsPropertyDesc
 {
     static FieldDescription *_desc[];
@@ -97,7 +101,7 @@ struct GeoPLengthsUI32PropertyDesc : public GeoPLengthsPropertyDesc
 typedef GeoProperty<GeoPLengthsUI32PropertyDesc> GeoPLengthsUI32;
 #endif
 
-#ifndef OSG_COMPILEGEOPROPPLENGTHINST
+#if !defined(OSG_COMPILEGEOPROPPLENGTHINST) && !defined(OSG_DO_DOC)
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoPLengthsUI32PropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)

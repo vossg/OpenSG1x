@@ -48,6 +48,10 @@ OSG_BEGIN_NAMESPACE
 
 typedef GeoPositions::PtrType GeoPositionsPtr;
 
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+    \brief The Field Traits trait for osg::GeoPositionsPtr.
+*/
 template <>
 struct FieldDataTraits<GeoPositionsPtr> :
     public FieldTraitsRecurseMapper<GeoPositionsPtr, true>
@@ -81,11 +85,12 @@ typedef SField<GeoPositionsPtr> SFGeoPositionsPtr;
 OSG_DLLEXPORT_DECL1(SField, GeoPositionsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-
-
-
 typedef GeoNormals::PtrType GeoNormalsPtr;
 
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+    \brief The Field Traits trait for osg::GeoNormalsPtr.
+*/
 template <>
 struct FieldDataTraits<GeoNormalsPtr> :
     public FieldTraitsRecurseMapper<GeoNormalsPtr, true>
@@ -107,10 +112,12 @@ typedef SField<GeoNormalsPtr> SFGeoNormalsPtr;
 OSG_DLLEXPORT_DECL1(SField, GeoNormalsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-
-
 typedef GeoColors::PtrType GeoColorsPtr;
 
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+    \brief The Field Traits trait for osg::GeoColorsPtr.
+*/
 template <>
 struct FieldDataTraits<GeoColorsPtr> :
     public FieldTraitsRecurseMapper<GeoColorsPtr, true>
@@ -132,11 +139,12 @@ typedef SField<GeoColorsPtr> SFGeoColorsPtr;
 OSG_DLLEXPORT_DECL1(SField, GeoColorsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-
-
-
 typedef GeoTexCoords::PtrType GeoTexCoordsPtr;
 
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+    \brief The Field Traits trait for osg::GeoTexCoordsPtr.
+*/
 template <>
 struct FieldDataTraits<GeoTexCoordsPtr> :
     public FieldTraitsRecurseMapper<GeoTexCoordsPtr, true>
@@ -158,10 +166,12 @@ typedef SField<GeoTexCoordsPtr> SFGeoTexCoordsPtr;
 OSG_DLLEXPORT_DECL1(SField, GeoTexCoordsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-
-
 typedef GeoIndices::PtrType GeoIndicesPtr;
 
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+    \brief The Field Traits trait for osg::GeoIndicesPtr.
+*/
 template <>
 struct FieldDataTraits<GeoIndicesPtr> :
     public FieldTraitsRecurseMapper<GeoIndicesPtr, true>
@@ -183,11 +193,12 @@ typedef SField<GeoIndicesPtr> SFGeoIndicesPtr;
 OSG_DLLEXPORT_DECL1(SField, GeoIndicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-
-
-
 typedef GeoPTypes::PtrType GeoPTypesPtr;
 
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+    \brief The Field Traits trait for osg::GeoPTypesPtr.
+*/
 template <>
 struct FieldDataTraits<GeoPTypesPtr> :
     public FieldTraitsRecurseMapper<GeoPTypesPtr, true>
@@ -209,10 +220,12 @@ typedef SField<GeoPTypesPtr> SFGeoPTypesPtr;
 OSG_DLLEXPORT_DECL1(SField, GeoPTypesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-
-
 typedef GeoPLengths::PtrType GeoPLengthsPtr;
 
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+    \brief The Field Traits trait for osg::GeoPLengthsPtr.
+*/
 template <>
 struct FieldDataTraits<GeoPLengthsPtr> :
     public FieldTraitsRecurseMapper<GeoPLengthsPtr, true>

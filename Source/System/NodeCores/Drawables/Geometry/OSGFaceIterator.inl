@@ -47,9 +47,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! Return the index of the current face. The index runs from 0 to the
-    number of faces in the geometry. Its main use is as an input to seek().
-*/
 inline       
 Int32 FaceIterator::getIndex(void) const
 {
@@ -59,6 +56,7 @@ Int32 FaceIterator::getIndex(void) const
 
 /*! Return the length of the current face. 3 or 4, depending on the current 
     primitive.
+
 */
 inline       
 UInt32 FaceIterator::getLength(void) const
@@ -75,11 +73,9 @@ Int32 FaceIterator::getPositionIndex(Int32 which) const
         return -1;
 }
 
-inline       
-Pnt3f FaceIterator::getPosition(Int32 which) const
-{
-    Int32 ind = getPositionIndex(which);
-    
+inline        Pnt3f FaceIterator::getPosition(Int32 which) const { Int32 ind =
+getPositionIndex(which);
+
     if(ind < 0)
         return Pnt3f::Null;
     
@@ -126,7 +122,6 @@ Color3f FaceIterator::getColor(Int32 which) const
     return getGeometry()->getColors()->getValue(ind);
 }
 
-
 inline       
 Int32 FaceIterator::getTexCoordsIndex(Int32 which) const
 {
@@ -168,7 +163,6 @@ Vec2f FaceIterator::getTexCoords1(Int32 which) const
     return getGeometry()->getTexCoords1()->getValue(ind);
 }
 
-
 inline       
 Int32 FaceIterator::getTexCoordsIndex2(Int32 which) const
 {
@@ -188,7 +182,6 @@ Vec2f FaceIterator::getTexCoords2(Int32 which) const
         
     return getGeometry()->getTexCoords2()->getValue(ind);
 }
-
 
 inline       
 Int32 FaceIterator::getTexCoordsIndex3(Int32 which) const

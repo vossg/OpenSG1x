@@ -9,6 +9,7 @@
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
+
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
@@ -26,6 +27,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
+
 /*---------------------------------------------------------------------------*\
  *                                Changes                                    *
  *                                                                           *
@@ -35,51 +37,8 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 OSG_BEGIN_NAMESPACE
-
-
-/*! function comment
- *
- */
-
-inline       
-Int32 IndexDic::entry(Int32Vec &indexVec)
-{
-             std::map< Int32Vec, Int32>::iterator         iI;
-  std::pair< std::map< Int32Vec, Int32>::iterator, bool > mapRes;
-
-  iI = _indexMap.find(indexVec);
-  if (iI == _indexMap.end())
-    {
-      mapRes = _indexMap.insert (std::map< Int32Vec, Int32>::value_type(indexVec,_indexVec.size()));
-      if (mapRes.second)
-        {
-          iI = mapRes.first;
-          _indexVec.push_back(&(iI->first));
-        }
-      else
-        {
-          FFATAL (("IndexDic::entry() map insert error\n"));
-        }
-    }
-  
-  return iI->second;
-}
-    
-inline 
-const IndexDic::Int32Vec &IndexDic::entry(Int32 index)
-{
-    return *(_indexVec[index]);
-}          
-
-inline
-UInt32 IndexDic::entryCount(void) const
-{
-    return _indexVec.size();
-}
 
 OSG_END_NAMESPACE
 
-#define OSGGEOFUNCTIONS_INLINE_CVSID "@(#)$Id: $"
-
+#define OSGGEOFUNCTIONS_INLINE_CVSID    "@(#)$Id: $"

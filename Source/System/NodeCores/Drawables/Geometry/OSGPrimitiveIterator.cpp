@@ -58,7 +58,8 @@ OSG_USING_NAMESPACE
 /*! \class osg::PrimitiveIterator
     \ingroup GrpSystemDrawablesGeometryIterators
     
-Iterate the primitives. See \ref PageSystemPrimitiveIterator for details.
+    Geometry Iterator for primitives. See \ref 
+    PageSystemGeometryIterators for a description.
 
 */
 
@@ -75,49 +76,91 @@ Iterate the primitives. See \ref PageSystemPrimitiveIterator for details.
 */
 
 /*! \var osg::PrimitiveIterator::_primIndex;
+
+    Index of the currently iterated primitive. Returned by getIndex().
 */
 
 /*! \var osg::PrimitiveIterator::_actPointIndex;
+
+    The base of the indices used for this primitive.
 */
 
 /*! \var osg::PrimitiveIterator::_actPrimType;
+
+    Type of the current primitive.
 */
 
 /*! \var osg::PrimitiveIterator::_actPrimLength;
+
+    Length of the current primitive.
 */
 
 /*! \var osg::PrimitiveIterator::_types;
+
+    Cache variable for quick access to the Types Property of the iterated
+    osg::Geometry.
 */
 
 /*! \var osg::PrimitiveIterator::_lengths;
+
+    Cache variable for quick access to the Lengths Property of the iterated
+    osg::Geometry.
 */
 
 /*! \var osg::PrimitiveIterator::_indices;
+
+    Cache variable for quick access to the Indices Property of the iterated
+    osg::Geometry.
 */
 
 /*! \var osg::PrimitiveIterator::_nmappings;
+
+    Cache variable for quick access to the length of the IndexMapping field of
+    the iterated osg::Geometry .
 */
 
 /*! \var osg::PrimitiveIterator::_positionIndex;
+
+    Cache variable for quick access to the mapping index of positions for
+    the iterated osg::Geometry .
 */
 
 /*! \var osg::PrimitiveIterator::_normalIndex;
+
+    Cache variable for quick access to the mapping index of normals for
+    the iterated osg::Geometry .
 */
 
 /*! \var osg::PrimitiveIterator::_colorIndex;
+
+    Cache variable for quick access to the mapping index of colors for
+    the iterated osg::Geometry .
 */
 
 /*! \var osg::PrimitiveIterator::_texcoordsIndex;
+
+    Cache variable for quick access to the mapping index of texture coordinates
+    for the iterated osg::Geometry .
 */
 
 /*! \var osg::PrimitiveIterator::_texcoordsIndex1;
+
+    Cache variable for quick access to the mapping index of second texture 
+    coordinates for the iterated osg::Geometry .
 */
 
 /*! \var osg::PrimitiveIterator::_texcoordsIndex2;
+
+    Cache variable for quick access to the mapping index of third texture 
+    coordinates for the iterated osg::Geometry .
 */
 
 /*! \var osg::PrimitiveIterator::_texcoordsIndex3;
+
+    Cache variable for quick access to the mapping index of fourth texture 
+    coordinates for the iterated osg::Geometry .
 */
+
 #endif // only include in dev docs
 
 /***************************************************************************\
@@ -184,10 +227,10 @@ PrimitiveIterator::PrimitiveIterator(const GeometryPtr& geo) :
     setGeo(geo);
 }
 
-/*! This constructor creates an iterator for the given geometry. It is useful
-    to create an iterator to be used to seek() to a specific indexed face. 
-    Otherwise, use Geometry::beginPrimitives() resp. Geometry::endPrimitives()
-    to create an iterator.
+/*! This constructor creates an iterator for the given Node, which has to have
+    a Geometry core. It is useful to create an iterator to be used to seek()
+    to a specific indexed face. Otherwise, use Geometry::beginPrimitives()
+    resp. Geometry::endPrimitives() to create an iterator.
 */
 PrimitiveIterator::PrimitiveIterator(const NodePtr& geo) :
     _geo            (      ), 
@@ -261,13 +304,26 @@ void PrimitiveIterator::setGeo(const GeometryPtr& geo)
 */
 void PrimitiveIterator::setGeo(const NodePtr& geo)
 {
-    setGeo(GeometryPtr::dcast(geo->getCore()));
+    GeometryPtr gc = GeometryPtr::dcast(geo->getCore());
+    
+    if(gc == NullFC)
+    {
+        FWARNING(("PrimitiveIterator::setGeo: called for NodePtr which "
+                  "is not a Geometry!\n"));
+    }
+    else
+    {
+        setGeo(gc);
+    }
 }
 
 /*---------------------------- Operators ---------------------------------*/
 
 /*! Increment the iterator and move it to the next primitive. It does not
     change if it already is at the end.
+    
+    \dev Also updates the cache variables _actPointIndex, _actPrimType and
+    _actPrimLength. \enddev
 */
 void PrimitiveIterator::operator++()
 {
@@ -302,7 +358,10 @@ void PrimitiveIterator::operator++()
     }
 }
 
-
+/*! Set the iterator to the beginning of the attached Geometry. Is primarily
+    used by osg::Geometry::beginPrimitives, but can also be used to quickly
+    recycle an iterator.
+*/
 void PrimitiveIterator::setToBegin(void)
 {
     _primIndex       = 0;
@@ -342,6 +401,10 @@ void PrimitiveIterator::setToBegin(void)
     }
 }
 
+/*! Set the iterator to the end of the attached Geometry. Is primarily used by
+    osg::Geometry::endPrimitives, but can also be used to quickly recycle an
+    iterator.
+*/
 void PrimitiveIterator::setToEnd(void)
 {
     if(_types != NullFC)
@@ -410,12 +473,18 @@ PrimitiveIterator& PrimitiveIterator::operator =(const PrimitiveIterator &source
 
 /*-------------------------- comparison -----------------------------------*/
 
+/*! Compare two iterators. If the iterators are attached to different
+    geometries a comparison in senseless, in that case false will be returned.
+*/
 bool PrimitiveIterator::operator <(const PrimitiveIterator &other) const
 {
     return _geo       == other._geo &&
            _primIndex <= other._primIndex;
 }
 
+/*! Compare two iterators. If the iterators are attached to different
+    geometries a comparison in senseless, in that case false will be returned.
+*/
 bool PrimitiveIterator::operator ==(const PrimitiveIterator &other) const
 {
     return _ended     == other._ended &&
@@ -423,6 +492,9 @@ bool PrimitiveIterator::operator ==(const PrimitiveIterator &other) const
            _primIndex == other._primIndex;
 }
 
+/*! Compare two iterators. If the iterators are attached to different
+    geometries a comparison in senseless, in that case false will be returned.
+*/
 bool PrimitiveIterator::operator !=(const PrimitiveIterator &other) const
 {
     return !(*this == other);

@@ -51,16 +51,16 @@ OSG_USING_NAMESPACE
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
 
-AbstractGeoPropertyInterface::AbstractGeoPropertyInterface(void)
+GeoPropertyArrayInterface::GeoPropertyArrayInterface(void)
 {
 }
 
-AbstractGeoPropertyInterface::AbstractGeoPropertyInterface(
-    const AbstractGeoPropertyInterface &)
+GeoPropertyArrayInterface::GeoPropertyArrayInterface(
+    const GeoPropertyArrayInterface &)
 {
 }
 
-AbstractGeoPropertyInterface::~AbstractGeoPropertyInterface(void)
+GeoPropertyArrayInterface::~GeoPropertyArrayInterface(void)
 {
 }
 

@@ -17,6 +17,9 @@
 		visibility="external"
 		access="public"
 	>
+        The types property contains the primitive's types. Legal values are 
+        everything that can be passed to glBegin(). There have to be as many 
+        types as lengths.
 	</Field>
 	<Field
 		name="lengths"
@@ -25,6 +28,8 @@
 		visibility="external"
 		access="public"
 	>
+        The lengths property contains the number of vertices to use for the 
+        corresponding primitive. There have to be as many  lengths as types.
 	</Field>
 	<Field
 		name="positions"
@@ -33,6 +38,7 @@
 		visibility="external"
 		access="public"
 	>
+        The positions property contains the position data.
 	</Field>
 	<Field
 		name="normals"
@@ -41,6 +47,7 @@
 		visibility="external"
 		access="public"
 	>
+        The normals property contains the normal data.
 	</Field>
 	<Field
 		name="colors"
@@ -49,6 +56,8 @@
 		visibility="external"
 		access="public"
 	>
+        The colors property contains the color data. See \ref 
+        PageSystemMaterialChunk for details on when these colors are used.
 	</Field>
 	<Field
 		name="secondaryColors"
@@ -57,6 +66,8 @@
 		visibility="external"
 		access="public"
 	>
+        The secondaryColors property contains the secondary colors data.
+        Secondary colors are used for some higher level shaders.
 	</Field>
 	<Field
 		name="texCoords"
@@ -65,6 +76,7 @@
 		visibility="external"
 		access="public"
 	>
+        The texCoords property contains the texture coordinate data.
 	</Field>
 	<Field
 		name="texCoords1"
@@ -73,6 +85,8 @@
 		visibility="external"
 		access="public"
 	>
+        The texCoords1 property contains the texture coordinate data for the
+        second texture. See \ref PageSystemTextureChunk for multi-texturing.
 	</Field>
 	<Field
 		name="texCoords2"
@@ -81,6 +95,8 @@
 		visibility="external"
 		access="public"
 	>
+        The texCoords2 property contains the texture coordinate data for the
+        third texture. See \ref PageSystemTextureChunk for multi-texturing.
 	</Field>
 	<Field
 		name="texCoords3"
@@ -89,6 +105,8 @@
 		visibility="external"
 		access="public"
 	>
+        The texCoords3 property contains the texture coordinate data for the
+        fourth texture. See \ref PageSystemTextureChunk for multi-texturing.
 	</Field>
 	<Field
 		name="indices"
@@ -97,6 +115,8 @@
 		visibility="external"
 		access="public"
 	>
+        The indices property contains the index data. See \ref 
+        PageSystemGeoIndexing for a description of the indexing options.
 	</Field>
 	<Field
 		name="indexMapping"
@@ -105,6 +125,9 @@
 		visibility="external"
 		access="public"
 	>
+        The indexMapping property contains the definition which index element
+        is used for which attribute data. See \ref PageSystemGeoIndexing for
+        a description of the indexing options.
 	</Field>
 	<Field
 		name="material"
@@ -113,6 +136,7 @@
 		visibility="external"
 		access="public"
 	>
+        The osg::Material used to render the Geometry.
 	</Field>
 	<Field
 		name="dlistCache"

@@ -58,13 +58,16 @@ class TriangleIterator;
 class PrimitiveIterator;
 class FaceIterator;
 
-//! \ingroup GrpSystemNodeCoresDrawablesGeometry
-//! Geometry base class
-
+/*! The Geometry class, see \ref PageSystemGeometry for a description.
+*/
 class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                IndexMapping Constants                        */
+    /*! \{                                                                 */
 
     static const UInt16 MapPosition;
     static const UInt16 MapNormal;
@@ -76,6 +79,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     static const UInt16 MapTexCoords3;
     static const UInt16 MapEmpty;
 
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -89,12 +93,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 
     static const char *mapType          (UInt8 type);
 
+    Int16              calcMappingIndex (UInt16 attrib) const;
+
     virtual void       changed          (BitVector whichField,
                                          UInt32    origin    );
 
     GeometryPtr        getPtr           (void) const;
-
-    Int16              calcMappingIndex (UInt16 attrib) const;
 
     GeometryPtr        clone            (void);
 
@@ -111,7 +115,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     /*! \{                                                                 */
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
-    virtual AbstractGeoPropertyInterface *getProperty(Int32 mapID);
+    virtual GeoPropertyArrayInterface *getProperty(Int32 mapID);
 #endif
                                         
 
@@ -203,8 +207,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     friend class FieldContainer;
     friend class GeometryBase;
 
-    static char cvsid[];
-
     static void initMethod( void );
 
     void operator =(const Geometry &source);
@@ -217,5 +219,7 @@ OSG_END_NAMESPACE
 
 #include <OSGGeometryBase.inl>
 #include <OSGGeometry.inl>
+
+#define OSGGEOMETRY_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGGEOMETRY_H_ */

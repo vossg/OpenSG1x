@@ -47,6 +47,10 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief The descriptor trait for osg::GeoPositions2f.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
 struct GeoPositions2fPropertyDesc : public GeoPositionsPropertyDesc
 {
     static FieldDescription *_desc[];
@@ -93,13 +97,17 @@ struct GeoPositions2fPropertyDesc : public GeoPositionsPropertyDesc
 typedef GeoProperty<GeoPositions2fPropertyDesc> GeoPositions2f;
 #endif
 
-#ifndef OSG_COMPILEGEOPROPPOSITIONINST
+#if !defined(OSG_COMPILEGEOPROPPOSITIONINST) && !defined(OSG_DO_DOC)
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoPositions2fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 
+/*! \brief The descriptor trait for osg::GeoPositions3f.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
 struct GeoPositions3fPropertyDesc : public GeoPositionsPropertyDesc
 {
     static FieldDescription *_desc[];
@@ -146,13 +154,17 @@ struct GeoPositions3fPropertyDesc : public GeoPositionsPropertyDesc
 typedef GeoProperty<GeoPositions3fPropertyDesc> GeoPositions3f;
 #endif
 
-#ifndef OSG_COMPILEGEOPROPPOSITIONINST
+#if !defined(OSG_COMPILEGEOPROPPOSITIONINST) && !defined(OSG_DO_DOC)
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoPositions3fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 
+/*! \brief The descriptor trait for osg::GeoPositions4f.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
 struct GeoPositions4fPropertyDesc : public GeoPositionsPropertyDesc
 {
     static FieldDescription *_desc[];
@@ -199,13 +211,17 @@ struct GeoPositions4fPropertyDesc : public GeoPositionsPropertyDesc
 typedef GeoProperty<GeoPositions4fPropertyDesc> GeoPositions4f;
 #endif
 
-#ifndef OSG_COMPILEGEOPROPPOSITIONINST
+#if !defined(OSG_COMPILEGEOPROPPOSITIONINST) && !defined(OSG_DO_DOC)
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoPositions4fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 
+/*! \brief The descriptor trait for osg::GeoPositions2d.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
 struct GeoPositions2dPropertyDesc : public GeoPositionsPropertyDesc
 {
     static FieldDescription *_desc[];
@@ -252,13 +268,17 @@ struct GeoPositions2dPropertyDesc : public GeoPositionsPropertyDesc
 typedef GeoProperty<GeoPositions2dPropertyDesc> GeoPositions2d;
 #endif
 
-#ifndef OSG_COMPILEGEOPROPPOSITIONINST
+#if !defined(OSG_COMPILEGEOPROPPOSITIONINST) && !defined(OSG_DO_DOC)
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoPositions2dPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 
+/*! \brief The descriptor trait for osg::GeoPositions3d.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
 struct GeoPositions3dPropertyDesc : public GeoPositionsPropertyDesc
 {
     static FieldDescription *_desc[];
@@ -305,13 +325,17 @@ struct GeoPositions3dPropertyDesc : public GeoPositionsPropertyDesc
 typedef GeoProperty<GeoPositions3dPropertyDesc> GeoPositions3d;
 #endif
 
-#ifndef OSG_COMPILEGEOPROPPOSITIONINST
+#if !defined(OSG_COMPILEGEOPROPPOSITIONINST) && !defined(OSG_DO_DOC)
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoPositions3dPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 
+/*! \brief The descriptor trait for osg::GeoPositions4d.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
 struct GeoPositions4dPropertyDesc : public GeoPositionsPropertyDesc
 {
     static FieldDescription *_desc[];
@@ -358,7 +382,7 @@ struct GeoPositions4dPropertyDesc : public GeoPositionsPropertyDesc
 typedef GeoProperty<GeoPositions4dPropertyDesc> GeoPositions4d;
 #endif
 
-#ifndef OSG_COMPILEGEOPROPPOSITIONINST
+#if !defined(OSG_COMPILEGEOPROPPOSITIONINST) && !defined(OSG_DO_DOC)
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoPositions4dPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)

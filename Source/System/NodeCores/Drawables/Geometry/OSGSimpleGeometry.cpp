@@ -56,8 +56,15 @@ OSG_USING_NAMESPACE
 #pragma warning (disable : 383)
 #endif
 
-
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    Stores the default material used by the Simple Geometry.
+*/
 static SimpleMaterialPtr _defaultMaterial;
+
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    Access the default Material for Simple Geometry. Also useful whenever 
+    an arbitrary material is needed.
+*/
 
 OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::getDefaultMaterial(void)
 {
@@ -78,8 +85,15 @@ OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::getDefaultMaterial(void)
     return _defaultMaterial;
 }
 
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    Stores the default unlit material.
+*/
 static SimpleMaterialPtr _defaultUnlitMaterial;
 
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    Access the default unlit Material. Useful whenever 
+    an arbitrary unlit material is needed.
+*/
 OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::getDefaultUnlitMaterial(void)
 {
     if(_defaultUnlitMaterial == NullFC)
@@ -97,9 +111,12 @@ OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::getDefaultUnlitMaterial(void)
     return _defaultUnlitMaterial;
 }
 
-/*!  makePlane creates a plane in the x/y plane. It spans the [-\a xsize /2,\a
-     xsize /2]x [-\a ysize /2,\a ysize/2] area and is subdivided into \a hor * 
-     \a vert quads.
+// The Simple Geometry creation functions
+
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    MakePlane creates a plane in the x/y plane. It spans the [-\a xsize /2,\a
+    xsize /2]x [-\a ysize /2,\a ysize/2] area and is subdivided into \a hor * 
+    \a vert quads.
 */
 
 NodePtr OSG::makePlane(Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert)
@@ -119,6 +136,10 @@ NodePtr OSG::makePlane(Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert)
 
     return node;
 }
+
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    Create the Geometry Core for used by osg::makePlane. 
+*/
 
 GeometryPtr OSG::makePlaneGeo(Real32 xsize, Real32 ysize, 
                                UInt16 hor,   UInt16 vert)
@@ -212,12 +233,31 @@ GeometryPtr OSG::makePlaneGeo(Real32 xsize, Real32 ysize,
     return geo;
 }
 
-
-/*! makeCone creates a cone. It's center sits in the origin of the x/z plane. 
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    MakeCone creates a cone. It's center sits in the origin of the x/z plane. 
     It's radius is \a radius and the base is subdivided into \a sides parts.
 
     Each part of the cone (bottom cap, sides) can be enabled or disabled.
 
+*/
+
+NodePtr OSG::makeCone(Real32 height, 
+                      Real32 botradius, 
+                      UInt16 sides, 
+                      bool   doSide, 
+                      bool   doBottom)
+{
+    return makeConicalFrustum(height, 
+                              0, 
+                              botradius, 
+                              sides, 
+                              doSide, 
+                              false, 
+                              doBottom);
+}
+
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    Create the Geometry Core for used by osg::makeCone. 
 */
 
 GeometryPtr OSG::makeConeGeo(Real32 height, 
@@ -235,22 +275,8 @@ GeometryPtr OSG::makeConeGeo(Real32 height,
                                  doBottom);
 }
 
-NodePtr OSG::makeCone(Real32 height, 
-                      Real32 botradius, 
-                      UInt16 sides, 
-                      bool   doSide, 
-                      bool   doBottom)
-{
-    return makeConicalFrustum(height, 
-                              0, 
-                              botradius, 
-                              sides, 
-                              doSide, 
-                              false, 
-                              doBottom);
-}
-
-/*! makeCylinder creates a cylinder. It's center sits in the origin of the 
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    MakeCylinder creates a cylinder. It's center sits in the origin of the 
     x/z plane. It's radius is \a radius and the base is subdivided into \a
     sides parts.
 
@@ -275,6 +301,10 @@ NodePtr OSG::makeCylinder(Real32 height,
                               doBottom);
 }
 
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    Create the Geometry Core for used by osg::makeCylinder. 
+*/
+
 GeometryPtr OSG::makeCylinderGeo(Real32 height, 
                                  Real32 radius,
                                  UInt16 sides, 
@@ -292,7 +322,8 @@ GeometryPtr OSG::makeCylinderGeo(Real32 height,
 }
 
 
-/*! makeConicalFrustum creates a conical frustum. It's center sits in the
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    MakeConicalFrustum creates a conical frustum. It's center sits in the
     origin of the x/z plane.  It's height is \a height and the base is
     subdivided into \a sides parts. The top radius is \a topradius, the bottom
     radius \a botradius.
@@ -331,6 +362,10 @@ NodePtr OSG::makeConicalFrustum(Real32 height,
 
     return node;
 }
+
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    Create the Geometry Core for used by osg::makeConicalFrustum. 
+*/
 
 GeometryPtr OSG::makeConicalFrustumGeo(Real32 height, 
                                        Real32 topradius, 
@@ -501,7 +536,8 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
     return geo;
 }
 
-/*! makeTorus creates a torus in the x/y plane. Sides are the number of
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    MakeTorus creates a torus in the x/y plane. Sides are the number of
     subdivisions forthe inner radius, rings forthe outer.
 
 */
@@ -524,6 +560,10 @@ NodePtr OSG::makeTorus(Real32 innerRadius, Real32 outerRadius, UInt16 sides,
 
     return node;
 }
+
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    Create the Geometry Core for used by osg::makeTorus. 
+*/
 
 GeometryPtr OSG::makeTorusGeo(Real32 innerRadius, Real32 outerRadius, UInt16 sides, 
                                UInt16 rings)
@@ -719,9 +759,10 @@ static void subdivideTriangle(UInt32 i1,
 
 #endif            // exclude from doc
 
-/*! makeSphere creates a sphere centered in the origin. It is created by
-    recursive  subdivision of an icosahedron, with \a depth giving the number
-    of subdivisions.
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    MakeSphere creates a sphere centered in the origin. It is created by
+    recursive subdivision of an icosahedron, with \a depth giving the number
+    of subdivisions and \a radius being the radius.
 
 */
 
@@ -742,6 +783,10 @@ NodePtr OSG::makeSphere(UInt16 depth, Real32 radius)
         
     return node;
 }
+
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    Create the Geometry Core for used by osg::makeSphere. 
+*/
 
 GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
 {   
@@ -816,7 +861,7 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
                )       ); 
     }
     
-    // ifwe do not subdivide then lets have the icosahedron at least
+    // if we do not subdivide then lets have the icosahedron at least
     if(depth < 1)
     {
         for(UInt32 c1=0; c1<20; ++c1)
@@ -865,8 +910,9 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
     return geo;
 }
 
-/*! makeLatLongSphere creates a sphere in the origin and divided in latitude
-    and longitude. \æ radius is the radius of the sphere, \a latres and \a
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    MakeLatLongSphere creates a sphere in the origin and divided in latitude
+    and longitude. \a radius is the radius of the sphere, \a latres and \a
     longres are the number of subdivisions along the latitudes and longitudes.
 
 */
@@ -888,6 +934,10 @@ NodePtr OSG::makeLatLongSphere(UInt16 latres, UInt16 longres, Real32 radius)
 
     return node;
 }
+
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    Create the Geometry Core for used by osg::makeLatLongSphere. 
+*/
 
 GeometryPtr OSG::makeLatLongSphereGeo(UInt16 latres, UInt16 longres,
                                       Real32 radius)
@@ -1000,9 +1050,10 @@ GeometryPtr OSG::makeLatLongSphereGeo(UInt16 latres, UInt16 longres,
     return geo;
 }
 
-/*! makeBox creates a box around the origin. It spans the [-\a xsize /2,\a
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    MakeBox creates a box around the origin. It spans the [-\a xsize /2,\a
     xsize /2]x [-\a ysize /2,\a ysize/2]x[-\a zsize /2,\a zsize/2] volume and
-    is subdivided into  \a hor * \a vert * \a depth quads.
+    is subdivided into \a hor * \a vert * \a depth quads.
 
 */
 
@@ -1025,6 +1076,10 @@ NodePtr OSG::makeBox(Real32 xsize, Real32 ysize, Real32 zsize,
     
     return node;
 }
+
+/*! \ingroup GrpSystemDrawablesGeometrySimpleGeometry
+    Create the Geometry Core for used by osg::makeBox. 
+*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize, 

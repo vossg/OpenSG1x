@@ -53,6 +53,10 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief Geometry Iterator for faces (tris and quads). See \ref 
+    PageSystemGeometryIterators for a description.
+*/
+
 class OSG_SYSTEMLIB_DLLMAPPING FaceIterator : public PrimitiveIterator
 {
     /*==========================  PUBLIC  =================================*/    
@@ -111,7 +115,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FaceIterator : public PrimitiveIterator
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Your operators                         */
+    /*! \name                       Operators                              */
     /*! \{                                                                 */
 
     void           seek        (Int32 index);    

@@ -58,7 +58,7 @@ OSG_USING_NAMESPACE
     \ingroup GrpSystemDrawablesGeometryIterators
     
 The TriangleIterator iterates through the geometry one triangle at a
-time. See \ref PageSystemGeoIterators for details.
+time. See \ref PageSystemTriangleIterator for details.
 
 \sa PrimitiveIterator FaceIterator
 
@@ -68,14 +68,17 @@ time. See \ref PageSystemGeoIterators for details.
 
 /*! \var osg::FaceIterator::_triIndex
 
+    Running index of the triangles iterated.
 */
 
 /*! \var osg::FaceIterator::_actPrimIndex
 
+    Index of the next point to use in the current primitive.
 */
 
 /*! \var osg::FaceIterator::_triPntIndex
 
+    The vertex indices of the current triangle.
 */
 
 #endif // only include in dev docs
@@ -210,7 +213,8 @@ void TriangleIterator::operator++()
 
 
 /*! Helper function to reset all state to the beginning of a new primitive.
-    Also skips non-polygonal primitives(lines, points).
+    Also skips non-polygonal primitives(lines, points) and primitives with less
+    than 3 points.
 */
 void TriangleIterator::startPrim(void)
 {
@@ -268,6 +272,11 @@ void TriangleIterator::seek(Int32 index)
         ++(*this);
 }
 
+
+/*! Set the iterator to the beginning of the attached Geometry. Is primarily
+    used by osg::Geometry::beginTriangles, but can also be used to quickly
+    recycle an iterator.
+*/
 void TriangleIterator::setToBegin(void)
 {
     PrimitiveIterator::setToBegin();
@@ -275,6 +284,10 @@ void TriangleIterator::setToBegin(void)
     startPrim();
 }
 
+/*! Set the iterator to the end of the attached Geometry. Is primarily used by
+    osg::Geometry::endTriangles, but can also be used to quickly recycle an
+    iterator.
+*/
 void TriangleIterator::setToEnd(void)
 {
     PrimitiveIterator::setToEnd();

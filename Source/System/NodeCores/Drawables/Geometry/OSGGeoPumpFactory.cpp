@@ -49,6 +49,7 @@
 #include "OSGConfig.h"
 
 #include <OSGGL.h>
+#include <OSGGLEXT.h>
 
 #include "OSGLog.h"
 
@@ -67,97 +68,71 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*
-
+/* \class osg::GeoPumpFactory
+   \ingroup GrpSystemNodeCoresDrawablesGeometry
+    
 The PumpFactory is responsible for selecting the most appropriate pump
-function to send the geometry's data to OpenGL.
+function to send the geometry's data to OpenGL in the most efficient manner.
 
+The pump is selected inside the rendering function and should not be accessed
+from the outside.
+
+\dev The pump factory chooses the pump based on the used properties. For
+non- and single-indexed geometry OpenGL VertexArrays are used, for
+multi-indexed geometry an immediate mode pump has to be used. Specialized Pumps
+for all combinations of properties are created to optimizie this case as much
+as possible.
 */
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
 
-char GeoPumpFactory::cvsid[] = "@(#)$Id: $";
-
+/*! The Singleton instance of the GeoPumpFactory.
+*/
 GeoPumpFactory *GeoPumpFactory::_the = NULL;
 
+/*! An InitFuncWrapper to initialize the GeoPumpFactory.
+*/
 InitFuncWrapper
 GeoPumpFactory::_glextInitFuncWrapper(GeoPumpFactory::glextInitFunction);
 
+/*! OpenGL extension indices.
+*/
 UInt32 GeoPumpFactory::_extSecondaryColor;
 UInt32 GeoPumpFactory::_extMultitexture;
 
+/*! OpenGL extension function indices.
+*/
 UInt32 GeoPumpFactory::_funcglSecondaryColorPointer;
 UInt32 GeoPumpFactory::_funcglClientActiveTextureARB;
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
 
 /***************************************************************************\
  *                           Instance methods                              *
 \***************************************************************************/
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 /*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
 
 GeoPumpFactory::GeoPumpFactory(void)
 {
 }
 
-/** \brief Destructor
- */
-
 GeoPumpFactory::~GeoPumpFactory(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
-
-
-/*---------------------------- properties ---------------------------------*/
-
 /*-------------------------- your_category---------------------------------*/
 
+/*! Access the index of the given Geometry. Needed to access the Pump.
 
-/* index is organised as follows:
-   there are 2^7-1+3 different functions
-   The first (0) is for invalid (empty) geometry
-   The next 127 define all multi-indexed functions,
-   the last 2 define non-indexed and single-indexed
-   geometries
+\dev The index is organised as follows:
+-  there are 2^7-1+3 different functions
+-  the first (0) is for invalid (empty) geometry
+-  the next 127 define all multi-indexed functions
+-  the last 2 define non-indexed and single-indexed geometries
+\enddev
 */
-
-GeoPumpFactory::Index GeoPumpFactory::getIndex( Geometry * geo)
+GeoPumpFactory::Index GeoPumpFactory::getIndex(Geometry * geo)
 {
     if (geo->getPositions() == NullFC ||
        !geo->getPositions()->getData() ) return 0; //INVALID
@@ -267,6 +242,9 @@ GeoPumpFactory::Index GeoPumpFactory::getIndex( Geometry * geo)
     return index;
 }
 
+
+/*! Get the full Geometry pump for the given \a index.
+*/
 GeoPumpFactory::GeoPump GeoPumpFactory::getGeoPump(
                 Window * ,
                 GeoPumpFactory::Index index )
@@ -301,11 +279,6 @@ GeoPumpFactory::PartialInterfacePump GeoPumpFactory::getPartialInterfacePump(
     return NULL;
 }
 
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
@@ -313,26 +286,12 @@ GeoPumpFactory::PartialInterfacePump GeoPumpFactory::getPartialInterfacePump(
 
 GeoPumpFactory::Index GeoPumpFactory::numIndices( void )
 {
-    return 1;
+    return 130;
 }
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-// a little hack to get around ifdefs
-#ifndef GL_SECONDARY_COLOR_ARRAY_EXT
-#define GL_SECONDARY_COLOR_ARRAY_EXT 0x845E
-#endif
-
-#ifndef GL_TEXTURE0_ARB
-
-#define GL_TEXTURE0_ARB 0x84C0
-#define GL_TEXTURE1_ARB 0x84C1
-#define GL_TEXTURE2_ARB 0x84C2
-#define GL_TEXTURE3_ARB 0x84C3
-
-#endif
 
 // Pumping function definitions
 
@@ -538,8 +497,7 @@ static UInt32 TexCoords1IDs[numFormats][4];
 #endif      // remove from all but dev docs
 
 /*! MasterPump for empty geometry, does nothing
- */
-
+*/
 void GeoPump0(Window   *OSG_CHECK_ARG(win),
               Geometry *OSG_CHECK_ARG(geo))
 {
@@ -561,8 +519,7 @@ void GeoPump0(Window   *OSG_CHECK_ARG(win),
     }
 
 /*! MasterPump for non-indexed geometry
- */
-
+*/
 void GeoPump128(Window   *win,
                 Geometry *geo               )
 {
@@ -756,7 +713,6 @@ void GeoPump128(Window   *win,
 
 /*! MasterPump for single-indexed geometry
  */
-
 void GeoPump129(Window   *win,
                 Geometry *geo)
 {
@@ -1115,7 +1071,9 @@ void GeoPump129(Window   *win,
     }
 
 #define iC  pumpGLSetup         ( Color     , GeoColorsPtr   , getColors         )\
-            Int16 ColorIndex  =  geo->calcMappingIndex( Geometry::MapColor );
+            Int16 ColorIndex  =  geo->calcMappingIndex( Geometry::MapColor );     \
+            if(ColorData && ColorPtr->getSize() == 1)                             \
+                ColorFunc(ColorData);
 
 #define iS  pumpGLExtSetup      ( SecColor  , GeoColorsPtr   , getSecondaryColors)\
             Int16 SecColorIndex = geo->calcMappingIndex(Geometry::MapSecondaryColor);
@@ -1653,3 +1611,23 @@ bool GeoPumpFactory::glextInitFunction(void)
 
     return true;
 }
+
+
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_hpp       [] = OSGGEOPUMPFACTORY_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGGEOPUMPFACTORY_INLINE_CVSID;
+}
+

@@ -61,11 +61,8 @@ class GeoPLengthsInterface;
 class GeoIndicesInterface;
 #endif
 
-/*! \ingroup GrpSystemNodeCoresDrawablesGeometry
- *  \brief Pump factory. Selects a fitting pump for the given geometry.
- *
- *  It's not really a factory, as it doesn't create objects, but it's close.
- */
+/*! \brief Selects a pump function for drawing the given geometry.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 {
@@ -75,7 +72,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
     typedef UInt32 Index;
 
     /*---------------------------------------------------------------------*/
-    /*! \name                    Draws                                     */
+    /*! \name                    Pump Types                                */
     /*! \{                                                                 */
 
     typedef void (*GeoPump)( Window *win, Geometry * geo );
@@ -123,15 +120,15 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
     /*! \name                       Get                                    */
     /*! \{                                                                 */
 
-    Index                getIndex( Geometry * geo );
+    Index                getIndex                (Geometry * geo          );
 
-    GeoPump              getGeoPump       ( Window *win, Index index );
+    GeoPump              getGeoPump              (Window *win, Index index);
 
-    PartialGeoPump       getPartialGeoPump( Window *win, Index index );
+    PartialGeoPump       getPartialGeoPump       (Window *win, Index index);
 
-    InterfacePump        getInterfacePump ( Window *win, Index index );
+    InterfacePump        getInterfacePump        (Window *win, Index index);
 
-    PartialInterfacePump getPartialInterfacePump( Window *win, Index index );
+    PartialInterfacePump getPartialInterfacePump (Window *win, Index index);
 
 
     /*! \}                                                                 */
@@ -156,7 +153,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    Index numIndices( void );
+    virtual Index numIndices(void);
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -185,12 +182,12 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
     /*! \name                       The Pumps                              */
     /*! \{                                                                 */
 
-    static void masterGeoPump( Window *win, Geometry *geo );
+    static void masterGeoPump(Window *win, Geometry *geo);
 
-    static void masterPartialGeoPump( Window *win, Geometry *geo,
-        UInt32 primtype, UInt32 firstvert, UInt32 nvert );
+    static void masterPartialGeoPump(Window *win, Geometry *geo,
+        UInt32 primtype, UInt32 firstvert, UInt32 nvert);
 
-    static void masterInterfacePump( Window *win,
+    static void masterInterfacePump(Window *win,
         GeoPositionsInterface *pos, GeoNormalsInterface *norm,
         GeoColorsInterface *col, GeoColorsInterface *seccol,
         GeoTexCoordsInterface *texcoords,
@@ -198,9 +195,9 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
         GeoTexCoordsInterface *texcoords3,
         GeoTexCoordsInterface *texcoords4,
         GeoPTypesInterface *type, GeoPLengthsInterface*len,
-        GeoIndicesInterface *ind, UInt16 *map, UInt16 nmap );
+        GeoIndicesInterface *ind, UInt16 *map, UInt16 nmap);
 
-    static void masterPartialInterfacePump( Window *win,
+    static void masterPartialInterfacePump(Window *win,
         GeoPositionsInterface *pos, GeoNormalsInterface *norm,
         GeoColorsInterface *col, GeoColorsInterface *seccol,
         GeoTexCoordsInterface *texcoords,
@@ -209,7 +206,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
         GeoTexCoordsInterface *texcoords4,
         GeoPTypesInterface *type, GeoPLengthsInterface*len,
         GeoIndicesInterface *ind, UInt16 *map, UInt16 nmap,
-        UInt32 primtype, UInt32 firstvert, UInt32 nvert );
+        UInt32 primtype, UInt32 firstvert, UInt32 nvert);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -227,5 +224,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 OSG_END_NAMESPACE
 
 #include "OSGGeoPumpFactory.inl"
+
+#define OSGGEOPUMPFACTORY_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGGEOPUMPFACTORY_H_ */

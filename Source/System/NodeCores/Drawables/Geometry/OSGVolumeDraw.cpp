@@ -56,13 +56,11 @@
 OSG_USING_NAMESPACE
 
 
-
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
-
+/*! \ingroup GrpSystemDrawablesGeometryFunctions
+    Draw the given DynamicVolume using direct OpenGL calls.
+*/
 OSG_SYSTEMLIB_DLLMAPPING
-void OSG::drawVolume ( const DynamicVolume &volume )
+void OSG::drawVolume(const DynamicVolume &volume)
 {
     const Volume *v = &volume.getInstance();
     const BoxVolume *bv;
@@ -70,19 +68,27 @@ void OSG::drawVolume ( const DynamicVolume &volume )
     const CylinderVolume *cv;
     const FrustumVolume *fv;
 
-    if ((bv = dynamic_cast<const BoxVolume*>(v)))
+    if((bv = dynamic_cast<const BoxVolume*>(v)))
+    {
         drawVolume( *bv );
-    else if ((sv = dynamic_cast<const SphereVolume*>(v)))
+    }
+    else if((sv = dynamic_cast<const SphereVolume*>(v)))
+    {
         drawVolume( *sv );
-    else if ((cv = dynamic_cast<const CylinderVolume*>(v)))
+    }
+    else if((cv = dynamic_cast<const CylinderVolume*>(v)))
+    {
         drawVolume( *cv );
-    else if ((fv = dynamic_cast<const FrustumVolume*>(v)))
+    }
+    else if((fv = dynamic_cast<const FrustumVolume*>(v)))
+    {
         drawVolume( *fv );
+    }
 }
 
-/*! \brief draw box volume 
- *  \ingroup GrpSystemDrawablesGeometrymetry
- */
+/*! \ingroup GrpSystemDrawablesGeometryFunctions
+    Draw the given BoxVolume using direct OpenGL calls.
+*/
 OSG_SYSTEMLIB_DLLMAPPING 
 void OSG::drawVolume ( const BoxVolume &volume )
 {
@@ -114,9 +120,11 @@ void OSG::drawVolume ( const BoxVolume &volume )
     return;
 }
 
-/*! \brief draw sphere volume 
- *  \ingroup GrpSystemDrawablesGeometrymetry
- */
+/*! \ingroup GrpSystemDrawablesGeometryFunctions
+    Draw the given SphereVolume using direct OpenGL calls.
+    
+    NOTE: Not implemented yet!
+*/
 OSG_SYSTEMLIB_DLLMAPPING 
 void OSG::drawVolume ( const SphereVolume &OSG_CHECK_ARG(volume) )
 {
@@ -124,11 +132,10 @@ void OSG::drawVolume ( const SphereVolume &OSG_CHECK_ARG(volume) )
     return;
 }
 
-/*! \brief draw frustum volume 
- *  \ingroup GrpSystemDrawablesGeometrymetry
- *  Draw the frustum, Calc the corners by intersecting near/far with the
- *  pairwise intersection of left/right and top/bottom.
- */
+/*! \ingroup GrpSystemDrawablesGeometryFunctions
+    Draw the given FrustumVolume using direct OpenGL calls by intersecting
+    near/far with the pairwise intersection of left/right and top/bottom.
+*/
 OSG_SYSTEMLIB_DLLMAPPING 
 void OSG::drawVolume ( const FrustumVolume &volume )
 {
@@ -237,9 +244,11 @@ void OSG::drawVolume ( const FrustumVolume &volume )
     return;
 }
 
-/*! \brief draw cylinder volume 
- *  \ingroup GrpSystemDrawablesGeometrymetry
- */
+/*! \ingroup GrpSystemDrawablesGeometryFunctions
+    Draw the given CylinderVolume using direct OpenGL calls.
+    
+    NOTE: Not implemented yet!
+*/
 OSG_SYSTEMLIB_DLLMAPPING 
 void OSG::drawVolume ( const CylinderVolume &OSG_CHECK_ARG(volume) )
 {

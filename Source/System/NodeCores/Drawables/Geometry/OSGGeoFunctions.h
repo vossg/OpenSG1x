@@ -33,14 +33,11 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
-
 #ifndef _OSGGEOFUNCTIONS_H_
 #define _OSGGEOFUNCTIONS_H_
 #ifdef __sgi
 #pragma once
 #endif
-
 #include <OSGConfig.h>
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
@@ -48,124 +45,59 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! \ingroup GrpSystemNodeCoresDrawablesGeometry
-//! Multi/Single index dictionary
 
-struct IndexDic 
-{
-    typedef std::vector<Int32> Int32Vec;
+OSG_SYSTEMLIB_DLLMAPPING 
+void                    calcVertexNormals   (GeometryPtr geo);
 
-  public:
-  
-          Int32     entry     (Int32Vec &indexVec);
-    
-    const Int32Vec &entry     (Int32     index   ); 
+OSG_SYSTEMLIB_DLLMAPPING 
+void                    calcVertexNormals   (GeometryPtr geo,
+                                             Real32 creaseAngle);
+OSG_SYSTEMLIB_DLLMAPPING 
+void                    calcFaceNormals     (GeometryPtr geo);
 
-          UInt32    entryCount(void              ) const;
+OSG_SYSTEMLIB_DLLMAPPING 
+Int32                   setIndexFromVRMLData(GeometryPtr geo,
+                                             std::vector<Int32> &coordIndex,
+                                             std::vector<Int32> &normalIndex,
+                                             std::vector<Int32> &colorIndex,
+                                             std::vector<Int32> &texCoordIndex,
+                                             bool convex          = true,
+                                             bool ccw             = true,
+                                             bool normalPerVertex = true,
+                                             bool colorPerVertex  = true,
+                                             bool createNormal    = true,
+                                             bool faceSet         = true);
 
-  private:
-  
-    std::map   <      Int32Vec  , Int32> _indexMap;
-  
-    std::vector<const Int32Vec *       > _indexVec;
- 
-};
+OSG_SYSTEMLIB_DLLMAPPING 
+Int32              createOptimizedPrimitives(GeometryPtr geo,
+                                             UInt32 iteration       = 1,
+                                             bool createStrips      = true,
+                                             bool createFans        = true,
+                                             UInt32 minFanEdgeCount = 8,
+                                             bool colorCode         = false);
 
-	
-/*--------------------------------------------------------------------------*/
-/*! \name                     Geometry Functions                            */
-/*! \{                                                                      */
+OSG_SYSTEMLIB_DLLMAPPING 
+Int32                      createSharedIndex(GeometryPtr geo);
 
-/*! \brief calculate vertex normals for the geometry. 
- *  \ingroup GrpSystemDrawablesGeometryFunctions
- */
-OSG_SYSTEMLIB_DLLMAPPING
-void calcVertexNormals(GeometryPtr geo);
+OSG_SYSTEMLIB_DLLMAPPING 
+Int32                      createSingleIndex(GeometryPtr geo);
 
-/*! \brief calculate vertex normals for the geometry, use creaseAngle to discrimnate
- *  \ingroup GrpSystemDrawablesGeometryFunctions
- */
-OSG_SYSTEMLIB_DLLMAPPING
-void calcVertexNormals( GeometryPtr geo,  Real32 creaseAngle );
+OSG_SYSTEMLIB_DLLMAPPING 
+UInt32                    calcPrimitiveCount(GeometryPtr geo,
+                                             UInt32 &triangle,
+                                             UInt32 &line,
+                                             UInt32 &point);
 
-/*! \brief calculate face normals for the geometry
- *  \ingroup GrpSystemDrawablesGeometryFunctions
- */
-OSG_SYSTEMLIB_DLLMAPPING
-void calcFaceNormals( GeometryPtr geo );
+OSG_SYSTEMLIB_DLLMAPPING 
+NodePtr                 calcVertexNormalsGeo(GeometryPtr geo, 
+                                             Real32 length);
 
-/*! \brief create the geometry index form the given FaceSet (VRML style) data 
- *  \ingroup GrpSystemDrawablesGeometryFunctions
- */
-OSG_SYSTEMLIB_DLLMAPPING
-Int32 setIndexFromVRMLData(      GeometryPtr    geo,
-                            std::vector<Int32> &coordIndex,
-                            std::vector<Int32> &normalIndex,
-                            std::vector<Int32> &colorIndex,
-                            std::vector<Int32> &texCoordIndex,
-                                 bool           convex          = true,
-                                 bool           ccw             = true,
-                                 bool           normalPerVertex = true,
-                                 bool           colorPerVertex  = true,
-                                 bool           createNormal    = true,
-                                 bool           faceSet         = true);
-
-
-/*! \brief optimize the geo by creating strips and fans, 
- *  creates new index values but does not touch the property values
- *  returns the number of points to be transformed 
- *  \ingroup GrpSystemDrawablesGeometryFunctions
- */
-OSG_SYSTEMLIB_DLLMAPPING
-Int32 createOptimizedPrimitives (GeometryPtr geo,
-                                 UInt32      iteration       = 1,
-                                 bool        createStrips    = true,
-                                 bool        createFans      = true,
-                                 UInt32      minFanEdgeCount = 8,
-                                 bool        colorCode       = false );
-
-/*! \brief creates new index to share vertex property data
- *  \ingroup GrpSystemDrawablesGeometryFunctions
- */
-OSG_SYSTEMLIB_DLLMAPPING
-Int32 createSharedIndex ( GeometryPtr geo );
-
-/*! \brief creates a single index geo from multi(interleave) geo.
- *  function will change (copy/resort) the property values.
- *  returns the number of property values
- *  \ingroup GrpSystemDrawablesGeometryFunctions
- */
-OSG_SYSTEMLIB_DLLMAPPING
-Int32 createSingleIndex ( GeometryPtr geo );
-
-/*! \brief return the number of triangle/line/point elem 
- *  \ingroup GrpSystemDrawablesGeometryFunctions
- */
-OSG_SYSTEMLIB_DLLMAPPING
-UInt32 calcPrimitiveCount ( GeometryPtr geo,
-                            UInt32 &triangle, UInt32 &line, UInt32 &point );
-
-/*! \brief merge the given geometries into a minimal number of nodes
- *  \ingroup GrpSystemDrawablesGeometryFunctions
- */
-OSG_SYSTEMLIB_DLLMAPPING
-void mergeGeometries(std::vector<NodePtr> &nodes, 
-                     std::vector<NodePtr> &results);
-
-
-/*! \brief create a geometry that shows the normals of the geometry
- *  \ingroup GrpSystemDrawablesGeometryFunctions
- */
-OSG_SYSTEMLIB_DLLMAPPING
-NodePtr getNormals( GeometryPtr geo, Real32 length );
-
-
-/*! \brief create a geometry that shows the face normals of another geometry
- *  \ingroup GrpSystemDrawablesGeometryFunctions
- */
-OSG_SYSTEMLIB_DLLMAPPING
-NodePtr getFaceNormals(GeometryPtr geo, Real32 length);
-/*! \}                                                                 */
+OSG_SYSTEMLIB_DLLMAPPING 
+NodePtr                   calcFaceNormalsGeo(GeometryPtr geo, 
+                                             Real32 length);
+OSG_SYSTEMLIB_DLLMAPPING 
+void                         mergeGeometries(std::vector<NodePtr> &nodes,
+                                             std::vector<NodePtr> &results);
 
 OSG_END_NAMESPACE
 

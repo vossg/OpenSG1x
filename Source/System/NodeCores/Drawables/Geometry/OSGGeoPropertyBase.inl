@@ -121,19 +121,12 @@ template <class GeoPropertyDesc>
 const BitVector GeoProperty<GeoPropertyDesc>::GeoPropDataFieldMask;
 #endif
 
-/** \brief Constructor
- */
-
 template <class GeoPropertyDesc> inline 
 GeoProperty<GeoPropertyDesc>::GeoProperty(void) :
      LocalInherited(),
     _field         ()
 {
 }
-
-
-/** \brief Copy Constructor
- */
 
 template <class GeoPropertyDesc> inline 
 GeoProperty<GeoPropertyDesc>::GeoProperty(
@@ -143,10 +136,6 @@ GeoProperty<GeoPropertyDesc>::GeoProperty(
     _field         (source._field)
 {
 }
-
-
-/** \brief Destructor
- */
 
 template <class GeoPropertyDesc> inline 
 GeoProperty<GeoPropertyDesc>::~GeoProperty(void)
@@ -230,9 +219,12 @@ void GeoProperty<GeoPropertyDesc>::copyFromBin(
     }
 }
 
-/** \brief Returns pointer to stored field
- */
+/*! Returns a pointer to the Stored field. 
 
+    This allows direct access to the data, which is faster than the access via 
+    the generic Interface that the AbstractGeoProperty provides, but it
+    necessitates compile-time knowledge about the involved concrete types. 
+*/
 template <class GeoPropertyDesc> inline 
 typename GeoProperty<GeoPropertyDesc>::StoredFieldType * 
     GeoProperty<GeoPropertyDesc>::getFieldPtr(void)
@@ -240,9 +232,12 @@ typename GeoProperty<GeoPropertyDesc>::StoredFieldType *
     return &_field;
 }
 
-/** \brief Returns reference to the stored field
- */
+/*! Returns a reference to the Stored field. 
 
+    This allows direct access to the data, which is faster than the access via 
+    the generic Interface that the AbstractGeoProperty provides, but it
+    necessitates compile-time knowledge about the involved concrete types. 
+*/
 template <class GeoPropertyDesc> inline 
 typename GeoProperty<GeoPropertyDesc>::StoredFieldType & 
     GeoProperty<GeoPropertyDesc>::getField(void)
@@ -250,19 +245,18 @@ typename GeoProperty<GeoPropertyDesc>::StoredFieldType &
     return _field;
 }
 
-/** \brief Returns const reference to the stored field
- */
+/*! Returns a const reference to the Stored field. 
 
+    This allows direct access to the data, which is faster than the access via 
+    the generic Interface that the AbstractGeoProperty provides, but it
+    necessitates compile-time knowledge about the involved concrete types. 
+*/
 template <class GeoPropertyDesc> inline 
 const typename GeoProperty<GeoPropertyDesc>::StoredFieldType & 
     GeoProperty<GeoPropertyDesc>::getField(void) const
 {
     return _field;
 }
-
-
-/** \brief Clone this Property
- */
 
 template <class GeoPropertyDesc> inline
 typename GeoProperty<GeoPropertyDesc>::LocalInheritedPtr
@@ -275,8 +269,10 @@ GeoProperty<GeoPropertyDesc>::clone(void)
 }
 
 
-/** \brief Returns dimensionality of property
- */
+/*! Returns the format of this property. 
+
+    
+*/
 
 template <class GeoPropertyDesc> inline 
 UInt32 GeoProperty<GeoPropertyDesc>::getFormat(void) const

@@ -52,12 +52,15 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup GrpSystemNodeCoresDrawablesGeometry
- *  \brief GeoProperty is a specialized form of Attachment, used to
- *  define the properties of the geometry node. This is the abstract base
- *  class for all
- *  properties.
- */
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \brief AbstractGeoProperty is a specialized form of Attachment, used to
+    define the properties of the geometry node. See \ref 
+    PageSystemGeoProperties for a description.
+    
+    This is the abstract base class for all GeoProperties and is used to
+    include the GeoPropertyArrayInterface into the class hierarchy. See
+    \ref PageSystemGeoProperties for a description.
+*/
 
 template <class GeoPropertyDesc>
 class AbstractGeoProperty :
@@ -165,8 +168,12 @@ class AbstractGeoProperty :
 };
 
 
-
-
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierachy
+    \brief GeoProperty is a specialized form of Attachment, used to
+    define the properties of the geometry node. See \ref 
+    PageSystemGeoProperties for a description.
+*/
 template <class GeoPropertyDesc>
 class GeoProperty :
     public GeoPropertyDesc::Inherited
@@ -198,6 +205,7 @@ class GeoProperty :
 
     typedef FCPtr<LocalInheritedPtr,
                   PropertyType                 > PtrType;
+
 
     typedef typename GeoPropertyDesc::StoredFieldType     StoredFieldType;
     typedef typename GeoPropertyDesc::GenericType         StoredGenericType;

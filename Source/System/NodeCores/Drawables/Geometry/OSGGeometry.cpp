@@ -72,9 +72,8 @@ OSG_USING_NAMESPACE
 /*! \class osg::Geometry
     \ingroup GrpSystemNodeCoresDrawablesGeometry
     
-The base class for all Geometry node types. Defines the common interface
-for all geometry, so for general tools use these interfaces. They are pretty general
-and minimal though, so don't expect them to be blindingly fast.
+The base class for all Geometry node types, see \ref PageSystemGeometry for a
+description.
 
 */
 
@@ -85,9 +84,6 @@ and minimal though, so don't expect them to be blindingly fast.
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char Geometry::cvsid[] = "@(#)$Id: $";
-
     
 const UInt16 Geometry::MapPosition       = 1;
 const UInt16 Geometry::MapNormal         = Geometry::MapPosition << 1;
@@ -116,6 +112,8 @@ const UInt16 Geometry::MapEmpty          = Geometry::MapTexCoords3 << 1;
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
+/*! A little helper function to map the OpenGL primitive type to a name.
+*/
 const char *Geometry::mapType( UInt8 type )
 {
     switch ( type )
@@ -134,17 +132,10 @@ const char *Geometry::mapType( UInt8 type )
     
     return "Unknown Primitive";
 }
-    
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
+ 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
 
 void Geometry::initMethod (void)
 {
@@ -179,25 +170,19 @@ void Geometry::initMethod (void)
 
 /*------------- constructors & destructors --------------------------------*/
 
-/** \brief Constructor
- */
-
 Geometry::Geometry(void) :
     Inherited()
 {
 }
-
-/** \brief Copy Constructor
- */
 
 Geometry::Geometry(const Geometry &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
-
+/*! The destructor automatically dereferences the used properties. If this
+    Geometry was the last user that will automatically destroy them.
+*/
 Geometry::~Geometry(void)
 {
     GeometryPtr thisP = getPtr();
@@ -331,9 +316,6 @@ Geometry::~Geometry(void)
         Window::destroyGLObject(getGLId(), 1);
 }
 
-/** \brief instance initialization
- */
-
 void Geometry::onCreate( const Geometry * )
 {
     // if we're in startup this is the prototype, which shouldn't have an id
@@ -389,8 +371,8 @@ GeometryPtr Geometry::getPtr(void) const
 }
 
 
-// GL object handler
-// put the geometry into a display list
+/*! OpenGL object handler. Used for DisplayList caching.
+*/
 void Geometry::handleGL( Window* win, UInt32 idstatus )
 {
     Window::GLObjectStatusE mode;
@@ -437,9 +419,6 @@ void Geometry::handleGL( Window* win, UInt32 idstatus )
 }
 
 /*------------------------------- dump ----------------------------------*/
-
-/** \brief output the instance for debug purposes
- */
 
 void Geometry::dump(      UInt32    uiIndent, 
                     const BitVector bvFlags) const
@@ -546,12 +525,12 @@ void Geometry::dump(      UInt32    uiIndent,
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
 
-/** \brief find the property pointer for the givem mapID
- */
-
-AbstractGeoPropertyInterface *Geometry::getProperty(Int32 mapID)
+/*! Find the property pointer for the given mapID, i.e.
+osg::Geometry::MapPosition and relatives. 
+*/
+GeoPropertyArrayInterface *Geometry::getProperty(Int32 mapID)
 {
-    AbstractGeoPropertyInterface *pP = 0;
+    GeoPropertyArrayInterface *pP = 0;
     
     switch (mapID) 
     {
@@ -590,28 +569,31 @@ AbstractGeoPropertyInterface *Geometry::getProperty(Int32 mapID)
 
 #endif
 
-/** \brief calc the indices into the index field for the given attributes
- */
-
-Int16  Geometry::calcMappingIndex( UInt16 attrib ) const
+/*! Calc the indices into the index field for the given attributes. This is the
+    index of the given attribute's index in a multi-index block.
+    
+    Returns -1 for non- or single-indexed geometries, or if the given attribute
+    is not used.
+*/
+Int16  Geometry::calcMappingIndex(UInt16 attrib) const
 {
     UInt16 nmappings = getIndexMapping().size();
     Int16 i;
 
     for ( i = nmappings - 1; i >= 0; i-- )
-      {
+    {
         if ( getIndexMapping()[i] & attrib  ) 
           break;
-      }   
+    }   
     
     return i;
 }
 
     
 
-/** check if the geometry can be merged into this one, return true if yes 
-  They need to have the same material and the same mappings or the same set of
-  attributes.
+/*! Check if the geometry can be merged into this one, return true if yes 
+    They need to have the same material and the same mappings or the same set of
+    attributes.
 */
 bool Geometry::isMergeable( const GeometryPtr other )
 {
@@ -647,7 +629,10 @@ bool Geometry::isMergeable( const GeometryPtr other )
     return true;
 }
 
-/** merge the geometry into this one, return true if successful */
+/*! Merge the geometry into this one, return true if successful. 
+
+    NOTE: Not completely implemented yet, use at your own risk. 
+*/
 
 bool Geometry::merge( const GeometryPtr other )
 {
@@ -759,11 +744,7 @@ bool Geometry::merge( const GeometryPtr other )
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
-
-
-/** \brief Actions
- */
-    
+   
 Action::ResultE Geometry::doDraw(Action * action )
 {
     DrawAction *a = dynamic_cast<DrawAction*>(action);
@@ -886,12 +867,9 @@ Action::ResultE Geometry::render(Action *action)
     return Action::Continue;
 }
 
-
-
-
-/** \brief react to field changes
- */
-
+/*! React to field changes, take care of incrementing/decrementing the
+    reference count of the changed properties.
+*/
 void Geometry::changed(BitVector whichField, 
                        UInt32    origin    )
 {
@@ -1285,32 +1263,34 @@ void Geometry::changed(BitVector whichField,
     Inherited::changed(whichField, origin);
 }
 
-    
-/** Triangle iterator functions */
-    
+/*--------------------------- Triangle Iterator --------------------------------*/
 
-TriangleIterator Geometry::beginTriangles( void ) const
+/*! Return a TriangleIterator poiting to the beginning of the Geometry.
+*/
+TriangleIterator Geometry::beginTriangles(void) const
 {
-    TriangleIterator it( this->getPtr() );
+    TriangleIterator it(this->getPtr());
 
     it.setToBegin();
     
     return it;
 }
 
-
-TriangleIterator Geometry::endTriangles  ( void ) const
+/*! Return a TriangleIterator poiting to the end of the Geometry.
+*/
+TriangleIterator Geometry::endTriangles(void) const
 {
-    TriangleIterator it( this->getPtr() );
+    TriangleIterator it(this->getPtr());
 
     it.setToEnd();
     
     return it;
 }
-    
-/** Primitive iterator functions */
-    
 
+/*-------------------------- Primitive Iterator --------------------------------*/
+
+/*! Return a PrimitiveIterator poiting to the beginning of the Geometry.
+*/
 PrimitiveIterator Geometry::beginPrimitives( void ) const
 {
     PrimitiveIterator it( this->getPtr() );
@@ -1320,7 +1300,8 @@ PrimitiveIterator Geometry::beginPrimitives( void ) const
     return it;
 }
 
-
+/*! Return a PrimitiveIterator poiting to the end of the Geometry.
+*/
 PrimitiveIterator Geometry::endPrimitives  ( void ) const
 {
     PrimitiveIterator it( this->getPtr() );
@@ -1330,9 +1311,10 @@ PrimitiveIterator Geometry::endPrimitives  ( void ) const
     return it;
 }
     
-/** Face iterator functions */
-    
+/*---------------------------- Face Iterator ---------------------------------*/
 
+/*! Return a FaceIterator poiting to the beginning of the Geometry.
+*/
 FaceIterator Geometry::beginFaces( void ) const
 {
     FaceIterator it( this->getPtr() );
@@ -1342,7 +1324,8 @@ FaceIterator Geometry::beginFaces( void ) const
     return it;
 }
 
-
+/*! Return a FaceIterator poiting to the end of the Geometry.
+*/
 FaceIterator Geometry::endFaces  ( void ) const
 {
     FaceIterator it( this->getPtr() );
@@ -1353,7 +1336,9 @@ FaceIterator Geometry::endFaces  ( void ) const
 }
 
 
-/** clone the geometry */
+/*! Clone the geometry, i.e. create a new Geometry that uses all the same
+    properties the given one uses. 
+*/
 
 GeometryPtr Geometry::clone( void )
 {
@@ -1432,7 +1417,22 @@ GeometryPtr Geometry::clone( void )
     return geo;
 }
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_hpp       [] = OSGGEOMETRY_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGGEOMETRY_INLINE_CVSID;
+}
 

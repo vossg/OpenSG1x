@@ -47,6 +47,10 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief The descriptor trait for osg::GeoPTypesUI8.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
 struct GeoPTypesUI8PropertyDesc : public GeoPTypesPropertyDesc
 {
     static FieldDescription *_desc[];
@@ -93,7 +97,7 @@ typedef GeoProperty<GeoPTypesUI8PropertyDesc> GeoPTypesUI8;
 #endif
 
 
-#ifndef OSG_COMPILEGEOPROPPTYPEINST
+#if !defined(OSG_COMPILEGEOPROPPTYPEINST) && !defined(OSG_DO_DOC)
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoPTypesUI8PropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)

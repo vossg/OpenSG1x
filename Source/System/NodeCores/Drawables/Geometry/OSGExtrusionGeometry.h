@@ -35,62 +35,46 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 #ifndef _OSGEXTRUSIONGEOMETRY_H_
 #define _OSGEXTRUSIONGEOMETRY_H_
 #ifdef __sgi
 #pragma once
 #endif
-
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGQuaternion.h>
 #include <OSGNode.h>
-#include <OSGSystemDef.h>
 #include <OSGGeoPropPtrs.h>
 #include <OSGGeometry.h>
 
 OSG_BEGIN_NAMESPACE
 
-/*---------------------------------------------------------------------*/
-/*! \name                   Construction functions                     */
-/*! \{                                                                 */
-
-
-/*! \brief create a extrusion
- *  \ingroup ExtrusionGeometry
- */
+OSG_SYSTEMLIB_DLLMAPPING 
+NodePtr    makeExtrusion    (const std::vector<Pnt2f> &crossSection,
+                             const std::vector<Quaternion> &orientation,
+                             const std::vector<Vec2f> &scale,
+                             const std::vector<Pnt3f> &spine,
+                             bool beginCap, 
+                             bool endCap,
+                             bool ccw, 
+                             bool convex,
+                             bool buildNormal,
+                             bool buildTexCoord,
+                             UInt32 numOfSubdivision);
 
 OSG_SYSTEMLIB_DLLMAPPING 
-NodePtr makeExtrusion(const std::vector<Vec2f     > &crossSection,
-                      const std::vector<Quaternion> &orientation,
-                      const std::vector<Vec2f     > &scale,
-                      const std::vector<Vec3f     > &spine,
-                                 bool                beginCap,
-                                 bool                endCap,
-                                 bool                ccw,
-                                 bool                convex,
-                                 bool                buildNormal,
-                                 bool                buildTexCoord,
-                                 UInt32              numOfSubdivision);  
-
-/*! \brief create a extrusion and node
- *  \ingroup ExtrusionGeometry
- */
-
-OSG_SYSTEMLIB_DLLMAPPING
-GeometryPtr makeExtrusionGeo(const std::vector<Vec2f     > &crossSection,
+GeometryPtr makeExtrusionGeo(const std::vector<Pnt2f> &crossSection,
                              const std::vector<Quaternion> &orientation,
-                             const std::vector<Vec2f     > &scale,
-                             const std::vector<Vec3f     > &spine,
-                                        bool                beginCap,
-                                        bool                endCap,
-                                        bool                ccw,
-                                        bool                convex,
-                                        bool                buildNormal,
-                                        bool                buildTexCoord,
-                                        UInt32              numOfSubdivision);
-
+                             const std::vector<Vec2f> &scale,
+                             const std::vector<Pnt3f> &spine,
+                             bool beginCap,
+                             bool endCap, 
+                             bool ccw,
+                             bool convex,
+                             bool buildNormal,
+                             bool buildTexCoord,
+                             UInt32 numOfSubdivision);
 
 OSG_END_NAMESPACE
 

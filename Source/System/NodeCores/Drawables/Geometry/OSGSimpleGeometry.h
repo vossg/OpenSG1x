@@ -56,145 +56,123 @@ OSG_BEGIN_NAMESPACE
 /*! \name                   Construction functions                     */
 /*! \{                                                                 */
 
-/*! \brief create a plane geometry
- *  \ingroup GrpSystemDrawablesGeometrySimpleGeometry
- */
-OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makePlaneGeo(Real32 xsize, Real32 ysize,
-                                                  UInt16 hor,   UInt16 vert);
+OSG_SYSTEMLIB_DLLMAPPING 
+GeometryPtr               makePlaneGeo          (Real32 xsize, 
+                                                 Real32 ysize,
+                                                 UInt16 hor,   
+                                                 UInt16 vert);
 
+OSG_SYSTEMLIB_DLLMAPPING 
+NodePtr                   makePlane             (Real32 xsize, 
+                                                 Real32 ysize,
+                                                 UInt16 hor,   
+                                                 UInt16 vert);
 
-/*! \brief create a plane
- *  \ingroup GrpSystemDrawablesGeometrySimpleGeometry
- */
-OSG_SYSTEMLIB_DLLMAPPING NodePtr makePlane(Real32 xsize, Real32 ysize,
-                                           UInt16 hor,   UInt16 vert);
+OSG_SYSTEMLIB_DLLMAPPING 
+GeometryPtr               makeBoxGeo            (Real32 xsize,
+                                                 Real32 ysize,
+                                                 Real32 zsize,
+                                                 UInt16 hor,
+                                                 UInt16 vert,
+                                                 UInt16 depth);
 
-/*! \brief create a box geometry
- *  \ingroup GrpSystemDrawablesGeometrySimpleGeometry
- */
-OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeBoxGeo(Real32 xsize,
-                                                Real32 ysize,
-                                                Real32 zsize,
-                                                UInt16 hor,
-                                                UInt16 vert,
-                                                UInt16 depth);
+OSG_SYSTEMLIB_DLLMAPPING 
+NodePtr                   makeBox               (Real32 xsize,
+                                                 Real32 ysize,
+                                                 Real32 zsize,
+                                                 UInt16 hor,
+                                                 UInt16 vert,
+                                                 UInt16 depth);
 
-/*! \brief create a box geometry and node
- *  \ingroup GrpSystemDrawablesGeometrySimpleGeometry
- */
-OSG_SYSTEMLIB_DLLMAPPING NodePtr makeBox(Real32 xsize,
-                                         Real32 ysize,
-                                         Real32 zsize,
-                                         UInt16 hor,
-                                         UInt16 vert,
-                                         UInt16 depth);
-
-/*! \brief create a cone
- *  \ingroup GrpSystemDrawablesGeometrySimpleGeometry
- */
-OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeConeGeo(Real32 height,
+OSG_SYSTEMLIB_DLLMAPPING 
+GeometryPtr               makeConeGeo           (Real32 height,
                                                  Real32 botradius,
                                                  UInt16 sides,
                                                  bool   doSide,
                                                  bool   doBottom);
 
-/*! \brief create a cone and node
- *  \ingroup GrpSystemDrawablesGeometrySimpleGeometry
- */
-OSG_SYSTEMLIB_DLLMAPPING NodePtr makeCone(Real32 height,
-                                          Real32 botradius,
-                                          UInt16 sides,
-                                          bool   doSide,
-                                          bool   doBottom);
+OSG_SYSTEMLIB_DLLMAPPING 
+NodePtr                   makeCone              (Real32 height,
+                                                 Real32 botradius,
+                                                 UInt16 sides,
+                                                 bool   doSide,
+                                                 bool   doBottom);
 
-/*! \brief create a cylinder
- *  \ingroup GrpSystemDrawablesGeometrySimpleGeometry
- */
-OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeCylinderGeo(Real32 height,
-                                                     Real32 radius,
-                                                     UInt16 sides,
-                                                     bool   doSide,
-                                                     bool   doTop,
-                                                     bool   doBottom);
+OSG_SYSTEMLIB_DLLMAPPING 
+GeometryPtr               makeCylinderGeo       (Real32 height,
+                                                 Real32 radius,
+                                                 UInt16 sides,
+                                                 bool   doSide,
+                                                 bool   doTop,
+                                                 bool   doBottom);
 
-/*! \brief create a cylinder and node
- *  \ingroup GrpSystemDrawablesGeometrySimpleGeometry
- */
-OSG_SYSTEMLIB_DLLMAPPING NodePtr makeCylinder(Real32 height,
-                                              Real32 radius,
-                                              UInt16 sides,
-                                              bool   doSide,
-                                              bool   doTop,
-                                              bool   doBottom);
+OSG_SYSTEMLIB_DLLMAPPING 
+NodePtr                   makeCylinder          (Real32 height,
+                                                 Real32 radius,
+                                                 UInt16 sides,
+                                                 bool   doSide,
+                                                 bool   doTop,
+                                                 bool   doBottom);
 
-/*! \brief create a torus
- *  \ingroup GrpSystemDrawablesGeometrySimpleGeometry
- */
-OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeTorusGeo( Real32 innerRadius,
-                                           Real32 outerRadius,
-                                           UInt16 sides, UInt16 rings );
+OSG_SYSTEMLIB_DLLMAPPING 
+GeometryPtr               makeTorusGeo          (Real32 innerRadius,
+                                                 Real32 outerRadius,
+                                                 UInt16 sides, 
+                                                 UInt16 rings );
 
 
-/*! \brief create a torus and node
- *  \ingroup GrpSystemDrawablesGeometrySimpleGeometry
- */
-OSG_SYSTEMLIB_DLLMAPPING NodePtr makeTorus( Real32 innerRadius,
-                                           Real32 outerRadius,
-                                           UInt16 sides, UInt16 rings );
+OSG_SYSTEMLIB_DLLMAPPING 
+NodePtr                   makeTorus             (Real32 innerRadius,
+                                                 Real32 outerRadius,
+                                                 UInt16 sides, 
+                                                 UInt16 rings);
 
-/*! \brief create a sphere
- *  \ingroup GrpSystemDrawablesGeometrySimpleGeometry
- */
-OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeSphereGeo(UInt16 depth,
-                                                   Real32 radius);
+OSG_SYSTEMLIB_DLLMAPPING 
+GeometryPtr               makeSphereGeo         (UInt16 depth,
+                                                 Real32 radius);
 
-/*! \brief create a sphere geometry and node
- *  \ingroup GrpSystemDrawablesGeometrySimpleGeometry
- */
-OSG_SYSTEMLIB_DLLMAPPING NodePtr makeSphere(UInt16 depth, Real32 radius);
+OSG_SYSTEMLIB_DLLMAPPING 
+NodePtr                   makeSphere            (UInt16 depth, 
+                                                 Real32 radius);
 
-/*! \brief create a sphere divided in latitude and longitude
- *  \ingroup GrpSystemDrawablesGeometrySimpleGeometry
- */
-OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeLatLongSphereGeo(UInt16 latres,
-                                                          UInt16 longres,
-                                                          Real32 radius);
+OSG_SYSTEMLIB_DLLMAPPING 
+GeometryPtr               makeLatLongSphereGeo  (UInt16 latres,
+                                                 UInt16 longres,
+                                                 Real32 radius);
 
-/*! \brief create a sphere geometry divided in latitude and longitude and node
- *  \ingroup GrpSystemDrawablesGeometrySimpleGeometry
- */
-OSG_SYSTEMLIB_DLLMAPPING NodePtr makeLatLongSphere(UInt16 latres, 
-                                                   UInt16 longres,
-                                                   Real32 radius);
+OSG_SYSTEMLIB_DLLMAPPING 
+NodePtr                   makeLatLongSphere     (UInt16 latres, 
+                                                 UInt16 longres,
+                                                 Real32 radius);
 
-/*! \brief create a conical frustum
- *  \ingroup GrpSystemDrawablesGeometrySimpleGeometry
- */
-OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeConicalFrustumGeo(Real32 height,
-                                                           Real32 topradius,
-                                                           Real32 botradius,
-                                                           UInt16 sides,
-                                                           bool   doSide,
-                                                           bool   doTop,
-                                                           bool   doBottom);
+OSG_SYSTEMLIB_DLLMAPPING 
+GeometryPtr               makeConicalFrustumGeo (Real32 height,
+                                                 Real32 topradius,
+                                                 Real32 botradius,
+                                                 UInt16 sides,
+                                                 bool   doSide,
+                                                 bool   doTop,
+                                                 bool   doBottom);
 
-/*! \brief create a conical frustum and node
- *  \ingroup GrpSystemDrawablesGeometrySimpleGeometry
- */
-OSG_SYSTEMLIB_DLLMAPPING NodePtr makeConicalFrustum(Real32 height,
-                                                    Real32 topradius,
-                                                    Real32 botradius,
-                                                    UInt16 sides,
-                                                    bool   doSide,
-                                                    bool   doTop,
-                                                    bool   doBottom);
+OSG_SYSTEMLIB_DLLMAPPING 
+NodePtr                   makeConicalFrustum    (Real32 height,
+                                                 Real32 topradius,
+                                                 Real32 botradius,
+                                                 UInt16 sides,
+                                                 bool   doSide,
+                                                 bool   doTop,
+                                                 bool   doBottom);
 
-/*! \brief access the default materials
- *  \ingroup GrpSystemDrawablesGeometrySimpleGeometry
- */
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name                     Material Access                          */
+/*! \{                                                                 */
+
 OSG_SYSTEMLIB_DLLMAPPING MaterialPtr getDefaultMaterial(void);
 
 OSG_SYSTEMLIB_DLLMAPPING MaterialPtr getDefaultUnlitMaterial(void);
+
+/*! \}                                                                 */
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 
@@ -209,8 +187,6 @@ OSG_SYSTEMLIB_DLLMAPPING GeoPTypesPtr      makeGeoPTypesPtr     (UInt32 uiSize);
 
 #endif            // exclude from doc
 
-
-/*! \}                                                                 */
 
 OSG_END_NAMESPACE
 

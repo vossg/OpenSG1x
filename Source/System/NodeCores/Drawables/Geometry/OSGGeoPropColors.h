@@ -46,10 +46,10 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief GeoColors3fPropertyDesc
- *  \ingroup GrpSystemDrawablesGeometryProperties
- */
-
+/*! \brief The descriptor trait for osg::GeoColors3f.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
 struct GeoColors3fPropertyDesc : public GeoColorsPropertyDesc
 {
     static FieldDescription *_desc[];
@@ -92,21 +92,21 @@ struct GeoColors3fPropertyDesc : public GeoColorsPropertyDesc
     /*! \}                                                                 */
 };
 
+
 #if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef GeoProperty<GeoColors3fPropertyDesc> GeoColors3f;
 #endif
 
-#ifndef OSG_COMPILEGEOPROPCOLORINST
+#if !defined(OSG_COMPILEGEOPROPCOLORINST) && !defined(OSG_DO_DOC)
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoColors3fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-
-/*! \brief GeoColors4fPropertyDesc
- *  \ingroup GrpSystemDrawablesGeometryProperties
- */
-
+/*! \brief The descriptor trait for osg::GeoColors4f.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
 struct GeoColors4fPropertyDesc : public GeoColorsPropertyDesc
 {
     static FieldDescription *_desc[];
@@ -153,16 +153,16 @@ struct GeoColors4fPropertyDesc : public GeoColorsPropertyDesc
 typedef GeoProperty<GeoColors4fPropertyDesc> GeoColors4f;
 #endif
 
-#ifndef OSG_COMPILEGEOPROPCOLORINST
+#if !defined(OSG_COMPILEGEOPROPCOLORINST) && !defined(OSG_DO_DOC)
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoColors4fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-/*! \brief GeoColors3ubPropertyDesc
- *  \ingroup GrpSystemDrawablesGeometryProperties
- */
-
+/*! \brief The descriptor trait for osg::GeoColors3ub.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
 struct GeoColors3ubPropertyDesc : public GeoColorsPropertyDesc
 {
     static FieldDescription *_desc[];
@@ -209,16 +209,16 @@ struct GeoColors3ubPropertyDesc : public GeoColorsPropertyDesc
 typedef GeoProperty<GeoColors3ubPropertyDesc> GeoColors3ub;
 #endif
 
-#ifndef OSG_COMPILEGEOPROPCOLORINST
+#if !defined(OSG_COMPILEGEOPROPCOLORINST) && !defined(OSG_DO_DOC)
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoColors3ubPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-/*! \brief GeoColors4ubPropertyDesc
- *  \ingroup GrpSystemDrawablesGeometryProperties
- */
-
+/*! \brief The descriptor trait for osg::GeoColors4ub.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
 struct GeoColors4ubPropertyDesc : public GeoColorsPropertyDesc
 {
     static FieldDescription *_desc[];
@@ -265,7 +265,7 @@ struct GeoColors4ubPropertyDesc : public GeoColorsPropertyDesc
 typedef GeoProperty<GeoColors4ubPropertyDesc> GeoColors4ub;
 #endif
 
-#ifndef OSG_COMPILEGEOPROPCOLORINST
+#if !defined(OSG_COMPILEGEOPROPCOLORINST) && !defined(OSG_DO_DOC)
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoColors4ubPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)

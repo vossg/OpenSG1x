@@ -276,17 +276,17 @@ int main (int argc, char **argv)
     //OBJECT0: Plane
     objects[0] = makeBox( 3,3,2, 2,2,1 );
     calcVertexNormals( GeometryPtr::dcast(objects[0]->getCore()), creaseAngle );
-    normals[0] = getNormals( GeometryPtr::dcast(objects[0]->getCore()), 0.5 );
+    normals[0] = calcVertexNormalsGeo( GeometryPtr::dcast(objects[0]->getCore()), 0.5 );
 
     //OBJECT1: Sphere
     objects[1] = makeSphere( 2, 2 );
     calcVertexNormals( GeometryPtr::dcast(objects[1]->getCore()), creaseAngle );
-    normals[1] = getNormals( GeometryPtr::dcast(objects[1]->getCore()), 0.5 );
+    normals[1] = calcVertexNormalsGeo( GeometryPtr::dcast(objects[1]->getCore()), 0.5 );
 
     //OBJECT2: Cone
     objects[2] = makeConicalFrustum( 1.5, 0.75, 2, 8, true, true, true );
     calcVertexNormals( GeometryPtr::dcast(objects[2]->getCore()), creaseAngle );
-    normals[2] = getNormals( GeometryPtr::dcast(objects[2]->getCore()), 0.5 );
+    normals[2] = calcVertexNormalsGeo( GeometryPtr::dcast(objects[2]->getCore()), 0.5 );
 
     //OBJECT3: Create stairs with increasing angles
     UInt16 nsteps = 19;
@@ -352,7 +352,7 @@ int main (int argc, char **argv)
     objects[3]->setCore( obj3Core );
     endEditCP( objects[3] );
     calcVertexNormals( GeometryPtr::dcast(objects[3]->getCore()), creaseAngle );
-    normals[3] = getNormals( GeometryPtr::dcast(objects[3]->getCore()), delta );
+    normals[3] = calcVertexNormalsGeo( GeometryPtr::dcast(objects[3]->getCore()), delta );
 
     //ROOT
     root = Node::create();

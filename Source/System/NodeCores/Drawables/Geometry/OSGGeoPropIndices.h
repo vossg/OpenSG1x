@@ -47,6 +47,10 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief The descriptor trait for osg::GeoIndicesUI32.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
 struct GeoIndicesUI32PropertyDesc : public GeoIndicesPropertyDesc
 {
     static FieldDescription *_desc[];
@@ -95,7 +99,7 @@ typedef GeoProperty<GeoIndicesUI32PropertyDesc> GeoIndicesUI32;
 #endif
 
 
-#ifndef OSG_COMPILEGEOPROPINDEXINST
+#if !defined(OSG_COMPILEGEOPROPINDEXINST) && !defined(OSG_DO_DOC)
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoIndicesUI32PropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)

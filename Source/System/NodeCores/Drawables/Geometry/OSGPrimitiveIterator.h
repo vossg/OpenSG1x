@@ -55,6 +55,10 @@ OSG_BEGIN_NAMESPACE
 class Geometry;
 typedef FCPtr<DrawablePtr, Geometry> GeometryPtr;
 
+/*! \brief Geometry Iterator for primitives. See \ref 
+    PageSystemGeometryIterators for a description.
+*/
+
 class OSG_SYSTEMLIB_DLLMAPPING PrimitiveIterator
 {
     /*==========================  PUBLIC  =================================*/
@@ -160,7 +164,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PrimitiveIterator
     static char cvsid[];
 
     /*---------------------------------------------------------------------*/
-    /*! \name                      Fields                                  */
+    /*! \name                       Data                                   */
     /*! \{                                                                 */
 
     GeometryPtr     _geo;

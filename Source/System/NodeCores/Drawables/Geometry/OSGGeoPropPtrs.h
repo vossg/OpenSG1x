@@ -55,7 +55,7 @@
 OSG_BEGIN_NAMESPACE
 
 /*---------------------------------------------------------------------*/
-/*! \name                    Typedefs                                  */
+/*! \name               Pointer Typedefs                               */
 /*! \{                                                                 */    
 
 typedef GeoPositions2f::PtrType  GeoPositions2fPtr;
@@ -68,6 +68,7 @@ typedef GeoPositions4d::PtrType  GeoPositions4dPtr;
 
 typedef GeoColors3f::PtrType     GeoColors3fPtr;
 typedef GeoColors3ub::PtrType    GeoColors3ubPtr;
+typedef GeoColors4f::PtrType     GeoColors4fPtr;
 typedef GeoColors4ub::PtrType    GeoColors4ubPtr;
 
 typedef GeoNormals3f::PtrType    GeoNormals3fPtr;

@@ -51,6 +51,10 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief Geometry Iterator for triangles. See \ref 
+    PageSystemGeometryIterators for a description.
+*/
+
 class OSG_SYSTEMLIB_DLLMAPPING TriangleIterator : public PrimitiveIterator
 {
     /*==========================  PUBLIC  =================================*/

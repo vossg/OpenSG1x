@@ -150,6 +150,17 @@ int main (int argc, char **argv)
     cols->getFieldPtr()->push_back( Color4ub(   0, 255,   0, 255) );
     endEditCP(cols);
 
+    GeoColors4fPtr colsf = GeoColors4f::create();
+    g1->setColors( colsf );
+    beginEditCP(colsf);
+    colsf->getFieldPtr()->push_back( Color4f(   1,   1,   1,   1) );
+    colsf->getFieldPtr()->push_back( Color4f(   0,   1,   1,   1) );
+    colsf->getFieldPtr()->push_back( Color4f(   1,   0,   1,   1) );
+    colsf->getFieldPtr()->push_back( Color4f(   1,   1,   0,   1) );
+    colsf->getFieldPtr()->push_back( Color4f(   1,   0,   0,   1) );
+    colsf->getFieldPtr()->push_back( Color4f(   0,   1,   0,   1) );
+    endEditCP(colsf);
+
 
     // Note: the object has texCoords, but no texture, so don't be suprised to 
     // not see the texture. ;)

@@ -49,19 +49,25 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup GrpSystemNodeCoresDrawablesGeometry
- *  \brief GeoPropertyInterface defines the interface used by the geometry to 
- *  access its attributes. It's an abstract class and not to be instantiated.
- *  Properties are one implementation of this interface,
- *  but not necessarily the only one. In fact, the main purpose of the 
- *  interface layer is the ability to be able to create simplified geometry
- *  nodes that don't need the properties' flexibility and can't stand the
- *  overhead.
- */
-
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
 
-class AbstractGeoPropertyInterface
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \brief GeoPropertyArrayInterface defines the generic interface used by 
+    the geometry to access its attributes. 
+ 
+    GeoPropertyArrayInterface defines the generic interface used by the
+    geometry to  access its attributes. This interface is not templated and
+    can be used for all kinds of properties. To allow that this interface is
+    typeless and closely related to OpenGL's Vertex Arrays. 
+
+    It's an abstract class and not to be instantiated. osg::GeoProperty is one
+    implementation of this interface, but not necessarily the only one. In
+    fact, the main purpose of the interface layer is the ability to be able
+    to create simplified geometry nodes that don't need the properties'
+    flexibility and can't stand the overhead.
+ */
+
+class GeoPropertyArrayInterface
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -83,29 +89,40 @@ class AbstractGeoPropertyInterface
     /*! \name                       Generic Access                         */
     /*! \{                                                                 */
 
-    virtual void        clear    (      void               )       = 0;
-    virtual void        resize   (      size_t      newsize)       = 0;
+    virtual void  clear  (void          ) = 0;
+    virtual void  resize (size_t newsize) = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    AbstractGeoPropertyInterface(void);
-    AbstractGeoPropertyInterface(const AbstractGeoPropertyInterface &source);
+    GeoPropertyArrayInterface(void);
+    GeoPropertyArrayInterface(const GeoPropertyArrayInterface &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~AbstractGeoPropertyInterface(void);
+    virtual ~GeoPropertyArrayInterface(void);
 
     /*! \}                                                                 */
 };
 
+
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \brief GeoPropertyInterface defines the typed generic interface used by 
+    the geometry to access its attributes. 
+ 
+    GeoPropertyInterface defines the typed generic interface used by the
+    geometry to  access its attributes. This interface is templated and
+    specific for every different kind of osg::GeoProperty. It includes the
+    generic value access and thus is somewhat more heavy-weight than the 
+    osg::GeoPropertyArrayInterface.
+*/
 template <class GeoPropertyDesc>
-class GeoPropertyInterface : public AbstractGeoPropertyInterface
+class GeoPropertyInterface : public GeoPropertyArrayInterface
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -114,7 +131,7 @@ class GeoPropertyInterface : public AbstractGeoPropertyInterface
 
     typedef typename GeoPropertyDesc::GenericType          GenericType;
 
-    typedef          AbstractGeoPropertyInterface          Inherited;
+    typedef          GeoPropertyArrayInterface          Inherited;
 
     /*---------------------------------------------------------------------*/
     /*! \name                       Generic Access                         */
@@ -158,6 +175,11 @@ class GeoPropertyInterface : public AbstractGeoPropertyInterface
 };
 #endif
 
+
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+    Dummy base class for the abstract instances of osg::GeoProperty. 
+*/
 struct AttachmentPropertyDesc
 {
     /*---------------------------------------------------------------------*/
@@ -169,13 +191,20 @@ struct AttachmentPropertyDesc
     /*! \}                                                                 */ 
 };
 
-/*! \ingroup GrpSystemNodeCoresDrawablesGeometry
- *  Abstract base class for all GeoProperty descriptors.
- */
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+    Abstract base class for all GeoProperty traits. These are used to
+    parameterize the actual osg::GeoProperty types. 
+*/
 struct GeoPropertyDesc
 {
 };
 
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+    Abstract base class for all GeoPositionsProperty traits. See \ref 
+    GrpSystemDrawablesGeometryProperties for a description.
+*/
 struct GeoPositionsPropertyDesc : public GeoPropertyDesc
 {
     /*---------------------------------------------------------------------*/
@@ -212,6 +241,11 @@ struct GeoPositionsPropertyDesc : public GeoPropertyDesc
 typedef GeoPositionsPropertyDesc::Interface GeoPositionsInterface;
 #endif
 
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+    Abstract base class for all GeoNormalsProperty traits. See \ref 
+    GrpSystemDrawablesGeometryProperties for a description.
+*/
 struct GeoNormalsPropertyDesc : public GeoPropertyDesc
 {
     /*---------------------------------------------------------------------*/
@@ -247,6 +281,11 @@ struct GeoNormalsPropertyDesc : public GeoPropertyDesc
 typedef GeoNormalsPropertyDesc::Interface GeoNormalsInterface;
 #endif
 
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+    Abstract base class for all GeoColorsProperty traits. See \ref 
+    GrpSystemDrawablesGeometryProperties for a description.
+*/
 struct GeoColorsPropertyDesc : public GeoPropertyDesc
 {
     /*---------------------------------------------------------------------*/
@@ -282,6 +321,11 @@ struct GeoColorsPropertyDesc : public GeoPropertyDesc
 typedef GeoColorsPropertyDesc::Interface GeoColorsInterface;
 #endif
 
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+    Abstract base class for all GeoTexCoordsProperty traits. See \ref 
+    GrpSystemDrawablesGeometryProperties for a description.
+*/
 struct GeoTexCoordsPropertyDesc : public GeoPropertyDesc
 {
     /*---------------------------------------------------------------------*/
@@ -317,6 +361,11 @@ struct GeoTexCoordsPropertyDesc : public GeoPropertyDesc
 typedef GeoTexCoordsPropertyDesc::Interface GeoTexCoordsInterface;
 #endif
 
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+    Abstract base class for all GeoIndicesProperty traits. See \ref 
+    GrpSystemDrawablesGeometryProperties for a description.
+*/
 struct GeoIndicesPropertyDesc : public GeoPropertyDesc
 {
     /*---------------------------------------------------------------------*/
@@ -352,6 +401,11 @@ struct GeoIndicesPropertyDesc : public GeoPropertyDesc
 typedef GeoIndicesPropertyDesc::Interface GeoIndicesInterface;
 #endif
 
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+    Abstract base class for all GeoPTypesProperty traits. See \ref 
+    GrpSystemDrawablesGeometryProperties for a description.
+*/
 struct GeoPTypesPropertyDesc : public GeoPropertyDesc
 {
     /*---------------------------------------------------------------------*/
@@ -388,6 +442,11 @@ struct GeoPTypesPropertyDesc : public GeoPropertyDesc
 typedef GeoPTypesPropertyDesc::Interface GeoPTypesInterface;
 #endif
 
+/*! \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+    Abstract base class for all GeoPLengthsProperty traits. See \ref 
+    GrpSystemDrawablesGeometryProperties for a description.
+*/
 struct GeoPLengthsPropertyDesc : public GeoPropertyDesc
 {
     /*---------------------------------------------------------------------*/

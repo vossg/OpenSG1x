@@ -262,17 +262,17 @@ int main (int argc, char **argv)
   //OBJECT0: Plane
   objects[0] = makeBox( 3,3,2, 2,2,1 );
   calcFaceNormals( GeometryPtr::dcast(objects[0]->getCore()) );
-  normals[0] = getFaceNormals( GeometryPtr::dcast(objects[0]->getCore()), 0.5 );
+  normals[0] = calcFaceNormalsGeo( GeometryPtr::dcast(objects[0]->getCore()), 0.5 );
   
   //OBJECT1: Sphere
   objects[1] = makeSphere( 2, 2 );
   calcFaceNormals( GeometryPtr::dcast(objects[1]->getCore()) );
-  normals[1] = getFaceNormals( GeometryPtr::dcast(objects[1]->getCore()), 0.5 );
+  normals[1] = calcFaceNormalsGeo( GeometryPtr::dcast(objects[1]->getCore()), 0.5 );
   
   //OBJECT2: Cone
   objects[2] = makeConicalFrustum( 1.5, 0.75, 2, 8, true, true, true );
   calcFaceNormals( GeometryPtr::dcast(objects[2]->getCore()) );
-  normals[2] = getFaceNormals( GeometryPtr::dcast(objects[2]->getCore()), 0.5 );
+  normals[2] = calcFaceNormalsGeo( GeometryPtr::dcast(objects[2]->getCore()), 0.5 );
     
   //OBJECT3: Custom Single Indexed Geometry
   objects[3] = Node::create();
@@ -345,7 +345,7 @@ int main (int argc, char **argv)
   objects[3]->setCore( obj3Core );
   endEditCP( objects[3] );
   calcFaceNormals( GeometryPtr::dcast(objects[3]->getCore()) );
-  normals[3] = getFaceNormals( GeometryPtr::dcast(objects[3]->getCore()), 0.5 );
+  normals[3] = calcFaceNormalsGeo( GeometryPtr::dcast(objects[3]->getCore()), 0.5 );
     
   //ROOT
   root = Node::create();

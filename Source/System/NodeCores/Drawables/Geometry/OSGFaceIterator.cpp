@@ -58,7 +58,7 @@ OSG_USING_NAMESPACE
     \ingroup GrpSystemDrawablesGeometryIterators
         
 The FaceIterator iterates through the geometry one face at a
-time. See \ref PageSystemGeoIterators for details.
+time. See \ref PageSystemFaceIterator for a description.
 
 \sa PrimitiveIterator FaceIterator
 
@@ -68,14 +68,23 @@ time. See \ref PageSystemGeoIterators for details.
 
 /*! \var osg::FaceIterator::_faceIndex
 
+    Simple runing face count. Returned by getIndex() and can be used as the
+    input to seek();
 */
 
 /*! \var osg::FaceIterator::_actPrimIndex
 
+    The next unused point in the current primitive. Starts at 0 and indicates
+    that the primitive is exhausted when it goes over the length of the
+    primitive.
 */
 
 /*! \var osg::FaceIterator::_facePntIndex
 
+    Keeps the indices of the currently active face vertices. If the face is a
+    tri the fourth index is -1. 
+    
+    This variable is accessed via the getIndexIndex() method. 
 */
 
 #endif // only include in dev docs
@@ -145,6 +154,12 @@ FaceIterator::~FaceIterator(void)
 
 /*! The increment operator steps the iterator to the next face. If it is
     already beyond the last face it does not change.
+    
+    \dev This is the central function of the whole iterator. It changes 
+    _facePntIndex to contain the data for the next face, depending on the type
+    of the currently active primitive and steps to the next primitive if the
+    current one is exhausted. The only tricky part is the left/right swap for
+    triangle strips, the rest is pretty simple. \enddev
 */
 void FaceIterator::operator++()
 {
@@ -206,7 +221,8 @@ void FaceIterator::operator++()
 
 
 /*! Helper function to reset all state to the beginning of a new primitive.
-    Also skips non-polygonal primitives(lines, points).
+    Also skips non-polygonal primitives(lines, points) and primtiives with less
+    than 3 points.
 */
 void FaceIterator::startPrim(void)
 {
@@ -287,6 +303,10 @@ void FaceIterator::seek(Int32 index)
         ++(*this);
 }
 
+/*! Set the iterator to the beginning of the geometry. Is primarily used by
+    osg::Geometry::beginFaces, but can also be used to quickly recycle an
+    iterator.
+*/
 void FaceIterator::setToBegin(void)
 {
     PrimitiveIterator::setToBegin();
@@ -294,6 +314,10 @@ void FaceIterator::setToBegin(void)
     startPrim();
 }
 
+/*! Set the iterator to the end of the geometry. Is primarily used by
+    osg::Geometry::endFaces, but can also be used to quickly recycle an
+    iterator.
+*/
 void FaceIterator::setToEnd(void)
 {
     PrimitiveIterator::setToEnd();

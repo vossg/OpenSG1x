@@ -46,6 +46,10 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief The descriptor trait for osg::GeoTexCoords2f.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
 struct GeoTexCoords2fPropertyDesc : public GeoTexCoordsPropertyDesc
 {
     static FieldDescription *_desc[];
@@ -92,13 +96,17 @@ struct GeoTexCoords2fPropertyDesc : public GeoTexCoordsPropertyDesc
 typedef GeoProperty<GeoTexCoords2fPropertyDesc> GeoTexCoords2f;
 #endif
 
-#ifndef OSG_COMPILEGEOPROPTEXCOORDSINST
+#if !defined(OSG_COMPILEGEOPROPTEXCOORDSINST) && !defined(OSG_DO_DOC)
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoTexCoords2fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 
+/*! \brief The descriptor trait for osg::GeoTexCoords3f.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
 struct GeoTexCoords3fPropertyDesc : public GeoTexCoordsPropertyDesc
 {
     static FieldDescription *_desc[];
@@ -145,7 +153,7 @@ struct GeoTexCoords3fPropertyDesc : public GeoTexCoordsPropertyDesc
 typedef GeoProperty<GeoTexCoords3fPropertyDesc> GeoTexCoords3f;
 #endif
 
-#ifndef OSG_COMPILEGEOPROPTEXCOORDSINST
+#if !defined(OSG_COMPILEGEOPROPTEXCOORDSINST) && !defined(OSG_DO_DOC)
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoTexCoords3fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)

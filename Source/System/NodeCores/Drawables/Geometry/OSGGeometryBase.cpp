@@ -114,43 +114,43 @@ const OSG::BitVector  GeometryBase::GLIdFieldMask =
 // Field descriptions
 
 /*! \var GeoPTypesPtr    GeometryBase::_sfTypes
-    
+    The types property contains the primitive's types. Legal values are          everything that can be passed to glBegin(). There have to be as many          types as lengths.
 */
 /*! \var GeoPLengthsPtr  GeometryBase::_sfLengths
-    
+    The lengths property contains the number of vertices to use for the          corresponding primitive. There have to be as many  lengths as types.
 */
 /*! \var GeoPositionsPtr GeometryBase::_sfPositions
-    
+    The positions property contains the position data.
 */
 /*! \var GeoNormalsPtr   GeometryBase::_sfNormals
-    
+    The normals property contains the normal data.
 */
 /*! \var GeoColorsPtr    GeometryBase::_sfColors
-    
+    The colors property contains the color data. See \ref          PageSystemMaterialChunk for details on when these colors are used.
 */
 /*! \var GeoColorsPtr    GeometryBase::_sfSecondaryColors
-    
+    The secondaryColors property contains the secondary colors data.         Secondary colors are used for some higher level shaders.
 */
 /*! \var GeoTexCoordsPtr GeometryBase::_sfTexCoords
-    
+    The texCoords property contains the texture coordinate data.
 */
 /*! \var GeoTexCoordsPtr GeometryBase::_sfTexCoords1
-    
+    The texCoords1 property contains the texture coordinate data for the         second texture. See \ref PageSystemTextureChunk for multi-texturing.
 */
 /*! \var GeoTexCoordsPtr GeometryBase::_sfTexCoords2
-    
+    The texCoords2 property contains the texture coordinate data for the         third texture. See \ref PageSystemTextureChunk for multi-texturing.
 */
 /*! \var GeoTexCoordsPtr GeometryBase::_sfTexCoords3
-    
+    The texCoords3 property contains the texture coordinate data for the         fourth texture. See \ref PageSystemTextureChunk for multi-texturing.
 */
 /*! \var GeoIndicesPtr   GeometryBase::_sfIndices
-    
+    The indices property contains the index data. See \ref          PageSystemGeoIndexing for a description of the indexing options.
 */
 /*! \var UInt16          GeometryBase::_mfIndexMapping
-    
+    The indexMapping property contains the definition which index element         is used for which attribute data. See \ref PageSystemGeoIndexing for         a description of the indexing options.
 */
 /*! \var MaterialPtr     GeometryBase::_sfMaterial
-    
+    The osg::Material used to render the Geometry.
 */
 /*! \var bool            GeometryBase::_sfDlistCache
     Flag to activate caching the geometry inside a display list.

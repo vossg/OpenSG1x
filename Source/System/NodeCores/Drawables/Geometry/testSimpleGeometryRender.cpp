@@ -262,7 +262,7 @@ int main (int argc, char **argv)
     
     for ( UInt16 i = 0; i < nobjects; i++ )
     {
-        normalobjects[i] = getNormals(
+        normalobjects[i] = calcVertexNormalsGeo(
             GeometryPtr::dcast(objects[i]->getCore()), .5);
 
         GeometryPtr::dcast(normalobjects[i]->getCore())->setMaterial(nmat);

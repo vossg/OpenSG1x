@@ -48,6 +48,8 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! Access the GeoPumpFactory Singleton.
+*/
 inline
 GeoPumpFactory *GeoPumpFactory::the(void)
 {
@@ -60,3 +62,5 @@ GeoPumpFactory *GeoPumpFactory::the(void)
 }
 
 OSG_END_NAMESPACE
+
+#define OSGGEOPUMPFACTORY_INLINE_CVSID "@(#)$Id: $"
