@@ -170,9 +170,9 @@ int main (int argc, char **argv)
     
     plane = makePlaneGeo( 6, 6, 32, 32 );
 
-    beginEditCP(plane);
-    plane->setDlistCache(false);
-    endEditCP(plane);
+    //beginEditCP(plane);
+    //plane->setDlistCache(false);
+    //endEditCP(plane);
     
     NodePtr scene = Node::create();   
     beginEditCP(scene);

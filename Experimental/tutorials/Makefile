@@ -2,34 +2,46 @@
 
 SYSTEM := $(shell uname)
 
-# set the path to the OpenSG root directory here
-OSGPOOL := ../..
+# set the path to the installed OpenSG root directory here
+# if you installed in /usr/local:
+# OSGROOT := /usr/local
+# use this if you installed in Builds/*/
+OSGROOT := $(wildcard ../../Builds/$(shell ../../CommonConf/config.guess)-*)
 
 # the path where GLUT is found
+# you can ignore this on Linux, it's in the system libs
 GLUTPATH := /igd/a4/software/$(SYSTEM)
 
-# you need to copy the options from compiling the library right now
-# we'll have an 'opensg-config' similiar to 'glib-config', but it's not here yet 
-# and picking the options out of the OpenSG makefiles is hairy :(
-# You need to make the libs and 'make install' before trying to compile this
+# use debug or opt libs?
+LIBTYPE := dbg
 
-include common.$(SYSTEM)
+# Var settings
+
+CC = $(shell $(OSGROOT)/bin/osg-config --compiler)
+
+CCFLAGS = \
+  $(shell $(OSGROOT)/bin/osg-config --$(LIBTYPE) --cflags Base System GLUT)
+
+LDFLAGS = \
+  $(shell $(OSGROOT)/bin/osg-config --$(LIBTYPE) --libs Base System GLUT)
+
+
+# all tutorials in this directory
 
 TUTS :=  $(wildcard [0-9][0-9]*.cpp) 
 PROGS := $(TUTS:.cpp=) 
-	
+
 # program dependencies
 
 default:	$(PROGS)
 
-
 # make rules
 
 .PHONY: clean Clean
-                  
+
 clean:
 	rm -fr *.o ii_files
-                        
+
 Clean: clean
 	rm -fr $(PROGS) 
 
@@ -37,7 +49,7 @@ Clean: clean
 	$(CC) -c $(CCFLAGS) $<
 
 %: %.o
-	$(CC) -o $@ $< $(LD_FLAGS)
+	$(CC) -o $@ $< $(LDFLAGS)
 
 %: %.cpp
-	$(CC) $(CCFLAGS) $< $(LD_FLAGS) -o $@ 
+	$(CC) $(CCFLAGS) $< $(LDFLAGS) -o $@ 
