@@ -482,16 +482,16 @@ void *drawThreadProc (void *arg)
         beginEditCP(vp);
         beginEditCP(deco);
 
-        vp->setSize(region[w->tile*4+0],
-                    region[w->tile*4+1],
-                    region[w->tile*4+2],
-                    region[w->tile*4+3]);
+        vp->setSize(region[w->tile].x1,
+                    region[w->tile].y1,
+                    region[w->tile].x2,
+                    region[w->tile].y2);
         if(deco!=NullFC)
         {
-            deco->setSize(region[w->tile*4+0] / (float)width,
-                          region[w->tile*4+1] / (float)height,
-                          region[w->tile*4+2] / (float)width,
-                          region[w->tile*4+3] / (float)height);
+            deco->setSize(region[w->tile].x1 / (float)width,
+                          region[w->tile].y1 / (float)height,
+                          region[w->tile].x2 / (float)width,
+                          region[w->tile].y2 / (float)height);
         }
 
         endEditCP(deco);
