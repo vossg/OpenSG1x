@@ -445,6 +445,11 @@ void Node::subChild(const NodePtr &childP)
 
         _children.erase(childIt);
     }
+    else
+    {
+        SWARNING << "Node(" << this << ")::subChild: " << childP 
+                 << " is not one of my children!" << endl;
+    }
 
     // TODO check if required (GV)
     invalidateVolume();
