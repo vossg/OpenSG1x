@@ -56,7 +56,7 @@ using namespace osg;
 
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.1 2001/10/06 15:12:50 jbehr Exp $";
+    char cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.2 2001/10/06 23:58:06 dirk Exp $";
     char cvsid_hpp[] = OSG_HEADER_CVSID;
     char cvsid_inl[] = OSG_INLINE_CVSID;
 }
@@ -245,13 +245,16 @@ void OSGQGLManagedWidget::mousePressEvent ( QMouseEvent *me )
 
 	switch ( me->button() ) {
   case LeftButton:
-    _manager.mouseButtonPress ( 1, me->x(), me->y()  );
+    _manager.mouseButtonPress ( SimpleSceneManager::MouseLeft, 
+                                me->x(), me->y()  );
     break;
   case MidButton:
-    _manager.mouseButtonPress ( 3, me->x(), me->y()   );
+    _manager.mouseButtonPress ( SimpleSceneManager::MouseMiddle, 
+                                me->x(), me->y()   );
     break;
   case RightButton:
-    _manager.mouseButtonPress ( 2, me->x(), me->y() );
+    _manager.mouseButtonPress ( SimpleSceneManager::MouseRight, 
+                                me->x(), me->y() );
     break;
 	}
 
@@ -267,13 +270,16 @@ void OSGQGLManagedWidget::mouseReleaseEvent ( QMouseEvent *me )
 
 	switch ( me->button() ) {
   case LeftButton:
-    _manager.mouseButtonRelease ( 1, me->x(), me->y()  );
+    _manager.mouseButtonRelease ( SimpleSceneManager::MouseLeft, 
+                                  me->x(), me->y()  );
     break;
   case MidButton:
-    _manager.mouseButtonRelease ( 3, me->x(), me->y()   );
+    _manager.mouseButtonRelease ( SimpleSceneManager::MouseMiddle, 
+                                  me->x(), me->y()   );
     break;
   case RightButton:
-    _manager.mouseButtonRelease ( 2, me->x(), me->y() );
+    _manager.mouseButtonRelease ( SimpleSceneManager::MouseRight, 
+                                  me->x(), me->y() );
     break;
 	}
 
