@@ -2513,6 +2513,10 @@ ValueTypeT TransformationMatrix<ValueTypeT>::det3(
         (a1 * b3 * c2) - (a2 * b1 * c3) - (a3 * b2 * c1);
 }
 
+#ifdef __sgi
+#pragma set woff 1424
+#endif
+
 template<class ValueTypeT> 
 template<UInt32 JacobiRank> inline
 Bool TransformationMatrix<ValueTypeT>::jacobi(
@@ -2655,6 +2659,9 @@ Bool TransformationMatrix<ValueTypeT>::jacobi(
     }
 }
 
+#ifdef __sgi
+#pragma reset woff 1424
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                               Functions                                 */

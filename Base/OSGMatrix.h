@@ -411,10 +411,19 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
                           const ValueTypeT c2, 
                           const ValueTypeT c3                ) const;
 
-    template<UInt32 JacobiRank = 3>
+#ifdef __sgi
+#pragma set woff 1424
+#endif
+
+
+    template<UInt32 JacobiRank>
     Bool jacobi(ValueTypeT    evalues [JacobiRank],
                 VectorType3f  evectors[JacobiRank],
                 Int32        &rots);
+
+#ifdef __sgi
+#pragma reset woff 1424
+#endif
 
     
     /*! \}                                                                 */
