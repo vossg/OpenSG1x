@@ -182,42 +182,42 @@ SFBool *SkyBackgroundBase::getSFBoxInside(void)
 
 //! Get the SkyBackground::_mfTopTexCoord field.
 inline
-MFVec2f *SkyBackgroundBase::getMFTopTexCoord(void)
+MFVec3f *SkyBackgroundBase::getMFTopTexCoord(void)
 {
     return &_mfTopTexCoord;
 }
 
 //! Get the SkyBackground::_mfBottomTexCoord field.
 inline
-MFVec2f *SkyBackgroundBase::getMFBottomTexCoord(void)
+MFVec3f *SkyBackgroundBase::getMFBottomTexCoord(void)
 {
     return &_mfBottomTexCoord;
 }
 
 //! Get the SkyBackground::_mfRightTexCoord field.
 inline
-MFVec2f *SkyBackgroundBase::getMFRightTexCoord(void)
+MFVec3f *SkyBackgroundBase::getMFRightTexCoord(void)
 {
     return &_mfRightTexCoord;
 }
 
 //! Get the SkyBackground::_mfLeftTexCoord field.
 inline
-MFVec2f *SkyBackgroundBase::getMFLeftTexCoord(void)
+MFVec3f *SkyBackgroundBase::getMFLeftTexCoord(void)
 {
     return &_mfLeftTexCoord;
 }
 
 //! Get the SkyBackground::_mfFrontTexCoord field.
 inline
-MFVec2f *SkyBackgroundBase::getMFFrontTexCoord(void)
+MFVec3f *SkyBackgroundBase::getMFFrontTexCoord(void)
 {
     return &_mfFrontTexCoord;
 }
 
 //! Get the SkyBackground::_mfBackTexCoord field.
 inline
-MFVec2f *SkyBackgroundBase::getMFBackTexCoord(void)
+MFVec3f *SkyBackgroundBase::getMFBackTexCoord(void)
 {
     return &_mfBackTexCoord;
 }
@@ -478,126 +478,126 @@ const MFReal32 &SkyBackgroundBase::getGroundAngle(void) const
 
 //! Get the value of the \a index element the SkyBackground::_mfTopTexCoord field.
 inline
-Vec2f &SkyBackgroundBase::getTopTexCoord(const UInt32 index)
+Vec3f &SkyBackgroundBase::getTopTexCoord(const UInt32 index)
 {
     return _mfTopTexCoord[index];
 }
 
 //! Get the SkyBackground::_mfTopTexCoord field.
 inline
-MFVec2f &SkyBackgroundBase::getTopTexCoord(void)
+MFVec3f &SkyBackgroundBase::getTopTexCoord(void)
 {
     return _mfTopTexCoord;
 }
 
 //! Get the SkyBackground::_mfTopTexCoord field.
 inline
-const MFVec2f &SkyBackgroundBase::getTopTexCoord(void) const
+const MFVec3f &SkyBackgroundBase::getTopTexCoord(void) const
 {
     return _mfTopTexCoord;
 }
 
 //! Get the value of the \a index element the SkyBackground::_mfBottomTexCoord field.
 inline
-Vec2f &SkyBackgroundBase::getBottomTexCoord(const UInt32 index)
+Vec3f &SkyBackgroundBase::getBottomTexCoord(const UInt32 index)
 {
     return _mfBottomTexCoord[index];
 }
 
 //! Get the SkyBackground::_mfBottomTexCoord field.
 inline
-MFVec2f &SkyBackgroundBase::getBottomTexCoord(void)
+MFVec3f &SkyBackgroundBase::getBottomTexCoord(void)
 {
     return _mfBottomTexCoord;
 }
 
 //! Get the SkyBackground::_mfBottomTexCoord field.
 inline
-const MFVec2f &SkyBackgroundBase::getBottomTexCoord(void) const
+const MFVec3f &SkyBackgroundBase::getBottomTexCoord(void) const
 {
     return _mfBottomTexCoord;
 }
 
 //! Get the value of the \a index element the SkyBackground::_mfRightTexCoord field.
 inline
-Vec2f &SkyBackgroundBase::getRightTexCoord(const UInt32 index)
+Vec3f &SkyBackgroundBase::getRightTexCoord(const UInt32 index)
 {
     return _mfRightTexCoord[index];
 }
 
 //! Get the SkyBackground::_mfRightTexCoord field.
 inline
-MFVec2f &SkyBackgroundBase::getRightTexCoord(void)
+MFVec3f &SkyBackgroundBase::getRightTexCoord(void)
 {
     return _mfRightTexCoord;
 }
 
 //! Get the SkyBackground::_mfRightTexCoord field.
 inline
-const MFVec2f &SkyBackgroundBase::getRightTexCoord(void) const
+const MFVec3f &SkyBackgroundBase::getRightTexCoord(void) const
 {
     return _mfRightTexCoord;
 }
 
 //! Get the value of the \a index element the SkyBackground::_mfLeftTexCoord field.
 inline
-Vec2f &SkyBackgroundBase::getLeftTexCoord(const UInt32 index)
+Vec3f &SkyBackgroundBase::getLeftTexCoord(const UInt32 index)
 {
     return _mfLeftTexCoord[index];
 }
 
 //! Get the SkyBackground::_mfLeftTexCoord field.
 inline
-MFVec2f &SkyBackgroundBase::getLeftTexCoord(void)
+MFVec3f &SkyBackgroundBase::getLeftTexCoord(void)
 {
     return _mfLeftTexCoord;
 }
 
 //! Get the SkyBackground::_mfLeftTexCoord field.
 inline
-const MFVec2f &SkyBackgroundBase::getLeftTexCoord(void) const
+const MFVec3f &SkyBackgroundBase::getLeftTexCoord(void) const
 {
     return _mfLeftTexCoord;
 }
 
 //! Get the value of the \a index element the SkyBackground::_mfFrontTexCoord field.
 inline
-Vec2f &SkyBackgroundBase::getFrontTexCoord(const UInt32 index)
+Vec3f &SkyBackgroundBase::getFrontTexCoord(const UInt32 index)
 {
     return _mfFrontTexCoord[index];
 }
 
 //! Get the SkyBackground::_mfFrontTexCoord field.
 inline
-MFVec2f &SkyBackgroundBase::getFrontTexCoord(void)
+MFVec3f &SkyBackgroundBase::getFrontTexCoord(void)
 {
     return _mfFrontTexCoord;
 }
 
 //! Get the SkyBackground::_mfFrontTexCoord field.
 inline
-const MFVec2f &SkyBackgroundBase::getFrontTexCoord(void) const
+const MFVec3f &SkyBackgroundBase::getFrontTexCoord(void) const
 {
     return _mfFrontTexCoord;
 }
 
 //! Get the value of the \a index element the SkyBackground::_mfBackTexCoord field.
 inline
-Vec2f &SkyBackgroundBase::getBackTexCoord(const UInt32 index)
+Vec3f &SkyBackgroundBase::getBackTexCoord(const UInt32 index)
 {
     return _mfBackTexCoord[index];
 }
 
 //! Get the SkyBackground::_mfBackTexCoord field.
 inline
-MFVec2f &SkyBackgroundBase::getBackTexCoord(void)
+MFVec3f &SkyBackgroundBase::getBackTexCoord(void)
 {
     return _mfBackTexCoord;
 }
 
 //! Get the SkyBackground::_mfBackTexCoord field.
 inline
-const MFVec2f &SkyBackgroundBase::getBackTexCoord(void) const
+const MFVec3f &SkyBackgroundBase::getBackTexCoord(void) const
 {
     return _mfBackTexCoord;
 }

@@ -49,6 +49,7 @@
 #include <OSGCamera.h>
 #include <OSGViewport.h>
 #include <OSGTextureChunk.h>
+#include <OSGImage.h>
 
 #include "OSGSkyBackground.h"
 
@@ -116,7 +117,7 @@ void SkyBackground::drawFace(      DrawActionBase  * action,
                              const Pnt3f            &p2, 
                              const Pnt3f            &p3, 
                              const Pnt3f            &p4, 
-                             const Vec2f           * texCoord)
+                             const Vec3f           * texCoord)
 {
     
     if(tex != NullFC)
@@ -136,19 +137,19 @@ void SkyBackground::drawFace(      DrawActionBase  * action,
             glEnable(GL_BLEND);
         }
 
-       // ENRICO: this part holds the informations about
-       // custom texture coordinates
-       // Mess with the best, die like the rest
-       glBegin(GL_QUADS);
-       glTexCoord2fv((GLfloat*) texCoord[0].getValues());
-       glVertex3fv((GLfloat*) p1.getValues());
-       glTexCoord2fv((GLfloat*) texCoord[1].getValues());
-       glVertex3fv((GLfloat*) p2.getValues());
-       glTexCoord2fv((GLfloat*) texCoord[2].getValues());
-       glVertex3fv((GLfloat*) p3.getValues());
-       glTexCoord2fv((GLfloat*) texCoord[3].getValues());
-       glVertex3fv((GLfloat*) p4.getValues());
-       glEnd();
+        // ENRICO: this part holds the informations about
+        // custom texture coordinates
+        // Mess with the best, die like the rest
+        glBegin(GL_QUADS);
+        glTexCoord3fv((GLfloat*) texCoord[0].getValues());
+        glVertex3fv((GLfloat*) p1.getValues());
+        glTexCoord3fv((GLfloat*) texCoord[1].getValues());
+        glVertex3fv((GLfloat*) p2.getValues());
+        glTexCoord3fv((GLfloat*) texCoord[2].getValues());
+        glVertex3fv((GLfloat*) p3.getValues());
+        glTexCoord3fv((GLfloat*) texCoord[3].getValues());
+        glVertex3fv((GLfloat*) p4.getValues());
+        glEnd();
 
         if(tex->isTransparent())
         {
@@ -336,9 +337,24 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
     
     // now draw the textures, if set
     StateChunk *tchunk = NULL;
-    static Vec2f defaulttc[4] = { Vec2f(0,0), Vec2f(1,0), 
-                                  Vec2f(1,1), Vec2f(0,1) };
-                                   
+    static Vec3f defaulttc[7][4] = {
+     // 2D default TCs
+     { Vec3f(0,0,0), Vec3f(1,0,0), Vec3f(1,1,0), Vec3f(0,1,0) },
+     
+     // Cubetex Default TCs
+     { Vec3f(-1, 1,-1), Vec3f( 1, 1,-1), Vec3f( 1,-1,-1), Vec3f(-1,-1,-1) },
+     { Vec3f( 1, 1, 1), Vec3f(-1, 1, 1), Vec3f(-1,-1, 1), Vec3f( 1,-1, 1) },
+     { Vec3f( 1, 1,-1), Vec3f(-1, 1,-1), Vec3f(-1, 1, 1), Vec3f( 1, 1, 1) },       
+     { Vec3f( 1,-1, 1), Vec3f(-1,-1, 1), Vec3f(-1,-1,-1), Vec3f( 1,-1,-1) },
+     { Vec3f( 1, 1,-1), Vec3f( 1, 1, 1), Vec3f( 1,-1, 1), Vec3f( 1,-1,-1) },        
+     { Vec3f(-1, 1, 1), Vec3f(-1, 1,-1), Vec3f(-1,-1,-1), Vec3f(-1,-1, 1) },
+     };
+    
+    #undef tfac
+    #define tfac(t,c)  \
+        defaulttc[(c)*((t) != NullFC && (t)->getImage() != NullFC && \
+                  (t)->getImage()->getSideCount() == 6)]
+     
     drawFace(action, getBackTexture(),   tchunk,
                                          Pnt3f(0.5, -0.5,  0.5),
                                          Pnt3f(-0.5, -0.5,  0.5),
@@ -346,7 +362,7 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
                                          Pnt3f(0.5,  0.5,  0.5),
                                          getBackTexCoord().size()?
                                          &getBackTexCoord()[0]:
-                                         defaulttc);
+                                          tfac(getBackTexture(), 1));
     
     drawFace(action, getFrontTexture(),  tchunk,
                                          Pnt3f(-0.5, -0.5, -0.5),
@@ -355,7 +371,7 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
                                          Pnt3f(-0.5,  0.5, -0.5),
                                          getFrontTexCoord().size()?
                                          &getFrontTexCoord()[0]:
-                                         defaulttc);
+                                          tfac(getFrontTexture(), 2));
     
     drawFace(action, getBottomTexture(), tchunk,
                                          Pnt3f(-0.5, -0.5,  0.5),
@@ -364,7 +380,7 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
                                          Pnt3f(-0.5, -0.5, -0.5),
                                          getBottomTexCoord().size()?
                                          &getBottomTexCoord()[0]:
-                                         defaulttc);
+                                          tfac(getBottomTexture(), 3));
     
     drawFace(action, getTopTexture(),    tchunk,
                                          Pnt3f(-0.5,  0.5, -0.5),
@@ -373,7 +389,7 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
                                          Pnt3f(-0.5,  0.5,  0.5),
                                          getTopTexCoord().size()?
                                          &getTopTexCoord()[0]:
-                                         defaulttc);
+                                          tfac(getTopTexture(), 4));
     
     drawFace(action, getLeftTexture(),   tchunk,
                                          Pnt3f(-0.5, -0.5,  0.5),
@@ -382,7 +398,7 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
                                          Pnt3f(-0.5,  0.5,  0.5),
                                          getLeftTexCoord().size()?
                                          &getLeftTexCoord()[0]:
-                                         defaulttc);
+                                          tfac(getLeftTexture(), 5));
     
     drawFace(action, getRightTexture(),  tchunk,
                                          Pnt3f(0.5, -0.5, -0.5),
@@ -391,7 +407,8 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
                                          Pnt3f(0.5,  0.5, -0.5),
                                          getRightTexCoord().size()?
                                          &getRightTexCoord()[0]:
-                                         defaulttc);
+                                          tfac(getRightTexture(), 6));  
+    #undef tfac
     
     if(tchunk != NULL)
         tchunk->deactivate(action);

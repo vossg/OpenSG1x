@@ -77,12 +77,12 @@
 #include <OSGTextureChunkFields.h> // RightTexture type
 #include <OSGTextureChunkFields.h> // TopTexture type
 #include <OSGBoolFields.h> // BoxInside type
-#include <OSGVec2fFields.h> // TopTexCoord type
-#include <OSGVec2fFields.h> // BottomTexCoord type
-#include <OSGVec2fFields.h> // RightTexCoord type
-#include <OSGVec2fFields.h> // LeftTexCoord type
-#include <OSGVec2fFields.h> // FrontTexCoord type
-#include <OSGVec2fFields.h> // BackTexCoord type
+#include <OSGVec3fFields.h> // TopTexCoord type
+#include <OSGVec3fFields.h> // BottomTexCoord type
+#include <OSGVec3fFields.h> // RightTexCoord type
+#include <OSGVec3fFields.h> // LeftTexCoord type
+#include <OSGVec3fFields.h> // FrontTexCoord type
+#include <OSGVec3fFields.h> // BackTexCoord type
 
 #include <OSGSkyBackgroundFields.h>
 
@@ -183,12 +183,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
            SFTextureChunkPtr   *getSFRightTexture   (void);
            SFTextureChunkPtr   *getSFTopTexture     (void);
            SFBool              *getSFBoxInside      (void);
-           MFVec2f             *getMFTopTexCoord    (void);
-           MFVec2f             *getMFBottomTexCoord (void);
-           MFVec2f             *getMFRightTexCoord  (void);
-           MFVec2f             *getMFLeftTexCoord   (void);
-           MFVec2f             *getMFFrontTexCoord  (void);
-           MFVec2f             *getMFBackTexCoord   (void);
+           MFVec3f             *getMFTopTexCoord    (void);
+           MFVec3f             *getMFBottomTexCoord (void);
+           MFVec3f             *getMFRightTexCoord  (void);
+           MFVec3f             *getMFLeftTexCoord   (void);
+           MFVec3f             *getMFFrontTexCoord  (void);
+           MFVec3f             *getMFBackTexCoord   (void);
 
            UInt32              &getSphereRes      (void);
      const UInt32              &getSphereRes      (void) const;
@@ -218,24 +218,24 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
            Real32              &getGroundAngle    (const UInt32 index);
            MFReal32            &getGroundAngle    (void);
      const MFReal32            &getGroundAngle    (void) const;
-           Vec2f               &getTopTexCoord    (const UInt32 index);
-           MFVec2f             &getTopTexCoord    (void);
-     const MFVec2f             &getTopTexCoord    (void) const;
-           Vec2f               &getBottomTexCoord (const UInt32 index);
-           MFVec2f             &getBottomTexCoord (void);
-     const MFVec2f             &getBottomTexCoord (void) const;
-           Vec2f               &getRightTexCoord  (const UInt32 index);
-           MFVec2f             &getRightTexCoord  (void);
-     const MFVec2f             &getRightTexCoord  (void) const;
-           Vec2f               &getLeftTexCoord   (const UInt32 index);
-           MFVec2f             &getLeftTexCoord   (void);
-     const MFVec2f             &getLeftTexCoord   (void) const;
-           Vec2f               &getFrontTexCoord  (const UInt32 index);
-           MFVec2f             &getFrontTexCoord  (void);
-     const MFVec2f             &getFrontTexCoord  (void) const;
-           Vec2f               &getBackTexCoord   (const UInt32 index);
-           MFVec2f             &getBackTexCoord   (void);
-     const MFVec2f             &getBackTexCoord   (void) const;
+           Vec3f               &getTopTexCoord    (const UInt32 index);
+           MFVec3f             &getTopTexCoord    (void);
+     const MFVec3f             &getTopTexCoord    (void) const;
+           Vec3f               &getBottomTexCoord (const UInt32 index);
+           MFVec3f             &getBottomTexCoord (void);
+     const MFVec3f             &getBottomTexCoord (void) const;
+           Vec3f               &getRightTexCoord  (const UInt32 index);
+           MFVec3f             &getRightTexCoord  (void);
+     const MFVec3f             &getRightTexCoord  (void) const;
+           Vec3f               &getLeftTexCoord   (const UInt32 index);
+           MFVec3f             &getLeftTexCoord   (void);
+     const MFVec3f             &getLeftTexCoord   (void) const;
+           Vec3f               &getFrontTexCoord  (const UInt32 index);
+           MFVec3f             &getFrontTexCoord  (void);
+     const MFVec3f             &getFrontTexCoord  (void) const;
+           Vec3f               &getBackTexCoord   (const UInt32 index);
+           MFVec3f             &getBackTexCoord   (void);
+     const MFVec3f             &getBackTexCoord   (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -307,12 +307,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
     SFTextureChunkPtr   _sfRightTexture;
     SFTextureChunkPtr   _sfTopTexture;
     SFBool              _sfBoxInside;
-    MFVec2f             _mfTopTexCoord;
-    MFVec2f             _mfBottomTexCoord;
-    MFVec2f             _mfRightTexCoord;
-    MFVec2f             _mfLeftTexCoord;
-    MFVec2f             _mfFrontTexCoord;
-    MFVec2f             _mfBackTexCoord;
+    MFVec3f             _mfTopTexCoord;
+    MFVec3f             _mfBottomTexCoord;
+    MFVec3f             _mfRightTexCoord;
+    MFVec3f             _mfLeftTexCoord;
+    MFVec3f             _mfFrontTexCoord;
+    MFVec3f             _mfBackTexCoord;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

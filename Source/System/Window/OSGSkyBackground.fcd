@@ -130,7 +130,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 	</Field>
 	<Field
 		name="topTexCoord"
-		type="Vec2f"
+		type="Vec3f"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -139,7 +139,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 	</Field>
 	<Field
 		name="bottomTexCoord"
-		type="Vec2f"
+		type="Vec3f"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -148,7 +148,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 	</Field>
 	<Field
 		name="rightTexCoord"
-		type="Vec2f"
+		type="Vec3f"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -157,7 +157,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 	</Field>
 	<Field
 		name="leftTexCoord"
-		type="Vec2f"
+		type="Vec3f"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -166,7 +166,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 	</Field>
 	<Field
 		name="frontTexCoord"
-		type="Vec2f"
+		type="Vec3f"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -175,7 +175,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 	</Field>
 	<Field
 		name="backTexCoord"
-		type="Vec2f"
+		type="Vec3f"
 		cardinality="multi"
 		visibility="external"
 		access="public"

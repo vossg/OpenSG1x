@@ -161,22 +161,22 @@ const OSG::BitVector SkyBackgroundBase::MTInfluenceMask =
 /*! \var bool            SkyBackgroundBase::_sfBoxInside
     flag to draw the box inside or outside of the sphere
 */
-/*! \var Vec2f           SkyBackgroundBase::_mfTopTexCoord
+/*! \var Vec3f           SkyBackgroundBase::_mfTopTexCoord
     Texture coordinates for the top face
 */
-/*! \var Vec2f           SkyBackgroundBase::_mfBottomTexCoord
+/*! \var Vec3f           SkyBackgroundBase::_mfBottomTexCoord
     Bottom texture coordinates
 */
-/*! \var Vec2f           SkyBackgroundBase::_mfRightTexCoord
+/*! \var Vec3f           SkyBackgroundBase::_mfRightTexCoord
     right texture coordinates
 */
-/*! \var Vec2f           SkyBackgroundBase::_mfLeftTexCoord
+/*! \var Vec3f           SkyBackgroundBase::_mfLeftTexCoord
     left texture coordinates
 */
-/*! \var Vec2f           SkyBackgroundBase::_mfFrontTexCoord
+/*! \var Vec3f           SkyBackgroundBase::_mfFrontTexCoord
     front texture coordinates
 */
-/*! \var Vec2f           SkyBackgroundBase::_mfBackTexCoord
+/*! \var Vec3f           SkyBackgroundBase::_mfBackTexCoord
     back texture coordinates
 */
 
@@ -244,32 +244,32 @@ FieldDescription *SkyBackgroundBase::_desc[] =
                      BoxInsideFieldId, BoxInsideFieldMask,
                      false,
                      (FieldAccessMethod) &SkyBackgroundBase::getSFBoxInside),
-    new FieldDescription(MFVec2f::getClassType(), 
+    new FieldDescription(MFVec3f::getClassType(), 
                      "topTexCoord", 
                      TopTexCoordFieldId, TopTexCoordFieldMask,
                      false,
                      (FieldAccessMethod) &SkyBackgroundBase::getMFTopTexCoord),
-    new FieldDescription(MFVec2f::getClassType(), 
+    new FieldDescription(MFVec3f::getClassType(), 
                      "bottomTexCoord", 
                      BottomTexCoordFieldId, BottomTexCoordFieldMask,
                      false,
                      (FieldAccessMethod) &SkyBackgroundBase::getMFBottomTexCoord),
-    new FieldDescription(MFVec2f::getClassType(), 
+    new FieldDescription(MFVec3f::getClassType(), 
                      "rightTexCoord", 
                      RightTexCoordFieldId, RightTexCoordFieldMask,
                      false,
                      (FieldAccessMethod) &SkyBackgroundBase::getMFRightTexCoord),
-    new FieldDescription(MFVec2f::getClassType(), 
+    new FieldDescription(MFVec3f::getClassType(), 
                      "leftTexCoord", 
                      LeftTexCoordFieldId, LeftTexCoordFieldMask,
                      false,
                      (FieldAccessMethod) &SkyBackgroundBase::getMFLeftTexCoord),
-    new FieldDescription(MFVec2f::getClassType(), 
+    new FieldDescription(MFVec3f::getClassType(), 
                      "frontTexCoord", 
                      FrontTexCoordFieldId, FrontTexCoordFieldMask,
                      false,
                      (FieldAccessMethod) &SkyBackgroundBase::getMFFrontTexCoord),
-    new FieldDescription(MFVec2f::getClassType(), 
+    new FieldDescription(MFVec3f::getClassType(), 
                      "backTexCoord", 
                      BackTexCoordFieldId, BackTexCoordFieldMask,
                      false,
