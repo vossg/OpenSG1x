@@ -37,7 +37,7 @@
 \*---------------------------------------------------------------------------*/
 
 #ifdef WIN32
-  #include <time.h>
+  #include <mmsystem.h>
 #else
   #include <sys/types.h>
   #include <sys/time.h>
