@@ -91,8 +91,6 @@ class OSG_SYSTEMLIB_DLLMAPPING BackgroundBase : public AttachmentContainer
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 
@@ -176,6 +174,6 @@ typedef BackgroundBase *BackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGBackgroundBase.h,v 1.12 2001/10/15 03:10:25 vossg Exp $"
+#define OSGBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGBackgroundBase.h,v 1.13 2001/10/15 07:05:37 vossg Exp $"
 
 #endif /* _OSGBACKGROUNDBASE_H_ */

@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGPointLightBase.cpp,v 1.15 2001/10/15 03:10:23 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGPointLightBase.cpp,v 1.16 2001/10/15 07:05:36 vossg Exp $";
     static char cvsid_hpp       [] = OSGPOINTLIGHTBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGPOINTLIGHTBASE_INLINE_CVSID;
 
@@ -117,11 +117,6 @@ FieldContainerType PointLightBase::_type(
 //OSG_FIELD_CONTAINER_DEF(PointLightBase, PointLightPtr)
 
 /*------------------------------ get -----------------------------------*/
-
-static const char *getClassname(void)
-{
-    return "PointLight"; 
-}
 
 FieldContainerType &PointLightBase::getType(void) 
 {

@@ -102,8 +102,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 
@@ -231,6 +229,6 @@ typedef DynamicBackgroundBase *DynamicBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDYNAMICBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDynamicBackgroundBase.h,v 1.15 2001/10/15 03:10:25 vossg Exp $"
+#define OSGDYNAMICBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDynamicBackgroundBase.h,v 1.16 2001/10/15 07:05:37 vossg Exp $"
 
 #endif /* _OSGDYNAMICBACKGROUNDBASE_H_ */

@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.34 2001/10/15 03:10:23 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.35 2001/10/15 07:05:36 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -86,6 +86,10 @@ does this simply by accumulating the face normals of all triangles that
 use the vertex and renormalizing.
 
 */
+
+#ifdef __sgi
+#pragma set woff 1209
+#endif
 
 OSG_SYSTEMLIB_DLLMAPPING
 void osg::calcVertexNormals( GeometryPtr geo )
@@ -322,6 +326,9 @@ faster; but not well tested code
 
 }
 
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
 
 /*! \ingroup Geometry
     calcVertexNormals calculates the normals for the geometry's vertices. This
@@ -568,6 +575,11 @@ with (vertex for vertex normals, center of face for face normals) and
 has the length \a length.
 
 */
+
+#ifdef __sgi
+#pragma set woff 1209
+#endif
+
 OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getNormals(GeometryPtr geo,
                                                  Real32      length)
 {
@@ -645,6 +657,9 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getNormals(GeometryPtr geo,
 }
 
 
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
 
 /*! \brief create the geometry index form the given FaceSet (VRML style) data
  *  \ingroup Geometry

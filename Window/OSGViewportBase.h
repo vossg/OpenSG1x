@@ -123,8 +123,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 
@@ -287,6 +285,6 @@ typedef ViewportBase *ViewportBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGViewportBase.h,v 1.16 2001/10/15 03:10:25 vossg Exp $"
+#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGViewportBase.h,v 1.17 2001/10/15 07:05:37 vossg Exp $"
 
 #endif /* _OSGVIEWPORTBASE_H_ */

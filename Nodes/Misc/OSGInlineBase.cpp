@@ -135,11 +135,6 @@ FieldContainerType InlineBase::_type(
 
 /*------------------------------ get -----------------------------------*/
 
-static const char *getClassname(void)
-{
-    return "Inline"; 
-}
-
 FieldContainerType &InlineBase::getType(void) 
 {
     return _type; 

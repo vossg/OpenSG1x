@@ -124,11 +124,19 @@ void CylinderVolume::getBounds( Pnt3f &min, Pnt3f &max ) const
 
 /*-------------------------- extending ------------------------------------*/
 
+#ifdef __sgi
+#pragma set woff 1209
+#endif
+
 /** extends (if necessary) to contain the given 3D point */
 void CylinderVolume::extendBy(const Pnt3f &OSG_CHECK_ARG(pt))
 {
     assert(false);
 }
+
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
 
 /*-------------------------- intersection ---------------------------------*/
 
@@ -178,11 +186,19 @@ Bool CylinderVolume::isOnSurface (const Pnt3f &point) const
 
 /*-------------------------- transformation -------------------------------*/
 
+#ifdef __sgi
+#pragma set woff 1209
+#endif
+
 /** transform volume by the given matrix */
 void CylinderVolume::transform(const Matrix &OSG_CHECK_ARG(mat))
 {
     assert(false);
 }
+
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
 
 /// print the volume */
 void CylinderVolume::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 

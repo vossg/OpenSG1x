@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGImageForegroundBase.cpp,v 1.4 2001/10/15 03:10:25 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGImageForegroundBase.cpp,v 1.5 2001/10/15 07:05:37 vossg Exp $";
     static char cvsid_hpp       [] = OSGIMAGEFOREGROUNDBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGIMAGEFOREGROUNDBASE_INLINE_CVSID;
 
@@ -145,11 +145,6 @@ FieldContainerType ImageForegroundBase::_type(
 //OSG_FIELD_CONTAINER_DEF(ImageForegroundBase, ImageForegroundPtr)
 
 /*------------------------------ get -----------------------------------*/
-
-static const char *getClassname(void)
-{
-    return "ImageForeground"; 
-}
 
 FieldContainerType &ImageForegroundBase::getType(void) 
 {

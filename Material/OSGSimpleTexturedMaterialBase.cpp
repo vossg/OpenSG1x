@@ -91,7 +91,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGSimpleTexturedMaterialBase.cpp,v 1.3 2001/10/15 03:10:22 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGSimpleTexturedMaterialBase.cpp,v 1.4 2001/10/15 07:05:36 vossg Exp $";
     static char cvsid_hpp       [] = OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGSIMPLETEXTUREDMATERIALBASE_INLINE_CVSID;
 
@@ -181,11 +181,6 @@ FieldContainerType SimpleTexturedMaterialBase::_type(
 //OSG_FIELD_CONTAINER_DEF(SimpleTexturedMaterialBase, SimpleTexturedMaterialPtr)
 
 /*------------------------------ get -----------------------------------*/
-
-static const char *getClassname(void)
-{
-    return "SimpleTexturedMaterial"; 
-}
 
 FieldContainerType &SimpleTexturedMaterialBase::getType(void) 
 {

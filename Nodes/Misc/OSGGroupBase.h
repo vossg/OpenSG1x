@@ -91,8 +91,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GroupBase : public NodeCore
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 
@@ -192,6 +190,6 @@ typedef GroupBase *GroupBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGROUPBASE_HEADER_CVSID "@(#)$Id: OSGGroupBase.h,v 1.11 2001/10/15 03:10:23 vossg Exp $"
+#define OSGGROUPBASE_HEADER_CVSID "@(#)$Id: OSGGroupBase.h,v 1.12 2001/10/15 07:05:36 vossg Exp $"
 
 #endif /* _OSGGROUPBASE_H_ */

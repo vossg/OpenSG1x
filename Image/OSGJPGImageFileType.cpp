@@ -73,58 +73,61 @@ struct
 } jpeg_mem;
 
 /* */
-void jpeg_mem_init_source(j_decompress_ptr cinfo)
+void jpeg_mem_init_source(j_decompress_ptr OSG_CHECK_ARG(cinfo))
 {
     jpeg_mem.src.next_input_byte = (JOCTET *) jpeg_mem.buffer;
     jpeg_mem.src.bytes_in_buffer = (size_t) jpeg_mem.dataSize;
 }
 
 /* */
-boolean jpeg_mem_fill_input_buffer(j_decompress_ptr cinfo)
+boolean jpeg_mem_fill_input_buffer(j_decompress_ptr OSG_CHECK_ARG(cinfo))
 {
     SFATAL << "Missing data. Given data block to small." << endl;
     return false;
 }
 
 /* */
-void jpeg_mem_skip_input_data(j_decompress_ptr cinfo, long num_bytes)
+void jpeg_mem_skip_input_data(j_decompress_ptr OSG_CHECK_ARG(cinfo    ),
+                              long             OSG_CHECK_ARG(num_bytes))
 {
 }
 
 /* */
-boolean jpeg_mem_resync_to_restart(j_decompress_ptr cinfo, int desired)
+boolean jpeg_mem_resync_to_restart(j_decompress_ptr OSG_CHECK_ARG(cinfo  ),
+                                   int              OSG_CHECK_ARG(desired))
 {
     return false;
 }
 
 /* */
-void jpeg_mem_term_source(j_decompress_ptr cinfo)
+void jpeg_mem_term_source(j_decompress_ptr OSG_CHECK_ARG(cinfo))
 {
 }
 
 /* */
-void jpeg_mem_init_destination(j_compress_ptr cinfo)
+void jpeg_mem_init_destination(j_compress_ptr OSG_CHECK_ARG(cinfo))
 {
     jpeg_mem.dest.next_output_byte = (JOCTET *) jpeg_mem.buffer;
     jpeg_mem.dest.free_in_buffer = (size_t) jpeg_mem.memSize;
 }
 
 /* */
-boolean jpeg_mem_empty_output_buffer(j_compress_ptr cinfo)
+boolean jpeg_mem_empty_output_buffer(j_compress_ptr OSG_CHECK_ARG(cinfo))
 {
     SFATAL << "Not enough space left in buffer." << endl;
     return false;
 }
 
 /* */
-void jpeg_mem_term_destination(j_compress_ptr cinfo)
+void jpeg_mem_term_destination(j_compress_ptr OSG_CHECK_ARG(cinfo))
 {
     jpeg_mem.dataSize = ((UChar8 *) jpeg_mem.dest.next_output_byte) - ((UChar8 *) jpeg_mem.buffer);
 }
 
 /* */
-void jpeg_memory_dest(struct jpeg_compress_struct *cinfo, UChar8 *buffer,
-                      UInt32 memSize)
+void jpeg_memory_dest(struct jpeg_compress_struct *cinfo, 
+                             UChar8               *buffer,
+                             UInt32                memSize)
 {
     jpeg_mem.buffer=buffer;
     jpeg_mem.memSize=memSize;
@@ -135,8 +138,9 @@ void jpeg_memory_dest(struct jpeg_compress_struct *cinfo, UChar8 *buffer,
 }
 
 /* */
-void jpeg_memory_src(struct jpeg_decompress_struct *cinfo, const UChar8 *buffer,
-                     UInt32 dataSize)
+void jpeg_memory_src(struct jpeg_decompress_struct *cinfo, 
+                     const  UChar8                 *buffer,
+                            UInt32                  dataSize)
 {
     jpeg_mem.buffer = const_cast < UChar8 * > (buffer);
     jpeg_mem.dataSize = dataSize;
@@ -202,7 +206,7 @@ Bool JPGImageFileType::read(      Image &OSG_JPG_ARG(image   ),
     unsigned char                   *destData;
     Image::PixelFormat              pixelFormat;
 
-    int                             imageSize;
+    unsigned long                    imageSize;
     typedef struct local_error_mgr  *local_error_ptr;
     struct local_error_mgr          jerr;
     struct jpeg_decompress_struct   cinfo;
@@ -393,7 +397,7 @@ UInt64 JPGImageFileType::restoreData(      Image  &OSG_JPG_ARG(image  ),
     unsigned char                   *destData;
     Image::PixelFormat              pixelFormat;
 
-    int                             imageSize;
+    unsigned long                    imageSize;
     typedef struct local_error_mgr  *local_error_ptr;
     struct local_error_mgr          jerr;
     struct jpeg_decompress_struct   cinfo;
@@ -475,8 +479,6 @@ UInt64 JPGImageFileType::storeData(const Image  &OSG_JPG_ARG(image  ),
             endl;
         return 0;
     }
-
-    bool    retCode = false;
 
     struct local_error_mgr
     {

@@ -135,11 +135,6 @@ FieldContainerType SwitchBase::_type(
 
 /*------------------------------ get -----------------------------------*/
 
-static const char *getClassname(void)
-{
-    return "Switch"; 
-}
-
 FieldContainerType &SwitchBase::getType(void) 
 {
     return _type; 

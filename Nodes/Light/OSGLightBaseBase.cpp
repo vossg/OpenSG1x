@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.16 2001/10/15 03:10:23 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.17 2001/10/15 07:05:36 vossg Exp $";
     static char cvsid_hpp       [] = OSGLIGHTBASEBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGLIGHTBASEBASE_INLINE_CVSID;
 
@@ -194,11 +194,6 @@ FieldContainerType LightBaseBase::_type(
 //OSG_FIELD_CONTAINER_DEF(LightBaseBase, LightBasePtr)
 
 /*------------------------------ get -----------------------------------*/
-
-static const char *getClassname(void)
-{
-    return "LightBase"; 
-}
 
 FieldContainerType &LightBaseBase::getType(void) 
 {

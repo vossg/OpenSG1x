@@ -62,12 +62,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterial : public SimpleTexturedMat
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
-
-    static const char *getClassname(void);
-
-    /*! \}                                                                 */
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
@@ -75,6 +69,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterial : public SimpleTexturedMat
                          ChangeMode from);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
@@ -137,6 +132,6 @@ OSG_END_NAMESPACE
 #include <OSGSimpleTexturedMaterial.inl>
 #include <OSGSimpleTexturedMaterialBase.inl>
 
-#define OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.h,v 1.2 2001/10/15 03:10:22 vossg Exp $"
+#define OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.h,v 1.3 2001/10/15 07:05:36 vossg Exp $"
 
 #endif /* _OSGTEXTUREDSIMPLEMATERIAL_H_ */

@@ -155,13 +155,20 @@ OSG_USING_NAMESPACE
  */
 SimpleMaterialPtr SimpleSceneManager::_highlightMaterial;
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.9 2001/10/15 03:10:25 vossg Exp $";
-    static char cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
-    static char cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.10 2001/10/15 07:05:37 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */

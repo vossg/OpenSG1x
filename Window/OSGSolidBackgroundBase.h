@@ -99,8 +99,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 
@@ -223,6 +221,6 @@ typedef SolidBackgroundBase *SolidBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSOLIDBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSolidBackgroundBase.h,v 1.15 2001/10/15 03:10:25 vossg Exp $"
+#define OSGSOLIDBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSolidBackgroundBase.h,v 1.16 2001/10/15 07:05:37 vossg Exp $"
 
 #endif /* _OSGSOLIDBACKGROUNDBASE_H_ */

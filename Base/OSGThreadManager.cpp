@@ -242,6 +242,10 @@ UInt32 ThreadManager::registerLockPoolType(MPLockPoolType *pType)
     return _sLockPoolStore.registerMPType(pType);
 }
 
+#ifdef __sgi
+#pragma set woff 1209
+#endif
+
 Bool ThreadManager::init(void)
 {
     Bool returnValue = true;
@@ -302,6 +306,10 @@ Bool ThreadManager::init(void)
 
     return returnValue;
 }
+
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
 
 Bool ThreadManager::shutdown(void)
 {

@@ -115,11 +115,6 @@ FieldContainerType ForegroundBase::_type(
 
 /*------------------------------ get -----------------------------------*/
 
-static const char *getClassname(void)
-{
-    return "Foreground"; 
-}
-
 FieldContainerType &ForegroundBase::getType(void) 
 {
     return _type; 

@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.18 2001/10/15 03:10:25 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.19 2001/10/15 07:05:37 vossg Exp $";
     static char cvsid_hpp       [] = OSGPERSPECTIVECAMERABASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGPERSPECTIVECAMERABASE_INLINE_CVSID;
 
@@ -134,11 +134,6 @@ FieldContainerType PerspectiveCameraBase::_type(
 //OSG_FIELD_CONTAINER_DEF(PerspectiveCameraBase, PerspectiveCameraPtr)
 
 /*------------------------------ get -----------------------------------*/
-
-static const char *getClassname(void)
-{
-    return "PerspectiveCamera"; 
-}
 
 FieldContainerType &PerspectiveCameraBase::getType(void) 
 {

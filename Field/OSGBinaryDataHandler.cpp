@@ -50,12 +50,20 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
 namespace 
 {
-    static char cvsid_cpp[] = "@(#)$Id: $";
-    static char cvsid_hpp[] = OSGBINARYDATAHANDLER_HEADER_CVSID;
-    static char cvsid_inl[] = OSGBINARYDATAHANDLER_INLINE_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGBINARYDATAHANDLER_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGBINARYDATAHANDLER_INLINE_CVSID;
 }
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /***************************************************************************\
  *                               Types                                     *
@@ -417,7 +425,7 @@ void BinaryDataHandler::write(MemoryHandle OSG_CHECK_ARG(mem ),
 
 void BinaryDataHandler::pushBuffer()
 {
-    BuffersT::iterator i,writeEnd;
+    BuffersT::iterator i;
 
     // write buffers
     writeBuffer();

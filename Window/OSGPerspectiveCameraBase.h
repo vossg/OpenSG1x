@@ -99,8 +99,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 
@@ -223,6 +221,6 @@ typedef PerspectiveCameraBase *PerspectiveCameraBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: OSGPerspectiveCameraBase.h,v 1.16 2001/10/15 03:10:25 vossg Exp $"
+#define OSGPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: OSGPerspectiveCameraBase.h,v 1.17 2001/10/15 07:05:37 vossg Exp $"
 
 #endif /* _OSGPERSPECTIVECAMERABASE_H_ */

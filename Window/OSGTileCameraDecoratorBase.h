@@ -114,8 +114,6 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 
@@ -263,6 +261,6 @@ typedef TileCameraDecoratorBase *TileCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTILECAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorBase.h,v 1.12 2001/10/15 03:10:25 vossg Exp $"
+#define OSGTILECAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorBase.h,v 1.13 2001/10/15 07:05:37 vossg Exp $"
 
 #endif /* _OSGTILECAMERADECORATORBASE_H_ */

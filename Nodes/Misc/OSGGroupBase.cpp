@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGGroupBase.cpp,v 1.15 2001/10/15 03:10:23 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGGroupBase.cpp,v 1.16 2001/10/15 07:05:36 vossg Exp $";
     static char cvsid_hpp       [] = OSGGROUPBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGGROUPBASE_INLINE_CVSID;
 
@@ -114,11 +114,6 @@ FieldContainerType GroupBase::_type(
 //OSG_FIELD_CONTAINER_DEF(GroupBase, GroupPtr)
 
 /*------------------------------ get -----------------------------------*/
-
-static const char *getClassname(void)
-{
-    return "Group"; 
-}
 
 FieldContainerType &GroupBase::getType(void) 
 {

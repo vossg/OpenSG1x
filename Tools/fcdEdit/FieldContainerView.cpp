@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'FieldContainerView.ui'
 **
-** Created: Mon Sep 17 17:53:07 2001
+** Created: Mon Oct 15 14:04:21 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!

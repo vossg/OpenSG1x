@@ -105,8 +105,6 @@ char *FCBaseTemplate_h[]={
 "    /*! \\name                    Class Get                                 */",
 "    /*! \\{                                                                 */",
 "",
-"    static const  char               *getClassname(void);",
-"",
 "    static        FieldContainerType &getClassType    (void); ",
 "    static        UInt32              getClassTypeId  (void); ",
 "",
@@ -336,7 +334,7 @@ char *FCBaseTemplate_h[]={
 "",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.18 2001/10/15 03:10:25 vossg Exp $\"",
+"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.19 2001/10/15 07:05:37 vossg Exp $\"",
 "", 
 "#endif /* _OSG@!CLASSNAME!@BASE_H_ */",
 NULL };

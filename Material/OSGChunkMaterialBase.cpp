@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.15 2001/10/15 03:10:22 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.16 2001/10/15 07:05:36 vossg Exp $";
     static char cvsid_hpp       [] = OSGCHUNKMATERIALBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGCHUNKMATERIALBASE_INLINE_CVSID;
 
@@ -117,11 +117,6 @@ FieldContainerType ChunkMaterialBase::_type(
 //OSG_FIELD_CONTAINER_DEF(ChunkMaterialBase, ChunkMaterialPtr)
 
 /*------------------------------ get -----------------------------------*/
-
-static const char *getClassname(void)
-{
-    return "ChunkMaterial"; 
-}
 
 FieldContainerType &ChunkMaterialBase::getType(void) 
 {

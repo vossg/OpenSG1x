@@ -99,8 +99,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SwitchBase : public NodeCore
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 

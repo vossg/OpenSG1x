@@ -75,7 +75,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.15 2001/10/15 04:52:15 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.16 2001/10/15 07:05:35 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -154,7 +154,7 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
   map<string, SimpleMaterialPtr>::iterator mtlI;
   Mesh emptyMesh;
   Face emptyFace;
-  TiePoint  *tie, emptyTie;
+  TiePoint  emptyTie;
   Int32 indexMask, meshIndexMask;
   std::list<Face>::iterator faceI;
   std::list<Mesh>::iterator meshI;

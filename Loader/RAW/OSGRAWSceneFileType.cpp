@@ -73,7 +73,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.10 2001/10/15 03:10:22 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.11 2001/10/15 07:05:35 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGRAWSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -127,6 +127,11 @@ const Char8            *RAWSceneFileType::_suffixA[] = {"raw"};
 //s:
 //
 //------------------------------
+
+#ifdef __sgi
+#pragma set woff 1209
+#endif
+
 NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
 {
     NodePtr root;
@@ -234,6 +239,11 @@ NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
 
     return root;
 }
+
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
+
 
 NodePtr RAWSceneFileType::read(const Char8  *fileName,
                                      UInt32  uiAddOptions,

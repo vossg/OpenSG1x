@@ -120,8 +120,6 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 
@@ -263,6 +261,6 @@ typedef LightBaseBase *LightBaseBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTBASEBASE_HEADER_CVSID "@(#)$Id: OSGLightBaseBase.h,v 1.16 2001/10/15 03:10:23 vossg Exp $"
+#define OSGLIGHTBASEBASE_HEADER_CVSID "@(#)$Id: OSGLightBaseBase.h,v 1.17 2001/10/15 07:05:36 vossg Exp $"
 
 #endif /* _OSGLIGHTBASEBASE_H_ */

@@ -119,6 +119,11 @@ void Line::setValue(const Pnt3f &pos, const Vec3f &dir)
 /** Find closest points between the two lines. Return false if they are
     parallel, otherwise return true.
 */
+
+#ifdef __sgi
+#pragma set woff 1209
+#endif
+
 Bool Line::getClosestPoints(const Line  &OSG_CHECK_ARG(line2    ),
                                   Pnt3f &OSG_CHECK_ARG(ptOnThis ),
                                   Pnt3f &OSG_CHECK_ARG(ptOnLine2)) const
@@ -127,6 +132,10 @@ Bool Line::getClosestPoints(const Line  &OSG_CHECK_ARG(line2    ),
     assert(false);
     return false;
 }
+
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
 
 /** Returns the closest point on the line to the given point.
 */
@@ -420,6 +429,10 @@ Bool Line::intersect(const BoxVolume &box,
 }
 
 
+#ifdef __sgi
+#pragma set woff 1209
+#endif
+
 /**Intersect the line with a box.
 */
 Bool Line::intersect(      Real32     OSG_CHECK_ARG(angle), 
@@ -451,6 +464,10 @@ Bool Line::intersect(      Real32  OSG_CHECK_ARG(angle),
     assert(false);
     return false;
 }
+
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
 
 /** Intersect the line with a triangle.
 */

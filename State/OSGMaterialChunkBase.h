@@ -117,8 +117,6 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 
@@ -271,6 +269,6 @@ typedef MaterialChunkBase *MaterialChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGMaterialChunkBase.h,v 1.16 2001/10/15 03:10:24 vossg Exp $"
+#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGMaterialChunkBase.h,v 1.17 2001/10/15 07:05:37 vossg Exp $"
 
 #endif /* _OSGMATERIALCHUNKBASE_H_ */

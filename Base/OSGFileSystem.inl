@@ -158,6 +158,10 @@ Bool Directory::tstAttr(const Char8  *szFilename,
     return returnValue;
 }
 
+#ifdef __sgi
+#pragma set woff 1209
+#endif
+
 inline
 Char8 *Directory::getCurrent(void)
 {
@@ -184,6 +188,10 @@ Char8 *Directory::getCurrent(void)
 
     return returnValue;
 }
+
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
 
 inline
 Bool Directory::setCurrent(const Char8 *szDirname)

@@ -129,8 +129,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 
@@ -303,6 +301,6 @@ typedef PolygonChunkBase *PolygonChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.15 2001/10/15 03:10:24 vossg Exp $"
+#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.16 2001/10/15 07:05:37 vossg Exp $"
 
 #endif /* _OSGPOLYGONCHUNKBASE_H_ */

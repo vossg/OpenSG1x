@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.15 2001/10/15 03:10:24 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.16 2001/10/15 07:05:37 vossg Exp $";
     static char cvsid_hpp       [] = OSGTRANSFORMCHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGTRANSFORMCHUNKBASE_INLINE_CVSID;
 
@@ -117,11 +117,6 @@ FieldContainerType TransformChunkBase::_type(
 //OSG_FIELD_CONTAINER_DEF(TransformChunkBase, TransformChunkPtr)
 
 /*------------------------------ get -----------------------------------*/
-
-static const char *getClassname(void)
-{
-    return "TransformChunk"; 
-}
 
 FieldContainerType &TransformChunkBase::getType(void) 
 {

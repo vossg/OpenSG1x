@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.20 2001/10/15 03:10:25 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.21 2001/10/15 07:05:37 vossg Exp $";
     static char cvsid_hpp       [] = OSGWINDOWBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGWINDOWBASE_INLINE_CVSID;
 
@@ -178,11 +178,6 @@ FieldContainerType WindowBase::_type(
 //OSG_FIELD_CONTAINER_DEF(WindowBase, WindowPtr)
 
 /*------------------------------ get -----------------------------------*/
-
-static const char *getClassname(void)
-{
-    return "Window"; 
-}
 
 FieldContainerType &WindowBase::getType(void) 
 {

@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.14 2001/10/15 03:10:25 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.15 2001/10/15 07:05:37 vossg Exp $";
     static char cvsid_hpp       [] = OSGCAMERADECORATORBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGCAMERADECORATORBASE_INLINE_CVSID;
 
@@ -134,11 +134,6 @@ FieldContainerType CameraDecoratorBase::_type(
 //OSG_FIELD_CONTAINER_DEF(CameraDecoratorBase, CameraDecoratorPtr)
 
 /*------------------------------ get -----------------------------------*/
-
-static const char *getClassname(void)
-{
-    return "CameraDecorator"; 
-}
 
 FieldContainerType &CameraDecoratorBase::getType(void) 
 {

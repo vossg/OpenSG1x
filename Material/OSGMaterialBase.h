@@ -91,8 +91,6 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public FieldContainer
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 
@@ -176,6 +174,6 @@ typedef MaterialBase *MaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMaterialBase.h,v 1.11 2001/10/15 03:10:22 vossg Exp $"
+#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMaterialBase.h,v 1.12 2001/10/15 07:05:36 vossg Exp $"
 
 #endif /* _OSGMATERIALBASE_H_ */

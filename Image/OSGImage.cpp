@@ -879,7 +879,8 @@ UInt64 Image::restore(const UChar8 *mem, Int32 memSize)
 //------------------------------
 Bool Image::createData(const UChar8 *data, Bool doCopy)
 {
-    Int32   i, byteCount = 0, mapSize = sizeof(_formatMap) / sizeof(UInt32[2]);
+    Int32   i, mapSize = sizeof(_formatMap) / sizeof(UInt32[2]);
+    UInt32 byteCount = 0;
 
     // set bbp
     for(i = 0; i < mapSize; i++)

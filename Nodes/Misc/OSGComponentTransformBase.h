@@ -111,8 +111,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransformBase : public Transform
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 
@@ -255,6 +253,6 @@ typedef ComponentTransformBase *ComponentTransformBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGComponentTransformBase.h,v 1.2 2001/10/15 03:10:23 vossg Exp $"
+#define OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGComponentTransformBase.h,v 1.3 2001/10/15 07:05:36 vossg Exp $"
 
 #endif /* _OSGCOMPONENTTRANSFORMBASE_H_ */

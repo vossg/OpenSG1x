@@ -102,8 +102,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageForegroundBase : public Foreground
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 
@@ -231,6 +229,6 @@ typedef ImageForegroundBase *ImageForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageForegroundBase.h,v 1.3 2001/10/15 03:10:25 vossg Exp $"
+#define OSGIMAGEFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageForegroundBase.h,v 1.4 2001/10/15 07:05:37 vossg Exp $"
 
 #endif /* _OSGIMAGEFOREGROUNDBASE_H_ */

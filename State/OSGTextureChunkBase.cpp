@@ -82,7 +82,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.18 2001/10/15 03:10:24 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.19 2001/10/15 07:05:37 vossg Exp $";
     static char cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 
@@ -326,11 +326,6 @@ FieldContainerType TextureChunkBase::_type(
 //OSG_FIELD_CONTAINER_DEF(TextureChunkBase, TextureChunkPtr)
 
 /*------------------------------ get -----------------------------------*/
-
-static const char *getClassname(void)
-{
-    return "TextureChunk"; 
-}
 
 FieldContainerType &TextureChunkBase::getType(void) 
 {

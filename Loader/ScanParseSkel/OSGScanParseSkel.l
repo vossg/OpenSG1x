@@ -56,20 +56,21 @@ int OSGScanParseSkel_wrap(void);
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174,1552,1110
-#endif
-
 int expectToken         = 0;
 int parsing_mf          = 0;
 int sfImageIntsExpected = 0;
 int sfImageIntsParsed   = 0;                          
 
-static char *tmpChar = yy_full_match;
-
 extern void OSGScanParseSkel_error (char *s);
 
 extern ScanParseSkel *_pSkel;
+
+#ifdef __sgi
+#pragma set woff 1174,1552,1110,1209
+#endif
+
+static char *tmpChar = yy_full_match;
+
 %}
 
 %x NODE

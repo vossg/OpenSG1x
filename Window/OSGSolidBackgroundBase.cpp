@@ -86,7 +86,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.18 2001/10/15 03:10:25 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.19 2001/10/15 07:05:37 vossg Exp $";
     static char cvsid_hpp       [] = OSGSOLIDBACKGROUNDBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGSOLIDBACKGROUNDBASE_INLINE_CVSID;
 
@@ -132,11 +132,6 @@ FieldContainerType SolidBackgroundBase::_type(
 //OSG_FIELD_CONTAINER_DEF(SolidBackgroundBase, SolidBackgroundPtr)
 
 /*------------------------------ get -----------------------------------*/
-
-static const char *getClassname(void)
-{
-    return "SolidBackground"; 
-}
 
 FieldContainerType &SolidBackgroundBase::getType(void) 
 {

@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.9 2001/10/15 03:10:23 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.10 2001/10/15 07:05:36 vossg Exp $";
     static char cvsid_hpp       [] = OSGDISTANCELODBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGDISTANCELODBASE_INLINE_CVSID;
 
@@ -128,11 +128,6 @@ FieldContainerType DistanceLODBase::_type(
 //OSG_FIELD_CONTAINER_DEF(DistanceLODBase, DistanceLODPtr)
 
 /*------------------------------ get -----------------------------------*/
-
-static const char *getClassname(void)
-{
-    return "DistanceLOD"; 
-}
 
 FieldContainerType &DistanceLODBase::getType(void) 
 {

@@ -99,8 +99,6 @@ class OSG_SYSTEMLIB_DLLMAPPING StateBase : public FieldContainer
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 
@@ -223,6 +221,6 @@ typedef StateBase *StateBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: OSGStateBase.h,v 1.14 2001/10/15 03:10:24 vossg Exp $"
+#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: OSGStateBase.h,v 1.15 2001/10/15 07:05:37 vossg Exp $"
 
 #endif /* _OSGSTATEBASE_H_ */

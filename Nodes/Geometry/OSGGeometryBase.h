@@ -129,8 +129,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 

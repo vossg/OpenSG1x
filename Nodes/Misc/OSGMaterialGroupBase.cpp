@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.17 2001/10/15 03:10:23 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.18 2001/10/15 07:05:36 vossg Exp $";
     static char cvsid_hpp       [] = OSGMATERIALGROUPBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGMATERIALGROUPBASE_INLINE_CVSID;
 
@@ -134,11 +134,6 @@ FieldContainerType MaterialGroupBase::_type(
 //OSG_FIELD_CONTAINER_DEF(MaterialGroupBase, MaterialGroupPtr)
 
 /*------------------------------ get -----------------------------------*/
-
-static const char *getClassname(void)
-{
-    return "MaterialGroup"; 
-}
 
 FieldContainerType &MaterialGroupBase::getType(void) 
 {

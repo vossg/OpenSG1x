@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.15 2001/10/15 03:10:23 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.16 2001/10/15 07:05:36 vossg Exp $";
     static char cvsid_hpp       [] = OSGSPOTLIGHTBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGSPOTLIGHTBASE_INLINE_CVSID;
 
@@ -139,11 +139,6 @@ FieldContainerType SpotLightBase::_type(
 //OSG_FIELD_CONTAINER_DEF(SpotLightBase, SpotLightPtr)
 
 /*------------------------------ get -----------------------------------*/
-
-static const char *getClassname(void)
-{
-    return "SpotLight"; 
-}
 
 FieldContainerType &SpotLightBase::getType(void) 
 {

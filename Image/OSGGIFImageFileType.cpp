@@ -1520,6 +1520,10 @@ static int binaryLog(int val)
     return 8;
 }
 
+#ifdef __sgi
+#pragma set woff 1209
+#endif
+
 /* */
 int GIFWriteFP(FILE *fp, GIFStream *stream, int optimize)
 {
@@ -1667,6 +1671,10 @@ int GIFWriteFP(FILE *fp, GIFStream *stream, int optimize)
     return GIF_FALSE;
 }
 
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
+
 /* */
 int GIFWrite(char *file, GIFStream *stream, int optimize)
 {
@@ -1716,6 +1724,10 @@ static void putDataBlocks(FILE *fp, int size, unsigned char *data)
     PUTBYTE(0, fp); /* End Block */
 }
 
+#ifdef __sgi
+#pragma set woff 1209
+#endif
+
 /* */
 static void putGif89Info(FILE *fp, GIF89info *info)
 {
@@ -1740,6 +1752,10 @@ static void putGif89Info(FILE *fp, GIF89info *info)
     */
     PUTBYTE(0, fp);
 }
+
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
 
 /***************************************************************************
  *
@@ -1835,6 +1851,10 @@ static int      ClearCode;
 static int      EOFCode;
 
 /* */
+
+#ifdef __sgi
+#pragma set woff 1209
+#endif
 
 static void putImage(FILE *fp, int interlaced, int bpp, int width, int height,
                      unsigned char *data)
@@ -2009,6 +2029,10 @@ done:
     */
     PUTBYTE(0x00, fp);
 }
+
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
 
 /*****************************************************************
  * TAG( output )

@@ -105,8 +105,6 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 
@@ -239,6 +237,6 @@ typedef BlendChunkBase *BlendChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGBLENDCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGBlendChunkBase.h,v 1.16 2001/10/15 03:10:24 vossg Exp $"
+#define OSGBLENDCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGBlendChunkBase.h,v 1.17 2001/10/15 07:05:37 vossg Exp $"
 
 #endif /* _OSGBLENDCHUNKBASE_H_ */

@@ -91,8 +91,6 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public FieldContainer
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 
@@ -176,6 +174,6 @@ typedef StateChunkBase *StateChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStateChunkBase.h,v 1.11 2001/10/15 03:10:24 vossg Exp $"
+#define OSGSTATECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStateChunkBase.h,v 1.12 2001/10/15 07:05:37 vossg Exp $"
 
 #endif /* _OSGSTATECHUNKBASE_H_ */

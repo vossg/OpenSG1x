@@ -126,8 +126,6 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 
@@ -295,6 +293,6 @@ typedef LightChunkBase *LightChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLightChunkBase.h,v 1.15 2001/10/15 03:10:24 vossg Exp $"
+#define OSGLIGHTCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLightChunkBase.h,v 1.16 2001/10/15 07:05:37 vossg Exp $"
 
 #endif /* _OSGLIGHTCHUNKBASE_H_ */

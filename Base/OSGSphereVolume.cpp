@@ -146,6 +146,10 @@ Bool SphereVolume::isOnSurface (const Pnt3f &point) const
 
 /*-------------------------- transformation -------------------------------*/
 
+#ifdef __sgi
+#pragma set woff 1209
+#endif
+
  /// Transforms Box3f by matrix
 void SphereVolume::transform (const Matrix &OSG_CHECK_ARG(mat))
 {
@@ -153,6 +157,9 @@ void SphereVolume::transform (const Matrix &OSG_CHECK_ARG(mat))
     assert(false);
 }
 
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
 
 /// print the volume */
 void SphereVolume::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 

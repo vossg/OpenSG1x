@@ -16,10 +16,6 @@ extern "C"
 
 #define y_min(a, b)               ((a)<(b)?(a):(b))
 
-#ifdef __sgi
-#pragma set woff 1110,1174
-#endif
-
 /* includes */ 
 #include <unistd.h>
 #include <math.h>
@@ -41,12 +37,15 @@ int v2a_wrap()
     return(1);
 }
 
-extern int v2aLineNumber;
-extern char v2a_text[];
+extern int   v2aLineNumber;
 
 #include "v2a.tab.h"
 }  
 
+
+#ifdef __sgi
+#pragma set woff 1110,1174,1209
+#endif
 
 static char *tmpChar = yy_full_match;
 

@@ -105,8 +105,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const  char               *getClassname(void);
-
     static        FieldContainerType &getClassType    (void); 
     static        UInt32              getClassTypeId  (void); 
 
@@ -239,6 +237,6 @@ typedef SpotLightBase *SpotLightBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSPOTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGSpotLightBase.h,v 1.16 2001/10/15 03:10:23 vossg Exp $"
+#define OSGSPOTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGSpotLightBase.h,v 1.17 2001/10/15 07:05:36 vossg Exp $"
 
 #endif /* _OSGSPOTLIGHTBASE_H_ */
