@@ -40,6 +40,7 @@
 //-------------------------------
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "OSGConfig.h"
 
@@ -477,6 +478,306 @@ bool PNGImageFileType::write(const ImagePtr &img,
         " write is not compiled into the current binary " <<
         endLog;
     return false;
+#endif
+}
+
+#ifdef OSG_WITH_PNG
+typedef struct
+{
+    UChar8 *buffer;
+    UInt64 length;
+} BufferInfo;
+
+static void user_read_data(png_structp png_ptr,
+                           png_bytep data, png_size_t length)
+{
+    BufferInfo *bufferInfo = (BufferInfo *) png_get_io_ptr(png_ptr);
+    memcpy((void *) data, (void *) bufferInfo->buffer, length);
+    bufferInfo->buffer += length;
+    bufferInfo->length += length;
+}
+#endif
+
+
+/* */
+UInt64 PNGImageFileType::restoreData(      ImagePtr &OSG_PNG_ARG(image  ), 
+                                     const UChar8   *OSG_PNG_ARG(buffer ),
+                                           Int32     OSG_CHECK_ARG(memSize))
+{
+#ifdef OSG_WITH_PNG
+
+    UInt64              retCode;
+    Image::PixelFormat  pixelFormat;
+    png_structp         png_ptr;
+    png_infop           info_ptr;
+    png_uint_32         width, wc, height, h, i;
+    png_byte            bit_depth, channels, color_type;
+    png_bytep           *row_pointers, base;
+
+    png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
+    if(!png_ptr)
+    {
+        return 0;
+    }
+
+    png_set_error_fn(png_ptr, 0, &errorOutput, &warningOutput);
+
+    info_ptr = png_create_info_struct(png_ptr);
+    if(!info_ptr)
+    {
+        png_destroy_read_struct(&png_ptr, 0, 0);
+        return 0;
+    }
+
+    if(setjmp(png_ptr->jmpbuf))
+    {
+        png_destroy_read_struct(&png_ptr, &info_ptr, 0);
+        return 0;
+    }
+
+    BufferInfo bufferInfo;
+    bufferInfo.buffer = (UChar8 *) buffer;
+    bufferInfo.length = 0;
+    png_set_read_fn(png_ptr, (void *) &bufferInfo, user_read_data);
+
+    png_read_info(png_ptr, info_ptr);
+
+    width = png_get_image_width(png_ptr, info_ptr);
+    height = png_get_image_height(png_ptr, info_ptr);
+    bit_depth = png_get_bit_depth(png_ptr, info_ptr);
+    channels = png_get_channels(png_ptr, info_ptr);
+    color_type = png_get_color_type(png_ptr, info_ptr);
+
+    // Convert paletted images to RGB
+    if (color_type == PNG_COLOR_TYPE_PALETTE)
+    {
+        png_set_palette_to_rgb(png_ptr);
+        channels = 3;
+    }
+
+    // Convert < 8 bit to 8 bit
+    if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8)
+        png_set_gray_1_2_4_to_8(png_ptr);
+    
+    // Add a full alpha channel if there is transparency
+    // information in a tRNS chunk
+    if (png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS))
+    {
+        png_set_tRNS_to_alpha(png_ptr);
+        ++channels;
+    }                                                                                
+    // Convert 16 bit to 8 bit
+    if (bit_depth == 16)
+        png_set_strip_16(png_ptr);
+
+    switch(channels)
+    {
+    case 1:
+        pixelFormat = Image::OSG_L_PF;
+        break;
+    case 2:
+        pixelFormat = Image::OSG_LA_PF;
+        break;
+    case 3:
+        pixelFormat = Image::OSG_RGB_PF;
+        break;
+    case 4:
+        pixelFormat = Image::OSG_RGBA_PF;
+        break;
+    };
+
+    if(image->set(pixelFormat, width, height))
+    {
+        // Calculate the row pointers
+        row_pointers = new png_bytep[height];
+        wc = width * channels;
+        h = height - 1;
+        base = image->getData();
+        for(i = 0; i < height; ++i)
+            row_pointers[i] = base + (h - i) * wc;
+
+        // Read the image data
+        png_read_image(png_ptr, row_pointers);
+
+        delete[] row_pointers;
+
+        retCode = bufferInfo.length;
+    }
+    else
+        retCode = 0;
+
+    png_destroy_read_struct(&png_ptr, &info_ptr, 0);
+
+    return retCode;
+
+#else
+    SWARNING <<
+        getMimeType() <<
+        " restoreData is not compiled into the current binary " <<
+        std::endl;
+    return 0;
+#endif
+}
+
+#ifdef OSG_WITH_PNG
+
+static void user_write_data(png_structp png_ptr,
+                            png_bytep data, png_size_t length)
+{
+    BufferInfo *bufferInfo = (BufferInfo *) png_get_io_ptr(png_ptr);
+    memcpy((void *) bufferInfo->buffer, (void *) data, length);
+    bufferInfo->buffer += length;
+    bufferInfo->length += length;
+}
+
+static void user_flush_data(png_structp OSG_CHECK_ARG(png_ptr))
+{
+}
+
+#endif
+
+//-------------------------------------------------------------------------
+/*!
+Tries to restore the image data from the given memblock.
+Returns the amount of data read.
+*/
+UInt64 PNGImageFileType::storeData(const ImagePtr &OSG_PNG_ARG(image  ), 
+                                   UChar8         *OSG_PNG_ARG(buffer ),
+                                   Int32           OSG_CHECK_ARG(memSize))
+{
+#ifdef OSG_WITH_PNG
+
+    png_structp png_ptr;
+    png_infop info_ptr;
+
+    if(image->getDimension() < 1 || image->getDimension() > 2)
+    {
+        FWARNING(("PNGImageFileType::write: invalid dimension %d!\n",
+            image->getDimension()));
+        return 0;
+    }
+
+    /* Create and initialize the png_struct with the desired error handler
+    * functions.  If you want to use the default stderr and longjump method,
+    * you can supply NULL for the last three parameters.  We also check that
+    * the library version is compatible with the one used at compile time,
+    * in case we are using dynamically linked libraries.  REQUIRED.
+    */
+    png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
+                                0, &errorOutput, &warningOutput);
+
+    if (png_ptr == NULL)
+    {
+        return 0;
+    }
+
+    /* Allocate/initialize the image information data.  REQUIRED */
+    info_ptr = png_create_info_struct(png_ptr);
+    if (info_ptr == NULL)
+    {
+        png_destroy_write_struct(&png_ptr,  NULL);
+        return 0;
+    }
+
+    BufferInfo bufferInfo;
+    bufferInfo.buffer = buffer;
+    bufferInfo.length = 0;
+    png_set_write_fn(png_ptr, (void *) &bufferInfo, user_write_data, user_flush_data);
+
+    /* This is the hard way */
+
+    /* Set the image information here.  Width and height are up to 2^31,
+    * bit_depth is one of 1, 2, 4, 8, or 16, but valid values also depend on
+    * the color_type selected. color_type is one of PNG_COLOR_TYPE_GRAY,
+    * PNG_COLOR_TYPE_GRAY_ALPHA, PNG_COLOR_TYPE_PALETTE, PNG_COLOR_TYPE_RGB,
+    * or PNG_COLOR_TYPE_RGB_ALPHA.  interlace is either PNG_INTERLACE_NONE or
+    * PNG_INTERLACE_ADAM7, and the compression_type and filter_type MUST
+    * currently be PNG_COMPRESSION_TYPE_BASE and PNG_FILTER_TYPE_BASE. REQUIRED
+    */
+    Int32 ctype;
+    switch(image->getPixelFormat())
+    {
+    case Image::OSG_L_PF:       ctype = PNG_COLOR_TYPE_GRAY;        
+                                break;
+                                
+    case Image::OSG_LA_PF:      ctype = PNG_COLOR_TYPE_GRAY_ALPHA;          
+                                break;
+                                
+#if defined(GL_BGR) || defined(GL_BGR_EXT)
+    case Image::OSG_BGR_PF:
+#endif
+    case Image::OSG_RGB_PF:     ctype = PNG_COLOR_TYPE_RGB;                 
+                                break;
+                                
+#if defined(GL_BGRA) || defined(GL_BGRA_EXT)
+    case Image::OSG_BGRA_PF:
+#endif
+    case Image::OSG_RGBA_PF:    ctype = PNG_COLOR_TYPE_RGB_ALPHA;           
+                                break;
+
+    default:
+        FWARNING(("PNGImageFileType::write: unknown pixel format %d!\n",
+            image->getPixelFormat()));
+        png_destroy_write_struct(&png_ptr,  NULL);
+        return false;
+        
+    }
+    
+    png_set_IHDR(png_ptr, info_ptr, image->getWidth(), image->getHeight(),
+        8, ctype,      
+        PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
+
+    /* other optional chunks like cHRM, bKGD, tRNS, tIME, oFFs, pHYs, */
+    /* note that if sRGB is present the gAMA and cHRM chunks must be ignored
+    * on read and must be written in accordance with the sRGB profile */
+
+    /* Write the file header information.  REQUIRED */
+    png_write_info(png_ptr, info_ptr);
+
+    if(image->getPixelFormat() == Image::OSG_BGR_PF ||
+       image->getPixelFormat() == Image::OSG_BGRA_PF
+      )
+    {
+        /* flip BGR pixels to RGB */
+        png_set_bgr(png_ptr);
+
+        /* swap location of alpha bytes from ARGB to RGBA */
+        png_set_swap_alpha(png_ptr);
+    }
+    
+    /* The easiest way to write the image (you may have a different memory
+    * layout, however, so choose what fits your needs best).  You need to
+    * use the first method if you aren't handling interlacing yourself.
+    */
+    png_bytep *row_pointers = new png_bytep [image->getHeight()];
+    
+    for(Int32 k = 0; k < image->getHeight(); k++)
+    {
+        row_pointers[k] = image->getData() + 
+                          (image->getHeight() - 1 - k) * 
+                            image->getWidth() * image->getBpp();
+    }
+    
+    /* write out the entire image data in one call */
+    png_write_image(png_ptr, row_pointers);
+
+    /* It is REQUIRED to call this to finish writing the rest of the file */
+    png_write_end(png_ptr, info_ptr);
+    
+    /* clean up after the write, and free any memory allocated */
+    png_destroy_write_struct(&png_ptr, &info_ptr);
+
+    delete [] row_pointers;
+
+    /* that's it */
+    return bufferInfo.length;
+
+#else
+    SWARNING <<
+        getMimeType() <<
+        " storeData is not compiled into the current binary " <<
+        std::endl;
+    return 0;
 #endif
 }
 

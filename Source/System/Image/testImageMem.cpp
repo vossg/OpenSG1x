@@ -42,7 +42,7 @@ bool readMemDump (OSG::ImagePtr &image, const char *fileName)
 bool writeMemDump (OSG::ImagePtr &image, const char *fileName)
 {
   bool retCode = false;
-  std::ofstream outs(fileName, std::ios::in | std::ios::binary );
+  std::ofstream outs(fileName, std::ios::out | std::ios::binary );
   unsigned long maxSize, dataSize;
   OSG::ImageFileType *fType;
   OSG::UChar8 * data;
