@@ -60,6 +60,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackground :
     /*==========================  PUBLIC  =================================*/
  public:
 
+    static const osg::BitVector LineFieldMask;
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -73,7 +75,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackground :
     
     void clear( DrawActionBase *, Viewport *);
 
-    void addColor(Color3f color, Real32 position);
+    void addLine(Color3f color, Real32 position);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

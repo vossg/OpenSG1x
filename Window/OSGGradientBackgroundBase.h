@@ -116,27 +116,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                    Field Get                                 */
-    /*! \{                                                                 */
-
-           MFColor3f           *getMFColor          (void);
-           MFReal32            *getMFPosition       (void);
-
-           Color3f             &getColor          (const UInt32 index);
-           MFColor3f           &getColor          (void);
-     const MFColor3f           &getColor          (void) const;
-           Real32              &getPosition       (const UInt32 index);
-           MFReal32            &getPosition       (void);
-     const MFReal32            &getPosition       (void) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Field Set                                 */
-    /*! \{                                                                 */
-
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
@@ -199,6 +178,27 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+           MFColor3f           *getMFColor          (void);
+           MFReal32            *getMFPosition       (void);
+
+           Color3f             &getColor          (UInt32 index);
+           MFColor3f           &getColor          (void);
+     const MFColor3f           &getColor          (void) const;
+           Real32              &getPosition       (UInt32 index);
+           MFReal32            &getPosition       (void);
+     const MFReal32            &getPosition       (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
@@ -228,6 +228,6 @@ typedef GradientBackgroundBase *GradientBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGradientBackgroundBase.h,v 1.20 2002/06/18 08:17:56 vossg Exp $"
+#define OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGradientBackgroundBase.h,v 1.21 2002/07/08 05:58:01 dirk Exp $"
 
 #endif /* _OSGGRADIENTBACKGROUNDBASE_H_ */

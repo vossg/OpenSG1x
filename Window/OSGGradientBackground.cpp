@@ -79,7 +79,11 @@ A background showing a vertical color gradient. The colors and positions corresp
  *                           Class variables                               *
 \***************************************************************************/
 
-char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.20 2002/07/02 15:13:51 dirk Exp $";
+char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.21 2002/07/08 05:58:01 dirk Exp $";
+
+const OSG::BitVector  GradientBackground::LineFieldMask = 
+    (GradientBackground::PositionFieldMask | 
+     GradientBackground::ColorFieldMask    );
 
 /***************************************************************************\
  *                           Class methods                                 *
