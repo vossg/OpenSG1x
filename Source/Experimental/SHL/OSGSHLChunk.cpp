@@ -527,6 +527,9 @@ void SHLChunk::updateParameters(Window *win, bool all)
     if(program == 0)
         return;
 
+    if(getParameters().empty())
+        return;
+
     _reset = 0;
 
     //GLuint program = (*it).second;
@@ -722,6 +725,10 @@ void SHLChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
         return;
     }
 
+    // SHLChunk didn't change so do nothing.
+    if(old == this)
+        return;
+
     action->getWindow()->validateGLObject(getGLId());
 
     // get "glUseProgramObjectARB" function pointer
@@ -799,7 +806,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.17 2004/07/05 11:38:11 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.18 2004/08/26 18:27:04 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

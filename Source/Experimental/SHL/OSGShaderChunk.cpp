@@ -105,8 +105,10 @@ ShaderChunk::~ShaderChunk(void)
 {
 }
 
-void ShaderChunk::onCreate(const ShaderChunk */*source*/)
+void ShaderChunk::onCreate(const ShaderChunk *source)
 {
+    Inherited::onCreate(source);
+
     // ignore prototypes.
     if(GlobalSystemState == Startup)
         return;
@@ -116,6 +118,8 @@ void ShaderChunk::onCreate(const ShaderChunk */*source*/)
 
 void ShaderChunk::onDestroy(void)
 {
+    Inherited::onDestroy();
+
     if(_parameter_access != NULL)
         delete _parameter_access;
 }
@@ -313,7 +317,7 @@ bool ShaderChunk::subUniformParameter(const char *name)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderChunk.cpp,v 1.2 2004/07/02 17:59:45 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderChunk.cpp,v 1.3 2004/08/26 18:27:15 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERCHUNKBASE_INLINE_CVSID;
 
