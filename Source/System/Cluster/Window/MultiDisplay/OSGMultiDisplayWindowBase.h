@@ -68,6 +68,8 @@
 #include <OSGUInt32Fields.h> // HServers type
 #include <OSGUInt32Fields.h> // VServers type
 #include <OSGBoolFields.h> // ManageClientViewports type
+#include <OSGInt32Fields.h> // XOverlap type
+#include <OSGInt32Fields.h> // YOverlap type
 
 #include <OSGMultiDisplayWindowFields.h>
 
@@ -92,12 +94,16 @@ class OSG_SYSTEMLIB_DLLMAPPING MultiDisplayWindowBase : public ClusterWindow
         HServersFieldId              = Inherited::NextFieldId,
         VServersFieldId              = HServersFieldId              + 1,
         ManageClientViewportsFieldId = VServersFieldId              + 1,
-        NextFieldId                  = ManageClientViewportsFieldId + 1
+        XOverlapFieldId              = ManageClientViewportsFieldId + 1,
+        YOverlapFieldId              = XOverlapFieldId              + 1,
+        NextFieldId                  = YOverlapFieldId              + 1
     };
 
     static const OSG::BitVector HServersFieldMask;
     static const OSG::BitVector VServersFieldMask;
     static const OSG::BitVector ManageClientViewportsFieldMask;
+    static const OSG::BitVector XOverlapFieldMask;
+    static const OSG::BitVector YOverlapFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -127,6 +133,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MultiDisplayWindowBase : public ClusterWindow
            SFUInt32            *getSFHServers       (void);
            SFUInt32            *getSFVServers       (void);
            SFBool              *getSFManageClientViewports(void);
+           SFInt32             *getSFXOverlap       (void);
+           SFInt32             *getSFYOverlap       (void);
 
            UInt32              &getHServers       (void);
      const UInt32              &getHServers       (void) const;
@@ -134,6 +142,10 @@ class OSG_SYSTEMLIB_DLLMAPPING MultiDisplayWindowBase : public ClusterWindow
      const UInt32              &getVServers       (void) const;
            bool                &getManageClientViewports(void);
      const bool                &getManageClientViewports(void) const;
+           Int32               &getXOverlap       (void);
+     const Int32               &getXOverlap       (void) const;
+           Int32               &getYOverlap       (void);
+     const Int32               &getYOverlap       (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -143,6 +155,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MultiDisplayWindowBase : public ClusterWindow
      void setHServers       ( const UInt32 &value );
      void setVServers       ( const UInt32 &value );
      void setManageClientViewports( const bool &value );
+     void setXOverlap       ( const Int32 &value );
+     void setYOverlap       ( const Int32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -191,6 +205,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MultiDisplayWindowBase : public ClusterWindow
     SFUInt32            _sfHServers;
     SFUInt32            _sfVServers;
     SFBool              _sfManageClientViewports;
+    SFInt32             _sfXOverlap;
+    SFInt32             _sfYOverlap;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

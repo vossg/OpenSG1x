@@ -73,6 +73,12 @@ const OSG::BitVector  MultiDisplayWindowBase::VServersFieldMask =
 const OSG::BitVector  MultiDisplayWindowBase::ManageClientViewportsFieldMask = 
     (TypeTraits<BitVector>::One << MultiDisplayWindowBase::ManageClientViewportsFieldId);
 
+const OSG::BitVector  MultiDisplayWindowBase::XOverlapFieldMask = 
+    (TypeTraits<BitVector>::One << MultiDisplayWindowBase::XOverlapFieldId);
+
+const OSG::BitVector  MultiDisplayWindowBase::YOverlapFieldMask = 
+    (TypeTraits<BitVector>::One << MultiDisplayWindowBase::YOverlapFieldId);
+
 const OSG::BitVector MultiDisplayWindowBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -88,6 +94,12 @@ const OSG::BitVector MultiDisplayWindowBase::MTInfluenceMask =
 */
 /*! \var bool            MultiDisplayWindowBase::_sfManageClientViewports
     If true, duplicate all viewports into the client window
+*/
+/*! \var Int32           MultiDisplayWindowBase::_sfXOverlap
+    Horizontal overlap
+*/
+/*! \var Int32           MultiDisplayWindowBase::_sfYOverlap
+    Vertical overlap
 */
 
 //! MultiDisplayWindow description
@@ -108,7 +120,17 @@ FieldDescription *MultiDisplayWindowBase::_desc[] =
                      "manageClientViewports", 
                      ManageClientViewportsFieldId, ManageClientViewportsFieldMask,
                      false,
-                     (FieldAccessMethod) &MultiDisplayWindowBase::getSFManageClientViewports)
+                     (FieldAccessMethod) &MultiDisplayWindowBase::getSFManageClientViewports),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "xOverlap", 
+                     XOverlapFieldId, XOverlapFieldMask,
+                     false,
+                     (FieldAccessMethod) &MultiDisplayWindowBase::getSFXOverlap),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "yOverlap", 
+                     YOverlapFieldId, YOverlapFieldMask,
+                     false,
+                     (FieldAccessMethod) &MultiDisplayWindowBase::getSFYOverlap)
 };
 
 
@@ -167,6 +189,8 @@ MultiDisplayWindowBase::MultiDisplayWindowBase(void) :
     _sfHServers               (), 
     _sfVServers               (), 
     _sfManageClientViewports  (bool(true)), 
+    _sfXOverlap               (Int32(0)), 
+    _sfYOverlap               (Int32(0)), 
     Inherited() 
 {
 }
@@ -179,6 +203,8 @@ MultiDisplayWindowBase::MultiDisplayWindowBase(const MultiDisplayWindowBase &sou
     _sfHServers               (source._sfHServers               ), 
     _sfVServers               (source._sfVServers               ), 
     _sfManageClientViewports  (source._sfManageClientViewports  ), 
+    _sfXOverlap               (source._sfXOverlap               ), 
+    _sfYOverlap               (source._sfYOverlap               ), 
     Inherited                 (source)
 {
 }
@@ -210,6 +236,16 @@ UInt32 MultiDisplayWindowBase::getBinSize(const BitVector &whichField)
         returnValue += _sfManageClientViewports.getBinSize();
     }
 
+    if(FieldBits::NoField != (XOverlapFieldMask & whichField))
+    {
+        returnValue += _sfXOverlap.getBinSize();
+    }
+
+    if(FieldBits::NoField != (YOverlapFieldMask & whichField))
+    {
+        returnValue += _sfYOverlap.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -232,6 +268,16 @@ void MultiDisplayWindowBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ManageClientViewportsFieldMask & whichField))
     {
         _sfManageClientViewports.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (XOverlapFieldMask & whichField))
+    {
+        _sfXOverlap.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (YOverlapFieldMask & whichField))
+    {
+        _sfYOverlap.copyToBin(pMem);
     }
 
 
@@ -257,6 +303,16 @@ void MultiDisplayWindowBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfManageClientViewports.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (XOverlapFieldMask & whichField))
+    {
+        _sfXOverlap.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (YOverlapFieldMask & whichField))
+    {
+        _sfYOverlap.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -274,6 +330,12 @@ void MultiDisplayWindowBase::executeSyncImpl(      MultiDisplayWindowBase *pOthe
 
     if(FieldBits::NoField != (ManageClientViewportsFieldMask & whichField))
         _sfManageClientViewports.syncWith(pOther->_sfManageClientViewports);
+
+    if(FieldBits::NoField != (XOverlapFieldMask & whichField))
+        _sfXOverlap.syncWith(pOther->_sfXOverlap);
+
+    if(FieldBits::NoField != (YOverlapFieldMask & whichField))
+        _sfYOverlap.syncWith(pOther->_sfYOverlap);
 
 
 }

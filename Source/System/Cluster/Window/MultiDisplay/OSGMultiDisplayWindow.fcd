@@ -40,4 +40,24 @@ Cluster rendering configuration for multible displays
 	>
 	If true, duplicate all viewports into the client window
 	</Field>
+	<Field
+		name="xOverlap"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	Horizontal overlap
+	</Field>
+	<Field
+		name="yOverlap"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	Vertical overlap
+	</Field>
 </FieldContainer>
