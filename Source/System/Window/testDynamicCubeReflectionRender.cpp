@@ -25,6 +25,7 @@ SimpleSceneManager *mgr;
 
 SimpleMaterialPtr cuberefmat;
 TextureTransformChunkPtr ttransform;
+PassiveWindowPtr pwin;
 
 TransformPtr rtrans;
 NodePtr scene, reflector;
@@ -52,9 +53,10 @@ void display(void)
     rdia = (rmax-rmin).length();
   
     Matrix m;
-    m.setTransform(Vec3f( osgcos(time / 1500) * (rdia+sdia),
-                          ((smax+smin.subZero()) * .5)[1],
-                          osgsin(time / 1500) * (rdia+sdia)));
+    m.setTransform(Vec3f( osgcos(time / 1500) * (rdia+sdia) *.7,
+                          osgcos(time / 1500) * (rdia+sdia) *.7,
+                          // ((smax+smin.subZero()) * .5)[1],
+                          osgsin(time / 1500) * (rdia+sdia)) *.7);
     
     beginEditCP(rtrans);
     rtrans->setMatrix(m);
@@ -64,11 +66,9 @@ void display(void)
      
     // transform the cube reflection texture coords
     Matrix n;
-    NodePtr beacon = camera->getBeacon();
-    beacon->getToWorld(n);
+    camera->getViewing(n, pwin->getPort()[0]->getPixelWidth(), pwin->getPort()[0]->getPixelHeight());
     
-    n.invert();
-    n[3].setValue(Vec4f(0,0,0,0));
+    n.transpose();
     
     beginEditCP(ttransform);
     ttransform->setMatrix(n);
@@ -149,7 +149,7 @@ int main(int argc, char **argv)
     glutMotionFunc(motion);
     glutKeyboardFunc(keyboard);
 
-    PassiveWindowPtr pwin=PassiveWindow::create();
+    pwin=PassiveWindow::create();
     pwin->init();        
 
     // create the scene
@@ -239,6 +239,7 @@ int main(int argc, char **argv)
     cubetex->setPosYImage(img);
     cubetex->setMinFilter(GL_LINEAR);
     cubetex->setMagFilter(GL_LINEAR);   
+    cubetex->setMinFilter(GL_LINEAR_MIPMAP_LINEAR);
     cubetex->setWrapR(GL_CLAMP);   
     cubetex->setWrapS(GL_CLAMP);   
     cubetex->setWrapT(GL_CLAMP);   
@@ -287,13 +288,14 @@ int main(int argc, char **argv)
     mgr->setHeadlight(false);
     
     // create the cube texture viewports
-    GLenum targets[6] = { GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB,
-                          GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB,
-                          GL_TEXTURE_CUBE_MAP_NEGATIVE_Y_ARB,
+    GLenum targets[6] = { GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB,
+                          GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB,
                           GL_TEXTURE_CUBE_MAP_POSITIVE_Y_ARB,
+                          GL_TEXTURE_CUBE_MAP_NEGATIVE_Y_ARB,
                           GL_TEXTURE_CUBE_MAP_NEGATIVE_X_ARB,
                           GL_TEXTURE_CUBE_MAP_POSITIVE_X_ARB };
-                          
+
+#if 0                          
     Matrix transforms[6] = { Matrix(-1,0, 0,0,  0,1, 0,0,   0, 0, 1,0, 0,0,0,1),
                              Matrix( 1,0, 0,0,  0,1, 0,0,   0, 0,-1,0, 0,0,0,1),
                              Matrix(-1,0, 0,0,  0,0, 1,0,   0,-1, 0,0, 0,0,0,1),
@@ -301,6 +303,15 @@ int main(int argc, char **argv)
                              Matrix( 0,0,-1,0,  0,1, 0,0,  -1, 0, 0,0, 0,0,0,1),
                              Matrix( 0,0, 1,0,  0,1, 0,0,   1, 0, 0,0, 0,0,0,1)
                            };
+#else                          
+    Matrix transforms[6] = { Matrix( 1,0, 0,0,  0,1, 0,0,   0, 0, 1,0, 0,0,0,1),
+                             Matrix(-1,0, 0,0,  0,1, 0,0,   0, 0,-1,0, 0,0,0,1),
+                             Matrix( 1,0, 0,0,  0,0, 1,0,   0,-1, 0,0, 0,0,0,1),
+                             Matrix( 1,0, 0,0,  0,0,-1,0,   0, 1, 0,0, 0,0,0,1),
+                             Matrix( 0,0,-1,0,  0,1, 0,0,   1, 0, 0,0, 0,0,0,1),
+                             Matrix( 0,0, 1,0,  0,1, 0,0,  -1, 0, 0,0, 0,0,0,1)
+                           };
+#endif
      
     Pnt2f positions[6] = {  Pnt2f(1,1), Pnt2f(3,1), Pnt2f(1,2), 
                             Pnt2f(1,0), Pnt2f(0,1), Pnt2f(2,1) };
