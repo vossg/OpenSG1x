@@ -150,6 +150,7 @@ Options:
     [--version]
     [--libs]
     [--cflags]
+    [--lflags]
     [--opt]
     [--dbg]
 Libraries:
@@ -376,13 +377,15 @@ fi
 
 if test "$echo_libs" = "yes"; then
 
-    echo $opensg_libs $img_libs $system_libs
+    opensg_lib_path=${linkdir_pre}${exec_prefix}/lib/${lib_suf}${linkdir_suf}
+
+    echo $link_flags $img_libs_path $system_libs_path $opensg_lib_path $opensg_libs $img_libs $system_libs
 
 fi      
 
 if test "$echo_cflags" = "yes"; then
 
-    opensg_inc_path=${incdir_pre}${prefix}/include/OpenSG${incdir_suf}
+    opensg_inc_path=${incdir_pre}${prefix}/include${incdir_suf}
 
     echo $sys_cflags $sys_defs $img_defs $img_incs_path $system_incs_path $opensg_inc_path
 

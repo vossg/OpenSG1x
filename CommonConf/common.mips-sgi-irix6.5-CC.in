@@ -142,6 +142,6 @@ endif
 
 LD_FLAGS += -$(ABI) -$(ISA) $(LINK_OPTIMIZE) $(LINK_DEBUG)
 
-LD_FLAGS_EXT      = -$(ABI) -$(ISA)
+LD_FLAGS_EXT      = -$(ABI) -$(ISA) -LANG:std
 LD_FLAGS_EXT_OPT := -O2 -OPT:Olimit=8192 $(LINK_INLINE)
 LD_FLAGS_EXT_DBG := -g 

@@ -370,6 +370,11 @@ function FK_GDZ_CREATE_PACKAGE_DIRS
 	    mkdir $ac_gdz_package_dir_test/obj-optlnk
     fi
 
+    if ! test -w $ac_gdz_package_dir_test/obj-dbglnk; then 
+	   	echo Need $ac_gdz_package_dir_test/obj-dbglnk
+	    mkdir $ac_gdz_package_dir_test/obj-dbglnk
+    fi
+
     if ! test -w $ac_gdz_package_dir_test/exe-dbglnk; then 
 	   	echo Need $ac_gdz_package_dir_test/exe-dbglnk
 	    mkdir $ac_gdz_package_dir_test/exe-dbglnk
