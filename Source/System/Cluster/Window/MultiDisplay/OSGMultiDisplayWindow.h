@@ -86,7 +86,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MultiDisplayWindow : public MultiDisplayWindowBas
 
     virtual void serverInit   ( WindowPtr window,UInt32 id  );
     virtual void serverRender ( WindowPtr window,UInt32 id,
-                                RenderAction *action        );
+                                RenderActionBase *action    );
     virtual void serverSwap   ( WindowPtr window,UInt32 id  );
 
     /*! \}                                                                 */

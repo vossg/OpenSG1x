@@ -48,6 +48,8 @@
 
 OSG_BEGIN_NAMESPACE
 
+class RenderActionBase;
+
 /*! \brief Passive Viewport class. See \ref 
     PageSystemWindowViewportsPassive for a description.
 */
@@ -81,8 +83,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PassiveViewport : public PassiveViewportBase
     /*! \name                    your_category                             */
     /*! \{                                                                 */
 
-    virtual void draw  ( DrawAction   *action );
-    virtual void render( RenderAction *action );
+    virtual void draw  (DrawAction       *action);
+    virtual void render(RenderActionBase *action);
 
 
     /*! \}                                                                 */

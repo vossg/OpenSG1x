@@ -48,6 +48,8 @@
 
 OSG_BEGIN_NAMESPACE
 
+class RenderActionBase;
+
 /*! \brief Viewport class for quad-buffered stereo rendering. See \ref 
     PageSystemWindowViewports for a description.
 */
@@ -81,8 +83,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StereoBufferViewport : public StereoBufferViewpor
     /*! \name                    your_category                             */
     /*! \{                                                                 */
 
-    virtual void draw  ( DrawAction   *action );
-    virtual void render( RenderAction *action );
+    virtual void draw  (DrawAction       *action);
+    virtual void render(RenderActionBase *action);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

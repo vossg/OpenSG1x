@@ -109,10 +109,11 @@ void TextureChunk::setShaderOffsetMatrix(Real32 m11, Real32 m12,
                                          Real32 m21, Real32 m22)
 {
     getShaderOffsetMatrix().resize(4);
-    getShaderOffsetMatrix().setValue(m11, 0);
-    getShaderOffsetMatrix().setValue(m12, 1);
-    getShaderOffsetMatrix().setValue(m21, 2);
-    getShaderOffsetMatrix().setValue(m22, 3);
+
+    getShaderOffsetMatrix()[0] = m11;
+    getShaderOffsetMatrix()[1] = m12;
+    getShaderOffsetMatrix()[2] = m21;
+    getShaderOffsetMatrix()[3] = m22;
 }
 
 

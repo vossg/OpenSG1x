@@ -90,14 +90,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindow : public ClusterWindowBase
     /*! \name      Window system implementation functions                  */
     /*! \{                                                                 */
 
-    virtual void    activate          ( void                        );
-    virtual void    deactivate        ( void                        );
-    virtual void    swap              ( void                        );
-    virtual void    init              ( void                        );
-    virtual void    render            ( RenderAction *action = NULL );
-    virtual void    renderAllViewports( RenderAction *action = NULL );
-    virtual void    frameInit         ( void                        );
-    virtual void    frameExit         ( void                        );
+    virtual void    activate          (void                           );
+    virtual void    deactivate        (void                           );
+    virtual void    swap              (void                           );
+    virtual void    init              (void                           );
+    virtual void    render            (RenderActionBase *action = NULL);
+    virtual void    renderAllViewports(RenderActionBase *action = NULL);
+    virtual void    frameInit         (void                           );
+    virtual void    frameExit         (void                           );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -116,10 +116,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindow : public ClusterWindowBase
     /*! \name      client window funcitons                                 */
     /*! \{                                                                 */
 
-    virtual void clientInit              ( void                        );
-    virtual void clientPreSync           ( void                        );
-    virtual void clientRender            ( RenderAction *action        );
-    virtual void clientSwap              ( void                        );
+    virtual void clientInit              (void                    );
+    virtual void clientPreSync           (void                    );
+    virtual void clientRender            (RenderActionBase *action);
+    virtual void clientSwap              (void                    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -128,7 +128,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindow : public ClusterWindowBase
 
     virtual void serverInit              ( WindowPtr window,UInt32 id  );
     virtual void serverRender            ( WindowPtr window,UInt32 id,
-                                           RenderAction *action        );
+                                           RenderActionBase *action    );
     virtual void serverSwap              ( WindowPtr window,UInt32 id  );
 
     /*! \}                                                                 */

@@ -154,7 +154,7 @@ void SortFirstWindow::serverInit( WindowPtr serverWindow,
  **/
 void SortFirstWindow::serverRender( WindowPtr serverWindow,
                                     UInt32 id,
-                                    RenderAction *action        )
+                                    RenderActionBase *action )
 {
     TileCameraDecoratorPtr deco;
     ViewportPtr serverPort;
@@ -391,7 +391,7 @@ void SortFirstWindow::clientPreSync( void )
  *  one tile is rendered by the client
  */
 
-void SortFirstWindow::clientRender( RenderAction *  /* action */ )
+void SortFirstWindow::clientRender( RenderActionBase *  /* action */ )
 {
 //    Inherited::clientRender(action);
 }

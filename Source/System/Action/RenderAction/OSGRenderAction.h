@@ -50,7 +50,7 @@
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
-#include <OSGDrawActionBase.h>
+#include <OSGRenderActionBase.h>
 #include <OSGMatrix.h>
 #include <OSGMaterial.h>
 #include <OSGStatElemTypes.h>
@@ -84,10 +84,10 @@ typedef std::pair<UInt32      ,      Matrix                 > MatrixStore;
 typedef std::map <Material   *, std::vector<DrawTreeNode *> > MaterialMap;
 typedef std::pair<LightChunk *,      Matrix                 > LightStore;
 
-/*! \brief DrawAction class
+/*! \brief RenderAction class
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
+class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 {
   public:
 
@@ -172,7 +172,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef DrawActionBase Inherited;
+    typedef RenderActionBase Inherited;
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
@@ -285,10 +285,6 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
-
-// class pointer
-
-typedef RenderAction *RenderActionP;
 
 OSG_END_NAMESPACE
 

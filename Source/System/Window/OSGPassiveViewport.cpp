@@ -152,7 +152,7 @@ void PassiveViewport::draw( DrawAction * action )
 }
 
 
-void PassiveViewport::render( RenderAction * action )
+void PassiveViewport::render(RenderActionBase *action)
 {
     if ( getCamera() == NullFC )
     {

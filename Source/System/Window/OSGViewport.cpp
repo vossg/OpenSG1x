@@ -246,7 +246,7 @@ void Viewport::draw(DrawAction * action)
 }
 
 
-void Viewport::render(RenderAction * action)
+void Viewport::render(RenderActionBase *action)
 {
     if(getCamera() == NullFC)
     {

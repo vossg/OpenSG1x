@@ -88,7 +88,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SortFirstWindow : public SortFirstWindowBase
 
     virtual void clientInit              ( void                        );
     virtual void clientPreSync           ( void                        );
-    virtual void clientRender            ( RenderAction *action        );
+    virtual void clientRender            ( RenderActionBase *action    );
     virtual void clientSwap              ( void                        );
 
     /*! \}                                                                 */
@@ -98,7 +98,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SortFirstWindow : public SortFirstWindowBase
 
     virtual void serverInit              ( WindowPtr window,UInt32 id  );
     virtual void serverRender            ( WindowPtr window,UInt32 id,
-                                           RenderAction *action        );
+                                           RenderActionBase *action    );
     virtual void serverSwap              ( WindowPtr window,UInt32 id  );
 
     /*! \}                                                                 */

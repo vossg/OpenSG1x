@@ -50,7 +50,7 @@
 OSG_BEGIN_NAMESPACE
 
 class DrawAction;
-class RenderAction;
+class RenderActionBase;
 
 /*! \brief Viewport base class. See \ref 
     PageSystemWindowViewports for a description.
@@ -88,8 +88,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Viewport : public ViewportBase
     /*! \name                    your_category                             */
     /*! \{                                                                 */
 
-    virtual void draw  ( DrawAction   *action );
-    virtual void render( RenderAction *action );
+    virtual void draw  (DrawAction       *action);
+    virtual void render(RenderActionBase *action);
 
 
     /*! \}                                                                 */

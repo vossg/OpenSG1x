@@ -229,8 +229,11 @@ class FieldContainer
     /*! \name                MT Construction                               */
     /*! \{                                                                 */
 
-            OSG_SYSTEMLIB_DLLMAPPING 
-            void onCreate       (const FieldContainer *source = NULL);
+    OSG_SYSTEMLIB_DLLMAPPING 
+    void onCreate      (const FieldContainer *source = NULL);
+
+    OSG_SYSTEMLIB_DLLMAPPING 
+    void onCreateAspect(const FieldContainer *source = NULL);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

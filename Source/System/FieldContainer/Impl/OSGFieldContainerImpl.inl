@@ -169,6 +169,8 @@ void FieldContainer::newPtr(
     
     pTmp += sizeof(UInt32);
     
+    ObjectType *aObject = reinterpret_cast<ObjectType *>(pTmp);
+
     for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
     {
         pTmp = 
@@ -178,7 +180,12 @@ void FieldContainer::newPtr(
     }
     
     result->onCreate(prototypeP);
-    
+
+    for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
+    {
+        aObject[i].onCreateAspect(prototypeP);
+    }
+
 #if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
 /*
     fprintf(stderr, "GV_MEM_FC_DBG : (%u|%lf|%I64d) cc (%p|%s|%u)\n", 
@@ -235,6 +242,8 @@ void FieldContainer::newPtr(ObjectPtrT &result)
     
     pTmp += sizeof(UInt32);
     
+    ObjectType *aObject = reinterpret_cast<ObjectType *>(pTmp);
+
     for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
     {
         pTmp = reinterpret_cast<UInt8 *>(new (pTmp) ObjectType());
@@ -244,6 +253,11 @@ void FieldContainer::newPtr(ObjectPtrT &result)
     
     result->onCreate();
     
+    for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
+    {
+        aObject[i].onCreateAspect();
+    }
+
 #if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
     fprintf(stderr, "GV_MEM_FC_DBG : (%u) c (%p|%u)\n", 
             Thread::getAspect(),
@@ -311,6 +325,11 @@ void endEdit(const BitVector  &whichField,
 
 inline
 void FieldContainer::onCreate(const FieldContainer *)
+{
+}
+
+inline
+void FieldContainer::onCreateAspect(const FieldContainer *source)
 {
 }
 

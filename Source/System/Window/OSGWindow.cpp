@@ -61,7 +61,7 @@
 #endif
 
 #include <OSGDrawAction.h>
-#include <OSGRenderAction.h>
+#include <OSGRenderActionBase.h>
 #include "OSGViewport.h"
 
 #include "OSGBackground.h"
@@ -194,7 +194,7 @@ the system. See \ref PageSystemOGLObjects for a description.
 added here at creation time and removed at deletion. 
 */
 std::vector<WindowPtr              >  OSG::Window::_allWindows;
-
+UInt32                                OSG::Window::_currentWindowId = 0;
 // GLobject handling
 
 /*! The lock used to mutex access of the GLObjects' reference count. One should 
@@ -247,7 +247,8 @@ void OSG::Window::initMethod (void)
 */
 
 OSG::Window::Window(void) :
-    Inherited()
+     Inherited( ),
+    _windowId (0)
 {
     // only called for prototypes, no need to init them
 }
@@ -260,7 +261,8 @@ OSG::Window::Window(const Window &source) :
     _lastValidate(source._lastValidate.size(),0),
     _extensions(),
     _availExtensions(),
-    _extFunctions()
+    _extFunctions(),
+    _windowId(0)
 {       
     // mark all GL objects as not yet initialized
     doInitRegisterGLObject(1, _glObjects.size() - 1);
@@ -289,6 +291,17 @@ void OSG::Window::onCreate( const Window * )
         return;
         
     _allWindows.push_back(WindowPtr(this)); 
+
+    _windowId = ++_currentWindowId;
+}
+
+void OSG::Window::onCreateAspect(const FieldContainer *source)
+{
+    // Don't add the prototype instances to the list
+    if(GlobalSystemState != Running)
+        return;
+
+    _windowId = _currentWindowId;
 }
 
 /*! instance deletion
@@ -1134,14 +1147,14 @@ void OSG::Window::drawAllViewports(DrawAction * action)
     5 lines of code. If you know that the correct context is active or you want
     to delay swaps you can just copy and manipulate it.
 */   
-void OSG::Window::render( RenderAction * action )
+void OSG::Window::render(RenderActionBase *action)
 {
     activate();
     frameInit();    // query recently registered GL extensions
     
 //  resizeGL();
 
-    renderAllViewports( action );
+    renderAllViewports(action);
 
     swap();
     frameExit();    // after frame cleanup: delete GL objects, if needed
@@ -1153,7 +1166,7 @@ void OSG::Window::render( RenderAction * action )
     A simple convenience function that loops all Viewports and call their draw
     method.
 */   
-void OSG::Window::renderAllViewports(RenderAction * action)
+void OSG::Window::renderAllViewports(RenderActionBase *action)
 {
     MFViewportPtr::iterator       portIt  = _mfPort.begin();
     MFViewportPtr::const_iterator portEnd = _mfPort.end();

@@ -217,11 +217,11 @@ void ClusterWindow::init( void )
     connection->setReadAliveTimeout(-1);
 }
 
-void ClusterWindow::render( RenderAction *action )
+void ClusterWindow::render(RenderActionBase *action)
 {
     activate();
     frameInit();
-    renderAllViewports( action );
+    renderAllViewports(action);
     swap();
     frameExit();
 }
@@ -242,7 +242,7 @@ void ClusterWindow::swap( void )
     }
 }
 
-void ClusterWindow::renderAllViewports( RenderAction *action )
+void ClusterWindow::renderAllViewports(RenderActionBase *action)
 {
     if(getNetwork()->getMainConnection() && getNetwork()->getAspect())
     {
@@ -339,7 +339,7 @@ void ClusterWindow::clientPreSync( void )
  * viewports of the client window.
  **/
 
-void ClusterWindow::clientRender( RenderAction *action )
+void ClusterWindow::clientRender(RenderActionBase *action)
 {
     if(getClientWindow() != NullFC)
     {
@@ -391,7 +391,7 @@ void ClusterWindow::serverInit( WindowPtr ,
 
 void ClusterWindow::serverRender( WindowPtr window,
                                   UInt32 ,
-                                  RenderAction *action )
+                                  RenderActionBase *action )
 {
     window->activate();
     window->frameInit();

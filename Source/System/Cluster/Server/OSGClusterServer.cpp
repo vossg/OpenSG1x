@@ -232,7 +232,7 @@ void ClusterServer::stop()
 
 /*! sync with client and render scenegraph
  */
-void ClusterServer::render(RenderAction *action)
+void ClusterServer::render(RenderActionBase *action)
 {
     doSync(false);
     doRender(action);
@@ -304,7 +304,7 @@ void ClusterServer::doSync(bool applyToChangelist)
 
 /*! render server window
  */
-void ClusterServer::doRender(RenderAction *action)
+void ClusterServer::doRender(RenderActionBase *action)
 {
     _clusterWindow->serverRender( _window,_serverId,action );
 }

@@ -103,7 +103,7 @@ void ColorBufferViewport::draw( DrawAction * action )
 }
 
 
-void ColorBufferViewport::render( RenderAction * action )
+void ColorBufferViewport::render(RenderActionBase *action)
 {
     glColorMask(getRed(), getGreen(), getBlue(), getAlpha());
     Inherited::render(action);

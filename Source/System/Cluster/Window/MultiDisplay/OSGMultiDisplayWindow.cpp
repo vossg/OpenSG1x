@@ -123,7 +123,7 @@ void MultiDisplayWindow::serverInit( WindowPtr ,
  */
 void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
                                        UInt32 id,
-                                       RenderAction *action )
+                                       RenderActionBase *action )
 {
     TileCameraDecoratorPtr deco;
     StereoBufferViewportPtr serverPort;

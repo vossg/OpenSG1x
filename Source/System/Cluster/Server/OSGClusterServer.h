@@ -56,7 +56,7 @@ class Connection;
 class ClusterWindow;
 class RemoteAspect;
 class Thread;
-class RenderAction;
+class RenderActionBase;
 
 class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
 {
@@ -86,12 +86,12 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
     /*! \name                   server actions                             */
     /*! \{                                                                 */
 
-    void start             ( void                   );
-    void stop              ( void                   );
-    void render            ( RenderAction *action   );
-    void doSync            ( bool applyToChangelist );
-    void doRender          ( RenderAction *action   );
-    void doSwap            ( void                   );
+    void start             ( void                     );
+    void stop              ( void                     );
+    void render            ( RenderActionBase *action );
+    void doSync            ( bool applyToChangelist   );
+    void doRender          ( RenderActionBase *action );
+    void doSwap            ( void                     );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

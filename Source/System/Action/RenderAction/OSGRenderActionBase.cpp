@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -43,118 +43,31 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <OSGConfig.h>
-#include <OSGGL.h>
+#include "OSGConfig.h"
 
-#include "OSGNodePtr.h"
-#include "OSGStereoBufferViewport.h"
+#include "OSGRenderActionBase.h"
 
 OSG_USING_NAMESPACE
 
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
 
-/*! \class osg::StereoBufferViewport
-    \ingroup GrpSystemWindowViewports
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
-Viewport for quad-buffered stereo rendering, see \ref
-PageSystemWindowViewports for a description.
-
-The active buffers are selected using the _sfLeftBuffer and _sfRightBuffer
-Fields. 
-
-*/
-
-/*----------------------- constructors & destructors ----------------------*/
-
-StereoBufferViewport::StereoBufferViewport(void) :
+RenderActionBase::RenderActionBase(void) :
     Inherited()
 {
 }
 
-StereoBufferViewport::StereoBufferViewport(const StereoBufferViewport &source) :
-    Inherited(source)
+RenderActionBase::RenderActionBase(const RenderActionBase &source) :
+     Inherited(source)
 {
 }
 
-StereoBufferViewport::~StereoBufferViewport(void)
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+RenderActionBase::~RenderActionBase(void)
 {
-}
-
-/*----------------------------- class specific ----------------------------*/
-
-void StereoBufferViewport::initMethod (void)
-{
-}
-
-void StereoBufferViewport::changed(BitVector whichField, UInt32 origin)
-{
-    Inherited::changed(whichField, origin);
-}
-
-void StereoBufferViewport::dump(      UInt32    , 
-                         const BitVector ) const
-{
-    SLOG << "Dump StereoBufferViewport NI" << std::endl;
-}
-
-
-void StereoBufferViewport::draw( DrawAction * action )
-{
-    if(getLeftBuffer())
-    {
-        if(getRightBuffer())
-        {
-            glDrawBuffer(GL_BACK);
-        }
-        else
-        {
-            glDrawBuffer(GL_BACK_LEFT);
-        }
-    }
-    else
-    {
-        if(getRightBuffer())
-        {
-            glDrawBuffer(GL_BACK_RIGHT);
-        }
-        else
-        {
-            glDrawBuffer(GL_NONE);
-        }
-    }
-    Inherited::draw(action);
-    glDrawBuffer(GL_BACK);
-}
-
-
-void StereoBufferViewport::render(RenderActionBase *action)
-{
-    if(getLeftBuffer())
-    {
-        if(getRightBuffer())
-        {
-            glDrawBuffer(GL_BACK);
-        }
-        else
-        {
-            glDrawBuffer(GL_BACK_LEFT);
-        }
-    }
-    else
-    {
-        if(getRightBuffer())
-        {
-            glDrawBuffer(GL_BACK_RIGHT);
-        }
-        else
-        {
-            glDrawBuffer(GL_NONE);
-        }
-    }
-    Inherited::render(action);
-    glDrawBuffer(GL_BACK);
 }
 
 
@@ -171,7 +84,7 @@ void StereoBufferViewport::render(RenderActionBase *action)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: $";
-    static char cvsid_hpp[] = OSGSTEREOBUFFERVIEWPORT_HEADER_CVSID;
-    static char cvsid_inl[] = OSGSTEREOBUFFERVIEWPORT_INLINE_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGRENDERACTIONBASE_HEADER_CVSID;
 }
+

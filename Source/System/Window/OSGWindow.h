@@ -55,7 +55,7 @@
 OSG_BEGIN_NAMESPACE
 
 class DrawAction;
-class RenderAction;
+class RenderActionBase;
 
 /*! \brief Window base class. See \ref PageSystemWindowWindow 
 for a description. */
@@ -183,8 +183,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     virtual void    draw              ( DrawAction   *action = NULL );
     virtual void    drawAllViewports  ( DrawAction   *action = NULL );
 
-    virtual void    render            ( RenderAction *action = NULL );
-    virtual void    renderAllViewports( RenderAction *action = NULL );
+    virtual void    render            (RenderActionBase *action = NULL);
+    virtual void    renderAllViewports(RenderActionBase *action = NULL);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -285,10 +285,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     friend class WindowBase;
 
     static std::vector<WindowPtr> _allWindows;
+    static UInt32                 _currentWindowId;
 
     static void initMethod( void );
 
-    void onCreate ( const Window *source = NULL );
+    void onCreate      (const Window         *source = NULL);
+    void onCreateAspect(const FieldContainer *source = NULL);
+
     void onDestroy( void );
 
     /*---------------------------------------------------------------------*/
@@ -316,6 +319,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     std::vector<void      *> _extFunctions;
 
     /*! \}                                                                 */
+
+    UInt32                   _windowId;
 
     // prohibit default functions (move to 'public' if you need one)
 
