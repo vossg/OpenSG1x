@@ -77,6 +77,7 @@
 #include <OSGUInt32Fields.h> // PixelFormat type
 #include <OSGUInt8Fields.h> // Pixel type
 #include <OSGInt32Fields.h> // FrameSize type
+#include <OSGStringFields.h> // Name type
 
 #include <OSGImageFields.h>
 
@@ -110,7 +111,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
         PixelFormatFieldId = FrameDelayFieldId  + 1,
         PixelFieldId       = PixelFormatFieldId + 1,
         FrameSizeFieldId   = PixelFieldId       + 1,
-        NextFieldId        = FrameSizeFieldId   + 1
+        NameFieldId        = FrameSizeFieldId   + 1,
+        NextFieldId        = NameFieldId        + 1
     };
 
     static const OSG::BitVector ParentsFieldMask;
@@ -125,6 +127,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
     static const OSG::BitVector PixelFormatFieldMask;
     static const OSG::BitVector PixelFieldMask;
     static const OSG::BitVector FrameSizeFieldMask;
+    static const OSG::BitVector NameFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -163,6 +166,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
            SFUInt32            *getSFPixelFormat    (void);
            MFUInt8             *getMFPixel          (void);
            SFInt32             *getSFFrameSize      (void);
+           SFString            *getSFName           (void);
 
            Int32               &getDimension      (void);
      const Int32               &getDimension      (void) const;
@@ -184,6 +188,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
      const UInt32              &getPixelFormat    (void) const;
            Int32               &getFrameSize      (void);
      const Int32               &getFrameSize      (void) const;
+           std::string         &getName           (void);
+     const std::string         &getName           (void) const;
            FieldContainerPtr   &getParents        (const UInt32 index);
            MFFieldContainerPtr &getParents        (void);
      const MFFieldContainerPtr &getParents        (void) const;
@@ -206,6 +212,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
      void setFrameDelay     ( const Time &value );
      void setPixelFormat    ( const UInt32 &value );
      void setFrameSize      ( const Int32 &value );
+     void setName           ( const std::string &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -263,6 +270,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
     SFUInt32            _sfPixelFormat;
     MFUInt8             _mfPixel;
     SFInt32             _sfFrameSize;
+    SFString            _sfName;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -310,6 +318,6 @@ typedef ImageBase *ImageBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGIMAGEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGIMAGEBASE_H_ */

@@ -1069,7 +1069,16 @@ bool Image::write(const Char8 *fileName)
 bool Image::read(const Char8 *fileName)
 {
     ImagePtr iPtr(this);
-    return ImageFileHandler::the().read(iPtr, fileName);
+    bool ok = ImageFileHandler::the().read(iPtr, fileName);
+    
+    if(ok)
+    {
+        // todo converting the path to a absolute path.
+        beginEditCP(iPtr, NameFieldMask);
+            setName(fileName);
+        endEditCP(iPtr, NameFieldMask);
+    }
+    return ok;
 }
 
 /*! Store the image to the given mem block as 'mimeType'. 

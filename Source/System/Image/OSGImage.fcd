@@ -9,6 +9,7 @@
 	systemcomponent="true"
 	parentsystemcomponent="true"
 	decoratable="false"
+	useLocalIncludes="false"
 >
 1D/2D/3D Image with various pixel types data, can also optional hold mipMap and simple multi-frame data.
 	<Field
@@ -24,8 +25,8 @@
 		type="Int32"
 		cardinality="single"
 		visibility="external"
+		defaultValue="0"
 		access="public"
-                defaultValue="0"
 	>
 	image dimension, 0 for invalid, 1 for 1D, 2 for 2D and     3 for 3D data.
 	</Field>
@@ -34,8 +35,8 @@
 		type="Int32"
 		cardinality="single"
 		visibility="external"
+		defaultValue="0"
 		access="public"
-                defaultValue="0"
 	>
 	</Field>
 	<Field
@@ -43,8 +44,8 @@
 		type="Int32"
 		cardinality="single"
 		visibility="external"
+		defaultValue="1"
 		access="public"
-                defaultValue="1"
 	>
 	</Field>
 	<Field
@@ -52,8 +53,8 @@
 		type="Int32"
 		cardinality="single"
 		visibility="external"
+		defaultValue="1"
 		access="public"
-                defaultValue="1"
 	>
 	</Field>
 	<Field
@@ -61,8 +62,8 @@
 		type="Int32"
 		cardinality="single"
 		visibility="external"
+		defaultValue="1"
 		access="public"
-                defaultValue="1"
 	>
 	</Field>
 	<Field
@@ -70,8 +71,8 @@
 		type="Int32"
 		cardinality="single"
 		visibility="external"
+		defaultValue="1"
 		access="public"
-                defaultValue="1"
 	>
 	</Field>
 	<Field
@@ -79,8 +80,8 @@
 		type="Int32"
 		cardinality="single"
 		visibility="external"
+		defaultValue="1"
 		access="public"
-                defaultValue="1"
 	>
 	</Field>
 	<Field
@@ -88,8 +89,8 @@
 		type="Time"
 		cardinality="single"
 		visibility="external"
+		defaultValue="0"
 		access="public"
-                defaultValue="0"
 	>
 	</Field>
 	<Field
@@ -97,8 +98,8 @@
 		type="UInt32"
 		cardinality="single"
 		visibility="external"
+		defaultValue="0"
 		access="public"
-                defaultValue="0"
 	>
 	</Field>
 	<Field
@@ -114,8 +115,17 @@
 		type="Int32"
 		cardinality="single"
 		visibility="external"
+		defaultValue="0"
 		access="public"
-                defaultValue="0"
 	>
+	</Field>
+	<Field
+		name="name"
+		type="std::string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Texture file path
 	</Field>
 </FieldContainer>

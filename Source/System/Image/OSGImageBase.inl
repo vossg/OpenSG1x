@@ -180,6 +180,13 @@ SFInt32 *ImageBase::getSFFrameSize(void)
     return &_sfFrameSize;
 }
 
+//! Get the Image::_sfName field.
+inline
+SFString *ImageBase::getSFName(void)
+{
+    return &_sfName;
+}
+
 
 //! Get the value of the Image::_sfDimension field.
 inline
@@ -391,6 +398,27 @@ void ImageBase::setFrameSize(const Int32 &value)
     _sfFrameSize.setValue(value);
 }
 
+//! Get the value of the Image::_sfName field.
+inline
+std::string &ImageBase::getName(void)
+{
+    return _sfName.getValue();
+}
+
+//! Get the value of the Image::_sfName field.
+inline
+const std::string &ImageBase::getName(void) const
+{
+    return _sfName.getValue();
+}
+
+//! Set the value of the Image::_sfName field.
+inline
+void ImageBase::setName(const std::string &value)
+{
+    _sfName.setValue(value);
+}
+
 
 //! Get the value of the \a index element the Image::_mfParents field.
 inline
@@ -436,5 +464,5 @@ const MFUInt8 &ImageBase::getPixel(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGIMAGEBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 

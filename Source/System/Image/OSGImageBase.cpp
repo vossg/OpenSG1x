@@ -100,6 +100,9 @@ const OSG::BitVector  ImageBase::PixelFieldMask =
 const OSG::BitVector  ImageBase::FrameSizeFieldMask = 
     (TypeTraits<BitVector>::One << ImageBase::FrameSizeFieldId);
 
+const OSG::BitVector  ImageBase::NameFieldMask = 
+    (TypeTraits<BitVector>::One << ImageBase::NameFieldId);
+
 const OSG::BitVector ImageBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -142,6 +145,9 @@ const OSG::BitVector ImageBase::MTInfluenceMask =
 */
 /*! \var Int32           ImageBase::_sfFrameSize
     
+*/
+/*! \var std::string     ImageBase::_sfName
+    Texture file path
 */
 
 //! Image description
@@ -207,7 +213,12 @@ FieldDescription *ImageBase::_desc[] =
                      "frameSize", 
                      FrameSizeFieldId, FrameSizeFieldMask,
                      false,
-                     (FieldAccessMethod) &ImageBase::getSFFrameSize)
+                     (FieldAccessMethod) &ImageBase::getSFFrameSize),
+    new FieldDescription(SFString::getClassType(), 
+                     "name", 
+                     NameFieldId, NameFieldMask,
+                     false,
+                     (FieldAccessMethod) &ImageBase::getSFName)
 };
 
 
@@ -275,6 +286,7 @@ ImageBase::ImageBase(void) :
     _sfPixelFormat            (UInt32(0)), 
     _mfPixel                  (), 
     _sfFrameSize              (Int32(0)), 
+    _sfName                   (), 
     Inherited() 
 {
 }
@@ -296,6 +308,7 @@ ImageBase::ImageBase(const ImageBase &source) :
     _sfPixelFormat            (source._sfPixelFormat            ), 
     _mfPixel                  (source._mfPixel                  ), 
     _sfFrameSize              (source._sfFrameSize              ), 
+    _sfName                   (source._sfName                   ), 
     Inherited                 (source)
 {
 }
@@ -372,6 +385,11 @@ UInt32 ImageBase::getBinSize(const BitVector &whichField)
         returnValue += _sfFrameSize.getBinSize();
     }
 
+    if(FieldBits::NoField != (NameFieldMask & whichField))
+    {
+        returnValue += _sfName.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -439,6 +457,11 @@ void ImageBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (FrameSizeFieldMask & whichField))
     {
         _sfFrameSize.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (NameFieldMask & whichField))
+    {
+        _sfName.copyToBin(pMem);
     }
 
 
@@ -509,6 +532,11 @@ void ImageBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfFrameSize.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (NameFieldMask & whichField))
+    {
+        _sfName.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -554,6 +582,9 @@ void ImageBase::executeSyncImpl(      ImageBase *pOther,
     if(FieldBits::NoField != (FrameSizeFieldMask & whichField))
         _sfFrameSize.syncWith(pOther->_sfFrameSize);
 
+    if(FieldBits::NoField != (NameFieldMask & whichField))
+        _sfName.syncWith(pOther->_sfName);
+
 
 }
 
@@ -587,7 +618,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGIMAGEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGIMAGEBASE_INLINE_CVSID;
 
