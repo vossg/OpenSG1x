@@ -68,8 +68,14 @@ OSG_GEOMETRY_DLLMAPPING NodePtr makePlane(Real32 xsize, Real32 ysize,
 /*! \brief create a cone
  *  \ingroup SimpleGeometry
  */
-OSG_GEOMETRY_DLLMAPPING NodePtr makeCone( Real32 height, Real32 radius, 
-										  UInt16 sides );
+OSG_GEOMETRY_DLLMAPPING NodePtr makeCone( Real32 height,
+		Real32 botradius, UInt16 sides, Bool doSide, Bool doBottom );
+
+/*! \brief create a cylinder
+ *  \ingroup SimpleGeometry
+ */
+OSG_GEOMETRY_DLLMAPPING NodePtr makeCylinder( Real32 height,
+		Real32 radius, UInt16 sides, Bool doSide, Bool doTop, Bool doBottom );
 
 /*! \brief create a torus
  *  \ingroup SimpleGeometry
@@ -82,6 +88,13 @@ OSG_GEOMETRY_DLLMAPPING NodePtr makeTorus( Real32 innerRadius,
  *  \ingroup SimpleGeometry
  */
 OSG_GEOMETRY_DLLMAPPING NodePtr makeSphere( UInt16 depth, Real32 radius );
+
+/*! \brief create a conical frustum
+ *  \ingroup SimpleGeometry
+ */
+OSG_GEOMETRY_DLLMAPPING NodePtr makeConicalFrustum( Real32 height,
+		Real32 topradius, Real32 botradius, UInt16 sides, 
+		Bool doSide, Bool doTop, Bool doBottom );
 
 OSG_END_NAMESPACE
 

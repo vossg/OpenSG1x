@@ -112,6 +112,7 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 	
 	GeoPosition3fPtr    pnts  = GeoPosition3f::create();
 	GeoNormal3fPtr		norms = GeoNormal3f::create();
+	GeoTexCoords2fPtr	tex   = GeoTexCoords2f::create();
 	GeoIndexUI32Ptr		index = GeoIndexUI32::create();	
 	GeoPLengthPtr		lens  = GeoPLength::create();	
 	GeoPTypePtr			types = GeoPType::create();	
@@ -123,11 +124,13 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 
 	// calc the vertices
 
-	GeoPosition3f::FieldType * p = pnts->getFieldPtr();
-	GeoNormal3f::FieldType   * n = norms->getFieldPtr();
+	GeoPosition3f::FieldType  * p = pnts->getFieldPtr();
+	GeoNormal3f::FieldType    * n = norms->getFieldPtr();
+	GeoTexCoords2f::FieldType * tx = tex->getFieldPtr();
 
 	beginEditCP(pnts);
 	beginEditCP(norms);
+	beginEditCP(tex);
 	
 	for ( y = 0; y <= vert; y++ )
 	{
@@ -135,11 +138,13 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 		{
 			p->addValue( Pnt3f( x * xstep - xsize / 2, y * ystep - ysize / 2, 0 ) );
 			n->addValue( Vec3f( 0, 0, 1) );
+			tx->addValue( Vec2f( x / (Real32) hor, y / (Real32) vert) );
 		}
 	}
 
 	endEditCP(pnts);
 	endEditCP(norms);
+	endEditCP(tex);
 
 	// create the faces
 	
@@ -158,8 +163,8 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 		
 		for ( x = 0; x <= hor; x++ )
 		{
-			i->addValue(   y      * ( hor + 1 ) + x );
 			i->addValue( ( y + 1) * ( hor + 1 ) + x );
+			i->addValue(   y      * ( hor + 1 ) + x );
 		}
 	}
 
@@ -175,6 +180,7 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 	geo->setPositions( pnts );
 	geo->setNormals( norms );
 	geo->setNormalPerVertex( true );
+	geo->setTexCoords( tex );
 	geo->setIndex( index );
 	geo->setTypes( types );
 	geo->setLengths( lens );
@@ -195,104 +201,200 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 	\param radius	the cone's radius
 	\param sides	number of subdivisons in the x direction
 
-makeCone creates a cone. It's base sits in the origin of the x/y plane. 
+makeCone creates a cone. It's center sits in the origin of the x/z plane. 
 It's radius is \a radius and the base is subdivided into \a sides parts.
-Vertically it is subdivided into 2 parts.
+
+Each part of the cone (bottom cap, sides) can be enabled or disabled.
 
 */
 
-NodePtr OSG::makeCone( Real32 height, Real32 radius, UInt16 sides )
+NodePtr OSG::makeCone( Real32 height, Real32 botradius, 
+	UInt16 sides, Bool doSide, Bool doBottom )
 {
-	if ( height <= 0 || radius <= 0 || sides < 3 )
+	return makeConicalFrustum( height, 0, botradius, sides, doSide, false, doBottom);
+}
+
+/*! \ingroup SimpleGeometry
+	\return NodePtr the created cylinder
+	\param height	the cylinder's height
+	\param radius	the cylinder's radius
+	\param sides	number of subdivisons in the x direction
+
+makeCylinder creates a cylinder. It's center sits in the origin of the x/z plane. 
+It's radius is \a radius and the base is subdivided into \a sides parts.
+
+Each part of the cylinder (top cap, bottom cap, sides) can be enabled or disabled.
+
+*/
+
+NodePtr OSG::makeCylinder( Real32 height, Real32 radius,
+	UInt16 sides, Bool doSide, Bool doTop, Bool doBottom )
+{
+	return makeConicalFrustum( height, radius, radius, sides, doSide, doTop, doBottom);
+}
+
+
+/*! \ingroup SimpleGeometry
+	\return NodePtr 	the created frustum
+	\param height		the frustum's height
+	\param topradius	the frustum's radius at the top
+	\param botradius	the frustum's radius at the bottom
+	\param sides		number of subdivisons
+	\param doSide		create the geometry for the side
+	\param doTop		create the geometry for the top cap
+	\param doBottom		create the geometry for the bottmo cap
+
+makeFrusutm creates a conical frustum. It's center sits in the origin of
+the x/z plane.  It's height is \a height and the base is subdivided into
+\a sides parts. The top radius is \a topradius, the bottom radius \a
+botradius.
+
+Each part of the frustum (top cap, bottom cap, sides) can be enabled or disabled.
+Caps for radius 0 are automatically disabled.
+
+*/
+
+NodePtr OSG::makeConicalFrustum( Real32 height, Real32 topradius, Real32 botradius, 
+	UInt16 sides, Bool doSide, Bool doTop, Bool doBottom )
+{
+	if ( height <= 0 || topradius < 0 || botradius < 0 || sides < 3 )
 	{
-		SWARNING << "makeCone: illegal parameters height=" << height 
-				 << ", radius=" << radius 
+		SWARNING << "makeConicalFrustum: illegal parameters height=" << height 
+				 << ", topradius=" << topradius 
+				 << ", botradius=" << botradius 
 				 << ", sides=" << sides 
 				 << endl;
 		return NullNode;
 	}
 	
-	GeoPosition3fPtr		pnts  = GeoPosition3f::create();
+	GeoPosition3fPtr	pnts  = GeoPosition3f::create();
 	GeoNormal3fPtr		norms = GeoNormal3f::create();
+	GeoTexCoords2fPtr	tex   = GeoTexCoords2f::create();
 	GeoIndexUI32Ptr		index = GeoIndexUI32::create();	
 	GeoPLengthPtr		lens  = GeoPLength::create();	
 	GeoPTypePtr			types = GeoPType::create();	
 	
 	UInt16 j;
 	Real32 delta = 2.0 * Pi / sides;
-	Real32 beta, x, y;
+	Real32 beta, x, z;
+	Real32 incl = ( topradius - botradius ) / height;
+	Real32 nlen = 1.f / osgsqrt( 1 + incl * incl );
+	
+	// vertices
 
-	// calc the vertices
+	GeoPosition3f::FieldType 	* p  = pnts->getFieldPtr();
+	GeoNormal3f::FieldType   	* n  = norms->getFieldPtr();
+	GeoTexCoords2f::FieldType   * tx = tex->getFieldPtr();
 
-	GeoPosition3f::FieldType * p = pnts->getFieldPtr();
-	GeoNormal3f::FieldType   * n = norms->getFieldPtr();
+	// faces
+	
+	GeoIndexUI32::FieldType 	* i  = index->getFieldPtr();
+	GeoPLength::FieldType    	* l  = lens->getFieldPtr();
+	GeoPType::FieldType     	* t  = types->getFieldPtr();
 
+	// 
+	
 	beginEditCP(pnts);
 	beginEditCP(norms);
-	
-	p->addValue( Pnt3f(0,0,height) );
-	n->addValue( Vec3f(0,0,1) );
-	
-	p->addValue( Pnt3f(0,0,0) );
-	n->addValue( Vec3f(0,0,-1) );
-		
-	for ( j = 0; j < sides; j++ )
-	{
-		beta = j * delta;
-		x = radius * cos(beta);
-		y = radius * sin(beta);		
-		
-		p->addValue( Pnt3f(x, y, 0) );
-		n->addValue( Vec3f(x, y, 0) );
-	}
-	
-	for ( j = 0; j < sides; j++ )
-	{
-		beta = j * delta;
-		x = (radius / 2.) * cos(beta);
-		y = (radius / 2.) * sin(beta);
-						
-		p->addValue( Pnt3f(x, y, height / 2.) );
-		n->addValue( Vec3f(x, y, height / 2.) );
-	}
-
-	endEditCP(pnts);
-	endEditCP(norms);
-
-	// create the faces
-	
-	GeoIndexUI32::FieldType * i = index->getFieldPtr();
-	GeoPLength::FieldType   * l = lens->getFieldPtr();
-	GeoPType::FieldType     * t = types->getFieldPtr();
+	beginEditCP(tex);
 
 	beginEditCP(index);
 	beginEditCP(lens);
 	beginEditCP(types);
+	
+	if ( doSide )
+	{
+		UInt32 baseindex = p->getSize();
+		
+		for ( j = 0; j <= sides; j++ )
+		{
+			beta = j * delta;
+			x = topradius * sin(beta);
+			z = - topradius * cos(beta);		
 
-	t->addValue(GL_TRIANGLE_FAN);
-	l->addValue(sides+2);
-	i->addValue(0);
-	for ( j = 0; j < sides; j++ ) {
-			i->addValue(j+2+sides);
-	}
-	i->addValue(2+sides); 
+			p->addValue( Pnt3f( x, height/2, z ) );
+			n->addValue( Vec3f( x/nlen, incl/nlen, z/nlen ) );
+			tx->addValue( Vec2f( j / (Real32) sides, 1 ) );
+		}
 		
-	t->addValue(GL_TRIANGLE_STRIP);
-	l->addValue(sides*2+2);
-	for ( j = 0; j < sides; j++ ) {
-			i->addValue(j+2+sides);
-			i->addValue(j+2);			
+		for ( j = 0; j <= sides; j++ )
+		{
+			beta = j * delta;
+			x = botradius * sin(beta);
+			z = - botradius * cos(beta);		
+
+			p->addValue( Pnt3f(x, -height/2, z) );
+			n->addValue( Vec3f(x/nlen, incl/nlen, z/nlen) );
+			tx->addValue( Vec2f( j / (Real32) sides, 0) );
+		}
+
+		t->addValue(GL_TRIANGLE_STRIP);
+		l->addValue( 2 * ( sides + 1 ) );
+
+		for ( j = 0; j <= sides; j++ ) 
+		{
+				i->addValue( baseindex + j );
+				i->addValue( baseindex + sides + 1 + j );
+		}
 	}
-	i->addValue(2+sides);
-	i->addValue(2); 
+	
+	if ( doTop && topradius > 0 )
+	{
+		UInt32 baseindex = p->getSize();
 		
-	t->addValue(GL_TRIANGLE_FAN);
-	l->addValue(sides+2);
-	i->addValue(1);
-	for ( j = 0; j < sides; j++ ) {
-			i->addValue(j+2);
+		// need to duplicate the points for now, as we don't have multi-index geo yet
+		
+		for ( j = 0; j < sides; j++ )
+		{
+			beta = j * delta;
+			x = topradius * cos(beta);
+			z = - topradius * sin(beta);		
+
+			p->addValue( Pnt3f( x, height/2, z ) );
+			n->addValue( Vec3f( 0, 1, 0) );
+			tx->addValue( Vec2f( x / topradius / 2 + .5, z / topradius / 2 + .5 ) );
+		}
+
+		t->addValue(GL_TRIANGLE_FAN);
+		l->addValue( sides + 1 );
+
+		for ( j = 0; j < sides; j++ ) 
+		{
+				i->addValue( baseindex + j );
+		}
+		i->addValue( baseindex );
 	}
-	i->addValue(2);
+	
+	if ( doBottom && botradius > 0  )
+	{
+		UInt32 baseindex = p->getSize();
+		
+		// need to duplicate the points for now, as we don't have multi-index geo yet
+		
+		for ( j = 0; j < sides; j++ )
+		{
+			beta = j * delta;
+			x = - botradius * cos(beta);
+			z = botradius * sin(beta);		
+
+			p->addValue( Pnt3f( x, -height/2, z ) );
+			n->addValue( Vec3f( 0, -1, 0 ) );
+			tx->addValue( Vec2f( x / botradius / 2 + .5, z / botradius / 2 + .5 ) );
+		}
+
+		t->addValue(GL_TRIANGLE_FAN);
+		l->addValue( sides + 1 );
+
+		for ( j = 0; j < sides; j++ ) 
+		{
+				i->addValue( baseindex + j );
+		}
+		i->addValue( baseindex );
+	}
+	
+	endEditCP(pnts);
+	endEditCP(norms);
+	endEditCP(tex);
 	
 	endEditCP(index);
 	endEditCP(lens);
@@ -306,6 +408,7 @@ NodePtr OSG::makeCone( Real32 height, Real32 radius, UInt16 sides )
 	geo->setPositions( pnts );
 	geo->setNormals( norms );
 	geo->setNormalPerVertex( true );
+	geo->setTexCoords( tex );
 	geo->setIndex( index );
 	geo->setTypes( types );
 	geo->setLengths( lens );
@@ -343,8 +446,9 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
 		return NullNode;
 	}
 	
-	GeoPosition3fPtr		pnts  = GeoPosition3f::create();
+	GeoPosition3fPtr	pnts  = GeoPosition3f::create();
 	GeoNormal3fPtr		norms = GeoNormal3f::create();
+	GeoTexCoords2fPtr	tex   = GeoTexCoords2f::create();
 	GeoIndexUI32Ptr		index = GeoIndexUI32::create();	
 	GeoPLengthPtr		lens  = GeoPLength::create();	
 	GeoPTypePtr			types = GeoPType::create();	
@@ -356,21 +460,23 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
 
 	// calc the vertices
 
-	GeoPosition3f::FieldType * p = pnts->getFieldPtr();
-	GeoNormal3f::FieldType   * n = norms->getFieldPtr();
+	GeoPosition3f::FieldType 	* p = pnts->getFieldPtr();
+	GeoNormal3f::FieldType   	* n = norms->getFieldPtr();
+	GeoTexCoords2f::FieldType   * tx = tex->getFieldPtr();
 
 	beginEditCP(pnts);
 	beginEditCP(norms);
+	beginEditCP(tex);
 	
   	ringDelta = 2.0 * Pi / rings;
   	sideDelta = 2.0 * Pi / sides;
 
-  	for (a = rings, theta = 0.0; a > 0; a--, theta += ringDelta) 
+  	for (a = 0, theta = 0.0; a <= rings; a++, theta += ringDelta) 
   	{
     		cosTheta = cos(theta);
     		sinTheta = sin(theta);
  		
-    		for (b = sides, phi = 0; b > 0; b--, phi += sideDelta ) 
+    		for (b = 0, phi = 0; b <= sides; b++, phi += sideDelta ) 
     		{
       			GLfloat cosPhi, sinPhi, dist;
  			
@@ -380,11 +486,13 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
 
       			n->addValue( Vec3f(cosTheta * cosPhi, -sinTheta * cosPhi, sinPhi) );
       			p->addValue( Pnt3f(cosTheta * dist, -sinTheta * dist, innerRadius * sinPhi) );
-    		}
+        		tx->addValue( Vec2f( - a / (Real32) rings, b / (Real32)sides ) );
+   		}
  	}	
 
 	endEditCP(pnts);
 	endEditCP(norms);
+	endEditCP(tex);
 
 	// create the faces
 	
@@ -403,8 +511,8 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
 		
 		for ( b = 0; b <= rings; b++ )
 		{
-			i->addValue( (b % rings) * sides + a );
-			i->addValue( (b % rings) * sides + (a + 1) % sides );
+			i->addValue( b * (sides+1) + a );
+			i->addValue( b * (sides+1) + a + 1 );
 		}
 	}
 
@@ -420,6 +528,7 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
 	geo->setPositions( pnts );
 	geo->setNormals( norms );
 	geo->setNormalPerVertex( true );
+	geo->setTexCoords( tex );
 	geo->setIndex( index );
 	geo->setTypes( types );
 	geo->setLengths( lens );
@@ -463,11 +572,10 @@ static void subdivideTriangle( Vec3f &v1,
 						Vec3f &v2, 
 						Vec3f &v3, 
 						Int32 depth, 
-						GeoPosition3f::FieldType *p, 
-						GeoNormal3f::FieldType   *n,
-						GeoIndexUI32::FieldType  *i,
-						GeoPLength::FieldType    *l,
-						GeoPType::FieldType      *t,
+						GeoPosition3f::FieldType  *p, 
+						GeoNormal3f::FieldType    *n,
+						GeoTexCoords2f::FieldType *tx,
+						GeoIndexUI32::FieldType   *i,
 						Int32 *z, Real32 radius) {
 			
 	setVecLen( v1, radius );
@@ -477,22 +585,37 @@ static void subdivideTriangle( Vec3f &v1,
 	if (depth == 0) 
 	{
 		Vec3f norm;
-
-		t->addValue( GL_TRIANGLES );
-		l->addValue(3);
 		
 		norm = v1; norm.normalize();
 		n->addValue( norm );
+		tx->addValue( 	Vec2f(	osgatan2( -v1[0], -v1[2] ) / Pi / 2 + .5, 
+								osgabs( osgatan2( -v1[1], 
+												  osgsqrt( v1[2] * v1[2] + v1[0] * v1[0]) 
+									  			)
+									  )  / Pi + .5
+				    ) 		 );
 		p->addValue( v1 );
 		i->addValue( (*z)++ );
 
 		norm = v2; norm.normalize();
 		n->addValue( norm );
+		tx->addValue( 	Vec2f(	osgatan2( -v2[0], -v2[2] ) / Pi / 2 + .5, 
+								osgabs( osgatan2( -v2[1], 
+												  osgsqrt( v2[2] * v2[2] + v2[0] * v2[0]) 
+									  			)
+									  )  / Pi + .5
+				    ) 		 );
 		p->addValue( v2 );
 		i->addValue( (*z)++ );
 
 		norm = v3; norm.normalize();
 		n->addValue( norm );
+		tx->addValue( 	Vec2f(	osgatan2( -v3[0], -v3[2] ) / Pi / 2 + .5, 
+								osgabs( osgatan2( -v3[1], 
+												  osgsqrt( v3[2] * v3[2] + v3[0] * v3[0]) 
+									  			)
+									  )  / Pi + .5
+				    ) 		 );
 		p->addValue( v3 );
 		i->addValue( (*z)++ );
 					
@@ -509,10 +632,10 @@ static void subdivideTriangle( Vec3f &v1,
 	v23 /= 2.0;
 	v31 /= 2.0;
 	
-	subdivideTriangle(  v1, v12, v31, depth - 1, p,n,i,l,t, z, radius );
-	subdivideTriangle(  v2, v23, v12, depth - 1, p,n,i,l,t, z, radius );
-	subdivideTriangle(  v3, v31, v23, depth - 1, p,n,i,l,t, z, radius );
-	subdivideTriangle( v12, v23, v31, depth - 1, p,n,i,l,t, z, radius );
+	subdivideTriangle(  v1, v12, v31, depth - 1, p,n,tx,i, z, radius );
+	subdivideTriangle(  v2, v23, v12, depth - 1, p,n,tx,i, z, radius );
+	subdivideTriangle(  v3, v31, v23, depth - 1, p,n,tx,i, z, radius );
+	subdivideTriangle( v12, v23, v31, depth - 1, p,n,tx,i, z, radius );
 		
 }
 
@@ -528,19 +651,13 @@ subdivision of an icosahedron, with \a depth giving the number of subdivisions.
 
 NodePtr OSG::makeSphere( UInt16 depth, Real32 radius )
 {	
-	if ( depth < 1 || radius <= 0 )
-	{
-		SWARNING << "makeSphere: illegal parameters depth=" << depth 
-				 << ", radius=" << radius 
-				 << endl;
-		return NullNode;
-	}
 	
 	#define X .525731112119133606
 	#define Z .850650808352039932	
 
-	GeoPosition3fPtr		pnts  = GeoPosition3f::create();
+	GeoPosition3fPtr	pnts  = GeoPosition3f::create();
 	GeoNormal3fPtr		norms = GeoNormal3f::create();
+	GeoTexCoords2fPtr	tex   = GeoTexCoords2f::create();
 	GeoIndexUI32Ptr		index = GeoIndexUI32::create();	
 	GeoPLengthPtr		lens  = GeoPLength::create();	
 	GeoPTypePtr			types = GeoPType::create();	
@@ -569,14 +686,14 @@ NodePtr OSG::makeSphere( UInt16 depth, Real32 radius )
 		setVecLen( *v[j], radius );
 	}
 							
-	GeoPosition3f::FieldType * p = pnts->getFieldPtr();
-	GeoNormal3f::FieldType   * n = norms->getFieldPtr();
-	GeoIndexUI32::FieldType * i = index->getFieldPtr();
-	GeoPLength::FieldType   * l = lens->getFieldPtr();
-	GeoPType::FieldType     * t = types->getFieldPtr();
+	GeoPosition3f::FieldType 	* p = pnts->getFieldPtr();
+	GeoNormal3f::FieldType   	* n = norms->getFieldPtr();
+	GeoTexCoords2f::FieldType   * tx = tex->getFieldPtr();
+	GeoIndexUI32::FieldType 	* i = index->getFieldPtr();
 
 	beginEditCP(pnts);
 	beginEditCP(norms);
+	beginEditCP(tex);
 	beginEditCP(index);
 	beginEditCP(lens);
 	beginEditCP(types);
@@ -584,11 +701,15 @@ NodePtr OSG::makeSphere( UInt16 depth, Real32 radius )
 	for ( j=0; j<20; j++ ) 
 	{
 		subdivideTriangle( *v[ tr[j][0] ], *v[ tr[j][1] ], *v[ tr[j][2] ],
-				   depth, p, n, i, l, t, &z, radius );
+				   depth, p, n, tx, i, &z, radius );
 	}
-				   					
+
+	types->addValue( GL_TRIANGLES );
+	lens->addValue( p->getSize() );
+	
 	endEditCP(pnts);
 	endEditCP(norms);
+	endEditCP(tex);
 	endEditCP(index);
 	endEditCP(lens);
 	endEditCP(types);
@@ -601,6 +722,7 @@ NodePtr OSG::makeSphere( UInt16 depth, Real32 radius )
 	geo->setPositions( pnts );
 	geo->setNormals( norms );
 	geo->setNormalPerVertex( true );
+	geo->setTexCoords( tex );
 	geo->setIndex( index );
 	geo->setTypes( types );
 	geo->setLengths( lens );
