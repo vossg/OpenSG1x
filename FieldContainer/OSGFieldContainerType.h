@@ -141,7 +141,7 @@ class OSGFieldContainerType
     /*------------------------- description ---------------------------------*/
 
 	const OSGFieldDescription *findFieldDescription(
-        const char *fieldName) const;
+        const OSGChar8 *fieldName) const;
 
     const OSGFieldDescription *getFieldDescription (
               OSGUInt32 index) const;

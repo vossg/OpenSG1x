@@ -20,13 +20,13 @@ class OSGStringLink : public OSGString {
 public:
 
 	/// Default Constructor
-	OSGStringLink (const char *str = 0);
+	explicit OSGStringLink (const char *str = 0);
 
 	/// Copy Constructor
 	OSGStringLink (const OSGStringLink &obj);
 
 	/// Copy Constructor
-	OSGStringLink(const OSGString &obj);
+	explicit OSGStringLink(const OSGString &obj);
 
 	/// Destructor
 	virtual ~OSGStringLink();

@@ -170,7 +170,7 @@ OSGFieldContainerType OSGNode::_type(
  *  \brief returns node type
  */
 
-/*! \fn OSGUInt32 OSGNode::getStaticTypeID(void) 
+/*! \fn OSGUInt32 OSGNode::getStaticTypeId(void) 
  *  \brief returns node type id
  */
 
@@ -195,11 +195,6 @@ OSG_FIELD_CONTAINER_DEF(OSGNode, OSGNodePtr)
 
 /*------------------------------ access -----------------------------------*/
 
-OSGNodePtr OSGNode::getParent(void)
-{
-    return _parent.getValue();
-}
-
 void OSGNode::addAttachment(const OSGAttachmentPtr &fieldContainerP)
 {
     if(fieldContainerP == OSGNullAttachment)
@@ -223,7 +218,7 @@ void OSGNode::subAttachment(const OSGAttachmentPtr &fieldContainerP)
     }  
 }
 
-OSGAttachmentPtr OSGNode::findAttachment (int typeID) 
+OSGAttachmentPtr OSGNode::findAttachment(OSGUInt32 typeID) 
 {
     OSGAttachmentMap::iterator fcI = _attachmentMap.getValue().find(typeID);
     
@@ -253,6 +248,11 @@ void OSGNode::setCore(const OSGNodeCorePtr &core)
     {
         _core.getValue()->addParent(thisP);
 	}
+}
+
+OSGNodePtr OSGNode::getParent(void)
+{
+    return _parent.getValue();
 }
 
 OSGUInt32 OSGNode::getNChildren(void) const 
@@ -339,13 +339,12 @@ void OSGNode::subChild(OSGUInt32  childIndex)
     }
 }
 
-/*---------------------------- properties ---------------------------------*/
-
-
 OSGNodePtr OSGNode::getChild(OSGUInt32  childIndex)
 {
     return _children.getValue(childIndex);
 }
+
+/*---------------------------- properties ---------------------------------*/
 
 OSGSFString *OSGNode::getSFName(void) 
 {
@@ -385,7 +384,98 @@ OSGNodePtr OSGNode::getPtr(void)
 
 /*-------------------------- your_category---------------------------------*/
 
+
+OSGMatrix OSGNode::getToWorld(void)
+{
+	OSGMatrix tmp;
+	
+	getToWorld(tmp);
+	
+	return tmp;
+}
+	
+void OSGNode::getToWorld(OSGMatrix &result)
+{
+	if(getParent() != OSGNullNode)
+    {
+		getParent()->getToWorld(result);
+    }
+	else
+    {
+		result.setIdentity();
+    }
+
+	getCore()->accumulateMatrix(result);
+}
+
 /*-------------------------- assignment -----------------------------------*/
+
+void OSGNode::getWorldVolume(OSGVolume &result)
+{	
+	OSGMatrix m;
+	
+	if(getParent() != OSGNullFC)
+		getParent()->getToWorld(m);
+	else
+		m.setIdentity();
+		
+	updateVolume();
+	result = getVolume();
+	result.transform(m);
+}
+	
+void OSGNode::updateVolume(void)
+{
+	OSGVolume & vol = _volume.getValue().getVolume();
+
+	if(vol.isValid())
+		return;				// still valid, nothing to do
+
+	OSGMFNodePtr::iterator it;
+
+	vol.setEmpty();
+
+	for(it = _children.begin(); it != _children.end(); it++)
+	{
+		(*it)->updateVolume();
+		vol.extendBy((*it)->getVolume());
+	}
+	
+	getCore()->adjustVolume(vol);
+	
+	// notify the change
+	
+	// !!!! the change has to be added to the change list
+	// don't know how to do that yet
+}
+
+void OSGNode::invalidateVolume(void)
+{
+    if(_volume.getValue().getVolume().isValid() == true)
+    {
+        beginEdit(OSGVolumeFieldMask, _volume);
+
+        _volume.getValue().getVolume().setValid(false);
+
+        endEdit(OSGVolumeFieldMask, _volume);
+
+        if(getParent() != OSGNullFC)
+        {
+            getParent()->invalidateVolume();
+        }
+    }
+}
+
+void OSGNode::changed(OSGBitVector  whichField, 
+                      OSGChangeMode from)
+{
+    if(whichField & (OSGCoreFieldMask | OSGChildrenFieldMask))
+    {
+        invalidateVolume();
+    }
+}
+
+/*------------------------------- dump ----------------------------------*/
 
 void OSGNode::print(OSGUInt32 indent) const
 {
@@ -455,94 +545,6 @@ void OSGNode::print(OSGUInt32 indent) const
 
     cerr << "}" << endl;
 }
-	
-/** Transformations */
-
-OSGMatrix OSGNode::getToWorld( void )
-{
-	OSGMatrix tmp;
-	
-	getToWorld( tmp );
-	
-	return tmp;
-}
-	
-void OSGNode::getToWorld( OSGMatrix & result )
-{
-	if ( getParent() != OSGNullNode )
-		getParent()->getToWorld( result );
-	else
-		result.setIdentity();
-
-	getCore()->accumulateMatrix( result );
-}
-	
-/** Volumes */
-	
-void OSGNode::getWorldVolume( OSGVolume & result )
-{	
-	OSGMatrix m;
-	
-	if ( getParent() != OSGNullFC )
-		getParent()->getToWorld( m );
-	else
-		m.setIdentity();
-		
-	updateVolume();
-	result = getVolume();
-	result.transform( m );
-}
-	
-void OSGNode::updateVolume( void )
-{
-	OSGVolume & vol = _volume.getValue().getVolume();
-
-	if ( vol.isValid() )
-		return;				// still valid, nothing to do
-
-	OSGMFNodePtr::iterator it;
-
-	vol.setEmpty();
-
-	for ( it = _children.begin(); it != _children.end(); it++ )
-	{
-		(*it)->updateVolume();
-		vol.extendBy( (*it)->getVolume() );
-	}
-	
-	getCore()->adjustVolume( vol );
-	
-	// notify the change
-	
-	// !!!! the change has to be added to the change list
-	// don't know how to do that yet
-}
-
-void OSGNode::invalidateVolume(void)
-{
-    if(_volume.getValue().getVolume().isValid() == true)
-    {
-        beginEdit(OSGVolumeFieldMask, _volume);
-        _volume.getValue().getVolume().setValid(false);
-        endEdit(OSGVolumeFieldMask, _volume);
-
-        if(getParent() != OSGNullFC)
-        {
-            getParent()->invalidateVolume();
-        }
-    }
-}
-
-void OSGNode::changed(OSGBitVector  whichField, 
-                      OSGChangeMode from)
-{
-    if(whichField & (OSGCoreFieldMask | OSGChildrenFieldMask))
-    {
-        invalidateVolume();
-    }
-}
-
-/*------------------------------- dump ----------------------------------*/
 
 void OSGNode::dump(void) const
 {
@@ -561,11 +563,12 @@ void OSGNode::dump(void) const
 /** \brief Constructor
  */
 
-OSGNode::OSGNode (void ) :
-    _name(),
-    _parent(),
-    _children(),
-    _core(),
+OSGNode::OSGNode(void) :
+    Inherited     (),
+    _name         (),
+    _parent       (),
+    _children     (),
+    _core         (),
     _attachmentMap()
 {
 }
@@ -574,11 +577,11 @@ OSGNode::OSGNode (void ) :
  */
 
 OSGNode::OSGNode(const OSGNode &source) :
-    Inherited(),
-    _name(source._name),
-    _parent(source._parent),
-    _children(source._children),
-    _core(source._core),
+    Inherited     (source),
+    _name         (source._name),
+    _parent       (source._parent),
+    _children     (source._children),
+    _core         (source._core),
     _attachmentMap(source._attachmentMap)
 {
 }
@@ -588,7 +591,6 @@ OSGNode::OSGNode(const OSGNode &source) :
 
 OSGNode::~OSGNode (void )
 {
-	return;
 }
 
 /*------------------------------ access -----------------------------------*/

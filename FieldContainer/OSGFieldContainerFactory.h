@@ -93,7 +93,7 @@ class OSGFieldContainerFactory
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static OSGFieldContainerFactory &the(void);
+    static const OSGFieldContainerFactory &the(void);
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -124,7 +124,7 @@ class OSGFieldContainerFactory
 
    /*---------------------------- dump -------------------------------------*/
 
-    void dump(void);
+    void dump(void) const;
     
   protected:
 
@@ -135,6 +135,21 @@ class OSGFieldContainerFactory
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
+
+    typedef map<OSGUInt32, OSGFieldContainerType *>  OSGTypeIdMap;
+    typedef map<OSGString, OSGFieldContainerType *>  OSGTypeNameMap;
+    typedef map<OSGString, OSGUInt16>                OSGGroupMap;
+
+    typedef vector<OSGFieldContainerPtr>             OSGFieldContainerStore;
+
+    typedef OSGTypeIdMap::iterator           OSGTypeIdMapIt;
+    typedef OSGTypeNameMap::iterator         OSGTypeNameMapIt;
+    typedef OSGGroupMap::iterator            OSGGroupMapIt;
+    typedef OSGFieldContainerStore::iterator OSGFieldContainerStoreIt;
+
+    typedef OSGTypeIdMap::const_iterator           OSGTypeIdMapConstIt;
+    typedef OSGTypeNameMap::const_iterator         OSGTypeNameMapCnstIt;
+    typedef OSGGroupMap::const_iterator            OSGGroupMapConstIt;
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
@@ -153,15 +168,14 @@ class OSGFieldContainerFactory
     static OSGUInt32 registerFieldContainer(
         const OSGFieldContainerPtr &fieldP);
 
-    static const vector<OSGFieldContainerPtr> *getFieldStore(void);
+    static const OSGFieldContainerStore *getFieldStore(void);
 
     static OSGFieldContainerType *findTypeStatic   (const OSGChar8  *name);
     static OSGFieldContainerType *findTypeStatic   (      OSGUInt32 typeId);
     static OSGUInt16              findGroupIdStatic(const OSGChar8  *name);
 
-    static OSGUInt32 registerType (const OSGChar8              *name, 
-                                         OSGFieldContainerType *typeP);
-    static OSGUInt16 registerGroup(const OSGChar8 *name);
+    static OSGUInt32 registerType (      OSGFieldContainerType *typeP);
+    static OSGUInt16 registerGroup(const OSGChar8              *name);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -196,18 +210,20 @@ class OSGFieldContainerFactory
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    static OSGFieldContainerFactory                  _the;
+	static char cvsid[];
 
-    static OSGBool                                   _initialized;
+    static OSGFieldContainerFactory  _the;
 
-    static map<OSGUInt32, OSGFieldContainerType *>  *_typeIdMap;
-    static map<OSGString, OSGFieldContainerType *>  *_typeNameMap;
-    static map<OSGString, OSGUInt16>                *_groupMap;
+    static OSGBool                   _initialized;
 
-    static vector<OSGFieldContainerPtr>             *_fieldcontainerStoreV;
+    static OSGTypeIdMap             *_typeIdMap;
+    static OSGTypeNameMap           *_typeNameMap;
+    static OSGGroupMap              *_groupMap;
 
-    static OSGLock                                  *_storeLock;
-    static OSGLock                                  *_mapLock;
+    static OSGFieldContainerStore   *_fieldcontainerStoreV;
+
+    static OSGLock                  *_storeLock;
+    static OSGLock                  *_mapLock;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -223,7 +239,6 @@ class OSGFieldContainerFactory
 
     OSGFieldContainerFactory (void);
     virtual ~OSGFieldContainerFactory (void);
-
 
     // prohibit default functions (move to 'public' if you need one)
 

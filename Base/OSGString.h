@@ -37,10 +37,10 @@ private:
 public:
 
 	/// Default Constructor
-	OSGString(unsigned size = 0);
+	explicit OSGString(unsigned size = 0);
 
 	/// Constructor
-	OSGString(const char *str, MemType memType = COPY);
+	explicit OSGString(const char *str, MemType memType = COPY);
 
 	/// Copy Constructor
 	OSGString (const OSGString &obj, MemType memType = COPY);

@@ -574,13 +574,13 @@ const OSGFieldTypeT &OSGMField<OSGFieldTypeT>::operator [](
 
 /*-------------------------- field information ------------------------------*/
 
-/** \brief Return the cardinality of the field, allways OSGField::MULTI_FIELD
+/** \brief Return the cardinality of the field, allways OSGMULTI_FIELD
  */
 
 template <class OSGFieldTypeT> inline
-OSGField::Cardinality OSGMField<OSGFieldTypeT>::getCardinality (void) const
+OSGField::OSGCardinality OSGMField<OSGFieldTypeT>::getCardinality (void) const
 {
-    return OSGField::MULTI_FIELD;
+    return OSGMULTI_FIELD;
 }
 
 /** \brief Returns the size of the field

@@ -201,6 +201,15 @@ class OSGFieldDescription
     OSGFieldDescription &operator = (const OSGFieldDescription &other);
 };
 
+struct OSGFieldDescriptionPLT
+{
+    bool operator()(const OSGFieldDescription* fieldDesc1, 
+                    const OSGFieldDescription* fieldDesc2) const
+    {
+        return (fieldDesc1->getFieldId() < fieldDesc2->getFieldId());
+    }
+};
+
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------

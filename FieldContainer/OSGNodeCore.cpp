@@ -122,21 +122,6 @@ OSG_ABSTR_FIELD_CONTAINER_DEF(OSGNodeCore, OSGNodeCorePtr)
 
 /*------------------------------ access -----------------------------------*/
 
-void OSGNodeCore::addParent ( const OSGNodePtr &parent)
-{
-    _parents.addValue(parent);
-}
-
-void OSGNodeCore::subParent ( const OSGNodePtr &parent)
-{
-    OSGMFNodePtr::iterator parentIt = _parents.find(parent);
-
-    if(parentIt != _parents.end())
-    {
-        _parents.erase(parentIt);
-    }
-}
-
 OSGMFNodePtr *OSGNodeCore::getMFParents(void)
 {
     return &_parents;
@@ -194,6 +179,7 @@ OSGAttachmentPtr OSGNodeCore::findAttachment(OSGUInt16 groupId,
 }
 
 
+
 /*---------------------------- properties ---------------------------------*/
 
 OSGNodeCorePtr OSGNodeCore::getPtr(void)
@@ -203,8 +189,15 @@ OSGNodeCorePtr OSGNodeCore::getPtr(void)
     return returnValue;
 }
 
-
 /*-------------------------- your_category---------------------------------*/
+
+void OSGNodeCore::accumulateMatrix(OSGMatrix &)
+{
+}
+
+void OSGNodeCore::adjustVolume(OSGVolume &)
+{
+}
 
 /*-------------------------- assignment -----------------------------------*/
 
@@ -249,14 +242,6 @@ void OSGNodeCore::dump(void) const
     SDEBUG << "Dump OSGNodeCore NI" << endl;
 }
 
-void OSGNodeCore::accumulateMatrix( OSGMatrix &  )
-{
-}
-
-void OSGNodeCore::adjustVolume( OSGVolume &  )
-{
-}
-
 /*-------------------------- comparison -----------------------------------*/
 
 
@@ -270,6 +255,7 @@ void OSGNodeCore::adjustVolume( OSGVolume &  )
  */
 
 OSGNodeCore::OSGNodeCore(void) :
+    Inherited     (),
     _parents      (),
     _attachmentMap()
 {
@@ -280,7 +266,8 @@ OSGNodeCore::OSGNodeCore(void) :
  */
 
 OSGNodeCore::OSGNodeCore(const OSGNodeCore &obj) :
-    _parents(),
+    Inherited     (obj),
+    _parents      (),
     _attachmentMap(obj._attachmentMap)
 {
 }
@@ -290,6 +277,21 @@ OSGNodeCore::OSGNodeCore(const OSGNodeCore &obj) :
 
 OSGNodeCore::~OSGNodeCore (void )
 {
+}
+
+void OSGNodeCore::addParent(const OSGNodePtr &parent)
+{
+    _parents.addValue(parent);
+}
+
+void OSGNodeCore::subParent(const OSGNodePtr &parent)
+{
+    OSGMFNodePtr::iterator parentIt = _parents.find(parent);
+
+    if(parentIt != _parents.end())
+    {
+        _parents.erase(parentIt);
+    }
 }
 
 /*-------------------------------------------------------------------------*\

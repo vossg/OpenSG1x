@@ -218,13 +218,13 @@ void OSGSField<OSGFieldTypeT>::setValue(const OSGSField<OSGFieldTypeT> &obj)
 
 /*------------------------- field information -------------------------------*/
 
-/** \brief Returns the field cardinality, allways OSGField::SINGLE_FIELD
+/** \brief Returns the field cardinality, allways OSGField::OSGSINGLE_FIELD
  */
 
 template <class OSGFieldTypeT> inline
-OSGField::Cardinality OSGSField<OSGFieldTypeT>::getCardinality (void) const
+OSGField::OSGCardinality OSGSField<OSGFieldTypeT>::getCardinality (void) const
 {
-    return OSGField::SINGLE_FIELD;
+    return OSGSINGLE_FIELD;
 }
 
 /** \brief Returns the size of the field, allway 1

@@ -91,7 +91,7 @@ OSG_FC_LAST_FIELD_IDM_DEF (OSGMaterialChunk, OSGShininessField)
 
 char OSGMaterialChunk::cvsid[] = "@(#)$Id: $";
 
-OSGStateChunkClass OSGMaterialChunk::_class("Material");
+OSGStateChunkClass OSGMaterialChunk::_class(OSGString("Material"));
 
 
 OSGFieldDescription OSGMaterialChunk::_desc[] = 

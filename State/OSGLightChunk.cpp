@@ -105,7 +105,7 @@ OSG_FC_LAST_FIELD_IDM_DEF (OSGLightChunk, OSGQuadraticAttenuationField)
 
 char OSGLightChunk::cvsid[] = "@(#)$Id: $";
 
-OSGStateChunkClass OSGLightChunk::_class("Light",8);
+OSGStateChunkClass OSGLightChunk::_class(OSGString("Light"), 8);
 
 
 OSGFieldDescription OSGLightChunk::_desc[] = 

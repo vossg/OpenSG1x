@@ -127,7 +127,7 @@ OSGUInt32 OSGStateChunkClass::getNumSlots( OSGUInt32 index )
 const OSGString OSGStateChunkClass::getName( OSGUInt32 index ) 
 {
 	if ( index >= (*_classNames).size() )
-			return (char*)0;
+			return OSGString();
 
 	return (*_classNames)[index];
 }

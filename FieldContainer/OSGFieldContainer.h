@@ -410,27 +410,27 @@ class OSGFieldContainer
 //   Exported Types
 //---------------------------------------------------------------------------
 
-/* \def OSG_FC_TMPL_VAR_INL
- * \brief 
- * \relates OSGFieldContainer
- * \ingroup FieldContainerLib
+/*! \ingroup FieldContainerLib
+ *  \relates OSGFieldContainer
+ *  \brief var needs inline
  */
 
 #define OSG_FC_TMPL_VAR_INL 
 
 // Macros used to derive a new fieldcontainer
 
-/* \brief declare the first field
- * \relates OSGFieldContainer
+/*! \ingroup FieldContainerLib
+ *  \relates OSGFieldContainer
+ *  \brief declare the first field
  */
 
 #define OSG_FC_FIRST_FIELD_IDM_DECL(OSG_FIELDNAME)                            \
     static const OSGUInt32    OSG_FIELDNAME##Id;                              \
     static const OSGBitVector OSG_FIELDNAME##Mask;
 
-/* \brief define the first field
- * \relates OSGFieldContainer
- * \ingroup FieldContainerLib
+/*! \ingroup FieldContainerLib
+ *  \relates OSGFieldContainer
+ *  \brief define the first field
  */
 
 #define OSG_FC_FIRST_FIELD_IDM_DEF(OSG_CLASS, OSG_FIELDNAME)                  \
@@ -439,9 +439,9 @@ const OSGUInt32    OSG_CLASS::OSG_FIELDNAME##Id   =                           \
 const OSGBitVector OSG_CLASS::OSG_FIELDNAME##Mask =                           \
     Inherited::OSGNextFieldMask;
 
-/* \brief define the first field in template
- * \relates OSGFieldContainer
- * \ingroup FieldContainerLib
+/*! \ingroup FieldContainerLib
+ *  \relates OSGFieldContainer
+ *  \brief define the first field in template
  */
 
 #define OSG_FC_FIRST_FIELD_IDM_INL_TMPL_DEF(OSG_CLASS,                        \
@@ -454,18 +454,18 @@ template <class OSG_TMPL_PARAM> OSG_FC_TMPL_VAR_INL                           \
 const OSGBitVector OSG_CLASS<OSG_TMPL_PARAM>::OSG_FIELDNAME##Mask  =          \
     Inherited::OSGNextFieldMask;
 
-/* \brief declare a field
- * \relates OSGFieldContainer
- * \ingroup FieldContainerLib
+/*! \ingroup FieldContainerLib
+ *  \relates OSGFieldContainer
+ *  \brief declare a field
  */
 
 #define OSG_FC_FIELD_IDM_DECL(OSG_FIELDNAME)                                  \
     static const OSGUInt32    OSG_FIELDNAME##Id;                              \
     static const OSGBitVector OSG_FIELDNAME##Mask;
 
-/* \brief define a field
- * \relates OSGFieldContainer
- * \ingroup FieldContainerLib
+/*! \ingroup FieldContainerLib
+ *  \relates OSGFieldContainer
+ *  \brief define a field
  */
 
 #define OSG_FC_FIELD_IDM_DEF(OSG_CLASS, OSG_FIELDNAME, OSG_PREV_FIELDNAME)    \
@@ -474,9 +474,9 @@ const OSGUInt32    OSG_CLASS::OSG_FIELDNAME##Id    =                          \
 const OSGBitVector OSG_CLASS::OSG_FIELDNAME##Mask  =                          \
     OSG_PREV_FIELDNAME##Mask << 1;
 
-/* \brief define a field in template
- * \relates OSGFieldContainer
- * \ingroup FieldContainerLib
+/*! \ingroup FieldContainerLib
+ *  \relates OSGFieldContainer
+ *  \brief define a field in template
  */
 
 #define OSG_FC_FIELD_IDM_INL_TMPL_DEF(OSG_CLASS,                              \
@@ -490,16 +490,16 @@ template <class OSG_TMPL_PARAM> OSG_FC_TMPL_VAR_INL                           \
 const OSGBitVector OSG_CLASS<OSG_TMPL_PARAM>::OSG_FIELDNAME##Mask  =          \
     OSG_PREV_FIELDNAME##Mask << 1;
 
-/* \brief declare the end of fields
- * \ingroup FieldContainerLib
+/*! \ingroup FieldContainerLib
+ *  \brief declare the end of fields
  */
 
 #define OSG_FC_LAST_FIELD_IDM_DECL                                            \
     static const OSGUInt32    OSGNextFieldId;                                 \
     static const OSGBitVector OSGNextFieldMask;
 
-/* \brief define the end of fields
- * \ingroup FieldContainerLib
+/*! \ingroup FieldContainerLib
+ *  \brief define the end of fields
  */
 
 #define OSG_FC_LAST_FIELD_IDM_DEF(OSG_CLASS, OSG_PREV_FIELDNAME)              \
@@ -508,8 +508,8 @@ const OSGUInt32    OSG_CLASS::OSGNextFieldId   =                              \
 const OSGBitVector OSG_CLASS::OSGNextFieldMask =                              \
     OSG_PREV_FIELDNAME##Mask << 1;
 
-/* \brief define the end of fields in template
- * \ingroup FieldContainerLib
+/*! \ingroup FieldContainerLib
+ *  \brief define the end of fields in template
  */
 
 #define OSG_FC_LAST_FIELD_IDM_INL_TMPL_DEF(OSG_CLASS,                         \
@@ -522,8 +522,8 @@ template <class OSG_TMPL_PARAM> OSG_FC_TMPL_VAR_INL                           \
 const OSGBitVector OSG_CLASS<OSG_TMPL_PARAM>::OSGNextFieldMask =              \
     OSG_PREV_FIELDNAME##Mask << 1;
 
-/* \brief put the field information in the fielddescription constructor
- * \ingroup FieldContainerLib
+/*! \ingroup FieldContainerLib
+ *  \brief put the field information in the fielddescription constructor
  */
 
 #define OSG_FC_FIELD_IDM_DESC(OSG_FIELDNAME)                                  \

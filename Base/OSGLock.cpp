@@ -632,16 +632,10 @@ void OSGLockPool::destroy(OSGLockPool *lockP)
 
 void OSGLockPool::aquire(void *keyP)
 {
-    fprintf(stderr, "A Key : %04x, Lock %04x\n", 
-            keyP, (((OSGUInt32) keyP) & uiLockPoolMask) >> 7);
-
     _locksA[(((OSGUInt32) keyP) & uiLockPoolMask) >> 7].aquire();
 }
 void OSGLockPool::release(void *keyP)
 {
-    fprintf(stderr, "R Key : %04x, Lock %04x\n", keyP, 
-            (((OSGUInt32) keyP) & uiLockPoolMask) >> 7);
-
     _locksA[(((OSGUInt32) keyP) & uiLockPoolMask) >> 7].release();
 }
 

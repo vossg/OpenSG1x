@@ -127,7 +127,7 @@ class OSGNodeCore : public OSGFieldContainer
 
     /*------------------------------ pointer -------------------------------*/
 
-    OSGNodeCorePtr getPtr (void);
+    OSGNodeCorePtr getPtr(void);
 
     /*-------------------------- transformation ----------------------------*/
 
@@ -135,7 +135,7 @@ class OSGNodeCore : public OSGFieldContainer
 
     /*------------------------------ volume -------------------------------*/
 
-    virtual void adjustVolume(OSGVolume &volume);
+    virtual void adjustVolume    (OSGVolume &volume);
     
     /*------------------------------ dump -----------------------------------*/
 
@@ -171,9 +171,9 @@ class OSGNodeCore : public OSGFieldContainer
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGNodeCore (void);
-    OSGNodeCore (const OSGNodeCore &obj);
-    virtual ~OSGNodeCore (void);
+    OSGNodeCore(void);
+    OSGNodeCore(const OSGNodeCore &obj);
+    virtual ~OSGNodeCore(void);
 
     void addParent(const OSGNodePtr &parent);
     void subParent(const OSGNodePtr &parent);
@@ -234,4 +234,4 @@ OSG_END_NAMESPACE
 
 #include <OSGNodeCore.inl>
 
-#endif /* _OSG_NODECORE_H_ */
+#endif /* _OSGNODECORE_H_ */

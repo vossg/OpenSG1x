@@ -238,17 +238,13 @@ class OSGMField : public OSGField
     typedef typename OSGMFieldVector<OSGFieldTypeT>::
         const_reference const_reference;
 #else
-    typedef vector<OSGFieldTypeT>                  OSGStorageType;
+    typedef          vector<OSGFieldTypeT>                  OSGStorageType;
 
-    typedef typename vector<OSGFieldTypeT>::
-        iterator        iterator;
-    typedef typename vector<OSGFieldTypeT>::
-        const_iterator  const_iterator;
+    typedef typename vector<OSGFieldTypeT>::iterator        iterator;
+    typedef typename vector<OSGFieldTypeT>::const_iterator  const_iterator;
 
-    typedef typename vector<OSGFieldTypeT>::
-        reference       reference;
-    typedef typename vector<OSGFieldTypeT>::
-        const_reference const_reference;
+    typedef typename vector<OSGFieldTypeT>::reference       reference;
+    typedef typename vector<OSGFieldTypeT>::const_reference const_reference;
 #endif
     
     //-----------------------------------------------------------------------
@@ -269,8 +265,8 @@ class OSGMField : public OSGField
     //-----------------------------------------------------------------------
 
     OSGMField         (void);
-    OSGMField         (const OSGUInt32   size);
     OSGMField         (const OSGMField  &obj);
+    explicit OSGMField(const OSGUInt32   size);
 
     virtual ~OSGMField(void); 
 
@@ -318,13 +314,13 @@ class OSGMField : public OSGField
     void            push_back(const OSGFieldTypeT &value);
 
     /*----------------------- field information -----------------------------*/
-
-	OSGField::Cardinality getCardinality (void) const;
+    
+	OSGCardinality getCardinality (void) const;
 
 	// OSGMField has a vector<> interface and an OSG interface, so both are 
 	// sensible
-    virtual OSGUInt32     size           (void) const;
-            OSGUInt32     getSize        (void) const;
+    virtual OSGUInt32     size    (void) const;
+            OSGUInt32     getSize (void) const;
 
     /*-------------------------- field type ---------------------------------*/
 

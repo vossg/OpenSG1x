@@ -76,7 +76,7 @@ OSG_FC_LAST_FIELD_IDM_DEF (OSGTransformChunk, OSGMatrixField)
 
 char OSGTransformChunk::cvsid[] = "@(#)$Id: $";
 
-OSGStateChunkClass OSGTransformChunk::_class("Transform");
+OSGStateChunkClass OSGTransformChunk::_class(OSGString("Transform"));
 
 
 OSGFieldDescription OSGTransformChunk::_desc[] = 

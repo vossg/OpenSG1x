@@ -125,7 +125,7 @@ class OSGNode : public OSGFieldContainer
 
     virtual void subAttachment(const OSGAttachmentPtr &fieldContainerP);
 
-    virtual OSGAttachmentPtr findAttachment(int typeID);
+    virtual OSGAttachmentPtr findAttachment(OSGUInt32 typeID);
 
     /*-------------------------------- core --------------------------------*/
 
@@ -179,9 +179,9 @@ class OSGNode : public OSGFieldContainer
     
     /*------------------------------ volume -------------------------------*/
     
-    const OSGVolume &getVolume      (void)             const;
+    const OSGVolume &getVolume       (void)             const;
     
-          void       getWorldVolume (OSGVolume &result);
+          void       getWorldVolume  (OSGVolume &result);
     
           void       updateVolume    (void);
 

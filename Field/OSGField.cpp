@@ -50,15 +50,15 @@ OSG_USING_NAMESPACE
  *  \brief Classname
  */
 
-/** \var OSGField::Cardinality
+/** \var OSGField::OSGCardinality
  *  \brief Cardinality of the field
  */
 
-/** \var OSGField::Cardinality OSGField::SINGLE_FIELD
+/** \var OSGField::Cardinality OSGField::OSGSINGLE_FIELD
  *  \brief Single field
  */
 
-/** \var OSGField::Cardinality OSGField::MULTI_FIELD
+/** \var OSGField::Cardinality OSGField::OSGMULTI_FIELD
  *  \brief Mulit field
  */
 

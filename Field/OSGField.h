@@ -72,10 +72,10 @@ class OSGField
     //   enums                                                               
     //-----------------------------------------------------------------------
 
-    enum Cardinality 
+    enum OSGCardinality 
     { 
-        SINGLE_FIELD, 
-        MULTI_FIELD 
+        OSGSINGLE_FIELD, 
+        OSGMULTI_FIELD 
     };
 
     //-----------------------------------------------------------------------
@@ -106,9 +106,9 @@ class OSGField
 
     /*----------------------- field information -----------------------------*/
 
-	virtual Cardinality getCardinality (void) const = 0;
+	virtual OSGCardinality getCardinality (void) const = 0;
 
-	virtual OSGUInt32   size (void)           const = 0;
+	virtual OSGUInt32      size (void)           const = 0;
 
     /*------------------------------ access ---------------------------------*/
 

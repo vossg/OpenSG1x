@@ -72,18 +72,18 @@ class OSGSField : public OSGField
   public:
 
     //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
+
+	static const OSGFieldType _fieldType;
+
+    //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-	static const OSGFieldType _fieldType;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -96,11 +96,9 @@ class OSGSField : public OSGField
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGSField(void);
-
-    explicit OSGSField(const OSGFieldTypeT &value);
-
+    OSGSField         (void);
     OSGSField         (const OSGSField  &obj);
+    explicit OSGSField(const OSGFieldTypeT &value);
 
     virtual ~OSGSField(void); 
 
@@ -116,13 +114,13 @@ class OSGSField : public OSGField
 
     /*----------------------- field information -----------------------------*/
 
-	OSGField::Cardinality getCardinality (void) const;
+	virtual       OSGCardinality getCardinality (void) const;
 
-    virtual OSGUInt32     size           (void) const;
+    virtual       OSGUInt32      size           (void) const;
 
     /*-------------------------- field type ---------------------------------*/
 
-	virtual const OSGFieldType &getType (void) const;
+	virtual const OSGFieldType  &getType        (void) const;
 
     /*-------------------------- string io ----------------------------------*/
 

@@ -293,7 +293,7 @@ OSGBool OSGFieldContainerType::isDerivedFrom(
 const OSGFieldDescription *OSGFieldContainerType::findFieldDescription(
     const OSGChar8 *fieldName) const 
 {
-    OSGDescMapConstIt descIt = _descriptionMap.find(fieldName);
+    OSGDescMapConstIt descIt = _descriptionMap.find(OSGStringLink(fieldName));
 
     return (descIt == _descriptionMap.end()) ? NULL : (*descIt).second;
 }     
@@ -345,19 +345,16 @@ void OSGFieldContainerType::print(void) const
 
 void OSGFieldContainerType::registerType(const OSGChar8 *group)
 {
-	_Id      = OSGFieldContainerFactory::registerType (_name.str(), this);
+	_Id      = OSGFieldContainerFactory::registerType (this);
 	_groupId = OSGFieldContainerFactory::registerGroup( 
         group != NULL ? group : _name.str());
-
-	return;
 }
 
 void OSGFieldContainerType::initialize(void)
 {
-    OSGUInt32            i;
+    OSGUInt32      i;
 
-	map    <OSGStringLink, OSGFieldDescription *>::iterator         dPI;
-	vector <               OSGFieldDescription *>::reverse_iterator dVPI;
+	OSGDescMapIt dPI;
 
     if(_initialized == true)
         return;
@@ -366,7 +363,7 @@ void OSGFieldContainerType::initialize(void)
     {
         if (_descA[i].isValid()) 
         {
-            _descriptionMap[_descA[i].getName()] = &_descA[i];
+            _descriptionMap[OSGStringLink(_descA[i].getName())] = &_descA[i];
             _descriptionVec.push_back(&_descA[i]);
         }
         else
@@ -385,55 +382,48 @@ void OSGFieldContainerType::initialize(void)
 
     osgAddRefCP(_prototypeP);
 	
-	if(!_parentP) 
+    if(_parentName.str() != NULL) 
     {
-		if(_parentName.str()) 
+        _parentP = OSGFieldContainerFactory::the().findType(_parentName.str());
+        
+        if(_parentP != NULL) 
         {
-			_parentP = 
-                OSGFieldContainerFactory::the().findType(_parentName.str());
-
-			if(_parentP) 
+            _parentP->initialize();
+            
+            for(  dPI  = _parentP->_descriptionMap.begin();
+                  dPI != _parentP->_descriptionMap.end(); 
+                ++dPI) 
             {
-				_parentP->initialize();
-
-				for(  dPI  = _parentP->_descriptionMap.begin();
-                      dPI != _parentP->_descriptionMap.end(); 
-                    ++dPI) 
+                if(_descriptionMap.find((*dPI).first) == 
+                   _descriptionMap.end())
                 {
-					if(_descriptionMap.find((*dPI).first) == 
-                       _descriptionMap.end())
-                    {
-						_descriptionMap[(*dPI).first] = (*dPI).second;
-                    }
-					else
-                    {
-						SWARNING << "ERROR: Can't add field "
-                                 << "description a second time: " 
-                                 << (*dPI).first << endl; 
-                    }
-				} 				
-
-                reverse(_descriptionVec.begin(), _descriptionVec.end());
-
-                for(  dVPI  = _parentP->_descriptionVec.rbegin();
-                      dVPI != _parentP->_descriptionVec.rend();
-                    ++dVPI)
-                {
-                    _descriptionVec.push_back(*dVPI);
+                    _descriptionMap[(*dPI).first] = (*dPI).second;
                 }
-
-                reverse(_descriptionVec.begin(), _descriptionVec.end());
-			}
-			else 
-            {
-				SWARNING << "ERROR: Can't find type with "
-                         << "name " << _parentName.str() 
-                         << endl;
-			}
-		}
-
-		SDEBUG << "init OSGFieldContainerType " << _name << endl;
-	}
+                else
+                {
+                    SWARNING << "ERROR: Can't add field "
+                             << "description a second time: " 
+                             << (*dPI).first << endl; 
+                }
+            } 				
+            
+            _descriptionVec.insert(_descriptionVec.end(),
+                                   _parentP->_descriptionVec.begin(),
+                                   _parentP->_descriptionVec.end());
+            
+            sort(_descriptionVec.begin(),
+                 _descriptionVec.end(),
+                 OSGFieldDescriptionPLT());
+        }
+        else 
+        {
+            SWARNING << "ERROR: Can't find type with "
+                     << "name " << _parentName.str() 
+                     << endl;
+        }
+    }
+    
+    SDEBUG << "init OSGFieldContainerType " << _name << endl;
 
     if     (isDerivedFrom(OSGNodeCore::getStaticType())   == true)
     {
