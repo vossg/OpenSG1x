@@ -1086,7 +1086,7 @@ Image::Image (const Image &obj )
 //------------------------------
 Image::~Image (void )
 {
-	if (_data) {
+	if (_isCopy && _data) {
 		delete [] _data;
 		_data = 0;
 	}	
