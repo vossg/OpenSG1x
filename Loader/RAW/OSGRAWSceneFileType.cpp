@@ -65,12 +65,19 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.6 2001/10/08 05:21:54 vossg Exp $";
-    char cvsid_hpp[] = OSGRAWSCENEFILETYPE_HEADER_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.7 2001/10/08 05:54:16 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGRAWSCENEFILETYPE_HEADER_CVSID;
 }
 
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /*****************************
  *   Types
@@ -230,7 +237,7 @@ NodePtr RAWSceneFileType::read(const Char8  *fileName,
                                      UInt32  uiAddOptions,
                                      UInt32  uiSubOption ) const
 {
-    read(fileName, uiAddOptions & ~uiSubOption);
+    return read(fileName, uiAddOptions & ~uiSubOption);
 }
 
 //----------------------------
