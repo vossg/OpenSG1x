@@ -52,8 +52,12 @@
 #include <GL/glx.h>
 #endif
 
-#if defined(__sgi) || defined(darwin) || defined(__hpux) || defined(__linux)
+#if defined(__sgi) || defined(__hpux) || defined(__linux)
 #include <dlfcn.h>
+#endif
+
+#if defined(darwin)
+#include <mach-o/dyld.h>
 #endif
 
 #if defined(__sun)
@@ -1216,14 +1220,12 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
 
 #if defined(darwin)
 
-    static void *libHandle = NULL;
-
-    if(libHandle == NULL)
+    if (NSIsSymbolNameDefined(s))
     {
-        libHandle = dlopen("libGL.dylib", RTLD_NOW);
+        NSSymbol symbol = NSLookupAndBindSymbol(s);
+        if (symbol != 0)
+            retval = GLExtensionFunction(NSAddressOfSymbol(symbol));
     }
-
-    retval = reinterpret_cast<GLExtensionFunction>(dlsym(libHandle, s));
 
 #elif defined(WIN32)
 
