@@ -40,25 +40,20 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILEBASE
+
+#include "OSGConfig.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OSGConfig.h"
-
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
-#else
-#include <iostream.h>
-#endif
-
-#define OSG_COMPILEBASE
 
 #include "OSGMemoryObject.h"
 
 OSG_USING_NAMESPACE
 
-/** \var Int32 MemoryObject::_refCount
+/** \var UInt32 MemoryObject::_refCount
  *  \brief reference count
  */
 
@@ -76,45 +71,25 @@ char MemoryObject::cvsid[] = "@(#)$Id: $";
  *                           Class methods                                 *
 \***************************************************************************/
 
-
 /*-------------------------------------------------------------------------*\
- -  public                                                                 -
+ -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
- -  private                                                                -
+ -  public                                                                 -
 \*-------------------------------------------------------------------------*/
-
 
 /***************************************************************************\
  *                           Instance methods                              *
 \***************************************************************************/
 
 /*-------------------------------------------------------------------------*\
- -  public                                                                 -
+ -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-void MemoryObject::addRef(void)
-{
-    _refCount++;
-}
-
-void MemoryObject::subRef(void)
-{
-    _refCount--;
-
-    if(_refCount <= 0)
-        delete this;
-}
-
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
@@ -122,16 +97,27 @@ void MemoryObject::subRef(void)
 
 /*------------- constructors & destructors --------------------------------*/
 
+/** Default Constructor
+ */
 
 MemoryObject::MemoryObject(void) :
     _refCount(0)
 {
 }
 
+/** Copy Constructor
+ */
+
 MemoryObject::MemoryObject(const MemoryObject &) :
     _refCount(0)
 {
 }
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
 
 /** \brief Destructor
  */
@@ -140,12 +126,25 @@ MemoryObject::~MemoryObject(void)
 {
 }
 
+/** \brief Increment reference count by one
+ */
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+void MemoryObject::addRef(void)
+{
+    _refCount++;
+}
 
+/** \brief Decrement reference count, if the count equals zero the destructor
+ *  will be called.
+ */
 
+void MemoryObject::subRef(void)
+{
+    _refCount--;
+
+    if(_refCount == 0)
+        delete this;
+}
 
 ///---------------------------------------------------------------------------
 ///  FUNCTION: 

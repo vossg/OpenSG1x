@@ -62,6 +62,8 @@
 #include <OSGBase.h>
 #include <OSGBaseTypes.h>
 
+#include <vector>
+
 OSG_BEGIN_NAMESPACE
 
 //---------------------------------------------------------------------------
@@ -214,6 +216,96 @@ OSG_BASE_DLLMAPPING TypeT osgnextpower2(TypeT rVal);
 
 /*@}*/
 
+/*! @name MemoryObject Reference Count Functions 
+ */
+
+/*@{*/
+
+/*! \brief setRefP
+ *  \ingroup BaseFunctions
+ */
+
+template <class T> inline 
+void setRefP(T *&pObject, T *&pNewObject)
+{
+    if(pObject != NULL)
+        pObject->subRef();
+
+    pObject = pNewObject;
+
+    if(pObject != NULL)
+        pObject->addRef();
+}
+
+/*! \brief addRefP
+ *  \ingroup BaseFunctions
+ */
+
+template <class T> inline 
+void addRefP(T *&pObject)
+{
+    if(pObject != NULL)
+        pObject->addRef();
+}
+
+/*! \brief subRefP
+ *  \ingroup BaseFunctions
+ */
+
+template <class T> inline 
+void subRefP(T *&pObject)
+{
+    if(pObject != NULL)
+        pObject->subRef();
+}
+
+/*! \brief clearRefP
+ *  \ingroup BaseFunctions
+ */
+
+template <class T> inline 
+void clearRefP(T *&pObject)
+{
+    if(pObject != NULL)
+        pObject->subRef();
+
+    pObject = NULL;
+}
+
+/*! \brief clearRefPVector
+ *  \ingroup BaseFunctions
+ */
+
+#if 1
+template <class T> inline
+void clearRefPVector(vector<T *> &gVector)
+{
+    for(UInt32 i = 0; i < gVector.size(); i++)
+        gVector[i]->subRef();
+
+    gVector.erase(gVector.begin(), gVector.end());
+}
+
+/*! \brief clearRefPVectorP
+ *  \ingroup BaseFunctions
+ */
+
+template <class T> inline
+void clearRefPVectorP(vector<T *> *pVector)
+{
+    if(pVector != NULL)
+    {
+        for(UInt32 uiIndex = 0; uiIndex < pVector->size(); uiIndex++)
+            (*pVector)[uiIndex]->subRef();
+        
+        pVector->erase(pVector->begin(), pVector->end());
+    }
+}
+#endif
+
+/*@}*/
+
+
 /*! @name String Functions 
  */
 
@@ -224,7 +316,7 @@ OSG_BASE_DLLMAPPING TypeT osgnextpower2(TypeT rVal);
  */
 
 inline
-OSG_BASE_DLLMAPPING void osgstringDup(const char *szInput, char *&szOutput);
+OSG_BASE_DLLMAPPING void stringDup(const char *szInput, char *&szOutput);
 
 /*! \brief limited string compare
  *  \ingroup BaseFunctions
@@ -232,7 +324,7 @@ OSG_BASE_DLLMAPPING void osgstringDup(const char *szInput, char *&szOutput);
 
 inline 
 OSG_BASE_DLLMAPPING
-Int32 osgstrncmp(const char *string1, const char *string2, size_t count);
+Int32 stringncmp(const char *string1, const char *string2, size_t count);
 
 /*! \brief limited string compare
  *  \ingroup BaseFunctions
@@ -240,7 +332,7 @@ Int32 osgstrncmp(const char *string1, const char *string2, size_t count);
 
 
 inline 
-OSG_BASE_DLLMAPPING Int32 osgstrlen(const char *string1);
+OSG_BASE_DLLMAPPING Int32 stringlen(const char *string1);
 
 
 /*! \brief string compare
@@ -248,14 +340,14 @@ OSG_BASE_DLLMAPPING Int32 osgstrlen(const char *string1);
  */
 
 inline 
-OSG_BASE_DLLMAPPING Int32 osgstrcmp(const char *string1, const char *string2);
+OSG_BASE_DLLMAPPING Int32 stringcmp(const char *string1, const char *string2);
 
 /*! \brief string case compare
  *  \ingroup BaseFunctions
  */
 
 inline 
-OSG_BASE_DLLMAPPING Int32 osgstrcasecmp(const char *string1, 
+OSG_BASE_DLLMAPPING Int32 stringcasecmp(const char *string1, 
                                         const char *string2);
 
 /*! \brief String less than compare functor used for a STL weak ordering
@@ -284,6 +376,11 @@ OSG_BASE_DLLMAPPING struct EQString
 
 /*@}*/
 
+inline
+OSG_BASE_DLLMAPPING int putenv(char *string);
+
+
+
 /*! @name Sleep
  */
 
@@ -304,7 +401,7 @@ OSG_BASE_DLLMAPPING void osgsleep(UInt32 millisecs);
  *  \ingroup BaseFunctions
  */
 
-typedef Bool (*InitFuncF)(int argc, char **argv);
+typedef Bool (*InitFuncF)(int &argc, char **argv);
 
 /*! \var Bool (*ExitFuncF)(void);
  *  \brief ExitFuncF
@@ -317,13 +414,25 @@ typedef Bool (*ExitFuncF)(void);
  *  \ingroup BaseFunctions
  */
 
-OSG_BASE_DLLMAPPING void osgAddInitFunction(InitFuncF initFunc);
+OSG_BASE_DLLMAPPING void addInitFunction(InitFuncF initFunc);
 
 /*! \brief AddExitFunction
  *  \ingroup BaseFunctions
  */
 
-OSG_BASE_DLLMAPPING void osgAddExitFunction(ExitFuncF exitFunc);
+OSG_BASE_DLLMAPPING void addExitFunction(ExitFuncF exitFunc);
+
+/*! \brief vscAddMPInitFunction
+ *  \ingroup BaseFunctions
+ */
+
+OSG_BASE_DLLMAPPING void addMPInitFunction(InitFuncF initFunc);
+
+/*! \brief vscAddMPExitFunction
+ *  \ingroup BaseFunctions
+ */
+
+OSG_BASE_DLLMAPPING void addMPExitFunction(ExitFuncF exitFunc);
 
 /*! \brief Init
  *  \ingroup BaseFunctions

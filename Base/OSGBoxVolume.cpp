@@ -168,6 +168,10 @@ void BoxVolume::extendBy(const Pnt3f &pt)
 			_max[2] = pt[2];
 }
 
+#ifdef __sgi
+#pragma set woff 1552
+#endif
+
 /** extend the volume by the given volume */
 void BoxVolume::extendBy (const Volume &volume)
 {
@@ -190,6 +194,9 @@ void BoxVolume::extendBy (const Volume &volume)
 			  ; // code it !
 }
 	
+#ifdef __sgi
+#pragma reset woff 1552
+#endif
 
 /// Extends Box3f (if necessary) to contain given Box3f
 void BoxVolume::extendBy(const BoxVolume &bb)

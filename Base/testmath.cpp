@@ -15,7 +15,9 @@ using OSG::Vec4f;
 
 using OSG::Vec2s;
 
+using OSG::Pnt2f;
 using OSG::Pnt3f;
+using OSG::Pnt4f;
  
 using OSG::Matrix4f;
 using OSG::Matrix;
@@ -55,6 +57,12 @@ void vectorTestConstructAndSetTest(void)
     Vec2f v2f;
     Vec3f v3f;
     Vec4f v4f;
+
+    Pnt2f p2f(-1., -2.);
+    Pnt3f p3f(-1., -2., -3.);
+    Pnt4f p4f(-1., -2., -3., -4.);
+
+    p3f = p3f - v3f;
 
     Vec2f v2f2(2., 1.);
     Vec2f v2f3(3., 2., 1.);
@@ -97,13 +105,25 @@ void vectorTestConstructAndSetTest(void)
     Vec2f v2f6(v3f4);
     Vec2f v2f7(v4f4);
 
+    Vec2f v2fp5(p2f);
+    Vec2f v2fp6(p3f);
+    Vec2f v2fp7(p4f);
+
     Vec3f v3f5(v2f4);
     Vec3f v3f6(v3f4);
     Vec3f v3f7(v4f4);
 
+    Vec3f v3fp5(p2f);
+    Vec3f v3fp6(p3f);
+    Vec3f v3fp7(p4f);
+
     Vec4f v4f5(v2f4);
     Vec4f v4f6(v3f4);
     Vec4f v4f7(v4f4);
+
+    Vec4f v4fp5(p2f);
+    Vec4f v4fp6(p3f);
+    Vec4f v4fp7(p4f);
 
     cerr << "construct (cp size 2) " << v2f4 << "\n";
     printVec(v2f5);
@@ -119,6 +139,24 @@ void vectorTestConstructAndSetTest(void)
     printVec(v2f7);
     printVec(v3f7);
     printVec(v4f7);
+
+    cerr << "construct (cp size p2) " << p2f << "\n";
+    printVec(v2fp5);
+    printVec(v3fp5);
+    printVec(v4fp5);
+
+    cerr << "construct (cp size p3) " << p3f << "\n";
+    printVec(v2fp6);
+    printVec(v3fp6);
+    printVec(v4fp6);
+
+    cerr << "construct (cp size p4) " << p4f << "\n";
+    printVec(v2fp7);
+    printVec(v3fp7);
+    printVec(v4fp7);
+
+    
+    
 
     Vec2f v2f8(pVals);
     Vec3f v3f8(pVals);
@@ -923,6 +961,8 @@ void quattest(void)
     Real32 z;
     Real32 w;
 
+    Vec3f vXX(rotmatInY[3]);
+
     v1.setValues(1., 0., 0.);
 
     v2.setValues(1., 0., 0.);
@@ -1283,9 +1323,9 @@ void main(void)
 {
     osgInit(0, NULL);
 
-//    vectorTestConstructAndSetTest();
-    vectorMathTests();
-    matrixTest();
-   quattest();
+    vectorTestConstructAndSetTest();
+//    vectorMathTests();
+//    matrixTest();
+//   quattest();
 //	matutilitytest();
 }

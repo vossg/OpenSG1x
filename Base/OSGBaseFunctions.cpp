@@ -61,12 +61,13 @@
 #define OSG_COMPILEBASE
 
 #include "OSGBaseFunctions.h"
-#include "OSGThreadManager.h"
-#include "OSGAspect.h"
 
 OSG_BEGIN_NAMESPACE
-static vector<InitFuncF> *osgInitFunctions = NULL;
-static vector<ExitFuncF> *osgExitFunctions = NULL;
+static vector<InitFuncF> *osgInitFunctions   = NULL;
+static vector<ExitFuncF> *osgExitFunctions   = NULL;
+
+static vector<InitFuncF> *osgMPInitFunctions = NULL;
+static vector<ExitFuncF> *osgMPExitFunctions = NULL;
 OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
@@ -74,7 +75,7 @@ OSG_USING_NAMESPACE
 
 
 OSG_BASE_DLLMAPPING 
-void OSG::osgAddInitFunction(InitFuncF initFunc)
+void OSG::addInitFunction(InitFuncF initFunc)
 {
     if(osgInitFunctions == NULL)
     {
@@ -85,7 +86,7 @@ void OSG::osgAddInitFunction(InitFuncF initFunc)
 }
 
 OSG_BASE_DLLMAPPING 
-void OSG::osgAddExitFunction(ExitFuncF exitFunc)
+void OSG::addExitFunction(ExitFuncF exitFunc)
 {
     if(osgExitFunctions == NULL)
     {
@@ -96,12 +97,45 @@ void OSG::osgAddExitFunction(ExitFuncF exitFunc)
 }
 
 OSG_BASE_DLLMAPPING 
+void OSG::addMPInitFunction(InitFuncF initFunc)
+{
+    if(osgMPInitFunctions == NULL)
+    {
+        osgMPInitFunctions = new vector<InitFuncF>;
+    }
+
+    osgMPInitFunctions->push_back(initFunc);
+}
+
+OSG_BASE_DLLMAPPING 
+void osg::addMPExitFunction(ExitFuncF exitFunc)
+{
+    if(osgMPExitFunctions == NULL)
+    {
+        osgMPExitFunctions = new vector<ExitFuncF>;
+    }
+    
+    osgMPExitFunctions->push_back(exitFunc);
+}
+
+OSG_BASE_DLLMAPPING 
 Bool OSG::osgInit(int argc, char **argv)
 {
     Bool returnValue = true;
 
-    returnValue &= Aspect::init();
-    returnValue &= ThreadManager::the()->init();
+    if(osgMPInitFunctions == NULL)
+        return false;
+
+    for(UInt32 i = 0; i < osgMPInitFunctions->size(); i++)
+    {
+        returnValue &= (*osgMPInitFunctions)[i](argc, argv);
+
+        if(returnValue == false)
+            break;         
+    }
+
+    if(returnValue == false)
+        return returnValue;
 
     if(osgInitFunctions == NULL)
         return returnValue;
@@ -122,7 +156,8 @@ Bool OSG::osgExit(void)
 {
     Bool returnValue = true;
 
-    Thread::getCurrentChangeList()->setReadOnly(true);
+// Check it (GV)
+//    Thread::getCurrentChangeList()->setReadOnly(true);
 
     if(osgExitFunctions != NULL)
     {
@@ -135,8 +170,16 @@ Bool OSG::osgExit(void)
         }
     }
 
-    ThreadManager::the()->shutdown();
-    Aspect::exit();
+    if(osgMPExitFunctions != NULL)
+    {
+        for(Int32 i = osgMPExitFunctions->size() - 1; i >= 0; i--)
+        {
+            returnValue &= (*osgMPExitFunctions)[i]();
+            
+            if(returnValue == false)
+                break;         
+        }
+    }
 
     return returnValue;
 }

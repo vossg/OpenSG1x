@@ -229,6 +229,8 @@ typedef String *StringP;
 
 OSG_END_NAMESPACE
 
+#include <OSGStringLink.h>
+
 #endif /* _OSGSTRING_H_ */
 
 

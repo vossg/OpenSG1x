@@ -6,8 +6,6 @@
 #include <iostream.h>
 #endif
 
-#include "GL/glut.h"
-
 #include <OSGLine.h>
 #include <OSGVector.h>
 #include <OSGBoxVolume.h>

@@ -417,7 +417,7 @@ Real64 osgfloor(const Real64 &rValue)
  */
 
 inline
-OSG_BASE_DLLMAPPING void osgstringDup(const char *szInput, char *&szOutput)
+OSG_BASE_DLLMAPPING void stringDup(const char *szInput, char *&szOutput)
 {
     delete [] szOutput;
     szOutput = NULL;
@@ -431,7 +431,7 @@ OSG_BASE_DLLMAPPING void osgstringDup(const char *szInput, char *&szOutput)
 
 inline 
 OSG_BASE_DLLMAPPING
-Int32 osgstrncmp(const char *string1, const char *string2, size_t count)
+Int32 stringncmp(const char *string1, const char *string2, size_t count)
 {
 	return strncmp(string1, string2, count);
 }
@@ -442,7 +442,7 @@ Int32 osgstrncmp(const char *string1, const char *string2, size_t count)
 
 
 inline 
-OSG_BASE_DLLMAPPING Int32 osgstrlen(const char *string1)
+OSG_BASE_DLLMAPPING Int32 stringlen(const char *string1)
 {
     return strlen(string1);
 }
@@ -453,7 +453,7 @@ OSG_BASE_DLLMAPPING Int32 osgstrlen(const char *string1)
  */
 
 inline 
-OSG_BASE_DLLMAPPING Int32 osgstrcmp(const char *string1, const char *string2)
+OSG_BASE_DLLMAPPING Int32 stringcmp(const char *string1, const char *string2)
 {
 	return strcmp(string1, string2);
 }
@@ -463,7 +463,8 @@ OSG_BASE_DLLMAPPING Int32 osgstrcmp(const char *string1, const char *string2)
  */
 
 inline 
-OSG_BASE_DLLMAPPING Int32 osgstrcasecmp(const char *string1, const char *string2)
+OSG_BASE_DLLMAPPING Int32 stringcasecmp(const char *string1, 
+                                        const char *string2)
 {
 #ifndef WIN32
 	return strcasecmp(string1, string2);
@@ -473,6 +474,16 @@ OSG_BASE_DLLMAPPING Int32 osgstrcasecmp(const char *string1, const char *string2
 }
 
 /*@}*/
+
+inline
+OSG_BASE_DLLMAPPING int putenv(char *string)
+{
+#ifndef WIN32
+    return ::putenv(string);
+#else
+    return ::_putenv(string);
+#endif
+}
 
 /*! @name Sleep
  */
@@ -502,3 +513,7 @@ OSG_BASE_DLLMAPPING void osgsleep(UInt32 millisecs)
 /*@}*/
 
 OSG_END_NAMESPACE
+
+
+
+
