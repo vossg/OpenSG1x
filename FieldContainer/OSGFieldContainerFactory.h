@@ -47,7 +47,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGFieldContainerBase.h>
+#include <OSGFieldContainerDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGString.h>
 #include <OSGFieldContainerPtr.h>
@@ -220,6 +220,8 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerFactory
 
     const FieldContainerStore *getFieldContainerStore(void);
 
+	void writeSingleTypeFCD( ostream &out, const FieldContainerType *type );
+
   public :
 
     //-----------------------------------------------------------------------
@@ -262,6 +264,13 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerFactory
 
     /*------------------------- your_category -------------------------------*/
 
+	/* type output */
+	/* name given: output only the given type,
+	   out given: output all types into the stream, 
+	   no name, no out: output all types into separate files
+	 */
+	void writeFCD( char * name = NULL, ostream * out = NULL );
+	
     /*------------------------- your_operators ------------------------------*/
 
     /*------------------------- assignment ----------------------------------*/

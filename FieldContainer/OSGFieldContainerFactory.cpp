@@ -56,6 +56,8 @@
 #include "OSGLock.h"
 #include "OSGFieldContainerType.h"
 #include "OSGTypeFactory.h"
+#include "OSGFieldFactory.h"
+#include "OSGFieldDescription.h"
 
 OSG_USING_NAMESPACE
 
@@ -553,6 +555,132 @@ AttachmentPtr FieldContainerFactory::createAttachment(
 }
 
 /*-------------------------- your_category---------------------------------*/
+
+/* output */
+
+void FieldContainerFactory::writeSingleTypeFCD( ostream &out, const FieldContainerType *t )
+{
+	FieldContainerType * parent = t->getParent();
+	
+	out << "<FieldContainer" << endl;
+	out << "\tname=\"" << t->getCName() << "\"" << endl;
+	if ( parent )
+		out << "\tparent=\"" << parent->getCName() << "\"" << endl;
+	out << "\tlibrary=\"" << "???" << "\"" << endl;
+	out << "\tstructure=\"" << ( t->isAbstract()?"abstract":"concrete" ) << "\"" 
+		<< endl;
+	
+	// look for pointerfield types
+	string s;
+	int pt = 0;
+	static char *pftypes[] = { "none", "single", "multi", "both" };
+	
+	s  = "SF";
+	s += t->getCName();
+	s += "Ptr";
+	if ( FieldFactory::the().getFieldType( s.c_str() ) != NULL )
+		pt |= 1;
+	
+	s  = "MF";
+	s += t->getCName();
+	s += "Ptr";
+	if ( FieldFactory::the().getFieldType( s.c_str() ) != NULL )
+		pt |= 2;
+	
+	out << "\tpointerfieldtypes=\"" << pftypes[ pt ] << "\"" << endl;
+	out << ">" << endl;
+
+	// Print the fields in this FC, ignore the parents' fields
+	// !!! This should start at 0, FIX ME
+
+	for ( int i = parent ? parent->getNumFieldDescs() + 1 : 1; 
+			i <= t->getNumFieldDescs(); i++ )
+	{
+		const FieldDescription *f = t->getFieldDescription( i );
+
+		out << "\t<Field" << endl;
+		out << "\t\tname=\"" << f->getCName() << "\"" << endl;
+
+		// Filter the SF/MF from the type
+		const Char8 * c = FieldFactory::the().getFieldType( f->getTypeId() )->getCName();
+		if ( ! strncmp( c, "SF", 2 ) || ! strncmp( c, "MF", 2 ) )
+			c += 2;
+		out << "\t\ttype=\"" << c << "\"" << endl;
+
+		out << "\t\tcardinality=\"" 
+			<< ( FieldFactory::the().getFieldType( f->getTypeId() )->getCardinality() 
+			     ? "multi" : "single"  )
+			<< "\"" << endl;
+		out << "\t\tvisibility=\"" << (f->isInternal() ? "internal" : "external" ) 
+			<< "\"" << endl;
+		out << "\t>" << endl;
+		out << "\t</Field>" << endl;
+	}
+	out << "</FieldContainer>" << endl;
+
+}
+
+void FieldContainerFactory::writeFCD( char * name, ostream * out )
+{
+	TypeIdMapIt type;
+	const FieldContainerType *pType;
+
+	if(_pTypeIdMap == NULL) 
+		return;
+
+	if ( name )
+	{
+		pType  = findType( name );
+		
+		if ( ! pType )
+		{
+			SWARNING << "FieldContainerFactory::writeFCD: type " << name 
+					 << " is unknown!" << endl;
+			return;
+		}
+		
+		if ( out )
+		{
+			writeSingleTypeFCD( *out, pType );
+		}
+		else
+		{
+			string s( pType->getCName() );
+			s.append( ".fcd" );
+			
+			ofstream f( s.c_str() );
+			
+			writeSingleTypeFCD( f, pType );
+		}
+		
+		return;
+	}	
+	
+	// write header once? 
+	if ( out )
+	{
+		*out << "<?xml version=\"1.0\" ?>" << endl << endl;
+	}
+
+	for(  type  = _pTypeIdMap->begin(); 
+		  type != _pTypeIdMap->end(); 
+		++type) 
+	{
+		if ( out )
+			writeSingleTypeFCD( *out, (*type).second );
+		else
+		{
+			string s( (*type).second->getCName() );
+			s.append( ".fcd" );
+			
+			ofstream f( s.c_str() );
+			
+			f << "<?xml version=\"1.0\" ?>" << endl << endl;
+			writeSingleTypeFCD( f, (*type).second );			
+		}
+		*out << endl;
+	}
+}
 
 /*-------------------------- assignment -----------------------------------*/
 
