@@ -150,6 +150,12 @@ public:
 	/*-------------------------- intersection ---------------------------------*/
 
 	/**
+	  Intersect plane and plane, returning true if there is an intersection
+	  false if planes are parallel 
+	*/
+	Bool intersect(const Plane &pl, Line &intersection) const;
+
+	/**
 	  Intersect line and plane, returning true if there is an intersection
 	  false if line is parallel to plane
 	*/
@@ -157,10 +163,23 @@ public:
 
 	/**
 	  Intersect line and plane, returning true if there is an intersection
-	  false if line is parallel to plane. t is the distance along
-	  the line
+	  in the positive part of the line, false if not.
+	  t is the distance along the line
 	*/
 	Bool intersect(const Line &l, Real32 &t) const;
+
+	/**
+	  Intersect line and plane, returning true if there is an intersection
+	  false if line is parallel to plane. t is the distance along
+	  the line, which may be negative
+	*/
+	Bool intersectInfinite(const Line &l, Real32 &t) const;
+
+	/**
+	  Intersect line and plane, returning true if there is an intersection
+	  false if line is parallel to plane
+	*/
+	Bool intersectInfinite(const Line &l, Pnt3f &intersection) const;
 
 	/** Transforms the plane by the given matrix
 	*/

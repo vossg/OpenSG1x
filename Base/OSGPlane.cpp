@@ -122,14 +122,77 @@ Plane::Plane(const Vec3f &normal, const Pnt3f &point)
 /// Offset a plane by a given distance.
 void Plane::offset(float d)
 {
-	_distance += d;
+    _distance += d;
 }
-
 
 /*-------------------------- intersection ---------------------------------*/
 
 /**
+  Intersect plane and plane, returning true if there is an intersection
+  false if planes are parallel
+  taken from Steve Baker's SG library, used with permission
+*/
+Bool Plane::intersect(const Plane &pl, Line &is) const
+{
+	Vec3f dir = _normalVec.cross( pl.getNormal() );
+	Pnt3f pnt;
+	
+	Real32 len = dir.length();
+	
+	if ( len < Eps ) return false;
+
+	/* Determine intersection point with the best suited coordinate plane. */
+
+	Real32 abs ;
+	Real32 maxabs = osgabs(dir[0]);
+	UInt16 index = 0;
+
+	if (( abs = osgabs(dir[1])) > maxabs) { maxabs = abs ; index = 1; }
+	if (( abs = osgabs(dir[2])) > maxabs) { maxabs = abs ; index = 2; }
+	
+	switch ( index )
+	{
+	case 0: pnt.setValues( 	0.f,
+		 					(_normalVec[2] * pl.getDistanceFromOrigin() - 
+							 pl.getNormal()[2] * _distance
+							) / dir[0],
+		 					(pl.getNormal()[1] * _distance - 
+							 _normalVec[1] * pl.getDistanceFromOrigin()
+							) / dir[0] 
+						);
+			break;
+	case 1: pnt.setValues(	 (pl.getNormal()[2] * _distance - 
+							  _normalVec[2] * pl.getDistanceFromOrigin()
+							 ) / dir[1],
+							 0.f,
+							 (_normalVec[0] * pl.getDistanceFromOrigin() - 
+							  pl.getNormal()[0] * _distance
+							 ) / dir[1]
+						);
+			break;
+	case 2: pnt.setValues(	 (_normalVec[1] * pl.getDistanceFromOrigin() - 
+							  pl.getNormal()[1] * _distance
+							 ) / dir[2],
+							 (pl.getNormal()[0] * _distance - 
+							  _normalVec[0] * pl.getDistanceFromOrigin()
+							 ) / dir[2],
+							 0.f 
+						);
+			break;
+	default: return false ;  /* Impossible */
+	}
+
+	/* Normalize the direction */
+
+	dir *= 1./len;
+	
+	is.setValue( pnt, dir );
+	return true;
+}
+
+/**
   Intersect line and plane, returning true if there is an intersection
+  in the positive part of the line
   false if line is parallel to plane
 */
 Bool Plane::intersect(const Line &line, Pnt3f &point) const
@@ -151,6 +214,36 @@ Bool Plane::intersect(const Line &line, Pnt3f &point) const
 */
 Bool Plane::intersect(const Line &line, Real32 &t) const
 {
+	if ( intersectInfinite(line,t) == false || t < 0 )
+		return false;
+	
+	return true;
+}
+
+/**
+  Intersect line and plane, returning true if there is an intersection
+  false if line is parallel to plane
+*/
+Bool Plane::intersectInfinite(const Line &line, Pnt3f &point) const
+{
+	Real32 t;
+	
+	if ( intersectInfinite( line, t ) ) 
+	{ 
+		point = line.getPosition() + t * line.getDirection(); 
+		return true; 
+	} 
+	else 
+		return false; 
+}
+
+/**
+  Intersect line and plane, returning true if there is an intersection
+  false if line is parallel to plane. t is the distance along
+  the line, which may be negative
+*/
+Bool Plane::intersectInfinite(const Line &line, Real32 &t) const
+{
 	Real32 a;
 	
 	if ( ( a = _normalVec.dot(line.getDirection()) ) != 0.0)
@@ -158,8 +251,7 @@ Bool Plane::intersect(const Line &line, Real32 &t) const
 		t = _normalVec.dot(Pnt3f(_normalVec * _distance) -  line.getPosition()
 						  ) / a;
 		
-		if ( t >= 0 )				
-			return true;
+		return true;
 	}
 	else 
 	{
