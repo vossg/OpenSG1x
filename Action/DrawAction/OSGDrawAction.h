@@ -132,6 +132,14 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public Action
     
     Material   *getMaterial(void) const;
     void        setMaterial(Material *material);
+    
+    UInt32      getLightCount(void) const;
+    void        incLightCount(void);
+    void        decLightCount(void);
+
+
+    // initialisation
+    Action::ResultE start( void );
 
     /*------------------------- your_operators ------------------------------*/
 
@@ -224,6 +232,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public Action
     Window * _window;
 
     Material *_material;
+    
+    UInt32 _lightCount;
     
     //-----------------------------------------------------------------------
     //   instance functions                                                  

@@ -123,7 +123,25 @@ Window *DrawAction::getWindow( void ) const
 inline 
 Material *DrawAction::getMaterial(void) const
 {
-  return _material;
+    return _material;
+}
+
+inline 
+UInt32 DrawAction::getLightCount(void) const
+{
+    return _lightCount;
+}
+
+inline 
+void DrawAction::incLightCount(void) 
+{
+    ++_lightCount;
+}
+
+inline 
+void DrawAction::decLightCount(void) 
+{
+    --_lightCount;
 }
 
 /*-------------------------- your_category---------------------------------*/

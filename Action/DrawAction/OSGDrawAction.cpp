@@ -163,8 +163,8 @@ DrawAction::DrawAction(void) :
     _camera    (NULL),
     _background(NULL),
     _window    (NULL),
-    _material  (NULL)
-
+    _material  (NULL),
+    _lightCount(0)
 {
 	if ( _defaultEnterFunctors )
 		_enterFunctors = *_defaultEnterFunctors;
@@ -178,11 +178,12 @@ DrawAction::DrawAction(void) :
  */
 
 DrawAction::DrawAction( const DrawAction & source ) :
-     Inherited( source ),
+     Inherited (source),
     _camera    (source._camera),
     _background(source._background),
     _window    (source._window),
-    _material  (source._material)
+    _material  (source._material),
+    _lightCount(source._lightCount)
 {
 }
 
@@ -215,25 +216,33 @@ DrawAction::~DrawAction(void)
 	
 void DrawAction::setCamera( Camera * cam )
 {
-	_camera = cam;
+    _camera = cam;
 }
 		
 void DrawAction::setBackground( Background * background )
 {
-	_background = background;
+    _background = background;
 }
 		
 void DrawAction::setWindow( Window * window )
 {
-	_window = window;
+    _window = window;
 }
 
 void DrawAction::setMaterial(Material *material)
 {
-  _material = material;
+    _material = material;
 }
 
 /*-------------------------- your_category---------------------------------*/
+
+
+Action::ResultE DrawAction::start( void )
+{
+    _lightCount = 0;
+    
+    return Continue;
+}
 
 /*-------------------------- assignment -----------------------------------*/
 
