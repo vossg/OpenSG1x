@@ -6,6 +6,17 @@
 # This is an extremely optimistic script, it does no 
 # error checking whatever. Use with care!
 
+# Understood envvars:
+# OSG_DIST_NO_DISTASSEMBLY
+# OSG_DIST_NO_EXAMPLEBUILD
+# OSG_DIST_NO_REBUILD
+# OSG_DIST_NO_RECONFIGURE
+# OSG_DIST_NO_REINSTALL
+# OSG_DIST_NO_TUTORIALBUILD
+# OSG_DIST_REMOVE_BUILDDIR
+# OSG_DIST_NO_FCDEDIT
+
+
 # Little function to expand variables in text files
 
 var_expand()
@@ -269,33 +280,6 @@ else
     echo "OSG_DIST_NO_REINSTALL     set, skipping install"
 fi
 
-case $system in
-    # Windows is very different from the Unices. No, really. :)
-    *-pc-cygwin )           
-    ;;
-    *)
-        if test x$OSG_DIST_NO_EXAMPLEBUILD = x
-        then
-
-            # make the sceneviewer
-
-            cd ../../Examples/SceneViewer
-
-            if $build_make QTDIR=$qt_dir OSGROOT=../../Builds/$system-$compiler$suffix
-            then
-                echo "SceneViewer Build succeeded"
-            else
-                echo "ERROR: SceneViewer Build failed"
-                exit
-            fi
-
-            cd $olddir
-        else
-            echo "OSG_DIST_NO_EXAMPLEBUILD  set, skipping example build"
-        fi
-    ;;
-esac
-
 # create the distribution(s)
 
 case $system in
@@ -390,6 +374,45 @@ case $system in
             cp Examples/SceneViewer/osgSceneViewer.exe .
         fi
     fi
+
+    if test x$OSG_DIST_NO_FCDEDIT = x
+    then
+
+        # make the fcdEdit
+
+        mkdir Tools
+
+        cp -r $OSGPOOL/Tools/fcdEdit Examples
+
+        cd Tools/fcdEdit
+
+        echo "Building fcdEdit"
+
+        if $build_make LIBTYPE=opt QTDIR=$qt_dir OSGROOT=$OSGPOOL/Builds/$system-$compiler$suffix
+        then
+            echo "fcdEdit Build succeeded"
+        else
+            echo "ERROR: fcdEdit Build failed"
+            exit
+        fi
+
+        cd ../..
+ 
+        # copy the fcdEdit
+        cp Tools/fcdEdit/fcdEdit.exe .
+ 
+        rm -rf Tools
+
+    else
+        echo "x$OSG_DIST_NO_FCDEDIT  set, skipping fcdEdit build"
+
+        # copy the fcdEdit
+        
+        if test -r Tools/fcdEdit/fcdEdit.exe
+        then
+            cp Tools/fcdEdit/fcdEdit.exe .
+        fi
+    fi
  
     if test x$OSG_DIST_NO_TUTORIALBUILD = x
     then
@@ -454,6 +477,44 @@ esac
 
 # from here on it's Unix
 
+if test x$OSG_DIST_NO_EXAMPLEBUILD = x
+then
+
+    # make the sceneviewer
+
+    cd ../../Examples/SceneViewer
+
+    if $build_make QTDIR=$qt_dir OSGROOT=../../Builds/$system-$compiler$suffix
+    then
+        echo "SceneViewer Build succeeded"
+    else
+        echo "ERROR: SceneViewer Build failed"
+        exit
+    fi
+
+    cd $olddir
+else
+    echo "OSG_DIST_NO_EXAMPLEBUILD  set, skipping example build"
+fi
+
+if test x$OSG_DIST_NO_FCDEDIT = x
+then
+
+    cd ../../Tools/fcdEdit
+
+    if $build_make QTDIR=$qt_dir OSGROOT=../../Builds/$system-$compiler$suffix
+    then
+        echo "fcdEdit Build succeeded"
+    else
+        echo "ERROR: fcdEdit Build failed"
+        exit
+    fi
+
+    cd $olddir
+else
+    echo "x$OSG_DIST_NO_FCDEDIT set, skipping fcdEdit build"
+fi
+
 echo "Making Opt dist"
 
 # make the opt OSGVERSION
@@ -495,8 +556,12 @@ rm -rf CVS
 var_expand $OSGPOOL/dist/README.tutorials README
 var_expand $OSGPOOL/dist/BUILD.tutorials BUILD
 sed -e 's|##DBG##|opt|g' < Makefile.dist > Makefile
-sed -e 's|##DBG##|opt|g' < $OSGPOOL/dist/run_osgSceneViewer > ../run_osgSceneViewer
-chmod 755 ../run_osgSceneViewer
+
+if test x$OSG_DIST_NO_EXAMPLEBUILD = x
+then
+    sed -e 's|##DBG##|opt|g' < $OSGPOOL/dist/run_osgSceneViewer > ../run_osgSceneViewer
+    chmod 755 ../run_osgSceneViewer
+fi
 
 #remove the stuff we don't need here
 rm -f Makefile.dist Makefile.win template.*  Tutorials.dsp.raw common.cygwin .prefix.*
@@ -514,8 +579,16 @@ $build_make clean
 
 cd ..
 
-# copy the SceneViewer
-cp $OSGPOOL/Examples/SceneViewer/osgSceneViewer .
+if test x$OSG_DIST_NO_EXAMPLEBUILD = x
+then
+    # copy the SceneViewer
+    cp $OSGPOOL/Examples/SceneViewer/osgSceneViewer .
+fi
+
+if test x$OSG_DIST_NO_FCDEDIT = x
+then
+    cp $OSGPOOL/Tools/fcdEdit/fcdEdit .
+fi
 
 # do system-specific stuff
 
@@ -554,14 +627,6 @@ fi
 # copy the GLUT lib, as it is not everywhere yet either
 ln -s ../opt/${glut_lib} lib/dbg
 
-# do system-specific stuff
-
-case $system in
-    mips-sgi-* )              
-    ;;  
-    *-pc-linux-gnu )    
-    ;;
-esac
 
 echo "pack (disabled)..."
 
@@ -602,8 +667,11 @@ $build_make Clean
 var_expand $OSGPOOL/dist/README.tutorials README
 var_expand $OSGPOOL/dist/BUILD.tutorials BUILD
 sed -e 's|##DBG##|dbg|g' < $OSGPOOL/Tutorials/Makefile.dist > Makefile
-sed -e 's|##DBG##|dbg|g' < $OSGPOOL/dist/run_osgSceneViewer > ../run_osgSceneViewer
-chmod 755 ../run_osgSceneViewer
+if test x$OSG_DIST_NO_EXAMPLEBUILD = x
+then
+    sed -e 's|##DBG##|dbg|g' < $OSGPOOL/dist/run_osgSceneViewer > ../run_osgSceneViewer
+    chmod 755 ../run_osgSceneViewer
+fi
 
 if $build_make 
 then
