@@ -1319,8 +1319,8 @@ void GraphicStatisticsForeground::initText(void)
 
 void GraphicStatisticsForeground::drawString(DrawActionBase* base, 
                                              const string&   text,
-                                             UInt32 align = STATISTICS_LEFT, 
-                                             UInt32 valign = STATISTICS_BOTTOM
+                                             UInt32 align, 
+                                             UInt32 valign
                                              )
 {
     
@@ -1424,7 +1424,7 @@ string GraphicStatisticsForeground::real2String(Real32 value, char* format)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.3 2002/07/19 15:06:16 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.4 2002/07/22 18:38:57 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 
