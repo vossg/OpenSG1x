@@ -571,10 +571,15 @@ void VRMLFile::beginNode(
 
                 NodePtr pNode     = NodePtr::dcast(pNewNode);
                 NamePtr pNodename = Name::create();
-                
+
+                beginEditCP(pNodename);
+                beginEditCP(pNode,Node::AttachmentsFieldMask);
+
                 pNodename->getFieldPtr()->getValue().set(szNodename);
-                
                 pNode->addAttachment(pNodename);
+
+                endEditCP(pNode,Node::AttachmentsFieldMask);
+                endEditCP(pNodename);
             }
             else if(pNewNode->getType().isNodeCore() == true)
             {
@@ -584,9 +589,14 @@ void VRMLFile::beginNode(
                 NodeCorePtr pNodeCore = NodeCorePtr::dcast(pNewNode);
                 NamePtr     pNodename = Name::create();
                 
+                beginEditCP(pNodename);
+                beginEditCP(pNodeCore,NodeCore::AttachmentsFieldMask);
+
                 pNodename->getFieldPtr()->getValue().set(szNodename);
-                
                 pNodeCore->addAttachment(pNodename);           
+
+                endEditCP(pNodeCore,NodeCore::AttachmentsFieldMask);
+                endEditCP(pNodename);
             }
             else
             {
@@ -646,10 +656,14 @@ void VRMLFile::beginNode(
             GroupPtr pGroup = Group::create();
 
             _pRootNode = Node::create();
+            beginEditCP(_pRootNode,Node::CoreFieldMask);
             _pRootNode->setCore(pGroup);
+            endEditCP(_pRootNode,Node::CoreFieldMask);
         }
 
+        beginEditCP(_pRootNode,Node::ChildrenFieldMask);
         _pRootNode->addChild(pNode);
+        endEditCP(_pRootNode,Node::ChildrenFieldMask);
     }
 }
    
@@ -708,7 +722,9 @@ void VRMLFile::endNode(void)
             {
                 GroupPtr pGroup = Group::create();
 
+                beginEditCP(pNode);
                 pNode->setCore(pGroup);
+                beginEditCP(pNode);
             }
         }
     }
@@ -964,6 +980,7 @@ NodePtr VRMLFile::cloneTree(NodePtr pRootNode)
 
         returnValue = Node::create();
 
+        beginEditCP(returnValue);
         returnValue->setCore(pRootNode->getCore());
 
         for(UInt32 i = 0; i < pRootNode->getNChildren(); i++)
@@ -972,6 +989,7 @@ NodePtr VRMLFile::cloneTree(NodePtr pRootNode)
             
             returnValue->addChild(pChildClone);
         }
+        endEditCP(returnValue);
     }
 
     return returnValue;

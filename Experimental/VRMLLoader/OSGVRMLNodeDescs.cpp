@@ -851,10 +851,16 @@ void VRMLShapeDesc::endNode(FieldContainerPtr pFC)
         if(pNode != NullFC && pNode->getCore() == NullFC)
         {
             MaterialGroupPtr pMatGroup = MaterialGroup::create();
-
-            pMatGroup->setMaterial(_pMaterialDesc->getDefaultMaterial());
-
-            pNode->setCore(pMatGroup);
+            beginEditCP(pMatGroup);
+            {
+                pMatGroup->setMaterial(_pMaterialDesc->getDefaultMaterial());
+            }
+            endEditCP(pMatGroup);
+            beginEditCP(pNode);
+            {
+                pNode->setCore(pMatGroup);
+            }
+            endEditCP(pNode);
         }
     }
 
@@ -2173,7 +2179,11 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
             {
                 if(pTexture != NullFC)
                 {                    
-                    pChunkMat->addChunk(pTexture);
+                    beginEditCP(pChunkMat);
+                    {
+                        pChunkMat->addChunk(pTexture);
+                    }
+                    endEditCP(pChunkMat);
                 }
             }
             else
@@ -2190,16 +2200,28 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
                     {
                         if(pTexture != NullFC)
                         {                    
-                            pChunkMat->addChunk(pTexture);
+                            beginEditCP(pChunkMat);
+                            {
+                                pChunkMat->addChunk(pTexture);
+                            }
+                            endEditCP(pChunkMat);
                         }
 
-                        pMatGroup->setMaterial(pChunkMat);
+                        beginEditCP(pMatGroup);
+                        {
+                            pMatGroup->setMaterial(pChunkMat);
+                        }
+                        endEditCP(pMatGroup);
                     }
                 }
                 else
                 {
-                    pMatGroup->setMaterial(
-                        _pMaterialDesc->getDefaultMaterial());
+                    beginEditCP(pMatGroup);
+                    {
+                        pMatGroup->setMaterial(
+                              _pMaterialDesc->getDefaultMaterial());
+                    }
+                    endEditCP(pMatGroup);
                 }
             }
         }
@@ -2480,13 +2502,14 @@ void VRMLMaterialDesc::endNode(FieldContainerPtr)
                               _ambientIntensity.getValue(),
                               _diffuseColor    .getValue().blue() *
                               _ambientIntensity.getValue());
-
+        beginEditCP(_pMat);
         _pMat->setAmbient     ( cAmbient                );
         _pMat->setDiffuse     (_diffuseColor.getValue() );
         _pMat->setSpecular    (_specularColor.getValue());
         _pMat->setShininess   (_shininess.getValue()    );
         _pMat->setEmission    (_emissiveColor.getValue());
         _pMat->setTransparency(_transparency.getValue() );
+        endEditCP(_pMat);
     }
 }
 
@@ -2700,6 +2723,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
         
         if(pImage->read(_url.getValue(0).str()))
         {
+            beginEditCP(pTexture);
             pTexture->setImage(pImage);
             
             if(_repeatS.getValue() == true)
@@ -2719,6 +2743,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
             {
                  pTexture->setWrapS(GL_CLAMP);
             }
+            endEditCP(pTexture);
         }
         else
         {
