@@ -82,6 +82,13 @@ UInt32 FieldContainer::getClassTypeId(void)
     return _type.getId();
 }
 
+inline
+UInt16 FieldContainer::getClassGroupId(void)
+{ 
+    return _type.getGroupId();
+}
+
+
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
