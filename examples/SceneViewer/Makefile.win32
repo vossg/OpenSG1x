@@ -91,7 +91,7 @@ $(warning BINOBJS empty, be shure your lists are up to date use $(MAKE) lists to
 endif
 
 ifeq ($(strip $(LIBOBJS)),)
-$(warning LIBOBJS, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
+$(warning LIBOBJS empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
 endif
 
 
@@ -132,7 +132,9 @@ moc_%.cpp: %.h
 	$(MOC) -f$< $< -o $@
 
 %.$(SYSDEP).dep: %.cpp
-	@echo "Updating " $@
+	@echo "Updating " $@ 
+	@echo "THIS OPERATION IS DISABLED RIGHT NOW !!"
+	@echo 
 #	@$(MKDEP) $(INCS) -I. $< | sed 's/\.o/\.$(SYSDEP)\.o/' > $@
 
 %.$(SYSDEP).o: %.cc
@@ -141,7 +143,7 @@ moc_%.cpp: %.h
 %.$(SYSDEP).o: %.cxx
 	$(CXX) $(CXXFLAGS) $<
 
-%.$(SYSDEP).o: %.cpp #%.$(SYSDEP).dep
+%.$(SYSDEP).o: %.cpp %.$(SYSDEP).dep
 	$(CXX) -c $(CXXFLAGS) $< -Fo$@
 
 %.$(SYSDEP).o: %.C
