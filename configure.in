@@ -1259,8 +1259,8 @@ else
     fi
 fi
 
-echo "OSGINSTALLPREFIX=\"$ac_gdz_install_prefix\"" > tutorials/.prefix.$target
-echo "OSGINSTALLPREFIX=\"$ac_gdz_install_prefix\"" > examples/SceneViewer/.prefix.$target
+echo "OSGINSTALLPREFIX=\"$ac_gdz_install_prefix\"" > Tutorials/.prefix.$target
+echo "OSGINSTALLPREFIX=\"$ac_gdz_install_prefix\"" > Examples/SceneViewer/.prefix.$target
 echo "OSGINSTALLPREFIX=\"$ac_gdz_install_prefix\"" > Tools/fcdEdit/.prefix.$target
 
 ac_gdz_common_platform_in=$ac_gdz_commonconf_dir/common.platform.mk.in

@@ -79,8 +79,8 @@ void keyboard(unsigned char k, int x, int y)
                 
                 l = mgr->calcViewRay(x, y);
 
-                cerr << "From "  << l.getPosition () 
-                     << ", dir " << l.getDirection() << endl;
+                std::cerr << "From "  << l.getPosition () 
+                          << ", dir " << l.getDirection() << std::endl;
     
                 IntersectAction *act = IntersectAction::create();
                 
@@ -95,9 +95,9 @@ void keyboard(unsigned char k, int x, int y)
                 if (act->didHit())
                 {
                     // yes!! print and highlight it
-                    cerr << " object " << act->getHitObject  () 
-                         << " tri "    << act->getHitTriangle() 
-                         << " at "     << act->getHitPoint   ();
+                    std::cerr << " object " << act->getHitObject  () 
+                              << " tri "    << act->getHitTriangle() 
+                              << " at "     << act->getHitPoint   ();
                     
                     mgr->setHighlight(act->getHitObject());
                     
@@ -140,7 +140,7 @@ void keyboard(unsigned char k, int x, int y)
                 beginEditCP(testgeocore, Geometry::PositionsFieldMask);
                 endEditCP  (testgeocore, Geometry::PositionsFieldMask);
                 
-                cerr << endl;
+                std::cerr << std::endl;
                 
                 glutPostRedisplay();           
                 }
@@ -175,12 +175,12 @@ int main(int argc, char **argv)
         FWARNING(("No file given!\n"));
         FWARNING(("Supported file formats:\n"));
         
-        list<const char*> suffixes;
+        std::list<const char*> suffixes;
         SceneFileHandler::the().getSuffixList(suffixes);
         
-        for(list<const char*>::iterator it  = suffixes.begin();
-                                        it != suffixes.end();
-                                        ++it)
+        for(std::list<const char*>::iterator it  = suffixes.begin();
+                                             it != suffixes.end();
+                                           ++it)
         {
             FWARNING(("%s\n", *it));
         }

@@ -96,14 +96,14 @@ void display( void )
 // these are the trivial traversal function, they just print and return
 Action::ResultE enter(NodePtr& node)
 {   
-    cerr << "entering " << node << endl;
+    std::cerr << "entering " << node << std::endl;
 
     return Action::Continue; 
 }
 
 Action::ResultE leave(NodePtr& node, Action::ResultE res) 
 { 
-    cerr << "leaving " << node << ", got code " << res << endl;
+    std::cerr << "leaving " << node << ", got code " << res << std::endl;
 
     // you should return the result that you're passed, to propagate Quits
     return res; 
@@ -120,9 +120,9 @@ class travstate
     Action::ResultE enter(NodePtr& node)
     {
         for(UInt16 i = 0; i < _indent; i++)
-            cerr << "    ";
+            std::cerr << "    ";
 
-        cerr << "entering " << node << endl;
+        std::cerr << "entering " << node << std::endl;
 
         ++_indent;
         return Action::Continue;        
@@ -133,9 +133,9 @@ class travstate
         --_indent;
         
         for(UInt16 i = 0; i < _indent; i++)
-            cerr << "    ";
+            std::cerr << "    ";
 
-        cerr << "leaving " << node << endl;
+        std::cerr << "leaving " << node << std::endl;
 
         // you should return the result that you're passed, to propagate Quits
         return res;        
@@ -158,14 +158,14 @@ class travstate
 
 Action::ResultE dontEnterTrans(NodePtr& node)
 {   
-    cerr << "entering " << node << endl;
+    std::cerr << "entering " << node << std::endl;
 
     if(node->getCore()->getType().isDerivedFrom( Transform::getClassType()))
     {
         TransformPtr t = TransformPtr::dcast(node->getCore());
         
-        cerr << "derived from transform, skipping children" << endl;
-        cerr << "Matrix: " << endl << t->getMatrix();
+        std::cerr << "derived from transform, skipping children" << std::endl;
+        std::cerr << "Matrix: " << std::endl << t->getMatrix();
         return Action::Skip;
     }   
     return Action::Continue; 
@@ -182,13 +182,13 @@ Action::ResultE dontEnterTrans(NodePtr& node)
 
 Action::ResultE quitGeo(NodePtr& node)
 {   
-    cerr << "entering " << node << endl;
+    std::cerr << "entering " << node << std::endl;
 
     GeometryPtr geo = GeometryPtr::dcast(node->getCore());
     
     if(geo!=NullFC)
     {
-        cerr << "derived from geometry, quitting" << endl;
+        std::cerr << "derived from geometry, quitting" << std::endl;
         return Action::Quit;
     }   
     return Action::Continue; 
@@ -289,16 +289,16 @@ int main(int argc, char **argv)
         just take a look at the examples below.
     */
      
-    cerr << "Variant 1: just print every encountered node" << endl;
+    std::cerr << "Variant 1: just print every encountered node" << std::endl;
     traverse(scene, 
              osgTypedFunctionFunctor1CPtrRef<Action::ResultE,
                                              NodePtr        >(enter));
      
-    cerr << endl 
-         << "Variant 2: just print every encountered node, using a vector" 
-         << " of nodes" << endl;
+    std::cerr << std::endl 
+              << "Variant 2: just print every encountered node, using a" 
+              << " vector of nodes" << std::endl;
          
-    vector<NodePtr> nodevec;
+    std::vector<NodePtr> nodevec;
     nodevec.push_back(tortransnode);
     nodevec.push_back(cyltransnode);
     
@@ -306,9 +306,9 @@ int main(int argc, char **argv)
              osgTypedFunctionFunctor1CPtrRef<Action::ResultE,
                                              NodePtr        >(enter));
       
-    cerr << endl 
-         << "Variant 3: just print every encountered node on entering"
-         << " and leaving" << endl;
+    std::cerr << std::endl 
+              << "Variant 3: just print every encountered node on entering"
+              << " and leaving" << std::endl;
 
     traverse(scene, 
              osgTypedFunctionFunctor1CPtrRef<Action::ResultE,
@@ -320,8 +320,9 @@ int main(int argc, char **argv)
     // now use a travstate object to hold additional data   
     travstate t;
     
-    cerr << endl 
-         << "Variant 4: use an object to hold state for indentation" << endl;
+    std::cerr << std::endl 
+              << "Variant 4: use an object to hold state for indentation" 
+              << std::endl;
     traverse(scene, 
              osgTypedMethodFunctor1ObjPtrCPtrRef<Action::ResultE,
                                                  travstate,
@@ -336,8 +337,8 @@ int main(int argc, char **argv)
                                                      &travstate::leave));
  
       
-    cerr << endl 
-         << "Variant 5: don't descend into transforms" << endl;
+    std::cerr << std::endl 
+              << "Variant 5: don't descend into transforms" << std::endl;
     traverse(scene, 
              osgTypedFunctionFunctor1CPtrRef<Action::ResultE,
                                              NodePtr        >(dontEnterTrans), 
@@ -345,8 +346,8 @@ int main(int argc, char **argv)
                                              NodePtr,
                                              Action::ResultE>(leave         ));
       
-    cerr << endl 
-         << "Variant 6: quit when you find a geometry" << endl;
+    std::cerr << std::endl 
+              << "Variant 6: quit when you find a geometry" << std::endl;
     traverse(scene, 
              osgTypedFunctionFunctor1CPtrRef<Action::ResultE,
                                              NodePtr        >(quitGeo), 

@@ -52,12 +52,12 @@ int main(int argc, char **argv)
         FWARNING(("No file given!\n"));
         FWARNING(("Supported file formats:\n"));
         
-        list<const char*> suffixes;
+        std::list<const char*> suffixes;
         SceneFileHandler::the().getSuffixList(suffixes);
         
-        for(list<const char*>::iterator it  = suffixes.begin();
-                                        it != suffixes.end();
-                                        ++it)
+        for(std::list<const char*>::iterator it  = suffixes.begin();
+                                             it != suffixes.end();
+                                           ++it)
         {
             FWARNING(("%s\n", *it));
         }
