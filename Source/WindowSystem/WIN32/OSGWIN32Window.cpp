@@ -52,21 +52,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: $";
-    static char cvsid_hpp[] = OSGWIN32WINDOW_HEADER_CVSID;
-    static char cvsid_inl[] = OSGWIN32WINDOW_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::WIN32Window
 The class for WIN32 windows. 	
 */
@@ -185,6 +170,5 @@ namespace
 
     static Char8 cvsid_fields_hpp[] = OSGWIN32WINDOWFIELDS_HEADER_CVSID;
 }
-
 
 #endif // WIN32
