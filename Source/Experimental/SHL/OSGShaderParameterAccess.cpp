@@ -87,7 +87,7 @@ bool ShaderParameterAccess::subParameter(const char *name)
 
     _parameters.erase(_parameters.begin() + (*it).second);
     _parametermap.erase(it);
-    _mapsize = _parameters.size();
+    updateMap();
 
     return true;
 }
@@ -98,6 +98,7 @@ void ShaderParameterAccess::updateMap(void)
         return;
     
     UInt32 size = _parameters.size();
+    _parametermap.clear();
     for(UInt32 i=0;i<size;++i)
         _parametermap.insert(std::pair<std::string, UInt32>(_parameters[i]->getName(), i));
     _mapsize = size;
