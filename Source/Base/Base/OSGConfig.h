@@ -128,7 +128,7 @@
 
 # define OSG_LONGLONG_HAS_LL
 
-# if __GNUC__ >= 3 
+# if __GNUC__ >= 3
 #    define OSG_HASH_MAP_AS_EXT
 
      /*! \brief SGI's stl implementation is available
@@ -141,7 +141,11 @@
 
 #    define OSG_STDEXCEPTION_NAMESPACE    std
 
-#    define OSG_STDEXTENSION_NAMESPACE  __gnu_cxx
+#    if __GNUC_MINOR__ >=1
+#        define OSG_STDEXTENSION_NAMESPACE  __gnu_cxx
+#    else
+#        define OSG_STDEXTENSION_NAMESPACE  std
+#    endif
 
 #    define OSG_STL_HAS_HASH_MAP
 
