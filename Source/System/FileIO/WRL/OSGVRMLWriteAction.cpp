@@ -967,24 +967,19 @@ void VRMLWriteAction::writeLineIndex(GeometryPtr      pGeo,
     if(pGeo == NullFC)
         return;
 
-    GeoIndicesUI32Ptr  pIndex  = GeoIndicesUI32Ptr ::dcast(pGeo->getIndices());
     GeoPTypesUI8Ptr    pTypes  = GeoPTypesUI8Ptr   ::dcast(pGeo->getTypes());
     GeoPLengthsUI32Ptr pLength = GeoPLengthsUI32Ptr::dcast(pGeo->getLengths());
 
-    if((pIndex  == NullFC) ||
-       (pTypes  == NullFC) ||
+    if((pTypes  == NullFC) ||
        (pLength == NullFC))
     {
         return;
     }
 
-    GeoIndicesUI32::StoredFieldType  *pIndexField  = pIndex->getFieldPtr();
     GeoPTypesUI8::StoredFieldType    *pTypeField   = pTypes->getFieldPtr();
     GeoPLengthsUI32::StoredFieldType *pLengthField = pLength->getFieldPtr();
 
-    if(pIndexField          == NULL ||
-       pIndexField->size()  == 0    ||
-       pTypeField           == NULL ||
+    if(pTypeField           == NULL ||
        pTypeField->size()   == 0    ||
        pLengthField         == NULL ||
        pLengthField->size() == 0)
