@@ -36,7 +36,6 @@ void OSGSceneView::addListItem( osg::NodePtr node, QListViewItem *parentItem )
 {
   osg::Int32 i,n;
   osg::NodeCorePtr core;
-  osg::NamePtr namePtr;
   QListViewItem *listItem;
   QString qstr;
   const char *nodeName, *coreName, *coreTypeName, *notSet = "Not set";
@@ -48,11 +47,9 @@ void OSGSceneView::addListItem( osg::NodePtr node, QListViewItem *parentItem )
       else
         rootTreeItem = listItem = new TreeViewItem (treeListView,node);
 
-      namePtr = osg::NamePtr::dcast(node->findAttachment(osg::Name::getClassType().getGroupId()));
-      if (namePtr == osg::NullFC)
+      nodeName = osg::getName(node);
+      if (nodeName == NULL)
         nodeName = notSet;
-      else
-        nodeName = namePtr->getFieldPtr()->getValue().c_str();
       
       core = node->getCore();
       if (core == osg::NullFC)
@@ -65,11 +62,10 @@ void OSGSceneView::addListItem( osg::NodePtr node, QListViewItem *parentItem )
           coreTypeName = core->getType().getCName();
           qstr.setNum(core->getParents().size());
           listItem->setText(2, qstr);
-          namePtr = osg::NamePtr::dcast(core->findAttachment(osg::Name::getClassType().getGroupId()));
-          if (namePtr == osg::NullFC)
+
+          coreName = osg::getName(core);
+          if (coreName == NULL)
             coreName = notSet;
-          else
-            coreName = namePtr->getFieldPtr()->getValue().c_str();
         }
       
       listItem->setText(0, node->getType().getCName());
