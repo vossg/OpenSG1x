@@ -83,6 +83,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeFactory : public BaseT
     typedef map     <     const Char8 *,  VRMLNodeDesc *, 
                                           LTString      > NodeNameDescHash;
 #endif
+
+    typedef VRMLNodeFactory<BaseT> Self;
     
     /*==========================  PUBLIC  =================================*/
   public :

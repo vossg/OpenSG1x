@@ -133,7 +133,7 @@ typedef AttachmentContainerMixin<VRMLNodeAttachmentContainerDesc>
 #else
 
 // CHECKCHECK
-#ifndef __linux
+#if !defined(__linux) && !defined(__hpux)
 extern template class OSG_VRML_DLLMAPPING 
     AttachmentContainerMixin<VRMLNodeAttachmentContainerDesc>;
 #endif

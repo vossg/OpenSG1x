@@ -84,13 +84,14 @@ class AttachmentMixin : public AttachmentDescT::Parent
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef       AttachmentMixin *Ptr;
-    typedef const AttachmentMixin *ConstPtr;
+    typedef       AttachmentMixin       *Ptr;
+    typedef const AttachmentMixin       *ConstPtr;
 
-    typedef          AttachmentDescT   Desc;
-
-    typedef typename Desc::ParentPtr   ParentPtr;
-    typedef typename Desc::MFParentPtr MFParentPtr;
+    typedef          AttachmentDescT     Desc;
+    
+    typedef typename Desc::ParentObject  ParentObject;
+    typedef typename Desc::ParentPtr     ParentPtr;
+    typedef typename Desc::MFParentPtr   MFParentPtr;
 
     //-----------------------------------------------------------------------
     //   constants                                                           

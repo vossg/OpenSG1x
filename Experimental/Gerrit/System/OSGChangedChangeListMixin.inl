@@ -123,21 +123,21 @@ ChangedChangeListMixin<ChangeListDescT>::~ChangedChangeListMixin(void)
 /*------------------------------ access -----------------------------------*/
 
 template<class ChangeListDescT> inline
-ChangedChangeListMixin<ChangeListDescT>::changed_size_type 
+typename ChangedChangeListMixin<ChangeListDescT>::changed_size_type 
     ChangedChangeListMixin<ChangeListDescT>::sizeChanged (void) const
 {
     return _vChangedContainerStore.size();
 }
 
 template<class ChangeListDescT> inline
-ChangedChangeListMixin<ChangeListDescT>::changed_const_iterator 
+typename ChangedChangeListMixin<ChangeListDescT>::changed_const_iterator 
     ChangedChangeListMixin<ChangeListDescT>::beginChanged(void) const
 {
     return _vChangedContainerStore.begin();
 }
 
 template<class ChangeListDescT> inline
-ChangedChangeListMixin<ChangeListDescT>::changed_const_iterator 
+typename ChangedChangeListMixin<ChangeListDescT>::changed_const_iterator 
     ChangedChangeListMixin<ChangeListDescT>::endChanged  (void) const
 {
     return _vChangedContainerStore.end();

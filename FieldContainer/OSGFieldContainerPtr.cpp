@@ -62,7 +62,9 @@
 
 OSG_USING_NAMESPACE
 
-const NullFieldContainerPtr OSG::NullFC;
+OSG_BEGIN_NAMESPACE
+const NullFieldContainerPtr NullFC;
+OSG_END_NAMESPACE
 
 //---------------------------------------------------------------------------
 //  Class

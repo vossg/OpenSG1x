@@ -137,7 +137,7 @@ VRMLStaticActionMixin<StaticDescT>::VRMLStaticActionMixin(void) :
 //}
 
 template <class StaticDescT> inline
-VRMLStaticActionMixin<StaticDescT>::FunctorStore *
+typename VRMLStaticActionMixin<StaticDescT>::FunctorStore *
     VRMLStaticActionMixin<StaticDescT>::getDefaultTravFunctors(void)
 {
     return _pDefaultTravFunctors;

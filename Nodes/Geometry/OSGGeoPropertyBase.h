@@ -204,6 +204,7 @@ class GeoProperty :
     static const BitVector GeoPropDataFieldMask;
 
     typedef GeoProperty<GeoPropertyDesc>         PropertyType;
+    typedef GeoProperty<GeoPropertyDesc>         Self;
 
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
     typedef FCPtr<LocalInheritedPtr,

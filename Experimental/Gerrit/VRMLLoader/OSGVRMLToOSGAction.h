@@ -77,8 +77,10 @@ typedef VRMLStaticActionMixin<ToOpenSGActionDesc> VRMLToOSGMixin;
 
 #else
 
+#ifndef __hpux
 extern template class OSG_VRML_DLLMAPPING 
      VRMLStaticActionMixin<ToOpenSGActionDesc>;
+#endif
 
 #endif
 

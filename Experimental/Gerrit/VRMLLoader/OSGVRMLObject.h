@@ -74,7 +74,9 @@ typedef RefCountMixin<ReflexiveContainer> RCReflexiveContainer;
 
 #else
 
+#ifndef __hpux
 extern template class OSG_VRML_DLLMAPPING RefCountMixin<ReflexiveContainer>;
+#endif
 
 #endif
 

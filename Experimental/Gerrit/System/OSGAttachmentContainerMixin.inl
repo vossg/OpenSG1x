@@ -103,7 +103,7 @@ DataElementDesc DescHolderT<
 #endif
 
 template <class AttachmentDescT>
-AttachmentContainerMixin<AttachmentDescT>::ObjectType
+typename AttachmentContainerMixin<AttachmentDescT>::ObjectType
     AttachmentContainerMixin<AttachmentDescT>::_type(
         Desc::getTypeName      (),
         Desc::getTypeParentName(),
@@ -208,26 +208,28 @@ void AttachmentContainerMixin<AttachmentDescT>::addAttachment(
 
     uiKey = (UInt32 (pContainer->getGroupId()) << 16) | uiBinding;
 
-    OSG::addRef(pContainer);
+    OSG::addRef<AttachmentObj>(pContainer);
 
     typename AttachmentObjMap::iterator amIt = 
         _sfAttachments.getValue().find(uiKey);
 
-    OSG::beginEdit(pContainer, AttachmentObj::ParentsFieldMask);
+    OSG::beginEdit<AttachmentObj>(pContainer, AttachmentObj::ParentsFieldMask);
     {
         pContainer->addParent(Desc::getDownCastPtr(this));
     }
-    OSG::endEdit  (pContainer, AttachmentObj::ParentsFieldMask);
+    OSG::endEdit  <AttachmentObj>(pContainer, AttachmentObj::ParentsFieldMask);
 
     if(amIt != _sfAttachments.getValue().end())
     {
-        OSG::beginEdit(pContainer, AttachmentObj::ParentsFieldMask);
+        OSG::beginEdit<AttachmentObj>(pContainer, 
+                                      AttachmentObj::ParentsFieldMask);
         {
             (*amIt).second->subParent(Desc::getDownCastPtr(this));
         }
-        OSG::endEdit  (pContainer, AttachmentObj::ParentsFieldMask);
+        OSG::endEdit  <AttachmentObj>(pContainer, 
+                                      AttachmentObj::ParentsFieldMask);
 
-        OSG::subRef((*amIt).second);
+        OSG::subRef<AttachmentObj>((*amIt).second);
 
         (*amIt).second = pContainer;
     }
@@ -255,20 +257,22 @@ void AttachmentContainerMixin<AttachmentDescT>::subAttachment(
 
     if(amIt != _sfAttachments.getValue().end())
     {
-        OSG::beginEdit(pContainer, AttachmentObj::ParentsFieldMask);
+        OSG::beginEdit<AttachmentObj>(pContainer, 
+                                      AttachmentObj::ParentsFieldMask);
         {
             (*amIt).second->subParent(Desc::getDownCastPtr(this));
         }
-        OSG::endEdit  (pContainer, AttachmentObj::ParentsFieldMask);
+        OSG::endEdit  <AttachmentObj>(pContainer, 
+                                      AttachmentObj::ParentsFieldMask);
 
-        OSG::subRef((*amIt).second);
+        OSG::subRef<AttachmentObj>((*amIt).second);
 
         _sfAttachments.getValue().erase(amIt);
     }
 }
 
 template<class AttachmentDescT> inline
-AttachmentContainerMixin<AttachmentDescT>::AttachmentObjPtr
+typename AttachmentContainerMixin<AttachmentDescT>::AttachmentObjPtr
      AttachmentContainerMixin<AttachmentDescT>::findAttachment(
          UInt32 uiGroupId,
          UInt16 uiBinding)
@@ -283,7 +287,7 @@ AttachmentContainerMixin<AttachmentDescT>::AttachmentObjPtr
 }
 
 template<class AttachmentDescT> inline
-AttachmentContainerMixin<AttachmentDescT>::SFAttachmentObjMap *
+typename AttachmentContainerMixin<AttachmentDescT>::SFAttachmentObjMap *
     AttachmentContainerMixin<AttachmentDescT>::getSFAttachments(void)
 {
     return &_sfAttachments;

@@ -135,7 +135,7 @@ header (#[^\n]*\n)
  /*   wurde. Jetzt kann entweder der Wert eines */
  /*   Feldes oder ein "IS" gelesen werden. */
 
-//    fprintf(stderr,"LEX--> Start State %d\n", expectToken);
+    fprintf(stderr,"LEX--> Start State %d\n", expectToken);
 
     if(expectToken != 0)
     {   

@@ -90,7 +90,7 @@ display(void)
 
     m1.mult( m2 );
 
-    cerr << m1 << endl;
+//    cerr << m1 << endl;
     
 
     if(move_obj == true)
@@ -253,8 +253,8 @@ void key(unsigned char key, int x, int y)
             tball.setStartPosition( v, true );
             tball.setStartRotation( q, true );
 
-            cout << q << endl;
-            cout << v << endl;
+//            cout << q << endl;
+//            cout << v << endl;
 
 //            cout << " " << m[3][0] << " " << m[3][1] << " " << m[3][2] << endl;
             

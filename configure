@@ -2439,6 +2439,9 @@ echo "configure:2431: checking shared object suffix" >&5
         ac_gdz_so_suffix=.dylib
         ;;
 
+        hpux*)
+        ac_gdz_so_suffix=.sl
+        ;;
         *)
         ac_gdz_so_suffix=.so
         ;;
@@ -2449,7 +2452,7 @@ echo "configure:2431: checking shared object suffix" >&5
 
 
      echo $ac_n "checking shared object praefix""... $ac_c" 1>&6
-echo "configure:2453: checking shared object praefix" >&5
+echo "configure:2456: checking shared object praefix" >&5
 
      case "$build_os" in
 
@@ -2467,13 +2470,12 @@ echo "configure:2453: checking shared object praefix" >&5
 
 
 
-if test $build_os = cygwin; 
-then 
+if test $build_os = cygwin; then 
 	if test $ac_gdz_compiler_base != g++; then
 
 		
     echo $ac_n "checking system dir""... $ac_c" 1>&6
-echo "configure:2477: checking system dir" >&5
+echo "configure:2479: checking system dir" >&5
 
     case "$build_os" in
         cygwin*)
@@ -2590,6 +2592,11 @@ else
         ac_gdz_compiler_exe_ranlib=ranlib
         ;;
 
+       hpux*)
+		ac_gdz_compiler_exe_shared='$(CC) -b'
+        ac_gdz_system_incl_dir_e1=/opt/aCC/include_std
+        ;;
+
         *)
 		ac_gdz_compiler_exe_shared='$(CC) -shared'
         ;;
@@ -2621,7 +2628,14 @@ else
 		ac_gdz_base_system_libs="-ldl $ac_gdz_base_system_libs"
 	fi
 
-    ac_gdz_compiler_exe_exe='$(CC)'
+    case $build_os in
+        hpux*)
+            ac_gdz_compiler_exe_exe='$(CC) -AA'
+        ;;
+        *)
+            ac_gdz_compiler_exe_exe='$(CC)'
+        ;;
+    esac
 
     if test $ac_gdz_conf_package_efence = "1"; then
         if test "x"$ac_gdz_efence_dir = "x" ; then
@@ -2665,7 +2679,7 @@ fi
 ac_gdz_common_system=$ac_gdz_commonconf_dir/common.$build-$ac_gdz_compiler_base.in
 
 echo $ac_n "checking project config common.project.in""... $ac_c" 1>&6
-echo "configure:2669: checking project config common.project.in" >&5
+echo "configure:2683: checking project config common.project.in" >&5
 
 if test -r "$ac_gdz_commonconf_dir/common.project.in"; then
     echo "$ac_t"""yes"" 1>&6
@@ -2676,7 +2690,7 @@ else
 fi
 
 echo $ac_n "checking package config common.libs.in""... $ac_c" 1>&6
-echo "configure:2680: checking package config common.libs.in" >&5
+echo "configure:2694: checking package config common.libs.in" >&5
 
 if test -r "$ac_gdz_commonconf_dir/common.libs.in"; then
     echo "$ac_t"""yes"" 1>&6
@@ -2688,7 +2702,7 @@ fi
 
 
 echo $ac_n "checking additional package configs""... $ac_c" 1>&6
-echo "configure:2692: checking additional package configs" >&5
+echo "configure:2706: checking additional package configs" >&5
 
 for i in `find . -name common.libs.in | sed -e 's|^./||'` ;
 do
@@ -3557,21 +3571,24 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
         esac
 
     elif test -n "$ac_gdz_glut_dir"; then
-        if test $build_os = cygwin; then
-           ac_gdz_glut_incdir_e5='"'`cygpath -w $ac_gdz_glut_dir/include`'"'
-           ac_gdz_glut_libdir_e5='"'`cygpath -w $ac_gdz_glut_dir/lib`'"'
-        else
-           ac_gdz_glut_incdir_e5=$ac_gdz_glut_dir/include
-           ac_gdz_glut_libdir_e5=$ac_gdz_glut_dir/lib
-        fi
+
+        ac_gdz_glut_incdir_e5=$ac_gdz_glut_dir/include
+        ac_gdz_glut_libdir_e5=$ac_gdz_glut_dir/lib
 
         case $build_os in
             cygwin*)
                 ac_gdz_glut_lib_e5='glut32.lib'
+                ac_gdz_glut_incdir_e5='"'`cygpath -w $ac_gdz_glut_dir/include`'"'
+                ac_gdz_glut_libdir_e5='"'`cygpath -w $ac_gdz_glut_dir/lib`'"'
             ;;
             darwin*)
                 ac_gdz_glut_lib_e5='-framework Cocoa -framework GLUT'
             ;;
+            hpux*)
+                ac_gdz_glut_libdir_e5=$ac_gdz_glut_dir/lib/X11
+                ac_gdz_glut_lib_e5='-lglut'
+            ;;
+
             *)
                 ac_gdz_glut_lib_e5='-lglut'
             ;;

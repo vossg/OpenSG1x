@@ -71,26 +71,26 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3f> :
     static DataType _type;
 
     enum             { StringConvertable = ToStringConvertable   | 
-                                           FromStringConvertable };
+                                           FromStringConvertable       };
 
-    static DataType &getType      (void) { return _type;         }
+    static       DataType &getType      (void) { return _type;         }
 
-    static Char8    *getSName     (void) { return "SFColor3f";   }
+    static const Char8    *getSName     (void) { return "SFColor3f";   }
 
-    static Char8    *getMName     (void) { return "MFColor3f";   }
+    static const Char8    *getMName     (void) { return "MFColor3f";   }
 
-    static Color3f   getDefault   (void) { return Color3f();     }
+    static const Color3f   getDefault   (void) { return Color3f();     }
 
-    static bool      getFromString(      Color3f  &outVal,
-                                   const Char8    *&inVal)
+    static       bool      getFromString(      Color3f  &outVal,
+                                         const Char8    *&inVal)
     {
         outVal.setValue(inVal);
         
         return true;
     }
 
-    static void      putToString  (const Color3f &inVal,
-                                         string  &outStr)
+    static       void      putToString  (const Color3f &inVal,
+                                               string  &outStr)
     {
         typedef TypeConstants<Color3f::ValueType> TypeConst;
 
@@ -116,26 +116,26 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color4f> :
     static DataType _type;
 
     enum             { StringConvertable = ToStringConvertable   | 
-                                           FromStringConvertable };
+                                           FromStringConvertable       };
 
-    static DataType &getType      (void) { return _type;         }
+    static       DataType &getType      (void) { return _type;         }
 
-    static Char8    *getSName     (void) { return "SFColor4f";   }
+    static const Char8    *getSName     (void) { return "SFColor4f";   }
 
-    static Char8    *getMName     (void) { return "MFColor4f";   }
+    static const Char8    *getMName     (void) { return "MFColor4f";   }
 
-    static Color4f   getDefault   (void){ return Color4f();      }
+    static       Color4f   getDefault   (void){ return Color4f();      }
  
-    static bool      getFromString(      Color4f  &outVal,
-                                   const Char8   *&inVal)
+    static       bool      getFromString(      Color4f  &outVal,
+                                         const Char8   *&inVal)
     {
         outVal.setValue(inVal);
         
         return true;
     }
 
-    static void      putToString  (const Color4f &inVal,
-                                         string  &outStr)
+    static       void      putToString  (const Color4f &inVal,
+                                               string  &outStr)
     {
         typedef TypeConstants<Color4f::ValueType> TypeConst;
 
@@ -163,25 +163,25 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3ub> :
     static DataType _type;
 
     enum             { StringConvertable = ToStringConvertable   | 
-                                           FromStringConvertable };
+                                           FromStringConvertable       };
 
-    static DataType &getType      (void) { return _type;         }
+    static       DataType &getType      (void) { return _type;         }
 
-    static Char8    *getSName     (void) { return "SFColor3ub";  }
-    static Char8    *getMName     (void) { return "MFColor3ub";  }
+    static const Char8    *getSName     (void) { return "SFColor3ub";  }
+    static const Char8    *getMName     (void) { return "MFColor3ub";  }
 
-    static Color3ub  getDefault   (void) { return Color3ub();    }
+    static       Color3ub  getDefault   (void) { return Color3ub();    }
 
-    static bool      getFromString(      Color3ub  &outVal,
-                                   const Char8 *&inVal)
+    static       bool      getFromString(      Color3ub  &outVal,
+                                         const Char8 *&inVal)
     {
         outVal.setValue(inVal);
 
         return true;
     }
     
-    static void      putToString  (const Color3ub &inVal,
-                                   string   &outStr)
+    static       void       putToString  (const Color3ub &inVal,
+                                          string   &outStr)
     {
         typedef TypeConstants<Color3ub::ValueType> TypeConst;
 
@@ -206,26 +206,26 @@ struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
     static DataType _type;
 
     enum             { StringConvertable = ToStringConvertable   | 
-                                           FromStringConvertable };
+                                           FromStringConvertable       };
 
-    static DataType &getType (void)      { return _type;         }
+    static       DataType &getType      (void) { return _type;         }
 
-    static Char8    *getSName     (void) { return "SFColor4ub";  }
+    static const Char8    *getSName     (void) { return "SFColor4ub";  }
 
-    static Char8    *getMName     (void) { return "MFColor4ub";  }
+    static const Char8    *getMName     (void) { return "MFColor4ub";  }
 
-    static Color4ub  getDefault   (void) { return Color4ub();    }
+    static       Color4ub  getDefault   (void) { return Color4ub();    }
 
-    static bool      getFromString(      Color4ub  &outVal,
-                                   const Char8    *&inVal)
+    static       bool      getFromString(      Color4ub  &outVal,
+                                         const Char8    *&inVal)
     {
         outVal.setValue(inVal);
 
         return true;
     }
 
-    static void      putToString  (const Color4ub &inVal,
-                                         string   &outStr)
+    static       void      putToString  (const Color4ub &inVal,
+                                               string   &outStr)
     {
         typedef TypeConstants<Color4ub::ValueType> TypeConst;
 
@@ -253,18 +253,18 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<string> :
     static DataType _type;
 
     enum             { StringConvertable = ToStringConvertable   | 
-                                           FromStringConvertable };
+                                           FromStringConvertable       };
 
-    static DataType &getType      (void) { return _type;         }
+    static       DataType &getType      (void) { return _type;         }
 
-    static Char8    *getSName     (void) { return "SFString";    }
+    static const Char8    *getSName     (void) { return "SFString";    }
 
-    static Char8    *getMName     (void) { return "MFString";    }
+    static const Char8    *getMName     (void) { return "MFString";    }
 
-    static string    getDefault   (void) { return string();      }
+    static       string    getDefault   (void) { return string();      }
 
-    static bool      getFromString(      string  &target,
-                                   const Char8  *&source)
+    static       bool      getFromString(      string  &target,
+                                         const Char8  *&source)
     {
         target.assign(source);
 
@@ -276,7 +276,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<string> :
         return true;
     }
 
-    static void      putToString(const string &inVal,
+    static       void      putToString(const string &inVal,
                                        string &outStr)
     { 
         outStr.assign("\"");
@@ -284,13 +284,14 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<string> :
         outStr.append("\"");
     }
 
-    static UInt32    getBinSize (const string &oObject)
+
+    static       UInt32    getBinSize (const string &oObject)
     {
         return oObject.length() + 1 + sizeof(UInt32);
     }
 
-    static UInt32    getBinSize (const string *pObjectStore,
-                                       UInt32  uiNumObjects)
+    static       UInt32    getBinSize (const string *pObjectStore,
+                                             UInt32  uiNumObjects)
     {
         UInt32 size=0;
 
@@ -301,6 +302,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<string> :
 
         return size;
     }
+
 
     static void copyToBin(      BinaryDataHandler   &pMem, 
                           const string              &oObject)
@@ -380,26 +382,26 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<Time> :
     static DataType _type;
 
     enum             { StringConvertable = ToStringConvertable   | 
-                                           FromStringConvertable };
+                                           FromStringConvertable       };
 
-    static DataType &getType      (void) { return _type;         }
+    static       DataType &getType      (void) { return _type;         }
 
-    static Char8    *getSName     (void) { return "SFTime";      }
+    static const Char8    *getSName     (void) { return "SFTime";      }
 
-    static Char8    *getMName     (void) { return "MFTime";      }
+    static const Char8    *getMName     (void) { return "MFTime";      }
 
-    static Time      getDefault   (void) { return Time();        }
+    static       Time      getDefault   (void) { return Time();        }
 
-    static bool      getFromString(      Time   &outVal,
-                                   const Char8 *&inVal)
+    static       bool      getFromString(      Time   &outVal,
+                                         const Char8 *&inVal)
     {
         outVal = TypeConstants<Time>::getFromString(inVal);
 
         return true;
     }
 
-   static void      putToString(const Time   &inVal,
-                                      string &outStr)
+   static        void      putToString(const Time   &inVal,
+                                             string &outStr)
     {
         outStr.assign(TypeConstants<Time>::putToString(inVal));
     }
@@ -421,16 +423,16 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
     enum                  { StringConvertable = ToStringConvertable       | 
                                                 FromStringConvertable     };
 
-    static DataType      &getType      (void) { return _type;             }
+    static       DataType     &getType     (void) { return _type;             }
 
-    static Char8         *getSName     (void) { return "SFDynamicVolume"; }
+    static const Char8        *getSName    (void) { return "SFDynamicVolume"; }
 
-    static Char8         *getMName     (void) { return "MFDynamicVolume"; }
+    static const Char8        *getMName    (void) { return "MFDynamicVolume"; }
 
-    static DynamicVolume  getDefault   (void) { return DynamicVolume();   }
+    static const DynamicVolume getDefault  (void) { return DynamicVolume();   }
 
-    static bool           getFromString(      DynamicVolume  &outVal,
-                                        const Char8         *&inVal)
+    static bool               getFromString(      DynamicVolume  &outVal,
+                                            const Char8         *&inVal)
     {
         Real32 valStore[  6];
         Char8  str     [256];
@@ -499,8 +501,8 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
         }
     }
 
-    static void      putToString(const DynamicVolume &inVal,
-                                       string        &outStr)
+    static void putToString(const DynamicVolume &inVal,
+                                  string        &outStr)
     {
         Pnt3f min, max;
         outStr.erase();
@@ -698,15 +700,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<BitVector> :
 {
     static DataType  _type;
 
-    enum              { StringConvertable = 0x00 };
+    enum              { StringConvertable = 0x00                       };
 
-    static DataType  &getType (void)   { return _type;           }
+    static       DataType  &getType (void)   { return _type;           }
 
-    static Char8     *getSName(void)   { return "SFBitVector";   }
+    static const Char8     *getSName(void)   { return "SFBitVector";   }
 
-    static Char8     *getMName(void)   { return "MFBitVector";   }
+    static const Char8     *getMName(void)   { return "MFBitVector";   }
 
-    static BitVector  getDefault(void) { return BitVector();     }
+    static       BitVector  getDefault(void) { return BitVector();     }
 };
 
 
@@ -725,23 +727,23 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Plane> :
     enum             { StringConvertable = ToStringConvertable    | 
                                            FromStringConvertable  };
 
-    static DataType &getType      (void) { return _type;          }
+    static       DataType &getType      (void) { return _type;          }
 
-    static Char8    *getSName     (void) { return "SFPlane";      }
+    static const Char8    *getSName     (void) { return "SFPlane";      }
 
-    static Char8    *getMName     (void) { return "MFPlane";      }
+    static const Char8    *getMName     (void) { return "MFPlane";      }
 
-    static Plane     getDefault   (void) { return Plane();        }
+    static       Plane     getDefault   (void) { return Plane();        }
 
-    static bool      getFromString(      Plane  &,
-                                   const Char8 *&)
+    static       bool      getFromString(      Plane  &,
+                                         const Char8 *&)
     {
         // TO_BE_DONE
         return false;
     }
 
-    static void      putToString  (const Plane  &inVal,
-                                         string &outStr)
+    static       void      putToString  (const Plane  &inVal,
+                                               string &outStr)
     {
         typedef TypeConstants<Vec3f::ValueType> TypeConst;
         Vec3f  normal = inVal.getNormal();

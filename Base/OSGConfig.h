@@ -373,6 +373,7 @@
 # define OSG_THROW_NOTHING() 
 # define SIZE_T_NEQ_UINT32
 # define OSG_NOGLSUBDIR
+# define OSG_NOGLUTSUBDIR
 #endif
 
 

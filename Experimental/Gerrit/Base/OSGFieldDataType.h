@@ -223,6 +223,7 @@ struct FieldTraitsIntegralRecurseMapper :
 template <class FieldTypeT>
 struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
 {
+#ifndef __hpux
     static UInt32 getBinSize(const FieldTypeT &oObject)
     {
         typedef typename FieldTypeT::Inherited       Inherited;
@@ -307,6 +308,7 @@ struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
 
         MappedTrait::copyFromBin(pMem, pObjectStore, uiNumObjects);
     }
+#endif
 };
 
 

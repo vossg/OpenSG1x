@@ -171,6 +171,8 @@ void (*XWindow::getFunctionByName( const Char8 *s ))(void)
     void *func = dlsym( libHandle, s );
     dlclose(libHandle);
     return (void (*)(void))func;         
+#elif defined(__hpux)
+    return NULL;
 #else
     return glXGetProcAddressARB((const GLubyte *) s);
 #endif

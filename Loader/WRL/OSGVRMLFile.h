@@ -64,7 +64,7 @@ OSG_BEGIN_NAMESPACE
 typedef VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> > Parent;
 
 #ifndef OSG_COMPILEVRMLLOADERINST
-#ifndef __sgi
+#if !defined(__sgi) && !defined(__hpux)
 extern template OSG_SYSTEMLIB_DLLMAPPING
 ScanParseFieldTypeMapper<ScanParseSkel>;
 extern template OSG_SYSTEMLIB_DLLMAPPING

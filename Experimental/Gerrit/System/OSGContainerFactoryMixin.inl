@@ -67,7 +67,7 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 template <class FactoryDescT>
-ContainerFactoryMixin<FactoryDescT>::Factory *
+typename ContainerFactoryMixin<FactoryDescT>::Factory *
     ContainerFactoryMixin<FactoryDescT>::_the   = NULL;
 
 /***************************************************************************\
@@ -87,7 +87,7 @@ ContainerFactoryMixin<FactoryDescT>::Factory *
 \*-------------------------------------------------------------------------*/
 
 template <class FactoryDescT> inline
-ContainerFactoryMixin<FactoryDescT>::Factory *
+typename ContainerFactoryMixin<FactoryDescT>::Factory *
     ContainerFactoryMixin<FactoryDescT>::the(void)
 {
     if(_the == NULL)
@@ -262,7 +262,7 @@ UInt32 ContainerFactoryMixin<FactoryDescT>::registerType(
 /*------------------------------ access -----------------------------------*/
 
 template <class FactoryDescT> inline
-ContainerFactoryMixin<FactoryDescT>::ContainerType *
+typename ContainerFactoryMixin<FactoryDescT>::ContainerType *
     ContainerFactoryMixin<FactoryDescT>::findType(
         UInt32 uiTypeId) const
 {
@@ -282,7 +282,7 @@ ContainerFactoryMixin<FactoryDescT>::ContainerType *
 }
 
 template <class FactoryDescT> inline
-ContainerFactoryMixin<FactoryDescT>::ContainerType *
+typename ContainerFactoryMixin<FactoryDescT>::ContainerType *
     ContainerFactoryMixin<FactoryDescT>::findType(
         const Char8 *szName) const
 {
@@ -303,7 +303,7 @@ UInt32 ContainerFactoryMixin<FactoryDescT>::getNumTypes(void) const
 }
 
 template <class FactoryDescT> inline
-ContainerFactoryMixin<FactoryDescT>::ContainerType *
+typename ContainerFactoryMixin<FactoryDescT>::ContainerType *
     ContainerFactoryMixin<FactoryDescT>::findUninitializedType(
         const Char8 *szName) const
 {
@@ -390,7 +390,7 @@ PrototypeFactoryMixin<ParentT>::~PrototypeFactoryMixin(void)
 /*------------------------------ access -----------------------------------*/
 
 template <class ParentT> inline
-PrototypeFactoryMixin<ParentT>::ContainerPtr 
+typename PrototypeFactoryMixin<ParentT>::ContainerPtr 
     PrototypeFactoryMixin<ParentT>::createContainer(
         const Char8 *name) const
 {
@@ -533,7 +533,7 @@ UInt32 ContainerStoreFactoryMixin<ParentT>::registerContainer(
 
 
 template <class ParentT> inline
-ContainerStoreFactoryMixin<ParentT>::ContainerPtr 
+typename ContainerStoreFactoryMixin<ParentT>::ContainerPtr 
     ContainerStoreFactoryMixin<ParentT>::getContainer(
         UInt32 uiContainerId)const
 {
@@ -554,7 +554,7 @@ ContainerStoreFactoryMixin<ParentT>::ContainerPtr
 }
 
 template <class ParentT> inline
-const ContainerStoreFactoryMixin<ParentT>::ContainerStore &
+const typename ContainerStoreFactoryMixin<ParentT>::ContainerStore &
     ContainerStoreFactoryMixin<ParentT>::getContainerStore(void)
 {
     return _vContainerStore;
@@ -653,7 +653,7 @@ void ChangeListFactoryMixin<ParentT>::endEdit(
 
 
 template <class ParentT> inline
-ChangeListFactoryMixin<ParentT>::ChangeList &
+typename ChangeListFactoryMixin<ParentT>::ChangeList &
     ChangeListFactoryMixin<ParentT>::getChangeList(void)
 {
     return _oChangeList;

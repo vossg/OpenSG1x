@@ -435,6 +435,9 @@ AC_DEFUN(AC_GDZ_SOEXT,
         ac_gdz_so_suffix=.dylib
         ;;
 
+        hpux*)
+        ac_gdz_so_suffix=.sl
+        ;;
         *)
         ac_gdz_so_suffix=.so
         ;;
@@ -909,21 +912,24 @@ dnl e5
         esac
 
     elif test -n "$ac_gdz_glut_dir"; then
-        if test $build_os = cygwin; then
-           ac_gdz_glut_incdir_e5='"'`cygpath -w $ac_gdz_glut_dir/include`'"'
-           ac_gdz_glut_libdir_e5='"'`cygpath -w $ac_gdz_glut_dir/lib`'"'
-        else
-           ac_gdz_glut_incdir_e5=$ac_gdz_glut_dir/include
-           ac_gdz_glut_libdir_e5=$ac_gdz_glut_dir/lib
-        fi
+
+        ac_gdz_glut_incdir_e5=$ac_gdz_glut_dir/include
+        ac_gdz_glut_libdir_e5=$ac_gdz_glut_dir/lib
 
         case $build_os in
             cygwin*)
                 ac_gdz_glut_lib_e5='glut32.lib'
+                ac_gdz_glut_incdir_e5='"'`cygpath -w $ac_gdz_glut_dir/include`'"'
+                ac_gdz_glut_libdir_e5='"'`cygpath -w $ac_gdz_glut_dir/lib`'"'
             ;;
             darwin*)
                 ac_gdz_glut_lib_e5='-framework Cocoa -framework GLUT'
             ;;
+            hpux*)
+                ac_gdz_glut_libdir_e5=$ac_gdz_glut_dir/lib/X11
+                ac_gdz_glut_lib_e5='-lglut'
+            ;;
+
             *)
                 ac_gdz_glut_lib_e5='-lglut'
             ;;

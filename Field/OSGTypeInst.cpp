@@ -187,7 +187,6 @@ DataType FieldDataTraits<Plane>::_type("Plane", "BaseType");
 
 #else
 
-
 OSG_DLLEXPORT_DEF2(SField, bool  , 2, OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(SField,  Int8 , OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(SField, UInt8 , OSG_BASE_DLLTMPLMAPPING)
@@ -268,6 +267,9 @@ OSG_END_NAMESPACE
 
 
 OSG_USING_NAMESPACE
+
+//template const FieldType MField<Quaternion>::_fieldType;
+///template const FieldType &MField<Quaternion>::getClassType(void);
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

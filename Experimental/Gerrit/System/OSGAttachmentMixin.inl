@@ -171,7 +171,7 @@ AttachmentMixin<AttachmentDescT>::~AttachmentMixin(void)
 template <class AttachmentDescT> inline
 void AttachmentMixin<AttachmentDescT>::addParent(ParentPtr pParent)
 {
-    OSG::addRef(pParent);
+    OSG::addRef<ParentObject>(pParent);
 
     _mfParents.push_back(pParent);
 }
@@ -183,14 +183,14 @@ void AttachmentMixin<AttachmentDescT>::subParent(ParentPtr pParent)
 
     if(parentIt != _mfParents.end())
     {
-         OSG::subRef(pParent);
+         OSG::subRef<ParentObject>(pParent);
 
         _mfParents.erase(parentIt);
     }
 }
 
 template <class AttachmentDescT> inline
-AttachmentMixin<AttachmentDescT>::MFParentPtr *
+typename AttachmentMixin<AttachmentDescT>::MFParentPtr *
     AttachmentMixin<AttachmentDescT>::getMFParents(void)
 {
     return &_mfParents;

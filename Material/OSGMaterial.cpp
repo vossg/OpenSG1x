@@ -77,9 +77,11 @@ The material base class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.18 2002/03/08 14:42:28 dirk Exp $";
+char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.19 2002/05/17 11:51:54 vossg Exp $";
 
-OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::NullMaterial;
+OSG_BEGIN_NAMESPACE
+OSG_SYSTEMLIB_DLLMAPPING MaterialPtr NullMaterial;
+OSG_END_NAMESPACE
 
 /***************************************************************************\
  *                           Class methods                                 *

@@ -153,6 +153,7 @@ void (*GLUTWindow::getFunctionByName(const Char8 *s))(void)
     return (void (*)(void)) dlsym( libHandle, s);
 #elif defined( WIN32 )
     return (void (*)(void)) wglGetProcAddress(s);
+#elif defined(__hpux)
 #elif defined(darwin)
     return NULL;
 #else

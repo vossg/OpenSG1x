@@ -129,7 +129,7 @@ $(EXEDIR)/%.exe: $(OBJDIR)/%.obj
 		     $(LIBPATHS) $(LIBS) /out:$@ 
 else
 $(EXEDIR)/%: $(OBJDIR)/%.o 
-	$(CC) $(LD_OUTOPT)$(LD_OUTSPACE)$@ $(LD_FLAGS) $(LDLOCALFLAGS) \
+	$(LD) $(LD_OUTOPT)$(LD_OUTSPACE)$@ $(LD_FLAGS) $(LDLOCALFLAGS) \
 		$(call cnvSubDirsUnix2Win,$<) $(LIBPATHS) $(LIBS) $(DEBUG_LIBS)
 endif
 
@@ -177,7 +177,7 @@ define hpux_make_depend
 	 | $(SED) -e 's/^\([^:]*:\)/$(OBJDIR)\/\1/1' 					\
 	 		  -e 's/\/usr\/include\/[^ ]*//g'						\
 	 		  -e 's/\/usr\/Software\/[^ ]*//g'						\
-	 		  -e 's/\/igd\/a4\/software\/[^ ]*//g'					\
+	 		  -e 's/\/opt\/[^ ]*//g'								\
 			  -e 's/.*\.\.\/Base\/[^ ]*//g'							\
 			  -e 's/^\([^\.]*\)$(OBJ_SUFFIX):/\1$(DEP_SUFFIX) \1$(OBJ_SUFFIX):/1' \
 			>> $@ 
@@ -283,21 +283,21 @@ endif
 ifeq ($(OS_BASE), hpux11.00)
 $(OBJDIR)/%$(DEP_SUFFIX): %.cpp
 ifneq ($(OSGNODEPSREBUILD),1)
-	$(linux_make_depend)
+	$(hpux_make_depend)
 else
 	@echo "# Skipping dependency $(@F) from $(<F) "
 endif
 
 $(OBJDIR)/%$(DEP_SUFFIX): $(OBJDIR)/%.cpp
 ifneq ($(OSGNODEPSREBUILD),1)
-	$(linux_make_depend)
+	$(hpux_make_depend)
 else
 	@echo "# Skipping dependency $(@F) from $(<F) "
 endif
 
 $(OBJDIR)/%$(DEP_SUFFIX): %.c
 ifneq ($(OSGNODEPSREBUILD),1)
-	$(linux_make_depend)
+	$(hpux_make_depend)
 else
 	@echo "# Skipping dependency $(@F) from $(<F) "
 endif
@@ -348,7 +348,7 @@ ifeq ($(OS_BASE), cygwin)
 SO_INIT_FLAGS =
 else
 ifeq ($(SO_NEEDS_INIT),1)
-SO_INIT_FLAGS = $(LINKER_INIT_FLAG) -Wl,osgInitSharedObject$(PACKAGE_NAME)
+SO_INIT_FLAGS = #$(LINKER_INIT_FLAG) -Wl,osgInitSharedObject$(PACKAGE_NAME)
 else
 SO_INIT_FLAGS =
 endif
@@ -573,6 +573,7 @@ commonclean:
 	-rm -f .lastdbg                   2>/dev/null
 	-rm -f $(OBJDIR)/*$(OBJ_SUFFIX)   2>/dev/null
 	-rm -f $(OBJDIR)/*.s			  2>/dev/null
+	-rm -f $(OBJDIR)/*.I			  2>/dev/null
 	-rm -f $(OBJDIR)/*_moc.cpp        2>/dev/null
 	-rm -f $(OBJDIR)/*.lex.cpp        2>/dev/null
 	-rm -f $(OBJDIR)/*.tab.cpp        2>/dev/null

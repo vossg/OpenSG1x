@@ -46,6 +46,8 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <OSGFieldContainer.h>
+
 //---------------------------------------------------------------------------
 //  Defines
 //---------------------------------------------------------------------------
@@ -125,7 +127,7 @@ void subRef(T *pObject)
 template <class T> inline
 void beginEdit(T &oT, const BitVector whichField)
 {
-    ot.beginEdit(whichField);
+    oT.beginEdit(whichField);
 }
 #endif
 
@@ -140,7 +142,7 @@ void beginEdit(T *pT, const BitVector whichField)
 template <class T> inline
 void endEditNoChanged(T &oT, const BitVector whichField)
 {
-    ot.endEdit(whichField);
+    oT.endEdit(whichField);
 }
 #endif
 
@@ -151,20 +153,21 @@ void endEditNoChanged(T *pT, const BitVector whichField)
 }
 
 //CHECKCHECK
-#ifndef __linux
+#if !defined(__linux)
 template <class T> inline
 void endEdit(T &oT, const BitVector whichField)
 {
-    endEditNoChanged(oT, whichField);
-    oT.changed(whichField, VSCExternal);
+    endEditNoChanged<T>(oT, whichField);
+    oT.changed(whichField, FieldContainer::External);
 }
 #endif
 
 template <class T> inline
 void endEdit(T *pT, const BitVector whichField)
 {
-    endEditNoChanged(pT, whichField);
-    pT->changed(whichField, VSCExternal);
+    endEditNoChanged<T>(pT, whichField);
+//CHECKCHECK
+//    pT->changed(whichField, FieldContainer::External);
 }
 
 OSG_END_NAMESPACE

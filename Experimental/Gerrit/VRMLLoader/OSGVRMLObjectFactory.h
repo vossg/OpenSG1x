@@ -122,6 +122,7 @@ typedef ChangeListFactoryMixin    <VOCS                 > VOCL;
 
 #else
 
+#ifndef __hpux
 extern template class OSG_VRML_DLLMAPPING 
     ContainerFactoryMixin<VRMLObjectFactoryDesc>;
 
@@ -139,6 +140,7 @@ extern template class OSG_VRML_DLLMAPPING
         ContainerStoreFactoryMixin<
             PrototypeFactoryMixin<
                 ContainerFactoryMixin<VRMLObjectFactoryDesc> > > >;
+#endif
 
 #endif
 

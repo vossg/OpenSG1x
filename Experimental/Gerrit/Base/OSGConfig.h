@@ -481,6 +481,8 @@
 
 # define OSG_FOUND_OS 
 
+# define OSG_NOGLUTSUBDIR
+
 # endif // defined(__hpux) && !defined(__GNUC__)
 
 
@@ -593,7 +595,7 @@ OSG_USING_STD_NAMESPACE
 
 #define OSG_ASSERT(expr) assert(expr)
 
-#define OSG_DBG_MEM
-#define OSG_DBG_LCK
+//#define OSG_DBG_MEM
+//#define OSG_DBG_LCK
 
 #endif /* _OSGCONFIG_H_ */

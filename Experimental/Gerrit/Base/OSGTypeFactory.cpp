@@ -180,11 +180,27 @@ UInt32 TypeFactory::registerType(TypeBase *pType)
 		return returnValue;
 	}
 
-    if(findTypeId(pType->getCName    (), 
-                  pType->getNameSpace()) != 0)
+    UInt32 uiTypeId = findTypeId(pType->getCName    (), 
+                                 pType->getNameSpace());
+
+    if(uiTypeId != 0)
     {
-        SWARNING << "ERROR: Can't add a second "
-                 << "type with the name " << pType->getCName() << endl;
+        if(pType != findType(uiTypeId))
+        {
+            SWARNING << "ERROR: Can't add a second "
+                     << "type with the name " << pType->getCName() 
+                     << "(" << pType << ")"
+                     << endl;
+        }
+        else
+        {
+            SWARNING << "Do not run ctr twice "
+                     << "type with the name " << pType->getCName() 
+                     << "(" << pType << ")"
+                     << endl;
+
+            returnValue = uiTypeId;
+        }
 
         return returnValue;
     }
@@ -205,6 +221,8 @@ UInt32 TypeFactory::registerType(TypeBase *pType)
 
     PINFO << "Registered type " << pType->getCName() 
           << " | "              << returnValue 
+          << "("                << pType 
+          << ")"
           << endl;
 
     return returnValue;

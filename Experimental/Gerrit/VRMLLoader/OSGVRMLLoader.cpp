@@ -66,7 +66,7 @@
 #include "OSGDataElementDesc.h"
 //#include "OSGVRMLRouteTask.h"
 
-//#define DEBUG_WRL
+#define DEBUG_WRL
 
 OSG_USING_NAMESPACE
 
@@ -169,6 +169,10 @@ void VRMLLoader::doIndent(ostream &outstream)
 
 void VRMLLoader::initFieldTypeMapper(void)
 {
+    fprintf(stderr, "XXXX : %u %u \n\n", 
+            SFBool::getClassType().getId(),
+            ScanParseSkel::OSGsfBool);
+
     setIntExtMapping(SFBool::getClassType().getId(),
                      ScanParseSkel::OSGsfBool);
 

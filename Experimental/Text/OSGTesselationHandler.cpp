@@ -16,7 +16,12 @@
 // 'Class' declarations
 #include "OSGTesselationHandler.h"
 
-OSG_USING_NAMESPACE VectorFontGlyph *osg::  tmTesselator = 0;
+
+OSG_USING_NAMESPACE 
+
+OSG_BEGIN_NAMESPACE
+VectorFontGlyph *tmTesselator = 0;
+OSG_END_NAMESPACE
 
 /* */
 void OSG_SYSTEMLIB_DLLMAPPING osg::tessBegin(GLenum OSG_CHECK_ARG(type))

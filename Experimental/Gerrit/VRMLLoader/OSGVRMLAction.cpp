@@ -47,8 +47,9 @@
 
 #include <iostream>
 
-#include "OSGVRMLAction.h"
+#include <OSGVRMLObjectType.h>
 #include <OSGVRMLNode.h>
+#include "OSGVRMLAction.h"
 
 OSG_USING_NAMESPACE
 

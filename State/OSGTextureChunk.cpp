@@ -74,7 +74,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.36 2002/03/19 18:08:17 dirk Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.37 2002/05/17 11:51:55 vossg Exp $";
 
 StateChunkClass TextureChunk::_class("Texture", 4);
 
@@ -366,8 +366,13 @@ void TextureChunk::handleGL(Window *win, UInt32 idstatus)
           )
             glTexParameteri(target, GL_TEXTURE_WRAP_T, getWrapT());
 #ifdef GL_TEXTURE_3D
+#ifdef GL_TEXTURE_WRAP_R_EXT
+        if(target == GL_TEXTURE_3D)
+            glTexParameteri(target, GL_TEXTURE_WRAP_R_EXT, getWrapR());
+#else
         if(target == GL_TEXTURE_3D)
             glTexParameteri(target, GL_TEXTURE_WRAP_R, getWrapR());
+#endif
 #endif
 
         glErr("TextureChunk::initialize params");

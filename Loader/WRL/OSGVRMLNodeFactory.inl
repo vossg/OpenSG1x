@@ -325,7 +325,7 @@ void VRMLNodeFactory<BaseT>::beginProto(
             _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
 
-        _pCurrentNodeDesc->setOptions(_uiCurrOptions);
+        _pCurrentNodeDesc->setOptions(Self::_uiCurrOptions);
 
     }
     else
@@ -399,7 +399,7 @@ void VRMLNodeFactory<BaseT>::beginFieldDecl(
     {
         rc = _pCurrentNodeDesc->prototypeAddField(
             szFieldType,
-            mapIntExtFieldType(szFieldName, uiFieldTypeId),
+            Self::mapIntExtFieldType(szFieldName, uiFieldTypeId),
             szFieldName);
 
         if(rc == true)

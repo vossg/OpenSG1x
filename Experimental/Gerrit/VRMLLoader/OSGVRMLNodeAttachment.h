@@ -50,6 +50,7 @@
 #include <OSGBaseFunctions.h>
 
 #include <OSGRefCountMixin.h>
+#include <OSGVRMLBase.h>
 #include <OSGAttachmentMixin.h>
 #include <OSGVRMLNodeFields.h>
 #include <OSGVRMLObject.h>
@@ -68,6 +69,7 @@ struct VRMLNodeAttachmentDesc
 {
     typedef VRMLObject                     Parent;
 
+    typedef VRMLNode                       ParentObject;
     typedef VRMLNode                      *ParentPtr;
     typedef MFVRMLNode                     MFParentPtr;
     
@@ -83,7 +85,7 @@ struct VRMLNodeAttachmentDesc
 #else
 
 // CHECKCHECK
-#ifndef __linux
+#if !defined(__linux) && !defined(__hpux)
 extern template class OSG_VRML_DLLMAPPING
     AttachmentMixin<VRMLNodeAttachmentDesc>;
 #endif

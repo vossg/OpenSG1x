@@ -133,6 +133,8 @@ PassiveWindow::PassiveWindowExtFunc PassiveWindow::getFunctionByName(const Char8
     return PassiveWindowExtFunc(wglGetProcAddress(s));
 #elif defined(darwin)
     return NULL;
+#elif defined(__hpux)
+    return NULL;
 #else
     return (  glXGetProcAddressARB((const GLubyte *)s )  );
 #endif
@@ -154,7 +156,7 @@ PassiveWindow::PassiveWindowExtFunc PassiveWindow::getFunctionByName(const Char8
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveWindow.cpp,v 1.5 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveWindow.cpp,v 1.6 2002/05/17 11:51:55 vossg Exp $";
     static char cvsid_hpp[] = OSGPASSIVEWINDOW_HEADER_CVSID;
     static char cvsid_inl[] = OSGPASSIVEWINDOW_INLINE_CVSID;
 }

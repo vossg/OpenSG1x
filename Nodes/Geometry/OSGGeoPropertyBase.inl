@@ -261,13 +261,13 @@ template <class GeoPropertyDesc> inline
 void GeoProperty<GeoPropertyDesc>::changed(BitVector   , 
                                            FCChangeMode)
 {
-    MFFieldContainerPtr::iterator parentsIt  = _parents.begin();
-    MFFieldContainerPtr::iterator parentsEnd = _parents.end();
+    MFFieldContainerPtr::iterator parentsIt  = Self::_parents.begin();
+    MFFieldContainerPtr::iterator parentsEnd = Self::_parents.end();
 
     while(parentsIt != parentsEnd)
     {
         (*parentsIt)->changed(1 << parentsIt->getParentFieldPos(),
-                              Child);
+                              Self::Child);
         ++parentsIt;
     }
 }
@@ -359,9 +359,9 @@ const typename GeoProperty<GeoPropertyDesc>::StoredFieldType &
 
 template <class GeoPropertyDesc> inline
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
-GeoProperty<GeoPropertyDesc>::LocalInheritedPtr
+typename GeoProperty<GeoPropertyDesc>::LocalInheritedPtr
 #else
-GeoProperty<GeoPropertyDesc>::InheritedPtr
+typename GeoProperty<GeoPropertyDesc>::InheritedPtr
 #endif
 GeoProperty<GeoPropertyDesc>::clone(void)
 {

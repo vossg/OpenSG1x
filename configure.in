@@ -548,8 +548,7 @@ AC_GDZ_SOEXT()
 AC_GDZ_SOPRAEFIX()
 
 
-if test $build_os = cygwin; 
-then 
+if test $build_os = cygwin; then 
 	if test $ac_gdz_compiler_base != g++; then
 
 		AC_GDZ_SET_SYSTEM_DIRS()
@@ -632,6 +631,11 @@ else
         ac_gdz_compiler_exe_ranlib=ranlib
         ;;
 
+       hpux*)
+		ac_gdz_compiler_exe_shared='$(CC) -b'
+        ac_gdz_system_incl_dir_e1=/opt/aCC/include_std
+        ;;
+
         *)
 		ac_gdz_compiler_exe_shared='$(CC) -shared'
         ;;
@@ -665,7 +669,14 @@ dnl a symlink from gmake to make
 		ac_gdz_base_system_libs="-ldl $ac_gdz_base_system_libs"
 	fi
 
-    ac_gdz_compiler_exe_exe='$(CC)'
+    case $build_os in
+        hpux*)
+            ac_gdz_compiler_exe_exe='$(CC) -AA'
+        ;;
+        *)
+            ac_gdz_compiler_exe_exe='$(CC)'
+        ;;
+    esac
 
     if test $ac_gdz_conf_package_efence = "1"; then
         if test "x"$ac_gdz_efence_dir = "x" ; then

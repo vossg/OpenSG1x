@@ -130,8 +130,8 @@ void StatTimeElem::putToString(string &str, const char *format)
     }
     else
     {
-        char *proc = strchr(format,'%');        
-        char *temp = new char [strlen(format) + 40];
+        const char *proc = strchr(format,'%');        
+              char *temp = new char [strlen(format) + 40];
 
         if(proc)
         {

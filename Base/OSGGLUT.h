@@ -44,7 +44,7 @@
 
 #include <OSGConfig.h>
 
-#ifdef OSG_NOGLSUBDIR
+#ifdef OSG_NOGLUTSUBDIR
 #include <glut.h>
 #else
 #include <GL/glut.h>

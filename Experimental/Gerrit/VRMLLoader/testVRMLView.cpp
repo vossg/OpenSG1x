@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include <GL/glut.h>
+#include <OSGGLUT.h>
 
 #include <OSGFieldContainerFactory.h>
 #include <OSGSFSysTypes.h>
@@ -33,10 +33,10 @@
 #include "OSGSolidBackground.h"
 //#include "OSGUniformBackground.h"
 
+#include <OSGVRMLNode.h>
 #include <OSGVRMLObjectFactory.h>
 #include <OSGVRMLLoader.h>
 #include <OSGVRMLToOSGAction.h>
-#include <OSGVRMLNode.h>
 
 #include "OSGTrackball.h"
 

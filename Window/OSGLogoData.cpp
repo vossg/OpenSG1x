@@ -55,7 +55,8 @@ OSG_USING_NAMESPACE
     ImageFileType::restore to turn it into an Image.
  */
 
-UChar8 OSG::LogoData[] = {
+OSG_BEGIN_NAMESPACE
+UChar8 LogoData[] = {
 77, 84, 68, 0, 1, 0, 0, 0, 
 25, 8, 0, 223, 0, 38, 0, 1, 
 0, 1, 0, 1, 0, 0, 2, 2, 
@@ -4298,7 +4299,7 @@ UChar8 OSG::LogoData[] = {
 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0,
 };
-
+OSG_END_NAMESPACE
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
@@ -4313,6 +4314,6 @@ UChar8 OSG::LogoData[] = {
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGLogoData.cpp,v 1.3 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGLogoData.cpp,v 1.4 2002/05/17 11:51:55 vossg Exp $";
     static char cvsid_hpp       [] = OSGLOGODATA_HEADER_CVSID;
 }
