@@ -62,9 +62,6 @@
 #endif
 
 int iLineNum   = 1;
-int iCharsRead = 0;
-
-#define IR iCharsRead += yyleng
 
 extern "C"
 {
@@ -88,6 +85,10 @@ ScanParseSkel *_pSkel;
 
 #if defined(OSG_LINUX_ICC) || defined(OSG_WIN32_ICL)
 #pragma warning( disable : 193 810 177 279 111 )
+#endif
+
+#if !defined(yywrap)
+#define yywrap OSGScanParseSkel_wrap
 #endif
 
 %}
@@ -238,70 +239,69 @@ header (#[^\n]*\n)
  /* VRML-Datei, in einer Prototyp-Implementierung oder beim */
  /* Lesen des Inhaltes von SFNode- oder MFNode-Feldern. */
 
-<INITIAL,NODE>PROTO         { IR; return PROTO; }
-<INITIAL,NODE>EXTERNPROTO   { IR; return EXTERNPROTO; }
-<INITIAL,NODE>DEF           { IR; return DEF; }
-<INITIAL,NODE>USE           { IR; return USE; }
-<INITIAL,NODE>TO            { IR; return TO; }
-<INITIAL,NODE>ROUTE         { IR; return ROUTE; }
-<INITIAL,NODE>NULL          { IR; return SFN_NULL; }
-<INITIAL,NODE>Script        { IR; return SCRIPT; }
-<INITIAL,NODE>eventIn       { IR; return EVENTIN; }
-<INITIAL,NODE>eventOut      { IR; return EVENTOUT; }
-<INITIAL,NODE>field         { IR; return FIELD; }
-<INITIAL,NODE>exposedField  { IR; return EXPOSEDFIELD; }
+<INITIAL,NODE>PROTO         { return PROTO;          }
+<INITIAL,NODE>EXTERNPROTO   { return EXTERNPROTO;    }
+<INITIAL,NODE>DEF           { return DEF;            }
+<INITIAL,NODE>USE           { return USE;            }
+<INITIAL,NODE>TO            { return TO;             }
+<INITIAL,NODE>ROUTE         { return ROUTE;          }
+<INITIAL,NODE>NULL          { return SFN_NULL;       }
+<INITIAL,NODE>Script        { return SCRIPT;         }
+<INITIAL,NODE>eventIn       { return EVENTIN;        }
+<INITIAL,NODE>eventOut      { return EVENTOUT;       }
+<INITIAL,NODE>field         { return FIELD;          }
+<INITIAL,NODE>exposedField  { return EXPOSEDFIELD;   }
 
-<INITIAL,NODE>MFColor       { IR; return Tok_MFColor;    } 
-<INITIAL,NODE>MFFloat       { IR; return Tok_MFFloat;    } 
-<INITIAL,NODE>MFInt32       { IR; return Tok_MFInt32;    } 
-<INITIAL,NODE>MFNode        { IR; return Tok_MFNode;     } 
-<INITIAL,NODE>MFRotation    { IR; return Tok_MFRotation; } 
-<INITIAL,NODE>MFString      { IR; return Tok_MFString;   } 
-<INITIAL,NODE>MFTime        { IR; return Tok_MFTime;     } 
-<INITIAL,NODE>MFVec2f       { IR; return Tok_MFVec2f;    } 
-<INITIAL,NODE>MFVec3f       { IR; return Tok_MFVec3f;    } 
-<INITIAL,NODE>SFBool        { IR; return Tok_SFBool;     } 
-<INITIAL,NODE>SFColor       { IR; return Tok_SFColor;    } 
-<INITIAL,NODE>SFFloat       { IR; return Tok_SFFloat;    } 
-<INITIAL,NODE>SFImage       { IR; return Tok_SFImage;    } 
-<INITIAL,NODE>SFInt32       { IR; return Tok_SFInt32;    } 
-<INITIAL,NODE>SFNode        { IR; return Tok_SFNode;     } 
-<INITIAL,NODE>SFRotation    { IR; return Tok_SFRotation; } 
-<INITIAL,NODE>SFString      { IR; return Tok_SFString;   } 
-<INITIAL,NODE>SFTime        { IR; return Tok_SFTime;     } 
-<INITIAL,NODE>SFVec2f       { IR; return Tok_SFVec2f;    } 
-<INITIAL,NODE>SFVec3f       { IR; return Tok_SFVec3f;    } 
+<INITIAL,NODE>MFColor       { return Tok_MFColor;    } 
+<INITIAL,NODE>MFFloat       { return Tok_MFFloat;    } 
+<INITIAL,NODE>MFInt32       { return Tok_MFInt32;    } 
+<INITIAL,NODE>MFNode        { return Tok_MFNode;     } 
+<INITIAL,NODE>MFRotation    { return Tok_MFRotation; } 
+<INITIAL,NODE>MFString      { return Tok_MFString;   } 
+<INITIAL,NODE>MFTime        { return Tok_MFTime;     } 
+<INITIAL,NODE>MFVec2f       { return Tok_MFVec2f;    } 
+<INITIAL,NODE>MFVec3f       { return Tok_MFVec3f;    } 
+<INITIAL,NODE>SFBool        { return Tok_SFBool;     } 
+<INITIAL,NODE>SFColor       { return Tok_SFColor;    } 
+<INITIAL,NODE>SFFloat       { return Tok_SFFloat;    } 
+<INITIAL,NODE>SFImage       { return Tok_SFImage;    } 
+<INITIAL,NODE>SFInt32       { return Tok_SFInt32;    } 
+<INITIAL,NODE>SFNode        { return Tok_SFNode;     } 
+<INITIAL,NODE>SFRotation    { return Tok_SFRotation; } 
+<INITIAL,NODE>SFString      { return Tok_SFString;   } 
+<INITIAL,NODE>SFTime        { return Tok_SFTime;     } 
+<INITIAL,NODE>SFVec2f       { return Tok_SFVec2f;    } 
+<INITIAL,NODE>SFVec3f       { return Tok_SFVec3f;    } 
 
     /* extended types */
 
-<INITIAL,NODE>MFColor4f     { IR; return Tok_MFColor4f;  } 
-<INITIAL,NODE>MFColor4i     { IR; return Tok_MFColor4i;  } 
-<INITIAL,NODE>MFColor3f     { IR; return Tok_MFColor3f;  }
-<INITIAL,NODE>MFMatrix      { IR; return Tok_MFMatrix;   }
-<INITIAL,NODE>MFPnt2f       { IR; return Tok_MFPnt2f;    } 
-<INITIAL,NODE>MFPnt3f       { IR; return Tok_MFPnt3f;    } 
-<INITIAL,NODE>MFPnt4f       { IR; return Tok_MFPnt4f;    } 
-<INITIAL,NODE>MFVec4f       { IR; return Tok_MFVec4f;    } 
-<INITIAL,NODE>MFPlane       { IR; return Tok_MFPlane;    }
-<INITIAL,NODE>SFColor4f     { IR; return Tok_SFColor4f;  } 
-<INITIAL,NODE>SFColor4i     { IR; return Tok_SFColor4i;  } 
-<INITIAL,NODE>SFColor3f     { IR; return Tok_SFColor3f;  }
-<INITIAL,NODE>SFMatrix      { IR; return Tok_SFMatrix;   } 
-<INITIAL,NODE>SFPnt2f       { IR; return Tok_SFPnt2f;    } 
-<INITIAL,NODE>SFPnt3f       { IR; return Tok_SFPnt3f;    } 
-<INITIAL,NODE>SFPnt4f       { IR; return Tok_SFPnt4f;    } 
-<INITIAL,NODE>SFVec4f       { IR; return Tok_SFVec4f;    }
-<INITIAL,NODE>SFPlane       { IR; return Tok_SFPlane;    } 
+<INITIAL,NODE>MFColor4f     { return Tok_MFColor4f;  } 
+<INITIAL,NODE>MFColor4i     { return Tok_MFColor4i;  } 
+<INITIAL,NODE>MFColor3f     { return Tok_MFColor3f;  }
+<INITIAL,NODE>MFMatrix      { return Tok_MFMatrix;   }
+<INITIAL,NODE>MFPnt2f       { return Tok_MFPnt2f;    } 
+<INITIAL,NODE>MFPnt3f       { return Tok_MFPnt3f;    } 
+<INITIAL,NODE>MFPnt4f       { return Tok_MFPnt4f;    } 
+<INITIAL,NODE>MFVec4f       { return Tok_MFVec4f;    } 
+<INITIAL,NODE>MFPlane       { return Tok_MFPlane;    }
+<INITIAL,NODE>SFColor4f     { return Tok_SFColor4f;  } 
+<INITIAL,NODE>SFColor4i     { return Tok_SFColor4i;  } 
+<INITIAL,NODE>SFColor3f     { return Tok_SFColor3f;  }
+<INITIAL,NODE>SFMatrix      { return Tok_SFMatrix;   } 
+<INITIAL,NODE>SFPnt2f       { return Tok_SFPnt2f;    } 
+<INITIAL,NODE>SFPnt3f       { return Tok_SFPnt3f;    } 
+<INITIAL,NODE>SFPnt4f       { return Tok_SFPnt4f;    } 
+<INITIAL,NODE>SFVec4f       { return Tok_SFVec4f;    }
+<INITIAL,NODE>SFPlane       { return Tok_SFPlane;    } 
 
-<INITIAL,NODE>{IdFirstChar}{IdRestChar}* { /*fprintf(stderr, "ID : %s\n", yytext);*/
-                                           IR; return ID; }
+<INITIAL,NODE>{IdFirstChar}{IdRestChar}* { return ID; }
 
 <mfcolorValue,mffloatValue,mfint32Value,mfrotationValue,mfstringValue>\[ {
+
     if(parsing_mf)
         OSGScanParseSkel_error("Syntaxfehler: Doppelte [");
 
     parsing_mf = 1;
-    IR;
 }
 
 <mftimeValue,mfvec2fValue,mfvec3fValue>\[ {
@@ -310,22 +310,21 @@ header (#[^\n]*\n)
         OSGScanParseSkel_error("Syntaxfehler: Doppelte [");
 
     parsing_mf = 1;
-    IR;
 }
 
 <mfcolorValue,mffloatValue,mfint32Value,mfrotationValue,mfstringValue>\] {
-  if(!parsing_mf) 
-      OSGScanParseSkel_error("Ueberzaehlige ]");
 
-  int fieldType = expectToken;
+    if(!parsing_mf) 
+        OSGScanParseSkel_error("Ueberzaehlige ]");
 
-  BEGIN NODE;
+    int fieldType = expectToken;
 
-  parsing_mf  = 0;
-  expectToken = 0;
-  IR; 
+    BEGIN NODE;
 
-  return fieldType;
+    parsing_mf  = 0;
+    expectToken = 0;
+
+    return fieldType;
 }
 
 <mftimeValue,mfvec2fValue,mfvec3fValue>\] {
@@ -339,7 +338,6 @@ header (#[^\n]*\n)
 
     parsing_mf  = 0;
     expectToken = 0;
-    IR;
 
     return fieldType;
 }
@@ -347,24 +345,26 @@ header (#[^\n]*\n)
     /* sfboolValue ::= TRUE | FALSE; */
 
 <sfboolValue>(T|t)(R|r)(U|u)(E|e) {
+
     BEGIN NODE;
+
     expectToken = 0;
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue("TRUE");
 
-    IR;
     return TOK_SFBOOL;
 }
 
 <sfboolValue>(F|f)(A|a)(L|l)(S|s)(E|e) {
+
     BEGIN NODE;
+
     expectToken = 0;
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue("FALSE");
 
-    IR;
     return TOK_SFBOOL;
 }
 
@@ -375,7 +375,6 @@ header (#[^\n]*\n)
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_SFBOOL;
 }
 
@@ -384,12 +383,12 @@ header (#[^\n]*\n)
 <sfcolorValue>({float}{ws}){2}{float} {
 
     BEGIN NODE;
+
     expectToken = 0;
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_SFCOLOR;
 }
 
@@ -401,15 +400,15 @@ header (#[^\n]*\n)
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
-
     if (parsing_mf)
     {
     }
     else 
     {
         BEGIN NODE;
+
         expectToken = 0;
+
         return TOK_MFCOLOR;
     }
 }
@@ -419,12 +418,12 @@ header (#[^\n]*\n)
 <sffloatValue>{float} {
 
     BEGIN NODE;
+
     expectToken = 0;
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_SFFLOAT;
 }
 
@@ -435,8 +434,6 @@ header (#[^\n]*\n)
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
-
-    IR;
 
     if(parsing_mf)
     {   
@@ -452,13 +449,14 @@ header (#[^\n]*\n)
     /* sfint32Value ::= int32; */
 
 <sfint32Value>{int32} {
+
     BEGIN NODE;
+
     expectToken = 0;
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_SFINT32;
 }
 
@@ -467,10 +465,9 @@ header (#[^\n]*\n)
 
 <mfint32Value>{int32} {
 
-   if(_pSkel != NULL)
+    if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
 
     if (parsing_mf)
     {
@@ -478,7 +475,9 @@ header (#[^\n]*\n)
     else
     {  
         BEGIN NODE; 
+
         expectToken = 0;
+
         return TOK_MFINT32;
     }
 }
@@ -486,17 +485,16 @@ header (#[^\n]*\n)
     /* sfimageValue ::=  int32 int32 int32 ... */
 
 <sfimageValue>{int32}{ws}{int32}{ws}{int32} {
+
     int w, h, d;
     sscanf(yytext, "%d %d %d", &w, &h, &d);
-
-    IR;
 
     if(_pSkel != NULL)
     {
         _pSkel->addFieldValue(yytext);
     }
 
-    sfImageIntsExpected = w*h;
+    sfImageIntsExpected = w * h;
     sfImageIntsParsed   = 0;                          
 
     if(sfImageIntsExpected != 0)
@@ -506,17 +504,18 @@ header (#[^\n]*\n)
     else
     {
         expectToken = 0;
+
         BEGIN NODE;
+
         return TOK_SFIMAGE;
     }
 }
 
 <IN_SFIMG>{int32} {
+
     ++sfImageIntsParsed;
 
     /* std extention: stop pixelread neg values */
-
-    IR;
 
     if(*yytext == '-')
     {
@@ -531,7 +530,9 @@ header (#[^\n]*\n)
     if (sfImageIntsParsed == sfImageIntsExpected)
     {
         BEGIN NODE;
+
         expectToken = 0;
+
         return TOK_SFIMAGE;
     }
 }
@@ -542,12 +543,12 @@ header (#[^\n]*\n)
 <sfrotationValue>({float}{ws}){3}{float} {
 
     BEGIN NODE;
+
     expectToken = 0;
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_SFROTATION;
 }
 
@@ -560,14 +561,15 @@ header (#[^\n]*\n)
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     if(parsing_mf)
     {
     }
     else 
     {
         BEGIN NODE;
+
         expectToken = 0;
+
         return TOK_MFCOLOR;
     }
 }
@@ -579,42 +581,41 @@ header (#[^\n]*\n)
     /* mfstringValue  ::= sfstringValue | [ ] | [ sfstringValues ];     */
     /* sfstringValues ::= sfstringValue | sfstringValue sfstringValues; */
 
-<sfstringValue>\"   { IR; BEGIN IN_SFS; }
-<mfstringValue>\"   { IR; BEGIN IN_MFS; }
+<sfstringValue>\"   { BEGIN IN_SFS; }
+<mfstringValue>\"   { BEGIN IN_MFS; }
 
 <sfstringValue>[^ \"\t\r\,\n]+ {
 
     BEGIN NODE;
+
     expectToken = 0;
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_SFSTRING;
 }
 
 <mfstringValue>[^ \[\]\"\t\r\,\n]+ {
 
     BEGIN NODE;
+
     expectToken = 0;
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_MFSTRING;
 }
 
-<IN_SFS,IN_MFS>\\\"     { yymore(); }
+<IN_SFS,IN_MFS>\\\"   { yymore(); }
 <IN_SFS,IN_MFS>[^\"]+ { yymore(); }
 
 <IN_SFS>\" {
 
     BEGIN NODE;
-    expectToken = 0;
 
-    IR;
+    expectToken = 0;
 
     yyleng--;
     yytext[yyleng] = '\0';
@@ -626,8 +627,6 @@ header (#[^\n]*\n)
 }
 
 <IN_MFS>\" {
-
-    IR;
 
     yyleng--;
     yytext[yyleng] = '\0';
@@ -642,7 +641,9 @@ header (#[^\n]*\n)
     else 
     {
         BEGIN NODE;
+
         expectToken = 0;
+
         return TOK_MFSTRING;
     }
 }
@@ -650,13 +651,14 @@ header (#[^\n]*\n)
     /* sftimeValue ::= double; */
 
 <sftimeValue>{float} {
+
     BEGIN NODE;
+
     expectToken = 0;
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_SFTIME;
 }
 
@@ -668,15 +670,15 @@ header (#[^\n]*\n)
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
-
     if(parsing_mf)
     {   
     }
     else
     {
         BEGIN NODE;
+
         expectToken = 0;
+
         return TOK_MFFLOAT;
     }
 }
@@ -685,13 +687,14 @@ header (#[^\n]*\n)
     /* sfvec2fValue ::= float float; */
 
 <sfvec2fValue>{float}{ws}{float} {
+
     BEGIN NODE;
+
     expectToken = 0;
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_SFVEC2F;
 }
 
@@ -703,15 +706,15 @@ header (#[^\n]*\n)
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
-
     if(parsing_mf)
     {
     }
     else
     { 
         BEGIN NODE;
+
         expectToken = 0;
+
         return TOK_MFVEC2F;
     }
 }
@@ -721,12 +724,12 @@ header (#[^\n]*\n)
 <sfvec3fValue>({float}{ws}){2}{float} { 
 
     BEGIN NODE; 
+
     expectToken = 0; 
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_SFVEC3F; 
 }
 
@@ -738,15 +741,15 @@ header (#[^\n]*\n)
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
-
     if(parsing_mf)
     {
     }
     else
     {
         BEGIN NODE;
+
         expectToken = 0;
+
         return TOK_MFVEC3F;
     }
 }
@@ -759,7 +762,6 @@ header (#[^\n]*\n)
     if(parsing_mf)
         OSGScanParseSkel_error("Syntaxfehler: Doppelte [");
 
-    IR;
     parsing_mf = 1;
 }
 
@@ -768,7 +770,6 @@ header (#[^\n]*\n)
     if(parsing_mf)
         OSGScanParseSkel_error("Syntaxfehler: Doppelte [");
 
-    IR;
     parsing_mf = 1;
 }
 
@@ -783,7 +784,6 @@ header (#[^\n]*\n)
 
     parsing_mf  = 0;
     expectToken = 0;
-    IR;
 
     return fieldType;
 }
@@ -799,7 +799,6 @@ header (#[^\n]*\n)
 
     parsing_mf  = 0;
     expectToken = 0;
-    IR;
 
     return fieldType;
 }
@@ -810,12 +809,12 @@ header (#[^\n]*\n)
 <sfcolor4fValue>({float}{ws}){3}{float} {
 
     BEGIN NODE;
+
     expectToken = 0;
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_SFCOLOR4F;
 }
 
@@ -824,25 +823,26 @@ header (#[^\n]*\n)
 <sfcolor4iValue>({int32}{ws}){3}{int32} {
 
     BEGIN NODE;
+
     expectToken = 0;
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_SFCOLOR4I;
 }
 
     /* sfcolor3fValue ::= float float float; */
 
 <sfcolor3fValue>({float}{ws}){2}{float} {
+
     BEGIN NODE;
+
     expectToken = 0;
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_SFCOLOR3F;
 }
 
@@ -854,51 +854,54 @@ header (#[^\n]*\n)
 <sfmatrixValue>({float}{ws}){15}{float} {
 
     BEGIN NODE;
+
     expectToken = 0;
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_SFMATRIX;
 }
 
     /* sfpnt2fValue ::= float float; */
 
 <sfpnt2fValue>{float}{ws}{float} {
+
     BEGIN NODE;
+
     expectToken = 0;
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_SFPNT2F;
 }
 
     /* sfpnt3fValue ::= float float float; */
 
 <sfpnt3fValue>({float}{ws}){2}{float} { 
+
     BEGIN NODE; 
+
     expectToken = 0; 
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_SFPNT3F; 
 }
 
     /* sfplaneValue ::= float float float float; */
 
 <sfplaneValue>({float}{ws}){3}{float} { 
+
     BEGIN NODE; 
+
     expectToken = 0; 
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_SFPLANE; 
 }
 
@@ -906,39 +909,42 @@ header (#[^\n]*\n)
                     |   float float float float float float; */
 
 <sfvolumeValue>({float}{ws}){4}(({float}{ws}){2})? { 
+
     BEGIN NODE; 
+
     expectToken = 0; 
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_SFPLANE; 
 }
 
     /* sfpnt4fValue ::= float float float float; */
 
 <sfpnt4fValue>({float}{ws}){3}{float} { 
+
     BEGIN NODE; 
+
     expectToken = 0; 
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_SFPNT4F; 
 }
 
     /* sfvec4fValue ::= float float float float; */
 
 <sfvec4fValue>({float}{ws}){3}{float} { 
+
     BEGIN NODE; 
+
     expectToken = 0; 
 
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
     return TOK_SFVEC4F; 
 }
 
@@ -950,15 +956,16 @@ header (#[^\n]*\n)
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
-
     if (parsing_mf)
     {
     }
     else 
     {
+
         BEGIN NODE;
+
         expectToken = 0;
+
         return TOK_MFCOLOR4F;
     }
 }
@@ -972,15 +979,15 @@ header (#[^\n]*\n)
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
-
     if (parsing_mf)
     {
     }
     else 
     {
         BEGIN NODE;
+
         expectToken = 0;
+
         return TOK_MFCOLOR4I;
     }
 }
@@ -993,15 +1000,15 @@ header (#[^\n]*\n)
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
-
     if (parsing_mf)
     {
     }
     else 
     {
         BEGIN NODE;
+
         expectToken = 0;
+
         return TOK_MFCOLOR3F;
     }
 }
@@ -1014,15 +1021,15 @@ header (#[^\n]*\n)
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
-
     if (parsing_mf)
     {
     }
     else 
     {
         BEGIN NODE;
+
         expectToken = 0;
+
         return TOK_MFMATRIX;
     }
 }
@@ -1035,15 +1042,15 @@ header (#[^\n]*\n)
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
-
     if(parsing_mf)
     {
     }
     else
     { 
         BEGIN NODE;
+
         expectToken = 0;
+
         return TOK_MFPNT2F;
     }
 }
@@ -1056,15 +1063,15 @@ header (#[^\n]*\n)
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
-
     if(parsing_mf)
     {
     }
     else
     {
         BEGIN NODE;
+
         expectToken = 0;
+
         return TOK_MFPNT3F;
     }
 }
@@ -1077,15 +1084,15 @@ header (#[^\n]*\n)
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
-
     if(parsing_mf)
     {
     }
     else
     {
         BEGIN NODE;
+
         expectToken = 0;
+
         return TOK_MFPLANE;
     }
 }
@@ -1099,15 +1106,15 @@ header (#[^\n]*\n)
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
-
     if(parsing_mf)
     {
     }
     else
     {
         BEGIN NODE;
+
         expectToken = 0;
+
         return TOK_MFPNT4F;
     }
 }
@@ -1120,27 +1127,27 @@ header (#[^\n]*\n)
     if(_pSkel != NULL)
         _pSkel->addFieldValue(yytext);
 
-    IR;
-
     if(parsing_mf)
     {
     }
     else
     {
         BEGIN NODE;
+
         expectToken = 0;
+
         return TOK_MFVEC4F;
     }
 }
 
-<EXTERROR>. { IR; return 0; }
+<EXTERROR>. { return 0; }
 
 
-<*>"{"  { IR; return OPENBRACE;                       }
-<*>"}"  { IR; return CLOSEBRACE;                      }
-<*>"["  { IR; return OPENBRACKET;                     }
-<*>"]"  { IR; return CLOSEBRACKET;                    }
-<*>"."  { IR; return PERIOD;                          }
+<*>"{"  { return OPENBRACE;                       }
+<*>"}"  { return CLOSEBRACE;                      }
+<*>"["  { return OPENBRACKET;                     }
+<*>"]"  { return CLOSEBRACKET;                    }
+<*>"."  { return PERIOD;                          }
 
  /* Diese Regel erkennt Whitespace oder ansonsten nicht */
  /* erkannte Token in allen Startzustaenden */
@@ -1150,11 +1157,11 @@ header (#[^\n]*\n)
  /* beachtet werden, damit die Zeilenangabe bei eventuellen */
  /* Fehlermeldungen richtig ist. */
 
-<*>{wsnnl}* { IR; }
+<*>{wsnnl}* 
 
-<*>{nl}     { IR; ++iLineNum; }
+<*>{nl}     { ++iLineNum; }
 
-<*>.    { IR; BEGIN EXTERROR; }
+<*>.        { BEGIN EXTERROR; }
 
 %%
 
