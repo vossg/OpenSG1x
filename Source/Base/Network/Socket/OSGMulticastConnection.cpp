@@ -667,26 +667,33 @@ void MulticastConnection::aliveProc(void *arg)
     UDPBuffer alive;
     Real32 waitTime;
 
-    while(!connection->_stopAliveThread)
+    try
     {
-        if(connection->_destination.getPort()!=0)
+        while(!connection->_stopAliveThread)
         {
-            // send ALIVE package
-            // receivers should ignore this
-            alive.header.seqNumber = htonl(0);
-            alive.header.type      = ALIVE;
-            alive.member           = htonl(connection->_member);
-            connection->_socket.sendTo(
-                &alive,
-                sizeof(UDPHeader)+sizeof(alive.member),
-                connection->_destination);
+            if(connection->_destination.getPort()!=0)
+            {
+                // send ALIVE package
+                // receivers should ignore this
+                alive.header.seqNumber = htonl(0);
+                alive.header.type      = ALIVE;
+                alive.member           = htonl(connection->_member);
+                connection->_socket.sendTo(
+                    &alive,
+                    sizeof(UDPHeader)+sizeof(alive.member),
+                    connection->_destination);
+            }
+            waitTime=connection->_sendAliveInterval;
+            if(connection->_aliveSocket.waitReadable(waitTime))
+            {
+                char tag;
+                connection->_aliveSocket.recv(&tag,sizeof(tag));
+            }
         }
-        waitTime=connection->_sendAliveInterval;
-        if(connection->_aliveSocket.waitReadable(waitTime))
-        {
-            char tag;
-            connection->_aliveSocket.recv(&tag,sizeof(tag));
-        }
+    }
+    catch(...)
+    {
+        FDEBUG(("AliveProc stopped by an exception"));
     }
 }
 
