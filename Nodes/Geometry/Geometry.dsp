@@ -72,7 +72,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LIB32=xilink6.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo
+# SUBTRACT LIB32 /nologo
 
 !ENDIF 
 
@@ -90,6 +90,10 @@ SOURCE=.\OSGFaceIterator.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\OSGFaceIterator.inl
+# End Source File
+# Begin Source File
+
 SOURCE=.\OSGGeometry.cpp
 # End Source File
 # Begin Source File
@@ -102,7 +106,19 @@ SOURCE=.\OSGGeometry.inl
 # End Source File
 # Begin Source File
 
-SOURCE=.\OSGGeoProperty.cpp
+SOURCE=.\OSGGeometryBase.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoPropColors.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoPropColors.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoPropColors.inl
 # End Source File
 # Begin Source File
 
@@ -110,7 +126,51 @@ SOURCE=.\OSGGeoProperty.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\OSGGeoProperty.inl
+SOURCE=.\OSGGeoPropertyBase.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoPropertyBase.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoPropertyBase.inl
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoPropFields.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoPropFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoPropIndices.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoPropIndices.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoPropNormals.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoPropNormals.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoPropPositions.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoPropPositions.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoPropPtrs.h
 # End Source File
 # Begin Source File
 
@@ -134,6 +194,10 @@ SOURCE=.\OSGPrimitiveIterator.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\OSGPrimitiveIterator.inl
+# End Source File
+# Begin Source File
+
 SOURCE=.\OSGSimpleGeometry.cpp
 # End Source File
 # Begin Source File
@@ -147,6 +211,10 @@ SOURCE=.\OSGTriangleIterator.cpp
 # Begin Source File
 
 SOURCE=.\OSGTriangleIterator.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGTriangleIterator.inl
 # End Source File
 # End Target
 # End Project
