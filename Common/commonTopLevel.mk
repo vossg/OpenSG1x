@@ -281,7 +281,7 @@ install-bin:
 	$(SED) -e 's/@am_gdz_system_flags@/\"$(CCFLAGS_EXT)\"/g'			\
 	       -e 's/@am_gdz_system_flags_opt@/\"$(CCFLAGS_EXT_OPT)\"/g'	\
 	       -e 's/@am_gdz_system_flags_dbg@/\"$(CCFLAGS_EXT_DBG)\"/g'	\
-		   -e 's/@am_gdz_link_flags@/\"$(LD_FLAGS_EXT)\"/g'				\
+		   -e 's|@am_gdz_link_flags@|\"$(LD_FLAGS_EXT)\"|g'				\
 		   -e 's/@am_gdz_link_flags_opt@/\"$(LD_FLAGS_EXT_OPT)\"/g'		\
 		   -e 's/@am_gdz_link_flags_dbg@/\"$(LD_FLAGS_EXT_DBG)\"/g'		\
 		   -e 's/@am_gdz_install_dir@/"$(INSTALL_DIR_SED)\"/g'			\

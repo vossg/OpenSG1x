@@ -75,6 +75,9 @@ else
 	COMP_DEBUG       = -g -DOSG_DEBUG
 endif
 
+CCFLAGS_EXT_OPT := -O2
+CCFLAGS_EXT_DBG := -g -DOSG_DEBUG
+
 ### Compiler Flags ################################################
 
 
@@ -93,6 +96,8 @@ CFLAGS   = $(WARNINGS) $(WARNINGS_C_OFF) -D__STDC__ $(DEFINES) 	\
 CCFLAGS   = $(WARNINGS)   $(WARNINGS_CPP_OFF) $(DEFINES)		\
 		    $(COMPILER)   $(LANG_FLAGS)       $(COMP_OPTIMIZE) 	\
 			$(COMP_DEBUG) 
+
+CCFLAGS_EXT     := $(SOURCE_DEFINES) $(SYSTEM_DEFINES) $(DEP_PLATTFORMDEF) $(COMPILER) 
 
 # Assembler Flags
 
@@ -118,3 +123,7 @@ endif
 
 LD_FLAGS += -L/usr/X11R6/lib $(LINK_OPTIMIZE) $(LINK_DEBUG)
 
+
+LD_FLAGS_EXT      = -L/usr/X11R6/lib 
+LD_FLAGS_EXT_OPT := -O2 
+LD_FLAGS_EXT_DBG := -g 
