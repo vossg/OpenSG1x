@@ -296,14 +296,17 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
         UInt32 incRefCounter(void);
         UInt32 decRefCounter(void);
 
-        UInt32 getId(void     );
-        void   setId(UInt32 id);
+        UInt32 getId(Window *win           );
+        void   setId(Window *win, UInt32 id);
  
       protected:
         GLObjectFunctor _functor;
         volatile UInt32 _refCounter;
                  UInt32 _lastValidate;
-                 UInt32 _id;
+        
+        typedef std::map<Window *, UInt32> idsMap;
+        typedef idsMap::iterator idsIt;
+        idsMap _ids;
     };
 
     /*! \}                                                                 */
