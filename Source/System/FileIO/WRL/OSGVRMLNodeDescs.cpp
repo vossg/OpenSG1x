@@ -4412,12 +4412,12 @@ void VRMLExtrusionDesc::endNode(FieldContainerPtr pFC)
     SFBool       *pCcw          = NULL;
     SFBool       *pConvex       = NULL;
     SFReal32     *pCreaseAngle  = NULL;
-    MFVec2f      *pCrossSection = NULL;
+    MFPnt2f      *pCrossSection = NULL;
     SFBool       *pEndCap       = NULL;
     MFQuaternion *pOrientation  = NULL;
     MFVec2f      *pScale        = NULL;
     SFBool       *pSolid        = NULL;
-    MFVec3f      *pSpine        = NULL;
+    MFPnt3f      *pSpine        = NULL;
 
     Inherited::getFieldAndDesc(pFC, 
                                "beginCap", 
@@ -4470,7 +4470,7 @@ void VRMLExtrusionDesc::endNode(FieldContainerPtr pFC)
     
     if(pField != NULL)
     {
-        pCrossSection = static_cast<MFVec2f *>(pField);
+        pCrossSection = static_cast<MFPnt2f *>(pField);
     }
     
 
@@ -4525,7 +4525,7 @@ void VRMLExtrusionDesc::endNode(FieldContainerPtr pFC)
     
     if(pField != NULL)
     {
-        pSpine = static_cast<MFVec3f *>(pField);
+        pSpine = static_cast<MFPnt3f *>(pField);
     }
     
 
