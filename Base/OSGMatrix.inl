@@ -1800,11 +1800,10 @@ ostream &operator <<(ostream                                  &os,
     UInt32 i;
     UInt32 j;
 
-#ifdef OSG_SGI_STL
-    os << fixed << showpoint << setprecision(3) << setfill(' ');
-#else
-    os << setprecision(3) << setfill(' ');
-#endif
+	ios::fmtflags oldflags = os.flags(ios::showpoint | ios::fixed); 
+	int pr = os.precision(3); 
+	char fill = os.fill(' ');
+	int width = os.width(8);
 
     for(j = 0; j < 4; j++)
     {
@@ -1815,6 +1814,11 @@ ostream &operator <<(ostream                                  &os,
 
         os << "\n";
 	}
+
+	os.flags(oldflags); 
+	os.precision(pr); 
+	os.fill(fill);
+	os.width(width);
 
 	return os;
 }
