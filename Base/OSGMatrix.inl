@@ -646,6 +646,32 @@ void TransformationMatrix<ValueTypeT>::setTransform(
    
 }
 
+/** \brief Composes the matrix based on a translation 
+ */
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setTransform(
+    const VectorType3f   &t )
+{
+	setIdentity();
+	
+	_matrix[3][0] = t[0];
+	_matrix[3][1] = t[1];
+	_matrix[3][2] = t[2];
+
+}
+
+/** \brief Composes the matrix based on a translation and rotation
+ */
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setTransform(
+    const QuaternionType &r )
+{
+	setIdentity();
+
+	// Calculate the 3x3 rotation matrix
+    r.getValue(*this);
+}
+
 /** \brief Composes the matrix based on a translation, rotation and scale
  */
 template<class ValueTypeT> inline

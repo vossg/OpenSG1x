@@ -62,9 +62,7 @@ static const char *suffixArray[] = {
   "tif", "tiff"
 };
 
-TIFImageFileType TIFImageFileType::_the ( suffixArray,
-                                                sizeof(suffixArray),
-                                                'T', 'T' );
+TIFImageFileType TIFImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 
 
 /* enum VecBase::VectorSizeE
@@ -223,7 +221,7 @@ bool TIFImageFileType::read (Image &image, const char *fileName )
 
 #else
 
-	SWARNING << getName() 
+	SWARNING << getMimeType() 
 					 << " read is not compiled into the current binary " 
 					 << endl;
 
@@ -308,7 +306,7 @@ bool TIFImageFileType::write (const Image &image, const char *fileName )
 	
 #else
 	
-	SWARNING << getName() 
+	SWARNING << getMimeType() 
 					 << " write is not compiled into the current binary " 
 					 << endl;
 	
@@ -361,10 +359,8 @@ bool TIFImageFileType::write (const Image &image, const char *fileName )
 //
 //------------------------------
 TIFImageFileType::TIFImageFileType ( const char *suffixArray[], 
-																		 UInt16 suffixByteCount, 
-																		 Int16 majorMagic, 
-																		 Int16 minorMagic )
-	: ImageFileType ( suffixArray, suffixByteCount, majorMagic, minorMagic)
+																		 UInt16 suffixByteCount )
+	: ImageFileType ( suffixArray, suffixByteCount )
 {
 	return;
 }

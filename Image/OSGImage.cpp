@@ -73,6 +73,8 @@ Int32 Image::_formatMap[][2] = {
 	{ OSG_LA_PF, 2 },
 	{ OSG_RGB_PF, 3 },
 	{ OSG_RGBA_PF, 4 },
+	{ OSG_BGR_PF, 3 },
+	{ OSG_BGRA_PF, 4 },
 };
 
 
@@ -140,7 +142,8 @@ Bool Image::set ( PixelFormat pF,
 									Int32 w, Int32 h, Int32 d, 
 									Int32 mmS, Int32 fS,
 									Time fD,
-									UChar8 *da)
+									UChar8 *da, 
+                  Bool doCopy )
 {
 	_pixelFormat = pF;
 
@@ -153,7 +156,7 @@ Bool Image::set ( PixelFormat pF,
 	_frameCount = fS;
 	_frameDelay = fD;
 
-	return createData(da);
+	return createData(da, doCopy);
 }
 
 //----------------------------
@@ -603,7 +606,7 @@ Bool Image::read (const Char8 *fileName )
 //----------------------------
 //
 //Parameters:
-//p: const UChar88 *data
+//p: const UChar8 *data, Bool doCopy
 //GlobalVars:
 //g: 
 //Returns:
@@ -618,7 +621,7 @@ Bool Image::read (const Char8 *fileName )
 //s:
 //
 //------------------------------
-Bool Image::createData (const UChar8 *data )
+Bool Image::createData (const UChar8 *data, Bool doCopy )
 {
 	Int32 i, byteCount = 0, mapSize = sizeof(_formatMap)/sizeof(UInt32[2]);
 
@@ -641,22 +644,25 @@ Bool Image::createData (const UChar8 *data )
 	_frameSize = calcMipmapSumSize(_mipmapCount);  
 
 	// delete old data
-	if (_data)
+	if (_isCopy && _data)
 		delete [] _data;
 
-	// copy new data
-	if ((byteCount = getSize())) {
-		_data = new UChar8[byteCount];
-		if (_data) {
-			if (data)
-				memcpy(_data, data, byteCount);
-		}
-		else
-			SWARNING << "Couldn't alloc image data in Image::createData()!\n";
-	}
-	else
-		_data = 0;
-		
+	// copy/link the data
+  if ((_isCopy = doCopy)) 
+    if ((byteCount = getSize())) {
+      _data = new UChar8[byteCount];
+      if (_data) {
+        if (data)
+          memcpy(_data, data, byteCount);
+      }
+      else
+        SWARNING << "Couldn't alloc image data in Image::createData()!\n";
+    }
+    else
+      _data = 0;
+  else
+    _data = const_cast<UChar8*>(data);
+
 	return _data;
 }
 
@@ -753,6 +759,7 @@ Image::Image (void )
 	_width(0), _height(0), _depth(0), _mipmapCount(0), 
 	_frameCount(0), _frameDelay(0),
 	_bpp(0),_dimension(0),
+  _isCopy(true),
 	_data(0)
 {
 	return;
@@ -778,15 +785,16 @@ Image::Image (void )
 //s:
 //
 //------------------------------
-Image::Image (const Image &obj, Bool copyData )
+Image::Image (const Image &obj, Bool doCopy )
 : _pixelFormat(obj._pixelFormat),
 	_width(obj._width), _height(obj._height), _depth(obj._depth),
 	_mipmapCount(obj._mipmapCount), 
 	_frameCount(obj._frameCount), _frameDelay(obj._frameDelay),
 	_bpp(0), _dimension(0),
+  _isCopy(true),
 	_data(0)
 {
-	createData ( copyData ? obj._data : 0 );
+	createData ( doCopy ? obj._data : 0, true );
 }
 
 //----------------------------
@@ -840,15 +848,16 @@ Image::~Image (void )
 Image::Image ( PixelFormat pixelFormat, 
 							 Int32 width, Int32 height, Int32 depth, 
 							 Int32 mipmapCount, Int32 frameCount, Time frameDelay,
-							 UChar8 *data)
+							 UChar8 *data, Bool doCopy )
 	: _pixelFormat(pixelFormat),
 		_width(width), _height(height), _depth(depth),
 		_mipmapCount(mipmapCount), 
 		_frameCount(frameCount), _frameDelay(frameDelay),
 		_bpp(0), _dimension(0),
+    _isCopy(true),
 		_data(0)
 {
-	createData(data);
+	createData(data, doCopy );
 }
 
 /*------------access----------------*/

@@ -61,17 +61,10 @@ private:
   /**  */
   list<String> _suffixList;
 
-	/**  */
-	Int16 _majorMagic;
-
-	/**  */
-	Int16 _minorMagic;
-
 protected:
 
   /** Default Constructor */
-  ImageFileType ( const char * suffixArray[], UInt16 suffixByteCount, 
-										 Int16 majorMagic, Int16 minorMagic );
+  ImageFileType ( const char * suffixArray[], UInt16 suffixByteCount );
 
   /** Copy Constructor */
   ImageFileType (const ImageFileType &obj);
@@ -81,14 +74,8 @@ public:
   /** Destructor */
   virtual ~ImageFileType (void);
 
-  /** get method for attribute majorMagic, -1 => no major magic code */
-  virtual Int16 getMajorMagic (void) { return _majorMagic; }
-
-  /** get method for attribute minorMagic, -1 => no minor magic code */
-  virtual Int16 getMinorMagic (void) { return _minorMagic; }
-
-	/** get mathod for the type name */
-	virtual const char *getName (void) = 0;
+	/** get mathod for the type mimeType */
+	virtual const char *getMimeType (void) = 0;
 
   /** get method for attribute suffixList */
   virtual list<String> & suffixList (void) { return _suffixList; }

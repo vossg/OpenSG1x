@@ -95,14 +95,8 @@ public:
   /** Destructor */
   virtual ~JPGImageFileType (void);
 
-  /** get method for attribute minormagic, -1 => no minor magic code */
-  //virtual Int16 getMinorMagic (void);
-
-  /** get method for attribute majormagic, -1 => no minor magic code */
-  //virtual Int16 getMajorMagic (void);
-
   /** get method for the type name */
-  virtual const char *getName (void) { return "JPG IMAGE"; }
+  virtual const char *getMimeType (void) { return "JPEG"; }
 
   /** read the the image from the given filename */
   virtual bool read (Image &image, const char *fileName);
@@ -137,8 +131,7 @@ protected:
 
 
   /** Default Constructor */
-  JPGImageFileType ( const char *suffixArray[], UInt16 suffixByteCount,
-												Int16 majorMagic, Int16 minorMagic);
+  JPGImageFileType ( const char *suffixArray[], UInt16 suffixByteCount );
 
   /** Copy Constructor */
   JPGImageFileType (const JPGImageFileType &obj);

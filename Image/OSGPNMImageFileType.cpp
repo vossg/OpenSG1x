@@ -75,8 +75,7 @@ static const char *suffixArray[] =
 };
 
 PNMImageFileType PNMImageFileType::_the ( 	suffixArray,
-																						sizeof(suffixArray),
-																						'P', -1 );
+																						sizeof(suffixArray) );
 
 
 /*****************************
@@ -117,11 +116,11 @@ bool PNMImageFileType::read (Image &image, const char *fileName )
 {
 	Int16 type, width, height, lineSize, maxValue = 0, value, x, y;
 	UInt16 i;
-	UInt8 magic, commentKey = '#', *line;
+  UInt8 id, commentKey = '#', *line;
 	ifstream in(fileName, ios::in );
 	
 	if (in.rdbuf()->is_open()) {
-		in >> magic >> type;
+		in >> id >> type;
 		in.ignore(INT_MAX, '\n');
 		while (in.peek() == commentKey) 
 			in.ignore(INT_MAX, '\n');
@@ -289,7 +288,7 @@ bool PNMImageFileType::write (const Image &image, const char *fileName )
 //----------------------------
 //
 //Parameters:
-//p: const char *suffixArray[], UInit16 suffixByteCount, Init16 majorMagic, Init minorMagic
+//p: const char *suffixArray[], UInit16 suffixByteCount
 //GlobalVars:
 //g: 
 //Returns:
@@ -305,10 +304,8 @@ bool PNMImageFileType::write (const Image &image, const char *fileName )
 //
 //------------------------------
 PNMImageFileType::PNMImageFileType ( const char *suffixArray[], 
-																					 UInt16 suffixByteCount, 
-																					 Int16 majorMagic, 
-																					 Int16 minorMagic )
-	: ImageFileType ( suffixArray, suffixByteCount, majorMagic, minorMagic)
+																					 UInt16 suffixByteCount )
+	: ImageFileType ( suffixArray, suffixByteCount )
 {
 	return;
 }

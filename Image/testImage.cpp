@@ -18,7 +18,7 @@ int main (int argc, char **argv)
 {
 	Image image, image2;
 	
-	//ImageFileHandler::the().print();
+	ImageFileHandler::the().print();
 
 	image.set ( Image::OSG_RGB_PF, 256, 256 );
 

@@ -834,6 +834,12 @@ void matrixTest(void)
     m4.mult(m2);
     m4.mult(m3);
 
+    m5.setTransform(v1);
+
+    m5.setTransform(q1);
+
+    m5.setTransform(v1, q1);
+
     m5.setTransform(v1, q1, v2);
 
     cout << "Set Transform t*r*s : " << endl << m4 << endl;

@@ -77,9 +77,7 @@ static const char *suffixArray[] = {
   "jpg", "jpeg"
 };
 
-JPGImageFileType JPGImageFileType::_the ( suffixArray,
-                                                sizeof(suffixArray),
-                                                'J', 'J' );
+JPGImageFileType JPGImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 
 /********************************
  *	  Class methodes
@@ -89,7 +87,6 @@ JPGImageFileType JPGImageFileType::_the ( suffixArray,
 /*******************************
 *public
 *******************************/
-
 
 //----------------------------
 // Function name: read
@@ -184,7 +181,7 @@ bool JPGImageFileType::read (Image &image, const char *fileName )
 
 #else
 
-	SWARNING << getName() 
+	SWARNING << getMimeType() 
 					 << " read is not compiled into the current binary " 
 					 << endl;
 
@@ -222,7 +219,7 @@ bool JPGImageFileType::write (const Image &image, const char *fileName )
 			image.getDepth() != 1
 	   )
 	{
-		SWARNING 	<< getName() 
+		SWARNING 	<< getMimeType() 
 		 			<< " JPEG write only works for 2D 1 or 3 bpp images " 
 		 			<< endl;
 		return false;
@@ -284,7 +281,7 @@ bool JPGImageFileType::write (const Image &image, const char *fileName )
 
 #else
 
-	SWARNING << getName() 
+	SWARNING << getMimeType() 
 					 << " write is not compiled into the current binary " 
 					 << endl;
 
@@ -322,7 +319,7 @@ bool JPGImageFileType::write (const Image &image, const char *fileName )
 //----------------------------
 //
 //Parameters:
-//p: cinst char *suffixArray[], UInit16 suffixByteCount, Init16 majorMagic, Init16 minorMagic
+//p: cinst char *suffixArray[], UInit16 suffixByteCount
 //GlobalVars:
 //g: 
 //Returns:
@@ -338,10 +335,8 @@ bool JPGImageFileType::write (const Image &image, const char *fileName )
 //
 //------------------------------
 JPGImageFileType::JPGImageFileType ( const char *suffixArray[], 
-																					 UInt16 suffixByteCount, 
-																					 Int16 majorMagic, 
-																					 Int16 minorMagic )
-: ImageFileType ( suffixArray, suffixByteCount, majorMagic, minorMagic)
+																					 UInt16 suffixByteCount)
+  : ImageFileType ( suffixArray, suffixByteCount )
 {
 	return;
 }

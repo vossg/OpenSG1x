@@ -102,7 +102,7 @@ ImageFileHandler * ImageFileHandler::_the = 0;
 //----------------------------
 //
 //Parameters:
-//p: const char *fileName, bool checkMagic = true
+//p: const char *mimeType, const char *fileName
 //GlobalVars:
 //g: 
 //Returns:
@@ -117,10 +117,9 @@ ImageFileHandler * ImageFileHandler::_the = 0;
 //s:
 //
 //------------------------------
-ImageFileType * ImageFileHandler::getFileType ( const char *fileName, 
-																											bool checkMagic )
+ImageFileType * ImageFileHandler::getFileType ( const char *mimeType,
+                                                const char *fileName )
 {
-	UInt8 majorMagic, minorMagic;
 	String suffix;
 	ImageFileType *type = 0;
 	map <String, ImageFileType *>::iterator sI;
@@ -128,25 +127,20 @@ ImageFileType * ImageFileHandler::getFileType ( const char *fileName,
 	int i, l;
 	ifstream fin;
 
-	if (fileName) {
+  if (mimeType && *mimeType) {
 
-		// check magic code;
-		if (checkMagic) {
-			fin.open(fileName);
-			if (fin.rdbuf()->is_open()) {
-				fin >> majorMagic >> minorMagic;
-				type = getFileType(majorMagic, minorMagic);
-				if (!type) {
-					type = getFileType(majorMagic, -1);
-					if (!type) {
-						type = getFileType(-1, minorMagic);
-						if (!type) 
-							type = getFileType(-1,-1);
-					}
-				}
-				fin.close();
-			}
-		}
+    // check mime type
+    for ( sI = _suffixTypeMap.begin(); 
+          sI != _suffixTypeMap.end(); ++sI ) {
+      if (!strcmp(sI->second->getMimeType(),mimeType)) {
+        type = sI->second;
+        break;
+      }
+    }
+
+  }
+
+	if (!type && fileName && *fileName) {
 
 		// check file suffix
 		if (!type) {
@@ -188,11 +182,11 @@ ImageFileType * ImageFileHandler::getFileType ( const char *fileName,
 //s:
 //
 //------------------------------
-Image * ImageFileHandler::read (const char *fileName )
+Image * ImageFileHandler::read ( const char *fileName, const char *mimeType )
 {
 	Image *image = new Image;
 
-	if (read(*image,fileName) == false) {
+	if (read(*image,fileName,mimeType) == false) {
 		delete image;
 		image = 0;
 	}
@@ -220,13 +214,15 @@ Image * ImageFileHandler::read (const char *fileName )
 //s:
 //
 //------------------------------
-bool ImageFileHandler::read (Image &image, const char *fileName )
+bool ImageFileHandler::read (Image &image, 
+                             const char *fileName, const char *mimeType)
 {
 	bool retCode = false;
-	ImageFileType *type = getFileType(fileName);
+	ImageFileType *type = getFileType(mimeType, fileName);
 
 	if (type) {
-		SINFO << "try to read " << fileName << " as " << type->getName() << endl;
+		SINFO << "try to read " << fileName << " as " << type->getMimeType() 
+          << endl;
 		retCode = type->read(image,fileName);
 		if (retCode) 
 			SINFO << "image: " << image.getWidth() << "x" << image.getHeight()
@@ -261,13 +257,16 @@ bool ImageFileHandler::read (Image &image, const char *fileName )
 //s:
 //
 //------------------------------
-bool ImageFileHandler::write (const Image &image, const char *fileName )
+bool ImageFileHandler::write ( const Image &image, 
+                               const char *fileName,
+                               const char *mimeType )
 {
 	bool retCode = false;
-	ImageFileType *type = getFileType(fileName,false);
+	ImageFileType *type = getFileType(mimeType,fileName);
 
 	if (type) {
-		SINFO << "try to write " << fileName << " as " << type->getName() << endl;
+		SINFO << "try to write " << fileName << " as " << type->getMimeType() 
+          << endl;
 		retCode = type->write(image,fileName);
 	}
 	else
@@ -301,10 +300,8 @@ void ImageFileHandler::print (void )
 	map <String, ImageFileType *>::iterator sI;
 
 	for (sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); sI++)
-		cerr << "suffix: " << sI->first.str() 
-				 << ", type: " << sI->second->getName()
-				 << ", magic: " << sI->second->getMajorMagic() 
-				 << ", " << sI->second->getMinorMagic()
+		cerr << "Image suffix: " << sI->first.str() 
+				 << ", mime type: " << sI->second->getMimeType()
 				 << endl;
 }
 
@@ -344,70 +341,26 @@ bool ImageFileHandler::addImageFileType (ImageFileType &fileType )
 	list<String>::iterator sI;
 	map <String, ImageFileType *>::iterator smI;
 	String suffix;
-	Int16 major = fileType.getMajorMagic(), minor = fileType.getMinorMagic();
 
 	if (!_the)
 		_the = new ImageFileHandler;
-
-	if (_the->getFileType(major,minor)) {
-		SINFO << "Can't add an image file type with magic "
-						 << major << ", " << minor << " a second time" << endl;
-	}
-	else {
-		for ( sI = fileType.suffixList().begin();
-					sI != fileType.suffixList().end(); ++sI) {
-			suffix.set(sI->str());
-			suffix.toLower();
-			smI = _the->_suffixTypeMap.find(suffix);
-			if (smI != _the->_suffixTypeMap.end()) {
-				SWARNING << "Can't add an image file type with suffix "
-								 << suffix << " a second time" << endl;
-			}
-			else {
-				_the->_suffixTypeMap[suffix] = &fileType;
-				_the->_magicTypeMap[major][minor] = &fileType;
-				retCode = true;
-			}
-		}
-	}
+  
+  for ( sI = fileType.suffixList().begin();
+        sI != fileType.suffixList().end(); ++sI) {
+    suffix.set(sI->str());
+    suffix.toLower();
+    smI = _the->_suffixTypeMap.find(suffix);
+    if (smI != _the->_suffixTypeMap.end()) {
+      SWARNING << "Can't add an image file type with suffix "
+               << suffix << " a second time" << endl;
+    }
+    else {
+      _the->_suffixTypeMap[suffix] = &fileType;
+      retCode = true;
+    }
+  }
 
 	return retCode;
-}
-
-//----------------------------
-// Function name: getFileType
-//----------------------------
-//
-//Parameters:
-//p: Init16 majorMagic = -1, Init16 minorMagic = -1,
-//GlobalVars:
-//g: 
-//Returns:
-//r:ImageFileType
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: 
-//SeeAlso:
-//s:
-//
-//------------------------------
-ImageFileType * ImageFileHandler::getFileType ( Int16 majorMagic, 
-																											Int16 minorMagic )
-{
-	ImageFileType *type = 0;
-	map <Int16, MinorMap>::iterator magicI;
-	MinorMap::iterator minorI;
-
-	magicI = _magicTypeMap.find(majorMagic);
-	if (magicI != _magicTypeMap.end()) {
-		minorI = magicI->second.find(minorMagic);
-		type = ((minorI == magicI->second.end()) ? 0 : minorI->second);
-	}
-
-	return type;
 }
 
 /***************************

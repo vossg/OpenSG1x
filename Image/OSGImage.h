@@ -91,7 +91,9 @@ public:
 											OSG_L_PF       = GL_LUMINANCE,
 											OSG_LA_PF      = GL_LUMINANCE_ALPHA,
 											OSG_RGB_PF     = GL_RGB,
-											OSG_RGBA_PF    = GL_RGBA
+											OSG_RGBA_PF    = GL_RGBA,
+                      OSG_BGR_PF     = GL_BGR,
+                      OSG_BGRA_PF    = GL_BGRA
 	};		
 
 //----------------------------
@@ -108,7 +110,7 @@ public:
   Image (void);
 
   /** Copy Constructor */
-  Image (const Image &obj, Bool copyData);
+  Image (const Image &obj, Bool doCopy = true );
 
   /** Destructor */
   virtual ~Image (void);
@@ -118,14 +120,14 @@ public:
 					Int32 width, Int32 height = 1, Int32 depth = 1, 
 					Int32 mipmapCount = 1, 
 					Int32 frameCount = 1, Time frameDelay = 0.0,
-					UChar8 *data = 0);
+					UChar8 *data = 0, Bool doCopy = true );
 
   /** set methode wich sets the image data */
   Bool set ( PixelFormat pixelFormat,
 						 Int32 width, Int32 height = 1, Int32 depth = 1, 
 						 Int32 mipmapCount = 1, 
 						 Int32 frameCount = 1, Time frameDelay = 0.0,
-						 UChar8 *data = 0);
+						 UChar8 *data = 0, Bool doCopy = true );
 
   /** reformate the image to the given pixelFormat */
   Bool reformat ( PixelFormat pixelFormat, Image *destination = 0);
@@ -174,14 +176,16 @@ public:
 	PixelFormat getPixelFormat (void) const { return _pixelFormat; }
 
   /** get the size of used mem */
-  inline unsigned long getSize ( Bool withMipmap = true, 
-																 Bool withFrames = true) const
+  inline 
+    unsigned long getSize ( Bool withMipmap = true, 
+                            Bool withFrames = true) const
 		{ return  (calcMipmapSumSize((withMipmap ? _mipmapCount : 0)) *
 				      (withFrames ? _frameCount : 1) * _bpp);
 		}
 
   /** get method for attribute data */
-  inline UChar8 *getData ( UInt32 mipmapNum = 0, UInt32 frameNum = 0) const
+  inline 
+    UChar8 *getData ( UInt32 mipmapNum = 0, UInt32 frameNum = 0) const
 		{
 			UChar8 *data = _data;
 
@@ -195,14 +199,16 @@ public:
 		}
 
   /** get method for attribute data */
-  inline UChar8 *getDataByTime ( Time time, UInt32 mipmapNum = 1) 
+  inline 
+    UChar8 *getDataByTime ( Time time, UInt32 mipmapNum = 1) 
 		{ 
 			return _data; 
 		}	
 
 	/** calculate mipmap geometry */
-	void calcMipmapGeometry ( Int32 mipmapNum,
-														Int32 &width, Int32 &height, Int32 &depth )
+	inline 
+    void calcMipmapGeometry ( Int32 mipmapNum,
+                              Int32 &width, Int32 &height, Int32 &depth )
 		{
 			width  = _width >> mipmapNum;
 			height = _height >> mipmapNum;
@@ -255,7 +261,10 @@ protected:
 
 	/** frame size with all mipmaps in pixel, not byte */
 	Int32 _frameSize;
-	
+
+  /** indicates if the _data is a private copy or outside link */
+  Bool  _isCopy;
+
   /** image data, can be NULL */
 	UChar8 * _data;
 
@@ -321,8 +330,9 @@ private:
 //------------------------------
 
 	/** calculate the mipmap Size in pixel */
-	UInt32 calcMipmapSize ( UInt32 mipmapNum, 
-												  UInt32 w, UInt32 h, UInt32 d) const
+  inline
+    UInt32 calcMipmapSize ( UInt32 mipmapNum, 
+                            UInt32 w, UInt32 h, UInt32 d) const
 		{
 			w >>= mipmapNum;
 			h >>= mipmapNum;
@@ -332,14 +342,16 @@ private:
 		}
 
 	/** calculate the mipmap Size in pixel */
-	UInt32 calcMipmapSize (UInt32 mipmapNum) const
+  inline
+    UInt32 calcMipmapSize (UInt32 mipmapNum) const
 		{
 			return calcMipmapSize(mipmapNum,_width,_height,_depth);
 		}
 
 	/** calculate the size of all mipmaps until mipmapNum */
-	UInt32 calcMipmapSumSize ( UInt32 mipmapNum, 
-														 UInt32 w, UInt32 h, UInt32 d) const
+	inline 
+    UInt32 calcMipmapSumSize ( UInt32 mipmapNum, 
+                               UInt32 w, UInt32 h, UInt32 d) const
 		{
 			Int32 sum = w * h * d;
 
@@ -354,17 +366,20 @@ private:
 		}
 
 	/** calculate the size of all mipmaps until mipmapNum */
-	UInt32 calcMipmapSumSize (UInt32 mipmapNum) const
+  inline
+    UInt32 calcMipmapSumSize (UInt32 mipmapNum) const
 		{
 			return calcMipmapSumSize(mipmapNum,_width,_height,_depth);
 		}
 
   /** Internal method to alloc and copy the image data */
-  Bool createData (const UChar8 *data);
+  inline
+    Bool createData (const UChar8 *data, Bool doCopy );
 
 	/** Internal medhot to copy&scale image data */
-	Bool scaleData ( UChar8* srcData, Int32 srcW, Int32 srcH, Int32 srcD,
-									 UChar8* destData, Int32 destW, Int32 destH, Int32 destD );
+  inline
+    Bool scaleData ( UChar8* srcData, Int32 srcW, Int32 srcH, Int32 srcD,
+                     UChar8* destData, Int32 destW, Int32 destH, Int32 destD );
 };
 
 typedef Image* ImageP;

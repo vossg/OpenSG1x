@@ -66,17 +66,17 @@ using OSG::ImageFileType;
 //         Default Constructor
 //----------------------------------------------------------------------
 ImageFileType::ImageFileType ( const char * suffixArray[], 
-																		 UInt16 suffixByteCount,
-																		 Int16 majorMagic, 
-																		 Int16 minorMagic )
-	: _majorMagic(majorMagic), _minorMagic(minorMagic)
+                               UInt16 suffixByteCount )
 {
-	int count = suffixByteCount / sizeof(const char *), i = 0;
+	int suffixCount = suffixByteCount / sizeof(const char *);
+  int i = 0;
 	list<String>::iterator sI;
 
-	_suffixList.resize(count);
-	for (sI = _suffixList.begin(); sI != _suffixList.end(); sI++)
+	_suffixList.resize(suffixCount);
+	for (sI = _suffixList.begin(); sI != _suffixList.end(); sI++) {
 		sI->set(suffixArray[i++]);
+    SINFO << "add image suffix: " << *sI << endLog;
+  }
 
 	ImageFileHandler::addImageFileType(*this);
 }
@@ -117,16 +117,11 @@ void ImageFileType::print(void)
 {
 	list<String>::iterator sI;
 
-	SLOG << getName() 
-				 << ": Magic: " << _majorMagic << ", " << _minorMagic
-				 << ": Suffix: ";
+	SLOG << getMimeType();
 
 	if (_suffixList.empty())
     {
-			SLOG << "NONE";
-    }
-	else
-    {
+      SLOG << ": Suffix: ";
 			for (sI = _suffixList.begin(); sI != _suffixList.end(); sI++) 
 				Log().stream(OSG::LOG_DEBUG) << sI->str() << " ";
     }

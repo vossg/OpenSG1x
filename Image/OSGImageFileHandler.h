@@ -96,18 +96,21 @@ public:
   /** Destructor */
   virtual ~ImageFileHandler (void);
 
-  /** get file type */
-  virtual ImageFileType * getFileType (const char *fileName, 
-																					bool checkMagic = true);
-
 	/** read image */
-	virtual Image * read (const char *fileName);
+	virtual Image * read ( const char *fileName, const char *mimeType = 0);
 
   /**  read image */
-  virtual bool read (Image &image, const char *fileName);
+  virtual bool read ( Image &image, 
+                      const char *fileName, const char *mimeType = 0);
 
   /** write image  */
-  virtual bool write (const Image &image, const char *fileName);
+  virtual bool write (const Image &image, 
+                      const char *fileName, const char *mimeType = 0
+                      );
+
+  /** get file type */
+  virtual ImageFileType * getFileType ( const char *mimeType,
+                                        const char *fileName = 0 );
 
   /** print debug info to cerr */
   void print (void);
@@ -147,7 +150,6 @@ protected:
 //instance Variables  		     
 //-----------------------------
 
-
 //-----------------------------
 //instance functions  	       
 //-----------------------------
@@ -167,12 +169,6 @@ private:
 
   /**  */
   static ImageFileHandler * _the;
-
-  /**  */
-  typedef map < Int16, ImageFileType* > MinorMap;
-
-  /**  */
-  map < Int16, MinorMap >  _magicTypeMap ;
 
   /**  */
   map < String, ImageFileType *>  _suffixTypeMap;
@@ -202,10 +198,6 @@ private:
 
   /**  */
   static bool addImageFileType (ImageFileType &fileType);
-
-  /**  */
-  virtual ImageFileType * getFileType ( Int16 majorMagic = -1, 
-																					 Int16 minorMagic = -1 );
 
 //------------------------------
 //instance functions  				  

@@ -94,14 +94,8 @@ public:
   /** get method for attribute the */
   virtual TIFImageFileType the (void) { return _the; }
 
-  /** get method for the attribute majorMagic */
-  //virtual Int16 getMajorMagic (void);
-
-  /** get method for the attribute minorMagic */
-  //virtual Int16 getMinorMagic (void);
-
   /** get method for the type name */
-  virtual const char *getName (void) { return "TIF IMAGE"; }
+  virtual const char *getMimeType (void) { return "TIFF"; }
 
   /** read the image from the given file */
   virtual bool read (Image &image, const char *fileName);
@@ -132,9 +126,7 @@ protected:
 
 
   /** Default Constructor */
-  TIFImageFileType (const char *suffixArray[], 
-											 UInt16 suffixByteCount, 
-											 Int16 majorMagic, Int16 minorMagic);
+  TIFImageFileType (const char *suffixArray[], UInt16 suffixByteCount );
 
   /** Copy Constructor */
   TIFImageFileType (const TIFImageFileType &obj);
