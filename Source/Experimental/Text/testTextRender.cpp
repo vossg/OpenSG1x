@@ -138,6 +138,7 @@ int main(int argc, char **argv)
 
     // 3D-Glyphs
     GeometryPtr geo = Geometry::create();
+
     if(fontText.fillGeo(*geo, lineVec, 0.5, 1, 0, FILL_TEX_CHAR_MCM))
     {
         n[numNodes] = Node::create();
@@ -145,17 +146,20 @@ int main(int argc, char **argv)
         {
             n[numNodes]->setCore(geo);
         }
-
         endEditCP(n[numNodes], Node::CoreFieldMask);
+
+        addRefCP(n[numNodes]);
+
         numNodes++;
     }
 
     // Textured - Text
     Color4ub    col1(102, 175, 250, 0);
     Color4ub    col2(255, 225, 41, 0);
-    Image       *pImg = new Image();
+    ImagePtr       pImg = Image::create();
 
-    if(fontText.fillImage(*pImg, lineVec, &col1, &col2))
+    if(fontText.fillImage(pImg, lineVec, &col1, &col2, false, 
+                                  0,0,SET_TEX_TCM,CLEAR_ADD_MM,3,false))
     {
         geo = makeBoxGeo(4, 1, 0.001, 1, 1, 1);
 
@@ -172,8 +176,10 @@ int main(int argc, char **argv)
         {
             n[numNodes]->setCore(geo);
         }
-
         endEditCP(n[numNodes], Node::CoreFieldMask);
+
+        addRefCP(n[numNodes]);
+
         numNodes++;
     }
 
@@ -181,12 +187,14 @@ int main(int argc, char **argv)
     n[numNodes] = Node::create();
     txfGeo = Geometry::create();
 
-    Image   *pTxfImg = new Image();
+    ImagePtr pTxfImg = Image::create();
+
     if(fontText.fillTXFGeo(*txfGeo, true, lineVec))
     {
-        fontText.fillTXFImage(*pTxfImg);
+        fontText.fillTXFImage(pTxfImg);
 
         BlendChunkPtr   bl = BlendChunk::create();
+
         beginEditCP(bl);
         {
             bl->setAlphaFunc(GL_NOTEQUAL);
@@ -196,18 +204,23 @@ int main(int argc, char **argv)
         endEditCP(bl);
 
         SimpleTexturedMaterialPtr   mat = SimpleTexturedMaterial::create();
+
         beginEditCP(mat);
         {
             mat->setImage(pTxfImg);
             mat->addChunk(bl);
         }
-
         endEditCP(mat);
+
         txfGeo->setMaterial(mat);
+
         beginEditCP(n[numNodes], Node::CoreFieldMask);
         {
             n[numNodes]->setCore(txfGeo);
         }
+        endEditCP  (n[numNodes], Node::CoreFieldMask);
+
+        addRefCP(n[numNodes]);
 
         numNodes++;
     }
@@ -220,15 +233,17 @@ int main(int argc, char **argv)
 
     scene = Node::create();
 
+    addRefCP(scene);
+
     // add a transformation to make it move
     trans = Transform::create();
+
     beginEditCP(scene, Node::CoreFieldMask | Node::ChildrenFieldMask);
     {
         scene->setCore(trans);
         scene->addChild(n[0]);
     }
-
-    endEditCP(scene, Node::CoreFieldMask | Node::ChildrenFieldMask);
+    endEditCP  (scene, Node::CoreFieldMask | Node::ChildrenFieldMask);
 
     // create the SimpleSceneManager helper
     mgr = new SimpleSceneManager;
