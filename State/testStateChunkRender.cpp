@@ -21,6 +21,8 @@ TextureChunkPtr xchunk1;
 BlendChunkPtr blchunk;
 PolygonChunkPtr pchunk;
 
+Image image;
+
 GLint dlid, dlid2;
 
 WindowPtr win;
@@ -75,6 +77,19 @@ display(void)
 	glutSwapBuffers();
 }
 
+void key(unsigned char key, int x, int y)
+{
+	switch ( key )
+	{
+	case 27:	exit(0);
+	case 'a':	UChar8 imgdata[16];
+				for ( int i = 0; i < 16; i++ )
+					imgdata[i] = (UChar8) random();
+				image.set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
+				xchunk1->imageContentChanged();
+				break;
+	}
+}
 
 int main( int argc, char *argv[] )
 {
@@ -83,7 +98,7 @@ int main( int argc, char *argv[] )
 	glutInit(&argc, argv);
 	glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 	glutCreateWindow("OpenSG");
-	// glutKeyboardFunc(key);
+	glutKeyboardFunc(key);
 	// glutReshapeFunc(resize);
 	glutDisplayFunc(display);       
 	// glutMouseFunc(mouse);   
@@ -101,6 +116,7 @@ int main( int argc, char *argv[] )
 	glEnable( GL_DEPTH_TEST );
 	glEnable( GL_LIGHTING );
 	glEnable( GL_LIGHT0 );
+	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
 
 	dlid = glGenLists( 1 );
 	glNewList( dlid, GL_COMPILE );
@@ -146,11 +162,14 @@ int main( int argc, char *argv[] )
 
 	// Texture chunk
 	
+//	UChar8 imgdata[] = 
+//		{  255,0,0,0,  0,255,0,0,  0,0,255,255,  255,255,255,255 };
 	UChar8 imgdata[] = 
-		{  255,0,0,0,  0,255,0,0,  0,0,255,255,  255,255,255,255 };
+		{  255,0,0,  255,0,0,  255,0,255,  
+		   255,0,0,  255,0,0,  255,0,255 };
 //	UChar8 limgdata[] = 
 //		{  0, 128, 64, 255 };
-	Image image( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
+	image.set( Image::OSG_RGB_PF, 3, 2, 1, 1, 1, 0, imgdata );
 
 	if ( argc > 1 )
 		image.read( argv[1] );
@@ -162,6 +181,7 @@ int main( int argc, char *argv[] )
 	xchunk1->setWrapS( GL_REPEAT );
 	xchunk1->setWrapT( GL_REPEAT );
 	xchunk1->setEnvMode( GL_REPLACE );
+	xchunk1->setScale( false );
 
 	// blend chunk
 
