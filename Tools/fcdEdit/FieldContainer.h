@@ -224,7 +224,7 @@ public:
 	virtual bool writeDesc (const char *fileName = 0);
 
 	///
-	virtual bool writeCode ( bool base, bool fc );
+	virtual bool writeCode ( bool base, bool fc, const char *path = 0 );
 
 	///
 	virtual bool writeCodeFields (const char *ptrFile);

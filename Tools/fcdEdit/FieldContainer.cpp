@@ -644,27 +644,43 @@ bool FieldContainer::writeDesc (const char *fN)
 // Description:
 //         
 //----------------------------------------------------------------------
-bool FieldContainer::writeCode (bool base, bool fc)
+bool FieldContainer::writeCode (bool base, bool fc, const char *path)
 {	
 	bool retCode = false;
-	char fldFile[256];
-	char decFile[256];
-	char inlFile[256];
-	char impFile[256];
+	char fldFile[1024];
+	char decFile[1024];
+	char inlFile[1024];
+	char impFile[1024];
 
 	if (name()) {
 
 		if (base) {
 			retCode = true;
-			sprintf(fldFile,"%s%sFields.%s", filePrefix(), name(), 
-											decFileSuffix());
-			sprintf(decFile,"%s%sBase.%s", filePrefix(), name(), 
-											decFileSuffix());
-			sprintf(inlFile,"%s%sBase.%s", filePrefix(), name(), 
-											inlFileSuffix());
-			sprintf(impFile,"%s%sBase.%s", filePrefix(), name(), 
-											impFileSuffix());
 
+			if(path == NULL || strlen(path) == 0)
+			{
+			    sprintf(fldFile,"%s%sFields.%s", filePrefix(), name(), 
+											decFileSuffix());
+				sprintf(decFile,"%s%sBase.%s", filePrefix(), name(), 
+											decFileSuffix());
+				sprintf(inlFile,"%s%sBase.%s", filePrefix(), name(), 
+											inlFileSuffix());
+				sprintf(impFile,"%s%sBase.%s", filePrefix(), name(), 
+											impFileSuffix());
+			}
+			else
+			{
+				// add path
+				sprintf(fldFile,"%s%s%sFields.%s", path, filePrefix(), name(), 
+											decFileSuffix());
+				sprintf(decFile,"%s%s%sBase.%s", path, filePrefix(), name(), 
+											decFileSuffix());
+				sprintf(inlFile,"%s%s%sBase.%s", path, filePrefix(), name(), 
+											inlFileSuffix());
+				sprintf(impFile,"%s%s%sBase.%s", path, filePrefix(), name(), 
+											impFileSuffix());
+			}
+			
 			retCode &= writeCodeFields(fldFile);
 			retCode &= writeBaseCodeDec(decFile);
 			retCode &= writeBaseCodeInl(inlFile);

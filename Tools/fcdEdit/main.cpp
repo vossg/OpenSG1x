@@ -13,6 +13,13 @@ int main( int argc, char **argv )
 	FieldContainer fc;
 	bool writeBase = false, writeFC = false;
 	std::string fcdFile, typeFile;
+	std::string writePath;
+
+#ifdef WIN32
+     const char sep = '\\';
+#else
+     const char sep = '/';
+#endif
 
 	// Win32 doesn't have getopt, DIY
 	do 
@@ -52,12 +59,27 @@ int main( int argc, char **argv )
     		case 'f':
     			writeFC = true;
     			break;
+    		case 'p':
+    			if ( argc > 1 )
+    			{
+    				writePath = argv[1];
+    				argv++, argc--;
+                    if(writePath[writePath.size()-1] != sep)
+						writePath += sep;
+    			}
+    			else
+    			{
+    				cerr << "fcdEdit: -p but no argument given!" <<endl;
+    				return 1;
+    			}				
+    			break;
      		case 'h':
     			cerr << "Usage: fcdEdit -d file.fcd -t file.ftd -bfh" << endl;
     			cerr << "  -d file.fcd: load the field container description" << endl;
     			cerr << "  -t file.ftd: load the field type description" << endl;
     			cerr << "  -b write the field container base code files" << endl;
     			cerr << "  -f write the field container code files" << endl;
+    			cerr << "  -p base code files output path" << endl;
     			cerr << "  -h print usage" << endl;
     			return 0;
     			break;
@@ -83,7 +105,7 @@ int main( int argc, char **argv )
 		else 
 		{
 			fc.readDesc(fcdFile.c_str());
-			fc.writeCode(writeBase,writeFC);
+			fc.writeCode(writeBase,writeFC,writePath.c_str());
 			retCode = 0;
 		}
 	}
@@ -108,7 +130,14 @@ int main( int argc, char **argv )
 	bool writeBase = false, writeFC = false;
 	const char *optstring = "d:t:bfh";
 	std::string fcdFile, typeFile;
+	std::string writePath;
 	int opt = 0;
+
+#ifdef WIN32
+     const char sep = '\\';
+#else
+     const char sep = '/';
+#endif
 
 	while (opt >= 0) {
 		opt = getopt(argc,argv,optstring);
@@ -125,12 +154,18 @@ int main( int argc, char **argv )
 		case 'f':
 			writeFC = true;
 			break;
+		case 'p':
+			writePath = optarg;
+			if(writePath[writePath.size()-1] != sep)
+				writePath += sep;
+			break;
 		case 'h':
 			cerr << "Usage: fcdEdit -d file.fcd -t file.ftd -bfh" << endl;
 			cerr << "  -d file.fcd: load the field container description" << endl;
 			cerr << "  -t file.ftd: load the field type description" << endl;
 			cerr << "  -b write the field container base code files" << endl;
 			cerr << "  -f write the field container code files" << endl;
+			cerr << "  -p base code files output path" << endl;
 			cerr << "  -h print usage" << endl;
 			return 0;
 			break;
@@ -150,7 +185,7 @@ int main( int argc, char **argv )
 			cerr << "ERROR: Can't write code without description" << endl;
 		else {
 			fc.readDesc(fcdFile.c_str());
-			fc.writeCode(writeBase,writeFC);
+			fc.writeCode(writeBase,writeFC,writePath.c_str());
 			retCode = 0;
 		}
 	}
