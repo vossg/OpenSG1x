@@ -65,8 +65,8 @@
 
 #include <OSGViewport.h> // Parent
 
-#include <OSGUInt32Fields.h> // OffBias type
-#include <OSGUInt32Fields.h> // OffFactor type
+#include <OSGReal32Fields.h> // OffBias type
+#include <OSGReal32Fields.h> // OffFactor type
 #include <OSGNodeFields.h> // SceneRoot type
 #include <OSGColor4fFields.h> // ShadowColor type
 #include <OSGUInt32Fields.h> // MapSize type
@@ -144,8 +144,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFUInt32            *getSFOffBias        (void);
-           SFUInt32            *getSFOffFactor      (void);
+           SFReal32            *getSFOffBias        (void);
+           SFReal32            *getSFOffFactor      (void);
            SFNodePtr           *getSFSceneRoot      (void);
            SFColor4f           *getSFShadowColor    (void);
            SFUInt32            *getSFMapSize        (void);
@@ -154,10 +154,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
            SFBool              *getSFShadowOn       (void);
            SFBool              *getSFMapAutoUpdate  (void);
 
-           UInt32              &getOffBias        (void);
-     const UInt32              &getOffBias        (void) const;
-           UInt32              &getOffFactor      (void);
-     const UInt32              &getOffFactor      (void) const;
+           Real32              &getOffBias        (void);
+     const Real32              &getOffBias        (void) const;
+           Real32              &getOffFactor      (void);
+     const Real32              &getOffFactor      (void) const;
            NodePtr             &getSceneRoot      (void);
      const NodePtr             &getSceneRoot      (void) const;
            Color4f             &getShadowColor    (void);
@@ -180,8 +180,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setOffBias        ( const UInt32 &value );
-     void setOffFactor      ( const UInt32 &value );
+     void setOffBias        ( const Real32 &value );
+     void setOffFactor      ( const Real32 &value );
      void setSceneRoot      ( const NodePtr &value );
      void setShadowColor    ( const Color4f &value );
      void setMapSize        ( const UInt32 &value );
@@ -232,8 +232,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFUInt32            _sfOffBias;
-    SFUInt32            _sfOffFactor;
+    SFReal32            _sfOffBias;
+    SFReal32            _sfOffFactor;
     SFNodePtr           _sfSceneRoot;
     SFColor4f           _sfShadowColor;
     SFUInt32            _sfMapSize;
@@ -288,6 +288,6 @@ typedef ShadowMapViewportBase *ShadowMapViewportBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowMapViewportBase.h,v 1.5 2004/09/08 09:00:25 a-m-z Exp $"
+#define OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowMapViewportBase.h,v 1.6 2004/09/18 14:50:21 a-m-z Exp $"
 
 #endif /* _OSGSHADOWMAPVIEWPORTBASE_H_ */

@@ -14,7 +14,7 @@
 First Release of ShadowMap-Viewport. -Viewport is capable to handle multiple Lights and produces ambient Shadows -Viewport uses On-Screen-rendering, so Window must not be occulled
 	<Field
 		name="offBias"
-		type="UInt32"
+		type="Real32"
 		cardinality="single"
 		visibility="external"
 		defaultValue="4"
@@ -24,7 +24,7 @@ First Release of ShadowMap-Viewport. -Viewport is capable to handle multiple Lig
 	</Field>
 	<Field
 		name="offFactor"
-		type="UInt32"
+		type="Real32"
 		cardinality="single"
 		visibility="external"
 		defaultValue="10"

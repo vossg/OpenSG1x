@@ -98,10 +98,10 @@ const OSG::BitVector ShadowMapViewportBase::MTInfluenceMask =
 
 // Field descriptions
 
-/*! \var UInt32          ShadowMapViewportBase::_sfOffBias
+/*! \var Real32          ShadowMapViewportBase::_sfOffBias
     Offset-Bias for Polygon-Offset. Needs to be used with Polygon-Chunk
 */
-/*! \var UInt32          ShadowMapViewportBase::_sfOffFactor
+/*! \var Real32          ShadowMapViewportBase::_sfOffFactor
     Offset-Factor for Polygon-Offset. Needs to be used with Polygon-Chunk
 */
 /*! \var NodePtr         ShadowMapViewportBase::_sfSceneRoot
@@ -130,12 +130,12 @@ const OSG::BitVector ShadowMapViewportBase::MTInfluenceMask =
 
 FieldDescription *ShadowMapViewportBase::_desc[] = 
 {
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFReal32::getClassType(), 
                      "offBias", 
                      OffBiasFieldId, OffBiasFieldMask,
                      false,
                      (FieldAccessMethod) &ShadowMapViewportBase::getSFOffBias),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFReal32::getClassType(), 
                      "offFactor", 
                      OffFactorFieldId, OffFactorFieldMask,
                      false,
@@ -230,8 +230,8 @@ void ShadowMapViewportBase::executeSync(      FieldContainer &other,
 #endif
 
 ShadowMapViewportBase::ShadowMapViewportBase(void) :
-    _sfOffBias                (UInt32(4)), 
-    _sfOffFactor              (UInt32(10)), 
+    _sfOffBias                (Real32(4)), 
+    _sfOffFactor              (Real32(10)), 
     _sfSceneRoot              (), 
     _sfShadowColor            (Color4f(0,0,0,1)), 
     _sfMapSize                (UInt32(512)), 
@@ -494,7 +494,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewportBase.cpp,v 1.5 2004/09/08 09:00:25 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewportBase.cpp,v 1.6 2004/09/18 14:50:21 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 

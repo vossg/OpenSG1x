@@ -98,14 +98,14 @@ ShadowMapViewportPtr ShadowMapViewportBase::createEmpty(void)
 
 //! Get the ShadowMapViewport::_sfOffBias field.
 inline
-SFUInt32 *ShadowMapViewportBase::getSFOffBias(void)
+SFReal32 *ShadowMapViewportBase::getSFOffBias(void)
 {
     return &_sfOffBias;
 }
 
 //! Get the ShadowMapViewport::_sfOffFactor field.
 inline
-SFUInt32 *ShadowMapViewportBase::getSFOffFactor(void)
+SFReal32 *ShadowMapViewportBase::getSFOffFactor(void)
 {
     return &_sfOffFactor;
 }
@@ -162,42 +162,42 @@ SFBool *ShadowMapViewportBase::getSFMapAutoUpdate(void)
 
 //! Get the value of the ShadowMapViewport::_sfOffBias field.
 inline
-UInt32 &ShadowMapViewportBase::getOffBias(void)
+Real32 &ShadowMapViewportBase::getOffBias(void)
 {
     return _sfOffBias.getValue();
 }
 
 //! Get the value of the ShadowMapViewport::_sfOffBias field.
 inline
-const UInt32 &ShadowMapViewportBase::getOffBias(void) const
+const Real32 &ShadowMapViewportBase::getOffBias(void) const
 {
     return _sfOffBias.getValue();
 }
 
 //! Set the value of the ShadowMapViewport::_sfOffBias field.
 inline
-void ShadowMapViewportBase::setOffBias(const UInt32 &value)
+void ShadowMapViewportBase::setOffBias(const Real32 &value)
 {
     _sfOffBias.setValue(value);
 }
 
 //! Get the value of the ShadowMapViewport::_sfOffFactor field.
 inline
-UInt32 &ShadowMapViewportBase::getOffFactor(void)
+Real32 &ShadowMapViewportBase::getOffFactor(void)
 {
     return _sfOffFactor.getValue();
 }
 
 //! Get the value of the ShadowMapViewport::_sfOffFactor field.
 inline
-const UInt32 &ShadowMapViewportBase::getOffFactor(void) const
+const Real32 &ShadowMapViewportBase::getOffFactor(void) const
 {
     return _sfOffFactor.getValue();
 }
 
 //! Set the value of the ShadowMapViewport::_sfOffFactor field.
 inline
-void ShadowMapViewportBase::setOffFactor(const UInt32 &value)
+void ShadowMapViewportBase::setOffFactor(const Real32 &value)
 {
     _sfOffFactor.setValue(value);
 }
@@ -352,5 +352,5 @@ const MFNodePtr &ShadowMapViewportBase::getExcludeNodes(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowMapViewportBase.inl,v 1.5 2004/09/08 09:00:25 a-m-z Exp $"
+#define OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowMapViewportBase.inl,v 1.6 2004/09/18 14:50:21 a-m-z Exp $"
 
