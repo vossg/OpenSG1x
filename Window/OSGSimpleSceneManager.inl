@@ -103,8 +103,20 @@ inline void SimpleSceneManager::turnHeadlightOff( void )
         _headlight->setOn( false );
 }
 
+//! highlight settings
+inline void SimpleSceneManager::setHighlight( NodePtr highlight )
+{
+    _highlight=highlight;
+    highlightChanged();
+}
+
+inline NodePtr SimpleSceneManager::getHighlight(void)
+{
+    return _highlight;
+}
+
 OSG_END_NAMESPACE
 
-#define OSGSIMPLESCENEMANAGER_INLINE_CVSID "@(#)$Id: OSGSimpleSceneManager.inl,v 1.2 2001/09/28 07:57:00 vossg Exp $"
+#define OSGSIMPLESCENEMANAGER_INLINE_CVSID "@(#)$Id: OSGSimpleSceneManager.inl,v 1.3 2001/10/06 23:57:16 dirk Exp $"
 
 

@@ -55,15 +55,35 @@
 
 OSG_USING_NAMESPACE
 
-namespace 
+namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.4 2001/09/30 19:36:08 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.5 2001/10/06 23:57:16 dirk Exp $";
     static char cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static char cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
 
 /*! \var WindowPtr SimpleSceneManager::_win
- *  The window used ot render into.
+ *  The window used to render into.
+ */
+
+/*! \var SimpleSceneManager::MouseLeft
+ *  The constant for the left mouse button.
+ */
+
+/*! \var SimpleSceneManager::MouseMiddle
+ *  The constant for the middle mouse button.
+ */
+
+/*! \var SimpleSceneManager::MouseRight
+ *  The constant for the right mouse button.
+ */
+
+/*! \var SimpleSceneManager::MouseUp
+ *  The constant for the mouse wheel up (away from the hand) motion.
+ */
+
+/*! \var SimpleSceneManager::MouseDown
+ *  The constant for the mouse wheel down (towards the hand) motion.
  */
 
 /**
@@ -89,6 +109,11 @@ namespace
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
+/*! \var SimpleSceneManager::_highlightMaterial
+ *  The material used by the highlight object.
+ */
+
+SimpleMaterialPtr SimpleSceneManager::_highlightMaterial;
 
 
 /***************************************************************************\
@@ -108,7 +133,7 @@ SimpleSceneManager::SimpleSceneManager(void) :
     _win(), _root(), _internalRoot(), _headlight(), _action(), _trackball(),
     _lastx(TypeConstants<Int16>::getMax()),
     _lasty(TypeConstants<Int16>::getMax()),
-    _mousebuttons(0)
+    _mousebuttons(0), _highlight(), _highlightPoints()
 {
 }
 
@@ -131,7 +156,7 @@ SimpleSceneManager::~SimpleSceneManager(void)
 void SimpleSceneManager::initialize(void)
 {
     // the rendering action
-    _action = DrawAction::create();
+    _action = RenderAction::create();
 
     // the camera and light beacon
     NodePtr cartN = Node::create();
@@ -240,7 +265,9 @@ void SimpleSceneManager::redraw(void)
 
     _cart->getSFMatrix()->setValue( _trackball.getFullTrackballMatrix() );
 
-    _win->draw( _action );
+    updateHighlight();
+
+    _win->render( _action );
 }
 
 
@@ -281,38 +308,173 @@ void SimpleSceneManager::mouseMove(Int16 x, Int16 y)
     _lasty = y;
 }
 
-/*! buttonpress
+/*! call when a mouse button is pressed. button is the number of the pressed
+    button, starting at 0, ordered from left to right. A wheel should be
+    mapped to buttons 3 and 4. The position is in pixel, starting at the
+    upper left corner.
  */
+
 void SimpleSceneManager::mouseButtonPress(UInt16 button, Int16 x, Int16 y)
 {
     switch ( button )
     {
-    case 1: break;
-    case 2: _trackball.setAutoPosition(true);
-            break;
-    case 4: _trackball.setAutoPositionNeg(true);
-            break;
+    case MouseLeft:     break;
+    case MouseMiddle:   _trackball.setAutoPosition(true);
+                        break;
+    case MouseRight:    _trackball.setAutoPositionNeg(true);
+                        break;
     }
     _mousebuttons |= 1 << button;
     _lastx = x;
     _lasty = y;
 }
 
-/*! buttonrelease
+
+/*! call when a mouse button is released. button is the number of the pressed
+    button, starting at 0, ordered from left to right. A wheel should be
+    mapped to buttons 3 and 4. The position is in pixel, starting at the
+    upper left corner.
  */
 void SimpleSceneManager::mouseButtonRelease(UInt16 button, Int16 x, Int16 y)
 {
     switch ( button )
     {
-    case 1: break;
-    case 2: _trackball.setAutoPosition(false);
-            break;
-    case 4: _trackball.setAutoPositionNeg(false);
-            break;
+    case MouseLeft:     break;
+    case MouseMiddle:   _trackball.setAutoPosition(false);
+                        break;
+    case MouseRight:    _trackball.setAutoPositionNeg(false);
+                        break;
     }
     _mousebuttons &= ~(1 << button);
     _lastx = x;
     _lasty = y;
+}
+
+/*! The highlight is a geometry that surrounds an object in the graph.
+ */
+void SimpleSceneManager::highlightChanged(void)
+{
+    // init as needed
+    if(_highlightMaterial == NullFC)
+    {
+        _highlightMaterial = SimpleMaterial::create();
+
+        beginEditCP(_highlightMaterial);
+        _highlightMaterial->setDiffuse(Color3f(0,1,0));
+        _highlightMaterial->setLit(false);
+        endEditCP(_highlightMaterial);
+    }
+    if(_highlightNode == NullFC)
+    {
+        GeoPTypesPtr type = GeoPTypesUI8::create();
+        beginEditCP(type);
+        type->addValue( GL_LINE_STRIP );
+        type->addValue( GL_LINES );
+        endEditCP(type);
+
+        GeoPLengthsPtr lens = GeoPLengthsUI32::create();
+        beginEditCP(lens);
+        lens->addValue( 10 );
+        lens->addValue( 6 );
+        endEditCP(lens);
+
+        GeoIndicesUI32Ptr index = GeoIndicesUI32::create();
+        beginEditCP(index);
+        index->getFieldPtr()->addValue( 0 );
+        index->getFieldPtr()->addValue( 1 );
+        index->getFieldPtr()->addValue( 3 );
+        index->getFieldPtr()->addValue( 2 );
+        index->getFieldPtr()->addValue( 0 );
+        index->getFieldPtr()->addValue( 4 );
+        index->getFieldPtr()->addValue( 5 );
+        index->getFieldPtr()->addValue( 7 );
+        index->getFieldPtr()->addValue( 6 );
+        index->getFieldPtr()->addValue( 4 );
+
+        index->getFieldPtr()->addValue( 1 );
+        index->getFieldPtr()->addValue( 5 );
+        index->getFieldPtr()->addValue( 2 );
+        index->getFieldPtr()->addValue( 6 );
+        index->getFieldPtr()->addValue( 3 );
+        index->getFieldPtr()->addValue( 7 );
+        endEditCP(index);
+
+        _highlightPoints = GeoPositions3f::create();
+        beginEditCP(_highlightPoints);
+        _highlightPoints->addValue( Pnt3f( -1, -1, -1) );
+        _highlightPoints->addValue( Pnt3f(  1, -1, -1) );
+        _highlightPoints->addValue( Pnt3f( -1,  1, -1) );
+        _highlightPoints->addValue( Pnt3f(  1,  1, -1) );
+        _highlightPoints->addValue( Pnt3f( -1, -1,  1) );
+        _highlightPoints->addValue( Pnt3f(  1, -1,  1) );
+        _highlightPoints->addValue( Pnt3f( -1,  1,  1) );
+        _highlightPoints->addValue( Pnt3f(  1,  1,  1) );
+        endEditCP(_highlightPoints);
+
+        GeometryPtr geo=Geometry::create();
+        beginEditCP(geo);
+        geo->setTypes(type);
+        geo->setLengths(lens);
+        geo->setIndices(index);
+        geo->setPositions(_highlightPoints);
+        geo->setMaterial(_highlightMaterial);
+        endEditCP(geo);
+        addRefCP(geo);
+
+        _highlightNode = Node::create();
+        beginEditCP(_highlightNode);
+        _highlightNode->setCore(geo);
+        endEditCP(_highlightNode);
+        addRefCP(_highlightNode);
+    }
+
+    // attach the hightlight node to the root if the highlight is active
+    if(getHighlight() != NullFC)
+    {
+        if(_highlightNode->getParent() == NullFC)
+        {
+            beginEditCP(_internalRoot);
+            _internalRoot->addChild(_highlightNode);
+            endEditCP(_internalRoot);
+        }
+    }
+    else
+    {
+        if(_highlightNode->getParent() != NullFC)
+        {
+            beginEditCP(_internalRoot);
+            _internalRoot->subChild(_highlightNode);
+            endEditCP(_internalRoot);
+        }
+
+    }
+    // update the highlight geometry
+    updateHighlight();
+}
+
+void SimpleSceneManager::updateHighlight(void)
+{
+    if(_highlight==NullFC)
+        return;
+
+    // calc the world bbox of the highlight object
+    DynamicVolume vol;
+    _highlight->getWorldVolume( vol );
+
+    Pnt3f min,max;
+    vol.getBounds(min, max);
+
+    beginEditCP(_highlightPoints);
+    _highlightPoints->setValue(Pnt3f( min[0], min[1], min[2]), 0);
+    _highlightPoints->setValue(Pnt3f( max[0], min[1], min[2]), 1);
+    _highlightPoints->setValue(Pnt3f( min[0], max[1], min[2]), 2);
+    _highlightPoints->setValue(Pnt3f( max[0], max[1], min[2]), 3);
+    _highlightPoints->setValue(Pnt3f( min[0], min[1], max[2]), 4);
+    _highlightPoints->setValue(Pnt3f( max[0], min[1], max[2]), 5);
+    _highlightPoints->setValue(Pnt3f( min[0], max[1], max[2]), 6);
+    _highlightPoints->setValue(Pnt3f( max[0], max[1], max[2]), 7);
+    endEditCP(_highlightPoints);
+
 }
 
 /*------------------------------ access -----------------------------------*/

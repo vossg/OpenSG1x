@@ -50,6 +50,9 @@
 #include <OSGNode.h>
 #include <OSGWindow.h>
 #include <OSGTransform.h>
+#include <OSGGeometry.h>
+#include <OSGGeoPropPtrs.h>
+#include <OSGSimpleMaterial.h>
 #include <OSGPerspectiveCamera.h>
 #include <OSGDirectionalLight.h>
 #include <OSGTrackball.h>
@@ -64,6 +67,18 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
 {
     /*==========================  PUBLIC  =================================*/
   public:
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Enums                                   */
+    /*! \{                                                                 */
+
+    enum {  MouseLeft   =  0,
+            MouseMiddle =  1, 
+            MouseRight  =  2,
+            MouseUp     =  3,
+            MouseDown   =  4
+         };
+         
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -83,21 +98,23 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-    inline NodePtr     getRoot    ( void );
-    inline WindowPtr   getWindow  ( void );
+    inline NodePtr     getRoot       ( void );
+    inline WindowPtr   getWindow     ( void );
+    inline NodePtr     getHighlight  ( void );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Set                                     */
     /*! \{                                                                 */
 
-    inline void  setRoot    ( NodePtr root );
-    inline void  setWindow  ( WindowPtr win );
-    inline void  setHeadlight   ( Bool on );
-    inline void  turnHeadlightOn ( void );
+    inline void  setRoot          ( NodePtr root );
+    inline void  setWindow        ( WindowPtr win );
+    inline void  setHighlight     ( NodePtr obj );
+    inline void  setHeadlight     ( Bool on );
+    inline void  turnHeadlightOn  ( void );
     inline void  turnHeadlightOff ( void );
 
-           void  showAll ( void );
+           void  showAll          ( void );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -164,7 +181,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     /*! \name                     Updates                                  */
     /*! \{                                                                 */
 
-    void  initialize( void );
+    void  initialize      (void);
+    void  highlightChanged(void);
+    void  updateHighlight (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -193,9 +212,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     WindowPtr            _win;
     NodePtr              _root;
 
+    NodePtr              _highlight;
+    NodePtr              _highlightNode;
+    GeoPositions3fPtr    _highlightPoints;
+     
     NodePtr              _internalRoot;
     DirectionalLightPtr  _headlight;
-    DrawAction *       _action;
+    RenderAction *       _action;
     TransformPtr         _cart;
     PerspectiveCameraPtr _camera;
 
@@ -204,6 +227,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     Int16                _lastx;
     Int16                _lasty;
     UInt16               _mousebuttons;
+
+
+    static  SimpleMaterialPtr    _highlightMaterial;
     
     /*!\brief prohibit default function (move to 'public' if needed) */
 
@@ -223,6 +249,6 @@ OSG_END_NAMESPACE
 
 #include "OSGSimpleSceneManager.inl"
 
-#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.2 2001/09/28 07:57:00 vossg Exp $"
+#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.3 2001/10/06 23:57:16 dirk Exp $"
 
 #endif /* _OSGSIMPLESCENEMANAGER_H_ */
