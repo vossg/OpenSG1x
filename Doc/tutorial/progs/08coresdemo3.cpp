@@ -25,15 +25,39 @@ UInt8 mode = 0;
 
 int setupGLUT( int *argc, char *argv[] );
 
+
+const char *getNodeName(const NodePtr &node)
+{
+    if(node == NullFC)
+        return NULL;
+
+    // get node name
+    NamePtr nodename = NamePtr::dcast(node->findAttachment(Name::getClassType()));
+
+    // no node name, try core name
+    if(nodename == NullFC && node->getCore() != NullFC)
+        nodename = NamePtr::dcast(node->getCore()->findAttachment(Name::getClassType()));
+
+    if(nodename != NullFC)
+        return nodename->getFieldPtr()->getValue().c_str();
+    else
+    {
+        if(node->getCore() != NullFC)
+            return node->getCore()->getType().getName().str();
+    }
+
+    return NULL;
+}
+
 // this function will return the node named "FACESET_Woman"
 // if there is no such node NullFC will be returned
 NodePtr checkName(NodePtr n){
     UInt32 children = n->getNChildren();
-    
+
     //make sure a name existes
-    if (getName(n))
+    if (getNodeName(n))
         //check if it is the name we are looking for
-        if (getName(n)== std::string("FACESET_Woman"))
+        if (getNodeName(n)== std::string("FACESET_Woman"))
             // We got the node!
             return n;
     
@@ -104,8 +128,20 @@ NodePtr createScenegraph(){
     // we know want to extract the mesh geometry out of the graph
     // it is sufficent to pass the model only as root for searching
     NodePtr womanGeometry = checkName(w_high);
+    if(womanGeometry == NullFC)
+    {
+        std::cout << "Couldn't find geometry node 'FACESET_Woman'!" << std::endl;
+        return NullFC;
+    }
+
     GeometryPtr geo = GeometryPtr::dcast(womanGeometry->getCore());
-    
+
+    if(geo == NullFC)
+    {
+        std::cout << "Node 'FACESET_Woman' is not a geometry node!" << std::endl;
+        return NullFC;
+    }
+
     // generating a material *********************************
     
     SimpleMaterialPtr mat = SimpleMaterial::create();
@@ -185,6 +221,9 @@ int main(int argc, char **argv)
     gwin->init();
 
     scene =createScenegraph();
+    
+    if(scene == NullFC)
+        return 1;
 
     mgr = new SimpleSceneManager;
     mgr->setWindow(gwin );
