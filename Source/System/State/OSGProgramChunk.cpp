@@ -197,7 +197,14 @@ bool ProgramChunk::read(const char *file)
 {
     std::ifstream s(file);
     
-    return read(s);
+    if(s)
+    {
+        return read(s);
+    }
+    else
+    {
+        return true;
+    }
 }
 
 /*! Read the program string from the given stream
