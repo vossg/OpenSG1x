@@ -61,6 +61,8 @@ struct FieldTraitsRecurseVecStore2Base : public Traits
     {
         fprintf(stderr, 
                 "FieldTraitsRecurseMapper<VecStorage2<ValueTypeT> >::gBS\n");
+
+        return 0;
     }
 
     static MemoryHandle copyToBin(      MemoryHandle pMem, 
@@ -98,6 +100,8 @@ struct FieldTraitsRecurseVecStore3Base : public Traits
     {
         fprintf(stderr, 
                 "FieldTraitsRecurseMapper<VecStorage3<ValueTypeT> >::gBS\n");
+        
+        return 0;
     }
 
     static MemoryHandle copyToBin(      MemoryHandle pMem, 
@@ -135,6 +139,8 @@ struct FieldTraitsRecurseVecStore4Base : public Traits
     {
         fprintf(stderr, 
                 "FieldTraitsRecurseMapper<VecStorage4<ValueTypeT> >::gBS\n");
+
+        return 0;
     }
 
     static MemoryHandle copyToBin(      MemoryHandle pMem, 

@@ -398,11 +398,11 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty : public GeoPropertyDesc::Inherit
     GeoProperty(const GeoProperty &source);
     virtual ~GeoProperty(void); 
 
-    virtual void executeSync    (FieldContainer &other,
-                                 BitVector       whichField);
+    virtual void executeSync    (      FieldContainer &other,
+                                 const BitVector      &whichField);
 
-            void executeSyncImpl(GeoProperty *pOther,
-                                 BitVector    whichField);
+            void executeSyncImpl(      GeoProperty *pOther,
+                                 const BitVector   &whichField);
 
   private:
 

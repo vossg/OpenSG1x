@@ -141,6 +141,8 @@ struct FieldTraitsIntegralRecurseMapper :
     {
         fprintf(stderr,
                 "FieldTraitsIntegralRecurseMapper<FieldTypeT>::getBinSize\n");
+        
+        return 0;
     }
 
     static MemoryHandle copyToBin(      MemoryHandle pMem, 

@@ -300,15 +300,17 @@ inline GeoProperty<GeoPropertyDesc>::~GeoProperty(void)
 }
 
 template <class GeoPropertyDesc> 
-void GeoProperty<GeoPropertyDesc>::executeSync(FieldContainer &other,
-                                               BitVector       whichField)
+void GeoProperty<GeoPropertyDesc>::executeSync(
+          FieldContainer &other,
+    const BitVector      &whichField)
 {
     this->executeSyncImpl((GeoProperty *) &other, whichField);
 }
 
 template <class GeoPropertyDesc> 
-void GeoProperty<GeoPropertyDesc>::executeSyncImpl(GeoProperty *pOther,
-                                                   BitVector    whichField)
+void GeoProperty<GeoPropertyDesc>::executeSyncImpl(
+          GeoProperty *pOther,
+    const BitVector   &whichField)
 {
     Inherited::executeSyncImpl(pOther, whichField);
 
