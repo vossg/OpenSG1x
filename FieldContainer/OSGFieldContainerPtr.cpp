@@ -361,8 +361,6 @@ void FieldContainerPtrBase::subRef(void) const
 
 void FieldContainerPtrBase::subRefUnlocked(void) const
 {
-    Thread::getCurrentChangeList()->addSubRefd(*((FieldContainerPtr *) this));
-
     if((*getRefCountP()) <= 0)
     {
         Thread::getCurrentChangeList()->addDestroyed(*getIdP());
@@ -379,6 +377,10 @@ void FieldContainerPtrBase::subRefUnlocked(void) const
         }
 
         operator delete(_storeP + getRefCountOff());
+    }
+    else
+    {
+        Thread::getCurrentChangeList()->addSubRefd(*((FieldContainerPtr *) this));
     }
 }
 
