@@ -1299,7 +1299,6 @@ void Image::swapDataEndian(void)
 */
 bool Image::convertDataTypeTo (Int32 destDataType)
 {
-
     if (destDataType == getDataType())
     {
         FWARNING (( "source image and destination image have same data types: no conversion possible"));
@@ -1362,9 +1361,28 @@ bool Image::convertDataTypeTo (Int32 destDataType)
             switch (destDataType)
             {
                 case OSG_UINT8_IMAGEDATA:
-                    for (int i = 0; i < sourceSize; i++)
                     {
-                        destData[i] = (UInt8) (sourceDataUC16[i]>>8);
+                        UInt16 nMin = (UInt16) 65535;
+                        UInt16 nMax = (UInt16) 0;
+                        for (UInt32 i = 0; i < sourceSize; ++i)
+                        {
+                            if (sourceDataUC16[i] > nMax)
+                                nMax = sourceDataUC16[i];
+                            if (sourceDataUC16[i] < nMin)
+                                nMin = sourceDataUC16[i];
+                        }
+                    
+                        Real32 fRange = (Real32) nMax - nMin;
+                        if (fRange <= 0.0)
+                        {
+                            for (UInt32 i = 0; i < sourceSize; ++i)
+                                destData[i] = 0;
+                        }
+                        else
+                        {
+                            for (UInt32 i = 0; i < sourceSize; ++i)
+                                destData[i] = (UInt8) (255.0 * ((Real32) (sourceDataUC16[i] - nMin)) / fRange);
+                        }
                     }
                     break;
                 case OSG_UINT32_IMAGEDATA:
@@ -1376,7 +1394,7 @@ bool Image::convertDataTypeTo (Int32 destDataType)
                 case OSG_FLOAT32_IMAGEDATA:
                     for (int i = 0; i < sourceSize; i++)
                     {
-                        destDataF32[i] = (Real32) (sourceDataUC16[i]/255.0);
+                        destDataF32[i] = (Real32) (sourceDataUC16[i]/65535.0);
                     }
                     break;
                 default:
@@ -1389,15 +1407,53 @@ bool Image::convertDataTypeTo (Int32 destDataType)
             switch (destDataType)
             {
                 case OSG_UINT8_IMAGEDATA:
-                    for (int i = 0; i < sourceSize; i++)
                     {
-                        destData[i] = (UInt8) (sourceDataUC32[i] >> 24);
+                        UInt32 nMin = (UInt32) 4294967295;
+                        UInt32 nMax = (UInt32) 0;
+                        for (UInt32 i = 0; i < sourceSize; ++i)
+                        {
+                            if (sourceDataUC32[i] > nMax)
+                                nMax = sourceDataUC32[i];
+                            if (sourceDataUC32[i] < nMin)
+                                nMin = sourceDataUC32[i];
+                        }
+                    
+                        Real32 fRange = (Real32) nMax - nMin;
+                        if (fRange <= 0.0)
+                        {
+                            for (UInt32 i = 0; i < sourceSize; ++i)
+                                destData[i] = 0;
+                        }
+                        else
+                        {
+                            for (UInt32 i = 0; i < sourceSize; ++i)
+                                destData[i] = (UInt8) (255.0 * ((Real32) (sourceDataUC32[i] - nMin)) / fRange);
+                        }
                     }
                     break;
                 case OSG_UINT16_IMAGEDATA:
-                    for (int i = 0; i < sourceSize; i++)
                     {
-                        destDataUC16[i] = (UInt16) (sourceDataUC32[i] >> 16);
+                        UInt32 nMin = (UInt32) 4294967295;
+                        UInt32 nMax = (UInt32) 0;
+                        for (UInt32 i = 0; i < sourceSize; ++i)
+                        {
+                            if (sourceDataUC32[i] > nMax)
+                                nMax = sourceDataUC32[i];
+                            if (sourceDataUC32[i] < nMin)
+                                nMin = sourceDataUC32[i];
+                        }
+                    
+                        Real32 fRange = (Real32) nMax - nMin;
+                        if (fRange <= 0.0)
+                        {
+                            for (UInt32 i = 0; i < sourceSize; ++i)
+                                destDataUC16[i] = 0;
+                        }
+                        else
+                        {
+                            for (UInt32 i = 0; i < sourceSize; ++i)
+                                destDataUC16[i] = (UInt16) (65535.0 * ((Real32) (sourceDataUC32[i] - nMin)) / fRange);
+                        }
                     }
                     break;
                 case OSG_FLOAT32_IMAGEDATA:
