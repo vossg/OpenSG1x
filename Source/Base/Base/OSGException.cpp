@@ -55,8 +55,8 @@ Exception::Exception(void) :
 
 
 Exception::Exception(const Exception &source) :
-    Inherited(source),
-    _what(source._what)
+     Inherited(source      ),
+    _what     (source._what)
 {
 }
 
@@ -70,7 +70,7 @@ Exception::~Exception(void) OSG_THROW_NOTHING()
 /*-------------------------------------------------------------------------*/
 /*                                Info                                     */
 
-const char *Exception::what() const OSG_THROW_NOTHING()
+const Char8 *Exception::what() const OSG_THROW_NOTHING()
 {
     return _what.c_str();
 }
@@ -78,16 +78,16 @@ const char *Exception::what() const OSG_THROW_NOTHING()
 /*-------------------------------------------------------------------------*/
 /*                             Assignment                                  */
 
-Exception& Exception::operator =(const Exception &source)
+Exception &Exception::operator =(const Exception &source)
 {
-    if (this == &source)
+    if(this == &source)
         return *this;
 
     // copy parts inherited from parent
     *(static_cast<Inherited *>(this)) = source;
 
     // copy
-    _what=source._what;
+    _what = source._what;
 
     return *this;
 }
@@ -101,6 +101,7 @@ OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream &os,
 }
 
 OSG_END_NAMESPACE
+
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

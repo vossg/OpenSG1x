@@ -45,26 +45,35 @@
 
 OSG_BEGIN_NAMESPACE
 
-class OSG_BASE_DLLMAPPING BoxVolume;
-class OSG_BASE_DLLMAPPING SphereVolume;
-class OSG_BASE_DLLMAPPING CylinderVolume;
-class OSG_BASE_DLLMAPPING FrustumVolume;
+class BoxVolume;
+class SphereVolume;
+class CylinderVolume;
+class FrustumVolume;
 
-//! Line
+/*! \ingroup BaseBase
+ */
 
 class OSG_BASE_DLLMAPPING Line
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
       
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    Line(void                                       );
-    Line(const      Line    &obj                    );
-    Line(const      Pnt3f   &p0,    const Pnt3f &p1 );
-    Line(const  Pnt3f   &pos,   const Vec3f &dir    );
+    Line(       void                        );
+    Line(const  Line  &obj                  );
+    Line(const  Pnt3f &p0,  const Pnt3f &p1 );
+    Line(const  Pnt3f &pos, const Vec3f &dir);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    ~Line(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -89,41 +98,46 @@ class OSG_BASE_DLLMAPPING Line
     /*! \name                    Get                                       */
     /*! \{                                                                 */
 
-    inline const Pnt3f &getPosition (void) const; 
-    inline const Vec3f &getDirection(void) const; 
+    const Pnt3f &getPosition (void) const; 
+    const Vec3f &getDirection(void) const; 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Intersection                              */
     /*! \{                                                                 */
 
-    bool intersect(const SphereVolume    &sphere                     ) const;
-    bool intersect(const SphereVolume    &sphere,  Real32 &enter,
-                                                   Real32 &exit      ) const;
-    bool intersect(const CylinderVolume  &cyl                        ) const;
-    bool intersect(const CylinderVolume  &cyl,     Real32 &enter,
-                                                   Real32 &exit      ) const;
-    bool intersect(const FrustumVolume   &frustum                    ) const;
-    bool intersect(const FrustumVolume   &frustum, Real32 &enter,
-                                                   Real32 &exit      ) const;
-    bool intersect(const BoxVolume       &box,     Real32 &enter,
-                                                   Real32 &exit      ) const;
-    bool intersect(      Real32           angle,
-                   const BoxVolume       &box                        ) const;
-    bool intersect(      Real32           angle,
-                   const Vec3f            &point                     ) const;
-    bool intersect(      Real32           angle,
-                   const Vec3f            &v0,
-                   const Vec3f            &v1,
-                         Vec3f            &pt                        ) const;
-    bool intersect(const Pnt3f            &v0,
-                   const Pnt3f            &v1,
-                   const Pnt3f            &v2,
-                         Real32           &t,
-                         Vec3f            *normal = NULL             ) const;
+    bool intersect(const SphereVolume   &sphere                     ) const;
+    bool intersect(const SphereVolume   &sphere,  Real32 &enter,
+                                                  Real32 &exit      ) const;
+    bool intersect(const CylinderVolume &cyl                        ) const;
+    bool intersect(const CylinderVolume &cyl,     Real32 &enter,
+                                                  Real32 &exit      ) const;
+    bool intersect(const FrustumVolume  &frustum                    ) const;
+    bool intersect(const FrustumVolume  &frustum, Real32 &enter,
+                                                  Real32 &exit      ) const;
+    bool intersect(const BoxVolume      &box,     Real32 &enter,
+                                                  Real32 &exit      ) const;
+    bool intersect(      Real32          angle,
+                   const BoxVolume      &box                        ) const;
+    bool intersect(      Real32          angle,
+                   const Vec3f          &point                      ) const;
+    bool intersect(      Real32          angle,
+                   const Vec3f          &v0,
+                   const Vec3f          &v1,
+                         Vec3f          &pt                         ) const;
+    bool intersect(const Pnt3f          &v0,
+                   const Pnt3f          &v1,
+                   const Pnt3f          &v2,
+                         Real32         &t,
+                         Vec3f          *normal = NULL              ) const;
     
-   
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+
+  protected:
+
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     Pnt3f   _pos;
@@ -135,4 +149,4 @@ OSG_END_NAMESPACE
 
 #include <OSGLine.inl>
 
-#endif // LINE_CLASS_DECLARATION
+#endif // _OSGLINE_H_

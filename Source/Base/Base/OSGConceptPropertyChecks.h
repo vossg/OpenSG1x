@@ -46,11 +46,20 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \ingroup BaseBaseHelper
+ */
+
 template <class TypeT>
 void osgSinkUnusedWarning(TypeT) { }
 
+/*! \ingroup BaseBaseHelper
+ */
+
 #define OSG_PROPERTY_DECL(OSGPROP)                              \
     enum OSG##OSGPROP##Prop { osg##OSGPROP##Prop }
+
+/*! \ingroup BaseBaseHelper
+ */
 
 #define OSG_PROPERTY_SPEC(OSGPROPERTYNAMESPACE, OSGPROP)        \
 template<class T1>                                              \
@@ -62,6 +71,9 @@ struct _OSG_##OSGPROP##_Property_Spec                           \
            __OSG_##OSGPROP##_Property_violation(t1);            \
     }                                                           \
 }
+
+/*! \ingroup BaseBaseHelper
+ */
 
 #define OSG_PROPERTY_VIOLATION(OSGPROP)                                  \
 template<class T1>                                                       \
@@ -78,6 +90,10 @@ static void __OSG_##OSGPROP##_Property_violation(T1)                     \
 #ifdef OSG_NO_CONCEPT_CHECKS
 #define OSG_PROPERTY_REQUIREMENT(OSGCLASS, OSGPROP)
 #else
+
+/*! \ingroup BaseBaseHelper
+ */
+
 #define OSG_PROPERTY_REQUIREMENT(OSGCLASS, OSGPROP)                      \
 typedef void (* _OSG##OSGPROP##PropReqDummyFuncFor##OSGCLASS)(OSGCLASS); \
                                                                          \

@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGTIME_H_
 #define _OSGTIME_H_
 #ifdef __sgi
@@ -55,15 +54,17 @@ OSG_BEGIN_NAMESPACE
 
 typedef Real64 Time;
 
-OSG_BASE_DLLMAPPING 
+inline
 Time getSystemTime(void);
 
-OSG_BASE_DLLMAPPING
+inline
 Int64 getPerfCounter(void);
 
-OSG_BASE_DLLMAPPING
+inline
 Int64 getPerfCounterFreq(void);
 
 OSG_END_NAMESPACE
+
+#include <OSGTime.inl>
 
 #endif /* _OSGTIME_H_ */

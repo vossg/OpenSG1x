@@ -48,7 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup BaseColors
+/*! \ingroup BaseBaseColors
  *  \brief Color3
  */
 
@@ -56,6 +56,7 @@ template <class ValueTypeT>
 class Color3
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     typedef ValueTypeT ValueType;
@@ -66,30 +67,30 @@ class Color3
     /*! \name                      Class Specific                          */
     /*! \{                                                                 */
 
-    static void convertFromHSV(ValueType *rgbP,
-                               Real32 h,
-                               Real32 s,
-                               Real32 v);
+    static void   convertFromHSV(      ValueType     *rgbP,
+                                 const Real32         h,
+                                 const Real32         s,
+                                 const Real32         v   );
 
 
-    static void convertToHSV(const ValueType *rgbP,
-                             Real32 &h,
-                             Real32 &s,
-                             Real32 &v);
+    static void   convertToHSV  (const ValueType     *rgbP,
+                                       Real32        &h,
+                                       Real32        &s,
+                                       Real32        &v   );
 
-    static UInt32 minPart(const ValueType *rgbP);
-    static UInt32 maxPart(const ValueType *rgbP);
+    static UInt32 minPart       (const ValueType     *rgbP);
+    static UInt32 maxPart       (const ValueType     *rgbP);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Constructors                            */
     /*! \{                                                                 */
 
-    Color3(void);
-    Color3(const Color3 &source);
-    Color3(ValueType red,
-           ValueType green,
-           ValueType blue);
+    Color3(      void             );
+    Color3(const Color3    &source);
+    Color3(      ValueType  red,
+                 ValueType  green,
+                 ValueType  blue  );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -103,43 +104,43 @@ class Color3
     /*! \name                           Set                                */
     /*! \{                                                                 */
 
-    void clear(void);
+    void clear        (     void               );
 
-    void setValuesRGB(ValueType red,
-                      ValueType green,
-                      ValueType blue);
+    void setValuesRGB(const ValueType  red,
+                      const ValueType  green,
+                      const ValueType  blue    );
 
-    void setValuesHSV(Real32 h,
-                      Real32 s,
-                      Real32 v);
+    void setValuesHSV(const Real32     h,
+                      const Real32     s,
+                      const Real32     v       );
 
-    void setRandom(void);
-    void setRGB(UInt32 rgbPack);
+    void setRandom   (      void               );
+    void setRGB      (      UInt32     rgbPack );
 
-    void setValue(const char *szString);
-    void setValue(      char *szString);
+    void setValue    (const Char8     *szString);
+    void setValue    (      Char8     *szString);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                           Get                                */
     /*! \{                                                                 */
 
-    UInt32 getRGB(void) const;
+          UInt32     getRGB       (void           ) const;
 
-    void getValuesRGB(ValueType &red,
-                      ValueType &green,
-                      ValueType &blue);
+          void       getValuesRGB(ValueType &red,
+                                  ValueType &green,
+                                  ValueType &blue ) const;
 
-    void getValuesHSV(Real32 &h,
-                      Real32 &s,
-                      Real32 &v);
+          void       getValuesHSV(Real32    &h,
+                                  Real32    &s,
+                                  Real32    &v    ) const;
 
-    ValueType red  (void) const;
-    ValueType green(void) const;
-    ValueType blue (void) const;
+          ValueType  red         (void            ) const;
+          ValueType  green       (void            ) const;
+          ValueType  blue        (void            ) const;
 
-          ValueType *getValuesRGB(void);
-    const ValueType *getValuesRGB(void) const;
+          ValueType *getValuesRGB(void            );
+    const ValueType *getValuesRGB(void            ) const;
 
 
     /*! \}                                                                 */
@@ -147,26 +148,28 @@ class Color3
     /*! \name                        Operators                             */
     /*! \{                                                                 */
 
-    Color3 operator *(const ValueType val);
+          Color3     operator  *(const ValueType  val      );
 
-          ValueType &operator[] (UInt32 uiIndex);
-    const ValueType &operator[] (UInt32 uiIndex) const;
+          ValueType &operator [](const UInt32     uiIndex  );
+    const ValueType &operator [](const UInt32     uiIndex  ) const;
 
-    Color3 &operator =(const Color3 &source);
+           Color3   &operator  =(const Color3    &source   );
 
-    bool equals (const Color3 &other, ValueType tolerance) const;
+           bool      equals     (const Color3    &other, 
+                                 const ValueType  tolerance) const;
 
-    bool operator == (const Color3 &other) const;
-    bool operator != (const Color3 &other) const;
+           bool      operator ==(const Color3    &other    ) const;
+           bool      operator !=(const Color3    &other    ) const;
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
           
     ValueType _rgb[3];
 };
 
-/*! \ingroup BaseColors
+/*! \ingroup BaseBaseColors
  *  \brief Color4
  */
 
@@ -184,12 +187,12 @@ class Color4
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    Color4(void);
-    Color4(const Color4 &source);
-    Color4(ValueType red,
-           ValueType green,
-           ValueType blue,
-           ValueType alpha);
+    Color4(      void             );
+    Color4(const Color4    &source);
+    Color4(const ValueType  red,
+           const ValueType  green,
+           const ValueType  blue,
+           const ValueType  alpha );
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -203,46 +206,46 @@ class Color4
     /*! \name                       Set                                    */
     /*! \{                                                                 */
 
-    void clear(void);
+    void clear        (      void           );
 
-    void setValuesRGBA(ValueType red,
-                       ValueType green,
-                       ValueType blue,
-                       ValueType alpha);
+    void setValuesRGBA(const ValueType red,
+                       const ValueType green,
+                       const ValueType blue,
+                       const ValueType alpha);
 
-    void setValuesHSV(Real32 h,
-                      Real32 s,
-                      Real32 v);
+    void setValuesHSV (const Real32 h,
+                       const Real32 s,
+                       const Real32 v       );
 
-    void setRandom(void);
-    void setRGBA(UInt32 rgbPack);    
+    void setRandom    (      void           );
+    void setRGBA      (      UInt32 rgbPack );    
 
-    void setValue(const char *szString);
-    void setValue(      char *szString);
+    void setValue     (const Char8 *szString);
+    void setValue     (      Char8 *szString);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Get                                    */
     /*! \{                                                                 */
     
-    UInt32 getRGBA(void) const;
+          UInt32    getRGBA       (void            ) const;
 
-    void getValuesRGBA(ValueType &red,
-                       ValueType &green,
-                       ValueType &blue,
-                       ValueType &alpha);
+          void      getValuesRGBA (ValueType &red,
+                                   ValueType &green,
+                                   ValueType &blue,
+                                   ValueType &alpha) const;
 
-    void getValuesHSV(Real32 &h,
-                      Real32 &s,
-                      Real32 &v);
+          void      getValuesHSV  (Real32    &h,
+                                   Real32    &s,
+                                   Real32    &v    ) const;
 
-    ValueType red  (void) const;
-    ValueType green(void) const;
-    ValueType blue (void) const;
-    ValueType alpha(void) const;
+          ValueType red           (void            ) const;
+          ValueType green         (void            ) const;
+          ValueType blue          (void            ) const;
+          ValueType alpha         (void            ) const;
 
-          ValueType *getValuesRGBA(void);
-    const ValueType *getValuesRGBA(void) const;
+          ValueType *getValuesRGBA(void            );
+    const ValueType *getValuesRGBA(void            ) const;
 
 
     /*! \}                                                                 */
@@ -250,31 +253,33 @@ class Color4
     /*! \name                       Operators                              */
     /*! \{                                                                 */
 
-    Color4 operator *(const ValueType val);
+          Color4     operator * (const ValueType  val      );
 
-          ValueType &operator[] (UInt32 uiIndex);
-    const ValueType &operator[] (UInt32 uiIndex) const;
+          ValueType &operator [](const UInt32     uiIndex  );
+    const ValueType &operator [](const UInt32     uiIndex  ) const;
 
-    Color4 &operator =(const Color4 &source);
+          Color4    &operator = (const Color4    &source   );
 
-    bool equals (const Color4 &other, ValueType tolerance) const;
+          bool       equals     (const Color4    &other, 
+                                 const ValueType  tolerance) const;
 
-    bool operator == (const Color4 &other) const;
-    bool operator != (const Color4 &other) const;
+          bool       operator ==(const Color4    &other    ) const;
+          bool       operator !=(const Color4    &other    ) const;
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     ValueType _rgba[4];
 };
 
 
-template <class ValueTypeT>
+template <class ValueTypeT> inline
 std::ostream &operator <<(      std::ostream       &outStream,
                           const Color3<ValueTypeT> &color);
 
-template <class ValueTypeT>
+template <class ValueTypeT> inline
 std::ostream &operator <<(      std::ostream       &outStream,
                           const Color4<ValueTypeT> &color);
 
@@ -312,4 +317,4 @@ OSG_END_NAMESPACE
 
 #define OSGCOLOR_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* OSG_COLOR */
+#endif /* _OSG_COLOR_H_ */

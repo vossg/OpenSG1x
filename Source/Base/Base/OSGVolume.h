@@ -149,12 +149,10 @@ class OSG_BASE_DLLMAPPING Volume
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    Volume (void ) : _state( OSGVALID | OSGEMPTY) {;}
-
-    Volume (const Volume &obj) : _state(obj._state) {;}
+    Volume(void);
+    Volume(const Volume &obj);
 
     /*! \}                                                                 */
-
     /*==========================  PRIVATE  ================================*/
 
   private:
@@ -171,7 +169,7 @@ class OSG_BASE_DLLMAPPING Volume
 typedef Volume* VolumeP;
 
 //! helper functions to dump a volume. Useful for debuggers.
-OSG_BASE_DLLMAPPING void  volDump( Volume * vol );
+OSG_BASE_DLLMAPPING void  volDump(Volume *vol);
 
 OSG_END_NAMESPACE
 

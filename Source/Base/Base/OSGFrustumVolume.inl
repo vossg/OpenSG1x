@@ -47,34 +47,25 @@
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
 /*-------------------------- constructor ----------------------------------*/
 
-/*! Default constructor - leaves box totally empty
+/*! Default constructor - leaves box empty
 */
 
 inline
-FrustumVolume::FrustumVolume() : Volume() {;}
+FrustumVolume::FrustumVolume() : 
+    Volume() 
+{
+}
 
-/// Constructor given bounds
+/*! Constructor given bounds
+ */
+
 inline
-FrustumVolume::FrustumVolume (  const Plane &pnear, const Plane &pfar,
-                                const Plane &left,  const Plane &right,
-                                const Plane &top,   const Plane &bottom)
-    : Volume()
+FrustumVolume::FrustumVolume(const Plane &pnear, const Plane &pfar,
+                             const Plane &left,  const Plane &right,
+                             const Plane &top,   const Plane &bottom) :
+    Volume()
 {
     _planeVec[0] = pnear;
     _planeVec[1] = pfar;
@@ -84,10 +75,12 @@ FrustumVolume::FrustumVolume (  const Plane &pnear, const Plane &pfar,
     _planeVec[5] = bottom;
 }
 
-/// Copy Constructor
+/*! Copy Constructor
+ */
+
 inline
-FrustumVolume::FrustumVolume(const FrustumVolume &obj)
-        : Volume(obj)
+FrustumVolume::FrustumVolume(const FrustumVolume &obj) :
+    Volume(obj)
 {
     _planeVec[0] = obj._planeVec[0];
     _planeVec[1] = obj._planeVec[1];
@@ -97,63 +90,74 @@ FrustumVolume::FrustumVolume(const FrustumVolume &obj)
     _planeVec[5] = obj._planeVec[5];
 }
 
-/// Destructor
+/*! Destructor
+ */
+
 inline
-FrustumVolume::~FrustumVolume() {;}
+FrustumVolume::~FrustumVolume() 
+{
+}
 
 /*------------------------------ feature ----------------------------------*/
 
-/// Returns the near plane
+/*! Returns the near plane
+ */
+
 inline
-const Plane & FrustumVolume::getNear   (void) const
+const Plane &FrustumVolume::getNear(void) const
 {
     return _planeVec[0];
 }
 
-/// Returns the far plane
+/*! Returns the far plane
+ */
+
 inline
-const Plane & FrustumVolume::getFar   (void) const
+const Plane &FrustumVolume::getFar(void) const
 {
     return _planeVec[1];
 }
 
-/// Returns the left plane
+/*! Returns the left plane
+ */
+
 inline
-const Plane & FrustumVolume::getLeft   (void) const
+const Plane &FrustumVolume::getLeft(void) const
 {
     return _planeVec[2];
 }
 
-/// Returns the right plane
+/*! Returns the right plane
+ */
+
 inline
-const Plane & FrustumVolume::getRight   (void) const
+const Plane &FrustumVolume::getRight(void) const
 {
     return _planeVec[3];
 }
 
-/// Returns the top plane
+/*! Returns the top plane
+ */
+
 inline
-const Plane & FrustumVolume::getTop   (void) const
+const Plane &FrustumVolume::getTop(void) const
 {
     return _planeVec[4];
 }
 
-/// Returns the bottom plane
+/*! Returns the bottom plane
+ */
+
 inline
-const Plane & FrustumVolume::getBottom   (void) const
+const Plane &FrustumVolume::getBottom(void) const
 {
     return _planeVec[5];
 }
 
 
-/// get method
-inline
-const Plane *FrustumVolume::getPlanes(void) 
-{
-    return _planeVec;
-}
+/*! get method
+ */
 
-/// get method
 inline
 const Plane *FrustumVolume::getPlanes(void) const
 {
@@ -162,41 +166,34 @@ const Plane *FrustumVolume::getPlanes(void) const
 
 /*-------------------------- extending ------------------------------------*/
 
-inline
-void FrustumVolume::extendBy(const Volume &volume)
-{
-    osg::extend(*this,volume);
-}
+/*!
+  \brief extend the volume to enclose the given frustum.
+ */
 
 inline
 void FrustumVolume::extendBy(const FrustumVolume &volume)
 {
-    osg::extend(*this,volume);
+    OSG::extend(*this, volume);
 }
 
 /*-------------------------- intersection ---------------------------------*/
 
 inline
-bool FrustumVolume::intersect (const Volume &volume) const
-{
-    return osg::intersect(*this,volume);
-}
-
-inline
 bool FrustumVolume::intersect(const FrustumVolume &volume) const
 {
-    return osg::intersect(*this,volume);
+    return OSG::intersect(*this, volume);
 }
 
-/*-------------------------- operation ------------------------------------*/
+/*-------------------------- operators ------------------------------------*/
 
-/// Inequality comparisons
+/*! Inequality comparisons
+ */
+
 inline
-bool operator != (const FrustumVolume &b1, const FrustumVolume &b2)
+bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2)
 {
     return !(b1 == b2);
 }
-
 
 /***************************************************************************\
  *                           Instance methods                              *

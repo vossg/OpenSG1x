@@ -190,6 +190,18 @@ Pnt3f Volume::getMax(void) const
     return pmax;
 }
 
+inline
+Volume::Volume(void) : 
+    _state(OSGVALID | OSGEMPTY) 
+{
+}
+
+inline
+Volume::Volume(const Volume &obj) : 
+    _state(obj._state) 
+{
+}
+
 OSG_END_NAMESPACE
 
 #endif // _OSGVOLUME_INL_

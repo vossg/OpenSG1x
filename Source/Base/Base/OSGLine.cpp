@@ -56,29 +56,26 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::Line
-  A line starting at a point p and extending infinitely far into the direction d.
-  This will probably split up into multiple classes for dual-inifinite and non-
-  infinite lines
-  */
+/*! \class OSG::Line
+     A line starting at a point p and extending infinitely far into the 
+     direction d. This will probably split up into multiple classes for 
+     dual-inifinite and non-infinite lines
+*/
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
 
 /*-------------------------- constructor ----------------------------------*/
+
+Line::Line(void) : 
+    _pos(0.f, 0.f ,0.f), 
+    _dir(0.f, 0.f, 0.f)
+{
+}
+
+Line::Line(const Line &obj) : 
+    _pos(obj._pos), 
+    _dir(obj._dir)
+{
+}
 
 Line::Line(const Pnt3f &p0, const Pnt3f &p1)
 {
@@ -90,26 +87,21 @@ Line::Line(const Pnt3f &pos, const Vec3f &dir)
     setValue(pos, dir);
 }
 
-Line::Line( void ) : _pos(0,0,0), _dir(0,0,0)
-{}
-
-Line::Line( const Line &obj ) : _pos(obj._pos), _dir(obj._dir)
-{}
-
+Line::~Line(void)
+{
+}
 
 /*------------------------------ feature ----------------------------------*/
 
-/** Set that value!
-*/
 void Line::setValue(const Pnt3f &p0, const Pnt3f &p1)
 {
     _pos = p0;
-    _dir = p1-p0;
+    _dir = p1 - p0;
+
     _dir.normalize();
 }
 
-/** Set that value!
-*/
+
 void Line::setValue(const Pnt3f &pos, const Vec3f &dir)
 {
     _pos = pos;
@@ -117,9 +109,9 @@ void Line::setValue(const Pnt3f &pos, const Vec3f &dir)
     _dir.normalize();
 }
 
-/** Find closest points between the two lines. Return false if they are
+/*! Find closest points between the two lines. Return false if they are
     parallel, otherwise return true.
-*/
+ */
 
 #ifdef __sgi
 #pragma set woff 1209
@@ -138,8 +130,9 @@ bool Line::getClosestPoints(const Line  &OSG_CHECK_ARG(line2    ),
 #pragma reset woff 1209
 #endif
 
-/** Returns the closest point on the line to the given point.
-*/
+/*! Returns the closest point on the line to the given point.
+ */
+
 Pnt3f Line::getClosestPoint(const Pnt3f &point) const
 {
     Vec3f vec(point - _pos);
@@ -148,28 +141,34 @@ Pnt3f Line::getClosestPoint(const Pnt3f &point) const
 }
 
 
-/** Returns the distance of the given point to the line.
-*/
+/*! Returns the distance of the given point to the line.
+ */
+
 Real32 Line::distance(const Pnt3f &point) const
 {
-    return ( point - getClosestPoint( point ) ).length();
+    return (point - getClosestPoint(point)).length();
 }
 
 
 /*-------------------------- intersection ---------------------------------*/
 
-/** Intersect the Line with a Sphere
-*/
+/*! Intersect the Line with a Sphere
+ */
+
 bool Line::intersect(const SphereVolume &sphere) const
 {
-    Real32 ent, ex;
-    return this->intersect( sphere, ent, ex);
+    Real32 ent;
+    Real32 ex;
+
+    return this->intersect(sphere, ent, ex);
 }
 
-/** Intersect the line with a sphere, returns points of intersection
-*/
+/*! Intersect the line with a sphere, returns points of intersection
+ */
+
 bool Line::intersect(const SphereVolume &sphere,
-                     Real32& enter, Real32& exit) const
+                           Real32       &enter, 
+                           Real32       &exit  ) const
 {
 
     Vec3f v;
@@ -177,7 +176,12 @@ bool Line::intersect(const SphereVolume &sphere,
 
     sphere.getCenter(center);
 
-    Real32 radius, h, b, d, t1, t2;
+    Real32 radius;
+    Real32 h;
+    Real32 b;
+    Real32 d;
+    Real32 t1;
+    Real32 t2;
 
     radius = sphere.getRadius();
 
@@ -186,15 +190,15 @@ bool Line::intersect(const SphereVolume &sphere,
     h = (v.dot(v))-radius;
     b = (v.dot(_dir));
 
-    if (h >= 0 && b <= 0)
+    if(h >= 0 && b <= 0)
         return false;
 
     d = b * b - h;
 
-    if (d < 0)
+    if(d < 0)
         return false;
 
-    d = osgsqrt(d);
+    d  = osgsqrt(d);
     t1 = b - d;
 
 //    if (t1 > 1)
@@ -202,37 +206,45 @@ bool Line::intersect(const SphereVolume &sphere,
 
     t2 = b + d;
 
-    if ( t1 < Eps )
+    if( t1 < Eps )
     {
-        if ( t2 < Eps /*|| t2 > 1*/ )
+        if( t2 < Eps /*|| t2 > 1*/)
         {
             return false;
         }
     }
+
     enter = t1;
-    exit = t2;
+    exit  = t2;
+
     return true;
 }
 
+/*!Intersect the line with a cylinder
+ */
 
-/**Intersect the line with a cylinder
-*/
 bool Line::intersect(const CylinderVolume &cyl) const
 {
-    Real32 ent, ex;
+    Real32 ent;
+    Real32 ex;
+
     return this->intersect(cyl, ent, ex);
 }
 
+/*!Intersect the line with a cylinder, returns points of intersection
+   based on GGems IV
+ */
 
-/**Intersect the line with a cylinder, returns points of intersection
-  based on GGems IV
-*/
-bool Line::intersect(const CylinderVolume &cyl, Real32 &enter, Real32 &exit) const
+bool Line::intersect(const CylinderVolume &cyl, 
+                           Real32         &enter,  
+                           Real32         &exit ) const
 {
     Real32 radius = cyl.getRadius();
 
-    Vec3f adir, o_adir;
+    Vec3f adir;
+    Vec3f o_adir;
     Pnt3f apos;
+
     cyl.getAxis(apos, adir);
 
     o_adir = adir;
@@ -240,100 +252,122 @@ bool Line::intersect(const CylinderVolume &cyl, Real32 &enter, Real32 &exit) con
 
     bool isect;
 
-    Real32 ln, dl;
-    Vec3f RC, n, D;
+    Real32 ln;
+    Real32 dl;
+    Vec3f  RC;
+    Vec3f  n;
+    Vec3f  D;
 
     RC = _pos - apos;
 
-    n = _dir.cross(adir);
-    ln = n.length();
-    if (ln == 0)    // IntersectionLine is parallel to CylinderAxis
+    n  = _dir.cross (adir);
+    ln =  n  .length(    );
+
+    if(ln == 0)    // IntersectionLine is parallel to CylinderAxis
     {
-        D = RC - ( RC.dot(adir) ) * adir;
+        D  = RC - (RC.dot(adir)) * adir;
         dl = D.length();
 
-        if (dl <= radius)   // line lies in cylinder
+        if(dl <= radius)   // line lies in cylinder
         {
             enter = 0;
-            exit = Inf;
+            exit  = Inf;
         }
         else
+        {
             return false;
+        }
     }
     else
     {
         n.normalize();
-        dl = osgabs (RC.dot(n));        //shortest distance
+
+        dl    = osgabs(RC.dot(n));        //shortest distance
         isect = (dl <= radius);
 
-        if (isect){                 // if ray hits cylinder
-
-            float t, s;
-            Vec3f O;
+        if(isect)
+        {                 // if ray hits cylinder
+            Real32 t;
+            Real32 s;
+            Vec3f  O;
 
             O = RC.cross(adir);
             t = - (O.dot(n)) / ln;
             O = n.cross(adir);
+
             O.normalize();
+
             s = osgabs (
                 (osgsqrt ((radius * radius) - (dl * dl))) / (_dir.dot(O)));
 
             exit = t + s;
-            if ( exit < 0 )
+
+            if(exit < 0)
                 return false;
 
             enter = t - s;
-            if ( enter < 0 )
+
+            if(enter < 0)
                 enter = 0;
         }
         else
+        {
             return false;
+        }
     }
 
     Real32 t;
 
-    Plane bottom( -adir, apos );
-    if ( bottom.intersect( *this, t ) )
+    Plane bottom(-adir, apos);
+
+    if(bottom.intersect(*this, t))
     {
-        if ( bottom.isInHalfSpace( _pos ) )
+        if(bottom.isInHalfSpace(_pos ))
         {
-            if ( t > enter ) enter = t;
+            if(t > enter) 
+                enter = t;
         }
         else
         {
-            if ( t < exit ) exit = t;
+            if(t < exit) 
+                exit = t;
         }
     }
 
-    Plane top( adir, apos + o_adir );
-    if ( top.intersect( *this, t ) )
+    Plane top(adir, apos + o_adir);
+
+    if(top.intersect(*this, t))
     {
-        if ( top.isInHalfSpace( _pos ) )
+        if(top.isInHalfSpace(_pos))
         {
-            if ( t > enter ) enter = t;
+            if(t > enter)
+                enter = t;
         }
         else
         {
-            if ( t < exit ) exit = t;
+            if(t < exit)
+                exit = t;
         }
     }
 
     return (enter < exit);
 }
 
-/**Intersect the line with a frustum
-*/
+/*! Intersect the line with a frustum
+ */
+
 bool Line::intersect(const FrustumVolume &frustum) const
 {
-    Real32 ent, ex;
+    Real32 ent;
+    Real32 ex;
+
     return this->intersect(frustum, ent, ex);
 }
 
-
-/**Intersect the line with a frustum, returns points of intersection
-  based on Cyrus Beck Algorithm for clipping a line segment to a
-  convex volume.
-*/
+/*! Intersect the line with a frustum, returns points of intersection
+    based on Cyrus Beck Algorithm for clipping a line segment to a
+    convex volume.
+ */
 
 struct face
 {
@@ -342,40 +376,60 @@ struct face
     Vec3f inner_normal;
 };
 
+
 bool Line::intersect(const FrustumVolume &frustum ,
                            Real32        &enter   ,
-                           Real32        &exit     ) const
+                           Real32        &exit    ) const
 {
     const Real32 inf = 2 << 16;
+
     Pnt3f enter_point = _pos + _dir * 0;
     Pnt3f exit_point  = _pos + _dir * inf;
 
     face faces[6];
-    const Plane * planes = frustum.getPlanes();
+
+    const Plane *planes = frustum.getPlanes();
 
     Line lines[2];
-    planes[3].intersect(planes[4], lines[0]); //ln[0] - intersection of right and top planes
-    planes[2].intersect(planes[5], lines[1]); //ln[1] - left and bottom
 
-    Pnt3f pointA,pointB;
-                    
-    if (!planes[0].intersectInfinite(lines[0],pointA))
+    //ln[0] - intersection of right and top planes
+    planes[3].intersect(planes[4], lines[0]); 
+
+    //ln[1] - left and bottom
+    planes[2].intersect(planes[5], lines[1]); 
+
+    Pnt3f pointA;
+    Pnt3f pointB;
+
+    if(!planes[0].intersectInfinite(lines[0],pointA))
         std::cout << "This should never happen (A)!!!!";
                     
-    if (!planes[1].intersectInfinite(lines[1],pointB))
+    if(!planes[1].intersectInfinite(lines[1],pointB))
         std::cout << "This should never happen (B)!!!!";
 
-    faces[0].point = pointA; faces[0].inner_vector = pointB - pointA;
-    faces[1].point = pointB; faces[1].inner_vector = pointA - pointB;
-    faces[2].point = pointB; faces[2].inner_vector = pointA - pointB;
-    faces[3].point = pointA; faces[3].inner_vector = pointB - pointA;
-    faces[4].point = pointA; faces[4].inner_vector = pointB - pointA;
-    faces[5].point = pointB; faces[5].inner_vector = pointA - pointB;
+    faces[0].point        = pointA; 
+    faces[0].inner_vector = pointB - pointA;
 
-    for (int i=0; i<6; i++)
+    faces[1].point        = pointB; 
+    faces[1].inner_vector = pointA - pointB;
+
+    faces[2].point        = pointB; 
+    faces[2].inner_vector = pointA - pointB;
+
+    faces[3].point        = pointA; 
+    faces[3].inner_vector = pointB - pointA;
+
+    faces[4].point        = pointA; 
+    faces[4].inner_vector = pointB - pointA;
+
+    faces[5].point        = pointB; 
+    faces[5].inner_vector = pointA - pointB;
+
+    for(Int32 i = 0; i < 6; i++)
     {
         faces[i].inner_normal=planes[i].getNormal();
-        if (faces[i].inner_normal.dot(faces[i].inner_vector)<0)
+
+        if(faces[i].inner_normal.dot(faces[i].inner_vector) < 0.f)
             faces[i].inner_normal=-faces[i].inner_normal;
 
         Vec3f test_enp = enter_point - faces[i].point;
@@ -384,123 +438,160 @@ bool Line::intersect(const FrustumVolume &frustum ,
         Real32 value_enp = test_enp.dot(faces[i].inner_normal);
         Real32 value_exp = test_exp.dot(faces[i].inner_normal);
 
-        if (value_enp<0 && value_exp<0) return false;
+        if(value_enp < 0.f && value_exp < 0.f) 
+            return false;
 
-        if (value_enp>0 && value_exp<0) planes[i].intersect(*this, exit_point);
-        if (value_enp<0 && value_exp>0) planes[i].intersect(*this, enter_point);
+        if(value_enp > 0.f && value_exp < 0.f) 
+            planes[i].intersect(*this, exit_point );
+
+        if(value_enp < 0.f && value_exp > 0.f) 
+            planes[i].intersect(*this, enter_point);
     }
     
     Real32 a;
     
-    if ((a=(enter_point - _pos).dot(_dir))!=0)
-        enter = (enter_point - _pos).dot(enter_point - _pos)/a;
-    else enter=0;
-    
-    if ((a=(exit_point  - _pos).dot(_dir))!=0)    
-        exit  = (exit_point  - _pos).dot(exit_point  - _pos)/a;
-    else enter=0;              
+    if((a = (enter_point - _pos).dot(_dir)) != 0.f)
+    {
+        enter = (enter_point - _pos).dot(enter_point - _pos) / a;
+    }
+    else 
+    {
+        enter = 0.f;
+    }
+
+    if((a = (exit_point  - _pos).dot(_dir)) != 0.f)
+    {
+        exit  = (exit_point  - _pos).dot(exit_point  - _pos) / a;
+    }
+    else
+    {
+        enter = 0.f;              
+    }
 
     return true;
 }
 
-/**Intersect the line with a box, returns points of intersection
-*/
+
+/*! Intersect the line with a box, returns points of intersection
+ */
+
 bool Line::intersect(const BoxVolume &box,
-                     Real32 &enter, Real32 &exit) const
+                           Real32    &enter, 
+                           Real32    &exit ) const
 {
-    Pnt3f low, high;
-    box.getBounds( low, high );
+    Pnt3f low;
+    Pnt3f high;
 
-    float r, te, tl;
-    Real32 in = 0, out = Inf;
+    box.getBounds(low, high);
 
-    if ( _dir[0] > Eps || _dir[0] < -Eps )
+    Real32 r;
+    Real32 te;
+    Real32 tl;
+
+    Real32 in  = 0.f;
+    Real32 out = Inf;
+
+    if(_dir[0] > Eps || _dir[0] < -Eps)
     {
-        r=1.f/_dir[0];
+        r = 1.f / _dir[0];
 
-        if ( _dir[0] > 0 )
+        if(_dir[0] > 0.f)
         {
-            te=( low [0] - _pos[0] ) * r;
-            tl=( high[0] - _pos[0] ) * r;
+            te = (low [0] - _pos[0]) * r;
+            tl = (high[0] - _pos[0]) * r;
         }
         else
         {
-            te=( high[0] - _pos[0] ) * r;
-            tl=( low [0] - _pos[0] ) * r;
+            te = (high[0] - _pos[0]) * r;
+            tl = (low [0] - _pos[0]) * r;
         }
 
 //        if (te > 1)   return false;
 
-        if (tl < out)   out = tl;
-        if (te > in)    in = te;
+        if(tl < out)   
+            out = tl;
+
+        if(te > in)    
+            in  = te;
     }
-    else if ( _pos[0] < low[0] || _pos[0] > high[0] )
-        return false;
-
-
-    if ( _dir[1] > Eps || _dir[1] < -Eps )
+    else if(_pos[0] < low[0] || _pos[0] > high[0])
     {
-        r=1.f/_dir[1];
+        return false;
+    }
 
-        if ( _dir[1] > 0 )
+    if(_dir[1] > Eps || _dir[1] < -Eps)
+    {
+        r= 1.f / _dir[1];
+
+        if(_dir[1] > 0.f)
         {
-            te=( low [1] - _pos[1] ) * r;
-            tl=( high[1] - _pos[1] ) * r;
+            te  = (low [1] - _pos[1]) * r;
+            tl  = (high[1] - _pos[1]) * r;
         }
         else
         {
-            te=( high[1] - _pos[1] ) * r;
-            tl=( low [1] - _pos[1] ) * r;
+            te = (high[1] - _pos[1]) * r;
+            tl = (low [1] - _pos[1]) * r;
         }
 
 //      if (te > 1)   return false;
 
-        if (tl < out)   out = tl;
-        if (te > in)    in = te;
+        if(tl < out)
+            out = tl;
+
+        if(te > in)    
+            in  = te;
+
     }
-    else if ( _pos[1] < low[1] || _pos[1] > high[1] )
-        return false;
-
-
-    if ( _dir[2] > Eps || _dir[2] < -Eps )
+    else if(_pos[1] < low[1] || _pos[1] > high[1])
     {
-        r=1.f/_dir[2];
+        return false;
+    }
 
-        if ( _dir[2] > 0 )
+    if(_dir[2] > Eps || _dir[2] < -Eps)
+    {
+        r = 1.f / _dir[2];
+
+        if(_dir[2] > 0.f)
         {
-            te=( low [2] - _pos[2] ) * r;
-            tl=( high[2] - _pos[2] ) * r;
+            te  = (low [2] - _pos[2]) * r;
+            tl  = (high[2] - _pos[2]) * r;
         }
         else
         {
-            te=( high[2] - _pos[2] ) * r;
-            tl=( low [2] - _pos[2] ) * r;
+            te = (high[2] - _pos[2]) * r;
+            tl = (low [2] - _pos[2]) * r;
         }
 
 //        if (te > 1)   return false;
 
-        if (tl < out)   out = tl;
-        if (te > in)    in = te;
+        if(tl < out)   
+            out = tl;
+
+        if(te > in)    
+            in  = te;
     }
-    else if ( _pos[2] < low[2] || _pos[2] > high[2] )
+    else if(_pos[2] < low[2] || _pos[2] > high[2])
+    {
         return false;
+    }
 
     enter = in;
-    exit = out;
+    exit  = out;
 
-    if ( enter > exit )
+    if(enter > exit)
         return false;
 
     return true;
 }
-
 
 #ifdef __sgi
 #pragma set woff 1209
 #endif
 
-/**Intersect the line with a box.
-*/
+/*! Intersect the line with a box.
+ */
+
 bool Line::intersect(      Real32     OSG_CHECK_ARG(angle),
                      const BoxVolume &OSG_CHECK_ARG(box  )) const
 {
@@ -509,8 +600,9 @@ bool Line::intersect(      Real32     OSG_CHECK_ARG(angle),
     return false;
 }
 
-/** Intersect the line with a point.
-*/
+/*! Intersect the line with a point.
+ */
+
 bool Line::intersect(      Real32  OSG_CHECK_ARG(angle),
                      const Vec3f  &OSG_CHECK_ARG(point)) const
 {
@@ -519,12 +611,13 @@ bool Line::intersect(      Real32  OSG_CHECK_ARG(angle),
     return false;
 }
 
-/** Intersect the line with a line.
-*/
+/*! Intersect the line with a line.
+ */
+
 bool Line::intersect(      Real32  OSG_CHECK_ARG(angle),
-                     const Vec3f  &OSG_CHECK_ARG(v0),
-                     const Vec3f  &OSG_CHECK_ARG(v1),
-                           Vec3f  &OSG_CHECK_ARG(pt)) const
+                     const Vec3f  &OSG_CHECK_ARG(v0   ),
+                     const Vec3f  &OSG_CHECK_ARG(v1   ),
+                           Vec3f  &OSG_CHECK_ARG(pt   )) const
 {
     // TODO
     assert(false);
@@ -535,53 +628,59 @@ bool Line::intersect(      Real32  OSG_CHECK_ARG(angle),
 #pragma reset woff 1209
 #endif
 
-/** Intersect the line with a triangle.
-*/
+/*! Intersect the line with a triangle.
+ */
+
 bool Line::intersect(const Pnt3f  &v0, 
                      const Pnt3f  &v1,
                      const Pnt3f  &v2, 
                            Real32 &t,
                            Vec3f  *norm) const
 {
-    Vec3f dir1, dir2;
+    Vec3f dir1;
+    Vec3f dir2;
 
     dir1 = v1 - v0;
     dir2 = v2 - v0;
 
-    Vec3f a = _dir.cross( dir2 );
+    Vec3f a = _dir.cross(dir2);
     Vec3f b = _pos - v0;
     Vec3f c;
 
-    Real32  d = dir1.dot( a ),
-            u =    b.dot( a ),
-            v;
+    Real32 d = dir1.dot(a);
+    Real32 u =    b.dot(a);
+    Real32 v;
 
-    if ( d > Eps )
+    if(d > Eps)
     {
-        if ( u < 0 || u > d )
+        if(u < 0 || u > d)
             return false;
 
-        c = b.cross( dir1 );
-        v = _dir.dot( c );
-        if ( v < 0 || u + v > d )
+        c =  b  .cross(dir1);
+        v = _dir.dot  (c   );
+
+        if(v < 0 || u + v > d)
             return false;
     }
-    else if ( d < -Eps )
+    else if(d < -Eps)
     {
-        if ( u > 0 || u < d )
+        if(u > 0 || u < d)
             return false;
 
-        c = b.cross( dir1 );
-        v = _dir.dot( c );
-        if ( v > 0 || u + v < d )
+        c =  b  .cross(dir1);
+        v = _dir.dot  (c   );
+
+        if(v > 0 || u + v < d)
             return false;
     }
     else
+    {
         return false;
+    }
 
     Real32 id = 1.f / d;
 
-    t = dir2.dot( c ) * id;
+    t = dir2.dot(c) * id;
 
     if(norm != NULL)
     {
@@ -591,16 +690,3 @@ bool Line::intersect(const Pnt3f  &v0,
     return true;
 }
 
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/

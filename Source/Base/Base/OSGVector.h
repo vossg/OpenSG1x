@@ -301,11 +301,33 @@ class PointInterface : public StorageInterfaceT
     explicit PointInterface(const ValueTypeT     *pVals );
     explicit PointInterface(      ValueTypeT     *pVals );
 
+    /* This inline code was brought to you by Microsoft */
+
     template<class VectorT> 
 #ifndef OSG_MICROSOFT_COMPILER_HACKS
     explicit 
 #endif
-             PointInterface(const VectorT        &vec   ); 
+             PointInterface(const VectorT        &vec   )
+    {
+        if(Self::_iSize <= VectorT::_iSize)
+        {
+            for(UInt32 i = 0; i < Self::_iSize; i++)
+            {
+                Self::_values[i] = vec.getValues()[i];
+            }
+        }
+        else
+        {
+            for(UInt32 i = 0; i < VectorT::_iSize; i++)
+            {
+                Self::_values[i] = vec.getValues()[i];
+            }
+            for(UInt32 i = VectorT::_iSize; i < Self::_iSize; i++)
+            {
+                Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+            }
+        }
+    }
 
              PointInterface(const PointInterface &source);
 
@@ -510,11 +532,33 @@ class VectorInterface :
     explicit VectorInterface(const ValueTypeT      *pVals );
     explicit VectorInterface(      ValueTypeT      *pVals );
 
+    /* This inline code was brought to you by Microsoft */
+
     template<class VectorT> 
 #ifndef OSG_MICROSOFT_COMPILER_HACKS
     explicit 
 #endif
-             VectorInterface(const VectorT         &vec   );
+             VectorInterface(const VectorT         &vec   )
+    {
+        if(Self::_iSize <= VectorT::_iSize)
+        {
+            for(UInt32 i = 0; i < Self::_iSize; i++)
+            {
+                Self::_values[i] = vec.getValues()[i];
+            }
+        }
+        else
+        {
+            for(UInt32 i = 0; i < VectorT::_iSize; i++)
+            {
+                Self::_values[i] = vec.getValues()[i];
+            }
+            for(UInt32 i = VectorT::_iSize; i < Self::_iSize; i++)
+            {
+                Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+            }
+        }
+    }
 
              VectorInterface(const VectorInterface &source);
 

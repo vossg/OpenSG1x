@@ -36,106 +36,104 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef OSGDATE_CLASS_DECLARATION
-#define OSGDATE_CLASS_DECLARATION
+#ifndef _OSGDATE_H_
+#define _OSGDATE_H_
+
 #ifdef  __sgi
 #pragma  once
 #endif
 
 #include <OSGConfig.h>
 #include <OSGBase.h>
-
-//#include<OSGBaseTypes.h>
+#include <OSGBaseTypes.h>
 
 OSG_BEGIN_NAMESPACE
 
-#ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
-class Date;
-OSG_BASE_DLLMAPPING bool          operator ==(const Date &v1, const Date &v2);
-OSG_BASE_DLLMAPPING bool          operator < (const Date &v1, const Date &v2);
-
-OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream & os, 
-                                              const Date         &obj);
-OSG_BASE_DLLMAPPING std::istream &operator >>(      std::istream &is, 
-                                                    Date         &obj);
-#endif
-
-/** Date & Time.
-*
-* @autor jBehr, Wed Oct 27 13:16:07
-*/
+/*! \ingroup BaseBase
+ */
 
 class OSG_BASE_DLLMAPPING Date
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    Date (void);
-    Date (const Date &obj);
+    Date(void);
+    Date(const Date &obj);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~Date (void);
+    virtual ~Date(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Access                                     */
     /*! \{                                                                 */
 
-    inline void         setSecond     (unsigned int second);
-    inline unsigned int getSecond     (void);
-    inline void         setMinute     (unsigned int minute);
-    inline unsigned int getMinute     (void);
-    inline unsigned int getHour       (void);
-    inline void         setHour       (unsigned int hour);
-    inline unsigned int getDay        (void);
-    inline void         setDay        (unsigned int day);
-    inline int          getYear       (void);
-    inline void         setYear       (int year);
-           void         clear         (void) ;
-           void         setSystemDate (void);
-           void         set           (const char *string);
-    bool                isLeapYear    (void);
-    bool                valid         (void);
-           void         set (unsigned int day, unsigned int month, int year,
-                             unsigned int hour = 0, unsigned int minute = 0,
-                             unsigned int second = 0 );
-    
+    void   setSecond    (      UInt32  second   );
+    UInt32 getSecond    (      void             );
 
+    void   setMinute    (      UInt32  minute   );
+    UInt32 getMinute    (      void             );
+
+    void   setHour      (      UInt32  hour     );
+    UInt32 getHour      (      void             );
+
+    void   setDay       (      UInt32  day      );
+    UInt32 getDay       (      void             );
+
+    void   setYear      (      Int32   year     );
+     Int32 getYear      (      void             );
+    
+    void   clear        (      void             );
+    void   setSystemDate(      void             );
+
+    void   set          (const Char8  *stringP  );
+
+    bool   isLeapYear   (      void             );
+    bool   valid        (      void             );
+
+    void   set          (      UInt32 day, 
+                               UInt32 month, 
+                                Int32 year,
+                               UInt32 hour   = 0, 
+                               UInt32 minute = 0,
+                               UInt32 second = 0);
+    
     /*! \}                                                                 */
-    /*===========================  PRIVATE  ===============================*/    
-  private:
-
-    unsigned int _second;
-    unsigned int _minute;
-    unsigned int _hour;
-    unsigned int _day;
-    unsigned int _month;
-    unsigned int _year;
-    
-    /*==========================  PUBLIC  =================================*/    
-  public:
-         
     /*---------------------------------------------------------------------*/
     /*! \name                   Operators                                  */
     /*! \{                                                                 */
-         
-    friend bool          operator ==(const Date &v1, const Date &v2);
-    friend bool          operator < (const Date &v1, const Date &v2);
 
-    friend std::ostream &operator <<(      std::ostream &os, 
-                                     const Date         &obj);
-    friend std::istream &operator >>(      std::istream &is, 
-                                           Date         &obj);
-    
+    bool operator ==(const Date &other);
+    bool operator !=(const Date &other);
+    bool operator < (const Date &other);
+
     /*! \}                                                                 */
+    /*===========================  PRIVATE  ===============================*/
+  private:
+
+    UInt32 _second;
+    UInt32 _minute;
+    UInt32 _hour;
+    UInt32 _day;
+    UInt32 _month;
+    UInt32 _year;
+    
+         
+    friend 
+    std::ostream &operator <<(      std::ostream &os, 
+                              const Date         &obj);
+    friend 
+    std::istream &operator >>(      std::istream &is, 
+                                    Date         &obj);
 };
 
 typedef Date* DateP;
@@ -147,4 +145,4 @@ OSG_END_NAMESPACE
 
 #include <OSGDate.inl>
 
-#endif // DATE_CLASS_DECLARATION
+#endif // _OSGDATE_H_

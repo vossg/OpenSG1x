@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _EXCEPTION_H_
-#define _EXCEPTION_H_
+#ifndef _OSGEXCEPTION_H_
+#define _OSGEXCEPTION_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -49,25 +49,27 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! Exception
-//! \ingroup baselib
-
 class Exception;
 
-OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream &os,
-                                              const Exception    &obj);
+OSG_BASE_DLLMAPPING 
+std::ostream &operator <<(      std::ostream &os,
+                          const Exception    &obj);
+
+/*! \ingroup BaseBase
+ */
 
 class OSG_BASE_DLLMAPPING Exception : 
     public OSG_STDEXCEPTION_NAMESPACE::exception
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
      /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    Exception(void                   );
+    Exception(      void             );
     Exception(const Exception &source);
 
     /*! \}                                                                 */
@@ -82,17 +84,18 @@ class OSG_BASE_DLLMAPPING Exception :
     /*! \name                    Info                                      */
     /*! \{                                                                 */
 
-    virtual const char *what(void) const OSG_THROW_NOTHING();
+    virtual const Char8 *what(void) const OSG_THROW_NOTHING();
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Assignment                                 */
     /*! \{                                                                 */
 
-    Exception& operator =(const Exception &source);
+    Exception &operator =(const Exception &source);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef OSG_STDEXCEPTION_NAMESPACE::exception Inherited;
@@ -105,6 +108,7 @@ class OSG_BASE_DLLMAPPING Exception :
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend OSG_BASE_DLLMAPPING

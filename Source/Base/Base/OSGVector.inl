@@ -387,6 +387,8 @@ PointInterface<ValueTypeT,
     }
 }
 
+#if 0
+
 /*! \brief Constructor which take a lot of types as it's argument :-).
   
   The argument type must provide a _iSize enum entry, a *getValueRef(void)
@@ -441,6 +443,8 @@ PointInterface<ValueTypeT,
 
 #ifdef __sgi
 #pragma reset woff 1209
+#endif
+
 #endif
 
 
@@ -1286,6 +1290,7 @@ VectorInterface<ValueTypeT,
 {
 }
 
+#if 0
 /*! \brief Constructor which take a lot of types as it's argument :-).
   
   The argument type must provide a _iSize enum entry, a *getValueRef(void)
@@ -1340,6 +1345,7 @@ VectorInterface<ValueTypeT,
 
 #ifdef __sgi
 #pragma reset woff 1209
+#endif
 #endif
 
 template <class ValueTypeT,

@@ -60,7 +60,7 @@ class FrustumVolume;
 //   Volume Intersect and Extend Functions
 //---------------------------------------------------------------------------
 
-/*! @name Generall Desclarations
+/*! @name Intersect
  */
 
 // ###################################################################
@@ -272,6 +272,9 @@ bool intersect(const Volume &srcVol, const FrustumVolume  &vol);
 // ###################################################################
 // # Volume Extend Functions #########################################
 // ###################################################################
+
+/*! @name Extend
+ */
 
 OSG_BASE_DLLMAPPING 
 void extend(Volume &srcVol,    const Volume         &vol);

@@ -55,7 +55,8 @@ OSG_BEGIN_NAMESPACE
            of matrices
  */
 
-/*!@{*/
+/*! \name Matrix utility functions */
+/*! @{ */
 
 OSG_BASE_DLLMAPPING bool MatrixOrthogonal        (Matrix &result, 
                                                   Real32  rLeft, 
@@ -115,7 +116,7 @@ OSG_BASE_DLLMAPPING bool MatrixProjection       (Matrix &result,
                                                  Real32 rNear,
                                                  Real32 rFar          );
 
-/*!@}*/
+/*! @} */
 
 OSG_END_NAMESPACE
 

@@ -61,34 +61,108 @@
 #include "OSGFrustumVolume.h"
 #include "OSGPlane.h"
 
-// Application declarations
-
-
-// Class declarations
-
 OSG_USING_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+/*-------------------------------- get ------------------------------------*/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+void FrustumVolume::getCenter(Pnt3f &center) const
+{
+    Pnt3f vertices[8];
+    Line  lines   [4];
+
+    _planeVec[5].intersect(_planeVec[3],lines[3]);
+    _planeVec[3].intersect(_planeVec[4],lines[2]);
+    _planeVec[4].intersect(_planeVec[2],lines[0]);
+    _planeVec[2].intersect(_planeVec[5],lines[1]);
+    
+    for(Int32 i = 0; i < 4; i++)
+    {
+        _planeVec[0].intersectInfinite(lines[i],vertices[    i]);
+        _planeVec[1].intersectInfinite(lines[i],vertices[4 + i]);
+    }    
+    
+    center = Pnt3f(0.f, 0.f ,0.f);
+
+    for(Int32 i = 0; i < 8; i++)
+    {        
+        center = center + vertices[i].subZero();
+    }
+
+    center /= 8.f;
+}
 
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+Real32 FrustumVolume::getScalarVolume() const
+{
+    const Int32 faces[6][4] =
+    {
+        {0,1,3,2},
+        {4,5,7,6},
+        {0,4,5,1},
+        {2,6,7,3},
+        {2,6,4,0},
+        {1,5,7,3}
+    };
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+    Pnt3f vertices[8];
+    Line  lines   [4];
+
+    _planeVec[5].intersect(_planeVec[3], lines[3]); 
+    _planeVec[3].intersect(_planeVec[4], lines[2]); 
+    _planeVec[4].intersect(_planeVec[2], lines[0]); 
+    _planeVec[2].intersect(_planeVec[5], lines[1]); 
+    
+    for(Int32 i = 0; i < 4; i++)
+    {
+        _planeVec[0].intersectInfinite(lines[i], vertices[    i]);
+        _planeVec[1].intersectInfinite(lines[i], vertices[4 + i]);
+    }
+    
+
+    Pnt3f center = Pnt3f(0.f, 0.f, 0.f);
+
+    for(Int32 i = 0; i < 8; i++)
+    {
+        center = center + vertices[i].subZero();
+    }
+
+    center /= 8.f;
+    
+    Real32 volume = .0f;
+
+    for(Int32 i = 0; i < 6; i++)
+    {
+        Real32 height;
+        Real32 area;
+
+        height = 
+            _planeVec[i].getNormal().dot(center) - 
+            _planeVec[i].getDistanceFromOrigin();
+        
+        Vec3f main_diag = vertices[faces[i][0]] - vertices[faces[i][2]];
+        Vec3f sec_diag  = vertices[faces[i][1]] - vertices[faces[i][3]];
+
+        area = osgabs((main_diag.cross(sec_diag)).length() / 2.f);        
+
+        volume += osgabs((height*area)) / 3.f;
+    }
+
+    return volume;
+}
+
+
+/*! 
+  \warning NOT IMPLEMENTED 
+  \brief   NOT IMPLEMENTED 
+ */
+
+void FrustumVolume::getBounds(Pnt3f &OSG_CHECK_ARG(minPnt), 
+                              Pnt3f &OSG_CHECK_ARG(maxPnt)) const
+{
+}
 
 /*------------------------------ feature ----------------------------------*/
 
-
-/// set method
 void FrustumVolume::setPlanes(const Plane &pnear, const Plane &pfar,
                               const Plane &left,  const Plane &right,
                               const Plane &top,   const Plane &bottom)
@@ -100,6 +174,7 @@ void FrustumVolume::setPlanes(const Plane &pnear, const Plane &pfar,
     _planeVec[4] = top;
     _planeVec[5] = bottom;
 }
+
 
 void FrustumVolume::setPlanes(const Pnt3f &nlt, const Pnt3f &nlb,
                               const Pnt3f &nrt, const Pnt3f &nrb,
@@ -124,54 +199,54 @@ void FrustumVolume::setPlanes(const Pnt3f &nlt, const Pnt3f &nlb,
 
 }
 
+
 void FrustumVolume::setPlanes(const Matrix &objectClipMat)
 {
-    Vec4f planeEquation[6];
+    Vec4f  planeEquation[6];
     Real32 vectorLength;
-    Int32 i;
-    Vec3f normal;
+    Vec3f  normal;
 
-    planeEquation[0][0] = objectClipMat[0][3]-objectClipMat[0][0];
-    planeEquation[0][1] = objectClipMat[1][3]-objectClipMat[1][0];
-    planeEquation[0][2] = objectClipMat[2][3]-objectClipMat[2][0];
-    planeEquation[0][3] = objectClipMat[3][3]-objectClipMat[3][0];
+    planeEquation[0][0] = objectClipMat[0][3] - objectClipMat[0][0];
+    planeEquation[0][1] = objectClipMat[1][3] - objectClipMat[1][0];
+    planeEquation[0][2] = objectClipMat[2][3] - objectClipMat[2][0];
+    planeEquation[0][3] = objectClipMat[3][3] - objectClipMat[3][0];
 
-    planeEquation[1][0] = objectClipMat[0][3]+objectClipMat[0][0];
-    planeEquation[1][1] = objectClipMat[1][3]+objectClipMat[1][0];
-    planeEquation[1][2] = objectClipMat[2][3]+objectClipMat[2][0];
-    planeEquation[1][3] = objectClipMat[3][3]+objectClipMat[3][0];
+    planeEquation[1][0] = objectClipMat[0][3] + objectClipMat[0][0];
+    planeEquation[1][1] = objectClipMat[1][3] + objectClipMat[1][0];
+    planeEquation[1][2] = objectClipMat[2][3] + objectClipMat[2][0];
+    planeEquation[1][3] = objectClipMat[3][3] + objectClipMat[3][0];
 
-    planeEquation[2][0] = objectClipMat[0][3]+objectClipMat[0][1];
-    planeEquation[2][1] = objectClipMat[1][3]+objectClipMat[1][1];
-    planeEquation[2][2] = objectClipMat[2][3]+objectClipMat[2][1];
-    planeEquation[2][3] = objectClipMat[3][3]+objectClipMat[3][1];
+    planeEquation[2][0] = objectClipMat[0][3] + objectClipMat[0][1];
+    planeEquation[2][1] = objectClipMat[1][3] + objectClipMat[1][1];
+    planeEquation[2][2] = objectClipMat[2][3] + objectClipMat[2][1];
+    planeEquation[2][3] = objectClipMat[3][3] + objectClipMat[3][1];
 
-    planeEquation[3][0] = objectClipMat[0][3]-objectClipMat[0][1];
-    planeEquation[3][1] = objectClipMat[1][3]-objectClipMat[1][1];
-    planeEquation[3][2] = objectClipMat[2][3]-objectClipMat[2][1];
-    planeEquation[3][3] = objectClipMat[3][3]-objectClipMat[3][1];
+    planeEquation[3][0] = objectClipMat[0][3] - objectClipMat[0][1];
+    planeEquation[3][1] = objectClipMat[1][3] - objectClipMat[1][1];
+    planeEquation[3][2] = objectClipMat[2][3] - objectClipMat[2][1];
+    planeEquation[3][3] = objectClipMat[3][3] - objectClipMat[3][1];
 
-    planeEquation[4][0] = objectClipMat[0][3]+objectClipMat[0][2];
-    planeEquation[4][1] = objectClipMat[1][3]+objectClipMat[1][2];
-    planeEquation[4][2] = objectClipMat[2][3]+objectClipMat[2][2];
-    planeEquation[4][3] = objectClipMat[3][3]+objectClipMat[3][2];
+    planeEquation[4][0] = objectClipMat[0][3] + objectClipMat[0][2];
+    planeEquation[4][1] = objectClipMat[1][3] + objectClipMat[1][2];
+    planeEquation[4][2] = objectClipMat[2][3] + objectClipMat[2][2];
+    planeEquation[4][3] = objectClipMat[3][3] + objectClipMat[3][2];
 
-    planeEquation[5][0] = objectClipMat[0][3]-objectClipMat[0][2];
-    planeEquation[5][1] = objectClipMat[1][3]-objectClipMat[1][2];
-    planeEquation[5][2] = objectClipMat[2][3]-objectClipMat[2][2];
-    planeEquation[5][3] = objectClipMat[3][3]-objectClipMat[3][2];
+    planeEquation[5][0] = objectClipMat[0][3] - objectClipMat[0][2];
+    planeEquation[5][1] = objectClipMat[1][3] - objectClipMat[1][2];
+    planeEquation[5][2] = objectClipMat[2][3] - objectClipMat[2][2];
+    planeEquation[5][3] = objectClipMat[3][3] - objectClipMat[3][2];
 
-    for (i = 0; i < 6; i++) {
-        vectorLength = osgsqrt(
-                    planeEquation[i][0] * planeEquation[i][0] +
+    for(Int32  i = 0; i < 6; i++) 
+    {
+        vectorLength = 
+            osgsqrt(planeEquation[i][0] * planeEquation[i][0] +
                     planeEquation[i][1] * planeEquation[i][1] +
                     planeEquation[i][2] * planeEquation[i][2]);
  
         planeEquation[i][0] /= -vectorLength;
         planeEquation[i][1] /= -vectorLength;
         planeEquation[i][2] /= -vectorLength;
-        planeEquation[i][3] /= vectorLength;
-
+        planeEquation[i][3] /=  vectorLength;
     }
 
   // right
@@ -193,153 +268,101 @@ void FrustumVolume::setPlanes(const Matrix &objectClipMat)
   _planeVec[1].set(planeEquation[5]);
 }
 
-/// Returns the center of a box
-void FrustumVolume::getCenter(Pnt3f &center) const
-{
-    int i=0;
-    Pnt3f vertices[8];
-    Line lines[4];
-    _planeVec[5].intersect(_planeVec[3],lines[3]);
-    _planeVec[3].intersect(_planeVec[4],lines[2]);
-    _planeVec[4].intersect(_planeVec[2],lines[0]);
-    _planeVec[2].intersect(_planeVec[5],lines[1]);
-    
-    for (i=0; i<4; i++)
-    {
-        _planeVec[0].intersectInfinite(lines[i],vertices[i]);
-        _planeVec[1].intersectInfinite(lines[i],vertices[4+i]);
-    }    
-    
-    center=Pnt3f(0,0,0);
-    for (i=0; i<8; i++)
-    {        
-        center = center + (Vec3f)vertices[i];
-    }
-    center/=8;
-    return;
-}
 
-/// Gives the volume of the frustum
-Real32 FrustumVolume::getScalarVolume() const
-{
-    const int faces[6][4]={{0,1,3,2},{4,5,7,6},{0,4,5,1},
-                           {2,6,7,3},{2,6,4,0},{1,5,7,3}};
-    int i=0;
-    
-    Pnt3f vertices[8];
-    Line lines[4];
-    _planeVec[5].intersect(_planeVec[3], lines[3]); 
-    _planeVec[3].intersect(_planeVec[4], lines[2]); 
-    _planeVec[4].intersect(_planeVec[2], lines[0]); 
-    _planeVec[2].intersect(_planeVec[5], lines[1]); 
-    
-    for (i=0; i<4; i++)
-    {
-        _planeVec[0].intersectInfinite(lines[i], vertices[i]);
-        _planeVec[1].intersectInfinite(lines[i], vertices[4+i]);
-    }
-    
-    Pnt3f center = Pnt3f(0, 0, 0);
-    for (i=0; i<8; i++)
-        center = center + (Vec3f)vertices[i];
-    center /= 8;
-    
-    Real32 volume = .0f;
-    for (i=0; i<6; i++)
-    {
-        Real32 height;
-        height=_planeVec[i].getNormal().dot(center) - 
-               _planeVec[i].getDistanceFromOrigin();
-        
-        Real32 area;
-        Vec3f main_diag = vertices[faces[i][0]] - vertices[faces[i][2]];
-        Vec3f sec_diag  = vertices[faces[i][1]] - vertices[faces[i][3]];
-        area=osgabs((main_diag.cross(sec_diag)).length() / 2.f);        
-        volume += osgabs((height*area)) / 3.f;
-    }
-    return volume;
-}
-
-/// Gives the boundaries of the volume
-void FrustumVolume::getBounds(Pnt3f &OSG_CHECK_ARG(minPnt), 
-                              Pnt3f &OSG_CHECK_ARG(maxPnt)) const
-{
-    // not implemented !!!
-    return;
-}
 
 /*-------------------------- extending ------------------------------------*/
 
-/// Extends Frustum3f (if necessary) to contain given 3D point
+/*! 
+  \warning NOT IMPLEMENTED 
+  \brief   NOT IMPLEMENTED 
+ */
+
 void FrustumVolume::extendBy(const Pnt3f &OSG_CHECK_ARG(pt))
 {
-    // not implemented !!!
-    return;
 }
+
+/*!
+  \brief extend the volume to enclose the given one.
+ */
+
+void FrustumVolume::extendBy(const Volume &volume)
+{
+    osg::extend(*this, volume);
+}
+
 
 /*-------------------------- intersection ---------------------------------*/
 
-/// Returns true if intersection of given point and Frustum3f is not empty
 bool FrustumVolume::intersect(const Pnt3f &point) const
 {
-    int i;
     bool retCode = true;
 
-  for (i = 0; i < 6; i++) {
-    if ( ( _planeVec[i].getNormal().x() * point.x() +
-                     _planeVec[i].getNormal().y() * point.x() +
-                     _planeVec[i].getNormal().z() * point.x() +
-                     _planeVec[i].getDistanceFromOrigin()) < 0 ) {
-      retCode = false;
-      break;
+    for(Int32 i = 0; i < 6; i++) 
+    {
+        if((_planeVec[i].getNormal().x() * point.x() +
+            _planeVec[i].getNormal().y() * point.x() +
+            _planeVec[i].getNormal().z() * point.x() +
+            _planeVec[i].getDistanceFromOrigin()     ) < 0.f) 
+        {
+            retCode = false;
+            break;
+        }
     }
-  }
-
-  return retCode;
+    
+    return retCode;
 }
 
 
-/** intersect the box with the given Line */
-bool FrustumVolume::intersect (const Line &line) const
+bool FrustumVolume::intersect(const Line &line) const
 {
     return line.intersect(*this);
 }
 
 
-
-/** intersect the box with the given Line */
-bool FrustumVolume::intersect ( const Line &line,
-                                Real32 &minDist, Real32 &maxDist ) const
+bool FrustumVolume::intersect(const Line   &line,
+                                    Real32 &minDist, 
+                                    Real32 &maxDist) const
 {
-    return line.intersect(*this,minDist,maxDist);
+    return line.intersect(*this, minDist, maxDist);
 }
 
 
-bool FrustumVolume::isOnSurface (const Pnt3f &OSG_CHECK_ARG(point)) const
+bool FrustumVolume::intersect(const Volume &volume) const
 {
-    // not implemented
+    return osg::intersect(*this, volume);
+}
+
+/*! 
+  \warning NOT IMPLEMENTED 
+  \brief   NOT IMPLEMENTED 
+ */
+
+bool FrustumVolume::isOnSurface(const Pnt3f &OSG_CHECK_ARG(point)) const
+{
     return false;
 }
 
+/*! 
+  \warning NOT IMPLEMENTED 
+  \brief   NOT IMPLEMENTED 
+ */
 
-/// Transforms Frustum3f by matrix, enlarging Frustum3f to contain result
 void FrustumVolume::transform(const Matrix &OSG_CHECK_ARG(m))
 {
-    // not implemented
-    return;
 }
 
-/// Assignment operator
 const FrustumVolume &FrustumVolume::operator =(const FrustumVolume &b1)
 {
-    for (int i = 0; i < 5; i++)
+    for(Int32 i = 0; i < 5; i++)
+    {
         _planeVec[i] = b1._planeVec[i];
+    }
+
     _state = b1._state;
 
     return *this;
 }
 
-/// print the volume */
 void FrustumVolume::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                          const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
@@ -393,7 +416,6 @@ fprintf(stderr,"Frustum:(%f %f %f:%f)(%f %f %f:%f)(%f %f %f:%f)"
 
 OSG_BEGIN_NAMESPACE
 
-/// Equality comparisons
 OSG_BASE_DLLMAPPING
 bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2)
 {
@@ -405,6 +427,5 @@ bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2)
             (b1.getPlanes()[4] == b2.getPlanes()[4]) &&
             (b1.getPlanes()[5] == b2.getPlanes()[5]));
 }
-
 
 OSG_END_NAMESPACE

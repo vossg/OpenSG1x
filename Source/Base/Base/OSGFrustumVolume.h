@@ -37,9 +37,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
-#ifndef FRUSTUMVOLUME_CLASS_DECLARATION
-#define FRUSTUMVOLUME_CLASS_DECLARATION
+#ifndef _OSG_FRUSTUMVOLUME_H_
+#define _OSG_FRUSTUMVOLUME_H_
 
 #include "OSGConfig.h"
 #include "OSGBase.h"
@@ -49,113 +48,99 @@
 
 OSG_BEGIN_NAMESPACE
 
-#ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
-class FrustumVolume;
+/*! \ingroup BaseBaseVolume
+  \brief 3D frustum defined by 6 planes.
 
-OSG_BASE_DLLMAPPING
-bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
-
-OSG_BASE_DLLMAPPING
-inline
-bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
-
-std::ostream &operator<< (std::ostream &os, const FrustumVolume &obj);
-#endif
-
-/** 
-@brief 3D frustum defined by 6 planes.
-@author jbehr
-
-This box class is used by other classes in ase for data exchange
-and storage. It provides representation of the defining corners of a
-box in 3D space.
+  This box class is used by other classes in ase for data exchange
+  and storage. It provides representation of the defining corners of a
+  box in 3D space.
 
 */
 
 class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
     
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
       
-    inline FrustumVolume (                                              ); 
-    inline FrustumVolume ( const Plane &pnear, const Plane &pfar,
-                           const Plane &left,  const Plane &right,
-                           const Plane &top,   const Plane &bottom          );
-    inline FrustumVolume ( const FrustumVolume &obj                         );
+    FrustumVolume(      void                                     ); 
+    FrustumVolume(const Plane         &pnear, const Plane &pfar,
+                  const Plane         &left,  const Plane &right,
+                  const Plane         &top,   const Plane &bottom);
+    FrustumVolume(const FrustumVolume &obj                       );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
     
-    inline ~FrustumVolume(); 
+    ~FrustumVolume(void); 
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Get                                       */
     /*! \{                                                                 */
     
-    inline  const   Plane & getNear         (void           ) const;
-    inline  const   Plane & getFar          (void           ) const;
-    inline  const   Plane & getLeft         (void           ) const;
-    inline  const   Plane & getRight        (void           ) const;
-    inline  const   Plane & getTop          (void           ) const;
-    inline  const   Plane & getBottom       (void           ) const;
-    inline  const   Plane * getPlanes       (void           ); 
-    inline  const   Plane * getPlanes       (void           ) const; 
-    virtual         void    getCenter       (Pnt3f &center  ) const;
-    virtual         Real32  getScalarVolume (void           ) const;
-    virtual         void    getBounds       ( Pnt3f &minPnt,
-                                              Pnt3f &maxPnt ) const;
+            const Plane  &getNear        (void         ) const;
+            const Plane  &getFar         (void         ) const;
+            const Plane  &getLeft        (void         ) const;
+            const Plane  &getRight       (void         ) const;
+            const Plane  &getTop         (void         ) const;
+            const Plane  &getBottom      (void         ) const;
+            const Plane  *getPlanes      (void         ) const; 
+
+    virtual       void    getCenter      (Pnt3f &center) const;
+    virtual       Real32  getScalarVolume(void         ) const;
+    virtual       void    getBounds      (Pnt3f &minPnt,
+                                          Pnt3f &maxPnt) const;
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Get                                       */
     /*! \{                                                                 */
 
-    void setPlanes(const Plane      &pnear,     const Plane &pfar,
-                   const Plane      &left,  const Plane &right,
-                   const Plane      &top,   const Plane &bottom         );
-    void setPlanes(const Pnt3f      &nlt,   const Pnt3f &nlb,
-                   const Pnt3f      &nrt,   const Pnt3f &nrb,
-                   const Pnt3f      &flt,   const Pnt3f &flb,
-                   const Pnt3f      &frt,   const Pnt3f &frb        );
-    void setPlanes(const Matrix &matrix                             );
+    void setPlanes(const Plane  &pnear, const Plane &pfar,
+                   const Plane  &left,  const Plane &right,
+                   const Plane  &top,   const Plane &bottom);
+    void setPlanes(const Pnt3f  &nlt,   const Pnt3f &nlb,
+                   const Pnt3f  &nrt,   const Pnt3f &nrb,
+                   const Pnt3f  &flt,   const Pnt3f &flb,
+                   const Pnt3f  &frt,   const Pnt3f &frb   );
+    void setPlanes(const Matrix &matrix                    );
                                     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Extending                                 */
     /*! \{                                                                 */
 
-    virtual     void extendBy   (const Pnt3f            &pt         );
-    inline          void extendBy   (const Volume           &volume     );   
-    inline          void extendBy   (const FrustumVolume    &bb         );
+    virtual void extendBy(const Pnt3f         &pt    );
+    virtual void extendBy(const Volume        &volume);   
+    inline  void extendBy(const FrustumVolume &bb    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Intersection                              */
     /*! \{                                                                 */
   
-            bool intersect      (const Pnt3f            &point      ) const;
-            bool intersect          (const Line             &line       ) const;
-            bool intersect          (const Line             &line,
-                                       Real32           &minDist,
-                                       Real32           &maxDist    ) const;
-    inline      bool intersect          (const Volume           &volume         ) const;
-    inline      bool intersect      (const FrustumVolume    &bb             ) const;
-    virtual bool isOnSurface    (const Pnt3f            &point      ) const;
-
+    virtual bool intersect  (const Pnt3f         &point  ) const;
+    virtual bool intersect  (const Line          &line   ) const;
+    virtual bool intersect  (const Line          &line,
+                                   Real32        &minDist,
+                                   Real32        &maxDist) const;
+    virtual bool intersect  (const Volume        &volume ) const;
+            bool intersect  (const FrustumVolume &bb     ) const;
+    virtual bool isOnSurface(const Pnt3f         &point  ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Transformation                            */
     /*! \{                                                                 */
   
-    virtual void transform      (const Matrix           &m          );
+    virtual void transform(const Matrix &m);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -169,21 +154,31 @@ class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
     /*! \name                      Output                                  */
     /*! \{                                                                 */
 
-
     virtual void dump(      UInt32    uiIndent = 0, 
                       const BitVector bvFlags  = 0) const;
     
     /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+
+  protected:
 
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     Plane _planeVec[6];
 
 };
 
+OSG_BASE_DLLMAPPING
+bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
+
+inline
+bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
+
 OSG_END_NAMESPACE
 
 #include <OSGFrustumVolume.inl>
 
-#endif /* FRUSTUMVOLUME_CLASS_DECLARATION */
+#endif /* _OSG_FRUSTUMVOLUME_H_ */
+

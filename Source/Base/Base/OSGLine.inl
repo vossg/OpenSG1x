@@ -36,25 +36,19 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGLINE_INL_
 #define _OSGLINE_INL_
-
 
 #include <OSGLine.h>
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
-#include "OSGVector.h"
-
-
 
 OSG_BEGIN_NAMESPACE
-
 
 /*! Accessors for position
  */
 
-OSG_BASE_DLLMAPPING
+inline
 const Pnt3f &Line::getPosition(void) const
 {
     return _pos;
@@ -63,7 +57,7 @@ const Pnt3f &Line::getPosition(void) const
 /*! Accessors for direction
  */
 
-OSG_BASE_DLLMAPPING
+inline
 const Vec3f &Line::getDirection(void) const
 {
     return _dir;

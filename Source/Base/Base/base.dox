@@ -22,7 +22,13 @@ using namespace OSG;
     \brief ToDo
 */
 
-/*! \defgroup BaseBaseVolume Volume
+/*! \defgroup BaseBaseColors Colors
+    \ingroup BaseBase
+
+    \brief ToDo
+*/
+
+/*! \defgroup BaseBaseHelper Helper
     \ingroup BaseBase
 
     \brief ToDo
@@ -39,6 +45,13 @@ using namespace OSG;
 
     \brief ToDo
 */
+
+/*! \defgroup BaseBaseVolume Volume
+    \ingroup BaseBase
+
+    \brief ToDo
+*/
+
 
 /*! \defgroup BaseField Field
     \ingroup Base
