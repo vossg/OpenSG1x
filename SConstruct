@@ -448,6 +448,8 @@ class PlatformOptions:
 
         opts.Add(PackageOption('cg', 'Enable cg support', 'no'))
 
+        opts.Add(BoolOption('gif', 'Enable gif support', 1))
+
         self.package_options = ['tif', 'jpg', 'png', 'glut', 'zlib']
         
         if self.de.get('PLATFORM') == 'cygwin':
@@ -600,6 +602,8 @@ class ToolChain:
             self.env.Append(CPPDEFINES = ['OSG_WITH_TIF'])
         if _po.getOption('png'):
             self.env.Append(CPPDEFINES = ['OSG_WITH_PNG'])
+        if _po.getOption('gif'):
+            self.env.Append(CPPDEFINES = ['OSG_WITH_GIF'])
         
         if _po.getOption('qt'):
             #if isinstance(_po.getOption('qt'), str):
