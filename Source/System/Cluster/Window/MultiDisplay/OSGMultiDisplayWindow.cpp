@@ -198,6 +198,21 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
         {
             serverPort = serverWindow->getPort()[sv];
             deco=TileCameraDecoratorPtr::dcast(serverPort->getCamera());
+            if(serverWindow->getPort()[sv]->getType() != 
+               clientPort->getType())
+            {
+                // there is a viewport with the wrong type
+                subRefCP(serverWindow->getPort()[sv]);
+                serverPort = ViewportPtr::dcast(clientPort->shallowCopy());
+                beginEditCP(serverWindow);
+                serverWindow->getPort()[sv] = serverPort;
+                serverPort->setCamera(deco);
+                endEditCP(serverWindow);
+            }
+            else
+            {
+                deco=TileCameraDecoratorPtr::dcast(serverPort->getCamera());
+            }
         }
         // duplicate values
         beginEditCP(serverPort);
