@@ -2,7 +2,7 @@
 
 file=`echo $1 | sed 's/\(.*\)\/\(.*\.h\)/\2/'`
 
-if test $1 -nt $2/$file; then
+if test -r $1 -a -w $2 -a $1 -nt $2/$file; then
     echo "Installing $1"
     echo "    to $2/$file"
 
