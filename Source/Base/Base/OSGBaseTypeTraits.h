@@ -590,10 +590,17 @@ struct TypeTraits<UInt64> : public TypeTraitsBase
 #ifdef OSG_LONGLONG_HAS_LL
     static const  UInt64             BitsSet     = 0xFFFFFFFFFFFFFFFFLL;
     static const  UInt64             BitsClear   = 0x0000000000000000LL;
+
+    static const  UInt64             Zero        = 0x0000000000000000LL;
+    static const  UInt64             One         = 0x0000000000000001LL;
 #else
     static const  UInt64             BitsSet     = 0xFFFFFFFFFFFFFFFF;
     static const  UInt64             BitsClear   = 0x0000000000000000;
+
+    static const  UInt64             Zero        = 0x0000000000000000;
+    static const  UInt64             One         = 0x0000000000000001;
 #endif
+ 
 
 
     static        UInt64             getZeroElement(void)

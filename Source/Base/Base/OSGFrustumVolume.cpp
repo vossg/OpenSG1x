@@ -300,10 +300,32 @@ bool FrustumVolume::intersect(const Pnt3f &point) const
     for(Int32 i = 0; i < 6; i++) 
     {
         if((_planeVec[i].getNormal().x() * point.x() +
-            _planeVec[i].getNormal().y() * point.x() +
-            _planeVec[i].getNormal().z() * point.x() +
+            _planeVec[i].getNormal().y() * point.y() +
+            _planeVec[i].getNormal().z() * point.z() +
             _planeVec[i].getDistanceFromOrigin()     ) < 0.f) 
         {
+            retCode = false;
+            break;
+        }
+    }
+    
+    return retCode;
+}
+
+bool FrustumVolume::intersect(const Pnt3f &point, PlaneSet &planes) const
+{
+    bool retCode = true;
+    PlaneSet mask = 1;
+    
+    for(Int32 i = 0; i < 6; i++, mask = mask << 1) 
+    {
+        if((planes & mask) &&
+           (_planeVec[i].getNormal().x() * point.x() +
+            _planeVec[i].getNormal().y() * point.y() +
+            _planeVec[i].getNormal().z() * point.z() +
+            _planeVec[i].getDistanceFromOrigin()     ) < 0.f) 
+        {
+            planes &= ~mask;
             retCode = false;
             break;
         }

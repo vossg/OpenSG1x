@@ -50,12 +50,11 @@
 
 OSG_USING_NAMESPACE
 
-/** \class osg::ConnectionType
- *  \Brief stores connection names and createion methodes
- *
- * A connection type describes a network connection and provides an
- * interface for dynamic connection creation.
- **/
+/*! \class osg::ConnectionType
+ 
+    A connection type describes a network connection and provides an
+    interface for dynamic connection creation.
+*/
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */

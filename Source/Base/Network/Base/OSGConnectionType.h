@@ -47,8 +47,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! \brief Types for Connection, see XXX for details.
-//! \ingroup GrpBaseNetwork
+/*! \brief Types for Connection, see XXX for details.
+    \ingroup GrpBaseNetwork
+*/
 
 class OSG_BASE_DLLMAPPING ConnectionType 
 {

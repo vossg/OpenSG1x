@@ -58,6 +58,23 @@ class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
   public:
     
     /*---------------------------------------------------------------------*/
+    /*! \name                 Plane Selection                              */
+    /*! \{                                                                 */
+    
+    enum { P_NONE   = 0,
+           P_NEAR   = 1, 
+           P_FAR    = 2,
+           P_LEFT   = 4,
+           P_RIGHT  = 8,
+           P_TOP    = 16,
+           P_BOTTOM = 32,
+           P_ALL    = P_NEAR | P_FAR | P_LEFT | P_RIGHT | P_TOP | P_BOTTOM
+         };
+         
+    typedef UInt8 PlaneSet;
+         
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
       
@@ -128,6 +145,14 @@ class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
     virtual bool intersect  (const Volume        &volume ) const;
             bool intersect  (const FrustumVolume &bb     ) const;
     virtual bool isOnSurface(const Pnt3f         &point  ) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name              Restricted Intersection                         */
+    /*! \{                                                                 */
+
+    bool intersect(const Volume &vol  , PlaneSet &planes) const;
+    bool intersect(const Pnt3f  &point, PlaneSet &planes) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
