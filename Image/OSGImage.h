@@ -207,6 +207,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
 		inline
 		PixelFormat getPixelFormat (void) const { return _pixelFormat; }
 
+    Bool hasAlphaChannel(void);
+
     /** get the size of used mem */
     inline 
     unsigned long getSize ( Bool withMipmap = true, 

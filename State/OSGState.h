@@ -59,7 +59,7 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class DrawAction;
+class DrawActionBase;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -120,13 +120,13 @@ class OSG_SYSTEMLIB_DLLMAPPING State : public StateBase
     /*------------------------- your_category -------------------------------*/
 
 	// call the OpenGL commands to set my part of the state.
-	void activate ( DrawAction *action );
+	void activate  (DrawActionBase *action);
 
 	// call commands to get from old to my state. 
-	void changeFrom( DrawAction *action, State * old );
+	void changeFrom(DrawActionBase *action, State *old);
 
 	// reset my part of the state.
-	void deactivate ( DrawAction *action );
+	void deactivate(DrawActionBase *action);
 
     /*----------------------------- access ----------------------------------*/
 
@@ -149,6 +149,8 @@ class OSG_SYSTEMLIB_DLLMAPPING State : public StateBase
 	
 	// remove the chunk of the given class from the state
 	void subChunk( UInt32 classid, Int32 index = -1 );
+
+    void clearChunks(void);
 	
     /*------------------------- comparison ----------------------------------*/
 

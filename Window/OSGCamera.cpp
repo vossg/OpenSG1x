@@ -164,7 +164,7 @@ void Camera::changed(BitVector, ChangeMode)
 
 /** setup the GL for rendering and tell the Action what it needs to know */
 
-void Camera::setup( DrawAction * action, const Viewport& port )
+void Camera::setup( DrawActionBase * action, const Viewport& port )
 {
 	Matrix m;
 
@@ -177,7 +177,7 @@ void Camera::setup( DrawAction * action, const Viewport& port )
 	glMatrixMode( GL_PROJECTION );
 	glLoadIdentity();
 	glLoadMatrixf( m.getValues() );
-	
+
 	// set the viewing
 
 	getViewing( m, port.getPixelWidth(), port.getPixelHeight() );
@@ -188,6 +188,23 @@ void Camera::setup( DrawAction * action, const Viewport& port )
 	glLoadIdentity();
 	glLoadMatrixf( m.getValues() );
 }
+
+void Camera::setupProjection( DrawActionBase * action, const Viewport& port )
+{
+	Matrix m;
+
+	// set the projection
+
+	getProjection( m, port.getPixelWidth(), port.getPixelHeight() );
+
+	//SDEBUG << "Projection matrix: " << m << endl;
+
+	glMatrixMode( GL_PROJECTION );
+	glLoadIdentity();
+	glLoadMatrixf( m.getValues() );
+}
+
+
 
 /** draw the camera's geometry (if any). Usually there is none. */
 void Camera::draw( DrawAction * action, const Viewport& port )

@@ -51,6 +51,7 @@
 #include "OSGSwitch.h"
 
 #include <OSGDrawAction.h>
+#include <OSGRenderAction.h>
 
 OSG_USING_NAMESPACE
 
@@ -132,6 +133,13 @@ void Switch::initMethod (void)
 								  SwitchPtr           ,
                                   Action *            >(&Switch::draw));
 
+	RenderAction::registerEnterDefault(
+        getClassType(),
+		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+								  CNodePtr            ,
+								  SwitchPtr           ,
+                                  Action *            >(&Switch::draw));
+
 #else
 
     DrawAction::registerEnterDefault(getClassType(), 
@@ -197,7 +205,7 @@ void Switch::dump(      UInt32     uiIndent,
     
 Action::ResultE Switch::draw(Action* action)
 {
-	DrawAction* da = dynamic_cast<DrawAction*>(action);
+	DrawActionBase *da = dynamic_cast<DrawActionBase *>(action);
 
     da->useNodeList();
 

@@ -50,6 +50,7 @@
 #include <GL/gl.h>
 
 #include <OSGDrawAction.h>
+#include <OSGRenderAction.h>
 
 #include "OSGViewport.h"
 // #include "OSGPipe.h"
@@ -611,19 +612,61 @@ void Window::draw( DrawAction * action )
 	swap();
 	frameExit();	// after frame cleanup: delete GL objects, if needed
 }
-	
+
 void Window::drawAllViewports( DrawAction * action )
 {
-	DrawAction *a = dynamic_cast<DrawAction*>(action);
-	MFViewportPtr::iterator portIt = _mfPort.begin();
+	MFViewportPtr::iterator       portIt  = _mfPort.begin();
+	MFViewportPtr::const_iterator portEnd = _mfPort.end();
 
-	a->setWindow( this );
+    if(action != NULL)
+    {
+        action->setWindow( this );
+        
+        while ( portIt != portEnd )
+        {
+            (*portIt)->draw( action );
+
+            ++portIt;
+        }
+    }
+    else
+    {
+		SWARNING << "Window::drawAllViewports: no action!" << endl;
+    }
+}
 	
-	while ( portIt != _mfPort.end() )
-	{
-		(*portIt)->draw( action );
-		portIt++;
-	}
+void Window::render( RenderAction * action )
+{
+	activate();
+	frameInit();    // query recently registered GL extensions
+	
+//	resizeGL();
+
+	renderAllViewports( action );
+
+	swap();
+	frameExit();	// after frame cleanup: delete GL objects, if needed
+}
+	
+void Window::renderAllViewports( RenderAction * action )
+{
+	MFViewportPtr::iterator       portIt  = _mfPort.begin();
+	MFViewportPtr::const_iterator portEnd = _mfPort.end();
+
+    if(action != NULL)
+    {
+        action->setWindow( this );
+        
+        while ( portIt != portEnd )
+        {
+            (*portIt)->render( action );
+            ++portIt;
+        }
+    }
+    else
+    {
+		SWARNING << "Window::renderAllViewports: no action!" << endl;
+    }
 }
 	
 void Window::resize( int width, int height )

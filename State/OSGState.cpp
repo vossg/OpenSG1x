@@ -270,15 +270,21 @@ void State::subChunk( UInt32 classid, Int32 index )
 	_mfChunks.setValue( NullStateChunk, classid + index );	
 }
 
+void State::clearChunks(void)
+{
+    std::fill(_mfChunks.begin(), _mfChunks.end(), NullStateChunk);
+}
+
+
 // call the OpenGL commands to set my part of the state.
-void State::activate ( DrawAction * action )
+void State::activate(DrawActionBase *action)
 {
 	MFStateChunkPtr::iterator it;
 	Int32 ind = 0;
 	UInt32 cind;
 
 	for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end(); 
-		  it++, cind++,  ind++ )
+		  ++it, ++cind,  ++ind )
 	{
 		if ( *it != NullStateChunk )
 			(*it)->activate( action, UInt32(ind) );
@@ -288,14 +294,14 @@ void State::activate ( DrawAction * action )
 }
 
 // call commands to get from old to my state. 
-void State::changeFrom( DrawAction * action, State * old )
+void State::changeFrom(DrawActionBase *action, State *old)
 {
 	MFStateChunkPtr::iterator it;
 	Int32 ind = 0;
 	UInt32 cind;
 
 	for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end(); 
-		  it++, cind++, ind++ )
+		  ++it, ++cind, ++ind )
 	{
 		StateChunkPtr o = old->getChunk( cind );
 		StateChunkPtr n = *it;
@@ -317,14 +323,14 @@ void State::changeFrom( DrawAction * action, State * old )
 
 
 // reset my part of the state.
-void State::deactivate ( DrawAction * action )
+void State::deactivate ( DrawActionBase *action )
 {
 	MFStateChunkPtr::iterator it;
 	Int32 ind = 0;
 	UInt32 cind;
 
 	for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end(); 
-		  it++, cind++,  ind++ )
+		  ++it, ++cind,  ++ind )
 	{
 		if ( *it != NullStateChunk )
 			(*it)->deactivate( action, UInt32(ind) );

@@ -36,9 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
-#ifndef _OSGDIRECTIONALLIGHT_H_
-#define _OSGDIRECTIONALLIGHT_H_
+#ifndef _OSGRENDERACTION_H_
+#define _OSGRENDERACTION_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -47,15 +46,25 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGConfig.h>
+#include <vector>
 
-#include <OSGDirectionalLightBase.h>
+#include <OSGSystemDef.h>
+#include <OSGBaseTypes.h>
+#include <OSGDrawActionBase.h>
+#include <OSGMatrix.h>
 
 OSG_BEGIN_NAMESPACE
 
 //---------------------------------------------------------------------------
 //  Forward References
 //---------------------------------------------------------------------------
+
+class Material;
+class DrawTreeNode;
+class Geometry;
+class State;
+class LightBase;
+class LightChunk;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -65,18 +74,17 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup LightNodes
- *  \brief Directional light
+typedef pair<UInt32      , Matrix                 > MatrixStore;
+typedef map <Material   *, vector<DrawTreeNode *> > MaterialMap;
+typedef pair<LightChunk *, Matrix                 > LightStore;
+
+/*! \brief DrawAction class
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
+class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
 {
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -89,37 +97,43 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "DirectionalLight"; };
+    static RenderAction *create      (void                    );
+    
+    static void          setPrototype(RenderAction *pPrototype);
+    static RenderAction *getPrototype(void                    );
+
+
+    static void registerEnterDefault (const FieldContainerType &type, 
+                                      const Functor            &func);
+    
+    static void registerLeaveDefault (const FieldContainerType &type, 
+                                      const Functor            &func);
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual ~RenderAction(void); 
 
-    /*--------------------------- access fields ----------------------------*/
+    /*------------------------- your_category -------------------------------*/
 
-    /*----------------------------- access ----------------------------------*/
+    Material   *getMaterial  (void               ) const;
+    void        setMaterial  (Material *pMaterial);
+    
+    virtual Action::ResultE start(void       );
+	virtual Action::ResultE stop (ResultE res); 
 
-    /*------------------------------- set -----------------------------------*/
+    /*------------------------- your_operators ------------------------------*/
 
-    //@{ 
-    //! set the light's attribute
-    void setDirection(Real32 rX, Real32 rY, Real32 rZ);
-    inline void setDirection( const Vec3f &direction);
-    //@}
+    void push_matrix(const Matrix &matrix);
+    void pop_matrix (void);
 
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
- 
-    /*------------------------------ volume -------------------------------*/
+    /*------------------------- assignment ----------------------------------*/
 
-    virtual void makeChunk(void);
+    void dropGeometry(Geometry  *pGeo);
+    void dropLight   (LightBase *pLight);
 
-    /*------------------------------ dump -----------------------------------*/
-
-    virtual void dump(      UInt32     uiIndent = 0, 
-                      const BitVector &bvFlags  = 0) const;
+    /*------------------------- comparison ----------------------------------*/
 
   protected:
 
@@ -131,44 +145,69 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef DrawActionBase Inherited;
+
     //-----------------------------------------------------------------------
     //   class variables                                                     
     //-----------------------------------------------------------------------
+
+    static RenderAction    *_pPrototype;
+
+    static vector<Functor> *_vDefaultEnterFunctors;
+    static vector<Functor> *_vDefaultLeaveFunctors;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-#ifdef OSG_NOFUNCTORS
-    static Action::ResultE DLightDrawEnter(CNodePtr &cnode, 
-                                           Action   *pAction);
-    static Action::ResultE DLightDrawLeave(CNodePtr &cnode, 
-                                           Action   *pAction);
-#endif
-
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    // They should all be in DirectionalLightBase.
+    Material            *_pMaterial;
+
+    UInt32               _uiMatrixId;
+
+    MatrixStore          _currMatrix;
+
+    vector<MatrixStore>  _vMatrixStack;
+
+    MaterialMap         *_pMatMap;
+    
+    DrawTreeNode        *_pRoot;
+    DrawTreeNode        *_pMatRoot;
+    DrawTreeNode        *_pTransMatRoot;
+
+    UInt32               _uiActiveMatrix;
+    State               *_pActiveState;
+
+    UInt32               _uiNumMaterialChanges;
+    UInt32               _uiNumMatrixChanges;
+    UInt32               _uiNumGeometries;
+    UInt32               _uiNumTransGeometries;
+
+    vector<LightStore>   _vLights;
+
+//    Time                 _tMatSlot
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    DirectionalLight(void);
-    DirectionalLight(const DirectionalLight &source);
-    virtual ~DirectionalLight(void); 
-    
-    // ----------------------------- Actions ---------------------------------
-    
-    // execute the OpenGL commands to draw the light 
-    Action::ResultE drawEnter(Action * action );
-    Action::ResultE drawLeave(Action * action );
+    // prohibit default functions (move to 'public' if you need one)
 
-    // generate drawtree
-    Action::ResultE renderEnter(Action * action);
-    Action::ResultE renderLeave(Action * action);
+    RenderAction(void);
+    RenderAction(const RenderAction &source);
+
+    void operator =(const RenderAction &source);
+
+    // access default functors
+
+    virtual vector<Functor> *getDefaultEnterFunctors(void);
+    virtual vector<Functor> *getDefaultLeaveFunctors(void);
+
+    void dump(DrawTreeNode *pRoot, UInt32 uiIndent);
+    void draw(DrawTreeNode *pRoot);
 
   private:
 
@@ -180,14 +219,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef DirectionalLightBase Inherited;
-
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
-
-    friend class FieldContainer;
-    friend class DirectionalLightBase;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -198,38 +232,32 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
     //-----------------------------------------------------------------------
 
     static char cvsid[];
-
+    
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static void initMethod( void );
-
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-
+    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const DirectionalLight &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
+// class pointer
 
-/** \brief class pointer
- */
-typedef DirectionalLight *DirectionalLightP;
+typedef RenderAction *RenderActionP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDirectionalLight.inl>
-#include <OSGDirectionalLightBase.inl>
+#include "OSGRenderAction.inl"
 
-#endif /* _OSGDIRECTIONALLIGHT_H_ */
+#endif /* _OSGRENDERACTION_H_ */
+
+

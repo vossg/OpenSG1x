@@ -49,6 +49,7 @@
 
 #include "OSGMaterialGroup.h"
 #include "OSGDrawAction.h"
+#include "OSGRenderAction.h"
 
 OSG_USING_NAMESPACE
 
@@ -71,7 +72,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.7 2001/08/07 17:07:02 dirk Exp $";
+char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.8 2001/08/10 03:33:11 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -149,10 +150,21 @@ void MaterialGroup::initMethod (void)
                                 CNodePtr,  
                                 MaterialGroupPtr, 
                                 Action *>(&MaterialGroup::drawLeave));
+
+    RenderAction::registerEnterDefault(getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  MaterialGroupPtr, 
+                                  Action *>(&MaterialGroup::renderEnter));
+    RenderAction::registerLeaveDefault(getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                 CNodePtr,  
+                                 MaterialGroupPtr, 
+                                 Action *>(&MaterialGroup::renderLeave));
 #else
     DrawAction::registerEnterDefault(getClassType(), 
                                      Action::osgFunctionFunctor2(
-                                        MaterialGroup::MatGroupDrawEnter));
+                                        MaterialGroup::MatGroupEnter));
     DrawAction::registerLeaveDefault(getClassType(), 
                                      Action::osgFunctionFunctor2(
                                         MaterialGroup::MatGroupDrawLeave));
@@ -236,6 +248,35 @@ Action::ResultE MaterialGroup::drawEnter(Action * action)
 Action::ResultE MaterialGroup::drawLeave(Action * action)
 {
     DrawAction *da = dynamic_cast<DrawAction *>(action);
+
+    if(da != NULL)
+    {
+        da->setMaterial(NULL);
+    }
+
+    return Action::Continue;
+}
+
+//! RenderAction:  generate draw tree
+Action::ResultE MaterialGroup::renderEnter(Action * action)
+{
+//    fprintf(stderr, "MaterialGroup::renderEnter\n");
+
+    RenderAction *da = dynamic_cast<RenderAction *>(action);
+
+    if(da != NULL && _sfMaterial.getValue() != MaterialPtr::NullPtr)
+    {
+        da->setMaterial(&(*(_sfMaterial.getValue())));
+    }
+
+    return Action::Continue;
+}
+
+Action::ResultE MaterialGroup::renderLeave(Action * action)
+{
+//    fprintf(stderr, "MaterialGroup::renderLeave\n");
+
+    RenderAction *da = dynamic_cast<RenderAction *>(action);
 
     if(da != NULL)
     {

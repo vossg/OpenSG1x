@@ -57,7 +57,7 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class DrawAction;
+class DrawActionBase;
 class Viewport;
 //---------------------------------------------------------------------------
 //   Types
@@ -101,7 +101,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackground : public SolidBackgroundBase
     /*--------------------------- access fields ----------------------------*/
     /*------------------------- your_category -------------------------------*/
 
-	void clear( DrawAction * action, Viewport * port );
+	void clear( DrawActionBase * action, Viewport * port );
 
 
     /*----------------------------- access ----------------------------------*/

@@ -57,7 +57,7 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class DrawAction;
+class DrawActionBase;
 class Viewport;
 //---------------------------------------------------------------------------
 //   Types
@@ -100,7 +100,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Background : public BackgroundBase
 
     /*--------------------------- access fields ----------------------------*/
 
-	virtual void clear( DrawAction * action, Viewport * port ) = 0;
+	virtual void clear( DrawActionBase * action, Viewport * port ) = 0;
 
     /*-------------------------- transformation ----------------------------*/
 

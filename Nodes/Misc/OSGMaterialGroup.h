@@ -149,6 +149,9 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroup : public MaterialGroupBase
     //! DrawAction:  execute the OpenGL commands directly   
     Action::ResultE drawEnter(Action * action );
     Action::ResultE drawLeave(Action * action );
+
+    Action::ResultE renderEnter(Action * action);
+    Action::ResultE renderLeave(Action * action);
      
   private:
 

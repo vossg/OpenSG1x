@@ -241,19 +241,24 @@ const StateChunkClass *  StateChunk::getClass( void ) const
 	return NULL;
 }
 
+Bool StateChunk::isTransparent(void) const
+{
+    return false;
+}
+
 /*-------------------------- your_category---------------------------------*/
 
-void StateChunk::activate ( DrawAction * action, UInt32 index )
+void StateChunk::activate ( DrawActionBase * action, UInt32 index )
 {
 }
 
-void StateChunk::changeFrom( DrawAction * action, StateChunk * old, UInt32 index )
+void StateChunk::changeFrom( DrawActionBase * action, StateChunk * old, UInt32 index )
 {
 	old->deactivate( action, index );
 	activate( action, index );
 }
 
-void StateChunk::deactivate ( DrawAction * action, UInt32 index )
+void StateChunk::deactivate ( DrawActionBase * action, UInt32 index )
 {
 }
 

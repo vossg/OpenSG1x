@@ -51,6 +51,7 @@
 
 #include <OSGDrawAction.h>
 #include <OSGIntersectAction.h>
+#include <OSGRenderAction.h>
 
 #include "OSGTransform.h"
 
@@ -199,6 +200,17 @@ void Transform::initMethod (void)
                                 TransformPtr, 
                                 Action *>(&Transform::intersectLeave));
 
+    RenderAction::registerEnterDefault(getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                TransformPtr, 
+                                Action *>(&Transform::renderEnter));
+    RenderAction::registerLeaveDefault(getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                TransformPtr, 
+                                Action *>(&Transform::renderLeave));
+
 #else
 
     DrawAction::registerEnterDefault(getClassType(), 
@@ -337,6 +349,28 @@ Action::ResultE Transform::intersectLeave( Action *action )
 	m.multMatrixVec( ia->getLine().getDirection(), dir );
 	
 	ia->setLine( Line( pos, dir ), ia->getMaxDist() );
+
+    return Action::Continue;
+}
+
+Action::ResultE Transform::renderEnter(Action *action)
+{
+//    fprintf(stderr, "Transform::renderEnter\n");
+
+    RenderAction *pAction = dynamic_cast<RenderAction *>(action);
+
+    pAction->push_matrix(this->getMatrix());
+
+    return Action::Continue;
+}
+
+Action::ResultE Transform::renderLeave(Action *action)
+{
+//    fprintf(stderr, "Transform::renderLeave\n");
+
+    RenderAction *pAction = dynamic_cast<RenderAction *>(action);
+
+    pAction->pop_matrix();
 
     return Action::Continue;
 }

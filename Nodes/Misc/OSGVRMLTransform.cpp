@@ -49,6 +49,7 @@
 
 #include "OSGVRMLTransform.h"
 #include "OSGDrawAction.h"
+#include "OSGRenderAction.h"
 
 OSG_USING_NAMESPACE
 
@@ -148,6 +149,19 @@ void VRMLTransform::initMethod (void)
                                 CNodePtr,  
                                 VRMLTransformPtr, 
                                 Action *>(&VRMLTransform::drawLeave));
+
+
+
+    RenderAction::registerEnterDefault(getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                VRMLTransformPtr, 
+                                Action *>(&VRMLTransform::renderEnter));
+    RenderAction::registerLeaveDefault(getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                VRMLTransformPtr, 
+                                Action *>(&VRMLTransform::renderLeave));
 
 #else
 

@@ -22,7 +22,7 @@
 #include <OSGAttachment.h>
 #include <OSGMFVecTypes.h>
 #include <OSGAction.h>
-#include <OSGDrawAction.h>
+#include <OSGRenderAction.h>
 #include <OSGGeometry.h>
 #include <OSGGeoFunctions.h>
 
@@ -42,7 +42,7 @@
 
 #include "OSGVRMLFile.h"
 
-OSG::DrawAction * ract;
+OSG::RenderAction * ract;
 OSG::Bool doWire = false;
 
 OSG::NodePtr  root;
@@ -58,7 +58,12 @@ OSG::Trackball tball;
 int mouseb = 0;
 int lastx=0, lasty=0;
 
+int iNumFrames = 0;
+int iMaxNumFrames = 5;
+
 OSG::DirectionalLightPtr dl;
+
+#define INTERACTIVE
 
 void 
 display(void)
@@ -71,9 +76,24 @@ display(void)
 	m1.mult( m2 );
 	cam_trans->getSFMatrix()->setValue( m1 );
 
-	win->draw( ract );
+#ifndef INTERACTIVE
+    fprintf(stderr, "Frame %d\n", iNumFrames);
+#endif
+	win->render( ract );
 
-    OSG::Thread::getCurrentChangeList()->clearAll();
+#ifndef INTERACTIVE
+    if(iNumFrames >= iMaxNumFrames)
+    {
+        sleep(5);
+        OSG::osgExit(); 
+        exit(0);
+    }
+    else
+    {
+        ++iNumFrames;
+    }
+#endif
+
 }
 
 void reshape( int w, int h )
@@ -228,8 +248,7 @@ void key(unsigned char key, int x, int y)
 	switch ( key )
 	{
         case 27:	
-            OSG::osgExit(); 
-            exit(0);
+            OSG::osgExit(); exit(0);
         case 'a':	
             glDisable( GL_LIGHTING );
             cerr << "Lighting disabled." << endl;
@@ -259,16 +278,20 @@ void key(unsigned char key, int x, int y)
             break;
         case 'v':
             glEnable(GL_COLOR_MATERIAL);
+            cerr << "Color material on" << endl;
             break;
         case 'V':
             glDisable(GL_COLOR_MATERIAL);
+            cerr << "Color material off" << endl;
             break;
         case 'b':     
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            cerr << "Blending on" << endl;
             break;
         case 'B':     
             glDisable(GL_BLEND);
+            cerr << "Blending off" << endl;
             break;
         case 'f':     
             ract->setFrustumCulling(true);
@@ -278,6 +301,7 @@ void key(unsigned char key, int x, int y)
             ract->setFrustumCulling(false);            
             cerr << "Frustum cull off" << endl;
             break;
+            
         case '1':
             dl->setDirection(0,0,1);
             break;
@@ -326,6 +350,8 @@ int main (int argc, char **argv)
 	glEnable( GL_LIGHTING );
 	glEnable( GL_LIGHT0 );
     glEnable( GL_NORMALIZE );
+    glEnable( GL_BLEND);
+    glDisable( GL_CULL_FACE );
 	// OSG
 
 	// create the graph
@@ -350,7 +376,8 @@ int main (int argc, char **argv)
 	// light
 	
 	OSG::NodePtr dlight = OSG::Node::create();
-	dl = OSG::DirectionalLight::create();
+	
+    dl = OSG::DirectionalLight::create();
 
 	OSG::beginEditCP(dlight);
 	dlight->setCore( dl );
@@ -374,9 +401,22 @@ int main (int argc, char **argv)
 
 	// Load the file
 
+
+//    OSG::VRMLFile *pLoader = new OSG::VRMLFile();
+
+//    pLoader->scanStandardPrototypes("std.wrl", 0);
+
     for(OSG::UInt32 numFiles = 1; numFiles < argc; numFiles++)
     {
+//        file = FhsFile::load(argv[numFiles]);
+
         file = OSG::SceneFileHandler::the().read(argv[numFiles], 0);
+
+/*
+        pLoader->scanFile(argv[numFiles], OSG::VRMLFile::CreateNormals);
+
+        file = pLoader->getRoot();
+        */
                      
         OSG::beginEditCP(dlight);
         dlight->addChild( file );
@@ -403,8 +443,8 @@ int main (int argc, char **argv)
 
 	cam->setBeacon( b1n );
 	cam->setFov( OSG::deg2rad( 60 ) );
-	cam->setNear( 1 );
-	cam->setFar( 50000 );
+	cam->setNear( 0.1 );
+	cam->setFar( 5000 );
 
 	// Solid Background
 	OSG::SolidBackgroundPtr bkgnd = OSG::SolidBackground::create();
@@ -436,21 +476,21 @@ int main (int argc, char **argv)
 
 	// Action
 	
-	ract = OSG::DrawAction::create();
+	ract = OSG::RenderAction::create();
 
 	cerr << "Calculating normals...";
 	
 	// Task 1: Cal Vertex Normals
-	ract->registerEnterFunction( OSG::Geometry::getClassType(),
-									OSG::osgFunctionFunctor2( calcVNormal ) );
+//	ract->registerEnterFunction( OSG::Geometry::getClassType(),
+//									OSG::osgFunctionFunctor2( calcVNormal ) );
 	
 //	ract->apply( dlight );
 
 	cerr << "done." << endl;
 	
 	// Task 2: draw wireframe bbox, if wanted
-	ract->registerEnterFunction( OSG::Geometry::getClassType(),
-									OSG::osgFunctionFunctor2( wireDraw ) );
+//	ract->registerEnterFunction( OSG::Geometry::getClassType(),
+//									OSG::osgFunctionFunctor2( wireDraw ) );
 									
 
 	// tball
@@ -461,19 +501,25 @@ int main (int argc, char **argv)
 
     float scale = (max[2] - min[2] + max[1] - min[1] + max[0] - min[0]) / 6;
 
-	tball.setMode( OSG::Trackball::OSGObject );
+    tball.setMode( OSG::Trackball::OSGObject );
 	tball.setStartPosition( pos, true );
 	tball.setSum( true );
 	tball.setTranslationMode( OSG::Trackball::OSGFree );
     tball.setTranslationScale(scale);
-	// run...
 
-	cam->setFar(fabs(max[2] + ( max[2] - min[2] ) * 3));
+    cam->setFar(fabs(max[2] + ( max[2] - min[2] ) * 3));
+ 
+    if(fabs(max[2] + ( max[2] - min[2] ) * 3) > 1000.f)
+    {
+        cam->setNear(10);
+    }
 
-    
-
+    // run...
+	
 	glutMainLoop();
+
 	
     return 0;
 }
+
 

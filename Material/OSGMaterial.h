@@ -130,6 +130,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
 	virtual StatePtr makeState( void ) = 0;
 
 
+    virtual void     rebuildState(void) = 0;
+            StatePtr getState    (void);
+
+    virtual Bool     isTransparent(void) const = 0;
+
     /*------------------------- comparison ----------------------------------*/
 
 	// defines an ordering for materials.
@@ -161,6 +166,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
     //-----------------------------------------------------------------------
 
     // They should all be in MaterialBase.
+
+    StatePtr _pState;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

@@ -129,6 +129,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterial : public SimpleMaterialBase
 		
 	virtual StatePtr makeState( void );
 
+    virtual void     rebuildState(void);
+
+    virtual Bool     isTransparent(void) const;
+
   protected:
 
     //-----------------------------------------------------------------------

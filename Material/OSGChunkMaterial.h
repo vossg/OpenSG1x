@@ -126,6 +126,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterial : public ChunkMaterialBase
 		
 	virtual StatePtr makeState( void );
 
+    virtual void     rebuildState(void);
+
+    virtual Bool     isTransparent(void) const;
+
     /*----------------------------- access ----------------------------------*/
 	
 	/** derived access */

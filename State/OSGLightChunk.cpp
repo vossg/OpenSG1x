@@ -165,7 +165,7 @@ void LightChunk::dump(      UInt32     uiIndent,
 
 /*-------------------------- your_category---------------------------------*/
 
-void LightChunk::activate( DrawAction *, UInt32 index )
+void LightChunk::activate( DrawActionBase *, UInt32 index )
 {
 	glLightfv( GL_LIGHT0 + index, GL_DIFFUSE,   
 										_sfDiffuse.getValue().getValueRef() );
@@ -186,7 +186,7 @@ void LightChunk::activate( DrawAction *, UInt32 index )
 	glEnable( GL_LIGHT0 + index );
 }
 
-void LightChunk::changeFrom( DrawAction *, StateChunk * old_chunk, UInt32 index )
+void LightChunk::changeFrom( DrawActionBase *, StateChunk * old_chunk, UInt32 index )
 {
 	LightChunk const *old = dynamic_cast<LightChunk const*>(old_chunk);
 
@@ -215,7 +215,7 @@ void LightChunk::changeFrom( DrawAction *, StateChunk * old_chunk, UInt32 index 
 	}
 }
 
-void LightChunk::deactivate( DrawAction *, UInt32 index )
+void LightChunk::deactivate( DrawActionBase *, UInt32 index )
 {
 	glDisable( GL_LIGHT0 + index );
 }

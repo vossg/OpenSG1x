@@ -58,6 +58,8 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 class DrawAction;
+class RenderAction;
+
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
@@ -111,7 +113,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Viewport : public ViewportBase
 
     /*------------------------- your_category -------------------------------*/
 
-    virtual void draw( DrawAction * action );
+    virtual void draw  ( DrawAction   *action );
+    virtual void render( RenderAction *action );
 
 
     /*---------------------------- changes ----------------------------------*/

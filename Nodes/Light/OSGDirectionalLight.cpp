@@ -51,6 +51,7 @@
 
 #include "OSGDirectionalLight.h"
 #include <OSGDrawAction.h>
+#include <OSGRenderAction.h>
 
 OSG_USING_NAMESPACE
 
@@ -139,6 +140,7 @@ OSG::Action::ResultE DirectionalLight::DLightDrawLeave(CNodePtr &cnode,
 void DirectionalLight::initMethod (void)
 {
 #ifndef OSG_NOFUNCTORS
+
     DrawAction::registerEnterDefault( getClassType(), 
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
@@ -150,6 +152,18 @@ void DirectionalLight::initMethod (void)
                                 CNodePtr,  
                                 DirectionalLightPtr, 
                                 Action *>(&DirectionalLight::drawLeave));
+
+    RenderAction::registerEnterDefault( getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                DirectionalLightPtr, 
+                                Action *>(&DirectionalLight::renderEnter));
+
+    RenderAction::registerLeaveDefault( getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                DirectionalLightPtr, 
+                                Action *>(&DirectionalLight::renderLeave));
 
 #else
 
@@ -215,6 +229,17 @@ void DirectionalLight::changed(BitVector, ChangeMode)
 {
 }
 
+void DirectionalLight::makeChunk(void)
+{
+    Inherited::makeChunk();
+
+    Vec4f dir(_sfDirection.getValue());
+
+    dir[3] = 0;
+   
+    _pChunk->setPosition(dir);
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /** \brief output the instance for debug purposes
@@ -241,7 +266,8 @@ Action::ResultE DirectionalLight::drawEnter(Action * action )
     if ( ! getOn() )
     	return Action::Continue;
 
-    DrawAction *da = (DrawAction *)action;
+    DrawAction *da = dynamic_cast<DrawAction *>(action);
+
     GLenum light = GL_LIGHT0 + da->getLightCount();
 	
     LightBase::drawEnter( action );
@@ -265,6 +291,22 @@ Action::ResultE DirectionalLight::drawLeave(Action * action )
     return LightBase::drawLeave( action );
 }
 
+// generate drawtree
+Action::ResultE DirectionalLight::renderEnter(Action *action)
+{
+    if(! getOn())
+    	return Action::Continue;
+
+    return LightBase::renderEnter(action);
+}
+
+Action::ResultE DirectionalLight::renderLeave(Action *action)
+{
+    if(! getOn())
+    	return Action::Continue;
+
+    return LightBase::renderLeave(action);
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

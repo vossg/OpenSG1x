@@ -85,6 +85,11 @@ StateChunkClass MaterialChunk::_class(String("Material"));
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
+const StateChunkClass &MaterialChunk::getChunkClass(void)
+{
+    return _class;
+}
+
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -165,7 +170,7 @@ void MaterialChunk::dump(      UInt32     uiIndent,
 
 /*-------------------------- your_category---------------------------------*/
 
-void MaterialChunk::activate ( DrawAction *, UInt32 )
+void MaterialChunk::activate ( DrawActionBase *, UInt32 )
 {
 	glMaterialfv( GL_FRONT_AND_BACK, GL_DIFFUSE,   
 										_sfDiffuse.getValue().getValueRef() );
@@ -178,7 +183,7 @@ void MaterialChunk::activate ( DrawAction *, UInt32 )
 	glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _sfShininess.getValue() );
 }
 
-void MaterialChunk::changeFrom( DrawAction *, StateChunk * old_chunk, UInt32 )
+void MaterialChunk::changeFrom( DrawActionBase *, StateChunk * old_chunk, UInt32 )
 {
 	MaterialChunk const *old = dynamic_cast<MaterialChunk const*>(old_chunk);
 
@@ -200,7 +205,7 @@ void MaterialChunk::changeFrom( DrawAction *, StateChunk * old_chunk, UInt32 )
 		glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _sfShininess.getValue() );
 }
 
-void MaterialChunk::deactivate ( DrawAction *, UInt32 )
+void MaterialChunk::deactivate ( DrawActionBase *, UInt32 )
 {
 }
 
@@ -211,6 +216,12 @@ Real32 MaterialChunk::switchCost( StateChunk * chunk )
 {
 	return 0;
 }
+
+Bool MaterialChunk::isTransparent(void) const
+{
+    return(getDiffuse()[3] < (1. - Eps));
+}
+
 
 Bool MaterialChunk::operator < (const StateChunk &other) const
 {

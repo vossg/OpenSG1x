@@ -79,7 +79,7 @@ The material base class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.9 2001/06/10 12:42:07 vossg Exp $";
+char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.10 2001/08/10 03:33:11 vossg Exp $";
 
 OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::NullMaterial;
 
@@ -129,7 +129,8 @@ void Material::initMethod (void)
  */
 
 Material::Material(void) :
-    Inherited()
+    Inherited(),
+    _pState  ()
 {
 }
 
@@ -137,7 +138,8 @@ Material::Material(void) :
  */
 
 Material::Material(const Material &source) :
-    Inherited(source)
+    Inherited(source),
+    _pState  (source._pState)
 {
 }
 
@@ -148,6 +150,12 @@ Material::~Material(void)
 {
 }
 
+
+
+StatePtr Material::getState(void)
+{
+    return _pState;
+}
 
 /** \brief react to field changes
  */

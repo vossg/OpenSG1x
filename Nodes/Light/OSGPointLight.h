@@ -107,6 +107,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLight : public PointLightBase
 
     /*----------------------------- access ----------------------------------*/
 
+    virtual void makeChunk(void);
+
     /*-------------------------- transformation ----------------------------*/
 
     virtual void changed(BitVector  whichField, 
@@ -163,6 +165,10 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLight : public PointLightBase
     // execute the OpenGL commands to draw the light 
     Action::ResultE drawEnter(Action * action );
     Action::ResultE drawLeave(Action * action );
+
+    // generate draw tree
+    Action::ResultE renderEnter(Action * action);
+    Action::ResultE renderLeave(Action * action);
 
   private:
 

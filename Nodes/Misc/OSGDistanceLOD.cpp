@@ -51,6 +51,7 @@
 #include <OSGAction.h>
 #include <OSGDrawAction.h>
 #include <OSGCamera.h>
+#include <OSGRenderAction.h>
 
 //just for debug
 #include <iostream>
@@ -79,7 +80,7 @@ This Node manages the different levels of detail available for a Geometry and de
  *                           Class variables                               *
 \***************************************************************************/
 
-char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.10 2001/08/09 21:41:12 vossg Exp $";
+char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.11 2001/08/10 03:33:11 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -132,6 +133,12 @@ void DistanceLOD::initMethod (void)
 #ifndef OSG_NOFUNCTORS
 
 	DrawAction::registerEnterDefault( getClassType(),
+		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+								CNodePtr,
+								DistanceLODPtr,
+								Action*>(&DistanceLOD::draw));
+
+	RenderAction::registerEnterDefault(getClassType(),
 		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
 								CNodePtr,
 								DistanceLODPtr,
@@ -203,7 +210,7 @@ void DistanceLOD::dump(      UInt32     uiIndent,
 
 Action::ResultE DistanceLOD::draw(Action* action)
 {
-	DrawAction* da = dynamic_cast<DrawAction*>(action);
+	DrawActionBase* da = dynamic_cast<DrawActionBase *>(action);
 	UInt32 numLevels = action->getNNodes();
 	UInt32 numRanges = getMFRange()->getSize();
 	UInt32 limit = osgMin( numLevels, numRanges ); 

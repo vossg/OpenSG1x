@@ -165,13 +165,13 @@ void TransformChunk::dump(      UInt32     uiIndent,
 
 /*-------------------------- your_category---------------------------------*/
 
-void TransformChunk::activate ( DrawAction *,  UInt32 )
+void TransformChunk::activate ( DrawActionBase *,  UInt32 )
 {
 	glPushMatrix();
 	glMultMatrixf( getMatrix().getValues() );
 }
 
-void TransformChunk::changeFrom( DrawAction *,  StateChunk * old, UInt32 )
+void TransformChunk::changeFrom( DrawActionBase *,  StateChunk * old, UInt32 )
 {
 	// change from me to me?
 	// this assumes I haven't changed in the meantime. is that a valid assumption?
@@ -183,7 +183,7 @@ void TransformChunk::changeFrom( DrawAction *,  StateChunk * old, UInt32 )
 	glMultMatrixf( getMatrix().getValues() );	
 }
 
-void TransformChunk::deactivate ( DrawAction *,  UInt32 )
+void TransformChunk::deactivate ( DrawActionBase *,  UInt32 )
 {
 	glPopMatrix();
 }

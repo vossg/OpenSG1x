@@ -1000,6 +1000,14 @@ Image::Image ( PixelFormat pixelFormat,
 
 /*------------access----------------*/
 
+Bool Image::hasAlphaChannel(void)
+{
+    return 
+        _pixelFormat == OSG_RGBA_PF ||
+        _pixelFormat == OSG_LA_PF   ||
+        _pixelFormat == OSG_BGRA_PF;
+}
+
 /*------------properies-------------*/
 
 /*------------your Category---------*/

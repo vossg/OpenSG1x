@@ -57,7 +57,7 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class DrawAction;
+class DrawActionBase;
 class Viewport;
 
 //---------------------------------------------------------------------------
@@ -102,7 +102,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackground : public DynamicBackgroundBase
     /*--------------------------- access fields ----------------------------*/
     /*------------------------- your_category -------------------------------*/
 
-	void clear( DrawAction * action, Viewport * port );
+	void clear( DrawActionBase * action, Viewport * port );
 
 	void addColor(Color3f color, Real32 position);
 

@@ -65,7 +65,7 @@ int main (int argc, char **argv)
 	
 	SceneFileHandler::the().print();
 
-	root = SceneFileHandler::the().read(fileName);
+	root = SceneFileHandler::the().read(fileName, 0);
 
 	if ( root == NullNode )
 	{

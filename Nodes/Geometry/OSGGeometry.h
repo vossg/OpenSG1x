@@ -59,7 +59,7 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class DrawAction;
+class DrawActionBase;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -172,7 +172,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 	Action::ResultE doDraw(Action * action );
 	
 	// low-level OpenGL calls, ignoring materials	
-	Action::ResultE draw(DrawAction * action );
+	Action::ResultE draw(DrawActionBase *action);
+
+    // generate draw tree
+    Action::ResultE render(Action *action);
 
   protected:
 

@@ -50,7 +50,7 @@
 #include <GL/gl.h>
 
 #include <OSGDrawAction.h>
-
+#include <OSGRenderAction.h>
 #include "OSGPointLight.h"
 
 OSG_USING_NAMESPACE
@@ -149,6 +149,7 @@ OSG::Action::ResultE PointLight::PLightDrawLeave(CNodePtr &cnode,
 void PointLight::initMethod (void)
 {
 #ifndef OSG_NOFUNCTORS
+
 	DrawAction::registerEnterDefault( getClassType(), 
 		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
 								CNodePtr,  
@@ -160,6 +161,18 @@ void PointLight::initMethod (void)
 								CNodePtr,  
 								PointLightPtr, 
 								Action *>(&PointLight::drawLeave));
+
+	RenderAction::registerEnterDefault( getClassType(), 
+		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+								CNodePtr,  
+								PointLightPtr, 
+								Action *>(&PointLight::renderEnter));
+
+	RenderAction::registerLeaveDefault( getClassType(), 
+		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+								CNodePtr,  
+								PointLightPtr, 
+								Action *>(&PointLight::renderLeave));
 
 #else
 
@@ -206,6 +219,20 @@ PointLight::PointLight(const PointLight &source) :
 
 PointLight::~PointLight(void)
 {
+}
+
+void PointLight::makeChunk(void)
+{
+    Inherited::makeChunk();
+
+    Vec4f pos(_sfPosition.getValue());
+
+    pos[3] = 0;
+   
+    _pChunk->setPosition            (pos                      );
+    _pChunk->setConstantAttenuation (getConstantAttenuation ());
+    _pChunk->setLinearAttenuation   (getLinearAttenuation   ());
+    _pChunk->setQuadraticAttenuation(getQuadraticAttenuation());
 }
 
 /*------------------------------- set ---------------------------------------*/
@@ -285,3 +312,19 @@ Action::ResultE PointLight::drawLeave(Action * action )
     return LightBase::drawLeave( action );
 }
 
+// generate drawtree
+Action::ResultE PointLight::renderEnter(Action *action)
+{
+    if(! getOn())
+    	return Action::Continue;
+
+    return LightBase::renderEnter(action);
+}
+
+Action::ResultE PointLight::renderLeave(Action *action)
+{
+    if(! getOn())
+    	return Action::Continue;
+
+    return LightBase::renderLeave(action);
+}

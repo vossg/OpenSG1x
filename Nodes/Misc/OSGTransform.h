@@ -172,6 +172,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Transform : public TransformBase
     Action::ResultE intersectEnter(Action * action );
     Action::ResultE intersectLeave(Action * action );
 
+    //! RenderAction: build draw tree
+    Action::ResultE renderEnter(Action *action);
+    Action::ResultE renderLeave(Action *action);
+
   private:
 
     //-----------------------------------------------------------------------

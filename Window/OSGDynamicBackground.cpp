@@ -77,7 +77,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
  *                           Class variables                               *
 \***************************************************************************/
 
-char DynamicBackground::cvsid[] = "@(#)$Id: OSGDynamicBackground.cpp,v 1.5 2001/08/07 17:22:17 dirk Exp $";
+char DynamicBackground::cvsid[] = "@(#)$Id: OSGDynamicBackground.cpp,v 1.6 2001/08/10 03:33:11 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -209,7 +209,7 @@ void DynamicBackground::dump(      UInt32     uiIndent,
 
 /*-------------------------- your_category---------------------------------*/
 
-void DynamicBackground::clear(DrawAction *action, ViewportP viewport)
+void DynamicBackground::clear(DrawActionBase *action, ViewportP viewport)
 {
 	if (_mfAngle.getSize() < 2)
 	{

@@ -74,7 +74,7 @@ i.e. polygons.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PolygonChunk::cvsid[] = "@(#)$Id: OSGPolygonChunk.cpp,v 1.4 2001/07/03 14:16:32 vossg Exp $";
+char PolygonChunk::cvsid[] = "@(#)$Id: OSGPolygonChunk.cpp,v 1.5 2001/08/10 03:33:11 vossg Exp $";
 
 StateChunkClass PolygonChunk::_class(String("Polygon"));
 
@@ -165,7 +165,7 @@ void PolygonChunk::dump(      UInt32     uiIndent,
 
 /*-------------------------- your_category---------------------------------*/
 
-void PolygonChunk::activate ( DrawAction *, UInt32 )
+void PolygonChunk::activate ( DrawActionBase *, UInt32 )
 {
 
 // cullFace
@@ -210,7 +210,7 @@ void PolygonChunk::activate ( DrawAction *, UInt32 )
 }
 
 
-void PolygonChunk::changeFrom( DrawAction *, StateChunk * old_chunk, UInt32 )
+void PolygonChunk::changeFrom( DrawActionBase *, StateChunk * old_chunk, UInt32 )
 {
 	PolygonChunk const *old = dynamic_cast<PolygonChunk const*>(old_chunk);
 
@@ -296,7 +296,7 @@ void PolygonChunk::changeFrom( DrawAction *, StateChunk * old_chunk, UInt32 )
 #endif	
 }
 
-void PolygonChunk::deactivate ( DrawAction *, UInt32 )
+void PolygonChunk::deactivate ( DrawActionBase *, UInt32 )
 {
 
 // cullFace

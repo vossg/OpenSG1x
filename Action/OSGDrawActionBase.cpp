@@ -140,7 +140,10 @@ DrawActionBase::~DrawActionBase(void)
 
 Action::ResultE DrawActionBase::start(void)
 {
-    if ( getFrustumCulling() && getAutoFrustum() )
+    if(getFrustumCulling() == true && 
+       getAutoFrustum   () == true &&
+       getCamera        () != NULL &&
+       getViewport      () != NULL)
     {
     	getCamera()->getFrustum( _frustum, *getViewport() );
     }	

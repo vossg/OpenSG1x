@@ -81,7 +81,7 @@ A single colored background.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.6 2001/06/10 12:42:07 vossg Exp $";
+char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.7 2001/08/10 03:33:11 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -158,7 +158,7 @@ void SolidBackground::changed(BitVector, ChangeMode)
 
 /*-------------------------- your_category---------------------------------*/
 
-void SolidBackground::clear(DrawAction *, ViewportP)
+void SolidBackground::clear(DrawActionBase *, ViewportP)
 {
 	Color3f col = getColor();
 	glClearColor( col[0], col[1], col[2], 1.0);

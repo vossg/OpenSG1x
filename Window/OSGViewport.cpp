@@ -53,6 +53,7 @@
 #include <OSGFieldContainer.h>
 #include <OSGAction.h>
 #include <OSGDrawAction.h>
+#include <OSGRenderAction.h>
 #include "OSGBackground.h"
 #include "OSGViewport.h"
 #include "OSGWindow.h"
@@ -244,6 +245,55 @@ void Viewport::draw( DrawAction * action )
 
 	if ( ! full )
 		glDisable( GL_SCISSOR_TEST );
+}
+
+
+void Viewport::render( RenderAction * action )
+{
+	if ( getCamera() == NullNode )
+	{
+		SWARNING << "Viewport::render: no camera!" << endl;
+		return;
+	}
+	if ( getBackground() == NullNode )
+	{
+		SWARNING << "Viewport::render: no background!" << endl;
+		return;
+	}
+	if ( getRoot() == NullNode )
+	{
+		SWARNING << "Viewport::render: no root!" << endl;
+		return;
+	}
+
+/*
+	GLint pl=getPixelLeft(), pr=getPixelRight(), pb=getPixelBottom(), 
+		  pt=getPixelTop();
+	GLint pw=pr-pl+1,ph=pt-pb+1;
+	Bool full = isFullWindow();
+
+	glViewport( pl, pb, pw, ph );
+	glScissor( pl, pb, pw, ph );
+
+	if ( ! full )
+		glEnable( GL_SCISSOR_TEST );
+    */
+
+	action->setCamera    (getCamera    ().getCPtr());
+	action->setBackground(getBackground().getCPtr());
+	action->setViewport  (this                     );
+
+//	getCamera()->setup( action, *this );
+//	getBackground()->clear( action, this );
+
+    
+
+	action->apply( getRoot() );
+
+/*
+	if ( ! full )
+		glDisable( GL_SCISSOR_TEST );
+        */
 }
 
 /*------------------------------- dump ----------------------------------*/

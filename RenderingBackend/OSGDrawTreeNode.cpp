@@ -47,31 +47,26 @@
 
 #include "OSGConfig.h"
 
-#include <GL/gl.h>
-
-#include <OSGAction.h>
-#include <OSGDrawAction.h>
-#include <OSGGeometry.h>
-
-#include <OSGStateChunk.h>
-#include <OSGState.h>
-#include <OSGMaterialChunk.h>
-
-#include "OSGSimpleMaterial.h"
+#include "OSGDrawTreeNode.h"
+#include <OSGBaseFunctions.h>
 
 OSG_USING_NAMESPACE
 
+/** \enum OSGVecBase::VectorSizeE
+ *  \brief 
+ */
 
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
+/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
+ * 
+ */
 
-/*! \class osg::SimpleMaterial
-    \ingroup MaterialLib
+/** \fn const char *OSGVecBase::getClassname(void)
+ *  \brief Classname
+ */
 
-The simple material class.
-
-*/
+/** \var OSGValueTypeT OSGVecBase::_values[iSize];
+ *  \brief Value store
+ */
 
 /***************************************************************************\
  *                               Types                                     *
@@ -81,13 +76,7 @@ The simple material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.15 2001/08/10 03:33:11 vossg Exp $";
-
-const SimpleMaterialPtr SimpleMaterial::NullPtr;
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+char DrawTreeNode::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -105,12 +94,7 @@ const SimpleMaterialPtr SimpleMaterial::NullPtr;
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
 
-void SimpleMaterial::initMethod (void)
-{
-}
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -120,174 +104,157 @@ void SimpleMaterial::initMethod (void)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-SimpleMaterial::SimpleMaterial(void) :
-    Inherited()
+DrawTreeNode::DrawTreeNode(void) :
+     Inherited   (),
+    _pFirstChild (NULL),
+    _pLastChild  (NULL),
+    _pBrother    (NULL),
+    _pState      (NULL),
+    _pGeo        (NULL),
+    _oMatrixStore(),
+    _rScalarVal  (0.f)
 {
-	_materialChunk = MaterialChunk::create();
-}
-
-/** \brief Copy Constructor
- */
-
-SimpleMaterial::SimpleMaterial(const SimpleMaterial &source) :
-    Inherited(source)
-{
-	_materialChunk = MaterialChunk::create();
+    _oMatrixStore.first = 0;
 }
 
 /** \brief Destructor
  */
 
-SimpleMaterial::~SimpleMaterial(void)
+DrawTreeNode::~DrawTreeNode(void)
 {
+    subRefP(_pFirstChild);
+    subRefP(_pBrother);
 }
 
+/*------------------------------ access -----------------------------------*/
 
-/** \brief react to field changes
- */
-
-void SimpleMaterial::changed(BitVector, ChangeMode)
+DrawTreeNode *DrawTreeNode::getFirstChild(void)
 {
+    return _pFirstChild;
 }
 
-/*-------------------------- your_category---------------------------------*/
-	
-	
-void SimpleMaterial::draw( Geometry* geo, DrawAction * action )
+DrawTreeNode *DrawTreeNode::getLastChild(void)
 {
-	StatePtr state = makeState();
-		
-	state->activate( action );
-	
-	geo->draw( action );
-
-	state->deactivate( action );
-
-	subRefCP( state );
-}
-	
-StatePtr SimpleMaterial::makeState( void )
-{
-	StatePtr state = State::create();
-	
-	Color3f v3;
-	Color4f v4;
-	float alpha = 1.f - getTransparency();
-	
-	beginEditCP( _materialChunk );
-	
-	v3 = getAmbient(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
-	_materialChunk->setAmbient( v4 );
-	v3 = getDiffuse(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
-	_materialChunk->setDiffuse( v4 );
-	v3 = getSpecular(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
-	_materialChunk->setSpecular( v4 );
-	_materialChunk->setShininess( getShininess() );
-	v3 = getEmission(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
-	_materialChunk->setEmission( v4 );
-	
-	endEditCP( _materialChunk );
-
-	state->addChunk( _materialChunk );
-	
-	for ( MFStateChunkPtr::iterator i = _mfChunks.begin(); 
-			i != _mfChunks.end(); i++ )
-		state->addChunk( *i );
-	
-	return state;
+    return _pLastChild;
 }
 
-void SimpleMaterial::rebuildState(void)
+void DrawTreeNode::addChild(DrawTreeNode *pChild)
 {
-	Color3f v3;
-	Color4f v4;
-	Real32  alpha = 1.f - getTransparency();
-
-    if(_pState != NullFC)
+    if(_pLastChild == NULL)
     {
-        _pState->clearChunks();
+        setRefP(_pFirstChild, pChild);
+        _pLastChild  = pChild;
     }
     else
     {
-        _pState = State::create();
-    }
-
-	beginEditCP(_materialChunk);
-	
-	v3 = getAmbient(); 
-    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha); 
-
-	_materialChunk->setAmbient(v4);
-
-	v3 = getDiffuse(); 
-    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha); 
-
-	_materialChunk->setDiffuse(v4);
-
-	v3 = getSpecular(); 
-    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha); 
-
-	_materialChunk->setSpecular(v4);
-
-	_materialChunk->setShininess(getShininess());
-
-	v3 = getEmission(); 
-    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha); 
-
-	_materialChunk->setEmission(v4);
-	
-	endEditCP(_materialChunk);
-
-	_pState->addChunk(_materialChunk);
-	
-    MFStateChunkPtr::iterator it        = _mfChunks.begin();
-    MFStateChunkPtr::iterator chunksEnd = _mfChunks.end();
-
-	for(; it != chunksEnd; ++it)
-    {
-		_pState->addChunk(*it);
+        _pLastChild->setBrother(pChild);
+        _pLastChild = pChild;
     }
 }
 
-Bool SimpleMaterial::isTransparent(void) const
+void DrawTreeNode::insertFirstChild  (DrawTreeNode *pChild)
 {
-    return ((getTransparency() > Eps) || (Inherited::isTransparent()));
+    if(pChild == NULL)
+        return;
+
+    if(_pFirstChild == NULL)
+    {
+        addChild(pChild);
+    }
+    else
+    {
+        pChild->setBrother(_pFirstChild);
+        
+        setRefP(_pFirstChild, pChild);
+    }
+    
 }
+
+void DrawTreeNode::insertChildAfter(DrawTreeNode *pCurrent, 
+                                    DrawTreeNode *pChild)
+{
+    if(pCurrent == NULL || pChild == NULL)
+        return;
+
+    pChild  ->setBrother(pCurrent->getBrother());
+    pCurrent->setBrother(pChild  );
+
+    if(pCurrent == _pLastChild)
+    {
+        _pLastChild = pChild;
+    }    
+}
+
+DrawTreeNode *DrawTreeNode::getBrother(void)
+{
+    return _pBrother;
+}
+
+void DrawTreeNode::setBrother(DrawTreeNode *pBrother)
+{
+    setRefP(_pBrother, pBrother);
+}
+
+void DrawTreeNode::setGeometry(Geometry *pGeo)
+{
+    _pGeo = pGeo;
+}
+
+Geometry *DrawTreeNode::getGeometry(void)
+{
+    return _pGeo;
+}
+
+void DrawTreeNode::setState(State *pState)
+{
+    _pState = pState;
+}
+
+State *DrawTreeNode::getState(void)
+{
+    return _pState;
+}
+
+void DrawTreeNode::setMatrixStore(const MatrixStore &oMatrixStore)
+{
+    _oMatrixStore = oMatrixStore;
+}
+
+MatrixStore &DrawTreeNode::getMatrixStore(void)
+{
+    return _oMatrixStore;
+}
+
+void DrawTreeNode::setScalar(Real32 rScalar)
+{
+    _rScalarVal = rScalar;
+}
+
+Real32 DrawTreeNode::getScalar(void)
+{
+    return _rScalarVal;
+}
+
+/*---------------------------- properties ---------------------------------*/
+/*-------------------------- your_category---------------------------------*/
 
 /*-------------------------- assignment -----------------------------------*/
 
-/*------------------------------- dump ----------------------------------*/
+/*-------------------------- comparison -----------------------------------*/
 
-void SimpleMaterial::dump(      UInt32     uiIndent, 
-                          const BitVector &bvFlags) const
-{
-    SLOG << "SimpleMaterial at " << this << endl;
-	PLOG << "\tambient: " << getAmbient() << endl;
-	PLOG << "\tdiffuse: " << getDiffuse()  << endl;
-	PLOG << "\tspecular: " << getSpecular()  << endl;
-	PLOG << "\tshininess: " << getShininess()  << endl;
-	PLOG << "\temission: " << getEmission()  << endl;
-	PLOG << "\ttransparency: " << getTransparency()  << endl;
-    PLOG << "\tChunks: " << endl;
-	
-	for ( MFStateChunkPtr::const_iterator i = _mfChunks.begin(); 
-			i != _mfChunks.end(); i++ )
-		PLOG << "\t" << *i << endl;	
-}
-
-    
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
+
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
+
 

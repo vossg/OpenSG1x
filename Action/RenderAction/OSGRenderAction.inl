@@ -40,58 +40,30 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
 
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OSGConfig.h"
-
-#include <GL/gl.h>
+#include <OSGConfig.h>
 
 #include <OSGAction.h>
-#include <OSGDrawAction.h>
-#include <OSGGeometry.h>
 
-#include <OSGStateChunk.h>
-#include <OSGState.h>
-#include <OSGMaterialChunk.h>
-
-#include "OSGSimpleMaterial.h"
-
-OSG_USING_NAMESPACE
-
-
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
-
-/*! \class osg::SimpleMaterial
-    \ingroup MaterialLib
-
-The simple material class.
-
-*/
+OSG_BEGIN_NAMESPACE
 
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
 
+
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.15 2001/08/10 03:33:11 vossg Exp $";
-
-const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
 
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
@@ -101,16 +73,11 @@ const SimpleMaterialPtr SimpleMaterial::NullPtr;
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
+
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
-
-void SimpleMaterial::initMethod (void)
-{
-}
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -120,174 +87,87 @@ void SimpleMaterial::initMethod (void)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-SimpleMaterial::SimpleMaterial(void) :
-    Inherited()
-{
-	_materialChunk = MaterialChunk::create();
-}
 
-/** \brief Copy Constructor
- */
-
-SimpleMaterial::SimpleMaterial(const SimpleMaterial &source) :
-    Inherited(source)
-{
-	_materialChunk = MaterialChunk::create();
-}
 
 /** \brief Destructor
  */
 
-SimpleMaterial::~SimpleMaterial(void)
+
+/*------------------------------ access -----------------------------------*/
+
+/*---------------------------- properties ---------------------------------*/
+
+inline 
+Material *RenderAction::getMaterial(void) const
 {
-}
-
-
-/** \brief react to field changes
- */
-
-void SimpleMaterial::changed(BitVector, ChangeMode)
-{
+    return _pMaterial;
 }
 
 /*-------------------------- your_category---------------------------------*/
-	
-	
-void SimpleMaterial::draw( Geometry* geo, DrawAction * action )
-{
-	StatePtr state = makeState();
-		
-	state->activate( action );
-	
-	geo->draw( action );
-
-	state->deactivate( action );
-
-	subRefCP( state );
-}
-	
-StatePtr SimpleMaterial::makeState( void )
-{
-	StatePtr state = State::create();
-	
-	Color3f v3;
-	Color4f v4;
-	float alpha = 1.f - getTransparency();
-	
-	beginEditCP( _materialChunk );
-	
-	v3 = getAmbient(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
-	_materialChunk->setAmbient( v4 );
-	v3 = getDiffuse(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
-	_materialChunk->setDiffuse( v4 );
-	v3 = getSpecular(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
-	_materialChunk->setSpecular( v4 );
-	_materialChunk->setShininess( getShininess() );
-	v3 = getEmission(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
-	_materialChunk->setEmission( v4 );
-	
-	endEditCP( _materialChunk );
-
-	state->addChunk( _materialChunk );
-	
-	for ( MFStateChunkPtr::iterator i = _mfChunks.begin(); 
-			i != _mfChunks.end(); i++ )
-		state->addChunk( *i );
-	
-	return state;
-}
-
-void SimpleMaterial::rebuildState(void)
-{
-	Color3f v3;
-	Color4f v4;
-	Real32  alpha = 1.f - getTransparency();
-
-    if(_pState != NullFC)
-    {
-        _pState->clearChunks();
-    }
-    else
-    {
-        _pState = State::create();
-    }
-
-	beginEditCP(_materialChunk);
-	
-	v3 = getAmbient(); 
-    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha); 
-
-	_materialChunk->setAmbient(v4);
-
-	v3 = getDiffuse(); 
-    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha); 
-
-	_materialChunk->setDiffuse(v4);
-
-	v3 = getSpecular(); 
-    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha); 
-
-	_materialChunk->setSpecular(v4);
-
-	_materialChunk->setShininess(getShininess());
-
-	v3 = getEmission(); 
-    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha); 
-
-	_materialChunk->setEmission(v4);
-	
-	endEditCP(_materialChunk);
-
-	_pState->addChunk(_materialChunk);
-	
-    MFStateChunkPtr::iterator it        = _mfChunks.begin();
-    MFStateChunkPtr::iterator chunksEnd = _mfChunks.end();
-
-	for(; it != chunksEnd; ++it)
-    {
-		_pState->addChunk(*it);
-    }
-}
-
-Bool SimpleMaterial::isTransparent(void) const
-{
-    return ((getTransparency() > Eps) || (Inherited::isTransparent()));
-}
 
 /*-------------------------- assignment -----------------------------------*/
 
-/*------------------------------- dump ----------------------------------*/
+/** \brief assignment
+ */
 
-void SimpleMaterial::dump(      UInt32     uiIndent, 
-                          const BitVector &bvFlags) const
-{
-    SLOG << "SimpleMaterial at " << this << endl;
-	PLOG << "\tambient: " << getAmbient() << endl;
-	PLOG << "\tdiffuse: " << getDiffuse()  << endl;
-	PLOG << "\tspecular: " << getSpecular()  << endl;
-	PLOG << "\tshininess: " << getShininess()  << endl;
-	PLOG << "\temission: " << getEmission()  << endl;
-	PLOG << "\ttransparency: " << getTransparency()  << endl;
-    PLOG << "\tChunks: " << endl;
-	
-	for ( MFStateChunkPtr::const_iterator i = _mfChunks.begin(); 
-			i != _mfChunks.end(); i++ )
-		PLOG << "\t" << *i << endl;	
-}
 
-    
+/*-------------------------- comparison -----------------------------------*/
+
+/** \brief assignment
+ */
+
+
+/** \brief equal
+ */
+
+
+/** \brief unequal
+ */
+
+
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
+
+
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
+
+OSG_END_NAMESPACE
+
+///---------------------------------------------------------------------------
+///  FUNCTION: 
+///---------------------------------------------------------------------------
+//:  Example for the head comment of a function
+///---------------------------------------------------------------------------
+///
+//p: Paramaters: 
+//p: 
+///
+//g: GlobalVars:
+//g: 
+///
+//r: Return:
+//r: 
+///
+//c: Caution:
+//c: 
+///
+//a: Assumptions:
+//a: 
+///
+//d: Description:
+//d: 
+///
+//s: SeeAlso:
+//s: 
+///---------------------------------------------------------------------------
 

@@ -50,7 +50,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
-#include "OSGDrawAction.h"
+#include "OSGDrawActionBase.h"
 
 #include "OSGTextureChunk.h"
 
@@ -76,7 +76,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.14 2001/08/07 17:10:34 dirk Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.15 2001/08/10 03:33:11 vossg Exp $";
 
 StateChunkClass TextureChunk::_class(String("Texture"));
 
@@ -177,6 +177,19 @@ void TextureChunk::changed(BitVector fields, ChangeMode)
     	Window::reinitializeGLObject( getGLId() );
     }
 }
+
+Bool TextureChunk::isTransparent(void) const
+{
+    Bool returnValue = false;
+
+    if(getImage() != NULL)
+    {
+        returnValue = getImage()->hasAlphaChannel();      
+    }
+
+    return returnValue;
+}
+
 
 /*----------------------------- onCreate --------------------------------*/
 
@@ -614,7 +627,7 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
 	else																\
 		glDisable( genfunc )
 
-void TextureChunk::activate ( DrawAction *action, UInt32 )
+void TextureChunk::activate ( DrawActionBase *action, UInt32 )
 {
 	action->getWindow()->validateGLObject( getGLId() );
 
@@ -652,7 +665,7 @@ void TextureChunk::activate ( DrawAction *action, UInt32 )
 	glErr( "TextureChunk::activate" );
 }
 
-void TextureChunk::changeFrom( DrawAction *action, StateChunk * old, UInt32 )
+void TextureChunk::changeFrom( DrawActionBase *action, StateChunk * old, UInt32 )
 {
 	// change from me to me?
 	// this assumes I haven't changed in the meantime. is that a valid assumption?
@@ -701,7 +714,7 @@ void TextureChunk::changeFrom( DrawAction *action, StateChunk * old, UInt32 )
 	glErr( "TextureChunk::changeFrom" );
 }
 
-void TextureChunk::deactivate ( DrawAction *, UInt32 )
+void TextureChunk::deactivate ( DrawActionBase *, UInt32 )
 {
 	ImageP img = getImage();
 	GLenum target;		

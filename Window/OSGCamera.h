@@ -62,6 +62,7 @@ OSG_BEGIN_NAMESPACE
 
 class Viewport;
 class DrawAction;
+class DrawActionBase;
 class FrustumVolume;
 class Line;
 
@@ -116,7 +117,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Camera : public CameraBase
     /*------------------------- your_category -------------------------------*/
 
     /** setup the GL for rendering and tell the Action what it needs to know */
-    virtual void setup(DrawAction *action, const Viewport& port);
+    virtual void setup          (DrawActionBase *action, const Viewport& port);
+
+    virtual void setupProjection(DrawActionBase *action, const Viewport& port);
 
     /** draw the camera's geometry (if any). Usually there is none. */
     virtual void draw (DrawAction *action, const Viewport& port);

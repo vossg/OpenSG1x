@@ -50,6 +50,7 @@
 #include <OSGConfig.h>
 #include <OSGLightBaseBase.h>
 #include <OSGAction.h>
+#include <OSGLightChunk.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -124,6 +125,9 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public LightBaseBase
     inline void setDiffuse (const Color4f &col);
     inline void setSpecular(const Color4f &col);
 	//@}
+
+            LightChunkPtr getChunk (void);
+    virtual void          makeChunk(void);
 	
     /*------------------------------ dump -----------------------------------*/
 
@@ -154,6 +158,8 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public LightBaseBase
 
     // They should all be in LightBaseBase.
 
+    LightChunkPtr _pChunk;
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -170,6 +176,12 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public LightBaseBase
      */
     Action::ResultE drawEnter(Action * action );
     Action::ResultE drawLeave(Action * action );
+
+    /*! \ingroup ActionFunctions
+     *  generate draw tree
+     */
+    Action::ResultE renderEnter(Action *action);
+    Action::ResultE renderLeave(Action *action);
 
   private:
 

@@ -50,7 +50,9 @@
 
 #include <OSGAction.h>
 #include <OSGDrawAction.h>
+#include <OSGRenderAction.h>
 #include <OSGIntersectAction.h>
+#include <OSGRenderAction.h>
 #include <OSGMaterial.h>
 #include "OSGGeometry.h"
 #include "OSGGeoPumpFactory.h"
@@ -200,6 +202,12 @@ void Geometry::initMethod (void)
 								CNodePtr,  
 								GeometryPtr, 
 								Action *>(&Geometry::intersect));
+
+	RenderAction::registerEnterDefault( getClassType(), 
+		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+								CNodePtr,  
+								GeometryPtr, 
+								Action *>(&Geometry::render));
 #else
 
     DrawAction::registerEnterDefault(getClassType(), 
@@ -408,7 +416,7 @@ Action::ResultE Geometry::doDraw(Action * action )
 	return Action::Continue;
 }
 	
-Action::ResultE Geometry::draw(DrawAction * action )
+Action::ResultE Geometry::draw(DrawActionBase * action)
 {
 	if ( getDlistCache() == true )
 	{
@@ -454,6 +462,17 @@ Action::ResultE Geometry::intersect(Action * action )
 	return Action::Continue; 
 }
 
+
+Action::ResultE Geometry::render(Action *action)
+{
+//    fprintf(stderr, "Geometry::render\n");
+
+    RenderAction *pAction = dynamic_cast<RenderAction *>(action);
+
+    pAction->dropGeometry(this);
+
+    return Action::Continue;
+}
 
 
 

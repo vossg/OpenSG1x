@@ -49,7 +49,7 @@
 
 #include <GL/gl.h>
 
-#include "OSGDrawAction.h"
+#include "OSGDrawActionBase.h"
 #include "OSGWindow.h"
 
 #include "OSGBlendChunk.h"
@@ -77,7 +77,7 @@ pixel are combined with the pixel already in the frame buffer.
  *                           Class variables                               *
 \***************************************************************************/
 
-char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.4 2001/07/28 15:03:45 dirk Exp $";
+char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.5 2001/08/10 03:33:11 vossg Exp $";
 
 StateChunkClass BlendChunk::_class(String("Blend"));
 
@@ -172,7 +172,7 @@ void BlendChunk::dump(      UInt32     uiIndent,
 
 /*-------------------------- your_category---------------------------------*/
 
-void BlendChunk::activate ( DrawAction *action, UInt32 )
+void BlendChunk::activate ( DrawActionBase *action, UInt32 )
 {
 	
 	if ( _sfSrcFactor.getValue() != GL_NONE )
@@ -199,13 +199,13 @@ void BlendChunk::activate ( DrawAction *action, UInt32 )
 	} 	
 }
 
-void BlendChunk::changeFrom( DrawAction *act, StateChunk * old_chunk, UInt32 index )
+void BlendChunk::changeFrom( DrawActionBase *act, StateChunk * old_chunk, UInt32 index )
 {
 	old_chunk->deactivate( act, index );
 	activate( act, index );
 }
 
-void BlendChunk::deactivate ( DrawAction *, UInt32 )
+void BlendChunk::deactivate ( DrawActionBase *, UInt32 )
 {
 	if ( _sfSrcFactor.getValue() != GL_NONE )
 	{

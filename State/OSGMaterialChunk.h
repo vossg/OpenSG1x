@@ -90,6 +90,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunk : public MaterialChunkBase
 
     static const char *getClassname(void) { return "MaterialChunk"; };
 
+    static const StateChunkClass &getChunkClass(void);
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -117,14 +119,14 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunk : public MaterialChunkBase
     /*------------------------- your_category -------------------------------*/
 
 	// call the OpenGL commands to set my part of the state 
-	virtual void activate ( DrawAction * action, UInt32 index = 0 );
+	virtual void activate ( DrawActionBase * action, UInt32 index = 0 );
 
 	// call commands to get from old to my state. Only meaningful for
 	// chunks of the same type
-	virtual void changeFrom( DrawAction * action, StateChunk * old, UInt32 index = 0 );
+	virtual void changeFrom( DrawActionBase * action, StateChunk * old, UInt32 index = 0 );
 
 	// reset my part of the state
-	virtual void deactivate ( DrawAction * action, UInt32 index = 0 );
+	virtual void deactivate ( DrawActionBase * action, UInt32 index = 0 );
 
     /*------------------------- comparison ----------------------------------*/
 
@@ -132,6 +134,9 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunk : public MaterialChunkBase
 	// the unit is unclear, maybe musecs. It's not important anyway,
 	// it just has to be consistent over all types of chunks
 	virtual Real32 switchCost( StateChunk * chunk );
+
+    virtual Bool isTransparent(void) const;
+
 
 	// defines an ordering for chunks. Only well defined for chunks of the
 	// same type.

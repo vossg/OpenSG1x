@@ -81,7 +81,7 @@ A background showing a vertical color gradient. The colors and positions corresp
  *                           Class variables                               *
 \***************************************************************************/
 
-char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.7 2001/07/03 14:16:32 vossg Exp $";
+char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.8 2001/08/10 03:33:11 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -158,7 +158,7 @@ void GradientBackground::changed(BitVector, ChangeMode)
 
 /*-------------------------- your_category---------------------------------*/
 
-void GradientBackground::clear(DrawAction *, ViewportP)
+void GradientBackground::clear(DrawActionBase *, ViewportP)
 {
 
 	if (_mfPosition.getSize() < 2)

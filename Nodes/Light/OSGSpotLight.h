@@ -113,6 +113,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLight : public SpotLightBase
  
     /*------------------------------ volume -------------------------------*/
 
+    virtual void makeChunk(void);
+
     /*------------------------------ dump -----------------------------------*/
 
     virtual void dump(      UInt32     uiIndent = 0, 
@@ -161,6 +163,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLight : public SpotLightBase
     // execute the OpenGL commands to draw the light 
     Action::ResultE drawEnter(Action * action );
     Action::ResultE drawLeave(Action * action );
+
+    // generate drawtree
+    Action::ResultE renderEnter(Action * action );
+    Action::ResultE renderLeave(Action * action );
 
   private:
 

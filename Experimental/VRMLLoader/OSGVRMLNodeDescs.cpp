@@ -1295,7 +1295,7 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
                                  pCcw            ->getValue() ,
                                  pNormalPerVertex->getValue() ,
                                  pColorPerVertex ->getValue() ,
-																 false, // create normal; not yet :)
+                                 false, // create normal; not yet :)
                                  true);
 
             if((0 != (_uiOptions & VRMLFile::CreateNormals) )    &&

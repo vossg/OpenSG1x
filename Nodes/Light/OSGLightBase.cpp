@@ -50,6 +50,7 @@
 #include <GL/gl.h>
 
 #include <OSGDrawAction.h>
+#include <OSGRenderAction.h>
 #include "OSGLightBase.h"
 
 OSG_USING_NAMESPACE
@@ -125,7 +126,8 @@ void LightBase::initMethod (void)
  */
 
 LightBase::LightBase(void) :
-    Inherited()
+     Inherited(),
+    _pChunk   ()
 {
 }
 
@@ -133,7 +135,8 @@ LightBase::LightBase(void) :
  */
 
 LightBase::LightBase(const LightBase &source) :
-    Inherited(source)
+     Inherited(source),
+    _pChunk   (source._pChunk)
 {
 }
 
@@ -177,6 +180,24 @@ LightBase::~LightBase(void)
 
 void LightBase::changed(BitVector, ChangeMode)
 {
+}
+
+
+LightChunkPtr LightBase::getChunk(void)
+{
+    return _pChunk;
+}
+
+void LightBase::makeChunk(void)
+{
+    if(_pChunk == NullFC)
+    {
+        _pChunk = LightChunk::create();
+    }
+
+    _pChunk->setAmbient (getAmbient());
+    _pChunk->setDiffuse (getDiffuse());
+    _pChunk->setSpecular(getSpecular());
 }
 
 /*------------------------------- dump ----------------------------------*/
@@ -257,6 +278,24 @@ Action::ResultE LightBase::drawLeave(Action * action )
    
     return Action::Continue;
 }
+
+Action::ResultE LightBase::renderEnter(Action *action)
+{
+//    fprintf(stderr, "LightBase::renderEnter\n");
+
+    RenderAction *pAction = dynamic_cast<RenderAction *>(action);
+
+    pAction->dropLight(this);
+
+    return Action::Continue;
+}
+
+Action::ResultE LightBase::renderLeave(Action *action)
+{
+//    fprintf(stderr, "LightBase::renderLeave\n");
+    return Action::Continue;
+}
+
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

@@ -50,6 +50,7 @@
 #include <GL/gl.h>
 
 #include <OSGDrawAction.h>
+#include <OSGRenderAction.h>
 
 #include "OSGSpotLight.h"
 
@@ -146,6 +147,7 @@ OSG::Action::ResultE SpotLight::SLightDrawLeave(CNodePtr &cnode,
 void SpotLight::initMethod (void)
 {
 #ifndef OSG_NOFUNCTORS
+
     DrawAction::registerEnterDefault( getClassType(), 
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
@@ -157,6 +159,18 @@ void SpotLight::initMethod (void)
                                 CNodePtr,  
                                 SpotLightPtr, 
                                 Action *>(&SpotLight::drawLeave));
+
+    RenderAction::registerEnterDefault( getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                SpotLightPtr, 
+                                Action *>(&SpotLight::renderEnter));
+
+    RenderAction::registerLeaveDefault( getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                SpotLightPtr, 
+                                Action *>(&SpotLight::renderLeave));
 
 #else
 
@@ -220,6 +234,21 @@ void SpotLight::changed(BitVector, ChangeMode)
 {
 }
 
+void SpotLight::makeChunk(void)
+{
+    LightBase::makeChunk();
+
+    Vec4f pos(_sfPosition.getValue ());
+
+    pos[3] = 1;
+
+    _pChunk->setPosition (pos              );
+    _pChunk->setDirection(getDirection   ());
+
+    _pChunk->setExponent (getSpotExponent());
+    _pChunk->setCutoff   (getSpotCutOff  ());
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /** \brief output the instance for debug purposes
@@ -275,6 +304,22 @@ Action::ResultE SpotLight::drawLeave(Action * action )
     return LightBase::drawLeave( action );
 }
 
+// generate drawtree
+Action::ResultE SpotLight::renderEnter(Action *action)
+{
+    if(! getOn())
+    	return Action::Continue;
+
+    return PointLight::renderEnter(action);
+}
+
+Action::ResultE SpotLight::renderLeave(Action *action)
+{
+    if(! getOn())
+    	return Action::Continue;
+
+    return PointLightBase::renderLeave(action);
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
