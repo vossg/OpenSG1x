@@ -474,7 +474,7 @@ PathHandler::PathType PathHandler::analysePath(const Char8 *path)
 
     if(returnValue == Win32Path)
     {
-        fprintf(stderr, "xx%d\n", uiSize);
+        fprintf(stderr, "xx%u\n", uiSize);
 
         if(uiSize >= 2)
         {
@@ -787,7 +787,7 @@ void PathHandler::parseWin32PathList(const Char8 *pathList, PathList &result)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.11 2002/04/30 09:29:03 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.12 2002/06/13 09:16:15 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGPATHHANDLER_HEADER_CVSID;
 }
 
