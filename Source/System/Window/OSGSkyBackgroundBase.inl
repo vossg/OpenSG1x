@@ -98,7 +98,7 @@ SkyBackgroundPtr SkyBackgroundBase::createEmpty(void)
 
 //! Get the SkyBackground::_mfSkyColor field.
 inline
-MFColor3f *SkyBackgroundBase::getMFSkyColor(void)
+MFColor4f *SkyBackgroundBase::getMFSkyColor(void)
 {
     return &_mfSkyColor;
 }
@@ -112,7 +112,7 @@ MFReal32 *SkyBackgroundBase::getMFSkyAngle(void)
 
 //! Get the SkyBackground::_mfGroundColor field.
 inline
-MFColor3f *SkyBackgroundBase::getMFGroundColor(void)
+MFColor4f *SkyBackgroundBase::getMFGroundColor(void)
 {
     return &_mfGroundColor;
 }
@@ -171,6 +171,13 @@ inline
 SFTextureChunkPtr *SkyBackgroundBase::getSFTopTexture(void)
 {
     return &_sfTopTexture;
+}
+
+//! Get the SkyBackground::_sfBoxInside field.
+inline
+SFBool *SkyBackgroundBase::getSFBoxInside(void)
+{
+    return &_sfBoxInside;
 }
 
 
@@ -321,24 +328,45 @@ void SkyBackgroundBase::setTopTexture(const TextureChunkPtr &value)
     _sfTopTexture.setValue(value);
 }
 
+//! Get the value of the SkyBackground::_sfBoxInside field.
+inline
+bool &SkyBackgroundBase::getBoxInside(void)
+{
+    return _sfBoxInside.getValue();
+}
+
+//! Get the value of the SkyBackground::_sfBoxInside field.
+inline
+const bool &SkyBackgroundBase::getBoxInside(void) const
+{
+    return _sfBoxInside.getValue();
+}
+
+//! Set the value of the SkyBackground::_sfBoxInside field.
+inline
+void SkyBackgroundBase::setBoxInside(const bool &value)
+{
+    _sfBoxInside.setValue(value);
+}
+
 
 //! Get the value of the \a index element the SkyBackground::_mfSkyColor field.
 inline
-Color3f &SkyBackgroundBase::getSkyColor(const UInt32 index)
+Color4f &SkyBackgroundBase::getSkyColor(const UInt32 index)
 {
     return _mfSkyColor[index];
 }
 
 //! Get the SkyBackground::_mfSkyColor field.
 inline
-MFColor3f &SkyBackgroundBase::getSkyColor(void)
+MFColor4f &SkyBackgroundBase::getSkyColor(void)
 {
     return _mfSkyColor;
 }
 
 //! Get the SkyBackground::_mfSkyColor field.
 inline
-const MFColor3f &SkyBackgroundBase::getSkyColor(void) const
+const MFColor4f &SkyBackgroundBase::getSkyColor(void) const
 {
     return _mfSkyColor;
 }
@@ -366,21 +394,21 @@ const MFReal32 &SkyBackgroundBase::getSkyAngle(void) const
 
 //! Get the value of the \a index element the SkyBackground::_mfGroundColor field.
 inline
-Color3f &SkyBackgroundBase::getGroundColor(const UInt32 index)
+Color4f &SkyBackgroundBase::getGroundColor(const UInt32 index)
 {
     return _mfGroundColor[index];
 }
 
 //! Get the SkyBackground::_mfGroundColor field.
 inline
-MFColor3f &SkyBackgroundBase::getGroundColor(void)
+MFColor4f &SkyBackgroundBase::getGroundColor(void)
 {
     return _mfGroundColor;
 }
 
 //! Get the SkyBackground::_mfGroundColor field.
 inline
-const MFColor3f &SkyBackgroundBase::getGroundColor(void) const
+const MFColor4f &SkyBackgroundBase::getGroundColor(void) const
 {
     return _mfGroundColor;
 }
@@ -408,5 +436,5 @@ const MFReal32 &SkyBackgroundBase::getGroundAngle(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSKYBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGSKYBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 

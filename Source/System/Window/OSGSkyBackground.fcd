@@ -8,21 +8,17 @@
 	structure="concrete"
 	systemcomponent="true"
 	parentsystemcomponent="true"
+	decoratable="false"
 >
-A sky-sphere background showing a color gradient. The colors and angles
-correspond to each other, they should have the same number of elements.
+A sky-sphere background showing a color gradient. The colors and angles correspond to each other, they should have the same number of elements.
 	<Field
 		name="skyColor"
-		type="Color3f"
+		type="Color4f"
 		cardinality="multi"
 		visibility="external"
 		access="public"
 	>
-        The colors for the sky gradient bands. Corresponds to the skyAngle
-        angles.  The first value is for the apex (i.e. straight up), which
-        doesn't need an angle, thus there  should be one more color than
-        angles. If no angles are given color[0] is used, or black if none are
-        given.
+	The colors for the sky gradient bands. Corresponds to the skyAngle         angles.  The first value is for the apex (i.e. straight up), which         doesn't need an angle, thus there  should be one more color than         angles. If no angles are given color[0] is used, or black if none are         given.
 	</Field>
 	<Field
 		name="skyAngle"
@@ -31,17 +27,16 @@ correspond to each other, they should have the same number of elements.
 		visibility="external"
 		access="public"
 	>
-        The angles for the sky gradient bands. Corresponds to the skyColor colors, 
-        with the exception of the apex. Values should be between 0 and PI.
+	The angles for the sky gradient bands. Corresponds to the skyColor colors,          with the exception of the apex. Values should be between 0 and PI.
 	</Field>
 	<Field
 		name="groundColor"
-		type="Color3f"
+		type="Color4f"
 		cardinality="multi"
 		visibility="external"
 		access="public"
 	>
-        The colors of the ground sphere-part. Interpretation is similar to the sky.
+	The colors of the ground sphere-part. Interpretation is similar to the sky.
 	</Field>
 	<Field
 		name="groundAngle"
@@ -50,8 +45,7 @@ correspond to each other, they should have the same number of elements.
 		visibility="external"
 		access="public"
 	>
-        The angles of the ground sphere-part. Interpretation is similar to the sky, with 
-        0 being straight down.       
+	The angles of the ground sphere-part. Interpretation is similar to the sky, with          0 being straight down.
 	</Field>
 	<Field
 		name="sphereRes"
@@ -61,7 +55,7 @@ correspond to each other, they should have the same number of elements.
 		defaultValue="8"
 		access="public"
 	>
-        The polygonal resolution of the sky/ground sphere.
+	The polygonal resolution of the sky/ground sphere.
 	</Field>
 	<Field
 		name="backTexture"
@@ -71,7 +65,7 @@ correspond to each other, they should have the same number of elements.
 		defaultValue="NullFC"
 		access="public"
 	>
-        Texture for the back (+Z) side of the sky cube.
+	Texture for the back (+Z) side of the sky cube.
 	</Field>
 	<Field
 		name="bottomTexture"
@@ -81,7 +75,7 @@ correspond to each other, they should have the same number of elements.
 		defaultValue="NullFC"
 		access="public"
 	>
-        Texture for the bottom (-Y) side of the sky cube.
+	Texture for the bottom (-Y) side of the sky cube.
 	</Field>
 	<Field
 		name="frontTexture"
@@ -91,7 +85,7 @@ correspond to each other, they should have the same number of elements.
 		defaultValue="NullFC"
 		access="public"
 	>
-        Texture for the front (-Z) side of the sky cube.
+	Texture for the front (-Z) side of the sky cube.
 	</Field>
 	<Field
 		name="leftTexture"
@@ -101,7 +95,7 @@ correspond to each other, they should have the same number of elements.
 		defaultValue="NullFC"
 		access="public"
 	>
-        Texture for the left (-X) side of the sky cube.
+	Texture for the left (-X) side of the sky cube.
 	</Field>
 	<Field
 		name="rightTexture"
@@ -111,7 +105,7 @@ correspond to each other, they should have the same number of elements.
 		defaultValue="NullFC"
 		access="public"
 	>
-        Texture for the right (+X) side of the sky cube.
+	Texture for the right (+X) side of the sky cube.
 	</Field>
 	<Field
 		name="topTexture"
@@ -121,6 +115,16 @@ correspond to each other, they should have the same number of elements.
 		defaultValue="NullFC"
 		access="public"
 	>
-        Texture for the top (+Y) side of the sky cube.
+	Texture for the top (+Y) side of the sky cube.
+	</Field>
+	<Field
+		name="boxInside"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	flag to draw the box inside or outside of the sphere
 	</Field>
 </FieldContainer>

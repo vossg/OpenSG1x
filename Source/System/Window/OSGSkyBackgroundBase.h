@@ -65,9 +65,9 @@
 
 #include <OSGBackground.h> // Parent
 
-#include <OSGColor3fFields.h> // SkyColor type
+#include <OSGColor4fFields.h> // SkyColor type
 #include <OSGReal32Fields.h> // SkyAngle type
-#include <OSGColor3fFields.h> // GroundColor type
+#include <OSGColor4fFields.h> // GroundColor type
 #include <OSGReal32Fields.h> // GroundAngle type
 #include <OSGUInt32Fields.h> // SphereRes type
 #include <OSGTextureChunkFields.h> // BackTexture type
@@ -76,6 +76,7 @@
 #include <OSGTextureChunkFields.h> // LeftTexture type
 #include <OSGTextureChunkFields.h> // RightTexture type
 #include <OSGTextureChunkFields.h> // TopTexture type
+#include <OSGBoolFields.h> // BoxInside type
 
 #include <OSGSkyBackgroundFields.h>
 
@@ -108,7 +109,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
         LeftTextureFieldId   = FrontTextureFieldId  + 1,
         RightTextureFieldId  = LeftTextureFieldId   + 1,
         TopTextureFieldId    = RightTextureFieldId  + 1,
-        NextFieldId          = TopTextureFieldId    + 1
+        BoxInsideFieldId     = TopTextureFieldId    + 1,
+        NextFieldId          = BoxInsideFieldId     + 1
     };
 
     static const OSG::BitVector SkyColorFieldMask;
@@ -122,7 +124,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
     static const OSG::BitVector LeftTextureFieldMask;
     static const OSG::BitVector RightTextureFieldMask;
     static const OSG::BitVector TopTextureFieldMask;
+    static const OSG::BitVector BoxInsideFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -146,9 +151,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFColor3f           *getMFSkyColor       (void);
+           MFColor4f           *getMFSkyColor       (void);
            MFReal32            *getMFSkyAngle       (void);
-           MFColor3f           *getMFGroundColor    (void);
+           MFColor4f           *getMFGroundColor    (void);
            MFReal32            *getMFGroundAngle    (void);
            SFUInt32            *getSFSphereRes      (void);
            SFTextureChunkPtr   *getSFBackTexture    (void);
@@ -157,6 +162,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
            SFTextureChunkPtr   *getSFLeftTexture    (void);
            SFTextureChunkPtr   *getSFRightTexture   (void);
            SFTextureChunkPtr   *getSFTopTexture     (void);
+           SFBool              *getSFBoxInside      (void);
 
            UInt32              &getSphereRes      (void);
      const UInt32              &getSphereRes      (void) const;
@@ -172,15 +178,17 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
      const TextureChunkPtr     &getRightTexture   (void) const;
            TextureChunkPtr     &getTopTexture     (void);
      const TextureChunkPtr     &getTopTexture     (void) const;
-           Color3f             &getSkyColor       (const UInt32 index);
-           MFColor3f           &getSkyColor       (void);
-     const MFColor3f           &getSkyColor       (void) const;
+           bool                &getBoxInside      (void);
+     const bool                &getBoxInside      (void) const;
+           Color4f             &getSkyColor       (const UInt32 index);
+           MFColor4f           &getSkyColor       (void);
+     const MFColor4f           &getSkyColor       (void) const;
            Real32              &getSkyAngle       (const UInt32 index);
            MFReal32            &getSkyAngle       (void);
      const MFReal32            &getSkyAngle       (void) const;
-           Color3f             &getGroundColor    (const UInt32 index);
-           MFColor3f           &getGroundColor    (void);
-     const MFColor3f           &getGroundColor    (void) const;
+           Color4f             &getGroundColor    (const UInt32 index);
+           MFColor4f           &getGroundColor    (void);
+     const MFColor4f           &getGroundColor    (void) const;
            Real32              &getGroundAngle    (const UInt32 index);
            MFReal32            &getGroundAngle    (void);
      const MFReal32            &getGroundAngle    (void) const;
@@ -197,6 +205,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
      void setLeftTexture    ( const TextureChunkPtr &value );
      void setRightTexture   ( const TextureChunkPtr &value );
      void setTopTexture     ( const TextureChunkPtr &value );
+     void setBoxInside      ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -242,9 +251,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    MFColor3f           _mfSkyColor;
+    MFColor4f           _mfSkyColor;
     MFReal32            _mfSkyAngle;
-    MFColor3f           _mfGroundColor;
+    MFColor4f           _mfGroundColor;
     MFReal32            _mfGroundAngle;
     SFUInt32            _sfSphereRes;
     SFTextureChunkPtr   _sfBackTexture;
@@ -253,6 +262,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
     SFTextureChunkPtr   _sfLeftTexture;
     SFTextureChunkPtr   _sfRightTexture;
     SFTextureChunkPtr   _sfTopTexture;
+    SFBool              _sfBoxInside;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -300,6 +310,6 @@ typedef SkyBackgroundBase *SkyBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSKYBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGSKYBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.30 2003/01/20 05:23:53 vossg Exp $"
 
 #endif /* _OSGSKYBACKGROUNDBASE_H_ */

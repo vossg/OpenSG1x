@@ -97,17 +97,23 @@ const OSG::BitVector  SkyBackgroundBase::RightTextureFieldMask =
 const OSG::BitVector  SkyBackgroundBase::TopTextureFieldMask = 
     (1 << SkyBackgroundBase::TopTextureFieldId);
 
+const OSG::BitVector  SkyBackgroundBase::BoxInsideFieldMask = 
+    (1 << SkyBackgroundBase::BoxInsideFieldId);
+
+const OSG::BitVector SkyBackgroundBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (0x0 << Inherited::NextFieldId); 
 
 
 // Field descriptions
 
-/*! \var Color3f         SkyBackgroundBase::_mfSkyColor
+/*! \var Color4f         SkyBackgroundBase::_mfSkyColor
     The colors for the sky gradient bands. Corresponds to the skyAngle         angles.  The first value is for the apex (i.e. straight up), which         doesn't need an angle, thus there  should be one more color than         angles. If no angles are given color[0] is used, or black if none are         given.
 */
 /*! \var Real32          SkyBackgroundBase::_mfSkyAngle
     The angles for the sky gradient bands. Corresponds to the skyColor colors,          with the exception of the apex. Values should be between 0 and PI.
 */
-/*! \var Color3f         SkyBackgroundBase::_mfGroundColor
+/*! \var Color4f         SkyBackgroundBase::_mfGroundColor
     The colors of the ground sphere-part. Interpretation is similar to the sky.
 */
 /*! \var Real32          SkyBackgroundBase::_mfGroundAngle
@@ -134,12 +140,15 @@ const OSG::BitVector  SkyBackgroundBase::TopTextureFieldMask =
 /*! \var TextureChunkPtr SkyBackgroundBase::_sfTopTexture
     Texture for the top (+Y) side of the sky cube.
 */
+/*! \var bool            SkyBackgroundBase::_sfBoxInside
+    flag to draw the box inside or outside of the sphere
+*/
 
 //! SkyBackground description
 
 FieldDescription *SkyBackgroundBase::_desc[] = 
 {
-    new FieldDescription(MFColor3f::getClassType(), 
+    new FieldDescription(MFColor4f::getClassType(), 
                      "skyColor", 
                      SkyColorFieldId, SkyColorFieldMask,
                      false,
@@ -149,7 +158,7 @@ FieldDescription *SkyBackgroundBase::_desc[] =
                      SkyAngleFieldId, SkyAngleFieldMask,
                      false,
                      (FieldAccessMethod) &SkyBackgroundBase::getMFSkyAngle),
-    new FieldDescription(MFColor3f::getClassType(), 
+    new FieldDescription(MFColor4f::getClassType(), 
                      "groundColor", 
                      GroundColorFieldId, GroundColorFieldMask,
                      false,
@@ -193,7 +202,12 @@ FieldDescription *SkyBackgroundBase::_desc[] =
                      "topTexture", 
                      TopTextureFieldId, TopTextureFieldMask,
                      false,
-                     (FieldAccessMethod) &SkyBackgroundBase::getSFTopTexture)
+                     (FieldAccessMethod) &SkyBackgroundBase::getSFTopTexture),
+    new FieldDescription(SFBool::getClassType(), 
+                     "boxInside", 
+                     BoxInsideFieldId, BoxInsideFieldMask,
+                     false,
+                     (FieldAccessMethod) &SkyBackgroundBase::getSFBoxInside)
 };
 
 
@@ -260,6 +274,7 @@ SkyBackgroundBase::SkyBackgroundBase(void) :
     _sfLeftTexture            (TextureChunkPtr(NullFC)), 
     _sfRightTexture           (TextureChunkPtr(NullFC)), 
     _sfTopTexture             (TextureChunkPtr(NullFC)), 
+    _sfBoxInside              (bool(true)), 
     Inherited() 
 {
 }
@@ -280,6 +295,7 @@ SkyBackgroundBase::SkyBackgroundBase(const SkyBackgroundBase &source) :
     _sfLeftTexture            (source._sfLeftTexture            ), 
     _sfRightTexture           (source._sfRightTexture           ), 
     _sfTopTexture             (source._sfTopTexture             ), 
+    _sfBoxInside              (source._sfBoxInside              ), 
     Inherited                 (source)
 {
 }
@@ -351,6 +367,11 @@ UInt32 SkyBackgroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfTopTexture.getBinSize();
     }
 
+    if(FieldBits::NoField != (BoxInsideFieldMask & whichField))
+    {
+        returnValue += _sfBoxInside.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -413,6 +434,11 @@ void SkyBackgroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (TopTextureFieldMask & whichField))
     {
         _sfTopTexture.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BoxInsideFieldMask & whichField))
+    {
+        _sfBoxInside.copyToBin(pMem);
     }
 
 
@@ -478,6 +504,11 @@ void SkyBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfTopTexture.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (BoxInsideFieldMask & whichField))
+    {
+        _sfBoxInside.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -520,6 +551,9 @@ void SkyBackgroundBase::executeSyncImpl(      SkyBackgroundBase *pOther,
     if(FieldBits::NoField != (TopTextureFieldMask & whichField))
         _sfTopTexture.syncWith(pOther->_sfTopTexture);
 
+    if(FieldBits::NoField != (BoxInsideFieldMask & whichField))
+        _sfBoxInside.syncWith(pOther->_sfBoxInside);
+
 
 }
 
@@ -551,7 +585,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.38 2003/01/20 05:23:53 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSKYBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSKYBACKGROUNDBASE_INLINE_CVSID;
 
