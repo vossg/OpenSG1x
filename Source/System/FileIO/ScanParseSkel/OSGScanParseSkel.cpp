@@ -316,9 +316,12 @@ void ScanParseSkel::endField(void)
 /*-------------------------------------------------------------------------*/
 /*                               Nodes                                     */
 
-void ScanParseSkel::beginNode(const Char8 *,
-                              const Char8 *)
+void ScanParseSkel::beginNode(const Char8 *szNodeTypename,
+                              const Char8 *szNodename)
 {
+    fprintf(stderr, "Calling default begin node %s %s\n",
+            szNodeTypename,
+            szNodename);
 }
 
 void ScanParseSkel::endNode(void)
@@ -332,6 +335,23 @@ void ScanParseSkel::use(const Char8 *szName)
 
 void ScanParseSkel::is(const Char8 *)
 {
+}
+
+void ScanParseSkel::profile(const Char8 *szProfileName)
+{
+    fprintf(stderr, "PROFILE %s\n", szProfileName);
+}
+
+void ScanParseSkel::importElement(const Char8 *szLookupName,
+                                  const Char8 *szImportAs   )
+{
+    fprintf(stderr, "IMPORT %s AS %s\n", szLookupName, szImportAs);
+}
+
+void ScanParseSkel::exportElement(const Char8 *szLookupName,
+                                  const Char8 *szExportAs )
+{
+    fprintf(stderr, "EXPORT %s AS %s\n", szLookupName, szExportAs);
 }
 
 /*-------------------------------------------------------------------------*/

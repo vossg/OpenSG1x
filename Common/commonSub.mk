@@ -297,7 +297,7 @@ endif
 endif
 
 flex_int = $(strip $(basename $(notdir $(1))))_
-flex_ext =  $(strip $(basename $(notdir $(1))))
+flex_ext = $(strip $(basename $(notdir $(1))))
 
 ifneq ($(LIB_BISONSOURCES),)
 LIB_BISONSOURCES_CPP := $(notdir $(patsubst %.y,%.cpp,$(LIB_BISONSOURCES)))

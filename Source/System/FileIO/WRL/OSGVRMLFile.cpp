@@ -2677,6 +2677,9 @@ PROTO WorldInfo [
  endProto  ();
 
  postStandardProtos();
+
+ NodeNameDescHash::iterator mNodeDescIt = _mNodeDescHash.begin();
+
 }
 
 static Action::ResultE modifyMaterial(NodePtr& node)

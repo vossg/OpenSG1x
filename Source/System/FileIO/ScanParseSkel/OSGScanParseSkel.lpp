@@ -251,6 +251,10 @@ header (#[^\n]*\n)
 <INITIAL,NODE>eventOut      { return EVENTOUT;       }
 <INITIAL,NODE>field         { return FIELD;          }
 <INITIAL,NODE>exposedField  { return EXPOSEDFIELD;   }
+<INITIAL,NODE>EXPORT        { return EXPORT;         }
+<INITIAL,NODE>IMPORT        { return IMPORT;         }
+<INITIAL,NODE>PROFILE       { return PROFILE;        }
+<INITIAL,NODE>AS            { return AS;             }
 
 <INITIAL,NODE>MFColor       { return Tok_MFColor;    } 
 <INITIAL,NODE>MFFloat       { return Tok_MFFloat;    } 

@@ -76,12 +76,20 @@ class VRMLNodeFactory : public BaseT
   private:
 
 #ifdef OSG_STL_HAS_HASH_MAP
+#ifdef OSG_USE_HASH_COMPARE
+    typedef 
+        OSG_STDEXTENSION_NAMESPACE::hash_map<
+            const Char8  *,  
+            VRMLNodeDesc *,
+            HashCmpString> NodeNameDescHash;
+#else
     typedef 
         OSG_STDEXTENSION_NAMESPACE::hash_map<
             const Char8  *,  
             VRMLNodeDesc *, 
             OSG_STDEXTENSION_NAMESPACE::hash<const Char8 *>, 
-            EQString                                      > NodeNameDescHash;
+            EQString                                      > NodeNameDescHash;  
+#endif
 #else
     typedef 
         std::map<     const Char8 *,  VRMLNodeDesc  *, 

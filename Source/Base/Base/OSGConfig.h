@@ -398,6 +398,10 @@
 
 # define OSG_HAS_VSNPRINTF
 
+# if __INTEL_COMPILER_VERSION >= 800
+# define OSG_USE_HASH_COMPARE
+# endif
+
 # endif // defined(__INTEL_COMPILER) && defined(__linux)
 
 /*-------------------------------------------------------------------------*/

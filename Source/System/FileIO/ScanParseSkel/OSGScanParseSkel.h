@@ -230,6 +230,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
                                const Char8 *szInNodename,
                                const Char8 *szInFieldname);
 
+    virtual void profile      (const Char8 *szProfileName);
+
+    virtual void importElement(const Char8 *szLookupName,
+                               const Char8 *szImportAs   );
+
+    virtual void exportElement(const Char8 *szLookupName,
+                               const Char8 *szExportAs   );
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                 Type Information                             */

@@ -69,6 +69,12 @@
 #include <string>
 #include <iterator>
 
+#ifdef OSG_STL_HAS_HASH_MAP
+#ifdef OSG_USE_HASH_COMPARE
+#include <hash_map>
+#endif
+#endif
+
 OSG_BEGIN_NAMESPACE
 
 /*---------------------------------------------------------------------*/
@@ -406,6 +412,26 @@ struct EQString
     }
 };
 
+struct HashCmpString : 
+    public OSG_STDEXTENSION_NAMESPACE::hash_compare<const Char8 *, LTString>
+{
+    typedef       std::hash_compare<const Char8 *, LTString>   Inherited;
+    typedef const Char8                                      *_Kty;
+
+    HashCmpString(void) : Inherited() 
+    {
+    }
+
+    size_t operator()(const _Kty& _Keyval) const
+	{
+        return OSG_STDEXTENSION_NAMESPACE::hash_value<const Char8 *>(_Keyval);
+    }
+
+    bool operator()(const _Kty& _Keyval1, const _Kty& _Keyval2) const
+    {
+        return Inherited::operator()(_Keyval1, _Keyval2);
+    }
+};
 
 // String Tokenizer
 

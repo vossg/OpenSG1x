@@ -279,12 +279,20 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
   protected:
 
 #ifdef OSG_STL_HAS_HASH_MAP
+#ifdef OSG_USE_HASH_COMPARE
+    typedef 
+        OSG_STDEXTENSION_NAMESPACE::hash_map<
+            const Char8  *,  
+            UInt32,
+            HashCmpString> FieldNameTypeHash;
+#else
     typedef
         OSG_STDEXTENSION_NAMESPACE::hash_map<
             const Char8 *,
             UInt32,
             OSG_STDEXTENSION_NAMESPACE::hash<const Char8 *>,
             EQString                                      > FieldNameTypeHash;
+#endif
 #else
     typedef
         std::map<     const Char8 *,  UInt32,   LTString> FieldNameTypeHash;

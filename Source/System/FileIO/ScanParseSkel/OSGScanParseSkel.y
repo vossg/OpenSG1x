@@ -99,6 +99,10 @@ void freeName(char *&szName);
 %token CLOSEBRACKET
 %token EXTERNPROTO
 %token IS
+%token EXPORT
+%token IMPORT
+%token PROFILE
+%token AS
 
 %token EVENTIN
 %token EVENTOUT
@@ -203,7 +207,16 @@ void freeName(char *&szName);
 vrmlScene : statementsORempty
 ;
 
-statementsORempty : statements
+statementsORempty : PROFILE 
+                    ID
+                    {
+                        if(SKEL != NULL)
+                        {
+                            SKEL->profile(SKELTEXT);
+                        }
+                    } 
+                    statements 
+                  | statements
                   | empty 
 ;
 
@@ -214,6 +227,8 @@ statements : statements statement
 statement : nodeStatement 
           | protoStatement 
           | routeStatement 
+          | importStatement
+          | exportStatement
 ;
 
 nodeStatement : node 
@@ -410,13 +425,54 @@ routeStatement : ROUTE
                  PERIOD 
                  eventInId  { if(SKEL != NULL)
                                 SKEL->addRoute(szName1, 
-                                                 szName2,
-                                                 szName3,
-                                                 SKELTEXT);
+                                               szName2,
+                                               szName3,
+                                               SKELTEXT);
                               freeName(szName1);
                               freeName(szName2);
                               freeName(szName3);
                             }
+;
+
+exportStatement : EXPORT 
+                  ID 
+                  {
+                      setName(szName1, SKELTEXT);
+                  }
+                  importExportEnd
+                  {
+                      if(SKEL != NULL)
+                      {
+                          SKEL->exportElement(szName1, szName2);
+                      }
+
+                      freeName(szName1);
+                      freeName(szName2);
+                  }
+;
+
+importStatement : IMPORT 
+                  ID 
+                  {
+                      setName(szName1, SKELTEXT);
+                  }
+                  importExportEnd
+                  {
+                      if(SKEL != NULL)
+                      {
+                          SKEL->importElement(szName1, szName2);
+                      }
+                    
+                      freeName(szName1);
+                      freeName(szName2);
+                  }
+;
+
+importExportEnd : AS ID 
+                  {
+                        setName(szName2, SKELTEXT);
+                  }
+                |
 ;
 
 URLList : fieldValue
@@ -426,12 +482,15 @@ empty :
 ;
 
 node : nodeTypeId { if(SKEL != NULL)
-                     SKEL->beginNode(SKELTEXT, szName1); 
+                    {
+                        SKEL->beginNode(SKELTEXT, szName1); 
+                    }
 
                     freeName(szName1);
                   }
        OPENBRACE 
-       nodeBodyORempty   
+//       nodeBodyORempty   
+       scriptBodyORempty 
        CLOSEBRACE { if(SKEL != NULL)
                      SKEL->endNode(); }
      | SCRIPT     { if(SKEL != NULL)
@@ -589,6 +648,7 @@ fieldEnd : IS generalId { if(SKEL != NULL)
                         }
 ;
 
+//         | fieldType fieldValue
 
 generalId  : ID
 ;
