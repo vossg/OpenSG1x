@@ -74,7 +74,9 @@ OSG_USING_NAMESPACE
  */
 
 Connection::Connection(int zeroCopyThreshold):
-    BinaryDataHandler(zeroCopyThreshold)
+    BinaryDataHandler(zeroCopyThreshold),
+    _readAliveTimeout(6),
+    _sendAliveInterval(2)
 {
 }
 
@@ -122,6 +124,25 @@ void Connection::signal(void)
     // send signal
     putValue(tag);
     flush();
+}
+
+/*-------------------------------------------------------------------------*/
+/*                            timeout settings                             */
+
+/*! Set timeout for read of this connection. A timeout of 0 indicates
+    immediate timout, no timeout all other values are in seconds.
+ */
+void Connection::setReadAliveTimeout (Time timeout)
+{
+    _readAliveTimeout = timeout;
+}
+
+/*! Set timeout for the receivers connection. This is used to send
+    allive packages
+ */
+void Connection::setSendAliveInterval(Time timeout)
+{
+    _sendAliveInterval = timeout;
 }
 
 /*-------------------------------------------------------------------------*/

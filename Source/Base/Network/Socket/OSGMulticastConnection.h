@@ -56,9 +56,11 @@ OSG_BEGIN_NAMESPACE
 
 class BaseThread;
 
-#define MULTICASTCONNECTION_MAX_WINDOW_SIZE 64
-#define MULTICAST_BUFFER_COUNT 12
-#define MULTICAST_BUFFER_SIZE  4000
+//#define MULTICAST_BUFFER_COUNT 31
+//#define MULTICAST_BUFFER_SIZE  8192
+
+#define MULTICAST_BUFFER_COUNT 2
+#define MULTICAST_BUFFER_SIZE  32768
 
 class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
 {
@@ -129,7 +131,7 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
         typedef struct 
         {
             UInt32 size;
-            UInt32 missing[MULTICASTCONNECTION_MAX_WINDOW_SIZE];
+            UInt32 missing[MULTICAST_BUFFER_COUNT];
         } nackT;
 
         union 
@@ -180,7 +182,6 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
     DgramSocket                       _aliveSocket;
     SocketAddress                     _destination;
     UInt32                            _member;
-    Time                              _aliveTime;
     SocketAddress                     _multicastGroupAddress;
 
     /*! \}                                                                 */

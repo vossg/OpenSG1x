@@ -92,8 +92,24 @@ class OSG_BASE_DLLMAPPING Connection:public BinaryDataHandler
     virtual const ConnectionType *getType (void) = 0;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   timeout setting                            */
+    /*! \{                                                                 */
+
+    void setReadAliveTimeout (Time timeout);
+    void setSendAliveInterval(Time timeout);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
+    /*---------------------------------------------------------------------*/
+    /*! \name                   timeout settings                           */
+    /*! \{                                                                 */
+
+    Time _readAliveTimeout;
+    Time _sendAliveInterval;
+
+    /*! \}                                                                 */
 
     /*==========================  PRIVATE  ================================*/
   private:

@@ -101,7 +101,6 @@ MulticastConnection::MulticastConnection(int ) :
     _waitForAck(0.04),
     _maxWaitForSync(0.5),
     _socket(),
-    _aliveTime(4),
     _aliveThread(NULL),
     _stopAliveThread(false),
     _multicastGroupAddress()
@@ -132,6 +131,18 @@ MulticastConnection::MulticastConnection(int ) :
     _groupSocket.open();
     _aliveSocket.open();
     _aliveSocket.bind();
+
+    int readSize  = MULTICAST_BUFFER_SIZE*MULTICAST_BUFFER_COUNT*2;
+    int writeSize = MULTICAST_BUFFER_SIZE*MULTICAST_BUFFER_COUNT;
+    if(_socket.getWriteBufferSize() < writeSize)
+        _socket.setWriteBufferSize(writeSize);
+    if(_groupSocket.getWriteBufferSize() < writeSize)
+        _groupSocket.setWriteBufferSize(writeSize);
+
+    if(_socket.getReadBufferSize() < readSize)
+        _socket.setReadBufferSize(readSize);
+    if(_groupSocket.getReadBufferSize() < readSize)
+        _groupSocket.setReadBufferSize(readSize);
 
     startAliveThread();
 }
@@ -365,9 +376,9 @@ void MulticastConnection::selectChannel(UInt32 channel)
     }
     for(;;)
     {
-        if(!_inSocket.waitReadable(_aliveTime+1))
+        if(!_inSocket.waitReadable(_readAliveTimeout))
         {
-            throw ReadError("Timeout");
+            throw ReadError("Timeout in Select");
         }
         size=_inSocket.peekFrom(&header,sizeof(header),from);
         // wait for data or ack request of unread data
@@ -427,7 +438,7 @@ void MulticastConnection::readBuffer()
     for(;;)
     {
         selection.setRead(_inSocket);
-        if(selection.select(_aliveTime+1)<=0)
+        if(selection.select(_readAliveTimeout)<=0)
         {
             throw ReadError("Timeout");
         }
@@ -594,7 +605,7 @@ void MulticastConnection::writeBuffer(void)
                         for(UInt32 i=0;i<nacks;i++) 
                         {
                             SINFO << "Missing package "
-                                  << responseAck.nack.missing[i] << " "
+                                  << htonl(responseAck.nack.missing[i]) << " "
                                   << from.getHost().c_str() << ":"
                                   << from.getPort() << std::endl;
                             send[ntohl(responseAck.nack.missing[i])]=true;
@@ -648,12 +659,13 @@ void MulticastConnection::stopAliveThread()
     }
 }
 
-/*! Start alive thread. Send an alive package after _aliveTime 
+/*! Start alive thread. Send an alive package after _localAliveTimeout 
  */
 void MulticastConnection::aliveProc(void *arg) 
 { 
     MulticastConnection *connection=static_cast<MulticastConnection *>(arg);
     UDPBuffer alive;
+    Real32 waitTime;
 
     while(!connection->_stopAliveThread)
     {
@@ -669,7 +681,8 @@ void MulticastConnection::aliveProc(void *arg)
                 sizeof(UDPHeader)+sizeof(alive.member),
                 connection->_destination);
         }
-        if(connection->_aliveSocket.waitReadable(connection->_aliveTime))
+        waitTime=connection->_sendAliveInterval;
+        if(connection->_aliveSocket.waitReadable(waitTime))
         {
             char tag;
             connection->_aliveSocket.recv(&tag,sizeof(tag));
