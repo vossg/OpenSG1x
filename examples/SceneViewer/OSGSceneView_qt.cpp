@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGSceneView_qt.ui'
 **
-** Created: Tue Oct 9 19:21:20 2001
+** Created: Wed Oct 10 18:40:13 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -24,7 +24,7 @@
 #include <qpushbutton.h>
 #include <qsplitter.h>
 #include <qtable.h>
-#include "OSGQGLManagedWidget_qt.h"
+#include "OpenSG/OSGQGLManagedWidget_qt.h"
 #include <qlayout.h>
 #include <qtooltip.h>
 #include <qwhatsthis.h>

@@ -354,8 +354,8 @@ void OSGSceneView::insertFromFile( osg::NodePtr parent )
             }
           parentItem = (parent == rootNode) ? rootTreeItem : activeTreeItem;
           addListItem(node,parentItem);
+          updateAllViews();
         }
-      updateAllViews();
     }
 }
 

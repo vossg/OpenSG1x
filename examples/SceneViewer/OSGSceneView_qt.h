@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'OSGSceneView_qt.ui'
 **
-** Created: Tue Oct 9 19:21:21 2001
+** Created: Wed Oct 10 18:40:13 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
