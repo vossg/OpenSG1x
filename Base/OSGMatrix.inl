@@ -1339,7 +1339,7 @@ Bool TransformationMatrix<ValueTypeT>::inverse3(
     if(osgabs(rDet) < 1E-20)
     {
 #ifdef OSG_PRINT_MATHERR
-        fprintf(stderr, "invertFrom3: matrix singular, no inverse!\n");
+        fprintf(stderr, "inverse3: matrix singular, no inverse!\n");
 #endif
 
         result.setIdentity();
@@ -1406,7 +1406,7 @@ Bool TransformationMatrix<ValueTypeT>::invert3(void)
     if(osgabs(rDet) < 1E-20)
     {
 #ifdef OSG_PRINT_MATHERR
-        fprintf(stderr, "invertFrom3: matrix singular, no inverse!\n");
+        fprintf(stderr, "invert3: matrix singular, no inverse!\n");
 #endif
         result.setIdentity();
 
@@ -1469,7 +1469,7 @@ template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::invertFrom3(
     const TransformationMatrix &matrix)
 {
-    ValueTypeT rDet = det3(); 
+    ValueTypeT rDet = matrix.det3(); 
     
     if(osgabs(rDet) < 1E-20)
     {
