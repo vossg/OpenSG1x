@@ -205,6 +205,22 @@ struct FieldTraitsRecurseBase : public FieldTraits
             MappedTrait::copyFromBin(pMem, pObjectStore[i]);
         }
     }
+
+    static bool getFromString(      FieldTypeT &outVal,
+                              const Char8      *inVal  )
+    {
+        typedef FieldDataTraits<FieldTypeT> MappedTrait;
+
+        return MappedTrait::getFromString(outVal, inVal);
+    }
+
+    static void putToString  (const FieldTypeT  &inVal,
+                                    std::string &outStr)
+    {
+        typedef FieldDataTraits<FieldTypeT> MappedTrait;
+
+        MappedTrait::putToString(inVal, outStr);
+    }
 };
 
 #if defined(__hpuxX)
@@ -314,6 +330,22 @@ struct FieldTraitsRecurseBase1 : public FieldTraits
             MappedTrait::copyFromBin(pMem, pObjectStore[i]);
         }
     }
+
+    static bool getFromString(      FieldTypeT &outVal,
+                              const Char8      *inVal  )
+    {
+        typedef FieldDataTraits1<FieldTypeT> MappedTrait;
+
+        return MappedTrait::getFromString(outVal, inVal);
+    }
+
+    static void putToString  (const FieldTypeT  &inVal,
+                                    std::string &outStr)
+    {
+        typedef FieldDataTraits1<FieldTypeT> MappedTrait;
+
+        MappedTrait::putToString(inVal, outStr);
+    }
 };
 
 #if defined(__hpuxX)
@@ -422,6 +454,18 @@ struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
     {
         MappedTrait::copyFromBin(pMem, pObjectStore, uiNumObjects);
     }
+
+    static bool getFromString(      FieldTypeT &outVal,
+                              const Char8      *inVal  )
+    {
+        return MappedTrait::getFromString(outVal, inVal);
+    }
+
+    static void putToString  (const FieldTypeT  &inVal,
+                                    std::string &outStr)
+    {
+        MappedTrait::putToString(inVal, outStr);
+    }
 };
 
 /*! \ingroup GrpBaseFieldTraits */
@@ -474,6 +518,18 @@ struct FieldTraitsRecurseMapper1 : public FieldTraitsRecurseBase<FieldTypeT>
                             UInt32             uiNumObjects)
     {
         MappedTrait::copyFromBin(pMem, pObjectStore, uiNumObjects);
+    }
+
+    static bool getFromString(      FieldTypeT &outVal,
+                              const Char8      *inVal  )
+    {
+        return MappedTrait::getFromString(outVal, inVal);
+    }
+
+    static void putToString  (const FieldTypeT  &inVal,
+                                    std::string &outStr)
+    {
+        MappedTrait::putToString(inVal, outStr);
     }
 };
 
@@ -528,6 +584,18 @@ struct FieldTraitsRecurseMapper2 : public FieldTraitsRecurseBase<FieldTypeT>
                             UInt32             uiNumObjects)
     {
         MappedTrait::copyFromBin(pMem, pObjectStore, uiNumObjects);
+    }
+
+    static bool getFromString(      FieldTypeT &outVal,
+                              const Char8      *inVal  )
+    {
+        return MappedTrait::getFromString(outVal, inVal);
+    }
+
+    static void putToString  (const FieldTypeT  &inVal,
+                                    std::string &outStr)
+    {
+        MappedTrait::putToString(inVal, outStr);
     }
 };
 

@@ -75,13 +75,14 @@ struct FieldDataTraits<GeoPositionsPtr> :
     public FieldTraitsRecurseMapper<GeoPositionsPtr, true>
 {
     /*---------------------------------------------------------------------*/
-    /*! \name                    Struct Specific                                 */
+    /*! \name                    Struct Specific                           */
     /*! \{                                                                 */
 
 
-    static DataType                  _type;
-    enum                             { StringConvertable = 0x00   };
-    enum                             { bHasParent        = 0x01   };
+    static DataType _type;
+
+    enum           { StringConvertable = ToStringConvertable };
+    enum           { bHasParent        = 0x01                };
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -130,13 +131,26 @@ template <>
 struct FieldDataTraits<GeoNormalsPtr> :
     public FieldTraitsRecurseMapper<GeoNormalsPtr, true>
 {
-    static DataType                  _type;
-    enum                            { StringConvertable = 0x00  };
-    enum                            { bHasParent        = 0x01  };
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Struct Specific                           */
+    /*! \{                                                                 */
+
+    static DataType _type;
+
+    enum           { StringConvertable = ToStringConvertable };
+    enum           { bHasParent        = 0x01                };
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
     static DataType &getType  (void) { return _type;             }
     static Char8    *getSName (void) { return "SFGeoNormalsPtr"; }
     static Char8    *getMName (void) { return "MFGeoNormalsPtr"; }
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -175,13 +189,26 @@ template <>
 struct FieldDataTraits<GeoColorsPtr> :
     public FieldTraitsRecurseMapper<GeoColorsPtr, true>
 {
-    static DataType                  _type;
-    enum                             { StringConvertable = 0x00 };
-    enum                             { bHasParent        = 0x01 };
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Struct Specific                           */
+    /*! \{                                                                 */
+
+    static DataType _type;
+
+    enum           { StringConvertable = ToStringConvertable };
+    enum           { bHasParent        = 0x01                };
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
     static DataType &getType  (void) { return _type;             }
     static Char8    *getSName (void) { return "SFGeoColorsPtr";  }
     static Char8    *getMName (void) { return "MFGeoColorsPtr";  }
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -219,13 +246,26 @@ template <>
 struct FieldDataTraits<GeoTexCoordsPtr> :
     public FieldTraitsRecurseMapper<GeoTexCoordsPtr, true>
 {
-    static DataType                  _type;
-    enum                             { StringConvertable = 0x00    };
-    enum                             { bHasParent        = 0x01    };
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Struct Specific                           */
+    /*! \{                                                                 */
+
+    static DataType _type;
+
+    enum           { StringConvertable = ToStringConvertable };
+    enum           { bHasParent        = 0x01                };
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
     static DataType &getType  (void) { return _type;               }
     static Char8    *getSName (void) { return "SFGeoTexCoordsPtr"; }
     static Char8    *getMName (void) { return "MFGeoTexCoordsPtr"; }
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -263,13 +303,26 @@ template <>
 struct FieldDataTraits<GeoIndicesPtr> :
     public FieldTraitsRecurseMapper<GeoIndicesPtr, true>
 {
-    static DataType                  _type;
-    enum                             { StringConvertable = 0x00 };
-    enum                             { bHasParent        = 0x01 };
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Struct Specific                           */
+    /*! \{                                                                 */
 
-    static DataType &getType  (void) { return _type;             }
+    static DataType _type;
+
+    enum           { StringConvertable = ToStringConvertable };
+    enum           { bHasParent        = 0x01                };
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+    static DataType &getType  (void) { return _type;              }
     static Char8    *getSName (void) { return "SFGeoIndicesPtr";  }
     static Char8    *getMName (void) { return "MFGeoIndicesPtr";  }
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -307,13 +360,27 @@ template <>
 struct FieldDataTraits<GeoPTypesPtr> :
     public FieldTraitsRecurseMapper<GeoPTypesPtr, true>
 {
-    static DataType                  _type;
-    enum                             { StringConvertable = 0x00 };
-    enum                             { bHasParent        = 0x01 };
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Struct Specific                           */
+    /*! \{                                                                 */
+
+
+    static DataType _type;
+
+    enum           { StringConvertable = ToStringConvertable };
+    enum           { bHasParent        = 0x01                };
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
     static DataType &getType  (void) { return _type;             }
     static Char8    *getSName (void) { return "SFGeoPTypesPtr";  }
     static Char8    *getMName (void) { return "MFGeoPTypesPtr";  }
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -351,13 +418,27 @@ template <>
 struct FieldDataTraits<GeoPLengthsPtr> :
     public FieldTraitsRecurseMapper<GeoPLengthsPtr, true>
 {
-    static DataType                  _type;
-    enum                             { StringConvertable = 0x00  };
-    enum                             { bHasParent        = 0x01  };
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Struct Specific                           */
+    /*! \{                                                                 */
 
-    static DataType &getType  (void) { return _type;             }
+
+    static DataType _type;
+
+    enum           { StringConvertable = ToStringConvertable };
+    enum           { bHasParent        = 0x01                };
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+    static DataType &getType  (void) { return _type;              }
     static char     *getSName (void) { return "SFGeoPLengthsPtr"; }
     static char     *getMName (void) { return "MFGeoPLengthsPtr"; }
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)

@@ -66,13 +66,13 @@ struct FieldDataTraits<AttachmentContainerPtr> :
 {
     static DataType                  _type;
 
-    enum                            { StringConvertable = 0x00           };
-    enum                            { bHasParent        = 0x01           };
+    enum                            { StringConvertable = ToStringConvertable};
+    enum                            { bHasParent        = 0x01               };
 
-    static DataType &getType (void) { return _type;                      }
+    static DataType &getType (void) { return _type;                          }
 
-    static char     *getSName(void) { return "SFAttachmentContainerPtr"; }
-    static char     *getMName(void) { return "MFAttachmentContainerPtr"; }
+    static char     *getSName(void) { return "SFAttachmentContainerPtr";     }
+    static char     *getMName(void) { return "MFAttachmentContainerPtr";     }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)

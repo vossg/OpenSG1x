@@ -67,12 +67,12 @@ struct FieldDataTraits<NodePtr> :
 {
     static DataType                  _type;
 
-    enum                            { StringConvertable = 0x00 };
-    enum                            { bHasParent        = 0x01 };
+    enum                            { StringConvertable = ToStringConvertable};
+    enum                            { bHasParent        = 0x01               };
 
-    static DataType &getType (void) { return _type;            }
-    static char     *getSName(void) { return "SFNodePtr";      }
-    static char     *getMName(void) { return "MFNodePtr";      }
+    static DataType &getType (void) { return _type;                          }
+    static char     *getSName(void) { return "SFNodePtr";                    }
+    static char     *getMName(void) { return "MFNodePtr";                    }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)

@@ -19,6 +19,7 @@
 #include <OSGMFVecTypes.h>
 #include <OSGAction.h>
 #include <OSGDrawAction.h>
+#include <OSGRenderAction.h>
 #include <OSGSimpleGeometry.h>
 #include <OSGSceneFileHandler.h>
 
@@ -37,7 +38,8 @@
 
 using namespace OSG;
 
-DrawAction * ract;
+DrawAction   *ract;
+RenderAction *renact;
 
 NodePtr  root;
 
@@ -98,7 +100,8 @@ display(void)
         cam_trans->getSFMatrix()->setValue( m1 );
     }
 
-    win->draw( ract );
+//    win->draw( ract );
+    win->render(renact);
 }
 
 void reshape( int w, int h )
@@ -421,6 +424,7 @@ int main (int argc, char **argv)
     // Action
     
     ract = DrawAction::create();
+    renact = RenderAction::create();
 
     // tball
 

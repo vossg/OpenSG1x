@@ -132,6 +132,25 @@ struct FieldTraitsRecurseMapper<FieldContainerPtr, false> :
             copyFromBin(pMem, pObjectStore[i]);
         }
     }
+
+    static bool      getFromString(FieldContainerPtr& OSG_CHECK_ARG(outVal),
+                                   const Char8     *& OSG_CHECK_ARG(inVal ) )
+    {
+        //TO_BE_DONE
+        return false;
+    }
+    
+    static void      putToString  (const FieldContainerPtr &inVal,
+                                         std::string       &outVal)
+    {
+        typedef TypeTraits<UInt16> TypeTrait;
+
+        Char8 buffer[15];
+
+        sprintf(buffer, "%p", inVal.getBaseCPtr());
+
+        outVal = buffer;
+    }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -151,37 +170,12 @@ struct OSG_SYSTEMLIB_DLLMAPPING FieldDataTraits<FieldContainerPtr> :
 {
     static DataType                 _type;
 
-    enum                            { StringConvertable = 0x00  };
+    enum                            { StringConvertable = ToStringConvertable};
 
-    static DataType &getType (void) { return _type;                 }
+    static DataType &getType (void) { return _type;                          }
  
-    static char     *getSName(void) { return "SFFieldContainerPtr"; }
-    static char     *getMName(void) { return "MFFieldContainerPtr"; }
-    
-    static bool      getFromString(FieldContainerPtr& OSG_CHECK_ARG(outVal),
-                                   const Char8     *& OSG_CHECK_ARG(inVal ) )
-    {
-        //TO_BE_DONE
-        return false;
-    }
-    
-    static void      putToString  (const FieldContainerPtr &inVal,
-                                         std::string       &outVal)
-    {
-        typedef TypeTraits<UInt16> TypeTrait;
-
-        outVal.assign( FieldContainerFactory::the()->findType(
-                                inVal.getFieldContainerId())->getName().str());
-        outVal.append(" ");
-        outVal.append(TypeTrait::putToString(inVal.getContainerSize()));
-        outVal.append(" ");
-        outVal.append(TypeTrait::putToString(inVal.getParentFieldPos()));
-        outVal.append(" ");
-        //outVal.append(TypeTraits<UInt32>::putToString(
-        //                                           (UInt32)inVal._storeP));
-    }
-        
-                        
+    static char     *getSName(void) { return "SFFieldContainerPtr";          }
+    static char     *getMName(void) { return "MFFieldContainerPtr";          }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
