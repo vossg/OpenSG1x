@@ -34,9 +34,9 @@ help:
 	@echo "================================"
 	@echo 
 	@echo "fcdToBase    run through the tree and regenerate all the Base sources"
-	@echo "<default>    go into the Builds directory and call $(MAKE)"
-	@echo "install      go into the Builds directory and call $(MAKE) install"
-	@echo "clean        go into the Builds directory and call $(MAKE) clean"
+	@echo "<default>    go into the Builds directory and call make"
+	@echo "install      go into the Builds directory and call make install"
+	@echo "clean        go into the Builds directory and call make clean"
 	@echo "ctags        create tags file using ctags"
 	@echo "etags        create tags file using etags"
 	@echo "userdoc      create the HMTL version of the user-level docs"
@@ -55,22 +55,22 @@ doc: userdoc
 alldocs: userdoc devdoc userstarter devstarter
 
 userdoc:
-	cd Doc && make userdoc
+	cd Doc && $(MAKE) userdoc
 
 extdoc:
-	cd Doc && make extdoc
+	cd Doc && $(MAKE) extdoc
 
 devdoc:
-	cd Doc && make devdoc
+	cd Doc && $(MAKE) devdoc
 
 userstarter:
-	cd Doc && make userstarter
+	cd Doc && $(MAKE) userstarter
 
 extstarter:
-	cd Doc && make extstarter
+	cd Doc && $(MAKE) extstarter
 
 devstarter:
-	cd Doc && make devstarter
+	cd Doc && $(MAKE) devstarter
 
 # utility targets
 

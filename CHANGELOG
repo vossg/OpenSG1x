@@ -2,13 +2,32 @@
 ChangeLog for OpenSG
 ====================
 
-1.2.0 - 2002/xx/xx
+1.2.0 - 2003/03/18
 
 ADDED:
-
+    A lot of documentation. The Starter Guide is now also included in the doxygen
+    docs, under the Related Pages section.
+    Some tutorials, an example for adding new FieldContainers and Fields
+        (Examples/NewTypes)
+    New platforms: Intel 7, Using STLPort for VS.NET.
+    VoidP Attachments, for generic user data
+    New StateChunks: Point, VertexProgram (ARB_vertex_program), FragmentProgram
+        (ARB_fragment_program) 
+    GLenum FieldType
+    Drawable and MaterialDrawable base classes. They simplify adding new
+        geometry types significantly, see Examples/*Cubes.
+        
 CHANGED:
+    Image is a FieldContainer now. This is probably the most intrusive change
+        for applications.
+    Directory structure. All the Sources are in Source now, and are structured
+        better
+    Reformatted pretty much all of the SourceCode to fit our style guide at 
+        http://opensg.sourceforge.net/cgi-bin/twiki/view/Main/StyleGuide
+    A lot of compile problems. Multi-platform programming is fun... 
 
 REMOVED:
+    OSG_STREAM_IN_STD_NAMESPACE define
 
 
 1.1.0 - 2002/07/03

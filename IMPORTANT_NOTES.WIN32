@@ -5,29 +5,26 @@ In order to work around some nasty bugs in Microsofts STL implementation
 (the one that ships with VS6) we will use the replacement xtree header from 
 Dinkumware (http://www.dinkumware.com/xtree.txt) in the near future. 
 Right now we did not switch the default case, as it might break quite some
-setups out there, but we will do so soon.
-As a consequence OpenSGs include path MUST be preceed Microsofts wherever
+setups out there, but we will probably do so.
+As a consequence OpenSGs include path MUST preceed Microsoft's wherever
 both are used.  If this is not the case undefined behaviour might be the 
-result, though undefined we won't format your harddrive ;-)
+result, though by undefined we don't mean it will format your harddrive ;-)
 
 If you encounter strange crashes, especially if maps are anywhere near, you 
 might want to give it a try configuring OpenSG using --enable-fixed-xtree.
-
-We'll try to figure out if these problems still persist in their lastest
-release (the one shipping with VS7), more on that soon.
 
 --
 
 If you use VisualStudio.Net to build OpenSG or the prebuild libs from 
 VisualStudio.Net, depending on your code unresolved symbols might occur. 
-This is due to bugs in Microsofts compiler/linker which screw up to export
+This is due to bugs in Microsofts compiler/linker which screws up the export
 tables of the dll's build. If you build the libs on your own, just add the 
 mangled symbol to FieldContainer/lib.def.sym and relink the dlls.
 If you use the prebuild ones, you might try the libs build using intel's
 icl compiler against the VisualStudio.Net runtime, and please drop us
-a note, that we are able to include the symbol into the prebuild libs.
+a note, so that we are able to include the symbol into the prebuild libs.
 
-As I had not had the time to analyse all the circumstances under which 
+As I have not had the time to analyse all the circumstances under which 
 the Microsoft tools decide to drop some symbols, and as mangled names
 must be provided within the def files, I am currently not able to figure
 out and insert all symbols that might be missing. One solution might

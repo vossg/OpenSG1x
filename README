@@ -3,13 +3,10 @@
     OpenSG - an Open Source Scenegraph
     ==================================
 
-Version  1.1.0, 2002/07/02
+Version  1.2.0, 2003/03/18
 
-Note that this is a development version, which means that we mainly added 
-features/fixed bugs, but didn't put a lot of effort into documentation or
-examples. It also means that some parts of the API might still change. Due 
-to the amount of bugfixes etc we still recommend using this version over the 
-stable 1.0.
+This is our second stable version, which means that it mainly includes
+bugfixes and documentation, and a couple smaller new features.
 
     What is it / will it be?
     ------------------------
@@ -54,4 +51,4 @@ Yours
 
 Homepage:       www.opensg.org
 Source Home:    www.sourceforge.net/projects/OpenSG
-Mail contact:   dirk@opensg.org
+Mail contact:   feedback@opensg.org
