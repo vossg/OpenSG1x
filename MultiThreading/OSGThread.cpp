@@ -204,9 +204,11 @@ ChangeList *PThreadBase::getCurrentChangeList(void)
 /*-------------------------------------------------------------------------*/
 /*                                Run                                      */
 
-bool PThreadBase::run(ThreadFuncF  fThreadFunc, 
-                      UInt32       uiAspectId,
-                      void        *pThreadArg)
+// This workaround was brought to you by gcc 2.95.3
+
+bool PThreadBase::runFunction(ThreadFuncF  fThreadFunc, 
+                              UInt32       uiAspectId,
+                              void        *pThreadArg)
 {
     if(uiAspectId >= ThreadManager::getNumAspects())
     {
@@ -216,7 +218,7 @@ bool PThreadBase::run(ThreadFuncF  fThreadFunc,
 
     Inherited::setAspect(uiAspectId);
 
-    return Inherited::run(fThreadFunc, pThreadArg);
+    return Inherited::runFunction(fThreadFunc, pThreadArg);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -396,9 +398,11 @@ ChangeList *SprocBase::getCurrentChangeList(void)
 /*-------------------------------------------------------------------------*/
 /*                                Run                                      */
 
-bool SprocBase::run(ThreadFuncF  fThreadFunc, 
-                    UInt32       uiAspectId,
-                    void        *pThreadArg)
+// This workaround was brought to you by gcc 2.95.3
+
+bool SprocBase::runFunction(ThreadFuncF  fThreadFunc, 
+                            UInt32       uiAspectId,
+                            void        *pThreadArg)
 {
     if(uiAspectId >= ThreadManager::getNumAspects())
     {
@@ -408,7 +412,7 @@ bool SprocBase::run(ThreadFuncF  fThreadFunc,
 
     Inherited::setAspect(uiAspectId);
 
-    return Inherited::run(fThreadFunc, pThreadArg);
+    return Inherited::runFunction(fThreadFunc, pThreadArg);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -527,9 +531,11 @@ ChangeList *WinThreadBase::getCurrentChangeList(void)
 /*-------------------------------------------------------------------------*/
 /*                                Run                                      */
 
-bool WinThreadBase::run(ThreadFuncF  fThreadFunc, 
-                        UInt32       uiAspectId,
-                        void        *pThreadArg)
+// This workaround was brought to you by gcc 2.95.3
+
+bool WinThreadBase::runFunction(ThreadFuncF  fThreadFunc, 
+                                UInt32       uiAspectId,
+                                void        *pThreadArg)
 {
     if(uiAspectId >= ThreadManager::getNumAspects())
     {
@@ -539,7 +545,7 @@ bool WinThreadBase::run(ThreadFuncF  fThreadFunc,
 
     Inherited::setAspect(uiAspectId);
 
-    return Inherited::run(fThreadFunc, pThreadArg);
+    return Inherited::runFunction(fThreadFunc, pThreadArg);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -689,7 +695,7 @@ Thread *Thread::find(const Char8 *szName)
 
 void Thread::run(UInt32 uiAspectId)
 {
-    Inherited::run(runWorkProc, uiAspectId, this);
+    Inherited::runFunction(runWorkProc, uiAspectId, this);
 }
 
 /*-------------------------------------------------------------------------*/

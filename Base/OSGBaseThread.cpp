@@ -177,8 +177,10 @@ void BasePThreadBase::join(BasePThreadBase *pThread)
 /*-------------------------------------------------------------------------*/
 /*                                Run                                      */
 
-bool BasePThreadBase::run(ThreadFuncF  fThreadFunc,
-                          void        *pThreadArg)
+// This workaround was brought to you by gcc 2.95.3
+
+bool BasePThreadBase::runFunction(ThreadFuncF  fThreadFunc,
+                                  void        *pThreadArg)
 {
     bool  returnValue = true;
     Int32 rc          = 0;
@@ -379,8 +381,10 @@ void BaseSprocBase::join(BaseSprocBase *pThread)
 /*-------------------------------------------------------------------------*/
 /*                                Run                                      */
 
-bool BaseSprocBase::run(ThreadFuncF  fThreadFunc,
-                        void        *pThreadArg)
+// This workaround was brought to you by gcc 2.95.3
+
+bool BaseSprocBase::runFunction(ThreadFuncF  fThreadFunc,
+                                void        *pThreadArg)
 {
     bool  returnValue = true;
     Int32 rc          = 0;
@@ -570,8 +574,10 @@ void BaseWinThreadBase::join(BaseWinThreadBase *pThread)
 /*-------------------------------------------------------------------------*/
 /*                                Run                                      */
 
-bool BaseWinThreadBase::run(ThreadFuncF  fThreadFunc,
-                            void        *pThreadArg)
+// This workaround was brought to you by gcc 2.95.3
+
+bool BaseWinThreadBase::runFunction(ThreadFuncF  fThreadFunc,
+                                    void        *pThreadArg)
 {
     bool   returnValue = true;
     Handle rc          = 0;
@@ -811,7 +817,7 @@ BaseThread *BaseThread::find(const Char8 *szName)
 
 void BaseThread::run(void)
 {
-    Inherited::run(runWorkProc, this);
+    Inherited::runFunction(runWorkProc, this);
 }
 
 

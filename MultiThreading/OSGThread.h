@@ -461,8 +461,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Thread : public ThreadBase
     /*! \name                      Run                                     */
     /*! \{                                                                 */
     
-    using Inherited::run;
-
     void run(UInt32 uiAspectId);
 
     /*! \}                                                                 */

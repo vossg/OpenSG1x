@@ -154,8 +154,8 @@ class BasePThreadBase : public BaseThreadCommonBase
     /*! \name                      Run                                     */
     /*! \{                                                                 */
 
-    bool run(ThreadFuncF  fThreadFunc,
-             void        *pThreadArg );
+    bool runFunction(ThreadFuncF  fThreadFunc,
+                     void        *pThreadArg );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -284,8 +284,8 @@ class BaseSprocBase : public BaseThreadCommonBase
     /*! \name                      Run                                     */
     /*! \{                                                                 */
 
-    bool run(ThreadFuncF  fThreadFunc,
-             void        *pThreadArg);
+    bool runFunction(ThreadFuncF  fThreadFunc,
+                     void        *pThreadArg);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -409,8 +409,8 @@ class OSG_BASE_DLLMAPPING BaseWinThreadBase : public BaseThreadCommonBase
     /*! \name                      Run                                     */
     /*! \{                                                                 */
 
-    bool run(ThreadFuncF fThreadFunc,
-             void        *pThreadArg);
+    bool runFunction(ThreadFuncF fThreadFunc,
+                     void        *pThreadArg);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -547,8 +547,6 @@ class OSG_BASE_DLLMAPPING BaseThread : public BaseThreadBase
     /*! \name                      Run                                     */
     /*! \{                                                                 */
     
-    using Inherited::run;
-
     void run(void);
 
     /*! \}                                                                 */
