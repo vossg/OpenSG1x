@@ -4,8 +4,6 @@
  *                                                                           *
  *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
- *                            www.opensg.org                                 *
- *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
@@ -44,88 +42,91 @@
  **          Any changes made to this file WILL be lost when it is          **
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
+ **     Do not change this file, changes should be done in the derived      **
+ **     class SharedFontStyleWrapper!
+ **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
-
-#ifndef _OSGABSTRACTTEXTFIELDS_H_
-#define _OSGABSTRACTTEXTFIELDS_H_
-#ifdef __sgi
-#pragma once
-#endif
-
 #include <OSGConfig.h>
-
-#include <OSGFieldContainerPtr.h>
-#include <OSGNodeCoreFieldDataType.h>
-#include <OSGSystemDef.h>
-
-#include <OSGMaterialDrawableFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class AbstractText;
 
-#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
-//! AbstractTextPtr
-
-typedef FCPtr<MaterialDrawablePtr, AbstractText> AbstractTextPtr;
-
-#endif
-
-#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-/*! \ingroup GrpSystemFieldTraits
- */
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \hideinhierarchy */
-#endif
-
-template <>
-struct FieldDataTraits<AbstractTextPtr> : 
-    public FieldTraitsRecurseMapper<AbstractTextPtr, true>
+//! access the type of the class
+inline
+OSG::FieldContainerType &SharedFontStyleWrapperBase::getClassType(void)
 {
-    static DataType             _type;                       
+    return _type; 
+} 
 
-    enum                        { StringConvertable = 0x00 };
-    enum                        { bHasParent        = 0x01 };
+//! access the numerical type of the class
+inline
+OSG::UInt32 SharedFontStyleWrapperBase::getClassTypeId(void) 
+{
+    return _type.getId(); 
+} 
 
-    static DataType &getType (void) { return _type;        }
+//! create a new instance of the class
+inline
+SharedFontStyleWrapperPtr SharedFontStyleWrapperBase::create(void) 
+{
+    SharedFontStyleWrapperPtr fc; 
 
-    static char     *getSName(void) { return "SFAbstractTextPtr"; }
-    static char     *getMName(void) { return "MFAbstractTextPtr"; }
-};
+    if(getClassType().getPrototype() != OSG::NullFC) 
+    {
+        fc = SharedFontStyleWrapperPtr::dcast(
+            getClassType().getPrototype()-> shallowCopy()); 
+    }
+    
+    return fc; 
+}
 
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsRecurseMapper<AbstractTextPtr, true>
-    \hideinhierarchy
- */
-#endif
+//! create an empty new instance of the class, do not copy the prototype
+inline
+SharedFontStyleWrapperPtr SharedFontStyleWrapperBase::createEmpty(void) 
+{ 
+    SharedFontStyleWrapperPtr returnValue; 
+    
+    newPtr(returnValue); 
 
-#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+    return returnValue; 
+}
 
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpSystemFieldSingle */
+/*------------------------------ get -----------------------------------*/
 
-typedef SField<AbstractTextPtr> SFAbstractTextPtr;
-#endif
+//! Get the SharedFontStyleWrapper::_sfFStyleContainer field.
+inline
+SFSharedFontStylePtr *SharedFontStyleWrapperBase::getSFFStyleContainer(void)
+{
+    return &_sfFStyleContainer;
+}
 
-#ifndef OSG_COMPILEABSTRACTTEXTINST
-OSG_DLLEXPORT_DECL1(SField, AbstractTextPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-#endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpSystemFieldMulti */
+//! Get the value of the SharedFontStyleWrapper::_sfFStyleContainer field.
+inline
+SharedFontStylePtr &SharedFontStyleWrapperBase::getFStyleContainer(void)
+{
+    return _sfFStyleContainer.getValue();
+}
 
-typedef MField<AbstractTextPtr> MFAbstractTextPtr;
-#endif
+//! Get the value of the SharedFontStyleWrapper::_sfFStyleContainer field.
+inline
+const SharedFontStylePtr &SharedFontStyleWrapperBase::getFStyleContainer(void) const
+{
+    return _sfFStyleContainer.getValue();
+}
 
-#ifndef OSG_COMPILEABSTRACTTEXTINST
-OSG_DLLEXPORT_DECL1(MField, AbstractTextPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-#endif
+//! Set the value of the SharedFontStyleWrapper::_sfFStyleContainer field.
+inline
+void SharedFontStyleWrapperBase::setFStyleContainer(const SharedFontStylePtr &value)
+{
+    _sfFStyleContainer.setValue(value);
+}
+
 
 OSG_END_NAMESPACE
 
-#define OSGABSTRACTTEXTFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.21 2002/12/11 17:40:24 vossg Exp $"
+#define OSGSHAREDFONTSTYLEWRAPPERBASE_INLINE_CVSID "@(#)$Id: OSGSharedFontStyleWrapperBase.inl,v 1.1 2003/02/24 16:05:15 trembilski Exp $"
 
-#endif /* _OSGABSTRACTTEXTFIELDS_H_ */

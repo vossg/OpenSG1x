@@ -36,27 +36,27 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGSHAREDFONTSTYLE_H_
-#define _OSGSHAREDFONTSTYLE_H_
+#ifndef _OSGSHAREDFONTSTYLEWRAPPER_H_
+#define _OSGSHAREDFONTSTYLEWRAPPER_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGConfig.h>
 
-#include <OSGSharedFontStyleBase.h>
+#include <OSGSharedFontStyleWrapperBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-/*! rief SharedFontStyle class. See ef 
-           PageSYSTEMSharedFontStyle for a description.
+/*! rief SharedFontStyleWrapper class. See ef 
+           PageSYSTEMSharedFontStyleWrapper for a description.
 */
 
-class OSG_SYSTEMLIB_DLLMAPPING SharedFontStyle : public SharedFontStyleBase
+class OSG_SYSTEMLIB_DLLMAPPING SharedFontStyleWrapper : public SharedFontStyleWrapperBase
 {
   private:
 
-    typedef SharedFontStyleBase Inherited;
+    typedef SharedFontStyleWrapperBase Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -80,21 +80,21 @@ class OSG_SYSTEMLIB_DLLMAPPING SharedFontStyle : public SharedFontStyleBase
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    // Variables should all be in SharedFontStyleBase.
+    // Variables should all be in SharedFontStyleWrapperBase.
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */
 
-    SharedFontStyle(void);
-    SharedFontStyle(const SharedFontStyle &source);
+    SharedFontStyleWrapper(void);
+    SharedFontStyleWrapper(const SharedFontStyleWrapper &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~SharedFontStyle(void); 
+    virtual ~SharedFontStyleWrapper(void); 
 
     /*! \}                                                                 */
     
@@ -102,22 +102,22 @@ class OSG_SYSTEMLIB_DLLMAPPING SharedFontStyle : public SharedFontStyleBase
   private:
 
     friend class FieldContainer;
-    friend class SharedFontStyleBase;
+    friend class SharedFontStyleWrapperBase;
 
     static void initMethod(void);
 
     // prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const SharedFontStyle &source);
+    void operator =(const SharedFontStyleWrapper &source);
 };
 
-typedef SharedFontStyle *SharedFontStyleP;
+typedef SharedFontStyleWrapper *SharedFontStyleWrapperP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSharedFontStyleBase.inl>
-#include <OSGSharedFontStyle.inl>
+#include <OSGSharedFontStyleWrapperBase.inl>
+#include <OSGSharedFontStyleWrapper.inl>
 
-#define OSGSHAREDFONTSTYLE_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.18 2002/12/11 06:34:58 dirk Exp $"
+#define OSGSHAREDFONTSTYLEWRAPPER_HEADER_CVSID "@(#)$Id: OSGSharedFontStyleWrapper.h,v 1.1 2003/02/24 16:05:14 trembilski Exp $"
 
-#endif /* _OSGSHAREDFONTSTYLE_H_ */
+#endif /* _OSGSHAREDFONTSTYLEWRAPPER_H_ */

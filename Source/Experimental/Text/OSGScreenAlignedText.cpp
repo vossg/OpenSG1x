@@ -69,6 +69,7 @@
 
 #include <OSGSharedFontStyleFields.h>
 #include <OSGSharedFontStyle.h>
+#include <OSGSharedFontStyleWrapper.h>
 
 #include "OSGScreenAlignedText.h"
 
@@ -124,6 +125,8 @@ void ScreenAlignedText::initMethod (void)
 
 void ScreenAlignedText::changed(BitVector whichField, UInt32 origin)
 {
+	//cout << "******** ScreenAlignedText::changed called ********** " << endl;
+
   if( whichField & PositionFieldMask ||
       whichField & FontFieldMask ||
       whichField & TextFieldMask ||
@@ -139,12 +142,20 @@ void ScreenAlignedText::changed(BitVector whichField, UInt32 origin)
 void ScreenAlignedText::tessellate(void)
 {
 
+	//cout << "ScreenAlignedText::tessellate called" << endl;
+
 	if( _mfText.empty() )
 		return;
 	Text fontText;
 
-	SFSharedFontStylePtr *psfsp = getSFFont();
-	SharedFontStylePtr psfs = psfsp->getValue();
+	//SFSharedFontStylePtr *psfsp = getSFFont();
+	//SFSharedFontStyleWrapperPtr *wrapperPtr = getSFFont();
+	SharedFontStyleWrapperPtr wrapperPtr = getFont();
+		   
+	//SFSharedFontStylePtr psfsp = wrapperPtr->getSFFStyleContainer();
+
+	//SharedFontStylePtr psfs = psfsp->getValue();
+	SharedFontStylePtr psfs = wrapperPtr->getFStyleContainer();
 
 	if( psfs == NullFC )
 	{
@@ -183,7 +194,7 @@ void ScreenAlignedText::tessellate(void)
 		_sfRenderImage.setValue( pImg );
 	}
 
-	cout << "ScreenAlignedText::tessellate(void)" << endl;
+	// cout << "ScreenAlignedText::tessellate(void)" << endl;
 }
 
 //! output the instance for debug purposes

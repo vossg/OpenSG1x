@@ -36,88 +36,78 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGSHAREDFONTSTYLE_H_
-#define _OSGSHAREDFONTSTYLE_H_
-#ifdef __sgi
-#pragma once
-#endif
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
+#include <stdlib.h>
+#include <stdio.h>
 
 #include <OSGConfig.h>
 
-#include <OSGSharedFontStyleBase.h>
+#include "OSGSharedFontStyleWrapper.h"
 
-OSG_BEGIN_NAMESPACE
+OSG_USING_NAMESPACE
 
-/*! rief SharedFontStyle class. See ef 
-           PageSYSTEMSharedFontStyle for a description.
+/*! \class osg::SharedFontStyleWrapper
+This class is needed to prevent font styles to be loaded n times when n Text Nodes using the SharedFontStyle are loaded
 */
 
-class OSG_SYSTEMLIB_DLLMAPPING SharedFontStyle : public SharedFontStyleBase
+/*----------------------- constructors & destructors ----------------------*/
+
+SharedFontStyleWrapper::SharedFontStyleWrapper(void) :
+    Inherited()
 {
-  private:
+}
 
-    typedef SharedFontStyleBase Inherited;
+SharedFontStyleWrapper::SharedFontStyleWrapper(const SharedFontStyleWrapper &source) :
+    Inherited(source)
+{
+}
 
-    /*==========================  PUBLIC  =================================*/
-  public:
+SharedFontStyleWrapper::~SharedFontStyleWrapper(void)
+{
+}
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
-    /*! \{                                                                 */
+/*----------------------------- class specific ----------------------------*/
 
-    virtual void changed(BitVector  whichField, 
-                         UInt32     origin    );
+void SharedFontStyleWrapper::initMethod (void)
+{
+}
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Output                                   */
-    /*! \{                                                                 */
+void SharedFontStyleWrapper::changed(BitVector whichField, UInt32 origin)
+{
+    Inherited::changed(whichField, origin);
+}
 
-    virtual void dump(      UInt32     uiIndent = 0, 
-                      const BitVector  bvFlags  = 0) const;
+void SharedFontStyleWrapper::dump(      UInt32    , 
+                         const BitVector ) const
+{
+    SLOG << "Dump SharedFontStyleWrapper NI" << std::endl;
+}
 
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-  protected:
 
-    // Variables should all be in SharedFontStyleBase.
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                  Constructors                                */
-    /*! \{                                                                 */
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
 
-    SharedFontStyle(void);
-    SharedFontStyle(const SharedFontStyle &source);
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
-    /*! \{                                                                 */
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSharedFontStyleWrapper.cpp,v 1.1 2003/02/24 16:05:12 trembilski Exp $";
+    static Char8 cvsid_hpp       [] = OSGSHAREDFONTSTYLEWRAPPERBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGSHAREDFONTSTYLEWRAPPERBASE_INLINE_CVSID;
 
-    virtual ~SharedFontStyle(void); 
+    static Char8 cvsid_fields_hpp[] = OSGSHAREDFONTSTYLEWRAPPERFIELDS_HEADER_CVSID;
+}
 
-    /*! \}                                                                 */
-    
-    /*==========================  PRIVATE  ================================*/
-  private:
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
-    friend class FieldContainer;
-    friend class SharedFontStyleBase;
-
-    static void initMethod(void);
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const SharedFontStyle &source);
-};
-
-typedef SharedFontStyle *SharedFontStyleP;
-
-OSG_END_NAMESPACE
-
-#include <OSGSharedFontStyleBase.inl>
-#include <OSGSharedFontStyle.inl>
-
-#define OSGSHAREDFONTSTYLE_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.18 2002/12/11 06:34:58 dirk Exp $"
-
-#endif /* _OSGSHAREDFONTSTYLE_H_ */

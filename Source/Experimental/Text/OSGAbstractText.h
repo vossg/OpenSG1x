@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -38,9 +38,6 @@
 
 #ifndef _OSGABSTRACTTEXT_H_
 #define _OSGABSTRACTTEXT_H_
-
-
-
 #ifdef __sgi
 #pragma once
 #endif
@@ -50,6 +47,10 @@
 #include <OSGAbstractTextBase.h>
 
 OSG_BEGIN_NAMESPACE
+
+/*! rief AbstractText class. See ef 
+           PageSYSTEMAbstractText for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING AbstractText : public AbstractTextBase
 {
@@ -117,6 +118,6 @@ OSG_END_NAMESPACE
 #include <OSGAbstractTextBase.inl>
 #include <OSGAbstractText.inl>
 
-#define OSGABSTRACTTEXT_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.16 2002/10/25 13:09:36 dirk Exp $"
+#define OSGABSTRACTTEXT_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.18 2002/12/11 06:34:58 dirk Exp $"
 
 #endif /* _OSGABSTRACTTEXT_H_ */

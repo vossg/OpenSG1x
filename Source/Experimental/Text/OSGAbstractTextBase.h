@@ -66,7 +66,7 @@
 #include <OSGMaterialDrawable.h> // Parent
 
 #include <OSGVec3fFields.h> // Position type
-#include <OSGSharedFontStyleFields.h> // Font type
+#include <OSGSharedFontStyleWrapperFields.h> // Font type
 #include <OSGStringFields.h> // Text type
 #include <OSGReal32Fields.h> // VerticalLineDistance type
 #include <OSGUInt8Fields.h> // Alignment type
@@ -106,6 +106,8 @@ class OSG_SYSTEMLIB_DLLMAPPING AbstractTextBase : public MaterialDrawable
     static const OSG::BitVector AlignmentFieldMask;
 
 
+    static const OSG::BitVector MTInfluenceMask;
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -129,15 +131,15 @@ class OSG_SYSTEMLIB_DLLMAPPING AbstractTextBase : public MaterialDrawable
     /*! \{                                                                 */
 
            SFVec3f             *getSFPosition       (void);
-           SFSharedFontStylePtr *getSFFont           (void);
+           SFSharedFontStyleWrapperPtr *getSFFont           (void);
            MFString            *getMFText           (void);
            SFReal32            *getSFVerticalLineDistance(void);
            SFUInt8             *getSFAlignment      (void);
 
            Vec3f               &getPosition       (void);
      const Vec3f               &getPosition       (void) const;
-           SharedFontStylePtr  &getFont           (void);
-     const SharedFontStylePtr  &getFont           (void) const;
+           SharedFontStyleWrapperPtr &getFont           (void);
+     const SharedFontStyleWrapperPtr &getFont           (void) const;
            Real32              &getVerticalLineDistance(void);
      const Real32              &getVerticalLineDistance(void) const;
            UInt8               &getAlignment      (void);
@@ -152,7 +154,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AbstractTextBase : public MaterialDrawable
     /*! \{                                                                 */
 
      void setPosition       ( const Vec3f &value );
-     void setFont           ( const SharedFontStylePtr &value );
+     void setFont           ( const SharedFontStyleWrapperPtr &value );
      void setVerticalLineDistance( const Real32 &value );
      void setAlignment      ( const UInt8 &value );
 
@@ -185,7 +187,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AbstractTextBase : public MaterialDrawable
     /*! \{                                                                 */
 
     SFVec3f             _sfPosition;
-    SFSharedFontStylePtr   _sfFont;
+    SFSharedFontStyleWrapperPtr   _sfFont;
     MFString            _mfText;
     SFReal32            _sfVerticalLineDistance;
     SFUInt8             _sfAlignment;
@@ -236,6 +238,6 @@ typedef AbstractTextBase *AbstractTextBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGABSTRACTTEXTBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGABSTRACTTEXTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.30 2003/01/20 05:23:53 vossg Exp $"
 
 #endif /* _OSGABSTRACTTEXTBASE_H_ */

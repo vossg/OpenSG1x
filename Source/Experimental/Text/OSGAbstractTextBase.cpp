@@ -79,6 +79,9 @@ const OSG::BitVector  AbstractTextBase::VerticalLineDistanceFieldMask =
 const OSG::BitVector  AbstractTextBase::AlignmentFieldMask = 
     (1 << AbstractTextBase::AlignmentFieldId);
 
+const OSG::BitVector AbstractTextBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (0x0 << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -86,7 +89,7 @@ const OSG::BitVector  AbstractTextBase::AlignmentFieldMask =
 /*! \var Vec3f           AbstractTextBase::_sfPosition
     Position of the text.
 */
-/*! \var SharedFontStylePtr AbstractTextBase::_sfFont
+/*! \var SharedFontStyleWrapperPtr AbstractTextBase::_sfFont
     The font to be used.
 */
 /*! \var std::string     AbstractTextBase::_mfText
@@ -108,7 +111,7 @@ FieldDescription *AbstractTextBase::_desc[] =
                      PositionFieldId, PositionFieldMask,
                      false,
                      (FieldAccessMethod) &AbstractTextBase::getSFPosition),
-    new FieldDescription(SFSharedFontStylePtr::getClassType(), 
+    new FieldDescription(SFSharedFontStyleWrapperPtr::getClassType(), 
                      "Font", 
                      FontFieldId, FontFieldMask,
                      false,
@@ -358,7 +361,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.38 2003/01/20 05:23:53 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGABSTRACTTEXTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGABSTRACTTEXTBASE_INLINE_CVSID;
 

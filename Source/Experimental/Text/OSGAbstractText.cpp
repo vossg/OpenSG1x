@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -42,10 +42,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-
-#ifndef OSG_COMPILEWINDOWGLUTLIB
-#define OSG_COMPILEWINDOWGLUTLIB
-#endif
 
 #include <OSGConfig.h>
 
@@ -104,7 +100,7 @@ void AbstractText::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.15 2002/10/25 13:09:36 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.17 2002/12/04 14:22:22 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGABSTRACTTEXTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGABSTRACTTEXTBASE_INLINE_CVSID;
 

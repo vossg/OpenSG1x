@@ -97,6 +97,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ScreenAlignedTextBase : public AbstractText
     static const OSG::BitVector RenderImageFieldMask;
 
 
+    static const OSG::BitVector MTInfluenceMask;
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -241,6 +243,6 @@ typedef ScreenAlignedTextBase *ScreenAlignedTextBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSCREENALIGNEDTEXTBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGSCREENALIGNEDTEXTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.30 2003/01/20 05:23:53 vossg Exp $"
 
 #endif /* _OSGSCREENALIGNEDTEXTBASE_H_ */

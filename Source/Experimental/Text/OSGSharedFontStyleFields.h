@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -73,10 +73,12 @@ typedef FCPtr<FieldContainerPtr, SharedFontStyle> SharedFontStylePtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief SharedFontStylePtr field traits 
-    \ingroup BaseFieldSingle
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<SharedFontStylePtr> : 
@@ -91,12 +93,21 @@ struct FieldDataTraits<SharedFontStylePtr> :
 
     static char     *getSName(void) { return "SFSharedFontStylePtr"; }
 };
-#endif             // exclude from doc
 
-//! SFSharedFontStylePtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<SharedFontStylePtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<SharedFontStylePtr> SFSharedFontStylePtr;
+#endif
 
 #ifndef OSG_COMPILESHAREDFONTSTYLEINST
 OSG_DLLEXPORT_DECL1(SField, SharedFontStylePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
@@ -104,6 +115,6 @@ OSG_DLLEXPORT_DECL1(SField, SharedFontStylePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSHAREDFONTSTYLEFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.19 2002/10/25 13:09:36 dirk Exp $"
+#define OSGSHAREDFONTSTYLEFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.21 2002/12/11 17:40:24 vossg Exp $"
 
 #endif /* _OSGSHAREDFONTSTYLEFIELDS_H_ */

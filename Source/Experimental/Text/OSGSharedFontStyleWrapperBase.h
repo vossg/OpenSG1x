@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class SharedFontStyle
+ **     class SharedFontStyleWrapper
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGSHAREDFONTSTYLEBASE_H_
-#define _OSGSHAREDFONTSTYLEBASE_H_
+#ifndef _OSGSHAREDFONTSTYLEWRAPPERBASE_H_
+#define _OSGSHAREDFONTSTYLEWRAPPERBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -65,18 +65,18 @@
 
 #include <OSGFieldContainer.h> // Parent
 
-#include <OSGFontStylePFields.h> // ContainedFontStyle type
+#include <OSGSharedFontStyleFields.h> // FStyleContainer type
 
-#include <OSGSharedFontStyleFields.h>
+#include <OSGSharedFontStyleWrapperFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class SharedFontStyle;
+class SharedFontStyleWrapper;
 class BinaryDataHandler;
 
-//! \brief SharedFontStyle Base Class.
+//! \brief SharedFontStyleWrapper Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING SharedFontStyleBase : public FieldContainer
+class OSG_SYSTEMLIB_DLLMAPPING SharedFontStyleWrapperBase : public FieldContainer
 {
   private:
 
@@ -87,11 +87,11 @@ class OSG_SYSTEMLIB_DLLMAPPING SharedFontStyleBase : public FieldContainer
 
     enum
     {
-        ContainedFontStyleFieldId = Inherited::NextFieldId,
-        NextFieldId               = ContainedFontStyleFieldId + 1
+        FStyleContainerFieldId = Inherited::NextFieldId,
+        NextFieldId            = FStyleContainerFieldId + 1
     };
 
-    static const OSG::BitVector ContainedFontStyleFieldMask;
+    static const OSG::BitVector FStyleContainerFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -118,17 +118,17 @@ class OSG_SYSTEMLIB_DLLMAPPING SharedFontStyleBase : public FieldContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFFontStyleP        *getSFContainedFontStyle(void);
+           SFSharedFontStylePtr *getSFFStyleContainer(void);
 
-           FontStyleP          &getContainedFontStyle(void);
-     const FontStyleP          &getContainedFontStyle(void) const;
+           SharedFontStylePtr  &getFStyleContainer(void);
+     const SharedFontStylePtr  &getFStyleContainer(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setContainedFontStyle( const FontStyleP &value );
+     void setFStyleContainer( const SharedFontStylePtr &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -155,8 +155,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SharedFontStyleBase : public FieldContainer
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  SharedFontStylePtr      create          (void); 
-    static  SharedFontStylePtr      createEmpty     (void); 
+    static  SharedFontStyleWrapperPtr      create          (void); 
+    static  SharedFontStyleWrapperPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -174,29 +174,29 @@ class OSG_SYSTEMLIB_DLLMAPPING SharedFontStyleBase : public FieldContainer
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFFontStyleP        _sfContainedFontStyle;
+    SFSharedFontStylePtr   _sfFStyleContainer;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    SharedFontStyleBase(void);
-    SharedFontStyleBase(const SharedFontStyleBase &source);
+    SharedFontStyleWrapperBase(void);
+    SharedFontStyleWrapperBase(const SharedFontStyleWrapperBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~SharedFontStyleBase(void); 
+    virtual ~SharedFontStyleWrapperBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      SharedFontStyleBase *pOther,
+    void executeSyncImpl(      SharedFontStyleWrapperBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -210,7 +210,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SharedFontStyleBase : public FieldContainer
 
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const SharedFontStyleBase &source);
+    void operator =(const SharedFontStyleWrapperBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -218,10 +218,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SharedFontStyleBase : public FieldContainer
 //---------------------------------------------------------------------------
 
 
-typedef SharedFontStyleBase *SharedFontStyleBaseP;
+typedef SharedFontStyleWrapperBase *SharedFontStyleWrapperBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSHAREDFONTSTYLEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.30 2003/01/20 05:23:53 vossg Exp $"
+#define OSGSHAREDFONTSTYLEWRAPPERBASE_HEADER_CVSID "@(#)$Id: OSGSharedFontStyleWrapperBase.h,v 1.1 2003/02/24 16:05:14 trembilski Exp $"
 
-#endif /* _OSGSHAREDFONTSTYLEBASE_H_ */
+#endif /* _OSGSHAREDFONTSTYLEWRAPPERBASE_H_ */

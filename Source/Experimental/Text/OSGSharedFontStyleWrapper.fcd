@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="SharedFontStyleWrapper"
+	parent="FieldContainer"
+	library="System"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+This class is needed to prevent font styles to be loaded n times when n Text Nodes using the SharedFontStyle are loaded
+	<Field
+		name="FStyleContainer"
+		type="SharedFontStylePtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Contains a font.
+	</Field>
+</FieldContainer>

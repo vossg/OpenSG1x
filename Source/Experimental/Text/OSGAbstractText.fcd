@@ -21,7 +21,7 @@
 	</Field>
 	<Field
 		name="Font"
-		type="SharedFontStylePtr"
+		type="SharedFontStyleWrapperPtr"
 		cardinality="single"
 		visibility="external"
 		access="public"

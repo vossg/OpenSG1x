@@ -79,7 +79,7 @@ SFVec3f *AbstractTextBase::getSFPosition(void)
 
 //! Get the AbstractText::_sfFont field.
 inline
-SFSharedFontStylePtr *AbstractTextBase::getSFFont(void)
+SFSharedFontStyleWrapperPtr *AbstractTextBase::getSFFont(void)
 {
     return &_sfFont;
 }
@@ -129,21 +129,21 @@ void AbstractTextBase::setPosition(const Vec3f &value)
 
 //! Get the value of the AbstractText::_sfFont field.
 inline
-SharedFontStylePtr &AbstractTextBase::getFont(void)
+SharedFontStyleWrapperPtr &AbstractTextBase::getFont(void)
 {
     return _sfFont.getValue();
 }
 
 //! Get the value of the AbstractText::_sfFont field.
 inline
-const SharedFontStylePtr &AbstractTextBase::getFont(void) const
+const SharedFontStyleWrapperPtr &AbstractTextBase::getFont(void) const
 {
     return _sfFont.getValue();
 }
 
 //! Set the value of the AbstractText::_sfFont field.
 inline
-void AbstractTextBase::setFont(const SharedFontStylePtr &value)
+void AbstractTextBase::setFont(const SharedFontStyleWrapperPtr &value)
 {
     _sfFont.setValue(value);
 }
@@ -214,5 +214,5 @@ const MFString &AbstractTextBase::getText(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGABSTRACTTEXTBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGABSTRACTTEXTBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 
