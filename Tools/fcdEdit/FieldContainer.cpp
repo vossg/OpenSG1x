@@ -1144,6 +1144,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				"@!FieldtypeInclude",
 				"@!FieldTypedDefault",	
 				"@!CARDINALITY",		"@!Fieldtype",
+                "@!CapsFieldtype",
 				"@!fieldnameDesc",
 				"@!fieldname", 			"@!Fieldname", 
 				"@!FIELDNAME", 			"@!fieldvisibility",
@@ -1159,12 +1160,13 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 					FieldtypeIncludeE,
 					FieldTypedDefaultE, 
 					CARDINALITYE,		FieldtypeE,
+                    FieldtypeCapsE,
 					fieldnameDescE,
 					fieldnameE, 		FieldnameE, 
 					FIELDNAMEE, 		fieldvisibilityE,
 					DescriptionE,		FielddescriptionE, 
 					FieldSeparatorE,	FieldDefaultHeaderE,
-					HeaderPrefixE, 		
+					HeaderPrefixE 		
 					} varE;
 			char *values[ sizeof(keys) / sizeof( char * ) ];
 					
@@ -1182,13 +1184,16 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 			{
 				char * s;
 
-				values[CARDINALITYE] = fieldcardinality;
-				values[FieldtypeE] = strdup(fieldtype);
-				values[fieldnameE] = strdup(fieldname);
-				values[FieldnameE] = fieldnameCaps;
-				values[FIELDNAMEE] = fieldnameUpper;
-				values[fieldvisibilityE] = (char*)(fieldIt->visibility() ? "false" : "true");
-                values[fieldnameDescE] = fieldnameDesc;
+				values[CARDINALITYE]      = fieldcardinality;
+				values[FieldtypeE]        = strdup(fieldtype);
+				values[FieldtypeCapsE]    = strdup(fieldtype);
+				values[fieldnameE]        = strdup(fieldname);
+				values[FieldnameE]        = fieldnameCaps;
+				values[FIELDNAMEE]        = fieldnameUpper;
+				values[fieldvisibilityE]  = (char*)(fieldIt->visibility() ? "false" : "true");
+                values[fieldnameDescE]    = fieldnameDesc;
+
+				values[FieldtypeCapsE][0] = toupper(values[FieldtypeCapsE][0]);
 
 				if ( fieldIt->defaultValue() )
 				{
@@ -1217,7 +1222,8 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 						strcpy( s, "OSG" );
 					else
 						strcpy( s, "OpenSG/OSG" );
-					strcat( s, fieldtype );
+					strcat( s, values[FieldtypeCapsE] );
+
 					// remove the Ptr suffix
 					if ( !strcmp( &s[strlen(s) - 3], "Ptr" ) )
 						s[strlen(s) - 3] = 0;
@@ -1245,7 +1251,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 			}
 			else
 			{
-				values[CARDINALITYE] = values[FieldtypeE] = 
+				values[CARDINALITYE] = values[FieldtypeE] = values[FieldtypeCapsE] = 
 				values[fieldnameE] = values[FieldnameE] = 
 				values[FIELDNAMEE] = values[fieldvisibilityE] = 
 				values[FieldTypedDefaultE] = values[FieldtypeIncludeE] = 
@@ -1311,6 +1317,9 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				
 			if ( values[FieldtypeE] )	
 				free( values[FieldtypeE] );
+
+			if ( values[FieldtypeCapsE] )	
+				free( values[FieldtypeCapsE] );
 				
 			if ( values[fieldnameE] )	
 				free( values[fieldnameE] );

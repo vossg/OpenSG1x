@@ -108,7 +108,7 @@ char *FCBaseTemplate_inl[]={
 "", 
 "@@BeginFieldLoop@@",
 "OSG_@!LIBNAME!@LIB_DLLMAPPING",
-"@!CARDINALITY!@@!Fieldtype!@ *@!Classname!@Base::get"
+"@!CARDINALITY!@@!CapsFieldtype!@ *@!Classname!@Base::get"
 "@!CARDINALITY!@@!Fieldname!@(void)",
 "{",
 "    return &_@!fieldname!@;",
@@ -144,12 +144,12 @@ char *FCBaseTemplate_inl[]={
 "    return _@!fieldname!@.getValue( index );",
 "}",
 "",
-"@!CARDINALITY!@@!Fieldtype!@ &@!Classname!@Base::get@!Fieldname!@(void)",
+"@!CARDINALITY!@@!CapsFieldtype!@ &@!Classname!@Base::get@!Fieldname!@(void)",
 "{",
 "    return _@!fieldname!@;",
 "}",
 "",
-"const @!CARDINALITY!@@!Fieldtype!@ &@!Classname!@Base::get@!Fieldname!@(void) const",
+"const @!CARDINALITY!@@!CapsFieldtype!@ &@!Classname!@Base::get@!Fieldname!@(void) const",
 "{",
 "    return _@!fieldname!@;",
 "}",
@@ -158,6 +158,6 @@ char *FCBaseTemplate_inl[]={
 "",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@BASE_INLINE_CVSID \"@(#)$Id: FCBaseTemplate_inl.h,v 1.11 2001/10/02 16:52:36 dirk Exp $\"",
+"#define OSG@!CLASSNAME!@BASE_INLINE_CVSID \"@(#)$Id: FCBaseTemplate_inl.h,v 1.12 2001/10/10 13:46:23 vossg Exp $\"",
 "",
 NULL};
