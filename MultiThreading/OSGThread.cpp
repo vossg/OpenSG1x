@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -66,70 +62,56 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGTHREAD_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGTHREAD_INLINE_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char ThreadCommonBase::cvsid[]        = "@(#)$Id: $";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Constructor
+/*! \class osg::ThreadCommonBase
  */
+
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
+
+ChangeList *ThreadCommonBase::getChangeList(void)
+{
+    return _pChangeList;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 ThreadCommonBase::ThreadCommonBase(const Char8  *szName,
                                          UInt32  uiId) :
     
-    Inherited(szName, uiId),
+     Inherited(szName, uiId),
 
     _uiAspectId (0),
     _pChangeList(NULL)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 ThreadCommonBase::~ThreadCommonBase(void)
 {
     subRefP(_pChangeList);
 }
+
+/*-------------------------------------------------------------------------*/
+/*                                 Set                                     */
 
 void ThreadCommonBase::setAspect(UInt32 uiAspectId)
 {
@@ -141,30 +123,13 @@ void ThreadCommonBase::setChangeList(ChangeList *pChangeList)
     setRefP(_pChangeList, pChangeList);
 }
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-ChangeList *ThreadCommonBase::getChangeList(void)
-{
-    return _pChangeList;
-}
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
 
 
 
 #if defined (OSG_USE_PTHREADS)
+
+/*! \class osg::PThreadBase
+ */
 
 #ifdef OSG_ASPECT_USE_CUSTOMSELF
 
@@ -174,20 +139,6 @@ extern "C"
 }
 
 #endif
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char PThreadBase::cvsid[] = "@(#)$Id: $";
 
 #ifdef OSG_ASPECT_USE_PTHREADKEY
 pthread_key_t PThreadBase::_aspectKey;
@@ -199,47 +150,8 @@ vector<UInt16      > PThreadBase::_vAspects;
 vector<ChangeList *> PThreadBase::_vChangelists;
 #endif
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-void PThreadBase::init(void)
-{
-    Inherited::init();
-
-    setupAspect    ();        
-    setupChangeList();        
-}
-
-#ifdef OSG_ASPECT_USE_PTHREADKEY
-void PThreadBase::freeAspect(void *pAspect)
-{
-    UInt32 *pUint = (UInt32 *) pAspect;
-
-    if(pUint != NULL)
-        delete pUint;
-}
-
-void PThreadBase::freeChangeList(void *pChangeList)
-{
-    ChangeList **pCl = (ChangeList **) pChangeList;
-
-    if(pCl != NULL)
-        delete pCl;
-}
-#endif
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
 
 UInt32 PThreadBase::getAspect(void)
 {
@@ -287,14 +199,72 @@ ChangeList *PThreadBase::getCurrentChangeList(void)
 #endif
 }
 
+/*-------------------------------------------------------------------------*/
+/*                                Run                                      */
 
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
+Bool PThreadBase::run(ThreadFuncF  fThreadFunc, 
+                      UInt32       uiAspectId,
+                      void        *pThreadArg)
+{
+    if(uiAspectId >= ThreadManager::getNumAspects())
+    {
+        SFATAL << "OSGPTB : invalid aspect id" << endl;
+        return false;
+    }
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+    Inherited::setAspect(uiAspectId);
+
+    return Inherited::run(fThreadFunc, pThreadArg);
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Free                                      */
+
+#ifdef OSG_ASPECT_USE_PTHREADKEY
+void PThreadBase::freeAspect(void *pAspect)
+{
+    UInt32 *pUint = (UInt32 *) pAspect;
+
+    if(pUint != NULL)
+        delete pUint;
+}
+
+void PThreadBase::freeChangeList(void *pChangeList)
+{
+    ChangeList **pCl = (ChangeList **) pChangeList;
+
+    if(pCl != NULL)
+        delete pCl;
+}
+#endif
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
+
+PThreadBase::PThreadBase(const Char8   *szName, 
+                               UInt32   uiId) :
+    Inherited(szName, uiId)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+PThreadBase::~PThreadBase(void)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Setup                                     */
+
+void PThreadBase::init(void)
+{
+    Inherited::init();
+
+    setupAspect    ();        
+    setupChangeList();        
+}
+
 
 void PThreadBase::setupAspect(void)
 {
@@ -392,33 +362,35 @@ void PThreadBase::setupChangeList(void)
 #endif
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+#endif /* OSG_USE_PTHREADS */
 
-/** \brief Constructor
+
+
+
+#if defined (OSG_USE_SPROC)
+
+/*! \class osg::SprocBase
  */
 
-PThreadBase::PThreadBase(const Char8   *szName, 
-                                UInt32  uiId) :
-    Inherited   (szName, uiId)
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
+
+UInt32 SprocBase::getAspect(void)
 {
+    return ((OSGProcessData *) PRDA->usr_prda.fill)->_uiAspectId;
 }
 
-/** \brief Destructor
- */
-
-PThreadBase::~PThreadBase(void)
+ChangeList *SprocBase::getCurrentChangeList(void)
 {
+    return ((OSGProcessData *) PRDA->usr_prda.fill)->_pChangeList;
 }
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Run                                      */
 
-Bool PThreadBase::run(ThreadFuncF  fThreadFunc, 
-                      UInt32       uiAspectId,
-                      void        *pThreadArg)
+Bool SprocBase::run(ThreadFuncF  fThreadFunc, 
+                    UInt32       uiAspectId,
+                    void        *pThreadArg)
 {
     if(uiAspectId >= ThreadManager::getNumAspects())
     {
@@ -431,87 +403,8 @@ Bool PThreadBase::run(ThreadFuncF  fThreadFunc,
     return Inherited::run(fThreadFunc, pThreadArg);
 }
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
-#endif /* OSG_USE_PTHREADS */
-
-
-
-
-#if defined (OSG_USE_SPROC)
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char SprocBase::cvsid[] = "@(#)$Id: $";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-void SprocBase::init(void)
-{
-    Inherited::init();
-
-    setAspectInternal      (this->_uiAspectId);
-    setupChangeListInternal();
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-UInt32 SprocBase::getAspect(void)
-{
-    return ((OSGProcessData *) PRDA->usr_prda.fill)->_uiAspectId;
-}
-
-ChangeList *SprocBase::getCurrentChangeList(void)
-{
-    return ((OSGProcessData *) PRDA->usr_prda.fill)->_pChangeList;
-}
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 SprocBase::SprocBase(const Char8  *szName,
                            UInt32  uiId) :    
@@ -519,16 +412,30 @@ SprocBase::SprocBase(const Char8  *szName,
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 SprocBase::~SprocBase(void)
 {
 }
 
+/*-------------------------------------------------------------------------*/
+/*                                Set                                      */
+
 void SprocBase::setAspectInternal(UInt32 uiAspect)
 {
     ((OSGProcessData *) PRDA->usr_prda.fill)->_uiAspectId = uiAspect;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Setup                                     */
+
+void SprocBase::init(void)
+{
+    Inherited::init();
+
+    setAspectInternal      (this->_uiAspectId);
+    setupChangeListInternal();
 }
 
 void SprocBase::setupChangeListInternal(void)
@@ -552,55 +459,15 @@ void SprocBase::setupChangeListInternal(void)
     Inherited::_pChangeList->setAspect(Inherited::_uiAspectId);
 }
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-Bool SprocBase::run(ThreadFuncF  fThreadFunc, 
-                    UInt32       uiAspectId,
-                    void        *pThreadArg)
-{
-    if(uiAspectId >= ThreadManager::getNumAspects())
-    {
-        SFATAL << "OSGPTB : invalid aspect id" << endl;
-        return false;
-    }
-
-    Inherited::setAspect(uiAspectId);
-
-    return Inherited::run(fThreadFunc, pThreadArg);
-}
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
 #endif /* OSG_USE_SPROC */
+
+
 
 
 #if defined (OSG_USE_WINTHREADS)
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char WinThreadBase::cvsid[] = "@(#)$Id: $";
+/*! \class osg::WinThreadBase
+ */
 
 #if defined(OSG_ASPECT_USE_LOCALSTORAGE)
 UInt32 WinThreadBase::_aspectKey = 0;
@@ -612,49 +479,8 @@ __declspec (thread) UInt32      WinThreadBase::_uiAspectLocal    = 0;
 __declspec (thread) ChangeList *WinThreadBase::_pChangeListLocal = NULL;
 #endif
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-#if defined (OSG_ASPECT_USE_LOCALSTORAGE)
-void WinThreadBase::freeAspect(void)
-{
-    UInt32 *pUint;
-
-    pUint = (UInt32 *) TlsGetValue(_aspectKey);
-
-    delete pUint;
-}
-
-void WinThreadBase::freeChangeList(void)
-{
-    ChangeList **pCList;
-
-    pCList = (ChangeList **) TlsGetValue(_changeListKey);
-
-    delete pCList;
-}
-#endif
-
-void WinThreadBase::init(void)
-{
-    Inherited::init();
-
-    setupAspect();
-    setupChangeList();        
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
 
 UInt32 WinThreadBase::getAspect(void)
 {
@@ -684,20 +510,49 @@ ChangeList *WinThreadBase::getCurrentChangeList(void)
 #endif
 }
 
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                                Run                                      */
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+Bool WinThreadBase::run(ThreadFuncF  fThreadFunc, 
+                        UInt32       uiAspectId,
+                        void        *pThreadArg)
+{
+    if(uiAspectId >= ThreadManager::getNumAspects())
+    {
+        SFATAL << "OSGPTB : invalid aspect id" << endl;
+        return false;
+    }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+    Inherited::setAspect(uiAspectId);
 
-/** \brief Constructor
- */
+    return Inherited::run(fThreadFunc, pThreadArg);
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Free                                      */
+
+#if defined (OSG_ASPECT_USE_LOCALSTORAGE)
+void WinThreadBase::freeAspect(void)
+{
+    UInt32 *pUint;
+
+    pUint = (UInt32 *) TlsGetValue(_aspectKey);
+
+    delete pUint;
+}
+
+void WinThreadBase::freeChangeList(void)
+{
+    ChangeList **pCList;
+
+    pCList = (ChangeList **) TlsGetValue(_changeListKey);
+
+    delete pCList;
+}
+#endif
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 WinThreadBase::WinThreadBase(const Char8  *szName,
                                    UInt32  uiId) :
@@ -705,13 +560,23 @@ WinThreadBase::WinThreadBase(const Char8  *szName,
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 WinThreadBase::~WinThreadBase(void)
 {
 }
 
+/*-------------------------------------------------------------------------*/
+/*                               Setup                                     */
+
+void WinThreadBase::init(void)
+{
+    Inherited::init();
+
+    setupAspect    ();
+    setupChangeList();        
+}
 
 void WinThreadBase::setupAspect(void)
 {
@@ -767,55 +632,13 @@ void WinThreadBase::setupChangeList(void)
 #endif
 }
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-Bool WinThreadBase::run(ThreadFuncF  fThreadFunc, 
-                        UInt32       uiAspectId,
-                        void        *pThreadArg)
-{
-    if(uiAspectId >= ThreadManager::getNumAspects())
-    {
-        SFATAL << "OSGPTB : invalid aspect id" << endl;
-        return false;
-    }
-
-    Inherited::setAspect(uiAspectId);
-
-    return Inherited::run(fThreadFunc, pThreadArg);
-}
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
 #endif /* OSG_USE_WINTHREADS */
 
 
 
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char Thread::cvsid[] = "@(#)$Id: $";
+/*! \class osg::Thread
+ */
 
 MPThreadType Thread::_type("OSGThread", 
                            "OSGMPBase", 
@@ -824,17 +647,30 @@ MPThreadType Thread::_type("OSGThread",
 
 const UInt32 Thread::InvalidAspect = TypeConstants<UInt32>::getAllSet();
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+Thread  *Thread::getCurrent(void)
+{
+    return static_cast<Thread *>(Inherited::getCurrent());
+}
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+Thread *Thread::get(const Char8 *szName)
+{
+    BaseThread *pThread = ThreadManager::the()->getThread(szName, "OSGThread");
+
+    return dynamic_cast<Thread *>(pThread);
+}
+
+Thread *Thread::find(const Char8 *szName)
+{
+    BaseThread *pThread = ThreadManager::the()->findThread(szName);
+
+    return dynamic_cast<Thread *>(pThread);
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Setup                                     */
 
 Thread *Thread::create(const Char8 *szName, UInt32 uiId)
 {
@@ -886,100 +722,18 @@ void Thread::initThreading(void)
     ThreadManager::setAppThreadType("OSGThread");
 }
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-Thread  *Thread::getCurrent(void)
-{
-    return static_cast<Thread *>(Inherited::getCurrent());
-}
-
-Thread *Thread::get(const Char8 *szName)
-{
-    BaseThread *pThread = ThreadManager::the()->getThread(szName, "OSGThread");
-
-    return dynamic_cast<Thread *>(pThread);
-}
-
-Thread *Thread::find(const Char8 *szName)
-{
-    BaseThread *pThread = ThreadManager::the()->findThread(szName);
-
-    return dynamic_cast<Thread *>(pThread);
-}
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 Thread::Thread(const Char8 *szName, UInt32 uiId) :
     Inherited(szName, uiId)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 Thread::~Thread(void)
 {
 }
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
-
-
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

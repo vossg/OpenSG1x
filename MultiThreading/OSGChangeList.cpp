@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -55,76 +51,50 @@
 
 OSG_USING_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGCHANGELIST_HEADER_CVSID;
+}
 
-char ChangeList::cvsid[] = "@(#)$Id: $";
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
+/*! \class osg::ChangeList
  */
 
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
+
 ChangeList::ChangeList(void) :
-    Inherited(),
-    _bReadOnly(false),
-    _uiAspectId(Thread::getAspect()),
-    _listMode(Public),
-    _vChangedFieldContainers(),
-    _vAddRefdFieldContainers(),
-    _vSubRefdFieldContainers(),
-    _vCreatedFieldContainers(),
+     Inherited                (),
+    _bReadOnly                (false),
+    _uiAspectId               (Thread::getAspect()),
+    _listMode                 (Public),
+    _vChangedFieldContainers  (),
+    _vAddRefdFieldContainers  (),
+    _vSubRefdFieldContainers  (),
+    _vCreatedFieldContainers  (),
     _vDestroyedFieldContainers()
 {
 //    Aspect::addList(this, _aspectId);
 }
 
-
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 ChangeList::~ChangeList(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
 
 ChangeList::changed_size_type ChangeList::sizeChanged(void)
 {    
@@ -201,6 +171,9 @@ ChangeList::idrefd_size_type ChangeList::sizeDestroyed(void) const
     return _vDestroyedFieldContainers.size();
 }
 
+/*-------------------------------------------------------------------------*/
+/*                                Add                                      */
+
 void ChangeList::addChanged(const FieldContainerPtr &pFieldContainer, 
                                   BitVector          bvWhichField)
 {
@@ -250,6 +223,9 @@ void ChangeList::addDestroyed(const UInt32 uiContainerId)
     _vDestroyedFieldContainers.push_back(uiContainerId);
 }
 
+/*-------------------------------------------------------------------------*/
+/*                               Helper                                    */
+
 void ChangeList::clearAll(void)
 {
     _vChangedFieldContainers.clear();
@@ -288,6 +264,31 @@ Bool ChangeList::merge(const ChangeList &clist)
 
     return returnValue;
 }
+
+void ChangeList::setAspect(UInt32 uiAspectId)
+{
+    if(_vChangedFieldContainers.size() != 0 ||
+       _vAddRefdFieldContainers.size() != 0 ||
+       _vSubRefdFieldContainers.size() != 0)
+    {
+        SWARNING << "Changing aspect on non empty changelist, all currrent "
+                    << "entries will be lost" << endl;          
+    }
+
+    clearAll();
+
+//    OSGAspect::moveList(this, _aspectId, aspectId);
+
+    _uiAspectId = uiAspectId;
+}
+
+void ChangeList::setReadOnly(Bool bReadOnly)
+{
+    _bReadOnly = bReadOnly;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Apply                                     */
 
 void ChangeList::applyTo(UInt32 uiAspectId)
 {
@@ -341,27 +342,8 @@ void ChangeList::applyToCurrent(void)
     applyTo(Thread::getAspect());
 }
 
-void ChangeList::setAspect(UInt32 uiAspectId)
-{
-    if(_vChangedFieldContainers.size() != 0 ||
-       _vAddRefdFieldContainers.size() != 0 ||
-       _vSubRefdFieldContainers.size() != 0)
-    {
-        SWARNING << "Changing aspect on non empty changelist, all currrent "
-                    << "entries will be lost" << endl;          
-    }
-
-    clearAll();
-
-//    OSGAspect::moveList(this, _aspectId, aspectId);
-
-    _uiAspectId = uiAspectId;
-}
-
-void ChangeList::setReadOnly(Bool bReadOnly)
-{
-    _bReadOnly = bReadOnly;
-}
+/*-------------------------------------------------------------------------*/
+/*                              Dump                                       */
 
 void ChangeList::dump(void)
 {
@@ -408,32 +390,4 @@ void ChangeList::dump(void)
         fprintf(stderr, "\t%d\n", _vDestroyedFieldContainers[i]);
     }
 }
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

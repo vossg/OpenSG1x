@@ -42,10 +42,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <vector>
 
 #include <OSGSystemDef.h>
@@ -55,43 +51,22 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Thread;
 class Field;
 
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! \ingroup BaseThreading
- *  \brief ChangeList
- */
+//! ChangeList
+//! \ingroup BaseThreading
 
 class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
 {
+    /*==========================  PUBLIC  =================================*/
   public:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
 
     enum Mode
     {
         Private,
         Public
     };
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
 
 //    typedef pair<FieldContainerPtr, BitVector>  ChangeEntry;
 
@@ -111,51 +86,113 @@ class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
     typedef vector<IdRefEntry>::size_type       idrefd_size_type;
     typedef vector<IdRefEntry>::const_iterator  idrefd_const_iterator;
 
-  private:
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    ChangeList(void);
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    virtual ~ChangeList(void); 
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Get                                     */
+    /*! \{                                                                 */
+
+    changed_size_type      sizeChanged   (void);
+
+    changed_const_iterator beginChanged  (void) const;
+    changed_const_iterator endChanged    (void) const;
+    
+    refd_size_type         sizeAddRefd   (void);
+
+    refd_const_iterator    beginAddRefd  (void) const;
+    refd_const_iterator    endAddRefd    (void) const;
+
+    refd_size_type         sizeSubRefd   (void);
+
+    refd_const_iterator    beginSubRefd  (void) const;
+    refd_const_iterator    endSubRefd    (void) const;
+
+    idrefd_const_iterator  beginCreated  (void) const;
+    idrefd_const_iterator  endCreated    (void) const;
+
+    idrefd_size_type       sizeCreated   (void) const;
+
+    idrefd_const_iterator  beginDestroyed(void) const;
+    idrefd_const_iterator  endDestroyed  (void) const;
+
+    idrefd_size_type       sizeDestroyed (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Add                                     */
+    /*! \{                                                                 */
+
+    void addChanged  (const FieldContainerPtr &pFieldContainer, 
+                            BitVector          bvWhichField   );
+    void addAddRefd  (const FieldContainerPtr &pFieldContainer);
+    void addSubRefd  (const FieldContainerPtr &pFieldContainer);
+
+    void addCreated  (const UInt32 uiContainerId);
+    void addDestroyed(const UInt32 uiContainerId);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Helper                                   */
+    /*! \{                                                                 */
+    
+    void clearAll   (      void             );
+    Bool merge      (const ChangeList &list );
+
+    void setAspect  (      UInt32 uiAspectId);
+
+    void setReadOnly(      Bool bReadOnly   );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Apply                                   */
+    /*! \{                                                                 */
+
+    void applyTo       (UInt32 uiAspectId);
+    void applyToCurrent(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
+
+    void dump(void);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
     typedef MemoryObject Inherited;
 
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
+    /*==========================  PRIVATE  ================================*/
+  private:
 
     friend class Thread;
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
+    Bool                _bReadOnly;
 
-    static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    Bool           _bReadOnly;
-
-    UInt32         _uiAspectId;
-    Mode           _listMode;
+    UInt32              _uiAspectId;
+    Mode                _listMode;
 
     vector<ChangeEntry> _vChangedFieldContainers;
 
-//    vector<RefEntry>    _vAddRefdFieldContainers;
-//    vector<RefEntry>    _vSubRefdFieldContainers;
+//    vector<RefEntry>  _vAddRefdFieldContainers;
+//    vector<RefEntry>  _vSubRefdFieldContainers;
 
     vector<IdRefEntry>  _vAddRefdFieldContainers;
     vector<IdRefEntry>  _vSubRefdFieldContainers;
@@ -163,110 +200,17 @@ class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
     vector<IdRefEntry>  _vCreatedFieldContainers;
     vector<IdRefEntry>  _vDestroyedFieldContainers;
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
 
-    // prohibit default functions (move to 'public' if you need one)
-
+    /*!\brief prohibit default function (move to 'public' if needed) */
     ChangeList(const ChangeList &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const ChangeList &source);
-
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-  public:
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    ChangeList(void);
-    virtual ~ChangeList(void); 
-
-    /*------------------------- your_category -------------------------------*/
-
-    changed_size_type      sizeChanged (void);
-
-    changed_const_iterator beginChanged(void) const;
-    changed_const_iterator endChanged  (void) const;
-    
-    refd_size_type         sizeAddRefd (void);
-
-    refd_const_iterator    beginAddRefd(void) const;
-    refd_const_iterator    endAddRefd  (void) const;
-
-    refd_size_type         sizeSubRefd (void);
-
-    refd_const_iterator    beginSubRefd(void) const;
-    refd_const_iterator    endSubRefd  (void) const;
-
-    idrefd_const_iterator  beginCreated(void) const;
-    idrefd_const_iterator  endCreated  (void) const;
-
-    idrefd_size_type       sizeCreated (void) const;
-
-    idrefd_const_iterator  beginDestroyed(void) const;
-    idrefd_const_iterator  endDestroyed  (void) const;
-
-    idrefd_size_type       sizeDestroyed (void) const;
-
-    void addChanged  (const FieldContainerPtr &pFieldContainer, 
-                               BitVector       bvWhichField);
-    void addAddRefd  (const FieldContainerPtr &pFieldContainer);
-    void addSubRefd  (const FieldContainerPtr &pFieldContainer);
-
-    void addCreated  (const UInt32 uiContainerId);
-    void addDestroyed(const UInt32 uiContainerId);
-    
-    void clearAll    (void);
-    Bool merge       (const ChangeList &list);
-
-    void setAspect  (UInt32 uiAspectId);
-
-    void setReadOnly(Bool bReadOnly);
-
-    void applyTo       (UInt32 uiAspectId);
-    void applyToCurrent(void);
-
-    void dump(void);
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-// class pointer
-
-typedef ChangeList *ChangeListP;
 
 OSG_END_NAMESPACE
 
-#endif /* _CLASSNAME_H_ */
+#define OSGCHANGELIST_HEADER_CVSID "@(#)$Id: $"
+
+#endif /* _OSGCHANGELIST_H_ */
