@@ -187,23 +187,51 @@ void Billboard::calcMatrix(DrawActionBase *pAction, Matrix &mResult)
 
     if(getAxisOfRotation() == Vec3f::Null)
     {
-        Vec3f u  (0.f, 1.f, 0.f);
-        Vec3f vUp;
-        Vec3f uW;
+        if(true)
+        {
+            Vec3f u  (0.f, 1.f, 0.f);
+            Vec3f vUp;
+            Vec3f uW;
+            
+            mCamToWorld.mult(eyepos);
+            mToWorld   .mult(objpos);
 
-        vDir.setValue(mCamToWorld[2]);
+            vDir = eyepos - objpos;
 
-        vUp.setValue (mCamToWorld[1]);
-
-        Quaternion qN(n, vDir);
-
-        mToWorld.mult(u);
-        
-        qN.multVec(u, uW);
-
-        q1.setValue(uW, vUp);
-
-        q1.mult(qN);
+//            vDir.setValue(mCamToWorld[2]);
+            
+            vUp.setValue (mCamToWorld[1]);
+            
+            Quaternion qN(n, vDir);
+            
+            mToWorld.mult(u);
+            
+            qN.multVec(u, uW);
+            
+            q1.setValue(uW, vUp);
+            
+            q1.mult(qN);
+        }
+        else
+        {
+            Vec3f u  (0.f, 1.f, 0.f);
+            Vec3f vUp;
+            Vec3f uW;
+            
+            vDir.setValue(mCamToWorld[2]);
+            
+            vUp.setValue (mCamToWorld[1]);
+            
+            Quaternion qN(n, vDir);
+            
+            mToWorld.mult(u);
+            
+            qN.multVec(u, uW);
+            
+            q1.setValue(uW, vUp);
+            
+            q1.mult(qN);
+        }
     }
     else
     {
