@@ -61,8 +61,21 @@ int lastx=0, lasty=0;
 void 
 display(void)
 {
-	OSGMatrix m1, m2;
-	m1.setRotate( tball.getRotation() );
+	OSGMatrix m1, m2, m3;
+    OSGQuaternion q1;
+
+    tball.getRotation().getValue(m3);
+
+    q1.setValue(m3);
+
+    m1.setRotate(q1);
+    
+//    cout << "TBROT" << endl << tball.getRotation() << endl;
+//    cout << "M3" << endl << m3 << endl;
+//    cout << "Q1" << endl << q1 << endl;
+//    cout << "M1" << endl << m1 << endl;
+
+//	m1.setRotate( tball.getRotation() );
 	m2.setTranslate( tball.getPosition() );
 	
 //cout << "Pos: " << tball.getPosition() << ", Rot: " << tball.getRotation() << endl;
@@ -334,6 +347,14 @@ int main (int argc, char **argv)
 	tball.setTranslationMode( OSGTrackball::OSGFree );
 
 	// run...
+
+    OSGFieldContainerPtr pc;
+
+    pc.dump();
+
+    pc = OSGFieldContainerFactory::the().createFieldContainer("Camera");
+
+    pc.dump();
 	
 	glutMainLoop();
 	

@@ -252,6 +252,8 @@ OSGCamera& OSGCamera::operator = (const OSGCamera &source)
 	// alloc new mem for members
 
 	// copy 
+
+    return *this;
 }
 
 /*-------------------------- comparison -----------------------------------*/

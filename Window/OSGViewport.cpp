@@ -304,6 +304,8 @@ OSGViewport& OSGViewport::operator = (const OSGViewport &source)
 	// alloc new mem for members
 
 	// copy 
+
+    return *this;
 }
 
 /*-------------------------- comparison -----------------------------------*/
