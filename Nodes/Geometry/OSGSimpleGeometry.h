@@ -153,6 +153,20 @@ OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeSphereGeo(UInt16 depth,
  */
 OSG_SYSTEMLIB_DLLMAPPING NodePtr makeSphere(UInt16 depth, Real32 radius);
 
+/*! \brief create a sphere divided in latitude and longitude
+ *  \ingroup SimpleGeometry
+ */
+OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeLatLongSphereGeo(UInt16 latres,
+                                                          UInt16 longres,
+                                                          Real32 radius);
+
+/*! \brief create a sphere geometry divided in latitude and longitude and node
+ *  \ingroup SimpleGeometry
+ */
+OSG_SYSTEMLIB_DLLMAPPING NodePtr makeLatLongSphere(UInt16 latres, 
+                                                   UInt16 longres,
+                                                   Real32 radius);
+
 /*! \brief create a conical frustum
  *  \ingroup SimpleGeometry
  */
