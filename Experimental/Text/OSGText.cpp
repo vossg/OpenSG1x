@@ -49,12 +49,13 @@ Text::Text (void )
     return;
 }
 
-Text::Text (const Text &obj )
+
+Text::Text(const Text &OSG_CHECK_ARG(obj))
 {
     assert(false);
 }
 
-Text::~Text (void )
+Text::~Text(void)
 {
     return;
 }
@@ -67,7 +68,7 @@ bool Text::fillTxfNode(NodePtr node, vector<string*> lineVec)
 {
   int i, j, k, sStart, sStop, sStep, lStart, lStop, lStep;
   int numChars, numLineChars, vertOff, stride=0, width, height;
-  float xOff, yOff, trX, scale, tmpWidth, oaWidth, oaHeight;
+  float xOff, yOff, scale, tmpWidth, oaWidth;
   TXFGlyphInfo *currentGlyph;
   GeoPositionsPtr points;
   GeoNormalsPtr normals;
@@ -120,7 +121,6 @@ bool Text::fillTxfNode(NodePtr node, vector<string*> lineVec)
   beginEditCP(faces, GeoIndicesUI32::GeoPropDataFieldMask);
 
   scale = ((float)_fontInstance->getBaselineSkip()*_fontInstance->getYRes());
-  oaHeight = lineVec.size()*(float)_fontInstance->getBaselineSkip();
 
   oaWidth=0.f;
   tmpWidth=0.f;
@@ -271,9 +271,9 @@ bool Text::fillTxfNode(NodePtr node, vector<string*> lineVec)
 bool Text::fillImage (Image &image, 
 		      vector<string*> lineVec,
 		      Color4ub *fg, Color4ub *bg, 
-		      bool forcePower2=false, Real32 *maxX=0, Real32 *maxY=0,
-		      ImageCreationMode creationMode,
-		      MergeMode mergeMode,
+		      bool forcePower2, Real32 *maxX, Real32 *maxY,
+		      ImageCreationMode OSG_CHECK_ARG(creationMode),
+		      MergeMode OSG_CHECK_ARG(mergeMode),
 		      int pixelDepth
 		      ) const
     
@@ -282,9 +282,9 @@ bool Text::fillImage (Image &image,
     unsigned char *img=0;
     const int *res;
     const char *text;
-    int pen_x, pen_y, line, xoff, yoff, width=0, overallWidth=0, height=0, tmp;
+    int pen_x, pen_y, line, xoff, yoff, width=0, overallWidth=0, height=0;
     int overallHeight=0, i, j, k, l, tmpMinY, tmpMaxY, strStart, strEnd, strStep;
-    int p, f1, f2, tmpWidth;
+    int p, tmpWidth;
     unsigned char *srcPixel, *imageBuffer=0, *row=0, *dstPixel;
     bool retVal;
 
@@ -460,15 +460,15 @@ bool Text::fillGeo ( GeometryPtr mesh,
 			     vector<string*> lineVec,
 			     float precision,
 			     float extFac,
-			     float maxExtend,
+			     float OSG_CHECK_ARG(maxExtend),
 			     MeshCreationMode creationMode,
-			     MergeMode mergeMode
+			     MergeMode OSG_CHECK_ARG(mergeMode)
 			     ) 
 {
     int i, j, line, vertOff=0, faceOff=0, strOff=0, glyphOff=0, diff=0,
 	numVertices=0, numFaces=0, numFrontFaces=0, numNormals=0, strStart,
 	strEnd, strStep, lastVert=0, lastFace=0, lastNormal=0, normalOff=0,
-      glyphNOff=2, reuseNormals, nstride, facestride=2, f_norm=1, f_tmp;
+      glyphNOff=2, reuseNormals, nstride, facestride=2, f_norm=1;
     bool retVal=false;
     float lineOff=0.f, off=0.f, zCoord, bb[4], trX=0.0, trY=0.0, maxWidth=0.0,
 	tmpMinY=HUGE_VAL, tmpMaxY=-HUGE_VAL, localWidth, localHeight, descent;

@@ -3,6 +3,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+#include <iostream>
 #include <assert.h>
 
 // Application declarations
@@ -11,7 +12,7 @@
 
 
 // 'Class' declarations
-#include "OSGtesselationHandler.h"
+#include "OSGTesselationHandler.h"
 
 
 
@@ -19,34 +20,32 @@
 OSG_USING_NAMESPACE
 
 
+VectorFontGlyph *osg::tmTesselator = 0;
 
-
-VectorFontGlyph *tmTesselator = 0;
-
-void CALLINGCONV osg::tessBegin(GLenum type)
+void OSG_SYSTEMLIB_DLLMAPPING osg::tessBegin(GLenum OSG_CHECK_ARG(type))
 {
     assert(tmTesselator);
 }
 
-void CALLINGCONV  osg::tessEdgeFlag(GLboolean flag)
+void OSG_SYSTEMLIB_DLLMAPPING  osg::tessEdgeFlag(GLboolean OSG_CHECK_ARG(flag))
 {
     assert(tmTesselator);
 }
 
 //  ???
-void CALLINGCONV  osg::tessVertex(void *data)
+void OSG_SYSTEMLIB_DLLMAPPING  osg::tessVertex(void *data)
 {
     assert(tmTesselator);
     
     tmTesselator->addPoint((float *)data);
 }
 
-void CALLINGCONV  osg::tessEnd(void)
+void OSG_SYSTEMLIB_DLLMAPPING  osg::tessEnd(void)
 {
     assert(tmTesselator);
 }
 
-void CALLINGCONV  osg::tessError(GLenum errno)
+void OSG_SYSTEMLIB_DLLMAPPING  osg::tessError(GLenum errno)
 {
     assert(tmTesselator);
     cout << "got tesselation error : " << (int) errno << "(" 

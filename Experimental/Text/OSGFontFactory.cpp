@@ -31,11 +31,12 @@ FontFactory::FontFactory (void )
     return;
 }
 
-
+/*
 FontFactory::FontFactory (const FontFactory &obj )
 {
 	return;
 }
+*/
 
 FontFactory::~FontFactory (void )
 {

@@ -24,10 +24,12 @@ FontStyle::FontStyle (void )
     return;
 }
 
+/*
 FontStyle::FontStyle (const FontStyle &obj )
 {
 	return;
 }
+*/
 
 FontStyle::~FontStyle (void )
 {

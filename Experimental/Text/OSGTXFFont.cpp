@@ -34,7 +34,7 @@ bool sRead(istream &file, void *value, int size, bool swapit)
       ((char *)value)[i] = buffer[size-i-1];
   }
   else
-    file.read(value, size);
+    file.read(static_cast<char*>(value), size);
 
   return !file.fail();
 }
@@ -53,11 +53,12 @@ TXFFont::TXFFont (void )
 	return;
 }
 
+/*
 TXFFont::TXFFont (const TXFFont &obj )
 {
     return;
 }
-
+*/
 
 TXFFont::TXFFont (const char *name, string path )
 : Font (name, path )
@@ -88,14 +89,12 @@ TXFFont::~TXFFont (void )
 
 void TXFFont::initFromStream (istream & source)
 {
-  bool swapit, success=true;
-  unsigned char u_magic, *imageBuffer=NULL, *image=NULL, *imageRow;
+  bool swapit;
+  unsigned char u_magic, *imageBuffer=NULL;
   char  c_magic[3];
-  unsigned int ibuff, bitWidth, width, stride;
+  unsigned int ibuff, bitWidth, stride;
   unsigned short sbuff;
-  int min_glyph, max_glyph;
-  int endianness, swap, format;
-  int i, j, k, ret;
+  int i, j;
 
   // checking filetype
 
@@ -105,7 +104,7 @@ void TXFFont::initFromStream (istream & source)
   source.read(c_magic, 3);
   if(strncmp(c_magic, "txf", 3)) _valid = false;
 
-  source.read(&ibuff, 4);
+  source.read(reinterpret_cast<char*>(&ibuff), 4);
   swapit = (ibuff == 0x12345678 ? false : true);
 
   if(swapit && (ibuff - 0x78563412)) _valid = false;
@@ -146,11 +145,11 @@ void TXFFont::initFromStream (istream & source)
   if(_txfIsBitmap) {
     bitWidth = (_txfFontWidth + 7)/8;
     imageBuffer = new unsigned char [bitWidth*_txfFontHeight];
-    source.read(imageBuffer, bitWidth*_txfFontHeight);
+    source.read(reinterpret_cast<char*>(imageBuffer), bitWidth*_txfFontHeight);
   }
   else {
     imageBuffer = new unsigned char [_txfFontWidth*_txfFontHeight];
-    source.read(imageBuffer, _txfFontWidth*_txfFontHeight);
+    source.read(reinterpret_cast<char*>(imageBuffer), _txfFontWidth*_txfFontHeight);
   }
   _valid &= !source.fail();
 

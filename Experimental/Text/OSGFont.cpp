@@ -22,12 +22,13 @@ Font::Font (void )
     return;
 }
 
-Font::Font (const Font &obj )
-: _fontPath(NULL), _fontName(NULL), _valid(false)
+/*
+Font::Font (const Font &obj)
+: _fontPath(obj.__fontPath), _fontName(obj._fontName), _valid(false)
 {
 	return;
 }
-
+*/
 
 Font::Font (const char *name)
 : _fontName(name), _valid(false)

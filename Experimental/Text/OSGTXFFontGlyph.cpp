@@ -28,10 +28,12 @@ TXFFontGlyph::TXFFontGlyph (void )
 	return;
 }
 
+/*
 TXFFontGlyph::TXFFontGlyph (const TXFFontGlyph &obj )
 {
 	return;
 }
+*/
 
 TXFFontGlyph::TXFFontGlyph (int ascii, int unicode)
 : FontGlyph(ascii, unicode)
@@ -66,7 +68,8 @@ bool TXFFontGlyph::createGlyph (void )
 
 
 
-bool TXFFontGlyph::setSizes (float *_boundingBox, float & _advance)
+bool TXFFontGlyph::setSizes (float *OSG_CHECK_ARG(_boundingBox), 
+                             float &OSG_CHECK_ARG(_advance) )
 {
 
     return true;
@@ -74,7 +77,8 @@ bool TXFFontGlyph::setSizes (float *_boundingBox, float & _advance)
 
 
 
-bool TXFFontGlyph::setSizes (int *_boundingBox, int & _advance)
+bool TXFFontGlyph::setSizes (int *OSG_CHECK_ARG(_boundingBox), 
+                             int &OSG_CHECK_ARG(_advance) )
 {
     return true;
 }

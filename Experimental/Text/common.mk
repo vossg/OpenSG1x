@@ -1,5 +1,5 @@
 
-SUB_DIR     := Text
+SUB_DIR     := Experimental/Text
 PACKAGENAME := Text
 
 INCL_DIR    := $($(PROJ)POOL)/$(SUB_DIR)

@@ -18,7 +18,7 @@
 
 // Application declarations
 #include "OSGFontGlyphContour.h"
-#include "OSGtesselationHandler.h"
+#include "OSGTesselationHandler.h"
 
 
 
@@ -36,11 +36,14 @@ VectorFontGlyph::VectorFontGlyph (void )
     return;
 }
 
+/*
 VectorFontGlyph::VectorFontGlyph (const VectorFontGlyph &obj )
 {
 	return;
 }
+*/
 
+/*
 VectorFontGlyph::VectorFontGlyph (VGlyphType type )
 : _type(VGLYPH_NONE),  _depth(1.f),
   _precision(30.f), _points(), _numPoints(0), _indices(), _numIndices(0),
@@ -48,6 +51,7 @@ VectorFontGlyph::VectorFontGlyph (VGlyphType type )
 {
     return;
 }
+*/
 
 VectorFontGlyph::~VectorFontGlyph (void )
 {
@@ -95,15 +99,15 @@ bool VectorFontGlyph::createTriangles(void)
 
     tmTesselator = this;
     gluTessCallback(triangulator, (GLenum)GLU_BEGIN,
-		     (void (CALLINGCONV *)()) tessBegin );
+		     (void (OSG_SYSTEMLIB_DLLMAPPING *)()) tessBegin );
     gluTessCallback(triangulator, (GLenum)GLU_VERTEX,
-		     (void (CALLINGCONV *)()) tessVertex );
+		     (void (OSG_SYSTEMLIB_DLLMAPPING *)()) tessVertex );
     gluTessCallback(triangulator, (GLenum)GLU_EDGE_FLAG,
-		     (void (CALLINGCONV *)()) tessEdgeFlag );
+		     (void (OSG_SYSTEMLIB_DLLMAPPING *)()) tessEdgeFlag );
     gluTessCallback(triangulator, (GLenum)GLU_END,
-		     (void (CALLINGCONV *)()) tessEnd );
+		     (void (OSG_SYSTEMLIB_DLLMAPPING *)()) tessEnd );
 //     gluTessCallback(triangulator, (GLenum)GLU_ERROR,
-// 		     (void (CALLINGCONV *)()) tessError );
+// 		     (void (OSG_SYSTEMLIB_DLLMAPPING *)()) tessError );
 
     totalPoints = 0;
     for(cIter = _contours.begin(); cIter != _contours.end(); cIter++) {
@@ -226,7 +230,7 @@ int VectorFontGlyph::findPoint(float *point, int lower, int upper)
     return f;
 }
 
-void VectorFontGlyph::addPoint(float *point, bool lower)
+void VectorFontGlyph::addPoint(float *point, bool OSG_CHECK_ARG(lower) )
 {
     int pointIndex=-1, tmp, begin, end, bad=0;
 
@@ -286,7 +290,7 @@ float *VectorFontGlyph::FloatBuffer::allocFloat(int num)
     return retPtr;
 }
 
-void VectorFontGlyph::FloatBuffer::fBuffAlloc(int size)
+void VectorFontGlyph::FloatBuffer::fBuffAlloc(int OSG_CHECK_ARG(size) )
 {
     float *nBuf = new float[_BLOCK_ALLOC];
     float **buffers = new float*[_fWhichBuffer+2];

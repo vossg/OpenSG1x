@@ -37,7 +37,7 @@ public:
 
 	FontStyle *create(PathHandler & paths, const char *fontName, float size);
 
-	bool  discard(FontStyle *fs) {return false;}
+	bool  discard(FontStyle *OSG_CHECK_ARG(fs)) {return false;}
 
 	static inline FontStyleFactory &the(void) { return _the; }
 

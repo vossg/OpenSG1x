@@ -7,7 +7,12 @@
 #include <OSGNode.h>
 #include <OSGImage.h>
 
-OSG_BEGIN_NAMESPACE  class FontStyle; OSG_END_NAMESPACE
+#include <vector>
+#include <string>
+
+OSG_BEGIN_NAMESPACE  
+
+class FontStyle;
 
 #include <vector>
 #include <string>
@@ -28,10 +33,6 @@ enum MeshCreationMode  { UNKNOWN_MCM = 0,
 			   OUTLINE_MCM, FILL_MCM, 
 			   FILL_TEX_CHAR_MCM, FILL_TEX_ALL_MCM
 };
-
-
-
-OSG_BEGIN_NAMESPACE
 
 
 class Text {
@@ -90,7 +91,7 @@ public:
 		{ _horizontal = horizontal; }
 
   /** get method for attribute justify */
-  virtual TEXT_JUSTIFY_TYPE justifyNajor (void) { return _justifyMajor; }
+  virtual TEXT_JUSTIFY_TYPE justifyMajor (void) { return _justifyMajor; }
 
   /** set method for attribute justify */
   virtual void setJustifyMajor (TEXT_JUSTIFY_TYPE justify)
@@ -180,10 +181,10 @@ public:
   
 };
 
+typedef Text *TextP;
+
 
 OSG_END_NAMESPACE
-
-typedef osg::Text* TextP;
 
 
 #endif // FONTSTYLE_CLASS_DECLARATION

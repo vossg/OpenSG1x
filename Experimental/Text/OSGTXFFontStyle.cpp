@@ -66,7 +66,7 @@ bool TXFFontStyle::processChange (void)
 
 bool TXFFontStyle::buildGlyphInfos (TXFFont::txfChar *txfGlyphs)
 {
-  float x, y, xstep, ystep, scale;
+  float x, y, xstep, ystep;
   TXFGlyphInfo *glyph;
   TXFFont::txfChar *current;
   int i;

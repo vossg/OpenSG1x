@@ -17,16 +17,20 @@ ImageFontGlyph::ImageFontGlyph (void )
     return;
 }
 
+/*
 ImageFontGlyph::ImageFontGlyph (const ImageFontGlyph &obj )
 {
 	return;
 }
+*/
 
+/*
 ImageFontGlyph::ImageFontGlyph (IGlyphType type)
 : _type(IGLYPH_NONE), _bitmapBuffer(0), _pixmapBuffer(0)
 {
     return;
 }
+*/
 
 ImageFontGlyph::~ImageFontGlyph (void )
 {

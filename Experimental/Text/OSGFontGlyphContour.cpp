@@ -33,10 +33,12 @@ FontGlyphContour::FontGlyphContour (void )
     return;
 }
 
+/*
 FontGlyphContour::FontGlyphContour (const FontGlyphContour &obj )
 {
 	return;
 }
+*/
 
 FontGlyphContour::~FontGlyphContour (void )
 {

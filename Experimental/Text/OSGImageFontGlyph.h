@@ -61,7 +61,7 @@ public:
 
   const int* getImageSize(void) { return _imageSize;}
 
-  const int getAdvance(void) { return _advance;}
+        int getAdvance(void) { return _advance;}
 
   unsigned char *getImage(void)
       { return (_type==IGLYPH_BIAP ? _bitmapBuffer : _pixmapBuffer); }

@@ -42,7 +42,8 @@ public:
   virtual TXFGlyphInfo *getTXFGlyphInfo (int which);
 
   /** return specified (ASCII-) Glyph */
-  virtual VectorFontGlyph * getVectorGlyph (int which) {return NULL;}
+  virtual VectorFontGlyph * getVectorGlyph (int OSG_CHECK_ARG(which)) 
+    {return NULL;}
 
   virtual ImageFontGlyph * getImageGlyph (int which);
 

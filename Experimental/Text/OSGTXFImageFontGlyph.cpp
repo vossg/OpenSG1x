@@ -31,10 +31,12 @@ TXFImageFontGlyph::TXFImageFontGlyph (void )
 	return;
 }
 
+/*
 TXFImageFontGlyph::TXFImageFontGlyph (const TXFImageFontGlyph &obj )
 {
 	return;
 }
+*/
 
 TXFImageFontGlyph::TXFImageFontGlyph (IGlyphType type, int ascii, int unicode)
 : ImageFontGlyph(type), TXFFontGlyph(ascii, unicode)

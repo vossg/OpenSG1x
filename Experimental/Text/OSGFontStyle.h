@@ -16,13 +16,12 @@
 
 
 
-OSG_BEGIN_NAMESPACE class FontGlyph;  OSG_END_NAMESPACE
-OSG_BEGIN_NAMESPACE class VectorFontGlyph;  OSG_END_NAMESPACE
-OSG_BEGIN_NAMESPACE class ImageFontGlyph;  OSG_END_NAMESPACE
-OSG_BEGIN_NAMESPACE class TXFGlyphInfo;  OSG_END_NAMESPACE
-
-
 OSG_BEGIN_NAMESPACE 
+
+class FontGlyph;  
+class VectorFontGlyph;
+class ImageFontGlyph;
+class TXFGlyphInfo;
 
 
 class FontStyle {
@@ -93,7 +92,7 @@ public:
   /** get method for image map dimmensions */
   virtual bool getTXFImageSizes (int &width, int &height);
 
-  virtual bool dump(ostream & out) {return false;}
+  virtual bool dump(ostream & OSG_CHECK_ARG(out)) {return false;}
 
   /** get method for attribute _xRes */
   virtual inline int getXRes (void)

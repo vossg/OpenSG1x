@@ -166,7 +166,7 @@ public:
 
   const float* getBoundingBox(void) { return _boundingBox;}
 
-  const float getAdvance(void) { return _advance;}
+        float getAdvance(void) { return _advance;}
 
   /** set method for attribute depth */
   virtual void setDepth (float size)

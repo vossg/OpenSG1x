@@ -102,7 +102,7 @@ int main(int argc, char **argv)
 
     PathHandler paths;
 
-    //paths.push_backPath("/home/elmi/wrk/development/textMaker/tm_fonts");
+    paths.push_backPath(".");
     //paths.push_backPath("/home/elmi/wrk/development/texFont");
 
 
@@ -225,7 +225,7 @@ void motion(int x, int y)
 }
 
 // react to keys
-void keyboard(unsigned char k, int x, int y)
+void keyboard(unsigned char k, int , int )
 {
     switch(k)
     {
