@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,66 +36,59 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGDATATYPE_H_
-#define _OSGDATATYPE_H_
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
+#define OSG_COMPILEVRMLNODEINST
+
+#include <stdlib.h>
+#include <stdio.h>
+
+#include "OSGConfig.h"
+
+#include <iostream>
+
+#include "OSGVRMLNodeFields.h"
+#include "OSGVRMLNode.h"
+
+OSG_USING_NAMESPACE
+
 #ifdef __sgi
-#pragma once
+#pragma set woff 1174
 #endif
 
-#include <OSGTypeBase.h>
-
-OSG_BEGIN_NAMESPACE
-
-//! DataType
-//! \ingroup TypeLib
-
-class OSG_BASE_DLLMAPPING DataType : public TypeBase
+namespace 
 {
-    /*==========================  PUBLIC  =================================*/
-  public :
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGVRMLNODEFIELDS_HEADER_CVSID;
+}
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
-    DataType(const Char8  *szName, 
-             const Char8  *szParentName,
-             const UInt32  uiNameSpace = 0);
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
-    /*! \{                                                                 */
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
 
-    virtual ~DataType(void);
+DataType FieldDataTraits<VRMLNode *>::_type(
+    "VRMLNodePtr", "ReflexiveContainerPtr");
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Operators                                 */
-    /*! \{                                                                 */
+#if defined(__sgi)
 
-    bool operator ==(const DataType &other) const;
-    bool operator !=(const DataType &other) const;
+#pragma instantiate SFVRMLNode::_fieldType
+#pragma instantiate MFVRMLNode::_fieldType
 
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-  protected:
+#else
 
-    typedef TypeBase Inherited;
+OSG_DLLEXPORT_DEF1(SField, 
+                   VRMLNode *, 
+                   OSG_VRML_DLLTMPLMAPPING);
 
-    DataType(const DataType &source);
+OSG_DLLEXPORT_DEF1(MField, 
+                   VRMLNode *, 
+                   OSG_VRML_DLLTMPLMAPPING);
 
-    /*==========================  PRIVATE  ================================*/
-  private:
+#endif
 
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const DataType &source);
-};
-
-typedef DataType *DataTypeP;
-
-OSG_END_NAMESPACE
-
-#define OSGDATATYPE_HEADER_CVSID "@(#)$Id: $"
-
-#endif /* _OSGDATATYPE_H_ */

@@ -1,0 +1,30 @@
+#! /bin/sh
+
+if ! test -w Base/tmp_gv; then 
+    echo "Need $ac_gdz_src_dir/Base/tmp_gv"
+	echo "mkdir $ac_gdz_src_dir/Base/tmp_gv"
+fi
+
+if test -w Base/tmp_gv; then
+	echo "Moving stuff out of the way"
+
+    if test -w Base/OSGTypeBase.h; then
+        echo "mv Base/OSGTypeBase.h Base/tmp_gv"
+        mv Base/OSGTypeBase.h Base/tmp_gv
+    fi
+
+    if test -w Base/OSGTypeBase.cpp; then
+        echo "mv Base/OSGTypeBase.cpp Base/tmp_gv"
+        mv Base/OSGTypeBase.cpp Base/tmp_gv
+    fi
+
+    if test -w Base/OSGTypeFactory.h; then
+        echo "mv Base/OSGTypeFactory.h Base/tmp_gv"
+        mv Base/OSGTypeFactory.h Base/tmp_gv
+    fi
+
+    if test -w Base/OSGTypeFactory.cpp; then
+        echo "mv Base/OSGTypeFactory.cpp Base/tmp_gv"
+        mv Base/OSGTypeFactory.cpp Base/tmp_gv
+    fi
+fi

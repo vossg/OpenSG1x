@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,66 +36,90 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGDATATYPE_H_
-#define _OSGDATATYPE_H_
+#ifndef _OSGVRMLNODEFIELDS_HPP_
+#define _OSGVRMLNODEFIELDS_HPP_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include <OSGTypeBase.h>
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
+#include <OSGBaseTypes.h>
+#include <OSGVRMLBase.h>
+#include <OSGFieldType.h>
+#include <OSGMField.h>
+#include <OSGSField.h>
 
 OSG_BEGIN_NAMESPACE
 
-//! DataType
-//! \ingroup TypeLib
+//---------------------------------------------------------------------------
+//  Forward References
+//---------------------------------------------------------------------------
 
-class OSG_BASE_DLLMAPPING DataType : public TypeBase
+class VRMLNode;
+
+//---------------------------------------------------------------------------
+//   Types
+//---------------------------------------------------------------------------
+
+template <>
+struct OSG_VRML_DLLMAPPING FieldDataTraits<VRMLNode *>// : public TypeTraits
 {
-    /*==========================  PUBLIC  =================================*/
-  public :
+    enum
+    {
+        StringConvertable = 0x00
+    };
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
+    static       DataType _type;
 
-    DataType(const Char8  *szName, 
-             const Char8  *szParentName,
-             const UInt32  uiNameSpace = 0);
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
-    /*! \{                                                                 */
+    static const Char8    *getSName(void) 
+    {
+        return "SFVRMLNode"; 
+    }
 
-    virtual ~DataType(void);
+    static const Char8    *getMName(void) 
+    { 
+        return "MFVRMLNode"; 
+    }
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Operators                                 */
-    /*! \{                                                                 */
+    static const Char8 *getPName(void) 
+    { 
+        return "Field"; 
+    }
 
-    bool operator ==(const DataType &other) const;
-    bool operator !=(const DataType &other) const;
-
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-    typedef TypeBase Inherited;
-
-    DataType(const DataType &source);
-
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const DataType &source);
+    static const DataType &getType(void)   { return _type; }
 };
 
-typedef DataType *DataTypeP;
+typedef SField<VRMLNode *> SFVRMLNode;
+typedef MField<VRMLNode *> MFVRMLNode;
+
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+
+#ifndef OSG_COMPILEVRMLNODEINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SFVRMLNode::_fieldType
+#pragma do_not_instantiate MFVRMLNode::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, 
+                    VRMLNode *, 
+                    OSG_VRML_DLLTMPLMAPPING)
+
+OSG_DLLEXPORT_DECL1(MField, 
+                    VRMLNode *, 
+                    OSG_VRML_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 OSG_END_NAMESPACE
 
-#define OSGDATATYPE_HEADER_CVSID "@(#)$Id: $"
+#define OSGVRMLNODEFIELDS_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSGDATATYPE_H_ */
+#endif /* _OSGVRMLNODEFIELDS_HPP_ */

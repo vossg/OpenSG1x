@@ -61,7 +61,8 @@ class OSG_BASE_DLLMAPPING TypeBase
     /*! \{                                                                 */
 
     TypeBase(const Char8  *szName, 
-             const Char8  *szParentName);
+             const Char8  *szParentName,
+             const UInt32  uiNameSpace = 0);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -36,66 +36,125 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGDATATYPE_H_
-#define _OSGDATATYPE_H_
+#ifndef _OSGVRMLBASE_HPP_
+#define _OSGVRMLBASE_HPP_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include <OSGTypeBase.h>
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+//  Defines
+//---------------------------------------------------------------------------
+
+#if defined(WIN32) && defined(OSG_BUILD_DLL)
+#   ifdef OSG_COMPILESYSTEMLIB
+#       define OSG_VRML_DLLMAPPING     __declspec(dllexport)
+#       define OSG_VRML_DLLTMPLMAPPING __declspec(dllexport)
+#   else
+#       define OSG_VRML_DLLMAPPING     __declspec(dllimport)
+#       define OSG_VRML_DLLTMPLMAPPING __declspec(dllimport)
+#   endif
+#else
+#define OSG_VRML_DLLMAPPING
+#define OSG_VRML_DLLTMPLMAPPING
+#endif
+
+#include <OSGConfig.h>
+#include <OSGBaseTypes.h>
 
 OSG_BEGIN_NAMESPACE
 
-//! DataType
-//! \ingroup TypeLib
+/*! \brief addRef
+ *  \ingroup BaseFunctions
+ */
 
-class OSG_BASE_DLLMAPPING DataType : public TypeBase
+template <class T> inline
+void addRef(T &pObject)
 {
-    /*==========================  PUBLIC  =================================*/
-  public :
+    if(pObject != T::VSCNullPtr)
+        pObject.addRef();
+}
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
+/*! \brief addRef
+ *  \ingroup BaseFunctions
+ */
 
-    DataType(const Char8  *szName, 
-             const Char8  *szParentName,
-             const UInt32  uiNameSpace = 0);
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
-    /*! \{                                                                 */
+template <class T> inline
+void addRef(T *pObject)
+{
+    if(pObject != NULL)
+        pObject->addRef();
+}
 
-    virtual ~DataType(void);
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Operators                                 */
-    /*! \{                                                                 */
+/*! \brief subRef
+ *  \ingroup BaseFunctions
+ */
 
-    bool operator ==(const DataType &other) const;
-    bool operator !=(const DataType &other) const;
+template <class T> inline
+void subRef(T &pObject)
+{
+    if(pObject != T::VSCNullPtr)
+        pObject.subRef();
+}
 
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-  protected:
+/*! \brief subRef
+ *  \ingroup BaseFunctions
+ */
 
-    typedef TypeBase Inherited;
+template <class T> inline
+void subRef(T *pObject)
+{
+    if(pObject != NULL)
+        pObject->subRef();
+}
 
-    DataType(const DataType &source);
 
-    /*==========================  PRIVATE  ================================*/
-  private:
+template <class T> inline
+void beginEdit(T &oT, const BitVector whichField)
+{
+    ot.beginEdit(whichField);
+}
 
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const DataType &source);
-};
+template <class T> inline
+void beginEdit(T *pT, const BitVector whichField)
+{
+    pT->beginEdit(whichField);
+}
 
-typedef DataType *DataTypeP;
+template <class T> inline
+void endEditNoChanged(T &oT, const BitVector whichField)
+{
+    ot.endEdit(whichField);
+}
+
+template <class T> inline
+void endEditNoChanged(T *pT, const BitVector whichField)
+{
+    pT->endEdit(whichField);
+}
+
+template <class T> inline
+void endEdit(T &oT, const BitVector whichField)
+{
+    endEditNoChanged(oT, whichField);
+    oT.changed(whichField, VSCExternal);
+}
+
+template <class T> inline
+void endEdit(T *pT, const BitVector whichField)
+{
+    endEditNoChanged(pT, whichField);
+    pT->changed(whichField, VSCExternal);
+}
 
 OSG_END_NAMESPACE
 
-#define OSGDATATYPE_HEADER_CVSID "@(#)$Id: $"
+#endif /* _OSGVRMLNODEBASE_HPP_ */
 
-#endif /* _OSGDATATYPE_H_ */
+
+

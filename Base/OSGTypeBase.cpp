@@ -69,7 +69,8 @@ namespace
 /*                            Constructors                                 */
 
 TypeBase::TypeBase(const Char8 *szName,
-                   const Char8 *szParentName) :
+                   const Char8 *szParentName,
+                   const UInt32             ) :
     _uiTypeId    (0),
     _uiTypeRootId(0),
     _pParent     (NULL),

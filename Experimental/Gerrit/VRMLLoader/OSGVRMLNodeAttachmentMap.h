@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,66 +36,98 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGDATATYPE_H_
-#define _OSGDATATYPE_H_
+#ifndef _OSGVRMLNODEATTACHMENTMAP_HPP_
+#define _OSGVRMLNODEATTACHMENTMAP_HPP_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include <OSGTypeBase.h>
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
+#include <OSGVRMLBase.h>
+#include <OSGBaseTypes.h>
+#include <OSGSField.h>
+#include <OSGMField.h>
+
+#include <OSGVRMLNodeAttachment.h>
+
+#include <map>
 
 OSG_BEGIN_NAMESPACE
 
-//! DataType
-//! \ingroup TypeLib
+//---------------------------------------------------------------------------
+//  Forward References
+//---------------------------------------------------------------------------
 
-class OSG_BASE_DLLMAPPING DataType : public TypeBase
+//---------------------------------------------------------------------------
+//   Types
+//---------------------------------------------------------------------------
+
+typedef map<UInt32, VRMLNodeAttachment *> VRMLNodeAttachmentMap;
+
+template <>
+struct OSG_VRML_DLLMAPPING FieldDataTraits<VRMLNodeAttachmentMap>// : 
+//    public TypeTraits
 {
-    /*==========================  PUBLIC  =================================*/
-  public :
+    enum
+    {
+        StringConvertable = 0x00
+    };
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
+    static       DataType            _type;
 
-    DataType(const Char8  *szName, 
-             const Char8  *szParentName,
-             const UInt32  uiNameSpace = 0);
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
-    /*! \{                                                                 */
+    static const Char8              *getSName(void) 
+    {
+        return "SFVRMLNodeAttachmentMap"; 
+    }
 
-    virtual ~DataType(void);
+    static const Char8              *getMName(void) 
+    { 
+        return "MFVRMLNodeAttachmentMap"; 
+    }
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Operators                                 */
-    /*! \{                                                                 */
+    static const Char8 *getPName(void) 
+    { 
+        return "Field"; 
+    }
 
-    bool operator ==(const DataType &other) const;
-    bool operator !=(const DataType &other) const;
-
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-    typedef TypeBase Inherited;
-
-    DataType(const DataType &source);
-
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const DataType &source);
+    static const DataType           &getType(void)   { return _type; }
 };
 
-typedef DataType *DataTypeP;
+typedef SField<VRMLNodeAttachmentMap> SFVRMLNodeAttachmentMap;
+typedef MField<VRMLNodeAttachmentMap> MFVRMLNodeAttachmentMap;
+
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+
+#ifndef OSG_COMPILEVRMLNODEATTMAPINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SFVRMLNodeAttachmentMap::_fieldType
+#pragma do_not_instantiate MFVRMLNodeAttachmentMap::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, 
+                    VRMLNodeAttachmentMap, 
+                    OSG_VRML_DLLTMPLMAPPING)
+
+OSG_DLLEXPORT_DECL1(MField, 
+                    VRMLNodeAttachmentMap, 
+                    OSG_VRML_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGDATATYPE_HEADER_CVSID "@(#)$Id: $"
+#define OSGVRMLNODEATTACHMENTMAP_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSGDATATYPE_H_ */
+#endif /* _OSGVRMLNODEATTACHMENTMAP_HPP_ */
+
+
+
+

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,66 +36,68 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGDATATYPE_H_
-#define _OSGDATATYPE_H_
-#ifdef __sgi
-#pragma once
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
+#include <stdlib.h>
+#include <stdio.h>
+
+#include "OSGConfig.h"
+
+#if 0
+#include <iostream>
+
+#include <VSCLog.hpp>
+#include <VSCVRMLToOSGAction.hpp>
+#include <VSCVRMLWriteAction.hpp>
+#include <VSCVRMLInitializeAction.hpp>
+#include <VSCVRMLSensorTask.hpp>
+#include <VSCVRMLRouteTask.hpp>
+#include <VSCBaseFunctions.hpp>
+
+#include <OpenSG/OSGThread.h>
+#include <VSCScheduler.hpp>
 #endif
 
-#include <OSGTypeBase.h>
+OSG_USING_NAMESPACE
 
-OSG_BEGIN_NAMESPACE
-
-//! DataType
-//! \ingroup TypeLib
-
-class OSG_BASE_DLLMAPPING DataType : public TypeBase
+#if 0
+void initOSGExternal(void)
 {
-    /*==========================  PUBLIC  =================================*/
-  public :
+    fprintf(stderr, "initOSGExternal\n");
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
+    OSG::ExternalThread *pExtThread = OSG::ExternalThread::get("VSCScheduler");
 
-    DataType(const Char8  *szName, 
-             const Char8  *szParentName,
-             const UInt32  uiNameSpace = 0);
+    pExtThread->initialize(1);
+}
+
+VSCBool initSchedulerOSG(int &, char **)
+{
+    fprintf(stderr, "Init Scheduler OSG\n");
+
+    VSCScheduler::the()->setExternalInitFunc(initOSGExternal);
+
+    return true;
+}
+
+void VSCInitVRMLLibraryPreFactory(void)
+{
+    VSCSLOG << "VSCInitLibraryPreFactory : VRML" << endl;
     
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
-    /*! \{                                                                 */
+    VSC::vscInitInitializeAction();
+    VSC::vscInitToOpenSGAction  ();
+    VSC::vscInitVRMLWriteAction ();
+}
 
-    virtual ~DataType(void);
+void VSCInitVRMLLibraryPostFactory(void)
+{
+    VSCSLOG << "VSCInitLibraryPostFactory : VRML" << endl;
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Operators                                 */
-    /*! \{                                                                 */
+    VSC::VSCVRMLSensorTask::the()->init();
+    VSC::VSCVRMLRouteTask::the()->init();
 
-    bool operator ==(const DataType &other) const;
-    bool operator !=(const DataType &other) const;
+    vscAddInitFunction(initSchedulerOSG);    
+}
+#endif
 
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-    typedef TypeBase Inherited;
-
-    DataType(const DataType &source);
-
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const DataType &source);
-};
-
-typedef DataType *DataTypeP;
-
-OSG_END_NAMESPACE
-
-#define OSGDATATYPE_HEADER_CVSID "@(#)$Id: $"
-
-#endif /* _OSGDATATYPE_H_ */

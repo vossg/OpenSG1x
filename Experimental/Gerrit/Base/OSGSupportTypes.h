@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,66 +36,36 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGDATATYPE_H_
-#define _OSGDATATYPE_H_
+#ifndef _OSGSUPPORTTYPES_HPP_
+#define _OSGSUPPORTTYPES_HPP_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include <OSGTypeBase.h>
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
+#include <OSGBaseTypes.h>
 
 OSG_BEGIN_NAMESPACE
 
-//! DataType
-//! \ingroup TypeLib
+//---------------------------------------------------------------------------
+//  Forward References
+//---------------------------------------------------------------------------
 
-class OSG_BASE_DLLMAPPING DataType : public TypeBase
+//---------------------------------------------------------------------------
+//   Types
+//---------------------------------------------------------------------------
+
+typedef void *AnonObjectP;
+
+enum ChangeMode
 {
-    /*==========================  PUBLIC  =================================*/
-  public :
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    DataType(const Char8  *szName, 
-             const Char8  *szParentName,
-             const UInt32  uiNameSpace = 0);
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
-    /*! \{                                                                 */
-
-    virtual ~DataType(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Operators                                 */
-    /*! \{                                                                 */
-
-    bool operator ==(const DataType &other) const;
-    bool operator !=(const DataType &other) const;
-
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-    typedef TypeBase Inherited;
-
-    DataType(const DataType &source);
-
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const DataType &source);
+    VSCExternal = 0x01,
+    VSCSync     = 0x02,
+    VSCChild    = 0x03
 };
-
-typedef DataType *DataTypeP;
-
 OSG_END_NAMESPACE
 
-#define OSGDATATYPE_HEADER_CVSID "@(#)$Id: $"
-
-#endif /* _OSGDATATYPE_H_ */
+#endif /* _OSGSUPPORTYPES_HPP_ */

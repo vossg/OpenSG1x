@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -47,8 +47,7 @@
 
 #include <iostream>
 
-#include "OSGDataType.h"
-#include <OSGTypeFactory.h>
+#include "OSGVRMLUnlimitedNode.h"
 
 OSG_USING_NAMESPACE
 
@@ -59,48 +58,90 @@ OSG_USING_NAMESPACE
 namespace 
 {
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGDATATYPE_HEADER_CVSID;
+    static Char8 cvsid_hpp[] = OSGVRMLUNLIMITEDNODE_HEADER_CVSID;
 }
 
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
 
-/*! \class osg::DataType
- */
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
 
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
 
-DataType::DataType(const Char8  *szName,
-                   const Char8  *szParentName,
-                   const UInt32  uiNameSpace) :
-    Inherited(szName, szParentName, uiNameSpace)
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+VRMLObjectType VRMLUnlimitedNode::_type(
+    "VRMLUnlimitedNode",
+    "VRMLNode",
+    "VRMLNodes",
+    NULL,
+    NULL,
+    NULL,
+    false);
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+VRMLUnlimitedNode::VRMLUnlimitedNode(void) :
+	Inherited()
 {
 }
 
-DataType::DataType(const DataType &source) :
+
+VRMLUnlimitedNode::VRMLUnlimitedNode(const VRMLUnlimitedNode &source):
     Inherited(source)
 {
 }
 
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
 
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
+#ifdef WIN32
+#pragma warning (disable : 424)
+#endif
 
-DataType::~DataType(void)
+OSG_ABSTR_VRMLOBJ_DEF(VRMLUnlimitedNode, Ptr);
+
+#ifdef WIN32
+#pragma warning (default : 424)
+#endif
+
+/*------------- constructors & destructors --------------------------------*/
+
+VRMLUnlimitedNode::~VRMLUnlimitedNode(void)
 {
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Comparison                                  */
-
-bool DataType::operator ==(const DataType &other) const
-{
-    return *(static_cast<const Inherited *>(this)) == other;
-}
-
-bool DataType::operator !=(const DataType &other) const
-{
-    return ! (*this == other);
-}

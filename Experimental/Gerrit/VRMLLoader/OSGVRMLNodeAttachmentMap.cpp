@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,66 +36,60 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGDATATYPE_H_
-#define _OSGDATATYPE_H_
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
+#define OSG_COMPILEVRMLNODEATTMAPINST
+
+#include <stdlib.h>
+#include <stdio.h>
+
+#include "OSGConfig.h"
+
+#include <iostream>
+
+#include "OSGVRMLNodeAttachmentMap.h"
+#include "OSGVRMLNode.h"
+
+OSG_USING_NAMESPACE
+
 #ifdef __sgi
-#pragma once
+#pragma set woff 1174
 #endif
 
-#include <OSGTypeBase.h>
-
-OSG_BEGIN_NAMESPACE
-
-//! DataType
-//! \ingroup TypeLib
-
-class OSG_BASE_DLLMAPPING DataType : public TypeBase
+namespace 
 {
-    /*==========================  PUBLIC  =================================*/
-  public :
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGVRMLNODEATTACHMENTMAP_HEADER_CVSID;
+}
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
-    DataType(const Char8  *szName, 
-             const Char8  *szParentName,
-             const UInt32  uiNameSpace = 0);
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
-    /*! \{                                                                 */
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
 
-    virtual ~DataType(void);
+DataType FieldDataTraits<VRMLNodeAttachmentMap>::_type(
+    "VRMLNodeAttachmentMap", "STLType");
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Operators                                 */
-    /*! \{                                                                 */
+#if defined(__sgi)
 
-    bool operator ==(const DataType &other) const;
-    bool operator !=(const DataType &other) const;
+#pragma instantiate SFVRMLNodeAttachmentMap::_fieldType
+#pragma instantiate MFVRMLNodeAttachmentMap::_fieldType
 
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-  protected:
+#else
 
-    typedef TypeBase Inherited;
+OSG_DLLEXPORT_DEF1(SField, 
+                   VRMLNodeAttachmentMap, 
+                   OSG_VRML_DLLTMPLMAPPING);
 
-    DataType(const DataType &source);
+OSG_DLLEXPORT_DEF1(MField, 
+                   VRMLNodeAttachmentMap, 
+                   OSG_VRML_DLLTMPLMAPPING);
 
-    /*==========================  PRIVATE  ================================*/
-  private:
+#endif
 
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const DataType &source);
-};
 
-typedef DataType *DataTypeP;
-
-OSG_END_NAMESPACE
-
-#define OSGDATATYPE_HEADER_CVSID "@(#)$Id: $"
-
-#endif /* _OSGDATATYPE_H_ */

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -47,8 +47,8 @@
 
 #include <iostream>
 
-#include "OSGDataType.h"
-#include <OSGTypeFactory.h>
+#include "OSGVRMLAction.h"
+#include <OSGVRMLNode.h>
 
 OSG_USING_NAMESPACE
 
@@ -59,48 +59,82 @@ OSG_USING_NAMESPACE
 namespace 
 {
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGDATATYPE_HEADER_CVSID;
+    static Char8 cvsid_hpp[] = OSGVRMLACTION_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGVRMLACTION_INLINE_CVSID;
 }
 
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
 
-/*! \class osg::DataType
- */
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
 
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
 
-DataType::DataType(const Char8  *szName,
-                   const Char8  *szParentName,
-                   const UInt32  uiNameSpace) :
-    Inherited(szName, szParentName, uiNameSpace)
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+VRMLAction::ActionResult VRMLAction::defaultTrav(
+    VRMLNode   &oNode, 
+    VRMLAction *)
+{
+    fprintf(stderr, "Def Trav : %s\n", oNode.getName().str());
+
+    return Continue;
+}
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+VRMLAction::VRMLAction(void)
 {
 }
 
-DataType::DataType(const DataType &source) :
-    Inherited(source)
+
+//CLASSNAME::CLASSNAME(const CLASSNAME &source) :
+//	Inherited(source),
+//	  // TODO: initialize members
+//{
+//}
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+VRMLAction::~VRMLAction(void)
 {
 }
 
-
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
-
-DataType::~DataType(void)
-{
-}
-
-/*-------------------------------------------------------------------------*/
-/*                             Comparison                                  */
-
-bool DataType::operator ==(const DataType &other) const
-{
-    return *(static_cast<const Inherited *>(this)) == other;
-}
-
-bool DataType::operator !=(const DataType &other) const
-{
-    return ! (*this == other);
-}
+/*------------------------------ access -----------------------------------*/

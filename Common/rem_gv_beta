@@ -1,0 +1,25 @@
+#! /bin/sh
+
+if test -w Base/tmp_gv; then 
+	echo "Moving stuff back in"
+
+    if test -w Base/tmp_gv/OSGTypeBase.h; then
+        echo "mv Base/tmp_gv/OSGTypeBase.h Base"
+        mv Base/tmp_gv/OSGTypeBase.h Base
+    fi
+
+    if test -w Base/tmp_gv/OSGTypeBase.cpp; then
+        echo "mv Base/tmp_gv/OSGTypeBase.cpp Base"
+        mv Base/tmp_gv/OSGTypeBase.cpp Base
+    fi
+
+    if test -w Base/tmp_gv/OSGTypeFactory.h; then
+        echo "mv Base/tmp_gv/OSGTypeFactory.h Base"
+        mv Base/tmp_gv/OSGTypeFactory.h Base
+    fi
+
+    if test -w Base/tmp_gv/OSGTypeFactory.cpp; then
+        echo "mv Base/tmp_gv/OSGTypeFactory.cpp Base"
+        mv Base/tmp_gv/OSGTypeFactory.cpp Base
+    fi
+fi

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -47,8 +47,8 @@
 
 #include <iostream>
 
-#include "OSGDataType.h"
-#include <OSGTypeFactory.h>
+#include "OSGFactoryBase.h"
+#include "OSGFactoryController.h"
 
 OSG_USING_NAMESPACE
 
@@ -59,48 +59,81 @@ OSG_USING_NAMESPACE
 namespace 
 {
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGDATATYPE_HEADER_CVSID;
+    static Char8 cvsid_hpp[] = OSGFACTORYBASE_HEADER_CVSID;
 }
 
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
 
-/*! \class osg::DataType
- */
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
 
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
 
-DataType::DataType(const Char8  *szName,
-                   const Char8  *szParentName,
-                   const UInt32  uiNameSpace) :
-    Inherited(szName, szParentName, uiNameSpace)
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+FactoryBase::FactoryBase(const Char8 *szName) :
+    _szName(szName)
 {
 }
 
-DataType::DataType(const DataType &source) :
-    Inherited(source)
+
+FactoryBase::~FactoryBase(void)
 {
 }
 
-
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
-
-DataType::~DataType(void)
+bool FactoryBase::onLoadInitialize(void)
 {
+    return true;
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Comparison                                  */
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
 
-bool DataType::operator ==(const DataType &other) const
+const IDStringLink &FactoryBase::getName (void) const
 {
-    return *(static_cast<const Inherited *>(this)) == other;
+    return _szName;
 }
 
-bool DataType::operator !=(const DataType &other) const
+const Char8 *FactoryBase::getCName(void) const
 {
-    return ! (*this == other);
+    return _szName.str();
 }
+

@@ -53,6 +53,10 @@
 
 #include "OSGBaseFunctions.h"
 
+#ifdef OSG_GV_BETA
+#include <OSGFactoryController.h>
+#endif
+
 OSG_BEGIN_NAMESPACE
 
 static vector<InitFuncF> *osgInitFunctions   = NULL;
@@ -137,6 +141,10 @@ bool OSG::osgInit(int argc, char **argv)
         if(returnValue == false)
             break;         
     }
+
+#ifdef OSG_GV_BETA
+    FactoryController::the()->initialize();
+#endif
 
     GlobalSystemState = Running;
 
