@@ -157,7 +157,7 @@ void WIN32Window::init( void )
 {
     _hdc = GetDC(_hwin);
 
-    if ( ! ( _glcx = wglCreateContext( _hdc ) ) )
+    if ( _glcx == NULL && ! ( _glcx = wglCreateContext( _hdc ) ) )
     {
         cout << "WIN32Window::init: failed: " << GetLastError() << endl;        
     }

@@ -132,7 +132,8 @@ OSG_FIELD_CONTAINER_DEF(XWindow, XWindowPtr)
  */
 
 XWindow::XWindow( void ) :
-    Inherited()
+    Inherited(),
+    _dpy(), _hwin(), _glcx()
 {
 }
 
