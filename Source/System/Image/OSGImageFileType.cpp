@@ -211,20 +211,24 @@ UInt64 ImageFileType::restore( ImagePtr &image,
 {
     unsigned long   imageSize, headSize = sizeof(Head);
     unsigned long   size, i, attachmentSize;
-    Head            *head = (Head *) const_cast<UChar8*>((buffer));
+    Head            head;
     const UChar8    *data = buffer ? (buffer + headSize) : 0;
     char            *attData, *attKey, *attValue;
     ImageFileType   *type;
     const char      *mimeType;
 
-
-    if(head && data && head->netToHost() && (mimeType = head->mimeType))
+    if(buffer && (mimeType = head.mimeType))
     {
+        // Copy header. Otherwise netToHost would change the original
+        // data structur.
+        memcpy(&head,buffer,sizeof(Head));
+        head.netToHost();
+
         if((type = ImageFileHandler::the().getFileType(mimeType, 0)))
         {
-            image->set(Image::PixelFormat(head->pixelFormat), head->width,
-                       head->height, head->depth, head->mipmapCount,
-                       head->frameCount, float(head->frameDelay) / 1000.0, 0);
+            image->set(Image::PixelFormat(head.pixelFormat), head.width,
+                       head.height, head.depth, head.mipmapCount,
+                       head.frameCount, float(head.frameDelay) / 1000.0, 0);
             imageSize = type->restoreData(image, data, memSize - headSize);
             attachmentSize = 0; // head->attachmentSize;
 
