@@ -3,21 +3,59 @@ ac_gdz_package_order="BaseLib SystemLib"
 
 ac_gdz_packages="Base System WindowX WindowWIN32 WindowQT WindowGLUT"
 
-ac_gdz_package_Base="Base:0:Base@ Field@ Log@:::::OSG_COMPILEBASELIB:" 
+ac_gdz_package_name_Base="Base" 
+ac_gdz_package_fact_init_Base="0" 
+ac_gdz_package_dirs_Base="Base@ Field@ Log@" 
+ac_gdz_package_inc_dep_Base="" 
+ac_gdz_package_link_dep_Base="" 
+ac_gdz_package_testinc_dep_Base="" 
+ac_gdz_package_testlink_dep_Base="" 
+ac_gdz_package_def_Base="OSG_COMPILEBASELIB" 
 
-ac_gdz_package_System="System:1:Action@ Action/DrawAction@ Action/RenderAction@ Action/IntersectAction@ FieldContainer@ Image@ Loader@ Loader/OSG@ Loader/OBJ@ Loader/OFF@ Loader/RAW@ Loader/WRL@ Material@ MultiThreading@ Nodes/Geometry@ Nodes/Light@ Nodes/Misc@ RenderingBackend@ State@ Window@ Loader/ScanParseSkel@ Experimental/OSGLoader@ Experimental/OSGWriter@ Experimental/VRMLWriter@ : Base Field Log GL : BaseLib TIF JPG PNG MNG : Window/GLUT : WindowGLUTLib GLUT GL TIF JPG PNG MNG :OSG_COMPILESYSTEMLIB:" 
+ac_gdz_package_name_System="System" 
+ac_gdz_package_fact_init_System="1" 
+ac_gdz_package_dirs_System="Action@ Action/DrawAction@ Action/RenderAction@ Action/IntersectAction@ FieldContainer@ Image@ Loader@ Loader/OSG@ Loader/OBJ@ Loader/OFF@ Loader/RAW@ Loader/WRL@ Material@ MultiThreading@ Nodes/Geometry@ Nodes/Light@ Nodes/Misc@ RenderingBackend@ State@ Window@ Loader/ScanParseSkel@ Experimental/OSGLoader@ Experimental/OSGWriter@ Experimental/VRMLWriter@ " 
+ac_gdz_package_inc_dep_System="Base Field Log GL" 
+ac_gdz_package_link_dep_System="BaseLib TIF JPG PNG MNG" 
+ac_gdz_package_testinc_dep_System="Window/GLUT" 
+ac_gdz_package_testlink_dep_System="WindowGLUTLib GLUT GL TIF JPG PNG MNG" 
+ac_gdz_package_def_System="OSG_COMPILESYSTEMLIB" 
 
+ac_gdz_package_name_WindowX="WindowX" 
+ac_gdz_package_fact_init_WindowX="1" 
+ac_gdz_package_dirs_WindowX="Window/X@" 
+ac_gdz_package_inc_dep_WindowX="Action Action/DrawAction Base Field FieldContainer Loader Log Material MultiThreading Nodes/Misc Nodes/Geometry Nodes/Light State Window GL" 
+ac_gdz_package_link_dep_WindowX="SystemLib BaseLib" 
+ac_gdz_package_testinc_dep_WindowX="" 
+ac_gdz_package_testlink_dep_WindowX="GL TIF JPG PNG MNG" 
+ac_gdz_package_def_WindowX="OSG_COMPILEXWINDOWLIB" 
 
-ac_gdz_package_WindowX="WindowX:1:Window/X@: Action Action/DrawAction Base Field FieldContainer Loader Log Material MultiThreading Nodes/Misc Nodes/Geometry Nodes/Light State Window GL : SystemLib BaseLib : : GL TIF JPG PNG MNG :OSG_COMPILEXWINDOWLIB:" 
+ac_gdz_package_name_WindowWIN32="WindowWIN32" 
+ac_gdz_package_fact_init_WindowWIN32="1" 
+ac_gdz_package_dirs_WindowWIN32="Window/WIN32@" 
+ac_gdz_package_inc_dep_WindowWIN32="Action Action/DrawAction Base Field FieldContainer Image Loader Log Material MultiThreading Nodes/Misc Nodes/Geometry Nodes/Light State Window QT GLUT GL" 
+ac_gdz_package_link_dep_WindowWIN32="SystemLib BaseLib" 
+ac_gdz_package_testinc_dep_WindowWIN32="" 
+ac_gdz_package_testlink_dep_WindowWIN32="QT GLUT GL TIF JPG PNG MNG" 
+ac_gdz_package_def_WindowWIN32="OSG_COMPILEWIN32WINDOWLIB" 
 
+ac_gdz_package_name_WindowQT="WindowQT" 
+ac_gdz_package_fact_init_WindowQT="1" 
+ac_gdz_package_dirs_WindowQT="Window/QT@" 
+ac_gdz_package_inc_dep_WindowQT="Action Action/DrawAction Action/RenderAction Base Field FieldContainer Image Loader Log MultiThreading Material Nodes/Misc Nodes/Geometry Nodes/Light State Window Window/@WINDOWSYSTEM@ QT GL " 
+ac_gdz_package_link_dep_WindowQT="Window@WINDOWSYSTEM@Lib  SystemLib BaseLib" 
+ac_gdz_package_testinc_dep_WindowQT="" 
+ac_gdz_package_testlink_dep_WindowQT="QT GL TIF JPG PNG MNG" 
+ac_gdz_package_def_WindowQT="OSG_COMPILEQTWINDOWLIB" 
 
-ac_gdz_package_WindowWIN32="WindowWIN32:1:Window/WIN32@: Action Action/DrawAction Base Field FieldContainer Image Loader Log Material MultiThreading Nodes/Misc Nodes/Geometry Nodes/Light State Window Window/X QT GLUT GL : SystemLib BaseLib : : QT GLUT GL TIF JPG PNG MNG :OSG_COMPILEWIN32WINDOWLIB: " 
-
-
-ac_gdz_package_WindowQT="WindowQT:1:Window/QT@:  Action Action/DrawAction Action/RenderAction Base Field FieldContainer Image Loader Log MultiThreading Material Nodes/Misc Nodes/Geometry Nodes/Light State Window Window/@WINDOWSYSTEM@ QT GL : Window@WINDOWSYSTEM@Lib  SystemLib BaseLib : : QT GL TIF JPG PNG MNG :OSG_COMPILEQTWINDOWLIB: " 
-
-
-ac_gdz_package_WindowGLUT="WindowGLUT:1:Window/GLUT@: Action Action/DrawAction Action/RenderAction Action/IntersectAction Base Field FieldContainer Image Loader Log Material MultiThreading Nodes/Misc Nodes/Geometry Nodes/Light State Window GLUT GL : SystemLib BaseLib : : GLUT GL TIF JPG PNG MNG :OSG_COMPILEGLUTWINDOWLIB:" 
+ac_gdz_package_name_WindowGLUT="WindowGLUT" 
+ac_gdz_package_fact_init_WindowGLUT="1" 
+ac_gdz_package_dirs_WindowGLUT="Window/GLUT@" 
+ac_gdz_package_inc_dep_WindowGLUT="Action Action/DrawAction Action/RenderAction Action/IntersectAction Base Field FieldContainer Image Loader Log Material MultiThreading Nodes/Misc Nodes/Geometry Nodes/Light State Window GLUT GL" 
+ac_gdz_package_link_dep_WindowGLUT="SystemLib BaseLib" 
+ac_gdz_package_testinc_dep_WindowGLUT="" 
+ac_gdz_package_testlink_dep_WindowGLUT="GLUT GL TIF JPG PNG MNG" 
+ac_gdz_package_def_WindowGLUT="OSG_COMPILEGLUTWINDOWLIB" 
 
 
 
