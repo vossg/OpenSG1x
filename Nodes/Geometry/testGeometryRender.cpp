@@ -111,7 +111,7 @@ int main (int argc, char **argv)
 
 	MFPnt3f* p = pnts->getFieldPtr();
 
-	osgBeginEditCP(pnts);
+	beginEditCP(pnts);
 	p->addValue( Pnt3f( -1, -1, -1) );
 	p->addValue( Pnt3f(  1, -1, -1) );
 	p->addValue( Pnt3f(  1,  1, -1) );
@@ -120,13 +120,13 @@ int main (int argc, char **argv)
 	p->addValue( Pnt3f(  1, -1,  1) );
 	p->addValue( Pnt3f(  1,  1,  1) );
 	p->addValue( Pnt3f( -1,  1,  1) );
-	osgEndEditCP(pnts);
+	endEditCP(pnts);
 
 
 	GeoColor4ub::PtrType cols = GeoColor4ub::create();
 	g1->setColors( cols );
 	g1->setColorPerVertex( true );
-	osgBeginEditCP(cols);
+	beginEditCP(cols);
 	cols->getFieldPtr()->addValue( Color4ub( 255, 255, 255, 255) );
 	cols->getFieldPtr()->addValue( Color4ub( 255, 255, 255, 255) );
 	cols->getFieldPtr()->addValue( Color4ub(   0, 255, 255, 255) );
@@ -135,14 +135,14 @@ int main (int argc, char **argv)
 	cols->getFieldPtr()->addValue( Color4ub( 255, 255,   0, 255) );
 	cols->getFieldPtr()->addValue( Color4ub( 255,   0,   0, 255) );
 	cols->getFieldPtr()->addValue( Color4ub(   0, 255,   0, 255) );
-	osgEndEditCP(cols);
+	endEditCP(cols);
 
 
 	// Note: the object has texcoords, but no texture, so don't be suprised to 
 	// not see the texture. ;)
 	GeoTexCoords2f::PtrType texs = GeoTexCoords2f::create();
 	g1->setTexCoords( texs );
-	osgBeginEditCP(texs);
+	beginEditCP(texs);
 	texs->addValue( Vec2f( 0, 0 ) );
 	texs->addValue( Vec2f( 1, 0 ) );
 	texs->addValue( Vec2f( 1, 1 ) );
@@ -151,11 +151,11 @@ int main (int argc, char **argv)
 	texs->addValue( Vec2f( 2, 0 ) );
 	texs->addValue( Vec2f( 2, 2 ) );
 	texs->addValue( Vec2f( 0, 2 ) );
-	osgEndEditCP(texs);
+	endEditCP(texs);
 
 	GeoIndexUI32Ptr index = GeoIndexUI32::create();	
 	g1->setIndex( index );
-	osgBeginEditCP(index);
+	beginEditCP(index);
 	index->getFieldPtr()->addValue( 0 );
 	index->getFieldPtr()->addValue( 1 );
 	index->getFieldPtr()->addValue( 2 );
@@ -164,23 +164,23 @@ int main (int argc, char **argv)
 	index->getFieldPtr()->addValue( 5 );
 	index->getFieldPtr()->addValue( 6 );
 	index->getFieldPtr()->addValue( 7 );
-	osgEndEditCP(index);
+	endEditCP(index);
 
 
 	GeoPLengthPtr lens = GeoPLength::create();	
 	g1->setLengths( lens );
-	osgBeginEditCP(lens);
+	beginEditCP(lens);
 	lens->getFieldPtr()->addValue( 4 );
 	lens->getFieldPtr()->addValue( 4 );
-	osgEndEditCP(lens);
+	endEditCP(lens);
 
 
 	GeoPTypePtr type = GeoPType::create();	
 	g1->setTypes( type );
-	osgBeginEditCP(type);
+	beginEditCP(type);
 	type->getFieldPtr()->addValue( GL_POLYGON );
 	type->getFieldPtr()->addValue( GL_POLYGON );
-	osgEndEditCP(type);
+	endEditCP(type);
 
 	cerr << "Geometry type " << g1->getType().getId() << endl;
 	

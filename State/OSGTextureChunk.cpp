@@ -106,7 +106,7 @@ OSG_FC_FIELD_IDM_DEF      (TextureChunk, GenFuncQPlaneField,GenFuncRPlaneField )
 OSG_FC_FIELD_IDM_DEF      (TextureChunk, GLIdField, 		GenFuncQPlaneField )  
 OSG_FC_LAST_FIELD_IDM_DEF (TextureChunk, GLIdField)
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.1 2001/02/12 01:46:12 dirk Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.2 2001/02/12 16:00:07 vossg Exp $";
 
 StateChunkClass TextureChunk::_class(String("Texture"));
 
@@ -645,8 +645,8 @@ void TextureChunk::changeFrom( DrawAction *action, StateChunk * old, UInt32 )
 				 << "yet!" << endl;
 		return;
 	}
-	else if ( oldp->getImage()->getHeight() > 1 )	target = GL_TEXTURE_2D;
-	else											target = GL_TEXTURE_1D;
+	else if ( oldp->getImage()->getHeight() > 1 )	oldtarget = GL_TEXTURE_2D;
+	else											oldtarget = GL_TEXTURE_1D;
 
 	if ( target != oldtarget )
 		glDisable( oldtarget );
@@ -700,7 +700,8 @@ void TextureChunk::deactivate ( DrawAction *, UInt32 )
 
 /*------------------------------- dump ----------------------------------*/
 
-void TextureChunk::dump(void) const
+void TextureChunk::dump(      UInt32     uiIndent, 
+                        const BitVector &bvFlags) const
 {
     SDEBUG << "Dump TextureChunk NI" << endl;
 }

@@ -165,23 +165,23 @@ FieldContainerType Transform::_type(
 
 void Transform::initMethod (void)
 {
-    DrawAction::registerEnterDefault( getStaticType(), 
+    DrawAction::registerEnterDefault( getClassType(), 
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
                                 TransformPtr, 
                                 Action *>(&Transform::drawEnter));
-    DrawAction::registerLeaveDefault( getStaticType(), 
+    DrawAction::registerLeaveDefault( getClassType(), 
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
                                 TransformPtr, 
                                 Action *>(&Transform::drawLeave));
 
-    IntersectAction::registerEnterDefault( getStaticType(), 
+    IntersectAction::registerEnterDefault( getClassType(), 
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
                                 TransformPtr, 
                                 Action *>(&Transform::intersectEnter));
-    IntersectAction::registerLeaveDefault( getStaticType(), 
+    IntersectAction::registerLeaveDefault( getClassType(), 
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
                                 TransformPtr, 
@@ -264,7 +264,8 @@ void Transform::adjustVolume( Volume & volume )
 
 /*------------------------------- dump ----------------------------------*/
 
-void Transform::dump(void) const
+void Transform::dump(      UInt32     uiIndent, 
+                     const BitVector &bvFlags) const
 {
     SDEBUG << "Dump Transform NI" << endl;
 }

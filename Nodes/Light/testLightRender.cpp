@@ -48,9 +48,9 @@ display(void)
 
 	m.setTranslate( sin(a/1500), cos(a/1500), 1 );
 
-	osgBeginEditCP(tr);
+	beginEditCP(tr);
 	tr->getSFMatrix()->setValue( m );
-	osgEndEditCP(tr);
+	endEditCP(tr);
 	
 
 	dact->apply( root );
@@ -66,17 +66,17 @@ void key( unsigned char key, int x, int y )
 	{
 	case 27:	exit(1);	
 				break;
-	case 'z':	osgBeginEditCP(root);
+	case 'z':	beginEditCP(root);
 				root->replaceChild( 1, dlight );
-				osgEndEditCP(root);
+				endEditCP(root);
 				break;
-	case 'x':	osgBeginEditCP(root);
+	case 'x':	beginEditCP(root);
 				root->replaceChild( 1, plight );
-				osgEndEditCP(root);
+				endEditCP(root);
 				break;
-	case 'c':	osgBeginEditCP(root);
+	case 'c':	beginEditCP(root);
 				root->replaceChild( 1, slight );
-				osgEndEditCP(root);
+				endEditCP(root);
 				break;
 	}
 }
@@ -122,54 +122,54 @@ int main (int argc, char **argv)
 
     NodePtr tnode = Node::create();
 	tr = Transform::create();
-	osgBeginEditCP(tnode);
+	beginEditCP(tnode);
 	tnode->setCore( tr );
 	tnode->addChild( g2 );
-	osgEndEditCP(tnode);
+	endEditCP(tnode);
 
 	// Create Lights
 
 	dlight = Node::create();
 	DirectionalLightPtr dl = DirectionalLight::create();
 
-	osgBeginEditCP(dlight);
+	beginEditCP(dlight);
 	dlight->setCore( dl );
 	dlight->addChild( g1 );
-	osgEndEditCP(dlight);
+	endEditCP(dlight);
 	
-	osgBeginEditCP(dl);
+	beginEditCP(dl);
 	dl->setAmbientColor( .2, .2, .2, .2 );
 	dl->setDiffuseColor( 1, 1, 1, 1 );
 	dl->setDirection(0,0,1);
 	dl->setBeacon( tnode );
-	osgEndEditCP(dl);
+	endEditCP(dl);
 
 
 	plight = Node::create();
 	PointLightPtr pl = PointLight::create();
 
-	osgBeginEditCP(plight);
+	beginEditCP(plight);
 	plight->setCore( pl );
 	plight->addChild( g1 );
-	osgEndEditCP(plight);
+	endEditCP(plight);
 	
-	osgBeginEditCP(pl);
+	beginEditCP(pl);
 	pl->setAmbientColor( .2, .2, .2, .2 );
 	pl->setDiffuseColor( 1, 1, 1, 1 );
 	pl->setPosition(0,0,0);
 	pl->setBeacon( tnode );
-	osgEndEditCP(pl);
+	endEditCP(pl);
 
 
 	slight = Node::create();
 	SpotLightPtr sl = SpotLight::create();
 
-	osgBeginEditCP(slight);
+	beginEditCP(slight);
 	slight->setCore( sl );
 	slight->addChild( g1 );
-	osgEndEditCP(slight);
+	endEditCP(slight);
 	
-	osgBeginEditCP(sl);
+	beginEditCP(sl);
 	sl->setAmbientColor( .2, .2, .2, .2 );
 	sl->setDiffuseColor( 1, 1, 1, 1 );
 	sl->setPosition(0,0,0);
@@ -177,18 +177,18 @@ int main (int argc, char **argv)
 	sl->setSpotExponent(10);
 	sl->setSpotCutOff(45);
 	sl->setBeacon( tnode );
-	osgEndEditCP(sl);
+	endEditCP(sl);
 
 
 	//
 
     root = Node::create();
     GroupPtr gr = Group::create();
-	osgBeginEditCP(root);
+	beginEditCP(root);
 	root->setCore( gr );
 	root->addChild( tnode );
 	root->addChild( slight );
-	osgEndEditCP(root);
+	endEditCP(root);
 	
 	
 	

@@ -75,26 +75,26 @@ int main (int argc, char **argv)
     cout << "Types:" << endl;
 
     cout << "Node (NodePtr):           " << p1->getType().getId() << endl
-         << "(Node::getStaticType()) : " << Node::getStaticType().getId() << endl
+         << "(Node::getStaticType()) : " << Node::getClassType().getId() << endl
          << "(FieldContainerPtr)     : " << pb1->getType().getId() << endl
          << "Fields: " << endl;
-    p1->getType().print();
+    p1->getType().dump();
     cout << endl;
 
     cout << "Nodes:" << endl;
 
     cout << "Group (GroupPtr):           " << g1->getType().getId() << endl
-         << "(GroupPtr::getStaticType()):" << Group::getStaticType().getId() << endl
+         << "(GroupPtr::getStaticType()):" << Group::getClassType().getId() << endl
          << "(FieldContainerPtr):        " << gb1->getType().getId() << endl
          << "Fields: " << endl;
-    g1->getType().print();
+    g1->getType().dump();
     cout << endl;
 
     cout << "Transform (TransformPtr):       " << t1->getType().getId() << endl
-         << "(TransformPtr::getStaticType()):" << Transform::getStaticType().getId() << endl
+         << "(TransformPtr::getStaticType()):" << Transform::getClassType().getId() << endl
          << "(FieldContainerPtr):            " << tb1->getType().getId() << endl
          << "Fields: " << endl;
-    t1->getType().print();
+    t1->getType().dump();
     cout << endl;
 
     // create a test tree
@@ -130,7 +130,7 @@ int main (int argc, char **argv)
 
     cout << "Testtree:" << endl;
 
-    p1->print();
+    p1->dump();
 
     cout << "ToWorlds:" << endl;
 
@@ -144,11 +144,11 @@ int main (int argc, char **argv)
 
     p1.dump();
 
-    p1 = FieldContainerFactory::the().createNode("Node");
+    p1 = FieldContainerFactory::the()->createNode("Node");
 
     p1.dump();
 
-    p1 = FieldContainerFactory::the().createNode("Transform");
+    p1 = FieldContainerFactory::the()->createNode("Transform");
 
     p1.dump();
 
@@ -156,7 +156,7 @@ int main (int argc, char **argv)
 
     nc1.dump();
 
-    nc1 = FieldContainerFactory::the().createNodeCore("Transform");
+    nc1 = FieldContainerFactory::the()->createNodeCore("Transform");
 
     nc1.dump();
 

@@ -193,12 +193,12 @@ FieldContainerType VRMLTransform::_type(
 
 void VRMLTransform::initMethod (void)
 {
-    DrawAction::registerEnterDefault( getStaticType(), 
+    DrawAction::registerEnterDefault( getClassType(), 
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
                                 VRMLTransformPtr, 
                                 Action *>(&VRMLTransform::drawEnter));
-    DrawAction::registerLeaveDefault( getStaticType(), 
+    DrawAction::registerLeaveDefault( getClassType(), 
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
                                 VRMLTransformPtr, 
@@ -339,7 +339,8 @@ void VRMLTransform::changed(BitVector,
 
 /*------------------------------- dump ----------------------------------*/
 
-void VRMLTransform::dump(void) const
+void VRMLTransform::dump(      UInt32     uiIndent, 
+                         const BitVector &bvFlags) const
 {
     SDEBUG << "Dump VRMLTransform NI" << endl;
 }

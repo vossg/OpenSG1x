@@ -48,7 +48,7 @@ int main (int argc, char **argv)
 
 	MFPnt3f* p = pnts->getFieldPtr();
 
-	osgBeginEditCP(pnts);
+	beginEditCP(pnts);
 	p->addValue( Pnt3f( -1, -1, -1) );
 	p->addValue( Pnt3f(  1, -1, -1) );
 	p->addValue( Pnt3f(  1,  1, -1) );
@@ -57,13 +57,13 @@ int main (int argc, char **argv)
 	p->addValue( Pnt3f(  1, -1,  1) );
 	p->addValue( Pnt3f(  1,  1,  1) );
 	p->addValue( Pnt3f( -1,  1,  1) );
-	osgEndEditCP(pnts);
+	endEditCP(pnts);
 
 
 	GeoColor4ub::PtrType cols = GeoColor4ub::create();
 	g->setColors( cols );
 	g->setColorPerVertex( true );
-	osgBeginEditCP(cols);
+	beginEditCP(cols);
 	cols->getFieldPtr()->addValue( Color4ub( 255, 255, 255, 255) );
 	cols->getFieldPtr()->addValue( Color4ub( 255, 255, 255, 255) );
 	cols->getFieldPtr()->addValue( Color4ub(   0, 255, 255, 255) );
@@ -72,7 +72,7 @@ int main (int argc, char **argv)
 	cols->getFieldPtr()->addValue( Color4ub( 255, 255,   0, 255) );
 	cols->getFieldPtr()->addValue( Color4ub( 255,   0,   0, 255) );
 	cols->getFieldPtr()->addValue( Color4ub(   0, 255,   0, 255) );
-	osgEndEditCP(cols);
+	endEditCP(cols);
 
 	// don't use normals to test non-existing attributes
 
@@ -80,7 +80,7 @@ int main (int argc, char **argv)
 
 	GeoPTypePtr type = GeoPType::create();	
 	g->setTypes( type );
-	osgBeginEditCP(type);
+	beginEditCP(type);
 	type->getFieldPtr()->addValue( GL_POINTS );
 	type->getFieldPtr()->addValue( GL_LINES );
 	type->getFieldPtr()->addValue( GL_LINE_LOOP );
@@ -93,23 +93,23 @@ int main (int argc, char **argv)
 	type->getFieldPtr()->addValue( GL_POLYGON );
 	type->getFieldPtr()->addValue( GL_POLYGON );
 	type->getFieldPtr()->addValue( GL_POLYGON );
-	osgEndEditCP(type);
+	endEditCP(type);
 
 
 	GeoPLengthPtr lens = GeoPLength::create();	
 	g->setLengths( lens );
-	osgBeginEditCP(lens);
+	beginEditCP(lens);
 	{
 	static Int32 l[] = { 2,4,3,3,9,5,5,12,6,3,4,5,-1};
 	for ( int ind = 0; l[ind] >= 0; ind++ )
 		lens->getFieldPtr()->addValue( l[ind] );
 	}
-	osgEndEditCP(lens);
+	endEditCP(lens);
 
 	
 	GeoIndexUI32Ptr index = GeoIndexUI32::create();	
 	g->setIndex( index );
-	osgBeginEditCP(index);
+	beginEditCP(index);
 	{
 	static Int32 i[] = { 0,1, 0,1,1,2, 4,5,6, 5,6,7, 0,1,2,1,2,3,2,3,4,
 						  3,0,2,1,6, 0,3,2,1,5, 0,1,2,3,4,5,6,7,0,1,4,5,
@@ -117,7 +117,7 @@ int main (int argc, char **argv)
 	for ( int ind = 0; i[ind] >= 0; ind++ )
 		index->getFieldPtr()->addValue( i[ind] );
 	}
-	osgEndEditCP(index);
+	endEditCP(index);
 
 	
 	cerr << g->getLengths()->getSize() << " primitives with ";

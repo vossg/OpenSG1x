@@ -135,8 +135,8 @@ int main( int argc, char *argv[] )
 	
 	UChar8 imgdata[] = 
 		{  255,0,0,0,  0,255,0,0,  0,0,255,255,  255,255,255,255 };
-	UChar8 limgdata[] = 
-		{  0, 128, 64, 255 };
+//	UChar8 limgdata[] = 
+//		{  0, 128, 64, 255 };
 	Image image( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
 
 	if ( argc > 1 )
@@ -156,7 +156,7 @@ int main( int argc, char *argv[] )
 	
 	win = GLUTWindow::create();
 	
-	dact = DrawAction::create()();
+	dact = DrawAction::create();
 	dact->setWindow( win.getCPtr() );
 	
 	glutMainLoop();

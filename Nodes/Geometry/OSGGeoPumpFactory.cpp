@@ -350,6 +350,10 @@ static pumpFunc TexCoordsFuncs[numFormats][4] = {
 
 // the master pump function
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
 void GeoPumpFactory::masterPump( 
 		DrawAction * act, 
 		Geometry * geo )
@@ -452,7 +456,9 @@ void GeoPumpFactory::masterPump(
 
 }
 
-
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 ///---------------------------------------------------------------------------
 ///  FUNCTION: 

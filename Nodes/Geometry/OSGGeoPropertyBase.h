@@ -141,11 +141,13 @@ class OSG_GEOMETRY_DLLTMPLMAPPING AbstractGeoProperty :
 						const UInt32 index ) = 0;
 	
 	virtual void 	addValue(
-						const typename GeoPropertyDesc::GenericType & val ) = 0;
+						const typename GeoPropertyDesc::GenericType & val )= 0;
 
     /*------------------------------ dump -----------------------------------*/
 
-    virtual void dump(void) const;
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector &bvFlags  = 0) const;
+
 
   protected:
 
@@ -328,7 +330,8 @@ class OSG_GEOMETRY_DLLMAPPING GeoProperty : public GeoPropertyDesc::Inherit
 
     /*------------------------------ dump -----------------------------------*/
 
-    virtual void dump(void) const;
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector &bvFlags  = 0) const;
 
   protected:
 

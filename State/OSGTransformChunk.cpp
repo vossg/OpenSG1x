@@ -218,7 +218,8 @@ void TransformChunk::deactivate ( DrawAction *,  UInt32 )
 
 /*------------------------------- dump ----------------------------------*/
 
-void TransformChunk::dump(void) const
+void TransformChunk::dump(      UInt32     uiIndent, 
+                          const BitVector &bvFlags) const
 {
     SDEBUG << "Dump TransformChunk NI" << endl;
 }

@@ -381,7 +381,8 @@ void MaterialChunk::deactivate ( DrawAction *, UInt32 )
 
 /*------------------------------- dump ----------------------------------*/
 
-void MaterialChunk::dump(void) const
+void MaterialChunk::dump(      UInt32     uiIndent, 
+                         const BitVector &bvFlags) const
 {
     SDEBUG << "Dump MaterialChunk NI" << endl;
 }

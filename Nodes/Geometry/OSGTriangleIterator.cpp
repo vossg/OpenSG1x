@@ -81,7 +81,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.4 2001/01/24 19:24:40 dirk Exp $";
+char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.5 2001/02/12 16:01:08 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -132,7 +132,7 @@ TriangleIterator::TriangleIterator( const GeometryPtr& geo ) :
 }
 
 TriangleIterator::TriangleIterator( const NodePtr& geo ) :
-	_primIt(), _geo( geo->getCore().dcast<GeometryPtr>() ),
+	_primIt(), _geo( dcast<GeometryPtr>(geo->getCore()) ),
 	_triIndex(0), _actPrimIndex(), _triPntIndex()
 {
 	_primIt.setGeo( geo );

@@ -169,9 +169,10 @@ AbstractGeoProperty<GeoPropertyDesc>::~AbstractGeoProperty(void)
 /*------------------------------- dump ----------------------------------*/
 
 template <class GeoPropertyDesc> inline
-void AbstractGeoProperty<GeoPropertyDesc>::dump(void) const
+void AbstractGeoProperty<GeoPropertyDesc>::dump(      UInt32     uiIndent, 
+                                                const BitVector &bvFlags) const
 {
-    SDEBUG << "Dump AbstractGeoProperty<GeoPropertyDesc> NI" << endl;
+    Inherited::dump(uiIndent, bvFlags);
 }
 
 /*-------------------------------------------------------------------------*\
@@ -450,9 +451,10 @@ inline void GeoProperty<propertyDesc>::addValue(
 /*------------------------------- dump ----------------------------------*/
 
 template <class GeoPropertyDesc> inline
-void GeoProperty<GeoPropertyDesc>::dump(void) const
+void GeoProperty<GeoPropertyDesc>::dump(      UInt32     uiIndent, 
+                                        const BitVector &bvFlags) const
 {
-    SDEBUG << "Dump GeoProperty<GeoPropertyDesc> NI" << endl;
+    Inherited::dump(uiIndent, bvFlags);
 }
 
 /*-------------------------------------------------------------------------*\

@@ -81,7 +81,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.4 2001/01/24 19:24:40 dirk Exp $";
+char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.5 2001/02/12 16:01:08 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -175,7 +175,7 @@ void PrimitiveIterator::setGeo( const GeometryPtr& geo )
 
 void PrimitiveIterator::setGeo( const NodePtr& geo )
 {
-	setGeo( geo->getCore().dcast<GeometryPtr>() );
+	setGeo( dcast<GeometryPtr>(geo->getCore()) );
 }
 
 /** \brief increment

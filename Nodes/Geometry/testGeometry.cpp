@@ -49,7 +49,7 @@ int main (int argc, char **argv)
     NodePtr  p1 = Node::create();
     GeometryPtr g1 = Geometry::create();
 
-    GeoPosition3f::getStaticType();
+    GeoPosition3f::getClassType();
 
 	p1->setCore( g1 );
 
@@ -68,7 +68,7 @@ int main (int argc, char **argv)
 
 	g1->setPositions( pnts );
 
-	osgBeginEditCP(g1, FieldBits::AllFields);
+	beginEditCP(g1, FieldBits::AllFields);
 
 	MFPnt3f *p = pnts->getFieldPtr();		// The p pointer is not MT-safe!!
 	// generic access
@@ -83,7 +83,7 @@ int main (int argc, char **argv)
 	p->addValue( Pnt3f( -2,  1,  1) );
 	p->addValue( Pnt3f(  1,  1,  1) );
 
-	osgEndEditCP(g1, FieldBits::AllFields);
+	endEditCP(g1, FieldBits::AllFields);
     
 	cerr << "Positions: " << endl;
 	cerr << "Dim:" << pnts->getDimension() << ", Format:" 
@@ -130,7 +130,7 @@ int main (int argc, char **argv)
 	p1->getVolume().getCenter(center);
 
 	cerr << "Volume: center " << center << ", volume "
-		 << p1->getVolume().getVolume() << endl;
+		 << p1->getVolume().getScalarVolume() << endl;
 
     return 0;
 }

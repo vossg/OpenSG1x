@@ -219,8 +219,9 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
 
     /*------------------------------ dump -----------------------------------*/
 
-    virtual void dump(void) const;
-	
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector &bvFlags  = 0) const;
+
     /*------------------------------ Actions --------------------------------*/
 	
 	// execute the OpenGL commands to draw the geometry	

@@ -289,9 +289,10 @@ const NodePtr &LightBase::getBeacon(void) const
 
 /*------------------------------- dump ----------------------------------*/
 
-void LightBase::dump(void) const
+void LightBase::dump(      UInt32     uiIndent, 
+                     const BitVector &bvFlags) const
 {
-    SDEBUG << "Dump LightBase NI" << endl;
+    Inherited::dump(uiIndent, bvFlags);
 }
 
 /*-------------------------------------------------------------------------*\

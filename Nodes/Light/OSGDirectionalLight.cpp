@@ -120,7 +120,7 @@ FieldContainerType DirectionalLight::_type(
 
 void DirectionalLight::initMethod (void)
 {
-    DrawAction::registerEnterDefault( getStaticType(), 
+    DrawAction::registerEnterDefault( getClassType(), 
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
                                 DirectionalLightPtr, 
@@ -198,9 +198,10 @@ const Vec3f &DirectionalLight::getDirection(void) const
 
 /*------------------------------- dump ----------------------------------*/
 
-void DirectionalLight::dump(void) const
+void DirectionalLight::dump(      UInt32     uiIndent, 
+                            const BitVector &bvFlags) const
 {
-    SDEBUG << "Dump DirectionalLight NI" << endl;
+    Inherited::dump(uiIndent, bvFlags);
 }
 
 /*-------------------------------------------------------------------------*\

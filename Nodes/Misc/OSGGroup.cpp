@@ -145,9 +145,10 @@ Group::~Group(void)
 
 /*------------------------------- dump ----------------------------------*/
 
-void Group::dump(void) const
+void Group::dump(      UInt32     uiIndent, 
+                 const BitVector &bvFlags) const
 {
-    SDEBUG << "Dump Group NI" << endl;
+    Inherited::dump(uiIndent, bvFlags);
 }
 
 /*-------------------------------------------------------------------------*\

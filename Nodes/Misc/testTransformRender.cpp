@@ -91,9 +91,9 @@ display(void)
 
     m.setTranslate( 0,0,sin(a/1500) * 2 );
 
-    osgBeginEditCP(tr);
+    beginEditCP(tr);
     tr->getSFMatrix()->setValue( m );
-    osgEndEditCP(tr);
+    endEditCP(tr);
     
 
     dact->apply( root );
@@ -135,18 +135,18 @@ int main (int argc, char **argv)
 
     
     NodePtr g2 = Node::create();
-    osgBeginEditCP(g2);
+    beginEditCP(g2);
     g2->setCore( g1->getCore() );
-    osgEndEditCP(g2);
+    endEditCP(g2);
 
     // Transform
 
     NodePtr tnode = Node::create();
     tr = Transform::create();
-    osgBeginEditCP(tnode);
+    beginEditCP(tnode);
     tnode->setCore( tr );
     tnode->addChild( g2 );
-    osgEndEditCP(tnode);
+    endEditCP(tnode);
 
 /*
     NodeCorePtr tcr = 
@@ -160,11 +160,11 @@ int main (int argc, char **argv)
 
     root = Node::create();
     GroupPtr gr = Group::create();
-    osgBeginEditCP(root);
+    beginEditCP(root);
     root->setCore( gr );
     root->addChild( g1 );
     root->addChild( tnode );
-    osgEndEditCP(root);
+    endEditCP(root);
 
     dact = DrawAction::create();
     

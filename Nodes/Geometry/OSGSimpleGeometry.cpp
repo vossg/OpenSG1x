@@ -114,8 +114,8 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 	GeoPosition3f::FieldType * p = pnts->getFieldPtr();
 	GeoNormal3f::FieldType   * n = norms->getFieldPtr();
 
-	osgBeginEditCP(pnts);
-	osgBeginEditCP(norms);
+	beginEditCP(pnts);
+	beginEditCP(norms);
 	
 	for ( y = 0; y <= vert; y++ )
 	{
@@ -126,8 +126,8 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 		}
 	}
 
-	osgEndEditCP(pnts);
-	osgEndEditCP(norms);
+	endEditCP(pnts);
+	endEditCP(norms);
 
 	// create the faces
 	
@@ -135,9 +135,9 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 	GeoPLength::FieldType   * l = lens->getFieldPtr();
 	GeoPType::FieldType     * t = types->getFieldPtr();
 
-	osgBeginEditCP(index);
-	osgBeginEditCP(lens);
-	osgBeginEditCP(types);
+	beginEditCP(index);
+	beginEditCP(lens);
+	beginEditCP(types);
 
 	for ( y = 0; y < vert; y++ )
 	{
@@ -151,27 +151,27 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 		}
 	}
 
-	osgEndEditCP(index);
-	osgEndEditCP(lens);
-	osgEndEditCP(types);
+	endEditCP(index);
+	endEditCP(lens);
+	endEditCP(types);
 	
 	// create the geometry
 	
     GeometryPtr geo = Geometry::create();
 
- 	osgBeginEditCP(geo);
+ 	beginEditCP(geo);
 	geo->setPositions( pnts );
 	geo->setNormals( norms );
 	geo->setNormalPerVertex( true );
 	geo->setIndex( index );
 	geo->setTypes( types );
 	geo->setLengths( lens );
-	osgEndEditCP(geo);
+	endEditCP(geo);
 		
     NodePtr node = Node::create();
-	osgBeginEditCP(node);
+	beginEditCP(node);
 	node->setCore( geo );
-	osgEndEditCP(node);
+	endEditCP(node);
 	
 	return node;
 }
@@ -203,8 +203,8 @@ NodePtr OSG::makeCone( Real32 height, Real32 radius, UInt16 sides )
 	GeoPosition3f::FieldType * p = pnts->getFieldPtr();
 	GeoNormal3f::FieldType   * n = norms->getFieldPtr();
 
-	osgBeginEditCP(pnts);
-	osgBeginEditCP(norms);
+	beginEditCP(pnts);
+	beginEditCP(norms);
 	
 	p->addValue( Pnt3f(0,0,height) );
 	n->addValue( Vec3f(0,0,1) );
@@ -232,8 +232,8 @@ NodePtr OSG::makeCone( Real32 height, Real32 radius, UInt16 sides )
 		n->addValue( Vec3f(x, y, height / 2.) );
 	}
 
-	osgEndEditCP(pnts);
-	osgEndEditCP(norms);
+	endEditCP(pnts);
+	endEditCP(norms);
 
 	// create the faces
 	
@@ -241,9 +241,9 @@ NodePtr OSG::makeCone( Real32 height, Real32 radius, UInt16 sides )
 	GeoPLength::FieldType   * l = lens->getFieldPtr();
 	GeoPType::FieldType     * t = types->getFieldPtr();
 
-	osgBeginEditCP(index);
-	osgBeginEditCP(lens);
-	osgBeginEditCP(types);
+	beginEditCP(index);
+	beginEditCP(lens);
+	beginEditCP(types);
 
 	t->addValue(GL_TRIANGLE_FAN);
 	l->addValue(sides+2);
@@ -270,27 +270,27 @@ NodePtr OSG::makeCone( Real32 height, Real32 radius, UInt16 sides )
 	}
 	i->addValue(2);
 	
-	osgEndEditCP(index);
-	osgEndEditCP(lens);
-	osgEndEditCP(types);
+	endEditCP(index);
+	endEditCP(lens);
+	endEditCP(types);
 
 	// create the geometry
 	
     GeometryPtr geo = Geometry::create();
 
- 	osgBeginEditCP(geo);
+ 	beginEditCP(geo);
 	geo->setPositions( pnts );
 	geo->setNormals( norms );
 	geo->setNormalPerVertex( true );
 	geo->setIndex( index );
 	geo->setTypes( types );
 	geo->setLengths( lens );
-	osgEndEditCP(geo);
+	endEditCP(geo);
 		
     NodePtr node = Node::create();
-	osgBeginEditCP(node);
+	beginEditCP(node);
 	node->setCore( geo );
-	osgEndEditCP(node);
+	endEditCP(node);
 		
 	return node;
 }
@@ -324,8 +324,8 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
 	GeoPosition3f::FieldType * p = pnts->getFieldPtr();
 	GeoNormal3f::FieldType   * n = norms->getFieldPtr();
 
-	osgBeginEditCP(pnts);
-	osgBeginEditCP(norms);
+	beginEditCP(pnts);
+	beginEditCP(norms);
 	
   	ringDelta = 2.0 * Pi / rings;
   	sideDelta = 2.0 * Pi / sides;
@@ -348,8 +348,8 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
     		}
  	}	
 
-	osgEndEditCP(pnts);
-	osgEndEditCP(norms);
+	endEditCP(pnts);
+	endEditCP(norms);
 
 	// create the faces
 	
@@ -357,9 +357,9 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
 	GeoPLength::FieldType   * l = lens->getFieldPtr();
 	GeoPType::FieldType     * t = types->getFieldPtr();
 
-	osgBeginEditCP(index);
-	osgBeginEditCP(lens);
-	osgBeginEditCP(types);
+	beginEditCP(index);
+	beginEditCP(lens);
+	beginEditCP(types);
 
 	for ( a = 0; a < sides; a++ ) 
 	{
@@ -373,27 +373,27 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
 		}
 	}
 
-	osgEndEditCP(index);
-	osgEndEditCP(lens);
-	osgEndEditCP(types);
+	endEditCP(index);
+	endEditCP(lens);
+	endEditCP(types);
 
 	// create the geometry
 	
     GeometryPtr geo = Geometry::create();
 
- 	osgBeginEditCP(geo);
+ 	beginEditCP(geo);
 	geo->setPositions( pnts );
 	geo->setNormals( norms );
 	geo->setNormalPerVertex( true );
 	geo->setIndex( index );
 	geo->setTypes( types );
 	geo->setLengths( lens );
-	osgEndEditCP(geo);
+	endEditCP(geo);
 		
     NodePtr node = Node::create();
-	osgBeginEditCP(node);
+	beginEditCP(node);
 	node->setCore( geo );
-	osgEndEditCP(node);
+	endEditCP(node);
 	
 	return node;
 }
@@ -525,11 +525,11 @@ NodePtr OSG::makeSphere( UInt16 depth, Real32 radius )
 	GeoPLength::FieldType   * l = lens->getFieldPtr();
 	GeoPType::FieldType     * t = types->getFieldPtr();
 
-	osgBeginEditCP(pnts);
-	osgBeginEditCP(norms);
-	osgBeginEditCP(index);
-	osgBeginEditCP(lens);
-	osgBeginEditCP(types);
+	beginEditCP(pnts);
+	beginEditCP(norms);
+	beginEditCP(index);
+	beginEditCP(lens);
+	beginEditCP(types);
 	
 	for ( j=0; j<20; j++ ) 
 	{
@@ -537,29 +537,29 @@ NodePtr OSG::makeSphere( UInt16 depth, Real32 radius )
 				   depth, p, n, i, l, t, &z, radius );
 	}
 				   					
-	osgEndEditCP(pnts);
-	osgEndEditCP(norms);
-	osgEndEditCP(index);
-	osgEndEditCP(lens);
-	osgEndEditCP(types);
+	endEditCP(pnts);
+	endEditCP(norms);
+	endEditCP(index);
+	endEditCP(lens);
+	endEditCP(types);
 	
 	// create the geometry
 	
     GeometryPtr geo = Geometry::create();
 
- 	osgBeginEditCP(geo);
+ 	beginEditCP(geo);
 	geo->setPositions( pnts );
 	geo->setNormals( norms );
 	geo->setNormalPerVertex( true );
 	geo->setIndex( index );
 	geo->setTypes( types );
 	geo->setLengths( lens );
-	osgEndEditCP(geo);
+	endEditCP(geo);
 		
     NodePtr node = Node::create();
-	osgBeginEditCP(node);
+	beginEditCP(node);
 	node->setCore( geo );
-	osgEndEditCP(node);	
+	endEditCP(node);	
 		
 	return node;
 }

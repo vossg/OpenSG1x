@@ -271,13 +271,13 @@ const char *Geometry::mapType( UInt8 type )
 
 void Geometry::initMethod (void)
 {
-	DrawAction::registerEnterDefault( getStaticType(), 
+	DrawAction::registerEnterDefault( getClassType(), 
 		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
 								CNodePtr,  
 								GeometryPtr, 
 								Action *>(&Geometry::doDraw));
 
-	IntersectAction::registerEnterDefault( getStaticType(), 
+	IntersectAction::registerEnterDefault( getClassType(), 
 		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
 								CNodePtr,  
 								GeometryPtr, 
@@ -350,9 +350,7 @@ void Geometry::adjustVolume( Volume & volume )
 
 GeometryPtr Geometry::getPtr(void) const
 {
-    GeometryPtr returnValue(*this);
-
-    return returnValue;
+    return FieldContainer::getPtr<GeometryPtr>(*this);
 }
 
 /*---------------------------- properties ---------------------------------*/
@@ -459,9 +457,10 @@ Bool CLASSNAME::operator != (const CLASSNAME &other) const
 
 /*------------------------------- dump ----------------------------------*/
 
-void Geometry::dump(void) const
+void Geometry::dump(      UInt32     uiIndent, 
+                    const BitVector &bvFlags) const
 {
-    SDEBUG << "Dump Geometry NI" << endl;
+    Inherited::dump(uiIndent, bvFlags);
 }
 
 /*-------------------------------------------------------------------------*\

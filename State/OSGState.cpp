@@ -322,7 +322,8 @@ void State::deactivate ( DrawAction * action )
 
 /*------------------------------- dump ----------------------------------*/
 
-void State::dump(void) const
+void State::dump(      UInt32     uiIndent, 
+                 const BitVector &bvFlags) const
 {
     SDEBUG << "Dump State NI" << endl;
 }

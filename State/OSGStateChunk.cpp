@@ -239,8 +239,9 @@ void StateChunk::deactivate ( DrawAction * action, UInt32 index )
 
 /*------------------------------- dump ----------------------------------*/
 
-void StateChunk::dump(void) const
-{
+void StateChunk::dump(      UInt32     uiIndent, 
+                      const BitVector &bvFlags) const
+{  
     SDEBUG << "Dump StateChunk NI" << endl;
 }
 

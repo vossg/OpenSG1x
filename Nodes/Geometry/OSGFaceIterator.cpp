@@ -81,7 +81,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.4 2001/01/24 19:24:40 dirk Exp $";
+char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.5 2001/02/12 16:01:08 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -132,7 +132,7 @@ FaceIterator::FaceIterator( const GeometryPtr& geo ) :
 }
 
 FaceIterator::FaceIterator( const NodePtr& geo ) :
-	_primIt(), _geo( geo->getCore().dcast<GeometryPtr>() ),
+	_primIt(), _geo( dcast<GeometryPtr>(geo->getCore()) ),
 	_faceIndex(0), _actPrimIndex(), _facePntIndex()
 {
 	_primIt.setGeo( geo );

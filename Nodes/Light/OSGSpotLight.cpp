@@ -143,7 +143,7 @@ FieldContainerType SpotLight::_type(
 
 void SpotLight::initMethod (void)
 {
-    DrawAction::registerEnterDefault( getStaticType(), 
+    DrawAction::registerEnterDefault( getClassType(), 
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
                                 SpotLightPtr, 
@@ -262,9 +262,10 @@ Real32  SpotLight::getSpotCutOff      (void) const
 
 /*------------------------------- dump ----------------------------------*/
 
-void SpotLight::dump(void) const
+void SpotLight::dump(      UInt32     uiIndent, 
+                     const BitVector &bvFlags) const
 {
-    SDEBUG << "Dump SpotLight NI" << endl;
+    Inherited::dump(uiIndent, bvFlags);
 }
 
 /*-------------------------------------------------------------------------*\

@@ -141,8 +141,9 @@ class OSG_STATE_DLLMAPPING LightChunk : public StateChunk
 
     /*----------------------------- dump ----------------------------------*/
 
-    virtual void dump(void) const;
- 
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector &bvFlags  = 0) const;
+
     /*------------------------- your_category -------------------------------*/
 
 	// call the OpenGL commands to set my part of the state 

@@ -156,7 +156,7 @@ FieldContainerType PointLight::_type(
 
 void PointLight::initMethod (void)
 {
-	DrawAction::registerEnterDefault( getStaticType(), 
+	DrawAction::registerEnterDefault( getClassType(), 
 		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
 								CNodePtr,  
 								PointLightPtr, 
@@ -294,9 +294,10 @@ Real32  PointLight::getQuadraticAttenuation(void) const
 
 /*------------------------------- dump ----------------------------------*/
 
-void PointLight::dump(void) const
+void PointLight::dump(      UInt32     uiIndent, 
+                      const BitVector &bvFlags) const
 {
-    SDEBUG << "Dump PointLight NI" << endl;
+    Inherited::dump(uiIndent, bvFlags);
 }
 
 /*-------------------------------------------------------------------------*\

@@ -545,7 +545,8 @@ void LightChunk::deactivate( DrawAction *, UInt32 index )
 
 /*------------------------------- dump ----------------------------------*/
 
-void LightChunk::dump(void) const
+void LightChunk::dump(      UInt32     uiIndent, 
+                      const BitVector &bvFlags) const
 {
     SDEBUG << "Dump LightChunk NI" << endl;
 }
