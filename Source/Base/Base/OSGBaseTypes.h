@@ -490,7 +490,7 @@ typedef double     Real64;
  *  \ingroup GrpBaseBaseBaseTypes
  */
 
-typedef UInt32 BitVector;
+typedef UInt64 BitVector;
 
 /*! \var UInt8 *MemoryHandle;
  *  Handle to raw memory

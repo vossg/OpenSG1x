@@ -891,19 +891,19 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<BitVector> :
 
     static       UInt32    getBinSize (const BitVector &)
     {
-        return sizeof(UInt32);
+        return sizeof(BitVector);
     }
 
     static       UInt32    getBinSize (const BitVector *,
                                              UInt32     uiNumObjects)
     {
-        return sizeof(UInt32)*uiNumObjects;
+        return sizeof(BitVector)*uiNumObjects;
     }
 
     static void   copyToBin  (      BinaryDataHandler &pMem, 
                               const BitVector         &oObject)
     {
-        UInt32 value=oObject;
+        BitVector value=oObject;
         pMem.putValue(value);
     }
 
@@ -920,7 +920,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<BitVector> :
     static void   copyFromBin(      BinaryDataHandler &pMem, 
                                     BitVector         &oObject)
     {
-        UInt32 value;
+        BitVector value;
         pMem.getValue(value);
         oObject=value;
     }
