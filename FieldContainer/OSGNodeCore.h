@@ -47,14 +47,15 @@
 
 #include <map>
 
-#include "OSGBaseTypes.h"
-#include "OSGMatrix.h"
-#include "OSGFieldContainer.h"
-#include "OSGFieldContainerType.h"
-#include "OSGFieldContainerPtr.h"
-#include "OSGSFFieldContainerTypes.h"
-#include "OSGMFFieldContainerTypes.h"
-#include "OSGDynamicVolume.h"
+#include <OSGBaseTypes.h>
+#include <OSGMatrix.h>
+#include <OSGFieldContainer.h>
+#include <OSGFieldContainerType.h>
+#include <OSGFieldContainerPtr.h>
+#include <OSGSFFieldContainerTypes.h>
+#include <OSGMFFieldContainerTypes.h>
+#include <OSGDynamicVolume.h>
+#include <OSGAttachment.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -85,6 +86,8 @@ class OSGNodeCore : public OSGFieldContainer
     //-----------------------------------------------------------------------
 
     OSG_FC_FIRST_FIELD_IDM_DECL(OSGParentsField)
+    
+    OSG_FC_FIELD_IDM_DECL      (OSGAttachmentsField)
 
     OSG_FC_LAST_FIELD_IDM_DECL
 
@@ -104,15 +107,14 @@ class OSGNodeCore : public OSGFieldContainer
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual ~OSGNodeCore (void);
-
     /*-------------- general fieldcontainer declaration --------------------*/
 
     OSG_ABSTR_FIELD_CONTAINER_DECL(OSGNodeCorePtr)
 
     /*------------------------------ parents -------------------------------*/
 
-    OSGMFNodePtr *getMFParents(void);
+    OSGMFNodePtr       *getMFParents    (void);
+    OSGSFAttachmentMap *getSFAttachments(void);
 
     /*------------------------------ attachments ---------------------------*/
 
@@ -164,9 +166,8 @@ class OSGNodeCore : public OSGFieldContainer
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    map<OSGUInt32, OSGAttachmentPtr> _attachmentMap;
-
-    OSGMFNodePtr _parents;
+    OSGMFNodePtr       _parents;
+    OSGSFAttachmentMap _attachmentMap;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -174,6 +175,7 @@ class OSGNodeCore : public OSGFieldContainer
 
     OSGNodeCore (void);
     OSGNodeCore (const OSGNodeCore &obj);
+    virtual ~OSGNodeCore (void);
 
     void addParent(const OSGNodePtr &parent);
     void subParent(const OSGNodePtr &parent);

@@ -82,7 +82,9 @@ OSG_USING_OSG_NAMESPACE
 
 OSG_FC_FIRST_FIELD_IDM_DEF(OSGNodeCore, OSGParentsField)
 
-OSG_FC_LAST_FIELD_IDM_DEF (OSGNodeCore, OSGParentsField)
+OSG_FC_FIELD_IDM_DEF      (OSGNodeCore, OSGAttachmentsField, OSGParentsField)
+
+OSG_FC_LAST_FIELD_IDM_DEF (OSGNodeCore, OSGAttachmentsField)
 
 OSGFieldDescription OSGNodeCore::_desc[] = 
 {
@@ -90,7 +92,13 @@ OSGFieldDescription OSGNodeCore::_desc[] =
                         "parents", 
                         OSG_FC_FIELD_IDM_DESC(OSGParentsField),
                         false,
-                        (OSGFieldAccessMethod) &OSGNodeCore::getMFParents)
+                        (OSGFieldAccessMethod) &OSGNodeCore::getMFParents),
+
+    OSGFieldDescription(OSGSFAttachmentMap::getClassType(),
+                        "attachments", 
+                        OSG_FC_FIELD_IDM_DESC(OSGAttachmentsField),
+                        false,
+                        (OSGFieldAccessMethod) &OSGNodeCore::getSFAttachments)
 };
 
 OSGFieldContainerType OSGNodeCore::_type("NodeCore",
@@ -140,8 +148,8 @@ OSG_ABSTR_FIELD_CONTAINER_DEF(OSGNodeCore, OSGNodeCorePtr)
  */
 
 OSGNodeCore::OSGNodeCore(void) :
-    _attachmentMap(),
-    _parents()
+    _parents      (),
+    _attachmentMap()
 {
 	return;
 }
@@ -150,8 +158,8 @@ OSGNodeCore::OSGNodeCore(void) :
  */
 
 OSGNodeCore::OSGNodeCore(const OSGNodeCore &obj) :
-    _attachmentMap(obj._attachmentMap),
-    _parents()
+    _parents(),
+    _attachmentMap(obj._attachmentMap)
 {
 }
 
@@ -191,50 +199,57 @@ OSGMFNodePtr *OSGNodeCore::getMFParents(void)
     return &_parents;
 }
 
+OSGSFAttachmentMap *OSGNodeCore::getSFAttachments(void)
+{
+    return &_attachmentMap;
+}
 
-void OSGNodeCore::addAttachment ( OSGAttachmentPtr &fieldContainerP,
-																OSGUInt16 binding )
+void OSGNodeCore::addAttachment(OSGAttachmentPtr &fieldContainerP,
+                                OSGUInt16         binding)
 {
 	OSGUInt32 key;
 
-	if ( fieldContainerP == OSGNullAttachment)
+	if(fieldContainerP == OSGNullAttachment)
         return;
 
-	key = (OSGUInt32(fieldContainerP->getGroupID()) << 16) | binding;
+	key = (OSGUInt32 (fieldContainerP->getGroupID()) << 16) | binding;
 	
 	fieldContainerP->addParent(getPtr());
-	_attachmentMap[key] = fieldContainerP;
+
+	_attachmentMap.getValue()[key] = fieldContainerP;
 }
 
 
-void OSGNodeCore::subAttachment ( OSGAttachmentPtr &fieldContainerP,
-																OSGUInt16 binding )
+void OSGNodeCore::subAttachment(OSGAttachmentPtr &fieldContainerP,
+                                OSGUInt16         binding)
 {
-	  OSGUInt32 key;
-    map<OSGUInt32, OSGAttachmentPtr>::iterator fcI;
+    OSGUInt32 key;
+    OSGAttachmentMap::iterator fcI;
 
-		if ( fieldContainerP == OSGNullAttachment)
-			return;
+    if(fieldContainerP == OSGNullAttachment)
+        return;
 
-		key = (OSGUInt32(fieldContainerP->getGroupID()) << 16) | binding;
+    key = (OSGUInt32(fieldContainerP->getGroupID()) << 16) | binding;
 
-    fcI = _attachmentMap.find(key);
+    fcI = _attachmentMap.getValue().find(key);
 
-    if(fcI != _attachmentMap.end())
+    if(fcI != _attachmentMap.getValue().end())
     {
         (*fcI).second->subParent(getPtr());
-        _attachmentMap.erase(fcI);
+        _attachmentMap.getValue().erase(fcI);
     }  
 }
 
 
 OSGAttachmentPtr OSGNodeCore::findAttachment(OSGUInt16 groupID, 
-                                         OSGUInt16 binding)
+                                             OSGUInt16 binding)
 {
 	OSGUInt32 key = (OSGUInt32(groupID) << 16) | binding;
-	map<OSGUInt32, OSGAttachmentPtr>::iterator fcI = _attachmentMap.find(key);
+
+	OSGAttachmentMap::iterator fcI = _attachmentMap.getValue().find(key);
 	
-	return (fcI == _attachmentMap.end()) ? OSGNullAttachment : fcI->second;
+	return (fcI == _attachmentMap.getValue().end()) ? 
+        OSGNullAttachment : fcI->second;
 }
 
 
@@ -275,11 +290,11 @@ void OSGNodeCore::print(OSGUInt32 indent)
 
     fprintf(stderr, "NCAttachments : \n");
 
-    map<OSGUInt32, OSGAttachmentPtr>::iterator fcI;
+    OSGAttachmentMap::iterator fcI;
 
-    fcI = _attachmentMap.begin();
+    fcI = _attachmentMap.getValue().begin();
 
-    while(fcI != _attachmentMap.end())
+    while(fcI != _attachmentMap.getValue().end())
     {
         (*fcI).second->print(indent + 2);
         ++fcI;

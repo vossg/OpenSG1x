@@ -14,6 +14,7 @@
 #include <OSGMFVecTypes.h>
 #include <OSGBaseFunctions.h>
 
+
 using namespace OSG;
 
 void x(OSGNode *xa)
@@ -299,6 +300,10 @@ int main (int argc, char **argv)
     {
         fprintf(stderr, "PIN\n");
     }
+
+    nodeP1 = OSGNullFC;
+
+    nodeP1.dump();
 
     return 0;
 }

@@ -152,10 +152,11 @@ OSGFieldContainerFactory::OSGFieldContainerFactory(void)
 {
 	initTypeMap();
 
-    osgAddInitFunction(&OSGFieldContainerFactory::initialize);
     osgAddInitFunction(&OSGFieldContainerPtr::initialize);
+    osgAddInitFunction(&OSGFieldContainerFactory::initialize);
 
     osgAddExitFunction(&OSGFieldContainerFactory::terminate);
+    osgAddExitFunction(&OSGFieldContainerPtr::terminate);
 }
 
 /** \brief Copy Constructor
@@ -295,7 +296,7 @@ OSGBool OSGFieldContainerFactory::initialize(int argc, char **argv)
         }
 	}
 
-    _storeLock = OSGThreadManager::the()->createLock(
+    _storeLock = OSGThreadManager::the()->getLock(
         "OSGFieldContainerFactory::_storeLock");
 
     SDEBUG << "Got store lock " << _storeLock << endl;    
@@ -324,7 +325,7 @@ OSGBool OSGFieldContainerFactory::terminate(void)
         }
 	}
 
-    OSGThreadManager::the()->destroyLock(_storeLock);
+    OSGThreadManager::the()->freeLock(_storeLock);
 
     _initialized = false;
 }

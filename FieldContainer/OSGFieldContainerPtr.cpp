@@ -47,6 +47,7 @@
 #include "OSGAttachment.h"
 #include "OSGThreadManager.h"
 #include "OSGLog.h"
+#include "OSGLock.h"
 
 OSG_USING_NAMESPACE
 
@@ -74,6 +75,8 @@ const OSGUInt16 OSGFieldContainerPtr::OSGInvalidParentFPos = 0xFFFF;
 
 char OSGFieldContainerPtr::cvsid[] = "@(#)$Id: $";
 
+OSGLockPool *OSGFieldContainerPtr::_refCountLockP = NULL;
+
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -88,7 +91,33 @@ char OSGFieldContainerPtr::cvsid[] = "@(#)$Id: $";
 
 OSGBool OSGFieldContainerPtr::initialize(int , char **)
 {
+    OSGBool           returnValue = false;
+    OSGThreadManager *pManager    = OSGThreadManager::the();
+
     SINFO << "OSGFieldContainerPtr init" << endl;
+
+    if(pManager != NULL)
+    {
+        _refCountLockP = pManager->getLockPool("FCPTRRefCountLockPool");
+
+        if(_refCountLockP != NULL)
+            returnValue = true;
+    }
+
+    return returnValue;
+}
+
+OSGBool OSGFieldContainerPtr::terminate(void)
+{
+    OSGThreadManager *pManager = OSGThreadManager::the();
+
+    SINFO << "OSGFieldContainerPtr terminate" << endl;
+
+    if(pManager == NULL)
+        return false;
+    
+    pManager->freeLockPool(_refCountLockP);
+
     return true;
 }
 
@@ -160,21 +189,29 @@ OSGFieldContainerPtr::~OSGFieldContainerPtr(void)
 
 void OSGFieldContainerPtr::addRef(void)
 {
+    _refCountLockP->aquire(_storeP);
+
     (*getRefCountP())++;
     
+    _refCountLockP->release(_storeP);
+
     OSGThread::getCurrentChangeList()->addAddRefd(*this);
 }
 
 void OSGFieldContainerPtr::subRef(void)
 {
-    OSGUInt8 *pTmp = getFirstElemP();
+    _refCountLockP->aquire(_storeP);
 
     (*getRefCountP())--;
+
+    _refCountLockP->release(_storeP);
 
     OSGThread::getCurrentChangeList()->addSubRefd(*this);
 
     if((*getRefCountP()) <= 0)
     {
+        OSGUInt8 *pTmp = getFirstElemP();
+
         for(OSGUInt32 i = 0; i < OSGThreadManager::getNumAspects(); i++)
         {
             ( (OSGFieldContainer *) pTmp)->~OSGFieldContainer();

@@ -177,9 +177,6 @@ class OSGFieldContainer
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    /** Destructor */
-    virtual ~OSGFieldContainer (void);
-
     /**  */
     // unsigned getFieldCount (void);
         
@@ -245,6 +242,8 @@ class OSGFieldContainer
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
+    OSGUInt32 _shares;
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -254,6 +253,9 @@ class OSGFieldContainer
 
     /** Copy Constructor */
     OSGFieldContainer (const OSGFieldContainer &obj);
+
+    /** Destructor */
+    virtual ~OSGFieldContainer (void);
 
     template <class OSGObjectPtrT>
     static void newPtr(      

@@ -261,3 +261,8 @@ void OSGAttachment::dump(void) const
 //s: 
 ///---------------------------------------------------------------------------
 
+ostream &OSG::operator <<(ostream                &stream,
+                          const OSGAttachmentMap &map)
+{
+    stream << "OSGAttachment << NI" << endl;
+}

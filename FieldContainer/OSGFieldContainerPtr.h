@@ -49,6 +49,7 @@ class OSGFieldContainer;
 class OSGNode;
 class OSGNodeCore;
 class OSGAttachment;
+class OSGLockPool;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -180,6 +181,7 @@ class OSGFieldContainerPtr
     //-----------------------------------------------------------------------
 
 	static OSGBool initialize(int argc, char **argv);
+    static OSGBool terminate(void);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -288,6 +290,8 @@ class OSGFieldContainerPtr
     //-----------------------------------------------------------------------
 
 	static char cvsid[];
+
+    static OSGLockPool *_refCountLockP;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     

@@ -53,6 +53,8 @@
 #include <OSGSFFieldContainerTypes.h>
 #include <OSGMFFieldContainerTypes.h>
 
+#include <map>
+
 OSG_BEGIN_NAMESPACE
 
 //---------------------------------------------------------------------------
@@ -68,7 +70,8 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 /*! \ingroup FieldContainerLib
- *  \brief OSGAttachment is the base class for sharable thread safe data stores,
+ *  \brief OSGAttachment is the base class for sharable thread safe data 
+ *  stores,
  *  which could be attached to other fieldcontainers than OSGAttachments.
  */
 
@@ -97,8 +100,6 @@ class OSGAttachment : public OSGFieldContainer
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
-    virtual ~OSGAttachment(void);
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
@@ -149,6 +150,8 @@ class OSGAttachment : public OSGFieldContainer
 
     OSGAttachment(void);
     OSGAttachment(const OSGAttachment &obj);
+
+    virtual ~OSGAttachment(void);
 
   private:
 
@@ -201,7 +204,8 @@ class OSGAttachment : public OSGFieldContainer
 //---------------------------------------------------------------------------
 
 /*! \ingroup FieldContainerLib
- *  \brief Template to build simple attachment classes which store only one field.
+ *  \brief Template to build simple attachment classes which store only one 
+ *  field.
  */
 
 template <class OSGAttachmentDescT>
@@ -347,7 +351,12 @@ class OSGSimpleAttachment : public OSGAttachment
 /** \brief OSGAttachmentP
  */
 
-typedef OSGAttachment *OSGAttachmentP;
+typedef OSGAttachment                    *OSGAttachmentP;
+
+typedef map<OSGUInt32, OSGAttachmentPtr>  OSGAttachmentMap;
+
+ostream &operator <<(ostream                &stream,
+                     const OSGAttachmentMap &map);
 
 OSG_END_NAMESPACE
 

@@ -106,11 +106,12 @@ OSGFieldContainerType::OSGFieldContainerType(
     OSGUInt32                      descByteCounter) :
 
     _name(name), 
+    _parentName(parentName),
     _initialized(false),
     _Id(0), 
     _groupId(0),
     _parent(NULL), 
-    _parentName(parentName),
+    _baseType(OSGIsFieldContainer),
     _prototypeP(OSGNullFC),
     _prototypeCreateF(prototypeCreateF),
     _descA(desc),
@@ -184,17 +185,19 @@ OSGBool OSGFieldContainerType::setPrototype(OSGFieldContainerPtr prototypeP)
 	return returnValue;
 }
 
-OSGNodePtr  OSGFieldContainerType::createNode (void )
+OSGNodePtr  OSGFieldContainerType::createNode(void)
 {
 	OSGNodePtr fc;
 
+    if(isAbstract() == false &&
+       isNode()     == true)
+    {
 #ifdef OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
-    if(_prototypeP != OSGNullFC)
         fc = _prototypeP->clone().dcast<OSGNodePtr>();
 #else
-    if(_prototypeP != OSGNullFC)
         _prototypeP->clone().dcast(fc);
 #endif
+    }
 
 	return fc;
 }
@@ -203,13 +206,15 @@ OSGNodeCorePtr OSGFieldContainerType::createNodeCore(void)
 {
 	OSGNodeCorePtr fc;
 
+    if(isAbstract() == false &&
+       isNodeCore() == true)
+    {
 #ifdef OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
-    if(_prototypeP != OSGNullFC)
         fc = _prototypeP->clone().dcast<OSGNodeCorePtr>();
 #else
-    if(_prototypeP != OSGNullFC)
         _prototypeP->clone().dcast(fc);
 #endif
+    }
 
 	return fc;
 }
@@ -218,22 +223,67 @@ OSGAttachmentPtr OSGFieldContainerType::createAttachment(void)
 {
 	OSGAttachmentPtr fc;
 
+    if(isAbstract()   == false &&
+       isAttachment() == true)
+    {
 #ifdef OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
-    if(_prototypeP != OSGNullFC)
-        fc = _prototypeP->clone().dcast<OSGAttachmentPtr>();
+    fc = _prototypeP->clone().dcast<OSGAttachmentPtr>();
 #else
-    if(_prototypeP != OSGNullFC)
-        _prototypeP->clone().dcast(fc);
+    _prototypeP->clone().dcast(fc);
 #endif
+    }
 
 	return fc;
 }
 
-OSGBool OSGFieldContainerType::abstract(void)
+OSGBool OSGFieldContainerType::isAbstract(void)
 {
     return (_prototypeP != OSGNullFC) ? false : true;
 }
 
+OSGBool OSGFieldContainerType::isNode(void)
+{
+    return (_baseType == OSGIsNode);
+}
+
+OSGBool OSGFieldContainerType::isNodeCore(void)
+{
+    return (_baseType == OSGIsNodeCore);
+}
+
+OSGBool OSGFieldContainerType::isAttachment(void)
+{
+    return (_baseType == OSGIsAttachment);
+}
+
+OSGBool OSGFieldContainerType::isDerivedFrom(
+    const OSGFieldContainerType &other)
+{
+    OSGBool                returnValue = false;
+    OSGFieldContainerType *currTypeP   = _parent;
+
+    if(_Id == other._Id)
+    {
+        returnValue = true;
+    }
+    else
+    {
+        while(currTypeP != NULL && returnValue == false)
+        {
+            if(_Id == currTypeP->_Id)
+            {
+                returnValue = true;
+            }
+            else
+            {
+                currTypeP = currTypeP->_parent;
+            }
+        }
+    }
+
+    return returnValue;
+}
+ 
 OSGFieldDescription *OSGFieldContainerType::findFieldDescription(
     const char *fieldName) const 
 {
@@ -407,9 +457,10 @@ void OSGFieldContainerType::initialize(void)
 			if(_parent) 
             {
 				_parent->initialize();
+
 				for(  dPI  = _parent->_descriptionMap.begin();
                       dPI != _parent->_descriptionMap.end(); 
-                    ++dPI ) 
+                    ++dPI) 
                 {
 					if(_descriptionMap.find((*dPI).first) == 
                        _descriptionMap.end())
@@ -445,6 +496,19 @@ void OSGFieldContainerType::initialize(void)
 
 		SDEBUG << "init OSGFieldContainerType " << _name << endl;
 	}
+
+    if     (isDerivedFrom(OSGNodeCore::getStaticType())   == true)
+    {
+        _baseType = OSGIsNodeCore;
+    }
+    else if(isDerivedFrom(OSGAttachment::getStaticType()) == true)
+    {
+        _baseType = OSGIsAttachment;
+    }
+    else if(isDerivedFrom(OSGNode::getStaticType())       == true)
+    {
+        _baseType = OSGIsNode;
+    }
 
     _initialized = true;
 }

@@ -112,24 +112,25 @@ OSGFieldContainerType OSGFieldContainer::_type ( "FieldContainer" );
 /** \brief Constructor
  */
 
-OSGFieldContainer::OSGFieldContainer (void )
+OSGFieldContainer::OSGFieldContainer(void) :
+    _shares(0)
 {
-	return;
 }
 
 /** \brief Copy Constructor
  */
 
-OSGFieldContainer::OSGFieldContainer (const OSGFieldContainer &)
+OSGFieldContainer::OSGFieldContainer(const OSGFieldContainer &) :
+    _shares(0)
+                   
 {
 }
 
 /** \brief Destructor
  */
 
-OSGFieldContainer::~OSGFieldContainer (void )
+OSGFieldContainer::~OSGFieldContainer(void)
 {
-	return;
 }
 
 

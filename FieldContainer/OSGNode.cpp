@@ -90,12 +90,13 @@ OSG_USING_OSG_NAMESPACE
 
 OSG_FC_FIRST_FIELD_IDM_DEF(OSGNode, OSGNameField)
 
-OSG_FC_FIELD_IDM_DEF      (OSGNode, OSGVolumeField,   OSGNameField)
-OSG_FC_FIELD_IDM_DEF      (OSGNode, OSGParentField,   OSGVolumeField)
-OSG_FC_FIELD_IDM_DEF      (OSGNode, OSGChildrenField, OSGParentField)
-OSG_FC_FIELD_IDM_DEF      (OSGNode, OSGCoreField,     OSGChildrenField)
+OSG_FC_FIELD_IDM_DEF      (OSGNode, OSGVolumeField,      OSGNameField)
+OSG_FC_FIELD_IDM_DEF      (OSGNode, OSGParentField,      OSGVolumeField)
+OSG_FC_FIELD_IDM_DEF      (OSGNode, OSGChildrenField,    OSGParentField)
+OSG_FC_FIELD_IDM_DEF      (OSGNode, OSGCoreField,        OSGChildrenField)
+OSG_FC_FIELD_IDM_DEF      (OSGNode, OSGAttachmentsField, OSGCoreField)
 
-OSG_FC_LAST_FIELD_IDM_DEF (OSGNode, OSGCoreField)
+OSG_FC_LAST_FIELD_IDM_DEF (OSGNode, OSGAttachmentsField)
 
 OSGFieldDescription OSGNode::_desc[] = 
 {
@@ -104,26 +105,36 @@ OSGFieldDescription OSGNode::_desc[] =
                         OSG_FC_FIELD_IDM_DESC(OSGNameField),
                         false,
                         (OSGFieldAccessMethod) &OSGNode::getSFName),
+
 	OSGFieldDescription(OSGSFVolume::getClassType(), 
                         "volume", 
                         OSG_FC_FIELD_IDM_DESC(OSGVolumeField),
                         false,
                         (OSGFieldAccessMethod) &OSGNode::getSFVolume),
+
 	OSGFieldDescription(OSGSFNodePtr::getClassType(),
                         "parent", 
                         OSG_FC_FIELD_IDM_DESC(OSGParentField),
                         false,
                         (OSGFieldAccessMethod) &OSGNode::getSFParent),
+
 	OSGFieldDescription(OSGMFNodePtr::getClassType(), 
                         "children", 
                         OSG_FC_FIELD_IDM_DESC(OSGChildrenField),
                         false,
                         (OSGFieldAccessMethod) &OSGNode::getMFChildren),
+
     OSGFieldDescription(OSGSFNodeCorePtr::getClassType(),
                         "core",
                         OSG_FC_FIELD_IDM_DESC(OSGCoreField),
                         false,	
-					(OSGFieldAccessMethod) &OSGNode::getSFCore)
+                        (OSGFieldAccessMethod) &OSGNode::getSFCore),
+
+    OSGFieldDescription(OSGSFAttachmentMap::getClassType(),
+                        "attachments",
+                        OSG_FC_FIELD_IDM_DESC(OSGAttachmentsField),
+                        false,	
+                        (OSGFieldAccessMethod) &OSGNode::getSFAttachments)
 };
 
 OSGFieldContainerType OSGNode::_type(
@@ -223,29 +234,30 @@ void OSGNode::addAttachment(const OSGAttachmentPtr &fieldContainerP)
     if(fieldContainerP == OSGNullAttachment)
         return;
 
-    _attachmentMap[fieldContainerP->getTypeID()] = fieldContainerP;
-    _attachmentMap[fieldContainerP->getTypeID()]->addParent(getPtr());
+    _attachmentMap.getValue()[fieldContainerP->getTypeID()] = fieldContainerP;
+    _attachmentMap.getValue()[fieldContainerP->getTypeID()]->addParent(
+        getPtr());
 }
 
 void OSGNode::subAttachment(const OSGAttachmentPtr &fieldContainerP)
 {
-    map<OSGUInt32, OSGAttachmentPtr>::iterator fcI;
+    OSGAttachmentMap::iterator fcI;
 
-    fcI = _attachmentMap.find(fieldContainerP->getTypeID());
+    fcI = _attachmentMap.getValue().find(fieldContainerP->getTypeID());
 
-    if(fcI != _attachmentMap.end())
+    if(fcI != _attachmentMap.getValue().end())
     {
         (*fcI).second->subParent(getPtr());
-        _attachmentMap.erase(fcI);
+        _attachmentMap.getValue().erase(fcI);
     }  
 }
 
 OSGAttachmentPtr OSGNode::findAttachment (int typeID) 
 {
-    map<OSGUInt32, OSGAttachmentPtr>::iterator fcI = 
-        _attachmentMap.find(typeID);
+    OSGAttachmentMap::iterator fcI = _attachmentMap.getValue().find(typeID);
     
-    return (fcI == _attachmentMap.end()) ? OSGNullAttachment : (*fcI).second;
+    return (fcI == _attachmentMap.getValue().end()) ? 
+        OSGNullAttachment : (*fcI).second;
 }
 
 OSGNodeCorePtr OSGNode::getCore(void)     
@@ -389,6 +401,11 @@ OSGMFNodePtr *OSGNode::getMFChildren(void)
     return &_children;
 }
 
+OSGSFAttachmentMap *OSGNode::getSFAttachments(void)
+{
+    return &_attachmentMap;
+}
+
 
 OSGNodePtr OSGNode::getPtr(void)
 {
@@ -440,9 +457,9 @@ void OSGNode::print(OSGUInt32 indent) const
 
     map<OSGUInt32, OSGAttachmentPtr>::const_iterator fcI;
 
-    fcI = _attachmentMap.begin();
+    fcI = _attachmentMap.getValue().begin();
 
-    while(fcI != _attachmentMap.end())
+    while(fcI != _attachmentMap.getValue().end())
     {
         (*fcI).second->print(indent + 2);
         ++fcI;

@@ -89,7 +89,7 @@ class OSGFieldContainerFactory
     virtual ~OSGFieldContainerFactory (void);
 
     /** get method for attribute the */
-    static OSGFieldContainerFactory the (void) { return _the; }
+    static OSGFieldContainerFactory &the(void) { return _the; }
 
 	/**  */
 
@@ -178,7 +178,7 @@ class OSGFieldContainerFactory
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static OSGFieldContainerFactory _the;
+	static OSGFieldContainerFactory                  _the;
 
     static OSGBool                                   _initialized;
 

@@ -45,14 +45,15 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include "OSGBaseTypes.h"
-#include "OSGMatrix.h"
-#include "OSGFieldDescription.h"
-#include "OSGFieldContainer.h"
-#include "OSGSFSysTypes.h"
-#include "OSGSFBaseTypes.h"
-#include "OSGSFFieldContainerTypes.h"
-#include "OSGMFFieldContainerTypes.h"
+#include <OSGBaseTypes.h>
+#include <OSGMatrix.h>
+#include <OSGFieldDescription.h>
+#include <OSGFieldContainer.h>
+#include <OSGSFSysTypes.h>
+#include <OSGSFBaseTypes.h>
+#include <OSGSFFieldContainerTypes.h>
+#include <OSGMFFieldContainerTypes.h>
+#include <OSGAttachment.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -85,14 +86,16 @@ class OSGNode : public OSGFieldContainer
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(OSGNameField    )
+    OSG_FC_FIRST_FIELD_IDM_DECL(OSGNameField       )
 
-    OSG_FC_FIELD_IDM_DECL      (OSGVolumeField  )
+    OSG_FC_FIELD_IDM_DECL      (OSGVolumeField     )
 
-    OSG_FC_FIELD_IDM_DECL      (OSGParentField  )
-    OSG_FC_FIELD_IDM_DECL      (OSGChildrenField)
+    OSG_FC_FIELD_IDM_DECL      (OSGParentField     )
+    OSG_FC_FIELD_IDM_DECL      (OSGChildrenField   )
 
-    OSG_FC_FIELD_IDM_DECL      (OSGCoreField    )
+    OSG_FC_FIELD_IDM_DECL      (OSGCoreField       )
+
+    OSG_FC_FIELD_IDM_DECL      (OSGAttachmentsField)
 
     OSG_FC_LAST_FIELD_IDM_DECL
 
@@ -113,8 +116,6 @@ class OSGNode : public OSGFieldContainer
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
-    virtual ~OSGNode (void);
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
@@ -159,12 +160,14 @@ class OSGNode : public OSGFieldContainer
 
     /*--------------------------- access fields ----------------------------*/
 
-    OSGSFString      *getSFName    (void);
-    OSGSFVolume      *getSFVolume  (void);
+    OSGSFString        *getSFName       (void);
+    OSGSFVolume        *getSFVolume     (void);
 
-    OSGSFNodePtr     *getSFParent  (void);
-    OSGSFNodeCorePtr *getSFCore    (void);
-    OSGMFNodePtr     *getMFChildren(void);
+    OSGSFNodePtr       *getSFParent     (void);
+    OSGSFNodeCorePtr   *getSFCore       (void);
+    OSGMFNodePtr       *getMFChildren   (void);
+
+    OSGSFAttachmentMap *getSFAttachments(void);
 
     /*------------------------------ pointer -------------------------------*/
 
@@ -239,6 +242,7 @@ class OSGNode : public OSGFieldContainer
 
     OSGNode(void);
     OSGNode(const OSGNode &source);
+    virtual ~OSGNode (void);
 
     void setParent(const OSGNodePtr &_parent);
 
@@ -276,16 +280,16 @@ class OSGNode : public OSGFieldContainer
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    OSGSFString      _name;
+    OSGSFString        _name;
 
-    OSGSFVolume      _volume;
+    OSGSFVolume        _volume;
 
-    OSGSFNodePtr     _parent;
-    OSGMFNodePtr     _children;
+    OSGSFNodePtr       _parent;
+    OSGMFNodePtr       _children;
 
-    OSGSFNodeCorePtr _core;
+    OSGSFNodeCorePtr   _core;
 
-    map<OSGUInt32, OSGAttachmentPtr> _attachmentMap;
+    OSGSFAttachmentMap _attachmentMap;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

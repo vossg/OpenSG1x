@@ -108,27 +108,46 @@ class OSGFieldContainerType
 
     virtual ~OSGFieldContainerType (void);
 
+    /*----------------------------- id --------------------------------------*/
+
     OSGUInt32 getId      (void) const;
     OSGUInt16 getGroupId (void) const;
 
+    /*------------------------ general info ---------------------------------*/
+
     OSGFieldContainerType *getParent(void);
 
-    const char *getName (void) const;
+    const char            *getName  (void) const;
+
+    /*------------------------- prototye ------------------------------------*/
 
     OSGFieldContainerPtr getPrototype(void);
     OSGBool              setPrototype(OSGFieldContainerPtr prototype);
 
+    /*----------------------------- create ----------------------------------*/
 
     OSGNodePtr       createNode      (void);
 	OSGNodeCorePtr   createNodeCore  (void);
 	OSGAttachmentPtr createAttachment(void);
 
-	OSGBool abstract(void);
+    /*-------------------------- properties ---------------------------------*/
+
+	OSGBool isAbstract   (void);
+
+    OSGBool isNode       (void);
+    OSGBool isNodeCore   (void);
+    OSGBool isAttachment (void);
+
+    OSGBool isDerivedFrom(const OSGFieldContainerType &other);
+        
+    /*------------------------- description ---------------------------------*/
 
 	OSGFieldDescription *findFieldDescription   (const char *fieldName) const;
     OSGFieldDescription *getFieldDescription    (const OSGUInt32 index) const;
 
     OSGUInt32            getNumFieldDescriptions(void)                  const;
+
+    /*----------------------------- dump ------------------------------------*/
 
 	void print(void) const;
 
@@ -147,6 +166,14 @@ class OSGFieldContainerType
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
+
+    enum OSGBaseType
+    {
+        OSGIsFieldContainer,
+        OSGIsNode,
+        OSGIsNodeCore,
+        OSGIsAttachment
+    };
 
     //-----------------------------------------------------------------------
     //   types                                                               
@@ -217,6 +244,8 @@ class OSGFieldContainerType
     OSGPrototypeCreateF    _prototypeCreateF;
 
 	OSGFieldContainerType *_parent;
+
+    OSGBaseType            _baseType;
 
 	map   <OSGStringLink,       OSGFieldDescription *> _descriptionMap;
     vector<OSGFieldDescription *>                      _descriptionVec;
