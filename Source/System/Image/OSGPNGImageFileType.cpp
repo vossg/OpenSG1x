@@ -272,7 +272,6 @@ bool PNGImageFileType::write(const ImagePtr &img,
     FILE *fp;
     png_structp png_ptr;
     png_infop info_ptr;
-    png_colorp palette;
 
     if(img->getDimension() < 1 || img->getDimension() > 2)
     {
@@ -310,7 +309,7 @@ bool PNGImageFileType::write(const ImagePtr &img,
     if (info_ptr == NULL)
     {
       fclose(fp);
-      png_destroy_write_struct(&png_ptr,  png_infopp_NULL);
+      png_destroy_write_struct(&png_ptr,  NULL);
       return false;
     }
 
@@ -327,7 +326,7 @@ bool PNGImageFileType::write(const ImagePtr &img,
     * PNG_INTERLACE_ADAM7, and the compression_type and filter_type MUST
     * currently be PNG_COMPRESSION_TYPE_BASE and PNG_FILTER_TYPE_BASE. REQUIRED
     */
-    Int32 ctype, ncomp;
+    Int32 ctype;
     switch(img->getPixelFormat())
     {
     case Image::OSG_L_PF:       ctype = PNG_COLOR_TYPE_GRAY;        
@@ -336,18 +335,22 @@ bool PNGImageFileType::write(const ImagePtr &img,
     case Image::OSG_LA_PF:      ctype = PNG_COLOR_TYPE_GRAY_ALPHA;          
                                 break;
                                 
+#if defined(GL_BGR) || defined(GL_BGR_EXT)
     case Image::OSG_BGR_PF:
+#endif
     case Image::OSG_RGB_PF:     ctype = PNG_COLOR_TYPE_RGB;                 
                                 break;
                                 
+#if defined(GL_BGRA) || defined(GL_BGRA_EXT)
     case Image::OSG_BGRA_PF:
+#endif
     case Image::OSG_RGBA_PF:    ctype = PNG_COLOR_TYPE_RGB_ALPHA;           
                                 break;
 
     default:
         FWARNING(("PNGImageFileType::write: unknown pixel format %d!\n",
             img->getPixelFormat()));
-        png_destroy_write_struct(&png_ptr,  png_infopp_NULL);
+        png_destroy_write_struct(&png_ptr,  NULL);
         return false;
         
     }
