@@ -72,6 +72,9 @@
 #include <OSGViewportFields.h> // Port type
 #include <OSGBoolFields.h> // ResizePending type
 #include <OSGUInt32Fields.h> // GlObjectStatus type
+#include <OSGUInt32Fields.h> // GlObjectInvalidateCounter type
+#include <OSGUInt32Fields.h> // GlObjectLastRefresh type
+#include <OSGUInt32Fields.h> // GlObjectLastReinitialize type
 
 #include <OSGWindowFields.h>
 
@@ -93,12 +96,15 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
 
     enum
     {
-        WidthFieldId          = Inherited::NextFieldId,
-        HeightFieldId         = WidthFieldId          + 1,
-        PortFieldId           = HeightFieldId         + 1,
-        ResizePendingFieldId  = PortFieldId           + 1,
-        GlObjectStatusFieldId = ResizePendingFieldId  + 1,
-        NextFieldId           = GlObjectStatusFieldId + 1
+        WidthFieldId                     = Inherited::NextFieldId,
+        HeightFieldId                    = WidthFieldId                     + 1,
+        PortFieldId                      = HeightFieldId                    + 1,
+        ResizePendingFieldId             = PortFieldId                      + 1,
+        GlObjectStatusFieldId            = ResizePendingFieldId             + 1,
+        GlObjectInvalidateCounterFieldId = GlObjectStatusFieldId            + 1,
+        GlObjectLastRefreshFieldId       = GlObjectInvalidateCounterFieldId + 1,
+        GlObjectLastReinitializeFieldId  = GlObjectLastRefreshFieldId       + 1,
+        NextFieldId                      = GlObjectLastReinitializeFieldId  + 1
     };
 
     static const osg::BitVector WidthFieldMask;
@@ -106,6 +112,9 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
     static const osg::BitVector PortFieldMask;
     static const osg::BitVector ResizePendingFieldMask;
     static const osg::BitVector GlObjectStatusFieldMask;
+    static const osg::BitVector GlObjectInvalidateCounterFieldMask;
+    static const osg::BitVector GlObjectLastRefreshFieldMask;
+    static const osg::BitVector GlObjectLastReinitializeFieldMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -134,6 +143,9 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
     inline       MFViewportPtr       *getMFPort           (void);
     inline       SFBool              *getSFResizePending  (void);
     inline       MFUInt32            *getMFGlObjectStatus (void);
+    inline       SFUInt32            *getSFGlObjectInvalidateCounter(void);
+    inline       MFUInt32            *getMFGlObjectLastRefresh(void);
+    inline       MFUInt32            *getMFGlObjectLastReinitialize(void);
 
     inline       UInt16              &getWidth          (void);
     inline const UInt16              &getWidth          (void) const;
@@ -141,12 +153,20 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
     inline const UInt16              &getHeight         (void) const;
     inline       Bool                &getResizePending  (void);
     inline const Bool                &getResizePending  (void) const;
+    inline       UInt32              &getGlObjectInvalidateCounter(void);
+    inline const UInt32              &getGlObjectInvalidateCounter(void) const;
     inline       ViewportPtr         &getPort           (UInt32 index);
     inline       MFViewportPtr       &getPort           (void);
     inline const MFViewportPtr       &getPort           (void) const;
     inline       UInt32              &getGlObjectStatus (UInt32 index);
     inline       MFUInt32            &getGlObjectStatus (void);
     inline const MFUInt32            &getGlObjectStatus (void) const;
+    inline       UInt32              &getGlObjectLastRefresh(UInt32 index);
+    inline       MFUInt32            &getGlObjectLastRefresh(void);
+    inline const MFUInt32            &getGlObjectLastRefresh(void) const;
+    inline       UInt32              &getGlObjectLastReinitialize(UInt32 index);
+    inline       MFUInt32            &getGlObjectLastReinitialize(void);
+    inline const MFUInt32            &getGlObjectLastReinitialize(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -156,6 +176,7 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
     inline void setWidth          ( const UInt16 &value );
     inline void setHeight         ( const UInt16 &value );
     inline void setResizePending  ( const Bool &value );
+    inline void setGlObjectInvalidateCounter( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -190,6 +211,9 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
     MFViewportPtr       _mfPort;
     SFBool              _sfResizePending;
     MFUInt32            _mfGlObjectStatus;
+    SFUInt32            _sfGlObjectInvalidateCounter;
+    MFUInt32            _mfGlObjectLastRefresh;
+    MFUInt32            _mfGlObjectLastReinitialize;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

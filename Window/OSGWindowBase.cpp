@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.23 2001/11/09 08:17:07 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.24 2002/01/31 00:27:35 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWINDOWBASE_INLINE_CVSID;
 
@@ -114,6 +114,15 @@ const OSG::BitVector  WindowBase::ResizePendingFieldMask =
 const OSG::BitVector  WindowBase::GlObjectStatusFieldMask = 
     (1 << WindowBase::GlObjectStatusFieldId);
 
+const OSG::BitVector  WindowBase::GlObjectInvalidateCounterFieldMask = 
+    (1 << WindowBase::GlObjectInvalidateCounterFieldId);
+
+const OSG::BitVector  WindowBase::GlObjectLastRefreshFieldMask = 
+    (1 << WindowBase::GlObjectLastRefreshFieldId);
+
+const OSG::BitVector  WindowBase::GlObjectLastReinitializeFieldMask = 
+    (1 << WindowBase::GlObjectLastReinitializeFieldId);
+
 
 
 // Field descriptions
@@ -132,6 +141,15 @@ const OSG::BitVector  WindowBase::GlObjectStatusFieldMask =
 */
 /*! \var UInt32          WindowBase::_mfGlObjectStatus
     The GL object's status in this window.
+*/
+/*! \var UInt32          WindowBase::_sfGlObjectInvalidateCounter
+    Counter for GL object invalidations. Needed for multi-aspect updates.
+*/
+/*! \var UInt32          WindowBase::_mfGlObjectLastRefresh
+    indicates the last invalidation for the GL object
+*/
+/*! \var UInt32          WindowBase::_mfGlObjectLastReinitialize
+    indicates the last invalidation for the GL object
 */
 //! Window description
 
@@ -161,7 +179,22 @@ FieldDescription *WindowBase::_desc[] =
                      "glObjectStatus", 
                      GlObjectStatusFieldId, GlObjectStatusFieldMask,
                      true,
-                     (FieldAccessMethod) &WindowBase::getMFGlObjectStatus)
+                     (FieldAccessMethod) &WindowBase::getMFGlObjectStatus),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "glObjectInvalidateCounter", 
+                     GlObjectInvalidateCounterFieldId, GlObjectInvalidateCounterFieldMask,
+                     true,
+                     (FieldAccessMethod) &WindowBase::getSFGlObjectInvalidateCounter),
+    new FieldDescription(MFUInt32::getClassType(), 
+                     "glObjectLastRefresh", 
+                     GlObjectLastRefreshFieldId, GlObjectLastRefreshFieldMask,
+                     true,
+                     (FieldAccessMethod) &WindowBase::getMFGlObjectLastRefresh),
+    new FieldDescription(MFUInt32::getClassType(), 
+                     "glObjectLastReinitialize", 
+                     GlObjectLastReinitializeFieldId, GlObjectLastReinitializeFieldMask,
+                     true,
+                     (FieldAccessMethod) &WindowBase::getMFGlObjectLastReinitialize)
 };
 
 //! Window type
@@ -216,6 +249,9 @@ WindowBase::WindowBase(void) :
     _mfPort                   (), 
     _sfResizePending          (), 
     _mfGlObjectStatus         (), 
+    _sfGlObjectInvalidateCounter(UInt32(0)), 
+    _mfGlObjectLastRefresh    (), 
+    _mfGlObjectLastReinitialize(), 
     Inherited() 
 {
 }
@@ -232,6 +268,9 @@ WindowBase::WindowBase(const WindowBase &source) :
     _mfPort                   (source._mfPort                   ), 
     _sfResizePending          (source._sfResizePending          ), 
     _mfGlObjectStatus         (source._mfGlObjectStatus         ), 
+    _sfGlObjectInvalidateCounter(source._sfGlObjectInvalidateCounter), 
+    _mfGlObjectLastRefresh    (source._mfGlObjectLastRefresh    ), 
+    _mfGlObjectLastReinitialize(source._mfGlObjectLastReinitialize), 
     Inherited                 (source)
 {
 }
@@ -275,6 +314,21 @@ UInt32 WindowBase::getBinSize(const BitVector &whichField)
         returnValue += _mfGlObjectStatus.getBinSize();
     }
 
+    if(FieldBits::NoField != (GlObjectInvalidateCounterFieldMask & whichField))
+    {
+        returnValue += _sfGlObjectInvalidateCounter.getBinSize();
+    }
+
+    if(FieldBits::NoField != (GlObjectLastRefreshFieldMask & whichField))
+    {
+        returnValue += _mfGlObjectLastRefresh.getBinSize();
+    }
+
+    if(FieldBits::NoField != (GlObjectLastReinitializeFieldMask & whichField))
+    {
+        returnValue += _mfGlObjectLastReinitialize.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -307,6 +361,21 @@ void WindowBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (GlObjectStatusFieldMask & whichField))
     {
         _mfGlObjectStatus.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (GlObjectInvalidateCounterFieldMask & whichField))
+    {
+        _sfGlObjectInvalidateCounter.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (GlObjectLastRefreshFieldMask & whichField))
+    {
+        _mfGlObjectLastRefresh.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (GlObjectLastReinitializeFieldMask & whichField))
+    {
+        _mfGlObjectLastReinitialize.copyToBin(pMem);
     }
 
 
@@ -342,6 +411,21 @@ void WindowBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfGlObjectStatus.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (GlObjectInvalidateCounterFieldMask & whichField))
+    {
+        _sfGlObjectInvalidateCounter.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (GlObjectLastRefreshFieldMask & whichField))
+    {
+        _mfGlObjectLastRefresh.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (GlObjectLastReinitializeFieldMask & whichField))
+    {
+        _mfGlObjectLastReinitialize.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -365,6 +449,15 @@ void WindowBase::executeSyncImpl(      WindowBase *pOther,
 
     if(FieldBits::NoField != (GlObjectStatusFieldMask & whichField))
         _mfGlObjectStatus.syncWith(pOther->_mfGlObjectStatus);
+
+    if(FieldBits::NoField != (GlObjectInvalidateCounterFieldMask & whichField))
+        _sfGlObjectInvalidateCounter.syncWith(pOther->_sfGlObjectInvalidateCounter);
+
+    if(FieldBits::NoField != (GlObjectLastRefreshFieldMask & whichField))
+        _mfGlObjectLastRefresh.syncWith(pOther->_mfGlObjectLastRefresh);
+
+    if(FieldBits::NoField != (GlObjectLastReinitializeFieldMask & whichField))
+        _mfGlObjectLastReinitialize.syncWith(pOther->_mfGlObjectLastReinitialize);
 
 
 }

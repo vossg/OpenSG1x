@@ -228,22 +228,32 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 
       public:
         GLObject( GLObjectFunctor funct ) :
-            functor( funct ), refCounter( 0 )
+            _functor(funct), _refCounter(0), _lastValidate(0)
         {}
 
         GLObjectFunctor& getFunctor ( void )
         {
-            return ( functor );
+            return _functor;
         };
 
         void setFunctor ( GLObjectFunctor funct )
         {
-            functor = funct;
+            _functor = funct;
         };
+
+        UInt32 getLastValidate( void )
+        {
+            return _lastValidate;
+        }
+
+        void setLastValidate( UInt32 val )
+        {
+            _lastValidate = val;
+        }
 
         UInt32 getRefCounter ( void )
         {
-            return ( refCounter );
+            return _refCounter;
         }
 
         UInt32 incRefCounter ( void )
@@ -256,7 +266,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
             }
 
             _GLObjectLock->aquire();
-            val = refCounter = refCounter + 1;
+            val = _refCounter = _refCounter + 1;
             _GLObjectLock->release();
 
             return val;
@@ -272,8 +282,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
             }
 
             _GLObjectLock->aquire();
-            if ( refCounter )
-                val = refCounter = refCounter - 1;
+            if ( _refCounter )
+                val = _refCounter = _refCounter - 1;
             else
                 val = 0;
             _GLObjectLock->release();
@@ -282,8 +292,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
         }
 
       protected:
-        GLObjectFunctor functor;
-        volatile UInt32 refCounter;
+        GLObjectFunctor _functor;
+        volatile UInt32 _refCounter;
+                 UInt32 _lastValidate;
     };
 
     friend class GLObject;

@@ -1,11 +1,11 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 
 <FieldContainer
 	name="Window"
 	parent="AttachmentContainer"
 	library="System"
-	structure="abstract"
 	pointerfieldtypes="both"
+	structure="abstract"
 	systemcomponent="true"
 	parentsystemcomponent="true"
 >
@@ -15,6 +15,7 @@ The base class for all windows.
 		type="UInt16"
 		cardinality="single"
 		visibility="external"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -22,6 +23,7 @@ The base class for all windows.
 		type="UInt16"
 		cardinality="single"
 		visibility="external"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -29,6 +31,7 @@ The base class for all windows.
 		type="ViewportPtr"
 		cardinality="multi"
 		visibility="external"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -36,14 +39,35 @@ The base class for all windows.
 		type="Bool"
 		cardinality="single"
 		visibility="internal"
+		access="public"
 	>
 	</Field>
-        <Field
-                name="glObjectStatus"
-                type="UInt32"
-                cardinality="multi"
-                visibility="internal"
-        >
-		The GL object's status in this window.
-        </Field>
+	<Field
+		name="glObjectStatus"
+		type="UInt32"
+		cardinality="multi"
+		visibility="internal"
+		access="public"
+	>
+	The GL object's status in this window.
+	</Field>
+	<Field
+		name="glObjectInvalidateCounter"
+		type="UInt32"
+		cardinality="single"
+		visibility="internal"
+		defaultValue="0"
+		access="public"
+	>
+	Counter for GL object invalidations. Needed for multi-aspect updates.
+	</Field>
+	<Field
+		name="glObjectLastInvalidate"
+		type="UInt32"
+		cardinality="multi"
+		visibility="internal"
+		access="public"
+	>
+	indicates the last invalidation for the GL object
+	</Field>
 </FieldContainer>

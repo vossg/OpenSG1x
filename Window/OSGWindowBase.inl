@@ -98,6 +98,24 @@ MFUInt32 *WindowBase::getMFGlObjectStatus(void)
     return &_mfGlObjectStatus;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
+SFUInt32 *WindowBase::getSFGlObjectInvalidateCounter(void)
+{
+    return &_sfGlObjectInvalidateCounter;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+MFUInt32 *WindowBase::getMFGlObjectLastRefresh(void)
+{
+    return &_mfGlObjectLastRefresh;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+MFUInt32 *WindowBase::getMFGlObjectLastReinitialize(void)
+{
+    return &_mfGlObjectLastReinitialize;
+}
+
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt16 &WindowBase::getWidth(void)
@@ -153,6 +171,24 @@ void WindowBase::setResizePending(const Bool &value)
     _sfResizePending.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
+UInt32 &WindowBase::getGlObjectInvalidateCounter(void)
+{
+    return _sfGlObjectInvalidateCounter.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const UInt32 &WindowBase::getGlObjectInvalidateCounter(void) const
+{
+    return _sfGlObjectInvalidateCounter.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void WindowBase::setGlObjectInvalidateCounter(const UInt32 &value)
+{
+    _sfGlObjectInvalidateCounter.setValue(value);
+}
+
 
 OSG_SYSTEMLIB_DLLMAPPING
 ViewportPtr &WindowBase::getPort(UInt32 index)
@@ -186,8 +222,40 @@ const MFUInt32 &WindowBase::getGlObjectStatus(void) const
     return _mfGlObjectStatus;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
+UInt32 &WindowBase::getGlObjectLastRefresh(UInt32 index)
+{
+    return _mfGlObjectLastRefresh.getValue( index );
+}
+
+MFUInt32 &WindowBase::getGlObjectLastRefresh(void)
+{
+    return _mfGlObjectLastRefresh;
+}
+
+const MFUInt32 &WindowBase::getGlObjectLastRefresh(void) const
+{
+    return _mfGlObjectLastRefresh;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+UInt32 &WindowBase::getGlObjectLastReinitialize(UInt32 index)
+{
+    return _mfGlObjectLastReinitialize.getValue( index );
+}
+
+MFUInt32 &WindowBase::getGlObjectLastReinitialize(void)
+{
+    return _mfGlObjectLastReinitialize;
+}
+
+const MFUInt32 &WindowBase::getGlObjectLastReinitialize(void) const
+{
+    return _mfGlObjectLastReinitialize;
+}
+
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGWindowBase.inl,v 1.10 2001/10/03 20:37:36 dirk Exp $"
+#define OSGWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGWindowBase.inl,v 1.11 2002/01/31 00:27:35 dirk Exp $"
 

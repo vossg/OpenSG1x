@@ -202,7 +202,7 @@ void Window::onDestroy(void)
     
     if(it == _allWindows.end()) 
     {
-        FWARNING(("Window::onDelete: couldn't find window %p!\n", this ));
+        FWARNING(("Window::onDestroy: couldn't find window %p!\n", this ));
     }
     else
         _allWindows.erase( it );
@@ -399,25 +399,29 @@ void Window::validateGLObject ( UInt32 id )
         s = s + 1;
     }
     
-    switch ( _mfGlObjectStatus[id] ) 
+    if(_mfGlObjectLastReinitialize.size() > id &&
+       _mfGlObjectLastReinitialize[id] > _glObjects[id]->getLastValidate())
     {
-    case initialized:   // initialized and up to date
-                        break;
-    case notused:       _mfGlObjectStatus[id] = initialize;
-                    _glObjects[id]->incRefCounter();
-                    _glObjects[id]->getFunctor().call( this, id );
-                _mfGlObjectStatus[id] = initialized;
-                    break;
-    case reinitialize:  _glObjects[id]->getFunctor().call( this, id );
-                _mfGlObjectStatus[id] = initialized;
-                    break;
-    case needrefresh:   _glObjects[id]->getFunctor().call( this, id );
-                _mfGlObjectStatus[id] = initialized;
-                    break;
-    default:
-        SWARNING << "Window::validateGLObject: id " << id
-                 << " in state " << _mfGlObjectStatus[id] << "?!?!" << endl;
-        return;
+        _mfGlObjectStatus[id] = reinitialize;
+        _glObjects[id]->getFunctor().call( this, id );
+        _mfGlObjectStatus[id] = initialized;
+        _glObjects[id]->setLastValidate(getGlObjectInvalidateCounter());
+    }
+    else if(_mfGlObjectLastRefresh.size() > id &&
+            _mfGlObjectLastRefresh[id] > _glObjects[id]->getLastValidate())
+    {
+        _mfGlObjectStatus[id] = needrefresh;
+        _glObjects[id]->getFunctor().call( this, id );
+        _mfGlObjectStatus[id] = initialized;
+        _glObjects[id]->setLastValidate(getGlObjectInvalidateCounter());
+    }
+    else if(_glObjects[id]->getLastValidate() == 0)
+    {
+        _mfGlObjectStatus[id] = initialize;
+        _glObjects[id]->incRefCounter();
+        _glObjects[id]->getFunctor().call( this, id );
+        _mfGlObjectStatus[id] = initialized;
+        _glObjects[id]->setLastValidate(getGlObjectInvalidateCounter());
     }
 }
 
@@ -435,7 +439,7 @@ void Window::doRefreshGLObject( UInt32 id )
 {
     if ( id == 0 )
     {
-        SWARNING << "Window::validateGLObject: id is 0!" << endl;
+        SWARNING << "Window::refreshGLObject: id is 0!" << endl;
             return;
     }
     
@@ -460,7 +464,27 @@ void Window::doRefreshGLObject( UInt32 id )
                  << " in state initialize ?!?!" << endl;
         return;
     case initialized:
+        {
+        WindowPtr win = WindowPtr(*this);
+        beginEditCP(win, GlObjectStatusFieldMask|
+                         GlObjectLastRefreshFieldMask);
+                         
         _mfGlObjectStatus[id] = needrefresh;
+        
+        UInt32 s = _mfGlObjectLastRefresh.size();
+        while ( s <= id ) 
+        {
+            _mfGlObjectLastRefresh.push_back(0);
+            s = s + 1;
+        }
+
+        UInt32 lastinv = getGlObjectInvalidateCounter();
+        _mfGlObjectLastRefresh[id] = lastinv;
+        setGlObjectInvalidateCounter(lastinv + 1);
+        
+        endEditCP  (win, GlObjectStatusFieldMask|
+                         GlObjectLastRefreshFieldMask);
+        }
         break;
     default:
         SWARNING << "Window::refreshGLObject: id " << id
@@ -483,7 +507,7 @@ void Window::doReinitializeGLObject( UInt32 id )
 {
     if ( id == 0 )
     {
-        SWARNING << "Window::validateGLObject: id is 0!" << endl;
+        SWARNING << "Window::reinitializeGLObject: id is 0!" << endl;
             return;
     }
     
@@ -508,7 +532,27 @@ void Window::doReinitializeGLObject( UInt32 id )
     case needrefresh: // already needing refresh, switch to reinitialize
     case reinitialize:// already needing reinitialize
     case initialized:
+        {
+        WindowPtr win = WindowPtr(*this);
+        beginEditCP(win, GlObjectStatusFieldMask|
+                         GlObjectLastReinitializeFieldMask);
+                         
         _mfGlObjectStatus[id] = reinitialize;
+        
+        UInt32 s = _mfGlObjectLastReinitialize.size();
+        while ( s <= id ) 
+        {
+            _mfGlObjectLastReinitialize.push_back(0);
+            s = s + 1;
+        }
+        
+        UInt32 lastinv = getGlObjectInvalidateCounter();
+        _mfGlObjectLastReinitialize[id] = lastinv;
+        setGlObjectInvalidateCounter(lastinv + 1);
+        
+        endEditCP  (win, GlObjectStatusFieldMask|
+                         GlObjectLastReinitializeFieldMask);
+        }
         break;
     default:
         SWARNING << "Window::reinitializeGLObject: id " << id
@@ -538,17 +582,7 @@ void Window::frameInit( void )
 {
     // any new extension registered ? 
     while ( _registeredExtensions.size() > _availExtensions.size() )
-    {           
-    
-        // GL extension string already retrieved ? 
-        if ( _extensions.empty() )
-        {           
-            // if not, retrieve and split it
-            IDString s((const Char8 *) glGetString(GL_EXTENSIONS));
-            s.tokenize( _extensions );
-            sort( _extensions.begin(), _extensions.end() );
-        }
-                
+    {                           
         /* perform a binary search over the retrieved extension strings.
            Push back the result as an availability flag for the extension
            requested by the application */         
@@ -615,6 +649,11 @@ void Window::setupGL ( void )
     
     glDepthFunc( GL_LEQUAL );
     glEnable( GL_DEPTH_TEST );
+
+    // get extensions and split it
+    IDString s((const Char8 *) glGetString(GL_EXTENSIONS));
+    s.tokenize( _extensions );
+    sort( _extensions.begin(), _extensions.end() );
 }
 
 /*---------------------------- properties ---------------------------------*/
@@ -693,9 +732,12 @@ void Window::renderAllViewports( RenderAction * action )
     
 void Window::resize( int width, int height )
 {
+    WindowPtr win(*this);
+    beginEditCP(win, WidthFieldMask|HeightFieldMask|ResizePendingFieldMask);
     setWidth( width );
     setHeight( height );
     setResizePending( true );
+    endEditCP  (win, WidthFieldMask|HeightFieldMask|ResizePendingFieldMask);
 }
     
 void Window::resizeGL( void )
@@ -703,7 +745,10 @@ void Window::resizeGL( void )
     if ( isResizePending () )
     {
         glViewport( 0, 0, getWidth(), getHeight() );
+        WindowPtr win(*this);
+        beginEditCP(win, ResizePendingFieldMask);
         setResizePending( false );
+        endEditCP  (win, ResizePendingFieldMask);
     }
 }
 
