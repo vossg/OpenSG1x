@@ -1,0 +1,111 @@
+#!/bin/sh
+# you need a shell that understands (( ... ))
+# On irix sh==ksh, for Linux/Cygwin use bash
+# reason: windows takes ages to create processes, and we need a=$a+1 a lot
+
+# 
+# script to create a tarball of the current state of OpenSG
+#
+
+# it mainly just checks out the CVS and removes the stuff we don't want 
+# distributed.
+
+# utility functions
+
+# Main script starts here
+
+# setup: error handling etc.
+
+##set -e
+##trap errorexit  ERR HUP INT QUIT
+##trap normalexit EXIT
+
+OSGROOT=$1
+shift
+
+# does the OSGROOT exist? If not, check it out.
+
+if ! test -d $OSGROOT
+then
+    # Check out the sources
+    
+    # little trick to get around the password input
+    # not nice but works. Anyone got a better solutions?
+    
+    cvs_ok=`fgrep -l anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg $HOME/.cvspass`
+    if test "x$cvs_ok" = x
+    then
+        echo ":pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg A" >> $HOME/.cvspass
+    fi
+    
+    # go where it's suppoosed to be
+    cd `dirname $OSGROOT`
+    
+    # cvs needs to be in the path!
+    cvs -d:pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg co -P OpenSG 
+
+    mv OpenSG `basename $OSGROOT`
+fi
+
+# lets do it
+cd $OSGROOT
+
+# get the version
+VERSION=`cat VERSION`
+
+# remove the internal stuff
+rm -rf dist Stuff Statistics Tools/newClass examples/DeriveFCExample examples/Cubes
+
+# remove the CVS stuff
+find . -name CVS -exec rm -rf {} \;
+
+# pack it up
+cd ..
+
+mv $OSGROOT OpenSG-$VERSION
+
+tar cf - OpenSG-$VERSION | gzip -9 > OpenSG-$VERSION-src.tgz
+
+# go back and make the docs
+cd OpenSG-$VERSION
+
+##make doc
+
+# make the starter guide
+
+cd Doc/starter
+
+gmake
+
+gzip -9c starter.ps > ../../../OpenSG-$VERSION-StarterGuide.ps.gz
+
+# make the design document
+
+cd ../design
+
+cp opensg_design.html ../../../OpenSG-$VERSION-Design.html
+
+cd ../../..
+
+# pack it all up 
+
+tar cf - OpenSG-$VERSION | gzip -9 > OpenSG-$VERSION-src+doc.tgz
+
+# pack just the docs
+
+cd OpenSG-$VERSION/Doc/Code
+
+mv html OpenSG-$VERSION-srcdoc
+
+tar cf - OpenSG-$VERSION-srcdoc | gzip -9 > ../../../OpenSG-$VERSION-srcdoc.tgz
+
+zip -9r OpenSG-$VERSION-srcdoc.zip OpenSG-$VERSION-srcdoc && mv OpenSG-$VERSION-srcdoc.zip ../../..
+
+# that's it!
+
+cd ../../..
+
+
+
+
+

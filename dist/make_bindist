@@ -1,0 +1,274 @@
+#!/bin/ksh
+
+# 
+# script to create a binary distribution, Unix style
+#
+# This is an extremely optimistic script, it does no 
+# error checking whatever. Use with care!
+
+OSGROOT=$1
+shift
+
+echo "Making binary dist in" $OSGROOT
+
+# does the OSGROOT exist? If not, check it out.
+
+if ! test -d $OSGROOT
+then
+    # Check out the sources
+    
+    # little trick to get around the password input
+    # not nice but works. Anyone got a better solutions?
+    
+    cvs_ok=`fgrep -l anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg $HOME/.cvspass`
+    if test "x$cvs_ok" = x
+    then
+        echo ":pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg A" >> $HOME/.cvspass
+    fi
+    
+    # go where it's suppoosed to be
+    cd `dirname $OSGROOT`
+    
+    # cvs needs to be in the path!
+    cvs -d:pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg co -P OpenSG 
+
+    mv OpenSG `basename $OSGROOT`
+fi
+
+# get the version
+
+VERSION=`cat $OSGROOT/VERSION`
+
+# make the libs
+
+olddir=`pwd`
+cd $OSGROOT
+
+system=`CommonConf/config.guess`
+
+# find the configure options for the dist
+
+case $system in
+
+    mips-sgi-* )    
+        
+    glut_args="--with-glut=/igd/a4/software/IRIX/packages/glut-3.7"
+    qt_args="--with-qt=/igd/a4/software/IRIX/packages/qt-2.3"
+    tif_args="--with-tif=/usr"
+    jpeg_args="--with-jpeg=/usr"
+    png_args=""
+    par_jobs=6
+    compiler=${compiler:=CC}
+    export PATH=/igd/a4/software/IRIX/bin/:$PATH
+        distname=sgi
+    ;;
+    
+    *-pc-linux-gnu )    
+        
+    qt_args="--with-qt=/igd/a4/software/Linux/packages/qt-2.3"
+        glut_args="--with-glut=/usr"
+        par_jobs=2
+    compiler=${compiler:=g++}
+    config_shell=bash
+    mail=/usr/bin/Mail
+    export PATH=/igd/a4/software/Linux/bin/:$PATH
+        distname=linux
+    ;;
+
+    *-pc-cygwin )   
+        
+    qt_args="--with-qt=`pwd`/../packages/qt-2.3"
+        glut_args="--with-glut=`pwd`/../packages/glut_3.7"
+    tif_args=""
+        par_jobs=1
+    compiler=${compiler:=icl50}
+    config_shell=bash
+        distname=win
+    ;;
+    
+   *)
+    
+        echo "Unknown system $system!"
+    exit 1
+    ;;
+    
+esac
+
+
+# configure it
+
+rm -rf Builds/$system-$compiler
+
+$config_shell ./configure --with-compiler=$compiler $stl_args $glut_args \
+    $qt_args $tif_args $jpeg_args $png_args
+
+  
+# Build the libs
+
+cd Builds/$system-$compiler
+export OSGSUBPARJOBS=$par_jobs
+
+gmake dbg 
+gmake INSTALL_DIR=`pwd` install
+
+gmake opt 
+gmake INSTALL_DIR=`pwd` install
+
+cd $olddir
+
+# create the distribution(s)
+
+case $system in
+    # Windows is very different from the Unices. No, really. :)
+    # the dbg libs are renamed to *-dbg, the tutorials get a .dsw 
+    *-pc-cygwin )           
+    
+    rm -rf OpenSG-$VERSION-$distname
+    mkdir OpenSG-$VERSION-$distname
+    cd OpenSG-$VERSION-$distname
+    
+    # copy windows defaults
+    cp -r $OSGROOT/dist/win/lib .
+    cp -r $OSGROOT/dist/win/dist/* .
+    cp -r $OSGROOT/dist/win/README.bindist README.txt
+    
+    # copy OpenSG stuff
+    cp -r $OSGROOT/Builds/$system-$compiler/include .
+    cp -r $OSGROOT/Builds/$system-$compiler/lib/opt/* lib
+    
+#  doesn't work. Libname is written in lib :(
+#    for i in $OSGROOT/Builds/$system-$compiler/lib/dbg/*.dll ;
+#    do
+#        l=`basename $i .dll`
+#        d=`dirname $i`
+#        cp $i lib/${l}-dbg.dll
+#        cp $d/$l.lib lib/${l}-dbg.lib 
+#    done
+    
+    # do the tutorials
+    cp -r $OSGROOT/tutorials .
+    
+    cd tutorials
+    gmake -f Makefile.win LIBTYPE=
+    gmake -f Makefile.win LIBTYPE= dsw
+    
+    # cleanup the garbage
+    rm -rf CVS Makefile* common.* template.* Tutorials.dsp.raw README BUILD vc60.idb
+    
+    cp $OSGROOT/dist/win/BUILD.tutorials BUILD.txt
+    cp $OSGROOT/dist/win/README.tutorials README.txt
+    
+    exit
+    ;;
+esac
+
+# from here on it's Unix
+
+# make the opt version
+
+rm -rf OpenSG-$VERSION-$distname-opt
+mkdir OpenSG-$VERSION-$distname-opt
+
+cd OpenSG-$VERSION-$distname-opt
+cp $OSGROOT/dist/README.bindist README
+
+# copy the libs/includes
+
+cp -r $OSGROOT/Builds/$system-$compiler/include .
+
+mkdir lib
+cp -r $OSGROOT/Builds/$system-$compiler/lib/opt lib
+
+# make the tutorial examples
+
+cp -r $OSGROOT/tutorials .
+
+cd tutorials
+rm -rf CVS
+sed -e 's|##DBG##|opt|g' < Makefile.dist > Makefile
+
+#remove the stuff we don't need here
+rm Makefile.dist Makefile.win template.*  Tutorials.dsp.raw common.cygwin
+
+cp $OSGROOT/dist/README.tutorials README
+cp $OSGROOT/dist/BUILD.tutorials BUILD
+
+gmake
+gmake clean
+
+cd ..
+
+# do system-specific stuff
+
+case $system in
+    mips-sgi-* )
+    ;;  
+    *-pc-linux-gnu )    
+    ;;
+esac
+
+# and pack it up
+
+cd ..
+
+tar cf - OpenSG-$VERSION-$distname-opt | \
+            gzip -9 > OpenSG-$VERSION-$distname-opt.tgz
+
+# now add the debug libs...
+
+mv OpenSG-$VERSION-$distname-opt OpenSG-$VERSION-$distname-opt+dbg
+
+cd OpenSG-$VERSION-$distname-opt+dbg
+
+cp -r ../OpenSG-$VERSION/Builds/$system-$compiler/lib/dbg lib
+
+cd tutorials
+gmake Clean
+
+sed -e 's|##DBG##|dbg|g' < $OSGROOT/tutorials/Makefile.dist > Makefile
+
+gmake
+gmake clean
+
+cd ..
+
+# do system-specific stuff
+
+case $system in
+    mips-sgi-* )              
+    ;;  
+    *-pc-linux-gnu )    
+    ;;
+esac
+
+cd ..
+
+tar cf - OpenSG-$VERSION-${distname}-opt+dbg | \
+            gzip -9 > OpenSG-$VERSION-${distname}-opt+dbg.tgz
+
+
+# ... get rid of the opt libs ...
+
+mv OpenSG-$VERSION-$distname-opt+dbg OpenSG-$VERSION-$distname-dbg
+
+cd OpenSG-$VERSION-$distname-dbg
+rm -rf lib/opt
+
+# do system-specific stuff
+
+case $system in
+    mips-sgi-* )              
+    ;;  
+    *-pc-linux-gnu )    
+    ;;
+esac
+
+cd ..
+
+tar cf - OpenSG-$VERSION-${distname}-dbg | \
+            gzip -9 > OpenSG-$VERSION-${distname}-dbg.tgz
+
+# that's it!
+
+
+
