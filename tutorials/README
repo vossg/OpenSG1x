@@ -14,29 +14,29 @@ two-button mice) zooms in or out.
 
 The available examples are:
 
-hello:                  The simplest OpenSG program. Just creates a torus.
+01hello:                  The simplest OpenSG program. Just creates a torus.
 
-move:                   How to use transformations.
+02move:                   How to use transformations.
 
-share:                  Sharing the cores between different nodes.
+03share:                  Sharing the cores between different nodes.
 
-hiertransform:          Demonstrates the hierarchical accumulative effects of
-                        multiple transformations.
+04hiertransform:          Demonstrates the hierarchical accumulative effects of
+                          multiple transformations.
 
-geometry:               Simple non-indexed geometry node construction.
+05geometry:               Simple non-indexed geometry node construction.
 
-indexgeometry:          Using single indices for geometry.
+06indexgeometry:          Using single indices for geometry.
 
-multiindexgeometry:     Using multiple indices for different attributes.
+07multiindexgeometry:     Using multiple indices for different attributes.
 
-materials:              Creating materials to specify the surface properties
-                        of the objects.
+08materials:              Creating materials to specify the surface properties
+                          of the objects.
 
-traverse:               How to traverse the scenegraph and work on the nodes.
+09traverse:               How to traverse the scenegraph and work on the nodes.
 
-loading:                Loading models.
+10loading:                Loading models.
 
-picking:                Using a ray test to select objects/faces.
+11picking:                Using a ray test to select objects/faces.
 
 
 The directory contains a test image that can be passed to materials to be used
