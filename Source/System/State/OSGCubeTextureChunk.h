@@ -73,6 +73,14 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunk : public CubeTextureChunkBase
     inline static  const StateChunkClass * getStaticClass   (void);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+    virtual void changed(BitVector whichField,
+                         UInt32    origin    );
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/ 
     /*! \name                     Output                                   */ 
     /*! \{                                                                 */

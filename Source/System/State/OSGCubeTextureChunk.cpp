@@ -117,6 +117,107 @@ const StateChunkClass *CubeTextureChunk::getClass(void) const
     return TextureChunk::getClass();
 }
 
+/*------------------------------- Sync -----------------------------------*/
+
+void CubeTextureChunk::changed(BitVector whichField, UInt32 origin)
+{
+    if(whichField & PosZImageFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfPosZImage.getValue());
+            }
+            else
+            {
+                ImagePtr pImage = _sfPosZImage.getValue();
+
+                _sfPosZImage.setValue(NullFC);
+
+                setPosZImage(pImage);
+            }
+        }
+    }
+
+    if(whichField & PosXImageFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfPosXImage.getValue());
+            }
+            else
+            {
+                ImagePtr pImage = _sfPosXImage.getValue();
+
+                _sfPosXImage.setValue(NullFC);
+
+                setPosXImage(pImage);
+            }
+        }
+    }
+    
+    if(whichField & NegXImageFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfNegXImage.getValue());
+            }
+            else
+            {
+                ImagePtr pImage = _sfNegXImage.getValue();
+
+                _sfNegXImage.setValue(NullFC);
+
+                setNegXImage(pImage);
+            }
+        }
+    }
+    
+    if(whichField & PosYImageFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfPosYImage.getValue());
+            }
+            else
+            {
+                ImagePtr pImage = _sfPosYImage.getValue();
+
+                _sfPosYImage.setValue(NullFC);
+
+                setPosYImage(pImage);
+            }
+        }
+    }
+    
+    if(whichField & NegYImageFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfNegYImage.getValue());
+            }
+            else
+            {
+                ImagePtr pImage = _sfNegYImage.getValue();
+
+                _sfNegYImage.setValue(NullFC);
+
+                setNegYImage(pImage);
+            }
+        }
+    }
+    Inherited::changed(whichField, origin);
+}
+
 /*----------------------------- onCreate --------------------------------*/
 
 void CubeTextureChunk::onCreate(const CubeTextureChunk *)
