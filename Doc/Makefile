@@ -109,7 +109,8 @@ DOC_PAGES  := 	Code/mainpage.dox \
 				../Source/System/Cluster/Cluster.dox  \
 				../Source/System/Image/Image.dox \
 				../Source/System/RenderingBackend/RenderingBackend.dox \
-				../Source/System/Statistics/Statistics.dox
+				../Source/System/Statistics/Statistics.dox\
+				Code/faq.dox 
 
 DOC_IMAGE_PATHES := Images
 
@@ -144,7 +145,6 @@ DOXYGEN := doxygen
 #DOXYGEN := /net/pc1107/data/dirk/software/doxygen-1.2.18/bin/doxygen
 #DOXYGEN := /net/pc1107/data/dirk/software/doxygen-1.3-rc2/bin/doxygen
 #DOXYGEN := /data/dirk/software/doxygen_cvs_send/bin/doxygen
-
 
 default: help
 
