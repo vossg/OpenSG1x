@@ -1056,7 +1056,7 @@ void Brick::render3DSlices(DVRVolume      *volume,
 
             // HACK need to fix the endless loop!
             UInt32 count = 0;
-            while(numUsedIntersections != numIntersections && ++count < 100000)
+            while(numUsedIntersections != numIntersections && ++count <= numIntersections)
             {
                 for(Int32 i = 1; i < numIntersections; i++) 
                 {
