@@ -525,6 +525,13 @@ OSG_BASE_DLLMAPPING int putenv(char *string);
 inline
 OSG_BASE_DLLMAPPING void osgsleep(UInt32 millisecs);
 
+/*! \brief get a random value between 0 and 1
+ *  \ingroup BaseFunctions
+ */
+
+inline
+OSG_BASE_DLLMAPPING Real32 osgrand(void);
+
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
 /*! \name                     Initialization                           */

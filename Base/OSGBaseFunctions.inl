@@ -826,4 +826,11 @@ void osgsleep(UInt32 millisecs)
 #endif
 }
 
+inline
+OSG_BASE_DLLMAPPING
+Real32 osgrand(void)
+{
+    return rand()/32767.f;
+}
+
 OSG_END_NAMESPACE
