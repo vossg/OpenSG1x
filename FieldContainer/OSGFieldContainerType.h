@@ -132,13 +132,13 @@ class OSGFieldContainerType
 
     /*-------------------------- properties ---------------------------------*/
 
-	OSGBool isAbstract   (void);
+	OSGBool isAbstract   (void) const;
 
-    OSGBool isNode       (void);
-    OSGBool isNodeCore   (void);
-    OSGBool isAttachment (void);
+    OSGBool isNode       (void) const;
+    OSGBool isNodeCore   (void) const;
+    OSGBool isAttachment (void) const;
 
-    OSGBool isDerivedFrom(const OSGFieldContainerType &other);
+    OSGBool isDerivedFrom(const OSGFieldContainerType &other) const;
         
     /*------------------------- description ---------------------------------*/
 

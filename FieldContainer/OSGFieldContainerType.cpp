@@ -236,28 +236,28 @@ OSGAttachmentPtr OSGFieldContainerType::createAttachment(void)
 	return fc;
 }
 
-OSGBool OSGFieldContainerType::isAbstract(void)
+OSGBool OSGFieldContainerType::isAbstract(void) const
 {
     return (_prototypeP != OSGNullFC) ? false : true;
 }
 
-OSGBool OSGFieldContainerType::isNode(void)
+OSGBool OSGFieldContainerType::isNode(void) const
 {
     return (_baseType == OSGIsNode);
 }
 
-OSGBool OSGFieldContainerType::isNodeCore(void)
+OSGBool OSGFieldContainerType::isNodeCore(void) const
 {
     return (_baseType == OSGIsNodeCore);
 }
 
-OSGBool OSGFieldContainerType::isAttachment(void)
+OSGBool OSGFieldContainerType::isAttachment(void) const
 {
     return (_baseType == OSGIsAttachment);
 }
 
 OSGBool OSGFieldContainerType::isDerivedFrom(
-    const OSGFieldContainerType &other)
+    const OSGFieldContainerType &other) const
 {
     OSGBool                returnValue = false;
     OSGFieldContainerType *currTypeP   = _parent;
