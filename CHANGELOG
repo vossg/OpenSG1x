@@ -2,6 +2,39 @@
 ChangeLog for OpenSG
 ====================
 
+1.4.0 - 2004
+
+ADDED:
+    New Tutorial (~120 pages, written by Oliver Abert
+    (http://www.opensg.org/OpenSG-Tutorial-V.1.0/index.html)
+    CG and OpenGL Shading Language support.
+    Non power-of-two textures.
+    Texture LOD control, SGIS_generate_mipmap support.
+    Beacons for Genfuncs
+    BackMaterial
+    Local light sources.
+    Material sorting via sort key.
+    New binary (osb) format.
+    3ds, SLP, DXF loader.
+    ProxyGroup for delayed loading and large model support.
+    ActiveX and Netscape plugin examples.
+    Integrated web server.
+    TextureBackground and PolygonForeground.
+    More efficient DrawTree handling (hierarchical culling, DrawTree node pool)
+    Traversal Masks for finer traversal control.
+    GraphOp/GraphSeq for scene optimizing.
+    Volume rendering.
+    Cluster improvements (faster sync & transfer,
+                          connect/reconnect helper, sort-last)
+    Phong and Fresnel Material.
+    Helper for begin/endEditCP.
+    Helper for node/Core split creation and hiding.
+    Trimmed NURBS surface node.
+    VideoGrabForeground
+    FOX render widget.
+    Mayaexport.
+    FTGLText class, a simple wrapper around the FTGL font rendering library.
+
 1.2.0 - 2003/03/18
 
 ADDED:
