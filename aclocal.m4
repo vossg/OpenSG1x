@@ -477,15 +477,6 @@ dnl e2
 
         echo configuring package $i ${ac_gdz_package_name[$i]}
 
-        if [[ ${ac_gdz_package_name[$i]} = "WindowGLUT" ]]; then
-            if [[ ${ac_gdz_conf_package_glut} = 0 ]]; then
-                echo Skipping ${ac_gdz_package_name[$i]}
-                let i=i+1
-                continue
-            else
-                ac_gdz_package_order="${ac_gdz_package_order} WindowGLUTLib"
-            fi
-        fi
         if [[ ${ac_gdz_package_name[$i]} = "WindowX" ]]; then
             if [[ ${build_os} = "cygwin" ]]; then
                 echo Skipping ${ac_gdz_package_name[$i]}
@@ -493,6 +484,15 @@ dnl e2
                 continue
             else
                 ac_gdz_package_order="${ac_gdz_package_order} WindowXLib"
+            fi
+        fi
+        if [[ ${ac_gdz_package_name[$i]} = "WindowWIN32" ]]; then
+            if [[ ${build_os} != "cygwin" ]]; then
+                echo Skipping ${ac_gdz_package_name[$i]}
+                let i=i+1
+                continue
+            else
+                ac_gdz_package_order="${ac_gdz_package_order} WindowWIN32Lib"
             fi
         fi
         if [[ ${ac_gdz_package_name[$i]} = "WindowQT" ]]; then
@@ -504,13 +504,13 @@ dnl e2
                 ac_gdz_package_order="${ac_gdz_package_order} WindowQTLib"
             fi
         fi
-        if [[ ${ac_gdz_package_name[$i]} = "WindowWIN32" ]]; then
-            if [[ ${build_os} != "cygwin" ]]; then
+        if [[ ${ac_gdz_package_name[$i]} = "WindowGLUT" ]]; then
+            if [[ ${ac_gdz_conf_package_glut} = 0 ]]; then
                 echo Skipping ${ac_gdz_package_name[$i]}
                 let i=i+1
                 continue
             else
-                ac_gdz_package_order="${ac_gdz_package_order} WindowWIN32Lib"
+                ac_gdz_package_order="${ac_gdz_package_order} WindowGLUTLib"
             fi
         fi
 
