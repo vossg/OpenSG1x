@@ -508,7 +508,7 @@ void RemoteAspect::sendSync(Connection &connection, ChangeList *changeList)
         {
             FDEBUG(("SyncFieldFilter: :%s \n", 
                     fcPtr->getType().getName().str() )) 
-            mask &= 0xFFFFFFFFFFFFFFFFL ^ filterI->second;
+            mask &= 0xFFFFFFFFFFFFFFFFLL ^ filterI->second;
         }
 
         if(mask)
