@@ -78,7 +78,7 @@ char *FCTemplate_h[]={
 "/*! \\brief *put brief class description here* ",
 " */",
 "",
-"class OSG_@!LIBNAME!@_LIBDLLMAPPING @!Classname!@ : public @!Classname!@Base",
+"class OSG_@!LIBNAME!@LIB_DLLMAPPING @!Classname!@ : public @!Classname!@Base",
 "{",
 "  private:",
 "",
