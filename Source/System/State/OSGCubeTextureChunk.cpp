@@ -364,11 +364,11 @@ void CubeTextureChunk::activate( DrawActionBase *action, UInt32 idx )
     if(isnanf(nteximages = 
                 win->getConstantValue(GL_MAX_TEXTURE_IMAGE_UNITS_ARB)))
     {
-        nteximages = win->getConstantValue(GL_MAX_TEXTURE_UNITS);
+        nteximages = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
     }
     if(isnanf(ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
     {
-        ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS);
+        ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
     }
 
     if(idx >= nteximages)
@@ -412,7 +412,7 @@ void CubeTextureChunk::activate( DrawActionBase *action, UInt32 idx )
         }
     }
 
-    if(idx < win->getConstantValue(GL_MAX_TEXTURE_UNITS))
+    if(idx < win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB))
     {
         // texture env
         glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
@@ -490,7 +490,7 @@ void CubeTextureChunk::changeFrom(  DrawActionBase *action,
     UInt32 nteximages, ntexcoords, ntexunits;
     
     ntexunits = static_cast<UInt32>(
-                            win->getConstantValue(GL_MAX_TEXTURE_UNITS));
+                            win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB));
     
     if(isnanf(dummy = win->getConstantValue(GL_MAX_TEXTURE_IMAGE_UNITS_ARB)))
     {
@@ -614,11 +614,11 @@ void CubeTextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
     if(isnanf(nteximages = 
                 win->getConstantValue(GL_MAX_TEXTURE_IMAGE_UNITS_ARB)))
     {
-        nteximages = win->getConstantValue(GL_MAX_TEXTURE_UNITS);
+        nteximages = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
     }
     if(isnanf(ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)))
     {
-        ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS);
+        ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
     }
 
     if(idx >= nteximages)
@@ -659,7 +659,7 @@ void CubeTextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
     }
     
     
-    if(idx >= static_cast<UInt16>(win->getConstantValue(GL_MAX_TEXTURE_UNITS)))
+    if(idx >= static_cast<UInt16>(win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB)))
         return; // tetxures >= MTU are not enabled and don't have an env
         
     if(!isActive)
