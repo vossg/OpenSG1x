@@ -202,14 +202,14 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
 
     static const BitVector GeoPropDataFieldMask;
 
-    typedef GeoProperty<GeoPropertyDesc>                  PropertyType;
+    typedef GeoProperty<GeoPropertyDesc>         PropertyType;
 
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
-    typedef FCPtr<typename LocalInheritedPtr,
-                           PropertyType                 > PtrType;
+    typedef FCPtr<LocalInheritedPtr,
+                  PropertyType                 > PtrType;
 #else
-    typedef FCPtr<typename InheritedPtr,
-                           PropertyType                 > PtrType;
+    typedef FCPtr<InheritedPtr,
+                  PropertyType                 > PtrType;
 #endif
 
     typedef typename GeoPropertyDesc::StoredFieldType     StoredFieldType;
@@ -240,7 +240,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
     virtual UInt32  getSize      (void);
     virtual UInt8  *getData      (void);
 
-    typename StoredFieldType &operator->() { return _field; }
+            StoredFieldType &operator->() { return _field; }
 
     virtual StoredGenericType getValue(const UInt32 index);
 
@@ -284,7 +284,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
 
     friend class OSG_SYSTEMLIB_DLLMAPPING FieldContainer;
 
-    typename StoredFieldType _field;
+    StoredFieldType _field;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
