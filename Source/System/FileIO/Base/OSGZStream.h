@@ -28,7 +28,7 @@ Altered by: Andreas Zieringer 2003
 // We should link it into the BaseLib and move this header file to Base and
 // define something like OSG_WITH_ZLIB via a new configure option --with-zlib=...
 // This platforms are not tested yet __hpux __sun
-#if defined(OSG_WITH_PNG) && (defined(__sgi) || defined(WIN32) || (defined(__linux) && __GNUC__ == 3))
+#if defined(OSG_WITH_PNG) && (defined(__hpux) || defined(__sgi) || defined(WIN32) || (defined(__linux) && __GNUC__ == 3))
 #define OSG_ZSTREAM_SUPPORTED
 #endif
 

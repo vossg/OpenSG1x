@@ -194,13 +194,13 @@ bool SceneFileHandler::isGZip(std::istream &is)
     int c2 = (int) is.get();
     if(c2 != gz_magic[1])
     {
-        is.putback(c1);
         is.putback(c2);
+        is.putback(c1);
         return false;
     }
     
-    is.putback(c1);
     is.putback(c2);
+    is.putback(c1);
     return true;
 }
 
