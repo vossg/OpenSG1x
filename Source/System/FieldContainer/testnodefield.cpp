@@ -1,6 +1,17 @@
 
 #include <OSGConfig.h>
 
+#ifdef WIN32
+
+#include <stdio.h>
+int main (int , char **)
+{
+    fprintf(stderr,"testnodefield: not supported on Windows!\n");
+    return -1;
+}
+
+#else
+
 #include <iostream>
 
 #include <OSGFieldContainerFactory.h>
@@ -66,3 +77,4 @@ int main (int argc, char **argv)
     return 0;
 }
 
+#endif
