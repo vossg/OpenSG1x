@@ -258,6 +258,7 @@ Transform::~Transform(void)
 
 void Transform::changed(BitVector, ChangeMode)
 {
+	invalidateVolume();
 }
 
 /*------------------------------- dump ----------------------------------*/
