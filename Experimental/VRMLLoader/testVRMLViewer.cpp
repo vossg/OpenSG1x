@@ -6,13 +6,13 @@
 #include <iostream.h>
 #endif
 
-#include <sys/time.h>
 #include <unistd.h> 
 #include <map>
 #include <string>
 
 #include <GL/glut.h>
 
+#include <OSGTime.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGFieldContainerFactory.h>
 #include <OSGSFSysTypes.h>
@@ -136,15 +136,21 @@ vector<OSG::Quaternion> aniRotations;
 
 // --- fps calculation
 
-struct timeval              timeOld, timeNew;
+OSG::Time              timeOld, timeNew;
 
 enum NavMode { FLY, EXAMINE, TRACKBALL, ANIM };
 
 NavMode  navMode;
 NavMode  lastNavMode;
 
+
+// background
+
+OSG::Color3f bkgndgcol;
+
 // --- forward declaration
 
+OSG::Real32                 setNear = -1;
 
 /*------------- v2a file check & read -------------------------------------*/
 
@@ -417,18 +423,6 @@ OSG::NodePtr readModelFile( const string& modelfile )
     return f;
 }
 
-/*------------- Time-difference calculation -------------------------------*/
-
-/*! \brief Returns the difference between time t1 and t2.
-    \return the differnce is returned in microseconds
- */
-
-long diffTime( const timeval& t1, const timeval& t2 )
-{
-    return 
-        (t2.tv_sec*1000000 + t2.tv_usec) - (t1.tv_sec*1000000 + t1.tv_usec);
-}
-
 /*------------- fps calculation -------------------------------------------*/
 
 OSG::Real32 fps( OSG::Real32 frameTime )
@@ -561,14 +555,14 @@ void display(void)
     timeOld = timeNew;  
     
     // get new time value
-    gettimeofday(&timeNew, 0); 
+    timeNew = OSG::getSystemTime();
     
     // calc difference between previous and current time    
-    diff =  diffTime(timeOld, timeNew);
+    diff =  timeNew - timeOld;
         
     // calc nr
     //nrOfSteps = (animDuration*1000) / ( diff/1000.0 );
-    nrOfSteps = (animDuration*1000000) / diff;
+    nrOfSteps = animDuration / diff;
     
 //  cout << "fps: " << fps( diff ) << endl;
     
@@ -916,6 +910,8 @@ void dumpUserAnim()
     
     if( !f.fail() )
     {
+    	int i;
+    	
         f << "/* FHS animation file. Created by OpenSG testVRMLViewer. */\n";
         f << "\nduration 10\n";
         
@@ -925,7 +921,7 @@ void dumpUserAnim()
         // write keys
         f << "\tkey [ ";
         
-        for( int i=0; i<=nrOfKeys; ++i )
+        for( i=0; i<=nrOfKeys; ++i )
         {
             f << (1.0/nrOfKeys)*i << (i==nrOfKeys? "":", ");
         }
@@ -934,7 +930,7 @@ void dumpUserAnim()
         // write key-values
         f << "\tkeyValue [ ";
         
-        for( int i=0; i<=nrOfKeys; ++i )
+        for(  i=0; i<=nrOfKeys; ++i )
         {
             pos = aniPositions[i];
             f << pos[0] << " " << pos[1] << " " << pos[2]
@@ -947,7 +943,7 @@ void dumpUserAnim()
         f << "ROTKEY_Pfad1 Kamera 1 Orientation {\n";
         f << "\tkey [ ";
         
-        for( int i=0; i<=nrOfKeys; ++i )
+        for(  i=0; i<=nrOfKeys; ++i )
         {
             f << (1.0/nrOfKeys)*i << (i==nrOfKeys? "":", ");
         }
@@ -956,7 +952,7 @@ void dumpUserAnim()
         // write key-values
         f << "\tkeyValue [ ";
         
-        for( int i=0; i<=nrOfKeys; ++i )
+        for(  i=0; i<=nrOfKeys; ++i )
         {
             rot = aniRotations[i];
             rot.getValueAsAxisRad( axis, radians );
@@ -1190,6 +1186,91 @@ void addLogoForeground(const char *szFilename)
 }
 /*-------------------------------------------------------------------------*/
 
+#ifdef WIN32
+
+
+/*
+*  This is the AT&T public domain source for getopt(3).  It is the code
+*  which was given out at the 1985 UNIFORUM conference in Dallas.
+*   
+*  There is no manual page.  That is because the one they gave out at
+*  UNIFORUM was slightly different from the current System V Release 2
+*  manual page.  The difference apparently involved a note about the
+*  famous rules 5 and 6, recommending using white space between an
+*  option and its first argument, and not grouping options that have
+*  arguments.  Getopt itself is currently lenient about both of these
+*  things.  White space is allowed, but not mandatory, and the last option
+*  in a group can have an argument.  That particular version of the man
+*  page evidently has no official existence.  The current SVR2 man page
+*  reflects the actual behavor of this getopt.
+*/
+
+
+
+/*LINTLIBRARY*/
+#ifndef NULL
+#define NULL    0
+#endif
+#define EOF     (-1)
+#define ERR(str, chr) (opterr ? fprintf(stderr, "%s%s%c\n", argv[0], str, chr) : 0)
+
+int     opterr = 1;
+int     optind = 1;
+int     optopt = 0;
+char    *optarg = 0;
+
+int
+getopt(int argc, char **argv, char *opts)
+{
+        static int sp = 1;
+        register int c;
+        register char *cp;
+
+        if(sp == 1) {
+                if(optind >= argc || (argv[optind][0] != '+' &&
+                   argv[optind][0] != '-') || argv[optind][1] == '\0')
+                        return(EOF);
+                else if(strcmp(argv[optind], "--") == 0) {
+                        optind++;
+                        return(EOF);
+                }
+                /* '+' for config options, '+' should not be in the opts list */
+                if (argv[optind][0] == '+') {
+                        optarg = argv[optind++] + 1;
+                        return '+';
+                }
+        }
+        optopt = c = argv[optind][sp];
+        if(c == ':' || (cp=strchr(opts, c)) == NULL) {
+                ERR(": illegal option -- ", c);
+                if(argv[optind][++sp] == '\0') {
+                        optind++;
+                        sp = 1;
+                }
+                return('\0');
+        }
+        if(*++cp == ':') {
+                if(argv[optind][sp+1] != '\0')
+                        optarg = &argv[optind++][sp+1];
+                else if(++optind >= argc) {
+                        ERR(": option requires an argument -- ", c);
+                        sp = 1;
+                        return('\0');
+                } else
+                        optarg = argv[optind++];
+                sp = 1;
+        } else {
+                if(argv[optind][++sp] == '\0') {
+                        sp = 1;
+                        optind++;
+                }
+                optarg = NULL;
+        }
+        return(c);
+}
+
+#endif
+
 void checkOptions( int argc, char** argv )
 {
     string      modelfile;
@@ -1203,9 +1284,10 @@ void checkOptions( int argc, char** argv )
         exit(0);
     }
     
+    bkgndgcol.setValuesRGB(.3, .3, 1);
     do
     {
-        option = getopt( argc, argv, "a:b:c:h" );
+        option = getopt( argc, argv, "a:b:c:hB:n:" );
 
         if( option != '?' )
         {
@@ -1219,8 +1301,14 @@ void checkOptions( int argc, char** argv )
                     hasAnimDuration = true;
                     animDuration = atoi( optarg );
                     break;
+                case 'n':
+                    setNear = atof( optarg );
+                    break;
                 case 'b':
                     addLogoForeground(optarg);
+                    break;
+                case 'B':
+                    bkgndgcol.setValue(optarg);
                     break;
                 case 'h':
                     printHelp();
@@ -1368,7 +1456,13 @@ int main (int argc, char **argv)
     cam->setBeacon(t1n                );
     cam->setFov   (60                 );
 
-    if((size.length() * 4.5) > 1000.)
+	cerr << "Scene size: " << size.length() << endl;
+	
+    if((size.length() * 4.5) > 10000.)
+    {
+        cam->setNear( 10 );
+    }
+    else if((size.length() * 4.5) > 1000.)
     {
         cam->setNear( 1 );
     }
@@ -1381,12 +1475,14 @@ int main (int argc, char **argv)
         cam->setNear(0.1);
     }
 
-
-    cam->setFar   (size.length() * 4.5);
+    cam->setFar(size.length() * 4.5);
     
+	if ( setNear > 0 )
+		cam->setNear(setNear);
+		
     // Solid Background
     OSG::SolidBackgroundPtr bkgnd = OSG::SolidBackground::create();
-    bkgnd->setColor( OSG::Color3f(0.2,0.2,0.2) );
+    bkgnd->setColor( bkgndgcol );
 
     // Viewport
     OSG::ViewportPtr vp = OSG::Viewport::create();
@@ -1448,7 +1544,7 @@ int main (int argc, char **argv)
     
     // --- move viewpoint nodes to be child of the root node    
 
-    for(uint i = 0; i < cameraBeacons.size(); i++)
+    for(OSG::UInt16 i = 0; i < cameraBeacons.size(); i++)
     {
         cerr << "moving cam" << i << endl;
 

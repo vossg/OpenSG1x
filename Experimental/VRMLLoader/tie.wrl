@@ -1,12 +1,5 @@
 #VRML V2.0 utf8
 
-DEF Camera01 Viewpoint {
-  position -420.4 65.16 348.6
-  orientation 0 1 0 -0.9385
-  fieldOfView 0.7854
-  description "Camera01"
-}
-
 Group {
 children [
 

@@ -176,7 +176,6 @@ VRMLSceneFileType::VRMLSceneFileType(const char   *suffixArray[],
               override,
               overridePriority)
 {
-    fprintf(stderr, "Init VRML Scene File Type %d\n", this);
 }
 
 
