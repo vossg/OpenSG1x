@@ -65,6 +65,8 @@ ac_gdz_mpatrol_libs_e1=
 
 ac_gdz_test_debug_libs=
 
+ac_gdz_wrote_stl='0'
+
 AC_CONFIG_AUX_DIR($ac_gdz_commonconf_dir) 
 
 dnl ############# Compiler Settings #####################
@@ -1370,8 +1372,8 @@ ac_gdz_common_testmake_in=$ac_gdz_commonconf_dir/Makefile.test.in
 
 AC_OUTPUT($ac_gdz_common_platform:$ac_gdz_common_platform_in)
 
-AC_GDZ_WRITE_COMMON_STL()
 AC_GDZ_WRITE_COMMON_STLPORT()
+AC_GDZ_WRITE_COMMON_STL()
 
 AC_GDZ_WRITE_COMMON_GLUT()
 

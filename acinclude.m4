@@ -906,24 +906,27 @@ dnl e4
     ac_gdz_stl_lib_e4=
     ac_gdz_stl_dir_e4=
 
-    if test -n "$ac_gdz_stl_dir"; then
-        ac_gdz_stl_lib_e4='-lCio'
-        ac_gdz_stl_dir_e4=$ac_gdz_stl_dir
-    else
-        if test $build_os = irix6.5; then
+    if test ac_gdz_wrote_stl='0'; then
+
+        if test -n "$ac_gdz_stl_dir"; then
             ac_gdz_stl_lib_e4='-lCio'
+            ac_gdz_stl_dir_e4=$ac_gdz_stl_dir
+        else
+            if test $build_os = irix6.5; then
+                ac_gdz_stl_lib_e4='-lCio'
+            fi
         fi
-    fi
 
-    ac_gdz_common_stl_in_e4=$ac_gdz_commonconf_dir/commonSTL.in
-    ac_gdz_common_stl_e4=$ac_gdz_commonpackage_dir/commonSTL.mk
+        ac_gdz_common_stl_in_e4=$ac_gdz_commonconf_dir/commonSTL.in
+        ac_gdz_common_stl_e4=$ac_gdz_commonpackage_dir/commonSTL.mk
 
-    AC_SUBST(ac_gdz_stl_dir_e4)
-    AC_SUBST(ac_gdz_stl_lib_e4)
+        AC_SUBST(ac_gdz_stl_dir_e4)
+        AC_SUBST(ac_gdz_stl_lib_e4)
    
-    touch confdefs.h
+        touch confdefs.h
 
-    AC_OUTPUT($ac_gdz_common_stl_e4:$ac_gdz_common_stl_in_e4)
+        AC_OUTPUT($ac_gdz_common_stl_e4:$ac_gdz_common_stl_in_e4)
+    fi
 ])
 
 
@@ -1976,6 +1979,8 @@ dnl e18
     ac_gdz_stlport_libdir_e18=
 
     if test "$enable_stlport" = yes; then
+
+        ac_gdz_wrote_stl='1'
 
         case $build_os in
             cygwin*)
