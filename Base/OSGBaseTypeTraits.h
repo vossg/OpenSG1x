@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _VSCBASETYPETRAITS_H_
-#define _VSCBASETYPETRAITS_H_
+#ifndef _OSGBASETYPETRAITS_H_
+#define _OSGBASETYPETRAITS_H_
 #ifdef __sgi
 #pragma once
 #endif
