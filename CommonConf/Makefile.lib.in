@@ -1,6 +1,7 @@
 
 
 @ac_gdz_project_praefix@COMMON     ?= Common
+@ac_gdz_project_praefix@COMMONCONF ?= CommonConf
 @ac_gdz_project_praefix@COMMONPACK ?= CommonPackages
 
 ifndef @ac_gdz_project_praefix@POOL

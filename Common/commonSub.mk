@@ -22,6 +22,12 @@ getAllMDSourceFiles = $(wildcard $(1)/$(PROJ)MD*.s  ) \
 getSysMDSourceFiles = $(wildcard $(1)/$(PROJ)MD$(OS_BASE)*.s  ) \
 					  $(wildcard $(1)/$(PROJ)MD$(OS_BASE)*.cpp)
 
+getProjFiles           = \
+					     $(wildcard $(1)/$(PROJ)*.h) 	\
+	 					 $(wildcard $(1)/$(PROJ)*.inl) 	\
+			 			 $(wildcard $(1)/$(PROJ)*.cpp)	\
+	 					 $(wildcard $(1)/$(PROJ)*.l) 	\
+	 					 $(wildcard $(1)/$(PROJ)*.y)
 
 getSourceFiles         = \
 					     $(wildcard $(1)/$(PROJ)*.cpp) 	\
@@ -121,6 +127,8 @@ endif
 else
 buildIncPath      = $(INC_OPTION)$(1) 
 endif
+
+buildIncPathPlain = $(INC_OPTION)$(1) 
 
 #########################################################################
 # Build lib directive

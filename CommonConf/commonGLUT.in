@@ -14,5 +14,6 @@ endif
 ifneq ($(LIB_GLUT),)
 LIB_FILE_GLUT     := $(LIB_GLUT)
 LIB_FILE_GLUT_LNK := $(LIB_GLUT)
+OSG_LIB_EXT       := $(OSG_LIB_EXT) $(LIB_GLUT)
 endif
 

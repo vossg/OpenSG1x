@@ -11,5 +11,6 @@ MAK_SUFFIX           := .mk
 DEP_SUFFIX           := .d
 
 INCL_$(OS_BASE)      :=
+INCL_EXP_$(OS_BASE)  :=
 LIBS_$(OS_BASE)      :=
-
+OSG_LIB_EXT          := 

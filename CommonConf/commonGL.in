@@ -5,7 +5,8 @@ LINK_GL    :=
 LIB_GL   := -lGLU -lGL -lXmu -lXi -lXt -lX11
 
 ifeq ($(OS_BASE), cygwin)
-LIB_GL   := opengl32.lib glu32.lib gdi32.lib
+LIB_GL     := opengl32.lib glu32.lib gdi32.lib
+LIB_GL_EXT := $(LIB_GL)
 endif
 
 ifeq ($(OS_BASE), darwin)

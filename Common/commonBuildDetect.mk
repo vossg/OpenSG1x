@@ -66,6 +66,9 @@ DBG := $(DBG_BASE)$(LNK)
 ifeq ($(MAKECMDGOALS),depend)
 OSGNODEPSREBUILD=0
 endif
+ifeq ($(MAKECMDGOALS),dsp)
+OSGNODEPSREBUILD=0
+endif
 
 ifeq ($(DEBUG_MAKE),1)
 $(warning DBG=$(DBG))

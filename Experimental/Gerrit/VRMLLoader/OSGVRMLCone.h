@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGVRMLTOOSGACTION_HPP_
-#define _OSGVRMLTOOSGACTION_HPP_
+#ifndef _VRMLCONE_HPP_
+#define _VRMLCONE_HPP_
 #ifdef __sgi
 #pragma once
 #endif
@@ -47,10 +47,8 @@
 //---------------------------------------------------------------------------
 
 #include <OSGBaseTypes.h>
-#include <OSGVRMLAction.h>
-#include <OSGIDString.h>
-
-#include <map>
+#include <OSGVRMLGeometry.h>
+#include <OSGSFSysTypes.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -58,40 +56,20 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
+class VRMLToOSGAction;
+
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
-
-struct ToOpenSGActionDesc
-{
-};
-
-typedef VRMLStaticActionMixin<ToOpenSGActionDesc> VRMLToOSGMixin; 
-
-#ifndef OSG_COMPILEVRMLTOOSGACTIONINST
-
-#ifdef __sgi
-
-#pragma do_not_instantiate VRMLStaticActionMixin<ToOpenSGActionDesc>
-
-#else
-
-extern template class OSG_VRML_DLLMAPPING 
-     VRMLStaticActionMixin<ToOpenSGActionDesc>;
-
-#endif
-
-#endif
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-//! VRMLToOSGAction
-//! \ingroup VRMLOSGBindingLib
-//! \ingroup VRMLActionLib
+//! VRMLCone
+//! \ingroup VRMLNodeLib
 
-class OSG_VRML_DLLMAPPING VRMLToOSGAction : public VRMLToOSGMixin
+class OSG_VRML_DLLMAPPING VRMLCone : public VRMLGeometry
 {
   private:
 
@@ -99,7 +77,7 @@ class OSG_VRML_DLLMAPPING VRMLToOSGAction : public VRMLToOSGMixin
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef VRMLToOSGMixin Inherited;
+    typedef VRMLGeometry Inherited;
 
   public:
 
@@ -107,21 +85,24 @@ class OSG_VRML_DLLMAPPING VRMLToOSGAction : public VRMLToOSGMixin
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef map<IDStringLink, VRMLNode *> NameNodeMap;
+    typedef       VRMLCone *Ptr;
+    typedef const VRMLCone *ConstPtr;
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
 
+    OSG_RC_FIRST_ELEM_IDM_DECL(BottomRadiusField);
+
+    OSG_RC_ELEM_IDM_DECL      (HeightField, BottomRadiusField);
+    OSG_RC_ELEM_IDM_DECL      (SideField  , HeightField      );
+    OSG_RC_ELEM_IDM_DECL      (BottomField, SideField        );
+
+    OSG_RC_LAST_ELEM_IDM_DECL (BottomField);
+
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
-
-    enum ConvertOptions
-    {
-        CreateNormals  = 0x0001,
-        StripeGeometry = 0x0002
-    };
 
   private:
 
@@ -158,9 +139,138 @@ class OSG_VRML_DLLMAPPING VRMLToOSGAction : public VRMLToOSGMixin
     //-----------------------------------------------------------------------
 
     //! prohibit default function (move to 'public' if needed) 
-    VRMLToOSGAction(const VRMLToOSGAction &source);
+    void operator =(const VRMLCone &source);
+
+  protected:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    static VRMLObjectType _type;
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    static void init(void);
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    SFReal32 _sfBottomRadius;
+    SFReal32 _sfHeight;
+    SFBool   _sfSide;
+    SFBool   _sfBottom;
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    VRMLCone(void);
+    VRMLCone(const VRMLCone &source);
+
+  public :
+
+    OSG_VRMLOBJ_DECL(Ptr);
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    virtual ~VRMLCone(void); 
+
+    /*-------------------------- field access -------------------------------*/
+
+    SFReal32 *getSFBottomRadius(void);
+    SFReal32 *getSFHeight      (void);
+    SFBool   *getSFSide        (void);
+    SFBool   *getSFBottom      (void);
+};
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+//! VRMLConeBinder
+//! \ingroup VRMLOSGBindingLib
+
+class OSG_VRML_DLLMAPPING VRMLConeBinder : public VRMLNodeBinder
+{
+  private:
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    typedef VRMLNodeBinder Inherited;
+
+  public:
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+  private:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   friend classes                                                      
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   friend functions                                                    
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
     //! prohibit default function (move to 'public' if needed) 
-    void operator =(const VRMLToOSGAction &source);
+    VRMLConeBinder(const VRMLConeBinder &source);
+    //! prohibit default function (move to 'public' if needed) 
+    void operator =(const VRMLConeBinder &source);
 
   protected:
 
@@ -184,9 +294,6 @@ class OSG_VRML_DLLMAPPING VRMLToOSGAction : public VRMLToOSGMixin
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    UInt32       _uiOptions;
-    NameNodeMap *_pNameNodeMap;
-
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -201,77 +308,18 @@ class OSG_VRML_DLLMAPPING VRMLToOSGAction : public VRMLToOSGMixin
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    VRMLToOSGAction(void);
-    virtual ~VRMLToOSGAction(void); 
+    VRMLConeBinder(void);
+    
+    virtual ~VRMLConeBinder(void); 
 
-    /*------------------------- your_operators ------------------------------*/
+    /*------------------------- your_category -------------------------------*/
 
-    void         setOptions    (UInt32 uiOptions );
-    UInt32       getOptions    (void                );
-
-    void         setNameNodeMap(NameNodeMap *pMap);
-    NameNodeMap *getNameNodeMap(void                );
+    void init  (VRMLToOSGAction *pAction);
+    void finish(VRMLToOSGAction *pAction);
 };
-
-//---------------------------------------------------------------------------
-//  Callbacks
-//---------------------------------------------------------------------------
-
-#if 0
-void vscInitToOpenSGAction(void);
-
-
-VSCVRMLAction::VSCActionResult vscVRMLSwitchToOpenSG(VSCVRMLNode   &oNode,
-                                                     VSCVRMLAction *pAction);
-
-VSCVRMLAction::VSCActionResult vscVRMLLODToOpenSG(VSCVRMLNode   &oNode,
-                                                  VSCVRMLAction *pAction);
-
-VSCVRMLAction::VSCActionResult vscVRMLInlineToOpenSG(VSCVRMLNode   &oNode,
-                                                     VSCVRMLAction *pAction);
-
-
-
-
-
-VSCVRMLAction::VSCActionResult vscVRMLIndexedLineSetToOpenSG(
-    VSCVRMLNode   &oNode,
-    VSCVRMLAction *pAction);
-
-
-
-
-VSCVRMLAction::VSCActionResult vscVRMLScalarInterpolatorToOpenSG(
-    VSCVRMLNode   &oNode,
-    VSCVRMLAction *pAction);
-
-VSCVRMLAction::VSCActionResult vscVRMLPositionInterpolatorToOpenSG(
-    VSCVRMLNode   &oNode,
-    VSCVRMLAction *pAction);
-
-VSCVRMLAction::VSCActionResult vscVRMLOrientationInterpolatorToOpenSG(
-    VSCVRMLNode   &oNode,
-    VSCVRMLAction *pAction);
-
-VSCVRMLAction::VSCActionResult vscVRMLTimeSensorToOpenSG(
-    VSCVRMLNode   &oNode,
-    VSCVRMLAction *pAction);
-
-
-
-
-
-VSCVRMLAction::VSCActionResult vscVRMLBillboardToOpenSG(
-    VSCVRMLNode   &oNode,
-    VSCVRMLAction *pAction);
-
-
-VSCVRMLAction::VSCActionResult vscVRMLHumanoidToOpenSG(VSCVRMLNode   &oNode,
-                                                       VSCVRMLAction *pAction);
-#endif
 
 OSG_END_NAMESPACE
 
-#define OSGVRMLTOOSGACTION_HEADER_CVSID "@(#)$Id: $"
+#define OSGVRMLCONE_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSGVRMLTOOSGACTION_HPP_ */
+#endif /* _OSGVRMLCONE_HPP_ */

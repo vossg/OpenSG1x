@@ -1,0 +1,40 @@
+
+This directory contains the first version of out VStudio6 support.
+As I have not figured out if it is possible to reconfigure parts
+on the fly you currently have to set up your VStudion the way that
+all external used stuff is found as only local references are
+used within these projects (see Requirements below). If not explicitly
+stated the versions required by OpenSG are the ones you should use here
+also.
+
+WARNING WARNING WARNING
+
+The dsp files are created by scripts, so if you intent to change/fix stuff
+PLEASE do not only check in these changes/fixes, mail me 
+(vossg@camtech.ntu.edu.sg) the original dsp file, the changed one and
+a short hint what changed. Otherwise your changes/fixes might get LOST.
+
+Current Requirements :
+
+    You need to configure your VStudio to 
+
+        use Intels icl compiler
+        find the glut headers and libs
+        find the tif headers and libs
+        find the qt headers and libs and the moc executable
+        find a flex executable (at least version 2.5.4)
+        find a bison executable (at least version 1.30)
+
+What works :
+
+    Currently only the debug Libs could be build.
+
+Near future :
+
+    Add opt lib support
+
+Further ahead :
+
+    Add test cases
+
+Gerrit

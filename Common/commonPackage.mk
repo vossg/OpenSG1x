@@ -1,6 +1,11 @@
 
 ifneq ($(HAS_INCL),)
 INCL_$(OS_BASE) += $(call buildIncPath,$(INCL_DIR)) 
+
+ifndef NO_INCL_EXP
+INCL_EXP_$(OS_BASE) += $(call buildIncPathPlain,../../$(SUB_DIR))
+endif
+
 endif
 
 ifneq ($(HAS_LIB),)
