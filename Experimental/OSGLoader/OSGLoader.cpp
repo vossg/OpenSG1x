@@ -552,10 +552,19 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
             GroupPtr pGroup = Group::create();
 
             _pRootNode = Node::create();
-            _pRootNode->setCore(pGroup);
+            
+            beginEditCP(_pRootNode, Node::CoreFieldMask);
+            {
+                _pRootNode->setCore(pGroup);
+            }
+            endEditCP  (_pRootNode, Node::CoreFieldMask);
         }
 
-        _pRootNode->addChild(pNode);
+        beginEditCP(_pRootNode, Node::ChildrenFieldMask);
+        {
+            _pRootNode->addChild(pNode);
+        }
+        endEditCP  (_pRootNode, Node::ChildrenFieldMask);
     }
 }
 
