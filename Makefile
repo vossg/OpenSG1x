@@ -39,7 +39,8 @@ help:
 	@echo "Targets supported on this level:"
 	@echo "================================"
 	@echo 
-	@echo "doc:  run doxygen to create the documentation"
+	@echo "doc          run doxygen to create the documentation"
+	@echo "fcdToBase    run through the tree and regenerate all the Base sources"
 
 
 .PHONY: doc
@@ -62,3 +63,18 @@ doc:
 	$(DOC_ENV) doxygen Common/Doxygen_$(OS_BASE).cfg -d
 	@rm -f Common/dummyClasses.doxygen  
 
+
+
+fcdToBase:
+	@CURRDIR=`pwd`;															\
+	FCDEDIT=$${CURRDIR}/Tools/fcdEdit/fcdEdit;								\
+	for i in `find .														\
+		\( -type d \( -name CVS -o -name Test -o -name Builds -o			\
+		   -name Tools -o -name examples -o -name '*/.*' \) -prune \) 		\
+		-o -type f -name '*\.fcd' -print` ;									\
+	do																		\
+		echo $$i ;															\
+		cd `dirname $$i` ;													\
+		$$FCDEDIT -b `basename $$i`;										\
+		cd $$CURRDIR ;														\
+	done;																	\
