@@ -444,6 +444,12 @@ case $system in
             exit
         fi
 
+        cd ../..
+        # copy the fcdCompile
+        cp Tools/fcdEdit/fcdCompile.exe .
+
+        cd Tools/fcdEdit
+
         build_make clean
 
         echo "Building fcdEdit"
@@ -459,7 +465,6 @@ case $system in
         cd ../..
 
         # copy the fcdEdit
-        cp Tools/fcdEdit/fcdCompile.exe .
         cp Tools/fcdEdit/fcdEdit.exe .
 
         rm -rf Tools
@@ -468,6 +473,11 @@ case $system in
         echo "x$OSG_DIST_NO_FCDEDIT  set, skipping fcdEdit build"
 
         # copy the fcdEdit
+
+        if test -r Tools/fcdEdit/fcdCompile.exe
+        then
+            cp Tools/fcdEdit/fcdCompile.exe .
+        fi
 
         if test -r Tools/fcdEdit/fcdEdit.exe
         then
