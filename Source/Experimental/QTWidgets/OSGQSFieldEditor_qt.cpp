@@ -44,6 +44,7 @@
 #include <OSGFieldType.h>
 
 #include <qlayout.h>
+#include <qpushbutton.h>
 
 OSG_USING_NAMESPACE
 
@@ -58,10 +59,14 @@ QSFieldEditor::create(QWidget *pParent, const char *name)
 
 QSFieldEditor::QSFieldEditor(QWidget *pParent, const char *name)
     : Inherited(pParent, name),
-      _pHBox   (NULL         ),
-      _pEditor (NULL         )
+      _pHBox        (NULL         ),
+      _pButtonCommit(NULL         ),
+      _pButtonRevert(NULL         ),
+      _pEditor      (NULL         )
 {
     createChildWidgets();
+    layoutChildWidgets();
+    initSelf          ();
 }
 
 QSFieldEditor::~QSFieldEditor(void)
@@ -137,6 +142,17 @@ QSFieldEditor::setReadOnly(bool bReadOnly)
 {
     Inherited::setReadOnly(bReadOnly);
 
+    if(bReadOnly == false)
+    {
+        _pButtonCommit->show();
+        _pButtonRevert->show();
+    }
+    else
+    {
+        _pButtonCommit->hide();
+        _pButtonRevert->hide();
+    }
+
     if(_pEditor != NULL)
     {
         _pEditor->setReadOnly(bReadOnly);
@@ -192,7 +208,28 @@ QSFieldEditor::writeField(UInt32 uiValueIndex)
 void
 QSFieldEditor::slotEditorValueChanged(void)
 {
+    _pButtonCommit->setEnabled(true);
+    _pButtonRevert->setEnabled(true);
+
     emit valueChanged(this, 0);
+}
+
+void
+QSFieldEditor::slotButtonCommitClicked(void)
+{
+    _pButtonCommit->setEnabled(false);
+    _pButtonRevert->setEnabled(false);
+
+    writeField();
+}
+
+void
+QSFieldEditor::slotButtonRevertClicked(void)
+{
+    _pButtonCommit->setEnabled(false);
+    _pButtonRevert->setEnabled(false);
+
+    readField();
 }
 
 void
@@ -217,6 +254,36 @@ void
 QSFieldEditor::createChildWidgets(void)
 {
     _pHBox = new QHBoxLayout(this, 0, 1, "QSFieldEditor::_pHBox");
+
+    _pButtonCommit = new QPushButton(this, "QSFieldEditor::_pButtonCommit");
+    _pButtonRevert = new QPushButton(this, "QSFieldEditor::_pButtonRevert");
+}
+
+void
+QSFieldEditor::layoutChildWidgets(void)
+{
+    _pHBox->addWidget(_pButtonCommit, 1);
+    _pHBox->addWidget(_pButtonRevert, 1);
+}
+
+void
+QSFieldEditor::initSelf(void)
+{
+    _pButtonCommit->setPixmap (*(getPixmapYes()));
+    _pButtonCommit->setEnabled(false            );
+    _pButtonRevert->setPixmap (*(getPixmapNo ()));
+    _pButtonRevert->setEnabled(false            );
+
+    if(getReadOnly() == true)
+    {
+        _pButtonCommit->hide();
+        _pButtonRevert->hide();
+    }
+
+    connect(_pButtonCommit, SIGNAL(clicked                (void)),
+            this,           SLOT  (slotButtonCommitClicked(void)) );
+    connect(_pButtonRevert, SIGNAL(clicked                (void)),
+            this,           SLOT  (slotButtonRevertClicked(void)) );
 }
 
 // include generated file
@@ -235,7 +302,7 @@ QSFieldEditor::createChildWidgets(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSFieldEditor_qt.cpp,v 1.1 2004/07/30 15:32:15 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSFieldEditor_qt.cpp,v 1.2 2004/08/06 16:16:03 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQSFIELDEDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQSFIELDEDITORQT_INLINE_CVSID;
 }

@@ -85,7 +85,7 @@ QVectorPointEditor<VectorPointTypeT, uiDimension>::setValue(
 
 template <class VectorPointTypeT, UInt32 uiDimension>
 inline void
-QVectorPointEditor<VectorPointTypeT, uiDimension>::priv_setLabelsVisible(
+QVectorPointEditor<VectorPointTypeT, uiDimension>::setLabelsVisibleImpl(
     bool bLabels)
 {
     Inherited::setLabelsVisible(bLabels);
@@ -108,7 +108,7 @@ QVectorPointEditor<VectorPointTypeT, uiDimension>::priv_setLabelsVisible(
 
 template <class VectorPointTypeT, UInt32 uiDimension>
 inline void
-QVectorPointEditor<VectorPointTypeT, uiDimension>::priv_setReadOnly(bool bReadOnly)
+QVectorPointEditor<VectorPointTypeT, uiDimension>::setReadOnlyImpl(bool bReadOnly)
 {
     Inherited::setReadOnly(bReadOnly);
 
@@ -120,7 +120,7 @@ QVectorPointEditor<VectorPointTypeT, uiDimension>::priv_setReadOnly(bool bReadOn
 
 template <class VectorPointTypeT, UInt32 uiDimension>
 inline void
-QVectorPointEditor<VectorPointTypeT, uiDimension>::priv_readField(
+QVectorPointEditor<VectorPointTypeT, uiDimension>::readFieldImpl(
     FieldContainerPtr pFC,          UInt32 uiFieldId,
     UInt32            uiValueIndex, UInt32 uiAspect  )
 {
@@ -154,17 +154,17 @@ QVectorPointEditor<VectorPointTypeT, uiDimension>::priv_readField(
 
 template <class VectorPointTypeT, UInt32 uiDimension>
 inline void
-QVectorPointEditor<VectorPointTypeT, uiDimension>::priv_readField(
+QVectorPointEditor<VectorPointTypeT, uiDimension>::readFieldImpl(
     FieldContainerPtr pFC,          UInt32 uiFieldId,
     UInt32            uiValueIndex                   )
 {
-    priv_readField(pFC, uiFieldId, uiValueIndex,
-                   Thread::getCurrent()->getAspect());
+    readFieldImpl(pFC, uiFieldId, uiValueIndex,
+                  Thread::getCurrent()->getAspect());
 }
 
 template <class VectorPointTypeT, UInt32 uiDimension>
 inline void
-QVectorPointEditor<VectorPointTypeT, uiDimension>::priv_writeField(
+QVectorPointEditor<VectorPointTypeT, uiDimension>::writeFieldImpl(
     FieldContainerPtr pFC,          UInt32 uiFieldId,
     UInt32            uiValueIndex                   )
 {
@@ -187,6 +187,52 @@ QVectorPointEditor<VectorPointTypeT, uiDimension>::priv_writeField(
         {
             (*pMF)[uiValueIndex][i] = _pSpinBoxes[i]->getValue();
         }
+    }
+}
+
+template <class VectorPointTypeT, UInt32 uiDimension>
+inline void
+QVectorPointEditor<VectorPointTypeT, uiDimension>::addFieldElemImpl(
+    FieldContainerPtr pFC,          UInt32 uiFieldId,
+    UInt32            uiValueIndex                   )
+{
+    if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
+    {
+        SWARNING << "QVectorPointEditor::addFieldElemImpl: can not add to "
+                 << "SField."
+                 << endLog;
+    }
+    else
+    {
+        MField<VectorPointType> *pMF           =
+            dynamic_cast<MField<VectorPointType> *>(pFC->getField(uiFieldId));
+        UInt32                   uiInsertIndex = osgMin(uiValueIndex,
+                                                        pMF->size()  );
+
+        pMF->insert(pMF->begin() + uiInsertIndex, VectorPointType());
+    }
+}
+
+template <class VectorPointTypeT, UInt32 uiDimension>
+inline void
+QVectorPointEditor<VectorPointTypeT, uiDimension>::removeFieldElemImpl(
+    FieldContainerPtr pFC,          UInt32 uiFieldId,
+    UInt32            uiValueIndex                   )
+{
+    if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
+    {
+        SWARNING << "QVectorPointEditor::removeFieldElemImpl: can not remove "
+                 << "from SField."
+                 << endLog;
+    }
+    else
+    {
+        MField<VectorPointType> *pMF          =
+            dynamic_cast<MField<VectorPointType> *>(pFC->getField(uiFieldId));
+        UInt32                   uiEraseIndex =
+            osgMin(uiValueIndex, pMF->empty() ? 0 : pMF->size() - 1);
+
+        pMF->erase(pMF->begin() + uiEraseIndex);
     }
 }
 
@@ -279,4 +325,4 @@ QVectorPointEditor<VectorPointTypeT, uiDimension>::initSelf(void)
 
 OSG_END_NAMESPACE
 
-#define OSGQVECTORPOINTEDITOR_INLINE_CVSID "@(#)$Id: OSGQVectorPointEditor.inl,v 1.1 2004/07/30 15:32:15 neumannc Exp $"
+#define OSGQVECTORPOINTEDITOR_INLINE_CVSID "@(#)$Id: OSGQVectorPointEditor.inl,v 1.2 2004/08/06 16:16:04 neumannc Exp $"

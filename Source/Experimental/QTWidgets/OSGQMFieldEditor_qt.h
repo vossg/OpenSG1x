@@ -54,12 +54,16 @@
 
 class QButtonGroup;
 class QGridLayout;
-class QVBoxLayout;
+class QHBoxLayout;
 class QLabel;
+class QPixmap;
 class QPushButton;
+class QRadioButton;
 class QSignalMapper;
 
 OSG_BEGIN_NAMESPACE
+
+class QSpinBoxUInt32;
 
 class OSG_WINDOWQTLIB_DLLMAPPING QMFieldEditor : public QAbstractFieldEditor
 {
@@ -98,11 +102,16 @@ class OSG_WINDOWQTLIB_DLLMAPPING QMFieldEditor : public QAbstractFieldEditor
     virtual void keyPressEvent(QKeyEvent *pEvent);
 
   private slots:
-    void slotButtonUpClicked     (void         );
-    void slotButtonDownClicked   (void         );
+    void slotButtonPrevClicked   (void         );
+    void slotButtonNextClicked   (void         );
 
-    void slotButtonWriteClicked  (void         );
-    void slotButtonCancelClicked (void         );
+    void slotButtonCommitClicked (void         );
+    void slotButtonRevertClicked (void         );
+
+    void slotButtonAddClicked    (void         );
+    void slotButtonRemoveClicked (void         );
+
+    void slotRButtonToggled      (int  buttonId);
 
     void slotEditorValueChanged  (int  editorId);
 
@@ -112,6 +121,12 @@ class OSG_WINDOWQTLIB_DLLMAPPING QMFieldEditor : public QAbstractFieldEditor
 
   private:
     typedef QAbstractFieldEditor Inherited;
+
+    enum
+    {
+        RButtonAddLastID  = 0,
+        RButtonAddIndexID = 1
+    };
 
     typedef std::vector<QLabel               *> LabelList;
     typedef LabelList::iterator                 LabelListIt;
@@ -138,20 +153,30 @@ class OSG_WINDOWQTLIB_DLLMAPPING QMFieldEditor : public QAbstractFieldEditor
     void scrollUp           (UInt32 uiAmount);
     void scrollDown         (UInt32 uiAmount);
 
-    UInt32                           _uiBeginIndex;
-    UInt32                           _uiEndIndex;
-    UInt32                           _uiNumRows;
+    UInt32                               _uiBeginIndex;
+    UInt32                               _uiEndIndex;
+    UInt32                               _uiNumRows;
 
-    QGridLayout                         *_pGrid;
-    QVBoxLayout                         *_pButtonBox;
-    QPushButton                         *_pButtonUp;
-    QPushButton                         *_pButtonDown;
-    QPushButton                         *_pButtonWrite;
-    QPushButton                         *_pButtonCancel;
+    QHBoxLayout                         *_pHBox;
+    QGridLayout                         *_pButtonGrid;
+    QGridLayout                         *_pEditorGrid;
+
+    QPushButton                         *_pButtonPrev;
+    QPushButton                         *_pButtonNext;
+    QPushButton                         *_pButtonCommit;
+    QPushButton                         *_pButtonRevert;
+    QPushButton                         *_pButtonAdd;
+    QPushButton                         *_pButtonRemove;
+
+    QRadioButton                        *_pRButtonAddLast;
+    QRadioButton                        *_pRButtonAddIndex;
+    QButtonGroup                        *_pAddButtonGroup;
+    QSpinBoxUInt32                      *_pSpinBoxIndex;
+
     QSignalMapper                       *_pValueChangedMapper;
     QButtonGroup                        *_pActionButtonGroup;
 
-    std::vector<QLabel           *>      _labels;
+    std::vector<QLabel               *>  _labels;
     std::vector<QAbstractValueEditor *>  _editors;
 };
 
@@ -159,6 +184,6 @@ OSG_END_NAMESPACE
 
 #include "OSGQMFieldEditor_qt.inl"
 
-#define OSGQMFIELDEDITORQT_HEADER_CVSID "@(#)$Id: OSGQMFieldEditor_qt.h,v 1.1 2004/07/30 15:31:57 neumannc Exp $"
+#define OSGQMFIELDEDITORQT_HEADER_CVSID "@(#)$Id: OSGQMFieldEditor_qt.h,v 1.2 2004/08/06 16:16:02 neumannc Exp $"
 
 #endif /* _OSGQMFIELDEDITOR_QT_H_ */

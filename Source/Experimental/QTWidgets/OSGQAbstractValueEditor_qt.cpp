@@ -95,6 +95,24 @@ QAbstractValueEditor::writeField(
     SWARNING << "QAbstractValueEditor::writeField called. ignoring." << endLog;
 }
 
+void
+QAbstractValueEditor::addFieldElem(
+    FieldContainerPtr pFC,         UInt32 uiFieldId,
+    UInt32            uiValueIndex                  )
+{
+    SWARNING << "QAbstractValueEditor::addFieldElem called. ignoring."
+             << endLog;
+}
+
+void
+QAbstractValueEditor::removeFieldElem(
+    FieldContainerPtr pFC,         UInt32 uiFieldId,
+    UInt32            uiValueIndex                  )
+{
+    SWARNING << "QAbstractValueEditor::removeFieldElem called. ignoring."
+             << endLog;
+}
+
 // include generated files
 #include "OSGQAbstractValueEditor_qt_moc.cpp"
 
@@ -111,7 +129,7 @@ QAbstractValueEditor::writeField(
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQAbstractValueEditor_qt.cpp,v 1.1 2004/07/30 15:31:57 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQAbstractValueEditor_qt.cpp,v 1.2 2004/08/06 16:16:02 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQABSTRACTVALUEEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQABSTRACTVALUEEDITORQT_INLINE_CVSID;
 }

@@ -74,6 +74,12 @@ class OSG_WINDOWQTLIB_DLLMAPPING QInt16Editor :
     virtual void writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                             UInt32            uiValueIndex                   );
 
+    virtual void addFieldElem   (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
+    virtual void removeFieldElem(FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
   protected slots:
     virtual void slotSpinBoxChanged(void);
 
@@ -87,6 +93,6 @@ OSG_END_NAMESPACE
 
 //#include "OSGQInt16Editor.inl"
 
-#define OSGQINT16EDITORQT_HEADER_CVSID "@(#)$Id: OSGQInt16Editor_qt.h,v 1.1 2004/07/30 15:31:57 neumannc Exp $"
+#define OSGQINT16EDITORQT_HEADER_CVSID "@(#)$Id: OSGQInt16Editor_qt.h,v 1.2 2004/08/06 16:16:02 neumannc Exp $"
 
 #endif /* _OSGQINT16EDITOR_QT_H_ */

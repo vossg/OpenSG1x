@@ -81,7 +81,7 @@ QScalarTypeEditor<ScalarTypeT>::setValue(const ScalarType &value)
 
 template <class ScalarTypeT>
 inline void
-QScalarTypeEditor<ScalarTypeT>::priv_setLabelsVisible(bool bLabels)
+QScalarTypeEditor<ScalarTypeT>::setLabelsVisibleImpl(bool bLabels)
 {
     Inherited::setLabelsVisible(bLabels);
 
@@ -97,14 +97,14 @@ QScalarTypeEditor<ScalarTypeT>::priv_setLabelsVisible(bool bLabels)
 
 template <class ScalarTypeT>
 inline void
-QScalarTypeEditor<ScalarTypeT>::priv_setReadOnly(bool bReadOnly)
+QScalarTypeEditor<ScalarTypeT>::setReadOnlyImpl(bool bReadOnly)
 {
     _pSpinBox->setReadOnly(bReadOnly);
 }
 
 template <class ScalarTypeT>
 inline void
-QScalarTypeEditor<ScalarTypeT>::priv_readField(
+QScalarTypeEditor<ScalarTypeT>::readFieldImpl(
     FieldContainerPtr pFC,          UInt32 uiFieldId,
     UInt32            uiValueIndex, UInt32 uiAspect  )
 {
@@ -132,17 +132,17 @@ QScalarTypeEditor<ScalarTypeT>::priv_readField(
 
 template <class ScalarTypeT>
 inline void
-QScalarTypeEditor<ScalarTypeT>::priv_readField(
+QScalarTypeEditor<ScalarTypeT>::readFieldImpl(
     FieldContainerPtr pFC,          UInt32 uiFieldId,
     UInt32            uiValueIndex                   )
 {
-    priv_readField(pFC, uiFieldId, uiValueIndex,
+    readFieldImpl(pFC, uiFieldId, uiValueIndex,
                   Thread::getCurrent()->getAspect());
 }
 
 template <class ScalarTypeT>
 inline void
-QScalarTypeEditor<ScalarTypeT>::priv_writeField(
+QScalarTypeEditor<ScalarTypeT>::writeFieldImpl(
     FieldContainerPtr pFC,          UInt32 uiFieldId,
     UInt32            uiValueIndex                   )
 {
@@ -159,6 +159,50 @@ QScalarTypeEditor<ScalarTypeT>::priv_writeField(
             dynamic_cast<MField<ScalarType> *>(pFC->getField(uiFieldId));
 
         (*pMF)[uiValueIndex] = _pSpinBox->getValue();
+    }
+}
+
+template <class ScalarTypeT>
+inline void
+QScalarTypeEditor<ScalarTypeT>::addFieldElemImpl(
+    FieldContainerPtr pFC,          UInt32 uiFieldId,
+    UInt32            uiValueIndex                   )
+{
+    if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
+    {
+        SWARNING << "QScalarTypeEditor::addFieldElem: can no add to SField."
+                 << endLog;
+    }
+    else
+    {
+        MField<ScalarType> *pMF           =
+            dynamic_cast<MField<ScalarType> *>(pFC->getField(uiFieldId));
+        UInt32              uiInsertIndex = osgMin(uiValueIndex, pMF->size());
+
+        pMF->insert(pMF->begin() + uiInsertIndex, ScalarType());
+    }
+}
+
+template <class ScalarTypeT>
+inline void
+QScalarTypeEditor<ScalarTypeT>::removeFieldElemImpl(
+    FieldContainerPtr pFC,          UInt32 uiFieldId,
+    UInt32            uiValueIndex                   )
+{
+    if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
+    {
+        SWARNING << "QScalarTypeEditor::addFieldElem: can no remove "
+                 << "from SField."
+                 << endLog;
+    }
+    else
+    {
+        MField<ScalarType> *pMF          =
+            dynamic_cast<MField<ScalarType> *>(pFC->getField(uiFieldId));
+        UInt32              uiEraseIndex =
+            osgMin(uiValueIndex, pMF->empty() ? 0 : pMF->size() - 1);
+
+        pMF->erase(pMF->begin() + uiEraseIndex);
     }
 }
 
@@ -220,4 +264,4 @@ QScalarTypeEditor<ScalarTypeT>::initSelf(void)
 
 OSG_END_NAMESPACE
 
-#define OSGQSCALARTYPEEDITOR_INLINE_CVSID "@(#)$Id: OSGQScalarTypeEditor.inl,v 1.1 2004/07/30 15:32:15 neumannc Exp $"
+#define OSGQSCALARTYPEEDITOR_INLINE_CVSID "@(#)$Id: OSGQScalarTypeEditor.inl,v 1.2 2004/08/06 16:16:03 neumannc Exp $"

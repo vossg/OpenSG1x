@@ -65,34 +65,49 @@ QVec2ldEditor::~QVec2ldEditor(void)
 void
 QVec2ldEditor::setLabelsVisible(bool bLabels)
 {
-    Inherited::priv_setLabelsVisible(bLabels);
+    Inherited::setLabelsVisibleImpl(bLabels);
 }
 
 void
 QVec2ldEditor::setReadOnly(bool bReadOnly)
 {
-    Inherited::priv_setReadOnly(bReadOnly);
+    Inherited::setReadOnlyImpl(bReadOnly);
 }
 
 void
 QVec2ldEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
-                         UInt32            uiValueIndex, UInt32 uiAspect  )
+                        UInt32            uiValueIndex, UInt32 uiAspect  )
 {
-    Inherited::priv_readField(pFC, uiFieldId, uiValueIndex, uiAspect);
+    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex, uiAspect);
 }
 
 void
 QVec2ldEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
-                         UInt32            uiValueIndex                   )
+                        UInt32            uiValueIndex                   )
 {
-    Inherited::priv_readField(pFC, uiFieldId, uiValueIndex);
+    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex,
+                            Thread::getCurrent()->getAspect());
 }
 
 void
 QVec2ldEditor::writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
-                          UInt32            uiValueIndex                   )
+                         UInt32            uiValueIndex                   )
 {
-    Inherited::priv_writeField(pFC, uiFieldId, uiValueIndex);
+    Inherited::writeFieldImpl(pFC, uiFieldId, uiValueIndex);
+}
+
+void
+QVec2ldEditor::addFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
+                           UInt32            uiValueIndex                   )
+{
+    Inherited::addFieldElemImpl(pFC, uiFieldId, uiValueIndex);
+}
+
+void
+QVec2ldEditor::removeFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
+                              UInt32            uiValueIndex                   )
+{
+    Inherited::removeFieldElem(pFC, uiFieldId, uiValueIndex);
 }
 
 void
@@ -126,7 +141,7 @@ QVec2ldEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQVec2ldEditor_qt.cpp,v 1.1 2004/07/30 15:32:15 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQVec2ldEditor_qt.cpp,v 1.2 2004/08/06 16:16:03 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQVEC2LDEDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQVEC2LDEDITORQT_INLINE_CVSID;
 }

@@ -65,34 +65,49 @@ QVec3ldEditor::~QVec3ldEditor(void)
 void
 QVec3ldEditor::setLabelsVisible(bool bLabels)
 {
-    Inherited::priv_setLabelsVisible(bLabels);
+    Inherited::setLabelsVisibleImpl(bLabels);
 }
 
 void
 QVec3ldEditor::setReadOnly(bool bReadOnly)
 {
-    Inherited::priv_setReadOnly(bReadOnly);
+    Inherited::setReadOnlyImpl(bReadOnly);
 }
 
 void
 QVec3ldEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                         UInt32            uiValueIndex, UInt32 uiAspect  )
 {
-    Inherited::priv_readField(pFC, uiFieldId, uiValueIndex, uiAspect);
+    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex, uiAspect);
 }
 
 void
 QVec3ldEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                         UInt32            uiValueIndex                   )
 {
-    Inherited::priv_readField(pFC, uiFieldId, uiValueIndex);
+    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex,
+                             Thread::getCurrent()->getAspect());
 }
 
 void
 QVec3ldEditor::writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                          UInt32            uiValueIndex                   )
 {
-    Inherited::priv_writeField(pFC, uiFieldId, uiValueIndex);
+    Inherited::writeFieldImpl(pFC, uiFieldId, uiValueIndex);
+}
+
+void
+QVec3ldEditor::addFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
+                           UInt32            uiValueIndex                   )
+{
+    Inherited::addFieldElemImpl(pFC, uiFieldId, uiValueIndex);
+}
+
+void
+QVec3ldEditor::removeFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
+                              UInt32            uiValueIndex                   )
+{
+    Inherited::removeFieldElem(pFC, uiFieldId, uiValueIndex);
 }
 
 void
@@ -128,7 +143,7 @@ QVec3ldEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQVec3ldEditor_qt.cpp,v 1.1 2004/07/30 15:32:15 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQVec3ldEditor_qt.cpp,v 1.2 2004/08/06 16:16:04 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQVEC3LDEDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQVEC3LDEDITORQT_INLINE_CVSID;
 }

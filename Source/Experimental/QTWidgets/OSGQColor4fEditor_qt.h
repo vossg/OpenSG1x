@@ -82,6 +82,13 @@ class OSG_WINDOWQTLIB_DLLMAPPING QColor4fEditor : public QAbstractValueEditor
     virtual void writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                             UInt32            uiValueIndex                   );
 
+    virtual void addFieldElem   (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex);
+    virtual void removeFieldElem(FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex);
+
   protected slots:
     virtual void slotSBValueChanged    (void);
     virtual void slotColorButtonClicked(void);
@@ -103,6 +110,6 @@ OSG_END_NAMESPACE
 
 #include "OSGQColor4fEditor_qt.inl"
 
-#define OSGQCOLOR4FEDITORQT_HEADER_CVSID "@(#)$Id: OSGQColor4fEditor_qt.h,v 1.1 2004/07/30 15:31:57 neumannc Exp $"
+#define OSGQCOLOR4FEDITORQT_HEADER_CVSID "@(#)$Id: OSGQColor4fEditor_qt.h,v 1.2 2004/08/06 16:16:02 neumannc Exp $"
 
 #endif /* _OSGQCOLOR4FEDITOR_QT_H_ */

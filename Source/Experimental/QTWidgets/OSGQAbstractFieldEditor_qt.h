@@ -48,6 +48,8 @@
 
 #include <qwidget.h>
 
+class QPixmap;
+
 OSG_BEGIN_NAMESPACE
 
 class QAbstractValueEditor;
@@ -97,10 +99,15 @@ class OSG_WINDOWQTLIB_DLLMAPPING QAbstractFieldEditor : public QWidget
   protected:
     QAbstractFieldEditor(QWidget *pParent, const char *name);
 
-    inline Field *getField(void) const;
+    inline       Field   *getField    (void) const;
+    inline const QPixmap *getPixmapNo (void) const;
+    inline const QPixmap *getPixmapYes(void) const;
 
   private:
     typedef QWidget Inherited;
+
+    static QPixmap    *_pPixmapNo;
+    static QPixmap    *_pPixmapYes;
 
     FieldContainerPtr  _fcPtr;
     UInt32             _uiFieldId;
@@ -115,7 +122,7 @@ OSG_END_NAMESPACE
 
 #include "OSGQAbstractFieldEditor_qt.inl"
 
-#define OSGQABSTRACTFIELDEDITORQT_HEADER_CVSID "@(#)$Id: OSGQAbstractFieldEditor_qt.h,v 1.1 2004/07/30 15:31:57 neumannc Exp $"
+#define OSGQABSTRACTFIELDEDITORQT_HEADER_CVSID "@(#)$Id: OSGQAbstractFieldEditor_qt.h,v 1.2 2004/08/06 16:16:02 neumannc Exp $"
 
 #endif /* _OSGQABSTRACTFIELDEDITOR_QT_H_ */
 

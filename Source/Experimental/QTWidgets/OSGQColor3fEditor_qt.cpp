@@ -117,6 +117,8 @@ QColor3fEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
             _pSpinBoxes[i]->setValue    (pSF->getValue()[i]);
             _pSpinBoxes[i]->blockSignals(false             );
         }
+
+        _pColorButton->setPackedColor(pSF->getValue().getRGB());
     }
     else
     {
@@ -129,6 +131,8 @@ QColor3fEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
             _pSpinBoxes[i]->setValue    ((*pMF)[uiValueIndex][i]);
             _pSpinBoxes[i]->blockSignals(false                  );
         }
+
+        _pColorButton->setPackedColor((*pMF)[uiValueIndex].getRGB());
     }
 }
 
@@ -145,7 +149,7 @@ QColor3fEditor::writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
 {
     if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
     {
-        SField<Color3f> *pSF =
+        SFColor3f *pSF =
             dynamic_cast<SFColor3f *>(pFC->getField(uiFieldId));
 
         pSF->getValue()[0] = _pSpinBoxes[0]->getValue();
@@ -154,12 +158,54 @@ QColor3fEditor::writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
     }
     else
     {
-        MField<Color3f> *pMF =
+        MFColor3f *pMF =
             dynamic_cast<MFColor3f *>(pFC->getField(uiFieldId));
 
         (*pMF)[uiValueIndex][0] = _pSpinBoxes[0]->getValue();
         (*pMF)[uiValueIndex][1] = _pSpinBoxes[1]->getValue();
         (*pMF)[uiValueIndex][2] = _pSpinBoxes[2]->getValue();
+    }
+}
+
+void
+QColor3fEditor::addFieldElem(
+    FieldContainerPtr pFC,          UInt32 uiFieldId,
+    UInt32            uiValueIndex                   )
+{
+    if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
+    {
+        SWARNING << "QColor3fEditor::addFieldElem: can not add to SField."
+                 << endLog;
+    }
+    else
+    {
+        MFColor3f *pMF           =
+            dynamic_cast<MFColor3f *>(pFC->getField(uiFieldId));
+        UInt32     uiInsertIndex = osgMin(uiValueIndex, pMF->size());
+
+        pMF->insert(pMF->begin() + uiInsertIndex, Color3f());
+    }
+}
+
+void
+QColor3fEditor::removeFieldElem(
+    FieldContainerPtr pFC,         UInt32 uiFieldId,
+    UInt32            uiValueIndex                  )
+{
+    if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
+    {
+        SWARNING << "QColor3fEditor::removeFieldElem: "
+                 << "can not remove from SField."
+                 << endLog;
+    }
+    else
+    {
+        MFColor3f *pMF           =
+            dynamic_cast<MFColor3f *>(pFC->getField(uiFieldId));
+        UInt32     uiEraseIndex  = osgMin(uiValueIndex,
+                                          pMF->empty() ? 0 : pMF->size() - 1);
+
+        pMF->erase(pMF->begin() + uiEraseIndex);
     }
 }
 
@@ -273,7 +319,7 @@ QColor3fEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor3fEditor_qt.cpp,v 1.1 2004/07/30 15:31:57 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor3fEditor_qt.cpp,v 1.2 2004/08/06 16:16:02 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQCOLOR3FEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQCOLOR3FEDITORQT_INLINE_CVSID;
 }

@@ -65,34 +65,48 @@ QUInt16Editor::~QUInt16Editor(void)
 void
 QUInt16Editor::setLabelsVisible(bool bLabels)
 {
-    Inherited::priv_setLabelsVisible(bLabels);
+    Inherited::setLabelsVisibleImpl(bLabels);
 }
 
 void
 QUInt16Editor::setReadOnly(bool bReadOnly)
 {
-    Inherited::priv_setReadOnly(bReadOnly);
+    Inherited::setReadOnlyImpl(bReadOnly);
 }
 
 void
 QUInt16Editor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                          UInt32            uiValueIndex, UInt32 uiAspect  )
 {
-    Inherited::priv_readField(pFC, uiFieldId, uiValueIndex, uiAspect);
+    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex, uiAspect);
 }
 
 void
 QUInt16Editor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                          UInt32            uiValueIndex                   )
 {
-    Inherited::priv_readField(pFC, uiFieldId, uiValueIndex);
+    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex);
 }
 
 void
 QUInt16Editor::writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                           UInt32            uiValueIndex                   )
 {
-    Inherited::priv_writeField(pFC, uiFieldId, uiValueIndex);
+    Inherited::writeFieldImpl(pFC, uiFieldId, uiValueIndex);
+}
+
+void
+QUInt16Editor::addFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
+                            UInt32            uiValueIndex                   )
+{
+    Inherited::addFieldElemImpl(pFC, uiFieldId, uiValueIndex);
+}
+
+void
+QUInt16Editor::removeFieldElem(FieldContainerPtr pFC,         UInt32 uiFieldId,
+                               UInt32            uiValueIndex                  )
+{
+    Inherited::removeFieldElemImpl(pFC, uiFieldId, uiValueIndex);
 }
 
 void
@@ -124,7 +138,7 @@ QUInt16Editor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQUInt16Editor_qt.cpp,v 1.1 2004/07/30 15:32:15 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQUInt16Editor_qt.cpp,v 1.2 2004/08/06 16:16:03 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQUINT16EDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQUINT16EDITORQT_INLINE_CVSID;
 }

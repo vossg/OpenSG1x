@@ -95,12 +95,12 @@ QMFieldEditor::mapWidgetIndex(UInt32 uiWidgetIndex) const
 inline void
 QMFieldEditor::autoEnableScrollButtons(void)
 {
-    _pButtonUp  ->setEnabled(
+    _pButtonPrev->setEnabled(
         (_uiBeginIndex != 0                    ) ? true : false);
-    _pButtonDown->setEnabled(
+    _pButtonNext->setEnabled(
         (_uiEndIndex   != getField()->getSize()) ? true : false);
 }
 
 OSG_END_NAMESPACE
 
-#define OSGQMFIELDEDITORQT_INLINE_CVSID "@(#)$Id: OSGQMFieldEditor_qt.inl,v 1.1 2004/07/30 15:31:57 neumannc Exp $"
+#define OSGQMFIELDEDITORQT_INLINE_CVSID "@(#)$Id: OSGQMFieldEditor_qt.inl,v 1.2 2004/08/06 16:16:02 neumannc Exp $"

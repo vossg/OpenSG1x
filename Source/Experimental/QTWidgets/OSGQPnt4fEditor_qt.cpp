@@ -65,35 +65,49 @@ QPnt4fEditor::~QPnt4fEditor(void)
 void
 QPnt4fEditor::setLabelsVisible(bool bLabels)
 {
-    Inherited::priv_setLabelsVisible(bLabels);
+    Inherited::setLabelsVisibleImpl(bLabels);
 }
 
 void
 QPnt4fEditor::setReadOnly(bool bReadOnly)
 {
-    Inherited::priv_setReadOnly(bReadOnly);
+    Inherited::setReadOnlyImpl(bReadOnly);
 }
 
 void
 QPnt4fEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                         UInt32            uiValueIndex, UInt32 uiAspect  )
 {
-    Inherited::priv_readField(pFC, uiFieldId, uiValueIndex, uiAspect);
+    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex, uiAspect);
 }
 
 void
 QPnt4fEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                         UInt32            uiValueIndex                   )
 {
-    Inherited::priv_readField(pFC, uiFieldId, uiValueIndex,
-                              Thread::getCurrent()->getAspect());
+    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex,
+                             Thread::getCurrent()->getAspect());
 }
 
 void
 QPnt4fEditor::writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                          UInt32            uiValueIndex                   )
 {
-    Inherited::priv_writeField(pFC, uiFieldId, uiValueIndex);
+    Inherited::writeFieldImpl(pFC, uiFieldId, uiValueIndex);
+}
+
+void
+QPnt4fEditor::addFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
+                           UInt32            uiValueIndex                   )
+{
+    Inherited::addFieldElemImpl(pFC, uiFieldId, uiValueIndex);
+}
+
+void
+QPnt4fEditor::removeFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
+                              UInt32            uiValueIndex                   )
+{
+    Inherited::removeFieldElem(pFC, uiFieldId, uiValueIndex);
 }
 
 void
@@ -131,7 +145,7 @@ QPnt4fEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQPnt4fEditor_qt.cpp,v 1.1 2004/07/30 15:32:14 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQPnt4fEditor_qt.cpp,v 1.2 2004/08/06 16:16:03 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQPNT4FEDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQPNT4FEDITORQT_INLINE_CVSID;
 }

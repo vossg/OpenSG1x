@@ -69,20 +69,27 @@ class OSG_WINDOWQTLIB_DLLMAPPING QScalarTypeEditor : public QAbstractValueEditor
     inline void setValue(const ScalarType &value);
 
   protected:
-    inline void priv_setLabelsVisible(bool bLabels  );
-    inline void priv_setReadOnly     (bool bReadOnly);
+    inline void setLabelsVisibleImpl(bool bLabels  );
+    inline void setReadOnlyImpl     (bool bReadOnly);
 
-    inline void priv_readField (FieldContainerPtr pFC,
-                                UInt32            uiFieldId,
-                                UInt32            uiValueIndex,
-                                UInt32            uiAspect     );
-    inline void priv_readField (FieldContainerPtr pFC,
-                                UInt32            uiFieldId,
-                                UInt32            uiValueIndex );
+    inline void readFieldImpl      (FieldContainerPtr pFC,
+                                    UInt32            uiFieldId,
+                                    UInt32            uiValueIndex,
+                                    UInt32            uiAspect     );
+    inline void readFieldImpl      (FieldContainerPtr pFC,
+                                    UInt32            uiFieldId,
+                                    UInt32            uiValueIndex );
 
-    inline void priv_writeField(FieldContainerPtr pFC,
-                                UInt32            uiFieldId,
-                                UInt32            uiValueIndex );
+    inline void writeFieldImpl     (FieldContainerPtr pFC,
+                                    UInt32            uiFieldId,
+                                    UInt32            uiValueIndex );
+
+    inline void addFieldElemImpl   (FieldContainerPtr pFC,
+                                    UInt32            uiFieldId,
+                                    UInt32            uiValueIndex );
+    inline void removeFieldElemImpl(FieldContainerPtr pFC,
+                                    UInt32            uiFieldId,
+                                    UInt32            uiValueIndex );
 
     inline const SpinBoxType *getSpinBox(void) const;
     inline       SpinBoxType *getSpinBox(void);
@@ -106,6 +113,6 @@ OSG_END_NAMESPACE
 
 #include "OSGQScalarTypeEditor.inl"
 
-#define OSGQSCALARTYPEEDITOR_HEADER_CVSID "@(#)$Id: OSGQScalarTypeEditor.h,v 1.1 2004/07/30 15:32:15 neumannc Exp $"
+#define OSGQSCALARTYPEEDITOR_HEADER_CVSID "@(#)$Id: OSGQScalarTypeEditor.h,v 1.2 2004/08/06 16:16:03 neumannc Exp $"
 
 #endif /* _OSGQSCALARTYPEEDITOR_H_ */

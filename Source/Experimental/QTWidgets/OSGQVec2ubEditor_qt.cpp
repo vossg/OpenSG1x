@@ -44,7 +44,7 @@
 OSG_USING_NAMESPACE
 
 ValueEditorRegistrator _regVec2ub( FieldDataTraits<Vec2ub>::getType(),
-                                  &QVec2ubEditor          ::create    );
+                                 &QVec2ubEditor          ::create    );
 
 QAbstractValueEditor *
 QVec2ubEditor::create(QWidget *pParent, const char *name)
@@ -65,34 +65,49 @@ QVec2ubEditor::~QVec2ubEditor(void)
 void
 QVec2ubEditor::setLabelsVisible(bool bLabels)
 {
-    Inherited::priv_setLabelsVisible(bLabels);
+    Inherited::setLabelsVisibleImpl(bLabels);
 }
 
 void
 QVec2ubEditor::setReadOnly(bool bReadOnly)
 {
-    Inherited::priv_setReadOnly(bReadOnly);
+    Inherited::setReadOnlyImpl(bReadOnly);
 }
 
 void
 QVec2ubEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
-                         UInt32            uiValueIndex, UInt32 uiAspect  )
+                        UInt32            uiValueIndex, UInt32 uiAspect  )
 {
-    Inherited::priv_readField(pFC, uiFieldId, uiValueIndex, uiAspect);
+    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex, uiAspect);
 }
 
 void
 QVec2ubEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
-                         UInt32            uiValueIndex                   )
+                        UInt32            uiValueIndex                   )
 {
-    Inherited::priv_readField(pFC, uiFieldId, uiValueIndex);
+    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex,
+                            Thread::getCurrent()->getAspect());
 }
 
 void
 QVec2ubEditor::writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
-                          UInt32            uiValueIndex                   )
+                         UInt32            uiValueIndex                   )
 {
-    Inherited::priv_writeField(pFC, uiFieldId, uiValueIndex);
+    Inherited::writeFieldImpl(pFC, uiFieldId, uiValueIndex);
+}
+
+void
+QVec2ubEditor::addFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
+                           UInt32            uiValueIndex                   )
+{
+    Inherited::addFieldElemImpl(pFC, uiFieldId, uiValueIndex);
+}
+
+void
+QVec2ubEditor::removeFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
+                              UInt32            uiValueIndex                   )
+{
+    Inherited::removeFieldElem(pFC, uiFieldId, uiValueIndex);
 }
 
 void
@@ -126,7 +141,7 @@ QVec2ubEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQVec2ubEditor_qt.cpp,v 1.1 2004/07/30 15:32:15 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQVec2ubEditor_qt.cpp,v 1.2 2004/08/06 16:16:03 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQVEC2UBEDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQVEC2UBEDITORQT_INLINE_CVSID;
 }

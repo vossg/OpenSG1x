@@ -92,6 +92,18 @@ QAbstractFieldEditor::getField(void) const
     return _fcPtr->getField(_uiFieldId);
 }
 
+inline const QPixmap *
+QAbstractFieldEditor::getPixmapNo(void) const
+{
+    return _pPixmapNo;
+}
+
+inline const QPixmap *
+QAbstractFieldEditor::getPixmapYes(void) const
+{
+    return _pPixmapYes;
+}
+
 OSG_END_NAMESPACE
 
-#define OSGQABSTRACTFIELDEDITORQT_INLINE_CVSID "@(#)$Id: OSGQAbstractFieldEditor_qt.inl,v 1.1 2004/07/30 15:31:57 neumannc Exp $"
+#define OSGQABSTRACTFIELDEDITORQT_INLINE_CVSID "@(#)$Id: OSGQAbstractFieldEditor_qt.inl,v 1.2 2004/08/06 16:16:02 neumannc Exp $"

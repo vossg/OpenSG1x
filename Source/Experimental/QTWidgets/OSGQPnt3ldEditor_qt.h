@@ -74,6 +74,13 @@ class OSG_WINDOWQTLIB_DLLMAPPING QPnt3ldEditor :
     virtual void writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                             UInt32            uiValueIndex                   );
 
+    virtual void addFieldElem   (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex);
+    virtual void removeFieldElem(FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex);
+
   protected slots:
     virtual void slotSpinBoxChanged(void);
 
@@ -87,6 +94,6 @@ OSG_END_NAMESPACE
 
 //#include "OSGQPnt3ldEditor.inl"
 
-#define OSGQPNT3LDEDITORQT_HEADER_CVSID "@(#)$Id: OSGQPnt3ldEditor_qt.h,v 1.1 2004/07/30 15:32:14 neumannc Exp $"
+#define OSGQPNT3LDEDITORQT_HEADER_CVSID "@(#)$Id: OSGQPnt3ldEditor_qt.h,v 1.2 2004/08/06 16:16:02 neumannc Exp $"
 
 #endif /* _OSGQPNT3LDEDITOR_QT_H_ */

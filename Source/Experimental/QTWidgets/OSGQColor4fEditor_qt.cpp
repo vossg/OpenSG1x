@@ -120,6 +120,8 @@ QColor4fEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
             _pSpinBoxes[i]->setValue    (pSF->getValue()[i]);
             _pSpinBoxes[i]->blockSignals(false             );
         }
+
+        _pColorButton->setPackedColor(pSF->getValue().getRGBA());
     }
     else
     {
@@ -132,6 +134,8 @@ QColor4fEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
             _pSpinBoxes[i]->setValue    ((*pMF)[uiValueIndex][i]);
             _pSpinBoxes[i]->blockSignals(false                  );
         }
+
+        _pColorButton->setPackedColor((*pMF)[uiValueIndex].getRGBA());
     }
 }
 
@@ -165,6 +169,48 @@ QColor4fEditor::writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
         (*pMF)[uiValueIndex][1] = _pSpinBoxes[1]->getValue();
         (*pMF)[uiValueIndex][2] = _pSpinBoxes[2]->getValue();
         (*pMF)[uiValueIndex][3] = _pSpinBoxes[3]->getValue();
+    }
+}
+
+void
+QColor4fEditor::addFieldElem(
+    FieldContainerPtr pFC,          UInt32 uiFieldId,
+    UInt32            uiValueIndex                   )
+{
+    if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
+    {
+        SWARNING << "QColor4fEditor::addFieldElem: can not add to SField."
+                 << endLog;
+    }
+    else
+    {
+        MFColor4f *pMF           =
+            dynamic_cast<MFColor4f *>(pFC->getField(uiFieldId));
+        UInt32     uiInsertIndex = osgMin(uiValueIndex, pMF->size());
+
+        pMF->insert(pMF->begin() + uiInsertIndex, Color4f());
+    }
+}
+
+void
+QColor4fEditor::removeFieldElem(
+    FieldContainerPtr pFC,         UInt32 uiFieldId,
+    UInt32            uiValueIndex                  )
+{
+    if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
+    {
+        SWARNING << "QColor4fEditor::removeFieldElem: "
+                 << "can not remove from SField."
+                 << endLog;
+    }
+    else
+    {
+        MFColor4f *pMF           =
+            dynamic_cast<MFColor4f *>(pFC->getField(uiFieldId));
+        UInt32     uiEraseIndex  = osgMin(uiValueIndex,
+                                          pMF->empty() ? 0 : pMF->size() - 1);
+
+        pMF->erase(pMF->begin() + uiEraseIndex);
     }
 }
 
@@ -292,7 +338,7 @@ QColor4fEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor4fEditor_qt.cpp,v 1.1 2004/07/30 15:31:57 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor4fEditor_qt.cpp,v 1.2 2004/08/06 16:16:02 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQCOLOR4FEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQCOLOR4FEDITORQT_INLINE_CVSID;
 }

@@ -47,6 +47,7 @@
 #include <OSGQAbstractFieldEditor_qt.h>
 
 class QHBoxLayout;
+class QPushButton;
 
 OSG_BEGIN_NAMESPACE
 
@@ -82,6 +83,9 @@ class OSG_WINDOWQTLIB_DLLMAPPING QSFieldEditor : public QAbstractFieldEditor
   protected slots:
     virtual void slotEditorValueChanged  (void);
 
+    virtual void slotButtonCommitClicked (void);
+    virtual void slotButtonRevertClicked (void);
+
     virtual void slotActionButtonClicked (void);
     virtual void slotActionButtonPressed (void);
     virtual void slotActionButtonReleased(void);
@@ -90,8 +94,12 @@ class OSG_WINDOWQTLIB_DLLMAPPING QSFieldEditor : public QAbstractFieldEditor
     typedef QAbstractFieldEditor Inherited;
 
     void createChildWidgets(void);
+    void layoutChildWidgets(void);
+    void initSelf          (void);
 
-    QHBoxLayout      *_pHBox;
+    QHBoxLayout          *_pHBox;
+    QPushButton          *_pButtonCommit;
+    QPushButton          *_pButtonRevert;
     QAbstractValueEditor *_pEditor;
 };
 
@@ -99,7 +107,7 @@ OSG_END_NAMESPACE
 
 //#include "OSGQSFieldEditor_qt.inl"
 
-#define OSGQSFIELDEDITORQT_HEADER_CVSID "@(#)$Id: OSGQSFieldEditor_qt.h,v 1.1 2004/07/30 15:32:15 neumannc Exp $"
+#define OSGQSFIELDEDITORQT_HEADER_CVSID "@(#)$Id: OSGQSFieldEditor_qt.h,v 1.2 2004/08/06 16:16:03 neumannc Exp $"
 
 #endif /* _OSGQSFIELDEDITOR_QT_H_ */
 

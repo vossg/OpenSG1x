@@ -37,10 +37,17 @@
 \*---------------------------------------------------------------------------*/
 
 #include "OSGQAbstractFieldEditor_qt.h"
-
 #include <OSGQOSGWidgetFactory.h>
 
+#include <qpixmap.h>
+
+#include <OSGNo.xpm>
+#include <OSGYes.xpm>
+
 OSG_USING_NAMESPACE
+
+QPixmap *QAbstractFieldEditor::_pPixmapNo  = NULL;
+QPixmap *QAbstractFieldEditor::_pPixmapYes = NULL;
 
 QAbstractFieldEditor::~QAbstractFieldEditor(void)
 {
@@ -79,6 +86,15 @@ QAbstractFieldEditor::QAbstractFieldEditor(QWidget *pParent, const char *name)
       _bActionButtonsVisible(false                   ),
       _pFactory             (QOSGWidgetFactory::the())
 {
+    if(_pPixmapNo == NULL)
+    {
+        _pPixmapNo = new QPixmap(no_xpm);
+    }
+
+    if(_pPixmapYes == NULL)
+    {
+        _pPixmapYes = new QPixmap(yes_xpm);
+    }
 }
 
 // include generated file
@@ -97,7 +113,7 @@ QAbstractFieldEditor::QAbstractFieldEditor(QWidget *pParent, const char *name)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQAbstractFieldEditor_qt.cpp,v 1.1 2004/07/30 15:31:57 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQAbstractFieldEditor_qt.cpp,v 1.2 2004/08/06 16:16:02 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQABSTRACTFIELDEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQABSTRACTFIELDEDITORQT_INLINE_CVSID;
 }

@@ -65,34 +65,48 @@ QUInt32Editor::~QUInt32Editor(void)
 void
 QUInt32Editor::setLabelsVisible(bool bLabels)
 {
-    Inherited::priv_setLabelsVisible(bLabels);
+    Inherited::setLabelsVisibleImpl(bLabels);
 }
 
 void
 QUInt32Editor::setReadOnly(bool bReadOnly)
 {
-    Inherited::priv_setReadOnly(bReadOnly);
+    Inherited::setReadOnlyImpl(bReadOnly);
 }
 
 void
 QUInt32Editor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                         UInt32            uiValueIndex, UInt32 uiAspect  )
 {
-    Inherited::priv_readField(pFC, uiFieldId, uiValueIndex, uiAspect);
+    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex, uiAspect);
 }
 
 void
 QUInt32Editor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
-                        UInt32            uiValueIndex                   )
+                         UInt32            uiValueIndex                   )
 {
-    Inherited::priv_readField(pFC, uiFieldId, uiValueIndex);
+    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex);
 }
 
 void
 QUInt32Editor::writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
-                         UInt32            uiValueIndex                   )
+                          UInt32            uiValueIndex                   )
 {
-    Inherited::priv_writeField(pFC, uiFieldId, uiValueIndex);
+    Inherited::writeFieldImpl(pFC, uiFieldId, uiValueIndex);
+}
+
+void
+QUInt32Editor::addFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
+                            UInt32            uiValueIndex                   )
+{
+    Inherited::addFieldElemImpl(pFC, uiFieldId, uiValueIndex);
+}
+
+void
+QUInt32Editor::removeFieldElem(FieldContainerPtr pFC,         UInt32 uiFieldId,
+                               UInt32            uiValueIndex                  )
+{
+    Inherited::removeFieldElemImpl(pFC, uiFieldId, uiValueIndex);
 }
 
 void
@@ -124,7 +138,7 @@ QUInt32Editor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQUInt32Editor_qt.cpp,v 1.1 2004/07/30 15:32:15 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQUInt32Editor_qt.cpp,v 1.2 2004/08/06 16:16:03 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQUINT32EDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQUINT32EDITORQT_INLINE_CVSID;
 }
