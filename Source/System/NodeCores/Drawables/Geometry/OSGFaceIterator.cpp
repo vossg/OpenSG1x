@@ -269,7 +269,7 @@ void FaceIterator::startPrim(void)
                             break;
         }   
         
-        ++(*this);
+        ++(static_cast<PrimitiveIterator&>(*this));   
     }       
 }
 

@@ -93,6 +93,7 @@ void DynamicVolume::setVolumeType(Type type)
             new (_volumeMem) SphereVolume;
             break;
     }
+    instanceChanged();
 }
 
 void DynamicVolume::morphToType ( Type type )
@@ -136,6 +137,7 @@ void DynamicVolume::morphToType ( Type type )
                 break;
         }
     }
+    instanceChanged();
 }
 
 /*! gives the center of the volume */
@@ -167,6 +169,7 @@ void DynamicVolume::getBounds(Pnt3f &min, Pnt3f &max) const
 void DynamicVolume::extendBy(const Pnt3f &pt)
 {
     getInstance().extendBy(pt);
+    instanceChanged();
 }
 
 
@@ -175,6 +178,7 @@ void DynamicVolume::extendBy(const Pnt3f &pt)
 void DynamicVolume::extendBy(const Volume &volume)
 {
     getInstance().extendBy(volume);
+    instanceChanged();
 }
 
 
@@ -220,6 +224,7 @@ bool DynamicVolume::isOnSurface(const Pnt3f &point) const
 void DynamicVolume::transform(const Matrix &matrix)
 {
     getInstance().transform(matrix);
+    instanceChanged();
 }
 
 /*! print the volume */
@@ -255,6 +260,7 @@ DynamicVolume &DynamicVolume::operator =(const DynamicVolume &source)
                 SphereVolume(*((OSG::SphereVolume *)(source._volumeMem)));
             break;
     }
+    instanceChanged();
 
     return *this;
 }

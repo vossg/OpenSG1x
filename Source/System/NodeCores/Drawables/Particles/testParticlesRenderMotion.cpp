@@ -259,6 +259,7 @@ int main(int argc, char **argv)
     v.extendBy(Pnt3f(0,0,0));
     v.extendBy(Pnt3f(1,1,1));
     v.setStatic();
+    pnode->getVolume().instanceChanged();
     endEditCP  (pnode, Node::VolumeFieldMask);
   
     SimpleTexturedMaterialPtr tm;

@@ -160,6 +160,22 @@ bool Volume::isUntouchable(void) const
 }
 
 
+/*! get the volume's state */
+
+inline
+UInt16 Volume::getState(void) const
+{
+    return _state;
+}
+
+/*! set the volume's state */
+
+inline
+void Volume::setState(UInt16 val)
+{
+    _state = val;
+}
+
 /*!  Return the lowest point of the volume. Just a convience wrapper for
      getBounds()
 */

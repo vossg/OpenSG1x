@@ -669,6 +669,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
 
             return false;
         }
+        outVal.instanceChanged();
     }
 
     static void putToString(const      DynamicVolume &inVal,

@@ -82,13 +82,14 @@ class OSG_BASE_DLLMAPPING DynamicVolume : public Volume
     /*! \name                    Class Specific                            */
     /*! \{                                                                 */
 
-    const Volume &getInstance  (void     ) const;
-          Volume &getInstance  (void     );
+    const Volume &getInstance    (void     ) const;
+          Volume &getInstance    (void     );
+          void    instanceChanged(void     );
 
 
-          Type    getType      (void     ) const;
-          void    setVolumeType(Type type);
-          void    morphToType  (Type type);
+          Type    getType        (void     ) const;
+          void    setVolumeType  (Type type);
+          void    morphToType    (Type type);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

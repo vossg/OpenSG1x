@@ -171,7 +171,7 @@ class OSG_BASE_DLLMAPPING BoxVolume : public Volume
     /*! \name                      Operators                               */
     /*! \{                                                                 */
 
-    friend 
+    friend OSG_BASE_DLLMAPPING
     bool operator ==(const BoxVolume &b1, const BoxVolume &b2);
   
     const BoxVolume &operator =(const BoxVolume &b1);

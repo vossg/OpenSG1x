@@ -76,6 +76,12 @@ DynamicVolume::Type DynamicVolume::getType(void) const
     return _type; 
 }
 
+inline
+void DynamicVolume::instanceChanged(void) 
+{
+    _state = getInstance().getState(); 
+}
+
 
 OSG_END_NAMESPACE
 

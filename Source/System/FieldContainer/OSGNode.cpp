@@ -447,6 +447,8 @@ void Node::updateVolume(void)
     if(getCore() != NullFC)
         getCore()->adjustVolume(vol);
    
+    _sfVolume.getValue().instanceChanged();
+    
     endEdit(VolumeFieldMask, _sfVolume);
 }
 #else // test version using DVol instance instead of reference
@@ -477,6 +479,8 @@ void Node::updateVolume(void)
         getCore()->adjustVolume(vol.getInstance());
 
     beginEdit(VolumeFieldMask, _sfVolume);
+   
+    vol.instanceChanged();
 
     _sfVolume.setValue(vol);
     
@@ -493,7 +497,8 @@ void Node::invalidateVolume(void)
         beginEdit(VolumeFieldMask, _sfVolume);
 
         vol.setValid(false);
-
+        _sfVolume.getValue().instanceChanged();
+        
         endEdit(VolumeFieldMask, _sfVolume);
 
         if(getParent() != NullFC)
