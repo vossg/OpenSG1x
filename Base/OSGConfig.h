@@ -619,6 +619,12 @@ OSG_USING_STD_NAMESPACE
 #define OSG_CHECK_ARG(ARG)
 #endif
 
+#ifdef OSG_DEBUG
+#define OSG_DEBUG_CHECK_ARG(ARG) ARG
+#else
+#define OSG_DEBUG_CHECK_ARG(ARG)
+#endif
+
 
 #if defined(WIN32) && defined(__ICL)
 
