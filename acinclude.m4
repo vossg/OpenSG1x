@@ -1316,7 +1316,7 @@ dnl e11
                 ac_gdz_png_lib_e11='png32.lib'
             ;;
             *)
-                ac_gdz_png_lib_e11='"-lpng -lz"'
+                ac_gdz_png_lib_e11='-lpng -lz'
             ;;
         esac
 
