@@ -147,7 +147,7 @@ install-includes: install-test
 	-exec $($(PROJ)POOL)/Common/sedInc {} $(INSTALL_DIR)/include/OpenSG \; ;\
 	find $($(PROJ)POOL) -follow                                             \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o          \
-	       -name Tools -o -name '.*' -o -name examples -o -name tmp         \
+	       -name Tools -o -name '.*' -o -name examples -o -name tmp -o      \
 	       -name Templates -o -name Builds -o -name VS \) -prune \) -o      \
 	       -type f -name '*.inl'                                            \
 	-exec $($(PROJ)POOL)/Common/sedInl {} $(INSTALL_DIR)/include/OpenSG \; ;\
