@@ -58,6 +58,14 @@ extern "C" {
 #include <OSGStringLink.h>
 #include <OSGBaseTypes.h>
 
+#if defined(GL_BGR) || defined(GL_BGR_EXT)
+#define OSG_HAS_BGR_PF
+#endif
+
+#if defined(GL_BGRA) || defined(GL_BGRA_EXT)
+#define OSG_HAS_BGRA_PF
+#endif
+
 OSG_BEGIN_NAMESPACE
 
 class OSG_SYSTEMLIB_DLLMAPPING Image {

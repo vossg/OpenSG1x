@@ -73,8 +73,12 @@ Int32 Image::_formatMap[][2] = {
 	{ OSG_LA_PF, 2 },
 	{ OSG_RGB_PF, 3 },
 	{ OSG_RGBA_PF, 4 },
+#ifdef OSG_HAS_BGR_PF
 	{ OSG_BGR_PF, 3 },
+#endif
+#ifdef OSG_HAS_BGRA_PF
 	{ OSG_BGRA_PF, 4 },
+#endif
 };
 
 
@@ -517,12 +521,16 @@ void Image::dump (void)
   case OSG_LA_PF:
     pfStr = "LUMINANCE_ALPHA";
     break;
+#ifdef OSG_HAS_BGR_PF
   case OSG_BGR_PF:
     pfStr = "BGR";
     break;
+#endif
+#ifdef OSG_HAS_BGRA_PF
   case OSG_BGRA_PF:
     pfStr = "BGRA";
     break;
+#endif
   case OSG_RGB_PF:
     pfStr = "RGB";
     break;
@@ -1125,9 +1133,11 @@ Image::Image ( PixelFormat pixelFormat,
 Bool Image::hasAlphaChannel(void)
 {
     return 
-        _pixelFormat == OSG_RGBA_PF ||
-        _pixelFormat == OSG_LA_PF   ||
-        _pixelFormat == OSG_BGRA_PF;
+           _pixelFormat == OSG_RGBA_PF
+#ifdef OSG_HAS_BGRA_PF
+        || _pixelFormat == OSG_BGRA_PF
+#endif
+        || _pixelFormat == OSG_LA_PF; 
 }
 
 /*------------properies-------------*/
