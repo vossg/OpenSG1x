@@ -55,7 +55,7 @@ int main(int argc, char **argv)
     for(i = 0; i < count; ++i)
     {
         Pnt3f pnt(osgrand(),osgrand(),osgrand());
-        p->addValue(pnt);        
+        p->push_back(pnt);        
     }
     endEditCP(pnts);
 
@@ -65,7 +65,7 @@ int main(int argc, char **argv)
     beginEditCP(cols);
     for(i = 0; i < count; ++i)
     {
-        cols->getFieldPtr()->addValue( Color3f(osgrand(),osgrand(),osgrand()) );
+        cols->getFieldPtr()->push_back( Color3f(osgrand(),osgrand(),osgrand()) );
     }
     endEditCP(cols);
 
@@ -73,7 +73,7 @@ int main(int argc, char **argv)
     for(i = 0; i < count; ++i)
     {
         Real32 s=osgrand()/10.f;
-        size->addValue(Vec3f(s,0,0));
+        size->push_back(Vec3f(s,0,0));
     }
      
     endEditCP(particles);

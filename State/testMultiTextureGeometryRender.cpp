@@ -145,56 +145,56 @@ int main(int argc, char **argv)
     MFPnt3f* p = pnts->getFieldPtr();
 
     beginEditCP(pnts);
-    p->addValue(Pnt3f(-1, -1, -1));
-    p->addValue(Pnt3f( 1, -1, -1));
-    p->addValue(Pnt3f( 1,  1, -1));
-    p->addValue(Pnt3f(-1,  1, -1));
-    p->addValue(Pnt3f(-1, -1,  1));
-    p->addValue(Pnt3f( 1, -1,  1));
-    p->addValue(Pnt3f( 1,  1,  1));
-    p->addValue(Pnt3f(-1,  1,  1));
+    p->push_back(Pnt3f(-1, -1, -1));
+    p->push_back(Pnt3f( 1, -1, -1));
+    p->push_back(Pnt3f( 1,  1, -1));
+    p->push_back(Pnt3f(-1,  1, -1));
+    p->push_back(Pnt3f(-1, -1,  1));
+    p->push_back(Pnt3f( 1, -1,  1));
+    p->push_back(Pnt3f( 1,  1,  1));
+    p->push_back(Pnt3f(-1,  1,  1));
     endEditCP(pnts);
 
 
     GeoTexCoords2fPtr texs = GeoTexCoords2f::create();
     g1->setTexCoords(texs);
     beginEditCP(texs);
-    texs->addValue(Vec2f(0, 0));
-    texs->addValue(Vec2f(1, 0));
-    texs->addValue(Vec2f(1, 1));
-    texs->addValue(Vec2f(0, 1));
-    texs->addValue(Vec2f(0, 0));
-    texs->addValue(Vec2f(2, 0));
-    texs->addValue(Vec2f(2, 2));
-    texs->addValue(Vec2f(0, 2));
+    texs->push_back(Vec2f(0, 0));
+    texs->push_back(Vec2f(1, 0));
+    texs->push_back(Vec2f(1, 1));
+    texs->push_back(Vec2f(0, 1));
+    texs->push_back(Vec2f(0, 0));
+    texs->push_back(Vec2f(2, 0));
+    texs->push_back(Vec2f(2, 2));
+    texs->push_back(Vec2f(0, 2));
     endEditCP(texs);
 
     // use second texture coordinates
     texs = GeoTexCoords2f::create();
     g1->setTexCoords1(texs);
     beginEditCP(texs);
-    texs->addValue(Vec2f(0, 0));
-    texs->addValue(Vec2f(2, 0));
-    texs->addValue(Vec2f(2, 2));
-    texs->addValue(Vec2f(0, 2));
-    texs->addValue(Vec2f(0, 0));
-    texs->addValue(Vec2f(1, 0));
-    texs->addValue(Vec2f(1, 1));
-    texs->addValue(Vec2f(0, 1));
+    texs->push_back(Vec2f(0, 0));
+    texs->push_back(Vec2f(2, 0));
+    texs->push_back(Vec2f(2, 2));
+    texs->push_back(Vec2f(0, 2));
+    texs->push_back(Vec2f(0, 0));
+    texs->push_back(Vec2f(1, 0));
+    texs->push_back(Vec2f(1, 1));
+    texs->push_back(Vec2f(0, 1));
     endEditCP(texs);
 
     GeoPLengthsPtr lens = GeoPLengthsUI32::create();    
     g1->setLengths(lens);
     beginEditCP(lens);
-    lens->addValue(4);
-    lens->addValue(4);
+    lens->push_back(4);
+    lens->push_back(4);
     endEditCP(lens);
 
     GeoPTypesPtr type = GeoPTypesUI8::create();     
     g1->setTypes(type);
     beginEditCP(type);
-    type->addValue(GL_POLYGON);
-    type->addValue(GL_POLYGON);
+    type->push_back(GL_POLYGON);
+    type->push_back(GL_POLYGON);
     endEditCP(type);
 
     g1->setMaterial(mat);

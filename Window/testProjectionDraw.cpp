@@ -136,10 +136,10 @@ void addPort(Pnt3f *vpproj,
         d->setLeftEye(left);  
         d->setUser(tnode);  
         d->setDecoratee(usercam);  
-        d->getSurface().addValue(vpproj[0]);
-        d->getSurface().addValue(vpproj[1]);
-        d->getSurface().addValue(vpproj[2]);
-        d->getSurface().addValue(vpproj[3]);
+        d->getSurface().push_back(vpproj[0]);
+        d->getSurface().push_back(vpproj[1]);
+        d->getSurface().push_back(vpproj[2]);
+        d->getSurface().push_back(vpproj[3]);
         endEditCP  (d);
 
         UInt32 imgw,imgh;
@@ -161,7 +161,7 @@ void addPort(Pnt3f *vpproj,
         v->setTop(vppos[3]);
         v->setCamera(d);
         v->setBackground(back);
-        v->getForegrounds().addValue(fg);
+        v->getForegrounds().push_back(fg);
         v->setRoot(root);        
         endEditCP  (v);
         
@@ -203,24 +203,24 @@ void addPort(Pnt3f *vpproj,
         GeoPositions3fPtr pnts = GeoPositions3f::create();
 
         beginEditCP(pnts);
-        pnts->getFieldPtr()->addValue(vpproj[0]);
-        pnts->getFieldPtr()->addValue(vpproj[1]);
-        pnts->getFieldPtr()->addValue(vpproj[2]);
-        pnts->getFieldPtr()->addValue(vpproj[3]);
+        pnts->getFieldPtr()->push_back(vpproj[0]);
+        pnts->getFieldPtr()->push_back(vpproj[1]);
+        pnts->getFieldPtr()->push_back(vpproj[2]);
+        pnts->getFieldPtr()->push_back(vpproj[3]);
         endEditCP(pnts);
 
         GeoTexCoords2fPtr texs = GeoTexCoords2f::create();
         beginEditCP(texs);
-        texs->addValue( Vec2f( 0, 0 ) );
-        texs->addValue( Vec2f( (vppos[2] - vppos[0])/(Real32)imgw, 0 ) );
-        texs->addValue( Vec2f( (vppos[2] - vppos[0])/(Real32)imgw, 
+        texs->push_back( Vec2f( 0, 0 ) );
+        texs->push_back( Vec2f( (vppos[2] - vppos[0])/(Real32)imgw, 0 ) );
+        texs->push_back( Vec2f( (vppos[2] - vppos[0])/(Real32)imgw, 
                                (vppos[3] - vppos[1])/(Real32)imgh ) );
-        texs->addValue( Vec2f( 0, (vppos[3] - vppos[1])/(Real32)imgh ) );
+        texs->push_back( Vec2f( 0, (vppos[3] - vppos[1])/(Real32)imgh ) );
         endEditCP(texs);
 
         GeoPTypesPtr type = GeoPTypesUI8::create();     
         beginEditCP(type);
-        type->addValue( GL_QUADS );
+        type->push_back( GL_QUADS );
         endEditCP(type);
 
         beginEditCP(geo);

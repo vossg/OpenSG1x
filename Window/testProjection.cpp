@@ -203,10 +203,10 @@ int main(int argc, char **argv)
         d->setLeftEye(true);  
         d->setUser(tnode);  
         d->setDecoratee(cam);  
-        d->getSurface().addValue(vpproj[i][0]);
-        d->getSurface().addValue(vpproj[i][1]);
-        d->getSurface().addValue(vpproj[i][2]);
-        d->getSurface().addValue(vpproj[i][3]);
+        d->getSurface().push_back(vpproj[i][0]);
+        d->getSurface().push_back(vpproj[i][1]);
+        d->getSurface().push_back(vpproj[i][2]);
+        d->getSurface().push_back(vpproj[i][3]);
         endEditCP  (d);
         
         ViewportPtr v = Viewport::create();

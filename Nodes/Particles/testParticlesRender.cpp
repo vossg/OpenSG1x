@@ -113,39 +113,39 @@ int main (int argc, char **argv)
     MFPnt3f* p = pnts->getFieldPtr();
 
     beginEditCP(pnts);
-    p->addValue( Pnt3f( -.5, -.5, -0.5) );
-    p->addValue( Pnt3f(  .5, -.5, -0.5) );
-    p->addValue( Pnt3f(  .5,  .5, -0.5) );
-    p->addValue( Pnt3f( -.5,  .5, -0.5) );
-    p->addValue( Pnt3f( -.5, -.5,  0.5) );
-    p->addValue( Pnt3f(  .5, -.5,  0.5) );
-    p->addValue( Pnt3f(  .5,  .5,  0.5) );
-    p->addValue( Pnt3f( -.5,  .5,  0.5) );
+    p->push_back( Pnt3f( -.5, -.5, -0.5) );
+    p->push_back( Pnt3f(  .5, -.5, -0.5) );
+    p->push_back( Pnt3f(  .5,  .5, -0.5) );
+    p->push_back( Pnt3f( -.5,  .5, -0.5) );
+    p->push_back( Pnt3f( -.5, -.5,  0.5) );
+    p->push_back( Pnt3f(  .5, -.5,  0.5) );
+    p->push_back( Pnt3f(  .5,  .5,  0.5) );
+    p->push_back( Pnt3f( -.5,  .5,  0.5) );
     endEditCP(pnts);
 
 
     GeoColors3fPtr cols = GeoColors3f::create();
     particles->setColors( cols );
     beginEditCP(cols);
-    cols->getFieldPtr()->addValue( Color3f( 255, 255, 255) );
-    cols->getFieldPtr()->addValue( Color3f(   0, 255, 255) );
-    cols->getFieldPtr()->addValue( Color3f( 255,   0, 255) );
-    cols->getFieldPtr()->addValue( Color3f( 255, 255,   0) );
-    cols->getFieldPtr()->addValue( Color3f( 255,   0,   0) );
-    cols->getFieldPtr()->addValue( Color3f(   0, 255,   0) );
-    cols->getFieldPtr()->addValue( Color3f( 255,   0,   0) );
-    cols->getFieldPtr()->addValue( Color3f(   0, 255,   0) );
+    cols->getFieldPtr()->push_back( Color3f( 255, 255, 255) );
+    cols->getFieldPtr()->push_back( Color3f(   0, 255, 255) );
+    cols->getFieldPtr()->push_back( Color3f( 255,   0, 255) );
+    cols->getFieldPtr()->push_back( Color3f( 255, 255,   0) );
+    cols->getFieldPtr()->push_back( Color3f( 255,   0,   0) );
+    cols->getFieldPtr()->push_back( Color3f(   0, 255,   0) );
+    cols->getFieldPtr()->push_back( Color3f( 255,   0,   0) );
+    cols->getFieldPtr()->push_back( Color3f(   0, 255,   0) );
     endEditCP(cols);
 
     MFVec3f *size = particles->getMFSizes();
-    size->addValue( Vec3f(.3,0,0) );
-    size->addValue( Vec3f(.3,0,0) );
-    size->addValue( Vec3f(.3,0,0) );
-    size->addValue( Vec3f(.3,0,0) );
-    size->addValue( Vec3f(.2,0,0) );
-    size->addValue( Vec3f(.2,0,0) );
-    size->addValue( Vec3f(.2,0,0) );
-    size->addValue( Vec3f(.2,0,0) );
+    size->push_back( Vec3f(.3,0,0) );
+    size->push_back( Vec3f(.3,0,0) );
+    size->push_back( Vec3f(.3,0,0) );
+    size->push_back( Vec3f(.3,0,0) );
+    size->push_back( Vec3f(.2,0,0) );
+    size->push_back( Vec3f(.2,0,0) );
+    size->push_back( Vec3f(.2,0,0) );
+    size->push_back( Vec3f(.2,0,0) );
 
      
     endEditCP(particles);

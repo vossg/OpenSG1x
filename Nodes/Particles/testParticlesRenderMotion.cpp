@@ -194,13 +194,13 @@ int main(int argc, char **argv)
         for(UInt32 i=0; i < numParticles; ++i)
         {
             Pnt3f pnt(osgrand(),osgrand(),osgrand());
-            indices->addValue(i);  
-            p->addValue(pnt);  
-            sp->addValue(pnt);  
+            indices->push_back(i);  
+            p->push_back(pnt);  
+            sp->push_back(pnt);  
             velocities[i].setValues(osgrand()/30.f/2, osgrand()/30.f/2, osgrand()/30.f/2);
-            cols->getFieldPtr()->addValue( 
+            cols->getFieldPtr()->push_back( 
                 Color3f(osgrand()/2.f + .5f,osgrand()/2.f + .5f,osgrand()/2.f + .5f) );
-            size->addValue(
+            size->push_back(
                 Vec3f(osgrand()/20.f+0.05,osgrand()/20.f+0.05,osgrand()/20.f+0.05));
         }
     }
@@ -228,12 +228,12 @@ int main(int argc, char **argv)
 
         for(UInt32 i=0; tpos[i][0] > -1000; ++i)
         {
-            indices->addValue(i);  
-            p->addValue(tpos[i]);  
-            sp->addValue(tsecpos[i]);  
+            indices->push_back(i);  
+            p->push_back(tpos[i]);  
+            sp->push_back(tsecpos[i]);  
             velocities[i].setValue(tvel[i]);
-            cols->getFieldPtr()->addValue(tcol[i]);
-            size->addValue(tsize[i]);
+            cols->getFieldPtr()->push_back(tcol[i]);
+            size->push_back(tsize[i]);
         }
        
     }
@@ -242,7 +242,7 @@ int main(int argc, char **argv)
     endEditCP(cols);
 
     beginEditCP(norms);
-    norms->addValue(Vec3f(0,1,0));
+    norms->push_back(Vec3f(0,1,0));
     endEditCP(norms);
 
     particles->setPositions( pnts );
@@ -346,7 +346,7 @@ void idle(void)
 
         for(UInt32 i=0; i<p->size(); ++i)
         {
-            Pnt3f pos=p->getValue(i);
+            Pnt3f pos=(*p)[i];
 
             pos+=velocities[i];
 
@@ -366,7 +366,7 @@ void idle(void)
                 velocities[i][2]=-velocities[i][2];
             }
 
-            sp->setValue(pos,i);
+            (*sp)[i] = pos;
         }
 
         endEditCP(pnts);
@@ -388,7 +388,7 @@ void idle(void)
         indices->resize(pnts->getSize() / 2);
         for(UInt32 i = 0; i < pnts->getSize() / 2; ++i)
         {
-            indices->setValue( (osgrand() * 2 - 1) * pnts->getSize() , i);
+            (*indices)[i] = (osgrand() * 2 - 1) * pnts->getSize();
         }
         endEditCP  (particles, Particles::IndicesFieldMask);     
     }
