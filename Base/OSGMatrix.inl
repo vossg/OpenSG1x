@@ -338,7 +338,8 @@ void TransformationMatrix<ValueTypeT>::setValue(const VectorType3f *pMat)
 */
 
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setValue(const Char8 *str)
+void TransformationMatrix<ValueTypeT>::setValue(const Char8 *str,
+                                                      bool   bTransposed)
 {
     UInt32 i;
     UInt32 numOfToken = 16;
@@ -397,12 +398,21 @@ void TransformationMatrix<ValueTypeT>::setValue(const Char8 *str)
         }
     }
 
-    setValue(vec[0],  vec[1],  vec[2],  vec[3],
-             vec[4],  vec[5],  vec[6],  vec[7],
-             vec[8],  vec[9],  vec[10], vec[11],
-             vec[12], vec[13], vec[14], vec[15]);
+    if(bTransposed == true)
+    {
+        setValueTransposed(vec[0],  vec[1],  vec[2],  vec[3],
+                           vec[4],  vec[5],  vec[6],  vec[7],
+                           vec[8],  vec[9],  vec[10], vec[11],
+                           vec[12], vec[13], vec[14], vec[15]);
+    }
+    else
+    {
+        setValue(vec[0],  vec[1],  vec[2],  vec[3],
+                 vec[4],  vec[5],  vec[6],  vec[7],
+                 vec[8],  vec[9],  vec[10], vec[11],
+                 vec[12], vec[13], vec[14], vec[15]);
+    }
 }
-
 
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */

@@ -137,18 +137,18 @@ class TransformationMatrix
     /*! \name                   Set                                        */
     /*! \{                                                                 */
    
-    void setIdentity       (void                                          );
+    void setIdentity       (void                                           );
 
-    void setValue          (const TransformationMatrix &mat               );
+    void setValue          (const TransformationMatrix &mat                );
 
     void setValue          (const VectorType3f         &vector1,
                             const VectorType3f         &vector2,
-                            const VectorType3f         &vector3           );
+                            const VectorType3f         &vector3            );
 
     void setValue          (const VectorType3f         &vector1,
                             const VectorType3f         &vector2,
                             const VectorType3f         &vector3,
-                            const VectorType3f         &vector4           );
+                            const VectorType3f         &vector4            );
 
     void setValue          (const ValueTypeT            rVal00,
                             const ValueTypeT            rVal10,
@@ -168,7 +168,7 @@ class TransformationMatrix
                             const ValueTypeT            rVal03,
                             const ValueTypeT            rVal13,
                             const ValueTypeT            rVal23,
-                            const ValueTypeT            rVal33            );
+                            const ValueTypeT            rVal33             );
 
     void setValueTransposed(const ValueTypeT            rVal00,
                             const ValueTypeT            rVal01,
@@ -188,18 +188,19 @@ class TransformationMatrix
                             const ValueTypeT            rVal30,
                             const ValueTypeT            rVal31,
                             const ValueTypeT            rVal32,
-                            const ValueTypeT            rVal33            );
+                            const ValueTypeT            rVal33             );
 
     void setValue          (const ValueTypeT           *pMat,
-                                  bool                  bTransposed = true);
+                                  bool                  bTransposed = true );
 
-    void setValue          (const VectorType           *pMat              );
+    void setValue          (const VectorType           *pMat               );
 
 #ifndef WIN32
-    void setValue           (const VectorType3f        *pMat              );
+    void setValue           (const VectorType3f        *pMat               );
 #endif
 
-    void setValue           (const Char8               *string            );
+    void setValue           (const Char8               *string,
+                                   bool                 bTransposed = true );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
