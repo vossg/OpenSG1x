@@ -955,28 +955,115 @@ Volumes are primarily used for bounding geometry to speed up culling or
 Volume
 \family default 
 .
+ The supported volumes are the usual 
+\family typewriter 
+BoxVolume
+\family default 
+, defined by min and max points, the 
+\family typewriter 
+SphereVolume
+\family default 
+, defined by center and radius, and the 
+\family typewriter 
+FrustumVolume
+\family default 
+, which is defined by 6 planes and primarily used to define the viewing
+ frustum.
 \layout Standard
 
-Volumes can be in one several states.
+Volumes are created empty and can be changed by extending them by a point
+ or another volume.
+ All volumes have sepcific access functions to access their attributes,
+ but they also have generic access functions to simplify access to arbitrary
+ volumes.
+ Every volume supports 
+\family typewriter 
+getBounds()
+\family default 
+ to access the min/max points, 
+\family typewriter 
+getCenter()
+\family default 
+ and 
+\family typewriter 
+getScalarVolume()
+\family default 
+ to access the enclosed volume.
+ Volumes can be intersected with points, lines and other volumes, and they
+ can be transformed by a matrix.
+\layout Standard
+
+Volumes can be in one of several states.
  The default state is valid, special states are invalid, empty, infinite
  and static.
- 
+ There are specific functions to set them to any one of those states and
+ to check if they are in any of those states.
 \layout Standard
 
-Invalid volumes have to be set to valid explicitly 
+Invalid volumes have to be set to valid explicitly, before extending them
+ has any effect.
+ 
+\family typewriter 
+setEmpty()
+\family default 
+ makes it valid implicitly.
+ The states except empty define how extensions and intersections are handled.
+ Invalid volumes stay invalid and ignore changes, static and infinite volumes
+ keep their values and are not changed by extensions.
+ Intersecting an infinite volume is always true, just as intersecting an
+ empty volume is never true.
+ 
 \layout Section
 
 Threads
+\layout Standard
+
+OpenSG supports a thread abstraction to support efficient threading on all
+ supported platforms.
+ On Windows that means Windows threads, on Irix sproc() is used, for every
+ other system pthreads are used.
+\layout Standard
+
+Every thread uses a 
+\family typewriter 
+Thread
+\family default 
+ object for thread-specific data, most of which is needed for thread-safe
+ data, see 
+\begin_inset LatexCommand \ref{threadsafety}
+
+\end_inset 
+
+.
+ To create a new thread, the Thread object has a 
+\family typewriter 
+run()
+\family default 
+ method, which executes a given function in a new thread.
+ 
+\layout Standard
+
+For thread synchronization 
+\family typewriter 
+Lock
+\family default 
+ and 
+\family typewriter 
+Barrier
+\family default 
+ objects are available.
+ They act like standard locks and barriers, see the doc for details.
 \layout Section
 
 Image
 \layout Section
 
-StringID
+String / StringID
 \layout Standard
 
 Do not use it.
- It is only for StringID which can have shared data.
+ Only for internal use to built efficient maps for names, not for application
+ use.
  Use std::string instead.
 \layout Chapter
 
@@ -987,7 +1074,7 @@ One central goal of the OpenSG design is easy to use thread-safe data.
  To do that right you need to replicate the data so that every thread can
  have its private copy (called aspect) to work on.
  At some point these different copies will have to be synchronized again,
- and then the parts that ctually changed need to be copied from one aspect
+ and then the parts that actually changed need to be copied from one aspect
  to the other.
  To do that the system needs to know what actually changed, and to know
  that on a sub-class basis.
@@ -998,15 +1085,151 @@ One central goal of the OpenSG design is easy to use thread-safe data.
 \layout Section
 
 Creating a FieldContainer instance
+\begin_inset LatexCommand \label{fcinstance}
+
+\end_inset 
+
+
 \layout Standard
 
-factory,prototype blabla
+FieldContainer can be created in two ways: via the 
+\family typewriter 
+FieldContainerFactory
+\family default 
+ or from the class's prototype.
+ You can not create instances of FieldContainers either via creating automatic
+ or static variables or via 
+\family typewriter 
+new
+\family default 
+, you have to use the mentioned two ways.
+\layout Standard
+
+For generic loaders it is useful to create an object by name, and this is
+ what the factory is for.
+ The factory is a singleton, the single instance can be accessed via 
+\family typewriter 
+FieldContainerFactory::the()
+\family default 
+, which has functions to create arbitrary field containers, with some special
+ versions to directly create different subsets of field conatiners (Nodes,
+ NodeCores, Attachments).
+\layout Standard
+
+For reasons connected to multi-thread support (s.
+ 
+\begin_inset LatexCommand \ref{threadsafety}
+
+\end_inset 
+
+) specific kinds of pointers have to be used.
+ For every FieldContainer type 
+\family typewriter 
+fc
+\family default 
+ there is a specific pointer type 
+\family typewriter 
+fcPtr
+\family default 
+.
+ It has all the features of a standard pointer, i.e.
+ it can be dereferenced via 
+\family typewriter 
+->
+\family default 
+ and it can be downcast to a derived type via 
+\family typewriter 
+DerivedPtr.dcast( ParentPtr );
+\family default 
+.
+\layout Standard
+
+Creating a new instance of a specific class is done by calling 
+\family typewriter 
+fcPtr var=fcPtr::create()
+\family default 
+.
+ 
 \layout Section
 
-Changing field values
+Reference counting
 \layout Standard
 
-changelist blabla
+FieldContainers are reference counted.
+ They are created with a reference count of 0, and the reference count can
+ be manipulated via 
+\family typewriter 
+addRefCP()
+\family default 
+ and 
+\family typewriter 
+subRefCP()
+\family default 
+.
+ 
+\layout Standard
+
+The system increases the reference count only when it stores a reference
+ to an object in the system, e.g.
+ when a node is attached to another node.
+ It does not increase the reference counter for every parameter that is
+ passed around, the pointers mentioned in 
+\begin_inset LatexCommand \ref{fcinstance}
+
+\end_inset 
+
+ are not smart pointers.
+\layout Standard
+
+The reference count is decreased when an object is removed from the system,
+ e.g.
+ when a node is detached from another node, or explicitly using 
+\family typewriter 
+subRefCP()
+\family default 
+.
+ If the reference count goes to or below 0, the object is removed.
+ Note that object are created with a reference count of zero, so if a new
+ object (refCnt: 0) is attached to a node (increasing the refCnt to 1) and
+ removed later on (decreasing it to 0), it will be destroyed.
+ Increasing the reference count before ermoving it is needed to prevent
+ the destruction.
+ 
+\shape italic 
+(we should fill the destroyed fcs with 0xdeadbeef or something similar.
+ Does the recursive tree removal work right now?)
+\layout Section
+
+Fields
+\layout Standard
+
+All data in FieldContainers is organized in fields.
+ There are two general types of fields, fields for single values (SFields)
+ and fields for multiple values (MFields).
+ For the standard types and most pointer and ptr types there are instances
+ of both types of fields.
+\layout Subsection
+
+Single Fields
+\layout Standard
+
+\layout Subsection
+
+Multi Fields
+\layout Subsection
+
+FieldContainer Fields
+\layout Standard
+
+Each attribute has a name, e.g.
+ 
+\family typewriter 
+value
+\family default 
+, and every field container has a set of standard access functions to access
+ its fields.
+ The field itself can be accessed via getSFValue() or getMFValue() for single
+ or multiple value fields respectively.
 \layout Section
 
 FieldContainer attachments
@@ -1055,6 +1278,14 @@ volume stuff, toWord matrix
 \layout Subsection
 
 NodeCore 
+\layout Section
+
+Data separation & Thread safety
+\begin_inset LatexCommand \label{threadsafety}
+
+\end_inset 
+
+
 \layout Chapter
 
 Special Node Cores
@@ -1142,6 +1373,9 @@ Base/Meta Type (FooBase.h, FooBase.inl, FooBase.cpp)
 \layout Section
 
 'User Code' implementation (Foo.h, Foo.inl, Foo.cpp)
+\layout Section
+
+prototype replacement
 \layout Standard
 
 
