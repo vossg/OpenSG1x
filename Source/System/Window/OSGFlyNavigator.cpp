@@ -235,6 +235,11 @@ void FlyNavigator::forward(Real32 step)
 */
 void FlyNavigator::right(Real32 step)
 {
+    Int16 sign = (step >= 0) ? -1 : 1;
+    Real32 angle = 0.19634954f;
+
+    rotate(sign*angle, 0);
+/*
     Vec3f sv;
     sv = _rFrom-_rAt;
     sv.crossThis(_vUp);
@@ -245,6 +250,7 @@ void FlyNavigator::right(Real32 step)
     transl.setTranslate(sv);
     transl.multMatrixPnt(_rAt);
     transl.multMatrixPnt(_rFrom);
+ */
 }
 
 

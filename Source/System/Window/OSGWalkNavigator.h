@@ -41,7 +41,6 @@
 
 #include <OSGFlyNavigator.h>
 #include <OSGIntersectAction.h>
-#include <OSGGeometry.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -70,7 +69,6 @@ class OSG_SYSTEMLIB_DLLMAPPING WalkNavigator: public FlyNavigator
     /*! \name                        Get                                   */
     /*! \{                                                                 */
 
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Set                                   */
@@ -79,10 +77,10 @@ class OSG_SYSTEMLIB_DLLMAPPING WalkNavigator: public FlyNavigator
     void setGround  (NodePtr &new_ground);
     void setWorld   (NodePtr &new_world );
     
-    void setGroundDistance  (Real32 groundDistance  );
-    void setMinWallDistance (Real32 wallDistance    );
-    
-    void setPersonDimensions(Real32 height,Real32 width,Real32 fatness);
+    void setGroundDistance  (Real32 groundDistance);
+    void setMinWallDistance (Real32 wallDistance  );
+
+    void setPersonDimensions(Real32 height, Real32 width, Real32 fatness);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
