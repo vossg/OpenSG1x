@@ -141,7 +141,7 @@ int main (int argc, char **argv)
     cols->getFieldPtr()->addValue( Color3f(   0, 255,   0) );
     endEditCP(cols);
 
-    MFReal32 *size = particles->getMFSizes();
+    MFVec3f *size = particles->getMFSizes();
     size->addValue( Vec3f(.3,0,0) );
     size->addValue( Vec3f(.3,0,0) );
     size->addValue( Vec3f(.3,0,0) );
