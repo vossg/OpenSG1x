@@ -11,6 +11,7 @@
 # for details.
 #
 
+
 # try to get configured information first, will not work if more
 # than one system is configured from one dir. Just for the 1.0
 
@@ -45,7 +46,7 @@ PROBACK = *.ndf
 ### System dependences ###############################################
 
 OS      := $(shell echo `uname`)
-OS_TYPE := $(shell echo `uname`_`uname -r`_`uname -p`)
+OS_TYPE := $(shell echo `uname`_`uname -r`)
 
 # be very careful with these lines. There needs to be a space after the Unix
 # lines and nothing after the win lines!!
@@ -79,6 +80,13 @@ ifeq ($(findstring WIN,$(OS)),WIN)
 	BINSUF := .exe
 
 endif
+ifeq ($(OS),HP-UX)
+    
+        CCOUT := -o 
+        LDOUT := -o 
+	BINSUF:=
+
+endif
 
 ### Retrieve osg-info ##########################################
 
@@ -87,10 +95,10 @@ OSG_CONFIG := $(OSGROOT)/bin/osg-config
 MOC        :=  $(shell $(OSG_CONFIG) --moc)
 UIC        :=  $(shell $(OSG_CONFIG) --uic)
 CXX        := "$(shell $(OSG_CONFIG) --compiler --$(LIBTYPE) )"
-CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags QT --$(LIBTYPE) )
-LD         := "$(shell $(OSG_CONFIG) --exe-linker --$(LIBTYPE) )"
+CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags --$(LIBTYPE) Base System QT )
+LD         := $(shell $(OSG_CONFIG) --exe-linker --$(LIBTYPE) )
 LDFLAGS    :=
-LIBS       :=  $(shell $(OSG_CONFIG) --libs QT --$(LIBTYPE) )
+LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base System QT )
 CMPLR_ID   :=  $(shell $(OSG_CONFIG) --compiler-id)
 
 SYSDEP     := $(OS)-$(CMPLR_ID)
@@ -118,23 +126,23 @@ endif
 HEADERS := $(shell cat declist.mk 2> /dev/null)
 SOURCES := $(shell cat implist.mk 2> /dev/null)
 BINOBJS := $(shell cat objlist.$(SYSDEP).mk 2> /dev/null ) 
-LIBOBJS := $(shell sed 2> /dev/null < objlist.$(SYSDEP).mk 's/main\.[a-zA-Z_0-9]*\.o//g' )
+LIBOBJS := $(shell sed -e 2> /dev/null < objlist.$(SYSDEP).mk 's/main\.[a-zA-Z_0-9]*\.o//g' )
 
 
 #ifeq ($(strip $(HEADERS)),)
-#$(warning HEADERS empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
+#$(warning HEADERS empty, be sure your lists are up to date use $(MAKE) lists to rebuild them) 
 #endif
 
 #ifeq ($(strip $(SOURCES)),)
-#$(warning SOURCES empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
+#$(warning SOURCES empty, be sure your lists are up to date use $(MAKE) lists to rebuild them) 
 #endif
 
 #ifeq ($(strip $(BINOBJS)),)
-#$(warning BINOBJS empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
+#$(warning BINOBJS empty, be sure your lists are up to date use $(MAKE) lists to rebuild them) 
 #endif
 
 #ifeq ($(strip $(LIBOBJS)),)
-#$(warning LIBOBJS empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
+#$(warning LIBOBJS empty, be sure your lists are up to date use $(MAKE) lists to rebuild them) 
 #endif
 
 
@@ -185,7 +193,7 @@ moc_%.cpp: %.h
 	@echo "Updating " $@ 
 	@echo "THIS OPERATION IS DISABLED RIGHT NOW !!"
 	@echo 
-#	@$(MKDEP) $(INCS) -I. $< | sed 's/\.o/\.$(SYSDEP)\.o/' > $@
+#	@$(MKDEP) $(INCS) -I. $< | sed -e 's/\.o/\.$(SYSDEP)\.o/' > $@
 
 %.$(SYSDEP).o: %.cc
 	$(CXX) $(CXXFLAGS) $<
@@ -207,6 +215,8 @@ moc_%.cpp: %.h
 
 ######################################################################
 
+# Watch out for HP-UX. echo doesn't understand -n, sed ignores incomplete lines...
+
 ### File lists #######################################################
 lists: declist implist objlist depend 
 
@@ -214,7 +224,7 @@ declist:
 	@echo "make declist.mk"
 	@rm -f declist.mk
 	@echo *.[hH] *.hh *.hxx *.ui " " | \
-	sed 's/\*\.[a-zA-Z]* //g' | \
+	sed -e 's/\*\.[a-zA-Z]* //g' | \
 	cat >declist.mk
 
 implist: $(PROSRCS)
@@ -222,23 +232,25 @@ implist: $(PROSRCS)
 	@rm -f implist.mk
 	@rm -f moc_*.cpp
 	@echo *.y *.l *.c *.C *.cc *.cxx *.cpp " " | \
-	sed 's/\*\.[a-zA-Z]* //g' | \
+	sed -e 's/\*\.[a-zA-Z]* //g' | \
 	cat >implist.mk
 
 objlist: implist.mk
 	@echo "make objlist.$(SYSDEP).mk"
 	@rm -f objlist.$(SYSDEP).mk
-	@grep -l Q_OBJECT *.[hH] | sed 's/^/moc_/g' > objlist.mk
+	@grep -l Q_OBJECT *.[hH] | sed -e 's/^/moc_/g' > objlist.mk
 	@cat implist.mk >> objlist.mk
 	@cat < objlist.mk | \
-	tr '\n' ' ' | tr '\r' ' ' | \
-	sed 's/\.cc/\.$(SYSDEP)\.o/g' | \
-	sed 's/\.cxx/\.$(SYSDEP)\.o/g' | \
-	sed 's/\.cpp/\.$(SYSDEP)\.o/g' | \
-	sed 's/\.[cC]/\.$(SYSDEP)\.o/g' | \
-	sed 's/\.[ly]/\.$(SYSDEP)\.o/g' | \
-	sed 's/\.[hH]/\.$(SYSDEP)\.o/g' | \
-	cat >objlist.$(SYSDEP).mk
+	tr '\n' ' ' | tr '\r' ' ' > q
+	@echo '\n' >> q
+	@cat q | sed -e 's/\.cc/\.$(SYSDEP)\.o/g' | \
+	sed -e 's/\.cxx/\.$(SYSDEP)\.o/g' | \
+	sed -e 's/\.cpp/\.$(SYSDEP)\.o/g' | \
+	sed -e 's/\.[cC]/\.$(SYSDEP)\.o/g' | \
+	sed -e 's/\.[ly]/\.$(SYSDEP)\.o/g' | \
+	sed -e 's/\.h/\.$(SYSDEP)\.o/g' | \
+	cat > objlist.$(SYSDEP).mk
+	@echo >> objlist.$(SYSDEP).mk
 
 deplist.$(SYSDEP).mk:
 	@echo "init deplist.$(SYSDEP).mk"
@@ -247,9 +259,9 @@ deplist.$(SYSDEP).mk:
 
 depend: implist.mk
 	@echo "make deplist.$(SYSDEP).mk"
-	@echo -n "include " > deplist.$(SYSDEP).mk 
+	@echo "include " | tr '\n' ' ' | tr '\r' ' ' > deplist.$(SYSDEP).mk 
 	@cat objlist.$(SYSDEP).mk | \
-	sed 's/\.o/.dep/g' | \
+	sed -e 's/\.o/.dep/g' | \
 	cat >> deplist.$(SYSDEP).mk
 
 ######################################################################
