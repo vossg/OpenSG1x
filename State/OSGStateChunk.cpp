@@ -249,6 +249,8 @@ void StateChunk::activate ( DrawAction * action, UInt32 index )
 
 void StateChunk::changeFrom( DrawAction * action, StateChunk * old, UInt32 index )
 {
+	old->deactivate( action, index );
+	activate( action, index );
 }
 
 void StateChunk::deactivate ( DrawAction * action, UInt32 index )
