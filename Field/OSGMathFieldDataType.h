@@ -91,49 +91,49 @@ struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
         outVal.assign(TypeConst::putToString((inVal.getValues())[0]));
 
         outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
-
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[2]));
-
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[3]));
-
-
-        outVal.append(" ");
         outVal.append(TypeConst::putToString((inVal.getValues())[4]));
-
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[5]));
-
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[6]));
-
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[7]));
-
 
         outVal.append(" ");
         outVal.append(TypeConst::putToString((inVal.getValues())[8]));
 
         outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[12]));
+
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[5]));
+
+        outVal.append(" ");
         outVal.append(TypeConst::putToString((inVal.getValues())[9]));
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[13]));
+
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[2]));
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[6]));
 
         outVal.append(" ");
         outVal.append(TypeConst::putToString((inVal.getValues())[10]));
 
         outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[11]));
-
-
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[12]));
-
-        outVal.append(" ");
-        outVal.append(TypeConst::putToString((inVal.getValues())[13]));
-
-        outVal.append(" ");
         outVal.append(TypeConst::putToString((inVal.getValues())[14]));
+
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[3]));
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[7]));
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[11]));
 
         outVal.append(" ");
         outVal.append(TypeConst::putToString((inVal.getValues())[15]));
