@@ -133,6 +133,13 @@ class OSG_BASE_DLLMAPPING String
 
     /*------------------------- assignment ----------------------------------*/
 
+	inline const String & operator =(const String &obj) 
+		{
+			set(obj._str);
+
+			return *this;
+		}
+
     /*------------------------- comparison ----------------------------------*/
 
 	inline Bool operator <(const String &obj) const
