@@ -104,6 +104,18 @@ RenderAction *RenderAction::_pPrototype = NULL;
 vector<Action::Functor> *RenderAction::_vDefaultEnterFunctors = NULL;
 vector<Action::Functor> *RenderAction::_vDefaultLeaveFunctors = NULL;
 
+
+StatElemDesc<StatTimeElem> RenderAction::statDrawTime("drawTime", 
+"time for draw tree traversal");
+StatElemDesc<StatIntElem > RenderAction::statNMaterials("NMaterials", 
+"number of material changes");
+StatElemDesc<StatIntElem > RenderAction::statNMatrices("NMatrices",  
+"number of matrix changes");
+StatElemDesc<StatIntElem > RenderAction::statNGeometries("NGeometries", 
+"number of Geometry nodes");
+StatElemDesc<StatIntElem > RenderAction::statNTransGeometries("NTransGeometries", 
+"number of transformed Geometry nodes");
+
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -323,7 +335,9 @@ void RenderAction::dropGeometry(Geometry *pGeo)
 
     MaterialMap::iterator it        = _mMatMap.find(pMat);
 
+#if 0
     pMat->rebuildState();
+#endif
 
     pState = pMat->getState().getCPtr();
 
@@ -447,7 +461,9 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
 
     MaterialMap::iterator it        = _mMatMap.find(pMat);
 
+#if 0
     pMat->rebuildState();
+#endif
 
     pState = pMat->getState().getCPtr();
 
@@ -808,8 +824,9 @@ Action::ResultE RenderAction::start(void)
 
 Action::ResultE RenderAction::stop(ResultE res)
 {
-    Inherited::stop(res);
-
+    if(!_ownStat)
+       getStatistics()->getElem(statDrawTime)->start();
+    
     UInt32 i;
 
 //    dump(_pRoot, 0);
@@ -827,12 +844,12 @@ Action::ResultE RenderAction::stop(ResultE res)
 // GL stuff handled by chunks now
 //    glEnable   (GL_BLEND);
 //    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glDepthMask(false);
+//    glDepthMask(false);
 
     draw(_pTransMatRoot->getFirstChild());
 
 //    glDisable  (GL_BLEND);
-    glDepthMask(true);
+//    glDepthMask(true);
 
     if(_pActiveState != NULL)
     {
@@ -844,12 +861,24 @@ Action::ResultE RenderAction::stop(ResultE res)
         _vLights[i].first->deactivate(this, i);
     }
 
-    FINFO (("Material %u Matrix %u Geometry %u Transparent %u\r",
-            _uiNumMaterialChanges, 
-            _uiNumMatrixChanges, 
-            _uiNumGeometries,
-            _uiNumTransGeometries));
+    if(!_ownStat)
+    {
+        glFinish();
+        getStatistics()->getElem(statDrawTime)->stop();
+    }
+    
+    getStatistics()->getElem(statNMaterials      )->set(_uiNumMaterialChanges);
+    getStatistics()->getElem(statNMatrices       )->set(_uiNumMatrixChanges);
+    getStatistics()->getElem(statNGeometries     )->set(_uiNumGeometries);
+    getStatistics()->getElem(statNTransGeometries)->set(_uiNumTransGeometries);
 
+//    FINFO (("Material %d Matrix %d Geometry %d Transparent %d\r",
+//            _uiNumMaterialChanges, 
+//            _uiNumMatrixChanges, 
+//            _uiNumGeometries,
+//            _uiNumTransGeometries));
+
+    Inherited::stop(res);
     return res;
 }
 

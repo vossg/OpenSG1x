@@ -53,6 +53,7 @@
 #include <OSGDrawActionBase.h>
 #include <OSGMatrix.h>
 #include <OSGMaterial.h>
+#include <OSGStatElemTypes.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -87,13 +88,23 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
   public:
 
     //-----------------------------------------------------------------------
+    //   constants                                                               
+    //-----------------------------------------------------------------------
+
+    static StatElemDesc<StatTimeElem> statDrawTime;
+    static StatElemDesc<StatIntElem > statNMaterials;
+    static StatElemDesc<StatIntElem > statNMatrices;
+    static StatElemDesc<StatIntElem > statNGeometries;
+    static StatElemDesc<StatIntElem > statNTransGeometries;
+
+    //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
-
+  
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
