@@ -54,6 +54,7 @@
 #include <OSGComponentTransform.h>
 #include <OSGPrimitiveIterator.h>
 #include <OSGGeometry.h>
+#include <OSGGeoFunctions.h>
 
 OSG_USING_NAMESPACE
 
@@ -490,6 +491,11 @@ void MergeGraphOp::processGeometries(NodePtr& node)
                         GeometryPtr geo2 = GeometryPtr::dcast((*it2)->getCore());
                         if (geo->isMergeable(geo2))
                         {
+                            // HACK merge crashes when indices == NullFC!
+                            if(geo->getIndices() == NullFC)
+                                OSG::createSharedIndex(geo);
+                            if(geo2->getIndices() == NullFC)
+                                OSG::createSharedIndex(geo2);
                             if (new_geo==NullFC)
                             {
                                 new_geo=Geometry::create();
