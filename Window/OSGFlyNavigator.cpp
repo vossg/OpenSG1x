@@ -45,6 +45,23 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFlyNavigator.cpp,v 1.3 2002/05/24 14:45:11 istoynov Exp $";
+    static Char8 cvsid_hpp       [] = OSGFLYNAVIGATOR_HEADER_CVSID;
+    //static Char8 cvsid_inl       [] = OSGFLYNAVIGATOR_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGFLYNAVIGATOR_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 /*------------------------- constructors ----------------------------------*/
 
 /*! Constructor
@@ -52,9 +69,9 @@ OSG_USING_NAMESPACE
  
 FlyNavigator::FlyNavigator()
 {
-    _rEye=Pnt3f(0,0,1);
-    _rCenter=Pnt3f(0,0,0);
-    _vUp=Vec3f(0,1,0);
+    _rFrom.setValues(0,0,0);
+    _rAt.setValues(0,0,1);
+    _vUp.setValues(0,1,0);
     _tMatrix.setIdentity();
 }
  
@@ -75,26 +92,42 @@ FlyNavigator::~FlyNavigator()
 
 Matrix &FlyNavigator::getMatrix()
 {
-    MatrixLookAt(_tMatrix,_rEye,_rCenter,_vUp);
+    MatrixLookAt(_tMatrix,_rFrom,_rAt,_vUp);
     return _tMatrix;
 }
 
-/*------------------------------ set --------------------------------------*/
-
-/*! sets the eye point
- */
-
-void FlyNavigator::setFrom(Pnt3f new_eye)
+Pnt3f &FlyNavigator::getFrom()
 {
-    _rEye=new_eye;
+    return _rFrom;
 }
 
-/*! sets the point at which the eye is looking
+Pnt3f &FlyNavigator::getAt()
+{
+    return _rAt;
+}
+
+Vec3f &FlyNavigator::getUp()
+{
+    return _vUp;
+}
+
+
+/*------------------------------ set --------------------------------------*/
+
+/*! sets the from point. that's the point where the person is (i.e the center of all transformations)
  */
 
-void FlyNavigator::setAt(Pnt3f new_center)
+void FlyNavigator::setFrom(Pnt3f new_from)
 {
-    _rCenter=new_center;
+    _rFrom=new_from;
+}
+
+/*! sets the point at which the from is looking
+ */
+
+void FlyNavigator::setAt(Pnt3f new_At)
+{
+    _rAt=new_At;
 }
 
 /*! sets the up vector
@@ -103,6 +136,16 @@ void FlyNavigator::setAt(Pnt3f new_center)
 void FlyNavigator::setUp(Vec3f new_up)
 {
     _vUp=new_up;
+}
+
+/*! sets the position and the orientation
+ */
+
+void FlyNavigator::set(Pnt3f new_from,Pnt3f new_At,Vec3f new_up)
+{
+    _rFrom=new_from;
+	_rAt=new_At;
+	_vUp=new_up;
 }
 
 /*---------------------- Flyer Transformations ----------------------------*/
@@ -120,18 +163,18 @@ void FlyNavigator::rotate(Real32 deltaX, Real32 deltaY)
     q.getValue(temp);    
     
     final.setIdentity();
-    final.setTranslate(_rEye);
+    final.setTranslate(_rFrom);
     final.mult(temp);
     
     temp.setIdentity(); 
-    temp.setTranslate(-_rEye[0],-_rEye[1],-_rEye[2]);
+    temp.setTranslate(-_rFrom[0],-_rFrom[1],-_rFrom[2]);
     
     final.mult(temp);    
-    final.multMatrixPnt(_rCenter);
+    final.multMatrixPnt(_rAt);
     
     // rotate around the side vector
             
-    Vec3f lv=_rCenter-_rEye;
+    Vec3f lv=_rAt-_rFrom;
     lv.normalize();                              
             
     Vec3f sv=lv; 
@@ -141,14 +184,14 @@ void FlyNavigator::rotate(Real32 deltaX, Real32 deltaY)
     q.getValue(temp);
 
     final.setIdentity();
-    final.setTranslate(_rEye);
+    final.setTranslate(_rFrom);
     final.mult(temp);
         
     temp.setIdentity(); 
-    temp.setTranslate(-_rEye[0],-_rEye[1],-_rEye[2]);
+    temp.setTranslate(-_rFrom[0],-_rFrom[1],-_rFrom[2]);
     
     final.mult(temp);        
-    final.multMatrixPnt(_rCenter);    
+    final.multMatrixPnt(_rAt);    
 }
 
 /*! "flyes" forward, i.e. makes a translation along the view vector
@@ -157,14 +200,14 @@ void FlyNavigator::rotate(Real32 deltaX, Real32 deltaY)
 void FlyNavigator::forward(Real32 step)
 {
     Vec3f lv;
-    lv=_rEye-_rCenter;
+    lv=_rFrom-_rAt;
     lv.normalize();                                  
     lv*=(step);
     Matrix transl;
     transl.setIdentity();
     transl.setTranslate(lv);                   
-    transl.multMatrixPnt(_rCenter);
-    transl.multMatrixPnt(_rEye);    
+    transl.multMatrixPnt(_rAt);
+    transl.multMatrixPnt(_rFrom);    
 }
 
 /*! "flyes" on the right, i.e. makes a translation along the side vector
@@ -173,33 +216,13 @@ void FlyNavigator::forward(Real32 step)
 void FlyNavigator::right(Real32 step)
 {
     Vec3f sv;
-    sv=_rEye-_rCenter;
+    sv=_rFrom-_rAt;
     sv.crossThis(_vUp);
     sv.normalize();            
     sv*=(step);
     Matrix transl;
     transl.setIdentity();
     transl.setTranslate(sv);                   
-    transl.multMatrixPnt(_rCenter);
-    transl.multMatrixPnt(_rEye); 
+    transl.multMatrixPnt(_rAt);
+    transl.multMatrixPnt(_rFrom); 
 } 
-
-
-/*-------------------------------------------------------------------------*/
-/*                              cvs id's                                   */
-
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-#ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFlyNavigator.cpp,v 1.2 2002/04/30 09:29:13 vossg Exp $";
-    static Char8 cvsid_hpp       [] = OSGFLYNAVIGATOR_HEADER_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGFLYNAVIGATOR_HEADER_CVSID;
-}

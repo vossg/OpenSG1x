@@ -153,8 +153,22 @@ OSG_USING_NAMESPACE
 /*! \var SimpleSceneManager::_highlightMaterial
     The material used by the highlight object.
  */
-
 SimpleMaterialPtr SimpleSceneManager::_highlightMaterial;
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.23 2002/05/24 14:45:12 istoynov Exp $";
+    static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
@@ -228,7 +242,7 @@ Navigator *SimpleSceneManager::getNavigator(void)
 void SimpleSceneManager::setWindow(WindowPtr win)
 {
     _win = win;
-    if(_win->getMFPort()->size() > 0 && _win->getPort(0) != NullFC)
+    if(_win->getMFPort()->getSize() > 0 && _win->getPort(0) != NullFC)
         _navigator.setViewport(_win->getPort(0));      
 }
 
@@ -371,7 +385,7 @@ void SimpleSceneManager::initialize(void)
     endEditCP(_camera);
 
     // need a viewport?
-    if(_win != NullFC && _win->getPort().size() == 0)
+    if(_win != NullFC && _win->getPort().getSize() == 0)
     {
         // I'd like this to be a gradient background, but it still has
         // problems on Linux/nVidia
@@ -389,7 +403,7 @@ void SimpleSceneManager::initialize(void)
         vp->setRoot                    (_internalRoot);
         vp->setSize                    (0,0, 1,1);
         vp->setBackground              (bg);
-        vp->getForegrounds().push_back (_foreground);
+        vp->getForegrounds().addValue  (_foreground);
         endEditCP(vp);
 
         beginEditCP(_win);
@@ -416,7 +430,7 @@ void SimpleSceneManager::showAll(void)
 
     Real32 dist = osgMax(d[0],d[1]) / (2 * osgtan(_camera->getFov() / 2.f));
 
-    _navigator.setCenter(Pnt3f((min[0] + max[0]) * .5,
+    _navigator.setFrom(Pnt3f((min[0] + max[0]) * .5,
                                (min[1] + max[1]) * .5,
                                (min[2] + max[2]) * .5));
     _navigator.setDistance(max[2] + dist);
@@ -513,35 +527,35 @@ void SimpleSceneManager::highlightChanged(void)
 
         GeoIndicesUI32Ptr index = GeoIndicesUI32::create();
         beginEditCP(index);
-        index->getFieldPtr()->push_back(0);
-        index->getFieldPtr()->push_back(1);
-        index->getFieldPtr()->push_back(3);
-        index->getFieldPtr()->push_back(2);
-        index->getFieldPtr()->push_back(0);
-        index->getFieldPtr()->push_back(4);
-        index->getFieldPtr()->push_back(5);
-        index->getFieldPtr()->push_back(7);
-        index->getFieldPtr()->push_back(6);
-        index->getFieldPtr()->push_back(4);
+        index->getFieldPtr()->addValue(0);
+        index->getFieldPtr()->addValue(1);
+        index->getFieldPtr()->addValue(3);
+        index->getFieldPtr()->addValue(2);
+        index->getFieldPtr()->addValue(0);
+        index->getFieldPtr()->addValue(4);
+        index->getFieldPtr()->addValue(5);
+        index->getFieldPtr()->addValue(7);
+        index->getFieldPtr()->addValue(6);
+        index->getFieldPtr()->addValue(4);
 
-        index->getFieldPtr()->push_back(1);
-        index->getFieldPtr()->push_back(5);
-        index->getFieldPtr()->push_back(2);
-        index->getFieldPtr()->push_back(6);
-        index->getFieldPtr()->push_back(3);
-        index->getFieldPtr()->push_back(7);
+        index->getFieldPtr()->addValue(1);
+        index->getFieldPtr()->addValue(5);
+        index->getFieldPtr()->addValue(2);
+        index->getFieldPtr()->addValue(6);
+        index->getFieldPtr()->addValue(3);
+        index->getFieldPtr()->addValue(7);
         endEditCP(index);
 
         _highlightPoints = GeoPositions3f::create();
         beginEditCP(_highlightPoints);
-        _highlightPoints->push_back(Pnt3f(-1, -1, -1));
-        _highlightPoints->push_back(Pnt3f( 1, -1, -1));
-        _highlightPoints->push_back(Pnt3f(-1,  1, -1));
-        _highlightPoints->push_back(Pnt3f( 1,  1, -1));
-        _highlightPoints->push_back(Pnt3f(-1, -1,  1));
-        _highlightPoints->push_back(Pnt3f( 1, -1,  1));
-        _highlightPoints->push_back(Pnt3f(-1,  1,  1));
-        _highlightPoints->push_back(Pnt3f( 1,  1,  1));
+        _highlightPoints->addValue(Pnt3f(-1, -1, -1));
+        _highlightPoints->addValue(Pnt3f( 1, -1, -1));
+        _highlightPoints->addValue(Pnt3f(-1,  1, -1));
+        _highlightPoints->addValue(Pnt3f( 1,  1, -1));
+        _highlightPoints->addValue(Pnt3f(-1, -1,  1));
+        _highlightPoints->addValue(Pnt3f( 1, -1,  1));
+        _highlightPoints->addValue(Pnt3f(-1,  1,  1));
+        _highlightPoints->addValue(Pnt3f( 1,  1,  1));
         endEditCP(_highlightPoints);
 
         GeometryPtr geo=Geometry::create();
@@ -700,7 +714,7 @@ Line SimpleSceneManager::calcViewRay(Int16 x, Int16 y)
 {
     Line l;
     
-    _camera->calcViewRay( l, x, y, *_win->getPort()[0] );
+    _camera->calcViewRay( l, x, y, *_win->getPort().getValue(0) );
     
     return l;
 }
@@ -721,23 +735,4 @@ Line SimpleSceneManager::calcViewRay(Int16 x, Int16 y)
 bool SimpleSceneManager::operator < (const SimpleSceneManager &other) const
 {
     return this < &other;
-}
-
-
-/*-------------------------------------------------------------------------*/
-/*                              cvs id's                                   */
-
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-#ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.22 2002/05/13 09:21:11 vossg Exp $";
-    static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }

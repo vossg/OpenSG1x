@@ -209,6 +209,9 @@ NodePtr makeGeoFrustumIntersectionWires(FrustumVolume &frustum,GeometryPtr geo)
     UInt32 len=0;
        
     TriangleIterator ti;
+    Pnt3f minp,maxp;
+    frustum.getBounds(minp,maxp);    
+    BoxVolume box(minp,maxp);
     
     for (ti=geo->beginTriangles(); ti!=geo->endTriangles(); ++ti)
         for (int i=0; i<3; i++)
@@ -218,6 +221,7 @@ NodePtr makeGeoFrustumIntersectionWires(FrustumVolume &frustum,GeometryPtr geo)
             
             Line line1(enter_point,exit_point);
             Line line2(exit_point,enter_point);
+
             Pnt3f _pos1=line1.getPosition();
             Vec3f _dir1=line1.getDirection();
 
@@ -239,14 +243,27 @@ NodePtr makeGeoFrustumIntersectionWires(FrustumVolume &frustum,GeometryPtr geo)
             else
                 exit2=0;
             
-                                
-//            cout << "e-e : " << enter_point[0] << ":" << enter_point[1] << ":" << enter_point[2];
-//            cout << " - ";
-//            cout << exit_point[0] << ":" << exit_point[1] << ":" << exit_point[2] << endl;
-            
             Real32 l_en1,l_ex1,l_en2,l_ex2;
-            bool first, second;
-            if ((first=line1.intersect(frustum,l_en1,l_ex1)) | (second=line2.intersect(frustum,l_en2,l_ex2)))
+            bool first;            
+                        
+            bool boxline=false;
+            
+            if ( (first=box.intersect(line1,l_en1,l_ex1)) )
+            {
+                if (first && l_en1>=enter1 && l_en1<=exit1 && l_ex1>=enter1 && l_ex1<=exit1)
+                {
+                    boxline=true;
+                }
+                else
+                if (box.intersect(line2,l_en2,l_ex2) && l_en2>=enter2 && l_en2<=exit2 && l_ex2>=enter2 && l_ex2<=exit2)
+                {
+                    boxline=true;
+                }
+            }
+            
+            if (!boxline) continue;
+          
+            if ((first=line1.intersect(frustum,l_en1,l_ex1)) )
             {
 //                cout << "en-ex : l_en-l_ex :" << enter << ":" << exit << ":" << l_en << ":" << l_ex <<endl;
                 
@@ -262,7 +279,7 @@ NodePtr makeGeoFrustumIntersectionWires(FrustumVolume &frustum,GeometryPtr geo)
                     len+=2;
                 }
                 else
-                if (second && l_en2>=enter2 && l_en2<=exit2 && l_ex2>=enter2 && l_ex2<=exit2)
+                if (line2.intersect(frustum,l_en2,l_ex2) && l_en2>=enter2 && l_en2<=exit2 && l_ex2>=enter2 && l_ex2<=exit2)
                 {
 
                     Pnt3f Pnt1=line2.getPosition() + line2.getDirection()*l_en2;
@@ -513,7 +530,7 @@ key(unsigned char key, int x, int y)
                     
                     FrustumVolume frustum;
 
-                    setFrustumPlanes(frustum,view_rays,p,0.02);
+                    setFrustumPlanes(frustum,view_rays,p,0.005);
                     wire_scene=makeFrustumWireScene(frustum);
                     addRefCP(wire_scene);
                     mgr->getRoot()->addChild(wire_scene);

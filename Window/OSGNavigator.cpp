@@ -46,6 +46,23 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.6 2002/05/24 14:45:11 istoynov Exp $";
+    static Char8 cvsid_hpp       [] = OSGNAVIGATOR_HEADER_CVSID;
+    //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGNAVIGATOR_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 /*------------------------- constructors ----------------------------------*/
 
 /*! Constructor
@@ -131,7 +148,7 @@ void Navigator::buttonRelease(Int16 , Int16 x, Int16 y)
                 if (act->didHit())
                 {
                     Pnt3f p1=act->getHitPoint();
-                    _trackball.setCenter(p1);            
+                    _trackball.setFrom(p1);            
                 }
             }
         } break;
@@ -246,7 +263,16 @@ void Navigator::moveTo(Int16 x, Int16 y)
  */
 
 void Navigator::setMode(Navigator::Mode new_mode)
-{
+{	
+	if (_currentMode==new_mode) return;
+
+	if (_currentMode==TRACKBALL)
+	{
+	}
+	else
+	{
+	}
+
     _currentMode=new_mode;
 }
 
@@ -266,25 +292,33 @@ void Navigator::setViewport(ViewportPtr new_viewport)
     _vp=new_viewport;
 }
 
-/*! Sets the center of the navigator
+/*! Sets the from of the navigator (actually this is its center)
  */
 
-void Navigator::setCenter(Pnt3f new_center)
+void Navigator::setFrom(Pnt3f new_from)
 {
     switch (_currentMode)
     {
-        case TRACKBALL: { _trackball.setCenter(new_center); } break;
+        case TRACKBALL: { _trackball.setFrom(new_from); } break;
         
-        case FLY:       { 
-                            _flyer.setAt(new_center);
-                            Pnt3f new_eye=new_center;
-                            new_eye[2]+=1;
-                            _flyer.setFrom(new_eye);
-                        } break;
+        case FLY:       { _flyer.setFrom(new_from);  } break;
     }
 }
 
-/*! Sets the distance from the center
+/*! Sets where the from is looking
+ */
+
+void Navigator::setAt(Pnt3f new_at)
+{
+    switch (_currentMode)
+    {
+        case TRACKBALL: { _trackball.setAt(new_at); } break;
+        
+        case FLY:       { _flyer.setAt(new_at);  } break;
+    }
+}
+
+/*! Sets the distance from the from in the view direction
  */
 
 void Navigator::setDistance(Real32 new_distance)
@@ -297,6 +331,10 @@ void Navigator::setDistance(Real32 new_distance)
     }    
 }
 
+
+/*! Sets the up vector
+ */
+
 void Navigator::setUp(Vec3f new_up)
 {
     switch (_currentMode)
@@ -304,6 +342,19 @@ void Navigator::setUp(Vec3f new_up)
         case TRACKBALL: { _trackball.setUp(new_up); } break;
         
         case FLY:       { _flyer.setUp(new_up);  } break;
+    }        
+}
+
+/*! Sets the 
+ */
+
+void Navigator::set(Pnt3f new_from, Pnt3f new_at, Vec3f new_up)
+{
+    switch (_currentMode)
+    {
+        case TRACKBALL: { _trackball.set(new_from, new_at, new_up); } break;
+        
+        case FLY:       { _flyer.set(new_from, new_at, new_up);  } break;
     }        
 }
 
@@ -372,7 +423,7 @@ static void calcCCtoWCMatrix(Matrix &cctowc, const Matrix &view,
     cctowc.invertFrom( wctocc );
 }
 
-/*! Calculates the intesection point of a ray that starts at the eye and goes
+/*! Calculates the intesection point of a ray that starts at the from and goes
     through the position on the screen given by x,y with the world, if no
     intersection point exists the intersection is set to (0,0,0)
  */
@@ -454,24 +505,4 @@ void Navigator::calcDeltas(Int16 , Int16 , Int16 toX, Int16 toY,
      
     distanceX=transl[0];
     distanceY=transl[1];    
-}
-
-
-/*-------------------------------------------------------------------------*/
-/*                              cvs id's                                   */
-
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-#ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.5 2002/04/30 09:29:13 vossg Exp $";
-    static Char8 cvsid_hpp       [] = OSGNAVIGATOR_HEADER_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGNAVIGATOR_HEADER_CVSID;
 }

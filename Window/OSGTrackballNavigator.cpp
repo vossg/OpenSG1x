@@ -45,6 +45,23 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTrackballNavigator.cpp,v 1.3 2002/05/24 14:45:12 istoynov Exp $";
+    static Char8 cvsid_hpp       [] = OSGTRACKBALLNAVIGATOR_HEADER_CVSID;
+    //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGTRACKBALLNAVIGATOR_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 /*------------------------- constructors ----------------------------------*/
 
 /*! Constructor
@@ -54,6 +71,9 @@ TrackballNavigator::TrackballNavigator(Real32 rSize): _rRadius(rSize)
 {
     _finalMatrix.setIdentity();
     _tMatrix.setIdentity();
+    _pFrom.setValues(0,0,0);
+    _pAt.setValues(0,0,1);
+    _vUp.setValues(0,1,0);
 }
 
 /*-------------------------- destructors ----------------------------------*/
@@ -82,14 +102,43 @@ Matrix &TrackballNavigator::getMatrix()
     return _finalMatrix;    
 }
 
+Pnt3f &TrackballNavigator::getFrom()
+{
+	_pFrom.setValues(_tMatrix[3][0],_tMatrix[3][1],_tMatrix[3][2]);
+	return _pFrom;
+}
+
+Pnt3f &TrackballNavigator::getAt()
+{
+	return _pAt;
+}
+
+Vec3f &TrackballNavigator::getUp()
+{
+	return _vUp;
+}
+
+
 /*------------------------------ set --------------------------------------*/
 
-/*! sets the center of the trackball in real coordinates
+
+/*! sets the from point. that's the point where the person is (i.e the center of all transformations and the trackball)
  */
 
-void TrackballNavigator::setCenter(Pnt3f new_center)
+void TrackballNavigator::setFrom(Pnt3f new_from)
 {
-    _tMatrix.setTranslate(new_center[0],new_center[1],new_center[2]);    
+    _pFrom=new_from;
+	_tMatrix.setTranslate(new_from[0],new_from[1],new_from[2]);    
+}
+
+/*! sets the point the person is looking at
+ */
+
+void TrackballNavigator::setAt(Pnt3f new_at)
+{
+	_pAt=new_at;
+	_pFrom.setValues(_tMatrix[3][0],_tMatrix[3][1],_tMatrix[3][2]);
+    MatrixLookAt(_tMatrix,_pFrom,_pAt,_vUp);
 }
 
 /*! sets the distance to the center of the trackball
@@ -105,9 +154,17 @@ void TrackballNavigator::setDistance(Real32 new_distance)
 
 void TrackballNavigator::setUp(Vec3f new_up)
 {
-    Pnt3f from(_tMatrix[3][0],_tMatrix[3][1],_tMatrix[3][2]);
-    Pnt3f to=from; to[2]-=1;
-    MatrixLookAt(_tMatrix,from,to,new_up);
+	_vUp=new_up;
+	_pFrom.setValues(_tMatrix[3][0],_tMatrix[3][1],_tMatrix[3][2]);
+    MatrixLookAt(_tMatrix,_pFrom,_pAt,_vUp);
+}
+
+void TrackballNavigator::set(Pnt3f new_from, Pnt3f new_at, Vec3f new_up)
+{
+	_pFrom=new_from;
+	_pAt=new_at;
+	_vUp=new_up;
+    MatrixLookAt(_tMatrix,new_from,new_at,new_up);
 }
 
 /*-------------------- Trackball Transformations --------------------------*/
@@ -191,25 +248,4 @@ Real32 TrackballNavigator::projectToSphere(Real32 rRadius, Real32 rX, Real32 rY)
     }
 
     return z;
-}
-
-
-/*-------------------------------------------------------------------------*/
-/*                              cvs id's                                   */
-
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-#ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTrackballNavigator.cpp,v 1.2 2002/04/30 09:29:14 vossg Exp $";
-    static Char8 cvsid_hpp       [] = OSGTRACKBALLNAVIGATOR_HEADER_CVSID;
-    //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGTRACKBALLNAVIGATOR_HEADER_CVSID;
 }

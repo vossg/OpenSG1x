@@ -91,16 +91,20 @@ class OSG_SYSTEMLIB_DLLMAPPING TrackballNavigator
     /*! \{                                                                 */
 
     Matrix &getMatrix();
-    State   getState();
+	Pnt3f &getFrom();
+	Pnt3f &getAt();
+	Vec3f &getUp();
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Set                                   */
     /*! \{                                                                 */
 
-    void setCenter  (Pnt3f new_center);
-    void setDistance(Real32 new_distance);
-    void setUp      (Vec3f new_up);
+    void setAt       (Pnt3f  new_at);
+	void setFrom     (Pnt3f  new_from);
+    void setDistance (Real32 new_distance);
+    void setUp       (Vec3f  new_up);
+    void set         (Pnt3f  new_from, Pnt3f new_center, Vec3f new_up);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -122,6 +126,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TrackballNavigator
     Real32 _rRadius,_rDistance;
     Matrix _tMatrix,_finalMatrix;
     State  _currentState;
+    Pnt3f  _pFrom,_pAt;
+    Vec3f  _vUp;
 
     /*! \}                                                                 */
     Real32 projectToSphere(Real32 rRadius, Real32 rX, Real32 rY);
@@ -129,6 +135,6 @@ class OSG_SYSTEMLIB_DLLMAPPING TrackballNavigator
 
 OSG_END_NAMESPACE
 
-#define OSGTRACKBALLNAVIGATOR_HEADER_CVSID "@(#)$Id: OSGTrackballNavigator.h,v 1.2 2001/11/19 18:40:50 dirk Exp $"
+#define OSGTRACKBALLNAVIGATOR_HEADER_CVSID "@(#)$Id: OSGTrackballNavigator.h,v 1.3 2002/05/24 14:45:12 istoynov Exp $"
 
 #endif
