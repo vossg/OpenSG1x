@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.45 2002/04/11 03:53:31 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.46 2002/04/18 11:45:32 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -1081,7 +1081,7 @@ Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
                 {
                   geoTypePtr->addValue( sysPType );
                 }
-                osg::beginEditCP (geoTypePtr);
+                osg::endEditCP (geoTypePtr);
               }
 
               // add index data
