@@ -17,7 +17,6 @@
  
 #include "OSGTime.h"
 
-using OSG::OSGTime;
   
 //----------------------------------------------------------------------
 // Function: getSystemTime
@@ -26,6 +25,9 @@ using OSG::OSGTime;
 // Description:
 //           Class Copy Constructor
 //----------------------------------------------------------------------
+
+OSG_BEGIN_NAMESPACE
+
 OSGTime getSystemTime (void)
 {
 	OSGTime time;
@@ -50,3 +52,5 @@ OSGTime getSystemTime (void)
 
 	return time;
 }
+
+OSG_END_NAMESPACE
