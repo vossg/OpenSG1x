@@ -346,7 +346,7 @@ RemoteAspect *ClusterWindow::getRemoteAspect ( void )
 {
     map<UInt32,RemoteAspect*>::iterator aI=
         _remoteAspect.find( ClusterWindowPtr(this).getFieldContainerId() );
-    if(aI!=_connection.end())
+    if(aI!=_remoteAspect.end())
         return aI->second;
     else
         return NULL;
