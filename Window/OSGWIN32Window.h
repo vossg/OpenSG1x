@@ -118,8 +118,8 @@ class WIN32Window : public Window
 	void  setHDC (HDC hdc)	        { _hdc = hdc; };
 	HDC	  getHDC (void)		        { return _hdc; };
 
-	void  setGlContext (HGLRC glcx)	{ _glcx = glcx; };
-	HGLRC setGlContext (void)		{ return _glcx; };
+	void  setGLContext (HGLRC glcx)	{ _glcx = glcx; };
+	HGLRC getGLContext (void)		{ return _glcx; };
 
 
 	/*------------------------- assignment ----------------------------------*/
@@ -201,7 +201,7 @@ class WIN32Window : public Window
     //-----------------------------------------------------------------------
 
 	// WIN32 stuff 
-	HWND   _hwin
+	HWND   _hwin;
 	HDC	   _hdc;
 	HGLRC  _glcx;	
 
@@ -233,7 +233,7 @@ typedef FCPtr<WindowPtr, WIN32Window> WIN32WindowPtr;
  */
 
 template <>
-struct FieldDataTraits<WIN32WindowPtr> : public OSGTraits
+struct FieldDataTraits<WIN32WindowPtr> : public Traits
 {
     static char *getSName(void) { return "SFWIN32WindowPtr"; }
     static char *getMName(void) { return "MFWIN32WindowPtr"; }
@@ -249,7 +249,7 @@ typedef MField<WIN32WindowPtr>       MFWIN32WindowPtr;
 
 OSG_END_NAMESPACE
 
-#include <WIN32Window.inl>
+#include "OSGWIN32Window.inl"
 
 #endif // Windows compile ?
 

@@ -72,7 +72,7 @@ using namespace osg;
  *                           Class variables                               *
 \***************************************************************************/
 
-char WIN32Window::cvsid[] = "@(#)$Id: OSGWIN32Window.cpp,v 1.2 2001/02/12 15:59:17 vossg Exp $";
+char WIN32Window::cvsid[] = "@(#)$Id: OSGWIN32Window.cpp,v 1.3 2001/02/12 16:44:52 dirk Exp $";
 
 // Static Class Varible implementations: 
 
@@ -147,16 +147,24 @@ WIN32Window::~WIN32Window(void)
 /*-------------------------- your_category---------------------------------*/
 
 
-// init the window: create the context
+// init the window: create the HDC and context
 void WIN32Window::init( void )
 {
-    _glcx = wglCreateContext( _hdc );
+    if ( ! ( _glcx = wglCreateContext( _hdc ) ) )
+    {
+		cout << "WIN32Window::init: failed: " << GetLastError() << endl;   	
+    }
+    activate();
+	setupGL();
 }
 
 // activate the window: bind the OGL context
 void WIN32Window::activate( void )
 {   
-    wglMakeCurrent( _hdc, _glcx );
+    if ( ! wglMakeCurrent( _hdc, _glcx ) )
+    {
+    	cout << "WIN32Window::activate: failed: " << GetLastError() << endl;   	
+    }
 }
 
 // swap front and back buffers
