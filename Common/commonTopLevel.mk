@@ -216,14 +216,14 @@ install-includes: install-test
 	    -exec rm -f {} \;       ;                                           \
 	find $($(PROJ)POOL) $(GV_ADD_PATH) -follow                              \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o          \
-	       -name Tools -o -name '.*' -o -name examples -o -name tmp -o      \
+	       -name Tools -o -name '.*' -o -name Examples -o -name tmp -o      \
 	       -name Templates -o -name Builds -o -name VSBuild -o              \
 		   -name VS $(GV_EXCLUDE) \) -prune \) -o                           \
 	       -type f -name '*.h'                                              \
 	-exec $($(PROJ)POOL)/Common/sedInc {} $(INSTALL_DIR)/include/OpenSG \; ;\
 	find $($(PROJ)POOL) $(GV_ADD_PATH) -follow                              \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o          \
-	       -name Tools -o -name '.*' -o -name examples -o -name tmp -o      \
+	       -name Tools -o -name '.*' -o -name Examples -o -name tmp -o      \
 	       -name Templates -o -name Builds -o -name VSBuild -o              \
 		   -name VS $(GV_EXCLUDE) \) -prune \) -o      	                    \
 	       -type f -name '*.inl'                                            \
@@ -254,14 +254,14 @@ update-includes: install-test
 	CURRDIR=`pwd`;                                                           \
 	find $($(PROJ)POOL) $(GV_ADD_PATH) -follow                               \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o           \
-	       -name Tools -o -name '.*' -o -name examples -o -name tmp -o       \
+	       -name Tools -o -name '.*' -o -name Examples -o -name tmp -o       \
 	       -name Templates -o -name Builds -o -name VSBuild -o               \
 		   -name VS $(GV_EXCLUDE) \) -prune \) -o                            \
 	       -type f -name '*.h'                                               \
 	-exec $($(PROJ)POOL)/Common/sedIncU {} $(INSTALL_DIR)/include/OpenSG \; ;\
 	find $($(PROJ)POOL) $(GV_ADD_PATH) -follow                               \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o           \
-	       -name Tools -o -name '.*' -o -name examples -o -name tmp -o       \
+	       -name Tools -o -name '.*' -o -name Examples -o -name tmp -o       \
 	       -name Templates -o -name Builds -o -name VSBuild -o				 \
 		   -name VS $(GV_EXCLUDE) \) -prune \) -o                            \
 	       -type f -name '*.inl'                                             \
@@ -292,13 +292,13 @@ install-includes-gabe: install-test
 	    -exec rm -f {} \;       ;                                           \
 	find $($(PROJ)POOL) -follow                                             \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o          \
-	       -name Tools -o -name '.*' -o -name examples -o                   \
+	       -name Tools -o -name '.*' -o -name Examples -o                   \
 	       -name Templates -o -name Builds -o -name VS \) -prune \) -o      \
 	       -type f -name '*.h'                                              \
 	-exec $(INSTLINK) {} $(INSTALL_DIR)/include/OpenSG \; -print;           \
 	find $($(PROJ)POOL) -follow                                             \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o          \
-	       -name Tools -o -name '.*' -o -name examples -o                   \
+	       -name Tools -o -name '.*' -o -name Examples -o                   \
 	       -name Templates -o -name Builds -o -name VS \) -prune \) -o      \
 	       -type f -name '*.inl'                                            \
 	-exec $(INSTLINK) {} $(INSTALL_DIR)/include/OpenSG \; -print;           \
@@ -398,7 +398,7 @@ fcdToBase:
 	cd $($(PROJ)POOL) ;                                                     \
 	for i in `find . -follow                                                \
 	    \( -type d \( -name CVS -o -name Test -o -name Builds -o            \
-	       -name Tools -o -name examples -o -name '*/.*' \) -prune \)       \
+	       -name Tools -o -name Examples -o -name '*/.*' \) -prune \)       \
 	    -o -type f -name '*\.fcd' -print` ;                                 \
 	do                                                                      \
 	    echo $$i ;                                                          \
