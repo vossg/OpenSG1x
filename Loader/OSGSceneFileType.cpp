@@ -59,7 +59,7 @@ OSG_USING_NAMESPACE
 SceneFileType::SceneFileType ( const char * suffixArray[], 
 																		 UInt16 suffixByteCount )
 {
-    fprintf(stderr, "Init Scene File Type %d\n", this);
+    FINFO(( "Init Scene File Type %d\n", this ));
 
 	int count = (suffixByteCount / sizeof(const char *)), i = 0;
 	list<String>::iterator sI;
