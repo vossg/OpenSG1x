@@ -270,7 +270,7 @@ int main (int argc, char **argv)
 	cam = PerspectiveCamera::create();
 
 	cam->setBeacon( cam_trans->getMFParents()->getValue(0) );
-	cam->setFov( 60 );
+	cam->setFov( deg2rad( 60 ) );
 	cam->setNear( 0.1 );
 	cam->setFar( 10000 );
 

@@ -303,7 +303,7 @@ int main (int argc, char **argv)
 	cam = PerspectiveCamera::create();
 	beginEditCP(cam);
 	cam->setBeacon( t1n );
-	cam->setFov( 90 );
+	cam->setFov( deg2rad( 90 ) );
 	cam->setNear( 0.1 );
 	cam->setFar( 10000 );
 	endEditCP(cam);

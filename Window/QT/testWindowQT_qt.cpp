@@ -295,7 +295,7 @@ int main( int argc, char **argv )
 	PerspectiveCameraPtr cam = PerspectiveCamera::create();
 
 	cam->setBeacon( b1n );
-	cam->setFov( 60 );
+	cam->setFov( deg2rad( 60 ) );
 	cam->setNear( 0.1 );
 	cam->setFar( 10000 );
 

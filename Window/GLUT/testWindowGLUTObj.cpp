@@ -67,7 +67,7 @@ int lastx=0, lasty=0;
 UInt32 glid2 = -1;
 UInt32 glid = -1;
 
-void dlist( Window::GLObjectFlagE mode, UInt32 id )
+void dlist( Window::GLObjectStatusE mode, UInt32 id )
 {
 	if ( mode == Window::destroy )
 	{
@@ -90,7 +90,7 @@ void dlist( Window::GLObjectFlagE mode, UInt32 id )
 }
 
 
-void dlist2( Window::GLObjectFlagE mode, UInt32 id )
+void dlist2( Window::GLObjectStatusE mode, UInt32 id )
 {
 	if ( mode == Window::destroy )
 	{
@@ -372,7 +372,7 @@ int main (int argc, char **argv)
 	
 	cam = PerspectiveCamera::create();
 	cam->setBeacon( b1n );
-	cam->setFov( 90 );
+	cam->setFov( deg2rad( 90 ) );
 	cam->setNear( 0.1 );
 	cam->setFar( 10000 );
 
