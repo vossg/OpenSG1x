@@ -3303,7 +3303,10 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
                 << _url[0].c_str() << std::endl;
 #endif
 
-        if(pImage->read(_url[0].c_str()))
+        std::string filename = SceneFileHandler::the().getPathHandler()->
+                               findFile(_url[0].c_str());
+
+        if(pImage->read(filename.c_str()))
         {
             beginEditCP(pTexture);
             pTexture->setImage(pImage);
@@ -3331,7 +3334,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
         {
             PWARNING << "VRMLImageTextureDesc::endNode : "
                      << "Couldn't read texture "
-                     << _url[0].c_str()
+                     << filename.c_str()
                      << " !!!"
                      << std::endl;
 
@@ -4883,6 +4886,9 @@ void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
     std::ifstream in(filename.c_str(), std::ios::binary);
     if(in)
     {
+        std::string path = SceneFileHandler::the().getPathHandler()->
+                           extractPath(filename.c_str());
+        SceneFileHandler::the().getPathHandler()->push_backPath(path.c_str());
         if(SceneFileHandler::the().isGZip(in))
         {
             zip_istream unzipper(in);
@@ -4893,6 +4899,7 @@ void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
             pVRMLLoader->scanStream(in);
         }
         in.close();
+        SceneFileHandler::the().getPathHandler()->subPath(path.c_str());
     }
     //pVRMLLoader->scanFile(filename.c_str());
 
