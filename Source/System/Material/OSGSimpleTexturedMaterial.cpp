@@ -60,7 +60,7 @@
 OSG_USING_NAMESPACE
 
 /*! \class osg::SimpleTexturedMaterial
-    \ingroup MaterialLib
+    \ingroup SystemMaterial
 
 A SimpleMaterial with an added texture. It doesn't expose all features of the
 texture, just the ones needed most often.
@@ -116,20 +116,37 @@ void SimpleTexturedMaterial::changed(BitVector whichField, UInt32 origin)
 
     if(whichField & ImageFieldMask)
     {
+        beginEditCP(_textureChunk, TextureChunk::ImageFieldMask);
+
         _textureChunk->setImage( getImage() );
+
+        endEditCP(_textureChunk, TextureChunk::ImageFieldMask);
     }
     if(whichField & MinFilterFieldMask || whichField & MagFilterFieldMask)
     {
+        beginEditCP(_textureChunk, TextureChunk::MinFilterFieldMask |
+                                   TextureChunk::MagFilterFieldMask );
+
         _textureChunk->setMinFilter( getMinFilter() );
         _textureChunk->setMagFilter( getMagFilter() );
+
+        endEditCP(_textureChunk, TextureChunk::MinFilterFieldMask |
+                                 TextureChunk::MagFilterFieldMask );
     }
     // this is not as expensive, but why do it more often then needed?
     if(whichField & EnvModeFieldMask)
     {
+        beginEditCP(_textureChunk, TextureChunk::EnvModeFieldMask);
+
         _textureChunk->setEnvMode( getEnvMode() );
+
+        endEditCP(_textureChunk, TextureChunk::EnvModeFieldMask);
     }
     if(whichField & EnvMapFieldMask)
     {
+        beginEditCP(_texGenChunk, TexGenChunk::GenFuncSFieldMask |
+                                  TexGenChunk::GenFuncTFieldMask );
+        
         if ( getEnvMap() )
         {
             _texGenChunk->setGenFuncS( GL_SPHERE_MAP );
@@ -140,6 +157,9 @@ void SimpleTexturedMaterial::changed(BitVector whichField, UInt32 origin)
             _texGenChunk->setGenFuncS( GL_NONE );
             _texGenChunk->setGenFuncT( GL_NONE );
         }
+
+        endEditCP(_texGenChunk, TexGenChunk::GenFuncSFieldMask |
+                                TexGenChunk::GenFuncTFieldMask );
     }
 
     Inherited::changed(whichField, origin);
