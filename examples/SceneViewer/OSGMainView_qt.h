@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Sat Oct 6 15:45:58 2001
+** Created: Tue Oct 9 13:11:40 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -66,8 +66,8 @@ public slots:
 protected:
     QHBoxLayout* OSGMainViewLayout;
 
-    osg::NodePtr root;
     OSGSceneView *sceneView;
+    osg::NodePtr root;
 };
 
 #endif // OSGMAINVIEW_H

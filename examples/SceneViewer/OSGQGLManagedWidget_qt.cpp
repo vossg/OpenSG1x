@@ -56,7 +56,7 @@ using namespace osg;
 
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.2 2001/10/06 23:58:06 dirk Exp $";
+    char cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.3 2001/10/09 13:37:29 jbehr Exp $";
     char cvsid_hpp[] = OSG_HEADER_CVSID;
     char cvsid_inl[] = OSG_INLINE_CVSID;
 }
@@ -151,6 +151,7 @@ OSGQGLManagedWidget::OSGQGLManagedWidget ( QWidget *parent,
 
 OSGQGLManagedWidget::~OSGQGLManagedWidget(void)
 {
+  cerr << "lala" << endl; 
 }
 
 /*------------------------------ access -----------------------------------*/
@@ -218,7 +219,7 @@ void OSGQGLManagedWidget::initializeGL ( void )
 //----------------------------------------------------------------------
 void OSGQGLManagedWidget::paintGL ( void )
 {
-  FDEBUG (("OSGQGLManagedWidget::paintGL()\n"));
+  FDEBUG (("OSGQGLManagedWidget::paintGL() \n"));
 
   _manager.getWindow()->activate(); // and activate it
 
@@ -306,3 +307,14 @@ void OSGQGLManagedWidget::keyPressEvent ( QKeyEvent *ke )
   FDEBUG (("OSGQGLManagedWidget::keyPressEvent()\n"));
 }
 
+//----------------------------------------------------------------------
+// Method: closeEvent
+//----------------------------------------------------------------------
+void OSGQGLManagedWidget::closeEvent ( QCloseEvent *event )
+{
+  cerr << "OSGQGLManagedWidget::close() called" << endl;
+
+  emit closed(this);
+
+  return Inherited::closeEvent(event);
+}

@@ -240,12 +240,16 @@ void OSGSceneView::setActiveNodeFromListItem( QListViewItem *item )
 void OSGSceneView::createView( osg::NodePtr node )
 {
   osg::OSGQGLManagedWidget *widget;
+  unsigned maxViewNum = 1; // will be removed/increased
 
-  if (node != osg::NullFC)
+  if ((viewList.size() < maxViewNum) && (node != osg::NullFC))
     {
-      // TODO; do we have to store it in some kind of window bag ?
       widget = new osg::OSGQGLManagedWidget(0,"OSG View");    
+      viewList.push_back(widget);
+      connect ( widget, SIGNAL ( closed     (QWidget *) ),
+                this,   SLOT   ( removeView (QWidget *) ) );
       widget->getManager().setRoot( node );
+      widget->getManager().showAll();
       widget->show();
     }
   
@@ -340,4 +344,14 @@ void OSGSceneView::rebuild()
   
   addListItem(rootNode,0); 
   setActiveNode(rootNode);
+}
+
+//////////////////////////////////////////////////////////////////
+// remove the given view from the list                         //
+//////////////////////////////////////////////////////////////////
+void OSGSceneView::removeView( QWidget *object )
+{
+  FDEBUG (("OSGSceneView::removeView() called\n"));
+
+  viewList.remove(object);
 }

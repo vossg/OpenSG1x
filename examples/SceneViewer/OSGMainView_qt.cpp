@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Sat Oct 6 15:45:57 2001
+** Created: Tue Oct 9 13:11:40 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -479,24 +479,13 @@ static const char* const image4_data[] = {
 "QtQt.d#r#s#s#t#p.T.T.T#u#u.z#e#e#v.o.kQtQtQt"};
 
 static const char* const image5_data[] = { 
-"22 22 459 2",
-"fi c None",
-"e8 c None",
-"e9 c #c6c6c6",
-"e7 c #c6c6c6",
-"ff c #3f4829",
-"f. c #c6c6c6",
-"e4 c #c6c6c6",
+"22 22 448 2",
+"e9 c None",
+"e5 c None",
 "e6 c #c6c6c6",
-"fb c #c6c6c6",
-"fc c #c6c6c6",
-"f# c #c6c6c6",
-"fh c #c6c6c6",
-"fa c #c6c6c6",
-"fe c #c6c6c6",
-"fd c #c6c6c6",
-"fg c #c6c6c6",
-"e5 c #c6c6c6",
+"e7 c #c6c6c6",
+"e4 c #c6c6c6",
+"e8 c #c6c6c6",
 ".v c #002ba1",
 ".w c #002ca0",
 ".Z c #003fd7",
@@ -959,8 +948,8 @@ static const char* const image5_data[] = {
 "dYdZd0d1d2d3d4d5d6d7d8d9e.e#eaebecedeeefegeh",
 "eiejekelemeneoepeqereseteuevewexeyezeAeBeCeD",
 "eEeFeGeHeIeJeKeLeMeNeOePeQeReSeTeUeVeWeXeYeZ",
-"e0e1e2e3e4e5e6e7e8e8e8e8e9e8e8f.e9e8e8f.f#e8",
-"f.fafbe7fcfdfef.e8e8e8e8fffgf.e7fhe5e6e7fie8"};
+"e0e1e2e3e4e4e4e5e4e4e4e5e5e5e5e5e5e6e7e5e5e6",
+"e5e5e5e5e8e8e8e5e8e8e8e5e9e5e5e5e5e6e7e5e5e6"};
 
 
 /* 
@@ -980,7 +969,7 @@ OSGMainView::OSGMainView( QWidget* parent,  const char* name, WFlags fl )
     QPixmap image5( ( const char** ) image5_data );
     if ( !name )
 	setName( "OSGMainView" );
-    resize( 717, 553 ); 
+    resize( 715, 553 ); 
     setCaption( trUtf8( "OpenSG Scene Viewer", "" ) );
     setIcon( image0 );
     setCentralWidget( new QWidget( this, "qt_central_widget" ) );

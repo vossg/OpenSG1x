@@ -1,0 +1,11 @@
+OpenSG Scene Viewer
+
+A simple QT based scene viewer which allows the user to
+explore the scene topologie and field values.
+
+Needs QT 3.x and designer 2.x (part of QT 3.x). 
+
+If you look for the ui-related code, it's not in *.cpp but
+in *.ui.h. The whole application is created using the 
+qt designer 2.x and the tool packes the slot code in *.ui.h.
+

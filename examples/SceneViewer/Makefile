@@ -4,7 +4,7 @@ GCCPATH = ${GCCHOME}
 
 ### PROJECT ##########################################################
 TARGET = osgSceneViewer
-PROJINC = -I. -DOSG_DEBUG
+PROJINC = -I. # -DOSG_DEBUG
 PROJLIB = 
 PROBACK = *.ndf
 ######################################################################
@@ -13,7 +13,7 @@ PROBACK = *.ndf
 TMPBIN          = YES
 DEBUG           = YES
 #PURIFYBIN       = YES
-#EFENCE		= YES
+#EEFENCE		= YES
 #OGLDEBUG       = YES
 #TEMPDB          = YES
 XRUN		= YES

@@ -85,11 +85,6 @@ class OSGQGLManagedWidget : public OSGQGLWidget
     SimpleSceneManager &getManager(void);
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Set                                     */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Comparison                                */
@@ -97,6 +92,16 @@ class OSGQGLManagedWidget : public OSGQGLWidget
 
     Bool operator < (const OSGQGLManagedWidget &other) const;
     
+    /*! \}                                                                 */
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      signals                                 */
+    /*! \{                                                                 */
+
+  signals:
+ 
+    void closed ( QWidget *object );
+
     /*! \}                                                                 */
     
     /*=========================  PROTECTED  ===============================*/
@@ -115,7 +120,8 @@ class OSGQGLManagedWidget : public OSGQGLWidget
     virtual void mouseReleaseEvent ( QMouseEvent* );
     virtual void mouseMoveEvent ( QMouseEvent* );
     virtual void keyPressEvent ( QKeyEvent* );
-    
+    virtual void closeEvent ( QCloseEvent * );
+
     /*! \}                                                                 */
 
     /*==========================  PRIVATE  ================================*/
@@ -141,7 +147,7 @@ typedef OSGQGLManagedWidget *OSGQGLManagedWidgetP;
 //OSG_END_NAMESPACE
 }; // namespace osg
 
-#define OSG_HEADER_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.1 2001/10/06 15:12:50 jbehr Exp $"
-#define OSG_INLINE_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.1 2001/10/06 15:12:50 jbehr Exp $"
+#define OSG_HEADER_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.2 2001/10/09 13:37:29 jbehr Exp $"
+#define OSG_INLINE_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.2 2001/10/09 13:37:29 jbehr Exp $"
 
 #endif /* _OSGQGLManagedWidget_H_ */
