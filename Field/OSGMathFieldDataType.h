@@ -98,7 +98,10 @@ struct FieldDataTraits<Quaternion> :
     static Bool             getFromString(      Quaternion  &outVal,
                                           const Char8      *&inVal)
     {
-        outVal.setValueAsAxisDeg(inVal);
+
+        // VRML requires axis and angle in radians
+
+        outVal.setValueAsAxisRad(inVal);
         return true;
     }
 
