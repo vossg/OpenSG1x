@@ -234,11 +234,11 @@ proto : PROTO
         protoId 
         OPENBRACKET 
         interfaceDeclarationsORempty 
-        CLOSEBRACKET { if(_pSkel != NULL) 
-                        _pSkel->endProto(); }
+        CLOSEBRACKET 
         OPENBRACE 
         protoBodyORempty
-        CLOSEBRACE
+        CLOSEBRACE { if(_pSkel != NULL) 
+			_pSkel->endProto(); }
 ;
 
 protoBodyORempty : protoBody
