@@ -38,13 +38,13 @@ void makeMatrix(Real32 t, Matrix &result)
     
     result.setTransform(Quaternion(Vec3f(0,0,1), -Pi / 2));    
     
-    m.setTransform(Pnt3f(1, 0, 0));
+    m.setTransform(Vec3f(1, 0, 0));
     result.multLeft(m);
     
     m.setTransform(Quaternion(Vec3f(0,1,0), t / 1000.f));    
     result.multLeft(m);
 
-    m.setTransform(Pnt3f(2, 0, 0));
+    m.setTransform(Vec3f(2, 0, 0));
     result.multLeft(m);
     
     m.setTransform(Quaternion(Vec3f(0,0,1), t / 3000.f));
