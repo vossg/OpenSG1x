@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="LineChunk"
+	parent="StateChunk"
+	library="System"
+	pointerfieldtypes="none"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+>
+The line chunk contains the parameters that are specific set for lines.
+	<Field
+		name="width"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="stippleRepeat"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="stipplePattern"
+		type="UInt16"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0xffff"
+		access="public"
+	>
+	Defines the stipple pattern.
+	</Field>
+	<Field
+		name="smooth"
+		type="Bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_FALSE"
+		defaultHeader="<GL/gl.h>"
+		access="public"
+	>
+	Defines if polygon antialiasing is used.
+	</Field>
+</FieldContainer>
