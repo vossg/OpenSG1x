@@ -183,7 +183,13 @@ lib_base=yes
 
 valid_print=no
 lib_suf=dbg
-dbg_char=D
+
+if test "$system_win" = "yes"; then
+    dbg_char=D
+else
+    dbg_char=
+fi
+
 while test $# -gt 0; do
   case "$1" in
   -*=*) optarg=`echo "$1" | sed 's/[-_a-zA-Z0-9]*=//'` ;;
@@ -255,7 +261,9 @@ while test $# -gt 0; do
       ;;
     --dbg)
       lib_suf=dbg
-      dbg_char=D
+      if test "$system_win" = "yes"; then
+        dbg_char=D
+      fi
       ;;
     Base)
       lib_Base=yes

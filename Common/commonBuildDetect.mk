@@ -39,13 +39,13 @@ ifneq ($(DBGCMDGOAL),)
 $(warning Detected OPT)
 DBG_BASE=opt
 DEBUG_VERSION=0
-DEBUG_CHAR:=
 else
 $(warning Detected DBG)
 DBG_BASE=dbg
 DEBUG_VERSION=1
-DEBUG_CHAR:=D
 endif
+
+DEBUG_CHAR:=
 
 DBGLNKCMDGOAL := $(strip $(filter $(LNK_TARGETS),$(MAKECMDGOALS)))
 

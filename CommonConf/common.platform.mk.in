@@ -24,6 +24,16 @@ SED        := @ac_gdz_sed_exe@
 
 ### Patterns #########################################################
 
+ifeq ($(OS_BASE), cygwin)
+ifneq ($(DBGCMDGOAL),)
+$(warning Detected OPT)
+DEBUG_CHAR:=
+else
+$(warning Detected DBG)
+DEBUG_CHAR:=D
+endif
+endif
+
 PEDANTIC_ERRORS      := @ac_gdz_ped_errors_e1@
 
 SO_PRAEFIX           := @ac_gdz_so_praefix@
