@@ -80,6 +80,7 @@ define unix_make_depend
 	 $(SED) -e 's/^\([^:]*:\)/$(OBJDIR)\/\1/1' 	\
 			-e '/:.*\/stdlib\//d' 				\
 			-e '/:[     ]*\/usr\/include\//d'	\
+			-e '/:.*\.\.\/Base\//d'                 \
 			-e 's/^\([^\.]*\)$(OBJ_SUFFIX):/\1$(DEP_SUFFIX) \1$(OBJ_SUFFIX):/1' \
 			>> $@
 endef
@@ -120,7 +121,7 @@ ifeq ($(OS_BASE), cygwin)
 SO_INIT_FLAGS =
 else
 ifeq ($(SO_NEEDS_INIT),1)
-SO_INIT_FLAGS = -Wl,-init -Wl,vscInitSharedObject$(PACKAGE_NAME)
+SO_INIT_FLAGS = -Wl,-init -Wl,osgInitSharedObject$(PACKAGE_NAME)
 else
 SO_INIT_FLAGS =
 endif
@@ -201,6 +202,7 @@ endif
 # Normal lib Targets
 #########################################################################
 
+ifneq ($(IN_TEST_DIR),1)
 dbg: DBG := dbg
 dbg: SubLib
 	@echo "LASTDBG=dbg" > .lastdbg
@@ -209,6 +211,12 @@ dbg: SubLib
 opt: DBG := opt
 opt: SubLib
 	@echo "LASTDBG=dbg" > .lastdbg
+else
+dbg:
+        @echo "LASTDBG=dbg" > .lastdbg
+opt:
+        @echo "LASTDBG=dbg" > .lastdbg
+endif
 
 #########################################################################
 # depend

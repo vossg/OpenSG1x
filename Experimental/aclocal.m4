@@ -443,13 +443,13 @@ dnl e2
 
         if [[ ${ac_gdz_package_fact_init[$i]} = "1" ]]; then
             if [[ $build_os = cygwin ]]; then
-                ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/VSCDllInit.cpp.in
-                ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/VSCDllInit.cpp
+                ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGDllInit.cpp.in
+                ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGDllInit.cpp
                 ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
                 ac_gdz_package_so_needs_init_e2=1
             else
-                ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/VSCSoInit.cpp.in
-                ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/VSCSoInit.cpp
+                ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
+                ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
                 ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
                 ac_gdz_package_so_needs_init_e2=1
             fi

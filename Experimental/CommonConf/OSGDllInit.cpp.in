@@ -1,8 +1,8 @@
 
 #define OSGCOMPILESYSTEMLIB
 
-#include <OSGLog.hpp>
-#include <OSGDataStoreFactory.hpp>
+#include <OSGLog.h>
+#include <OSGFieldContainerFactory.h>
 
 extern "C" int APIENTRY
 DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
@@ -14,7 +14,7 @@ DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 	{
         SLOG << "Init Shared Object : @ac_gdz_package_name_out@" << endl;
 
-        OSG::OSGDataStoreFactory::the()->initializePendingTypes();
+        OSG::FieldContainerFactory::the()->initializePendingTypes();
 	}
 
 	return 1;   // ok

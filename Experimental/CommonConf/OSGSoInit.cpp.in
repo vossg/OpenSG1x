@@ -1,6 +1,6 @@
 
-#include <OSGLog.hpp>
-#include <OSGDataStoreFactory.hpp>
+#include <OSGLog.h>
+#include <OSGFieldContainerFactory.h>
 
 extern "C"
 {
@@ -9,7 +9,7 @@ void osgInitSharedObject@ac_gdz_package_name_out@(void)
 {
     SLOG << "Init Shared Object : @ac_gdz_package_name_out@" << endl;
 
-    OSG::DataStoreFactory::the()->initializePendingTypes();
+    OSG::FieldContainerFactory::the()->initializePendingTypes();
 }    
 
 }

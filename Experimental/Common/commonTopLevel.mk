@@ -64,6 +64,12 @@ clean: $(SUB_LIBTARGETS)
 
 allclean: dbgclean optclean
 
+dbgClean: SUB_TARGET := dbgClean
+dbgClean: $(SUB_LIBTARGETS) 
+
+optClean: SUB_TARGET := optClean
+optClean: $(SUB_LIBTARGETS) 
+
 Clean: SUB_TARGET := Clean
 Clean: $(SUB_LIBTARGETS) 
 
