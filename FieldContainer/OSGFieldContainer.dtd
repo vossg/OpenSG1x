@@ -6,6 +6,8 @@
 							library	CDATA	#REQUIRED
 							pointerfieldtypes	( none | single | multi | both )	"none"
 							abstract			( true | false )	"false"
+							systemcomponent		( true | false )	"false"
+							parentsystemcomponent ( true | false )	"false"
 >
 
 <!ELEMENT Field ( PCDATA ) >
