@@ -51,13 +51,13 @@ OSG_BEGIN_NAMESPACE
 //! MFieldVector
 //! \ingroup FieldLib
 
-#if defined(__sgi) || defined(__linux) || defined(darwin)
+#if defined(__sgi) || defined(__linux) || defined(darwin) || defined(__hpux)
 
 #if defined(__sgi)
 #pragma set woff 1375
 #endif
 
-#if defined(__linux)
+#if defined(__linux) || defined(__hpux)
 #if __GNUC__ >= 3
 #define __STL_DEFAULT_ALLOCATOR(TP) allocator<TP>
 #elif defined (__ICL)

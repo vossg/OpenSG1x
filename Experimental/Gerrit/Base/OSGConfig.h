@@ -43,6 +43,10 @@
 #pragma once
 #endif
 
+#ifdef __hpux
+#include <sys/types.h>
+#endif
+
 /*-------------------------------------------------------------------------*/
 /*                              icc general                                */
 
@@ -327,13 +331,18 @@
 /*-------------------------------------------------------------------------*/
 /*                              HP-UX gcc-64                               */
 
-#if 0
+#if defined(__hpux) && defined(__GNUC__)
 /*! \brief streams in std namespace
  *  \ingroup BaseDefines
  */
 
+# define OSG_HPUX_TYPES
+
 # define OSG_STREAM_IN_STD_NAMESPACE
 # define OSG_USE_PTHREADS
+
+# define OSG_FOUND_OS
+
 #endif
 
 /*-------------------------------------------------------------------------*/

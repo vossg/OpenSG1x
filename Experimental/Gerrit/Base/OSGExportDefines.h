@@ -349,7 +349,7 @@
     OSG_FC_EXPORT_TYPE_DEF   (CLASSNAME, T1, DLLMAPPING)                     \
     OSG_FC_EXPORT_GETTYPE_DEF(CLASSNAME, T1, DLLMAPPING)     
 
-#elif defined (__linux) || defined(__sun) 
+#elif defined (__linux) || defined(__sun) || defined(__hpux)
 
 #if 0
 

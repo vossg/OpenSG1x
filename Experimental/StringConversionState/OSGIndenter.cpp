@@ -63,12 +63,6 @@ Indenter::Indenter(UInt32 indent, UInt32 step) :
 {
 }
 
-Indenter::Indenter(const Indenter &source)
-{
-    _indent = source._indent;
-    _step   = source._step;
-}
-
 /*-------------------------------------------------------------------------*/
 /*                             Destructor                                  */
 
@@ -118,7 +112,7 @@ bool Indenter::operator < (const Indenter &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGIndenter.cpp,v 1.3 2002/04/30 09:29:07 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGIndenter.cpp,v 1.4 2002/05/02 08:58:13 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGINDENTER_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGINDENTER_INLINE_CVSID;
 }

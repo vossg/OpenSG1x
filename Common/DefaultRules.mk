@@ -168,6 +168,21 @@ define linux_make_depend
 			>> $@ 
 endef
 
+define hpux_make_depend
+	@echo "# Building dependency $(@F) from $(<F)"
+	@-rm -f $@
+	@echo '# Module dependencies' > $@
+	@$(CC) $(DEPEND_OPTION) $< $(CCFLAGS) $(CCLOCALFLAGS) $(INCL) 	\
+	 $(INC_OPTION)$(OBJDIR) $(INC_OPTION). 							\
+	 | $(SED) -e 's/^\([^:]*:\)/$(OBJDIR)\/\1/1' 					\
+	 		  -e 's/\/usr\/include\/[^ ]*//g'						\
+	 		  -e 's/\/usr\/Software\/[^ ]*//g'						\
+	 		  -e 's/\/igd\/a4\/software\/[^ ]*//g'					\
+			  -e 's/.*\.\.\/Base\/[^ ]*//g'							\
+			  -e 's/^\([^\.]*\)$(OBJ_SUFFIX):/\1$(DEP_SUFFIX) \1$(OBJ_SUFFIX):/1' \
+			>> $@ 
+endef
+
 define irix_make_depend
 	@echo "# Building dependency $(@F) from $(<F) "
 	@-rm -f $@
@@ -243,6 +258,29 @@ endif
 endif
 
 ifeq ($(OS_BASE), linux-gnu)
+$(OBJDIR)/%$(DEP_SUFFIX): %.cpp
+ifneq ($(OSGNODEPSREBUILD),1)
+	$(linux_make_depend)
+else
+	@echo "# Skipping dependency $(@F) from $(<F) "
+endif
+
+$(OBJDIR)/%$(DEP_SUFFIX): $(OBJDIR)/%.cpp
+ifneq ($(OSGNODEPSREBUILD),1)
+	$(linux_make_depend)
+else
+	@echo "# Skipping dependency $(@F) from $(<F) "
+endif
+
+$(OBJDIR)/%$(DEP_SUFFIX): %.c
+ifneq ($(OSGNODEPSREBUILD),1)
+	$(linux_make_depend)
+else
+	@echo "# Skipping dependency $(@F) from $(<F) "
+endif
+endif
+
+ifeq ($(OS_BASE), hpux11.00)
 $(OBJDIR)/%$(DEP_SUFFIX): %.cpp
 ifneq ($(OSGNODEPSREBUILD),1)
 	$(linux_make_depend)

@@ -257,8 +257,8 @@ struct OSG_BASE_DLLMAPPING osgStaticMax
     enum _iMax { iMax = uiValue1 < uiValue2 ? uiValue2 : uiValue1 };
 };
 
-#if defined(__sgi) || defined(__linux) || defined(__sun) || defined(darwin)
-
+#if defined(__sgi) || defined(__linux) || defined(__sun) || defined(darwin) ||\
+    defined(__hpux)
 /*
  *  \brief osgIF
  */

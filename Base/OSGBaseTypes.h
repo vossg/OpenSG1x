@@ -246,6 +246,99 @@ typedef float      Real32;
 
 typedef double     Real64;
 
+#elif defined(OSG_HPUX_TYPES)
+
+/*! \var typedef char Char8;
+ *  \brief Char8
+ *  \ingroup BaseTypes
+ */
+
+typedef char           Char8;
+
+/*! \var typedef unsigned char UChar8;
+ *  \brief UChar8
+ *  \ingroup BaseTypes
+ */
+
+typedef unsigned char UChar8;
+
+/*! \var typedef signed char SChar8;
+ *  \brief UChar8
+ *  \ingroup BaseTypes
+ */
+
+typedef signed char   SChar8;
+
+/*! \var typedef int8_t Int8;
+ *  \brief Int8
+ *  \ingroup BaseTypes
+ */
+
+typedef int8_t     Int8;
+
+/*! \var typedef u_int8_t UInt8;
+ *  \brief UInt8
+ *  \ingroup BaseTypes
+ */
+
+typedef uint8_t   UInt8;
+
+/*! \var typedef int16_t Int16;
+ *  \brief Int16
+ *  \ingroup BaseTypes
+ */
+
+typedef int16_t    Int16;
+
+/*! \var typedef u_int16_t UInt16;
+ *  \brief UInt16
+ *  \ingroup BaseTypes
+ */
+
+typedef uint16_t  UInt16;
+
+/*! \var typedef int32_t Int32;
+ *  \brief Int32
+ *  \ingroup BaseTypes
+ */
+
+typedef int32_t    Int32;
+
+/*! \var typedef u_int32_t UInt32;
+ *  \brief UInt32
+ *  \ingroup BaseTypes
+ */
+
+typedef uint32_t  UInt32;
+
+/*! \var typedef int64_t Int64;
+ *  \brief Int64
+ *  \ingroup BaseTypes
+ */
+
+typedef int64_t    Int64;
+
+/*! \var typedef u_int64_t UInt64;
+ *  \brief UInt64
+ *  \ingroup BaseTypes
+ */
+
+typedef uint64_t  UInt64;
+
+/*! \var typedef float Real32;
+ *  \brief Real32
+ *  \ingroup BaseTypes
+ */
+
+typedef float      Real32;
+
+/*! \var typedef double Real64;
+ *  \brief Real64
+ *  \ingroup BaseTypes
+ */
+
+typedef double     Real64;
+
 #elif defined(OSG_WIN_TYPES)
 
 /*! \var typedef bool bool;
@@ -886,7 +979,8 @@ struct TypeConstants<UInt64> : public TypeConstantsBase
 
     static inline UInt64 getFromString (const Char8 *szString)
     {
-#if !defined(__sun) && !defined(__linux) && !defined(darwin)
+#if !defined(__sun) && !defined(__linux) && !defined(darwin) &&  \
+    !defined(__hpux)
         if(szString != NULL)
 #ifndef WIN32
             return atoll(szString);
@@ -950,7 +1044,8 @@ struct TypeConstants<Int64> : public TypeConstantsBase
 
     static inline Int64 getFromString (const Char8 *szString)
     {
-#if !defined(__sun) && !defined(__linux) && !defined(darwin)
+#if !defined(__sun) && !defined(__linux) && !defined(darwin) &&  \
+    !defined(__hpux)
         if(szString != NULL)
 #ifndef WIN32
             return atoll(szString);

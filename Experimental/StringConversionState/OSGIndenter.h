@@ -70,6 +70,7 @@ class OSG_BASE_DLLMAPPING Indenter
     /*! \{                                                                 */
 
     Indenter(UInt32 indent=0, UInt32 step=4);
+    Indenter(const Indenter &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -188,8 +189,6 @@ class OSG_BASE_DLLMAPPING Indenter
   private:
 
     /*!\brief prohibit default function (move to 'public' if needed) */
-    Indenter(const Indenter &source);
-    /*!\brief prohibit default function (move to 'public' if needed) */
     Indenter& operator =(const Indenter &source);
 };
 
@@ -198,7 +197,7 @@ inline ostream& operator<<(ostream& stream, const Indenter& indent);
 
 OSG_END_NAMESPACE
 
-#define OSGINDENTER_HEADER_CVSID "@(#)$Id: OSGIndenter.h,v 1.3 2002/02/26 10:34:56 dirk Exp $"
+#define OSGINDENTER_HEADER_CVSID "@(#)$Id: OSGIndenter.h,v 1.4 2002/05/02 08:58:13 vossg Exp $"
 
 #include "OSGIndenter.inl"
 

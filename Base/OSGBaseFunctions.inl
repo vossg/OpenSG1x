@@ -543,7 +543,11 @@ UInt32 osgfinite(const FloatTypeT rVal)
 #ifdef WIN32
     return _finite(rVal);
 #else
+#ifdef __hpux
+    return  isfinite(rVal);
+#else
     return  finite(rVal);
+#endif
 #endif
 }
 

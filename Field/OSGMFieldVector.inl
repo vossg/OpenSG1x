@@ -38,7 +38,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-#if defined(__sgi) || defined(__linux) || defined(darwin)
+#if defined(__sgi) || defined(__linux) || defined(darwin) || defined(__hpux)
 
 template <class Tp, class Alloc> inline
 MFieldVector<Tp, Alloc>::MFieldVector(const allocator_type& __a) :
