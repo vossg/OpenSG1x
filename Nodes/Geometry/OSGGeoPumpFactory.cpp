@@ -208,8 +208,8 @@ GeoPumpFactory::GeoPump GeoPumpFactory::getGeoPump(
                 GeoPumpFactory::Index  OSG_CHECK_ARG(index) )
 {
     //FWARNING(("GeoPump%d used\n",index));
-    //return GeoPumps[index]; //crashed windows while testing, disabled for now.
-    return &masterGeoPump;
+    return GeoPumps[index]; //crashed windows while testing, watch it.
+    //return &masterGeoPump;
 }
 
 GeoPumpFactory::PartialGeoPump GeoPumpFactory::getPartialGeoPump(
