@@ -303,8 +303,6 @@ void SortLastWindow::clientSwap( void )
 SortLastWindow::SortLastWindow(void) :
     Inherited()
 {
-    _bufferHandler.setRGBDataType  (GL_UNSIGNED_SHORT_5_6_5,2);
-    _bufferHandler.setDepthDataType(GL_UNSIGNED_SHORT,2);
 }
 
 SortLastWindow::SortLastWindow(const SortLastWindow &source) :
@@ -625,11 +623,6 @@ bool SortLastWindow::DrawableInfo::MaxZOrder::operator()
     return a.bMax[2] < b.bMax[2];
 }
 
-
-/*------------------------------------------------------------------------*/
-/*                            static elements                             */
-
-ClusterViewBuffer SortLastWindow::_bufferHandler;
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */

@@ -49,7 +49,6 @@
 #include <OSGConfig.h>
 #include <OSGRenderAction.h>
 
-#include <OSGClusterViewBuffer.h>
 #include <OSGSortLastWindowBase.h>
 
 OSG_BEGIN_NAMESPACE
@@ -186,8 +185,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SortLastWindow : public SortLastWindowBase
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
-
-    static ClusterViewBuffer _bufferHandler;
 
     friend class FieldContainer;
     friend class SortLastWindowBase;
