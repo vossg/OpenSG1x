@@ -43,11 +43,18 @@
 #include <OSGAttachmentContainerPtr.h>
 #include <OSGSimpleAttachments.h>
 
+#include <OSGLeft.xpm>
+#include <OSGRight.xpm>
+
 #include <qlabel.h>
+#include <qpushbutton.h>
 #include <qlayout.h>
 #include <qtable.h>
+#include <qtooltip.h>
 
 OSG_USING_NAMESPACE
+
+QPixmap *QFieldContainerEditor::_pPixmapLeft      = NULL;
 
 QFieldContainerEditor::QFieldContainerEditor(
     QWidget *pParent, const char *name)
@@ -57,13 +64,16 @@ QFieldContainerEditor::QFieldContainerEditor(
       _pFactory      (QOSGWidgetFactory::the()),
       _pVBox         (NULL                    ),
       _pHBoxLabels   (NULL                    ),
+      _pButtonBack   (NULL                    ),
       _pLabelFCType  (NULL                    ),
       _pLabelFCName  (NULL                    ),
       _pTable        (NULL                    ),
       _editors       (                        ),
       _bReadOnly     (true                    ),
-      _bLabelsVisible(true                    )
+      _bLabelsVisible(true                    ),
+      _history       (                        )
 {
+    initStatic        ();
     createChildWidgets();
     layoutChildWidgets();
     initSelf          ();
@@ -76,6 +86,7 @@ QFieldContainerEditor::~QFieldContainerEditor(void)
 void
 QFieldContainerEditor::setFieldContainer(FieldContainerPtr fcPtr)
 {
+    _pButtonBack->setEnabled(!_history.empty());
     if(fcPtr == NullFC)
     {
         _pLabelFCType->setText("");
@@ -107,6 +118,17 @@ QFieldContainerEditor::setFieldContainer(FieldContainerPtr fcPtr)
 }
 
 void
+QFieldContainerEditor::slotButtonBackClicked(void)
+{
+    if(_history.empty())
+        return;
+
+    FieldContainerPtr fcPtr = _history.top();
+    _history.pop();
+    setFieldContainer(fcPtr);
+}
+
+void
 QFieldContainerEditor::slotActionButtonClicked(
     QAbstractFieldEditor *pSender, UInt32 uiValueIndex)
 {
@@ -123,6 +145,7 @@ QFieldContainerEditor::slotActionButtonClicked(
 
             if(pSF->getValue() != NullFC)
             {
+                _history.push(_fcPtr);
                 this->setFieldContainer(pSF->getValue());
             }
         }
@@ -133,6 +156,7 @@ QFieldContainerEditor::slotActionButtonClicked(
 
             if((*pMF)[uiValueIndex] != NullFC)
             {
+                _history.push(_fcPtr);
                 this->setFieldContainer((*pMF)[uiValueIndex]);
             }
         }
@@ -259,6 +283,13 @@ QFieldContainerEditor::depopulateTable(void)
 }
 
 void
+QFieldContainerEditor::initStatic(void)
+{
+    if(_pPixmapLeft == NULL)
+        _pPixmapLeft = new QPixmap(XPMLeft);
+}
+
+void
 QFieldContainerEditor::createChildWidgets(void)
 {
     _pVBox       = new QVBoxLayout(this, 0, 1,
@@ -266,6 +297,7 @@ QFieldContainerEditor::createChildWidgets(void)
     _pHBoxLabels = new QHBoxLayout(NULL, 0, 2,
                                    "QFieldContainerEditor::_pHBoxLabels");
 
+    _pButtonBack  = new QPushButton(this, "QMFieldEditor::_pButtonBack"      );
     _pLabelFCType = new QLabel(this, "QFieldContainerEditor::_pLabelFCType");
     _pLabelFCName = new QLabel(this, "QFieldContainerEditor::_pLabelFCName");
 
@@ -275,6 +307,7 @@ QFieldContainerEditor::createChildWidgets(void)
 void
 QFieldContainerEditor::layoutChildWidgets(void)
 {
+    _pHBoxLabels->addWidget(_pButtonBack );
     _pHBoxLabels->addWidget(_pLabelFCType);
     _pHBoxLabels->addWidget(_pLabelFCName);
 
@@ -285,6 +318,9 @@ QFieldContainerEditor::layoutChildWidgets(void)
 void
 QFieldContainerEditor::initSelf(void)
 {
+    _pButtonBack->setPixmap (*_pPixmapLeft     );
+    _pButtonBack->setFixedSize(16, 16          );
+
     _pTable->setReadOnly     (true               );
     _pTable->setSelectionMode(QTable::NoSelection);
     _pTable->setColumnMovingEnabled(false);
@@ -296,6 +332,11 @@ QFieldContainerEditor::initSelf(void)
     _pTable->verticalHeader()->hide();
     _pTable->setLeftMargin(0);
     _pTable->setColumnStretchable(FieldValueCol, true);
+
+    connect(_pButtonBack,   SIGNAL(clicked                (void)),
+            this,           SLOT  (slotButtonBackClicked  (void)) );
+
+    QToolTip::add(_pButtonBack,      "Back"            );
 }
 
 
@@ -315,7 +356,7 @@ QFieldContainerEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQFieldContainerEditor_qt.cpp,v 1.3 2004/08/14 20:41:13 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQFieldContainerEditor_qt.cpp,v 1.4 2004/08/15 15:07:19 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQFIELDCONTAINEREDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQFIELDCONTAINEREDITORQT_INLINE_CVSID;
 }

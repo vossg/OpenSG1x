@@ -63,7 +63,7 @@ QSpinBoxReal32::QSpinBoxReal32(QWidget *pParent, const char *name)
     getLineEdit()->installEventFilter(this         );
 
     connect(getLineEdit(), SIGNAL(textChanged      (const QString &)),
-            this,          SLOT  (slotTextChanged  (const QString &)) );
+            this,          SLOT  (slotTextChanged  (void           )) );
     connect(getLineEdit(), SIGNAL(returnPressed    (void           )),
             this,          SLOT  (slotReturnPressed(void           )) );
 
@@ -347,7 +347,7 @@ QSpinBoxReal32::eventFilter(QObject *pObj, QEvent *pEvent)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSpinBoxReal32_qt.cpp,v 1.3 2004/08/14 18:17:01 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSpinBoxReal32_qt.cpp,v 1.4 2004/08/15 15:07:19 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQSPINBOXREAL32QT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQSPINBOXREAL32QT_INLINE_CVSID;
 }

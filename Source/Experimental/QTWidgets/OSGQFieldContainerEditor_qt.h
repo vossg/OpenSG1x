@@ -51,8 +51,10 @@
 #include <qwidget.h>
 
 #include <vector>
+#include <stack>
 
 class QLabel;
+class QPushButton;
 class QTable;
 class QHBoxLayout;
 class QVBoxLayout;
@@ -108,12 +110,17 @@ class OSG_WINDOWQTLIB_DLLMAPPING QFieldContainerEditor : public QWidget
     virtual void slotActionButtonReleased(QAbstractFieldEditor *pSender,
                                           UInt32                uiValueIndex);
 
+  private slots:
+    void slotButtonBackClicked(void);
+
   private:
     typedef QWidget                             Inherited;
 
     typedef std::vector<QAbstractFieldEditor *> EditorList;
     typedef EditorList::iterator                EditorListIt;
     typedef EditorList::const_iterator          EditorListConstIt;
+
+    typedef std::stack<FieldContainerPtr>       HistoryStack;
 
     enum TableColNames
     {
@@ -124,9 +131,12 @@ class OSG_WINDOWQTLIB_DLLMAPPING QFieldContainerEditor : public QWidget
     void populateTable  (void);
     void depopulateTable(void);
 
+    void initStatic        (void);
     void createChildWidgets(void);
     void layoutChildWidgets(void);
     void initSelf          (void);
+
+    static QPixmap     *_pPixmapLeft;
 
     FieldContainerPtr  _fcPtr;
 
@@ -135,6 +145,7 @@ class OSG_WINDOWQTLIB_DLLMAPPING QFieldContainerEditor : public QWidget
     QVBoxLayout       *_pVBox;
     QHBoxLayout       *_pHBoxLabels;
 
+    QPushButton       *_pButtonBack;
     QLabel            *_pLabelFCType;
     QLabel            *_pLabelFCName;
 
@@ -143,12 +154,14 @@ class OSG_WINDOWQTLIB_DLLMAPPING QFieldContainerEditor : public QWidget
     EditorList         _editors;
     bool               _bReadOnly;
     bool               _bLabelsVisible;
+
+    HistoryStack       _history;
 };
 
 OSG_END_NAMESPACE
 
 #include "OSGQFieldContainerEditor_qt.inl"
 
-#define OSGQFIELDCONTAINEREDITORQT_HEADER_CVSID "@(#)$Id: OSGQFieldContainerEditor_qt.h,v 1.1 2004/07/30 15:31:57 neumannc Exp $";
+#define OSGQFIELDCONTAINEREDITORQT_HEADER_CVSID "@(#)$Id: OSGQFieldContainerEditor_qt.h,v 1.2 2004/08/15 15:07:19 a-m-z Exp $";
 
 #endif /* _OSGQFIELDCONTAINEREDITOR_QT_H_ */
