@@ -1,16 +1,12 @@
 # trivial makefile for OpenSG tutorials
 
-# the path where GLUT is found
-# you can ignore this on Linux, it's in the system libs
-GLUTPATH := /igd/a4/software/$(SYSTEM)
-
 # use debug or opt libs?
 LIBTYPE := dbg
 
 # set the path to the installed osg-config executable here
-# if you don't set it, the system tries to guess
+# if you don't set it, the makefile tries to guess
 # e.g. if you installed in /usr/local:
-# OSGCONFIG := /usr/local/nom/osg-config
+# OSGCONFIG := /usr/local/bin/osg-config
 
 
 # *****************************************************
