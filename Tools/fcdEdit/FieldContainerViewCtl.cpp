@@ -239,6 +239,9 @@ void FieldContainerViewCtl::loadFieldContainer(const char *fileName)
 		_fieldContainer.readDesc(fileName);
         setCaption( trUtf8( QString("OpenSG Field Container Editor : " ) +
                     fileName ) );
+                _activePart = NULL;
+                _activePartIndex = -1;
+                
 		updateFieldContainerView();
 		if (_fieldContainer.fieldList().size()) {
 			partTypeCombo->clear();

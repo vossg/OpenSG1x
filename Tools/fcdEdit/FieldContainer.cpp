@@ -455,7 +455,6 @@ bool FieldContainer::readDesc (const char *fn)
     ifstream istr( fn );
 
     int nodeCount;
-    list<Field>::iterator npI = _fieldList.end();
     xmlcontextptr               context( new xmlcontext );
     xmldocument                 node( context );
     xmlnodeptr                  nP;
@@ -464,6 +463,8 @@ bool FieldContainer::readDesc (const char *fn)
     xmlattributes::iterator     aI;
 
     clear();
+
+    list<Field>::iterator npI = _fieldList.end();
 
     if(istr) 
     {

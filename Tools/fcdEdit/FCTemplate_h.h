@@ -69,7 +69,7 @@ char *FCTemplate_h[]={
 "",
 "class OSG_@!LIBNAME!@LIB_DLLMAPPING @!Classname!@ : public @!Classname!@Base",
 "@@else",
-"class OSG_@!LIBNAME!@LIB_DLLMAPPING @!Classname!@ : public @!Classname!@Base",
+"class @!Classname!@ : public @!Classname!@Base",
 "@@endif",
 "{",
 "  private:",
@@ -141,7 +141,7 @@ char *FCTemplate_h[]={
 "#include <OSG@!Classname!@.inl>",
 "@@endif",
 "",
-"#define OSG@!CLASSNAME!@_HEADER_CVSID \"@(#)$Id: FCTemplate_h.h,v 1.22 2004/08/03 05:53:03 dirk Exp $\"",
+"#define OSG@!CLASSNAME!@_HEADER_CVSID \"@(#)$Id: FCTemplate_h.h,v 1.23 2005/03/05 11:27:26 dirk Exp $\"",
 "",
 "#endif /* _OSG@!CLASSNAME!@_H_ */",
 NULL };
