@@ -415,7 +415,7 @@ template <class propertyDesc> inline
 void GeoProperty<propertyDesc>::getValue(      StoredGenericType &val,
                                          const UInt32             index)
 {
-    val = _field.getValue( index );
+    new (&val) StoredGenericType(_field.getValue( index ));
 }
 
 
@@ -423,20 +423,22 @@ template <class propertyDesc> inline
 void GeoProperty<propertyDesc>::getValue(      StoredGenericType &val,
                                          const UInt32             index) const
 {
-    val = _field.getValue( index );
+    new (&val) StoredGenericType(_field.getValue( index ));
 }
 
 template <class propertyDesc> inline 
 void GeoProperty<propertyDesc>::setValue(const StoredGenericType &value,
                                          const UInt32             index)
 {
-    _field.setValue( value, index );
+//CHECKCHECK do conversion constructor iff necessary
+    _field.setValue( StoredType(value), index );
 }
 
 template <class propertyDesc> inline 
 void GeoProperty<propertyDesc>::addValue(const StoredGenericType & value)
 {
-    _field.addValue( value );
+//CHECKCHECK do conversion constructor iff necessary
+    _field.addValue( StoredType(value) );
 }
 
 template <class propertyDesc> 

@@ -214,6 +214,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
 
     typedef typename GeoPropertyDesc::StoredFieldType     StoredFieldType;
     typedef typename GeoPropertyDesc::GenericType         StoredGenericType;
+    typedef typename StoredFieldType::StoredType          StoredType;
 
     OSG_FIELD_CONTAINER_TMPL_DECL(PtrType)
 
