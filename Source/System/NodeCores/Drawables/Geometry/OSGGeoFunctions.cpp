@@ -2582,3 +2582,39 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::mergeGeometries(std::vector<NodePtr> &nodes,
     }
 }
 #endif
+
+#define separateProperty(TypeT, Type) \
+    Geo ## TypeT ## Ptr Type = geo->get ## Type ## (); \
+    if(Type != NullFC && Type->getParents().size() > 1) \
+    { \
+        for(UInt32 i=0;i<Type->getParents().size();++i) \
+        { \
+            GeometryPtr parent = GeometryPtr::dcast(Type->getParents()[i]); \
+            if(parent != NullFC) \
+            { \
+                beginEditCP(parent, Geometry:: ## Type ## FieldMask); \
+                    parent->set ## Type ## (Geo ## TypeT ## Ptr::dcast(OSG::deepClone(Type))); \
+                endEditCP(parent, Geometry:: ## Type ## FieldMask); \
+            } \
+        } \
+    }
+
+/*! \ingroup GrpSystemDrawablesGeometryFunctions
+
+    Separates shared geometry properties.
+*/
+
+OSG_SYSTEMLIB_DLLMAPPING void OSG::separateProperties(GeometryPtr &geo)
+{
+    separateProperty(PTypes, Types)
+    separateProperty(PLengths, Lengths)
+    separateProperty(Positions, Positions)
+    separateProperty(Normals, Normals)
+    separateProperty(Colors, Colors)
+    separateProperty(Colors, SecondaryColors)
+    separateProperty(TexCoords, TexCoords)
+    separateProperty(TexCoords, TexCoords1)
+    separateProperty(TexCoords, TexCoords2)
+    separateProperty(TexCoords, TexCoords3)
+    separateProperty(Indices, Indices)
+}

@@ -99,6 +99,9 @@ OSG_SYSTEMLIB_DLLMAPPING
 void                         mergeGeometries(std::vector<NodePtr> &nodes,
                                              std::vector<NodePtr> &results);
 
+OSG_SYSTEMLIB_DLLMAPPING 
+void                        separateProperties(GeometryPtr &geo);
+
 OSG_END_NAMESPACE
 
 #include <OSGGeoFunctions.inl>
