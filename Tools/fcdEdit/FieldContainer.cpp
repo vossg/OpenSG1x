@@ -1247,7 +1247,7 @@ bool FieldContainer::writeTempl(
 			values[HeaderPrefixE] = (char*)(headerPrefix);
 			values[ParentHeaderPrefixE] = (char*)(parentHeaderPrefix);
 			values[FieldMethodTypeE] = (_decoratable && ! decorator) ? 
-                                       "virtual" : "inline";
+                                       (char*)"virtual" : (char*)"inline";
 
 			if ( inFieldLoop )
 			{
