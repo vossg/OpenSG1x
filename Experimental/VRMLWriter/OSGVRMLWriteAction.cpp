@@ -795,6 +795,34 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
                 }
                 break;
 
+            case GL_TRIANGLE_STRIP:
+                for(j = 0; j < (*pLengthField)[i]; j++)
+                {
+                    pWriter->printIndent();
+                    fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex]);
+					if ( uiCurrentIndex & 1 )
+					{
+                    	fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex+2]);
+                    	fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex+1]);
+					}
+					else
+					{
+                    	fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex+1]);
+                    	fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex+2]);
+					}
+					uiCurrentIndex++;
+					
+                    if(j == (*pLengthField)[i] - 4)
+                    {
+                        fprintf(pFile, "-1\n");
+                    }
+                    else
+                    {
+                        fprintf(pFile, "-1,\n");
+                    }
+                }
+                break;
+
             case GL_POLYGON:
                 pWriter->printIndent();
 
@@ -1048,7 +1076,7 @@ Action::ResultE VRMLWriteAction::writeMatGroupLeave(CNodePtr &pGroup,
 
 Bool VRMLWriteAction::initializeAction(int &, char **)
 {
-    fprintf(stderr, "Init VRMLWriter\n");
+    FINFO(( "Init VRMLWriter\n" ));
 
 #ifndef OSG_NOFUNCTORS
 

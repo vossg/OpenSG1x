@@ -163,8 +163,6 @@ OSGSceneFileType::OSGSceneFileType(const char   *suffixArray[],
               override, 
               overridePriority)
 {
-    fprintf(stderr, "Init OSG Scene File Type %d\n", this);
-
     _pFile = new OSGLoader;
 
 	return;
