@@ -24,6 +24,7 @@
 #include <OSGAction.h>
 #include <OSGDrawAction.h>
 #include <OSGGeometry.h>
+#include <OSGGeoFunctions.h>
 
 #include <OSGDirectionalLight.h>
 
@@ -42,6 +43,7 @@
 #include "OSGVRMLFile.h"
 
 OSG::DrawAction * ract;
+OSG::Bool doWire = false;
 
 OSG::NodePtr  root;
 
@@ -157,6 +159,66 @@ vis(int visible)
 	}
 }
 
+OSG::Action::ResultE wireDraw( OSG::CNodePtr &, OSG::Action * action )
+{
+	OSG::NodePtr node = action->getActNode();
+	
+	if ( doWire )
+	{		
+		node->updateVolume();
+		const OSG::DynamicVolume& vol = node->getVolume();
+
+		OSG::Pnt3f min,max;
+		vol.getBounds( min, max );
+
+		OSG::Bool l = glIsEnabled( GL_LIGHTING );
+		glDisable( GL_LIGHTING );
+		
+		glColor3f( .8,.8,.8 );
+		glBegin( GL_LINE_LOOP );
+		glVertex3f( min[0], min[1], min[2] );	
+		glVertex3f( max[0], min[1], min[2] );	
+		glVertex3f( max[0], max[1], min[2] );	
+		glVertex3f( min[0], max[1], min[2] );	
+		glVertex3f( min[0], min[1], min[2] );	
+		glVertex3f( min[0], min[1], max[2] );	
+		glVertex3f( max[0], min[1], max[2] );	
+		glVertex3f( max[0], max[1], max[2] );	
+		glVertex3f( min[0], max[1], max[2] );	
+		glVertex3f( min[0], min[1], max[2] );	
+		glEnd();
+
+		glBegin( GL_LINES );
+		glVertex3f( min[0], max[1], min[2] );	
+		glVertex3f( min[0], max[1], max[2] );	
+		glVertex3f( max[0], max[1], min[2] );	
+		glVertex3f( max[0], max[1], max[2] );	
+		glVertex3f( max[0], min[1], min[2] );	
+		glVertex3f( max[0], min[1], max[2] );	
+		glEnd();
+		
+		if ( l )
+			glEnable( GL_LIGHTING );
+	}
+	
+	OSG::GeometryPtr g = OSG::dcast<OSG::GeometryPtr>( node->getCore() );
+	
+	return g->doDraw( action );
+}
+
+OSG::Action::ResultE calcVNormal( OSG::CNodePtr &, OSG::Action * action )
+{
+	OSG::NodePtr node = action->getActNode();
+	OSG::GeometryPtr g = OSG::dcast<OSG::GeometryPtr>( node->getCore() );
+
+	if ( g->getNormals() == OSG::GeoNormalPtr::NullPtr )
+	{
+		OSG::calcVertexNormals( g );
+	}	
+	
+	return OSG::Action::Continue;
+}
+
 void key(unsigned char key, int x, int y)
 {
 	switch ( key )
@@ -176,6 +238,9 @@ void key(unsigned char key, int x, int y)
 				break;
 	case 'c':	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
 				cerr << "PolygonMode: Fill." << endl;
+				break;
+	case 'w':	doWire = !doWire;
+				cerr << "BBox render: " << (doWire?"on":"off") << endl;
 				break;
 	}
 }
@@ -326,6 +391,21 @@ int main (int argc, char **argv)
 	// Action
 	
 	ract = OSG::DrawAction::create();
+
+	cerr << "Calculating normals...";
+	
+	// Task 1: Cal Vertex Normals
+	ract->registerEnterFunction( OSG::Geometry::getClassType(),
+									OSG::osgFunctionFunctor2( calcVNormal ) );
+	
+	ract->apply( dlight );
+
+	cerr << "done." << endl;
+	
+	// Task 2: draw wireframe bbox, if wanted
+	ract->registerEnterFunction( OSG::Geometry::getClassType(),
+									OSG::osgFunctionFunctor2( wireDraw ) );
+									
 
 	// tball
     
