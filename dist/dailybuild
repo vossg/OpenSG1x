@@ -177,6 +177,7 @@ checkerror ()
     	-e "WIN32Window::activate: failed" \
     	-e "inlining failed" \
     	-e "failed in call to" \
+    	-e "2401 failed: Connection refused" \
 	>> $log_errors || true
     
     # remove the expected warnings
