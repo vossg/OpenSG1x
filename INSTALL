@@ -115,36 +115,57 @@ glut     : 3.7
 Linux
 =====
 
-Compiler : gcc 2.95.>=3 or 2.96.x; 3.0.x not yet
+Compiler : > gcc 2.95.>=3
 
 Standard systems:
 RH 7.0: needs patches gcc/RHBA-2000-132, glibc/RHBA-2000-079
 RH 7.1: out of the box
+RH 7.2: out of the box
 SuSe 7.1: out of the box
 
 
 Windows
 =======
 
-During this first dynamic developments, where only infrequent builds  are done
-on NT, we do not use VisualStudio or some other IDE (of course only if you do
-not count emacs to be one :-)). So we  actually use gmake in combination with
-cygwin. So when you get a new gmake PLEASE DO NOT try to build it with native
-windows dev tools, use the gcc provided by cygwin instead. You can download and
-build the usual unix distribution using the cygwin environment. For OpenSG, 
-please do not try to use a microsoft compiler, even if there are config files
-available. Believe us, it will fail and we are working on it to find all the
-ways around their interpretation of doing C++ compilations.
-
 Compiler : Intel C++ > 4.5 + latest patchset
 Cygwin   : >= 1.1.4
 gmake    : > 3.78.1
 glut     : 3.7
-autoconf : 2.13 (only needed when you want to work on the configure scripts)
+autoconf : > 2.13 (only needed when you want to work on the configure scripts)
 STL      : The current default is the original Microsoft 
            implementation. Since there where some problems using
            other implementations and the MSVC runtime libraries.
 
+IDE      : MSVC 6, the *.dsw/*.dsp file in VSBuild are setup to build
+           the debug libs using intels c++ compiler, please check the
+           README there
+
+MSVC7(aka .Net) : Ok, we finally got OpenSG running using Microsfts VC7
+                  compiler. Two current problems :
+
+                  - OpenSG must be configured using --enable-win-localstorage
+                  - The dependendies do not work as I havent figured out
+                    how to get some usefull information from the compiler,
+                    so OSGNODEPS has to be set.
+   
+                  If you want to try it, keep in mind to contact me in
+                  case of troubles (vossg@camtech.ntu.edu.sg) as this is 
+                  still some kind of experimental
+
+MacOSX 
+=======
+
+Compiler : tested with gcc-934.3 (ProjectBuilder 1.1.1 installed)
+gmake    : > 3.78.1
+QT       : does not work yet
+
+Problems : due to bugs in the codegenerator only static libs can be build,
+           as soon as I got a small example running I'll try to contact
+           Apple.
+
+           If you want to try it, keep in mind to contact me in
+           case of troubles (vossg@camtech.ntu.edu.sg) as this is still
+           some kind of experimental
 
 
 Documentation :
