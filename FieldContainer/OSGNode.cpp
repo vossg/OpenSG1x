@@ -176,6 +176,63 @@ OSG_FIELD_CONTAINER_DEF(Node, NodePtr)
 
 /*------------------------------ access -----------------------------------*/
 
+void Node::unlink(void)
+{
+    MFNodePtr::iterator vChildIt = _children.begin();
+    MFNodePtr::iterator endChild = _children.end  ();
+
+    addRefCP(getPtr());
+
+    while(vChildIt != endChild)
+    {
+        (*vChildIt)->setParent(NullFC);
+
+        subRefCP(*vChildIt);
+
+        ++vChildIt;
+    }
+
+    _children.clear();
+
+    if(getCore() != NullFC)
+    {
+        getCore()->subParent(getPtr());
+        
+        subRefCP(getCore());
+    }
+
+    subRefCP(getPtr());
+}
+
+void Node::unlinkSubTree(void)
+{
+    MFNodePtr::iterator vChildIt = _children.begin();
+    MFNodePtr::iterator endChild = _children.end  ();
+
+    addRefCP(getPtr());
+
+    while(vChildIt != endChild)
+    {
+        (*vChildIt)->setParent(NullFC);
+        (*vChildIt)->unlinkSubTree();
+
+        subRefCP(*vChildIt);
+
+        ++vChildIt;
+    }
+
+    _children.clear();
+
+    if(getCore() != NullFC)
+    {
+        getCore()->subParent(getPtr());
+
+        subRefCP(getCore());
+    }
+
+    subRefCP(getPtr());
+}
+
 void Node::setCore(const NodeCorePtr &core)
 {
     NodePtr thisP = getPtr();

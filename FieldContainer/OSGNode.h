@@ -110,6 +110,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                                                              */
+    /*! \{                           Unlink                                */
+
+    void unlink       (void);
+    void unlinkSubTree(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                                                              */
     /*! \{                           Parent                                */
 
     NodePtr getParent(void);
