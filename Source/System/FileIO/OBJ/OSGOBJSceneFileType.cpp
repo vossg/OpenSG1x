@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -68,7 +68,7 @@
 OSG_USING_NAMESPACE
 
 
-/*! \class osg::OBJSceneFileType 
+/*! \class OSG::OBJSceneFileType 
     \ingroup GrpSystemFileIO
     
  */
@@ -683,8 +683,8 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
   std::string elem;
   std::map<std::string, MaterialElem>::const_iterator elemI;
   MaterialElem mtlElem;
-  std::map<std::string, osg::Image*> imageMap;
-  std::map<std::string, osg::Image*>::iterator iI;
+  std::map<std::string, OSG::Image*> imageMap;
+  std::map<std::string, OSG::Image*>::iterator iI;
   Image *image = 0;
   bool constDiffuse, constAmbient, constSpecular;
 
@@ -764,7 +764,7 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
                 if (iI == imageMap.end())
                 {
                   elem = pathHandler.findFile(elem.c_str());
-                  image = osg::ImageFileHandler::the().read(elem.c_str());
+                  image = OSG::ImageFileHandler::the().read(elem.c_str());
                   imageMap[elem] = image;
                 }                     
                 else 

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ ImageForegroundPtr ImageForegroundBase::create(void)
 {
     ImageForegroundPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = ImageForegroundPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,12 +96,14 @@ ImageForegroundPtr ImageForegroundBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the ImageForeground::_mfImages field.
 inline
 MFImageP *ImageForegroundBase::getMFImages(void)
 {
     return &_mfImages;
 }
 
+//! Get the ImageForeground::_mfPositions field.
 inline
 MFPnt2f *ImageForegroundBase::getMFPositions(void)
 {
@@ -110,36 +112,42 @@ MFPnt2f *ImageForegroundBase::getMFPositions(void)
 
 
 
+//! Get the value of the \a index element the ImageForeground::_mfImages field.
 inline
 ImageP &ImageForegroundBase::getImages(const UInt32 index)
 {
     return _mfImages[index];
 }
 
+//! Get the ImageForeground::_mfImages field.
 inline
 MFImageP &ImageForegroundBase::getImages(void)
 {
     return _mfImages;
 }
 
+//! Get the ImageForeground::_mfImages field.
 inline
 const MFImageP &ImageForegroundBase::getImages(void) const
 {
     return _mfImages;
 }
 
+//! Get the value of the \a index element the ImageForeground::_mfPositions field.
 inline
 Pnt2f &ImageForegroundBase::getPositions(const UInt32 index)
 {
     return _mfPositions[index];
 }
 
+//! Get the ImageForeground::_mfPositions field.
 inline
 MFPnt2f &ImageForegroundBase::getPositions(void)
 {
     return _mfPositions;
 }
 
+//! Get the ImageForeground::_mfPositions field.
 inline
 const MFPnt2f &ImageForegroundBase::getPositions(void) const
 {

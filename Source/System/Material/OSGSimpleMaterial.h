@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -50,20 +50,15 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! SimpleMaterial class
+/*! \brief Simple Material wrapping standard OpenGL lighting.  See \ref 
+    PageSystemMaterialSimpleMaterial for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterial : public SimpleMaterialBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Constants                                 */
-    /*! \{                                                                 */
-
-    static const SimpleMaterialPtr NullPtr;
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -133,10 +128,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterial : public SimpleMaterialBase
     friend class FieldContainer;
     friend class SimpleMaterialBase;
 
-    static char cvsid[];
-
     static void initMethod( void );
-
 
     // these chunks are used for rendering the material
 
@@ -153,5 +145,7 @@ OSG_END_NAMESPACE
 
 #include <OSGSimpleMaterialBase.inl>
 #include <OSGSimpleMaterial.inl>
+
+#define OSGSIMPLEMATERIAL_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 
 #endif /* _OSGSIMPLEMATERIAL_H_ */

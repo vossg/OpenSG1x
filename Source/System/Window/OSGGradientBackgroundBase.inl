@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ GradientBackgroundPtr GradientBackgroundBase::create(void)
 {
     GradientBackgroundPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = GradientBackgroundPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,12 +96,14 @@ GradientBackgroundPtr GradientBackgroundBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the GradientBackground::_mfColor field.
 inline
 MFColor3f *GradientBackgroundBase::getMFColor(void)
 {
     return &_mfColor;
 }
 
+//! Get the GradientBackground::_mfPosition field.
 inline
 MFReal32 *GradientBackgroundBase::getMFPosition(void)
 {
@@ -110,36 +112,42 @@ MFReal32 *GradientBackgroundBase::getMFPosition(void)
 
 
 
+//! Get the value of the \a index element the GradientBackground::_mfColor field.
 inline
 Color3f &GradientBackgroundBase::getColor(const UInt32 index)
 {
     return _mfColor[index];
 }
 
+//! Get the GradientBackground::_mfColor field.
 inline
 MFColor3f &GradientBackgroundBase::getColor(void)
 {
     return _mfColor;
 }
 
+//! Get the GradientBackground::_mfColor field.
 inline
 const MFColor3f &GradientBackgroundBase::getColor(void) const
 {
     return _mfColor;
 }
 
+//! Get the value of the \a index element the GradientBackground::_mfPosition field.
 inline
 Real32 &GradientBackgroundBase::getPosition(const UInt32 index)
 {
     return _mfPosition[index];
 }
 
+//! Get the GradientBackground::_mfPosition field.
 inline
 MFReal32 &GradientBackgroundBase::getPosition(void)
 {
     return _mfPosition;
 }
 
+//! Get the GradientBackground::_mfPosition field.
 inline
 const MFReal32 &GradientBackgroundBase::getPosition(void) const
 {

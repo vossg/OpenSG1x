@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -99,11 +99,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
         NextFieldId             = BroadcastAddressFieldId + 1
     };
 
-    static const osg::BitVector ServersFieldMask;
-    static const osg::BitVector ConnectionTypeFieldMask;
-    static const osg::BitVector ClientWindowFieldMask;
-    static const osg::BitVector ServicePortFieldMask;
-    static const osg::BitVector BroadcastAddressFieldMask;
+    static const OSG::BitVector ServersFieldMask;
+    static const OSG::BitVector ConnectionTypeFieldMask;
+    static const OSG::BitVector ClientWindowFieldMask;
+    static const OSG::BitVector ServicePortFieldMask;
+    static const OSG::BitVector BroadcastAddressFieldMask;
 
 
     /*---------------------------------------------------------------------*/

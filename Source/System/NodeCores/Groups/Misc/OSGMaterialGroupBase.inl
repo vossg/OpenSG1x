@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ MaterialGroupPtr MaterialGroupBase::create(void)
 {
     MaterialGroupPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = MaterialGroupPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,6 +96,7 @@ MaterialGroupPtr MaterialGroupBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the MaterialGroup::_sfMaterial field.
 inline
 SFMaterialPtr *MaterialGroupBase::getSFMaterial(void)
 {
@@ -103,18 +104,21 @@ SFMaterialPtr *MaterialGroupBase::getSFMaterial(void)
 }
 
 
+//! Get the value of the MaterialGroup::_sfMaterial field.
 inline
 MaterialPtr &MaterialGroupBase::getMaterial(void)
 {
     return _sfMaterial.getValue();
 }
 
+//! Get the value of the MaterialGroup::_sfMaterial field.
 inline
 const MaterialPtr &MaterialGroupBase::getMaterial(void) const
 {
     return _sfMaterial.getValue();
 }
 
+//! Set the value of the MaterialGroup::_sfMaterial field.
 inline
 void MaterialGroupBase::setMaterial(const MaterialPtr &value)
 {

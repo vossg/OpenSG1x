@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -62,7 +62,7 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 OSG_SYSTEMLIB_DLLMAPPING
-void osg::drawVolume ( const DynamicVolume &volume )
+void OSG::drawVolume ( const DynamicVolume &volume )
 {
     const Volume *v = &volume.getInstance();
     const BoxVolume *bv;
@@ -84,7 +84,7 @@ void osg::drawVolume ( const DynamicVolume &volume )
  *  \ingroup GrpSystemDrawablesGeometrymetry
  */
 OSG_SYSTEMLIB_DLLMAPPING 
-void osg::drawVolume ( const BoxVolume &volume )
+void OSG::drawVolume ( const BoxVolume &volume )
 {
     Pnt3f min,max;
     volume.getBounds( min, max );
@@ -118,7 +118,7 @@ void osg::drawVolume ( const BoxVolume &volume )
  *  \ingroup GrpSystemDrawablesGeometrymetry
  */
 OSG_SYSTEMLIB_DLLMAPPING 
-void osg::drawVolume ( const SphereVolume &OSG_CHECK_ARG(volume) )
+void OSG::drawVolume ( const SphereVolume &OSG_CHECK_ARG(volume) )
 {
     FWARNING(( "drawVolume(SphereVolume): not implemented yet!\n" ));
     return;
@@ -130,7 +130,7 @@ void osg::drawVolume ( const SphereVolume &OSG_CHECK_ARG(volume) )
  *  pairwise intersection of left/right and top/bottom.
  */
 OSG_SYSTEMLIB_DLLMAPPING 
-void osg::drawVolume ( const FrustumVolume &volume )
+void OSG::drawVolume ( const FrustumVolume &volume )
 {
     Line lines[4];
     
@@ -241,7 +241,7 @@ void osg::drawVolume ( const FrustumVolume &volume )
  *  \ingroup GrpSystemDrawablesGeometrymetry
  */
 OSG_SYSTEMLIB_DLLMAPPING 
-void osg::drawVolume ( const CylinderVolume &OSG_CHECK_ARG(volume) )
+void OSG::drawVolume ( const CylinderVolume &OSG_CHECK_ARG(volume) )
 {
     FWARNING(( "drawVolume(CylinderVolume): not implemented yet!\n" ));
     return;

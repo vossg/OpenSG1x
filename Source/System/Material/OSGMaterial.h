@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -55,8 +55,9 @@ OSG_BEGIN_NAMESPACE
 class Geometry;
 class DrawActionBase;
 
-
-//! Material class
+/*! \brief Abstract Material base class. See \ref PageSystemMaterial for a
+    description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
 {
@@ -155,16 +156,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
     friend class FieldContainer;
     friend class MaterialBase;
 
-    static char cvsid[];
-
     static void initMethod( void );
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const Material &source);
 };
 
-/** \brief class pointer
- */
 typedef Material *MaterialP;
 
 extern OSG_SYSTEMLIB_DLLMAPPING MaterialPtr NullMaterial;
@@ -173,5 +170,7 @@ OSG_END_NAMESPACE
 
 #include <OSGMaterialBase.inl>
 #include <OSGMaterial.inl>
+
+#define OSGMATERIAL_HEADER_CVSID "@(#)$Id:$"
 
 #endif /* _OSGMATERIAL_H_ */

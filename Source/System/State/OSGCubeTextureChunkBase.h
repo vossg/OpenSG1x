@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -99,11 +99,11 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunkBase : public TextureChunk
         NextFieldId      = NegYImageFieldId + 1
     };
 
-    static const osg::BitVector PosZImageFieldMask;
-    static const osg::BitVector PosXImageFieldMask;
-    static const osg::BitVector NegXImageFieldMask;
-    static const osg::BitVector PosYImageFieldMask;
-    static const osg::BitVector NegYImageFieldMask;
+    static const OSG::BitVector PosZImageFieldMask;
+    static const OSG::BitVector PosXImageFieldMask;
+    static const OSG::BitVector NegXImageFieldMask;
+    static const OSG::BitVector PosYImageFieldMask;
+    static const OSG::BitVector NegYImageFieldMask;
 
 
     /*---------------------------------------------------------------------*/

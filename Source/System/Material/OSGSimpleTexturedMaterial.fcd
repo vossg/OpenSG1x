@@ -18,7 +18,7 @@ A SimpleMaterial with an added texture. It doesn't expose all features of the te
 		access="public"
 		defaultValue="0"
 	>
-	the texture image
+	Defines the texture image.
 	</Field>
 	<Field
 		name="minFilter"
@@ -29,7 +29,8 @@ A SimpleMaterial with an added texture. It doesn't expose all features of the te
 		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
-	the minification filter
+	Defines the minification filter, see glTexParameter for details. 
+        Default: GL_LINEAR_MIPMAP_LINEAR.
 	</Field>
 	<Field
 		name="magFilter"
@@ -40,7 +41,8 @@ A SimpleMaterial with an added texture. It doesn't expose all features of the te
 		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
-	the magnification filter
+	Defines the magnification filter, see glTexParameter for details. 
+        Default: GL_LINEAR
 	</Field>
 	<Field
 		name="envMode"
@@ -51,7 +53,8 @@ A SimpleMaterial with an added texture. It doesn't expose all features of the te
 		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
-	the environment mode, defining how texture and lighting color interact
+	Sets the environment mode, defining how texture and lighting color interact.
+        Default: GL_REPLACE.
 	</Field>
 	<Field
 		name="envMap"
@@ -61,6 +64,6 @@ A SimpleMaterial with an added texture. It doesn't expose all features of the te
 		defaultValue="false"
 		access="public"
 	>
-	use the texture as a spherical environment map
+	Defines whether to use the texture as a spherical environment map.
 	</Field>
 </FieldContainer>

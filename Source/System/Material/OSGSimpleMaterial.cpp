@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -67,37 +67,30 @@ OSG_USING_NAMESPACE
 /*! \class osg::SimpleMaterial
     \ingroup GrpSystemMaterial
 
-The simple material class.
+The simple material class. See \ref PageSystemMaterialSimpleMaterial for a
+description.
+
+This material wraps the standard calls to glMaterial() in
+osg::SimpleMaterial::_sfAmbient, osg::SimpleMaterial::_sfDiffuse, 
+osg::SimpleMaterial::_sfEmission, osg::SimpleMaterial::_sfSpecular, 
+osg::SimpleMaterial::_sfShininess. In addition it supports transparency 
+(osg::SimpleMaterial::_sfTransparency), can switch lighting 
+(osg::SimpleMaterial::_sfLit) and the color material 
+(osg::SimpleMaterial::_sfColorMaterial).
 
 */
 
 /***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.21 2002/01/20 21:17:01 dirk Exp $";
-
-const SimpleMaterialPtr SimpleMaterial::NullPtr;
-
-/***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+/* Create the chunks needed by this Material, one for the material properties,
+   one for the optional transparency blending.
+*/
 
 void SimpleMaterial::prepareLocalChunks(void)
 {
@@ -127,9 +120,6 @@ void SimpleMaterial::prepareLocalChunks(void)
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
-
 void SimpleMaterial::initMethod (void)
 {
 }
@@ -139,13 +129,10 @@ void SimpleMaterial::initMethod (void)
 \***************************************************************************/
 
 /*-------------------------------------------------------------------------*\
- -  public                                                                 -
+ -  private                                                                 -
 \*-------------------------------------------------------------------------*/
 
 /*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
 
 SimpleMaterial::SimpleMaterial(void) :
     Inherited(),
@@ -154,9 +141,6 @@ SimpleMaterial::SimpleMaterial(void) :
 {
 }
 
-/** \brief Copy Constructor
- */
-
 SimpleMaterial::SimpleMaterial(const SimpleMaterial &source) :
      Inherited    (source               ),
     _materialChunk(source._materialChunk),
@@ -164,18 +148,11 @@ SimpleMaterial::SimpleMaterial(const SimpleMaterial &source) :
 {
 }
 
-/** \brief Destructor
- */
-
 SimpleMaterial::~SimpleMaterial(void)
 {
     subRefCP(_materialChunk);
     subRefCP(_blendChunk   );    
 }
-
-
-/** \brief react to field changes
- */
 
 void SimpleMaterial::changed(BitVector whichField, UInt32 origin)
 {
@@ -305,8 +282,6 @@ bool SimpleMaterial::isTransparent(void) const
     return ((getTransparency() > Eps) || (Inherited::isTransparent()));
 }
 
-/*-------------------------- assignment -----------------------------------*/
-
 /*------------------------------- dump ----------------------------------*/
 
 void SimpleMaterial::dump(      UInt32    uiIndent,
@@ -355,13 +330,27 @@ void SimpleMaterial::dump(      UInt32    uiIndent,
     PLOG << "SimpleMaterial end " << this << std::endl;
 }
 
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
 
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_LINUX_ICC
+#pragma warning(disable : 177)
+#endif
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id:$";
+    static Char8 cvsid_hpp       [] = OSGSIMPLEMATERIAL_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGSIMPLEMATERIAL_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGSIMPLEMATERIALFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 

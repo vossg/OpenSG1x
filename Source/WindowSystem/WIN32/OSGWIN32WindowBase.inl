@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ WIN32WindowPtr WIN32WindowBase::create(void)
 {
     WIN32WindowPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = WIN32WindowPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,24 +96,28 @@ WIN32WindowPtr WIN32WindowBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the WIN32Window::_sfHwnd field.
 inline
 SFHWND *WIN32WindowBase::getSFHwnd(void)
 {
     return &_sfHwnd;
 }
 
+//! Get the WIN32Window::_sfHdc field.
 inline
 SFHDC *WIN32WindowBase::getSFHdc(void)
 {
     return &_sfHdc;
 }
 
+//! Get the WIN32Window::_sfHglrc field.
 inline
 SFHGLRC *WIN32WindowBase::getSFHglrc(void)
 {
     return &_sfHglrc;
 }
 
+//! Get the WIN32Window::_sfPaintstruct field.
 inline
 SFPAINTSTRUCT *WIN32WindowBase::getSFPaintstruct(void)
 {
@@ -121,72 +125,84 @@ SFPAINTSTRUCT *WIN32WindowBase::getSFPaintstruct(void)
 }
 
 
+//! Get the value of the WIN32Window::_sfHwnd field.
 inline
 HWND &WIN32WindowBase::getHwnd(void)
 {
     return _sfHwnd.getValue();
 }
 
+//! Get the value of the WIN32Window::_sfHwnd field.
 inline
 const HWND &WIN32WindowBase::getHwnd(void) const
 {
     return _sfHwnd.getValue();
 }
 
+//! Set the value of the WIN32Window::_sfHwnd field.
 inline
 void WIN32WindowBase::setHwnd(const HWND &value)
 {
     _sfHwnd.setValue(value);
 }
 
+//! Get the value of the WIN32Window::_sfHdc field.
 inline
 HDC &WIN32WindowBase::getHdc(void)
 {
     return _sfHdc.getValue();
 }
 
+//! Get the value of the WIN32Window::_sfHdc field.
 inline
 const HDC &WIN32WindowBase::getHdc(void) const
 {
     return _sfHdc.getValue();
 }
 
+//! Set the value of the WIN32Window::_sfHdc field.
 inline
 void WIN32WindowBase::setHdc(const HDC &value)
 {
     _sfHdc.setValue(value);
 }
 
+//! Get the value of the WIN32Window::_sfHglrc field.
 inline
 HGLRC &WIN32WindowBase::getHglrc(void)
 {
     return _sfHglrc.getValue();
 }
 
+//! Get the value of the WIN32Window::_sfHglrc field.
 inline
 const HGLRC &WIN32WindowBase::getHglrc(void) const
 {
     return _sfHglrc.getValue();
 }
 
+//! Set the value of the WIN32Window::_sfHglrc field.
 inline
 void WIN32WindowBase::setHglrc(const HGLRC &value)
 {
     _sfHglrc.setValue(value);
 }
 
+//! Get the value of the WIN32Window::_sfPaintstruct field.
 inline
 PAINTSTRUCT &WIN32WindowBase::getPaintstruct(void)
 {
     return _sfPaintstruct.getValue();
 }
 
+//! Get the value of the WIN32Window::_sfPaintstruct field.
 inline
 const PAINTSTRUCT &WIN32WindowBase::getPaintstruct(void) const
 {
     return _sfPaintstruct.getValue();
 }
 
+//! Set the value of the WIN32Window::_sfPaintstruct field.
 inline
 void WIN32WindowBase::setPaintstruct(const PAINTSTRUCT &value)
 {

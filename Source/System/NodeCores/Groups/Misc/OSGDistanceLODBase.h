@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -93,8 +93,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public Group
         NextFieldId   = RangeFieldId  + 1
     };
 
-    static const osg::BitVector CenterFieldMask;
-    static const osg::BitVector RangeFieldMask;
+    static const OSG::BitVector CenterFieldMask;
+    static const OSG::BitVector RangeFieldMask;
 
 
     /*---------------------------------------------------------------------*/

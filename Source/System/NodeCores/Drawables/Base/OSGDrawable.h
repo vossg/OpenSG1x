@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -129,6 +129,6 @@ OSG_END_NAMESPACE
 #include <OSGDrawableBase.inl>
 #include <OSGDrawable.inl>
 
-#define OSGDRAWABLE_HEADER_CVSID "@(#)$Id: OSGDrawable.h,v 1.2 2002/10/10 15:08:26 jbehr Exp $"
+#define OSGDRAWABLE_HEADER_CVSID "@(#)$Id: OSGDrawable.h,v 1.3 2002/11/11 13:55:48 dirk Exp $"
 
 #endif /* _OSGDRAWABLE_H_ */

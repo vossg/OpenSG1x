@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ SimpleStatisticsForegroundPtr SimpleStatisticsForegroundBase::create(void)
 {
     SimpleStatisticsForegroundPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = SimpleStatisticsForegroundPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,18 +96,21 @@ SimpleStatisticsForegroundPtr SimpleStatisticsForegroundBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the SimpleStatisticsForeground::_mfFormats field.
 inline
 MFString *SimpleStatisticsForegroundBase::getMFFormats(void)
 {
     return &_mfFormats;
 }
 
+//! Get the SimpleStatisticsForeground::_sfSize field.
 inline
 SFReal32 *SimpleStatisticsForegroundBase::getSFSize(void)
 {
     return &_sfSize;
 }
 
+//! Get the SimpleStatisticsForeground::_sfColor field.
 inline
 SFColor4f *SimpleStatisticsForegroundBase::getSFColor(void)
 {
@@ -115,36 +118,42 @@ SFColor4f *SimpleStatisticsForegroundBase::getSFColor(void)
 }
 
 
+//! Get the value of the SimpleStatisticsForeground::_sfSize field.
 inline
 Real32 &SimpleStatisticsForegroundBase::getSize(void)
 {
     return _sfSize.getValue();
 }
 
+//! Get the value of the SimpleStatisticsForeground::_sfSize field.
 inline
 const Real32 &SimpleStatisticsForegroundBase::getSize(void) const
 {
     return _sfSize.getValue();
 }
 
+//! Set the value of the SimpleStatisticsForeground::_sfSize field.
 inline
 void SimpleStatisticsForegroundBase::setSize(const Real32 &value)
 {
     _sfSize.setValue(value);
 }
 
+//! Get the value of the SimpleStatisticsForeground::_sfColor field.
 inline
 Color4f &SimpleStatisticsForegroundBase::getColor(void)
 {
     return _sfColor.getValue();
 }
 
+//! Get the value of the SimpleStatisticsForeground::_sfColor field.
 inline
 const Color4f &SimpleStatisticsForegroundBase::getColor(void) const
 {
     return _sfColor.getValue();
 }
 
+//! Set the value of the SimpleStatisticsForeground::_sfColor field.
 inline
 void SimpleStatisticsForegroundBase::setColor(const Color4f &value)
 {
@@ -152,18 +161,21 @@ void SimpleStatisticsForegroundBase::setColor(const Color4f &value)
 }
 
 
+//! Get the value of the \a index element the SimpleStatisticsForeground::_mfFormats field.
 inline
 std::string &SimpleStatisticsForegroundBase::getFormats(const UInt32 index)
 {
     return _mfFormats[index];
 }
 
+//! Get the SimpleStatisticsForeground::_mfFormats field.
 inline
 MFString &SimpleStatisticsForegroundBase::getFormats(void)
 {
     return _mfFormats;
 }
 
+//! Get the SimpleStatisticsForeground::_mfFormats field.
 inline
 const MFString &SimpleStatisticsForegroundBase::getFormats(void) const
 {

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -170,7 +170,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Slices : public SlicesBase
     
     void initEdgeVec     ( void );
     
-    unsigned createSlice ( const osg::Plane &plane, Slice &result );
+    unsigned createSlice ( const OSG::Plane &plane, Slice &result );
     
     void     drawSlices  ( const Vec3f &planeNormal, 
                            UInt32 & triCount, UInt32 & vertexCount );

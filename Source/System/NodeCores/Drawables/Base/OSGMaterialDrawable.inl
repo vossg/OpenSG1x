@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *                     Copyright 2000-2002 by OpenSG Forum                   *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -44,5 +44,5 @@ OSG_BEGIN_NAMESPACE
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALDRAWABLE_INLINE_CVSID "@(#)$Id: OSGMaterialDrawable.inl,v 1.1 2002/09/25 16:46:17 jbehr Exp $"
+#define OSGMATERIALDRAWABLE_INLINE_CVSID "@(#)$Id: OSGMaterialDrawable.inl,v 1.2 2002/11/11 13:55:48 dirk Exp $"
 

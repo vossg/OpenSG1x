@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -95,9 +95,9 @@ class OSG_WINDOWXLIB_DLLMAPPING XWindowBase : public Window
         NextFieldId    = ContextFieldId + 1
     };
 
-    static const osg::BitVector DisplayFieldMask;
-    static const osg::BitVector WindowFieldMask;
-    static const osg::BitVector ContextFieldMask;
+    static const OSG::BitVector DisplayFieldMask;
+    static const OSG::BitVector WindowFieldMask;
+    static const OSG::BitVector ContextFieldMask;
 
 
     /*---------------------------------------------------------------------*/

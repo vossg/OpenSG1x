@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ ColorBufferViewportPtr ColorBufferViewportBase::create(void)
 {
     ColorBufferViewportPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = ColorBufferViewportPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,24 +96,28 @@ ColorBufferViewportPtr ColorBufferViewportBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the ColorBufferViewport::_sfRed field.
 inline
 SFBool *ColorBufferViewportBase::getSFRed(void)
 {
     return &_sfRed;
 }
 
+//! Get the ColorBufferViewport::_sfBlue field.
 inline
 SFBool *ColorBufferViewportBase::getSFBlue(void)
 {
     return &_sfBlue;
 }
 
+//! Get the ColorBufferViewport::_sfGreen field.
 inline
 SFBool *ColorBufferViewportBase::getSFGreen(void)
 {
     return &_sfGreen;
 }
 
+//! Get the ColorBufferViewport::_sfAlpha field.
 inline
 SFBool *ColorBufferViewportBase::getSFAlpha(void)
 {
@@ -121,72 +125,84 @@ SFBool *ColorBufferViewportBase::getSFAlpha(void)
 }
 
 
+//! Get the value of the ColorBufferViewport::_sfRed field.
 inline
 bool &ColorBufferViewportBase::getRed(void)
 {
     return _sfRed.getValue();
 }
 
+//! Get the value of the ColorBufferViewport::_sfRed field.
 inline
 const bool &ColorBufferViewportBase::getRed(void) const
 {
     return _sfRed.getValue();
 }
 
+//! Set the value of the ColorBufferViewport::_sfRed field.
 inline
 void ColorBufferViewportBase::setRed(const bool &value)
 {
     _sfRed.setValue(value);
 }
 
+//! Get the value of the ColorBufferViewport::_sfBlue field.
 inline
 bool &ColorBufferViewportBase::getBlue(void)
 {
     return _sfBlue.getValue();
 }
 
+//! Get the value of the ColorBufferViewport::_sfBlue field.
 inline
 const bool &ColorBufferViewportBase::getBlue(void) const
 {
     return _sfBlue.getValue();
 }
 
+//! Set the value of the ColorBufferViewport::_sfBlue field.
 inline
 void ColorBufferViewportBase::setBlue(const bool &value)
 {
     _sfBlue.setValue(value);
 }
 
+//! Get the value of the ColorBufferViewport::_sfGreen field.
 inline
 bool &ColorBufferViewportBase::getGreen(void)
 {
     return _sfGreen.getValue();
 }
 
+//! Get the value of the ColorBufferViewport::_sfGreen field.
 inline
 const bool &ColorBufferViewportBase::getGreen(void) const
 {
     return _sfGreen.getValue();
 }
 
+//! Set the value of the ColorBufferViewport::_sfGreen field.
 inline
 void ColorBufferViewportBase::setGreen(const bool &value)
 {
     _sfGreen.setValue(value);
 }
 
+//! Get the value of the ColorBufferViewport::_sfAlpha field.
 inline
 bool &ColorBufferViewportBase::getAlpha(void)
 {
     return _sfAlpha.getValue();
 }
 
+//! Get the value of the ColorBufferViewport::_sfAlpha field.
 inline
 const bool &ColorBufferViewportBase::getAlpha(void) const
 {
     return _sfAlpha.getValue();
 }
 
+//! Set the value of the ColorBufferViewport::_sfAlpha field.
 inline
 void ColorBufferViewportBase::setAlpha(const bool &value)
 {

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ ParticlesPtr ParticlesBase::create(void)
 {
     ParticlesPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = ParticlesPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,78 +96,91 @@ ParticlesPtr ParticlesBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the Particles::_sfMode field.
 inline
 SFUInt32 *ParticlesBase::getSFMode(void)
 {
     return &_sfMode;
 }
 
+//! Get the Particles::_sfPositions field.
 inline
 SFGeoPositionsPtr *ParticlesBase::getSFPositions(void)
 {
     return &_sfPositions;
 }
 
+//! Get the Particles::_mfSizes field.
 inline
 MFVec3f *ParticlesBase::getMFSizes(void)
 {
     return &_mfSizes;
 }
 
+//! Get the Particles::_sfSecPositions field.
 inline
 SFGeoPositionsPtr *ParticlesBase::getSFSecPositions(void)
 {
     return &_sfSecPositions;
 }
 
+//! Get the Particles::_sfColors field.
 inline
 SFGeoColorsPtr *ParticlesBase::getSFColors(void)
 {
     return &_sfColors;
 }
 
+//! Get the Particles::_sfNormals field.
 inline
 SFGeoNormalsPtr *ParticlesBase::getSFNormals(void)
 {
     return &_sfNormals;
 }
 
+//! Get the Particles::_mfIndices field.
 inline
 MFInt32 *ParticlesBase::getMFIndices(void)
 {
     return &_mfIndices;
 }
 
+//! Get the Particles::_mfTextureZs field.
 inline
 MFReal32 *ParticlesBase::getMFTextureZs(void)
 {
     return &_mfTextureZs;
 }
 
+//! Get the Particles::_sfMaterial field.
 inline
 SFMaterialPtr *ParticlesBase::getSFMaterial(void)
 {
     return &_sfMaterial;
 }
 
+//! Get the Particles::_sfDrawOrder field.
 inline
 SFUInt32 *ParticlesBase::getSFDrawOrder(void)
 {
     return &_sfDrawOrder;
 }
 
+//! Get the Particles::_sfDynamic field.
 inline
 SFBool *ParticlesBase::getSFDynamic(void)
 {
     return &_sfDynamic;
 }
 
+//! Get the Particles::_sfPump field.
 inline
 SFUInt32 *ParticlesBase::getSFPump(void)
 {
     return &_sfPump;
 }
 
+//! Get the Particles::_sfBsp field.
 inline
 SFParticleBSPTree *ParticlesBase::getSFBsp(void)
 {
@@ -175,180 +188,210 @@ SFParticleBSPTree *ParticlesBase::getSFBsp(void)
 }
 
 
+//! Get the value of the Particles::_sfMode field.
 inline
 UInt32 &ParticlesBase::getMode(void)
 {
     return _sfMode.getValue();
 }
 
+//! Get the value of the Particles::_sfMode field.
 inline
 const UInt32 &ParticlesBase::getMode(void) const
 {
     return _sfMode.getValue();
 }
 
+//! Set the value of the Particles::_sfMode field.
 inline
 void ParticlesBase::setMode(const UInt32 &value)
 {
     _sfMode.setValue(value);
 }
 
+//! Get the value of the Particles::_sfPositions field.
 inline
 GeoPositionsPtr &ParticlesBase::getPositions(void)
 {
     return _sfPositions.getValue();
 }
 
+//! Get the value of the Particles::_sfPositions field.
 inline
 const GeoPositionsPtr &ParticlesBase::getPositions(void) const
 {
     return _sfPositions.getValue();
 }
 
+//! Set the value of the Particles::_sfPositions field.
 inline
 void ParticlesBase::setPositions(const GeoPositionsPtr &value)
 {
     _sfPositions.setValue(value);
 }
 
+//! Get the value of the Particles::_sfSecPositions field.
 inline
 GeoPositionsPtr &ParticlesBase::getSecPositions(void)
 {
     return _sfSecPositions.getValue();
 }
 
+//! Get the value of the Particles::_sfSecPositions field.
 inline
 const GeoPositionsPtr &ParticlesBase::getSecPositions(void) const
 {
     return _sfSecPositions.getValue();
 }
 
+//! Set the value of the Particles::_sfSecPositions field.
 inline
 void ParticlesBase::setSecPositions(const GeoPositionsPtr &value)
 {
     _sfSecPositions.setValue(value);
 }
 
+//! Get the value of the Particles::_sfColors field.
 inline
 GeoColorsPtr &ParticlesBase::getColors(void)
 {
     return _sfColors.getValue();
 }
 
+//! Get the value of the Particles::_sfColors field.
 inline
 const GeoColorsPtr &ParticlesBase::getColors(void) const
 {
     return _sfColors.getValue();
 }
 
+//! Set the value of the Particles::_sfColors field.
 inline
 void ParticlesBase::setColors(const GeoColorsPtr &value)
 {
     _sfColors.setValue(value);
 }
 
+//! Get the value of the Particles::_sfNormals field.
 inline
 GeoNormalsPtr &ParticlesBase::getNormals(void)
 {
     return _sfNormals.getValue();
 }
 
+//! Get the value of the Particles::_sfNormals field.
 inline
 const GeoNormalsPtr &ParticlesBase::getNormals(void) const
 {
     return _sfNormals.getValue();
 }
 
+//! Set the value of the Particles::_sfNormals field.
 inline
 void ParticlesBase::setNormals(const GeoNormalsPtr &value)
 {
     _sfNormals.setValue(value);
 }
 
+//! Get the value of the Particles::_sfMaterial field.
 inline
 MaterialPtr &ParticlesBase::getMaterial(void)
 {
     return _sfMaterial.getValue();
 }
 
+//! Get the value of the Particles::_sfMaterial field.
 inline
 const MaterialPtr &ParticlesBase::getMaterial(void) const
 {
     return _sfMaterial.getValue();
 }
 
+//! Set the value of the Particles::_sfMaterial field.
 inline
 void ParticlesBase::setMaterial(const MaterialPtr &value)
 {
     _sfMaterial.setValue(value);
 }
 
+//! Get the value of the Particles::_sfDrawOrder field.
 inline
 UInt32 &ParticlesBase::getDrawOrder(void)
 {
     return _sfDrawOrder.getValue();
 }
 
+//! Get the value of the Particles::_sfDrawOrder field.
 inline
 const UInt32 &ParticlesBase::getDrawOrder(void) const
 {
     return _sfDrawOrder.getValue();
 }
 
+//! Set the value of the Particles::_sfDrawOrder field.
 inline
 void ParticlesBase::setDrawOrder(const UInt32 &value)
 {
     _sfDrawOrder.setValue(value);
 }
 
+//! Get the value of the Particles::_sfDynamic field.
 inline
 bool &ParticlesBase::getDynamic(void)
 {
     return _sfDynamic.getValue();
 }
 
+//! Get the value of the Particles::_sfDynamic field.
 inline
 const bool &ParticlesBase::getDynamic(void) const
 {
     return _sfDynamic.getValue();
 }
 
+//! Set the value of the Particles::_sfDynamic field.
 inline
 void ParticlesBase::setDynamic(const bool &value)
 {
     _sfDynamic.setValue(value);
 }
 
+//! Get the value of the Particles::_sfPump field.
 inline
 UInt32 &ParticlesBase::getPump(void)
 {
     return _sfPump.getValue();
 }
 
+//! Get the value of the Particles::_sfPump field.
 inline
 const UInt32 &ParticlesBase::getPump(void) const
 {
     return _sfPump.getValue();
 }
 
+//! Set the value of the Particles::_sfPump field.
 inline
 void ParticlesBase::setPump(const UInt32 &value)
 {
     _sfPump.setValue(value);
 }
 
+//! Get the value of the Particles::_sfBsp field.
 inline
 ParticleBSPTree &ParticlesBase::getBsp(void)
 {
     return _sfBsp.getValue();
 }
 
+//! Get the value of the Particles::_sfBsp field.
 inline
 const ParticleBSPTree &ParticlesBase::getBsp(void) const
 {
     return _sfBsp.getValue();
 }
 
+//! Set the value of the Particles::_sfBsp field.
 inline
 void ParticlesBase::setBsp(const ParticleBSPTree &value)
 {
@@ -356,54 +399,63 @@ void ParticlesBase::setBsp(const ParticleBSPTree &value)
 }
 
 
+//! Get the value of the \a index element the Particles::_mfSizes field.
 inline
 Vec3f &ParticlesBase::getSizes(const UInt32 index)
 {
     return _mfSizes[index];
 }
 
+//! Get the Particles::_mfSizes field.
 inline
 MFVec3f &ParticlesBase::getSizes(void)
 {
     return _mfSizes;
 }
 
+//! Get the Particles::_mfSizes field.
 inline
 const MFVec3f &ParticlesBase::getSizes(void) const
 {
     return _mfSizes;
 }
 
+//! Get the value of the \a index element the Particles::_mfIndices field.
 inline
 Int32 &ParticlesBase::getIndices(const UInt32 index)
 {
     return _mfIndices[index];
 }
 
+//! Get the Particles::_mfIndices field.
 inline
 MFInt32 &ParticlesBase::getIndices(void)
 {
     return _mfIndices;
 }
 
+//! Get the Particles::_mfIndices field.
 inline
 const MFInt32 &ParticlesBase::getIndices(void) const
 {
     return _mfIndices;
 }
 
+//! Get the value of the \a index element the Particles::_mfTextureZs field.
 inline
 Real32 &ParticlesBase::getTextureZs(const UInt32 index)
 {
     return _mfTextureZs[index];
 }
 
+//! Get the Particles::_mfTextureZs field.
 inline
 MFReal32 &ParticlesBase::getTextureZs(void)
 {
     return _mfTextureZs;
 }
 
+//! Get the Particles::_mfTextureZs field.
 inline
 const MFReal32 &ParticlesBase::getTextureZs(void) const
 {

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -101,12 +101,12 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
         NextFieldId       = FullHeightFieldId + 1
     };
 
-    static const osg::BitVector LeftFieldMask;
-    static const osg::BitVector RightFieldMask;
-    static const osg::BitVector BottomFieldMask;
-    static const osg::BitVector TopFieldMask;
-    static const osg::BitVector FullWidthFieldMask;
-    static const osg::BitVector FullHeightFieldMask;
+    static const OSG::BitVector LeftFieldMask;
+    static const OSG::BitVector RightFieldMask;
+    static const OSG::BitVector BottomFieldMask;
+    static const OSG::BitVector TopFieldMask;
+    static const OSG::BitVector FullWidthFieldMask;
+    static const OSG::BitVector FullHeightFieldMask;
 
 
     /*---------------------------------------------------------------------*/

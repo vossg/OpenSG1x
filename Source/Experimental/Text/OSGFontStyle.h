@@ -172,6 +172,6 @@ public:
     }
 };
 
-OSG_END_NAMESPACE typedef osg::FontStyle * FontStyleP;
+OSG_END_NAMESPACE typedef OSG::FontStyle * FontStyleP;
 #endif
 #endif // FONTINSTANCE_CLASS_DECLARATION

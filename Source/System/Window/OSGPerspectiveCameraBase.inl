@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ PerspectiveCameraPtr PerspectiveCameraBase::create(void)
 {
     PerspectiveCameraPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = PerspectiveCameraPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,6 +96,7 @@ PerspectiveCameraPtr PerspectiveCameraBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the PerspectiveCamera::_sfFov field.
 inline
 SFReal32 *PerspectiveCameraBase::getSFFov(void)
 {
@@ -103,18 +104,21 @@ SFReal32 *PerspectiveCameraBase::getSFFov(void)
 }
 
 
+//! Get the value of the PerspectiveCamera::_sfFov field.
 inline
 Real32 &PerspectiveCameraBase::getFov(void)
 {
     return _sfFov.getValue();
 }
 
+//! Get the value of the PerspectiveCamera::_sfFov field.
 inline
 const Real32 &PerspectiveCameraBase::getFov(void) const
 {
     return _sfFov.getValue();
 }
 
+//! Set the value of the PerspectiveCamera::_sfFov field.
 inline
 void PerspectiveCameraBase::setFov(const Real32 &value)
 {

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -101,12 +101,12 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
         NextFieldId       = AlphaValueFieldId + 1
     };
 
-    static const osg::BitVector SrcFactorFieldMask;
-    static const osg::BitVector DestFactorFieldMask;
-    static const osg::BitVector EquationFieldMask;
-    static const osg::BitVector ColorFieldMask;
-    static const osg::BitVector AlphaFuncFieldMask;
-    static const osg::BitVector AlphaValueFieldMask;
+    static const OSG::BitVector SrcFactorFieldMask;
+    static const OSG::BitVector DestFactorFieldMask;
+    static const OSG::BitVector EquationFieldMask;
+    static const OSG::BitVector ColorFieldMask;
+    static const OSG::BitVector AlphaFuncFieldMask;
+    static const OSG::BitVector AlphaValueFieldMask;
 
 
     /*---------------------------------------------------------------------*/

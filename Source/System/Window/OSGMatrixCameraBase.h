@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -93,8 +93,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MatrixCameraBase : public Camera
         NextFieldId             = ModelviewMatrixFieldId  + 1
     };
 
-    static const osg::BitVector ProjectionMatrixFieldMask;
-    static const osg::BitVector ModelviewMatrixFieldMask;
+    static const OSG::BitVector ProjectionMatrixFieldMask;
+    static const OSG::BitVector ModelviewMatrixFieldMask;
 
 
     /*---------------------------------------------------------------------*/

@@ -40,14 +40,20 @@ int main (int argc, char *argv[])
     
     char *inFileName  = "osgWriterInput.osg";
     char *outFileName = "osgWriterOutput.osg";
+    NodePtr root;
     
     if( argc > 2 )
     {
         inFileName = argv[1];
         outFileName = argv[2];
+        root = SceneFileHandler::the().read(inFileName,0);
+    }
+    else
+    {
+        std::cerr << "Couldn't load file, ignoring" << std::endl;
+        root = makeTorus( .5, 2, 16, 16 );
     }
     
-    NodePtr root = SceneFileHandler::the().read(inFileName,0);
     
 /*
     NamePtr pName = Name::create();

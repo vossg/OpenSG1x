@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ SimpleTexturedMaterialPtr SimpleTexturedMaterialBase::create(void)
 {
     SimpleTexturedMaterialPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = SimpleTexturedMaterialPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,30 +96,35 @@ SimpleTexturedMaterialPtr SimpleTexturedMaterialBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the SimpleTexturedMaterial::_sfImage field.
 inline
 SFImageP *SimpleTexturedMaterialBase::getSFImage(void)
 {
     return &_sfImage;
 }
 
+//! Get the SimpleTexturedMaterial::_sfMinFilter field.
 inline
 SFUInt32 *SimpleTexturedMaterialBase::getSFMinFilter(void)
 {
     return &_sfMinFilter;
 }
 
+//! Get the SimpleTexturedMaterial::_sfMagFilter field.
 inline
 SFUInt32 *SimpleTexturedMaterialBase::getSFMagFilter(void)
 {
     return &_sfMagFilter;
 }
 
+//! Get the SimpleTexturedMaterial::_sfEnvMode field.
 inline
 SFUInt32 *SimpleTexturedMaterialBase::getSFEnvMode(void)
 {
     return &_sfEnvMode;
 }
 
+//! Get the SimpleTexturedMaterial::_sfEnvMap field.
 inline
 SFBool *SimpleTexturedMaterialBase::getSFEnvMap(void)
 {
@@ -127,90 +132,105 @@ SFBool *SimpleTexturedMaterialBase::getSFEnvMap(void)
 }
 
 
+//! Get the value of the SimpleTexturedMaterial::_sfImage field.
 inline
 ImageP &SimpleTexturedMaterialBase::getImage(void)
 {
     return _sfImage.getValue();
 }
 
+//! Get the value of the SimpleTexturedMaterial::_sfImage field.
 inline
 const ImageP &SimpleTexturedMaterialBase::getImage(void) const
 {
     return _sfImage.getValue();
 }
 
+//! Set the value of the SimpleTexturedMaterial::_sfImage field.
 inline
 void SimpleTexturedMaterialBase::setImage(const ImageP &value)
 {
     _sfImage.setValue(value);
 }
 
+//! Get the value of the SimpleTexturedMaterial::_sfMinFilter field.
 inline
 UInt32 &SimpleTexturedMaterialBase::getMinFilter(void)
 {
     return _sfMinFilter.getValue();
 }
 
+//! Get the value of the SimpleTexturedMaterial::_sfMinFilter field.
 inline
 const UInt32 &SimpleTexturedMaterialBase::getMinFilter(void) const
 {
     return _sfMinFilter.getValue();
 }
 
+//! Set the value of the SimpleTexturedMaterial::_sfMinFilter field.
 inline
 void SimpleTexturedMaterialBase::setMinFilter(const UInt32 &value)
 {
     _sfMinFilter.setValue(value);
 }
 
+//! Get the value of the SimpleTexturedMaterial::_sfMagFilter field.
 inline
 UInt32 &SimpleTexturedMaterialBase::getMagFilter(void)
 {
     return _sfMagFilter.getValue();
 }
 
+//! Get the value of the SimpleTexturedMaterial::_sfMagFilter field.
 inline
 const UInt32 &SimpleTexturedMaterialBase::getMagFilter(void) const
 {
     return _sfMagFilter.getValue();
 }
 
+//! Set the value of the SimpleTexturedMaterial::_sfMagFilter field.
 inline
 void SimpleTexturedMaterialBase::setMagFilter(const UInt32 &value)
 {
     _sfMagFilter.setValue(value);
 }
 
+//! Get the value of the SimpleTexturedMaterial::_sfEnvMode field.
 inline
 UInt32 &SimpleTexturedMaterialBase::getEnvMode(void)
 {
     return _sfEnvMode.getValue();
 }
 
+//! Get the value of the SimpleTexturedMaterial::_sfEnvMode field.
 inline
 const UInt32 &SimpleTexturedMaterialBase::getEnvMode(void) const
 {
     return _sfEnvMode.getValue();
 }
 
+//! Set the value of the SimpleTexturedMaterial::_sfEnvMode field.
 inline
 void SimpleTexturedMaterialBase::setEnvMode(const UInt32 &value)
 {
     _sfEnvMode.setValue(value);
 }
 
+//! Get the value of the SimpleTexturedMaterial::_sfEnvMap field.
 inline
 bool &SimpleTexturedMaterialBase::getEnvMap(void)
 {
     return _sfEnvMap.getValue();
 }
 
+//! Get the value of the SimpleTexturedMaterial::_sfEnvMap field.
 inline
 const bool &SimpleTexturedMaterialBase::getEnvMap(void) const
 {
     return _sfEnvMap.getValue();
 }
 
+//! Set the value of the SimpleTexturedMaterial::_sfEnvMap field.
 inline
 void SimpleTexturedMaterialBase::setEnvMap(const bool &value)
 {

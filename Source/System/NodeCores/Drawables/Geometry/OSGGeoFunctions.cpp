@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -80,7 +80,7 @@ use the vertex and renormalizing.
 #endif
 
 OSG_SYSTEMLIB_DLLMAPPING
-void osg::calcVertexNormals( GeometryPtr geo )
+void OSG::calcVertexNormals( GeometryPtr geo )
 /*
 
 faster; but not well tested code
@@ -393,7 +393,7 @@ struct memless
 
 
 OSG_SYSTEMLIB_DLLMAPPING
-void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
+void OSG::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
 {
     GeoNormalsPtr   norms;
     GeoPositionsPtr positions;
@@ -761,7 +761,7 @@ has the length \a length.
 #endif
 
 OSG_SYSTEMLIB_DLLMAPPING 
-NodePtr osg::getNormals ( GeometryPtr geo,
+NodePtr OSG::getNormals ( GeometryPtr geo,
                           Real32      length)
 {
   NodePtr  p = Node::create();
@@ -846,7 +846,7 @@ NodePtr osg::getNormals ( GeometryPtr geo,
  *  \ingroup GrpSystemDrawablesGeometrymetry
  */
 OSG_SYSTEMLIB_DLLMAPPING
-Int32 osg::setIndexFromVRMLData(     GeometryPtr    geoPtr,
+Int32 OSG::setIndexFromVRMLData(     GeometryPtr    geoPtr,
                                 std::vector<Int32> &coordIndex,
                                 std::vector<Int32> &normalIndex,
                                 std::vector<Int32> &colorIndex,
@@ -879,13 +879,13 @@ Int32 osg::setIndexFromVRMLData(     GeometryPtr    geoPtr,
   };
 #endif
 
-  osg::GeoPositionsPtr posPtr;
-  osg::GeoNormalsPtr normalPtr;
-  osg::GeoColorsPtr colorPtr;
-  osg::GeoTexCoordsPtr texCoordsPtr;
-  osg::GeoPLengthsPtr lensPtr;
-  osg::GeoPTypesPtr geoTypePtr;
-  osg::GeoIndicesPtr indexPtr;
+  OSG::GeoPositionsPtr posPtr;
+  OSG::GeoNormalsPtr normalPtr;
+  OSG::GeoColorsPtr colorPtr;
+  OSG::GeoTexCoordsPtr texCoordsPtr;
+  OSG::GeoPLengthsPtr lensPtr;
+  OSG::GeoPTypesPtr geoTypePtr;
+  OSG::GeoIndicesPtr indexPtr;
 
   Int32 index, i, pi, typei, mapi, primitiveN = 0, vN = 0;
   Int32 pType = 0, localPType;
@@ -913,16 +913,16 @@ Int32 osg::setIndexFromVRMLData(     GeometryPtr    geoPtr,
   //----------------------------------------------------------------------
   // get the property pointer and element count
   posPtr = geoPtr->getPositions();
-  pN = ((posPtr == osg::NullFC) ? 0 : posPtr->getSize());
+  pN = ((posPtr == OSG::NullFC) ? 0 : posPtr->getSize());
 
   normalPtr = geoPtr->getNormals();
-  nN = ((normalPtr == osg::NullFC) ? 0 : normalPtr->getSize());
+  nN = ((normalPtr == OSG::NullFC) ? 0 : normalPtr->getSize());
 
   colorPtr = geoPtr->getColors();
-  cN = ((colorPtr == osg::NullFC) ? 0 : colorPtr->getSize());
+  cN = ((colorPtr == OSG::NullFC) ? 0 : colorPtr->getSize());
 
   texCoordsPtr = geoPtr->getTexCoords();
-  tN = ((texCoordsPtr == osg::NullFC) ? 0 : texCoordsPtr->getSize());
+  tN = ((texCoordsPtr == OSG::NullFC) ? 0 : texCoordsPtr->getSize());
 
   FDEBUG (( "vertex attrib count P/N/C/T: %d/%d/%d/%d\n", pN, nN, cN, tN ));
 
@@ -933,7 +933,7 @@ Int32 osg::setIndexFromVRMLData(     GeometryPtr    geoPtr,
     primitiveTypeCount[pType] = 0;
 
   if (!pN) {
-    FWARNING (("No points in osg::setIndexFromVRMLData()\n"));
+    FWARNING (("No points in OSG::setIndexFromVRMLData()\n"));
 		return 0;
   }
   else {
@@ -955,7 +955,7 @@ Int32 osg::setIndexFromVRMLData(     GeometryPtr    geoPtr,
     	  }
     	}
 		else {
-			FWARNING (("No coordIndex in osg::setIndexFromVRMLData()\n"));
+			FWARNING (("No coordIndex in OSG::setIndexFromVRMLData()\n"));
 			return 0;
 		}
   }
@@ -1128,30 +1128,30 @@ Int32 osg::setIndexFromVRMLData(     GeometryPtr    geoPtr,
     //----------------------------------------------------------------------
     // check/create the indexPtr/lengthsPtr/geoTypePtr
     indexPtr = geoPtr->getIndices();
-    if (indexPtr == osg::NullFC)
-        indexPtr = osg::GeoIndicesUI32::create();
+    if (indexPtr == OSG::NullFC)
+        indexPtr = OSG::GeoIndicesUI32::create();
     else {
-	osg::beginEditCP(indexPtr);
+	OSG::beginEditCP(indexPtr);
         indexPtr->clear();
-	osg::endEditCP(indexPtr);
+	OSG::endEditCP(indexPtr);
 	}
 
     lensPtr = geoPtr->getLengths();
-    if (lensPtr == osg::NullFC)
-        lensPtr = osg::GeoPLengthsUI32::create();
+    if (lensPtr == OSG::NullFC)
+        lensPtr = OSG::GeoPLengthsUI32::create();
     else {
-	osg::beginEditCP(lensPtr);
+	OSG::beginEditCP(lensPtr);
         lensPtr->clear();
-	osg::endEditCP(lensPtr);
+	OSG::endEditCP(lensPtr);
 	}
 
     geoTypePtr = geoPtr->getTypes();
-    if (geoTypePtr == osg::NullFC)
-        geoTypePtr = osg::GeoPTypesUI8::create();
+    if (geoTypePtr == OSG::NullFC)
+        geoTypePtr = OSG::GeoPTypesUI8::create();
     else {
-	osg::beginEditCP(geoTypePtr);
+	OSG::beginEditCP(geoTypePtr);
         geoTypePtr->clear();
-	osg::endEditCP(geoTypePtr);
+	OSG::endEditCP(geoTypePtr);
 	}
 	
 
@@ -1185,7 +1185,7 @@ Int32 osg::setIndexFromVRMLData(     GeometryPtr    geoPtr,
 
     //----------------------------------------------------------------------
     // set lens/geoType/index/mapping the index mapping
-    osg::beginEditCP(geoPtr);
+    OSG::beginEditCP(geoPtr);
     {
         geoPtr->setLengths(lensPtr);
         geoPtr->setTypes(geoTypePtr);
@@ -1196,11 +1196,11 @@ Int32 osg::setIndexFromVRMLData(     GeometryPtr    geoPtr,
           for (i = 0; ((i <= 3) && indexMap[i]); i++)
             geoPtr->getIndexMapping().push_back( indexMap[i] );
     }
-    osg::endEditCP(geoPtr);
+    OSG::endEditCP(geoPtr);
 
     //----------------------------------------------------------------------
     // create index face/line data
-    osg::beginEditCP (indexPtr);
+    OSG::beginEditCP (indexPtr);
     for (pType = minPType; pType <= maxPType; pType++) {
 
       // check for the pType count
@@ -1224,17 +1224,17 @@ Int32 osg::setIndexFromVRMLData(     GeometryPtr    geoPtr,
 
         // set len/sysPType
         if (sysPType) {
-          osg::beginEditCP(lensPtr);
+          OSG::beginEditCP(lensPtr);
           {
             lensPtr->push_back(len);
           }
-          osg::endEditCP (lensPtr);
+          OSG::endEditCP (lensPtr);
 
-          osg::beginEditCP (geoTypePtr);
+          OSG::beginEditCP (geoTypePtr);
           {
             geoTypePtr->push_back( sysPType );
           }
-          osg::endEditCP (geoTypePtr);
+          OSG::endEditCP (geoTypePtr);
         }
 
         primitiveN = 0;
@@ -1257,16 +1257,16 @@ Int32 osg::setIndexFromVRMLData(     GeometryPtr    geoPtr,
             if ((beginIndex >= 0) && (localPType == pType)) {
               if (len >= maxPType) {
                 sysPType = faceSet ? GL_POLYGON : GL_LINE_STRIP;
-                osg::beginEditCP(lensPtr);
+                OSG::beginEditCP(lensPtr);
                 {
                   lensPtr->push_back(len);
                 }
-                osg::endEditCP (lensPtr);
-                osg::beginEditCP (geoTypePtr);
+                OSG::endEditCP (lensPtr);
+                OSG::beginEditCP (geoTypePtr);
                 {
                   geoTypePtr->push_back( sysPType );
                 }
-                osg::endEditCP (geoTypePtr);
+                OSG::endEditCP (geoTypePtr);
               }
 
               // add index data
@@ -1310,7 +1310,7 @@ Int32 osg::setIndexFromVRMLData(     GeometryPtr    geoPtr,
         }
       }
     }
-    osg::endEditCP (indexPtr);
+    OSG::endEditCP (indexPtr);
 
     return triCount;
 }
@@ -1321,7 +1321,7 @@ Int32 osg::setIndexFromVRMLData(     GeometryPtr    geoPtr,
  *  \ingroup GrpSystemDrawablesGeometrymetry
  */
 OSG_SYSTEMLIB_DLLMAPPING
-Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
+Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
                                      UInt32     iteration,
                                      bool       OSG_CHECK_ARG(createStrips   ),
                                      bool       OSG_CHECK_ARG(createFans     ),
@@ -1351,7 +1351,7 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
   if (geoPtr != NullFC) 
     {
       posPtr = geoPtr->getPositions();
-      pN = ((posPtr == osg::NullFC) ? 0 : posPtr->getSize());
+      pN = ((posPtr == OSG::NullFC) ? 0 : posPtr->getSize());
       indexMapSize = (geoPtr->getIndexMapping().size());
       multiIndex = (indexMapSize > 1) ? true : false;
       calcPrimitiveCount(geoPtr,triN,lineN,pointN);
@@ -1463,25 +1463,25 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
         {
           // check/create the indexPtr/lengthsPtr/geoTypePtr
           
-          osg::beginEditCP(geoPtr, osg::Geometry::LengthsFieldMask | 
-                                   osg::Geometry::TypesFieldMask    );
+          OSG::beginEditCP(geoPtr, OSG::Geometry::LengthsFieldMask | 
+                                   OSG::Geometry::TypesFieldMask    );
 
           lensPtr = geoPtr->getLengths();
-          if (lensPtr == osg::NullFC)
+          if (lensPtr == OSG::NullFC)
           {
-            lensPtr = osg::GeoPLengthsUI32::create();
+            lensPtr = OSG::GeoPLengthsUI32::create();
             geoPtr->setLengths(lensPtr);
           }
           
           geoTypePtr = geoPtr->getTypes();
-          if (geoTypePtr == osg::NullFC)
+          if (geoTypePtr == OSG::NullFC)
           {
-            geoTypePtr = osg::GeoPTypesUI8::create();
+            geoTypePtr = OSG::GeoPTypesUI8::create();
             geoPtr->setTypes(geoTypePtr);
           }
           
-          osg::endEditCP(geoPtr, osg::Geometry::LengthsFieldMask | 
-                                 osg::Geometry::TypesFieldMask    );
+          OSG::endEditCP(geoPtr, OSG::Geometry::LengthsFieldMask | 
+                                 OSG::Geometry::TypesFieldMask    );
           
           time = getSystemTime();
           optimizeT = time - optimizeT;
@@ -1576,7 +1576,7 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
  */
 
 OSG_SYSTEMLIB_DLLMAPPING
-Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
+Int32 OSG::createSharedIndex ( GeometryPtr geoPtr )
 {
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
@@ -1785,7 +1785,7 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
  */
 
 OSG_SYSTEMLIB_DLLMAPPING
-Int32 osg::createSingleIndex ( GeometryPtr geoPtr )
+Int32 OSG::createSingleIndex ( GeometryPtr geoPtr )
 {
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
@@ -1884,7 +1884,7 @@ Int32 osg::createSingleIndex ( GeometryPtr geoPtr )
  *  \ingroup GrpSystemDrawablesGeometrymetry
  */
 OSG_SYSTEMLIB_DLLMAPPING
-UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
+UInt32 OSG::calcPrimitiveCount ( GeometryPtr geoPtr,
                                  UInt32 &triangle,
                                  UInt32 &line,
                                  UInt32 &point )
@@ -1898,16 +1898,16 @@ UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
   // TODO; should we really reset the values ?
   triangle = line = point = 0;
 
-  if (geoPtr == osg::NullFC) {
+  if (geoPtr == OSG::NullFC) {
     FWARNING (("No geo in calcPrimitiveCount\n"));
   }
   else 
   {
     lensPtr = GeoPLengthsUI32Ptr::dcast( geoPtr->getLengths() );
-    lN = (lensPtr == osg::NullFC) ? 0 : lensPtr->getSize();
+    lN = (lensPtr == OSG::NullFC) ? 0 : lensPtr->getSize();
 
     geoTypePtr = GeoPTypesUI8Ptr::dcast( geoPtr->getTypes() );
-    tN = (geoTypePtr == osg::NullFC) ? 0 : geoTypePtr->getSize();
+    tN = (geoTypePtr == OSG::NullFC) ? 0 : geoTypePtr->getSize();
 
     if ((tN == 0) || (lN != 0 && tN != lN) || (lN == 0 && tN != 1))  { return
     0; }
@@ -1926,7 +1926,7 @@ UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
         {
             GeoPositionsPtr pos = geoPtr->getPositions();
             
-            if(pos == osg::NullFC)
+            if(pos == OSG::NullFC)
             {
                 FWARNING (("calcPrimitiveCount: no Points!\n"));
                 return 0;
@@ -1980,7 +1980,7 @@ UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
 
 
 OSG_SYSTEMLIB_DLLMAPPING
-void osg::calcFaceNormals( GeometryPtr geo )
+void OSG::calcFaceNormals( GeometryPtr geo )
 {
   GeoIndicesPtr newIndex = GeoIndicesUI32::create();
   GeoNormalsPtr newNormals = GeoNormals3f::create();
@@ -2120,7 +2120,7 @@ void osg::calcFaceNormals( GeometryPtr geo )
 
 
 
-OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getFaceNormals(GeometryPtr geo, Real32 length)
+OSG_SYSTEMLIB_DLLMAPPING NodePtr OSG::getFaceNormals(GeometryPtr geo, Real32 length)
 {
   NodePtr  p = Node::create();
   GeometryPtr g = Geometry::create();
@@ -2193,7 +2193,7 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getFaceNormals(GeometryPtr geo, Real32 len
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void osg::mergeGeometries(std::vector<NodePtr> &nodes,
+void OSG::mergeGeometries(std::vector<NodePtr> &nodes,
                           std::vector<NodePtr> &results)
 {
     FFATAL(( "Merge Geometries: Not implemented yet!\n"));

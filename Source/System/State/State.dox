@@ -80,6 +80,9 @@ glBlendColor).
 
 \endext
 
+\hint If you want to use state chunks in the scene graph, you can attach them to
+a osg::ChunkMaterial or one of its descendents. \endhint
+
 \dev The main motivation for osg::StateChunk::changeFrom() is to allow optimizations in terms of
 state changes. When switching between chunks that have similar settings, only
 the differences need to be passed to OpenGL. When and where it makes sense to
@@ -213,6 +216,10 @@ calculated automatically. \hint Don't use mipmaps for fast changing textures
 
 Multiple texture chunks (right now 4) can be used simultaneously for
 multi-texturing.
+
+\hint To do multi-texturing in the absense of a specific multi-texture
+material you can just append additional texture chunks to a osg::ChunkMaterial
+or one of its descendents. \endhint
 
 \section PageSystemTextureTransformChunk TextureTransformChunk
 

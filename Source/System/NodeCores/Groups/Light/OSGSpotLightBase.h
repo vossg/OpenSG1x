@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -95,9 +95,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
         NextFieldId         = SpotCutOffFieldId   + 1
     };
 
-    static const osg::BitVector DirectionFieldMask;
-    static const osg::BitVector SpotExponentFieldMask;
-    static const osg::BitVector SpotCutOffFieldMask;
+    static const OSG::BitVector DirectionFieldMask;
+    static const OSG::BitVector SpotExponentFieldMask;
+    static const OSG::BitVector SpotCutOffFieldMask;
 
 
     /*---------------------------------------------------------------------*/

@@ -67,6 +67,6 @@ public:
     virtual FontStyle   *createInstance(Real32 size);
 };
 
-OSG_END_NAMESPACE typedef osg::TXFFont * TXFFontP;
+OSG_END_NAMESPACE typedef OSG::TXFFont * TXFFontP;
 #endif
 #endif // TXFFONT_CLASS_DECLARATION

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ MultiDisplayWindowPtr MultiDisplayWindowBase::create(void)
 {
     MultiDisplayWindowPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = MultiDisplayWindowPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,12 +96,14 @@ MultiDisplayWindowPtr MultiDisplayWindowBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the MultiDisplayWindow::_sfHServers field.
 inline
 SFUInt32 *MultiDisplayWindowBase::getSFHServers(void)
 {
     return &_sfHServers;
 }
 
+//! Get the MultiDisplayWindow::_sfVServers field.
 inline
 SFUInt32 *MultiDisplayWindowBase::getSFVServers(void)
 {
@@ -109,36 +111,42 @@ SFUInt32 *MultiDisplayWindowBase::getSFVServers(void)
 }
 
 
+//! Get the value of the MultiDisplayWindow::_sfHServers field.
 inline
 UInt32 &MultiDisplayWindowBase::getHServers(void)
 {
     return _sfHServers.getValue();
 }
 
+//! Get the value of the MultiDisplayWindow::_sfHServers field.
 inline
 const UInt32 &MultiDisplayWindowBase::getHServers(void) const
 {
     return _sfHServers.getValue();
 }
 
+//! Set the value of the MultiDisplayWindow::_sfHServers field.
 inline
 void MultiDisplayWindowBase::setHServers(const UInt32 &value)
 {
     _sfHServers.setValue(value);
 }
 
+//! Get the value of the MultiDisplayWindow::_sfVServers field.
 inline
 UInt32 &MultiDisplayWindowBase::getVServers(void)
 {
     return _sfVServers.getValue();
 }
 
+//! Get the value of the MultiDisplayWindow::_sfVServers field.
 inline
 const UInt32 &MultiDisplayWindowBase::getVServers(void) const
 {
     return _sfVServers.getValue();
 }
 
+//! Set the value of the MultiDisplayWindow::_sfVServers field.
 inline
 void MultiDisplayWindowBase::setVServers(const UInt32 &value)
 {

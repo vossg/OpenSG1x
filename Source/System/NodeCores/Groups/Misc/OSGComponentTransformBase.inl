@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ ComponentTransformPtr ComponentTransformBase::create(void)
 {
     ComponentTransformPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = ComponentTransformPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,30 +96,35 @@ ComponentTransformPtr ComponentTransformBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the ComponentTransform::_sfCenter field.
 inline
 SFVec3f *ComponentTransformBase::getSFCenter(void)
 {
     return &_sfCenter;
 }
 
+//! Get the ComponentTransform::_sfRotation field.
 inline
 SFQuaternion *ComponentTransformBase::getSFRotation(void)
 {
     return &_sfRotation;
 }
 
+//! Get the ComponentTransform::_sfScale field.
 inline
 SFVec3f *ComponentTransformBase::getSFScale(void)
 {
     return &_sfScale;
 }
 
+//! Get the ComponentTransform::_sfScaleOrientation field.
 inline
 SFQuaternion *ComponentTransformBase::getSFScaleOrientation(void)
 {
     return &_sfScaleOrientation;
 }
 
+//! Get the ComponentTransform::_sfTranslation field.
 inline
 SFVec3f *ComponentTransformBase::getSFTranslation(void)
 {
@@ -127,90 +132,105 @@ SFVec3f *ComponentTransformBase::getSFTranslation(void)
 }
 
 
+//! Get the value of the ComponentTransform::_sfCenter field.
 inline
 Vec3f &ComponentTransformBase::getCenter(void)
 {
     return _sfCenter.getValue();
 }
 
+//! Get the value of the ComponentTransform::_sfCenter field.
 inline
 const Vec3f &ComponentTransformBase::getCenter(void) const
 {
     return _sfCenter.getValue();
 }
 
+//! Set the value of the ComponentTransform::_sfCenter field.
 inline
 void ComponentTransformBase::setCenter(const Vec3f &value)
 {
     _sfCenter.setValue(value);
 }
 
+//! Get the value of the ComponentTransform::_sfRotation field.
 inline
 Quaternion &ComponentTransformBase::getRotation(void)
 {
     return _sfRotation.getValue();
 }
 
+//! Get the value of the ComponentTransform::_sfRotation field.
 inline
 const Quaternion &ComponentTransformBase::getRotation(void) const
 {
     return _sfRotation.getValue();
 }
 
+//! Set the value of the ComponentTransform::_sfRotation field.
 inline
 void ComponentTransformBase::setRotation(const Quaternion &value)
 {
     _sfRotation.setValue(value);
 }
 
+//! Get the value of the ComponentTransform::_sfScale field.
 inline
 Vec3f &ComponentTransformBase::getScale(void)
 {
     return _sfScale.getValue();
 }
 
+//! Get the value of the ComponentTransform::_sfScale field.
 inline
 const Vec3f &ComponentTransformBase::getScale(void) const
 {
     return _sfScale.getValue();
 }
 
+//! Set the value of the ComponentTransform::_sfScale field.
 inline
 void ComponentTransformBase::setScale(const Vec3f &value)
 {
     _sfScale.setValue(value);
 }
 
+//! Get the value of the ComponentTransform::_sfScaleOrientation field.
 inline
 Quaternion &ComponentTransformBase::getScaleOrientation(void)
 {
     return _sfScaleOrientation.getValue();
 }
 
+//! Get the value of the ComponentTransform::_sfScaleOrientation field.
 inline
 const Quaternion &ComponentTransformBase::getScaleOrientation(void) const
 {
     return _sfScaleOrientation.getValue();
 }
 
+//! Set the value of the ComponentTransform::_sfScaleOrientation field.
 inline
 void ComponentTransformBase::setScaleOrientation(const Quaternion &value)
 {
     _sfScaleOrientation.setValue(value);
 }
 
+//! Get the value of the ComponentTransform::_sfTranslation field.
 inline
 Vec3f &ComponentTransformBase::getTranslation(void)
 {
     return _sfTranslation.getValue();
 }
 
+//! Get the value of the ComponentTransform::_sfTranslation field.
 inline
 const Vec3f &ComponentTransformBase::getTranslation(void) const
 {
     return _sfTranslation.getValue();
 }
 
+//! Set the value of the ComponentTransform::_sfTranslation field.
 inline
 void ComponentTransformBase::setTranslation(const Vec3f &value)
 {

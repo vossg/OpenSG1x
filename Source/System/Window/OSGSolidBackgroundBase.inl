@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ SolidBackgroundPtr SolidBackgroundBase::create(void)
 {
     SolidBackgroundPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = SolidBackgroundPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,6 +96,7 @@ SolidBackgroundPtr SolidBackgroundBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the SolidBackground::_sfColor field.
 inline
 SFColor3f *SolidBackgroundBase::getSFColor(void)
 {
@@ -103,18 +104,21 @@ SFColor3f *SolidBackgroundBase::getSFColor(void)
 }
 
 
+//! Get the value of the SolidBackground::_sfColor field.
 inline
 Color3f &SolidBackgroundBase::getColor(void)
 {
     return _sfColor.getValue();
 }
 
+//! Get the value of the SolidBackground::_sfColor field.
 inline
 const Color3f &SolidBackgroundBase::getColor(void) const
 {
     return _sfColor.getValue();
 }
 
+//! Set the value of the SolidBackground::_sfColor field.
 inline
 void SolidBackgroundBase::setColor(const Color3f &value)
 {

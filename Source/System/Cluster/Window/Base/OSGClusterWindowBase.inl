@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ ClusterWindowPtr ClusterWindowBase::create(void)
 {
     ClusterWindowPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = ClusterWindowPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,30 +96,35 @@ ClusterWindowPtr ClusterWindowBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the ClusterWindow::_mfServers field.
 inline
 MFString *ClusterWindowBase::getMFServers(void)
 {
     return &_mfServers;
 }
 
+//! Get the ClusterWindow::_sfConnectionType field.
 inline
 SFString *ClusterWindowBase::getSFConnectionType(void)
 {
     return &_sfConnectionType;
 }
 
+//! Get the ClusterWindow::_sfClientWindow field.
 inline
 SFWindowPtr *ClusterWindowBase::getSFClientWindow(void)
 {
     return &_sfClientWindow;
 }
 
+//! Get the ClusterWindow::_sfServicePort field.
 inline
 SFUInt32 *ClusterWindowBase::getSFServicePort(void)
 {
     return &_sfServicePort;
 }
 
+//! Get the ClusterWindow::_sfBroadcastAddress field.
 inline
 SFString *ClusterWindowBase::getSFBroadcastAddress(void)
 {
@@ -127,72 +132,84 @@ SFString *ClusterWindowBase::getSFBroadcastAddress(void)
 }
 
 
+//! Get the value of the ClusterWindow::_sfConnectionType field.
 inline
 std::string &ClusterWindowBase::getConnectionType(void)
 {
     return _sfConnectionType.getValue();
 }
 
+//! Get the value of the ClusterWindow::_sfConnectionType field.
 inline
 const std::string &ClusterWindowBase::getConnectionType(void) const
 {
     return _sfConnectionType.getValue();
 }
 
+//! Set the value of the ClusterWindow::_sfConnectionType field.
 inline
 void ClusterWindowBase::setConnectionType(const std::string &value)
 {
     _sfConnectionType.setValue(value);
 }
 
+//! Get the value of the ClusterWindow::_sfClientWindow field.
 inline
 WindowPtr &ClusterWindowBase::getClientWindow(void)
 {
     return _sfClientWindow.getValue();
 }
 
+//! Get the value of the ClusterWindow::_sfClientWindow field.
 inline
 const WindowPtr &ClusterWindowBase::getClientWindow(void) const
 {
     return _sfClientWindow.getValue();
 }
 
+//! Set the value of the ClusterWindow::_sfClientWindow field.
 inline
 void ClusterWindowBase::setClientWindow(const WindowPtr &value)
 {
     _sfClientWindow.setValue(value);
 }
 
+//! Get the value of the ClusterWindow::_sfServicePort field.
 inline
 UInt32 &ClusterWindowBase::getServicePort(void)
 {
     return _sfServicePort.getValue();
 }
 
+//! Get the value of the ClusterWindow::_sfServicePort field.
 inline
 const UInt32 &ClusterWindowBase::getServicePort(void) const
 {
     return _sfServicePort.getValue();
 }
 
+//! Set the value of the ClusterWindow::_sfServicePort field.
 inline
 void ClusterWindowBase::setServicePort(const UInt32 &value)
 {
     _sfServicePort.setValue(value);
 }
 
+//! Get the value of the ClusterWindow::_sfBroadcastAddress field.
 inline
 std::string &ClusterWindowBase::getBroadcastAddress(void)
 {
     return _sfBroadcastAddress.getValue();
 }
 
+//! Get the value of the ClusterWindow::_sfBroadcastAddress field.
 inline
 const std::string &ClusterWindowBase::getBroadcastAddress(void) const
 {
     return _sfBroadcastAddress.getValue();
 }
 
+//! Set the value of the ClusterWindow::_sfBroadcastAddress field.
 inline
 void ClusterWindowBase::setBroadcastAddress(const std::string &value)
 {
@@ -200,18 +217,21 @@ void ClusterWindowBase::setBroadcastAddress(const std::string &value)
 }
 
 
+//! Get the value of the \a index element the ClusterWindow::_mfServers field.
 inline
 std::string &ClusterWindowBase::getServers(const UInt32 index)
 {
     return _mfServers[index];
 }
 
+//! Get the ClusterWindow::_mfServers field.
 inline
 MFString &ClusterWindowBase::getServers(void)
 {
     return _mfServers;
 }
 
+//! Get the ClusterWindow::_mfServers field.
 inline
 const MFString &ClusterWindowBase::getServers(void) const
 {

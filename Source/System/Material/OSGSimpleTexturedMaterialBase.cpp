@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -87,19 +87,19 @@ const OSG::BitVector  SimpleTexturedMaterialBase::EnvMapFieldMask =
 // Field descriptions
 
 /*! \var ImageP          SimpleTexturedMaterialBase::_sfImage
-    the texture image
+    Defines the texture image.
 */
 /*! \var UInt32          SimpleTexturedMaterialBase::_sfMinFilter
-    the minification filter
+    Defines the minification filter, see glTexParameter for details.          Default: GL_LINEAR_MIPMAP_LINEAR.
 */
 /*! \var UInt32          SimpleTexturedMaterialBase::_sfMagFilter
-    the magnification filter
+    Defines the magnification filter, see glTexParameter for details.          Default: GL_LINEAR
 */
 /*! \var UInt32          SimpleTexturedMaterialBase::_sfEnvMode
-    the environment mode, defining how texture and lighting color interact
+    Sets the environment mode, defining how texture and lighting color interact.         Default: GL_REPLACE.
 */
 /*! \var bool            SimpleTexturedMaterialBase::_sfEnvMap
-    use the texture as a spherical environment map
+    Defines whether to use the texture as a spherical environment map.
 */
 
 //! SimpleTexturedMaterial description

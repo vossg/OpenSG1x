@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -103,13 +103,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ProjectionCameraDecoratorBase : public StereoCame
         NextFieldId    = HeightFieldId  + 1
     };
 
-    static const osg::BitVector UserFieldMask;
-    static const osg::BitVector SurfaceFieldMask;
-    static const osg::BitVector LeftFieldMask;
-    static const osg::BitVector BottomFieldMask;
-    static const osg::BitVector NormalFieldMask;
-    static const osg::BitVector WidthFieldMask;
-    static const osg::BitVector HeightFieldMask;
+    static const OSG::BitVector UserFieldMask;
+    static const OSG::BitVector SurfaceFieldMask;
+    static const OSG::BitVector LeftFieldMask;
+    static const OSG::BitVector BottomFieldMask;
+    static const OSG::BitVector NormalFieldMask;
+    static const OSG::BitVector WidthFieldMask;
+    static const OSG::BitVector HeightFieldMask;
 
 
     /*---------------------------------------------------------------------*/

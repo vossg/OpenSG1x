@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -566,7 +566,7 @@ inline              void          indentLog   (     UInt32        indent,
     if(OSG::osgLogP->checkLevel(OSG::LOG_NOTICE))               \
     {                                                           \
         OSG::osgStartLog(true,                                  \
-                         osg::LOG_NOTICE,                       \
+                         OSG::LOG_NOTICE,                       \
                          OSG_LOG_MODULE,                        \
                          __FILE__,                              \
                          __LINE__);                             \
@@ -625,7 +625,7 @@ inline              void          indentLog   (     UInt32        indent,
     if (!condition)                                             \
     {                                                           \
         OSG::osgLog().lock();                                   \
-        OSG::osgLog().stream(osg::LOG_FATAL)                    \
+        OSG::osgLog().stream(OSG::LOG_FATAL)                    \
             << OSG_LOG_MODULE                                   \
             << ':'                                              \
             << __FILE__                                         \

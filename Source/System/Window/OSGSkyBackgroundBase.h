@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -111,17 +111,17 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
         NextFieldId          = TopTextureFieldId    + 1
     };
 
-    static const osg::BitVector SkyColorFieldMask;
-    static const osg::BitVector SkyAngleFieldMask;
-    static const osg::BitVector GroundColorFieldMask;
-    static const osg::BitVector GroundAngleFieldMask;
-    static const osg::BitVector SphereResFieldMask;
-    static const osg::BitVector BackTextureFieldMask;
-    static const osg::BitVector BottomTextureFieldMask;
-    static const osg::BitVector FrontTextureFieldMask;
-    static const osg::BitVector LeftTextureFieldMask;
-    static const osg::BitVector RightTextureFieldMask;
-    static const osg::BitVector TopTextureFieldMask;
+    static const OSG::BitVector SkyColorFieldMask;
+    static const OSG::BitVector SkyAngleFieldMask;
+    static const OSG::BitVector GroundColorFieldMask;
+    static const OSG::BitVector GroundAngleFieldMask;
+    static const OSG::BitVector SphereResFieldMask;
+    static const OSG::BitVector BackTextureFieldMask;
+    static const OSG::BitVector BottomTextureFieldMask;
+    static const OSG::BitVector FrontTextureFieldMask;
+    static const OSG::BitVector LeftTextureFieldMask;
+    static const OSG::BitVector RightTextureFieldMask;
+    static const OSG::BitVector TopTextureFieldMask;
 
 
     /*---------------------------------------------------------------------*/

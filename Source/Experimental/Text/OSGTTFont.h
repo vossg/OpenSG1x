@@ -45,7 +45,7 @@ public:
     virtual FontStyle   *createInstance(float size);
 };
 
-OSG_END_NAMESPACE typedef osg::TTFont * TTFontP;
+OSG_END_NAMESPACE typedef OSG::TTFont * TTFontP;
 #endif // OSG_WITH_FREETYPE1
 #endif
 #endif // TTFONT_CLASS_DECLARATION

@@ -15,7 +15,7 @@
 OSG_USING_NAMESPACE
 
 // Static Class Variable implementations:
-osg::FontFactory osg::FontFactory:: _the;
+OSG::FontFactory OSG::FontFactory:: _the;
 
 /* */
 FontFactory::FontFactory(void)

@@ -32,7 +32,7 @@ FontStyleFactory::~FontStyleFactory(void)
 {
 }
 
-osg::FontStyle * FontStyleFactory::create
+OSG::FontStyle * FontStyleFactory::create
     (PathHandler & paths, const Char8 * fontName, Real32 size)
 {
     std::list<FontStyle *>::const_iterator   pos;

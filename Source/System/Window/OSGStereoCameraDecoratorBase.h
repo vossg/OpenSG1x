@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -93,8 +93,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StereoCameraDecoratorBase : public CameraDecorato
         NextFieldId          = EyeSeparationFieldId + 1
     };
 
-    static const osg::BitVector LeftEyeFieldMask;
-    static const osg::BitVector EyeSeparationFieldMask;
+    static const OSG::BitVector LeftEyeFieldMask;
+    static const OSG::BitVector EyeSeparationFieldMask;
 
 
     /*---------------------------------------------------------------------*/

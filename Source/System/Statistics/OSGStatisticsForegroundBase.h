@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -93,8 +93,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StatisticsForegroundBase : public Foreground
         NextFieldId       = CollectorFieldId  + 1
     };
 
-    static const osg::BitVector ElementIDsFieldMask;
-    static const osg::BitVector CollectorFieldMask;
+    static const OSG::BitVector ElementIDsFieldMask;
+    static const OSG::BitVector CollectorFieldMask;
 
 
     /*---------------------------------------------------------------------*/

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -91,7 +91,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
         NextFieldId             = DecorateeFieldId          + 1
     };
 
-    static const osg::BitVector DecorateeFieldMask;
+    static const OSG::BitVector DecorateeFieldMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ PointLightPtr PointLightBase::create(void)
 {
     PointLightPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = PointLightPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,6 +96,7 @@ PointLightPtr PointLightBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the PointLight::_sfPosition field.
 inline
 SFPnt3f *PointLightBase::getSFPosition(void)
 {
@@ -103,18 +104,21 @@ SFPnt3f *PointLightBase::getSFPosition(void)
 }
 
 
+//! Get the value of the PointLight::_sfPosition field.
 inline
 Pnt3f &PointLightBase::getPosition(void)
 {
     return _sfPosition.getValue();
 }
 
+//! Get the value of the PointLight::_sfPosition field.
 inline
 const Pnt3f &PointLightBase::getPosition(void) const
 {
     return _sfPosition.getValue();
 }
 
+//! Set the value of the PointLight::_sfPosition field.
 inline
 void PointLightBase::setPosition(const Pnt3f &value)
 {

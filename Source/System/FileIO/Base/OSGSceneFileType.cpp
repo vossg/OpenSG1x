@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -54,7 +54,7 @@
 OSG_USING_NAMESPACE
 
 
-/*! \class osg::SceneFileType 
+/*! \class OSG::SceneFileType 
     \ingroup GrpSystemFileIO
     
  */
@@ -146,7 +146,7 @@ SceneFileType::FCPtrStore SceneFileType::readTopNodes(
 
   FDEBUG (("Running generic SceneFileType::readTopNodes()\n"));
 
-  if (fcPtr != osg::NullFC)
+  if (fcPtr != OSG::NullFC)
     fcVec.push_back(fcPtr);
 
   return fcVec;
@@ -162,7 +162,7 @@ SceneFileType::FCPtrStore SceneFileType::readTopNodes(
 
   FDEBUG (("Running generic SceneFileType::readTopNodes()\n"));
 
-  if (fcPtr != osg::NullFC)
+  if (fcPtr != OSG::NullFC)
     fcVec.push_back(fcPtr);
 
   return fcVec;

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -586,18 +586,6 @@
 
 /*@{*/
 
-/** \brief Begin the osg namespace
- *  \ingroup GrpBaseDefines
- */
-
-# define OSG_BEGIN_NAMESPACE namespace osg { 
-
-/** \brief End the osg namespace
- *  \ingroup GrpBaseDefines
- */
-
-# define OSG_END_NAMESPACE }
-
 /** \brief osg namespace, use to reference a object within the namespace, like
  *  \ingroup GrpBaseDefines
     OSG::OSGUInt32.
@@ -605,19 +593,31 @@
 
 # define OSG osg
 
+/** \brief Begin the osg namespace
+ *  \ingroup GrpBaseDefines
+ */
+
+# define OSG_BEGIN_NAMESPACE namespace OSG { 
+
+/** \brief End the osg namespace
+ *  \ingroup GrpBaseDefines
+ */
+
+# define OSG_END_NAMESPACE }
+
 /** \brief Use the osg namespace throughout the following code.
  *  \ingroup GrpBaseDefines
  */
 
-# define OSG_USING_NAMESPACE namespace osg {} using namespace osg;
+# define OSG_USING_NAMESPACE namespace OSG {} using namespace OSG;
 
 /*@}*/
 
 # else /* OSG_HAS_NAMESPACE */
 
+# define OSG 
 # define OSG_BEGIN_NAMESPACE 
 # define OSG_END_NAMESPACE 
-# define OSG 
 # define OSG_USING_OSG_NAMESPACE
 
 #endif /*  */

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -93,8 +93,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SlicesBase : public MaterialDrawable
         NextFieldId           = NumberOfSlicesFieldId + 1
     };
 
-    static const osg::BitVector SizeFieldMask;
-    static const osg::BitVector NumberOfSlicesFieldMask;
+    static const OSG::BitVector SizeFieldMask;
+    static const OSG::BitVector NumberOfSlicesFieldMask;
 
 
     /*---------------------------------------------------------------------*/

@@ -13,22 +13,22 @@ int main (int argc, char **argv)
 {
     bool retCode = 0;
     std::ofstream out;
-    osg::ImageFileType *fileType;
-    osg::Image *pImage = new OSG::Image;;
-    osg::UChar8 *data = 0;
+    OSG::ImageFileType *fileType;
+    OSG::Image *pImage = new OSG::Image;;
+    OSG::UChar8 *data = 0;
     unsigned long i,maxSize;
 
     OSG::ImageFileHandler::the().print();
 
     if(argc >= 3 && !OSG::stringcasecmp(argv[1], "-type"))
     {
-        fileType = osg::ImageFileHandler::the().getFileType(argv[2]);  
+        fileType = OSG::ImageFileHandler::the().getFileType(argv[2]);  
         argv += 2;
         argc -= 2;       
     }
     else 
     {
-        fileType = osg::ImageFileHandler::the().getFileType("MTD");
+        fileType = OSG::ImageFileHandler::the().getFileType("MTD");
     }
     
     if (argc > 2)
@@ -42,8 +42,8 @@ int main (int argc, char **argv)
             if (out.eof() == false)
             {
                 maxSize = fileType->maxBufferSize(*pImage);
-                data = new osg::UChar8[maxSize];
-                maxSize = fileType->store(*pImage,(osg::UChar8*)data);
+                data = new OSG::UChar8[maxSize];
+                maxSize = fileType->store(*pImage,(OSG::UChar8*)data);
                 out << "static unsigned char imageData[" << maxSize << "] = {" ;
                 for (i = 0; i < maxSize; i++)
                 {

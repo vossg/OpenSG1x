@@ -236,14 +236,14 @@ void key(unsigned char key, int x, int y)
             {
                 puts("moving object");
 //                m = scene_trans->getSFMatrix()->getValue();
-                tball.setMode( osg::Trackball::OSGCamera );
+                tball.setMode( OSG::Trackball::OSGCamera );
 
             }
             else
             {
                 puts("moving camera");
 //                m = cam_trans->getSFMatrix()->getValue();
-                tball.setMode( osg::Trackball::OSGObject );
+                tball.setMode( OSG::Trackball::OSGObject );
             }
             
 //            q.setValue(m);

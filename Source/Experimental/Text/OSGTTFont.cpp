@@ -107,7 +107,7 @@ bool TTFont::createInstance(Text *fs)
     return retVal;
 }
 
-osg::FontStyle * TTFont::createInstance (float size)
+OSG::FontStyle * TTFont::createInstance (float size)
 {
     bool        retVal = false;
     TT_Instance *inst = new TT_Instance;

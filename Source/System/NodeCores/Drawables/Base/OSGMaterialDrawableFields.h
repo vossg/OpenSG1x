@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -115,6 +115,6 @@ OSG_DLLEXPORT_DECL1(MField, MaterialDrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALDRAWABLEFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableFields.h,v 1.2 2002/10/24 14:22:01 dirk Exp $"
+#define OSGMATERIALDRAWABLEFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableFields.h,v 1.3 2002/11/11 13:55:48 dirk Exp $"
 
 #endif /* _OSGMATERIALDRAWABLEFIELDS_H_ */

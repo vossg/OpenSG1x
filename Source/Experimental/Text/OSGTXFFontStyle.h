@@ -47,6 +47,6 @@ public:
     virtual ImageFontGlyph  *getImageGlyph(UInt8 which);
 };
 
-OSG_END_NAMESPACE typedef osg::TXFFontStyle * TXFFontStyleP;
+OSG_END_NAMESPACE typedef OSG::TXFFontStyle * TXFFontStyleP;
 #endif
 #endif // TXFFONTINSTANCE_CLASS_DECLARATION

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -119,21 +119,21 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public Drawable
         NextFieldId            = GLIdFieldId            + 1
     };
 
-    static const osg::BitVector TypesFieldMask;
-    static const osg::BitVector LengthsFieldMask;
-    static const osg::BitVector PositionsFieldMask;
-    static const osg::BitVector NormalsFieldMask;
-    static const osg::BitVector ColorsFieldMask;
-    static const osg::BitVector SecondaryColorsFieldMask;
-    static const osg::BitVector TexCoordsFieldMask;
-    static const osg::BitVector TexCoords1FieldMask;
-    static const osg::BitVector TexCoords2FieldMask;
-    static const osg::BitVector TexCoords3FieldMask;
-    static const osg::BitVector IndicesFieldMask;
-    static const osg::BitVector IndexMappingFieldMask;
-    static const osg::BitVector MaterialFieldMask;
-    static const osg::BitVector DlistCacheFieldMask;
-    static const osg::BitVector GLIdFieldMask;
+    static const OSG::BitVector TypesFieldMask;
+    static const OSG::BitVector LengthsFieldMask;
+    static const OSG::BitVector PositionsFieldMask;
+    static const OSG::BitVector NormalsFieldMask;
+    static const OSG::BitVector ColorsFieldMask;
+    static const OSG::BitVector SecondaryColorsFieldMask;
+    static const OSG::BitVector TexCoordsFieldMask;
+    static const OSG::BitVector TexCoords1FieldMask;
+    static const OSG::BitVector TexCoords2FieldMask;
+    static const OSG::BitVector TexCoords3FieldMask;
+    static const OSG::BitVector IndicesFieldMask;
+    static const OSG::BitVector IndexMappingFieldMask;
+    static const OSG::BitVector MaterialFieldMask;
+    static const OSG::BitVector DlistCacheFieldMask;
+    static const OSG::BitVector GLIdFieldMask;
 
 
     /*---------------------------------------------------------------------*/

@@ -217,6 +217,6 @@ public:
     }
 };
 
-OSG_END_NAMESPACE typedef osg::VectorFontGlyph * VectorFontGlyphP;
+OSG_END_NAMESPACE typedef OSG::VectorFontGlyph * VectorFontGlyphP;
 #endif
 #endif // VECTORGLYPH_CLASS_DECLARATION

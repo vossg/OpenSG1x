@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -97,10 +97,10 @@ class OSG_SYSTEMLIB_DLLMAPPING FileGrabForegroundBase : public GrabForeground
         NextFieldId      = IncrementFieldId + 1
     };
 
-    static const osg::BitVector ActiveFieldMask;
-    static const osg::BitVector NameFieldMask;
-    static const osg::BitVector FrameFieldMask;
-    static const osg::BitVector IncrementFieldMask;
+    static const OSG::BitVector ActiveFieldMask;
+    static const OSG::BitVector NameFieldMask;
+    static const OSG::BitVector FrameFieldMask;
+    static const OSG::BitVector IncrementFieldMask;
 
 
     /*---------------------------------------------------------------------*/

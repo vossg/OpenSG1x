@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -50,14 +50,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! *put brief class description here* 
+/*! \brief Simple textured Material wrapping standard OpenGL lighting and a
+    single texture.  See \ref 
+    PageSystemMaterialSimpleTexturedMaterial for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterial : public SimpleTexturedMaterialBase
 {
-  private:
-
-    typedef SimpleTexturedMaterialBase Inherited;
-
     /*==========================  PUBLIC  =================================*/
   public:
 
@@ -128,6 +127,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterial : public SimpleTexturedMat
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
+
+    typedef SimpleTexturedMaterialBase Inherited;
 
     friend class FieldContainer;
     friend class SimpleTexturedMaterialBase;

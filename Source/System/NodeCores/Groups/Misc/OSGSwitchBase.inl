@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ SwitchPtr SwitchBase::create(void)
 {
     SwitchPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = SwitchPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,6 +96,7 @@ SwitchPtr SwitchBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the Switch::_sfChoice field.
 inline
 SFInt32 *SwitchBase::getSFChoice(void)
 {
@@ -103,18 +104,21 @@ SFInt32 *SwitchBase::getSFChoice(void)
 }
 
 
+//! Get the value of the Switch::_sfChoice field.
 inline
 Int32 &SwitchBase::getChoice(void)
 {
     return _sfChoice.getValue();
 }
 
+//! Get the value of the Switch::_sfChoice field.
 inline
 const Int32 &SwitchBase::getChoice(void) const
 {
     return _sfChoice.getValue();
 }
 
+//! Set the value of the Switch::_sfChoice field.
 inline
 void SwitchBase::setChoice(const Int32 &value)
 {

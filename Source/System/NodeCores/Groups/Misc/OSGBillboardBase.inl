@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ BillboardPtr BillboardBase::create(void)
 {
     BillboardPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = BillboardPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,18 +96,21 @@ BillboardPtr BillboardBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the Billboard::_sfAxisOfRotation field.
 inline
 SFVec3f *BillboardBase::getSFAxisOfRotation(void)
 {
     return &_sfAxisOfRotation;
 }
 
+//! Get the Billboard::_sfFocusOnCamera field.
 inline
 SFBool *BillboardBase::getSFFocusOnCamera(void)
 {
     return &_sfFocusOnCamera;
 }
 
+//! Get the Billboard::_sfAlignToScreen field.
 inline
 SFBool *BillboardBase::getSFAlignToScreen(void)
 {
@@ -115,54 +118,63 @@ SFBool *BillboardBase::getSFAlignToScreen(void)
 }
 
 
+//! Get the value of the Billboard::_sfAxisOfRotation field.
 inline
 Vec3f &BillboardBase::getAxisOfRotation(void)
 {
     return _sfAxisOfRotation.getValue();
 }
 
+//! Get the value of the Billboard::_sfAxisOfRotation field.
 inline
 const Vec3f &BillboardBase::getAxisOfRotation(void) const
 {
     return _sfAxisOfRotation.getValue();
 }
 
+//! Set the value of the Billboard::_sfAxisOfRotation field.
 inline
 void BillboardBase::setAxisOfRotation(const Vec3f &value)
 {
     _sfAxisOfRotation.setValue(value);
 }
 
+//! Get the value of the Billboard::_sfFocusOnCamera field.
 inline
 bool &BillboardBase::getFocusOnCamera(void)
 {
     return _sfFocusOnCamera.getValue();
 }
 
+//! Get the value of the Billboard::_sfFocusOnCamera field.
 inline
 const bool &BillboardBase::getFocusOnCamera(void) const
 {
     return _sfFocusOnCamera.getValue();
 }
 
+//! Set the value of the Billboard::_sfFocusOnCamera field.
 inline
 void BillboardBase::setFocusOnCamera(const bool &value)
 {
     _sfFocusOnCamera.setValue(value);
 }
 
+//! Get the value of the Billboard::_sfAlignToScreen field.
 inline
 bool &BillboardBase::getAlignToScreen(void)
 {
     return _sfAlignToScreen.getValue();
 }
 
+//! Get the value of the Billboard::_sfAlignToScreen field.
 inline
 const bool &BillboardBase::getAlignToScreen(void) const
 {
     return _sfAlignToScreen.getValue();
 }
 
+//! Set the value of the Billboard::_sfAlignToScreen field.
 inline
 void BillboardBase::setAlignToScreen(const bool &value)
 {

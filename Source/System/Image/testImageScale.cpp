@@ -14,7 +14,7 @@
 #include "OSGImageFileHandler.h"
 #include "OSGImage.h"
 
-using osg::Image;
+using OSG::Image;
 
 int main (int argc, char **argv)
 {

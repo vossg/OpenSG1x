@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -104,7 +104,7 @@ class OSG_WINDOWQTLIB_DLLMAPPING QTWindowBase : public XWindow
         NextFieldId     = GlWidgetFieldId + 1
     };
 
-    static const osg::BitVector GlWidgetFieldMask;
+    static const OSG::BitVector GlWidgetFieldMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */

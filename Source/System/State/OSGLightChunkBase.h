@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -109,16 +109,16 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
         NextFieldId                 = QuadraticAttenuationFieldId + 1
     };
 
-    static const osg::BitVector DiffuseFieldMask;
-    static const osg::BitVector AmbientFieldMask;
-    static const osg::BitVector SpecularFieldMask;
-    static const osg::BitVector PositionFieldMask;
-    static const osg::BitVector DirectionFieldMask;
-    static const osg::BitVector ExponentFieldMask;
-    static const osg::BitVector CutoffFieldMask;
-    static const osg::BitVector ConstantAttenuationFieldMask;
-    static const osg::BitVector LinearAttenuationFieldMask;
-    static const osg::BitVector QuadraticAttenuationFieldMask;
+    static const OSG::BitVector DiffuseFieldMask;
+    static const OSG::BitVector AmbientFieldMask;
+    static const OSG::BitVector SpecularFieldMask;
+    static const OSG::BitVector PositionFieldMask;
+    static const OSG::BitVector DirectionFieldMask;
+    static const OSG::BitVector ExponentFieldMask;
+    static const OSG::BitVector CutoffFieldMask;
+    static const OSG::BitVector ConstantAttenuationFieldMask;
+    static const OSG::BitVector LinearAttenuationFieldMask;
+    static const OSG::BitVector QuadraticAttenuationFieldMask;
 
 
     /*---------------------------------------------------------------------*/

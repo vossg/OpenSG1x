@@ -45,6 +45,6 @@ public:
     }
 };
 
-OSG_END_NAMESPACE typedef osg::FontFactory * FontFactoryP;
+OSG_END_NAMESPACE typedef OSG::FontFactory * FontFactoryP;
 #endif
 #endif // FONTFACTORY_CLASS_DECLARATION

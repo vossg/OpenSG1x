@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -105,14 +105,14 @@ class OSG_SYSTEMLIB_DLLMAPPING TexGenChunkBase : public StateChunk
         NextFieldId          = GenFuncQPlaneFieldId + 1
     };
 
-    static const osg::BitVector GenFuncSFieldMask;
-    static const osg::BitVector GenFuncTFieldMask;
-    static const osg::BitVector GenFuncRFieldMask;
-    static const osg::BitVector GenFuncQFieldMask;
-    static const osg::BitVector GenFuncSPlaneFieldMask;
-    static const osg::BitVector GenFuncTPlaneFieldMask;
-    static const osg::BitVector GenFuncRPlaneFieldMask;
-    static const osg::BitVector GenFuncQPlaneFieldMask;
+    static const OSG::BitVector GenFuncSFieldMask;
+    static const OSG::BitVector GenFuncTFieldMask;
+    static const OSG::BitVector GenFuncRFieldMask;
+    static const OSG::BitVector GenFuncQFieldMask;
+    static const OSG::BitVector GenFuncSPlaneFieldMask;
+    static const OSG::BitVector GenFuncTPlaneFieldMask;
+    static const OSG::BitVector GenFuncRPlaneFieldMask;
+    static const OSG::BitVector GenFuncQPlaneFieldMask;
 
 
     /*---------------------------------------------------------------------*/

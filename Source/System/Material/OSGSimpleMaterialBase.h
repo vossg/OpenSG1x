@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -105,14 +105,14 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
         NextFieldId          = ColorMaterialFieldId + 1
     };
 
-    static const osg::BitVector AmbientFieldMask;
-    static const osg::BitVector DiffuseFieldMask;
-    static const osg::BitVector SpecularFieldMask;
-    static const osg::BitVector ShininessFieldMask;
-    static const osg::BitVector EmissionFieldMask;
-    static const osg::BitVector TransparencyFieldMask;
-    static const osg::BitVector LitFieldMask;
-    static const osg::BitVector ColorMaterialFieldMask;
+    static const OSG::BitVector AmbientFieldMask;
+    static const OSG::BitVector DiffuseFieldMask;
+    static const OSG::BitVector SpecularFieldMask;
+    static const OSG::BitVector ShininessFieldMask;
+    static const OSG::BitVector EmissionFieldMask;
+    static const OSG::BitVector TransparencyFieldMask;
+    static const OSG::BitVector LitFieldMask;
+    static const OSG::BitVector ColorMaterialFieldMask;
 
 
     /*---------------------------------------------------------------------*/

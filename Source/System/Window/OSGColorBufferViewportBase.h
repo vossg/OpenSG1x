@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -97,10 +97,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ColorBufferViewportBase : public Viewport
         NextFieldId  = AlphaFieldId + 1
     };
 
-    static const osg::BitVector RedFieldMask;
-    static const osg::BitVector BlueFieldMask;
-    static const osg::BitVector GreenFieldMask;
-    static const osg::BitVector AlphaFieldMask;
+    static const OSG::BitVector RedFieldMask;
+    static const OSG::BitVector BlueFieldMask;
+    static const OSG::BitVector GreenFieldMask;
+    static const OSG::BitVector AlphaFieldMask;
 
 
     /*---------------------------------------------------------------------*/

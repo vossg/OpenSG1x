@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ StereoBufferViewportPtr StereoBufferViewportBase::create(void)
 {
     StereoBufferViewportPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = StereoBufferViewportPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,12 +96,14 @@ StereoBufferViewportPtr StereoBufferViewportBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the StereoBufferViewport::_sfLeftBuffer field.
 inline
 SFBool *StereoBufferViewportBase::getSFLeftBuffer(void)
 {
     return &_sfLeftBuffer;
 }
 
+//! Get the StereoBufferViewport::_sfRightBuffer field.
 inline
 SFBool *StereoBufferViewportBase::getSFRightBuffer(void)
 {
@@ -109,36 +111,42 @@ SFBool *StereoBufferViewportBase::getSFRightBuffer(void)
 }
 
 
+//! Get the value of the StereoBufferViewport::_sfLeftBuffer field.
 inline
 bool &StereoBufferViewportBase::getLeftBuffer(void)
 {
     return _sfLeftBuffer.getValue();
 }
 
+//! Get the value of the StereoBufferViewport::_sfLeftBuffer field.
 inline
 const bool &StereoBufferViewportBase::getLeftBuffer(void) const
 {
     return _sfLeftBuffer.getValue();
 }
 
+//! Set the value of the StereoBufferViewport::_sfLeftBuffer field.
 inline
 void StereoBufferViewportBase::setLeftBuffer(const bool &value)
 {
     _sfLeftBuffer.setValue(value);
 }
 
+//! Get the value of the StereoBufferViewport::_sfRightBuffer field.
 inline
 bool &StereoBufferViewportBase::getRightBuffer(void)
 {
     return _sfRightBuffer.getValue();
 }
 
+//! Get the value of the StereoBufferViewport::_sfRightBuffer field.
 inline
 const bool &StereoBufferViewportBase::getRightBuffer(void) const
 {
     return _sfRightBuffer.getValue();
 }
 
+//! Set the value of the StereoBufferViewport::_sfRightBuffer field.
 inline
 void StereoBufferViewportBase::setRightBuffer(const bool &value)
 {

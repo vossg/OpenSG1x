@@ -116,8 +116,8 @@ int main (int argc, char **argv)
     unsigned int nquads = 0;
     unsigned int ngons = 0;
 
-    osg::FaceIterator fi       = plane_geo->beginFaces();
-    osg::FaceIterator endFaces = plane_geo->endFaces();
+    OSG::FaceIterator fi       = plane_geo->beginFaces();
+    OSG::FaceIterator endFaces = plane_geo->endFaces();
 
     for(; fi != endFaces; ++fi)
     {

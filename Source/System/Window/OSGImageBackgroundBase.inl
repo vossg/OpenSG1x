@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ ImageBackgroundPtr ImageBackgroundBase::create(void)
 {
     ImageBackgroundPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = ImageBackgroundPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,18 +96,21 @@ ImageBackgroundPtr ImageBackgroundBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the ImageBackground::_sfColor field.
 inline
 SFColor3f *ImageBackgroundBase::getSFColor(void)
 {
     return &_sfColor;
 }
 
+//! Get the ImageBackground::_sfImage field.
 inline
 SFImageP *ImageBackgroundBase::getSFImage(void)
 {
     return &_sfImage;
 }
 
+//! Get the ImageBackground::_sfScale field.
 inline
 SFBool *ImageBackgroundBase::getSFScale(void)
 {
@@ -115,54 +118,63 @@ SFBool *ImageBackgroundBase::getSFScale(void)
 }
 
 
+//! Get the value of the ImageBackground::_sfColor field.
 inline
 Color3f &ImageBackgroundBase::getColor(void)
 {
     return _sfColor.getValue();
 }
 
+//! Get the value of the ImageBackground::_sfColor field.
 inline
 const Color3f &ImageBackgroundBase::getColor(void) const
 {
     return _sfColor.getValue();
 }
 
+//! Set the value of the ImageBackground::_sfColor field.
 inline
 void ImageBackgroundBase::setColor(const Color3f &value)
 {
     _sfColor.setValue(value);
 }
 
+//! Get the value of the ImageBackground::_sfImage field.
 inline
 ImageP &ImageBackgroundBase::getImage(void)
 {
     return _sfImage.getValue();
 }
 
+//! Get the value of the ImageBackground::_sfImage field.
 inline
 const ImageP &ImageBackgroundBase::getImage(void) const
 {
     return _sfImage.getValue();
 }
 
+//! Set the value of the ImageBackground::_sfImage field.
 inline
 void ImageBackgroundBase::setImage(const ImageP &value)
 {
     _sfImage.setValue(value);
 }
 
+//! Get the value of the ImageBackground::_sfScale field.
 inline
 bool &ImageBackgroundBase::getScale(void)
 {
     return _sfScale.getValue();
 }
 
+//! Get the value of the ImageBackground::_sfScale field.
 inline
 const bool &ImageBackgroundBase::getScale(void) const
 {
     return _sfScale.getValue();
 }
 
+//! Set the value of the ImageBackground::_sfScale field.
 inline
 void ImageBackgroundBase::setScale(const bool &value)
 {

@@ -15,7 +15,7 @@
 #include "OSGImage.h"
 #include "OSGBaseFunctions.h"
 
-using osg::Image;
+using OSG::Image;
 
 int main (int argc, char **argv)
 {

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -99,11 +99,11 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMateria
         NextFieldId      = EnvMapFieldId    + 1
     };
 
-    static const osg::BitVector ImageFieldMask;
-    static const osg::BitVector MinFilterFieldMask;
-    static const osg::BitVector MagFilterFieldMask;
-    static const osg::BitVector EnvModeFieldMask;
-    static const osg::BitVector EnvMapFieldMask;
+    static const OSG::BitVector ImageFieldMask;
+    static const OSG::BitVector MinFilterFieldMask;
+    static const OSG::BitVector MagFilterFieldMask;
+    static const OSG::BitVector EnvModeFieldMask;
+    static const OSG::BitVector EnvMapFieldMask;
 
 
     /*---------------------------------------------------------------------*/

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ TransformPtr TransformBase::create(void)
 {
     TransformPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = TransformPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,6 +96,7 @@ TransformPtr TransformBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the Transform::_sfMatrix field.
 inline
 SFMatrix *TransformBase::getSFMatrix(void)
 {
@@ -103,18 +104,21 @@ SFMatrix *TransformBase::getSFMatrix(void)
 }
 
 
+//! Get the value of the Transform::_sfMatrix field.
 inline
 Matrix &TransformBase::getMatrix(void)
 {
     return _sfMatrix.getValue();
 }
 
+//! Get the value of the Transform::_sfMatrix field.
 inline
 const Matrix &TransformBase::getMatrix(void) const
 {
     return _sfMatrix.getValue();
 }
 
+//! Set the value of the Transform::_sfMatrix field.
 inline
 void TransformBase::setMatrix(const Matrix &value)
 {

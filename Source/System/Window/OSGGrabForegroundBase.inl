@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ GrabForegroundPtr GrabForegroundBase::create(void)
 {
     GrabForegroundPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = GrabForegroundPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,6 +96,7 @@ GrabForegroundPtr GrabForegroundBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the GrabForeground::_sfImage field.
 inline
 SFImageP *GrabForegroundBase::getSFImage(void)
 {
@@ -103,18 +104,21 @@ SFImageP *GrabForegroundBase::getSFImage(void)
 }
 
 
+//! Get the value of the GrabForeground::_sfImage field.
 inline
 ImageP &GrabForegroundBase::getImage(void)
 {
     return _sfImage.getValue();
 }
 
+//! Get the value of the GrabForeground::_sfImage field.
 inline
 const ImageP &GrabForegroundBase::getImage(void) const
 {
     return _sfImage.getValue();
 }
 
+//! Set the value of the GrabForeground::_sfImage field.
 inline
 void GrabForegroundBase::setImage(const ImageP &value)
 {

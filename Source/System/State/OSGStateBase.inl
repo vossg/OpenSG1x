@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ StatePtr StateBase::create(void)
 {
     StatePtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = StatePtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -105,7 +105,7 @@ MFStateChunkPtr *StateBase::getMFChunks(void)
 
 
 
-//! Get the value of the  index element the State::_mfChunks field.
+//! Get the value of the \a index element the State::_mfChunks field.
 inline
 StateChunkPtr &StateBase::getChunks(const UInt32 index)
 {

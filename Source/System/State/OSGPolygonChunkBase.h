@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -111,17 +111,17 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
         NextFieldId         = StippleFieldId      + 1
     };
 
-    static const osg::BitVector CullFaceFieldMask;
-    static const osg::BitVector FrontFaceFieldMask;
-    static const osg::BitVector FrontModeFieldMask;
-    static const osg::BitVector BackModeFieldMask;
-    static const osg::BitVector SmoothFieldMask;
-    static const osg::BitVector OffsetFactorFieldMask;
-    static const osg::BitVector OffsetBiasFieldMask;
-    static const osg::BitVector OffsetPointFieldMask;
-    static const osg::BitVector OffsetLineFieldMask;
-    static const osg::BitVector OffsetFillFieldMask;
-    static const osg::BitVector StippleFieldMask;
+    static const OSG::BitVector CullFaceFieldMask;
+    static const OSG::BitVector FrontFaceFieldMask;
+    static const OSG::BitVector FrontModeFieldMask;
+    static const OSG::BitVector BackModeFieldMask;
+    static const OSG::BitVector SmoothFieldMask;
+    static const OSG::BitVector OffsetFactorFieldMask;
+    static const OSG::BitVector OffsetBiasFieldMask;
+    static const OSG::BitVector OffsetPointFieldMask;
+    static const OSG::BitVector OffsetLineFieldMask;
+    static const OSG::BitVector OffsetFillFieldMask;
+    static const OSG::BitVector StippleFieldMask;
 
 
     /*---------------------------------------------------------------------*/

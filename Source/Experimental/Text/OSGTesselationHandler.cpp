@@ -24,19 +24,19 @@ VectorFontGlyph *tmTesselator = 0;
 OSG_END_NAMESPACE
 
 /* */
-void OSG_SYSTEMLIB_DLLMAPPING osg::tessBegin(GLenum OSG_CHECK_ARG(type))
+void OSG_SYSTEMLIB_DLLMAPPING OSG::tessBegin(GLenum OSG_CHECK_ARG(type))
 {
     assert(tmTesselator);
 }
 
 /* */
-void OSG_SYSTEMLIB_DLLMAPPING osg::tessEdgeFlag(GLboolean OSG_CHECK_ARG(flag))
+void OSG_SYSTEMLIB_DLLMAPPING OSG::tessEdgeFlag(GLboolean OSG_CHECK_ARG(flag))
 {
     assert(tmTesselator);
 }
 
 //  ???
-void OSG_SYSTEMLIB_DLLMAPPING osg::tessVertex(void *data)
+void OSG_SYSTEMLIB_DLLMAPPING OSG::tessVertex(void *data)
 {
     assert(tmTesselator);
 
@@ -44,12 +44,12 @@ void OSG_SYSTEMLIB_DLLMAPPING osg::tessVertex(void *data)
 }
 
 /* */
-void OSG_SYSTEMLIB_DLLMAPPING osg::tessEnd(void)
+void OSG_SYSTEMLIB_DLLMAPPING OSG::tessEnd(void)
 {
     assert(tmTesselator);
 }
 
-void OSG_SYSTEMLIB_DLLMAPPING  osg::tessError(GLenum errorNum)
+void OSG_SYSTEMLIB_DLLMAPPING  OSG::tessError(GLenum errorNum)
 {
     assert(tmTesselator);
     FWARNING(("got tesselation error %d (%s).", (int) errorNum, gluErrorString(errorNum)));

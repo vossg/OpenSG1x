@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -95,9 +95,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBackgroundBase : public Background
         NextFieldId  = ScaleFieldId + 1
     };
 
-    static const osg::BitVector ColorFieldMask;
-    static const osg::BitVector ImageFieldMask;
-    static const osg::BitVector ScaleFieldMask;
+    static const OSG::BitVector ColorFieldMask;
+    static const OSG::BitVector ImageFieldMask;
+    static const OSG::BitVector ScaleFieldMask;
 
 
     /*---------------------------------------------------------------------*/

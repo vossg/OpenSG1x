@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -133,13 +133,13 @@ OSGQGLManagedWidget::OSGQGLManagedWidget ( QWidget *parent,
 {
   FDEBUG (("OSGQGLManagedWidget constructor called\n"));
 
-  osg::QTWindowPtr qtWinPtr = osg::QTWindow::create();
+  OSG::QTWindowPtr qtWinPtr = OSG::QTWindow::create();
 
-  osg::beginEditCP(qtWinPtr);
+  OSG::beginEditCP(qtWinPtr);
   {
     qtWinPtr->setGlWidget( this );
   }
-  osg::endEditCP(qtWinPtr);
+  OSG::endEditCP(qtWinPtr);
 
   if(manager != NULL)
   {

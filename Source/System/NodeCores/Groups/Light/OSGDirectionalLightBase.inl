@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ DirectionalLightPtr DirectionalLightBase::create(void)
 {
     DirectionalLightPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = DirectionalLightPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,6 +96,7 @@ DirectionalLightPtr DirectionalLightBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the DirectionalLight::_sfDirection field.
 inline
 SFVec3f *DirectionalLightBase::getSFDirection(void)
 {
@@ -103,18 +104,21 @@ SFVec3f *DirectionalLightBase::getSFDirection(void)
 }
 
 
+//! Get the value of the DirectionalLight::_sfDirection field.
 inline
 Vec3f &DirectionalLightBase::getDirection(void)
 {
     return _sfDirection.getValue();
 }
 
+//! Get the value of the DirectionalLight::_sfDirection field.
 inline
 const Vec3f &DirectionalLightBase::getDirection(void) const
 {
     return _sfDirection.getValue();
 }
 
+//! Set the value of the DirectionalLight::_sfDirection field.
 inline
 void DirectionalLightBase::setDirection(const Vec3f &value)
 {

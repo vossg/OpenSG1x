@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ XWindowPtr XWindowBase::create(void)
 {
     XWindowPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = XWindowPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,18 +96,21 @@ XWindowPtr XWindowBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the XWindow::_sfDisplay field.
 inline
 SFDisplayP *XWindowBase::getSFDisplay(void)
 {
     return &_sfDisplay;
 }
 
+//! Get the XWindow::_sfWindow field.
 inline
 SFX11Window *XWindowBase::getSFWindow(void)
 {
     return &_sfWindow;
 }
 
+//! Get the XWindow::_sfContext field.
 inline
 SFGLXContext *XWindowBase::getSFContext(void)
 {
@@ -115,54 +118,63 @@ SFGLXContext *XWindowBase::getSFContext(void)
 }
 
 
+//! Get the value of the XWindow::_sfDisplay field.
 inline
 DisplayP &XWindowBase::getDisplay(void)
 {
     return _sfDisplay.getValue();
 }
 
+//! Get the value of the XWindow::_sfDisplay field.
 inline
 const DisplayP &XWindowBase::getDisplay(void) const
 {
     return _sfDisplay.getValue();
 }
 
+//! Set the value of the XWindow::_sfDisplay field.
 inline
 void XWindowBase::setDisplay(const DisplayP &value)
 {
     _sfDisplay.setValue(value);
 }
 
+//! Get the value of the XWindow::_sfWindow field.
 inline
 X11Window &XWindowBase::getWindow(void)
 {
     return _sfWindow.getValue();
 }
 
+//! Get the value of the XWindow::_sfWindow field.
 inline
 const X11Window &XWindowBase::getWindow(void) const
 {
     return _sfWindow.getValue();
 }
 
+//! Set the value of the XWindow::_sfWindow field.
 inline
 void XWindowBase::setWindow(const X11Window &value)
 {
     _sfWindow.setValue(value);
 }
 
+//! Get the value of the XWindow::_sfContext field.
 inline
 GLXContext &XWindowBase::getContext(void)
 {
     return _sfContext.getValue();
 }
 
+//! Get the value of the XWindow::_sfContext field.
 inline
 const GLXContext &XWindowBase::getContext(void) const
 {
     return _sfContext.getValue();
 }
 
+//! Set the value of the XWindow::_sfContext field.
 inline
 void XWindowBase::setContext(const GLXContext &value)
 {

@@ -14,10 +14,10 @@ int main (int argc, char **argv)
 {
 	int retCode = 0;
 
-	osg::UInt32 i, nCount, index, retIndex;
-	osg::NormalQuantifier nq;
-	osg::Vec3f vec, retVec;
-  osg::Real32 dot;
+	OSG::UInt32 i, nCount, index, retIndex;
+	OSG::NormalQuantifier nq;
+	OSG::Vec3f vec, retVec;
+  OSG::Real32 dot;
 
   std::cout << "Build NormalQuantifier with 4 subdivisions" << std::endl;
 
@@ -32,7 +32,7 @@ int main (int argc, char **argv)
 	{
     std::cout << "-----------------------------------------------\n";
 
-		index = osg::UInt32(double(nCount)*rand()/(RAND_MAX+1.0));
+		index = OSG::UInt32(double(nCount)*rand()/(RAND_MAX+1.0));
 		std::cout << "index:    " << index;
 		vec = nq.getNormal(index);
 		std::cout << ", vec: " << vec;

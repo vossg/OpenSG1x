@@ -924,7 +924,7 @@ void extend(BoxVolume &srcVol, const Volume &vol)
 
     if((box = dynamic_cast<const BoxVolume *>(v)))
     {
-        osg::extend(srcVol, *box);
+        OSG::extend(srcVol, *box);
     }
     else
     {
@@ -935,7 +935,7 @@ void extend(BoxVolume &srcVol, const Volume &vol)
 
         localBox.setBounds(min, max);
 
-        osg::extend(srcVol, localBox);
+        OSG::extend(srcVol, localBox);
     }
 }
 

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ GLUTWindowPtr GLUTWindowBase::create(void)
 {
     GLUTWindowPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = GLUTWindowPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,6 +96,7 @@ GLUTWindowPtr GLUTWindowBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the GLUTWindow::_sfId field.
 inline
 SFInt32 *GLUTWindowBase::getSFId(void)
 {
@@ -103,18 +104,21 @@ SFInt32 *GLUTWindowBase::getSFId(void)
 }
 
 
+//! Get the value of the GLUTWindow::_sfId field.
 inline
 Int32 &GLUTWindowBase::getId(void)
 {
     return _sfId.getValue();
 }
 
+//! Get the value of the GLUTWindow::_sfId field.
 inline
 const Int32 &GLUTWindowBase::getId(void) const
 {
     return _sfId.getValue();
 }
 
+//! Set the value of the GLUTWindow::_sfId field.
 inline
 void GLUTWindowBase::setId(const Int32 &value)
 {

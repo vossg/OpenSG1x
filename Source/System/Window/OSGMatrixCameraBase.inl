@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ MatrixCameraPtr MatrixCameraBase::create(void)
 {
     MatrixCameraPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = MatrixCameraPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,12 +96,14 @@ MatrixCameraPtr MatrixCameraBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the MatrixCamera::_sfProjectionMatrix field.
 inline
 SFMatrix *MatrixCameraBase::getSFProjectionMatrix(void)
 {
     return &_sfProjectionMatrix;
 }
 
+//! Get the MatrixCamera::_sfModelviewMatrix field.
 inline
 SFMatrix *MatrixCameraBase::getSFModelviewMatrix(void)
 {
@@ -109,36 +111,42 @@ SFMatrix *MatrixCameraBase::getSFModelviewMatrix(void)
 }
 
 
+//! Get the value of the MatrixCamera::_sfProjectionMatrix field.
 inline
 Matrix &MatrixCameraBase::getProjectionMatrix(void)
 {
     return _sfProjectionMatrix.getValue();
 }
 
+//! Get the value of the MatrixCamera::_sfProjectionMatrix field.
 inline
 const Matrix &MatrixCameraBase::getProjectionMatrix(void) const
 {
     return _sfProjectionMatrix.getValue();
 }
 
+//! Set the value of the MatrixCamera::_sfProjectionMatrix field.
 inline
 void MatrixCameraBase::setProjectionMatrix(const Matrix &value)
 {
     _sfProjectionMatrix.setValue(value);
 }
 
+//! Get the value of the MatrixCamera::_sfModelviewMatrix field.
 inline
 Matrix &MatrixCameraBase::getModelviewMatrix(void)
 {
     return _sfModelviewMatrix.getValue();
 }
 
+//! Get the value of the MatrixCamera::_sfModelviewMatrix field.
 inline
 const Matrix &MatrixCameraBase::getModelviewMatrix(void) const
 {
     return _sfModelviewMatrix.getValue();
 }
 
+//! Set the value of the MatrixCamera::_sfModelviewMatrix field.
 inline
 void MatrixCameraBase::setModelviewMatrix(const Matrix &value)
 {

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ SkyBackgroundPtr SkyBackgroundBase::create(void)
 {
     SkyBackgroundPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = SkyBackgroundPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,66 +96,77 @@ SkyBackgroundPtr SkyBackgroundBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the SkyBackground::_mfSkyColor field.
 inline
 MFColor3f *SkyBackgroundBase::getMFSkyColor(void)
 {
     return &_mfSkyColor;
 }
 
+//! Get the SkyBackground::_mfSkyAngle field.
 inline
 MFReal32 *SkyBackgroundBase::getMFSkyAngle(void)
 {
     return &_mfSkyAngle;
 }
 
+//! Get the SkyBackground::_mfGroundColor field.
 inline
 MFColor3f *SkyBackgroundBase::getMFGroundColor(void)
 {
     return &_mfGroundColor;
 }
 
+//! Get the SkyBackground::_mfGroundAngle field.
 inline
 MFReal32 *SkyBackgroundBase::getMFGroundAngle(void)
 {
     return &_mfGroundAngle;
 }
 
+//! Get the SkyBackground::_sfSphereRes field.
 inline
 SFUInt32 *SkyBackgroundBase::getSFSphereRes(void)
 {
     return &_sfSphereRes;
 }
 
+//! Get the SkyBackground::_sfBackTexture field.
 inline
 SFTextureChunkPtr *SkyBackgroundBase::getSFBackTexture(void)
 {
     return &_sfBackTexture;
 }
 
+//! Get the SkyBackground::_sfBottomTexture field.
 inline
 SFTextureChunkPtr *SkyBackgroundBase::getSFBottomTexture(void)
 {
     return &_sfBottomTexture;
 }
 
+//! Get the SkyBackground::_sfFrontTexture field.
 inline
 SFTextureChunkPtr *SkyBackgroundBase::getSFFrontTexture(void)
 {
     return &_sfFrontTexture;
 }
 
+//! Get the SkyBackground::_sfLeftTexture field.
 inline
 SFTextureChunkPtr *SkyBackgroundBase::getSFLeftTexture(void)
 {
     return &_sfLeftTexture;
 }
 
+//! Get the SkyBackground::_sfRightTexture field.
 inline
 SFTextureChunkPtr *SkyBackgroundBase::getSFRightTexture(void)
 {
     return &_sfRightTexture;
 }
 
+//! Get the SkyBackground::_sfTopTexture field.
 inline
 SFTextureChunkPtr *SkyBackgroundBase::getSFTopTexture(void)
 {
@@ -163,126 +174,147 @@ SFTextureChunkPtr *SkyBackgroundBase::getSFTopTexture(void)
 }
 
 
+//! Get the value of the SkyBackground::_sfSphereRes field.
 inline
 UInt32 &SkyBackgroundBase::getSphereRes(void)
 {
     return _sfSphereRes.getValue();
 }
 
+//! Get the value of the SkyBackground::_sfSphereRes field.
 inline
 const UInt32 &SkyBackgroundBase::getSphereRes(void) const
 {
     return _sfSphereRes.getValue();
 }
 
+//! Set the value of the SkyBackground::_sfSphereRes field.
 inline
 void SkyBackgroundBase::setSphereRes(const UInt32 &value)
 {
     _sfSphereRes.setValue(value);
 }
 
+//! Get the value of the SkyBackground::_sfBackTexture field.
 inline
 TextureChunkPtr &SkyBackgroundBase::getBackTexture(void)
 {
     return _sfBackTexture.getValue();
 }
 
+//! Get the value of the SkyBackground::_sfBackTexture field.
 inline
 const TextureChunkPtr &SkyBackgroundBase::getBackTexture(void) const
 {
     return _sfBackTexture.getValue();
 }
 
+//! Set the value of the SkyBackground::_sfBackTexture field.
 inline
 void SkyBackgroundBase::setBackTexture(const TextureChunkPtr &value)
 {
     _sfBackTexture.setValue(value);
 }
 
+//! Get the value of the SkyBackground::_sfBottomTexture field.
 inline
 TextureChunkPtr &SkyBackgroundBase::getBottomTexture(void)
 {
     return _sfBottomTexture.getValue();
 }
 
+//! Get the value of the SkyBackground::_sfBottomTexture field.
 inline
 const TextureChunkPtr &SkyBackgroundBase::getBottomTexture(void) const
 {
     return _sfBottomTexture.getValue();
 }
 
+//! Set the value of the SkyBackground::_sfBottomTexture field.
 inline
 void SkyBackgroundBase::setBottomTexture(const TextureChunkPtr &value)
 {
     _sfBottomTexture.setValue(value);
 }
 
+//! Get the value of the SkyBackground::_sfFrontTexture field.
 inline
 TextureChunkPtr &SkyBackgroundBase::getFrontTexture(void)
 {
     return _sfFrontTexture.getValue();
 }
 
+//! Get the value of the SkyBackground::_sfFrontTexture field.
 inline
 const TextureChunkPtr &SkyBackgroundBase::getFrontTexture(void) const
 {
     return _sfFrontTexture.getValue();
 }
 
+//! Set the value of the SkyBackground::_sfFrontTexture field.
 inline
 void SkyBackgroundBase::setFrontTexture(const TextureChunkPtr &value)
 {
     _sfFrontTexture.setValue(value);
 }
 
+//! Get the value of the SkyBackground::_sfLeftTexture field.
 inline
 TextureChunkPtr &SkyBackgroundBase::getLeftTexture(void)
 {
     return _sfLeftTexture.getValue();
 }
 
+//! Get the value of the SkyBackground::_sfLeftTexture field.
 inline
 const TextureChunkPtr &SkyBackgroundBase::getLeftTexture(void) const
 {
     return _sfLeftTexture.getValue();
 }
 
+//! Set the value of the SkyBackground::_sfLeftTexture field.
 inline
 void SkyBackgroundBase::setLeftTexture(const TextureChunkPtr &value)
 {
     _sfLeftTexture.setValue(value);
 }
 
+//! Get the value of the SkyBackground::_sfRightTexture field.
 inline
 TextureChunkPtr &SkyBackgroundBase::getRightTexture(void)
 {
     return _sfRightTexture.getValue();
 }
 
+//! Get the value of the SkyBackground::_sfRightTexture field.
 inline
 const TextureChunkPtr &SkyBackgroundBase::getRightTexture(void) const
 {
     return _sfRightTexture.getValue();
 }
 
+//! Set the value of the SkyBackground::_sfRightTexture field.
 inline
 void SkyBackgroundBase::setRightTexture(const TextureChunkPtr &value)
 {
     _sfRightTexture.setValue(value);
 }
 
+//! Get the value of the SkyBackground::_sfTopTexture field.
 inline
 TextureChunkPtr &SkyBackgroundBase::getTopTexture(void)
 {
     return _sfTopTexture.getValue();
 }
 
+//! Get the value of the SkyBackground::_sfTopTexture field.
 inline
 const TextureChunkPtr &SkyBackgroundBase::getTopTexture(void) const
 {
     return _sfTopTexture.getValue();
 }
 
+//! Set the value of the SkyBackground::_sfTopTexture field.
 inline
 void SkyBackgroundBase::setTopTexture(const TextureChunkPtr &value)
 {
@@ -290,72 +322,84 @@ void SkyBackgroundBase::setTopTexture(const TextureChunkPtr &value)
 }
 
 
+//! Get the value of the \a index element the SkyBackground::_mfSkyColor field.
 inline
 Color3f &SkyBackgroundBase::getSkyColor(const UInt32 index)
 {
     return _mfSkyColor[index];
 }
 
+//! Get the SkyBackground::_mfSkyColor field.
 inline
 MFColor3f &SkyBackgroundBase::getSkyColor(void)
 {
     return _mfSkyColor;
 }
 
+//! Get the SkyBackground::_mfSkyColor field.
 inline
 const MFColor3f &SkyBackgroundBase::getSkyColor(void) const
 {
     return _mfSkyColor;
 }
 
+//! Get the value of the \a index element the SkyBackground::_mfSkyAngle field.
 inline
 Real32 &SkyBackgroundBase::getSkyAngle(const UInt32 index)
 {
     return _mfSkyAngle[index];
 }
 
+//! Get the SkyBackground::_mfSkyAngle field.
 inline
 MFReal32 &SkyBackgroundBase::getSkyAngle(void)
 {
     return _mfSkyAngle;
 }
 
+//! Get the SkyBackground::_mfSkyAngle field.
 inline
 const MFReal32 &SkyBackgroundBase::getSkyAngle(void) const
 {
     return _mfSkyAngle;
 }
 
+//! Get the value of the \a index element the SkyBackground::_mfGroundColor field.
 inline
 Color3f &SkyBackgroundBase::getGroundColor(const UInt32 index)
 {
     return _mfGroundColor[index];
 }
 
+//! Get the SkyBackground::_mfGroundColor field.
 inline
 MFColor3f &SkyBackgroundBase::getGroundColor(void)
 {
     return _mfGroundColor;
 }
 
+//! Get the SkyBackground::_mfGroundColor field.
 inline
 const MFColor3f &SkyBackgroundBase::getGroundColor(void) const
 {
     return _mfGroundColor;
 }
 
+//! Get the value of the \a index element the SkyBackground::_mfGroundAngle field.
 inline
 Real32 &SkyBackgroundBase::getGroundAngle(const UInt32 index)
 {
     return _mfGroundAngle[index];
 }
 
+//! Get the SkyBackground::_mfGroundAngle field.
 inline
 MFReal32 &SkyBackgroundBase::getGroundAngle(void)
 {
     return _mfGroundAngle;
 }
 
+//! Get the SkyBackground::_mfGroundAngle field.
 inline
 const MFReal32 &SkyBackgroundBase::getGroundAngle(void) const
 {

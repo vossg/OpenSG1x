@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -157,7 +157,7 @@ void BoxVolume::extendBy(const Pnt3f &pt)
 
 void BoxVolume::extendBy(const Volume &volume)
 {
-    osg::extend(*this,volume);
+    OSG::extend(*this,volume);
 }
 
 /*-------------------------- intersection ---------------------------------*/

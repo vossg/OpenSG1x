@@ -169,7 +169,7 @@ void BoxVolume::setBounds(const Pnt3f &min, const Pnt3f &max)
 inline
 void BoxVolume::extendBy(const BoxVolume &volume)
 {
-    osg::extend(*this, volume);
+    OSG::extend(*this, volume);
 }
 
 

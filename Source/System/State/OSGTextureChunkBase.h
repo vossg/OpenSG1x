@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -115,19 +115,19 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
         NextFieldId           = GLIdFieldId           + 1
     };
 
-    static const osg::BitVector ImageFieldMask;
-    static const osg::BitVector InternalFormatFieldMask;
-    static const osg::BitVector ExternalFormatFieldMask;
-    static const osg::BitVector ScaleFieldMask;
-    static const osg::BitVector FrameFieldMask;
-    static const osg::BitVector MinFilterFieldMask;
-    static const osg::BitVector MagFilterFieldMask;
-    static const osg::BitVector WrapSFieldMask;
-    static const osg::BitVector WrapTFieldMask;
-    static const osg::BitVector WrapRFieldMask;
-    static const osg::BitVector EnvModeFieldMask;
-    static const osg::BitVector EnvColorFieldMask;
-    static const osg::BitVector GLIdFieldMask;
+    static const OSG::BitVector ImageFieldMask;
+    static const OSG::BitVector InternalFormatFieldMask;
+    static const OSG::BitVector ExternalFormatFieldMask;
+    static const OSG::BitVector ScaleFieldMask;
+    static const OSG::BitVector FrameFieldMask;
+    static const OSG::BitVector MinFilterFieldMask;
+    static const OSG::BitVector MagFilterFieldMask;
+    static const OSG::BitVector WrapSFieldMask;
+    static const OSG::BitVector WrapTFieldMask;
+    static const OSG::BitVector WrapRFieldMask;
+    static const OSG::BitVector EnvModeFieldMask;
+    static const OSG::BitVector EnvColorFieldMask;
+    static const OSG::BitVector GLIdFieldMask;
 
 
     /*---------------------------------------------------------------------*/

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -62,7 +62,7 @@
 */
 OSG_USING_NAMESPACE 
 
-/*! \class osg::Image 
+/*! \class OSG::Image 
     \ingroup GrpSystemImage
     
  */
@@ -311,19 +311,19 @@ bool Image::addValue(const char *value)
         switch(pixelDepth)
         {
             case 1:
-                pf = osg::Image::OSG_L_PF;
+                pf = OSG::Image::OSG_L_PF;
                 break;
             case 2:
-                pf = osg::Image::OSG_LA_PF;
+                pf = OSG::Image::OSG_LA_PF;
                 break;
             case 3:
-                pf = osg::Image::OSG_RGB_PF;
+                pf = OSG::Image::OSG_RGB_PF;
                 break;
             case 4:
-                pf = osg::Image::OSG_RGBA_PF;
+                pf = OSG::Image::OSG_RGBA_PF;
                 break;
             default:
-                pf = osg::Image::OSG_INVALID_PF;
+                pf = OSG::Image::OSG_INVALID_PF;
                 FFATAL(("Invalid pixel depth: %d\n", pixelDepth));
                 break;
         }

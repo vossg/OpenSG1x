@@ -153,7 +153,7 @@ int main(int argc, char **argv)
                         Pnt4f(.25,0. ,.50,.33),  // bottom
                         Pnt4f(.25,.66,.50,1. )   // top
                       };
-#if 0                        
+#if 1                     
     Pnt3f vpproj[6][4] = { 
         { Pnt3f(-1,-1,-1), Pnt3f( 1,-1,-1), Pnt3f( 1, 1,-1), Pnt3f(-1, 1,-1)},
         { Pnt3f( 1,-1, 1), Pnt3f(-1,-1, 1), Pnt3f(-1, 1, 1), Pnt3f( 1, 1, 1)},

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -48,7 +48,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! ChunkMaterial class
+/*! \brief Material using chunk set.  See \ref 
+    PageSystemChunkMaterial for a description.
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterial : public ChunkMaterialBase
 {
@@ -143,5 +145,7 @@ OSG_END_NAMESPACE
 
 #include <OSGChunkMaterialBase.inl>
 #include <OSGChunkMaterial.inl>
+
+#define OSGCHUNKMATERIAL_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 
 #endif /* _OSGCHUNKMATERIAL_H_ */

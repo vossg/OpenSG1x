@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ RegisterCombinersChunkPtr RegisterCombinersChunkBase::create(void)
 {
     RegisterCombinersChunkPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = RegisterCombinersChunkPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -399,7 +399,7 @@ void RegisterCombinersChunkBase::setPerStageConstants(const UInt8 &value)
 }
 
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfVariableArgb field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfVariableArgb field.
 inline
 UInt32 &RegisterCombinersChunkBase::getVariableArgb(const UInt32 index)
 {
@@ -420,7 +420,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getVariableArgb(void) const
     return _mfVariableArgb;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfVariableBrgb field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfVariableBrgb field.
 inline
 UInt32 &RegisterCombinersChunkBase::getVariableBrgb(const UInt32 index)
 {
@@ -441,7 +441,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getVariableBrgb(void) const
     return _mfVariableBrgb;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfVariableCrgb field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfVariableCrgb field.
 inline
 UInt32 &RegisterCombinersChunkBase::getVariableCrgb(const UInt32 index)
 {
@@ -462,7 +462,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getVariableCrgb(void) const
     return _mfVariableCrgb;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfVariableDrgb field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfVariableDrgb field.
 inline
 UInt32 &RegisterCombinersChunkBase::getVariableDrgb(const UInt32 index)
 {
@@ -483,7 +483,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getVariableDrgb(void) const
     return _mfVariableDrgb;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfVariableAalpha field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfVariableAalpha field.
 inline
 UInt32 &RegisterCombinersChunkBase::getVariableAalpha(const UInt32 index)
 {
@@ -504,7 +504,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getVariableAalpha(void) const
     return _mfVariableAalpha;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfVariableBalpha field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfVariableBalpha field.
 inline
 UInt32 &RegisterCombinersChunkBase::getVariableBalpha(const UInt32 index)
 {
@@ -525,7 +525,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getVariableBalpha(void) const
     return _mfVariableBalpha;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfVariableCalpha field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfVariableCalpha field.
 inline
 UInt32 &RegisterCombinersChunkBase::getVariableCalpha(const UInt32 index)
 {
@@ -546,7 +546,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getVariableCalpha(void) const
     return _mfVariableCalpha;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfVariableDalpha field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfVariableDalpha field.
 inline
 UInt32 &RegisterCombinersChunkBase::getVariableDalpha(const UInt32 index)
 {
@@ -567,7 +567,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getVariableDalpha(void) const
     return _mfVariableDalpha;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfOutputABrgb field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfOutputABrgb field.
 inline
 UInt32 &RegisterCombinersChunkBase::getOutputABrgb(const UInt32 index)
 {
@@ -588,7 +588,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getOutputABrgb(void) const
     return _mfOutputABrgb;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfOutputCDrgb field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfOutputCDrgb field.
 inline
 UInt32 &RegisterCombinersChunkBase::getOutputCDrgb(const UInt32 index)
 {
@@ -609,7 +609,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getOutputCDrgb(void) const
     return _mfOutputCDrgb;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfOutputSumrgb field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfOutputSumrgb field.
 inline
 UInt32 &RegisterCombinersChunkBase::getOutputSumrgb(const UInt32 index)
 {
@@ -630,7 +630,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getOutputSumrgb(void) const
     return _mfOutputSumrgb;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfScalergb field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfScalergb field.
 inline
 UInt32 &RegisterCombinersChunkBase::getScalergb(const UInt32 index)
 {
@@ -651,7 +651,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getScalergb(void) const
     return _mfScalergb;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfBiasrgb field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfBiasrgb field.
 inline
 UInt32 &RegisterCombinersChunkBase::getBiasrgb(const UInt32 index)
 {
@@ -672,7 +672,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getBiasrgb(void) const
     return _mfBiasrgb;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfOutputABalpha field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfOutputABalpha field.
 inline
 UInt32 &RegisterCombinersChunkBase::getOutputABalpha(const UInt32 index)
 {
@@ -693,7 +693,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getOutputABalpha(void) const
     return _mfOutputABalpha;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfOutputCDalpha field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfOutputCDalpha field.
 inline
 UInt32 &RegisterCombinersChunkBase::getOutputCDalpha(const UInt32 index)
 {
@@ -714,7 +714,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getOutputCDalpha(void) const
     return _mfOutputCDalpha;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfOutputSumalpha field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfOutputSumalpha field.
 inline
 UInt32 &RegisterCombinersChunkBase::getOutputSumalpha(const UInt32 index)
 {
@@ -735,7 +735,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getOutputSumalpha(void) const
     return _mfOutputSumalpha;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfDotABrgb field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfDotABrgb field.
 inline
 UInt8 &RegisterCombinersChunkBase::getDotABrgb(const UInt32 index)
 {
@@ -756,7 +756,7 @@ const MFUInt8 &RegisterCombinersChunkBase::getDotABrgb(void) const
     return _mfDotABrgb;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfDotCDrgb field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfDotCDrgb field.
 inline
 UInt8 &RegisterCombinersChunkBase::getDotCDrgb(const UInt32 index)
 {
@@ -777,7 +777,7 @@ const MFUInt8 &RegisterCombinersChunkBase::getDotCDrgb(void) const
     return _mfDotCDrgb;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfMuxSumrgb field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfMuxSumrgb field.
 inline
 UInt8 &RegisterCombinersChunkBase::getMuxSumrgb(const UInt32 index)
 {
@@ -798,7 +798,7 @@ const MFUInt8 &RegisterCombinersChunkBase::getMuxSumrgb(void) const
     return _mfMuxSumrgb;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfScalealpha field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfScalealpha field.
 inline
 UInt32 &RegisterCombinersChunkBase::getScalealpha(const UInt32 index)
 {
@@ -819,7 +819,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getScalealpha(void) const
     return _mfScalealpha;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfBiasalpha field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfBiasalpha field.
 inline
 UInt32 &RegisterCombinersChunkBase::getBiasalpha(const UInt32 index)
 {
@@ -840,7 +840,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getBiasalpha(void) const
     return _mfBiasalpha;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfMuxSumalpha field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfMuxSumalpha field.
 inline
 UInt8 &RegisterCombinersChunkBase::getMuxSumalpha(const UInt32 index)
 {
@@ -861,7 +861,7 @@ const MFUInt8 &RegisterCombinersChunkBase::getMuxSumalpha(void) const
     return _mfMuxSumalpha;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfVariableE field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfVariableE field.
 inline
 UInt32 &RegisterCombinersChunkBase::getVariableE(const UInt32 index)
 {
@@ -882,7 +882,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getVariableE(void) const
     return _mfVariableE;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfVariableF field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfVariableF field.
 inline
 UInt32 &RegisterCombinersChunkBase::getVariableF(const UInt32 index)
 {
@@ -903,7 +903,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getVariableF(void) const
     return _mfVariableF;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfVariableG field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfVariableG field.
 inline
 UInt32 &RegisterCombinersChunkBase::getVariableG(const UInt32 index)
 {
@@ -924,7 +924,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getVariableG(void) const
     return _mfVariableG;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfCombinerColor0 field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfCombinerColor0 field.
 inline
 Color4f &RegisterCombinersChunkBase::getCombinerColor0(const UInt32 index)
 {
@@ -945,7 +945,7 @@ const MFColor4f &RegisterCombinersChunkBase::getCombinerColor0(void) const
     return _mfCombinerColor0;
 }
 
-//! Get the value of the  index element the RegisterCombinersChunk::_mfCombinerColor1 field.
+//! Get the value of the \a index element the RegisterCombinersChunk::_mfCombinerColor1 field.
 inline
 Color4f &RegisterCombinersChunkBase::getCombinerColor1(const UInt32 index)
 {

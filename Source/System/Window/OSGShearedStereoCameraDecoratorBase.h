@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -93,8 +93,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShearedStereoCameraDecoratorBase : public StereoC
         NextFieldId                 = OverlapFieldId              + 1
     };
 
-    static const osg::BitVector ZeroParallaxDistanceFieldMask;
-    static const osg::BitVector OverlapFieldMask;
+    static const OSG::BitVector ZeroParallaxDistanceFieldMask;
+    static const OSG::BitVector OverlapFieldMask;
 
 
     /*---------------------------------------------------------------------*/

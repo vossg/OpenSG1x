@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -91,7 +91,7 @@ class OSG_WINDOWGLUTLIB_DLLMAPPING GLUTWindowBase : public Window
         NextFieldId = IdFieldId   + 1
     };
 
-    static const osg::BitVector IdFieldMask;
+    static const OSG::BitVector IdFieldMask;
 
 
     /*---------------------------------------------------------------------*/

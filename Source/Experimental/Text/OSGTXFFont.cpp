@@ -243,7 +243,7 @@ bool TXFFont::createInstance(Text *fs)
     return retVal;
 }
 
-osg::FontStyle * TXFFont::createInstance(Real32 size)
+OSG::FontStyle * TXFFont::createInstance(Real32 size)
 {
     bool            retVal = false;
     TXFFontStyle    *fInst = new TXFFontStyle;

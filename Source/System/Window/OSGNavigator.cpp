@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -209,6 +209,8 @@ void Navigator::keyPress(Int16 key, Int16 , Int16 )
 /*! Notifies for mouse motion
  */
 
+OSG_BEGIN_NAMESPACE
+
 template <typename t>
 t osgsgn(t val)
 {
@@ -216,6 +218,8 @@ t osgsgn(t val)
     if(val > 0) return  1;
     return 0;
 }
+
+OSG_END_NAMESPACE
 
 void Navigator::moveTo(Int16 x, Int16 y)
 {

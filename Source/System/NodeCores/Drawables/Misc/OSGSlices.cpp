@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -59,7 +59,7 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::Slices
+/*! \class OSG::Slices
 
 */
 
@@ -344,7 +344,7 @@ void Slices::initEdgeVec( void )
                                _pointVec[_edgeVec[i].pointIndexB]);	
 }
 
-UInt32 Slices::createSlice ( const osg::Plane &plane, Slice &slice )
+UInt32 Slices::createSlice ( const OSG::Plane &plane, Slice &slice )
 {
   UInt32 i,j,k, lastButOne;
   Vec3f v1, v2, winding;

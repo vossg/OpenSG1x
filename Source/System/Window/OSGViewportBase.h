@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -107,15 +107,15 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
         NextFieldId        = ForegroundsFieldId + 1
     };
 
-    static const osg::BitVector LeftFieldMask;
-    static const osg::BitVector RightFieldMask;
-    static const osg::BitVector BottomFieldMask;
-    static const osg::BitVector TopFieldMask;
-    static const osg::BitVector ParentFieldMask;
-    static const osg::BitVector CameraFieldMask;
-    static const osg::BitVector RootFieldMask;
-    static const osg::BitVector BackgroundFieldMask;
-    static const osg::BitVector ForegroundsFieldMask;
+    static const OSG::BitVector LeftFieldMask;
+    static const OSG::BitVector RightFieldMask;
+    static const OSG::BitVector BottomFieldMask;
+    static const OSG::BitVector TopFieldMask;
+    static const OSG::BitVector ParentFieldMask;
+    static const OSG::BitVector CameraFieldMask;
+    static const OSG::BitVector RootFieldMask;
+    static const OSG::BitVector BackgroundFieldMask;
+    static const OSG::BitVector ForegroundsFieldMask;
 
 
     /*---------------------------------------------------------------------*/

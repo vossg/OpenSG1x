@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ InlinePtr InlineBase::create(void)
 {
     InlinePtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = InlinePtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,12 +96,14 @@ InlinePtr InlineBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the Inline::_mfUrl field.
 inline
 MFString *InlineBase::getMFUrl(void)
 {
     return &_mfUrl;
 }
 
+//! Get the Inline::_sfLoaded field.
 inline
 SFBool *InlineBase::getSFLoaded(void)
 {
@@ -109,18 +111,21 @@ SFBool *InlineBase::getSFLoaded(void)
 }
 
 
+//! Get the value of the Inline::_sfLoaded field.
 inline
 bool &InlineBase::getLoaded(void)
 {
     return _sfLoaded.getValue();
 }
 
+//! Get the value of the Inline::_sfLoaded field.
 inline
 const bool &InlineBase::getLoaded(void) const
 {
     return _sfLoaded.getValue();
 }
 
+//! Set the value of the Inline::_sfLoaded field.
 inline
 void InlineBase::setLoaded(const bool &value)
 {
@@ -128,18 +133,21 @@ void InlineBase::setLoaded(const bool &value)
 }
 
 
+//! Get the value of the \a index element the Inline::_mfUrl field.
 inline
 std::string &InlineBase::getUrl(const UInt32 index)
 {
     return _mfUrl[index];
 }
 
+//! Get the Inline::_mfUrl field.
 inline
 MFString &InlineBase::getUrl(void)
 {
     return _mfUrl;
 }
 
+//! Get the Inline::_mfUrl field.
 inline
 const MFString &InlineBase::getUrl(void) const
 {

@@ -56,7 +56,7 @@ public:
     virtual bool            dump(std::ostream &out);
 };
 
-OSG_END_NAMESPACE typedef osg::TTFontStyle * TTFontStyleP;
+OSG_END_NAMESPACE typedef OSG::TTFontStyle * TTFontStyleP;
 #endif // OSG_WITH_FREETYPE1
 #endif
 #endif // TTFONTINSTANCE_CLASS_DECLARATION

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -70,6 +70,7 @@ OSG::UInt32 MaterialDrawableBase::getClassTypeId(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the MaterialDrawable::_sfMaterial field.
 inline
 SFMaterialPtr *MaterialDrawableBase::getSFMaterial(void)
 {
@@ -77,18 +78,21 @@ SFMaterialPtr *MaterialDrawableBase::getSFMaterial(void)
 }
 
 
+//! Get the value of the MaterialDrawable::_sfMaterial field.
 inline
 MaterialPtr &MaterialDrawableBase::getMaterial(void)
 {
     return _sfMaterial.getValue();
 }
 
+//! Get the value of the MaterialDrawable::_sfMaterial field.
 inline
 const MaterialPtr &MaterialDrawableBase::getMaterial(void) const
 {
     return _sfMaterial.getValue();
 }
 
+//! Set the value of the MaterialDrawable::_sfMaterial field.
 inline
 void MaterialDrawableBase::setMaterial(const MaterialPtr &value)
 {
@@ -98,5 +102,5 @@ void MaterialDrawableBase::setMaterial(const MaterialPtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALDRAWABLEBASE_INLINE_CVSID "@(#)$Id: OSGMaterialDrawableBase.inl,v 1.2 2002/10/24 14:22:01 dirk Exp $"
+#define OSGMATERIALDRAWABLEBASE_INLINE_CVSID "@(#)$Id: OSGMaterialDrawableBase.inl,v 1.3 2002/11/11 13:55:48 dirk Exp $"
 

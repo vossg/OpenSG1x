@@ -8,16 +8,16 @@
 
 #include <string>
 
-osg::StatElemDesc<osg::StatTimeElem  > fpsDesc ("fps","fps desc");
-osg::StatElemDesc<osg::StatIntElem   > fooDesc ("foo","foo desc");
-osg::StatElemDesc<osg::StatRealElem  > barDesc ("bar","bar desc");
-osg::StatElemDesc<osg::StatStringElem> bazDesc ("baz","baz desc");
+OSG::StatElemDesc<OSG::StatTimeElem  > fpsDesc ("fps","fps desc");
+OSG::StatElemDesc<OSG::StatIntElem   > fooDesc ("foo","foo desc");
+OSG::StatElemDesc<OSG::StatRealElem  > barDesc ("bar","bar desc");
+OSG::StatElemDesc<OSG::StatStringElem> bazDesc ("baz","baz desc");
 
 int main (int argc, char **argv)
 {
-    osg::StatCollector collector;
-    osg::StatElem *elem;
-    osg::Int32 fpsID = fpsDesc.getID();
+    OSG::StatCollector collector;
+    OSG::StatElem *elem;
+    OSG::Int32 fpsID = fpsDesc.getID();
     std::string str;
 
     elem = collector.getElem(fpsID);
@@ -76,10 +76,10 @@ int main (int argc, char **argv)
     collector.putToString(str);
     std::cerr << "Collector data:" << std::endl << str << std::endl;
  
-    const osg::Char8 *c = str.c_str();
+    const OSG::Char8 *c = str.c_str();
     collector.getFromString(c);
     collector.putToString(str);
     std::cerr << "Collector data:" << std::endl << str << std::endl;
     
-    osg::StatElemDescBase::printAll();
+    OSG::StatElemDescBase::printAll();
 }

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -97,10 +97,10 @@ class OSG_WINDOWWIN32LIB_DLLMAPPING WIN32WindowBase : public Window
         NextFieldId        = PaintstructFieldId + 1
     };
 
-    static const osg::BitVector HwndFieldMask;
-    static const osg::BitVector HdcFieldMask;
-    static const osg::BitVector HglrcFieldMask;
-    static const osg::BitVector PaintstructFieldMask;
+    static const OSG::BitVector HwndFieldMask;
+    static const OSG::BitVector HdcFieldMask;
+    static const OSG::BitVector HglrcFieldMask;
+    static const OSG::BitVector PaintstructFieldMask;
 
 
     /*---------------------------------------------------------------------*/

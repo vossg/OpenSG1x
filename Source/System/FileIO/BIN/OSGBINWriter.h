@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -89,7 +89,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BINWriter
     /*! \{                                                                 */
 	struct FCInfo 
 	{
-         osg::IDString     type;
+         OSG::IDString     type;
 		 FieldContainerPtr ptr;  
  		 BitVector         mask; //should match UInt32
 		 FCInfo();

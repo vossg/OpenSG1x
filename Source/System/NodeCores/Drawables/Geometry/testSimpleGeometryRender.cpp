@@ -202,7 +202,7 @@ int main (int argc, char **argv)
     unsigned int nquads = 0;
     unsigned int ngons = 0;
 
-    for(osg::FaceIterator fi = 
+    for(OSG::FaceIterator fi = 
             GeometryPtr::dcast(objects[0]->getCore())->beginFaces();
           fi != GeometryPtr::dcast(objects[0]->getCore())->endFaces(); ++ fi )
     {

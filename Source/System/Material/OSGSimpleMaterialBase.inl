@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ SimpleMaterialPtr SimpleMaterialBase::create(void)
 {
     SimpleMaterialPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = SimpleMaterialPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,48 +96,56 @@ SimpleMaterialPtr SimpleMaterialBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the SimpleMaterial::_sfAmbient field.
 inline
 SFColor3f *SimpleMaterialBase::getSFAmbient(void)
 {
     return &_sfAmbient;
 }
 
+//! Get the SimpleMaterial::_sfDiffuse field.
 inline
 SFColor3f *SimpleMaterialBase::getSFDiffuse(void)
 {
     return &_sfDiffuse;
 }
 
+//! Get the SimpleMaterial::_sfSpecular field.
 inline
 SFColor3f *SimpleMaterialBase::getSFSpecular(void)
 {
     return &_sfSpecular;
 }
 
+//! Get the SimpleMaterial::_sfShininess field.
 inline
 SFReal32 *SimpleMaterialBase::getSFShininess(void)
 {
     return &_sfShininess;
 }
 
+//! Get the SimpleMaterial::_sfEmission field.
 inline
 SFColor3f *SimpleMaterialBase::getSFEmission(void)
 {
     return &_sfEmission;
 }
 
+//! Get the SimpleMaterial::_sfTransparency field.
 inline
 SFReal32 *SimpleMaterialBase::getSFTransparency(void)
 {
     return &_sfTransparency;
 }
 
+//! Get the SimpleMaterial::_sfLit field.
 inline
 SFBool *SimpleMaterialBase::getSFLit(void)
 {
     return &_sfLit;
 }
 
+//! Get the SimpleMaterial::_sfColorMaterial field.
 inline
 SFUInt32 *SimpleMaterialBase::getSFColorMaterial(void)
 {
@@ -145,144 +153,168 @@ SFUInt32 *SimpleMaterialBase::getSFColorMaterial(void)
 }
 
 
+//! Get the value of the SimpleMaterial::_sfAmbient field.
 inline
 Color3f &SimpleMaterialBase::getAmbient(void)
 {
     return _sfAmbient.getValue();
 }
 
+//! Get the value of the SimpleMaterial::_sfAmbient field.
 inline
 const Color3f &SimpleMaterialBase::getAmbient(void) const
 {
     return _sfAmbient.getValue();
 }
 
+//! Set the value of the SimpleMaterial::_sfAmbient field.
 inline
 void SimpleMaterialBase::setAmbient(const Color3f &value)
 {
     _sfAmbient.setValue(value);
 }
 
+//! Get the value of the SimpleMaterial::_sfDiffuse field.
 inline
 Color3f &SimpleMaterialBase::getDiffuse(void)
 {
     return _sfDiffuse.getValue();
 }
 
+//! Get the value of the SimpleMaterial::_sfDiffuse field.
 inline
 const Color3f &SimpleMaterialBase::getDiffuse(void) const
 {
     return _sfDiffuse.getValue();
 }
 
+//! Set the value of the SimpleMaterial::_sfDiffuse field.
 inline
 void SimpleMaterialBase::setDiffuse(const Color3f &value)
 {
     _sfDiffuse.setValue(value);
 }
 
+//! Get the value of the SimpleMaterial::_sfSpecular field.
 inline
 Color3f &SimpleMaterialBase::getSpecular(void)
 {
     return _sfSpecular.getValue();
 }
 
+//! Get the value of the SimpleMaterial::_sfSpecular field.
 inline
 const Color3f &SimpleMaterialBase::getSpecular(void) const
 {
     return _sfSpecular.getValue();
 }
 
+//! Set the value of the SimpleMaterial::_sfSpecular field.
 inline
 void SimpleMaterialBase::setSpecular(const Color3f &value)
 {
     _sfSpecular.setValue(value);
 }
 
+//! Get the value of the SimpleMaterial::_sfShininess field.
 inline
 Real32 &SimpleMaterialBase::getShininess(void)
 {
     return _sfShininess.getValue();
 }
 
+//! Get the value of the SimpleMaterial::_sfShininess field.
 inline
 const Real32 &SimpleMaterialBase::getShininess(void) const
 {
     return _sfShininess.getValue();
 }
 
+//! Set the value of the SimpleMaterial::_sfShininess field.
 inline
 void SimpleMaterialBase::setShininess(const Real32 &value)
 {
     _sfShininess.setValue(value);
 }
 
+//! Get the value of the SimpleMaterial::_sfEmission field.
 inline
 Color3f &SimpleMaterialBase::getEmission(void)
 {
     return _sfEmission.getValue();
 }
 
+//! Get the value of the SimpleMaterial::_sfEmission field.
 inline
 const Color3f &SimpleMaterialBase::getEmission(void) const
 {
     return _sfEmission.getValue();
 }
 
+//! Set the value of the SimpleMaterial::_sfEmission field.
 inline
 void SimpleMaterialBase::setEmission(const Color3f &value)
 {
     _sfEmission.setValue(value);
 }
 
+//! Get the value of the SimpleMaterial::_sfTransparency field.
 inline
 Real32 &SimpleMaterialBase::getTransparency(void)
 {
     return _sfTransparency.getValue();
 }
 
+//! Get the value of the SimpleMaterial::_sfTransparency field.
 inline
 const Real32 &SimpleMaterialBase::getTransparency(void) const
 {
     return _sfTransparency.getValue();
 }
 
+//! Set the value of the SimpleMaterial::_sfTransparency field.
 inline
 void SimpleMaterialBase::setTransparency(const Real32 &value)
 {
     _sfTransparency.setValue(value);
 }
 
+//! Get the value of the SimpleMaterial::_sfLit field.
 inline
 bool &SimpleMaterialBase::getLit(void)
 {
     return _sfLit.getValue();
 }
 
+//! Get the value of the SimpleMaterial::_sfLit field.
 inline
 const bool &SimpleMaterialBase::getLit(void) const
 {
     return _sfLit.getValue();
 }
 
+//! Set the value of the SimpleMaterial::_sfLit field.
 inline
 void SimpleMaterialBase::setLit(const bool &value)
 {
     _sfLit.setValue(value);
 }
 
+//! Get the value of the SimpleMaterial::_sfColorMaterial field.
 inline
 UInt32 &SimpleMaterialBase::getColorMaterial(void)
 {
     return _sfColorMaterial.getValue();
 }
 
+//! Get the value of the SimpleMaterial::_sfColorMaterial field.
 inline
 const UInt32 &SimpleMaterialBase::getColorMaterial(void) const
 {
     return _sfColorMaterial.getValue();
 }
 
+//! Set the value of the SimpleMaterial::_sfColorMaterial field.
 inline
 void SimpleMaterialBase::setColorMaterial(const UInt32 &value)
 {

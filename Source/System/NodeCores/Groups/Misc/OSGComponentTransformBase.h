@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -99,11 +99,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransformBase : public Transform
         NextFieldId             = TranslationFieldId      + 1
     };
 
-    static const osg::BitVector CenterFieldMask;
-    static const osg::BitVector RotationFieldMask;
-    static const osg::BitVector ScaleFieldMask;
-    static const osg::BitVector ScaleOrientationFieldMask;
-    static const osg::BitVector TranslationFieldMask;
+    static const OSG::BitVector CenterFieldMask;
+    static const OSG::BitVector RotationFieldMask;
+    static const OSG::BitVector ScaleFieldMask;
+    static const OSG::BitVector ScaleOrientationFieldMask;
+    static const OSG::BitVector TranslationFieldMask;
 
 
     /*---------------------------------------------------------------------*/

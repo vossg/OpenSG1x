@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -115,19 +115,19 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
         NextFieldId         = BspFieldId          + 1
     };
 
-    static const osg::BitVector ModeFieldMask;
-    static const osg::BitVector PositionsFieldMask;
-    static const osg::BitVector SizesFieldMask;
-    static const osg::BitVector SecPositionsFieldMask;
-    static const osg::BitVector ColorsFieldMask;
-    static const osg::BitVector NormalsFieldMask;
-    static const osg::BitVector IndicesFieldMask;
-    static const osg::BitVector TextureZsFieldMask;
-    static const osg::BitVector MaterialFieldMask;
-    static const osg::BitVector DrawOrderFieldMask;
-    static const osg::BitVector DynamicFieldMask;
-    static const osg::BitVector PumpFieldMask;
-    static const osg::BitVector BspFieldMask;
+    static const OSG::BitVector ModeFieldMask;
+    static const OSG::BitVector PositionsFieldMask;
+    static const OSG::BitVector SizesFieldMask;
+    static const OSG::BitVector SecPositionsFieldMask;
+    static const OSG::BitVector ColorsFieldMask;
+    static const OSG::BitVector NormalsFieldMask;
+    static const OSG::BitVector IndicesFieldMask;
+    static const OSG::BitVector TextureZsFieldMask;
+    static const OSG::BitVector MaterialFieldMask;
+    static const OSG::BitVector DrawOrderFieldMask;
+    static const OSG::BitVector DynamicFieldMask;
+    static const OSG::BitVector PumpFieldMask;
+    static const OSG::BitVector BspFieldMask;
 
 
     /*---------------------------------------------------------------------*/

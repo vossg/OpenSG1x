@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -70,12 +70,14 @@ OSG::UInt32 StatisticsForegroundBase::getClassTypeId(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the StatisticsForeground::_mfElementIDs field.
 inline
 MFInt32 *StatisticsForegroundBase::getMFElementIDs(void)
 {
     return &_mfElementIDs;
 }
 
+//! Get the StatisticsForeground::_sfCollector field.
 inline
 SFStatCollector *StatisticsForegroundBase::getSFCollector(void)
 {
@@ -83,18 +85,21 @@ SFStatCollector *StatisticsForegroundBase::getSFCollector(void)
 }
 
 
+//! Get the value of the StatisticsForeground::_sfCollector field.
 inline
 StatCollector &StatisticsForegroundBase::getCollector(void)
 {
     return _sfCollector.getValue();
 }
 
+//! Get the value of the StatisticsForeground::_sfCollector field.
 inline
 const StatCollector &StatisticsForegroundBase::getCollector(void) const
 {
     return _sfCollector.getValue();
 }
 
+//! Set the value of the StatisticsForeground::_sfCollector field.
 inline
 void StatisticsForegroundBase::setCollector(const StatCollector &value)
 {
@@ -102,18 +107,21 @@ void StatisticsForegroundBase::setCollector(const StatCollector &value)
 }
 
 
+//! Get the value of the \a index element the StatisticsForeground::_mfElementIDs field.
 inline
 Int32 &StatisticsForegroundBase::getElementIDs(const UInt32 index)
 {
     return _mfElementIDs[index];
 }
 
+//! Get the StatisticsForeground::_mfElementIDs field.
 inline
 MFInt32 &StatisticsForegroundBase::getElementIDs(void)
 {
     return _mfElementIDs;
 }
 
+//! Get the StatisticsForeground::_mfElementIDs field.
 inline
 const MFInt32 &StatisticsForegroundBase::getElementIDs(void) const
 {

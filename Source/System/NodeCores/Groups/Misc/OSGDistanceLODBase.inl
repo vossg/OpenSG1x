@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ DistanceLODPtr DistanceLODBase::create(void)
 {
     DistanceLODPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = DistanceLODPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,12 +96,14 @@ DistanceLODPtr DistanceLODBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the DistanceLOD::_sfCenter field.
 inline
 SFPnt3f *DistanceLODBase::getSFCenter(void)
 {
     return &_sfCenter;
 }
 
+//! Get the DistanceLOD::_mfRange field.
 inline
 MFReal32 *DistanceLODBase::getMFRange(void)
 {
@@ -109,18 +111,21 @@ MFReal32 *DistanceLODBase::getMFRange(void)
 }
 
 
+//! Get the value of the DistanceLOD::_sfCenter field.
 inline
 Pnt3f &DistanceLODBase::getCenter(void)
 {
     return _sfCenter.getValue();
 }
 
+//! Get the value of the DistanceLOD::_sfCenter field.
 inline
 const Pnt3f &DistanceLODBase::getCenter(void) const
 {
     return _sfCenter.getValue();
 }
 
+//! Set the value of the DistanceLOD::_sfCenter field.
 inline
 void DistanceLODBase::setCenter(const Pnt3f &value)
 {
@@ -128,18 +133,21 @@ void DistanceLODBase::setCenter(const Pnt3f &value)
 }
 
 
+//! Get the value of the \a index element the DistanceLOD::_mfRange field.
 inline
 Real32 &DistanceLODBase::getRange(const UInt32 index)
 {
     return _mfRange[index];
 }
 
+//! Get the DistanceLOD::_mfRange field.
 inline
 MFReal32 &DistanceLODBase::getRange(void)
 {
     return _mfRange;
 }
 
+//! Get the DistanceLOD::_mfRange field.
 inline
 const MFReal32 &DistanceLODBase::getRange(void) const
 {

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -99,11 +99,11 @@ class OSG_SYSTEMLIB_DLLMAPPING SortFirstWindowBase : public ClusterWindow
         NextFieldId                = UseFaceDistributionFieldId + 1
     };
 
-    static const osg::BitVector CompressionFieldMask;
-    static const osg::BitVector SubtileSizeFieldMask;
-    static const osg::BitVector ComposeFieldMask;
-    static const osg::BitVector RegionFieldMask;
-    static const osg::BitVector UseFaceDistributionFieldMask;
+    static const OSG::BitVector CompressionFieldMask;
+    static const OSG::BitVector SubtileSizeFieldMask;
+    static const OSG::BitVector ComposeFieldMask;
+    static const OSG::BitVector RegionFieldMask;
+    static const OSG::BitVector UseFaceDistributionFieldMask;
 
 
     /*---------------------------------------------------------------------*/

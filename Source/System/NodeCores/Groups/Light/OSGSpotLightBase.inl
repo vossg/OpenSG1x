@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ SpotLightPtr SpotLightBase::create(void)
 {
     SpotLightPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = SpotLightPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,18 +96,21 @@ SpotLightPtr SpotLightBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the SpotLight::_sfDirection field.
 inline
 SFVec3f *SpotLightBase::getSFDirection(void)
 {
     return &_sfDirection;
 }
 
+//! Get the SpotLight::_sfSpotExponent field.
 inline
 SFReal32 *SpotLightBase::getSFSpotExponent(void)
 {
     return &_sfSpotExponent;
 }
 
+//! Get the SpotLight::_sfSpotCutOff field.
 inline
 SFReal32 *SpotLightBase::getSFSpotCutOff(void)
 {
@@ -115,54 +118,63 @@ SFReal32 *SpotLightBase::getSFSpotCutOff(void)
 }
 
 
+//! Get the value of the SpotLight::_sfDirection field.
 inline
 Vec3f &SpotLightBase::getDirection(void)
 {
     return _sfDirection.getValue();
 }
 
+//! Get the value of the SpotLight::_sfDirection field.
 inline
 const Vec3f &SpotLightBase::getDirection(void) const
 {
     return _sfDirection.getValue();
 }
 
+//! Set the value of the SpotLight::_sfDirection field.
 inline
 void SpotLightBase::setDirection(const Vec3f &value)
 {
     _sfDirection.setValue(value);
 }
 
+//! Get the value of the SpotLight::_sfSpotExponent field.
 inline
 Real32 &SpotLightBase::getSpotExponent(void)
 {
     return _sfSpotExponent.getValue();
 }
 
+//! Get the value of the SpotLight::_sfSpotExponent field.
 inline
 const Real32 &SpotLightBase::getSpotExponent(void) const
 {
     return _sfSpotExponent.getValue();
 }
 
+//! Set the value of the SpotLight::_sfSpotExponent field.
 inline
 void SpotLightBase::setSpotExponent(const Real32 &value)
 {
     _sfSpotExponent.setValue(value);
 }
 
+//! Get the value of the SpotLight::_sfSpotCutOff field.
 inline
 Real32 &SpotLightBase::getSpotCutOff(void)
 {
     return _sfSpotCutOff.getValue();
 }
 
+//! Get the value of the SpotLight::_sfSpotCutOff field.
 inline
 const Real32 &SpotLightBase::getSpotCutOff(void) const
 {
     return _sfSpotCutOff.getValue();
 }
 
+//! Set the value of the SpotLight::_sfSpotCutOff field.
 inline
 void SpotLightBase::setSpotCutOff(const Real32 &value)
 {

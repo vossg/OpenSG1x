@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -97,10 +97,10 @@ class OSG_SYSTEMLIB_DLLMAPPING LineChunkBase : public StateChunk
         NextFieldId           = SmoothFieldId         + 1
     };
 
-    static const osg::BitVector WidthFieldMask;
-    static const osg::BitVector StippleRepeatFieldMask;
-    static const osg::BitVector StipplePatternFieldMask;
-    static const osg::BitVector SmoothFieldMask;
+    static const OSG::BitVector WidthFieldMask;
+    static const OSG::BitVector StippleRepeatFieldMask;
+    static const OSG::BitVector StipplePatternFieldMask;
+    static const OSG::BitVector SmoothFieldMask;
 
 
     /*---------------------------------------------------------------------*/

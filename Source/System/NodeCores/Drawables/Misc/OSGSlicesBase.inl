@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ SlicesPtr SlicesBase::create(void)
 {
     SlicesPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = SlicesPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,12 +96,14 @@ SlicesPtr SlicesBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the Slices::_sfSize field.
 inline
 SFVec3f *SlicesBase::getSFSize(void)
 {
     return &_sfSize;
 }
 
+//! Get the Slices::_sfNumberOfSlices field.
 inline
 SFInt32 *SlicesBase::getSFNumberOfSlices(void)
 {
@@ -109,36 +111,42 @@ SFInt32 *SlicesBase::getSFNumberOfSlices(void)
 }
 
 
+//! Get the value of the Slices::_sfSize field.
 inline
 Vec3f &SlicesBase::getSize(void)
 {
     return _sfSize.getValue();
 }
 
+//! Get the value of the Slices::_sfSize field.
 inline
 const Vec3f &SlicesBase::getSize(void) const
 {
     return _sfSize.getValue();
 }
 
+//! Set the value of the Slices::_sfSize field.
 inline
 void SlicesBase::setSize(const Vec3f &value)
 {
     _sfSize.setValue(value);
 }
 
+//! Get the value of the Slices::_sfNumberOfSlices field.
 inline
 Int32 &SlicesBase::getNumberOfSlices(void)
 {
     return _sfNumberOfSlices.getValue();
 }
 
+//! Get the value of the Slices::_sfNumberOfSlices field.
 inline
 const Int32 &SlicesBase::getNumberOfSlices(void) const
 {
     return _sfNumberOfSlices.getValue();
 }
 
+//! Set the value of the Slices::_sfNumberOfSlices field.
 inline
 void SlicesBase::setNumberOfSlices(const Int32 &value)
 {

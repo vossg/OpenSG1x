@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ FileGrabForegroundPtr FileGrabForegroundBase::create(void)
 {
     FileGrabForegroundPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = FileGrabForegroundPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,24 +96,28 @@ FileGrabForegroundPtr FileGrabForegroundBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the FileGrabForeground::_sfActive field.
 inline
 SFBool *FileGrabForegroundBase::getSFActive(void)
 {
     return &_sfActive;
 }
 
+//! Get the FileGrabForeground::_sfName field.
 inline
 SFString *FileGrabForegroundBase::getSFName(void)
 {
     return &_sfName;
 }
 
+//! Get the FileGrabForeground::_sfFrame field.
 inline
 SFUInt32 *FileGrabForegroundBase::getSFFrame(void)
 {
     return &_sfFrame;
 }
 
+//! Get the FileGrabForeground::_sfIncrement field.
 inline
 SFBool *FileGrabForegroundBase::getSFIncrement(void)
 {
@@ -121,72 +125,84 @@ SFBool *FileGrabForegroundBase::getSFIncrement(void)
 }
 
 
+//! Get the value of the FileGrabForeground::_sfActive field.
 inline
 bool &FileGrabForegroundBase::getActive(void)
 {
     return _sfActive.getValue();
 }
 
+//! Get the value of the FileGrabForeground::_sfActive field.
 inline
 const bool &FileGrabForegroundBase::getActive(void) const
 {
     return _sfActive.getValue();
 }
 
+//! Set the value of the FileGrabForeground::_sfActive field.
 inline
 void FileGrabForegroundBase::setActive(const bool &value)
 {
     _sfActive.setValue(value);
 }
 
+//! Get the value of the FileGrabForeground::_sfName field.
 inline
 std::string &FileGrabForegroundBase::getName(void)
 {
     return _sfName.getValue();
 }
 
+//! Get the value of the FileGrabForeground::_sfName field.
 inline
 const std::string &FileGrabForegroundBase::getName(void) const
 {
     return _sfName.getValue();
 }
 
+//! Set the value of the FileGrabForeground::_sfName field.
 inline
 void FileGrabForegroundBase::setName(const std::string &value)
 {
     _sfName.setValue(value);
 }
 
+//! Get the value of the FileGrabForeground::_sfFrame field.
 inline
 UInt32 &FileGrabForegroundBase::getFrame(void)
 {
     return _sfFrame.getValue();
 }
 
+//! Get the value of the FileGrabForeground::_sfFrame field.
 inline
 const UInt32 &FileGrabForegroundBase::getFrame(void) const
 {
     return _sfFrame.getValue();
 }
 
+//! Set the value of the FileGrabForeground::_sfFrame field.
 inline
 void FileGrabForegroundBase::setFrame(const UInt32 &value)
 {
     _sfFrame.setValue(value);
 }
 
+//! Get the value of the FileGrabForeground::_sfIncrement field.
 inline
 bool &FileGrabForegroundBase::getIncrement(void)
 {
     return _sfIncrement.getValue();
 }
 
+//! Get the value of the FileGrabForeground::_sfIncrement field.
 inline
 const bool &FileGrabForegroundBase::getIncrement(void) const
 {
     return _sfIncrement.getValue();
 }
 
+//! Set the value of the FileGrabForeground::_sfIncrement field.
 inline
 void FileGrabForegroundBase::setIncrement(const bool &value)
 {

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -95,9 +95,9 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraBase : public AttachmentContainer
         NextFieldId   = FarFieldId    + 1
     };
 
-    static const osg::BitVector BeaconFieldMask;
-    static const osg::BitVector NearFieldMask;
-    static const osg::BitVector FarFieldMask;
+    static const OSG::BitVector BeaconFieldMask;
+    static const OSG::BitVector NearFieldMask;
+    static const OSG::BitVector FarFieldMask;
 
 
     /*---------------------------------------------------------------------*/

@@ -13,7 +13,7 @@
 */
 
 
-int main( osg::Int32 argc, osg::Char8** argv)
+int main( OSG::Int32 argc, OSG::Char8** argv)
 {
 	// Init OSG
 

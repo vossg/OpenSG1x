@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *                     Copyright 2000-2002 by OpenSG Forum                   *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -88,7 +88,7 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::Attachment
+/*! \class OSG::Attachment
  */
 
 /*! \var MFFieldContainerPtr Attachment::_parents
@@ -370,7 +370,7 @@ std::ostream &OSG::operator <<(      std::ostream  &stream,
 
 //! Return the name attached to the container, NULL if none attached or
 //! container is NULL.
-const char *osg::getName( AttachmentContainerPtr container )
+const char *OSG::getName( AttachmentContainerPtr container )
 {
     if( container == NullFC )
         return 0;
@@ -426,7 +426,7 @@ void OSG::setName(      AttachmentContainerPtr  container,
 //! Set the name attached to the container. If the container doesn't have a
 //! name attachement yet one is created. If the name is NULL, an attached
 //! name is removed.
-void osg::setName( AttachmentContainerPtr container, const char *name )
+void OSG::setName( AttachmentContainerPtr container, const char *name )
 {
     if(name == NULL)
     {

@@ -7,21 +7,23 @@ using namespace OSG;
 /*! \defgroup GrpSystemNodeCoresDrawablesGeometry Geometry
     \ingroup GrpSystemNodeCoresDrawables
     
-    TODO
+    Geometry is the primary leaf node of the tree. It wraps polygonal
+    primitives as defined by OpenGLs glBegin()/glEnd() loops. See \ref
+    PageSystemGeometry for a description. 
 */
 
 /*! \defgroup GrpSystemDrawablesGeometryIterators Geometry Iterators
     \ingroup GrpSystemNodeCoresDrawablesGeometry
     
-    Helper to access Geometry in a generic way. See \ref PageSystemGeoIterators for details.
+    Helpers to access Geometry in a generic way. See \ref PageSystemGeoIterators 
+    for a description.
 */
 
 /*! \defgroup GrpSystemDrawablesGeometryFunctions Geometry Functions
     \ingroup GrpSystemNodeCoresDrawablesGeometry
 
     The GeoFunctions group contains different different functions to
-    manipulate geometry. See \ref PageSystemGeoFunctions for details.
-
+    manipulate geometry. See \ref PageSystemGeoFunctions for a description.
 */
 
 /*! \defgroup GrpSystemDrawablesGeometryProperties Geometry Properties
@@ -39,7 +41,7 @@ using namespace OSG;
     \ingroup GrpSystemNodeCoresDrawablesGeometry  
 
     SimpleGeometry combines a number of functions to create some specialized 
-    geometry very easily. See \ref PageSystemSimpleGeometry for details.
+    geometry very easily. See \ref PageSystemSimpleGeometry for a description.
 */
 
 // the page(s)
@@ -212,7 +214,7 @@ cylinders etc. Instead there are a number of utility functions that can create
 these objects. They can be created as a ready-to-use node and as a naked node
 core.
 
-\dev We definitely need a Teapot here... \enddev
+\dev We definitely need a Teapot here... :) \enddev
 
 \subsubsection PageSystemSimpleGeometryPlane Plane
 

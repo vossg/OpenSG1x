@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -95,9 +95,9 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public Group
         NextFieldId           = AlignToScreenFieldId  + 1
     };
 
-    static const osg::BitVector AxisOfRotationFieldMask;
-    static const osg::BitVector FocusOnCameraFieldMask;
-    static const osg::BitVector AlignToScreenFieldMask;
+    static const OSG::BitVector AxisOfRotationFieldMask;
+    static const OSG::BitVector FocusOnCameraFieldMask;
+    static const OSG::BitVector AlignToScreenFieldMask;
 
 
     /*---------------------------------------------------------------------*/

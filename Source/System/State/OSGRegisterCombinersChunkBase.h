@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -151,37 +151,37 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
         NextFieldId              = PerStageConstantsFieldId + 1
     };
 
-    static const osg::BitVector Color0FieldMask;
-    static const osg::BitVector Color1FieldMask;
-    static const osg::BitVector ColorSumClampFieldMask;
-    static const osg::BitVector VariableArgbFieldMask;
-    static const osg::BitVector VariableBrgbFieldMask;
-    static const osg::BitVector VariableCrgbFieldMask;
-    static const osg::BitVector VariableDrgbFieldMask;
-    static const osg::BitVector VariableAalphaFieldMask;
-    static const osg::BitVector VariableBalphaFieldMask;
-    static const osg::BitVector VariableCalphaFieldMask;
-    static const osg::BitVector VariableDalphaFieldMask;
-    static const osg::BitVector OutputABrgbFieldMask;
-    static const osg::BitVector OutputCDrgbFieldMask;
-    static const osg::BitVector OutputSumrgbFieldMask;
-    static const osg::BitVector ScalergbFieldMask;
-    static const osg::BitVector BiasrgbFieldMask;
-    static const osg::BitVector OutputABalphaFieldMask;
-    static const osg::BitVector OutputCDalphaFieldMask;
-    static const osg::BitVector OutputSumalphaFieldMask;
-    static const osg::BitVector DotABrgbFieldMask;
-    static const osg::BitVector DotCDrgbFieldMask;
-    static const osg::BitVector MuxSumrgbFieldMask;
-    static const osg::BitVector ScalealphaFieldMask;
-    static const osg::BitVector BiasalphaFieldMask;
-    static const osg::BitVector MuxSumalphaFieldMask;
-    static const osg::BitVector VariableEFieldMask;
-    static const osg::BitVector VariableFFieldMask;
-    static const osg::BitVector VariableGFieldMask;
-    static const osg::BitVector CombinerColor0FieldMask;
-    static const osg::BitVector CombinerColor1FieldMask;
-    static const osg::BitVector PerStageConstantsFieldMask;
+    static const OSG::BitVector Color0FieldMask;
+    static const OSG::BitVector Color1FieldMask;
+    static const OSG::BitVector ColorSumClampFieldMask;
+    static const OSG::BitVector VariableArgbFieldMask;
+    static const OSG::BitVector VariableBrgbFieldMask;
+    static const OSG::BitVector VariableCrgbFieldMask;
+    static const OSG::BitVector VariableDrgbFieldMask;
+    static const OSG::BitVector VariableAalphaFieldMask;
+    static const OSG::BitVector VariableBalphaFieldMask;
+    static const OSG::BitVector VariableCalphaFieldMask;
+    static const OSG::BitVector VariableDalphaFieldMask;
+    static const OSG::BitVector OutputABrgbFieldMask;
+    static const OSG::BitVector OutputCDrgbFieldMask;
+    static const OSG::BitVector OutputSumrgbFieldMask;
+    static const OSG::BitVector ScalergbFieldMask;
+    static const OSG::BitVector BiasrgbFieldMask;
+    static const OSG::BitVector OutputABalphaFieldMask;
+    static const OSG::BitVector OutputCDalphaFieldMask;
+    static const OSG::BitVector OutputSumalphaFieldMask;
+    static const OSG::BitVector DotABrgbFieldMask;
+    static const OSG::BitVector DotCDrgbFieldMask;
+    static const OSG::BitVector MuxSumrgbFieldMask;
+    static const OSG::BitVector ScalealphaFieldMask;
+    static const OSG::BitVector BiasalphaFieldMask;
+    static const OSG::BitVector MuxSumalphaFieldMask;
+    static const OSG::BitVector VariableEFieldMask;
+    static const OSG::BitVector VariableFFieldMask;
+    static const OSG::BitVector VariableGFieldMask;
+    static const OSG::BitVector CombinerColor0FieldMask;
+    static const OSG::BitVector CombinerColor1FieldMask;
+    static const OSG::BitVector PerStageConstantsFieldMask;
 
 
     /*---------------------------------------------------------------------*/

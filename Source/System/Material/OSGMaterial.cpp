@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -60,17 +60,42 @@ OSG_USING_NAMESPACE
 
 The material base class.
 
+\ext The Material has two interfaces to return a State that represents it.
+osg::Material::makeState() creates a new osg::State and returns it. This is ok
+for rare use, but for every frame this is going to be too expensive. For these
+cases osg::Material::rebuildState() and osg::Material::getState() are used, which
+modify and return an internal copy of the State. 
+
+The other method to implement is osg::Material::isTransparent(), to identify
+transparent materials to be rendered after the opaque ones.
+\endext
 */
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+/*! \fn osg::Material::makeState()
+
+    Creates an instance of a osg::State that is used to represent the material.
+    This is used by the osg::DrawAction.  
+*/
+
+/*! \fn osg::Material::rebuildState()
+
+    Update the internal osg::State. 
+*/
+
+/*! \fn osg::Material::getState()
+
+    Access the internal osg::State, used by the osg::RenderAction.
+*/
+
+/*! \fn osg::Material::isTransparent()
+
+    Check if the Material is transparent and thus has to be rendered afte the
+    opaque ones.
+*/
 
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.14 2001/11/01 05:55:04 vossg Exp $";
 
 OSG_BEGIN_NAMESPACE
 OSG_SYSTEMLIB_DLLMAPPING MaterialPtr NullMaterial;
@@ -81,27 +106,8 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 /*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
 
 void Material::initMethod (void)
 {
@@ -118,17 +124,11 @@ void Material::initMethod (void)
 
 /*------------- constructors & destructors --------------------------------*/
 
-/** \brief Constructor
- */
-
 Material::Material(void) :
     Inherited(),
     _pState  ()
 {
 }
-
-/** \brief Copy Constructor
- */
 
 Material::Material(const Material &source) :
     Inherited(source),
@@ -139,9 +139,6 @@ Material::Material(const Material &source) :
 // makes sense
 //    setRefdCP(_pState, source._pState); 
 }
-
-/** \brief Destructor
- */
 
 Material::~Material(void)
 {
@@ -155,9 +152,6 @@ StatePtr Material::getState(void)
     return _pState;
 }
 
-/** \brief react to field changes
- */
-
 void Material::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
@@ -167,35 +161,25 @@ void Material::changed(BitVector whichField, UInt32 origin)
 
 /*------------------------------- dump ----------------------------------*/
 
-/** \brief output the instance for debug purposes
- */
-
 void Material::dump(      UInt32    ,
                     const BitVector ) const
 {
+    SLOG << "Material::dump called: NIY!" << endl;
 //   Inherited::dump(uiIndent, bvFlags);
 }
 
 /*-------------------------- comparison -----------------------------------*/
-
-/** \brief assignment
- */
 
 bool Material::operator < (const Material &other) const
 {
     return this < &other;
 }
 
-/** \brief equal
- */
-
 bool Material::operator == (const Material &OSG_CHECK_ARG(other)) const
-{
+{   
+    SLOG << "Material::operator== called: NIY!" << endl;
     return false;
 }
-
-/** \brief unequal
- */
 
 bool Material::operator != (const Material &other) const
 {
@@ -203,12 +187,27 @@ bool Material::operator != (const Material &other) const
 }
 
 
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.13 2002/06/01 10:37:25 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGMATERIAL_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGMATERIAL_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGMATERIALFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -95,9 +95,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
         NextFieldId    = ColorFieldId   + 1
     };
 
-    static const osg::BitVector FormatsFieldMask;
-    static const osg::BitVector SizeFieldMask;
-    static const osg::BitVector ColorFieldMask;
+    static const OSG::BitVector FormatsFieldMask;
+    static const OSG::BitVector SizeFieldMask;
+    static const OSG::BitVector ColorFieldMask;
 
 
     /*---------------------------------------------------------------------*/

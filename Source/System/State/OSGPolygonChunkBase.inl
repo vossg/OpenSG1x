@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ PolygonChunkPtr PolygonChunkBase::create(void)
 {
     PolygonChunkPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = PolygonChunkPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -385,7 +385,7 @@ void PolygonChunkBase::setOffsetFill(const bool &value)
 }
 
 
-//! Get the value of the  index element the PolygonChunk::_mfStipple field.
+//! Get the value of the \a index element the PolygonChunk::_mfStipple field.
 inline
 Int32 &PolygonChunkBase::getStipple(const UInt32 index)
 {

@@ -87,6 +87,6 @@ public:
     }
 };
 
-OSG_END_NAMESPACE typedef osg::FontGlyph * FontGlyphP;
+OSG_END_NAMESPACE typedef OSG::FontGlyph * FontGlyphP;
 #endif
 #endif // GLYPH_CLASS_DECLARATION

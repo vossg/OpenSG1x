@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ ChunkMaterialPtr ChunkMaterialBase::create(void)
 {
     ChunkMaterialPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = ChunkMaterialPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,6 +96,7 @@ ChunkMaterialPtr ChunkMaterialBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the ChunkMaterial::_mfChunks field.
 inline
 MFStateChunkPtr *ChunkMaterialBase::getMFChunks(void)
 {
@@ -104,18 +105,21 @@ MFStateChunkPtr *ChunkMaterialBase::getMFChunks(void)
 
 
 
+//! Get the value of the \a index element the ChunkMaterial::_mfChunks field.
 inline
 StateChunkPtr &ChunkMaterialBase::getChunks(const UInt32 index)
 {
     return _mfChunks[index];
 }
 
+//! Get the ChunkMaterial::_mfChunks field.
 inline
 MFStateChunkPtr &ChunkMaterialBase::getChunks(void)
 {
     return _mfChunks;
 }
 
+//! Get the ChunkMaterial::_mfChunks field.
 inline
 const MFStateChunkPtr &ChunkMaterialBase::getChunks(void) const
 {

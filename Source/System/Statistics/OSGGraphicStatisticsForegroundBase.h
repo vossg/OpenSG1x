@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -57,7 +57,6 @@
 #pragma once
 #endif
 
-#ifndef WIN32
 
 #include <OSGConfig.h>
 #include <OSGSystemDef.h>
@@ -122,22 +121,22 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
         NextFieldId              = BorderEnabledFieldId     + 1
     };
 
-    static const osg::BitVector DisplayTypeFieldMask;
-    static const osg::BitVector SizeFieldMask;
-    static const osg::BitVector PosFieldMask;
-    static const osg::BitVector ColorMaxFieldMask;
-    static const osg::BitVector ColorMinFieldMask;
-    static const osg::BitVector ColorCurrentFieldMask;
-    static const osg::BitVector MinValueFieldMask;
-    static const osg::BitVector MaxValueFieldMask;
-    static const osg::BitVector FlagsFieldMask;
-    static const osg::BitVector HistorySizeFieldMask;
-    static const osg::BitVector DescriptionFieldMask;
-    static const osg::BitVector LineWidthFieldMask;
-    static const osg::BitVector ColorBackgroundFieldMask;
-    static const osg::BitVector TextEnabledFieldMask;
-    static const osg::BitVector BackgroundEnabledFieldMask;
-    static const osg::BitVector BorderEnabledFieldMask;
+    static const OSG::BitVector DisplayTypeFieldMask;
+    static const OSG::BitVector SizeFieldMask;
+    static const OSG::BitVector PosFieldMask;
+    static const OSG::BitVector ColorMaxFieldMask;
+    static const OSG::BitVector ColorMinFieldMask;
+    static const OSG::BitVector ColorCurrentFieldMask;
+    static const OSG::BitVector MinValueFieldMask;
+    static const OSG::BitVector MaxValueFieldMask;
+    static const OSG::BitVector FlagsFieldMask;
+    static const OSG::BitVector HistorySizeFieldMask;
+    static const OSG::BitVector DescriptionFieldMask;
+    static const OSG::BitVector LineWidthFieldMask;
+    static const OSG::BitVector ColorBackgroundFieldMask;
+    static const OSG::BitVector TextEnabledFieldMask;
+    static const OSG::BitVector BackgroundEnabledFieldMask;
+    static const OSG::BitVector BorderEnabledFieldMask;
 
 
     /*---------------------------------------------------------------------*/
@@ -355,7 +354,5 @@ typedef GraphicStatisticsForegroundBase *GraphicStatisticsForegroundBaseP;
 OSG_END_NAMESPACE
 
 #define OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: $"
-
-#endif
 
 #endif /* _OSGGRAPHICSTATISTICSFOREGROUNDBASE_H_ */

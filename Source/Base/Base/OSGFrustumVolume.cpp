@@ -287,7 +287,7 @@ void FrustumVolume::extendBy(const Pnt3f &OSG_CHECK_ARG(pt))
 
 void FrustumVolume::extendBy(const Volume &volume)
 {
-    osg::extend(*this, volume);
+    OSG::extend(*this, volume);
 }
 
 
@@ -329,7 +329,7 @@ bool FrustumVolume::intersect(const Line   &line,
 
 bool FrustumVolume::intersect(const Volume &volume) const
 {
-    return osg::intersect(*this, volume);
+    return OSG::intersect(*this, volume);
 }
 
 /*! 

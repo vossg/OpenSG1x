@@ -236,7 +236,7 @@ int main (int argc, char **argv)
 	
     for ( int i = 0; i < argc; i++ )
         std::cout << "Param " << i << ":" << argv[i] << std::endl;
-    osg::osgInit(argc, argv);
+    OSG::osgInit(argc, argv);
     FILE *inFile;
     char *inFileName  = "tie.bin";
     
@@ -249,7 +249,7 @@ int main (int argc, char **argv)
             std::cerr<<"ERROR: Cannot open file """<<inFileName<<""""<<std::endl;
             return (-1);
         }
-			osg::BINLoader loader(inFile);
+			OSG::BINLoader loader(inFile);
     		loader.read();
      		fclose(inFile);
             std::cout<<"MAIN: "<<loader.getRootNode().getFieldContainerId()

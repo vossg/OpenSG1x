@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -103,13 +103,13 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
         NextFieldId                     = GlObjectLastReinitializeFieldId + 1
     };
 
-    static const osg::BitVector WidthFieldMask;
-    static const osg::BitVector HeightFieldMask;
-    static const osg::BitVector PortFieldMask;
-    static const osg::BitVector ResizePendingFieldMask;
-    static const osg::BitVector GlObjectEventCounterFieldMask;
-    static const osg::BitVector GlObjectLastRefreshFieldMask;
-    static const osg::BitVector GlObjectLastReinitializeFieldMask;
+    static const OSG::BitVector WidthFieldMask;
+    static const OSG::BitVector HeightFieldMask;
+    static const OSG::BitVector PortFieldMask;
+    static const OSG::BitVector ResizePendingFieldMask;
+    static const OSG::BitVector GlObjectEventCounterFieldMask;
+    static const OSG::BitVector GlObjectLastRefreshFieldMask;
+    static const OSG::BitVector GlObjectLastReinitializeFieldMask;
 
 
     /*---------------------------------------------------------------------*/
