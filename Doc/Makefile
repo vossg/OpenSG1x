@@ -60,7 +60,6 @@ DOCS_X     := ../Source/WindowSystem/X
 DOCS_W32   := ../Source/WindowSystem/WIN32
 DOCS_GLUT  := ../Source/WindowSystem/GLUT
 DOCS_QT    := ../Source/WindowSystem/QT
-DOCS_QT    := 
 
 DOC_LIBS   ?= $(DOCS_BASE) $(DOCS_SYS) 										\
 			  $(DOCS_X) $(DOCS_W32) $(DOCS_GLUT) $(DOCS_QT) $(DOCS_PAGES)
@@ -135,17 +134,19 @@ DOC_PAGES :=                    ../Common/dummyClasses.dox\
 
 DOC_IMAGE_PATHES := Images
 
-#DOC_FILES := $(DOC_LIBS) $(DOC_PAGES)
-DOC_FILES :=  $(DOC_PAGES)
+# All the files that are merged to generate the whole documentation
+DOC_FILES := $(DOC_LIBS) $(DOC_PAGES)
 
-#DOC_FILES := ../Source/Base/Base/Base.dox         					\
-#			 ../Source/Base/Base 									\
-#             ../Source/Base/Functors/Functors.dox 					\
-#			 ../Source/Base/Functors								\
-#			 ../Source/Base/Field/Field.dox							\
-#			 ../Source/Base/Field									\
-#			 ../Source/Base/StringConversion/StringConversion.dox	\
-#			 ../Source/Base/StringConversion
+# Files for testing. Generate test doc via "make TESTDOC=1 <target>"
+TESTDOC_FILES := $(DOC_PAGES)
+
+
+# Trivial, but useful...
+ifneq ($TESTDOC),)
+ifeq ($TESTDOC),1)
+DOC_FILES := $(TESTDOC_FILES)
+endif
+endif
 
 # level-dependent defines
 DOC_LEVEL ?= 1
