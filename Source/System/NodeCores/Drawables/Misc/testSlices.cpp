@@ -415,12 +415,70 @@ int main (int argc, char **argv)
           }
         else
           {
-            FFATAL (("Can not read \'%s\'\n", argv[1]));
-            subRefCP(imageP);
-            imageP = NullFC;
+            FWARNING(("Couldn't load file %s!\n", argv[1]));
             return -1;
           }
       }
+    
+    
+    if(imageP == NullFC)
+      {
+        imageP = Image::create();
+        const int res=64;
+        Real32 rres = res;
+        beginEditCP(imageP);
+        imageP->set(Image::OSG_RGBA_PF,res,res,res);
+
+        UInt8 *d = imageP->getData();
+        for(Int16 z = 0; z < res; ++z)         
+        for(Int16 y = 0; y < res; ++y)         
+        for(Int16 x = 0; x < res; ++x)
+        {
+            Real32 dx = x/rres - .5f;
+            Real32 dy = y/rres - .5f;
+            Real32 dz = z/rres - .5f;
+
+            Real32 dsq = (dx*dx + dy*dy + dz*dz);
+
+            int  bx = (x<2 || x >=res-2),
+                 by = (y<2 || y >=res-2),
+                 bz = (z<2 || z >=res-2);
+            if(bx + by + bz >=2)
+            {
+                *d++ = 0;
+                *d++ = 255;
+                *d++ = 0;
+                *d++ = 64;
+            } 
+            else if (osgabs(dx) < .2 && osgabs(dy) < .2)
+            {
+                *d++ = 0;
+                *d++ = 0;
+                *d++ = 0;
+                *d++ = 0;              
+            }
+            else if(dsq <= .25f)
+            {
+                *d++ = static_cast<UInt8>(x/rres * 255.f);
+                *d++ = static_cast<UInt8>(y/rres * 255.f);
+                *d++ = static_cast<UInt8>(z/rres * 255.f);
+                *d++ = static_cast<UInt8>((.3f-dsq*dsq*dsq) * 255.f);
+            }
+            else
+            {
+                *d++ = 0;
+                *d++ = 0;
+                *d++ = 0;
+                *d++ = 0;
+            }
+        }      
+
+        endEditCP(imageP);  
+        
+        size.setValues( imageP->getWidth(), 
+                        imageP->getHeight(), 
+                        imageP->getDepth() );        
+     }
 
     MaterialPtr matPtr;
     
@@ -458,7 +516,7 @@ int main (int argc, char **argv)
         endEditCP   (texMatPtr);
         matPtr = texMatPtr;
         //numberOfSlices = unsigned((size.x() + size.y() + size.z()) / 3);
-        numberOfSlices = unsigned(size.length());
+        numberOfSlices = unsigned(size.length() * 3);
         size.normalize();
       }
     else 
