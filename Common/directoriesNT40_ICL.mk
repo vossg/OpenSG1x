@@ -35,8 +35,8 @@ QTDIR                = /cygdrive/q/Windows/NT/VC6/qt-2.11
 INCLUDE_QT           = $(QTDIR)/include
 LINK_QT              = $(QTDIR)/lib
 
-INCLUDE_GLUT         = /cygdrive/q/Windows/NT/glut
+INCLUDE_GLUT         = /cygdrive/q/Windows/NT/glut/include
 INCLUDE_GLUT        := "$(shell cygpath -w $(INCLUDE_GLUT))"
 
-LINK_GLUT            = /cygdrive/q/Windows/NT/glut
+LINK_GLUT            = /cygdrive/q/Windows/NT/glut/lib
 LINK_GLUT           := "$(shell cygpath -w $(LINK_GLUT))"
