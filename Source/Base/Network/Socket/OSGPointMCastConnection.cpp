@@ -617,7 +617,8 @@ bool PointMCastConnection::recvQueue(void)
         while(id != _seqNumber || missing);
         _seqNumber++;
     }    
-    return true;
+
+//    return true;
 }
 
 void PointMCastConnection::recvQueueThread(void *arg)
