@@ -12,7 +12,7 @@ using namespace OSG;
 BaseThread         *connectThread;
 vector<BaseThread*> acceptThread;
 Lock               *addressLock;
-Barrier            *barrier;
+Barrier            *mybarrier;
 string              connectionType="Multicast";
 int                 recvCount=4;
 vector<string>      recvAddress;
@@ -30,7 +30,7 @@ void *connectProc(void *)
             SFATAL << "Unknown connection " << connectionType << endl;
             exit(0);
         }
-        barrier->enter(recvCount+1);
+        mybarrier->enter(recvCount+1);
         for(i=0;i<recvAddress.size();++i)
         {
             FLOG(("Connect to %s\n",recvAddress[i].c_str()));
@@ -80,7 +80,7 @@ void *acceptProc(void *)
         string address=connection->bind("");
         recvAddress.push_back(address);
         addressLock->release();
-        barrier->enter(recvCount+1);
+        mybarrier->enter(recvCount+1);
         FLOG(("Accept connection %s\n",address.c_str()));
         connection->accept();
         connection->selectChannel();
@@ -138,7 +138,7 @@ int main(int argc,char **argv)
  	// OSG init
     osgInit(argc, argv);
     // create barrier
-    barrier = Barrier::get(NULL);
+    mybarrier = Barrier::get(NULL);
     // create lock
     addressLock=Lock::get(NULL);
 
