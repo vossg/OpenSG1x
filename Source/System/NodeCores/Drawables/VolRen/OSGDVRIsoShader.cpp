@@ -63,7 +63,7 @@ UInt32 DVRIsoShader::_NV_register_combiners  = Window::invalidExtensionID;
 UInt32 DVRIsoShader::_NV_register_combiners2 = Window::invalidExtensionID;
 UInt32 DVRIsoShader::_SGI_color_matrix       = Window::invalidExtensionID;
 UInt32 DVRIsoShader::_ARB_fragment_program   = Window::invalidExtensionID;
-UInt32 DVRIsoShader::_EXT_secondaryColor     = Window::invalidExtensionID;
+UInt32 DVRIsoShader::_EXT_secondary_color    = Window::invalidExtensionID;
 
 
 UInt32 DVRIsoShader::_funcActiveTextureARB            =  
@@ -121,8 +121,8 @@ DVRIsoShader::DVRIsoShader(void) :
     _EXT_texture3D          = 
         Window::registerExtension("GL_EXT_texture3D"         );
 
-    _EXT_secondaryColor     = 
-        Window::registerExtension("GL_EXT_secondaryColor"    );
+    _EXT_secondary_color     = 
+        Window::registerExtension("GL_EXT_secondary_color"   );
 
     _NV_register_combiners  = 
         Window::registerExtension("GL_NV_register_combiners" );
@@ -164,11 +164,11 @@ DVRIsoShader::DVRIsoShader(void) :
 
     _funcSecondaryColor3fEXT         = 
        Window::registerFunction(OSG_DLSYM_UNDERSCORE"glSecondaryColor3fEXT",    
-                                _EXT_secondaryColor);
+                                _EXT_secondary_color);
 
     _funcSecondaryColor3fvEXT        = 
        Window::registerFunction(OSG_DLSYM_UNDERSCORE"glSecondaryColor3fvEXT",    
-                                _EXT_secondaryColor);
+                                _EXT_secondary_color);
 
     _funcCombinerInputNV             = 
        Window::registerFunction(OSG_DLSYM_UNDERSCORE"glCombinerInputNV",    
