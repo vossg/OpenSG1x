@@ -115,7 +115,7 @@ class OSG_GLUTWINDOWLIB_DLLMAPPING GLUTWindow : public Window
 	/** GL implementation dependent function **/
 	
 	// query the system for a GL function
-	virtual void (*getFunctionByName( const String &s ))();
+	virtual void (*getFunctionByName( const Char8 *s ))();
 	
 	// Window-system dependent functions
 	

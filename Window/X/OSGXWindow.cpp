@@ -208,15 +208,15 @@ void XWindow::swap( void )
 }
 
 // Query for a GL extension function
-void (*XWindow::getFunctionByName( const String &s ))(void)
+void (*XWindow::getFunctionByName( const Char8 *s ))(void)
 {
 #ifdef __sgi
 	void *libHandle = dlopen("libgl.so", RTLD_LAZY);
-	void *func = dlsym( libHandle, (Char8*)s.str() );
+	void *func = dlsym( libHandle, s );
 	dlclose(libHandle);
 	return (void (*)(void))func;   	 
 #else
-	return glXGetProcAddressARB( (UChar8 *)s.str() );
+	return glXGetProcAddressARB( s );
 #endif
 }
 

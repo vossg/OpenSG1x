@@ -121,7 +121,7 @@ class OSG_WIN32WINDOWLIB_DLLMAPPING WIN32Window : public Window
 	/** GL implementation dependent function **/
 
 	// query the system for a GL function
-	virtual void (*getFunctionByName( const String &s ))();
+	virtual void (*getFunctionByName( const Char8 *s ))();
 	
 	// Window-system dependent functions
 	

@@ -109,7 +109,7 @@ class OSG_XWINDOWLIB_DLLMAPPING XWindow : public Window
 	/** GL implementation dependent function **/
 	
 	// query the system for a GL function
-	virtual void (*getFunctionByName( const String &s ))();
+	virtual void (*getFunctionByName( const Char8 *s ))();
 	
 	/** Window-system dependent functions **/
 	

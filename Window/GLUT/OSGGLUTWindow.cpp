@@ -199,17 +199,17 @@ void GLUTWindow::swap( void )
 
 
 // Query for a GL extension function
-inline void (*GLUTWindow::getFunctionByName( const String &s ))()
+inline void (*GLUTWindow::getFunctionByName( const Char8 *s ))()
 {
 #ifdef sgi
 	static void *libHandle = NULL;
 	if ( ! libHandle ) 
 		libHandle = dlopen("libgl.so", RTLD_LAZY);
-	return (void (*)(void)) dlsym( libHandle, (Char8*)s.str());
+	return (void (*)(void)) dlsym( libHandle, s);
 #elif defined( WIN32 )
-	return (  wglGetProcAddress( (UChar8*)s.str() )  );
+	return (  wglGetProcAddress( s )  );
 #else
-	return (  glXGetProcAddressARB( (UChar8 *)s.str() )  );
+	return (  glXGetProcAddressARB( s )  );
 #endif
 }
 

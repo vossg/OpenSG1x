@@ -93,9 +93,9 @@ OSG_BEGIN_NAMESPACE
 OSG_FIELD_CONTAINER_INL_DEF(WIN32Window, WIN32WindowPtr)
 
 // Query for a GL function
-inline void (*WIN32Window::getFunctionByName( const String &s ))()
+inline void (*WIN32Window::getFunctionByName( const Char8 *s ))()
 {
-	return (  wglGetProcAddress( (UChar8*)s.str() )  );
+	return ( wglGetProcAddress( s ) );
 }
 
 
