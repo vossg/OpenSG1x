@@ -173,7 +173,8 @@ struct FieldTraitsRecurseVecStore4Base :
 #endif
 
 template <>
-struct FieldDataTraits<Vec2ub> : public FieldTraitsRecurseVecStore2Base<Vec2ub>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec2ub> :
+    public FieldTraitsRecurseVecStore2Base<Vec2ub>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec2ub>  Self;
@@ -222,7 +223,8 @@ struct FieldDataTraits<Vec2ub> : public FieldTraitsRecurseVecStore2Base<Vec2ub>
 #endif
 
 template <>
-struct FieldDataTraits<Vec3ub> : public FieldTraitsRecurseVecStore2Base<Vec3ub>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec3ub> :
+    public FieldTraitsRecurseVecStore2Base<Vec3ub>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec3ub>  Self;
@@ -273,7 +275,8 @@ struct FieldDataTraits<Vec3ub> : public FieldTraitsRecurseVecStore2Base<Vec3ub>
 #endif
 
 template <>
-struct FieldDataTraits<Vec4ub> : public FieldTraitsRecurseVecStore2Base<Vec4ub>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec4ub> :
+    public FieldTraitsRecurseVecStore2Base<Vec4ub>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec4ub>  Self;
@@ -329,7 +332,8 @@ struct FieldDataTraits<Vec4ub> : public FieldTraitsRecurseVecStore2Base<Vec4ub>
 #endif
 
 template <>
-struct FieldDataTraits<Vec2b> : public FieldTraitsRecurseVecStore2Base<Vec2b>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec2b> :
+    public FieldTraitsRecurseVecStore2Base<Vec2b>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec2b>  Self;
@@ -378,7 +382,8 @@ struct FieldDataTraits<Vec2b> : public FieldTraitsRecurseVecStore2Base<Vec2b>
 #endif
 
 template <>
-struct FieldDataTraits<Vec3b> : public FieldTraitsRecurseVecStore2Base<Vec3b>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec3b> :
+    public FieldTraitsRecurseVecStore2Base<Vec3b>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec3b>  Self;
@@ -429,7 +434,8 @@ struct FieldDataTraits<Vec3b> : public FieldTraitsRecurseVecStore2Base<Vec3b>
 #endif
 
 template <>
-struct FieldDataTraits<Vec4b> : public FieldTraitsRecurseVecStore2Base<Vec4b>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec4b> :
+    public FieldTraitsRecurseVecStore2Base<Vec4b>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec4b>  Self;
@@ -484,7 +490,8 @@ struct FieldDataTraits<Vec4b> : public FieldTraitsRecurseVecStore2Base<Vec4b>
 #endif
 
 template <>
-struct FieldDataTraits<Vec2us> : public FieldTraitsRecurseVecStore2Base<Vec2us>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec2us> :
+    public FieldTraitsRecurseVecStore2Base<Vec2us>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec2us>  Self;
@@ -533,7 +540,8 @@ struct FieldDataTraits<Vec2us> : public FieldTraitsRecurseVecStore2Base<Vec2us>
 #endif
 
 template <>
-struct FieldDataTraits<Vec3us> : public FieldTraitsRecurseVecStore2Base<Vec3us>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec3us> :
+    public FieldTraitsRecurseVecStore2Base<Vec3us>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec3us>  Self;
@@ -584,7 +592,8 @@ struct FieldDataTraits<Vec3us> : public FieldTraitsRecurseVecStore2Base<Vec3us>
 #endif
 
 template <>
-struct FieldDataTraits<Vec4us> : public FieldTraitsRecurseVecStore2Base<Vec4us>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec4us> :
+    public FieldTraitsRecurseVecStore2Base<Vec4us>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec4us>  Self;
@@ -639,7 +648,8 @@ struct FieldDataTraits<Vec4us> : public FieldTraitsRecurseVecStore2Base<Vec4us>
 #endif
 
 template <>
-struct FieldDataTraits<Vec2s> : public FieldTraitsRecurseVecStore2Base<Vec2s>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec2s> :
+    public FieldTraitsRecurseVecStore2Base<Vec2s>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec2s>  Self;
@@ -688,7 +698,8 @@ struct FieldDataTraits<Vec2s> : public FieldTraitsRecurseVecStore2Base<Vec2s>
 #endif
 
 template <>
-struct FieldDataTraits<Vec3s> : public FieldTraitsRecurseVecStore2Base<Vec3s>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec3s> :
+    public FieldTraitsRecurseVecStore2Base<Vec3s>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec3s>  Self;
@@ -739,7 +750,8 @@ struct FieldDataTraits<Vec3s> : public FieldTraitsRecurseVecStore2Base<Vec3s>
 #endif
 
 template <>
-struct FieldDataTraits<Vec4s> : public FieldTraitsRecurseVecStore2Base<Vec4s>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec4s> :
+    public FieldTraitsRecurseVecStore2Base<Vec4s>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec4s>  Self;
@@ -794,7 +806,8 @@ struct FieldDataTraits<Vec4s> : public FieldTraitsRecurseVecStore2Base<Vec4s>
 #endif
 
 template <>
-struct FieldDataTraits<Vec2f> : public FieldTraitsRecurseVecStore2Base<Vec2f>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec2f> :
+    public FieldTraitsRecurseVecStore2Base<Vec2f>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec2f>  Self;
@@ -843,7 +856,8 @@ struct FieldDataTraits<Vec2f> : public FieldTraitsRecurseVecStore2Base<Vec2f>
 #endif
 
 template <>
-struct FieldDataTraits<Vec3f> : public FieldTraitsRecurseVecStore2Base<Vec3f>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec3f> :
+    public FieldTraitsRecurseVecStore2Base<Vec3f>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec3f>  Self;
@@ -894,7 +908,8 @@ struct FieldDataTraits<Vec3f> : public FieldTraitsRecurseVecStore2Base<Vec3f>
 #endif
 
 template <>
-struct FieldDataTraits<Vec4f> : public FieldTraitsRecurseVecStore2Base<Vec4f>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec4f> :
+    public FieldTraitsRecurseVecStore2Base<Vec4f>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec4f>  Self;
@@ -949,7 +964,8 @@ struct FieldDataTraits<Vec4f> : public FieldTraitsRecurseVecStore2Base<Vec4f>
 #endif
 
 template <>
-struct FieldDataTraits<Vec2d> : public FieldTraitsRecurseVecStore2Base<Vec2d>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec2d> :
+    public FieldTraitsRecurseVecStore2Base<Vec2d>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec2d>  Self;
@@ -998,7 +1014,8 @@ struct FieldDataTraits<Vec2d> : public FieldTraitsRecurseVecStore2Base<Vec2d>
 #endif
 
 template <>
-struct FieldDataTraits<Vec3d> : public FieldTraitsRecurseVecStore2Base<Vec3d>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec3d> :
+    public FieldTraitsRecurseVecStore2Base<Vec3d>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec3d>  Self;
@@ -1049,7 +1066,8 @@ struct FieldDataTraits<Vec3d> : public FieldTraitsRecurseVecStore2Base<Vec3d>
 #endif
 
 template <>
-struct FieldDataTraits<Vec4d> : public FieldTraitsRecurseVecStore2Base<Vec4d>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec4d> :
+    public FieldTraitsRecurseVecStore2Base<Vec4d>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec4d>  Self;
@@ -1104,7 +1122,8 @@ struct FieldDataTraits<Vec4d> : public FieldTraitsRecurseVecStore2Base<Vec4d>
 #endif
 
 template <>
-struct FieldDataTraits<Vec2ld> : public FieldTraitsRecurseVecStore2Base<Vec2ld>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec2ld> :
+    public FieldTraitsRecurseVecStore2Base<Vec2ld>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec2ld>  Self;
@@ -1153,7 +1172,8 @@ struct FieldDataTraits<Vec2ld> : public FieldTraitsRecurseVecStore2Base<Vec2ld>
 #endif
 
 template <>
-struct FieldDataTraits<Vec3ld> : public FieldTraitsRecurseVecStore2Base<Vec3ld>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec3ld> :
+    public FieldTraitsRecurseVecStore2Base<Vec3ld>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec3ld>  Self;
@@ -1204,7 +1224,8 @@ struct FieldDataTraits<Vec3ld> : public FieldTraitsRecurseVecStore2Base<Vec3ld>
 #endif
 
 template <>
-struct FieldDataTraits<Vec4ld> : public FieldTraitsRecurseVecStore2Base<Vec4ld>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec4ld> :
+    public FieldTraitsRecurseVecStore2Base<Vec4ld>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Vec4ld>  Self;
@@ -1259,7 +1280,8 @@ struct FieldDataTraits<Vec4ld> : public FieldTraitsRecurseVecStore2Base<Vec4ld>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt2ub> : public FieldTraitsRecurseVecStore2Base<Pnt2ub>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt2ub> :
+    public FieldTraitsRecurseVecStore2Base<Pnt2ub>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt2ub>  Self;
@@ -1308,7 +1330,8 @@ struct FieldDataTraits<Pnt2ub> : public FieldTraitsRecurseVecStore2Base<Pnt2ub>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt3ub> : public FieldTraitsRecurseVecStore2Base<Pnt3ub>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt3ub> :
+    public FieldTraitsRecurseVecStore2Base<Pnt3ub>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt3ub>  Self;
@@ -1359,7 +1382,8 @@ struct FieldDataTraits<Pnt3ub> : public FieldTraitsRecurseVecStore2Base<Pnt3ub>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt4ub> : public FieldTraitsRecurseVecStore2Base<Pnt4ub>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt4ub> :
+    public FieldTraitsRecurseVecStore2Base<Pnt4ub>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt4ub>  Self;
@@ -1414,7 +1438,8 @@ struct FieldDataTraits<Pnt4ub> : public FieldTraitsRecurseVecStore2Base<Pnt4ub>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt2b> : public FieldTraitsRecurseVecStore2Base<Pnt2b>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt2b> :
+    public FieldTraitsRecurseVecStore2Base<Pnt2b>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt2b>  Self;
@@ -1463,7 +1488,8 @@ struct FieldDataTraits<Pnt2b> : public FieldTraitsRecurseVecStore2Base<Pnt2b>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt3b> : public FieldTraitsRecurseVecStore2Base<Pnt3b>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt3b> :
+    public FieldTraitsRecurseVecStore2Base<Pnt3b>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt3b>  Self;
@@ -1514,7 +1540,8 @@ struct FieldDataTraits<Pnt3b> : public FieldTraitsRecurseVecStore2Base<Pnt3b>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt4b> : public FieldTraitsRecurseVecStore2Base<Pnt4b>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt4b> :
+    public FieldTraitsRecurseVecStore2Base<Pnt4b>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt4b>  Self;
@@ -1569,7 +1596,8 @@ struct FieldDataTraits<Pnt4b> : public FieldTraitsRecurseVecStore2Base<Pnt4b>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt2us> : public FieldTraitsRecurseVecStore2Base<Pnt2us>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt2us> :
+    public FieldTraitsRecurseVecStore2Base<Pnt2us>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt2us>  Self;
@@ -1618,7 +1646,8 @@ struct FieldDataTraits<Pnt2us> : public FieldTraitsRecurseVecStore2Base<Pnt2us>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt3us> : public FieldTraitsRecurseVecStore2Base<Pnt3us>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt3us> :
+    public FieldTraitsRecurseVecStore2Base<Pnt3us>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt3us>  Self;
@@ -1669,7 +1698,8 @@ struct FieldDataTraits<Pnt3us> : public FieldTraitsRecurseVecStore2Base<Pnt3us>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt4us> : public FieldTraitsRecurseVecStore2Base<Pnt4us>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt4us> :
+    public FieldTraitsRecurseVecStore2Base<Pnt4us>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt4us>  Self;
@@ -1724,7 +1754,8 @@ struct FieldDataTraits<Pnt4us> : public FieldTraitsRecurseVecStore2Base<Pnt4us>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt2s> : public FieldTraitsRecurseVecStore2Base<Pnt2s>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt2s> :
+    public FieldTraitsRecurseVecStore2Base<Pnt2s>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt2s>  Self;
@@ -1773,7 +1804,8 @@ struct FieldDataTraits<Pnt2s> : public FieldTraitsRecurseVecStore2Base<Pnt2s>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt3s> : public FieldTraitsRecurseVecStore2Base<Pnt3s>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt3s> :
+    public FieldTraitsRecurseVecStore2Base<Pnt3s>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt3s>  Self;
@@ -1824,7 +1856,8 @@ struct FieldDataTraits<Pnt3s> : public FieldTraitsRecurseVecStore2Base<Pnt3s>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt4s> : public FieldTraitsRecurseVecStore2Base<Pnt4s>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt4s> :
+    public FieldTraitsRecurseVecStore2Base<Pnt4s>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt4s>  Self;
@@ -1879,7 +1912,8 @@ struct FieldDataTraits<Pnt4s> : public FieldTraitsRecurseVecStore2Base<Pnt4s>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt2f> : public FieldTraitsRecurseVecStore2Base<Pnt2f>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt2f> :
+    public FieldTraitsRecurseVecStore2Base<Pnt2f>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt2f>  Self;
@@ -1928,7 +1962,8 @@ struct FieldDataTraits<Pnt2f> : public FieldTraitsRecurseVecStore2Base<Pnt2f>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseVecStore2Base<Pnt3f>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt3f> :
+    public FieldTraitsRecurseVecStore2Base<Pnt3f>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt3f>  Self;
@@ -1979,7 +2014,8 @@ struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseVecStore2Base<Pnt3f>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt4f> : public FieldTraitsRecurseVecStore2Base<Pnt4f>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt4f> :
+    public FieldTraitsRecurseVecStore2Base<Pnt4f>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt4f>  Self;
@@ -2034,7 +2070,8 @@ struct FieldDataTraits<Pnt4f> : public FieldTraitsRecurseVecStore2Base<Pnt4f>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt2d> : public FieldTraitsRecurseVecStore2Base<Pnt2d>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt2d> :
+    public FieldTraitsRecurseVecStore2Base<Pnt2d>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt2d>  Self;
@@ -2083,7 +2120,8 @@ struct FieldDataTraits<Pnt2d> : public FieldTraitsRecurseVecStore2Base<Pnt2d>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt3d> : public FieldTraitsRecurseVecStore2Base<Pnt3d>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt3d> :
+    public FieldTraitsRecurseVecStore2Base<Pnt3d>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt3d>  Self;
@@ -2134,7 +2172,8 @@ struct FieldDataTraits<Pnt3d> : public FieldTraitsRecurseVecStore2Base<Pnt3d>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt4d> : public FieldTraitsRecurseVecStore2Base<Pnt4d>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt4d> :
+    public FieldTraitsRecurseVecStore2Base<Pnt4d>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt4d>  Self;
@@ -2189,7 +2228,8 @@ struct FieldDataTraits<Pnt4d> : public FieldTraitsRecurseVecStore2Base<Pnt4d>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt2ld> : public FieldTraitsRecurseVecStore2Base<Pnt2ld>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt2ld> :
+    public FieldTraitsRecurseVecStore2Base<Pnt2ld>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt2ld>  Self;
@@ -2238,7 +2278,8 @@ struct FieldDataTraits<Pnt2ld> : public FieldTraitsRecurseVecStore2Base<Pnt2ld>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt3ld> : public FieldTraitsRecurseVecStore2Base<Pnt3ld>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt3ld> :
+    public FieldTraitsRecurseVecStore2Base<Pnt3ld>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt3ld>  Self;
@@ -2289,7 +2330,8 @@ struct FieldDataTraits<Pnt3ld> : public FieldTraitsRecurseVecStore2Base<Pnt3ld>
 #endif
 
 template <>
-struct FieldDataTraits<Pnt4ld> : public FieldTraitsRecurseVecStore2Base<Pnt4ld>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt4ld> :
+    public FieldTraitsRecurseVecStore2Base<Pnt4ld>
 {
     static  DataType                _type;
     typedef FieldDataTraits<Pnt4ld>  Self;

@@ -63,7 +63,7 @@ OSG_BEGIN_NAMESPACE
 #endif
 
 template <>
-struct FieldDataTraits2<bool> : 
+struct OSG_BASE_DLLMAPPING FieldDataTraits2<bool> : 
     public FieldTraitsIntegralRecurseMapper<bool>
 {
     static  DataType               _type;
@@ -186,7 +186,8 @@ struct FieldDataTraits2<bool> :
 #endif
 
 template <>
-struct FieldDataTraits<Int8> : public FieldTraitsIntegralRecurseMapper<Int8>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Int8> :
+    public FieldTraitsIntegralRecurseMapper<Int8>
 {
     static  DataType              _type;
     typedef FieldDataTraits<Int8>  Self;
@@ -228,7 +229,8 @@ struct FieldDataTraits<Int8> : public FieldTraitsIntegralRecurseMapper<Int8>
 #endif
 
 template <>
-struct FieldDataTraits<UInt8> : public FieldTraitsIntegralRecurseMapper<UInt8>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<UInt8> :
+    public FieldTraitsIntegralRecurseMapper<UInt8>
 {
     static  DataType               _type;
     typedef FieldDataTraits<UInt8>  Self;
@@ -270,7 +272,8 @@ struct FieldDataTraits<UInt8> : public FieldTraitsIntegralRecurseMapper<UInt8>
 #endif
 
 template <>
-struct FieldDataTraits<Int16> : public FieldTraitsIntegralRecurseMapper<Int16>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Int16> :
+    public FieldTraitsIntegralRecurseMapper<Int16>
 {
     static  DataType               _type;
     typedef FieldDataTraits<Int16>  Self;
@@ -312,7 +315,7 @@ struct FieldDataTraits<Int16> : public FieldTraitsIntegralRecurseMapper<Int16>
 #endif
 
 template <>
-struct FieldDataTraits<UInt16> : 
+struct OSG_BASE_DLLMAPPING FieldDataTraits<UInt16> : 
     public FieldTraitsIntegralRecurseMapper<UInt16>
 {
     static  DataType                _type;
@@ -355,7 +358,7 @@ struct FieldDataTraits<UInt16> :
 #endif
 
 template <>
-struct FieldDataTraits<Int32> : 
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Int32> : 
     public FieldTraitsIntegralRecurseMapper<Int32>
 {
     static  DataType               _type;
@@ -398,7 +401,7 @@ struct FieldDataTraits<Int32> :
 #endif
 
 template <>
-struct FieldDataTraits<UInt32> : 
+struct OSG_BASE_DLLMAPPING FieldDataTraits<UInt32> : 
     public FieldTraitsIntegralRecurseMapper<UInt32>
 {
     static  DataType                _type;
@@ -441,7 +444,7 @@ struct FieldDataTraits<UInt32> :
 #endif
 
 template <>
-struct FieldDataTraits<Int64> : 
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Int64> : 
     public FieldTraitsIntegralRecurseMapper<Int64>
 {
     static  DataType               _type;
@@ -484,7 +487,7 @@ struct FieldDataTraits<Int64> :
 #endif
 
 template <>
-struct FieldDataTraits<UInt64> : 
+struct OSG_BASE_DLLMAPPING FieldDataTraits<UInt64> : 
     public FieldTraitsIntegralRecurseMapper<UInt64>
 {
     static  DataType                _type;
@@ -527,7 +530,7 @@ struct FieldDataTraits<UInt64> :
 #endif
 
 template <>
-struct FieldDataTraits<Real32> : 
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Real32> : 
     public FieldTraitsIntegralRecurseMapper<Real32>
 {
     static  DataType                _type;
@@ -570,7 +573,7 @@ struct FieldDataTraits<Real32> :
 #endif
 
 template <>
-struct FieldDataTraits<Real64> : 
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Real64> : 
     public FieldTraitsIntegralRecurseMapper<Real64>
 {
     static  DataType                _type;
@@ -614,7 +617,7 @@ struct FieldDataTraits<Real64> :
 #endif
 
 template <>
-struct FieldDataTraits<void *> : 
+struct OSG_BASE_DLLMAPPING FieldDataTraits<void *> : 
     public FieldTraitsRecurseBase<void *>
 {
     static  DataType                 _type;

@@ -65,7 +65,8 @@ OSG_BEGIN_NAMESPACE
 #endif
 
 template <>
-struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Matrix> :
+    public FieldTraitsRecurseBase<Matrix>
 {
     static DataType _type;
 
@@ -178,7 +179,7 @@ struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
 #endif
 
 template <>
-struct FieldDataTraits<Quaternion> : 
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Quaternion> : 
     public FieldTraitsRecurseBase<Quaternion>
 {
     static DataType   _type;

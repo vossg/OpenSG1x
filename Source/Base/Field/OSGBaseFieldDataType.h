@@ -336,7 +336,8 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3ub> :
 #endif
 
 template <>
-struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Color4ub> :
+    public FieldTraitsRecurseBase<Color4ub>
 {
     static DataType _type;
 
@@ -982,7 +983,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<BitVector> :
 #endif
 
 template <>
-struct FieldDataTraits1<GLenum> : 
+struct OSG_BASE_DLLMAPPING FieldDataTraits1<GLenum> : 
     public FieldTraitsRecurseBase<GLenum>
 {
     static  DataType                 _type;
