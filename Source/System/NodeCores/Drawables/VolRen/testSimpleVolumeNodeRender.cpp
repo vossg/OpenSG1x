@@ -44,6 +44,7 @@ DVRVolumePtr vol;
 
 // forward declaration of the volume node construction function
 NodePtr makeVolume( const char * datFile);
+NodePtr makeVolume( ImagePtr datImage);
 
 // forward declaration so we can have the interesting stuff upfront
 int setupGLUT( int *argc, char *argv[] );
@@ -75,7 +76,263 @@ int main(int argc, char **argv)
 
     // create the scene or load it from a .osg-file
     if (argc == 1)
+    {
         scene = makeVolume("00_data64x64x64.dat");
+    }
+    else if(!strcmp(argv[1], "RGBA"))
+    {
+        ImagePtr imageP = Image::create();
+        const int res=64;
+        Real32 rres = res;
+        beginEditCP(imageP);
+        imageP->set(Image::OSG_RGBA_PF,res,res,res);
+
+        UInt8 *d = imageP->getData();
+        for(Int16 z = 0; z < res; ++z)         
+        for(Int16 y = 0; y < res; ++y)         
+        for(Int16 x = 0; x < res; ++x)
+        {
+            Real32 dx = x/rres - .5f;
+            Real32 dy = y/rres - .5f;
+            Real32 dz = z/rres - .5f;
+
+            Real32 dsq = (dx*dx + dy*dy + dz*dz);
+
+            int  bx = (x<2 || x >=res-2),
+                 by = (y<2 || y >=res-2),
+                 bz = (z<2 || z >=res-2);
+            if(bx + by + bz >=2)
+            {
+                *d++ = 0;
+                *d++ = 255;
+                *d++ = 0;
+                *d++ = 64;
+            } 
+            else if (osgabs(dx) < .2 && osgabs(dy) < .2)
+            {
+                *d++ = 0;
+                *d++ = 0;
+                *d++ = 0;
+                *d++ = 0;              
+            }
+            else if(dsq <= .25f)
+            {
+                *d++ = static_cast<UInt8>(x/rres * 255.f);
+                *d++ = static_cast<UInt8>(y/rres * 255.f);
+                *d++ = static_cast<UInt8>(z/rres * 255.f);
+                *d++ = static_cast<UInt8>((.3f-dsq*dsq*dsq) * 255.f);
+            }
+            else
+            {
+                *d++ = 0;
+                *d++ = 0;
+                *d++ = 0;
+                *d++ = 0;
+            }
+        }      
+
+        endEditCP(imageP);  
+        
+        imageP->setAttachmentField( "SliceThickness", "1 1 1" );
+        scene = makeVolume(imageP);        
+    }
+    else if(!strcmp(argv[1], "RGB"))
+    {
+        ImagePtr imageP = Image::create();
+        const int res=64;
+        Real32 rres = res;
+        beginEditCP(imageP);
+        imageP->set(Image::OSG_RGB_PF,res,res,res);
+
+        UInt8 *d = imageP->getData();
+        for(Int16 z = 0; z < res; ++z)         
+        for(Int16 y = 0; y < res; ++y)         
+        for(Int16 x = 0; x < res; ++x)
+        {
+            Real32 dx = x/rres - .5f;
+            Real32 dy = y/rres - .5f;
+            Real32 dz = z/rres - .5f;
+
+            Real32 dsq = (dx*dx + dy*dy + dz*dz);
+
+            int  bx = (x<2 || x >=res-2),
+                 by = (y<2 || y >=res-2),
+                 bz = (z<2 || z >=res-2);
+            if(bx + by + bz >=2)
+            {
+                *d++ = 0;
+                *d++ = 255;
+                *d++ = 0;
+            } 
+            else if (osgabs(dx) < .2 && osgabs(dy) < .2)
+            {
+                *d++ = 0;
+                *d++ = 0;
+                *d++ = 0;
+            }
+            else if(dsq <= .25f)
+            {
+                *d++ = static_cast<UInt8>(x/rres * 255.f);
+                *d++ = static_cast<UInt8>(y/rres * 255.f);
+                *d++ = static_cast<UInt8>(z/rres * 255.f);
+            }
+            else
+            {
+                *d++ = 0;
+                *d++ = 0;
+                *d++ = 0;
+            }
+        }      
+
+        endEditCP(imageP);  
+        
+        imageP->setAttachmentField( "SliceThickness", "1 1 1" );
+        scene = makeVolume(imageP);        
+    }
+    else if(!strcmp(argv[1], "LA16"))
+    {
+        ImagePtr imageP = Image::create();
+        const int res=64;
+        Real32 rres = res;
+        beginEditCP(imageP);
+        imageP->set(Image::OSG_LA_PF,res,res,res,1,1,0,0,
+                    Image::OSG_UINT16_IMAGEDATA);
+
+        UInt16 *d = reinterpret_cast<UInt16 *>(imageP->getData());
+        for(Int16 z = 0; z < res; ++z)         
+        for(Int16 y = 0; y < res; ++y)         
+        for(Int16 x = 0; x < res; ++x)
+        {
+            Real32 dx = x/rres - .5f;
+            Real32 dy = y/rres - .5f;
+            Real32 dz = z/rres - .5f;
+
+            Real32 dsq = (dx*dx + dy*dy + dz*dz);
+
+            int  bx = (x<2 || x >=res-2),
+                 by = (y<2 || y >=res-2),
+                 bz = (z<2 || z >=res-2);
+            if(bx + by + bz >=2)
+            {
+                *d++ = 65535;
+                *d++ = 16384;
+            } 
+            else if (osgabs(dx) < .2 && osgabs(dy) < .2)
+            {
+                *d++ = 0;
+                *d++ = 0;              
+            }
+            else if(dsq <= .25f)
+            {
+                *d++ = static_cast<UInt16>(z/rres * 65535.f);
+                *d++ = static_cast<UInt16>((.3f-dsq*dsq*dsq) * 65535.f);
+            }
+            else
+            {
+                *d++ = 0;
+                *d++ = 0;
+            }
+        }      
+
+        endEditCP(imageP);  
+        
+        imageP->setAttachmentField( "SliceThickness", "1 1 1" );
+        scene = makeVolume(imageP);        
+    }
+    else if(!strcmp(argv[1], "LA"))
+    {
+        ImagePtr imageP = Image::create();
+        const int res=64;
+        Real32 rres = res;
+        beginEditCP(imageP);
+        imageP->set(Image::OSG_LA_PF,res,res,res);
+
+        UInt8 *d = imageP->getData();
+        for(Int16 z = 0; z < res; ++z)         
+        for(Int16 y = 0; y < res; ++y)         
+        for(Int16 x = 0; x < res; ++x)
+        {
+            Real32 dx = x/rres - .5f;
+            Real32 dy = y/rres - .5f;
+            Real32 dz = z/rres - .5f;
+
+            Real32 dsq = (dx*dx + dy*dy + dz*dz);
+
+            int  bx = (x<2 || x >=res-2),
+                 by = (y<2 || y >=res-2),
+                 bz = (z<2 || z >=res-2);
+            if(bx + by + bz >=2)
+            {
+                *d++ = 32;
+                *d++ = 64;
+            } 
+            else if (osgabs(dx) < .2 && osgabs(dy) < .2)
+            {
+                *d++ = 0;
+                *d++ = 0;              
+            }
+            else if(dsq <= .25f)
+            {
+                *d++ = static_cast<UInt8>(z/rres * 255.f);
+                *d++ = static_cast<UInt8>((.3f-dsq*dsq*dsq) * 255.f);
+            }
+            else
+            {
+                *d++ = 0;
+                *d++ = 0;
+            }
+        }      
+
+        endEditCP(imageP);  
+        
+        imageP->setAttachmentField( "SliceThickness", "1 1 1" );
+        scene = makeVolume(imageP);        
+    }
+    else if(!strcmp(argv[1], "L"))
+    {
+        ImagePtr imageP = Image::create();
+        const int res=64;
+        Real32 rres = res;
+        beginEditCP(imageP);
+        imageP->set(Image::OSG_L_PF,res,res,res);
+
+        UInt8 *d = imageP->getData();
+        for(Int16 z = 0; z < res; ++z)         
+        for(Int16 y = 0; y < res; ++y)         
+        for(Int16 x = 0; x < res; ++x)
+        {
+            Real32 dx = x/rres - .5f;
+            Real32 dy = y/rres - .5f;
+            Real32 dz = z/rres - .5f;
+
+            Real32 dsq = (dx*dx + dy*dy + dz*dz);
+
+            int  bx = (x<2 || x >=res-2),
+                 by = (y<2 || y >=res-2),
+                 bz = (z<2 || z >=res-2);
+            if(bx + by + bz >=2)
+            {
+                *d++ = 32;
+            } 
+            else if (osgabs(dx) < .2 && osgabs(dy) < .2)
+            {
+                *d++ = 0;
+            }
+            else if(dsq <= .25f)
+            {
+                *d++ = static_cast<UInt8>(z/rres * 255.f);
+            }
+            else
+            {
+                *d++ = 0;
+            }
+        }      
+
+        endEditCP(imageP);  
+        
+        imageP->setAttachmentField( "SliceThickness", "1 1 1" );
+        scene = makeVolume(imageP);        
+    }
     else
     {
         scene = SceneFileHandler::the().read(argv[1]);
@@ -198,19 +455,25 @@ int setupGLUT(int *argc, char *argv[])
 // Create a volume rendering node with all desired attachments
 NodePtr makeVolume( const char * datFile)
 {  
-    vol         = DVRVolume::create();
-    DVRAppearancePtr     app         = DVRAppearance::create(); 
-    DVRVolumeTexturePtr  tex         = DVRVolumeTexture::create();
-
     // Load the 3D-image and store it in the volume texture attachment
     ImagePtr datImage = Image::create();
     if (false == datImage->read(datFile)) {
         SLOG << "File: " << datFile << " not found" << std::endl;
 	exit (-1);
     }
+    
+    return makeVolume(datImage);
+}
+
+// Create a volume rendering node with all desired attachments
+NodePtr makeVolume(ImagePtr datImage)
+{  
+    vol         = DVRVolume::create();
+    DVRAppearancePtr     app         = DVRAppearance::create(); 
+    DVRVolumeTexturePtr  tex         = DVRVolumeTexture::create();
+
     beginEditCP(tex);
     tex->setImage(datImage);
-    tex->setFileName(datFile);
     endEditCP(tex);
 
     // Attach the volume texture to the appearance
@@ -220,7 +483,6 @@ NodePtr makeVolume( const char * datFile)
 
     // Assign the appearance to the volume core
     beginEditCP(vol);
-    vol->setFileName(datFile);
     vol->setAppearance(app);
     vol->setShader(DVRSimpleShader::create());
     endEditCP(vol);

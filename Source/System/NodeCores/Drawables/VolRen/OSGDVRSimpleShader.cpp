@@ -109,13 +109,85 @@ bool DVRSimpleShader::initialize(DVRVolume      *volume,
 
     DVRVolumeTexturePtr vol = DVRVOLUME_PARAMETER(volume, DVRVolumeTexture);
 
+    ImagePtr img = vol->getImage();
+    
+    // Map the size to an index
+    
+    static Int16 types[] =  { Image::OSG_UINT8_IMAGEDATA,
+                              Image::OSG_UINT16_IMAGEDATA,
+                              Image::OSG_UINT32_IMAGEDATA,
+                              Image::OSG_FLOAT16_IMAGEDATA,
+                              Image::OSG_FLOAT32_IMAGEDATA,
+                              -1 };
+    
+    UInt16 type = 0;
+    while(types[type] != -1 && types[type] != img->getDataType()) type++;
+    
+    if(!types[type])
+    {
+        FWARNING(("DVRSimpleShader::initialize: Image data type %d "
+                  "unknown!\n", img->getDataType()));
+        type = 0;
+    }
+    
+    if(type > 2) // Ignore float types for now
+    {
+        FWARNING(("DVRSimpleShader::initialize: Can't do float image types,"
+                  " treating as int.\n"));
+        type = 0;
+    }
+    
+    
+    // Map the pixel format to an index
+       
+    static Int16 formats[] =  { Image::OSG_L_PF,
+                                Image::OSG_LA_PF,
+                                Image::OSG_RGBA_DXT1,
+                                Image::OSG_RGBA_DXT3,
+                                Image::OSG_RGBA_DXT5,
+                                Image::OSG_RGBA_PF,
+                                Image::OSG_RGB_DXT1,
+                                Image::OSG_RGB_PF,
+                                -1 };
+    
+    UInt16 format = 0;
+    while(formats[format] != -1 && 
+          formats[format] != img->getPixelFormat()) format++;
+    
+    if(!formats[format])
+    {
+        FWARNING(("DVRSimpleShader::initialize: Image pixel format %d "
+                  "unknown!\n", img->getPixelFormat()));
+        format = 0;
+    }
+    
+    if(type > 5) // RGB doesn't have alpha...
+    {
+        FNOTICE(("DVRSimpleShader::initialize: Image pixel format doesn't "
+                 "have alpha! Volume will not be transparent!\n"));
+    }
+
+    // Now get the best internal format for the image
+    
+    static GLenum intfs[8][3] = {
+        { GL_INTENSITY, GL_INTENSITY16, GL_INTENSITY16 },
+        { GL_LUMINANCE_ALPHA, GL_LUMINANCE16_ALPHA16, GL_LUMINANCE16_ALPHA16 },
+        { GL_RGBA, GL_RGBA, GL_RGBA },
+        { GL_RGBA, GL_RGBA, GL_RGBA },
+        { GL_RGBA, GL_RGBA, GL_RGBA },
+        { GL_RGBA, GL_RGBA16, GL_RGBA16 },
+        { GL_RGB, GL_RGB, GL_RGB },
+        { GL_RGB, GL_RGB16, GL_RGB16 }
+        };
+                               
+    
     m_nTextureId = volume->getTextureManager().registerTexture(
-        vol->getImage(), // image
-        GL_INTENSITY,    // internalFormat
-        GL_NONE,         // externalFormat
-        1,               // doBricking
-        0,               // textureStage0
-        -1);             // textureStage1
+        vol->getImage(),        // image
+        intfs[format][type],    // internalFormat
+        GL_NONE,                // externalFormat
+        1,                      // doBricking
+        0,                      // textureStage0
+        -1);                    // textureStage1
     
     if(m_nTextureId == -1) 
     {
