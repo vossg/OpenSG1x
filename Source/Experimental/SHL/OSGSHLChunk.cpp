@@ -369,7 +369,9 @@ void SHLChunk::handleGL(Window *win, UInt32 idstatus)
     // BUG this is not called for every window!
     if(mode == Window::destroy)
     {
-        //printf("Window::destroy: %p\n", win);
+        //printf("Window::destroy: %p (%u == %u) %u\n", win, id, getGLId(), win->getGLObjectId(getGLId());
+        //deleteObject(win->getGLObjectId(getGLId()));
+        
         destroyIt itd = _destroy.find(win);
         if(itd != _destroy.end())
         {
@@ -455,11 +457,17 @@ void SHLChunk::updateProgram(Window *win)
     if(it == _programs.end())
     {
         program = createProgramObject();
+        
+        //win->setGLObjectId(getGLId(), program);
         _programs.insert(std::pair<Window *, UInt32>(win, program));
         it = _programs.find(win);
     }
     else
     {
+        //deleteObject(win->getGLObjectId(getGLId()));
+        //program = createProgramObject();
+        //win->setGLObjectId(getGLId(), program);
+
         deleteObject((*it).second);
         program = createProgramObject();
         (*it).second = program;
@@ -845,6 +853,10 @@ void SHLChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
     //printf("SHLChunk::activate : %p\n", action->getWindow());
     action->getWindow()->validateGLObject(getGLId());
 
+    //GLuint program = action->getWindow()->getGLObjectId(getGLId());
+    //if(program == 0)
+    //    return;
+
     programsIt it = _programs.find(action->getWindow());
     if(it == _programs.end())
         return;
@@ -954,7 +966,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.13 2004/06/09 19:37:59 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.14 2004/06/24 18:20:15 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
