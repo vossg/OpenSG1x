@@ -670,35 +670,88 @@ static unsigned char TestCubeDownData[800] = {
 255, 255, 0, 255, 255, 0, 255, 255, 
 };
 
-void OSG::setTestCubeImages( CubeTextureChunkPtr chunk )
+void OSG::setTestCubeImages( TextureChunkPtr chunk )
 {
     ImagePtr img;
     
-    beginEditCP(chunk);
+    CubeTextureChunkPtr cchunk = CubeTextureChunkPtr::dcast(chunk);
     
-    img = Image::create();
-    img->restore(TestCubeFrontData, sizeof(TestCubeFrontData));
-    chunk->setImage(img);
-    
-    img = Image::create();
-    img->restore(TestCubeBackData, sizeof(TestCubeBackData));
-    chunk->setPosZImage(img);
-       
-    img = Image::create();
-    img->restore(TestCubeLeftData, sizeof(TestCubeLeftData));
-    chunk->setNegXImage(img);
-    
-    img = Image::create();
-    img->restore(TestCubeRightData, sizeof(TestCubeRightData));
-    chunk->setPosXImage(img);
-       
-    img = Image::create();
-    img->restore(TestCubeDownData, sizeof(TestCubeDownData));
-    chunk->setNegYImage(img);
-    
-    img = Image::create();
-    img->restore(TestCubeUpData, sizeof(TestCubeUpData));
-    chunk->setPosYImage(img);
-    
-    endEditCP(chunk);
+    if(cchunk != NullFC)
+    {
+        beginEditCP(cchunk);
+
+        img = Image::create();
+        img->restore(TestCubeFrontData, sizeof(TestCubeFrontData));
+        cchunk->setImage(img);
+
+        img = Image::create();
+        img->restore(TestCubeBackData, sizeof(TestCubeBackData));
+        cchunk->setPosZImage(img);
+
+        img = Image::create();
+        img->restore(TestCubeLeftData, sizeof(TestCubeLeftData));
+        cchunk->setNegXImage(img);
+
+        img = Image::create();
+        img->restore(TestCubeRightData, sizeof(TestCubeRightData));
+        cchunk->setPosXImage(img);
+
+        img = Image::create();
+        img->restore(TestCubeDownData, sizeof(TestCubeDownData));
+        cchunk->setNegYImage(img);
+
+        img = Image::create();
+        img->restore(TestCubeUpData, sizeof(TestCubeUpData));
+        cchunk->setPosYImage(img);
+
+        endEditCP(cchunk);
+    }
+    else
+    {
+        img = Image::create();
+        img->restore(TestCubeRightData, sizeof(TestCubeRightData));
+        
+        ImagePtr image = Image::create();
+        beginEditCP(image);
+        
+        image->set(img->getPixelFormat(), img->getWidth(), img->getHeight(), 
+                        1, 1, 1, 0, NULL, img->getDataType(), true, 6 );
+        
+        UInt8 *d = image->getData();
+        
+        memcpy(d, img->getData(), image->getSize(true, true, false));
+        d += image->getSize(true, true, false);
+        
+        img = Image::create();
+        img->restore(TestCubeLeftData, sizeof(TestCubeLeftData));
+        memcpy(d, img->getData(), image->getSize(true, true, false));
+        d += image->getSize(true, true, false);
+        
+        img = Image::create();
+        img->restore(TestCubeUpData, sizeof(TestCubeUpData));
+        memcpy(d, img->getData(), image->getSize(true, true, false));
+        d += image->getSize(true, true, false);
+        
+        img = Image::create();
+        img->restore(TestCubeDownData, sizeof(TestCubeDownData));
+        memcpy(d, img->getData(), image->getSize(true, true, false));
+        d += image->getSize(true, true, false);
+              
+        img = Image::create();
+        img->restore(TestCubeFrontData, sizeof(TestCubeFrontData));
+        memcpy(d, img->getData(), image->getSize(true, true, false));
+        d += image->getSize(true, true, false);
+        
+        img = Image::create();
+        img->restore(TestCubeBackData, sizeof(TestCubeBackData));
+        memcpy(d, img->getData(), image->getSize(true, true, false));
+        d += image->getSize(true, true, false);   
+        
+        endEditCP(image);
+        
+        beginEditCP(chunk);
+        chunk->setImage(image);
+        endEditCP(chunk);          
+    }
+ 
 }

@@ -48,7 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-OSG_SYSTEMLIB_DLLMAPPING void setTestCubeImages(CubeTextureChunkPtr chunk );
+OSG_SYSTEMLIB_DLLMAPPING void setTestCubeImages(TextureChunkPtr chunk );
 
 OSG_END_NAMESPACE
 

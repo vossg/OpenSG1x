@@ -27,36 +27,47 @@ TransformPtr trans1,trans2;
 NodePtr transn1,transn2;
 TexGenChunkPtr tg;
 
+bool animate = true;
+
 // redraw the window
 void display(void)
 {      
     Matrix m;
     Real32 t = glutGet(GLUT_ELAPSED_TIME );
     
-    m.setTransform(Vec3f(      osgsin(t / 1000.f), 
-                               osgcos(t / 1000.f), 
-                               osgsin(t / 1000.f)),
-                   Quaternion( Vec3f(0,1,0), 
-                               t / 1000.f));   
-    
-    beginEditCP(trans1, Transform::MatrixFieldMask);
+    if(animate)
     {
-        trans1->setMatrix(m);
-    }   
-    endEditCP  (trans1, Transform::MatrixFieldMask);
-    
-    m.setTransform(Vec3f(      osgsin(t / 500.f), 
-                               osgcos(t / 500.f), 
-                               osgsin(t / 500.f)),
-                   Quaternion( Vec3f(0,1,0), 
-                               t / 1000.f));   
-    
-    beginEditCP(trans2, Transform::MatrixFieldMask);
-    {
-        trans2->setMatrix(m);
-    }   
-    endEditCP  (trans2, Transform::MatrixFieldMask);
+        m.setTransform(Vec3f(      osgsin(t / 1000.f), 
+                                   osgcos(t / 1000.f), 
+                                   osgsin(t / 1000.f)),
+                       Quaternion( Vec3f(0,1,0), 
+                                   t / 1000.f),
+                       Vec3f(      osgsin(t / 900.f)*.5+.7, 
+                                   osgcos(t / 900.f)*.5+.7, 
+                                   osgsin(t / 900.f)*.5+.7));   
 
+        beginEditCP(trans1, Transform::MatrixFieldMask);
+        {
+            trans1->setMatrix(m);
+        }   
+        endEditCP  (trans1, Transform::MatrixFieldMask);
+
+        m.setTransform(Vec3f(      osgsin(t / 500.f), 
+                                   osgcos(t / 500.f), 
+                                   osgsin(t / 500.f)),
+                       Quaternion( Vec3f(0,1,0), 
+                                   t / 1000.f),
+                       Vec3f(      osgsin(t / 400.f)*.5+.7, 
+                                   osgcos(t / 400.f)*.5+.7, 
+                                   osgsin(t / 400.f)*.5+.7));   
+
+        beginEditCP(trans2, Transform::MatrixFieldMask);
+        {
+            trans2->setMatrix(m);
+        }   
+        endEditCP  (trans2, Transform::MatrixFieldMask);
+    }
+    
     // render    
     mgr->redraw();
 
@@ -113,6 +124,9 @@ void keyboard(unsigned char k, int, int)
                 tg->setSBeacon(transn2);
                 endEditCP(tg);
                 cout << "trans2" << endl;
+                break;
+    case 'a':   animate = !animate;
+                cout << (animate?"":"don't ") << "animate" << endl;
                 break;
     }
 }
