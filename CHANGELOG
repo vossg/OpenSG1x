@@ -2,9 +2,57 @@
 ChangeLog for OpenSG
 ====================
 
-1.1 - 2001/XX/XX
+1.1.0 - 2002/07/01
 
-    added ImageBackground
+ADDED: (a lot, only highlights given here)
+    Support for: MS .NET (yeah!), icc6 (including workspaces for VS6/7), 
+                 gcc3, HP-UX, MacOSX (partial)                
+    configure: local extensions, separate include/lib dirs, 
+    GL: wrapper header for GL/GLUT/extensions
+    Clustering
+    Binary File format: relatively compact files, extremely fast load
+    Particle NodeCore
+    Text: for statistics only right now, not on Windows, needs Freetype1
+    Statistics: pretty general statistics collector
+    Geometry: secondary color & multi-texture support, better pumps for
+              dynamic geometry, new striper, LatLongSphere
+    State: CubeTexture, 3D Texture, Register Combiners support
+    Name: convenience functions to create/read/remove name attachments
+    fcdEdit: added Decorator capabilities
+    Fly and TrackballNavigator
+    Foregrounds: Image, Grab, FileGrab
+    Backgrounds: Image, Passive, Sky (a la VRML)
+    PassiveWindow/Viewport/Camera: easy integration into other frameworks
+    CameraDecorators: ShearedStereo, Projection
+    StereoBufferViewport
+    
+CHANGED:
+    FieldContainer:
+        Reference Counting for Nodes
+            Uses standard automatic method now, thus no need for unlinkSubTree 
+            and friends any more, standard subRef is enough.
+    Functors:
+        For .NET we needed to dumb down the functors, so now the are split up
+        into  anumber of classes that you need to choose the right version
+        from.
+    Thread:
+        run -> runFunction
+    get/set/addValue() interface for MFields:
+        This interface is now deprecated. Please use th STL vector interface
+        instead.
+    ChangeMode enum replaced by UInt32
+        If you have created your own FieldContainers, you will have to do this
+    Fixed inlining for FCPtr and other low-level structures
+    VRMLTransform -> ComponentTransform
+    State: split texgen from TextureChunk into TexGenChunk
+    Multi-Thread Safe GL object handling
+    Window::WinID -> Window::Id
+    
+REMOVED:
+    bool:
+        we removed our own Bool type and replaced it by std::bool
+    String:
+        same for String, use std::string instead
 
 1.0 - 2001/10/18
 
