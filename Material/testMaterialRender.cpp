@@ -55,7 +55,7 @@ display(void)
 	dact->apply( plane );
 
 	glPushMatrix();
-	glTranslatef( 0,0,fabs(sinf(a/3000 * M_PI))*2 );
+	glTranslatef( 0,0,fabs(sinf(a/3000 * Pi))*2 );
 	glRotatef( (a/3000) * 360 / 2, 1,0,0 );
 
 	dact->apply( torus );
