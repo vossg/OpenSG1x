@@ -54,6 +54,7 @@ RenderAction             *raction;
 StatCollector            stat;
 float                    sum_travTime;
 float                    sum_drawTime;
+TransformPtr             cart;
 
 void setFixCrossRegions( Int32 count,
                          UInt32 x1,
@@ -117,12 +118,14 @@ void setFixSliceRegions( Int32 count,
     }
 }
 
+bool first=true;
+
 class MySceneManager:public SimpleSceneManager
 {
 public:
     MySceneManager(){}
     virtual void redraw( void ) {
-        static bool first=true;
+        cart=_cart;
         static RenderNode rn;
         static int currentServers=0;
         int i;
@@ -165,6 +168,8 @@ public:
             first=false;
             rn.determinePerformance(_win);
             rn.dump();
+            currentServers=0;
+            _win->getPort().resize(1);
         }
         if(currentServers < serverCount)
         {
@@ -489,20 +494,100 @@ void key(unsigned char key, int , int )
             break;
         case 'a':   mgr->setHighlight(scene);
             break;
+        case 'd':
+            first=true;
+            useFaceDistribution=!useFaceDistribution;
+            break;
+        case 'c':
+            first=true;
+            useCrossCut=!useCrossCut;
+            break;
+/*
         case 's':   mgr->setHighlight(NullFC);
             break;
+*/
         case 'l':   mgr->useOpenSGLogo();
             break;
         case 'f':   mgr->setNavigationMode(Navigator::FLY);
             break;
         case 't':   mgr->setNavigationMode(Navigator::TRACKBALL);
             break;
-        case  'c': glutSetCursor(GLUT_CURSOR_NONE); break;
-        case  'C': glutSetCursor(GLUT_CURSOR_CYCLE); break;
+//        case  'c': glutSetCursor(GLUT_CURSOR_NONE); break;
+//        case  'C': glutSetCursor(GLUT_CURSOR_CYCLE); break;
         case 'v': 
             viewVolume=!viewVolume; 
 //            mgr->getAction()->setVolumeDrawing(viewVolume);
             break;
+        case  'W': glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            break;
+        case  'F': glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            break;
+
+        case 's':
+        {
+            FILE *file=fopen(animName.c_str(),"a");
+            Matrix m=cart->getMatrix();
+            Quaternion q(m);
+            Real32 ax,ay,az,r;
+            animPos.push_back(Vec3f(m[3][0],
+                                    m[3][1],
+                                    m[3][2]));
+            animOri.push_back(q);
+            q.getValueAsAxisRad(ax,ay,az,r);
+            fprintf(file,"%f %f %f %f,%f %f %f\n",ax,ay,az,r,
+                    m[3][0],
+                    m[3][1],
+                    m[3][2]);
+            fclose(file);
+            break;
+        }
+        case 'S':
+        {
+            FILE *file=fopen((animName+".wrl").c_str(),"w");
+            std::vector<Quaternion>::iterator qit;
+            
+            fprintf(file,"DEF OriInter OrientationInterpolator {\n\tkey [");
+            for(int i = 0; i < animOri.size(); ++i)
+            {               
+                fprintf(file, "%f", i / (Real32)(animOri.size() - 1) );
+                if(i < animOri.size() - 1)
+                    fprintf(file,", ");
+            }
+            fprintf(file,"]\n\tkeyValue [");
+            for(qit = animOri.begin(); qit != animOri.end(); ++qit)
+            {
+                Real32 ax,ay,az,r;
+                (*qit).getValueAsAxisRad(ax,ay,az,r);
+                
+                fprintf(file, "%f %f %f %f", ax, ay, az, r );
+                if(qit < animOri.end() - 1)
+                    fprintf(file,", ");
+            }
+            fprintf(file,"]\n}\n\n");
+
+            std::vector<Vec3f>::iterator vit;
+            
+            fprintf(file,"DEF PosInter PositionInterpolator {\n\tkey [");
+            for(int i = 0; i < animPos.size(); ++i)
+            {               
+                fprintf(file, "%f", i / (Real32)(animPos.size() - 1) );
+                if(i < animPos.size() - 1)
+                    fprintf(file,", ");
+            }
+            fprintf(file,"]\n\tkeyValue [");
+            for(vit = animPos.begin(); vit != animPos.end(); ++vit)
+            {
+                Vec3f v = *vit;
+                
+                fprintf(file, "%f %f %f, ", v[0], v[1], v[2] );
+            }
+            fprintf(file,"]\n}\n\n");
+
+            fclose(file);
+            break;
+        }
+
+
     }
     glutPostRedisplay();
 }

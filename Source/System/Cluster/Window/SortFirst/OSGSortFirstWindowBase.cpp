@@ -79,6 +79,9 @@ const OSG::BitVector  SortFirstWindowBase::RegionFieldMask =
 const OSG::BitVector  SortFirstWindowBase::UseFaceDistributionFieldMask = 
     (1 << SortFirstWindowBase::UseFaceDistributionFieldId);
 
+const OSG::BitVector SortFirstWindowBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (0x0 << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -187,7 +190,7 @@ SortFirstWindowBase::SortFirstWindowBase(void) :
     _sfSubtileSize            (UInt32(32)), 
     _sfCompose                (bool(true)), 
     _mfRegion                 (), 
-    _sfUseFaceDistribution    (bool(true)), 
+    _sfUseFaceDistribution    (bool(false)), 
     Inherited() 
 {
 }

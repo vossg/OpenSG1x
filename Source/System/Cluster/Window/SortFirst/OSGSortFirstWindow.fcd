@@ -52,7 +52,7 @@ Cluster rendering configuration for sort first image composition
 		type="bool"
 		cardinality="single"
 		visibility="external"
-		defaultValue="true"
+		defaultValue="false"
 		access="public"
 	>
 	Enabe, disable analysation of face distribution
