@@ -15,7 +15,9 @@ BUILD_BASE     := @ac_gdz_build_dir_e2@/@ac_gdz_package_sub_dir_out@
 
 SUB_SO = $(LIBDIR)/$(SO_PRAEFIX)@ac_gdz_project_praefix@@ac_gdz_package_name_out@$(SO_SUFFIX)
 
-VPATH := @az_gdz_vpath_out@
+SUB_SO_DEF = @ac_gdz_package_def_e2@
+
+VPATH := @ac_gdz_vpath_out@
 
 LIB_REQUIRED_INCPACKAGES := @ac_gdz_package_inc_dep_out@
 LIB_REQUIRED_LNKPACKAGES := @ac_gdz_package_link_dep_out@

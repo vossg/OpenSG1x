@@ -574,7 +574,10 @@ dnl        ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_link_dep_out_fi
         ac_gdz_common_mk_out_e2=${ac_gdz_package_dir}/common.mk
         ac_gdz_common_mk_files_e2="$ac_gdz_common_mk_out_e2:$ac_gdz_common_mk_in_e2"
 
-        az_gdz_vpath_out=.
+        ac_gdz_vpath_out=.
+
+        iFirstTime="yes"
+        ac_gdz_package_def_e2=
 
         for dir in ${ac_gdz_package_dirs[$i]}; do
 
@@ -583,10 +586,46 @@ dnl        ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_link_dep_out_fi
             
             if [[ -n $p2 ]]; then
                 if [[ $build_os = $p2 ]]; then
-                    az_gdz_vpath_out=$az_gdz_vpath_out:'$('${ac_gdz_project_praefix}'POOL)'/$p1
+                    ac_gdz_vpath_out=$ac_gdz_vpath_out:'$('${ac_gdz_project_praefix}'POOL)'/$p1
+
+                    ac_gdz_def_file=$p1/lib.def
+
+                    echo "Check Def : $ac_gdz_def_file"
+
+                    if [[ -r $ac_gdz_def_file ]]; then
+                        if [[ $iFirstTime = "yes" ]]; then
+                            ac_gdz_package_def_e2=lib.def
+                            echo "    cp  ${ac_gdz_commonconf_dir}/lib${ac_gdz_package_name[$i]}.def.in ${ac_gdz_package_dir}/lib.def"
+                            echo "    cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def"
+                            cp  ${ac_gdz_commonconf_dir}/lib${ac_gdz_package_name[$i]}.def.in ${ac_gdz_package_dir}/lib.def
+                            cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def
+                            iFirstTime="no"
+                        else
+                            echo "    cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def"
+                            cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def
+                        fi
+                    fi
                 fi
             else
-                az_gdz_vpath_out=$az_gdz_vpath_out:'$('${ac_gdz_project_praefix}'POOL)'/$p1
+                ac_gdz_vpath_out=$ac_gdz_vpath_out:'$('${ac_gdz_project_praefix}'POOL)'/$p1
+
+                ac_gdz_def_file=$p1/lib.def
+
+                echo "Check Def : $ac_gdz_def_file"
+
+                if [[ -r $ac_gdz_def_file ]]; then
+                    if [[ $iFirstTime = "yes" ]]; then
+                        ac_gdz_package_def_e2=lib.def
+                        echo "    cp  ${ac_gdz_commonconf_dir}/lib${ac_gdz_package_name[$i]}.def.in ${ac_gdz_package_dir}/lib.def"
+                        echo "    cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def"
+                        cp  ${ac_gdz_commonconf_dir}/lib${ac_gdz_package_name[$i]}.def.in ${ac_gdz_package_dir}/lib.def
+                        cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def
+                        iFirstTime="no"
+                    else
+                        echo "    cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def"
+                        cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def
+                    fi
+                fi
             fi
         done
 
@@ -620,13 +659,14 @@ dnl        ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_link_dep_out_fi
         AC_SUBST(ac_gdz_package_testlink_dep_out)
         AC_SUBST(ac_gdz_package_testlink_dep_out_files)
 
-        AC_SUBST(ac_gdz_package_sub_dir_out)
-        AC_SUBST(ac_gdz_package_sys_common_out)
+        AC_SUBST(ac_gdz_package_sub_dir_out)        AC_SUBST(ac_gdz_package_sys_common_out)
         
-        AC_SUBST(az_gdz_vpath_out)
+        AC_SUBST(ac_gdz_vpath_out)
         AC_SUBST(ac_gdz_project_praefix)
 
         AC_SUBST(ac_gdz_package_so_needs_init_e2)
+
+        AC_SUBST(ac_gdz_package_def_e2)
 
         touch confdefs.h
 

@@ -213,6 +213,16 @@ endif
 endif
 endif
 
+ifeq ($(OS_BASE), cygwin)
+ifneq ($(SUB_SO_DEF),)
+SO_DEF_FLAGS=-Def:$(SUB_SO_DEF)
+else
+SO_DEF_FLAGS=
+endif
+else
+SO_DEF_FLAG=
+endif
+
 ifneq ($(SUB_SO),)
 SubLib: $(LIB_DEPS) $(SUB_SO) 
 	@echo "LASTDBG=$(DBG)" > .lastdbg
@@ -221,7 +231,7 @@ $(SUB_SO): $(LIBS_DEP) $(LIB_QTTARGET_CPP) $(LIB_OBJECTS)
 	@echo $(LIB_OBJECTS) $(AR_FLAGS) $(SUB_SO)
 	$(LD_SHARED) $($(PROJ)SUBPRELINKPAR) $(LD_OUTOPT)$(LD_OUTSPACE)$(SUB_SO) \
 		$(LIBPATHS) $(call cnvSubDirsUnix2Win,$(LIB_OBJECTS)) $(LIBS) 		 \
-		$(SO_INIT_FLAGS) $(LD_FLAGS)
+		$(SO_INIT_FLAGS) $(LD_FLAGS) $(SO_DEF_FLAGS)
 
 $(LIB_QT_TARGET)
 $(LIB_QTTARGET_DEPS): $(LIB_QTTARGET_CPP)
