@@ -46,6 +46,8 @@
 #include "OSGRenderAction.h"
 #include "OSGIntersectAction.h"
 
+#include <OSGIntersectActor.h>
+
 OSG_USING_NAMESPACE
 
 /*! \class osg::ComponentTransform
@@ -160,6 +162,15 @@ void ComponentTransform::initMethod (void)
             ComponentTransformPtr  , 
             CNodePtr               ,  
             Action                *>(&ComponentTransform::intersectLeave));
+
+    IntersectActor::regClassEnter(
+        osgTypedMethodFunctor2BaseCPtrRef<
+            NewActionBase::ResultE,
+            TransformPtr          ,
+            NodeCorePtr           ,
+            ActorBase            *>(&ComponentTransform::intersect),
+        getClassType());
+
 }
 
 

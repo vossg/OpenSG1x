@@ -51,6 +51,8 @@
 #include <OSGGeoPropPtrs.h>
 #include <OSGMaterial.h>
 
+#include <OSGActorBase.h>
+
 OSG_BEGIN_NAMESPACE
 
 class DrawActionBase;
@@ -160,6 +162,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     // should these be public?	
     virtual Action::ResultE drawPrimitives (DrawActionBase * action );
             Action::ResultE intersect      (Action * action );
+
+    NewActionBase::ResultE  intersect      (ActorBase *pActor);
 
     void            invalidateDlistCache (void);
 

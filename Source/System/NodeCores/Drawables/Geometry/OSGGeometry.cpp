@@ -60,6 +60,8 @@
 #include "OSGGeoFunctions.h"
 #include "OSGGeoPumpFactory.h"
 
+#include <OSGIntersectActor.h>
+
 #include "OSGPrimitiveIterator.h"
 #include "OSGTriangleIterator.h"
 #include "OSGFaceIterator.h"
@@ -137,6 +139,14 @@ void Geometry::initMethod(void)
     IntersectAction::registerEnterDefault(getClassType(), 
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, GeometryPtr,  
               CNodePtr, Action *>(&Geometry::intersect));
+
+    IntersectActor::regClassEnter(
+        osgTypedMethodFunctor2BaseCPtrRef<
+          NewActionBase::ResultE,
+          GeometryPtr           ,
+          NodeCorePtr           ,
+          ActorBase            *>(&Geometry::intersect),
+        getClassType());
 
     RenderAction::registerEnterDefault(getClassType(), 
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr,  
@@ -731,30 +741,97 @@ Action::ResultE Geometry::drawPrimitives(DrawActionBase * action)
 Action::ResultE Geometry::intersect(Action * action)
 { 
     IntersectAction     * ia = dynamic_cast<IntersectAction*>(action);
-    const DynamicVolume  &dv = ia->getActNode()->getVolume();
+    const DynamicVolume  &dv = ia->getActNode()->getVolume(true);
     
     if(dv.isValid() && !dv.intersect(ia->getLine()))
     {
         return Action::Skip; //bv missed -> can not hit children
     }
     
-    TriangleIterator it;
+    TriangleIterator it  = this->beginTriangles();
+    TriangleIterator end = this->endTriangles  ();
     Real32 t;
     Vec3f norm;
     
-    for(it = this->beginTriangles(); it != this->endTriangles(); ++it)
+    for(; it != end; ++it)
     {
         if(ia->getLine().intersect(it.getPosition(0),
                                      it.getPosition(1),
                                      it.getPosition(2), t, &norm))
         {
+            FDEBUG(("Tri hit: %d dist %g norm (%g %g %g)\n",
+                    it.getIndex(),  t, norm[0], norm[1], norm[2]));
+
             ia->setHit(t, ia->getActNode(), it.getIndex(), norm);
         }
     }
     
     return Action::Continue;
 }
+ 
+NewActionBase::ResultE
+Geometry::intersect(ActorBase *pActor)
+{
+          IntersectActor *pIA         = dynamic_cast<IntersectActor *>(pActor);
+    const DynamicVolume  &dynVol      = pIA->getCurrNode   ()->getVolume(true);
+          Real32          scaleFactor = pIA->getScaleFactor();
+
+    bool   bvHit;
+    Real32 bvEnterDist;
+    Real32 bvExitDist;
+    
+    pIA->setUseNodeList();
+
+    ActiveNodeListIt itNodes = pIA->beginNodes();
+    ActiveNodeListIt end     = pIA->endNodes  ();
+
+    bvHit = dynVol.intersect(pIA->getLine(), bvEnterDist, bvExitDist);
+
+    if(bvHit == false)
+    {   
+        // bv missed -> can't hit children nor this geo
         
+        for(; itNodes != end; ++itNodes)
+        {
+            itNodes.deactivate();
+        }
+    }
+    else if((bvEnterDist * scaleFactor) >= pIA->getHitDist())
+    {
+        // bv hit but behind a tri of a different geo -> can't get better
+
+        for(; itNodes != end; ++itNodes)
+        {
+            itNodes.deactivate();
+        }
+    }
+    else
+    {    
+        TriangleIterator itTris  = this->beginTriangles();
+        TriangleIterator endTris = this->endTriangles  ();
+        
+        Real32 triHitDist;
+        Vec3f  triHitNormal;
+
+        for(; itTris != endTris; ++itTris)
+        {
+            if((pIA->getLine().intersect(itTris.getPosition(0),
+                                         itTris.getPosition(1),
+                                         itTris.getPosition(2), 
+                                         triHitDist, &triHitNormal   )) &&
+               (triHitDist               >= 0                         ) &&
+               (triHitDist * scaleFactor <  pIA->getHitDist()         )   )
+            {
+                pIA->setHit        (true                    );
+                pIA->setHitObject  (pIA->getCurrNode()      );
+                pIA->setHitTriangle(itTris.getIndex()       );
+                pIA->setHitDist    (triHitDist * scaleFactor);
+            }
+        }
+    }
+
+    return NewActionBase::Continue;
+}
 
 /*! React to field changes, take care of incrementing/decrementing the
     reference count of the changed properties.

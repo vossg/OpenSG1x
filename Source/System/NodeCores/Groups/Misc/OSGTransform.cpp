@@ -47,6 +47,8 @@
 #include <OSGIntersectAction.h>
 #include <OSGRenderAction.h>
 
+#include <OSGIntersectActor.h>
+
 #include "OSGTransform.h"
 
 OSG_USING_NAMESPACE
@@ -153,6 +155,9 @@ Action::ResultE Transform::intersectEnter(Action *action)
     m.multFullMatrixPnt(ia->getLine().getPosition (), pos);
     m.multMatrixVec    (ia->getLine().getDirection(), dir);
     
+    FDEBUG(("Transformed line: pos (%g %g %g) dir (%g %g %g)\n",
+            pos[0], pos[1], pos[2], dir[0], dir[1], dir[2]));
+
     ia->setLine(Line(pos, dir), ia->getMaxDist());
     ia->scale(dir.length());
     
@@ -170,10 +175,52 @@ Action::ResultE Transform::intersectLeave(Action *action)
     m.multFullMatrixPnt(ia->getLine().getPosition (), pos);
     m.multMatrixVec    (ia->getLine().getDirection(), dir);
     
+    FDEBUG(("Transformed line: pos (%g %g %g) dir (%g %g %g)\n",
+            pos[0], pos[1], pos[2], dir[0], dir[1], dir[2]));
+
     ia->setLine(Line(pos, dir), ia->getMaxDist());
     ia->scale(dir.length());
 
     return Action::Continue;
+}
+
+NewActionBase::ResultE
+Transform::intersect(ActorBase *pActor)
+{
+          IntersectActor *pIA    = dynamic_cast<IntersectActor *>(pActor);
+    const DynamicVolume  &dynVol = pIA ->getCurrNode()->getVolume(true);
+    const Line           &line   = pIA ->getLine    ();
+          Matrix          m      = this->getMatrix  ();
+
+    m.invert();
+
+    Pnt3f pos;
+    Vec3f dir;
+
+    m.multFullMatrixPnt(pIA->getLine().getPosition (), pos);
+    m.multMatrixVec    (pIA->getLine().getDirection(), dir);
+
+    pIA->setLine       (Line(pos, dir)                      );
+    pIA->setScaleFactor(pIA->getScaleFactor() / dir.length());
+
+    pIA->setUseNodeList();
+        
+    ActiveNodeListIt itNodes = pIA->beginNodes();
+    ActiveNodeListIt end     = pIA->endNodes  ();
+    
+    if(!dynVol.intersect(line))
+    {
+        for(; itNodes != end; ++itNodes)
+        {
+            itNodes.deactivate();
+        }
+    }
+    else
+    {
+        pIA->priorizeChildren(itNodes, end);
+    }
+
+    return NewActionBase::Continue;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -206,6 +253,8 @@ Action::ResultE Transform::renderLeave(Action *action)
 
 void Transform::initMethod (void)
 {
+    FDEBUG(("Transform::initMethod (void).\n"));
+
     DrawAction::registerEnterDefault( 
         getClassType(), 
         osgTypedMethodFunctor2BaseCPtrRef<
@@ -255,6 +304,15 @@ void Transform::initMethod (void)
             TransformPtr    , 
             CNodePtr        ,  
             Action         *>(&Transform::renderLeave));
+
+    IntersectActor::regClassEnter(
+        osgTypedMethodFunctor2BaseCPtrRef<
+          NewActionBase::ResultE,
+          TransformPtr          ,
+          NodeCorePtr           ,
+          ActorBase            *>(&Transform::intersect),
+        getClassType());
+
 }
 
 

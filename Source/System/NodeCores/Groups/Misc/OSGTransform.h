@@ -47,6 +47,8 @@
 #include <OSGAction.h>
 #include <OSGTransformBase.h>
 
+#include <OSGActorBase.h>
+
 OSG_BEGIN_NAMESPACE
 
 /*! \brief Transform provides one matrix to transform objects.
@@ -112,6 +114,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Transform : public TransformBase
 
     Action::ResultE intersectEnter(Action *action);
     Action::ResultE intersectLeave(Action *action);
+
+    NewActionBase::ResultE intersect(ActorBase *pActor);
 
     Action::ResultE renderEnter   (Action *action);
     Action::ResultE renderLeave   (Action *action);
