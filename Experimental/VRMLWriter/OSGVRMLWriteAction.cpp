@@ -978,12 +978,12 @@ Action::ResultE VRMLWriteAction::writeGeoEnter(CNodePtr &pGroup,
         pWriter->incIndent(4);
 
         pWriter->printIndent();
-        fprintf(pFile, "colorPerVertex  %s\n", 
-                pGeo->getColorPerVertex() ? "TRUE" : "FALSE");
+// !!!        fprintf(pFile, "colorPerVertex  %s\n", 
+// !!!                pGeo->getColorPerVertex() ? "TRUE" : "FALSE");
 
         pWriter->printIndent();
-        fprintf(pFile, "normalPerVertex %s\n",
-                pGeo->getNormalPerVertex() ? "TRUE" : "FALSE");
+// !!!        fprintf(pFile, "normalPerVertex %s\n",
+// !!!                pGeo->getNormalPerVertex() ? "TRUE" : "FALSE");
 
         writePoints   (pGeo, pFile, pWriter);
         writeNormals  (pGeo, pFile, pWriter);
