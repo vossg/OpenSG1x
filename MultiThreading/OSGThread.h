@@ -437,6 +437,11 @@ typedef WinThreadBase ThreadBase;
 
 class OSG_SYSTEMLIB_DLLMAPPING Thread : public ThreadBase
 {
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    typedef ThreadBase Inherited;
+
     /*==========================  PUBLIC  =================================*/
   public :
 
@@ -452,10 +457,17 @@ class OSG_SYSTEMLIB_DLLMAPPING Thread : public ThreadBase
     static Thread     *find      (const Char8 *szName);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Run                                     */
+    /*! \{                                                                 */
+    
+    using Inherited::run;
+
+    void run(UInt32 uiAspectId);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
-
-    typedef ThreadBase Inherited;
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */

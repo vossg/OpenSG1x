@@ -133,7 +133,7 @@ BaseThread *MPThreadType::create(const Char8 *szName)
     if(szName == NULL)
     {
         szTmp = new Char8[16];
-        sprintf(szTmp, "OSGThread_%d", uiNewId);
+        sprintf(szTmp, "OSGThread_%u", uiNewId);
     }
     else
     {

@@ -159,66 +159,6 @@ void Node::setCore(const NodeCorePtr &core)
 }
 
 /*-------------------------------------------------------------------------*/
-/*                               Unlink                                    */
-
-#ifdef OSG_WIN32_ICL
-#pragma warning (disable : 383)
-#endif
-
-void Node::unlink(void)
-{
-    MFNodePtr::iterator vChildIt = _mfChildren.begin();
-    MFNodePtr::iterator endChild = _mfChildren.end  ();
-
-    while(vChildIt != endChild)
-    {
-        (*vChildIt)->setParent(NullFC);
-
-        subRefCP(*vChildIt);
-
-        ++vChildIt;
-    }
-
-    _mfChildren.clear();
-
-    if(getCore() != NullFC)
-    {
-        getCore()->subParent(getPtr());
-        
-        subRefCP(getCore());
-    }
-}
-
-void Node::unlinkSubTree(void)
-{
-    MFNodePtr::iterator vChildIt = _mfChildren.begin();
-    MFNodePtr::iterator endChild = _mfChildren.end  ();
-
-    while(vChildIt != endChild)
-    {
-        (*vChildIt)->setParent(NullFC);
-        (*vChildIt)->unlinkSubTree();
-
-        subRefCP(*vChildIt);
-
-        ++vChildIt;
-    }
-
-    _mfChildren.clear();
-
-    if(getCore() != NullFC)
-    {
-        getCore()->subParent(getPtr());
-
-        subRefCP(getCore());
-    }
-}
-
-#ifdef OSG_WIN32_ICL
-#pragma warning (default : 383)
-#endif
-
-/*-------------------------------------------------------------------------*/
 /*                             Children                                    */
 
 void Node::addChild(const NodePtr &childP)

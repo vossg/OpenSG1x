@@ -297,6 +297,10 @@ void SprocLockBase::shutdown(void)
 
 void WinThreadLockBase::aquire(void)
 {
+#if defined(OSG_GV_BETA) && defined(OSG_DBG_LCK)
+    fprintf(stderr, "Lock::aquire %p\n", this);
+#endif
+
 #ifdef OSG_WINLOCK_USE_MUTEX
     WaitForSingleObject(_pMutex, INFINITE);
 #else
@@ -306,6 +310,10 @@ void WinThreadLockBase::aquire(void)
 
 void WinThreadLockBase::release(void)
 {
+#if defined(OSG_GV_BETA) && defined(OSG_DBG_LCK)
+    fprintf(stderr, "Lock::release %p\n", this);
+#endif
+
 #ifdef OSG_WINLOCK_USE_MUTEX
     ReleaseMutex(_pMutex);
 #else
@@ -568,7 +576,7 @@ bool LockPool::init(void)
 #ifdef OSG_DEBUG_LOCK_STAT
         _pLockStats[i] = 0;
 #endif
-        sprintf(pTmp, "%s%d\n", _szName, i);
+        sprintf(pTmp, "%s%u\n", _szName, i);
 
         stringDup(pTmp, _pLocks[i]._szName);
 

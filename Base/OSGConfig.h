@@ -407,6 +407,7 @@
 # define OSG_WIN_TYPES
 // Use windows threads
 # define OSG_USE_WINTHREADS
+//# define OSG_WINLOCK_USE_MUTEX
 // compiler supports namespaces
 # define OSG_HAS_NAMESPACE
 // compiler supports std namespace
@@ -1052,5 +1053,8 @@ OSG_USING_STD_NAMESPACE
 #ifdef _OSG_HAVE_CONFIGURED_H_
 #include <OSGConfigured.h>
 #endif
+
+#define OSG_DBG_MEM
+#define OSG_DBG_LCK
 
 #endif /* _OSGCONFIG_H_ */

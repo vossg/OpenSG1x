@@ -449,50 +449,53 @@ void FieldContainerPtrBase::subRef(void) const
 
     (*getRefCountP())--;
 
-    subRefUnlocked();
-
-    _pRefCountLock->release(_storeP);
-}
-
-void FieldContainerPtrBase::subRefUnlocked(void) const
-{
     if((*getRefCountP()) <= 0)
     {
-        Thread::getCurrentChangeList()->addDestroyed(*getIdP());
+        _pRefCountLock->release(_storeP);
 
-        FieldContainerFactory::the()->unregisterFieldContainer(
-            *((const FieldContainerPtr *) this));
-
-        UInt8 *pTmp = getFirstElemP();
-
-        ((FieldContainer *) pTmp)->onDestroy();
-
-#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
-        fprintf(stderr, "GV_MEM_FC_DBG : (%u|%lf|%I64d) d (%p|%s|%u)\n", 
-                Thread::getAspect(),
-                getSystemTime(), 
-                getPerfCounter(),
-                pTmp,
-                ((FieldContainer *) pTmp)->getType().getCName(),
-                ((FieldContainer *) pTmp)->getType().getId());
-#endif
-
-        for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
-        {
-            ((FieldContainer *) pTmp)->~FieldContainer();
-
-            pTmp += _containerSize;
-        }
-
-        operator delete(_storeP + getRefCountOff());
+        deleteContainers();
     }
     else
     {
+        _pRefCountLock->release(_storeP);
+
         Thread::getCurrentChangeList()->addSubRefd(
             *(static_cast<const FieldContainerPtr *>(this)));
     }
 }
 
+void FieldContainerPtrBase::deleteContainers(void) const
+{
+    Thread::getCurrentChangeList()->addDestroyed(*getIdP());
+    
+    FieldContainerFactory::the()->unregisterFieldContainer(
+        *((const FieldContainerPtr *) this));
+    
+    UInt8 *pTmp = getFirstElemP();
+    
+    ((FieldContainer *) pTmp)->onDestroy();
+    
+#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
+    fprintf(stderr, "GV_MEM_FC_DBG : (%u|%lf|%I64d) d (%p|%s|%u)\n", 
+            Thread::getAspect(),
+            getSystemTime(), 
+            getPerfCounter(),
+            pTmp,
+            ((FieldContainer *) pTmp)->getType().getCName(),
+            ((FieldContainer *) pTmp)->getType().getId());
+#endif
+    
+    for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
+    {
+        ((FieldContainer *) pTmp)->~FieldContainer();
+        
+        pTmp += _containerSize;
+    }
+    
+    operator delete(_storeP + getRefCountOff());
+}
+
+#if 0
 void FieldContainerPtrBase::subRefUntraced(void) const
 {
     if((*getRefCountP()) <= 0)
@@ -521,6 +524,7 @@ void FieldContainerPtrBase::subRefUntraced(void) const
         operator delete(_storeP + getRefCountOff());
     }
 }
+#endif
 
 
 

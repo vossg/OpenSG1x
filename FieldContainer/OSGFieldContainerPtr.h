@@ -215,8 +215,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
     void addRef        (void) const;
     void subRef        (void) const;
 
-    void subRefUnlocked(void) const;
-    void subRefUntraced(void) const;
+    void deleteContainers(void) const;
+//    void subRefUntraced(void) const;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

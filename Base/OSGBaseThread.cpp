@@ -674,7 +674,7 @@ void BaseWinThreadBase::kill(void)
 
 void BaseWinThreadBase::print(void)
 {
-    fprintf(stderr, "OSGWinThreadBase -%s-%d-\n", _szName, _uiThreadId);
+    fprintf(stderr, "OSGWinThreadBase -%s-%u-\n", _szName, _uiThreadId);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -807,6 +807,15 @@ BaseThread *BaseThread::find(const Char8 *szName)
 }
 
 /*-------------------------------------------------------------------------*/
+/*                                Run                                      */
+
+void BaseThread::run(void)
+{
+    Inherited::run(runWorkProc, this);
+}
+
+
+/*-------------------------------------------------------------------------*/
 /*                               Helper                                    */
 
 BaseThread *BaseThread::create(const Char8 *szName, UInt32 uiId)
@@ -844,6 +853,17 @@ void BaseThread::initThreading(void)
 #endif
 }
 
+void *BaseThread::runWorkProc(void  *pThread)
+{
+    if(pThread != NULL)
+    {
+        static_cast<BaseThread *>(pThread)->workProc();
+    }
+    
+    return NULL;
+}
+
+
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
@@ -863,4 +883,6 @@ BaseThread::~BaseThread(void)
         terminate();
 }
 
-
+void BaseThread::workProc(void)
+{
+}

@@ -174,15 +174,10 @@ class FieldContainer
     /*---------------------------------------------------------------------*/
     /*! \name             Get Class Type Information                       */
     /*! \{                                                                 */
-
-    OSG_SYSTEMLIB_DLLMAPPING 
-    static FieldContainerType &getClassType   (void);
-
-    OSG_SYSTEMLIB_DLLMAPPING 
-    static UInt32              getClassTypeId (void);
-
-    OSG_SYSTEMLIB_DLLMAPPING 
-    static UInt16              getClassGroupId(void);
+     
+    static OSG_SYSTEMLIB_DLLMAPPING FieldContainerType &getClassType   (void); 
+    static OSG_SYSTEMLIB_DLLMAPPING UInt32              getClassTypeId (void);
+    static OSG_SYSTEMLIB_DLLMAPPING UInt16              getClassGroupId(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -687,6 +687,11 @@ Thread *Thread::find(const Char8 *szName)
     return dynamic_cast<Thread *>(pThread);
 }
 
+void Thread::run(UInt32 uiAspectId)
+{
+    Inherited::run(runWorkProc, uiAspectId, this);
+}
+
 /*-------------------------------------------------------------------------*/
 /*                               Setup                                     */
 

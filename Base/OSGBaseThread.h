@@ -525,6 +525,11 @@ typedef BaseWinThreadBase BaseThreadBase;
 
 class OSG_BASE_DLLMAPPING BaseThread : public BaseThreadBase
 {
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    typedef BaseThreadBase Inherited;
+
     /*==========================  PUBLIC  =================================*/
   public:
 
@@ -538,6 +543,15 @@ class OSG_BASE_DLLMAPPING BaseThread : public BaseThreadBase
     static BaseThread *find(const Char8 *szName);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Run                                     */
+    /*! \{                                                                 */
+    
+    using Inherited::run;
+
+    void run(void);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -549,7 +563,9 @@ class OSG_BASE_DLLMAPPING BaseThread : public BaseThreadBase
 
     static BaseThread *create       (const Char8 *szName, UInt32 uiId);
 
-    static void        initThreading(void);
+    static void        initThreading(      void                      );
+
+    static void       *runWorkProc  (      void  *pThread            );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -566,10 +582,15 @@ class OSG_BASE_DLLMAPPING BaseThread : public BaseThreadBase
     virtual ~BaseThread(void);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Workproc                                */
+    /*! \{                                                                 */
+
+    virtual void workProc(void);
+
+    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
-
-    typedef BaseThreadBase Inherited;
 
     friend class ThreadManager;
     friend class MPFieldStore<BaseThread>;
