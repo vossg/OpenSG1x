@@ -38,6 +38,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <sstream>
+#include <fstream>
 
 #include <OSGConfig.h>
 
@@ -239,7 +241,18 @@ void ProxyGroup::startLoading(void)
 
     if(getConcurrentLoad() == false)
     {
-        _loadedRoot=SceneFileHandler::the().read(getAbsoluteUrl().c_str());
+        if(getInline().size() == 0)
+        {
+            _loadedRoot = SceneFileHandler::the().read(getAbsoluteUrl().c_str());
+        }
+        else
+        {
+            std::stringstream tmpStream(std::ios_base::in|
+                                        std::ios_base::out|
+                                        std::ios_base::binary);
+            tmpStream.write((char*)(&getInline()[0]),getInline().size());
+            _loadedRoot = SceneFileHandler::the().read(tmpStream, "osb");
+        }
         beginEditCP(ptr,StateFieldMask);
         setState(LOAD_THREAD_FINISHED);
         endEditCP(ptr,StateFieldMask);
@@ -308,7 +321,18 @@ void ProxyGroup::loadProc(void *)
     _loadLock->release();
     while(!stopThread)
     {
-        g->_loadedRoot=SceneFileHandler::the().read(g->getAbsoluteUrl().c_str());
+        if(g->getInline().size() == 0) 
+        {
+            g->_loadedRoot=SceneFileHandler::the().read(g->getAbsoluteUrl().c_str());
+        }
+        else
+        {
+            std::stringstream tmpStream(std::ios_base::in|
+                                        std::ios_base::out|
+                                        std::ios_base::binary);
+            tmpStream.write((char*)(&g->getInline()[0]),g->getInline().size());
+            g->_loadedRoot = SceneFileHandler::the().read(tmpStream, "osb");
+        }
         beginEditCP(g,StateFieldMask);
         g->setState(LOAD_THREAD_FINISHED);
         endEditCP(g,StateFieldMask);

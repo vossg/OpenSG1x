@@ -173,6 +173,13 @@ SFString *ProxyGroupBase::getSFAbsoluteUrl(void)
     return &_sfAbsoluteUrl;
 }
 
+//! Get the ProxyGroup::_mfInline field.
+inline
+MFUInt8 *ProxyGroupBase::getMFInline(void)
+{
+    return &_mfInline;
+}
+
 
 //! Get the value of the ProxyGroup::_sfEnabled field.
 inline
@@ -405,6 +412,27 @@ void ProxyGroupBase::setAbsoluteUrl(const std::string &value)
     _sfAbsoluteUrl.setValue(value);
 }
 
+
+//! Get the value of the \a index element the ProxyGroup::_mfInline field.
+inline
+UInt8 &ProxyGroupBase::getInline(const UInt32 index)
+{
+    return _mfInline[index];
+}
+
+//! Get the ProxyGroup::_mfInline field.
+inline
+MFUInt8 &ProxyGroupBase::getInline(void)
+{
+    return _mfInline;
+}
+
+//! Get the ProxyGroup::_mfInline field.
+inline
+const MFUInt8 &ProxyGroupBase::getInline(void) const
+{
+    return _mfInline;
+}
 
 OSG_END_NAMESPACE
 

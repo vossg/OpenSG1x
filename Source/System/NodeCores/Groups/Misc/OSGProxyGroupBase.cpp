@@ -97,6 +97,9 @@ const OSG::BitVector  ProxyGroupBase::GeometriesFieldMask =
 const OSG::BitVector  ProxyGroupBase::AbsoluteUrlFieldMask = 
     (TypeTraits<BitVector>::One << ProxyGroupBase::AbsoluteUrlFieldId);
 
+const OSG::BitVector  ProxyGroupBase::InlineFieldMask = 
+    (TypeTraits<BitVector>::One << ProxyGroupBase::InlineFieldId);
+
 const OSG::BitVector ProxyGroupBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -135,6 +138,9 @@ const OSG::BitVector ProxyGroupBase::MTInfluenceMask =
     
 */
 /*! \var std::string     ProxyGroupBase::_sfAbsoluteUrl
+    
+*/
+/*! \var UInt8           ProxyGroupBase::_mfInline
     
 */
 
@@ -196,7 +202,12 @@ FieldDescription *ProxyGroupBase::_desc[] =
                      "absoluteUrl", 
                      AbsoluteUrlFieldId, AbsoluteUrlFieldMask,
                      true,
-                     (FieldAccessMethod) &ProxyGroupBase::getSFAbsoluteUrl)
+                     (FieldAccessMethod) &ProxyGroupBase::getSFAbsoluteUrl),
+    new FieldDescription(MFUInt8::getClassType(), 
+                     "inline", 
+                     InlineFieldId, InlineFieldMask,
+                     false,
+                     (FieldAccessMethod) &ProxyGroupBase::getMFInline)
 };
 
 
@@ -263,6 +274,7 @@ ProxyGroupBase::ProxyGroupBase(void) :
     _sfPositions              (), 
     _sfGeometries             (), 
     _sfAbsoluteUrl            (), 
+    _mfInline                 (), 
     Inherited() 
 {
 }
@@ -283,6 +295,7 @@ ProxyGroupBase::ProxyGroupBase(const ProxyGroupBase &source) :
     _sfPositions              (source._sfPositions              ), 
     _sfGeometries             (source._sfGeometries             ), 
     _sfAbsoluteUrl            (source._sfAbsoluteUrl            ), 
+    _mfInline                 (source._mfInline                 ), 
     Inherited                 (source)
 {
 }
@@ -354,6 +367,11 @@ UInt32 ProxyGroupBase::getBinSize(const BitVector &whichField)
         returnValue += _sfAbsoluteUrl.getBinSize();
     }
 
+    if(FieldBits::NoField != (InlineFieldMask & whichField))
+    {
+        returnValue += _mfInline.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -416,6 +434,11 @@ void ProxyGroupBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (AbsoluteUrlFieldMask & whichField))
     {
         _sfAbsoluteUrl.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (InlineFieldMask & whichField))
+    {
+        _mfInline.copyToBin(pMem);
     }
 
 
@@ -481,6 +504,11 @@ void ProxyGroupBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfAbsoluteUrl.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (InlineFieldMask & whichField))
+    {
+        _mfInline.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -522,6 +550,9 @@ void ProxyGroupBase::executeSyncImpl(      ProxyGroupBase *pOther,
 
     if(FieldBits::NoField != (AbsoluteUrlFieldMask & whichField))
         _sfAbsoluteUrl.syncWith(pOther->_sfAbsoluteUrl);
+
+    if(FieldBits::NoField != (InlineFieldMask & whichField))
+        _mfInline.syncWith(pOther->_mfInline);
 
 
 }

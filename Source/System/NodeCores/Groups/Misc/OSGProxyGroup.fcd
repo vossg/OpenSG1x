@@ -105,4 +105,12 @@
 		access="protected"
 	>
 	</Field>
+	<Field
+		name="inline"
+		type="UInt8"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	</Field>
 </FieldContainer>

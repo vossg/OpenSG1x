@@ -76,6 +76,7 @@
 #include <OSGUInt32Fields.h> // Positions type
 #include <OSGUInt32Fields.h> // Geometries type
 #include <OSGStringFields.h> // AbsoluteUrl type
+#include <OSGUInt8Fields.h> // Inline type
 
 #include <OSGProxyGroupFields.h>
 
@@ -110,7 +111,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroupBase : public Group
         PositionsFieldId      = TrianglesFieldId      + 1,
         GeometriesFieldId     = PositionsFieldId      + 1,
         AbsoluteUrlFieldId    = GeometriesFieldId     + 1,
-        NextFieldId           = AbsoluteUrlFieldId    + 1
+        InlineFieldId         = AbsoluteUrlFieldId    + 1,
+        NextFieldId           = InlineFieldId         + 1
     };
 
     static const OSG::BitVector EnabledFieldMask;
@@ -124,6 +126,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroupBase : public Group
     static const OSG::BitVector PositionsFieldMask;
     static const OSG::BitVector GeometriesFieldMask;
     static const OSG::BitVector AbsoluteUrlFieldMask;
+    static const OSG::BitVector InlineFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -160,6 +163,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroupBase : public Group
            SFUInt32            *getSFTriangles      (void);
            SFUInt32            *getSFPositions      (void);
            SFUInt32            *getSFGeometries     (void);
+           MFUInt8             *getMFInline         (void);
 
            bool                &getEnabled        (void);
      const bool                &getEnabled        (void) const;
@@ -181,6 +185,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroupBase : public Group
      const UInt32              &getPositions      (void) const;
            UInt32              &getGeometries     (void);
      const UInt32              &getGeometries     (void) const;
+           UInt8               &getInline         (const UInt32 index);
+           MFUInt8             &getInline         (void);
+     const MFUInt8             &getInline         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +260,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroupBase : public Group
     SFUInt32            _sfPositions;
     SFUInt32            _sfGeometries;
     SFString            _sfAbsoluteUrl;
+    MFUInt8             _mfInline;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
