@@ -129,6 +129,14 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
     Int32 l,r,t,b;
     Int32 cleft,cright,ctop,cbottom;
 
+    if(!getHServers())
+    {
+        setHServers(getServers().size());
+    }
+    if(!getVServers())
+    {
+        setVServers(1);
+    }
     UInt32 row   =id/getHServers();
     UInt32 column=id%getHServers();
     // calculate width and height from local width and height
