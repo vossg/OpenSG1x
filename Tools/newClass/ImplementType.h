@@ -1,7 +1,0 @@
-#ifndef IMPLEMENTTYPE_H
-#define IMPLEMENTTYPE_H
-
-///
-enum ImplementType { ABSTRACT_IMP = 0, INLINE_IMP, IMPFILE_IMP };
-
-#endif // IMPLEMENTTYPE_H
