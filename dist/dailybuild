@@ -16,6 +16,9 @@ cleanup ()
 {
     write_html_tail $out_html.Main.html
 
+    # compress the HTML files, as they tend to get pretty big
+    gzip -9 $out_html*.html
+    
     # LOCAL: copy the HTML logs to the destination location
     $do_copy $out_html* $log_destination
     
@@ -67,9 +70,8 @@ write_html_head ()
 <p>
 `date +%H:%M`: Start<br><br>
 System: $system<br>
-Compiler: $compiler<br>
+Compiler: $compiler <br>
 Configuration: --with-compiler=$compiler $stl_args $glut_args $qt_args $tif_args $jpeg_args $png_args<br>
-</p>
 EOF
 }
 
@@ -103,7 +105,7 @@ EOF
     fi
     
     # LOCAL: choose your email adresses here
-    $mail -s "OpenSG dailybuild on $host failed" opensg-dev@igd.fhg.de < $out_mail
+    $mail -s "OpenSG dailybuild on $host failed" opensg-dailybuilds@lists.sf.net < $out_mail
 }
 
 write_html_log ()
@@ -115,7 +117,7 @@ write_html_log ()
     warnfile=$5
  
     cat << EOF > $file
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <title>OpenSG dailybuild $today $title on $host results</title>
@@ -133,7 +135,7 @@ tr.warning	{ background-color:#ff6600 }
 <body>
 <h1>OpenSG dailybuild $today $title on $host results</h1>
 <p>
-<a href=http://www.opensg.org/dailybuild_logs/$link_html.Main.html>
+<a href=http://www.opensg.org/dailybuild_logs/$link_html.Main.html.gz>
 Back to main log</a>
 </p><p>
 System: $system<br>
@@ -154,8 +156,9 @@ EOF
 
     	echo "<table border=0>" >> $file
 	
-	IFS=':'	
-	cat $errfile | sort -n | while read line err ;
+	IFS='@'	
+	cat $errfile | sed -e 's|:|@|' -e 's|\\|\&#92|g' | sort -n | \
+        while read line err ;
      	do
 	    echo -n '<tr class="normal"><td class="line">' >> $file
 	    echo -n "<a href=#$line>$line</a></td>" >> $file
@@ -181,8 +184,9 @@ EOF
 
     	echo "<table border=0>" >> $file
 
-	IFS=':'	
-	cat $warnfile | sort -n | while read line err ;
+	IFS='@'	
+	cat $warnfile | sed -e 's|:|@|' -e 's|\\|\&#92|g' | sort -n | \
+        while read line err ;
      	do
 	    echo -n '<tr class="normal"><td class="line">' >> $file
 	    echo -n "<a href=#$line>$line</a></td>" >> $file
@@ -259,6 +263,9 @@ checkerror ()
 {
     title="$1"
     file="$2"
+    do_exit="$3"
+    
+    retval=0
     
     # remove the expected errors
     grep -n -i -w error $file| \
@@ -285,19 +292,27 @@ checkerror ()
     if test \! -s $log_errors 
     then
 	rm -f $log_errors
-	echo "`date +%H:%M`: <a href=$link_html.$title.html>$title</a> finished sucessfully.<br>" >> $out_html.Main.html
+	echo "`date +%H:%M`: <a href=$link_html.$title.html.gz>$title</a> finished sucessfully.<br>" >> $out_html.Main.html
     else
- 	echo "`date +%H:%M`: <br><font color=#b00000><a href=$link_html.$title.html>$title</a> had errors!</font><br>" >> $out_html.Main.html
+ 	echo "`date +%H:%M`: <br><font color=#b00000><a href=$link_html.$title.html.gz>$title</a> had errors!</font><br>" >> $out_html.Main.html
 
 	IFS=':'
 	cat $log_errors | while read line err
 	do
-	    echo "<a href=$link_html.$title.html#$line>$line</a> : $err<br>" >> $out_html.Main.html
+	    echo "<a href=$link_html.$title.html.gz#$line>$line</a> : $err<br>" >> $out_html.Main.html
 	done
 	IFS=''
 
-	errorexit $title $log_errors
+        if test x$do_exit != xno
+        then
+	    errorexit $title $log_errors
+        else
+            false
+            return
+        fi
     fi
+    
+    true
 }
 
 # Main script starts here
@@ -362,6 +377,7 @@ par_jobs=1
 config_shell=sh
 mail=echo
 do_copy=cp
+loginfo=""
 
 # LOCAL: set the system specific params. 
 # PATH needs to include doxygen and dot for doc to work
@@ -371,7 +387,7 @@ case $system in
     mips-sgi-irix6.5 )	
     	
 	glut_args="--with-glut=/igd/a4/software/IRIX/packages/glut-3.7"
-	qt_args="--with-qt=/igd/a4/software/IRIX/packages/qt-2.3"
+	qt_args="--with-qt=/igd/a4/software/IRIX/packages/qt-3.0"
 	tif_args="--with-tif=/igd/a4/software/IRIX/"
 	jpeg_args="--with-jpeg=/igd/a4/software/IRIX/"
  	png_args="--with-png=/igd/a4/software/IRIX/"
@@ -379,22 +395,27 @@ case $system in
 	compiler=${compiler:=CC}
 	mail=/usr/sbin/Mail
 	export PATH=/igd/a4/software/IRIX/bin/:$PATH
+        loginfo="OS: `/bin/uname -aR` <br>"
+        loginfo="$loginfo Compiler Version: `CC -version 2>&1` <br>"
 	;;
 	
     *-pc-linux-gnu )	
     	
-	qt_args="--with-qt=/igd/a4/software/Linux/packages/qt-2.3"
+	qt_args="--with-qt=/igd/a4/software/Linux/packages/qt-3.0"
     	glut_args="--with-glut=/usr"
     	par_jobs=2
 	compiler=${compiler:=g++}
 	config_shell=bash
 	mail=/usr/bin/Mail
 	export PATH=/igd/a4/software/Linux/bin/:$PATH
+        loginfo="OS: `uname -a` <br>"
+        loginfo="$loginfo    `cat /proc/version` <br>"
+        loginfo="$loginfo Compiler Version: `$compiler -v 2>&1` <br>"
 	;;
 
     *-pc-cygwin )	
     	
-	qt_args="--with-qt=`pwd`/../packages/qt-2.3"
+	qt_args="--with-qt=`pwd`/../packages/qt-3.0"
     	glut_args="--with-glut=`pwd`/../packages/glut_3.7"
 	tif_args="--with-tif=`pwd`/../packages/tiff-3.5.4"
     	par_jobs=1
@@ -405,10 +426,11 @@ case $system in
 	do_copy=rcp
 	log_destination="rubens:$log_destination"
 	export PATH=$PATH
+        loginfo="OS: `uname -a` <br>"
 	;;
 	
    *)
-    
+   
     	echo "Unknown system $system!"
 	errorexit System /dev/null
 	;;
@@ -420,14 +442,14 @@ esac
 
 today=`date '+%d.%m.%y %H:%M'`
 
-build_id=`date '+%y%m%d%H%M'`.$system.$compiler
+build_id=`date '+%y%m%d'`.$system.$compiler
 link_html=opensg_dailybuild.$build_id
 out_html=$basedir/$link_html
 
-
 rm -f $out_html.Main.html
 write_html_head $out_html.Main.html 
-
+echo $loginfo >> $out_html.Main.html 
+echo '<p>' >> $out_html.Main.html 
 
 checkerror "Cvs" $log_cvs
 
@@ -477,6 +499,7 @@ tar cf - lib include | gzip -9 > $out_html.snapshot.tgz
 
 
 # make and run the tests that have gold test results
+errcount=0
 
 for i in *Test;
 do
@@ -484,8 +507,9 @@ do
     # keep going after errors to catch them all
     gmake -k dbg 1>$log_test.$i 2>&1
     gmake -k opt 1>>$log_test.$i 2>&1
-    checkerror $i $log_test.$i
-    echo "Running ${i}s:" >> $out_html.Main.html
+    checkerror $i $log_test.$i no
+    (( errcount = $errcount + $? ))
+    echo "Running ${i}s:<br>" >> $out_html.Main.html
     # do we have testfiles?
     if test `\ls -1 test* 2>/dev/null | wc -l` -ne 0 ;
     then
@@ -523,6 +547,11 @@ then
 
     # check the doc
     checkerror "Doc" $log_doc
+fi
+
+if test $errcount -gt 0
+then
+    errorexit Tests NOFILE
 fi
 
 # all done
