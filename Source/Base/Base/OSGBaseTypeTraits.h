@@ -795,9 +795,9 @@ struct TypeTraits<Real16> : public TypeTraitsBase
         if(szString != NULL)
         {
 #if defined(__sgi) || defined(WIN32)
-            return Real16(atof  (szString));
+            return Real16(Real32(atof  (szString)));
 #else
-            return Real16(strtof(szString, NULL));
+            return Real16(Real32(strtof(szString, NULL)));
 #endif
         }
         else

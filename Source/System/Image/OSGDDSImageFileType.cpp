@@ -556,19 +556,19 @@ bool CDDSImage::load(std::string filename, bool flipImage)
     }
     else if (ddsh.ddspf.dwFlags == DDS_RGBA && ddsh.ddspf.dwRGBBitCount == 32)
     {
-        format = OSG_BGRA_PF; 
+        format = Image::OSG_BGRA_PF; 
         compressed = false;
         components = 4;
     }
     else if (ddsh.ddspf.dwFlags == DDS_RGB  && ddsh.ddspf.dwRGBBitCount == 32)
     {
-        format = OSG_BGRA_PF; 
+        format = Image::OSG_BGRA_PF; 
         compressed = false;
         components = 4;
     }
     else if (ddsh.ddspf.dwFlags == DDS_RGB  && ddsh.ddspf.dwRGBBitCount == 24)
     {
-        format = OSG_BGR_PF; 
+        format = Image::OSG_BGR_PF; 
         compressed = false;
         components = 3;
     }
