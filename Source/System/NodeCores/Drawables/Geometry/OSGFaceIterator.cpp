@@ -170,7 +170,7 @@ void FaceIterator::operator++()
     ++_faceIndex;
 
     // at end of primitive?
-    if(_actPrimIndex >= getLength())
+    if(_actPrimIndex >= PrimitiveIterator::getLength())
     {
         ++(static_cast<PrimitiveIterator&>(*this));
         
@@ -249,10 +249,10 @@ void FaceIterator::startPrim(void)
         case GL_TRIANGLES: 
         case GL_TRIANGLE_STRIP:
         case GL_TRIANGLE_FAN:   
-                                if(getLength() >= 3)
+                                if(PrimitiveIterator::getLength() >= 3)
                                     return;
                                 break;
-        case GL_POLYGON:        switch(getLength())
+        case GL_POLYGON:        switch(PrimitiveIterator::getLength())
                                 {
                                 case 0: 
                                 case 1: 
@@ -265,13 +265,13 @@ void FaceIterator::startPrim(void)
                                             return;
                                 }
                                 break;
-        case GL_QUADS:          if(getLength() >= 4)
+        case GL_QUADS:          if(PrimitiveIterator::getLength() >= 4)
                                 {
                                     _facePntIndex[3] = _actPrimIndex++;                         
                                     return;
                                 }
                                 break;
-        case GL_QUAD_STRIP:         if(getLength() >= 4)
+        case GL_QUAD_STRIP:         if(PrimitiveIterator::getLength() >= 4)
                                 {
                                     _facePntIndex[3] = _facePntIndex[2];                        
                                     _facePntIndex[2] = _actPrimIndex++;                         
@@ -297,7 +297,7 @@ void FaceIterator::startPrim(void)
 */
 void FaceIterator::seek(Int32 index)
 {
-    PrimitiveIterator::setToBegin();
+    setToBegin();
     
     while(getIndex() != index)
         ++(*this);
