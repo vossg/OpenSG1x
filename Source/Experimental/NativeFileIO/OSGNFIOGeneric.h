@@ -67,7 +67,15 @@ class NFIOGeneric : public NFIOBase
     /*! \{                                                                 */
 
     virtual ~NFIOGeneric            (void);
-  
+
+    static const UInt8 FCPtrUnknown;
+    static const UInt8 FCPtrFieldContainer;
+    static const UInt8 FCPtrNode;
+    static const UInt8 FCPtrNodeCore;
+    static const UInt8 FCPtrAttachment;
+    static const UInt8 FCPtrMaterial;
+    static const UInt8 FCPtrStateChunk;
+
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 protected:
@@ -85,14 +93,6 @@ private:
     
     UInt8             getFCPtrType       (const FieldContainerPtr &fc);
     FieldContainerPtr createFCReplacement(UInt8 fcPtrType            );
-    
-    static const UInt8 FCPtrUnknown;
-    static const UInt8 FCPtrFieldContainer;
-    static const UInt8 FCPtrNode;
-    static const UInt8 FCPtrNodeCore;
-    static const UInt8 FCPtrAttachment;
-    static const UInt8 FCPtrMaterial;
-    static const UInt8 FCPtrStateChunk;
 
     static NFIOGeneric _the;
 
@@ -100,6 +100,6 @@ private:
 
 OSG_END_NAMESPACE
 
-#define OSGNFIOATEST_HEADER_CVSID "@(#)$Id: OSGNFIOGeneric.h,v 1.1 2004/01/08 18:00:04 a-m-z Exp $"
+#define OSGNFIOATEST_HEADER_CVSID "@(#)$Id: OSGNFIOGeneric.h,v 1.2 2004/06/15 14:56:45 a-m-z Exp $"
 
 #endif /* _OSGNFIOGENERIC_H_ */

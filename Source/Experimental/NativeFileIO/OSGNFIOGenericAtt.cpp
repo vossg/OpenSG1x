@@ -39,6 +39,7 @@
 #include <OSGConfig.h>
 #include "OSGNFIOGenericAtt.h"
 #include "OSGNFIOFactory.h"
+#include "OSGNFIOGeneric.h"
 
 #include <vector>
 
@@ -94,11 +95,28 @@ FieldContainerPtr NFIOGenericAtt::readFC(const std::string &/*typeName*/)
 {
     FDEBUG(("NFIOGenericAtt::readFC\n"));
 
-    UInt16 version;
-    _in->getValue(version);
+    UInt8 fcPtrType;
+    _in->getValue(fcPtrType);
 
-    readEndMarker();
-    
+    UInt16 version = 0;
+
+    // with the old format we get fcPtrType and version number.
+    // with the new format only the version number.
+    if(fcPtrType == NFIOGeneric::FCPtrAttachment)
+    {
+        _in->getValue(version);
+    }
+    else
+    {
+        // The first byte is the most significant byte
+        // of the 16 bit version number.
+        version = (fcPtrType << 8);
+        _in->getValue(fcPtrType);
+        version |= fcPtrType;
+    }
+
+    skipFCFields();
+
     NamePtr dummy = Name::create();
     beginEditCP(dummy);
         dummy->getFieldPtr()->getValue().assign("GenericAtt dummy");
@@ -130,6 +148,6 @@ void NFIOGenericAtt::writeFC(const FieldContainerPtr &/*fc*/)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOGenericAtt.cpp,v 1.1 2004/02/19 10:32:59 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOGenericAtt.cpp,v 1.2 2004/06/15 14:56:45 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOGENERICATT_HEADER_CVSID;
 }
