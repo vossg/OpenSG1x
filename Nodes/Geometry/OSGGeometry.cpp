@@ -65,6 +65,7 @@
 
 #include "OSGGeometry.h"
 #include "OSGGeoPumpFactory.h"
+
 #include "OSGPrimitiveIterator.h"
 #include "OSGTriangleIterator.h"
 #include "OSGFaceIterator.h"
@@ -498,6 +499,7 @@ void Geometry::changed(BitVector whichField, ChangeMode from)
         }            
     }
 }
+
     
 /** Triangle iterator functions */
     

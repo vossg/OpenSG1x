@@ -84,7 +84,7 @@ struct GeoPosition3fPropertyDesc
     typedef GeoPositionPropertyDesc  InheritDesc;
 	typedef MFPnt3f                  FieldType;
 
-	typedef InheritDesc::GenericType GenericType;
+    typedef InheritDesc::GenericType GenericType;
 };
 
 typedef GeoProperty<GeoPosition3fPropertyDesc> GeoPosition3f;

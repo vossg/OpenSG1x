@@ -198,7 +198,7 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
     
 	TriangleIterator beginTriangles( void ) const;
 	TriangleIterator endTriangles  ( void ) const;
-	
+
     
     /** Primitive iterator functions */
 
@@ -328,18 +328,7 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
 
 // class pointer
 
-#if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILEGEOMETRY
-        extern OSG_GEOMETRY_DLLMAPPING GeometryPtr NullGeo;
-#   else
-        OSG_GEOMETRY_DLLMAPPING GeometryPtr NullGeo;
-#   endif 
-#else
-extern GeometryPtr NullGeo;
-#endif
-
-
-
+extern OSG_GEOMETRY_DLLMAPPING GeometryPtr NullGeo;
 
 // Single index geometry  
 OSG_END_NAMESPACE

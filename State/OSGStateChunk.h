@@ -320,7 +320,7 @@ OSG_DLLEXPORT_DECL1(MField, StateChunkPtr, OSG_STATE_DLLTMPLMAPPING)
 
 // null pointer
 
-extern StateChunkPtr NullStateChunk;
+extern OSG_STATE_DLLMAPPING StateChunkPtr NullStateChunk;
 
 OSG_END_NAMESPACE
 

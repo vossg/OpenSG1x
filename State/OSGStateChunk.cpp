@@ -161,7 +161,7 @@ char StateChunk::cvsid[] = "@(#)$Id: $";
 FieldContainerType StateChunk::_type("StateChunk", 
                                      "FieldContainer");
 
-StateChunkPtr OSG::NullStateChunk;
+OSG_STATE_DLLMAPPING StateChunkPtr OSG::NullStateChunk;
 
 /***************************************************************************\
  *                           Class methods                                 *

@@ -104,6 +104,7 @@ OSG_FIELD_CONTAINER_INL_DEF(TransformChunk, TransformChunkPtr)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
+inline
 const StateChunkClass *  TransformChunk::getClass( void ) const
 {
 	return &_class;

@@ -46,6 +46,7 @@
 #   endif
 #else
 #define OSG_MATERIAL_DLLMAPPING
+#define OSG_MATERIAL_DLLTMPLMAPPING
 #endif
 
 #include "OSGFieldDescription.h"
@@ -282,7 +283,7 @@ OSG_DLLEXPORT_DECL1(MField, MaterialPtr, OSG_MATERIAL_DLLTMPLMAPPING)
 
 // null pointer
 
-extern MaterialPtr NullMaterial;
+extern OSG_MATERIAL_DLLMAPPING MaterialPtr NullMaterial;
 
 OSG_END_NAMESPACE
 

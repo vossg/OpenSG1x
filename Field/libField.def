@@ -45,7 +45,6 @@ EXPORTS
 
     ?getType@?$SField@V?$map@IVAttachmentPtr@osg@@U?$less@I@std@@V?$allocator@VAttachmentPtr@osg@@@4@@std@@$0A@@osg@@UBEABVFieldType@2@XZ     @62
 
-
     ?getClassType@?$SField@V?$TransformationMatrix@M@osg@@$0A@@osg@@SAABVFieldType@2@XZ @70
     ?getClassType@?$MField@V?$TransformationMatrix@M@osg@@$0A@@osg@@SAABVFieldType@2@XZ @71
     ?getType@?$SField@V?$TransformationMatrix@M@osg@@$0A@@osg@@UBEABVFieldType@2@XZ     @72
@@ -72,6 +71,9 @@ EXPORTS
     ?getClassType@?$SField@V?$Color4@M@osg@@$0A@@osg@@SAABVFieldType@2@XZ @110
     ?getClassType@?$MField@V?$Color4@M@osg@@$0A@@osg@@SAABVFieldType@2@XZ @111
     ?getType@?$SField@V?$Color4@M@osg@@$0A@@osg@@UBEABVFieldType@2@XZ     @112
+    ?getType@?$MField@V?$Color4@E@osg@@$0A@@osg@@UBEABVFieldType@2@XZ     @113
+
+    ?getClassType@?$MField@V?$Color4@E@osg@@$0A@@osg@@SAABVFieldType@2@XZ
 
     ?getClassType@?$SField@_N$0A@@osg@@SAABVFieldType@2@XZ @120
     ?getType@?$SField@_N$0A@@osg@@UBEABVFieldType@2@XZ     @121
@@ -115,6 +117,10 @@ EXPORTS
 
     ?getClassType@?$MField@V?$Color3@M@osg@@$0A@@osg@@SAABVFieldType@2@XZ  @230
     ?getClassType@?$SField@V?$Color3@M@osg@@$0A@@osg@@SAABVFieldType@2@XZ  @231
+    ?getType@?$MField@V?$Color3@E@osg@@$0A@@osg@@UBEABVFieldType@2@XZ      @232
+    ?getType@?$MField@V?$Color3@M@osg@@$0A@@osg@@UBEABVFieldType@2@XZ      @233
+
+    ?getClassType@?$MField@V?$Color3@E@osg@@$0A@@osg@@SAABVFieldType@2@XZ
 
     ?getClassType@?$SField@F$0A@@osg@@SAABVFieldType@2@XZ  @240
     ?getClassType@?$MField@F$0A@@osg@@SAABVFieldType@2@XZ  @241
@@ -125,5 +131,4 @@ EXPORTS
     ?getClassType@?$MField@_N$01@osg@@SAABVFieldType@2@XZ  @260
 
     ?getClassType@?$MField@G$0A@@osg@@SAABVFieldType@2@XZ  @261
-
 

@@ -70,7 +70,6 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-
 // special cases, mostly conversions between dimensions
 
 // Colors: Unsigned byte needs to be mapped to [0..1]

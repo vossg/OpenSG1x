@@ -84,7 +84,7 @@ struct GeoIndexUI32PropertyDesc
     typedef GeoIndexPropertyDesc     InheritDesc;
 	typedef MFUInt32                 FieldType;
 
-	typedef InheritDesc::GenericType GenericType;
+    typedef InheritDesc::GenericType GenericType;
 };
 
 typedef GeoProperty<GeoIndexUI32PropertyDesc> GeoIndexUI32;

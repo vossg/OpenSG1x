@@ -122,7 +122,6 @@ class OSG_GEOMETRY_DLLTMPLMAPPING AbstractGeoProperty :
 	virtual UInt32	getSize      (void) = 0;
 	virtual UInt8	*getData     (void) = 0;
 	
-
 	// generic access to make using different types easier
 
 	virtual typename GeoPropertyDesc::GenericType 
@@ -322,6 +321,7 @@ class OSG_GEOMETRY_DLLMAPPING GeoProperty : public GeoPropertyDesc::Inherit
 	virtual void 	addValue(
 						const typename GeoPropertyDesc::GenericType & val );
 
+
     /*------------------------- assignment ----------------------------------*/
 
     GeoProperty &operator =(const GeoProperty &source);
@@ -443,7 +443,7 @@ struct GeoPositionPropertyDesc
 	typedef AttachmentPropertyDesc InheritDesc;
 	typedef AttachmentPtr          InheritPtr;
 
-	typedef Pnt3f					GenericType;
+    typedef Pnt3f                  GenericType;
 };
 
 typedef AbstractGeoProperty<GeoPositionPropertyDesc> GeoPosition;

@@ -105,6 +105,7 @@ OSG_FIELD_CONTAINER_INL_DEF(LightChunk, LightChunkPtr)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
+inline
 const StateChunkClass *  LightChunk::getClass( void ) const
 {
 	return &_class;

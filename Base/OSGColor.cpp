@@ -57,8 +57,8 @@ OSG_USING_NAMESPACE
 
 // Null values
 
-OSG_BASE_DLLMAPPING Color3f		NullColor3f( 0,0,0 );
-OSG_BASE_DLLMAPPING Color4f		NullColor4f( 0,0,0,0 );
-OSG_BASE_DLLMAPPING Color3ub	NullColor3ub( 0,0,0 );
-OSG_BASE_DLLMAPPING Color4ub	NullColor4ub( 0,0,0,0 );
+OSG_BASE_DLLMAPPING Color3f		OSG::NullColor3f( 0,0,0 );
+OSG_BASE_DLLMAPPING Color4f		OSG::NullColor4f( 0,0,0,0 );
+OSG_BASE_DLLMAPPING Color3ub	OSG::NullColor3ub( 0,0,0 );
+OSG_BASE_DLLMAPPING Color4ub	OSG::NullColor4ub( 0,0,0,0 );
 

@@ -76,7 +76,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.2 2001/01/18 11:06:16 vossg Exp $";
+char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.3 2001/01/18 20:29:41 vossg Exp $";
 
 // FieldDescription Material::_desc[] = {};
 
@@ -90,7 +90,7 @@ FieldContainerType Material::_type(
 	0 		// sizeof(_desc)
 	);
 
-MaterialPtr NullMaterial;
+OSG_MATERIAL_DLLMAPPING MaterialPtr OSG::NullMaterial;
 
 /***************************************************************************\
  *                           Class methods                                 *
