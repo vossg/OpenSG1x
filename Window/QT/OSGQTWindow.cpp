@@ -50,24 +50,6 @@
 #include "OSGQTWindow.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<OSGQGLWidgetP>::_type("OSGQGLWidgetP", NULL);
-
-#if defined(__sgi)
-
-#pragma instantiate SField<OSGQGLWidgetP>::_fieldType
-#pragma instantiate MField<OSGQGLWidgetP>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, OSGQGLWidgetP, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, OSGQGLWidgetP, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 #ifdef __sgi
@@ -183,3 +165,24 @@ void QTWindow::init( void )
     setupGL();
 }
 
+
+#include <OSGMFieldTypeDef.inl>
+#include <OSGSFieldTypeDef.inl>
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<OSGQGLWidgetP>::_type("OSGQGLWidgetP", NULL);
+
+#if defined(__sgi)
+
+#pragma instantiate SField<OSGQGLWidgetP>::_fieldType
+#pragma instantiate MField<OSGQGLWidgetP>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, OSGQGLWidgetP, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, OSGQGLWidgetP, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE

@@ -62,24 +62,6 @@
 #include "OSGQTWindow.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<QTWindowPtr>::_type("QTWindowPtr", "WindowPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<QTWindowPtr>::_fieldType
-#pragma instantiate MField<QTWindowPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, QTWindowPtr, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, QTWindowPtr, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 #ifdef __sgi
@@ -88,7 +70,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQTWindowBase.cpp,v 1.2 2002/02/11 03:46:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQTWindowBase.cpp,v 1.3 2002/05/16 05:29:11 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGQTWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQTWINDOWBASE_INLINE_CVSID;
 
@@ -258,3 +240,24 @@ void QTWindowBase::executeSyncImpl(      QTWindowBase *pOther,
 
 }
 
+
+#include <OSGMFieldTypeDef.inl>
+#include <OSGSFieldTypeDef.inl>
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<QTWindowPtr>::_type("QTWindowPtr", "WindowPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<QTWindowPtr>::_fieldType
+#pragma instantiate MField<QTWindowPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, QTWindowPtr, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, QTWindowPtr, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
