@@ -83,8 +83,8 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGWriter
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    void write(NodePtr         node );
-    void write(vector<NodePtr> nodes);
+    void write(FieldContainerPtr         container );
+    void write(vector<FieldContainerPtr> containers);
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -132,6 +132,6 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGWriter
 
 OSG_END_NAMESPACE
 
-#define OSGOSGWRITER_HEADER_CVSID "@(#)$Id: OSGOSGWriter.h,v 1.4 2001/10/07 09:32:36 vossg Exp $"
+#define OSGOSGWRITER_HEADER_CVSID "@(#)$Id: OSGOSGWriter.h,v 1.5 2001/12/20 16:35:10 vossg Exp $"
     
 #endif /* _OSGOSGWRITER_H_ */

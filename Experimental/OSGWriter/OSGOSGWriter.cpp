@@ -48,7 +48,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.6 2001/10/15 04:52:15 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.7 2001/12/20 16:35:10 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOSGWRITER_HEADER_CVSID;
 }
 
@@ -80,7 +80,7 @@ OSGWriter::~OSGWriter(void)
 {
 }
 
-void OSGWriter::write(NodePtr node)
+void OSGWriter::write(FieldContainerPtr container)
 {
     _fcmap.clear();
 
@@ -89,11 +89,11 @@ void OSGWriter::write(NodePtr node)
 
     _outstream << "#OSG V1.0 " << endl;
     
-    doListFC(node);
-    doPrintListedFC(node);
+    doListFC(container);
+    doPrintListedFC(container);
 }
 
-void OSGWriter::write(vector<NodePtr> nodes)
+void OSGWriter::write(vector<FieldContainerPtr> containers)
 {
     _fcmap.clear();
 
@@ -102,14 +102,14 @@ void OSGWriter::write(vector<NodePtr> nodes)
 
     _outstream << "#OSG V1.0 " << endl;
     
-    vector<NodePtr>::iterator iter = nodes.begin();
+    vector<FieldContainerPtr>::iterator iter = containers.begin();
 
-    for(; iter != nodes.end(); ++iter)
+    for(; iter != containers.end(); ++iter)
     {
         doListFC( *iter );
     }
 
-    for(iter = nodes.begin(); iter != nodes.end(); ++iter)
+    for(iter = containers.begin(); iter != containers.end(); ++iter)
     {
         doPrintListedFC( *iter );
     }
