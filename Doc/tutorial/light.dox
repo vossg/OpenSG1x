@@ -23,9 +23,9 @@ light sources to the water mesh from the last chapter.
 
 \section TutorialLightPointLight Point Light
 
-The most common type of light source is the point light. The lightsource is emitting light in all directions equally. You have to define
+The most common type of light source is the point light. It is emitting light in all directions equally. You have to define
 a position and some attenuation parameters which will affect the intensity of light depending on the distance to the lit object. Additionally
-you have to provide information about the light's color, of course. This little code fragment shows how a point light could be created
+you have to provide information about the light's color, of course. This code fragment shows how a point light could be created
 
 \code
 
@@ -71,9 +71,9 @@ Please note that the position is not global. The light source will of course be 
 
 \section TutorialLightDirectionalLight Directional Light
 
-Directional light sources are faster to compute than point light sources but often they look less realistic. Light is not emitted from
-a specific point in the world but from infinity so light is coming in parallel. In real world light from sun in nearly parallel too, but do 
-not think that parallel are looking any better. A directional light source only
+Directional light sources are faster to compute than point light sources, but often they look less realistic. Light is not emitted from
+a specific point in the world but from infinity so light is coming in parallel. In real world light from sun is nearly parallel too, but do 
+not think that parallel light is looking any better. A directional light source only
 needs a direction, where the light is coming from, beside of the color information thus the code is even shorter.
 
 \code
@@ -98,9 +98,9 @@ endEditCP  (dLight);
 
 \section TutorialLightSpotLight Spot Light
 
-The spot light is the most expensive light source to compute. It is similar to a point light but additionally spot lights have an additional
+The spot light is the most expensive light source to compute. It is similar to a point light, but spot lights have an additional
 direction and angle which will define the area that is lit. Another value is needed to specify how fast intensity drops as light reaches the
-border of the lit are. I suggest that you play around with the paramates to see what happens.
+border of the lit area. I suggest that you play around with the paramates to see what happens.
 
 \code
 
@@ -126,7 +126,7 @@ endEditCP  (sLight);
 \endcode
 
 <I>
-deg2rad is a little usefull function that allows you to convert degree values into radians. As you might guess there is also a rad2deg 
+deg2rad is a useful function that allows you to convert degree values into radians. As you might guess there is also a rad2deg 
 function.
 </I>
 
@@ -136,7 +136,7 @@ As mentioned above, spot lights are really expensive and should be used with cau
 
 There is one big difference compared to OpenGL, which might be a bit uncomfortable right at the beginning, but actually it is no big deal 
 at all. Beacons is what I am talking about. Every light source must be assigned to a beacon, which can be any node in the scenegraph. 
-This beacon acts like a cointainer where the light source is located in. All transformations that are applied to this beacon will also be
+This beacon acts like a container where the light source is located in. All transformations that are applied to this beacon will also be
 applied to the light source.
 
 <I>
@@ -145,7 +145,7 @@ care about that automatically. The simple scene manager also provides one point 
 a black sceen in the tutorials, altough we had not defined a single light source.
 </I>
 
-Furthermore as all light sources are derived from node core they need to be inserted into a core of a node just like every other core too.
+Furthermore as all light sources are derived from node core they need to be inserted into a core of a node just like every other core, too.
 I suppose you wonder why you need both, to set is as a core and to define a beacon. Well, the beacon defines the 
 position in the world, where as
 the position of the core in the graph should define which objects will be lit. Yes, I said should, as this feature is not implemented in
@@ -163,7 +163,7 @@ nodes represent the rest of the entire scenegraph. The light source node has no 
 
 This setup is very easy to handle. You can modifiy the transformation node to alter the position of the light source. The beacon of the
 light source is the node of the lightsource itself. Please note, that this setup will not work anymore, in that moment when the "correct" 
-method of handling light sources, as mentioned above, is implemented. If you want to be sure your application will work correctly with future
+implemantation of handling light sources, as mentioned above, is added. If you want to be sure your application will work correctly with future
 versions of OpenSG the following setup is recommended!
 
 \image html light_source_setup.png "Recommended setup"
@@ -197,7 +197,7 @@ image shows results for some different attenuation values.
     attenuation value of one resulting in a much too dark image.
 </I>
 
-You see that some caution is advised, else you might start up with a blank screen. After hours of search for the error you might begin to
+You see that some caution is advised, else you might end up with a blank screen. After hours of search for the error you might begin to
 dislike these parameters... so keep it in mind ;-)
 
 \section TutorialLightTutorial Tutorial - Light it up
@@ -214,12 +214,12 @@ add that line in the main method somewhere after we created the simple scene man
 If you execute the application you will notice that nothing has really changed. That is because of the material we defined previously. If you
 look what we have done before: We simply created a SimpleMaterial and assigned it to the geometry without providing any additional 
 information. The material we created in that way is completly unaffected by light sources. It is equally lit from every direction. So
-first thing we to is to assign a correct material:
+first thing we do is to assign a correct material:
 
 in the createScenegraph() function locate the line that says
-<PRE>
+\code
     SimpleMaterialPtr mat = SimpleMaterial::create();
-</PRE>
+\endcode
 
 and add the following code right below that line
 
@@ -233,15 +233,16 @@ When executing we see, as expected, nothing, because our only geometry is render
 If you turn the headlight back on, you will see that the water mesh is blue and not red as the material's diffuse color we just set. Why 
 that? If you look a few lines upwards you might remember that we provided every single vertex with a specific color - blue. Remove the
 block where the GeoColor3f property is created as well as the line that says
-<PRE>
+\code
     geo->setColors(colors);
-</PRE>
+\endcode
 during the creation of the geometry core. That will reomve the "hand-made" color values and will no longer overwrite the attributes of our
 red material. If you compile and execute the application now you will see red water. Notice, that the color will change if you move the
-camera. Remember that we alredy provided normals which where all parallel to the y axis. If you want to you can change the material's color
-from red back to blue as this was only to demonstrate the conflict between assigned vertex colors and the color of a material.
+camera. Remember that we alredy provided normals which where all parallel to the y axis. If you want to, you can change the material's color
+from red back to blue as this was only to demonstrate the conflict between assigned vertex colors and the color of a material. I do not want 
+to pursuade anybody to use red water... ;-)
 
-If you saw nothing but a black sceen, you fergot to turn the headlight back on. Anyway, turn the headlight off, as we want to add our own 
+If you saw nothing but a black sceen, you forgot to turn the headlight back on. Anyway, turn the headlight off, as we want to add our own 
 light sources now. We start with the most common a point light.
 
 At first add two new headers
@@ -344,14 +345,14 @@ and replace the entire block with the following code
 \endcode
 
 If you run the application it will crash and the terminal tells you something about a "segmentation fault". I personally do not like this error, because
-the only thing you are told by this error is that something really does not work! So what can it be? When you have a look at the display function you see 
+the only thing you are told by this error is, that something really does not work! So what can it be? When you have a look at the display function you see 
 right at the beginning that we are acessing the geometry core of the scene node. That exacly is our problem! We need the geometry pointer to modify the 
 geometry and we assumed that the core of the root node holds the geometry core. Well that was correct, until we changed the design of the scenegraph. Now 
 it is the one and only child of the root node which holds the geometry. Change the line that says
 
-<PRE>
+\code
     GeometryPtr geo = GeometryPtr::dcast(scene->getCore());
-</PRE>
+\endcode
 
 to 
 
@@ -360,23 +361,23 @@ to
 \endcode
 
 Now you should see blue and lit water. The blue is now not constant any more, you can see that the borders are in a darker blue that the center. This is 
-because the light source is floating right above the center and there the distance is the shortest of course. Now we would have to calculate corect normals
+because the light source is floating right above the center and there the distance is the shortest of course. Now we would have to calculate correct normals
 in order to render a more realistic result. 
 
 \image html lit_water.png "Water correct lit with incorrect normals"
 \image latex lit_water.eps "Water correct lit with incorrect normals" width=4cm
 
 The normals need to be computed every frame as they change steadily. This is a problem because computation of normals is quite expensive. However this is not
-our concern for now. If you like to you can try to compute the normals. you could also use the calcVertexNormals() utility function I introduced in the last
-chapter, but I warned you that this will slow down the simulation significantly! My Linux Box with 1400 Mhz can't do the job in real time!
+our concern for now. If you like to, you can try to compute the normals. You could also use the calcVertexNormals() utility function I introduced in the last
+chapter, but I warned you, that this will slow down the simulation significantly! My Linux box with 1400 Mhz can't do the job in real time!
 
 The code so far can be found in the file <a href = "progs/10water_lit.cpp">progs/10water_lit.cpp</a>. We will now replace the point light with a directional 
 light. If you have not completed the last part of the tutorial you can take the file mentioned above as a starting point!
 
 Replace the line
-<PRE>
+\code
     PointLightPtr pLight = PointLight::create();
-</PRE>
+\endcode
 with
 \code
     DirectionalLightPtr pLight = DirectionalLight::create();
@@ -384,7 +385,7 @@ with
 
 <I>
 Just to mention it: We need not to include another header file for the directional light. We have used the simple scene manager which comes along with 
-a default light source.
+a default light source and thus includes automatically the header for dircetional light sources.
 </I>
 
 Next locate and remove the following lines
@@ -405,17 +406,18 @@ and add that line, but make sure it is within the begin-/ endEditCP(pLight) bloc
 \endcode
 
 <I>
-    I hope you wonder why the direction of the light is straight "up" into the sky and not the other way round, because I still wonder, too. Maybe I overseen
-    or missunderstood something, but to me it seems that the direction of a directional light is always inverse. So i am not quite sure if it is a bug or
-    a feature ;-) Anyway if you have a hint for me, fell free to send me a <a href="mailto:mail@oliver-abert.de">mail</a>!
+    I hope you wonder why the direction of the light is straight "up" into the sky and not the other way round, because I still wonder, too. Maybe I have 
+	overseen or missunderstood something, but to me it seems that the direction of a directional light is always inverse. So I am not quite sure, if it is a bug 
+	or a feature ;-) Anyway if you have a hint for me, fell free to send me a <a href="mailto:mail@oliver-abert.de">mail</a>!
 </I>
 
 \image html water_directional_light.png "Water lit by directional light with wrong normals"
 \image latex water_directional_light.eps "Water lit by directional light with wrong normals" width=4cm
 
 <I>
-If you now compare this result with the last one where we used a point light you will notice the difference in shading. This one here is again uniformly 
-shaded whereas the point light result looked better. Well, you can now think about what happend... this question can be found again in the exercises part ;-)
+If you now compare this result with the last one, where we used a point light you will notice the difference in shading. This one here is again uniformly 
+shaded, whereas the point light result looked better. Well, you can now think about what happend... this question can be found again right down herer
+in the exercises part ;-)
 </I>
 
 \section TutorialLightExercises Exercises

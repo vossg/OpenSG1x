@@ -20,36 +20,36 @@ Chapter Overview
 <HR>
 
 In this chapter you will learn how to use the most important cores. The transform and material core are discussed in more detail and additionally
-I will introduce the Switch, LOD and component transform cores as well. At the end of the chapter there will be our first bigger tutorial, where
-we will use all the cores introduced here.
+I will introduce the osg::Switch, osg::DiatanceLOD (level of detail) and osg::ComponentTransform cores as well. At the end of the chapter there 
+will be our first bigger tutorial, where we will use all the cores introduced here.
 
-The geometry core is for sure the most important one, but due to its complexity ad importance the whole next Chapter (\ref Geometry) is
-dedicated to this core alone!
+The geometry core is for sure the most important one, but due to its complexity and importance the whole next chapter (\ref Geometry) is
+dedicated to this core only!
 
 \section TutorialNodeCoresTransform Transform Core
 
-The transform core was already briefly introduced in the last Chapter (\ref TutorialBasicCoresTransform), but now we will have a more deeper
+The transform core was already briefly introduced in the last chapter (\ref TutorialBasicCoresTransform), but now we will have a more detailed
 look at it. However, about the transform class itself is not much left to say, as the most important method is the "setMatrix()" method, which let us
-use any matrix as a transformation matrix. In order to create the transformation that you want, you need only to create the appropiate matrix. 
+use any matrix as a transformation matrix. In order to create the transformation that you need, you only have to create the appropiate matrix. 
 
-Let us imagine a more complex scene using more than just one transformation like we did before. A very common example is the model of a solor 
+Let us imagine a more complex scene using more than just one transformation like we did before. A very common example is the model of a solar 
 system. To make it a bit easier, we only want a sun and one planet with a single moon. The sun should be stationary and the planet is orbiting in a 
 circle around the sun whereas the moon is doing the same around the planet. We also don't want to pay any attention to real sizes and distances. 
 There is not only one way to solve this problem. We will have a closer look at two variants: One possibility is to have a deep graph, where the 
 planet is attached to the sun whereas the moon is attached to the planet with each having a transformation describing the rotation around their 
-parent object. That is the moon is moving in a circle around the planet which also is moving in a circile around the sun. Figure (xxx) is 
+parent object. That is the moon is moving in a circle around the planet which also is moving in a circle around the sun. The next figure is 
 illustrating what I mean. 
 
 \image html solarsystem_deep.png "The easy way to solve our problem..."
 \image latex solarsystem_deep.eps "The easy way to solve our problem..." width = 3cm
 
 <I>
-As you can see, the rotation of the moon is dependant on the rotation of the earth, thus describing the rotation of these both objects in an
-intuitive manner, but this may become unefficient if used extensevly
+As you can see, the rotation of the moon is dependant on the rotation of earth, thus describing the rotation of these both objects in an
+intuitive manner, but this may become unefficient if used extensevly.
 </I>
 
 The other way is to have a transformation describing the complete movement, so all geometry nodes are located directly 
-below the root node. This approach is not as intuitive than the other is, but it might be faster to compute. Figure (xxx) is illustrating this 
+below the root node. This approach is not as intuitive than the other is, but it might be faster to compute. This figureis illustrating this 
 variant. 
 
 \image html solarsystem_flat.png "The more efficient way..."
@@ -61,7 +61,7 @@ On one hand this graph looks quite a bit friendlier, on the other hand the trans
 
 \subsection TutorialNodeCoresTransformFirstVariant Deep Graph
 
-Well, let us give both variants a try. Like ever here is our createScenegraph method to begin with:
+Well, let us give both variants a try. Like ever here is our createScenegraph() function to begin with:
 
 \code
 NodePtr createScenegraph(){
@@ -74,7 +74,7 @@ NodePtr createScenegraph(){
     //the root node will be the sun
     NodePtr root = Node::create();
     beginEditCP(root, Node::CoreFieldMask);
-	root->setCore(sun);
+		root->setCore(sun);
     endEditCP(root, Node::CoreFieldMask);
 	
     NodePtr planetTransformNode = Node::create();
@@ -96,7 +96,7 @@ NodePtr createScenegraph(){
     n.setTranslate(8,0,0);
 	
     beginEditCP(planetTransform, Transform::MatrixFieldMask);
-	planetTransform->setMatrix(m);
+		planetTransform->setMatrix(m);
     endEditCP(planetTransform, Transform::MatrixFieldMask);
 	
     beginEditCP(moonTransform, Transform::MatrixFieldMask);
@@ -105,8 +105,8 @@ NodePtr createScenegraph(){
 	
     //Insert the cores into the apropiate nodes and add the geometry
     beginEditCP(planetTransformNode, Node::CoreFieldMask | Node::ChildrenFieldMask);
-	planetTransformNode->setCore(planetTransform);
-	planetTransformNode->addChild(planet);
+		planetTransformNode->setCore(planetTransform);
+		planetTransformNode->addChild(planet);
     endEditCP(planetTransformNode, Node::CoreFieldMask | Node::ChildrenFieldMask);
 	
     beginEditCP(moonTransformNode, Node::CoreFieldMask | Node::ChildrenFieldMask);
@@ -116,12 +116,12 @@ NodePtr createScenegraph(){
 	
     //add the planet to the sun
     beginEditCP(root, Node::ChildrenFieldMask);
-	root->addChild(planetTransformNode);
+		root->addChild(planetTransformNode);
     endEditCP(root, Node::ChildrenFieldMask);
 	
     //add the moon to the planet
     beginEditCP(planet, Node::ChildrenFieldMask);
-	planet->addChild(moonTransformNode);
+		planet->addChild(moonTransformNode);
     endEditCP(planet, Node::ChildrenFieldMask);
 	
     //now we are done
@@ -138,7 +138,7 @@ TransformPtr moonTransform;
 \endcode
 
 If you compile this code now and zoom out a bit, you will see three different balls in one row. Well, it is not quite a realistic simulation
-of our solar system... Anyway, the first thing we add now are the rotations I am talking all the time about. Replace the display() method with
+of our solar system... Anyway, the first thing we add now are the rotations I am talking all the time about. Replace the display() function with
 the following code
 
 \code
@@ -146,7 +146,7 @@ void display(void)
 {
     Real32 time = glutGet(GLUT_ELAPSED_TIME );
     
-    //create the Quaternion the describes the rotation of
+    //create the Quaternion that describes the rotation of
     //the planet around the sun
     Quaternion planetRot = Quaternion(Vec3f(0,1,0), time/float(1000));
     
@@ -178,7 +178,7 @@ void display(void)
 
 Allright, compile and execute... and what do you see? Only one planet, right? But why? Think about it, before reading any further!
 
-Got it? Yes, we have overwritten the translation we set up in the first place. That is not so good, isn't it? We could try to extract the old
+Got it? Yes, we have overwritten the translation, we set up in the first place. Well, that is actually not what we desired? We could try to extract the old
 matrix out of our graph and then apply the rotation our we could create a completly new matrix and assigning the translation again. That is what
 we will do for now, but in the next section we will learn about another possibility that solves our problem easy and efficient. Add the following
 code right after we set the rotation
@@ -221,7 +221,7 @@ p.setTranslate(20,0,0);
 m.setTranslate(8,0,0);
 */
 
-// add the following lines, replace these from above
+// add the following lines, replacing these from above
 
 
 //temporary matrices for translation and rotation    
@@ -254,7 +254,7 @@ Finally it works! The moon should now rotate quickly around the planet which rot
 \subsection TutorialNodeCoresTransformSecondVariant Flat Graph
 
 Please take the results from above (06solarsystem2.cpp) as a starting point for modifying the code. First we need to rearrange the graph. I will
-not present the full code here again, because the cahnges are not so spectaular, but you can find the full code named 06solarsystem3.cpp. Here
+not present the full code here again, because the changes are not so grave, but you can find the full code in the file named 06solarsystem3.cpp. Here
 are the necessary changes:
 
 1. Locate the pice of code where the moonTransformation is added to the planet node - remove these lines, because the moon will no longer be
@@ -262,7 +262,7 @@ a child of the planet
 
 2. Attach the moonTransformation you just removed to the root node
 
-If you execute the application you will see that both the moon and planet are rotating around the sun, which makes sense, of course as the are both
+If you execute the application you will see that both the moon and planet are rotating around the sun, which makes sense, of course as they are both
 children of the sun. Next we need to alter the transformation of the moon. The planets transformation may stay untouched as this is still correct.
 
 The new transformation matrix for the moon can be calculated by
@@ -272,6 +272,8 @@ The new transformation matrix for the moon can be calculated by
 
 \subsection TutorialNodeCoresTransformMatrix Matrix-Magic
 
+As the most important thing of a transform core is the transformation itself (of course!), which is defined by a single matrix, you often have to do
+some magic stuff with matrices in order to create the transformation you need.
 Here you will find many possibilities how to create and manipulate matrices. Some basic examples can also be found here: \ref
 BasicMathWorkWithMarices. These will not be repeated here! 
 
@@ -323,7 +325,7 @@ m.setTransform(t,r,s);
 // this adds an additional scaling orientation
 m.setTransform(t,r,s,Vec3f(1,1,0));
 
-// and and additional center point for scalation (or rotation???) [TODO: test it]
+// and and additional center point for rotation
 m.setTransform(t,r,s,Vec3f(1,1,0),Vec3f(10,0,0));
 \endcode
 
@@ -347,10 +349,9 @@ m.getTransform(translation, rotation, scalation, scaleOrientation, center);
 
 // the result will be written into the variables you passed to the method
 // translation would be (1,2,3) if we take m from the example above
-[TODO: Test it]
 \endcode
 
-In addition to these methods there are of course other expected functions for inverting a matrix and other operations.
+Furthermore you have some methods you need for inverting, calculating the determinant ect.
 
 \code
 m.invert();        //calculates the inverse matrix;
@@ -358,7 +359,8 @@ m.transpose();      //as you expect it...
 Real32 d = m.det(); //calculates the determinant
 \endcode
 
-In the above example the results will overwrite the original matrix. You must not create a copies by hand, as these methods are intended for
+In the above example the results will overwrite the original matrix. You actually have not to create copies by hand, because for this purpose there are 
+ready made methods. The next code fragment gives a simple example.
 
 \code
 Matrix result;
@@ -367,20 +369,19 @@ result.invertFrom(m);
 m.transposed(result);
 \endcode
 
-As always you should have a look at the matrix documentation class for full reference.
+As always, you should have a look at the osg::Matrix documentation class for full reference.
 
-[TODO: check examples]
 
 \section TutorialNodeCoresTransformComponentTransform Component Transform
 
 Remember the problems we had setting up the correct transformation matrices for our solar system example? Now imagine working with more
-complex transformations than we did, which were in fact realativly easy ones. Another important issue is alteration of a matrix during 
-runtime. In the solar system we recalculated the whole matrix by multiplying the rotation with the translation, altough we only wanted to
-modify the rotation. I many cases it is just to complicated or even impossible to reconstruct the single parts of a transformation. That is when
+complex transformations than we did, which were in fact really easy. Another important issue is alteration of a matrix during 
+runtime. In the solar system tutorial we recalculated the whole matrix by multiplying the rotation with the translation, altough we only wanted to
+modify the rotation. In many cases it is just to complicated or even impossible to reconstruct single parts of a transformation. That is when
 component transforms are coming into play. 
 
-Component Transform cores are able to stores translation, rotation, scalation, scale orientation and a center point seperatly apart from each other
-thus every component can be edited without afecting the other parts. There are appropiate getter and setter methods for these fields. The 
+Component transform cores are able to stores translation, rotation, scalation, scale orientation and a center point seperatly apart from each other
+thus every component can be edited without affecting values of other parts. There are appropiate getter and setter methods for these fields. The 
 following little example will illustrate the usage of a component transform core
 
 \code
@@ -398,7 +399,7 @@ endEditCP(ct, ComponentTransform::TranslationFieldMask |
 
 \endcode
 
-If you now want to alter the rotation you only need to call the setRotation method and provide a new quaternion and that's it. The bad news is
+If you now want to alter the rotation you only need to call the setRotation() method and provide a new quaternion and that's it. The bad news is
 that you might get the same multiplication order problems we had before, thus resulting in a undesired rotation of the object itslelf. That can be
 adjusted with the center field which defines a position around the rotation will be calculated.
 
@@ -406,7 +407,8 @@ adjusted with the center field which defines a position around the rotation will
 For those of you who want to know what exactly happens: This is the way the final transformation matrix is calculated:
 
 <PRE>
-M = Translation * Center * Rotation * ScaleOrientation * Scale * -ScaleOrientation * -Center
+M = Translation * Center * Rotation * ScaleOrientation * 
+	Scale * -ScaleOrientation * -Center
 </PRE>
 
 \section TutorialNodeCoresMaterial Materials
@@ -417,7 +419,7 @@ image onto an object. Here you will find a more detailed overview about how to u
 \subsection TutorialNodeCoresMaterialSimpleMaterial Simple Material
 
 The Simple Material class provides an easy to use interface for materials without textures or other advanced fatures. It features all basic
-attributes like diffuse and specular color, as well as transparency, emission, shininess ans ambien color. Here is an little example
+attributes like diffuse and specular color, as well as transparency, emission, shininess and ambiend color. Here is an little example
 of an red material that is 50% transparent and has a dark gray as ambient color
 
 \code
@@ -441,20 +443,49 @@ endEditCP   (m, SimpleMaterial::DiffuseColorFieldMask |
 \image latex red_transparent_material.eps "50% transparent red Material on a sphere" width = 3cm
 
 <I>
-As you can see, there are artifacts on the sphere. You might know that transparent surfaces quickly get highly complicated to solve if some 
-are occluding other transparent surfaces which is of course the case here. OpenSG can sort faces and render them from back to front (what is
+As you can see, there are visible artifacts on the sphere. You might know that transparent surfaces quickly get highly complicated to render correctly, if some 
+are occluding other transparent surfaces, which is of course the case here. OpenSG can sort faces and render them from back to front (what is
 actually needed to capture multi trancaprencies correctly) but OpenSG can do so only on the node level. That is sorting does not work within
 a single node. 
 </I>
 
-<A HREF = "progs/07materials.cpp">progs/07materials.cpp</A> shows the implementation. Quite unsual might be the fact, that SimpleMaterial
-is not derived from NodeCore and thus cannot be inserted as a core directly. 
+<A HREF = "progs/07materials.cpp">progs/07materials.cpp</A> shows the implementation. It might seem quite unusual, that osg::SimpleMaterial
+is not derived from osg::NodeCore and thus cannot be inserted as a core directly. 
 
 One possibility is to use a material group. This class is nearly identical
 to the usual group core but it has a setMaterial() method added with which you can assign a material to that core. Every node which is added
 to the appropiate node containing such a core will be rendered with this material.
 
-Another possibiliy is to set the material field in the geometry using setMaterial().
+Another possibiliy is to set the material field in the geometry using setMaterial(). This next code fragment shows a possible usage of both variants
+
+\code
+	// mat ist of type osg::SimpleMaterial
+	
+	// This one will set the material mg for every child that is added to this node
+	MaterialGroupPtr mg = MaterialGroup::create();
+	beginEditCP(mg);
+		mg->setMaterial(mg);
+	endEditCP(mg);
+	
+	NodePtr n = Node::create();
+	beginEditCP(n);
+		n->setCore(mg);
+		n->addChild(someNode);
+	endEditCP(n);
+	
+	//the node 'someNode' will no rendered (if it contains geometry)
+	//with the material mg
+	
+	//the other possiblity...
+	GeometryPtr geo = Geometry::create();
+	//lets assume we define a complete geometry here
+	//and now we assign the material
+	geo->setMaterial(mg);
+	
+	//This material will be used for rendering geo, but all children of geo
+	//will be unaffected by this!
+\endcode
+
 
 \subsection TutorialNodeCoresMaterialSimpleTexturedMaterial Simple Textured Material
 
@@ -466,7 +497,7 @@ tutorial!
 A scene graph system is expected to do rendering as fast as possible. As I mentioned before, OpenGL state changes can be very expensive operations,
 for example changing some color paramers of a material or light source. Loading and switching textures is even more expensive in most cases. 
 Thus it is very important to handle these state changes in the most efficent way possible. It is very useful to group all primitives together 
-which use the same set of OpenSG states. In addition to that is is necessary to minimize costs if the state is changed - i.e. changing only 
+which use the same set of OpenGL states. In addition to that is is necessary to minimize costs if the state is changed - i.e. changing only 
 the diffuse color is more efficent than changing twelve states at once.
 
 Of course that is not as easy as it sounds, unfortunately sorting all primitives in the most efficent manner is a NP-complete problem (If you are 
@@ -477,8 +508,8 @@ together have been grouped in larger pices : osg::StateChunks
 
 \section TutorialNodeCoresSwitch Switch
 
-Switches are quite similar to switches in C++. You can add several children to a node with a switch core and depending on what you want to be
-rendered you can tell the switch to render none, one specific or all of it's children. Please note that this behaviour is not restricted to 
+Switches are quite similar to switches in C++. You can add several children to a node containing a switch core and depending on what you want to be
+displayed on screen you can tell the switch to render none, one specific or all of it's children. Please note that this behaviour is not restricted to 
 rendering only but applies to every traversal of the graph. All children which are not selected by the switch are virtually cut off the graph 
 until you change the setting of the switch.
 
@@ -505,7 +536,7 @@ endEditCP(sw, Switch::ChoiceFieldMask);
 A must have feature for scene graph systems is the possibility to define some, often two or three, different models representing the same object
 in different resolutions. The system will display one of the provided models depending on the distance from the user to the object. The 
 advantage lies at hand: If you are close to the model it is rendered in high resolution thus details are well visible, if you are far
-away the object is approximated by a handful polygons and thus saving memory and rendering time. The only problem occuring is when the actual 
+away the object is approximated by a handful polygons and thus saving memory and rendering time. One problem occurs when the actual 
 swapping takes places. If the difference between the two models is too great the swap will be visible to the user. An idea is to morph 
 dynamically between two of the key models, but OpenSG does not support morphing right know.
  
@@ -526,9 +557,9 @@ beginEditCP(lod);
 endEditCP(lod);
 \endcode
 
-The way we add the distance values might seem a bit unsual to you, but this is a very easy way to manipulate data if you are used to it. If you
-want to refresh your knowledge about these multifield-things then just jump back to \ref BasicFieldContainerSingleMulti. The following figure
-shows how the LOD object we just created works.
+The way we add the distance values might seem a bit unsual to you, however this is a very easy and effective way to manipulate data. If you
+need to refresh your knowledge about multifields, then just jump back to \ref BasicFieldContainerSingleMulti. The following figure
+shows how the LOD object we just created, works.
 
 \image html lod.png "Example of a LOD setup"
 \image latex lod.eps "Example of a LOD setup" width = 6cm
@@ -537,9 +568,10 @@ shows how the LOD object we just created works.
 This figure illustrates how a level of detail object works. The numbers at the bottom are distances taken from the code example. These values are
 of course highly depended on your environment, so these values may be totally useless for your application. You can see that the high detailed model
 is rendered if the distance from the camera to the LOD center point is less than 6 units. Is the distance between 6 and 12 the medium resolution
-model is rendered and so one. The lowest detailed model (in the case only a billboard) is rendered if the distance is greater than 24 units. Notice
+model is rendered and so one. The lowest detailed model (in this case only a billboard) is rendered if the distance is greater than 24 units. Notice
 that this is just one example, so the lowest detailed model must not be a billboard nor are you bound to four levels of detail - it is entirely up
-to you. The polygon count given in the figure are rough possible values that would make sense in most cases, but they are no law!
+to you. The polygon count given in the figure are rough possible values that would make sense in many cases. However there could be situations where 
+you need totally different values.
 </I>
 
 \section TutorialNodeCoresTutorial Big Tutorial
@@ -604,13 +636,13 @@ NodePtr createScenegraph(){
 
 You may now compile and execute this tutorial. When the window appears you will see the model of the woman. Right now the medium model is displayed
 because our distance to the cener point (0,0,0) is between 200 and 500 units. If you move the camera closer (by holding right mouse button)
-you can see how he model flips from medium to high resolution. The same happens of course if you move far away. The paramters were especially
-choosen in that way, you can see the effect - in real life this is of course not what you want! Try to increase the range values by factor two or
+you can see how the model flips from medium to high resolution. The same happens of course if you move far away. The parameters were especially
+choosen, so that you can see the effect - in real life this is of course not what you want! Try to increase the range values by factor two or
 three and you will not be able to see the flipping effect anymore.
 
 Now lets us extend our little application with a switch. Under certain circumstances it could be useful to turn off the LOD object, but we do not
 want to abandon the woman from our screen. We utilize a switch node which reacts to a specific key to switch between the LOD object and a "static"
-version. Add the folowing code after the LOD node and before the root node is created
+version. Add the following code after the LOD node and before the root node is created
 
 \code
     //create the node with switch core ********************
@@ -626,23 +658,23 @@ version. Add the folowing code after the LOD node and before the root node is cr
         switchNode->addChild(lodNode);
     endEditCP(switchNode);
     
-    //end witch creation **********************************
+    //end switch creation **********************************
 \endcode
 
 Now when the root node is created replace the line that says
-<PRE>
+\code
     root->addChild(lodNode);
-</PRE>
+\endcode
 with
-<PRE>
+\code
     root->addChild(switchNode);
-</PRE>
+\endcode
 
-The compiler needs to know two more include file:
-<PRE>
+The compiler needs to know two more include files:
+\code
     #include <OpenSG/OSGSwitch.h>
     #include <OpenSG/OSGSimpleAttachments.h>
-</PRE>
+\endcode
 The first should be obvious, the second is later needed to read names which were eventually assigned to nodes.
 
 Now, if executed, everthing looks like it did before. We now want to add another copy of our highres model to our switch node. We could use
@@ -651,17 +683,17 @@ geometry core by a second node, that is actually what the scenegraph is for. Unf
 our desired women mesh as we loaded it from file an got an NodePtr in return. So it is time for some fun and retrive that geometry from the
 loaded graph.
 
-What is our concern with that? well, if you construced the graph on your own, you have knowledge about where to find what. If you load models
+What is our concern with that? Well, if you construced the graph on your own, you have knowledge about where to find what. If you load models
 from a file you cannot know what is all in there. This time we are lucky, because the model is not very complex. If we load it into a 3D software
 like Studio Max or Cinema4D we can easily figure out that the name of the mesh (not the whole object) is "FACESET_woman". You can even figure that
 out if you are reading the VRML file in a text editor - but do not expect that to work with huge and complex files!
 
 As we know that our graph will consist of only a few nodes (probably not more than 20) we can be lazy when thinking about how to locate the
 geometry node. So we will traverse the whole graph and check the name of every node if it matches the one we are looking for. Please notice that
-you normally would do that by using traversal actions provided by OpenSG, but these will be discussed later in Chapter (xxx) so this time
+you normally would do that by using traversal actions provided by OpenSG, but these will be discussed later in chapter \ref Traversal so this time
 we will do it by hand:
 
-This method will search for a node called "FACESET_woman" starting with the node initially passed as argument
+The next function will search for a node called "FACESET_woman" starting with the node initially passed as argument
 
 \code
 // this function will return the node named "FACESET_Woman"
@@ -692,26 +724,26 @@ NodePtr checkName(NodePtr n){
 
 <I>
 Maybe this function could use a bit more of explanation. It is a recursive function that will first check if the nodes name matches the (hardcoded)
-search string, "FACESET_Woman" in this case. If that happen, this node is returned, else all children are checked the same way. If a node is
+search string, "FACESET_Woman" in this case. If that happens, this node is returned, else all children are checked the same way. If a node is
 reached which is not the one we are looking for and it has no children then NullFC is returned, which is similar to a null-pointer. This function
 ends up returning either the node named "FACESET_Woman" or NullFC.
 </I>
 
-Now we have the tools we searching, we just need to use them. Add this right before we leave the createScenegraph() function
+Now we have a tool for searching, now we just need to use them. Add this right before we leave the createScenegraph() function
 
 \code
     // we know want to extract the mesh geometry out of the graph
-    // it is sufficent to pass the model only as root for searching
+    // it is sufficent to pass the model only, as root for searching
     NodePtr womanGeometry = checkName(w_high);
 \endcode
 <I>
-    It is possible, of course, to start searching from the root node, but this is not necessary as we know that the geometry is not to be found 
-    outside the nodes used by our model. Additionally we have three different versions of this model loaded into our graph where every one has
+    It is possible, of course, to start searching from the root node, but this is not necessary here, as we know that the geometry is not to be found 
+    'above' the nodes used by our model. Additionally we have three different versions of this model loaded into our graph where every one has
     one such geometry node called FACESET_Woman. As we want only the one with high resolution we pass w_high as the starting point for the search
 </I>
 
-Well, we have now succesfully stored the correct node. Now we must extract the core out of the node. The following line of code, which has to 
-be added directly after the last peace of code, does exactly that
+Well, we have now successfully stored the correct node. Now we must extract the core out of the node. The following line of code, which has to 
+be added directly after the last piece of code, does that
 
 \code
     GeometryPtr geo = GeometryPtr::dcast(womanGeometry->getCore());
@@ -720,10 +752,10 @@ be added directly after the last peace of code, does exactly that
     This may look a little weird, but it's really not that bad. The getCore() method returns a "NodeCorePtr", which are all other core pointer
     classes are derived from. As we know that this specific node will contain geometry we can saftly cast it dynamically. As we will see later
     on it is not a big deal if you do not know which kind of core is stored in a node. OpenSG is reflective and thus you can obtain information
-    about any core just by asking it (Chapter(xxx)). 
+    about any core just by asking it. 
 </I>
 
-Finally we can now create a new node and reference the geometry core. We also want to translate the new node a bit in Order to see both of
+Finally we can now create a new node and reference the geometry core. We also want to translate the new node a bit in order to see both of
 the women. Insert this directly after the last line of code you just added.
 
 \code
@@ -761,7 +793,7 @@ we see two different materials on sceen. On the left side we have the original w
 information about a material because this was stored in one of the geometries parent nodes.
 </I>
 
-The next thing we want to add is a material for our woman copy. We won't use textures as we have already done that before, but we will use OpenSG
+The next thing we want to add is a material for our woman copy. We won't use textures as we have already done that before, but we will use an OpenSG
 standard material.
 
 Just add the code somewhere after we have defined the GeometryPtr geo
@@ -784,13 +816,13 @@ Just add the code somewhere after we have defined the GeometryPtr geo
     // end material generation *******************************
 \endcode
 
-Now it is time to demonstrate the usage of the component transform core. We will a rotation, scalation and a tranlation at once and you will
+Now it is time to demonstrate the usage of the component transform core. We will add rotation, scalation and a tranlation at once and you will
 see how easily these can be modified using a component transform core.
 
 Fist create a new global variable
-<PRE>
+\code
     ComponentTransformPtr ct;
-</PRE>
+\endcode
 
 Now add the following code directly before the root node is created in createScenegraph():
 
@@ -824,14 +856,14 @@ that creates the "normal" translation node. The application will still work if y
 program (We all know this problem, don't we...). 
 
 For this to compile succesfully you need to add one more inlcude file
-<PRE>
+\code
     #inlcude <OpenSG/OSGComponentTransform.h>
-</PRE>
+\endcode
 
 One thing still to do: change the child of the root node from the old transform node to the new one:
-<PRE>
+\code
     root->addChild(ctNode);
-</PRE>
+\endcode
 
 After executing you will see that nothing visible has changed at all. Of course not, as the new component transform describes the same 
 transformation as the one before. Well, to make it a bit more exciting we are going to modify the transformation every frame, which will 
@@ -841,18 +873,18 @@ We are gooing to let the user decide which kind of transformation will be applie
 translation whereas 'r' yields a rotation.
 
 First we need two more global variables that will count the rendered frames so far and keeps track of the selected translation mode.
-<PRE>
+\code
     UInt32 frame = 0;
     // 0 = translation
     // 1 = rotation
     // 2 = scalation
     UInt8 mode = 0;
-</PRE>
+\endcode
 
 Add a new callback functions to the registration in setupGLUT
-<PRE>
+\code
     glutKeyboardFunc(keyboard);
-</PRE>
+\endcode
 
 And now add the keyboard function anywhere before the setupGLUT function
 
@@ -897,7 +929,7 @@ void display(void)
     mgr->redraw();
 }   
 \endcode
-The final code can be found in file 08coresdemo3.cpp
+The final code can be found in file <a href="progs/08coresdemo3.cpp">08coresdemo3.cpp</a>
 
 <I>
 You should really try the 's' key for scalation... nice isn't it. These strange effects occur, beacause we are using trigonometric functions which
