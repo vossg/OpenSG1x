@@ -67,7 +67,7 @@ DOC_LIBS   ?= $(DOCS_BASE) $(DOCS_SYS) 										\
 DOC_LATEX ?= "NO"
 DOC_DOT   ?= "NO"
 # DOC_DOT   ?= "YES"
-DOC_INTRO ?= "Code/intro.dox"
+DOC_INTRO ?= 
 
 # The separate documentation pages
 
@@ -75,6 +75,7 @@ DOC_INTRO ?= "Code/intro.dox"
 DOC_PAGES  := 	Code/mainpage.dox \
 				../Common/dummyClasses.dox \
 				$(DOC_INTRO) \
+				Code/scenegraph.dox \
 				../Source/Base/Base/Base.dox \
 				../Source/System/System.dox \
 				../Source/Base/Field/Field.dox \
@@ -98,6 +99,7 @@ DOC_PAGES  := 	Code/mainpage.dox \
 				../Source/System/Action/Action.dox \
 				../Source/System/Window/Window.dox \
 				../Source/System/Window/OGLExt.dox \
+				../Source/WindowSystem/WindowSystem.dox \
 				../Source/WindowSystem/GLUT/WindowGlut.dox \
 				../Source/WindowSystem/QT/WindowQt.dox \
 				../Source/WindowSystem/X/WindowX.dox \
@@ -137,11 +139,11 @@ DOC_ENV += OSG_USE_DOC_LEVEL="$(DOC_LEVEL)" DOC_LEVEL_PREDEF="$(DOC_LEVEL_PREDEF
 DOC_ENV += DOC_LEVEL_ENABLED="$(DOC_LEVEL_ENABLED)" 
 DOC_ENV += DOC_IMAGE_PATHES="$(DOC_IMAGE_PATHES)"
 
-DOXYGEN := doxygen
+#DOXYGEN := doxygen
 #DOXYGEN := /home/gerrit/SoftwareTest/doxygen/bin/doxygen
 #DOXYGEN := /net/pc1107/data/dirk/software/doxygen-1.2.18/bin/doxygen
 #DOXYGEN := /net/pc1107/data/dirk/software/doxygen-1.3-rc2/bin/doxygen
-#DOXYGEN := /data/dirk/software/doxygen_cvs_send/bin/doxygen
+DOXYGEN := /data/dirk/software/doxygen_cvs_send/bin/doxygen
 #DOXYGEN := /home/gerrit/SoftwareInstall/doxygen_cvs/bin/doxygen
 #DOXYGEN := /home/gerrit/SoftwareInstall/doxygen_cvs_org/bin/doxygen
 #DOXYGEN := /home/gerrit/SoftwareTest/doxygen-1.3-rc1/bin/doxygen
@@ -250,7 +252,7 @@ Images/%.eps: Images/%.jpg
 #  jpeg2ps -q $< > $@ 
 
 Images/%.eps: Images/%.fig
-	fig2dev -L eps $< $@ 
+	(cd Images && fig2dev -L eps $(notdir $<) $(notdir $@) ) 
 
 Images/%.eps: Images/%.gpl
 	gnuplot $<
@@ -264,7 +266,7 @@ Images/%.eps: Images/%.eps.gz
 	touch $@
 
 Images/%.png: Images/%.fig
-	-fig2dev -L png $< $@ 
+	(cd Images && fig2dev -L png $(notdir $<) $(notdir $@) ) 
 
 
 Images/%.png: Images/%.jpg
