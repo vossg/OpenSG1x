@@ -1,0 +1,23 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \page TutorialMain Preface
+
+The OpenSG documentation project is nit yet finished! Actually it just startet. You can allready use
+this document, but please do not expect that it is complete or without bugs. If you do encounter any
+mistakes or you have something you do not want to miss in these pages please sent me an e-amil : mail@
+oliver-abert.de ! You can find the table of contents there : 
+http://opensg.sourceforge.net/cgi-bin/twiki/view/Main/DocStructure
+
+\latexonly Tutorial:NewChapter \endlatexonly
+
+Welcome to the OpenSG tuorial pages. By reading the following chapters you will first learn how to use
+the basic features of OpenSG. Little tutorials are making the learning process more fun, as you 
+understand the concepts just by doing it! Later you will learn more advanced techniques by completing
+bigger tutorials.
+
+As the starter guide too, these tutorial pages are not meant to be a complete introduction to computer
+graphics and real-time rendering. The good news is, that you actually do not need to know much about
+scenegraphs in general. I suppose if you never have heard of the scenegraph concept before, you would
+not have downloaded this piece of software ;-)
