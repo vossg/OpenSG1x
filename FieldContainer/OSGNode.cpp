@@ -292,6 +292,20 @@ void Node::replaceChildBy(const NodePtr &childP,
     }
 }
 
+Int32 Node::findChild(const NodePtr &childP) const
+{
+	Int32 index;
+
+	for ( index = 0; index < _children.size(); index++ )
+		if ( _children[index] == childP )
+			break;
+
+	if ( index < _children.size() )
+		return index;
+	else
+		return -1;
+}
+
 void Node::subChild(const NodePtr &childP)
 {
     MFNodePtr::iterator childIt = _children.find(childP);

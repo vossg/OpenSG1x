@@ -155,6 +155,8 @@ class OSG_FIELDCONTAINER_DLLMAPPING Node : public FieldContainer
     void    replaceChildBy(const NodePtr &childP, 
                            const NodePtr &newChildP);
 
+    Int32   findChild     (const NodePtr &childP) const;
+
     void    subChild      (const NodePtr &childP);
     void    subChild      (      UInt32   childIndex);
 
