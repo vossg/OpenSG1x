@@ -81,7 +81,7 @@ The simple material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.15 2001/08/10 03:33:11 vossg Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.16 2001/09/04 10:56:39 dirk Exp $";
 
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
@@ -192,6 +192,9 @@ StatePtr SimpleMaterial::makeState( void )
 	v3 = getEmission(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
 	_materialChunk->setEmission( v4 );
 	
+	_materialChunk->setLit( getLit() );
+	_materialChunk->setColorMaterial( getColorMaterial() );
+	
 	endEditCP( _materialChunk );
 
 	state->addChunk( _materialChunk );
@@ -241,10 +244,14 @@ void SimpleMaterial::rebuildState(void)
     v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha); 
 
 	_materialChunk->setEmission(v4);
+
+	_materialChunk->setLit( getLit() );
+	_materialChunk->setColorMaterial( getColorMaterial() );
 	
 	endEditCP(_materialChunk);
 
 	_pState->addChunk(_materialChunk);
+
 	
     MFStateChunkPtr::iterator it        = _mfChunks.begin();
     MFStateChunkPtr::iterator chunksEnd = _mfChunks.end();

@@ -74,6 +74,8 @@
 #include <OSGReal32Fields.h>	// Shininess type
 #include <OSGColor3fFields.h>	// Emission type
 #include <OSGReal32Fields.h>	// Transparency type
+#include <OSGBoolFields.h>	// Lit type
+#include <OSGUInt32Fields.h>	// ColorMaterial type
 
 #include <OSGSimpleMaterialFields.h>
 
@@ -115,7 +117,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
         ShininessFieldId = SpecularFieldId + 1,
         EmissionFieldId = ShininessFieldId + 1,
         TransparencyFieldId = EmissionFieldId + 1,
-        NextFieldId = TransparencyFieldId + 1
+        LitFieldId = TransparencyFieldId + 1,
+        ColorMaterialFieldId = LitFieldId + 1,
+        NextFieldId = ColorMaterialFieldId + 1
 
     };
 
@@ -125,6 +129,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
     static const osg::BitVector ShininessFieldMask;
     static const osg::BitVector EmissionFieldMask;
     static const osg::BitVector TransparencyFieldMask;
+    static const osg::BitVector LitFieldMask;
+    static const osg::BitVector ColorMaterialFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -177,6 +183,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
     inline SFReal32	*getSFShininess(void);
     inline SFColor3f	*getSFEmission(void);
     inline SFReal32	*getSFTransparency(void);
+    inline SFBool	*getSFLit(void);
+    inline SFUInt32	*getSFColorMaterial(void);
 
     /*----------------------------- access ----------------------------------*/
 
@@ -200,6 +208,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
     inline       Real32	&getTransparency(void);
     inline const Real32	&getTransparency(void) const;
     inline       void	         setTransparency( const Real32 &value );
+    inline       Bool	&getLit(void);
+    inline const Bool	&getLit(void) const;
+    inline       void	         setLit( const Bool &value );
+    inline       UInt32	&getColorMaterial(void);
+    inline const UInt32	&getColorMaterial(void) const;
+    inline       void	         setColorMaterial( const UInt32 &value );
 
 
     //!@}
@@ -252,6 +266,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
     /*! 
      */
     SFReal32	_sfTransparency;
+    /*! 
+     */
+    SFBool	_sfLit;
+    /*! 
+     */
+    SFUInt32	_sfColorMaterial;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

@@ -168,6 +168,18 @@ SFReal32 *SimpleMaterialBase::getSFTransparency(void)
 	return &_sfTransparency;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
+SFBool *SimpleMaterialBase::getSFLit(void)
+{
+	return &_sfLit;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+SFUInt32 *SimpleMaterialBase::getSFColorMaterial(void)
+{
+	return &_sfColorMaterial;
+}
+
 
 OSG_SYSTEMLIB_DLLMAPPING
 Color3f &SimpleMaterialBase::getAmbient(void)
@@ -275,6 +287,42 @@ OSG_SYSTEMLIB_DLLMAPPING
 void SimpleMaterialBase::setTransparency( const Real32 &value )
 {
 	_sfTransparency.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+Bool &SimpleMaterialBase::getLit(void)
+{
+	return _sfLit.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const Bool &SimpleMaterialBase::getLit(void) const
+{
+	return _sfLit.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void SimpleMaterialBase::setLit( const Bool &value )
+{
+	_sfLit.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+UInt32 &SimpleMaterialBase::getColorMaterial(void)
+{
+	return _sfColorMaterial.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const UInt32 &SimpleMaterialBase::getColorMaterial(void) const
+{
+	return _sfColorMaterial.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void SimpleMaterialBase::setColorMaterial( const UInt32 &value )
+{
+	_sfColorMaterial.setValue(value);
 }
 
 

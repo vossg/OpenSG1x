@@ -66,6 +66,7 @@
 #include "OSGSimpleMaterialBase.h"
 #include "OSGSimpleMaterial.h"
 
+#include <GL/gl.h>	// ColorMaterial default header
 
 OSG_USING_NAMESPACE
 
@@ -96,9 +97,15 @@ const OSG::BitVector	SimpleMaterialBase::EmissionFieldMask =
 const OSG::BitVector	SimpleMaterialBase::TransparencyFieldMask = 
     (1 << SimpleMaterialBase::TransparencyFieldId);
 
+const OSG::BitVector	SimpleMaterialBase::LitFieldMask = 
+    (1 << SimpleMaterialBase::LitFieldId);
+
+const OSG::BitVector	SimpleMaterialBase::ColorMaterialFieldMask = 
+    (1 << SimpleMaterialBase::ColorMaterialFieldId);
 
 
-char SimpleMaterialBase::cvsid[] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.9 2001/07/31 13:39:04 vossg Exp $";
+
+char SimpleMaterialBase::cvsid[] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.10 2001/09/04 10:56:39 dirk Exp $";
 
 /** \brief Group field description
  */
@@ -134,7 +141,17 @@ FieldDescription *SimpleMaterialBase::_desc[] =
                      "transparency", 
                      TransparencyFieldId, TransparencyFieldMask,
                      false,
-                     (FieldAccessMethod) &SimpleMaterialBase::getSFTransparency)
+                     (FieldAccessMethod) &SimpleMaterialBase::getSFTransparency),
+    new FieldDescription(SFBool::getClassType(), 
+                     "lit", 
+                     LitFieldId, LitFieldMask,
+                     false,
+                     (FieldAccessMethod) &SimpleMaterialBase::getSFLit),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "colorMaterial", 
+                     ColorMaterialFieldId, ColorMaterialFieldMask,
+                     false,
+                     (FieldAccessMethod) &SimpleMaterialBase::getSFColorMaterial)
 };
 
 /** \brief SimpleMaterial type
@@ -219,6 +236,8 @@ SimpleMaterialBase::SimpleMaterialBase(void) :
 	_sfShininess	(Real32(1)), 
 	_sfEmission	(Color3f(0,0,0)), 
 	_sfTransparency	(Real32(0)), 
+	_sfLit	(Bool(true)), 
+	_sfColorMaterial	(UInt32(GL_DIFFUSE)), 
 	Inherited() 
 {
 }
@@ -233,6 +252,8 @@ SimpleMaterialBase::SimpleMaterialBase(const SimpleMaterialBase &source) :
 	_sfShininess		(source._sfShininess), 
 	_sfEmission		(source._sfEmission), 
 	_sfTransparency		(source._sfTransparency), 
+	_sfLit		(source._sfLit), 
+	_sfColorMaterial		(source._sfColorMaterial), 
 	Inherited        (source)
 {
 }
@@ -280,6 +301,16 @@ UInt32 SimpleMaterialBase::getBinSize(const BitVector &whichField)
         returnValue += _sfTransparency.getBinSize();
     }
 
+    if(FieldBits::NoField != (LitFieldMask & whichField))
+    {
+        returnValue += _sfLit.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
+    {
+        returnValue += _sfColorMaterial.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -319,6 +350,16 @@ MemoryHandle SimpleMaterialBase::copyToBin(      MemoryHandle  pMem,
         pMem = _sfTransparency.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (LitFieldMask & whichField))
+    {
+        pMem = _sfLit.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
+    {
+        pMem = _sfColorMaterial.copyToBin(pMem);
+    }
+
 
     return pMem;
 }
@@ -356,6 +397,16 @@ MemoryHandle SimpleMaterialBase::copyFromBin(      MemoryHandle  pMem,
     if(FieldBits::NoField != (TransparencyFieldMask & whichField))
     {
         pMem = _sfTransparency.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (LitFieldMask & whichField))
+    {
+        pMem = _sfLit.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
+    {
+        pMem = _sfColorMaterial.copyFromBin(pMem);
     }
 
 
@@ -403,6 +454,16 @@ void SimpleMaterialBase::executeSyncImpl(      SimpleMaterialBase *pOther,
     if(FieldBits::NoField != (TransparencyFieldMask & whichField))
     {
         _sfTransparency.syncWith(pOther->_sfTransparency);
+    }
+
+    if(FieldBits::NoField != (LitFieldMask & whichField))
+    {
+        _sfLit.syncWith(pOther->_sfLit);
+    }
+
+    if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
+    {
+        _sfColorMaterial.syncWith(pOther->_sfColorMaterial);
     }
 
 

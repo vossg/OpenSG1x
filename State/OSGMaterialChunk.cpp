@@ -172,17 +172,34 @@ void MaterialChunk::dump(      UInt32     uiIndent,
 
 void MaterialChunk::activate ( DrawActionBase *, UInt32 )
 {
-	glMaterialfv( GL_FRONT_AND_BACK, GL_DIFFUSE,   
-										_sfDiffuse.getValue().getValueRef() );
-	glColor4fv( _sfDiffuse.getValue().getValueRef() );
+	if ( getLit() )
+		glEnable( GL_LIGHTING );
+	else
+		glDisable( GL_LIGHTING );
 	
-glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT,   
-										_sfAmbient.getValue().getValueRef() );
-	glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR,   
-										_sfSpecular.getValue().getValueRef() );
-	glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION,   
-										_sfEmission.getValue().getValueRef() );
-	glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _sfShininess.getValue() );
+	if ( getColorMaterial() == GL_NONE )
+		glDisable( GL_COLOR_MATERIAL );
+	else
+	{
+		glColorMaterial( GL_FRONT_AND_BACK, getColorMaterial() );
+		glEnable( GL_COLOR_MATERIAL );
+	}
+	
+	glColor4fv( _sfDiffuse.getValue().getValueRef() );
+
+	if ( getLit() )
+	{
+		glMaterialfv( GL_FRONT_AND_BACK, GL_DIFFUSE,   
+											_sfDiffuse.getValue().getValueRef() );
+
+		glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT,   
+											_sfAmbient.getValue().getValueRef() );
+		glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR,   
+											_sfSpecular.getValue().getValueRef() );
+		glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION,   
+											_sfEmission.getValue().getValueRef() );
+		glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _sfShininess.getValue() );
+	}
 }
 
 void MaterialChunk::changeFrom( DrawActionBase *, StateChunk * old_chunk, UInt32 )
@@ -194,21 +211,45 @@ void MaterialChunk::changeFrom( DrawActionBase *, StateChunk * old_chunk, UInt32
 	if ( old == this )
 		return;
 
-	glMaterialfv( GL_FRONT_AND_BACK, GL_DIFFUSE,   
-										_sfDiffuse.getValue().getValueRef() );
-	glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT,   
-										_sfAmbient.getValue().getValueRef() );
-	glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR,   
-										_sfSpecular.getValue().getValueRef() );
-	glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION,   
-										_sfEmission.getValue().getValueRef() );
-	// adjust shininess only if it differs enough
-	if ( osgabs( _sfShininess.getValue() - old->getShininess() ) > 1e-4 )
-		glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _sfShininess.getValue() );
+	if ( getLit() && ! old->getLit() )
+		glEnable( GL_LIGHTING );
+	else if ( ! getLit() && old->getLit() )
+		glDisable( GL_LIGHTING );
+	
+	if ( getColorMaterial() == GL_NONE && old->getColorMaterial() != GL_NONE)
+		glDisable( GL_COLOR_MATERIAL );
+	else if ( getColorMaterial() != old->getColorMaterial() )
+	{
+		glColorMaterial( GL_FRONT_AND_BACK, getColorMaterial() );
+		glEnable( GL_COLOR_MATERIAL );
+	}
+	
+	glColor4fv( _sfDiffuse.getValue().getValueRef() );
+
+	if ( getLit() )
+	{
+		glMaterialfv( GL_FRONT_AND_BACK, GL_DIFFUSE,   
+											_sfDiffuse.getValue().getValueRef() );
+		glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT,   
+											_sfAmbient.getValue().getValueRef() );
+		glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR,   
+											_sfSpecular.getValue().getValueRef() );
+		glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION,   
+											_sfEmission.getValue().getValueRef() );
+		// adjust shininess only if it differs enough
+		if ( osgabs( _sfShininess.getValue() - old->getShininess() ) > 1e-4 )
+			glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _sfShininess.getValue() );
+	}
 }
 
 void MaterialChunk::deactivate ( DrawActionBase *, UInt32 )
 {
+
+	if ( getLit() )
+		glDisable( GL_LIGHTING );
+	
+	if ( getColorMaterial() != GL_NONE )
+		glDisable( GL_COLOR_MATERIAL );
 }
 
 

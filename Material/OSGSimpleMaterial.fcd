@@ -57,4 +57,21 @@
 		defaultValue="0"
 	>
 	</Field>
+	<Field
+		name="lit"
+		type="Bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+	>
+	</Field>
+	<Field
+		name="colorMaterial"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_DIFFUSE"
+		defaultHeader="<GL/gl.h>"
+	>
+	</Field>
 </FieldContainer>
