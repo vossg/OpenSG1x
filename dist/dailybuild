@@ -17,7 +17,7 @@ cleanup ()
     write_html_tail $out_html.Main.html
 
     # compress the HTML files, as they tend to get pretty big
-    gzip -9 $out_html*.html
+    gzip -9f $out_html*.html
     
     # LOCAL: copy the HTML logs to the destination location
     $do_copy $out_html* $log_destination
@@ -105,7 +105,8 @@ EOF
     fi
     
     # LOCAL: choose your email adresses here
-    $mail -s "OpenSG dailybuild on $host failed" opensg-dailybuilds@lists.sf.net < $out_mail
+##    $mail -s "OpenSG dailybuild on $host failed" opensg-dailybuilds@lists.sf.net < $out_mail
+    $mail -s "OpenSG dailybuild on $host failed" reiners@igd.fhg.de < $out_mail
 }
 
 write_html_log ()
@@ -360,7 +361,7 @@ fi
 rm -rf OpenSG
 
 # cvs needs to be in the path!
-cvs -d:pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg co OpenSG > $log_cvs 2>&1
+cvs -z9 -d:pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg co OpenSG > $log_cvs 2>&1
 
 # find the right parameters for this system
 
@@ -378,6 +379,7 @@ config_shell=sh
 mail=echo
 do_copy=cp
 loginfo=""
+make=make
 
 # LOCAL: set the system specific params. 
 # PATH needs to include doxygen and dot for doc to work
@@ -394,6 +396,7 @@ case $system in
    	par_jobs=6
 	compiler=${compiler:=CC}
 	mail=/usr/sbin/Mail
+        make=/sgi/bin/gmake
 	export PATH=/igd/a4/software/IRIX/bin/:$PATH
         loginfo="OS: `/bin/uname -aR` <br>"
         loginfo="$loginfo Compiler Version: `CC -version 2>&1` <br>"
@@ -428,6 +431,24 @@ case $system in
 	export PATH=$PATH
         loginfo="OS: `uname -a` <br>"
 	;;
+
+    *-apple-darwin* )	
+    	
+	qt_args=""
+    	glut_args="--with-glut"
+	tif_args=""
+    	par_jobs=1
+	compiler=${compiler:=cc}
+	config_shell=sh
+	mail=/usr/bin/Mail
+	# LOCAL: for the cygwins that don't have full NFS access
+	do_copy=rcp
+	log_destination="rubens:$log_destination"
+	export PATH=$PATH
+        loginfo="OS: `uname -a` <br>"
+        # get rid of version number
+        system=`echo $system | sed -e 's/darwin[0-9].[0-9]/darwin/'`
+	;;
 	
    *)
    
@@ -455,14 +476,14 @@ checkerror "Cvs" $log_cvs
 
 # create the source snapshot
 cd ..
-tar cf - OpenSG | gzip -9 > $out_html.source.tgz
+tar cf - OpenSG | gzip -9f > $out_html.source.tgz
 cd OpenSG
 
 # configure it
 
 autoconf
-$config_shell ./configure --with-compiler=$compiler $stl_args $glut_args \
-    $qt_args $tif_args $jpeg_args $png_args 1>$log_configure 2>&1
+$config_shell ./configure --prefix=BUILD --with-compiler=$compiler $stl_args \
+    $glut_args $qt_args $tif_args $jpeg_args $png_args 1>$log_configure 2>&1
 checkerror "Configure" $log_configure
 
 # start making the doc
@@ -471,7 +492,7 @@ checkerror "Configure" $log_configure
 if type doxygen > /dev/null 2>&1
 then
 	has_doxygen=1
-	( rm -f $doc_flag ; make doc 1>$log_doc 2>&1 ; touch $doc_flag ) &
+	( rm -f $doc_flag ; $make doc 1>$log_doc 2>&1 ; touch $doc_flag ) &
 else
 	has_doxygen=0
 fi
@@ -481,21 +502,21 @@ fi
 cd Builds/$system-$compiler
 export OSGSUBPARJOBS=$par_jobs
 
-gmake dbg 1>$log_make 2>&1
+$make dbg 1>$log_make 2>&1
 checkerror "DebugLibs" $log_make
 
-gmake opt 1>$log_make 2>&1
+$make opt 1>$log_make 2>&1
 checkerror "OptLibs" $log_make
 
 # locally install the libs
 
-gmake INSTALL_DIR=`pwd` install > $log_install 2>&1
+$make install > $log_install 2>&1
 export LD_LIBRARY_PATH=`pwd`/lib/dbg
 
 checkerror "Install" $log_install
 
 # create the snapshot
-tar cf - lib include | gzip -9 > $out_html.snapshot.tgz
+tar cf - lib include | gzip -9f > $out_html.snapshot.tgz
 
 
 # make and run the tests that have gold test results
@@ -505,8 +526,8 @@ for i in *Test;
 do
     cd $i
     # keep going after errors to catch them all
-    gmake -k dbg 1>$log_test.$i 2>&1
-    gmake -k opt 1>>$log_test.$i 2>&1
+    $make -k dbg 1>$log_test.$i 2>&1
+    $make -k opt 1>>$log_test.$i 2>&1
     checkerror $i $log_test.$i no
     (( errcount = $errcount + $? ))
     echo "Running ${i}s:<br>" >> $out_html.Main.html
