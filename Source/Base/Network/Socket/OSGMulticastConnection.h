@@ -117,6 +117,10 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
         UInt32 seqNumber;
         UInt8  type;
     };
+
+    struct UDPBuffer;
+    friend struct UDPBuffer;
+
     struct UDPBuffer
     {
         UDPHeader header;
