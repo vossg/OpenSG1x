@@ -88,10 +88,11 @@ using namespace OSG;
  *                           Class variables                               *
 \***************************************************************************/
 
-char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.2 2001/01/26 12:20:30 dirk Exp $";
+char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.3 2001/02/12 01:56:33 dirk Exp $";
+
+IntersectAction * IntersectAction::_prototype = NULL;
 
 vector<Action::Functor> *IntersectAction::_defaultEnterFunctors;
-
 vector<Action::Functor> *IntersectAction::_defaultLeaveFunctors;
 
 /***************************************************************************\
@@ -113,7 +114,7 @@ void IntersectAction::registerEnterDefault(	const FieldContainerType &type,
 	while(type.getId() >= _defaultEnterFunctors->size())
 	{
 		_defaultEnterFunctors->push_back( 
-				osgFunctionFunctor2(&IntersectAction::_defaultFunction));
+				osgFunctionFunctor2(&IntersectAction::_defaultEnterFunction));
 	}
 	
 	(*_defaultEnterFunctors)[ type.getId() ] = func;
@@ -128,12 +129,22 @@ void IntersectAction::registerLeaveDefault(	const FieldContainerType &type,
 	while(type.getId() >= _defaultLeaveFunctors->size())
 	{
 		_defaultLeaveFunctors->push_back( 
-				osgFunctionFunctor2(&IntersectAction::_defaultFunction));
+				osgFunctionFunctor2(&IntersectAction::_defaultLeaveFunction));
 	}
 	
 	(*_defaultLeaveFunctors)[ type.getId() ] = func;
 }
 
+
+void IntersectAction::setPrototype( IntersectAction * proto )
+{
+	_prototype = proto;
+}
+
+IntersectAction *IntersectAction::getPrototype( void )
+{
+	return _prototype;
+}
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
@@ -172,16 +183,48 @@ IntersectAction::IntersectAction(void) :
 }
 
 
-IntersectAction::IntersectAction( const Line &line, const Real32 maxdist ) :
-	_line( line ), _maxdist( maxdist ), 
-	_hit(false), _enterT(-1), _leaveT(-1), _hitT(-1), _hitObject(),
-	_hitTriangle(-1)
+IntersectAction::IntersectAction( const IntersectAction& source ) :
+	Inherited( source ),
+	_line( source._line ), _maxdist( source._maxdist ), 
+	_hit(source._hit), _enterT(source._enterT), _leaveT(source._leaveT), 
+	_hitT(source._hitT), _hitObject(source._hitObject),
+	_hitTriangle(source._hitTriangle)
 {
-	if ( _defaultEnterFunctors )
-		_enterFunctors = *_defaultEnterFunctors;
+}
 
-	if ( _defaultLeaveFunctors )
-		_leaveFunctors = *_defaultLeaveFunctors;
+
+/** \brief create a new action
+ */
+
+IntersectAction * IntersectAction::create( void )
+{
+	IntersectAction * act;
+	
+	if ( _prototype )
+		act = new IntersectAction( *_prototype );
+	else
+		act = new IntersectAction();
+	
+	return act;
+}
+
+
+/** \brief create a new action
+ */
+
+IntersectAction * IntersectAction::create(  const Line &line, 
+											const Real32 maxdist )
+{
+	IntersectAction * act;
+	
+	if ( _prototype )
+		act = new IntersectAction( *_prototype );
+	else
+		act = new IntersectAction();
+	
+	act->setLine( line, maxdist );
+
+	return act;
 }
 
 /** \brief Destructor

@@ -113,15 +113,19 @@ class OSG_INTERSECTACTION_DLLMAPPING IntersectAction : public Action
 
     static const char *getClassname(void) { return "IntersectAction"; };
 
+	// create a new IntersectAction by cloning the prototype
+	static IntersectAction * create( void );
+	static IntersectAction * create( const Line &line, 
+									  const Real32 maxdist = Inf );
+	
+	// prototype access
+	// after setting the prototype all new IntersectActions are clones of it
+	static void 			setPrototype( IntersectAction * proto );
+	static IntersectAction *getPrototype( void );
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
-    IntersectAction(void);
-
-    IntersectAction(const IntersectAction &source);
-
-    IntersectAction( const Line &line, const Real32 maxdist = Inf );
  
     IntersectAction& operator =(const IntersectAction &source);
 
@@ -202,6 +206,10 @@ class OSG_INTERSECTACTION_DLLMAPPING IntersectAction : public Action
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
+
+    IntersectAction(void);
+    IntersectAction(const IntersectAction &source);
+
 	virtual Action::ResultE start( void );	
 
   private:
@@ -229,6 +237,9 @@ class OSG_INTERSECTACTION_DLLMAPPING IntersectAction : public Action
     //-----------------------------------------------------------------------
 
     static char cvsid[];
+
+	// the prototype which is copied to create new actions
+	static IntersectAction * _prototype;
 
     // default functors for instantiation
     static vector<Functor> *_defaultEnterFunctors;

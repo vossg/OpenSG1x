@@ -58,7 +58,7 @@ display(void)
 
 // Group: traverse all children
 
-Action::ResultE groupEnter(CNodePtr& node, Action * action) 
+Action::ResultE groupEnter(CNodePtr&, Action *) 
 { 
 	return Action::Continue; 
 }
@@ -132,7 +132,7 @@ void key( unsigned char key, int , int )
 	
 	// Intersect
 	
-	IntersectAction act;
+	IntersectAction * act = IntersectAction::create();
 	
 	static Pnt3f pnts[] = { Pnt3f( 0,0,1 ), Pnt3f( 1,0,1),  Pnt3f( 2,0,1), 
 				Pnt3f( 3,0,1), Pnt3f( 0,0,1 ), Pnt3f( 0,0,1 ), 
@@ -145,28 +145,28 @@ void key( unsigned char key, int , int )
 	
 	static int i = 0;
 
-	act.setLine( Line( pnts[i], dirs[i]) );
+	act->setLine( Line( pnts[i], dirs[i]) );
 
-	act.apply( iroot );
+	act->apply( iroot );
 
-	cerr << "Line " << act.getLine().getPosition() << " dir " 
-		 << act.getLine().getDirection() << " hit: " << act.didHit() << " ";
+	cerr << "Line " << act->getLine().getPosition() << " dir " 
+		 << act->getLine().getDirection() << " hit: " << act->didHit() << " ";
 
 	osgBeginEditCP(points);
 	points->setValue( pnts[i], 0 );
 	points->setValue( pnts[i] + dirs[i], 1 );
 
-	if ( act.didHit() )
+	if ( act->didHit() )
 	{
-		cerr << " object " << act.getHitObject() 
-			 << " tri " << act.getHitTriangle() 
-			 << " at " << act.getHitPoint();
+		cerr << " object " << act->getHitObject() 
+			 << " tri " << act->getHitTriangle() 
+			 << " at " << act->getHitPoint();
 
-		TriangleIterator it( act.getHitObject() );
-		it.seek( act.getHitTriangle() );
+		TriangleIterator it( act->getHitObject() );
+		it.seek( act->getHitTriangle() );
 		
 		Matrix m;
-		act.getHitObject()->getToWorld(m);
+		act->getHitObject()->getToWorld(m);
 
 		Pnt3f p = it.getPosition(0);
 		m.multMatrixPnt( p );
@@ -253,11 +253,6 @@ int main (int argc, char **argv)
 	NodePtr  p2 = makePlane( 2,2,2,2 );
     g = p2->getCore().dcast<GeometryPtr>();
 	g->setMaterial( white );
-	
-	// doesn't work !?!?!?	
-	// NodePtr gr1 = FieldContainerFactory::the().createNode("Group");
-	// NodePtr gr2 = FieldContainerFactory::the().createNode("Group");
-	// NodePtr gr3 = FieldContainerFactory::the().createNode("Group");
 	
     NodePtr g4 = Node::create();
  	TransformPtr t1 = Transform::create();
@@ -349,7 +344,7 @@ int main (int argc, char **argv)
 	osgEndEditCP( root );
 
 
-	dact = new DrawAction();
+	dact = DrawAction::create();
 	
 	glutMainLoop();
 	

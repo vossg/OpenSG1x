@@ -167,7 +167,7 @@ int main (int argc, char **argv)
 
 	// Intersect
 	
-	IntersectAction act;
+	IntersectAction *act = IntersectAction::create();
 	
 	Pnt3f pnts[] = { Pnt3f( 0,0,1 ), Pnt3f( 1,0,1),  Pnt3f( 2,0,1), 
 			Pnt3f( 3,0,1) , 
@@ -178,18 +178,18 @@ int main (int argc, char **argv)
 	
 	for ( int i = 0; pnts[i][0] != -Inf; i++ )
 	{
-		act.setLine( Line( pnts[i], dirs[i]) );
+		act->setLine( Line( pnts[i], dirs[i]) );
 
-		act.apply( g1 );
+		act->apply( g1 );
 
-		cerr << "Line " << act.getLine().getPosition() << " dir " 
-			 << act.getLine().getDirection() << " hit: " << act.didHit() << " ";
+		cerr << "Line " << act->getLine().getPosition() << " dir " 
+			 << act->getLine().getDirection() << " hit: " << act->didHit() << " ";
 
-		if ( act.didHit() )
+		if ( act->didHit() )
 		{
-			cerr << " object " << act.getHitObject() 
-				 << " tri " << act.getHitTriangle() 
-				 << " at " << act.getHitPoint();
+			cerr << " object " << act->getHitObject() 
+				 << " tri " << act->getHitTriangle() 
+				 << " at " << act->getHitPoint();
 		}
 
 		cerr << endl;
