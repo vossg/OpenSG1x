@@ -64,6 +64,7 @@
 #include <OSGInline.h>
 #include <OSGImage.h>
 #include <OSGSceneFileHandler.h>
+#include <OSGImageFileHandler.h>
 #include <OSGZStream.h>
 
 #include <OSGVRMLFile.h>
@@ -3303,10 +3304,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
                 << _url[0].c_str() << std::endl;
 #endif
 
-        std::string filename = SceneFileHandler::the().getPathHandler()->
-                               findFile(_url[0].c_str());
-
-        if(pImage->read(filename.c_str()))
+        if(pImage->read(_url[0].c_str()))
         {
             beginEditCP(pTexture);
             pTexture->setImage(pImage);
@@ -3334,7 +3332,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
         {
             PWARNING << "VRMLImageTextureDesc::endNode : "
                      << "Couldn't read texture "
-                     << filename.c_str()
+                     << _url[0].c_str()
                      << " !!!"
                      << std::endl;
 
@@ -4889,6 +4887,7 @@ void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
         std::string path = SceneFileHandler::the().getPathHandler()->
                            extractPath(filename.c_str());
         SceneFileHandler::the().getPathHandler()->push_backPath(path.c_str());
+        ImageFileHandler::the().getPathHandler()->push_backPath(path.c_str());
         if(SceneFileHandler::the().isGZip(in))
         {
             zip_istream unzipper(in);
@@ -4899,6 +4898,7 @@ void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
             pVRMLLoader->scanStream(in);
         }
         in.close();
+        ImageFileHandler::the().getPathHandler()->subPath(path.c_str());
         SceneFileHandler::the().getPathHandler()->subPath(path.c_str());
     }
     //pVRMLLoader->scanFile(filename.c_str());
