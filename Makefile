@@ -8,7 +8,7 @@ include Common/common.mk
 
 default:
 	$(MAKE) -C Builds/${BUILD_ENV}* 
-        
+
 opt:
 	$(MAKE) -C Builds/${BUILD_ENV}* opt
 

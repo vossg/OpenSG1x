@@ -64,8 +64,8 @@ DOC_LIBS   ?= $(DOCS_BASE) $(DOCS_SYS) 										\
 
 # test setup: only do what's necessary
 #DOC_LIBS   = $(DOCS_BASE) \
-    	     ../Source/System/State\
-    	     ../Source/System/NodeCores/Drawables/Particles\
+		     ../Source/System/State\
+		     ../Source/System/NodeCores/Drawables/Particles\
              ../Source/System/FieldContainer\
              ../Source/System/FieldContainer/Impl
 
@@ -145,7 +145,7 @@ alldocs: userstarter extdoc devdoc
 
 .PHONY: dodoc dostarter
 dodoc: 
-	# find all headers and create dummy classes
+#   find all headers and create dummy classes
 	@rm -f ../Common/dummyClasses.list
 	@touch ../Common/dummyClasses.list
 
@@ -156,13 +156,13 @@ dodoc:
 	@cat ../Common/dummyClasses.list | xargs perl ../Common/makeDummyClasses  \
 				> ../Common/dummyClasses.dox
 
-	#@rm -f ../Common/dummyClasses.list       						
-	
-	# find all images and convert them (if necessary)
+#   @rm -f ../Common/dummyClasses.list       						
+
+#   find all images and convert them (if necessary)
 	make DOC_IMAGE_TYPE=html images
-	 
-	# do doxygen
-	$(DOC_ENV) /data/dirk/software/doxygen-1.2.18/bin/doxygen ../Common/Doxygen_$(BUILD_ENV).cfg -d
+
+#   do doxygen
+	$(DOC_ENV) doxygen ../Common/Doxygen_$(BUILD_ENV).cfg -d
 
 #	@rm -f ../Common/dummyClasses.dox 
 
@@ -185,7 +185,7 @@ devdoc:
 
 dostarter:
 	make DOC_LATEX="YES" DOC_INTRO="starter.dox" $(DOC_STARTER)doc
-	# link the images
+#   link the images
 	cd $(DOCDIR)/$(DOC_STARTER)/latex/ ; \
 	../../../../Common/refmanToStarter refman.tex StarterGuide.tex ;  \
 	latex StarterGuide && latex StarterGuide && dvips StarterGuide && \
@@ -207,14 +207,14 @@ devstarter:
 # Image conversion rules
 
 images:
-	# find all used images and convert them (if necessary)
-	
+#   find all used images and convert them (if necessary)
+
 	rm -f imagelist
 	-for i in $(DOC_PAGES) ; do \
 		fgrep "\image $(DOC_IMAGE_TYPE)" $$i  | cut -d' ' -f3-3 | \
 		sed -e 's|^|Images/|' >> imagelist; 	\
 	done
-	
+
 	make `cat imagelist`
 
 
@@ -226,12 +226,12 @@ Images/%.eps: Images/%.tif
 
 Images/%.eps: Images/%.jpg
 	convert -compress none $< PS:$@ 
-	# jpeg2ps gives better results, but is not usually available
-	# jpeg2ps -q $< > $@ 
+#  jpeg2ps gives better results, but is not usually available
+#  jpeg2ps -q $< > $@ 
 
 Images/%.eps: Images/%.fig
 	fig2dev -L eps $< $@ 
-	
+
 Images/%.eps: Images/%.gpl
 	gnuplot $<
 
@@ -268,4 +268,4 @@ help:
 	@echo "devdoc       create the HMTL version of the developer-level docs"
 	@echo "devstarter   create the PS/PDF version of the developer-level docs"
 	@echo "alldocs      all of the above"
-	
+
