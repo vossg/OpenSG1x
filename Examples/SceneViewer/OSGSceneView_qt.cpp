@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGSceneView_qt.ui'
 **
-** Created: Fr 15. Aug 10:56:01 2003
-**      by: The User Interface Compiler ($Id: qt/main.cpp   3.1.2   edited Dec 19 11:45 $)
+** Created: So 17. Aug 15:50:29 2003
+**      by: The User Interface Compiler ($Id: qt/main.cpp   3.2.0   edited May 19 14:22 $)
 **
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/
@@ -32,8 +32,8 @@
 #include "OpenSG/OSGQGLManagedWidget_qt.h"
 #include "OSGSceneView_qt.ui.h"
 
-/* 
- *  Constructs a OSGSceneView as a child of 'parent', with the 
+/*
+ *  Constructs a OSGSceneView as a child of 'parent', with the
  *  name 'name' and widget flags set to 'f'.
  */
 OSGSceneView::OSGSceneView( QWidget* parent, const char* name, WFlags fl )
@@ -95,11 +95,6 @@ OSGSceneView::OSGSceneView( QWidget* parent, const char* name, WFlags fl )
     GroupBox3Layout->addWidget( infoTable );
 
     GroupBox5 = new QGroupBox( Splitter5, "GroupBox5" );
-    GroupBox5->setColumnLayout(0, Qt::Vertical );
-    GroupBox5->layout()->setSpacing( 6 );
-    GroupBox5->layout()->setMargin( 2 );
-    GroupBox5Layout = new QHBoxLayout( GroupBox5->layout() );
-    GroupBox5Layout->setAlignment( Qt::AlignTop );
 
     fieldsTable = new QTable( GroupBox5, "fieldsTable" );
     fieldsTable->setNumCols( fieldsTable->numCols() + 1 );
@@ -114,12 +109,12 @@ OSGSceneView::OSGSceneView( QWidget* parent, const char* name, WFlags fl )
     fieldsTable->horizontalHeader()->setLabel( fieldsTable->numCols() - 1, tr( "ID" ) );
     fieldsTable->setNumCols( fieldsTable->numCols() + 1 );
     fieldsTable->horizontalHeader()->setLabel( fieldsTable->numCols() - 1, tr( "Mask" ) );
+    fieldsTable->setGeometry( QRect( 2, 20, 383, 250 ) );
     fieldsTable->setNumRows( 0 );
     fieldsTable->setNumCols( 6 );
-    GroupBox5Layout->addWidget( fieldsTable );
     OSGSceneViewLayout->addWidget( mainSplitter );
     languageChange();
-    resize( QSize(667, 537).expandedTo(minimumSizeHint()) );
+    resize( QSize(667, 540).expandedTo(minimumSizeHint()) );
     clearWState( WState_Polished );
 
     // signals and slots connections

@@ -469,18 +469,18 @@ void OSGSceneView::exportToFile( osg::NodePtr node )
                                                  "Choose/Create a scene" );
   if (!fName.isEmpty())
     {
-        FILE *outFile = fopen(fName.latin1(), "wb");
+        std::ofstream out(fName.latin1(), std::ios::binary);
+	
         std::cerr << "FN: " 
                   << fName.latin1()
-                  << " FILE "
-                  << outFile 
                   << std::endl;
 
-        if (outFile!=NULL)
+        if (out)
         {
-          writer = new osg::BINWriter(outFile);
+          writer = new osg::BINWriter(out);
           writer->write(node);
           delete writer;
+          out.close();
         }
     }
 }

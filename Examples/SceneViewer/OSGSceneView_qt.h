@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'OSGSceneView_qt.ui'
 **
-** Created: Fr 15. Aug 10:55:55 2003
-**      by: The User Interface Compiler ($Id: qt/main.cpp   3.1.2   edited Dec 19 11:45 $)
+** Created: So 17. Aug 15:50:22 2003
+**      by: The User Interface Compiler ($Id: qt/main.cpp   3.2.0   edited May 19 14:22 $)
 **
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/
@@ -15,6 +15,7 @@
 #include <qpopupmenu.h>
 #include <OpenSG/OSGNode.h>
 #include <list>
+#include <fstream>
 
 class QVBoxLayout;
 class QHBoxLayout;
@@ -75,7 +76,6 @@ protected:
     QHBoxLayout* OSGSceneViewLayout;
     QHBoxLayout* GroupBox1Layout;
     QHBoxLayout* GroupBox3Layout;
-    QHBoxLayout* GroupBox5Layout;
 
 protected slots:
     virtual void languageChange();
