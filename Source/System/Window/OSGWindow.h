@@ -243,8 +243,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 
     /*---------------------------------------------------------------------*/
     /*! \name           GL object handling helper class                    */
-    /*! \{     
-                                                                */
+    /*! \{                                                                 */
+
+    class GLObject;
+
+    friend class GLObject;
+
     class GLObject {
 
       public:
