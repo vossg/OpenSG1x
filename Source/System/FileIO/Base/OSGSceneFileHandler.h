@@ -87,7 +87,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
 
     virtual SceneFileType *getFileType(const Char8 *fileNameOrExtension);
 
-    virtual int getSuffixList(std::list<const char*> & suffixList,
+    virtual int getSuffixList(std::list<const Char8*> & suffixList,
                               UInt32 flags = SceneFileType::OSG_READ_SUPPORTED |
                                              SceneFileType::OSG_WRITE_SUPPORTED);
 
@@ -137,8 +137,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     /*! \name                   Options                                    */
     /*! \{                                                                 */
 
-    virtual bool               setOptions(const char *suffix, const char *options);
-    virtual const char         *getOptions(const char *suffix);
+    virtual bool               setOptions(const Char8 *suffix, const Char8 *options);
+    virtual const Char8        *getOptions(const Char8 *suffix);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

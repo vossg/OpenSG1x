@@ -112,7 +112,7 @@ SceneFileType::~SceneFileType(void)
 
 //---------------------------------------------------------
 
-void SceneFileType::setOptions(const char *options)
+void SceneFileType::setOptions(const Char8 *options)
 {
     _options = options;
 }
@@ -163,7 +163,7 @@ UInt32 SceneFileType::getFlags(void)
 
 //---------------------------------------------------------
 
-const char *SceneFileType::getOptions(void)
+const Char8 *SceneFileType::getOptions(void)
 {
     return _options.c_str();
 }

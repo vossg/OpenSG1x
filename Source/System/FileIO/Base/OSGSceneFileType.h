@@ -93,7 +93,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
     /*! \name                   Set                                        */
     /*! \{                                                                 */
     
-    void setOptions(const char *options);
+    void setOptions(const Char8 *options);
 
     
     /*! \}                                                                 */
@@ -107,7 +107,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
             UInt32               getOverridePriority(void);
             UInt32               getFlags           (void);
     
-            const char          *getOptions         (void);
+            const Char8         *getOptions         (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

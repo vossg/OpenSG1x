@@ -170,7 +170,7 @@ SceneFileType *SceneFileHandler::getFileType(const Char8 *fileNameOrExtension)
 #pragma warning (disable : 383)
 #endif
 
-Int32 SceneFileHandler::getSuffixList(std::list<const char *> & suffixList,
+Int32 SceneFileHandler::getSuffixList(std::list<const Char8 *> & suffixList,
                                       UInt32 flags)
 {
     Int32                 count = 0;
@@ -584,7 +584,7 @@ std::string SceneFileHandler::initPathHandler(const Char8 *fileName)
 }
 
 
-bool SceneFileHandler::setOptions(const char *suffix, const char *options)
+bool SceneFileHandler::setOptions(const Char8 *suffix, const Char8 *options)
 {
     if(suffix == NULL)
         return false;
@@ -598,7 +598,7 @@ bool SceneFileHandler::setOptions(const char *suffix, const char *options)
     return true;
 }
 
-const char *SceneFileHandler::getOptions(const char *suffix)
+const Char8 *SceneFileHandler::getOptions(const Char8 *suffix)
 {
     if(suffix == NULL)
         return NULL;
