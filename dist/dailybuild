@@ -98,7 +98,7 @@ EOF
     fi
     
     # LOCAL: choose your email adresses here
-    $mail -s "OpenSG dailybuild on $host failed" reiners@igd.fhg.de < $out_mail
+    $mail -s "OpenSG dailybuild on $host failed" opensg-dev@igd.fhg.de < $out_mail
 }
 
 write_html_log ()
