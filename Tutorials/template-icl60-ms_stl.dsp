@@ -50,7 +50,7 @@ BSC32=bscmake.exe%
 # ADD BSC32 /nologo%
 LINK32=xilink6.exe%
 # ADD BASE LINK32 %
-# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib OSGBase.lib OSGSystem.lib OSGWindowGLUT.lib glut32.lib opengl32.lib tif32.lib libjpeg.lib -NODEFAULTLIB /LIBPATH:"..\lib" /LIBPATH:"..\lib\glut_3.7\lib" /LIBPATH:"../lib/jpg6b/lib" /LIBPATH:"../lib/tiff-3.5.4/lib" %
+# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib OSGBase.lib OSGSystem.lib OSGWindowGLUT.lib glut32.lib glu32.lib opengl32.lib tif32.lib libjpeg.lib -NODEFAULTLIB /LIBPATH:"..\lib" /LIBPATH:"..\lib\glut_3.7\lib" /LIBPATH:"../lib/jpg6b/lib" /LIBPATH:"../lib/tiff-3.5.4/lib" %
 %
 !ELSEIF  "$(CFG)" == "##NAME## - Win32 Debug"%
 %
@@ -75,7 +75,7 @@ BSC32=bscmake.exe%
 # ADD BSC32 /nologo%
 LINK32=xilink6.exe%
 # ADD BASE LINK32 %
-# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib OSGBaseD.lib OSGSystemD.lib OSGWindowGLUTD.lib glut32.lib opengl32.lib tif32.lib libjpeg.lib -NODEFAULTLIB -Debug /LIBPATH:"..\lib" /LIBPATH:"..\lib\glut_3.7\lib" /LIBPATH:"../lib/jpg6b/lib" /LIBPATH:"../lib/tiff-3.5.4/lib" %
+# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib OSGBaseD.lib OSGSystemD.lib OSGWindowGLUTD.lib glut32.lib glu32.lib opengl32.lib tif32.lib libjpeg.lib -NODEFAULTLIB -Debug /LIBPATH:"..\lib" /LIBPATH:"..\lib\glut_3.7\lib" /LIBPATH:"../lib/jpg6b/lib" /LIBPATH:"../lib/tiff-3.5.4/lib" %
 # SUBTRACT LINK32 %
 %
 !ENDIF %

@@ -10,6 +10,8 @@ GLUTPATH := ../lib/glut_3.7/
 # use debug or opt libs?
 LIBTYPE :=
 
+RELPATH ?= 
+
 # you need to copy the options from compiling the library right now
 # we'll have an 'opensg-config' similiar to 'glib-config', but it's not here yet 
 # and picking the options out of the OpenSG makefiles is hairy :(
@@ -30,7 +32,7 @@ default:	$(PROGS)
 
 # make rules
 
-.PHONY: clean Clean
+.PHONY: clean Clean .dsp
 
 clean:
 	rm -fr *.o ii_files
@@ -61,7 +63,7 @@ dsw: $(DSPS)
 	deps="";\
 	for i in $(@:.dsp=) ;\
 	do\
-		deps="$$deps%@# Begin Source File%@%@SOURCE=$$i.cpp%@# End Source File%@";\
+		deps="$$deps%@# Begin Source File%@%@SOURCE=$(RELPATH)$$i.cpp%@# End Source File%@";\
 	done;\
 	sed -e "s|##NAME##|$(@:.dsp=)|g" -e "s|##DEPS##|$$deps|g" < template-$(COMP).dsp | \
 	tr '@' '\012' | tr '%' '\015' > $@
