@@ -120,7 +120,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForeground : public SimpleStatist
   private:
 
     static ImageP          _textimage;
+#ifndef WIN32
     static Text            _text;
+#endif
     static TextureChunkPtr _texchunk;
     
     friend class FieldContainer;
@@ -142,6 +144,6 @@ OSG_END_NAMESPACE
 #include <OSGSimpleStatisticsForeground.inl>
 #include <OSGSimpleStatisticsForegroundBase.inl>
 
-#define OSGSIMPLESTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: OSGSimpleStatisticsForeground.h,v 1.1 2002/03/19 17:46:17 dirk Exp $"
+#define OSGSIMPLESTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: OSGSimpleStatisticsForeground.h,v 1.2 2002/03/20 06:32:39 vossg Exp $"
 
 #endif /* _OSGSIMPLESTATISTICSFOREGROUND_H_ */

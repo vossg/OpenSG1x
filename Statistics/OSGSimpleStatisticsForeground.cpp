@@ -60,7 +60,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.1 2002/03/19 17:46:17 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.2 2002/03/20 06:32:39 vossg Exp $";
     static char cvsid_hpp[] = OSGSIMPLESTATISTICSFOREGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSIMPLESTATISTICSFOREGROUND_INLINE_CVSID;
 }
@@ -76,7 +76,10 @@ Background is the base class for all background clearing.
 /* static vars */
 
 ImageP          SimpleStatisticsForeground::_textimage = NULL;
+#ifndef WIN32
 Text            SimpleStatisticsForeground::_text;
+#endif
+
 TextureChunkPtr SimpleStatisticsForeground::_texchunk;
 
 
@@ -145,6 +148,7 @@ void SimpleStatisticsForeground::addElement( UInt32 id, char *format)
 
 void SimpleStatisticsForeground::initText(void)
 {
+#ifndef WIN32
     // create the text needed
     istrstream stream((char*)StatisticsDefaultFontData, 
                       StatisticsDefaultFontDataSize);
@@ -171,6 +175,7 @@ void SimpleStatisticsForeground::initText(void)
         _texchunk->setEnvMode(GL_MODULATE);
     }
     endEditCP  (_texchunk);
+#endif
 }
 
 /** \brief draw the statistics 
@@ -178,6 +183,7 @@ void SimpleStatisticsForeground::initText(void)
     
 void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 {
+#ifndef WIN32
     if(_textimage == NULL)
         initText();
         
@@ -297,5 +303,6 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     if ( light )    glEnable( GL_LIGHTING );
     if ( colmat )   glEnable( GL_COLOR_MATERIAL );
     glPolygonMode( GL_FRONT_AND_BACK, fill );
+#endif
 }
 
