@@ -1,6 +1,12 @@
 # trivial makefile for OpenSG tutorials
 
+# use debug or opt libs?
+LIBTYPE := ##DBG##
+
+# where to find GLUT?
+# You can ignore this on Linux, it's in the system pathes.
 SYSTEM := $(shell uname)
+GLUTROOT := /igd/a4/software/$(SYSTEM)/
 
 # set the path to the installed OpenSG root directory here
 # if you installed in /usr/local:
@@ -8,21 +14,14 @@ SYSTEM := $(shell uname)
 # use this if you just unpacked the binary distribution
 OSGROOT := ..
 
-# the path where GLUT is found
-# you can ignore this on Linux, it's in the system libs
-GLUTPATH := /igd/a4/software/$(SYSTEM)
-
-# use debug or opt libs?
-LIBTYPE := ##DBG##
-
 # Var settings
 
 CC = $(shell $(OSGROOT)/bin/osg-config --compiler)
 
-CCFLAGS = \
+CCFLAGS = -I$(GLUTROOT)/include -I$(OSGROOT)/include \
   $(shell $(OSGROOT)/bin/osg-config --$(LIBTYPE) --cflags Base System GLUT)
 
-LDFLAGS = \
+LDFLAGS = -L$(GLUTROOT)/lib -L$(OSGROOT)/lib/$(LIBTYPE) \
   $(shell $(OSGROOT)/bin/osg-config --$(LIBTYPE) --libs Base System GLUT)
 
 
