@@ -104,6 +104,7 @@ void ClusterWindow::init( void )
     int                 c,i,id;
     MFString::iterator  s;
     Connection::Channel channel;
+    bool                directConnect=false;
 
     if(getNetwork()->getMainConnection())
     {
@@ -263,6 +264,11 @@ void ClusterWindow::init( void )
         std::string      respAddress;
         bool             retry=true;
 
+        if(strstr((*s).c_str(),":"))
+            directConnect = true;
+        else
+            directConnect = false;
+
         SINFO << "Connect to " << (*s) << std::endl;
         serviceSock.open();
         serviceSock.setTTL(8);
@@ -285,11 +291,14 @@ void ClusterWindow::init( void )
                 // try to connect with the servers name
                 try 
                 {
-                    channel = connection->connectPoint(*s,0.1);
-                    if(channel >= 0) {
-                        retry=false;
-                        SINFO << "Connected with address:" << *s << std::endl;
-                        break;
+                    if(directConnect)
+                    {
+                        channel = connection->connectPoint(*s,0.5);
+                        if(channel >= 0) {
+                            retry=false;
+                            SINFO << "Connected with address:" << *s << std::endl;
+                            break;
+                        }
                     }
                 }
                 catch(...)

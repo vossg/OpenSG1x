@@ -103,6 +103,20 @@ ClusterServer::ClusterServer(        WindowPtr    window,
     _serverId(0),
     _interface("")
 {
+    char localhost[256];
+
+    // default is hostname
+    if(_serviceName.empty())
+    {
+        gethostname(localhost,255);
+        _serviceName = localhost;
+    }
+    // if service contains ":" than treat as address
+    if(_requestAddress.empty())
+    {
+        if(strstr(_serviceName.c_str(),":"))
+            _requestAddress = _serviceName;
+    }
 }
 
 /*-------------------------------------------------------------------------*/
@@ -351,6 +365,8 @@ void ClusterServer::acceptClient()
     std::string    connectionType;
     UInt32         readable;
     bool           connected=false;
+    std::string    address;
+    bool           bound = false;
 
     SINFO << "Waiting for request of "
           << _serviceName
@@ -358,22 +374,27 @@ void ClusterServer::acceptClient()
 
     try
     {
-        // create connection
-        _connection = ConnectionFactory::the().
-            createPoint(_connectionType);
-        if(_connection)
-        {
-            // set interface
-            _connection->setInterface(_interface);
-            // bind connection
-            try 
+        if(!_requestAddress.empty())
+        {            
+            // create connection
+            _connection = ConnectionFactory::the().
+                createPoint(_connectionType);
+            if(_connection)
             {
-                _boundAddress = _connection->bind(_serviceName);
-            }
-            catch(...)
-            {
-                SINFO << "Unable to bind, use name as symbolic service name" 
-                      << std::endl;
+                // set interface
+                _connection->setInterface(_interface);
+                // bind connection
+                try 
+                {
+                    // bind to requested address
+                    _boundAddress = _connection->bind(_requestAddress);
+                    bound = true;
+                }
+                catch(...)
+                {
+                    SINFO << "Unable to bind, use name as symbolic service name" 
+                          << std::endl;
+                }
             }
         }
         serviceSock.open();
@@ -410,7 +431,7 @@ void ClusterServer::acceptClient()
         {
             try
             {
-                if(_connection)
+                if(_connection) 
                     readable = serviceSock.waitReadable(.01);
                 else
                     readable = true;
@@ -447,6 +468,7 @@ void ClusterServer::acceptClient()
                                 _connection->setInterface(_interface);
                                 // bind connection
                                 _boundAddress = _connection->bind(_requestAddress);
+                                bound = true;
                             } 
                             else
                             {
@@ -457,11 +479,9 @@ void ClusterServer::acceptClient()
                         if(_connection)
                         {
                             msg.clear    (             );
-                            msg.putString(service      );
+                            msg.putString(_serviceName );
                             msg.putString(_boundAddress);
-                            
                             serviceSock.sendTo(msg, addr);
-                        
                             SINFO << "Response " 
                                   << connectionType << ":"
                                   << _boundAddress 
@@ -469,14 +489,34 @@ void ClusterServer::acceptClient()
                         }
                     }
                 }
-                else
+            }
+            catch(SocketConnReset &e)
+            {
+                // ignore if there is a connection. This can happen, if
+                // a client has send a request. The server has send an
+                // answer meanwile the client has send a second request
+                // the client gets the answer to the first request and
+                // the server tries to send a second answer. The second
+                // answer can not be delivered because the client has
+                // closed its service port. This is a win-socket problem.
+
+                SWARNING << e.what() << std::endl;
+
+                // if there is no connection, then its a real problem
+                if(!_connection)
+                    throw;
+            }
+            catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
+            {
+                SWARNING << e.what() << std::endl;
+            }
+            try 
+            {
+                // try to accept
+                if(bound && _connection && _connection->acceptGroup(0.2) >= 0)
                 {
-                    // try to accept
-                    if(_connection && _connection->acceptGroup(0.2) >= 0)
-                    {
-                        connected = true;
-                        SINFO << "Connection accepted " << _boundAddress << std::endl;
-                    }
+                    connected = true;
+                    SINFO << "Connection accepted " << _boundAddress << std::endl;
                 }
             }
             catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
