@@ -2608,11 +2608,15 @@ Image::~Image(void)
  */
 bool Image::hasAlphaChannel(void)
 {
-    return getPixelFormat() == OSG_RGBA_PF
+    return 
+        getPixelFormat() == OSG_RGBA_PF
 #ifdef OSG_HAS_BGRA_PF
-    || getPixelFormat() == OSG_BGRA_PF
+        || getPixelFormat() == OSG_BGRA_PF
 #endif
-    || getPixelFormat() == OSG_LA_PF;
+        || getPixelFormat() == OSG_RGBA_DXT1
+        || getPixelFormat() == OSG_RGBA_DXT3
+        || getPixelFormat() == OSG_RGBA_DXT5
+        || getPixelFormat() == OSG_LA_PF;
 }
 
 /*! Method to check, whether the data is compressed
