@@ -46,8 +46,8 @@ image. It does view volume culling and state sorting by building a draw tree.
 It also handles transparent objects by rendering them last and back to front
 sorted. Put simple it does what a decent scene-graph needs to do. 
 
-To use it just create one and pass it to the OpenSG Window object (see sec.
-[sec:window]).
+To use it just create one and pass it to the OpenSG Window object (see 
+\ref PageSystemWindow).
 
 It is possible to turn the view volume culling off using the
 setFrustumCulling() method. For debugging it is possible to turn the frustum
@@ -60,7 +60,7 @@ IntersectAction is used for sending rays into the scene and retrieving the
 first object hit. Right now, intersection testing is not very optimized, which
 is OK for selecting an object, but probably too slow for programmatic use.
 
-A ray is defined by a Line (see sec. [sec:line]) and optionally a maximum
+A ray is defined by a Line (see \ref osg::Line) and optionally a maximum
 distance. It can either be set at construction time or by setLine(). To test
 the ray for intersection, apply the action to the root of the possible
 intersection objects.
@@ -84,7 +84,7 @@ traversed node as a parameter
 
 Don't. Actions are being completely redesigned for 1.1 to become more flexible
 and clean. Use the available actions and try to stay with the traverse()
-function (see [sec:simple_traversal]) for now. 
+function for now. 
 
 If you really need to do your own action take a look at IntersectAction, it
 shows what you need to implement. Talk to us before you do it, though, maybe

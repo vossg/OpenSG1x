@@ -273,7 +273,6 @@ void MultiDisplayWindow::serverSwap( WindowPtr window,UInt32 id )
 
 /*! init client window
  *
- * @todo Handle client like servers. E.g. a special server name 'local'
  */
 void MultiDisplayWindow::clientInit( void )
 {

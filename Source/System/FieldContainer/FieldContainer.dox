@@ -96,8 +96,9 @@ attachments. The most important ones are Nodes and NodeCores, but many other
 like Window, Viewport, Camera, etc. are derived from AttachmentContainer and,
 therefore, can carry attachments.
 
-Attachments have to be derived from Attachment (see [sec:creating_new_fcs] for
-details how to do that). There are also predefined attachments, right now the
+Attachments have to be derived from Attachment (see 
+\ref PageSystemFieldContainerExt for
+details on how to do that). There are also predefined attachments, right now the
 only one is NameAttachment, which allows assigning a name to the field
 containers.
 
