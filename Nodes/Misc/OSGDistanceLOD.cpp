@@ -79,7 +79,7 @@ This Node manages the different levels of detail available for a Geometry and de
  *                           Class variables                               *
 \***************************************************************************/
 
-char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.7 2001/07/30 22:17:45 vossg Exp $";
+char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.8 2001/08/05 13:38:19 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -180,35 +180,45 @@ Action::ResultE DistanceLOD::draw(Action* action)
 	UInt32 limit = osgMin( numLevels, numRanges ); 
 	
 	Pnt3f eyepos;
-	(da->getCamera()->getBeacon()->getToWorld()).transform(Pnt3f(0.0, 0.0, 0.0), eyepos);
 	Pnt3f objpos;
-	(da->getActNode()->getToWorld()).transform(getCenter(), objpos);
+
+	da->getCamera()->getBeacon()->getToWorld().transform(
+        Pnt3f(0.0, 0.0, 0.0), eyepos);
+
+	da->getActNode()->getToWorld().transform(getCenter(), objpos);
 		
 	
 	Real32 dist = osgsqrt( (eyepos[0]-objpos[0])*(eyepos[0]-objpos[0]) +
 						   (eyepos[1]-objpos[1])*(eyepos[1]-objpos[1]) +
 						   (eyepos[2]-objpos[2])*(eyepos[2]-objpos[2]) );
 	
-	if( dist < getMFRange()->getValue(0) )
-	{
-		da->addNode( action->getNode(0) );
-	} 
-	else if( dist > getMFRange()->getValue(numRanges-1) )
-	{
-		da->addNode( action->getNode(limit-1) );
+    if(numRanges == 0)
+    {
+        da->useNodeList();
+    }
+    else
+    {
+        if( dist < getMFRange()->getValue(0) )
+        {
+            da->addNode( action->getNode(0) );
+        } 
+        else if( dist > getMFRange()->getValue(numRanges-1) )
+        {
+            da->addNode( action->getNode(limit-1) );
+        }
+        else
+        {
+            UInt32 i=1;
+            while( i<numRanges && 
+                   !( ( getMFRange()->getValue(i-1) <= dist ) && 
+                      ( dist < getMFRange()->getValue(i) ) ) )
+            {
+                i++;
+            }
+            
+            da->addNode( action->getNode(osgMin(i, limit-1)) );
+        } 
 	}
-	else
-	{
-		UInt32 i=1;
-		while( i<numRanges && !( ( getMFRange()->getValue(i-1) <= dist ) && 
-                                 ( dist < getMFRange()->getValue(i) ) 
-			 )                 )
-		{
-			i++;
-		}
-		da->addNode( action->getNode(osgMin(i, limit-1)) );
-	} 
-	
 	return Action::Continue;
 }
     
