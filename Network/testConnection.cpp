@@ -39,7 +39,7 @@ void *connectProc(void *)
         }
         for(i=0;i<dataCount;i++)
         {
-            connection->putUInt32(i);
+            connection->putValue(i);
         }
         connection->flush();
         SLOG << "send OK" << endl;
@@ -50,7 +50,7 @@ void *connectProc(void *)
             FLOG(("read from %d\n",c));
             for(i=0;i<dataCount;i++)
             {
-                connection->getUInt32(j);
+                connection->getValue(j);
                 if(j!=i)
                 {
                     FLOG(("Error: Unexpected data on channel %d\n",i));
@@ -87,7 +87,7 @@ void *acceptProc(void *)
         FLOG(("Accept connection %sOK\n",address.c_str()));
         for(i=0;i<dataCount;i++)
         {
-            connection->getUInt32(j);
+            connection->getValue(j);
             if(j!=i)
             {
                 SLOG << "Error: Unexpected data!!" << endl;
@@ -96,7 +96,7 @@ void *acceptProc(void *)
         SLOG << "recvB OK" << endl;
         for(i=0;i<dataCount;i++)
         {
-            connection->putUInt32(i);
+            connection->putValue(i);
         }
         connection->flush();
         SLOG << "sendB OK" << endl;
