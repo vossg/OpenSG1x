@@ -243,7 +243,7 @@ OSG::Action::ResultE calcVNormal( OSG::CNodePtr &, OSG::Action * action )
     return OSG::Action::Continue;
 }
 
-void key(unsigned char key, int x, int y)
+void key(unsigned char key, int, int)
 {
     switch ( key )
     {

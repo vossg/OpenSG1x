@@ -65,7 +65,7 @@ display(void)
     glutSwapBuffers();
 }
 
-void key( unsigned char key, int x, int y )
+void key( unsigned char key, int, int )
 {
     printf("Key: %d\n", key );
 
