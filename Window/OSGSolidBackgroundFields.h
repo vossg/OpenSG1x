@@ -61,6 +61,7 @@
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
+#include <OSGWindowDef.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -96,7 +97,7 @@ typedef SField<SolidBackgroundPtr> SFSolidBackgroundPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, SolidBackgroundPtr, OSG_MISC_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, SolidBackgroundPtr, OSG_WINDOW_DLLTMPLMAPPING)
 
 #endif
 #endif

@@ -88,8 +88,8 @@ OSG_BEGIN_NAMESPACE
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, BackgroundPtr, OSG_MISC_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, BackgroundPtr, OSG_MISC_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, BackgroundPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, BackgroundPtr, OSG_WINDOW_DLLTMPLMAPPING)
 
 #endif
 
@@ -100,7 +100,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char BackgroundBase::cvsid[] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.1 2001/04/15 02:19:06 dirk Exp $";
+char BackgroundBase::cvsid[] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.2 2001/04/18 13:39:19 vossg Exp $";
 
 /** \brief Background type
  */

@@ -61,6 +61,7 @@
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
+#include <OSGWindowDef.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -97,7 +98,7 @@ typedef MField<GradientBackgroundPtr> MFGradientBackgroundPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, GradientBackgroundPtr, OSG_MISC_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, GradientBackgroundPtr, OSG_WINDOW_DLLTMPLMAPPING)
 
 #endif
 #endif

@@ -61,6 +61,7 @@
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
+#include <OSGStateDef.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -97,7 +98,7 @@ typedef SField<StateChunkPtr> SFStateChunkPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, StateChunkPtr, OSG_MISC_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, StateChunkPtr, OSG_STATE_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -113,7 +114,7 @@ typedef MField<StateChunkPtr> MFStateChunkPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, StateChunkPtr, OSG_MISC_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, StateChunkPtr, OSG_STATE_DLLTMPLMAPPING)
 
 #endif
 #endif

@@ -61,6 +61,7 @@
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
+#include <OSGWindowDef.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -97,7 +98,7 @@ typedef SField<PerspectiveCameraPtr> SFPerspectiveCameraPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, PerspectiveCameraPtr, OSG_MISC_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, PerspectiveCameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -113,7 +114,7 @@ typedef MField<PerspectiveCameraPtr> MFPerspectiveCameraPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, PerspectiveCameraPtr, OSG_MISC_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, PerspectiveCameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
 
 #endif
 #endif

@@ -61,6 +61,7 @@
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
+#include <OSGMaterialDef.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -97,7 +98,7 @@ typedef SField<MaterialPtr> SFMaterialPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, MaterialPtr, OSG_MISC_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, MaterialPtr, OSG_MATERIAL_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -113,7 +114,7 @@ typedef MField<MaterialPtr> MFMaterialPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, MaterialPtr, OSG_MISC_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, MaterialPtr, OSG_MATERIAL_DLLTMPLMAPPING)
 
 #endif
 #endif

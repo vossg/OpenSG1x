@@ -88,8 +88,8 @@ OSG_BEGIN_NAMESPACE
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, WindowPtr, OSG_MISC_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, WindowPtr, OSG_MISC_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
 
 #endif
 
@@ -119,7 +119,7 @@ const OSG::UInt32    	WindowBase::NextFieldId;
 const OSG::BitVector 	WindowBase::NextFieldMask;
 
 
-char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.1 2001/04/15 02:19:06 dirk Exp $";
+char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.2 2001/04/18 13:39:19 vossg Exp $";
 
 /** \brief Group field description
  */

@@ -88,8 +88,8 @@ OSG_BEGIN_NAMESPACE
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, StateChunkPtr, OSG_MISC_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, StateChunkPtr, OSG_MISC_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, StateChunkPtr, OSG_STATE_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, StateChunkPtr, OSG_STATE_DLLTMPLMAPPING)
 
 #endif
 
@@ -100,7 +100,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char StateChunkBase::cvsid[] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.1 2001/04/15 02:12:53 dirk Exp $";
+char StateChunkBase::cvsid[] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.2 2001/04/18 13:39:19 vossg Exp $";
 
 /** \brief StateChunk type
  */

@@ -61,6 +61,7 @@
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
+#include <OSGWindowDef.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -97,7 +98,7 @@ typedef SField<WindowPtr> SFWindowPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, WindowPtr, OSG_MISC_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -113,7 +114,7 @@ typedef MField<WindowPtr> MFWindowPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, WindowPtr, OSG_MISC_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
 
 #endif
 #endif

@@ -87,7 +87,7 @@ OSG_BEGIN_NAMESPACE
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, SolidBackgroundPtr, OSG_MISC_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, SolidBackgroundPtr, OSG_WINDOW_DLLTMPLMAPPING)
 
 #endif
 
@@ -105,7 +105,7 @@ const OSG::UInt32    	SolidBackgroundBase::NextFieldId;
 const OSG::BitVector 	SolidBackgroundBase::NextFieldMask;
 
 
-char SolidBackgroundBase::cvsid[] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.1 2001/04/15 02:19:06 dirk Exp $";
+char SolidBackgroundBase::cvsid[] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.2 2001/04/18 13:39:19 vossg Exp $";
 
 /** \brief Group field description
  */

@@ -88,8 +88,8 @@ OSG_BEGIN_NAMESPACE
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, PerspectiveCameraPtr, OSG_MISC_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, PerspectiveCameraPtr, OSG_MISC_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, PerspectiveCameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, PerspectiveCameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
 
 #endif
 
@@ -107,7 +107,7 @@ const OSG::UInt32    	PerspectiveCameraBase::NextFieldId;
 const OSG::BitVector 	PerspectiveCameraBase::NextFieldMask;
 
 
-char PerspectiveCameraBase::cvsid[] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.1 2001/04/15 02:19:06 dirk Exp $";
+char PerspectiveCameraBase::cvsid[] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.2 2001/04/18 13:39:19 vossg Exp $";
 
 /** \brief Group field description
  */

@@ -88,8 +88,8 @@ OSG_BEGIN_NAMESPACE
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, MaterialPtr, OSG_MISC_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, MaterialPtr, OSG_MISC_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, MaterialPtr, OSG_MATERIAL_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, MaterialPtr, OSG_MATERIAL_DLLTMPLMAPPING)
 
 #endif
 
@@ -100,7 +100,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char MaterialBase::cvsid[] = "@(#)$Id: OSGMaterialBase.cpp,v 1.1 2001/04/15 01:57:09 dirk Exp $";
+char MaterialBase::cvsid[] = "@(#)$Id: OSGMaterialBase.cpp,v 1.2 2001/04/18 13:39:19 vossg Exp $";
 
 /** \brief Material type
  */
