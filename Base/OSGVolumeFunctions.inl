@@ -34,15 +34,15 @@ OSG_BEGIN_NAMESPACE
 
 // Intersect implementation maxtrix: 
 //   Func:   Function implementation
-//   Temp:   Template implementation
+//   Inl :   Inline implementation
 //
 //           |Box     |Sphere  |Cylinder|Frustum |Volume
 //   --------+--------+--------+--------+--------+------
 //   Box     |Func    |Func    |Func    |Func    |Func
-//   Sphere  |Temp    |Func    |Func    |Func    |Func
-//   Cylinder|Temp    |Temp    |Func    |Func    |Func
-//   Frustum |Temp    |Temp    |Temp    |Func    |Func
-//   Volume  |Temp    |Temp    |Temp    |Temp    |Func
+//   Sphere  |Inl     |Func    |Func    |Func    |Func
+//   Cylinder|Inl     |Inl     |Func    |Func    |Func
+//   Frustum |Inl     |Inl     |Inl     |Func    |Func
+//   Volume  |Inl     |Inl     |Inl     |Inl     |Func
 
 // # Box ##############################################################
 

@@ -278,10 +278,10 @@ OSG_BASE_DLLMAPPING void extend ( BoxVolume &srcVol,
 			return;
 
 	srcVol.setBounds ( osgMin(vol.getMin().x(),srcVol.getMin().x()),
-										 osgMax(vol.getMax().x(),srcVol.getMax().x()),
 										 osgMin(vol.getMin().y(),srcVol.getMin().y()),
-										 osgMax(vol.getMax().y(),srcVol.getMax().y()),
 										 osgMin(vol.getMin().z(),srcVol.getMin().z()),
+										 osgMax(vol.getMax().x(),srcVol.getMax().x()),
+										 osgMax(vol.getMax().y(),srcVol.getMax().y()),
 										 osgMax(vol.getMax().z(),srcVol.getMax().z()));
 
 	if (vol.isInfinite())
