@@ -309,4 +309,4 @@ typedef WindowBase *WindowBaseP;
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGWINDOWBASE_H_ */
+#endif /*  _OSGWINDOWBASE_H_ */

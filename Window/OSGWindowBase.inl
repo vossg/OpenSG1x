@@ -202,10 +202,30 @@ ViewportPtr &WindowBase::getPort( UInt32 index)
 	return _mfPort.getValue( index );
 }
 
+MFViewportPtr &WindowBase::getPort(void)
+{
+	return _mfPort;
+}
+
+const MFViewportPtr &WindowBase::getPort(void) const
+{
+	return _mfPort;
+}
+
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &WindowBase::getGlObjectFlags( UInt32 index)
 {
 	return _mfGlObjectFlags.getValue( index );
+}
+
+MFUInt32 &WindowBase::getGlObjectFlags(void)
+{
+	return _mfGlObjectFlags;
+}
+
+const MFUInt32 &WindowBase::getGlObjectFlags(void) const
+{
+	return _mfGlObjectFlags;
 }
 
 
