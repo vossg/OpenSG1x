@@ -91,7 +91,12 @@ case $system in
     config_shell=bash
     mail=/usr/bin/Mail
     export PATH=/igd/a4/software/Linux/bin/:$PATH
-    distname=linux
+    if test -d /etc/SuSEconfig 
+    then
+        distname=suse
+    else
+        distname=redhat    
+    fi
     ;;
 
     *-pc-cygwin )   
@@ -116,6 +121,9 @@ case $system in
     ;;
     
 esac
+
+#echo "System" $system
+#echo "Dist" $distname
 
 
 # configure it
