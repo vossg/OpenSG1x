@@ -428,16 +428,25 @@ void SHLChunk::updateProgram(Window *win)
             delete [] debug;
         }
     }
-    
+
     if(has_vertex || has_fragment)
     {
         if(has_vertex)
+        {
             attachObject(_program, _vShader);
+            // just flagged for deletion
+            deleteObject(_vShader);
+        }
 
         if(has_fragment)
+        {
             attachObject(_program, _fShader);
+            // just flagged for deletion
+            deleteObject(_fShader);
+        }
 
         linkProgram(_program);
+        
         GLint success = 0;
         getObjectParameteriv(_program, GL_OBJECT_LINK_STATUS_ARB, &success);
         if(!success)
@@ -711,7 +720,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.3 2004/05/14 15:47:24 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.4 2004/05/21 10:26:05 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
