@@ -61,7 +61,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.5 2002/01/10 21:14:10 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.6 2002/01/11 00:23:01 dirk Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }
@@ -635,7 +635,8 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
     vector<sorter> list(size);
     
     len = 0;
-    for(UInt32 i = 0; i<size; i++)
+    UInt32 i
+    for(i = 0; i<size; i++)
     {
         if(indices->getSize() > 0)
         {
@@ -666,9 +667,9 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
     if(index == NULL)
         index=new Int32[len];
     
-    for(UInt32 i=0; i<len; i++)
+    for(i = 0; i<len; i++)
     {
-        index[i]=list[i]._index;
+        index[i] = list[i]._index;
     }
         
     return index;    
