@@ -528,7 +528,11 @@ ifeq ($(OS_BASE), cygwin)
 FLEXLEXER_H_DEP := ../Base/FlexLexer.h
 
 ../Base/FlexLexer.h: /usr/include/FlexLexer.h
-	cp /usr/include/FlexLexer.h ../Base/
+	cat /usr/include/FlexLexer.h |									\
+	sed -e 's/iostream.h/iostream/g'  								\
+		-e 's/istream\*/\std::istream\*/g'							\
+		-e 's/ostream\*/\std::ostream\*/g'							\
+	> ../Base/FlexLexer.h
 else
 FLEXLEXER_H_DEP :=
 endif
@@ -537,9 +541,21 @@ ifneq ($(LIB_FLEXPPTARGET_CPP),)
 $(OBJDIR)/%.lex.cpp: %.lpp $(FLEXLEXER_H_DEP)
 	$(FLEX) -+ -P$(call flex_int,$<) $<
 ifneq ($(OS_BASE),irix6.5)
+ifeq ($(OS_BASE), cygwin)
+	cat lex.$(call flex_int,$<).cc | 									\
+		sed -e 's/\(yy\)\(text_ptr\)/$(call flex_int,$<)\2/g'			\
+			-e 's/\&cin/\&std::cin/g'									\
+			-e 's/\&cout/\&std::cout/g'									\
+			-e 's/cerr/std::cerr/g'										\
+			-e 's/class istream;/#include <iosfwd>/g'					\
+			-e 's/istream\*/\std::istream\*/g'							\
+			-e 's/ostream\*/\std::ostream\*/g'							\
+		> $(OBJDIR)/$(call flex_ext,$<).lex.cpp
+else
 	cat lex.$(call flex_int,$<).cc | 								\
 		sed -e 's/\(yy\)\(text_ptr\)/$(call flex_int,$<)\2/g'		\
 		> $(OBJDIR)/$(call flex_ext,$<).lex.cpp
+endif
 else
 	cat lex.$(call flex_int,$<).cc | 									\
 		sed -e 's/\(yy\)\(text_ptr\)/$(call flex_int,$<)\2/g'			\
