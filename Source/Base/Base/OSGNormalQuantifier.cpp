@@ -174,7 +174,7 @@ bool NormalQuantifier::rayTriangle ( const Vec3f & dir,
 {
   Vec3f edge1, edge2, tvec, pvec, qvec;
   float det,inv_det;
-  float u,v,t;
+  float u,v;
   Vec3f orig(0,0,0);
  
   /* find vectors for two edges sharing vert0 */
@@ -278,8 +278,6 @@ UInt32 NormalQuantifier::getSubIndex(Vec3f point,
                                      Vec3f point3, 
                                      UInt32 number) const
 {
-	float dot0, dot1, dot2, dot3;
-	float max;
 	int intersect = -1, index = 0;
   Vec3f newPoint1(point1);
   Vec3f newPoint2(point1);
