@@ -185,6 +185,8 @@ bool BasePThreadBase::runFunction(ThreadFuncF  fThreadFunc,
     bool  returnValue = true;
     Int32 rc          = 0;
 
+    _bInitialized     = false;
+
     if(fThreadFunc != NULL)
     {
         if(_pThreadDesc == NULL)
@@ -389,6 +391,8 @@ bool BaseSprocBase::runFunction(ThreadFuncF  fThreadFunc,
     bool  returnValue = true;
     Int32 rc          = 0;
 
+    _bInitialized     = false;
+
     if(fThreadFunc != NULL)
     {
         _pThreadData[0] = (void *) fThreadFunc;
@@ -582,6 +586,8 @@ bool BaseWinThreadBase::runFunction(ThreadFuncF  fThreadFunc,
     bool   returnValue = true;
     Handle rc          = 0;
     DWord  tmp;
+
+    _bInitialized     = false;
 
     if(fThreadFunc != NULL)
     {
