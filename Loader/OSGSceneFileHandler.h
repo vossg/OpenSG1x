@@ -72,9 +72,9 @@
 OSG_BEGIN_NAMESPACE
 
 
-class OSG_DLLEXPORT SceneFileHandler {
+class OSG_LOADER_DLLMAPPING SceneFileHandler {
 
-	friend class SceneFileType;
+	friend class OSG_LOADER_DLLMAPPING SceneFileType;
 		
 public:
 

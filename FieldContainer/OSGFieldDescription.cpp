@@ -51,6 +51,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEFIELDCONTAINER
+
 #include <OSGString.h>
 
 #include "OSGFieldContainer.h"

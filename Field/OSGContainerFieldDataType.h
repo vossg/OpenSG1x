@@ -57,7 +57,8 @@ typedef map<UInt32, AttachmentPtr>  AttachmentMap;
  */
 
 template <>
-struct FieldDataTraits<FieldContainerPtr> : public Traits
+struct FieldDataTraits<FieldContainerPtr> : 
+    public Traits
 {
     enum                        { StringConvertable = 0x00      };
 
@@ -87,7 +88,8 @@ struct FieldDataTraits<NodePtr> : public Traits
  */
 
 template <>
-struct FieldDataTraits<NodeCorePtr> : public Traits
+struct FieldDataTraits<NodeCorePtr> : 
+    public Traits
 {
     enum                        { StringConvertable = 0x00      };
 
@@ -102,7 +104,8 @@ struct FieldDataTraits<NodeCorePtr> : public Traits
  */
 
 template <>
-struct FieldDataTraits<AttachmentMap> : public Traits
+struct FieldDataTraits<AttachmentMap> : 
+    public Traits
 {
     enum                        { StringConvertable = 0x00      };
 

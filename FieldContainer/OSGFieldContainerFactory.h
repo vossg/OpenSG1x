@@ -49,6 +49,7 @@
 #include <map>
 #include <vector>
 #include <OSGStringLink.h>
+#include <OSGFieldContainerBase.h>
 #include <OSGFieldContainerPtr.h>
 
 OSG_BEGIN_NAMESPACE
@@ -73,7 +74,7 @@ class Lock;
  *  \brief FieldContainerFactory
  */
 
-class OSG_DLLEXPORT FieldContainerFactory 
+class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerFactory 
 {
   public:
 

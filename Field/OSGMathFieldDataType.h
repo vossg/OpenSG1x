@@ -110,3 +110,4 @@ struct FieldDataTraits<Quaternion> : public Traits
 OSG_END_NAMESPACE
 
 #endif /* _OSG_MATHFIELDDATATYPE_H_ */
+

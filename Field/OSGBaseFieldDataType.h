@@ -54,7 +54,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<Color3f> : public Traits
+struct FieldDataTraits<Color3f> : public Traits
 {
     enum                     { StringConvertable = ToStringConvertable | 
                                                    FromStringConvertable };
@@ -80,7 +80,7 @@ struct OSG_DLLEXPORT FieldDataTraits<Color3f> : public Traits
 };
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<Color4f> : public Traits
+struct FieldDataTraits<Color4f> : public Traits
 {
     enum                     { StringConvertable = ToStringConvertable | 
                                                    FromStringConvertable };
@@ -106,7 +106,7 @@ struct OSG_DLLEXPORT FieldDataTraits<Color4f> : public Traits
 };
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<String> : public Traits
+struct FieldDataTraits<String> : public Traits
 {
     enum                     { StringConvertable = ToStringConvertable | 
                                                    FromStringConvertable };
@@ -139,7 +139,7 @@ struct OSG_DLLEXPORT FieldDataTraits<String> : public Traits
 
 #if 0
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<Time> : public Traits
+struct FieldDataTraits<Time> : public Traits
 {
     enum                     { StringConvertable = ToStringConvertable | 
                                                    FromStringConvertable };
@@ -167,7 +167,8 @@ struct OSG_DLLEXPORT FieldDataTraits<Time> : public Traits
 #endif
 
 template <>
-struct FieldDataTraits<DynamicVolume> : public Traits
+struct FieldDataTraits<DynamicVolume> : 
+    public Traits
 {
     enum                     { StringConvertable = ToStringConvertable | 
                                                    FromStringConvertable };

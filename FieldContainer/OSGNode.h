@@ -45,6 +45,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <OSGFieldContainerBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGMatrix.h>
 #include <OSGFieldDescription.h>
@@ -76,7 +77,7 @@ class NodePtr;
  *  \brief Node
  */
 
-class OSG_DLLEXPORT Node : public FieldContainer 
+class OSG_FIELDCONTAINER_DLLMAPPING Node : public FieldContainer 
 {
   public:
 

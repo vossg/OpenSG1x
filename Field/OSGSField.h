@@ -79,7 +79,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <class FieldTypeT>
-class OSG_DLLEXPORT SField : public Field 
+class OSG_FIELD_DLLMAPPING SField : public Field 
 {
   public:
 

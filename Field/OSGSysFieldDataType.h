@@ -51,7 +51,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<Bool> : public Traits
+struct FieldDataTraits<Bool> : public Traits
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
@@ -133,7 +133,7 @@ struct OSG_DLLEXPORT FieldDataTraits<Bool> : public Traits
  */
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<Int8> : public Traits
+struct FieldDataTraits<Int8> : public Traits
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
@@ -165,7 +165,7 @@ struct OSG_DLLEXPORT FieldDataTraits<Int8> : public Traits
  */
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<UInt8> : public Traits
+struct FieldDataTraits<UInt8> : public Traits
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
@@ -198,7 +198,7 @@ struct OSG_DLLEXPORT FieldDataTraits<UInt8> : public Traits
  */
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<Int16> : public Traits
+struct FieldDataTraits<Int16> : public Traits
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
@@ -230,7 +230,7 @@ struct OSG_DLLEXPORT FieldDataTraits<Int16> : public Traits
  */
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<UInt16> : public Traits
+struct FieldDataTraits<UInt16> : public Traits
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
@@ -263,7 +263,7 @@ struct OSG_DLLEXPORT FieldDataTraits<UInt16> : public Traits
  */
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<Int32> : public Traits
+struct FieldDataTraits<Int32> : public Traits
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
@@ -295,7 +295,7 @@ struct OSG_DLLEXPORT FieldDataTraits<Int32> : public Traits
  */
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<UInt32> : public Traits
+struct FieldDataTraits<UInt32> : public Traits
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
@@ -328,7 +328,7 @@ struct OSG_DLLEXPORT FieldDataTraits<UInt32> : public Traits
  */
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<Int64> : public Traits
+struct FieldDataTraits<Int64> : public Traits
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
@@ -360,7 +360,7 @@ struct OSG_DLLEXPORT FieldDataTraits<Int64> : public Traits
  */
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<UInt64> : public Traits
+struct FieldDataTraits<UInt64> : public Traits
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
@@ -393,7 +393,7 @@ struct OSG_DLLEXPORT FieldDataTraits<UInt64> : public Traits
  */
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<Real32> : public Traits
+struct FieldDataTraits<Real32> : public Traits
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
@@ -426,7 +426,7 @@ struct OSG_DLLEXPORT FieldDataTraits<Real32> : public Traits
  */
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<Real64> : public Traits
+struct FieldDataTraits<Real64> : public Traits
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };

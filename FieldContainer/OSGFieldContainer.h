@@ -45,6 +45,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <OSGFieldContainerBase.h>
 #include <OSGFieldContainerType.h>
 #include <OSGStringLink.h>
 #include <OSGFieldContainerFactory.h>
@@ -106,29 +107,29 @@ namespace FieldBits
     const BitVector Field31   = 0x80000000;
 }
 
-OSG_DLLEXPORT
+OSG_FIELDCONTAINER_DLLMAPPING
 void osgAddRefCP   (FieldContainerPtr &objectP);
 
-OSG_DLLEXPORT
+OSG_FIELDCONTAINER_DLLMAPPING
 void osgSubRefCP   (FieldContainerPtr &objectP);
 
-OSG_DLLEXPORT
+OSG_FIELDCONTAINER_DLLMAPPING
 void osgBeginEditCP(FieldContainerPtr &objectP, 
                     BitVector          whichField = FieldBits::AllFields);
 
-OSG_DLLEXPORT
+OSG_FIELDCONTAINER_DLLMAPPING
 void osgEndEditCP  (FieldContainerPtr &objectP, 
                     BitVector          whichField = FieldBits::AllFields);
 
-OSG_DLLEXPORT
+OSG_FIELDCONTAINER_DLLMAPPING
 void osgChangedCP  (FieldContainerPtr &objectP, 
                     BitVector          whichField = FieldBits::AllFields);
 
-OSG_DLLEXPORT
+OSG_FIELDCONTAINER_DLLMAPPING
 void osgEndEditNoChangedCP(FieldContainerPtr &objectP, 
                            BitVector        whichField = FieldBits::AllFields);
 
-OSG_DLLEXPORT
+OSG_FIELDCONTAINER_DLLMAPPING
 void osgSetRefdCP  (FieldContainerPtr &objectP,
                     FieldContainerPtr &newObjectP);
 
@@ -149,7 +150,7 @@ void osgSetRefdCP  (FieldContainerPtr &objectP,
  *  \brief FieldContainer
  */
 
-class OSG_DLLEXPORT FieldContainer 
+class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer 
 {
   public:
 

@@ -152,7 +152,6 @@ UInt32 FieldContainer::getStaticTypeId(void)
  */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-OSG_DLLEXPORT
 ostream &operator <<(
     ostream                                                 &os,
     const FCPtr<BasePtrTypeT, FieldContainerTypeT> &fc)

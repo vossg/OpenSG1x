@@ -81,7 +81,7 @@ OSG_BEGIN_NAMESPACE
 #pragma set woff 1375
 
 template<class _Tp, class _Alloc = __STL_DEFAULT_ALLOCATOR(_Tp) >
-class OSG_DLLEXPORT MFieldVector : public vector<_Tp, _Alloc>
+class OSG_FIELD_DLLMAPPING MFieldVector : public vector<_Tp, _Alloc>
 {
   public:
 
@@ -224,7 +224,7 @@ class OSG_DLLEXPORT MFieldVector : public vector<_Tp, _Alloc>
  */
 
 template <class FieldTypeT>
-class MField : public Field
+class OSG_FIELD_DLLMAPPING MField : public Field
 {
   public:
 

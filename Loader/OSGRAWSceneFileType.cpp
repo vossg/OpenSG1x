@@ -58,6 +58,8 @@
 #include <limits>
 #endif
 
+#define OSG_COMPILELOADER
+
 #include <OSGLog.h>
 
 #include <OSGNode.h>

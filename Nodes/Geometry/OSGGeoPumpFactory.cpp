@@ -54,6 +54,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEGEOMETRY
+
 #include "OSGLog.h"
 
 #include "OSGFieldContainerPtr.h"

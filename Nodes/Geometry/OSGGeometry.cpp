@@ -53,6 +53,9 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEGEOMETRY
+
+#include <OSGGeometryBase.h>
 #include <OSGFieldContainer.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGAction.h>
@@ -81,7 +84,7 @@ OSG_USING_NAMESPACE
  *  \brief Value store
  */
 
-GeometryPtr OSG::NullGeo;
+OSG_GEOMETRY_DLLMAPPING GeometryPtr OSG::NullGeo;
 
 /***************************************************************************\
  *                               Types                                     *

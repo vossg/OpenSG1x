@@ -50,6 +50,10 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEGEOMETRY
+
+#include <OSGGeometryBase.h>
+
 #include <OSGLog.h>
 
 #include "OSGSimpleGeometry.h"
@@ -83,6 +87,7 @@ static char cvsid[] = "@(#)$Id: $";
 #pragma reset woff 1174
 #endif
 
+OSG_GEOMETRY_DLLMAPPING
 NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 {
 	GeoPosition3fPtr		pnts  = GeoPosition3f::create();

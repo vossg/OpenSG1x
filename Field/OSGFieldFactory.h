@@ -73,7 +73,7 @@ class FieldType;
  *  \brief Factory for field
  */
 
-class OSG_DLLEXPORT FieldFactory 
+class OSG_FIELD_DLLMAPPING FieldFactory 
 {
   public:
 

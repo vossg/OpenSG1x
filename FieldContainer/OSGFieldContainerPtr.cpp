@@ -52,6 +52,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEFIELDCONTAINER
+
 #include "OSGFieldContainerPtr.h"
 #include "OSGNode.h"
 #include "OSGNodeCore.h"
@@ -574,6 +576,7 @@ FieldContainerPtr::FieldContainerPtr(const FieldContainer &source)
 /** \brief Write FC to the given stream
  */
 
+OSG_FIELDCONTAINER_DLLMAPPING
 ostream &OSG::operator <<(ostream &outStream,
                           const FieldContainerPtr &fcPtr)
 {
@@ -1360,20 +1363,20 @@ AttachmentPtr::AttachmentPtr(const Attachment &source)
 /** \brief NULL field container pointer
  */
 
-OSG_DLLEXPORT const FieldContainerPtr   OSG::NullFC;
+OSG_FIELDCONTAINER_DLLMAPPING const FieldContainerPtr   OSG::NullFC;
 
 /** \brief NULL node pointer
  */
 
-OSG_DLLEXPORT const NodePtr             OSG::NullNode;
+OSG_FIELDCONTAINER_DLLMAPPING const NodePtr             OSG::NullNode;
 
 /** \brief NULL node core pointer
  */
 
-OSG_DLLEXPORT const NodeCorePtr         OSG::NullNodeCore;
+OSG_FIELDCONTAINER_DLLMAPPING const NodeCorePtr         OSG::NullNodeCore;
 
 /** \brief NULL attachment pointer
  */
 
-OSG_DLLEXPORT const AttachmentPtr       OSG::NullAttachment;
+OSG_FIELDCONTAINER_DLLMAPPING const AttachmentPtr       OSG::NullAttachment;
 

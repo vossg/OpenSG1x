@@ -40,6 +40,7 @@
 #ifndef _OSG_VECFIELDDATATYPE_H_
 #define _OSG_VECFIELDDATATYPE_H_
 
+#include <OSGBase.h>
 #include <OSGFieldDataType.h>
 #include <OSGVector.h>
 
@@ -52,7 +53,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<Vec2f> : public Traits
+struct FieldDataTraits<Vec2f> : public Traits
 {
     enum                         { StringConvertable = ToStringConvertable | 
                                                        FromStringConvertable };
@@ -84,7 +85,7 @@ struct OSG_DLLEXPORT FieldDataTraits<Vec2f> : public Traits
  */
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<Vec3f> : public Traits
+struct FieldDataTraits<Vec3f> : public Traits
 {
     enum                         { StringConvertable = ToStringConvertable | 
                                                        FromStringConvertable };
@@ -117,7 +118,7 @@ struct OSG_DLLEXPORT FieldDataTraits<Vec3f> : public Traits
  */
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<Vec4f> : public Traits
+struct FieldDataTraits<Vec4f> : public Traits
 {
     enum                         { StringConvertable = ToStringConvertable | 
                                                        FromStringConvertable };
@@ -150,7 +151,7 @@ struct OSG_DLLEXPORT FieldDataTraits<Vec4f> : public Traits
  */
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<Pnt2f> : public Traits
+struct FieldDataTraits<Pnt2f> : public Traits
 {
     enum                        { StringConvertable = ToStringConvertable | 
                                                       FromStringConvertable };
@@ -183,7 +184,7 @@ struct OSG_DLLEXPORT FieldDataTraits<Pnt2f> : public Traits
  */
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<Vec4ub> : public Traits
+struct FieldDataTraits<Vec4ub> : public Traits
 {
     enum                        { StringConvertable = ToStringConvertable | 
                                                       FromStringConvertable };
@@ -216,7 +217,7 @@ struct OSG_DLLEXPORT FieldDataTraits<Vec4ub> : public Traits
  */
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<Pnt3f> : public Traits
+struct FieldDataTraits<Pnt3f> : public Traits
 {
     enum                        { StringConvertable = ToStringConvertable | 
                                                       FromStringConvertable };
@@ -248,7 +249,7 @@ struct OSG_DLLEXPORT FieldDataTraits<Pnt3f> : public Traits
  */
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<Pnt4f> : public Traits
+struct FieldDataTraits<Pnt4f> : public Traits
 {
     enum                        { StringConvertable = ToStringConvertable | 
                                                       FromStringConvertable };

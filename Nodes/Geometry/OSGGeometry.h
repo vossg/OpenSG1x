@@ -45,6 +45,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <OSGGeometryBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGNodeCore.h>
 #include <OSGSFMathTypes.h>
@@ -83,7 +84,7 @@ typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
  *  and minimal though, so don't expect them to be blindingly fast.
  */
 
-class OSG_DLLEXPORT Geometry : public NodeCore
+class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
 {
   public:
 
@@ -292,7 +293,17 @@ class OSG_DLLEXPORT Geometry : public NodeCore
 
 // class pointer
 
+#if defined(WIN32) && defined(OSG_BUILD_DLL)
+#   ifdef OSG_COMPILEGEOMETRY
+        extern OSG_GEOMETRY_DLLMAPPING GeometryPtr NullGeo;
+#   else
+        OSG_GEOMETRY_DLLMAPPING GeometryPtr NullGeo;
+#   endif 
+#else
 extern GeometryPtr NullGeo;
+#endif
+
+
 
 
 // Single index geometry  

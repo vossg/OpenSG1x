@@ -47,6 +47,7 @@
 
 #include <GL/gl.h>
 
+#include <OSGGeometryBase.h>
 #include <OSGMFVecTypes.h>
 #include <OSGMFSysTypes.h>
 #include <OSGAttachment.h>
@@ -73,7 +74,8 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <class GeoPropertyDesc>
-class OSG_DLLEXPORT AbstractGeoProperty : public GeoPropertyDesc::Inherit
+class OSG_GEOMETRY_DLLMAPPING AbstractGeoProperty : 
+    public GeoPropertyDesc::Inherit
 {
   public:
 
@@ -137,7 +139,7 @@ class OSG_DLLEXPORT AbstractGeoProperty : public GeoPropertyDesc::Inherit
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    friend class FieldContainer;
+    friend class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -204,7 +206,7 @@ class OSG_DLLEXPORT AbstractGeoProperty : public GeoPropertyDesc::Inherit
 //---------------------------------------------------------------------------
 
 template <class GeoPropertyDesc>
-class OSG_DLLEXPORT GeoProperty : public GeoPropertyDesc::Inherit
+class OSG_GEOMETRY_DLLMAPPING GeoProperty : public GeoPropertyDesc::Inherit
 {
   public:
 
@@ -250,6 +252,21 @@ class OSG_DLLEXPORT GeoProperty : public GeoPropertyDesc::Inherit
 
     OSG_FIELD_CONTAINER_TMPL_DECL(PtrType)
 
+/*
+    virtual FieldContainerType &getType(void); 
+
+    virtual const FieldContainerType &getType(void) const; 
+
+    static osg::FieldContainerType & getStaticType(void); 
+    
+    __declspec(dllexport) static UInt32 getStaticTypeId(void); 
+    __declspec(dllexport) static PtrType create(void); 
+    
+    static PtrType createEmpty(void); 
+    virtual osg::FieldContainerPtr clone(void) const; 
+    virtual osg::UInt32 getSize(void) const;
+*/
+
     /*----------------------------- access ----------------------------------*/
 
           typename GeoPropertyDesc::FieldType *getFieldPtr(void);
@@ -293,7 +310,7 @@ class OSG_DLLEXPORT GeoProperty : public GeoPropertyDesc::Inherit
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    friend class FieldContainer;
+    friend class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -369,7 +386,7 @@ class OSG_DLLEXPORT GeoProperty : public GeoPropertyDesc::Inherit
 
 // For the properties not group together like type or length
 
-struct OSG_DLLEXPORT AttachmentPropertyDesc
+struct OSG_GEOMETRY_DLLMAPPING AttachmentPropertyDesc
 {
 	static const char *getTypeName (void)  { return "Attachment"; }
 };
@@ -377,7 +394,7 @@ struct OSG_DLLEXPORT AttachmentPropertyDesc
 
 // Position
 
-struct OSG_DLLEXPORT GeoPositionPropertyDesc
+struct OSG_GEOMETRY_DLLMAPPING GeoPositionPropertyDesc
 {
 	static const Char8 *getTypeName (void) { return "GeoPosition";         }
 
@@ -397,7 +414,7 @@ typedef GeoPosition::PtrType GeoPositionPtr;
 
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<GeoPositionPtr> : public Traits
+struct OSG_GEOMETRY_DLLMAPPING FieldDataTraits<GeoPositionPtr> : public Traits
 {
     enum                           { StringConvertable = 0x00   };
 
@@ -412,7 +429,7 @@ typedef SField<GeoPositionPtr> SFGeoPositionPtr;
 
 // Position 3f
 
-struct OSG_DLLEXPORT GeoPosition3fPropertyDesc
+struct OSG_GEOMETRY_DLLMAPPING GeoPosition3fPropertyDesc
 {
 	static const Char8 *getTypeName (void) { return "GeoPosition3f";         }
 	static const Char8 *getClassName(void) { return "GeoPosition3fProperty"; }
@@ -439,7 +456,7 @@ typedef GeoPosition3f::PtrType GeoPosition3fPtr;
 
 // Normal
 
-struct OSG_DLLEXPORT GeoNormalPropertyDesc
+struct OSG_GEOMETRY_DLLMAPPING GeoNormalPropertyDesc
 {
 	static const Char8 *getTypeName (void) { return "GeoNormal";         }
 	static const Char8 *getGroupName(void) { return "GeoNormal";         }
@@ -458,7 +475,7 @@ typedef GeoNormal::PtrType GeoNormalPtr;
 
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<GeoNormalPtr> : public Traits
+struct OSG_GEOMETRY_DLLMAPPING FieldDataTraits<GeoNormalPtr> : public Traits
 {
     enum                            { StringConvertable = 0x00 };
 
@@ -473,7 +490,7 @@ typedef SField<GeoNormalPtr> SFGeoNormalPtr;
 
 // Normal 3f
 
-struct OSG_DLLEXPORT GeoNormal3fPropertyDesc
+struct OSG_GEOMETRY_DLLMAPPING GeoNormal3fPropertyDesc
 {
 	static const Char8 *getTypeName  (void) { return "GeoNormal3f";         }
 	static const Char8 *getClassName (void) { return "GeoNormal3fProperty"; }
@@ -500,7 +517,7 @@ typedef GeoNormal3f::PtrType GeoNormal3fPtr;
 
 // Color
 
-struct OSG_DLLEXPORT GeoColorPropertyDesc
+struct OSG_GEOMETRY_DLLMAPPING GeoColorPropertyDesc
 {
 	static const Char8 *getTypeName (void) { return "GeoColor";         }
 	static const Char8 *getGroupName(void) { return "GeoColor";         }
@@ -519,7 +536,7 @@ typedef GeoColor::PtrType GeoColorPtr;
 
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<GeoColorPtr> : public Traits
+struct OSG_GEOMETRY_DLLMAPPING FieldDataTraits<GeoColorPtr> : public Traits
 {
     enum                            { StringConvertable = 0x00   };
 
@@ -533,7 +550,7 @@ typedef SField<GeoColorPtr> SFGeoColorPtr;
 
 // Color 3f
 
-struct OSG_DLLEXPORT GeoColor3fPropertyDesc
+struct OSG_GEOMETRY_DLLMAPPING GeoColor3fPropertyDesc
 {
 	static const Char8 *getTypeName (void) { return "GeoColor3f";         }
 	static const Char8 *getClassName(void) { return "GeoColor3fProperty"; }
@@ -561,7 +578,7 @@ typedef GeoColor3f::PtrType GeoColor3fPtr;
 // Color 4ub
 
 
-struct OSG_DLLEXPORT GeoColor4ubPropertyDesc
+struct OSG_GEOMETRY_DLLMAPPING GeoColor4ubPropertyDesc
 {
 	static const Char8 *getTypeName  (void) { return "GeoColor4ub";         }
 	static const Char8 *getClassName (void) { return "GeoColor4ubProperty"; }
@@ -588,7 +605,7 @@ typedef GeoColor4ub::PtrType GeoColor4ubPtr;
 
 // Index
 
-struct OSG_DLLEXPORT GeoIndexPropertyDesc
+struct OSG_GEOMETRY_DLLMAPPING GeoIndexPropertyDesc
 {
 	static const Char8 *getTypeName (void) { return "GeoIndex";         }
 	static const Char8 *getGroupName(void) { return "GeoIndex";         }
@@ -607,7 +624,7 @@ typedef GeoIndex::PtrType GeoIndexPtr;
 
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<GeoIndexPtr> : public Traits
+struct OSG_GEOMETRY_DLLMAPPING FieldDataTraits<GeoIndexPtr> : public Traits
 {
     enum                            { StringConvertable = 0x00 };
 
@@ -621,7 +638,7 @@ typedef SField<GeoIndexPtr> SFGeoIndexPtr;
 
 // Index uint32
 
-struct OSG_DLLEXPORT GeoIndexUI32PropertyDesc
+struct OSG_GEOMETRY_DLLMAPPING GeoIndexUI32PropertyDesc
 {
 	static const Char8 *getTypeName (void) { return "GeoIndexUI32";         }
 	static const Char8 *getClassName(void) { return "GeoIndexUI32Property"; }
@@ -655,7 +672,7 @@ typedef GeoIndexUI32::PtrType GeoIndexUI32Ptr;
 
 // PType
 
-struct OSG_DLLEXPORT GeoPTypePropertyDesc
+struct OSG_GEOMETRY_DLLMAPPING GeoPTypePropertyDesc
 {
 	static const Char8 *getTypeName (void) { return "GeoPType"; }
 	static const Char8 *getClassName(void) { return "GeoPTypeProperty"; }
@@ -681,7 +698,7 @@ typedef GeoPType::PtrType GeoPTypePtr;
 
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<GeoPTypePtr> : public Traits
+struct OSG_GEOMETRY_DLLMAPPING FieldDataTraits<GeoPTypePtr> : public Traits
 {
     enum                            { StringConvertable = 0x00 };
 
@@ -701,7 +718,7 @@ typedef SField<GeoPTypePtr> SFGeoPTypePtr;
 // have to expand it later 
 
 
-struct OSG_DLLEXPORT GeoPLengthPropertyDesc
+struct OSG_GEOMETRY_DLLMAPPING GeoPLengthPropertyDesc
 {
 	static const Char8 *getTypeName (void) { return "GeoPLength";         }
 	static const Char8 *getClassName(void) { return "GeoPLengthProperty"; }
@@ -727,7 +744,7 @@ typedef GeoPLength::PtrType GeoPLengthPtr;
 
 
 template <>
-struct OSG_DLLEXPORT FieldDataTraits<GeoPLengthPtr> : public Traits
+struct OSG_GEOMETRY_DLLMAPPING FieldDataTraits<GeoPLengthPtr> : public Traits
 {
     enum                            { StringConvertable = 0x00  };
 

@@ -48,6 +48,7 @@
 
 #include <OSGFieldDataType.h>
 #include <OSGString.h>
+#include <OSGFieldContainerBase.h>
 #include <OSGFieldContainer.h>
 #include <OSGFieldType.h>
 
@@ -74,7 +75,7 @@ typedef Field * (FieldContainer::* FieldIndexAccessMethod)(UInt32);
  *  \brief FieldDescription
  */
 
-class OSG_DLLEXPORT FieldDescription 
+class OSG_FIELDCONTAINER_DLLMAPPING FieldDescription 
 {
   public:
     

@@ -49,6 +49,7 @@
 
 #include <OSGBaseTypes.h>
 #include <OSGString.h>
+#include <OSGFieldContainerBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -76,7 +77,7 @@ class LockPool;
  *  data store used by OSG.
  */
 
-class OSG_DLLEXPORT FieldContainerPtr
+class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerPtr
 {
   public:
 
@@ -283,24 +284,30 @@ class OSG_DLLEXPORT FieldContainerPtr
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-	friend OSG_DLLEXPORT 
+	friend OSG_FIELDCONTAINER_DLLMAPPING 
            ostream &operator <<(ostream &os, const FieldContainerPtr &fc);
 
-    friend OSG_DLLEXPORT void osgAddRefCP   (FieldContainerPtr &pObject);
-    friend OSG_DLLEXPORT void osgSubRefCP   (FieldContainerPtr &pObject);
-    friend OSG_DLLEXPORT void osgBeginEditCP(FieldContainerPtr &pObject, 
-                                             BitVector          whichField);
-    friend OSG_DLLEXPORT void osgEndEditCP  (FieldContainerPtr &pObject,
-                                             BitVector          whichField);
-    friend OSG_DLLEXPORT void osgChangedCP  (FieldContainerPtr &objectP, 
-                                             BitVector          whichField);
+    friend OSG_FIELDCONTAINER_DLLMAPPING 
+        void osgAddRefCP   (FieldContainerPtr &pObject);
+    friend OSG_FIELDCONTAINER_DLLMAPPING 
+        void osgSubRefCP   (FieldContainerPtr &pObject);
+    friend OSG_FIELDCONTAINER_DLLMAPPING 
+        void osgBeginEditCP(FieldContainerPtr &pObject, 
+                            BitVector          whichField);
+    friend OSG_FIELDCONTAINER_DLLMAPPING 
+        void osgEndEditCP  (FieldContainerPtr &pObject,
+                            BitVector          whichField);
+    friend OSG_FIELDCONTAINER_DLLMAPPING 
+        void osgChangedCP  (FieldContainerPtr &objectP, 
+                            BitVector          whichField);
 
-    friend OSG_DLLEXPORT void osgEndEditNotChangedCP(
-        FieldContainerPtr &objectP, 
-        BitVector          whichField);
+    friend OSG_FIELDCONTAINER_DLLMAPPING 
+        void osgEndEditNotChangedCP(FieldContainerPtr &objectP, 
+                                    BitVector          whichField);
         
-    friend OSG_DLLEXPORT void osgSetRefdCP  (FieldContainerPtr &objectP,
-                                             FieldContainerPtr &newObjectP);
+    friend OSG_FIELDCONTAINER_DLLMAPPING 
+        void osgSetRefdCP  (FieldContainerPtr &objectP,
+                            FieldContainerPtr &newObjectP);
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
@@ -325,7 +332,7 @@ class OSG_DLLEXPORT FieldContainerPtr
     explicit FieldContainerPtr(const FieldContainer &source);
 };
 
-OSG_DLLEXPORT ostream &operator <<(ostream &outStream,
+OSG_FIELDCONTAINER_DLLMAPPING ostream &operator <<(ostream &outStream,
                                    const FieldContainerPtr &color);
 
 //---------------------------------------------------------------------------
@@ -340,7 +347,7 @@ class Node;
 class NodeCore;
 class CNodePtr;
 
-class OSG_DLLEXPORT NodePtr : public FieldContainerPtr
+class OSG_FIELDCONTAINER_DLLMAPPING NodePtr : public FieldContainerPtr
 {
   public:
 
@@ -477,7 +484,7 @@ class OSG_DLLEXPORT NodePtr : public FieldContainerPtr
  *  \brief Pointer to a node
  */
 
-class OSG_DLLEXPORT CNodePtr : public FieldContainerPtr
+class OSG_FIELDCONTAINER_DLLMAPPING CNodePtr : public FieldContainerPtr
 {
   public:
 
@@ -617,7 +624,7 @@ class OSG_DLLEXPORT CNodePtr : public FieldContainerPtr
  *  detailed
  */
 
-class OSG_DLLEXPORT NodeCorePtr : public FieldContainerPtr
+class OSG_FIELDCONTAINER_DLLMAPPING NodeCorePtr : public FieldContainerPtr
 {
   public:
 
@@ -747,7 +754,7 @@ class OSG_DLLEXPORT NodeCorePtr : public FieldContainerPtr
  *  \brief Pointer to attachment
  */
 
-class OSG_DLLEXPORT AttachmentPtr : public FieldContainerPtr
+class OSG_FIELDCONTAINER_DLLMAPPING AttachmentPtr : public FieldContainerPtr
 {
   public:
 
@@ -883,7 +890,7 @@ class OSG_DLLEXPORT AttachmentPtr : public FieldContainerPtr
  */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> 
-class OSG_DLLEXPORT FCPtr : public BasePtrTypeT
+class OSG_FIELDCONTAINER_DLLMAPPING FCPtr : public BasePtrTypeT
 {
   public:
 
@@ -1013,10 +1020,10 @@ class OSG_DLLEXPORT FCPtr : public BasePtrTypeT
 //   Exported Types
 //---------------------------------------------------------------------------
 
-extern OSG_DLLEXPORT const FieldContainerPtr   NullFC;
-extern OSG_DLLEXPORT const NodePtr             NullNode;
-extern OSG_DLLEXPORT const NodeCorePtr         NullNodeCore;
-extern OSG_DLLEXPORT const AttachmentPtr       NullAttachment;
+extern OSG_FIELDCONTAINER_DLLMAPPING const FieldContainerPtr   NullFC;
+extern OSG_FIELDCONTAINER_DLLMAPPING const NodePtr             NullNode;
+extern OSG_FIELDCONTAINER_DLLMAPPING const NodeCorePtr         NullNodeCore;
+extern OSG_FIELDCONTAINER_DLLMAPPING const AttachmentPtr       NullAttachment;
 
 OSG_END_NAMESPACE
 

@@ -287,6 +287,67 @@ FieldContainerType GeoProperty<GeoPropertyDesc>::_type(
 OSG_FIELD_CONTAINER_INL_TMPL_DEF(GeoProperty,
                                  GeoPropertyDesc,
                                  PtrType)
+/*
+template <class GeoPropertyDesc> inline 
+osg::FieldContainerType &GeoProperty<GeoPropertyDesc>::getType(void) 
+{
+    return _type; 
+}
+
+template <class GeoPropertyDesc> inline 
+const osg::FieldContainerType &GeoProperty<GeoPropertyDesc>::getType(void) const
+{ 
+    return _type; 
+} 
+
+template <class GeoPropertyDesc> inline 
+osg::FieldContainerType &GeoProperty<GeoPropertyDesc>::getStaticType(void) 
+{ 
+    return _type; 
+} 
+
+template <class GeoPropertyDesc> inline 
+_declspec(dllexport)
+UInt32 GeoProperty<GeoPropertyDesc>::getStaticTypeId(void)
+{
+    return _type.getId(); 
+}
+
+template <class GeoPropertyDesc> inline 
+osg::UInt32 GeoProperty<GeoPropertyDesc>::getSize(void) const 
+{
+    return sizeof(GeoProperty); 
+}
+
+template <class GeoPropertyDesc> inline
+osg::FieldContainerPtr GeoProperty<GeoPropertyDesc>::clone(void) const 
+{ 
+    PtrType returnValue; 
+    newPtr(returnValue, this); 
+    return returnValue; 
+} 
+
+template <class GeoPropertyDesc> inline 
+__declspec(dllexport)
+GeoProperty<GeoPropertyDesc>::PtrType GeoProperty<GeoPropertyDesc>::create(void)
+{ 
+    PtrType fc; 
+    if(_type.getPrototype() != NullFC) 
+        fc = _type.getPrototype()->clone().dcast<PtrType>(); 
+    
+    return fc;
+}
+
+template <class GeoPropertyDesc> inline 
+GeoProperty<GeoPropertyDesc>::PtrType
+GeoProperty<GeoPropertyDesc>::createEmpty(
+    void)
+{
+    PtrType returnValue; 
+    newPtr(returnValue); 
+    return returnValue; 
+}
+*/
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -327,7 +388,8 @@ inline GeoProperty<GeoPropertyDesc>::~GeoProperty(void)
  */
 
 template <class GeoPropertyDesc> 
-inline typename GeoPropertyDesc::FieldType * 
+inline 
+typename GeoPropertyDesc::FieldType * 
     GeoProperty<GeoPropertyDesc>::getFieldPtr(void)
 {
     return &_field;

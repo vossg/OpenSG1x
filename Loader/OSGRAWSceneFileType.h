@@ -47,7 +47,6 @@
 //Includes
 //-------------------------------
 
-
 #include <OSGBaseTypes.h>
 
 #include "OSGSceneFileType.h"
@@ -69,7 +68,7 @@ OSG_BEGIN_NAMESPACE
 //------------------------------
 
 
-class OSG_DLLEXPORT RAWSceneFileType : public SceneFileType 
+class OSG_LOADER_DLLMAPPING RAWSceneFileType : public SceneFileType 
 {
 
 public:

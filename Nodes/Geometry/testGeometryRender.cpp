@@ -9,6 +9,7 @@
 #include <GL/glut.h>
 
 #include <OSGFieldContainerFactory.h>
+#include <OSGBaseFunctions.h>
 #include <OSGSFSysTypes.h>
 #include <OSGNode.h>
 #include <OSGGroup.h>
@@ -18,10 +19,10 @@
 #include <OSGMFVecTypes.h>
 #include <OSGAction.h>
 #include <OSGDrawAction.h>
-#include "OSGGeometry.h"
 #include <OSGMatrix.h>
 #include <OSGQuaternion.h>
-#include <OSGBaseFunctions.h>
+#include "OSGGeometry.h"
+#include <OSGGeoProperty.h>
 
 using namespace OSG;
 
@@ -31,6 +32,7 @@ NodePtr  root;
 
 Matrix accumM;
 Matrix stepM;
+
 
 void 
 display(void)
@@ -95,10 +97,10 @@ int main (int argc, char **argv)
 
 	GeoPosition3f::PtrType pnts = GeoPosition3f::create();
 	g1->setPositions( pnts );
-
 	cerr << "Points property: " << hex << pnts << endl;
 
 	cerr << "Geometry Points: " << hex << g1->getPositions() << endl;
+
 
 	MFPnt3f* p = pnts->getFieldPtr();
 
@@ -163,6 +165,7 @@ int main (int argc, char **argv)
 	dact = new DrawAction;
 	
 	glutMainLoop();
+
 	
     return 0;
 }

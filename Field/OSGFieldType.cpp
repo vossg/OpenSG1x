@@ -51,6 +51,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEFIELD
+
 #include "OSGFieldType.h"
 #include "OSGBaseFunctions.h"
 #include "OSGFieldFactory.h"

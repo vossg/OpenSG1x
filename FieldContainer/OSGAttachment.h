@@ -45,6 +45,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <OSGFieldContainerBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGFieldContainer.h>
 #include <OSGFieldDescription.h>
@@ -75,7 +76,7 @@ OSG_BEGIN_NAMESPACE
  *  which could be attached to other fieldcontainers than Attachments.
  */
 
-class OSG_DLLEXPORT Attachment : public FieldContainer 
+class OSG_FIELDCONTAINER_DLLMAPPING Attachment : public FieldContainer 
 {
   public:
 
@@ -209,7 +210,7 @@ class OSG_DLLEXPORT Attachment : public FieldContainer
  */
 
 template <class AttachmentDescT>
-class OSG_DLLEXPORT SimpleAttachment : public Attachment
+class OSG_FIELDCONTAINER_DLLMAPPING SimpleAttachment : public Attachment
 {
   public:
 
@@ -356,7 +357,7 @@ class OSG_DLLEXPORT SimpleAttachment : public Attachment
  */
 
 template <class AttachmentDescT>
-class OSG_DLLEXPORT DynFieldAttachment : public AttachmentDescT::Parent
+class OSG_FIELDCONTAINER_DLLMAPPING DynFieldAttachment : public AttachmentDescT::Parent
 {
   public:
 
@@ -500,7 +501,7 @@ typedef Attachment                    *AttachmentP;
 
 typedef map<UInt32, AttachmentPtr>  AttachmentMap;
 
-OSG_DLLEXPORT
+OSG_FIELDCONTAINER_DLLMAPPING
 ostream &operator <<(      ostream       &stream,
                      const AttachmentMap &map);
 

@@ -52,6 +52,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEGEOMETRY
+
 #include "OSGGeoProperty.h"
 
 OSG_USING_NAMESPACE
@@ -59,22 +61,28 @@ OSG_USING_NAMESPACE
 // explicit instantiation to work around compiler problems with static
 // init for templated classes
 
-#ifdef OSG_NEED_EXPLICIT_INST_FOR_STATIC
+//#ifdef OSG_NEED_EXPLICIT_INST_FOR_STATIC
 
-template class AbstractGeoProperty<GeoPositionPropertyDesc>;
-template class GeoProperty<GeoPosition3fPropertyDesc>;
+template class OSG_GEOMETRY_DLLMAPPING 
+     AbstractGeoProperty<GeoPositionPropertyDesc>;
 
-template class AbstractGeoProperty<GeoNormalPropertyDesc>;
-template class GeoProperty<GeoNormal3fPropertyDesc>;
+template class OSG_GEOMETRY_DLLMAPPING GeoProperty<GeoPosition3fPropertyDesc>;
 
-template class AbstractGeoProperty<GeoIndexPropertyDesc>;
-template class GeoProperty<GeoIndexUI32PropertyDesc>;
+template class OSG_GEOMETRY_DLLMAPPING 
+    AbstractGeoProperty<GeoNormalPropertyDesc>;
 
-template class GeoProperty<GeoPTypePropertyDesc>;
+template class OSG_GEOMETRY_DLLMAPPING GeoProperty<GeoNormal3fPropertyDesc>;
 
-template class GeoProperty<GeoPLengthPropertyDesc>;
+template class OSG_GEOMETRY_DLLMAPPING AbstractGeoProperty<
+    GeoIndexPropertyDesc>;
 
-#endif
+template class OSG_GEOMETRY_DLLMAPPING GeoProperty<GeoIndexUI32PropertyDesc>;
+
+
+template class OSG_GEOMETRY_DLLMAPPING GeoProperty<GeoPTypePropertyDesc>;
+template class OSG_GEOMETRY_DLLMAPPING GeoProperty<GeoPLengthPropertyDesc>;
+
+//#endif
 
 
 ///---------------------------------------------------------------------------

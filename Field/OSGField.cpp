@@ -52,6 +52,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEFIELD
+
 #include "OSGField.h"
 
 OSG_USING_NAMESPACE

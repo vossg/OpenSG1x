@@ -256,6 +256,15 @@ void FCPtr<BasePtrTypeT,
     }
 }
 
+/*
+template <class BasePtr, class ContainerType>
+    OSG_FIELDCONTAINER_DLLMAPPING
+	inline ostream &operator 
+			<<(ostream &os, const FCPtr<BasePtr, ContainerType> &fc)
+{
+}
+*/
+
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/

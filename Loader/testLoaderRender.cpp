@@ -57,7 +57,7 @@ int main (int argc, char **argv)
 	const char *fileName = (argc > 1) ? argv[1] : "test.raw";
 
 #ifdef WIN32
-    RAWSceneFileType *pR = &(RAWSceneFileType::staticThe());
+//    RAWSceneFileType *pR = &(RAWSceneFileType::staticThe());
 #endif
 	
 	SceneFileHandler::the().print();

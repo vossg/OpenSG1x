@@ -47,6 +47,7 @@
 
 #include <map>
 
+#include <OSGFieldContainerBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGMatrix.h>
 #include <OSGFieldContainer.h>
@@ -75,7 +76,7 @@ OSG_BEGIN_NAMESPACE
  *  \brief NodeCore
  */
 
-class OSG_DLLEXPORT NodeCore : public FieldContainer 
+class OSG_FIELDCONTAINER_DLLMAPPING NodeCore : public FieldContainer 
 {
   public:
 

@@ -55,6 +55,16 @@
 #include <fstream.h>
 #endif
 
+#if defined(WIN32) && defined(OSG_BUILD_DLL)
+#   ifdef OSG_COMPILELOG
+#       define OSG_LOG_DLLMAPPING __declspec(dllexport)
+#   else
+#       define OSG_LOG_DLLMAPPING __declspec(dllimport)
+#   endif
+#else
+#define OSG_LOG_DLLMAPPING
+#endif
+
 /*! \defgroup LogLib OpenSG Log Library
     OpenSG Log Library 
  */
@@ -108,7 +118,7 @@ enum LogLevel
  *         plattforms
  */
 
-class OSG_DLLEXPORT LogOStream : public ostream
+class OSG_LOG_DLLMAPPING LogOStream : public ostream
 {
   public:
 
@@ -130,7 +140,9 @@ class OSG_DLLEXPORT LogOStream : public ostream
  *  \brief Message logger class, handles info,warning and error messages
  */
 
-class OSG_DLLEXPORT Log : public ostream 
+
+
+class OSG_LOG_DLLMAPPING Log : public ostream 
 {
   public:
 
@@ -157,7 +169,7 @@ class OSG_DLLEXPORT Log : public ostream
     //-----------------------------------------------------------------------
 
     Log(LogType  logType  = LOG_STDERR, 
-           LogLevel logLevel = LOG_NOTICE);
+        LogLevel logLevel = LOG_NOTICE);
 
     Log(const char *fileName, LogLevel logLevel = LOG_NOTICE );
 
@@ -231,7 +243,7 @@ class OSG_DLLEXPORT Log : public ostream
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-    friend OSG_DLLEXPORT inline void initLog(void);
+    friend OSG_LOG_DLLMAPPING inline void initLog(void);
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
@@ -248,7 +260,7 @@ class OSG_DLLEXPORT Log : public ostream
     //-----------------------------------------------------------------------
 
 	/** defines a nil buffer */
-	class nilbuf : public streambuf {	};
+	class OSG_LOG_DLLMAPPING nilbuf : public streambuf {	};
 
 #ifdef OSG_HAS_NILBUF
 	static nilbuf  *_nilbufP;
@@ -282,15 +294,19 @@ class OSG_DLLEXPORT Log : public ostream
 typedef Log *LogP;
 
 /** appLog */
-#ifdef WIN32
-extern OSG_DLLEXPORT LogP osgLogP;
+#if defined(WIN32) && defined(OSG_BUILD_DLL)
+#   ifdef OSG_COMPILELOG
+        extern OSG_LOG_DLLMAPPING LogP osgLogP;
+#   else
+        OSG_LOG_DLLMAPPING LogP osgLogP;
+#   endif 
 #else
 extern LogP osgLogP;
 #endif
 
-inline OSG_DLLEXPORT void  initLog   (void);
-inline OSG_DLLEXPORT Log  &osgLog    (void); 
-inline OSG_DLLEXPORT void  indentLog (UInt32 indent, ostream &stream);
+inline OSG_LOG_DLLMAPPING void  initLog   (void);
+inline OSG_LOG_DLLMAPPING Log  &osgLog    (void); 
+inline OSG_LOG_DLLMAPPING void  indentLog (UInt32 indent, ostream &stream);
 
 #define SLOG \
 OSG::osgLog() << __FILE__ << ':' << __LINE__ \

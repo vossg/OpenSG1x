@@ -47,6 +47,7 @@
 //---------------------------------------------------------------------------
 
 #include <OSGBaseTypes.h>
+#include <OSGGeometry.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -72,7 +73,7 @@ class DrawAction;
  *  It's not really a factory, as it doesn't create objects, but it's close.
  */
 
-class OSG_DLLEXPORT GeoPumpFactory
+class OSG_GEOMETRY_DLLMAPPING GeoPumpFactory
 {
   public:
 

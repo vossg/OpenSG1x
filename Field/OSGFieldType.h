@@ -75,7 +75,7 @@ class Node;
  *  \brief FieldType
  */
 
-class OSG_DLLEXPORT FieldType
+class OSG_FIELD_DLLMAPPING FieldType
 {
   public:
 

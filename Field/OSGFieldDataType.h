@@ -42,6 +42,16 @@
 
 #include <OSGBaseTypes.h>
 
+#if defined(WIN32) && defined(OSG_BUILD_DLL)
+#   ifdef OSG_COMPILEFIELD
+#       define OSG_FIELD_DLLMAPPING __declspec(dllexport)
+#   else
+#       define OSG_FIELD_DLLMAPPING __declspec(dllimport)
+#   endif
+#else
+#define OSG_FIELD_DLLMAPPING
+#endif
+
 OSG_BEGIN_NAMESPACE
 
 /** \file FieldDataType.h
@@ -57,7 +67,7 @@ OSG_BEGIN_NAMESPACE
  *  \brief Documentation dummy
  */
 
-struct OSG_DLLEXPORT Traits
+struct OSG_FIELD_DLLMAPPING Traits
 {
     enum 
     {
@@ -74,7 +84,7 @@ struct OSG_DLLEXPORT Traits
  */
 
 template <class FieldTypeT>
-struct OSG_DLLEXPORT FieldDataTraits : public Traits
+struct OSG_FIELD_DLLMAPPING FieldDataTraits : public Traits
 {
 };
 

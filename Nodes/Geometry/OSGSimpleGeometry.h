@@ -48,6 +48,8 @@
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
 #include <OSGNode.h>
+#include <OSGGeometryBase.h>
+
 
 OSG_BEGIN_NAMESPACE
 
@@ -55,8 +57,8 @@ OSG_BEGIN_NAMESPACE
 //  Functions
 //---------------------------------------------------------------------------
 
-OSG_DLLEXPORT NodePtr makePlane(Real32 xsize, Real32 ysize, 
-                                UInt16 hor,   UInt16 vert);
+OSG_GEOMETRY_DLLMAPPING NodePtr makePlane(Real32 xsize, Real32 ysize, 
+                                          UInt16 hor,   UInt16 vert);
 
 
 OSG_END_NAMESPACE

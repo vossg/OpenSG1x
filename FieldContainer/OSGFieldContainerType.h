@@ -51,6 +51,7 @@
 
 #include "OSGStringLink.h"
 #include "OSGBaseTypes.h"
+#include <OSGFieldContainerBase.h>
 #include <OSGFieldContainerPtr.h>
 
 OSG_BEGIN_NAMESPACE
@@ -62,13 +63,11 @@ OSG_BEGIN_NAMESPACE
 class FieldContainer;
 class FieldDescription;
 
-class FieldContainer;
-
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
 
-typedef void                 (*InitContainerF)  (void);
+typedef void              (*InitContainerF)  (void);
 
 typedef FieldContainerPtr (*PrototypeCreateF)(void);
 
@@ -80,7 +79,7 @@ typedef FieldContainerPtr (*PrototypeCreateF)(void);
  *  \brief FieldContainer type
  */
 
-class OSG_DLLEXPORT FieldContainerType 
+class OSG_FIELDCONTAINER_DLLMAPPING FieldContainerType 
 {
   public:
 

@@ -50,6 +50,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEFIELDCONTAINER
+
 #include "OSGAttachment.h"
 
 OSG_USING_NAMESPACE
@@ -261,7 +263,7 @@ Attachment::~Attachment(void)
 //s: 
 ///---------------------------------------------------------------------------
 
-OSG_DLLEXPORT
+OSG_FIELDCONTAINER_DLLMAPPING
 ostream &OSG::operator <<(ostream                &stream,
                           const AttachmentMap &map)
 {

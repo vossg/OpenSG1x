@@ -136,7 +136,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-inline OSG_DLLEXPORT void initLog(void)
+inline OSG_LOG_DLLMAPPING void initLog(void)
 {
 #ifdef OSG_HAS_NILBUF
     if(Log::_nilbufP == NULL)
@@ -157,13 +157,13 @@ inline OSG_DLLEXPORT void initLog(void)
     }
 }
 
-inline OSG_DLLEXPORT Log &osgLog() 
+inline OSG_LOG_DLLMAPPING Log &osgLog() 
 {
 	initLog();
 	return *osgLogP;
 }
 
-inline void indentLog(UInt32 indent, ostream &stream)
+inline OSG_LOG_DLLMAPPING void indentLog(UInt32 indent, ostream &stream)
 {
     for(UInt32 i = 0; i < indent; i++)
     {

@@ -55,6 +55,8 @@
 #include <stdio.h>
 #include <stdarg.h>
 
+#define OSG_COMPILELOG
+
 #include "OSGLog.h"
 #include "OSGBaseFunctions.h"
 
@@ -84,7 +86,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_DLLEXPORT LogP OSG::osgLogP = NULL;
+OSG_LOG_DLLMAPPING LogP OSG::osgLogP = NULL;
 
 #ifdef OSG_HAS_NILBUF
 

@@ -54,6 +54,8 @@
 
 #include <algorithm>
 
+#define OSG_COMPILEFIELDCONTAINER
+
 #include "OSGLog.h"
 
 #include "OSGFieldDescription.h"

@@ -49,6 +49,7 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEFIELDCONTAINER
 
 #include "OSGNode.h"
 #include "OSGNodeCore.h"

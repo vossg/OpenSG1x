@@ -47,6 +47,16 @@
 //Includes
 //-------------------------------------------------------
 
+#if defined(WIN32) && defined(OSG_BUILD_DLL)
+#   ifdef OSG_COMPILELOADER
+#       define OSG_LOADER_DLLMAPPING __declspec(dllexport)
+#   else
+#       define OSG_LOADER_DLLMAPPING __declspec(dllimport)
+#   endif
+#else
+#define OSG_LOADER_DLLMAPPING
+#endif
+
 #include <list>
 
 #include <OSGBaseTypes.h>
@@ -79,7 +89,7 @@ OSG_BEGIN_NAMESPACE
  */ 
 
 
-class OSG_DLLEXPORT SceneFileType
+class OSG_LOADER_DLLMAPPING SceneFileType
 {
   public:
 

@@ -53,6 +53,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILELOADER
+
 #include <OSGLog.h>
 
 #include "OSGSceneFileType.h"
