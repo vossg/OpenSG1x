@@ -425,6 +425,9 @@ Bool Line::intersect(const BoxVolume &box,
     enter = in;
     exit = out;
 
+    if ( enter > exit )
+        return false;
+        
     return true;
 }
 
