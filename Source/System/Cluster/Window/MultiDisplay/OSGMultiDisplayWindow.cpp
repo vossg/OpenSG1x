@@ -112,7 +112,7 @@ void MultiDisplayWindow::dump(      UInt32    ,
      called after the first sync.
  */
 void MultiDisplayWindow::serverInit( WindowPtr ,
-                                     UInt32 id)
+                                     UInt32 )
 {
 /*
     getNetwork()->connect(id,
