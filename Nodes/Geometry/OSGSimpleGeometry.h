@@ -53,7 +53,7 @@
 OSG_BEGIN_NAMESPACE
 
 /*---------------------------------------------------------------------*/
-/*! \name                   Construction fucntions                     */
+/*! \name                   Construction functions                     */
 /*! \{                                                                 */
 
 /*! \brief create a plane
@@ -123,6 +123,14 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr makeCylinder(Real32 height,
 /*! \brief create a torus
  *  \ingroup SimpleGeometry
  */
+OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeTorusGeo( Real32 innerRadius,
+                                           Real32 outerRadius,
+                                           UInt16 sides, UInt16 rings );
+
+
+/*! \brief create a torus and node
+ *  \ingroup SimpleGeometry
+ */
 OSG_SYSTEMLIB_DLLMAPPING NodePtr makeTorus( Real32 innerRadius,
                                            Real32 outerRadius,
                                            UInt16 sides, UInt16 rings );
@@ -160,10 +168,10 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr makeConicalFrustum(Real32 height,
                                                     Bool   doTop,
                                                     Bool   doBottom);
 
-OSG_SYSTEMLIB_DLLMAPPING GeoPosition3fPtr makeGeoPosition3f  (UInt32 uiSize);
-OSG_SYSTEMLIB_DLLMAPPING GeoIndexUI32Ptr  makeGeoIndexUI32Ptr(UInt32 uiSize);
-OSG_SYSTEMLIB_DLLMAPPING GeoPLengthPtr    makeGeoPLengthPtr  (UInt32 uiSize);
-OSG_SYSTEMLIB_DLLMAPPING GeoPTypePtr      makeGeoPTypePtr    (UInt32 uiSize);
+OSG_SYSTEMLIB_DLLMAPPING GeoPosition3fPtr makeGeoPosition3fPtr(UInt32 uiSize);
+OSG_SYSTEMLIB_DLLMAPPING GeoIndexUI32Ptr  makeGeoIndexUI32Ptr (UInt32 uiSize);
+OSG_SYSTEMLIB_DLLMAPPING GeoPLengthPtr    makeGeoPLengthPtr   (UInt32 uiSize);
+OSG_SYSTEMLIB_DLLMAPPING GeoPTypePtr      makeGeoPTypePtr     (UInt32 uiSize);
 
 /*! \brief access the default material
  *  \ingroup SimpleGeometry

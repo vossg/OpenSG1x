@@ -522,7 +522,8 @@ makeTorus creates a torus in the x/y plane.
 
 */
 
-NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UInt16 rings )
+GeometryPtr OSG::makeTorusGeo( Real32 innerRadius, Real32 outerRadius, UInt16 sides, 
+                               UInt16 rings )
 {
 	if ( innerRadius <= 0 || outerRadius <= 0 || sides < 3 || rings < 3 )
 	{
@@ -624,15 +625,29 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
 	geo->setTypes( types );
 	geo->setLengths( lens );
 	endEditCP(geo);
-		
-    NodePtr node = Node::create();
-	beginEditCP(node);
-	node->setCore( geo );
-	endEditCP(node);
 	
-	return node;
+	return geo;
 }
 
+
+NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, 
+                        UInt16 rings )
+{
+    GeometryPtr pGeo = makeTorusGeo(innerRadius, outerRadius, sides, rings );
+ 
+    if(pGeo == NullFC)
+    {
+        return NullFC;
+    }
+    
+    NodePtr node = Node::create();
+
+    beginEditCP  (node);
+    node->setCore(pGeo);
+    endEditCP    (node);
+
+	return node;
+}
 
 /*! \ingroup SimpleGeometry
 */
@@ -1021,7 +1036,7 @@ NodePtr OSG::makeBox(Real32 xsize, Real32 ysize, Real32 zsize,
 	return node;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING GeoPosition3fPtr OSG::makeGeoPosition3f(UInt32 uiSize)
+OSG_SYSTEMLIB_DLLMAPPING GeoPosition3fPtr OSG::makeGeoPosition3fPtr(UInt32 uiSize)
 {
     GeoPosition3fPtr returnValue = GeoPosition3f::create();
 
