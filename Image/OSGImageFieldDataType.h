@@ -89,7 +89,16 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
 		{
 		    fileName.assign("Image");
 			fileName.append( TypeConstants<UInt32>::putToString(counter++) );
-			fileName.append(".pnm");
+
+            if(inVal->getDepth() > 1)
+            {
+                fileName.append(".mtd");
+            }
+            else
+            {
+                fileName.append(".pnm");
+            }
+
 			inVal->write(fileName.c_str());
 		}
 
