@@ -45,6 +45,7 @@
 
 #include <qlayout.h>
 #include <qpushbutton.h>
+#include <qtooltip.h>
 
 OSG_USING_NAMESPACE
 
@@ -285,6 +286,9 @@ QSFieldEditor::initSelf(void)
             this,           SLOT  (slotButtonCommitClicked(void)) );
     connect(_pButtonRevert, SIGNAL(clicked                (void)),
             this,           SLOT  (slotButtonRevertClicked(void)) );
+
+    QToolTip::add(_pButtonCommit, "Commit changes");
+    QToolTip::add(_pButtonRevert, "Revert changes");
 }
 
 // include generated file
@@ -303,7 +307,7 @@ QSFieldEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSFieldEditor_qt.cpp,v 1.3 2004/08/13 12:33:06 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSFieldEditor_qt.cpp,v 1.4 2004/08/13 13:20:52 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQSFIELDEDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQSFIELDEDITORQT_INLINE_CVSID;
 }

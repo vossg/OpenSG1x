@@ -59,6 +59,7 @@
 #include <qpushbutton.h>
 #include <qradiobutton.h>
 #include <qsignalmapper.h>
+#include <qtooltip.h>
 
 OSG_USING_NAMESPACE
 
@@ -646,6 +647,15 @@ QMFieldEditor::initSelf(void)
 
     connect(_pSelectorButtonGroup, SIGNAL(clicked                  (int)),
             this,                  SLOT  (slotSelectorButtonClicked(int)) );
+
+
+    QToolTip::add(_pButtonPrev,      "Previous page"            );
+    QToolTip::add(_pButtonNext,      "Next page"                );
+    QToolTip::add(_pButtonCommit,    "Commit changes"           );
+    QToolTip::add(_pButtonRevert,    "Revert changes"           );
+    QToolTip::add(_pButtonAddAfter,  "Add after selected entry" );
+    QToolTip::add(_pButtonAddBefore, "Add before selected entry");
+    QToolTip::add(_pButtonSub,       "Remove selected entry"    );
 }
 
 void
@@ -824,7 +834,7 @@ QMFieldEditor::scrollDown(UInt32 uiAmount)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQMFieldEditor_qt.cpp,v 1.4 2004/08/13 12:33:06 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQMFieldEditor_qt.cpp,v 1.5 2004/08/13 13:20:52 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQMFIELDEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQMFIELDEDITORQT_INLINE_CVSID;
 }
