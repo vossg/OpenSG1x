@@ -96,7 +96,7 @@ int main (int argc, char **argv)
     }
 
     // run it, using a separate aspect
-    pLoader->run(load, 1, (void *) argv[1] );
+    pLoader->runFunction(load, 1, (void *) argv[1] );
 
     // wait for it to finish
     Thread::join(pLoader);

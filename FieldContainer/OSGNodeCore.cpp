@@ -81,10 +81,13 @@ void NodeCore::dump(      UInt32    uiIndent,
 
     NodeCorePtr thisP = getPtr();
 
+//    thisP.dump(0, FCDumpFlags::RefCount);
+
     indentLog(uiIndent, PLOG);
 
     PLOG << "Core"
          << "("
+         << dec
          << thisP.getFieldContainerId()
          << ") : " << getType().getName()
          << " "

@@ -295,6 +295,39 @@ Geometry::~Geometry(void)
         subRefCP(_sfTexCoords.getValue());
     }
 
+    if(_sfTexCoords1.getValue() != NullFC)
+    {
+        beginEditCP(_sfTexCoords1.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfTexCoords1.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfTexCoords1.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfTexCoords1.getValue());
+    }
+
+    if(_sfTexCoords2.getValue() != NullFC)
+    {
+        beginEditCP(_sfTexCoords2.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfTexCoords2.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfTexCoords2.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfTexCoords2.getValue());
+    }
+
+    if(_sfTexCoords3.getValue() != NullFC)
+    {
+        beginEditCP(_sfTexCoords3.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfTexCoords3.getValue()->subParent(thisP);
+        }
+        beginEditCP(_sfTexCoords3.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfTexCoords3.getValue());
+    }
+
     if(_sfIndices.getValue() != NullFC)
     {
         beginEditCP(_sfIndices.getValue(), Attachment::ParentsFieldMask);
@@ -451,6 +484,8 @@ void Geometry::dump(      UInt32    uiIndent,
     indentLog(uiIndent, PLOG);
     PLOG << "{" << endl;
 
+    uiIndent += 4;
+
     if(getPositions() != NullFC)
     {
         getPositions()->dump(uiIndent, bvFlags);
@@ -490,6 +525,23 @@ void Geometry::dump(      UInt32    uiIndent,
     {
         getTexCoords()->dump(uiIndent, bvFlags);
     }
+
+    if(getTexCoords1() != NullFC)
+    {
+        getTexCoords1()->dump(uiIndent, bvFlags);
+    }
+
+    if(getTexCoords2() != NullFC)
+    {
+        getTexCoords2()->dump(uiIndent, bvFlags);
+    }
+
+    if(getTexCoords3() != NullFC)
+    {
+        getTexCoords3()->dump(uiIndent, bvFlags);
+    }
+
+    uiIndent -= 4;
 
     AttachmentContainer::dump(uiIndent, bvFlags);
 
@@ -1058,6 +1110,105 @@ void Geometry::changed(BitVector whichField,
         }
     }
 
+    if(whichField & TexCoords1FieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                GeometryPtr thisP = getPtr();
+                
+                if(_sfTexCoords1.getValue()                    != NullFC &&
+                   _sfTexCoords1.getValue()->findParent(thisP) ==     -1  )
+                {
+                    GeoTexCoordsPtr pTexCoord = _sfTexCoords1.getValue();
+                    
+                    _sfTexCoords1.setValue(NullFC);
+                    
+                    setTexCoords1(pTexCoord);
+                }
+            }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfTexCoords1.getValue());
+            }
+            else
+            {
+                GeoTexCoordsPtr pTexCoord = _sfTexCoords1.getValue();
+                
+                _sfTexCoords1.setValue(NullFC);
+                
+                setTexCoords1(pTexCoord);
+            }
+        }
+    }
+
+    if(whichField & TexCoords2FieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                GeometryPtr thisP = getPtr();
+                
+                if(_sfTexCoords2.getValue()                    != NullFC &&
+                   _sfTexCoords2.getValue()->findParent(thisP) ==     -1  )
+                {
+                    GeoTexCoordsPtr pTexCoord = _sfTexCoords2.getValue();
+                    
+                    _sfTexCoords2.setValue(NullFC);
+                    
+                    setTexCoords2(pTexCoord);
+                }
+            }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfTexCoords2.getValue());
+            }
+            else
+            {
+                GeoTexCoordsPtr pTexCoord = _sfTexCoords2.getValue();
+                
+                _sfTexCoords2.setValue(NullFC);
+                
+                setTexCoords2(pTexCoord);
+            }
+        }
+    }
+
+    if(whichField & TexCoords3FieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                GeometryPtr thisP = getPtr();
+                
+                if(_sfTexCoords3.getValue()                    != NullFC &&
+                   _sfTexCoords3.getValue()->findParent(thisP) ==     -1  )
+                {
+                    GeoTexCoordsPtr pTexCoord = _sfTexCoords3.getValue();
+                    
+                    _sfTexCoords3.setValue(NullFC);
+                    
+                    setTexCoords3(pTexCoord);
+                }
+            }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfTexCoords3.getValue());
+            }
+            else
+            {
+                GeoTexCoordsPtr pTexCoord = _sfTexCoords3.getValue();
+                
+                _sfTexCoords3.setValue(NullFC);
+                
+                setTexCoords3(pTexCoord);
+            }
+        }
+    }
+
     if(whichField & IndicesFieldMask)
     {
         if(origin & ChangedOrigin::Abstract)
@@ -1193,6 +1344,9 @@ GeometryPtr Geometry::clone( void )
     geo->setColors            ( getColors            ()->clone() );
     geo->setSecondaryColors   ( getSecondaryColors   ()->clone() );
     geo->setTexCoords         ( getTexCoords         ()->clone() );
+    geo->setTexCoords1        ( getTexCoords1        ()->clone() );
+    geo->setTexCoords2        ( getTexCoords2        ()->clone() );
+    geo->setTexCoords3        ( getTexCoords3        ()->clone() );
     geo->setIndices           ( getIndices           ()->clone() );
     
     geo->getMFIndexMapping()->setValues( *getMFIndexMapping() );

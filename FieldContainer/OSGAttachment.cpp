@@ -264,6 +264,7 @@ void Attachment::dump(      UInt32                  uiIndent,
 
     PLOG << "Attachment"
          << "(" 
+         << dec
          << thisP.getFieldContainerId()
          << ") : " 
          << getType().getName()

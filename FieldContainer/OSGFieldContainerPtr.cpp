@@ -93,7 +93,7 @@ void FieldContainerPtrBase::dump(      UInt32    uiIndent,
         uiIndent += 4;
 
         indentLog(uiIndent, PLOG);
-        PLOG << "Id       : " << (*(getIdP()))   << endl;
+        PLOG << "Id       : " << dec << (*(getIdP())) << endl;
 
         indentLog(uiIndent, PLOG);
         PLOG << "Storage  : " << hex << (UInt32 *)getFirstElemP() << endl;

@@ -65,6 +65,8 @@ ostream &operator <<(
 inline
 void FieldContainerPtrBase::deleteContainers(void) const
 {
+//    dump(0, FCDumpFlags::RefCount);
+
     Thread::getCurrentChangeList()->addDestroyed(*getIdP());
     
     FieldContainerFactory::the()->unregisterFieldContainer(

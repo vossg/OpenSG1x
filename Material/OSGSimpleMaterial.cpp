@@ -79,7 +79,7 @@ The simple material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.29 2002/06/27 02:33:07 vossg Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.30 2002/06/28 06:03:56 vossg Exp $";
 
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
@@ -269,30 +269,49 @@ bool SimpleMaterial::isTransparent(void) const
 
 /*------------------------------- dump ----------------------------------*/
 
-void SimpleMaterial::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
+void SimpleMaterial::dump(      UInt32    uiIndent,
                           const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-//    indentLog(uiIndent, PLOG);
 
-//    SimpleMaterialPtr thisP(*this);
+    SimpleMaterialPtr thisP(*this);
 
-//    thisP.dump(0, FCDumpFlags::RefCount);
+    thisP.dump(uiIndent, FCDumpFlags::RefCount);
 
+    indentLog(uiIndent, PLOG);
     PLOG << "SimpleMaterial at " << this << endl;
+
+    indentLog(uiIndent, PLOG);
     PLOG << "\tambient: " << getAmbient() << endl;
+
+    indentLog(uiIndent, PLOG);
     PLOG << "\tdiffuse: " << getDiffuse()  << endl;
+
+    indentLog(uiIndent, PLOG);
     PLOG << "\tspecular: " << getSpecular()  << endl;
+
+    indentLog(uiIndent, PLOG);
     PLOG << "\tshininess: " << getShininess()  << endl;
+
+    indentLog(uiIndent, PLOG);
     PLOG << "\temission: " << getEmission()  << endl;
+
+    indentLog(uiIndent, PLOG);
     PLOG << "\ttransparency: " << getTransparency()  << endl;
+
+    indentLog(uiIndent, PLOG);
     PLOG << "\tlit: " << getLit() << endl;
 
+    indentLog(uiIndent, PLOG);
     PLOG << "\tChunks: " << endl;
 
     for(MFStateChunkPtr::const_iterator i = _mfChunks.begin();
             i != _mfChunks.end(); i++)
+    {
+        indentLog(uiIndent, PLOG);
         PLOG << "\t" << *i << endl;
+    }
 
+    indentLog(uiIndent, PLOG);
     PLOG << "SimpleMaterial end " << this << endl;
 }
 

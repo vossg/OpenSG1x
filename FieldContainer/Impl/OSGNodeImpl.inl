@@ -156,6 +156,16 @@ void Node::changed(BitVector  whichField,
             if(origin & ChangedOrigin::AbstrIncRefCount)
             {
                 addRefCP(_sfCore.getValue());
+
+                MFNodePtr::iterator       vChildIt    = _mfChildren.begin();
+                MFNodePtr::const_iterator endChildren = _mfChildren.end  ();
+                
+                while(vChildIt != endChildren)
+                {
+                    addRefCP(*vChildIt);
+
+                    ++vChildIt;
+                }
             }
         }
     }
