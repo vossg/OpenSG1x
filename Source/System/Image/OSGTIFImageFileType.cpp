@@ -84,6 +84,33 @@ the singleton object.
       
 */
 
+static void warningHandler (const char *module, const char *fmt, va_list ap)
+{
+    Char8   buffer[4096];
+
+#ifdef OSG_HAS_VSNPRINTF
+    vsnprintf(buffer, sizeof(buffer) - 1, fmt, ap);
+#else
+    vsprintf(buffer, fmt, ap);
+#endif
+
+	FWARNING (("TiffLib: %s;$s\n", module ? module : "Mod", buffer));
+}
+
+static void errorHandler (const char *module, const char *fmt, va_list ap)
+{
+    Char8   buffer[4096];
+
+#ifdef OSG_HAS_VSNPRINTF
+    vsnprintf(buffer, sizeof(buffer) - 1, fmt, ap);
+#else
+    vsprintf(buffer, fmt, ap);
+#endif
+
+	FFATAL (("TiffLib: %s;$s\n", module ? module : "Mod", buffer));
+}
+
+
 // Static Class Varible implementations:
 static const Char8 *suffixArray[] = {
   "tif", "tiff"
@@ -128,6 +155,9 @@ Class method to get the singleton Object
 */
 TIFImageFileType& TIFImageFileType::the (void)
 {
+  TIFFSetWarningHandler(&warningHandler);
+  TIFFSetErrorHandler(&errorHandler);
+
   return _the;
 }
 
