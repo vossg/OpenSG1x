@@ -88,6 +88,8 @@ std::list<NFIOBase::fcInfo>     NFIOBase::_fieldList;
 std::list<FieldContainerPtr>    NFIOBase::_fcList;
 std::set<UInt32>                NFIOBase::_fcSet;
 
+std::set<FieldContainerPtr>     NFIOBase::_added_cores;
+
 /***************************************************************************\
  *                           Instance methods                              *
 \***************************************************************************/
@@ -117,7 +119,8 @@ NodePtr NFIOBase::read(std::istream &is, const std::string &options)
     
     FieldContainerPtr fc = readFieldContainer();
     node = NodePtr::dcast(fc);
-    
+    fillAttachmentParents(node);
+
     delete _in;
 
     return node;
@@ -478,13 +481,13 @@ void NFIOBase::writeFCFields(const FieldContainerPtr &fc,
         FieldDescription    *fDesc = fcType.getFieldDescription(i);
         Field               *fieldPtr = fc->getField(i);
         const FieldType     &fType = fieldPtr->getType();
-        BitVector           mask = fcType.getFieldDescription(i)->getFieldMask();
+        BitVector           mask = fDesc->getFieldMask();
 
         if(!fDesc->isInternal())
         {
             // ignore node volume
             if(fcType == Node::getClassType() &&
-               fcType.getFieldDescription(i)->getFieldMask() == Node::VolumeFieldMask)
+               fDesc->getFieldMask() == Node::VolumeFieldMask)
             {
                 continue;
             }
@@ -639,6 +642,86 @@ void NFIOBase::skipFCFields(void)
     }
 }
 
+Action::ResultE NFIOBase::addAttachmentParent(NodePtr &node)
+{
+    if(node == NullFC)
+        return Action::Continue;
+
+    FieldContainerPtr fc = node->getCore();
+
+    if(fc == NullFC)
+        return Action::Continue;
+
+    // the core could be shared this would lead to duplicated parent entries.
+    if(_added_cores.count(fc) == 1)
+        return Action::Continue;
+
+    _added_cores.insert(fc);
+
+    FieldContainerType  &fcType = fc->getType();
+
+    //go through all fields
+    for(UInt32 i = 1; i <= fcType.getNumFieldDescs(); ++i)
+    {
+        FieldDescription    *fDesc = fcType.getFieldDescription(i);
+        Field               *fieldPtr = fc->getField(i);
+        const FieldType     &fType = fieldPtr->getType();
+        std::string         fieldType = fType.getCName();
+        BitVector           mask = fDesc->getFieldMask();
+
+        if(fDesc->isInternal())
+        {
+            continue;
+        }
+
+        if(strstr(fieldType.c_str(), "Ptr") != NULL)
+        {
+            if(fieldType[0] == 'S' && fieldType[1] == 'F') // single field
+            {
+                AttachmentPtr attachment =
+                    AttachmentPtr::dcast(((SFFieldContainerPtr *) fieldPtr)
+                    ->getValue());
+                if(attachment != NullFC)
+                {
+                    beginEditCP(attachment, Attachment::ParentsFieldMask);
+                        attachment->addParent(fc);
+                    endEditCP(attachment, Attachment::ParentsFieldMask);
+                }
+            }
+            else if(fieldType[0] == 'M' && fieldType[1] == 'F') // multi field
+            {
+                MFFieldContainerPtr *mfield = (MFFieldContainerPtr *) fieldPtr;
+                UInt32 noe = mfield->size();
+                for(UInt32 j = 0; j < noe; ++j)
+                {
+                    AttachmentPtr attachment =
+                        AttachmentPtr::dcast((*(mfield))[j]);
+                    if(attachment != NullFC)
+                    {
+                        beginEditCP(attachment, Attachment::ParentsFieldMask);
+                            attachment->addParent(fc);
+                        endEditCP(attachment, Attachment::ParentsFieldMask);
+                    }
+                }
+            }
+        }
+    }
+
+    return Action::Continue;
+}
+
+void NFIOBase::fillAttachmentParents(const NodePtr &node)
+{
+    if(node == NullFC)
+        return;
+
+    _added_cores.clear();
+    traverse(node, osgTypedFunctionFunctor1CPtrRef<Action::ResultE,
+             NodePtr>(addAttachmentParent));
+    _added_cores.clear();
+}
+
+
 /*-------------------------------------------------------------------------*/
 /*                           fcInfo struct                                 */
 
@@ -745,6 +828,6 @@ void NFIOBase::BinaryWriteHandler::write(MemoryHandle mem, UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.2 2004/02/19 10:32:59 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.3 2004/10/21 12:22:55 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOBASE_HEADER_CVSID;
 }

@@ -55,6 +55,7 @@
 #include <OSGMFFieldContainerPtr.h>
 #include <OSGSFAttachmentMap.h>
 #include <OSGNFIOOptions.h>
+#include <OSGAction.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -211,11 +212,14 @@ private:
         Field               *_field;
         std::list<UInt32>   _ids;
     };
-    
+
     static void addReadFieldContainer  (const FieldContainerPtr &fc,
                                         UInt32 id                   );
     static void chargeFieldPtr         (const fcInfo &info          );
-    
+
+    static Action::ResultE addAttachmentParent  (NodePtr &node      );
+    static void            fillAttachmentParents(const NodePtr &node);
+
     typedef std::map<UInt32, FieldContainerPtr> fcMap;
     
     static fcMap                _fcMap;
@@ -231,13 +235,14 @@ private:
     
     static std::list<FieldContainerPtr>  _fcList;
     static std::set<UInt32>              _fcSet;
-    
+    static std::set<FieldContainerPtr>   _added_cores;
+
     static NFIOOptions _options;
 
 };
 
 OSG_END_NAMESPACE
 
-#define OSGNFIOBASE_HEADER_CVSID "@(#)$Id: OSGNFIOBase.h,v 1.2 2004/02/19 10:32:59 a-m-z Exp $"
+#define OSGNFIOBASE_HEADER_CVSID "@(#)$Id: OSGNFIOBase.h,v 1.3 2004/10/21 12:22:55 a-m-z Exp $"
 
 #endif /* _OSGNFIOBASE_H_ */
