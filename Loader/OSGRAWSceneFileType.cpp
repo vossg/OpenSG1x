@@ -126,6 +126,7 @@ NodePtr RAWSceneFileType::read (const char *fileName ) const
 		root = Node::create();
 		geo = Geometry::create();
 
+        beginEditCP(geo, FieldBits::AllFields);
         beginEditCP(root, Node::CoreFieldMask);
 		root->setCore( geo );
         endEditCP(root, Node::CoreFieldMask);
