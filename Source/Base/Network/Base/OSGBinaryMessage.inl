@@ -39,11 +39,7 @@
 #ifndef _BINSOCKETMESSAGE_INL_
 #define _BINSOCKETMESSAGE_INL_
 
-// Application declarations
-// to get ntons/ntohs
-#ifdef WIN32
-#include <winsock.h>
-#else
+#ifndef WIN32
 #include <arpa/inet.h>
 #endif
 
