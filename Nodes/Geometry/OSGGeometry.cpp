@@ -123,13 +123,13 @@ const char *Geometry::mapType( UInt8 type )
     switch ( type )
     {
     case GL_POINTS:         return "Points";
-    case GL_LINES:              return "Lines";
-    case GL_LINE_LOOP:          return "LineLoop";
+    case GL_LINES:          return "Lines";
+    case GL_LINE_LOOP:      return "LineLoop";
     case GL_LINE_STRIP:     return "LineStrip";
-    case GL_TRIANGLES:          return "Triangles";
+    case GL_TRIANGLES:      return "Triangles";
     case GL_TRIANGLE_STRIP: return "TriangleStrip";
     case GL_TRIANGLE_FAN:   return "TriangleFan";
-    case GL_QUADS:              return "Quads";
+    case GL_QUADS:          return "Quads";
     case GL_QUAD_STRIP:     return "QuadStrip";
     case GL_POLYGON:        return "Polygon";
     }
@@ -338,9 +338,10 @@ void Geometry::handleGL( Window* win, UInt32 id )
 {
     Window::GLObjectStatusE mode = win->getGLObjectStatus( id );
     
-    if ( mode == Window::initialize || mode == Window::needrefresh )
+    if ( mode == Window::initialize || mode == Window::needrefresh ||
+         mode == Window::reinitialize )
     {       
-            glNewList( id, GL_COMPILE );
+        glNewList( id, GL_COMPILE );
         
         GeoPumpFactory::Index ind = GeoPumpFactory::the().getIndex( this );
         GeoPumpFactory::GeoPump p = 
@@ -641,11 +642,9 @@ Action::ResultE Geometry::render(Action *action)
 
 void Geometry::changed(BitVector whichField, ChangeMode OSG_CHECK_ARG(from))
 {
-    UInt32 i;
-
     if(whichField & PositionsFieldMask)
     {
-        for(i = 0; i < _parents.size(); i++)
+        for(UInt32 i = 0; i < _parents.size(); i++)
         {
             _parents[i]->invalidateVolume();
         }            
