@@ -439,7 +439,7 @@ Bool VRMLNodeDesc::prototypeAddField(const Char8  *szFieldType,
 
         if(pType == NULL)
         {
-            PNOTICE << "VRMLNodeDesc::prototypeAddField 
+//            PNOTICE << "VRMLNodeDesc::prototypeAddField "
             cerr << "\tCould not get type " 
                  << uiFieldTypeId << " " 
                  << endl;
