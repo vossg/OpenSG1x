@@ -143,7 +143,7 @@ define win_make_depend
 	 $(SED) -e '/:.*\\Microsoft /d' 				\
 		 	-e '/:.*\\Intel\\/d' 					\
 		 	-e '/:.*\\stdlib/d' 					\
-		 	-e 's/\([A-Z]\):/\\\1/' 				\
+		 	-e 's/\([A-Z]\):/\\cygdrive\\\1/' 				\
 		 	-e 's/\\/\//g' 							\
 		 	-e 's/ /\\ /g' 							\
 		 	-e 's/:\\ /: /1' 						\
