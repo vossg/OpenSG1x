@@ -961,6 +961,114 @@ void TransformationMatrix<ValueTypeT>::mult(VectorType3f &vec) const
     multMatrixVec(vec, vec);
 }
 
+
+
+/*! \brief Multiplies given row point by matrix, where the resulting point
+    is given (pT * M)
+*/
+
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::multPntMatrix(
+    const PointType3f &src,
+          PointType3f &dst) const
+{
+    dst.setValues((src[0] * _matrix[0][0] +
+                   src[1] * _matrix[0][1] +
+                   src[2] * _matrix[0][2] +
+                            _matrix[0][3]),
+                  (src[0] * _matrix[1][0] +
+                   src[1] * _matrix[1][1] +
+                   src[2] * _matrix[1][2] +
+                            _matrix[1][3]),
+                  (src[0] * _matrix[2][0] +
+                   src[1] * _matrix[3][1] +
+                   src[2] * _matrix[3][2] +
+                            _matrix[3][3]));
+}
+
+//! Multiplies given row point by matrix (pT * M) 
+
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::multPntMatrix(PointType3f &pnt) const
+{
+    multPntMatrix(pnt, pnt);
+}
+
+/*! \brief Multiplies given row point by matrix, where the resulting point
+    is given. The full (4x4) matrix is used (pT * M).
+*/
+
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::multPntFullMatrix(
+    const PointType3f &src,
+          PointType3f &dst) const
+{
+    ValueTypeT w =  src[0] * _matrix[3][0] +
+                    src[1] * _matrix[3][1] +
+                    src[2] * _matrix[3][2] +
+                             _matrix[3][3];
+
+    if( w < Eps && w > -Eps)
+    {
+        SINFO << "multFullMatrixPnt: w < Eps!" << endl;
+
+        dst.setValues(0, 0, 0);
+
+        return;
+    }
+
+    w = 1./w;
+
+    dst.setValues((src[0] * _matrix[0][0] +
+                   src[1] * _matrix[0][1] +
+                   src[2] * _matrix[0][2] +
+                            _matrix[0][3]) * w,
+                  (src[0] * _matrix[1][0] +
+                   src[1] * _matrix[1][1] +
+                   src[2] * _matrix[1][2] +
+                            _matrix[1][3]) * w,
+                  (src[0] * _matrix[2][0] +
+                   src[1] * _matrix[2][1] +
+                   src[2] * _matrix[2][2] +
+                            _matrix[2][3]) * w);
+}
+
+//! Multiplies given row point by matrix. The full (4x4) matrix is used (pT*M).
+ 
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::multPntFullMatrix(PointType3f &pnt)const
+{
+    multPntFullMatrix(pnt, pnt);
+}
+
+/*! \brief Multiplies given row vector by matrix,  where the resulting
+    vector is given (vT * M)
+*/
+
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::multVecMatrix(
+    const VectorType3f &src,
+          VectorType3f &dst) const
+{
+    dst.setValues((src[0] * _matrix[0][0] +
+                   src[1] * _matrix[0][1] +
+                   src[2] * _matrix[0][2]),
+                  (src[0] * _matrix[1][0] +
+                   src[1] * _matrix[1][1] +
+                   src[2] * _matrix[1][2]),
+                  (src[0] * _matrix[2][0] +
+                   src[1] * _matrix[2][1] +
+                   src[2] * _matrix[2][2]));
+}
+
+//! Multiplies given row vector by matrix
+
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::multVecMatrix(VectorType3f &vec) const
+{
+    multVecMatrix(vec, vec);
+}
+
 /*---------------------------- simple math ---------------------------------*/
 
 /*! \brief Returns true iff all matrix elements are equal within the given

@@ -295,6 +295,19 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
                                  VectorType3f &dst) const;
     void mult             (      VectorType3f &vec) const;
 
+
+    void multPntMatrix    (const PointType3f  &src, 
+                                 PointType3f  &dst) const;
+    void multPntMatrix    (      PointType3f  &pnt) const;
+    void multPntFullMatrix(const PointType3f  &src, 
+                                 PointType3f  &dst) const;
+    void multPntFullMatrix(      PointType3f  &pnt) const;
+
+    void multVecMatrix    (const VectorType3f &src, 
+                                 VectorType3f &dst) const;
+    void multVecMatrix    (      VectorType3f &vec) const;
+
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Math                                       */
@@ -419,7 +432,7 @@ typedef TransformationMatrix<Real32> Matrix;
 
 typedef TransformationMatrix<Real32> Matrix4f;
 
-template<class ValueTypeT> inline
+template<class ValueTypeT> 
 ostream &operator <<(        ostream                          &os,
                      const   TransformationMatrix<ValueTypeT> &obj);
 
