@@ -486,7 +486,7 @@ typedef double     Real64;
 #error "Could not define base types, check your system/compiler combination"
 #endif
 
-/*! \var UInt32 BitVector;
+/*! \var UInt64 BitVector;
  *  \ingroup GrpBaseBaseBaseTypes
  */
 

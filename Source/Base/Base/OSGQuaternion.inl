@@ -653,7 +653,7 @@ void QuaternionBase<ValueTypeT>::getValueAsAxisRad(VectorType &axis,
 
 template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::getValueAsAxisDeg(VectorType &axis,
-                                                   ValueTypeT &radians) const
+                                                   ValueTypeT &degrees) const
 {
   ValueTypeT x;
   ValueTypeT y;
@@ -664,7 +664,7 @@ void QuaternionBase<ValueTypeT>::getValueAsAxisDeg(VectorType &axis,
 
   axis.setValues(x, y, z);
 
-  radians = w;
+  degrees = w;
 }
 
 //! Fills corresponding 4x4 rotation matrix

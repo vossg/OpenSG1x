@@ -129,11 +129,8 @@ UInt32 TypeFactory::registerType(TypeBase *pType)
     (*(_vTypeNameMaps[pType->getNameSpace()]))
         [IDStringLink(pType->getCName())] = returnValue;
 
-    PINFO << "Registered type " << pType->getCName() 
-          << " | "              << returnValue 
-          << "("                << pType 
-          << ")"
-          << std::endl;
+    FDEBUG(("Registered type %s | %d (%d)\n", pType->getCName(), returnValue,
+                                              pType)); 
 
     return returnValue;
 }

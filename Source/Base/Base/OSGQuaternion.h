@@ -165,7 +165,7 @@ class QuaternionBase
           void       getValueAsAxisRad (VectorType &axis, 
                                         ValueTypeT &radians) const;
           void       getValueAsAxisDeg (VectorType &axis, 
-                                        ValueTypeT &radians) const;
+                                        ValueTypeT &degrees) const;
           void       getValue          (MatrixType &matrix ) const;
           void       getValuesOnly     (MatrixType &matrix ) const;
 
