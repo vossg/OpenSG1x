@@ -443,7 +443,7 @@ case $system in
 
     if ! test x$OSG_DIST_CLEANUP = x
     then
-        rm -r OpenSG-$OSGVERSION-$distname-$compiler$suffix
+        rm -rf OpenSG-$OSGVERSION-$distname-$compiler$suffix
 
         echo "Removed OpenSG-$OSGVERSION-$distname-$compiler$suffixmt";
     fi
