@@ -44,13 +44,14 @@
 #endif
 
 
+#include <OSGConfig.h>
+
 #include <GL/glx.h>
 
-
-#include <OSGConfig.h>
-#include <OSGWindowXDef.h>
-
+#include <OSGBaseTypes.h>
 #include <OSGFieldDataType.h>
+
+#include <OSGWindowXDef.h>
 
 
 /*! The field types for the local types needed by the XWindow class */
@@ -180,6 +181,6 @@ OSG_DLLEXPORT_DECL1(MField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWXFIELDS_HEADER_CVSID "@(#)$Id: OSGWindowXFields.h,v 1.1 2002/01/31 00:28:39 dirk Exp $"
+#define OSGWINDOWXFIELDS_HEADER_CVSID "@(#)$Id: OSGXWindowDataFields.h,v 1.1 2002/02/04 16:42:37 dirk Exp $"
 
 #endif /* _OSGWINDOWXFIELDS_H_ */

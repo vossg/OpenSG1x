@@ -67,9 +67,9 @@
 
 #include <OSGWindow.h> // Parent
 
-#include <OSGWindowXFields.h> // Display type
-#include <OSGWindowXFields.h> // Window type
-#include <OSGWindowXFields.h> // Context type
+#include <OSGXWindowDataFields.h> // Display type
+#include <OSGXWindowDataFields.h> // Window type
+#include <OSGXWindowDataFields.h> // Context type
 
 #include <OSGXWindowFields.h>
 
@@ -237,6 +237,6 @@ typedef XWindowBase *XWindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGXWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGXWindowBase.h,v 1.1 2002/01/31 00:28:39 dirk Exp $"
+#define OSGXWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGXWindowBase.h,v 1.2 2002/02/04 16:42:37 dirk Exp $"
 
 #endif /* _OSGXWINDOWBASE_H_ */
