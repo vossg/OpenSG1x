@@ -1289,7 +1289,7 @@ void VRMLWriteAction::writeLineSet(NodePtr          pNode,
                                    GeometryPtr      pGeo, 
                                    FILE            *pFile,
                                    VRMLWriteAction *pWriter,
-                                   bool             bSinglePrimitiveGeo)
+                                   bool             )
 {
     if(writeGeoCommon(pNode, pGeo, pFile, pWriter, "IndexedLineSet") == true)
     {
@@ -1317,7 +1317,7 @@ void VRMLWriteAction::writeFaceSet(NodePtr          pNode,
                                    GeometryPtr      pGeo, 
                                    FILE            *pFile,
                                    VRMLWriteAction *pWriter,
-                                   bool             bSinglePrimitiveGeo)
+                                   bool             )
 {
     if(writeGeoCommon(pNode, pGeo, pFile, pWriter, "IndexedFaceSet") == true)
     {
