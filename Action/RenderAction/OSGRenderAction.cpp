@@ -687,12 +687,11 @@ Action::ResultE RenderAction::stop(ResultE res)
         _vLights[i].first->deactivate(this, i);
     }
 
-    fprintf(stderr,
-            "Material %d Matrix %d Geometry %d Transparent %d\r",
+    FINFO(("Material %d Matrix %d Geometry %d Transparent %d\r",
             _uiNumMaterialChanges, 
             _uiNumMatrixChanges, 
             _uiNumGeometries,
-            _uiNumTransGeometries);
+            _uiNumTransGeometries));
 
     return res;
 }
