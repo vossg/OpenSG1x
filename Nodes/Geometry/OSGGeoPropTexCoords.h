@@ -85,6 +85,8 @@ struct GeoTexCoords2fPropertyDesc
 	typedef MFVec2f                		FieldType;
 
     typedef InheritDesc::GenericType 	GenericType;
+ 
+    typedef GeoPropertyInterface<GeoTexCoordsPropertyDesc> Interface;
 };
 
 typedef GeoProperty<GeoTexCoords2fPropertyDesc> GeoTexCoords2f;

@@ -94,6 +94,8 @@ struct GeoColor3fPropertyDesc
 	typedef MFColor3f                FieldType;
 
     typedef InheritDesc::GenericType GenericType;
+ 
+    typedef GeoPropertyInterface<GeoColorPropertyDesc> Interface;
 };
 
 typedef GeoProperty<GeoColor3fPropertyDesc> GeoColor3f;
@@ -145,6 +147,8 @@ struct GeoColor3ubPropertyDesc
 	typedef MFColor3ub               FieldType;
 
 	typedef InheritDesc::GenericType GenericType;
+ 
+    typedef GeoPropertyInterface<GeoColorPropertyDesc> Interface;
 };
 
 typedef GeoProperty<GeoColor3ubPropertyDesc> GeoColor3ub;
@@ -196,6 +200,8 @@ struct GeoColor4ubPropertyDesc
 	typedef MFColor4ub               FieldType;
 
     typedef InheritDesc::GenericType GenericType;
+ 
+    typedef GeoPropertyInterface<GeoColorPropertyDesc> Interface;
 };
 
 typedef GeoProperty<GeoColor4ubPropertyDesc> GeoColor4ub;

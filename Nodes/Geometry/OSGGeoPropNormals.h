@@ -85,6 +85,8 @@ struct GeoNormal3fPropertyDesc
 	typedef MFVec3f                  FieldType;
 
 	typedef InheritDesc::GenericType GenericType;
+ 
+    typedef GeoPropertyInterface<GeoNormalPropertyDesc> Interface;
 };
 
 typedef GeoProperty<GeoNormal3fPropertyDesc> GeoNormal3f;

@@ -52,6 +52,7 @@
 #include <OSGMFSysTypes.h>
 #include <OSGMFBaseTypes.h>
 #include <OSGAttachment.h>
+#include <OSGGeoPropertyInterface.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -76,7 +77,7 @@ OSG_BEGIN_NAMESPACE
 
 template <class GeoPropertyDesc>
 class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty : 
-    public GeoPropertyDesc::Inherit
+    public GeoPropertyDesc::Inherit, public GeoPropertyDesc::Interface
 {
   public:
 
@@ -246,7 +247,8 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty :
 //---------------------------------------------------------------------------
 
 template <class GeoPropertyDesc>
-class OSG_SYSTEMLIB_DLLMAPPING GeoProperty : public GeoPropertyDesc::Inherit
+class OSG_SYSTEMLIB_DLLMAPPING GeoProperty : 
+    public GeoPropertyDesc::Inherit
 {
   private:
 
@@ -451,38 +453,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty : public GeoPropertyDesc::Inherit
 //   Exported Types
 //---------------------------------------------------------------------------
 
-//---------------------------------------------------------------------------
-//   Specialized Types
-//---------------------------------------------------------------------------
-
-// For the properties not group together like type or length
-
-struct AttachmentPropertyDesc
-{
-    static const char *getTypeName (void)  { return "Attachment"; }
-};
-
-//---------------------------------------------------------------------------
-//   Specialized Types
-//---------------------------------------------------------------------------
-
 // Position
-
-struct GeoPositionPropertyDesc
-{
-    static const Char8 *getTypeName (void) { return "GeoPosition";         }
-
-    static const Char8 *getGroupName(void) { return "GeoPosition";         }
-    static const Char8 *getClassName(void) { return "GeoPositionProperty"; }
-
-    static InitContainerF getInitMethod(void) { return NULL; }
-
-    typedef Attachment             Inherit;
-    typedef AttachmentPropertyDesc InheritDesc;
-    typedef AttachmentPtr          InheritPtr;
-
-    typedef Pnt3f                  GenericType;
-};
 
 typedef AbstractGeoProperty<GeoPositionPropertyDesc> GeoPosition;
 
@@ -500,26 +471,8 @@ OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
 #endif
 #endif
 
-//---------------------------------------------------------------------------
-//   Specialized Types
-//---------------------------------------------------------------------------
 
 // Normal
-
-struct GeoNormalPropertyDesc
-{
-    static const Char8 *getTypeName (void) { return "GeoNormal";         }
-    static const Char8 *getGroupName(void) { return "GeoNormal";         }
-    static const Char8 *getClassName(void) { return "GeoNormalProperty"; }
-
-    static InitContainerF getInitMethod(void) { return NULL; }
-
-    typedef Attachment             Inherit;
-    typedef AttachmentPropertyDesc InheritDesc;
-    typedef AttachmentPtr          InheritPtr;
-
-    typedef Vec3f                  GenericType;
-};
 
 typedef AbstractGeoProperty<GeoNormalPropertyDesc> GeoNormal;
 
@@ -538,26 +491,7 @@ OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
 #endif
 
 
-//---------------------------------------------------------------------------
-//   Specialized Types
-//---------------------------------------------------------------------------
-
 // Color
-
-struct GeoColorPropertyDesc
-{
-    static const Char8 *getTypeName (void) { return "GeoColor";         }
-    static const Char8 *getGroupName(void) { return "GeoColor";         }
-    static const Char8 *getClassName(void) { return "GeoColorProperty"; }
-
-    static InitContainerF getInitMethod(void) { return NULL; }
-
-    typedef Attachment             Inherit;
-    typedef AttachmentPropertyDesc InheritDesc;
-    typedef AttachmentPtr          InheritPtr;
-
-    typedef Color3f                GenericType;
-};
 
 typedef AbstractGeoProperty<GeoColorPropertyDesc> GeoColor;
 
@@ -578,21 +512,6 @@ OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
 
 // TexCoords
 
-struct GeoTexCoordsPropertyDesc
-{
-    static const Char8 *getTypeName (void) { return "GeoTexCoords";         }
-    static const Char8 *getGroupName(void) { return "GeoTexCoords";         }
-    static const Char8 *getClassName(void) { return "GeoTexCoordsProperty"; }
-
-    static InitContainerF getInitMethod(void) { return NULL; }
-
-    typedef Attachment              Inherit;
-    typedef AttachmentPropertyDesc  InheritDesc;
-    typedef AttachmentPtr           InheritPtr;
-
-    typedef Vec2f                   GenericType;
-};
-
 typedef AbstractGeoProperty<GeoTexCoordsPropertyDesc> GeoTexCoords;
 
 #ifndef OSG_COMPILEGEOPROPINST
@@ -609,26 +528,8 @@ OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
 #endif
 #endif
 
-//---------------------------------------------------------------------------
-//   Specialized Types
-//---------------------------------------------------------------------------
 
 // Index
-
-struct GeoIndexPropertyDesc
-{
-    static const Char8 *getTypeName (void) { return "GeoIndex";         }
-    static const Char8 *getGroupName(void) { return "GeoIndex";         }
-    static const Char8 *getClassName(void) { return "GeoIndexProperty"; }
-
-    static InitContainerF getInitMethod(void) { return NULL; }
-
-    typedef Attachment             Inherit;
-    typedef AttachmentPropertyDesc InheritDesc;
-    typedef AttachmentPtr          InheritPtr;
-
-    typedef UInt32                 GenericType;
-};
 
 typedef AbstractGeoProperty<GeoIndexPropertyDesc> GeoIndex;
 
@@ -647,41 +548,11 @@ OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
 #endif
 
 
-
-//---------------------------------------------------------------------------
-//   Specialized Types
-//---------------------------------------------------------------------------
-
 // Primitive Type
 
 // just one kind, to cut down the number of pumps needed
 // screwed up architectures might have a problem with uint8, maybe we'll
 // have to expand it later 
-
-
-// PType
-
-struct GeoPTypePropertyDesc
-{
-    static const Char8 *getTypeName (void) { return "GeoPType"; }
-    static const Char8 *getClassName(void) { return "GeoPTypeProperty"; }
-    static const Char8 *getFieldName(void) { return "Types"; }
-    static const Char8 *getGroupName(void) { return "GeoPType"; }
-
-    static InitContainerF getInitMethod(void) { return NULL; }
-
-    static UInt32 getFormat    (void) { return GL_UNSIGNED_BYTE;  }
-    static UInt32 getFormatSize(void) { return sizeof(GLubyte);   }
-    static UInt32 getDimension (void) { return 1;                 }
-    static UInt32 getStride    (void) { return 0;                 }
-
-    typedef Attachment             Inherit;
-    typedef AttachmentPtr          InheritPtr;
-    typedef AttachmentPropertyDesc InheritDesc;
-    typedef MFUInt8                FieldType;
-
-    typedef UInt8                  GenericType;
-};
 
 typedef GeoProperty<GeoPTypePropertyDesc> GeoPType;
 
@@ -700,39 +571,12 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 #endif
 #endif
 
-//---------------------------------------------------------------------------
-//   Specialized Types
-//---------------------------------------------------------------------------
-
 
 // Primitive Lengths
 
 // just one kind, to cut down the number of pumps needed
 // screwed up architectures might have a problem with uint8, maybe we'll
 // have to expand it later 
-
-
-struct GeoPLengthPropertyDesc
-{
-    static const Char8 *getTypeName (void) { return "GeoPLength";         }
-    static const Char8 *getClassName(void) { return "GeoPLengthProperty"; }
-    static const Char8 *getFieldName(void) { return "Lengths";            }
-    static const Char8 *getGroupName(void) { return "GeoPLength";         }
-
-    static InitContainerF getInitMethod(void) { return NULL; }
-
-    static UInt32 getFormat    (void) { return GL_UNSIGNED_INT; }
-    static UInt32 getFormatSize(void) { return sizeof(GLuint);  }
-    static UInt32 getDimension (void) { return 1;               }
-    static UInt32 getStride    (void) { return 0;               }
-
-    typedef Attachment             Inherit;
-    typedef AttachmentPtr          InheritPtr;
-    typedef AttachmentPropertyDesc InheritDesc;
-    typedef MFUInt32               FieldType;
-
-    typedef UInt32                 GenericType;
-};
 
 typedef GeoProperty<GeoPLengthPropertyDesc> GeoPLength;
 
