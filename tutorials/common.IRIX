@@ -1,0 +1,18 @@
+# options for IRIX
+
+CC := CC
+
+CCFLAGS :=	-DQT_CLEAN_NAMESPACE -DOSG_WITH_GLUT -DOSG_WITH_QT \
+			-D_OSG_HAVE_CONFIGURED_H_ -D__sgi -D__EDG__ -D_STANDARD_C_PLUS_PLUS  \
+			-n32 -mips3 -xansi  -use_readonly_const -no_auto_include \
+			-LANG:ansi-for-init-scope=on -LANG:restrict -LANG:exceptions=ON \
+			-LANG:std  -g -INLINE:none  -c  \
+			-I$(OSGPOOL)/Builds/mips-sgi-irix6.5-CC/include \
+			-I/igd/a4/software/IRIX/include \
+			-I/usr/include -I.
+
+LD_FLAGS :=  -n32 -mips3  -g   \
+			-L$(OSGPOOL)/Builds/mips-sgi-irix6.5-CC/lib/dbg  \
+			-L/igd/a4/software/IRIX/lib   \
+			-lOSGWindowGLUT -lOSGSystem  -lOSGBase  \
+			-lglut  -lGLU -lGL -lXmu -lXi -lXt -lX11  -lCio -lm
