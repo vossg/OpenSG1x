@@ -148,6 +148,20 @@ OSG_BASE_DLLMAPPING FloatTypeT osgdegree2rad(const FloatTypeT &rVal);
 template <class FloatTypeT> 
 OSG_BASE_DLLMAPPING FloatTypeT osgrad2degree(const FloatTypeT &rVal);
 
+/*! \brief deg2rad
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class FloatTypeT> 
+OSG_BASE_DLLMAPPING FloatTypeT deg2rad(const FloatTypeT &rVal);
+
+/*! \brief rad2deg
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class FloatTypeT> 
+OSG_BASE_DLLMAPPING FloatTypeT rad2deg(const FloatTypeT &rVal);
+
 /*! \brief osgabs
  *  \ingroup BaseMathFunctions
  */
