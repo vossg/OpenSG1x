@@ -76,7 +76,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
                        InitContainerF     fInitMethod       = NULL,
                        FieldDescription **pDesc             = NULL,
                        UInt32             uiDescByteCounter = 0,
-                       Bool               bDescsAddable     = false);
+                       bool               bDescsAddable     = false);
 
     FieldContainerType(const FieldContainerType &source);
 
@@ -111,7 +111,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
     UInt32                 getNumFieldDescs(void) const;
 
     UInt32                 addDescription  (const FieldDescription &desc     );
-    Bool                   subDescription  (      UInt32            uiFieldId);
+    bool                   subDescription  (      UInt32            uiFieldId);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -119,23 +119,23 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
     /*! \{                                                                 */
 
     FieldContainerPtr getPrototype(void                        ) const;
-    Bool              setPrototype(FieldContainerPtr pPrototype);
+    bool              setPrototype(FieldContainerPtr pPrototype);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                Query Properties                              */
     /*! \{                                                                 */
 
-    Bool isInitialized(void                           ) const;
+    bool isInitialized(void                           ) const;
 
-    Bool isAbstract   (void                           ) const;
+    bool isAbstract   (void                           ) const;
 
-    Bool isDerivedFrom(const TypeBase           &other) const;
-    Bool isDerivedFrom(const FieldContainerType &other) const;    
+    bool isDerivedFrom(const TypeBase           &other) const;
+    bool isDerivedFrom(const FieldContainerType &other) const;    
 
-    Bool isNode       (void                           ) const;
-    Bool isNodeCore   (void                           ) const;
-    Bool isAttachment (void                           ) const;
+    bool isNode       (void                           ) const;
+    bool isNodeCore   (void                           ) const;
+    bool isAttachment (void                           ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -182,8 +182,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
 
     UInt16              _uiGroupId;
 
-    Bool                _bInitialized;
-    Bool                _bDescsAddable;
+    bool                _bInitialized;
+    bool                _bDescsAddable;
 
     BaseType            _baseType;
 
@@ -212,12 +212,12 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
     /*! \name             Intialization / Termination                      */
     /*! \{                                                                 */
 
-    Bool initPrototype   (void);
-    Bool initBaseType    (void);
-    Bool initFields      (void);
-    Bool initParentFields(void);
+    bool initPrototype   (void);
+    bool initBaseType    (void);
+    bool initFields      (void);
+    bool initParentFields(void);
 
-    Bool initialize      (void);
+    bool initialize      (void);
     void terminate       (void);
 
     /*! \}                                                                 */

@@ -142,7 +142,7 @@ void StatTimeElem::putToString(string &str)
     FieldDataTraits1<Time>::putToString(_time, str);
 }
 
-Bool StatTimeElem::getFromString(const Char8 *&inVal)
+bool StatTimeElem::getFromString(const Char8 *&inVal)
 {
     return FieldDataTraits1<Time>::getFromString(_time, inVal);
 }
@@ -193,7 +193,7 @@ StatTimeElem& StatTimeElem::operator = (const StatTimeElem &source)
 /** \brief assignment
  */
 
-Bool StatTimeElem::operator < (const StatTimeElem &other) const
+bool StatTimeElem::operator < (const StatTimeElem &other) const
 {
     return this < &other;
 }

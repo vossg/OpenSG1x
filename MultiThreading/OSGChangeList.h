@@ -148,11 +148,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
     /*! \{                                                                 */
     
     void clearAll   (      void             );
-    Bool merge      (const ChangeList &list );
+    bool merge      (const ChangeList &list );
 
     void setAspect  (      UInt32 uiAspectId);
 
-    void setReadOnly(      Bool bReadOnly   );
+    void setReadOnly(      bool bReadOnly   );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -184,7 +184,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    Bool                _bReadOnly;
+    bool                _bReadOnly;
 
     UInt32              _uiAspectId;
     Mode                _listMode;

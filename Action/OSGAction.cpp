@@ -438,7 +438,7 @@ Action& Action::operator = (const Action &source)
 /** \brief assignment
  */
 
-Bool Action::operator < (const Action &other)
+bool Action::operator < (const Action &other)
 {
     return this < &other;
 }
@@ -446,7 +446,7 @@ Bool Action::operator < (const Action &other)
 /** \brief equal
  */
 
-Bool Action::operator == (const Action &OSG_CHECK_ARG(other))
+bool Action::operator == (const Action &OSG_CHECK_ARG(other))
 {
     return false;
 }
@@ -454,7 +454,7 @@ Bool Action::operator == (const Action &OSG_CHECK_ARG(other))
 /** \brief unequal
  */
 
-Bool Action::operator != (const Action &other)
+bool Action::operator != (const Action &other)
 {
     return ! (*this == other);
 }

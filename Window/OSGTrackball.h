@@ -80,7 +80,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Trackball
     Trackball(Real32 rSize = 1.0);
     ~Trackball(void);
 
-    void setSum(Bool bVal);
+    void setSum(bool bVal);
 
     void updateRotation(Real32 rLastX,    Real32 rLastY, 
                         Real32 rCurrentX, Real32 rCurrentY);
@@ -91,8 +91,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Trackball
 
 
     void setAutoPositionIncrement(Real32 rVal);
-    void setAutoPosition(Bool bVal);
-    void setAutoPositionNeg(Bool bVal);
+    void setAutoPosition(bool bVal);
+    void setAutoPositionNeg(bool bVal);
     
     void setMode            (Mode gMode);
     void setTranslationMode (TranslationMode gMode            );
@@ -102,14 +102,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Trackball
     void reset(void);
 
     void   setStartPosition(Real32 rX, Real32 rY, Real32 rZ, 
-                            Bool bUpdate = false);
-    void   setStartPosition(Vec3f &gStartPos, Bool bUpdate = false);
+                            bool bUpdate = false);
+    void   setStartPosition(Vec3f &gStartPos, bool bUpdate = false);
 
     Vec3f &getPosition     (void);
 
     void setStartRotation(Real32 rX, Real32 rY, Real32 rZ, Real32 rW, 
-                          Bool bUpdate = false);
-    void setStartRotation(Quaternion &gStartRot, Bool bUpdate = false);
+                          bool bUpdate = false);
+    void setStartRotation(Quaternion &gStartRot, bool bUpdate = false);
 
     void setRotationCenter(const Pnt3f &pRotationCenter);
 
@@ -123,8 +123,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Trackball
         
   private:
 
-    Bool   _bSum;
-    Bool   _bAutoPosition;
+    bool   _bSum;
+    bool   _bAutoPosition;
 
     Mode            _gMode;
     TranslationMode _gTransMode;

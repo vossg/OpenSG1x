@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParticlesBase.cpp,v 1.5 2002/01/18 22:51:55 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParticlesBase.cpp,v 1.6 2002/02/04 20:14:10 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPARTICLESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPARTICLESBASE_INLINE_CVSID;
 
@@ -172,7 +172,7 @@ const OSG::BitVector  ParticlesBase::BspFieldMask =
 /*! \var UInt32          ParticlesBase::_sfDrawOrder
     
 */
-/*! \var Bool            ParticlesBase::_sfDynamic
+/*! \var bool            ParticlesBase::_sfDynamic
     
 */
 /*! \var UInt32          ParticlesBase::_sfPump
@@ -318,7 +318,7 @@ ParticlesBase::ParticlesBase(void) :
     _mfTextureZs              (), 
     _sfMaterial               (), 
     _sfDrawOrder              (UInt32(0)), 
-    _sfDynamic                (Bool(true)), 
+    _sfDynamic                (bool(true)), 
     _sfPump                   (), 
     _sfBsp                    (), 
     Inherited() 

@@ -115,10 +115,10 @@ const OSG::BitVector  BillboardBase::AlignToScreenFieldMask =
 /*! \var Vec3f           BillboardBase::_sfAxisOfRotation
     
 */
-/*! \var Bool            BillboardBase::_sfFocusOnCamera
+/*! \var bool            BillboardBase::_sfFocusOnCamera
     
 */
-/*! \var Bool            BillboardBase::_sfAlignToScreen
+/*! \var bool            BillboardBase::_sfAlignToScreen
     
 */
 //! Billboard description
@@ -199,8 +199,8 @@ void BillboardBase::executeSync(      FieldContainer &other,
 
 BillboardBase::BillboardBase(void) :
     _sfAxisOfRotation         (Vec3f(0.f, 1.f, 0.f)), 
-    _sfFocusOnCamera          (Bool(true)), 
-    _sfAlignToScreen          (Bool(false)), 
+    _sfFocusOnCamera          (bool(true)), 
+    _sfAlignToScreen          (bool(false)), 
     Inherited() 
 {
 }

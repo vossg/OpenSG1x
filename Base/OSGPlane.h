@@ -52,9 +52,9 @@ class Line;
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class Plane;
 OSG_BASE_DLLMAPPING
-Bool operator ==(const Plane &p1, const Plane &p2);
+bool operator ==(const Plane &p1, const Plane &p2);
 OSG_BASE_DLLMAPPING
-Bool operator !=(const Plane &p1, const Plane &p2);
+bool operator !=(const Plane &p1, const Plane &p2);
 #endif
 
 
@@ -104,22 +104,22 @@ class OSG_BASE_DLLMAPPING Plane {
     /*! \name                    Intersection                              */
     /*! \{                                                                 */
 
-    Bool intersect         (const Plane &pl, Line &intersection) const;
+    bool intersect         (const Plane &pl, Line &intersection) const;
 
-    Bool intersect         (const Line &l, Pnt3f &intersection)  const;
+    bool intersect         (const Line &l, Pnt3f &intersection)  const;
 
-    Bool intersect         (const Line &l, Real32 &t)            const;
+    bool intersect         (const Line &l, Real32 &t)            const;
 
-    Bool intersectInfinite (const Line &l, Real32 &t)            const;
+    bool intersectInfinite (const Line &l, Real32 &t)            const;
 
-    Bool intersectInfinite (const Line &l, Pnt3f &intersection)  const;
+    bool intersectInfinite (const Line &l, Pnt3f &intersection)  const;
 
 
     void transform         (const Matrix &matrix);
 
-    Bool isInHalfSpace     (const Pnt3f &point)                  const;
+    bool isInHalfSpace     (const Pnt3f &point)                  const;
 
-    Bool isOnPlane         (const Pnt3f &point)                  const;
+    bool isOnPlane         (const Pnt3f &point)                  const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -144,10 +144,10 @@ class OSG_BASE_DLLMAPPING Plane {
     /*! \{                                                                 */
 
     OSG_BASE_DLLMAPPING
-    friend Bool operator ==(const Plane &p1, const Plane &p2);
+    friend bool operator ==(const Plane &p1, const Plane &p2);
 
     inline OSG_BASE_DLLMAPPING
-    friend Bool operator !=(const Plane &p1, const Plane &p2);
+    friend bool operator !=(const Plane &p1, const Plane &p2);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

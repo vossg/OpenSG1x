@@ -123,39 +123,39 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
             Int32 width, Int32 height = 1, Int32 depth = 1,
             Int32 mipmapCount = 1,
             Int32 frameCount = 1, Time frameDelay = 0.0,
-            const UChar8 *data = 0, Bool doCopy = true );
+            const UChar8 *data = 0, bool doCopy = true );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Set                                   */
     /*! \{                                                                 */
 
-    Bool set     ( PixelFormat pixelFormat,
+    bool set     ( PixelFormat pixelFormat,
                    Int32 width, Int32 height = 1,
                    Int32 depth = 1,
                    Int32 mipmapCount = 1,
                    Int32 frameCount = 1, Time frameDelay = 0.0,
-                   const UChar8 *data = 0, Bool doCopy = true );
+                   const UChar8 *data = 0, bool doCopy = true );
 
-    Bool set     ( const Image &image, Bool doCopy = true );
+    bool set     ( const Image &image, bool doCopy = true );
 
-    Bool setData ( const UChar8 *data = 0, Bool doCopy = true );
+    bool setData ( const UChar8 *data = 0, bool doCopy = true );
 
-		Bool flipDepthFrameData (void);
+		bool flipDepthFrameData (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Add Value                                */
     /*! \{                                                                 */
 
-    Bool addValue (const char *value);
+    bool addValue (const char *value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Reformate                                */
     /*! \{                                                                 */
 
-    Bool reformat ( PixelFormat pixelFormat,
+    bool reformat ( PixelFormat pixelFormat,
                     Image *destination = 0);
 
     /*! \}                                                                 */
@@ -163,7 +163,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     /*! \name                       Scale                                  */
     /*! \{                                                                 */
 
-    Bool scale ( Int32 width, Int32 height = 1,
+    bool scale ( Int32 width, Int32 height = 1,
                  Int32 depth = 1,
                  Image *destination = 0);
 
@@ -172,7 +172,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     /*! \name                      SubImage                                */
     /*! \{                                                                 */
 
-    Bool subImage ( Int32 offX, Int32 offY, Int32 offZ,
+    bool subImage ( Int32 offX, Int32 offY, Int32 offZ,
 		    Int32 destW, Int32 destH, Int32 destD,
 		    Image *destination = 0);
 
@@ -181,7 +181,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     /*! \name                      Mipmap                                  */
     /*! \{                                                                 */
 
-    Bool createMipmap ( Int32 level = -1,
+    bool createMipmap ( Int32 level = -1,
                         Image *destination = 0);
 
     /*! \}                                                                 */
@@ -189,9 +189,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    Bool write (const Char8 *fileName);
+    bool write (const Char8 *fileName);
 
-    Bool read  (const Char8 *fileName);
+    bool read  (const Char8 *fileName);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -209,18 +209,18 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     /*! \name               Comparison/Assign                              */
     /*! \{                                                                 */
 
-    Bool   operator == (const Image &image);
+    bool   operator == (const Image &image);
 
     Image &operator=   (const Image &image);
 
-    Bool   operator <  (const Image &image);
+    bool   operator <  (const Image &image);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Get  Methods                              */
     /*! \{                                                                 */
 
-		inline Bool   isValid (void) const;
+		inline bool   isValid (void) const;
 
     inline Int32  getDimension  (void) const;
 
@@ -240,7 +240,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
 
     inline PixelFormat getPixelFormat (void) const;
 
-    Bool hasAlphaChannel(void);
+    bool hasAlphaChannel(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -248,8 +248,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     /*! \{                                                                 */
 
 
-    inline unsigned long getSize ( Bool withMipmap = true,
-                                   Bool withFrames = true) const;
+    inline unsigned long getSize ( bool withMipmap = true,
+                                   bool withFrames = true) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -266,7 +266,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     /*! \name               string attachment handling                     */
     /*! \{                                                                 */
 
-    inline Bool hasAttachment (void) const;
+    inline bool hasAttachment (void) const;
 
     inline UInt32 attachmentCount (void) const;
 
@@ -289,7 +289,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
 
     inline UInt32 calcMipmapLevelCount ( void );
 
-    UInt32 calcFrameNum(Time time, Bool loop = true);
+    UInt32 calcFrameNum(Time time, bool loop = true);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -332,7 +332,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
 
     Int32 _frameSize;
 
-    Bool  _isCopy;
+    bool  _isCopy;
 
     UChar8 * _data;
 
@@ -360,9 +360,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     /*! \name                   Image Data                                 */
     /*! \{                                                                 */
 
-    Bool createData (const UChar8 *data, Bool doCopy );
+    bool createData (const UChar8 *data, bool doCopy );
 
-    Bool scaleData  ( UChar8* srcData, 
+    bool scaleData  ( UChar8* srcData, 
                       Int32 srcW, Int32 srcH, Int32 srcD,
                       UChar8* destData, 
                       Int32 destW, Int32 destH, Int32 destD );

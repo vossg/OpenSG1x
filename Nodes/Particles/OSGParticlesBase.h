@@ -180,8 +180,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
     inline const MaterialPtr         &getMaterial       (void) const;
     inline       UInt32              &getDrawOrder      (void);
     inline const UInt32              &getDrawOrder      (void) const;
-    inline       Bool                &getDynamic        (void);
-    inline const Bool                &getDynamic        (void) const;
+    inline       bool                &getDynamic        (void);
+    inline const bool                &getDynamic        (void) const;
     inline       ParticleBSPTree     &getBsp            (void);
     inline const ParticleBSPTree     &getBsp            (void) const;
     inline       Vec3f               &getSizes          (UInt32 index);
@@ -206,7 +206,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
     inline void setNormals        ( const GeoNormalsPtr &value );
     inline void setMaterial       ( const MaterialPtr &value );
     inline void setDrawOrder      ( const UInt32 &value );
-    inline void setDynamic        ( const Bool &value );
+    inline void setDynamic        ( const bool &value );
     inline void setBsp            ( const ParticleBSPTree &value );
 
     /*! \}                                                                 */
@@ -336,6 +336,6 @@ typedef ParticlesBase *ParticlesBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: OSGParticlesBase.h,v 1.5 2002/01/18 22:51:55 dirk Exp $"
+#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: OSGParticlesBase.h,v 1.6 2002/02/04 20:14:10 dirk Exp $"
 
 #endif /* _OSGPARTICLESBASE_H_ */

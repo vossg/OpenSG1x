@@ -89,7 +89,7 @@ MTDImageFileType MTDImageFileType::_the(suffixArray, sizeof(suffixArray) );
 //GlobalVars:
 //g: c
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c: 
 //Assumations:
@@ -100,10 +100,10 @@ MTDImageFileType MTDImageFileType::_the(suffixArray, sizeof(suffixArray) );
 //s:
 //
 //------------------------------
-Bool MTDImageFileType::read (      Image &image   , 
+bool MTDImageFileType::read (      Image &image   , 
                              const Char8 *fileName)
 {
-  Bool retCode = false;
+  bool retCode = false;
 
   ifstream in(fileName);
   Head head;
@@ -134,7 +134,7 @@ Bool MTDImageFileType::read (      Image &image   ,
 //GlobalVars:
 //g: 
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c: 
 //Assumations:
@@ -145,10 +145,10 @@ Bool MTDImageFileType::read (      Image &image   ,
 //s:
 //
 //------------------------------
-Bool MTDImageFileType::write(const Image &image   , 
+bool MTDImageFileType::write(const Image &image   , 
                              const Char8 *fileName)
 {
-    Bool retCode = false;
+    bool retCode = false;
 
     ofstream out(fileName);
     Head head;

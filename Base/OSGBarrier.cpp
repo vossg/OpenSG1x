@@ -168,7 +168,7 @@ PThreadBarrierBase::~PThreadBarrierBase(void)
 /*-------------------------------------------------------------------------*/
 /*                            Construction                                 */
 
-Bool PThreadBarrierBase::init(void)
+bool PThreadBarrierBase::init(void)
 {
     pthread_cond_init (&(_pWakeupCondition), NULL);
     pthread_mutex_init(&(_pLockOne),         NULL);
@@ -232,7 +232,7 @@ SprocBarrierBase::~SprocBarrierBase(void)
 /*-------------------------------------------------------------------------*/
 /*                            Construction                                 */
 
-Bool SprocBarrierBase::init(void)
+bool SprocBarrierBase::init(void)
 {
     ThreadManager *pThreadManager = ThreadManager::the();
 
@@ -340,7 +340,7 @@ WinThreadBarrierBase::~WinThreadBarrierBase(void)
 /*-------------------------------------------------------------------------*/
 /*                            Construction                                 */
 
-Bool WinThreadBarrierBase::init(void)
+bool WinThreadBarrierBase::init(void)
 {
     Char8 *pTmp;
 

@@ -151,8 +151,8 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
     inline const UInt16              &getWidth          (void) const;
     inline       UInt16              &getHeight         (void);
     inline const UInt16              &getHeight         (void) const;
-    inline       Bool                &getResizePending  (void);
-    inline const Bool                &getResizePending  (void) const;
+    inline       bool                &getResizePending  (void);
+    inline const bool                &getResizePending  (void) const;
     inline       UInt32              &getGlObjectInvalidateCounter(void);
     inline const UInt32              &getGlObjectInvalidateCounter(void) const;
     inline       ViewportPtr         &getPort           (UInt32 index);
@@ -175,7 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
 
     inline void setWidth          ( const UInt16 &value );
     inline void setHeight         ( const UInt16 &value );
-    inline void setResizePending  ( const Bool &value );
+    inline void setResizePending  ( const bool &value );
     inline void setGlObjectInvalidateCounter( const UInt32 &value );
 
     /*! \}                                                                 */

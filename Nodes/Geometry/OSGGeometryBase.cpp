@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGeometryBase.cpp,v 1.22 2001/11/09 08:17:09 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGeometryBase.cpp,v 1.23 2002/02/04 20:14:09 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGGEOMETRYBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGEOMETRYBASE_INLINE_CVSID;
 
@@ -146,7 +146,7 @@ const OSG::BitVector  GeometryBase::GLIdFieldMask =
 /*! \var MaterialPtr     GeometryBase::_sfMaterial
     
 */
-/*! \var Bool            GeometryBase::_sfDlistCache
+/*! \var bool            GeometryBase::_sfDlistCache
     Flag to activate caching the geometry inside a display list.
 */
 /*! \var Int32           GeometryBase::_sfGLId
@@ -278,7 +278,7 @@ GeometryBase::GeometryBase(void) :
     _sfIndices                (), 
     _mfIndexMapping           (), 
     _sfMaterial               (), 
-    _sfDlistCache             (Bool(true)), 
+    _sfDlistCache             (bool(true)), 
     _sfGLId                   (Int32(0)), 
     Inherited() 
 {

@@ -96,7 +96,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterial : public SimpleMaterialBase
 
     virtual void       rebuildState      (void);
 
-    virtual Bool       isTransparent     (void) const;
+    virtual bool       isTransparent     (void) const;
 
     /*! \}                                                                 */
  

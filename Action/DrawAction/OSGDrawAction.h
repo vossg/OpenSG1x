@@ -130,10 +130,10 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public DrawActionBase
 
     /*------------------------- comparison ----------------------------------*/
 
-    Bool operator < (const DrawAction &other) const;
+    bool operator < (const DrawAction &other) const;
     
-    Bool operator == (const DrawAction &other) const;
-    Bool operator != (const DrawAction &other) const;
+    bool operator == (const DrawAction &other) const;
+    bool operator != (const DrawAction &other) const;
 
   protected:
 

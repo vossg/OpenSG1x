@@ -39,13 +39,13 @@
 OSG_BEGIN_NAMESPACE
 
 /*-------------------------------------------------------------------------*/
-inline  Bool StatElem::getOn       (void)         
+inline  bool StatElem::getOn       (void)         
 { 
   return _on; 
 }
 
 /*-------------------------------------------------------------------------*/
-inline  void StatElem::setOn       (Bool on)      
+inline  void StatElem::setOn       (bool on)      
 { 
   _on = on; 
 }
@@ -58,4 +58,4 @@ inline  StatElemDescBase * StatElem::getDesc     (void)
 
 OSG_END_NAMESPACE
 
-#define OSGSTATELEM_INLINE_CVSID "@(#)$Id: OSGStatElem.inl,v 1.3 2002/01/21 17:38:40 dirk Exp $"
+#define OSGSTATELEM_INLINE_CVSID "@(#)$Id: OSGStatElem.inl,v 1.4 2002/02/04 20:14:11 dirk Exp $"

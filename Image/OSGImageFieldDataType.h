@@ -69,7 +69,7 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
     
     //Attention: This does expect a filename as arg inVal not a string with
     //the complete image data in it.
-    static Bool      getFromString(      ImageP  &outVal,
+    static bool      getFromString(      ImageP  &outVal,
                                    const Char8   *&inVal)
     {
         outVal = new Image();

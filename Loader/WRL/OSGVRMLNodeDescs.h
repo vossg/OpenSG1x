@@ -209,7 +209,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
 
     virtual       void              setOnEndSave         (const Char8 *szName);
     virtual       void              clearOnEndSave       (void);
-    virtual       Bool              getOnEndSave         (void);
+    virtual       bool              getOnEndSave         (void);
     virtual const Char8            *getSavename          (void);
     virtual       FieldContainerPtr getSaveFieldContainer(void);
 
@@ -235,7 +235,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
     /*! \name                   Prototypes                                 */
     /*! \{                                                                 */
 
-    virtual Bool prototypeAddField     (const Char8  *szFieldType,
+    virtual bool prototypeAddField     (const Char8  *szFieldType,
                                         const UInt32  uiFieldTypeId,
                                         const Char8  *szFieldName); 
     
@@ -262,7 +262,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
     virtual void addFieldValue(      Field             *pField,
                                const Char8             *szFieldVal);
 
-    virtual Bool use          (      FieldContainerPtr            );
+    virtual bool use          (      FieldContainerPtr            );
    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -299,7 +299,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
            Field             *_pCurrField;
 
            string             _szCurrentName;
-           Bool               _bSaveOnEnd;
+           bool               _bSaveOnEnd;
 
            UInt32             _uiOptions;
            PathHandler       *_pPathHandler;
@@ -360,7 +360,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLShapeDesc : public VRMLNodeDesc
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8  *szFieldType,
+    virtual bool prototypeAddField(const Char8  *szFieldType,
                                    const UInt32  uiFieldTypeId,
                                    const Char8  *szFieldName); 
 
@@ -427,7 +427,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryDesc : public VRMLNodeDesc
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    VRMLGeometryDesc(Bool bIsFaceSet);
+    VRMLGeometryDesc(bool bIsFaceSet);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -448,7 +448,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryDesc : public VRMLNodeDesc
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8             * szFieldType,
+    virtual bool prototypeAddField(const Char8             * szFieldType,
                                    const UInt32              uiFieldTypeId,
                                    const Char8             * szFieldName); 
 
@@ -491,9 +491,9 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryDesc : public VRMLNodeDesc
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    Bool           _bIsFaceSet;
+    bool           _bIsFaceSet;
 
-    Bool           _bInIndex;
+    bool           _bInIndex;
     UInt32         _uiNumVertices;
 
     GeoPTypesPtr   _pTypeField;
@@ -551,7 +551,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryPartDesc : public VRMLNodeDesc
     /*! \name                     Field                                    */
     /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8             * szFieldType,
+    virtual bool prototypeAddField(const Char8             * szFieldType,
                                    const UInt32              uiFieldTypeId,
                                    const Char8             * szFieldName);
 
@@ -638,7 +638,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryObjectDesc : public VRMLNodeDesc
     /*! \name                     Field                                    */
     /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8             * szFieldType,
+    virtual bool prototypeAddField(const Char8             * szFieldType,
                                    const UInt32              uiFieldTypeId,
                                    const Char8             * szFieldName); 
 
@@ -730,7 +730,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLAppearanceDesc : public VRMLNodeDesc
     /*! \name                      Field                                   */
     /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8             * szFieldType,
+    virtual bool prototypeAddField(const Char8             * szFieldType,
                                    const UInt32              uiFieldTypeId,
                                    const Char8             * szFieldName); 
 
@@ -755,7 +755,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLAppearanceDesc : public VRMLNodeDesc
     /*! \name                   Field Value                                */
     /*! \{                                                                 */
 
-    virtual Bool use(FieldContainerPtr pFC);
+    virtual bool use(FieldContainerPtr pFC);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -828,7 +828,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLMaterialDesc : public VRMLNodeDesc
     /*! \name                     Field                                    */
     /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8             * szFieldType,
+    virtual bool prototypeAddField(const Char8             * szFieldType,
                                    const UInt32              uiFieldTypeId,
                                    const Char8             * szFieldName); 
 
@@ -934,7 +934,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLImageTextureDesc : public VRMLNodeDesc
     /*! \name                     Field                                    */
     /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8             * szFieldType,
+    virtual bool prototypeAddField(const Char8             * szFieldType,
                                    const UInt32              uiFieldTypeId,
                                    const Char8             * szFieldName); 
 
@@ -1031,7 +1031,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLPixelTextureDesc : public VRMLNodeDesc
     /*! \name                    Field                                     */
     /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8             * szFieldType,
+    virtual bool prototypeAddField(const Char8             * szFieldType,
                                    const UInt32              uiFieldTypeId,
                                    const Char8             * szFieldName); 
 
@@ -1134,7 +1134,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLLODDesc : public VRMLNodeDesc
     /*! \name                      Field                                   */
     /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8             * szFieldType,
+    virtual bool prototypeAddField(const Char8             * szFieldType,
                                    const UInt32              uiFieldTypeId,
                                    const Char8             * szFieldName); 
 
@@ -1216,7 +1216,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLSwitchDesc : public VRMLNodeDesc
     /*! \name                      Field                                   */
     /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8             * szFieldType,
+    virtual bool prototypeAddField(const Char8             * szFieldType,
                                    const UInt32              uiFieldTypeId,
                                    const Char8             * szFieldName); 
 
@@ -1298,7 +1298,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGroupDesc : public VRMLNodeDesc
     /*! \name                     Field                                    */
     /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8             * szFieldType,
+    virtual bool prototypeAddField(const Char8             * szFieldType,
                                    const UInt32              uiFieldTypeId,
                                    const Char8             * szFieldName); 
 
@@ -1391,7 +1391,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLInlineDesc : public VRMLNodeDesc
     /*! \name                      Field                                   */
     /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8             * szFieldType,
+    virtual bool prototypeAddField(const Char8             * szFieldType,
                                    const UInt32              uiFieldTypeId,
                                    const Char8             * szFieldName); 
 
@@ -1487,7 +1487,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLViewpointDesc : public VRMLNodeDesc
     /*! \name                      Field                                   */
     /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8             * szFieldType,
+    virtual bool prototypeAddField(const Char8             * szFieldType,
                                    const UInt32              uiFieldTypeId,
                                    const Char8             * szFieldName); 
 
@@ -1572,7 +1572,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLDirectionalLightDesc : public VRMLNodeDesc
     /*! \name                     Field                                    */
     /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8             * szFieldType,
+    virtual bool prototypeAddField(const Char8             * szFieldType,
                                    const UInt32              uiFieldTypeId,
                                    const Char8             * szFieldName); 
 
@@ -1675,7 +1675,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLPointLightDesc : public VRMLNodeDesc
     /*! \name                     Field                                    */
     /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8             * szFieldType,
+    virtual bool prototypeAddField(const Char8             * szFieldType,
                                    const UInt32              uiFieldTypeId,
                                    const Char8             * szFieldName); 
 
@@ -1777,7 +1777,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLDirectionalLightDesc : public VRMLNodeDesc
     /*! \name                     Field                                    */
     /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8             * szFieldType,
+    virtual bool prototypeAddField(const Char8             * szFieldType,
                                    const UInt32              uiFieldTypeId,
                                    const Char8             * szFieldName); 
 

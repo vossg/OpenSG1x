@@ -62,7 +62,7 @@ class OSG_BASE_DLLMAPPING TypeBase
 
     TypeBase(const Char8  *szName, 
              const Char8  *szParentName,
-                   Bool    bRegister   = false);
+                   bool    bRegister   = false);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -89,15 +89,15 @@ class OSG_BASE_DLLMAPPING TypeBase
     /*! \name                     Operators                                */
     /*! \{                                                                 */
 
-    virtual Bool isDerivedFrom(const TypeBase &other) const;
+    virtual bool isDerivedFrom(const TypeBase &other) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Comparison                                */
     /*! \{                                                                 */
 
-    Bool operator ==(const TypeBase &other) const;
-    Bool operator !=(const TypeBase &other) const;
+    bool operator ==(const TypeBase &other) const;
+    bool operator !=(const TypeBase &other) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

@@ -178,7 +178,7 @@ StatElem& StatElem::operator = (const StatElem &source)
 /** \brief assignment
  */
 
-Bool StatElem::operator < (const StatElem &other) const
+bool StatElem::operator < (const StatElem &other) const
 {
     return this < &other;
 }

@@ -100,7 +100,7 @@
 	</Field>
 	<Field
 		name="dynamic"
-		type="Bool"
+		type="bool"
 		cardinality="single"
 		visibility="external"
 		defaultValue="true"

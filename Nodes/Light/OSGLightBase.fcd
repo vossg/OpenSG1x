@@ -49,7 +49,7 @@
 	</Field>
 	<Field
 		name="on"
-		type="Bool"
+		type="bool"
 		cardinality="single"
 		visibility="external"
 		defaultValue="true"

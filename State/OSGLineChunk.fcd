@@ -40,7 +40,7 @@ The line chunk contains the parameters that are specific set for lines.
 	</Field>
 	<Field
 		name="smooth"
-		type="Bool"
+		type="bool"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FALSE"

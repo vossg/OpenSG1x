@@ -458,11 +458,11 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
     /*! \name                   Common Math                                */
     /*! \{                                                                 */
 
-          Bool            isZero  (void                           ) const;
+          bool            isZero  (void                           ) const;
 
           void            negate  (void                           );
 
-          Bool            equals  (const PointInterface &vec,
+          bool            equals  (const PointInterface &vec,
                                    const ValueTypeT      tolerance) const;
 
           VecInterface   &subZero (void                           );
@@ -523,10 +523,10 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
     /*! \name                   Comparison                                 */
     /*! \{                                                                 */
 
-    Bool operator <  (const PointInterface &other)  const;
+    bool operator <  (const PointInterface &other)  const;
 
-    Bool operator == (const PointInterface &other) const;
-    Bool operator != (const PointInterface &other) const;
+    bool operator == (const PointInterface &other) const;
+    bool operator != (const PointInterface &other) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -720,10 +720,10 @@ class OSG_BASE_DLLMAPPING VectorInterface :
     /*! \name                   Comparison                                 */
     /*! \{                                                                 */
 
-    Bool operator <  (const VectorInterface &other) const;
+    bool operator <  (const VectorInterface &other) const;
 
-    Bool operator == (const VectorInterface &other) const;
-    Bool operator != (const VectorInterface &other) const;
+    bool operator == (const VectorInterface &other) const;
+    bool operator != (const VectorInterface &other) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

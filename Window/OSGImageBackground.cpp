@@ -58,7 +58,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGImageBackground.cpp,v 1.5 2001/12/03 23:54:32 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGImageBackground.cpp,v 1.6 2002/02/04 20:14:12 dirk Exp $";
     static char cvsid_hpp[] = OSGIMAGEBACKGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGIMAGEBACKGROUND_INLINE_CVSID;
 }
@@ -122,7 +122,7 @@ void ImageBackground::clear(DrawActionBase *, Viewport *vp)
                  1);                 
     glClear(GL_COLOR_BUFFER_BIT);
 
-    Bool depth=glIsEnabled(GL_DEPTH_TEST);
+    bool depth=glIsEnabled(GL_DEPTH_TEST);
     glDisable(GL_DEPTH_TEST);
 
     glDisable(GL_TEXTURE_2D);

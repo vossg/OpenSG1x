@@ -79,7 +79,7 @@ The simple material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.21 2002/01/20 21:17:01 dirk Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.22 2002/02/04 20:14:08 dirk Exp $";
 
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
@@ -258,7 +258,7 @@ void SimpleMaterial::rebuildState(void)
     }
 }
 
-Bool SimpleMaterial::isTransparent(void) const
+bool SimpleMaterial::isTransparent(void) const
 {
     return ((getTransparency() > Eps) || (Inherited::isTransparent()));
 }

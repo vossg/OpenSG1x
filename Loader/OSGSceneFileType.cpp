@@ -71,7 +71,7 @@ namespace
 
 SceneFileType::SceneFileType(const Char8  *suffixArray[],
                                    UInt16  suffixByteCount,
-                                   Bool    override,
+                                   bool    override,
                                    UInt32  overridePriority) :
     _suffixList      (                ),
     _override        (override        ),
@@ -129,7 +129,7 @@ list<IDString> &SceneFileType::suffixList(void)
 
 //---------------------------------------------------------
 
-Bool SceneFileType::doOverride(void)
+bool SceneFileType::doOverride(void)
 {
     return _override;
 }

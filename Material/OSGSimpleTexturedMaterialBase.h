@@ -143,8 +143,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMateria
     inline const UInt32              &getMagFilter      (void) const;
     inline       UInt32              &getEnvMode        (void);
     inline const UInt32              &getEnvMode        (void) const;
-    inline       Bool                &getEnvMap         (void);
-    inline const Bool                &getEnvMap         (void) const;
+    inline       bool                &getEnvMap         (void);
+    inline const bool                &getEnvMap         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -155,7 +155,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMateria
     inline void setMinFilter      ( const UInt32 &value );
     inline void setMagFilter      ( const UInt32 &value );
     inline void setEnvMode        ( const UInt32 &value );
-    inline void setEnvMap         ( const Bool &value );
+    inline void setEnvMap         ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +253,6 @@ typedef SimpleTexturedMaterialBase *SimpleTexturedMaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialBase.h,v 1.5 2001/11/09 08:17:10 vossg Exp $"
+#define OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialBase.h,v 1.6 2002/02/04 20:14:08 dirk Exp $"
 
 #endif /* _OSGSIMPLETEXTUREDMATERIALBASE_H_ */

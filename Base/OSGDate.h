@@ -48,8 +48,8 @@ OSG_BEGIN_NAMESPACE
 
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class Date;
-Bool operator==(const Date &v1, const Date &v2);
-Bool operator< (const Date &v1, const Date &v2);
+bool operator==(const Date &v1, const Date &v2);
+bool operator< (const Date &v1, const Date &v2);
 ostream& operator<< (ostream & os, const Date &obj);
 istream& operator>> (istream & is, Date &obj);
 #endif
@@ -96,8 +96,8 @@ class OSG_BASE_DLLMAPPING Date
            void         clear         (void) ;
            void         setSystemDate (void);
            void         set           (const char *string);
-    Bool                isLeapYear    (void);
-    Bool                valid         (void);
+    bool                isLeapYear    (void);
+    bool                valid         (void);
            void         set (unsigned int day, unsigned int month, int year,
                              unsigned int hour = 0, unsigned int minute = 0,
                              unsigned int second = 0 );
@@ -121,8 +121,8 @@ class OSG_BASE_DLLMAPPING Date
     /*! \name                   Operators                                  */
     /*! \{                                                                 */
          
-    friend Bool operator == (const Date &v1,const Date &v2);
-    friend Bool operator < (const Date &v1,const Date &v2);
+    friend bool operator == (const Date &v1,const Date &v2);
+    friend bool operator < (const Date &v1,const Date &v2);
     friend ostream &operator << (ostream &os, const Date &obj);
     friend istream &operator >> (istream &is, Date &obj);
     

@@ -153,8 +153,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
     inline const Color4f             &getEmission       (void) const;
     inline       Real32              &getShininess      (void);
     inline const Real32              &getShininess      (void) const;
-    inline       Bool                &getLit            (void);
-    inline const Bool                &getLit            (void) const;
+    inline       bool                &getLit            (void);
+    inline const bool                &getLit            (void) const;
     inline       UInt32              &getColorMaterial  (void);
     inline const UInt32              &getColorMaterial  (void) const;
 
@@ -168,7 +168,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
     inline void setSpecular       ( const Color4f &value );
     inline void setEmission       ( const Color4f &value );
     inline void setShininess      ( const Real32 &value );
-    inline void setLit            ( const Bool &value );
+    inline void setLit            ( const bool &value );
     inline void setColorMaterial  ( const UInt32 &value );
 
     /*! \}                                                                 */
@@ -269,6 +269,6 @@ typedef MaterialChunkBase *MaterialChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGMaterialChunkBase.h,v 1.18 2001/11/09 08:17:08 vossg Exp $"
+#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGMaterialChunkBase.h,v 1.19 2002/02/04 20:14:10 dirk Exp $"
 
 #endif /* _OSGMATERIALCHUNKBASE_H_ */

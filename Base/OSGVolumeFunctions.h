@@ -82,7 +82,7 @@ class FrustumVolume;
 /*! \brief intersect Volume / Volume
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING Bool intersect (const Volume &vol1,
+OSG_BASE_DLLMAPPING bool intersect (const Volume &vol1,
                                     const Volume &vol2);
 
 // # Box #############################################################
@@ -90,31 +90,31 @@ OSG_BASE_DLLMAPPING Bool intersect (const Volume &vol1,
 /*! \brief intersect Box / Box
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING Bool intersect (const BoxVolume &vol1,
+OSG_BASE_DLLMAPPING bool intersect (const BoxVolume &vol1,
                                     const BoxVolume &vol2);
 
 /*! \brief intersect BoxVolume / Sphere
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING Bool intersect (const BoxVolume    &vol1,
+OSG_BASE_DLLMAPPING bool intersect (const BoxVolume    &vol1,
                                     const SphereVolume &vol2);
 
 /*! \brief intersect BoxVolume / Cylinder
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING Bool intersect (const BoxVolume      &vol1,
+OSG_BASE_DLLMAPPING bool intersect (const BoxVolume      &vol1,
                                     const CylinderVolume &vol2);
 
 /*! \brief intersect BoxVolume / Frustum
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING Bool intersect (const BoxVolume     &vol1,
+OSG_BASE_DLLMAPPING bool intersect (const BoxVolume     &vol1,
                                     const FrustumVolume &vol2);
 
 /*! \brief intersect Box / Volume
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING Bool intersect (const BoxVolume &vol1,
+OSG_BASE_DLLMAPPING bool intersect (const BoxVolume &vol1,
                                     const Volume    &vol2);
 
 
@@ -123,31 +123,31 @@ OSG_BASE_DLLMAPPING Bool intersect (const BoxVolume &vol1,
 /*! \brief intersect Sphere / Box
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING inline Bool intersect (const SphereVolume &vol1,
+OSG_BASE_DLLMAPPING inline bool intersect (const SphereVolume &vol1,
                                            const BoxVolume    &vol2);
 
 /*! \brief intersect SphereVolume / Sphere
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING Bool intersect (const SphereVolume &vol1,
+OSG_BASE_DLLMAPPING bool intersect (const SphereVolume &vol1,
                                     const SphereVolume &vol2);
 
 /*! \brief intersect SphereVolume / Cylinder
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING Bool intersect (const SphereVolume   &vol1,
+OSG_BASE_DLLMAPPING bool intersect (const SphereVolume   &vol1,
                                     const CylinderVolume &vol2);
 
 /*! \brief intersect SphereVolume / Frustum
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING Bool intersect (const SphereVolume  &vol1,
+OSG_BASE_DLLMAPPING bool intersect (const SphereVolume  &vol1,
                                     const FrustumVolume &vol2);
 
 /*! \brief intersect Sphere / Volume
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING Bool intersect (const SphereVolume &vol1,
+OSG_BASE_DLLMAPPING bool intersect (const SphereVolume &vol1,
                                     const Volume       &vol2);
 
 
@@ -156,31 +156,31 @@ OSG_BASE_DLLMAPPING Bool intersect (const SphereVolume &vol1,
 /*! \brief intersect Cylinder / Box
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING inline Bool intersect (const CylinderVolume &vol1,
+OSG_BASE_DLLMAPPING inline bool intersect (const CylinderVolume &vol1,
                                            const BoxVolume      &vol2);
 
 /*! \brief intersect CylinderVolume / Sphere
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING inline Bool intersect (const CylinderVolume &vol1,
+OSG_BASE_DLLMAPPING inline bool intersect (const CylinderVolume &vol1,
                                     const SphereVolume   &vol2);
 
 /*! \brief intersect CylinderVolume / Cylinder
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING Bool intersect (const CylinderVolume &vol1,
+OSG_BASE_DLLMAPPING bool intersect (const CylinderVolume &vol1,
                                     const CylinderVolume &vol2);
 
 /*! \brief intersect CylinderVolume / Frustum
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING Bool intersect (const CylinderVolume &vol1,
+OSG_BASE_DLLMAPPING bool intersect (const CylinderVolume &vol1,
                                     const FrustumVolume  &vol2);
 
 /*! \brief intersect Cylinder / Volume
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING Bool intersect (const CylinderVolume &vol1,
+OSG_BASE_DLLMAPPING bool intersect (const CylinderVolume &vol1,
                                     const Volume         &vol2);
 
 // # Frustum ########################################################
@@ -188,31 +188,31 @@ OSG_BASE_DLLMAPPING Bool intersect (const CylinderVolume &vol1,
 /*! \brief intersect Frustum / Box
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING inline Bool intersect (const FrustumVolume &vol1,
+OSG_BASE_DLLMAPPING inline bool intersect (const FrustumVolume &vol1,
                                            const BoxVolume     &vol2);
 
 /*! \brief intersect FrustumVolume / Sphere
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING inline Bool intersect (const FrustumVolume &vol1,
+OSG_BASE_DLLMAPPING inline bool intersect (const FrustumVolume &vol1,
                                            const SphereVolume  &vol2);
 
 /*! \brief intersect FrustumVolume / Cylinder
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING inline Bool intersect (const FrustumVolume  &vol1,
+OSG_BASE_DLLMAPPING inline bool intersect (const FrustumVolume  &vol1,
                                            const CylinderVolume &vol2);
 
 /*! \brief intersect FrustumVolume / Frustum
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING Bool intersect (const FrustumVolume &vol1,
+OSG_BASE_DLLMAPPING bool intersect (const FrustumVolume &vol1,
                                     const FrustumVolume &vol2);
 
 /*! \brief intersect Frustum / Volume
  *  \ingroup VolumeIntersectFunction
  */
-OSG_BASE_DLLMAPPING Bool intersect (const FrustumVolume &vol1,
+OSG_BASE_DLLMAPPING bool intersect (const FrustumVolume &vol1,
                                     const Volume        &vol2);
 
 // # Volume ########################################################
@@ -220,25 +220,25 @@ OSG_BASE_DLLMAPPING Bool intersect (const FrustumVolume &vol1,
 /*! \brief extend Frustum / Box
  *  \ingroup VolumeExtendFunction
  */
-inline OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol,
+inline OSG_BASE_DLLMAPPING bool intersect ( const Volume &srcVol,
                                             const BoxVolume &vol);
 
 /*! \brief extend volume / Sphere
  *  \ingroup VolumeExtendFunction
  */
-inline OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol,
+inline OSG_BASE_DLLMAPPING bool intersect ( const Volume &srcVol,
                                             const SphereVolume &vol);
 
 /*! \brief extend volume / Cylinder
  *  \ingroup VolumeExtendFunction
  */
-inline OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol,
+inline OSG_BASE_DLLMAPPING bool intersect ( const Volume &srcVol,
                                             const CylinderVolume &vol);
 
 /*! \brief extend volume / Frustum
  *  \ingroup VolumeExtendFunction
  */
-inline OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol,
+inline OSG_BASE_DLLMAPPING bool intersect ( const Volume &srcVol,
                                             const FrustumVolume &vol);
 
 // ###################################################################
@@ -381,25 +381,25 @@ OSG_BASE_DLLMAPPING void extend ( FrustumVolume &srcVol,
 /*! \brief extend Frustum / Box
  *  \ingroup VolumeExtendFunction
  */
-inline OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol,
+inline OSG_BASE_DLLMAPPING bool intersect ( const Volume &srcVol,
                                             const BoxVolume &vol);
 
 /*! \brief extend volume / Sphere
  *  \ingroup VolumeExtendFunction
  */
-inline OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol,
+inline OSG_BASE_DLLMAPPING bool intersect ( const Volume &srcVol,
                                             const SphereVolume &vol);
 
 /*! \brief extend volume / Cylinder
  *  \ingroup VolumeExtendFunction
  */
-inline OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol,
+inline OSG_BASE_DLLMAPPING bool intersect ( const Volume &srcVol,
                                             const CylinderVolume &vol);
 
 /*! \brief extend volume / Frustum
  *  \ingroup VolumeExtendFunction
  */
-inline OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol,
+inline OSG_BASE_DLLMAPPING bool intersect ( const Volume &srcVol,
                                             const FrustumVolume &vol);
 
 OSG_END_NAMESPACE

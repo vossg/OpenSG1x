@@ -62,13 +62,6 @@ OSG_BEGIN_NAMESPACE
 
 #if defined(OSG_SGI_TYPES)
 
-/*! \var typedef bool Bool;
- *  \brief Bool
- *  \ingroup BaseTypes
- */
-
-typedef bool          Bool;
-
 /*! \var typedef char Char8;
  *  \brief Char8
  *  \ingroup BaseTypes
@@ -154,13 +147,6 @@ typedef float     Real32;
 typedef double    Real64;
 
 #elif defined(OSG_LINUX_TYPES)
-
-/*! \var typedef bool Bool;
- *  \brief Bool
- *  \ingroup BaseTypes
- */
-
-typedef bool          Bool;
 
 /*! \var typedef char Char8;
  *  \brief Char8
@@ -248,17 +234,15 @@ typedef double     Real64;
 
 #elif defined(OSG_WIN_TYPES)
 
-/*! \var typedef bool Bool;
- *  \brief Bool
+/*! \var typedef bool bool;
+ *  \brief bool
  *  \ingroup BaseTypes
  */
 
 #ifdef OSG_BOOL_IS_UNSIGNED
-#ifndef Bool
-typedef unsigned      Bool;
+#ifndef bool
+typedef unsigned      bool;
 #endif
-#else
-typedef bool          Bool;
 #endif
 
 /*! \var typedef char Char8;
@@ -360,13 +344,6 @@ typedef float     Real32;
 typedef double    Real64;
 
 #elif defined(OSG_SUNOS_TYPES)
-
-/*! \var typedef bool Bool;
- *  \brief Bool
- *  \ingroup BaseTypes
- */
-
-typedef bool          Bool;
 
 /*! \var typedef charChar8;
  *  \brief Char8

@@ -14,7 +14,7 @@
 #endif
 
 #include <GL/glx.h>
-#undef Bool
+#undef bool
 
 #include <OSGFieldContainerFactory.h>
 #include <OSGSFSysTypes.h>
@@ -59,7 +59,7 @@ Thread        *drawThread[MAX_THREADS];
 
 UInt32        drawThreadID[MAX_THREADS];
 
-Bool          drawThreadStop[MAX_THREADS],
+bool          drawThreadStop[MAX_THREADS],
               stopIt = false;
         
 XWindowPtr    win[MAX_THREADS];

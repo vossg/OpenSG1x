@@ -29,10 +29,10 @@ GeoPositions3fPtr pnts,secpnts;
 MFInt32 *indices;
 UInt32 numParticles;
 
-Bool doMotion=true;
-Bool doIndices=false;
-Bool runBench=false;
-Bool testSet=false;
+bool doMotion=true;
+bool doIndices=false;
+bool runBench=false;
+bool testSet=false;
 
 
 #ifdef __sgi

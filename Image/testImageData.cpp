@@ -16,7 +16,7 @@
 
 int main (int argc, char **argv)
 {
-    OSG::Bool retCode = 0;
+    bool retCode = 0;
     ofstream out;
     osg::ImageFileType *fileType;
     osg::Image image;

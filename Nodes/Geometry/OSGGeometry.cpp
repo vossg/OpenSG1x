@@ -410,7 +410,7 @@ Int16  Geometry::calcMappingIndex( UInt16 attrib ) const
   They need to have the same material and the same mappings or the same set of
   attributes.
 */
-Bool Geometry::isMergeable( const GeometryPtr other )
+bool Geometry::isMergeable( const GeometryPtr other )
 {
     if ( getMaterial()               != other->getMaterial()              ||
          getIndexMapping().getSize() != other->getIndexMapping().getSize()  )
@@ -443,7 +443,7 @@ Bool Geometry::isMergeable( const GeometryPtr other )
 
 /** merge the geometry into this one, return true if successful */
 
-Bool Geometry::merge( const GeometryPtr other )
+bool Geometry::merge( const GeometryPtr other )
 {
     if ( ! isMergeable( other ) )
         return false;

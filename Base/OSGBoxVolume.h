@@ -48,8 +48,8 @@ OSG_BEGIN_NAMESPACE
 
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class BoxVolume;
-Bool operator ==(const BoxVolume &b1, const BoxVolume &b2);
-Bool operator !=(const BoxVolume &b1, const BoxVolume &b2);
+bool operator ==(const BoxVolume &b1, const BoxVolume &b2);
+bool operator !=(const BoxVolume &b1, const BoxVolume &b2);
 ostream& operator<< (ostream & os, const BoxVolume &obj);
 #endif
 
@@ -132,12 +132,12 @@ class OSG_BASE_DLLMAPPING BoxVolume : public Volume
     /*! \name                      Intersect                               */
     /*! \{                                                                 */
 
-    Bool intersect (const Pnt3f &point) const;
-    Bool intersect (const Line &line) const;
-    Bool intersect (const Line &line,Real32 &min, Real32 &max) const;
-    inline Bool intersect (const Volume &volume) const;
-    inline Bool intersect(const BoxVolume &bb) const;
-    virtual Bool isOnSurface (const Pnt3f &point) const;
+    bool intersect (const Pnt3f &point) const;
+    bool intersect (const Line &line) const;
+    bool intersect (const Line &line,Real32 &min, Real32 &max) const;
+    inline bool intersect (const Volume &volume) const;
+    inline bool intersect(const BoxVolume &bb) const;
+    virtual bool isOnSurface (const Pnt3f &point) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -151,9 +151,9 @@ class OSG_BASE_DLLMAPPING BoxVolume : public Volume
     /*! \name                      Operators                               */
     /*! \{                                                                 */
 
-    friend Bool        operator ==(const BoxVolume &b1, const BoxVolume &b2);
+    friend bool        operator ==(const BoxVolume &b1, const BoxVolume &b2);
   
-    inline friend Bool operator !=(const BoxVolume &b1, const BoxVolume &b2);
+    inline friend bool operator !=(const BoxVolume &b1, const BoxVolume &b2);
 
     const BoxVolume   &operator  =(const BoxVolume &b1);
 

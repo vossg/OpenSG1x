@@ -105,17 +105,17 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunk : public MaterialChunkBase
 
     virtual Real32  switchCost    ( StateChunk * chunk );
 
-    virtual Bool    isTransparent (void) const;
+    virtual bool    isTransparent (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Comparison                                */
     /*! \{                                                                 */
 
-    virtual Bool operator <  (const StateChunk &other) const;
+    virtual bool operator <  (const StateChunk &other) const;
 
-    virtual Bool operator == (const StateChunk &other) const;
-    virtual Bool operator != (const StateChunk &other) const;
+    virtual bool operator == (const StateChunk &other) const;
+    virtual bool operator != (const StateChunk &other) const;
 
     /*! \}                                                                 */
 

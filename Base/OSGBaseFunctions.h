@@ -244,7 +244,7 @@ UInt32 osgfinite(const FloatTypeT rVal);
 
 template <class TypeT> inline
 OSG_BASE_SPEZ_HEAD_DLLMAPPING
-Bool osgispower2(TypeT rVal);
+bool osgispower2(TypeT rVal);
 
 /*! \brief osgnextpower2
  *  \ingroup BaseMathFunctions
@@ -275,7 +275,7 @@ struct OSG_BASE_DLLMAPPING osgStaticMax
  *  \brief osgIF
  */
 
-template<Bool IConditionV, class IThenT, class IElseT>
+template<bool IConditionV, class IThenT, class IElseT>
 struct osgIF
 {
     typedef IThenT _IRet;
@@ -299,7 +299,7 @@ struct osgIF<false, IThenT, IElseT>
  *  \brief osgIFGen
  */
 
-template <Bool IConditionV>
+template <bool IConditionV>
 struct osgIFGen
 {
     template<class IThenT, class IElseT>
@@ -330,7 +330,7 @@ struct osgIFGen<false>
  *  \brief osgIF
  */
 
-template<Bool IConditionV, class IThenT, class IElseT>
+template<bool IConditionV, class IThenT, class IElseT>
 struct osgIF
 {
     typedef osgIFGen<IConditionV>::osgIFSwitch<IThenT, IElseT>::_IRet _IRet;
@@ -476,7 +476,7 @@ OSG_BASE_DLLMAPPING Int32 stringcasecmp(const char *string1,
 
 struct OSG_BASE_DLLMAPPING LTString
 {
-    Bool operator()(const char* s1, const char* s2) const
+    bool operator()(const char* s1, const char* s2) const
     {
         return ::strcmp(s1, s2) < 0;
     }
@@ -488,7 +488,7 @@ struct OSG_BASE_DLLMAPPING LTString
 
 struct OSG_BASE_DLLMAPPING EQString
 {
-    Bool operator()(const char* s1, const char* s2) const
+    bool operator()(const char* s1, const char* s2) const
     {
         return ::strcmp(s1, s2) == 0;
     }
@@ -546,19 +546,19 @@ enum SystemState
 
 extern OSG_BASE_DLLMAPPING SystemState GlobalSystemState;
 
-/*! \var Bool (*InitFuncF)(int argc, char **argv);
+/*! \var bool (*InitFuncF)(int argc, char **argv);
  *  \brief InitFuncF
  *  \ingroup BaseFunctions
  */
 
-typedef Bool (*InitFuncF)(int &argc, char **argv);
+typedef bool (*InitFuncF)(int &argc, char **argv);
 
-/*! \var Bool (*ExitFuncF)(void);
+/*! \var bool (*ExitFuncF)(void);
  *  \brief ExitFuncF
  *  \ingroup BaseFunctions
  */
 
-typedef Bool (*ExitFuncF)(void);
+typedef bool (*ExitFuncF)(void);
 
 /*! \brief AddInitFunction
  *  \ingroup BaseFunctions
@@ -588,13 +588,13 @@ OSG_BASE_DLLMAPPING void addMPExitFunction(ExitFuncF exitFunc);
  *  \ingroup BaseFunctions
  */
 
-Bool OSG_BASE_DLLMAPPING osgInit(int argc, char **argv);
+bool OSG_BASE_DLLMAPPING osgInit(int argc, char **argv);
 
 /*! \brief Exit
  *  \ingroup BaseFunctions
  */
 
-Bool OSG_BASE_DLLMAPPING osgExit(void);
+bool OSG_BASE_DLLMAPPING osgExit(void);
 
 /*! \}                                                                 */
 

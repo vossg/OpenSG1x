@@ -49,8 +49,8 @@ OSG_BEGIN_NAMESPACE
 
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class FrustumVolume;
-       Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
-inline Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
+       bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
+inline bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
 ostream& operator<< (ostream & os, const FrustumVolume &obj);
 #endif
 
@@ -178,13 +178,13 @@ void FrustumVolume::extendBy(const FrustumVolume &volume)
 /*-------------------------- intersection ---------------------------------*/
 
 inline
-Bool FrustumVolume::intersect (const Volume &volume) const
+bool FrustumVolume::intersect (const Volume &volume) const
 {
     return osg::intersect(*this,volume);
 }
 
 inline
-Bool FrustumVolume::intersect(const FrustumVolume &volume) const
+bool FrustumVolume::intersect(const FrustumVolume &volume) const
 {
     return osg::intersect(*this,volume);
 }
@@ -194,7 +194,7 @@ Bool FrustumVolume::intersect(const FrustumVolume &volume) const
 
 /// Inequality comparisons
 inline
-Bool operator != (const FrustumVolume &b1, const FrustumVolume &b2)
+bool operator != (const FrustumVolume &b1, const FrustumVolume &b2)
 {
     return !(b1 == b2);
 }

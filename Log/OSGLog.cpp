@@ -60,7 +60,7 @@ OSG_USING_NAMESPACE
 //---------------------------------------------------------------------------
 
 void LogBuf::setCallback ( LogBuf::Callback cb, void *clientData, 
-                           Bool flushData )
+                           bool flushData )
 {
     std::list<LogBuf::Chunk*>::iterator cI;
     LogBuf::Chunk *chunk;
@@ -344,7 +344,7 @@ Log::~Log(void)
 
 /*! \brief set method for attribute _headerElem
  */
-void Log::setHeaderElem(UInt32 elemMask, Bool force )
+void Log::setHeaderElem(UInt32 elemMask, bool force )
 {
     char *env;
 
@@ -360,38 +360,38 @@ void Log::setHeaderElem(UInt32 elemMask, Bool force )
 
 /*! \brief add method for attribute _headerElem
  */
-void Log::addHeaderElem(LogHeaderElem elem, Bool force )
+void Log::addHeaderElem(LogHeaderElem elem, bool force )
 {
     setHeaderElem((_headerElem | elem),force);
 }
 
 /*! \brief delete method for attribute _headerElem
  */
-void Log::delHeaderElem(LogHeaderElem elem, Bool force )
+void Log::delHeaderElem(LogHeaderElem elem, bool force )
 {
     setHeaderElem((_headerElem & ~elem),force);
 }
 
 /*! \brief check for a single headerElem
  */
-Bool Log::hasHeaderElem(LogHeaderElem elem) 
+bool Log::hasHeaderElem(LogHeaderElem elem) 
 {
     return (_headerElem & elem);
 }
 
 void Log::addModuleHandling(LogModuleHandling handling, 
-                            Bool              OSG_CHECK_ARG(force))
+                            bool              OSG_CHECK_ARG(force))
 {
     _moduleHandling |= handling;
 }
 
 void Log::delModuleHandling(LogModuleHandling handling, 
-                            Bool              OSG_CHECK_ARG(force))
+                            bool              OSG_CHECK_ARG(force))
 {
     _moduleHandling &= ~handling;
 }
 
-void Log::addModuleName(const Char8 *module, Bool isStatic)
+void Log::addModuleName(const Char8 *module, bool isStatic)
 {
     Module m;
     int len;
@@ -416,9 +416,9 @@ void Log::delModuleName(const Char8 *OSG_CHECK_ARG(module))
 {
 }
 
-Bool Log::hasModule(const Char8 *module)
+bool Log::hasModule(const Char8 *module)
 {
-    Bool retCode = false;
+    bool retCode = false;
     list<Module>::iterator mI;
 
     if (module && *module) {
@@ -430,9 +430,9 @@ Bool Log::hasModule(const Char8 *module)
     return retCode;
 }
 
-Bool Log::checkModule(const Char8 *module)
+bool Log::checkModule(const Char8 *module)
 {
-    Bool retCode = false;
+    bool retCode = false;
     list<Module>::iterator mI;
 
     if (_moduleHandling != LOG_MODULE_NONE) {
@@ -461,7 +461,7 @@ Bool Log::checkModule(const Char8 *module)
 /*! \brief set method for attribute logType 
  */
 
-void Log::setLogType(LogType logType, Bool force) 
+void Log::setLogType(LogType logType, bool force) 
 {
     char * et;
     static char *typenames[]    = 
@@ -545,7 +545,7 @@ LogType Log::getLogType(void)
 /*! \brief set method for attribute logLevel 
  */
 
-void Log::setLogLevel(LogLevel logLevel, Bool force)
+void Log::setLogLevel(LogLevel logLevel, bool force)
 { 
     char * el;
     static char *levelnames[] = { "log", "fatal", "warning", "notice", 
@@ -614,7 +614,7 @@ LogLevel Log::getLogLevel(void)
 /*! \brief method to set and activate the log file 
  */
 
-void Log::setLogFile(const Char8 *fileName, Bool force)
+void Log::setLogFile(const Char8 *fileName, bool force)
 {
     const char *name;
 

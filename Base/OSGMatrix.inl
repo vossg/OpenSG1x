@@ -282,7 +282,7 @@ void TransformationMatrix<ValueTypeT>::setValueTransposed(
 
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::setValue(const ValueTypeT *pMat, 
-                                                      Bool        bTransposed)
+                                                      bool        bTransposed)
 {
     const ValueTypeT *pTmpMat = pMat;
 
@@ -829,7 +829,7 @@ void TransformationMatrix<ValueTypeT>::getTransform(
 */
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::factor(TransformationMatrix &r,
+bool TransformationMatrix<ValueTypeT>::factor(TransformationMatrix &r,
                                               VectorType3f         &s,
                                               TransformationMatrix &u,
                                               VectorType3f         &t,
@@ -1173,12 +1173,12 @@ void TransformationMatrix<ValueTypeT>::multVecMatrix(VectorType3f &vec) const
 */
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::equals(
+bool TransformationMatrix<ValueTypeT>::equals(
     const TransformationMatrix &matrix,
     const ValueType             tolerance) const
 {
     UInt32 i;
-    Bool returnValue = true;
+    bool returnValue = true;
 
     for(i = 0; i < 4; i++)
     {
@@ -1250,7 +1250,7 @@ ValueTypeT TransformationMatrix<ValueTypeT>::det (void) const
 */
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::inverse(
+bool TransformationMatrix<ValueTypeT>::inverse(
     TransformationMatrix &result) const
 {
     ValueTypeT rDet;
@@ -1339,7 +1339,7 @@ Bool TransformationMatrix<ValueTypeT>::inverse(
 */
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::invert(void)
+bool TransformationMatrix<ValueTypeT>::invert(void)
 {
     ValueTypeT           rDet;
     TransformationMatrix result;
@@ -1430,7 +1430,7 @@ Bool TransformationMatrix<ValueTypeT>::invert(void)
 */
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::invertFrom(
+bool TransformationMatrix<ValueTypeT>::invertFrom(
     const TransformationMatrix &matrix)
 {
     ValueTypeT rDet;
@@ -1515,7 +1515,7 @@ Bool TransformationMatrix<ValueTypeT>::invertFrom(
 }
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::inverse3(
+bool TransformationMatrix<ValueTypeT>::inverse3(
     TransformationMatrix &result) const
 {
     ValueTypeT rDet = det3();
@@ -1582,7 +1582,7 @@ Bool TransformationMatrix<ValueTypeT>::inverse3(
 }
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::invert3(void)
+bool TransformationMatrix<ValueTypeT>::invert3(void)
 {
     ValueTypeT           rDet    = det3();
     TransformationMatrix result;
@@ -1650,7 +1650,7 @@ Bool TransformationMatrix<ValueTypeT>::invert3(void)
 }
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::invertFrom3(
+bool TransformationMatrix<ValueTypeT>::invertFrom3(
     const TransformationMatrix &matrix)
 {
     ValueTypeT rDet = matrix.det3();
@@ -1717,7 +1717,7 @@ Bool TransformationMatrix<ValueTypeT>::invertFrom3(
 }
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::transposed(
+bool TransformationMatrix<ValueTypeT>::transposed(
         TransformationMatrix &result) const
 {
     result.setValueTransposed(
@@ -1730,7 +1730,7 @@ Bool TransformationMatrix<ValueTypeT>::transposed(
 }
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::transpose(void)
+bool TransformationMatrix<ValueTypeT>::transpose(void)
 {
     ValueTypeT tmp;
 
@@ -1745,7 +1745,7 @@ Bool TransformationMatrix<ValueTypeT>::transpose(void)
 }
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::transposeFrom(
+bool TransformationMatrix<ValueTypeT>::transposeFrom(
     const TransformationMatrix &matrix)
 {
     this->setValueTransposed(
@@ -2060,7 +2060,7 @@ ValueTypeT TransformationMatrix<ValueTypeT>::normInfinity(void) const
 */
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::sqrt(TransformationMatrix &result) const
+bool TransformationMatrix<ValueTypeT>::sqrt(TransformationMatrix &result) const
 {
     TransformationMatrix iX;
     TransformationMatrix  Y;
@@ -2101,7 +2101,7 @@ Bool TransformationMatrix<ValueTypeT>::sqrt(TransformationMatrix &result) const
 */
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::sqrtOf(
+bool TransformationMatrix<ValueTypeT>::sqrtOf(
     const TransformationMatrix &matrix)
 {
     TransformationMatrix iX;
@@ -2141,7 +2141,7 @@ Bool TransformationMatrix<ValueTypeT>::sqrtOf(
 //! Sets this matrix to its square root, assumes det > 0
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::sqrt(void)
+bool TransformationMatrix<ValueTypeT>::sqrt(void)
 {
     TransformationMatrix iX;
     TransformationMatrix  Y;
@@ -2180,7 +2180,7 @@ Bool TransformationMatrix<ValueTypeT>::sqrt(void)
 */
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::log(TransformationMatrix &result) const
+bool TransformationMatrix<ValueTypeT>::log(TransformationMatrix &result) const
 {
     const Int32      maxiter = 12;
           Int32      k       = 0;
@@ -2243,7 +2243,7 @@ Bool TransformationMatrix<ValueTypeT>::log(TransformationMatrix &result) const
 */
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::logOf(
+bool TransformationMatrix<ValueTypeT>::logOf(
     const TransformationMatrix &matrix)
 {
     const Int32      maxiter = 12;
@@ -2306,7 +2306,7 @@ Bool TransformationMatrix<ValueTypeT>::logOf(
 */
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::exp(TransformationMatrix &result) const
+bool TransformationMatrix<ValueTypeT>::exp(TransformationMatrix &result) const
 {
     const Int32                q = 6;
 
@@ -2360,7 +2360,7 @@ Bool TransformationMatrix<ValueTypeT>::exp(TransformationMatrix &result) const
 */
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::expOf(
+bool TransformationMatrix<ValueTypeT>::expOf(
     const TransformationMatrix &matrix)
 {
     const Int32                q = 6;
@@ -2455,7 +2455,7 @@ TransformationMatrix<ValueTypeT> &
  */
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::operator == (
+bool TransformationMatrix<ValueTypeT>::operator == (
     const TransformationMatrix &other) const
 {
     return equals(other, Eps);
@@ -2466,7 +2466,7 @@ Bool TransformationMatrix<ValueTypeT>::operator == (
  */
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::operator != (
+bool TransformationMatrix<ValueTypeT>::operator != (
     const TransformationMatrix &other) const
 {
     return ! (*this == other);
@@ -2518,7 +2518,7 @@ ValueTypeT TransformationMatrix<ValueTypeT>::det3(
 #endif
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::jacobi(
+bool TransformationMatrix<ValueTypeT>::jacobi(
     ValueTypeT    evalues [JacobiRank],
     VectorType3f  evectors[JacobiRank],
     Int32        &rots)

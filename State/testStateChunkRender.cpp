@@ -142,6 +142,8 @@ int main( int argc, char *argv[] )
     dact = DrawAction::create();
     dact->setWindow( win.getCPtr() );
 
+    win->init();
+
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
     gluPerspective( 60, 1, 0.1, 10 );

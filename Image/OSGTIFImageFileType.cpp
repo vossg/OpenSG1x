@@ -111,7 +111,7 @@ TIFImageFileType TIFImageFileType:: _the(suffixArray, sizeof(suffixArray));
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -122,10 +122,10 @@ TIFImageFileType TIFImageFileType:: _the(suffixArray, sizeof(suffixArray));
 //s:
 //
 //------------------------------
-Bool TIFImageFileType::read(      Image &OSG_TIF_ARG(image), 
+bool TIFImageFileType::read(      Image &OSG_TIF_ARG(image), 
                             const Char8 *OSG_TIF_ARG(fileName))
 {
-    Bool    valid = false;
+    bool    valid = false;
 
 #ifdef OSG_WITH_TIF
     TIFF    *in = TIFFOpen(fileName, "r");
@@ -257,7 +257,7 @@ Bool TIFImageFileType::read(      Image &OSG_TIF_ARG(image),
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -268,10 +268,10 @@ Bool TIFImageFileType::read(      Image &OSG_TIF_ARG(image),
 //s:
 //
 //------------------------------
-Bool TIFImageFileType::write(const Image &OSG_TIF_ARG(image),
+bool TIFImageFileType::write(const Image &OSG_TIF_ARG(image),
                              const Char8 *OSG_TIF_ARG(fileName))
 {
-    Bool                retCode = false;
+    bool                retCode = false;
 
 #ifdef OSG_WITH_TIF
     TIFF                *out = TIFFOpen(fileName, "w");

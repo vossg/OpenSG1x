@@ -50,7 +50,7 @@ inline void Window::setSize( UInt16 width, UInt16 height )
     setWidth( width );
 }
 
-inline Bool Window::isResizePending ( void )
+inline bool Window::isResizePending ( void )
 {
     return _sfResizePending.getValue();
 }
@@ -77,7 +77,7 @@ inline UInt32 Window::registerFunction( const Char8 *s )
 /** check if the window has the indicated extension
 \warning No error checks are done on the passed index!
 */
-inline Bool Window::hasExtension( UInt32 id )
+inline bool Window::hasExtension( UInt32 id )
 {
     return _availExtensions[ id ];
 }

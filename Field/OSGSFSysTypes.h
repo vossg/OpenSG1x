@@ -60,16 +60,16 @@ OSG_BEGIN_NAMESPACE
     \ingroup SingleFields
 */
 
-typedef SField<Bool, 2>   SFBool;
+typedef SField<bool, 2>   SFBool;
 
 #ifndef OSG_COMPILEFIELDINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate SField<Bool, 2>::_fieldType
+#pragma do_not_instantiate SField<bool, 2>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DECL2(SField, Bool, 2, OSG_BASE_DLLTMPLMAPPING);
+OSG_DLLEXPORT_DECL2(SField, bool, 2, OSG_BASE_DLLTMPLMAPPING);
 
 #endif
 #endif

@@ -70,7 +70,7 @@ class MyOSGQGLWidget : public OSGQGLWidget
         MyOSGQGLWidget( QWidget *parent=0, const char *name=0 );
 
         QTWindowPtr _osgWin;
-        Bool        _stop;
+        bool        _stop;
  
         virtual void paintGL (void);
        

@@ -80,7 +80,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.1 2002/01/10 21:14:10 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.2 2002/02/04 20:14:10 dirk Exp $";
     static char cvsid_hpp[] = OSGPARTICLEBSP_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLEBSP_INLINE_CVSID;
 }
@@ -204,7 +204,7 @@ void ParticleBSPTree::putToString(string &outVal) const
     }   
 }
      
-Bool ParticleBSPTree::getFromString(const Char8 *&inVal)
+bool ParticleBSPTree::getFromString(const Char8 *&inVal)
 {
     UInt32 size = TypeConstants<UInt32>::getFromString(inVal);
  

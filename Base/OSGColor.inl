@@ -476,9 +476,9 @@ Color3<ValueTypeT> &Color3<ValueTypeT>::operator = (
  */
 
 template <class ValueTypeT> inline
-Bool Color3<ValueTypeT>::operator == (const Color3 &other) const
+bool Color3<ValueTypeT>::operator == (const Color3 &other) const
 {
-    Bool returnValue = true;
+    bool returnValue = true;
 
     for(UInt32 i = 0; i < 3; i++)
     {
@@ -493,9 +493,9 @@ Bool Color3<ValueTypeT>::operator == (const Color3 &other) const
  */
 
 template <class ValueTypeT> inline
-Bool Color3<ValueTypeT>::equals (const Color3 &other, ValueType tolerance) const
+bool Color3<ValueTypeT>::equals (const Color3 &other, ValueType tolerance) const
 {
-    Bool returnValue = true;
+    bool returnValue = true;
 
     for(UInt32 i = 0; i < 3; i++)
     {
@@ -510,7 +510,7 @@ Bool Color3<ValueTypeT>::equals (const Color3 &other, ValueType tolerance) const
  */
 
 template <class ValueTypeT> inline
-Bool Color3<ValueTypeT>::operator != (const Color3 &other) const
+bool Color3<ValueTypeT>::operator != (const Color3 &other) const
 {
     return ! (*this == other);
 }
@@ -754,9 +754,9 @@ Color4<ValueTypeT> &Color4<ValueTypeT>::operator = (
  */
 
 template <class ValueTypeT> inline
-Bool Color4<ValueTypeT>::operator == (const Color4 &other) const
+bool Color4<ValueTypeT>::operator == (const Color4 &other) const
 {
-    Bool returnValue = true;
+    bool returnValue = true;
 
     for(UInt32 i = 0; i < 4; i++)
     {
@@ -771,9 +771,9 @@ Bool Color4<ValueTypeT>::operator == (const Color4 &other) const
  */
 
 template <class ValueTypeT> inline
-Bool Color4<ValueTypeT>::equals (const Color4 &other, ValueType tolerance) const
+bool Color4<ValueTypeT>::equals (const Color4 &other, ValueType tolerance) const
 {
-    Bool returnValue = true;
+    bool returnValue = true;
 
     for(UInt32 i = 0; i < 4; i++)
     {
@@ -788,7 +788,7 @@ Bool Color4<ValueTypeT>::equals (const Color4 &other, ValueType tolerance) const
  */
 
 template <class ValueTypeT> inline
-Bool Color4<ValueTypeT>::operator != (const Color4 &other) const
+bool Color4<ValueTypeT>::operator != (const Color4 &other) const
 {
     return ! (*this == other);
 }

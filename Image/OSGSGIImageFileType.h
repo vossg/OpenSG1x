@@ -74,9 +74,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SGIImageFileType : public ImageFileType
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    virtual Bool read  (Image &image, const char *fileName);
+    virtual bool read  (Image &image, const char *fileName);
 
-    virtual Bool write (const Image &image, const char *fileName);
+    virtual bool write (const Image &image, const char *fileName);
 
     /*! \}                                                                 */
 

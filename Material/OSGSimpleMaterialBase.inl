@@ -250,19 +250,19 @@ void SimpleMaterialBase::setTransparency(const Real32 &value)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &SimpleMaterialBase::getLit(void)
+bool &SimpleMaterialBase::getLit(void)
 {
     return _sfLit.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Bool &SimpleMaterialBase::getLit(void) const
+const bool &SimpleMaterialBase::getLit(void) const
 {
     return _sfLit.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SimpleMaterialBase::setLit(const Bool &value)
+void SimpleMaterialBase::setLit(const bool &value)
 {
     _sfLit.setValue(value);
 }
@@ -289,5 +289,5 @@ void SimpleMaterialBase::setColorMaterial(const UInt32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLEMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGSimpleMaterialBase.inl,v 1.9 2001/10/03 20:37:34 dirk Exp $"
+#define OSGSIMPLEMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGSimpleMaterialBase.inl,v 1.10 2002/02/04 20:14:08 dirk Exp $"
 

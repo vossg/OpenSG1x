@@ -54,7 +54,7 @@ OSG_BEGIN_NAMESPACE
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Bool osgispower2(UInt32 rValue)
+bool osgispower2(UInt32 rValue)
 {
     // find the lowest 1 bit
     while ( rValue && ! ( rValue & 1 ) )
@@ -74,7 +74,7 @@ Bool osgispower2(UInt32 rValue)
 
 template <> inline
 OSG_BASE_SPEZ_IMPL_DLLMAPPING
-Bool osgispower2(Int32 rValue)
+bool osgispower2(Int32 rValue)
 {
     // find the lowest 1 bit
     while ( rValue && ! ( rValue & 1 ) )

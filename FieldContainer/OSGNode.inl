@@ -53,7 +53,7 @@ const DynamicVolume &Node::getVolume(void) const
 }
 
 inline
-DynamicVolume &Node::getVolume(Bool update)
+DynamicVolume &Node::getVolume(bool update)
 {
     if(update == true)
         updateVolume();

@@ -103,7 +103,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLSceneFileType : public SceneFileType
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual Bool write(const NodePtr  node, 
+    virtual bool write(const NodePtr  node, 
                        const Char8   *fileName) const;
 
     /*! \}                                                                 */
@@ -126,7 +126,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLSceneFileType : public SceneFileType
 
     VRMLSceneFileType(const Char8  *suffixArray[], 
                             UInt16  suffixByteCount,
-                            Bool    override,
+                            bool    override,
                             UInt32  overridePriority);
 
     /*! \}                                                                 */

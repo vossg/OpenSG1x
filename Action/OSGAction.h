@@ -207,10 +207,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
 
     /*------------------------- comparison ----------------------------------*/
 
-    Bool operator < (const Action &other);
+    bool operator < (const Action &other);
     
-    Bool operator == (const Action &other);
-    Bool operator != (const Action &other);
+    bool operator == (const Action &other);
+    bool operator != (const Action &other);
 
   protected:
 
@@ -329,7 +329,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
     vector<NodePtr>* _actList;  // list of active objects for this level
                                     // if empty, use the actNode's children
 
-    Bool            _useNewList;// set by clearNodeList
+    bool            _useNewList;// set by clearNodeList
     vector<NodePtr> _newList;   // list of active object for this level
     
     //-----------------------------------------------------------------------

@@ -51,7 +51,7 @@
 OSG_BEGIN_NAMESPACE
 
 
-OSG_BASE_DLLMAPPING Bool MatrixOrthogonal(Matrix &result,
+OSG_BASE_DLLMAPPING bool MatrixOrthogonal(Matrix &result,
                                           Real32 rLeft,
                                           Real32 rRight,
                                           Real32 rBottom,
@@ -71,7 +71,7 @@ OSG_BASE_DLLMAPPING Bool MatrixOrthogonal(Matrix &result,
 }
 
 
-OSG_BASE_DLLMAPPING Bool MatrixFrustum(Matrix &result,
+OSG_BASE_DLLMAPPING bool MatrixFrustum(Matrix &result,
                                        Real32 rLeft,
                                        Real32 rRight,
                                        Real32 rBottom,
@@ -96,7 +96,7 @@ OSG_BASE_DLLMAPPING Bool MatrixFrustum(Matrix &result,
 }
 
 
-OSG_BASE_DLLMAPPING Bool MatrixPerspective(Matrix &result,
+OSG_BASE_DLLMAPPING bool MatrixPerspective(Matrix &result,
                                            Real32 rFovy,
                                            Real32 rAspect,
                                            Real32 rNear,
@@ -133,7 +133,7 @@ OSG_BASE_DLLMAPPING Bool MatrixPerspective(Matrix &result,
 }
 
 
-OSG_BASE_DLLMAPPING Bool MatrixStereoPerspective(Matrix &projection,
+OSG_BASE_DLLMAPPING bool MatrixStereoPerspective(Matrix &projection,
                                                  Matrix &projtrans,
                                                  Real32 rFovy,
                                                  Real32 rAspect,
@@ -202,7 +202,7 @@ OSG_BASE_DLLMAPPING Bool MatrixStereoPerspective(Matrix &projection,
     return false;
 }
 
-OSG_BASE_DLLMAPPING Bool MatrixLookAt(Matrix & result,
+OSG_BASE_DLLMAPPING bool MatrixLookAt(Matrix & result,
                                       Real32 fromx,
                                       Real32 fromy,
                                       Real32 fromz,
@@ -240,7 +240,7 @@ OSG_BASE_DLLMAPPING Bool MatrixLookAt(Matrix & result,
     return false;
 }
 
-OSG_BASE_DLLMAPPING Bool MatrixLookAt(Matrix & result,
+OSG_BASE_DLLMAPPING bool MatrixLookAt(Matrix & result,
                                       Pnt3f from, Pnt3f at, Vec3f up)
 {
     Vec3f view, right, newup;
@@ -272,7 +272,7 @@ OSG_BASE_DLLMAPPING Bool MatrixLookAt(Matrix & result,
 
 
 
-OSG_BASE_DLLMAPPING Bool MatrixProjection(Matrix &OSG_CHECK_ARG(result),
+OSG_BASE_DLLMAPPING bool MatrixProjection(Matrix &OSG_CHECK_ARG(result),
                                           Real32  OSG_CHECK_ARG(rLeft),
                                           Real32  OSG_CHECK_ARG(rRight),
                                           Real32  OSG_CHECK_ARG(rBottom),

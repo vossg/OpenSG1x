@@ -122,10 +122,10 @@ class OSG_DLLEXPORT CLASSNAME //: public PARENTCLASS
     /*! \name                    Comparison                                */
     /*! \{                                                                 */
 
-    Bool operator < (const CLASSNAME &other) const;
+    bool operator < (const CLASSNAME &other) const;
 
-    //Bool operator == (const CLASSNAME &other) const;
-    //Bool operator != (const CLASSNAME &other) const;
+    //bool operator == (const CLASSNAME &other) const;
+    //bool operator != (const CLASSNAME &other) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

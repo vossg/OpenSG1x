@@ -94,7 +94,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BINSceneFileType : public SceneFileType
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual Bool write(const NodePtr node, const Char8 *fileName) const;
+    virtual bool write(const NodePtr node, const Char8 *fileName) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -114,7 +114,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BINSceneFileType : public SceneFileType
 
     BINSceneFileType(const Char8  *suffixArray[],
                            UInt16  suffixByteCount,
-                           Bool    override,
+                           bool    override,
                            UInt32  overridePriority);
 
     BINSceneFileType(const BINSceneFileType &obj);

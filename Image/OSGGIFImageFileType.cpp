@@ -181,7 +181,7 @@ GIFImageFileType GIFImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -192,16 +192,16 @@ GIFImageFileType GIFImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //s:
 //
 //------------------------------
-Bool GIFImageFileType::read(      Image &OSG_GIF_ARG(image), 
+bool GIFImageFileType::read(      Image &OSG_GIF_ARG(image), 
                             const Char8 *OSG_GIF_ARG(fileName))
 {
-    Bool                retCode = false;
+    bool                retCode = false;
 
 #ifdef OSG_WITH_GIF
     Image::PixelFormat  pixelFormat;
     GIFStream           *gifStream = GIFRead(const_cast < char * > (fileName));
     GIFData             *gifData = 0;
-    Bool                isColor;
+    bool                isColor;
     int                 i, j, destI, lineSize;
     unsigned            red, green, blue;
     int                 transparentIndex;
@@ -444,7 +444,7 @@ Bool GIFImageFileType::read(      Image &OSG_GIF_ARG(image),
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -455,7 +455,7 @@ Bool GIFImageFileType::read(      Image &OSG_GIF_ARG(image),
 //s:
 //
 //------------------------------
-Bool GIFImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
+bool GIFImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
                              const Char8 *OSG_CHECK_ARG(fileName))
 {
 #ifdef OSG_WITH_GIF

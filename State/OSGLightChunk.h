@@ -103,10 +103,10 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunk : public LightChunkBase
 
     virtual Real32 switchCost  ( StateChunk * chunk );
 
-    virtual Bool   operator <  (const StateChunk &other) const;
+    virtual bool   operator <  (const StateChunk &other) const;
 
-    virtual Bool   operator == (const StateChunk &other) const;
-    virtual Bool   operator != (const StateChunk &other) const;
+    virtual bool   operator == (const StateChunk &other) const;
+    virtual bool   operator != (const StateChunk &other) const;
 
     /*! \}                                                                 */
 

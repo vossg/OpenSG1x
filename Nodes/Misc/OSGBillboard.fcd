@@ -20,7 +20,7 @@
 	</Field>
 	<Field
 		name="focusOnCamera"
-		type="Bool"
+		type="bool"
 		cardinality="single"
 		visibility="internal"
 		defaultValue="true"
@@ -29,7 +29,7 @@
 	</Field>
 	<Field
 		name="alignToScreen"
-		type="Bool"
+		type="bool"
 		cardinality="single"
 		visibility="internal"
 		defaultValue="false"

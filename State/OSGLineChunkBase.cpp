@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLineChunkBase.cpp,v 1.2 2002/01/09 10:27:56 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLineChunkBase.cpp,v 1.3 2002/02/04 20:14:10 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGLINECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLINECHUNKBASE_INLINE_CVSID;
 
@@ -108,7 +108,7 @@ const OSG::BitVector  LineChunkBase::SmoothFieldMask =
 /*! \var UInt16          LineChunkBase::_sfStipplePattern
     Defines the stipple pattern.
 */
-/*! \var Bool            LineChunkBase::_sfSmooth
+/*! \var bool            LineChunkBase::_sfSmooth
     Defines if polygon antialiasing is used.
 */
 //! LineChunk description
@@ -196,7 +196,7 @@ LineChunkBase::LineChunkBase(void) :
     _sfWidth                  (Real32(1)), 
     _sfStippleRepeat          (Int32(1)), 
     _sfStipplePattern         (UInt16(0xffff)), 
-    _sfSmooth                 (Bool(GL_FALSE)), 
+    _sfSmooth                 (bool(GL_FALSE)), 
     Inherited() 
 {
 }

@@ -220,8 +220,8 @@ class OSG_BASE_DLLMAPPING ThreadManager
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    static Bool initialize(Int32 &argc, Char8 **argv);
-    static Bool terminate (void);
+    static bool initialize(Int32 &argc, Char8 **argv);
+    static bool terminate (void);
 
     void removeThread  (BaseThread *pThread);
     void removeBarrier (Barrier    *pBarrier);
@@ -233,8 +233,8 @@ class OSG_BASE_DLLMAPPING ThreadManager
     UInt32 registerLockType    (MPLockType     *pType);
     UInt32 registerLockPoolType(MPLockPoolType *pType);
 
-    Bool init    (void);
-    Bool shutdown(void);
+    bool init    (void);
+    bool shutdown(void);
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -275,12 +275,12 @@ class OSG_BASE_DLLMAPPING ThreadManager
     static ThreadManager   *_pThreadManager;
     static BaseThread      *_pAppThread;
 
-    static Bool             _bShutdownInProgress;
+    static bool             _bShutdownInProgress;
 
     static UInt32          _uiNumAspects;
 
 #ifdef OSG_RUNTIME_NUM_ASPECTS
-    static Bool            _bNumAspectSet;
+    static bool            _bNumAspectSet;
 #endif
 
     /*! \}                                                                 */

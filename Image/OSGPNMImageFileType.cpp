@@ -94,7 +94,7 @@ PNMImageFileType PNMImageFileType::_the(suffixArray, sizeof(suffixArray));
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -105,9 +105,9 @@ PNMImageFileType PNMImageFileType::_the(suffixArray, sizeof(suffixArray));
 //s:
 //
 //------------------------------
-Bool PNMImageFileType::read(Image &image, const Char8 *fileName)
+bool PNMImageFileType::read(Image &image, const Char8 *fileName)
 {
-    Bool        isBinary = true;
+    bool        isBinary = true;
     Int16       type = 0, width, height, lineSize, maxValue = 0, value, x, y;
     UInt32      i, n;
     UChar8      *imageData = 0;
@@ -236,7 +236,7 @@ Bool PNMImageFileType::read(Image &image, const Char8 *fileName)
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -247,7 +247,7 @@ Bool PNMImageFileType::read(Image &image, const Char8 *fileName)
 //s:
 //
 //------------------------------
-Bool PNMImageFileType::write(const Image &image, const Char8 *fileName)
+bool PNMImageFileType::write(const Image &image, const Char8 *fileName)
 {
     Int16       p, y, x, lineSize;
     ofstream    out(fileName, ios::out | ios::binary);

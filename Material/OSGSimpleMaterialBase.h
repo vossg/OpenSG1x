@@ -159,8 +159,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
     inline const Color3f             &getEmission       (void) const;
     inline       Real32              &getTransparency   (void);
     inline const Real32              &getTransparency   (void) const;
-    inline       Bool                &getLit            (void);
-    inline const Bool                &getLit            (void) const;
+    inline       bool                &getLit            (void);
+    inline const bool                &getLit            (void) const;
     inline       UInt32              &getColorMaterial  (void);
     inline const UInt32              &getColorMaterial  (void) const;
 
@@ -175,7 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
     inline void setShininess      ( const Real32 &value );
     inline void setEmission       ( const Color3f &value );
     inline void setTransparency   ( const Real32 &value );
-    inline void setLit            ( const Bool &value );
+    inline void setLit            ( const bool &value );
     inline void setColorMaterial  ( const UInt32 &value );
 
     /*! \}                                                                 */
@@ -277,6 +277,6 @@ typedef SimpleMaterialBase *SimpleMaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLEMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleMaterialBase.h,v 1.18 2001/11/09 08:17:10 vossg Exp $"
+#define OSGSIMPLEMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleMaterialBase.h,v 1.19 2002/02/04 20:14:08 dirk Exp $"
 
 #endif /* _OSGSIMPLEMATERIALBASE_H_ */

@@ -80,7 +80,7 @@ namespace AccessFlags
 namespace File
 {
     inline
-    static Bool tstAttr(const Char8  *szFilename,
+    static bool tstAttr(const Char8  *szFilename,
                               UInt32  uiAccessFlags);
 }
 
@@ -90,13 +90,13 @@ namespace File
 namespace Directory
 {
     inline
-    static Bool             tstAttr   (const Char8  *szFilename,
+    static bool             tstAttr   (const Char8  *szFilename,
                                              UInt32  uiAccessFlags);
     inline
     static Char8           *getCurrent(void);
 
     inline
-    static Bool             setCurrent(const Char8 *szDirname);
+    static bool             setCurrent(const Char8 *szDirname);
 
     inline
     static vector<Char8 *> *getEntries(const Char8 *szDirname);

@@ -103,7 +103,7 @@ class OSG_BASE_DLLMAPPING IDString
 
     inline const Char8   *str  (void) const { return _str; }
 
-    inline Bool          empty (void) const { return (_str && *_str) ?
+    inline bool          empty (void) const { return (_str && *_str) ?
                                                  false : true; }
 
     void   set       (const Char8 *str, MemType memType = COPY);
@@ -135,33 +135,33 @@ class OSG_BASE_DLLMAPPING IDString
     /*! \name                  Comparison                                  */
     /*! \{                                                                 */
 
-    inline Bool operator < (const IDString &obj) const
+    inline bool operator < (const IDString &obj) const
     {
         return (_str && obj._str && (::strcmp(_str, obj._str) < 0));
     }
 
-    inline Bool operator ==(const IDString &o)   const
+    inline bool operator ==(const IDString &o)   const
     {
         return ((_str == o._str) ?
                 1 : (_str && o._str && !::strcmp(_str, o._str)));
     }
 
-    inline Bool operator !=(const IDString &o)   const
+    inline bool operator !=(const IDString &o)   const
     {
         return ! (*this == o);
     }
 
-    inline Bool operator > (const IDString &o)   const
+    inline bool operator > (const IDString &o)   const
     {
         return ! (*this < o) && ! (*this == o);
     }
 
-    inline Bool operator >=(const IDString &o)   const
+    inline bool operator >=(const IDString &o)   const
     {
         return ! (*this < o);
     }
 
-    inline Bool operator <=(const IDString &o)   const
+    inline bool operator <=(const IDString &o)   const
     {
         return (*this < o) || (*this == o);
     }

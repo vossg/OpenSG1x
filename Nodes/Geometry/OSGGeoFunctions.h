@@ -79,12 +79,12 @@ Int32 setIndexFromVRMLData ( GeometryPtr geo,
                              vector<Int32> & normalIndex,
                              vector<Int32> & colorIndex,
                              vector<Int32> & texCoordIndex,
-                             Bool convex = true,
-                             Bool ccw = true,
-                             Bool normalPerVertex = true,
-                             Bool colorPerVertex = true,
-                             Bool createNormal = true,
-                             Bool faceSet = true );
+                             bool convex = true,
+                             bool ccw = true,
+                             bool normalPerVertex = true,
+                             bool colorPerVertex = true,
+                             bool createNormal = true,
+                             bool faceSet = true );
 
 
 /*! \brief optimize the geo by creating strips and fans, 
@@ -95,10 +95,10 @@ Int32 setIndexFromVRMLData ( GeometryPtr geo,
 OSG_SYSTEMLIB_DLLMAPPING
 Int32 createOptimizedPrimitives ( GeometryPtr geo,
                                   UInt32 iteration = 1,
-                                  Bool createStrips = true,
-                                  Bool createFans = true,
+                                  bool createStrips = true,
+                                  bool createFans = true,
                                   UInt32 minFanEdgeCount = 8,
-                                  Bool colorCode = false );
+                                  bool colorCode = false );
 
 /*! \brief return the number of triangle/line/point elem 
  *  \ingroup Geometry

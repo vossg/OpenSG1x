@@ -242,8 +242,8 @@ Each part of the cone (bottom cap, sides) can be enabled or disabled.
 GeometryPtr OSG::makeConeGeo(Real32 height, 
                              Real32 botradius, 
                              UInt16 sides, 
-                             Bool   doSide, 
-                             Bool   doBottom)
+                             bool   doSide, 
+                             bool   doBottom)
 {
     return makeConicalFrustumGeo(height, 
                                  0, 
@@ -257,8 +257,8 @@ GeometryPtr OSG::makeConeGeo(Real32 height,
 NodePtr OSG::makeCone(Real32 height, 
                       Real32 botradius, 
                       UInt16 sides, 
-                      Bool   doSide, 
-                      Bool   doBottom)
+                      bool   doSide, 
+                      bool   doBottom)
 {
     return makeConicalFrustum(height, 
                               0, 
@@ -281,9 +281,9 @@ Each part of the cylinder (top cap, bottom cap, sides) can be enabled or disable
 GeometryPtr OSG::makeCylinderGeo(Real32 height, 
                                  Real32 radius,
                                  UInt16 sides, 
-                                 Bool   doSide, 
-                                 Bool   doTop, 
-                                 Bool   doBottom)
+                                 bool   doSide, 
+                                 bool   doTop, 
+                                 bool   doBottom)
 {
     return makeConicalFrustumGeo(height, 
                                  radius, 
@@ -297,9 +297,9 @@ GeometryPtr OSG::makeCylinderGeo(Real32 height,
 NodePtr OSG::makeCylinder(Real32 height, 
                           Real32 radius,
                           UInt16 sides, 
-                          Bool   doSide, 
-                          Bool   doTop, 
-                          Bool   doBottom)
+                          bool   doSide, 
+                          bool   doTop, 
+                          bool   doBottom)
 {
     return makeConicalFrustum(height, 
                               radius, 
@@ -327,9 +327,9 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
                                        Real32 topradius, 
                                        Real32 botradius, 
                                        UInt16 sides, 
-                                       Bool   doSide, 
-                                       Bool   doTop, 
-                                       Bool   doBottom)
+                                       bool   doSide, 
+                                       bool   doTop, 
+                                       bool   doBottom)
 {
     if(height <= 0 || topradius < 0 || botradius < 0 || sides < 3)
     {
@@ -496,9 +496,9 @@ NodePtr OSG::makeConicalFrustum(Real32 height,
                                 Real32 topradius, 
                                 Real32 botradius, 
                                 UInt16 sides, 
-                                Bool   doSide, 
-                                Bool   doTop, 
-                                Bool   doBottom)
+                                bool   doSide, 
+                                bool   doTop, 
+                                bool   doBottom)
 {
     GeometryPtr pGeo = makeConicalFrustumGeo(height, 
                                              topradius, 

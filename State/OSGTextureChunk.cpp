@@ -74,7 +74,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.29 2002/01/20 21:25:39 dirk Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.30 2002/02/04 20:14:10 dirk Exp $";
 
 StateChunkClass TextureChunk::_class("Texture");
 
@@ -196,9 +196,9 @@ void TextureChunk::changed(BitVector fields, ChangeMode)
     }
 }
 
-Bool TextureChunk::isTransparent(void) const
+bool TextureChunk::isTransparent(void) const
 {
-    Bool returnValue = false;
+    bool returnValue = false;
 
     if(getImage() != NULL)
     {
@@ -364,11 +364,11 @@ void TextureChunk::handleGL(Window *win, UInt32 id)
         UInt32 height         = img->getHeight();
         UInt32 depth          = img->getDepth();
 
-        Bool doScale = getScale(); // scale the texture to 2^?
+        bool doScale = getScale(); // scale the texture to 2^?
         UInt32 frame = getFrame();
 
-        Bool defined = false;   // Texture defined ?
-        Bool needMipmaps =  getMinFilter() == GL_NEAREST_MIPMAP_NEAREST ||
+        bool defined = false;   // Texture defined ?
+        bool needMipmaps =  getMinFilter() == GL_NEAREST_MIPMAP_NEAREST ||
                             getMinFilter() == GL_LINEAR_MIPMAP_NEAREST  ||
                             getMinFilter() == GL_NEAREST_MIPMAP_LINEAR  ||
                             getMinFilter() == GL_LINEAR_MIPMAP_LINEAR   ;
@@ -1011,7 +1011,7 @@ Real32 TextureChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
 /** \brief assignment
  */
 
-Bool TextureChunk::operator < (const StateChunk &other) const
+bool TextureChunk::operator < (const StateChunk &other) const
 {
     return this < &other;
 }
@@ -1019,7 +1019,7 @@ Bool TextureChunk::operator < (const StateChunk &other) const
 /** \brief equal
  */
 
-Bool TextureChunk::operator == (const StateChunk &other) const
+bool TextureChunk::operator == (const StateChunk &other) const
 {
     TextureChunk const *tother = dynamic_cast<TextureChunk const*>(&other);
 
@@ -1050,7 +1050,7 @@ Bool TextureChunk::operator == (const StateChunk &other) const
 /** \brief unequal
  */
 
-Bool TextureChunk::operator != (const StateChunk &other) const
+bool TextureChunk::operator != (const StateChunk &other) const
 {
     return ! (*this == other);
 }

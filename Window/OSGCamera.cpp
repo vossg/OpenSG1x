@@ -261,7 +261,7 @@ void Camera::getFrustum( FrustumVolume& result, const Viewport& port )
     result.setPlanes( pr );
 }
 
-Bool Camera::calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port)
+bool Camera::calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port)
 {
     Matrix proj, projtrans, view;
 

@@ -91,7 +91,7 @@ class OSG_QTWINDOWLIB_DLLMAPPING OSGQGLManagedWidget : public OSGQGLWidget
     /*! \name                    Comparison                                */
     /*! \{                                                                 */
 
-    Bool operator < (const OSGQGLManagedWidget &other) const;
+    bool operator < (const OSGQGLManagedWidget &other) const;
     
     /*! \}                                                                 */
 
@@ -146,6 +146,6 @@ typedef OSGQGLManagedWidget *OSGQGLManagedWidgetP;
 
 OSG_END_NAMESPACE
 
-#define OSGQGLMANAGEDWIDGET_HEADER_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.5 2001/11/16 13:08:29 dirk Exp $"
+#define OSGQGLMANAGEDWIDGET_HEADER_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.6 2002/02/04 20:14:13 dirk Exp $"
 
 #endif /* _OSGQGLManagedWidget_H_ */

@@ -58,7 +58,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
 
     enum BuildInFieldType
     {
-        OSGsfBool     = TOK_SFBOOL,
+        OSGsfbool     = TOK_SFBOOL,
         OSGsfColor    = TOK_SFCOLOR,
         OSGsfFloat    = TOK_SFFLOAT,
         OSGsfImage    = TOK_SFIMAGE,
@@ -134,7 +134,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     /*! \name                     Prototypes                               */
     /*! \{                                                                 */
 
-    virtual Bool verifyHeader          (const Char8 *szHeader);
+    virtual bool verifyHeader          (const Char8 *szHeader);
 
     virtual void beginProto            (const Char8 *szProtoname);
     virtual void endProto              (void);
@@ -200,7 +200,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     /*! \name                 Type Information                             */
     /*! \{                                                                 */
 
-    Bool           getMapFieldTypes  (void);
+    bool           getMapFieldTypes  (void);
 
     virtual Int32  mapExtIntFieldType(const Char8 *szFieldname,
                                       const Int32  iFieldTypeId);
@@ -217,13 +217,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
 
     UInt32  _uiCurrOptions;
     UInt32  _uiDefOptions;
-    Bool    _bMapTypeIds;
+    bool    _bMapTypeIds;
     Char8  *_szReferenceHeader;
 
 
     void reset             (      void);
 
-    void setMapTypeIds     (      Bool   bVal);
+    void setMapTypeIds     (      bool   bVal);
 
     void setReferenceHeader(const Char8 *szReferenceHeader);
 

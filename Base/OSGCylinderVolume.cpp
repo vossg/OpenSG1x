@@ -141,7 +141,7 @@ void CylinderVolume::extendBy(const Pnt3f &OSG_CHECK_ARG(pt))
 /*-------------------------- intersection ---------------------------------*/
 
 /** Returns true if intersection of given point and CylinderVolume is not empty */
-Bool CylinderVolume::intersect (const Pnt3f &point) const
+bool CylinderVolume::intersect (const Pnt3f &point) const
 {
     Real32 dist = Line(_axisPos, _axisDir).distance( point );
 
@@ -150,26 +150,26 @@ Bool CylinderVolume::intersect (const Pnt3f &point) const
 
     Plane bottom( _axisDir, _axisPos), top( -_axisDir, _axisPos + _axisDir );
 
-    Bool inspace = bottom.isInHalfSpace( point ) && top.isInHalfSpace( point );
+    bool inspace = bottom.isInHalfSpace( point ) && top.isInHalfSpace( point );
 
     return inspace;
 }
 
 
 /** intersect the CylinderVolume with the given Line */
-Bool CylinderVolume::intersect ( const Line &line ) const
+bool CylinderVolume::intersect ( const Line &line ) const
 {
     return line.intersect(*this);
 }
 
 /** intersect the volume with the given Line */
-Bool CylinderVolume::intersect ( const Line &line,
+bool CylinderVolume::intersect ( const Line &line,
          Real32 &enter, Real32 &exit ) const
 {
         return line.intersect(*this, enter, exit);
 }
 
-Bool CylinderVolume::isOnSurface (const Pnt3f &point) const
+bool CylinderVolume::isOnSurface (const Pnt3f &point) const
 {
     Real32 dist = Line(_axisPos, _axisDir).distance( point );
 
@@ -178,7 +178,7 @@ Bool CylinderVolume::isOnSurface (const Pnt3f &point) const
 
     Plane bottom( -_axisDir, _axisPos), top( _axisDir, _axisPos + _axisDir );
 
-    Bool onplane = bottom.isOnPlane( point ) || top.isOnPlane( point );
+    bool onplane = bottom.isOnPlane( point ) || top.isOnPlane( point );
 
     return  ( onplane && dist <= _radius ) ||
             ( !onplane && osgabs( dist - _radius ) < Eps );

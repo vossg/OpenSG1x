@@ -59,7 +59,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.11 2001/11/16 13:08:29 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.12 2002/02/04 20:14:13 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGQGLMANAGEDWIDGET_HEADER_CVSID;
 }
 
@@ -196,7 +196,7 @@ OSGQGLManagedWidget& OSGQGLManagedWidget::operator = (const OSGQGLManagedWidget 
 /** assignment
  */
 
-Bool OSGQGLManagedWidget::operator < (const OSGQGLManagedWidget &other) const
+bool OSGQGLManagedWidget::operator < (const OSGQGLManagedWidget &other) const
 {
     return this < &other;
 }

@@ -101,10 +101,10 @@ class OSG_SYSTEMLIB_DLLMAPPING LineChunk : public LineChunkBase
 
     virtual Real32 switchCost  ( StateChunk * chunk );
 
-    virtual Bool   operator <  (const StateChunk &other) const;
+    virtual bool   operator <  (const StateChunk &other) const;
 
-    virtual Bool   operator == (const StateChunk &other) const;
-    virtual Bool   operator != (const StateChunk &other) const;
+    virtual bool   operator == (const StateChunk &other) const;
+    virtual bool   operator != (const StateChunk &other) const;
 
     /*! \}                                                                 */
 
@@ -152,6 +152,6 @@ OSG_END_NAMESPACE
 #include <OSGLineChunk.inl>
 #include <OSGLineChunkBase.inl>
 
-#define OSGLINECHUNK_HEADER_CVSID "@(#)$Id: OSGLineChunk.h,v 1.1 2002/01/04 12:57:36 dirk Exp $"
+#define OSGLINECHUNK_HEADER_CVSID "@(#)$Id: OSGLineChunk.h,v 1.2 2002/02/04 20:14:10 dirk Exp $"
 
 #endif /* _OSGLINECHUNK_H_ */

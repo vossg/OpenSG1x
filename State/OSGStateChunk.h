@@ -134,7 +134,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunk : public StateChunkBase
     inline         UInt32            getClassID  (void) const;
     virtual const  StateChunkClass * getClass    (void) const;
 
-    virtual Bool   isTransparent                 (void) const;
+    virtual bool   isTransparent                 (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -143,10 +143,10 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunk : public StateChunkBase
 
     virtual Real32 switchCost  ( StateChunk * chunk );
 
-    virtual Bool   operator <  (const StateChunk &other) const;
+    virtual bool   operator <  (const StateChunk &other) const;
 
-    virtual Bool   operator == (const StateChunk &other) const;
-    virtual Bool   operator != (const StateChunk &other) const;
+    virtual bool   operator == (const StateChunk &other) const;
+    virtual bool   operator != (const StateChunk &other) const;
 
     /*! \}                                                                 */
 

@@ -169,7 +169,7 @@ InterpolatorBase* Animation::getInterpolator(UInt32 index)
     }
 }
 
-Bool Animation::parse(const string& filename)
+bool Animation::parse(const string& filename)
 {
     FILE *f = fopen(filename.c_str(), "r");
     

@@ -195,8 +195,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     inline const ImageP              &getImage          (void) const;
     inline       UInt32              &getInternalFormat (void);
     inline const UInt32              &getInternalFormat (void) const;
-    inline       Bool                &getScale          (void);
-    inline const Bool                &getScale          (void) const;
+    inline       bool                &getScale          (void);
+    inline const bool                &getScale          (void) const;
     inline       UInt32              &getFrame          (void);
     inline const UInt32              &getFrame          (void) const;
     inline       UInt32              &getMinFilter      (void);
@@ -237,7 +237,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 
     inline void setImage          ( const ImageP &value );
     inline void setInternalFormat ( const UInt32 &value );
-    inline void setScale          ( const Bool &value );
+    inline void setScale          ( const bool &value );
     inline void setFrame          ( const UInt32 &value );
     inline void setMinFilter      ( const UInt32 &value );
     inline void setMagFilter      ( const UInt32 &value );
@@ -365,6 +365,6 @@ typedef TextureChunkBase *TextureChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.20 2002/01/09 10:27:56 dirk Exp $"
+#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.21 2002/02/04 20:14:10 dirk Exp $"
 
 #endif /* _OSGTEXTURECHUNKBASE_H_ */

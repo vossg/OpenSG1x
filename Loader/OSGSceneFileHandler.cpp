@@ -199,7 +199,7 @@ Int32 SceneFileHandler::getSuffixList(list<const char *> & suffixList)
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -394,7 +394,7 @@ SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -405,9 +405,9 @@ SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
 //s:
 //
 //------------------------------
-Bool SceneFileHandler::write ( const NodePtr node, const Char8 *fileName )
+bool SceneFileHandler::write ( const NodePtr node, const Char8 *fileName )
 {
-    Bool retCode = false;
+    bool retCode = false;
     SceneFileType *type = getFileType(fileName);
 
     if (type) {
@@ -472,7 +472,7 @@ void SceneFileHandler::print (void )
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -484,7 +484,7 @@ void SceneFileHandler::print (void )
 //
 //------------------------------
 
-Bool SceneFileHandler::FindOverride::operator() (SceneFileType *fileTypeP)
+bool SceneFileHandler::FindOverride::operator() (SceneFileType *fileTypeP)
 {
     if(fileTypeP == NULL)
         return false;
@@ -503,9 +503,9 @@ Bool SceneFileHandler::FindOverride::operator() (SceneFileType *fileTypeP)
 #pragma warning (disable : 383)
 #endif
 
-Bool SceneFileHandler::addSceneFileType(SceneFileType &fileType)
+bool SceneFileHandler::addSceneFileType(SceneFileType &fileType)
 {
-    Bool retCode = false;
+    bool retCode = false;
 
     list<IDString>::iterator sI;
     FileTypeMap   ::iterator smI;

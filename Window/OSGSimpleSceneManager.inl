@@ -42,7 +42,7 @@ OSG_BEGIN_NAMESPACE
 /*! set the click center mode of the navigator
  */
  
-Bool SimpleSceneManager::setClickCenter( Bool mode )
+bool SimpleSceneManager::setClickCenter( bool mode )
 {
     return _navigator.setClickCenter(mode);
 }
@@ -51,6 +51,6 @@ Bool SimpleSceneManager::setClickCenter( Bool mode )
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLESCENEMANAGER_INLINE_CVSID "@(#)$Id: OSGSimpleSceneManager.inl,v 1.9 2001/11/19 18:40:50 dirk Exp $"
+#define OSGSIMPLESCENEMANAGER_INLINE_CVSID "@(#)$Id: OSGSimpleSceneManager.inl,v 1.10 2002/02/04 20:14:12 dirk Exp $"
 
 

@@ -51,9 +51,9 @@ OSG_BEGIN_NAMESPACE
 // ###################################################################
 // # Volume Interesect Functions #####################################
 // ###################################################################
-OSG_BASE_DLLMAPPING Bool intersect(const Volume &vol1, const Volume &vol2)
+OSG_BASE_DLLMAPPING bool intersect(const Volume &vol1, const Volume &vol2)
 {
-    Bool                    retCode = false;
+    bool                    retCode = false;
     const DynamicVolume     *dv = dynamic_cast<const DynamicVolume *>(&vol1);
     const Volume            *v = dv ? &(dv->getInstance()) : &vol1;
     const BoxVolume         *bv;
@@ -74,9 +74,9 @@ OSG_BASE_DLLMAPPING Bool intersect(const Volume &vol1, const Volume &vol2)
 }
 
 // # Box #############################################################
-OSG_BASE_DLLMAPPING Bool intersect(const BoxVolume &box1, const BoxVolume &box2)
+OSG_BASE_DLLMAPPING bool intersect(const BoxVolume &box1, const BoxVolume &box2)
 {
-    Bool    retCode = false;
+    bool    retCode = false;
 
     if(box1.isEmpty() || box2.isEmpty())
         retCode = false;
@@ -103,14 +103,14 @@ OSG_BASE_DLLMAPPING Bool intersect(const BoxVolume &box1, const BoxVolume &box2)
 }
 
 /* */
-OSG_BASE_DLLMAPPING Bool intersect(const BoxVolume &box,
+OSG_BASE_DLLMAPPING bool intersect(const BoxVolume &box,
                                    const SphereVolume &sphere)
 {
     // source:
     // J. Arvo. A simple method for box-sphere intersection testing.
     // In A. Glassner, editor, Graphics Gems, pp. 335-339,
     // Academic Press, Boston, MA, 1990
-    Bool    retCode;
+    bool    retCode;
     Real32  s, d = 0;
     Int32   i;
 
@@ -142,10 +142,10 @@ OSG_BASE_DLLMAPPING Bool intersect(const BoxVolume &box,
 }
 
 /* */
-OSG_BASE_DLLMAPPING Bool intersect(const BoxVolume &box,
+OSG_BASE_DLLMAPPING bool intersect(const BoxVolume &box,
                                    const CylinderVolume &cylinder)
 {
-    Bool    retCode;
+    bool    retCode;
     Real32  s1 = 0, s2 = 0, s3 = 0, s4 = 0, d = 0, d1 = 0, d2 = 0;
     Pnt3f   c, p, p1, p2, apos;
     Vec3f   adir, u, u1, u2;
@@ -222,7 +222,7 @@ OSG_BASE_DLLMAPPING Bool intersect(const BoxVolume &box,
 }
 
 /* */
-OSG_BASE_DLLMAPPING Bool intersect(const BoxVolume &box,
+OSG_BASE_DLLMAPPING bool intersect(const BoxVolume &box,
                                    const FrustumVolume &frustum)
 {
     int         i;
@@ -297,9 +297,9 @@ OSG_BASE_DLLMAPPING Bool intersect(const BoxVolume &box,
 }
 
 /* */
-OSG_BASE_DLLMAPPING Bool intersect(const BoxVolume &box, const Volume &vol)
+OSG_BASE_DLLMAPPING bool intersect(const BoxVolume &box, const Volume &vol)
 {
-    Bool                    retCode = false;
+    bool                    retCode = false;
     const DynamicVolume     *dv = dynamic_cast<const DynamicVolume *>(&vol);
     const Volume            *v = dv ? &(dv->getInstance()) : &vol;
     const BoxVolume         *bv;
@@ -320,10 +320,10 @@ OSG_BASE_DLLMAPPING Bool intersect(const BoxVolume &box, const Volume &vol)
 }
 
 // # Sphere ###########################################################
-OSG_BASE_DLLMAPPING Bool intersect(const SphereVolume &sphere1,
+OSG_BASE_DLLMAPPING bool intersect(const SphereVolume &sphere1,
                                    const SphereVolume &sphere2)
 {
-    Bool    retCode = false;
+    bool    retCode = false;
     Real32  dist = (sphere2.getCenter() - sphere1.getCenter()).length();
 
     if(sphere1.isEmpty() || sphere2.isEmpty())
@@ -339,10 +339,10 @@ OSG_BASE_DLLMAPPING Bool intersect(const SphereVolume &sphere1,
 }
 
 /* */
-OSG_BASE_DLLMAPPING Bool intersect(const SphereVolume &sphere,
+OSG_BASE_DLLMAPPING bool intersect(const SphereVolume &sphere,
                                    const CylinderVolume &cylinder)
 {
-    Bool    retCode;
+    bool    retCode;
     Real32  d = 0, s1 = 0, s2 = 0;
     Pnt3f   apos, c;
     Vec3f   adir, u, u1, u2;
@@ -393,7 +393,7 @@ OSG_BASE_DLLMAPPING Bool intersect(const SphereVolume &sphere,
 }
 
 /* */
-OSG_BASE_DLLMAPPING Bool intersect(const SphereVolume &sphere,
+OSG_BASE_DLLMAPPING bool intersect(const SphereVolume &sphere,
                                    const FrustumVolume &frustum)
 {
     int     i;
@@ -421,9 +421,9 @@ OSG_BASE_DLLMAPPING Bool intersect(const SphereVolume &sphere,
 }
 
 /* */
-OSG_BASE_DLLMAPPING Bool intersect(const SphereVolume &sphere, const Volume &vol)
+OSG_BASE_DLLMAPPING bool intersect(const SphereVolume &sphere, const Volume &vol)
 {
-    Bool                    retCode = false;
+    bool                    retCode = false;
     const DynamicVolume     *dv = dynamic_cast<const DynamicVolume *>(&vol);
     const Volume            *v = dv ? &(dv->getInstance()) : &vol;
     const BoxVolume         *bv;
@@ -444,13 +444,13 @@ OSG_BASE_DLLMAPPING Bool intersect(const SphereVolume &sphere, const Volume &vol
 }
 
 // # Cylinder ########################################################
-OSG_BASE_DLLMAPPING Bool intersect(const CylinderVolume &cylinder1,
+OSG_BASE_DLLMAPPING bool intersect(const CylinderVolume &cylinder1,
                                    const CylinderVolume &cylinder2)
 {
     Vec3f   adir1, adir2, n;
     Pnt3f   apos1, apos2, p;
     double  d;
-    Bool    retCode = false;
+    bool    retCode = false;
     cylinder1.getAxis(apos1, adir1);
     cylinder2.getAxis(apos2, adir2);
 
@@ -473,7 +473,7 @@ OSG_BASE_DLLMAPPING Bool intersect(const CylinderVolume &cylinder1,
 }
 
 /* */
-OSG_BASE_DLLMAPPING Bool intersect(const CylinderVolume &cylinder,
+OSG_BASE_DLLMAPPING bool intersect(const CylinderVolume &cylinder,
                                    const FrustumVolume &frustum)
 {
     int     i;
@@ -548,10 +548,10 @@ OSG_BASE_DLLMAPPING Bool intersect(const CylinderVolume &cylinder,
 }
 
 /* */
-OSG_BASE_DLLMAPPING Bool intersect(const CylinderVolume &cylinder,
+OSG_BASE_DLLMAPPING bool intersect(const CylinderVolume &cylinder,
                                    const Volume &vol)
 {
-    Bool                    retCode = false;
+    bool                    retCode = false;
     const DynamicVolume     *dv = dynamic_cast<const DynamicVolume *>(&vol);
     const Volume            *v = dv ? &(dv->getInstance()) : &vol;
     const BoxVolume         *bv;
@@ -581,7 +581,7 @@ OSG_BASE_DLLMAPPING Bool intersect(const CylinderVolume &cylinder,
 
 // # Frustum ########################################################
 OSG_BASE_DLLMAPPING 
-Bool intersect(const FrustumVolume &OSG_CHECK_ARG(frustum1),
+bool intersect(const FrustumVolume &OSG_CHECK_ARG(frustum1),
                const FrustumVolume &OSG_CHECK_ARG(frustum2))
 {
     FFATAL(("intersect (frustum/frustum) is not impl.\n"));
@@ -589,9 +589,9 @@ Bool intersect(const FrustumVolume &OSG_CHECK_ARG(frustum1),
 }
 
 /* */
-OSG_BASE_DLLMAPPING Bool intersect(const FrustumVolume &frustum, const Volume &vol)
+OSG_BASE_DLLMAPPING bool intersect(const FrustumVolume &frustum, const Volume &vol)
 {
-    Bool                    retCode = false;
+    bool                    retCode = false;
     const DynamicVolume     *dv = dynamic_cast<const DynamicVolume *>(&vol);
     const Volume            *v = dv ? &(dv->getInstance()) : &vol;
     const BoxVolume         *bv;

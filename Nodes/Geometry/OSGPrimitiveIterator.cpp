@@ -88,7 +88,7 @@ For finer-level iterators see \sa FaceIterator \sa TriangleIterator.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.17 2001/11/01 05:55:06 vossg Exp $";
+char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.18 2002/02/04 20:14:09 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -350,7 +350,7 @@ PrimitiveIterator& PrimitiveIterator::operator = (const PrimitiveIterator &sourc
 /** \brief assignment
  */
 
-Bool PrimitiveIterator::operator < (const PrimitiveIterator &other) const
+bool PrimitiveIterator::operator < (const PrimitiveIterator &other) const
 {
     return _geo == other._geo &&
            _primIndex <= other._primIndex;
@@ -359,7 +359,7 @@ Bool PrimitiveIterator::operator < (const PrimitiveIterator &other) const
 /** \brief equal
  */
 
-Bool PrimitiveIterator::operator == (const PrimitiveIterator &other) const
+bool PrimitiveIterator::operator == (const PrimitiveIterator &other) const
 {
     return _ended == other._ended &&
             _geo == other._geo &&
@@ -369,7 +369,7 @@ Bool PrimitiveIterator::operator == (const PrimitiveIterator &other) const
 /** \brief unequal
  */
 
-Bool PrimitiveIterator::operator != (const PrimitiveIterator &other) const
+bool PrimitiveIterator::operator != (const PrimitiveIterator &other) const
 {
     return ! (*this == other);
 }

@@ -148,19 +148,19 @@ void ImageBackgroundBase::setImage(const ImageP &value)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &ImageBackgroundBase::getScale(void)
+bool &ImageBackgroundBase::getScale(void)
 {
     return _sfScale.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Bool &ImageBackgroundBase::getScale(void) const
+const bool &ImageBackgroundBase::getScale(void) const
 {
     return _sfScale.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void ImageBackgroundBase::setScale(const Bool &value)
+void ImageBackgroundBase::setScale(const bool &value)
 {
     _sfScale.setValue(value);
 }
@@ -169,5 +169,5 @@ void ImageBackgroundBase::setScale(const Bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGImageBackgroundBase.inl,v 1.2 2001/11/16 13:12:09 dirk Exp $"
+#define OSGIMAGEBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGImageBackgroundBase.inl,v 1.3 2002/02/04 20:14:12 dirk Exp $"
 

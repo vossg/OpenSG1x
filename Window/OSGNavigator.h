@@ -129,7 +129,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
     void setCenter       (Pnt3f       new_center  );
     void setDistance     (Real32      new_distance);
     void setUp           (Vec3f       new_up      );
-    Bool setClickCenter  (Bool        state       );
+    bool setClickCenter  (bool        state       );
     
     /*! \}                                                                 */    
     /*---------------------------------------------------------------------*/
@@ -157,8 +157,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
 
     ViewportPtr _vp;
     
-    Bool        _moved;        
-    Bool        _clickCenter;        
+    bool        _moved;        
+    bool        _clickCenter;        
     Real32      _lastX,_lastY;
     Pnt3f       _ip;
     Vec3f       _dir;
@@ -172,6 +172,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
 
 OSG_END_NAMESPACE
 
-#define OSGNAVIGATOR_HEADER_CVSID "@(#)$Id: OSGNavigator.h,v 1.3 2001/11/19 18:40:50 dirk Exp $"
+#define OSGNAVIGATOR_HEADER_CVSID "@(#)$Id: OSGNavigator.h,v 1.4 2002/02/04 20:14:12 dirk Exp $"
         
 #endif

@@ -108,10 +108,10 @@ void osg::addMPExitFunction(ExitFuncF exitFunc)
     osgMPExitFunctions->push_back(exitFunc);
 }
 
-Bool OSG::osgInit(int argc, char **argv)
+bool OSG::osgInit(int argc, char **argv)
 {
     UInt32 i;
-    Bool returnValue = true;
+    bool returnValue = true;
 
     if(osgMPInitFunctions == NULL)
         return false;
@@ -143,9 +143,9 @@ Bool OSG::osgInit(int argc, char **argv)
     return returnValue;
 }
 
-Bool OSG::osgExit(void)
+bool OSG::osgExit(void)
 {
-    Bool returnValue = true;
+    bool returnValue = true;
 
     GlobalSystemState = Shutdown;
 

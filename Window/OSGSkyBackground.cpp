@@ -62,7 +62,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSkyBackground.cpp,v 1.5 2002/01/21 01:51:00 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSkyBackground.cpp,v 1.6 2002/02/04 20:14:12 dirk Exp $";
     static char cvsid_hpp[] = OSGSKYBACKGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSKYBACKGROUND_INLINE_CVSID;
 }
@@ -161,7 +161,7 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
 {
     Matrix m;
 
-    Bool light = glIsEnabled(GL_LIGHTING);
+    bool light = glIsEnabled(GL_LIGHTING);
     if (light)  glDisable(GL_LIGHTING);
 
     GLint fill;

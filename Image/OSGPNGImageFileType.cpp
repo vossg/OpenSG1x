@@ -95,7 +95,7 @@ PNGImageFileType PNGImageFileType:: _the(suffixArray, sizeof(suffixArray));
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -106,11 +106,11 @@ PNGImageFileType PNGImageFileType:: _the(suffixArray, sizeof(suffixArray));
 //s:
 //
 //------------------------------
-Bool PNGImageFileType::read(      Image &OSG_PNG_ARG(image), 
+bool PNGImageFileType::read(      Image &OSG_PNG_ARG(image), 
                             const Char8 *OSG_PNG_ARG(fileName))
 {
 #ifdef OSG_WITH_PNG
-    Bool                retCode;
+    bool                retCode;
     Image::PixelFormat  pixelFormat;
     png_structp         png_ptr;
     png_infop           info_ptr;
@@ -231,7 +231,7 @@ Bool PNGImageFileType::read(      Image &OSG_PNG_ARG(image),
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -242,7 +242,7 @@ Bool PNGImageFileType::read(      Image &OSG_PNG_ARG(image),
 //s:
 //
 //------------------------------
-Bool PNGImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
+bool PNGImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
                              const Char8 *OSG_CHECK_ARG(fileName))
 {
 #ifdef PNG_LIB

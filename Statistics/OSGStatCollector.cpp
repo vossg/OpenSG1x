@@ -165,7 +165,7 @@ StatCollector::~StatCollector(void)
 void StatCollector::putToString(string &str) const
 {
     vector<StatElem*>::const_iterator it;
-    Bool first = true;
+    bool first = true;
      
     str = "{";
     
@@ -187,7 +187,7 @@ void StatCollector::putToString(string &str) const
     str.append("}");
 }
      
-Bool StatCollector::getFromString(const Char8 *&inVal)
+bool StatCollector::getFromString(const Char8 *&inVal)
 {
     const Char8 *c = inVal;
     
@@ -272,7 +272,7 @@ StatCollector& StatCollector::operator = (const StatCollector &source)
 /** \brief assignment
  */
 
-Bool StatCollector::operator < (const StatCollector &other) const
+bool StatCollector::operator < (const StatCollector &other) const
 {
     return this < &other;
 }

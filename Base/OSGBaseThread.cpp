@@ -81,7 +81,7 @@ namespace
 //  Class
 //---------------------------------------------------------------------------
 
-Bool BaseThreadCommonBase::isInitialized(void)
+bool BaseThreadCommonBase::isInitialized(void)
 {
     return _bInitialized;
 }
@@ -177,10 +177,10 @@ void BasePThreadBase::join(BasePThreadBase *pThread)
 /*-------------------------------------------------------------------------*/
 /*                                Run                                      */
 
-Bool BasePThreadBase::run(ThreadFuncF  fThreadFunc,
+bool BasePThreadBase::run(ThreadFuncF  fThreadFunc,
                           void        *pThreadArg)
 {
-    Bool  returnValue = true;
+    bool  returnValue = true;
     Int32 rc          = 0;
 
     if(fThreadFunc != NULL)
@@ -379,10 +379,10 @@ void BaseSprocBase::join(BaseSprocBase *pThread)
 /*-------------------------------------------------------------------------*/
 /*                                Run                                      */
 
-Bool BaseSprocBase::run(ThreadFuncF  fThreadFunc,
+bool BaseSprocBase::run(ThreadFuncF  fThreadFunc,
                         void        *pThreadArg)
 {
-    Bool  returnValue = true;
+    bool  returnValue = true;
     Int32 rc          = 0;
 
     if(fThreadFunc != NULL)
@@ -424,9 +424,9 @@ void BaseSprocBase::unblock(void)
 /*-------------------------------------------------------------------------*/
 /*                               Helper                                    */
 
-Bool BaseSprocBase::exists(void)
+bool BaseSprocBase::exists(void)
 {
-    Bool returnValue = false;
+    bool returnValue = false;
 
     returnValue = (prctl(PR_ISBLOCKED, _pid) != -1);
 
@@ -570,10 +570,10 @@ void BaseWinThreadBase::join(BaseWinThreadBase *pThread)
 /*-------------------------------------------------------------------------*/
 /*                                Run                                      */
 
-Bool BaseWinThreadBase::run(ThreadFuncF  fThreadFunc,
+bool BaseWinThreadBase::run(ThreadFuncF  fThreadFunc,
                             void        *pThreadArg)
 {
-    Bool   returnValue = true;
+    bool   returnValue = true;
     Handle rc          = 0;
     DWord  tmp;
 
@@ -623,9 +623,9 @@ void BaseWinThreadBase::unblock(void)
 /*-------------------------------------------------------------------------*/
 /*                              Helper                                     */
 
-Bool BaseWinThreadBase::exists(void)
+bool BaseWinThreadBase::exists(void)
 {
-    Bool returnValue = false;
+    bool returnValue = false;
     DWORD   rc          = 0;
 
     if(BaseThread::getCurrent() == this)

@@ -176,7 +176,7 @@ struct FieldDataTraits<AttachmentMap> :
     static char     *getSName(void) { return "SFAttachmentMap"; }
     static char     *getMName(void) { return "MFAttachmentMap"; }
 
-    static Bool        getFromString(      AttachmentMap  &,
+    static bool        getFromString(      AttachmentMap  &,
                                      const Char8         *&)
     {
         return false;

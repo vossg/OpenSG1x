@@ -45,13 +45,13 @@ inline  UInt32 StatCollector::getNumOfElems (void)
 }
 
 /*-------------------------------------------------------------------------*/
-inline  Bool StatCollector::isValidID     (Int32 id)
+inline  bool StatCollector::isValidID     (Int32 id)
 { 
   return ((id >= 0) && (id < Int32(_elemVec.size()))); 
 }
 
 /*-------------------------------------------------------------------------*/
-inline  StatElem *StatCollector::getElem (Int32 id, Bool create)  
+inline  StatElem *StatCollector::getElem (Int32 id, bool create)  
 {
   StatElem *elem = _elemVec[id];
 
@@ -66,7 +66,7 @@ inline  StatElem *StatCollector::getElem (Int32 id, Bool create)
 
 /*-------------------------------------------------------------------------*/
 inline  StatElem  *StatCollector::getElem  (StatElemDescBase &desc, 
-                                            Bool create)
+                                            bool create)
 { 
   return getElem(desc.getID(),create); 
 }
@@ -74,11 +74,11 @@ inline  StatElem  *StatCollector::getElem  (StatElemDescBase &desc,
 /*-------------------------------------------------------------------------*/
 
 template<class T> inline 
-T *StatCollector::getElem(StatElemDesc<T> &desc, Bool create)
+T *StatCollector::getElem(StatElemDesc<T> &desc, bool create)
 {
     return reinterpret_cast<T*>(getElem(desc.getID(),create));
 }
 
 OSG_END_NAMESPACE
 
-#define OSGSTATCOLLECTOR_INLINE_CVSID "@(#)$Id: OSGStatCollector.inl,v 1.6 2002/01/24 22:55:05 dirk Exp $"
+#define OSGSTATCOLLECTOR_INLINE_CVSID "@(#)$Id: OSGStatCollector.inl,v 1.7 2002/02/04 20:14:11 dirk Exp $"

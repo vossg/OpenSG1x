@@ -336,7 +336,7 @@ SGIImageFileType SGIImageFileType::_the ( suffixArray,
 //GlobalVars:
 //g: 
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c: 
 //Assumations:
@@ -347,7 +347,7 @@ SGIImageFileType SGIImageFileType::_the ( suffixArray,
 //s:
 //
 //------------------------------
-Bool SGIImageFileType::read (Image &image, const char *fileName )
+bool SGIImageFileType::read (Image &image, const char *fileName )
 {
  
     ImageRec *img = ImageOpen(fileName);
@@ -434,7 +434,7 @@ Bool SGIImageFileType::read (Image &image, const char *fileName )
 //GlobalVars:
 //g: 
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c: 
 //Assumations:
@@ -445,7 +445,7 @@ Bool SGIImageFileType::read (Image &image, const char *fileName )
 //s:
 //
 //------------------------------
-Bool SGIImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
+bool SGIImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
                              const char  *OSG_CHECK_ARG(fileName))
 { 
     FWARNING(("SGIImageFileType::write: not implemented yet!\n"));

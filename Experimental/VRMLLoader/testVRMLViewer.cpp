@@ -67,7 +67,7 @@ OSG::OSGTubsMeshPtr pMesh;
 OSG::DrawAction   *dact;
 OSG::RenderAction *ract;
 
-OSG::Bool doWire = false;
+OSG::bool doWire = false;
 
 OSG::NodePtr            file;
 
@@ -101,7 +101,7 @@ int     lastx=0, lasty=0;
 int                        selectedCam     = 0;
 int                        lastSelectedCam = 0;
 OSG::MField<OSG::NodePtr>   cameraBeacons;  
-//OSG::Bool                 doAnim = false;
+//OSG::bool                 doAnim = false;
 OSG::Real32                 animFraction = 0.0;
 OSG::Real32                 animDelta = 0.05;
 OSG::Vec3f                  startPoint, endPoint;
@@ -121,7 +121,7 @@ OSG::Vec3f                  flyPos;
 OSG::Vec3f                  flyOri;
 OSG::Matrix                 lastTBallMatrix;
 
-OSG::Bool                   bDraw = false;
+OSG::bool                   bDraw = false;
  
 static OSG::Pnt2f           logoPos[2] = { OSG::Pnt2f(0.0, 0.0), 
                                            OSG::Pnt2f(0.8, 0.0) };
@@ -301,7 +301,7 @@ void loadMesh(const char *szFilename, OSG::NodePtr dlight)
 bool readv2aFile(const string& filename)
 {
     FILE        *f = NULL;
-    OSG::Bool   ok;
+    OSG::bool   ok;
 
     if(filename[0] == '+')
     {
@@ -819,7 +819,7 @@ OSG::Action::ResultE wireDraw( OSG::CNodePtr &, OSG::Action * action )
         OSG::Pnt3f min,max;
         vol.getBounds( min, max );
 
-        OSG::Bool l = glIsEnabled( GL_LIGHTING );
+        OSG::bool l = glIsEnabled( GL_LIGHTING );
         glDisable( GL_LIGHTING );
         
         glColor3f( .8,.8,.8 );
@@ -1274,8 +1274,8 @@ getopt(int argc, char **argv, char *opts)
 void checkOptions( int argc, char** argv )
 {
     string      modelfile;
-    OSG::Bool   hasOptionA = false;
-    OSG::Bool   hasAnimDuration = false;
+    OSG::bool   hasOptionA = false;
+    OSG::bool   hasAnimDuration = false;
     int         option;
     
     if( argc<2 )

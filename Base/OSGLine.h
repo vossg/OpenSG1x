@@ -79,7 +79,7 @@ class OSG_BASE_DLLMAPPING Line
     /*! \name                    Class Specific                                */
     /*! \{                                                                 */
 
-    Bool    getClosestPoints(const Line     &line2,
+    bool    getClosestPoints(const Line     &line2,
                                        Pnt3f    &ptOnThis, Pnt3f &ptOnLine2     ) const;
     Pnt3f   getClosestPoint     (const Pnt3f &point                             ) const;
     Real32      distance        (const Pnt3f &point                             ) const;
@@ -97,26 +97,26 @@ class OSG_BASE_DLLMAPPING Line
     /*! \name                    Intersection                              */
     /*! \{                                                                 */
 
-    Bool intersect(const    SphereVolume    &sphere                         ) const;
-    Bool intersect(const    SphereVolume    &sphere,  Real32 &enter,
+    bool intersect(const    SphereVolume    &sphere                         ) const;
+    bool intersect(const    SphereVolume    &sphere,  Real32 &enter,
                                                       Real32 &exit      ) const;
-    Bool intersect(const CylinderVolume     &cyl                        ) const;
-    Bool intersect(const CylinderVolume     &cyl,     Real32 &enter,
+    bool intersect(const CylinderVolume     &cyl                        ) const;
+    bool intersect(const CylinderVolume     &cyl,     Real32 &enter,
                                                       Real32 &exit      ) const;
-    Bool intersect(const FrustumVolume          &frustum                    ) const;
-    Bool intersect(const FrustumVolume          &frustum, Real32 &enter,
+    bool intersect(const FrustumVolume          &frustum                    ) const;
+    bool intersect(const FrustumVolume          &frustum, Real32 &enter,
                                                       Real32 &exit      ) const;
-    Bool intersect(const BoxVolume              &box,     Real32 &enter,
+    bool intersect(const BoxVolume              &box,     Real32 &enter,
                                                       Real32 &exit      ) const;
-    Bool intersect(          Real32                  angle,
+    bool intersect(          Real32                  angle,
                    const BoxVolume              &box                        ) const;
-    Bool intersect(          Real32                  angle,
+    bool intersect(          Real32                  angle,
                    const Vec3f                  &point                      ) const;
-    Bool intersect(          Real32              angle,
+    bool intersect(          Real32              angle,
                    const Vec3f                  &v0,
                    const Vec3f                  &v1,
                          Vec3f                  &pt                             ) const;
-    Bool intersect(const Pnt3f                  &v0,
+    bool intersect(const Pnt3f                  &v0,
                    const Pnt3f                  &v1,
                    const Pnt3f                  &v2,
                          Real32             &t                              ) const;

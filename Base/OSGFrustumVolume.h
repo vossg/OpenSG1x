@@ -52,11 +52,11 @@ OSG_BEGIN_NAMESPACE
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class FrustumVolume;
 OSG_BASE_DLLMAPPING
-Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
+bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
 
 OSG_BASE_DLLMAPPING
 inline
-Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
+bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
 
 ostream& operator<< (ostream & os, const FrustumVolume &obj);
 #endif
@@ -138,14 +138,14 @@ class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
     /*! \name                    Intersection                              */
     /*! \{                                                                 */
   
-            Bool intersect      (const Pnt3f            &point      ) const;
-            Bool intersect          (const Line             &line       ) const;
-            Bool intersect          (const Line             &line,
+            bool intersect      (const Pnt3f            &point      ) const;
+            bool intersect          (const Line             &line       ) const;
+            bool intersect          (const Line             &line,
                                        Real32           &minDist,
                                        Real32           &maxDist    ) const;
-    inline      Bool intersect          (const Volume           &volume         ) const;
-    inline      Bool intersect      (const FrustumVolume    &bb             ) const;
-    virtual Bool isOnSurface    (const Pnt3f            &point      ) const;
+    inline      bool intersect          (const Volume           &volume         ) const;
+    inline      bool intersect      (const FrustumVolume    &bb             ) const;
+    virtual bool isOnSurface    (const Pnt3f            &point      ) const;
 
 
     /*! \}                                                                 */
@@ -161,10 +161,10 @@ class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
     /*! \{
                                                                            */
     OSG_BASE_DLLMAPPING
-            friend Bool operator ==(const FrustumVolume &b1,
+            friend bool operator ==(const FrustumVolume &b1,
                                     const FrustumVolume &b2             );
     OSG_BASE_DLLMAPPING
-    inline  friend Bool operator !=(const FrustumVolume &b1,
+    inline  friend bool operator !=(const FrustumVolume &b1,
                                     const FrustumVolume &b2                 );
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

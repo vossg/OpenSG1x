@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.37 2002/01/04 18:29:39 jbehr Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.38 2002/02/04 20:14:09 dirk Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -347,7 +347,7 @@ struct vecless
     bool operator() (const type &a, const type &b) const
     {
         UInt32 i;
-        Bool ret = false;
+        bool ret = false;
 
         for(i = 0; i < type::_iSize; i++)
         {
@@ -670,12 +670,12 @@ Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
                                 vector<Int32> &normalIndex,
                                 vector<Int32> &colorIndex,
                                 vector<Int32> &texCoordIndex,
-                                  Bool         OSG_CHECK_ARG(convex),
-                                  Bool         ccw,
-                                  Bool         normalPerVertex,
-                                  Bool         colorPerVertex,
-                                  Bool         OSG_CHECK_ARG(createNormal),
-                                  Bool         faceSet)
+                                  bool         OSG_CHECK_ARG(convex),
+                                  bool         ccw,
+                                  bool         normalPerVertex,
+                                  bool         colorPerVertex,
+                                  bool         OSG_CHECK_ARG(createNormal),
+                                  bool         faceSet)
 {
   /** define the bag type */
   typedef vector<Int32>* IndexBagP;
@@ -1126,10 +1126,10 @@ Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
  */
 Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
                                      UInt32     iteration,
-                                     Bool       OSG_CHECK_ARG(createStrips   ),
-                                     Bool       OSG_CHECK_ARG(createFans     ),
+                                     bool       OSG_CHECK_ARG(createStrips   ),
+                                     bool       OSG_CHECK_ARG(createFans     ),
                                      UInt32     OSG_CHECK_ARG(minFanEdgeCount),
-                                     Bool       OSG_CHECK_ARG(colorCode      ))
+                                     bool       OSG_CHECK_ARG(colorCode      ))
 {
   NodeGraph graph;
     vector<NodeGraph::Path> pathVec[2];
@@ -1137,7 +1137,7 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
   GeoPositionsPtr posPtr;
   Int32 cost = 0, bestCost = 0, worstCost = 0, best = 0;
   Int32 j, n, pN;
-    Bool multiIndex;
+    bool multiIndex;
     vector<int> primitive;
     GeoPLengthsPtr lensPtr;
   GeoPTypesPtr geoTypePtr;

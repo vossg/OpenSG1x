@@ -55,7 +55,7 @@ OSG_BEGIN_NAMESPACE
 template <class T>
 struct ErrorFromToString
 {
-    static Bool              getFromString(      T      &,
+    static bool              getFromString(      T      &,
                                            const Char8 *&)
     {
         SLOG << "Error From String Conversion not available for " << endl;

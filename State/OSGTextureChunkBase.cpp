@@ -99,7 +99,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.23 2002/01/09 10:27:56 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.24 2002/02/04 20:14:10 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 
@@ -177,7 +177,7 @@ const OSG::BitVector  TextureChunkBase::GLIdFieldMask =
 /*! \var UInt32          TextureChunkBase::_sfInternalFormat
     The internal texture format.
 */
-/*! \var Bool            TextureChunkBase::_sfScale
+/*! \var bool            TextureChunkBase::_sfScale
     
 */
 /*! \var UInt32          TextureChunkBase::_sfFrame
@@ -387,7 +387,7 @@ void TextureChunkBase::executeSync(      FieldContainer &other,
 TextureChunkBase::TextureChunkBase(void) :
     _sfImage                  (), 
     _sfInternalFormat         (UInt32(GL_NONE)), 
-    _sfScale                  (Bool(true)), 
+    _sfScale                  (bool(true)), 
     _sfFrame                  (UInt32(0)), 
     _sfMinFilter              (UInt32(GL_LINEAR_MIPMAP_LINEAR)), 
     _sfMagFilter              (UInt32(GL_LINEAR)), 

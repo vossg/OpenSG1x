@@ -118,19 +118,19 @@ SFBool *FileGrabForegroundBase::getSFIncrement(void)
 
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &FileGrabForegroundBase::getActive(void)
+bool &FileGrabForegroundBase::getActive(void)
 {
     return _sfActive.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Bool &FileGrabForegroundBase::getActive(void) const
+const bool &FileGrabForegroundBase::getActive(void) const
 {
     return _sfActive.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void FileGrabForegroundBase::setActive(const Bool &value)
+void FileGrabForegroundBase::setActive(const bool &value)
 {
     _sfActive.setValue(value);
 }
@@ -172,19 +172,19 @@ void FileGrabForegroundBase::setFrame(const UInt32 &value)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &FileGrabForegroundBase::getIncrement(void)
+bool &FileGrabForegroundBase::getIncrement(void)
 {
     return _sfIncrement.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Bool &FileGrabForegroundBase::getIncrement(void) const
+const bool &FileGrabForegroundBase::getIncrement(void) const
 {
     return _sfIncrement.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void FileGrabForegroundBase::setIncrement(const Bool &value)
+void FileGrabForegroundBase::setIncrement(const bool &value)
 {
     _sfIncrement.setValue(value);
 }
@@ -193,5 +193,5 @@ void FileGrabForegroundBase::setIncrement(const Bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGFILEGRABFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGFileGrabForegroundBase.inl,v 1.1 2002/01/18 22:58:09 dirk Exp $"
+#define OSGFILEGRABFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGFileGrabForegroundBase.inl,v 1.2 2002/02/04 20:14:12 dirk Exp $"
 

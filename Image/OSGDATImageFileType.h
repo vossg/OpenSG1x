@@ -73,9 +73,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    virtual Bool read  (Image &image, const Char8 *fileName);
+    virtual bool read  (Image &image, const Char8 *fileName);
 
-    virtual Bool write (const Image &image, const Char8 *fileName);
+    virtual bool write (const Image &image, const Char8 *fileName);
 
     /*! \}                                                                 */
 
@@ -134,7 +134,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
 
     struct FormatDesc 
     {
-      Bool               needConversion;
+      bool               needConversion;
       FormatType         type;
       UInt32             bpv;
       Image::PixelFormat pixelFormat;

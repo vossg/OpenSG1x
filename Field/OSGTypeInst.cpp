@@ -80,7 +80,7 @@ namespace
 #endif
 
 
-DataType FieldDataTraits2<Bool >::_type("Bool"  , "IntegralType", true);
+DataType FieldDataTraits2<bool >::_type("bool"  , "IntegralType", true);
 DataType FieldDataTraits< Int8 >::_type("Int8"  , "IntegralType", true);
 DataType FieldDataTraits<UInt8 >::_type("UInt8" , "IntegralType", true);
 DataType FieldDataTraits< Int16>::_type("Int16" , "IntegralType", true);
@@ -136,7 +136,7 @@ DataType FieldDataTraits<Plane>::_type("Plane", "BaseType", true);
 
 
 
-#pragma instantiate SField<Bool,2>::_fieldType
+#pragma instantiate SField<bool,2>::_fieldType
 #pragma instantiate SField< Int8 >::_fieldType
 #pragma instantiate SField<UInt8 >::_fieldType
 #pragma instantiate SField< Int16>::_fieldType
@@ -148,7 +148,7 @@ DataType FieldDataTraits<Plane>::_type("Plane", "BaseType", true);
 #pragma instantiate SField<Real32>::_fieldType
 #pragma instantiate SField<Real64>::_fieldType
 
-#pragma instantiate MField<Bool,2>::_fieldType
+#pragma instantiate MField<bool,2>::_fieldType
 #pragma instantiate MField< Int8 >::_fieldType
 #pragma instantiate MField<UInt8 >::_fieldType
 #pragma instantiate MField< Int16>::_fieldType
@@ -208,7 +208,7 @@ DataType FieldDataTraits<Plane>::_type("Plane", "BaseType", true);
 #else
 
 
-OSG_DLLEXPORT_DEF2(SField, Bool  , 2, OSG_BASE_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF2(SField, bool  , 2, OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(SField,  Int8 , OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(SField, UInt8 , OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(SField,  Int16, OSG_BASE_DLLTMPLMAPPING)
@@ -220,7 +220,7 @@ OSG_DLLEXPORT_DEF1(SField, UInt64, OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(SField, Real32, OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(SField, Real64, OSG_BASE_DLLTMPLMAPPING)
 
-OSG_DLLEXPORT_DEF2(MField, Bool  , 2, OSG_BASE_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF2(MField, bool  , 2, OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(MField,  Int8 , OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(MField, UInt8 , OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(MField,  Int16, OSG_BASE_DLLTMPLMAPPING)

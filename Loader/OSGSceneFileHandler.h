@@ -107,7 +107,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual Bool write(const NodePtr node, const Char8 *fileName);
+    virtual bool write(const NodePtr node, const Char8 *fileName);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -127,7 +127,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     {
         UInt32 uiRefPriority;
 
-        Bool operator() (SceneFileType *fileTypeP);
+        bool operator() (SceneFileType *fileTypeP);
     };
 
     /*---------------------------------------------------------------------*/
@@ -139,7 +139,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
            FileTypeMap       _suffixTypeMap;
 
 
-    static Bool               addSceneFileType(SceneFileType &fileType);
+    static bool               addSceneFileType(SceneFileType &fileType);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

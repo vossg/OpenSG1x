@@ -149,7 +149,7 @@ class PThreadBarrierBase : public BarrierCommonBase
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    Bool init(void);
+    bool init(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -224,7 +224,7 @@ class SprocBarrierBase : public BarrierCommonBase
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    Bool init(void);
+    bool init(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -295,7 +295,7 @@ class OSG_BASE_DLLMAPPING WinThreadBarrierBase :
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    Bool init(void);
+    bool init(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

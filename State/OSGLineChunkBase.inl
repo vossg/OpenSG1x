@@ -172,19 +172,19 @@ void LineChunkBase::setStipplePattern(const UInt16 &value)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &LineChunkBase::getSmooth(void)
+bool &LineChunkBase::getSmooth(void)
 {
     return _sfSmooth.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Bool &LineChunkBase::getSmooth(void) const
+const bool &LineChunkBase::getSmooth(void) const
 {
     return _sfSmooth.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void LineChunkBase::setSmooth(const Bool &value)
+void LineChunkBase::setSmooth(const bool &value)
 {
     _sfSmooth.setValue(value);
 }
@@ -193,5 +193,5 @@ void LineChunkBase::setSmooth(const Bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGLINECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGLineChunkBase.inl,v 1.2 2002/01/09 10:27:56 dirk Exp $"
+#define OSGLINECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGLineChunkBase.inl,v 1.3 2002/02/04 20:14:10 dirk Exp $"
 

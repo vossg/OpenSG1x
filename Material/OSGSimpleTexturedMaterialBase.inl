@@ -196,19 +196,19 @@ void SimpleTexturedMaterialBase::setEnvMode(const UInt32 &value)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &SimpleTexturedMaterialBase::getEnvMap(void)
+bool &SimpleTexturedMaterialBase::getEnvMap(void)
 {
     return _sfEnvMap.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Bool &SimpleTexturedMaterialBase::getEnvMap(void) const
+const bool &SimpleTexturedMaterialBase::getEnvMap(void) const
 {
     return _sfEnvMap.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SimpleTexturedMaterialBase::setEnvMap(const Bool &value)
+void SimpleTexturedMaterialBase::setEnvMap(const bool &value)
 {
     _sfEnvMap.setValue(value);
 }
@@ -217,5 +217,5 @@ void SimpleTexturedMaterialBase::setEnvMap(const Bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLETEXTUREDMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGSimpleTexturedMaterialBase.inl,v 1.2 2001/10/10 10:42:55 vossg Exp $"
+#define OSGSIMPLETEXTUREDMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGSimpleTexturedMaterialBase.inl,v 1.3 2002/02/04 20:14:08 dirk Exp $"
 

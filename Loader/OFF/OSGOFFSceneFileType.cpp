@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.10 2001/10/15 03:10:22 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.11 2002/02/04 20:14:07 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGOFFSCENEFILETYPE_HEADER_CVSID;
 }
 #ifdef __sgi
@@ -108,7 +108,7 @@ OFFSceneFileType OFFSceneFileType:: _the(_suffixA, sizeof(_suffixA), false, 10);
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -317,7 +317,7 @@ NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32 uiAddOptions,
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -328,7 +328,7 @@ NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32 uiAddOptions,
 //s:
 //
 //------------------------------
-Bool OFFSceneFileType::write(const NodePtr  OSG_CHECK_ARG(node    ), 
+bool OFFSceneFileType::write(const NodePtr  OSG_CHECK_ARG(node    ), 
                              const Char8   *OSG_CHECK_ARG(fileName)) const
 {
     FFATAL(("OFFSceneFileType::write() is not impl.\n"));
@@ -374,7 +374,7 @@ Bool OFFSceneFileType::write(const NodePtr  OSG_CHECK_ARG(node    ),
 //
 //------------------------------
 OFFSceneFileType::OFFSceneFileType(const Char8 *suffixArray[],
-                                   UInt16 suffixByteCount, Bool override,
+                                   UInt16 suffixByteCount, bool override,
                                    UInt32 overridePriority) :
     SceneFileType(suffixArray, suffixByteCount, override, overridePriority)
 {

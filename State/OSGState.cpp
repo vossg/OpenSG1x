@@ -365,7 +365,7 @@ Real32 State::switchCost(State *OSG_CHECK_ARG(state))
 /** \brief assignment
  */
 
-Bool State::operator < (const State &other) const
+bool State::operator < (const State &other) const
 {
     return this < &other;
 }
@@ -373,7 +373,7 @@ Bool State::operator < (const State &other) const
 /** \brief equal
  */
 
-Bool State::operator == (const State &OSG_CHECK_ARG(other)) const
+bool State::operator == (const State &OSG_CHECK_ARG(other)) const
 {
     return false;
 }
@@ -381,7 +381,7 @@ Bool State::operator == (const State &OSG_CHECK_ARG(other)) const
 /** \brief unequal
  */
 
-Bool State::operator != (const State &other) const
+bool State::operator != (const State &other) const
 {
     return ! (*this == other);
 }

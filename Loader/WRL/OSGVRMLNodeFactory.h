@@ -148,8 +148,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeFactory : public BaseT
     VRMLNodeDesc     *_pCurrentNodeDesc;
     NodeNameDescHash  _mNodeDescHash;
 
-    Bool              _bInFieldProto;
-    Bool              _bIgnoreProto;
+    bool              _bInFieldProto;
+    bool              _bIgnoreProto;
 
 
     VRMLNodeDesc *findNodeDesc     (const Char8        *szNodeTypename);

@@ -111,7 +111,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
 
     FieldContainerType *findUninitializedType (const Char8  *szName) const;
 
-    Bool                initializePendingTypes(void);
+    bool                initializePendingTypes(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -172,15 +172,15 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     /*! \name             Intialization / Termination                      */
     /*! \{                                                                 */
 
-    static Bool initializeFactory (int &argc, char **argv);
-    static Bool terminateFactory  (void                  );
+    static bool initializeFactory (int &argc, char **argv);
+    static bool terminateFactory  (void                  );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    Bool                    _bInitialized;
+    bool                    _bInitialized;
 
     TypeIdMap              *_pTypeIdMap;
     TypeNameMap            *_pTypeNameMap;
@@ -212,8 +212,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     /*! \name         Instance Initialization / Termination                */
     /*! \{                                                                 */
 
-    Bool   initialize (int &argc, char **argv);
-    Bool   terminate  (void                  );
+    bool   initialize (int &argc, char **argv);
+    bool   terminate  (void                  );
 
     void   initTypeMap(void                  );
 

@@ -29,7 +29,7 @@ Barrier *syncBarrier = NULL;
 NodePtr scene;
 GeometryPtr plane;
 
-volatile Bool exiting = false;
+volatile bool exiting = false;
 
 #undef FLOG
 #if 0

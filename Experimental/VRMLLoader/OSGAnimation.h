@@ -93,7 +93,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Animation
             
     Int32             getNrOfInterpols   (                          ) const;
         
-    Bool              parse              (const string& filename    );    
+    bool              parse              (const string& filename    );    
 
     InterpolatorVec   findInterpolator   (const Char8 *szName);
     

@@ -92,8 +92,8 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGWriter
 
     struct SharedFCInfoHelper
     {
-        Bool   printed;
-        Bool   named;
+        bool   printed;
+        bool   named;
         string name;
         static string buildName(FieldContainerPtr fcptr,
                                 UInt32            num);
@@ -132,6 +132,6 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGWriter
 
 OSG_END_NAMESPACE
 
-#define OSGOSGWRITER_HEADER_CVSID "@(#)$Id: OSGOSGWriter.h,v 1.5 2001/12/20 16:35:10 vossg Exp $"
+#define OSGOSGWRITER_HEADER_CVSID "@(#)$Id: OSGOSGWriter.h,v 1.6 2002/02/04 20:14:05 dirk Exp $"
     
 #endif /* _OSGOSGWRITER_H_ */

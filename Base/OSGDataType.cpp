@@ -74,7 +74,7 @@ namespace
 
 DataType::DataType(const Char8 *szName,
                    const Char8 *szParentName,
-                         Bool   bRegister) :
+                         bool   bRegister) :
     Inherited(szName, szParentName, bRegister)
 {
 }
@@ -89,12 +89,12 @@ DataType::~DataType(void)
 /*-------------------------------------------------------------------------*/
 /*                             Comparison                                  */
 
-Bool DataType::operator ==(const DataType &other) const
+bool DataType::operator ==(const DataType &other) const
 {
     return *(static_cast<const Inherited *>(this)) == other;
 }
 
-Bool DataType::operator !=(const DataType &other) const
+bool DataType::operator !=(const DataType &other) const
 {
     return ! (*this == other);
 }

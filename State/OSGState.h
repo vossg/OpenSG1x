@@ -98,8 +98,8 @@ class OSG_SYSTEMLIB_DLLMAPPING State : public StateBase
 
     StateChunkPtr getChunk     ( UInt32 id );
 
-    Bool          chunkPresent ( UInt32 id );
-    Bool          chunkPresent ( StateChunkPtr chunk );
+    bool          chunkPresent ( UInt32 id );
+    bool          chunkPresent ( StateChunkPtr chunk );
 
     void           addChunk     ( StateChunkPtr chunk, Int32 index = 0 );
 
@@ -116,10 +116,10 @@ class OSG_SYSTEMLIB_DLLMAPPING State : public StateBase
 
     virtual Real32 switchCost  ( State * state );
 
-    virtual Bool   operator <  (const State &other) const;
+    virtual bool   operator <  (const State &other) const;
 
-    virtual Bool   operator == (const State &other) const;
-    virtual Bool   operator != (const State &other) const;
+    virtual bool   operator == (const State &other) const;
+    virtual bool   operator != (const State &other) const;
 
     /*! \}                                                                 */
 

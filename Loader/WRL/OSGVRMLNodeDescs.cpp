@@ -228,7 +228,7 @@ void VRMLNodeDesc::clearOnEndSave(void)
     _bSaveOnEnd = false;
 }
 
-Bool VRMLNodeDesc::getOnEndSave(void)
+bool VRMLNodeDesc::getOnEndSave(void)
 {
     return _bSaveOnEnd;
 }
@@ -394,7 +394,7 @@ void VRMLNodeDesc::getFieldAndDesc(
 /*-------------------------------------------------------------------------*/
 /*                              Prototypes                                 */
 
-Bool VRMLNodeDesc::prototypeAddField(const Char8  *OSG_VRML_ARG(szFieldType),
+bool VRMLNodeDesc::prototypeAddField(const Char8  *OSG_VRML_ARG(szFieldType),
                                      const UInt32  uiFieldTypeId,
                                      const Char8  *szFieldName)
 {
@@ -565,7 +565,7 @@ void VRMLNodeDesc::addFieldValue(      Field *pField,
     }
 }
 
-Bool VRMLNodeDesc::use(FieldContainerPtr)
+bool VRMLNodeDesc::use(FieldContainerPtr)
 {
     return false;
 }
@@ -737,11 +737,11 @@ void VRMLShapeDesc::setMaterialDesc(VRMLMaterialDesc *pMaterialDesc)
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */
 
-Bool VRMLShapeDesc::prototypeAddField(const Char8  *szFieldType,
+bool VRMLShapeDesc::prototypeAddField(const Char8  *szFieldType,
                                       const UInt32  uiFieldTypeId,
                                       const Char8  *szFieldname)
 {
-    Bool returnValue = false;
+    bool returnValue = false;
 
 #ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
@@ -984,7 +984,7 @@ void VRMLShapeDesc::dump(const Char8 *)
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
-VRMLGeometryDesc::VRMLGeometryDesc(Bool bIsFaceSet) :
+VRMLGeometryDesc::VRMLGeometryDesc(bool bIsFaceSet) :
     Inherited     (),
 
     _bIsFaceSet   (bIsFaceSet),
@@ -1023,11 +1023,11 @@ void VRMLGeometryDesc::init(const Char8 *OSG_VRML_ARG(szName))
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */
 
-Bool VRMLGeometryDesc::prototypeAddField(const Char8  *szFieldType,
+bool VRMLGeometryDesc::prototypeAddField(const Char8  *szFieldType,
                                          const UInt32  uiFieldTypeId,
                                          const Char8  *szFieldname)
 {
-    Bool bFound = false;
+    bool bFound = false;
 
     _pCurrField = NULL;
 
@@ -1388,7 +1388,7 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
     else
     {
         vector<Int32> dummyVec;
-        Bool          dummyBool = false;
+        bool          dummybool = false;
 
         if(pCoordIndex      != NULL &&
            pColorIndex      != NULL &&
@@ -1404,9 +1404,9 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
                                  dummyVec ,
                                  pColorIndex    ->getValues(),
                                  dummyVec ,
-                                 dummyBool,
-                                 dummyBool,
-                                 dummyBool,
+                                 dummybool,
+                                 dummybool,
+                                 dummybool,
                                  pColorPerVertex->getValue() ,
                                  false,  // create normal; not yet :)
                                  false);
@@ -1502,11 +1502,11 @@ void VRMLGeometryPartDesc::init(const Char8 *OSG_VRML_ARG(szName))
 /*-------------------------------------------------------------------------*/
 /*                                Field                                    */
  
-Bool VRMLGeometryPartDesc::prototypeAddField(const Char8  *szFieldType,
+bool VRMLGeometryPartDesc::prototypeAddField(const Char8  *szFieldType,
                                              const UInt32  uiFieldTypeId,
                                              const Char8  *szFieldname)
 {
-    Bool bFound;
+    bool bFound;
 
     _pCurrField = NULL;
 
@@ -1671,13 +1671,13 @@ void VRMLGeometryObjectDesc::init(const Char8 *OSG_VRML_ARG(szName))
 /*-------------------------------------------------------------------------*/
 /*                               Field                                     */
  
-Bool VRMLGeometryObjectDesc::prototypeAddField(const Char8  *szFieldType,
+bool VRMLGeometryObjectDesc::prototypeAddField(const Char8  *szFieldType,
                                                const UInt32  uiFieldTypeId,
                                                const Char8  *szFieldname)
 {
     _pCurrField = NULL;
 
-    Bool rc = VRMLNodeDesc::prototypeAddField(szFieldType,
+    bool rc = VRMLNodeDesc::prototypeAddField(szFieldType,
                                               uiFieldTypeId,
                                               szFieldname);
 
@@ -2017,7 +2017,7 @@ FieldContainerPtr VRMLAppearanceDesc::getSaveFieldContainer(void)
 /*-------------------------------------------------------------------------*/
 /*                                Field                                    */
  
-Bool VRMLAppearanceDesc::prototypeAddField(const Char8  *szFieldType,
+bool VRMLAppearanceDesc::prototypeAddField(const Char8  *szFieldType,
                                            const UInt32  uiFieldTypeId,
                                            const Char8  *szFieldname)
 {
@@ -2207,7 +2207,7 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
 /*-------------------------------------------------------------------------*/
 /*                              Field Value                                */
 
-Bool VRMLAppearanceDesc::use(FieldContainerPtr)
+bool VRMLAppearanceDesc::use(FieldContainerPtr)
 {
     return false;
 }
@@ -2291,11 +2291,11 @@ MaterialPtr VRMLMaterialDesc::getDefaultMaterial(void)
 /*-------------------------------------------------------------------------*/
 /*                                Field                                    */
  
-Bool VRMLMaterialDesc::prototypeAddField(const Char8  *,
+bool VRMLMaterialDesc::prototypeAddField(const Char8  *,
                                          const UInt32  ,
                                          const Char8  *szFieldname)
 {
-    Bool bFound;
+    bool bFound;
 
     _pCurrField = NULL;
 
@@ -2543,11 +2543,11 @@ void VRMLImageTextureDesc::reset(void)
 /*-------------------------------------------------------------------------*/
 /*                               Field                                     */
  
-Bool VRMLImageTextureDesc::prototypeAddField(const Char8  *,
+bool VRMLImageTextureDesc::prototypeAddField(const Char8  *,
                                              const UInt32  ,
                                              const Char8  *szFieldname)
 {
-    Bool bFound;
+    bool bFound;
 
     _pCurrField = NULL;
 
@@ -2784,11 +2784,11 @@ void VRMLPixelTextureDesc::reset(void)
 /*-------------------------------------------------------------------------*/
 /*                                Field                                    */
  
-Bool VRMLPixelTextureDesc::prototypeAddField(const Char8  *,
+bool VRMLPixelTextureDesc::prototypeAddField(const Char8  *,
                                              const UInt32  ,
                                              const Char8  *szFieldname)
 {
-    Bool bFound;
+    bool bFound;
 
     _pCurrField = NULL;
 
@@ -2990,11 +2990,11 @@ void VRMLLODDesc::init(const Char8 *OSG_VRML_ARG(szName))
 /*-------------------------------------------------------------------------*/
 /*                               Field                                     */
  
-Bool VRMLLODDesc::prototypeAddField(const Char8  *szFieldType,
+bool VRMLLODDesc::prototypeAddField(const Char8  *szFieldType,
                                     const UInt32  uiFieldTypeId,
                                     const Char8  *szFieldname)
 {
-    Bool bFound;
+    bool bFound;
 
     _pCurrField = NULL;
 
@@ -3223,11 +3223,11 @@ void VRMLSwitchDesc::init(const Char8 *OSG_VRML_ARG(szName))
 /*-------------------------------------------------------------------------*/
 /*                                Field                                    */
  
-Bool VRMLSwitchDesc::prototypeAddField(const Char8  *szFieldType,
+bool VRMLSwitchDesc::prototypeAddField(const Char8  *szFieldType,
                                        const UInt32  uiFieldTypeId,
                                        const Char8  *szFieldname)
 {
-    Bool bFound;
+    bool bFound;
 
     _pCurrField = NULL;
 
@@ -3444,11 +3444,11 @@ void VRMLGroupDesc::init(const Char8 *OSG_VRML_ARG(szName))
 /*-------------------------------------------------------------------------*/
 /*                               Field                                     */
  
-Bool VRMLGroupDesc::prototypeAddField(const Char8  *szFieldType,
+bool VRMLGroupDesc::prototypeAddField(const Char8  *szFieldType,
                                       const UInt32  uiFieldTypeId,
                                       const Char8  *szFieldname)
 {
-    Bool bFound;
+    bool bFound;
 
     _pCurrField = NULL;
 
@@ -3681,11 +3681,11 @@ void VRMLInlineDesc::init(const Char8 *OSG_VRML_ARG(szName))
 /*-------------------------------------------------------------------------*/
 /*                                Field                                    */
  
-Bool VRMLInlineDesc::prototypeAddField(const Char8  *szFieldType,
+bool VRMLInlineDesc::prototypeAddField(const Char8  *szFieldType,
                                        const UInt32  uiFieldTypeId,
                                        const Char8  *szFieldname)
 {
-    Bool bFound;
+    bool bFound;
 
     _pCurrField = NULL;
 
@@ -3931,11 +3931,11 @@ FieldContainerPtr VRMLViewpointDesc::getSaveFieldContainer(void)
 /*-------------------------------------------------------------------------*/
 /*                               Field                                     */
  
-Bool VRMLViewpointDesc::prototypeAddField(const Char8  *szFieldType,
+bool VRMLViewpointDesc::prototypeAddField(const Char8  *szFieldType,
                                          const UInt32  uiFieldTypeId,
                                          const Char8  *szFieldname)
 {
-    Bool bFound = false;
+    bool bFound = false;
 
     _pCurrField = NULL;
 

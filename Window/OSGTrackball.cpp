@@ -105,7 +105,7 @@ Real32 Trackball::projectToSphere(Real32 rRadius, Real32 rX, Real32 rY)
     return z;
 }
 
-void Trackball::setSum(Bool bVal)
+void Trackball::setSum(bool bVal)
 {
     _bSum = bVal;
 }
@@ -246,13 +246,13 @@ void Trackball::setAutoPositionIncrement(Real32 rVal)
     _rAutoPositionIncrement = rVal;
 }
 
-void Trackball::setAutoPosition(Bool bVal)
+void Trackball::setAutoPosition(bool bVal)
 {
     _bAutoPosition = bVal;
     _rAutoPositionStep = -_rAutoPositionIncrement;
 }
 
-void Trackball::setAutoPositionNeg(Bool bVal)
+void Trackball::setAutoPositionNeg(bool bVal)
 {
     _bAutoPosition = bVal;
     _rAutoPositionStep = _rAutoPositionIncrement;
@@ -295,7 +295,7 @@ void Trackball::reset(void)
 }
 
 void Trackball::setStartPosition(Real32 rX, Real32 rY, Real32 rZ,
-                                   Bool bUpdate)
+                                   bool bUpdate)
 {
     _pValStart.setValues(rX, rY, rZ);
     
@@ -303,7 +303,7 @@ void Trackball::setStartPosition(Real32 rX, Real32 rY, Real32 rZ,
         _pVal = _pValStart;
 }
 
-void Trackball::setStartPosition(Vec3f &gStartPos, Bool bUpdate)
+void Trackball::setStartPosition(Vec3f &gStartPos, bool bUpdate)
 {
     _pValStart = gStartPos;
     
@@ -344,7 +344,7 @@ Vec3f &Trackball::getPosition(void)
 }
 
 void Trackball::setStartRotation(Real32 rX, Real32 rY, Real32 rZ, Real32 rW, 
-                                  Bool bUpdate)
+                                  bool bUpdate)
 {
     _qValStart.setValueAsAxisDeg(rX, rY, rZ, rW);
 
@@ -352,7 +352,7 @@ void Trackball::setStartRotation(Real32 rX, Real32 rY, Real32 rZ, Real32 rW,
         _qVal = _qValStart;
 }
 
-void Trackball::setStartRotation(Quaternion &gStartRot, Bool bUpdate)
+void Trackball::setStartRotation(Quaternion &gStartRot, bool bUpdate)
 {
     _qValStart = gStartRot;
 

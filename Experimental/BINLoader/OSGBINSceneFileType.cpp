@@ -118,7 +118,7 @@ const Char8            *BINSceneFileType::_suffixA[] = {"bin"};
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -173,7 +173,7 @@ NodePtr BINSceneFileType::read(const Char8  *fileName,
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -185,7 +185,7 @@ NodePtr BINSceneFileType::read(const Char8  *fileName,
 //
 //------------------------------
 
-Bool BINSceneFileType::write(const NodePtr  OSG_CHECK_ARG(node    ),
+bool BINSceneFileType::write(const NodePtr  OSG_CHECK_ARG(node    ),
                              const Char8   *OSG_CHECK_ARG(fileName)) const
 {
     return false;
@@ -237,7 +237,7 @@ Bool BINSceneFileType::write(const NodePtr  OSG_CHECK_ARG(node    ),
 
 BINSceneFileType::BINSceneFileType(const Char8  *suffixArray[],
                                          UInt16  suffixByteCount,
-                                         Bool    override,
+                                         bool    override,
                                          UInt32  overridePriority) :
     SceneFileType(suffixArray,
                   suffixByteCount,

@@ -68,7 +68,7 @@ int main (int argc, char **argv) {
         cout << "Line: (" << lines[i].getPosition() << ") ("
              << lines[i].getDirection() << ")" << endl;
 
-        Bool res = lines[i].intersect( b, ent, ex );
+        bool res = lines[i].intersect( b, ent, ex );
         Pnt3f   ep = lines[i].getPosition() + ent * lines[i].getDirection(),
                 xp = lines[i].getPosition() + ex * lines[i].getDirection();
 
@@ -78,7 +78,7 @@ int main (int argc, char **argv) {
         {
             cout << " enter " << ent << "=(" << ep << ") ";
 
-            Bool es = ( b.isOnSurface( ep ) || b.intersect( ep ) ),
+            bool es = ( b.isOnSurface( ep ) || b.intersect( ep ) ),
                  xs = b.isOnSurface( xp );
 
             if ( ( res && es ) || !res )    cout << "ok";
@@ -118,7 +118,7 @@ int main (int argc, char **argv) {
         cout << "Line: (" << lines[i].getPosition() << ") ("
              << lines[i].getDirection() << ")" << endl;
 
-        Bool res = lines[i].intersect( s, ent, ex );
+        bool res = lines[i].intersect( s, ent, ex );
         Pnt3f   ep = lines[i].getPosition() + ent * lines[i].getDirection(),
                 xp = lines[i].getPosition() + ex * lines[i].getDirection();
 
@@ -128,7 +128,7 @@ int main (int argc, char **argv) {
         {
             cout << " enter " << ent << "=(" << ep << ") ";
 
-            Bool es = ( s.isOnSurface( ep ) || s.intersect( ep ) ),
+            bool es = ( s.isOnSurface( ep ) || s.intersect( ep ) ),
                  xs = s.isOnSurface( xp );
 
             if ( ( res && es ) || !res )    cout << "ok";
@@ -178,7 +178,7 @@ int main (int argc, char **argv) {
         cout << "Line: (" << lines[i].getPosition() << ") ("
              << lines[i].getDirection() << ")" << endl;
 
-        Bool res = lines[i].intersect( c, ent, ex );
+        bool res = lines[i].intersect( c, ent, ex );
         Pnt3f   ep = lines[i].getPosition() + ent * lines[i].getDirection(),
                 xp = lines[i].getPosition() + ex * lines[i].getDirection();
 
@@ -188,7 +188,7 @@ int main (int argc, char **argv) {
         {
             cout << " enter " << ent << "=(" << ep << ") ";
 
-            Bool es = ( c.isOnSurface( ep ) || c.intersect( ep ) ),
+            bool es = ( c.isOnSurface( ep ) || c.intersect( ep ) ),
                  xs = c.isOnSurface( xp );
 
             if ( ( res && es ) || !res )    cout << "ok";

@@ -136,7 +136,7 @@ class PThreadLockBase : public LockCommonBase
 
     void aquire (void);
     void release(void);
-    Bool request(void);
+    bool request(void);
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -163,7 +163,7 @@ class PThreadLockBase : public LockCommonBase
     /*! \name                  Construction                                */
     /*! \{                                                                 */
 
-    Bool init(void);
+    bool init(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -213,7 +213,7 @@ class SprocLockBase : public LockCommonBase
 
     void aquire (void);
     void release(void);
-    Bool request(void);
+    bool request(void);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -240,7 +240,7 @@ class SprocLockBase : public LockCommonBase
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    Bool    init    (void);
+    bool    init    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -294,7 +294,7 @@ class OSG_BASE_DLLMAPPING WinThreadLockBase : public LockCommonBase
 
     void    aquire (void);
     void    release(void);
-    Bool    request(void);
+    bool    request(void);
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -321,7 +321,7 @@ class OSG_BASE_DLLMAPPING WinThreadLockBase : public LockCommonBase
     /*! \name                   Construction                               */
     /*! \{                                                                 */
     
-    Bool    init    (void);
+    bool    init    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -449,7 +449,7 @@ class OSG_BASE_DLLMAPPING LockPool : public LockCommonBase
 
     void aquire (void *keyP);
     void release(void *keyP);
-    Bool request(void *keyP);
+    bool request(void *keyP);
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -490,7 +490,7 @@ class OSG_BASE_DLLMAPPING LockPool : public LockCommonBase
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    Bool init(void);
+    bool init(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -112,7 +112,7 @@ void SphereVolume::extendBy (const Pnt3f &pt)
 /*------------------------- intersection ------------------------------*/
 
 /** Returns true if intersection of given point and Volume is not empty */
-Bool SphereVolume::intersect (const Pnt3f &point) const
+bool SphereVolume::intersect (const Pnt3f &point) const
 {
     Real32 d = ( _center - point ).length();
 
@@ -123,19 +123,19 @@ Bool SphereVolume::intersect (const Pnt3f &point) const
 }
 
 /** intersect the SphereVolume with the given Line */
-Bool SphereVolume::intersect( const Line &line ) const
+bool SphereVolume::intersect( const Line &line ) const
 {
     return line.intersect(*this);
 }
 
 /** intersect the SphereVolume with the given Line */
-Bool SphereVolume::intersect( const Line &line,
+bool SphereVolume::intersect( const Line &line,
                 Real32& enter, Real32& exit ) const
 {
     return line.intersect(*this, enter, exit);
 }
 
-Bool SphereVolume::isOnSurface (const Pnt3f &point) const
+bool SphereVolume::isOnSurface (const Pnt3f &point) const
 {
     if ( osgabs( ( point - _center ).length() - _radius ) < Eps )
         return true;

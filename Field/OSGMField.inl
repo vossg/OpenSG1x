@@ -429,7 +429,7 @@ UInt32 MField<FieldTypeT, fieldNameSpace>::size(void) const
 //! Returns true if the field does not hold any value
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-Bool MField<FieldTypeT, fieldNameSpace>::empty(void) const
+bool MField<FieldTypeT, fieldNameSpace>::empty(void) const
 {
     return _values.empty();
 }

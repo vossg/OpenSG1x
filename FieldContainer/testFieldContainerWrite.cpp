@@ -52,8 +52,8 @@ class OSGWriter
 
     struct SharedFCInfoHelper
     {
-        Bool printed;
-        Bool named;
+        bool printed;
+        bool named;
         string name;
         static string buildName(FieldContainerPtr fcptr,
                                      UInt32 num);

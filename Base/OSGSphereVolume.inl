@@ -127,13 +127,13 @@ void SphereVolume::extendBy(const SphereVolume &volume)
 /*-------------------------- intersection ---------------------------------*/
 
 inline
-Bool SphereVolume::intersect (const Volume &volume) const
+bool SphereVolume::intersect (const Volume &volume) const
 {
   return osg::intersect(*this,volume);
 }
 
 inline
-Bool SphereVolume::intersect(const SphereVolume &volume) const
+bool SphereVolume::intersect(const SphereVolume &volume) const
 {
   return osg::intersect(*this,volume);
 }

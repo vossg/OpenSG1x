@@ -124,7 +124,7 @@ void Line::setValue(const Pnt3f &pos, const Vec3f &dir)
 #pragma set woff 1209
 #endif
 
-Bool Line::getClosestPoints(const Line  &OSG_CHECK_ARG(line2    ),
+bool Line::getClosestPoints(const Line  &OSG_CHECK_ARG(line2    ),
                                   Pnt3f &OSG_CHECK_ARG(ptOnThis ),
                                   Pnt3f &OSG_CHECK_ARG(ptOnLine2)) const
 {
@@ -159,7 +159,7 @@ Real32 Line::distance(const Pnt3f &point) const
 
 /** Intersect the Line with a Sphere
 */
-Bool Line::intersect(const SphereVolume &sphere) const
+bool Line::intersect(const SphereVolume &sphere) const
 {
     Real32 ent, ex;
     return this->intersect( sphere, ent, ex);
@@ -167,7 +167,7 @@ Bool Line::intersect(const SphereVolume &sphere) const
 
 /** Intersect the line with a sphere, returns points of intersection
 */
-Bool Line::intersect(const SphereVolume &sphere,
+bool Line::intersect(const SphereVolume &sphere,
                      Real32& enter, Real32& exit) const
 {
 
@@ -216,7 +216,7 @@ Bool Line::intersect(const SphereVolume &sphere,
 
 /**Intersect the line with a cylinder
 */
-Bool Line::intersect(const CylinderVolume &cyl) const
+bool Line::intersect(const CylinderVolume &cyl) const
 {
     Real32 ent, ex;
     return this->intersect(cyl, ent, ex);
@@ -226,7 +226,7 @@ Bool Line::intersect(const CylinderVolume &cyl) const
 /**Intersect the line with a cylinder, returns points of intersection
   based on GGems IV
 */
-Bool Line::intersect(const CylinderVolume &cyl, Real32 &enter, Real32 &exit) const
+bool Line::intersect(const CylinderVolume &cyl, Real32 &enter, Real32 &exit) const
 {
     Real32 radius = cyl.getRadius();
 
@@ -237,7 +237,7 @@ Bool Line::intersect(const CylinderVolume &cyl, Real32 &enter, Real32 &exit) con
     o_adir = adir;
     adir.normalize();
 
-    Bool isect;
+    bool isect;
 
     Real32 ln, dl;
     Vec3f RC, n, D;
@@ -322,7 +322,7 @@ Bool Line::intersect(const CylinderVolume &cyl, Real32 &enter, Real32 &exit) con
 
 /**Intersect the line with a frustum
 */
-Bool Line::intersect(const FrustumVolume &cyl) const
+bool Line::intersect(const FrustumVolume &cyl) const
 {
     Real32 ent, ex;
     return this->intersect(cyl, ent, ex);
@@ -332,7 +332,7 @@ Bool Line::intersect(const FrustumVolume &cyl) const
 /**Intersect the line with a frustum, returns points of intersection
   based on GGems IV
 */
-Bool Line::intersect(const FrustumVolume &OSG_CHECK_ARG(cyl  ), 
+bool Line::intersect(const FrustumVolume &OSG_CHECK_ARG(cyl  ), 
                            Real32        &OSG_CHECK_ARG(enter), 
                            Real32        &OSG_CHECK_ARG(exit )) const
 {
@@ -342,7 +342,7 @@ Bool Line::intersect(const FrustumVolume &OSG_CHECK_ARG(cyl  ),
 
 /**Intersect the line with a box, returns points of intersection
 */
-Bool Line::intersect(const BoxVolume &box,
+bool Line::intersect(const BoxVolume &box,
                      Real32 &enter, Real32 &exit) const
 {
     Pnt3f low, high;
@@ -438,7 +438,7 @@ Bool Line::intersect(const BoxVolume &box,
 
 /**Intersect the line with a box.
 */
-Bool Line::intersect(      Real32     OSG_CHECK_ARG(angle), 
+bool Line::intersect(      Real32     OSG_CHECK_ARG(angle), 
                      const BoxVolume &OSG_CHECK_ARG(box  )) const
 {
     // TODO
@@ -448,7 +448,7 @@ Bool Line::intersect(      Real32     OSG_CHECK_ARG(angle),
 
 /** Intersect the line with a point.
 */
-Bool Line::intersect(      Real32  OSG_CHECK_ARG(angle), 
+bool Line::intersect(      Real32  OSG_CHECK_ARG(angle), 
                      const Vec3f  &OSG_CHECK_ARG(point)) const
 {
     // TODO
@@ -458,7 +458,7 @@ Bool Line::intersect(      Real32  OSG_CHECK_ARG(angle),
 
 /** Intersect the line with a line.
 */
-Bool Line::intersect(      Real32  OSG_CHECK_ARG(angle), 
+bool Line::intersect(      Real32  OSG_CHECK_ARG(angle), 
                      const Vec3f  &OSG_CHECK_ARG(v0),
                      const Vec3f  &OSG_CHECK_ARG(v1), 
                            Vec3f  &OSG_CHECK_ARG(pt)) const
@@ -474,7 +474,7 @@ Bool Line::intersect(      Real32  OSG_CHECK_ARG(angle),
 
 /** Intersect the line with a triangle.
 */
-Bool Line::intersect(   const Pnt3f &v0, const Pnt3f &v1,
+bool Line::intersect(   const Pnt3f &v0, const Pnt3f &v1,
                         const Pnt3f &v2, Real32 &t ) const
 {
     Vec3f dir1, dir2;

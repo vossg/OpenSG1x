@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.24 2002/01/31 00:27:35 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.25 2002/02/04 20:14:12 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWINDOWBASE_INLINE_CVSID;
 
@@ -136,7 +136,7 @@ const OSG::BitVector  WindowBase::GlObjectLastReinitializeFieldMask =
 /*! \var ViewportPtr     WindowBase::_mfPort
     
 */
-/*! \var Bool            WindowBase::_sfResizePending
+/*! \var bool            WindowBase::_sfResizePending
     
 */
 /*! \var UInt32          WindowBase::_mfGlObjectStatus

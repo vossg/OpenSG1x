@@ -7,7 +7,7 @@
 #endif
 
 #include <GL/glx.h>
-#undef Bool
+#undef bool
 
 #include <OSGFieldContainerFactory.h>
 #include <OSGSFSysTypes.h>
@@ -63,7 +63,7 @@ TransformPtr  cam_trans;
 Trackball     tball;
 PerspectiveCameraPtr cam;
 
-Bool          stopIt = false;
+bool          stopIt = false;
 int           lastx=0, lasty=0;
 
 int wait_for_map_notify(Display *, XEvent *event, char *arg)

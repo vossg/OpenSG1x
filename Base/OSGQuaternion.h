@@ -195,7 +195,7 @@ class OSG_BASE_DLLMAPPING QuaternionBase
           void            mult      (const QuaternionBase &other );
           void            multLeft  (const QuaternionBase &other );
 
-          Bool            equals    (const QuaternionBase &rot,
+          bool            equals    (const QuaternionBase &rot,
                                      const ValueTypeT tolerance  ) const;
 
     /*! \}                                                                 */
@@ -225,8 +225,8 @@ class OSG_BASE_DLLMAPPING QuaternionBase
     /*! \name                   Comparison                                 */
     /*! \{                                                                 */
 
-    Bool operator == (const QuaternionBase &other) const;
-    Bool operator != (const QuaternionBase &other) const;
+    bool operator == (const QuaternionBase &other) const;
+    bool operator != (const QuaternionBase &other) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

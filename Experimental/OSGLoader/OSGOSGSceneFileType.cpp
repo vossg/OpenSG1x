@@ -165,7 +165,7 @@ OSGSceneFileType::FCPtrStore OSGSceneFileType::readTopNodes(
     return _pFile->getRootNodes();
 }
 
-Bool OSGSceneFileType::write(const NodePtr, const char *) const
+bool OSGSceneFileType::write(const NodePtr, const char *) const
 {
     return false;
 }
@@ -189,7 +189,7 @@ Bool OSGSceneFileType::write(const NodePtr, const char *) const
 
 OSGSceneFileType::OSGSceneFileType(const char   *suffixArray[], 
                                          UInt16  suffixByteCount,
-                                         Bool    override,
+                                         bool    override,
                                          UInt32  overridePriority) :
     Inherited(suffixArray, 
               suffixByteCount, 

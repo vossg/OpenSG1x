@@ -215,7 +215,7 @@ const Char8 *VRMLWriteAction::FCInfo::getName(void) const
     return _szName;
 }
 
-Bool VRMLWriteAction::FCInfo::getWriten(void) const
+bool VRMLWriteAction::FCInfo::getWriten(void) const
 {
     return _iTimesUsed < 0;
 }
@@ -1152,7 +1152,7 @@ Action::ResultE VRMLWriteAction::writeMatGroupLeave(CNodePtr &,
 }
 
 
-Bool VRMLWriteAction::initializeAction(int &, char **)
+bool VRMLWriteAction::initializeAction(int &, char **)
 {
     FINFO(( "Init VRMLWriter\n" ));
 
@@ -1241,7 +1241,7 @@ Bool VRMLWriteAction::initializeAction(int &, char **)
     return true;
 }
 
-Bool VRMLWriteAction::terminateAction(void)
+bool VRMLWriteAction::terminateAction(void)
 {
     FINFO(( "Terminate VRMLWriter\n" ));
 
@@ -1427,7 +1427,7 @@ void VRMLWriteAction::setMaterial(MaterialPtr material)
     _material = material;
 }
 
-Bool VRMLWriteAction::open(const Char8 *szFilename)
+bool VRMLWriteAction::open(const Char8 *szFilename)
 {
     if(szFilename != NULL)
     {
@@ -1507,7 +1507,7 @@ DrawAction& DrawAction::operator = (const DrawAction &source)
 /** \brief assignment
  */
 
-Bool VRMLWriteAction::operator < (const VRMLWriteAction &other) const
+bool VRMLWriteAction::operator < (const VRMLWriteAction &other) const
 {
     return this < &other;
 }
@@ -1515,7 +1515,7 @@ Bool VRMLWriteAction::operator < (const VRMLWriteAction &other) const
 /** \brief equal
  */
 
-Bool VRMLWriteAction::operator == (
+bool VRMLWriteAction::operator == (
     const VRMLWriteAction &OSG_CHECK_ARG(other)) const
 {
     return false;
@@ -1524,7 +1524,7 @@ Bool VRMLWriteAction::operator == (
 /** \brief unequal
  */
 
-Bool VRMLWriteAction::operator != (const VRMLWriteAction &other) const
+bool VRMLWriteAction::operator != (const VRMLWriteAction &other) const
 {
     return ! (*this == other);
 }

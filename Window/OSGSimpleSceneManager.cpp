@@ -161,7 +161,7 @@ SimpleMaterialPtr SimpleSceneManager::_highlightMaterial;
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.16 2001/11/16 13:12:41 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.17 2002/02/04 20:14:12 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
@@ -274,7 +274,7 @@ void SimpleSceneManager::setRoot(NodePtr root)
 
 /*! set the headlight setting
  */
-void SimpleSceneManager::setHeadlight(Bool on)
+void SimpleSceneManager::setHeadlight(bool on)
 {
     if(_headlight != NullFC)
         _headlight->setOn(on);
@@ -713,7 +713,7 @@ Line SimpleSceneManager::calcViewRay(Int16 x, Int16 y)
 /*! less
  */
 
-Bool SimpleSceneManager::operator < (const SimpleSceneManager &other) const
+bool SimpleSceneManager::operator < (const SimpleSceneManager &other) const
 {
     return this < &other;
 }

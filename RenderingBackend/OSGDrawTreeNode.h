@@ -104,7 +104,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
 
     void          setFunctor      (Material::DrawFunctor &func    );
     Material::DrawFunctor &getFunctor(void                        );
-    Bool          hasFunctor      (void                           );
+    bool          hasFunctor      (void                           );
     
     void          setState        (State    *pState               );
     State        *getState        (void                           );
@@ -138,7 +138,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
     State                     *_pState;
     Geometry                  *_pGeo;
     Material::DrawFunctor      _functor;
-    Bool                       _hasFunctor;
+    bool                       _hasFunctor;
     
     MatrixStore                _oMatrixStore;        
 

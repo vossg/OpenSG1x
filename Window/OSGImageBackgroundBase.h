@@ -131,8 +131,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBackgroundBase : public Background
     inline const Color3f             &getColor          (void) const;
     inline       ImageP              &getImage          (void);
     inline const ImageP              &getImage          (void) const;
-    inline       Bool                &getScale          (void);
-    inline const Bool                &getScale          (void) const;
+    inline       bool                &getScale          (void);
+    inline const bool                &getScale          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -141,7 +141,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBackgroundBase : public Background
 
     inline void setColor          ( const Color3f &value );
     inline void setImage          ( const ImageP &value );
-    inline void setScale          ( const Bool &value );
+    inline void setScale          ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -237,6 +237,6 @@ typedef ImageBackgroundBase *ImageBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageBackgroundBase.h,v 1.3 2001/11/16 13:12:09 dirk Exp $"
+#define OSGIMAGEBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageBackgroundBase.h,v 1.4 2002/02/04 20:14:12 dirk Exp $"
 
 #endif /* _OSGIMAGEBACKGROUNDBASE_H_ */

@@ -111,7 +111,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     virtual void  setRoot          ( NodePtr root );
     virtual void  setWindow        ( WindowPtr win );
     virtual void  setHighlight     ( NodePtr obj );
-    virtual void  setHeadlight     ( Bool on );
+    virtual void  setHeadlight     ( bool on );
     virtual void  turnHeadlightOn  ( void );
     virtual void  turnHeadlightOff ( void );
 
@@ -120,7 +120,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     virtual void  useOpenSGLogo    ( void );
     
             void setNavigationMode ( Navigator::Mode new_mode );
-    inline  Bool setClickCenter    ( Bool mode );
+    inline  bool setClickCenter    ( bool mode );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -148,10 +148,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     /*! \name                    Comparison                                */
     /*! \{                                                                 */
 
-    Bool operator < (const SimpleSceneManager &other) const;
+    bool operator < (const SimpleSceneManager &other) const;
 
-    //Bool operator == (const SimpleSceneManager &other) const;
-    //Bool operator != (const SimpleSceneManager &other) const;
+    //bool operator == (const SimpleSceneManager &other) const;
+    //bool operator != (const SimpleSceneManager &other) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -215,6 +215,6 @@ OSG_END_NAMESPACE
 
 #include "OSGSimpleSceneManager.inl"
 
-#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.11 2001/11/19 18:40:50 dirk Exp $"
+#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.12 2002/02/04 20:14:12 dirk Exp $"
 
 #endif /* _OSGSIMPLESCENEMANAGER_H_ */

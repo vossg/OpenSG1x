@@ -304,19 +304,19 @@ void GeometryBase::setMaterial(const MaterialPtr &value)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &GeometryBase::getDlistCache(void)
+bool &GeometryBase::getDlistCache(void)
 {
     return _sfDlistCache.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Bool &GeometryBase::getDlistCache(void) const
+const bool &GeometryBase::getDlistCache(void) const
 {
     return _sfDlistCache.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setDlistCache(const Bool &value)
+void GeometryBase::setDlistCache(const bool &value)
 {
     _sfDlistCache.setValue(value);
 }
@@ -359,5 +359,5 @@ const MFUInt16 &GeometryBase::getIndexMapping(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGGEOMETRYBASE_INLINE_CVSID "@(#)$Id: OSGGeometryBase.inl,v 1.9 2001/10/03 20:37:34 dirk Exp $"
+#define OSGGEOMETRYBASE_INLINE_CVSID "@(#)$Id: OSGGeometryBase.inl,v 1.10 2002/02/04 20:14:09 dirk Exp $"
 

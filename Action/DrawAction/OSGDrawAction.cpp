@@ -252,7 +252,7 @@ DrawAction& DrawAction::operator = (const DrawAction &source)
 /** \brief assignment
  */
 
-Bool DrawAction::operator < (const DrawAction &other) const
+bool DrawAction::operator < (const DrawAction &other) const
 {
     return this < &other;
 }
@@ -260,7 +260,7 @@ Bool DrawAction::operator < (const DrawAction &other) const
 /** \brief equal
  */
 
-Bool DrawAction::operator == (const DrawAction &OSG_CHECK_ARG(other)) const
+bool DrawAction::operator == (const DrawAction &OSG_CHECK_ARG(other)) const
 {
     return false;
 }
@@ -268,7 +268,7 @@ Bool DrawAction::operator == (const DrawAction &OSG_CHECK_ARG(other)) const
 /** \brief unequal
  */
 
-Bool DrawAction::operator != (const DrawAction &other) const
+bool DrawAction::operator != (const DrawAction &other) const
 {
     return ! (*this == other);
 }

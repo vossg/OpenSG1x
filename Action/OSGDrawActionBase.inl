@@ -116,19 +116,19 @@ Viewport *DrawActionBase::getViewport(void) const
 }
     
 inline
-Bool DrawActionBase::getFrustumCulling(void) const
+bool DrawActionBase::getFrustumCulling(void) const
 {
     return _frustumCulling;
 }
     
 inline
-Bool DrawActionBase::getVolumeDrawing(void) const
+bool DrawActionBase::getVolumeDrawing(void) const
 {
     return _volumeDrawing;
 }
     
 inline
-Bool DrawActionBase::getAutoFrustum(void) const
+bool DrawActionBase::getAutoFrustum(void) const
 {
     return _autoFrustum;
 }

@@ -86,7 +86,7 @@ FieldContainerType::FieldContainerType(const Char8    *szName,
                                    InitContainerF      fInitMethod,
                                    FieldDescription  **pDesc,
                                    UInt32              uiDescByteCounter,
-                                   Bool                bDescsAddable) :
+                                   bool                bDescsAddable) :
      Inherited        (szName, 
                        szParentName     ),
     _uiGroupId        (0                ),
@@ -272,12 +272,12 @@ UInt32 FieldContainerType::addDescription(const FieldDescription &desc)
     return returnValue;
 }
 
-Bool FieldContainerType::subDescription(UInt32 uiFieldId)
+bool FieldContainerType::subDescription(UInt32 uiFieldId)
 {
     FieldDescription  *pDesc = getFieldDescription(uiFieldId);
     DescMapIt          descMIt;
     DescVecIt          descVIt;
-    Bool               returnValue = true;
+    bool               returnValue = true;
 
     if(pDesc == NULL || _bDescsAddable == false)
         return false;
@@ -319,9 +319,9 @@ FieldContainerPtr FieldContainerType::getPrototype(void) const
     return _pPrototype;
 }
 
-Bool FieldContainerType::setPrototype(FieldContainerPtr pPrototype)
+bool FieldContainerType::setPrototype(FieldContainerPtr pPrototype)
 {
-    Bool returnValue = false;
+    bool returnValue = false;
 
     if(pPrototype != NullFC)
     {
@@ -335,24 +335,24 @@ Bool FieldContainerType::setPrototype(FieldContainerPtr pPrototype)
 /*-------------------------------------------------------------------------*/
 /*                                 Is                                      */
 
-Bool FieldContainerType::isInitialized(void) const
+bool FieldContainerType::isInitialized(void) const
 {
     return _bInitialized;
 }
 
-Bool FieldContainerType::isAbstract(void) const
+bool FieldContainerType::isAbstract(void) const
 {
     return (_pPrototype != NullFC) ? false : true;
 }
 
-Bool FieldContainerType::isDerivedFrom(const TypeBase &other) const
+bool FieldContainerType::isDerivedFrom(const TypeBase &other) const
 {
     return Inherited::isDerivedFrom(other);
 }
 
-Bool FieldContainerType::isDerivedFrom(const FieldContainerType &other) const
+bool FieldContainerType::isDerivedFrom(const FieldContainerType &other) const
 {
-    Bool                returnValue = false;
+    bool                returnValue = false;
     FieldContainerType *pCurrType   = _pParent;
 
     if(_uiTypeId == other._uiTypeId)
@@ -377,17 +377,17 @@ Bool FieldContainerType::isDerivedFrom(const FieldContainerType &other) const
     return returnValue;
 }
 
-Bool FieldContainerType::isNode(void) const
+bool FieldContainerType::isNode(void) const
 {
     return (_baseType == IsNode);
 }
 
-Bool FieldContainerType::isNodeCore(void) const
+bool FieldContainerType::isNodeCore(void) const
 {
     return (_baseType == IsNodeCore);
 }
 
-Bool FieldContainerType::isAttachment(void) const
+bool FieldContainerType::isAttachment(void) const
 {
     return (_baseType == IsAttachment);
 }
@@ -479,7 +479,7 @@ void FieldContainerType::registerType(const Char8 *szGroupName)
 /*-------------------------------------------------------------------------*/
 /*                                Init                                     */
 
-Bool FieldContainerType::initPrototype(void)
+bool FieldContainerType::initPrototype(void)
 {
     _bInitialized = true;
 
@@ -493,7 +493,7 @@ Bool FieldContainerType::initPrototype(void)
     return _bInitialized;
 }
 
-Bool FieldContainerType::initBaseType(void)
+bool FieldContainerType::initBaseType(void)
 {
     if     (isDerivedFrom(NodeCore::getClassType())   == true)
     {
@@ -511,7 +511,7 @@ Bool FieldContainerType::initBaseType(void)
     return true;
 }
 
-Bool FieldContainerType::initFields(void)
+bool FieldContainerType::initFields(void)
 {
     UInt32    i;
     DescMapIt descIt;
@@ -556,7 +556,7 @@ Bool FieldContainerType::initFields(void)
     return _bInitialized;
 }
 
-Bool FieldContainerType::initParentFields(void)
+bool FieldContainerType::initParentFields(void)
 {
     DescMapIt dPIt;
 
@@ -617,7 +617,7 @@ Bool FieldContainerType::initParentFields(void)
     return _bInitialized;
 }
 
-Bool FieldContainerType::initialize(void)
+bool FieldContainerType::initialize(void)
 {
     if(_bInitialized == true)
         return _bInitialized;

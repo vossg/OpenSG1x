@@ -154,19 +154,19 @@ void WindowBase::setHeight(const UInt16 &value)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &WindowBase::getResizePending(void)
+bool &WindowBase::getResizePending(void)
 {
     return _sfResizePending.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Bool &WindowBase::getResizePending(void) const
+const bool &WindowBase::getResizePending(void) const
 {
     return _sfResizePending.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void WindowBase::setResizePending(const Bool &value)
+void WindowBase::setResizePending(const bool &value)
 {
     _sfResizePending.setValue(value);
 }
@@ -257,5 +257,5 @@ const MFUInt32 &WindowBase::getGlObjectLastReinitialize(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGWindowBase.inl,v 1.11 2002/01/31 00:27:35 dirk Exp $"
+#define OSGWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGWindowBase.inl,v 1.12 2002/02/04 20:14:12 dirk Exp $"
 

@@ -75,7 +75,7 @@ pixel are combined with the pixel already in the frame buffer.
  *                           Class variables                               *
 \***************************************************************************/
 
-char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.12 2002/01/16 15:14:43 dirk Exp $";
+char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.13 2002/02/04 20:14:10 dirk Exp $";
 
 StateChunkClass BlendChunk::_class("Blend");
 
@@ -243,7 +243,7 @@ Real32 BlendChunk::switchCost(StateChunk *)
 /** \brief assignment
  */
 
-Bool BlendChunk::operator < (const StateChunk &other) const
+bool BlendChunk::operator < (const StateChunk &other) const
 {
     return this < &other;
 }
@@ -251,7 +251,7 @@ Bool BlendChunk::operator < (const StateChunk &other) const
 /** \brief equal
  */
 
-Bool BlendChunk::operator == (const StateChunk &other) const
+bool BlendChunk::operator == (const StateChunk &other) const
 {
     BlendChunk const *tother = dynamic_cast<BlendChunk const*>(&other);
 
@@ -264,7 +264,7 @@ Bool BlendChunk::operator == (const StateChunk &other) const
 /** \brief unequal
  */
 
-Bool BlendChunk::operator != (const StateChunk &other) const
+bool BlendChunk::operator != (const StateChunk &other) const
 {
     return ! (*this == other);
 }

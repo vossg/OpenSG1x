@@ -155,8 +155,8 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
     inline const Color4f             &getSpecular       (void) const;
     inline       NodePtr             &getBeacon         (void);
     inline const NodePtr             &getBeacon         (void) const;
-    inline       Bool                &getOn             (void);
-    inline const Bool                &getOn             (void) const;
+    inline       bool                &getOn             (void);
+    inline const bool                &getOn             (void) const;
     inline       Real32              &getConstantAttenuation(void);
     inline const Real32              &getConstantAttenuation(void) const;
     inline       Real32              &getLinearAttenuation(void);
@@ -173,7 +173,7 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
     inline void setDiffuse        ( const Color4f &value );
     inline void setSpecular       ( const Color4f &value );
     inline void setBeacon         ( const NodePtr &value );
-    inline void setOn             ( const Bool &value );
+    inline void setOn             ( const bool &value );
     inline void setConstantAttenuation( const Real32 &value );
     inline void setLinearAttenuation( const Real32 &value );
     inline void setQuadraticAttenuation( const Real32 &value );
@@ -261,6 +261,6 @@ typedef LightBaseBase *LightBaseBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTBASEBASE_HEADER_CVSID "@(#)$Id: OSGLightBaseBase.h,v 1.18 2001/11/09 08:17:09 vossg Exp $"
+#define OSGLIGHTBASEBASE_HEADER_CVSID "@(#)$Id: OSGLightBaseBase.h,v 1.19 2002/02/04 20:14:09 dirk Exp $"
 
 #endif /* _OSGLIGHTBASEBASE_H_ */

@@ -72,7 +72,7 @@ i.e. polygons.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PolygonChunk::cvsid[] = "@(#)$Id: OSGPolygonChunk.cpp,v 1.11 2001/12/28 11:02:04 vossg Exp $";
+char PolygonChunk::cvsid[] = "@(#)$Id: OSGPolygonChunk.cpp,v 1.12 2002/02/04 20:14:10 dirk Exp $";
 
 StateChunkClass PolygonChunk::_class("Polygon");
 
@@ -376,7 +376,7 @@ Real32 PolygonChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
 /** \brief assignment
  */
 
-Bool PolygonChunk::operator < (const StateChunk &other) const
+bool PolygonChunk::operator < (const StateChunk &other) const
 {
     return this < &other;
 }
@@ -384,7 +384,7 @@ Bool PolygonChunk::operator < (const StateChunk &other) const
 /** \brief equal
  */
 
-Bool PolygonChunk::operator == (const StateChunk &other) const
+bool PolygonChunk::operator == (const StateChunk &other) const
 {
     PolygonChunk const *tother = dynamic_cast<PolygonChunk const*>(&other);
 
@@ -431,7 +431,7 @@ Bool PolygonChunk::operator == (const StateChunk &other) const
 /** \brief unequal
  */
 
-Bool PolygonChunk::operator != (const StateChunk &other) const
+bool PolygonChunk::operator != (const StateChunk &other) const
 {
     return ! (*this == other);
 }

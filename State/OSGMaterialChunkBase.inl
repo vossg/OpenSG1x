@@ -226,19 +226,19 @@ void MaterialChunkBase::setShininess(const Real32 &value)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &MaterialChunkBase::getLit(void)
+bool &MaterialChunkBase::getLit(void)
 {
     return _sfLit.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Bool &MaterialChunkBase::getLit(void) const
+const bool &MaterialChunkBase::getLit(void) const
 {
     return _sfLit.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void MaterialChunkBase::setLit(const Bool &value)
+void MaterialChunkBase::setLit(const bool &value)
 {
     _sfLit.setValue(value);
 }
@@ -265,5 +265,5 @@ void MaterialChunkBase::setColorMaterial(const UInt32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGMaterialChunkBase.inl,v 1.9 2001/10/03 20:37:35 dirk Exp $"
+#define OSGMATERIALCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGMaterialChunkBase.inl,v 1.10 2002/02/04 20:14:10 dirk Exp $"
 

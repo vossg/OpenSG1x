@@ -54,7 +54,7 @@ A SimpleMaterial with an added texture. It doesn't expose all features of the te
 	</Field>
 	<Field
 		name="envMap"
-		type="Bool"
+		type="bool"
 		cardinality="single"
 		visibility="external"
 		defaultValue="false"

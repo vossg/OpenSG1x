@@ -99,21 +99,21 @@ class OSG_BASE_DLLMAPPING Volume {
     /*! \name                     State                                    */
     /*! \{                                                                 */
 
-    inline void setValid    (const Bool value = true);
+    inline void setValid    (const bool value = true);
 
-    inline Bool isValid     (void)                  const;
+    inline bool isValid     (void)                  const;
 
-    inline void setEmpty    (const Bool value = true);
+    inline void setEmpty    (const bool value = true);
 
-    inline Bool isEmpty     (void)                  const;
+    inline bool isEmpty     (void)                  const;
 
-    inline void setStatic   (const Bool value = true);
+    inline void setStatic   (const bool value = true);
 
-    inline Bool isStatic    (void)                  const;
+    inline bool isStatic    (void)                  const;
 
-    inline void setInfinite (const Bool value = true);
+    inline void setInfinite (const bool value = true);
 
-    inline Bool isInfinite  (void)                  const;
+    inline bool isInfinite  (void)                  const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -140,16 +140,16 @@ class OSG_BASE_DLLMAPPING Volume {
     /*! \name                  Intersection                                */
     /*! \{                                                                 */
 
-    virtual Bool intersect   (const Pnt3f &point)            const = 0;
+    virtual bool intersect   (const Pnt3f &point)            const = 0;
 
-    virtual Bool intersect   (const Line &line )             const = 0;
+    virtual bool intersect   (const Line &line )             const = 0;
 
-    virtual Bool intersect   (const Line &line,
+    virtual bool intersect   (const Line &line,
                               Real32 &enter, Real32 &exit  ) const = 0;
 
-    virtual Bool intersect   (const Volume &volume)          const = 0;
+    virtual bool intersect   (const Volume &volume)          const = 0;
 
-    virtual Bool isOnSurface (const Pnt3f &point)            const = 0;
+    virtual bool isOnSurface (const Pnt3f &point)            const = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

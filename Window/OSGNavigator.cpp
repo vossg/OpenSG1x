@@ -52,7 +52,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.2 2001/12/08 13:45:06 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.3 2002/02/04 20:14:12 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGNAVIGATOR_HEADER_CVSID;
     //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
 
@@ -350,9 +350,9 @@ Navigator::Mode Navigator::getMode()
 /*! sets the clickCenter current state
  */
 
-Bool Navigator::setClickCenter(Bool state)
+bool Navigator::setClickCenter(bool state)
 {   
-    Bool old = _clickCenter;
+    bool old = _clickCenter;
     
     _clickCenter = state;
     return old;

@@ -40,9 +40,9 @@ const int nobjects = 8;
 NodePtr  objects[nobjects];
 NodePtr  normalobjects[nobjects];
 
-Bool autoswitch = true;
-Bool autowire = true;
-Bool shownormals = true;
+bool autoswitch = true;
+bool autowire = true;
+bool shownormals = true;
 int obj = 0;
 
 void 

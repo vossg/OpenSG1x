@@ -56,7 +56,7 @@ OSG_USING_NAMESPACE
 
 // Static Class Varible implementations: 
 
-Bool ImageFileType::Head::netToHost(void)
+bool ImageFileType::Head::netToHost(void)
 {
     pixelFormat  = ntohs(pixelFormat);
     width        = ntohs(width);
@@ -69,7 +69,7 @@ Bool ImageFileType::Head::netToHost(void)
     return true;
 }
 
-Bool ImageFileType::Head::hostToNet(void)
+bool ImageFileType::Head::hostToNet(void)
 {
     pixelFormat  = htons(pixelFormat);
     width        = htons(width);

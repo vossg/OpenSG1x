@@ -95,8 +95,8 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr makeBox(Real32 xsize,
 OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeConeGeo(Real32 height,
                                                  Real32 botradius,
                                                  UInt16 sides,
-                                                 Bool   doSide,
-                                                 Bool   doBottom);
+                                                 bool   doSide,
+                                                 bool   doBottom);
 
 /*! \brief create a cone and node
  *  \ingroup SimpleGeometry
@@ -104,8 +104,8 @@ OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeConeGeo(Real32 height,
 OSG_SYSTEMLIB_DLLMAPPING NodePtr makeCone(Real32 height,
                                           Real32 botradius,
                                           UInt16 sides,
-                                          Bool   doSide,
-                                          Bool   doBottom);
+                                          bool   doSide,
+                                          bool   doBottom);
 
 /*! \brief create a cylinder
  *  \ingroup SimpleGeometry
@@ -113,9 +113,9 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr makeCone(Real32 height,
 OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeCylinderGeo(Real32 height,
                                                      Real32 radius,
                                                      UInt16 sides,
-                                                     Bool   doSide,
-                                                     Bool   doTop,
-                                                     Bool   doBottom);
+                                                     bool   doSide,
+                                                     bool   doTop,
+                                                     bool   doBottom);
 
 /*! \brief create a cylinder and node
  *  \ingroup SimpleGeometry
@@ -123,9 +123,9 @@ OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeCylinderGeo(Real32 height,
 OSG_SYSTEMLIB_DLLMAPPING NodePtr makeCylinder(Real32 height,
                                               Real32 radius,
                                               UInt16 sides,
-                                              Bool   doSide,
-                                              Bool   doTop,
-                                              Bool   doBottom);
+                                              bool   doSide,
+                                              bool   doTop,
+                                              bool   doBottom);
 
 /*! \brief create a torus
  *  \ingroup SimpleGeometry
@@ -174,9 +174,9 @@ OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makeConicalFrustumGeo(Real32 height,
                                                            Real32 topradius,
                                                            Real32 botradius,
                                                            UInt16 sides,
-                                                           Bool   doSide,
-                                                           Bool   doTop,
-                                                           Bool   doBottom);
+                                                           bool   doSide,
+                                                           bool   doTop,
+                                                           bool   doBottom);
 
 /*! \brief create a conical frustum and node
  *  \ingroup SimpleGeometry
@@ -185,9 +185,9 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr makeConicalFrustum(Real32 height,
                                                     Real32 topradius,
                                                     Real32 botradius,
                                                     UInt16 sides,
-                                                    Bool   doSide,
-                                                    Bool   doTop,
-                                                    Bool   doBottom);
+                                                    bool   doSide,
+                                                    bool   doTop,
+                                                    bool   doBottom);
 
 OSG_SYSTEMLIB_DLLMAPPING GeoPositions3fPtr makeGeoPositions3fPtr(UInt32 uiSize);
 OSG_SYSTEMLIB_DLLMAPPING GeoIndicesUI32Ptr makeGeoIndicesUI32Ptr(UInt32 uiSize);

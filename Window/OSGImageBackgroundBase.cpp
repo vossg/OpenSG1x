@@ -86,7 +86,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageBackgroundBase.cpp,v 1.5 2001/11/30 11:48:20 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageBackgroundBase.cpp,v 1.6 2002/02/04 20:14:12 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGIMAGEBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGIMAGEBACKGROUNDBASE_INLINE_CVSID;
 
@@ -116,7 +116,7 @@ const OSG::BitVector  ImageBackgroundBase::ScaleFieldMask =
 /*! \var ImageP          ImageBackgroundBase::_sfImage
     The image to put in the background.
 */
-/*! \var Bool            ImageBackgroundBase::_sfScale
+/*! \var bool            ImageBackgroundBase::_sfScale
     Define whether the image is scaled to fill the viewport or not (non-functional right now).
 */
 //! ImageBackground description

@@ -81,7 +81,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
 
     virtual list<IDString> &suffixList         (void);
 
-            Bool            doOverride         (void);
+            bool            doOverride         (void);
             UInt32          getOverridePriority(void);
 
     /*! \}                                                                 */
@@ -108,7 +108,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual Bool write(const NodePtr  node,
+    virtual bool write(const NodePtr  node,
                        const Char8   *fileName) const = 0;
 
     /*! \}                                                                 */
@@ -128,7 +128,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
 
     list<IDString> _suffixList;
     
-    Bool           _override;
+    bool           _override;
     UInt32         _overridePriority;
 
     /*! \}                                                                 */
@@ -138,7 +138,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
 
     SceneFileType(const Char8  *suffixArray[],
                         UInt16  suffixByteCount,
-                        Bool    override,
+                        bool    override,
                         UInt32  overridePriority);
 
     SceneFileType (const SceneFileType &obj);

@@ -710,11 +710,11 @@ const ValueTypeT *PointInterface<ValueTypeT,
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
-Bool PointInterface<ValueTypeT, 
+bool PointInterface<ValueTypeT, 
                     StorageInterfaceT>::isZero(void) const
 {
     UInt32 i;
-    Bool   returnValue = true;
+    bool   returnValue = true;
 
     for(i = 0; i < _iSize; i++)
     {
@@ -743,12 +743,12 @@ void PointInterface<ValueTypeT, StorageInterfaceT>::negate(void)
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
-Bool PointInterface<ValueTypeT, StorageInterfaceT>::equals(
+bool PointInterface<ValueTypeT, StorageInterfaceT>::equals(
     const PointInterface &vec,
     const ValueTypeT       tolerance) const
 {
     UInt32 i;
-    Bool   returnValue = true;
+    bool   returnValue = true;
 
     for(i = 0; i < _iSize; i++)
     {
@@ -1071,11 +1071,11 @@ PointInterface<ValueTypeT, StorageInterfaceT> &
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
-Bool PointInterface<ValueTypeT, StorageInterfaceT>::operator < (
+bool PointInterface<ValueTypeT, StorageInterfaceT>::operator < (
     const PointInterface &other) const
 {
     UInt32 i;
-    Bool ret = true;
+    bool ret = true;
 
     for(i = 0; i < _iSize; i++)
     {
@@ -1093,7 +1093,7 @@ Bool PointInterface<ValueTypeT, StorageInterfaceT>::operator < (
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
-Bool PointInterface<ValueTypeT, StorageInterfaceT>::operator == (
+bool PointInterface<ValueTypeT, StorageInterfaceT>::operator == (
     const PointInterface &other) const
 {
     return equals(other, Eps);
@@ -1103,7 +1103,7 @@ Bool PointInterface<ValueTypeT, StorageInterfaceT>::operator == (
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
-Bool PointInterface<ValueTypeT, StorageInterfaceT>::operator != (
+bool PointInterface<ValueTypeT, StorageInterfaceT>::operator != (
     const PointInterface &other) const
 {
     return ! (*this == other);
@@ -1642,11 +1642,11 @@ VectorInterface<ValueTypeT, StorageInterfaceT> &
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
-Bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator < (
+bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator < (
     const VectorInterface &other) const
 {
     UInt32 i;
-    Bool   ret = true;
+    bool   ret = true;
 
     for(i = 0; i < _iSize; i++)
     {
@@ -1667,7 +1667,7 @@ Bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator < (
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
-Bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator == (
+bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator == (
     const VectorInterface &other) const
 {
     return equals(other, Eps);
@@ -1677,7 +1677,7 @@ Bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator == (
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
-Bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator != (
+bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator != (
     const VectorInterface &other) const
 {
     return ! (*this == other);

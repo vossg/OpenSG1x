@@ -139,7 +139,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \name               Extension handling                             */
     /*! \{                                                                 */
 
-    Bool            hasExtension      ( UInt32 id );
+    bool            hasExtension      ( UInt32 id );
     void           *getFunction       ( UInt32 id );
     void           *getFunctionNoCheck( UInt32 id );
     void            dumpExtensions    ( void );
@@ -167,7 +167,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \name                 Size handling                                */
     /*! \{                                                                 */
 
-            Bool isResizePending( void );
+            bool isResizePending( void );
 
     virtual void resize         (int width, int height);
     virtual void resizeGL       (void);
@@ -368,7 +368,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! contains a boolean for every registered extension which
        indicates, whether an extensions is available for the Window's
        context or not  */
-    vector<Bool>                      _availExtensions;
+    vector<bool>                      _availExtensions;
 
     //! contains the GL extension functions registered by the application
     vector<void*>                     _extFunctions;

@@ -185,7 +185,7 @@ JPGImageFileType JPGImageFileType:: _the(suffixArray, sizeof(suffixArray));
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -196,11 +196,11 @@ JPGImageFileType JPGImageFileType:: _the(suffixArray, sizeof(suffixArray));
 //s:
 //
 //------------------------------
-Bool JPGImageFileType::read(      Image &OSG_JPG_ARG(image   ), 
+bool JPGImageFileType::read(      Image &OSG_JPG_ARG(image   ), 
                             const Char8 *OSG_JPG_ARG(fileName))
 {
 #ifdef OSG_WITH_JPG
-    Bool    retCode = false;
+    bool    retCode = false;
     struct local_error_mgr
     {
         struct jpeg_error_mgr   pub;
@@ -293,7 +293,7 @@ Bool JPGImageFileType::read(      Image &OSG_JPG_ARG(image   ),
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -305,7 +305,7 @@ Bool JPGImageFileType::read(      Image &OSG_JPG_ARG(image   ),
 //
 //------------------------------
 
-Bool JPGImageFileType::write(const Image &OSG_JPG_ARG(image), 
+bool JPGImageFileType::write(const Image &OSG_JPG_ARG(image), 
                              const Char8 *OSG_JPG_ARG(fileName))
 {
 #ifdef OSG_WITH_JPG
@@ -318,7 +318,7 @@ Bool JPGImageFileType::write(const Image &OSG_JPG_ARG(image),
         return false;
     }
 
-    Bool    retCode = false;
+    bool    retCode = false;
 
     struct local_error_mgr
     {
@@ -391,7 +391,7 @@ UInt64 JPGImageFileType::restoreData(      Image  &OSG_JPG_ARG(image  ),
                                            Int32   OSG_JPG_ARG(memSize))
 {
 #ifdef OSG_WITH_JPG
-    Bool    retCode = false;
+    bool    retCode = false;
     struct local_error_mgr
     {
         struct jpeg_error_mgr   pub;

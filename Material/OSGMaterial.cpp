@@ -77,7 +77,7 @@ The material base class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.14 2001/11/01 05:55:04 vossg Exp $";
+char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.15 2002/02/04 20:14:08 dirk Exp $";
 
 OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::NullMaterial;
 
@@ -178,7 +178,7 @@ void Material::dump(      UInt32    ,
 /** \brief assignment
  */
 
-Bool Material::operator < (const Material &other) const
+bool Material::operator < (const Material &other) const
 {
     return this < &other;
 }
@@ -186,7 +186,7 @@ Bool Material::operator < (const Material &other) const
 /** \brief equal
  */
 
-Bool Material::operator == (const Material &OSG_CHECK_ARG(other)) const
+bool Material::operator == (const Material &OSG_CHECK_ARG(other)) const
 {
     return false;
 }
@@ -194,7 +194,7 @@ Bool Material::operator == (const Material &OSG_CHECK_ARG(other)) const
 /** \brief unequal
  */
 
-Bool Material::operator != (const Material &other) const
+bool Material::operator != (const Material &other) const
 {
     return ! (*this == other);
 }

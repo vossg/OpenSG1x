@@ -60,7 +60,7 @@ class OSG_BASE_DLLMAPPING DataType : public TypeBase
 
     DataType(const Char8 *szName, 
              const Char8 *szParentName,
-                   Bool   bRegister = false);
+                   bool   bRegister = false);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -74,8 +74,8 @@ class OSG_BASE_DLLMAPPING DataType : public TypeBase
     /*! \name                    Operators                                 */
     /*! \{                                                                 */
 
-    Bool operator ==(const DataType &other) const;
-    Bool operator !=(const DataType &other) const;
+    bool operator ==(const DataType &other) const;
+    bool operator !=(const DataType &other) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

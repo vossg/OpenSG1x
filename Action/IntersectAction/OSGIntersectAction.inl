@@ -110,7 +110,7 @@ inline Real32 IntersectAction::getMaxDist( void ) const
     return _maxdist;
 }
 
-inline Bool IntersectAction::didHit( void ) const
+inline bool IntersectAction::didHit( void ) const
 {
     return _hit;
 }

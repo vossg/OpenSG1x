@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFileGrabForegroundBase.cpp,v 1.1 2002/01/18 22:58:09 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFileGrabForegroundBase.cpp,v 1.2 2002/02/04 20:14:12 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFILEGRABFOREGROUNDBASE_INLINE_CVSID;
 
@@ -115,7 +115,7 @@ const OSG::BitVector  FileGrabForegroundBase::IncrementFieldMask =
 
 // Field descriptions
 
-/*! \var Bool            FileGrabForegroundBase::_sfActive
+/*! \var bool            FileGrabForegroundBase::_sfActive
     Activate the grabber
 */
 /*! \var string          FileGrabForegroundBase::_sfName
@@ -124,7 +124,7 @@ const OSG::BitVector  FileGrabForegroundBase::IncrementFieldMask =
 /*! \var UInt32          FileGrabForegroundBase::_sfFrame
     The frame number to use.
 */
-/*! \var Bool            FileGrabForegroundBase::_sfIncrement
+/*! \var bool            FileGrabForegroundBase::_sfIncrement
     Flag to start/stop automatic frame increments after each grab.
 */
 //! FileGrabForeground description
@@ -209,10 +209,10 @@ void FileGrabForegroundBase::executeSync(      FieldContainer &other,
 #endif
 
 FileGrabForegroundBase::FileGrabForegroundBase(void) :
-    _sfActive                 (Bool(false)), 
+    _sfActive                 (bool(false)), 
     _sfName                   (), 
     _sfFrame                  (UInt32(0)), 
-    _sfIncrement              (Bool(true)), 
+    _sfIncrement              (bool(true)), 
     Inherited() 
 {
 }

@@ -137,8 +137,8 @@ class OSG_SYSTEMLIB_DLLMAPPING LineChunkBase : public StateChunk
     inline const Int32               &getStippleRepeat  (void) const;
     inline       UInt16              &getStipplePattern (void);
     inline const UInt16              &getStipplePattern (void) const;
-    inline       Bool                &getSmooth         (void);
-    inline const Bool                &getSmooth         (void) const;
+    inline       bool                &getSmooth         (void);
+    inline const bool                &getSmooth         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -148,7 +148,7 @@ class OSG_SYSTEMLIB_DLLMAPPING LineChunkBase : public StateChunk
     inline void setWidth          ( const Real32 &value );
     inline void setStippleRepeat  ( const Int32 &value );
     inline void setStipplePattern ( const UInt16 &value );
-    inline void setSmooth         ( const Bool &value );
+    inline void setSmooth         ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -245,6 +245,6 @@ typedef LineChunkBase *LineChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLINECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLineChunkBase.h,v 1.2 2002/01/09 10:27:56 dirk Exp $"
+#define OSGLINECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLineChunkBase.h,v 1.3 2002/02/04 20:14:10 dirk Exp $"
 
 #endif /* _OSGLINECHUNKBASE_H_ */

@@ -149,9 +149,9 @@ FieldContainerType *FieldContainerFactory::findUninitializedType(
 #pragma warning (disable : 383)
 #endif
 
-Bool FieldContainerFactory::initializePendingTypes(void)
+bool FieldContainerFactory::initializePendingTypes(void)
 {
-    Bool                returnValue = true;
+    bool                returnValue = true;
     FieldContainerType *pType       = NULL;
 
     if(_bInitialized == false)
@@ -434,12 +434,12 @@ const FieldContainerFactory::FieldContainerStore *
 /*-------------------------------------------------------------------------*/
 /*                            Static Init                                  */
 
-Bool FieldContainerFactory::initializeFactory(int &argc, char **argv)
+bool FieldContainerFactory::initializeFactory(int &argc, char **argv)
 {
     return the()->initialize(argc, argv);
 }
 
-Bool FieldContainerFactory::terminateFactory(void)
+bool FieldContainerFactory::terminateFactory(void)
 {
     return the()->terminate();
 }
@@ -477,7 +477,7 @@ FieldContainerFactory::~FieldContainerFactory(void)
 /*-------------------------------------------------------------------------*/
 /*                                Init                                     */
 
-Bool FieldContainerFactory::initialize(int   &OSG_CHECK_ARG(argc), 
+bool FieldContainerFactory::initialize(int   &OSG_CHECK_ARG(argc), 
                                        char **OSG_CHECK_ARG(argv))
 {
     TypeIdMapIt typeIt;
@@ -507,7 +507,7 @@ Bool FieldContainerFactory::initialize(int   &OSG_CHECK_ARG(argc),
     return _pStoreLock != NULL && _pMapLock != NULL;
 }
 
-Bool FieldContainerFactory::terminate(void)
+bool FieldContainerFactory::terminate(void)
 {
     TypeIdMapIt typeIt;
 

@@ -92,15 +92,15 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterial : public ChunkMaterialBase
 
     virtual void       rebuildState      (void);
 
-    virtual Bool       isTransparent     (void) const;
+    virtual bool       isTransparent     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Access                                    */
     /*! \{                                                                 */
 
-    Bool    addChunk( StateChunkPtr chunk );
-    Bool    subChunk( StateChunkPtr chunk );
+    bool    addChunk( StateChunkPtr chunk );
+    bool    subChunk( StateChunkPtr chunk );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

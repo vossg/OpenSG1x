@@ -105,9 +105,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 
     Int16              calcMappingIndex (UInt16 attrib) const;
 
-    Bool               isMergeable      (const GeometryPtr other);
+    bool               isMergeable      (const GeometryPtr other);
 
-    Bool               merge            (const GeometryPtr other);
+    bool               merge            (const GeometryPtr other);
 
     GeometryPtr        clone            (void);
 

@@ -131,24 +131,24 @@ class OSG_SYSTEMLIB_DLLMAPPING FileGrabForegroundBase : public GrabForeground
     inline       SFUInt32            *getSFFrame          (void);
     inline       SFBool              *getSFIncrement      (void);
 
-    inline       Bool                &getActive         (void);
-    inline const Bool                &getActive         (void) const;
+    inline       bool                &getActive         (void);
+    inline const bool                &getActive         (void) const;
     inline       string              &getName           (void);
     inline const string              &getName           (void) const;
     inline       UInt32              &getFrame          (void);
     inline const UInt32              &getFrame          (void) const;
-    inline       Bool                &getIncrement      (void);
-    inline const Bool                &getIncrement      (void) const;
+    inline       bool                &getIncrement      (void);
+    inline const bool                &getIncrement      (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setActive         ( const Bool &value );
+    inline void setActive         ( const bool &value );
     inline void setName           ( const string &value );
     inline void setFrame          ( const UInt32 &value );
-    inline void setIncrement      ( const Bool &value );
+    inline void setIncrement      ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -245,6 +245,6 @@ typedef FileGrabForegroundBase *FileGrabForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGFileGrabForegroundBase.h,v 1.1 2002/01/18 22:58:09 dirk Exp $"
+#define OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGFileGrabForegroundBase.h,v 1.2 2002/02/04 20:14:12 dirk Exp $"
 
 #endif /* _OSGFILEGRABFOREGROUNDBASE_H_ */

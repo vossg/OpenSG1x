@@ -130,37 +130,37 @@ void BillboardBase::setAxisOfRotation(const Vec3f &value)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &BillboardBase::getFocusOnCamera(void)
+bool &BillboardBase::getFocusOnCamera(void)
 {
     return _sfFocusOnCamera.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Bool &BillboardBase::getFocusOnCamera(void) const
+const bool &BillboardBase::getFocusOnCamera(void) const
 {
     return _sfFocusOnCamera.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void BillboardBase::setFocusOnCamera(const Bool &value)
+void BillboardBase::setFocusOnCamera(const bool &value)
 {
     _sfFocusOnCamera.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &BillboardBase::getAlignToScreen(void)
+bool &BillboardBase::getAlignToScreen(void)
 {
     return _sfAlignToScreen.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Bool &BillboardBase::getAlignToScreen(void) const
+const bool &BillboardBase::getAlignToScreen(void) const
 {
     return _sfAlignToScreen.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void BillboardBase::setAlignToScreen(const Bool &value)
+void BillboardBase::setAlignToScreen(const bool &value)
 {
     _sfAlignToScreen.setValue(value);
 }

@@ -76,7 +76,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
                       const Char8                  *szName,
                       const UInt32                  uiFieldId,
                       const BitVector               vFieldMask,
-                      const Bool                    bInternal,
+                      const bool                    bInternal,
                             FieldAccessMethod       fAccessMethod,
                       const Char8                  *defaultValue = NULL );
 
@@ -84,7 +84,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
                       const Char8                  *szName,
                       const UInt32                  uiFieldId,
                       const BitVector               vFieldMask,
-                      const Bool                    bInternal,
+                      const bool                    bInternal,
                             FieldIndexAccessMethod  fIndexedAccessMethod,
                       const Char8                  *defaultValue = NULL );
 
@@ -117,9 +117,9 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
 
     const TypeBase  &getFieldType   (void) const;
 
-          Bool       isInternal     (void                ) const;
+          bool       isInternal     (void                ) const;
 
-          Bool       isValid        (void                ) const;
+          bool       isValid        (void                ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -144,7 +144,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
     UInt32                   _uiFieldId;
     BitVector                _vFieldMask;
 
-    Bool                     _bInternal;
+    bool                     _bInternal;
 
     FieldAccessMethod        _fAccessMethod;
     FieldIndexAccessMethod   _fIndexedAccessMethod;
@@ -181,7 +181,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
 
 struct FieldDescriptionPLT
 {
-    Bool operator()(const FieldDescription *pElemDesc1, 
+    bool operator()(const FieldDescription *pElemDesc1, 
                     const FieldDescription *pElemDesc2) const
     {
         return (pElemDesc1->getFieldId() < pElemDesc2->getFieldId());

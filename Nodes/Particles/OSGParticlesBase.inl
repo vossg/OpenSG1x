@@ -298,19 +298,19 @@ void ParticlesBase::setDrawOrder(const UInt32 &value)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &ParticlesBase::getDynamic(void)
+bool &ParticlesBase::getDynamic(void)
 {
     return _sfDynamic.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Bool &ParticlesBase::getDynamic(void) const
+const bool &ParticlesBase::getDynamic(void) const
 {
     return _sfDynamic.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void ParticlesBase::setDynamic(const Bool &value)
+void ParticlesBase::setDynamic(const bool &value)
 {
     _sfDynamic.setValue(value);
 }
@@ -403,5 +403,5 @@ const MFReal32 &ParticlesBase::getTextureZs(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_INLINE_CVSID "@(#)$Id: OSGParticlesBase.inl,v 1.5 2002/01/18 22:51:55 dirk Exp $"
+#define OSGPARTICLESBASE_INLINE_CVSID "@(#)$Id: OSGParticlesBase.inl,v 1.6 2002/02/04 20:14:10 dirk Exp $"
 

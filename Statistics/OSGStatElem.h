@@ -74,15 +74,15 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElem
     /*! \name                     Instance                                 */
     /*! \{                                                                 */
 
-    inline  Bool               getOn        (void);
+    inline  bool               getOn        (void);
 
-    inline  void               setOn        (Bool on);
+    inline  void               setOn        (bool on);
 
     inline  StatElemDescBase * getDesc      (void);
 
     virtual void               putToString  (string &str) = 0;
 
-    virtual Bool               getFromString(const Char8 *&inVal) = 0;
+    virtual bool               getFromString(const Char8 *&inVal) = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -96,10 +96,10 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElem
     /*! \name                  Comparison                                  */
     /*! \{                                                                 */
 
-     Bool operator <  (const StatElem &other) const;
+     bool operator <  (const StatElem &other) const;
 
-    //OSGBool operator == (const StatElem &other) const;
-    //OSGBool operator != (const StatElem &other) const;
+    //OSGbool operator == (const StatElem &other) const;
+    //OSGbool operator != (const StatElem &other) const;
 
     /*! \}                                                                 */
 
@@ -117,7 +117,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElem
 
     static char cvsid[];
 
-    Bool _on;
+    bool _on;
 
     StatElemDescBase *_desc;
 

@@ -183,7 +183,7 @@ void DrawActionBase::setWindow(Window *window)
 // do frustum culling at all?
 // default true
 
-void DrawActionBase::setFrustumCulling(Bool frustumCulling)
+void DrawActionBase::setFrustumCulling(bool frustumCulling)
 {
     _frustumCulling = frustumCulling;
 }
@@ -191,7 +191,7 @@ void DrawActionBase::setFrustumCulling(Bool frustumCulling)
 // automatically calc the frustum at the beginning of the traversal
 // default true
 
-void DrawActionBase::setAutoFrustum(Bool autoFrustum)
+void DrawActionBase::setAutoFrustum(bool autoFrustum)
 {
     _autoFrustum = autoFrustum;
 }
@@ -199,7 +199,7 @@ void DrawActionBase::setAutoFrustum(Bool autoFrustum)
 // draw the tested volumes
 // default false
 
-void DrawActionBase::setVolumeDrawing(Bool volumeDrawing)
+void DrawActionBase::setVolumeDrawing(bool volumeDrawing)
 {
     _volumeDrawing = volumeDrawing;
 }
@@ -215,7 +215,7 @@ void DrawActionBase::setFrustum(FrustumVolume &frustum)
 
 /*---------------------------- culling ------------------------------------*/
 
-Bool DrawActionBase::isVisible( Node* node )
+bool DrawActionBase::isVisible( Node* node )
 {
     if ( getFrustumCulling() == false )
         return true;
@@ -240,8 +240,8 @@ UInt32 DrawActionBase::selectVisibles( void )
     UInt32 count = 0;
     for ( UInt32 i = 0; i < getNNodes(); i++ )
     {
-        Bool l;
-        Bool d = getVolumeDrawing();
+        bool l;
+        bool d = getVolumeDrawing();
         if ( d )
         {
             l = glIsEnabled( GL_LIGHTING );

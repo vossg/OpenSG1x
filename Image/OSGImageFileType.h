@@ -82,8 +82,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
       unsigned short _reserved3;
       unsigned short _reserved4;
 
-    Bool netToHost (void);
-    Bool hostToNet (void);
+    bool netToHost (void);
+    bool hostToNet (void);
 
     };
 
@@ -138,9 +138,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    virtual Bool read  (Image &image, const Char8 *fileName )       = 0;
+    virtual bool read  (Image &image, const Char8 *fileName )       = 0;
 
-    virtual Bool write (const Image &image, const Char8 *fileName ) = 0;
+    virtual bool write (const Image &image, const Char8 *fileName ) = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

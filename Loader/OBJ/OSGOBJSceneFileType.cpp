@@ -76,7 +76,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.22 2002/02/04 16:08:08 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.23 2002/02/04 20:14:07 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -119,7 +119,7 @@ OBJSceneFileType  OBJSceneFileType::_the         (_suffixA,
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -432,7 +432,7 @@ NodePtr OBJSceneFileType::read(const Char8  *fileName,
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -443,7 +443,7 @@ NodePtr OBJSceneFileType::read(const Char8  *fileName,
 //s:
 //
 //------------------------------
-Bool OBJSceneFileType::write (const NodePtr  OSG_CHECK_ARG(node    ),
+bool OBJSceneFileType::write (const NodePtr  OSG_CHECK_ARG(node    ),
                               const Char8   *OSG_CHECK_ARG(fileName)) const
 {
     FFATAL (("OBJSceneFileType::write() is not impl.\n"));
@@ -496,7 +496,7 @@ Bool OBJSceneFileType::write (const NodePtr  OSG_CHECK_ARG(node    ),
 
 OBJSceneFileType::OBJSceneFileType(const Char8  *suffixArray[],
                                          UInt16  suffixByteCount,
-                                         Bool    override,
+                                         bool    override,
                                          UInt32  overridePriority) :
     SceneFileType(suffixArray,
                   suffixByteCount,

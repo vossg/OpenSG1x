@@ -231,10 +231,10 @@ void FrustumVolume::extendBy(const Pnt3f &OSG_CHECK_ARG(pt))
 /*-------------------------- intersection ---------------------------------*/
 
 /// Returns true if intersection of given point and Frustum3f is not empty
-Bool FrustumVolume::intersect(const Pnt3f &point) const
+bool FrustumVolume::intersect(const Pnt3f &point) const
 {
     int i;
-    Bool retCode = true;
+    bool retCode = true;
 
   for (i = 0; i < 6; i++) {
     if ( ( _planeVec[i].getNormal().x() * point.x() +
@@ -251,7 +251,7 @@ Bool FrustumVolume::intersect(const Pnt3f &point) const
 
 
 /** intersect the box with the given Line */
-Bool FrustumVolume::intersect (const Line &line) const
+bool FrustumVolume::intersect (const Line &line) const
 {
     return line.intersect(*this);
 }
@@ -259,14 +259,14 @@ Bool FrustumVolume::intersect (const Line &line) const
 
 
 /** intersect the box with the given Line */
-Bool FrustumVolume::intersect ( const Line &line,
+bool FrustumVolume::intersect ( const Line &line,
                                 Real32 &minDist, Real32 &maxDist ) const
 {
     return line.intersect(*this,minDist,maxDist);
 }
 
 
-Bool FrustumVolume::isOnSurface (const Pnt3f &OSG_CHECK_ARG(point)) const
+bool FrustumVolume::isOnSurface (const Pnt3f &OSG_CHECK_ARG(point)) const
 {
     // not implemented
     return false;
@@ -312,7 +312,7 @@ OSG_BEGIN_NAMESPACE
 
 /// Equality comparisons
 OSG_BASE_DLLMAPPING
-Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2)
+bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2)
 {
     return ((b1._planeVec[0] == b2._planeVec[0]) &&
             (b1._planeVec[1] == b2._planeVec[1]) &&

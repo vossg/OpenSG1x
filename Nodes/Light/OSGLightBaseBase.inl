@@ -190,19 +190,19 @@ void LightBaseBase::setBeacon(const NodePtr &value)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &LightBaseBase::getOn(void)
+bool &LightBaseBase::getOn(void)
 {
     return _sfOn.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Bool &LightBaseBase::getOn(void) const
+const bool &LightBaseBase::getOn(void) const
 {
     return _sfOn.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void LightBaseBase::setOn(const Bool &value)
+void LightBaseBase::setOn(const bool &value)
 {
     _sfOn.setValue(value);
 }
@@ -265,5 +265,5 @@ void LightBaseBase::setQuadraticAttenuation(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTBASEBASE_INLINE_CVSID "@(#)$Id: OSGLightBaseBase.inl,v 1.9 2001/10/03 20:37:35 dirk Exp $"
+#define OSGLIGHTBASEBASE_INLINE_CVSID "@(#)$Id: OSGLightBaseBase.inl,v 1.10 2002/02/04 20:14:09 dirk Exp $"
 

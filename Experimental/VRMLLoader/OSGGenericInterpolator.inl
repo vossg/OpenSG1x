@@ -142,26 +142,26 @@ Real32  InterpolatorBase::getDuration(void) const
 }
 
 inline 
-void InterpolatorBase::setLoop(Bool loopon) 
+void InterpolatorBase::setLoop(bool loopon) 
 { 
     _loop = loopon; 
 }
 
 inline 
-Bool InterpolatorBase::isLooping(void) const 
+bool InterpolatorBase::isLooping(void) const 
 { 
     return _loop; 
 }   
 
 inline 
-void InterpolatorBase::setScaleInterpol(Bool scale) 
+void InterpolatorBase::setScaleInterpol(bool scale) 
 {
     _isScale = scale;
 }
 
 
 inline 
-Bool InterpolatorBase::isScaleInterpol(void) const
+bool InterpolatorBase::isScaleInterpol(void) const
 {
     return _isScale;
 }

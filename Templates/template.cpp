@@ -125,7 +125,7 @@ CLASSNAME& CLASSNAME::operator = (const CLASSNAME &source)
 /*! less
  */
 
-Bool CLASSNAME::operator < (const CLASSNAME &other) const
+bool CLASSNAME::operator < (const CLASSNAME &other) const
 {
     return this < &other;
 }
@@ -133,14 +133,14 @@ Bool CLASSNAME::operator < (const CLASSNAME &other) const
 /*! equal
  */
 
-Bool CLASSNAME::operator == (const CLASSNAME &other) const
+bool CLASSNAME::operator == (const CLASSNAME &other) const
 {
 }
 
 /*! unequal
  */
 
-Bool CLASSNAME::operator != (const CLASSNAME &other) const
+bool CLASSNAME::operator != (const CLASSNAME &other) const
 {
     return ! (*this == other);
 }

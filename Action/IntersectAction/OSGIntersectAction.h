@@ -119,7 +119,7 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectAction : public Action
     inline Real32 getMaxDist( void ) const;
     
     // get result data
-    inline Bool didHit( void ) const;
+    inline bool didHit( void ) const;
     
     inline Real32 getHitT( void ) const;
     
@@ -143,10 +143,10 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectAction : public Action
 
     /*------------------------- comparison ----------------------------------*/
 
-    Bool operator < (const IntersectAction &other) const;
+    bool operator < (const IntersectAction &other) const;
     
-    Bool operator == (const IntersectAction &other) const;
-    Bool operator != (const IntersectAction &other) const;
+    bool operator == (const IntersectAction &other) const;
+    bool operator != (const IntersectAction &other) const;
     
     
     // default registration. static, so it can be called during static init
@@ -244,7 +244,7 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectAction : public Action
     
     // Results (also intermediate)
     // hit at all (either bv or face)
-    Bool    _hit;
+    bool    _hit;
     // enter leave distance for bounding volume
     Real32  _enterT;
     Real32  _leaveT;

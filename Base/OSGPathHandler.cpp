@@ -57,7 +57,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.9 2001/11/07 11:15:46 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.10 2002/02/04 20:14:03 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGPATHHANDLER_HEADER_CVSID;
 }
 
@@ -113,7 +113,7 @@ PathHandler::~PathHandler(void)
 string PathHandler::findFile(const Char8 *fileName)
 {
     string returnValue;
-    Bool   bFound      = false;
+    bool   bFound      = false;
 
     PathList     tmpList;
 
@@ -556,7 +556,7 @@ void PathHandler::expandUnixPath(string &path)
     string  envVar;
     string  userName;
     string  userHome;
-    Bool    stop;
+    bool    stop;
 #ifndef WIN32
     passwd* userInfo;
 #endif

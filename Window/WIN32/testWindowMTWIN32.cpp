@@ -60,7 +60,7 @@ Thread         *drawThread[NUM_THREADS];
 
 UInt32         drawThreadID[NUM_THREADS];
 
-Bool           drawThreadStop[NUM_THREADS],
+bool           drawThreadStop[NUM_THREADS],
                doResize[NUM_THREADS],
                stopIt = false;
 

@@ -174,25 +174,25 @@ void FieldContainerPtrBase::operator =(const FieldContainerPtrBase &source)
 /*-------------------------------------------------------------------------*/
 /*                             Comparison                                  */
 
-Bool FieldContainerPtrBase::operator < (
+bool FieldContainerPtrBase::operator < (
     const FieldContainerPtrBase &other)const
 {
     return _storeP < other._storeP;
 }
 
-Bool FieldContainerPtrBase::operator ==(
+bool FieldContainerPtrBase::operator ==(
     const FieldContainerPtrBase &other) const
 {
     return _storeP == other._storeP;
 }
 
-Bool FieldContainerPtrBase::operator !=(
+bool FieldContainerPtrBase::operator !=(
     const FieldContainerPtrBase &other) const
 {
     return ! (*this == other);
 }
 
-Bool FieldContainerPtrBase::operator ! (void) const
+bool FieldContainerPtrBase::operator ! (void) const
 {
     return _storeP == NULL;
 }
@@ -233,9 +233,9 @@ void FieldContainerPtrBase::dump(      UInt32    uiIndent,
 /*-------------------------------------------------------------------------*/
 /*                                Init                                     */
 
-Bool FieldContainerPtrBase::initialize(int &, char **)
+bool FieldContainerPtrBase::initialize(int &, char **)
 {
-    Bool           returnValue = false;
+    bool           returnValue = false;
     ThreadManager *pManager    = ThreadManager::the();
 
     SINFO << "OSGFieldContainerPtrBase init" << endl;
@@ -253,7 +253,7 @@ Bool FieldContainerPtrBase::initialize(int &, char **)
     return returnValue;
 }
 
-Bool FieldContainerPtrBase::terminate(void)
+bool FieldContainerPtrBase::terminate(void)
 {
     ThreadManager *pManager = ThreadManager::the();
 

@@ -157,7 +157,7 @@ void Date::set (const char *string )
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -168,7 +168,7 @@ void Date::set (const char *string )
 //s:
 //
 //--------------------------------------------------------
-Bool Date::isLeapYear (void )
+bool Date::isLeapYear (void )
 {
     if (_year & 3)
         return false;
@@ -186,7 +186,7 @@ Bool Date::isLeapYear (void )
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -197,7 +197,7 @@ Bool Date::isLeapYear (void )
 //s:
 //
 //--------------------------------------------------------
-Bool Date::valid (void )
+bool Date::valid (void )
 {
     static const unsigned int daysPerMonth[12] =
     { 31, 28, 31, 30, 31, 30, 30, 31, 30, 31, 30, 31 };
@@ -381,7 +381,7 @@ istream &OSG::operator >>(istream &inStream, Date &obj)
 //s:
 //
 //---------------------------------------------------------
-Bool operator ==(const Date &v1, const Date &v2)
+bool operator ==(const Date &v1, const Date &v2)
 {
   return ((v1._day == v2._day) &&
           (v1._month == v2._month) &&
@@ -411,7 +411,7 @@ Bool operator ==(const Date &v1, const Date &v2)
 //s:
 //
 //---------------------------------------------------------
-Bool operator <(const Date &v1, const Date &v2)
+bool operator <(const Date &v1, const Date &v2)
 {
     if (v1._year < v2._year)
         return true;

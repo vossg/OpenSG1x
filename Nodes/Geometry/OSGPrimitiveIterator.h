@@ -103,7 +103,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PrimitiveIterator
     /*! \name                       Get                                    */
     /*! \{                                                                 */
 
-    inline Bool         isAtEnd         ( void        ) const;
+    inline bool         isAtEnd         ( void        ) const;
 
     inline Int32        getIndex        ( void        ) const;
     inline UInt32       getLength       ( void        ) const;
@@ -133,10 +133,10 @@ class OSG_SYSTEMLIB_DLLMAPPING PrimitiveIterator
 
     PrimitiveIterator & operator =(const PrimitiveIterator &source);
 
-    Bool operator < (const PrimitiveIterator &other) const;
+    bool operator < (const PrimitiveIterator &other) const;
 
-    Bool operator == (const PrimitiveIterator &other) const;
-    Bool operator != (const PrimitiveIterator &other) const;
+    bool operator == (const PrimitiveIterator &other) const;
+    bool operator != (const PrimitiveIterator &other) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -154,7 +154,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PrimitiveIterator
     /*! \{                                                                 */
 
     GeometryPtr     _geo;
-    Bool            _ended;
+    bool            _ended;
     UInt32          _primIndex;
     UInt32          _actPointIndex;
     UInt32          _actPrimType;

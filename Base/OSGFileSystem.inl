@@ -73,10 +73,10 @@ const UInt32 OSGWRITEFLAG = _S_IWRITE;
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 inline
-Bool File::tstAttr(const Char8  *szFilename,
+bool File::tstAttr(const Char8  *szFilename,
                          UInt32  uiAccessFlags)
 {
-    Bool  returnValue = false;
+    bool  returnValue = false;
     Int32 rc          = 0;
 
     struct stat statBuffer;
@@ -113,10 +113,10 @@ Bool File::tstAttr(const Char8  *szFilename,
 
 
 inline
-Bool Directory::tstAttr(const Char8  *szFilename,
+bool Directory::tstAttr(const Char8  *szFilename,
                               UInt32  uiAccessFlags)
 {
-    Bool  returnValue = false;
+    bool  returnValue = false;
     Int32 rc          = 0;
 
     struct stat statBuffer;
@@ -196,9 +196,9 @@ Char8 *Directory::getCurrent(void)
 #endif
 
 inline
-Bool Directory::setCurrent(const Char8 *szDirname)
+bool Directory::setCurrent(const Char8 *szDirname)
 {
-    Bool returnValue = false;
+    bool returnValue = false;
 
     if(szDirname != NULL)
     {
@@ -251,7 +251,7 @@ vector<Char8 *> *Directory::getEntries(const Char8 *szDirname)
 #else
             Char8           *szTmpDirname = NULL;
 
-            Bool             bVal;
+            bool             bVal;
             WIN32_FIND_DATA  pDirEntry;
             HANDLE           pDir;
             Char8           *szEntryName = NULL;

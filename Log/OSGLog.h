@@ -166,23 +166,23 @@ public:
     
   /// get the enabled value  
   inline
-    Bool getEnabled (void) { return _enabled; }
+    bool getEnabled (void) { return _enabled; }
 
   /// set the enabled value
   inline
-    void setEnabled (Bool value = true) { _enabled = value; }
+    void setEnabled (bool value = true) { _enabled = value; }
     
   /*! \}                                                                 */
   /*---------------------------------------------------------------------*/
   /*! \name                   Callback handling                          */
   /*! \{                                                                 */    
   void setCallback ( LogBuf::Callback cb, void *clientData = 0,
-                     Bool flushData = false );
+                     bool flushData = false );
   void removeCallback ( void );
 
 private:
 
-  Bool _enabled;
+  bool _enabled;
  
   std::list<LogBuf::Chunk*> _chunkBag;
   
@@ -243,28 +243,28 @@ class OSG_BASE_DLLMAPPING Log : public ostream
 
     void unlock(void) {;} // TODO: implement
 
-    virtual void setHeaderElem(UInt32 elemMask, Bool force = false);
-    virtual void addHeaderElem(LogHeaderElem elem, Bool force = false);
-    virtual void delHeaderElem(LogHeaderElem elem, Bool force = false);
-    virtual Bool hasHeaderElem(LogHeaderElem elem);
+    virtual void setHeaderElem(UInt32 elemMask, bool force = false);
+    virtual void addHeaderElem(LogHeaderElem elem, bool force = false);
+    virtual void delHeaderElem(LogHeaderElem elem, bool force = false);
+    virtual bool hasHeaderElem(LogHeaderElem elem);
 
-    virtual void addModuleHandling(LogModuleHandling handling, Bool force = false);
-    virtual void delModuleHandling(LogModuleHandling handling, Bool force = false);
+    virtual void addModuleHandling(LogModuleHandling handling, bool force = false);
+    virtual void delModuleHandling(LogModuleHandling handling, bool force = false);
 
-    virtual void addModuleName(const Char8 *module, Bool isStatic = false);
+    virtual void addModuleName(const Char8 *module, bool isStatic = false);
     virtual void delModuleName(const Char8 *module);
 
-    Bool hasModule  (const Char8 *module);
-    Bool checkModule(const Char8 *module);
+    bool hasModule  (const Char8 *module);
+    bool checkModule(const Char8 *module);
 
     LogType getLogType(void);
-    void    setLogType(LogType logType, Bool force = false );
+    void    setLogType(LogType logType, bool force = false );
 
     LogLevel getLogLevel(void);
-    void     setLogLevel(LogLevel logLevel, Bool force = false );
-    Bool     checkLevel (LogLevel logLevel);
+    void     setLogLevel(LogLevel logLevel, bool force = false );
+    bool     checkLevel (LogLevel logLevel);
 
-    void     setLogFile (const Char8 *fileName, Bool force = false );
+    void     setLogFile (const Char8 *fileName, bool force = false );
 
     inline Time getRefTime(void);
     inline void setRefTime(Time refTime);
@@ -328,7 +328,7 @@ class OSG_BASE_DLLMAPPING Log : public ostream
     struct Module
     {
         const Char8 *name;
-              Bool   isStatic;
+              bool   isStatic;
 
         Module() : name(NULL), isStatic(true) {}
     };
@@ -364,7 +364,7 @@ extern OSG_BASE_DLLMAPPING LogP osgLogP;
 
        OSG_BASE_DLLMAPPING void     initLog    (void);
 inline OSG_BASE_DLLMAPPING Log     &osgLog     (void);
-inline OSG_BASE_DLLMAPPING ostream &osgStartLog(      Bool      logHeader,
+inline OSG_BASE_DLLMAPPING ostream &osgStartLog(      bool      logHeader,
                                                       LogLevel  level,
                                                 const Char8    *module,
                                                 const Char8    *file,

@@ -167,18 +167,18 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
     inline const Int32               &getModeFace       (void) const;
     inline       Int32               &getMode           (void);
     inline const Int32               &getMode           (void) const;
-    inline       Bool                &getSmooth         (void);
-    inline const Bool                &getSmooth         (void) const;
+    inline       bool                &getSmooth         (void);
+    inline const bool                &getSmooth         (void) const;
     inline       Real32              &getOffsetFactor   (void);
     inline const Real32              &getOffsetFactor   (void) const;
     inline       Real32              &getOffsetBias     (void);
     inline const Real32              &getOffsetBias     (void) const;
-    inline       Bool                &getOffsetPoint    (void);
-    inline const Bool                &getOffsetPoint    (void) const;
-    inline       Bool                &getOffsetLine     (void);
-    inline const Bool                &getOffsetLine     (void) const;
-    inline       Bool                &getOffsetFill     (void);
-    inline const Bool                &getOffsetFill     (void) const;
+    inline       bool                &getOffsetPoint    (void);
+    inline const bool                &getOffsetPoint    (void) const;
+    inline       bool                &getOffsetLine     (void);
+    inline const bool                &getOffsetLine     (void) const;
+    inline       bool                &getOffsetFill     (void);
+    inline const bool                &getOffsetFill     (void) const;
     inline       Int32               &getStipple        (UInt32 index);
     inline       MFInt32             &getStipple        (void);
     inline const MFInt32             &getStipple        (void) const;
@@ -192,12 +192,12 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
     inline void setFrontFace      ( const Int32 &value );
     inline void setModeFace       ( const Int32 &value );
     inline void setMode           ( const Int32 &value );
-    inline void setSmooth         ( const Bool &value );
+    inline void setSmooth         ( const bool &value );
     inline void setOffsetFactor   ( const Real32 &value );
     inline void setOffsetBias     ( const Real32 &value );
-    inline void setOffsetPoint    ( const Bool &value );
-    inline void setOffsetLine     ( const Bool &value );
-    inline void setOffsetFill     ( const Bool &value );
+    inline void setOffsetPoint    ( const bool &value );
+    inline void setOffsetLine     ( const bool &value );
+    inline void setOffsetFill     ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -301,6 +301,6 @@ typedef PolygonChunkBase *PolygonChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.17 2001/11/09 08:17:08 vossg Exp $"
+#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.18 2002/02/04 20:14:10 dirk Exp $"
 
 #endif /* _OSGPOLYGONCHUNKBASE_H_ */

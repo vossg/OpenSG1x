@@ -137,7 +137,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
 
     /*------------------------- comparison ----------------------------------*/
 
-    void setSortTrans(Bool bVal);
+    void setSortTrans(bool bVal);
 
   protected:
 
@@ -190,7 +190,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
     UInt32               _uiNumGeometries;
     UInt32               _uiNumTransGeometries;
 
-    Bool                 _bSortTrans;
+    bool                 _bSortTrans;
 
     vector<LightStore>   _vLights;
 

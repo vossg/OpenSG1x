@@ -141,7 +141,7 @@ void StatIntElem::putToString(string &str)
   FieldDataTraits<Int32>::putToString(_value, str);
 }
 
-Bool StatIntElem::getFromString(const Char8 *&inVal)
+bool StatIntElem::getFromString(const Char8 *&inVal)
 {
     return FieldDataTraits<Int32>::getFromString(_value, inVal);
 }
@@ -192,7 +192,7 @@ StatIntElem& StatIntElem::operator = (const StatIntElem &source)
 /** \brief assignment
  */
 
-Bool StatIntElem::operator < (const StatIntElem &other) const
+bool StatIntElem::operator < (const StatIntElem &other) const
 {
     return this < &other;
 }

@@ -79,7 +79,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.19 2001/12/17 15:39:05 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.20 2002/02/04 20:14:10 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONCHUNKBASE_INLINE_CVSID;
 
@@ -139,7 +139,7 @@ const OSG::BitVector  PolygonChunkBase::StippleFieldMask =
 /*! \var Int32           PolygonChunkBase::_sfMode
     Defines if polygons are rendered filled, outlined or as points.
 */
-/*! \var Bool            PolygonChunkBase::_sfSmooth
+/*! \var bool            PolygonChunkBase::_sfSmooth
     Defines if polygon antialiasing is used.
 */
 /*! \var Real32          PolygonChunkBase::_sfOffsetFactor
@@ -148,13 +148,13 @@ const OSG::BitVector  PolygonChunkBase::StippleFieldMask =
 /*! \var Real32          PolygonChunkBase::_sfOffsetBias
     Defines the polygon offset bias.
 */
-/*! \var Bool            PolygonChunkBase::_sfOffsetPoint
+/*! \var bool            PolygonChunkBase::_sfOffsetPoint
     
 */
-/*! \var Bool            PolygonChunkBase::_sfOffsetLine
+/*! \var bool            PolygonChunkBase::_sfOffsetLine
     
 */
-/*! \var Bool            PolygonChunkBase::_sfOffsetFill
+/*! \var bool            PolygonChunkBase::_sfOffsetFill
     
 */
 /*! \var Int32           PolygonChunkBase::_mfStipple
@@ -281,12 +281,12 @@ PolygonChunkBase::PolygonChunkBase(void) :
     _sfFrontFace              (Int32(GL_CCW)), 
     _sfModeFace               (Int32(GL_FRONT)), 
     _sfMode                   (Int32(GL_FILL)), 
-    _sfSmooth                 (Bool(GL_FALSE)), 
+    _sfSmooth                 (bool(GL_FALSE)), 
     _sfOffsetFactor           (Real32(0)), 
     _sfOffsetBias             (Real32(0)), 
-    _sfOffsetPoint            (Bool(GL_FALSE)), 
-    _sfOffsetLine             (Bool(GL_FALSE)), 
-    _sfOffsetFill             (Bool(GL_FALSE)), 
+    _sfOffsetPoint            (bool(GL_FALSE)), 
+    _sfOffsetLine             (bool(GL_FALSE)), 
+    _sfOffsetFill             (bool(GL_FALSE)), 
     _mfStipple                (), 
     Inherited() 
 {

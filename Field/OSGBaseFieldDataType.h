@@ -81,7 +81,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3f> :
 
     static Color3f   getDefault   (void) { return Color3f();     }
 
-    static Bool      getFromString(      Color3f  &outVal,
+    static bool      getFromString(      Color3f  &outVal,
                                    const Char8    *&inVal)
     {
         outVal.setValue(inVal);
@@ -126,7 +126,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color4f> :
 
     static Color4f   getDefault   (void){ return Color4f();      }
  
-    static Bool      getFromString(      Color4f  &outVal,
+    static bool      getFromString(      Color4f  &outVal,
                                    const Char8   *&inVal)
     {
         outVal.setValue(inVal);
@@ -177,7 +177,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3ub> :
 
     static Color3ub  getDefault   (void) { return Color3ub();    }
 
-    static Bool      getFromString(      Color3ub  &outVal,
+    static bool      getFromString(      Color3ub  &outVal,
                                    const Char8 *&inVal)
     {
         outVal.setValue(inVal);
@@ -224,7 +224,7 @@ struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
 
     static Color4ub  getDefault   (void) { return Color4ub();    }
 
-    static Bool      getFromString(      Color4ub  &outVal,
+    static bool      getFromString(      Color4ub  &outVal,
                                    const Char8    *&inVal)
     {
         outVal.setValue(inVal);
@@ -276,7 +276,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<string> :
 
     static string    getDefault   (void) { return string();      }
 
-    static Bool      getFromString(      string  &target,
+    static bool      getFromString(      string  &target,
                                    const Char8  *&source)
     {
         target.assign(source);
@@ -403,7 +403,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<Time> :
 
     static Time      getDefault   (void) { return Time();        }
 
-    static Bool      getFromString(      Time   &outVal,
+    static bool      getFromString(      Time   &outVal,
                                    const Char8 *&inVal)
     {
         outVal = TypeConstants<Time>::getFromString(inVal);
@@ -442,7 +442,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
 
     static DynamicVolume  getDefault   (void) { return DynamicVolume();   }
 
-    static Bool           getFromString(      DynamicVolume  &outVal,
+    static bool           getFromString(      DynamicVolume  &outVal,
                                         const Char8         *&inVal)
     {
         Real32 valStore[  6];
@@ -772,7 +772,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Plane> :
 
     static Plane     getDefault   (void) { return Plane();        }
 
-    static Bool      getFromString(      Plane  &,
+    static bool      getFromString(      Plane  &,
                                    const Char8 *&)
     {
         // TO_BE_DONE

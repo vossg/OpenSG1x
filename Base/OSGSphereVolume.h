@@ -120,18 +120,18 @@ public:
     /*! \name                 Intersection                                 */
     /*! \{                                                                 */
 
-    virtual Bool intersect   (const Pnt3f &point)             const;
+    virtual bool intersect   (const Pnt3f &point)             const;
 
-            Bool intersect   (const Line &line)               const;
+            bool intersect   (const Line &line)               const;
 
-    virtual Bool intersect   ( const Line &line,
+    virtual bool intersect   ( const Line &line,
                                Real32 &enter, Real32 &exit  ) const;
 
-    inline  Bool intersect   (const Volume &volume)           const;
+    inline  bool intersect   (const Volume &volume)           const;
 
-    inline  Bool intersect   (const SphereVolume &sphere)     const;
+    inline  bool intersect   (const SphereVolume &sphere)     const;
 
-    virtual Bool isOnSurface (const Pnt3f &point)             const;
+    virtual bool isOnSurface (const Pnt3f &point)             const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

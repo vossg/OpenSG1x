@@ -75,7 +75,7 @@ The chunk material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.18 2002/01/04 16:40:28 dirk Exp $";
+char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.19 2002/02/04 20:14:08 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -145,13 +145,13 @@ void ChunkMaterial::changed(BitVector, ChangeMode)
 
 /*-------------------------- your_category---------------------------------*/
 
-Bool ChunkMaterial::addChunk( StateChunkPtr chunk )
+bool ChunkMaterial::addChunk( StateChunkPtr chunk )
 {
     _mfChunks.push_back( chunk );
     return true;
 }
 
-Bool ChunkMaterial::subChunk( StateChunkPtr chunk )
+bool ChunkMaterial::subChunk( StateChunkPtr chunk )
 {
     MFStateChunkPtr::iterator i;
 
@@ -231,9 +231,9 @@ void ChunkMaterial::rebuildState(void)
     }
 }
 
-Bool ChunkMaterial::isTransparent(void) const
+bool ChunkMaterial::isTransparent(void) const
 {
-    Bool             returnValue = false;
+    bool             returnValue = false;
 
     MFStateChunkPtr::const_iterator it        = _mfChunks.begin();
     MFStateChunkPtr::const_iterator chunksEnd = _mfChunks.end();

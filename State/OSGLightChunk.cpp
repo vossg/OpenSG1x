@@ -241,7 +241,7 @@ Real32 LightChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
 /** \brief assignment
  */
 
-Bool LightChunk::operator < (const StateChunk &other) const
+bool LightChunk::operator < (const StateChunk &other) const
 {
     return this < &other;
 }
@@ -249,7 +249,7 @@ Bool LightChunk::operator < (const StateChunk &other) const
 /** \brief equal
  */
 
-Bool LightChunk::operator == (const StateChunk &other) const
+bool LightChunk::operator == (const StateChunk &other) const
 {
     LightChunk const *tother = dynamic_cast<LightChunk const*>(&other);
 
@@ -265,7 +265,7 @@ Bool LightChunk::operator == (const StateChunk &other) const
 /** \brief unequal
  */
 
-Bool LightChunk::operator != (const StateChunk &other) const
+bool LightChunk::operator != (const StateChunk &other) const
 {
     return ! (*this == other);
 }

@@ -71,7 +71,7 @@ FieldDescription::FieldDescription(const TypeBase          &elementType,
                                    const Char8             *szName,
                                    const UInt32             uiFieldId,
                                    const BitVector          vFieldMask,
-                                   const Bool               bInternal,
+                                   const bool               bInternal,
                                          FieldAccessMethod  fAccessMethod,
                                    const Char8             *defaultValue) :
 
@@ -94,7 +94,7 @@ FieldDescription::FieldDescription(
     const Char8                  *szName,
     const UInt32                  uiFieldId,
     const BitVector               vFieldMask,
-    const Bool                    bInternal,
+    const bool                    bInternal,
           FieldIndexAccessMethod  fIndexedAccessMethod,
     const Char8                  *defaultValue) :
 
@@ -188,12 +188,12 @@ const TypeBase &FieldDescription::getFieldType(void) const
 /*-------------------------------------------------------------------------*/
 /*                                Is                                       */
 
-Bool FieldDescription::isInternal(void)  const
+bool FieldDescription::isInternal(void)  const
 {
     return _bInternal;
 }
 
-Bool FieldDescription::isValid(void)  const
+bool FieldDescription::isValid(void)  const
 {
     return (this != NULL && _szName.length()) ? true : false;
 }

@@ -118,7 +118,7 @@ class NodeGraph
         /*! \{                                                             */
       
         inline int          size        (void)           { return _size; }
-        inline Bool         empty       (void)           { return _size ? 
+        inline bool         empty       (void)           { return _size ? 
                                                            false : true; }
         inline NodeList    *down        (void)           { return _down; }
         inline void         setDown     (NodeList *down) { _down = down; }
@@ -161,7 +161,7 @@ class NodeGraph
             _size++;
             node.list = this;
         }
-        inline void add (Node &node, Bool back)
+        inline void add (Node &node, bool back)
             { back ? push_back(node) : push_front(node); }
         /*! \}                                                             */        
     };
@@ -242,12 +242,12 @@ class NodeGraph
                 list = 0;
             }
         }
-        inline void drop (Bool back)
+        inline void drop (bool back)
         {
             if (list && list->_down)
                 list->_down->add(*this,back);
         }
-        inline void dropNeighbors (Bool back)
+        inline void dropNeighbors (bool back)
         {
             int i;
             Edge *edge;
@@ -351,14 +351,14 @@ class NodeGraph
     }
     /*! \}                                                                 */        
 
-    Bool verify (Bool printNotice = false );
+    bool verify (bool printNotice = false );
 
     class Path
     {
         /*========================  PUBLIC  ===============================*/
       public:
         int        type;
-        Bool       flip;
+        bool       flip;
         list<int>  path;
         
         /*-----------------------------------------------------------------*/
@@ -389,7 +389,7 @@ class NodeGraph
     /*! \{                                                                 */
     
     int createPathVec (vector<Path> &stripVec,
-                       Bool createStrips = true, Bool createFans = true,
+                       bool createStrips = true, bool createFans = true,
                        int minFanEdgeCount = 8);
     
     /*! \}                                                                 */    

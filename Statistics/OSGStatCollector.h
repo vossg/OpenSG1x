@@ -82,24 +82,24 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
 
     inline  UInt32   getNumOfElems (void);
 
-    inline  Bool     isValidID     (Int32 id);
+    inline  bool     isValidID     (Int32 id);
 
             void     clearElems    (void);
 
             void     reset         (void);
 
-    inline  StatElem *getElem      (Int32 id, Bool create = true);
+    inline  StatElem *getElem      (Int32 id, bool create = true);
 
-    inline  StatElem *getElem      (StatElemDescBase &desc, Bool create = true);
+    inline  StatElem *getElem      (StatElemDescBase &desc, bool create = true);
 
 
     template <class T> 
-    inline  T        *getElem      (StatElemDesc<T> &desc, Bool create = true);
+    inline  T        *getElem      (StatElemDesc<T> &desc, bool create = true);
 
 
             void      putToString  (string &outVal) const;
      
-            Bool      getFromString(const Char8 *&inVal);
+            bool      getFromString(const Char8 *&inVal);
             
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -124,10 +124,10 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
     /*! \name                  Comparison                                  */
     /*! \{                                                                 */
 
-         Bool operator <  (const StatCollector &other) const;
+         bool operator <  (const StatCollector &other) const;
 
-    //OSGBool operator == (const StatCollector &other) const;
-    //OSGBool operator != (const StatCollector &other) const;
+    //OSGbool operator == (const StatCollector &other) const;
+    //OSGbool operator != (const StatCollector &other) const;
 
     /*! \}                                                                 */
 
@@ -169,7 +169,7 @@ struct FieldDataTraits<StatCollector> :
 
     static StatCollector getDefault   (void) { return StatCollector();   }
 
-    static Bool            getFromString(      StatCollector  &outVal,
+    static bool            getFromString(      StatCollector  &outVal,
                                          const Char8         *&inVal)
     {
         return outVal.getFromString(inVal);

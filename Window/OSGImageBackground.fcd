@@ -30,7 +30,7 @@ A single colored background.
 	</Field>
 	<Field
 		name="scale"
-		type="Bool"
+		type="bool"
 		cardinality="single"
 		visibility="external"
 		access="public"

@@ -111,14 +111,14 @@ class OSG_BASE_DLLMAPPING CylinderVolume : public Volume
     /*! \name                        Intersect                             */
     /*! \{                                                                 */
 
-    virtual Bool intersect   (const Pnt3f &point) const;
-    Bool intersect           (const Line &line) const;
-    virtual Bool intersect   (const Line &line,
+    virtual bool intersect   (const Pnt3f &point) const;
+    bool intersect           (const Line &line) const;
+    virtual bool intersect   (const Line &line,
                               Real32 &enter, Real32 &exit  ) const;
 
-    virtual Bool intersect   (const Volume &volume) const;
-    virtual Bool intersect   (const CylinderVolume &volume) const;
-    virtual Bool isOnSurface (const Pnt3f &point) const;
+    virtual bool intersect   (const Volume &volume) const;
+    virtual bool intersect   (const CylinderVolume &volume) const;
+    virtual bool isOnSurface (const Pnt3f &point) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

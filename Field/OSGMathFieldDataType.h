@@ -76,7 +76,7 @@ struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
 
     static Matrix    getDefault   (void) { return Matrix();         }
 
-    static Bool      getFromString(      Matrix   &outVal,
+    static bool      getFromString(      Matrix   &outVal,
                                    const Char8   *&inVal)
     {
         outVal.setValue(inVal);
@@ -162,7 +162,7 @@ struct FieldDataTraits<Quaternion> :
 
     static Quaternion  getDefault   (void) { return Quaternion();   }
 
-    static Bool        getFromString(      Quaternion  &outVal,
+    static bool        getFromString(      Quaternion  &outVal,
                                      const Char8      *&inVal)
     {
         // VRML requires axis and angle in radians

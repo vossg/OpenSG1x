@@ -95,7 +95,7 @@ DATImageFileType::_formatStrMap;
 //GlobalVars:
 //g: c
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c: 
 //Assumations:
@@ -106,10 +106,10 @@ DATImageFileType::_formatStrMap;
 //s:
 //
 //------------------------------
-Bool DATImageFileType::read (      Image &image, 
+bool DATImageFileType::read (      Image &image, 
                                    const Char8 *fileName )
 {
-  Bool retCode = false;
+  bool retCode = false;
 
   ifstream inDat(fileName), inVol;
   std::string keyStr, objectFileName;
@@ -125,7 +125,7 @@ Bool DATImageFileType::read (      Image &image,
   int bpv, dataSize = 0;
   Image::PixelFormat pixelFormat;
   char *dataBuffer = 0;
-  Bool needConversion;
+  bool needConversion;
 
   res[0] = res[1] = res[2] = 0;
   fileOffset = 0;
@@ -304,7 +304,7 @@ Bool DATImageFileType::read (      Image &image,
 //GlobalVars:
 //g: 
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c: 
 //Assumations:
@@ -315,10 +315,10 @@ Bool DATImageFileType::read (      Image &image,
 //s:
 //
 //------------------------------
-Bool DATImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
+bool DATImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
                              const Char8 *OSG_CHECK_ARG(fileName))
 {
-    Bool retCode = false;
+    bool retCode = false;
 
     /*
     ofstream out(fileName);

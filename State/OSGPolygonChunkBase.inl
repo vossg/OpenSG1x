@@ -232,19 +232,19 @@ void PolygonChunkBase::setMode(const Int32 &value)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &PolygonChunkBase::getSmooth(void)
+bool &PolygonChunkBase::getSmooth(void)
 {
     return _sfSmooth.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Bool &PolygonChunkBase::getSmooth(void) const
+const bool &PolygonChunkBase::getSmooth(void) const
 {
     return _sfSmooth.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PolygonChunkBase::setSmooth(const Bool &value)
+void PolygonChunkBase::setSmooth(const bool &value)
 {
     _sfSmooth.setValue(value);
 }
@@ -286,55 +286,55 @@ void PolygonChunkBase::setOffsetBias(const Real32 &value)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &PolygonChunkBase::getOffsetPoint(void)
+bool &PolygonChunkBase::getOffsetPoint(void)
 {
     return _sfOffsetPoint.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Bool &PolygonChunkBase::getOffsetPoint(void) const
+const bool &PolygonChunkBase::getOffsetPoint(void) const
 {
     return _sfOffsetPoint.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PolygonChunkBase::setOffsetPoint(const Bool &value)
+void PolygonChunkBase::setOffsetPoint(const bool &value)
 {
     _sfOffsetPoint.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &PolygonChunkBase::getOffsetLine(void)
+bool &PolygonChunkBase::getOffsetLine(void)
 {
     return _sfOffsetLine.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Bool &PolygonChunkBase::getOffsetLine(void) const
+const bool &PolygonChunkBase::getOffsetLine(void) const
 {
     return _sfOffsetLine.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PolygonChunkBase::setOffsetLine(const Bool &value)
+void PolygonChunkBase::setOffsetLine(const bool &value)
 {
     _sfOffsetLine.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &PolygonChunkBase::getOffsetFill(void)
+bool &PolygonChunkBase::getOffsetFill(void)
 {
     return _sfOffsetFill.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Bool &PolygonChunkBase::getOffsetFill(void) const
+const bool &PolygonChunkBase::getOffsetFill(void) const
 {
     return _sfOffsetFill.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PolygonChunkBase::setOffsetFill(const Bool &value)
+void PolygonChunkBase::setOffsetFill(const bool &value)
 {
     _sfOffsetFill.setValue(value);
 }
@@ -359,5 +359,5 @@ const MFInt32 &PolygonChunkBase::getStipple(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGPolygonChunkBase.inl,v 1.9 2001/10/03 20:37:35 dirk Exp $"
+#define OSGPOLYGONCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGPolygonChunkBase.inl,v 1.10 2002/02/04 20:14:10 dirk Exp $"
 

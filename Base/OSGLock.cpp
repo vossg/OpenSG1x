@@ -124,7 +124,7 @@ void PThreadLockBase::release(void)
     pthread_mutex_unlock(&(_pLowLevelLock));
 }
 
-Bool PThreadLockBase::request(void)
+bool PThreadLockBase::request(void)
 {
     return (pthread_mutex_trylock(&(_pLowLevelLock)) != EBUSY);
 }
@@ -155,7 +155,7 @@ PThreadLockBase::~PThreadLockBase(void)
 /*-------------------------------------------------------------------------*/
 /*                            Construction                                 */
 
-Bool PThreadLockBase::init(void)
+bool PThreadLockBase::init(void)
 {
     pthread_mutex_init(&(_pLowLevelLock), NULL);
 
@@ -199,9 +199,9 @@ void SprocLockBase::release(void)
         usunsetlock(_pLowLevelLock);
 }
 
-Bool SprocLockBase::request(void)
+bool SprocLockBase::request(void)
 {
-    Bool  returnValue = false;
+    bool  returnValue = false;
     Int32 rc          = 0;
 
     if(_pLowLevelLock != NULL)
@@ -238,7 +238,7 @@ SprocLockBase::~SprocLockBase(void)
 /*-------------------------------------------------------------------------*/
 /*                            Construction                                 */
 
-Bool SprocLockBase::init(void)
+bool SprocLockBase::init(void)
 {
     ThreadManager *pThreadManager = ThreadManager::the();
 
@@ -313,7 +313,7 @@ void WinThreadLockBase::release(void)
 #endif
 }
 
-Bool WinThreadLockBase::request(void)
+bool WinThreadLockBase::request(void)
 {
 #ifdef OSG_WINLOCK_USE_MUTEX
     DWORD rc;
@@ -362,7 +362,7 @@ WinThreadLockBase::~WinThreadLockBase(void)
 /*-------------------------------------------------------------------------*/
 /*                           Construction                                  */
 
-Bool WinThreadLockBase::init(void)
+bool WinThreadLockBase::init(void)
 {
 #ifdef OSG_WINLOCK_USE_MUTEX
     _pMutex = CreateMutex( NULL,     // no security attributes
@@ -507,7 +507,7 @@ void LockPool::release(void *keyP)
     _pLocks[((UInt32(keyP)) & uiLockPoolMask) >> 7].release();
 }
 
-Bool LockPool::request(void *keyP)
+bool LockPool::request(void *keyP)
 {
     return _pLocks[((UInt32(keyP)) & uiLockPoolMask) >> 7].request();
 }
@@ -556,9 +556,9 @@ LockPool::~LockPool(void)
 /*-------------------------------------------------------------------------*/
 /*                            Construction                                 */
 
-Bool LockPool::init(void)
+bool LockPool::init(void)
 {
-    Bool   returnValue = true;
+    bool   returnValue = true;
     Char8 *pTmp;
 
     pTmp = new Char8[strlen(_szName) + 6];

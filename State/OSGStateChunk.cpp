@@ -239,7 +239,7 @@ const StateChunkClass *  StateChunk::getClass( void ) const
     return NULL;
 }
 
-Bool StateChunk::isTransparent(void) const
+bool StateChunk::isTransparent(void) const
 {
     return false;
 }
@@ -274,7 +274,7 @@ Real32 StateChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
 /** \brief assignment
  */
 
-Bool StateChunk::operator < (const StateChunk &other) const
+bool StateChunk::operator < (const StateChunk &other) const
 {
     return this < &other;
 }
@@ -282,7 +282,7 @@ Bool StateChunk::operator < (const StateChunk &other) const
 /** \brief equal
  */
 
-Bool StateChunk::operator == (const StateChunk &OSG_CHECK_ARG(other)) const
+bool StateChunk::operator == (const StateChunk &OSG_CHECK_ARG(other)) const
 {
     return false;
 }
@@ -290,7 +290,7 @@ Bool StateChunk::operator == (const StateChunk &OSG_CHECK_ARG(other)) const
 /** \brief unequal
  */
 
-Bool StateChunk::operator != (const StateChunk &other) const
+bool StateChunk::operator != (const StateChunk &other) const
 {
     return ! (*this == other);
 }

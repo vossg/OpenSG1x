@@ -97,7 +97,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
 
     virtual const StateChunkClass *  getClass( void ) const;
 
-    virtual      Bool               isTransparent(void) const;
+    virtual      bool               isTransparent(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -134,10 +134,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
 
     virtual Real32 switchCost  ( StateChunk * chunk );
 
-    virtual Bool   operator <  (const StateChunk &other) const;
+    virtual bool   operator <  (const StateChunk &other) const;
 
-    virtual Bool   operator == (const StateChunk &other) const;
-    virtual Bool   operator != (const StateChunk &other) const;
+    virtual bool   operator == (const StateChunk &other) const;
+    virtual bool   operator != (const StateChunk &other) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

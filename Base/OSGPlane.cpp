@@ -132,7 +132,7 @@ void Plane::offset(Real32 d)
   explanation can be found at 
   http://geometryalgorithms.com/Archive/algorithm_0104/algorithm_0104.htm
 */
-Bool Plane::intersect(const Plane &pl, Line &is) const
+bool Plane::intersect(const Plane &pl, Line &is) const
 {
     Vec3f dir = _normalVec.cross( pl.getNormal() );
     Pnt3f pnt;
@@ -195,7 +195,7 @@ Bool Plane::intersect(const Plane &pl, Line &is) const
   in the positive part of the line
   false if line is parallel to plane
 */
-Bool Plane::intersect(const Line &line, Pnt3f &point) const
+bool Plane::intersect(const Line &line, Pnt3f &point) const
 {
     Real32 t;
 
@@ -212,7 +212,7 @@ Bool Plane::intersect(const Line &line, Pnt3f &point) const
   Intersect line and plane, returning true if there is an intersection
   false if line is parallel to plane. t is the distance along the line.
 */
-Bool Plane::intersect(const Line &line, Real32 &t) const
+bool Plane::intersect(const Line &line, Real32 &t) const
 {
     if ( intersectInfinite(line,t) == false || t < 0 )
         return false;
@@ -224,7 +224,7 @@ Bool Plane::intersect(const Line &line, Real32 &t) const
   Intersect line and plane, returning true if there is an intersection
   false if line is parallel to plane
 */
-Bool Plane::intersectInfinite(const Line &line, Pnt3f &point) const
+bool Plane::intersectInfinite(const Line &line, Pnt3f &point) const
 {
     Real32 t;
 
@@ -243,7 +243,7 @@ Bool Plane::intersectInfinite(const Line &line, Pnt3f &point) const
   the line, which may be negative, i.e. the check is against a double
   infinite line. 
 */
-Bool Plane::intersectInfinite(const Line &line, Real32 &t) const
+bool Plane::intersectInfinite(const Line &line, Real32 &t) const
 {
     Real32 a;
 
@@ -306,7 +306,7 @@ void Plane::transform(const Matrix &matrix)
 /*! Returns true if the given point is within the half-space
     defined by the plane
 */
-Bool Plane::isInHalfSpace(const Pnt3f &point) const
+bool Plane::isInHalfSpace(const Pnt3f &point) const
 {
     Real32 scalar = _normalVec.dot(point) - _distance;
 
@@ -316,7 +316,7 @@ Bool Plane::isInHalfSpace(const Pnt3f &point) const
 /**
   Returns true if the given point is on the plane
 */
-Bool Plane::isOnPlane(const Pnt3f &point) const
+bool Plane::isOnPlane(const Pnt3f &point) const
 {
     Real32 scalar = _normalVec.dot(point) - _distance;
 
@@ -327,7 +327,7 @@ OSG_BEGIN_NAMESPACE
 
 /// Equality comparison operators
 OSG_BASE_DLLMAPPING
-Bool operator ==(const Plane &p1, const Plane &p2)
+bool operator ==(const Plane &p1, const Plane &p2)
 {
     return ((p1._distance == p2._distance) &&
              (p1._normalVec == p2._normalVec));

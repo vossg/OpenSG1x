@@ -70,7 +70,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElemDescBase
    /*! \name                    instance                                  */
    /*! \{                                                                 */
 
-    inline  static Bool isValidID (Int32 id);
+    inline  static bool isValidID (Int32 id);
 
     inline  static StatElemDescBase *getDesc (Int32 id);
 
@@ -109,10 +109,10 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElemDescBase
     /*! \name                   Comparison                                 */
     /*! \{                                                                 */
 
-    Bool operator < (const StatElemDescBase &other) const;
+    bool operator < (const StatElemDescBase &other) const;
 
-    //OSGBool operator == (const CLASSNAME &other) const;
-    //OSGBool operator != (const CLASSNAME &other) const;
+    //OSGbool operator == (const CLASSNAME &other) const;
+    //OSGbool operator != (const CLASSNAME &other) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

@@ -94,7 +94,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RAWSceneFileType : public SceneFileType
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual Bool write(const NodePtr node, const Char8 *fileName) const;
+    virtual bool write(const NodePtr node, const Char8 *fileName) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -114,7 +114,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RAWSceneFileType : public SceneFileType
 
     RAWSceneFileType(const Char8  *suffixArray[],
                            UInt16  suffixByteCount,
-                           Bool    override,
+                           bool    override,
                            UInt32  overridePriority);
 
     RAWSceneFileType(const RAWSceneFileType &obj);
@@ -133,6 +133,6 @@ typedef RAWSceneFileType* RAWSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSGRAWSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGRAWSceneFileType.h,v 1.4 2001/10/08 05:21:54 vossg Exp $"
+#define OSGRAWSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGRAWSceneFileType.h,v 1.5 2002/02/04 20:14:07 dirk Exp $"
 
 #endif // _OSGRAWSCENEFILETYPE_H_

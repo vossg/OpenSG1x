@@ -69,13 +69,13 @@ namespace
 ThreadManager *ThreadManager::_pThreadManager      = NULL;
 BaseThread    *ThreadManager::_pAppThread          = NULL;
 
-Bool           ThreadManager::_bShutdownInProgress = false;
+bool           ThreadManager::_bShutdownInProgress = false;
 UInt32         ThreadManager::_uiNumAspects        = OSG_NUM_ASPECTS;
 
 Char8         *ThreadManager::_szAppThreadType     = NULL;
 
 #ifdef OSG_RUNTIME_NUM_ASPECTS 
-Bool           ThreadManager::_bNumAspectSet       = false;
+bool           ThreadManager::_bNumAspectSet       = false;
 #endif
 
 
@@ -256,13 +256,13 @@ usptr_t *ThreadManager::getArena(void)
 /*-------------------------------------------------------------------------*/
 /*                               Helper                                    */
 
-Bool ThreadManager::initialize(Int32  &OSG_CHECK_ARG(argc), 
+bool ThreadManager::initialize(Int32  &OSG_CHECK_ARG(argc), 
                                Char8 **OSG_CHECK_ARG(argv))
 {
     return the()->init();
 }
 
-Bool ThreadManager::terminate (void)
+bool ThreadManager::terminate (void)
 {
     return the()->shutdown();
 }
@@ -340,9 +340,9 @@ UInt32 ThreadManager::registerLockPoolType(MPLockPoolType *pType)
 #pragma set woff 1209
 #endif
 
-Bool ThreadManager::init(void)
+bool ThreadManager::init(void)
 {
-    Bool returnValue = true;
+    bool returnValue = true;
 
     FDEBUG(("OSGThreadManager init\n"))
 
@@ -405,7 +405,7 @@ Bool ThreadManager::init(void)
 #pragma reset woff 1209
 #endif
 
-Bool ThreadManager::shutdown(void)
+bool ThreadManager::shutdown(void)
 {
     _bShutdownInProgress = true;
 

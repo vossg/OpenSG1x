@@ -18,7 +18,7 @@ using namespace std;
 
 // Static Class Varible implementations: 
 const char *Field::_defaultTypeName[] = {	
-	"Bool",
+	"bool",
 	"Int8",
 	"UInt8",
 	"Int16",
@@ -480,7 +480,7 @@ bool Field::getLine (char *line)
 	sprintf ( line, "%s %s %s %s %s %s %s, %s" , 
 						(_name && *_name) ? _name : "None",
 						cardinalityStr(), 
-						(_type && *_type) ? _type : "Bool",
+						(_type && *_type) ? _type : "bool",
 						visibilityStr(), accessStr(), 
 						(_header && *_header) ? _header : "auto", 
 						def, 

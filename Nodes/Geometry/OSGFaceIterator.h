@@ -119,9 +119,9 @@ class OSG_SYSTEMLIB_DLLMAPPING FaceIterator
     void           seek        (Int32 index);    
     void           operator ++ (void);
     FaceIterator & operator =  (const FaceIterator &source);
-    Bool           operator <  (const FaceIterator &other) const;
-    Bool           operator == (const FaceIterator &other) const;
-    Bool           operator != (const FaceIterator &other) const;
+    bool           operator <  (const FaceIterator &other) const;
+    bool           operator == (const FaceIterator &other) const;
+    bool           operator != (const FaceIterator &other) const;
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

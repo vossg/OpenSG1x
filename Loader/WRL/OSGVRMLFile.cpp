@@ -815,7 +815,7 @@ PROTO AudioClip [
      addFieldValue        ("");
      endExposedFieldDecl  ();
      
-     beginExposedFieldDecl("SFBool", OSGsfBool, "loop");
+     beginExposedFieldDecl("SFBool", OSGsfbool, "loop");
      addFieldValue        ("FALSE");
      endExposedFieldDecl  ();
 
@@ -964,7 +964,7 @@ PROTO Collision [
      beginExposedFieldDecl("MFNode", OSGmfNode, "children");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "collide");
+     beginExposedFieldDecl("SFBool", OSGsfbool, "collide");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
@@ -1038,11 +1038,11 @@ PROTO Cone [
      addFieldValue ("2");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "side");
+     beginFieldDecl("SFBool", OSGsfbool, "side");
      addFieldValue ("TRUE");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "bottom");
+     beginFieldDecl("SFBool", OSGsfbool, "bottom");
      addFieldValue ("TRUE");
      endFieldDecl  ();
  }
@@ -1096,7 +1096,7 @@ PROTO Cylinder [
 
  beginProto("Cylinder");
  {
-     beginFieldDecl("SFBool", OSGsfBool, "bottom");
+     beginFieldDecl("SFBool", OSGsfbool, "bottom");
      addFieldValue ("TRUE");
      endFieldDecl  ();
 
@@ -1108,11 +1108,11 @@ PROTO Cylinder [
      addFieldValue ("1");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "side");
+     beginFieldDecl("SFBool", OSGsfbool, "side");
      addFieldValue ("TRUE");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "top");
+     beginFieldDecl("SFBool", OSGsfbool, "top");
      addFieldValue ("TRUE");
      endFieldDecl  ();
  }
@@ -1134,7 +1134,7 @@ PROTO CylinderSensor [
 
  beginProto("CylinderSensor");
  {
-     beginExposedFieldDecl("SFBool", OSGsfBool, "autoOffset");
+     beginExposedFieldDecl("SFBool", OSGsfbool, "autoOffset");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
@@ -1142,7 +1142,7 @@ PROTO CylinderSensor [
      addFieldValue        ("0.262");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     beginExposedFieldDecl("SFBool", OSGsfbool, "enabled");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
@@ -1192,7 +1192,7 @@ PROTO DirectionalLight [
      addFieldValue        ("1"); 
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "on");
+     beginExposedFieldDecl("SFBool", OSGsfbool, "on");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
  }
@@ -1234,11 +1234,11 @@ PROTO ElevationGrid [
 //     addFieldValue        ("NULL");
      endExposedFieldDecl  ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "ccw");
+     beginFieldDecl       ("SFBool", OSGsfbool, "ccw");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "colorPerVertex");
+     beginFieldDecl       ("SFBool", OSGsfbool, "colorPerVertex");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
@@ -1249,11 +1249,11 @@ PROTO ElevationGrid [
      beginFieldDecl       ("MFFloat", OSGsfFloat, "height");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "normalPerVertex");
+     beginFieldDecl       ("SFBool", OSGsfbool, "normalPerVertex");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "solid");
+     beginFieldDecl       ("SFBool", OSGsfbool, "solid");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
@@ -1301,15 +1301,15 @@ PROTO Extrusion [
      addEventInDecl("MFVec2f", "set_scale");
      addEventInDecl("MFVec3f", "set_spine");
 
-     beginFieldDecl("SFBool", OSGsfBool, "beginCap");
+     beginFieldDecl("SFBool", OSGsfbool, "beginCap");
      addFieldValue ("TRUE");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "ccw");
+     beginFieldDecl("SFBool", OSGsfbool, "ccw");
      addFieldValue ("TRUE");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "convex");
+     beginFieldDecl("SFBool", OSGsfbool, "convex");
      addFieldValue ("TRUE");
      endFieldDecl  ();
 
@@ -1325,7 +1325,7 @@ PROTO Extrusion [
      addFieldValue (" 1  1");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "endCap");
+     beginFieldDecl("SFBool", OSGsfbool, "endCap");
      addFieldValue ("TRUE");
      endFieldDecl  ();
 
@@ -1337,7 +1337,7 @@ PROTO Extrusion [
      addFieldValue ("1 1");
      endFieldDecl  ();
      
-     beginFieldDecl("SFBool", OSGsfBool, "solid");
+     beginFieldDecl("SFBool", OSGsfbool, "solid");
      addFieldValue ("TRUE");
      endFieldDecl  ();
      
@@ -1397,7 +1397,7 @@ PROTO FontStyle [
      addFieldValue ("SERIF");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "horizontal");
+     beginFieldDecl("SFBool", OSGsfbool, "horizontal");
      addFieldValue ("TRUE");
      endFieldDecl  ();
      
@@ -1409,7 +1409,7 @@ PROTO FontStyle [
      addFieldValue ("");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "leftToRight");
+     beginFieldDecl("SFBool", OSGsfbool, "leftToRight");
      addFieldValue ("TRUE");
      endFieldDecl  ();
 
@@ -1425,7 +1425,7 @@ PROTO FontStyle [
      addFieldValue ("PLAIN");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "topToBottom");
+     beginFieldDecl("SFBool", OSGsfbool, "topToBottom");
      addFieldValue ("TRUE");
      endFieldDecl  ();
  }
@@ -1472,11 +1472,11 @@ PROTO ImageTexture [
      beginExposedFieldDecl("MFString", OSGmfString, "url");
      endExposedFieldDecl  ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "repeatS");
+     beginFieldDecl       ("SFBool", OSGsfbool, "repeatS");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "repeatT");
+     beginFieldDecl       ("SFBool", OSGsfbool, "repeatT");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
  }
@@ -1528,18 +1528,18 @@ PROTO IndexedFaceSet [
 //     addFieldValue        ("NULL");
      endExposedFieldDecl  ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "ccw");
+     beginFieldDecl       ("SFBool", OSGsfbool, "ccw");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
      beginFieldDecl       ("MFInt32", OSGmfInt32, "colorIndex");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "colorPerVertex");
+     beginFieldDecl       ("SFBool", OSGsfbool, "colorPerVertex");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "convex");
+     beginFieldDecl       ("SFBool", OSGsfbool, "convex");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
@@ -1553,11 +1553,11 @@ PROTO IndexedFaceSet [
      beginFieldDecl       ("MFInt32", OSGmfInt32, "normalIndex");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool",  OSGsfBool, "normalPerVertex");
+     beginFieldDecl       ("SFBool",  OSGsfbool, "normalPerVertex");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool",  OSGsfBool, "solid");
+     beginFieldDecl       ("SFBool",  OSGsfbool, "solid");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
      
@@ -1594,7 +1594,7 @@ PROTO IndexedLineSet [
      beginFieldDecl       ("MFInt32", OSGmfInt32, "colorIndex");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "colorPerVertex");
+     beginFieldDecl       ("SFBool", OSGsfbool, "colorPerVertex");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
      
@@ -1703,7 +1703,7 @@ PROTO MovieTexture [
 
  beginProto("MovieTexture");
  {
-     beginExposedFieldDecl("SFBool", OSGsfBool, "loop");
+     beginExposedFieldDecl("SFBool", OSGsfbool, "loop");
      addFieldValue        ("FALSE");
      endExposedFieldDecl  ();
 
@@ -1722,11 +1722,11 @@ PROTO MovieTexture [
      beginExposedFieldDecl("MFString", OSGmfString, "url");
      endExposedFieldDecl  ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "repeatS");
+     beginFieldDecl       ("SFBool", OSGsfbool, "repeatS");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "repeatT");
+     beginFieldDecl       ("SFBool", OSGsfbool, "repeatT");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
@@ -1757,7 +1757,7 @@ PROTO NavigationInfo [
      addFieldValue        ("0.75");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "headlight");
+     beginExposedFieldDecl("SFBool", OSGsfbool, "headlight");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
@@ -1850,11 +1850,11 @@ PROTO PixelTexture [
 //     addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "repeatS");
+     beginFieldDecl       ("SFBool", OSGsfbool, "repeatS");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "repeatT");
+     beginFieldDecl       ("SFBool", OSGsfbool, "repeatT");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
  }
@@ -1875,11 +1875,11 @@ PROTO PlaneSensor [
 
  beginProto("PlaneSensor");
  {
-     beginExposedFieldDecl("SFBool", OSGsfBool, "autoOffset");
+     beginExposedFieldDecl("SFBool", OSGsfbool, "autoOffset");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     beginExposedFieldDecl("SFBool", OSGsfbool, "enabled");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
@@ -1936,7 +1936,7 @@ PROTO PointLight [
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "on");
+     beginExposedFieldDecl("SFBool", OSGsfbool, "on");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
@@ -2011,7 +2011,7 @@ PROTO ProximitySensor [
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     beginExposedFieldDecl("SFBool", OSGsfbool, "enabled");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
@@ -2059,11 +2059,11 @@ PROTO Script [
      beginExposedFieldDecl("MFString", OSGmfString, "url");
      endExposedFieldDecl  ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "directOutput");
+     beginFieldDecl       ("SFBool", OSGsfbool, "directOutput");
      addFieldValue        ("FALSE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "mustEvaluate");
+     beginFieldDecl       ("SFBool", OSGsfbool, "mustEvaluate");
      addFieldValue        ("FALSE");
      endFieldDecl         ();
  }
@@ -2141,7 +2141,7 @@ PROTO Sound [
 //     addFieldValue        ("NULL");
      endExposedFieldDecl  ();
      
-     beginFieldDecl       ("SFBool", OSGsfBool, "spatialize");
+     beginFieldDecl       ("SFBool", OSGsfbool, "spatialize");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
  }
@@ -2174,11 +2174,11 @@ PROTO SphereSensor [
 
  beginProto("SphereSensor");
  {
-     beginExposedFieldDecl("SFBool", OSGsfBool, "autoOffset");
+     beginExposedFieldDecl("SFBool", OSGsfbool, "autoOffset");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     beginExposedFieldDecl("SFBool", OSGsfbool, "enabled");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
@@ -2241,7 +2241,7 @@ PROTO SpotLight [
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "on");
+     beginExposedFieldDecl("SFBool", OSGsfbool, "on");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
@@ -2358,11 +2358,11 @@ PROTO TimeSensor [
      addFieldValue        ("1");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     beginExposedFieldDecl("SFBool", OSGsfbool, "enabled");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "loop");
+     beginExposedFieldDecl("SFBool", OSGsfbool, "loop");
      addFieldValue        ("FALSE");
      endExposedFieldDecl  ();
 
@@ -2395,7 +2395,7 @@ PROTO TouchSensor [
 
  beginProto("TouchSensor");
  {
-     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     beginExposedFieldDecl("SFBool", OSGsfbool, "enabled");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
@@ -2482,7 +2482,7 @@ PROTO Viewpoint [
      addFieldValue        ("0.785398");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "jump");
+     beginExposedFieldDecl("SFBool", OSGsfbool, "jump");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
@@ -2520,7 +2520,7 @@ PROTO VisibilitySensor [
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     beginExposedFieldDecl("SFBool", OSGsfbool, "enabled");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
@@ -2566,7 +2566,7 @@ NodePtr VRMLFile::getRoot(void)
 void VRMLFile::initIntExtFieldTypeMapper(void)
 {
     setIntExtMapping(SFBool::getClassType().getId(),
-                     ScanParseSkel::OSGsfBool);
+                     ScanParseSkel::OSGsfbool);
 
     setIntExtMapping(SFColor3f::getClassType().getId(),
                      ScanParseSkel::OSGsfColor);
@@ -2695,7 +2695,7 @@ void VRMLFile::initIntExtFieldTypeMapper(void)
 
 void VRMLFile::initExtIntFieldTypeMapper(void)
 {
-    setExtIntMapping(ScanParseSkel::OSGsfBool, 
+    setExtIntMapping(ScanParseSkel::OSGsfbool, 
                      SFBool::getClassType().getId());
 
     setExtIntMapping(ScanParseSkel::OSGsfColor, 

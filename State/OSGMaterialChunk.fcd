@@ -51,7 +51,7 @@
 	</Field>
 	<Field
 		name="lit"
-		type="Bool"
+		type="bool"
 		cardinality="single"
 		visibility="external"
 		defaultValue="true"

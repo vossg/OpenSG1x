@@ -115,13 +115,13 @@ void CylinderVolume::extendBy(const CylinderVolume &volume)
 }
 
 inline
-Bool CylinderVolume::intersect (const Volume &volume) const
+bool CylinderVolume::intersect (const Volume &volume) const
 {
   return OSG::intersect(*this,volume);
 }
 
 inline
-Bool CylinderVolume::intersect(const CylinderVolume &volume) const
+bool CylinderVolume::intersect(const CylinderVolume &volume) const
 {
   return OSG::intersect(*this,volume);
 }

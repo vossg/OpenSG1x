@@ -316,7 +316,7 @@ void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
 
 //! return true on success, false on child not found
 
-Bool Node::replaceChildBy(const NodePtr &childP,
+bool Node::replaceChildBy(const NodePtr &childP,
                           const NodePtr &newChildP)
 {
     MFNodePtr::iterator childIt = _children.find(childP);

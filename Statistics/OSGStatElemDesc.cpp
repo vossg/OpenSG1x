@@ -219,7 +219,7 @@ StatElemDescBase& StatElemDescBase::operator = (const StatElemDescBase &source)
 /** \brief assignment
  */
 
-Bool StatElemDescBase::operator < (const StatElemDescBase &other) const
+bool StatElemDescBase::operator < (const StatElemDescBase &other) const
 {
     return this < &other;
 }

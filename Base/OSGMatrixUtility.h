@@ -57,7 +57,7 @@ typedef TransformationMatrix<Real32> Matrix;
 
 /*!@{*/
 
-OSG_BASE_DLLMAPPING Bool MatrixOrthogonal           (Matrix &result, 
+OSG_BASE_DLLMAPPING bool MatrixOrthogonal           (Matrix &result, 
                                                      Real32  rLeft, 
                                                      Real32  rRight, 
                                                      Real32  rBottom, 
@@ -65,7 +65,7 @@ OSG_BASE_DLLMAPPING Bool MatrixOrthogonal           (Matrix &result,
                                                      Real32  rNear, 
                                                      Real32  rFar       );
 
-OSG_BASE_DLLMAPPING Bool MatrixFrustum              (Matrix &result, 
+OSG_BASE_DLLMAPPING bool MatrixFrustum              (Matrix &result, 
                                                      Real32  rLeft, 
                                                      Real32  rRight,
                                                      Real32  rBottom, 
@@ -73,13 +73,13 @@ OSG_BASE_DLLMAPPING Bool MatrixFrustum              (Matrix &result,
                                                      Real32  rNear, 
                                                      Real32  rFar       );
 
-OSG_BASE_DLLMAPPING Bool MatrixPerspective          (Matrix &result, 
+OSG_BASE_DLLMAPPING bool MatrixPerspective          (Matrix &result, 
                                                      Real32  rFovy, 
                                                      Real32  rAspect,
                                                      Real32  rNear, 
                                                      Real32  rFar       );
 
-OSG_BASE_DLLMAPPING Bool MatrixStereoPerspective    (Matrix &projection, 
+OSG_BASE_DLLMAPPING bool MatrixStereoPerspective    (Matrix &projection, 
                                                      Matrix &projtrans, 
                                                          Real32  rFovy, 
                                                      Real32  rAspect, 
@@ -90,7 +90,7 @@ OSG_BASE_DLLMAPPING Bool MatrixStereoPerspective    (Matrix &projection,
                                                      Real32  rWhicheye, 
                                                      Real32  rOverlap   );
 
-OSG_BASE_DLLMAPPING Bool MatrixLookAt               (Matrix &result, 
+OSG_BASE_DLLMAPPING bool MatrixLookAt               (Matrix &result, 
                                                      Real32  fromx, 
                                                      Real32  fromy, 
                                                      Real32  fromz, 
@@ -101,13 +101,13 @@ OSG_BASE_DLLMAPPING Bool MatrixLookAt               (Matrix &result,
                                                      Real32  upy,   
                                                      Real32  upz        );
 
-OSG_BASE_DLLMAPPING Bool MatrixLookAt               (Matrix &result, 
+OSG_BASE_DLLMAPPING bool MatrixLookAt               (Matrix &result, 
                                                      Pnt3f      from,
                                                      Pnt3f  at,
                                                      Vec3f  up          );
 
 
-OSG_BASE_DLLMAPPING Bool MatrixProjection           (Matrix &result, 
+OSG_BASE_DLLMAPPING bool MatrixProjection           (Matrix &result, 
                                                      Real32 rLeft,
                                                      Real32 rRight, 
                                                      Real32 rBottom,

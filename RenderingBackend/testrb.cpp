@@ -43,7 +43,7 @@
 #include "OSGVRMLFile.h"
 
 OSG::RenderAction * ract;
-OSG::Bool doWire = false;
+bool doWire = false;
 
 OSG::NodePtr  root;
 
@@ -195,7 +195,7 @@ OSG::Action::ResultE wireDraw( OSG::CNodePtr &, OSG::Action * action )
         OSG::Pnt3f min,max;
         vol.getBounds( min, max );
 
-        OSG::Bool l = glIsEnabled( GL_LIGHTING );
+        bool l = glIsEnabled( GL_LIGHTING );
         glDisable( GL_LIGHTING );
         
         glColor3f( .8,.8,.8 );

@@ -80,7 +80,7 @@ class OSG_BASE_DLLMAPPING BaseThreadCommonBase : public MPBase
     /*==========================  PUBLIC  =================================*/
   public:
 
-    Bool isInitialized(void);
+    bool isInitialized(void);
 
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -88,7 +88,7 @@ class OSG_BASE_DLLMAPPING BaseThreadCommonBase : public MPBase
     typedef MPBase Inherited;
 
     UInt32 _uiThreadId;
-    Bool   _bInitialized;
+    bool   _bInitialized;
 
 
     /*---------------------------------------------------------------------*/
@@ -153,7 +153,7 @@ class BasePThreadBase : public BaseThreadCommonBase
     /*! \name                      Run                                     */
     /*! \{                                                                 */
 
-    Bool run(ThreadFuncF  fThreadFunc,
+    bool run(ThreadFuncF  fThreadFunc,
              void        *pThreadArg );
 
     /*! \}                                                                 */
@@ -283,7 +283,7 @@ class BaseSprocBase : public BaseThreadCommonBase
     /*! \name                      Run                                     */
     /*! \{                                                                 */
 
-    Bool run(ThreadFuncF  fThreadFunc,
+    bool run(ThreadFuncF  fThreadFunc,
              void        *pThreadArg);
 
     /*! \}                                                                 */
@@ -299,7 +299,7 @@ class BaseSprocBase : public BaseThreadCommonBase
     /*! \name                    Helper                                    */
     /*! \{                                                                 */
 
-    Bool exists   (void);
+    bool exists   (void);
 
     void terminate(void);
     void kill     (void);
@@ -408,7 +408,7 @@ class OSG_BASE_DLLMAPPING BaseWinThreadBase : public BaseThreadCommonBase
     /*! \name                      Run                                     */
     /*! \{                                                                 */
 
-    Bool run(ThreadFuncF fThreadFunc,
+    bool run(ThreadFuncF fThreadFunc,
              void        *pThreadArg);
 
     /*! \}                                                                 */
@@ -424,7 +424,7 @@ class OSG_BASE_DLLMAPPING BaseWinThreadBase : public BaseThreadCommonBase
     /*! \name                    Helper                                    */
     /*! \{                                                                 */
 
-    Bool exists   (void);
+    bool exists   (void);
 
     void terminate(void);
     void kill     (void);

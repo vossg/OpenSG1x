@@ -70,7 +70,7 @@ namespace
 
 TypeBase::TypeBase(const Char8 *szName,
                    const Char8 *szParentName,
-                         Bool   bRegister) :
+                         bool   bRegister) :
     _uiTypeId    (0),
     _uiTypeRootId(0),
     _pParent     (NULL),
@@ -120,7 +120,7 @@ const Char8  *TypeBase::getCParentName(void) const
 /*-------------------------------------------------------------------------*/
 /*                                Is                                       */
 
-Bool TypeBase::isDerivedFrom(const TypeBase &OSG_CHECK_ARG(other)) const
+bool TypeBase::isDerivedFrom(const TypeBase &OSG_CHECK_ARG(other)) const
 {
     return false;
 }
@@ -128,12 +128,12 @@ Bool TypeBase::isDerivedFrom(const TypeBase &OSG_CHECK_ARG(other)) const
 /*-------------------------------------------------------------------------*/
 /*                             Comparison                                  */
 
-Bool TypeBase::operator ==(const TypeBase &other) const
+bool TypeBase::operator ==(const TypeBase &other) const
 {
     return _uiTypeId == other._uiTypeId;
 }
 
-Bool TypeBase::operator !=(const TypeBase &other) const
+bool TypeBase::operator !=(const TypeBase &other) const
 {
     return ! (*this == other);
 }

@@ -174,8 +174,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     inline const GeoIndicesPtr       &getIndices        (void) const;
     inline       MaterialPtr         &getMaterial       (void);
     inline const MaterialPtr         &getMaterial       (void) const;
-    inline       Bool                &getDlistCache     (void);
-    inline const Bool                &getDlistCache     (void) const;
+    inline       bool                &getDlistCache     (void);
+    inline const bool                &getDlistCache     (void) const;
     inline       UInt16              &getIndexMapping   (UInt32 index);
     inline       MFUInt16            &getIndexMapping   (void);
     inline const MFUInt16            &getIndexMapping   (void) const;
@@ -193,7 +193,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     inline void setTexCoords      ( const GeoTexCoordsPtr &value );
     inline void setIndices        ( const GeoIndicesPtr &value );
     inline void setMaterial       ( const MaterialPtr &value );
-    inline void setDlistCache     ( const Bool &value );
+    inline void setDlistCache     ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

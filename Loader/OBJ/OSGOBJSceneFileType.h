@@ -98,7 +98,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual Bool write(const NodePtr node, const Char8 *fileName) const;
+    virtual bool write(const NodePtr node, const Char8 *fileName) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -118,7 +118,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
 
     OBJSceneFileType(const Char8  *suffixArray[],
                            UInt16  suffixByteCount,
-                           Bool    override,
+                           bool    override,
                            UInt32  overridePriority);
 
     OBJSceneFileType(const OBJSceneFileType &obj);
@@ -176,7 +176,7 @@ typedef OBJSceneFileType* OBJSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSGOBJSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOBJSceneFileType.h,v 1.12 2002/02/04 16:08:09 dirk Exp $"
+#define OSGOBJSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOBJSceneFileType.h,v 1.13 2002/02/04 20:14:07 dirk Exp $"
 
 #endif // _OSGOBJSCENEFILETYPE_H_
 

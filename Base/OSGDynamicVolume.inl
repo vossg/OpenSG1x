@@ -86,21 +86,21 @@ void DynamicVolume::extendBy (const Volume &volume)
 
 /** Returns true if intersection of given point and Volume is not empty */
 inline
-Bool DynamicVolume::intersect (const Pnt3f &point) const
+bool DynamicVolume::intersect (const Pnt3f &point) const
 {
     return getInstance().intersect(point);
 }
 
 /** intersect the volume with the given Line */
 inline
-Bool DynamicVolume::intersect (const Line &line ) const
+bool DynamicVolume::intersect (const Line &line ) const
 {
     return getInstance().intersect(line);
 }
 
 /** intersect the volume with the given Line */
 inline
-Bool DynamicVolume::intersect ( const Line &line,
+bool DynamicVolume::intersect ( const Line &line,
                                                 Real32 &enter, Real32 &exit  ) const
 {
     return getInstance().intersect(line,enter,exit);
@@ -108,14 +108,14 @@ Bool DynamicVolume::intersect ( const Line &line,
 
 /** intersect the volume with another volume */
 inline
-Bool DynamicVolume::intersect (const Volume &volume) const
+bool DynamicVolume::intersect (const Volume &volume) const
 {
     return getInstance().intersect(volume);
 }
 
 /** check if the point is on the volume's surface */
 inline
-Bool DynamicVolume::isOnSurface (const Pnt3f &point) const
+bool DynamicVolume::isOnSurface (const Pnt3f &point) const
 {
     return getInstance().isOnSurface(point);
 }

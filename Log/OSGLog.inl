@@ -150,7 +150,7 @@ void indentLog(UInt32 indent, ostream &stream)
 }
 
 inline 
-ostream &osgStartLog(      Bool      logHeader,
+ostream &osgStartLog(      bool      logHeader,
                            LogLevel  level, 
                            const Char8    *module,
                            const Char8    *file, 
@@ -172,7 +172,7 @@ ostream &osgStartLog(      Bool      logHeader,
 }
 
 inline 
-Bool Log::checkLevel(LogLevel level)
+bool Log::checkLevel(LogLevel level)
 {
     return (_logLevel >= level) ? true : false;
 }

@@ -160,7 +160,7 @@ void DynamicVolume::dump(UInt32 uiIndent, const BitVector bvFlags) const
     getInstance().dump(uiIndent, bvFlags);
 }
 
-Bool DynamicVolume::operator ==(
+bool DynamicVolume::operator ==(
     const DynamicVolume &OSG_CHECK_ARG(other)) const
 {
     return false; 

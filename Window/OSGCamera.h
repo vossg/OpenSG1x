@@ -111,7 +111,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Camera : public CameraBase
    
     /* calc a ray from the eye through the given pixel into the scene */
     /* pixel are from top-left */
-    Bool calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port);
+    bool calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port);
 
 
     /*! \}                                                                 */

@@ -163,7 +163,7 @@ VRMLSceneFileType::FCPtrStore VRMLSceneFileType::readTopNodes(
 /*-------------------------------------------------------------------------*/
 /*                               Write                                     */
 
-Bool VRMLSceneFileType::write(const NodePtr, const Char8 *) const
+bool VRMLSceneFileType::write(const NodePtr, const Char8 *) const
 {
     return false;
 }
@@ -173,7 +173,7 @@ Bool VRMLSceneFileType::write(const NodePtr, const Char8 *) const
 
 VRMLSceneFileType::VRMLSceneFileType(const Char8  *suffixArray[],
                                            UInt16  suffixByteCount,
-                                           Bool    override,
+                                           bool    override,
                                            UInt32  overridePriority) :
     Inherited(suffixArray,
               suffixByteCount,

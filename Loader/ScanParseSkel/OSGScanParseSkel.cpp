@@ -146,9 +146,9 @@ void ScanParseSkel::setDefaultOptions(UInt32 uiOptions)
 /*-------------------------------------------------------------------------*/
 /*                             Prototypes                                  */
 
-Bool ScanParseSkel::verifyHeader(const Char8 *szHeader)
+bool ScanParseSkel::verifyHeader(const Char8 *szHeader)
 {
-    Bool returnValue = true;
+    bool returnValue = true;
 
     if(szHeader == NULL)
     {
@@ -274,7 +274,7 @@ void ScanParseSkel::addRoute(const Char8 *,
 /*-------------------------------------------------------------------------*/
 /*                           Type Information                              */
 
-Bool ScanParseSkel::getMapFieldTypes(void)
+bool ScanParseSkel::getMapFieldTypes(void)
 {
     return _bMapTypeIds;
 }
@@ -298,7 +298,7 @@ void ScanParseSkel::reset(void)
     resetScanner();
 }
 
-void ScanParseSkel::setMapTypeIds(Bool bVal)
+void ScanParseSkel::setMapTypeIds(bool bVal)
 {
     _bMapTypeIds = bVal;
 }

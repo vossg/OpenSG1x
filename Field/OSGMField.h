@@ -174,7 +174,7 @@ class MField : public Field
     void            reserve  (size_t newsize);
 
     UInt32          size     (void          ) const;
-    Bool            empty    (void          ) const;
+    bool            empty    (void          ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

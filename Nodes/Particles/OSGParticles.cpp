@@ -63,7 +63,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.12 2002/02/04 16:10:29 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.13 2002/02/04 20:14:10 dirk Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }
@@ -344,7 +344,7 @@ struct ColTraitNone : public ColTraitBase
     {
     }
     
-    static inline Bool particle(dataType &, UInt32)
+    static inline bool particle(dataType &, UInt32)
     {
         return false;
     }
@@ -380,7 +380,7 @@ struct ColTraitSingle : public ColTraitBase
         }
     }
     
-    static inline Bool particle(dataType &, UInt32)
+    static inline bool particle(dataType &, UInt32)
     {
         return false;
     }
@@ -417,7 +417,7 @@ struct ColTraitParticle : public ColTraitBase
         }
     }
     
-    static inline Bool particle(dataType &data, UInt32 particle)
+    static inline bool particle(dataType &data, UInt32 particle)
     {   
         data.func((GLubyte*)(data.data + particle * data.stride));
         return false;
@@ -432,7 +432,7 @@ struct ColTraitGeneric : public ColTraitBase
         UInt8    *data;
         UInt32    stride;
         pumpFunc  func;
-        Bool      perParticle;
+        bool      perParticle;
     } 
     dataType;
     
@@ -471,7 +471,7 @@ struct ColTraitGeneric : public ColTraitBase
         }
     }
     
-    static inline Bool particle(dataType &data, UInt32 particle)
+    static inline bool particle(dataType &data, UInt32 particle)
     {   
         if(data.perParticle == true)
             data.func((GLubyte*)(data.data + particle * data.stride));
@@ -497,7 +497,7 @@ struct PosTraitGeneric : public ParticleTraits
         data.pos = pos;
     }
     
-    static inline Bool particle(dataType &data, UInt32 particle)
+    static inline bool particle(dataType &data, UInt32 particle)
     {
         data.pos->getValue(data.p, particle);
              
@@ -540,7 +540,7 @@ struct PosTrait3f : public ParticleTraits
         data.pos  = pos3f->getFieldPtr();
     }
     
-    static inline Bool particle(dataType &data, UInt32 particle)
+    static inline bool particle(dataType &data, UInt32 particle)
     {
         data.p = &data.pos->getValue(particle);
         return false;
@@ -572,7 +572,7 @@ struct SizeTraitGeneric : public ParticleTraits
     {
         MFVec3f *sizes;
         Vec3f    s;
-        Bool     perParticle;
+        bool     perParticle;
     }
     dataType;
     
@@ -604,7 +604,7 @@ struct SizeTraitGeneric : public ParticleTraits
         }           
     }
    
-    static inline Bool particle(dataType &, UInt32)
+    static inline bool particle(dataType &, UInt32)
     {
         return false;
     }
@@ -630,7 +630,7 @@ struct SizeTraitSingle : public ParticleTraits
         data.s = part->getSizes().getValue(0);
     }
     
-    static inline Bool particle(dataType &, UInt32)
+    static inline bool particle(dataType &, UInt32)
     {
         return false;
     }
@@ -655,7 +655,7 @@ struct SizeTraitParticle : public ParticleTraits
         data.sizes = part->getMFSizes();
     }
     
-    static inline Bool particle(dataType &, UInt32)
+    static inline bool particle(dataType &, UInt32)
     {
         return false;
     }
@@ -674,7 +674,7 @@ struct SizeTraitNone : public ParticleTraits
     {
     }
     
-    static inline Bool particle(dataType &, UInt32)
+    static inline bool particle(dataType &, UInt32)
     {
         return false;
     }
@@ -694,7 +694,7 @@ struct TexTraitGeneric : public ParticleTraits
     {
         MFReal32 *texzs;
         Real32    z;
-        Bool      perParticle;
+        bool      perParticle;
     }
     dataType;
     
@@ -725,7 +725,7 @@ struct TexTraitGeneric : public ParticleTraits
         }
     }
     
-    static inline Bool particle(dataType &data, UInt32 particle)
+    static inline bool particle(dataType &data, UInt32 particle)
     {       
         if(data.perParticle)
         {
@@ -760,7 +760,7 @@ struct TexTraitParticle : public ParticleTraits
         data.texzs = part->getMFTextureZs();
     }
     
-    static inline Bool particle(dataType &data, UInt32 particle)
+    static inline bool particle(dataType &data, UInt32 particle)
     {       
         data.z = data.texzs->getValue(particle);
         return false;
@@ -791,7 +791,7 @@ struct TexTraitSingle : public ParticleTraits
         data.z = part->getMFTextureZs()->getValue(0);
     }
     
-    static inline Bool particle(dataType &, UInt32)
+    static inline bool particle(dataType &, UInt32)
     {
         return false;
     }
@@ -816,7 +816,7 @@ struct TexTraitNone : public ParticleTraits
     {
     }
     
-    static inline Bool particle(dataType &, UInt32)
+    static inline bool particle(dataType &, UInt32)
     {
         return false;
     }
@@ -841,7 +841,7 @@ struct NormalTraitGeneric : public ParticleTraits
     {
         GeoNormalsPtr norms;
         Vec3f         n;
-        Bool          perParticle;
+        bool          perParticle;
     }
     dataType;
     
@@ -872,7 +872,7 @@ struct NormalTraitGeneric : public ParticleTraits
         }
     }
     
-    static inline Bool particle(dataType &data, UInt32 particle)
+    static inline bool particle(dataType &data, UInt32 particle)
     {
         if(data.perParticle)
             data.norms->getValue(data.n, particle);
@@ -897,7 +897,7 @@ struct NormalTraitGeneric3f : public ParticleTraits
     {
         MFVec3f *norms;
         Vec3f   *n;
-        Bool     perParticle;
+        bool     perParticle;
         Vec3f    const_n;
     }
     dataType;
@@ -933,7 +933,7 @@ struct NormalTraitGeneric3f : public ParticleTraits
         }
     }
     
-    static inline Bool particle(dataType &data, UInt32 particle)
+    static inline bool particle(dataType &data, UInt32 particle)
     {
         if(data.perParticle)
             data.n = &data.norms->getValue(particle);
@@ -1371,7 +1371,7 @@ struct GeoTraitArrow : public ParticleTraits
     {
     }
     
-    static inline Bool particle(dataType &, UInt32)
+    static inline bool particle(dataType &, UInt32)
     {
         return false;
     }
@@ -1742,7 +1742,7 @@ Action::ResultE Particles::doDraw(DrawActionBase * action)
     
     Int32 *index = NULL;
     UInt32 length = 0;
-    Bool freeIndex = false;
+    bool freeIndex = false;
     
     if(_sfDrawOrder.getValue()!=Particles::Any)
     {
@@ -1851,14 +1851,14 @@ ParticlesDrawer *Particles::findDrawer(void)
     
     // check if the used types are common cases
     
-    Bool normalIs3f = (getNormals()   != NullFC && 
+    bool normalIs3f = (getNormals()   != NullFC && 
                        getNormals()->getFormat()      == GL_FLOAT);
                         
-    Bool colorIs3f  = (getColors()    != NullFC && 
+    bool colorIs3f  = (getColors()    != NullFC && 
                        getColors()->getFormat()       == GL_FLOAT && 
                        getColors()->getDimension()    == 3);
                         
-    Bool posIs3f    = (getPositions() != NullFC && 
+    bool posIs3f    = (getPositions() != NullFC && 
                        getPositions()->getFormat()    == GL_FLOAT && 
                        getPositions()->getDimension() == 3);
     

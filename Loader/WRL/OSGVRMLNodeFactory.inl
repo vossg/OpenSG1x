@@ -390,7 +390,7 @@ void VRMLNodeFactory<BaseT>::beginFieldDecl(
     const UInt32  uiFieldTypeId,
     const Char8  *szFieldName)
 {
-    Bool rc;
+    bool rc;
 
     if(_bIgnoreProto == true)
         return;

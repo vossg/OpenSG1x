@@ -78,7 +78,7 @@ is just too expensive and rarely useful.
  *                           Class variables                               *
 \***************************************************************************/
 
-char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.13 2001/11/01 09:03:28 vossg Exp $";
+char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.14 2002/02/04 20:14:09 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -345,14 +345,14 @@ FaceIterator& FaceIterator::operator = (const FaceIterator &source)
 
 /*-------------------------- comparison -----------------------------------*/
 
-Bool FaceIterator::operator < (const FaceIterator &other) const
+bool FaceIterator::operator < (const FaceIterator &other) const
 {
     return _primIt < other._primIt ||
             ( _primIt == other._primIt &&
               _actPrimIndex < other._actPrimIndex );
 }
 
-Bool FaceIterator::operator == (const FaceIterator &other) const
+bool FaceIterator::operator == (const FaceIterator &other) const
 {
     if ( _primIt.isAtEnd() && other._primIt.isAtEnd() )
         return true;
@@ -362,7 +362,7 @@ Bool FaceIterator::operator == (const FaceIterator &other) const
             _actPrimIndex == other._actPrimIndex;
 }
 
-Bool FaceIterator::operator != (const FaceIterator &other) const
+bool FaceIterator::operator != (const FaceIterator &other) const
 {
     return ! (*this == other);
 }

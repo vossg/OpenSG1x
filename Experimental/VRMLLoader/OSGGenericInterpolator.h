@@ -105,11 +105,11 @@ class OSG_SYSTEMLIB_DLLMAPPING InterpolatorBase
     void            setDuration       (const Real32 duration      );
     Real32          getDuration       (void                       ) const;
         
-    void            setLoop           (Bool loopon                );
-    Bool            isLooping         (void                       ) const;
+    void            setLoop           (bool loopon                );
+    bool            isLooping         (void                       ) const;
     
-    void            setScaleInterpol  (Bool scale                 );
-    Bool            isScaleInterpol   (                           ) const;
+    void            setScaleInterpol  (bool scale                 );
+    bool            isScaleInterpol   (                           ) const;
 
     virtual void    setTime           (Real32 globalTime          ) = 0;
         
@@ -147,8 +147,8 @@ class OSG_SYSTEMLIB_DLLMAPPING InterpolatorBase
     vector<Real32>   _keys;
     Real32           _duration;
     Real32           _keyDelta;
-    Bool             _loop;
-    Bool             _isScale;
+    bool             _loop;
+    bool             _isScale;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

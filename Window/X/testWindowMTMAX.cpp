@@ -14,7 +14,7 @@
 #endif
 
 #include <GL/glx.h>
-#undef Bool
+#undef bool
 
 #include <OSGFieldContainerFactory.h>
 #include <OSGSFSysTypes.h>
@@ -59,7 +59,7 @@ Thread        *drawThread[MAX_THREADS];
 
 UInt32        drawThreadID[MAX_THREADS];
 
-Bool          stopIt = false;
+bool          stopIt = false;
         
 XWindowPtr    win[MAX_THREADS];
 
@@ -96,7 +96,7 @@ int            mouseb = 0,
 ThreadBase *mainThread = NULL;
 Barrier *syncBarrier = NULL;
 
-volatile Bool exiting = false;
+volatile bool exiting = false;
 
 #undef FLOG
 #if 1
@@ -349,7 +349,7 @@ int main (int argc, char **argv)
         win[i] = XWindow::create();
         beginEditCP(win[i], XWindow::DisplayFieldMask|
                             XWindow::WindowFieldMask|
-                            Window::PortFieldMask);
+                            OSG::Window::PortFieldMask);
         win[i]->setDisplay ( dpy[i] );
         win[i]->setWindow ( hwin[i] );
         win[i]->init();
@@ -367,7 +367,7 @@ int main (int argc, char **argv)
         win[i]->addPort( vp );          
         endEditCP  (win[i], XWindow::DisplayFieldMask|
                             XWindow::WindowFieldMask|
-                            Window::PortFieldMask);
+                            OSG::Window::PortFieldMask);
 
 
         lastx[i] = 0;

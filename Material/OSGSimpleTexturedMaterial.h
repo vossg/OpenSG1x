@@ -84,7 +84,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterial : public SimpleTexturedMat
 
     virtual void       rebuildState      (void);
 
-    virtual Bool       isTransparent     (void) const;
+    virtual bool       isTransparent     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -138,6 +138,6 @@ OSG_END_NAMESPACE
 #include <OSGSimpleTexturedMaterial.inl>
 #include <OSGSimpleTexturedMaterialBase.inl>
 
-#define OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.h,v 1.5 2001/11/01 09:03:28 vossg Exp $"
+#define OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.h,v 1.6 2002/02/04 20:14:08 dirk Exp $"
 
 #endif /* _OSGTEXTUREDSIMPLEMATERIAL_H_ */

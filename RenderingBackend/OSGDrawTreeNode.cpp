@@ -191,7 +191,7 @@ Material::DrawFunctor &DrawTreeNode::getFunctor(void)
     return _functor;
 }
 
-Bool DrawTreeNode::hasFunctor(void)
+bool DrawTreeNode::hasFunctor(void)
 {
     return _hasFunctor;
 }

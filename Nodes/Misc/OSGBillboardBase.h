@@ -129,10 +129,10 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public NodeCore
 
     inline       Vec3f               &getAxisOfRotation (void);
     inline const Vec3f               &getAxisOfRotation (void) const;
-    inline       Bool                &getFocusOnCamera  (void);
-    inline const Bool                &getFocusOnCamera  (void) const;
-    inline       Bool                &getAlignToScreen  (void);
-    inline const Bool                &getAlignToScreen  (void) const;
+    inline       bool                &getFocusOnCamera  (void);
+    inline const bool                &getFocusOnCamera  (void) const;
+    inline       bool                &getAlignToScreen  (void);
+    inline const bool                &getAlignToScreen  (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -140,8 +140,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public NodeCore
     /*! \{                                                                 */
 
     inline void setAxisOfRotation ( const Vec3f &value );
-    inline void setFocusOnCamera  ( const Bool &value );
-    inline void setAlignToScreen  ( const Bool &value );
+    inline void setFocusOnCamera  ( const bool &value );
+    inline void setAlignToScreen  ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -88,7 +88,7 @@ int main (int argc, char **argv)
 
     fprintf(stderr, "Got Field %p %p %p %p\n", pSB, pMB, pST, pMT);
 
-    MFBool testBField;
+    MFbool testBField;
     
     testBField.resize(10);
 

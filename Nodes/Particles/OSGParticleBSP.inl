@@ -43,7 +43,7 @@
 OSG_BEGIN_NAMESPACE
 
 
-Bool ParticleBSPNode::isLeaf(void) const
+bool ParticleBSPNode::isLeaf(void) const
 {
     return _axis == Leaf;
 }
@@ -76,12 +76,12 @@ void ParticleBSPNode::setSplit(UInt8 axis, Real32 splitvalue)
     _axis       = axis;
 }
 
-inline Bool ParticleBSPTree::created(void)
+inline bool ParticleBSPTree::created(void)
 {
     return _tree.size() > 1;
 }
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLEBSP_INLINE_CVSID "@(#)$Id: OSGParticleBSP.inl,v 1.1 2002/01/10 21:14:10 dirk Exp $"
+#define OSGPARTICLEBSP_INLINE_CVSID "@(#)$Id: OSGParticleBSP.inl,v 1.2 2002/02/04 20:14:10 dirk Exp $"
 

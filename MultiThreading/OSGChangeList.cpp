@@ -236,9 +236,9 @@ void ChangeList::clearAll(void)
     _vDestroyedFieldContainers.clear();
 }
 
-Bool ChangeList::merge(const ChangeList &clist)
+bool ChangeList::merge(const ChangeList &clist)
 {
-    Bool returnValue = true;
+    bool returnValue = true;
  
     _vChangedFieldContainers.insert(_vChangedFieldContainers.end(),
                                     clist.beginChanged(), 
@@ -282,7 +282,7 @@ void ChangeList::setAspect(UInt32 uiAspectId)
     _uiAspectId = uiAspectId;
 }
 
-void ChangeList::setReadOnly(Bool bReadOnly)
+void ChangeList::setReadOnly(bool bReadOnly)
 {
     _bReadOnly = bReadOnly;
 }

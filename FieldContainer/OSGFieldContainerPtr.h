@@ -115,12 +115,12 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
     /*! \name                    Comparison                                */
     /*! \{                                                                 */
 
-    Bool operator <  (const FieldContainerPtrBase &other) const;
+    bool operator <  (const FieldContainerPtrBase &other) const;
     
-    Bool operator == (const FieldContainerPtrBase &other) const;
-    Bool operator != (const FieldContainerPtrBase &other) const;
+    bool operator == (const FieldContainerPtrBase &other) const;
+    bool operator != (const FieldContainerPtrBase &other) const;
 
-    Bool operator !  (void                              ) const;
+    bool operator !  (void                              ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -138,8 +138,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
     /*! \name             Intialization / Termination                      */
     /*! \{                                                                 */
 
-    static Bool initialize(int &argc, char **argv);
-    static Bool terminate (void                  );
+    static bool initialize(int &argc, char **argv);
+    static bool terminate (void                  );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -159,10 +159,10 @@ class OSG_BASE_DLLMAPPING Color3
 
     Color3 &operator =(const Color3 &source);
 
-    Bool equals (const Color3 &other, ValueType tolerance) const;
+    bool equals (const Color3 &other, ValueType tolerance) const;
 
-    Bool operator == (const Color3 &other) const;
-    Bool operator != (const Color3 &other) const;
+    bool operator == (const Color3 &other) const;
+    bool operator != (const Color3 &other) const;
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -271,10 +271,10 @@ class OSG_BASE_DLLMAPPING Color4
 
     Color4 &operator =(const Color4 &source);
 
-    Bool equals (const Color4 &other, ValueType tolerance) const;
+    bool equals (const Color4 &other, ValueType tolerance) const;
 
-    Bool operator == (const Color4 &other) const;
-    Bool operator != (const Color4 &other) const;
+    bool operator == (const Color4 &other) const;
+    bool operator != (const Color4 &other) const;
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

@@ -845,11 +845,11 @@ void QuaternionBase<ValueTypeT>::multLeft(const QuaternionBase &other)
 }
 
 template <class ValueTypeT> inline
-Bool QuaternionBase<ValueTypeT>::equals(const QuaternionBase &rot,
+bool QuaternionBase<ValueTypeT>::equals(const QuaternionBase &rot,
                                         const ValueTypeT tolerance) const
 {
     UInt32 i;
-    Bool   returnValue = true;
+    bool   returnValue = true;
 
     for(i = 0; i < 4; i++)
     {
@@ -909,13 +909,13 @@ const QuaternionBase<ValueTypeT> &
 /*                             Comparison                                  */
 
 template <class ValueTypeT> inline
-Bool QuaternionBase<ValueTypeT>::operator ==(const QuaternionBase &other) const
+bool QuaternionBase<ValueTypeT>::operator ==(const QuaternionBase &other) const
 {
     return equals(other, Eps);
 }
 
 template <class ValueTypeT> inline
-Bool QuaternionBase<ValueTypeT>::operator !=(const QuaternionBase &other) const
+bool QuaternionBase<ValueTypeT>::operator !=(const QuaternionBase &other) const
 {
     return ! (*this == other);
 }

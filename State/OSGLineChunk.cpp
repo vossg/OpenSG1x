@@ -60,7 +60,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGLineChunk.cpp,v 1.2 2002/01/05 10:02:48 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGLineChunk.cpp,v 1.3 2002/02/04 20:14:10 dirk Exp $";
     static char cvsid_hpp[] = OSGLINECHUNK_HEADER_CVSID;
     static char cvsid_inl[] = OSGLINECHUNK_INLINE_CVSID;
 }
@@ -179,7 +179,7 @@ Real32 LineChunk::switchCost(StateChunk *)
 /** \brief assignment
  */
 
-Bool LineChunk::operator < (const StateChunk &other) const
+bool LineChunk::operator < (const StateChunk &other) const
 {
     return this < &other;
 }
@@ -187,7 +187,7 @@ Bool LineChunk::operator < (const StateChunk &other) const
 /** \brief equal
  */
 
-Bool LineChunk::operator == (const StateChunk &other) const
+bool LineChunk::operator == (const StateChunk &other) const
 {
     LineChunk const *tother = dynamic_cast<LineChunk const*>(&other);
 
@@ -200,7 +200,7 @@ Bool LineChunk::operator == (const StateChunk &other) const
 /** \brief unequal
  */
 
-Bool LineChunk::operator != (const StateChunk &other) const
+bool LineChunk::operator != (const StateChunk &other) const
 {
     return ! (*this == other);
 }

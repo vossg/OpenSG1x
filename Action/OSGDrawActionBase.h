@@ -125,23 +125,23 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
     // cacaded action
     
     // control activation of frustum culling
-    Bool            getFrustumCulling( void ) const;
-    void            setFrustumCulling( Bool val = true );
+    bool            getFrustumCulling( void ) const;
+    void            setFrustumCulling( bool val = true );
     
     // control drawing of checked volumes
-    Bool            getVolumeDrawing( void ) const;
-    void            setVolumeDrawing( Bool val = false );
+    bool            getVolumeDrawing( void ) const;
+    void            setVolumeDrawing( bool val = false );
     
     // control automatic frustum calculation
-    Bool            getAutoFrustum( void ) const;
-    void            setAutoFrustum( Bool val = true );
+    bool            getAutoFrustum( void ) const;
+    void            setAutoFrustum( bool val = true );
 
     // control frustum
     const FrustumVolume & getFrustum( void ) const;
     void            setFrustum( FrustumVolume & frust );    
     
     // test a single node
-    Bool            isVisible( Node* node );
+    bool            isVisible( Node* node );
     
     // select all visible nodes
     UInt32          selectVisibles( void );
@@ -186,9 +186,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
 
     // frustum culling attributes
     
-    Bool          _frustumCulling;
-    Bool          _volumeDrawing;
-    Bool          _autoFrustum;
+    bool          _frustumCulling;
+    bool          _volumeDrawing;
+    bool          _autoFrustum;
     FrustumVolume _frustum;
     
     //-----------------------------------------------------------------------

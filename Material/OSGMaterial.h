@@ -106,17 +106,17 @@ class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
 
             StatePtr   getState      (void);
 
-    virtual Bool       isTransparent (void) const              = 0;
+    virtual bool       isTransparent (void) const              = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Comparison                                */
     /*! \{                                                                 */
 
-    virtual Bool operator <  (const Material &other) const;
+    virtual bool operator <  (const Material &other) const;
 
-    virtual Bool operator == (const Material &other) const;
-    virtual Bool operator != (const Material &other) const;
+    virtual bool operator == (const Material &other) const;
+    virtual bool operator != (const Material &other) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

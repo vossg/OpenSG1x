@@ -39,7 +39,7 @@
 OSG_BEGIN_NAMESPACE
 
 /*-------------------------------------------------------------------------*/
-inline Bool   Image::isValid (void) const
+inline bool   Image::isValid (void) const
 { 
   return ((_pixelFormat != OSG_INVALID_PF) && _dimension && _bpp && _data); 
 }
@@ -99,8 +99,8 @@ inline Image::PixelFormat Image::getPixelFormat (void) const
 }
 
 /*-------------------------------------------------------------------------*/
-inline unsigned long Image::getSize ( Bool withMipmap,
-                                      Bool withFrames) const
+inline unsigned long Image::getSize ( bool withMipmap,
+                                      bool withFrames) const
 { 
   return  ( calcMipmapSumSize((withMipmap ? (_mipmapCount-1) : 0)) *
             (withFrames ? _frameCount : 1) * _bpp);
@@ -119,7 +119,7 @@ inline UChar8 *Image::getData ( UInt32 mipmapNum,
 }
 
 /*-------------------------------------------------------------------------*/
-inline Bool Image::hasAttachment (void) const
+inline bool Image::hasAttachment (void) const
 {
   return (_attachmentMap.empty() ? false : true);
 }

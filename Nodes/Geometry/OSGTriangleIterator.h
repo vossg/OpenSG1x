@@ -116,9 +116,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TriangleIterator
     void seek( Int32 index );
 
     TriangleIterator & operator =(const TriangleIterator &source);
-    Bool operator < (const TriangleIterator &other) const;
-    Bool operator == (const TriangleIterator &other) const;
-    Bool operator != (const TriangleIterator &other) const;
+    bool operator < (const TriangleIterator &other) const;
+    bool operator == (const TriangleIterator &other) const;
+    bool operator != (const TriangleIterator &other) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

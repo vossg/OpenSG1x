@@ -65,7 +65,7 @@ Trackball tball;
 int mouseb = 0;
 int lastx=0, lasty=0;
 
-Bool doWire = false;
+bool doWire = false;
 
 void 
 display(void)
@@ -218,7 +218,7 @@ Action::ResultE wireDraw( CNodePtr &, Action * action )
 	{		
 		node->updateVolume();
 
-		Bool l = glIsEnabled( GL_LIGHTING );
+		bool l = glIsEnabled( GL_LIGHTING );
 		glDisable( GL_LIGHTING );
 		
 		glColor3f( .8,.8,.8 );

@@ -137,7 +137,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
 
     /*------------------------- your_operators ------------------------------*/
 
-    Bool open (const Char8 *szFilename);
+    bool open (const Char8 *szFilename);
     void close(void);
 
     /*------------------------- assignment ----------------------------------*/
@@ -146,10 +146,10 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
 
     /*------------------------- comparison ----------------------------------*/
 
-    Bool operator < (const VRMLWriteAction &other) const;
+    bool operator < (const VRMLWriteAction &other) const;
     
-    Bool operator == (const VRMLWriteAction &other) const;
-    Bool operator != (const VRMLWriteAction &other) const;
+    bool operator == (const VRMLWriteAction &other) const;
+    bool operator != (const VRMLWriteAction &other) const;
 
   protected:
 
@@ -210,7 +210,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
       private:
 
         Int32  _iTimesUsed;
-        Bool   _bOwnName;
+        bool   _bOwnName;
         Char8 *_szName;
         
       public:
@@ -229,7 +229,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
               UInt32  getUse (void) const;
         const Char8  *getName(void) const;
 
-        Bool  getWriten(void) const;
+        bool  getWriten(void) const;
         void  setWriten (void);
 
         // returnvalue required by MS
@@ -307,8 +307,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     static Action::ResultE writeGeoLeave(CNodePtr &pGroup,
                                          Action   *pAction);
 
-    static Bool initializeAction(int &argc, char **argv);
-    static Bool terminateAction(void);
+    static bool initializeAction(int &argc, char **argv);
+    static bool terminateAction(void);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  

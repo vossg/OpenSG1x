@@ -83,7 +83,7 @@
 	</Field>
 	<Field
 		name="dlistCache"
-		type="Bool"
+		type="bool"
 		cardinality="single"
 		visibility="external"
 		defaultValue="true"

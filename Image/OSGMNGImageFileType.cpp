@@ -102,7 +102,7 @@ MNGImageFileType MNGImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -113,7 +113,7 @@ MNGImageFileType MNGImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //s:
 //
 //------------------------------
-Bool MNGImageFileType::read(      Image &OSG_MNG_ARG(image   ),
+bool MNGImageFileType::read(      Image &OSG_MNG_ARG(image   ),
                             const Char8 *OSG_MNG_ARG(fileName))
 {
 
@@ -127,7 +127,7 @@ Bool MNGImageFileType::read(      Image &OSG_MNG_ARG(image   ),
     png_byte bit_depth, channels, color_type;
     png_bytep *row_pointers, base;
     FILE *fd;
-  Bool retCode;
+  bool retCode;
 
     if ((fd = fopen(fileName, "rb")) == 0) {
         cerr << "Could not open file " << fileName << endl;
@@ -227,7 +227,7 @@ Bool MNGImageFileType::read(      Image &OSG_MNG_ARG(image   ),
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -238,7 +238,7 @@ Bool MNGImageFileType::read(      Image &OSG_MNG_ARG(image   ),
 //s:
 //
 //------------------------------
-Bool MNGImageFileType::write(const Image &OSG_MNG_ARG(image   ), 
+bool MNGImageFileType::write(const Image &OSG_MNG_ARG(image   ), 
                              const Char8 *OSG_MNG_ARG(fileName))
 {
 

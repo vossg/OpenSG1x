@@ -187,7 +187,7 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
                             const ValueTypeT            rVal33            );
 
     void setValue          (const ValueTypeT           *pMat,
-                                  Bool                  bTransposed = true);
+                                  bool                  bTransposed = true);
 
     void setValue          (const VectorType           *pMat              );
 
@@ -269,7 +269,7 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
                             VectorType3f         &scaleFactor, 
                             QuaternionType       &scaleOrientation) const;
 
-    Bool factor      (      TransformationMatrix &r, 
+    bool factor      (      TransformationMatrix &r, 
                             VectorType3f         &s, 
                             TransformationMatrix &u,
                             VectorType3f         &t, 
@@ -316,23 +316,23 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
     /*! \name                   Math                                       */
     /*! \{                                                                 */
 
-    Bool       equals       (const TransformationMatrix &matrix, 
+    bool       equals       (const TransformationMatrix &matrix, 
                              const ValueType             tol   ) const;
 
     ValueTypeT det3         (      void                        ) const;
     ValueTypeT det          (      void                        ) const;
 
-    Bool       inverse      (      TransformationMatrix &result) const;
-    Bool       invert       (      void                        );
-    Bool       invertFrom   (const TransformationMatrix &matrix);
+    bool       inverse      (      TransformationMatrix &result) const;
+    bool       invert       (      void                        );
+    bool       invertFrom   (const TransformationMatrix &matrix);
 
-    Bool       inverse3     (      TransformationMatrix &result) const;
-    Bool       invert3      (      void                        );
-    Bool       invertFrom3  (const TransformationMatrix &matrix);
+    bool       inverse3     (      TransformationMatrix &result) const;
+    bool       invert3      (      void                        );
+    bool       invertFrom3  (const TransformationMatrix &matrix);
 
-    Bool       transposed   (      TransformationMatrix &result) const;
-    Bool       transpose    (      void                        );
-    Bool       transposeFrom(const TransformationMatrix &matrix);
+    bool       transposed   (      TransformationMatrix &result) const;
+    bool       transpose    (      void                        );
+    bool       transposeFrom(const TransformationMatrix &matrix);
 
     void       mult         (const TransformationMatrix &matrix);
     void       multLeft     (const TransformationMatrix &matrix);
@@ -347,15 +347,15 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
     ValueTypeT norm2        (      void                        ) const;
     ValueTypeT normInfinity (      void                        ) const;
     
-    Bool       sqrt         (      TransformationMatrix &result) const;
-    Bool       sqrtOf       (const TransformationMatrix &matrix);
-    Bool       sqrt         (      void                        );
+    bool       sqrt         (      TransformationMatrix &result) const;
+    bool       sqrtOf       (const TransformationMatrix &matrix);
+    bool       sqrt         (      void                        );
     
-    Bool       log          (      TransformationMatrix &result) const;
-    Bool       logOf        (const TransformationMatrix &matrix);
+    bool       log          (      TransformationMatrix &result) const;
+    bool       logOf        (const TransformationMatrix &matrix);
     
-    Bool       exp          (      TransformationMatrix &result) const;
-    Bool       expOf        (const TransformationMatrix &matrix);
+    bool       exp          (      TransformationMatrix &result) const;
+    bool       expOf        (const TransformationMatrix &matrix);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -377,8 +377,8 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
     /*! \name                   Comparison                                 */
     /*! \{                                                                 */
 
-    Bool operator == (const TransformationMatrix &other) const;
-    Bool operator != (const TransformationMatrix &other) const;
+    bool operator == (const TransformationMatrix &other) const;
+    bool operator != (const TransformationMatrix &other) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -420,7 +420,7 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
 
     static const UInt32 JacobiRank = 3;
 
-    Bool jacobi(ValueTypeT    evalues [JacobiRank],
+    bool jacobi(ValueTypeT    evalues [JacobiRank],
                 VectorType3f  evectors[JacobiRank],
                 Int32        &rots);
 

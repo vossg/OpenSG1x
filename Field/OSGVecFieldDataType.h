@@ -165,7 +165,7 @@ struct FieldDataTraits<Vec2f> : public FieldTraitsRecurseVecStore2Base<Vec2f>
 
     static Vec2f     getDefault   (void) { return Vec2f();       }
 
-    static Bool      getFromString(      Vec2f  &outVal,
+    static bool      getFromString(      Vec2f  &outVal,
                                    const Char8 *&inVal)
     {
         outVal.setValue(inVal);
@@ -207,7 +207,7 @@ struct FieldDataTraits<Vec3f> : public FieldTraitsRecurseVecStore3Base<Vec3f>
 
     static Vec3f     getDefault   (void) { return Vec3f();       }
 
-    static Bool      getFromString(      Vec3f  &outVal,
+    static bool      getFromString(      Vec3f  &outVal,
                                    const Char8 *&inVal)
     {
         outVal.setValue(inVal);
@@ -251,7 +251,7 @@ struct FieldDataTraits<Vec4f> : public FieldTraitsRecurseVecStore4Base<Vec4f>
 
     static Vec4f     getDefault   (void) { return Vec4f();       }
 
-    static Bool      getFromString(      Vec4f  &outVal,
+    static bool      getFromString(      Vec4f  &outVal,
                                    const Char8 *&inVal)
     {
         outVal.setValue(inVal);
@@ -296,7 +296,7 @@ struct FieldDataTraits<Vec4ub> : public FieldTraitsRecurseVecStore4Base<Vec4ub>
 
     static Vec4ub    getDefault   (void) { return Vec4ub();      }
 
-    static Bool      getFromString(      Vec4ub  &outVal,
+    static bool      getFromString(      Vec4ub  &outVal,
                                    const Char8  *&inVal)
     {
         outVal.setValue(inVal);
@@ -341,7 +341,7 @@ struct FieldDataTraits<Pnt2f> : public FieldTraitsRecurseVecStore2Base<Pnt2f>
 
     static Pnt2f     getDefault   (void) { return Pnt2f();       }
 
-    static Bool      getFromString(      Pnt2f  &outVal,
+    static bool      getFromString(      Pnt2f  &outVal,
                                    const Char8 *&inVal)
     {
         outVal.setValue(inVal);
@@ -382,7 +382,7 @@ struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseVecStore3Base<Pnt3f>
 
     static Pnt3f     getDefault   (void) { return Pnt3f();       }
 
-    static Bool      getFromString(      Pnt3f  &outVal,
+    static bool      getFromString(      Pnt3f  &outVal,
                                    const Char8 *&inVal)
     {
         outVal.setValue(inVal);
@@ -425,7 +425,7 @@ struct FieldDataTraits<Pnt3d> : public FieldTraitsRecurseVecStore3Base<Pnt3d>
 
     static Pnt3d     getDefault   (void) { return Pnt3d();       }
 
-    static Bool      getFromString(      Pnt3d  &outVal,
+    static bool      getFromString(      Pnt3d  &outVal,
                                    const Char8 *&inVal)
     {
         outVal.setValue(inVal);
@@ -468,7 +468,7 @@ struct FieldDataTraits<Pnt4f> : public FieldTraitsRecurseVecStore4Base<Pnt4f>
 
     static Pnt4f     getDefault   (void) { return Pnt4f();       }
 
-    static Bool      getFromString(      Pnt4f  &outVal,
+    static bool      getFromString(      Pnt4f  &outVal,
                                    const Char8 *&inVal)
     {
         outVal.setValue(inVal);

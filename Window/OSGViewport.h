@@ -79,7 +79,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Viewport : public ViewportBase
     Int32 getPixelWidth (void) const;
     Int32 getPixelHeight(void) const;
     
-    Bool isFullWindow( void ) const;
+    bool isFullWindow( void ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

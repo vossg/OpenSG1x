@@ -135,7 +135,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     void    replaceChild  (      UInt32   childIndex,    
                            const NodePtr &childP    );
 
-    Bool    replaceChildBy(const NodePtr &childP, 
+    bool    replaceChildBy(const NodePtr &childP, 
                            const NodePtr &newChildP );
 
     Int32   findChild     (const NodePtr &childP    ) const;
@@ -177,7 +177,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \name                       Volume                                 */
     /*! \{                                                                 */
     
-           DynamicVolume &getVolume       (Bool update = true   );
+           DynamicVolume &getVolume       (bool update = true   );
     
     const  DynamicVolume &getVolume       (void                 ) const;
     

@@ -204,7 +204,7 @@ ChangeList *PThreadBase::getCurrentChangeList(void)
 /*-------------------------------------------------------------------------*/
 /*                                Run                                      */
 
-Bool PThreadBase::run(ThreadFuncF  fThreadFunc, 
+bool PThreadBase::run(ThreadFuncF  fThreadFunc, 
                       UInt32       uiAspectId,
                       void        *pThreadArg)
 {
@@ -396,7 +396,7 @@ ChangeList *SprocBase::getCurrentChangeList(void)
 /*-------------------------------------------------------------------------*/
 /*                                Run                                      */
 
-Bool SprocBase::run(ThreadFuncF  fThreadFunc, 
+bool SprocBase::run(ThreadFuncF  fThreadFunc, 
                     UInt32       uiAspectId,
                     void        *pThreadArg)
 {
@@ -527,7 +527,7 @@ ChangeList *WinThreadBase::getCurrentChangeList(void)
 /*-------------------------------------------------------------------------*/
 /*                                Run                                      */
 
-Bool WinThreadBase::run(ThreadFuncF  fThreadFunc, 
+bool WinThreadBase::run(ThreadFuncF  fThreadFunc, 
                         UInt32       uiAspectId,
                         void        *pThreadArg)
 {

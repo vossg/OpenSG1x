@@ -97,7 +97,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatIntElem : public StatElem {
 
     virtual void putToString(string &str);
 
-    virtual Bool getFromString(const Char8 *&inVal);
+    virtual bool getFromString(const Char8 *&inVal);
 
     virtual ~StatIntElem(void); 
 
@@ -106,10 +106,10 @@ class OSG_SYSTEMLIB_DLLMAPPING StatIntElem : public StatElem {
     /*! \name                   comparison                                 */
     /*! \{                                                                 */
  
-    Bool operator < (const StatIntElem &other) const;
+    bool operator < (const StatIntElem &other) const;
     
-    //OSGBool operator == (const StatIntElem &other) const;
-    //OSGBool operator != (const StatIntElem &other) const;
+    //OSGbool operator == (const StatIntElem &other) const;
+    //OSGbool operator != (const StatIntElem &other) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

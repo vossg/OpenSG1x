@@ -453,7 +453,6 @@ void Window::doRefreshGLObject( UInt32 id )
     
     switch ( _mfGlObjectStatus[id] ) 
     {
-    case needrefresh:// already needing refresh
     case notused:    // not used yet, no need to refresh
     case destroy:
     case finaldestroy:  // object is being destroyed, ignore refresh
@@ -463,6 +462,7 @@ void Window::doRefreshGLObject( UInt32 id )
         SWARNING << "Window::refreshGLObject: id " << id
                  << " in state initialize ?!?!" << endl;
         return;
+    case needrefresh:// already needing refresh
     case initialized:
         {
         WindowPtr win = WindowPtr(*this);
@@ -478,9 +478,9 @@ void Window::doRefreshGLObject( UInt32 id )
             s = s + 1;
         }
 
-        UInt32 lastinv = getGlObjectInvalidateCounter();
+        UInt32 lastinv = getGlObjectInvalidateCounter() + 1;
         _mfGlObjectLastRefresh[id] = lastinv;
-        setGlObjectInvalidateCounter(lastinv + 1);
+        setGlObjectInvalidateCounter(lastinv);
         
         endEditCP  (win, GlObjectStatusFieldMask|
                          GlObjectLastRefreshFieldMask);
@@ -546,9 +546,9 @@ void Window::doReinitializeGLObject( UInt32 id )
             s = s + 1;
         }
         
-        UInt32 lastinv = getGlObjectInvalidateCounter();
+        UInt32 lastinv = getGlObjectInvalidateCounter() + 1;
         _mfGlObjectLastReinitialize[id] = lastinv;
-        setGlObjectInvalidateCounter(lastinv + 1);
+        setGlObjectInvalidateCounter(lastinv);
         
         endEditCP  (win, GlObjectStatusFieldMask|
                          GlObjectLastReinitializeFieldMask);

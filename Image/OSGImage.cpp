@@ -121,7 +121,7 @@ Int32 Image::_formatMap[][2] =
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -132,8 +132,8 @@ Int32 Image::_formatMap[][2] =
 //s:
 //
 //------------------------------
-Bool Image::set(PixelFormat pF, Int32 w, Int32 h, Int32 d, Int32 mmS, Int32 fS,
-                Time fD, const UChar8 *da, Bool doCopy)
+bool Image::set(PixelFormat pF, Int32 w, Int32 h, Int32 d, Int32 mmS, Int32 fS,
+                Time fD, const UChar8 *da, bool doCopy)
 {
     _pixelFormat = pF;
 
@@ -158,7 +158,7 @@ Bool Image::set(PixelFormat pF, Int32 w, Int32 h, Int32 d, Int32 mmS, Int32 fS,
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -169,7 +169,7 @@ Bool Image::set(PixelFormat pF, Int32 w, Int32 h, Int32 d, Int32 mmS, Int32 fS,
 //s:
 //
 //------------------------------
-Bool Image::set(const Image &image, Bool doCopy)
+bool Image::set(const Image &image, bool doCopy)
 {
     this->set(image._pixelFormat, image._width, image._height, image._depth,
               image._mipmapCount, image._frameCount, image._frameDelay,
@@ -190,7 +190,7 @@ Bool Image::set(const Image &image, Bool doCopy)
 //p:obalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -201,7 +201,7 @@ Bool Image::set(const Image &image, Bool doCopy)
 //s:
 //
 //------------------------------
-Bool Image::setData(const UChar8 *da, Bool doCopy)
+bool Image::setData(const UChar8 *da, bool doCopy)
 {
     return createData(da, doCopy);
 }
@@ -214,7 +214,7 @@ Bool Image::setData(const UChar8 *da, Bool doCopy)
 //p:obalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -225,9 +225,9 @@ Bool Image::setData(const UChar8 *da, Bool doCopy)
 //s:
 //
 //------------------------------
-Bool Image::flipDepthFrameData (void)
+bool Image::flipDepthFrameData (void)
 {
-  Bool retCode = false;
+  bool retCode = false;
   Int32 value;
 
   if ( (_mipmapCount == 1) && ((_frameCount == 1) || (_depth == 1)) ) 
@@ -254,7 +254,7 @@ Bool Image::flipDepthFrameData (void)
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -265,7 +265,7 @@ Bool Image::flipDepthFrameData (void)
 //s:
 //
 //------------------------------
-Bool Image::addValue(const char *value)
+bool Image::addValue(const char *value)
 {
     static Image    *currentImage = 0;
     static UChar8   *currentData = 0;
@@ -275,7 +275,7 @@ Bool Image::addValue(const char *value)
 
     //    UChar8  *data;
     PixelFormat     pf;
-    Bool            isHead = strchr(value, ' ') ? true : false;
+    bool            isHead = strchr(value, ' ') ? true : false;
 
     // make sure we only read one image at a time
     if(currentImage == this)
@@ -357,7 +357,7 @@ Bool Image::addValue(const char *value)
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -368,7 +368,7 @@ Bool Image::addValue(const char *value)
 //s:
 //
 //------------------------------
-Bool Image::reformat ( const Image::PixelFormat pixelFormat, 
+bool Image::reformat ( const Image::PixelFormat pixelFormat, 
                        Image *destination )
 {  
   UChar8 *data = 0;
@@ -601,7 +601,7 @@ void Image::dump(void)
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -612,10 +612,10 @@ void Image::dump(void)
 //s:
 //
 //------------------------------
-Bool Image::scale(Int32 width, Int32 height, Int32 depth, Image *destination)
+bool Image::scale(Int32 width, Int32 height, Int32 depth, Image *destination)
 {
     Image   *destImage = destination ? destination : new Image;
-    Bool    retCode = true;
+    bool    retCode = true;
     UInt32  sw, sh, sd, dw, dh, dd;
     Int32   frame, mipmap;
     UChar8  *src, *dest;
@@ -672,7 +672,7 @@ Bool Image::scale(Int32 width, Int32 height, Int32 depth, Image *destination)
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -683,12 +683,12 @@ Bool Image::scale(Int32 width, Int32 height, Int32 depth, Image *destination)
 //s:
 //
 //------------------------------
-Bool Image::subImage ( Int32 offX, Int32 offY, Int32 offZ,
+bool Image::subImage ( Int32 offX, Int32 offY, Int32 offZ,
 		       Int32 destW, Int32 destH, Int32 destD,
 		       Image *destination)
 {
     Image   *destImage = destination ? destination : new Image;
-    Bool    retCode = true;
+    bool    retCode = true;
     
     destImage->set(_pixelFormat, destW, destH, destD);
     
@@ -750,7 +750,7 @@ Bool Image::subImage ( Int32 offX, Int32 offY, Int32 offZ,
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -761,7 +761,7 @@ Bool Image::subImage ( Int32 offX, Int32 offY, Int32 offZ,
 //s:
 //
 //------------------------------
-Bool Image::createMipmap(Int32 level, Image *destination)
+bool Image::createMipmap(Int32 level, Image *destination)
 {
     struct Offset
     {
@@ -895,7 +895,7 @@ Bool Image::createMipmap(Int32 level, Image *destination)
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -906,7 +906,7 @@ Bool Image::createMipmap(Int32 level, Image *destination)
 //s:
 //
 //------------------------------
-Bool Image::write(const Char8 *fileName)
+bool Image::write(const Char8 *fileName)
 {
     return ImageFileHandler::the().write(*this, fileName);
 }
@@ -920,7 +920,7 @@ Bool Image::write(const Char8 *fileName)
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -931,7 +931,7 @@ Bool Image::write(const Char8 *fileName)
 //s:
 //
 //------------------------------
-Bool Image::read(const Char8 *fileName)
+bool Image::read(const Char8 *fileName)
 {
     return ImageFileHandler::the().read(*this, fileName);
 }
@@ -945,7 +945,7 @@ Bool Image::read(const Char8 *fileName)
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -970,7 +970,7 @@ UInt64 Image::store(Char8 *mimeType, UChar8 *mem, Int32 memSize)
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -999,11 +999,11 @@ UInt64 Image::restore(const UChar8 *mem, Int32 memSize)
 //----------------------------
 //
 //Parameters:
-//p: const UChar8 *data, Bool doCopy
+//p: const UChar8 *data, bool doCopy
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -1014,7 +1014,7 @@ UInt64 Image::restore(const UChar8 *mem, Int32 memSize)
 //s:
 //
 //------------------------------
-Bool Image::createData(const UChar8 *data, Bool doCopy)
+bool Image::createData(const UChar8 *data, bool doCopy)
 {
     Int32   i, mapSize = sizeof(_formatMap) / sizeof(UInt32[2]);
     UInt32 byteCount = 0;
@@ -1085,7 +1085,7 @@ Bool Image::createData(const UChar8 *data, Bool doCopy)
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -1096,7 +1096,7 @@ Bool Image::createData(const UChar8 *data, Bool doCopy)
 //s:
 //
 //------------------------------
-Bool Image::scaleData(UChar8 *srcData, Int32 srcW, Int32 srcH, Int32 srcD,
+bool Image::scaleData(UChar8 *srcData, Int32 srcW, Int32 srcH, Int32 srcD,
                       UChar8 *destData, Int32 destW, Int32 destH, Int32 destD)
 {
     Real32  sx = Real32(srcW) / Real32(destW);
@@ -1274,7 +1274,7 @@ Image::~Image(void)
 //------------------------------
 Image::Image(PixelFormat pixelFormat, Int32 width, Int32 height, Int32 depth,
              Int32 mipmapCount, Int32 frameCount, Time frameDelay,
-             const UChar8 *data, Bool doCopy) :
+             const UChar8 *data, bool doCopy) :
     _pixelFormat(pixelFormat),
     _width(width),
     _height(height),
@@ -1291,7 +1291,7 @@ Image::Image(PixelFormat pixelFormat, Int32 width, Int32 height, Int32 depth,
 }
 
 /*------------access----------------*/
-Bool Image::hasAlphaChannel(void)
+bool Image::hasAlphaChannel(void)
 {
     return _pixelFormat == OSG_RGBA_PF
 #ifdef OSG_HAS_BGRA_PF
@@ -1306,7 +1306,7 @@ UChar8 *Image::getDataByTime (Time   OSG_CHECK_ARG(time     ),
     return _data;
 }
 
-UInt32 Image::calcFrameNum(Time time, Bool OSG_CHECK_ARG(loop))
+UInt32 Image::calcFrameNum(Time time, bool OSG_CHECK_ARG(loop))
 {
     int frameNum = ((_frameDelay > 0) && (_frameCount > 0)) ?
         (int(time / _frameDelay) % _frameCount) : 0;
@@ -1329,7 +1329,7 @@ UInt32 Image::calcFrameNum(Time time, Bool OSG_CHECK_ARG(loop))
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -1340,7 +1340,7 @@ UInt32 Image::calcFrameNum(Time time, Bool OSG_CHECK_ARG(loop))
 //s:
 //
 //------------------------------
-Bool Image::operator==(const Image &image)
+bool Image::operator==(const Image &image)
 {
     unsigned long   i, s = getSize();
 
@@ -1406,7 +1406,7 @@ Image &Image::operator=(const Image &image)
 //GlobalVars:
 //g:
 //Returns:
-//r:Bool
+//r:bool
 // Caution
 //c:
 //Assumations:
@@ -1417,7 +1417,7 @@ Image &Image::operator=(const Image &image)
 //s:
 //
 //------------------------------
-Bool Image::operator<(const Image &image)
+bool Image::operator<(const Image &image)
 {
     return (getSize() < image.getSize()) ? true : false;
 }

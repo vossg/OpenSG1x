@@ -40,7 +40,7 @@ OSG_BEGIN_NAMESPACE
 
 /*-------------------------------------------------------------------------*/
 
-inline Bool StatElemDescBase::isValidID (Int32 id)
+inline bool StatElemDescBase::isValidID (Int32 id)
 { 
   return (_descVec && (id >= 0) && (id < Int32(_descVec->size()))); 
 }
@@ -92,7 +92,7 @@ inline  const IDString &StatElemDescBase::getDescription (void)
 // The templated StatElemDesc
 
 template <class T>
-char StatElemDesc<T>::cvsid[] = "@(#)$Id: OSGStatElemDesc.inl,v 1.5 2002/01/24 22:55:05 dirk Exp $";
+char StatElemDesc<T>::cvsid[] = "@(#)$Id: OSGStatElemDesc.inl,v 1.6 2002/02/04 20:14:11 dirk Exp $";
 
 
 template <class T>
@@ -117,4 +117,4 @@ StatElem *StatElemDesc<T>::createElem(void)
 
 OSG_END_NAMESPACE
 
-#define OSGSTATELEMDESC_INLINE_CVSID "@(#)$Id: OSGStatElemDesc.inl,v 1.5 2002/01/24 22:55:05 dirk Exp $"
+#define OSGSTATELEMDESC_INLINE_CVSID "@(#)$Id: OSGStatElemDesc.inl,v 1.6 2002/02/04 20:14:11 dirk Exp $"

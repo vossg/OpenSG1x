@@ -258,13 +258,13 @@ Real32 MaterialChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
     return 0;
 }
 
-Bool MaterialChunk::isTransparent(void) const
+bool MaterialChunk::isTransparent(void) const
 {
     return(getDiffuse()[3] < (1. - Eps));
 }
 
 
-Bool MaterialChunk::operator < (const StateChunk &other) const
+bool MaterialChunk::operator < (const StateChunk &other) const
 {
     return this < &other;
 }
@@ -272,7 +272,7 @@ Bool MaterialChunk::operator < (const StateChunk &other) const
 /** \brief equal
  */
 
-Bool MaterialChunk::operator == (const StateChunk &other) const
+bool MaterialChunk::operator == (const StateChunk &other) const
 {
     MaterialChunk const *tother = dynamic_cast<MaterialChunk const*>(&other);
 
@@ -289,7 +289,7 @@ Bool MaterialChunk::operator == (const StateChunk &other) const
 /** \brief unequal
  */
 
-Bool MaterialChunk::operator != (const StateChunk &other) const
+bool MaterialChunk::operator != (const StateChunk &other) const
 {
     return ! (*this == other);
 }

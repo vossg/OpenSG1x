@@ -161,7 +161,7 @@ void BoxVolume::extendBy(const Pnt3f &pt)
 /*-------------------------- intersection ---------------------------------*/
 
 /// Returns true if intersection of given point and Box3f is not empty
-Bool BoxVolume::intersect(const Pnt3f &pt) const
+bool BoxVolume::intersect(const Pnt3f &pt) const
 {
     return (!isEmpty() &&
         (_min[0] < pt[0] && _max[0] > pt[0]) &&
@@ -171,11 +171,11 @@ Bool BoxVolume::intersect(const Pnt3f &pt) const
 
 
 /** intersect the box with the given Line */
-Bool BoxVolume::intersect (const Line &line) const
+bool BoxVolume::intersect (const Line &line) const
 {
 
     Real32 enter, exit;
-    Bool erg;
+    bool erg;
 
     erg = line.intersect(*this, enter, exit);
 
@@ -186,9 +186,9 @@ Bool BoxVolume::intersect (const Line &line) const
 
 /** intersect the box with the given Line */
 //min und max sind der Eintritts- und Austrittspunkt der Linie
-Bool BoxVolume::intersect ( const Line &line, Real32 &min, Real32 &max  ) const
+bool BoxVolume::intersect ( const Line &line, Real32 &min, Real32 &max  ) const
 {
-    Bool erg;
+    bool erg;
 
     erg = line.intersect(*this, min, max);
 
@@ -196,7 +196,7 @@ Bool BoxVolume::intersect ( const Line &line, Real32 &min, Real32 &max  ) const
 }
 
 
-Bool BoxVolume::isOnSurface (const Pnt3f &point) const
+bool BoxVolume::isOnSurface (const Pnt3f &point) const
 {
     if ( ( ( osgabs( point[0] - _min[0] ) < Eps ||
              osgabs( point[0] - _max[0] ) < Eps
@@ -381,7 +381,7 @@ void BoxVolume::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 OSG_BEGIN_NAMESPACE
 
 /// Equality comparisons
-Bool operator ==(const BoxVolume &b1, const BoxVolume &b2)
+bool operator ==(const BoxVolume &b1, const BoxVolume &b2)
 {
     return ((b1._min[0] == b2._min[0]) &&
             (b1._min[1] == b2._min[1]) &&

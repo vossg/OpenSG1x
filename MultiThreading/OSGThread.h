@@ -159,7 +159,7 @@ class PThreadBase : public ThreadCommonBase
     /*! \name                      Run                                     */
     /*! \{                                                                 */
 
-    Bool run      (ThreadFuncF  fThreadFunc, 
+    bool run      (ThreadFuncF  fThreadFunc, 
                    UInt32       uiAspectId,
                    void        *pThreadArg);
 
@@ -262,7 +262,7 @@ class SprocBase : public ThreadCommonBase
     /*! \name                      Run                                     */
     /*! \{                                                                 */
 
-    Bool run      (ThreadFuncF  fThreadFunc, 
+    bool run      (ThreadFuncF  fThreadFunc, 
                    UInt32       uiAspectId,
                    void        *pThreadArg);
 
@@ -352,7 +352,7 @@ class OSG_SYSTEMLIB_DLLMAPPING WinThreadBase : public ThreadCommonBase
     /*! \name                      Run                                     */
     /*! \{                                                                 */
 
-    Bool run      (ThreadFuncF  fThreadFunc, 
+    bool run      (ThreadFuncF  fThreadFunc, 
                    UInt32       uiAspectId,
                    void        *pThreadArg);
 

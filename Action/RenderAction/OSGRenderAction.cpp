@@ -346,7 +346,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
         {
             DrawTreeNode *pCurrent = _pTransMatRoot->getFirstChild();
             DrawTreeNode *pLast    = NULL;
-            Bool          bFound   = false;
+            bool          bFound   = false;
 
             do
             {
@@ -470,7 +470,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
         {
             DrawTreeNode *pCurrent = _pTransMatRoot->getFirstChild();
             DrawTreeNode *pLast    = NULL;
-            Bool          bFound   = false;
+            bool          bFound   = false;
 
             do
             {
@@ -698,7 +698,7 @@ void RenderAction::draw(DrawTreeNode *pRoot)
     }
 }
 
-void RenderAction::setSortTrans(Bool bVal)
+void RenderAction::setSortTrans(bool bVal)
 {
     _bSortTrans = bVal;
 }
@@ -727,7 +727,7 @@ Action::ResultE RenderAction::start(void)
         GLint pt  = _viewport->getPixelTop();
         GLint pw  = pr - pl + 1;
         GLint ph  = pt - pb + 1;
-        Bool full = _viewport->isFullWindow();
+        bool full = _viewport->isFullWindow();
 
         glViewport(pl, pb, pw, ph);
         glScissor (pl, pb, pw, ph);

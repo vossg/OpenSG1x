@@ -49,7 +49,7 @@
 OSG_BEGIN_NAMESPACE
 
 inline
-Bool PrimitiveIterator::isAtEnd( void ) const
+bool PrimitiveIterator::isAtEnd( void ) const
 {
 #if 1
     return _ended;

@@ -89,7 +89,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticleBSPNode
     /*! \name                     Access                                   */
     /*! \{                                                                 */
 
-    inline Bool   isLeaf       (void) const;
+    inline bool   isLeaf       (void) const;
     inline Int32  getValue     (void) const;
     inline Real32 getSplitValue(void) const;
     inline UInt8  getAxis      (void) const;
@@ -147,7 +147,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticleBSPTree
     /*! \name               Creation / Deletion                            */
     /*! \{                                                                 */
 
-    inline Bool created(void);
+    inline bool created(void);
 
            void build  (Particles *core);
 
@@ -174,7 +174,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticleBSPTree
     
     void putToString(string &outVal) const;
      
-    Bool getFromString(const Char8 *&inVal);
+    bool getFromString(const Char8 *&inVal);
    
 
     /*! \}                                                                 */
@@ -229,7 +229,7 @@ struct FieldDataTraits<ParticleBSPTree> :
 
     static ParticleBSPTree getDefault   (void) { return ParticleBSPTree();   }
 
-    static Bool            getFromString(      ParticleBSPTree  &outVal,
+    static bool            getFromString(      ParticleBSPTree  &outVal,
                                          const Char8           *&inVal)
     {
         return outVal.getFromString(inVal);
@@ -267,6 +267,6 @@ OSG_END_NAMESPACE
 
 #include <OSGParticleBSP.inl>
 
-#define OSGPARTICLEBSP_HEADER_CVSID "@(#)$Id: OSGParticleBSP.h,v 1.1 2002/01/10 21:14:10 dirk Exp $"
+#define OSGPARTICLEBSP_HEADER_CVSID "@(#)$Id: OSGParticleBSP.h,v 1.2 2002/02/04 20:14:10 dirk Exp $"
 
 #endif /* _OSGPARTICLES_H_ */

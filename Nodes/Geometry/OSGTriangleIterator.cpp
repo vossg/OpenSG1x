@@ -71,7 +71,7 @@ triangles, non-polygonal primitives like lines and points are ignored.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.13 2001/10/15 04:52:16 vossg Exp $";
+char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.14 2002/02/04 20:14:09 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -310,7 +310,7 @@ TriangleIterator& TriangleIterator::operator = (const TriangleIterator &source)
 /** \brief assignment
  */
 
-Bool TriangleIterator::operator < (const TriangleIterator &other) const
+bool TriangleIterator::operator < (const TriangleIterator &other) const
 {
     return _primIt < other._primIt ||
             ( _primIt == other._primIt &&
@@ -320,7 +320,7 @@ Bool TriangleIterator::operator < (const TriangleIterator &other) const
 /** \brief equal
  */
 
-Bool TriangleIterator::operator == (const TriangleIterator &other) const
+bool TriangleIterator::operator == (const TriangleIterator &other) const
 {
     if ( _primIt.isAtEnd() && other._primIt.isAtEnd() )
         return true;
@@ -333,7 +333,7 @@ Bool TriangleIterator::operator == (const TriangleIterator &other) const
 /** \brief unequal
  */
 
-Bool TriangleIterator::operator != (const TriangleIterator &other) const
+bool TriangleIterator::operator != (const TriangleIterator &other) const
 {
     return ! (*this == other);
 }

@@ -77,7 +77,7 @@ Real32 Plane::getDistanceFromOrigin (void) const
 /*! != operator, based on ==.
  */
 inline OSG_BASE_DLLMAPPING
-Bool operator!=(const Plane &p1, const Plane &p2)
+bool operator!=(const Plane &p1, const Plane &p2)
 { 
     return !(p1 == p2); 
 }

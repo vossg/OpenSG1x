@@ -52,7 +52,7 @@ i.e. polygons.
 	</Field>
 	<Field
 		name="smooth"
-		type="Bool"
+		type="bool"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FALSE"
@@ -80,7 +80,7 @@ i.e. polygons.
 	</Field>
 	<Field
 		name="offsetPoint"
-		type="Bool"
+		type="bool"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FALSE"
@@ -89,7 +89,7 @@ i.e. polygons.
 	</Field>
 	<Field
 		name="offsetLine"
-		type="Bool"
+		type="bool"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FALSE"
@@ -98,7 +98,7 @@ i.e. polygons.
 	</Field>
 	<Field
 		name="offsetFill"
-		type="Bool"
+		type="bool"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FALSE"

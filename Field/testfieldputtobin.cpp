@@ -86,7 +86,7 @@ int main(void)
     OSG::FieldDataTraits<OSG::Pnt3d> ::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits<OSG::Pnt4f> ::copyToBin(pMem, NULL, 0);
 
-    OSG::Bool b;
+    bool b;
 
     OSG:: Int8  i8;
     OSG::UInt8 ui8;
@@ -104,7 +104,7 @@ int main(void)
     OSG::Real64  r64;
 
 
-    OSG::FieldDataTraits2<OSG::Bool>::copyToBin(pMem, b);
+    OSG::FieldDataTraits2<bool>::copyToBin(pMem, b);
 
     OSG::FieldDataTraits<OSG:: Int8>::copyToBin(pMem, i8);
     OSG::FieldDataTraits<OSG::UInt8>::copyToBin(pMem, ui8);
@@ -122,7 +122,7 @@ int main(void)
     OSG::FieldDataTraits<OSG::Real64>::copyToBin(pMem, r64);
 
 
-    OSG::FieldDataTraits2<OSG::Bool>::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits2<bool>::copyToBin(pMem, NULL, 0);
 
     OSG::FieldDataTraits<OSG:: Int8>::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits<OSG::UInt8>::copyToBin(pMem, NULL, 0);

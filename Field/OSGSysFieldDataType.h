@@ -54,15 +54,15 @@ OSG_BEGIN_NAMESPACE
 
 
 
-/*! \brief Bool field traits
+/*! \brief bool field traits
     \ingroup FieldLib
     \ingroup SingleFields
     \ingroup MultiFields
 */
 
 template <>
-struct FieldDataTraits2<Bool> : 
-    public FieldTraitsIntegralRecurseMapper<Bool>
+struct FieldDataTraits2<bool> : 
+    public FieldTraitsIntegralRecurseMapper<bool>
 {
     static DataType _type;
 
@@ -72,11 +72,11 @@ struct FieldDataTraits2<Bool> :
     static DataType &getType      (void) { return _type;         }
 
     static Char8    *getSName     (void) { return "SFBool";      }
-    static Char8    *getMName     (void) { return "MFBool";      }
+    static Char8    *getMName     (void) { return "MFbool";      }
 
-    static Bool      getDefault   (void) { return false;         }
+    static bool      getDefault   (void) { return false;         }
 
-    static Bool      getFromString(      Bool  &outVal,
+    static bool      getFromString(      bool  &outVal,
                                    const Char8 *&inVal)
     {
         if(inVal == NULL)
@@ -133,7 +133,7 @@ struct FieldDataTraits2<Bool> :
         return outVal;
     }
 
-    static void      putToString   (const Bool   &inVal,
+    static void      putToString   (const bool   &inVal,
                                           string &outVal)
     {
         if( inVal == true )
@@ -169,7 +169,7 @@ struct FieldDataTraits<Int8> : public FieldTraitsIntegralRecurseMapper<Int8>
 
     static Int8      getDefault   (void) { return 0;             }
 
-    static Bool      getFromString(      Int8   &outVal,
+    static bool      getFromString(      Int8   &outVal,
                                    const Char8 *&inVal)
     {
         outVal = TypeConstants<Int8>::getFromString(inVal);
@@ -205,7 +205,7 @@ struct FieldDataTraits<UInt8> : public FieldTraitsIntegralRecurseMapper<UInt8>
 
     static UInt8     getDefault   (void) { return 0;             }
 
-    static Bool      getFromString(      UInt8   &outVal,
+    static bool      getFromString(      UInt8   &outVal,
                                    const Char8  *&inVal)
     {
         outVal = TypeConstants<UInt8>::getFromString(inVal);
@@ -242,7 +242,7 @@ struct FieldDataTraits<Int16> : public FieldTraitsIntegralRecurseMapper<Int16>
 
     static Int16     getDefault   (void) { return 0;             }
 
-    static Bool      getFromString(      Int16  &outVal,
+    static bool      getFromString(      Int16  &outVal,
                                    const Char8 *&inVal)
     {
         outVal = TypeConstants<Int16>::getFromString(inVal);
@@ -279,7 +279,7 @@ struct FieldDataTraits<UInt16> :
 
     static UInt16    getDefault   (void) { return 0;             }
 
-    static Bool      getFromString(      UInt16  &outVal,
+    static bool      getFromString(      UInt16  &outVal,
                                    const Char8  *&inVal)
     {
         outVal = TypeConstants<UInt16>::getFromString(inVal);
@@ -317,7 +317,7 @@ struct FieldDataTraits<Int32> :
 
     static Int32     getDefault   (void) { return 0;             }
 
-    static Bool      getFromString(      Int32  &outVal,
+    static bool      getFromString(      Int32  &outVal,
                                    const Char8 *&inVal)
     {
         outVal = TypeConstants<Int32>::getFromString(inVal);
@@ -354,7 +354,7 @@ struct FieldDataTraits<UInt32> :
 
     static UInt32    getDefault   (void) { return 0;             }
 
-    static Bool      getFromString(      UInt32  &outVal,
+    static bool      getFromString(      UInt32  &outVal,
                                    const Char8  *&inVal)
     {
         outVal = TypeConstants<UInt32>::getFromString(inVal);
@@ -392,7 +392,7 @@ struct FieldDataTraits<Int64> :
 
     static Int64     getDefault   (void) { return 0;             }
 
-    static Bool      getFromString(      Int64   &outVal,
+    static bool      getFromString(      Int64   &outVal,
                                    const Char8  *&inVal)
     {
         outVal = TypeConstants<Int64>::getFromString(inVal);
@@ -429,7 +429,7 @@ struct FieldDataTraits<UInt64> :
 
     static UInt64    getDefault   (void) { return 0;             }
 
-    static Bool      getFromString(      UInt64  &outVal,
+    static bool      getFromString(      UInt64  &outVal,
                                    const Char8  *&inVal)
     {
         outVal = TypeConstants<UInt64>::getFromString(inVal);
@@ -468,7 +468,7 @@ struct FieldDataTraits<Real32> :
 
     static Real32    getDefault   (void) { return 0.f;           }
 
-    static Bool      getFromString(      Real32  &outVal,
+    static bool      getFromString(      Real32  &outVal,
                                    const Char8  *&inVal)
     {
         outVal = TypeConstants<Real32>::getFromString(inVal);
@@ -506,7 +506,7 @@ struct FieldDataTraits<Real64> :
 
     static Real64    getDefault   (void) { return 0.;            }
 
-    static Bool      getFromString(      Real64  &outVal,
+    static bool      getFromString(      Real64  &outVal,
                                    const Char8  *&inVal)
     {
         outVal = TypeConstants<Real64>::getFromString(inVal);

@@ -195,7 +195,7 @@ Int32 Viewport::getPixelTop( void ) const
     return Int32(getParent()->getHeight() * getTop() - 1);
 }
 
-Bool Viewport::isFullWindow( void ) const
+bool Viewport::isFullWindow( void ) const
 {
     return  getPixelBottom() == 0 &&
             getPixelLeft()   == 0 &&
@@ -226,7 +226,7 @@ void Viewport::draw( DrawAction * action )
     GLint pl=getPixelLeft(), pr=getPixelRight(), pb=getPixelBottom(), 
           pt=getPixelTop();
     GLint pw=pr-pl+1,ph=pt-pb+1;
-    Bool full = isFullWindow();
+    bool full = isFullWindow();
 
     glViewport( pl, pb, pw, ph );
     glScissor( pl, pb, pw, ph );
@@ -273,7 +273,7 @@ void Viewport::render( RenderAction * action )
     GLint pl=getPixelLeft(), pr=getPixelRight(), pb=getPixelBottom(), 
           pt=getPixelTop();
     GLint pw=pr-pl+1,ph=pt-pb+1;
-    Bool full = isFullWindow();
+    bool full = isFullWindow();
 
     glViewport( pl, pb, pw, ph );
     glScissor( pl, pb, pw, ph );

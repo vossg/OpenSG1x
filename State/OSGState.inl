@@ -53,14 +53,14 @@ StateChunkPtr State::getChunk( UInt32 id )
 }
 
 inline
-Bool State::chunkPresent( UInt32 id )
+bool State::chunkPresent( UInt32 id )
 {
     return  id < _mfChunks.size() &&
             _mfChunks.getValue( id ) != NullStateChunk ;
 }
 
 inline
-Bool State::chunkPresent( StateChunkPtr chunk )
+bool State::chunkPresent( StateChunkPtr chunk )
 {
     return chunkPresent( chunk->getClassID() );
 }
