@@ -37,8 +37,8 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _OSGGRAPHOPFACTORY_H_
-#define _OSGGRAPHOPFACTORY_H_
+#ifndef _OSGPRUNEGRAPHOP_H_
+#define _OSGPRUNEGRAPHOP_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -46,48 +46,39 @@
 #include <OSGConfig.h>
 
 #include <OSGSystemDef.h>
-#include <OSGNodePtr.h>
-#include <OSGAction.h>
 #include <OSGGraphOp.h>
+#include <OSGAction.h>
 
 OSG_BEGIN_NAMESPACE
 
-//! \ingroup GrpSystemRenderingBackend
-//! GraphOpSeq class
-
-class OSG_SYSTEMLIB_DLLMAPPING GraphOpFactory
+class OSG_SYSTEMLIB_DLLMAPPING PruneGraphOp : public GraphOp
 {
-  public:
-        
-    void registerOp(GraphOp* prototype);
-    void unRegisterOp(GraphOp* prototype);
-    void unRegisterOp(const char* name);
-        
-    GraphOp *create(const char* name);
+public:
+    enum Method {
+        VOLUME,
+        SUM_OF_DIMENSIONS,
+    };
 
-    static GraphOpFactory& the();
-    
-    
-    /* map access */
-    typedef std::map<std::string, GraphOp*>::const_iterator iterator;
-    
-    iterator begin(void);
-    iterator end();  
-    
-  private:
+    static const char *getClassname(void) { return "PruneGraphOp"; };
 
-    typedef std::pair <std::string, GraphOp*> GraphOpPair;
-        
-    GraphOpFactory(void);
+    PruneGraphOp(float size, Method method, const char* name = "Prune");
 
-    static GraphOpFactory *_the;
+    GraphOp* create();
 
-    std::map<std::string, GraphOp*> _typeMap;
+    // This function is worthless.
+    void setParams(const std::string params) { }
+
+private:
+    Action::ResultE traverseEnter(NodePtr& node);
+    Action::ResultE traverseLeave(NodePtr& node, Action::ResultE res);
+
+    bool isTooSmall(const NodePtr& node);
+    float getSize(const NodePtr& node);
+
+    float _size;
+    Method _method;
 };
-
-typedef GraphOpFactory *GraphOpFactoryP;
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGGRAPHOPSEQ_H_ */
-
+#endif

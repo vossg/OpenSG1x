@@ -41,83 +41,66 @@
 *                             Includes                                    *
 \***************************************************************************/
 
-#include <OSGGraphOpFactory.h>
+#include <OSGPruneGraphOp.h>
 
 OSG_USING_NAMESPACE
-
-GraphOpFactory *GraphOpFactory::_the=NULL;
 
 /***************************************************************************\
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \class osg::GraphOpFactory
+/*! \class osg::PruneGraphOp
     \ingroup GrpSystemNodeCoresDrawablesGeometry
     
-A base class used to traverse geometries.
-
+Removes nodes of size smaller than a given threshold from the scene.
 */
 
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-void GraphOpFactory::registerOp(GraphOp* prototype)
-{
-    _typeMap[prototype->getName()]=prototype;
-}
-
-void GraphOpFactory::unRegisterOp(GraphOp* prototype)
-{
-    unRegisterOp(prototype->getName().c_str());
-}
-
-void GraphOpFactory::unRegisterOp(const char* name)
-{
-    _typeMap.erase(name);
-}
-    
-GraphOp *GraphOpFactory::create(const char* name)
-{
-    GraphOp *proto = _typeMap[name];     
-    if (proto != NULL)
-        return proto->create();
-    else
-        return NULL;
-}
-
-GraphOpFactory& GraphOpFactory::the()
-{
-    if(_the == NULL)
-        _the=new GraphOpFactory();
-    return *_the;
-}
-
-GraphOpFactory::iterator GraphOpFactory::begin()
-{
-    return _typeMap.begin();;
-}
-
-GraphOpFactory::iterator GraphOpFactory::end()
-{
-    return _typeMap.end();;
-}
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-GraphOpFactory::GraphOpFactory(): _typeMap()
+PruneGraphOp::PruneGraphOp(float size, Method method, const char* name)
+    : GraphOp(name)
+    , _size(size)
+    , _method(method)
 {
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+GraphOp* PruneGraphOp::create()
+{
+    return new PruneGraphOp(_size, _method);
+}
+
+Action::ResultE PruneGraphOp::traverseEnter(NodePtr& node)
+{
+    return isTooSmall(node) ? Action::Skip : Action::Continue;
+}
+
+Action::ResultE PruneGraphOp::traverseLeave(NodePtr& node, Action::ResultE res)
+{
+    beginEditCP(node);
+    for (UInt32 i = 0; i < node->getNChildren(); ++i) {
+        if (isTooSmall(node->getChild(i))) {
+            node->subChild(i);
+            --i;
+        }
+    }
+    endEditCP(node);
+
+    return res;
+}
+
+bool PruneGraphOp::isTooSmall(const NodePtr& node) {
+    return getSize(node) < _size;
+}
+
+float PruneGraphOp::getSize(const NodePtr& node) {
+    const DynamicVolume& dv = node->getVolume(true);
+    if (_method == VOLUME) {
+        return dv.getScalarVolume();
+    } else if (_method == SUM_OF_DIMENSIONS) {
+        Pnt3f min, max;
+        dv.getBounds(min, max);
+        Vec3f diff = max - min;
+        return diff[0] + diff[1] + diff[2];
+    } else {
+        SWARNING << "Unknown size calculation method" << std::endl;
+        return 0;
+    }
+}

@@ -37,57 +37,90 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _OSGGRAPHOPFACTORY_H_
-#define _OSGGRAPHOPFACTORY_H_
+#ifndef _OSGMATERIALMERGEGRAPHOP_H_
+#define _OSGMATERIALMERGEGRAPHOP_H_
 #ifdef __sgi
 #pragma once
 #endif
 
+#include <list>
+#include <map>
+
 #include <OSGConfig.h>
 
 #include <OSGSystemDef.h>
-#include <OSGNodePtr.h>
-#include <OSGAction.h>
 #include <OSGGraphOp.h>
+#include <OSGAction.h>
+#include <OSGGeometry.h>
+#include <OSGMaterialGroup.h>
 
 OSG_BEGIN_NAMESPACE
 
-//! \ingroup GrpSystemRenderingBackend
-//! GraphOpSeq class
-
-class OSG_SYSTEMLIB_DLLMAPPING GraphOpFactory
+class OSG_SYSTEMLIB_DLLMAPPING MaterialMergeGraphOp : public GraphOp
 {
-  public:
-        
-    void registerOp(GraphOp* prototype);
-    void unRegisterOp(GraphOp* prototype);
-    void unRegisterOp(const char* name);
-        
-    GraphOp *create(const char* name);
+public:
+    class MaterialObject
+    {
+    public:
+        MaterialObject(GeometryPtr geo)
+        {
+            _geo = geo;
+        }
 
-    static GraphOpFactory& the();
-    
-    
-    /* map access */
-    typedef std::map<std::string, GraphOp*>::const_iterator iterator;
-    
-    iterator begin(void);
-    iterator end();  
-    
-  private:
+        MaterialObject(MaterialGroupPtr mg)
+        {
+            _mg = mg;
+        }
 
-    typedef std::pair <std::string, GraphOp*> GraphOpPair;
-        
-    GraphOpFactory(void);
+        MaterialPtr getMaterial() {
+            return (_geo != osg::NullFC
+                    ? _geo->getMaterial()
+                    : _mg->getMaterial());
+        }
 
-    static GraphOpFactory *_the;
+        void setMaterial(MaterialPtr mat) {
+            if (_geo != osg::NullFC)
+            {
+                beginEditCP(_geo);
+                _geo->setMaterial(mat);
+                endEditCP(_geo);
+            }
+            else
+            {
+                beginEditCP(_mg);
+                _mg->setMaterial(mat);
+                endEditCP(_mg);
+            }
+        }
 
-    std::map<std::string, GraphOp*> _typeMap;
+    private:
+        GeometryPtr _geo;
+        MaterialGroupPtr _mg;
+    };
+
+    static const char *getClassname(void) { return "MaterialMergeGraphOp"; };
+
+    MaterialMergeGraphOp(const char* name = "MaterialMerge");
+
+    GraphOp* create();
+
+    bool traverse(NodePtr& node);
+
+    // This function is worthless.
+    void setParams(const std::string params) { }
+
+private:
+    Action::ResultE traverseEnter(NodePtr& node);
+    Action::ResultE traverseLeave(NodePtr& node, Action::ResultE res);
+
+    void addObject(MaterialObject m);
+
+    typedef std::list<MaterialObject> MaterialObjectList;
+    typedef std::map<MaterialPtr, MaterialObjectList> MaterialObjectMap;
+
+    MaterialObjectMap _materialObjects;
 };
-
-typedef GraphOpFactory *GraphOpFactoryP;
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGGRAPHOPSEQ_H_ */
-
+#endif /* _OSGMERGEGRAPHOP_H_ */
