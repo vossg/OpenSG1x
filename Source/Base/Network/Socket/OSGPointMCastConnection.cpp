@@ -658,12 +658,11 @@ void PointMCastConnection::initialize()
     std::string   host;
     UInt32        port;
     char          threadName[256];
-    //UInt32        len;
 
     sprintf(threadName,"PointMCastConnection%p",this);
 
     // get info about the group
-    //len = _socket.recv(message);
+    _socket.recv(message);
     // group and port
     group = message.getString();
     port  = message.getUInt32();
