@@ -752,10 +752,10 @@ dnl e2
         eval ac_gdz_package_testinc_dep=\${ac_gdz_package_testinc_dep_${ac_gdz_package_name}}
 
         for dir in ${ac_gdz_package_testinc_dep}; do
-            ac_gdz_package_check_file_e2=$ac_gdz_src_dir/$dir/common.mk
+            ac_gdz_package_check_file_e2=$ac_gdz_src_dir/Source/$dir/common.mk
             
             if test -r $ac_gdz_package_check_file_e2; then
-                ac_gdz_package_testinc_dep_out_files="$ac_gdz_package_testinc_dep_out_files $ac_gdz_src_dir/$dir/common.mk"
+                ac_gdz_package_testinc_dep_out_files="$ac_gdz_package_testinc_dep_out_files $ac_gdz_src_dir/Source/$dir/common.mk"
             else
                 ac_gdz_package_check_file_e2=$ac_gdz_commonpackage_dir/common$dir.mk
             

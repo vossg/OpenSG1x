@@ -62,7 +62,7 @@ void *connectProc(void *)
         connection->signal();
         delete connection;
     }
-    catch(OSG_EX_NAMESPACE::exception &e)
+    catch(OSG_EXCEPTION_NAMESPACE::exception &e)
     {
         FFATAL(("Error while connecting: %s\n",e.what()));
     }
@@ -103,7 +103,7 @@ void *acceptProc(void *)
         connection->wait();
         delete connection;
     }
-    catch(OSG_EX_NAMESPACE::exception &e)
+    catch(OSG_EXCEPTION_NAMESPACE::exception &e)
     {
         FFATAL(("Error while connecting: %s\n",e.what()));
     }
