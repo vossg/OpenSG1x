@@ -24,7 +24,7 @@ include common.$(SYSTEM)
 
 TUTS :=  $(wildcard [0-9][0-9]*.cpp) 
 PROGS := $(TUTS:.cpp=) 
-	
+
 # program dependencies
 
 default:	$(PROGS)
@@ -32,10 +32,10 @@ default:	$(PROGS)
 # make rules
 
 .PHONY: clean Clean
-                  
+
 clean:
 	rm -fr *.o ii_files
-                        
+
 Clean: clean
 	rm -fr $(PROGS) 
 

@@ -31,10 +31,10 @@ default:	$(PROGS)
 # make rules
 
 .PHONY: clean Clean
-                  
+
 clean:
 	rm -fr *.o ii_files
-                        
+
 Clean: clean
 	rm -fr $(PROGS) $(DSPS) Debug Tutorials.dsp Tutorials.dsw Tutorials.ncb \
 	       Tutorials.opt Tutorials.plg *.idb
@@ -59,7 +59,7 @@ dsw: $(DSPS)
 	sed -e "s|##DSPS##|$$dsps|g" -e "s|##DEPS##|$$deps|g" < template.dsw | \
 	tr '@' '\012' | tr '%' '\015' > Tutorials.dsw
 	tr '@' '\012' < Tutorials.dsp.raw | tr '%' '\015' > Tutorials.dsp
-	
+
 
 %.dsp:
 	deps="";\
