@@ -94,6 +94,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SwitchBase : public Group
     static const OSG::BitVector ChoiceFieldMask;
 
 
+    static const OSG::BitVector MTInfluenceMask;
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -220,6 +222,6 @@ typedef SwitchBase *SwitchBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSWITCHBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGSWITCHBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.31 2003/03/15 23:10:08 dirk Exp $"
 
 #endif /* _OSGSWITCHBASE_H_ */

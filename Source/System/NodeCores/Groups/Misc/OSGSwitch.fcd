@@ -8,12 +8,13 @@
 	structure="concrete"
 	systemcomponent="true"
 	parentsystemcomponent="true"
+	decoratable="false"
 >
 	<Field
 		name="choice"
 		type="Int32"
 		cardinality="single"
-		visibility="internal"
+		visibility="external"
 		defaultValue="-1"
 		access="public"
 	>
