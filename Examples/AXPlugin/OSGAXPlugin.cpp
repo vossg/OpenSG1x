@@ -47,7 +47,8 @@ OpenSGWidget::OpenSGWidget( QGLFormat f, QWidget *parent, const char *name )
     _render_wireframe(false),
     _render_statistic(false),
     _fullscreen(false),
-    _parent(NULL)
+    _parent(NULL),
+    _initialized_gl(false)
 {
     setAcceptDrops(true);
     setAutoBufferSwap(false);
@@ -110,9 +111,15 @@ void OpenSGWidget::initializeGL()
         ract->setZWriteTrans(true);
     }
 
-    _mgr->useOpenSGLogo();
+    if(!_initialized_gl)
+    {
+        // this should be done only once, switching to fullscreen mode will
+        // call initializeGL()!
+        _mgr->useOpenSGLogo();
+        emit initializedGL();
+    }
 
-    emit initializedGL();
+    _initialized_gl = true;
 }
 
 void OpenSGWidget::resizeGL( int width, int height )
@@ -276,24 +283,20 @@ void OpenSGWidget::toggleFullScreen(void)
 {
     _fullscreen = !_fullscreen;
 
-    // on ATI cards this leads to render bugs, a much slower but safe way
-    // is to create a new render widget with the right window flags and
-    // destroy the old one.
-
     if(_fullscreen)
     {
         _parent = parentWidget();
         QPoint p(0, 0);
-        reparent(NULL, WStyle_Customize | WStyle_NoBorder |
-                 Qt::WStyle_StaysOnTop, p, true);
+        ((QWidget *)this)->reparent(NULL, p, true);
+        showFullScreen();
         setFocus();
-        resize(QApplication::desktop()->size());
         updateGL();
     }
     else
     {
         QPoint p(0, 0);
-        reparent(_parent, 0, p, true);
+        ((QWidget *)this)->reparent(_parent, p, true);
+        showNormal();
         setFocus();
         updateGL();
     }

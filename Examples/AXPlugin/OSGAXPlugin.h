@@ -57,6 +57,7 @@ protected:
     bool _render_statistic;
     bool _fullscreen;
     QWidget *_parent;
+    bool _initialized_gl;
 };
 
 // -----------------------------
