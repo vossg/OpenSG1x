@@ -47,7 +47,8 @@
 
 #include <iostream>
 
-#include "OSGVRMLTouchSensor.h"
+#include "OSGVRMLPositionInterpolator.h"
+#include "OSGDataElementDesc.h"
 
 OSG_USING_NAMESPACE
 
@@ -55,7 +56,9 @@ OSG_USING_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-static void vrmlTouchSensorDescInserter(ReflexiveContainerType *pType)
+#if !defined(OSG_NO_FULL_DOC)
+
+static void vrmlPositionInterpolatorDescInserter(ReflexiveContainerType *pType)
 {
     if(pType == NULL)
         return;
@@ -63,33 +66,33 @@ static void vrmlTouchSensorDescInserter(ReflexiveContainerType *pType)
     DataElementDesc *pDesc = NULL;
 
     pDesc = new DataElementDesc(
-        SFBool::getClassType(),
-        "isActive",
-        OSG_RC_ELEM_IDM_DESC(VRMLTouchSensor::IsActiveField),
+        MFReal32::getClassType(),
+        "key",
+        OSG_RC_ELEM_IDM_DESC(VRMLPositionInterpolator::KeyField),
         false,
-        (DataElemGetMethod) &VRMLTouchSensor::getSFIsActive,
+        (DataElemGetMethod) &VRMLPositionInterpolator::getMFKey,
         NULL,
         NULL);
 
     pType->addInitialDesc(pDesc);
 
     pDesc = new DataElementDesc(
-        SFBool::getClassType(),
-        "isOver",
-        OSG_RC_ELEM_IDM_DESC(VRMLTouchSensor::IsOverField),
+        MFVec3f::getClassType(),
+        "keyValue",
+        OSG_RC_ELEM_IDM_DESC(VRMLPositionInterpolator::KeyValueField),
         false,
-        (DataElemGetMethod) &VRMLTouchSensor::getSFIsOver,
+        (DataElemGetMethod) &VRMLPositionInterpolator::getMFKeyValue,
         NULL,
         NULL);
 
     pType->addInitialDesc(pDesc);
 
     pDesc = new DataElementDesc(
-        SFTime::getClassType(),
-        "touchTime",
-        OSG_RC_ELEM_IDM_DESC(VRMLTouchSensor::TouchTimeField),
+        SFReal32::getClassType(),
+        "set_fraction",
+        OSG_RC_ELEM_IDM_DESC(VRMLPositionInterpolator::SetFractionField),
         false,
-        (DataElemGetMethod) &VRMLTouchSensor::getSFTouchTime,
+        (DataElemGetMethod) &VRMLPositionInterpolator::getSFSetFraction,
         NULL,
         NULL);
 
@@ -97,32 +100,10 @@ static void vrmlTouchSensorDescInserter(ReflexiveContainerType *pType)
 
     pDesc = new DataElementDesc(
         SFVec3f::getClassType(),
-        "hitNormal_changed",
-        OSG_RC_ELEM_IDM_DESC(VRMLTouchSensor::HitNormalChangedField),
+        "value_changed",
+        OSG_RC_ELEM_IDM_DESC(VRMLPositionInterpolator::ValueChangedField),
         false,
-        (DataElemGetMethod) &VRMLTouchSensor::getSFHitNormalChanged,
-        NULL,
-        NULL);
-
-    pType->addInitialDesc(pDesc);
-
-    pDesc = new DataElementDesc(
-        SFPnt3f::getClassType(),
-        "hitPoint_changed",
-        OSG_RC_ELEM_IDM_DESC(VRMLTouchSensor::HitPointChangedField),
-        false,
-        (DataElemGetMethod) &VRMLTouchSensor::getSFHitPointChanged,
-        NULL,
-        NULL);
-
-    pType->addInitialDesc(pDesc);
-
-    pDesc = new DataElementDesc(
-        SFVec2f::getClassType(),
-        "hitTexCoord_changed",
-        OSG_RC_ELEM_IDM_DESC(VRMLTouchSensor::HitTexCoordChangedField),
-        false,
-        (DataElemGetMethod) &VRMLTouchSensor::getSFHitTexCoordChanged,
+        (DataElemGetMethod) &VRMLPositionInterpolator::getSFValueChanged,
         NULL,
         NULL);
 
@@ -130,14 +111,16 @@ static void vrmlTouchSensorDescInserter(ReflexiveContainerType *pType)
 }
 
 
-VRMLObjectType VRMLTouchSensor::_type(
-    "TouchSensor",
-    "VRMLSensor",
+VRMLObjectType VRMLPositionInterpolator::_type(
+    "PositionInterpolator",
+    "VRMLUnlimitedNode",
     "VRMLNodes",
-    (VRMLProtoCreateF) &VRMLTouchSensor::createEmpty,
+    (VRMLProtoCreateF) &VRMLPositionInterpolator::createEmpty,
     NULL, // Init
-    NULL,
+    vrmlPositionInterpolatorDescInserter,
     true);
+
+#endif
 
 /***************************************************************************\
  *                               Types                                     *
@@ -175,28 +158,23 @@ VRMLObjectType VRMLTouchSensor::_type(
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-VRMLTouchSensor::VRMLTouchSensor(void) :
-     Inherited(),
-     _sfIsActive(false),
-     _sfIsOver(false),
-     _sfTouchTime(),
-     _sfHitNormalChanged(),
-     _sfHitPointChanged(),
-     _sfHitTexCoordChanged()
+
+VRMLPositionInterpolator::VRMLPositionInterpolator(void) :
+	 Inherited        (     ),
+    _mfKey            (     ),
+    _mfKeyValue       (     ),
+    _sfSetFraction    (0.0  ),
+    _sfValueChanged   (     )
 {
 }
 
 
-VRMLTouchSensor::VRMLTouchSensor(
-    const VRMLTouchSensor &source) :
-
-     Inherited(source),
-    _sfIsActive(source._sfIsActive),
-     _sfIsOver(source._sfIsOver),
-     _sfTouchTime(source._sfTouchTime),
-     _sfHitNormalChanged(source._sfHitNormalChanged),
-     _sfHitPointChanged(source._sfHitPointChanged),
-     _sfHitTexCoordChanged(source._sfHitTexCoordChanged)
+VRMLPositionInterpolator::VRMLPositionInterpolator(const VRMLPositionInterpolator &source) :
+	 Inherited          (source                ),
+    _mfKey              (source._mfKey         ),
+    _mfKeyValue         (source._mfKeyValue    ),
+    _sfSetFraction      (source._sfSetFraction ),
+    _sfValueChanged     (source._sfValueChanged)
 {
 }
 
@@ -208,7 +186,7 @@ VRMLTouchSensor::VRMLTouchSensor(
 #pragma warning (disable : 424)
 #endif
 
-OSG_VRMLOBJ_DEF(VRMLTouchSensor, Ptr);
+OSG_VRMLOBJ_DEF(VRMLPositionInterpolator, Ptr);
 
 #if defined(WIN32) || defined(OSG_LINUX_ICC)
 #pragma warning (default : 424)
@@ -216,46 +194,37 @@ OSG_VRMLOBJ_DEF(VRMLTouchSensor, Ptr);
 
 /*------------- constructors & destructors --------------------------------*/
 
-VRMLTouchSensor::~VRMLTouchSensor(void)
+VRMLPositionInterpolator::~VRMLPositionInterpolator(void)
 {
 }
 
-void VRMLTouchSensor::evaluate(Time)
+/*-------------------------------- eval -----------------------------------*/
+
+void VRMLPositionInterpolator::evaluate(Time)
 {
 }
 
 /*------------------------------ access -----------------------------------*/
 
-SFBool *VRMLTouchSensor::getSFIsActive(void)
+MFReal32 *VRMLPositionInterpolator::getMFKey(void)
 {
-    return &_sfIsActive;
+    return &_mfKey;
 }
 
-SFBool *VRMLTouchSensor::getSFIsOver(void)
+MFVec3f *VRMLPositionInterpolator::getMFKeyValue(void)
 {
-    return &_sfIsOver;
+    return &_mfKeyValue;
 }
 
-SFTime *VRMLTouchSensor::getSFTouchTime(void)
+SFReal32 *VRMLPositionInterpolator::getSFSetFraction(void)
 {
-    return &_sfTouchTime;
+    return &_sfSetFraction;
 }
 
-SFVec3f *VRMLTouchSensor::getSFHitNormalChanged(void)
+SFVec3f *VRMLPositionInterpolator::getSFValueChanged(void)
 {
-    return &_sfHitNormalChanged;
+    return &_sfValueChanged;
 }
-
-SFPnt3f *VRMLTouchSensor::getSFHitPointChanged(void)
-{
-    return &_sfHitPointChanged;
-}
-
-SFVec2f *VRMLTouchSensor::getSFHitTexCoordChanged(void)
-{
-    return &_sfHitTexCoordChanged;
-}
-
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
@@ -270,6 +239,6 @@ SFVec2f *VRMLTouchSensor::getSFHitTexCoordChanged(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGVRMLTouchSensor.cpp,v 1.3 2003/06/23 07:05:13 amz Exp $";
-    static Char8 cvsid_hpp[] = OSGVRMLTOUCHSENSOR_HEADER_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGVRMLPositionInterpolator.cpp,v 1.1 2004/03/05 17:36:07 a-m-z Exp $";
+    static Char8 cvsid_hpp[] = OSGVRMLPOSITIONINTERPOLATOR_HEADER_CVSID;
 }

@@ -50,6 +50,7 @@
 #include "OSGVRMLAppearance.h"
 #include "OSGDataElementDesc.h"
 
+#include <OSGSimpleAttachments.h>
 #include "OSGChunkMaterial.h"
 #include "OSGVRMLToOSGAction.h"
 #include "OSGBlendChunk.h"
@@ -281,7 +282,25 @@ VRMLAppearanceBinder::~VRMLAppearanceBinder(void)
 
 void VRMLAppearanceBinder::init(VRMLToOSGAction *)
 {
-    _pFieldContainer = ChunkMaterial::create();
+    VRMLAppearance *pNode = dynamic_cast<VRMLAppearance *>(_pNode);
+
+    if(pNode == NULL)
+        return;
+
+    ChunkMaterialPtr mat = ChunkMaterial::create();
+
+    if(pNode->getName().str() != NULL)
+    {
+        NamePtr node_name = Name::create();
+        beginEditCP(node_name);
+            node_name->getFieldPtr()->setValue(pNode->getName().str());
+        endEditCP(node_name);
+        beginEditCP(mat,  Node::AttachmentsFieldMask);
+            mat->addAttachment(node_name);
+        endEditCP  (mat, Node::AttachmentsFieldMask);
+    }
+
+    _pFieldContainer = mat;
 }
     
 void VRMLAppearanceBinder::setMaterial(MaterialChunkPtr pMat)

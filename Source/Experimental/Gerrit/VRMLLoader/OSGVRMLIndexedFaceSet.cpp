@@ -51,6 +51,7 @@
 #include "OSGDataElementDesc.h"
 #include "OSGVRMLToOSGAction.h"
 #include "OSGGeoFunctions.h"
+#include "OSGSimpleAttachments.h"
 
 OSG_USING_NAMESPACE
 
@@ -503,7 +504,25 @@ VRMLIndexedFaceSetBinder::~VRMLIndexedFaceSetBinder(void)
 
 void VRMLIndexedFaceSetBinder::init(VRMLToOSGAction *)
 {
-    _pFieldContainer = Geometry::create();
+    VRMLIndexedFaceSet *pNode = dynamic_cast<VRMLIndexedFaceSet *>(_pNode);
+
+    if(pNode == NULL)
+        return;
+
+    GeometryPtr geo = Geometry::create();
+
+    if(pNode->getName().str() != NULL)
+    {
+        NamePtr node_name = Name::create();
+        beginEditCP(node_name);
+            node_name->getFieldPtr()->setValue(pNode->getName().str());
+        endEditCP(node_name);
+        beginEditCP(geo,  Node::AttachmentsFieldMask);
+            geo->addAttachment(node_name);
+        endEditCP  (geo, Node::AttachmentsFieldMask);
+    }
+
+    _pFieldContainer = geo;
 }
 
 void VRMLIndexedFaceSetBinder::setCoords(VRMLNodeBinder *pCoordBinder)

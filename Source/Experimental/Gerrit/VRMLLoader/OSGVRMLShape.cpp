@@ -52,6 +52,7 @@
 #include "OSGVRMLToOSGAction.h"
 #include "OSGGroup.h"
 #include "OSGMaterialGroup.h"
+#include "OSGSimpleAttachments.h"
 
 OSG_USING_NAMESPACE
 
@@ -258,9 +259,28 @@ VRMLShapeBinder::~VRMLShapeBinder(void)
 
 void VRMLShapeBinder::init(VRMLToOSGAction *)
 {
+    VRMLShape *pNode = dynamic_cast<VRMLShape *>(_pNode);
+
+    if(pNode == NULL)
+        return;
+
     NodePtr          pMatNode  = Node         ::create();
     MaterialGroupPtr pMatGroup = MaterialGroup::create();
     
+    if(pNode->getName().str() != NULL)
+    {
+        NamePtr node_name = Name::create();
+        beginEditCP(node_name);
+            node_name->getFieldPtr()->setValue(pNode->getName().str());
+        endEditCP(node_name);
+        beginEditCP(pMatNode,  Node::AttachmentsFieldMask);
+            pMatNode->addAttachment(node_name);
+        endEditCP  (pMatNode, Node::AttachmentsFieldMask);
+        beginEditCP(pMatGroup,  Node::AttachmentsFieldMask);
+            pMatGroup->addAttachment(node_name);
+        endEditCP  (pMatGroup, Node::AttachmentsFieldMask);
+    }
+
     beginEditCP(pMatNode, Node::CoreFieldMask);
     {
         pMatNode->setCore(pMatGroup);

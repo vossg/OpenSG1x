@@ -47,6 +47,7 @@
 
 #include <iostream>
 
+#include "OSGSimpleAttachments.h"
 #include "OSGVRMLTransform.h"
 #include "OSGDataElementDesc.h"
 #include "OSGVRMLToOSGAction.h"
@@ -437,6 +438,17 @@ void VRMLTransformBinder::init(VRMLToOSGAction *)
         _pTransform->setTranslation(v);
     }
     OSG::endEditCP  (_pTransform);
+
+    if(pNode->getName().str() != NULL)
+    {
+        NamePtr node_name = Name::create();
+        beginEditCP(node_name);
+            node_name->getFieldPtr()->setValue(pNode->getName().str());
+        endEditCP(node_name);
+        beginEditCP(pTrNode,  Node::AttachmentsFieldMask);
+            pTrNode->addAttachment(node_name);
+        endEditCP  (pTrNode, Node::AttachmentsFieldMask);
+    }
 
     OSG::beginEditCP(pTrNode, OSG::Node::CoreFieldMask);
     {

@@ -47,6 +47,7 @@
 
 #include <iostream>
 
+#include "OSGSimpleAttachments.h"
 #include "OSGVRMLGroup.h"
 #include "OSGDataElementDesc.h"
 #include "OSGVRMLToOSGAction.h"
@@ -277,16 +278,32 @@ VRMLGroupBinder::~VRMLGroupBinder(void)
 
 void VRMLGroupBinder::init(VRMLToOSGAction *)
 {
-    NodePtr   pNode = Node ::create();
+    VRMLGroup *pNode = dynamic_cast<VRMLGroup *>(_pNode);
+
+    if(pNode == NULL)
+        return;
+
+    NodePtr   groupNode = Node ::create();
     GroupPtr pGroup = Group::create();
 
-    beginEditCP(pNode, Node::CoreFieldMask);
+    if(pNode->getName().str() != NULL)
     {
-        pNode->setCore(pGroup);
+        NamePtr node_name = Name::create();
+        beginEditCP(node_name);
+            node_name->getFieldPtr()->setValue(pNode->getName().str());
+        endEditCP(node_name);
+        beginEditCP(groupNode,  Node::AttachmentsFieldMask);
+            groupNode->addAttachment(node_name);
+        endEditCP  (groupNode, Node::AttachmentsFieldMask);
     }
-    endEditCP  (pNode, Node::CoreFieldMask);
 
-    _pFieldContainer = pNode;
+    beginEditCP(groupNode, Node::CoreFieldMask | Node::AttachmentsFieldMask);
+    {
+        groupNode->setCore(pGroup);
+    }
+    endEditCP  (groupNode, Node::CoreFieldMask | Node::AttachmentsFieldMask);
+
+    _pFieldContainer = groupNode;
 }
 
 void VRMLGroupBinder::addChild(NodePtr pChild)

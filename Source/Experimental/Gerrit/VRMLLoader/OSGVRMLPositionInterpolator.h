@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGVRMLTOUCHSENSOR_HPP_
-#define _OSGVRMLTOUCHSENSOR_HPP_
+#ifndef _OSGVRMLPOSITIONINTERPOLATOR_HPP_
+#define _OSGVRMLPOSITIONINTERPOLATOR_HPP_
 #ifdef __sgi
 #pragma once
 #endif
@@ -47,10 +47,12 @@
 //---------------------------------------------------------------------------
 
 #include <OSGBaseTypes.h>
-#include <OSGVRMLSensor.h>
-#include <OSGSFBaseTypes.h>
+#include <OSGVRMLUnlimitedNode.h>
 #include <OSGSFSysTypes.h>
+#include <OSGMFSysTypes.h>
+#include <OSGSFBaseTypes.h>
 #include <OSGSFVecTypes.h>
+#include <OSGMFVecTypes.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -66,10 +68,10 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-//! Brief VRMLTouchSensor
+//! Brief VRMLPositionInterpolator
 //! \ingroup VRMLNodeLib
 
-class OSG_VRML_DLLMAPPING VRMLTouchSensor : public VRMLSensor
+class OSG_VRML_DLLMAPPING VRMLPositionInterpolator : public VRMLUnlimitedNode
 {
   private:
 
@@ -77,7 +79,7 @@ class OSG_VRML_DLLMAPPING VRMLTouchSensor : public VRMLSensor
     //   types
     //-----------------------------------------------------------------------
 
-    typedef VRMLSensor Inherited;
+    typedef VRMLUnlimitedNode Inherited;
 
   public:
 
@@ -85,29 +87,23 @@ class OSG_VRML_DLLMAPPING VRMLTouchSensor : public VRMLSensor
     //   types
     //-----------------------------------------------------------------------
 
-    typedef       VRMLTouchSensor *Ptr;
-    typedef const VRMLTouchSensor *ConstPtr;
+    typedef       VRMLPositionInterpolator *Ptr;
+    typedef const VRMLPositionInterpolator *ConstPtr;
 
     //-----------------------------------------------------------------------
     //   constants
     //-----------------------------------------------------------------------
 
-    OSG_RC_FIRST_ELEM_IDM_DECL(IsActiveField             );
+    OSG_RC_FIRST_ELEM_IDM_DECL(KeyField);
 
-    OSG_RC_ELEM_IDM_DECL      (IsOverField,
-                               IsActiveField             );
-    OSG_RC_ELEM_IDM_DECL      (TouchTimeField,
-                               IsOverField               );
-    OSG_RC_ELEM_IDM_DECL      (HitNormalChangedField,
-                               TouchTimeField            );
+    OSG_RC_ELEM_IDM_DECL      (KeyValueField,
+                               KeyField);
+    OSG_RC_ELEM_IDM_DECL      (SetFractionField,
+                               KeyValueField);
+    OSG_RC_ELEM_IDM_DECL      (ValueChangedField,
+                               SetFractionField);
 
-    OSG_RC_ELEM_IDM_DECL      (HitPointChangedField,
-                               HitNormalChangedField     );
-    OSG_RC_ELEM_IDM_DECL      (HitTexCoordChangedField,
-                               HitPointChangedField      );
-
-    OSG_RC_LAST_ELEM_IDM_DECL (HitTexCoordChangedField   );
-
+    OSG_RC_LAST_ELEM_IDM_DECL (ValueChangedField);
 
     //-----------------------------------------------------------------------
     //   enums
@@ -148,7 +144,7 @@ class OSG_VRML_DLLMAPPING VRMLTouchSensor : public VRMLSensor
     //-----------------------------------------------------------------------
 
     //! prohibit default function (move to 'public' if needed)
-    void operator =(const VRMLTouchSensor &source);
+    void operator =(const VRMLPositionInterpolator &source);
 
   protected:
 
@@ -164,7 +160,7 @@ class OSG_VRML_DLLMAPPING VRMLTouchSensor : public VRMLSensor
     //   class variables
     //-----------------------------------------------------------------------
 
-      static VRMLObjectType _type;
+    static VRMLObjectType _type;
 
     //-----------------------------------------------------------------------
     //   class functions
@@ -174,19 +170,17 @@ class OSG_VRML_DLLMAPPING VRMLTouchSensor : public VRMLSensor
     //   instance variables
     //-----------------------------------------------------------------------
 
-    SFBool   _sfIsActive;
-    SFBool   _sfIsOver;
-    SFTime   _sfTouchTime;
-    SFVec3f  _sfHitNormalChanged;
-    SFPnt3f  _sfHitPointChanged;
-    SFVec2f  _sfHitTexCoordChanged;
+    MFReal32    _mfKey;
+    MFVec3f     _mfKeyValue;
+    SFReal32    _sfSetFraction;
+    SFVec3f     _sfValueChanged;
 
     //-----------------------------------------------------------------------
     //   instance functions
     //-----------------------------------------------------------------------
 
-    VRMLTouchSensor(void);
-    VRMLTouchSensor(const VRMLTouchSensor &source);
+    VRMLPositionInterpolator(void);
+    VRMLPositionInterpolator(const VRMLPositionInterpolator &source);
 
   public :
 
@@ -200,7 +194,7 @@ class OSG_VRML_DLLMAPPING VRMLTouchSensor : public VRMLSensor
     //   instance functions
     //-----------------------------------------------------------------------
 
-    virtual ~VRMLTouchSensor(void);
+    virtual ~VRMLPositionInterpolator(void);
 
     /*------------------------- your_category -------------------------------*/
 
@@ -208,17 +202,15 @@ class OSG_VRML_DLLMAPPING VRMLTouchSensor : public VRMLSensor
 
     /*-------------------------- field access -------------------------------*/
 
-    SFBool   *getSFIsActive(void);
-    SFBool   *getSFIsOver(void);
-    SFTime   *getSFTouchTime(void);
-    SFVec3f  *getSFHitNormalChanged(void);
-    SFPnt3f  *getSFHitPointChanged(void);
-    SFVec2f  *getSFHitTexCoordChanged(void);
+    MFReal32    *getMFKey           (void);
+    MFVec3f     *getMFKeyValue      (void);
+    SFReal32    *getSFSetFraction   (void);
+    SFVec3f     *getSFValueChanged  (void);
 
 };
 
 OSG_END_NAMESPACE
 
-#define OSGVRMLTOUCHSENSOR_HEADER_CVSID "@(#)$Id: OSGVRMLTouchSensor.h,v 1.3 2003/06/23 07:05:13 amz Exp $"
+#define OSGVRMLPOSITIONINTERPOLATOR_HEADER_CVSID "@(#)$Id: OSGVRMLPositionInterpolator.h,v 1.1 2004/03/05 17:36:07 a-m-z Exp $"
 
-#endif /* _OSGVRMLTOUCHSENSOR_HPP_ */
+#endif /* _OSGVRMLPOSITIONINTERPOLATOR_HPP_ */
