@@ -56,6 +56,7 @@ inc_glut_path=@ac_gdz_glut_incdir_e15@
 qt_libs=@ac_gdz_qt_lib_e15@
 lib_qt_path=@ac_gdz_qt_libdir_e15@
 inc_qt_path=@ac_gdz_qt_incdir_e15@
+cflags_qt=@am_gdz_qt_cflags@
 
 tif_libs=@ac_gdz_tif_lib_e15@
 lib_tif_path=@ac_gdz_tif_libdir_e15@
@@ -313,7 +314,7 @@ if test "$lib_QT" = "yes"; then
         if test "yes$inc_qt_path" != "yes"; then
             system_incs_path="$system_incs_path $incdir_pre$inc_qt_path$incdir_suf"
         fi
-        system_defs="$system_defs -DOSG_WITH_QT"
+        system_defs="$system_defs -DOSG_WITH_QT $cflags_qt"
     else
         echo "Warning QT not configured, ignoring request"
     fi;

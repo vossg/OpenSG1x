@@ -285,8 +285,9 @@ install-bin:
 		   -e 's/@am_gdz_link_flags_opt@/\"$(LD_FLAGS_EXT_OPT)\"/g'		\
 		   -e 's/@am_gdz_link_flags_dbg@/\"$(LD_FLAGS_EXT_DBG)\"/g'		\
 		   -e 's/@am_gdz_install_dir@/"$(INSTALL_DIR_SED)\"/g'			\
-		   -e "s|@am_gdz_compiler@|\"$$ICOMP\"|g"			\
+		   -e "s|@am_gdz_compiler@|\"$$ICOMP\"|g"						\
 		   -e "s/@am_gdz_version@/$$VERSION/g"							\
+		   -e 's/@am_gdz_qt_cflags@/\"$(QT_PLATTFORMDEF_EXT)\"/g'		\
 		> $(INSTALL_DIR)/bin/osg-config
 	chmod 755 $(INSTALL_DIR)/bin/osg-config
 
