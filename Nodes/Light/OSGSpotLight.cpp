@@ -235,11 +235,11 @@ void SpotLight::makeChunk(void)
 
     pos[3] = 1;
 
-    _pChunk->setPosition (pos              );
-    _pChunk->setDirection(getDirection   ());
+    _pChunk->setPosition (pos                     );
+    _pChunk->setDirection(getDirection         () );
 
-    _pChunk->setExponent (getSpotExponent());
-    _pChunk->setCutoff   (getSpotCutOff  ());
+    _pChunk->setExponent (getSpotExponent      () );
+    _pChunk->setCutoff   (rad2deg(getSpotCutOff()));
 }
 
 /*------------------------------- dump ----------------------------------*/

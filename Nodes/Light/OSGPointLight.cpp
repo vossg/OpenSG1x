@@ -225,7 +225,7 @@ void PointLight::makeChunk(void)
 
     Vec4f pos(_sfPosition.getValue());
 
-    pos[3] = 0;
+    pos[3] = 1;
    
     _pChunk->setPosition            (pos                      );
     _pChunk->setConstantAttenuation (getConstantAttenuation ());
