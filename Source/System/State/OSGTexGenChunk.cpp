@@ -142,13 +142,22 @@ void TexGenChunk::dump(      UInt32    ,
 static inline void setGenFunc(GLenum coord, GLenum gen, GLenum func, 
                               Vec4f &plane, NodePtr beacon, Matrix &cameraMat)
 {
-    if(beacon != NullFC)
+    if(beacon != NullFC && func == GL_EYE_LINEAR)
     {
         Matrix beaconMat;
         beacon->getToWorld(beaconMat);
         beaconMat.multLeft(cameraMat);
         glPushMatrix();
         glLoadMatrixf(beaconMat.getValues());
+        glTexGenfv(coord, GL_EYE_PLANE, (GLfloat*)plane.getValues());
+        glTexGeni(coord, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
+        glPopMatrix();
+        glEnable(gen);
+    }        
+    else if(func == GL_EYE_LINEAR)
+    {
+        glPushMatrix();
+        glLoadIdentity();
         glTexGenfv(coord, GL_EYE_PLANE, (GLfloat*)plane.getValues());
         glTexGeni(coord, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
         glPopMatrix();
