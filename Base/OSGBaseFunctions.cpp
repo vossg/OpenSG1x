@@ -113,7 +113,7 @@ void OSG::addPostMPExitFunction(ExitFuncF exitFunc)
     osgPostMPExitFunctions->push_back(exitFunc);
 }
 
-bool OSG::osgInit(int argc, char **argv)
+bool OSG::osgInit(Int32, Char8 **)
 {
     UInt32 i;
     bool   returnValue = true;
