@@ -52,6 +52,7 @@
 
 #include <OSGQSpinBoxUInt32_qt.h>
 
+#include <qapplication.h>
 #include <qbuttongroup.h>
 #include <qlabel.h>
 #include <qlayout.h>
@@ -59,6 +60,7 @@
 #include <qpushbutton.h>
 #include <qradiobutton.h>
 #include <qsignalmapper.h>
+#include <qtable.h>
 #include <qtooltip.h>
 
 OSG_USING_NAMESPACE
@@ -383,6 +385,7 @@ QMFieldEditor::slotButtonAddAfterClicked(void)
 
     scrollDown           (0);
     autoEnableEditButtons( );
+    updateTableRow       ( );
 }
 
 void
@@ -430,6 +433,7 @@ QMFieldEditor::slotButtonAddBeforeClicked(void)
 
     scrollDown           (0);
     autoEnableEditButtons( );
+    updateTableRow       ( );
 }
 
 void
@@ -473,6 +477,7 @@ QMFieldEditor::slotButtonSubClicked(void)
 
     scrollUp             (0);
     autoEnableEditButtons( );
+    updateTableRow       ( );
 }
 
 void
@@ -551,10 +556,11 @@ QMFieldEditor::initStatic(void)
 void
 QMFieldEditor::createChildWidgets(void)
 {
-    _pVBox       = new QVBoxLayout(this, 0, 1,
+    _pVBox       = new QVBoxLayout(this, 1, 2,
                                    "QMFieldEditor::_pVBox"      );
     _pButtonBox  = new QHBoxLayout(_pVBox, 2,
                                    "QMFieldEditor::_pButtonBox" );
+    _pButtonBox->setMargin(1);
     _pEditorGrid = new QGridLayout(_pVBox, _uiNumRows, 3, 1,
                                    "QMFieldEditor::_pEditorGrid");
 
@@ -826,6 +832,30 @@ QMFieldEditor::scrollDown(UInt32 uiAmount)
     autoEnableScrollButtons();
 }
 
+void
+QMFieldEditor::updateTableRow(void)
+{
+    // without the processEvents() adjustRow doesn't work!
+    qApp->processEvents();
+    if(parentWidget() != NULL &&
+       parentWidget()->parentWidget() != NULL)
+    {
+        QWidget *parent = parentWidget()->parentWidget()->parentWidget();
+        if(parent != NULL && parent->inherits("QTable"))
+        {
+            QTable *table = static_cast<QTable *>(parent);
+            for(UInt32 i = 0; i < table->numRows(); ++i)
+            {
+                if(table->cellWidget(i, 1) == this)
+                {
+                    table->adjustRow(i);
+                    break;
+                }
+            }
+        }
+    }
+}
+
 // include generated file
 #include "OSGQMFieldEditor_qt_moc.cpp"
 
@@ -842,7 +872,7 @@ QMFieldEditor::scrollDown(UInt32 uiAmount)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQMFieldEditor_qt.cpp,v 1.6 2004/08/14 18:17:01 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQMFieldEditor_qt.cpp,v 1.7 2004/08/19 13:46:12 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQMFIELDEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQMFIELDEDITORQT_INLINE_CVSID;
 }

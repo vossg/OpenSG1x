@@ -164,6 +164,8 @@ class OSG_WINDOWQTLIB_DLLMAPPING QMFieldEditor : public QAbstractFieldEditor
     void scrollUp           (UInt32 uiAmount);
     void scrollDown         (UInt32 uiAmount);
 
+    void updateTableRow     (void);
+
     static QPixmap                      *_pPixmapAddAfter;
     static QPixmap                      *_pPixmapAddBefore;
     static QPixmap                      *_pPixmapSub;
@@ -199,6 +201,6 @@ OSG_END_NAMESPACE
 
 #include "OSGQMFieldEditor_qt.inl"
 
-#define OSGQMFIELDEDITORQT_HEADER_CVSID "@(#)$Id: OSGQMFieldEditor_qt.h,v 1.3 2004/08/13 12:33:06 neumannc Exp $"
+#define OSGQMFIELDEDITORQT_HEADER_CVSID "@(#)$Id: OSGQMFieldEditor_qt.h,v 1.4 2004/08/19 13:46:12 a-m-z Exp $"
 
 #endif /* _OSGQMFIELDEDITOR_QT_H_ */

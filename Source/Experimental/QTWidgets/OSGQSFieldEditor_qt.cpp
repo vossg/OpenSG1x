@@ -255,7 +255,7 @@ QSFieldEditor::slotActionButtonReleased(void)
 void
 QSFieldEditor::createChildWidgets(void)
 {
-    _pHBox = new QHBoxLayout(this, 0, 2, "QSFieldEditor::_pHBox");
+    _pHBox = new QHBoxLayout(this, 1, 2, "QSFieldEditor::_pHBox");
 
     _pButtonCommit = new QPushButton(this, "QSFieldEditor::_pButtonCommit");
     _pButtonRevert = new QPushButton(this, "QSFieldEditor::_pButtonRevert");
@@ -309,7 +309,7 @@ QSFieldEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSFieldEditor_qt.cpp,v 1.5 2004/08/14 18:17:01 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSFieldEditor_qt.cpp,v 1.6 2004/08/19 13:46:12 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQSFIELDEDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQSFIELDEDITORQT_INLINE_CVSID;
 }
