@@ -55,7 +55,7 @@
 #include <OSGSFSysTypes.h>
 #include <OSGSFFieldContainerTypes.h>
 #include <OSGFieldContainer.h>
-
+#include <OSGWindowBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -85,7 +85,7 @@ class DrawAction;
  *  detailed
  */
 
-class OSG_DLLEXPORT Camera : public FieldContainer
+class OSG_WINDOW_DLLMAPPING Camera : public FieldContainer
 {
   public:
 

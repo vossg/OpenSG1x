@@ -46,6 +46,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <OSGWindowBase.h>
 #include "OSGWindow.h"
 
 OSG_BEGIN_NAMESPACE
@@ -72,7 +73,7 @@ typedef SField<GLUTWindowPtr        > SFGLUTWindowPtr;
  *  detailed
  */
 
-class OSG_DLLEXPORT GLUTWindow : public Window
+class OSG_WINDOW_DLLMAPPING GLUTWindow : public Window
 {
   public:
 

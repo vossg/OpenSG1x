@@ -46,6 +46,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <OSGWindowBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGFrustumVolume.h>
 #include <OSGMatrix.h>
@@ -79,7 +80,7 @@ typedef MField<PerspectiveCameraPtr> MFPerspectiveCameraPtr;
  *  detailed
  */
 
-class OSG_DLLEXPORT PerspectiveCamera : public Camera
+class OSG_WINDOW_DLLMAPPING PerspectiveCamera : public Camera
 {
   public:
 

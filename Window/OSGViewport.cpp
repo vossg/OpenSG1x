@@ -54,6 +54,8 @@
 
 #include <GL/gl.h>
 
+#define OSG_COMPILEWINDOW
+
 #include <OSGField.h>
 #include <OSGFieldContainer.h>
 #include <OSGAction.h>

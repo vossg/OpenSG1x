@@ -41,6 +41,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILESTATE
+
 #include "OSGStateChunk.h"
 
 OSG_USING_NAMESPACE

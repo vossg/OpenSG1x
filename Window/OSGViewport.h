@@ -53,6 +53,7 @@
 #include <OSGFieldContainerPtr.h>
 #include <OSGSFSysTypes.h>
 #include <OSGSFFieldContainerTypes.h>
+#include <OSGWindowBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -92,7 +93,7 @@ class DrawAction;
  *  detailed
  */
 
-class OSG_DLLEXPORT Viewport : public FieldContainer
+class OSG_WINDOW_DLLMAPPING Viewport : public FieldContainer
 {
   public:
 

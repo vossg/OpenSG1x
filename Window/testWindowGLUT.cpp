@@ -23,7 +23,7 @@
 #include <OSGMFVecTypes.h>
 #include <OSGAction.h>
 #include <OSGDrawAction.h>
-#include <OSGGeometry.h>
+//#include <OSGGeometry.h>
 #include <OSGSceneFileHandler.h>
 
 #include <OSGDirectionalLight.h>
@@ -225,7 +225,7 @@ int main (int argc, char **argv)
 
 	// OSG
 
-#ifdef WIN32
+#if defined(WIN32) || defined(LINUX)
     RAWSceneFileType *pR = &(RAWSceneFileType::staticThe());
 #endif
 

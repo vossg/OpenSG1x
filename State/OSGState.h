@@ -76,7 +76,7 @@ typedef FCPtr<StateChunkPtr, State> StatePtr;
  *  detailed
  */
 
-class OSG_DLLEXPORT State : public FieldContainer
+class OSG_STATE_DLLMAPPING State : public FieldContainer
 {
   public:
 

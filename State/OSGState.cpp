@@ -54,6 +54,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILESTATE
+
 #include "OSGFieldDescription.h"
 #include "OSGState.h"
 

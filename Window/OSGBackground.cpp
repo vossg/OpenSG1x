@@ -54,6 +54,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEWINDOW
+
 #include <OSGFieldContainer.h>
 #include <OSGNode.h>
 #include <OSGAction.h>

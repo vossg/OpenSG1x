@@ -78,7 +78,7 @@ typedef FCPtr<StateChunkPtr, LightChunk> LightChunkPtr;
  *  detailed
  */
 
-class OSG_DLLEXPORT LightChunk : public StateChunk
+class OSG_STATE_DLLMAPPING LightChunk : public StateChunk
 {
   public:
 

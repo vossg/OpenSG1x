@@ -53,6 +53,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEWINDOW
+
 #include <OSGBaseTypes.h>
 #include <OSGLog.h>
 #include <OSGVector.h>

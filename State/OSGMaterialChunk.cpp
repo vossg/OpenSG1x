@@ -54,6 +54,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILESTATE
+
 #include "OSGMaterialChunk.h"
 
 OSG_USING_NAMESPACE

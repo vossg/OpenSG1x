@@ -76,7 +76,7 @@ typedef FCPtr<StateChunkPtr, TransformChunk> TransformChunkPtr;
  *  detailed
  */
 
-class OSG_DLLEXPORT TransformChunk : public StateChunk
+class OSG_STATE_DLLMAPPING TransformChunk : public StateChunk
 {
   public:
 

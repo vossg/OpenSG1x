@@ -52,6 +52,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEWINDOW
+
 #include "OSGViewport.h"
 // #include "OSGPipe.h"
 

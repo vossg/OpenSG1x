@@ -38,6 +38,8 @@
 
 #include <stdio.h>
 
+#define OSG_COMPILEWINDOW
+
 #include "OSGTrackball.h"
 
 using namespace osg;

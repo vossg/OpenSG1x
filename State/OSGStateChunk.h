@@ -46,6 +46,16 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#if defined(WIN32) && defined(OSG_BUILD_DLL)
+#   ifdef OSG_COMPILESTATE
+#       define OSG_STATE_DLLMAPPING __declspec(dllexport)
+#   else
+#       define OSG_STATE_DLLMAPPING __declspec(dllimport)
+#   endif
+#else
+#define OSG_STATE_DLLMAPPING
+#endif
+
 #include <vector>
 
 #include "OSGBaseTypes.h"
@@ -76,7 +86,7 @@ typedef FCPtr<FieldContainerPtr, StateChunk> StateChunkPtr;
 // the id is a low int to index into the state's chunk vector
 // A static instance of this is part of every new chunk class
 
-class OSG_DLLEXPORT StateChunkClass
+class OSG_STATE_DLLMAPPING StateChunkClass
 {
   public:
 
@@ -110,7 +120,7 @@ class OSG_DLLEXPORT StateChunkClass
  *  detailed
  */
 
-class OSG_DLLEXPORT StateChunk : public FieldContainer
+class OSG_STATE_DLLMAPPING StateChunk : public FieldContainer
 {
   public:
 

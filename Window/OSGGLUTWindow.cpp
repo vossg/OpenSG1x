@@ -54,6 +54,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEWINDOW
+
 #include "OSGViewport.h"
 #include "OSGCamera.h"
 #include "OSGBackground.h"

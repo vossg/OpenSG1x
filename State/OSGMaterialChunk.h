@@ -60,7 +60,7 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class OSG_DLLEXPORT MaterialChunk;
+class OSG_STATE_DLLMAPPING MaterialChunk;
 
 //---------------------------------------------------------------------------
 //   Types

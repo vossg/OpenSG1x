@@ -49,6 +49,7 @@
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldContainer.h>
+#include <OSGWindowBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -76,7 +77,7 @@ typedef FCPtr<FieldContainerPtr, Background> BackgroundPtr;
  *  detailed
  */
 
-class OSG_DLLEXPORT Background : public FieldContainer
+class OSG_WINDOW_DLLMAPPING Background : public FieldContainer
 {
   public:
 

@@ -55,6 +55,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEWINDOW
+
 #include "OSGNode.h"
 #include "OSGFieldContainerPtr.h"
 #include "OSGCamera.h"
