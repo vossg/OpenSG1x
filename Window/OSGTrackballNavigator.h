@@ -91,9 +91,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TrackballNavigator
     /*! \{                                                                 */
 
     Matrix &getMatrix();
-	Pnt3f &getFrom();
-	Pnt3f &getAt();
-	Vec3f &getUp();
+    Pnt3f &getFrom();
+    Pnt3f &getAt();
+    Vec3f &getUp();
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -101,17 +101,18 @@ class OSG_SYSTEMLIB_DLLMAPPING TrackballNavigator
     /*! \{                                                                 */
 
     void setAt       (Pnt3f  new_at);
-	void setFrom     (Pnt3f  new_from);
+    void setFrom     (Pnt3f  new_from);
     void setDistance (Real32 new_distance);
     void setUp       (Vec3f  new_up);
     void set         (Pnt3f  new_from, Pnt3f new_center, Vec3f new_up);
+    void set         (Matrix new_matrix);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name              Trackball Transformations                       */
     /*! \{                                                                 */
 
-    void rotate     (Real32 fromX, Real32 fromY, 
+    void rotate     (Real32 fromX, Real32 fromY,
                             Real32 toX, Real32 toY);
     void translateXY(Real32 distanceX, Real32 distanceY);
     void translateZ (Real32 distance);
@@ -119,6 +120,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TrackballNavigator
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
+    void updateFinalMatrix();
     /*---------------------------------------------------------------------*/
     /*! \name                     Members                                  */
     /*! \{                                                                 */
@@ -135,6 +137,6 @@ class OSG_SYSTEMLIB_DLLMAPPING TrackballNavigator
 
 OSG_END_NAMESPACE
 
-#define OSGTRACKBALLNAVIGATOR_HEADER_CVSID "@(#)$Id: OSGTrackballNavigator.h,v 1.3 2002/05/24 14:45:12 istoynov Exp $"
+#define OSGTRACKBALLNAVIGATOR_HEADER_CVSID "@(#)$Id: OSGTrackballNavigator.h,v 1.4 2002/06/26 16:43:45 istoynov Exp $"
 
 #endif

@@ -54,65 +54,66 @@ OSG_BEGIN_NAMESPACE
 class OSG_SYSTEMLIB_DLLMAPPING FlyNavigator
 {
     /*==========================  PUBLIC  =================================*/
-  public:    
+  public:
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
-                
+
     FlyNavigator();
-    
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
-    
+
     ~FlyNavigator();
-    
-    /*! \}                                                                 */    
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Get                                   */
     /*! \{                                                                 */
-    
+
     Matrix &getMatrix();
-	Pnt3f &getFrom();
-	Pnt3f &getAt();
-	Vec3f &getUp();
-    
-    /*! \}                                                                 */    
+    Pnt3f &getFrom();
+    Pnt3f &getAt();
+    Vec3f &getUp();
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Set                                   */
     /*! \{                                                                 */
-    
+
     void setFrom   (Pnt3f new_from);
     void setAt     (Pnt3f new_at);
     void setUp     (Vec3f new_up);
-	void set       (Pnt3f new_from, Pnt3f new_at, Vec3f new_up);
-    
-    /*! \}                                                                 */        
+    void set       (Pnt3f new_from, Pnt3f new_at, Vec3f new_up);
+    void set       (Matrix new_matrix);
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                  Flyer Transformations                       */
     /*! \{                                                                 */
-          
+
     void rotate (Real32 deltaX, Real32 deltaY);
     void forward(Real32 step);
-    void right  (Real32 step); 
-        
-    /*! \}                                                                 */    
+    void right  (Real32 step);
+
+    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
-  private:   
+  private:
     /*---------------------------------------------------------------------*/
     /*! \name                     Members                                  */
     /*! \{                                                                 */
-          
-    Pnt3f _rFrom,_rAt;
+
+    Pnt3f  _rFrom,_rAt;
     Vec3f  _vUp;
     Matrix _tMatrix;
-          
+
     /*! \}                                                                 */
 };
 
 OSG_END_NAMESPACE
 
-#define OSGFLYNAVIGATOR_HEADER_CVSID "@(#)$Id: OSGFlyNavigator.h,v 1.3 2002/05/24 14:45:11 istoynov Exp $"
+#define OSGFLYNAVIGATOR_HEADER_CVSID "@(#)$Id: OSGFlyNavigator.h,v 1.4 2002/06/26 16:43:45 istoynov Exp $"
 
 #endif

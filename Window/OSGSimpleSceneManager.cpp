@@ -63,7 +63,7 @@
 OSG_USING_NAMESPACE
 
 /*! \class osg::SimpleSceneManager
-    SimpleSceneManager manages the OpenSG components that are needed to do 
+    SimpleSceneManager manages the OpenSG components that are needed to do
     simple applications that just want to display some geometry. It takes the
     window to render into and the root node of the graph to display and takes
     care of creating the necessary additional OpenSG objects, like a viewport
@@ -156,7 +156,7 @@ OSG_USING_NAMESPACE
  */
 
 /*! \var SimpleSceneManager::_mousebuttons
-    Storage for the actively pressed mouse buttons. Needed to do the right 
+    Storage for the actively pressed mouse buttons. Needed to do the right
     thing for mouse motions, as mouseMove() doesn't get them.
  */
 
@@ -173,22 +173,22 @@ SimpleMaterialPtr SimpleSceneManager::_highlightMaterial;
  */
 
 SimpleSceneManager::SimpleSceneManager(void) :
-    _win            (NullFC), 
-    _root           (NullFC), 
+    _win            (NullFC),
+    _root           (NullFC),
     _foreground     (NullFC),
     _statforeground (NullFC),
     _statstate      (false),
 
-    _highlight      (NullFC), 
-    _highlightNode  (NullFC), 
+    _highlight      (NullFC),
+    _highlightNode  (NullFC),
     _highlightPoints(NullFC),
 
-    _internalRoot   (NullFC), 
-    _headlight      (NullFC), 
-    _action         (NULL  ), 
+    _internalRoot   (NullFC),
+    _headlight      (NullFC),
+    _action         (NULL  ),
     _cart           (NullFC),
     _camera         (NullFC),
-    _navigator      (      ),    
+    _navigator      (      ),
 
     _lastx          (TypeConstants<Int16>::getMax()),
     _lasty          (TypeConstants<Int16>::getMax()),
@@ -241,7 +241,7 @@ void SimpleSceneManager::setWindow(WindowPtr win)
 {
     _win = win;
     if(_win->getMFPort()->size() > 0 && _win->getPort(0) != NullFC)
-        _navigator.setViewport(_win->getPort(0));      
+        _navigator.setViewport(_win->getPort(0));
 }
 
 /*! get the highlight object
@@ -283,11 +283,11 @@ void SimpleSceneManager::setRoot(NodePtr root)
  */
 void SimpleSceneManager::setHeadlight(bool on)
 {
-    if(_headlight != NullFC) 
+    if(_headlight != NullFC)
     {
-        beginEditCP(_headlight, LightBaseBase::OnFieldMask); 
-	    _headlight->setOn(on);
-        endEditCP(_headlight, LightBaseBase::OnFieldMask); 
+        beginEditCP(_headlight, LightBaseBase::OnFieldMask);
+        _headlight->setOn(on);
+        endEditCP(_headlight, LightBaseBase::OnFieldMask);
     }
 }
 
@@ -299,11 +299,11 @@ void SimpleSceneManager::turnHeadlightOn(void)
 #pragma warning (disable : 383)
 #endif
 
-    if(_headlight != NullFC) 
+    if(_headlight != NullFC)
     {
-        beginEditCP(_headlight, LightBaseBase::OnFieldMask); 
+        beginEditCP(_headlight, LightBaseBase::OnFieldMask);
         _headlight->setOn(true);
-        endEditCP(_headlight, LightBaseBase::OnFieldMask); 
+        endEditCP(_headlight, LightBaseBase::OnFieldMask);
     }
 #ifdef OSG_WIN32_ICL
 #pragma warning (default : 383)
@@ -318,11 +318,11 @@ void SimpleSceneManager::turnHeadlightOff(void)
 #pragma warning (disable : 383)
 #endif
 
-    if(_headlight != NullFC) 
+    if(_headlight != NullFC)
     {
-        beginEditCP(_headlight, LightBaseBase::OnFieldMask); 
+        beginEditCP(_headlight, LightBaseBase::OnFieldMask);
         _headlight->setOn(false);
-        endEditCP(_headlight, LightBaseBase::OnFieldMask); 
+        endEditCP(_headlight, LightBaseBase::OnFieldMask);
     }
 #ifdef OSG_WIN32_ICL
 #pragma warning (default : 383)
@@ -341,10 +341,10 @@ void SimpleSceneManager::setHighlight(NodePtr highlight)
  */
 void SimpleSceneManager::setStatistics(bool on)
 {
-    if(_statforeground != NullFC && on != _statstate) 
+    if(_statforeground != NullFC && on != _statstate)
     {
         ViewportPtr vp = _win->getPort()[0];
-        
+
         if(on)
         {
             vp->getForegrounds().push_back(_statforeground);
@@ -352,11 +352,11 @@ void SimpleSceneManager::setStatistics(bool on)
         else
         {
             MFForegroundPtr::iterator it;
-            
+
             it = vp->getForegrounds().find(_statforeground);
             vp->getForegrounds().erase(it);
         }
-        
+
         _statstate = on;
     }
 }
@@ -418,7 +418,7 @@ void SimpleSceneManager::initialize(void)
         endEditCP(bg);
 
         _foreground = ImageForeground::create();
-        
+
         SimpleStatisticsForegroundPtr sf = SimpleStatisticsForeground::create();
 
         beginEditCP(sf);
@@ -427,17 +427,17 @@ void SimpleSceneManager::initialize(void)
         sf->addElement(RenderAction::statDrawTime,      "Draw FPS: %r.3f");
         sf->addElement(DrawActionBase::statTravTime,    "TravTime: %.3f s");
         sf->addElement(RenderAction::statDrawTime,      "DrawTime: %.3f s");
-        sf->addElement(DrawActionBase::statCullTestedNodes, 
+        sf->addElement(DrawActionBase::statCullTestedNodes,
                            "%d Nodes culltested");
-        sf->addElement(DrawActionBase::statCulledNodes, 
+        sf->addElement(DrawActionBase::statCulledNodes,
                            "%d Nodes culled");
-        sf->addElement(RenderAction::statNMaterials, 
+        sf->addElement(RenderAction::statNMaterials,
                            "%d material changes");
-        sf->addElement(RenderAction::statNMatrices, 
+        sf->addElement(RenderAction::statNMatrices,
                            "%d matrix changes");
-        sf->addElement(RenderAction::statNGeometries, 
+        sf->addElement(RenderAction::statNGeometries,
                            "%d Nodes drawn");
-        sf->addElement(RenderAction::statNTransGeometries, 
+        sf->addElement(RenderAction::statNTransGeometries,
                            "%d transparent Nodes drawn");
         sf->addElement(Geometry::statNTriangles,    "%d triangles drawn");
         sf->addElement(Geometry::statNLines,        "%d lines drawn");
@@ -467,9 +467,10 @@ void SimpleSceneManager::initialize(void)
         _win->addPort(vp);
         endEditCP(_win);
     }
-    
+
     _navigator.setMode(Navigator::TRACKBALL);
-    _navigator.setViewport(_win->getPort(0));    
+    _navigator.setViewport(_win->getPort(0));
+    _navigator.setCameraTransformation(cartN);
 }
 
 /*! show the whole scene: move out far enough  to see everything
@@ -487,15 +488,16 @@ void SimpleSceneManager::showAll(void)
 
     Real32 dist = osgMax(d[0],d[1]) / (2 * osgtan(_camera->getFov() / 2.f));
 
-    _navigator.setFrom(Pnt3f((min[0] + max[0]) * .5,
-                               (min[1] + max[1]) * .5,
-                               (min[2] + max[2]) * .5));
-    _navigator.setDistance(max[2] + dist);
-    _navigator.setUp(Vec3f(0,1,0));
+    Vec3f up(0,1,0);
+    Pnt3f at((min[0] + max[0]) * .5,(min[1] + max[1]) * .5,(min[2] + max[2]) * .5);
+    Pnt3f from=at;
+    from[2]-=dist;
+
+    _navigator.set(from,at,up);
 
     // adjust the translation factors so that motions are sort of scaled
     _navigator.setMotionFactor((d[0] + d[1] + d[2]) / 100.f);
-    
+
     // set the camera to go from 1% of the object to twice its size
     Real32 diag = osgMax(osgMax(d[0], d[1]), d[2]);
     beginEditCP(_camera);
@@ -510,7 +512,7 @@ void SimpleSceneManager::useOpenSGLogo(void)
 {
     ImageP lo = new Image();
     ImageFileType::restore( *lo, (UChar8*)LogoData, -1 );
-    
+
     beginEditCP(_foreground);
     _foreground->addImage( lo, Pnt2f( 0,0 ) );
     endEditCP  (_foreground);
@@ -520,8 +522,9 @@ void SimpleSceneManager::useOpenSGLogo(void)
  */
 void SimpleSceneManager::setNavigationMode (Navigator::Mode new_mode)
 {
+    Matrix m=_navigator.getMatrix();
     _navigator.setMode(new_mode);
-    showAll();
+    _navigator.set(m);
 }
 
 
@@ -529,8 +532,8 @@ void SimpleSceneManager::setNavigationMode (Navigator::Mode new_mode)
  */
 void SimpleSceneManager::idle(void)
 {
-    if (_navigator.getMode()==Navigator::FLY && _mousebuttons) 
-        _navigator.moveTo(_lastx,_lasty);    
+    if (_navigator.getMode()==Navigator::FLY && _mousebuttons)
+        _navigator.moveTo(_lastx,_lasty);
 }
 
 /*! Draw the next frame, update if needed.
@@ -543,14 +546,15 @@ void SimpleSceneManager::redraw(void)
         showAll();
     }
 
-    _cart->getSFMatrix()->setValue(_navigator.getMatrix());    
+//    _cart->getSFMatrix()->setValue(_navigator.getMatrix());
+    _navigator.updateCameraTransformation();
 
     updateHighlight();
 
     _win->render(_action);
 }
 
-/*! Adjust the highlight to a changed object. Also initializes the highlight 
+/*! Adjust the highlight to a changed object. Also initializes the highlight
    statics if called the first time.
  */
 void SimpleSceneManager::highlightChanged(void)
@@ -656,7 +660,7 @@ void SimpleSceneManager::highlightChanged(void)
     updateHighlight();
 }
 
-/*! Update the highlight for a moved object. Does not handle changing the 
+/*! Update the highlight for a moved object. Does not handle changing the
     object, this is done by highlightChanged().
  */
 void SimpleSceneManager::updateHighlight(void)
@@ -683,7 +687,7 @@ void SimpleSceneManager::updateHighlight(void)
     _highlightPoints->setValue(Pnt3f(min[0], max[1], max[2]), 6);
     _highlightPoints->setValue(Pnt3f(max[0], max[1], max[2]), 7);
     endEditCP(_highlightPoints);
-    
+
     beginEditCP(_highlightNode->getCore(), Geometry::PositionsFieldMask);
     endEditCP  (_highlightNode->getCore(), Geometry::PositionsFieldMask);
 }
@@ -702,10 +706,10 @@ void SimpleSceneManager::resize(UInt16 width, UInt16 height)
  */
 void SimpleSceneManager::mouseMove(Int16 x, Int16 y)
 {
-    if ( _mousebuttons) _navigator.moveTo(x,y);            
+    if ( _mousebuttons) _navigator.moveTo(x,y);
     _lastx = x;
     _lasty = y;
-    
+
 }
 
 /*! call when a mouse button is pressed. button is the number of the pressed
@@ -715,19 +719,19 @@ void SimpleSceneManager::mouseMove(Int16 x, Int16 y)
  */
 
 void SimpleSceneManager::mouseButtonPress(UInt16 button, Int16 x, Int16 y)
-{            
+{
     switch (button)
     {
-    case MouseLeft:     _navigator.buttonPress(Navigator::LEFT_MOUSE,x,y); 
+    case MouseLeft:     _navigator.buttonPress(Navigator::LEFT_MOUSE,x,y);
                         break;
-    case MouseMiddle:   _navigator.buttonPress(Navigator::MIDDLE_MOUSE,x,y); 
+    case MouseMiddle:   _navigator.buttonPress(Navigator::MIDDLE_MOUSE,x,y);
                         break;
-    case MouseRight:    _navigator.buttonPress(Navigator::RIGHT_MOUSE,x,y); 
+    case MouseRight:    _navigator.buttonPress(Navigator::RIGHT_MOUSE,x,y);
                         break;
     }
     _mousebuttons |= 1 << button;
     _lastx = x;
-    _lasty = y;            
+    _lasty = y;
 }
 
 
@@ -737,29 +741,29 @@ void SimpleSceneManager::mouseButtonPress(UInt16 button, Int16 x, Int16 y)
     upper left corner.
  */
 void SimpleSceneManager::mouseButtonRelease(UInt16 button, Int16 x, Int16 y)
-{    
+{
     switch (button)
     {
-    case MouseLeft:     _navigator.buttonRelease(Navigator::LEFT_MOUSE,x,y); 
+    case MouseLeft:     _navigator.buttonRelease(Navigator::LEFT_MOUSE,x,y);
                         break;
-    case MouseMiddle:   _navigator.buttonRelease(Navigator::MIDDLE_MOUSE,x,y); 
+    case MouseMiddle:   _navigator.buttonRelease(Navigator::MIDDLE_MOUSE,x,y);
                         break;
-    case MouseRight:    _navigator.buttonRelease(Navigator::RIGHT_MOUSE,x,y); 
+    case MouseRight:    _navigator.buttonRelease(Navigator::RIGHT_MOUSE,x,y);
                         break;
     }
     _mousebuttons &= ~(1 << button);
     _lastx = x;
-    _lasty = y;    
+    _lasty = y;
 }
 
 void SimpleSceneManager::key(UChar8 key, Int16 x, Int16 y)
 {
     switch ( key )
     {
-        case 'j': _navigator.keyPress(Navigator::LEFT,x,y); break;   
-        case 'g': _navigator.keyPress(Navigator::RIGHT,x,y); break;   
-        case 'y': _navigator.keyPress(Navigator::FORWARDS,x,y); break;   
-        case 'h': _navigator.keyPress(Navigator::BACKWARDS,x,y); break;   
+        case 'j': _navigator.keyPress(Navigator::LEFT,x,y); break;
+        case 'g': _navigator.keyPress(Navigator::RIGHT,x,y); break;
+        case 'y': _navigator.keyPress(Navigator::FORWARDS,x,y); break;
+        case 'h': _navigator.keyPress(Navigator::BACKWARDS,x,y); break;
     }
 }
 
@@ -770,9 +774,9 @@ void SimpleSceneManager::key(UChar8 key, Int16 x, Int16 y)
 Line SimpleSceneManager::calcViewRay(Int16 x, Int16 y)
 {
     Line l;
-    
+
     _camera->calcViewRay( l, x, y, *_win->getPort()[0] );
-    
+
     return l;
 }
 
@@ -808,7 +812,7 @@ bool SimpleSceneManager::operator < (const SimpleSceneManager &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.27 2002/06/13 12:33:11 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.28 2002/06/26 16:43:45 istoynov Exp $";
     static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }

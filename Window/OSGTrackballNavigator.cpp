@@ -57,12 +57,13 @@ TrackballNavigator::TrackballNavigator(Real32 rSize): _rRadius(rSize)
     _pFrom.setValues(0,0,0);
     _pAt.setValues(0,0,1);
     _vUp.setValues(0,1,0);
+    _rDistance=(_pAt-_pFrom).length();
 }
 
 /*-------------------------- destructors ----------------------------------*/
 
 /*! Destructor
- */ 
+ */
 
 TrackballNavigator::~TrackballNavigator()
 {
@@ -75,30 +76,26 @@ TrackballNavigator::~TrackballNavigator()
 
 Matrix &TrackballNavigator::getMatrix()
 {
-    Matrix temp;
-    _finalMatrix=_tMatrix;
-    temp.setIdentity();
-    temp.setTranslate(0,0,_rDistance);
-    
-    _finalMatrix.mult(temp);            
-            
-    return _finalMatrix;    
+    updateFinalMatrix();
+    return _finalMatrix;
 }
 
 Pnt3f &TrackballNavigator::getFrom()
 {
-	_pFrom.setValues(_tMatrix[3][0],_tMatrix[3][1],_tMatrix[3][2]);
-	return _pFrom;
+    _pFrom=(Pnt3f)_finalMatrix[3];
+    return _pFrom;
 }
 
 Pnt3f &TrackballNavigator::getAt()
 {
-	return _pAt;
+    _pAt=(Pnt3f)(_finalMatrix[3] - (_rDistance*_finalMatrix[2]));
+    return _pAt;
 }
 
 Vec3f &TrackballNavigator::getUp()
 {
-	return _vUp;
+    _vUp=(Vec3f)_finalMatrix[1];
+    return _vUp;
 }
 
 
@@ -110,8 +107,7 @@ Vec3f &TrackballNavigator::getUp()
 
 void TrackballNavigator::setFrom(Pnt3f new_from)
 {
-    _pFrom=new_from;
-	_tMatrix.setTranslate(new_from[0],new_from[1],new_from[2]);    
+    set(new_from,getAt(),getUp());
 }
 
 /*! sets the point the person is looking at
@@ -119,17 +115,16 @@ void TrackballNavigator::setFrom(Pnt3f new_from)
 
 void TrackballNavigator::setAt(Pnt3f new_at)
 {
-	_pAt=new_at;
-	_pFrom.setValues(_tMatrix[3][0],_tMatrix[3][1],_tMatrix[3][2]);
-    MatrixLookAt(_tMatrix,_pFrom,_pAt,_vUp);
+    set(getFrom(),new_at,getUp());
 }
 
-/*! sets the distance to the center of the trackball
+/*! Sets the distance from the from in the view direction
  */
 
 void TrackballNavigator::setDistance(Real32 new_distance)
 {
     _rDistance=new_distance;
+    updateFinalMatrix();
 }
 
 /*! sets the up vector
@@ -137,17 +132,22 @@ void TrackballNavigator::setDistance(Real32 new_distance)
 
 void TrackballNavigator::setUp(Vec3f new_up)
 {
-	_vUp=new_up;
-	_pFrom.setValues(_tMatrix[3][0],_tMatrix[3][1],_tMatrix[3][2]);
-    MatrixLookAt(_tMatrix,_pFrom,_pAt,_vUp);
+    set(getFrom(),getAt(),new_up);
 }
 
 void TrackballNavigator::set(Pnt3f new_from, Pnt3f new_at, Vec3f new_up)
 {
-	_pFrom=new_from;
-	_pAt=new_at;
-	_vUp=new_up;
-    MatrixLookAt(_tMatrix,new_from,new_at,new_up);
+    MatrixLookAt(_tMatrix,new_at,new_at+(new_at-new_from),new_up);
+    _rDistance=(new_at-new_from).length();
+    updateFinalMatrix();
+}
+
+void TrackballNavigator::set(Matrix new_matrix)
+{
+    _pFrom=(Pnt3f)new_matrix[3];
+    _pAt=(Pnt3f)(new_matrix[3] - (_rDistance*new_matrix[2]));
+    _vUp=(Vec3f)new_matrix[1];
+    set(_pFrom,_pAt,_vUp);
 }
 
 /*-------------------- Trackball Transformations --------------------------*/
@@ -156,16 +156,16 @@ void TrackballNavigator::set(Pnt3f new_from, Pnt3f new_at, Vec3f new_up)
  */
 
 void TrackballNavigator::rotate(Real32 fromX, Real32 fromY, Real32 toX, Real32 toY)
-{    
+{
     Quaternion qCurrVal;
-    
+
     Vec3f vAxis;
     Real32 rPhi;
-    
+
     Vec3f vP1,vP2,vDiff;
-    
+
     Real32 rTmp;
-    
+
     if (osgabs(fromX-toX)>Eps || osgabs(fromY-toY)>Eps)
     {
         vP1.setValues(fromX,fromY,projectToSphere(_rRadius,fromX,fromY));
@@ -173,21 +173,21 @@ void TrackballNavigator::rotate(Real32 fromX, Real32 fromY, Real32 toX, Real32 t
 
         vAxis=vP2;
         vAxis.crossThis(vP1);
-        
+
         vDiff=vP1;
         vDiff-=vP2;
-        
+
         rTmp=vDiff.length()/(2.0f*_rRadius);
         if (rTmp>1.0) rTmp=1.0;
         if (rTmp<-1.0) rTmp=-1.0;
-        
-        rPhi=2.f * osgasin(rTmp);
+
+        rPhi=2.0*osgasin(rTmp);
         qCurrVal.setValueAsAxisRad(vAxis,rPhi);
-        
+
         Matrix temp;
         qCurrVal.getValue(temp);
         //temp.transpose();
-        
+
         _tMatrix.mult(temp);
     }
 }
@@ -196,11 +196,11 @@ void TrackballNavigator::rotate(Real32 fromX, Real32 fromY, Real32 toX, Real32 t
  */
 
 void TrackballNavigator::translateXY(Real32 distanceX, Real32 distanceY)
-{     
+{
     Matrix temp;
     temp.setIdentity();
     temp.setTranslate(distanceX,distanceY,0);
-    _tMatrix.mult(temp);        
+    _tMatrix.mult(temp);
 }
 
 /*! makes a translation along the Z-axis
@@ -218,19 +218,29 @@ Real32 TrackballNavigator::projectToSphere(Real32 rRadius, Real32 rX, Real32 rY)
 {
     Real32 d, t, z;
 
-    d = osgsqrt(rX * rX + rY * rY);
+    d = sqrt(rX * rX + rY * rY);
 
-    if (d < rRadius * 0.70710678118654752440f) 
+    if (d < rRadius * 0.70710678118654752440f)
     {    /* Inside sphere */
-        z = osgsqrt(rRadius * rRadius - d * d);
-    } 
-    else 
+        z = sqrt(rRadius * rRadius - d * d);
+    }
+    else
     {           /* On hyperbola */
         t = rRadius / 1.41421356237309504880f;
         z = t * t / d;
     }
 
     return z;
+}
+
+void TrackballNavigator::updateFinalMatrix()
+{
+    Matrix temp;
+    _finalMatrix=_tMatrix;
+    temp.setIdentity();
+    temp.setTranslate(0,0,_rDistance);
+
+    _finalMatrix.mult(temp);
 }
 
 
@@ -247,7 +257,7 @@ Real32 TrackballNavigator::projectToSphere(Real32 rRadius, Real32 rX, Real32 rY)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTrackballNavigator.cpp,v 1.4 2002/06/13 12:33:11 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTrackballNavigator.cpp,v 1.5 2002/06/26 16:43:45 istoynov Exp $";
     static Char8 cvsid_hpp       [] = OSGTRACKBALLNAVIGATOR_HEADER_CVSID;
     //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
 

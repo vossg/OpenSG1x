@@ -49,7 +49,7 @@ OSG_USING_NAMESPACE
 
 /*! Constructor
  */
- 
+
 FlyNavigator::FlyNavigator()
 {
     _rFrom.setValues(0,0,0);
@@ -57,7 +57,7 @@ FlyNavigator::FlyNavigator()
     _vUp.setValues(0,1,0);
     _tMatrix.setIdentity();
 }
- 
+
 
 /*-------------------------- destructors ----------------------------------*/
 
@@ -127,8 +127,16 @@ void FlyNavigator::setUp(Vec3f new_up)
 void FlyNavigator::set(Pnt3f new_from,Pnt3f new_At,Vec3f new_up)
 {
     _rFrom=new_from;
-	_rAt=new_At;
-	_vUp=new_up;
+    _rAt=new_At;
+    _vUp=new_up;
+}
+
+void FlyNavigator::set(Matrix new_matrix)
+{
+    _rFrom=(Pnt3f)new_matrix[3];
+    _rAt=(Pnt3f)(new_matrix[3] - new_matrix[2]);
+    _vUp=(Vec3f)new_matrix[1];
+    set(_rFrom,_rAt,_vUp);
 }
 
 /*---------------------- Flyer Transformations ----------------------------*/
@@ -137,44 +145,44 @@ void FlyNavigator::set(Pnt3f new_from,Pnt3f new_At,Vec3f new_up)
  */
 
 void FlyNavigator::rotate(Real32 deltaX, Real32 deltaY)
-{    
+{
     // rotate around the up vector
     Matrix final,temp;
-    Quaternion q;   
-    
+    Quaternion q;
+
     q.setValueAsAxisRad(_vUp,-deltaX);
-    q.getValue(temp);    
-    
+    q.getValue(temp);
+
     final.setIdentity();
     final.setTranslate(_rFrom);
     final.mult(temp);
-    
-    temp.setIdentity(); 
+
+    temp.setIdentity();
     temp.setTranslate(-_rFrom[0],-_rFrom[1],-_rFrom[2]);
-    
-    final.mult(temp);    
+
+    final.mult(temp);
     final.multMatrixPnt(_rAt);
-    
+
     // rotate around the side vector
-            
+
     Vec3f lv=_rAt-_rFrom;
-    lv.normalize();                              
-            
-    Vec3f sv=lv; 
+    lv.normalize();
+
+    Vec3f sv=lv;
     sv.crossThis(_vUp);
-    sv.normalize();            
+    sv.normalize();
     q.setValueAsAxisRad(sv,-deltaY);
     q.getValue(temp);
 
     final.setIdentity();
     final.setTranslate(_rFrom);
     final.mult(temp);
-        
-    temp.setIdentity(); 
+
+    temp.setIdentity();
     temp.setTranslate(-_rFrom[0],-_rFrom[1],-_rFrom[2]);
-    
-    final.mult(temp);        
-    final.multMatrixPnt(_rAt);    
+
+    final.mult(temp);
+    final.multMatrixPnt(_rAt);
 }
 
 /*! "flyes" forward, i.e. makes a translation along the view vector
@@ -184,13 +192,13 @@ void FlyNavigator::forward(Real32 step)
 {
     Vec3f lv;
     lv=_rFrom-_rAt;
-    lv.normalize();                                  
+    lv.normalize();
     lv*=(step);
     Matrix transl;
     transl.setIdentity();
-    transl.setTranslate(lv);                   
+    transl.setTranslate(lv);
     transl.multMatrixPnt(_rAt);
-    transl.multMatrixPnt(_rFrom);    
+    transl.multMatrixPnt(_rFrom);
 }
 
 /*! "flyes" on the right, i.e. makes a translation along the side vector
@@ -201,14 +209,14 @@ void FlyNavigator::right(Real32 step)
     Vec3f sv;
     sv=_rFrom-_rAt;
     sv.crossThis(_vUp);
-    sv.normalize();            
+    sv.normalize();
     sv*=(step);
     Matrix transl;
     transl.setIdentity();
-    transl.setTranslate(sv);                   
+    transl.setTranslate(sv);
     transl.multMatrixPnt(_rAt);
-    transl.multMatrixPnt(_rFrom); 
-} 
+    transl.multMatrixPnt(_rFrom);
+}
 
 
 /*-------------------------------------------------------------------------*/
@@ -224,7 +232,7 @@ void FlyNavigator::right(Real32 step)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFlyNavigator.cpp,v 1.4 2002/06/13 12:33:11 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFlyNavigator.cpp,v 1.5 2002/06/26 16:43:45 istoynov Exp $";
     static Char8 cvsid_hpp       [] = OSGFLYNAVIGATOR_HEADER_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGFLYNAVIGATOR_HEADER_CVSID;
