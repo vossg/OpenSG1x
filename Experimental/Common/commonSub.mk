@@ -26,11 +26,13 @@ getSysMDSourceFiles = $(wildcard $(1)/$(PROJ)MD$(OS_BASE)*.s  ) \
 
 
 getSourceFiles         = \
-					     $(wildcard $(1)/$(PROJ)*.cpp) \
-	 					 $(wildcard $(1)/*.c)   	   \
+					     $(wildcard $(1)/$(PROJ)*.cpp) 	\
+	 					 $(wildcard $(1)/*.c)   	   	\
 			 			 $(wildcard $(1)/$(PROJ)*.s)
 
-getProjSourceFiles     =$(foreach dir,$(1),$(call getSourceFiles,$(dir)))
+getProjSourceFiles     =$(foreach dir,$(1),$(call getSourceFiles,$(dir))) \
+					    $(wildcard ./*.cpp)
+
 
 getProjAllMDSourceFiles= $(foreach dir,$(1),$(call getAllMDSourceFiles,$(dir)))
 getProjSysMDSourceFiles= $(foreach dir,$(1),$(call getSysMDSourceFiles,$(dir)))

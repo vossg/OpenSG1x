@@ -200,8 +200,6 @@ AC_SUBST(ac_gdz_compiler_lib)
 AC_SUBST(ac_gdz_base_system_libs)
 AC_SUBST(ac_gdz_plat_project_praefix)
 
-echo "###################### $ac_gdz_common_system"
-
 AC_SUBST_FILE(ac_gdz_common_patterns)
 AC_SUBST_FILE(ac_gdz_common_system)
 

@@ -326,22 +326,26 @@ AC_DEFUN(AC_GDZ_SCAN_PACKET_DESC,
 
     until [[ $i = ${#ac_gdz_package[*]} ]]; do
 
-        p1=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\1/'`
+        p1=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\1/'`
         p1=`echo $p1 | sed 's/://g'`
 
-        p2=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\2/'`
+        p2=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\2/'`
         p2=`echo $p2 | sed 's/://g'`
 
-        p3=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\3/'`
+        p3=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\3/'`
         p3=`echo $p3 | sed 's/://g'`
 
-        p4=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\4/'`
+        p4=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\4/'`
         p4=`echo $p4 | sed 's/://g'`
 
+        p5=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\5/'`
+        p5=`echo $p5 | sed 's/://g'`
+
         ac_gdz_package_name[$i]=$p1;
-        ac_gdz_package_dirs[$i]=$p2;
-        ac_gdz_package_inc_dep[$i]=$p3;
-        ac_gdz_package_link_dep[$i]=$p4;
+        ac_gdz_package_fact_init[$i]=$p2
+        ac_gdz_package_dirs[$i]=$p3;
+        ac_gdz_package_inc_dep[$i]=$p4;
+        ac_gdz_package_link_dep[$i]=$p5;
 
         let i=i+1
     done
@@ -370,6 +374,23 @@ dnl e2
         ac_gdz_package_dir=${ac_gdz_package_sub_dir_out}/${ac_gdz_package_name[$i]}Lib
 
         ac_gdz_common_packet_make=${ac_gdz_package_dir}/Makefile
+
+        if [[ ${ac_gdz_package_fact_init[$i]} = "1" ]]; then
+            if [[ $build_os = cygwin ]]; then
+                ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/VSCDllInit.cpp.in
+                ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/VSCDllInit.cpp
+                ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
+                ac_gdz_package_so_needs_init_e2=1
+            else
+                ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/VSCSoInit.cpp.in
+                ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/VSCSoInit.cpp
+                ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
+                ac_gdz_package_so_needs_init_e2=1
+            fi
+        else
+            ac_gdz_common_init_code_files_e2=
+            ac_gdz_package_so_needs_init_e2=0
+        fi
 
         az_gdz_vpath_out=.
 
@@ -441,9 +462,11 @@ dnl e2
         AC_SUBST(az_gdz_vpath_out)
         AC_SUBST(ac_gdz_project_praefix)
 
+        AC_SUBST(ac_gdz_package_so_needs_init_e2)
+
         touch confdefs.h
 
-        AC_OUTPUT($ac_gdz_common_packet_make:$ac_gdz_common_packetmake_in)
+        AC_OUTPUT($ac_gdz_common_packet_make:$ac_gdz_common_packetmake_in $ac_gdz_common_init_code_files_e2)
 
         let i=i+1
     done
@@ -502,13 +525,13 @@ dnl e5
 
     if [[ -n "$ac_gdz_glut_dir" ]]; then
         if [[ $build_os = cygwin ]]; then
-            ac_gdz_glut_incdir_e5='"'`cygpath -w $ac_gdz_glut_dir/include`'"'
-            ac_gdz_glut_libdir_e5='"'`cygpath -w $ac_gdz_glut_dir/lib`'"'
+           ac_gdz_glut_incdir_e5='"'`cygpath -w $ac_gdz_glut_dir/include`'"'
+           ac_gdz_glut_libdir_e5='"'`cygpath -w $ac_gdz_glut_dir/lib`'"'
             ac_gdz_glut_lib_e5='glut32.lib'
         else
-            ac_gdz_glut_incdir_e5=$ac_gdz_glut_dir/include
-            ac_gdz_glut_libdir_e5=$ac_gdz_glut_dir/lib
-            ac_gdz_glut_lib_e5='-lglut'
+           ac_gdz_glut_incdir_e5=$ac_gdz_glut_dir/include
+           ac_gdz_glut_libdir_e5=$ac_gdz_glut_dir/lib
+           ac_gdz_glut_lib_e5='-lglut'
         fi
     fi
 

@@ -1,8 +1,8 @@
 
 ac_gdz_package_order="BaseLib SystemLib"
 
-ac_gdz_package[0]="Base:Base@ Log@ Field@ FieldContainer@:::" 
-ac_gdz_package[1]="System:Action@ Action/DrawAction@ Action/IntersectAction@ Material@ Nodes/Misc@ Nodes/Light@ Nodes/Geometry@ State@ Window@:Base Field FieldContainer Log GLUT:BaseLib GLUT GL"
+ac_gdz_package[0]="Base:0:Base@ Log@ Field@ FieldContainer@:::" 
+ac_gdz_package[1]="System:0:Action@ Action/DrawAction@ Action/IntersectAction@ Material@ Nodes/Misc@ Nodes/Light@ Nodes/Geometry@ State@ Window@:Base Field FieldContainer Log GLUT:BaseLib GLUT GL"
 
 
 

@@ -84,6 +84,16 @@ endif
 # Automatic Targets Lib Toplevel
 #########################################################################
 
+ifeq ($(OS_BASE), cygwin)
+SO_INIT_FLAGS =
+else
+ifeq ($(SO_NEEDS_INIT),1)
+SO_INIT_FLAGS = -Wl,-init -Wl,vscInitSharedObject$(PACKAGE_NAME)
+else
+SO_INIT_FLAGS =
+endif
+endif
+
 ifneq ($(SUB_SO),)
 SubLib: $(LIB_DEPS) $(SUB_SO) 
 	@echo "LASTDBG=$(DBG)" > .lastdbg
@@ -91,7 +101,8 @@ SubLib: $(LIB_DEPS) $(SUB_SO)
 $(SUB_SO): $(LIBQTMOCSOURCES_CPP) $(LIB_OBJECTS) $(LIBS_DEP)
 	@echo $(LIB_OBJECTS) $(AR_FLAGS) $(SUB_SO)
 	$(LD_SHARED) $(LD_OUTOPT)$(LD_OUTSPACE)$(SUB_SO) \
-		$(call cnvSubDirsUnix2Win,$(LIB_OBJECTS)) $(LIBPATHS) $(LIBS)
+		$(call cnvSubDirsUnix2Win,$(LIB_OBJECTS)) $(LIBPATHS) $(LIBS) \
+		$(SO_INIT_FLAGS)
 
 #		-Wl,-init -Wl,vscInitSharedObject
 endif
