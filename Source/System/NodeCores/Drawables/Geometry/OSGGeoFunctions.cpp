@@ -2316,7 +2316,7 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
 
 //Dummy edge handler: Switches off the creation of triangle strips
 //and fans
-void gluTessEdgeFlagCB(GLboolean /*flag*/)
+void OSG_APIENTRY gluTessEdgeFlagCB(GLboolean /*flag*/)
 {
   //empty 
   FDEBUG(("gluEdgeVertexCB called\n"));
@@ -2324,43 +2324,44 @@ void gluTessEdgeFlagCB(GLboolean /*flag*/)
 
 //Vertex data handler: Receives the triangle vertex indices from the 
 //GLU Tesselator
-void gluTessVertexDataCB(UInt32 *curIndexPtr, std::vector<UInt32>  *indexV)
+void OSG_APIENTRY gluTessVertexDataCB(UInt32              *curIndexPtr, 
+                                      std::vector<UInt32> *indexV)
 {
-  if(indexV != NULL)
+    if(indexV != NULL)
     {
-      FDEBUG(("gluVertexDataCB called: indexV@%p->push_back(%d)\n", 
-              indexV, *curIndexPtr));
-      indexV->push_back(*curIndexPtr);
+        FDEBUG(("gluVertexDataCB called: indexV@%p->push_back(%d)\n", 
+                indexV, *curIndexPtr));
+        indexV->push_back(*curIndexPtr);
     }
-  else 
+    else 
     {
-      FDEBUG(("Null Pointer in gluTessVertexDataCB\n"));
+        FDEBUG(("Null Pointer in gluTessVertexDataCB\n"));
     }
 }
 
 //Begin data handler: Initializes the pointer to the index data
-void gluTessBeginDataCB(GLenum type, std::vector<UInt32>  *indexV)
+void OSG_APIENTRY gluTessBeginDataCB(GLenum type, std::vector<UInt32>  *indexV)
 {
-  if(indexV != NULL) 
+    if(indexV != NULL) 
     {
-      FDEBUG(("gluTessBeginDataCB: Beginning new Polygon\n"));
-      FDEBUG(("gluTessBeginDataCB: Type is %d\n", type));
-      FDEBUG(("gluTessBeginDataCB: indexV* is 0x%p\n", indexV));
+        FDEBUG(("gluTessBeginDataCB: Beginning new Polygon\n"));
+        FDEBUG(("gluTessBeginDataCB: Type is %d\n", type));
+        FDEBUG(("gluTessBeginDataCB: indexV* is 0x%p\n", indexV));
     }
-  else 
+    else 
     {
-      FDEBUG(("Null Pointer in gluTessVertexDataCB\n"));
+        FDEBUG(("Null Pointer in gluTessVertexDataCB\n"));
     }
 }
 
 //End handler: For debugging purposes only
-void gluTessEndCB()
+void OSG_APIENTRY gluTessEndCB()
 {
   FDEBUG(("gluTessEndCB called\n"));
 }
 
 //Error handler: Called by the GLU Tesselator to signal errors
-void gluTessErrorCB(GLenum errno)
+void OSG_APIENTRY gluTessErrorCB(GLenum errno)
 {
   FFATAL(("gluTesselator Error: %s\n", gluErrorString(errno)));
 }
