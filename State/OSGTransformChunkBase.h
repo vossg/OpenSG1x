@@ -95,6 +95,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TransformChunkBase : public StateChunk
 
     static const osg::BitVector MatrixFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -221,6 +222,6 @@ typedef TransformChunkBase *TransformChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTransformChunkBase.h,v 1.17 2001/11/09 08:17:08 vossg Exp $"
+#define OSGTRANSFORMCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTransformChunkBase.h,v 1.18 2002/03/19 18:08:18 dirk Exp $"
 
 #endif /* _OSGTRANSFORMCHUNKBASE_H_ */

@@ -75,7 +75,7 @@ pixel are combined with the pixel already in the frame buffer.
  *                           Class variables                               *
 \***************************************************************************/
 
-char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.14 2002/02/26 06:10:14 vossg Exp $";
+char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.15 2002/03/19 18:08:16 dirk Exp $";
 
 StateChunkClass BlendChunk::_class("Blend");
 
@@ -214,10 +214,70 @@ void BlendChunk::activate(DrawActionBase *action, UInt32)
     }
 }
 
-void BlendChunk::changeFrom( DrawActionBase *act, StateChunk * old_chunk, UInt32 index )
+void BlendChunk::changeFrom( DrawActionBase *action, 
+                             StateChunk * old_chunk, 
+                             UInt32 )
 {
-    old_chunk->deactivate( act, index );
-    activate( act, index );
+    BlendChunk *old = dynamic_cast<BlendChunk *>(old_chunk);
+    
+    if(_sfSrcFactor.getValue() != GL_NONE)
+    {
+        GLenum src  = _sfSrcFactor.getValue();
+        GLenum dest = _sfDestFactor.getValue();
+        
+        if(old->_sfSrcFactor.getValue()  != src ||
+           old->_sfDestFactor.getValue() != dest)
+            glBlendFunc(src, dest);
+
+#if GL_EXT_blend_color
+        // This is not nice, but efficient
+        // As the OpenGL constants are fixed it should be safe
+        if((src  >= GL_CONSTANT_COLOR_EXT && 
+            src  <= GL_ONE_MINUS_CONSTANT_ALPHA_EXT ) ||
+           (dest >= GL_CONSTANT_COLOR_EXT && 
+            dest <= GL_ONE_MINUS_CONSTANT_ALPHA_EXT )
+          )
+        {
+            if ( action->getWindow()->hasExtension(_extBlend ))
+            {
+                // get "glBlendColorEXT" function pointer
+                void (*blendcolor)(GLclampf red,GLclampf green,GLclampf blue,
+                     GLclampf alpha ) =
+                    (void (*)(GLclampf red,GLclampf green,GLclampf blue,
+                     GLclampf alpha))
+                    action->getWindow()->getFunction( _funcBlendColor );
+
+                 blendcolor(_sfColor.getValue().red(),
+                            _sfColor.getValue().green(),
+                            _sfColor.getValue().blue(),
+                            _sfColor.getValue().alpha());
+            }
+        }
+#endif
+        if(old->_sfSrcFactor.getValue() == GL_NONE)
+            glEnable(GL_BLEND);
+    }
+    else
+    {
+        if(old->_sfSrcFactor.getValue() != GL_NONE)
+            glDisable(GL_BLEND);
+    }
+    
+    if(_sfAlphaFunc.getValue() != GL_NONE)
+    {
+        if(old->_sfAlphaFunc.getValue()  != _sfAlphaFunc.getValue() ||
+           old->_sfAlphaValue.getValue() != _sfAlphaValue.getValue())
+            glAlphaFunc(_sfAlphaFunc.getValue(), _sfAlphaValue.getValue());
+        
+        if(old->_sfAlphaFunc.getValue() == GL_NONE)
+            glEnable(GL_ALPHA_TEST);
+    }
+    else
+    {
+        if(old->_sfAlphaFunc.getValue() != GL_NONE)
+            glDisable(GL_ALPHA_TEST);        
+    }
+    
 }
 
 void BlendChunk::deactivate ( DrawActionBase *, UInt32 )

@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.23 2002/02/26 06:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.24 2002/03/19 18:08:16 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGBLENDCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBLENDCHUNKBASE_INLINE_CVSID;
 
@@ -117,6 +117,7 @@ const OSG::BitVector  BlendChunkBase::AlphaValueFieldMask =
 /*! \var Real32          BlendChunkBase::_sfAlphaValue
     
 */
+
 //! BlendChunk description
 
 FieldDescription *BlendChunkBase::_desc[] = 
@@ -361,4 +362,5 @@ void BlendChunkBase::executeSyncImpl(      BlendChunkBase *pOther,
 
 
 }
+
 

@@ -79,7 +79,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.21 2002/02/26 06:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.22 2002/03/19 18:08:16 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONCHUNKBASE_INLINE_CVSID;
 
@@ -160,6 +160,7 @@ const OSG::BitVector  PolygonChunkBase::StippleFieldMask =
 /*! \var Int32           PolygonChunkBase::_mfStipple
     Defines the stipple pattern. Is only valid and used if it contains 32 elements.
 */
+
 //! PolygonChunk description
 
 FieldDescription *PolygonChunkBase::_desc[] = 
@@ -554,4 +555,5 @@ void PolygonChunkBase::executeSyncImpl(      PolygonChunkBase *pOther,
 
 
 }
+
 

@@ -107,6 +107,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     static const osg::BitVector AlphaFuncFieldMask;
     static const osg::BitVector AlphaValueFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -253,6 +254,6 @@ typedef BlendChunkBase *BlendChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGBLENDCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGBlendChunkBase.h,v 1.19 2002/01/04 16:47:40 dirk Exp $"
+#define OSGBLENDCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGBlendChunkBase.h,v 1.20 2002/03/19 18:08:16 dirk Exp $"
 
 #endif /* _OSGBLENDCHUNKBASE_H_ */

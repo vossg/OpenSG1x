@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateBase.cpp,v 1.21 2002/02/11 03:46:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateBase.cpp,v 1.22 2002/03/19 18:08:17 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATEBASE_INLINE_CVSID;
 
@@ -109,6 +109,7 @@ const OSG::BitVector  StateBase::ChunksFieldMask =
 /*! \var StateChunkPtr   StateBase::_mfChunks
     
 */
+
 //! State description
 
 FieldDescription *StateBase::_desc[] = 
@@ -253,4 +254,5 @@ void StateBase::executeSyncImpl(      StateBase *pOther,
 
 
 }
+
 

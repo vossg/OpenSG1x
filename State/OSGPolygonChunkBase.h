@@ -125,6 +125,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
     static const osg::BitVector OffsetFillFieldMask;
     static const osg::BitVector StippleFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -301,6 +302,6 @@ typedef PolygonChunkBase *PolygonChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.18 2002/02/04 20:14:10 dirk Exp $"
+#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.19 2002/03/19 18:08:16 dirk Exp $"
 
 #endif /* _OSGPOLYGONCHUNKBASE_H_ */

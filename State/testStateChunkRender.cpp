@@ -99,10 +99,10 @@ void key(unsigned char key, int , int)
     switch ( key )
     {
     case 27:    exit(0);
-    case 'a':   UChar8 imgdata[16];
-                for ( int i = 0; i < 16; i++ )
+    case 'a':   UChar8 imgdata[32];
+                for ( int i = 0; i < 32; i++ )
                     imgdata[i] = (UChar8) rand();
-                image.set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
+                image.set( Image::OSG_RGB_PF, 2, 2, 2, 1, 1, 0, imgdata );
                 xchunk1->imageContentChanged();
                 break;
     case 'b':   {
@@ -112,6 +112,20 @@ void key(unsigned char key, int , int)
                 image.set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
                 beginEditCP( xchunk1 );
                 xchunk1->setImage( &image );
+                endEditCP( xchunk1 );
+                }
+                break;
+    case 'c':   {
+                beginEditCP( xchunk1 );
+                xchunk1->setMinFilter( GL_LINEAR_MIPMAP_LINEAR );
+                xchunk1->setMagFilter( GL_LINEAR );
+                endEditCP( xchunk1 );
+                }
+                break;
+    case 'd':   {
+                beginEditCP( xchunk1 );
+                xchunk1->setMinFilter( GL_NEAREST );
+                xchunk1->setMagFilter( GL_NEAREST );
                 endEditCP( xchunk1 );
                 }
                 break;
@@ -138,7 +152,9 @@ int main( int argc, char *argv[] )
     // the window is needed for the chunks that access GLObjects
 
     win = GLUTWindow::create();
-
+    win->frameInit(); // test for preliminary calls not messing up GLexts
+    win->init();
+    
     dact = DrawAction::create();
     dact->setWindow( win.getCPtr() );
 
@@ -217,7 +233,7 @@ int main( int argc, char *argv[] )
     xchunk1 = TextureChunk::create();
     beginEditCP(xchunk1);
     xchunk1->setImage( &image );
-    xchunk1->setMinFilter( GL_LINEAR_MIPMAP_LINEAR );
+    xchunk1->setMinFilter( GL_LINEAR );
     xchunk1->setMagFilter( GL_NEAREST );
     xchunk1->setWrapS( GL_REPEAT );
     xchunk1->setWrapT( GL_REPEAT );
@@ -235,8 +251,8 @@ int main( int argc, char *argv[] )
 
     blchunk = BlendChunk::create();
 #ifndef WIN32
-    blchunk->setSrcFactor( GL_CONSTANT_ALPHA );
-    blchunk->setDestFactor( GL_ONE_MINUS_CONSTANT_ALPHA );
+//    blchunk->setSrcFactor( GL_CONSTANT_ALPHA );
+//    blchunk->setDestFactor( GL_ONE_MINUS_CONSTANT_ALPHA );
 #endif
     blchunk->setColor( Color4f( 1,1,1,0.1 ) );
 

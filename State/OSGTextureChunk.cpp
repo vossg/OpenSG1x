@@ -74,7 +74,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.35 2002/03/08 11:09:45 vossg Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.36 2002/03/19 18:08:17 dirk Exp $";
 
 StateChunkClass TextureChunk::_class("Texture", 4);
 
@@ -265,9 +265,12 @@ void TextureChunk::dump(     UInt32    OSG_CHECK_ARG(uiIndent),
 
 // GL object handler
 // create the texture and destroy it
-void TextureChunk::handleGL(Window *win, UInt32 id)
+void TextureChunk::handleGL(Window *win, UInt32 idstatus)
 {
-    Window::GLObjectStatusE mode = win->getGLObjectStatus(id);
+    Window::GLObjectStatusE mode;
+    UInt32 id;
+    
+    Window::unpackIdStatus(idstatus, id, mode);
 
     if(mode == Window::destroy)
     {
@@ -839,18 +842,14 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 )
     else                                    target = GL_TEXTURE_1D;
 
 
-    glBindTexture(target, getGLId());
-
     FDEBUG(("TextureChunk::activate - %d\n", getGLId()));
+
+    glBindTexture(target, getGLId());
 
     // texture env
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
 
     // register combiners etc. goes here
-
-    // min/mag filter
-    glTexParameteri(target, GL_TEXTURE_MIN_FILTER, getMinFilter());
-    glTexParameteri(target, GL_TEXTURE_MAG_FILTER, getMagFilter());
 
     // genfuncs
     setGenFunc(GL_S, GL_TEXTURE_GEN_S, getGenFuncS, getGenFuncSPlane);
@@ -975,19 +974,15 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 
     action->getWindow()->validateGLObject(getGLId());
 
-    // just set them
-    glTexEnvi (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
+    glBindTexture(target, getGLId());
 
-    // min/mag filter
-    glTexParameteri(target, GL_TEXTURE_MIN_FILTER, getMinFilter());
-    glTexParameteri(target, GL_TEXTURE_MAG_FILTER, getMagFilter());
+    if(oldp->getEnvMode() != getEnvMode())
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
 
     changeGenFunc(GL_S, GL_TEXTURE_GEN_S, getGenFuncS, getGenFuncSPlane);
     changeGenFunc(GL_T, GL_TEXTURE_GEN_T, getGenFuncT, getGenFuncTPlane);
     changeGenFunc(GL_R, GL_TEXTURE_GEN_R, getGenFuncR, getGenFuncRPlane);
     changeGenFunc(GL_Q, GL_TEXTURE_GEN_Q, getGenFuncQ, getGenFuncQPlane);
-
-    glBindTexture(target, getGLId());
 
     if(target != oldtarget)
     {
@@ -1018,7 +1013,6 @@ void TextureChunk::deactivate ( DrawActionBase *action,
           glActiveTextureARB( GL_TEXTURE0_ARB + idx );
 #endif
 
-    
     if ( img->getDepth() > 1 )
     {
 #ifdef GL_TEXTURE_3D
@@ -1058,8 +1052,6 @@ void TextureChunk::deactivate ( DrawActionBase *action,
 
     if(getGenFuncS() != GL_NONE)
         glDisable(GL_TEXTURE_GEN_Q);
-
-    glBindTexture(target, 0);
 
     glErr("TextureChunk::deactivate");
 }

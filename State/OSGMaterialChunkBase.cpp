@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.21 2002/02/26 06:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.22 2002/03/19 18:08:16 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALCHUNKBASE_INLINE_CVSID;
 
@@ -129,6 +129,7 @@ const OSG::BitVector  MaterialChunkBase::ColorMaterialFieldMask =
 /*! \var UInt32          MaterialChunkBase::_sfColorMaterial
     
 */
+
 //! MaterialChunk description
 
 FieldDescription *MaterialChunkBase::_desc[] = 
@@ -423,4 +424,5 @@ void MaterialChunkBase::executeSyncImpl(      MaterialChunkBase *pOther,
 
 
 }
+
 

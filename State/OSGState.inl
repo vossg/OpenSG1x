@@ -49,14 +49,14 @@ StateChunkPtr State::getChunk( UInt32 id )
     if ( id < _mfChunks.size() )
         return _mfChunks.getValue( id );
 
-    return NullStateChunk;
+    return NullFC;
 }
 
 inline
 bool State::chunkPresent( UInt32 id )
 {
     return  id < _mfChunks.size() &&
-            _mfChunks.getValue( id ) != NullStateChunk ;
+            _mfChunks.getValue( id ) != NullFC ;
 }
 
 inline

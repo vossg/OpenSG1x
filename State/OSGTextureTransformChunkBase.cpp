@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureTransformChunkBase.cpp,v 1.1 2001/12/03 21:46:42 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureTransformChunkBase.cpp,v 1.2 2002/03/19 18:08:18 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURETRANSFORMCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURETRANSFORMCHUNKBASE_INLINE_CVSID;
 
@@ -81,6 +81,7 @@ namespace
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
+
 
 
 //! TextureTransformChunk type
@@ -196,4 +197,5 @@ void TextureTransformChunkBase::executeSyncImpl(      TextureTransformChunkBase 
 
 
 }
+
 

@@ -187,10 +187,6 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunk : public StateChunkBase
 
 typedef StateChunk *StateChunkP;
 
-//! null pointer
-
-extern OSG_SYSTEMLIB_DLLMAPPING StateChunkPtr NullStateChunk;
-
 OSG_END_NAMESPACE
 
 #include <OSGStateChunk.inl>

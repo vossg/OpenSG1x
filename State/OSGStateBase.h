@@ -95,6 +95,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateBase : public FieldContainer
 
     static const osg::BitVector ChunksFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -117,11 +118,11 @@ class OSG_SYSTEMLIB_DLLMAPPING StateBase : public FieldContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-          MFStateChunkPtr     *getMFChunks         (void);
-    
-          StateChunkPtr       &getChunks         (UInt32 index);
-          MFStateChunkPtr     &getChunks         (void);
-    const MFStateChunkPtr     &getChunks         (void) const;
+    inline       MFStateChunkPtr     *getMFChunks         (void);
+
+    inline       StateChunkPtr       &getChunks         (UInt32 index);
+    inline       MFStateChunkPtr     &getChunks         (void);
+    inline const MFStateChunkPtr     &getChunks         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -221,6 +222,6 @@ typedef StateBase *StateBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: OSGStateBase.h,v 1.17 2002/02/27 09:34:18 vossg Exp $"
+#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: OSGStateBase.h,v 1.18 2002/03/19 18:08:17 dirk Exp $"
 
 #endif /* _OSGSTATEBASE_H_ */

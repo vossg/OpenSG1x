@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.19 2001/11/09 08:17:08 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.20 2002/03/19 18:08:16 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTCHUNKBASE_INLINE_CVSID;
 
@@ -146,6 +146,7 @@ const OSG::BitVector  LightChunkBase::QuadraticAttenuationFieldMask =
 /*! \var Real32          LightChunkBase::_sfQuadraticAttenuation
     The light's quadratic attenuation.
 */
+
 //! LightChunk description
 
 FieldDescription *LightChunkBase::_desc[] = 
@@ -515,4 +516,5 @@ void LightChunkBase::executeSyncImpl(      LightChunkBase *pOther,
 
 
 }
+
 

@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLineChunkBase.cpp,v 1.4 2002/02/26 06:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLineChunkBase.cpp,v 1.5 2002/03/19 18:08:16 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGLINECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLINECHUNKBASE_INLINE_CVSID;
 
@@ -111,6 +111,7 @@ const OSG::BitVector  LineChunkBase::SmoothFieldMask =
 /*! \var bool            LineChunkBase::_sfSmooth
     Defines if polygon antialiasing is used.
 */
+
 //! LineChunk description
 
 FieldDescription *LineChunkBase::_desc[] = 
@@ -330,4 +331,5 @@ void LineChunkBase::executeSyncImpl(      LineChunkBase *pOther,
 
 
 }
+
 

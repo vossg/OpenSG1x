@@ -158,7 +158,7 @@ void State::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
     for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end(); it++, cind++ )
     {
         cerr << StateChunkClass::getName(cind) << "\t";
-        if ( *it == NullStateChunk )
+        if ( *it == NullFC )
             cerr << "NullChunk" << endl;
         else
             cerr << *it << endl;
@@ -187,7 +187,7 @@ void State::addChunk( StateChunkPtr chunk, Int32 index )
         UInt8 ci;
 
         for ( ci = cindex; ci < cindex + nslots && ci < csize; ci++ )
-            if ( _mfChunks.getValue( ci ) == NullStateChunk )
+            if ( _mfChunks.getValue( ci ) == NullFC )
                 break;
 
         if ( ci >= cindex + nslots )    // no free slot found
@@ -210,7 +210,7 @@ void State::addChunk( StateChunkPtr chunk, Int32 index )
         _mfChunks.resize( newsize );
 
         for ( UInt32 i = oldsize; i < newsize; i++ )
-            _mfChunks.setValue( NullStateChunk, i );
+            _mfChunks.setValue( NullFC, i );
     }
 
     _mfChunks.setValue( chunk, cindex );
@@ -250,7 +250,7 @@ void State::subChunk( StateChunkPtr chunk, Int32 index )
 
     // remove the chunk from the state
 
-    _mfChunks.setValue( NullStateChunk, cindex );
+    _mfChunks.setValue( NullFC, cindex );
 }
 
 void State::subChunk( UInt32 classid, Int32 index )
@@ -265,12 +265,12 @@ void State::subChunk( UInt32 classid, Int32 index )
 
     // remove the chunk from the state
 
-    _mfChunks.setValue( NullStateChunk, classid + index );
+    _mfChunks.setValue( NullFC, classid + index );
 }
 
 void State::clearChunks(void)
 {
-    fill(_mfChunks.begin(), _mfChunks.end(), NullStateChunk);
+    fill(_mfChunks.begin(), _mfChunks.end(), NullFC);
 }
 
 
@@ -284,8 +284,10 @@ void State::activate(DrawActionBase *action)
     for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end();
           ++it, ++cind,  ++ind )
     {
-        if ( *it != NullStateChunk )
+        if ( *it != NullFC )
+        {
             (*it)->activate( action, UInt32(ind) );
+        }
         if ( ind >= StateChunkClass::getNumSlots( cind ) )
             ind = -1;
     }
@@ -305,14 +307,14 @@ void State::changeFrom(DrawActionBase *action, State *old)
         StateChunkPtr o = old->getChunk( cind );
         StateChunkPtr n = *it;
 
-        if ( n != NullStateChunk )
+        if ( n != NullFC )
         {
-            if ( o != NullStateChunk )
+            if ( o != NullFC )
                 n->changeFrom( action, o.getCPtr(), UInt32(ind) );
             else
                 n->activate( action, UInt32(ind) );
         }
-        else if ( o != NullStateChunk )
+        else if ( o != NullFC )
             o->deactivate( action, UInt32(ind) );
 
         if ( ind >= StateChunkClass::getNumSlots( cind ) )
@@ -348,7 +350,7 @@ void State::deactivate ( DrawActionBase *action )
     for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end();
           ++it, ++cind,  ++ind )
     {
-        if ( *it != NullStateChunk )
+        if ( *it != NullFC )
             (*it)->deactivate( action, UInt32(ind) );
         if ( ind >= StateChunkClass::getNumSlots( cind ) )
             ind = -1;

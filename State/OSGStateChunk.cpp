@@ -145,8 +145,6 @@ const Char8 *StateChunkClass::getName( UInt32 index )
 
 char StateChunk::cvsid[] = "@(#)$Id: $";
 
-OSG_SYSTEMLIB_DLLMAPPING StateChunkPtr osg::NullStateChunk;
-
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/

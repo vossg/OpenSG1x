@@ -62,6 +62,7 @@
 #include "OSGTextureChunk.h"
 
 #include <OSGGL.h>                        // InternalFormat default header
+#include <OSGGL.h>                        // ExternalFormat default header
 #include <OSGGL.h>                        // MinFilter default header
 #include <OSGGL.h>                        // MagFilter default header
 #include <OSGGL.h>                        // WrapS default header
@@ -99,7 +100,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.27 2002/02/26 06:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.28 2002/03/19 18:08:17 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 

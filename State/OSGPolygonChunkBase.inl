@@ -359,5 +359,5 @@ const MFInt32 &PolygonChunkBase::getStipple(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGPolygonChunkBase.inl,v 1.10 2002/02/04 20:14:10 dirk Exp $"
+#define OSGPOLYGONCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGPolygonChunkBase.inl,v 1.11 2002/03/19 18:08:16 dirk Exp $"
 

@@ -122,6 +122,7 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
     static const osg::BitVector LinearAttenuationFieldMask;
     static const osg::BitVector QuadraticAttenuationFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -293,6 +294,6 @@ typedef LightChunkBase *LightChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLightChunkBase.h,v 1.17 2001/11/09 08:17:08 vossg Exp $"
+#define OSGLIGHTCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLightChunkBase.h,v 1.18 2002/03/19 18:08:16 dirk Exp $"
 
 #endif /* _OSGLIGHTCHUNKBASE_H_ */

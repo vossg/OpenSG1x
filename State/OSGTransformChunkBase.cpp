@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.18 2001/11/09 08:17:08 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.19 2002/03/19 18:08:18 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTRANSFORMCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTRANSFORMCHUNKBASE_INLINE_CVSID;
 
@@ -92,6 +92,7 @@ const OSG::BitVector  TransformChunkBase::MatrixFieldMask =
 /*! \var Matrix          TransformChunkBase::_sfMatrix
     
 */
+
 //! TransformChunk description
 
 FieldDescription *TransformChunkBase::_desc[] = 
@@ -236,4 +237,5 @@ void TransformChunkBase::executeSyncImpl(      TransformChunkBase *pOther,
 
 
 }
+
 
