@@ -1,0 +1,501 @@
+#!/bin/sh
+
+# 
+# script to automatically check out and build the whole OpenSG system 
+# including tests and run them
+#
+# you need cvs in your path and doxygen/dot to make the docs
+# search for LOCAL to see where it needs to be adapted to your local environment
+
+# utility functions
+
+cleanup ()
+{
+    write_html_tail $out_html.html
+
+    ## rm -f $log_configure $log_make $log_errors
+}
+
+errorexit () 
+{
+    subsys=$1
+    errfile=$2
+    
+    echo "<br><br>Errors found, dailybuild aborted!" >> $out_html.html
+    
+    send_mail $subsys $errfile
+    
+    cleanup
+    exit 1
+}
+
+normalexit ()
+{
+    cleanup
+    exit 0
+}
+
+usage ()
+{
+    cat << EOF
+
+Usage:	`basename $scriptname` -h
+
+Options:
+    -h	    display this message
+
+EOF
+}
+
+write_html_head ()
+{
+    outfile="$1"
+
+    cat << EOF > $outfile
+<html>
+<head>
+<title>OpenSG dailybuild $today on $host results</title>
+</head>
+<body>
+<h1>OpenSG dailybuild $today on $host results</h1>
+<p>
+Start: `date +%H:%M`<br><br>
+System: $system<br>
+Compiler: $compiler<br>
+Configuration: $stl_args $glut_args $qt_args $tif_args $jpeg_args $png_args<br>
+Basepath: $basedir<br>
+</p>
+EOF
+}
+
+write_html_tail ()
+{
+    cat << EOF >> $1
+<br><br>
+Finish: `date +%H:%M`
+</body>
+</html>
+EOF
+}
+
+send_mail ()
+{
+    subsys=$1
+    errfile=$2
+    cat << EOF > $out_mail
+System: $system
+Compiler: $compiler
+Log: $out_html.html
+
+Failed in $subsys.
+
+EOF
+
+    if test -s $errfile;
+    then
+    	cat $errfile >> $out_mail
+	echo  >> $out_mail
+    fi
+    
+    # LOCAL: choose your email adresses here
+    $mail -s "OpenSG dailybuild on $host failed" reiners@igd.fhg.de < $out_mail
+}
+
+write_html_log ()
+{
+    file="$1"
+    title=$2
+    log=$3
+    errfile=$4
+    warnfile=$5
+ 
+    cat << EOF > $file
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html>
+<html>
+<head>
+<title>OpenSG dailybuild $today $title on $host results</title>
+<style type="text/css">
+<!--
+body	    	{ background-color:#ffffff }
+td.line		{ text-align:right; vertical-align:top }
+td.log		{ font-family:monospace; vertical-align:top }
+tr.normal	{ }
+tr.error	{ background-color:#ff2020; color:#ffffff }
+tr.warning	{ background-color:#ff6600 }
+//-->
+</style>
+</head>
+<body>
+<h1>OpenSG dailybuild $today $title on $host results</h1>
+<p>
+<a href=$out_html.html>Back to main log</a>
+</p><p>
+System: $system<br>
+Compiler: $compiler<br>
+</p>
+EOF
+
+    # loop through the file, counting lines, highlight error & warning lines
+
+    # ARGL: Linux/Cygwin bash/sh/ksh forget the array variables after the loop!!!
+    # that's why we have to use the zsh for this script. What's going on here?
+    
+    if test -s $errfile ;
+    then
+ 	ind=1
+
+    	echo "<h4>Errors:</h4>" >> $file
+
+    	echo "<table border=0>" >> $file
+	
+	IFS=':'	
+	cat $errfile | sort -n | while read line err ;
+     	do
+	    echo -n '<tr class="normal"><td class="line">' >> $file
+	    echo -n "<a href=#$line>$line</a></td>" >> $file
+	    echo -n '<td class="log">'$err'</td></tr>' >> $file
+	    
+	    elist[$ind]=$line
+	    ind=`expr $ind + 1`    
+	done
+	elist[$ind]=0
+
+    	echo "</table>" >> $file
+    else
+    	elist[1]=0
+    fi
+    if test -s $warnfile ;
+    then
+ 	ind=1
+
+    	echo "<h4>Warnings:</h4>" >> $file
+
+    	echo "<table border=0>" >> $file
+
+	IFS=':'	
+	cat $warnfile | sort -n | while read line err ;
+     	do
+	    echo -n '<tr class="normal"><td class="line">' >> $file
+	    echo -n "<a href=#$line>$line</a></td>" >> $file
+	    echo -n '<td class="log">'$err'</td></tr>' >> $file
+	    
+	    #echo A $ind $line
+	    wlist[$ind]=$line
+	    #echo B $ind $line ${wlist[$ind]}
+	    ind=`expr $ind + 1`    
+	    #echo C $ind ${wlist[0]} ${wlist[1]} ${wlist[2]} ${wlist[3]}
+	done
+	#echo D $ind ${wlist[0]} ${wlist[1]} ${wlist[2]} ${wlist[3]}
+	wlist[$ind]=0
+	
+	#echo E $ind ${wlist[0]} ${wlist[1]} ${wlist[2]} ${wlist[3]}
+
+    	echo "</table>" >> $file
+    else
+    	wlist[1]=0
+    fi
+    ln=1
+    acterr=1
+    acterrline=${elist[$acterr]}
+    actwarn=1
+    actwarnline=${wlist[$actwarn]}
+    #echo F $title $actwarn $actwarnline ${#wlist} @${wlist}@
+
+    echo "<h4>Log:</h4>" >> $file
+
+    echo "<table border=0>" >> $file
+    
+    # convert spaces to nbsp to prevent read from killing them
+    cat $log | sed -e 's| |\&nbsp;|g' | while read -r line
+    do
+     	#echo G $ln $acterr $acterrline $actwarn $actwarnline	
+	if test $ln -eq $acterrline ; 
+	then
+	    echo -n '<tr class="error">' >> $file
+	    acterr=`expr $acterr + 1`
+	    acterrline=${elist[$acterr]}
+	    if test $ln -eq $actwarnline ;
+	    then
+	    	actwarn=`expr $actwarn + 1`
+	    	actwarnline=${elist[$actwarn]}
+	    fi
+	elif test $ln -eq $actwarnline ; 
+	then
+	    echo -n '<tr class="warning">' >> $file
+	    actwarn=`expr $actwarn + 1`
+	    actwarnline=${wlist[$actwarn]}
+    	else
+	    echo -n '<tr class="normal">' >> $file
+	fi
+ 	echo -n '<a name='$ln'></a><td class="line">'  >> $file
+	echo $ln '</td> <td class="log">' >> $file
+	echo $line | sed -e 's|\&nbsp;| |g' -e 's|&|&amp;|g' -e 's|<|\&lang;|g' \
+	    -e 's|>|\&rang;|g' >> $file
+	echo '</td> </tr>' >> $file
+   	
+	ln=`expr $ln + 1`
+    done	
+ 
+    cat << EOF >> $file
+</table>
+</body>
+</html>
+EOF
+}
+
+
+checkerror ()
+{
+    title="$1"
+    file="$2"
+    
+    # remove the expected errors
+    grep -n -i -w error $file| \
+    grep -v \
+    	-e "warning: nm returned a nonzero error status" \
+    	-e "GetLastError" \
+	> $log_errors || true
+    grep -n -i -w failed $file | \
+    grep -v \
+    	-e "WIN32Window::init: failed" \
+    	-e "WIN32Window::activate: failed" \
+	>> $log_errors || true
+    
+    # remove the expected warnings
+    grep -n -i -w warning $file | \
+    grep -v \
+    	-e "not used for resolving any symbol" \
+ 	> $log_warnings || true
+
+    # write the log file
+    write_html_log $out_html.$title.html $title $file $log_errors $log_warnings
+
+    # check error file (empty -> ignore)
+    if test \! -s $log_errors 
+    then
+	rm -f $log_errors
+	echo "<a href=$link_html.$title.html>$title</a> finished sucessfully.<br>" >> $out_html.html
+    else
+ 	echo "<br><font color=#b00000><a href=$link_html.$title.html>$title</a> had errors!</font><br>" >> $out_html.html
+
+	IFS=':'
+	cat $log_errors | while read line err
+	do
+	    echo "<a href=$link_html.$title.html#$line>$line</a> : $err<br>" >> $out_html.html
+	done
+
+	errorexit $title $log_errors
+    fi
+}
+
+# Main script starts here
+
+# setup: error handling etc.
+
+##set -e
+##trap errorexit  ERR HUP INT QUIT
+##trap normalexit EXIT
+
+tmpdir=/tmp
+basedir=`pwd`
+
+scriptname=$0
+
+log_cvs=$tmpdir/opensg.cvs
+log_configure=$tmpdir/opensg.configure
+log_make=$tmpdir/opensg.make
+log_test=$tmpdir/opensg.test
+log_errors=$tmpdir/opensg.errors
+log_warnings=$tmpdir/opensg.warnings
+log_install=$tmpdir/opensg.install
+log_doc=$tmpdir/opensg.doc
+out_mail=$tmpdir/opensg.mail
+doc_flag=$tmpdir/opensg.doc_done
+
+system="Not set yet"
+compiler="Not set yet"
+host=`hostname`
+
+# Check out the sources
+
+# little trick to get around the password input
+# not nice but works. Anyone got a better solutions?
+
+cvs_ok=`fgrep -l anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg $HOME/.cvspass`
+if test x$cvs_ok = x
+then
+    echo ":pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg A" >> $HOME/.cvspass
+fi
+
+#cleanup what's left
+rm -rf OpenSG
+
+# cvs needs to be in the path!
+cvs -d:pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg co OpenSG > $log_cvs 2>&1
+
+
+# find the right parameters for this system
+
+cd OpenSG
+system=`CommonConf/config.guess`
+
+stl_args=""
+glut_args=""
+qt_args=""
+tif_args=""
+jpeg_args=""
+png_args=""
+par_jobs=1
+compiler=""
+config_shell=sh
+mail=echo
+
+# LOCAL: set the system specific params. 
+# PATH needs to include doxygen and dot for doc to work
+
+case $system in
+
+    mips-sgi-irix6.5 )	
+    	
+	stl_args="--with-stl=/igd/a4/software/IRIX/packages/stdlib"
+	glut_args="--with-glut=/igd/a4/software/IRIX/packages/glut-3.7"
+	qt_args="--with-qt=/igd/a4/software/IRIX/packages/qt-2.3"
+	tif_args="--with-tif=/igd/a4/software/IRIX/"
+	jpeg_args="--with-jpeg=/igd/a4/software/IRIX/"
+ 	png_args="--with-png=/igd/a4/software/IRIX/"
+   	par_jobs=6
+	compiler=CC
+	mail=/usr/sbin/Mail
+	export PATH=/igd/a4/software/IRIX/bin/:$PATH
+	;;
+	
+    *-pc-linux-gnu )	
+    	
+	qt_args="--with-qt=/igd/a4/software/Linux/packages/qt-2.3"
+    	glut_args="--with-glut=/usr"
+    	par_jobs=2
+	compiler=g++
+	config_shell=bash
+	mail=/usr/bin/Mail
+	export PATH=/igd/a4/software/Linux/bin/:$PATH
+	;;
+
+    *-pc-cygwin )	
+    	
+	qt_args="--with-qt=`pwd`/../packages/qt-2.3"
+    	glut_args="--with-glut=`pwd`/../packages/glut_3.7"
+    	par_jobs=2
+	compiler=icl45
+	config_shell=bash
+	mail=`pwd`/../do_send_mail
+	export PATH=$PATH
+	;;
+	
+   *)
+    
+    	echo "Unknown system $system!"
+	errorexit System /dev/null
+	;;
+	
+esac
+
+# Start output
+# do it here so that $compiler and $system are set
+
+today=`date '+%d.%m.%y %H:%M'`
+
+build_id=`date '+%y%m%d%H%M'`.$system.$compiler
+link_html=opensg_dailybuild.$build_id
+out_html=$basedir/$link_html
+
+rm -f $out_html.html
+write_html_head $out_html.html 
+
+
+checkerror "Cvs" $log_cvs
+
+# configure it
+
+autoconf
+$config_shell ./configure --with-compiler=$compiler $stl_args $glut_args \
+    $qt_args $tif_args $jpeg_args $png_args 1>$log_configure 2>&1
+checkerror "Configure" $log_configure
+
+# start making the doc
+# takes forever, do it in parallel
+
+if which doxygen > /dev/null 2>&1 then 
+then
+	has_doxygen=0
+else
+	has_doxygen=1
+	( rm -f $doc_flag ; make doc 1>$log_doc 2>&1 ; touch $doc_flag ) &
+fi
+
+# make the libs
+
+cd Builds/$system-$compiler
+export OSGSUBPARJOBS=$par_jobs
+
+gmake 1>$log_make 2>&1
+
+checkerror "Libs" $log_make
+
+# locally install the libs
+
+gmake INSTALL_DIR=`pwd` install > $log_install 2>&1
+export LD_LIBRARY_PATH=`pwd`/lib/dbg
+
+checkerror "Install" $log_install
+
+# make and run the tests that have gold test results
+
+for i in *Test;
+do
+    cd $i
+    gmake  1>$log_test.$i 2>&1
+    checkerror $i $log_test.$i
+    # do we have testfiles?
+    if test `\ls -1 test* 2>/dev/null | wc -l` -ne 0 ;
+    then
+	for j in test*;
+	do
+    	    # find the gold file
+ 	    echo -n "$j... " >> $out_html.html
+   	    tloc=`find ../../.. -name $j.cpp | sed -e 's|[^/]*$||'`goldtests/$j.log
+ 	    if test "$tloc" != "goldtests/$j.log" -a -r $tloc
+	    then
+		$j > $log_test 2>&1
+		if test "`diff -q $log_test $tloc`" != "" ;
+		then
+	    	    echo " results differ:<br>" >> $out_html.html
+	    	    echo -n "<pre>" >> $out_html.html
+		    diff $log_test $tloc >> $out_html.html
+	    	    echo "</pre>" >> $out_html.html
+		else
+	    	    echo " ok.<br>" >> $out_html.html
+		fi
+	    else
+	    	echo " no gold test.<br>" >> $out_html.html    
+	    fi 
+	done
+    fi
+    cd ..
+    
+done
+
+
+if expr $has_doxygen > /dev/null 2>&1 = 1 ;
+then
+	# wait for the doc to finish
+	while ! test -r $doc_flag ; do sleep 30; done
+
+	# check the doc
+	checkerror "Doc" $log_doc
+fi
+
+# all done
+
+echo "<br>All done, all right. Have a nice day." >>  $out_html.html
+
+cleanup

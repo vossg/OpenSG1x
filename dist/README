@@ -1,0 +1,28 @@
+
+Tools for distribution building and project management.
+
+Not part of the distribution.
+
+
+
+Use in a cron job like this:
+
+Linux:
+
+0 3 * * * cd /tmp/opensg_dailybuild ; rm -f opensg.* ;  \
+	zsh /igd/a4/home/reiners/opensg/OpenSG/dist/dailybuild ; \
+	cp opensg* /igd/a4/scratch/reiners/osg_lin_db
+
+Irix:
+
+0 3 * * * cd /igd/a4/scratch/reiners/osg_db ; \
+	export PATH=/hgdv/software/IRIX6/bin/:/hgdv/software/gnu/IRIX_6.5_mips/bin:$PATH ; \
+	export LD_LIBRARY_PATH=/igd/a4/software/IRIX/lib ; \
+	/bin/sh /igd/a4/home/reiners/opensg/OpenSG/dist/dailybuild ; \
+	find . -exec touch {} \;
+
+Cygwin:
+
+copy dailybuild_copy, start_db_cygwin.bat and do_send_mail into an empty directory,
+Run start_db_cygwin.bat as a scheduled task.
+

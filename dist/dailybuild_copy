@@ -1,0 +1,17 @@
+
+# little wrapper script to call dailybuild and copy the logs to rubens
+
+source ~/.bashrc
+
+# get the latest dailybuild script
+rcp rubens:/igd/a4/opensg/reiners/opensg/OpenSG/dist/dailybuild .
+
+# remove old logs
+rm -f opensg.*
+
+# do the build
+bash ./dailybuild
+
+# get the logs back into the UNIX world
+rcp opensg* rubens:/igd/a4/scratch/reiners/osg_cyg_db
+
