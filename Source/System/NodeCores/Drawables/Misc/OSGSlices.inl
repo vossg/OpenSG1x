@@ -42,6 +42,12 @@
 
 OSG_BEGIN_NAMESPACE
 
+inline
+void Slices::setMaterial(const MaterialPtr &value)
+{
+    setRefdCP(_sfMaterial.getValue(), value);
+}
+
 OSG_END_NAMESPACE
 
 #define OSGTERRAIN_INLINE_CVSID "@(#)$Id: FCTemplate_inl.h,v 1.7 2001/09/17 14:15:07 vossg Exp $"

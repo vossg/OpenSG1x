@@ -87,7 +87,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Slices : public SlicesBase
     void adjustVolume( Volume & volume );
 
     /*! \}                                                                 */
-
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+    
+    void setMaterial       (const MaterialPtr     &value);
+    
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */

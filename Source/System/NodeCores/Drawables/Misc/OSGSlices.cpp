@@ -83,6 +83,7 @@ Slices::Slices(const Slices &source) :
 
 Slices::~Slices(void)
 {
+    subRefCP(_sfMaterial.getValue());
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -114,11 +115,30 @@ void Slices::initMethod (void)
 
 //! react to field changes
 
-void Slices::changed(BitVector OSG_CHECK_ARG(whichField), 
-                     UInt32 OSG_CHECK_ARG(from) )
+void Slices::changed(BitVector  whichField, 
+                     UInt32     origin     )
 {
-  // TODO; only reinit on _size change
-  initEdgeVec();
+    if(whichField & MaterialFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfMaterial.getValue());
+            }
+            else
+            {
+                MaterialPtr pMat = _sfMaterial.getValue();
+
+                _sfMaterial.setValue(NullFC);
+
+                setMaterial(pMat);
+            }
+        }
+    }
+
+    // TODO; only reinit on _size change
+    initEdgeVec();
 }
 
 //! output the instance for debug purposes
