@@ -287,6 +287,9 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     static void writeNormals  (GeometryPtr      pGeo, 
                                FILE            *pFile,
                                VRMLWriteAction *pWriter);
+    static void writeColors   (GeometryPtr      pGeo, 
+                               FILE            *pFile,
+                               VRMLWriteAction *pWriter);
     static void writeTexCoords(GeometryPtr      pGeo, 
                                FILE            *pFile,
                                VRMLWriteAction *pWriter);

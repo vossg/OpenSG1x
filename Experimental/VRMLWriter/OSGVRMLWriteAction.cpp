@@ -326,7 +326,7 @@ Action::ResultE VRMLWriteAction::writeGroupEnter(CNodePtr &pGroup,
         return Action::Quit;
     }
 
-    fprintf(stderr, "Write Group Enter 0x%04x\n", pWriter->getMode());
+    FDEBUG(("Write Group Enter 0x%04x\n", pWriter->getMode()));
 
     if(pWriter->getMode() == VRMLWriteAction::OSGCollectFC)
     {
@@ -391,7 +391,7 @@ Action::ResultE VRMLWriteAction::writeGroupLeave(CNodePtr &pGroup,
         return Action::Quit;
     }
 
-    fprintf(stderr, "Write Group Leave 0x%04x\n", pWriter->getMode());
+    FDEBUG(("Write Group Leave 0x%04x\n", pWriter->getMode()));
 
     if(pWriter->getMode() != VRMLWriteAction::OSGCollectFC)
     {
@@ -437,7 +437,7 @@ Action::ResultE VRMLWriteAction::writeVTransformEnter(CNodePtr &pGroup,
         return Action::Quit;
     }
 
-    fprintf(stderr, "Write VTransform Enter 0x%04x\n", pWriter->getMode());
+    FDEBUG(("Write VTransform Enter 0x%04x\n", pWriter->getMode()));
 
     if(pWriter->getMode() == VRMLWriteAction::OSGCollectFC)
     {
@@ -527,7 +527,7 @@ Action::ResultE VRMLWriteAction::writeVTransformLeave(CNodePtr &,
         return Action::Quit;
     }
 
-    fprintf(stderr, "Write VTransform Leave 0x%04x\n", pWriter->getMode());
+    FDEBUG(("Write VTransform Leave 0x%04x\n", pWriter->getMode()));
 
     if(pWriter->getMode() != VRMLWriteAction::OSGCollectFC)
     {
@@ -559,18 +559,10 @@ void VRMLWriteAction::writePoints(GeometryPtr      pGeo,
     if(pGeo == NullFC)
         return;
 
-    GeoPositions3fPtr pPos = GeoPositions3fPtr::dcast(pGeo->getPositions());
+    GeoPositionsPtr pPos = pGeo->getPositions();
 
     if(pPos == NullFC)
         return;
-
-    GeoPositions3f::StoredFieldType *pPosField = pPos->getFieldPtr();
-
-    if(pPosField         == NULL ||
-       pPosField->size() == 0)
-    {
-        return;
-    }
 
     pWriter->printIndent();
     fprintf(pFile, "coord Coordinate\n");
@@ -583,22 +575,22 @@ void VRMLWriteAction::writePoints(GeometryPtr      pGeo,
     fprintf(pFile, "point [\n");
     pWriter->incIndent(4);
 
-    for(UInt32 i = 0; i < pPosField->size(); i++)
+    for(UInt32 i = 0; i < pPos->getSize(); i++)
     {
         pWriter->printIndent();
 
-        fprintf(pFile, "%f %f %f", 
-                (*pPosField)[i][0],
-                (*pPosField)[i][1],
-                (*pPosField)[i][2]);
+        Pnt3f p;
+        pPos->getValue(p,i);
+        
+        fprintf(pFile, "%f %f %f", p[0], p[1], p[2]);
 
-        if(i == pPosField->size() - 1)
+        if(i == pPos->getSize() - 1)
         {
             fprintf(pFile, "\n");
         }
         else
         {
-            fprintf(pFile, ",\n");
+            fprintf(pFile, ", \n");
         }
     }
 
@@ -619,18 +611,10 @@ void VRMLWriteAction::writeNormals(GeometryPtr      pGeo,
     if(pGeo == NullFC)
         return;
 
-    GeoNormals3fPtr pNorm = GeoNormals3fPtr::dcast(pGeo->getNormals());
+    GeoNormalsPtr pNorm = pGeo->getNormals();
 
     if(pNorm == NullFC)
         return;
-
-    GeoNormals3f::StoredFieldType *pNormField = pNorm->getFieldPtr();
-
-    if(pNormField         == NULL ||
-       pNormField->size() == 0)
-    {
-        return;
-    }
 
     pWriter->printIndent();
     fprintf(pFile, "normal Normal\n");
@@ -643,22 +627,73 @@ void VRMLWriteAction::writeNormals(GeometryPtr      pGeo,
     fprintf(pFile, "vector [\n");
     pWriter->incIndent(4);
 
-    for(UInt32 i = 0; i < pNormField->size(); i++)
+    for(UInt32 i = 0; i < pNorm->getSize(); i++)
     {
         pWriter->printIndent();
 
-        fprintf(pFile, "%f %f %f", 
-                (*pNormField)[i][0],
-                (*pNormField)[i][1],
-                (*pNormField)[i][2]);
+        Vec3f n;
+        pNorm->getValue(n,i);
+        
+        fprintf(pFile, "%f %f %f", n[0], n[1], n[2]);
 
-        if(i == pNormField->size() - 1)
+        if(i == pNorm->getSize() - 1)
         {
             fprintf(pFile, "\n");
         }
         else
         {
-            fprintf(pFile, ",\n");
+            fprintf(pFile, ", \n");
+        }
+    }
+
+    pWriter->decIndent(4);
+    pWriter->printIndent();
+    fprintf(pFile, "]\n");
+
+    pWriter->decIndent(4);
+    pWriter->printIndent();
+    fprintf(pFile, "}\n");
+}
+
+void VRMLWriteAction::writeColors(GeometryPtr      pGeo, 
+                                  FILE            *pFile,
+                                  VRMLWriteAction *pWriter)
+{
+    if(pGeo == NullFC)
+        return;
+
+    GeoColorsPtr pCol = pGeo->getColors();
+
+    if(pCol == NullFC)
+        return;
+
+    pWriter->printIndent();
+    fprintf(pFile, "color Color\n");
+
+    pWriter->printIndent();
+    fprintf(pFile, "{\n");
+    pWriter->incIndent(4);
+
+    pWriter->printIndent();
+    fprintf(pFile, "color [\n");
+    pWriter->incIndent(4);
+
+    for(UInt32 i = 0; i < pCol->getSize(); i++)
+    {
+        pWriter->printIndent();
+
+        Color3f c;
+        pCol->getValue(c,i);
+        
+        fprintf(pFile, "%f %f %f", c[0], c[1], c[2]);
+
+        if(i == pCol->getSize() - 1)
+        {
+            fprintf(pFile, "\n");
+        }
+        else
+        {
+            fprintf(pFile, ", \n");
         }
     }
 
@@ -678,18 +713,10 @@ void VRMLWriteAction::writeTexCoords(GeometryPtr      pGeo,
     if(pGeo == NullFC)
         return;
 
-    GeoTexCoords2fPtr pTex = GeoTexCoords2fPtr::dcast(pGeo->getTexCoords());
+    GeoTexCoordsPtr pTex = pGeo->getTexCoords();
 
     if(pTex == NullFC)
         return;
-
-    GeoTexCoords2f::StoredFieldType *pTexField = pTex->getFieldPtr();
-
-    if(pTexField         == NULL ||
-       pTexField->size() == 0)
-    {
-        return;
-    }
 
     pWriter->printIndent();
     fprintf(pFile, "texCoord TextureCoordinate\n");
@@ -702,21 +729,22 @@ void VRMLWriteAction::writeTexCoords(GeometryPtr      pGeo,
     fprintf(pFile, "point [\n");
     pWriter->incIndent(4);
 
-    for(UInt32 i = 0; i < pTexField->size(); i++)
+    for(UInt32 i = 0; i < pTex->getSize(); i++)
     {
         pWriter->printIndent();
 
-        fprintf(pFile, "%f %f", 
-                (*pTexField)[i][0],
-                (*pTexField)[i][1]);
-
-        if(i == pTexField->size() - 1)
+        Vec2f t;
+        pTex->getValue(t,i);
+        
+        fprintf(pFile, "%f %f", t[0], t[1]);
+ 
+        if(i == pTex->getSize() - 1)
         {
             fprintf(pFile, "\n");
         }
         else
         {
-            fprintf(pFile, ",\n");
+            fprintf(pFile, ", \n");
         }
     }
 
@@ -978,7 +1006,7 @@ Action::ResultE VRMLWriteAction::writeGeoEnter(CNodePtr &pGroup,
         return Action::Quit;
     }
 
-    fprintf(stderr, "Write Geo Enter 0x%04x\n", pWriter->getMode());
+    FDEBUG(("Write Geo Enter 0x%04x\n", pWriter->getMode()));
 
     if(pWriter->getMode() == VRMLWriteAction::OSGCollectFC)
     {
@@ -1031,16 +1059,17 @@ Action::ResultE VRMLWriteAction::writeGeoEnter(CNodePtr &pGroup,
 
         pWriter->incIndent(4);
 
-        pWriter->printIndent();
+//        pWriter->printIndent();
 // !!!        fprintf(pFile, "colorPerVertex  %s\n", 
 // !!!                pGeo->getColorPerVertex() ? "TRUE" : "FALSE");
 
-        pWriter->printIndent();
+//        pWriter->printIndent();
 // !!!        fprintf(pFile, "normalPerVertex %s\n",
 // !!!                pGeo->getNormalPerVertex() ? "TRUE" : "FALSE");
 
         writePoints   (pGeo, pFile, pWriter);
         writeNormals  (pGeo, pFile, pWriter);
+        writeColors   (pGeo, pFile, pWriter);
         writeTexCoords(pGeo, pFile, pWriter);
         writeIndex    (pGeo, pFile, pWriter);
         pWriter->decIndent(4);
@@ -1064,7 +1093,7 @@ Action::ResultE VRMLWriteAction::writeGeoLeave(CNodePtr &,
         return Action::Quit;
     }
 
-    fprintf(stderr, "Write Geo Leave 0x%04x\n", pWriter->getMode());
+    FDEBUG(("Write Geo Leave 0x%04x\n", pWriter->getMode()));
 
     if(pWriter->getMode() != VRMLWriteAction::OSGCollectFC)
     {
@@ -1097,7 +1126,7 @@ Action::ResultE VRMLWriteAction::writeMatGroupEnter(CNodePtr &pGroup,
         return Action::Quit;
     }
 
-    fprintf(stderr, "Write MatGroup Enter 0x%04x\n", pWriter->getMode());
+    FDEBUG(("Write MatGroup Enter 0x%04x\n", pWriter->getMode()));
     
     pWriter->setMaterial(pMatGroup->getMaterial());
     
@@ -1115,7 +1144,7 @@ Action::ResultE VRMLWriteAction::writeMatGroupLeave(CNodePtr &,
         return Action::Quit;
     }
     
-    fprintf(stderr, "Write MatGroup Leave 0x%04x\n", pWriter->getMode());
+    FDEBUG(("Write MatGroup Leave 0x%04x\n", pWriter->getMode()));
    
     pWriter->setMaterial(NullFC);
     
