@@ -2,20 +2,17 @@
 
 Welcome to OpenSG. 
 
-This documentation is still in its infancy. We're trying to figure out
-how to make the, otherwise very smart, doxygen tool understand our use
-of C++, templates and typedefs. Only with partial success so far.
-It works somewhat, but the class graph and the collboration diagrams
-don't always reflect the actual class relations. But they show the
-logical relations, so it's possible to follow the inheritance
-logically.
+OpenSG is a scenegraph system for realtime rendering, e.g. for Virtual Reality
+applications. It is just a library, not a full application.
 
-The Modules list is manually generated and reflects the structure
-better. Admitted, there is not much more than the groups themselves,
-but we're working on it. Bear with us for the time being.
+This documentation describes the classes and methods of the OpenSG system. The
+doxygen tool used to create this documentation has problems with some of our
+constructs, thus some classes had to be wrapped in dummies for this
+documentation, don't be surprised.
 
-We hope you enjoy the system anyway. Visit us at www.opensg.org to learn
-more about us and the background.
+We hope you enjoy the system anyway. Visit us at 
+<a href=http://www.opensg.org>www.opensg.org</a> to learn
+more about us and the background of the system.
 
 */
 
