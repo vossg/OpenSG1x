@@ -2,10 +2,12 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
-  *                                                                           *
+ *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
@@ -45,20 +47,10 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGGeometryBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGNodeCore.h>
-#include <OSGSFMathTypes.h>
-#include <OSGMFMathTypes.h>
-#include <OSGMFVecTypes.h>
-#include <OSGMFSysTypes.h>
-#include <OSGFieldContainer.h>
-#include <OSGFieldContainerPtr.h>
-#include <OSGFieldDescription.h>
+#include <OSGConfig.h>
 #include <OSGAction.h>
-#include <OSGMaterial.h>
 
-#include <OSGGeoPropFields.h>
+#include <OSGGeometryBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -66,12 +58,11 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
+class DrawAction;
+
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
-
-class Geometry;
-typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
 
 // Iterators
 class TriangleIterator;
@@ -86,41 +77,18 @@ class FaceIterator;
  *  \brief Geometry base class
  */
 
-class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
+class OSG_GEOMETRY_DLLMAPPING Geometry : public GeometryBase
 {
-  private:
-
-    typedef NodeCore Inherited;
-
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
-
-    OSG_FC_FIRST_FIELD_IDM_DECL(TypesField                                )
-
-    OSG_FC_FIELD_IDM_DECL      (LengthsField,         TypesField          )
-    OSG_FC_FIELD_IDM_DECL      (PositionsField,       LengthsField        )
-
-    OSG_FC_FIELD_IDM_DECL      (NormalsField,         PositionsField      )
-    OSG_FC_FIELD_IDM_DECL      (NormalPerVertexField, NormalsField        )
-
-    OSG_FC_FIELD_IDM_DECL      (ColorsField,          NormalPerVertexField)
-    OSG_FC_FIELD_IDM_DECL      (ColorPerVertexField,  ColorsField         )
-
-    OSG_FC_FIELD_IDM_DECL      (TexCoordsField,       ColorPerVertexField )
-
-    OSG_FC_FIELD_IDM_DECL      (GeoIndexField,        TexCoordsField )
-
-    OSG_FC_FIELD_IDM_DECL      (MaterialField,        GeoIndexField       )
-
-    OSG_FC_LAST_FIELD_IDM_DECL (MaterialField                              )
-
+    
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
-    
+
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
@@ -138,57 +106,10 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSG_FIELD_CONTAINER_DECL(GeometryPtr)
 
-    /*------------------------- your_category -------------------------------*/
-
-    /** property access. Returns FCNULL if not set or available. */
-
-    inline GeoPTypePtr      getTypes( void ) const;
-    inline void             setTypes( GeoPTypePtr types );
-
-    inline GeoPLengthPtr    getLengths( void ) const;
-    inline void             setLengths( GeoPLengthPtr lengths );    
-    
-    inline GeoPositionPtr   getPositions( void ) const;
-    inline void             setPositions( GeoPositionPtr positions );
-        
-    inline GeoColorPtr      getColors( void ) const;
-    inline void             setColors( GeoColorPtr Colors );    
-    inline Bool             getColorPerVertex( void ) const;
-    inline void             setColorPerVertex( Bool npv );
-        
-    inline GeoNormalPtr     getNormals( void ) const;
-    inline void             setNormals( GeoNormalPtr normals ); 
-    inline Bool             getNormalPerVertex( void ) const;
-    inline void             setNormalPerVertex( Bool npv );
-     
-    inline GeoTexCoordsPtr   getTexCoords( void ) const;
-    inline void             setTexCoords( GeoTexCoordsPtr texcoords );
-   
-    // The single index for all attributes. 
-    // This will probably move out into a derived class
-    inline GeoIndexPtr      getIndex( void ) const;
-    inline void             setIndex( GeoIndexPtr index );
-	
-	inline MaterialPtr		getMaterial( void ) const;
-	inline void					setMaterial( MaterialPtr material );
-    
-    // TODO: separate indices, multitexcoords, ...
-    
-    /** field access */
-
-    SFGeoPTypePtr       *getSFTypes( void );
-    SFGeoPLengthPtr     *getSFLengths( void );
-    SFGeoPositionPtr    *getSFPositions( void );
-    SFGeoColorPtr       *getSFColors( void );
-    SFBool              *getSFColorPerVertex( void );
-    SFGeoNormalPtr      *getSFNormals( void );
-    SFBool              *getSFNormalPerVertex( void );
-    SFGeoTexCoordsPtr   *getSFTexCoords( void );
-    SFGeoIndexPtr       *getSFIndex( void );
-	SFMaterialPtr		*getSFMaterial( void );
-
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
+						 
     /** pointer */
 
     GeometryPtr getPtr(void) const;
@@ -249,6 +170,8 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
+    // They should all be in GeometryBase.
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -256,10 +179,6 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
     Geometry(void);
     Geometry(const Geometry &source);
     virtual ~Geometry(void); 
-
-    virtual void changed(BitVector whichField, ChangeMode from);
-    
-    /*------------------------------ Actions --------------------------------*/
     
   private:
 
@@ -271,11 +190,14 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef GeometryBase Inherited;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
     friend class FieldContainer;
+    friend class GeometryBase;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -287,37 +209,15 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
 
     static char cvsid[];
 
-    static FieldDescription   _desc[];
-
-    static FieldContainerType _type;
-
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static void   initMethod (void);
- 
+    static void initMethod( void );
+
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-
-    SFGeoPTypePtr    _types;
-    
-    SFGeoPLengthPtr  _lengths;
-    
-    SFGeoPositionPtr _positions;
-    
-    SFGeoNormalPtr   _normals;
-    SFBool           _normalsPerVertex;
-    
-    SFGeoColorPtr    _colors;
-    SFBool           _colorsPerVertex;
-    
-    SFGeoTexCoordsPtr _texcoords;
-
-    SFGeoIndexPtr    _index;
-    
-	SFMaterialPtr _material;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -336,13 +236,18 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
 //   Exported Types
 //---------------------------------------------------------------------------
 
-// class pointer
 
+/** \brief class pointer
+ */
+typedef Geometry *GeometryP;
+
+/** empty geometry instance
+ */
 extern OSG_GEOMETRY_DLLMAPPING GeometryPtr NullGeo;
 
-// Single index geometry  
 OSG_END_NAMESPACE
 
-#include "OSGGeometry.inl"
+#include <OSGGeometry.inl>
+#include <OSGGeometryBase.inl>
 
 #endif /* _OSGGEOMETRY_H_ */

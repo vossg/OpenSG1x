@@ -47,7 +47,7 @@
 
 #include <GL/gl.h>
 
-#include <OSGGeometryBase.h>
+#include <OSGGeometryDef.h>
 #include <OSGMFVecTypes.h>
 #include <OSGMFSysTypes.h>
 #include <OSGMFBaseTypes.h>

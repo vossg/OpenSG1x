@@ -2,7 +2,9 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -43,8 +45,6 @@
 #include <stdio.h>
 
 #include "OSGConfig.h"
-#include "OSGLog.h"
-
 #include <GL/gl.h>
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
@@ -55,15 +55,10 @@
 
 #define OSG_COMPILEGEOMETRY
 
-#include <OSGGeometryBase.h>
-#include <OSGFieldContainer.h>
-#include <OSGFieldContainerPtr.h>
 #include <OSGAction.h>
 #include <OSGDrawAction.h>
 #include <OSGIntersectAction.h>
-
-#include <OSGNode.h>
-
+#include <OSGMaterial.h>
 #include "OSGGeometry.h"
 #include "OSGGeoPumpFactory.h"
 
@@ -72,9 +67,7 @@
 #include "OSGFaceIterator.h"
 
 #include "OSGGeoPropPtrs.h"
-
 OSG_USING_NAMESPACE
-
 
 
 /***************************************************************************\
@@ -106,135 +99,15 @@ OSG_GEOMETRY_DLLMAPPING GeometryPtr OSG::NullGeo;
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(Geometry, TypesField)
-
-OSG_FC_FIELD_IDM_DEF      (Geometry, 
-                           LengthsField, 
-                           TypesField)
-
-OSG_FC_FIELD_IDM_DEF      (Geometry, 
-                           PositionsField, 
-                           LengthsField)
-
-OSG_FC_FIELD_IDM_DEF      (Geometry, 
-                           NormalsField, 
-                           PositionsField)
-
-OSG_FC_FIELD_IDM_DEF      (Geometry, 
-                           NormalPerVertexField, 
-                           NormalsField)
-
-OSG_FC_FIELD_IDM_DEF      (Geometry, 
-                           ColorsField, 
-                           NormalPerVertexField)
-
-OSG_FC_FIELD_IDM_DEF      (Geometry, 
-                           ColorPerVertexField, 
-                           ColorsField)
-
-OSG_FC_FIELD_IDM_DEF      (Geometry, 
-                           TexCoordsField, 
-                           ColorPerVertexField)
-
-OSG_FC_FIELD_IDM_DEF      (Geometry, 
-                           GeoIndexField, 
-                           TexCoordsField)
-
-OSG_FC_FIELD_IDM_DEF      (Geometry, 
-						   MaterialField,
-                           GeoIndexField)
-
-OSG_FC_LAST_FIELD_IDM_DEF (Geometry, 
-                           MaterialField)
-
 char Geometry::cvsid[] = "@(#)$Id: $";
-FieldDescription Geometry::_desc[] = 
-{
-	FieldDescription(
-        SFGeoPTypePtr::getClassType(),
-        "types", 
-        OSG_FC_FIELD_IDM_DESC(TypesField),
-        false,
-        (FieldAccessMethod) &Geometry::getSFTypes), 
 
-	FieldDescription(
-        SFGeoPLengthPtr::getClassType(),
-        "lengths", 
-        OSG_FC_FIELD_IDM_DESC(LengthsField),
-        false,
-        (FieldAccessMethod) &Geometry::getSFLengths), 
-    
-	FieldDescription(
-        SFGeoPositionPtr::getClassType(),
-        "positions", 
-        OSG_FC_FIELD_IDM_DESC(PositionsField),
-        false,
-        (FieldAccessMethod) &Geometry::getSFPositions), 
-    
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-	FieldDescription(
-        SFGeoNormalPtr::getClassType(),
-        "normals", 
-        OSG_FC_FIELD_IDM_DESC(NormalsField),
-        false,
-        (FieldAccessMethod) &Geometry::getSFNormals), 
-
-	FieldDescription(
-        SFBool::getClassType(),
-        "normalPerVertex", 
-        OSG_FC_FIELD_IDM_DESC(NormalPerVertexField),
-        false,
-        (FieldAccessMethod) &Geometry::getSFNormalPerVertex), 
-    
-
-	FieldDescription(
-        SFGeoColorPtr::getClassType(),
-        "colors", 
-        OSG_FC_FIELD_IDM_DESC(ColorsField),
-        false,
-        (FieldAccessMethod) &Geometry::getSFColors), 
-
-	FieldDescription(
-        SFBool::getClassType(),
-        "colorPerVertex", 
-        OSG_FC_FIELD_IDM_DESC(ColorPerVertexField),
-        false,
-        (FieldAccessMethod) &Geometry::getSFColorPerVertex), 
-
-
-	FieldDescription(
-        SFGeoIndexPtr::getClassType(),
-        "texcoords", 
-        OSG_FC_FIELD_IDM_DESC(TexCoordsField),
-        false,
-        (FieldAccessMethod) &Geometry::getSFTexCoords), 
-
-
-	FieldDescription(
-        SFGeoIndexPtr::getClassType(),
-        "index", 
-        OSG_FC_FIELD_IDM_DESC(GeoIndexField),
-        false,
-        (FieldAccessMethod) &Geometry::getSFIndex), 
-
-
-	FieldDescription(
-        SFMaterialPtr::getClassType(),
-        "material", 
-        OSG_FC_FIELD_IDM_DESC(MaterialField),
-        false,
-        (FieldAccessMethod) &Geometry::getSFMaterial), 
-};
-
-FieldContainerType Geometry::_type(
-    "Geometry",
-    "NodeCore",
-    NULL,
-    (PrototypeCreateF) &Geometry::createEmpty,
-    initMethod,
-    _desc,
-    sizeof(_desc));
-
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -298,7 +171,6 @@ void Geometry::initMethod (void)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(Geometry, GeometryPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -306,20 +178,15 @@ OSG_FIELD_CONTAINER_DEF(Geometry, GeometryPtr)
  */
 
 Geometry::Geometry(void) :
-	Inherited(),
-    _types(), _lengths(), _positions(), _normals(), _colors(), _texcoords(),
-	_normalsPerVertex(), _colorsPerVertex(), _index(), _material()
+    Inherited()
 {
 }
 
+/** \brief Copy Constructor
+ */
+
 Geometry::Geometry(const Geometry &source) :
-    Inherited(source),
-    _types(source._types), _lengths(source._lengths), 
-	_positions(source._positions), _normals(source._normals), 
-	_colors(source._colors), _texcoords(source._texcoords),
-	_normalsPerVertex(source._normalsPerVertex), 
-	_colorsPerVertex(source._colorsPerVertex), _index(source._index),
-	_material(source._material)
+    Inherited(source)
 {
 }
 
@@ -358,115 +225,19 @@ GeometryPtr Geometry::getPtr(void) const
     return FieldContainer::getPtr<GeometryPtr>(*this);
 }
 
-/*---------------------------- properties ---------------------------------*/
-
-SFGeoPTypePtr		*Geometry::getSFTypes( void )
-{
-	return &_types;
-}
-
-SFGeoPLengthPtr		*Geometry::getSFLengths( void )
-{
-	return &_lengths;
-}
-
-SFGeoPositionPtr		*Geometry::getSFPositions( void )
-{
-	return &_positions;
-}
-
-SFGeoColorPtr		*Geometry::getSFColors( void )
-{
-	return &_colors;
-}
-
-SFBool				*Geometry::getSFColorPerVertex( void )
-{
-	return &_colorsPerVertex;
-}
-
-SFGeoNormalPtr		*Geometry::getSFNormals( void )
-{
-	return &_normals;
-}
-
-SFBool				*Geometry::getSFNormalPerVertex( void )
-{
-	return &_normalsPerVertex;
-}
-
-SFGeoTexCoordsPtr	*Geometry::getSFTexCoords( void )
-{
-	return &_texcoords;
-}
-
-SFGeoIndexPtr		*Geometry::getSFIndex( void )
-{
-	return &_index;
-}
-
-SFMaterialPtr		*Geometry::getSFMaterial( void )
-{
-	return &_material;
-}
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/** \brief assignment
- */
-#if 0
-Geometry& Geometry::operator = (const Geometry &source)
-{
-	if (this == &source)
-		return *this;
-
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
-
-	// free mem alloced by members of 'this'
-
-	// alloc new mem for members
-
-	// copy 
-}
-#endif
-
-
-/*-------------------------- comparison -----------------------------------*/
-
-/** \brief assignment
- */
-#if 0
-Bool CLASSNAME::operator < (const CLASSNAME &other) const
-{
-    return this < &other;
-}
-
-/** \brief equal
- */
-
-Bool CLASSNAME::operator == (const CLASSNAME &other) const
-{
-}
-
-/** \brief unequal
- */
-
-Bool CLASSNAME::operator != (const CLASSNAME &other) const
-{
-	return ! (*this == other);
-}
-#endif
 
 /*------------------------------- dump ----------------------------------*/
 
+/** \brief output the instance for debug purposes
+ */
+
 void Geometry::dump(      UInt32     uiIndent, 
-                    const BitVector &bvFlags) const
+                         const BitVector &bvFlags) const
 {
-    Inherited::dump(uiIndent, bvFlags);
+   Inherited::dump(uiIndent, bvFlags);
 }
+
+    
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
@@ -526,6 +297,9 @@ Action::ResultE Geometry::intersect(Action * action )
 
 
 
+
+/** \brief react to field changes
+ */
 
 void Geometry::changed(BitVector whichField, ChangeMode from)
 {
@@ -610,34 +384,4 @@ FaceIterator Geometry::endFaces  ( void ) const
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 
