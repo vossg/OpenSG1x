@@ -168,7 +168,7 @@ Int32 cmpIGlyphs(void *g1, void *g2)
 
 /* */
 void qsortIGlyphs(Int32 numGlyphs, UChar8 *indices,
-                  vector<ImageFontGlyph *> iGlyphs)
+                  std::vector<ImageFontGlyph *> iGlyphs)
 {
     UChar8  split, *upper, *lower, up = 1;
 

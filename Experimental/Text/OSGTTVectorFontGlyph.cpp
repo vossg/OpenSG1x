@@ -306,7 +306,7 @@ bool TTVectorFontGlyph::create(void)
     Real32                                  *point = 0, *last, *first = 0,
         firstX, firstY, *normal = 0, **normalStack, length, lastN[3];
     bool                                    retVal, dontAddFirst = false;
-    vector<FontGlyphContour *>::iterator    gIter;
+    std::vector<FontGlyphContour *>::iterator    gIter;
 
     if(_numPoints)
         return true;
@@ -665,7 +665,7 @@ Int32 TTVectorFontGlyph::sortContours(TT_Outline outline)
     Real32                      bb[4], order;
     Real32                      last[2];
     bool                        clockwise = false;
-    vector<FontGlyphContour *>  contourList, contourLeftList;
+    std::vector<FontGlyphContour *>  contourList, contourLeftList;
     FontGlyphContour            *doThis = NULL, *cIter = NULL;
     Int32                       ret = 1;
 
@@ -837,7 +837,7 @@ Int32 TTVectorFontGlyph::sortContours(TT_Outline outline)
 /* */
 void TTVectorFontGlyph::cleanup(void)
 {
-    vector<Int32 *> offsets;
+    std::vector<Int32 *> offsets;
     Int32           *offset = 0, totalOffset = 0, i, current = 0, index,
         inSize, num;
 

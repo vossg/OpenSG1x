@@ -41,7 +41,7 @@ FontGlyphContour::~FontGlyphContour(void)
 }
 
 /* */
-vector<Real32 *> &FontGlyphContour::getNormals(void)
+std::vector<Real32 *> &FontGlyphContour::getNormals(void)
 {
     while(_numNormals != _numPoints)
     {

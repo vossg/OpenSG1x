@@ -73,7 +73,7 @@ int main(int argc, char **argv)
     ofstream    out(argv[2]);
     if(out.eof() == false)
     {
-        char    *data = target.str();
+        UChar8    *data = (UChar8 *) target.str();
 
         out << "UInt32 fontDataSize = " << target.pcount() << ";"
             << endl;

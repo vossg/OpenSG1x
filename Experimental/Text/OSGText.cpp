@@ -84,7 +84,8 @@ bool Text::fillTXFImage(Image &image)
 }
 
 /* */
-bool Text::fillTXFGeo(Geometry &mesh, bool isNew, vector<string> &lineVec)
+bool Text::fillTXFGeo(Geometry &mesh, bool isNew, 
+                      std::vector<std::string> &lineVec)
 {
     Int32             numVerts;
     GeoPositions3fPtr pos;
@@ -124,7 +125,7 @@ bool Text::fillTXFGeo(Geometry &mesh, bool isNew, vector<string> &lineVec)
 
 
 /* */
-UInt32 Text::getTXFNVertices(vector<string> &lineVec)
+UInt32 Text::getTXFNVertices(std::vector<std::string> &lineVec)
 {
     UInt32 numChars = 0;
     
@@ -137,7 +138,7 @@ UInt32 Text::getTXFNVertices(vector<string> &lineVec)
 }
 
 /* */
-bool Text::fillTXFArrays(vector<string> &lineVec, 
+bool Text::fillTXFArrays(std::vector<std::string> &lineVec, 
                          Pnt3f *points, Vec2f *texcoords)
 {
     Int32           i, j, k;
@@ -257,11 +258,16 @@ bool Text::fillTXFArrays(vector<string> &lineVec,
 }
 
 /* */
-bool Text::fillImage(Image & image, vector <string> &lineVec, Color4ub * fg,
-                     Color4ub * bg, bool forcePower2, Real32 * maxX,
-                     Real32 * maxY,
+bool Text::fillImage(Image & image, 
+                     std::vector<std::string> &lineVec, 
+                     Color4ub *fg,
+                     Color4ub *bg, 
+                     bool forcePower2, 
+                     Real32 *maxX,
+                     Real32 *maxY,
                      ImageCreationMode OSG_CHECK_ARG(creationMode),
-                     MergeMode OSG_CHECK_ARG(mergeMode), Int32 pixelDepth) const
+                     MergeMode OSG_CHECK_ARG(mergeMode), 
+                     Int32 pixelDepth) const
 {
     ImageFontGlyph  ***g;
     UChar8          *img = 0;
@@ -508,7 +514,7 @@ bool Text::fillImage(Image & image, vector <string> &lineVec, Color4ub * fg,
 }
 
 /* */
-bool Text::fillGeo(Geometry & mesh, vector<string> &lineVec,
+bool Text::fillGeo(Geometry & mesh, std::vector<std::string> &lineVec,
                    Real32 precision, Real32 extFac,
                    Real32 OSG_CHECK_ARG(maxExtend),
                    MeshCreationMode creationMode,

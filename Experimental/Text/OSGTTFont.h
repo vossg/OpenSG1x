@@ -30,7 +30,7 @@ public:
     TTFont(const TTFont &obj);
 
     /** Constructor */
-    TTFont(const Char8 *name, string path);
+    TTFont(const Char8 *name, std::string path);
 
     /** Destructor */
     virtual             ~TTFont(void);

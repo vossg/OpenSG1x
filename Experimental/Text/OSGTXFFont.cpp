@@ -61,7 +61,7 @@ TXFFont::TXFFont (const TXFFont &obj )
     return;
 }
 */
-TXFFont::TXFFont(const Char8 *name, string path) :
+TXFFont::TXFFont(const Char8 *name, std::string path) :
     Font(name, path)
 {
     return;

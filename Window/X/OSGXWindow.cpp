@@ -97,7 +97,7 @@ void XWindow::changed(BitVector whichField, UInt32 origin)
 void XWindow::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump XWindow NI" << endl;
+    SLOG << "Dump XWindow NI" << std::endl;
 }
 
 
@@ -129,7 +129,7 @@ void XWindow::init( void )
                   &useGL );
     if ( !useGL )
     {
-        SFATAL << "Visual is not OpenGL-capable!" << endl;
+        SFATAL << "Visual is not OpenGL-capable!" << std::endl;
     }    
   
     XWindowPtr win(*this);

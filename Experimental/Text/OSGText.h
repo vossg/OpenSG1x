@@ -68,7 +68,7 @@ private:
 
     bool                _leftToRight;
 
-    string              _language;
+    std::string         _language;
 
     Real32              _size;
 
@@ -145,15 +145,15 @@ public:
     }
 
     /** get method for attribute language */
-    virtual string &language(void)
+    virtual std::string &language(void)
     {
         return _language;
     }
 
     /** set method for attribute language */
-    virtual void setLanguage(string language)
+    virtual void setLanguage(std::string language)
     {
-        _language = string(language);
+        _language = std::string(language);
     }
 
     /** get method for attribute size */
@@ -218,14 +218,14 @@ public:
     virtual bool    fillTXFImage(Image &image);
 
     virtual bool    fillTXFGeo(Geometry &mesh, bool isNew,
-                                   vector<string> &lineVec);
+                               std::vector<std::string> &lineVec);
 
-    virtual UInt32  getTXFNVertices(vector<string> &lineVec);
+    virtual UInt32  getTXFNVertices(std::vector<std::string> &lineVec);
 
-    virtual bool    fillTXFArrays(vector<string> &lineVec, 
+    virtual bool    fillTXFArrays(std::vector<std::string> &lineVec, 
                                   Pnt3f *points, Vec2f *texcoords);
 
-    virtual bool    fillImage(Image &image, vector<string> &lineVec,
+    virtual bool    fillImage(Image &image, std::vector<std::string> &lineVec,
                                   Color4ub *fg = 0, Color4ub *bg = 0,
                                   bool forcePower2 = false, Real32 *maxX = 0,
                                   Real32 *maxY = 0,
@@ -233,7 +233,7 @@ public:
                                   MergeMode mergeMode = CLEAR_ADD_MM,
                                   Int32 pixelDepth = 3) const;
 
-    virtual bool    fillGeo(Geometry &mesh, vector<string> &lineVec,
+    virtual bool    fillGeo(Geometry &mesh, std::vector<std::string> &lineVec,
                                 Real32 precision = 1.f, Real32 extFac = 0.f,
                                 Real32 maxExtend = 0.f,
                                 MeshCreationMode creationMode = FILL_MCM,

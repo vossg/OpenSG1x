@@ -16,7 +16,8 @@ private:
     static FontFactory  _the;
 
     /** list of known fonts */
-    list<Font *>        _knownFonts;
+    std::list<Font *>        _knownFonts;
+
 protected:
 public:
 

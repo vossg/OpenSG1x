@@ -40,7 +40,7 @@ TTFont::TTFont(const TTFont &OSG_CHECK_ARG(obj))
 }
 
 /* */
-TTFont::TTFont(const Char8 *name, string path) :
+TTFont::TTFont(const Char8 *name, std::string path) :
     Font(name, path)
 {
     _ttError = TT_Init_FreeType(&_ttEngine);

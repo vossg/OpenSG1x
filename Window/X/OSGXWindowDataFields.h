@@ -70,7 +70,7 @@ struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<DisplayP> :
     static DataType             _type;                       
 
     enum                        { StringConvertable = ToStringConvertable };
-    enum                        { bHasParent        = 0x00 };
+    enum                        { bHasParent        = 0x00                };
 
     static DataType &getType (void) { return _type;        }
 
@@ -84,8 +84,8 @@ struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<DisplayP> :
         return true;
     }
 
-    static void      putToString  (const DisplayP &,
-                                         string   &outStr)
+    static void      putToString  (const      DisplayP &,
+                                         std::string   &outStr)
     {
         outStr.assign("DisplayP");
     }
@@ -112,8 +112,8 @@ struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<X11Window> :
         return true;
     }
 
-    static void      putToString  (const X11Window &,
-                                         string    &outStr)
+    static void      putToString  (const      X11Window &,
+                                         std::string    &outStr)
     {
         outStr.assign("X11Window");
     }
@@ -140,8 +140,8 @@ struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<GLXContext> :
         return true;
     }
 
-    static void      putToString  (const GLXContext &,
-                                         string     &outStr)
+    static void      putToString  (const      GLXContext &,
+                                         std::string     &outStr)
     {
         outStr.assign("GLXContext");
     }
@@ -191,6 +191,6 @@ OSG_DLLEXPORT_DECL1(MField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWXFIELDS_HEADER_CVSID "@(#)$Id: OSGXWindowDataFields.h,v 1.7 2002/08/29 16:24:58 dirk Exp $"
+#define OSGWINDOWXFIELDS_HEADER_CVSID "@(#)$Id: OSGXWindowDataFields.h,v 1.8 2002/09/02 09:34:46 vossg Exp $"
 
 #endif /* _OSGXWINDOWDATAFIELDS_H_ */

@@ -107,7 +107,7 @@ void VectorFontGlyph::extrude(void)
 /* */
 bool VectorFontGlyph::createTriangles(void)
 {
-    vector<FontGlyphContour *>::iterator    cIter;
+    std::vector<FontGlyphContour *>::iterator cIter;
     FontGlyphContour                        *doThis;
     GLUtriangulatorObj                      *triangulator = gluNewTess();
     GLdouble                                vertex[3];

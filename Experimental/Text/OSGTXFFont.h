@@ -49,7 +49,7 @@ public:
     TXFFont(const TXFFont &obj);
 
     /** Constructor */
-    TXFFont(const Char8 *name, string path);
+    TXFFont(const Char8 *name, std::string path);
 
     /** Constructor */
     TXFFont(const Char8 *name, istream &source);

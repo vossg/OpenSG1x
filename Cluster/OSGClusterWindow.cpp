@@ -246,7 +246,7 @@ void ClusterWindow::init( void )
                     retry=false;
                 }
             }
-            catch(exception &e)
+            catch(OSG_EX_NAMESPACE::exception &e)
             {
                 SINFO << e.what() << std::endl;
             }

@@ -44,9 +44,9 @@ private:
 protected:
 
     /** list fo created glyphs */
-    vector<VectorFontGlyph *>   _vectorGlyphs;
-    vector<ImageFontGlyph *>    _imageGlyphs;
-    vector<TXFGlyphInfo *>      _txfGlyphInfos;
+    std::vector<VectorFontGlyph *> _vectorGlyphs;
+    std::vector<ImageFontGlyph  *> _imageGlyphs;
+    std::vector<TXFGlyphInfo    *> _txfGlyphInfos;
 
     UChar8                      *_txfImageMap;
 

@@ -179,7 +179,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
      const bool                &getBackgroundEnabled(void) const;
            bool                &getBorderEnabled  (void);
      const bool                &getBorderEnabled  (void) const;
-           string              &getDescription    (const UInt32 index);
+           std::string         &getDescription    (const UInt32 index);
            MFString            &getDescription    (void);
      const MFString            &getDescription    (void) const;
 
@@ -354,7 +354,7 @@ typedef GraphicStatisticsForegroundBase *GraphicStatisticsForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGraphicStatisticsForegroundBase.h,v 1.4 2002/07/31 07:32:16 vossg Exp $"
+#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGraphicStatisticsForegroundBase.h,v 1.5 2002/09/02 09:33:56 vossg Exp $"
 
 #endif
 

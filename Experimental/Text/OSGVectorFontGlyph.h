@@ -46,9 +46,9 @@ protected:
     Real32                      _precision;
 
     /** All Points that Make up the Glyph */
-    vector<Real32 *>            _points;
+    std::vector<Real32 *>       _points;
 
-    vector<Real32 *>            _normals;
+    std::vector<Real32 *>       _normals;
 
     Int32                       _numPoints;
 
@@ -57,9 +57,9 @@ protected:
     Int32                       _pointBufferSize;
 
     /** The indices defining the order of points */
-    vector<Int32>               _indices;
+    std::vector<Int32>          _indices;
 
-    vector<Int32>               _normalIndices;
+    std::vector<Int32>          _normalIndices;
 
     Int32                       _numIndices, _numBad;
 
@@ -71,7 +71,7 @@ protected:
 
     Int32                       _contourStart;
 
-    vector<FontGlyphContour *>  _contours;
+    std::vector<FontGlyphContour *>  _contours;
 
     class                       FloatBuffer
     {
@@ -127,25 +127,25 @@ public:
     virtual     ~VectorFontGlyph(void);
 
     /** get method for attribute points */
-    virtual vector<Real32 *> &getPoints(void)
+    virtual std::vector<Real32 *> &getPoints(void)
     {
         return _points;
     }
 
     /** get method for attribute normals */
-    virtual vector<Real32 *> &getNormals(void)
+    virtual std::vector<Real32 *> &getNormals(void)
     {
         return _normals;
     }
 
     /** get method for attribute indices */
-    virtual vector<Int32> &getIndices(void)
+    virtual std::vector<Int32> &getIndices(void)
     {
         return _indices;
     }
 
     /** get method for attribute indices */
-    virtual vector<Int32> &getNormalIndices(void)
+    virtual std::vector<Int32> &getNormalIndices(void)
     {
         return _normalIndices;
     }

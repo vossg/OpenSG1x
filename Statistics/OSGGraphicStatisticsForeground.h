@@ -110,19 +110,19 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForeground : public GraphicStati
     
     
     //! Add an Element to bie shown
-    void addElement( StatElemDescBase &desc,
-                     UInt32  displayType, 
-                     Vec2f   pos, 
-                     Vec2f   size, 
-                     Color4f highColor, 
-                     Color4f lowColor,
-                     Color4f currentColor,
-                     Real32  minValue     = 0.0,
-                     Real32  maxValue     = 0.0,
-                     UInt32  Flags = STATISTICS_UNDERFLOW_RESIZE 
-                     | STATISTICS_OVERFLOW_RESIZE,
-                     UInt32  historySize = 0,
-                     string  description="");
+    void addElement(StatElemDescBase &desc,
+                    UInt32            displayType, 
+                    Vec2f             pos, 
+                    Vec2f             size, 
+                    Color4f           highColor, 
+                    Color4f           lowColor,
+                    Color4f           currentColor,
+                    Real32            minValue     = 0.0,
+                    Real32            maxValue     = 0.0,
+                    UInt32            Flags = STATISTICS_UNDERFLOW_RESIZE | 
+                                              STATISTICS_OVERFLOW_RESIZE,
+                    UInt32            historySize = 0,
+                    std::string       description=""                      );
     
     void removeElement(StatElemDescBase &desc);
 
@@ -167,13 +167,13 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForeground : public GraphicStati
     void initText( void );
     
     //! Draws a string
-    void drawString(DrawActionBase* base, 
-                    const string&   text,
-                    UInt32 align  = STATISTICS_LEFT,
-                    UInt32 valign = STATISTICS_BOTTOM);
+    void drawString(           DrawActionBase *base, 
+                    const std::string         &text,
+                               UInt32          align  = STATISTICS_LEFT,
+                               UInt32          valign = STATISTICS_BOTTOM);
     
     // converts a Real32 to a std::string
-    string real2String(Real32 value, char* format = 0);
+    std::string real2String(Real32 value, char* format = 0);
 
     
     void calcPosAndSize(const UInt32& ID, 
@@ -220,7 +220,7 @@ OSG_END_NAMESPACE
 #include <OSGGraphicStatisticsForegroundBase.inl>
 #include <OSGGraphicStatisticsForeground.inl>
 
-#define OSGGRAPHICSTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: OSGGraphicStatisticsForeground.h,v 1.3 2002/07/31 07:32:16 vossg Exp $"
+#define OSGGRAPHICSTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: OSGGraphicStatisticsForeground.h,v 1.4 2002/09/02 09:33:56 vossg Exp $"
 
 #endif
 

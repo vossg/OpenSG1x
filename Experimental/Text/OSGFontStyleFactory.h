@@ -15,7 +15,7 @@ private:
 
     static FontStyleFactory             _the;
 
-    list<FontStyle *>                   _instances;
+    std::list<FontStyle *>              _instances;
 
     /** Default Constructor */
     FontStyleFactory(void);

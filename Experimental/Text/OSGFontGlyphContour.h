@@ -12,25 +12,25 @@ OSG_BEGIN_NAMESPACE class   FontGlyphContour
 private:
 
     /** Point List of this contour */
-    vector<Real32 *>    _points;
+    std::vector<Real32 *> _points;
 
-    vector<Real32 *>    _normals;
+    std::vector<Real32 *> _normals;
 
-    Int32               _numPoints;
+    Int32                 _numPoints;
 
-    Int32               _numNormals;
+    Int32                 _numNormals;
 
     /** ordering of points for outer or inner contours */
-    bool                _isClockwise;
+    bool                  _isClockwise;
 
-    Real32              _orderingBuffer;
+    Real32                _orderingBuffer;
 
-    Int32               _startContour;
+    Int32                 _startContour;
 protected:
 
-    Real32              _bb[4];
+    Real32                _bb[4];
 
-    Int32               _contour;
+    Int32                 _contour;
 public:
 
     /** Default Constructor */
@@ -49,7 +49,7 @@ public:
     }
 
     /** get method for attribute points */
-    virtual vector<Real32 *> &getPoints(void)
+    virtual std::vector<Real32 *> &getPoints(void)
     {
         return _points;
     }
@@ -67,7 +67,7 @@ public:
     }
 
     /** get method for attribute normals */
-    virtual vector<Real32 *>    &getNormals(void);
+    virtual std::vector<Real32 *>    &getNormals(void);
 
     /** get method for attribute normals */
     virtual Int32 getNumNormals(void)

@@ -101,7 +101,7 @@ Background is the base class for all background clearing.
 	</Field>
 	<Field
 		name="description"
-		type="string"
+		type="std::string"
 		cardinality="multi"
 		visibility="external"
 		access="public"

@@ -34,7 +34,7 @@ Font::Font(const Char8 *name) :
 }
 
 /* */
-Font::Font(const Char8 *name, string path) :
+Font::Font(const Char8 *name, std::string path) :
     _fontPath(path),
     _fontName(name),
     _valid(false)

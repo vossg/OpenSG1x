@@ -145,11 +145,12 @@ void SimpleStatisticsForeground::initText(void)
 #ifndef WIN32
     // create the text needed
 #ifdef OSG_HAS_SSTREAM
-    istringstream stream((char*)StatisticsDefaultFontData, 
-                         istringstream::in | istringstream::out);
+    std::istringstream stream((char*)StatisticsDefaultFontData, 
+                              std::istringstream::in | 
+                              std::istringstream::out);
 #else
-    istrstream stream((char*)StatisticsDefaultFontData, 
-                     StatisticsDefaultFontDataSize);
+    std::istrstream stream((char*)StatisticsDefaultFontData, 
+                           StatisticsDefaultFontDataSize);
 #endif
                        
     TXFFont *font = new TXFFont("StatisticsDefaultFont", stream);
@@ -226,7 +227,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 
     // draw text 
     
-    vector<string> stat;
+    std::vector<std::string> stat;
     StatCollector *col = &getCollector();
     StatElem *el;
     
@@ -238,7 +239,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
             if(el)
             {
                 stat.resize(stat.size() + 1);
-                vector<string>::iterator str = stat.end() - 1;
+                std::vector<std::string>::iterator str = stat.end() - 1;
                 
                 const char *format = NULL;
                 if(i < getFormats().size() && getFormats()[i].length())
@@ -258,14 +259,14 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
             if(el)
             {
                 stat.resize(stat.size() + 1);
-                vector<string>::iterator str = stat.end() - 1;
+                std::vector<std::string>::iterator str = stat.end() - 1;
                 el->putToString(*str);
             }
         }
     }
     
-    vector<Pnt3f> pos;
-    vector<Vec2f> tex;
+    std::vector<Pnt3f> pos;
+    std::vector<Vec2f> tex;
     
     UInt32 n = _text.getTXFNVertices(stat);
 
@@ -319,7 +320,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.13 2002/09/02 07:05:08 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.14 2002/09/02 09:33:56 vossg Exp $";
     static char cvsid_hpp[] = OSGSIMPLESTATISTICSFOREGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSIMPLESTATISTICSFOREGROUND_INLINE_CVSID;
 }

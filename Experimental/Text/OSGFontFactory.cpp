@@ -37,9 +37,9 @@ FontFactory::~FontFactory(void)
 /* */
 Font *FontFactory::queryFont(PathHandler &paths, const Char8 *fontName)
 {
-    list<Font *>::iterator  fIter;
-    string                  fontFile;
-    Font                    *tmpFont = 0;
+    std::list<Font *>::iterator  fIter;
+    std::string                  fontFile;
+    Font                        *tmpFont = 0;
 
     if(fontName && *fontName)
     {

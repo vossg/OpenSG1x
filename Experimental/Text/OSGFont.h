@@ -18,14 +18,15 @@ private:
 protected:
 
     /** CompletePath To Font */
-    string              _fontPath;
+    std::string             _fontPath;
 
     /** Name of Font */
-    const Char8         *_fontName;
+    const Char8            *_fontName;
 
-    bool                _valid;
+    bool                    _valid;
 
-    list<FontStyle *>   _fontInstances;
+    std::list<FontStyle *>  _fontInstances;
+
 public:
 
     /** Default Constructor */
@@ -38,7 +39,7 @@ public:
     Font(const Char8 *name);
 
     /** Constructor */
-    Font(const Char8 *name, string path);
+    Font(const Char8 *name, std::string path);
 
     /** Destructor */
     virtual             ~Font(void);

@@ -133,7 +133,7 @@ void GraphicStatisticsForeground::changed(BitVector whichField, UInt32)
 void GraphicStatisticsForeground::dump(      UInt32    , 
                                              const BitVector ) const
 {
-    SLOG << "Dump GraphicStatisticsForeground NI" << endl;
+    SLOG << "Dump GraphicStatisticsForeground NI" << std::endl;
 }
 
 
@@ -225,9 +225,10 @@ void GraphicStatisticsForeground::draw(DrawActionBase *action, Viewport * port)
             UInt32 py = (UInt32)(port->getPixelHeight() * pos[1]);
             glScissor(px-1,py-1,pw+2,ph+2);
           
-            //cout << pos << endl;
-            //cout << size << endl;
-            //cout << px << "/" << py << "/" << pw << "/" << ph << endl;
+            //std::cout << pos << std::endl;
+            //std::cout << size << std::endl;
+            //std::cout << px << "/" << py << "/" << pw << "/" << ph 
+            //          << std::endl;
 
             // enable GL_POINT_SMOOTH
             glEnable(GL_POINT_SMOOTH);
@@ -288,7 +289,7 @@ void GraphicStatisticsForeground::addElement( StatElemDescBase &desc,
                                               Real32  maxValue,
                                               UInt32  flags,
                                               UInt32  historySize,
-                                              string  description
+                                              std::string  description
     )
 {
     /* get the ID of the StatElem to be added */
@@ -377,7 +378,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID,
     Real32 value  =  el->getValue();
 	Real32 vsave = value;
 
-  //cout << "Analog value: " << value << endl;
+  //std::cout << "Analog value: " << value << std::endl;
 
     // process this value according to the flags
     processValue(value, ID);
@@ -524,8 +525,8 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID,
         {
         
             // create some Strings to be drawn
-            string maxstr = real2String(maxV);
-            string minstr = real2String(minV);
+            std::string maxstr = real2String(maxV);
+            std::string minstr = real2String(minV);
             
             
             //set color for drawing the text
@@ -590,7 +591,7 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID,
     Real32 value  =  el->getValue();
     processValue(value, ID);
 
-    //cout << "Chart value: " << value << endl;
+    //std::cout << "Chart value: " << value << std::endl;
 
     /* calculate minimum value and maximun value */
     Real32 minV  =  getMinValue()[ID];
@@ -670,9 +671,9 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID,
 
     if(getTextEnabled()){
         // create some Strings to be drawn
-        string minstr = real2String(minV, "%.0f");
-        string maxstr = real2String(maxV, "%.0f");
-        string valstr = getDescription()[ID] + " " + real2String(value);
+        std::string minstr = real2String(minV, "%.0f");
+        std::string maxstr = real2String(maxV, "%.0f");
+        std::string valstr = getDescription()[ID] + " " + real2String(value);
 
 		// set color to draw the text with
         glColor4f( 1.0 - c[0], 1.0 - c[1], 1.0-c[2], 1.0);
@@ -744,7 +745,7 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID,
     Real32 value  =  el->getValue();
 	Real32 vsave = value;
 
-  //cout << "Bar value: " << value << endl;
+  //std::cout << "Bar value: " << value << std::endl;
 
     processValue(value, ID);
 	processOnlyValue(vsave, ID);
@@ -839,9 +840,9 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID,
     if(getTextEnabled()){
         
         // create some Strings to be drawn
-        string valstr = getDescription()[ID]+" "+real2String(value);
-        string minstr = real2String(minV, "%.0f");
-        string maxstr = real2String(maxV, "%.0f");
+        std::string valstr = getDescription()[ID]+" "+real2String(value);
+        std::string minstr = real2String(minV, "%.0f");
+        std::string maxstr = real2String(maxV, "%.0f");
         
         // set color to draw the text with
         glColor4f( 1.0 - c[0], 1.0 - c[1], 1.0-c[2], 1.0);
@@ -914,7 +915,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID,
 
     processValue(value, ID);
   
-    //cout << "LineChart value: " << value << endl;
+    //std::cout << "LineChart value: " << value << std::endl;
 
     /* calculate minimum value and maximun value */
     Real32 minV  =  getMinValue()[ID];
@@ -1034,7 +1035,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID,
     // draw some text ------------
 	if(getTextEnabled()){
                 // create some Strings to be drawn
-        string valstr = getDescription()[ID] + " " + real2String(realValue);
+        std::string valstr = getDescription()[ID] + " " + real2String(realValue);
 
 		// set color to draw the text with
         glColor4f( 1.0 - c[0], 1.0 - c[1], 1.0-c[2], 1.0);
@@ -1053,7 +1054,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID,
 		//draw: min value
     if (flags & STATISTICS_MAX_TEXT) 
     {
-      string minstr = real2String(minV, "%.0f");    
+      std::string minstr = real2String(minV, "%.0f");    
       glPushMatrix();
 		  glTranslatef(0.0, 0.22, 0.0);
 		  glScalef(0.12*ratio, 0.12, 1.0);
@@ -1064,7 +1065,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID,
 		//draw: maximum value
     if (flags & STATISTICS_MIN_TEXT)
     {
-      string maxstr = real2String(maxV, "%.0f");
+      std::string maxstr = real2String(maxV, "%.0f");
       glPushMatrix();
 		  glTranslatef(0.0, 1.0, 0.0);
 		  glScalef(0.12*ratio, 0.12, 1.0);
@@ -1093,15 +1094,15 @@ void GraphicStatisticsForeground::drawText(UInt32 ID,
   Real32 value  =  el->getValue();
   processOnlyValue(value, ID);
 
-  //cout << "TextChart value: " << value << endl;
+  //std::cout << "TextChart value: " << value << std::endl;
 
   /* get value, calculate minimum value and maximun value and
    convert into a string*/
   Real32 minV  =  getMinValue()[ID];
   Real32 maxV  =  getMaxValue() [ID];
-  string minstr = real2String(minV, "%.0f");
-  string maxstr = real2String(maxV, "%.0f");
-  string valstr = getDescription()[ID] + " " + real2String(value);
+  std::string minstr = real2String(minV, "%.0f");
+  std::string maxstr = real2String(maxV, "%.0f");
+  std::string valstr = getDescription()[ID] + " " + real2String(value);
   
 
 
@@ -1263,11 +1264,11 @@ void GraphicStatisticsForeground::initText(void)
 #ifndef WIN32
     // create the text needed
 #ifdef OSG_HAS_SSTREAM
-    istringstream stream((char*)GraphicsStatisticsFontData, 
-                         GraphicsStatisticsFontDataSize);
+    std::istringstream stream((char*)GraphicsStatisticsFontData, 
+                              GraphicsStatisticsFontDataSize);
 #else
-    istrstream stream((char*)GraphicsStatisticsFontData, 
-                         GraphicsStatisticsFontDataSize);
+    std::istrstream stream((char*)GraphicsStatisticsFontData, 
+                           GraphicsStatisticsFontDataSize);
 #endif
                        
     TXFFont *font = new TXFFont("StatisticsDefaultFont", stream);
@@ -1302,7 +1303,7 @@ void GraphicStatisticsForeground::initText(void)
 //! Draws a String
 
 void GraphicStatisticsForeground::drawString(DrawActionBase* base, 
-                                             const string&   text,
+                                             const std::string&   text,
                                              UInt32 align, 
                                              UInt32 valign
                                              )
@@ -1311,13 +1312,13 @@ void GraphicStatisticsForeground::drawString(DrawActionBase* base,
     
     Real32 deltaX = 0.0;
     Real32 deltaY = 0.0;
-    vector<string> stat(1);  
+    std::vector<std::string> stat(1);  
     stat[0]  = text;
     
     UInt32 n = _text.getTXFNVertices(stat);
     
-    vector<Pnt3f> positions(n);
-    vector<Vec2f> tex(n);
+    std::vector<Pnt3f> positions(n);
+    std::vector<Vec2f> tex(n);
     
     _text.fillTXFArrays(stat, &positions[0], &tex[0]);
     
@@ -1372,7 +1373,7 @@ void GraphicStatisticsForeground::drawString(DrawActionBase* base,
 
 
 //! Converts a Real32 to a string
-string GraphicStatisticsForeground::real2String(Real32 value, char* format)
+std::string GraphicStatisticsForeground::real2String(Real32 value, char* format)
 {
     char buff[100];
 
@@ -1381,7 +1382,7 @@ string GraphicStatisticsForeground::real2String(Real32 value, char* format)
     else
       sprintf(buff,format, value); 
 
-    string Result(buff);
+    std::string Result(buff);
 
     return Result;
     
@@ -1408,7 +1409,7 @@ string GraphicStatisticsForeground::real2String(Real32 value, char* format)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.14 2002/08/07 20:25:25 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.15 2002/09/02 09:33:56 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 
