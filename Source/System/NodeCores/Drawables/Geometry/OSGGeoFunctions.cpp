@@ -629,17 +629,20 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
           Vec3f d2 = ti.getPosition(2) - ti.getPosition(0);        
           d1.crossThis(d2);
           
-          d1.normalize();
-          faceNormals.push_back(d1);  
+          if (d1.squareLength() >= 0) {
+            d1.normalize();
+            faceNormals.push_back(d1);  
           
-          pntFaceDic [ ti.getPositionIndex(0) ].push_back(i);
-          pntFaceDic [ ti.getPositionIndex(1) ].push_back(i);
-          pntFaceDic [ ti.getPositionIndex(2) ].push_back(i);
-
+            pntFaceDic [ ti.getPositionIndex(0) ].push_back(i);
+            pntFaceDic [ ti.getPositionIndex(1) ].push_back(i);
+            pntFaceDic [ ti.getPositionIndex(2) ].push_back(i);
+          }
+          else {
+            faceNormals.push_back( Vec3f (0,0,0) );
+          }
         }        
         else
         {
-          // invalid Triangle
           faceNormals.push_back( Vec3f(0,0,0) );
         }
     }
@@ -663,62 +666,73 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
     for(ti = geo->beginTriangles(); ti != geo->endTriangles(); ++ti )
     {
         Int32 tind = ti.getIndex();
-        Vec3f mynorm(faceNormals[tind]);
+        Vec3f faceNorm(faceNormals[tind]);
         Int32 v0 = ti.getPositionIndex(0);
         Int32 v1 = ti.getPositionIndex(1);
         Int32 v2 = ti.getPositionIndex(2);
 
-        if (v0 != v1 && v0 != v2)
-          for(UInt16 i = 0; i < 3; ++i)
+        if (faceNorm.squareLength() != 0.0)
+        {
+            for(UInt16 i = 0; i < 3; ++i)
             {   
-              // calculate the normal: average all different normals
-              // that use a point. Simple addition or weighted addition
-              // doesn't work, as it depends on the triangulation
-              // of the object. :(
+                // calculate the normal: average all different normals
+                // that use a point. Simple addition or weighted addition
+                // doesn't work, as it depends on the triangulation
+                // of the object. :(
               
-              UInt32 p = ti.getPositionIndex(i);
-              UInt32 pf, f, fN = pntFaceDic[p].size();
-              UInt32 n, nN;
-              
-              normset.clear();
-              for (f = 0; f < fN; f++) {
-                pf = pntFaceDic[p][f];
-                if (mynorm.dot(faceNormals[pf]) > cosCrease)
-                  normset.push_back(pf);
-              }
-              
-              if ((nN = normset.size())) 
+                UInt32 p = ti.getPositionIndex(i);
+                UInt32 pf, f, fN = pntFaceDic[p].size();
+                UInt32 n, nN;
+                
+                normset.clear();
+                for (f = 0; f < fN; f++) 
+                  if ( ((pf = pntFaceDic[p][f]) == tind) ||
+                       (faceNorm.dot(faceNormals[pf]) > cosCrease) )
+                    normset.push_back(pf);
+                
+                if ((nN = normset.size())) 
                 {
-                  // find normal
-                  //std::sort ( normset.begin(), normset.end() );
-                  ndI = normDic[p].find(normset);
-                  if (ndI == normDic[p].end()) 
+
+                    // find normal
+                    //std::sort ( normset.begin(), normset.end() );
+                    ndI = normDic[p].find(normset);
+                    if (ndI == normDic[p].end()) 
                     {
-                      norm = faceNormals[normset[0]];
-                      for (n = 1; n < nN; ++n) 
-                        norm += faceNormals[normset[n]];
-                      norm.normalize();
-                      normalIndex = norms->size();
-                      norms->push_back(norm);
-                      normDic[p][normset] = normalIndex;
+                        norm = faceNormals[normset[0]];
+                        for (n = 1; n < nN; ++n) 
+                          norm += faceNormals[normset[n]];
+                        norm.normalize();
+                        normalIndex = norms->size();
+                        norms->push_back(norm);
+                        normDic[p][normset] = normalIndex;
                     }
-                  else 
+                    else 
                     {
-                      normalIndex = ndI->second;
+                        normalIndex = ndI->second;
                     }
                 }
-              else
+                else
                 {
                   // keep normalIndex
                   FWARNING (( "Empty normset for %d faces pos %d: %f/%f/%f\n",
                               fN, i, 
-                              ti.getPosition(i).x(), ti.getPosition(i).y(),
+                              ti.getPosition(i).x(), 
+                              ti.getPosition(i).y(),
                               ti.getPosition(i).z() ));                  
                 }
               
               ip->setValue ( normalIndex, ti.getIndexIndex(i) + ni );
-              
             }       
+        }
+        else 
+        {
+          /*
+            // keep normalIndex
+            ip->setValue ( normalIndex, ti.getIndexIndex(0) + ni );
+            ip->setValue ( normalIndex, ti.getIndexIndex(1) + ni );
+            ip->setValue ( normalIndex, ti.getIndexIndex(2) + ni );
+          */
+        }
     }   
 
     endEditCP(ip);
