@@ -71,7 +71,6 @@ PointSockPipeline::PointSockPipeline():
 {
     _prev.open();
     _next.open();
-    printf("point pipe\n");
 }
 
 /*! Destructor
@@ -196,14 +195,12 @@ void PointSockPipeline::readBuffer()
 
     // read buffer header
     len=_prev.recv(&_socketReadBuffer[0],sizeof(SocketBufferHeader));
-    //printf("recv1 %d\n",len);
     if(len==0)
         throw ReadError("peek got 0 bytes!");
     // read remaining data
     size=ntohl(((SocketBufferHeader*)&_socketReadBuffer[0])->size);
     len=_prev.recv(&_socketReadBuffer[sizeof(SocketBufferHeader)],
                    size);
-    //printf("recv2 %d\n",len);
     if(len==0)
         throw ReadError("read got 0 bytes!");
     readBufBegin()->setDataSize(size);
@@ -239,8 +236,6 @@ void PointSockPipeline::initialize(void)
     sock.bind(SocketAddress(interf.c_str(),0));
     sock.listen();
 
-    printf("init point\n");
-
     // send my own address
     message.putString(interf);
     message.putUInt32(sock.getAddress().getPort());
@@ -253,7 +248,6 @@ void PointSockPipeline::initialize(void)
     if(len == 0)
         throw ReadError("Channel closed\n");
     _last = message.getUInt32();
-    printf("last %d\n",_last);
     if(!_last)
     {
         nextHost = message.getString();
@@ -273,7 +267,6 @@ void PointSockPipeline::initialize(void)
     }
 
     _initialized = true;
-    printf("init ok\n");
 }
 
 /*-------------------------------------------------------------------------*/

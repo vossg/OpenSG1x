@@ -187,8 +187,6 @@ void GroupSockPipeline::initialize(void)
     std::string    nextHost;
     BinaryMessage  message;
 
-    printf("init group\n");
-
     for(index = 0 ; index<_sockets.size() ; ++index)
     {
         len = _sockets[index].recv(message);
