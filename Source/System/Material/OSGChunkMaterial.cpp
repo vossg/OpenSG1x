@@ -136,6 +136,11 @@ void ChunkMaterial::changed(BitVector whichField, UInt32 origin)
 
 /*-------------------------- your_category---------------------------------*/
 
+/*! Add the given chunk to the material. It is possible to specify
+which slot this chunk should be associated with. See \ref StateChunkClass for a
+general description of the slots concept. The default slot is
+State::AutoSlotReplace. */
+
 bool ChunkMaterial::addChunk(StateChunkPtr chunk, Int32 slot)
 {
     if(slot != State::AutoSlotReplace)
@@ -154,6 +159,10 @@ bool ChunkMaterial::addChunk(StateChunkPtr chunk, Int32 slot)
     return true;
 }
 
+/*! Remove the given chunk from the material. If the slot is not
+State::AutoSlotReplace, only the given slot will be searched and
+removed if found. Returns true if the chunk couldn't be found. */
+
 bool ChunkMaterial::subChunk(StateChunkPtr chunk, Int32 slot)
 {
     UInt32 i;
@@ -161,12 +170,14 @@ bool ChunkMaterial::subChunk(StateChunkPtr chunk, Int32 slot)
     for(i = 0; i < _mfChunks.size(); ++i)
     {
         if(_mfChunks[i] == chunk &&
-           ((i < _mfSlots.size() || _mfSlots[i] == slot) ||
+           ((i < _mfSlots.size() && _mfSlots[i] == slot) ||
             slot == State::AutoSlotReplace))
         {
             subRefCP(chunk);
             _mfChunks.erase(_mfChunks.begin() + i);
-            return true;
+            if(i < _mfSlots.size())
+                _mfSlots.erase(_mfSlots.begin() + i);
+            return false;
         }
     }
 
@@ -176,15 +187,37 @@ bool ChunkMaterial::subChunk(StateChunkPtr chunk, Int32 slot)
     return true;
 }
 
+/*! Search the list of chunks for the given chunk. Returns its index, -1
+if the chunk is not used in the material.
+*/
+
+Int32 ChunkMaterial::find(StateChunkPtr chunk)
+{
+    UInt32 i;
+    
+    for(i = 0; i < _mfChunks.size(); ++i)
+    {
+        if(_mfChunks[i] == chunk)
+            return i;
+    }
+             
+    return -1;
+}
+
+/*! Search the list of chunks for a chunk of the given type and the given
+slot. If slot is State::AutoSlotReplace, all slots are searched and the
+first found chunk is returned.
+*/
+
 StateChunkPtr ChunkMaterial::find(const FieldContainerType &type, 
-                                    UInt32 slot)
+                                    Int32 slot)
 {
     UInt32 count = 0;
     for(MFStateChunkPtr::iterator i = _mfChunks.begin();i != _mfChunks.end();++i)
     {
         if((*i)->getType() == type)
         {
-            if(count == slot)
+            if(slot == State::AutoSlotReplace || count == slot)
                 return (*i);
             ++count;
         }

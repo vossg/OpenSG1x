@@ -104,7 +104,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterial : public ChunkMaterialBase
     bool addChunk(StateChunkPtr chunk, Int32 slot = State::AutoSlotReplace);
     bool subChunk(StateChunkPtr chunk, Int32 slot = State::AutoSlotReplace);
 
-    StateChunkPtr find(const FieldContainerType &type, UInt32 slot = 0);
+    Int32         find(StateChunkPtr chunk);
+    StateChunkPtr find(const FieldContainerType &type, 
+                       Int32 slot = State::AutoSlotReplace);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
