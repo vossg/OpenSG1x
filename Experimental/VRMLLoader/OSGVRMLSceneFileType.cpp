@@ -65,8 +65,7 @@ const char *VRMLSceneFileType::_suffixA[] =  { "wrl" };
 
 VRMLSceneFileType VRMLSceneFileType::_the(_suffixA, sizeof(_suffixA));
 
-Bool     VRMLSceneFileType::_bLoaderInitialized = false;
-VRMLFile VRMLSceneFileType::_vrmlLoader;
+VRMLFile *VRMLSceneFileType::_pVRMLLoader = NULL;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -106,16 +105,16 @@ VRMLSceneFileType &VRMLSceneFileType::the(void)
 
 NodePtr VRMLSceneFileType::read(const char *fileName) const
 {
-    if(_bLoaderInitialized == false)
+    if(_pVRMLLoader == NULL)
     {
-        _vrmlLoader.scanStandardPrototypes("std.wrl", 0);
+        _pVRMLLoader = new VRMLFile();
 
-        _bLoaderInitialized = true;
+        _pVRMLLoader->scanStandardPrototypes("std.wrl", 0);
     }
 
-    _vrmlLoader.scanFile(fileName, OSG::VRMLFile::CreateNormals);
+    _pVRMLLoader->scanFile(fileName, OSG::VRMLFile::CreateNormals);
 
-    return  _vrmlLoader.getRoot();
+    return  _pVRMLLoader->getRoot();
 }
 
 Bool VRMLSceneFileType::write(const NodePtr, const char *) const
