@@ -92,6 +92,67 @@ OSG_USING_NAMESPACE
 
 /*------------------------------ feature ----------------------------------*/
 
+
+void FrustumVolume::setPlanes (  const Pnt3f &nlt, const Pnt3f &nlb,
+                  							const Pnt3f &nrt, const Pnt3f &nrb,
+                  							const Pnt3f &flt, const Pnt3f &flb,
+                  							const Pnt3f &frt, const Pnt3f &frb )
+{
+	;
+}
+
+void FrustumVolume::setPlane ( const Matrix &matrix )
+{
+	Real32 planeEquation[4][4], objectClipMat[4][4];
+	Real32 vectorLength;
+	Int32 i;
+
+/*
+	matrix.getValue(objectClipMat);	
+	
+	planeEquation[0][0] = objectClipMat[0][3]-objectClipMat[0][0];
+	planeEquation[0][1] = objectClipMat[1][3]-objectClipMat[1][0];
+	planeEquation[0][2] = objectClipMat[2][3]-objectClipMat[2][0];
+	planeEquation[0][3] = objectClipMat[3][3]-objectClipMat[3][0];
+	
+	planeEquation[1][0] = objectClipMat[0][3]+objectClipMat[0][0];
+	planeEquation[1][1] = objectClipMat[1][3]+objectClipMat[1][0];
+	planeEquation[1][2] = objectClipMat[2][3]+objectClipMat[2][0];
+	planeEquation[1][3] = objectClipMat[3][3]+objectClipMat[3][0];
+	
+	planeEquation[2][0] = objectClipMat[0][3]+objectClipMat[0][1];
+	planeEquation[2][1] = objectClipMat[1][3]+objectClipMat[1][1];
+	planeEquation[2][2] = objectClipMat[2][3]+objectClipMat[2][1];
+	planeEquation[2][3] = objectClipMat[3][3]+objectClipMat[3][1];
+	
+	planeEquation[3][0] = objectClipMat[0][3]-objectClipMat[0][1];
+	planeEquation[3][1] = objectClipMat[1][3]-objectClipMat[1][1];
+	planeEquation[3][2] = objectClipMat[2][3]-objectClipMat[2][1];
+	planeEquation[3][3] = objectClipMat[3][3]-objectClipMat[3][1];
+	
+	planeEquation[4][0] = objectClipMat[0][3]+objectClipMat[0][2];
+	planeEquation[4][1] = objectClipMat[1][3]+objectClipMat[1][2];
+	planeEquation[4][2] = objectClipMat[2][3]+objectClipMat[2][2];
+	planeEquation[4][3] = objectClipMat[3][3]+objectClipMat[3][2];
+	
+	planeEquation[5][0] = objectClipMat[0][3]-objectClipMat[0][2];
+	planeEquation[5][1] = objectClipMat[1][3]-objectClipMat[1][2];
+	planeEquation[5][2] = objectClipMat[2][3]-objectClipMat[2][2];
+	planeEquation[5][3] = objectClipMat[3][3]-objectClipMat[3][2];
+	
+	for (i = 0; i < 6; i++) {
+		vectorLength = sqrt(planeEquation[i][0] * planeEquation[i][0] +
+												planeEquation[i][1] * planeEquation[i][1] +
+												planeEquation[i][2] * planeEquation[i][2]);
+		planeEquation[i][0] /= vectorLength;
+		planeEquation[i][1] /= vectorLength;
+		planeEquation[i][2] /= vectorLength;
+		planeEquation[i][3] /= vectorLength;
+	}	
+	*/
+
+}
+
 /// Returns the center of a box
 void FrustumVolume::getCenter(Pnt3f &center) const
 {

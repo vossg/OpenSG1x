@@ -48,6 +48,7 @@
 #include "OSGConfig.h"
 #include "OSGVolume.h"
 #include "OSGPlane.h"
+#include "OSGMatrix.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -149,6 +150,13 @@ public:
 								 const Plane &left, const Plane &right,
 								 const Plane &top,  const Plane &bottom);
 
+	void setPlanes (  const Pnt3f &nlt, const Pnt3f &nlb,
+										const Pnt3f &nrt, const Pnt3f &nrb,
+										const Pnt3f &flt, const Pnt3f &flb,
+										const Pnt3f &frt, const Pnt3f &frb );
+
+	void setPlane ( const Matrix &matrix );
+									
  /** gives the center of the volume */
   virtual void getCenter (Pnt3f &center) const;
 
