@@ -1945,6 +1945,61 @@ dnl e15
         ac_gdz_have_freetype1_e15=no
     fi
 
+    ac_gdz_text_lib_e15=
+    ac_gdz_text_incdir_e15=
+    ac_gdz_text_libdir_e15=
+    if test "$enable_text" = yes; then
+        ac_gdz_have_text_e15=yes
+        
+        case $build_os in
+            cygwin*)
+                ac_gdz_text_incdir_e15=
+                ac_gdz_text_lib_e15=
+            ;;
+            darwin*)
+                ac_gdz_text_incdir_e15=
+                ac_gdz_text_lib_e15=
+            ;;
+            *)
+                ac_gdz_text_incdir_e15='/usr/include/freetype2'
+                ac_gdz_text_lib_e15='-lfreetype -lfontconfig'
+                ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DFT2_LIB -DFONTCONFIG_LIB'
+            ;;
+        esac
+        
+        if test -n "$ac_gdz_text_incdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_text_incdir_e15=
+                ;;
+                darwin*)
+                    ac_gdz_text_incdir_e15=
+                ;;
+                *)
+                    ac_gdz_text_incdir_e15=$ac_gdz_text_incdir
+                ;;
+            esac
+        fi
+        
+        if test -n "$ac_gdz_text_libdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_text_libdir_e15=
+                ;;
+                darwin*)
+                    ac_gdz_text_libdir_e15=
+                ;;
+                *)
+                    ac_gdz_text_libdir_e15=$ac_gdz_text_libdir
+                ;;
+            esac
+        fi
+        
+    else
+        ac_gdz_have_text_e15=no
+    fi
+    
+
     ac_gdz_stlport_lib_e15=
     ac_gdz_stlport_incdir_e15=
     ac_gdz_stlport_libdir_e15=
@@ -1957,8 +2012,14 @@ dnl e15
             cygwin*)
 
                 case "$ac_gdz_compiler" in
-                    cl.net*)
+                    cl.net)
                     ac_gdz_stlport_lib_e15='stlport_vc7.lib'
+                    ;;
+                    cl.net2003)
+                    ac_gdz_stlport_lib_e15='stlport_vc71.lib'
+                    ;;
+                    cl.net2005)
+                    ac_gdz_stlport_lib_e15='stlport_vc80.lib'
                     ;;
                     icl*)
                     echo "ERROR stlport support only on windows vs7 right now"
@@ -2196,8 +2257,14 @@ dnl e18
             cygwin*)
 
                 case "$ac_gdz_compiler" in
-                    cl.net*)
+                    cl.net)
                     ac_gdz_stlport_lib_e18='stlport_vc7$(STL_PORTDEBUG).lib'
+                    ;;
+                    cl.net2003)
+                    ac_gdz_stlport_lib_e18='stlport_vc71$(STL_PORTDEBUG).lib'
+                    ;;
+                    cl.net2005)
+                    ac_gdz_stlport_lib_e18='stlport_vc80$(STL_PORTDEBUG).lib'
                     ;;
                     icl*)
                     echo "ERROR stlport support only on windows vs7 right now"
@@ -2364,4 +2431,44 @@ dnl e23
     touch confdefs.h
 
     AC_OUTPUT($ac_gdz_common_sepia_e19:$ac_gdz_common_sepia_in_e19)
+])
+
+AC_DEFUN(AC_GDZ_WRITE_COMMON_TEXT,
+[
+dnl e24
+
+    ac_gdz_text_lib_e24=
+    ac_gdz_text_incdir_e24=
+    ac_gdz_text_libdir_e24=
+
+    if test "$enable_text" = yes; then
+
+        case $build_os in
+            cygwin*)
+                ac_gdz_text_incdir_e24=
+                ac_gdz_text_lib_e24=
+            ;;
+            darwin*)
+                ac_gdz_text_incdir_e24=
+                ac_gdz_text_lib_e24=
+            ;;
+            *)
+                ac_gdz_text_incdir_e24='/usr/include/freetype2'
+                ac_gdz_text_lib_e24='-lfreetype -lfontconfig'
+                ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DFT2_LIB -DFONTCONFIG_LIB'
+            ;;
+        esac
+
+    fi
+    
+    ac_gdz_common_text_in_e24=$ac_gdz_commonconf_dir/commonTEXT.in
+    ac_gdz_common_text_e24=$ac_gdz_commonpackage_dir/commonTEXT.mk
+
+    AC_SUBST(ac_gdz_text_incdir_e24)
+    AC_SUBST(ac_gdz_text_libdir_e24)
+    AC_SUBST(ac_gdz_text_lib_e24)
+   
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_common_text_e24:$ac_gdz_common_text_in_e24)
 ])

@@ -18,6 +18,7 @@ have_png=@ac_gdz_have_png_e15@
 have_mng=@ac_gdz_have_mng_e15@
 have_gif=@ac_gdz_have_gif_e15@  
 have_freetype1=@ac_gdz_have_freetype1_e15@
+have_text=@ac_gdz_have_text_e15@
 have_sepia=@ac_gdz_have_sepia_e15@
 
 
@@ -99,6 +100,10 @@ inc_gif_path=@ac_gdz_gif_incdir_e15@
 freetype1_libs=@ac_gdz_freetype1_lib_e15@
 lib_freetype1_path=@ac_gdz_freetype1_libdir_e15@
 inc_freetype1_path=@ac_gdz_freetype1_incdir_e15@
+
+text_libs=@ac_gdz_text_lib_e15@
+lib_text_path=@ac_gdz_text_libdir_e15@
+inc_text_path=@ac_gdz_text_incdir_e15@
 
 stlport_libs=@ac_gdz_stlport_lib_e15@
 lib_stlport_path=@ac_gdz_stlport_libdir_e15@
@@ -213,6 +218,16 @@ if test "$have_sepia" = "yes"; then
         sepia_incs_path="$incdir_pre$inc_sepia_path$incdir_suf @inc_glut_path"
     fi
     sepia_defs="-DOSG_WITH_SEPIA"
+fi
+if test "$have_text" = "yes"; then
+    image_libs="$image_libs $text_libs"
+
+    if test "yes$lib_text_path" != "yes"; then
+        image_libs_path="$image_libs_path $linkdir_pre$lib_text_path$linkdir_suf"
+    fi
+    if test "yes$inc_text_path" != "yes"; then
+        image_incs_path="$image_incs_path $incdir_pre$inc_text_path$incdir_suf"
+    fi
 fi
 
 usage()

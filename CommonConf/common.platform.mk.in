@@ -65,6 +65,7 @@ CONFIGURED_TIF          :=@ac_gdz_conf_package_jpg_e1@
 CONFIGURED_PNG          :=@ac_gdz_conf_package_png_e1@
 CONFIGURED_MNG          :=@ac_gdz_conf_package_mng_e1@
 CONFIGURED_FREETYPE     :=@ac_gdz_conf_package_freetype1_e1@
+CONFIGURED_TEXT         :=@ac_gdz_conf_package_text_e1@
 CONFIGURED_PACKAGE_DEFS :=@ac_gdz_conf_package_defs@
 
 CONFIGURED_GVBETA       :=@ac_gdz_conf_gvbeta_e1@
