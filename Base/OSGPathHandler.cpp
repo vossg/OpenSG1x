@@ -51,7 +51,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.3 2001/10/03 12:05:24 vossg Exp $";
+    char cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.4 2001/10/03 13:33:19 vossg Exp $";
     char cvsid_hpp[] = OSGPATHHANDLER_HEADER_CVSID;
 }
 
@@ -63,7 +63,7 @@ Char8 PathHandler::_pathSepUnix  = ':';
 
 #ifdef WIN32
 Char8 PathHandler::_dirSep       = _dirSepWin32;
-Char8 PathHandler::_pathSep      = _pathSepWin32
+Char8 PathHandler::_pathSep      = _pathSepWin32;
 Char8 PathHandler::_dirSepOther  = _dirSepUnix;
 Char8 PathHandler::_pathSepOther = _pathSepUnix;
 #else
@@ -287,7 +287,7 @@ string PathHandler::extractPath(const Char8 *szFilename)
 
     if(returnValue[returnValue.length() - 1] != _dirSep)
     {
-        returnValue.push_back(_dirSep);
+        returnValue += _dirSep;
     }
 
     return returnValue;
@@ -303,14 +303,14 @@ void PathHandler::validateList(void)
     {
         if(iter->empty() == true)
         {
-            iter->push_back('.');
-            iter->push_back(_dirSep);
+            (*iter) += '.';
+            (*iter) += _dirSep;
         }
         else
         {
             if((*iter)[iter->length() - 1] != _dirSep)
             {
-                iter->push_back(_dirSep);
+                (*iter) += _dirSep;
             }
         } 
 
