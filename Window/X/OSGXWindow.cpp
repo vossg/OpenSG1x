@@ -167,14 +167,19 @@ void XWindow::swap( void )
 void (*XWindow::getFunctionByName( const Char8 *s ))(void)
 {
 #ifdef __sgi
-    void *libHandle = dlopen("libgl.so", RTLD_LAZY);
+    static void *libHandle = NULL;
+    if(libHandle == NULL)
+        libHandle = dlopen("libgl.so", RTLD_LAZY);
     void *func = dlsym( libHandle, s );
-    dlclose(libHandle);
     return (void (*)(void))func;         
 #elif defined(__hpux)
     return NULL;
 #else
+#if GLX_ARB_get_proc_address
     return glXGetProcAddressARB((const GLubyte *) s);
+#else
+    return NULL;
+#endif
 #endif
 }
 
