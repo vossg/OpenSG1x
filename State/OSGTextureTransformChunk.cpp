@@ -43,9 +43,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <GL/gl.h>
-
 #include <OSGConfig.h>
+
+#include <GL/gl.h>
 
 #include "OSGTextureTransformChunk.h"
 
@@ -57,7 +57,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGTextureTransformChunk.cpp,v 1.2 2001/12/03 23:50:05 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGTextureTransformChunk.cpp,v 1.3 2001/12/04 02:33:47 vossg Exp $";
     static char cvsid_hpp[] = OSGTEXTURETRANSFORMCHUNK_HEADER_CVSID;
     static char cvsid_inl[] = OSGTEXTURETRANSFORMCHUNK_INLINE_CVSID;
 }
