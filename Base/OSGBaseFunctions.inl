@@ -584,6 +584,23 @@ TypeT osgMax(const TypeT lVal, const TypeT rVal)
 }
 
 //---------------------------------------------------------------------------
+// osgSwap
+//---------------------------------------------------------------------------
+
+/*! \brief osgSwap
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class TypeT> inline
+void osgSwap(TypeT & lVal, TypeT & rVal)
+{
+    TypeT val(lVal);
+
+    lVal = rVal;
+    rVal = val;
+}
+
+//---------------------------------------------------------------------------
 //  osgdegree2rad 
 //---------------------------------------------------------------------------
 

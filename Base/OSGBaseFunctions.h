@@ -194,6 +194,13 @@ TypeT osgMin(const TypeT lVal, const TypeT rVal);
 template <class TypeT> inline
 TypeT osgMax(const TypeT lVal, const TypeT rVal);
 
+/*! \brief osgSwap
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class TypeT> inline
+void osgSwap(TypeT & lVal, TypeT & rVal);
+
 /*! \brief osgdegree2rad
  *  \ingroup BaseMathFunctions
  */
