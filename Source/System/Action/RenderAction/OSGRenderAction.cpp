@@ -1144,8 +1144,13 @@ Action::ResultE RenderAction::start(void)
 
 Action::ResultE RenderAction::stop(ResultE res)
 {
+   // CF changed
+#if 0
     if(!_ownStat)
        getStatistics()->getElem(statDrawTime)->start();
+#else
+    getStatistics()->getElem(statDrawTime)->start();
+#endif
     
     UInt32 i;
 
@@ -1196,6 +1201,8 @@ Action::ResultE RenderAction::stop(ResultE res)
         _vLights[i].first->deactivate(this, i);
     }
 
+    // CF changed
+#if 0
     if(!_ownStat)
     {
         glFinish();
@@ -1210,7 +1217,26 @@ Action::ResultE RenderAction::stop(ResultE res)
         getStatistics()->getElem(statNTransGeometries)->set(
             _uiNumTransGeometries);
     }
-    
+#else
+
+    glFinish();
+
+    StatTimeElem* elemDraw = getStatistics()->getElem(statDrawTime);
+    elemDraw->stop();
+
+    _viewport->setDrawTime((Real32)elemDraw->getTime());
+    if(!_ownStat) {
+        getStatistics()->getElem(statNMaterials      )->set(
+            _uiNumMaterialChanges);
+        getStatistics()->getElem(statNMatrices       )->set(
+            _uiNumMatrixChanges);
+        getStatistics()->getElem(statNGeometries     )->set(
+            _uiNumGeometries);
+        getStatistics()->getElem(statNTransGeometries)->set(
+            _uiNumTransGeometries);
+    }
+#endif
+
 
 //    FINFO (("Material %d Matrix %d Geometry %d Transparent %d\r",
 //            _uiNumMaterialChanges, 

@@ -75,6 +75,7 @@
 #include <OSGBackgroundFields.h> // Background type
 #include <OSGForegroundFields.h> // Foregrounds type
 #include <OSGUInt32Fields.h> // TravMask type
+#include <OSGReal32Fields.h> // DrawTime type
 
 #include <OSGViewportFields.h>
 
@@ -108,7 +109,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
         BackgroundFieldId  = RootFieldId        + 1,
         ForegroundsFieldId = BackgroundFieldId  + 1,
         TravMaskFieldId    = ForegroundsFieldId + 1,
-        NextFieldId        = TravMaskFieldId    + 1
+        DrawTimeFieldId    = TravMaskFieldId    + 1,
+        NextFieldId        = DrawTimeFieldId    + 1
     };
 
     static const OSG::BitVector LeftFieldMask;
@@ -121,6 +123,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
     static const OSG::BitVector BackgroundFieldMask;
     static const OSG::BitVector ForegroundsFieldMask;
     static const OSG::BitVector TravMaskFieldMask;
+    static const OSG::BitVector DrawTimeFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -157,6 +160,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
            SFBackgroundPtr     *getSFBackground     (void);
            MFForegroundPtr     *getMFForegrounds    (void);
            SFUInt32            *getSFTravMask       (void);
+           SFReal32            *getSFDrawTime       (void);
 
            Real32              &getLeft           (void);
      const Real32              &getLeft           (void) const;
@@ -176,6 +180,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
      const BackgroundPtr       &getBackground     (void) const;
            UInt32              &getTravMask       (void);
      const UInt32              &getTravMask       (void) const;
+           Real32              &getDrawTime       (void);
+     const Real32              &getDrawTime       (void) const;
            ForegroundPtr       &getForegrounds    (const UInt32 index);
            MFForegroundPtr     &getForegrounds    (void);
      const MFForegroundPtr     &getForegrounds    (void) const;
@@ -194,6 +200,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
      void setRoot           ( const NodePtr &value );
      void setBackground     ( const BackgroundPtr &value );
      void setTravMask       ( const UInt32 &value );
+     void setDrawTime       ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -249,6 +256,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
     SFBackgroundPtr     _sfBackground;
     MFForegroundPtr     _mfForegrounds;
     SFUInt32            _sfTravMask;
+    SFReal32            _sfDrawTime;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -296,6 +304,6 @@ typedef ViewportBase *ViewportBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGVIEWPORTBASE_H_ */

@@ -94,6 +94,9 @@ const OSG::BitVector  ViewportBase::ForegroundsFieldMask =
 const OSG::BitVector  ViewportBase::TravMaskFieldMask = 
     (TypeTraits<BitVector>::One << ViewportBase::TravMaskFieldId);
 
+const OSG::BitVector  ViewportBase::DrawTimeFieldMask = 
+    (TypeTraits<BitVector>::One << ViewportBase::DrawTimeFieldId);
+
 const OSG::BitVector ViewportBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -130,6 +133,9 @@ const OSG::BitVector ViewportBase::MTInfluenceMask =
 */
 /*! \var UInt32          ViewportBase::_sfTravMask
     The foreground additions to the rendered image.
+*/
+/*! \var Real32          ViewportBase::_sfDrawTime
+    Drawtime of the last frame using this viewport.
 */
 
 //! Viewport description
@@ -185,7 +191,12 @@ FieldDescription *ViewportBase::_desc[] =
                      "travMask", 
                      TravMaskFieldId, TravMaskFieldMask,
                      false,
-                     (FieldAccessMethod) &ViewportBase::getSFTravMask)
+                     (FieldAccessMethod) &ViewportBase::getSFTravMask),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "drawTime", 
+                     DrawTimeFieldId, DrawTimeFieldMask,
+                     true,
+                     (FieldAccessMethod) &ViewportBase::getSFDrawTime)
 };
 
 
@@ -251,6 +262,7 @@ ViewportBase::ViewportBase(void) :
     _sfBackground             (), 
     _mfForegrounds            (), 
     _sfTravMask               (UInt32(TypeTraits<UInt32>::getMax())), 
+    _sfDrawTime               (Real32(0.0f)), 
     Inherited() 
 {
 }
@@ -270,6 +282,7 @@ ViewportBase::ViewportBase(const ViewportBase &source) :
     _sfBackground             (source._sfBackground             ), 
     _mfForegrounds            (source._mfForegrounds            ), 
     _sfTravMask               (source._sfTravMask               ), 
+    _sfDrawTime               (source._sfDrawTime               ), 
     Inherited                 (source)
 {
 }
@@ -336,6 +349,11 @@ UInt32 ViewportBase::getBinSize(const BitVector &whichField)
         returnValue += _sfTravMask.getBinSize();
     }
 
+    if(FieldBits::NoField != (DrawTimeFieldMask & whichField))
+    {
+        returnValue += _sfDrawTime.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -393,6 +411,11 @@ void ViewportBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (TravMaskFieldMask & whichField))
     {
         _sfTravMask.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DrawTimeFieldMask & whichField))
+    {
+        _sfDrawTime.copyToBin(pMem);
     }
 
 
@@ -453,6 +476,11 @@ void ViewportBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfTravMask.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (DrawTimeFieldMask & whichField))
+    {
+        _sfDrawTime.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -492,6 +520,9 @@ void ViewportBase::executeSyncImpl(      ViewportBase *pOther,
     if(FieldBits::NoField != (TravMaskFieldMask & whichField))
         _sfTravMask.syncWith(pOther->_sfTravMask);
 
+    if(FieldBits::NoField != (DrawTimeFieldMask & whichField))
+        _sfDrawTime.syncWith(pOther->_sfDrawTime);
+
 
 }
 
@@ -525,7 +556,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGVIEWPORTBASE_INLINE_CVSID;
 

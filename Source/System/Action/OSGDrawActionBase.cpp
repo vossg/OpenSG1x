@@ -157,6 +157,13 @@ DrawActionBase::DrawActionBase(const DrawActionBase &source) :
 
 DrawActionBase::~DrawActionBase(void)
 {
+#if 0 // Altered for last frame time
+
+#else
+  if (_ownStat) {
+     delete _statistics;
+  }
+#endif
 }
 
 /*------------------------------ start -----------------------------------*/
@@ -183,6 +190,7 @@ Action::ResultE DrawActionBase::start(void)
 //    cerr << _mCameraToWorld << endl << endl;
     
 
+#if 0 // Altered for last frame time
     if(_statistics == NULL)
     {
         _statistics = StatCollector::create();
@@ -192,6 +200,13 @@ Action::ResultE DrawActionBase::start(void)
     {
         _ownStat = false;        
     }
+#else
+    if(_statistics == NULL)
+    {
+        _statistics = StatCollector::create();
+        _ownStat = true;
+    }
+#endif
 
     getStatistics()->getElem(statTravTime)->start();
     getStatistics()->getElem(statCullTestedNodes)->reset();
@@ -218,6 +233,7 @@ Action::ResultE DrawActionBase::stop(Action::ResultE res)
  
     getStatistics()->getElem(statTravTime)->stop();
   
+#if 0 // Altered for last frame time
     if(_ownStat)
     {
         delete _statistics;
@@ -227,7 +243,8 @@ Action::ResultE DrawActionBase::stop(Action::ResultE res)
     {
         _ownStat = false;        
     }
-        
+#endif
+
     return res; 
 }
 
@@ -255,8 +272,16 @@ void DrawActionBase::setWindow(Window *window)
 
 void DrawActionBase::setStatistics(StatCollector *statistics)
 {
+#if 0 // Altered for last frame time
     _statistics = statistics;
     _ownStat = false;
+#else
+    if (_ownStat) {
+       delete _statistics;
+    }
+    _statistics = statistics;
+    _ownStat = false;
+#endif
 }
 
 

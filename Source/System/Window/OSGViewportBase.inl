@@ -166,6 +166,13 @@ SFUInt32 *ViewportBase::getSFTravMask(void)
     return &_sfTravMask;
 }
 
+//! Get the Viewport::_sfDrawTime field.
+inline
+SFReal32 *ViewportBase::getSFDrawTime(void)
+{
+    return &_sfDrawTime;
+}
+
 
 //! Get the value of the Viewport::_sfLeft field.
 inline
@@ -356,6 +363,27 @@ void ViewportBase::setTravMask(const UInt32 &value)
     _sfTravMask.setValue(value);
 }
 
+//! Get the value of the Viewport::_sfDrawTime field.
+inline
+Real32 &ViewportBase::getDrawTime(void)
+{
+    return _sfDrawTime.getValue();
+}
+
+//! Get the value of the Viewport::_sfDrawTime field.
+inline
+const Real32 &ViewportBase::getDrawTime(void) const
+{
+    return _sfDrawTime.getValue();
+}
+
+//! Set the value of the Viewport::_sfDrawTime field.
+inline
+void ViewportBase::setDrawTime(const Real32 &value)
+{
+    _sfDrawTime.setValue(value);
+}
+
 
 //! Get the value of the \a index element the Viewport::_mfForegrounds field.
 inline
@@ -380,5 +408,5 @@ const MFForegroundPtr &ViewportBase::getForegrounds(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGVIEWPORTBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGVIEWPORTBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 

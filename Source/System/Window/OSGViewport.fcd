@@ -102,4 +102,14 @@ arbitrary number of viewports.
 	>
 	The foreground additions to the rendered image.
 	</Field>
+	<Field
+		name="drawTime"
+		type="Real32"
+		cardinality="single"
+		visibility="internal"
+                defaultValue="0.0f"
+		access="public"
+	>
+	Drawtime of the last frame using this viewport.
+	</Field>
 </FieldContainer>
