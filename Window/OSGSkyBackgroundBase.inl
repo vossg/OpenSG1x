@@ -291,9 +291,9 @@ void SkyBackgroundBase::setTopTexture(const TextureChunkPtr &value)
 
 
 inline
-Color3f &SkyBackgroundBase::getSkyColor(UInt32 index)
+Color3f &SkyBackgroundBase::getSkyColor(const UInt32 index)
 {
-    return _mfSkyColor.getValue( index );
+    return _mfSkyColor[index];
 }
 
 inline
@@ -309,9 +309,9 @@ const MFColor3f &SkyBackgroundBase::getSkyColor(void) const
 }
 
 inline
-Real32 &SkyBackgroundBase::getSkyAngle(UInt32 index)
+Real32 &SkyBackgroundBase::getSkyAngle(const UInt32 index)
 {
-    return _mfSkyAngle.getValue( index );
+    return _mfSkyAngle[index];
 }
 
 inline
@@ -327,9 +327,9 @@ const MFReal32 &SkyBackgroundBase::getSkyAngle(void) const
 }
 
 inline
-Color3f &SkyBackgroundBase::getGroundColor(UInt32 index)
+Color3f &SkyBackgroundBase::getGroundColor(const UInt32 index)
 {
-    return _mfGroundColor.getValue( index );
+    return _mfGroundColor[index];
 }
 
 inline
@@ -345,9 +345,9 @@ const MFColor3f &SkyBackgroundBase::getGroundColor(void) const
 }
 
 inline
-Real32 &SkyBackgroundBase::getGroundAngle(UInt32 index)
+Real32 &SkyBackgroundBase::getGroundAngle(const UInt32 index)
 {
-    return _mfGroundAngle.getValue( index );
+    return _mfGroundAngle[index];
 }
 
 inline
@@ -365,5 +365,5 @@ const MFReal32 &SkyBackgroundBase::getGroundAngle(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSKYBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGSkyBackgroundBase.inl,v 1.2 2002/03/25 01:26:00 vossg Exp $"
+#define OSGSKYBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGSkyBackgroundBase.inl,v 1.3 2002/05/13 09:21:11 vossg Exp $"
 

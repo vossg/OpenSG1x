@@ -47,55 +47,47 @@ OSG_BEGIN_NAMESPACE
 
 // Positions3d
 
-template<>
-inline Pnt3f
-GeoProperty<GeoPositions3dPropertyDesc>::getValue( const UInt32 index )
+template<> inline 
+Pnt3f GeoProperty<GeoPositions3dPropertyDesc>::getValue(const UInt32 index)
 {
-    const Pnt3d &val = _field.getValue( index );
-    return Pnt3f( val[0], val[1], val[2] );
+    return Pnt3f(_field[index][0], _field[index][1], _field[index][2]);
+}
+
+template<> inline 
+Pnt3f GeoProperty<GeoPositions3dPropertyDesc>::getValue( 
+    const UInt32 index) const
+{
+    return Pnt3f(_field[index][0], _field[index][1], _field[index][2]);
+}
+
+template<> inline 
+void GeoProperty<GeoPositions3dPropertyDesc>::getValue(
+          Pnt3f   &res,
+    const UInt32   index)
+{
+    res.setValues(_field[index][0], _field[index][1], _field[index][2]);
+}
+
+template<> inline 
+void GeoProperty<GeoPositions3dPropertyDesc>::getValue(
+          Pnt3f  &res,
+    const UInt32  index) const
+{
+    res.setValues(_field[index][0], _field[index][1], _field[index][2]);
+}
+
+template<> inline 
+void GeoProperty<GeoPositions3dPropertyDesc>::setValue(const Pnt3f  &val,
+                                                       const UInt32  index)
+{
+    _field[index].setValues(val[0], val[1], val[2]);
 }
 
 template<>
-inline Pnt3f
-GeoProperty<GeoPositions3dPropertyDesc>::getValue( const UInt32 index ) const
+inline 
+void GeoProperty<GeoPositions3dPropertyDesc>::addValue(const Pnt3f &val)
 {
-    const Pnt3d &val = _field.getValue( index );
-    return Pnt3f( val[0], val[1], val[2] );
-}
-
-template<>
-inline void
-GeoProperty<GeoPositions3dPropertyDesc>::getValue(
-    Pnt3f & res,
-    const UInt32 index )
-{
-    const Pnt3d &val = _field.getValue( index );
-    res.setValues( val[0], val[1], val[2] );
-}
-
-template<>
-inline void
-GeoProperty<GeoPositions3dPropertyDesc>::getValue(
-    Pnt3f & res,
-    const UInt32 index ) const
-{
-    const Pnt3d &val = _field.getValue( index );
-    res.setValues( val[0], val[1], val[2] );
-}
-
-template<>
-inline void
-GeoProperty<GeoPositions3dPropertyDesc>::setValue( const Pnt3f & val,
-    const UInt32 index )
-{
-    _field.setValue( Pnt3d( val[0], val[1], val[2]), index );
-}
-
-template<>
-inline void
-GeoProperty<GeoPositions3dPropertyDesc>::addValue( const Pnt3f & val )
-{
-    _field.addValue(Pnt3d( val[0], val[1], val[2]));
+    _field.push_back(Pnt3d( val[0], val[1], val[2]));
 }
 
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */

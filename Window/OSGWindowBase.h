@@ -147,7 +147,7 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
      const UInt16              &getHeight         (void) const;
            bool                &getResizePending  (void);
      const bool                &getResizePending  (void) const;
-           ViewportPtr         &getPort           (UInt32 index);
+           ViewportPtr         &getPort           (const UInt32 index);
            MFViewportPtr       &getPort           (void);
      const MFViewportPtr       &getPort           (void) const;
 

@@ -118,14 +118,14 @@ void SimpleStatisticsForeground::dump(      UInt32    ,
 void SimpleStatisticsForeground::addElement( StatElemDescBase &desc, 
                                              char *format)
 {
-    getElementIDs().addValue(desc.getID());
-    getFormats().addValue(format);
+    getElementIDs().push_back(desc.getID());
+    getFormats().push_back(format);
 }
 
 void SimpleStatisticsForeground::addElement( UInt32 id, char *format)
 {
-    getElementIDs().addValue(id);
-    getFormats().addValue(format);
+    getElementIDs().push_back(id);
+    getFormats().push_back(format);
 }
 
 
@@ -216,20 +216,20 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     StatCollector *col = &getCollector();
     StatElem *el;
     
-    if(getElementIDs().getSize() != 0)
+    if(getElementIDs().size() != 0)
     {
-        for(UInt32 i = 0; i < getElementIDs().getSize(); ++i)
+        for(UInt32 i = 0; i < getElementIDs().size(); ++i)
         {
-            el = col->getElem(getElementIDs().getValue(i));
+            el = col->getElem(getElementIDs()[i]);
             if(el)
             {
                 stat.resize(stat.size() + 1);
                 vector<string>::iterator str = stat.end() - 1;
                 
                 const char *format = NULL;
-                if(i < getFormats().getSize())
+                if(i < getFormats().size())
                 {
-                    format = getFormats().getValue(i).c_str();
+                    format = getFormats()[i].c_str();
                 }
     
                 el->putToString(*str,format);
@@ -305,7 +305,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.5 2002/04/30 09:29:12 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.6 2002/05/13 09:21:11 vossg Exp $";
     static char cvsid_hpp[] = OSGSIMPLESTATISTICSFOREGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSIMPLESTATISTICSFOREGROUND_INLINE_CVSID;
 }

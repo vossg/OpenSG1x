@@ -46,40 +46,34 @@ OSG_BEGIN_NAMESPACE
 
 // TexCoords3f
 
-template<>
-inline Vec2f
-GeoProperty<GeoTexCoords3fPropertyDesc>::getValue( const UInt32 index )
+template<> inline 
+Vec2f GeoProperty<GeoTexCoords3fPropertyDesc>::getValue(const UInt32 index)
 {
-    const Vec3f &val = _field.getValue( index );
-    return Vec2f( val[0], val[1] );
+    return Vec2f(_field[index][0], _field[index][1]);
 }
 
-template<>
-inline Vec2f
-GeoProperty<GeoTexCoords3fPropertyDesc>::getValue( const UInt32 index ) const
+template<> inline 
+Vec2f GeoProperty<GeoTexCoords3fPropertyDesc>::getValue(
+    const UInt32 index) const
 {
-    const Vec3f &val = _field.getValue( index );
-    return Vec2f( val[0], val[1] );
+    return Vec2f(_field[index][0], _field[index][1]);
 }
 
-template<>
-inline void
-GeoProperty<GeoTexCoords3fPropertyDesc>::getValue(
-    Vec2f & res,
-    const UInt32 index )
+template<> inline 
+void GeoProperty<GeoTexCoords3fPropertyDesc>::getValue(
+          Vec2f  &res,
+    const UInt32  index)
 {
-    const Vec3f &val = _field.getValue( index );
-    res.setValues( val[0], val[1] );
+    res.setValues(_field[index][0], _field[index][1]);
 }
 
-template<>
-inline void
-GeoProperty<GeoTexCoords3fPropertyDesc>::getValue(
-    Vec2f & res,
-    const UInt32 index ) const
+template<> inline 
+void GeoProperty<GeoTexCoords3fPropertyDesc>::getValue(
+          Vec2f  &res,
+    const UInt32  index) const
 {
-    const Vec3f &val = _field.getValue( index );
-    res.setValues( val[0], val[1] );
+    res.setValues(_field[index][0], 
+                  _field[index][1]);
 }
 
 template<>
@@ -87,15 +81,14 @@ inline void
 GeoProperty<GeoTexCoords3fPropertyDesc>::setValue( const Vec2f & val,
     const UInt32 index )
 {
-    _field.setValue( Vec3f( val[0], val[1], 0),
-                     index );
+    _field[index].setValues(val[0], val[1], 0.f);
 }
 
 template<>
 inline void
 GeoProperty<GeoTexCoords3fPropertyDesc>::addValue( const Vec2f & val )
 {
-    _field.addValue(Vec3f( val[0], val[1], 0));
+    _field.push_back(Vec3f( val[0], val[1], 0));
 }
 
 

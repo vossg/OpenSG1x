@@ -303,11 +303,11 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                 beginEditCP ( geoPtr );
                 {
                 if (meshIndexMask & 1)
-                    geoPtr->getIndexMapping().addValue( Geometry::MapPosition );
+                    geoPtr->getIndexMapping().push_back( Geometry::MapPosition );
                 if (meshIndexMask & 2)
-                    geoPtr->getIndexMapping().addValue( Geometry::MapTexcoords );
+                    geoPtr->getIndexMapping().push_back( Geometry::MapTexcoords );
                 if (meshIndexMask & 4)
-                  geoPtr->getIndexMapping().addValue( Geometry::MapNormal );
+                  geoPtr->getIndexMapping().push_back( Geometry::MapNormal );
                 geoPtr->setPositions ( coordPtr );
                 geoPtr->setTexCoords ( texCoordPtr );
                 geoPtr->setNormals   ( normalPtr );
@@ -340,16 +340,16 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                 n = faceI->tieVec.size();
                   
                 // add the lens entry
-                lensPtr->addValue(n);
+                lensPtr->push_back(n);
 
                 // add the type entry
-                typePtr->addValue(GL_POLYGON);
+                typePtr->push_back(GL_POLYGON);
                   
                 // create the index values
                 for (i = 0; i < n; i++)
                     for (j = 0; j < 3; j++)
                         if ( meshIndexMask & (1 << j))
-                            indexPtr->addValue( faceI->tieVec[i].index[j]);
+                            indexPtr->push_back( faceI->tieVec[i].index[j]);
             }
             
             endEditCP(indexPtr);
@@ -784,7 +784,7 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.26 2002/04/30 09:29:08 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.27 2002/05/13 09:21:09 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 

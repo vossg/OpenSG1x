@@ -110,7 +110,7 @@ void ProjectionCameraDecorator::dump(      UInt32    ,
 
 void ProjectionCameraDecorator::updateData(void)
 {
-    if(getSurface().getSize() != 4)
+    if(getSurface().size() != 4)
     {
         FWARNING(("ProjectionCameraDecorator: only defined for 4 point "
                   "surfaces!\n"));
@@ -306,7 +306,7 @@ static bool hack = true;
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGProjectionCameraDecorator.cpp,v 1.3 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGProjectionCameraDecorator.cpp,v 1.4 2002/05/13 09:21:11 vossg Exp $";
     static char cvsid_hpp[] = OSGPROJECTIONCAMERADECORATOR_HEADER_CVSID;
     static char cvsid_inl[] = OSGPROJECTIONCAMERADECORATOR_INLINE_CVSID;
 }

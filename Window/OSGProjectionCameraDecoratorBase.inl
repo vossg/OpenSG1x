@@ -249,9 +249,9 @@ void ProjectionCameraDecoratorBase::setHeight(const Real32 &value)
 
 
 inline
-Pnt3f &ProjectionCameraDecoratorBase::getSurface(UInt32 index)
+Pnt3f &ProjectionCameraDecoratorBase::getSurface(const UInt32 index)
 {
-    return _mfSurface.getValue( index );
+    return _mfSurface[index];
 }
 
 inline
@@ -269,5 +269,5 @@ const MFPnt3f &ProjectionCameraDecoratorBase::getSurface(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPROJECTIONCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGProjectionCameraDecoratorBase.inl,v 1.2 2002/03/25 01:26:00 vossg Exp $"
+#define OSGPROJECTIONCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGProjectionCameraDecoratorBase.inl,v 1.3 2002/05/13 09:21:11 vossg Exp $"
 

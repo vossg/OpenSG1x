@@ -71,6 +71,8 @@ template <>
 struct OSG_VRML_DLLMAPPING FieldDataTraits<VRMLNodeAttachmentMap>// : 
 //    public TypeTraits
 {
+    typedef VRMLNodeAttachmentMap &ArgumentType;
+
     enum
     {
         StringConvertable = 0x00

@@ -177,7 +177,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
      const MaterialPtr         &getMaterial       (void) const;
            bool                &getDlistCache     (void);
      const bool                &getDlistCache     (void) const;
-           UInt16              &getIndexMapping   (UInt32 index);
+           UInt16              &getIndexMapping   (const UInt32 index);
            MFUInt16            &getIndexMapping   (void);
      const MFUInt16            &getIndexMapping   (void) const;
 

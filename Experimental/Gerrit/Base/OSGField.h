@@ -36,168 +36,115 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGSFIELD_H_
-#define _OSGSFIELD_H_
+#ifndef _OSGFIELD_H_
+#define _OSGFIELD_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGBase.h>
 #include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
-#include <OSGStringConversionStateBase.h>
 
-#include <vector>
+#include <OSGFieldType.h>
+#include <OSGIDString.h>
+#include <OSGLog.h>
 #include <string>
-
-#include <OSGField.h>
 
 OSG_BEGIN_NAMESPACE
 
-/*! \defgroup SingleFields SingleFields
-    \brief OpenSG Single Fields
-*/
+class StringConversionStateBase;
 
-class BinaryDataHandler;
+template <class T>
+struct ErrorFromToString
+{
+    static bool              getFromString(      T      &,
+                                           const Char8 *&)
+    {
+        SLOG << "Error From String Conversion not available for " << endl;
 
-//! Base class for all single fields, for example ::SFMatrix.
+        return false;
+    }
+
+    static void             putToString(const T      &,
+                                              string &)
+    {
+        SLOG << "Error To String Conversion not available for " << endl;
+    }
+};
+
+//! Base class for all fields
 //! \ingroup FieldLib
-//! \ingroup SingleFields
 
-template <class FieldTypeT, Int32 fieldNameSpace = 0>
-class SField : public Field 
+class OSG_BASE_DLLMAPPING Field
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef typename osgIF<fieldNameSpace == 1,
-                           FieldDataTraits1<FieldTypeT>, 
-                           FieldDataTraits2<FieldTypeT> >::_IRet SF1Trait;
-
-    typedef typename osgIF<fieldNameSpace == 0, 
-                           FieldDataTraits <FieldTypeT>, 
-                           SF1Trait>::_IRet                      SFieldTraits;
-
-    typedef          SField<FieldTypeT, fieldNameSpace>          Self;
-
-
-
-    typedef          FieldTypeT  StoredType;
-    typedef          FieldTypeT &reference;
-    typedef const    FieldTypeT &const_reference;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Class Get                                  */
-    /*! \{                                                                 */
-
-    static const FieldType &getClassType(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    SField         (void);
-    SField         (const SField  &obj);
-    explicit SField(const FieldTypeT &value);
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual ~SField(void); 
+    virtual ~Field(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-                  reference   getValue(void);
-            const_reference   getValue(void) const;
+    virtual const FieldType              &getType       (void) const = 0;
+            const DataType               &getContentType(void) const;
 
-    virtual       bool        isEmpty (void) const;
+                  FieldType::Cardinality  getCardinality(void) const;
 
-    virtual const FieldType  &getType (void) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Set                                     */
-    /*! \{                                                                 */
-
-    virtual void setAbstrValue(const Field      &obj  );
-
-            void setValue     (const FieldTypeT &value);
-            void setValue     (const Self       &obj  );
+    virtual       bool                    isEmpty       (void) const = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   String IO                                  */
     /*! \{                                                                 */
 
-    virtual void    pushValueByStr(const Char8               *str  );
-    virtual string &getValueByStr (string                    &str  ) const;
-    virtual string &getValueByStr (string                    &str,
-                                   StringConversionStateBase &state) const;
+    virtual void     pushValueByStr(const Char8  *str)       = 0;
+    virtual string  &getValueByStr (      string &str) const = 0;
+    virtual string  &getValueByStr (      string &str,
+                                    StringConversionStateBase &state) const=0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      MT Sync                                 */
+    /*! \name                      Set                                     */
     /*! \{                                                                 */
 
-    void syncWith(Self &source);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Binary Interface                           */
-    /*! \{                                                                 */
-
-    UInt32 getBinSize (void                   );
-    
-    void   copyToBin  (BinaryDataHandler &pMem);
-    void   copyFromBin(BinaryDataHandler &pMem);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Assign                                  */
-    /*! \{                                                                 */
-
-    void operator =(const SField &source);
+    virtual void setAbstrValue(const Field &obj) = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Dump                                  */
     /*! \{                                                                 */
 
-    virtual void dump(void) const;
+    virtual void dump(void) const = 0;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    typedef Field Inherited;
-
     /*---------------------------------------------------------------------*/
-    /*                             Member                                  */
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-    static const FieldType   _fieldType;
+    Field(void);
+    Field(const Field &source);
 
-                 FieldTypeT  _value;
-
-
-    static       Field      *create(void);
-
-    /*---------------------------------------------------------------------*/
-
+    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const Field &source);
 };
 
 OSG_END_NAMESPACE
 
-#include <OSGSField.inl>
+#define OSGFIELD_HEADER_CVSID "@(#)$Id: $"
 
-#define OSGSFIELD_HEADER_CVSID "@(#)$Id: $"
+#endif /* _OSGFIELD_HPP_ */
 
-#endif /* _OSGSFIELD_H_ */
 

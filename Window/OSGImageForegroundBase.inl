@@ -111,9 +111,9 @@ MFPnt2f *ImageForegroundBase::getMFPositions(void)
 
 
 inline
-ImageP &ImageForegroundBase::getImages(UInt32 index)
+ImageP &ImageForegroundBase::getImages(const UInt32 index)
 {
-    return _mfImages.getValue( index );
+    return _mfImages[index];
 }
 
 inline
@@ -129,9 +129,9 @@ const MFImageP &ImageForegroundBase::getImages(void) const
 }
 
 inline
-Pnt2f &ImageForegroundBase::getPositions(UInt32 index)
+Pnt2f &ImageForegroundBase::getPositions(const UInt32 index)
 {
-    return _mfPositions.getValue( index );
+    return _mfPositions[index];
 }
 
 inline
@@ -149,5 +149,5 @@ const MFPnt2f &ImageForegroundBase::getPositions(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGImageForegroundBase.inl,v 1.3 2002/03/25 01:26:00 vossg Exp $"
+#define OSGIMAGEFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGImageForegroundBase.inl,v 1.4 2002/05/13 09:21:11 vossg Exp $"
 

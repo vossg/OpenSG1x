@@ -126,7 +126,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatisticsForegroundBase : public Foreground
 
            StatCollector       &getCollector      (void);
      const StatCollector       &getCollector      (void) const;
-           Int32               &getElementIDs     (UInt32 index);
+           Int32               &getElementIDs     (const UInt32 index);
            MFInt32             &getElementIDs     (void);
      const MFInt32             &getElementIDs     (void) const;
 
@@ -214,6 +214,6 @@ typedef StatisticsForegroundBase *StatisticsForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGStatisticsForegroundBase.h,v 1.2 2002/03/25 01:26:00 vossg Exp $"
+#define OSGSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGStatisticsForegroundBase.h,v 1.3 2002/05/13 09:21:11 vossg Exp $"
 
 #endif /* _OSGSTATISTICSFOREGROUNDBASE_H_ */

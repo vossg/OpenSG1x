@@ -2669,13 +2669,13 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
     {
 #ifdef OSG_DEBUG_VRML
         PNOTICE << "VRMLImageTextureDesc::endNode : Reading texture " 
-                << _url.getValue(0).c_str() << endl;
+                << _url[0].c_str() << endl;
 #endif
 
         if(_pPathHandler            != NULL && 
-           _url.getValue(0).c_str() != NULL)
+           _url[0].c_str() != NULL)
         {
-            tmpName = _pPathHandler->findFile(_url.getValue(0).c_str());
+            tmpName = _pPathHandler->findFile(_url[0].c_str());
         }
 
         if(tmpName.size() != 0 || _pPathHandler == NULL)
@@ -2708,7 +2708,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
             {
                 PWARNING << "VRMLImageTextureDesc::endNode : "
                          << "Couldn't read texture " 
-                         << _url.getValue(0).c_str()  
+                         << _url[0].c_str()  
                          << " !!!" 
                          << endl;
                 
@@ -2719,7 +2719,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
         {
             PWARNING << "VRMLImageTextureDesc::endNode : "
                      << "Couldn't read texture " 
-                     << _url.getValue(0).c_str()  
+                     << _url[0].c_str()  
                      << " !!!" 
                      << endl;
             
@@ -2737,7 +2737,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
 
     indentLog(getIndent(), PINFO);
     PINFO << "End ImageTexture " 
-          << _url.getValue(0).c_str() << " "
+          << _url[0].c_str() << " "
           << _repeatS.getValue()    << " "
           << _repeatT.getValue()    << " "
           << &(*pFC) << endl;

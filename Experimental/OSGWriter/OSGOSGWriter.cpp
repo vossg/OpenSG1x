@@ -255,10 +255,10 @@ void OSGWriter::visitField(const Field* pF)
         {
             const MFFieldContainerPtr* mfFCPtr =
                 (const MFFieldContainerPtr*) pF;
-            UInt32 mfSize = mfFCPtr->getSize();
+            UInt32 mfSize = mfFCPtr->size();
             for(UInt32 i=0; i < mfSize; i++)
             {
-                visitContainer(mfFCPtr->getValue(i));
+                visitContainer((*(mfFCPtr))[i]);
             }
         }
     }
@@ -409,16 +409,16 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
             _indent++;
             const MFFieldContainerPtr* mfFCPtr =
                 (const MFFieldContainerPtr*) pF;
-            UInt32 mfSize = mfFCPtr->getSize();
+            UInt32 mfSize = mfFCPtr->size();
             for(UInt32 i=0; i < mfSize; i++)
             {
-                if(mfFCPtr->getValue(i) == NullFC)
+                if((*(mfFCPtr))[i] == NullFC)
                 {
                     _outStream << _indent << "NULL" << endl;
                 }
                 else
                 {
-                    writeContainer(mfFCPtr->getValue(i));
+                    writeContainer((*(mfFCPtr))[i]);
                 }
             }
             _indent--;
@@ -473,6 +473,6 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.10 2002/04/30 09:29:06 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.11 2002/05/13 09:21:08 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOSGWRITER_HEADER_CVSID;
 }

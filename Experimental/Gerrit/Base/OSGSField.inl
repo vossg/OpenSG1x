@@ -91,8 +91,8 @@ const FieldType &SField<FieldTypeT, fieldNameSpace>::getClassType(void)
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 SField<FieldTypeT, fieldNameSpace>::SField(void) :
-    Inherited(),
-    _value   ()
+     Inherited(),
+    _value    ()
 {
 }
 
@@ -104,8 +104,8 @@ SField<FieldTypeT, fieldNameSpace>::SField(const SField &obj) :
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-SField<FieldTypeT, fieldNameSpace>::SField(const FieldTypeT &value) :
-     Inherited(),
+SField<FieldTypeT, fieldNameSpace>::SField(ArgumentType value) :
+     Inherited(     ),
     _value    (value)
 {
 }
@@ -139,7 +139,7 @@ SField<FieldTypeT, fieldNameSpace>::const_reference
     return _value;
 }
 
-//! Returns the size of the field, allway 1
+//! Return 1 as SingleFields contain one value
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 bool SField<FieldTypeT, fieldNameSpace>::isEmpty(void) const
@@ -173,7 +173,7 @@ void SField<FieldTypeT, fieldNameSpace>::setAbstrValue(const Field &obj)
 //! Sets the stored value from a given one
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-void SField<FieldTypeT, fieldNameSpace>::setValue(const FieldTypeT &value)
+void SField<FieldTypeT, fieldNameSpace>::setValue(ArgumentType value)
 {
     _value = value;
 }

@@ -126,7 +126,7 @@ class OSG_SYSTEMLIB_DLLMAPPING InlineBase : public NodeCore
 
            bool                &getLoaded         (void);
      const bool                &getLoaded         (void) const;
-           string              &getUrl            (UInt32 index);
+           string              &getUrl            (const UInt32 index);
            MFString            &getUrl            (void);
      const MFString            &getUrl            (void) const;
 

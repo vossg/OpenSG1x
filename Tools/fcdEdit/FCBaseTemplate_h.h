@@ -159,7 +159,7 @@ char *FCBaseTemplate_h[]={
 "@@EndSFFieldLoop@@",
 "@@BeginMFFieldLoop@@",
 "@@if isPublic", 
-"    @!FieldMethodType!@       @!Fieldtype:19!@ &get@!Fieldname:15!@(UInt32 index);",
+"    @!FieldMethodType!@       @!Fieldtype:19!@ &get@!Fieldname:15!@(const UInt32 index);",
 "    @!FieldMethodType!@       @!CARDINALITY!@@!CapsFieldtype:17!@ &get@!Fieldname:15!@(void);",
 "    @!FieldMethodType!@ const @!CARDINALITY!@@!CapsFieldtype:17!@ &get@!Fieldname:15!@(void) const;",
 "@@endif", 
@@ -375,7 +375,7 @@ char *FCBaseTemplate_h[]={
 "",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.24 2002/02/23 01:02:41 dirk Exp $\"",
+"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.25 2002/05/13 09:21:11 vossg Exp $\"",
 "", 
 "#endif /* _OSG@!CLASSNAME!@BASE_H_ */",
 NULL };

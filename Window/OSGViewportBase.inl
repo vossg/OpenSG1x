@@ -297,9 +297,9 @@ void ViewportBase::setBackground(const BackgroundPtr &value)
 
 
 inline
-ForegroundPtr &ViewportBase::getForegrounds(UInt32 index)
+ForegroundPtr &ViewportBase::getForegrounds(const UInt32 index)
 {
-    return _mfForegrounds.getValue( index );
+    return _mfForegrounds[index];
 }
 
 inline
@@ -317,5 +317,5 @@ const MFForegroundPtr &ViewportBase::getForegrounds(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGViewportBase.inl,v 1.12 2002/03/25 01:26:00 vossg Exp $"
+#define OSGVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGViewportBase.inl,v 1.13 2002/05/13 09:21:12 vossg Exp $"
 

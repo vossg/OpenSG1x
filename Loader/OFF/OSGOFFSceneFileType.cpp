@@ -226,20 +226,20 @@ NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32) const
                         n += vN = faceVec[j].size();
                         for(k = vN - 1; k >= 0; k--)
                         {
-                            index->getFieldPtr()->addValue(faceVec[j][k]);
+                            index->getFieldPtr()->push_back(faceVec[j][k]);
                         }
 
                         if(i == 5)
                         {
                             beginEditCP(lens);
                             {
-                                lens->addValue(n);
+                                lens->push_back(n);
                             }
                             endEditCP(lens);
 
                             beginEditCP(type, FieldBits::AllFields);
                             {
-                                type->addValue(GL_POLYGON);
+                                type->push_back(GL_POLYGON);
                             }
                             endEditCP(type, FieldBits::AllFields);
                         }
@@ -265,13 +265,13 @@ NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32) const
                     {
                         beginEditCP(lens);
                         {
-                            lens->addValue(n);
+                            lens->push_back(n);
                         }
                         endEditCP(lens);
 
                         beginEditCP(type, FieldBits::AllFields);
                         {
-                            type->addValue(pType);
+                            type->push_back(pType);
                         }
                         endEditCP(type, FieldBits::AllFields);
                     }
@@ -444,6 +444,6 @@ const Char8 *OFFSceneFileType::getName(void) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.13 2002/04/30 09:29:09 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.14 2002/05/13 09:21:09 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOFFSCENEFILETYPE_HEADER_CVSID;
 }

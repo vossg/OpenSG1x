@@ -117,20 +117,21 @@ const FieldType &MField<FieldTypeT, fieldNameSpace>::getClassType(void)
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, fieldNameSpace>::MField(void) :
      Inherited(),
-    _values(0)
+    _values   ()
 {
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, fieldNameSpace>::MField(const MField &obj) :
-     Inherited(obj),
+     Inherited(obj        ),
     _values   (obj._values)
 {
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, fieldNameSpace>::MField(const UInt32 size) :
-    Inherited()
+     Inherited(),
+    _values   ()
 {
     _values.resize(size);
 }
@@ -145,24 +146,6 @@ MField<FieldTypeT, fieldNameSpace>::~MField(void)
 
 /*-------------------------------------------------------------------------*/
 /*                               Get                                       */
-
-//! Return a reference to the stored value at index index
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-typename MField<FieldTypeT, fieldNameSpace>::reference 
-    MField<FieldTypeT, fieldNameSpace>::getValue(const UInt32 index)
-{
-    return _values[index];
-}
-
-//! Return a const reference to the stored value at index index
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-typename MField<FieldTypeT, fieldNameSpace>::const_reference
-    MField<FieldTypeT, fieldNameSpace>::getValue(const UInt32 index) const
-{
-    return _values[index];
-}
 
 //! Return a reference to the value store 
 
@@ -182,20 +165,20 @@ const typename MField<FieldTypeT, fieldNameSpace>::StorageType &
     return _values;
 }
 
-//! Returns the size of the field
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-bool MField<FieldTypeT, fieldNameSpace>::isEmpty(void) const
-{
-    return  empty();
-}
-
 //! Returns the type of the field
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 const FieldType &MField<FieldTypeT, fieldNameSpace>::getType(void) const
 {
     return _fieldType;
+}
+
+//! Returns the type of the field
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+bool MField<FieldTypeT, fieldNameSpace>::isEmpty(void) const
+{
+    return empty();
 }
 
 /*-------------------------------------------------------------------------*/
@@ -214,15 +197,6 @@ void MField<FieldTypeT, fieldNameSpace>::setAbstrValue(const Field &obj)
     }
 }
 
-//! Set the value at the given index to values
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-void MField<FieldTypeT, fieldNameSpace>::setValue(const FieldTypeT &value,
-                                                  const UInt32      index)
-{
-    _values[index] = value;
-}
-
 //! Copies the values from a given value store
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
@@ -237,17 +211,6 @@ template <class FieldTypeT, Int32 fieldNameSpace> inline
 void MField<FieldTypeT, fieldNameSpace>::setValues(const Self &obj)
 {
     _values = obj._values;
-}
-
-/*-------------------------------------------------------------------------*/
-/*                                  Add                                    */
-
-//! Append the given value to the store
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-void MField<FieldTypeT, fieldNameSpace>::addValue(const FieldTypeT &value)
-{
-    _values.push_back(value);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -351,7 +314,7 @@ template <class FieldTypeT, Int32 fieldNameSpace> inline
 typename MField<FieldTypeT, 
                 fieldNameSpace>::iterator MField<FieldTypeT, 
                                                  fieldNameSpace>::insert(
-    iterator pos, const FieldTypeT &value)
+    iterator pos, ArgumentType value)
 {
     return _values.insert(pos, value);
 }
@@ -374,7 +337,7 @@ template <class FieldTypeT, Int32 fieldNameSpace> inline
 typename MField<FieldTypeT, 
                 fieldNameSpace>::iterator MField<FieldTypeT, 
                                                  fieldNameSpace>::find(
-    const FieldTypeT &value)
+    ArgumentType value)
 {
     return STD::find(_values.begin(), _values.end(), value);
 }
@@ -385,7 +348,7 @@ template <class FieldTypeT, Int32 fieldNameSpace> inline
 typename MField<FieldTypeT, 
                 fieldNameSpace>::const_iterator MField<FieldTypeT, 
                                                        fieldNameSpace>::find(
-    const FieldTypeT &value) const
+    ArgumentType value) const
 {
     return STD::find(_values.begin(), _values.end(), value);
 }
@@ -393,7 +356,7 @@ typename MField<FieldTypeT,
 //! push back value
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-void MField<FieldTypeT, fieldNameSpace>::push_back(const FieldTypeT &value)
+void MField<FieldTypeT, fieldNameSpace>::push_back(ArgumentType value)
 {
     _values.push_back(value);
 }
@@ -426,14 +389,6 @@ UInt32 MField<FieldTypeT, fieldNameSpace>::size(void) const
     return _values.size();
 }
 
-//! Returns the size of the field, depreciated
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-UInt32 MField<FieldTypeT, fieldNameSpace>::getSize(void) const
-{
-    return _values.size();
-}
-
 //! Returns true if the field does not hold any value
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
@@ -460,7 +415,7 @@ void MField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
     
     Converter::getFromString(tmpVal, str);
     
-    addValue(tmpVal);
+    push_back(tmpVal);
 }
 
 //! Dump the field to a given string
@@ -476,13 +431,13 @@ string &MField<FieldTypeT,
                             MFieldTraits,
                             ErrorFromToString<FieldTypeT> >::_IRet Converter;
 
-    for(UInt32 i = 0; i < getSize(); ++i)
+    for(UInt32 i = 0; i < size(); ++i)
     {
         Converter::putToString(_values[i], tmpString);
 
         str.append(tmpString);
 
-        if(i < (getSize()-1))
+        if(i < (size()-1))
         {
             str.append(", ");
         }
@@ -507,7 +462,7 @@ string &MField<FieldTypeT,
 
     state.beginField(this, outStr);
 
-    for(UInt32 i = 0; i < getSize(); ++i)
+    for(UInt32 i = 0; i < size(); ++i)
     {
         valStr.erase();
         Converter::putToString(_values[i], valStr);

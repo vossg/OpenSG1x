@@ -232,7 +232,7 @@ VRMLFontStyle::VRMLFontStyle(void) :
     _sfFamily.getValue().assign("SERIF");
     _sfStyle .getValue().assign("PLAIN");
 
-    _mfJustify.addValue(szJustify);
+    _mfJustify.push_back(szJustify);
 }
 
 

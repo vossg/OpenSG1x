@@ -367,9 +367,9 @@ void ParticleBSPTree::build(Particles *core)
     
     for(UInt32 i = 0; i < pos->getSize(); ++i )
     {     
-        if(indices->getSize() == pos->getSize())
+        if(indices->size() == pos->getSize())
         {        
-            order.push_back(indices->getValue(i));
+            order.push_back((*indices)[i]);
         }
         else
         {
@@ -492,7 +492,7 @@ void ParticleBSPTree::destroy()
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.7 2002/04/30 09:29:11 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.8 2002/05/13 09:21:11 vossg Exp $";
     static char cvsid_hpp[] = OSGPARTICLEBSP_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLEBSP_INLINE_CVSID;
 }

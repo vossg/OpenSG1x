@@ -111,9 +111,9 @@ MFReal32 *GradientBackgroundBase::getMFPosition(void)
 
 
 inline
-Color3f &GradientBackgroundBase::getColor(UInt32 index)
+Color3f &GradientBackgroundBase::getColor(const UInt32 index)
 {
-    return _mfColor.getValue( index );
+    return _mfColor[index];
 }
 
 inline
@@ -129,9 +129,9 @@ const MFColor3f &GradientBackgroundBase::getColor(void) const
 }
 
 inline
-Real32 &GradientBackgroundBase::getPosition(UInt32 index)
+Real32 &GradientBackgroundBase::getPosition(const UInt32 index)
 {
-    return _mfPosition.getValue( index );
+    return _mfPosition[index];
 }
 
 inline
@@ -149,5 +149,5 @@ const MFReal32 &GradientBackgroundBase::getPosition(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGGradientBackgroundBase.inl,v 1.9 2002/03/25 01:26:00 vossg Exp $"
+#define OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGGradientBackgroundBase.inl,v 1.10 2002/05/13 09:21:11 vossg Exp $"
 

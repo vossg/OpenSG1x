@@ -123,7 +123,7 @@ class MField : public Field
                   StorageType &getValues(void);
             const StorageType &getValues(void) const;
  
-    virtual       UInt32       getSize  (void) const;
+    virtual       bool         isEmpty  (void) const;
     
     virtual const FieldType   &getType  (void) const;
 
@@ -177,6 +177,10 @@ class MField : public Field
     void            reserve  (size_t newsize);
 
     UInt32          size     (void          ) const;
+
+    // depreciated
+    UInt32          getSize  (void          ) const;
+
     bool            empty    (void          ) const;
 
     /*! \}                                                                 */

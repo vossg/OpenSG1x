@@ -187,7 +187,7 @@ void State::addChunk( StateChunkPtr chunk, Int32 index )
         UInt8 ci;
 
         for ( ci = cindex; ci < cindex + nslots && ci < csize; ci++ )
-            if ( _mfChunks.getValue( ci ) == NullFC )
+            if ( _mfChunks[ci] == NullFC )
                 break;
 
         if ( ci >= cindex + nslots )    // no free slot found
@@ -210,10 +210,10 @@ void State::addChunk( StateChunkPtr chunk, Int32 index )
         _mfChunks.resize( newsize );
 
         for ( UInt32 i = oldsize; i < newsize; i++ )
-            _mfChunks.setValue( NullFC, i );
+            _mfChunks[i] = NullFC;
     }
 
-    _mfChunks.setValue( chunk, cindex );
+    _mfChunks[cindex] = chunk;
 }
 
 
@@ -236,7 +236,7 @@ void State::subChunk( StateChunkPtr chunk, Int32 index )
         UInt8 ci;
 
         for ( ci = cindex; ci < cindex + nslots && ci < csize; ci++ )
-            if ( _mfChunks.getValue( ci ) == chunk )
+            if ( _mfChunks[ci] == chunk )
                 break;
 
         if ( ci >= cindex + nslots )    // no free slot found
@@ -250,7 +250,7 @@ void State::subChunk( StateChunkPtr chunk, Int32 index )
 
     // remove the chunk from the state
 
-    _mfChunks.setValue( NullFC, cindex );
+    _mfChunks[cindex] = NullFC;
 }
 
 void State::subChunk( UInt32 classid, Int32 index )
@@ -265,7 +265,7 @@ void State::subChunk( UInt32 classid, Int32 index )
 
     // remove the chunk from the state
 
-    _mfChunks.setValue( NullFC, classid + index );
+    _mfChunks[classid + index] = NullFC;
 }
 
 void State::clearChunks(void)

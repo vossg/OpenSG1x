@@ -103,9 +103,9 @@ void StatisticsForegroundBase::setCollector(const StatCollector &value)
 
 
 inline
-Int32 &StatisticsForegroundBase::getElementIDs(UInt32 index)
+Int32 &StatisticsForegroundBase::getElementIDs(const UInt32 index)
 {
-    return _mfElementIDs.getValue( index );
+    return _mfElementIDs[index];
 }
 
 inline
@@ -123,5 +123,5 @@ const MFInt32 &StatisticsForegroundBase::getElementIDs(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGStatisticsForegroundBase.inl,v 1.2 2002/03/25 01:26:00 vossg Exp $"
+#define OSGSTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGStatisticsForegroundBase.inl,v 1.3 2002/05/13 09:21:11 vossg Exp $"
 

@@ -129,9 +129,9 @@ void InlineBase::setLoaded(const bool &value)
 
 
 inline
-string &InlineBase::getUrl(UInt32 index)
+string &InlineBase::getUrl(const UInt32 index)
 {
-    return _mfUrl.getValue( index );
+    return _mfUrl[index];
 }
 
 inline

@@ -357,9 +357,9 @@ void ParticlesBase::setBsp(const ParticleBSPTree &value)
 
 
 inline
-Vec3f &ParticlesBase::getSizes(UInt32 index)
+Vec3f &ParticlesBase::getSizes(const UInt32 index)
 {
-    return _mfSizes.getValue( index );
+    return _mfSizes[index];
 }
 
 inline
@@ -375,9 +375,9 @@ const MFVec3f &ParticlesBase::getSizes(void) const
 }
 
 inline
-Int32 &ParticlesBase::getIndices(UInt32 index)
+Int32 &ParticlesBase::getIndices(const UInt32 index)
 {
-    return _mfIndices.getValue( index );
+    return _mfIndices[index];
 }
 
 inline
@@ -393,9 +393,9 @@ const MFInt32 &ParticlesBase::getIndices(void) const
 }
 
 inline
-Real32 &ParticlesBase::getTextureZs(UInt32 index)
+Real32 &ParticlesBase::getTextureZs(const UInt32 index)
 {
-    return _mfTextureZs.getValue( index );
+    return _mfTextureZs[index];
 }
 
 inline
@@ -413,5 +413,5 @@ const MFReal32 &ParticlesBase::getTextureZs(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_INLINE_CVSID "@(#)$Id: OSGParticlesBase.inl,v 1.8 2002/03/25 01:25:59 vossg Exp $"
+#define OSGPARTICLESBASE_INLINE_CVSID "@(#)$Id: OSGParticlesBase.inl,v 1.9 2002/05/13 09:21:11 vossg Exp $"
 

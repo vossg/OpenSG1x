@@ -167,9 +167,9 @@ GeometryPtr OSG::makePlaneGeo(Real32 xsize, Real32 ysize,
     {
         for(x = 0; x <= hor; x++)
         {
-            p->addValue(Pnt3f(x * xstep - xsize / 2, y * ystep - ysize / 2, 0));
-            n->addValue(Vec3f(0, 0, 1));
-            tx->addValue(Vec2f(x / (Real32) hor, y / (Real32) vert));
+            p->push_back(Pnt3f(x * xstep - xsize / 2, y * ystep - ysize / 2, 0));
+            n->push_back(Vec3f(0, 0, 1));
+            tx->push_back(Vec2f(x / (Real32) hor, y / (Real32) vert));
         }
     }
 
@@ -189,13 +189,13 @@ GeometryPtr OSG::makePlaneGeo(Real32 xsize, Real32 ysize,
 
     for(y = 0; y < vert; y++)
     {
-        t->addValue(GL_TRIANGLE_STRIP);
-        l->addValue(2 * (hor + 1));
+        t->push_back(GL_TRIANGLE_STRIP);
+        l->push_back(2 * (hor + 1));
         
         for(x = 0; x <= hor; x++)
         {
-            i->addValue((y + 1) * (hor + 1) + x);
-            i->addValue( y      * (hor + 1) + x);
+            i->push_back((y + 1) * (hor + 1) + x);
+            i->push_back( y      * (hor + 1) + x);
         }
     }
 
@@ -213,7 +213,7 @@ GeometryPtr OSG::makePlaneGeo(Real32 xsize, Real32 ysize,
     geo->setNormals(norms);
     geo->setTexCoords(tex);
     geo->setIndices(index);
-    geo->getIndexMapping().addValue(Geometry::MapPosition | 
+    geo->getIndexMapping().push_back(Geometry::MapPosition | 
                                     Geometry::MapNormal   |
                                     Geometry::MapTexcoords);
     geo->setTypes(types);
@@ -372,7 +372,7 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
     
     if(doSide)
     {
-        UInt32 baseindex = p->getSize();
+        UInt32 baseindex = p->size();
         
         for(j = 0; j <= sides; j++)
         {
@@ -380,9 +380,9 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
             x    =  sin(beta);
             z    = -cos(beta);         
 
-            p->addValue(Pnt3f(x * topradius, height/2, z * topradius));
-            n->addValue(Vec3f(x/nlen, incl/nlen, z/nlen));
-            tx->addValue(Vec2f(j / (Real32) sides, 1));
+            p->push_back(Pnt3f(x * topradius, height/2, z * topradius));
+            n->push_back(Vec3f(x/nlen, incl/nlen, z/nlen));
+            tx->push_back(Vec2f(j / (Real32) sides, 1));
         }
         
         for(j = 0; j <= sides; j++)
@@ -391,24 +391,24 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
             x    =  sin(beta);
             z    = -cos(beta);         
 
-            p->addValue(Pnt3f(x * botradius, -height/2, z * botradius));
-            n->addValue(Vec3f(x/nlen, incl/nlen, z/nlen));
-            tx->addValue(Vec2f(j / (Real32) sides, 0));
+            p->push_back(Pnt3f(x * botradius, -height/2, z * botradius));
+            n->push_back(Vec3f(x/nlen, incl/nlen, z/nlen));
+            tx->push_back(Vec2f(j / (Real32) sides, 0));
         }
 
-        t->addValue(GL_TRIANGLE_STRIP);
-        l->addValue(2 * (sides + 1));
+        t->push_back(GL_TRIANGLE_STRIP);
+        l->push_back(2 * (sides + 1));
 
         for(j = 0; j <= sides; j++) 
         {
-                i->addValue(baseindex + sides + 1 + j);
-                i->addValue(baseindex + j);
+                i->push_back(baseindex + sides + 1 + j);
+                i->push_back(baseindex + j);
         }
     }
     
     if(doTop && topradius > 0)
     {
-        UInt32 baseindex = p->getSize();
+        UInt32 baseindex = p->size();
         
         // need to duplicate the points fornow, as we don't have multi-index geo yet
         
@@ -418,23 +418,23 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
             x    =  topradius * cos(beta);
             z    = -topradius * sin(beta);        
 
-            p->addValue(Pnt3f(x, height/2, z));
-            n->addValue(Vec3f(0, 1, 0));
-            tx->addValue(Vec2f(x / topradius / 2 + .5, z / topradius / 2 + .5));
+            p->push_back(Pnt3f(x, height/2, z));
+            n->push_back(Vec3f(0, 1, 0));
+            tx->push_back(Vec2f(x / topradius / 2 + .5, z / topradius / 2 + .5));
         }
 
-        t->addValue(GL_POLYGON);
-        l->addValue(sides);
+        t->push_back(GL_POLYGON);
+        l->push_back(sides);
 
         for(j = 0; j < sides; j++) 
         {
-            i->addValue(baseindex + j);
+            i->push_back(baseindex + j);
         }
     }
     
     if(doBottom && botradius > 0 )
     {
-        UInt32 baseindex = p->getSize();
+        UInt32 baseindex = p->size();
         
         // need to duplicate the points fornow, as we don't have multi-index geo yet
         
@@ -444,17 +444,17 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
             x    = -botradius * cos(beta);
             z    =  botradius * sin(beta);      
 
-            p->addValue(Pnt3f(x, -height/2, z));
-            n->addValue(Vec3f(0, -1, 0));
-            tx->addValue(Vec2f(x / botradius / 2 + .5, z / botradius / 2 + .5));
+            p->push_back(Pnt3f(x, -height/2, z));
+            n->push_back(Vec3f(0, -1, 0));
+            tx->push_back(Vec2f(x / botradius / 2 + .5, z / botradius / 2 + .5));
         }
 
-        t->addValue(GL_POLYGON);
-        l->addValue(sides);
+        t->push_back(GL_POLYGON);
+        l->push_back(sides);
 
         for(j = 0; j < sides; j++) 
         {
-            i->addValue(baseindex + sides - 1 - j);
+            i->push_back(baseindex + sides - 1 - j);
         }
     }
     
@@ -474,7 +474,7 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
     geo->setMaterial(getDefaultMaterial());
     geo->setPositions(pnts);
     geo->setNormals(norms);
-    geo->getIndexMapping().addValue(Geometry::MapPosition | 
+    geo->getIndexMapping().push_back(Geometry::MapPosition | 
                                     Geometry::MapNormal   |
                                     Geometry::MapTexcoords);
     geo->setTexCoords(tex);
@@ -574,13 +574,13 @@ GeometryPtr OSG::makeTorusGeo(Real32 innerRadius, Real32 outerRadius, UInt16 sid
             sinPhi = sin(phi);
             dist   = outerRadius + innerRadius * cosPhi;
 
-            n->addValue(Vec3f(cosTheta * cosPhi, 
+            n->push_back(Vec3f(cosTheta * cosPhi, 
                               -sinTheta * cosPhi, 
                               sinPhi));
-            p->addValue(Pnt3f(cosTheta * dist, 
+            p->push_back(Pnt3f(cosTheta * dist, 
                               -sinTheta * dist, 
                               innerRadius * sinPhi));
-            tx->addValue(Vec2f(- a / (Real32) rings, b / (Real32)sides));
+            tx->push_back(Vec2f(- a / (Real32) rings, b / (Real32)sides));
         }
     }   
 
@@ -600,13 +600,13 @@ GeometryPtr OSG::makeTorusGeo(Real32 innerRadius, Real32 outerRadius, UInt16 sid
 
     for(a = 0; a < sides; a++) 
     {
-        t->addValue(GL_TRIANGLE_STRIP);
-        l->addValue((rings + 1) * 2);
+        t->push_back(GL_TRIANGLE_STRIP);
+        l->push_back((rings + 1) * 2);
         
         for(b = 0; b <= rings; b++)
         {
-            i->addValue(b * (sides+1) + a);
-            i->addValue(b * (sides+1) + a + 1);
+            i->push_back(b * (sides+1) + a);
+            i->push_back(b * (sides+1) + a + 1);
         }
     }
 
@@ -622,7 +622,7 @@ GeometryPtr OSG::makeTorusGeo(Real32 innerRadius, Real32 outerRadius, UInt16 sid
     geo->setMaterial(getDefaultMaterial());
     geo->setPositions(pnts);
     geo->setNormals(norms);
-    geo->getIndexMapping().addValue(Geometry::MapPosition | 
+    geo->getIndexMapping().push_back(Geometry::MapPosition | 
                                     Geometry::MapNormal   |
                                     Geometry::MapTexcoords);
     geo->setTexCoords(tex);
@@ -675,8 +675,8 @@ Real32 setVecLen(Vec3f &vec, Real32 length)
     Vec3f norm((v)[0], (v)[1], (v)[2]);                                    \
                                                                             \
     norm.normalize();                                                       \
-    n->addValue(norm);                                                    \
-    tx->addValue(  Vec2f( osgatan2(-(v)[0], -(v)[2]) / Pi / 2 + .5,     \
+    n->push_back(norm);                                                    \
+    tx->push_back(  Vec2f( osgatan2(-(v)[0], -(v)[2]) / Pi / 2 + .5,     \
                             osgatan2(-(v)[1],                              \
                                               osgsqrt((v)[2] * (v)[2] +    \
                                                        (v)[0] * (v)[0]      \
@@ -684,7 +684,7 @@ Real32 setVecLen(Vec3f &vec, Real32 length)
                                    )                                       \
                                   / Pi /2 + .5                              \
                )       );                                                 \
-    p->addValue(norm * radius);                                           \
+    p->push_back(norm * radius);                                           \
 }
 
     
@@ -700,16 +700,16 @@ static void subdivideTriangle(UInt32 i1,
 {   
     if(depth == 0) 
     {
-        i->addValue(i1);
-        i->addValue(i2);
-        i->addValue(i3);
+        i->push_back(i1);
+        i->push_back(i2);
+        i->push_back(i3);
                             
         return;         
     }
 
-    Pnt3f   v1 = p->getValue(i1), 
-            v2 = p->getValue(i2), 
-            v3 = p->getValue(i3);
+    Pnt3f   v1 = (*p)[i1], 
+            v2 = (*p)[i2], 
+            v3 = (*p)[i3];
     Pnt3f v12, v23, v31;
 
     v12 = v1 + (v2 - v1) * .5;
@@ -800,9 +800,9 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
         setVecLen(pnt, radius);
         norm.normalize();
         //addPoint(pnt, j);
-        p->addValue(pnt);
-        n->addValue(norm);
-        tx->addValue(Vec2f(   osgatan2(-(pnt)[0], -(pnt)[2]) / Pi / 2 + .5,
+        p->push_back(pnt);
+        n->push_back(norm);
+        tx->push_back(Vec2f(   osgatan2(-(pnt)[0], -(pnt)[2]) / Pi / 2 + .5,
                                 osgatan2(-(pnt)[1],
                                               osgsqrt((pnt)[2] * (pnt)[2] +
                                                        (pnt)[0] * (pnt)[0] 
@@ -819,7 +819,7 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
         {
             for(UInt32 c2=0; c2<3; ++c2)
             {
-                i->addValue(tr[c1][c2]);
+                i->push_back(tr[c1][c2]);
             }
         }
     }
@@ -831,8 +831,8 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
                    depth, p, n, tx, i, z, radius);
     }
 
-    types->addValue(GL_TRIANGLES);
-    lens->addValue(i->getSize());
+    types->push_back(GL_TRIANGLES);
+    lens->push_back(i->size());
     
     endEditCP(pnts);
     endEditCP(norms);
@@ -849,7 +849,7 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
     geo->setMaterial(getDefaultMaterial());
     geo->setPositions(pnts);
     geo->setNormals(norms);
-    geo->getIndexMapping().addValue(Geometry::MapPosition | 
+    geo->getIndexMapping().push_back(Geometry::MapPosition | 
                                       Geometry::MapNormal |
                       Geometry::MapTexcoords);
     geo->setTexCoords(tex);
@@ -938,13 +938,13 @@ GeometryPtr OSG::makeLatLongSphereGeo(UInt16 latres, UInt16 longres,
             cosPhi = cos(phi);
             sinPhi = sin(phi);
  
-            n->addValue(Vec3f( cosTheta * sinPhi, 
+            n->push_back(Vec3f( cosTheta * sinPhi, 
                                sinTheta,
                                cosTheta * cosPhi));
-            p->addValue(Pnt3f( cosTheta * sinPhi * radius, 
+            p->push_back(Pnt3f( cosTheta * sinPhi * radius, 
                                sinTheta          * radius, 
                                cosTheta * cosPhi * radius));
-            tx->addValue(Vec2f(b / (Real32)longres, 
+            tx->push_back(Vec2f(b / (Real32)longres, 
                                a / (Real32)latres));
         }
     }   
@@ -965,13 +965,13 @@ GeometryPtr OSG::makeLatLongSphereGeo(UInt16 latres, UInt16 longres,
 
     for(a = 0; a < longres; a++) 
     {
-        t->addValue(GL_TRIANGLE_STRIP);
-        l->addValue((latres + 1) * 2);
+        t->push_back(GL_TRIANGLE_STRIP);
+        l->push_back((latres + 1) * 2);
         
         for(b = 0; b <= latres; b++)
         {
-            i->addValue(b * (longres+1) + a);
-            i->addValue(b * (longres+1) + a + 1);
+            i->push_back(b * (longres+1) + a);
+            i->push_back(b * (longres+1) + a + 1);
         }
     }
 
@@ -987,7 +987,7 @@ GeometryPtr OSG::makeLatLongSphereGeo(UInt16 latres, UInt16 longres,
     geo->setMaterial(getDefaultMaterial());
     geo->setPositions(pnts);
     geo->setNormals(norms);
-    geo->getIndexMapping().addValue(Geometry::MapPosition | 
+    geo->getIndexMapping().push_back(Geometry::MapPosition | 
                                     Geometry::MapNormal   |
                                     Geometry::MapTexcoords);
     geo->setTexCoords(tex);
@@ -1077,12 +1077,12 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
                 pnt[ inds[pl][1] ] = (y * step[inds[pl][1]] - size[inds[pl][1]] / 2) * 
                                         signs[pl][1];
                 pnt[ axis ] = size[ axis ] * asigns[ pl ] / 2;
-                p->addValue(pnt);
+                p->push_back(pnt);
                 
                 Vec3f norm(0, 0, 0);
                 norm[ axis ] = asigns[ pl ];
-                n->addValue(norm);
-                tx->addValue(Vec2f(x / (Real32) res[inds[pl][0]], 
+                n->push_back(norm);
+                tx->push_back(Vec2f(x / (Real32) res[inds[pl][0]], 
                                      y / (Real32) res[inds[pl][1]]));
             }
         }
@@ -1110,13 +1110,13 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
         {
             UInt16 h = UInt16(res[inds[pl][0]]);
             
-            t->addValue(GL_TRIANGLE_STRIP);
-            l->addValue(2 * (h + 1));
+            t->push_back(GL_TRIANGLE_STRIP);
+            l->push_back(2 * (h + 1));
             
             for(x = 0; x <= h; x++)
             {
-                i->addValue(basepoint + (y + 1) * (h + 1) + x);
-                i->addValue(basepoint +   y      * (h + 1) + x);
+                i->push_back(basepoint + (y + 1) * (h + 1) + x);
+                i->push_back(basepoint +   y      * (h + 1) + x);
             }
         }
         basepoint += UInt32((res[inds[pl][0]] + 1.f) * 
@@ -1135,7 +1135,7 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
     geo->setMaterial(getDefaultMaterial());
     geo->setPositions(pnts);
     geo->setNormals(norms);
-    geo->getIndexMapping().addValue(Geometry::MapPosition | 
+    geo->getIndexMapping().push_back(Geometry::MapPosition | 
                                     Geometry::MapNormal |
                                     Geometry::MapTexcoords);
     geo->setTexCoords(tex);

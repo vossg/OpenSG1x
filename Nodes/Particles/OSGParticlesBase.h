@@ -185,13 +185,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
      const bool                &getDynamic        (void) const;
            ParticleBSPTree     &getBsp            (void);
      const ParticleBSPTree     &getBsp            (void) const;
-           Vec3f               &getSizes          (UInt32 index);
+           Vec3f               &getSizes          (const UInt32 index);
            MFVec3f             &getSizes          (void);
      const MFVec3f             &getSizes          (void) const;
-           Int32               &getIndices        (UInt32 index);
+           Int32               &getIndices        (const UInt32 index);
            MFInt32             &getIndices        (void);
      const MFInt32             &getIndices        (void) const;
-           Real32              &getTextureZs      (UInt32 index);
+           Real32              &getTextureZs      (const UInt32 index);
            MFReal32            &getTextureZs      (void);
      const MFReal32            &getTextureZs      (void) const;
 
@@ -337,6 +337,6 @@ typedef ParticlesBase *ParticlesBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: OSGParticlesBase.h,v 1.8 2002/03/25 01:25:59 vossg Exp $"
+#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: OSGParticlesBase.h,v 1.9 2002/05/13 09:21:11 vossg Exp $"
 
 #endif /* _OSGPARTICLESBASE_H_ */

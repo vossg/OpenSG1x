@@ -160,7 +160,7 @@ void Node::addChild(const NodePtr &childP)
             childP->getParent()->subChild(childP);
         }
 
-        _mfChildren.addValue(childP);
+        _mfChildren.push_back(childP);
 
         beginEditCP(childP, Node::ParentFieldMask);
         {
@@ -215,13 +215,13 @@ void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
         addRefCP(childP);
 
         // remove the current child
-        beginEditCP(_mfChildren.getValue(childIndex), Node::ParentFieldMask);
+        beginEditCP(_mfChildren[childIndex], Node::ParentFieldMask);
         {
-            _mfChildren.getValue(childIndex)->setParent(NullNode);
+            _mfChildren[childIndex]->setParent(NullNode);
         }
-        endEditCP  (_mfChildren.getValue(childIndex), Node::ParentFieldMask);
+        endEditCP  (_mfChildren[childIndex], Node::ParentFieldMask);
 
-        subRefCP(_mfChildren.getValue(childIndex));
+        subRefCP(_mfChildren[childIndex]);
 
         // already somebody else's child?
         if(childP->getParent() != NullNode)
@@ -230,7 +230,7 @@ void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
         }
 
         // set the new child
-        _mfChildren.getValue(childIndex) = childP;
+        _mfChildren[childIndex] = childP;
 
         beginEditCP(childP, Node::ParentFieldMask);
         {
@@ -368,7 +368,7 @@ NodePtr Node::getChild(UInt32 childIndex)
 {
     OSG_ASSERT((childIndex < _mfChildren.size()));
 
-    return _mfChildren.getValue(childIndex);
+    return _mfChildren[childIndex];
 }
 
 

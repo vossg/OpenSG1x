@@ -305,9 +305,9 @@ faster; but not well tested code
             ni = geo->calcMappingIndex( Geometry::MapNormal );
 
             if ( ni >= 0 )
-                im.setValue( im.getValue(ni) & ~ Geometry::MapNormal, ni );
+                im[ni] = im[ni] & ~ Geometry::MapNormal;
             if ( pi >= 0 )
-                im.setValue( im.getValue(pi) |   Geometry::MapNormal, pi );
+                im[pi] = im[pi] |   Geometry::MapNormal;
         }
     }
     endEditCP( geo );
@@ -388,16 +388,16 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
     MFUInt16      &im     = geo->getIndexMapping();
     Int16          ni     = geo->calcMappingIndex( Geometry::MapNormal );
     GeoIndicesPtr  ip     = geo->getIndices();
-    UInt32         nind   = ip->getSize() / (im.getSize() ? im.getSize() : 1);
+    UInt32         nind   = ip->size() / (im.size() ? im.size() : 1);
     int            imsize = 0;
-    if(ni < 0 || im.getValue(ni) != Geometry::MapNormal)
+    if(ni < 0 || im[ni] != Geometry::MapNormal)
     {
         // normals need their own index
         if(ni >= 0)
-            im.setValue( im.getValue(ni) & ~Geometry::MapNormal, ni);
+            im[ni] = im[ni] & ~Geometry::MapNormal;
 
         // need to be multi-indexed?
-        if(im.getSize() == 0)
+        if(im.size() == 0)
         {
             UInt32 map = Geometry::MapPosition;
             
@@ -407,14 +407,14 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
             if(geo->getColors()    != NullFC)   
                 map |= Geometry::MapColor;
                 
-            im.addValue( map );           
+            im.push_back( map );           
         }
             
-        ni = im.getSize();
-        im.addValue( Geometry::MapNormal );
+        ni = im.size();
+        im.push_back( Geometry::MapNormal );
         
         // add an entry to the indices for the normals
-		imsize = im.getSize();
+		imsize = im.size();
         
         beginEditCP(ip);
         ip->resize(nind * imsize);
@@ -434,7 +434,7 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
     }
     else // set the normal indices
     {
-        imsize = im.getSize();
+        imsize = im.size();
         beginEditCP(ip);
         for(UInt32 i = 0; i < nind; ++i)
         {
@@ -592,8 +592,8 @@ NodePtr osg::getNormals ( GeometryPtr geo,
         {
             for ( UInt16 k = 0; k < pi.getLength(); k++ )
             {
-                pnts->addValue( pi.getPosition( k ) );
-                pnts->addValue( pi.getPosition( k ) +
+                pnts->push_back( pi.getPosition( k ) );
+                pnts->push_back( pi.getPosition( k ) +
                                 length * pi.getNormal( k ) );
             }
         }
@@ -611,8 +611,8 @@ NodePtr osg::getNormals ( GeometryPtr geo,
             center[1] += pi.getPosition( k )[1];
             center[2] += pi.getPosition( k )[2];
           }
-        pnts->addValue( center );
-        pnts->addValue( center +  length * pi.getNormal( 0 ) );
+        pnts->push_back( center );
+        pnts->push_back( center +  length * pi.getNormal( 0 ) );
       }
     }
 
@@ -621,15 +621,15 @@ NodePtr osg::getNormals ( GeometryPtr geo,
     // create the geometry
     beginEditCP(index);
     for ( UInt32 i = 0; i < pnts->getSize(); i++ )
-        index->addValue( i );
+        index->push_back( i );
     endEditCP(index);
 
     beginEditCP(type);
-    type->addValue( GL_LINES );
+    type->push_back( GL_LINES );
     endEditCP(type);
 
     beginEditCP(lens);
-    lens->addValue( index->getSize() );
+    lens->push_back( index->getSize() );
     endEditCP(lens);
 
     beginEditCP(g);
@@ -999,7 +999,7 @@ Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
         // check for multiindex mapping
         if (indexMap[1])
             for (i = 0; ((i <= 3) && indexMap[i]); i++)
-                geoPtr->getIndexMapping().addValue( indexMap[i] );
+                geoPtr->getIndexMapping().push_back( indexMap[i] );
     }
     osg::endEditCP(geoPtr);
 
@@ -1031,13 +1031,13 @@ Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
         if (sysPType) {
           osg::beginEditCP(lensPtr);
           {
-            lensPtr->addValue(len);
+            lensPtr->push_back(len);
           }
           osg::endEditCP (lensPtr);
 
           osg::beginEditCP (geoTypePtr);
           {
-            geoTypePtr->addValue( sysPType );
+            geoTypePtr->push_back( sysPType );
           }
           osg::endEditCP (geoTypePtr);
         }
@@ -1064,19 +1064,19 @@ Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
                 sysPType = faceSet ? GL_POLYGON : GL_LINE_STRIP;
                 osg::beginEditCP(lensPtr);
                 {
-                  lensPtr->addValue(len);
+                  lensPtr->push_back(len);
                 }
                 osg::endEditCP (lensPtr);
                 osg::beginEditCP (geoTypePtr);
                 {
-                  geoTypePtr->addValue( sysPType );
+                  geoTypePtr->push_back( sysPType );
                 }
                 osg::endEditCP (geoTypePtr);
               }
 
               // add index data
               for (pi = beginIndex; pi != endIndex; pi += step) {
-                indexPtr->addValue(coordIndex[pi]);
+                indexPtr->push_back(coordIndex[pi]);
                 for (mapi = 1; (mapi <= 3) && (indexMap[mapi]); mapi++) {
                   for (typei = 1; typei <= 3; typei++) {
                     if (indexMap[mapi] & indexMapID[typei]) {
@@ -1097,7 +1097,7 @@ Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
                         index = (*indexBag[typei])[primitiveN];
                         break;
                       }
-                      indexPtr->addValue(index);
+                      indexPtr->push_back(index);
                     }
                   }
                 }
@@ -1298,12 +1298,12 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
                           else {
                             osg::beginEditCP(lensPtr);
                             {
-                              lensPtr->addValue(n);
+                              lensPtr->push_back(n);
                             }
                             osg::endEditCP (lensPtr);
                             osg::beginEditCP (geoTypePtr);
                             {
-                              geoTypePtr->addValue( typeVec[t] );
+                              geoTypePtr->push_back( typeVec[t] );
                             }
                             osg::endEditCP (geoTypePtr);
                           }
@@ -1313,12 +1313,12 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
                                 for (k = 0; k < indexMapSize; k++)
                                   {
                                     index = indexDic.entry( primitive[j] )[k];
-                                    indexPtr->addValue ( index );
+                                    indexPtr->push_back ( index );
                                   }
                             }
                           else
                             for (j = 0; j < n; j++)
-                              indexPtr->addValue( primitive[j]);
+                              indexPtr->push_back( primitive[j]);
                         }
                       else
                         break;
@@ -1329,12 +1329,12 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
                 {
                   osg::beginEditCP(lensPtr);
                   {
-                    lensPtr->addValue(triCount * 3);
+                    lensPtr->push_back(triCount * 3);
                   }
                   osg::endEditCP (lensPtr);
                   osg::beginEditCP (geoTypePtr);
                   {
-                    geoTypePtr->addValue( GL_TRIANGLES );
+                    geoTypePtr->push_back( GL_TRIANGLES );
                   }
                   osg::endEditCP (geoTypePtr);
                   triCount = 0;
@@ -1442,9 +1442,9 @@ Int32 osg::createSingleIndex ( GeometryPtr geoPtr )
         {
           indexPtr->clear();
           for (i = 0; i < indexCount; i++)
-            indexPtr->addValue(sIndex[i]);
+            indexPtr->push_back(sIndex[i]);
           geoPtr->getIndexMapping().clear();
-          geoPtr->getIndexMapping().addValue(finalMask);
+          geoPtr->getIndexMapping().push_back(finalMask);
         }
       else 
         {
@@ -1554,19 +1554,19 @@ void osg::calcFaceNormals( GeometryPtr geo )
   if( oldIndex != NullFC )
     {
       //Indexed
-      if( geo->getIndexMapping().getSize() > 0 )
+      if( geo->getIndexMapping().size() > 0 )
     {
       //MULTI INDEXED
       beginEditCP(newIndex);
       MFUInt16 &oldIndexMap = geo->getIndexMapping();
-      UInt32 oldIMSize = oldIndexMap.getSize();
+      UInt32 oldIMSize = oldIndexMap.size();
       for( UInt32 i=0; i<oldIndex->getSize()/oldIMSize; ++i )
         {
           for( UInt32 k=0; k<oldIMSize; ++k )
         {
-          newIndex->addValue( oldIndex->getValue(i*oldIMSize+k) );
+          newIndex->push_back( oldIndex->getValue(i*oldIMSize+k) );
         }
-          newIndex->addValue(0);  //placeholder for normal index
+          newIndex->push_back(0);  //placeholder for normal index
         }
 
       beginEditCP(newNormals);
@@ -1589,7 +1589,7 @@ void osg::calcFaceNormals( GeometryPtr geo )
             }
           normal.normalize();
         }
-          newNormals->addValue( normal ); //put the normal into the storage
+          newNormals->push_back( normal ); //put the normal into the storage
           UInt32 base;
           switch( faceIter.getType() )
         {
@@ -1622,9 +1622,9 @@ void osg::calcFaceNormals( GeometryPtr geo )
       ni = geo->calcMappingIndex( Geometry::MapNormal );
       if ( ni!=-1 )
         {
-          oldIndexMap.setValue( oldIndexMap.getValue(ni) & ~ Geometry::MapNormal, ni );
+          oldIndexMap[ni] = oldIndexMap[ni] & ~ Geometry::MapNormal;
         }
-      oldIndexMap.addValue( Geometry::MapNormal );
+      oldIndexMap.push_back( Geometry::MapNormal );
       geo->setNormals( newNormals );
       geo->setIndices( newIndex );
       endEditCP(geo);
@@ -1709,20 +1709,20 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getFaceNormals(GeometryPtr geo, Real32 len
       center[1] += faceIter.getPosition( i )[1]/faceIter.getLength();
       center[2] += faceIter.getPosition( i )[2]/faceIter.getLength();
     }
-      pnts->addValue( center );
+      pnts->push_back( center );
       switch( faceIter.getType() )
     {
     case GL_TRIANGLE_STRIP:
-      pnts->addValue( center + length * faceIter.getNormal(2) );
+      pnts->push_back( center + length * faceIter.getNormal(2) );
       break;
     case GL_TRIANGLE_FAN:
-      pnts->addValue( center + length * faceIter.getNormal(2) );
+      pnts->push_back( center + length * faceIter.getNormal(2) );
       break;
     case GL_QUAD_STRIP:
-      pnts->addValue( center + length * faceIter.getNormal(3) );
+      pnts->push_back( center + length * faceIter.getNormal(3) );
       break;
     default:
-      pnts->addValue( center + length * faceIter.getNormal(0) );  //does not matter which points normal
+      pnts->push_back( center + length * faceIter.getNormal(0) );  //does not matter which points normal
       break;
     }
     }
@@ -1730,15 +1730,15 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getFaceNormals(GeometryPtr geo, Real32 len
 
   beginEditCP(index);
   for ( UInt32 i = 0; i < pnts->getSize(); i++ )
-    index->addValue( i );
+    index->push_back( i );
   endEditCP(index);
 
   beginEditCP(type);
-  type->addValue( GL_LINES );
+  type->push_back( GL_LINES );
   endEditCP(type);
 
   beginEditCP(lens);
-  lens->addValue( index->getSize() );
+  lens->push_back( index->getSize() );
   endEditCP(lens);
 
   beginEditCP(g);

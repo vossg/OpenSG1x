@@ -46,6 +46,8 @@ ac_gdz_conf_package_gif='0'
 ac_gdz_conf_package_gif_e1='0'
 ac_gdz_conf_package_efence='0'
 ac_gdz_conf_package_efence_e1='0'
+ac_gdz_conf_package_mpatrol='0'
+ac_gdz_conf_package_mpatrol_e1='0'
 ac_gdz_conf_package_myrinet='0'
 ac_gdz_conf_package_myrinet_e1='0'
 ac_gdz_conf_package_freetype1='0'
@@ -54,6 +56,10 @@ ac_gdz_conf_package_freetype1_e1='0'
 ac_gdz_with_add_incdirs=
 ac_gdz_with_add_libdirs=
 ac_gdz_with_add_libs=
+
+ac_gdz_mpatrol_inc_dir_e1=
+ac_gdz_mpatrol_lib_dir_e1=
+ac_gdz_mpatrol_libs_e1=
 
 ac_gdz_test_debug_libs=
 
@@ -65,7 +71,7 @@ AC_ARG_WITH(compiler,[  --with-compiler=<compiler> choose one of the following\
  compilers
         IRIX    : CC
         Windows : icl (==50), icl45, icl50, icl60
-        Linux   : g++,icc],
+        Linux   : g++,icc,g++3],
         echo Compiler : $with_compiler;ac_gdz_compiler=$with_compiler;) 
 
 dnl ############# SUFFIX Settings #####################
@@ -263,6 +269,24 @@ else
 	ac_gdz_efence_dir=$with_efence
 	ac_gdz_conf_package_efence='1'
 	ac_gdz_conf_package_efence_e1='1'
+	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs
+fi
+
+dnl ############# mpatrol Settings #####################
+
+AC_ARG_WITH(mpatrol,     [  --with-mpatrol=DIR                  Use mpatrol lib, if DIR is given use the file from the give directory],
+			,with_mpatrol=no) 
+
+if test "$with_mpatrol" = yes; then
+	ac_gdz_mpatrol_dir=
+	ac_gdz_conf_package_mpatrol'1'
+	ac_gdz_conf_package_mpatrol_e1='1'
+elif test "$with_mpatrol" = no; then
+	ac_gdz_mpatrol_dir=
+else
+	ac_gdz_mpatrol_dir=$with_mpatrol
+	ac_gdz_conf_package_mpatrol='1'
+	ac_gdz_conf_package_mpatrol_e1='1'
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs
 fi
 
@@ -670,11 +694,17 @@ fi
 
 ac_gdz_lib_base_dir=Builds/$build-$ac_gdz_compiler$ac_gdz_suffix
 ac_gdz_commonpackage_dir=$ac_gdz_src_dir/$ac_gdz_lib_base_dir/CommonPackages
+ac_gdz_commonbin=$ac_gdz_src_dir/$ac_gdz_lib_base_dir/bin
 
 if ! test -w $ac_gdz_lib_base_dir; then 
 	echo Need $ac_gdz_lib_base_dir
 	mkdir $ac_gdz_lib_base_dir
     mkdir $ac_gdz_lib_base_dir/CommonPackages
+fi
+
+if ! test -w $ac_gdz_lib_base_dir/bin; then
+    echo Need $ac_gdz_lib_base_dir/bin
+    mkdir $ac_gdz_lib_base_dir/bin
 fi
 
 ac_gdz_common_system=$ac_gdz_commonconf_dir/common.$build-$ac_gdz_compiler_base.in
@@ -733,6 +763,29 @@ else
     ac_gdz_gen_base_inc_e1="../Base"
 fi
 
+if test "$with_patrol" = yes; then
+    echo "not implemented"
+#    if test $build_os = cygwin; then
+#ac_gdz_mpatrol_inc_dir_e1=
+#ac_gdz_mpatrol_lib_dir_e1=
+#ac_gdz_mpatrol_libs_e1=
+#     else
+#           ac_gdz_freetype1_lib_e14='-lfreetype'
+#        fi
+
+elif test -n "$ac_gdz_mpatrol_dir"; then
+    if test $build_os = cygwin; then
+        ac_gdz_mpatrol_inc_dir_e1='"'`cygpath -w $ac_gdz_mpatrol_dirr/include`'"'
+        ac_gdz_mpatrol_lib_dir_e1='"'`cygpath -w $ac_gdz_mpatrol_dir/lib`'"'
+        ac_gdz_mpatrol_libs_e1=#'ttf.lib'
+    else
+        ac_gdz_mpatrol_inc_dir_e1=$ac_gdz_mpatrol_dir/include
+        ac_gdz_mpatrol_lib_dir_e1=$ac_gdz_mpatrol_dir/lib
+        ac_gdz_mpatrol_libs_e1=#'-lttf'
+    fi
+fi
+
+
 ac_gdz_additional_inc_dirs_e1=$ac_gdz_with_add_incdirs
 ac_gdz_additional_lib_dirs_e1=$ac_gdz_with_add_libdirs
 ac_gdz_additional_libs_e1=$ac_gdz_with_add_libs
@@ -785,6 +838,10 @@ AC_SUBST(ac_gdz_conf_package_gl_e1)
 AC_SUBST(ac_gdz_conf_package_glut_e1)
 AC_SUBST(ac_gdz_conf_package_freetype1_e1)
 AC_SUBST(ac_gdz_conf_gvbeta_e1)
+
+AC_SUBST(ac_gdz_mpatrol_inc_dir_e1)
+AC_SUBST(ac_gdz_mpatrol_lib_dir_e1)
+AC_SUBST(ac_gdz_mpatrol_libs_e1)
 
 AC_SUBST_FILE(ac_gdz_common_patterns)
 AC_SUBST_FILE(ac_gdz_common_system)
@@ -889,6 +946,10 @@ else
     AC_DEFINE(OSG_SGI_USE_SPROC)
 fi
 
+if test "$with_patrol" != no; then
+    AC_DEFINE(OSG_USE_MPATROL)
+fi
+
 if test "$enable_win_bool_is_unsigned" = yes; then
     AC_DEFINE(OSG_BOOL_IS_UNSIGNED)
 fi
@@ -950,3 +1011,5 @@ case "$build_os" in
     ;;
 esac
 
+grep '#' config.status | grep configure | grep '\-\-with' | sed -e 's/# //g' > $ac_gdz_commonbin/run_configure
+chmod 755 $ac_gdz_commonbin/run_configure

@@ -240,7 +240,7 @@ VRMLBackground::VRMLBackground(void) :
 {
     Color3f oBlack(0.f, 0.f, 0.f);
 
-    _mfSkyColor.addValue(oBlack);
+    _mfSkyColor.push_back(oBlack);
 }
 
 

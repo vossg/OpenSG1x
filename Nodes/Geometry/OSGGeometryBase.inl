@@ -345,9 +345,9 @@ void GeometryBase::setGLId(const Int32 &value)
 
 
 inline
-UInt16 &GeometryBase::getIndexMapping(UInt32 index)
+UInt16 &GeometryBase::getIndexMapping(const UInt32 index)
 {
-    return _mfIndexMapping.getValue( index );
+    return _mfIndexMapping[index];
 }
 
 inline
@@ -365,5 +365,5 @@ const MFUInt16 &GeometryBase::getIndexMapping(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGGEOMETRYBASE_INLINE_CVSID "@(#)$Id: OSGGeometryBase.inl,v 1.14 2002/03/25 01:25:58 vossg Exp $"
+#define OSGGEOMETRYBASE_INLINE_CVSID "@(#)$Id: OSGGeometryBase.inl,v 1.15 2002/05/13 09:21:10 vossg Exp $"
 

@@ -107,7 +107,7 @@ Action::ResultE DistanceLOD::draw(Action *action)
     DrawActionBase *da        = dynamic_cast<DrawActionBase *>(action);
 
     UInt32          numLevels = action->getNNodes();
-    UInt32          numRanges = getMFRange()->getSize();
+    UInt32          numRanges = getMFRange()->size();
 
     UInt32          limit     = osgMin(numLevels, numRanges); 
     
@@ -129,11 +129,11 @@ Action::ResultE DistanceLOD::draw(Action *action)
     
     if(numRanges != 0)
     {
-        if(dist < getMFRange()->getValue(0))
+        if(dist < (*(getMFRange()))[0])
         {
             index = 0;
         } 
-        else if(dist >= getMFRange()->getValue(numRanges-1))
+        else if(dist >= (*(getMFRange()))[numRanges-1])
         {
             index =  limit-1;
         }
@@ -142,8 +142,8 @@ Action::ResultE DistanceLOD::draw(Action *action)
             UInt32 i = 1;
 
             while( (i < numRanges) && 
-                  !( (getMFRange()->getValue(i-1) <= dist) && 
-                     (dist < getMFRange()->getValue(i)   )   ) )
+                  !( ((*(getMFRange()))[i-1] <= dist) && 
+                     (dist < (*(getMFRange()))[i]   )   ) )
             {
                 i++;
             }
@@ -196,7 +196,7 @@ void DistanceLOD::initMethod (void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.19 2002/04/30 09:29:11 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.20 2002/05/13 09:21:10 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGDISTANCELOD_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGDISTANCELOD_INLINE_CVSID;
 }

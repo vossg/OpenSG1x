@@ -256,13 +256,13 @@ void VRMLInlineBinder::finish(VRMLToOSGAction *pAction)
     if(pNode == NULL)
         return;
 
-    if(pNode->getMFUrl()->getValue(0).empty() == true)
+    if((*(pNode->getMFUrl()))[0].empty() == true)
         return;
 
 
     VRMLLoader *pFile = new VRMLLoader;
 
-    pFile->scanFile(pNode->getMFUrl()->getValue(0).c_str(), 0);
+    pFile->scanFile((*(pNode->getMFUrl()))[0].c_str(), 0);
 
     VRMLToOSGAction aVRMLToOSG;
 

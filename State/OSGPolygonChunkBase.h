@@ -180,7 +180,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
      const bool                &getOffsetLine     (void) const;
            bool                &getOffsetFill     (void);
      const bool                &getOffsetFill     (void) const;
-           Int32               &getStipple        (UInt32 index);
+           Int32               &getStipple        (const UInt32 index);
            MFInt32             &getStipple        (void);
      const MFInt32             &getStipple        (void) const;
 
@@ -302,6 +302,6 @@ typedef PolygonChunkBase *PolygonChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.20 2002/03/25 01:25:59 vossg Exp $"
+#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.21 2002/05/13 09:21:11 vossg Exp $"
 
 #endif /* _OSGPOLYGONCHUNKBASE_H_ */

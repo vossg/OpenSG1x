@@ -259,7 +259,7 @@ void VRMLLoader::setNodeValue(VRMLNode *pNewNode)
 
             if(pMField != NULL)
             {
-                pMField->addValue(pNewNode);
+                pMField->push_back(pNewNode);
             }
         }
     }

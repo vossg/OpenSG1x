@@ -429,7 +429,7 @@ typename GeoProperty<GeoPropertyDesc>::StoredGenericType
     GeoProperty<GeoPropertyDesc>::getValue(const UInt32 index)
 {
 //CHECKCHECK do conversion constructor iff necessary
-    return StoredGenericType(_field.getValue( index ));
+    return StoredGenericType(_field[index]);
 }
 
 template <class GeoPropertyDesc> inline 
@@ -437,14 +437,14 @@ typename GeoProperty<GeoPropertyDesc>::StoredGenericType
     GeoProperty<GeoPropertyDesc>::getValue(const UInt32 index) const
 {
 //CHECKCHECK do conversion constructor iff necessary
-    return StoredGenericType(_field.getValue( index ));
+    return StoredGenericType(_field[index]);
 }
 
 template <class GeoPropertyDesc> inline 
 void GeoProperty<GeoPropertyDesc>::getValue(      StoredGenericType &val,
                                             const UInt32             index)
 {
-    new (&val) StoredGenericType(_field.getValue( index ));
+    new (&val) StoredGenericType(_field[index]);
 }
 
 
@@ -453,7 +453,7 @@ void GeoProperty<GeoPropertyDesc>::getValue(
           StoredGenericType &val,
     const UInt32             index) const
 {
-    new (&val) StoredGenericType(_field.getValue( index ));
+    new (&val) StoredGenericType(_field[index]);
 }
 
 template <class GeoPropertyDesc> inline 
@@ -461,14 +461,14 @@ void GeoProperty<GeoPropertyDesc>::setValue(const StoredGenericType &value,
                                             const UInt32             index)
 {
 //CHECKCHECK do conversion constructor iff necessary
-    _field.setValue( StoredType(value), index );
+    _field[index] = StoredType(value);
 }
 
 template <class GeoPropertyDesc> inline 
 void GeoProperty<GeoPropertyDesc>::addValue(const StoredGenericType & value)
 {
 //CHECKCHECK do conversion constructor iff necessary
-    _field.addValue( StoredType(value) );
+    _field.push_back( StoredType(value) );
 }
 
 template <class GeoPropertyDesc> inline
@@ -481,13 +481,13 @@ template <class GeoPropertyDesc> inline
 void GeoProperty<GeoPropertyDesc>::push_back(
     const StoredGenericType &value)
 {
-    addValue( value );
+    addValue(value);
 }
 
 template <class GeoPropertyDesc> inline
 void GeoProperty<GeoPropertyDesc>::resize( size_t newsize )
 {
-    _field.resize( newsize );
+    _field.resize(newsize);
 }
 
 template <class GeoPropertyDesc> inline

@@ -120,7 +120,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateBase : public FieldContainer
 
            MFStateChunkPtr     *getMFChunks         (void);
 
-           StateChunkPtr       &getChunks         (UInt32 index);
+           StateChunkPtr       &getChunks         (const UInt32 index);
            MFStateChunkPtr     &getChunks         (void);
      const MFStateChunkPtr     &getChunks         (void) const;
 
@@ -222,6 +222,6 @@ typedef StateBase *StateBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: OSGStateBase.h,v 1.19 2002/03/25 01:25:59 vossg Exp $"
+#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: OSGStateBase.h,v 1.20 2002/05/13 09:21:11 vossg Exp $"
 
 #endif /* _OSGSTATEBASE_H_ */

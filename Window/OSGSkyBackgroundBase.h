@@ -174,16 +174,16 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
      const TextureChunkPtr     &getRightTexture   (void) const;
            TextureChunkPtr     &getTopTexture     (void);
      const TextureChunkPtr     &getTopTexture     (void) const;
-           Color3f             &getSkyColor       (UInt32 index);
+           Color3f             &getSkyColor       (const UInt32 index);
            MFColor3f           &getSkyColor       (void);
      const MFColor3f           &getSkyColor       (void) const;
-           Real32              &getSkyAngle       (UInt32 index);
+           Real32              &getSkyAngle       (const UInt32 index);
            MFReal32            &getSkyAngle       (void);
      const MFReal32            &getSkyAngle       (void) const;
-           Color3f             &getGroundColor    (UInt32 index);
+           Color3f             &getGroundColor    (const UInt32 index);
            MFColor3f           &getGroundColor    (void);
      const MFColor3f           &getGroundColor    (void) const;
-           Real32              &getGroundAngle    (UInt32 index);
+           Real32              &getGroundAngle    (const UInt32 index);
            MFReal32            &getGroundAngle    (void);
      const MFReal32            &getGroundAngle    (void) const;
 
@@ -302,6 +302,6 @@ typedef SkyBackgroundBase *SkyBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSKYBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSkyBackgroundBase.h,v 1.3 2002/03/25 01:26:00 vossg Exp $"
+#define OSGSKYBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSkyBackgroundBase.h,v 1.4 2002/05/13 09:21:11 vossg Exp $"
 
 #endif /* _OSGSKYBACKGROUNDBASE_H_ */

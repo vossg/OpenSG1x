@@ -243,7 +243,7 @@ void Viewport::draw( DrawAction * action )
 
     action->apply( getRoot() );
 
-    for ( UInt16 i=0; i < getForegrounds().getSize(); i++ )
+    for ( UInt16 i=0; i < getForegrounds().size(); i++ )
         getForegrounds( i )->draw( action, this );
 
     if ( ! full )
@@ -295,7 +295,7 @@ fprintf(stderr,"%p: node 0x%p startrender\n", Thread::getCurrent(),
 */
     action->apply( getRoot() );
 
-    for(UInt16 i=0; i < getForegrounds().getSize(); i++)
+    for(UInt16 i=0; i < getForegrounds().size(); i++)
         getForegrounds(i)->draw(action, this);
 
 /*

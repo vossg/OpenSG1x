@@ -105,9 +105,9 @@ MFStateChunkPtr *ChunkMaterialBase::getMFChunks(void)
 
 
 inline
-StateChunkPtr &ChunkMaterialBase::getChunks(UInt32 index)
+StateChunkPtr &ChunkMaterialBase::getChunks(const UInt32 index)
 {
-    return _mfChunks.getValue( index );
+    return _mfChunks[index];
 }
 
 inline
@@ -125,5 +125,5 @@ const MFStateChunkPtr &ChunkMaterialBase::getChunks(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGCHUNKMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGChunkMaterialBase.inl,v 1.9 2002/03/25 01:25:58 vossg Exp $"
+#define OSGCHUNKMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGChunkMaterialBase.inl,v 1.10 2002/05/13 09:21:10 vossg Exp $"
 

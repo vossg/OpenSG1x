@@ -201,7 +201,7 @@ void NodeCore::onDestroy(void)
 
 void NodeCore::addParent(const NodePtr &parent)
 {
-    _parents.addValue(parent);
+    _parents.push_back(parent);
 }
 
 void NodeCore::subParent(const NodePtr &parent)

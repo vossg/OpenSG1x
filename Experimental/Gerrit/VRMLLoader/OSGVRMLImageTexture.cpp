@@ -255,7 +255,7 @@ void VRMLImageTextureBinder::init(VRMLToOSGAction *)
     if(pNode == NULL)
         return;
 
-    if(pNode->getMFUrl()->getValue(0).c_str() == NULL)
+    if((*(pNode->getMFUrl()))[0].c_str() == NULL)
         return;
 
     TextureChunkPtr  pTexture = TextureChunk::create();
@@ -263,7 +263,7 @@ void VRMLImageTextureBinder::init(VRMLToOSGAction *)
     Image           *pImage   = new Image();
 
 
-    if(pImage->read(pNode->getMFUrl()->getValue(0).c_str()))
+    if(pImage->read((*(pNode->getMFUrl()))[0].c_str()))
     {
         beginEditCP(pTexture);
         {

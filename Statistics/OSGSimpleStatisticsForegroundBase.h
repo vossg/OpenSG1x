@@ -132,7 +132,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
      const Real32              &getSize           (void) const;
            Color4f             &getColor          (void);
      const Color4f             &getColor          (void) const;
-           string              &getFormats        (UInt32 index);
+           string              &getFormats        (const UInt32 index);
            MFString            &getFormats        (void);
      const MFString            &getFormats        (void) const;
 
@@ -238,6 +238,6 @@ typedef SimpleStatisticsForegroundBase *SimpleStatisticsForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLESTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSimpleStatisticsForegroundBase.h,v 1.2 2002/03/25 01:26:00 vossg Exp $"
+#define OSGSIMPLESTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSimpleStatisticsForegroundBase.h,v 1.3 2002/05/13 09:21:11 vossg Exp $"
 
 #endif /* _OSGSIMPLESTATISTICSFOREGROUNDBASE_H_ */

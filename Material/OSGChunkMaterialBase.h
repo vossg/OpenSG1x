@@ -120,7 +120,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterialBase : public Material
 
            MFStateChunkPtr     *getMFChunks         (void);
 
-           StateChunkPtr       &getChunks         (UInt32 index);
+           StateChunkPtr       &getChunks         (const UInt32 index);
            MFStateChunkPtr     &getChunks         (void);
      const MFStateChunkPtr     &getChunks         (void) const;
 
@@ -222,6 +222,6 @@ typedef ChunkMaterialBase *ChunkMaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCHUNKMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGChunkMaterialBase.h,v 1.18 2002/03/25 01:25:58 vossg Exp $"
+#define OSGCHUNKMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGChunkMaterialBase.h,v 1.19 2002/05/13 09:21:10 vossg Exp $"
 
 #endif /* _OSGCHUNKMATERIALBASE_H_ */

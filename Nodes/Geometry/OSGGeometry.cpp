@@ -481,19 +481,19 @@ Int16  Geometry::calcMappingIndex( UInt16 attrib ) const
 */
 bool Geometry::isMergeable( const GeometryPtr other )
 {
-    if ( getMaterial()               != other->getMaterial()              ||
-         getIndexMapping().getSize() != other->getIndexMapping().getSize()  )
+    if ( getMaterial()            != other->getMaterial()            ||
+         getIndexMapping().size() != other->getIndexMapping().size()  )
         return false;
     
     UInt16 i;
     
     // this could be better if resorting was checked too. later.
-    for ( i=0; i < getIndexMapping().getSize(); i++ )
+    for ( i=0; i < getIndexMapping().size(); i++ )
         if ( getIndexMapping()[i] != other->getIndexMapping()[i] )
             return false;
     
     // if no index mapping, compare the existing properties
-    if ( ! getIndexMapping().getSize() )
+    if ( ! getIndexMapping().size() )
     {
         if ( ( (        getNormals()   != NullFC ) ^
                ( other->getNormals()   != NullFC ) 
@@ -574,16 +574,16 @@ bool Geometry::merge( const GeometryPtr other )
         beginEditCP( ind );
         
         // single index?
-        if ( getIndexMapping().getSize() < 2 )
+        if ( getIndexMapping().size() < 2 )
         {
             for ( i = 0; i < oind->getSize(); i++ )
                 ind->setValue( oind->getValue(i) + posBase, indBase + i );          
         }
         else // multi-index
         {
-            UInt32 * offsets = new UInt32 [ getIndexMapping().getSize() ];
+            UInt32 * offsets = new UInt32 [ getIndexMapping().size() ];
             Int16 mind;
-            UInt16 nmap = getIndexMapping().getSize();
+            UInt16 nmap = getIndexMapping().size();
             UInt16 j;
             
             // should do a sanity check if they're the same for everything

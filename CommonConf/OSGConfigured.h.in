@@ -56,6 +56,12 @@
 #   endif
 #endif
 
+#undef OSG_USE_MPATROL
+
+#if defined(OSG_USE_MPATROL)
+#define MP_NONEWDELETE 1
+#include <mpatrol.h>
+#endif
 
 #endif
 

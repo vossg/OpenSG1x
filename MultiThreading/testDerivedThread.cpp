@@ -32,6 +32,8 @@ class MyThread : public Thread
 
   public:
 
+    UInt32 _uiThreadId;
+
     static MyThread *get (Char8 *szName);
     static MyThread *find(Char8 *szName);
 };
@@ -59,10 +61,12 @@ void MyThread::workProc(void)
 {
     fprintf(stderr, "Enter WorkProc\n");
 
-    for(UInt32 i = 0; i < 10; ++i)
+//    for(UInt32 i = 0; i < 10; ++i)
+    while(1)
     {
-        fprintf(stderr, "Processing step %u, aspect %u\n",
-                i,
+        fprintf(stderr, "%u Processing step, aspect %u\n",
+                _uiThreadId,
+//                i,
                 OSG::Thread::getAspect());
         osgsleep(100);
     }
@@ -93,17 +97,58 @@ int main(int argc, char **argv)
 
     fprintf(stderr, "Derived Thread Test Started\n");
     
-    OSG::MyThread *pThread = OSG::MyThread::get("My1");
+    OSG::MyThread *pThread1 = OSG::MyThread::get("My1");
+    OSG::MyThread *pThread2 = OSG::MyThread::get("My2");
+    OSG::MyThread *pThread3 = OSG::MyThread::get("My3");
+    OSG::MyThread *pThread4 = OSG::MyThread::get("My4");
 
-    if(pThread == NULL)
+    if(pThread1 == NULL || 
+       pThread2 == NULL || 
+       pThread3 == NULL || 
+       pThread4 == NULL  )
     {
         fprintf(stderr, "Could not create thread\n");
         return 0;
     }
 
-    pThread->run(1);
+    pThread1->_uiThreadId = 1;
+    pThread1->run(1);
 
-    OSG::Thread::join(pThread);
+    pThread2->_uiThreadId = 2;
+    pThread2->run(1);
+
+    pThread3->_uiThreadId = 3;
+    pThread3->run(1);
+
+    pThread4->_uiThreadId = 4;
+    pThread4->run(1);
+
+
+
+    OSG::osgsleep(5000);
+    fprintf(stderr, "Kill 1\n");
+    pThread1->kill();
+
+    OSG::Thread::join(pThread1);
+
+    OSG::osgsleep(5000);
+
+    fprintf(stderr, "TERM 2\n");
+    pThread2->terminate();
+
+    OSG::Thread::join(pThread2);
+
+    OSG::osgsleep(5000);
+    fprintf(stderr, "Kill 3\n");
+    pThread3->kill();
+
+    OSG::Thread::join(pThread3);
+
+    OSG::osgsleep(5000);
+    fprintf(stderr, "TERM 4\n");
+    pThread4->terminate();
+
+    OSG::Thread::join(pThread4);
 
     fprintf(stderr, "Derived Thread Test Finished\n");
 

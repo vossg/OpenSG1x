@@ -67,6 +67,8 @@ class VRMLNode;
 template <>
 struct OSG_VRML_DLLMAPPING FieldDataTraits<VRMLNode *>// : public TypeTraits
 {
+    typedef VRMLNode *ArgumentType;
+
     enum
     {
         StringConvertable = 0x00

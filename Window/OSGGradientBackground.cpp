@@ -79,7 +79,7 @@ A background showing a vertical color gradient. The colors and positions corresp
  *                           Class variables                               *
 \***************************************************************************/
 
-char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.16 2002/02/26 06:10:15 vossg Exp $";
+char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.17 2002/05/13 09:21:11 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -159,11 +159,11 @@ void GradientBackground::changed(BitVector, ChangeMode)
 void GradientBackground::clear(DrawActionBase *, Viewport *)
 {
 
-    if (_mfPosition.getSize() < 2)
+    if (_mfPosition.size() < 2)
     {
-        if (_mfPosition.getSize() == 1)
+        if (_mfPosition.size() == 1)
         {
-            Color3f col = _mfColor.getValue( 0 );
+            Color3f col = _mfColor[0];
             Real32 r, g, b;
             col.getValuesRGB(r, g, b);
             glClearColor( r, g, b, 1);
@@ -200,11 +200,11 @@ void GradientBackground::clear(DrawActionBase *, Viewport *)
         glOrtho(0, 1, 0, 1, 0, 1);
 
         Real32 r1, g1, b1;
-        UInt32 size = _mfPosition.getSize();
+        UInt32 size = _mfPosition.size();
 
         glBegin( GL_QUAD_STRIP );
         
-        Real32 pos = _mfPosition.getValue(0);
+        Real32 pos = _mfPosition[0];
         if ( pos > 0 ) 
         {
             glColor3f( 0.0, 0.0, 0.0);
@@ -214,9 +214,9 @@ void GradientBackground::clear(DrawActionBase *, Viewport *)
 
         for( UInt32 i = 0; i < size; i++)
         {
-            pos = _mfPosition.getValue(i);
+            pos = _mfPosition[i];
 
-            Color3f col1 = _mfColor.getValue(i);
+            Color3f col1 = _mfColor[i];
             col1.getValuesRGB(r1, g1, b1);
 
             glColor3f( r1, g1, b1);

@@ -147,7 +147,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ProjectionCameraDecoratorBase : public StereoCame
      const Real32              &getWidth          (void) const;
            Real32              &getHeight         (void);
      const Real32              &getHeight         (void) const;
-           Pnt3f               &getSurface        (UInt32 index);
+           Pnt3f               &getSurface        (const UInt32 index);
            MFPnt3f             &getSurface        (void);
      const MFPnt3f             &getSurface        (void) const;
 
@@ -283,6 +283,6 @@ typedef ProjectionCameraDecoratorBase *ProjectionCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPROJECTIONCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGProjectionCameraDecoratorBase.h,v 1.2 2002/03/25 01:26:00 vossg Exp $"
+#define OSGPROJECTIONCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGProjectionCameraDecoratorBase.h,v 1.3 2002/05/13 09:21:11 vossg Exp $"
 
 #endif /* _OSGPROJECTIONCAMERADECORATORBASE_H_ */

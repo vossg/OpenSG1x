@@ -221,7 +221,7 @@ void Window::addPort(const ViewportPtr &portP)
 {
     if(portP != NullFC)
     {
-        _mfPort.addValue(portP);
+        _mfPort.push_back(portP);
 // CHECK CHECK
 //        _mfPort.back()->setParent(FieldContainer::getPtr<WindowPtr>(*this));
         _mfPort.back()->setParent(WindowPtr(*this));
@@ -249,12 +249,12 @@ void Window::replacePort(UInt32 portIndex, const ViewportPtr &portP)
 {
     if(portP != NullFC)
     {
-        _mfPort.getValue(portIndex)->setParent(NullFC);
-        _mfPort.getValue(portIndex) = portP;
+        _mfPort[portIndex]->setParent(NullFC);
+        _mfPort[portIndex] = portP;
 // CHECK CHECK
 //        _mfPort.getValue(portIndex)->setParent(
 //            FieldContainer::getPtr<WindowPtr>(*this));
-        _mfPort.getValue(portIndex)->setParent(
+        _mfPort[portIndex]->setParent(
             WindowPtr(*this));
     }
 }
@@ -531,8 +531,8 @@ void Window::doInitRegisterGLObject(UInt32 id, UInt32 num)
 
     for(UInt32 i = id; i < id + num; ++i)
     {
-        _mfGlObjectLastReinitialize.setValue(0, i);
-        _mfGlObjectLastRefresh.setValue(0, i);
+        _mfGlObjectLastReinitialize[i] = 0;
+        _mfGlObjectLastRefresh     [i] = 0;
         _lastValidate[i] = 0;
    }
 
@@ -607,7 +607,7 @@ void Window::frameExit(void)
 
         UInt32 rc = _glObjects[ i ]->getRefCounter();
 
-        if(getGlObjectLastReinitialize().getValue(i) != 0) 
+        if(getGlObjectLastReinitialize()[i] != 0) 
         {                  
             _glObjects[i]->getFunctor().call( this, packIdStatus(i, destroy));
 

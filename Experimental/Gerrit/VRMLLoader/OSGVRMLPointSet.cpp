@@ -345,13 +345,13 @@ void VRMLPointSetBinder::finish(VRMLToOSGAction *pAction)
 
     beginEditCP(pLengths);
     {
-        pLenField->addValue(pCoords->getFieldPtr()->size());
+        pLenField->push_back(pCoords->getFieldPtr()->size());
     }
     endEditCP  (pLengths);
 
     beginEditCP(pTypes);
     {
-        pTypes->addValue(GL_POINTS);
+        pTypes->push_back(GL_POINTS);
     }
     endEditCP  (pTypes);
 

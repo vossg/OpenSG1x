@@ -135,7 +135,7 @@ MFFieldContainerPtr *Attachment::getMFParents(void)
 
 void Attachment::addParent(FieldContainerPtr parent)
 {
-    _parents.addValue(parent);
+    _parents.push_back(parent);
 }
 
 void Attachment::subParent(FieldContainerPtr parent)

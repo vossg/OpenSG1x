@@ -282,11 +282,10 @@ void BINWriter::doIndexFC(FieldContainerPtr fieldConPtr)
                 { 
 					UInt32 j;
                     for(j = 0;
-                        j < ((MFFieldContainerPtr*)fieldPtr)->getSize();
+                        j < ((MFFieldContainerPtr*)fieldPtr)->size();
                         ++j)
                     { 
-						doIndexFC(((MFFieldContainerPtr*)fieldPtr)
-								   ->getValue(j));
+						doIndexFC((*(((MFFieldContainerPtr*)fieldPtr)))[j]);
                     }
 
                 }
@@ -326,7 +325,7 @@ void BINWriter::doIndexFC(FieldContainerPtr fieldConPtr)
 
         // ignore empty mfields
         if(fieldPtr->getCardinality() == FieldType::MULTI_FIELD &&
-           fieldPtr->getSize() == 0)
+           fieldPtr->isEmpty() == true)
         {
             continue;
         }

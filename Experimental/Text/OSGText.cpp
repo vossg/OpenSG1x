@@ -882,15 +882,15 @@ bool Text::fillGeo(Geometry & mesh, vector<string> &lineVec,
         if(creationMode == FILL_TEX_CHAR_MCM ||
                    creationMode == FILL_TEX_ALL_MCM)
         {
-            mesh.getIndexMapping().addValue(Geometry::MapPosition | 
-                                            Geometry::MapTexcoords);
+            mesh.getIndexMapping().push_back(Geometry::MapPosition | 
+                                             Geometry::MapTexcoords);
         }
         else
         {
-            mesh.getIndexMapping().addValue(Geometry::MapPosition);
+            mesh.getIndexMapping().push_back(Geometry::MapPosition);
         }
 
-        mesh.getIndexMapping().addValue(Geometry::MapNormal);
+        mesh.getIndexMapping().push_back(Geometry::MapNormal);
 
         if(creationMode == FILL_TEX_CHAR_MCM ||
                    creationMode == FILL_TEX_ALL_MCM)

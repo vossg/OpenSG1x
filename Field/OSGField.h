@@ -96,7 +96,7 @@ class OSG_BASE_DLLMAPPING Field
 
                   FieldType::Cardinality  getCardinality(void) const;
 
-    virtual       UInt32                  getSize       (void) const = 0;
+    virtual       bool                    isEmpty       (void) const = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

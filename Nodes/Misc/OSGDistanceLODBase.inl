@@ -129,9 +129,9 @@ void DistanceLODBase::setCenter(const Pnt3f &value)
 
 
 inline
-Real32 &DistanceLODBase::getRange(UInt32 index)
+Real32 &DistanceLODBase::getRange(const UInt32 index)
 {
-    return _mfRange.getValue( index );
+    return _mfRange[index];
 }
 
 inline
@@ -149,5 +149,5 @@ const MFReal32 &DistanceLODBase::getRange(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGDISTANCELODBASE_INLINE_CVSID "@(#)$Id: OSGDistanceLODBase.inl,v 1.7 2002/03/25 01:25:59 vossg Exp $"
+#define OSGDISTANCELODBASE_INLINE_CVSID "@(#)$Id: OSGDistanceLODBase.inl,v 1.8 2002/05/13 09:21:10 vossg Exp $"
 

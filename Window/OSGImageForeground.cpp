@@ -78,7 +78,7 @@ Background is the base class for all background clearing.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ImageForeground::cvsid[] = "@(#)$Id: OSGImageForeground.cpp,v 1.9 2002/03/19 18:15:49 dirk Exp $";
+char ImageForeground::cvsid[] = "@(#)$Id: OSGImageForeground.cpp,v 1.10 2002/05/13 09:21:11 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -172,13 +172,13 @@ void ImageForeground::draw(DrawActionBase *, Viewport *)
 {
     UInt16 i;
     
-    for(i = 0; i < getPositions().getSize(); i++)
+    for(i = 0; i < getPositions().size(); i++)
     {
         if(getImages(i) != NULL)
             break;;
     }
     
-    if(i == getPositions().getSize())   // all images == NULL?
+    if(i == getPositions().size())   // all images == NULL?
         return; 
         
     bool light = glIsEnabled(GL_LIGHTING);
@@ -208,7 +208,7 @@ void ImageForeground::draw(DrawActionBase *, Viewport *)
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     glEnable( GL_BLEND );
 
-    for(i = 0; i < getPositions().getSize(); i++)
+    for(i = 0; i < getPositions().size(); i++)
     {
         ImageP img = getImages( i );
 

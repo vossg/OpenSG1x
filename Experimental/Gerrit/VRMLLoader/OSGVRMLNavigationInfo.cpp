@@ -177,13 +177,13 @@ VRMLNavigationInfo::VRMLNavigationInfo(void) :
     _mfType           (),
     _sfVisibilityLimit(0.0f)
 {
-    _mfAvatarSize.addValue(0.25f);
-    _mfAvatarSize.addValue(1.60f);
-    _mfAvatarSize.addValue(0.75f);
+    _mfAvatarSize.push_back(0.25f);
+    _mfAvatarSize.push_back(1.60f);
+    _mfAvatarSize.push_back(0.75f);
 
     string szType("WALK");
 
-    _mfType.addValue(szType);
+    _mfType.push_back(szType);
 }
 
 

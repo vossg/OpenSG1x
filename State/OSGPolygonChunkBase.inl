@@ -345,9 +345,9 @@ void PolygonChunkBase::setOffsetFill(const bool &value)
 
 
 inline
-Int32 &PolygonChunkBase::getStipple(UInt32 index)
+Int32 &PolygonChunkBase::getStipple(const UInt32 index)
 {
-    return _mfStipple.getValue( index );
+    return _mfStipple[index];
 }
 
 inline
@@ -365,5 +365,5 @@ const MFInt32 &PolygonChunkBase::getStipple(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGPolygonChunkBase.inl,v 1.12 2002/03/25 01:25:59 vossg Exp $"
+#define OSGPOLYGONCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGPolygonChunkBase.inl,v 1.13 2002/05/13 09:21:11 vossg Exp $"
 

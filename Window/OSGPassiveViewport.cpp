@@ -147,7 +147,7 @@ void PassiveViewport::draw( DrawAction * action )
 
     action->apply( getRoot() );
 
-    for ( UInt16 i=0; i < getForegrounds().getSize(); i++ )
+    for ( UInt16 i=0; i < getForegrounds().size(); i++ )
         getForegrounds( i )->draw( action, this );
 
     glDisable( GL_SCISSOR_TEST );
@@ -203,7 +203,7 @@ void PassiveViewport::render( RenderAction * action )
 
     action->apply( getRoot() );
 
-    for(UInt16 i=0; i < getForegrounds().getSize(); i++)
+    for(UInt16 i=0; i < getForegrounds().size(); i++)
         getForegrounds(i)->draw(action, this);
 
 /*
@@ -226,7 +226,7 @@ void PassiveViewport::render( RenderAction * action )
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveViewport.cpp,v 1.3 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveViewport.cpp,v 1.4 2002/05/13 09:21:11 vossg Exp $";
     static char cvsid_hpp[] = OSGPASSIVEVIEWPORT_HEADER_CVSID;
     static char cvsid_inl[] = OSGPASSIVEVIEWPORT_INLINE_CVSID;
 }

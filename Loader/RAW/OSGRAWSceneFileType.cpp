@@ -159,7 +159,7 @@ NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
             if (in.eof())
                 break;
             else {
-                points->getFieldPtr()->addValue( Pnt3f ( x, y, z) );
+                points->getFieldPtr()->push_back( Pnt3f ( x, y, z) );
                 vec[i].setValues(x,y,z);
                 if (i == 2) {
                     vec[0] -= vec[1];
@@ -167,9 +167,9 @@ NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
                     vec[0].crossThis(vec[1]);
                     vec[0].normalize();
 
-                    normals->getFieldPtr()->addValue ( vec[0] );
-                    normals->getFieldPtr()->addValue ( vec[0] );
-                    normals->getFieldPtr()->addValue ( vec[0] );
+                    normals->getFieldPtr()->push_back ( vec[0] );
+                    normals->getFieldPtr()->push_back ( vec[0] );
+                    normals->getFieldPtr()->push_back ( vec[0] );
 
                     i = 0;
                     triCount++;
@@ -190,20 +190,20 @@ NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
             beginEditCP(index, FieldBits::AllFields);
             n = triCount * 3;
             for (i = 0; i < n; i++)
-                index->getFieldPtr()->addValue( i );
+                index->getFieldPtr()->push_back( i );
             endEditCP(index, FieldBits::AllFields);
 
 
             lens = GeoPLengthsUI32::create();
             geo->setLengths( lens );
             beginEditCP(lens, FieldBits::AllFields);
-            lens->addValue( n );
+            lens->push_back( n );
             endEditCP(lens, FieldBits::AllFields);
 
             type = GeoPTypesUI8::create();
             geo->setTypes( type );
             beginEditCP(type, FieldBits::AllFields);
-            type->addValue( GL_TRIANGLES );
+            type->push_back( GL_TRIANGLES );
             endEditCP(type, FieldBits::AllFields);
         }
 
@@ -397,7 +397,7 @@ RAWSceneFileType::~RAWSceneFileType (void )
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.13 2002/04/30 09:29:09 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.14 2002/05/13 09:21:09 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGRAWSCENEFILETYPE_HEADER_CVSID;
 }
 

@@ -188,16 +188,16 @@ void Particles::adjustVolume( Volume & volume )
 
     MFVec3f *sizes = getMFSizes();
 
-    if(sizes->getSize() == pos->getSize())
+    if(sizes->size() == pos->size())
     {
         Vec3f p;
         Real32 s;
 
-        for(UInt32 i = 0; i < pos->getSize(); i++)
+        for(UInt32 i = 0; i < pos->size(); i++)
         {
             pos->getValue(p, i);
             // make the size bigger to accomodate rotations
-            s=sizes->getValue(i)[0]*Sqrt2;
+            s=(*sizes)[i][0]*Sqrt2;
 
             p[0]+=s/2;
             p[1]+=s/2;
@@ -220,15 +220,15 @@ void Particles::adjustVolume( Volume & volume )
         }
 
     }
-    else if(sizes->getSize() == 1)
+    else if(sizes->size() == 1)
     {
         Vec3f p;
         Real32 s,s2;
         // make the size bigger to accomodate rotations
-        s=sizes->getValue(0)[0]*Sqrt2;
+        s=(*sizes)[0][0]*Sqrt2;
         s2=s/2;
 
-        for(UInt32 i = 0; i < pos->getSize(); i++)
+        for(UInt32 i = 0; i < pos->size(); i++)
         {
             pos->getValue(p, i);
 
@@ -543,7 +543,7 @@ struct PosTrait3f : public ParticleTraits
     
     static inline bool particle(dataType &data, UInt32 particle)
     {
-        data.p = &data.pos->getValue(particle);
+        data.p = & (*(data.pos))[particle];
         return false;
     }
     
@@ -583,12 +583,12 @@ struct SizeTraitGeneric : public ParticleTraits
         
         if(data.sizes != NULL)
         {
-            if(data.sizes->getSize() == 1)
+            if(data.sizes->size() == 1)
             {
-                data.s = data.sizes->getValue(0);
+                data.s = (*(data.sizes))[0];
                 data.perParticle = false;
             }
-            else if(data.sizes->getSize() == part->getPositions()->getSize())
+            else if(data.sizes->size() == part->getPositions()->size())
             {
                 data.perParticle = true;
             }
@@ -613,7 +613,7 @@ struct SizeTraitGeneric : public ParticleTraits
     static inline Vec3f &size(dataType &data, UInt32 particle)
     {
         if(data.perParticle)
-                return data.sizes->getValue(particle);
+                return (*(data.sizes))[particle];
         return data.s;
     }
 };
@@ -628,7 +628,7 @@ struct SizeTraitSingle : public ParticleTraits
     
     static inline void init(Particles *part, DrawActionBase *, dataType &data)
     {
-        data.s = part->getSizes().getValue(0);
+        data.s = part->getSizes()[0];
     }
     
     static inline bool particle(dataType &, UInt32)
@@ -663,7 +663,7 @@ struct SizeTraitParticle : public ParticleTraits
     
     static inline Vec3f &size(dataType &data, UInt32 particle)
     {
-        return data.sizes->getValue(particle);
+        return (*(data.sizes))[particle];
     }
 };
 
@@ -707,11 +707,11 @@ struct TexTraitGeneric : public ParticleTraits
         
         if(data.texzs != NULL)
         {
-            if(data.texzs->getSize() == 1)
+            if(data.texzs->size() == 1)
             {
-                data.z = data.texzs->getValue(0);
+                data.z = (*(data.texzs))[0];
              }
-            else if(data.texzs->getSize() == part->getPositions()->getSize())
+            else if(data.texzs->size() == part->getPositions()->size())
             {
                 data.perParticle = true;
             }
@@ -730,7 +730,7 @@ struct TexTraitGeneric : public ParticleTraits
     {       
         if(data.perParticle)
         {
-            data.z = data.texzs->getValue(particle);
+            data.z = (*(data.texzs))[particle];
         }
         return false;
     }
@@ -763,7 +763,7 @@ struct TexTraitParticle : public ParticleTraits
     
     static inline bool particle(dataType &data, UInt32 particle)
     {       
-        data.z = data.texzs->getValue(particle);
+        data.z = (*(data.texzs))[particle];
         return false;
     }
     
@@ -789,7 +789,7 @@ struct TexTraitSingle : public ParticleTraits
     
     static inline void init(Particles *part, DrawActionBase *, dataType &data)
     {
-        data.z = part->getMFTextureZs()->getValue(0);
+        data.z = (*(part->getMFTextureZs()))[0];
     }
     
     static inline bool particle(dataType &, UInt32)
@@ -854,7 +854,7 @@ struct NormalTraitGeneric : public ParticleTraits
         
         if(data.norms != NullFC)
         {
-            if(data.norms->getSize() == 1)
+            if(data.norms->size() == 1)
             {
                 data.n = data.norms->getValue(0);
             }
@@ -915,9 +915,9 @@ struct NormalTraitGeneric3f : public ParticleTraits
         {
             if(norms3f->getSize() == 1)
             {
-                data.n = &data.norms->getValue(0);
+                data.n = &(*(data.norms))[0];
             }
-            else if(data.norms->getSize() == part->getPositions()->getSize())
+            else if(data.norms->size() == part->getPositions()->size())
             {
                 data.perParticle = true;
             }
@@ -937,7 +937,7 @@ struct NormalTraitGeneric3f : public ParticleTraits
     static inline bool particle(dataType &data, UInt32 particle)
     {
         if(data.perParticle)
-            data.n = &data.norms->getValue(particle);
+            data.n = &(*(data.norms))[particle];
              
         return false;
     }
@@ -1866,9 +1866,9 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
     Pnt3f p,q;
     UInt32 size;
     
-    if(indices->getSize() > 0)
+    if(indices->size() > 0)
     {
-        size = indices->getSize();
+        size = indices->size();
     }
     else
     {
@@ -1881,13 +1881,13 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
     UInt32 i;
     for(i = 0; i<size; i++)
     {
-        if(indices->getSize() > 0)
+        if(indices->size() > 0)
         {
-            if(indices->getValue(i) < 0 || 
-               indices->getValue(i) > pos->getSize())
+            if((*(indices))[i] < 0 || 
+               (*(indices))[i] > pos->size())
                 continue;
                 
-            list[len]._index = indices->getValue(i);
+            list[len]._index = (*(indices))[i];
         }
         else
         {
@@ -1949,7 +1949,7 @@ Action::ResultE Particles::doDraw(DrawActionBase * action)
     GeoNormalsPtr    norm = getNormals();
     MFVec3f         *size = getMFSizes();
  
-    if((size   ->getSize() > 1 && size   ->getSize() != pos->getSize())  ||
+    if((size   ->size() > 1 && size   ->size() != pos->getSize())  ||
        (col  != NullFC && col->getSize()  != 1 &&
                           col->getSize()  != pos->getSize())       ||
        (norm != NullFC && norm->getSize() != 1 &&
@@ -1958,7 +1958,7 @@ Action::ResultE Particles::doDraw(DrawActionBase * action)
     {
         FWARNING(("Particles::draw: inconsistent attributes "
                     "(p:%d s:%d c:%d)!\n",
-                    pos->getSize(), size->getSize(),
+                    pos->getSize(), size->size(),
                     (col != NullFC)? (int)col->getSize() : -1));
         return Action::Continue;
     }
@@ -2004,10 +2004,10 @@ Action::ResultE Particles::doDraw(DrawActionBase * action)
         }
         freeIndex = true;
     }
-    else if (getIndices().getSize() > 0)
+    else if (getIndices().size() > 0)
     {
         index  = &getMFIndices()->getValues()[0];
-        length = getIndices().getSize();
+        length = getIndices().size();
     }
 
     if(index != NULL)
@@ -2063,8 +2063,8 @@ ParticlesDrawer *Particles::findDrawer(void)
     
     // find the parameters' use
     
-    size =   (getSizes().getSize()      == getPositions()->getSize()) ? part :
-             (getSizes().getSize()      == 1                        ) ? sing : 
+    size =   (getSizes().size()      == getPositions()->getSize()) ? part :
+             (getSizes().size()      == 1                        ) ? sing : 
                                                                         none;
     normal = (getNormals() != NullFC && 
               getNormals()->getSize()   == getPositions()->getSize()) ? part :
@@ -2076,8 +2076,8 @@ ParticlesDrawer *Particles::findDrawer(void)
              (getColors() != NullFC && 
               getColors()->getSize()    == 1                        ) ? sing : 
                                                                        none;
-    tex =    (getTextureZs().getSize()  == getPositions()->getSize()) ? part :
-             (getTextureZs().getSize()  == 1                        ) ? sing : 
+    tex =    (getTextureZs().size()  == getPositions()->getSize()) ? part :
+             (getTextureZs().size()  == 1                        ) ? sing : 
                                                                         none;
     
     // check if the used types are common cases
@@ -2212,7 +2212,7 @@ ParticlesDrawer *Particles::findDrawer(void)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.17 2002/04/30 09:29:11 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.18 2002/05/13 09:21:11 vossg Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }

@@ -66,6 +66,15 @@ struct FieldTraitsRecurseVecStoreBase : public Traits
 {
     enum                     { bHasParent = 0x00 };
 
+#ifdef OSG_GV_BETA
+    static const UInt32 uiTest = TypeTraits<ValueTypeT>::IsPOD == true;
+
+    typedef typename 
+    osgIF<uiTest == 1, 
+          const ValueTypeT  , 
+          const ValueTypeT & >::_IRet  ArgumentType;
+#endif
+
     static UInt32 getBinSize (const ValueTypeT &)
     {
         return sizeof(ValueTypeT);

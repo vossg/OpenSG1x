@@ -187,9 +187,9 @@ void WindowBase::setGlObjectEventCounter(const UInt32 &value)
 
 
 inline
-ViewportPtr &WindowBase::getPort(UInt32 index)
+ViewportPtr &WindowBase::getPort(const UInt32 index)
 {
-    return _mfPort.getValue( index );
+    return _mfPort[index];
 }
 
 inline
@@ -205,9 +205,9 @@ const MFViewportPtr &WindowBase::getPort(void) const
 }
 
 inline
-UInt32 &WindowBase::getGlObjectLastRefresh(UInt32 index)
+UInt32 &WindowBase::getGlObjectLastRefresh(const UInt32 index)
 {
-    return _mfGlObjectLastRefresh.getValue( index );
+    return _mfGlObjectLastRefresh[index];
 }
 
 inline
@@ -223,9 +223,9 @@ const MFUInt32 &WindowBase::getGlObjectLastRefresh(void) const
 }
 
 inline
-UInt32 &WindowBase::getGlObjectLastReinitialize(UInt32 index)
+UInt32 &WindowBase::getGlObjectLastReinitialize(const UInt32 index)
 {
-    return _mfGlObjectLastReinitialize.getValue( index );
+    return _mfGlObjectLastReinitialize[index];
 }
 
 inline
@@ -243,5 +243,5 @@ const MFUInt32 &WindowBase::getGlObjectLastReinitialize(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGWindowBase.inl,v 1.15 2002/03/25 01:26:00 vossg Exp $"
+#define OSGWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGWindowBase.inl,v 1.16 2002/05/13 09:21:12 vossg Exp $"
 

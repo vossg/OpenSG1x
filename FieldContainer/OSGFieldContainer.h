@@ -341,12 +341,20 @@ class FieldContainer
         result->onCreate(prototypeP);
 
 #if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
+/*
         fprintf(stderr, "GV_MEM_FC_DBG : (%u|%lf|%I64d) cc (%p|%s|%u)\n", 
                 Thread::getAspect(),
                 getSystemTime(),
                 getPerfCounter(),
                 result._storeP,
                 ObjectType::getClassType().getCName(),
+                ObjectType::getClassType().getId());
+                */
+
+        fprintf(stderr, "GV_MEM_FC_DBG : (%u) cc (%p|%u)\n", 
+                Thread::getAspect(),
+                result._storeP,
+//                ObjectType::getClassType().getCName(),
                 ObjectType::getClassType().getId());
 #endif
 
@@ -395,12 +403,10 @@ class FieldContainer
         result->onCreate();
 
 #if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
-        fprintf(stderr, "GV_MEM_FC_DBG : (%d|%lf|%I64d) c (%p|%s|%u)\n", 
+        fprintf(stderr, "GV_MEM_FC_DBG : (%u) c (%p|%u)\n", 
                 Thread::getAspect(),
-                getSystemTime(),
-                getPerfCounter(),
                 result._storeP,
-                ObjectType::getClassType().getCName(),
+//                ObjectType::getClassType().getCName(),
                 ObjectType::getClassType().getId());
 #endif
 
