@@ -542,18 +542,27 @@ void MulticastConnection::stopAliveThread()
     char tag;
     if(_aliveThread)
     {
-        _stopAliveThread=true;
-        DgramSocket s;
-        s.open();
-        s.sendTo(&tag,
-                 sizeof(tag),
-                 SocketAddress(_aliveSocket.getAddress()));
-        BaseThread::join( _aliveThread );
+        try
+        {
+            _stopAliveThread=true;
+            DgramSocket s;
+            s.open();
+            s.sendTo(&tag,
+                     sizeof(tag),
+                     SocketAddress(_aliveSocket.getAddress()));
+            BaseThread::join( _aliveThread );
 //!!        ThreadManager::the()->removeThread(_aliveThread);
-        _aliveThread=0;
-        if(_aliveSocket.waitReadable(0))
-            _aliveSocket.recv(&tag,sizeof(tag));
-        s.close();
+            _aliveThread=0;
+            if(_aliveSocket.waitReadable(0))
+                _aliveSocket.recv(&tag,sizeof(tag));
+            s.close();
+        }
+        catch(...)
+        {
+            if(_aliveThread->exists())
+                _aliveThread->kill();
+            FDEBUG(("Stop aliveThread failed\n"))
+        }
     }
 }
 
