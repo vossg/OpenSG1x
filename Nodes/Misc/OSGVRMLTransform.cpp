@@ -214,13 +214,19 @@ VRMLTransform::~VRMLTransform(void)
 /** \brief react to field changes
  */
 
-void VRMLTransform::changed(BitVector, ChangeMode)
+void VRMLTransform::changed(BitVector which, ChangeMode)
 {
-    getMatrix().setTransform(getTranslation     (),
-                             getRotation        (),
-                             getScale           (),
-                             getScaleOrientation(),
-                             getCenter          ());
+    VRMLTransformPtr ptr(*this);
+    if(which != MatrixFieldMask)
+    {
+        beginEditCP(ptr,MatrixFieldMask);
+        getMatrix().setTransform(getTranslation     (),
+                                 getRotation        (),
+                                 getScale           (),
+                                 getScaleOrientation(),
+                                 getCenter          ());
+        endEditCP(ptr,MatrixFieldMask);
+    }
 }
 
 /*------------------------------- dump ----------------------------------*/
