@@ -19,18 +19,18 @@ Animation *addAnim(InterpolatorBase::InterpolType  type,
                    int                             destNr, 
                    float                           duration)
 {       
-    cerr << "addAnim(type=" << InterpolatorBase::type2String(type)
-         << ", name="       << name
-         << ", target="     <<  objname
-         << ", duration="   << duration 
-         << " )"            << endl;
+    std::cerr << "addAnim(type=" << InterpolatorBase::type2String(type)
+              << ", name="       << name
+              << ", target="     <<  objname
+              << ", duration="   << duration 
+              << " )"            << std::endl;
          
     InterpolatorBase*           interpol   = 0;
     PositionInterpolatorPtr     posInterpol=0;
     OrientationInterpolatorPtr      oriInterpol=0;
 
-    string                      sname   (name);
-    string                      sobjname(objname);
+    std::string                 sname   (name);
+    std::string                 sobjname(objname);
 
     if(type == InterpolatorBase::Position)
     {
@@ -66,7 +66,8 @@ Animation *addAnim(InterpolatorBase::InterpolType  type,
         }
         else
         {
-            cerr << "OSGAnimTest::addAnim()\t Animation::getAnim() is NULL\n";
+            std::cerr 
+                << "OSGAnimTest::addAnim()\t Animation::getAnim() is NULL\n";
         }
     } 
     

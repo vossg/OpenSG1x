@@ -90,7 +90,7 @@ public:
     /** get method for image map dimmensions */
     virtual bool    getTXFImageSizes(Int32 &width, Int32 &height);
 
-    virtual bool dump(ostream &OSG_CHECK_ARG(out))
+    virtual bool dump(std::ostream &OSG_CHECK_ARG(out))
     {
         return false;
     }

@@ -39,7 +39,7 @@ private:
     UChar8              *_txfImageMap;
 protected:
 
-    void                initFromStream(istream &source);
+    void                initFromStream(std::istream &source);
 public:
 
     /** Default Constructor */
@@ -52,7 +52,7 @@ public:
     TXFFont(const Char8 *name, std::string path);
 
     /** Constructor */
-    TXFFont(const Char8 *name, istream &source);
+    TXFFont(const Char8 *name, std::istream &source);
 
     /** Destructor */
     virtual             ~TXFFont(void);

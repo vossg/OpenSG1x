@@ -91,7 +91,7 @@ Animation* Animation::getAnim(void)
 { 
     if(_theAnim == NULL)
     {
-        cerr << "GlobalAnimation is NULL. Creating one.\n";
+        std::cerr << "GlobalAnimation is NULL. Creating one.\n";
 
         _theAnim = new Animation();
     }
@@ -131,13 +131,13 @@ Animation::~Animation(void)
 
 void Animation::addInterpolator(InterpolatorBase* interpol)
 {
-    cerr << "Animation::addInterpolator() ";
+    std::cerr << "Animation::addInterpolator() ";
 
     _interpols.push_back(interpol);
     
     _currentInterpol = _interpols.size() - 1;
 
-    cerr << _interpols.size() << " " << _currentInterpol << endl;
+    std::cerr << _interpols.size() << " " << _currentInterpol << std::endl;
 }
 
 InterpolatorBase* Animation::currentInterpolator(void) 
@@ -169,7 +169,7 @@ InterpolatorBase* Animation::getInterpolator(UInt32 index)
     }
 }
 
-bool Animation::parse(const string& filename)
+bool Animation::parse(const std::string& filename)
 {
     FILE *f = fopen(filename.c_str(), "r");
     
@@ -198,8 +198,8 @@ bool Animation::parse(const string& filename)
     
 Animation::InterpolatorVec Animation::findInterpolator(const Char8 *szName)
 {
-    vector<InterpolatorBase *>::iterator interpolIt;
-    vector<InterpolatorBase *>::iterator interpolEnd = _interpols.end();
+    std::vector<InterpolatorBase *>::iterator interpolIt;
+    std::vector<InterpolatorBase *>::iterator interpolEnd = _interpols.end();
 
     InterpolatorVec returnValue;
 
@@ -210,7 +210,12 @@ Animation::InterpolatorVec Animation::findInterpolator(const Char8 *szName)
         if(strcmp(szName, 
                   (*interpolIt)->getTargetName().c_str())==0)
         {
-            cerr << "Got " << (*interpolIt) << " for " << szName << endl;
+            std::cerr << "Got "
+                      << (*interpolIt)
+                      << " for "
+                      << szName 
+                      << std::endl;
+
             returnValue.push_back((*interpolIt));
         }
     }
@@ -236,13 +241,13 @@ OSG::Action::ResultE animResolver(OSG::CNodePtr &, OSG::Action *action)
     OSG::NodePtr            node        = action->getActNode();
     OSG::ComponentTransformPtr   vrmlTrans   = OSG::NullFC;
     OSG::NamePtr            namePtr;
-    string                  targetName;
+    std::string             targetName;
                     
     vrmlTrans = OSG::ComponentTransformPtr::dcast(node->getCore());
         
     if(!vrmlTrans)
     {
-        cerr << "ERROR! The Node " << node << " does not have a core.\n";
+        std::cerr << "ERROR! The Node " << node << " does not have a core.\n";
     }
     else
     {
@@ -265,7 +270,7 @@ void Animation::resolve(NodePtr pRoot)
     if(pRoot == NullFC)
         return;
 
-    cerr << "Checking interpolator target nodes..." << endl;
+    std::cerr << "Checking interpolator target nodes..." << std::endl;
     
 #ifndef OSG_NOFUNCTORS
 
@@ -281,7 +286,7 @@ void Animation::resolve(NodePtr pRoot)
 
 #endif
     
-    cerr << "done !\n";    
+    std::cerr << "done !\n";    
 }
 
 void Animation::setRelTime(Time relTime)

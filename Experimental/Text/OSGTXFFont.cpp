@@ -23,7 +23,7 @@
 #include "OSGTXFFont.h"
 
 /* */
-OSG_USING_NAMESPACE bool sRead(istream &file, void *value, Int32 size,
+OSG_USING_NAMESPACE bool sRead(std::istream &file, void *value, Int32 size,
                                bool swapit)
 {
     Char8   buffer[4];
@@ -68,7 +68,7 @@ TXFFont::TXFFont(const Char8 *name, std::string path) :
 }
 
 /* */
-TXFFont::TXFFont(const Char8 *name, istream &source) :
+TXFFont::TXFFont(const Char8 *name, std::istream &source) :
     Font(name)
 {
     _valid = true;
@@ -89,7 +89,7 @@ TXFFont::~TXFFont(void)
 }
 
 /* */
-void TXFFont::initFromStream(istream &source)
+void TXFFont::initFromStream(std::istream &source)
 {
     bool    swapit;
     UChar8  u_magic, *imageBuffer = NULL;
@@ -197,7 +197,7 @@ void TXFFont::initFromStream(istream &source)
 /* */
 bool TXFFont::initFont(void)
 {
-    ifstream    source;
+    std::ifstream    source;
 
     if(_valid)
         return true;
