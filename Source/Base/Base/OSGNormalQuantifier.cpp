@@ -77,9 +77,9 @@ UInt32 NormalQuantifier::getIndex(Vec3f  &normal,
     UInt32 index;
     UInt32 nS;
     UInt32 octant;
-    UInt32 xoctant;
-    UInt32 yoctant;
-    UInt32 zoctant;
+    Int32 xoctant;
+    Int32 yoctant;
+    Int32 zoctant;
 
     Vec3f point1;
     Vec3f point2;
@@ -99,13 +99,13 @@ UInt32 NormalQuantifier::getIndex(Vec3f  &normal,
     }
   
     octant = 
-        ((normal.x() >= 0 ? 0 : 1) << 2) | 
-        ((normal.y() >= 0 ? 0 : 1) << 1) | 
-        ( normal.z() >= 0 ? 0 : 1);
+        (((normal.x() >= 0) ? 0 : 1) << 2) | 
+        (((normal.y() >= 0) ? 0 : 1) << 1) | 
+        ( (normal.z() >= 0) ? 0 : 1);
 
-    xoctant = (octant & 4) > 0 ? -1 : 1;
-    yoctant = (octant & 2) > 0 ? -1 : 1;
-    zoctant = (octant & 1) > 0 ? -1 : 1;
+    xoctant = (octant & 4) ? -1 : 1;
+    yoctant = (octant & 2) ? -1 : 1;
+    zoctant = (octant & 1) ? -1 : 1;
     
     point1.setValues(0.f * xoctant, 0.f * yoctant, 1.f * zoctant);
     point2.setValues(1.f * xoctant, 0.f * yoctant, 0.f * zoctant);

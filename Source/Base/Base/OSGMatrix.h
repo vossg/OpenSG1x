@@ -460,6 +460,13 @@ typedef TransformationMatrix<Real32> Matrix;
 
 typedef TransformationMatrix<Real32> Matrix4f;
 
+/*! \var typedef TransformationMatrix<Real64> Matrix4d;
+    \brief Matrix4d
+    \ingroup GrpBaseBaseMathObj
+*/
+
+typedef TransformationMatrix<Real64> Matrix4d;
+
 template<class ValueTypeT> 
 std::ostream &operator <<(      std::ostream                     &os,
                           const TransformationMatrix<ValueTypeT> &obj);
