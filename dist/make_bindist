@@ -168,7 +168,7 @@ case $system in
         glut_lib="glut32.dll"
         glut_args="--with-glut=$glut_dir"
         qt_dir=${qt_dir:="`pwd`/../packages/qt-3.0"}
-        qt_lib=qt-mt300.dll
+        qt_lib=qt-mt312.dll
         qt_args="--with-qt=$qt_dir"
         tif_args=""
         par_jobs=1
@@ -238,15 +238,33 @@ export OSGSUBPARJOBS=$par_jobs
 
 if test x$OSG_DIST_NO_REBUILD = x
 then
-    $build_make opt 
-    $build_make dbg 
+    if $build_make opt 
+    then
+        echo "Opt Build succeeded"
+    else
+        echo "ERROR: Opt Build failed"
+        exit
+    fi
+    if $build_make dbg 
+    then
+        echo "Dbg Build succeeded"
+    else
+        echo "ERROR: Dbg Build failed"
+        exit
+    fi
 else
     echo "OSG_DIST_NO_REBUILD       set, skipping build"
 fi
 
 if test x$OSG_DIST_NO_REINSTALL = x
 then
-    $build_make install
+    if $build_make dbg 
+    then
+        echo "Install succeeded"
+    else
+        echo "ERROR: Install failed"
+        exit
+    fi
 else
     echo "OSG_DIST_NO_REINSTALL     set, skipping install"
 fi
@@ -263,7 +281,13 @@ case $system in
 
             cd ../../Examples/SceneViewer
 
-            $build_make QTDIR=$qt_dir OSGROOT=../../Builds/$system-$compiler$suffix
+            if $build_make QTDIR=$qt_dir OSGROOT=../../Builds/$system-$compiler$suffix
+            then
+                echo "SceneViewer Build succeeded"
+            else
+                echo "ERROR: SceneViewer Build failed"
+                exit
+            fi
 
             cd $olddir
         else
@@ -292,7 +316,7 @@ case $system in
     
         mkdir tmp
         cd tmp
-        unzip $OSGPOOL/dist/win/supportlibs.zip > /dev/null
+        unzip -o $OSGPOOL/dist/win/supportlibs.zip > /dev/null
 
         mv include ..
         mv stlport ../include
@@ -310,7 +334,7 @@ case $system in
         cp -r $OSGPOOL/dist/win/dist/* .
         var_expand $OSGPOOL/dist/win/README.bindist README.txt
 
-        # copy the QT lib, as Qt 3.0 is not everywhere yet
+        # copy the QT lib, as Qt3 is not everywhere yet
 
         if test x$qt_lib != x
         then
@@ -341,7 +365,13 @@ case $system in
 
         echo "Building SceneViewer"
 
-        $build_make LIBTYPE=opt QTDIR=$qt_dir OSGROOT=$OSGPOOL/Builds/$system-$compiler$suffix
+        if $build_make LIBTYPE=opt QTDIR=$qt_dir OSGROOT=$OSGPOOL/Builds/$system-$compiler$suffix
+        then
+            echo "SceneViewer Build succeeded"
+        else
+            echo "ERROR: SceneViewer Build failed"
+            exit
+        fi
 
         cd ../..
  
@@ -376,7 +406,13 @@ case $system in
 
         echo "Building Tutorials"
 
-        $build_make LIBTYPE=opt OSGPOOL=$OSGPOOL OSGROOT=$OSGPOOL/Builds/$system-$compiler$suffix -f Makefile
+        if $build_make LIBTYPE=opt OSGPOOL=$OSGPOOL OSGROOT=$OSGPOOL/Builds/$system-$compiler$suffix -f Makefile
+        then
+            echo "Tutorial Build succeeded"
+        else
+            echo "ERROR: Tutorial Build failed"
+            exit
+        fi
     else
         echo "OSG_DIST_NO_TUTORIALBUILD set, skipping tutorial build"
         
@@ -407,9 +443,9 @@ case $system in
 
     if ! test x$OSG_DIST_CLEANUP = x
     then
-        rm -rf OpenSG-$OSGVERSION-$distname-$compiler$suffix
+        rm -r OpenSG-$OSGVERSION-$distname-$compiler$suffix
 
-        echo "Cleanup\n";
+        echo "Removed OpenSG-$OSGVERSION-$distname-$compiler$suffixmt";
     fi
     
     exit
@@ -467,7 +503,13 @@ rm -f Makefile.dist Makefile.win template.*  Tutorials.dsp.raw common.cygwin .pr
 
 var_expand $OSGPOOL/dist/README.tutorials README
 
-$build_make
+if $build_make 
+then
+    echo "Tutorials succeeded"
+else
+    echo "ERROR: Tutorials failed"
+    exit
+fi
 $build_make clean
 
 cd ..
@@ -563,7 +605,13 @@ sed -e 's|##DBG##|dbg|g' < $OSGPOOL/Tutorials/Makefile.dist > Makefile
 sed -e 's|##DBG##|dbg|g' < $OSGPOOL/dist/run_osgSceneViewer > ../run_osgSceneViewer
 chmod 755 ../run_osgSceneViewer
 
-$build_make
+if $build_make 
+then
+    echo "Dbg Tutorials succeeded"
+else
+    echo "ERROR: Dbg Tutorials failed"
+    exit
+fi
 $build_make clean
 
 cd ..

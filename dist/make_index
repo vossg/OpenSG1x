@@ -48,8 +48,11 @@ outfile=/tmp/index_raw.html
 cat << EOF > $outfile
 <table border=1>
 <tr>
-<td><center>Date</center></td><td>System</td>
-<td><center>Snapshots</center></td><td>Status</td>
+<td><center>Date</center></td>
+<td>System</td>
+<td><center>Snapshots</center></td>
+<td colspan="2"><center>Dists</center></td>
+<td>Status</td>
 </tr>
 EOF
 
@@ -87,15 +90,37 @@ do
     else
     	echo "<td style=snap> </td>" >> $outfile
     fi
- 
+
+    distpat=`echo $i | sed -e 's|Main.html.gz|OpenSG\*|'`
+    dists=`find . -name "$distpat" | sort`
+
+    if test "x$dists" = x
+    then
+        echo "<td style=snap colspan=2> </td>" >> $outfile
+    else
+        a=0
+        for d in $dists
+        do
+            v=`echo $d | sed -e "s/.*-//" -e "s/.[^.]*$//"`
+            echo "<td style=snap><center><a href="$d">$v</a></center></td>" >> $outfile
+            a=`expr $a + 1`
+        done
+        
+        case $a in        
+        0)  echo "<td style=snap></td>" >> $outfile 
+            echo "<td style=snap></td>" >> $outfile ;;
+        1)  echo "<td style=snap></td>" >> $outfile ;;
+        esac
+    fi
+    
     status=`gzip -dc $i | fgrep "had errors" | cut -c32- | sed -e 's|</font><br>||' -e 's|!|!<br>|g'`
 
-	if test "x$status" = "x"
-	then
+    if test "x$status" = "x"
+    then
 			echo "<td style=status>No errors.</td>" >> $outfile
     else
 			echo "<td style=status>$status</td>" >> $outfile
-	fi
+    fi
     				
     echo "</tr>" >> $outfile
 

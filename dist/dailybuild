@@ -19,10 +19,7 @@ cleanup ()
     # compress the HTML files, as they tend to get pretty big
     gzip -9f $out_html*.html
     
-    # LOCAL: copy the HTML logs to the destination location
-    echo $do_copy
     eval $do_copy 
-    echo Copy done
     
     rm -f $log_configure $log_make $log_errors
 }
@@ -272,6 +269,7 @@ checkerror ()
     $grep -v \
     	-e "warning: nm returned a nonzero error status" \
     	-e "GetLastError" \
+    	-e "Error (future)" \
 	> $log_errors || true
     $grep -n -i -w failed $file | \
     $grep -v \
@@ -499,18 +497,21 @@ case $system in
     *-pc-cygwin )	
     	
         # Unpack the Supportlibs and use them
-        mkdir ${basedir}/supportlibs
-        pushd ${basedir}/supportlibs
-        unzip ../OpenSG/dist/win/supportlibs.zip > $log_cvs 2>&1
-        popd
+        mkdir ${basedir}/supportlibs > $log_cvs 2>&1
+        pushd ${basedir}/supportlibs > $log_cvs 2>&1
+        rm -rf * > $log_cvs 2>&1
+        unzip -o ../OpenSG/dist/win/supportlibs.zip > $log_cvs 2>&1
+        popd > $log_cvs 2>&1
         
     	glut_args=${glut_args:="--with-glut=`pwd`/../supportlibs"}
 	tif_args=${tif_args:="--with-tif=`pwd`/../supportlibs"}
 	jpeg_args=${jpeg_args:="--with-jpeg=`pwd`/../supportlibs"}
 	png_args=${png_args:="--with-png=`pwd`/../supportlibs"}
+	qt_dir="`pwd`/../packages/qt-3.12"
+	qt_args=${qt_args:="--with-qt=${qt_dir}"}
     	par_jobs=${par_jobs:=2}
 	compiler=${compiler:=icl50}
-        do_copy='cd $basedir; tar cf - $opensg_dailybuild* | ssh -i /home/reiners/.ssh/id_dsa pc1107 tar xf - -C $log_destination'
+        do_copy='cd $basedir; tar cf - opensg_dailybuild* | ssh -i /home/reiners/.ssh/id_dsa pc1107 tar xf - -C $log_destination'
 	config_shell=bash
 	mail=`pwd`/../do_send_mail
         loginfo="OS: `uname -a` <br>"
@@ -678,19 +679,29 @@ done
 export OSG_DIST_NO_RECONFIGURE=yes
 export OSG_DIST_NO_REBUILD=yes
 export OSG_DIST_NO_REINSTALL=yes
+export OSG_DIST_CLEANUP=yes
 
 case $system in
 
     *cygwin* )	
-        export OSG_DIST_NO_EXAMPLEBUILD=yes
         ;;
 esac
 
+if test $errcount -gt 0
+then
+    errorexit Tests NOFILE
+fi
+
 cd $basedir
-OpenSG/dist/make_bindist --compiler $compiler --qt $qt_dir > $log_dist 2>&1
+echo $SHELL OpenSG/dist/make_bindist --compiler $compiler --qt $qt_dir > $log_dist 2>&1
+$SHELL OpenSG/dist/make_bindist --compiler $compiler --qt $qt_dir >> $log_dist 2>&1
 
 checkerror "Dist" $log_dist
 
+for i in OpenSG-`cat OpenSG/VERSION`-*
+do
+    mv $i $link_html.$i
+done
 
 # Wait for the docs to finish
 if expr $has_doxygen > /dev/null 2>&1 = 1 ;
@@ -699,11 +710,6 @@ then
     while ! test -r $doc_flag ; do sleep 30; done
 
     checkerror "Doc" $log_doc
-fi
-
-if test $errcount -gt 0
-then
-    errorexit Tests NOFILE
 fi
 
 # all done
