@@ -479,6 +479,9 @@ help:
 	@echo "dbgLnk     compile the debug versions of the tests using the static lib"
 	@echo "optLnk     compile the optimized versions of the tests using the static lib"
 	@echo "(to create dbg versions of specific tests use 'make <testname> dbg', same for opt)"
+	@echo "(if you use the static libs, make sure the WHOLE archive is linked"
+	@echo " otherwise OpenSG will break)"
+	@echo
 	@echo "depend     explicitly create the dependency information"
 	@echo 
 	@echo "Cleanup targets"

@@ -6841,7 +6841,7 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
 
         case $build_os in
             cygwin*)
-                ac_gdz_freetype1_lib_e14='freetype.lib'
+                ac_gdz_freetype1_lib_e14='ttf.lib'
             ;;
             *)
                 ac_gdz_freetype1_lib_e14='-lfreetype -lttf'
@@ -7373,7 +7373,7 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
                 ac_gdz_png_lib_e15='png32.lib'
             ;;
             *)
-                ac_gdz_png_lib_e15='-lpng -lz'
+                ac_gdz_png_lib_e15='"-lpng -lz"'
             ;;
         esac
 
@@ -7496,13 +7496,16 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
     if test $enable_win_exclude_default_path = yes; then
         ac_gdz_compiler_lib_e15=
         ac_gdz_system_lib_dir_e15=
+        ac_gdz_system_incl_dir_e15=
     else
         ac_gdz_compiler_lib_e15=$ac_gdz_compiler_lib 
 
         if test $build_os = cygwin; then 
             ac_gdz_system_lib_dir_e15=`cygpath -w "$ac_gdz_system_lib_dir"`
+            ac_gdz_system_incl_dir_e15=`cygpath -w "$ac_gdz_system_incl_dir"`
         else
             ac_gdz_system_lib_dir_e15="$ac_gdz_system_lib_dir"
+            ac_gdz_system_incl_dir_e15="$ac_gdz_system_incl_dir"
         fi
     fi
 
@@ -7550,6 +7553,7 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
 
     
 
+    
     
     
 
@@ -7651,6 +7655,7 @@ s%@ac_gdz_system_unix_e15@%$ac_gdz_system_unix_e15%g
 s%@ac_gdz_base_system_libs_e15@%$ac_gdz_base_system_libs_e15%g
 s%@ac_gdz_compiler_lib_e15@%$ac_gdz_compiler_lib_e15%g
 s%@ac_gdz_system_lib_dir_e15@%$ac_gdz_system_lib_dir_e15%g
+s%@ac_gdz_system_incl_dir_e15@%$ac_gdz_system_incl_dir_e15%g
 
 CEOF
 EOF

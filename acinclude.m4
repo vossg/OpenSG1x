@@ -1843,13 +1843,16 @@ dnl e15
     if test $enable_win_exclude_default_path = yes; then
         ac_gdz_compiler_lib_e15=
         ac_gdz_system_lib_dir_e15=
+        ac_gdz_system_incl_dir_e15=
     else
         ac_gdz_compiler_lib_e15=$ac_gdz_compiler_lib 
 
         if test $build_os = cygwin; then 
             ac_gdz_system_lib_dir_e15=`cygpath -w "$ac_gdz_system_lib_dir"`
+            ac_gdz_system_incl_dir_e15=`cygpath -w "$ac_gdz_system_incl_dir"`
         else
             ac_gdz_system_lib_dir_e15="$ac_gdz_system_lib_dir"
+            ac_gdz_system_incl_dir_e15="$ac_gdz_system_incl_dir"
         fi
     fi
 
@@ -1899,6 +1902,7 @@ dnl e15
 
     AC_SUBST(ac_gdz_compiler_lib_e15)
     AC_SUBST(ac_gdz_system_lib_dir_e15)
+    AC_SUBST(ac_gdz_system_incl_dir_e15)
 
     AC_OUTPUT($ac_gdz_osg_config_e15:$ac_gdz_osg_config_in_e15)
 ])
