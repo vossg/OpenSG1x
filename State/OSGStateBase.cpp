@@ -98,7 +98,7 @@ const OSG::BitVector	StateBase::ChunksFieldMask =
 
 
 
-char StateBase::cvsid[] = "@(#)$Id: OSGStateBase.cpp,v 1.8 2001/07/18 01:39:39 vossg Exp $";
+char StateBase::cvsid[] = "@(#)$Id: OSGStateBase.cpp,v 1.9 2001/07/31 13:39:04 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -170,7 +170,7 @@ FieldContainerPtr StateBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 StateBase::getSize(void) const 
+UInt32 StateBase::getContainerSize(void) const 
 { 
     return sizeof(StateBase); 
 }

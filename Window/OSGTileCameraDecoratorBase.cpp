@@ -107,7 +107,7 @@ const OSG::BitVector	TileCameraDecoratorBase::TopFieldMask =
 
 
 
-char TileCameraDecoratorBase::cvsid[] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.5 2001/07/18 01:39:40 vossg Exp $";
+char TileCameraDecoratorBase::cvsid[] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.6 2001/07/31 13:39:05 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -194,7 +194,7 @@ FieldContainerPtr TileCameraDecoratorBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 TileCameraDecoratorBase::getSize(void) const 
+UInt32 TileCameraDecoratorBase::getContainerSize(void) const 
 { 
     return sizeof(TileCameraDecoratorBase); 
 }

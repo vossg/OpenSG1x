@@ -218,7 +218,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
 
     /*------------------------------ size -----------------------------------*/
 
-    virtual UInt32            getSize    (void) const = 0;
+    virtual UInt32            getContainerSize   (void) const = 0;
 
     /*----------------------------- access ----------------------------------*/
 
@@ -914,19 +914,19 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
 
 
 #define OSG_FC_GET_SIZE_DECL                                           \
-    virtual OSG::UInt32 getSize(void) const;
+    virtual OSG::UInt32 getContainerSize(void) const;
 
 #define OSG_FC_GET_SIZE_DEF(OSG_CLASS)                                 \
-    OSG::UInt32 OSG_CLASS::getSize(void) const                         \
+    OSG::UInt32 OSG_CLASS::getContainerSize(void) const                \
     {                                                                  \
         return sizeof(OSG_CLASS);                                      \
     }
 
-#define OSG_FC_GET_SIZE_INL_TMPL_DEF(OSG_TMPL_PARAM, OSG_CLASS)        \
-    template <class OSG_TMPL_PARAM> inline                             \
-    OSG::UInt32 OSG_CLASS<OSG_TMPL_PARAM>::getSize(void) const         \
-    {                                                                  \
-        return sizeof(OSG_CLASS);                                      \
+#define OSG_FC_GET_SIZE_INL_TMPL_DEF(OSG_TMPL_PARAM, OSG_CLASS)         \
+    template <class OSG_TMPL_PARAM> inline                              \
+    OSG::UInt32 OSG_CLASS<OSG_TMPL_PARAM>::getContainerSize(void) const \
+    {                                                                   \
+        return sizeof(OSG_CLASS);                                       \
     }
 
 #define OSG_FC_SIZE_FUNCTIONS_DECL                                     \

@@ -110,7 +110,7 @@ const OSG::BitVector	VRMLTransformBase::TranslationFieldMask =
 
 
 
-char VRMLTransformBase::cvsid[] = "@(#)$Id: OSGVRMLTransformBase.cpp,v 1.9 2001/07/18 01:39:39 vossg Exp $";
+char VRMLTransformBase::cvsid[] = "@(#)$Id: OSGVRMLTransformBase.cpp,v 1.10 2001/07/31 13:39:04 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -202,7 +202,7 @@ FieldContainerPtr VRMLTransformBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 VRMLTransformBase::getSize(void) const 
+UInt32 VRMLTransformBase::getContainerSize(void) const 
 { 
     return sizeof(VRMLTransformBase); 
 }

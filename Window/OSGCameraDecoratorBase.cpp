@@ -98,7 +98,7 @@ const OSG::BitVector	CameraDecoratorBase::CameraFieldMask =
 
 
 
-char CameraDecoratorBase::cvsid[] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.5 2001/07/18 01:39:40 vossg Exp $";
+char CameraDecoratorBase::cvsid[] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.6 2001/07/31 13:39:05 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -161,7 +161,7 @@ const FieldContainerType &CameraDecoratorBase::getType(void) const
     return _type;
 } 
 
-UInt32 CameraDecoratorBase::getSize(void) const 
+UInt32 CameraDecoratorBase::getContainerSize(void) const 
 { 
     return sizeof(CameraDecoratorBase); 
 }

@@ -94,7 +94,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char StateChunkBase::cvsid[] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.7 2001/07/09 07:50:58 vossg Exp $";
+char StateChunkBase::cvsid[] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.8 2001/07/31 13:39:05 vossg Exp $";
 
 /** \brief StateChunk type
  */
@@ -145,7 +145,7 @@ const FieldContainerType &StateChunkBase::getType(void) const
     return _type;
 } 
 
-UInt32 StateChunkBase::getSize(void) const 
+UInt32 StateChunkBase::getContainerSize(void) const 
 { 
     return sizeof(StateChunkBase); 
 }

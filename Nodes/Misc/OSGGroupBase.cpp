@@ -94,7 +94,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char GroupBase::cvsid[] = "@(#)$Id: OSGGroupBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
+char GroupBase::cvsid[] = "@(#)$Id: OSGGroupBase.cpp,v 1.7 2001/07/31 13:39:04 vossg Exp $";
 
 /** \brief Group type
  */
@@ -154,7 +154,7 @@ FieldContainerPtr GroupBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 GroupBase::getSize(void) const 
+UInt32 GroupBase::getContainerSize(void) const 
 { 
     return sizeof(GroupBase); 
 }

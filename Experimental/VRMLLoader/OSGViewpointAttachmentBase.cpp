@@ -98,7 +98,7 @@ const OSG::BitVector	ViewpointAttachmentBase::FieldOfViewFieldMask =
 
 
 
-char ViewpointAttachmentBase::cvsid[] = "@(#)$Id: OSGViewpointAttachmentBase.cpp,v 1.1 2001/07/30 13:28:11 eschler Exp $";
+char ViewpointAttachmentBase::cvsid[] = "@(#)$Id: OSGViewpointAttachmentBase.cpp,v 1.2 2001/07/31 13:39:04 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -170,7 +170,7 @@ FieldContainerPtr ViewpointAttachmentBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 ViewpointAttachmentBase::getSize(void) const 
+UInt32 ViewpointAttachmentBase::getContainerSize(void) const 
 { 
     return sizeof(ViewpointAttachmentBase); 
 }

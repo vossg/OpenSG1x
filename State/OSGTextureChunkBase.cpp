@@ -144,7 +144,7 @@ const OSG::BitVector	TextureChunkBase::GLIdFieldMask =
 
 
 
-char TextureChunkBase::cvsid[] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.10 2001/07/28 15:05:06 dirk Exp $";
+char TextureChunkBase::cvsid[] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.11 2001/07/31 13:39:05 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -301,7 +301,7 @@ FieldContainerPtr TextureChunkBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 TextureChunkBase::getSize(void) const 
+UInt32 TextureChunkBase::getContainerSize(void) const 
 { 
     return sizeof(TextureChunkBase); 
 }

@@ -89,7 +89,7 @@ const OSG::BitVector	BlendChunkBase::ColorFieldMask =
 
 
 
-char BlendChunkBase::cvsid[] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.9 2001/07/28 15:03:45 dirk Exp $";
+char BlendChunkBase::cvsid[] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.10 2001/07/31 13:39:04 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -171,7 +171,7 @@ FieldContainerPtr BlendChunkBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 BlendChunkBase::getSize(void) const 
+UInt32 BlendChunkBase::getContainerSize(void) const 
 { 
     return sizeof(BlendChunkBase); 
 }

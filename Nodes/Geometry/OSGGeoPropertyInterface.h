@@ -81,7 +81,7 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING GeoPropertyInterface :
 {
   public:
 
-    typedef GeoPropertyDesc::Inherit Inherited;
+    typedef typename GeoPropertyDesc::Inherit Inherited;
    
     virtual UInt32  getFormat    (void) = 0;
     // number of bytes per format element

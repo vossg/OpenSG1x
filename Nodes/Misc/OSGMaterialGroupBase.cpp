@@ -98,7 +98,7 @@ const OSG::BitVector	MaterialGroupBase::MaterialFieldMask =
 
 
 
-char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.8 2001/07/18 01:39:39 vossg Exp $";
+char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.9 2001/07/31 13:39:04 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -170,7 +170,7 @@ FieldContainerPtr MaterialGroupBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 MaterialGroupBase::getSize(void) const 
+UInt32 MaterialGroupBase::getContainerSize(void) const 
 { 
     return sizeof(MaterialGroupBase); 
 }

@@ -170,7 +170,7 @@ FieldContainerPtr InlineBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 InlineBase::getSize(void) const 
+UInt32 InlineBase::getContainerSize(void) const 
 { 
     return sizeof(InlineBase); 
 }

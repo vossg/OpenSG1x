@@ -187,7 +187,7 @@ FieldContainerPtrBase::FieldContainerPtrBase(
 
 FieldContainerPtrBase::FieldContainerPtrBase(const FieldContainer &source)
 {
-    _containerSize = source.getSize();
+    _containerSize = source.getContainerSize();
     _uiParentEPos    = InvalidParentEPos;
     _storeP          = (UInt8 *) (const_cast<FieldContainer *>(&source));
     _storeP         -= getElemOff(Thread::getAspect());
@@ -206,7 +206,7 @@ FieldContainerPtrBase::FieldContainerPtrBase(const FieldContainer *source)
 
     if(source != NULL)
     {
-        _containerSize = source->getSize();
+        _containerSize = source->getContainerSize();
         _storeP          = (UInt8 *) (const_cast<FieldContainer *>(source));
         _storeP         -= getElemOff(Thread::getAspect());
     }

@@ -99,7 +99,7 @@ const OSG::BitVector	DynamicBackgroundBase::AngleFieldMask =
 
 
 
-char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.9 2001/07/18 01:39:40 vossg Exp $";
+char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.10 2001/07/31 13:39:05 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -176,7 +176,7 @@ FieldContainerPtr DynamicBackgroundBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 DynamicBackgroundBase::getSize(void) const 
+UInt32 DynamicBackgroundBase::getContainerSize(void) const 
 { 
     return sizeof(DynamicBackgroundBase); 
 }

@@ -94,7 +94,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char BackgroundBase::cvsid[] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.7 2001/07/09 07:50:58 vossg Exp $";
+char BackgroundBase::cvsid[] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.8 2001/07/31 13:39:05 vossg Exp $";
 
 /** \brief Background type
  */
@@ -145,7 +145,7 @@ const FieldContainerType &BackgroundBase::getType(void) const
     return _type;
 } 
 
-UInt32 BackgroundBase::getSize(void) const 
+UInt32 BackgroundBase::getContainerSize(void) const 
 { 
     return sizeof(BackgroundBase); 
 }

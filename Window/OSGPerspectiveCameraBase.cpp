@@ -98,7 +98,7 @@ const OSG::BitVector	PerspectiveCameraBase::FovFieldMask =
 
 
 
-char PerspectiveCameraBase::cvsid[] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.9 2001/07/18 01:39:40 vossg Exp $";
+char PerspectiveCameraBase::cvsid[] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.10 2001/07/31 13:39:05 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -170,7 +170,7 @@ FieldContainerPtr PerspectiveCameraBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 PerspectiveCameraBase::getSize(void) const 
+UInt32 PerspectiveCameraBase::getContainerSize(void) const 
 { 
     return sizeof(PerspectiveCameraBase); 
 }

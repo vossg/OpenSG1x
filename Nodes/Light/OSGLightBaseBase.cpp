@@ -95,7 +95,7 @@ const OSG::BitVector	LightBaseBase::OnFieldMask =
 
 
 
-char LightBaseBase::cvsid[] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.9 2001/07/29 12:46:21 dirk Exp $";
+char LightBaseBase::cvsid[] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.10 2001/07/31 13:39:04 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -178,7 +178,7 @@ const FieldContainerType &LightBaseBase::getType(void) const
     return _type;
 } 
 
-UInt32 LightBaseBase::getSize(void) const 
+UInt32 LightBaseBase::getContainerSize(void) const 
 { 
     return sizeof(LightBaseBase); 
 }

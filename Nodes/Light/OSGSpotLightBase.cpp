@@ -89,7 +89,7 @@ const OSG::BitVector	SpotLightBase::SpotCutOffFieldMask =
 
 
 
-char SpotLightBase::cvsid[] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.8 2001/07/18 01:39:39 vossg Exp $";
+char SpotLightBase::cvsid[] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.9 2001/07/31 13:39:04 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -171,7 +171,7 @@ FieldContainerPtr SpotLightBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 SpotLightBase::getSize(void) const 
+UInt32 SpotLightBase::getContainerSize(void) const 
 { 
     return sizeof(SpotLightBase); 
 }

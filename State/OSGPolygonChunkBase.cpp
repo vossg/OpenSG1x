@@ -121,7 +121,7 @@ const OSG::BitVector	PolygonChunkBase::StippleFieldMask =
 
 
 
-char PolygonChunkBase::cvsid[] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.8 2001/07/18 01:39:39 vossg Exp $";
+char PolygonChunkBase::cvsid[] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.9 2001/07/31 13:39:04 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -243,7 +243,7 @@ FieldContainerPtr PolygonChunkBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 PolygonChunkBase::getSize(void) const 
+UInt32 PolygonChunkBase::getContainerSize(void) const 
 { 
     return sizeof(PolygonChunkBase); 
 }

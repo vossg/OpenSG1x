@@ -98,7 +98,7 @@ const OSG::BitVector	TransformBase::MatrixFieldMask =
 
 
 
-char TransformBase::cvsid[] = "@(#)$Id: OSGTransformBase.cpp,v 1.8 2001/07/18 01:39:39 vossg Exp $";
+char TransformBase::cvsid[] = "@(#)$Id: OSGTransformBase.cpp,v 1.9 2001/07/31 13:39:04 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -170,7 +170,7 @@ FieldContainerPtr TransformBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 TransformBase::getSize(void) const 
+UInt32 TransformBase::getContainerSize(void) const 
 { 
     return sizeof(TransformBase); 
 }

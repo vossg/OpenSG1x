@@ -170,7 +170,7 @@ FieldContainerPtr SwitchBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 SwitchBase::getSize(void) const 
+UInt32 SwitchBase::getContainerSize(void) const 
 { 
     return sizeof(SwitchBase); 
 }

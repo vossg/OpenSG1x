@@ -95,7 +95,7 @@ const OSG::BitVector	MaterialChunkBase::ShininessFieldMask =
 
 
 
-char MaterialChunkBase::cvsid[] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.8 2001/07/18 01:39:39 vossg Exp $";
+char MaterialChunkBase::cvsid[] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.9 2001/07/31 13:39:04 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -187,7 +187,7 @@ FieldContainerPtr MaterialChunkBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 MaterialChunkBase::getSize(void) const 
+UInt32 MaterialChunkBase::getContainerSize(void) const 
 { 
     return sizeof(MaterialChunkBase); 
 }

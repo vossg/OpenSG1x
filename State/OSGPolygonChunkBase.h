@@ -161,19 +161,19 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    virtual       OSG::FieldContainerType &getType(void); 
-    virtual const OSG::FieldContainerType &getType(void) const; 
+    virtual       OSG::FieldContainerType &getType  (void); 
+    virtual const OSG::FieldContainerType &getType  (void) const; 
     
-    static OSG::FieldContainerType &getClassType  (void); 
-    static OSG::UInt32              getClassTypeId(void); 
-    static PolygonChunkPtr         create        (void); 
-    static PolygonChunkPtr         createEmpty   (void); 
+    static OSG::FieldContainerType &getClassType    (void); 
+    static OSG::UInt32              getClassTypeId  (void); 
+    static PolygonChunkPtr         create          (void); 
+    static PolygonChunkPtr         createEmpty     (void); 
 
-    virtual OSG::FieldContainerPtr shallowCopy(void) const; 
-    virtual OSG::UInt32            getSize    (void) const;
+    virtual OSG::FieldContainerPtr  shallowCopy     (void) const; 
+    virtual OSG::UInt32             getContainerSize(void) const;
 
-    virtual void                   executeSync(      FieldContainer &other,
-                                               const BitVector      &whichField);
+    virtual void                    executeSync(      FieldContainer &other,
+                                                const BitVector      &whichField);
 
 
     virtual UInt32       getBinSize (const BitVector    &whichField);

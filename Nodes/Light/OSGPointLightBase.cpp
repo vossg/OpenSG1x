@@ -92,7 +92,7 @@ const OSG::BitVector	PointLightBase::QuadraticAttenuationFieldMask =
 
 
 
-char PointLightBase::cvsid[] = "@(#)$Id: OSGPointLightBase.cpp,v 1.8 2001/07/18 01:39:39 vossg Exp $";
+char PointLightBase::cvsid[] = "@(#)$Id: OSGPointLightBase.cpp,v 1.9 2001/07/31 13:39:04 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -179,7 +179,7 @@ FieldContainerPtr PointLightBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 PointLightBase::getSize(void) const 
+UInt32 PointLightBase::getContainerSize(void) const 
 { 
     return sizeof(PointLightBase); 
 }

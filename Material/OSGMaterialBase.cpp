@@ -94,7 +94,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char MaterialBase::cvsid[] = "@(#)$Id: OSGMaterialBase.cpp,v 1.7 2001/07/09 07:50:58 vossg Exp $";
+char MaterialBase::cvsid[] = "@(#)$Id: OSGMaterialBase.cpp,v 1.8 2001/07/31 13:39:04 vossg Exp $";
 
 /** \brief Material type
  */
@@ -145,7 +145,7 @@ const FieldContainerType &MaterialBase::getType(void) const
     return _type;
 } 
 
-UInt32 MaterialBase::getSize(void) const 
+UInt32 MaterialBase::getContainerSize(void) const 
 { 
     return sizeof(MaterialBase); 
 }

@@ -83,7 +83,7 @@ const OSG::BitVector	TransformChunkBase::MatrixFieldMask =
 
 
 
-char TransformChunkBase::cvsid[] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.8 2001/07/18 01:39:39 vossg Exp $";
+char TransformChunkBase::cvsid[] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.9 2001/07/31 13:39:05 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -155,7 +155,7 @@ FieldContainerPtr TransformChunkBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 TransformChunkBase::getSize(void) const 
+UInt32 TransformChunkBase::getContainerSize(void) const 
 { 
     return sizeof(TransformChunkBase); 
 }

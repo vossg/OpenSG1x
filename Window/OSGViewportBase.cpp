@@ -119,7 +119,7 @@ const OSG::BitVector	ViewportBase::BackgroundFieldMask =
 
 
 
-char ViewportBase::cvsid[] = "@(#)$Id: OSGViewportBase.cpp,v 1.9 2001/07/18 01:39:40 vossg Exp $";
+char ViewportBase::cvsid[] = "@(#)$Id: OSGViewportBase.cpp,v 1.10 2001/07/31 13:39:05 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -226,7 +226,7 @@ FieldContainerPtr ViewportBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 ViewportBase::getSize(void) const 
+UInt32 ViewportBase::getContainerSize(void) const 
 { 
     return sizeof(ViewportBase); 
 }

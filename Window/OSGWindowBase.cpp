@@ -110,7 +110,7 @@ const OSG::BitVector	WindowBase::GlObjectStatusFieldMask =
 
 
 
-char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.10 2001/07/28 15:02:57 dirk Exp $";
+char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.11 2001/07/31 13:39:05 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -193,7 +193,7 @@ const FieldContainerType &WindowBase::getType(void) const
     return _type;
 } 
 
-UInt32 WindowBase::getSize(void) const 
+UInt32 WindowBase::getContainerSize(void) const 
 { 
     return sizeof(WindowBase); 
 }

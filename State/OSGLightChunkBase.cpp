@@ -110,7 +110,7 @@ const OSG::BitVector	LightChunkBase::QuadraticAttenuationFieldMask =
 
 
 
-char LightChunkBase::cvsid[] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.8 2001/07/18 01:39:39 vossg Exp $";
+char LightChunkBase::cvsid[] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.9 2001/07/31 13:39:04 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -227,7 +227,7 @@ FieldContainerPtr LightChunkBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 LightChunkBase::getSize(void) const 
+UInt32 LightChunkBase::getContainerSize(void) const 
 { 
     return sizeof(LightChunkBase); 
 }

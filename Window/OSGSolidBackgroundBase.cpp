@@ -96,7 +96,7 @@ const OSG::BitVector	SolidBackgroundBase::ColorFieldMask =
 
 
 
-char SolidBackgroundBase::cvsid[] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.9 2001/07/18 01:39:40 vossg Exp $";
+char SolidBackgroundBase::cvsid[] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.10 2001/07/31 13:39:05 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -168,7 +168,7 @@ FieldContainerPtr SolidBackgroundBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 SolidBackgroundBase::getSize(void) const 
+UInt32 SolidBackgroundBase::getContainerSize(void) const 
 { 
     return sizeof(SolidBackgroundBase); 
 }

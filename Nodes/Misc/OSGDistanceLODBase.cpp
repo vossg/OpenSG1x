@@ -86,7 +86,7 @@ const OSG::BitVector	DistanceLODBase::RangeFieldMask =
 
 
 
-char DistanceLODBase::cvsid[] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.2 2001/07/25 13:46:44 dirk Exp $";
+char DistanceLODBase::cvsid[] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.3 2001/07/31 13:39:04 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -163,7 +163,7 @@ FieldContainerPtr DistanceLODBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 DistanceLODBase::getSize(void) const 
+UInt32 DistanceLODBase::getContainerSize(void) const 
 { 
     return sizeof(DistanceLODBase); 
 }

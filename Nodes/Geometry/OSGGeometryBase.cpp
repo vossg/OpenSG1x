@@ -113,7 +113,7 @@ const OSG::BitVector	GeometryBase::GLIdFieldMask =
 
 
 
-char GeometryBase::cvsid[] = "@(#)$Id: OSGGeometryBase.cpp,v 1.10 2001/07/29 20:00:45 dirk Exp $";
+char GeometryBase::cvsid[] = "@(#)$Id: OSGGeometryBase.cpp,v 1.11 2001/07/31 13:39:04 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -235,7 +235,7 @@ FieldContainerPtr GeometryBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 GeometryBase::getSize(void) const 
+UInt32 GeometryBase::getContainerSize(void) const 
 { 
     return sizeof(GeometryBase); 
 }
