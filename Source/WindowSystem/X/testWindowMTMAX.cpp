@@ -159,7 +159,7 @@ void drawThreadProc (void *arg)
         mainThread->getChangeList()->applyToCurrent();
     }
     
-    return ( NULL );
+    return;
 }
 
 int wait_for_map_notify(Display *, XEvent *event, char *arg)
