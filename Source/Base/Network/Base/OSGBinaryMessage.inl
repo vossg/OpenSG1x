@@ -39,7 +39,9 @@
 #ifndef _BINSOCKETMESSAGE_INL_
 #define _BINSOCKETMESSAGE_INL_
 
-#ifndef WIN32
+#ifdef WIN32
+#include <winsock.h>
+#else
 #include <arpa/inet.h>
 #endif
 
