@@ -377,6 +377,48 @@ struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseVecStore3Base<Pnt3f>
     }
 };
 
+
+/** \ingroup FieldLib
+ *  \ingroup SingleFields
+ *  \ingroup MultiFields
+ *  \brief Pnt3d field traits 
+ */
+
+template <>
+struct FieldDataTraits<Pnt3d> : public FieldTraitsRecurseVecStore3Base<Pnt3d>
+{
+    static DataType             _type;
+
+    enum                        { StringConvertable = ToStringConvertable | 
+                                                      FromStringConvertable };
+    enum                        { bHasParent        = 0x01                  };
+
+    static DataType &getType      (void) { return _type;     }
+
+    static Char8    *getSName     (void) { return "SFPnt3d"; }
+
+    static Char8    *getMName     (void) { return "MFPnt3d"; }
+
+    static Pnt3d     getDefault   (void) { return Pnt3d();   }
+
+    static Bool      getFromString(      Pnt3d  &outVal,
+                                   const Char8 *&inVal)
+    {
+        outVal.setValue(inVal);
+        return false;
+    }
+
+    static void   putToString(const Pnt3d  &inVal,
+                                    string &outVal)
+    {
+        outVal.assign( TypeConstants<Pnt3d::ValueType>::putToString((inVal.getValues())[0]) );
+      outVal.append( "  " );
+      outVal.append( TypeConstants<Pnt3d::ValueType>::putToString((inVal.getValues())[1]) );
+      outVal.append( "  " );
+      outVal.append( TypeConstants<Pnt3d::ValueType>::putToString((inVal.getValues())[2]) );
+    }
+};
+
 /** \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields

@@ -126,6 +126,7 @@ DataType FieldDataTraits<Vec3f>::_type("Vec3f", "BaseType", true);
 DataType FieldDataTraits<Vec4f>::_type("Vec4f", "BaseType", true);
 DataType FieldDataTraits<Pnt2f>::_type("Pnt2f", "BaseType", true);
 DataType FieldDataTraits<Pnt3f>::_type("Pnt3f", "BaseType", true);
+DataType FieldDataTraits<Pnt3d>::_type("Pnt3d", "BaseType", true);
 DataType FieldDataTraits<Pnt4f>::_type("Pnt4f", "BaseType", true);
 
 DataType FieldDataTraits<Vec4ub>::_type("Vec4ub", "BaseType", true);
@@ -186,6 +187,7 @@ DataType FieldDataTraits<Plane>::_type("Plane", "BaseType", true);
 #pragma instantiate SField<Vec4f>::_fieldType
 #pragma instantiate SField<Pnt2f>::_fieldType
 #pragma instantiate SField<Pnt3f>::_fieldType
+#pragma instantiate SField<Pnt3d>::_fieldType
 #pragma instantiate SField<Pnt4f>::_fieldType
 
 #pragma instantiate MField<Vec2f>::_fieldType
@@ -193,6 +195,7 @@ DataType FieldDataTraits<Plane>::_type("Plane", "BaseType", true);
 #pragma instantiate MField<Vec4f>::_fieldType
 #pragma instantiate MField<Pnt2f>::_fieldType
 #pragma instantiate MField<Pnt3f>::_fieldType
+#pragma instantiate MField<Pnt3d>::_fieldType
 #pragma instantiate MField<Pnt4f>::_fieldType
 
 #pragma instantiate MField<Vec4ub>::_fieldType
@@ -256,6 +259,7 @@ OSG_DLLEXPORT_DEF1(SField, Vec3f, OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(SField, Vec4f, OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(SField, Pnt2f, OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(SField, Pnt3f, OSG_BASE_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, Pnt3d, OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(SField, Pnt4f, OSG_BASE_DLLTMPLMAPPING)
 
 OSG_DLLEXPORT_DEF1(MField, Vec2f, OSG_BASE_DLLTMPLMAPPING)
@@ -263,6 +267,7 @@ OSG_DLLEXPORT_DEF1(MField, Vec3f, OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(MField, Vec4f, OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(MField, Pnt2f, OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(MField, Pnt3f, OSG_BASE_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, Pnt3d, OSG_BASE_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(MField, Pnt4f, OSG_BASE_DLLTMPLMAPPING)
 
 OSG_DLLEXPORT_DEF1(MField, Vec4ub, OSG_BASE_DLLTMPLMAPPING)

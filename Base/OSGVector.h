@@ -836,6 +836,19 @@ extern OSG_BASE_DLLMAPPING Pnt3f NullPnt3f;
  */
 typedef Pnt3f *Pnt3fP;
 
+/** \var typedef PointInterface<Real64, VecStorage3<Real64> > Pnt3d;
+ *  \brief Vec3d
+ *  \ingroup BaseMathVectors
+ */
+typedef PointInterface<Real64, VecStorage3<Real64> > Pnt3d;
+extern OSG_BASE_DLLMAPPING Pnt3d NullPnt3d;
+
+/** \var typedef Pnt3d *Pnt3dP;
+ *  \brief Vec3dP
+ *  \ingroup BaseMathVectors
+ */
+typedef Pnt3d *Pnt3dP;
+
 /** \var typedef PointInterface<Real32, VecStorage4<Real32> > Pnt4f;
  *  \brief Vec4f
  *  \ingroup BaseMathVectors

@@ -62,6 +62,7 @@
  *  <LI> osg::MFVec4ub
  *  <LI> osg::MFPnt2f
  *  <LI> osg::MFPnt3f
+ *  <LI> osg::MFPnt3d
  *  <LI> osg::MFPnt4f
  *  </UL>
  */
@@ -136,7 +137,7 @@ OSG_DLLEXPORT_DECL1(MField, Vec4ub, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFPnt3f
+/** \brief MFPnt2f
  */
 
 typedef MField<Pnt2f> MFPnt2f;
@@ -170,7 +171,25 @@ OSG_DLLEXPORT_DECL1(MField, Pnt3f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFPnt3f
+
+/** \brief MFPnt3d
+ */
+
+typedef MField<Pnt3d> MFPnt3d;
+
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<Pnt3d>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, Pnt3d, OSG_BASE_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+/** \brief MFPnt4f
  */
 
 typedef MField<Pnt4f> MFPnt4f;

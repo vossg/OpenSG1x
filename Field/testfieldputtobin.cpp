@@ -66,6 +66,7 @@ int main(void)
 
     OSG::Pnt2f p2;
     OSG::Pnt3f p3;
+    OSG::Pnt3d p3d;
     OSG::Pnt4f p4;
 
     OSG::FieldDataTraits<OSG::Vec2f >::copyToBin(pMem, v2);
@@ -78,9 +79,11 @@ int main(void)
     OSG::FieldDataTraits<OSG::Vec4ub>::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits<OSG::Pnt2f> ::copyToBin(pMem, p2);
     OSG::FieldDataTraits<OSG::Pnt3f> ::copyToBin(pMem, p3);
+    OSG::FieldDataTraits<OSG::Pnt3d> ::copyToBin(pMem, p3d);
     OSG::FieldDataTraits<OSG::Pnt4f> ::copyToBin(pMem, p4);
     OSG::FieldDataTraits<OSG::Pnt2f> ::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits<OSG::Pnt3f> ::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::Pnt3d> ::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits<OSG::Pnt4f> ::copyToBin(pMem, NULL, 0);
 
     OSG::Bool b;

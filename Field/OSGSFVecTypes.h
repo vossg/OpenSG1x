@@ -61,6 +61,7 @@
  *  <LI> osg::SFVec4f
  *  <LI> osg::SFPnt2f
  *  <LI> osg::SFPnt3f
+ *  <LI> osg::SFPnt3d
  *  <LI> osg::SFPnt4f
  *  </UL>
  */
@@ -148,6 +149,24 @@ typedef SField<Pnt3f> SFPnt3f;
 #else
 
 OSG_DLLEXPORT_DECL1(SField, Pnt3f, OSG_BASE_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+
+/** \brief SFPnt3d
+ */
+
+typedef SField<Pnt3d> SFPnt3d;
+
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<Pnt3d>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, Pnt3d, OSG_BASE_DLLTMPLMAPPING)
 
 #endif
 #endif

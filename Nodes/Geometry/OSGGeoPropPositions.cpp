@@ -64,6 +64,20 @@ OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
 
 #endif
 
+
+#if defined(__sgi)
+
+#pragma instantiate GeoProperty        <GeoPositions3dPropertyDesc>::_type
+#pragma instantiate GeoProperty        <GeoPositions3dPropertyDesc>::_desc
+
+#else
+
+OSG_FC_DLLEXPORT_DEF      (GeoProperty        , 
+                           GeoPositions3dPropertyDesc, 
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
 OSG_END_NAMESPACE
 
 
