@@ -29,7 +29,8 @@
 /*---------------------------------------------------------------------------*\
  *                                Changes                                    *
  *                                                                           *
- *                                                                           *
+ * 2002/10/16: added transparency path. Thanks to Franck Sourdin             *
+ *            (sourdin@ai.cluny.ensam.fr) for it!                            *
  *                                                                           *
  *                                                                           *
  *                                                                           *
@@ -605,6 +606,7 @@ void OBJSceneFileType::initDataElemMap(void)
       _dataElemMap["Ka"]      = MTL_AMBIENT_DE;
       _dataElemMap["Ks"]      = MTL_SPECULAR_DE;
       _dataElemMap["Ns"]      = MTL_SHININESS_DE;
+      _dataElemMap["Tr"]      = MTL_TRANSPARENCY_DE;
       _dataElemMap["map_Kd"]  = MTL_MAP_KD_DE;
       _dataElemMap["map_Ka"]  = MTL_MAP_KA_DE;
       _dataElemMap["map_Ks"]  = MTL_MAP_KS_DE;
@@ -737,11 +739,27 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
                   endEditCP(mtlPtr);
                 }
               break;
-	    case MTL_REFL_DE:
-		beginEditCP(mtlPtr, SimpleTexturedMaterial::EnvMapFieldMask);
-		mtlPtr->setEnvMap(true);
-		endEditCP(mtlPtr);
-	    	break;
+	        case MTL_REFL_DE:
+		      beginEditCP(mtlPtr, SimpleTexturedMaterial::EnvMapFieldMask);
+		      mtlPtr->setEnvMap(true);
+		      endEditCP(mtlPtr);
+	    	  break;
+	        case MTL_TRANSPARENCY_DE:
+              if (mtlPtr == NullFC)
+                {
+                  FFATAL (( "Invalid %s entry in %s\n",
+                            elem.c_str(), fileName ));
+                }
+              else
+				{
+					in >> a;
+					beginEditCP(mtlPtr, 
+                                SimpleTexturedMaterial::TransparencyFieldMask);
+					mtlPtr->setTransparency(a);
+		  		    endEditCP(mtlPtr, 
+                              SimpleTexturedMaterial::TransparencyFieldMask);
+				}
+			  break;
             case MTL_MAP_KD_DE:
             case MTL_MAP_KA_DE:
             case MTL_MAP_KS_DE:

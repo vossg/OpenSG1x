@@ -29,8 +29,8 @@
 /*---------------------------------------------------------------------------*\
  *                                Changes                                    *
  *                                                                           *
- *                                                                           *
- *                                                                           *
+ * 2002/10/16: added transparency path. Thanks to Franck Sourdin             *
+ *            (sourdin@ai.cluny.ensam.fr) for it!                            *
  *                                                                           *
  *                                                                           *
  *                                                                           *
@@ -136,6 +136,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
       MTL_LIB_DE, NEW_MTL_DE, 
       MTL_DIFFUSE_DE, MTL_AMBIENT_DE, MTL_SPECULAR_DE, 
       MTL_SHININESS_DE, MTL_ILLUM_DE,
+      MTL_TRANSPARENCY_DE,
       MTL_MAP_KD_DE, MTL_MAP_KA_DE, MTL_MAP_KS_DE,
       MTL_REFL_DE,
       FACE_DE, 
