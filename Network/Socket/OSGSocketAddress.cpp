@@ -58,9 +58,7 @@
 #include "OSGSocketAddress.h"
 #include "OSGSocketException.h"
 
-OSG_BEGIN_NAMESPACE
-
-using namespace std;
+OSG_USING_NAMESPACE
 
 /** \class SocketAddress
  *  \ingroup Network
@@ -78,12 +76,6 @@ using namespace std;
  * cout << a.getPort() << endl;
  * </PRE>
  **/
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
-    static Char8 cvsid_hpp       [] = OSG_SOCKET_ADDRESS_HEADER_CVSID;
-}
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -289,4 +281,20 @@ bool SocketAddress::operator < (const SocketAddress &other) const
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_END_NAMESPACE
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_hpp       [] = OSG_SOCKET_ADDRESS_HEADER_CVSID;
+}
+

@@ -63,7 +63,7 @@
 #include <OSGSocket.h>
 #include <OSGSocketSelection.h>
 
-OSG_BEGIN_NAMESPACE
+OSG_USING_NAMESPACE
 
 /** \class SocketSelection
  *  \ingroup Network
@@ -91,12 +91,6 @@ OSG_BEGIN_NAMESPACE
  * }
  * </PRE>
  **/
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
-    static Char8 cvsid_hpp       [] = OSG_SOCKET_SELECTION_HEADER_CVSID;
-}
 
 /***************************************************************************\
  *                               Types                                     *
@@ -273,5 +267,20 @@ const SocketSelection & SocketSelection::operator =(const SocketSelection &sourc
     return *this;
 }
 
-OSG_END_NAMESPACE
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_hpp       [] = OSG_SOCKET_SELECTION_HEADER_CVSID;
+}
 
