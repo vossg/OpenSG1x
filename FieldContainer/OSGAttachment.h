@@ -358,9 +358,12 @@ typedef FCPtr           <AttachmentPtr,  Name> NamePtr;
 
 class AttachmentContainerPtr;
 
+OSG_SYSTEMLIB_DLLMAPPING
 const char   *getName( AttachmentContainerPtr container );
 
+OSG_SYSTEMLIB_DLLMAPPING
       void    setName( AttachmentContainerPtr container, const string &name );
+OSG_SYSTEMLIB_DLLMAPPING
       void    setName( AttachmentContainerPtr container, const char *name );
  
 
