@@ -40,6 +40,14 @@
 #undef OSG_DEFAULT_LOG_LEVEL
 #undef OSG_DEFAULT_LOG_TYPE 
 
+#ifndef OSG_DEFAULT_LOG_LEVEL
+#    define OSG_DEFAULT_LOG_LEVEL LOG_WARNING
+#endif
+
+#ifndef OSG_DEFAULT_LOG_TYPE
+#    define OSG_DEFAULT_LOG_TYPE LOG_STDERR 
+#endif
+
 #undef OSG_DISABLE_DEPRECIATED
 
 #if defined(WIN32) && ! defined(__ICL)
