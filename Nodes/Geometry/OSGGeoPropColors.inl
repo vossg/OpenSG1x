@@ -43,6 +43,64 @@
 
 OSG_BEGIN_NAMESPACE
 
+
+// Color4f
+
+template<>
+inline Color3f
+GeoProperty<GeoColors4fPropertyDesc>::getValue( const UInt32 index )
+{
+    const Color4f &val = _field.getValue( index );
+    return Color3f( val.red(), val.green(), val.blue() );
+}
+
+template<>
+inline Color3f
+GeoProperty<GeoColors4fPropertyDesc>::getValue( const UInt32 index ) const
+{
+    const Color4f &val = _field.getValue( index );
+    return Color3f( val.red(), val.green(), val.blue() );
+}
+
+template<>
+inline void
+GeoProperty<GeoColors4fPropertyDesc>::getValue(
+    Color3f & res,
+    const UInt32 index )
+{
+    const Color4f &val = _field.getValue( index );
+    res.setValuesRGB( val.red(), val.green(), val.blue() );
+}
+
+template<>
+inline void
+GeoProperty<GeoColors4fPropertyDesc>::getValue(
+    Color3f & res,
+    const UInt32 index ) const
+{
+    const Color4f &val = _field.getValue( index );
+    res.setValuesRGB( val.red(), val.green(), val.blue() );
+}
+
+template<>
+inline void
+GeoProperty<GeoColors4fPropertyDesc>::setValue( const Color3f & val,
+    const UInt32 index )
+{
+    _field.setValue( Color4f( val.red(), val.green(), val.blue (), 1),
+                     index );
+}
+
+template<>
+inline void
+GeoProperty<GeoColors4fPropertyDesc>::addValue( const Color3f & val )
+{
+    _field.addValue(Color4f( val.red(), val.green(), val.blue (), 1));
+}
+
+
+// Color3ub
+
 template<>
 inline Color3f
 GeoProperty<GeoColors3ubPropertyDesc>::getValue( const UInt32 index )

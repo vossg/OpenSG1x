@@ -105,6 +105,66 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 #endif
 #endif
 
+
+/*! \brief GeoColors4fPropertyDesc
+ *  \ingroup GeoProperties
+ */
+
+struct GeoColors4fPropertyDesc
+{
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
+    
+    static const Char8 *getTypeName (void) { return "GeoColors4f";         }
+    static const Char8 *getClassName(void) { return "GeoColors4fProperty"; }
+    static const Char8 *getFieldName(void) { return "Colors";              }
+    static const Char8 *getGroupName(void) { return "GeoColors";           }
+
+    static InitContainerF getInitMethod(void) { return NULL; }
+
+    static UInt32 getFormat    (void)  { return GL_FLOAT;        }
+    static UInt32 getFormatSize(void)  { return sizeof(GLfloat); }
+    static UInt32 getDimension (void)  { return 4;               }
+    static UInt32 getStride    (void)  { return 0;               }
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Typedefs                                   */
+    /*! \{                                                                 */
+  
+    typedef GeoColors                  Inherited;
+    typedef GeoColors::PtrType         InheritedPtr;
+
+    typedef GeoColorsPropertyDesc      InheritedDesc;
+
+    typedef MFColor4f                  FieldType;
+    typedef InheritedDesc::GenericType GenericType;
+    
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    typedef GeoPropertyInterface<GeoColorsPropertyDesc> Interface;
+#endif
+
+    /*! \}                                                                 */
+};
+
+typedef GeoProperty<GeoColors4fPropertyDesc> GeoColors4f;
+
+#ifndef OSG_COMPILEGEOPROPCOLORINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate GeoProperty<GeoColors4fPropertyDesc>::_type
+#pragma do_not_instantiate GeoProperty<GeoColors4fPropertyDesc>::_desc
+
+#else
+
+OSG_FC_DLLEXPORT_DECL(GeoProperty,
+                      GeoColors4fPropertyDesc,
+                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 /*! \brief GeoColors3ubPropertyDesc
  *  \ingroup GeoProperties
  */
