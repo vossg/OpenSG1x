@@ -151,6 +151,13 @@ $(SYSTARGET):  $(BINOBJS)
 	$(LD) $(LDFLAGS) $(BINOBJS) $(LIBS) $(LDOUT)$@
 	@$(BINSET) $(SYSTARGET)
 
+
+dbg:
+	$(MAKE) LIBTYPE=dbg
+    
+opt:
+	$(MAKE) LIBTYPE=opt
+
 ######################################################################
 
 .PRECIOUS: moc_%.cpp uic_%.cpp uic_%.h
