@@ -160,6 +160,18 @@ int main (int argc, char **argv)
 
     nc1.dump();
 
+	// double children
+
+    cout << "Double add: before:" << endl;
+
+    p2->dump();
+
+	p2->addChild( p5 );
+
+    cout << "Double add: after:" << endl;
+
+    p2->dump();
+
     return 0;
 }
 
