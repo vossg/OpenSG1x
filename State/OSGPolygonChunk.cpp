@@ -72,7 +72,7 @@ i.e. polygons.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PolygonChunk::cvsid[] = "@(#)$Id: OSGPolygonChunk.cpp,v 1.10 2001/12/17 15:39:05 dirk Exp $";
+char PolygonChunk::cvsid[] = "@(#)$Id: OSGPolygonChunk.cpp,v 1.11 2001/12/28 11:02:04 vossg Exp $";
 
 StateChunkClass PolygonChunk::_class("Polygon");
 
@@ -316,7 +316,7 @@ void PolygonChunk::changeFrom( DrawActionBase *, StateChunk * old_chunk, UInt32 
     {
         if ( _mfStipple.size() == 32 )
         {
-            glPolygonStipple( (const GLubyte *) _mfStipple.begin() );
+            glPolygonStipple( (const GLubyte *) &(_mfStipple[0]) );
             glEnable( GL_POLYGON_STIPPLE );
         }
         else glDisable( GL_POLYGON_STIPPLE );

@@ -49,12 +49,26 @@
 
 #include "OSGGeoPropIndices.h"
 
+OSG_USING_NAMESPACE
+
+FieldDescription *GeoIndicesUI32PropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        FieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                                GeoIndicesUI32PropertyDesc>::GeoPropDataField),
+        false,
+        (FieldAccessMethod) &GeoProperty<
+                                GeoIndicesUI32PropertyDesc>::getFieldPtr)
+};
+
+
 OSG_BEGIN_NAMESPACE
 
 #if defined(__sgi)
 
 #pragma instantiate GeoProperty        <GeoIndicesUI32PropertyDesc >::_type
-#pragma instantiate GeoProperty        <GeoIndicesUI32PropertyDesc >::_desc
 
 #else
 

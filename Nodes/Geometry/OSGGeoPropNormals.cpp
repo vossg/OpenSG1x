@@ -49,12 +49,25 @@
 
 #include "OSGGeoPropNormals.h"
 
+OSG_USING_NAMESPACE
+
+FieldDescription *GeoNormals3fPropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        FieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                                  GeoNormals3fPropertyDesc>::GeoPropDataField),
+        false,
+        (FieldAccessMethod) &GeoProperty<
+                                  GeoNormals3fPropertyDesc>::getFieldPtr)
+};
+
 OSG_BEGIN_NAMESPACE
 
 #if defined(__sgi)
 
 #pragma instantiate GeoProperty        <GeoNormals3fPropertyDesc  >::_type
-#pragma instantiate GeoProperty        <GeoNormals3fPropertyDesc  >::_desc
 
 #else
 

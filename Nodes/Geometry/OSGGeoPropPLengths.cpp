@@ -49,12 +49,25 @@
 
 #include "OSGGeoPropPLengths.h"
 
+OSG_USING_NAMESPACE
+
+FieldDescription *GeoPLengthsUI32PropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        FieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                               GeoPLengthsUI32PropertyDesc>::GeoPropDataField),
+        false,
+        (FieldAccessMethod) &GeoProperty<
+                               GeoPLengthsUI32PropertyDesc>::getFieldPtr)
+};
+
 OSG_BEGIN_NAMESPACE
 
 #if defined(__sgi)
 
 #pragma instantiate GeoProperty        <GeoPLengthsUI32PropertyDesc >::_type
-#pragma instantiate GeoProperty        <GeoPLengthsUI32PropertyDesc >::_desc
 
 #else
 

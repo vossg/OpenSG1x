@@ -354,21 +354,21 @@ void Color3<ValueTypeT>::getValuesHSV(Real32 &h,
 }
 
 template <class ValueTypeT> inline
-Color3<ValueTypeT>::ValueType
+typename Color3<ValueTypeT>::ValueType
     Color3<ValueTypeT>::red  (void) const
 {
     return _rgb[0];
 }
 
 template <class ValueTypeT> inline
-Color3<ValueTypeT>::ValueType
+typename Color3<ValueTypeT>::ValueType
     Color3<ValueTypeT>::green(void) const
 {
     return _rgb[1];
 }
 
 template <class ValueTypeT> inline
-Color3<ValueTypeT>::ValueType
+typename Color3<ValueTypeT>::ValueType
     Color3<ValueTypeT>::blue (void) const
 {
     return _rgb[2];
@@ -376,14 +376,14 @@ Color3<ValueTypeT>::ValueType
 
 
 template <class ValueTypeT> inline
-Color3<ValueTypeT>::ValueType *
+typename Color3<ValueTypeT>::ValueType *
     Color3<ValueTypeT>::getValueRef(void)
 {
     return _rgb;
 }
 
 template <class ValueTypeT> inline
-const Color3<ValueTypeT>::ValueType *
+const typename Color3<ValueTypeT>::ValueType *
     Color3<ValueTypeT>::getValueRef(void) const
 {
     return _rgb;
@@ -442,13 +442,14 @@ Color3<ValueTypeT> Color3<ValueTypeT>::operator *(const ValueType val)
 
 
 template <class ValueTypeT> inline
-Color3<ValueTypeT>::ValueType &Color3<ValueTypeT>::operator[] (UInt32 uiIndex)
+typename Color3<ValueTypeT>::ValueType &Color3<ValueTypeT>::operator[] (
+    UInt32 uiIndex)
 {
     return _rgb[uiIndex];
 }
 
 template <class ValueTypeT> inline
-const Color3<ValueTypeT>::ValueType &Color3<ValueTypeT>::operator[] (
+const typename  Color3<ValueTypeT>::ValueType &Color3<ValueTypeT>::operator[] (
     UInt32 uiIndex) const
 {
     return _rgb[uiIndex];
@@ -659,28 +660,28 @@ void Color4<ValueTypeT>::getValuesHSV(Real32 &h,
 }
 
 template <class ValueTypeT> inline
-Color4<ValueTypeT>::ValueType
+typename Color4<ValueTypeT>::ValueType
     Color4<ValueTypeT>::red  (void) const
 {
     return _rgba[0];
 }
 
 template <class ValueTypeT> inline
-Color4<ValueTypeT>::ValueType
+typename Color4<ValueTypeT>::ValueType
     Color4<ValueTypeT>::green(void) const
 {
     return _rgba[1];
 }
 
 template <class ValueTypeT> inline
-Color4<ValueTypeT>::ValueType
+typename Color4<ValueTypeT>::ValueType
     Color4<ValueTypeT>::blue (void) const
 {
     return _rgba[2];
 }
 
 template <class ValueTypeT> inline
-Color4<ValueTypeT>::ValueType
+typename Color4<ValueTypeT>::ValueType
     Color4<ValueTypeT>::alpha (void) const
 {
     return _rgba[3];
@@ -688,14 +689,14 @@ Color4<ValueTypeT>::ValueType
 
 
 template <class ValueTypeT> inline
-Color4<ValueTypeT>::ValueType *
+typename Color4<ValueTypeT>::ValueType *
     Color4<ValueTypeT>::getValueRef(void)
 {
     return _rgba;
 }
 
 template <class ValueTypeT> inline
-const Color4<ValueTypeT>::ValueType *
+const typename Color4<ValueTypeT>::ValueType *
     Color4<ValueTypeT>::getValueRef(void) const
 {
     return _rgba;
@@ -715,13 +716,14 @@ Color4<ValueTypeT> Color4<ValueTypeT>::operator *(const ValueType val)
 }
 
 template <class ValueTypeT> inline
-Color4<ValueTypeT>::ValueType &Color4<ValueTypeT>::operator[] (UInt32 uiIndex)
+typename Color4<ValueTypeT>::ValueType &Color4<ValueTypeT>::operator[] (
+    UInt32 uiIndex)
 {
     return _rgba[uiIndex];
 }
 
 template <class ValueTypeT> inline
-const Color4<ValueTypeT>::ValueType &Color4<ValueTypeT>::operator[] (
+const typename Color4<ValueTypeT>::ValueType &Color4<ValueTypeT>::operator[] (
     UInt32 uiIndex) const
 {
     return _rgba[uiIndex];

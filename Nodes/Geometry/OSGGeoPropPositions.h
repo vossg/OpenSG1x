@@ -49,6 +49,8 @@ OSG_BEGIN_NAMESPACE
 
 struct GeoPositions3fPropertyDesc
 {
+    static FieldDescription *_desc[];
+
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
     /*! \{                                                                 */
@@ -58,12 +60,14 @@ struct GeoPositions3fPropertyDesc
     static const Char8 *getFieldName(void) { return "positions";              }
     static const Char8 *getGroupName(void) { return "GeoPositions";           }
 
-    static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF     getInitMethod(void) { return NULL;            }
 
-    static UInt32 getFormat    (void)  { return GL_FLOAT;        }
-    static UInt32 getFormatSize(void)  { return sizeof(GLfloat); }
-    static UInt32 getDimension (void)  { return 3;               }
-    static UInt32 getStride    (void)  { return 0;               }
+    static UInt32             getFormat    (void) { return GL_FLOAT;        }
+    static UInt32             getFormatSize(void) { return sizeof(GLfloat); }
+    static UInt32             getDimension (void) { return 3;               }
+    static UInt32             getStride    (void) { return 0;               }
+
+    static FieldDescription **getDesc      (void) { return _desc;           }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -91,7 +95,6 @@ typedef GeoProperty<GeoPositions3fPropertyDesc> GeoPositions3f;
 #if defined(__sgi)
 
 #pragma do_not_instantiate GeoProperty<GeoPositions3fPropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoPositions3fPropertyDesc>::_desc
 
 #else
 
@@ -104,6 +107,8 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 
 struct GeoPositions3dPropertyDesc
 {
+    static FieldDescription *_desc[];
+
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
     /*! \{                                                                 */
@@ -113,12 +118,14 @@ struct GeoPositions3dPropertyDesc
     static const Char8 *getFieldName(void) { return "positions";              }
     static const Char8 *getGroupName(void) { return "GeoPositions";           }
 
-    static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF     getInitMethod(void) { return NULL;             }
 
-    static UInt32 getFormat    (void)  { return GL_DOUBLE;        }
-    static UInt32 getFormatSize(void)  { return sizeof(GLdouble); }
-    static UInt32 getDimension (void)  { return 3;                }
-    static UInt32 getStride    (void)  { return 0;                }
+    static UInt32             getFormat    (void) { return GL_DOUBLE;        }
+    static UInt32             getFormatSize(void) { return sizeof(GLdouble); }
+    static UInt32             getDimension (void) { return 3;                }
+    static UInt32             getStride    (void) { return 0;                }
+
+    static FieldDescription **getDesc      (void) { return _desc;            }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -146,7 +153,6 @@ typedef GeoProperty<GeoPositions3dPropertyDesc> GeoPositions3d;
 #if defined(__sgi)
 
 #pragma do_not_instantiate GeoProperty<GeoPositions3dPropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoPositions3dPropertyDesc>::_desc
 
 #else
 

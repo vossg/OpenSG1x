@@ -49,6 +49,8 @@ OSG_BEGIN_NAMESPACE
 
 struct GeoNormals3fPropertyDesc
 {
+    static FieldDescription *_desc[];
+
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
     /*! \{                                                                 */
@@ -58,12 +60,14 @@ struct GeoNormals3fPropertyDesc
     static const Char8 *getFieldName (void) { return "Normals";              }
     static const Char8 *getGroupName (void) { return "GeoNormals";           }
 
-    static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF     getInitMethod(void) { return NULL;            }
 
-    static UInt32 getFormat    (void) { return GL_FLOAT;        }
-    static UInt32 getFormatSize(void) { return sizeof(GLfloat); }
-    static UInt32 getDimension (void) { return 3;               }
-    static UInt32 getStride    (void) { return 0;               }
+    static UInt32             getFormat    (void) { return GL_FLOAT;        }
+    static UInt32             getFormatSize(void) { return sizeof(GLfloat); }
+    static UInt32             getDimension (void) { return 3;               }
+    static UInt32             getStride    (void) { return 0;               }
+
+    static FieldDescription **getDesc      (void) { return _desc;           }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

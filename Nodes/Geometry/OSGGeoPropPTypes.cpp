@@ -49,12 +49,25 @@
 
 #include "OSGGeoPropPTypes.h"
 
+OSG_USING_NAMESPACE
+
+FieldDescription *GeoPTypesUI8PropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        FieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                                  GeoPTypesUI8PropertyDesc>::GeoPropDataField),
+        false,
+        (FieldAccessMethod) &GeoProperty<
+                                  GeoPTypesUI8PropertyDesc>::getFieldPtr)
+};
+
 OSG_BEGIN_NAMESPACE
 
 #if defined(__sgi)
 
 #pragma instantiate GeoProperty        <GeoPTypesUI8PropertyDesc >::_type
-#pragma instantiate GeoProperty        <GeoPTypesUI8PropertyDesc >::_desc
 
 #else
 

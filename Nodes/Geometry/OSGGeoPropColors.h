@@ -52,6 +52,8 @@ OSG_BEGIN_NAMESPACE
 
 struct GeoColors3fPropertyDesc
 {
+    static FieldDescription *_desc[];
+
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
     /*! \{                                                                 */
@@ -61,12 +63,14 @@ struct GeoColors3fPropertyDesc
     static const Char8 *getFieldName(void) { return "Colors";              }
     static const Char8 *getGroupName(void) { return "GeoColors";           }
 
-    static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF     getInitMethod(void) { return NULL;            }
 
-    static UInt32 getFormat    (void)  { return GL_FLOAT;        }
-    static UInt32 getFormatSize(void)  { return sizeof(GLfloat); }
-    static UInt32 getDimension (void)  { return 3;               }
-    static UInt32 getStride    (void)  { return 0;               }
+    static UInt32             getFormat    (void) { return GL_FLOAT;        }
+    static UInt32             getFormatSize(void) { return sizeof(GLfloat); }
+    static UInt32             getDimension (void) { return 3;               }
+    static UInt32             getStride    (void) { return 0;               }
+
+    static FieldDescription **getDesc      (void) { return _desc;           }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -112,6 +116,8 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 
 struct GeoColors4fPropertyDesc
 {
+    static FieldDescription *_desc[];
+
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
     /*! \{                                                                 */
@@ -121,12 +127,14 @@ struct GeoColors4fPropertyDesc
     static const Char8 *getFieldName(void) { return "Colors";              }
     static const Char8 *getGroupName(void) { return "GeoColors";           }
 
-    static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF     getInitMethod(void) { return NULL;            }
 
-    static UInt32 getFormat    (void)  { return GL_FLOAT;        }
-    static UInt32 getFormatSize(void)  { return sizeof(GLfloat); }
-    static UInt32 getDimension (void)  { return 4;               }
-    static UInt32 getStride    (void)  { return 0;               }
+    static UInt32             getFormat    (void) { return GL_FLOAT;        }
+    static UInt32             getFormatSize(void) { return sizeof(GLfloat); }
+    static UInt32             getDimension (void) { return 4;               }
+    static UInt32             getStride    (void) { return 0;               }
+
+    static FieldDescription **getDesc      (void) { return _desc;           }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -171,6 +179,8 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 
 struct GeoColors3ubPropertyDesc
 {
+    static FieldDescription *_desc[];
+
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
     /*! \{                                                                 */
@@ -180,12 +190,14 @@ struct GeoColors3ubPropertyDesc
     static const Char8 *getFieldName(void) { return "Colors";               }
     static const Char8 *getGroupName(void) { return "GeoColors";            }
 
-    static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF     getInitMethod(void) { return NULL;            }
 
-    static UInt32 getFormat    (void)  { return GL_FLOAT;        }
-    static UInt32 getFormatSize(void)  { return sizeof(GLfloat); }
-    static UInt32 getDimension (void)  { return 3;               }
-    static UInt32 getStride    (void)  { return 0;               }
+    static UInt32             getFormat    (void) { return GL_FLOAT;        }
+    static UInt32             getFormatSize(void) { return sizeof(GLfloat); }
+    static UInt32             getDimension (void) { return 3;               }
+    static UInt32             getStride    (void) { return 0;               }
+
+    static FieldDescription **getDesc      (void) { return _desc;           }
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -230,6 +242,8 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 
 struct GeoColors4ubPropertyDesc
 {
+    static FieldDescription *_desc[];
+
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
     /*! \{                                                                 */
@@ -239,12 +253,14 @@ struct GeoColors4ubPropertyDesc
     static const Char8 *getFieldName (void) { return "Colors";               }
     static const Char8 *getGroupName (void) { return "GeoColors";            }
 
-    static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF     getInitMethod(void) { return NULL;             }
 
-    static UInt32 getFormat    (void)   { return GL_UNSIGNED_BYTE; }
-    static UInt32 getFormatSize(void)   { return sizeof(GLubyte);  }
-    static UInt32 getDimension (void)   { return 4;                }
-    static UInt32 getStride    (void)   { return 0;                }
+    static UInt32             getFormat    (void) { return GL_UNSIGNED_BYTE; }
+    static UInt32             getFormatSize(void) { return sizeof(GLubyte);  }
+    static UInt32             getDimension (void) { return 4;                }
+    static UInt32             getStride    (void) { return 0;                }
+
+    static FieldDescription **getDesc      (void) { return _desc;            }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -288,3 +304,9 @@ OSG_END_NAMESPACE
 #include <OSGGeoPropColors.inl>
 
 #endif /* _OSGGEOPROPCOLORS_H_ */
+
+
+
+
+
+

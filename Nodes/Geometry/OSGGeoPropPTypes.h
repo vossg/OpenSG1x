@@ -49,6 +49,8 @@ OSG_BEGIN_NAMESPACE
 
 struct GeoPTypesUI8PropertyDesc
 {
+    static FieldDescription *_desc[];
+
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
     /*! \{                                                                 */
@@ -58,12 +60,14 @@ struct GeoPTypesUI8PropertyDesc
     static const Char8 *getFieldName(void) { return "Types";                }
     static const Char8 *getGroupName(void) { return "GeoPTypes";            }
 
-    static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF     getInitMethod(void) { return NULL;             }
 
-    static UInt32 getFormat    (void) { return GL_UNSIGNED_BYTE; }
-    static UInt32 getFormatSize(void) { return sizeof(GLubyte);  }
-    static UInt32 getDimension (void) { return 1;                }
-    static UInt32 getStride    (void) { return 0;                }
+    static UInt32             getFormat    (void) { return GL_UNSIGNED_BYTE; }
+    static UInt32             getFormatSize(void) { return sizeof(GLubyte);  }
+    static UInt32             getDimension (void) { return 1;                }
+    static UInt32             getStride    (void) { return 0;                }
+
+    static FieldDescription **getDesc      (void) { return _desc;            }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

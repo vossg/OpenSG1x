@@ -49,18 +49,64 @@
 
 #include "OSGGeoPropColors.h"
 
+OSG_USING_NAMESPACE
+
+FieldDescription *GeoColors3fPropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        FieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                                GeoColors3fPropertyDesc>::GeoPropDataField),
+        false,
+        (FieldAccessMethod) &GeoProperty<
+                                GeoColors3fPropertyDesc>::getFieldPtr)
+};
+
+FieldDescription *GeoColors4fPropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        FieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                                GeoColors4fPropertyDesc>::GeoPropDataField),
+        false,
+        (FieldAccessMethod) &GeoProperty<
+                                GeoColors4fPropertyDesc>::getFieldPtr)
+};
+
+FieldDescription *GeoColors3ubPropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        FieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                                GeoColors3ubPropertyDesc>::GeoPropDataField),
+        false,
+        (FieldAccessMethod) &GeoProperty<
+                                GeoColors3ubPropertyDesc>::getFieldPtr)
+};
+
+FieldDescription *GeoColors4ubPropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        FieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                                GeoColors4ubPropertyDesc>::GeoPropDataField),
+        false,
+        (FieldAccessMethod) &GeoProperty<
+                                GeoColors4ubPropertyDesc>::getFieldPtr)
+};
+
 OSG_BEGIN_NAMESPACE
 
 #if defined(__sgi)
 
 #pragma instantiate GeoProperty        <GeoColors3fPropertyDesc   >::_type
-#pragma instantiate GeoProperty        <GeoColors3fPropertyDesc   >::_desc
 #pragma instantiate GeoProperty        <GeoColors4fPropertyDesc   >::_type
-#pragma instantiate GeoProperty        <GeoColors4fPropertyDesc   >::_desc
 #pragma instantiate GeoProperty        <GeoColors3ubPropertyDesc  >::_type
-#pragma instantiate GeoProperty        <GeoColors3ubPropertyDesc  >::_desc
 #pragma instantiate GeoProperty        <GeoColors4ubPropertyDesc  >::_type
-#pragma instantiate GeoProperty        <GeoColors4ubPropertyDesc  >::_desc
 
 #else
 

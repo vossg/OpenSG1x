@@ -49,28 +49,48 @@
 
 #include "OSGGeoPropPositions.h"
 
+OSG_USING_NAMESPACE
+
+FieldDescription *GeoPositions3fPropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        FieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                                GeoPositions3fPropertyDesc>::GeoPropDataField),
+        false,
+        (FieldAccessMethod) &GeoProperty<
+                                GeoPositions3fPropertyDesc>::getFieldPtr)
+};
+
+
+
+
+FieldDescription *GeoPositions3dPropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        FieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                                GeoPositions3dPropertyDesc>::GeoPropDataField),
+        false,
+        (FieldAccessMethod) &GeoProperty<
+                                GeoPositions3dPropertyDesc>::getFieldPtr)
+};
+
 OSG_BEGIN_NAMESPACE
 
 #if defined(__sgi)
 
 #pragma instantiate GeoProperty        <GeoPositions3fPropertyDesc>::_type
-#pragma instantiate GeoProperty        <GeoPositions3fPropertyDesc>::_desc
+
+#pragma instantiate GeoProperty        <GeoPositions3dPropertyDesc>::_type
 
 #else
 
 OSG_FC_DLLEXPORT_DEF      (GeoProperty        , 
                            GeoPositions3fPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-
-
-#if defined(__sgi)
-
-#pragma instantiate GeoProperty        <GeoPositions3dPropertyDesc>::_type
-#pragma instantiate GeoProperty        <GeoPositions3dPropertyDesc>::_desc
-
-#else
 
 OSG_FC_DLLEXPORT_DEF      (GeoProperty        , 
                            GeoPositions3dPropertyDesc, 

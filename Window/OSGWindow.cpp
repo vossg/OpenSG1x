@@ -200,7 +200,7 @@ void Window::onDestroy(void)
 
     it = find( _allWindows.begin(), _allWindows.end(), WindowPtr( this ) );
     
-    if ( ! it ) 
+    if(it == _allWindows.end()) 
     {
         FWARNING(("Window::onDelete: couldn't find window %p!\n", this ));
     }

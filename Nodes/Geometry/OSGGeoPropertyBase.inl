@@ -111,8 +111,9 @@ const BitVector GeoProperty<GeoPropertyDesc>::GeoPropDataFieldMask =
 /** \brief Property field description
  */
 
+#if 0
 template <class GeoPropertyDesc>
-FieldDescription *GeoProperty<GeoPropertyDesc>::_desc[] = 
+FieldDescription *GeoProperty<GeoPropertyDesc>::_desc[] =
 {
     new FieldDescription(
         StoredFieldType::getClassType(), 
@@ -121,6 +122,7 @@ FieldDescription *GeoProperty<GeoPropertyDesc>::_desc[] =
         false,
         (FieldAccessMethod) &GeoProperty::getFieldPtr)
 };
+#endif
 
 /** \brief Attachment type
  */
@@ -139,15 +141,14 @@ FieldContainerType GeoProperty<GeoPropertyDesc>::_type =
 #else
 template <class GeoPropertyDesc>
 FieldContainerType GeoProperty<GeoPropertyDesc>::_type(
-        GeoPropertyDesc::getTypeName(),
-        InheritDesc    ::getTypeName(),
-        GeoPropertyDesc::getGroupName(),
-        (PrototypeCreateF) &GeoProperty<GeoPropertyDesc>::createEmpty,
-        GeoPropertyDesc::getInitMethod(),
-        _desc,
-        sizeof(FieldDescription *));
+    GeoPropertyDesc::getTypeName(),
+    InheritDesc    ::getTypeName(),
+    GeoPropertyDesc::getGroupName(),
+    (PrototypeCreateF) &GeoProperty<GeoPropertyDesc>::createEmpty,
+    GeoPropertyDesc::getInitMethod(),
+    GeoPropertyDesc::getDesc(),
+    sizeof(FieldDescription *));
 #endif
-
 
 OSG_FIELD_CONTAINER_INL_TMPL_DEF(GeoProperty,
                                  GeoPropertyDesc,
@@ -248,7 +249,7 @@ void GeoProperty<GeoPropertyDesc>::copyFromBin(
  */
 
 template <class GeoPropertyDesc> inline 
-GeoProperty<GeoPropertyDesc>::StoredFieldType * 
+typename GeoProperty<GeoPropertyDesc>::StoredFieldType * 
     GeoProperty<GeoPropertyDesc>::getFieldPtr(void)
 {
     return &_field;
@@ -258,7 +259,7 @@ GeoProperty<GeoPropertyDesc>::StoredFieldType *
  */
 
 template <class GeoPropertyDesc> inline 
-GeoProperty<GeoPropertyDesc>::StoredFieldType & 
+typename GeoProperty<GeoPropertyDesc>::StoredFieldType & 
     GeoProperty<GeoPropertyDesc>::getField(void)
 {
     return _field;
@@ -268,7 +269,7 @@ GeoProperty<GeoPropertyDesc>::StoredFieldType &
  */
 
 template <class GeoPropertyDesc> inline 
-const GeoProperty<GeoPropertyDesc>::StoredFieldType & 
+const typename GeoProperty<GeoPropertyDesc>::StoredFieldType & 
     GeoProperty<GeoPropertyDesc>::getField(void) const
 {
     return _field;
@@ -333,14 +334,14 @@ inline UInt8 *GeoProperty<GeoPropertyDesc>::getData(void)
 }
 
 template <class propertyDesc> inline 
-GeoProperty<propertyDesc>::StoredGenericType
+typename GeoProperty<propertyDesc>::StoredGenericType
     GeoProperty<propertyDesc>::getValue(const UInt32 index)
 {
     return _field.getValue( index );
 }
 
 template <class propertyDesc> inline 
-GeoProperty<propertyDesc>::StoredGenericType
+typename GeoProperty<propertyDesc>::StoredGenericType
     GeoProperty<propertyDesc>::getValue(const UInt32 index) const
 {
     return _field.getValue( index );

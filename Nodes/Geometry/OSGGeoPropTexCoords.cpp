@@ -49,12 +49,39 @@
 
 #include "OSGGeoPropTexCoords.h"
 
+OSG_USING_NAMESPACE
+
+FieldDescription *GeoTexCoords2fPropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        FieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                                GeoTexCoords2fPropertyDesc>::GeoPropDataField),
+        false,
+        (FieldAccessMethod) &GeoProperty<
+                                GeoTexCoords2fPropertyDesc>::getFieldPtr)
+};
+
+FieldDescription *GeoTexCoords3fPropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        FieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                                GeoTexCoords3fPropertyDesc>::GeoPropDataField),
+        false,
+        (FieldAccessMethod) &GeoProperty<
+                                GeoTexCoords3fPropertyDesc>::getFieldPtr)
+};
+
 OSG_BEGIN_NAMESPACE
 
 #if defined(__sgi)
 
 #pragma instantiate GeoProperty        <GeoTexCoords2fPropertyDesc>::_type
-#pragma instantiate GeoProperty        <GeoTexCoords2fPropertyDesc>::_desc
+
+#pragma instantiate GeoProperty        <GeoTexCoords3fPropertyDesc>::_type
 
 #else
 
@@ -62,20 +89,9 @@ OSG_FC_DLLEXPORT_DEF      (GeoProperty,
                            GeoTexCoords2fPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
-
-#endif
-
-#if defined(__sgi)
-
-#pragma instantiate GeoProperty        <GeoTexCoords3fPropertyDesc>::_type
-#pragma instantiate GeoProperty        <GeoTexCoords3fPropertyDesc>::_desc
-
-#else
-
 OSG_FC_DLLEXPORT_DEF      (GeoProperty,
                            GeoTexCoords3fPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
 
 #endif
 

@@ -53,6 +53,8 @@ OSG_BEGIN_NAMESPACE
 
 struct GeoPLengthsUI32PropertyDesc
 {
+    static FieldDescription *_desc[];
+
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
     /*! \{                                                                 */
@@ -62,17 +64,19 @@ struct GeoPLengthsUI32PropertyDesc
     static const Char8 *getFieldName(void) { return "Indices";                }
     static const Char8 *getGroupName(void) { return "GeoPLengths";            }
 
-    static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF     getInitMethod(void) { return NULL;            }
 
-    static UInt32 getFormat    (void) { return GL_UNSIGNED_INT; }
-    static UInt32 getFormatSize(void) { return sizeof(GLuint);  }
-    static UInt32 getDimension (void) { return 1;               }
-    static UInt32 getStride    (void) { return 0;               }
+    static UInt32             getFormat    (void) { return GL_UNSIGNED_INT; }
+    static UInt32             getFormatSize(void) { return sizeof(GLuint);  }
+    static UInt32             getDimension (void) { return 1;               }
+    static UInt32             getStride    (void) { return 0;               }
+
+    static FieldDescription **getDesc      (void) { return _desc;           }
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Typedefs                                  */
-    /*! \{                                                                 */    
+    /*! \{                                                                 */
     typedef GeoPLengths                Inherited;
     typedef GeoPLengths::PtrType       InheritedPtr;
 

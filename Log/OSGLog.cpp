@@ -192,12 +192,14 @@ LogBuf::LogBuf(unsigned int bufferSize)
         setp(0, 0);
 }
 
+/*
 LogBuf::LogBuf(const LogBuf &obj)
     : streambuf(obj)
 {
     cerr << "ERROR: Running LogBug copy constructor\n" << endl;
     cerr << flush;
 }
+*/
 
 LogBuf::~LogBuf()
 {

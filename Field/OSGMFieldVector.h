@@ -57,6 +57,12 @@ OSG_BEGIN_NAMESPACE
 #pragma set woff 1375
 #endif
 
+#if defined(__linux)
+#if __GNUC__ >= 3
+#define __STL_DEFAULT_ALLOCATOR(TP) allocator<TP>
+#endif
+#endif
+
 template <class Tp, class Alloc = __STL_DEFAULT_ALLOCATOR(Tp) >
 class MFieldVector : public vector<Tp, Alloc> 
 {

@@ -301,8 +301,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
 
     static const PtrType NullPtr;
 
-    static FieldDescription   *_desc[];
-
     static FieldContainerType  _type;
 };
 

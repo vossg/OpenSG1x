@@ -48,6 +48,8 @@ OSG_BEGIN_NAMESPACE
 
 struct GeoTexCoords2fPropertyDesc
 {
+    static FieldDescription *_desc[];
+
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
     /*! \{                                                                 */
@@ -57,12 +59,14 @@ struct GeoTexCoords2fPropertyDesc
     static const Char8 *getFieldName(void) { return "TexCoords";              }
     static const Char8 *getGroupName(void) { return "GeoTexCoords";           }
 
-    static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF     getInitMethod(void) { return NULL;            }
 
-    static UInt32 getFormat    (void)  { return GL_FLOAT;        }
-    static UInt32 getFormatSize(void)  { return sizeof(GLfloat); }
-    static UInt32 getDimension (void)  { return 2;               }
-    static UInt32 getStride    (void)  { return 0;               }
+    static UInt32             getFormat    (void) { return GL_FLOAT;        }
+    static UInt32             getFormatSize(void) { return sizeof(GLfloat); }
+    static UInt32             getDimension (void) { return 2;               }
+    static UInt32             getStride    (void) { return 0;               }
+
+    static FieldDescription **getDesc      (void) { return _desc;           }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -90,7 +94,6 @@ typedef GeoProperty<GeoTexCoords2fPropertyDesc> GeoTexCoords2f;
 #if defined(__sgi)
 
 #pragma do_not_instantiate GeoProperty<GeoTexCoords2fPropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoTexCoords2fPropertyDesc>::_desc
 
 #else
 
@@ -104,6 +107,8 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 
 struct GeoTexCoords3fPropertyDesc
 {
+    static FieldDescription *_desc[];
+
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
     /*! \{                                                                 */
@@ -113,12 +118,14 @@ struct GeoTexCoords3fPropertyDesc
     static const Char8 *getFieldName(void) { return "TexCoords";              }
     static const Char8 *getGroupName(void) { return "GeoTexCoords";           }
 
-    static InitContainerF getInitMethod(void) { return NULL; }
+    static InitContainerF     getInitMethod(void) { return NULL;            }
 
-    static UInt32 getFormat    (void)  { return GL_FLOAT;        }
-    static UInt32 getFormatSize(void)  { return sizeof(GLfloat); }
-    static UInt32 getDimension (void)  { return 3;               }
-    static UInt32 getStride    (void)  { return 0;               }
+    static UInt32             getFormat    (void) { return GL_FLOAT;        }
+    static UInt32             getFormatSize(void) { return sizeof(GLfloat); }
+    static UInt32             getDimension (void) { return 3;               }
+    static UInt32             getStride    (void) { return 0;               }
+
+    static FieldDescription **getDesc      (void) { return _desc;           }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -146,7 +153,6 @@ typedef GeoProperty<GeoTexCoords3fPropertyDesc> GeoTexCoords3f;
 #if defined(__sgi)
 
 #pragma do_not_instantiate GeoProperty<GeoTexCoords3fPropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoTexCoords3fPropertyDesc>::_desc
 
 #else
 
