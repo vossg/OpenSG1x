@@ -313,7 +313,7 @@ NodePtr OSG::makeConicalFrustum( Real32 height, Real32 topradius, Real32 botradi
 			z = -cos(beta);		
 
 			p->addValue( Pnt3f( x * topradius, height/2, z * topradius ) );
-			n->addValue( Vec3f( x/nlen, incl/nlen, -z/nlen ) );
+			n->addValue( Vec3f( x/nlen, incl/nlen, z/nlen ) );
 			tx->addValue( Vec2f( j / (Real32) sides, 1 ) );
 		}
 		
@@ -324,7 +324,7 @@ NodePtr OSG::makeConicalFrustum( Real32 height, Real32 topradius, Real32 botradi
 			z = -cos(beta);		
 
 			p->addValue( Pnt3f(x * botradius, -height/2, z * botradius) );
-			n->addValue( Vec3f(x/nlen, incl/nlen, -z/nlen) );
+			n->addValue( Vec3f(x/nlen, incl/nlen, z/nlen) );
 			tx->addValue( Vec2f( j / (Real32) sides, 0) );
 		}
 
