@@ -258,7 +258,7 @@ KeyValueType Interpolator<KeyValueType>::getValue(Real32 key)
     Int32                    ipos    = -1;
     Real32                   keyDiff; 
     
-    keyIter = std::find(keys.begin(), keys.end(), key);
+    keyIter = find(keys.begin(), keys.end(), key);
     
     if(keyIter != keys.end())
     {
@@ -267,9 +267,9 @@ KeyValueType Interpolator<KeyValueType>::getValue(Real32 key)
         return _keyValues[ipos];
     }
     
-    keyIter = std::find_if(keys.begin(), 
-                           keys.end(), 
-                           bind2nd(greater<Real32>(), key));
+    keyIter = find_if(keys.begin(), 
+                      keys.end(), 
+                      bind2nd(greater<Real32>(), key));
 
     ipos    = keyIter - keys.begin();
 

@@ -86,11 +86,12 @@ class OSGWriter
     
     struct SharedFCInfoHelper
     {
-        Bool printed;
-        Bool named;
-        std::string name;
-        static std::string buildName(FieldContainerPtr fcptr,
-                                     UInt32 num);
+        Bool   printed;
+        Bool   named;
+        string name;
+        static string buildName(FieldContainerPtr fcptr,
+                                UInt32            num);
+
         SharedFCInfoHelper(void) : printed(false), named(false) {}
     };
     

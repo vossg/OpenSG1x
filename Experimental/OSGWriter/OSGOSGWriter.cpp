@@ -216,7 +216,7 @@ void OSGWriter::doPrintListedFC( FieldContainerPtr fieldConPtr )
 				}
 				else
 				{
-					std::string val;
+					string val;
 					fieldPtr->getValueByStr(val);
 					if( fieldPtr->getCardinality() == FieldType::SINGLE_FIELD )
 					{
@@ -247,11 +247,10 @@ void OSGWriter::doPrintListedFC( FieldContainerPtr fieldConPtr )
 }
 
 
-std::string OSGWriter::SharedFCInfoHelper::buildName(
-											FieldContainerPtr fcptr,
-									 		UInt32 num)
+string OSGWriter::SharedFCInfoHelper::buildName(FieldContainerPtr fcptr,
+                                                UInt32            num)
 {
-	std::string temp;
+	string temp;
 	temp.assign( "FCName" );
 	temp.append( TypeConstants<UInt32>::putToString(num) );
 	return temp;

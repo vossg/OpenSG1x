@@ -272,7 +272,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
     Field            *_pCurrField;
 
     string            _szCurrentName;
-    bool              _bSaveOnEnd;
+    Bool              _bSaveOnEnd;
 
     UInt32            _uiOptions;
 

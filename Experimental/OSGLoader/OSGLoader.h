@@ -107,8 +107,9 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef ScanParseFieldTypeMapper<ScanParseSkel> Inherited;
-    typedef map<std::string, FieldContainerPtr> NamedFCMap;
+    typedef ScanParseFieldTypeMapper<ScanParseSkel    > Inherited;
+    typedef map                     <string, 
+                                     FieldContainerPtr> NamedFCMap;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      

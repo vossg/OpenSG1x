@@ -53,7 +53,7 @@ OSG::Bool doWire = false;
 
 OSG::NodePtr  root;
 
-//std::vector<OSG::NodePtr>  file;
+//vector<OSG::NodePtr>  file;
 OSG::NodePtr file;
 
 OSG::WindowPtr win;

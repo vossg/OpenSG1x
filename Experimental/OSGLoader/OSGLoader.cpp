@@ -493,7 +493,7 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
 				 << "Can not use attachment to store Nodename " << endl
 			     << "Adding to _defMap instead. " << endl;
 			if( _defMap.insert(
-				make_pair(std::string(szNodename), pNewNode) ).second == true )
+				make_pair(string(szNodename), pNewNode) ).second == true )
 			{
 				SLOG << "Success." << endl;
 			}
@@ -730,7 +730,7 @@ FieldContainerPtr OSGLoader::getReference(const Char8 *szName)
 {
     // search reference in this file
 	// search the _defMap first then the tree for name attachments
-	NamedFCMap::iterator iter = _defMap.find( std::string(szName) );
+	NamedFCMap::iterator iter = _defMap.find(string(szName));
 	if( iter != _defMap.end() )
 	{
 		return (*iter).second;
