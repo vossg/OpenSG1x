@@ -83,7 +83,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ColorBufferViewportBase : public Viewport
 {
   private:
 
-    typedef Viewport Inherited;
+    typedef Viewport    Inherited;
+    typedef ColorBufferViewportPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -102,6 +103,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ColorBufferViewportBase : public Viewport
     static const OSG::BitVector GreenFieldMask;
     static const OSG::BitVector AlphaFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -244,6 +247,6 @@ typedef ColorBufferViewportBase *ColorBufferViewportBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCOLORBUFFERVIEWPORTBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGCOLORBUFFERVIEWPORTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGCOLORBUFFERVIEWPORTBASE_H_ */

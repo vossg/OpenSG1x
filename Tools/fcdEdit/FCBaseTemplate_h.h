@@ -110,7 +110,8 @@ char *FCBaseTemplate_h[]={
 "{",
 "  private:",
 "",
-"    typedef @!Parent!@ Inherited;",
+"    typedef @!Parent!@    Inherited;",
+"    typedef @!Classname!@Ptr  Ptr;",
 "",
 "    /*==========================  PUBLIC  =================================*/",
 "  public:",
@@ -389,7 +390,7 @@ char *FCBaseTemplate_h[]={
 "",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $\"",
+"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.33 2003/10/24 15:39:26 dirk Exp $\"",
 "", 
 "#endif /* _OSG@!CLASSNAME!@BASE_H_ */",
 NULL };

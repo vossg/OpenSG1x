@@ -86,7 +86,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
 {
   private:
 
-    typedef Window Inherited;
+    typedef Window    Inherited;
+    typedef ClusterWindowPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -270,6 +271,6 @@ typedef ClusterWindowBase *ClusterWindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCLUSTERWINDOWBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGCLUSTERWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGCLUSTERWINDOWBASE_H_ */

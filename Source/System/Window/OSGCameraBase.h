@@ -82,7 +82,8 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraBase : public AttachmentContainer
 {
   private:
 
-    typedef AttachmentContainer Inherited;
+    typedef AttachmentContainer    Inherited;
+    typedef CameraPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -99,6 +100,8 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraBase : public AttachmentContainer
     static const OSG::BitVector NearFieldMask;
     static const OSG::BitVector FarFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -220,6 +223,6 @@ typedef CameraBase *CameraBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERABASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGCAMERABASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGCAMERABASE_H_ */

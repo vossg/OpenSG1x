@@ -128,5 +128,5 @@ void SharedFontStyleWrapperBase::setFStyleContainer(const SharedFontStylePtr &va
 
 OSG_END_NAMESPACE
 
-#define OSGSHAREDFONTSTYLEWRAPPERBASE_INLINE_CVSID "@(#)$Id: OSGSharedFontStyleWrapperBase.inl,v 1.1 2003/02/24 16:05:15 trembilski Exp $"
+#define OSGSHAREDFONTSTYLEWRAPPERBASE_INLINE_CVSID "@(#)$Id: OSGSharedFontStyleWrapperBase.inl,v 1.2 2003/10/24 15:39:13 dirk Exp $"
 

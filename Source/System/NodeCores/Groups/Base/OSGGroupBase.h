@@ -79,11 +79,14 @@ class OSG_SYSTEMLIB_DLLMAPPING GroupBase : public NodeCore
 {
   private:
 
-    typedef NodeCore Inherited;
+    typedef NodeCore    Inherited;
+    typedef GroupPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -186,6 +189,6 @@ typedef GroupBase *GroupBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGROUPBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGGROUPBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGGROUPBASE_H_ */

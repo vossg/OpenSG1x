@@ -79,11 +79,14 @@ class OSG_SYSTEMLIB_DLLMAPPING PassiveViewportBase : public Viewport
 {
   private:
 
-    typedef Viewport Inherited;
+    typedef Viewport    Inherited;
+    typedef PassiveViewportPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -186,6 +189,6 @@ typedef PassiveViewportBase *PassiveViewportBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPASSIVEVIEWPORTBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGPASSIVEVIEWPORTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGPASSIVEVIEWPORTBASE_H_ */

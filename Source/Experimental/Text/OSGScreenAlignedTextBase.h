@@ -81,7 +81,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ScreenAlignedTextBase : public AbstractText
 {
   private:
 
-    typedef AbstractText Inherited;
+    typedef AbstractText    Inherited;
+    typedef ScreenAlignedTextPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -243,6 +244,6 @@ typedef ScreenAlignedTextBase *ScreenAlignedTextBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSCREENALIGNEDTEXTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.30 2003/01/20 05:23:53 vossg Exp $"
+#define OSGSCREENALIGNEDTEXTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGSCREENALIGNEDTEXTBASE_H_ */

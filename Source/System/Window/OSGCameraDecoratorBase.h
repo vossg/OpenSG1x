@@ -80,7 +80,8 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
 {
   private:
 
-    typedef Camera Inherited;
+    typedef Camera    Inherited;
+    typedef CameraDecoratorPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -92,6 +93,8 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
     };
 
     static const OSG::BitVector DecorateeFieldMask;
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -215,6 +218,6 @@ typedef CameraDecoratorBase *CameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGCAMERADECORATORBASE_H_ */

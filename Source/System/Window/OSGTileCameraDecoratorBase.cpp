@@ -65,23 +65,26 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  TileCameraDecoratorBase::LeftFieldMask = 
-    (1 << TileCameraDecoratorBase::LeftFieldId);
+    (TypeTraits<BitVector>::One << TileCameraDecoratorBase::LeftFieldId);
 
 const OSG::BitVector  TileCameraDecoratorBase::RightFieldMask = 
-    (1 << TileCameraDecoratorBase::RightFieldId);
+    (TypeTraits<BitVector>::One << TileCameraDecoratorBase::RightFieldId);
 
 const OSG::BitVector  TileCameraDecoratorBase::BottomFieldMask = 
-    (1 << TileCameraDecoratorBase::BottomFieldId);
+    (TypeTraits<BitVector>::One << TileCameraDecoratorBase::BottomFieldId);
 
 const OSG::BitVector  TileCameraDecoratorBase::TopFieldMask = 
-    (1 << TileCameraDecoratorBase::TopFieldId);
+    (TypeTraits<BitVector>::One << TileCameraDecoratorBase::TopFieldId);
 
 const OSG::BitVector  TileCameraDecoratorBase::FullWidthFieldMask = 
-    (1 << TileCameraDecoratorBase::FullWidthFieldId);
+    (TypeTraits<BitVector>::One << TileCameraDecoratorBase::FullWidthFieldId);
 
 const OSG::BitVector  TileCameraDecoratorBase::FullHeightFieldMask = 
-    (1 << TileCameraDecoratorBase::FullHeightFieldId);
+    (TypeTraits<BitVector>::One << TileCameraDecoratorBase::FullHeightFieldId);
 
+const OSG::BitVector TileCameraDecoratorBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -398,7 +401,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTILECAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTILECAMERADECORATORBASE_INLINE_CVSID;
 

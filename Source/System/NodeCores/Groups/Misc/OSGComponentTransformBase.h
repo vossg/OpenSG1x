@@ -84,7 +84,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransformBase : public Transform
 {
   private:
 
-    typedef Transform Inherited;
+    typedef Transform    Inherited;
+    typedef ComponentTransformPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -105,6 +106,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransformBase : public Transform
     static const OSG::BitVector ScaleOrientationFieldMask;
     static const OSG::BitVector TranslationFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -252,6 +255,6 @@ typedef ComponentTransformBase *ComponentTransformBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGCOMPONENTTRANSFORMBASE_H_ */

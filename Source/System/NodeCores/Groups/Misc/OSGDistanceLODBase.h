@@ -81,7 +81,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public Group
 {
   private:
 
-    typedef Group Inherited;
+    typedef Group    Inherited;
+    typedef DistanceLODPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -96,6 +97,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public Group
     static const OSG::BitVector CenterFieldMask;
     static const OSG::BitVector RangeFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -228,6 +231,6 @@ typedef DistanceLODBase *DistanceLODBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGDISTANCELODBASE_H_ */

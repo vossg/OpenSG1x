@@ -80,7 +80,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialDrawableBase : public Drawable
 {
   private:
 
-    typedef Drawable Inherited;
+    typedef Drawable    Inherited;
+    typedef MaterialDrawablePtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -93,6 +94,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialDrawableBase : public Drawable
 
     static const OSG::BitVector MaterialFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -204,6 +207,6 @@ typedef MaterialDrawableBase *MaterialDrawableBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableBase.h,v 1.3 2002/11/11 13:55:48 dirk Exp $"
+#define OSGMATERIALDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableBase.h,v 1.4 2003/10/24 15:39:16 dirk Exp $"
 
 #endif /* _OSGMATERIALDRAWABLEBASE_H_ */

@@ -81,7 +81,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SlicesBase : public MaterialDrawable
 {
   private:
 
-    typedef MaterialDrawable Inherited;
+    typedef MaterialDrawable    Inherited;
+    typedef SlicesPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -96,6 +97,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SlicesBase : public MaterialDrawable
     static const OSG::BitVector SizeFieldMask;
     static const OSG::BitVector NumberOfSlicesFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -228,6 +231,6 @@ typedef SlicesBase *SlicesBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSLICESBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGSLICESBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGSLICESBASE_H_ */

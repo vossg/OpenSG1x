@@ -64,6 +64,9 @@
 
 OSG_USING_NAMESPACE
 
+const OSG::BitVector DrawableBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 
@@ -194,7 +197,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDrawableBase.cpp,v 1.3 2002/11/11 13:55:48 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDrawableBase.cpp,v 1.4 2003/10/24 15:39:16 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGDRAWABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDRAWABLEBASE_INLINE_CVSID;
 

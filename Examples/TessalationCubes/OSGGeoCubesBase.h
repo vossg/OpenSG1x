@@ -82,7 +82,8 @@ class OSG_MYLIB_DLLMAPPING GeoCubesBase : public Geometry
 {
   private:
 
-    typedef Geometry Inherited;
+    typedef Geometry    Inherited;
+    typedef GeoCubesPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -99,6 +100,8 @@ class OSG_MYLIB_DLLMAPPING GeoCubesBase : public Geometry
     static const OSG::BitVector LengthFieldMask;
     static const OSG::BitVector ColorFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -236,6 +239,6 @@ typedef GeoCubesBase *GeoCubesBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGEOCUBESBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGGEOCUBESBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGGEOCUBESBASE_H_ */

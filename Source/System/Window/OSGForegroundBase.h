@@ -79,11 +79,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ForegroundBase : public AttachmentContainer
 {
   private:
 
-    typedef AttachmentContainer Inherited;
+    typedef AttachmentContainer    Inherited;
+    typedef ForegroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -170,6 +173,6 @@ typedef ForegroundBase *ForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGFOREGROUNDBASE_H_ */

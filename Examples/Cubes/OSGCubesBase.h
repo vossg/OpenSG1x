@@ -82,7 +82,8 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public MaterialDrawable
 {
   private:
 
-    typedef MaterialDrawable Inherited;
+    typedef MaterialDrawable    Inherited;
+    typedef CubesPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -238,6 +239,6 @@ typedef CubesBase *CubesBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCUBESBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGCUBESBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGCUBESBASE_H_ */

@@ -83,7 +83,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FileGrabForegroundBase : public GrabForeground
 {
   private:
 
-    typedef GrabForeground Inherited;
+    typedef GrabForeground    Inherited;
+    typedef FileGrabForegroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -102,6 +103,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FileGrabForegroundBase : public GrabForeground
     static const OSG::BitVector FrameFieldMask;
     static const OSG::BitVector IncrementFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -244,6 +247,6 @@ typedef FileGrabForegroundBase *FileGrabForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGFILEGRABFOREGROUNDBASE_H_ */

@@ -73,38 +73,41 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  PolygonChunkBase::CullFaceFieldMask = 
-    (1 << PolygonChunkBase::CullFaceFieldId);
+    (TypeTraits<BitVector>::One << PolygonChunkBase::CullFaceFieldId);
 
 const OSG::BitVector  PolygonChunkBase::FrontFaceFieldMask = 
-    (1 << PolygonChunkBase::FrontFaceFieldId);
+    (TypeTraits<BitVector>::One << PolygonChunkBase::FrontFaceFieldId);
 
 const OSG::BitVector  PolygonChunkBase::FrontModeFieldMask = 
-    (1 << PolygonChunkBase::FrontModeFieldId);
+    (TypeTraits<BitVector>::One << PolygonChunkBase::FrontModeFieldId);
 
 const OSG::BitVector  PolygonChunkBase::BackModeFieldMask = 
-    (1 << PolygonChunkBase::BackModeFieldId);
+    (TypeTraits<BitVector>::One << PolygonChunkBase::BackModeFieldId);
 
 const OSG::BitVector  PolygonChunkBase::SmoothFieldMask = 
-    (1 << PolygonChunkBase::SmoothFieldId);
+    (TypeTraits<BitVector>::One << PolygonChunkBase::SmoothFieldId);
 
 const OSG::BitVector  PolygonChunkBase::OffsetFactorFieldMask = 
-    (1 << PolygonChunkBase::OffsetFactorFieldId);
+    (TypeTraits<BitVector>::One << PolygonChunkBase::OffsetFactorFieldId);
 
 const OSG::BitVector  PolygonChunkBase::OffsetBiasFieldMask = 
-    (1 << PolygonChunkBase::OffsetBiasFieldId);
+    (TypeTraits<BitVector>::One << PolygonChunkBase::OffsetBiasFieldId);
 
 const OSG::BitVector  PolygonChunkBase::OffsetPointFieldMask = 
-    (1 << PolygonChunkBase::OffsetPointFieldId);
+    (TypeTraits<BitVector>::One << PolygonChunkBase::OffsetPointFieldId);
 
 const OSG::BitVector  PolygonChunkBase::OffsetLineFieldMask = 
-    (1 << PolygonChunkBase::OffsetLineFieldId);
+    (TypeTraits<BitVector>::One << PolygonChunkBase::OffsetLineFieldId);
 
 const OSG::BitVector  PolygonChunkBase::OffsetFillFieldMask = 
-    (1 << PolygonChunkBase::OffsetFillFieldId);
+    (TypeTraits<BitVector>::One << PolygonChunkBase::OffsetFillFieldId);
 
 const OSG::BitVector  PolygonChunkBase::StippleFieldMask = 
-    (1 << PolygonChunkBase::StippleFieldId);
+    (TypeTraits<BitVector>::One << PolygonChunkBase::StippleFieldId);
 
+const OSG::BitVector PolygonChunkBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -556,7 +559,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONCHUNKBASE_INLINE_CVSID;
 

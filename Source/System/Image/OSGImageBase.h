@@ -92,7 +92,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
 {
   private:
 
-    typedef AttachmentContainer Inherited;
+    typedef AttachmentContainer    Inherited;
+    typedef ImagePtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:

@@ -66,14 +66,17 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  ClipPlaneChunkBase::EquationFieldMask = 
-    (1 << ClipPlaneChunkBase::EquationFieldId);
+    (TypeTraits<BitVector>::One << ClipPlaneChunkBase::EquationFieldId);
 
 const OSG::BitVector  ClipPlaneChunkBase::EnableFieldMask = 
-    (1 << ClipPlaneChunkBase::EnableFieldId);
+    (TypeTraits<BitVector>::One << ClipPlaneChunkBase::EnableFieldId);
 
 const OSG::BitVector  ClipPlaneChunkBase::BeaconFieldMask = 
-    (1 << ClipPlaneChunkBase::BeaconFieldId);
+    (TypeTraits<BitVector>::One << ClipPlaneChunkBase::BeaconFieldId);
 
+const OSG::BitVector ClipPlaneChunkBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -301,7 +304,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCLIPPLANECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCLIPPLANECHUNKBASE_INLINE_CVSID;
 

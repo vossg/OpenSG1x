@@ -81,7 +81,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
 {
   private:
 
-    typedef Camera Inherited;
+    typedef Camera    Inherited;
+    typedef PerspectiveCameraPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -230,6 +231,6 @@ typedef PerspectiveCameraBase *PerspectiveCameraBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGPERSPECTIVECAMERABASE_H_ */

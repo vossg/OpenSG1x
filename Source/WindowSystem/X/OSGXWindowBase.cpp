@@ -65,14 +65,17 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  XWindowBase::DisplayFieldMask = 
-    (1 << XWindowBase::DisplayFieldId);
+    (TypeTraits<BitVector>::One << XWindowBase::DisplayFieldId);
 
 const OSG::BitVector  XWindowBase::WindowFieldMask = 
-    (1 << XWindowBase::WindowFieldId);
+    (TypeTraits<BitVector>::One << XWindowBase::WindowFieldId);
 
 const OSG::BitVector  XWindowBase::ContextFieldMask = 
-    (1 << XWindowBase::ContextFieldId);
+    (TypeTraits<BitVector>::One << XWindowBase::ContextFieldId);
 
+const OSG::BitVector XWindowBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -305,7 +308,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGXWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGXWINDOWBASE_INLINE_CVSID;
 

@@ -65,14 +65,17 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  GeoCubesBase::PositionFieldMask = 
-    (1 << GeoCubesBase::PositionFieldId);
+    (TypeTraits<BitVector>::One << GeoCubesBase::PositionFieldId);
 
 const OSG::BitVector  GeoCubesBase::LengthFieldMask = 
-    (1 << GeoCubesBase::LengthFieldId);
+    (TypeTraits<BitVector>::One << GeoCubesBase::LengthFieldId);
 
 const OSG::BitVector  GeoCubesBase::ColorFieldMask = 
-    (1 << GeoCubesBase::ColorFieldId);
+    (TypeTraits<BitVector>::One << GeoCubesBase::ColorFieldId);
 
+const OSG::BitVector GeoCubesBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -305,7 +308,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGGEOCUBESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGEOCUBESBASE_INLINE_CVSID;
 

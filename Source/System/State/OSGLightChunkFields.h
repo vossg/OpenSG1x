@@ -102,6 +102,6 @@ struct FieldDataTraits<LightChunkPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTCHUNKFIELDS_HEADER_CVSID "@(#)$Id: $"
+#define OSGLIGHTCHUNKFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGLIGHTCHUNKFIELDS_H_ */

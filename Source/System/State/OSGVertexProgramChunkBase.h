@@ -79,7 +79,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VertexProgramChunkBase : public ProgramChunk
 {
   private:
 
-    typedef ProgramChunk Inherited;
+    typedef ProgramChunk    Inherited;
+    typedef VertexProgramChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -188,6 +189,6 @@ typedef VertexProgramChunkBase *VertexProgramChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGVERTEXPROGRAMCHUNKBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGVERTEXPROGRAMCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGVERTEXPROGRAMCHUNKBASE_H_ */

@@ -65,23 +65,23 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  CubeTextureChunkBase::PosZImageFieldMask = 
-    (static_cast<Int64>(1) << CubeTextureChunkBase::PosZImageFieldId);
+    (TypeTraits<BitVector>::One << CubeTextureChunkBase::PosZImageFieldId);
 
 const OSG::BitVector  CubeTextureChunkBase::PosXImageFieldMask = 
-    (static_cast<Int64>(1) << CubeTextureChunkBase::PosXImageFieldId);
+    (TypeTraits<BitVector>::One << CubeTextureChunkBase::PosXImageFieldId);
 
 const OSG::BitVector  CubeTextureChunkBase::NegXImageFieldMask = 
-    (static_cast<Int64>(1) << CubeTextureChunkBase::NegXImageFieldId);
+    (TypeTraits<BitVector>::One << CubeTextureChunkBase::NegXImageFieldId);
 
 const OSG::BitVector  CubeTextureChunkBase::PosYImageFieldMask = 
-    (static_cast<Int64>(1) << CubeTextureChunkBase::PosYImageFieldId);
+    (TypeTraits<BitVector>::One << CubeTextureChunkBase::PosYImageFieldId);
 
 const OSG::BitVector  CubeTextureChunkBase::NegYImageFieldMask = 
-    (static_cast<Int64>(1) << CubeTextureChunkBase::NegYImageFieldId);
+    (TypeTraits<BitVector>::One << CubeTextureChunkBase::NegYImageFieldId);
 
 const OSG::BitVector CubeTextureChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
-    (0x0 << Inherited::NextFieldId); 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -370,7 +370,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCUBETEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCUBETEXTURECHUNKBASE_INLINE_CVSID;
 

@@ -93,7 +93,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
 {
   private:
 
-    typedef StateChunk Inherited;
+    typedef StateChunk    Inherited;
+    typedef MaterialChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -326,6 +327,6 @@ typedef MaterialChunkBase *MaterialChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGMATERIALCHUNKBASE_H_ */

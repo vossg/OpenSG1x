@@ -66,29 +66,32 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  SimpleMaterialBase::AmbientFieldMask = 
-    (1 << SimpleMaterialBase::AmbientFieldId);
+    (TypeTraits<BitVector>::One << SimpleMaterialBase::AmbientFieldId);
 
 const OSG::BitVector  SimpleMaterialBase::DiffuseFieldMask = 
-    (1 << SimpleMaterialBase::DiffuseFieldId);
+    (TypeTraits<BitVector>::One << SimpleMaterialBase::DiffuseFieldId);
 
 const OSG::BitVector  SimpleMaterialBase::SpecularFieldMask = 
-    (1 << SimpleMaterialBase::SpecularFieldId);
+    (TypeTraits<BitVector>::One << SimpleMaterialBase::SpecularFieldId);
 
 const OSG::BitVector  SimpleMaterialBase::ShininessFieldMask = 
-    (1 << SimpleMaterialBase::ShininessFieldId);
+    (TypeTraits<BitVector>::One << SimpleMaterialBase::ShininessFieldId);
 
 const OSG::BitVector  SimpleMaterialBase::EmissionFieldMask = 
-    (1 << SimpleMaterialBase::EmissionFieldId);
+    (TypeTraits<BitVector>::One << SimpleMaterialBase::EmissionFieldId);
 
 const OSG::BitVector  SimpleMaterialBase::TransparencyFieldMask = 
-    (1 << SimpleMaterialBase::TransparencyFieldId);
+    (TypeTraits<BitVector>::One << SimpleMaterialBase::TransparencyFieldId);
 
 const OSG::BitVector  SimpleMaterialBase::LitFieldMask = 
-    (1 << SimpleMaterialBase::LitFieldId);
+    (TypeTraits<BitVector>::One << SimpleMaterialBase::LitFieldId);
 
 const OSG::BitVector  SimpleMaterialBase::ColorMaterialFieldMask = 
-    (1 << SimpleMaterialBase::ColorMaterialFieldId);
+    (TypeTraits<BitVector>::One << SimpleMaterialBase::ColorMaterialFieldId);
 
+const OSG::BitVector SimpleMaterialBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -456,7 +459,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSIMPLEMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSIMPLEMATERIALBASE_INLINE_CVSID;
 

@@ -117,13 +117,6 @@ SFHGLRC *WIN32WindowBase::getSFHglrc(void)
     return &_sfHglrc;
 }
 
-//! Get the WIN32Window::_sfPaintstruct field.
-inline
-SFPAINTSTRUCT *WIN32WindowBase::getSFPaintstruct(void)
-{
-    return &_sfPaintstruct;
-}
-
 
 //! Get the value of the WIN32Window::_sfHwnd field.
 inline
@@ -188,29 +181,8 @@ void WIN32WindowBase::setHglrc(const HGLRC &value)
     _sfHglrc.setValue(value);
 }
 
-//! Get the value of the WIN32Window::_sfPaintstruct field.
-inline
-PAINTSTRUCT &WIN32WindowBase::getPaintstruct(void)
-{
-    return _sfPaintstruct.getValue();
-}
-
-//! Get the value of the WIN32Window::_sfPaintstruct field.
-inline
-const PAINTSTRUCT &WIN32WindowBase::getPaintstruct(void) const
-{
-    return _sfPaintstruct.getValue();
-}
-
-//! Set the value of the WIN32Window::_sfPaintstruct field.
-inline
-void WIN32WindowBase::setPaintstruct(const PAINTSTRUCT &value)
-{
-    _sfPaintstruct.setValue(value);
-}
-
 
 OSG_END_NAMESPACE
 
-#define OSGWIN32WINDOWBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGWIN32WINDOWBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 

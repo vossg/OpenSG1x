@@ -80,7 +80,8 @@ class OSG_WINDOWGLUTLIB_DLLMAPPING GLUTWindowBase : public Window
 {
   private:
 
-    typedef Window Inherited;
+    typedef Window    Inherited;
+    typedef GLUTWindowPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -93,6 +94,8 @@ class OSG_WINDOWGLUTLIB_DLLMAPPING GLUTWindowBase : public Window
 
     static const OSG::BitVector IdFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -220,6 +223,6 @@ typedef GLUTWindowBase *GLUTWindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGLUTWINDOWBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGGLUTWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGGLUTWINDOWBASE_H_ */

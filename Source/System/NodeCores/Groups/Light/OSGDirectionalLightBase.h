@@ -80,7 +80,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLightBase : public Light
 {
   private:
 
-    typedef Light Inherited;
+    typedef Light    Inherited;
+    typedef DirectionalLightPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -93,6 +94,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLightBase : public Light
 
     static const OSG::BitVector DirectionFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -220,6 +223,6 @@ typedef DirectionalLightBase *DirectionalLightBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDIRECTIONALLIGHTBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGDIRECTIONALLIGHTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGDIRECTIONALLIGHTBASE_H_ */

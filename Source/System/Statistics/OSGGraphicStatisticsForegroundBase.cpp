@@ -65,53 +65,56 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  GraphicStatisticsForegroundBase::DisplayTypeFieldMask = 
-    (1 << GraphicStatisticsForegroundBase::DisplayTypeFieldId);
+    (TypeTraits<BitVector>::One << GraphicStatisticsForegroundBase::DisplayTypeFieldId);
 
 const OSG::BitVector  GraphicStatisticsForegroundBase::SizeFieldMask = 
-    (1 << GraphicStatisticsForegroundBase::SizeFieldId);
+    (TypeTraits<BitVector>::One << GraphicStatisticsForegroundBase::SizeFieldId);
 
 const OSG::BitVector  GraphicStatisticsForegroundBase::PosFieldMask = 
-    (1 << GraphicStatisticsForegroundBase::PosFieldId);
+    (TypeTraits<BitVector>::One << GraphicStatisticsForegroundBase::PosFieldId);
 
 const OSG::BitVector  GraphicStatisticsForegroundBase::ColorMaxFieldMask = 
-    (1 << GraphicStatisticsForegroundBase::ColorMaxFieldId);
+    (TypeTraits<BitVector>::One << GraphicStatisticsForegroundBase::ColorMaxFieldId);
 
 const OSG::BitVector  GraphicStatisticsForegroundBase::ColorMinFieldMask = 
-    (1 << GraphicStatisticsForegroundBase::ColorMinFieldId);
+    (TypeTraits<BitVector>::One << GraphicStatisticsForegroundBase::ColorMinFieldId);
 
 const OSG::BitVector  GraphicStatisticsForegroundBase::ColorCurrentFieldMask = 
-    (1 << GraphicStatisticsForegroundBase::ColorCurrentFieldId);
+    (TypeTraits<BitVector>::One << GraphicStatisticsForegroundBase::ColorCurrentFieldId);
 
 const OSG::BitVector  GraphicStatisticsForegroundBase::MinValueFieldMask = 
-    (1 << GraphicStatisticsForegroundBase::MinValueFieldId);
+    (TypeTraits<BitVector>::One << GraphicStatisticsForegroundBase::MinValueFieldId);
 
 const OSG::BitVector  GraphicStatisticsForegroundBase::MaxValueFieldMask = 
-    (1 << GraphicStatisticsForegroundBase::MaxValueFieldId);
+    (TypeTraits<BitVector>::One << GraphicStatisticsForegroundBase::MaxValueFieldId);
 
 const OSG::BitVector  GraphicStatisticsForegroundBase::FlagsFieldMask = 
-    (1 << GraphicStatisticsForegroundBase::FlagsFieldId);
+    (TypeTraits<BitVector>::One << GraphicStatisticsForegroundBase::FlagsFieldId);
 
 const OSG::BitVector  GraphicStatisticsForegroundBase::HistorySizeFieldMask = 
-    (1 << GraphicStatisticsForegroundBase::HistorySizeFieldId);
+    (TypeTraits<BitVector>::One << GraphicStatisticsForegroundBase::HistorySizeFieldId);
 
 const OSG::BitVector  GraphicStatisticsForegroundBase::DescriptionFieldMask = 
-    (1 << GraphicStatisticsForegroundBase::DescriptionFieldId);
+    (TypeTraits<BitVector>::One << GraphicStatisticsForegroundBase::DescriptionFieldId);
 
 const OSG::BitVector  GraphicStatisticsForegroundBase::LineWidthFieldMask = 
-    (1 << GraphicStatisticsForegroundBase::LineWidthFieldId);
+    (TypeTraits<BitVector>::One << GraphicStatisticsForegroundBase::LineWidthFieldId);
 
 const OSG::BitVector  GraphicStatisticsForegroundBase::BackgroundColorFieldMask = 
-    (1 << GraphicStatisticsForegroundBase::BackgroundColorFieldId);
+    (TypeTraits<BitVector>::One << GraphicStatisticsForegroundBase::BackgroundColorFieldId);
 
 const OSG::BitVector  GraphicStatisticsForegroundBase::TextEnabledFieldMask = 
-    (1 << GraphicStatisticsForegroundBase::TextEnabledFieldId);
+    (TypeTraits<BitVector>::One << GraphicStatisticsForegroundBase::TextEnabledFieldId);
 
 const OSG::BitVector  GraphicStatisticsForegroundBase::BackgroundEnabledFieldMask = 
-    (1 << GraphicStatisticsForegroundBase::BackgroundEnabledFieldId);
+    (TypeTraits<BitVector>::One << GraphicStatisticsForegroundBase::BackgroundEnabledFieldId);
 
 const OSG::BitVector  GraphicStatisticsForegroundBase::BorderEnabledFieldMask = 
-    (1 << GraphicStatisticsForegroundBase::BorderEnabledFieldId);
+    (TypeTraits<BitVector>::One << GraphicStatisticsForegroundBase::BorderEnabledFieldId);
 
+const OSG::BitVector GraphicStatisticsForegroundBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -708,7 +711,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 

@@ -80,7 +80,8 @@ class NewFieldContainerBase : public FieldContainer
 {
   private:
 
-    typedef FieldContainer Inherited;
+    typedef FieldContainer    Inherited;
+    typedef NewFieldContainerPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -229,6 +230,6 @@ typedef NewFieldContainerBase *NewFieldContainerBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGNEWFIELDCONTAINERBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGNEWFIELDCONTAINERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGNEWFIELDCONTAINERBASE_H_ */

@@ -81,7 +81,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
 {
   private:
 
-    typedef Background Inherited;
+    typedef Background    Inherited;
+    typedef GradientBackgroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -96,6 +97,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
     static const OSG::BitVector ColorFieldMask;
     static const OSG::BitVector PositionFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -228,6 +231,6 @@ typedef GradientBackgroundBase *GradientBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGGRADIENTBACKGROUNDBASE_H_ */

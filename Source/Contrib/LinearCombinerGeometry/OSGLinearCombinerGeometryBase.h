@@ -85,7 +85,8 @@ class OSG_CONTRIBLIB_DLLMAPPING LinearCombinerGeometryBase : public Geometry
 {
   private:
 
-    typedef Geometry Inherited;
+    typedef Geometry    Inherited;
+    typedef LinearCombinerGeometryPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -275,6 +276,6 @@ typedef LinearCombinerGeometryBase *LinearCombinerGeometryBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLINEARCOMBINERGEOMETRYBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGLINEARCOMBINERGEOMETRYBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGLINEARCOMBINERGEOMETRYBASE_H_ */

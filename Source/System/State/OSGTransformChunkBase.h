@@ -80,7 +80,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TransformChunkBase : public StateChunk
 {
   private:
 
-    typedef StateChunk Inherited;
+    typedef StateChunk    Inherited;
+    typedef TransformChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -93,6 +94,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TransformChunkBase : public StateChunk
 
     static const OSG::BitVector MatrixFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -220,6 +223,6 @@ typedef TransformChunkBase *TransformChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMCHUNKBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGTRANSFORMCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGTRANSFORMCHUNKBASE_H_ */

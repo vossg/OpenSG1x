@@ -118,6 +118,23 @@ std::ostream &OSG::operator <<(      std::ostream  &os,
 }
 
 
+// create a Node around the given core
+
+OSG_SYSTEMLIB_DLLMAPPING
+NodePtr OSG::makeNodeFor(NodeCorePtr core)
+{
+    NodePtr n = Node::create();
+    
+    beginEditCP(n, Node::CoreFieldMask);
+    
+    n->setCore(core);
+    
+    endEditCP(n, Node::CoreFieldMask);
+    
+    return n;
+}
+
+
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
 

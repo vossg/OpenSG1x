@@ -95,7 +95,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
 {
   private:
 
-    typedef StatisticsForeground Inherited;
+    typedef StatisticsForeground    Inherited;
+    typedef GraphicStatisticsForegroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -138,6 +139,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
     static const OSG::BitVector BackgroundEnabledFieldMask;
     static const OSG::BitVector BorderEnabledFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -230,7 +233,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
     virtual FieldContainerPtr     shallowCopy     (void) const; 
 
     /*! \}                                                                 */
-
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -332,7 +334,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
-
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -355,6 +356,6 @@ typedef GraphicStatisticsForegroundBase *GraphicStatisticsForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGGRAPHICSTATISTICSFOREGROUNDBASE_H_ */

@@ -81,7 +81,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StereoCameraDecoratorBase : public CameraDecorato
 {
   private:
 
-    typedef CameraDecorator Inherited;
+    typedef CameraDecorator    Inherited;
+    typedef StereoCameraDecoratorPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -96,6 +97,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StereoCameraDecoratorBase : public CameraDecorato
     static const OSG::BitVector LeftEyeFieldMask;
     static const OSG::BitVector EyeSeparationFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -212,6 +215,6 @@ typedef StereoCameraDecoratorBase *StereoCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTEREOCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGSTEREOCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGSTEREOCAMERADECORATORBASE_H_ */

@@ -73,9 +73,12 @@ typedef FCPtr<StateChunkPtr, PointChunk> PointChunkPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief PointChunkPtr field traits 
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<PointChunkPtr> : 
@@ -86,11 +89,19 @@ struct FieldDataTraits<PointChunkPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 };
-#endif             // exclude from doc
+
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<PointChunkPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
 
 
 OSG_END_NAMESPACE
 
-#define OSGPOINTCHUNKFIELDS_HEADER_CVSID "@(#)$Id: $"
+#define OSGPOINTCHUNKFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGPOINTCHUNKFIELDS_H_ */

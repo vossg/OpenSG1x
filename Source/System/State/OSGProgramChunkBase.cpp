@@ -65,20 +65,20 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  ProgramChunkBase::ProgramFieldMask = 
-    (static_cast<OSG::BitVector>(1) << ProgramChunkBase::ProgramFieldId);
+    (TypeTraits<BitVector>::One << ProgramChunkBase::ProgramFieldId);
 
 const OSG::BitVector  ProgramChunkBase::ParamValuesFieldMask = 
-    (static_cast<OSG::BitVector>(1) << ProgramChunkBase::ParamValuesFieldId);
+    (TypeTraits<BitVector>::One << ProgramChunkBase::ParamValuesFieldId);
 
 const OSG::BitVector  ProgramChunkBase::ParamNamesFieldMask = 
-    (static_cast<OSG::BitVector>(1) << ProgramChunkBase::ParamNamesFieldId);
+    (TypeTraits<BitVector>::One << ProgramChunkBase::ParamNamesFieldId);
 
 const OSG::BitVector  ProgramChunkBase::GLIdFieldMask = 
-    (static_cast<OSG::BitVector>(1) << ProgramChunkBase::GLIdFieldId);
+    (TypeTraits<BitVector>::One << ProgramChunkBase::GLIdFieldId);
 
 const OSG::BitVector ProgramChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
-    (0x0 << Inherited::NextFieldId); 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -330,7 +330,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPROGRAMCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPROGRAMCHUNKBASE_INLINE_CVSID;
 

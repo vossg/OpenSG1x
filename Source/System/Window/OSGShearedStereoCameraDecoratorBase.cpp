@@ -65,11 +65,14 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  ShearedStereoCameraDecoratorBase::ZeroParallaxDistanceFieldMask = 
-    (1 << ShearedStereoCameraDecoratorBase::ZeroParallaxDistanceFieldId);
+    (TypeTraits<BitVector>::One << ShearedStereoCameraDecoratorBase::ZeroParallaxDistanceFieldId);
 
 const OSG::BitVector  ShearedStereoCameraDecoratorBase::OverlapFieldMask = 
-    (1 << ShearedStereoCameraDecoratorBase::OverlapFieldId);
+    (TypeTraits<BitVector>::One << ShearedStereoCameraDecoratorBase::OverlapFieldId);
 
+const OSG::BitVector ShearedStereoCameraDecoratorBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -274,7 +277,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSHEAREDSTEREOCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHEAREDSTEREOCAMERADECORATORBASE_INLINE_CVSID;
 

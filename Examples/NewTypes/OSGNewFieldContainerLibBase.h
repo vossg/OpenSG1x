@@ -77,11 +77,12 @@ class BinaryDataHandler;
 
 //! \brief NewFieldContainerLib Base Class.
 
-class OSG_MYLIBRARY_DLLMAPPING NewFieldContainerLibBase : public FieldContainer
+class OSG_MYLIBRARYLIB_DLLMAPPING NewFieldContainerLibBase : public FieldContainer
 {
   private:
 
-    typedef FieldContainer Inherited;
+    typedef FieldContainer    Inherited;
+    typedef NewFieldContainerLibPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -230,6 +231,6 @@ typedef NewFieldContainerLibBase *NewFieldContainerLibBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGNEWFIELDCONTAINERLIBBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGNEWFIELDCONTAINERLIBBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGNEWFIELDCONTAINERLIBBASE_H_ */

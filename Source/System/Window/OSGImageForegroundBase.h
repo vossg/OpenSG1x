@@ -81,7 +81,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageForegroundBase : public Foreground
 {
   private:
 
-    typedef Foreground Inherited;
+    typedef Foreground    Inherited;
+    typedef ImageForegroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -96,6 +97,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageForegroundBase : public Foreground
     static const OSG::BitVector ImagesFieldMask;
     static const OSG::BitVector PositionsFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -228,6 +231,6 @@ typedef ImageForegroundBase *ImageForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGIMAGEFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGIMAGEFOREGROUNDBASE_H_ */

@@ -85,7 +85,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
 {
   private:
 
-    typedef StateChunk Inherited;
+    typedef StateChunk    Inherited;
+    typedef BlendChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -108,6 +109,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     static const OSG::BitVector AlphaFuncFieldMask;
     static const OSG::BitVector AlphaValueFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -260,6 +263,6 @@ typedef BlendChunkBase *BlendChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGBLENDCHUNKBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGBLENDCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGBLENDCHUNKBASE_H_ */

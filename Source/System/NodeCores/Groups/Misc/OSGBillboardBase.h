@@ -82,7 +82,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public Group
 {
   private:
 
-    typedef Group Inherited;
+    typedef Group    Inherited;
+    typedef BillboardPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -99,6 +100,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public Group
     static const OSG::BitVector FocusOnCameraFieldMask;
     static const OSG::BitVector AlignToScreenFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -236,6 +239,6 @@ typedef BillboardBase *BillboardBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGBILLBOARDBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGBILLBOARDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGBILLBOARDBASE_H_ */

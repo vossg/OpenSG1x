@@ -93,7 +93,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
 {
   private:
 
-    typedef MaterialDrawable Inherited;
+    typedef MaterialDrawable    Inherited;
+    typedef GeometryPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -339,6 +340,6 @@ typedef GeometryBase *GeometryBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGEOMETRYBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGGEOMETRYBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGGEOMETRYBASE_H_ */

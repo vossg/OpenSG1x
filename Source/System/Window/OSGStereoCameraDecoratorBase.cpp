@@ -65,11 +65,14 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  StereoCameraDecoratorBase::LeftEyeFieldMask = 
-    (1 << StereoCameraDecoratorBase::LeftEyeFieldId);
+    (TypeTraits<BitVector>::One << StereoCameraDecoratorBase::LeftEyeFieldId);
 
 const OSG::BitVector  StereoCameraDecoratorBase::EyeSeparationFieldMask = 
-    (1 << StereoCameraDecoratorBase::EyeSeparationFieldId);
+    (TypeTraits<BitVector>::One << StereoCameraDecoratorBase::EyeSeparationFieldId);
 
+const OSG::BitVector StereoCameraDecoratorBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -265,7 +268,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSTEREOCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTEREOCAMERADECORATORBASE_INLINE_CVSID;
 

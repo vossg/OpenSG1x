@@ -68,7 +68,6 @@
 #include <OSGWIN32WindowDataFields.h> // Hwnd type
 #include <OSGWIN32WindowDataFields.h> // Hdc type
 #include <OSGWIN32WindowDataFields.h> // Hglrc type
-#include <OSGWIN32WindowDataFields.h> // Paintstruct type
 
 #include <OSGWIN32WindowFields.h>
 
@@ -83,25 +82,26 @@ class OSG_WINDOWWIN32LIB_DLLMAPPING WIN32WindowBase : public Window
 {
   private:
 
-    typedef Window Inherited;
+    typedef Window    Inherited;
+    typedef WIN32WindowPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
     enum
     {
-        HwndFieldId        = Inherited::NextFieldId,
-        HdcFieldId         = HwndFieldId        + 1,
-        HglrcFieldId       = HdcFieldId         + 1,
-        PaintstructFieldId = HglrcFieldId       + 1,
-        NextFieldId        = PaintstructFieldId + 1
+        HwndFieldId  = Inherited::NextFieldId,
+        HdcFieldId   = HwndFieldId  + 1,
+        HglrcFieldId = HdcFieldId   + 1,
+        NextFieldId  = HglrcFieldId + 1
     };
 
     static const OSG::BitVector HwndFieldMask;
     static const OSG::BitVector HdcFieldMask;
     static const OSG::BitVector HglrcFieldMask;
-    static const OSG::BitVector PaintstructFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -128,7 +128,6 @@ class OSG_WINDOWWIN32LIB_DLLMAPPING WIN32WindowBase : public Window
            SFHWND              *getSFHwnd           (void);
            SFHDC               *getSFHdc            (void);
            SFHGLRC             *getSFHglrc          (void);
-           SFPAINTSTRUCT       *getSFPaintstruct    (void);
 
            HWND                &getHwnd           (void);
      const HWND                &getHwnd           (void) const;
@@ -136,8 +135,6 @@ class OSG_WINDOWWIN32LIB_DLLMAPPING WIN32WindowBase : public Window
      const HDC                 &getHdc            (void) const;
            HGLRC               &getHglrc          (void);
      const HGLRC               &getHglrc          (void) const;
-           PAINTSTRUCT         &getPaintstruct    (void);
-     const PAINTSTRUCT         &getPaintstruct    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -147,7 +144,6 @@ class OSG_WINDOWWIN32LIB_DLLMAPPING WIN32WindowBase : public Window
      void setHwnd           ( const HWND &value );
      void setHdc            ( const HDC &value );
      void setHglrc          ( const HGLRC &value );
-     void setPaintstruct    ( const PAINTSTRUCT &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -196,7 +192,6 @@ class OSG_WINDOWWIN32LIB_DLLMAPPING WIN32WindowBase : public Window
     SFHWND              _sfHwnd;
     SFHDC               _sfHdc;
     SFHGLRC             _sfHglrc;
-    SFPAINTSTRUCT       _sfPaintstruct;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -244,6 +239,6 @@ typedef WIN32WindowBase *WIN32WindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGWIN32WINDOWBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGWIN32WINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGWIN32WINDOWBASE_H_ */

@@ -80,7 +80,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SwitchBase : public Group
 {
   private:
 
-    typedef Group Inherited;
+    typedef Group    Inherited;
+    typedef SwitchPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -222,6 +223,6 @@ typedef SwitchBase *SwitchBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSWITCHBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.31 2003/03/15 23:10:08 dirk Exp $"
+#define OSGSWITCHBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGSWITCHBASE_H_ */

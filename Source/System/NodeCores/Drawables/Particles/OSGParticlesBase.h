@@ -91,7 +91,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public MaterialDrawable
 {
   private:
 
-    typedef MaterialDrawable Inherited;
+    typedef MaterialDrawable    Inherited;
+    typedef ParticlesPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -126,6 +127,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public MaterialDrawable
     static const OSG::BitVector PumpFieldMask;
     static const OSG::BitVector BspFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -327,6 +330,6 @@ typedef ParticlesBase *ParticlesBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGPARTICLESBASE_H_ */

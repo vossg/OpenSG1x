@@ -87,7 +87,8 @@ class OSG_CONTRIBLIB_DLLMAPPING SkinDeformerBase : public Deformer
 {
   private:
 
-    typedef Deformer Inherited;
+    typedef Deformer    Inherited;
+    typedef SkinDeformerPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -278,6 +279,6 @@ typedef SkinDeformerBase *SkinDeformerBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSKINDEFORMERBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGSKINDEFORMERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGSKINDEFORMERBASE_H_ */

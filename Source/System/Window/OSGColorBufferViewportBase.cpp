@@ -69,17 +69,20 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  ColorBufferViewportBase::RedFieldMask = 
-    (1 << ColorBufferViewportBase::RedFieldId);
+    (TypeTraits<BitVector>::One << ColorBufferViewportBase::RedFieldId);
 
 const OSG::BitVector  ColorBufferViewportBase::BlueFieldMask = 
-    (1 << ColorBufferViewportBase::BlueFieldId);
+    (TypeTraits<BitVector>::One << ColorBufferViewportBase::BlueFieldId);
 
 const OSG::BitVector  ColorBufferViewportBase::GreenFieldMask = 
-    (1 << ColorBufferViewportBase::GreenFieldId);
+    (TypeTraits<BitVector>::One << ColorBufferViewportBase::GreenFieldId);
 
 const OSG::BitVector  ColorBufferViewportBase::AlphaFieldMask = 
-    (1 << ColorBufferViewportBase::AlphaFieldId);
+    (TypeTraits<BitVector>::One << ColorBufferViewportBase::AlphaFieldId);
 
+const OSG::BitVector ColorBufferViewportBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -340,7 +343,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCOLORBUFFERVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOLORBUFFERVIEWPORTBASE_INLINE_CVSID;
 

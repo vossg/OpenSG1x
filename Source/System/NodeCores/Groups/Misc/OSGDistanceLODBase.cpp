@@ -65,11 +65,14 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  DistanceLODBase::CenterFieldMask = 
-    (1 << DistanceLODBase::CenterFieldId);
+    (TypeTraits<BitVector>::One << DistanceLODBase::CenterFieldId);
 
 const OSG::BitVector  DistanceLODBase::RangeFieldMask = 
-    (1 << DistanceLODBase::RangeFieldId);
+    (TypeTraits<BitVector>::One << DistanceLODBase::RangeFieldId);
 
+const OSG::BitVector DistanceLODBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -269,7 +272,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGDISTANCELODBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDISTANCELODBASE_INLINE_CVSID;
 

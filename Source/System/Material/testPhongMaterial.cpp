@@ -103,6 +103,7 @@ int main(int argc, char **argv)
     // create geometry
     //geo = makeTorusGeo(0.25, 0.5, 32, 32);
     geo = makePlaneGeo(1.0, 1.0, 1, 1);
+
     beginEditCP(geo, Geometry::MaterialFieldMask);
         geo->setMaterial(pmat);
     endEditCP(geo, Geometry::MaterialFieldMask);

@@ -81,7 +81,8 @@ class OSG_SYSTEMLIB_DLLMAPPING InlineBase : public NodeCore
 {
   private:
 
-    typedef NodeCore Inherited;
+    typedef NodeCore    Inherited;
+    typedef InlinePtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -96,6 +97,8 @@ class OSG_SYSTEMLIB_DLLMAPPING InlineBase : public NodeCore
     static const OSG::BitVector UrlFieldMask;
     static const OSG::BitVector LoadedFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -228,6 +231,6 @@ typedef InlineBase *InlineBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGINLINEBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGINLINEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGINLINEBASE_H_ */

@@ -83,7 +83,8 @@ class OSG_SYSTEMLIB_DLLMAPPING LineChunkBase : public StateChunk
 {
   private:
 
-    typedef StateChunk Inherited;
+    typedef StateChunk    Inherited;
+    typedef LineChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -102,6 +103,8 @@ class OSG_SYSTEMLIB_DLLMAPPING LineChunkBase : public StateChunk
     static const OSG::BitVector StipplePatternFieldMask;
     static const OSG::BitVector SmoothFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -244,6 +247,6 @@ typedef LineChunkBase *LineChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLINECHUNKBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGLINECHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGLINECHUNKBASE_H_ */

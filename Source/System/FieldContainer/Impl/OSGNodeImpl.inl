@@ -358,7 +358,6 @@ void Node::executeSync(      FieldContainer &other,
     this->executeSyncImpl((Node *) &other, whichField);
 }
 
-
 OSG_END_NAMESPACE
 
 #define OSGNODE_INLINE_CVSID "@(#)$Id: $"

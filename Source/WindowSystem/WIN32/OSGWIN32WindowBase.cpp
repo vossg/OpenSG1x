@@ -65,17 +65,17 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  WIN32WindowBase::HwndFieldMask = 
-    (1 << WIN32WindowBase::HwndFieldId);
+    (TypeTraits<BitVector>::One << WIN32WindowBase::HwndFieldId);
 
 const OSG::BitVector  WIN32WindowBase::HdcFieldMask = 
-    (1 << WIN32WindowBase::HdcFieldId);
+    (TypeTraits<BitVector>::One << WIN32WindowBase::HdcFieldId);
 
 const OSG::BitVector  WIN32WindowBase::HglrcFieldMask = 
-    (1 << WIN32WindowBase::HglrcFieldId);
+    (TypeTraits<BitVector>::One << WIN32WindowBase::HglrcFieldId);
 
-const OSG::BitVector  WIN32WindowBase::PaintstructFieldMask = 
-    (1 << WIN32WindowBase::PaintstructFieldId);
-
+const OSG::BitVector WIN32WindowBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -87,9 +87,6 @@ const OSG::BitVector  WIN32WindowBase::PaintstructFieldMask =
     
 */
 /*! \var HGLRC           WIN32WindowBase::_sfHglrc
-    
-*/
-/*! \var PAINTSTRUCT     WIN32WindowBase::_sfPaintstruct
     
 */
 
@@ -111,12 +108,7 @@ FieldDescription *WIN32WindowBase::_desc[] =
                      "hglrc", 
                      HglrcFieldId, HglrcFieldMask,
                      true,
-                     (FieldAccessMethod) &WIN32WindowBase::getSFHglrc),
-    new FieldDescription(SFPAINTSTRUCT::getClassType(), 
-                     "paintstruct", 
-                     PaintstructFieldId, PaintstructFieldMask,
-                     true,
-                     (FieldAccessMethod) &WIN32WindowBase::getSFPaintstruct)
+                     (FieldAccessMethod) &WIN32WindowBase::getSFHglrc)
 };
 
 
@@ -175,7 +167,6 @@ WIN32WindowBase::WIN32WindowBase(void) :
     _sfHwnd                   (HWND(0)), 
     _sfHdc                    (HDC(0)), 
     _sfHglrc                  (HGLRC(0)), 
-    _sfPaintstruct            (), 
     Inherited() 
 {
 }
@@ -188,7 +179,6 @@ WIN32WindowBase::WIN32WindowBase(const WIN32WindowBase &source) :
     _sfHwnd                   (source._sfHwnd                   ), 
     _sfHdc                    (source._sfHdc                    ), 
     _sfHglrc                  (source._sfHglrc                  ), 
-    _sfPaintstruct            (source._sfPaintstruct            ), 
     Inherited                 (source)
 {
 }
@@ -220,11 +210,6 @@ UInt32 WIN32WindowBase::getBinSize(const BitVector &whichField)
         returnValue += _sfHglrc.getBinSize();
     }
 
-    if(FieldBits::NoField != (PaintstructFieldMask & whichField))
-    {
-        returnValue += _sfPaintstruct.getBinSize();
-    }
-
 
     return returnValue;
 }
@@ -247,11 +232,6 @@ void WIN32WindowBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (HglrcFieldMask & whichField))
     {
         _sfHglrc.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (PaintstructFieldMask & whichField))
-    {
-        _sfPaintstruct.copyToBin(pMem);
     }
 
 
@@ -277,11 +257,6 @@ void WIN32WindowBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfHglrc.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (PaintstructFieldMask & whichField))
-    {
-        _sfPaintstruct.copyFromBin(pMem);
-    }
-
 
 }
 
@@ -299,9 +274,6 @@ void WIN32WindowBase::executeSyncImpl(      WIN32WindowBase *pOther,
 
     if(FieldBits::NoField != (HglrcFieldMask & whichField))
         _sfHglrc.syncWith(pOther->_sfHglrc);
-
-    if(FieldBits::NoField != (PaintstructFieldMask & whichField))
-        _sfPaintstruct.syncWith(pOther->_sfPaintstruct);
 
 
 }
@@ -336,7 +308,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGWIN32WINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWIN32WINDOWBASE_INLINE_CVSID;
 

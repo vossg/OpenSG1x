@@ -65,14 +65,14 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  NewFieldContainerLibBase::FooFieldMask = 
-    (static_cast<OSG::BitVector>(1) << NewFieldContainerLibBase::FooFieldId);
+    (TypeTraits<BitVector>::One << NewFieldContainerLibBase::FooFieldId);
 
 const OSG::BitVector  NewFieldContainerLibBase::BarFieldMask = 
-    (static_cast<OSG::BitVector>(1) << NewFieldContainerLibBase::BarFieldId);
+    (TypeTraits<BitVector>::One << NewFieldContainerLibBase::BarFieldId);
 
 const OSG::BitVector NewFieldContainerLibBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
-    (0x0 << Inherited::NextFieldId); 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -258,8 +258,8 @@ OSG_BEGIN_NAMESPACE
 DataType FieldDataTraits<NewFieldContainerLibPtr>::_type("NewFieldContainerLibPtr", "FieldContainerPtr");
 #endif
 
-OSG_DLLEXPORT_SFIELD_DEF1(NewFieldContainerLibPtr, OSG_MYLIBRARY_DLLTMPLMAPPING);
-OSG_DLLEXPORT_MFIELD_DEF1(NewFieldContainerLibPtr, OSG_MYLIBRARY_DLLTMPLMAPPING);
+OSG_DLLEXPORT_SFIELD_DEF1(NewFieldContainerLibPtr, OSG_MYLIBRARYLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(NewFieldContainerLibPtr, OSG_MYLIBRARYLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE
 
@@ -277,7 +277,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGNEWFIELDCONTAINERLIBBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGNEWFIELDCONTAINERLIBBASE_INLINE_CVSID;
 

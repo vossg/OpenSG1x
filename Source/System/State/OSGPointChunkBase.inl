@@ -124,13 +124,6 @@ SFReal32 *PointChunkBase::getSFMaxSize(void)
     return &_sfMaxSize;
 }
 
-//! Get the PointChunk::_sfFadeThreshold field.
-inline
-SFReal32 *PointChunkBase::getSFFadeThreshold(void)
-{
-    return &_sfFadeThreshold;
-}
-
 //! Get the PointChunk::_sfConstantAttenuation field.
 inline
 SFReal32 *PointChunkBase::getSFConstantAttenuation(void)
@@ -150,6 +143,13 @@ inline
 SFReal32 *PointChunkBase::getSFQuadraticAttenuation(void)
 {
     return &_sfQuadraticAttenuation;
+}
+
+//! Get the PointChunk::_sfFadeThreshold field.
+inline
+SFReal32 *PointChunkBase::getSFFadeThreshold(void)
+{
+    return &_sfFadeThreshold;
 }
 
 //! Get the PointChunk::_sfSprite field.
@@ -251,27 +251,6 @@ void PointChunkBase::setMaxSize(const Real32 &value)
     _sfMaxSize.setValue(value);
 }
 
-//! Get the value of the PointChunk::_sfFadeThreshold field.
-inline
-Real32 &PointChunkBase::getFadeThreshold(void)
-{
-    return _sfFadeThreshold.getValue();
-}
-
-//! Get the value of the PointChunk::_sfFadeThreshold field.
-inline
-const Real32 &PointChunkBase::getFadeThreshold(void) const
-{
-    return _sfFadeThreshold.getValue();
-}
-
-//! Set the value of the PointChunk::_sfFadeThreshold field.
-inline
-void PointChunkBase::setFadeThreshold(const Real32 &value)
-{
-    _sfFadeThreshold.setValue(value);
-}
-
 //! Get the value of the PointChunk::_sfConstantAttenuation field.
 inline
 Real32 &PointChunkBase::getConstantAttenuation(void)
@@ -335,6 +314,27 @@ void PointChunkBase::setQuadraticAttenuation(const Real32 &value)
     _sfQuadraticAttenuation.setValue(value);
 }
 
+//! Get the value of the PointChunk::_sfFadeThreshold field.
+inline
+Real32 &PointChunkBase::getFadeThreshold(void)
+{
+    return _sfFadeThreshold.getValue();
+}
+
+//! Get the value of the PointChunk::_sfFadeThreshold field.
+inline
+const Real32 &PointChunkBase::getFadeThreshold(void) const
+{
+    return _sfFadeThreshold.getValue();
+}
+
+//! Set the value of the PointChunk::_sfFadeThreshold field.
+inline
+void PointChunkBase::setFadeThreshold(const Real32 &value)
+{
+    _sfFadeThreshold.setValue(value);
+}
+
 //! Get the value of the PointChunk::_sfSprite field.
 inline
 bool &PointChunkBase::getSprite(void)
@@ -380,5 +380,5 @@ void PointChunkBase::setRMode(const GLenum &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPOINTCHUNKBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGPOINTCHUNKBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 

@@ -86,7 +86,8 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
 {
   private:
 
-    typedef AttachmentContainer Inherited;
+    typedef AttachmentContainer    Inherited;
+    typedef WindowPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -111,6 +112,8 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
     static const OSG::BitVector GlObjectLastRefreshFieldMask;
     static const OSG::BitVector GlObjectLastReinitializeFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -265,6 +268,6 @@ typedef WindowBase *WindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGWINDOWBASE_H_ */

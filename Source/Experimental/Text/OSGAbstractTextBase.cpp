@@ -65,23 +65,23 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  AbstractTextBase::PositionFieldMask = 
-    (1 << AbstractTextBase::PositionFieldId);
+    (TypeTraits<BitVector>::One << AbstractTextBase::PositionFieldId);
 
 const OSG::BitVector  AbstractTextBase::FontFieldMask = 
-    (1 << AbstractTextBase::FontFieldId);
+    (TypeTraits<BitVector>::One << AbstractTextBase::FontFieldId);
 
 const OSG::BitVector  AbstractTextBase::TextFieldMask = 
-    (1 << AbstractTextBase::TextFieldId);
+    (TypeTraits<BitVector>::One << AbstractTextBase::TextFieldId);
 
 const OSG::BitVector  AbstractTextBase::VerticalLineDistanceFieldMask = 
-    (1 << AbstractTextBase::VerticalLineDistanceFieldId);
+    (TypeTraits<BitVector>::One << AbstractTextBase::VerticalLineDistanceFieldId);
 
 const OSG::BitVector  AbstractTextBase::AlignmentFieldMask = 
-    (1 << AbstractTextBase::AlignmentFieldId);
+    (TypeTraits<BitVector>::One << AbstractTextBase::AlignmentFieldId);
 
 const OSG::BitVector AbstractTextBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
-    (0x0 << Inherited::NextFieldId); 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -361,7 +361,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.38 2003/01/20 05:23:53 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGABSTRACTTEXTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGABSTRACTTEXTBASE_INLINE_CVSID;
 

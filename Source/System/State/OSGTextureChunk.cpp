@@ -166,11 +166,11 @@ TextureChunk::TextureChunk(void) :
     _sgisGenerateMipmap  = 
         Window::registerExtension("GL_SGIS_generate_mipmap"  );
     _funcTexImage3D    = 
-        Window::registerFunction (GL_FUNC_TEXIMAGE3D                        );
+        Window::registerFunction (GL_FUNC_TEXIMAGE3D                        , _extTex3D);
     _funcTexSubImage3D = 
-        Window::registerFunction (GL_FUNC_TEXSUBIMAGE3D                     );
+        Window::registerFunction (GL_FUNC_TEXSUBIMAGE3D                     , _extTex3D);
     _funcActiveTexture = 
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glActiveTextureARB"  );
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glActiveTextureARB"  , _arbMultiTex);
 }
 
 TextureChunk::TextureChunk(const TextureChunk &source) :

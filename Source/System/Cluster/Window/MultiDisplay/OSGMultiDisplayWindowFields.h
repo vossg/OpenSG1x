@@ -102,6 +102,6 @@ struct FieldDataTraits<MultiDisplayWindowPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGMULTIDISPLAYWINDOWFIELDS_HEADER_CVSID "@(#)$Id: $"
+#define OSGMULTIDISPLAYWINDOWFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGMULTIDISPLAYWINDOWFIELDS_H_ */

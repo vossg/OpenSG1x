@@ -65,14 +65,17 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  ImageBackgroundBase::ColorFieldMask = 
-    (1 << ImageBackgroundBase::ColorFieldId);
+    (TypeTraits<BitVector>::One << ImageBackgroundBase::ColorFieldId);
 
 const OSG::BitVector  ImageBackgroundBase::ImageFieldMask = 
-    (1 << ImageBackgroundBase::ImageFieldId);
+    (TypeTraits<BitVector>::One << ImageBackgroundBase::ImageFieldId);
 
 const OSG::BitVector  ImageBackgroundBase::ScaleFieldMask = 
-    (1 << ImageBackgroundBase::ScaleFieldId);
+    (TypeTraits<BitVector>::One << ImageBackgroundBase::ScaleFieldId);
 
+const OSG::BitVector ImageBackgroundBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -303,7 +306,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGIMAGEBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGIMAGEBACKGROUNDBASE_INLINE_CVSID;
 

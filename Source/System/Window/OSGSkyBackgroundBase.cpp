@@ -65,44 +65,44 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  SkyBackgroundBase::SkyColorFieldMask = 
-    (1 << SkyBackgroundBase::SkyColorFieldId);
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::SkyColorFieldId);
 
 const OSG::BitVector  SkyBackgroundBase::SkyAngleFieldMask = 
-    (1 << SkyBackgroundBase::SkyAngleFieldId);
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::SkyAngleFieldId);
 
 const OSG::BitVector  SkyBackgroundBase::GroundColorFieldMask = 
-    (1 << SkyBackgroundBase::GroundColorFieldId);
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::GroundColorFieldId);
 
 const OSG::BitVector  SkyBackgroundBase::GroundAngleFieldMask = 
-    (1 << SkyBackgroundBase::GroundAngleFieldId);
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::GroundAngleFieldId);
 
 const OSG::BitVector  SkyBackgroundBase::SphereResFieldMask = 
-    (1 << SkyBackgroundBase::SphereResFieldId);
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::SphereResFieldId);
 
 const OSG::BitVector  SkyBackgroundBase::BackTextureFieldMask = 
-    (1 << SkyBackgroundBase::BackTextureFieldId);
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::BackTextureFieldId);
 
 const OSG::BitVector  SkyBackgroundBase::BottomTextureFieldMask = 
-    (1 << SkyBackgroundBase::BottomTextureFieldId);
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::BottomTextureFieldId);
 
 const OSG::BitVector  SkyBackgroundBase::FrontTextureFieldMask = 
-    (1 << SkyBackgroundBase::FrontTextureFieldId);
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::FrontTextureFieldId);
 
 const OSG::BitVector  SkyBackgroundBase::LeftTextureFieldMask = 
-    (1 << SkyBackgroundBase::LeftTextureFieldId);
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::LeftTextureFieldId);
 
 const OSG::BitVector  SkyBackgroundBase::RightTextureFieldMask = 
-    (1 << SkyBackgroundBase::RightTextureFieldId);
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::RightTextureFieldId);
 
 const OSG::BitVector  SkyBackgroundBase::TopTextureFieldMask = 
-    (1 << SkyBackgroundBase::TopTextureFieldId);
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::TopTextureFieldId);
 
 const OSG::BitVector  SkyBackgroundBase::BoxInsideFieldMask = 
-    (1 << SkyBackgroundBase::BoxInsideFieldId);
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::BoxInsideFieldId);
 
 const OSG::BitVector SkyBackgroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
-    (0x0 << Inherited::NextFieldId); 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -585,7 +585,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.38 2003/01/20 05:23:53 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSKYBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSKYBACKGROUNDBASE_INLINE_CVSID;
 

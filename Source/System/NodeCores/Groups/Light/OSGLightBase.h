@@ -87,7 +87,8 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public NodeCore
 {
   private:
 
-    typedef NodeCore Inherited;
+    typedef NodeCore    Inherited;
+    typedef LightPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -114,6 +115,8 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public NodeCore
     static const OSG::BitVector LinearAttenuationFieldMask;
     static const OSG::BitVector QuadraticAttenuationFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -260,6 +263,6 @@ typedef LightBase *LightBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGLIGHTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGLIGHTBASE_H_ */

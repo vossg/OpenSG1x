@@ -80,7 +80,8 @@ class OSG_CONTRIBLIB_DLLMAPPING DeformerBase : public AttachmentContainer
 {
   private:
 
-    typedef AttachmentContainer Inherited;
+    typedef AttachmentContainer    Inherited;
+    typedef DeformerPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -206,6 +207,6 @@ typedef DeformerBase *DeformerBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDEFORMERBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGDEFORMERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGDEFORMERBASE_H_ */

@@ -80,7 +80,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TransformBase : public Group
 {
   private:
 
-    typedef Group Inherited;
+    typedef Group    Inherited;
+    typedef TransformPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -93,6 +94,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TransformBase : public Group
 
     static const OSG::BitVector MatrixFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -220,6 +223,6 @@ typedef TransformBase *TransformBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGTRANSFORMBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGTRANSFORMBASE_H_ */

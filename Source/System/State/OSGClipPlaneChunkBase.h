@@ -82,7 +82,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClipPlaneChunkBase : public StateChunk
 {
   private:
 
-    typedef StateChunk Inherited;
+    typedef StateChunk    Inherited;
+    typedef ClipPlaneChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -99,6 +100,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClipPlaneChunkBase : public StateChunk
     static const OSG::BitVector EnableFieldMask;
     static const OSG::BitVector BeaconFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -236,6 +239,6 @@ typedef ClipPlaneChunkBase *ClipPlaneChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCLIPPLANECHUNKBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGCLIPPLANECHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGCLIPPLANECHUNKBASE_H_ */

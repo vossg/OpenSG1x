@@ -82,7 +82,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBackgroundBase : public Background
 {
   private:
 
-    typedef Background Inherited;
+    typedef Background    Inherited;
+    typedef ImageBackgroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -99,6 +100,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBackgroundBase : public Background
     static const OSG::BitVector ImageFieldMask;
     static const OSG::BitVector ScaleFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -236,6 +239,6 @@ typedef ImageBackgroundBase *ImageBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGIMAGEBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGIMAGEBACKGROUNDBASE_H_ */

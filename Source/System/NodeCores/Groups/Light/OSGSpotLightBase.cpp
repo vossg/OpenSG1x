@@ -65,14 +65,17 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  SpotLightBase::DirectionFieldMask = 
-    (1 << SpotLightBase::DirectionFieldId);
+    (TypeTraits<BitVector>::One << SpotLightBase::DirectionFieldId);
 
 const OSG::BitVector  SpotLightBase::SpotExponentFieldMask = 
-    (1 << SpotLightBase::SpotExponentFieldId);
+    (TypeTraits<BitVector>::One << SpotLightBase::SpotExponentFieldId);
 
 const OSG::BitVector  SpotLightBase::SpotCutOffFieldMask = 
-    (1 << SpotLightBase::SpotCutOffFieldId);
+    (TypeTraits<BitVector>::One << SpotLightBase::SpotCutOffFieldId);
 
+const OSG::BitVector SpotLightBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -300,7 +303,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSPOTLIGHTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSPOTLIGHTBASE_INLINE_CVSID;
 

@@ -69,29 +69,32 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  TexGenChunkBase::GenFuncSFieldMask = 
-    (1 << TexGenChunkBase::GenFuncSFieldId);
+    (TypeTraits<BitVector>::One << TexGenChunkBase::GenFuncSFieldId);
 
 const OSG::BitVector  TexGenChunkBase::GenFuncTFieldMask = 
-    (1 << TexGenChunkBase::GenFuncTFieldId);
+    (TypeTraits<BitVector>::One << TexGenChunkBase::GenFuncTFieldId);
 
 const OSG::BitVector  TexGenChunkBase::GenFuncRFieldMask = 
-    (1 << TexGenChunkBase::GenFuncRFieldId);
+    (TypeTraits<BitVector>::One << TexGenChunkBase::GenFuncRFieldId);
 
 const OSG::BitVector  TexGenChunkBase::GenFuncQFieldMask = 
-    (1 << TexGenChunkBase::GenFuncQFieldId);
+    (TypeTraits<BitVector>::One << TexGenChunkBase::GenFuncQFieldId);
 
 const OSG::BitVector  TexGenChunkBase::GenFuncSPlaneFieldMask = 
-    (1 << TexGenChunkBase::GenFuncSPlaneFieldId);
+    (TypeTraits<BitVector>::One << TexGenChunkBase::GenFuncSPlaneFieldId);
 
 const OSG::BitVector  TexGenChunkBase::GenFuncTPlaneFieldMask = 
-    (1 << TexGenChunkBase::GenFuncTPlaneFieldId);
+    (TypeTraits<BitVector>::One << TexGenChunkBase::GenFuncTPlaneFieldId);
 
 const OSG::BitVector  TexGenChunkBase::GenFuncRPlaneFieldMask = 
-    (1 << TexGenChunkBase::GenFuncRPlaneFieldId);
+    (TypeTraits<BitVector>::One << TexGenChunkBase::GenFuncRPlaneFieldId);
 
 const OSG::BitVector  TexGenChunkBase::GenFuncQPlaneFieldMask = 
-    (1 << TexGenChunkBase::GenFuncQPlaneFieldId);
+    (TypeTraits<BitVector>::One << TexGenChunkBase::GenFuncQPlaneFieldId);
 
+const OSG::BitVector TexGenChunkBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -464,7 +467,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXGENCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXGENCHUNKBASE_INLINE_CVSID;
 

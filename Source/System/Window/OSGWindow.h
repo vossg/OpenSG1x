@@ -138,7 +138,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     static UInt32   registerExtension ( const Char8 *s   );
     static void     ignoreExtensions  ( const Char8 *s   );
 
-    static UInt32   registerFunction  ( const Char8 *s   );
+    static UInt32   registerFunction  ( const Char8 *s,  Int32 ext = -1   );
 
     static void     registerConstant  (       GLenum val );
 
@@ -347,6 +347,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     static std::vector<std::string>   _ignoredExtensions;
     static std::vector<bool       >   _commonExtensions;
     static std::vector<std::string>   _registeredFunctions;
+    static std::vector<Int32      >   _registeredFunctionExts;
     static std::vector<GLObject  *>   _glObjects;
 
     static std::vector<GLenum     >   _registeredConstants;

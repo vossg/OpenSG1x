@@ -68,35 +68,38 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  PointChunkBase::SizeFieldMask = 
-    (1 << PointChunkBase::SizeFieldId);
+    (TypeTraits<BitVector>::One << PointChunkBase::SizeFieldId);
 
 const OSG::BitVector  PointChunkBase::SmoothFieldMask = 
-    (1 << PointChunkBase::SmoothFieldId);
+    (TypeTraits<BitVector>::One << PointChunkBase::SmoothFieldId);
 
 const OSG::BitVector  PointChunkBase::MinSizeFieldMask = 
-    (1 << PointChunkBase::MinSizeFieldId);
+    (TypeTraits<BitVector>::One << PointChunkBase::MinSizeFieldId);
 
 const OSG::BitVector  PointChunkBase::MaxSizeFieldMask = 
-    (1 << PointChunkBase::MaxSizeFieldId);
-
-const OSG::BitVector  PointChunkBase::FadeThresholdFieldMask = 
-    (1 << PointChunkBase::FadeThresholdFieldId);
+    (TypeTraits<BitVector>::One << PointChunkBase::MaxSizeFieldId);
 
 const OSG::BitVector  PointChunkBase::ConstantAttenuationFieldMask = 
-    (1 << PointChunkBase::ConstantAttenuationFieldId);
+    (TypeTraits<BitVector>::One << PointChunkBase::ConstantAttenuationFieldId);
 
 const OSG::BitVector  PointChunkBase::LinearAttenuationFieldMask = 
-    (1 << PointChunkBase::LinearAttenuationFieldId);
+    (TypeTraits<BitVector>::One << PointChunkBase::LinearAttenuationFieldId);
 
 const OSG::BitVector  PointChunkBase::QuadraticAttenuationFieldMask = 
-    (1 << PointChunkBase::QuadraticAttenuationFieldId);
+    (TypeTraits<BitVector>::One << PointChunkBase::QuadraticAttenuationFieldId);
+
+const OSG::BitVector  PointChunkBase::FadeThresholdFieldMask = 
+    (TypeTraits<BitVector>::One << PointChunkBase::FadeThresholdFieldId);
 
 const OSG::BitVector  PointChunkBase::SpriteFieldMask = 
-    (1 << PointChunkBase::SpriteFieldId);
+    (TypeTraits<BitVector>::One << PointChunkBase::SpriteFieldId);
 
 const OSG::BitVector  PointChunkBase::RModeFieldMask = 
-    (1 << PointChunkBase::RModeFieldId);
+    (TypeTraits<BitVector>::One << PointChunkBase::RModeFieldId);
 
+const OSG::BitVector PointChunkBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -113,9 +116,6 @@ const OSG::BitVector  PointChunkBase::RModeFieldMask =
 /*! \var Real32          PointChunkBase::_sfMaxSize
     Maximum point size for attenuation. See ARB_point_parameters extension.
 */
-/*! \var Real32          PointChunkBase::_sfFadeThreshold
-    Minimum point size for attenuation. See ARB_point_parameters extension.
-*/
 /*! \var Real32          PointChunkBase::_sfConstantAttenuation
     The point size's constant attenuation.
 */
@@ -125,8 +125,11 @@ const OSG::BitVector  PointChunkBase::RModeFieldMask =
 /*! \var Real32          PointChunkBase::_sfQuadraticAttenuation
     The point size's quadratic attenuation.
 */
+/*! \var Real32          PointChunkBase::_sfFadeThreshold
+    Minimum point size for attenuation. See ARB_point_parameters extension.
+*/
 /*! \var bool            PointChunkBase::_sfSprite
-    FLag to enable point sprites, see NV_point_sprite for details.
+    Flag to enable point sprites, see NV_point_sprite for details.
 */
 /*! \var GLenum          PointChunkBase::_sfRMode
     
@@ -157,11 +160,6 @@ FieldDescription *PointChunkBase::_desc[] =
                      false,
                      (FieldAccessMethod) &PointChunkBase::getSFMaxSize),
     new FieldDescription(SFReal32::getClassType(), 
-                     "fadeThreshold", 
-                     FadeThresholdFieldId, FadeThresholdFieldMask,
-                     false,
-                     (FieldAccessMethod) &PointChunkBase::getSFFadeThreshold),
-    new FieldDescription(SFReal32::getClassType(), 
                      "constantAttenuation", 
                      ConstantAttenuationFieldId, ConstantAttenuationFieldMask,
                      false,
@@ -176,6 +174,11 @@ FieldDescription *PointChunkBase::_desc[] =
                      QuadraticAttenuationFieldId, QuadraticAttenuationFieldMask,
                      false,
                      (FieldAccessMethod) &PointChunkBase::getSFQuadraticAttenuation),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "fadeThreshold", 
+                     FadeThresholdFieldId, FadeThresholdFieldMask,
+                     false,
+                     (FieldAccessMethod) &PointChunkBase::getSFFadeThreshold),
     new FieldDescription(SFBool::getClassType(), 
                      "sprite", 
                      SpriteFieldId, SpriteFieldMask,
@@ -245,10 +248,10 @@ PointChunkBase::PointChunkBase(void) :
     _sfSmooth                 (bool(GL_FALSE)), 
     _sfMinSize                (Real32(-1.f)), 
     _sfMaxSize                (Real32(-1.f)), 
-    _sfFadeThreshold          (Real32(-1.f)), 
     _sfConstantAttenuation    (Real32(1)), 
     _sfLinearAttenuation      (Real32(0)), 
     _sfQuadraticAttenuation   (Real32(0)), 
+    _sfFadeThreshold          (Real32(0.f)), 
     _sfSprite                 (bool(GL_FALSE)), 
     _sfRMode                  (GLenum(GL_ZERO)), 
     Inherited() 
@@ -264,10 +267,10 @@ PointChunkBase::PointChunkBase(const PointChunkBase &source) :
     _sfSmooth                 (source._sfSmooth                 ), 
     _sfMinSize                (source._sfMinSize                ), 
     _sfMaxSize                (source._sfMaxSize                ), 
-    _sfFadeThreshold          (source._sfFadeThreshold          ), 
     _sfConstantAttenuation    (source._sfConstantAttenuation    ), 
     _sfLinearAttenuation      (source._sfLinearAttenuation      ), 
     _sfQuadraticAttenuation   (source._sfQuadraticAttenuation   ), 
+    _sfFadeThreshold          (source._sfFadeThreshold          ), 
     _sfSprite                 (source._sfSprite                 ), 
     _sfRMode                  (source._sfRMode                  ), 
     Inherited                 (source)
@@ -306,11 +309,6 @@ UInt32 PointChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfMaxSize.getBinSize();
     }
 
-    if(FieldBits::NoField != (FadeThresholdFieldMask & whichField))
-    {
-        returnValue += _sfFadeThreshold.getBinSize();
-    }
-
     if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
     {
         returnValue += _sfConstantAttenuation.getBinSize();
@@ -324,6 +322,11 @@ UInt32 PointChunkBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
     {
         returnValue += _sfQuadraticAttenuation.getBinSize();
+    }
+
+    if(FieldBits::NoField != (FadeThresholdFieldMask & whichField))
+    {
+        returnValue += _sfFadeThreshold.getBinSize();
     }
 
     if(FieldBits::NoField != (SpriteFieldMask & whichField))
@@ -365,11 +368,6 @@ void PointChunkBase::copyToBin(      BinaryDataHandler &pMem,
         _sfMaxSize.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (FadeThresholdFieldMask & whichField))
-    {
-        _sfFadeThreshold.copyToBin(pMem);
-    }
-
     if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
     {
         _sfConstantAttenuation.copyToBin(pMem);
@@ -383,6 +381,11 @@ void PointChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
     {
         _sfQuadraticAttenuation.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FadeThresholdFieldMask & whichField))
+    {
+        _sfFadeThreshold.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (SpriteFieldMask & whichField))
@@ -423,11 +426,6 @@ void PointChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfMaxSize.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (FadeThresholdFieldMask & whichField))
-    {
-        _sfFadeThreshold.copyFromBin(pMem);
-    }
-
     if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
     {
         _sfConstantAttenuation.copyFromBin(pMem);
@@ -441,6 +439,11 @@ void PointChunkBase::copyFromBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
     {
         _sfQuadraticAttenuation.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FadeThresholdFieldMask & whichField))
+    {
+        _sfFadeThreshold.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (SpriteFieldMask & whichField))
@@ -474,9 +477,6 @@ void PointChunkBase::executeSyncImpl(      PointChunkBase *pOther,
     if(FieldBits::NoField != (MaxSizeFieldMask & whichField))
         _sfMaxSize.syncWith(pOther->_sfMaxSize);
 
-    if(FieldBits::NoField != (FadeThresholdFieldMask & whichField))
-        _sfFadeThreshold.syncWith(pOther->_sfFadeThreshold);
-
     if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
         _sfConstantAttenuation.syncWith(pOther->_sfConstantAttenuation);
 
@@ -485,6 +485,9 @@ void PointChunkBase::executeSyncImpl(      PointChunkBase *pOther,
 
     if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
         _sfQuadraticAttenuation.syncWith(pOther->_sfQuadraticAttenuation);
+
+    if(FieldBits::NoField != (FadeThresholdFieldMask & whichField))
+        _sfFadeThreshold.syncWith(pOther->_sfFadeThreshold);
 
     if(FieldBits::NoField != (SpriteFieldMask & whichField))
         _sfSprite.syncWith(pOther->_sfSprite);
@@ -520,7 +523,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPOINTCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOINTCHUNKBASE_INLINE_CVSID;
 

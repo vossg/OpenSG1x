@@ -80,7 +80,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroupBase : public Group
 {
   private:
 
-    typedef Group Inherited;
+    typedef Group    Inherited;
+    typedef MaterialGroupPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -93,6 +94,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroupBase : public Group
 
     static const OSG::BitVector MaterialFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -220,6 +223,6 @@ typedef MaterialGroupBase *MaterialGroupBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALGROUPBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGMATERIALGROUPBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGMATERIALGROUPBASE_H_ */

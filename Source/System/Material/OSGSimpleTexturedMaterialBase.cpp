@@ -68,20 +68,23 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  SimpleTexturedMaterialBase::ImageFieldMask = 
-    (1 << SimpleTexturedMaterialBase::ImageFieldId);
+    (TypeTraits<BitVector>::One << SimpleTexturedMaterialBase::ImageFieldId);
 
 const OSG::BitVector  SimpleTexturedMaterialBase::MinFilterFieldMask = 
-    (1 << SimpleTexturedMaterialBase::MinFilterFieldId);
+    (TypeTraits<BitVector>::One << SimpleTexturedMaterialBase::MinFilterFieldId);
 
 const OSG::BitVector  SimpleTexturedMaterialBase::MagFilterFieldMask = 
-    (1 << SimpleTexturedMaterialBase::MagFilterFieldId);
+    (TypeTraits<BitVector>::One << SimpleTexturedMaterialBase::MagFilterFieldId);
 
 const OSG::BitVector  SimpleTexturedMaterialBase::EnvModeFieldMask = 
-    (1 << SimpleTexturedMaterialBase::EnvModeFieldId);
+    (TypeTraits<BitVector>::One << SimpleTexturedMaterialBase::EnvModeFieldId);
 
 const OSG::BitVector  SimpleTexturedMaterialBase::EnvMapFieldMask = 
-    (1 << SimpleTexturedMaterialBase::EnvMapFieldId);
+    (TypeTraits<BitVector>::One << SimpleTexturedMaterialBase::EnvMapFieldId);
 
+const OSG::BitVector SimpleTexturedMaterialBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -370,7 +373,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSIMPLETEXTUREDMATERIALBASE_INLINE_CVSID;
 

@@ -14,6 +14,8 @@
 # try to get configured information first, will not work if more
 # than one system is configured from one dir. Just for the 1.0
 
+.SUFFIXES := cpp h
+
 PREFIXSUFFIX := $(shell ../../CommonConf/config.guess)
 
 -include .prefix.$(PREFIXSUFFIX)
@@ -202,6 +204,9 @@ clean:
 
 Clean: clean
 	-rm -rf *.o *.mk OOBR* *.dep TAGS tags *.bin
+
+# this doesn't work. Not sure why. :-?
+FieldContainer.o: $(wildcard FC*Template*.h)
 
 ######################################################################
 

@@ -65,17 +65,17 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  CubesBase::PositionFieldMask = 
-    (static_cast<OSG::BitVector>(1) << CubesBase::PositionFieldId);
+    (TypeTraits<BitVector>::One << CubesBase::PositionFieldId);
 
 const OSG::BitVector  CubesBase::LengthFieldMask = 
-    (static_cast<OSG::BitVector>(1) << CubesBase::LengthFieldId);
+    (TypeTraits<BitVector>::One << CubesBase::LengthFieldId);
 
 const OSG::BitVector  CubesBase::ColorFieldMask = 
-    (static_cast<OSG::BitVector>(1) << CubesBase::ColorFieldId);
+    (TypeTraits<BitVector>::One << CubesBase::ColorFieldId);
 
 const OSG::BitVector CubesBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
-    (0x0 << Inherited::NextFieldId); 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -308,7 +308,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCUBESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCUBESBASE_INLINE_CVSID;
 

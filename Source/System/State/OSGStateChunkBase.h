@@ -79,11 +79,14 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public FieldContainer
 {
   private:
 
-    typedef FieldContainer Inherited;
+    typedef FieldContainer    Inherited;
+    typedef StateChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -170,6 +173,6 @@ typedef StateChunkBase *StateChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATECHUNKBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGSTATECHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGSTATECHUNKBASE_H_ */

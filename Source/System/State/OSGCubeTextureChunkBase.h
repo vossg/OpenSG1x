@@ -84,7 +84,8 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunkBase : public TextureChunk
 {
   private:
 
-    typedef TextureChunk Inherited;
+    typedef TextureChunk    Inherited;
+    typedef CubeTextureChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -254,6 +255,6 @@ typedef CubeTextureChunkBase *CubeTextureChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCUBETEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGCUBETEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGCUBETEXTURECHUNKBASE_H_ */

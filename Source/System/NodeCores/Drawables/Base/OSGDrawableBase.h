@@ -79,11 +79,14 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawableBase : public NodeCore
 {
   private:
 
-    typedef NodeCore Inherited;
+    typedef NodeCore    Inherited;
+    typedef DrawablePtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -170,6 +173,6 @@ typedef DrawableBase *DrawableBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGDrawableBase.h,v 1.3 2002/11/11 13:55:48 dirk Exp $"
+#define OSGDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGDrawableBase.h,v 1.4 2003/10/24 15:39:16 dirk Exp $"
 
 #endif /* _OSGDRAWABLEBASE_H_ */

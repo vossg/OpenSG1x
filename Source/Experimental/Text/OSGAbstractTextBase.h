@@ -84,7 +84,8 @@ class OSG_SYSTEMLIB_DLLMAPPING AbstractTextBase : public MaterialDrawable
 {
   private:
 
-    typedef MaterialDrawable Inherited;
+    typedef MaterialDrawable    Inherited;
+    typedef AbstractTextPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -238,6 +239,6 @@ typedef AbstractTextBase *AbstractTextBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGABSTRACTTEXTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.30 2003/01/20 05:23:53 vossg Exp $"
+#define OSGABSTRACTTEXTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGABSTRACTTEXTBASE_H_ */

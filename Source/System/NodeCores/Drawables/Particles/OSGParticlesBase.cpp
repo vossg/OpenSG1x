@@ -65,41 +65,44 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  ParticlesBase::ModeFieldMask = 
-    (1 << ParticlesBase::ModeFieldId);
+    (TypeTraits<BitVector>::One << ParticlesBase::ModeFieldId);
 
 const OSG::BitVector  ParticlesBase::PositionsFieldMask = 
-    (1 << ParticlesBase::PositionsFieldId);
+    (TypeTraits<BitVector>::One << ParticlesBase::PositionsFieldId);
 
 const OSG::BitVector  ParticlesBase::SizesFieldMask = 
-    (1 << ParticlesBase::SizesFieldId);
+    (TypeTraits<BitVector>::One << ParticlesBase::SizesFieldId);
 
 const OSG::BitVector  ParticlesBase::SecPositionsFieldMask = 
-    (1 << ParticlesBase::SecPositionsFieldId);
+    (TypeTraits<BitVector>::One << ParticlesBase::SecPositionsFieldId);
 
 const OSG::BitVector  ParticlesBase::ColorsFieldMask = 
-    (1 << ParticlesBase::ColorsFieldId);
+    (TypeTraits<BitVector>::One << ParticlesBase::ColorsFieldId);
 
 const OSG::BitVector  ParticlesBase::NormalsFieldMask = 
-    (1 << ParticlesBase::NormalsFieldId);
+    (TypeTraits<BitVector>::One << ParticlesBase::NormalsFieldId);
 
 const OSG::BitVector  ParticlesBase::IndicesFieldMask = 
-    (1 << ParticlesBase::IndicesFieldId);
+    (TypeTraits<BitVector>::One << ParticlesBase::IndicesFieldId);
 
 const OSG::BitVector  ParticlesBase::TextureZsFieldMask = 
-    (1 << ParticlesBase::TextureZsFieldId);
+    (TypeTraits<BitVector>::One << ParticlesBase::TextureZsFieldId);
 
 const OSG::BitVector  ParticlesBase::DrawOrderFieldMask = 
-    (1 << ParticlesBase::DrawOrderFieldId);
+    (TypeTraits<BitVector>::One << ParticlesBase::DrawOrderFieldId);
 
 const OSG::BitVector  ParticlesBase::DynamicFieldMask = 
-    (1 << ParticlesBase::DynamicFieldId);
+    (TypeTraits<BitVector>::One << ParticlesBase::DynamicFieldId);
 
 const OSG::BitVector  ParticlesBase::PumpFieldMask = 
-    (1 << ParticlesBase::PumpFieldId);
+    (TypeTraits<BitVector>::One << ParticlesBase::PumpFieldId);
 
 const OSG::BitVector  ParticlesBase::BspFieldMask = 
-    (1 << ParticlesBase::BspFieldId);
+    (TypeTraits<BitVector>::One << ParticlesBase::BspFieldId);
 
+const OSG::BitVector ParticlesBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -584,7 +587,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPARTICLESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPARTICLESBASE_INLINE_CVSID;
 

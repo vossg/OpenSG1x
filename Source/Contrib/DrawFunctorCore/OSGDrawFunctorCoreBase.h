@@ -81,7 +81,8 @@ class OSG_CONTRIBLIB_DLLMAPPING DrawFunctorCoreBase : public MaterialDrawable
 {
   private:
 
-    typedef MaterialDrawable Inherited;
+    typedef MaterialDrawable    Inherited;
+    typedef DrawFunctorCorePtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -230,6 +231,6 @@ typedef DrawFunctorCoreBase *DrawFunctorCoreBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDRAWFUNCTORCOREBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGDRAWFUNCTORCOREBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGDRAWFUNCTORCOREBASE_H_ */

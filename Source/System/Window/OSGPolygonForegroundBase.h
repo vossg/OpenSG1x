@@ -84,7 +84,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonForegroundBase : public Foreground
 {
   private:
 
-    typedef Foreground Inherited;
+    typedef Foreground    Inherited;
+    typedef PolygonForegroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:

@@ -79,11 +79,14 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunkBase : public TransformChunk
 {
   private:
 
-    typedef TransformChunk Inherited;
+    typedef TransformChunk    Inherited;
+    typedef TextureTransformChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -186,6 +189,6 @@ typedef TextureTransformChunkBase *TextureTransformChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURETRANSFORMCHUNKBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGTEXTURETRANSFORMCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGTEXTURETRANSFORMCHUNKBASE_H_ */

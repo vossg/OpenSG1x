@@ -118,7 +118,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 {
   private:
 
-    typedef StateChunk Inherited;
+    typedef StateChunk    Inherited;
+    typedef TextureChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -526,6 +527,6 @@ typedef TextureChunkBase *TextureChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGTEXTURECHUNKBASE_H_ */

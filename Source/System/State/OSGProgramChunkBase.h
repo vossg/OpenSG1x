@@ -83,7 +83,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ProgramChunkBase : public StateChunk
 {
   private:
 
-    typedef StateChunk Inherited;
+    typedef StateChunk    Inherited;
+    typedef ProgramChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -243,6 +244,6 @@ typedef ProgramChunkBase *ProgramChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPROGRAMCHUNKBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGPROGRAMCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGPROGRAMCHUNKBASE_H_ */

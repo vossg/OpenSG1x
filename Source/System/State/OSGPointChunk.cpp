@@ -107,10 +107,10 @@ PointChunk::PointChunk(void) :
         Window::registerExtension("GL_EXT_point_parameters");
     _nvPointSprite        =
         Window::registerExtension("GL_NV_point_sprite");
-    _funcPointParameterf  =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glPointParameterfEXT");
-    _funcPointParameterfv =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glPointParameterfvEXT");
+    _funcPointParameterf  = Window::registerFunction(
+            OSG_DLSYM_UNDERSCORE"glPointParameterfEXT",  _arbPointParameters);
+    _funcPointParameterfv = Window::registerFunction(
+            OSG_DLSYM_UNDERSCORE"glPointParameterfvEXT", _arbPointParameters);
 }
 
 PointChunk::PointChunk(const PointChunk &source) :

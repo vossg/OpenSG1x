@@ -65,11 +65,14 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  ImageForegroundBase::ImagesFieldMask = 
-    (1 << ImageForegroundBase::ImagesFieldId);
+    (TypeTraits<BitVector>::One << ImageForegroundBase::ImagesFieldId);
 
 const OSG::BitVector  ImageForegroundBase::PositionsFieldMask = 
-    (1 << ImageForegroundBase::PositionsFieldId);
+    (TypeTraits<BitVector>::One << ImageForegroundBase::PositionsFieldId);
 
+const OSG::BitVector ImageForegroundBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -274,7 +277,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGIMAGEFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGIMAGEFOREGROUNDBASE_INLINE_CVSID;
 

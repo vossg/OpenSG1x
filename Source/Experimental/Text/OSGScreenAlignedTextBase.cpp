@@ -65,14 +65,14 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  ScreenAlignedTextBase::ColorFieldMask = 
-    (1 << ScreenAlignedTextBase::ColorFieldId);
+    (TypeTraits<BitVector>::One << ScreenAlignedTextBase::ColorFieldId);
 
 const OSG::BitVector  ScreenAlignedTextBase::RenderImageFieldMask = 
-    (1 << ScreenAlignedTextBase::RenderImageFieldId);
+    (TypeTraits<BitVector>::One << ScreenAlignedTextBase::RenderImageFieldId);
 
 const OSG::BitVector ScreenAlignedTextBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
-    (0x0 << Inherited::NextFieldId); 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -277,7 +277,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.38 2003/01/20 05:23:53 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSCREENALIGNEDTEXTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSCREENALIGNEDTEXTBASE_INLINE_CVSID;
 

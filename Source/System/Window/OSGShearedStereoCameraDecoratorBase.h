@@ -81,7 +81,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShearedStereoCameraDecoratorBase : public StereoC
 {
   private:
 
-    typedef StereoCameraDecorator Inherited;
+    typedef StereoCameraDecorator    Inherited;
+    typedef ShearedStereoCameraDecoratorPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -96,6 +97,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShearedStereoCameraDecoratorBase : public StereoC
     static const OSG::BitVector ZeroParallaxDistanceFieldMask;
     static const OSG::BitVector OverlapFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -228,6 +231,6 @@ typedef ShearedStereoCameraDecoratorBase *ShearedStereoCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSHEAREDSTEREOCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGSHEAREDSTEREOCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGSHEAREDSTEREOCAMERADECORATORBASE_H_ */

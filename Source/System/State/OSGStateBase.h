@@ -80,7 +80,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StateBase : public FieldContainer
 {
   private:
 
-    typedef FieldContainer Inherited;
+    typedef FieldContainer    Inherited;
+    typedef StatePtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -93,6 +94,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StateBase : public FieldContainer
 
     static const OSG::BitVector ChunksFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -220,6 +223,6 @@ typedef StateBase *StateBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGSTATEBASE_H_ */

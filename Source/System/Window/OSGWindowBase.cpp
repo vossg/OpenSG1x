@@ -65,26 +65,29 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  WindowBase::WidthFieldMask = 
-    (1 << WindowBase::WidthFieldId);
+    (TypeTraits<BitVector>::One << WindowBase::WidthFieldId);
 
 const OSG::BitVector  WindowBase::HeightFieldMask = 
-    (1 << WindowBase::HeightFieldId);
+    (TypeTraits<BitVector>::One << WindowBase::HeightFieldId);
 
 const OSG::BitVector  WindowBase::PortFieldMask = 
-    (1 << WindowBase::PortFieldId);
+    (TypeTraits<BitVector>::One << WindowBase::PortFieldId);
 
 const OSG::BitVector  WindowBase::ResizePendingFieldMask = 
-    (1 << WindowBase::ResizePendingFieldId);
+    (TypeTraits<BitVector>::One << WindowBase::ResizePendingFieldId);
 
 const OSG::BitVector  WindowBase::GlObjectEventCounterFieldMask = 
-    (1 << WindowBase::GlObjectEventCounterFieldId);
+    (TypeTraits<BitVector>::One << WindowBase::GlObjectEventCounterFieldId);
 
 const OSG::BitVector  WindowBase::GlObjectLastRefreshFieldMask = 
-    (1 << WindowBase::GlObjectLastRefreshFieldId);
+    (TypeTraits<BitVector>::One << WindowBase::GlObjectLastRefreshFieldId);
 
 const OSG::BitVector  WindowBase::GlObjectLastReinitializeFieldMask = 
-    (1 << WindowBase::GlObjectLastReinitializeFieldId);
+    (TypeTraits<BitVector>::One << WindowBase::GlObjectLastReinitializeFieldId);
 
+const OSG::BitVector WindowBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -420,7 +423,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWINDOWBASE_INLINE_CVSID;
 

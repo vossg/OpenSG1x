@@ -65,26 +65,29 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  ProjectionCameraDecoratorBase::UserFieldMask = 
-    (1 << ProjectionCameraDecoratorBase::UserFieldId);
+    (TypeTraits<BitVector>::One << ProjectionCameraDecoratorBase::UserFieldId);
 
 const OSG::BitVector  ProjectionCameraDecoratorBase::SurfaceFieldMask = 
-    (1 << ProjectionCameraDecoratorBase::SurfaceFieldId);
+    (TypeTraits<BitVector>::One << ProjectionCameraDecoratorBase::SurfaceFieldId);
 
 const OSG::BitVector  ProjectionCameraDecoratorBase::LeftFieldMask = 
-    (1 << ProjectionCameraDecoratorBase::LeftFieldId);
+    (TypeTraits<BitVector>::One << ProjectionCameraDecoratorBase::LeftFieldId);
 
 const OSG::BitVector  ProjectionCameraDecoratorBase::BottomFieldMask = 
-    (1 << ProjectionCameraDecoratorBase::BottomFieldId);
+    (TypeTraits<BitVector>::One << ProjectionCameraDecoratorBase::BottomFieldId);
 
 const OSG::BitVector  ProjectionCameraDecoratorBase::NormalFieldMask = 
-    (1 << ProjectionCameraDecoratorBase::NormalFieldId);
+    (TypeTraits<BitVector>::One << ProjectionCameraDecoratorBase::NormalFieldId);
 
 const OSG::BitVector  ProjectionCameraDecoratorBase::WidthFieldMask = 
-    (1 << ProjectionCameraDecoratorBase::WidthFieldId);
+    (TypeTraits<BitVector>::One << ProjectionCameraDecoratorBase::WidthFieldId);
 
 const OSG::BitVector  ProjectionCameraDecoratorBase::HeightFieldMask = 
-    (1 << ProjectionCameraDecoratorBase::HeightFieldId);
+    (TypeTraits<BitVector>::One << ProjectionCameraDecoratorBase::HeightFieldId);
 
+const OSG::BitVector ProjectionCameraDecoratorBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -429,7 +432,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPROJECTIONCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPROJECTIONCAMERADECORATORBASE_INLINE_CVSID;
 

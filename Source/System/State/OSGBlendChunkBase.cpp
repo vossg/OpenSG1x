@@ -69,23 +69,26 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  BlendChunkBase::SrcFactorFieldMask = 
-    (1 << BlendChunkBase::SrcFactorFieldId);
+    (TypeTraits<BitVector>::One << BlendChunkBase::SrcFactorFieldId);
 
 const OSG::BitVector  BlendChunkBase::DestFactorFieldMask = 
-    (1 << BlendChunkBase::DestFactorFieldId);
+    (TypeTraits<BitVector>::One << BlendChunkBase::DestFactorFieldId);
 
 const OSG::BitVector  BlendChunkBase::EquationFieldMask = 
-    (1 << BlendChunkBase::EquationFieldId);
+    (TypeTraits<BitVector>::One << BlendChunkBase::EquationFieldId);
 
 const OSG::BitVector  BlendChunkBase::ColorFieldMask = 
-    (1 << BlendChunkBase::ColorFieldId);
+    (TypeTraits<BitVector>::One << BlendChunkBase::ColorFieldId);
 
 const OSG::BitVector  BlendChunkBase::AlphaFuncFieldMask = 
-    (1 << BlendChunkBase::AlphaFuncFieldId);
+    (TypeTraits<BitVector>::One << BlendChunkBase::AlphaFuncFieldId);
 
 const OSG::BitVector  BlendChunkBase::AlphaValueFieldMask = 
-    (1 << BlendChunkBase::AlphaValueFieldId);
+    (TypeTraits<BitVector>::One << BlendChunkBase::AlphaValueFieldId);
 
+const OSG::BitVector BlendChunkBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -397,7 +400,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGBLENDCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBLENDCHUNKBASE_INLINE_CVSID;
 

@@ -79,11 +79,14 @@ class OSG_SYSTEMLIB_DLLMAPPING PassiveBackgroundBase : public Background
 {
   private:
 
-    typedef Background Inherited;
+    typedef Background    Inherited;
+    typedef PassiveBackgroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -186,6 +189,6 @@ typedef PassiveBackgroundBase *PassiveBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPASSIVEBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGPASSIVEBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGPASSIVEBACKGROUNDBASE_H_ */

@@ -91,7 +91,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
 {
   private:
 
-    typedef Background Inherited;
+    typedef Background    Inherited;
+    typedef SkyBackgroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -310,6 +311,6 @@ typedef SkyBackgroundBase *SkyBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSKYBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.30 2003/01/20 05:23:53 vossg Exp $"
+#define OSGSKYBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGSKYBACKGROUNDBASE_H_ */

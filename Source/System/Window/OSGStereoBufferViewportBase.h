@@ -81,7 +81,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StereoBufferViewportBase : public Viewport
 {
   private:
 
-    typedef Viewport Inherited;
+    typedef Viewport    Inherited;
+    typedef StereoBufferViewportPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -96,6 +97,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StereoBufferViewportBase : public Viewport
     static const OSG::BitVector LeftBufferFieldMask;
     static const OSG::BitVector RightBufferFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -228,6 +231,6 @@ typedef StereoBufferViewportBase *StereoBufferViewportBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTEREOBUFFERVIEWPORTBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGSTEREOBUFFERVIEWPORTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGSTEREOBUFFERVIEWPORTBASE_H_ */

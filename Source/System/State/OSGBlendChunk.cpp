@@ -119,12 +119,12 @@ BlendChunk::BlendChunk(void) :
         Window::registerExtension("GL_EXT_blend_minmax");
     _extBlendLogicOp      =
         Window::registerExtension("GL_EXT_blend_logic_op");
-    _funcBlendColor       =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glBlendColorEXT");
-    _funcBlendEquation    =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glBlendEquation");
-    _funcBlendEquationExt =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glBlendEquationEXT");
+    _funcBlendColor       = Window::registerFunction(
+                    OSG_DLSYM_UNDERSCORE"glBlendColorEXT",   _extBlend);
+    _funcBlendEquation    = Window::registerFunction(
+                    OSG_DLSYM_UNDERSCORE"glBlendEquation");
+    _funcBlendEquationExt = Window::registerFunction(
+                    OSG_DLSYM_UNDERSCORE"glBlendEquationEXT",_extBlendLogicOp);
 }
 
 BlendChunk::BlendChunk(const BlendChunk &source) :

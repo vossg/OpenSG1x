@@ -80,7 +80,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLightBase : public Light
 {
   private:
 
-    typedef Light Inherited;
+    typedef Light    Inherited;
+    typedef PointLightPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -93,6 +94,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLightBase : public Light
 
     static const OSG::BitVector PositionFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -220,6 +223,6 @@ typedef PointLightBase *PointLightBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPOINTLIGHTBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGPOINTLIGHTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGPOINTLIGHTBASE_H_ */

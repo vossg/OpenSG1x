@@ -79,11 +79,14 @@ class OSG_SYSTEMLIB_DLLMAPPING PassiveWindowBase : public Window
 {
   private:
 
-    typedef Window Inherited;
+    typedef Window    Inherited;
+    typedef PassiveWindowPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -186,6 +189,6 @@ typedef PassiveWindowBase *PassiveWindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPASSIVEWINDOWBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGPASSIVEWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGPASSIVEWINDOWBASE_H_ */

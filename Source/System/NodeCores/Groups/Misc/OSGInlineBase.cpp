@@ -65,11 +65,14 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  InlineBase::UrlFieldMask = 
-    (1 << InlineBase::UrlFieldId);
+    (TypeTraits<BitVector>::One << InlineBase::UrlFieldId);
 
 const OSG::BitVector  InlineBase::LoadedFieldMask = 
-    (1 << InlineBase::LoadedFieldId);
+    (TypeTraits<BitVector>::One << InlineBase::LoadedFieldId);
 
+const OSG::BitVector InlineBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -274,7 +277,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGINLINEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGINLINEBASE_INLINE_CVSID;
 

@@ -66,17 +66,20 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  LineChunkBase::WidthFieldMask = 
-    (1 << LineChunkBase::WidthFieldId);
+    (TypeTraits<BitVector>::One << LineChunkBase::WidthFieldId);
 
 const OSG::BitVector  LineChunkBase::StippleRepeatFieldMask = 
-    (1 << LineChunkBase::StippleRepeatFieldId);
+    (TypeTraits<BitVector>::One << LineChunkBase::StippleRepeatFieldId);
 
 const OSG::BitVector  LineChunkBase::StipplePatternFieldMask = 
-    (1 << LineChunkBase::StipplePatternFieldId);
+    (TypeTraits<BitVector>::One << LineChunkBase::StipplePatternFieldId);
 
 const OSG::BitVector  LineChunkBase::SmoothFieldMask = 
-    (1 << LineChunkBase::SmoothFieldId);
+    (TypeTraits<BitVector>::One << LineChunkBase::SmoothFieldId);
 
+const OSG::BitVector LineChunkBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -332,7 +335,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGLINECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLINECHUNKBASE_INLINE_CVSID;
 

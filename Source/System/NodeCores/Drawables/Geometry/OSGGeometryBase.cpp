@@ -65,50 +65,50 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  GeometryBase::TypesFieldMask = 
-    (static_cast<OSG::BitVector>(1) << GeometryBase::TypesFieldId);
+    (TypeTraits<BitVector>::One << GeometryBase::TypesFieldId);
 
 const OSG::BitVector  GeometryBase::LengthsFieldMask = 
-    (static_cast<OSG::BitVector>(1) << GeometryBase::LengthsFieldId);
+    (TypeTraits<BitVector>::One << GeometryBase::LengthsFieldId);
 
 const OSG::BitVector  GeometryBase::PositionsFieldMask = 
-    (static_cast<OSG::BitVector>(1) << GeometryBase::PositionsFieldId);
+    (TypeTraits<BitVector>::One << GeometryBase::PositionsFieldId);
 
 const OSG::BitVector  GeometryBase::NormalsFieldMask = 
-    (static_cast<OSG::BitVector>(1) << GeometryBase::NormalsFieldId);
+    (TypeTraits<BitVector>::One << GeometryBase::NormalsFieldId);
 
 const OSG::BitVector  GeometryBase::ColorsFieldMask = 
-    (static_cast<OSG::BitVector>(1) << GeometryBase::ColorsFieldId);
+    (TypeTraits<BitVector>::One << GeometryBase::ColorsFieldId);
 
 const OSG::BitVector  GeometryBase::SecondaryColorsFieldMask = 
-    (static_cast<OSG::BitVector>(1) << GeometryBase::SecondaryColorsFieldId);
+    (TypeTraits<BitVector>::One << GeometryBase::SecondaryColorsFieldId);
 
 const OSG::BitVector  GeometryBase::TexCoordsFieldMask = 
-    (static_cast<OSG::BitVector>(1) << GeometryBase::TexCoordsFieldId);
+    (TypeTraits<BitVector>::One << GeometryBase::TexCoordsFieldId);
 
 const OSG::BitVector  GeometryBase::TexCoords1FieldMask = 
-    (static_cast<OSG::BitVector>(1) << GeometryBase::TexCoords1FieldId);
+    (TypeTraits<BitVector>::One << GeometryBase::TexCoords1FieldId);
 
 const OSG::BitVector  GeometryBase::TexCoords2FieldMask = 
-    (static_cast<OSG::BitVector>(1) << GeometryBase::TexCoords2FieldId);
+    (TypeTraits<BitVector>::One << GeometryBase::TexCoords2FieldId);
 
 const OSG::BitVector  GeometryBase::TexCoords3FieldMask = 
-    (static_cast<OSG::BitVector>(1) << GeometryBase::TexCoords3FieldId);
+    (TypeTraits<BitVector>::One << GeometryBase::TexCoords3FieldId);
 
 const OSG::BitVector  GeometryBase::IndicesFieldMask = 
-    (static_cast<OSG::BitVector>(1) << GeometryBase::IndicesFieldId);
+    (TypeTraits<BitVector>::One << GeometryBase::IndicesFieldId);
 
 const OSG::BitVector  GeometryBase::IndexMappingFieldMask = 
-    (static_cast<OSG::BitVector>(1) << GeometryBase::IndexMappingFieldId);
+    (TypeTraits<BitVector>::One << GeometryBase::IndexMappingFieldId);
 
 const OSG::BitVector  GeometryBase::DlistCacheFieldMask = 
-    (static_cast<OSG::BitVector>(1) << GeometryBase::DlistCacheFieldId);
+    (TypeTraits<BitVector>::One << GeometryBase::DlistCacheFieldId);
 
 const OSG::BitVector  GeometryBase::GLIdFieldMask = 
-    (static_cast<OSG::BitVector>(1) << GeometryBase::GLIdFieldId);
+    (TypeTraits<BitVector>::One << GeometryBase::GLIdFieldId);
 
 const OSG::BitVector GeometryBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
-    (0x0 << Inherited::NextFieldId); 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -649,7 +649,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGGEOMETRYBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGEOMETRYBASE_INLINE_CVSID;
 

@@ -80,7 +80,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SharedFontStyleWrapperBase : public FieldContaine
 {
   private:
 
-    typedef FieldContainer Inherited;
+    typedef FieldContainer    Inherited;
+    typedef SharedFontStyleWrapperPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -222,6 +223,6 @@ typedef SharedFontStyleWrapperBase *SharedFontStyleWrapperBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSHAREDFONTSTYLEWRAPPERBASE_HEADER_CVSID "@(#)$Id: OSGSharedFontStyleWrapperBase.h,v 1.1 2003/02/24 16:05:14 trembilski Exp $"
+#define OSGSHAREDFONTSTYLEWRAPPERBASE_HEADER_CVSID "@(#)$Id: OSGSharedFontStyleWrapperBase.h,v 1.2 2003/10/24 15:39:13 dirk Exp $"
 
 #endif /* _OSGSHAREDFONTSTYLEWRAPPERBASE_H_ */

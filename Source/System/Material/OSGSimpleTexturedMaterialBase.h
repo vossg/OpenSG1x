@@ -84,7 +84,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMateria
 {
   private:
 
-    typedef SimpleMaterial Inherited;
+    typedef SimpleMaterial    Inherited;
+    typedef SimpleTexturedMaterialPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -105,6 +106,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMateria
     static const OSG::BitVector EnvModeFieldMask;
     static const OSG::BitVector EnvMapFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -252,6 +255,6 @@ typedef SimpleTexturedMaterialBase *SimpleTexturedMaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGSIMPLETEXTUREDMATERIALBASE_H_ */

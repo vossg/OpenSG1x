@@ -65,20 +65,23 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  ComponentTransformBase::CenterFieldMask = 
-    (1 << ComponentTransformBase::CenterFieldId);
+    (TypeTraits<BitVector>::One << ComponentTransformBase::CenterFieldId);
 
 const OSG::BitVector  ComponentTransformBase::RotationFieldMask = 
-    (1 << ComponentTransformBase::RotationFieldId);
+    (TypeTraits<BitVector>::One << ComponentTransformBase::RotationFieldId);
 
 const OSG::BitVector  ComponentTransformBase::ScaleFieldMask = 
-    (1 << ComponentTransformBase::ScaleFieldId);
+    (TypeTraits<BitVector>::One << ComponentTransformBase::ScaleFieldId);
 
 const OSG::BitVector  ComponentTransformBase::ScaleOrientationFieldMask = 
-    (1 << ComponentTransformBase::ScaleOrientationFieldId);
+    (TypeTraits<BitVector>::One << ComponentTransformBase::ScaleOrientationFieldId);
 
 const OSG::BitVector  ComponentTransformBase::TranslationFieldMask = 
-    (1 << ComponentTransformBase::TranslationFieldId);
+    (TypeTraits<BitVector>::One << ComponentTransformBase::TranslationFieldId);
 
+const OSG::BitVector ComponentTransformBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -367,7 +370,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOMPONENTTRANSFORMBASE_INLINE_CVSID;
 

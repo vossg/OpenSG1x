@@ -65,35 +65,38 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  LightChunkBase::DiffuseFieldMask = 
-    (1 << LightChunkBase::DiffuseFieldId);
+    (TypeTraits<BitVector>::One << LightChunkBase::DiffuseFieldId);
 
 const OSG::BitVector  LightChunkBase::AmbientFieldMask = 
-    (1 << LightChunkBase::AmbientFieldId);
+    (TypeTraits<BitVector>::One << LightChunkBase::AmbientFieldId);
 
 const OSG::BitVector  LightChunkBase::SpecularFieldMask = 
-    (1 << LightChunkBase::SpecularFieldId);
+    (TypeTraits<BitVector>::One << LightChunkBase::SpecularFieldId);
 
 const OSG::BitVector  LightChunkBase::PositionFieldMask = 
-    (1 << LightChunkBase::PositionFieldId);
+    (TypeTraits<BitVector>::One << LightChunkBase::PositionFieldId);
 
 const OSG::BitVector  LightChunkBase::DirectionFieldMask = 
-    (1 << LightChunkBase::DirectionFieldId);
+    (TypeTraits<BitVector>::One << LightChunkBase::DirectionFieldId);
 
 const OSG::BitVector  LightChunkBase::ExponentFieldMask = 
-    (1 << LightChunkBase::ExponentFieldId);
+    (TypeTraits<BitVector>::One << LightChunkBase::ExponentFieldId);
 
 const OSG::BitVector  LightChunkBase::CutoffFieldMask = 
-    (1 << LightChunkBase::CutoffFieldId);
+    (TypeTraits<BitVector>::One << LightChunkBase::CutoffFieldId);
 
 const OSG::BitVector  LightChunkBase::ConstantAttenuationFieldMask = 
-    (1 << LightChunkBase::ConstantAttenuationFieldId);
+    (TypeTraits<BitVector>::One << LightChunkBase::ConstantAttenuationFieldId);
 
 const OSG::BitVector  LightChunkBase::LinearAttenuationFieldMask = 
-    (1 << LightChunkBase::LinearAttenuationFieldId);
+    (TypeTraits<BitVector>::One << LightChunkBase::LinearAttenuationFieldId);
 
 const OSG::BitVector  LightChunkBase::QuadraticAttenuationFieldMask = 
-    (1 << LightChunkBase::QuadraticAttenuationFieldId);
+    (TypeTraits<BitVector>::One << LightChunkBase::QuadraticAttenuationFieldId);
 
+const OSG::BitVector LightChunkBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -517,7 +520,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTCHUNKBASE_INLINE_CVSID;
 

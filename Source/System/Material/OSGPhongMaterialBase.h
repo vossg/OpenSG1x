@@ -87,7 +87,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PhongMaterialBase : public ChunkMaterial
 {
   private:
 
-    typedef ChunkMaterial Inherited;
+    typedef ChunkMaterial    Inherited;
+    typedef PhongMaterialPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:

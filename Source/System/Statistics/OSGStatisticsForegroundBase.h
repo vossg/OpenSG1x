@@ -81,7 +81,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StatisticsForegroundBase : public Foreground
 {
   private:
 
-    typedef Foreground Inherited;
+    typedef Foreground    Inherited;
+    typedef StatisticsForegroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -96,6 +97,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StatisticsForegroundBase : public Foreground
     static const OSG::BitVector ElementIDsFieldMask;
     static const OSG::BitVector CollectorFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -212,6 +215,6 @@ typedef StatisticsForegroundBase *StatisticsForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGSTATISTICSFOREGROUNDBASE_H_ */

@@ -87,7 +87,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
 {
   private:
 
-    typedef ChunkMaterial Inherited;
+    typedef ChunkMaterial    Inherited;
+    typedef SimpleMaterialPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -114,6 +115,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
     static const OSG::BitVector LitFieldMask;
     static const OSG::BitVector ColorMaterialFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -276,6 +279,6 @@ typedef SimpleMaterialBase *SimpleMaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLEMATERIALBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGSIMPLEMATERIALBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGSIMPLEMATERIALBASE_H_ */

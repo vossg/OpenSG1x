@@ -86,7 +86,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ProjectionCameraDecoratorBase : public StereoCame
 {
   private:
 
-    typedef StereoCameraDecorator Inherited;
+    typedef StereoCameraDecorator    Inherited;
+    typedef ProjectionCameraDecoratorPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -111,6 +112,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ProjectionCameraDecoratorBase : public StereoCame
     static const OSG::BitVector WidthFieldMask;
     static const OSG::BitVector HeightFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -281,6 +284,6 @@ typedef ProjectionCameraDecoratorBase *ProjectionCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPROJECTIONCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGPROJECTIONCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGPROJECTIONCAMERADECORATORBASE_H_ */

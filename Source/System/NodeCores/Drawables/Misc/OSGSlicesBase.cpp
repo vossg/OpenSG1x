@@ -65,11 +65,14 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  SlicesBase::SizeFieldMask = 
-    (1 << SlicesBase::SizeFieldId);
+    (TypeTraits<BitVector>::One << SlicesBase::SizeFieldId);
 
 const OSG::BitVector  SlicesBase::NumberOfSlicesFieldMask = 
-    (1 << SlicesBase::NumberOfSlicesFieldId);
+    (TypeTraits<BitVector>::One << SlicesBase::NumberOfSlicesFieldId);
 
+const OSG::BitVector SlicesBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -274,7 +277,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSLICESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSLICESBASE_INLINE_CVSID;
 

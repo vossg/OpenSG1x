@@ -79,11 +79,14 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public AttachmentContainer
 {
   private:
 
-    typedef AttachmentContainer Inherited;
+    typedef AttachmentContainer    Inherited;
+    typedef MaterialPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -170,6 +173,6 @@ typedef MaterialBase *MaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGMATERIALBASE_H_ */

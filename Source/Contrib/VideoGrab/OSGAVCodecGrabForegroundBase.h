@@ -86,7 +86,8 @@ class OSG_CONTRIBLIB_DLLMAPPING AVCodecGrabForegroundBase : public GrabForegroun
 {
   private:
 
-    typedef GrabForeground Inherited;
+    typedef GrabForeground    Inherited;
+    typedef AVCodecGrabForegroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -270,6 +271,6 @@ typedef AVCodecGrabForegroundBase *AVCodecGrabForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGAVCODECGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGAVCODECGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGAVCODECGRABFOREGROUNDBASE_H_ */

@@ -365,7 +365,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGMULTIDISPLAYWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMULTIDISPLAYWINDOWBASE_INLINE_CVSID;
 

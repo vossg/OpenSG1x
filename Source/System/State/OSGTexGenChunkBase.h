@@ -87,7 +87,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TexGenChunkBase : public StateChunk
 {
   private:
 
-    typedef StateChunk Inherited;
+    typedef StateChunk    Inherited;
+    typedef TexGenChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -114,6 +115,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TexGenChunkBase : public StateChunk
     static const OSG::BitVector GenFuncRPlaneFieldMask;
     static const OSG::BitVector GenFuncQPlaneFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -276,6 +279,6 @@ typedef TexGenChunkBase *TexGenChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXGENCHUNKBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGTEXGENCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGTEXGENCHUNKBASE_H_ */

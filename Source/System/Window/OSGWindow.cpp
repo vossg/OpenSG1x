@@ -224,6 +224,7 @@ std::vector<std::string            >  OSG::Window::_registeredExtensions;
 std::vector<std::string            >  OSG::Window::_ignoredExtensions;
 std::vector<bool                   >  OSG::Window::_commonExtensions;
 std::vector<std::string            >  OSG::Window::_registeredFunctions;
+std::vector<Int32                  >  OSG::Window::_registeredFunctionExts;
 
 // GL constant handling
 
@@ -787,14 +788,14 @@ UInt32 OSG::Window::registerExtension(const Char8 *s)
     if(i < _registeredExtensions.end())
     {
         staticRelease();
-        FDEBUG(("reusing id %d\n", i - _registeredExtensions.begin()));
+        FPDEBUG(("reusing id %d\n", i - _registeredExtensions.begin()));
         return i - _registeredExtensions.begin();
     }
         
     UInt32 r = _registeredExtensions.size();
     _registeredExtensions.push_back(s);
     
-    FDEBUG(("new id %d\n", r));
+    FPDEBUG(("new id %d\n", r));
     
     staticRelease();
     return r;
@@ -919,7 +920,7 @@ void OSG::Window::ignoreExtensions(const Char8 *s)
 /*! Register a new OpenGL extension function. See \ref PageSystemOGLExt for 
     details. Ignores NULL strings.
 */
-UInt32 OSG::Window::registerFunction(const Char8 *s)
+UInt32 OSG::Window::registerFunction(const Char8 *s, Int32 ext)
 {
     if(s == NULL)
         return TypeTraits<UInt32>::getMax();
@@ -942,6 +943,7 @@ UInt32 OSG::Window::registerFunction(const Char8 *s)
             
     UInt32 r=_registeredFunctions.size();
     _registeredFunctions.push_back(s);
+    _registeredFunctionExts.push_back(ext);
 
     FPDEBUG(("new id %d\n", r));
     
@@ -1062,7 +1064,11 @@ void OSG::Window::frameInit(void)
     while(_registeredFunctions.size() > _extFunctions.size())
     {   
         const Char8 *s    = _registeredFunctions[_extFunctions.size()].c_str();
-        void        *func = (void*)getFunctionByName(s);
+        Int32        ext  = _registeredFunctionExts[_extFunctions.size()];
+        void        *func = NULL;
+        
+        if(ext == -1 || _availExtensions[ext] == true)
+            func = (void*)getFunctionByName(s);
 
         _extFunctions.push_back(func);
     }
@@ -1239,7 +1245,7 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
 
     if(retval == NULL)
     {
-        FNOTICE(("Window::getFunctionByName: Couldn't get function '%s' for "
+        FWARNING(("Window::getFunctionByName: Couldn't get function '%s' for "
                  "Window %p.\n", s, this));
     }
     else

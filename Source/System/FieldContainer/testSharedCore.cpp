@@ -69,5 +69,14 @@ int main (int argc, char *argv[])
 	std::cerr << "endEditCP..." << std::endl;
 	endEditCP(root);
 	std::cerr << "done" << std::endl;
+        
+        
+        // makeNode test
+        
+        NodePtr n1 = makeCoredNode<Geometry>();
+        
+        GeometryPtr geo;
+        NodePtr n2 = makeCoredNode<Geometry>(&geo);
+        
 	return 0;
 }

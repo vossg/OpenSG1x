@@ -65,98 +65,101 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  RegisterCombinersChunkBase::Color0FieldMask = 
-    (1 << RegisterCombinersChunkBase::Color0FieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::Color0FieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::Color1FieldMask = 
-    (1 << RegisterCombinersChunkBase::Color1FieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::Color1FieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::ColorSumClampFieldMask = 
-    (1 << RegisterCombinersChunkBase::ColorSumClampFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::ColorSumClampFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::VariableArgbFieldMask = 
-    (1 << RegisterCombinersChunkBase::VariableArgbFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::VariableArgbFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::VariableBrgbFieldMask = 
-    (1 << RegisterCombinersChunkBase::VariableBrgbFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::VariableBrgbFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::VariableCrgbFieldMask = 
-    (1 << RegisterCombinersChunkBase::VariableCrgbFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::VariableCrgbFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::VariableDrgbFieldMask = 
-    (1 << RegisterCombinersChunkBase::VariableDrgbFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::VariableDrgbFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::VariableAalphaFieldMask = 
-    (1 << RegisterCombinersChunkBase::VariableAalphaFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::VariableAalphaFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::VariableBalphaFieldMask = 
-    (1 << RegisterCombinersChunkBase::VariableBalphaFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::VariableBalphaFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::VariableCalphaFieldMask = 
-    (1 << RegisterCombinersChunkBase::VariableCalphaFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::VariableCalphaFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::VariableDalphaFieldMask = 
-    (1 << RegisterCombinersChunkBase::VariableDalphaFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::VariableDalphaFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::OutputABrgbFieldMask = 
-    (1 << RegisterCombinersChunkBase::OutputABrgbFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::OutputABrgbFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::OutputCDrgbFieldMask = 
-    (1 << RegisterCombinersChunkBase::OutputCDrgbFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::OutputCDrgbFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::OutputSumrgbFieldMask = 
-    (1 << RegisterCombinersChunkBase::OutputSumrgbFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::OutputSumrgbFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::ScalergbFieldMask = 
-    (1 << RegisterCombinersChunkBase::ScalergbFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::ScalergbFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::BiasrgbFieldMask = 
-    (1 << RegisterCombinersChunkBase::BiasrgbFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::BiasrgbFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::OutputABalphaFieldMask = 
-    (1 << RegisterCombinersChunkBase::OutputABalphaFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::OutputABalphaFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::OutputCDalphaFieldMask = 
-    (1 << RegisterCombinersChunkBase::OutputCDalphaFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::OutputCDalphaFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::OutputSumalphaFieldMask = 
-    (1 << RegisterCombinersChunkBase::OutputSumalphaFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::OutputSumalphaFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::DotABrgbFieldMask = 
-    (1 << RegisterCombinersChunkBase::DotABrgbFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::DotABrgbFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::DotCDrgbFieldMask = 
-    (1 << RegisterCombinersChunkBase::DotCDrgbFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::DotCDrgbFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::MuxSumrgbFieldMask = 
-    (1 << RegisterCombinersChunkBase::MuxSumrgbFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::MuxSumrgbFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::ScalealphaFieldMask = 
-    (1 << RegisterCombinersChunkBase::ScalealphaFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::ScalealphaFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::BiasalphaFieldMask = 
-    (1 << RegisterCombinersChunkBase::BiasalphaFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::BiasalphaFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::MuxSumalphaFieldMask = 
-    (1 << RegisterCombinersChunkBase::MuxSumalphaFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::MuxSumalphaFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::VariableEFieldMask = 
-    (1 << RegisterCombinersChunkBase::VariableEFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::VariableEFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::VariableFFieldMask = 
-    (1 << RegisterCombinersChunkBase::VariableFFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::VariableFFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::VariableGFieldMask = 
-    (1 << RegisterCombinersChunkBase::VariableGFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::VariableGFieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::CombinerColor0FieldMask = 
-    (1 << RegisterCombinersChunkBase::CombinerColor0FieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::CombinerColor0FieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::CombinerColor1FieldMask = 
-    (1 << RegisterCombinersChunkBase::CombinerColor1FieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::CombinerColor1FieldId);
 
 const OSG::BitVector  RegisterCombinersChunkBase::PerStageConstantsFieldMask = 
-    (1 << RegisterCombinersChunkBase::PerStageConstantsFieldId);
+    (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::PerStageConstantsFieldId);
 
+const OSG::BitVector RegisterCombinersChunkBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -1173,7 +1176,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGREGISTERCOMBINERSCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGREGISTERCOMBINERSCHUNKBASE_INLINE_CVSID;
 

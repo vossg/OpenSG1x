@@ -110,7 +110,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 {
   private:
 
-    typedef StateChunk Inherited;
+    typedef StateChunk    Inherited;
+    typedef RegisterCombinersChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -183,6 +184,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
     static const OSG::BitVector CombinerColor1FieldMask;
     static const OSG::BitVector PerStageConstantsFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -460,6 +463,6 @@ typedef RegisterCombinersChunkBase *RegisterCombinersChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGREGISTERCOMBINERSCHUNKBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGREGISTERCOMBINERSCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGREGISTERCOMBINERSCHUNKBASE_H_ */

@@ -69,10 +69,10 @@
 #include <OSGBoolFields.h> // Smooth type
 #include <OSGReal32Fields.h> // MinSize type
 #include <OSGReal32Fields.h> // MaxSize type
-#include <OSGReal32Fields.h> // FadeThreshold type
 #include <OSGReal32Fields.h> // ConstantAttenuation type
 #include <OSGReal32Fields.h> // LinearAttenuation type
 #include <OSGReal32Fields.h> // QuadraticAttenuation type
+#include <OSGReal32Fields.h> // FadeThreshold type
 #include <OSGBoolFields.h> // Sprite type
 #include <OSGGLenumFields.h> // RMode type
 
@@ -89,7 +89,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PointChunkBase : public StateChunk
 {
   private:
 
-    typedef StateChunk Inherited;
+    typedef StateChunk    Inherited;
+    typedef PointChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -100,11 +101,11 @@ class OSG_SYSTEMLIB_DLLMAPPING PointChunkBase : public StateChunk
         SmoothFieldId               = SizeFieldId                 + 1,
         MinSizeFieldId              = SmoothFieldId               + 1,
         MaxSizeFieldId              = MinSizeFieldId              + 1,
-        FadeThresholdFieldId        = MaxSizeFieldId              + 1,
-        ConstantAttenuationFieldId  = FadeThresholdFieldId        + 1,
+        ConstantAttenuationFieldId  = MaxSizeFieldId              + 1,
         LinearAttenuationFieldId    = ConstantAttenuationFieldId  + 1,
         QuadraticAttenuationFieldId = LinearAttenuationFieldId    + 1,
-        SpriteFieldId               = QuadraticAttenuationFieldId + 1,
+        FadeThresholdFieldId        = QuadraticAttenuationFieldId + 1,
+        SpriteFieldId               = FadeThresholdFieldId        + 1,
         RModeFieldId                = SpriteFieldId               + 1,
         NextFieldId                 = RModeFieldId                + 1
     };
@@ -113,13 +114,15 @@ class OSG_SYSTEMLIB_DLLMAPPING PointChunkBase : public StateChunk
     static const OSG::BitVector SmoothFieldMask;
     static const OSG::BitVector MinSizeFieldMask;
     static const OSG::BitVector MaxSizeFieldMask;
-    static const OSG::BitVector FadeThresholdFieldMask;
     static const OSG::BitVector ConstantAttenuationFieldMask;
     static const OSG::BitVector LinearAttenuationFieldMask;
     static const OSG::BitVector QuadraticAttenuationFieldMask;
+    static const OSG::BitVector FadeThresholdFieldMask;
     static const OSG::BitVector SpriteFieldMask;
     static const OSG::BitVector RModeFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -147,10 +150,10 @@ class OSG_SYSTEMLIB_DLLMAPPING PointChunkBase : public StateChunk
            SFBool              *getSFSmooth         (void);
            SFReal32            *getSFMinSize        (void);
            SFReal32            *getSFMaxSize        (void);
-           SFReal32            *getSFFadeThreshold  (void);
            SFReal32            *getSFConstantAttenuation(void);
            SFReal32            *getSFLinearAttenuation(void);
            SFReal32            *getSFQuadraticAttenuation(void);
+           SFReal32            *getSFFadeThreshold  (void);
            SFBool              *getSFSprite         (void);
            SFGLenum            *getSFRMode          (void);
 
@@ -162,14 +165,14 @@ class OSG_SYSTEMLIB_DLLMAPPING PointChunkBase : public StateChunk
      const Real32              &getMinSize        (void) const;
            Real32              &getMaxSize        (void);
      const Real32              &getMaxSize        (void) const;
-           Real32              &getFadeThreshold  (void);
-     const Real32              &getFadeThreshold  (void) const;
            Real32              &getConstantAttenuation(void);
      const Real32              &getConstantAttenuation(void) const;
            Real32              &getLinearAttenuation(void);
      const Real32              &getLinearAttenuation(void) const;
            Real32              &getQuadraticAttenuation(void);
      const Real32              &getQuadraticAttenuation(void) const;
+           Real32              &getFadeThreshold  (void);
+     const Real32              &getFadeThreshold  (void) const;
            bool                &getSprite         (void);
      const bool                &getSprite         (void) const;
            GLenum              &getRMode          (void);
@@ -184,10 +187,10 @@ class OSG_SYSTEMLIB_DLLMAPPING PointChunkBase : public StateChunk
      void setSmooth         ( const bool &value );
      void setMinSize        ( const Real32 &value );
      void setMaxSize        ( const Real32 &value );
-     void setFadeThreshold  ( const Real32 &value );
      void setConstantAttenuation( const Real32 &value );
      void setLinearAttenuation( const Real32 &value );
      void setQuadraticAttenuation( const Real32 &value );
+     void setFadeThreshold  ( const Real32 &value );
      void setSprite         ( const bool &value );
      void setRMode          ( const GLenum &value );
 
@@ -239,10 +242,10 @@ class OSG_SYSTEMLIB_DLLMAPPING PointChunkBase : public StateChunk
     SFBool              _sfSmooth;
     SFReal32            _sfMinSize;
     SFReal32            _sfMaxSize;
-    SFReal32            _sfFadeThreshold;
     SFReal32            _sfConstantAttenuation;
     SFReal32            _sfLinearAttenuation;
     SFReal32            _sfQuadraticAttenuation;
+    SFReal32            _sfFadeThreshold;
     SFBool              _sfSprite;
     SFGLenum            _sfRMode;
 
@@ -292,6 +295,6 @@ typedef PointChunkBase *PointChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPOINTCHUNKBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGPOINTCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGPOINTCHUNKBASE_H_ */

@@ -65,8 +65,11 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  GLUTWindowBase::IdFieldMask = 
-    (1 << GLUTWindowBase::IdFieldId);
+    (TypeTraits<BitVector>::One << GLUTWindowBase::IdFieldId);
 
+const OSG::BitVector GLUTWindowBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -243,7 +246,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGGLUTWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGLUTWINDOWBASE_INLINE_CVSID;
 

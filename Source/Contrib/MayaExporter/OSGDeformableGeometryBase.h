@@ -82,7 +82,8 @@ class OSG_CONTRIBLIB_DLLMAPPING DeformableGeometryBase : public Geometry
 {
   private:
 
-    typedef Geometry Inherited;
+    typedef Geometry    Inherited;
+    typedef DeformableGeometryPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -238,6 +239,6 @@ typedef DeformableGeometryBase *DeformableGeometryBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDEFORMABLEGEOMETRYBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGDEFORMABLEGEOMETRYBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGDEFORMABLEGEOMETRYBASE_H_ */

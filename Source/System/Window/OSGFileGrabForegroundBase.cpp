@@ -65,17 +65,20 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  FileGrabForegroundBase::ActiveFieldMask = 
-    (1 << FileGrabForegroundBase::ActiveFieldId);
+    (TypeTraits<BitVector>::One << FileGrabForegroundBase::ActiveFieldId);
 
 const OSG::BitVector  FileGrabForegroundBase::NameFieldMask = 
-    (1 << FileGrabForegroundBase::NameFieldId);
+    (TypeTraits<BitVector>::One << FileGrabForegroundBase::NameFieldId);
 
 const OSG::BitVector  FileGrabForegroundBase::FrameFieldMask = 
-    (1 << FileGrabForegroundBase::FrameFieldId);
+    (TypeTraits<BitVector>::One << FileGrabForegroundBase::FrameFieldId);
 
 const OSG::BitVector  FileGrabForegroundBase::IncrementFieldMask = 
-    (1 << FileGrabForegroundBase::IncrementFieldId);
+    (TypeTraits<BitVector>::One << FileGrabForegroundBase::IncrementFieldId);
 
+const OSG::BitVector FileGrabForegroundBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -336,7 +339,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFILEGRABFOREGROUNDBASE_INLINE_CVSID;
 

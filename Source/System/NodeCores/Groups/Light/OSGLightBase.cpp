@@ -65,29 +65,32 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  LightBase::AmbientFieldMask = 
-    (1 << LightBase::AmbientFieldId);
+    (TypeTraits<BitVector>::One << LightBase::AmbientFieldId);
 
 const OSG::BitVector  LightBase::DiffuseFieldMask = 
-    (1 << LightBase::DiffuseFieldId);
+    (TypeTraits<BitVector>::One << LightBase::DiffuseFieldId);
 
 const OSG::BitVector  LightBase::SpecularFieldMask = 
-    (1 << LightBase::SpecularFieldId);
+    (TypeTraits<BitVector>::One << LightBase::SpecularFieldId);
 
 const OSG::BitVector  LightBase::BeaconFieldMask = 
-    (1 << LightBase::BeaconFieldId);
+    (TypeTraits<BitVector>::One << LightBase::BeaconFieldId);
 
 const OSG::BitVector  LightBase::OnFieldMask = 
-    (1 << LightBase::OnFieldId);
+    (TypeTraits<BitVector>::One << LightBase::OnFieldId);
 
 const OSG::BitVector  LightBase::ConstantAttenuationFieldMask = 
-    (1 << LightBase::ConstantAttenuationFieldId);
+    (TypeTraits<BitVector>::One << LightBase::ConstantAttenuationFieldId);
 
 const OSG::BitVector  LightBase::LinearAttenuationFieldMask = 
-    (1 << LightBase::LinearAttenuationFieldId);
+    (TypeTraits<BitVector>::One << LightBase::LinearAttenuationFieldId);
 
 const OSG::BitVector  LightBase::QuadraticAttenuationFieldMask = 
-    (1 << LightBase::QuadraticAttenuationFieldId);
+    (TypeTraits<BitVector>::One << LightBase::QuadraticAttenuationFieldId);
 
+const OSG::BitVector LightBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -446,7 +449,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTBASE_INLINE_CVSID;
 

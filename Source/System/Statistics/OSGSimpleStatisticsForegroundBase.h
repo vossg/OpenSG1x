@@ -82,7 +82,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
 {
   private:
 
-    typedef StatisticsForeground Inherited;
+    typedef StatisticsForeground    Inherited;
+    typedef SimpleStatisticsForegroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -99,6 +100,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
     static const OSG::BitVector SizeFieldMask;
     static const OSG::BitVector ColorFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -179,7 +182,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
     virtual FieldContainerPtr     shallowCopy     (void) const; 
 
     /*! \}                                                                 */
-
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -215,7 +217,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
-
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -238,6 +239,6 @@ typedef SimpleStatisticsForegroundBase *SimpleStatisticsForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLESTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGSIMPLESTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGSIMPLESTATISTICSFOREGROUNDBASE_H_ */

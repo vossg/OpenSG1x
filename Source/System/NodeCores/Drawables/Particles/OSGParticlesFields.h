@@ -73,11 +73,12 @@ typedef FCPtr<MaterialDrawablePtr, Particles> ParticlesPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief ParticlesPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<ParticlesPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<ParticlesPtr> :
     static char     *getSName(void) { return "SFParticlesPtr"; }
     static char     *getMName(void) { return "MFParticlesPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFParticlesPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<ParticlesPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<ParticlesPtr> SFParticlesPtr;
+#endif
 
 #ifndef OSG_COMPILEPARTICLESINST
 OSG_DLLEXPORT_DECL1(SField, ParticlesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFParticlesPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<ParticlesPtr> MFParticlesPtr;
+#endif
 
 #ifndef OSG_COMPILEPARTICLESINST
 OSG_DLLEXPORT_DECL1(MField, ParticlesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
@@ -115,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, ParticlesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESFIELDS_HEADER_CVSID "@(#)$Id: $"
+#define OSGPARTICLESFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGPARTICLESFIELDS_H_ */

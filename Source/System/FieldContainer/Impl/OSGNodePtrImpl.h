@@ -186,6 +186,20 @@ OSG_SYSTEMLIB_DLLMAPPING
 std::ostream &operator <<(      std::ostream &os,
                           const NodePtr      &fc);
 
+
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
+
+template <class Core> 
+inline NodePtr makeCoredNode(typename Core::Ptr *coreP = NULL);
+
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
+
+OSG_SYSTEMLIB_DLLMAPPING
+NodePtr makeNodeFor(NodeCorePtr core);
+
+
 OSG_END_NAMESPACE
 
 #define OSGNODEPTR_HEADER_CVSID "@(#)$Id: $"

@@ -84,7 +84,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SortFirstWindowBase : public ClusterWindow
 {
   private:
 
-    typedef ClusterWindow Inherited;
+    typedef ClusterWindow    Inherited;
+    typedef SortFirstWindowPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -254,6 +255,6 @@ typedef SortFirstWindowBase *SortFirstWindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSORTFIRSTWINDOWBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGSORTFIRSTWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGSORTFIRSTWINDOWBASE_H_ */

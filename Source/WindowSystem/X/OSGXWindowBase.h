@@ -82,7 +82,8 @@ class OSG_WINDOWXLIB_DLLMAPPING XWindowBase : public Window
 {
   private:
 
-    typedef Window Inherited;
+    typedef Window    Inherited;
+    typedef XWindowPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -99,6 +100,8 @@ class OSG_WINDOWXLIB_DLLMAPPING XWindowBase : public Window
     static const OSG::BitVector WindowFieldMask;
     static const OSG::BitVector ContextFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -236,6 +239,6 @@ typedef XWindowBase *XWindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGXWINDOWBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGXWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGXWINDOWBASE_H_ */

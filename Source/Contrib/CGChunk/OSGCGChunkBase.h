@@ -83,7 +83,8 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public StateChunk
 {
   private:
 
-    typedef StateChunk Inherited;
+    typedef StateChunk    Inherited;
+    typedef CGChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -246,6 +247,6 @@ typedef CGChunkBase *CGChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCGCHUNKBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGCGCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGCGCHUNKBASE_H_ */

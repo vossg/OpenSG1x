@@ -65,23 +65,23 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  SortFirstWindowBase::CompressionFieldMask = 
-    (1 << SortFirstWindowBase::CompressionFieldId);
+    (TypeTraits<BitVector>::One << SortFirstWindowBase::CompressionFieldId);
 
 const OSG::BitVector  SortFirstWindowBase::SubtileSizeFieldMask = 
-    (1 << SortFirstWindowBase::SubtileSizeFieldId);
+    (TypeTraits<BitVector>::One << SortFirstWindowBase::SubtileSizeFieldId);
 
 const OSG::BitVector  SortFirstWindowBase::ComposeFieldMask = 
-    (1 << SortFirstWindowBase::ComposeFieldId);
+    (TypeTraits<BitVector>::One << SortFirstWindowBase::ComposeFieldId);
 
 const OSG::BitVector  SortFirstWindowBase::RegionFieldMask = 
-    (1 << SortFirstWindowBase::RegionFieldId);
+    (TypeTraits<BitVector>::One << SortFirstWindowBase::RegionFieldId);
 
 const OSG::BitVector  SortFirstWindowBase::UseFaceDistributionFieldMask = 
-    (1 << SortFirstWindowBase::UseFaceDistributionFieldId);
+    (TypeTraits<BitVector>::One << SortFirstWindowBase::UseFaceDistributionFieldId);
 
 const OSG::BitVector SortFirstWindowBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
-    (0x0 << Inherited::NextFieldId); 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -365,7 +365,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSORTFIRSTWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSORTFIRSTWINDOWBASE_INLINE_CVSID;
 

@@ -133,15 +133,16 @@ RegisterCombinersChunk::RegisterCombinersChunk(void) :
     _nvRegisterCombiners2     = Window::registerExtension( 
                                 "GL_NV_register_combiners2" );
     _funcCombinerParameterfv  = Window::registerFunction (
-        OSG_DLSYM_UNDERSCORE"glCombinerParameterfvNV" );
+        OSG_DLSYM_UNDERSCORE"glCombinerParameterfvNV",  _nvRegisterCombiners);
     _funcCombinerStageParameterfv  = Window::registerFunction (
-        OSG_DLSYM_UNDERSCORE"glCombinerStageParameterfvNV" );
+        OSG_DLSYM_UNDERSCORE"glCombinerStageParameterfvNV", 
+                                                        _nvRegisterCombiners );
     _funcCombinerInput        = Window::registerFunction (
-        OSG_DLSYM_UNDERSCORE"glCombinerInputNV" );
+        OSG_DLSYM_UNDERSCORE"glCombinerInputNV",        _nvRegisterCombiners );
     _funcCombinerOutput       = Window::registerFunction (
-        OSG_DLSYM_UNDERSCORE"glCombinerOutputNV" );
+        OSG_DLSYM_UNDERSCORE"glCombinerOutputNV",       _nvRegisterCombiners );
     _funcFinalCombinerInput   = Window::registerFunction (
-        OSG_DLSYM_UNDERSCORE"glFinalCombinerInputNV" );
+        OSG_DLSYM_UNDERSCORE"glFinalCombinerInputNV",   _nvRegisterCombiners );
 
     clearCombiners();
 }
