@@ -18,8 +18,7 @@ DOC_LIBS   ?= Base Field FieldContainer Image Loader Log Material 	\
 			  Nodes/Light 											\
               Nodes/Misc State Window mainpage.doxygen
 
-
-#DOC_LIBS   = Window
+#DOC_LIBS   = Base
 
 DOC_PATTERN = OSG*.cpp OSG*.hpp OSG*.inl OSG*.doxygen
 
@@ -28,18 +27,34 @@ DOC_ENV += DOC_PROJECT_NUMBER=$(DOC_PROJECT_NUMBER) DOC_LIBS="$(DOC_LIBS)"
 DOC_ENV += DOC_PATTERN="$(DOC_PATTERN)"
 DOC_ENV += OSGPOOL="$(OSGPOOL)"
 
-all:
-	@echo "We finally switched to configure, please have a look at INSTALL"
-	@echo "and using_configure how to use it"
-	@echo 
-	@echo "Use make help to see all available targets at every level"
+# map some common targets into the Builds/ directory for the current system
+# NOTE: this will fail if there are multiple directories for one system (i.e.
+# if multiple compilers have been used)
+
+default:
+	gmake -C Builds/${OS_BASE}* 
+
+install:
+	cd Builds/${OS_BASE}* && gmake install
+
+clean:
+	cd Builds/${OS_BASE}* && gmake clean
+
+
+# standard targets
 
 help: 
+	@echo "Most targets are only supported inside the Builds/* directories!"
+	@echo "Go there and type 'make help' to get a list of possible targets."
+	@echo
 	@echo "Targets supported on this level:"
 	@echo "================================"
 	@echo 
 	@echo "doc          run doxygen to create the documentation"
 	@echo "fcdToBase    run through the tree and regenerate all the Base sources"
+	@echo "<default>    go into the Builds directory and call gmake"
+	@echo "install      go into the Builds directory and call gmake install"
+	@echo "clean        go into the Builds directory and call gmake clean"
 
 
 .PHONY: doc
