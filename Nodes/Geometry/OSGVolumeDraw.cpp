@@ -61,17 +61,6 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-static char cvsid[] = "@(#)$Id: OSGVolumeDraw.cpp,v 1.11 2002/02/26 06:10:16 vossg Exp $";
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
-
 OSG_SYSTEMLIB_DLLMAPPING
 void osg::drawVolume ( const DynamicVolume &volume )
 {

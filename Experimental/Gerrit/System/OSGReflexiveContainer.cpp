@@ -54,20 +54,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace 
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGREFLEXIVECONTAINER_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -203,10 +189,20 @@ AnonObjectP ReflexiveContainer::getElement(const Char8 *szElementName)
 	return pDesc ? pDesc->getElement(*this) : NULL;
 }
 
-/*---------------------------- properties ---------------------------------*/
 
-/*-------------------------- your_category---------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
-/*-------------------------- assignment -----------------------------------*/
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/*-------------------------- comparison -----------------------------------*/
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace 
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGREFLEXIVECONTAINER_HEADER_CVSID;
+}

@@ -80,23 +80,6 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
-    static Char8 cvsid_hpp       [] = OSGPASSIVEBACKGROUNDBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGPASSIVEBACKGROUNDBASE_INLINE_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGPASSIVEBACKGROUNDFIELDS_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 
 
 //! PassiveBackground type
@@ -213,4 +196,29 @@ void PassiveBackgroundBase::executeSyncImpl(      PassiveBackgroundBase *pOther,
 
 }
 
+
+
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_hpp       [] = OSGPASSIVEBACKGROUNDBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGPASSIVEBACKGROUNDBASE_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGPASSIVEBACKGROUNDFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 

@@ -67,20 +67,6 @@ OSG_USING_NAMESPACE
 #pragma warning (disable : 383)
 #endif
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.12 2002/02/04 20:14:07 dirk Exp $";
-    static Char8 cvsid_hpp[] = OSGRAWSCENEFILETYPE_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*****************************
  *   Types
  *****************************/
@@ -397,23 +383,21 @@ RAWSceneFileType::~RAWSceneFileType (void )
     return;
 }
 
-/*------------access----------------*/
 
-/*------------properies-------------*/
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
-/*------------your Category---------*/
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/*------------Operators-------------*/
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
 
-
-
-/****************************
-*protected
-****************************/
-
-
-/****************************
-*private
-****************************/
-
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.13 2002/04/30 09:29:09 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGRAWSCENEFILETYPE_HEADER_CVSID;
+}
 

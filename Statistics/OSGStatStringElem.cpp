@@ -50,21 +50,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStatStringElem.cpp,v 1.1 2002/03/19 17:46:17 dirk Exp $";
-    static Char8 cvsid_hpp[] = OSGSTATSTRINGELEM_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGSTATSTRINGELEM_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -73,7 +58,7 @@ namespace
  *                           Class variables                               *
 \***************************************************************************/
 
-char StatStringElem::cvsid[] = "@(#)$Id: OSGStatStringElem.cpp,v 1.1 2002/03/19 17:46:17 dirk Exp $";
+char StatStringElem::cvsid[] = "@(#)$Id: OSGStatStringElem.cpp,v 1.2 2002/04/30 09:29:13 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -196,20 +181,21 @@ bool StatStringElem::operator < (const StatStringElem &other) const
     return this < &other;
 }
 
-/** \brief equal
- */
 
-/** \brief unequal
- */
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
 
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStatStringElem.cpp,v 1.2 2002/04/30 09:29:13 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGSTATSTRINGELEM_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGSTATSTRINGELEM_INLINE_CVSID;
+}

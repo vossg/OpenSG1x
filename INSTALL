@@ -116,11 +116,12 @@ Linux
 =====
 
 Compiler : > gcc 2.95.>=3
+             Intel icc 5.0x and 6.0
 
 Standard systems:
 RH 7.0: needs patches gcc/RHBA-2000-132, glibc/RHBA-2000-079
 RH 7.1: out of the box
-RH 7.2: out of the box
+RH 7.2: out of the box, including all updates available
 SuSe 7.1: out of the box
 
 

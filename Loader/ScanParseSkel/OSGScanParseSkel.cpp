@@ -53,20 +53,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace 
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGSCANPARSESKEL_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 extern int  OSGScanParseSkel_char;
 extern void resetScanner(void);
 
@@ -309,3 +295,19 @@ void ScanParseSkel::setReferenceHeader(const Char8 *szReferenceHeader)
 }
 
 
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace 
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGSCANPARSESKEL_HEADER_CVSID;
+}

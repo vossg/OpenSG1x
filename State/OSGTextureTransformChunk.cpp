@@ -53,21 +53,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: OSGTextureTransformChunk.cpp,v 1.6 2002/02/26 06:10:14 vossg Exp $";
-    static char cvsid_hpp[] = OSGTEXTURETRANSFORMCHUNK_HEADER_CVSID;
-    static char cvsid_inl[] = OSGTEXTURETRANSFORMCHUNK_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::TextureTransformChunk
 
 */
@@ -175,4 +160,23 @@ void TextureTransformChunk::deactivate ( DrawActionBase *, UInt32 )
     glMatrixMode(GL_TEXTURE);
     glLoadIdentity();
     glMatrixMode(GL_MODELVIEW);
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: OSGTextureTransformChunk.cpp,v 1.7 2002/04/30 09:29:12 vossg Exp $";
+    static char cvsid_hpp[] = OSGTEXTURETRANSFORMCHUNK_HEADER_CVSID;
+    static char cvsid_inl[] = OSGTEXTURETRANSFORMCHUNK_INLINE_CVSID;
 }

@@ -50,20 +50,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGNODE_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGNODE_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 
 /*! \class osg::Node
  */
@@ -380,6 +366,8 @@ void Node::subChild(UInt32 childIndex)
 
 NodePtr Node::getChild(UInt32 childIndex)
 {
+    OSG_ASSERT((childIndex < _mfChildren.size()));
+
     return _mfChildren.getValue(childIndex);
 }
 
@@ -893,4 +881,23 @@ NodePtr OSG::cloneTree(NodePtr pRootNode)
     }
 
     return returnValue;
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGNODE_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGNODE_INLINE_CVSID;
 }

@@ -60,20 +60,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGFIELDCONTAINERFACTORY_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::FieldContainerFactory
  */
 
@@ -178,7 +164,12 @@ bool FieldContainerFactory::initializePendingTypes(void)
             {
                 uninitIt = _pUnitTypesStore->erase(uninitIt);
 
-                (*_pTypeIdMap  )[pType->getId()                 ] = pType;
+//                (*_pTypeIdMap  )[pType->getId()                 ] = pType;
+
+                TypeIdMap::value_type val(pType->getId(), pType);
+
+                _pTypeIdMap->insert(val);
+
                 (*_pTypeNameMap)[IDStringLink(pType->getCName())] = pType;
             }
             else
@@ -187,7 +178,12 @@ bool FieldContainerFactory::initializePendingTypes(void)
                 {
                     uninitIt = _pUnitTypesStore->erase(uninitIt);
 
-                    (*_pTypeIdMap  )[pType->getId()                 ] = pType;
+//                  (*_pTypeIdMap  )[pType->getId()                 ] = pType;
+
+                    TypeIdMap::value_type val(pType->getId(), pType);
+                    
+                    _pTypeIdMap->insert(val);
+
                     (*_pTypeNameMap)[IDStringLink(pType->getCName())] = pType;
                 }
                 else
@@ -799,3 +795,19 @@ void FieldContainerFactory::writeSingleTypeFCD(      ostream            &out,
 }
 
 
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGFIELDCONTAINERFACTORY_HEADER_CVSID;
+}

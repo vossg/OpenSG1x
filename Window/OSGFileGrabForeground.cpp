@@ -49,21 +49,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: OSGFileGrabForeground.cpp,v 1.1 2002/01/18 22:58:09 dirk Exp $";
-    static char cvsid_hpp[] = OSGFILEGRABFOREGROUND_HEADER_CVSID;
-    static char cvsid_inl[] = OSGFILEGRABFOREGROUND_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::FileGrabForeground
 Background is the base class for all background clearing.  	 	
 */
@@ -160,3 +145,21 @@ void FileGrabForeground::draw(DrawActionBase *action, Viewport *port)
     }   
 }
 
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: OSGFileGrabForeground.cpp,v 1.2 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_hpp[] = OSGFILEGRABFOREGROUND_HEADER_CVSID;
+    static char cvsid_inl[] = OSGFILEGRABFOREGROUND_INLINE_CVSID;
+}

@@ -83,20 +83,6 @@ OSG_USING_NAMESPACE
 #pragma warning (disable : 383)
 #endif
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace 
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGVRMLNODEDESCS_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<GenericAttPtr>::_type("GenericAttPtr",
@@ -4149,4 +4135,21 @@ void VRMLViewpointDesc::dump(const Char8 *)
 {
 }
 
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace 
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGVRMLNODEDESCS_HEADER_CVSID;
+}
 

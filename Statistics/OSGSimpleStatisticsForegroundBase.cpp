@@ -82,23 +82,6 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleStatisticsForegroundBase.cpp,v 1.2 2002/03/29 02:34:52 vossg Exp $";
-    static Char8 cvsid_hpp       [] = OSGSIMPLESTATISTICSFOREGROUNDBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGSIMPLESTATISTICSFOREGROUNDBASE_INLINE_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGSIMPLESTATISTICSFOREGROUNDFIELDS_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 const OSG::BitVector  SimpleStatisticsForegroundBase::FormatsFieldMask = 
     (1 << SimpleStatisticsForegroundBase::FormatsFieldId);
 
@@ -317,4 +300,29 @@ void SimpleStatisticsForegroundBase::executeSyncImpl(      SimpleStatisticsForeg
 
 }
 
+
+
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleStatisticsForegroundBase.cpp,v 1.3 2002/04/30 09:29:12 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGSIMPLESTATISTICSFOREGROUNDBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGSIMPLESTATISTICSFOREGROUNDBASE_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGSIMPLESTATISTICSFOREGROUNDFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 

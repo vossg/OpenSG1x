@@ -57,6 +57,10 @@ class Attachment;
 #pragma set woff 1375,1424
 #endif
 
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 444 )
+#endif
+
 class OSG_SYSTEMLIB_DLLMAPPING AttachmentPtr : public FieldContainerPtr
 {
     /*==========================  PUBLIC  =================================*/
@@ -146,6 +150,10 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentPtr : public FieldContainerPtr
 
     friend class FieldContainer;
 };
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( default : 444 )
+#endif
 
 #ifdef __sgi
 #pragma reset woff 1375,1424

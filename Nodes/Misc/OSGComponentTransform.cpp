@@ -48,21 +48,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.8 2002/02/16 03:48:41 vossg Exp $";
-    static Char8 cvsid_hpp[] = OSGCOMPONENTTRANSFORM_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGCOMPONENTTRANSFORM_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::ComponentTransform
 */
 
@@ -175,5 +160,22 @@ void ComponentTransform::initMethod (void)
 }
 
 
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.9 2002/04/30 09:29:11 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGCOMPONENTTRANSFORM_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGCOMPONENTTRANSFORM_INLINE_CVSID;
+}
 
 

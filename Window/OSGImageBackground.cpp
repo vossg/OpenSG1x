@@ -52,21 +52,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: OSGImageBackground.cpp,v 1.6 2002/02/04 20:14:12 dirk Exp $";
-    static char cvsid_hpp[] = OSGIMAGEBACKGROUND_HEADER_CVSID;
-    static char cvsid_inl[] = OSGIMAGEBACKGROUND_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::ImageBackground
 A background showing an image.
 */
@@ -165,5 +150,24 @@ void ImageBackground::dump(      UInt32     ,
                            const BitVector  ) const
 {
     SLOG << "Dump ImageBackground NI" << endl;
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: OSGImageBackground.cpp,v 1.7 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_hpp[] = OSGIMAGEBACKGROUND_HEADER_CVSID;
+    static char cvsid_inl[] = OSGIMAGEBACKGROUND_INLINE_CVSID;
 }
 

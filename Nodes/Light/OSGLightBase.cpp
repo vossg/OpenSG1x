@@ -49,21 +49,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGLIGHTBASE_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGLIGHTBASE_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \defgroup LightNodes OpenSG Light Node Cores
     \ingroup NodesLib
  */
@@ -257,4 +242,22 @@ void LightBase::initMethod(void)
 {
 }
 
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGLIGHTBASE_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGLIGHTBASE_INLINE_CVSID;
+}
 

@@ -50,21 +50,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGSPOTLIGHT_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGSPOTLIGHT_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::SpotLight
     SpotLight is a located lightsource. The position of the light source
     (in the beacon's coordinate system) is defined by the \c position 
@@ -230,3 +215,21 @@ void SpotLight::initMethod (void)
             Action         *>(&SpotLight::renderLeave));
 }
 
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGSPOTLIGHT_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGSPOTLIGHT_INLINE_CVSID;
+}

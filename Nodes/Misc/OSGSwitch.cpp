@@ -48,21 +48,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGSWITCH_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGSWITCH_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::Switch
 */
 
@@ -141,4 +126,23 @@ void Switch::initMethod(void)
                                           SwitchPtr       ,
                                           CNodePtr        ,
                                           Action         *>(&Switch::draw));
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGSWITCH_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGSWITCH_INLINE_CVSID;
 }

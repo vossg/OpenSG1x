@@ -67,7 +67,15 @@ typedef SField<NodeCorePtr>       SFNodeCorePtr;
 
 #else
 
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 444 )
+#endif
+
 OSG_DLLEXPORT_DECL1(SField, NodeCorePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( default : 444 )
+#endif
 
 #endif
 #endif

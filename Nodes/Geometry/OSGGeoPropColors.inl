@@ -73,6 +73,7 @@ GeoProperty<GeoColors4fPropertyDesc>::getValue(
     res.setValuesRGB( val.red(), val.green(), val.blue() );
 }
 
+
 template<>
 inline void
 GeoProperty<GeoColors4fPropertyDesc>::getValue(
@@ -83,6 +84,7 @@ GeoProperty<GeoColors4fPropertyDesc>::getValue(
     res.setValuesRGB( val.red(), val.green(), val.blue() );
 }
 
+
 template<>
 inline void
 GeoProperty<GeoColors4fPropertyDesc>::setValue( const Color3f & val,
@@ -92,9 +94,9 @@ GeoProperty<GeoColors4fPropertyDesc>::setValue( const Color3f & val,
                      index );
 }
 
-template<>
-inline void
-GeoProperty<GeoColors4fPropertyDesc>::addValue( const Color3f & val )
+
+template<> inline 
+void GeoProperty<GeoColors4fPropertyDesc>::addValue( const Color3f & val )
 {
     _field.addValue(Color4f( val.red(), val.green(), val.blue (), 1));
 }

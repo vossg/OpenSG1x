@@ -1,5 +1,10 @@
 
 ifneq ($(HAS_INCL),)
+#INCL_$(OS_BASE) += $(call buildIncPath,$(INCL_DIR)) 
+
+INCL_DIR := $$
+INCL_DIR := $(INCL_DIR)$(INCL_DIR)BD/$(SUB_DIR)
+
 INCL_$(OS_BASE) += $(call buildIncPath,$(INCL_DIR)) 
 
 ifndef NO_INCL_EXP

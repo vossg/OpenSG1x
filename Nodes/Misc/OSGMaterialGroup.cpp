@@ -47,21 +47,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.16 2002/02/16 03:48:42 vossg Exp $";
-    static Char8 cvsid_hpp[] = OSGMATERIALGROUP_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGMATERIALGROUP_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::MaterialGroup
 */
 
@@ -196,3 +181,20 @@ void MaterialGroup::initMethod(void)
 }
 
 
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.17 2002/04/30 09:29:11 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGMATERIALGROUP_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGMATERIALGROUP_INLINE_CVSID;
+}

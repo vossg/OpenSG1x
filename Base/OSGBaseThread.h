@@ -167,6 +167,16 @@ class BasePThreadBase : public BaseThreadCommonBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
+
+    bool exists   (void);
+
+    void terminate(void);
+    void kill     (void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                    Dump                                      */
     /*! \{                                                                 */
 

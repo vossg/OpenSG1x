@@ -57,21 +57,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveWindow.cpp,v 1.4 2002/02/26 06:10:15 vossg Exp $";
-    static char cvsid_hpp[] = OSGPASSIVEWINDOW_HEADER_CVSID;
-    static char cvsid_inl[] = OSGPASSIVEWINDOW_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::PassiveWindow
 
 */
@@ -155,3 +140,21 @@ PassiveWindow::PassiveWindowExtFunc PassiveWindow::getFunctionByName(const Char8
 //    return PassiveWindowExtFunc(s);
 }
 
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveWindow.cpp,v 1.5 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_hpp[] = OSGPASSIVEWINDOW_HEADER_CVSID;
+    static char cvsid_inl[] = OSGPASSIVEWINDOW_INLINE_CVSID;
+}

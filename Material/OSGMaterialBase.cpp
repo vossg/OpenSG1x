@@ -82,23 +82,6 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialBase.cpp,v 1.23 2002/03/29 02:34:51 vossg Exp $";
-    static Char8 cvsid_hpp       [] = OSGMATERIALBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGMATERIALBASE_INLINE_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGMATERIALFIELDS_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 
 
 //! Material type
@@ -206,4 +189,29 @@ void MaterialBase::executeSyncImpl(      MaterialBase *pOther,
 
 }
 
+
+
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialBase.cpp,v 1.24 2002/04/30 09:29:09 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGMATERIALBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGMATERIALBASE_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGMATERIALFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 

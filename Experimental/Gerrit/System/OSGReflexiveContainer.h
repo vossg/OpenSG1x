@@ -209,23 +209,23 @@ class OSG_SYSTEMLIB_DLLMAPPING ReflexiveContainer
     static const BitVector  OSG_ELEMNAME##Mask = 1 << OSG_ELEMNAME##Id;       \
                                                                               \
     static const UInt32    FirstElemId   =        OSG_ELEMNAME##Id;           \
-    static const BitVector FirstElemMask =        OSG_ELEMNAME##Mask;
+    static const BitVector FirstElemMask =        OSG_ELEMNAME##Mask
 
 #define OSG_RC_EMPTY_FIRST_IDM_DECL                                           \
-    static  const UInt32 FirstElemId = Inherited::NextElemId;
+    static  const UInt32 FirstElemId = Inherited::NextElemId
 
 #define OSG_RC_ELEM_IDM_DECL(OSG_ELEMNAME, OSG_PREV_ELEMNAME)                 \
     static const UInt32    OSG_ELEMNAME##Id   = OSG_PREV_ELEMNAME##Id + 1;    \
-    static const BitVector OSG_ELEMNAME##Mask = 1 << OSG_ELEMNAME##Id;
+    static const BitVector OSG_ELEMNAME##Mask = 1 << OSG_ELEMNAME##Id
 
 #define OSG_RC_LAST_ELEM_IDM_DECL(OSG_PREV_ELEMNAME)                          \
     static const UInt32     NextElemId   = OSG_PREV_ELEMNAME##Id + 1;         \
     static const BitVector  NextElemMask = 1 << NextElemId;                   \
                                                                               \
-    static  const    UInt32 LastElemId  = OSG_PREV_ELEMNAME##Id;
+    static  const    UInt32 LastElemId  = OSG_PREV_ELEMNAME##Id
 
 #define OSG_RC_EMPTY_LAST_ELEM_IDM_DECL(OSG_PREV_ELEMNAME)                    \
-    static  const    UInt32 LastElemId  = OSG_PREV_ELEMNAME##Id;
+    static  const    UInt32 LastElemId  = OSG_PREV_ELEMNAME##Id
 
 #define OSG_RC_ELEM_IDM_DESC(OSG_ELEMNAME)                                    \
     OSG_ELEMNAME##Id, OSG_ELEMNAME##Mask
@@ -237,23 +237,23 @@ class OSG_SYSTEMLIB_DLLMAPPING ReflexiveContainer
     static const BitVector  OSG_ELEMNAME##Mask = 1 << OSG_ELEMNAME##Id;       \
                                                                               \
     static const UInt32    FirstElemId   =        OSG_ELEMNAME##Id;           \
-    static const BitVector FirstElemMask =        OSG_ELEMNAME##Mask;
+    static const BitVector FirstElemMask =        OSG_ELEMNAME##Mask
 
 #define OSG_RC_TMPL_EMPTY_FIRST_IDM_DECL                                      \
-    static  const UInt32 FirstElemId = Inherited::NextElemId;                 \
+    static  const UInt32 FirstElemId = Inherited::NextElemId
 
 #define OSG_RC_TMPL_ELEM_IDM_DECL(OSG_ELEMNAME, OSG_PREV_ELEMNAME)            \
     static const UInt32    OSG_ELEMNAME##Id   = OSG_PREV_ELEMNAME##Id + 1;    \
-    static const BitVector OSG_ELEMNAME##Mask = 1 << OSG_ELEMNAME##Id;
+    static const BitVector OSG_ELEMNAME##Mask = 1 << OSG_ELEMNAME##Id
 
 #define OSG_RC_TMPL_LAST_ELEM_IDM_DECL(OSG_PREV_ELEMNAME)                     \
     static const UInt32     NextElemId   = OSG_PREV_ELEMNAME##Id + 1;         \
     static const BitVector  NextElemMask = 1 << NextElemId;                   \
                                                                               \
-    static  const    UInt32 LastElemId  = OSG_PREV_ELEMNAME##Id;
+    static  const    UInt32 LastElemId  = OSG_PREV_ELEMNAME##Id
 
 #define OSG_RC_TMPL_EMPTY_LAST_ELEM_IDM_DECL(OSG_PREV_ELEMNAME)               \
-    static  const    UInt32 LastElemId  = OSG_PREV_ELEMNAME##Id;
+    static  const    UInt32 LastElemId  = OSG_PREV_ELEMNAME##Id
 
 
 /*---------------------------- get type -------------------------------------*/

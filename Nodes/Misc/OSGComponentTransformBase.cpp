@@ -82,23 +82,6 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGComponentTransformBase.cpp,v 1.9 2002/03/29 02:34:51 vossg Exp $";
-    static Char8 cvsid_hpp       [] = OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGCOMPONENTTRANSFORMBASE_INLINE_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGCOMPONENTTRANSFORMFIELDS_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 const OSG::BitVector  ComponentTransformBase::CenterFieldMask = 
     (1 << ComponentTransformBase::CenterFieldId);
 
@@ -379,4 +362,29 @@ void ComponentTransformBase::executeSyncImpl(      ComponentTransformBase *pOthe
 
 }
 
+
+
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGComponentTransformBase.cpp,v 1.10 2002/04/30 09:29:11 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGCOMPONENTTRANSFORMBASE_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGCOMPONENTTRANSFORMFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 

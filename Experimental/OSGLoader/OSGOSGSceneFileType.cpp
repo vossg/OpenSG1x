@@ -49,20 +49,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace 
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGOSGSCENEFILETYPE_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -207,37 +193,20 @@ OSGSceneFileType::~OSGSceneFileType(void)
 {
 }
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
 
+namespace 
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGOSGSCENEFILETYPE_HEADER_CVSID;
+}

@@ -49,21 +49,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStringTokenizer.cpp,v 1.3 2002/02/23 01:02:08 dirk Exp $";
-    static Char8 cvsid_hpp[] = OSGSTRINGTOKENIZER_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGSTRINGTOKENIZER_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::StringTokenizer
     StringTokenizer documentation,
  */
@@ -232,6 +217,23 @@ UInt32 StringTokenizer::countTokens(void)
 }
         
     
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStringTokenizer.cpp,v 1.4 2002/04/30 09:29:07 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGSTRINGTOKENIZER_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGSTRINGTOKENIZER_INLINE_CVSID;
+}
 
 
 

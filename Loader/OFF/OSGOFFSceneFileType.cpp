@@ -66,19 +66,6 @@ OSG_USING_NAMESPACE
 #pragma warning (disable : 383)
 #endif
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.12 2002/02/26 06:10:18 vossg Exp $";
-    static Char8 cvsid_hpp[] = OSGOFFSCENEFILETYPE_HEADER_CVSID;
-}
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*****************************
  *   Types
  *****************************/
@@ -443,13 +430,20 @@ const Char8 *OFFSceneFileType::getName(void) const
     return "OFF GEOMETRY";
 }
 
-/*------------access----------------*/
-/*------------properies-------------*/
-/*------------your Category---------*/
-/*------------Operators-------------*/
-/****************************
- *protected
- ****************************/
-/****************************
- *private
- ****************************/
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.13 2002/04/30 09:29:09 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGOFFSCENEFILETYPE_HEADER_CVSID;
+}

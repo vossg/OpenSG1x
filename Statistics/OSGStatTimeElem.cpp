@@ -50,21 +50,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGSTATTIMEELEM_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGSTATTIMEELEM_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /** \enum OSGVecBase::VectorSizeE
  *  \brief 
  */
@@ -234,20 +219,21 @@ bool StatTimeElem::operator < (const StatTimeElem &other) const
     return this < &other;
 }
 
-/** \brief equal
- */
 
-/** \brief unequal
- */
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
 
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGSTATTIMEELEM_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGSTATTIMEELEM_INLINE_CVSID;
+}

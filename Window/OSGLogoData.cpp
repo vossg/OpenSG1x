@@ -46,20 +46,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp       [] = "@(#)$Id: OSGLogoData.cpp,v 1.2 2001/10/15 14:13:13 jbehr Exp $";
-    static char cvsid_hpp       [] = OSGLOGODATA_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \file OSGLogoData.cpp
     The file containing the data array for the "Powered by OpenSG" logo.
  */
@@ -4312,3 +4298,21 @@ UChar8 OSG::LogoData[] = {
 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0,
 };
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: OSGLogoData.cpp,v 1.3 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_hpp       [] = OSGLOGODATA_HEADER_CVSID;
+}

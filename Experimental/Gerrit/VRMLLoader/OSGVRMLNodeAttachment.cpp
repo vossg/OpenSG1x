@@ -54,20 +54,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace 
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGVRMLNODEATTACHMENT_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -167,13 +153,13 @@ VRMLNodeAttachment::VRMLNodeAttachment(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-#ifdef WIN32
+#if defined(WIN32) || defined(OSG_LINUX_ICC)
 #pragma warning (disable : 424)
 #endif
 
 OSG_ABSTR_VRMLOBJ_DEF(VRMLNodeAttachment, Ptr);
 
-#ifdef WIN32
+#if defined(WIN32) || defined(OSG_LINUX_ICC)
 #pragma warning (default : 424)
 #endif
 
@@ -183,3 +169,20 @@ VRMLNodeAttachment::~VRMLNodeAttachment(void)
 {
 }
 
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace 
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGVRMLNODEATTACHMENT_HEADER_CVSID;
+}

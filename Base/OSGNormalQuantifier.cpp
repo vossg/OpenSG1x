@@ -50,21 +50,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGNormalQuantifier.cpp,v 1.5 2002/04/26 17:46:36 jbehr Exp $";
-    static Char8 cvsid_hpp[] = OSG_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSG_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::NormalQuantifier
     NormalQuantifier documentation,
  */
@@ -120,9 +105,9 @@ void NormalQuantifier::build (UInt32 numberSubdivisions)
           yoctant = (octant & 2)>0?-1:1;
           zoctant = (octant & 1)>0?-1:1;
           
-          point1.setValues(0 * xoctant, 0*yoctant, 1*zoctant);
-          point2.setValues(1 * xoctant, 0*yoctant, 0*zoctant);
-          point3.setValues(0 * xoctant, 1*yoctant, 0*zoctant);
+          point1.setValues(0.f * xoctant, 0.f * yoctant, 1.f * zoctant);
+          point2.setValues(1.f * xoctant, 0.f * yoctant, 0.f * zoctant);
+          point3.setValues(0.f * xoctant, 1.f * yoctant, 0.f * zoctant);
           
           subdivide(point1, point2, point3, _numberSubdivisions+1, index);
         }
@@ -293,9 +278,9 @@ UInt32 NormalQuantifier::getIndex  ( Vec3f &normal,
   yoctant = (octant & 2)>0?-1:1;
   zoctant = (octant & 1)>0?-1:1;
  
-  point1.setValues(0 * xoctant, 0*yoctant, 1*zoctant);
-  point2.setValues(1 * xoctant, 0*yoctant, 0*zoctant);
-  point3.setValues(0 * xoctant, 1*yoctant, 0*zoctant);
+  point1.setValues(0.f * xoctant, 0.f * yoctant, 1.f * zoctant);
+  point2.setValues(1.f * xoctant, 0.f * yoctant, 0.f * zoctant);
+  point3.setValues(0.f * xoctant, 1.f * yoctant, 0.f * zoctant);
   index = getSubIndex(normal, point1, point2, point3, nS);
   
   index = (octant<<(2*nS)) + index;
@@ -345,4 +330,20 @@ bool NormalQuantifier::operator != (const NormalQuantifier &other) const
 }
 
 
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGNormalQuantifier.cpp,v 1.6 2002/04/30 09:29:03 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSG_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSG_INLINE_CVSID;
+}

@@ -45,23 +45,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTrackballNavigator.cpp,v 1.1 2001/11/19 18:40:50 dirk Exp $";
-    static Char8 cvsid_hpp       [] = OSGTRACKBALLNAVIGATOR_HEADER_CVSID;
-    //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGTRACKBALLNAVIGATOR_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*------------------------- constructors ----------------------------------*/
 
 /*! Constructor
@@ -208,4 +191,25 @@ Real32 TrackballNavigator::projectToSphere(Real32 rRadius, Real32 rX, Real32 rY)
     }
 
     return z;
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTrackballNavigator.cpp,v 1.2 2002/04/30 09:29:14 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGTRACKBALLNAVIGATOR_HEADER_CVSID;
+    //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGTRACKBALLNAVIGATOR_HEADER_CVSID;
 }

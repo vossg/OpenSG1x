@@ -766,8 +766,6 @@ OSG_BASE_DLLMAPPING void extend(BoxVolume &srcVol, const Volume &vol)
 {
     const Volume            *v = &vol;
     const BoxVolume         *box;
-    const SphereVolume      *sphere;
-    const CylinderVolume    *cylinder;
     const DynamicVolume     *dynamic = dynamic_cast<const DynamicVolume *>(v);
 
     if(dynamic)
@@ -872,9 +870,11 @@ OSG_BASE_DLLMAPPING void extend(SphereVolume &srcVol, const SphereVolume &vol)
     max2 = Pnt3f(osgMax(max.x(), max1.x()), osgMax(max.y(), max1.y()),
                  osgMax(max.z(), max1.z()));
 
-    c = Pnt3f((min2.x() + max2.x()) * 0.5, (min2.y() + max2.y()) * 0.5,
-              (min2.z() + max2.z()) * 0.5);
-    r = ((max2 - min2).length()) * 0.5;
+    c = Pnt3f((min2.x() + max2.x()) * 0.5f, 
+              (min2.y() + max2.y()) * 0.5f,
+              (min2.z() + max2.z()) * 0.5f);
+
+    r = ((max2 - min2).length()) * 0.5f;
 
     srcVol.setValue(c, r);
 
@@ -920,9 +920,11 @@ OSG_BASE_DLLMAPPING void extend(SphereVolume &srcVol, const CylinderVolume &vol)
     max2 = Pnt3f(osgMax(max.x(), max1.x()), osgMax(max.y(), max1.y()),
                  osgMax(max.z(), max1.z()));
 
-    c = Pnt3f((min2.x() + max2.x()) * 0.5, (min2.y() + max2.y()) * 0.5,
-              (min2.z() + max2.z()) * 0.5);
-    r = ((max2 - min2).length()) * 0.5;
+    c = Pnt3f((min2.x() + max2.x()) * 0.5f, 
+              (min2.y() + max2.y()) * 0.5f,
+              (min2.z() + max2.z()) * 0.5f);
+
+    r = ((max2 - min2).length()) * 0.5f;
 
     srcVol.setValue(c, r);
 
@@ -956,9 +958,12 @@ OSG_BASE_DLLMAPPING void extend(SphereVolume &srcVol, const Volume &vol)
         Pnt3f           min, max, c;
         float           r;
         v->getBounds(min, max);
-        c = Pnt3f((min.x() + max.x()) * 0.5, (min.y() + max.y()) * 0.5,
-                  (min.z() + max.z()) * 0.5);
-        r = ((max - min).length()) * 0.5;
+        c = Pnt3f((min.x() + max.x()) * 0.5f, 
+                  (min.y() + max.y()) * 0.5f,
+                  (min.z() + max.z()) * 0.5f);
+
+        r = ((max - min).length()) * 0.5f;
+
         localSphere.setValue(c, r);
         osg::extend(srcVol, localSphere);
     }
@@ -990,7 +995,7 @@ OSG_BASE_DLLMAPPING void extend(CylinderVolume &srcVol, const BoxVolume &vol)
         {
             vol.getBounds(min, max);
             p = Vec2f(max.x() - min.x(), max.y() - min.y());
-            r = (p.length()) * 0.5;
+            r = (p.length()) * 0.5f;
 
             adir = Vec3f(0, 0, max.z() - min.z());
             apos = Pnt3f(p.x(), p.y(), min.z());
@@ -1011,7 +1016,7 @@ OSG_BASE_DLLMAPPING void extend(CylinderVolume &srcVol, const BoxVolume &vol)
                  osgMax(max.z(), max1.z()));
 
     p = Vec2f(max2.x() - min2.x(), max2.y() - min2.y());
-    r = (p.length()) * 0.5;
+    r = (p.length()) * 0.5f;
 
     adir = Vec3f(0, 0, max2.z() - min2.z());
     apos = Pnt3f(p.x(), p.y(), min2.z());
@@ -1065,7 +1070,7 @@ OSG_BASE_DLLMAPPING void extend(CylinderVolume &srcVol, const SphereVolume &vol)
                  osgMax(max.z(), max1.z()));
 
     p = Vec2f(max2.x() - min2.x(), max2.y() - min2.y());
-    r = (p.length()) * 0.5;
+    r = (p.length()) * 0.5f;
 
     adir = Vec3f(0, 0, max2.z() - min2.z());
     apos = Pnt3f(p.x(), p.y(), min2.z());
@@ -1112,9 +1117,9 @@ OSG_BASE_DLLMAPPING void extend(CylinderVolume &srcVol, const CylinderVolume &vo
                  osgMax(max.z(), max1.z()));
 
     p = Vec2f(max2.x() - min2.x(), max2.y() - min2.y());
-    r = (p.length()) * 0.5;
+    r = (p.length()) * 0.5f;
 
-    adir = Vec3f(0, 0, max2.z() - min2.z());
+    adir = Vec3f(0.f, 0.f, max2.z() - min2.z());
     apos = Pnt3f(p.x(), p.y(), min2.z());
 
     srcVol.setValue(apos, adir, r);
@@ -1152,8 +1157,8 @@ OSG_BASE_DLLMAPPING void extend(CylinderVolume &srcVol, const Volume &vol)
 
         v->getBounds(min, max);
         p = Vec2f(max.x() - min.x(), max.y() - min.y());
-        r = (p.length()) * 0.5;
-        adir = Vec3f(0, 0, max.z() - min.z());
+        r = (p.length()) * 0.5f;
+        adir = Vec3f(0.f, 0.f, max.z() - min.z());
         apos = Pnt3f(p.x(), p.y(), min.z());
         localCylinder.setValue(apos, adir, r);
         osg::extend(srcVol, localCylinder);

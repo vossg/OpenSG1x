@@ -82,23 +82,6 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
-    static Char8 cvsid_hpp       [] = OSGSWITCHBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGSWITCHBASE_INLINE_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGSWITCHFIELDS_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 const OSG::BitVector  SwitchBase::ChoiceFieldMask = 
     (1 << SwitchBase::ChoiceFieldId);
 
@@ -255,4 +238,29 @@ void SwitchBase::executeSyncImpl(      SwitchBase *pOther,
 
 }
 
+
+
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_hpp       [] = OSGSWITCHBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGSWITCHBASE_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGSWITCHFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 

@@ -57,21 +57,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.16 2002/03/19 17:19:38 dirk Exp $";
-    static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
-    static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::Particles
 
 The main idea of particles is to give a way of easily rendering large numbers
@@ -2214,3 +2199,20 @@ ParticlesDrawer *Particles::findDrawer(void)
     return NULL;
 }
  
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.17 2002/04/30 09:29:11 vossg Exp $";
+    static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
+    static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
+}

@@ -54,6 +54,7 @@ OSG_BEGIN_NAMESPACE
 
 class BinaryDataHandler;
 class NodeCore;
+
 typedef FCPtr<AttachmentContainerPtr, NodeCore> NodeCorePtr;
 
 //! NodeCore

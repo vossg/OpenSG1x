@@ -67,17 +67,6 @@ OSG_USING_NAMESPACE
 #pragma warning (disable : 383)
 #endif
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.48 2002/04/23 21:29:48 jbehr Exp $";
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
-
 /*! \ingroup Geometry
 
 calcVertexNormals calculates the normals for the geometry's vertices. It

@@ -66,6 +66,10 @@ class NullFieldContainerPtr;
 #pragma set woff 1424
 #endif
 
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 444 )
+#endif
+
 class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
 {
     /*==========================  PUBLIC  =================================*/
@@ -667,6 +671,10 @@ class NullFieldContainerPtr : public FieldContainerPtr
 
 #ifdef __sgi
 #pragma reset woff 1375
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( default : 444 )
 #endif
 
 #ifdef __sgi

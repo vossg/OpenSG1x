@@ -54,21 +54,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: OSGLineChunk.cpp,v 1.4 2002/02/26 06:10:14 vossg Exp $";
-    static char cvsid_hpp[] = OSGLINECHUNK_HEADER_CVSID;
-    static char cvsid_inl[] = OSGLINECHUNK_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::LineChunk
     \ingroup StateChunks
 
@@ -205,3 +190,21 @@ bool LineChunk::operator != (const StateChunk &other) const
     return ! (*this == other);
 }
 
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: OSGLineChunk.cpp,v 1.5 2002/04/30 09:29:12 vossg Exp $";
+    static char cvsid_hpp[] = OSGLINECHUNK_HEADER_CVSID;
+    static char cvsid_inl[] = OSGLINECHUNK_INLINE_CVSID;
+}

@@ -52,21 +52,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: OSGShearedStereoCameraDecorator.cpp,v 1.1 2002/02/22 17:08:05 dirk Exp $";
-    static char cvsid_hpp[] = OSGSHEAREDSTEREOCAMERADECORATOR_HEADER_CVSID;
-    static char cvsid_inl[] = OSGSHEAREDSTEREOCAMERADECORATOR_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::ShearedStereoCameraDecorator
 The base class for stereo decorators. 	
 */
@@ -142,3 +127,22 @@ void ShearedStereoCameraDecorator::getProjection( Matrix &result,
     
     result.mult(trans);
 }                                       
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: OSGShearedStereoCameraDecorator.cpp,v 1.2 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_hpp[] = OSGSHEAREDSTEREOCAMERADECORATOR_HEADER_CVSID;
+    static char cvsid_inl[] = OSGSHEAREDSTEREOCAMERADECORATOR_INLINE_CVSID;
+}

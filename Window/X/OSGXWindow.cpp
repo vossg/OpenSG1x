@@ -83,23 +83,6 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: $";
-    static char cvsid_hpp[] = OSGXWINDOW_HEADER_CVSID;
-    static char cvsid_inl[] = OSGXWINDOW_INLINE_CVSID;
-
-    static char cvsid_fields_hpp[] = OSGWINDOWXFIELDS_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::XWindow
 The class windows on X.
 */
@@ -221,4 +204,24 @@ void (*XWindow::getFunctionByName( const Char8 *s ))(void)
 #endif
 }
 
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: $";
+    static char cvsid_hpp[] = OSGXWINDOW_HEADER_CVSID;
+    static char cvsid_inl[] = OSGXWINDOW_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGWINDOWXFIELDS_HEADER_CVSID;
+}
 

@@ -51,20 +51,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.10 2002/02/04 20:14:03 dirk Exp $";
-    static Char8 cvsid_hpp[] = OSGPATHHANDLER_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::PathHandler
  */
 
@@ -788,7 +774,22 @@ void PathHandler::parseWin32PathList(const Char8 *pathList, PathList &result)
 }
 
 
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.11 2002/04/30 09:29:03 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGPATHHANDLER_HEADER_CVSID;
+}
 
 
 

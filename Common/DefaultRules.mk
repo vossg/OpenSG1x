@@ -20,32 +20,41 @@ else
 LIB_CDEF = 
 endif
 
+BD := $(OSGPOOL)
+export BD
+
 ifeq ($(OS_BASE), cygwin)
 ifeq ($(OS_CMPLR),bcc)
 $(OBJDIR)/%$(OBJ_SUFFIX): %.cpp
+	@echo using BD := $$BD
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(LIB_CDEF) $(INC_OPTION)"$(OBJDIR)" $(INC_OPTION)"."		\
 	$(OBJ_OPTION)$(call cnvUnix2Win,$@) $(call cnvUnix2Win,$<)
 $(OBJDIR)/%$(OBJ_SUFFIX): %.c
+	@echo using BD := $$BD
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(LIB_CDEF) $(INC_OPTION)"$(OBJDIR)" $(INC_OPTION)"."		\
 	 $(OBJ_OPTION) $(call cnvUnix2Win,$@) $(call cnvUnix2Win,$<)
 else
 ifeq ($(OS_CMPLR),g++)
 $(OBJDIR)/%$(OBJ_SUFFIX): %.cpp
+	@echo using BD := $$BD
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(LIB_CDEF) $(INC_OPTION)$(OBJDIR) $(INC_OPTION).			\
 	 $(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
 $(OBJDIR)/%$(OBJ_SUFFIX): %.c
+	@echo using BD := $$BD
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(LIB_CDEF) $(INC_OPTION)$(OBJDIR) $(INC_OPTION).			\
 	$(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
 else
 $(OBJDIR)/%$(OBJ_SUFFIX): %.cpp
+	@echo using BD := $$BD
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(LIB_CDEF) $(INC_OPTION)"$(OBJDIR)" $(INC_OPTION)"."		\
 	$(OBJ_OPTION)"$(OBJDIR)\\" $(call cnvUnix2Win,$<)
 $(OBJDIR)/%$(OBJ_SUFFIX): %.c
+	@echo using BD := $$BD
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(LIB_CDEF) $(INC_OPTION)"$(OBJDIR)" $(INC_OPTION)"."		\
 	 $(OBJ_OPTION)"$(OBJDIR)\\" $(call cnvUnix2Win,$<)
@@ -53,10 +62,12 @@ endif
 endif
 else
 $(OBJDIR)/%$(OBJ_SUFFIX): %.cpp
+	@echo using BD = $$BD
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(INC_OPTION)$(OBJDIR) $(INC_OPTION).						\
 	 $(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
 $(OBJDIR)/%$(OBJ_SUFFIX): %.c
+	@echo using BD := $$BD
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(INC_OPTION)$(OBJDIR) $(INC_OPTION).						\
 	$(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
@@ -65,22 +76,26 @@ endif
 ifeq ($(OS_BASE), cygwin)
 ifeq ($(OS_CMPLR),g++)
 $(OBJDIR)/%$(OBJ_SUFFIX): $(OBJDIR)/%.cpp
+	@echo using BD := $$BD
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(LIB_CDEF) $(INC_OPTION)$(OBJDIR) $(INC_OPTION).			\
 	$(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
 else
 $(OBJDIR)/%$(OBJ_SUFFIX): $(OBJDIR)/%.cpp
+	@echo using BD := $$BD
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(LIB_CDEF) $(INC_OPTION)"$(OBJDIR)" $(INC_OPTION)"."		\
 	$(OBJ_OPTION)"$(OBJDIR)\\" $<
 endif
 else
 $(OBJDIR)/%$(OBJ_SUFFIX): $(OBJDIR)/%.cpp
+	@echo using BD := $$BD
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(INC_OPTION)$(OBJDIR) $(INC_OPTION).						\
 	$(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
 
 $(OBJDIR)/%_ias.s: %.cpp
+	@echo using BD := $$BD
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(ASONLY_OPTION) $(INCL) \
 	$(INC_OPTION)$(OBJDIR) $(INC_OPTION).						\
 	$(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
@@ -93,6 +108,7 @@ $(OBJDIR)/%_as.s: $(OBJDIR)/%_ias.s
 #	> $@ 
 
 $(OBJDIR)/%$(OBJ_SUFFIX): $(OBJDIR)/%.s
+	@echo using BD := $$BD
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(INC_OPTION)$(OBJDIR) $(INC_OPTION).						\
 	$(OBJ_OPTION) $@ $< $($(PROJ)SODEF)

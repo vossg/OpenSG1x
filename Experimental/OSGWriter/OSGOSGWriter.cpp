@@ -43,23 +43,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.9 2002/02/28 08:02:39 vossg Exp $";
-    static Char8 cvsid_hpp[] = OSGOSGWRITER_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
-
-
 #if 0
 #if defined(OSG_WIN32_ICL)
 #pragma warning (disable : 383)
@@ -477,7 +460,19 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
 }
 
 
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
 
-
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.10 2002/04/30 09:29:06 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGOSGWRITER_HEADER_CVSID;
+}

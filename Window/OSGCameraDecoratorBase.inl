@@ -71,23 +71,6 @@ OSG::UInt32 CameraDecoratorBase::getClassTypeId(void)
 /*------------------------- decorator get ------------------------------*/
 
 inline
-SFCameraPtr *CameraDecoratorBase::getSFDecoratee(void){
-    return &_sfDecoratee;
-}
-
-inline
-CameraPtr &CameraDecoratorBase::getDecoratee(void)
-{
-    return _sfDecoratee.getValue();
-}
-
-inline
-const CameraPtr &CameraDecoratorBase::getDecoratee(void) const
-{
-    return _sfDecoratee.getValue();
-}
-
-inline
 SFNodePtr *CameraDecoratorBase::getSFBeacon(void)
 {
     return getDecoratee()->getSFBeacon();
@@ -166,6 +149,24 @@ void CameraDecoratorBase::setFar(const Real32 &value)
     endEditCP  (getDecoratee(), FarFieldMask);
 }
 
+
+inline
+SFCameraPtr *CameraDecoratorBase::getSFDecoratee(void){
+    return &_sfDecoratee;
+}
+
+inline
+CameraPtr &CameraDecoratorBase::getDecoratee(void)
+{
+    return _sfDecoratee.getValue();
+}
+
+inline
+const CameraPtr &CameraDecoratorBase::getDecoratee(void) const
+{
+    return _sfDecoratee.getValue();
+}
+
 inline
 void CameraDecoratorBase::setDecoratee(const CameraPtr &value)
 {
@@ -174,5 +175,5 @@ void CameraDecoratorBase::setDecoratee(const CameraPtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGCameraDecoratorBase.inl,v 1.9 2002/04/01 14:36:22 vossg Exp $"
+#define OSGCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGCameraDecoratorBase.inl,v 1.10 2002/04/30 09:29:13 vossg Exp $"
 

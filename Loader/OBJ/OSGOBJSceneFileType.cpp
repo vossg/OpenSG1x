@@ -70,20 +70,6 @@ OSG_USING_NAMESPACE
 #pragma warning (disable : 383)
 #endif
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.25 2002/02/26 06:10:18 vossg Exp $";
-    static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*****************************
  *   Types
  *****************************/
@@ -782,5 +768,23 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
         }
   
   return mtlCount;
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.26 2002/04/30 09:29:08 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 

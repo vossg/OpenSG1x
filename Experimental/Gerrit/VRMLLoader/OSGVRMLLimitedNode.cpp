@@ -52,20 +52,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace 
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGVRMLLIMITEDNODE_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -232,13 +218,13 @@ VRMLLimitedNode::VRMLLimitedNode(const VRMLLimitedNode &source) :
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-#ifdef WIN32
+#if defined(WIN32) || defined(OSG_LINUX_ICC)
 #pragma warning (disable : 424)
 #endif
 
 OSG_ABSTR_VRMLOBJ_DEF(VRMLLimitedNode, Ptr);
 
-#ifdef WIN32
+#if defined(WIN32) || defined(OSG_LINUX_ICC)
 #pragma warning (default : 424)
 #endif
 
@@ -257,4 +243,22 @@ SFPnt3f *VRMLLimitedNode::getSFBBoxCenter(void)
 SFPnt3f *VRMLLimitedNode::getSFBBoxSize(void)
 {
     return &_sfBBoxSize;
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace 
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGVRMLLIMITEDNODE_HEADER_CVSID;
 }

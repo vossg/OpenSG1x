@@ -65,23 +65,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.20 2002/03/29 02:34:51 vossg Exp $";
-    static Char8 cvsid_hpp       [] = OSGDIRECTIONALLIGHTBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGDIRECTIONALLIGHTBASE_INLINE_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGDIRECTIONALLIGHTFIELDS_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 const OSG::BitVector  DirectionalLightBase::DirectionFieldMask = 
     (1 << DirectionalLightBase::DirectionFieldId);
 
@@ -238,4 +221,29 @@ void DirectionalLightBase::executeSyncImpl(      DirectionalLightBase *pOther,
 
 }
 
+
+
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.21 2002/04/30 09:29:10 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGDIRECTIONALLIGHTBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGDIRECTIONALLIGHTBASE_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGDIRECTIONALLIGHTFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 

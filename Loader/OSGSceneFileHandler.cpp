@@ -53,20 +53,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGSCENEFILEHANDLER_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /* enum VecBase::VectorSizeE
  * brief
 */
@@ -669,23 +655,20 @@ SceneFileHandler::~SceneFileHandler(void)
 {
 }
 
-/*------------access----------------*/
 
-/*------------properies-------------*/
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
-/*------------your Category---------*/
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/*------------Operators-------------*/
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
 
-
-
-/****************************
-*protected
-****************************/
-
-
-/****************************
-*private
-****************************/
-
-
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGSCENEFILEHANDLER_HEADER_CVSID;
+}

@@ -50,21 +50,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: OSGStereoBufferViewport.cpp,v 1.2 2002/02/26 06:10:15 vossg Exp $";
-    static char cvsid_hpp[] = OSGSTEREOBUFFERVIEWPORT_HEADER_CVSID;
-    static char cvsid_inl[] = OSGSTEREOBUFFERVIEWPORT_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::StereoBufferViewport
 A Viewport is a part of the Window it is attached to used for rendering. Every Window can hold an arbitrary number of viewports. 	 	
 */
@@ -169,4 +154,23 @@ void StereoBufferViewport::render( RenderAction * action )
     }
     Inherited::render(action);
     glDrawBuffer(GL_BACK);
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: OSGStereoBufferViewport.cpp,v 1.3 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_hpp[] = OSGSTEREOBUFFERVIEWPORT_HEADER_CVSID;
+    static char cvsid_inl[] = OSGSTEREOBUFFERVIEWPORT_INLINE_CVSID;
 }

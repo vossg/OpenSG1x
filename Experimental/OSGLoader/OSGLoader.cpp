@@ -83,20 +83,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace 
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGLOADER_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -317,6 +303,7 @@ void OSGLoader::setFieldContainerValue(FieldContainerPtr pNewNode)
 {
     /* Hack attack, the {S|M}FieldContainerPtr * cast is a hack until the 
        type system is fixed to get it right */
+
     if(_pCurrentField != NULL && _pCurrentFC != NullFC && pNewNode != NullFC)
     {
         if(_pCurrentField == _pCurrentFC->getField("core"))
@@ -819,42 +806,20 @@ FieldContainerPtr OSGLoader::getReference(const Char8 *szName)
     return findFCByName(szName, getRootNode());
 }
 
-/*---------------------------- properties ---------------------------------*/
 
-/*-------------------------- your_category---------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
-/*-------------------------- assignment -----------------------------------*/
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/*-------------------------- comparison -----------------------------------*/
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
 
-
-
-
-//---------------------------------------------------------------------------
-//  FUNCTION: 
-//---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-//---------------------------------------------------------------------------
-//
-//p: Paramaters: 
-//p: 
-//
-//g: GlobalVars:
-//g: 
-//
-//r: Return:
-//r: 
-//
-//c: Caution:
-//c: 
-//
-//a: Assumptions:
-//a: 
-//
-//d: Description:
-//d: 
-//
-//s: SeeAlso:
-//s: 
-//---------------------------------------------------------------------------
-
+namespace 
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGLOADER_HEADER_CVSID;
+}

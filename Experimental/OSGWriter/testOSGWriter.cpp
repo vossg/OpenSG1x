@@ -35,13 +35,13 @@ int main (int argc, char *argv[])
 {
     for ( int i = 0; i < argc; i++ )
         cout << "Param " << i << ":" << argv[i] << endl;
-
+    
     osgInit(argc, argv);
     
-        char *inFileName  = "osgWriterInput.osg";
+    char *inFileName  = "osgWriterInput.osg";
     char *outFileName = "osgWriterOutput.osg";
     
-        if( argc > 2 )
+    if( argc > 2 )
     {
         inFileName = argv[1];
         outFileName = argv[2];
@@ -49,6 +49,16 @@ int main (int argc, char *argv[])
     
     NodePtr root = SceneFileHandler::the().read(inFileName,0);
     
+/*
+    NamePtr pName = Name::create();
+
+    pName->getField().getValue().assign("xxxx");
+
+    NodePtr root = Node::create();
+    root->setCore(Group::create());
+    root->addAttachment(pName);
+    */
+
     ofstream outFileStream( outFileName );
     if( !outFileStream )
     {

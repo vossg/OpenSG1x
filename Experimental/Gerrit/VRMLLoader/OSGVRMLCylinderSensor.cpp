@@ -51,20 +51,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace 
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGVRMLCYLINDERSENSOR_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -211,13 +197,13 @@ VRMLCylinderSensor::VRMLCylinderSensor(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-#ifdef WIN32
+#if defined(WIN32) || defined(OSG_LINUX_ICC)
 #pragma warning (disable : 424)
 #endif
 
 OSG_VRMLOBJ_DEF(VRMLCylinderSensor, Ptr);
 
-#ifdef WIN32
+#if defined(WIN32) || defined(OSG_LINUX_ICC)
 #pragma warning (default : 424)
 #endif
 
@@ -256,4 +242,22 @@ SFReal32 *VRMLCylinderSensor::getSFMinAngle(void)
 SFReal32 *VRMLCylinderSensor::getSFOffset(void)
 {
     return &_sfOffset;
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace 
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGVRMLCYLINDERSENSOR_HEADER_CVSID;
 }

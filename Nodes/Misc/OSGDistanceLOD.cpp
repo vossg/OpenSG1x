@@ -54,21 +54,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.18 2002/02/16 03:48:42 vossg Exp $";
-    static Char8 cvsid_hpp[] = OSGDISTANCELOD_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGDISTANCELOD_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::DistanceLOD
 
   This Node manages the different levels of detail available for a Geometry
@@ -198,6 +183,23 @@ void DistanceLOD::initMethod (void)
 }
 
 
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.19 2002/04/30 09:29:11 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGDISTANCELOD_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGDISTANCELOD_INLINE_CVSID;
+}
 
     
 

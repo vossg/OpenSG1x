@@ -74,21 +74,6 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.6 2002/03/05 23:10:31 dirk Exp $";
-    static char cvsid_hpp[] = OSGPARTICLEBSP_HEADER_CVSID;
-    static char cvsid_inl[] = OSGPARTICLEBSP_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::ParticleBSPTree
 
 A very simple BSP tree, optimized for particle sorting.
@@ -491,4 +476,23 @@ UInt32 ParticleBSPTree::doBuild(vector<Int32>::iterator begin,
 void ParticleBSPTree::destroy()
 {
     _tree.clear();
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.7 2002/04/30 09:29:11 vossg Exp $";
+    static char cvsid_hpp[] = OSGPARTICLEBSP_HEADER_CVSID;
+    static char cvsid_inl[] = OSGPARTICLEBSP_INLINE_CVSID;
 }

@@ -69,20 +69,6 @@ OSG_USING_NAMESPACE
 #pragma warning (disable : 383)
 #endif
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGBINSceneFileType.cpp,v 1.0 2001/12/14 12:50:00 tbeer $";
-    static Char8 cvsid_hpp[] = OSGBINSCENEFILETYPE_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*****************************
  *   Types
  *****************************/
@@ -309,23 +295,20 @@ BINSceneFileType::~BINSceneFileType (void )
     return;
 }
 
-/*------------access----------------*/
 
-/*------------properies-------------*/
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
-/*------------your Category---------*/
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/*------------Operators-------------*/
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
 
-
-
-/****************************
-*protected
-****************************/
-
-
-/****************************
-*private
-****************************/
-
-
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGBINSCENEFILETYPE_HEADER_CVSID;
+}

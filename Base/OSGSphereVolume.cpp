@@ -88,7 +88,7 @@ void SphereVolume::circumscribe(const BoxVolume &box)
 
 float SphereVolume::getScalarVolume (void) const
 {
-    return isEmpty() ? 0.0 : (4.f / 3.f * Pi * _radius * _radius * _radius);
+    return isEmpty() ? 0.0f : (4.f / 3.f * Pi * _radius * _radius * _radius);
 }
 
 void SphereVolume::getBounds( Pnt3f &min, Pnt3f &max ) const

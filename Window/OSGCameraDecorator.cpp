@@ -49,21 +49,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.8 2002/03/19 18:15:49 dirk Exp $";
-    static char cvsid_hpp[] = OSGCAMERADECORATOR_HEADER_CVSID;
-    static char cvsid_inl[] = OSGCAMERADECORATOR_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::CameraDecorator
 The base class for the camera. 	
 */
@@ -149,4 +134,23 @@ void CameraDecorator::getViewing(Matrix &result,
 void CameraDecorator::getFrustum( FrustumVolume& result, const Viewport& p )
 {
     getDecoratee()->getFrustum(result, p);
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.9 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_hpp[] = OSGCAMERADECORATOR_HEADER_CVSID;
+    static char cvsid_inl[] = OSGCAMERADECORATOR_INLINE_CVSID;
 }

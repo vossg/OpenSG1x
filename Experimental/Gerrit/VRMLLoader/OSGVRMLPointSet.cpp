@@ -60,20 +60,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace 
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGVRMLPOINTSET_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 OSG_BEGIN_NAMESPACE
 
 VRMLAction::ActionResult osgVRMLPointSetToOpenSG(VRMLNode   &oNode,
@@ -192,13 +178,13 @@ VRMLPointSet::VRMLPointSet(const VRMLPointSet &source) :
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-#ifdef WIN32
+#if defined(WIN32) || defined(OSG_LINUX_ICC)
 #pragma warning (disable : 424)
 #endif
 
 OSG_VRMLOBJ_DEF(VRMLPointSet, Ptr);
 
-#ifdef WIN32
+#if defined(WIN32) || defined(OSG_LINUX_ICC)
 #pragma warning (default : 424)
 #endif
 
@@ -445,4 +431,22 @@ VRMLAction::ActionResult OSG::osgVRMLPointSetToOpenSG(
     }
 
     return returnValue;
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace 
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGVRMLPOINTSET_HEADER_CVSID;
 }

@@ -60,16 +60,6 @@ geometry very easily.
 
 */
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-static char cvsid[] = "@(#)$Id: $";
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 #if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
 #pragma warning (disable : 383)
 #endif

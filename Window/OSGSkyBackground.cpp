@@ -56,21 +56,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: OSGSkyBackground.cpp,v 1.8 2002/03/19 18:15:49 dirk Exp $";
-    static char cvsid_hpp[] = OSGSKYBACKGROUND_HEADER_CVSID;
-    static char cvsid_inl[] = OSGSKYBACKGROUND_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::SkyBackground
 A sky/ground and skybox background, inspired by the VRML Background node. See http://www.vrml.org/technicalinfo/specifications/vrml97/part1/nodesRef.html#Background for details on the parameter restrictions.
 */
@@ -395,3 +380,20 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
 }
 
  
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: OSGSkyBackground.cpp,v 1.9 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_hpp[] = OSGSKYBACKGROUND_HEADER_CVSID;
+    static char cvsid_inl[] = OSGSKYBACKGROUND_INLINE_CVSID;
+}

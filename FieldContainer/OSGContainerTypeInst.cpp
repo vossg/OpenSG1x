@@ -65,37 +65,6 @@
 #include "OSGSFAttachmentMap.h"
 #include "OSGMFAttachmentMap.h"
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace 
-{
-    static char cvsid_cpp[] = "@(#)$Id: $";
-
-    static char cvsid_sffcptr_hpp[] = OSGSFFIELDCONTAINERPTR_HEADER_CVSID;
-    static char cvsid_mffcptr_hpp[] = OSGMFFIELDCONTAINERPTR_HEADER_CVSID;
-
-    static char cvsid_sfacptr_hpp[] = OSGSFATTACHMENTCONTAINERPTR_HEADER_CVSID;
-    static char cvsid_mfacptr_hpp[] = OSGMFATTACHMENTCONTAINERPTR_HEADER_CVSID;
-
-    static char cvsid_sfndptr_hpp[] = OSGSFNODEPTR_HEADER_CVSID;
-    static char cvsid_mfndptr_hpp[] = OSGMFNODEPTR_HEADER_CVSID;
-
-    static char cvsid_sfncptr_hpp[] = OSGSFNODECOREPTR_HEADER_CVSID;
-    static char cvsid_mfncptr_hpp[] = OSGMFNODECOREPTR_HEADER_CVSID;
-
-    static char cvsid_sfatptr_hpp[] = OSGSFATTACHMENTPTR_HEADER_CVSID;
-    static char cvsid_mfatptr_hpp[] = OSGMFATTACHMENTPTR_HEADER_CVSID;
-
-    static char cvsid_sfattma_hpp[] = OSGSFATTACHMENTMAP_HEADER_CVSID;
-    static char cvsid_mfattma_hpp[] = OSGMFATTACHMENTMAP_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<FieldContainerPtr     >::_type(
@@ -159,3 +128,39 @@ OSG_DLLEXPORT_DEF1(MField, AttachmentMap,         OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
+OSG_USING_NAMESPACE
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+
+namespace 
+{
+   static Char8 cvsid_cpp[] = "@(#)$Id: $";
+
+   static Char8 cvsid_sffcptr_hpp[] = OSGSFFIELDCONTAINERPTR_HEADER_CVSID;
+   static Char8 cvsid_mffcptr_hpp[] = OSGMFFIELDCONTAINERPTR_HEADER_CVSID;
+
+   static Char8 cvsid_sfacptr_hpp[] = OSGSFATTACHMENTCONTAINERPTR_HEADER_CVSID;
+   static Char8 cvsid_mfacptr_hpp[] = OSGMFATTACHMENTCONTAINERPTR_HEADER_CVSID;
+
+   static Char8 cvsid_sfndptr_hpp[] = OSGSFNODEPTR_HEADER_CVSID;
+   static Char8 cvsid_mfndptr_hpp[] = OSGMFNODEPTR_HEADER_CVSID;
+
+   static Char8 cvsid_sfncptr_hpp[] = OSGSFNODECOREPTR_HEADER_CVSID;
+   static Char8 cvsid_mfncptr_hpp[] = OSGMFNODECOREPTR_HEADER_CVSID;
+
+   static Char8 cvsid_sfatptr_hpp[] = OSGSFATTACHMENTPTR_HEADER_CVSID;
+   static Char8 cvsid_mfatptr_hpp[] = OSGMFATTACHMENTPTR_HEADER_CVSID;
+
+   static Char8 cvsid_sfattma_hpp[] = OSGSFATTACHMENTMAP_HEADER_CVSID;
+   static Char8 cvsid_mfattma_hpp[] = OSGMFATTACHMENTMAP_HEADER_CVSID;
+}

@@ -82,23 +82,6 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParticlesBase.cpp,v 1.9 2002/03/29 02:34:52 vossg Exp $";
-    static Char8 cvsid_hpp       [] = OSGPARTICLESBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGPARTICLESBASE_INLINE_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGPARTICLESFIELDS_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 const OSG::BitVector  ParticlesBase::ModeFieldMask = 
     (1 << ParticlesBase::ModeFieldId);
 
@@ -627,4 +610,29 @@ void ParticlesBase::executeSyncImpl(      ParticlesBase *pOther,
 
 }
 
+
+
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParticlesBase.cpp,v 1.10 2002/04/30 09:29:11 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGPARTICLESBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGPARTICLESBASE_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGPARTICLESFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 

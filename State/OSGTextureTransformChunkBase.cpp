@@ -65,23 +65,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureTransformChunkBase.cpp,v 1.3 2002/03/29 02:34:52 vossg Exp $";
-    static Char8 cvsid_hpp       [] = OSGTEXTURETRANSFORMCHUNKBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGTEXTURETRANSFORMCHUNKBASE_INLINE_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGTEXTURETRANSFORMCHUNKFIELDS_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 
 
 //! TextureTransformChunk type
@@ -198,4 +181,29 @@ void TextureTransformChunkBase::executeSyncImpl(      TextureTransformChunkBase 
 
 }
 
+
+
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureTransformChunkBase.cpp,v 1.4 2002/04/30 09:29:12 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGTEXTURETRANSFORMCHUNKBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGTEXTURETRANSFORMCHUNKBASE_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGTEXTURETRANSFORMCHUNKFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 

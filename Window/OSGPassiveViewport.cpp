@@ -55,21 +55,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveViewport.cpp,v 1.2 2002/02/26 06:10:15 vossg Exp $";
-    static char cvsid_hpp[] = OSGPASSIVEVIEWPORT_HEADER_CVSID;
-    static char cvsid_inl[] = OSGPASSIVEVIEWPORT_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::PassiveViewport
 The PassiveViewport does nothing itself, but expects OpenGL to be properly configured when draw() or render() are called. 
 */
@@ -225,4 +210,23 @@ void PassiveViewport::render( RenderAction * action )
     if ( ! full )
         glDisable( GL_SCISSOR_TEST );
         */
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveViewport.cpp,v 1.3 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_hpp[] = OSGPASSIVEVIEWPORT_HEADER_CVSID;
+    static char cvsid_inl[] = OSGPASSIVEVIEWPORT_INLINE_CVSID;
 }

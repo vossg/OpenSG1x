@@ -49,21 +49,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: OSGStatisticsForeground.cpp,v 1.1 2002/03/19 17:46:18 dirk Exp $";
-    static char cvsid_hpp[] = OSGSTATISTICSFOREGROUND_HEADER_CVSID;
-    static char cvsid_inl[] = OSGSTATISTICSFOREGROUND_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::StatisticsForeground
 Background is the base class for all background clearing.  	 	
 */
@@ -112,3 +97,21 @@ void StatisticsForeground::dump(      UInt32    ,
     SLOG << "Dump StatisticsForeground NI" << endl;
 }
 
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: OSGStatisticsForeground.cpp,v 1.2 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_hpp[] = OSGSTATISTICSFOREGROUND_HEADER_CVSID;
+    static char cvsid_inl[] = OSGSTATISTICSFOREGROUND_INLINE_CVSID;
+}

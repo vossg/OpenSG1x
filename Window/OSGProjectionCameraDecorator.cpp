@@ -53,21 +53,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: OSGProjectionCameraDecorator.cpp,v 1.2 2002/03/19 18:15:49 dirk Exp $";
-    static char cvsid_hpp[] = OSGPROJECTIONCAMERADECORATOR_HEADER_CVSID;
-    static char cvsid_inl[] = OSGPROJECTIONCAMERADECORATOR_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::ProjectionCameraDecorator
 The decorator for tracked projection screens. 	
 */
@@ -307,3 +292,21 @@ static bool hack = true;
 #endif 
 }                                       
 
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: OSGProjectionCameraDecorator.cpp,v 1.3 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_hpp[] = OSGPROJECTIONCAMERADECORATOR_HEADER_CVSID;
+    static char cvsid_inl[] = OSGPROJECTIONCAMERADECORATOR_INLINE_CVSID;
+}

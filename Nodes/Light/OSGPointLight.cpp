@@ -49,21 +49,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGPOINTLIGHT_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGPOINTLIGHT_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::PointLight
     PointLight is a located lightsource. The position of the light source
     (in the beacon's coordinate system) is defined by the \c position 
@@ -230,4 +215,23 @@ void PointLight::initMethod (void)
             PointLightPtr    , 
             CNodePtr         ,  
             Action          *>(&PointLight::renderLeave));
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGPOINTLIGHT_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGPOINTLIGHT_INLINE_CVSID;
 }

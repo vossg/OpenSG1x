@@ -153,22 +153,8 @@ OSG_USING_NAMESPACE
 /*! \var SimpleSceneManager::_highlightMaterial
     The material used by the highlight object.
  */
+
 SimpleMaterialPtr SimpleSceneManager::_highlightMaterial;
-
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.20 2002/02/22 17:08:05 dirk Exp $";
-    static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
@@ -735,4 +721,23 @@ Line SimpleSceneManager::calcViewRay(Int16 x, Int16 y)
 bool SimpleSceneManager::operator < (const SimpleSceneManager &other) const
 {
     return this < &other;
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.21 2002/04/30 09:29:13 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }

@@ -59,27 +59,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace 
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-
-    static Char8 cvsid_sfbt_hpp[] = OSGSFBASETYPES_HEADER_CVSID;
-    static Char8 cvsid_mfbt_hpp[] = OSGMFBASETYPES_HEADER_CVSID;
-    static Char8 cvsid_bfdt_hpp[] = OSGBASEFIELDDATATYPE_HEADER_CVSID;
-
-//    static Char8 cvsid_hpp[] = OSG_HEADER_CVSID;
-//    static Char8 cvsid_inl[] = OSG_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
-
 DataType FieldDataTraits2<bool >::_type("bool"  , "IntegralType");
 DataType FieldDataTraits< Int8 >::_type("Int8"  , "IntegralType");
 DataType FieldDataTraits<UInt8 >::_type("UInt8" , "IntegralType");
@@ -284,3 +263,25 @@ OSG_DLLEXPORT_DEF1(MField, Plane,       OSG_BASE_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
+
+OSG_USING_NAMESPACE
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace 
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+
+    static Char8 cvsid_sfbt_hpp[] = OSGSFBASETYPES_HEADER_CVSID;
+    static Char8 cvsid_mfbt_hpp[] = OSGMFBASETYPES_HEADER_CVSID;
+    static Char8 cvsid_bfdt_hpp[] = OSGBASEFIELDDATATYPE_HEADER_CVSID;
+}

@@ -64,6 +64,10 @@ class CNodePtr;
 #pragma set woff 1375,1424
 #endif
 
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 444 )
+#endif
+
 class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public AttachmentContainerPtr
 {
     /*==========================  PUBLIC  =================================*/
@@ -256,6 +260,10 @@ class OSG_SYSTEMLIB_DLLMAPPING CNodePtr : public AttachmentContainerPtr
 
     friend class FieldContainer;
 };
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( default : 444 )
+#endif
 
 #ifdef __sgi
 #pragma reset woff 1375,1424
