@@ -44,6 +44,8 @@
 #include <OSGTime.h>
 #include <OSGColor.h>
 #include <OSGDynamicVolume.h>
+#include <OSGSphereVolume.h>
+#include <OSGBoxVolume.h>
 #include <OSGPlane.h>
 
 #include <string>
@@ -239,7 +241,9 @@ struct FieldDataTraits<String> : public FieldTraitsRecurseBase<String>
     static void             putToString(const String &inVal,
                                               std::string &outVal )
     {
-        outVal.assign( inVal.str() );
+		outVal.assign( "\"" );
+        outVal.append( inVal.str() );
+		outVal.append( "\"" );
     }
 
     static UInt32 getBinSize(const String   &oObject)
@@ -358,29 +362,109 @@ struct FieldDataTraits<DynamicVolume> :
 
     static DynamicVolume     getDefault(void)    { return DynamicVolume();   }
 
-    static Bool             getFromString(      DynamicVolume  &,
-                                          const Char8         *&)
+    static Bool             getFromString(      DynamicVolume  &outVal,
+                                          const Char8         *&inVal)
     {
-        // TO_BE_DONE
-        return false;
+        Real32 valStore[6];
+		UInt32 length = strlen( inVal );
+		Char8 str[256];
+		Char8 *c = str;
+	
+		if( length > 256 )
+		{
+			cerr << "FieldDataTraits<DynamicVolume>::getFromString(): "
+				 << "Input too long" << endl;
+			return false;
+		}
+		strncpy( str, inVal, length );
+		while( *c != '\0' )
+		{
+			if( *c == '[' )
+				*c = ' ';
+			if( *c == ']' )
+				*c = ' ';
+			if( *c == ',' )
+				*c = ' ';
+			c++;
+		}
+		
+		Int16 count = sscanf( str, "%f %f %f %f %f %f",
+							&valStore[0], &valStore[1], &valStore[2],
+			 				&valStore[3], &valStore[4], &valStore[5] );
+		
+		if( count == 4 )
+		{
+			outVal.setVolumeType( DynamicVolume::SPHERE_VOLUME );
+			SphereVolume &sVol = dynamic_cast<SphereVolume&>(
+											outVal.getInstance() );
+			sVol.setCenter( Pnt3f(valStore[0], valStore[1], valStore[2]) );
+			sVol.setRadius( valStore[3] );
+			return true;
+		}
+		else if( count == 6 )
+		{
+			outVal.setVolumeType( DynamicVolume::BOX_VOLUME );
+			BoxVolume &bVol = dynamic_cast<BoxVolume&>( outVal.getInstance() );
+			bVol.setBounds( valStore[0], valStore[1], valStore[2],
+							valStore[3], valStore[4], valStore[5] );
+			return true;
+		}
+		else
+		{
+			outVal.setVolumeType( DynamicVolume::BOX_VOLUME );
+			BoxVolume &bVol = dynamic_cast<BoxVolume&>( outVal.getInstance() );
+			bVol.setBounds( 0,0,0, 0,0,0 );
+			return false;
+		}
     }
 
     static void             putToString(const DynamicVolume &inVal,
                                               std::string   &outVal)
     {
-      Pnt3f min, max;
-      inVal.getBounds( min, max );
-      outVal.assign( TypeConstants<Pnt3f::ValueType>::putToString(min.getValues()[0]) );
-	  outVal.append( "  " );
-	  outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(min.getValues()[1]) );
-	  outVal.append( "  " );
-	  outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(min.getValues()[2]) );
-	  outVal.append( ",\n" );
-	  outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(max.getValues()[0]) );
-	  outVal.append( "  " );
-	  outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(max.getValues()[1]) );
-	  outVal.append( "  " );
-	  outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(max.getValues()[2]) );
+		
+		Pnt3f min, max;
+		
+		outVal.assign( "[ " );
+		switch( inVal.getType() )
+		{
+		case DynamicVolume::BOX_VOLUME : 
+      		inVal.getBounds( min, max );
+		  	outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
+													min.getValues()[0]) );
+	 		outVal.append( " " );
+	  		outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
+													min.getValues()[1]) );
+	  		outVal.append( " " );
+	  		outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
+													min.getValues()[2]) );
+	 		outVal.append( ", " );
+	  		outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
+													max.getValues()[0]) );
+	  		outVal.append( " " );
+	  		outVal.append(TypeConstants<Pnt3f::ValueType>::putToString(
+													max.getValues()[1]) );
+	  		outVal.append( " " );
+	  		outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
+													max.getValues()[2]) );
+			break;
+		case DynamicVolume::SPHERE_VOLUME :
+			const SphereVolume &sVol = dynamic_cast<const SphereVolume&>(
+												inVal.getInstance());
+			outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
+													sVol.getCenter()[0]) );
+			outVal.append( " " );
+			outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
+													sVol.getCenter()[1]) );
+			outVal.append( " " );
+			outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
+													sVol.getCenter()[2]) );
+			outVal.append( ", " );
+			outVal.append( TypeConstants<Real32>::putToString(
+													sVol.getRadius()) );
+			break;
+		}
+		outVal.append( " ]" );
+					
     }
 };
 
@@ -434,7 +518,7 @@ struct FieldDataTraits<Plane> : public FieldTraitsRecurseBase<Plane>
 		outVal.append( TypeConstants<Vec3f::ValueType>::putToString( normal.getValues()[1]) );
 		outVal.append( "  " );
 		outVal.append( TypeConstants<Vec3f::ValueType>::putToString( normal.getValues()[2]) );
-		outVal.append( "  ,  " );
+		outVal.append( "  " );
 		outVal.append( TypeConstants<Real32>::putToString(dist) );
     }
 };

@@ -698,7 +698,10 @@ std::string &MField<FieldTypeT, fieldNameSpace>::getValueByStr(std::string &stri
 	{
 		Converter::putToString( _values[i], tmpString );
 		string.append( tmpString );
-		string.append( " " );
+		if( i < (getSize()-1) )
+		{
+			string.append( ", " );
+		}
 	}
 	return string;
 }

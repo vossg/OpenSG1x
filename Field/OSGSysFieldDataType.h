@@ -128,9 +128,9 @@ struct FieldDataTraits2<Bool> :
                                               std::string &outVal)
     {
         if( inVal == true ){
-	outVal.assign( "true" );
+	outVal.assign( "TRUE" );
       } else {
-	outVal.assign( "false" );
+	outVal.assign( "FALSE" );
       }
     }
 };
