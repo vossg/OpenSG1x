@@ -1017,10 +1017,10 @@ CXXFLAGS = $(PROFLAG) $(SCFLAGS) $(INCS)
 ######################################################################
 
 ### Object and source files ##########################################
-HEADERS := $(shell cat declist.mk)
-SOURCES := $(shell cat implist.mk)
-BINOBJS := $(shell cat objlist.$(SYSDEP).mk)
-LIBOBJS := $(shell sed < objlist.$(SYSDEP).mk 's/main\.[a-zA-Z_0-9]*\.o//g')
+HEADERS := $(shell test -f declist.mk && cat declist.mk)
+SOURCES := $(shell test -f implist.mk && cat implist.mk)
+BINOBJS := $(shell test -f objlist.$(SYSDEP).mk && cat objlist.$(SYSDEP).mk)
+LIBOBJS := $(shell test -f objlist.$(SYSDEP).mk && sed < objlist.$(SYSDEP).mk 's/main\.[a-zA-Z_0-9]*\.o//g')
 ######################################################################
 
 ### TARGET build rules ###############################################
@@ -1078,26 +1078,36 @@ moc_%.cpp: %.h
 ######################################################################
 
 ### File lists #######################################################
-lists: declist implist objlist depend 
+lists: declist implist objlist 
+	$(MAKE) depend 
 
 declist:
 	@echo "make declist.mk"
 	@rm -rf declist.mk
+	@for i in *.ui ;\
+	do \
+	    echo $$i | sed 's/.ui/.h/g' > declist.mk ; \
+	done
 	@echo *.[hH] *.hh *.hxx *.ui " " | \
 	sed 's/\*\.[a-zA-Z]* //g' | \
-	cat >declist.mk
+	cat >> declist.mk
 
 implist:
 	@echo "make implist.mk"
 	@rm -rf implist.mk
+	@grep -l Q_OBJECT *.[hH] | sed -e 's/^/moc_/g' -e 's/.[hH]/.cpp/' >> implist.mk
+	@for i in *.ui ;\
+	do \
+	    echo $$i | sed -e 's/^/moc_/g' -e 's/.ui/.cpp/g' >> implist.mk ; \
+	    echo $$i | sed -e 's/.ui/.cpp/g' >> implist.mk ; \
+	done
 	@echo *.y *.l *.c *.C *.cc *.cxx *.cpp " " | \
 	sed 's/\*\.[a-zA-Z]* //g' | \
-	cat >implist.mk
+	cat >> implist.mk
 
 objlist: implist.mk
 	@echo "make objlist.$(SYSDEP).mk"
 	@rm -rf objlist.$(SYSDEP).mk
-	@grep -l Q_OBJECT *.[hH] | sed 's/^/moc_/g' > objlist.mk
 	@cat implist.mk >> objlist.mk
 	@cat < objlist.mk | \
 	tr '\n' ' ' | \
@@ -1114,14 +1124,17 @@ deplist.$(SYSDEP).mk:
 	@echo >deplist.$(SYSDEP).mk ""
 	$(MAKE) lists
 
-depend: implist.mk
+depend: implist.mk $(shell test -f implist.mk && cat implist.mk) declist.mk $(shell test -f declist.mk && cat declist.mk)
 	@echo "make deplist.$(SYSDEP).mk"
 	@makedepend 2>/dev/null $(INCS) $(shell cat implist.mk) \
 	-f - | sed 's/\.o/\.$(SYSDEP)\.o/' > deplist.$(SYSDEP).mk
+
 ######################################################################
 
 ### Commands #########################################################
-all: $(TARGET)$(BINSUF)
+all: 
+	$(MAKE) lists 
+	$(MAKE) $(TARGET)$(BINSUF)
 
 uinstall: $(SYSTARGET)
 	$(STRIP) $(SYSTARGET)
@@ -1234,4 +1247,4 @@ tags: declist.mk implist.mk
 
 ######################################################################
 
-include deplist.$(SYSDEP).mk
+-include deplist.$(SYSDEP).mk
