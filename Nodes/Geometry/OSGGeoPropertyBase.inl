@@ -41,10 +41,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-template <class GeoPropertyDesc>
-char AbstractGeoProperty<GeoPropertyDesc>::cvsid[] = 
-    "@(#)$Id: $";
-
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class GeoPropertyDesc>
 FieldContainerType AbstractGeoProperty<GeoPropertyDesc>::_type = 
@@ -107,10 +103,6 @@ void AbstractGeoProperty<GeoPropertyDesc>::dump(      UInt32    uiIndent,
 {
     Inherited::dump(uiIndent, bvFlags);
 }
-
-template <class GeoPropertyDesc>
-char GeoProperty<GeoPropertyDesc>::cvsid[] = 
-    "@(#)$Id: $";
 
 template <class GeoPropertyDesc>
 const BitVector GeoProperty<GeoPropertyDesc>::GeoPropDataFieldMask = 

@@ -158,8 +158,6 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty :
     typedef          GeoPropertyInterface<GeoPropertyDesc> Interface;
 #endif
 
-    static char cvsid[];
-
     static FieldContainerType _type;
 };
 
@@ -301,7 +299,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
     /*==========================  PRIVATE  ================================*/
   private:
 
-    static char cvsid[];
+    static const PtrType NullPtr;
 
     static FieldDescription   *_desc[];
 
