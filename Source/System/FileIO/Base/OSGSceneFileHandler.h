@@ -177,7 +177,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
 
     friend class OSG_SYSTEMLIB_DLLMAPPING SceneFileType;
 
-    std::string SceneFileHandler::initPathHandler(const Char8 *fileName);
+    std::string initPathHandler(const Char8 *fileName);
     
     /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const SceneFileHandler &source);
