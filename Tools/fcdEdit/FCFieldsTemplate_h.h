@@ -12,7 +12,7 @@ char *FCPtrTemplate_h[]={
 " *                                OpenSG                                     *",
 " *                                                                           *",
 " *                                                                           *",
-" *             Copyright (C) 2000,2001 by the OpenSG Forum                   *",
+" *               Copyright (C) 2000-2002 by the OpenSG Forum                 *",
 " *                                                                           *",
 " *                            www.opensg.org                                 *",
 " *                                                                           *",
@@ -139,7 +139,7 @@ char *FCPtrTemplate_h[]={
 "@@endif",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@FIELDS_HEADER_CVSID \"@(#)$Id: FCFieldsTemplate_h.h,v 1.19 2002/10/25 13:09:36 dirk Exp $\"",
+"#define OSG@!CLASSNAME!@FIELDS_HEADER_CVSID \"@(#)$Id: FCFieldsTemplate_h.h,v 1.20 2002/12/04 14:22:22 dirk Exp $\"",
 "", 
 "#endif /* _OSG@!CLASSNAME!@FIELDS_H_ */",
 NULL };

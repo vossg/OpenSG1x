@@ -12,7 +12,7 @@ char *FCTemplate_h[]={
 " *                                OpenSG                                     *",
 " *                                                                           *",
 " *                                                                           *",
-" *             Copyright (C) 2000,2001 by the OpenSG Forum                   *",
+" *               Copyright (C) 2000-2002 by the OpenSG Forum                 *",
 " *                                                                           *",
 " *                            www.opensg.org                                 *",
 " *                                                                           *",
@@ -124,7 +124,7 @@ char *FCTemplate_h[]={
 "#include <OSG@!Classname!@Base.inl>",
 "#include <OSG@!Classname!@.inl>",
 "",
-"#define OSG@!CLASSNAME!@_HEADER_CVSID \"@(#)$Id: FCTemplate_h.h,v 1.16 2002/10/25 13:09:36 dirk Exp $\"",
+"#define OSG@!CLASSNAME!@_HEADER_CVSID \"@(#)$Id: FCTemplate_h.h,v 1.17 2002/12/04 14:22:22 dirk Exp $\"",
 "",
 "#endif /* _OSG@!CLASSNAME!@_H_ */",
 NULL };

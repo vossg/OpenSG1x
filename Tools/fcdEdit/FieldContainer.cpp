@@ -925,7 +925,7 @@ bool FieldContainer::writeTempl(
 				for ( fieldIt = _fieldList.begin(); fieldIt != _fieldList.end(); fieldIt++ )
 				{
 					name = fieldIt->name();
-					out << "    static const osg::BitVector " 
+					out << "    static const OSG::BitVector " 
 				    	<< (char)toupper( name[0] ) << name + 1 << "FieldMask;" << endl;
 				}
 
