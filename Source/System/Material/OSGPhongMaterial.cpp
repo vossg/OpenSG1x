@@ -47,6 +47,7 @@
 
 #include <OSGGeometry.h>
 #include <OSGCamera.h>
+#include <OSGTextureChunk.h>
 #include <OSGWindow.h>
 
 #include "OSGPhongMaterial.h"
@@ -96,7 +97,7 @@ static std::string _phong_vp_prg =
 "MOV result.texcoord[3], EyeNormal;\n"
 "END\n";
 
-static std::string _phong_fp_prg =
+static std::string _phong_fp_begin_prg =
 "!!ARBfp1.0\n"
 "TEMP lightVec, viewVec, reflVec, normal, attenuation, Len, finalCol, lightContrib, tex;\n"
 "PARAM two = {2.0, 2.0, 2.0, 2.0};\n"
@@ -148,9 +149,11 @@ static std::string _phong_fp_prg =
 "\n"
 "MAD        finalCol, lightContrib.y, state.lightprod[0].diffuse, state.lightprod[0].ambient;\n"
 "\n"
-"# Enable this line for textured models\n"
-"#    MUL        finalCol, finalCol, tex;    # Texture?\n"
-"\n"
+"# Enable this line for textured models\n";
+static std::string _phong_fp_tex_prg =
+"MUL        finalCol, finalCol, tex;    # Texture?\n";
+
+static std::string _phong_fp_end_prg =
 "MAD        finalCol, lightContrib.z, state.lightprod[0].specular, finalCol;\n"
 "MAD        finalCol, finalCol, attenuation.x, state.material.emission;\n"
 "ADD        result.color.xyz, finalCol, state.lightmodel.scenecolor;\n"
@@ -237,10 +240,32 @@ void PhongMaterial::prepareLocalChunks(void)
         
         _fpChunk = FragmentProgramChunk::create();
         addRefCP(_fpChunk);
-        beginEditCP(_fpChunk);
-            _fpChunk->setProgram(_phong_fp_prg);
-        endEditCP(_fpChunk);
+        createFragmentProgram();
     }
+}
+
+void PhongMaterial::createFragmentProgram(void)
+{
+    bool has_tex_chunk = false;
+    for(MFStateChunkPtr::iterator i  = _mfChunks.begin();
+                                  i != _mfChunks.end(); 
+                                ++i)
+    {
+        if(TextureChunkPtr::dcast(*i) != NullFC)
+        {
+            has_tex_chunk = true;
+            break;
+        }
+    }
+    
+    std::string phong_fp_prg;
+    beginEditCP(_fpChunk);
+        if(has_tex_chunk)
+            phong_fp_prg = _phong_fp_begin_prg + _phong_fp_tex_prg + _phong_fp_end_prg;
+        else
+            phong_fp_prg = _phong_fp_begin_prg + _phong_fp_end_prg;
+        _fpChunk->setProgram(phong_fp_prg);
+    endEditCP(_fpChunk);
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -297,6 +322,8 @@ StatePtr PhongMaterial::makeState(void)
 
     if(_vpChunk != NullFC)
         state->addChunk(_vpChunk);
+    
+    createFragmentProgram();
     
     if(_fpChunk != NullFC)
         state->addChunk(_fpChunk);
@@ -360,6 +387,8 @@ void PhongMaterial::rebuildState(void)
     if(_vpChunk != NullFC)
         _pState->addChunk(_vpChunk);
     
+    createFragmentProgram();
+
     if(_fpChunk != NullFC)
         _pState->addChunk(_fpChunk);
     
@@ -370,6 +399,7 @@ void PhongMaterial::rebuildState(void)
         _pState->addChunk(*i);
     }
 }
+
 
 ChunkMaterialPtr PhongMaterial::createChunkMaterial(void)
 {
@@ -399,8 +429,9 @@ ChunkMaterialPtr PhongMaterial::createChunkMaterial(void)
         endEditCP(vpc);
         
         FragmentProgramChunkPtr fpc = FragmentProgramChunk::create();
+        std::string phong_fp_prg = _phong_fp_begin_prg + _phong_fp_end_prg;
         beginEditCP(fpc);
-            fpc->setProgram(_phong_fp_prg);
+            fpc->setProgram(phong_fp_prg);
         endEditCP(fpc);
         
         beginEditCP(cmat, ChunksFieldMask);
@@ -424,7 +455,7 @@ ChunkMaterialPtr PhongMaterial::createChunkMaterial(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhongMaterial.cpp,v 1.5 2003/10/10 21:06:58 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhongMaterial.cpp,v 1.6 2003/10/11 19:00:45 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGPHONGMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHONGMATERIAL_INLINE_CVSID;
 

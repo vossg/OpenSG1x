@@ -111,6 +111,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PhongMaterial : public PhongMaterialBase
   private:
 
     void prepareLocalChunks(void);
+    void createFragmentProgram(void);
 
     friend class FieldContainer;
     friend class PhongMaterialBase;
@@ -135,6 +136,6 @@ OSG_END_NAMESPACE
 #include <OSGPhongMaterialBase.inl>
 #include <OSGPhongMaterial.inl>
 
-#define OSGPHONGMATERIAL_HEADER_CVSID "@(#)$Id: OSGPhongMaterial.h,v 1.3 2003/10/09 09:36:12 a-m-z Exp $"
+#define OSGPHONGMATERIAL_HEADER_CVSID "@(#)$Id: OSGPhongMaterial.h,v 1.4 2003/10/10 15:38:50 a-m-z Exp $"
 
 #endif /* _OSGPHONGMATERIAL_H_ */
