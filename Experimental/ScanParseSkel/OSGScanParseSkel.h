@@ -111,21 +111,21 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
         OSGmfVec3f    = TOK_MFVEC3F,
         
         OSGmfColor4f  = TOK_MFCOLOR4F,
-		OSGmfColor3f  = TOK_MFCOLOR3F,
+        OSGmfColor3f  = TOK_MFCOLOR3F,
         OSGmfMatrix   = TOK_MFMATRIX,
         OSGmfPnt2f    = TOK_MFPNT2F,
         OSGmfPnt3f    = TOK_MFPNT3F,
         OSGmfPnt4f    = TOK_MFPNT4F,
         OSGmfVec4f    = TOK_MFVEC4F,
-		OSGmfPlane	  = TOK_MFPLANE,
+        OSGmfPlane    = TOK_MFPLANE,
         OSGsfColor4f  = TOK_SFCOLOR4F,
-		OSGsfColor3f  = TOK_SFCOLOR3F,
+        OSGsfColor3f  = TOK_SFCOLOR3F,
         OSGsfMatrix   = TOK_SFMATRIX,
         OSGsfPnt2f    = TOK_SFPNT2F,
         OSGsfPnt3f    = TOK_SFPNT3F,
         OSGsfPnt4f    = TOK_SFPNT4F,
         OSGsfVec4f    = TOK_SFVEC4F,
-		OSGsfPlane	  = TOK_SFPLANE
+        OSGsfPlane    = TOK_SFPLANE
     };
 
     enum 
@@ -155,7 +155,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -169,7 +169,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     ScanParseSkel(const ScanParseSkel &source);
     void operator =(const ScanParseSkel &source);
@@ -253,8 +253,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     virtual void endProtoExposedField   (void);
 
 
-    virtual void beginField             (const Char8 *szFieldname,
-                                         	   Int32 &uiFieldTypeId);
+    virtual void beginField             (const Char8  *szFieldname,
+                                         const UInt32  uiFieldTypeId);
 
     virtual void endField               (void);
 
@@ -275,12 +275,12 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
 
     /*------------------------- assignment ----------------------------------*/
 
-    Bool              getMapFieldTypes  (void);
+    Bool              getMapFieldTypes(void);
 
-    virtual Int32  mapExtIntFieldType(const Int32 iFieldTypeId);
+    virtual Int32  mapExtIntFieldType (const Char8 *szFieldname,
+                                       const Int32  iFieldTypeId);
 
-    virtual UInt32 getFieldType      (const Char8 *szFieldname);
-
+    virtual UInt32 getFieldType       (const Char8 *szFieldname);
 
     /*------------------------- comparison ----------------------------------*/
 };

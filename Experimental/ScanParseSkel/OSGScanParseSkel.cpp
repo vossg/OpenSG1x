@@ -251,7 +251,7 @@ void ScanParseSkel::endProtoExposedField(void)
 
 
 void ScanParseSkel::beginField(const Char8 *,
-                                     Int32 &)
+                               const UInt32)
 {
 }
 
@@ -260,7 +260,7 @@ void ScanParseSkel::endField(void)
 }
 
 void ScanParseSkel::beginNode(const Char8 *,
-                                 const Char8 *)
+                              const Char8 *)
 {
 }
     
@@ -291,7 +291,7 @@ Bool ScanParseSkel::getMapFieldTypes(void)
     return _bMapTypeIds;
 }
 
-Int32 ScanParseSkel::mapExtIntFieldType(const Int32)
+Int32 ScanParseSkel::mapExtIntFieldType(const Char8*, const Int32)
 {
     return 0;
 }

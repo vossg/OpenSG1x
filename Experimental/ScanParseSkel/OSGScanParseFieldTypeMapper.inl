@@ -142,7 +142,8 @@ void ScanParseFieldTypeMapper<BaseT>::setExtIntMapping(
 
 template <class BaseT> inline
 Int32 ScanParseFieldTypeMapper<BaseT>::mapExtIntFieldType(
-    const Int32 iFieldTypeId)
+    const Char8 *,
+    const Int32  iFieldTypeId)
 {
     ExtIntMap::iterator gMIt = _mExtInt.find(iFieldTypeId);
 
@@ -158,7 +159,8 @@ Int32 ScanParseFieldTypeMapper<BaseT>::mapExtIntFieldType(
 
 template <class BaseT> inline
 Int32 ScanParseFieldTypeMapper<BaseT>::mapIntExtFieldType(
-    const Int32 iFieldTypeId)
+    const Char8 *,
+    const Int32  iFieldTypeId)
 {
     IntExtMap::iterator gMIt = _mIntExt.find(
         (BuildInFieldTypes) iFieldTypeId);

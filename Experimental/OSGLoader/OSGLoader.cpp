@@ -637,7 +637,7 @@ UInt32 OSGLoader::getFieldType(const Char8 *szFieldname)
 }
 
 void OSGLoader::beginField(const Char8 *szFieldname,
-                          		 Int32 &uiFieldTypeId)
+                           const UInt32 uiFieldTypeId)
 {
     fprintf(stderr, "BeginField : %s %p\n", szFieldname, _pCurrentField);
 
@@ -660,7 +660,9 @@ void OSGLoader::beginField(const Char8 *szFieldname,
         {
             beginEditCP(_pCurrentFC, _pCurrentFieldDesc->getFieldMask());
         }
-		
+
+// Must be moved somewhere else
+#if 0		
 		if( uiFieldTypeId < 0 )
 		{
 			cerr << "FieldTypeId invalid, trying to fix. " << endl;
@@ -684,6 +686,7 @@ void OSGLoader::beginField(const Char8 *szFieldname,
 				}
 			}
 		}
+#endif
     }
 
     _fStack.push (_pCurrentField);

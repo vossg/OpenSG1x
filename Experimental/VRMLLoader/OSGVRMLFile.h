@@ -248,8 +248,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     virtual void  endNode                 (void);
 
 
-    virtual void  beginField              (const Char8 *szFieldname,
-                                           		 Int32 &uiFieldTypeId);
+    virtual void  beginField              (const Char8  *szFieldname,
+                                           const UInt32  uiFieldTypeId);
 
     virtual void  endField                (void);
 

@@ -514,7 +514,7 @@ void VRMLNodeFactory<BaseT>::beginProtoField(
     {
         rc = _pCurrentNodeDesc->prototypeAddField(
             szFieldType,
-            mapIntExtFieldType(uiFieldTypeId),
+            mapIntExtFieldType(szFieldName, uiFieldTypeId),
             szFieldName);
 
         if(rc == true)

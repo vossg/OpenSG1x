@@ -190,9 +190,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseFieldTypeMapper
 
     /*------------------------- your_operators ------------------------------*/
 
-    Int32 mapExtIntFieldType(const Int32 iFieldTypeId);
+    Int32 mapExtIntFieldType(const Char8 *szFieldname,
+                             const Int32  iFieldTypeId);
 
-    Int32 mapIntExtFieldType(const Int32 iFieldTypeId);
+    Int32 mapIntExtFieldType(const Char8 *szFieldname,
+                             const Int32  iFieldTypeId);
 
     /*------------------------- assignment ----------------------------------*/
 

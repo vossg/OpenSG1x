@@ -473,7 +473,9 @@ nodeBodyElement : fieldId
 
                      if(_pSkel->getMapFieldTypes() == true)
                      {
-                      iFieldTypeId = _pSkel->mapExtIntFieldType(iFieldTypeId);
+                      iFieldTypeId = _pSkel->mapExtIntFieldType(    
+                                        OSGScanParseSkel_text,
+                                        iFieldTypeId);
                      }
     
                      expectType(iFieldTypeId); 

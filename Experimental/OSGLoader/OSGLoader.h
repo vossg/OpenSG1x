@@ -206,8 +206,8 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
 
     virtual void    use                    (const Char8 *szName);
 
-    virtual void    beginField             (const Char8 *szFieldname,
-                                            	  Int32 &uiFieldTypeId);
+    virtual void    beginField             (const Char8  *szFieldname,
+                                            const UInt32  uiFieldTypeId);
 
     virtual void    endField               (void);
 
