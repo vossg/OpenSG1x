@@ -78,7 +78,7 @@ typedef FCPtr<WindowPtr, QTWindow> QTWindowPtr;
 
 template <>
 struct FieldDataTraits<QTWindowPtr> : 
-    public FieldTraitsRecurseMapper<QTWindowPtr>
+    public FieldTraitsRecurseMapper<QTWindowPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, QTWindowPtr, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGQTWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGQTWindowFields.h,v 1.2 2002/05/24 09:48:41 vossg Exp $"
+#define OSGQTWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGQTWindowFields.h,v 1.3 2002/08/07 05:55:34 vossg Exp $"
 
 #endif /* _OSGQTWINDOWFIELDS_H_ */
