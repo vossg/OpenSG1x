@@ -948,7 +948,7 @@ indirector<ContentT, IndexT>::indirector(ContentT cont) : _cont(cont)
 template <class ContentT, class IndexT>
 bool indirector<ContentT, IndexT>::operator()(IndexT a, IndexT b)
 {
-    if(cont[a] < cont[b])
+    if(_cont[a] < _cont[b])
         return true;
 
     return false;
