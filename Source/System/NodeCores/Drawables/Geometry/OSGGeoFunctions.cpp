@@ -2361,9 +2361,9 @@ void OSG_APIENTRY gluTessEndCB()
 }
 
 //Error handler: Called by the GLU Tesselator to signal errors
-void OSG_APIENTRY gluTessErrorCB(GLenum errno)
+void OSG_APIENTRY gluTessErrorCB(GLenum errNo)
 {
-  FFATAL(("gluTesselator Error: %s\n", gluErrorString(errno)));
+    FFATAL(("gluTesselator Error: %s\n", gluErrorString(errNo)));
 }
 
 /*! \ingroup GrpSystemDrawablesGeometryFunctions
