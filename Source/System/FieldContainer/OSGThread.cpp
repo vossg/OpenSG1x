@@ -627,7 +627,7 @@ void Thread::initThreading(void)
     FFASSERT((rc == 0), 1, ("Failed to create pthread changelist key\n");)
 #endif
 
-#if defined(OSG_WIN_THREADS) && defined(OSG_ASPECT_USE_LOCALSTORAGE)       
+#if defined(OSG_USE_WINTHREADS) && defined(OSG_ASPECT_USE_LOCALSTORAGE)       
     Thread::_aspectKey     = TlsAlloc();
 
     FFASSERT((Thread::_aspectKey != 0xFFFFFFFF), 1, 
