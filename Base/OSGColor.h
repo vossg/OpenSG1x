@@ -48,6 +48,7 @@
 
 #include <OSGBase.h>
 #include <OSGBaseTypes.h>
+#include <iostream>
 
 OSG_BEGIN_NAMESPACE
 
