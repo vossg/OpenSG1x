@@ -61,9 +61,9 @@ LIBSOURCES := $(filter-out $(LIBQTSOURCES_CPP),$(LIBSOURCES))
 
 LIBOBJECTS  := $(call cnvSourceToObject,$(LIBSOURCES))
 
-#ifneq ($(LIBQTSOURCES),)
-#LIBOBJECTS := $(call cnvSourceToObject,$(LIBQTSOURCES_CPP)) $(LIBOBJECTS)
-#endif
+ifneq ($(LIBQTSOURCES),)
+LIBOBJECTS := $(call cnvSourceToObject,$(LIBQTSOURCES_CPP)) $(LIBOBJECTS)
+endif
 
 ifneq ($(LIBFLEXSOURCES),)
 LIBOBJECTS := $(call cnvSourceToObject,$(LIBFLEXTARGET_CPP)) $(LIBOBJECTS)
