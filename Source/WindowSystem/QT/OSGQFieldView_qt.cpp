@@ -701,11 +701,9 @@ QMFieldView::releaseAllLabels(void)
     for(; iter != end; ++iter)
     {
         pLabel = (*iter).second.getLabel();
-
-        _usedLabels.erase(iter);
-
         _poolLabels.push_back(pLabel);
     }
+    _usedLabels.clear();
 }
 
 void
@@ -728,11 +726,9 @@ QMFieldView::deleteAllLabels(void)
                 << " pLabel->getIndex() " << pLabel->getIndex()
                 << " pLabel "            << pLabel
                 << "\n";
-
-        _usedLabels.erase(usedIter);
-
         delete pLabel;
     }
+    _usedLabels.clear();
 
     PoolLabelListIt poolIter = _poolLabels.begin();
     PoolLabelListIt poolEnd  = _poolLabels.end();
