@@ -144,7 +144,11 @@ SystemDirs = [Dir('System').Dir(n) for n in Split("""
     ../Experimental/WebInterface
 """)]
 
+if _po.getOption('gv_beta'):
+    BaseDirs.append(Dir('Base').Dir('../Experimental/Gerrit/Base'))
+    SystemDirs.append(Dir('System').Dir('../Experimental/Gerrit/System'))
+
 Export('BaseDirs SystemDirs')
 
-SConscript(dirs=['Base', 'System', 'WindowSystem'])
+SConscript(dirs=['Base', 'System', 'WindowSystem', 'Contrib'])
 

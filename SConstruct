@@ -446,6 +446,8 @@ class PlatformOptions:
         # check the QTDIR variable and set 'yes'
         opts.Add(PackageOption('qt', 'Enable qt support', 'no'))
 
+        opts.Add(PackageOption('cg', 'Enable cg support', 'no'))
+
         self.package_options = ['tif', 'jpg', 'png', 'glut', 'zlib']
         
         if self.de.get('PLATFORM') == 'cygwin':
@@ -481,6 +483,10 @@ class PlatformOptions:
                             allowed_values=('dbg', 'opt', 'both')))
 
         opts.Add(BoolOption('gv_beta', 'enable gv beta', 0))
+        
+        # contrib
+        opts.Add(BoolOption('contrib_cgchunk', 'enable contrib CHChunk', 0))
+        opts.Add(BoolOption('contrib_drawfunctorcore', 'enable contrib DrawFunctorCore', 0))
 
         opts.Update(self.de)
 
@@ -496,14 +502,80 @@ class PlatformOptions:
     def buildOpt(self):
         return (self.getOption('type') == 'opt' or self.getOption('type') == 'both')
 
+def moveGVBetaFile(base, file):
+    src = os.path.join(base, file)
+    dst = os.path.join(base, 'tmp_gv')
+    if not os.path.exists(dst):
+        os.makedirs(dst)
+    dst = os.path.join(base, 'tmp_gv', file)
+    if os.path.exists(src) and not os.path.exists(dst):
+        shutil.move(src, dst)
+
+def unmoveGVBetaFile(base, file):
+    src = os.path.join(base, 'tmp_gv', file)
+    dst = os.path.join(base, file)
+    if os.path.exists(src):
+        if os.path.exists(dst):
+            os.unlink(dst)
+        shutil.move(src, base)
+
+    dst = os.path.join(base, 'tmp_gv')
+    if os.path.exists(dst):
+        # if the directory is not empty ignore the exception.
+        try:
+            os.rmdir(dst)
+        except:
+            dummy = 1
+
 def moveGVBetaFiles():
     current_dir = Dir('.').abspath
-    #path = os.path.join(current_dir , 'Source', 'Base', 'Base')
-    #if os.path.exists(path):
-    #    print 'path exists'
+
+    moveGVBetaFile(os.path.join(current_dir, 'Source', 'Base', 'Base'),
+                   'OSGTypeBase.h')
+
+    moveGVBetaFile(os.path.join(current_dir, 'Source', 'Base', 'Base'),
+                   'OSGTypeBase.cpp')
+
+    moveGVBetaFile(os.path.join(current_dir, 'Source', 'Base', 'Base'),
+                   'OSGTypeFactory.h')
+
+    moveGVBetaFile(os.path.join(current_dir, 'Source', 'Base', 'Base'),
+                   'OSGTypeFactory.cpp')
+
+    moveGVBetaFile(os.path.join(current_dir, 'Source', 'System', 'FileIO', 'OBJ'),
+                   'OSGOBJSceneFileType.cpp')
+
+    moveGVBetaFile(os.path.join(current_dir, 'Source', 'System', 'FileIO', 'WRL'),
+                   'OSGVRMLSceneFileType.h')
+
+    moveGVBetaFile(os.path.join(current_dir, 'Source', 'System', 'FileIO', 'WRL'),
+                   'OSGVRMLSceneFileType.cpp')
+
 
 def unmoveGVBetaFiles():
     current_dir = Dir('.').abspath
+
+    unmoveGVBetaFile(os.path.join(current_dir, 'Source', 'Base', 'Base'),
+                     'OSGTypeBase.h')
+
+    unmoveGVBetaFile(os.path.join(current_dir, 'Source', 'Base', 'Base'),
+                     'OSGTypeBase.cpp')
+
+    unmoveGVBetaFile(os.path.join(current_dir, 'Source', 'Base', 'Base'),
+                     'OSGTypeFactory.h')
+
+    unmoveGVBetaFile(os.path.join(current_dir, 'Source', 'Base', 'Base'),
+                     'OSGTypeFactory.cpp')
+
+    unmoveGVBetaFile(os.path.join(current_dir, 'Source', 'System', 'FileIO', 'OBJ'),
+                     'OSGOBJSceneFileType.cpp')
+
+    unmoveGVBetaFile(os.path.join(current_dir, 'Source', 'System', 'FileIO', 'WRL'),
+                     'OSGVRMLSceneFileType.h')
+
+    unmoveGVBetaFile(os.path.join(current_dir, 'Source', 'System', 'FileIO', 'WRL'),
+                     'OSGVRMLSceneFileType.cpp')
+
 
 class ToolChain:
     def __init__(self, name, **kw):
@@ -516,8 +588,8 @@ class ToolChain:
         # only OSGWindowGLUT need the glut lib.
         for option in _po.getPackageOptions():
             if isinstance(_po.getOption(option), str):
-                self.env.Append(CPPPATH = [_po.getOption(option) + os.sep + 'include'])
-                self.env.Append(LIBPATHPATH = [_po.getOption(option) + os.sep + 'lib'])
+                self.env.Append(CPPPATH = [os.path.join(_po.getOption(option), 'include')])
+                self.env.Append(LIBPATHPATH = [os.path.join(_po.getOption(option), 'lib')])
 
         # add OSG_WITH defines
         if _po.getOption('glut'):
@@ -547,7 +619,15 @@ class ToolChain:
             else:
                 self.env['OSG_WINDOW_QT_LIBS'] = ['qt-mt']
 
+        if _po.getOption('cg'):
+            if isinstance(_po.getOption('cg'), str):
+                self.env['CGCPPPATH'] = [os.path.join(_po.getOption('cg'), 'include')]
+                self.env['CGLIBPATH'] = [os.path.join(_po.getOption('cg'), 'lib')]
+                self.env['OSG_CG_LIBS'] = ['cg', 'cgGL']
+
         if _po.getOption('gv_beta'):
+            print 'Compiling with gv beta enabled!'
+            self.env.Append(CPPDEFINES = ['OSG_GV_BETA'])
             moveGVBetaFiles()
         else:
             unmoveGVBetaFiles()
@@ -588,7 +668,7 @@ class win32(ToolChain):
         if len(supportlibs) > 0:
             env.AppendENVPath('INCLUDE', supportlibs + os.sep + 'include')
             env.AppendENVPath('LIB', supportlibs + os.sep + 'lib')
-            print 'Added supportlibs path (' + supportlibs + ')'
+            #print 'Added supportlibs path (' + supportlibs + ')'
 
         slibs = []
         if _po.getOption('jpg'):
@@ -646,7 +726,7 @@ class win32_icl_base(win32):
                 iclversion = str(int(float(iclv) * 100))
                 break
         if icltop:
-            print 'Added compiler path (' + icltop + ')'
+            #print 'Added compiler path (' + icltop + ')'
             env.PrependENVPath('INCLUDE', os.path.join(icltop, 'Include'))
             env.PrependENVPath('LIB', os.path.join(icltop, 'Lib'))
             env.PrependENVPath('PATH', os.path.join(icltop, 'Bin'))

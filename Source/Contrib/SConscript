@@ -1,0 +1,30 @@
+# Contrib
+
+Import('*')
+
+ContribDirs = []
+
+if _po.getOption('contrib_cgchunk'):
+    if _po.getOption('cg'):
+        ContribDirs.append(Dir('CGChunk'))
+    else:
+        print 'Contrib CGChunk needs cg lib, add cg=<path> to cmd line.'
+
+if _po.getOption('contrib_drawfunctorcore'):
+    ContribDirs.append(Dir('DrawFunctorCore'))
+
+headers, sources, tests, generated = ProcessDirs(ContribDirs)
+InstallHeaders(env, headers)
+
+def custom(env):
+
+    if _po.getOption('contrib_cgchunk') and _po.getOption('cg'):
+        env.Append(CPPPATH=env.get('CGCPPPATH'))
+        env.Append(LIBPATH=env.get('CGLIBPATH'))
+        env.Append(LIBS=env.get('OSG_CG_LIBS'))
+
+if len(sources) > 0:
+    BuildLibrary(tc, 'OSGContrib', sources,
+                 updates=[custom, OpenSGLibrary(['OSGBase', 'OSGSystem'])],
+                 CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILECONTRIBLIB'],
+                 CPPPATH=ExpandCPPPath([Dir('.')] + SystemDirs + BaseDirs + ContribDirs, generated))

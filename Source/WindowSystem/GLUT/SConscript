@@ -2,12 +2,24 @@
 
 Import('*')
 
-sources = Split("""
+sources = []
+headers = []
+generated = []
+GVBetaDirs = []
+
+if _po.getOption('gv_beta'):
+    # add the gv beta stuff
+    GVBetaDirs = [Dir('../../Experimental/Gerrit/VRMLLoader')]
+    headers, sources, tests, generated = ProcessDirs(GVBetaDirs)
+    # we need this for the flex/bison generated files.
+    headers2, sources2, tests2, generated = ProcessDirs([Dir('../../System/FileIO/ScanParseSkel')])
+
+sources += Split("""
     OSGGLUTWindow.cpp
     OSGGLUTWindowBase.cpp
 """)
 
-headers = Split("""
+headers += Split("""
     OSGGLUTWindow.h
     OSGGLUTWindow.inl
     OSGGLUTWindowBase.h
@@ -23,7 +35,7 @@ def custom(env):
 
 BuildLibrary(tc, 'OSGWindowGLUT', sources,
              updates=[custom, OpenSGLibrary(['OSGSystem', 'OSGBase'])],
-             CPPPATH=ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs),
+             CPPPATH=ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs + GVBetaDirs, generated),
              CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWGLUTLIB',
                          'OSG_WITH_GLUT'])
 
