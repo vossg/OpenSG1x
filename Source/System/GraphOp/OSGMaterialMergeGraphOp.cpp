@@ -79,13 +79,13 @@ bool isEqual(const osg::FieldContainerPtr& a, const osg::FieldContainerPtr& b)
 {
     using std::string;
 
-    if(a == NullFC || b == NullFC)
-        return false;
-    
     // Compare the pointers.
     if(a == b)
         return true;
-    
+
+    if(a == NullFC || b == NullFC)
+        return false;
+
     if(a->getType() != b->getType())
         return false;
     

@@ -333,13 +333,13 @@ static bool compareMField(Field *a, Field *b)
 bool SharePtrGraphOp::isEqual(const osg::FieldContainerPtr &a,
                               const osg::FieldContainerPtr &b)
 {
-    if(a == NullFC || b == NullFC)
-        return false;
-    
     // Compare the pointers.
     if(a == b)
         return true;
-    
+
+    if(a == NullFC || b == NullFC)
+        return false;
+
     if(a->getType() != b->getType())
         return false;
     
