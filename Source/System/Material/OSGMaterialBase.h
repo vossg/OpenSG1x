@@ -65,6 +65,7 @@
 
 #include <OSGAttachmentContainer.h> // Parent
 
+#include <OSGUInt32Fields.h> // SortKey type
 
 #include <OSGMaterialFields.h>
 
@@ -86,6 +87,14 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public AttachmentContainer
 
     typedef MaterialPtr  Ptr;
 
+    enum
+    {
+        SortKeyFieldId = Inherited::NextFieldId,
+        NextFieldId    = SortKeyFieldId + 1
+    };
+
+    static const OSG::BitVector SortKeyFieldMask;
+
 
     static const OSG::BitVector MTInfluenceMask;
 
@@ -105,6 +114,23 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public AttachmentContainer
     virtual const FieldContainerType &getType  (void) const; 
 
     virtual       UInt32              getContainerSize(void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+           SFUInt32            *getSFSortKey        (void);
+
+           UInt32              &getSortKey        (void);
+     const UInt32              &getSortKey        (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+     void setSortKey        ( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -130,6 +156,13 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public AttachmentContainer
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
+
+    SFUInt32            _sfSortKey;
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -158,6 +191,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public AttachmentContainer
 
     friend class FieldContainer;
 
+    static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
 
@@ -174,6 +208,6 @@ typedef MaterialBase *MaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGMATERIALBASE_H_ */

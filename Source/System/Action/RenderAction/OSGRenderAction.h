@@ -81,8 +81,9 @@ class DrawTreeNodeFactory;
 //---------------------------------------------------------------------------
 
 typedef std::pair<UInt32      ,      Matrix                 > MatrixStore;
-typedef std::map <Material   *, std::vector<DrawTreeNode *> > MaterialMap;
+typedef std::map <Material   *,      DrawTreeNode *         > MaterialMap;
 typedef std::pair<LightChunk *,      Matrix                 > LightStore;
+typedef std::map<Light       *,      UInt32                 > LightsMap;
 
 /*! \brief RenderAction class
  */
@@ -149,13 +150,15 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     /*------------------------- assignment ----------------------------------*/
 
     void dropGeometry(Geometry  *pGeo);
-    void dropLight   (Light     *pLight);
+    void dropLight     (Light     *pLight);
+    void undropLight   (Light     *pLight);
     void dropFunctor (Material::DrawFunctor &func, Material *mat);
 
     /*------------------------- comparison ----------------------------------*/
 
     void setSortTrans(bool bVal);
     void setZWriteTrans(bool bVal);
+    void setLocalLights(bool bVal);
 
     /*------------------------- comparison ----------------------------------*/
 
@@ -211,9 +214,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     MaterialMap               _mMatMap;
     
-    DrawTreeNode             *_pRoot;
-    DrawTreeNode             *_pMatRoot;
-    DrawTreeNode             *_pTransMatRoot;
+    //DrawTreeNode             *_pRoot;
+    std::vector<DrawTreeNode *> _pMatRoots;
+    std::vector<DrawTreeNode *> _pTransMatRoots;
 
     UInt32                    _uiActiveMatrix;
     State                    *_pActiveState;
@@ -225,9 +228,13 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
  
     bool                      _bSortTrans;
     bool                      _bZWriteTrans;
+    bool                      _bLocalLights;
 
     std::vector<LightStore>   _vLights;
-    
+    LightsMap                 _lightsMap;
+    UInt32                    _lightsState;
+    UInt32                    _activeLightsState;
+
     std::vector<FrustumVolume::PlaneSet>  _visibilityStack;
 
 //    Time                 _tMatSlot

@@ -209,6 +209,18 @@ Real32 DrawTreeNode::getScalar(void)
 }
 
 inline
+void DrawTreeNode::setLightsState(UInt32 state)
+{
+    _lightsState = state;
+}
+
+inline
+UInt32 DrawTreeNode::getLightsState(void)
+{
+    return _lightsState;
+}
+
+inline
 void DrawTreeNode::reset(void)
 {
     _pFirstChild = NULL;

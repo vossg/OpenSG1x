@@ -64,10 +64,30 @@
 
 OSG_USING_NAMESPACE
 
+const OSG::BitVector  MaterialBase::SortKeyFieldMask = 
+    (TypeTraits<BitVector>::One << MaterialBase::SortKeyFieldId);
+
 const OSG::BitVector MaterialBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
+
+// Field descriptions
+
+/*! \var UInt32          MaterialBase::_sfSortKey
+    
+*/
+
+//! Material description
+
+FieldDescription *MaterialBase::_desc[] = 
+{
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "sortKey", 
+                     SortKeyFieldId, SortKeyFieldMask,
+                     false,
+                     (FieldAccessMethod) &MaterialBase::getSFSortKey)
+};
 
 
 FieldContainerType MaterialBase::_type(
@@ -76,8 +96,8 @@ FieldContainerType MaterialBase::_type(
     NULL,
     NULL, 
     Material::initMethod,
-    NULL,
-    0);
+    _desc,
+    sizeof(_desc));
 
 //OSG_FIELD_CONTAINER_DEF(MaterialBase, MaterialPtr)
 
@@ -113,6 +133,7 @@ void MaterialBase::executeSync(      FieldContainer &other,
 #endif
 
 MaterialBase::MaterialBase(void) :
+    _sfSortKey                (UInt32(0)), 
     Inherited() 
 {
 }
@@ -122,6 +143,7 @@ MaterialBase::MaterialBase(void) :
 #endif
 
 MaterialBase::MaterialBase(const MaterialBase &source) :
+    _sfSortKey                (source._sfSortKey                ), 
     Inherited                 (source)
 {
 }
@@ -138,6 +160,11 @@ UInt32 MaterialBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
+    if(FieldBits::NoField != (SortKeyFieldMask & whichField))
+    {
+        returnValue += _sfSortKey.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -147,6 +174,11 @@ void MaterialBase::copyToBin(      BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
+    if(FieldBits::NoField != (SortKeyFieldMask & whichField))
+    {
+        _sfSortKey.copyToBin(pMem);
+    }
+
 
 }
 
@@ -154,6 +186,11 @@ void MaterialBase::copyFromBin(      BinaryDataHandler &pMem,
                                     const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (SortKeyFieldMask & whichField))
+    {
+        _sfSortKey.copyFromBin(pMem);
+    }
 
 
 }
@@ -163,6 +200,9 @@ void MaterialBase::executeSyncImpl(      MaterialBase *pOther,
 {
 
     Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (SortKeyFieldMask & whichField))
+        _sfSortKey.syncWith(pOther->_sfSortKey);
 
 
 }
@@ -197,7 +237,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALBASE_INLINE_CVSID;
 

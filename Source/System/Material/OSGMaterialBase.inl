@@ -70,9 +70,37 @@ OSG::UInt32 MaterialBase::getClassTypeId(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the Material::_sfSortKey field.
+inline
+SFUInt32 *MaterialBase::getSFSortKey(void)
+{
+    return &_sfSortKey;
+}
+
+
+//! Get the value of the Material::_sfSortKey field.
+inline
+UInt32 &MaterialBase::getSortKey(void)
+{
+    return _sfSortKey.getValue();
+}
+
+//! Get the value of the Material::_sfSortKey field.
+inline
+const UInt32 &MaterialBase::getSortKey(void) const
+{
+    return _sfSortKey.getValue();
+}
+
+//! Set the value of the Material::_sfSortKey field.
+inline
+void MaterialBase::setSortKey(const UInt32 &value)
+{
+    _sfSortKey.setValue(value);
+}
 
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGMATERIALBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 
