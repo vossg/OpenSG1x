@@ -365,6 +365,7 @@
 # define OSG_LINUX_TYPES
 # define OSG_NO_CONCEPT_CHECKS 
 # define OSG_THROW_NOTHING() 
+# define SIZE_T_NEQ_UINT32
 #endif
 
 

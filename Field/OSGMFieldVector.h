@@ -51,7 +51,7 @@ OSG_BEGIN_NAMESPACE
 //! MFieldVector
 //! \ingroup FieldLib
 
-#if defined(__sgi) || defined(__linux)
+#if defined(__sgi) || defined(__linux) || defined(darwin)
 
 #if defined(__sgi)
 #pragma set woff 1375

@@ -121,6 +121,25 @@ Int32 osgnextpower2(Int32 rValue)
     return result;
 }
 
+#ifdef SIZE_T_NEQ_UINT32
+
+/*! \brief osgnextpower2
+ *  \ingroup BaseMathFunctions
+ */
+
+template <> inline
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
+size_t osgnextpower2(size_t rValue)
+{
+    size_t result = 1;
+
+    while ( result < rValue )
+        result <<= 1;
+
+    return result;
+}
+
+#endif
 
 /*! \brief osgabs
  *  \ingroup BaseMathFunctions
