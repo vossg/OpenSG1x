@@ -426,15 +426,18 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexNormals(GeometryPtr geo,
 
     endEditCP(geo);
 
-    // HACK but without indices it crashes.
-    if(geo->getIndices() == NullFC)
-        createSharedIndex(geo);
-
     // Do the normals have their own index?
     MFUInt16        &im = geo->getIndexMapping();
     Int16           ni = geo->calcMappingIndex(Geometry::MapNormal);
     GeoIndicesPtr   ip = geo->getIndices();
     
+    // HACK but without indices it crashes.
+    if(ip == NullFC || ip->size() == 0)
+    {
+        FFATAL(("Geo without indices in calcVertexNormals()\n"));
+        return;
+    }
+
     UInt32          nind = ip->size() / (im.size() ? im.size() : 1);
     int             imsize = 0;
     if(ni < 0 || im[ni] != Geometry::MapNormal)
