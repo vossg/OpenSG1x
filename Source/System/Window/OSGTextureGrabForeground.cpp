@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -46,104 +46,137 @@
 #include <OSGConfig.h>
 
 #include <OSGGL.h>
+#include <OSGGLU.h>
 
 #include <OSGNodePtr.h>
 #include <OSGViewport.h>
 #include <OSGImage.h>
+#include <OSGTextureChunk.h>
 
-#include "OSGGrabForeground.h"
+#include "OSGTextureGrabForeground.h"
 
 OSG_USING_NAMESPACE
-
 
 /***************************************************************************\
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \class osg::GrabForeground
+/*! \class osg::TextureGrabForeground
     \ingroup GrpSystemWindowForegrounds
     
-The GrabForeground is used for grabbing a rendered viewport into an Image. 
-See \ref PageSystemWindowForegroundGrab for a description.
-
+The GrabForeground is used for grabbing a rendered viewport into a Texture. 
+See \ref PageSystemWindowForegroundGrabTexture for a description.
 
 */
 
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+void TextureGrabForeground::initMethod (void)
+{
+}
+
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                 -
+\*-------------------------------------------------------------------------*/
+
 /*----------------------- constructors & destructors ----------------------*/
 
-GrabForeground::GrabForeground(void) :
+TextureGrabForeground::TextureGrabForeground(void) :
     Inherited()
 {
 }
 
-GrabForeground::GrabForeground(const GrabForeground &source) :
+TextureGrabForeground::TextureGrabForeground(const TextureGrabForeground &source) :
     Inherited(source)
 {
 }
 
-GrabForeground::~GrabForeground(void)
+TextureGrabForeground::~TextureGrabForeground(void)
 {
 }
 
 /*----------------------------- class specific ----------------------------*/
 
-void GrabForeground::initMethod (void)
-{
-}
-
-void GrabForeground::changed(BitVector whichField, UInt32 origin)
+void TextureGrabForeground::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
 
-void GrabForeground::dump(      UInt32    , 
+void TextureGrabForeground::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump GrabForeground NI" << std::endl;
+    SLOG << "Dump TextureGrabForeground NI" << std::endl;
 }
 
 
-/*! Grab the image, if it is actually set.
+/*! Grab the image to the texture.
 */   
-void GrabForeground::draw(DrawActionBase *, Viewport *port)
+void TextureGrabForeground::draw(DrawActionBase *action, Viewport *port)
 {
-    ImagePtr i = getImage();
+    TextureChunkPtr t = getTexture();
     
-    if(i == NullFC)       // No image, no grab.
+    if(t == NullFC)       // No texture, no grab.
         return;
-
+    
+    Int32  pw = port->getPixelWidth(),
+           ph = port->getPixelHeight();
+    
+    // Ignore empty viewports
+    if(pw < 1 || ph < 1)
+        return;
+ 
+    ImagePtr i = t->getImage();
+             
     // If image is smaller than 2x2, resize it to vp size
     // the 2x2 is because you can't create 0x0 images
-    if(i->getWidth() <= 1 && i->getHeight() <= 1)
+    if((i->getWidth() <= 1 && i->getHeight() <= 1) ||
+       (getAutoResize() && (osgabs(i->getWidth()  - pw) > 1 ||
+                            osgabs(i->getHeight() - ph) > 1 )
+       )
+      )
     {
-        i->set(i->getPixelFormat(),
-               port->getPixelWidth(), 
-               port->getPixelHeight());
+        i->set(i->getPixelFormat(), pw, ph);
+        // Tell the texture...
+        beginEditCP(t, TextureChunk::ImageFieldMask);
+        endEditCP  (t, TextureChunk::ImageFieldMask);
     }
     
-    UInt32 w = osgMin(i->getWidth(),  port->getPixelWidth());
-    UInt32 h = osgMin(i->getHeight(), port->getPixelHeight());
-    
-    bool storeChanged = false;    
-    if(i->getWidth() != port->getPixelWidth())
-    {
-        glPixelStorei(GL_PACK_ROW_LENGTH, i->getWidth());
-        storeChanged = true;
-    }
-    
-    glReadPixels(port->getPixelLeft(), port->getPixelBottom(), 
-                 w, h, i->getPixelFormat(),
-                 GL_UNSIGNED_BYTE, i->getData());
+    UInt32 w = osgMin((Int32)i->getWidth(),  pw);
+    UInt32 h = osgMin((Int32)i->getHeight(), ph);
 
-    if(storeChanged)
-        glPixelStorei(GL_PACK_ROW_LENGTH, 0);
+    glErr("TextureGrabForeground::activate precheck");
+    
+    action->getWindow()->validateGLObject(t->getGLId());
+
+    glErr("TextureGrabForeground::bind precheck");
+    
+    glBindTexture(GL_TEXTURE_2D, t->getGLId());
+
+    glErr("TextureGrabForeground::copy precheck");
+
+    glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, w, h);
+ 
+    glErr("TextureGrabForeground::copy postcheck");
+   
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 
-/*-------------------------------------------------------------------------*/
-/*                              cvs id's                                   */
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
 
-#ifdef __sgi
+#ifdef OSG_SGI_CC
 #pragma set woff 1174
 #endif
 
@@ -153,8 +186,14 @@ void GrabForeground::draw(DrawActionBase *, Viewport *port)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: $";
-    static char cvsid_hpp[] = OSGGRABFOREGROUND_HEADER_CVSID;
-    static char cvsid_inl[] = OSGGRABFOREGROUND_INLINE_CVSID;
+    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_hpp       [] = OSGTEXTUREGRABFOREGROUNDBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGTEXTUREGRABFOREGROUNDBASE_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGTEXTUREGRABFOREGROUNDFIELDS_HEADER_CVSID;
 }
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
