@@ -159,7 +159,7 @@ EOF
      	do
 	    echo -n '<tr class="normal"><td class="line">' >> $file
 	    echo -n "<a href=#$line>$line</a></td>" >> $file
-	    echo -n '<td class="log">'$err'</td></tr>' >> $file
+	    echo    '<td class="log">'$err'</td></tr>' >> $file
 	    
 	    elist[$ind]=$line
 	    (( ind=$ind + 1 ))   
@@ -186,7 +186,7 @@ EOF
      	do
 	    echo -n '<tr class="normal"><td class="line">' >> $file
 	    echo -n "<a href=#$line>$line</a></td>" >> $file
-	    echo -n '<td class="log">'$err'</td></tr>' >> $file
+	    echo    '<td class="log">'$err'</td></tr>' >> $file
 	    
 	    #echo A $ind $line
 	    wlist[$ind]=$line
@@ -397,7 +397,7 @@ case $system in
 	qt_args="--with-qt=`pwd`/../packages/qt-2.3"
     	glut_args="--with-glut=`pwd`/../packages/glut_3.7"
 	tif_args="--with-tif=`pwd`/../packages/tiff-3.5.4"
-    	par_jobs=2
+    	par_jobs=1
 	compiler=${compiler:=icl50}
 	config_shell=bash
 	mail=`pwd`/../do_send_mail
@@ -485,6 +485,7 @@ do
     gmake -k dbg 1>$log_test.$i 2>&1
     gmake -k opt 1>>$log_test.$i 2>&1
     checkerror $i $log_test.$i
+    echo "Running ${i}s:" >> $out_html.Main.html
     # do we have testfiles?
     if test `\ls -1 test* 2>/dev/null | wc -l` -ne 0 ;
     then
