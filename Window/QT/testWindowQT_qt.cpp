@@ -42,6 +42,7 @@
 #include "OSGQTWindow.h"
 #include "OSGCamera.h"
 #include "OSGPerspectiveCamera.h"
+#include "OSGSolidBackground.h"
 #include "OSGGradientBackground.h"
 
 #if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
@@ -299,9 +300,8 @@ int main( int argc, char **argv )
 	cam->setFar( 10000 );
 
 	// Background
-	GradientBackgroundPtr bkgnd = GradientBackground::create();
-	bkgnd->addColor( Color3f( 0,0,0 ), 0 );
-	bkgnd->addColor( Color3f( 0,0,1 ), 0 );
+	SolidBackgroundPtr bkgnd = SolidBackground::create();
+	bkgnd->setColor( Color3f( 0,0,1 ) );
 
     // Viewport
 
