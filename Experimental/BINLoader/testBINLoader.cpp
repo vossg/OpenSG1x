@@ -5,7 +5,7 @@
 
 #include <OSGGLUT.h>
 
-#include <OSGFieldContainerFactory.h>
+#include <OSGFieldContainerFactory.h>a
 #include <OSGSFSysTypes.h>
 #include <OSGVector.h>
 #include <OSGQuaternion.h>
@@ -378,10 +378,10 @@ int main (int argc, char **argv)
 	// Background
 	GradientBackgroundPtr bkgnd = GradientBackground::create();
 	
-	bkgnd->addColor( Color3f( 0,0,0 ), 0 );
-	bkgnd->addColor( Color3f( .5,.5,0 ), 0.5 );
-	bkgnd->addColor( Color3f( .7,.7,1 ), 0.5 );
-	bkgnd->addColor( Color3f( 0,0,1 ), 1 );
+	bkgnd->addLine( Color3f( 0,0,0 ), 0 );
+	bkgnd->addLine( Color3f( .5,.5,0 ), 0.5 );
+	bkgnd->addLine( Color3f( .7,.7,1 ), 0.5 );
+	bkgnd->addLine( Color3f( 0,0,1 ), 1 );
 
 	// Viewport
 
