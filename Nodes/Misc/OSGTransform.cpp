@@ -237,7 +237,8 @@ Action::ResultE Transform::intersectEnter(Action *action)
     m.multMatrixVec    (ia->getLine().getDirection(), dir);
     
     ia->setLine(Line(pos, dir), ia->getMaxDist());
-
+    ia->scale(dir.length());
+    
     return Action::Continue; 
 }
 
@@ -253,6 +254,7 @@ Action::ResultE Transform::intersectLeave(Action *action)
     m.multMatrixVec    (ia->getLine().getDirection(), dir);
     
     ia->setLine(Line(pos, dir), ia->getMaxDist());
+    ia->scale(dir.length());
 
     return Action::Continue;
 }
