@@ -192,7 +192,8 @@ void Billboard::calcMatrix(DrawActionBase *pAction, Matrix &mResult)
         {
             Vec3f vUp;
             Vec3f uW;
-            
+            Vec3f vX;
+
             mCamToWorld.mult(eyepos);
             mToWorld   .mult(objpos);
             
@@ -207,7 +208,12 @@ void Billboard::calcMatrix(DrawActionBase *pAction, Matrix &mResult)
 
             Matrix mTr;
 
-            mTr[0]    = mCamToWorld[0];
+            vX = vUp.cross(vDir);
+            vX.normalize();
+
+            mTr[0][0] = vX[0];
+            mTr[0][1] = vX[1];
+            mTr[0][2] = vX[2];
             mTr[1][0] = vUp[0];
             mTr[1][1] = vUp[1];
             mTr[1][2] = vUp[2];
