@@ -69,6 +69,48 @@ else
 fi
 ])
 
+AC_DEFUN(AC_GDZ_PROG_CC_WORKS,
+[AC_MSG_CHECKING([whether the C compiler ($CC $CFLAGS $LDFLAGS) works])
+AC_LANG_SAVE
+AC_LANG_C
+
+if test $2"set" = set; then
+    AC_PATH_PROGS(CC, $1, unknown_compiler, $PATH)
+else
+    AC_PATH_PROGS(CC, $1, unknown_compiler, $PATH:$2)
+fi
+
+AC_TRY_COMPILER([main(){return(0);}], ac_cv_prog_cc_works, ac_cv_prog_cc_cross)
+AC_LANG_RESTORE
+AC_MSG_RESULT($ac_cv_prog_cc_works)
+if test $ac_cv_prog_cc_works = no; then
+  AC_MSG_ERROR([installation or configuration problem: C compiler cannot create executables.])
+fi
+AC_MSG_CHECKING([whether the C compiler ($CC $CFLAGS $LDFLAGS) is a cross-compiler])
+AC_MSG_RESULT($ac_cv_prog_cc_cross)
+cross_compiling=$ac_cv_prog_cc_cross
+])
+
+AC_DEFUN(AC_GDZ_PROG_CC_AVAILABLE,
+[AC_MSG_CHECKING([whether the C compiler ($CC $CFLAGS $LDFLAGS) works])
+AC_LANG_SAVE
+AC_LANG_C
+if test $2"set" = set; then
+    AC_PATH_PROGS(CC, $1, unknown_compiler, $PATH)
+else
+    AC_PATH_PROGS(CC, $1, unknown_compiler, $PATH:$2)
+fi
+//AC_TRY_COMPILER([main(){return(0);}], ac_cv_prog_cc_works, ac_cv_prog_cc_cross)
+AC_LANG_RESTORE
+AC_MSG_RESULT($ac_cv_prog_cc_works)
+if test $ac_cv_prog_cc_works = no; then
+  AC_MSG_ERROR([installation or configuration problem: C compiler cannot create executables.])
+fi
+AC_MSG_CHECKING([whether the C compiler ($CC $CFLAGS $LDFLAGS) is a cross-compiler])
+AC_MSG_RESULT($ac_cv_prog_cc_cross)
+cross_compiling=$ac_cv_prog_cc_cross
+])
+
 AC_DEFUN(AC_GDZ_FIND_PROG_DIR,
 [
     ac_gdz_find_prog_dir_result=""
@@ -210,8 +252,10 @@ AC_DEFUN(AC_GDZ_SET_COMPILER_DEFAULTS,
     fi
 
     if test $ac_gdz_check_compiler_available = yes; then
+        AC_GDZ_PROG_CC_AVAILABLE($ac_gdz_compiler_exe, $ac_gdz_compiler_path)
         AC_GDZ_PROG_CXX_AVAILABLE($ac_gdz_compiler_exe, $ac_gdz_compiler_path)
     else
+        AC_GDZ_PROG_CC_WORKS($ac_gdz_compiler_exe, $ac_gdz_compiler_path)
         AC_GDZ_PROG_CXX_WORKS($ac_gdz_compiler_exe, $ac_gdz_compiler_path)
         ac_gdz_compiler_exe=$CXX
     fi
