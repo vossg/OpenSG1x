@@ -460,10 +460,10 @@ void OSGSceneView::insertFromFile( osg::NodePtr parent )
 //////////////////////////////////////////////////////////////////
 void OSGSceneView::exportToFile( osg::NodePtr node )
 {
-  osg::OSGWriter *writer;
+  osg::BINWriter *writer;
   ofstream outStream;
   // shout we use the global filer ?!?
-  QString filter = "OpenSG Scene file (*.osg)";
+  QString filter = "OpenSG Binary Scene file (*.bin)";
   QString fName = QFileDialog::getSaveFileName ( QString::null,
                                                  filter,
                                                  this,
@@ -471,10 +471,12 @@ void OSGSceneView::exportToFile( osg::NodePtr node )
                                                  "Choose/Create a scene" );
   if (!fName.isEmpty())
     {
-      outStream.open(fName);
-      if (outStream)
+        FILE *outFile = fopen(fName.latin1(), "wb");
+cerr << "FN: " << fName.latin1() << " FILE " << outFile << endl;
+
+        if (outFile!=NULL)
         {
-          writer = new osg::OSGWriter( outStream, 4);
+          writer = new osg::BINWriter(outFile);
           writer->write(node);
           delete writer;
         }

@@ -20,7 +20,7 @@ PREFIXSUFFIX := $(shell ../../CommonConf/config.guess)
 
 OSGROOT ?= $(OSGINSTALLPREFIX)
 
-OSGROOT ?= $(wildcard ../../Builds/$(shell ../../CommonConf/config.guess)-*)
+OSGROOT ?= $(wildcard ../../Builds/$(PREFIXSUFFIX)-*)
 
 # use debug or opt libs?
 LIBTYPE ?= dbg

@@ -1,19 +1,19 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGSceneView_qt.ui'
 **
-** Created: Fri Aug 2 12:12:24 2002
+** Created: Sat Aug 17 23:51:43 2002
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/
 #include "OSGSceneView_qt.h"
 
-#include <qvariant.h>
+#include <qvariant.h>   // first for gcc 2.7.2
+#include <OpenSG/OSGBINWriter.h>
 #include <OpenSG/OSGLog.h>
 #include <OpenSG/OSGMFFieldContainerPtr.h>
 #include <OpenSG/OSGNode.h>
 #include <OpenSG/OSGNodeCore.h>
-#include <OpenSG/OSGOSGWriter.h>
 #include <OpenSG/OSGSFFieldContainerPtr.h>
 #include <OpenSG/OSGSceneFileHandler.h>
 #include <qfiledialog.h>
@@ -24,10 +24,10 @@
 #include <qpushbutton.h>
 #include <qsplitter.h>
 #include <qtable.h>
+#include "OpenSG/OSGQGLManagedWidget_qt.h"
 #include <qlayout.h>
 #include <qtooltip.h>
 #include <qwhatsthis.h>
-#include "OpenSG/OSGQGLManagedWidget_qt.h"
 #include "OSGSceneView_qt.ui.h"
 
 /* 
