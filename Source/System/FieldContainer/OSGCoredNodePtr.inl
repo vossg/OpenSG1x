@@ -46,24 +46,29 @@
 OSG_BEGIN_NAMESPACE
 
 
+inline
 CoredNodePtrBase::CoredNodePtrBase(void) : _node(NullFC)
 {}
 
+inline
 CoredNodePtrBase::CoredNodePtrBase(NodePtr node)
 {
     setNode(node);
 }
 
+inline
 CoredNodePtrBase::~CoredNodePtrBase()
 {
     setNode(NullFC);
 }
 
+inline
 NodePtr CoredNodePtrBase::node(void) const
 { 
     return _node; 
 }
 
+inline
 void CoredNodePtrBase::setNode(const NodePtr &node)
 {
     if(_node == node)
@@ -78,6 +83,7 @@ void CoredNodePtrBase::setNode(const NodePtr &node)
         addRefCP(_node);
 }
 
+inline
 void CoredNodePtrBase::setNode(const NullFieldContainerPtr &)
 {
     if(_node != NullFC)
@@ -88,59 +94,59 @@ void CoredNodePtrBase::setNode(const NullFieldContainerPtr &)
 
 // CoredNodePtr methods
 
-template< class Core >
+template< class Core > inline
 CoredNodePtr<Core>::CoredNodePtr(void) : 
     CoredNodePtrBase(NullFC), _core(NullFC)
 {}
 
-template< class Core >
+template< class Core > inline
 CoredNodePtr<Core>::CoredNodePtr(const NodePtr& node)
 {
     setNode(node);
     setCore(Core::Ptr::dcast(CoredNodePtrBase::node()->getCore()));
 }
 
-template< class Core >
+template< class Core > inline
 CoredNodePtr<Core>::CoredNodePtr(const NodeCorePtr& core)
 {
     setCore(Core::Ptr::dcast(core));
     updateNode();
 }
 
-template< class Core >
+template< class Core > inline
 CoredNodePtr<Core>::CoredNodePtr(const typename Core::Ptr& core)
 {
     setCore(core);
     updateNode();
 }
 
-template< class Core >
+template< class Core > inline
 CoredNodePtr<Core>::CoredNodePtr(const CoredNodePtr<Core>& ptr)
 {
     setCore(ptr._core);
     setNode(ptr.node());
 }
 
-template< class Core >
+template< class Core > inline
 CoredNodePtr<Core>::~CoredNodePtr()
 {
     setCore(NullFC);
     setNode(NullFC);
 }
 
-template< class Core >
+template< class Core > inline
 CoredNodePtr<Core> CoredNodePtr<Core>::create(void)
 {
     return CoredNodePtr<Core>(Core::create());
 }
 
-template< class Core >
+template< class Core > inline
 void CoredNodePtr<Core>::coreChanged(void)
 {
     setCore(node()->getCore());
 }
 
-template< class Core >
+template< class Core > inline
 typename Core::Ptr CoredNodePtr<Core>::core(void) const
 {
 #ifdef OSG_DEBUG
@@ -150,7 +156,7 @@ typename Core::Ptr CoredNodePtr<Core>::core(void) const
     return _core;
 }
 
-template< class Core >
+template< class Core > inline
 CoredNodePtr<Core>::operator FieldContainerPtr(void) const
 {
 #ifdef OSG_DEBUG
@@ -160,7 +166,7 @@ CoredNodePtr<Core>::operator FieldContainerPtr(void) const
     return node();
 }
 
-template< class Core >
+template< class Core > inline
 typename Core::Ptr& CoredNodePtr<Core>::operator->(void)
 {
 #ifdef OSG_DEBUG
@@ -170,7 +176,7 @@ typename Core::Ptr& CoredNodePtr<Core>::operator->(void)
     return _core;
 }
 
-template< class Core >
+template< class Core > inline
 CoredNodePtr<Core>::operator NodePtr()
 {
 #ifdef OSG_DEBUG
@@ -180,7 +186,7 @@ CoredNodePtr<Core>::operator NodePtr()
     return node();
 }
 
-template< class Core >
+template< class Core > inline
 CoredNodePtr<Core>::operator typename Core::Ptr()
 {
 #ifdef OSG_DEBUG
@@ -192,7 +198,7 @@ CoredNodePtr<Core>::operator typename Core::Ptr()
 
 /* Assignment. Create a new CNP if necessary */
 
-template< class Core >
+template< class Core > inline
 CoredNodePtr<Core>& CoredNodePtr<Core>::operator =(const NodePtr& node)
 {
     setNode(node);
@@ -200,7 +206,7 @@ CoredNodePtr<Core>& CoredNodePtr<Core>::operator =(const NodePtr& node)
     return *this;
 }
 
-template< class Core >
+template< class Core > inline
 CoredNodePtr<Core>& CoredNodePtr<Core>::operator =(const typename Core::Ptr& core)
 {
     setCore(core);
@@ -209,7 +215,7 @@ CoredNodePtr<Core>& CoredNodePtr<Core>::operator =(const typename Core::Ptr& cor
     return *this;
 }
 
-template< class Core >
+template< class Core > inline
 CoredNodePtr<Core>& CoredNodePtr<Core>::operator =(const CoredNodePtr<Core>& cnp)
 {
     setNode(cnp.node());
@@ -217,13 +223,13 @@ CoredNodePtr<Core>& CoredNodePtr<Core>::operator =(const CoredNodePtr<Core>& cnp
     return *this;
 }
 
-template< class Core >
+template< class Core > inline
 NodeCorePtr CoredNodePtr<Core>::getCoreV(void) const
 {
     return _core;
 }
 
-template< class Core >
+template< class Core > inline
 void CoredNodePtr<Core>::setCore(const typename Core::Ptr &core)
 {
     if(_core == core)
@@ -238,7 +244,7 @@ void CoredNodePtr<Core>::setCore(const typename Core::Ptr &core)
         addRefCP(_core);
 }
 
-template< class Core >
+template< class Core > inline
 void CoredNodePtr<Core>::setCore(const NullFieldContainerPtr&)
 {
     if(_core != NullFC)
@@ -247,7 +253,7 @@ void CoredNodePtr<Core>::setCore(const NullFieldContainerPtr&)
     _core = NullFC;
 }
 
-template< class Core >
+template< class Core > inline
 void CoredNodePtr<Core>::updateNode(void)
 {
     if(node() == NullFC)
@@ -263,8 +269,7 @@ void CoredNodePtr<Core>::updateNode(void)
 
 // begin/endEdit functions. 
 
-template< class Core >
-inline
+template< class Core > inline
 void beginEditCP(const CoredNodePtr<Core> &objectP, 
                        BitVector         whichField,
                        UInt32            origin)
@@ -273,8 +278,7 @@ void beginEditCP(const CoredNodePtr<Core> &objectP,
     beginEditCP(objectP.core(), whichField, origin);   
 }
 
-template< class Core >
-inline
+template< class Core > inline
 void endEditCP  (const CoredNodePtr<Core> &objectP, 
                        BitVector         whichField,
                        UInt32            origin)
@@ -285,5 +289,5 @@ void endEditCP  (const CoredNodePtr<Core> &objectP,
 
 OSG_END_NAMESPACE
 
-#define OSGCOREDNODEPTR_INLINE_CVSID "@(#)$Id: OSGCoredNodePtr.inl,v 1.1 2003/11/05 21:00:47 dirk Exp $"
+#define OSGCOREDNODEPTR_INLINE_CVSID "@(#)$Id: OSGCoredNodePtr.inl,v 1.2 2005/03/13 05:43:07 vossg Exp $"
 
