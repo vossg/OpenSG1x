@@ -486,7 +486,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
 
 #define OSG_FC_TMPL_VAR_INL 
 
-#ifdef 0
+#if 0
 #ifdef FMSCOMPILER
 
 // Macros used to derive a new fieldcontainer
