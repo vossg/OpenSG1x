@@ -169,7 +169,7 @@ class AbstractGeoProperty :
 
 
 /*! \ingroup GrpSystemDrawablesGeometryProperties
-    \hideinhierachy
+    \hideinhierarchy
     \brief GeoProperty is a specialized form of Attachment, used to
     define the properties of the geometry node. See \ref 
     PageSystemGeoProperties for a description.

@@ -91,7 +91,17 @@ static char cvsid[] = "@(#)$Id: $";
 /*! \{                                                                 */
 
 
-/*! \fn makeExtrusion
+/*! \fn GeometryPtr makeExtrusion(const std::vector<Pnt2f> &crossSection,
+                             const std::vector<Quaternion> &orientation,
+                             const std::vector<Vec2f> &scale,
+                             const std::vector<Pnt3f> &spine,
+                             bool beginCap, 
+                             bool endCap,
+                             bool ccw, 
+                             bool convex,
+                             bool buildNormal,
+                             bool buildTexCoord,
+                             UInt32 numOfSubdivision)
     \ingroup GrpSystemDrawablesGeometrySimpleGeometry
 
     Create an extrusion Geometry, see \ref PageSystemSimpleGeometryExtrusion
@@ -99,7 +109,17 @@ static char cvsid[] = "@(#)$Id: $";
 
 */
 
-/*! \fn makeExtrusionGeo
+/*! \fn GeometryPtr makeExtrusionGeo(const std::vector<Pnt2f> &crossSection,
+                             const std::vector<Quaternion> &orientation,
+                             const std::vector<Vec2f> &scale,
+                             const std::vector<Pnt3f> &spine,
+                             bool beginCap,
+                             bool endCap, 
+                             bool ccw,
+                             bool convex,
+                             bool buildNormal,
+                             bool buildTexCoord,
+                             UInt32 numOfSubdivision)
     \ingroup GrpSystemDrawablesGeometrySimpleGeometry
 
     Create the Geometry Core for an extrusion Geometry, see \ref

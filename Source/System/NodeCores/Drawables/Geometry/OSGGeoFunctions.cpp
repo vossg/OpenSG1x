@@ -2048,6 +2048,7 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSharedIndex(GeometryPtr geoPtr)
 
 #else
     FFATAL(("Cannot run createSharedIndex: NO_GEO_INFACE\n"));
+    return -1;
 #endif
 }
 
@@ -2158,6 +2159,7 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSingleIndex(GeometryPtr geoPtr)
 
 #else
     FFATAL(("Cannot run createSingleIndex: NO_GEO_INFACE\n"));
+    return -1;
 #endif
 }
 

@@ -66,17 +66,17 @@ time. See \ref PageSystemTriangleIterator for details.
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 
-/*! \var osg::FaceIterator::_triIndex
+/*! \var osg::TriangleIterator::_triIndex
 
     Running index of the triangles iterated.
 */
 
-/*! \var osg::FaceIterator::_actPrimIndex
+/*! \var osg::TriangleIterator::_actPrimIndex
 
     Index of the next point to use in the current primitive.
 */
 
-/*! \var osg::FaceIterator::_triPntIndex
+/*! \var osg::TriangleIterator::_triPntIndex
 
     The vertex indices of the current triangle.
 */
