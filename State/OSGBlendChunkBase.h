@@ -152,6 +152,8 @@ class OSG_STATE_DLLMAPPING BlendChunkBase : public StateChunk
     virtual OSG::FieldContainerPtr shallowCopy(void) const; 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     //! Return the fields.
@@ -232,6 +234,9 @@ class OSG_STATE_DLLMAPPING BlendChunkBase : public StateChunk
     BlendChunkBase(const BlendChunkBase &source);
     virtual ~BlendChunkBase(void); 
     
+
+    void executeSyncImpl(BlendChunkBase *pOther,
+                         BitVector          whichField);
 
   private:
 

@@ -129,6 +129,8 @@ class OSG_WINDOW_DLLMAPPING BackgroundBase : public FieldContainer
     static OSG::UInt32              getClassTypeId(void); 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     /*----------------------------- access ----------------------------------*/
@@ -170,6 +172,9 @@ class OSG_WINDOW_DLLMAPPING BackgroundBase : public FieldContainer
     BackgroundBase(const BackgroundBase &source);
     virtual ~BackgroundBase(void); 
     
+
+    void executeSyncImpl(BackgroundBase *pOther,
+                         BitVector          whichField);
 
   private:
 

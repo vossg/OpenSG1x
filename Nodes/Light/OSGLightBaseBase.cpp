@@ -101,7 +101,7 @@ const OSG::UInt32    	LightBaseBase::NextFieldId;
 const OSG::BitVector 	LightBaseBase::NextFieldMask;
 
 
-char LightBaseBase::cvsid[] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
+char LightBaseBase::cvsid[] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.3 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -184,6 +184,13 @@ UInt32 LightBaseBase::getSize(void) const
     return sizeof(LightBaseBase); 
 }
 
+
+void LightBaseBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((LightBaseBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -224,6 +231,36 @@ LightBaseBase::~LightBaseBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void LightBaseBase::executeSyncImpl(LightBaseBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (AmbientFieldMask & whichField))
+    {
+        _ambient.syncWith(pOther->_ambient);
+    }
+
+    if(FieldBits::NoField != (DiffuseFieldMask & whichField))
+    {
+        _diffuse.syncWith(pOther->_diffuse);
+    }
+
+    if(FieldBits::NoField != (SpecularFieldMask & whichField))
+    {
+        _specular.syncWith(pOther->_specular);
+    }
+
+    if(FieldBits::NoField != (BeaconFieldMask & whichField))
+    {
+        _beacon.syncWith(pOther->_beacon);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

@@ -278,6 +278,11 @@ void Attachment::finalize(void)
     }
 }
 
+void Attachment::executeSync(FieldContainer &other,
+                             BitVector       whichField)
+{
+}
+
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/

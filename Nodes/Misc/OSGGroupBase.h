@@ -133,6 +133,8 @@ class OSG_MISC_DLLMAPPING GroupBase : public NodeCore
     virtual OSG::FieldContainerPtr shallowCopy(void) const; 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     /*----------------------------- access ----------------------------------*/
@@ -174,6 +176,9 @@ class OSG_MISC_DLLMAPPING GroupBase : public NodeCore
     GroupBase(const GroupBase &source);
     virtual ~GroupBase(void); 
     
+
+    void executeSyncImpl(GroupBase *pOther,
+                         BitVector          whichField);
 
   private:
 

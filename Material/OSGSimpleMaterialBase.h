@@ -160,6 +160,8 @@ class OSG_MATERIAL_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
     virtual OSG::FieldContainerPtr shallowCopy(void) const; 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     //! Return the fields.
@@ -254,6 +256,9 @@ class OSG_MATERIAL_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
     SimpleMaterialBase(const SimpleMaterialBase &source);
     virtual ~SimpleMaterialBase(void); 
     
+
+    void executeSyncImpl(SimpleMaterialBase *pOther,
+                         BitVector          whichField);
 
   private:
 

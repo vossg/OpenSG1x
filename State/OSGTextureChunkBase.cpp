@@ -146,7 +146,7 @@ const OSG::UInt32    	TextureChunkBase::NextFieldId;
 const OSG::BitVector 	TextureChunkBase::NextFieldMask;
 
 
-char TextureChunkBase::cvsid[] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
+char TextureChunkBase::cvsid[] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.3 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -298,6 +298,13 @@ UInt32 TextureChunkBase::getSize(void) const
     return sizeof(TextureChunkBase); 
 }
 
+
+void TextureChunkBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((TextureChunkBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -362,6 +369,96 @@ TextureChunkBase::~TextureChunkBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void TextureChunkBase::executeSyncImpl(TextureChunkBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (ImageFieldMask & whichField))
+    {
+        _image.syncWith(pOther->_image);
+    }
+
+    if(FieldBits::NoField != (MinFilterFieldMask & whichField))
+    {
+        _minFilter.syncWith(pOther->_minFilter);
+    }
+
+    if(FieldBits::NoField != (MagFilterFieldMask & whichField))
+    {
+        _magFilter.syncWith(pOther->_magFilter);
+    }
+
+    if(FieldBits::NoField != (WrapSFieldMask & whichField))
+    {
+        _wrapS.syncWith(pOther->_wrapS);
+    }
+
+    if(FieldBits::NoField != (WrapTFieldMask & whichField))
+    {
+        _wrapT.syncWith(pOther->_wrapT);
+    }
+
+    if(FieldBits::NoField != (WrapRFieldMask & whichField))
+    {
+        _wrapR.syncWith(pOther->_wrapR);
+    }
+
+    if(FieldBits::NoField != (EnvModeFieldMask & whichField))
+    {
+        _envMode.syncWith(pOther->_envMode);
+    }
+
+    if(FieldBits::NoField != (GenFuncSFieldMask & whichField))
+    {
+        _genFuncS.syncWith(pOther->_genFuncS);
+    }
+
+    if(FieldBits::NoField != (GenFuncTFieldMask & whichField))
+    {
+        _genFuncT.syncWith(pOther->_genFuncT);
+    }
+
+    if(FieldBits::NoField != (GenFuncRFieldMask & whichField))
+    {
+        _genFuncR.syncWith(pOther->_genFuncR);
+    }
+
+    if(FieldBits::NoField != (GenFuncQFieldMask & whichField))
+    {
+        _genFuncQ.syncWith(pOther->_genFuncQ);
+    }
+
+    if(FieldBits::NoField != (GenFuncSPlaneFieldMask & whichField))
+    {
+        _genFuncSPlane.syncWith(pOther->_genFuncSPlane);
+    }
+
+    if(FieldBits::NoField != (GenFuncTPlaneFieldMask & whichField))
+    {
+        _genFuncTPlane.syncWith(pOther->_genFuncTPlane);
+    }
+
+    if(FieldBits::NoField != (GenFuncRPlaneFieldMask & whichField))
+    {
+        _genFuncRPlane.syncWith(pOther->_genFuncRPlane);
+    }
+
+    if(FieldBits::NoField != (GenFuncQPlaneFieldMask & whichField))
+    {
+        _genFuncQPlane.syncWith(pOther->_genFuncQPlane);
+    }
+
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+    {
+        _GLId.syncWith(pOther->_GLId);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

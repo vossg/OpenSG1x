@@ -43,6 +43,8 @@
 #define OSG_COMPILEVRMLLOADER
 #define OSG_COMPILESYSTEMLIB
 
+#define OSG_COMPILEVRMLLOADERINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -72,6 +74,11 @@
 #include <OSGGeoProperty.h>
 
 OSG_USING_NAMESPACE
+
+#ifndef __sgi
+template OSG_VRMLLOADER_DLLMAPPING ScanParseFieldTypeMapper<ScanParseSkel>;
+template OSG_VRMLLOADER_DLLMAPPING VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >;
+#endif
 
 //---------------------------------------------------------------------------
 //  Class

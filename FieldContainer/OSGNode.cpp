@@ -733,16 +733,6 @@ Node::Node(const Node &source) :
     _core         (),
     _attachmentMap()
 {
-    setCore(source.getCore());
-
-    AttachmentMap::const_iterator fcI=source._attachmentMap.getValue().begin();
-
-    while(fcI != source._attachmentMap.getValue().end())
-    {
-        addAttachment((*fcI).second);
-
-        fcI++;
-    }
 }
 
 /** \brief Destructor
@@ -763,6 +753,62 @@ void Node::setParent(const NodePtr &parent)
 
     _parent.setValue(parent);
 }
+
+void Node::onCreate(void)
+{
+}
+
+void Node::onCreate(const Node &source)
+{
+    setCore(source.getCore());
+
+    AttachmentMap::const_iterator fcI=source._attachmentMap.getValue().begin();
+
+    while(fcI != source._attachmentMap.getValue().end())
+    {
+        addAttachment((*fcI).second);
+
+        fcI++;
+    }
+}
+
+void Node::executeSync(FieldContainer &other,
+                       BitVector       whichField)
+{
+    this->executeSyncImpl((Node *) &other, whichField);
+}
+
+void Node::executeSyncImpl(Node      *pOther,
+                           BitVector  whichField)
+{
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (VolumeFieldMask & whichField))
+    {
+        _volume.syncWith(pOther->_volume);
+    }
+
+    if(FieldBits::NoField != (ParentFieldMask & whichField))
+    {
+        _parent.syncWith(pOther->_parent);
+    }
+
+    if(FieldBits::NoField != (ChildrenFieldMask & whichField))
+    {
+        _children.syncWith(pOther->_children);
+    }
+
+    if(FieldBits::NoField != (CoreFieldMask & whichField))
+    {
+        _core.syncWith(pOther->_core);
+    }
+
+    if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
+    {
+        _attachmentMap.syncWith(pOther->_attachmentMap);
+    }
+}
+
 
 
 /*-------------------------------------------------------------------------*\

@@ -94,7 +94,7 @@ class OSG_MULTITHREADING_DLLMAPPING ChangeList : public MemoryObject
     //-----------------------------------------------------------------------
 
     typedef pair<FieldContainerPtrBase, BitVector> ChangeEntry;
-    typedef FieldContainerPtrBase                     RefEntry;    
+    typedef FieldContainerPtrBase                  RefEntry;    
 
     typedef vector<ChangeEntry>::size_type      changed_size_type;
     typedef vector<ChangeEntry>::const_iterator changed_const_iterator;
@@ -144,9 +144,13 @@ class OSG_MULTITHREADING_DLLMAPPING ChangeList : public MemoryObject
     Mode           _listMode;
 
     vector<ChangeEntry> _vChangedFieldContainers;
+
     vector<RefEntry>    _vAddRefdFieldContainers;
     vector<RefEntry>    _vSubRefdFieldContainers;
     
+    vector<RefEntry>    _vCreatedFieldContainers;
+    vector<RefEntry>    _vDeletedFieldContainers;
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -211,6 +215,11 @@ class OSG_MULTITHREADING_DLLMAPPING ChangeList : public MemoryObject
 
     refd_const_iterator    beginSubRefd(void) const;
     refd_const_iterator    endSubRefd  (void) const;
+
+    refd_const_iterator    beginCreated(void) const;
+    refd_const_iterator    endCreated  (void) const;
+
+    refd_size_type         sizeCreated (void) const;
 
     void    addChanged  (const FieldContainerPtrBase &pFieldContainer, 
                                BitVector         bvWhichField);

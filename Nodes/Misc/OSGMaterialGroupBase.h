@@ -199,6 +199,11 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroupBase : public NodeCore
     MaterialGroupBase(const MaterialGroupBase &source);
     virtual ~MaterialGroupBase(void); 
     
+    virtual void executeSync(FieldContainer &other,
+                             BitVector       whichField);
+
+    void executeSyncImpl(MaterialGroup *pOther,
+                         BitVector      whichField);
 
   private:
 

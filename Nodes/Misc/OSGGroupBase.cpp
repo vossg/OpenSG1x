@@ -100,7 +100,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char GroupBase::cvsid[] = "@(#)$Id: OSGGroupBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
+char GroupBase::cvsid[] = "@(#)$Id: OSGGroupBase.cpp,v 1.3 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group type
  */
@@ -165,6 +165,13 @@ UInt32 GroupBase::getSize(void) const
     return sizeof(GroupBase); 
 }
 
+
+void GroupBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((GroupBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -197,6 +204,16 @@ GroupBase::~GroupBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void GroupBase::executeSyncImpl(GroupBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

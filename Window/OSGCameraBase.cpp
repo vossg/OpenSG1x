@@ -113,7 +113,7 @@ const OSG::UInt32    	CameraBase::NextFieldId;
 const OSG::BitVector 	CameraBase::NextFieldMask;
 
 
-char CameraBase::cvsid[] = "@(#)$Id: OSGCameraBase.cpp,v 1.3 2001/05/23 23:05:56 dirk Exp $";
+char CameraBase::cvsid[] = "@(#)$Id: OSGCameraBase.cpp,v 1.4 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -191,6 +191,13 @@ UInt32 CameraBase::getSize(void) const
     return sizeof(CameraBase); 
 }
 
+
+void CameraBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((CameraBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -229,6 +236,31 @@ CameraBase::~CameraBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void CameraBase::executeSyncImpl(CameraBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (BeaconFieldMask & whichField))
+    {
+        _beacon.syncWith(pOther->_beacon);
+    }
+
+    if(FieldBits::NoField != (NearFieldMask & whichField))
+    {
+        _near.syncWith(pOther->_near);
+    }
+
+    if(FieldBits::NoField != (FarFieldMask & whichField))
+    {
+        _far.syncWith(pOther->_far);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

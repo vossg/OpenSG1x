@@ -101,7 +101,7 @@ const OSG::UInt32    	PointLightBase::NextFieldId;
 const OSG::BitVector 	PointLightBase::NextFieldMask;
 
 
-char PointLightBase::cvsid[] = "@(#)$Id: OSGPointLightBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
+char PointLightBase::cvsid[] = "@(#)$Id: OSGPointLightBase.cpp,v 1.3 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -193,6 +193,13 @@ UInt32 PointLightBase::getSize(void) const
     return sizeof(PointLightBase); 
 }
 
+
+void PointLightBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((PointLightBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -233,6 +240,36 @@ PointLightBase::~PointLightBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void PointLightBase::executeSyncImpl(PointLightBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (PositionFieldMask & whichField))
+    {
+        _position.syncWith(pOther->_position);
+    }
+
+    if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
+    {
+        _constantAttenuation.syncWith(pOther->_constantAttenuation);
+    }
+
+    if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
+    {
+        _linearAttenuation.syncWith(pOther->_linearAttenuation);
+    }
+
+    if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
+    {
+        _quadraticAttenuation.syncWith(pOther->_quadraticAttenuation);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

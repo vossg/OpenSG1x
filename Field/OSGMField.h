@@ -266,6 +266,7 @@ class OSG_FIELD_DLLMAPPING MField : public Field
                            FieldDataTraits <FieldTypeT>, 
                            MF1Trait>::_IRet MFieldTraits;
 
+    typedef          MField<FieldTypeT, fieldNameSpace>          Self;
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
@@ -298,10 +299,10 @@ class OSG_FIELD_DLLMAPPING MField : public Field
 
     void setAbstrValue(const Field &obj);
 
-    void setValue (const FieldTypeT                         &value,
-                   const UInt32                              index);
-    void setValues(const StorageType                        &value);
-	void setValues(const MField<FieldTypeT, fieldNameSpace> &obj  );
+    void setValue (const FieldTypeT  &value,
+                   const UInt32       index);
+    void setValues(const StorageType &value);
+	void setValues(const Self        &obj  );
 
     /*------------------------- container interface -------------------------*/
 
@@ -355,6 +356,10 @@ class OSG_FIELD_DLLMAPPING MField : public Field
           FieldTypeT &operator [](UInt32 index);
     const FieldTypeT &operator [](UInt32 index) const;
 
+    /*------------------------------- sync ----------------------------------*/
+
+    void syncWith(Self &source);
+
     /*------------------------------- dump ----------------------------------*/
 
     virtual void dump (void) const;
@@ -388,8 +393,6 @@ class OSG_FIELD_DLLMAPPING MField : public Field
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
-    virtual void doSync(Field *source);
 
   private:
 

@@ -101,7 +101,7 @@ const OSG::UInt32    	BlendChunkBase::NextFieldId;
 const OSG::BitVector 	BlendChunkBase::NextFieldMask;
 
 
-char BlendChunkBase::cvsid[] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
+char BlendChunkBase::cvsid[] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.3 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -193,6 +193,13 @@ UInt32 BlendChunkBase::getSize(void) const
     return sizeof(BlendChunkBase); 
 }
 
+
+void BlendChunkBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((BlendChunkBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -233,6 +240,36 @@ BlendChunkBase::~BlendChunkBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void BlendChunkBase::executeSyncImpl(BlendChunkBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (SrcFactorFieldMask & whichField))
+    {
+        _SrcFactor.syncWith(pOther->_SrcFactor);
+    }
+
+    if(FieldBits::NoField != (DestFactorFieldMask & whichField))
+    {
+        _DestFactor.syncWith(pOther->_DestFactor);
+    }
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+    {
+        _Color.syncWith(pOther->_Color);
+    }
+
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+    {
+        _GLId.syncWith(pOther->_GLId);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

@@ -188,6 +188,19 @@ void FieldContainer::changed(BitVector whichField, ChangeMode from)
     // fprintf(stderr, "FC Changed %d %d\n", whichField, fromSync);
 }
 
+void FieldContainer::onCreate(void)
+{
+}
+
+void FieldContainer::onCreate(const FieldContainer &source)
+{
+}
+
+void FieldContainer::executeSyncImpl(FieldContainer *,
+                                     BitVector       )
+{
+}
+
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/

@@ -130,7 +130,7 @@ const OSG::UInt32    	PolygonChunkBase::NextFieldId;
 const OSG::BitVector 	PolygonChunkBase::NextFieldMask;
 
 
-char PolygonChunkBase::cvsid[] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
+char PolygonChunkBase::cvsid[] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.3 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -257,6 +257,13 @@ UInt32 PolygonChunkBase::getSize(void) const
     return sizeof(PolygonChunkBase); 
 }
 
+
+void PolygonChunkBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((PolygonChunkBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -311,6 +318,71 @@ PolygonChunkBase::~PolygonChunkBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void PolygonChunkBase::executeSyncImpl(PolygonChunkBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (CullFaceFieldMask & whichField))
+    {
+        _cullFace.syncWith(pOther->_cullFace);
+    }
+
+    if(FieldBits::NoField != (FrontFaceFieldMask & whichField))
+    {
+        _frontFace.syncWith(pOther->_frontFace);
+    }
+
+    if(FieldBits::NoField != (ModeFaceFieldMask & whichField))
+    {
+        _modeFace.syncWith(pOther->_modeFace);
+    }
+
+    if(FieldBits::NoField != (ModeFieldMask & whichField))
+    {
+        _mode.syncWith(pOther->_mode);
+    }
+
+    if(FieldBits::NoField != (SmoothFieldMask & whichField))
+    {
+        _smooth.syncWith(pOther->_smooth);
+    }
+
+    if(FieldBits::NoField != (OffsetFactorFieldMask & whichField))
+    {
+        _offsetFactor.syncWith(pOther->_offsetFactor);
+    }
+
+    if(FieldBits::NoField != (OffsetBiasFieldMask & whichField))
+    {
+        _offsetBias.syncWith(pOther->_offsetBias);
+    }
+
+    if(FieldBits::NoField != (OffsetPointFieldMask & whichField))
+    {
+        _offsetPoint.syncWith(pOther->_offsetPoint);
+    }
+
+    if(FieldBits::NoField != (OffsetLineFieldMask & whichField))
+    {
+        _offsetLine.syncWith(pOther->_offsetLine);
+    }
+
+    if(FieldBits::NoField != (OffsetFillFieldMask & whichField))
+    {
+        _offsetFill.syncWith(pOther->_offsetFill);
+    }
+
+    if(FieldBits::NoField != (StippleFieldMask & whichField))
+    {
+        _stipple.syncWith(pOther->_stipple);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

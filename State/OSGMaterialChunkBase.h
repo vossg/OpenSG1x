@@ -156,6 +156,8 @@ class OSG_STATE_DLLMAPPING MaterialChunkBase : public StateChunk
     virtual OSG::FieldContainerPtr shallowCopy(void) const; 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     //! Return the fields.
@@ -243,6 +245,9 @@ class OSG_STATE_DLLMAPPING MaterialChunkBase : public StateChunk
     MaterialChunkBase(const MaterialChunkBase &source);
     virtual ~MaterialChunkBase(void); 
     
+
+    void executeSyncImpl(MaterialChunkBase *pOther,
+                         BitVector          whichField);
 
   private:
 

@@ -119,7 +119,7 @@ const OSG::UInt32    	WindowBase::NextFieldId;
 const OSG::BitVector 	WindowBase::NextFieldMask;
 
 
-char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.3 2001/05/23 23:05:56 dirk Exp $";
+char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.4 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -207,6 +207,13 @@ UInt32 WindowBase::getSize(void) const
     return sizeof(WindowBase); 
 }
 
+
+void WindowBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((WindowBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -249,6 +256,41 @@ WindowBase::~WindowBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void WindowBase::executeSyncImpl(WindowBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (WidthFieldMask & whichField))
+    {
+        _width.syncWith(pOther->_width);
+    }
+
+    if(FieldBits::NoField != (HeightFieldMask & whichField))
+    {
+        _height.syncWith(pOther->_height);
+    }
+
+    if(FieldBits::NoField != (PortFieldMask & whichField))
+    {
+        _port.syncWith(pOther->_port);
+    }
+
+    if(FieldBits::NoField != (ResizePendingFieldMask & whichField))
+    {
+        _resizePending.syncWith(pOther->_resizePending);
+    }
+
+    if(FieldBits::NoField != (GlObjectFlagsFieldMask & whichField))
+    {
+        _glObjectFlags.syncWith(pOther->_glObjectFlags);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

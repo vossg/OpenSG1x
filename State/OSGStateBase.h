@@ -140,6 +140,8 @@ class OSG_STATE_DLLMAPPING StateBase : public FieldContainer
     virtual OSG::FieldContainerPtr shallowCopy(void) const; 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     //! Return the fields.
@@ -199,6 +201,9 @@ class OSG_STATE_DLLMAPPING StateBase : public FieldContainer
     StateBase(const StateBase &source);
     virtual ~StateBase(void); 
     
+
+    void executeSyncImpl(StateBase *pOther,
+                         BitVector          whichField);
 
   private:
 

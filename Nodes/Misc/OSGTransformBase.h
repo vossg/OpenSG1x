@@ -140,6 +140,8 @@ class OSG_MISC_DLLMAPPING TransformBase : public NodeCore
     virtual OSG::FieldContainerPtr shallowCopy(void) const; 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     //! Return the fields.
@@ -199,6 +201,9 @@ class OSG_MISC_DLLMAPPING TransformBase : public NodeCore
     TransformBase(const TransformBase &source);
     virtual ~TransformBase(void); 
     
+
+    void executeSyncImpl(TransformBase *pOther,
+                         BitVector          whichField);
 
   private:
 

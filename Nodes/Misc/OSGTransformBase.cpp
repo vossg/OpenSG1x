@@ -107,7 +107,7 @@ const OSG::UInt32    	TransformBase::NextFieldId;
 const OSG::BitVector 	TransformBase::NextFieldMask;
 
 
-char TransformBase::cvsid[] = "@(#)$Id: OSGTransformBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
+char TransformBase::cvsid[] = "@(#)$Id: OSGTransformBase.cpp,v 1.3 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -184,6 +184,13 @@ UInt32 TransformBase::getSize(void) const
     return sizeof(TransformBase); 
 }
 
+
+void TransformBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((TransformBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -218,6 +225,21 @@ TransformBase::~TransformBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void TransformBase::executeSyncImpl(TransformBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (MatrixFieldMask & whichField))
+    {
+        _matrix.syncWith(pOther->_matrix);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

@@ -164,6 +164,9 @@ class OSG_FIELDCONTAINER_DLLMAPPING Attachment : public FieldContainer
 
     virtual void finalize(void);
 
+    virtual void executeSync(FieldContainer &other,
+                             BitVector       whichField);
+
   private:
 
     //-----------------------------------------------------------------------

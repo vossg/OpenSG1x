@@ -119,7 +119,7 @@ const OSG::UInt32    	VRMLTransformBase::NextFieldId;
 const OSG::BitVector 	VRMLTransformBase::NextFieldMask;
 
 
-char VRMLTransformBase::cvsid[] = "@(#)$Id: OSGVRMLTransformBase.cpp,v 1.3 2001/05/26 15:59:07 vossg Exp $";
+char VRMLTransformBase::cvsid[] = "@(#)$Id: OSGVRMLTransformBase.cpp,v 1.4 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -216,13 +216,20 @@ UInt32 VRMLTransformBase::getSize(void) const
     return sizeof(VRMLTransformBase); 
 }
 
+
+void VRMLTransformBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((VRMLTransformBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
 VRMLTransformBase::VRMLTransformBase(void) :
-	_center	 (), 
+	_center	(), 
 	_rotation	(), 
 	_scale	(), 
 	_scaleOrientation	(), 
@@ -258,6 +265,41 @@ VRMLTransformBase::~VRMLTransformBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void VRMLTransformBase::executeSyncImpl(VRMLTransformBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (CenterFieldMask & whichField))
+    {
+        _center.syncWith(pOther->_center);
+    }
+
+    if(FieldBits::NoField != (RotationFieldMask & whichField))
+    {
+        _rotation.syncWith(pOther->_rotation);
+    }
+
+    if(FieldBits::NoField != (ScaleFieldMask & whichField))
+    {
+        _scale.syncWith(pOther->_scale);
+    }
+
+    if(FieldBits::NoField != (ScaleOrientationFieldMask & whichField))
+    {
+        _scaleOrientation.syncWith(pOther->_scaleOrientation);
+    }
+
+    if(FieldBits::NoField != (TranslationFieldMask & whichField))
+    {
+        _translation.syncWith(pOther->_translation);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

@@ -180,6 +180,8 @@ class OSG_STATE_DLLMAPPING PolygonChunkBase : public StateChunk
     virtual OSG::FieldContainerPtr shallowCopy(void) const; 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     //! Return the fields.
@@ -309,6 +311,9 @@ class OSG_STATE_DLLMAPPING PolygonChunkBase : public StateChunk
     PolygonChunkBase(const PolygonChunkBase &source);
     virtual ~PolygonChunkBase(void); 
     
+
+    void executeSyncImpl(PolygonChunkBase *pOther,
+                         BitVector          whichField);
 
   private:
 

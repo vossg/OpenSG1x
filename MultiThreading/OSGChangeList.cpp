@@ -110,7 +110,9 @@ ChangeList::ChangeList(void) :
     _listMode(Public),
     _vChangedFieldContainers(),
     _vAddRefdFieldContainers(),
-    _vSubRefdFieldContainers()
+    _vSubRefdFieldContainers(),
+    _vCreatedFieldContainers(),
+    _vDeletedFieldContainers()
 {
 //    Aspect::addList(this, _aspectId);
 }
@@ -171,15 +173,12 @@ ChangeList::refd_const_iterator ChangeList::endSubRefd(void) const
 }
 
 void ChangeList::addChanged(const FieldContainerPtrBase &pFieldContainer, 
-                                     BitVector         bvWhichField)
+                                  BitVector              bvWhichField)
 {
-    ChangeEntry tmpEntry;
-
     if(_bReadOnly == true)
         return;
-    
-    tmpEntry.first  = pFieldContainer;
-    tmpEntry.second = bvWhichField;
+
+    ChangeEntry tmpEntry(pFieldContainer, bvWhichField);
 
     _vChangedFieldContainers.push_back(tmpEntry);
 }
@@ -247,12 +246,10 @@ void ChangeList::applyTo(UInt32 uiAspectId)
 
     for(i = 0; i < _vChangedFieldContainers.size(); i++)
     {
-/*
-        _changedFieldContainerV[i].first.executeSync(
-            _aspectId,
-             aspectId,
-            _changedFieldContainerV[i].second);
-*/
+        _vChangedFieldContainers[i].first.executeSync(
+            _uiAspectId,
+             uiAspectId,
+            _vChangedFieldContainers[i].second);
     }
 
     for(i = 0; i < _vAddRefdFieldContainers.size(); i++)

@@ -104,7 +104,7 @@ const OSG::UInt32    	MaterialChunkBase::NextFieldId;
 const OSG::BitVector 	MaterialChunkBase::NextFieldMask;
 
 
-char MaterialChunkBase::cvsid[] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
+char MaterialChunkBase::cvsid[] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.3 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -201,6 +201,13 @@ UInt32 MaterialChunkBase::getSize(void) const
     return sizeof(MaterialChunkBase); 
 }
 
+
+void MaterialChunkBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((MaterialChunkBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -243,6 +250,41 @@ MaterialChunkBase::~MaterialChunkBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void MaterialChunkBase::executeSyncImpl(MaterialChunkBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (DiffuseFieldMask & whichField))
+    {
+        _diffuse.syncWith(pOther->_diffuse);
+    }
+
+    if(FieldBits::NoField != (AmbientFieldMask & whichField))
+    {
+        _ambient.syncWith(pOther->_ambient);
+    }
+
+    if(FieldBits::NoField != (SpecularFieldMask & whichField))
+    {
+        _specular.syncWith(pOther->_specular);
+    }
+
+    if(FieldBits::NoField != (EmissionFieldMask & whichField))
+    {
+        _emission.syncWith(pOther->_emission);
+    }
+
+    if(FieldBits::NoField != (ShininessFieldMask & whichField))
+    {
+        _shininess.syncWith(pOther->_shininess);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

@@ -248,6 +248,15 @@ class OSG_FIELDCONTAINER_DLLMAPPING Node : public FieldContainer
 
     void setParent(const NodePtr &_parent);
 
+            void onCreate       (void);
+            void onCreate       (const Node &source);
+
+    virtual void executeSync    (FieldContainer &other,
+                                 BitVector       whichField);
+
+            void executeSyncImpl(Node      *pOther,
+                                 BitVector  whichField);
+
     /*------------------------------ pointer -------------------------------*/
 
     NodePtr getPtr(void);

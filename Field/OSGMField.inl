@@ -707,9 +707,9 @@ void MField<FieldTypeT, fieldNameSpace>::dump(void) const
 \*-------------------------------------------------------------------------*/
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-void MField<FieldTypeT, fieldNameSpace>::doSync(Field *source)
+void MField<FieldTypeT, fieldNameSpace>::syncWith(Self &source)
 {
-    setValues(*((MField<FieldTypeT, fieldNameSpace> *) source));
+    setValues(source);
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline

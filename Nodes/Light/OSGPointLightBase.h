@@ -152,6 +152,8 @@ class OSG_LIGHT_DLLMAPPING PointLightBase : public LightBase
     virtual OSG::FieldContainerPtr shallowCopy(void) const; 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     //! Return the fields.
@@ -232,6 +234,9 @@ class OSG_LIGHT_DLLMAPPING PointLightBase : public LightBase
     PointLightBase(const PointLightBase &source);
     virtual ~PointLightBase(void); 
     
+
+    void executeSyncImpl(PointLightBase *pOther,
+                         BitVector          whichField);
 
   private:
 

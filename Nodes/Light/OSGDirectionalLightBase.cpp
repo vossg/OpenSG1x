@@ -92,7 +92,7 @@ const OSG::UInt32    	DirectionalLightBase::NextFieldId;
 const OSG::BitVector 	DirectionalLightBase::NextFieldMask;
 
 
-char DirectionalLightBase::cvsid[] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
+char DirectionalLightBase::cvsid[] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.3 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -169,6 +169,13 @@ UInt32 DirectionalLightBase::getSize(void) const
     return sizeof(DirectionalLightBase); 
 }
 
+
+void DirectionalLightBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((DirectionalLightBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -203,6 +210,21 @@ DirectionalLightBase::~DirectionalLightBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void DirectionalLightBase::executeSyncImpl(DirectionalLightBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (DirectionFieldMask & whichField))
+    {
+        _direction.syncWith(pOther->_direction);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

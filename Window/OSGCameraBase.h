@@ -144,6 +144,8 @@ class OSG_WINDOW_DLLMAPPING CameraBase : public FieldContainer
     static OSG::UInt32              getClassTypeId(void); 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     //! Return the fields.
@@ -217,6 +219,9 @@ class OSG_WINDOW_DLLMAPPING CameraBase : public FieldContainer
     CameraBase(const CameraBase &source);
     virtual ~CameraBase(void); 
     
+
+    void executeSyncImpl(CameraBase *pOther,
+                         BitVector          whichField);
 
   private:
 

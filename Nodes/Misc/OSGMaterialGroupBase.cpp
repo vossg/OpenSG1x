@@ -107,7 +107,7 @@ const OSG::UInt32    	MaterialGroupBase::NextFieldId;
 const OSG::BitVector 	MaterialGroupBase::NextFieldMask;
 
 
-char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.2 2001/04/26 12:53:38 vossg Exp $";
+char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.3 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -218,6 +218,24 @@ MaterialGroupBase::~MaterialGroupBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+void MaterialGroupBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((MaterialGroup *) &other, whichField);
+}
+
+void MaterialGroupBase::executeSyncImpl(MaterialGroup *pOther,
+                                        BitVector      whichField)
+{
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (MaterialFieldMask & whichField))
+    {
+        _material.syncWith(pOther->_material);
+    }
+}
+
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

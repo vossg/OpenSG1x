@@ -105,7 +105,7 @@ const OSG::UInt32    	SolidBackgroundBase::NextFieldId;
 const OSG::BitVector 	SolidBackgroundBase::NextFieldMask;
 
 
-char SolidBackgroundBase::cvsid[] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.3 2001/05/23 23:05:56 dirk Exp $";
+char SolidBackgroundBase::cvsid[] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.4 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -182,6 +182,13 @@ UInt32 SolidBackgroundBase::getSize(void) const
     return sizeof(SolidBackgroundBase); 
 }
 
+
+void SolidBackgroundBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((SolidBackgroundBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -216,6 +223,21 @@ SolidBackgroundBase::~SolidBackgroundBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void SolidBackgroundBase::executeSyncImpl(SolidBackgroundBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+    {
+        _color.syncWith(pOther->_color);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

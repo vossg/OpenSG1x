@@ -148,6 +148,8 @@ class OSG_LIGHT_DLLMAPPING LightBaseBase : public NodeCore
     static OSG::UInt32              getClassTypeId(void); 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     //! Return the fields.
@@ -228,6 +230,9 @@ class OSG_LIGHT_DLLMAPPING LightBaseBase : public NodeCore
     LightBaseBase(const LightBaseBase &source);
     virtual ~LightBaseBase(void); 
     
+
+    void executeSyncImpl(LightBaseBase *pOther,
+                         BitVector          whichField);
 
   private:
 

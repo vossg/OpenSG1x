@@ -225,8 +225,7 @@ void SField<FieldTypeT, fieldNameSpace>::setValue(const FieldTypeT &value)
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void SField<FieldTypeT, 
-            fieldNameSpace>::setValue(const SField<FieldTypeT, 
-                                                   fieldNameSpace> &obj)
+            fieldNameSpace>::setValue(const Self &obj)
 {
     _value = obj._value;
 }
@@ -312,9 +311,9 @@ void SField<FieldTypeT, fieldNameSpace>::dump(void) const
 \*-------------------------------------------------------------------------*/
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-void SField<FieldTypeT, fieldNameSpace>::doSync(Field *source)
+void SField<FieldTypeT, fieldNameSpace>::syncWith(Self &source)
 {
-    setValue(*((SField<FieldTypeT, fieldNameSpace> *) source));
+    setValue(source);
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline

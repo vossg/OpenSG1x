@@ -352,6 +352,29 @@ void NodeCore::subParent(const NodePtr &parent)
     }
 }
 
+void NodeCore::executeSync(FieldContainer &other,
+                           BitVector       whichField)
+{
+    this->executeSyncImpl((NodeCore *) &other, whichField);
+}
+
+
+void NodeCore::executeSyncImpl(NodeCore  *pOther,
+                               BitVector  whichField)
+{
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (ParentsFieldMask & whichField))
+    {
+        _parents.syncWith(pOther->_parents);
+    }
+
+    if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
+    {
+        _attachmentMap.syncWith(pOther->_attachmentMap);
+    }
+}
+
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/

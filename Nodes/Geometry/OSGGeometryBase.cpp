@@ -119,7 +119,7 @@ const OSG::UInt32    	GeometryBase::NextFieldId;
 const OSG::BitVector 	GeometryBase::NextFieldMask;
 
 
-char GeometryBase::cvsid[] = "@(#)$Id: OSGGeometryBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
+char GeometryBase::cvsid[] = "@(#)$Id: OSGGeometryBase.cpp,v 1.3 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -241,6 +241,13 @@ UInt32 GeometryBase::getSize(void) const
     return sizeof(GeometryBase); 
 }
 
+
+void GeometryBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((GeometryBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -293,6 +300,66 @@ GeometryBase::~GeometryBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void GeometryBase::executeSyncImpl(GeometryBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (TypesFieldMask & whichField))
+    {
+        _types.syncWith(pOther->_types);
+    }
+
+    if(FieldBits::NoField != (LengthsFieldMask & whichField))
+    {
+        _lengths.syncWith(pOther->_lengths);
+    }
+
+    if(FieldBits::NoField != (PositionsFieldMask & whichField))
+    {
+        _positions.syncWith(pOther->_positions);
+    }
+
+    if(FieldBits::NoField != (NormalsFieldMask & whichField))
+    {
+        _normals.syncWith(pOther->_normals);
+    }
+
+    if(FieldBits::NoField != (NormalPerVertexFieldMask & whichField))
+    {
+        _normalPerVertex.syncWith(pOther->_normalPerVertex);
+    }
+
+    if(FieldBits::NoField != (ColorsFieldMask & whichField))
+    {
+        _colors.syncWith(pOther->_colors);
+    }
+
+    if(FieldBits::NoField != (ColorPerVertexFieldMask & whichField))
+    {
+        _colorPerVertex.syncWith(pOther->_colorPerVertex);
+    }
+
+    if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
+    {
+        _texCoords.syncWith(pOther->_texCoords);
+    }
+
+    if(FieldBits::NoField != (IndexFieldMask & whichField))
+    {
+        _index.syncWith(pOther->_index);
+    }
+
+    if(FieldBits::NoField != (MaterialFieldMask & whichField))
+    {
+        _material.syncWith(pOther->_material);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

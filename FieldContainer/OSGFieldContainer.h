@@ -65,6 +65,8 @@ class FieldContainerPtr;
 namespace FieldBits
 {
     const BitVector AllFields = 0xFFFFFFFF;
+    const BitVector NoField   = 0x00000000;
+
 
     const BitVector Field0    = 0x00000001;
     const BitVector Field1    = 0x00000002;
@@ -302,6 +304,8 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer
             pTmp += sizeof(ObjectType);
         }
 
+        result->onCreate(*prototypeP);
+
 #ifdef OSG_DEBUG_TYPED_FCPTR
         result.updateTypedStore();
 #endif
@@ -391,7 +395,16 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer
     }
 
 
-    virtual void changed(BitVector whichField, ChangeMode from);
+    virtual void changed        (BitVector whichField, ChangeMode from);
+
+            void onCreate       (void);
+            void onCreate       (const FieldContainer &source);
+
+    virtual void executeSync    (FieldContainer &other,
+                                 BitVector       whichField) = 0;
+
+            void executeSyncImpl(FieldContainer *pOther,
+                                 BitVector       whichField);
 
   private:
 

@@ -92,7 +92,7 @@ const OSG::UInt32    	ChunkMaterialBase::NextFieldId;
 const OSG::BitVector 	ChunkMaterialBase::NextFieldMask;
 
 
-char ChunkMaterialBase::cvsid[] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
+char ChunkMaterialBase::cvsid[] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.3 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -169,6 +169,13 @@ UInt32 ChunkMaterialBase::getSize(void) const
     return sizeof(ChunkMaterialBase); 
 }
 
+
+void ChunkMaterialBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((ChunkMaterialBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -203,6 +210,21 @@ ChunkMaterialBase::~ChunkMaterialBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void ChunkMaterialBase::executeSyncImpl(ChunkMaterialBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (ChunksFieldMask & whichField))
+    {
+        _chunks.syncWith(pOther->_chunks);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

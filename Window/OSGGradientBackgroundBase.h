@@ -144,6 +144,8 @@ class OSG_WINDOW_DLLMAPPING GradientBackgroundBase : public Background
     virtual OSG::FieldContainerPtr shallowCopy(void) const; 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     //! Return the fields.
@@ -210,6 +212,9 @@ class OSG_WINDOW_DLLMAPPING GradientBackgroundBase : public Background
     GradientBackgroundBase(const GradientBackgroundBase &source);
     virtual ~GradientBackgroundBase(void); 
     
+
+    void executeSyncImpl(GradientBackgroundBase *pOther,
+                         BitVector          whichField);
 
   private:
 

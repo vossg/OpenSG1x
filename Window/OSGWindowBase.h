@@ -152,6 +152,8 @@ class OSG_WINDOW_DLLMAPPING WindowBase : public FieldContainer
     static OSG::UInt32              getClassTypeId(void); 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     //! Return the fields.
@@ -239,6 +241,9 @@ class OSG_WINDOW_DLLMAPPING WindowBase : public FieldContainer
     WindowBase(const WindowBase &source);
     virtual ~WindowBase(void); 
     
+
+    void executeSyncImpl(WindowBase *pOther,
+                         BitVector          whichField);
 
   private:
 

@@ -129,6 +129,8 @@ class OSG_MATERIAL_DLLMAPPING MaterialBase : public FieldContainer
     static OSG::UInt32              getClassTypeId(void); 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     /*----------------------------- access ----------------------------------*/
@@ -170,6 +172,9 @@ class OSG_MATERIAL_DLLMAPPING MaterialBase : public FieldContainer
     MaterialBase(const MaterialBase &source);
     virtual ~MaterialBase(void); 
     
+
+    void executeSyncImpl(MaterialBase *pOther,
+                         BitVector          whichField);
 
   private:
 

@@ -128,7 +128,7 @@ const OSG::UInt32    	ViewportBase::NextFieldId;
 const OSG::BitVector 	ViewportBase::NextFieldMask;
 
 
-char ViewportBase::cvsid[] = "@(#)$Id: OSGViewportBase.cpp,v 1.3 2001/05/23 23:05:56 dirk Exp $";
+char ViewportBase::cvsid[] = "@(#)$Id: OSGViewportBase.cpp,v 1.4 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -240,6 +240,13 @@ UInt32 ViewportBase::getSize(void) const
     return sizeof(ViewportBase); 
 }
 
+
+void ViewportBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((ViewportBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -288,6 +295,56 @@ ViewportBase::~ViewportBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void ViewportBase::executeSyncImpl(ViewportBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (LeftFieldMask & whichField))
+    {
+        _left.syncWith(pOther->_left);
+    }
+
+    if(FieldBits::NoField != (RightFieldMask & whichField))
+    {
+        _right.syncWith(pOther->_right);
+    }
+
+    if(FieldBits::NoField != (BottomFieldMask & whichField))
+    {
+        _bottom.syncWith(pOther->_bottom);
+    }
+
+    if(FieldBits::NoField != (TopFieldMask & whichField))
+    {
+        _top.syncWith(pOther->_top);
+    }
+
+    if(FieldBits::NoField != (ParentFieldMask & whichField))
+    {
+        _parent.syncWith(pOther->_parent);
+    }
+
+    if(FieldBits::NoField != (CameraFieldMask & whichField))
+    {
+        _camera.syncWith(pOther->_camera);
+    }
+
+    if(FieldBits::NoField != (RootFieldMask & whichField))
+    {
+        _root.syncWith(pOther->_root);
+    }
+
+    if(FieldBits::NoField != (BackgroundFieldMask & whichField))
+    {
+        _background.syncWith(pOther->_background);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

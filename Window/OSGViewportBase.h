@@ -168,6 +168,8 @@ class OSG_WINDOW_DLLMAPPING ViewportBase : public FieldContainer
     virtual OSG::FieldContainerPtr shallowCopy(void) const; 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     //! Return the fields.
@@ -276,6 +278,9 @@ class OSG_WINDOW_DLLMAPPING ViewportBase : public FieldContainer
     ViewportBase(const ViewportBase &source);
     virtual ~ViewportBase(void); 
     
+
+    void executeSyncImpl(ViewportBase *pOther,
+                         BitVector          whichField);
 
   private:
 

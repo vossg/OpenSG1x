@@ -107,7 +107,7 @@ const OSG::UInt32    	StateBase::NextFieldId;
 const OSG::BitVector 	StateBase::NextFieldMask;
 
 
-char StateBase::cvsid[] = "@(#)$Id: OSGStateBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
+char StateBase::cvsid[] = "@(#)$Id: OSGStateBase.cpp,v 1.3 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -184,6 +184,13 @@ UInt32 StateBase::getSize(void) const
     return sizeof(StateBase); 
 }
 
+
+void StateBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((StateBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -218,6 +225,21 @@ StateBase::~StateBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void StateBase::executeSyncImpl(StateBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (ChunksFieldMask & whichField))
+    {
+        _chunks.syncWith(pOther->_chunks);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

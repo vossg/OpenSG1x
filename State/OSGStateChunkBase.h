@@ -129,6 +129,8 @@ class OSG_STATE_DLLMAPPING StateChunkBase : public FieldContainer
     static OSG::UInt32              getClassTypeId(void); 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     /*----------------------------- access ----------------------------------*/
@@ -170,6 +172,9 @@ class OSG_STATE_DLLMAPPING StateChunkBase : public FieldContainer
     StateChunkBase(const StateChunkBase &source);
     virtual ~StateChunkBase(void); 
     
+
+    void executeSyncImpl(StateChunkBase *pOther,
+                         BitVector          whichField);
 
   private:
 

@@ -107,7 +107,7 @@ const OSG::UInt32    	SimpleMaterialBase::NextFieldId;
 const OSG::BitVector 	SimpleMaterialBase::NextFieldMask;
 
 
-char SimpleMaterialBase::cvsid[] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
+char SimpleMaterialBase::cvsid[] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.3 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -209,6 +209,13 @@ UInt32 SimpleMaterialBase::getSize(void) const
     return sizeof(SimpleMaterialBase); 
 }
 
+
+void SimpleMaterialBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((SimpleMaterialBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -253,6 +260,46 @@ SimpleMaterialBase::~SimpleMaterialBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void SimpleMaterialBase::executeSyncImpl(SimpleMaterialBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (AmbientFieldMask & whichField))
+    {
+        _ambient.syncWith(pOther->_ambient);
+    }
+
+    if(FieldBits::NoField != (DiffuseFieldMask & whichField))
+    {
+        _diffuse.syncWith(pOther->_diffuse);
+    }
+
+    if(FieldBits::NoField != (SpecularFieldMask & whichField))
+    {
+        _specular.syncWith(pOther->_specular);
+    }
+
+    if(FieldBits::NoField != (ShininessFieldMask & whichField))
+    {
+        _shininess.syncWith(pOther->_shininess);
+    }
+
+    if(FieldBits::NoField != (EmissionFieldMask & whichField))
+    {
+        _emission.syncWith(pOther->_emission);
+    }
+
+    if(FieldBits::NoField != (TransparencyFieldMask & whichField))
+    {
+        _transparency.syncWith(pOther->_transparency);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

@@ -78,7 +78,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.2 2001/04/26 12:53:38 vossg Exp $";
+char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.3 2001/05/30 16:25:24 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -204,6 +204,7 @@ Action::ResultE MaterialGroup::drawLeave(Action * action )
 
   return Action::Continue;
 }
+
  
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

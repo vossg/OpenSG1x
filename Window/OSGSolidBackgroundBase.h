@@ -140,6 +140,8 @@ class OSG_WINDOW_DLLMAPPING SolidBackgroundBase : public Background
     virtual OSG::FieldContainerPtr shallowCopy(void) const; 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     //! Return the fields.
@@ -199,6 +201,9 @@ class OSG_WINDOW_DLLMAPPING SolidBackgroundBase : public Background
     SolidBackgroundBase(const SolidBackgroundBase &source);
     virtual ~SolidBackgroundBase(void); 
     
+
+    void executeSyncImpl(SolidBackgroundBase *pOther,
+                         BitVector          whichField);
 
   private:
 

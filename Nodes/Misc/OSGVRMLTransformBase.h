@@ -156,6 +156,8 @@ class OSG_MISC_DLLMAPPING VRMLTransformBase : public Transform
     virtual OSG::FieldContainerPtr shallowCopy(void) const; 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     //! Return the fields.
@@ -243,6 +245,9 @@ class OSG_MISC_DLLMAPPING VRMLTransformBase : public Transform
     VRMLTransformBase(const VRMLTransformBase &source);
     virtual ~VRMLTransformBase(void); 
     
+
+    void executeSyncImpl(VRMLTransformBase *pOther,
+                         BitVector          whichField);
 
   private:
 

@@ -108,7 +108,7 @@ const OSG::UInt32    	GradientBackgroundBase::NextFieldId;
 const OSG::BitVector 	GradientBackgroundBase::NextFieldMask;
 
 
-char GradientBackgroundBase::cvsid[] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.3 2001/05/23 23:05:56 dirk Exp $";
+char GradientBackgroundBase::cvsid[] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.4 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -190,6 +190,13 @@ UInt32 GradientBackgroundBase::getSize(void) const
     return sizeof(GradientBackgroundBase); 
 }
 
+
+void GradientBackgroundBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((GradientBackgroundBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -226,6 +233,26 @@ GradientBackgroundBase::~GradientBackgroundBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void GradientBackgroundBase::executeSyncImpl(GradientBackgroundBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+    {
+        _color.syncWith(pOther->_color);
+    }
+
+    if(FieldBits::NoField != (PositionFieldMask & whichField))
+    {
+        _position.syncWith(pOther->_position);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

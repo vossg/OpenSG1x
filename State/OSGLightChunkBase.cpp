@@ -119,7 +119,7 @@ const OSG::UInt32    	LightChunkBase::NextFieldId;
 const OSG::BitVector 	LightChunkBase::NextFieldMask;
 
 
-char LightChunkBase::cvsid[] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
+char LightChunkBase::cvsid[] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.3 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -241,6 +241,13 @@ UInt32 LightChunkBase::getSize(void) const
     return sizeof(LightChunkBase); 
 }
 
+
+void LightChunkBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((LightChunkBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -293,6 +300,66 @@ LightChunkBase::~LightChunkBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void LightChunkBase::executeSyncImpl(LightChunkBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (DiffuseFieldMask & whichField))
+    {
+        _diffuse.syncWith(pOther->_diffuse);
+    }
+
+    if(FieldBits::NoField != (AmbientFieldMask & whichField))
+    {
+        _ambient.syncWith(pOther->_ambient);
+    }
+
+    if(FieldBits::NoField != (SpecularFieldMask & whichField))
+    {
+        _specular.syncWith(pOther->_specular);
+    }
+
+    if(FieldBits::NoField != (PositionFieldMask & whichField))
+    {
+        _position.syncWith(pOther->_position);
+    }
+
+    if(FieldBits::NoField != (DirectionFieldMask & whichField))
+    {
+        _direction.syncWith(pOther->_direction);
+    }
+
+    if(FieldBits::NoField != (ExponentFieldMask & whichField))
+    {
+        _exponent.syncWith(pOther->_exponent);
+    }
+
+    if(FieldBits::NoField != (CutoffFieldMask & whichField))
+    {
+        _cutoff.syncWith(pOther->_cutoff);
+    }
+
+    if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
+    {
+        _constantAttenuation.syncWith(pOther->_constantAttenuation);
+    }
+
+    if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
+    {
+        _linearAttenuation.syncWith(pOther->_linearAttenuation);
+    }
+
+    if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
+    {
+        _quadraticAttenuation.syncWith(pOther->_quadraticAttenuation);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

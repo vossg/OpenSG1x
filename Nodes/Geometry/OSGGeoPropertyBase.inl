@@ -310,6 +310,26 @@ inline GeoProperty<GeoPropertyDesc>::~GeoProperty(void)
 {
 }
 
+template <class GeoPropertyDesc> 
+void GeoProperty<GeoPropertyDesc>::executeSync(FieldContainer &other,
+                                               BitVector       whichField)
+{
+    this->executeSyncImpl((GeoProperty *) &other, whichField);
+}
+
+template <class GeoPropertyDesc> 
+void GeoProperty<GeoPropertyDesc>::executeSyncImpl(GeoProperty *pOther,
+                                                   BitVector    whichField)
+{
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (GeoPropDataFieldMask & whichField))
+    {
+        _field.syncWith(pOther->_field);
+    }
+}
+
+
 /*------------------------------ access -----------------------------------*/
 
 /** \brief Returns pointer to stored field

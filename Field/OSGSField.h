@@ -103,6 +103,8 @@ class OSG_FIELD_DLLMAPPING SField : public Field
                            FieldDataTraits <FieldTypeT>, 
                            SF1Trait>::_IRet SFieldTraits;
 
+    typedef          SField<FieldTypeT, fieldNameSpace> Self;
+
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
@@ -127,8 +129,8 @@ class OSG_FIELD_DLLMAPPING SField : public Field
 
     void setAbstrValue(const Field &obj);
 
-    void setValue(const        FieldTypeT                  &value);
-	void setValue(const SField<FieldTypeT, fieldNameSpace> &obj  );
+    void setValue(const FieldTypeT &value);
+	void setValue(const Self       &obj  );
 
     /*----------------------- field information -----------------------------*/
 
@@ -144,6 +146,10 @@ class OSG_FIELD_DLLMAPPING SField : public Field
 
 	virtual void    pushValueByStr(const Char8 *str);
     virtual String &getValueByStr (String &string) const;
+
+    /*------------------------------- sync ----------------------------------*/
+
+    void syncWith(Self &source);
 
     /*------------------------------- dump ----------------------------------*/
 
@@ -178,8 +184,6 @@ class OSG_FIELD_DLLMAPPING SField : public Field
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
-    virtual void doSync(Field *source);
 
     void beginEdit(void);
 

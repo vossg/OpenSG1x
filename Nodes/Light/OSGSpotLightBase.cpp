@@ -98,7 +98,7 @@ const OSG::UInt32    	SpotLightBase::NextFieldId;
 const OSG::BitVector 	SpotLightBase::NextFieldMask;
 
 
-char SpotLightBase::cvsid[] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
+char SpotLightBase::cvsid[] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.3 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -185,6 +185,13 @@ UInt32 SpotLightBase::getSize(void) const
     return sizeof(SpotLightBase); 
 }
 
+
+void SpotLightBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((SpotLightBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -223,6 +230,31 @@ SpotLightBase::~SpotLightBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void SpotLightBase::executeSyncImpl(SpotLightBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (DirectionFieldMask & whichField))
+    {
+        _direction.syncWith(pOther->_direction);
+    }
+
+    if(FieldBits::NoField != (SpotExponentFieldMask & whichField))
+    {
+        _spotExponent.syncWith(pOther->_spotExponent);
+    }
+
+    if(FieldBits::NoField != (SpotCutOffFieldMask & whichField))
+    {
+        _spotCutOff.syncWith(pOther->_spotCutOff);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

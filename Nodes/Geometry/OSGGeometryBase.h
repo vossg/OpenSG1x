@@ -176,6 +176,8 @@ class OSG_GEOMETRY_DLLMAPPING GeometryBase : public NodeCore
     virtual OSG::FieldContainerPtr shallowCopy(void) const; 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     //! Return the fields.
@@ -298,6 +300,9 @@ class OSG_GEOMETRY_DLLMAPPING GeometryBase : public NodeCore
     GeometryBase(const GeometryBase &source);
     virtual ~GeometryBase(void); 
     
+
+    void executeSyncImpl(GeometryBase *pOther,
+                         BitVector          whichField);
 
   private:
 

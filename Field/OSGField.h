@@ -170,8 +170,6 @@ class OSG_FIELD_DLLMAPPING Field
 
     Field(const Field &source);
 
-    virtual void doSync(Field *source) = 0;
-
   private:
 
     //-----------------------------------------------------------------------

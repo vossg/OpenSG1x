@@ -140,6 +140,8 @@ class OSG_LIGHT_DLLMAPPING DirectionalLightBase : public LightBase
     virtual OSG::FieldContainerPtr shallowCopy(void) const; 
     virtual OSG::UInt32            getSize    (void) const;
 
+    virtual void                   executeSync(FieldContainer &other,
+                                               BitVector       whichField);
     /*--------------------------- access fields ----------------------------*/
 
     //! Return the fields.
@@ -199,6 +201,9 @@ class OSG_LIGHT_DLLMAPPING DirectionalLightBase : public LightBase
     DirectionalLightBase(const DirectionalLightBase &source);
     virtual ~DirectionalLightBase(void); 
     
+
+    void executeSyncImpl(DirectionalLightBase *pOther,
+                         BitVector          whichField);
 
   private:
 

@@ -213,6 +213,7 @@ AC_DEFUN(AC_GDZ_SET_COMPILER_DEFAULTS,
         AC_GDZ_PROG_CXX_AVAILABLE($ac_gdz_compiler_exe, $ac_gdz_compiler_path)
     else
         AC_GDZ_PROG_CXX_WORKS($ac_gdz_compiler_exe, $ac_gdz_compiler_path)
+        ac_gdz_compiler_exe=$CXX
     fi
 ])
 

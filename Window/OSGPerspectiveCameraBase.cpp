@@ -107,7 +107,7 @@ const OSG::UInt32    	PerspectiveCameraBase::NextFieldId;
 const OSG::BitVector 	PerspectiveCameraBase::NextFieldMask;
 
 
-char PerspectiveCameraBase::cvsid[] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.3 2001/05/23 23:05:56 dirk Exp $";
+char PerspectiveCameraBase::cvsid[] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.4 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -184,6 +184,13 @@ UInt32 PerspectiveCameraBase::getSize(void) const
     return sizeof(PerspectiveCameraBase); 
 }
 
+
+void PerspectiveCameraBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((PerspectiveCameraBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -218,6 +225,21 @@ PerspectiveCameraBase::~PerspectiveCameraBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void PerspectiveCameraBase::executeSyncImpl(PerspectiveCameraBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (FovFieldMask & whichField))
+    {
+        _fov.syncWith(pOther->_fov);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

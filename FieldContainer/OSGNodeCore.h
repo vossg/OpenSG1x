@@ -189,6 +189,12 @@ class OSG_FIELDCONTAINER_DLLMAPPING NodeCore : public FieldContainer
 
     NodeCorePtr getPtr(void);
 
+    virtual void executeSync(FieldContainer &other,
+                             BitVector       whichField);
+
+    void executeSyncImpl(NodeCore  *pOther,
+                         BitVector  whichField);
+
   private:
 
     //-----------------------------------------------------------------------

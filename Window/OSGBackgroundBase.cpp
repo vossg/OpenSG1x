@@ -100,7 +100,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char BackgroundBase::cvsid[] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.3 2001/05/23 23:05:56 dirk Exp $";
+char BackgroundBase::cvsid[] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.4 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Background type
  */
@@ -156,6 +156,13 @@ UInt32 BackgroundBase::getSize(void) const
     return sizeof(BackgroundBase); 
 }
 
+
+void BackgroundBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((BackgroundBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -188,6 +195,16 @@ BackgroundBase::~BackgroundBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void BackgroundBase::executeSyncImpl(BackgroundBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

@@ -100,7 +100,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char MaterialBase::cvsid[] = "@(#)$Id: OSGMaterialBase.cpp,v 1.3 2001/05/23 23:05:56 dirk Exp $";
+char MaterialBase::cvsid[] = "@(#)$Id: OSGMaterialBase.cpp,v 1.4 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Material type
  */
@@ -156,6 +156,13 @@ UInt32 MaterialBase::getSize(void) const
     return sizeof(MaterialBase); 
 }
 
+
+void MaterialBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((MaterialBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -188,6 +195,16 @@ MaterialBase::~MaterialBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void MaterialBase::executeSyncImpl(MaterialBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

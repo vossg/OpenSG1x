@@ -108,7 +108,7 @@ const OSG::UInt32    	DynamicBackgroundBase::NextFieldId;
 const OSG::BitVector 	DynamicBackgroundBase::NextFieldMask;
 
 
-char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.3 2001/05/23 23:05:56 dirk Exp $";
+char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.4 2001/05/30 16:25:24 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -190,6 +190,13 @@ UInt32 DynamicBackgroundBase::getSize(void) const
     return sizeof(DynamicBackgroundBase); 
 }
 
+
+void DynamicBackgroundBase::executeSync(FieldContainer &other,
+                                    BitVector       whichField)
+{
+    this->executeSyncImpl((DynamicBackgroundBase *) &other, whichField);
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
@@ -226,6 +233,26 @@ DynamicBackgroundBase::~DynamicBackgroundBase(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+
+void DynamicBackgroundBase::executeSyncImpl(DynamicBackgroundBase *pOther,
+                                        BitVector          whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+    {
+        _color.syncWith(pOther->_color);
+    }
+
+    if(FieldBits::NoField != (AngleFieldMask & whichField))
+    {
+        _angle.syncWith(pOther->_angle);
+    }
+
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

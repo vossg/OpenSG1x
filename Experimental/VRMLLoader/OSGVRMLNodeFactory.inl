@@ -126,7 +126,7 @@ void VRMLNodeFactory<BaseT>::addNodeDesc(const Char8        *szNodeTypename,
     if(szNodeTypename == NULL || pDesc == NULL)
         return;
 
-    osgstringDup(szNodeTypename, szName);
+    stringDup(szNodeTypename, szName);
 
     _mNodeDescHash[szName] = pDesc; 
 

@@ -260,9 +260,11 @@ FieldContainerPtrBase::~FieldContainerPtrBase(void)
 /*----------------------------- Sync --------------------------------------*/
 
 void FieldContainerPtrBase::executeSync(UInt32    uiFromAspect,
-                                      UInt32    uiToAspect, 
-                                      BitVector whichField)
+                                        UInt32    uiToAspect, 
+                                        BitVector whichField)
 {
+    ((FieldContainer *) getElemP(uiToAspect))->executeSync
+        (*((FieldContainer *) getElemP(uiFromAspect)), whichField);
 }
 
 /*----------------------------- Mem ---------------------------------------*/
