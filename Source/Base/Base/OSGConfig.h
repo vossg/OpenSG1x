@@ -139,7 +139,7 @@
 
 #    define OSG_THROW_NOTHING() throw()
 
-#    define OSG_EXCEPTION_NAMESPACE     std
+#    define OSG_STDEXCEPTION_NAMESPACE    std
 
 #    define OSG_STDEXTENSION_NAMESPACE  __gnu_cxx
 
@@ -251,7 +251,7 @@
 
 # define OSG_FOUND_OS 
 
-# define OSG_EXCEPTION_NAMESPACE std
+# define OSG_STDEXCEPTION_NAMESPACE std
 
 # endif // defined(__sgi) && !defined(__GNUC__)
 
@@ -324,7 +324,7 @@
 
 # define OSG_FOUND_OS
 
-# define OSG_EXCEPTION_NAMESPACE std
+# define OSG_STDEXCEPTION_NAMESPACE std
 
 # define OSG_STL_HAS_HASH_MAP
 
@@ -555,7 +555,7 @@
 
 # define OSG_NOGLUTSUBDIR
 
-# define OSG_EXCEPTION_NAMESPACE std
+# define OSG_STDEXCEPTION_NAMESPACE std
 
 # endif // defined(__hpux) && !defined(__GNUC__)
 
@@ -680,8 +680,8 @@
 
 // ToBeChecked Defaults
 
-#if !defined(OSG_EXCEPTION_NAMESPACE)
-#    define OSG_EXCEPTION_NAMESPACE
+#if !defined(OSG_STDEXCEPTION_NAMESPACE)
+#    define OSG_STDEXCEPTION_NAMESPACE
 #endif
 
 #ifndef OSG_STDEXTENSION_NAMESPACE

@@ -32,7 +32,7 @@ void display()
         // clear changelist from prototypes
         OSG::Thread::getCurrentChangeList()->clearAll();
     } 
-    catch(OSG_EXCEPTION_NAMESPACE::exception &e)
+    catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
     {
         if(exitOnError)
         {
@@ -188,7 +188,7 @@ int main(int argc,char **argv)
         running=true;
         glutMainLoop();
     } 
-    catch(OSG_EXCEPTION_NAMESPACE::exception &e)
+    catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
     {
         SLOG << e.what() << std::endl;
         delete server;
