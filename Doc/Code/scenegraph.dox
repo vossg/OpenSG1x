@@ -5,7 +5,7 @@ using namespace OSG;
 /*! \page PageScenegraph Scene Graphs
 
 The most prominent standard library used for writing interactive 3D graphics
-applications is OpenGL. OpenGL is cleanyl and well designed and has a very
+applications is OpenGL. OpenGL is cleanly and well designed and has a very
 specific goal: be a layer on top of the graphics hardware, as thin as possible,
 as thick as necessary to abstract away the differences between different
 graphics hardware variants.
