@@ -227,8 +227,8 @@ void SHLChunk::changed(BitVector whichField, UInt32 origin)
        (whichField & FragmentProgramFieldMask))
     {
         Window::reinitializeGLObject(getGLId());
-    }  
-     
+    }
+
     if(whichField & ParamValuesFieldMask)
     {
         Window::refreshGLObject(getGLId());
@@ -375,9 +375,10 @@ void SHLChunk::updateProgram(Window *win)
     }
     else
     {
+        //useProgramObject(_program);
         deleteObject(_program);
-        _program = 0;
         _program = createProgramObject();
+        //useProgramObject(_program);
     }
     
     GLint has_vertex = 0;
@@ -401,7 +402,7 @@ void SHLChunk::updateProgram(Window *win)
             debug = new char[debugLength];
             getInfoLog(_vShader, debugLength, &debugLength, debug);
         
-            FWARNING(("Couldn't compile vertex program!\n%s\n", debug));
+            FFATAL(("Couldn't compile vertex program!\n%s\n", debug));
             delete [] debug;
             deleteObject(_vShader);
             _vShader = 0;
@@ -427,7 +428,7 @@ void SHLChunk::updateProgram(Window *win)
             debug = new char[debugLength];
             getInfoLog(_fShader, debugLength, &debugLength, debug);
         
-            FWARNING(("Couldn't compile fragment program!\n%s\n", debug));
+            FFATAL(("Couldn't compile fragment program!\n%s\n", debug));
             delete [] debug;
             deleteObject(_fShader);
             _fShader = 0;
@@ -458,10 +459,24 @@ void SHLChunk::updateProgram(Window *win)
         getObjectParameteriv(_program, GL_OBJECT_LINK_STATUS_ARB, &success);
         if(!success)
         {
+            char *debug;
+            GLint debugLength;
+            getObjectParameteriv(_program, GL_OBJECT_INFO_LOG_LENGTH_ARB, &debugLength);
+              
+            debug = new char[debugLength];
+            getInfoLog(_program, debugLength, &debugLength, debug);
+        
+            FFATAL(("Couldn't link vertex and fragment program!\n%s\n", debug));
+            delete [] debug;
             deleteObject(_program);
             _program = 0;
-            FWARNING(("Couldn't link vertex and fragment program!\n"));
         }
+        /*
+        else
+        {
+            printf("SHLChunk::linked program %u\n", getGLId());
+        }
+        */
     }
     else
     {
@@ -626,15 +641,15 @@ void SHLChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
 {
     action->getWindow()->validateGLObject(getGLId());
 
-    if(_program != 0)
-    {
-        // get "glUseProgramObjectARB" function pointer
-        void (OSG_APIENTRY* useProgramObject)(GLuint programObj) =
-        (void (OSG_APIENTRY*)(GLuint programObj))
-        action->getWindow()->getFunction(_funcUseProgramObject);
-        
-        useProgramObject(_program);
-    }
+    if(_program == 0)
+        return;
+
+    // get "glUseProgramObjectARB" function pointer
+    void (OSG_APIENTRY* useProgramObject)(GLuint programObj) =
+    (void (OSG_APIENTRY*)(GLuint programObj))
+    action->getWindow()->getFunction(_funcUseProgramObject);
+    
+    useProgramObject(_program);
 }
 
 
@@ -653,29 +668,29 @@ void SHLChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
 
     action->getWindow()->validateGLObject(getGLId());
 
-    if(_program != 0)
-    {
-        // get "glUseProgramObjectARB" function pointer
-        void (OSG_APIENTRY* useProgramObject)(GLuint programObj) =
-        (void (OSG_APIENTRY*)(GLuint programObj))
-        action->getWindow()->getFunction(_funcUseProgramObject);
-        
-        useProgramObject(_program);
-    }
+    if(_program == 0)
+        return;
+
+    // get "glUseProgramObjectARB" function pointer
+    void (OSG_APIENTRY* useProgramObject)(GLuint programObj) =
+    (void (OSG_APIENTRY*)(GLuint programObj))
+    action->getWindow()->getFunction(_funcUseProgramObject);
+    
+    useProgramObject(_program);
 }
 
 
 void SHLChunk::deactivate(DrawActionBase *action, UInt32 /*idx*/)
 {
-    if(_program != 0)
-    {
-        // get "glUseProgramObjectARB" function pointer
-        void (OSG_APIENTRY* useProgramObject)(GLuint programObj) =
-        (void (OSG_APIENTRY*)(GLuint programObj))
-        action->getWindow()->getFunction(_funcUseProgramObject);
+    if(_program == 0)
+        return;
 
-        useProgramObject(0);
-    }
+    // get "glUseProgramObjectARB" function pointer
+    void (OSG_APIENTRY* useProgramObject)(GLuint programObj) =
+    (void (OSG_APIENTRY*)(GLuint programObj))
+    action->getWindow()->getFunction(_funcUseProgramObject);
+
+    useProgramObject(0);
 }
 
 /*-------------------------- Comparison -----------------------------------*/
@@ -726,7 +741,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.5 2004/05/21 13:47:50 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.6 2004/05/26 17:43:14 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
