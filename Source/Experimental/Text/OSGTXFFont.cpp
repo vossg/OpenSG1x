@@ -234,7 +234,12 @@ bool TXFFont::initFont(void)
 
     _valid = true;
 
+#ifdef OSG_GCC_NO_IOS_BASE
+	source.open(_fontPath.data(), std::ios::in | std::ios::binary );
+#else
 	source.open(_fontPath.data(), std::ios_base::in | std::ios_base::binary );
+#endif
+
     initFromStream(source);
     source.close();
 
