@@ -4862,7 +4862,10 @@ void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
 
     pVRMLLoader->createStandardPrototypes();
 
-    pVRMLLoader->scanFile((*pUrl)[0].c_str());
+    std::string filename =
+    SceneFileHandler::the().getPathHandler()->findFile((*pUrl)[0].c_str());
+
+    pVRMLLoader->scanFile(filename.c_str());
 
     NodePtr pFile = pVRMLLoader->getRoot();
 
