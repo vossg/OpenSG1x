@@ -157,8 +157,11 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     /*------------------------- comparison ----------------------------------*/
 
     void setSortTrans(bool bVal);
+    bool getSortTrans(void);
     void setZWriteTrans(bool bVal);
+    bool getZWriteTrans(void);
     void setLocalLights(bool bVal);
+    bool getLocalLights(void);
 
     /*------------------------- comparison ----------------------------------*/
 

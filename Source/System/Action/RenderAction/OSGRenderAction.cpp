@@ -999,14 +999,29 @@ void RenderAction::setSortTrans(bool bVal)
     _bSortTrans = bVal;
 }
 
+bool RenderAction::getSortTrans(void)
+{
+    return _bSortTrans;
+}
+
 void RenderAction::setZWriteTrans(bool bVal)
 {
     _bZWriteTrans = bVal;
 }
 
+bool RenderAction::getZWriteTrans(void)
+{
+    return _bZWriteTrans;
+}
+
 void RenderAction::setLocalLights(bool bVal)
 {
     _bLocalLights = bVal;
+}
+
+bool RenderAction::getLocalLights(void)
+{
+    return _bLocalLights;
 }
 
 // initialisation
