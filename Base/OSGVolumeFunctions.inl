@@ -96,5 +96,35 @@ OSG_BASE_DLLMAPPING Bool intersect ( const FrustumVolume &frustum,
 	return intersect(cylinder,frustum);
 }
 
+// # Volume ########################################################
+
+inline
+OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol, 
+      	                            const BoxVolume &vol)
+{
+	return intersect(vol,srcVol);
+}
+
+inline
+OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol, 
+	                                  const SphereVolume &vol)
+{
+	return intersect(vol,srcVol);
+}
+
+inline
+OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol, 
+  	                                const CylinderVolume &vol)
+{
+	return intersect(vol,srcVol);
+}
+
+inline
+OSG_BASE_DLLMAPPING Bool intersect ( const Volume &srcVol, 
+    	                              	const FrustumVolume &vol)
+{
+	return intersect(vol,srcVol);
+}
+
 OSG_END_NAMESPACE
 
