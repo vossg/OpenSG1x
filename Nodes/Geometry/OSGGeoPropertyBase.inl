@@ -256,6 +256,21 @@ void GeoProperty<GeoPropertyDesc>::executeSyncImpl(
 }
 
 template <class GeoPropertyDesc> inline 
+void GeoProperty<GeoPropertyDesc>::changed(BitVector  whichField, 
+                                           ChangeMode from)
+{
+    MFFieldContainerPtr::iterator parentsIt  = _parents.begin();
+    MFFieldContainerPtr::iterator parentsEnd = _parents.end();
+
+    while(parentsIt != parentsEnd)
+    {
+        (*parentsIt)->changed(1 << parentsIt->getParentFieldPos(),
+                              Child);
+        ++parentsIt;
+    }
+}
+
+template <class GeoPropertyDesc> inline 
 UInt32 GeoProperty<GeoPropertyDesc>::getBinSize(const BitVector &whichField)
 {
 #ifdef OSG_MICROSOFT_COMPILER_HACKS

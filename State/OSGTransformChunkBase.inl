@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &TransformChunkBase::getClassType(void)
+inline
+OSG::FieldContainerType &TransformChunkBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 TransformChunkBase::getClassTypeId(void) 
+inline
+OSG::UInt32 TransformChunkBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline TransformChunkPtr TransformChunkBase::create(void) 
+inline
+TransformChunkPtr TransformChunkBase::create(void) 
 {
     TransformChunkPtr fc; 
 
@@ -80,7 +83,8 @@ inline TransformChunkPtr TransformChunkBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline TransformChunkPtr TransformChunkBase::createEmpty(void) 
+inline
+TransformChunkPtr TransformChunkBase::createEmpty(void) 
 { 
     TransformChunkPtr returnValue; 
     
@@ -92,26 +96,26 @@ inline TransformChunkPtr TransformChunkBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFMatrix *TransformChunkBase::getSFMatrix(void)
 {
     return &_sfMatrix;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Matrix &TransformChunkBase::getMatrix(void)
 {
     return _sfMatrix.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Matrix &TransformChunkBase::getMatrix(void) const
 {
     return _sfMatrix.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void TransformChunkBase::setMatrix(const Matrix &value)
 {
     _sfMatrix.setValue(value);
@@ -121,5 +125,5 @@ void TransformChunkBase::setMatrix(const Matrix &value)
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTransformChunkBase.inl,v 1.8 2001/10/03 20:37:35 dirk Exp $"
+#define OSGTRANSFORMCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTransformChunkBase.inl,v 1.9 2002/03/25 01:25:59 vossg Exp $"
 

@@ -127,29 +127,29 @@ class OSG_SYSTEMLIB_DLLMAPPING FileGrabForegroundBase : public GrabForeground
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFBool              *getSFActive         (void);
-    inline       SFString            *getSFName           (void);
-    inline       SFUInt32            *getSFFrame          (void);
-    inline       SFBool              *getSFIncrement      (void);
+           SFBool              *getSFActive         (void);
+           SFString            *getSFName           (void);
+           SFUInt32            *getSFFrame          (void);
+           SFBool              *getSFIncrement      (void);
 
-    inline       bool                &getActive         (void);
-    inline const bool                &getActive         (void) const;
-    inline       string              &getName           (void);
-    inline const string              &getName           (void) const;
-    inline       UInt32              &getFrame          (void);
-    inline const UInt32              &getFrame          (void) const;
-    inline       bool                &getIncrement      (void);
-    inline const bool                &getIncrement      (void) const;
+           bool                &getActive         (void);
+     const bool                &getActive         (void) const;
+           string              &getName           (void);
+     const string              &getName           (void) const;
+           UInt32              &getFrame          (void);
+     const UInt32              &getFrame          (void) const;
+           bool                &getIncrement      (void);
+     const bool                &getIncrement      (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setActive         ( const bool &value );
-    inline void setName           ( const string &value );
-    inline void setFrame          ( const UInt32 &value );
-    inline void setIncrement      ( const bool &value );
+     void setActive         ( const bool &value );
+     void setName           ( const string &value );
+     void setFrame          ( const UInt32 &value );
+     void setIncrement      ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -246,6 +246,6 @@ typedef FileGrabForegroundBase *FileGrabForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGFileGrabForegroundBase.h,v 1.3 2002/03/19 17:48:18 dirk Exp $"
+#define OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGFileGrabForegroundBase.h,v 1.4 2002/03/25 01:26:00 vossg Exp $"
 
 #endif /* _OSGFILEGRABFOREGROUNDBASE_H_ */

@@ -121,21 +121,21 @@ class OSG_SYSTEMLIB_DLLMAPPING StatisticsForegroundBase : public Foreground
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       MFInt32             *getMFElementIDs     (void);
-    inline       SFStatCollector     *getSFCollector      (void);
+           MFInt32             *getMFElementIDs     (void);
+           SFStatCollector     *getSFCollector      (void);
 
-    inline       StatCollector       &getCollector      (void);
-    inline const StatCollector       &getCollector      (void) const;
-    inline       Int32               &getElementIDs     (UInt32 index);
-    inline       MFInt32             &getElementIDs     (void);
-    inline const MFInt32             &getElementIDs     (void) const;
+           StatCollector       &getCollector      (void);
+     const StatCollector       &getCollector      (void) const;
+           Int32               &getElementIDs     (UInt32 index);
+           MFInt32             &getElementIDs     (void);
+     const MFInt32             &getElementIDs     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setCollector      ( const StatCollector &value );
+     void setCollector      ( const StatCollector &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -214,6 +214,6 @@ typedef StatisticsForegroundBase *StatisticsForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGStatisticsForegroundBase.h,v 1.1 2002/03/19 17:46:18 dirk Exp $"
+#define OSGSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGStatisticsForegroundBase.h,v 1.2 2002/03/25 01:26:00 vossg Exp $"
 
 #endif /* _OSGSTATISTICSFOREGROUNDBASE_H_ */

@@ -73,7 +73,6 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <class FloatTypeT> inline
-OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType 
     osgsqrt(const FloatTypeT rVal);
 
@@ -82,7 +81,6 @@ typename TypeConstants<FloatTypeT>::RealReturnType
  */
 
 template <class FloatTypeT> inline
-OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType 
     osgcos(const FloatTypeT rVal);
 
@@ -91,7 +89,6 @@ typename TypeConstants<FloatTypeT>::RealReturnType
  */
 
 template <class FloatTypeT> inline
-OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType 
     osgsin(const FloatTypeT rVal);
 
@@ -100,7 +97,6 @@ typename TypeConstants<FloatTypeT>::RealReturnType
  */
 
 template <class FloatTypeT> inline
-OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType
     osgtan(const FloatTypeT rVal);
 
@@ -109,7 +105,6 @@ typename TypeConstants<FloatTypeT>::RealReturnType
  */
 
 template <class FloatTypeT> inline
-OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType 
     osgacos(const FloatTypeT rVal);
 
@@ -118,7 +113,6 @@ typename TypeConstants<FloatTypeT>::RealReturnType
  */
 
 template <class FloatTypeT> inline
-OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType
     osgasin(const FloatTypeT rVal);
 
@@ -127,7 +121,6 @@ typename TypeConstants<FloatTypeT>::RealReturnType
  */
 
 template <class FloatTypeT> inline
-OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType 
     osgatan(const FloatTypeT rVal);
 
@@ -136,17 +129,76 @@ typename TypeConstants<FloatTypeT>::RealReturnType
  */
 
 template <class FloatTypeT> inline
-OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType 
     osgatan2(const FloatTypeT rVal1,
              const FloatTypeT rVal2);
+
+/*! \brief osgabs
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class FloatTypeT> inline
+FloatTypeT osgabs(const FloatTypeT rVal);
+
+/*! \brief osgpow
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class FloatTypeT> inline
+typename TypeConstants<FloatTypeT>::RealReturnType
+    osgpow(const FloatTypeT rVal,
+           const FloatTypeT rExp);
+
+/*! \brief osglog
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class FloatTypeT> inline
+typename TypeConstants<FloatTypeT>::RealReturnType
+    osglog(const FloatTypeT rVal);
+
+/*! \brief osgexp
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class FloatTypeT> inline
+typename TypeConstants<FloatTypeT>::RealReturnType
+    osgexp(const FloatTypeT rVal);
+
+/*! \brief osgfloor
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class FloatTypeT> inline
+typename TypeConstants<FloatTypeT>::RealReturnType
+    osgfloor(const FloatTypeT rVal);
+
+/*! \brief osgfinite
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class FloatTypeT> inline
+UInt32 osgfinite(const FloatTypeT rVal);
+
+/*! \brief osgMin
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class TypeT> inline
+TypeT osgMin(const TypeT lVal, const TypeT rVal);
+
+/*! \brief osgMax
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class TypeT> inline
+TypeT osgMax(const TypeT lVal, const TypeT rVal);
 
 /*! \brief osgdegree2rad
  *  \ingroup BaseMathFunctions
  */
 
 template <class FloatTypeT> inline
-OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType 
     osgdegree2rad(const FloatTypeT rVal);
 
@@ -155,9 +207,9 @@ typename TypeConstants<FloatTypeT>::RealReturnType
  */
 
 template <class FloatTypeT> inline
-OSG_BASE_SPEZ_HEAD_DLLMAPPING
 typename TypeConstants<FloatTypeT>::RealReturnType
     osgrad2degree(const FloatTypeT rVal);
+
 
 /*! \brief deg2rad
  *  \ingroup BaseMathFunctions
@@ -175,75 +227,11 @@ template <class FloatTypeT> inline
 typename TypeConstants<FloatTypeT>::RealReturnType
     rad2deg(const FloatTypeT rVal);
 
-/*! \brief osgabs
- *  \ingroup BaseMathFunctions
- */
-
-template <class FloatTypeT> inline
-OSG_BASE_SPEZ_HEAD_DLLMAPPING
-FloatTypeT osgabs(const FloatTypeT rVal);
-
-/*! \brief osgpow
- *  \ingroup BaseMathFunctions
- */
-
-template <class FloatTypeT> inline
-OSG_BASE_SPEZ_HEAD_DLLMAPPING
-typename TypeConstants<FloatTypeT>::RealReturnType
-    osgpow(const FloatTypeT rVal,
-           const FloatTypeT rExp);
-
-/*! \brief osglog
- *  \ingroup BaseMathFunctions
- */
-
-template <class FloatTypeT> inline
-OSG_BASE_SPEZ_HEAD_DLLMAPPING
-typename TypeConstants<FloatTypeT>::RealReturnType
-    osglog(const FloatTypeT rVal);
-
-/*! \brief osgexp
- *  \ingroup BaseMathFunctions
- */
-
-template <class FloatTypeT> inline
-OSG_BASE_SPEZ_HEAD_DLLMAPPING
-typename TypeConstants<FloatTypeT>::RealReturnType
-    osgexp(const FloatTypeT rVal);
-
-/*! \brief osgfloor
- *  \ingroup BaseMathFunctions
- */
-
-template <class FloatTypeT> inline
-OSG_BASE_SPEZ_HEAD_DLLMAPPING
-typename TypeConstants<FloatTypeT>::RealReturnType
-    osgfloor(const FloatTypeT rVal);
-
-/*! \brief osgMin
- *  \ingroup BaseMathFunctions
- */
-
-template <class TypeT> inline
-TypeT osgMin(const TypeT lVal, const TypeT rVal);
-
-/*! \brief osgMax
- *  \ingroup BaseMathFunctions
- */
-
-template <class TypeT> inline
-TypeT osgMax(const TypeT lVal, const TypeT rVal);
-
-template <class FloatTypeT>
-UInt32 osgfinite(const FloatTypeT rVal);
-
-
 /*! \brief osgispower2
  *  \ingroup BaseMathFunctions
  */
 
 template <class TypeT> inline
-OSG_BASE_SPEZ_HEAD_DLLMAPPING
 bool osgispower2(TypeT rVal);
 
 /*! \brief osgnextpower2
@@ -251,8 +239,8 @@ bool osgispower2(TypeT rVal);
  */
 
 template <class TypeT> inline
-OSG_BASE_SPEZ_HEAD_DLLMAPPING
 TypeT osgnextpower2(TypeT rVal);
+
 
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
@@ -337,6 +325,106 @@ struct osgIF
 };
 
 #endif
+
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name                    String Functions                          */
+/*! \{                                                                 */
+
+/*! \brief copy c strings, allocate new memory using new []
+ *  \ingroup BaseFunctions
+ */
+
+inline
+void stringDup(const Char8 *szInput, Char8 *&szOutput);
+
+/*! \brief limited string compare
+ *  \ingroup BaseFunctions
+ */
+
+inline
+Int32 stringncmp(const Char8 *string1, const Char8 *string2, size_t count);
+
+/*! \brief string length
+ *  \ingroup BaseFunctions
+ */
+
+inline
+Int32 stringlen(const Char8 *string1);
+
+
+/*! \brief string compare
+ *  \ingroup BaseFunctions
+ */
+
+inline
+Int32 stringcmp(const Char8 *string1, const Char8 *string2);
+
+/*! \brief string case compare
+ *  \ingroup BaseFunctions
+ */
+
+inline
+Int32 stringcasecmp(const Char8 *string1,
+                    const Char8 *string2);
+
+/*! \brief String less than compare functor used for a STL weak ordering
+ *  \ingroup BaseFunctions
+ */
+
+struct LTString
+{
+    bool operator()(const Char8 *s1, const Char8 *s2) const
+    {
+        return ::strcmp(s1, s2) < 0;
+    }
+};
+
+/*! \brief String equal compare functor
+ *  \ingroup BaseFunctions
+ */
+
+struct EQString
+{
+    bool operator()(const Char8 *s1, const Char8 *s2) const
+    {
+        return ::strcmp(s1, s2) == 0;
+    }
+};
+
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name                     Misc Functions                           */
+/*! \{                                                                 */
+
+/*! \brief find the index that has the largest absolute value for a vec3
+ *  \ingroup BaseFunctions
+ */
+
+template<class VecPntT> inline
+UInt32 getMaxIndexAbs3(const VecPntT &v);
+
+/*! \brief set the value of an environment variable
+ *  \ingroup BaseFunctions
+ */
+
+inline
+Int32 putenv(Char8 *string);
+
+
+/*! \brief sleep
+ *  \ingroup BaseFunctions
+ */
+
+inline
+void osgsleep(UInt32 millisecs);
+
+/*! \brief get a random value between 0 and 1
+ *  \ingroup BaseFunctions
+ */
+
+inline
+Real32 osgrand(void);
 
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
@@ -428,112 +516,6 @@ void clearRefPVectorP(vector<T *> *pVector)
 
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
-/*! \name                    String Functions                          */
-/*! \{                                                                 */
-
-/*! \brief copy c strings, allocate new memory using new []
- *  \ingroup BaseFunctions
- */
-
-inline
-OSG_BASE_DLLMAPPING void stringDup(const char *szInput, char *&szOutput);
-
-/*! \brief limited string compare
- *  \ingroup BaseFunctions
- */
-
-inline
-OSG_BASE_DLLMAPPING
-Int32 stringncmp(const char *string1, const char *string2, size_t count);
-
-/*! \brief limited string compare
- *  \ingroup BaseFunctions
- */
-
-
-inline
-OSG_BASE_DLLMAPPING Int32 stringlen(const char *string1);
-
-
-/*! \brief string compare
- *  \ingroup BaseFunctions
- */
-
-inline
-OSG_BASE_DLLMAPPING Int32 stringcmp(const char *string1, const char *string2);
-
-/*! \brief string case compare
- *  \ingroup BaseFunctions
- */
-
-inline
-OSG_BASE_DLLMAPPING Int32 stringcasecmp(const char *string1,
-                                        const char *string2);
-
-/*! \brief String less than compare functor used for a STL weak ordering
- *  \ingroup BaseFunctions
- */
-
-struct OSG_BASE_DLLMAPPING LTString
-{
-    bool operator()(const char* s1, const char* s2) const
-    {
-        return ::strcmp(s1, s2) < 0;
-    }
-};
-
-/*! \brief String equal compare functor
- *  \ingroup BaseFunctions
- */
-
-struct OSG_BASE_DLLMAPPING EQString
-{
-    bool operator()(const char* s1, const char* s2) const
-    {
-        return ::strcmp(s1, s2) == 0;
-    }
-};
-
-/*! \}                                                                 */
-/*---------------------------------------------------------------------*/
-/*! \name                     Misc Functions                           */
-/*! \{                                                                 */
-
-/*! \brief find the index that has the largest absolute value for a vec3
- *  \ingroup BaseFunctions
- */
-
-template<class VecPntT> inline
-UInt32 getMaxIndexAbs3(const VecPntT &v)
-{
-    return fabsf(v[0]) > fabsf(v[1]) ?
-        fabsf(v[0]) > fabsf(v[2]) ? 0 : 2 : fabsf(v[1]) > fabsf(v[2]) ? 1 : 2;
-}
-
-/*! \brief set the value of an environment variable
- *  \ingroup BaseFunctions
- */
-
-inline
-OSG_BASE_DLLMAPPING int putenv(char *string);
-
-
-/*! \brief sleep
- *  \ingroup BaseFunctions
- */
-
-inline
-OSG_BASE_DLLMAPPING void osgsleep(UInt32 millisecs);
-
-/*! \brief get a random value between 0 and 1
- *  \ingroup BaseFunctions
- */
-
-inline
-OSG_BASE_DLLMAPPING Real32 osgrand(void);
-
-/*! \}                                                                 */
-/*---------------------------------------------------------------------*/
 /*! \name                     Initialization                           */
 /*! \{                                                                 */
 
@@ -564,37 +546,43 @@ typedef bool (*ExitFuncF)(void);
  *  \ingroup BaseFunctions
  */
 
-OSG_BASE_DLLMAPPING void addInitFunction(InitFuncF initFunc);
+OSG_BASE_DLLMAPPING 
+void addInitFunction(InitFuncF initFunc);
 
 /*! \brief AddExitFunction
  *  \ingroup BaseFunctions
  */
 
-OSG_BASE_DLLMAPPING void addExitFunction(ExitFuncF exitFunc);
+OSG_BASE_DLLMAPPING 
+void addExitFunction(ExitFuncF exitFunc);
 
 /*! \brief vscAddMPInitFunction
  *  \ingroup BaseFunctions
  */
 
-OSG_BASE_DLLMAPPING void addMPInitFunction(InitFuncF initFunc);
+OSG_BASE_DLLMAPPING 
+void addMPInitFunction(InitFuncF initFunc);
 
 /*! \brief vscAddMPExitFunction
  *  \ingroup BaseFunctions
  */
 
-OSG_BASE_DLLMAPPING void addMPExitFunction(ExitFuncF exitFunc);
+OSG_BASE_DLLMAPPING 
+void addMPExitFunction(ExitFuncF exitFunc);
 
 /*! \brief Init
  *  \ingroup BaseFunctions
  */
 
-bool OSG_BASE_DLLMAPPING osgInit(int argc, char **argv);
+OSG_BASE_DLLMAPPING 
+bool osgInit(int argc, char **argv);
 
 /*! \brief Exit
  *  \ingroup BaseFunctions
  */
 
-bool OSG_BASE_DLLMAPPING osgExit(void);
+OSG_BASE_DLLMAPPING 
+bool osgExit(void);
 
 /*! \}                                                                 */
 

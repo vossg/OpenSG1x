@@ -121,21 +121,21 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public Group
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFPnt3f             *getSFCenter         (void);
-    inline       MFReal32            *getMFRange          (void);
+           SFPnt3f             *getSFCenter         (void);
+           MFReal32            *getMFRange          (void);
 
-    inline       Pnt3f               &getCenter         (void);
-    inline const Pnt3f               &getCenter         (void) const;
-    inline       Real32              &getRange          (UInt32 index);
-    inline       MFReal32            &getRange          (void);
-    inline const MFReal32            &getRange          (void) const;
+           Pnt3f               &getCenter         (void);
+     const Pnt3f               &getCenter         (void) const;
+           Real32              &getRange          (UInt32 index);
+           MFReal32            &getRange          (void);
+     const MFReal32            &getRange          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setCenter         ( const Pnt3f &value );
+     void setCenter         ( const Pnt3f &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -230,6 +230,6 @@ typedef DistanceLODBase *DistanceLODBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: OSGDistanceLODBase.h,v 1.14 2002/03/19 17:38:56 dirk Exp $"
+#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: OSGDistanceLODBase.h,v 1.15 2002/03/25 01:25:59 vossg Exp $"
 
 #endif /* _OSGDISTANCELODBASE_H_ */

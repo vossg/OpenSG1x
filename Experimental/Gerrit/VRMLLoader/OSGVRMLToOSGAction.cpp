@@ -53,62 +53,6 @@
 #include "OSGVRMLToOSGAction.h"
 #include "OSGVRMLNode.h"
 
-#if 0
-#include "VRMLGroup.hpp"
-#include "VRMLSwitch.hpp"
-#include "VRMLShape.hpp"
-#include "VSCVRMLCoordinate.hpp"
-#include "VSCVRMLNormal.hpp"
-#include "VSCVRMLTextureCoordinate.hpp"
-#include "VSCVRMLColor.hpp"
-#include "VSCVRMLIndexedFaceSet.hpp"
-#include "VSCVRMLIndexedLineSet.hpp"
-#include "VSCVRMLMaterial.hpp"
-#include "VSCVRMLAppearance.hpp"
-#include "VSCVRMLTransform.hpp"
-#include "VSCVRMLScalarInterpolator.hpp"
-#include "VSCVRMLPositionInterpolator.hpp"
-#include "VSCVRMLOrientationInterpolator.hpp"
-#include "VSCVRMLTimeSensor.hpp"
-#include "VSCVRMLUse.hpp"
-#include "VSCVRMLBox.hpp"
-#include "VSCVRMLCone.hpp"
-#include "VSCVRMLCylinder.hpp"
-#include "VSCVRMLSphere.hpp"
-#include "VSCVRMLBillboard.hpp"
-#include "VSCVRMLImageTexture.hpp"
-#include "VSCVRMLLOD.hpp"
-#include "VSCVRMLInline.hpp"
-
-#include "VSCVRMLHumanoid.hpp"
-#include "VSCVRMLSegment.hpp"
-#include "VSCVRMLJoint.hpp"
-
-#include "VSCVRMLGroupBinder.hpp"
-#include "VSCVRMLSwitchBinder.hpp"
-#include "VSCVRMLShapeBinder.hpp"
-#include "VSCVRMLIndexedFaceSetBinder.hpp"
-#include "VSCVRMLIndexedLineSetBinder.hpp"
-#include "VSCVRMLCoordinateBinder.hpp"
-#include "VSCVRMLNormalBinder.hpp"
-#include "VSCVRMLTextureCoordinateBinder.hpp"
-#include "VSCVRMLColorBinder.hpp"
-#include "VSCVRMLAppearanceBinder.hpp"
-#include "VSCVRMLMaterialBinder.hpp"
-#include "VSCVRMLTransformBinder.hpp"
-#include "VSCVRMLUseBinder.hpp"
-#include "VSCVRMLBoxBinder.hpp"
-#include "VSCVRMLConeBinder.hpp"
-#include "VSCVRMLCylinderBinder.hpp"
-#include "VSCVRMLSphereBinder.hpp"
-#include "VSCVRMLBillboardBinder.hpp"
-#include "VSCVRMLImageTextureBinder.hpp"
-#include "VSCVRMLLODBinder.hpp"
-#include "VSCVRMLInlineBinder.hpp"
-
-#include "VSCVRMLHumanoidBinder.hpp"
-#endif
-
 OSG_USING_NAMESPACE
 
 #ifdef __sgi
@@ -169,9 +113,10 @@ template class OSG_VRML_DLLMAPPING
 \*-------------------------------------------------------------------------*/
 
 VRMLToOSGAction::VRMLToOSGAction(void) :
- 	 Inherited   (             ),
-    _uiOptions   (CreateNormals),
-    _pNameNodeMap(NULL         )
+ 	 Inherited    (             ),
+    _uiOptions    (CreateNormals),
+    _pNameNodeMap (NULL         ),
+    _eTransferMode(CopyData     )
 {
 }
 
@@ -206,6 +151,16 @@ void VRMLToOSGAction::setNameNodeMap(NameNodeMap *pMap)
 VRMLToOSGAction::NameNodeMap *VRMLToOSGAction::getNameNodeMap(void)
 {
     return _pNameNodeMap;
+}
+
+void VRMLToOSGAction::setDataTransferMode(DataTransferMode eTransferMode)
+{
+    _eTransferMode = eTransferMode;
+}
+
+VRMLToOSGAction::DataTransferMode VRMLToOSGAction::getDataTransferMode(void)
+{
+    return _eTransferMode;
 }
 
 

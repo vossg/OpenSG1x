@@ -313,6 +313,13 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
 
             void executeSyncImpl(      GeoProperty *pOther,
                                  const BitVector   &whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Changed                                 */
+    /*! \{                                                                 */
+
+    virtual void changed        (BitVector whichField, ChangeMode from);
             
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -49,7 +49,7 @@ OSG_BEGIN_NAMESPACE
 //! Brief
 //! \ingroup baselib
 
-class OSG_DLLEXPORT CLASSNAME //: public PARENTCLASS
+class OSG_DLLMAPPING CLASSNAME //: public PARENTCLASS
 {
     /*==========================  PUBLIC  =================================*/
   public:

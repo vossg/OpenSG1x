@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &InlineBase::getClassType(void)
+inline
+OSG::FieldContainerType &InlineBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 InlineBase::getClassTypeId(void) 
+inline
+OSG::UInt32 InlineBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline InlinePtr InlineBase::create(void) 
+inline
+InlinePtr InlineBase::create(void) 
 {
     InlinePtr fc; 
 
@@ -80,7 +83,8 @@ inline InlinePtr InlineBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline InlinePtr InlineBase::createEmpty(void) 
+inline
+InlinePtr InlineBase::createEmpty(void) 
 { 
     InlinePtr returnValue; 
     
@@ -92,25 +96,51 @@ inline InlinePtr InlineBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFString *InlineBase::getMFUrl(void)
 {
     return &_mfUrl;
 }
 
+inline
+SFBool *InlineBase::getSFLoaded(void)
+{
+    return &_sfLoaded;
+}
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
+bool &InlineBase::getLoaded(void)
+{
+    return _sfLoaded.getValue();
+}
+
+inline
+const bool &InlineBase::getLoaded(void) const
+{
+    return _sfLoaded.getValue();
+}
+
+inline
+void InlineBase::setLoaded(const bool &value)
+{
+    _sfLoaded.setValue(value);
+}
+
+
+inline
 string &InlineBase::getUrl(UInt32 index)
 {
     return _mfUrl.getValue( index );
 }
 
+inline
 MFString &InlineBase::getUrl(void)
 {
     return _mfUrl;
 }
 
+inline
 const MFString &InlineBase::getUrl(void) const
 {
     return _mfUrl;

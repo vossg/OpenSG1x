@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &TransformBase::getClassType(void)
+inline
+OSG::FieldContainerType &TransformBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 TransformBase::getClassTypeId(void) 
+inline
+OSG::UInt32 TransformBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline TransformPtr TransformBase::create(void) 
+inline
+TransformPtr TransformBase::create(void) 
 {
     TransformPtr fc; 
 
@@ -80,7 +83,8 @@ inline TransformPtr TransformBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline TransformPtr TransformBase::createEmpty(void) 
+inline
+TransformPtr TransformBase::createEmpty(void) 
 { 
     TransformPtr returnValue; 
     
@@ -92,26 +96,26 @@ inline TransformPtr TransformBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFMatrix *TransformBase::getSFMatrix(void)
 {
     return &_sfMatrix;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Matrix &TransformBase::getMatrix(void)
 {
     return _sfMatrix.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Matrix &TransformBase::getMatrix(void) const
 {
     return _sfMatrix.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void TransformBase::setMatrix(const Matrix &value)
 {
     _sfMatrix.setValue(value);
@@ -121,5 +125,5 @@ void TransformBase::setMatrix(const Matrix &value)
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMBASE_INLINE_CVSID "@(#)$Id: OSGTransformBase.inl,v 1.8 2001/10/03 20:37:35 dirk Exp $"
+#define OSGTRANSFORMBASE_INLINE_CVSID "@(#)$Id: OSGTransformBase.inl,v 1.9 2002/03/25 01:25:59 vossg Exp $"
 

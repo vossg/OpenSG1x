@@ -118,17 +118,17 @@ class OSG_SYSTEMLIB_DLLMAPPING GrabForegroundBase : public Foreground
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFImageP            *getSFImage          (void);
+           SFImageP            *getSFImage          (void);
 
-    inline       ImageP              &getImage          (void);
-    inline const ImageP              &getImage          (void) const;
+           ImageP              &getImage          (void);
+     const ImageP              &getImage          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setImage          ( const ImageP &value );
+     void setImage          ( const ImageP &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -222,6 +222,6 @@ typedef GrabForegroundBase *GrabForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGrabForegroundBase.h,v 1.2 2002/03/19 17:48:18 dirk Exp $"
+#define OSGGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGrabForegroundBase.h,v 1.3 2002/03/25 01:26:00 vossg Exp $"
 
 #endif /* _OSGGRABFOREGROUNDBASE_H_ */

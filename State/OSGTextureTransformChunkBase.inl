@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &TextureTransformChunkBase::getClassType(void)
+inline
+OSG::FieldContainerType &TextureTransformChunkBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 TextureTransformChunkBase::getClassTypeId(void) 
+inline
+OSG::UInt32 TextureTransformChunkBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline TextureTransformChunkPtr TextureTransformChunkBase::create(void) 
+inline
+TextureTransformChunkPtr TextureTransformChunkBase::create(void) 
 {
     TextureTransformChunkPtr fc; 
 
@@ -80,7 +83,8 @@ inline TextureTransformChunkPtr TextureTransformChunkBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline TextureTransformChunkPtr TextureTransformChunkBase::createEmpty(void) 
+inline
+TextureTransformChunkPtr TextureTransformChunkBase::createEmpty(void) 
 { 
     TextureTransformChunkPtr returnValue; 
     
@@ -97,5 +101,5 @@ inline TextureTransformChunkPtr TextureTransformChunkBase::createEmpty(void)
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURETRANSFORMCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTextureTransformChunkBase.inl,v 1.1 2001/12/03 21:46:42 dirk Exp $"
+#define OSGTEXTURETRANSFORMCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTextureTransformChunkBase.inl,v 1.2 2002/03/25 01:25:59 vossg Exp $"
 

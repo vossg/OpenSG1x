@@ -124,10 +124,10 @@ char *FCTemplate_h[]={
 "",
 "OSG_END_NAMESPACE",
 "",
-"#include <OSG@!Classname!@.inl>",
 "#include <OSG@!Classname!@Base.inl>",
+"#include <OSG@!Classname!@.inl>",
 "",
-"#define OSG@!CLASSNAME!@_HEADER_CVSID \"@(#)$Id: FCTemplate_h.h,v 1.13 2001/10/30 22:26:17 dirk Exp $\"",
+"#define OSG@!CLASSNAME!@_HEADER_CVSID \"@(#)$Id: FCTemplate_h.h,v 1.14 2002/03/25 01:26:00 vossg Exp $\"",
 "",
 "#endif /* _OSG@!CLASSNAME!@_H_ */",
 NULL };

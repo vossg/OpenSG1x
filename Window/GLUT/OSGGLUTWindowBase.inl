@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &GLUTWindowBase::getClassType(void)
+inline
+OSG::FieldContainerType &GLUTWindowBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 GLUTWindowBase::getClassTypeId(void) 
+inline
+OSG::UInt32 GLUTWindowBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline GLUTWindowPtr GLUTWindowBase::create(void) 
+inline
+GLUTWindowPtr GLUTWindowBase::create(void) 
 {
     GLUTWindowPtr fc; 
 
@@ -80,7 +83,8 @@ inline GLUTWindowPtr GLUTWindowBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline GLUTWindowPtr GLUTWindowBase::createEmpty(void) 
+inline
+GLUTWindowPtr GLUTWindowBase::createEmpty(void) 
 { 
     GLUTWindowPtr returnValue; 
     
@@ -92,26 +96,26 @@ inline GLUTWindowPtr GLUTWindowBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_WINDOWGLUTLIB_DLLMAPPING
+inline
 SFInt32 *GLUTWindowBase::getSFId(void)
 {
     return &_sfId;
 }
 
 
-OSG_WINDOWGLUTLIB_DLLMAPPING
+inline
 Int32 &GLUTWindowBase::getId(void)
 {
     return _sfId.getValue();
 }
 
-OSG_WINDOWGLUTLIB_DLLMAPPING
+inline
 const Int32 &GLUTWindowBase::getId(void) const
 {
     return _sfId.getValue();
 }
 
-OSG_WINDOWGLUTLIB_DLLMAPPING
+inline
 void GLUTWindowBase::setId(const Int32 &value)
 {
     _sfId.setValue(value);
@@ -121,5 +125,5 @@ void GLUTWindowBase::setId(const Int32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGGLUTWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGGLUTWindowBase.inl,v 1.1 2002/02/05 20:39:33 dirk Exp $"
+#define OSGGLUTWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGGLUTWindowBase.inl,v 1.2 2002/03/25 01:26:01 vossg Exp $"
 

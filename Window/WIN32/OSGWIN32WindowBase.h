@@ -127,29 +127,29 @@ class OSG_WINDOWWIN32LIB_DLLMAPPING WIN32WindowBase : public Window
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFHWND              *getSFHwnd           (void);
-    inline       SFHDC               *getSFHdc            (void);
-    inline       SFHGLRC             *getSFHglrc          (void);
-    inline       SFPAINTSTRUCT       *getSFPaintstruct    (void);
+           SFHWND              *getSFHwnd           (void);
+           SFHDC               *getSFHdc            (void);
+           SFHGLRC             *getSFHglrc          (void);
+           SFPAINTSTRUCT       *getSFPaintstruct    (void);
 
-    inline       HWND                &getHwnd           (void);
-    inline const HWND                &getHwnd           (void) const;
-    inline       HDC                 &getHdc            (void);
-    inline const HDC                 &getHdc            (void) const;
-    inline       HGLRC               &getHglrc          (void);
-    inline const HGLRC               &getHglrc          (void) const;
-    inline       PAINTSTRUCT         &getPaintstruct    (void);
-    inline const PAINTSTRUCT         &getPaintstruct    (void) const;
+           HWND                &getHwnd           (void);
+     const HWND                &getHwnd           (void) const;
+           HDC                 &getHdc            (void);
+     const HDC                 &getHdc            (void) const;
+           HGLRC               &getHglrc          (void);
+     const HGLRC               &getHglrc          (void) const;
+           PAINTSTRUCT         &getPaintstruct    (void);
+     const PAINTSTRUCT         &getPaintstruct    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setHwnd           ( const HWND &value );
-    inline void setHdc            ( const HDC &value );
-    inline void setHglrc          ( const HGLRC &value );
-    inline void setPaintstruct    ( const PAINTSTRUCT &value );
+     void setHwnd           ( const HWND &value );
+     void setHdc            ( const HDC &value );
+     void setHglrc          ( const HGLRC &value );
+     void setPaintstruct    ( const PAINTSTRUCT &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -246,6 +246,6 @@ typedef WIN32WindowBase *WIN32WindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGWIN32WINDOWBASE_HEADER_CVSID "@(#)$Id: OSGWIN32WindowBase.h,v 1.3 2002/03/19 18:01:41 dirk Exp $"
+#define OSGWIN32WINDOWBASE_HEADER_CVSID "@(#)$Id: OSGWIN32WindowBase.h,v 1.4 2002/03/25 01:26:01 vossg Exp $"
 
 #endif /* _OSGWIN32WINDOWBASE_H_ */

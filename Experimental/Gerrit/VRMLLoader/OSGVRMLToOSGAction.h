@@ -123,6 +123,12 @@ class OSG_VRML_DLLMAPPING VRMLToOSGAction : public VRMLToOSGMixin
         StripeGeometry = 0x0002
     };
 
+    enum DataTransferMode
+    {
+        CopyData = 0x0100,
+        SwapData = 0x0200
+    };
+
   private:
 
     //-----------------------------------------------------------------------
@@ -184,8 +190,9 @@ class OSG_VRML_DLLMAPPING VRMLToOSGAction : public VRMLToOSGMixin
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    UInt32       _uiOptions;
-    NameNodeMap *_pNameNodeMap;
+    UInt32            _uiOptions;
+    NameNodeMap      *_pNameNodeMap;
+    DataTransferMode  _eTransferMode;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -206,11 +213,14 @@ class OSG_VRML_DLLMAPPING VRMLToOSGAction : public VRMLToOSGMixin
 
     /*------------------------- your_operators ------------------------------*/
 
-    void         setOptions    (UInt32 uiOptions );
-    UInt32       getOptions    (void                );
+    void             setOptions         (UInt32            uiOptions    );
+    UInt32           getOptions         (void                           );
 
-    void         setNameNodeMap(NameNodeMap *pMap);
-    NameNodeMap *getNameNodeMap(void                );
+    void             setNameNodeMap     (NameNodeMap      *pMap         );
+    NameNodeMap     *getNameNodeMap     (void                           );
+
+    void             setDataTransferMode(DataTransferMode  eTransferMode);
+    DataTransferMode getDataTransferMode(void                           );
 };
 
 //---------------------------------------------------------------------------

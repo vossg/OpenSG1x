@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &LightChunkBase::getClassType(void)
+inline
+OSG::FieldContainerType &LightChunkBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 LightChunkBase::getClassTypeId(void) 
+inline
+OSG::UInt32 LightChunkBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline LightChunkPtr LightChunkBase::create(void) 
+inline
+LightChunkPtr LightChunkBase::create(void) 
 {
     LightChunkPtr fc; 
 
@@ -80,7 +83,8 @@ inline LightChunkPtr LightChunkBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline LightChunkPtr LightChunkBase::createEmpty(void) 
+inline
+LightChunkPtr LightChunkBase::createEmpty(void) 
 { 
     LightChunkPtr returnValue; 
     
@@ -92,242 +96,242 @@ inline LightChunkPtr LightChunkBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFColor4f *LightChunkBase::getSFDiffuse(void)
 {
     return &_sfDiffuse;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFColor4f *LightChunkBase::getSFAmbient(void)
 {
     return &_sfAmbient;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFColor4f *LightChunkBase::getSFSpecular(void)
 {
     return &_sfSpecular;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFVec4f *LightChunkBase::getSFPosition(void)
 {
     return &_sfPosition;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFVec3f *LightChunkBase::getSFDirection(void)
 {
     return &_sfDirection;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *LightChunkBase::getSFExponent(void)
 {
     return &_sfExponent;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *LightChunkBase::getSFCutoff(void)
 {
     return &_sfCutoff;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *LightChunkBase::getSFConstantAttenuation(void)
 {
     return &_sfConstantAttenuation;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *LightChunkBase::getSFLinearAttenuation(void)
 {
     return &_sfLinearAttenuation;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *LightChunkBase::getSFQuadraticAttenuation(void)
 {
     return &_sfQuadraticAttenuation;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Color4f &LightChunkBase::getDiffuse(void)
 {
     return _sfDiffuse.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Color4f &LightChunkBase::getDiffuse(void) const
 {
     return _sfDiffuse.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void LightChunkBase::setDiffuse(const Color4f &value)
 {
     _sfDiffuse.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Color4f &LightChunkBase::getAmbient(void)
 {
     return _sfAmbient.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Color4f &LightChunkBase::getAmbient(void) const
 {
     return _sfAmbient.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void LightChunkBase::setAmbient(const Color4f &value)
 {
     _sfAmbient.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Color4f &LightChunkBase::getSpecular(void)
 {
     return _sfSpecular.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Color4f &LightChunkBase::getSpecular(void) const
 {
     return _sfSpecular.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void LightChunkBase::setSpecular(const Color4f &value)
 {
     _sfSpecular.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Vec4f &LightChunkBase::getPosition(void)
 {
     return _sfPosition.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Vec4f &LightChunkBase::getPosition(void) const
 {
     return _sfPosition.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void LightChunkBase::setPosition(const Vec4f &value)
 {
     _sfPosition.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Vec3f &LightChunkBase::getDirection(void)
 {
     return _sfDirection.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Vec3f &LightChunkBase::getDirection(void) const
 {
     return _sfDirection.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void LightChunkBase::setDirection(const Vec3f &value)
 {
     _sfDirection.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &LightChunkBase::getExponent(void)
 {
     return _sfExponent.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &LightChunkBase::getExponent(void) const
 {
     return _sfExponent.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void LightChunkBase::setExponent(const Real32 &value)
 {
     _sfExponent.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &LightChunkBase::getCutoff(void)
 {
     return _sfCutoff.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &LightChunkBase::getCutoff(void) const
 {
     return _sfCutoff.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void LightChunkBase::setCutoff(const Real32 &value)
 {
     _sfCutoff.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &LightChunkBase::getConstantAttenuation(void)
 {
     return _sfConstantAttenuation.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &LightChunkBase::getConstantAttenuation(void) const
 {
     return _sfConstantAttenuation.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void LightChunkBase::setConstantAttenuation(const Real32 &value)
 {
     _sfConstantAttenuation.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &LightChunkBase::getLinearAttenuation(void)
 {
     return _sfLinearAttenuation.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &LightChunkBase::getLinearAttenuation(void) const
 {
     return _sfLinearAttenuation.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void LightChunkBase::setLinearAttenuation(const Real32 &value)
 {
     _sfLinearAttenuation.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &LightChunkBase::getQuadraticAttenuation(void)
 {
     return _sfQuadraticAttenuation.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &LightChunkBase::getQuadraticAttenuation(void) const
 {
     return _sfQuadraticAttenuation.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void LightChunkBase::setQuadraticAttenuation(const Real32 &value)
 {
     _sfQuadraticAttenuation.setValue(value);
@@ -337,5 +341,5 @@ void LightChunkBase::setQuadraticAttenuation(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGLightChunkBase.inl,v 1.8 2001/10/03 20:37:35 dirk Exp $"
+#define OSGLIGHTCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGLightChunkBase.inl,v 1.9 2002/03/25 01:25:59 vossg Exp $"
 

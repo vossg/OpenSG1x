@@ -175,93 +175,93 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFImageP            *getSFImage          (void);
-    inline       SFUInt32            *getSFInternalFormat (void);
-    inline       SFUInt32            *getSFExternalFormat (void);
-    inline       SFBool              *getSFScale          (void);
-    inline       SFUInt32            *getSFFrame          (void);
-    inline       SFUInt32            *getSFMinFilter      (void);
-    inline       SFUInt32            *getSFMagFilter      (void);
-    inline       SFUInt32            *getSFWrapS          (void);
-    inline       SFUInt32            *getSFWrapT          (void);
-    inline       SFUInt32            *getSFWrapR          (void);
-    inline       SFUInt32            *getSFEnvMode        (void);
-    inline       SFUInt32            *getSFGenFuncS       (void);
-    inline       SFUInt32            *getSFGenFuncT       (void);
-    inline       SFUInt32            *getSFGenFuncR       (void);
-    inline       SFUInt32            *getSFGenFuncQ       (void);
-    inline       SFVec4f             *getSFGenFuncSPlane  (void);
-    inline       SFVec4f             *getSFGenFuncTPlane  (void);
-    inline       SFVec4f             *getSFGenFuncRPlane  (void);
-    inline       SFVec4f             *getSFGenFuncQPlane  (void);
-    inline       SFUInt32            *getSFGLId           (void);
+           SFImageP            *getSFImage          (void);
+           SFUInt32            *getSFInternalFormat (void);
+           SFUInt32            *getSFExternalFormat (void);
+           SFBool              *getSFScale          (void);
+           SFUInt32            *getSFFrame          (void);
+           SFUInt32            *getSFMinFilter      (void);
+           SFUInt32            *getSFMagFilter      (void);
+           SFUInt32            *getSFWrapS          (void);
+           SFUInt32            *getSFWrapT          (void);
+           SFUInt32            *getSFWrapR          (void);
+           SFUInt32            *getSFEnvMode        (void);
+           SFUInt32            *getSFGenFuncS       (void);
+           SFUInt32            *getSFGenFuncT       (void);
+           SFUInt32            *getSFGenFuncR       (void);
+           SFUInt32            *getSFGenFuncQ       (void);
+           SFVec4f             *getSFGenFuncSPlane  (void);
+           SFVec4f             *getSFGenFuncTPlane  (void);
+           SFVec4f             *getSFGenFuncRPlane  (void);
+           SFVec4f             *getSFGenFuncQPlane  (void);
+           SFUInt32            *getSFGLId           (void);
 
-    inline       ImageP              &getImage          (void);
-    inline const ImageP              &getImage          (void) const;
-    inline       UInt32              &getInternalFormat (void);
-    inline const UInt32              &getInternalFormat (void) const;
-    inline       UInt32              &getExternalFormat (void);
-    inline const UInt32              &getExternalFormat (void) const;
-    inline       bool                &getScale          (void);
-    inline const bool                &getScale          (void) const;
-    inline       UInt32              &getFrame          (void);
-    inline const UInt32              &getFrame          (void) const;
-    inline       UInt32              &getMinFilter      (void);
-    inline const UInt32              &getMinFilter      (void) const;
-    inline       UInt32              &getMagFilter      (void);
-    inline const UInt32              &getMagFilter      (void) const;
-    inline       UInt32              &getWrapS          (void);
-    inline const UInt32              &getWrapS          (void) const;
-    inline       UInt32              &getWrapT          (void);
-    inline const UInt32              &getWrapT          (void) const;
-    inline       UInt32              &getWrapR          (void);
-    inline const UInt32              &getWrapR          (void) const;
-    inline       UInt32              &getEnvMode        (void);
-    inline const UInt32              &getEnvMode        (void) const;
-    inline       UInt32              &getGenFuncS       (void);
-    inline const UInt32              &getGenFuncS       (void) const;
-    inline       UInt32              &getGenFuncT       (void);
-    inline const UInt32              &getGenFuncT       (void) const;
-    inline       UInt32              &getGenFuncR       (void);
-    inline const UInt32              &getGenFuncR       (void) const;
-    inline       UInt32              &getGenFuncQ       (void);
-    inline const UInt32              &getGenFuncQ       (void) const;
-    inline       Vec4f               &getGenFuncSPlane  (void);
-    inline const Vec4f               &getGenFuncSPlane  (void) const;
-    inline       Vec4f               &getGenFuncTPlane  (void);
-    inline const Vec4f               &getGenFuncTPlane  (void) const;
-    inline       Vec4f               &getGenFuncRPlane  (void);
-    inline const Vec4f               &getGenFuncRPlane  (void) const;
-    inline       Vec4f               &getGenFuncQPlane  (void);
-    inline const Vec4f               &getGenFuncQPlane  (void) const;
-    inline       UInt32              &getGLId           (void);
-    inline const UInt32              &getGLId           (void) const;
+           ImageP              &getImage          (void);
+     const ImageP              &getImage          (void) const;
+           UInt32              &getInternalFormat (void);
+     const UInt32              &getInternalFormat (void) const;
+           UInt32              &getExternalFormat (void);
+     const UInt32              &getExternalFormat (void) const;
+           bool                &getScale          (void);
+     const bool                &getScale          (void) const;
+           UInt32              &getFrame          (void);
+     const UInt32              &getFrame          (void) const;
+           UInt32              &getMinFilter      (void);
+     const UInt32              &getMinFilter      (void) const;
+           UInt32              &getMagFilter      (void);
+     const UInt32              &getMagFilter      (void) const;
+           UInt32              &getWrapS          (void);
+     const UInt32              &getWrapS          (void) const;
+           UInt32              &getWrapT          (void);
+     const UInt32              &getWrapT          (void) const;
+           UInt32              &getWrapR          (void);
+     const UInt32              &getWrapR          (void) const;
+           UInt32              &getEnvMode        (void);
+     const UInt32              &getEnvMode        (void) const;
+           UInt32              &getGenFuncS       (void);
+     const UInt32              &getGenFuncS       (void) const;
+           UInt32              &getGenFuncT       (void);
+     const UInt32              &getGenFuncT       (void) const;
+           UInt32              &getGenFuncR       (void);
+     const UInt32              &getGenFuncR       (void) const;
+           UInt32              &getGenFuncQ       (void);
+     const UInt32              &getGenFuncQ       (void) const;
+           Vec4f               &getGenFuncSPlane  (void);
+     const Vec4f               &getGenFuncSPlane  (void) const;
+           Vec4f               &getGenFuncTPlane  (void);
+     const Vec4f               &getGenFuncTPlane  (void) const;
+           Vec4f               &getGenFuncRPlane  (void);
+     const Vec4f               &getGenFuncRPlane  (void) const;
+           Vec4f               &getGenFuncQPlane  (void);
+     const Vec4f               &getGenFuncQPlane  (void) const;
+           UInt32              &getGLId           (void);
+     const UInt32              &getGLId           (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setImage          ( const ImageP &value );
-    inline void setInternalFormat ( const UInt32 &value );
-    inline void setExternalFormat ( const UInt32 &value );
-    inline void setScale          ( const bool &value );
-    inline void setFrame          ( const UInt32 &value );
-    inline void setMinFilter      ( const UInt32 &value );
-    inline void setMagFilter      ( const UInt32 &value );
-    inline void setWrapS          ( const UInt32 &value );
-    inline void setWrapT          ( const UInt32 &value );
-    inline void setWrapR          ( const UInt32 &value );
-    inline void setEnvMode        ( const UInt32 &value );
-    inline void setGenFuncS       ( const UInt32 &value );
-    inline void setGenFuncT       ( const UInt32 &value );
-    inline void setGenFuncR       ( const UInt32 &value );
-    inline void setGenFuncQ       ( const UInt32 &value );
-    inline void setGenFuncSPlane  ( const Vec4f &value );
-    inline void setGenFuncTPlane  ( const Vec4f &value );
-    inline void setGenFuncRPlane  ( const Vec4f &value );
-    inline void setGenFuncQPlane  ( const Vec4f &value );
-    inline void setGLId           ( const UInt32 &value );
+     void setImage          ( const ImageP &value );
+     void setInternalFormat ( const UInt32 &value );
+     void setExternalFormat ( const UInt32 &value );
+     void setScale          ( const bool &value );
+     void setFrame          ( const UInt32 &value );
+     void setMinFilter      ( const UInt32 &value );
+     void setMagFilter      ( const UInt32 &value );
+     void setWrapS          ( const UInt32 &value );
+     void setWrapT          ( const UInt32 &value );
+     void setWrapR          ( const UInt32 &value );
+     void setEnvMode        ( const UInt32 &value );
+     void setGenFuncS       ( const UInt32 &value );
+     void setGenFuncT       ( const UInt32 &value );
+     void setGenFuncR       ( const UInt32 &value );
+     void setGenFuncQ       ( const UInt32 &value );
+     void setGenFuncSPlane  ( const Vec4f &value );
+     void setGenFuncTPlane  ( const Vec4f &value );
+     void setGenFuncRPlane  ( const Vec4f &value );
+     void setGenFuncQPlane  ( const Vec4f &value );
+     void setGLId           ( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -374,6 +374,6 @@ typedef TextureChunkBase *TextureChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.22 2002/02/19 16:28:46 dirk Exp $"
+#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.23 2002/03/25 01:25:59 vossg Exp $"
 
 #endif /* _OSGTEXTURECHUNKBASE_H_ */

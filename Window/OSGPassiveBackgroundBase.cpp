@@ -64,8 +64,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<PassiveBackgroundPtr>::_type("PassiveBackgroundPtr", 
-                                                      "BackgroundPtr");
+DataType FieldDataTraits<PassiveBackgroundPtr>::_type("PassiveBackgroundPtr", "BackgroundPtr");
 
 #if defined(__sgi)
 
@@ -97,6 +96,8 @@ namespace
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
+
+
 
 //! PassiveBackground type
 
@@ -140,7 +141,7 @@ UInt32 PassiveBackgroundBase::getContainerSize(void) const
 
 
 void PassiveBackgroundBase::executeSync(      FieldContainer &other,
-                                        const BitVector      &whichField)
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((PassiveBackgroundBase *) &other, whichField);
 }
@@ -164,9 +165,7 @@ PassiveBackgroundBase::PassiveBackgroundBase(void) :
 
 //! Copy Constructor
 
-PassiveBackgroundBase::PassiveBackgroundBase(
-    const PassiveBackgroundBase &source) :
-
+PassiveBackgroundBase::PassiveBackgroundBase(const PassiveBackgroundBase &source) :
     Inherited                 (source)
 {
 }
@@ -183,26 +182,35 @@ PassiveBackgroundBase::~PassiveBackgroundBase(void)
 
 UInt32 PassiveBackgroundBase::getBinSize(const BitVector &whichField)
 {
-    return Inherited::getBinSize(whichField);
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+
+    return returnValue;
 }
 
 void PassiveBackgroundBase::copyToBin(      BinaryDataHandler &pMem,
-                                      const BitVector         &whichField)
+                                  const BitVector         &whichField)
 {
     Inherited::copyToBin(pMem, whichField);
+
+
 }
 
 void PassiveBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
-                                        const BitVector    &whichField)
+                                    const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
+
+
 }
 
-void PassiveBackgroundBase::executeSyncImpl(
-          PassiveBackgroundBase *pOther,
-    const BitVector             &whichField)
+void PassiveBackgroundBase::executeSyncImpl(      PassiveBackgroundBase *pOther,
+                                        const BitVector         &whichField)
 {
+
     Inherited::executeSyncImpl(pOther, whichField);
+
+
 }
 
 

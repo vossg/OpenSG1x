@@ -343,7 +343,7 @@ int main (int argc, char **argv)
     fprintf(stderr, "Resnode %p\n", pFile->getFileTree());
     
     aVRMLToOSG.setNameNodeMap(pFile->getNameNodeMap());
-
+    aVRMLToOSG.setDataTransferMode(VRMLToOSGAction::SwapData);
     aVRMLToOSG.apply(pFile->getFileTree());
     
     pNodeBinder = (pFile->getFileTree())->getBinder();

@@ -54,13 +54,15 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &CameraBase::getClassType(void)
+inline
+OSG::FieldContainerType &CameraBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 CameraBase::getClassTypeId(void) 
+inline
+OSG::UInt32 CameraBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
@@ -69,5 +71,5 @@ inline OSG::UInt32 CameraBase::getClassTypeId(void)
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERABASE_INLINE_CVSID "@(#)$Id: OSGCameraBase.inl,v 1.9 2002/01/18 03:09:20 dirk Exp $"
+#define OSGCAMERABASE_INLINE_CVSID "@(#)$Id: OSGCameraBase.inl,v 1.10 2002/03/25 01:26:00 vossg Exp $"
 

@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &LineChunkBase::getClassType(void)
+inline
+OSG::FieldContainerType &LineChunkBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 LineChunkBase::getClassTypeId(void) 
+inline
+OSG::UInt32 LineChunkBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline LineChunkPtr LineChunkBase::create(void) 
+inline
+LineChunkPtr LineChunkBase::create(void) 
 {
     LineChunkPtr fc; 
 
@@ -80,7 +83,8 @@ inline LineChunkPtr LineChunkBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline LineChunkPtr LineChunkBase::createEmpty(void) 
+inline
+LineChunkPtr LineChunkBase::createEmpty(void) 
 { 
     LineChunkPtr returnValue; 
     
@@ -92,98 +96,98 @@ inline LineChunkPtr LineChunkBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *LineChunkBase::getSFWidth(void)
 {
     return &_sfWidth;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFInt32 *LineChunkBase::getSFStippleRepeat(void)
 {
     return &_sfStippleRepeat;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFUInt16 *LineChunkBase::getSFStipplePattern(void)
 {
     return &_sfStipplePattern;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFBool *LineChunkBase::getSFSmooth(void)
 {
     return &_sfSmooth;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &LineChunkBase::getWidth(void)
 {
     return _sfWidth.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &LineChunkBase::getWidth(void) const
 {
     return _sfWidth.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void LineChunkBase::setWidth(const Real32 &value)
 {
     _sfWidth.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Int32 &LineChunkBase::getStippleRepeat(void)
 {
     return _sfStippleRepeat.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Int32 &LineChunkBase::getStippleRepeat(void) const
 {
     return _sfStippleRepeat.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void LineChunkBase::setStippleRepeat(const Int32 &value)
 {
     _sfStippleRepeat.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 UInt16 &LineChunkBase::getStipplePattern(void)
 {
     return _sfStipplePattern.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const UInt16 &LineChunkBase::getStipplePattern(void) const
 {
     return _sfStipplePattern.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void LineChunkBase::setStipplePattern(const UInt16 &value)
 {
     _sfStipplePattern.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 bool &LineChunkBase::getSmooth(void)
 {
     return _sfSmooth.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const bool &LineChunkBase::getSmooth(void) const
 {
     return _sfSmooth.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void LineChunkBase::setSmooth(const bool &value)
 {
     _sfSmooth.setValue(value);
@@ -193,5 +197,5 @@ void LineChunkBase::setSmooth(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGLINECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGLineChunkBase.inl,v 1.4 2002/03/19 18:08:16 dirk Exp $"
+#define OSGLINECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGLineChunkBase.inl,v 1.5 2002/03/25 01:25:59 vossg Exp $"
 

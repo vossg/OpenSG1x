@@ -67,6 +67,7 @@
 
 #include <OSGBackground.h> // Parent
 
+
 #include <OSGPassiveBackgroundFields.h>
 
 OSG_BEGIN_NAMESPACE
@@ -84,6 +85,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PassiveBackgroundBase : public Background
 
     /*==========================  PUBLIC  =================================*/
   public:
+
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -162,7 +164,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PassiveBackgroundBase : public Background
     /*! \{                                                                 */
 
     void executeSyncImpl(      PassiveBackgroundBase *pOther,
-                         const BitVector             &whichField);
+                         const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

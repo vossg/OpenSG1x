@@ -124,25 +124,25 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFVec3f             *getSFDirection      (void);
-    inline       SFReal32            *getSFSpotExponent   (void);
-    inline       SFReal32            *getSFSpotCutOff     (void);
+           SFVec3f             *getSFDirection      (void);
+           SFReal32            *getSFSpotExponent   (void);
+           SFReal32            *getSFSpotCutOff     (void);
 
-    inline       Vec3f               &getDirection      (void);
-    inline const Vec3f               &getDirection      (void) const;
-    inline       Real32              &getSpotExponent   (void);
-    inline const Real32              &getSpotExponent   (void) const;
-    inline       Real32              &getSpotCutOff     (void);
-    inline const Real32              &getSpotCutOff     (void) const;
+           Vec3f               &getDirection      (void);
+     const Vec3f               &getDirection      (void) const;
+           Real32              &getSpotExponent   (void);
+     const Real32              &getSpotExponent   (void) const;
+           Real32              &getSpotCutOff     (void);
+     const Real32              &getSpotCutOff     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setDirection      ( const Vec3f &value );
-    inline void setSpotExponent   ( const Real32 &value );
-    inline void setSpotCutOff     ( const Real32 &value );
+     void setDirection      ( const Vec3f &value );
+     void setSpotExponent   ( const Real32 &value );
+     void setSpotCutOff     ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -238,6 +238,6 @@ typedef SpotLightBase *SpotLightBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSPOTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGSpotLightBase.h,v 1.19 2002/03/19 17:38:55 dirk Exp $"
+#define OSGSPOTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGSpotLightBase.h,v 1.20 2002/03/25 01:25:58 vossg Exp $"
 
 #endif /* _OSGSPOTLIGHTBASE_H_ */

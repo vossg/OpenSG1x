@@ -121,21 +121,21 @@ class OSG_SYSTEMLIB_DLLMAPPING ShearedStereoCameraDecoratorBase : public StereoC
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFReal32            *getSFZeroParallaxDistance(void);
-    inline       SFReal32            *getSFOverlap        (void);
+           SFReal32            *getSFZeroParallaxDistance(void);
+           SFReal32            *getSFOverlap        (void);
 
-    inline       Real32              &getZeroParallaxDistance(void);
-    inline const Real32              &getZeroParallaxDistance(void) const;
-    inline       Real32              &getOverlap        (void);
-    inline const Real32              &getOverlap        (void) const;
+           Real32              &getZeroParallaxDistance(void);
+     const Real32              &getZeroParallaxDistance(void) const;
+           Real32              &getOverlap        (void);
+     const Real32              &getOverlap        (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setZeroParallaxDistance( const Real32 &value );
-    inline void setOverlap        ( const Real32 &value );
+     void setZeroParallaxDistance( const Real32 &value );
+     void setOverlap        ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -230,6 +230,6 @@ typedef ShearedStereoCameraDecoratorBase *ShearedStereoCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSHEAREDSTEREOCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGShearedStereoCameraDecoratorBase.h,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGSHEAREDSTEREOCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGShearedStereoCameraDecoratorBase.h,v 1.2 2002/03/25 01:26:00 vossg Exp $"
 
 #endif /* _OSGSHEAREDSTEREOCAMERADECORATORBASE_H_ */

@@ -66,7 +66,7 @@ class PointInterface;
 //! \ingroup BaseMathVectors
 
 template <class ValueTypeT>
-class OSG_BASE_DLLMAPPING VecStorage2
+class VecStorage2
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -127,7 +127,7 @@ class OSG_BASE_DLLMAPPING VecStorage2
 //! \ingroup BaseMathVectors
 
 template <class ValueTypeT>
-class OSG_BASE_DLLMAPPING VecStorage3
+class VecStorage3
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -191,7 +191,7 @@ class OSG_BASE_DLLMAPPING VecStorage3
 //! \ingroup BaseMathVectors
 
 template <class ValueTypeT>
-class OSG_BASE_DLLMAPPING VecStorage4
+class VecStorage4
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -262,7 +262,7 @@ class OSG_BASE_DLLMAPPING VecStorage4
 #endif
 
 template<class ValueTypeT, class StorageInterfaceT>
-class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
+class PointInterface : public StorageInterfaceT
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -560,7 +560,7 @@ ostream &operator <<(ostream                                   &os,
 //! \ingroup BaseMathVectors
 
 template<class ValueTypeT, class StorageInterfaceT>
-class OSG_BASE_DLLMAPPING VectorInterface :
+class VectorInterface :
     public PointInterface<ValueTypeT, StorageInterfaceT>
 {
     /*==========================  PUBLIC  =================================*/

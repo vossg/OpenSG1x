@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &PassiveViewportBase::getClassType(void)
+inline
+OSG::FieldContainerType &PassiveViewportBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 PassiveViewportBase::getClassTypeId(void) 
+inline
+OSG::UInt32 PassiveViewportBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline PassiveViewportPtr PassiveViewportBase::create(void) 
+inline
+PassiveViewportPtr PassiveViewportBase::create(void) 
 {
     PassiveViewportPtr fc; 
 
@@ -80,7 +83,8 @@ inline PassiveViewportPtr PassiveViewportBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline PassiveViewportPtr PassiveViewportBase::createEmpty(void) 
+inline
+PassiveViewportPtr PassiveViewportBase::createEmpty(void) 
 { 
     PassiveViewportPtr returnValue; 
     
@@ -97,5 +101,5 @@ inline PassiveViewportPtr PassiveViewportBase::createEmpty(void)
 
 OSG_END_NAMESPACE
 
-#define OSGPASSIVEVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGPassiveViewportBase.inl,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGPASSIVEVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGPassiveViewportBase.inl,v 1.2 2002/03/25 01:26:00 vossg Exp $"
 

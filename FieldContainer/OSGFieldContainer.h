@@ -49,7 +49,7 @@
 #include <OSGMField.h>
 #include <OSGSField.h>
 
-#ifdef OSG_GV_BETA
+#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
 #include <OSGTime.h>
 #include <OSGThread.h>
 #endif
@@ -248,6 +248,14 @@ class FieldContainer
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                        Changed                               */
+    /*! \{                                                                 */
+
+    OSG_SYSTEMLIB_DLLMAPPING 
+    virtual void changed        (BitVector whichField, ChangeMode from);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                        Dump                                  */
     /*! \{                                                                 */
 
@@ -337,7 +345,7 @@ class FieldContainer
         
         result->onCreate(prototypeP);
 
-#ifdef OSG_GV_BETA
+#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
         fprintf(stderr, "GV_MEM_FC_DBG : (%u|%lf|%I64d) cc (%p|%s|%u)\n", 
                 Thread::getAspect(),
                 getSystemTime(),
@@ -391,7 +399,7 @@ class FieldContainer
 
         result->onCreate();
 
-#ifdef OSG_GV_BETA
+#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
         fprintf(stderr, "GV_MEM_FC_DBG : (%d|%lf|%I64d) c (%p|%s|%u)\n", 
                 Thread::getAspect(),
                 getSystemTime(),
@@ -474,14 +482,6 @@ class FieldContainer
         endEditCP(tmpPtr, whichField);
     }
 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                        Changed                               */
-    /*! \{                                                                 */
-
-    OSG_SYSTEMLIB_DLLMAPPING 
-    virtual void changed        (BitVector whichField, ChangeMode from);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

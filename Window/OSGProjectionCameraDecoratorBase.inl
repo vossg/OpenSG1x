@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &ProjectionCameraDecoratorBase::getClassType(void)
+inline
+OSG::FieldContainerType &ProjectionCameraDecoratorBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 ProjectionCameraDecoratorBase::getClassTypeId(void) 
+inline
+OSG::UInt32 ProjectionCameraDecoratorBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline ProjectionCameraDecoratorPtr ProjectionCameraDecoratorBase::create(void) 
+inline
+ProjectionCameraDecoratorPtr ProjectionCameraDecoratorBase::create(void) 
 {
     ProjectionCameraDecoratorPtr fc; 
 
@@ -80,7 +83,8 @@ inline ProjectionCameraDecoratorPtr ProjectionCameraDecoratorBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline ProjectionCameraDecoratorPtr ProjectionCameraDecoratorBase::createEmpty(void) 
+inline
+ProjectionCameraDecoratorPtr ProjectionCameraDecoratorBase::createEmpty(void) 
 { 
     ProjectionCameraDecoratorPtr returnValue; 
     
@@ -92,169 +96,171 @@ inline ProjectionCameraDecoratorPtr ProjectionCameraDecoratorBase::createEmpty(v
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFNodePtr *ProjectionCameraDecoratorBase::getSFUser(void)
 {
     return &_sfUser;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFPnt3f *ProjectionCameraDecoratorBase::getMFSurface(void)
 {
     return &_mfSurface;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFPlane *ProjectionCameraDecoratorBase::getSFLeft(void)
 {
     return &_sfLeft;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFPlane *ProjectionCameraDecoratorBase::getSFBottom(void)
 {
     return &_sfBottom;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFPlane *ProjectionCameraDecoratorBase::getSFNormal(void)
 {
     return &_sfNormal;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *ProjectionCameraDecoratorBase::getSFWidth(void)
 {
     return &_sfWidth;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *ProjectionCameraDecoratorBase::getSFHeight(void)
 {
     return &_sfHeight;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 NodePtr &ProjectionCameraDecoratorBase::getUser(void)
 {
     return _sfUser.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const NodePtr &ProjectionCameraDecoratorBase::getUser(void) const
 {
     return _sfUser.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ProjectionCameraDecoratorBase::setUser(const NodePtr &value)
 {
     _sfUser.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Plane &ProjectionCameraDecoratorBase::getLeft(void)
 {
     return _sfLeft.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Plane &ProjectionCameraDecoratorBase::getLeft(void) const
 {
     return _sfLeft.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ProjectionCameraDecoratorBase::setLeft(const Plane &value)
 {
     _sfLeft.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Plane &ProjectionCameraDecoratorBase::getBottom(void)
 {
     return _sfBottom.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Plane &ProjectionCameraDecoratorBase::getBottom(void) const
 {
     return _sfBottom.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ProjectionCameraDecoratorBase::setBottom(const Plane &value)
 {
     _sfBottom.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Plane &ProjectionCameraDecoratorBase::getNormal(void)
 {
     return _sfNormal.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Plane &ProjectionCameraDecoratorBase::getNormal(void) const
 {
     return _sfNormal.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ProjectionCameraDecoratorBase::setNormal(const Plane &value)
 {
     _sfNormal.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &ProjectionCameraDecoratorBase::getWidth(void)
 {
     return _sfWidth.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &ProjectionCameraDecoratorBase::getWidth(void) const
 {
     return _sfWidth.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ProjectionCameraDecoratorBase::setWidth(const Real32 &value)
 {
     _sfWidth.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &ProjectionCameraDecoratorBase::getHeight(void)
 {
     return _sfHeight.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &ProjectionCameraDecoratorBase::getHeight(void) const
 {
     return _sfHeight.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ProjectionCameraDecoratorBase::setHeight(const Real32 &value)
 {
     _sfHeight.setValue(value);
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Pnt3f &ProjectionCameraDecoratorBase::getSurface(UInt32 index)
 {
     return _mfSurface.getValue( index );
 }
 
+inline
 MFPnt3f &ProjectionCameraDecoratorBase::getSurface(void)
 {
     return _mfSurface;
 }
 
+inline
 const MFPnt3f &ProjectionCameraDecoratorBase::getSurface(void) const
 {
     return _mfSurface;
@@ -263,5 +269,5 @@ const MFPnt3f &ProjectionCameraDecoratorBase::getSurface(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPROJECTIONCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGProjectionCameraDecoratorBase.inl,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGPROJECTIONCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGProjectionCameraDecoratorBase.inl,v 1.2 2002/03/25 01:26:00 vossg Exp $"
 

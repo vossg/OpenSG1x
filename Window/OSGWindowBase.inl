@@ -54,13 +54,15 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &WindowBase::getClassType(void)
+inline
+OSG::FieldContainerType &WindowBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 WindowBase::getClassTypeId(void) 
+inline
+OSG::UInt32 WindowBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
@@ -68,165 +70,171 @@ inline OSG::UInt32 WindowBase::getClassTypeId(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFUInt16 *WindowBase::getSFWidth(void)
 {
     return &_sfWidth;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFUInt16 *WindowBase::getSFHeight(void)
 {
     return &_sfHeight;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFViewportPtr *WindowBase::getMFPort(void)
 {
     return &_mfPort;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFBool *WindowBase::getSFResizePending(void)
 {
     return &_sfResizePending;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFUInt32 *WindowBase::getSFGlObjectEventCounter(void)
 {
     return &_sfGlObjectEventCounter;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFUInt32 *WindowBase::getMFGlObjectLastRefresh(void)
 {
     return &_mfGlObjectLastRefresh;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFUInt32 *WindowBase::getMFGlObjectLastReinitialize(void)
 {
     return &_mfGlObjectLastReinitialize;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 UInt16 &WindowBase::getWidth(void)
 {
     return _sfWidth.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const UInt16 &WindowBase::getWidth(void) const
 {
     return _sfWidth.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void WindowBase::setWidth(const UInt16 &value)
 {
     _sfWidth.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 UInt16 &WindowBase::getHeight(void)
 {
     return _sfHeight.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const UInt16 &WindowBase::getHeight(void) const
 {
     return _sfHeight.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void WindowBase::setHeight(const UInt16 &value)
 {
     _sfHeight.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 bool &WindowBase::getResizePending(void)
 {
     return _sfResizePending.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const bool &WindowBase::getResizePending(void) const
 {
     return _sfResizePending.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void WindowBase::setResizePending(const bool &value)
 {
     _sfResizePending.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 UInt32 &WindowBase::getGlObjectEventCounter(void)
 {
     return _sfGlObjectEventCounter.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const UInt32 &WindowBase::getGlObjectEventCounter(void) const
 {
     return _sfGlObjectEventCounter.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void WindowBase::setGlObjectEventCounter(const UInt32 &value)
 {
     _sfGlObjectEventCounter.setValue(value);
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 ViewportPtr &WindowBase::getPort(UInt32 index)
 {
     return _mfPort.getValue( index );
 }
 
+inline
 MFViewportPtr &WindowBase::getPort(void)
 {
     return _mfPort;
 }
 
+inline
 const MFViewportPtr &WindowBase::getPort(void) const
 {
     return _mfPort;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 UInt32 &WindowBase::getGlObjectLastRefresh(UInt32 index)
 {
     return _mfGlObjectLastRefresh.getValue( index );
 }
 
+inline
 MFUInt32 &WindowBase::getGlObjectLastRefresh(void)
 {
     return _mfGlObjectLastRefresh;
 }
 
+inline
 const MFUInt32 &WindowBase::getGlObjectLastRefresh(void) const
 {
     return _mfGlObjectLastRefresh;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 UInt32 &WindowBase::getGlObjectLastReinitialize(UInt32 index)
 {
     return _mfGlObjectLastReinitialize.getValue( index );
 }
 
+inline
 MFUInt32 &WindowBase::getGlObjectLastReinitialize(void)
 {
     return _mfGlObjectLastReinitialize;
 }
 
+inline
 const MFUInt32 &WindowBase::getGlObjectLastReinitialize(void) const
 {
     return _mfGlObjectLastReinitialize;
@@ -235,5 +243,5 @@ const MFUInt32 &WindowBase::getGlObjectLastReinitialize(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGWindowBase.inl,v 1.14 2002/03/19 17:48:18 dirk Exp $"
+#define OSGWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGWindowBase.inl,v 1.15 2002/03/25 01:26:00 vossg Exp $"
 

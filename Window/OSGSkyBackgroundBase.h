@@ -148,57 +148,57 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       MFColor3f           *getMFSkyColor       (void);
-    inline       MFReal32            *getMFSkyAngle       (void);
-    inline       MFColor3f           *getMFGroundColor    (void);
-    inline       MFReal32            *getMFGroundAngle    (void);
-    inline       SFUInt32            *getSFSphereRes      (void);
-    inline       SFTextureChunkPtr   *getSFBackTexture    (void);
-    inline       SFTextureChunkPtr   *getSFBottomTexture  (void);
-    inline       SFTextureChunkPtr   *getSFFrontTexture   (void);
-    inline       SFTextureChunkPtr   *getSFLeftTexture    (void);
-    inline       SFTextureChunkPtr   *getSFRightTexture   (void);
-    inline       SFTextureChunkPtr   *getSFTopTexture     (void);
+           MFColor3f           *getMFSkyColor       (void);
+           MFReal32            *getMFSkyAngle       (void);
+           MFColor3f           *getMFGroundColor    (void);
+           MFReal32            *getMFGroundAngle    (void);
+           SFUInt32            *getSFSphereRes      (void);
+           SFTextureChunkPtr   *getSFBackTexture    (void);
+           SFTextureChunkPtr   *getSFBottomTexture  (void);
+           SFTextureChunkPtr   *getSFFrontTexture   (void);
+           SFTextureChunkPtr   *getSFLeftTexture    (void);
+           SFTextureChunkPtr   *getSFRightTexture   (void);
+           SFTextureChunkPtr   *getSFTopTexture     (void);
 
-    inline       UInt32              &getSphereRes      (void);
-    inline const UInt32              &getSphereRes      (void) const;
-    inline       TextureChunkPtr     &getBackTexture    (void);
-    inline const TextureChunkPtr     &getBackTexture    (void) const;
-    inline       TextureChunkPtr     &getBottomTexture  (void);
-    inline const TextureChunkPtr     &getBottomTexture  (void) const;
-    inline       TextureChunkPtr     &getFrontTexture   (void);
-    inline const TextureChunkPtr     &getFrontTexture   (void) const;
-    inline       TextureChunkPtr     &getLeftTexture    (void);
-    inline const TextureChunkPtr     &getLeftTexture    (void) const;
-    inline       TextureChunkPtr     &getRightTexture   (void);
-    inline const TextureChunkPtr     &getRightTexture   (void) const;
-    inline       TextureChunkPtr     &getTopTexture     (void);
-    inline const TextureChunkPtr     &getTopTexture     (void) const;
-    inline       Color3f             &getSkyColor       (UInt32 index);
-    inline       MFColor3f           &getSkyColor       (void);
-    inline const MFColor3f           &getSkyColor       (void) const;
-    inline       Real32              &getSkyAngle       (UInt32 index);
-    inline       MFReal32            &getSkyAngle       (void);
-    inline const MFReal32            &getSkyAngle       (void) const;
-    inline       Color3f             &getGroundColor    (UInt32 index);
-    inline       MFColor3f           &getGroundColor    (void);
-    inline const MFColor3f           &getGroundColor    (void) const;
-    inline       Real32              &getGroundAngle    (UInt32 index);
-    inline       MFReal32            &getGroundAngle    (void);
-    inline const MFReal32            &getGroundAngle    (void) const;
+           UInt32              &getSphereRes      (void);
+     const UInt32              &getSphereRes      (void) const;
+           TextureChunkPtr     &getBackTexture    (void);
+     const TextureChunkPtr     &getBackTexture    (void) const;
+           TextureChunkPtr     &getBottomTexture  (void);
+     const TextureChunkPtr     &getBottomTexture  (void) const;
+           TextureChunkPtr     &getFrontTexture   (void);
+     const TextureChunkPtr     &getFrontTexture   (void) const;
+           TextureChunkPtr     &getLeftTexture    (void);
+     const TextureChunkPtr     &getLeftTexture    (void) const;
+           TextureChunkPtr     &getRightTexture   (void);
+     const TextureChunkPtr     &getRightTexture   (void) const;
+           TextureChunkPtr     &getTopTexture     (void);
+     const TextureChunkPtr     &getTopTexture     (void) const;
+           Color3f             &getSkyColor       (UInt32 index);
+           MFColor3f           &getSkyColor       (void);
+     const MFColor3f           &getSkyColor       (void) const;
+           Real32              &getSkyAngle       (UInt32 index);
+           MFReal32            &getSkyAngle       (void);
+     const MFReal32            &getSkyAngle       (void) const;
+           Color3f             &getGroundColor    (UInt32 index);
+           MFColor3f           &getGroundColor    (void);
+     const MFColor3f           &getGroundColor    (void) const;
+           Real32              &getGroundAngle    (UInt32 index);
+           MFReal32            &getGroundAngle    (void);
+     const MFReal32            &getGroundAngle    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setSphereRes      ( const UInt32 &value );
-    inline void setBackTexture    ( const TextureChunkPtr &value );
-    inline void setBottomTexture  ( const TextureChunkPtr &value );
-    inline void setFrontTexture   ( const TextureChunkPtr &value );
-    inline void setLeftTexture    ( const TextureChunkPtr &value );
-    inline void setRightTexture   ( const TextureChunkPtr &value );
-    inline void setTopTexture     ( const TextureChunkPtr &value );
+     void setSphereRes      ( const UInt32 &value );
+     void setBackTexture    ( const TextureChunkPtr &value );
+     void setBottomTexture  ( const TextureChunkPtr &value );
+     void setFrontTexture   ( const TextureChunkPtr &value );
+     void setLeftTexture    ( const TextureChunkPtr &value );
+     void setRightTexture   ( const TextureChunkPtr &value );
+     void setTopTexture     ( const TextureChunkPtr &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -302,6 +302,6 @@ typedef SkyBackgroundBase *SkyBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSKYBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSkyBackgroundBase.h,v 1.2 2002/03/19 17:48:18 dirk Exp $"
+#define OSGSKYBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSkyBackgroundBase.h,v 1.3 2002/03/25 01:26:00 vossg Exp $"
 
 #endif /* _OSGSKYBACKGROUNDBASE_H_ */

@@ -118,17 +118,17 @@ class OSG_SYSTEMLIB_DLLMAPPING TransformChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFMatrix            *getSFMatrix         (void);
+           SFMatrix            *getSFMatrix         (void);
 
-    inline       Matrix              &getMatrix         (void);
-    inline const Matrix              &getMatrix         (void) const;
+           Matrix              &getMatrix         (void);
+     const Matrix              &getMatrix         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setMatrix         ( const Matrix &value );
+     void setMatrix         ( const Matrix &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -222,6 +222,6 @@ typedef TransformChunkBase *TransformChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTransformChunkBase.h,v 1.18 2002/03/19 18:08:18 dirk Exp $"
+#define OSGTRANSFORMCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTransformChunkBase.h,v 1.19 2002/03/25 01:25:59 vossg Exp $"
 
 #endif /* _OSGTRANSFORMCHUNKBASE_H_ */

@@ -118,17 +118,17 @@ class OSG_SYSTEMLIB_DLLMAPPING SwitchBase : public Group
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFInt32             *getSFChoice         (void);
+           SFInt32             *getSFChoice         (void);
 
-    inline       Int32               &getChoice         (void);
-    inline const Int32               &getChoice         (void) const;
+           Int32               &getChoice         (void);
+     const Int32               &getChoice         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setChoice         ( const Int32 &value );
+     void setChoice         ( const Int32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

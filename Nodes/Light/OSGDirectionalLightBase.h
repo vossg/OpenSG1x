@@ -118,17 +118,17 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLightBase : public LightBase
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFVec3f             *getSFDirection      (void);
+           SFVec3f             *getSFDirection      (void);
 
-    inline       Vec3f               &getDirection      (void);
-    inline const Vec3f               &getDirection      (void) const;
+           Vec3f               &getDirection      (void);
+     const Vec3f               &getDirection      (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setDirection      ( const Vec3f &value );
+     void setDirection      ( const Vec3f &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -222,6 +222,6 @@ typedef DirectionalLightBase *DirectionalLightBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDIRECTIONALLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGDirectionalLightBase.h,v 1.18 2002/03/19 17:38:55 dirk Exp $"
+#define OSGDIRECTIONALLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGDirectionalLightBase.h,v 1.19 2002/03/25 01:25:58 vossg Exp $"
 
 #endif /* _OSGDIRECTIONALLIGHTBASE_H_ */

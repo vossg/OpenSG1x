@@ -154,61 +154,61 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFUInt32            *getSFMode           (void);
-    inline       SFGeoPositionsPtr   *getSFPositions      (void);
-    inline       MFVec3f             *getMFSizes          (void);
-    inline       SFGeoPositionsPtr   *getSFSecPositions   (void);
-    inline       SFGeoColorsPtr      *getSFColors         (void);
-    inline       SFGeoNormalsPtr     *getSFNormals        (void);
-    inline       MFInt32             *getMFIndices        (void);
-    inline       MFReal32            *getMFTextureZs      (void);
-    inline       SFMaterialPtr       *getSFMaterial       (void);
-    inline       SFUInt32            *getSFDrawOrder      (void);
-    inline       SFBool              *getSFDynamic        (void);
-    inline       SFParticleBSPTree   *getSFBsp            (void);
+           SFUInt32            *getSFMode           (void);
+           SFGeoPositionsPtr   *getSFPositions      (void);
+           MFVec3f             *getMFSizes          (void);
+           SFGeoPositionsPtr   *getSFSecPositions   (void);
+           SFGeoColorsPtr      *getSFColors         (void);
+           SFGeoNormalsPtr     *getSFNormals        (void);
+           MFInt32             *getMFIndices        (void);
+           MFReal32            *getMFTextureZs      (void);
+           SFMaterialPtr       *getSFMaterial       (void);
+           SFUInt32            *getSFDrawOrder      (void);
+           SFBool              *getSFDynamic        (void);
+           SFParticleBSPTree   *getSFBsp            (void);
 
-    inline       UInt32              &getMode           (void);
-    inline const UInt32              &getMode           (void) const;
-    inline       GeoPositionsPtr     &getPositions      (void);
-    inline const GeoPositionsPtr     &getPositions      (void) const;
-    inline       GeoPositionsPtr     &getSecPositions   (void);
-    inline const GeoPositionsPtr     &getSecPositions   (void) const;
-    inline       GeoColorsPtr        &getColors         (void);
-    inline const GeoColorsPtr        &getColors         (void) const;
-    inline       GeoNormalsPtr       &getNormals        (void);
-    inline const GeoNormalsPtr       &getNormals        (void) const;
-    inline       MaterialPtr         &getMaterial       (void);
-    inline const MaterialPtr         &getMaterial       (void) const;
-    inline       UInt32              &getDrawOrder      (void);
-    inline const UInt32              &getDrawOrder      (void) const;
-    inline       bool                &getDynamic        (void);
-    inline const bool                &getDynamic        (void) const;
-    inline       ParticleBSPTree     &getBsp            (void);
-    inline const ParticleBSPTree     &getBsp            (void) const;
-    inline       Vec3f               &getSizes          (UInt32 index);
-    inline       MFVec3f             &getSizes          (void);
-    inline const MFVec3f             &getSizes          (void) const;
-    inline       Int32               &getIndices        (UInt32 index);
-    inline       MFInt32             &getIndices        (void);
-    inline const MFInt32             &getIndices        (void) const;
-    inline       Real32              &getTextureZs      (UInt32 index);
-    inline       MFReal32            &getTextureZs      (void);
-    inline const MFReal32            &getTextureZs      (void) const;
+           UInt32              &getMode           (void);
+     const UInt32              &getMode           (void) const;
+           GeoPositionsPtr     &getPositions      (void);
+     const GeoPositionsPtr     &getPositions      (void) const;
+           GeoPositionsPtr     &getSecPositions   (void);
+     const GeoPositionsPtr     &getSecPositions   (void) const;
+           GeoColorsPtr        &getColors         (void);
+     const GeoColorsPtr        &getColors         (void) const;
+           GeoNormalsPtr       &getNormals        (void);
+     const GeoNormalsPtr       &getNormals        (void) const;
+           MaterialPtr         &getMaterial       (void);
+     const MaterialPtr         &getMaterial       (void) const;
+           UInt32              &getDrawOrder      (void);
+     const UInt32              &getDrawOrder      (void) const;
+           bool                &getDynamic        (void);
+     const bool                &getDynamic        (void) const;
+           ParticleBSPTree     &getBsp            (void);
+     const ParticleBSPTree     &getBsp            (void) const;
+           Vec3f               &getSizes          (UInt32 index);
+           MFVec3f             &getSizes          (void);
+     const MFVec3f             &getSizes          (void) const;
+           Int32               &getIndices        (UInt32 index);
+           MFInt32             &getIndices        (void);
+     const MFInt32             &getIndices        (void) const;
+           Real32              &getTextureZs      (UInt32 index);
+           MFReal32            &getTextureZs      (void);
+     const MFReal32            &getTextureZs      (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setMode           ( const UInt32 &value );
-    inline void setPositions      ( const GeoPositionsPtr &value );
-    inline void setSecPositions   ( const GeoPositionsPtr &value );
-    inline void setColors         ( const GeoColorsPtr &value );
-    inline void setNormals        ( const GeoNormalsPtr &value );
-    inline void setMaterial       ( const MaterialPtr &value );
-    inline void setDrawOrder      ( const UInt32 &value );
-    inline void setDynamic        ( const bool &value );
-    inline void setBsp            ( const ParticleBSPTree &value );
+     void setMode           ( const UInt32 &value );
+     void setPositions      ( const GeoPositionsPtr &value );
+     void setSecPositions   ( const GeoPositionsPtr &value );
+     void setColors         ( const GeoColorsPtr &value );
+     void setNormals        ( const GeoNormalsPtr &value );
+     void setMaterial       ( const MaterialPtr &value );
+     void setDrawOrder      ( const UInt32 &value );
+     void setDynamic        ( const bool &value );
+     void setBsp            ( const ParticleBSPTree &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -310,17 +310,17 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFUInt32            *getSFPump           (void);
+           SFUInt32            *getSFPump           (void);
 
-    inline       UInt32              &getPump           (void);
-    inline const UInt32              &getPump           (void) const;
+           UInt32              &getPump           (void);
+     const UInt32              &getPump           (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setPump           (const UInt32 &value);
+     void setPump           (const UInt32 &value);
 
     /*! \}                                                                 */
 
@@ -337,6 +337,6 @@ typedef ParticlesBase *ParticlesBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: OSGParticlesBase.h,v 1.7 2002/03/19 17:19:38 dirk Exp $"
+#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: OSGParticlesBase.h,v 1.8 2002/03/25 01:25:59 vossg Exp $"
 
 #endif /* _OSGPARTICLESBASE_H_ */

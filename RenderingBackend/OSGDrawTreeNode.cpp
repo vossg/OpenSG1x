@@ -44,6 +44,10 @@
 #include "OSGDrawTreeNode.h"
 #include <OSGBaseFunctions.h>
 
+#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
+#include "OSGTime.h"
+#endif
+
 OSG_USING_NAMESPACE
 
 #ifdef __sgi
@@ -88,6 +92,16 @@ DrawTreeNode::DrawTreeNode(void) :
     _rScalarVal  (0.f)
 {
     _oMatrixStore.first = 0;
+
+#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
+        fprintf(stderr, "GV_MEM_DT_DBG : (%d|%lf|%I64d) c (%p|%s|%u)\n", 
+                Thread::getAspect(),
+                getSystemTime(),
+                getPerfCounter(),
+                this,
+                "DrawTreeNode",
+                0);
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -95,8 +109,20 @@ DrawTreeNode::DrawTreeNode(void) :
 
 DrawTreeNode::~DrawTreeNode(void)
 {
+#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
+        fprintf(stderr, "GV_MEM_DT_DBG : (%u|%lf|%I64d) d (%p|%s|%u)\n", 
+                Thread::getAspect(),
+                getSystemTime(), 
+                getPerfCounter(),
+                this,
+                "DrawTreeNode",
+                0);
+#endif
+
+#ifndef OSG_NEW_DRAWTREE_MEMHANDLER
     subRefP(_pFirstChild);
     subRefP(_pBrother);
+#endif
 }
 
 /*-------------------------------------------------------------------------*/

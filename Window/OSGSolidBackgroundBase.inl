@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &SolidBackgroundBase::getClassType(void)
+inline
+OSG::FieldContainerType &SolidBackgroundBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 SolidBackgroundBase::getClassTypeId(void) 
+inline
+OSG::UInt32 SolidBackgroundBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline SolidBackgroundPtr SolidBackgroundBase::create(void) 
+inline
+SolidBackgroundPtr SolidBackgroundBase::create(void) 
 {
     SolidBackgroundPtr fc; 
 
@@ -80,7 +83,8 @@ inline SolidBackgroundPtr SolidBackgroundBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline SolidBackgroundPtr SolidBackgroundBase::createEmpty(void) 
+inline
+SolidBackgroundPtr SolidBackgroundBase::createEmpty(void) 
 { 
     SolidBackgroundPtr returnValue; 
     
@@ -92,26 +96,26 @@ inline SolidBackgroundPtr SolidBackgroundBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFColor3f *SolidBackgroundBase::getSFColor(void)
 {
     return &_sfColor;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Color3f &SolidBackgroundBase::getColor(void)
 {
     return _sfColor.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Color3f &SolidBackgroundBase::getColor(void) const
 {
     return _sfColor.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SolidBackgroundBase::setColor(const Color3f &value)
 {
     _sfColor.setValue(value);
@@ -121,5 +125,5 @@ void SolidBackgroundBase::setColor(const Color3f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSOLIDBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGSolidBackgroundBase.inl,v 1.8 2001/10/03 20:37:36 dirk Exp $"
+#define OSGSOLIDBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGSolidBackgroundBase.inl,v 1.9 2002/03/25 01:26:00 vossg Exp $"
 

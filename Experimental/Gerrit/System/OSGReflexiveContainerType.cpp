@@ -253,6 +253,11 @@ bool ReflexiveContainerType::initialize(void)
 void ReflexiveContainerType::terminate(void)
 {
     _bReflexTypeInitialized = false;
+
+    for(UInt32 i = 0; i < _vDesc.size(); ++i)
+    {
+        delete _vDesc[i];
+    }
 }
 
 /*-------------------------------------------------------------------------*\

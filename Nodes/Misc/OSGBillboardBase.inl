@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &BillboardBase::getClassType(void)
+inline
+OSG::FieldContainerType &BillboardBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 BillboardBase::getClassTypeId(void) 
+inline
+OSG::UInt32 BillboardBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline BillboardPtr BillboardBase::create(void) 
+inline
+BillboardPtr BillboardBase::create(void) 
 {
     BillboardPtr fc; 
 
@@ -80,7 +83,8 @@ inline BillboardPtr BillboardBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline BillboardPtr BillboardBase::createEmpty(void) 
+inline
+BillboardPtr BillboardBase::createEmpty(void) 
 { 
     BillboardPtr returnValue; 
     
@@ -92,74 +96,74 @@ inline BillboardPtr BillboardBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFVec3f *BillboardBase::getSFAxisOfRotation(void)
 {
     return &_sfAxisOfRotation;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFBool *BillboardBase::getSFFocusOnCamera(void)
 {
     return &_sfFocusOnCamera;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFBool *BillboardBase::getSFAlignToScreen(void)
 {
     return &_sfAlignToScreen;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Vec3f &BillboardBase::getAxisOfRotation(void)
 {
     return _sfAxisOfRotation.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Vec3f &BillboardBase::getAxisOfRotation(void) const
 {
     return _sfAxisOfRotation.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void BillboardBase::setAxisOfRotation(const Vec3f &value)
 {
     _sfAxisOfRotation.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 bool &BillboardBase::getFocusOnCamera(void)
 {
     return _sfFocusOnCamera.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const bool &BillboardBase::getFocusOnCamera(void) const
 {
     return _sfFocusOnCamera.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void BillboardBase::setFocusOnCamera(const bool &value)
 {
     _sfFocusOnCamera.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 bool &BillboardBase::getAlignToScreen(void)
 {
     return _sfAlignToScreen.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const bool &BillboardBase::getAlignToScreen(void) const
 {
     return _sfAlignToScreen.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void BillboardBase::setAlignToScreen(const bool &value)
 {
     _sfAlignToScreen.setValue(value);

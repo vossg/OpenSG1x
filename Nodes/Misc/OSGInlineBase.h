@@ -68,6 +68,7 @@
 #include <OSGNodeCore.h> // Parent
 
 #include <OSGStringFields.h> // Url type
+#include <OSGBoolFields.h> // Loaded type
 
 #include <OSGInlineFields.h>
 
@@ -89,11 +90,13 @@ class OSG_SYSTEMLIB_DLLMAPPING InlineBase : public NodeCore
 
     enum
     {
-        UrlFieldId  = Inherited::NextFieldId,
-        NextFieldId = UrlFieldId  + 1
+        UrlFieldId    = Inherited::NextFieldId,
+        LoadedFieldId = UrlFieldId    + 1,
+        NextFieldId   = LoadedFieldId + 1
     };
 
     static const osg::BitVector UrlFieldMask;
+    static const osg::BitVector LoadedFieldMask;
 
 
     /*---------------------------------------------------------------------*/
@@ -118,17 +121,21 @@ class OSG_SYSTEMLIB_DLLMAPPING InlineBase : public NodeCore
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       MFString            *getMFUrl            (void);
+           MFString            *getMFUrl            (void);
+           SFBool              *getSFLoaded         (void);
 
-    inline       string              &getUrl            (UInt32 index);
-    inline       MFString            &getUrl            (void);
-    inline const MFString            &getUrl            (void) const;
+           bool                &getLoaded         (void);
+     const bool                &getLoaded         (void) const;
+           string              &getUrl            (UInt32 index);
+           MFString            &getUrl            (void);
+     const MFString            &getUrl            (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
+     void setLoaded         ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -175,6 +182,7 @@ class OSG_SYSTEMLIB_DLLMAPPING InlineBase : public NodeCore
     /*! \{                                                                 */
 
     MFString            _mfUrl;
+    SFBool              _sfLoaded;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

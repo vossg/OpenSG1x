@@ -54,13 +54,15 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &CameraDecoratorBase::getClassType(void)
+inline
+OSG::FieldContainerType &CameraDecoratorBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 CameraDecoratorBase::getClassTypeId(void) 
+inline
+OSG::UInt32 CameraDecoratorBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
@@ -68,38 +70,38 @@ inline OSG::UInt32 CameraDecoratorBase::getClassTypeId(void)
 
 /*------------------------- decorator get ------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFNodePtr *CameraDecoratorBase::getSFBeacon(void)
 {
     return getDecoratee()->getSFBeacon();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *CameraDecoratorBase::getSFNear(void)
 {
     return getDecoratee()->getSFNear();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *CameraDecoratorBase::getSFFar(void)
 {
     return getDecoratee()->getSFFar();
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 NodePtr &CameraDecoratorBase::getBeacon(void)
 {
     return getDecoratee()->getBeacon();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const NodePtr &CameraDecoratorBase::getBeacon(void) const
 {
     return getDecoratee()->getBeacon();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void CameraDecoratorBase::setBeacon(const NodePtr &value)
 {
     beginEditCP(getDecoratee(), BeaconFieldMask);
@@ -107,19 +109,19 @@ void CameraDecoratorBase::setBeacon(const NodePtr &value)
     endEditCP  (getDecoratee(), BeaconFieldMask);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &CameraDecoratorBase::getNear(void)
 {
     return getDecoratee()->getNear();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &CameraDecoratorBase::getNear(void) const
 {
     return getDecoratee()->getNear();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void CameraDecoratorBase::setNear(const Real32 &value)
 {
     beginEditCP(getDecoratee(), NearFieldMask);
@@ -127,19 +129,19 @@ void CameraDecoratorBase::setNear(const Real32 &value)
     endEditCP  (getDecoratee(), NearFieldMask);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &CameraDecoratorBase::getFar(void)
 {
     return getDecoratee()->getFar();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &CameraDecoratorBase::getFar(void) const
 {
     return getDecoratee()->getFar();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void CameraDecoratorBase::setFar(const Real32 &value)
 {
     beginEditCP(getDecoratee(), FarFieldMask);
@@ -148,24 +150,24 @@ void CameraDecoratorBase::setFar(const Real32 &value)
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFCameraPtr *CameraDecoratorBase::getSFDecoratee(void){
     return &_sfDecoratee;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 CameraPtr &CameraDecoratorBase::getDecoratee(void)
 {
     return _sfDecoratee.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const CameraPtr &CameraDecoratorBase::getDecoratee(void) const
 {
     return _sfDecoratee.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void CameraDecoratorBase::setDecoratee(const CameraPtr &value)
 {
     _sfDecoratee.setValue(value);
@@ -173,5 +175,5 @@ void CameraDecoratorBase::setDecoratee(const CameraPtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGCameraDecoratorBase.inl,v 1.7 2002/02/18 06:29:20 dirk Exp $"
+#define OSGCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGCameraDecoratorBase.inl,v 1.8 2002/03/25 01:26:00 vossg Exp $"
 

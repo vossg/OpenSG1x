@@ -272,8 +272,11 @@ VRMLCoordinateBinder::~VRMLCoordinateBinder(void)
 
 /*------------------------------ access -----------------------------------*/
 
-void VRMLCoordinateBinder::init(VRMLToOSGAction *)
+void VRMLCoordinateBinder::init(VRMLToOSGAction *pAction)
 {
+    if(pAction == NULL)
+        return;
+
     if(_pNode == NULL)
         return;
 
@@ -291,11 +294,21 @@ void VRMLCoordinateBinder::init(VRMLToOSGAction *)
 
     beginEditCP(_pCoords, GeoPositions3f::GeoPropDataFieldMask);
     {
-        _pCoords->getFieldPtr()->resize(numPnts);
+        if(pAction->getDataTransferMode() == VRMLToOSGAction::CopyData)
+        {
+            _pCoords->getFieldPtr()->resize(numPnts);
+            
+            memcpy(&(_pCoords->getFieldPtr()->front()), 
+                   &( pNode  ->getMFPoint ()->front()),
+                   sizeof(Vec3f) * numPnts);
+        }
+        else
+        {
+            MFPnt3f *pPoints = 
+                reinterpret_cast<MFPnt3f *>(pNode->getMFPoint());
 
-        memcpy(&(_pCoords->getFieldPtr()->front()), 
-               &( pNode  ->getMFPoint ()->front()),
-               sizeof(Vec3f) * numPnts);
+            _pCoords->getFieldPtr()->getValues().swap(pPoints->getValues());
+        }
     }
     endEditCP  (_pCoords, GeoPositions3f::GeoPropDataFieldMask);
 

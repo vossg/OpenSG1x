@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &MatrixCameraBase::getClassType(void)
+inline
+OSG::FieldContainerType &MatrixCameraBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 MatrixCameraBase::getClassTypeId(void) 
+inline
+OSG::UInt32 MatrixCameraBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline MatrixCameraPtr MatrixCameraBase::create(void) 
+inline
+MatrixCameraPtr MatrixCameraBase::create(void) 
 {
     MatrixCameraPtr fc; 
 
@@ -80,7 +83,8 @@ inline MatrixCameraPtr MatrixCameraBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline MatrixCameraPtr MatrixCameraBase::createEmpty(void) 
+inline
+MatrixCameraPtr MatrixCameraBase::createEmpty(void) 
 { 
     MatrixCameraPtr returnValue; 
     
@@ -92,50 +96,50 @@ inline MatrixCameraPtr MatrixCameraBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFMatrix *MatrixCameraBase::getSFProjectionMatrix(void)
 {
     return &_sfProjectionMatrix;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFMatrix *MatrixCameraBase::getSFModelviewMatrix(void)
 {
     return &_sfModelviewMatrix;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Matrix &MatrixCameraBase::getProjectionMatrix(void)
 {
     return _sfProjectionMatrix.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Matrix &MatrixCameraBase::getProjectionMatrix(void) const
 {
     return _sfProjectionMatrix.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void MatrixCameraBase::setProjectionMatrix(const Matrix &value)
 {
     _sfProjectionMatrix.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Matrix &MatrixCameraBase::getModelviewMatrix(void)
 {
     return _sfModelviewMatrix.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Matrix &MatrixCameraBase::getModelviewMatrix(void) const
 {
     return _sfModelviewMatrix.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void MatrixCameraBase::setModelviewMatrix(const Matrix &value)
 {
     _sfModelviewMatrix.setValue(value);
@@ -145,5 +149,5 @@ void MatrixCameraBase::setModelviewMatrix(const Matrix &value)
 
 OSG_END_NAMESPACE
 
-#define OSGMATRIXCAMERABASE_INLINE_CVSID "@(#)$Id: OSGMatrixCameraBase.inl,v 1.2 2002/03/19 17:48:18 dirk Exp $"
+#define OSGMATRIXCAMERABASE_INLINE_CVSID "@(#)$Id: OSGMatrixCameraBase.inl,v 1.3 2002/03/25 01:26:00 vossg Exp $"
 

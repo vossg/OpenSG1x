@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &PerspectiveCameraBase::getClassType(void)
+inline
+OSG::FieldContainerType &PerspectiveCameraBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 PerspectiveCameraBase::getClassTypeId(void) 
+inline
+OSG::UInt32 PerspectiveCameraBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline PerspectiveCameraPtr PerspectiveCameraBase::create(void) 
+inline
+PerspectiveCameraPtr PerspectiveCameraBase::create(void) 
 {
     PerspectiveCameraPtr fc; 
 
@@ -80,7 +83,8 @@ inline PerspectiveCameraPtr PerspectiveCameraBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline PerspectiveCameraPtr PerspectiveCameraBase::createEmpty(void) 
+inline
+PerspectiveCameraPtr PerspectiveCameraBase::createEmpty(void) 
 { 
     PerspectiveCameraPtr returnValue; 
     
@@ -92,26 +96,26 @@ inline PerspectiveCameraPtr PerspectiveCameraBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *PerspectiveCameraBase::getSFFov(void)
 {
     return &_sfFov;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &PerspectiveCameraBase::getFov(void)
 {
     return _sfFov.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &PerspectiveCameraBase::getFov(void) const
 {
     return _sfFov.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void PerspectiveCameraBase::setFov(const Real32 &value)
 {
     _sfFov.setValue(value);
@@ -121,5 +125,5 @@ void PerspectiveCameraBase::setFov(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPERSPECTIVECAMERABASE_INLINE_CVSID "@(#)$Id: OSGPerspectiveCameraBase.inl,v 1.8 2001/10/03 20:37:36 dirk Exp $"
+#define OSGPERSPECTIVECAMERABASE_INLINE_CVSID "@(#)$Id: OSGPerspectiveCameraBase.inl,v 1.9 2002/03/25 01:26:00 vossg Exp $"
 

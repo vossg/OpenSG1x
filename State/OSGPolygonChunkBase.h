@@ -148,57 +148,57 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFInt32             *getSFCullFace       (void);
-    inline       SFInt32             *getSFFrontFace      (void);
-    inline       SFInt32             *getSFModeFace       (void);
-    inline       SFInt32             *getSFMode           (void);
-    inline       SFBool              *getSFSmooth         (void);
-    inline       SFReal32            *getSFOffsetFactor   (void);
-    inline       SFReal32            *getSFOffsetBias     (void);
-    inline       SFBool              *getSFOffsetPoint    (void);
-    inline       SFBool              *getSFOffsetLine     (void);
-    inline       SFBool              *getSFOffsetFill     (void);
-    inline       MFInt32             *getMFStipple        (void);
+           SFInt32             *getSFCullFace       (void);
+           SFInt32             *getSFFrontFace      (void);
+           SFInt32             *getSFModeFace       (void);
+           SFInt32             *getSFMode           (void);
+           SFBool              *getSFSmooth         (void);
+           SFReal32            *getSFOffsetFactor   (void);
+           SFReal32            *getSFOffsetBias     (void);
+           SFBool              *getSFOffsetPoint    (void);
+           SFBool              *getSFOffsetLine     (void);
+           SFBool              *getSFOffsetFill     (void);
+           MFInt32             *getMFStipple        (void);
 
-    inline       Int32               &getCullFace       (void);
-    inline const Int32               &getCullFace       (void) const;
-    inline       Int32               &getFrontFace      (void);
-    inline const Int32               &getFrontFace      (void) const;
-    inline       Int32               &getModeFace       (void);
-    inline const Int32               &getModeFace       (void) const;
-    inline       Int32               &getMode           (void);
-    inline const Int32               &getMode           (void) const;
-    inline       bool                &getSmooth         (void);
-    inline const bool                &getSmooth         (void) const;
-    inline       Real32              &getOffsetFactor   (void);
-    inline const Real32              &getOffsetFactor   (void) const;
-    inline       Real32              &getOffsetBias     (void);
-    inline const Real32              &getOffsetBias     (void) const;
-    inline       bool                &getOffsetPoint    (void);
-    inline const bool                &getOffsetPoint    (void) const;
-    inline       bool                &getOffsetLine     (void);
-    inline const bool                &getOffsetLine     (void) const;
-    inline       bool                &getOffsetFill     (void);
-    inline const bool                &getOffsetFill     (void) const;
-    inline       Int32               &getStipple        (UInt32 index);
-    inline       MFInt32             &getStipple        (void);
-    inline const MFInt32             &getStipple        (void) const;
+           Int32               &getCullFace       (void);
+     const Int32               &getCullFace       (void) const;
+           Int32               &getFrontFace      (void);
+     const Int32               &getFrontFace      (void) const;
+           Int32               &getModeFace       (void);
+     const Int32               &getModeFace       (void) const;
+           Int32               &getMode           (void);
+     const Int32               &getMode           (void) const;
+           bool                &getSmooth         (void);
+     const bool                &getSmooth         (void) const;
+           Real32              &getOffsetFactor   (void);
+     const Real32              &getOffsetFactor   (void) const;
+           Real32              &getOffsetBias     (void);
+     const Real32              &getOffsetBias     (void) const;
+           bool                &getOffsetPoint    (void);
+     const bool                &getOffsetPoint    (void) const;
+           bool                &getOffsetLine     (void);
+     const bool                &getOffsetLine     (void) const;
+           bool                &getOffsetFill     (void);
+     const bool                &getOffsetFill     (void) const;
+           Int32               &getStipple        (UInt32 index);
+           MFInt32             &getStipple        (void);
+     const MFInt32             &getStipple        (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setCullFace       ( const Int32 &value );
-    inline void setFrontFace      ( const Int32 &value );
-    inline void setModeFace       ( const Int32 &value );
-    inline void setMode           ( const Int32 &value );
-    inline void setSmooth         ( const bool &value );
-    inline void setOffsetFactor   ( const Real32 &value );
-    inline void setOffsetBias     ( const Real32 &value );
-    inline void setOffsetPoint    ( const bool &value );
-    inline void setOffsetLine     ( const bool &value );
-    inline void setOffsetFill     ( const bool &value );
+     void setCullFace       ( const Int32 &value );
+     void setFrontFace      ( const Int32 &value );
+     void setModeFace       ( const Int32 &value );
+     void setMode           ( const Int32 &value );
+     void setSmooth         ( const bool &value );
+     void setOffsetFactor   ( const Real32 &value );
+     void setOffsetBias     ( const Real32 &value );
+     void setOffsetPoint    ( const bool &value );
+     void setOffsetLine     ( const bool &value );
+     void setOffsetFill     ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -302,6 +302,6 @@ typedef PolygonChunkBase *PolygonChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.19 2002/03/19 18:08:16 dirk Exp $"
+#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.20 2002/03/25 01:25:59 vossg Exp $"
 
 #endif /* _OSGPOLYGONCHUNKBASE_H_ */

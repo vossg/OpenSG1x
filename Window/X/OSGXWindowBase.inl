@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &XWindowBase::getClassType(void)
+inline
+OSG::FieldContainerType &XWindowBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 XWindowBase::getClassTypeId(void) 
+inline
+OSG::UInt32 XWindowBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline XWindowPtr XWindowBase::create(void) 
+inline
+XWindowPtr XWindowBase::create(void) 
 {
     XWindowPtr fc; 
 
@@ -80,7 +83,8 @@ inline XWindowPtr XWindowBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline XWindowPtr XWindowBase::createEmpty(void) 
+inline
+XWindowPtr XWindowBase::createEmpty(void) 
 { 
     XWindowPtr returnValue; 
     
@@ -92,74 +96,74 @@ inline XWindowPtr XWindowBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_WINDOWXLIB_DLLMAPPING
+inline
 SFDisplayP *XWindowBase::getSFDisplay(void)
 {
     return &_sfDisplay;
 }
 
-OSG_WINDOWXLIB_DLLMAPPING
+inline
 SFX11Window *XWindowBase::getSFWindow(void)
 {
     return &_sfWindow;
 }
 
-OSG_WINDOWXLIB_DLLMAPPING
+inline
 SFGLXContext *XWindowBase::getSFContext(void)
 {
     return &_sfContext;
 }
 
 
-OSG_WINDOWXLIB_DLLMAPPING
+inline
 DisplayP &XWindowBase::getDisplay(void)
 {
     return _sfDisplay.getValue();
 }
 
-OSG_WINDOWXLIB_DLLMAPPING
+inline
 const DisplayP &XWindowBase::getDisplay(void) const
 {
     return _sfDisplay.getValue();
 }
 
-OSG_WINDOWXLIB_DLLMAPPING
+inline
 void XWindowBase::setDisplay(const DisplayP &value)
 {
     _sfDisplay.setValue(value);
 }
 
-OSG_WINDOWXLIB_DLLMAPPING
+inline
 X11Window &XWindowBase::getWindow(void)
 {
     return _sfWindow.getValue();
 }
 
-OSG_WINDOWXLIB_DLLMAPPING
+inline
 const X11Window &XWindowBase::getWindow(void) const
 {
     return _sfWindow.getValue();
 }
 
-OSG_WINDOWXLIB_DLLMAPPING
+inline
 void XWindowBase::setWindow(const X11Window &value)
 {
     _sfWindow.setValue(value);
 }
 
-OSG_WINDOWXLIB_DLLMAPPING
+inline
 GLXContext &XWindowBase::getContext(void)
 {
     return _sfContext.getValue();
 }
 
-OSG_WINDOWXLIB_DLLMAPPING
+inline
 const GLXContext &XWindowBase::getContext(void) const
 {
     return _sfContext.getValue();
 }
 
-OSG_WINDOWXLIB_DLLMAPPING
+inline
 void XWindowBase::setContext(const GLXContext &value)
 {
     _sfContext.setValue(value);
@@ -169,5 +173,5 @@ void XWindowBase::setContext(const GLXContext &value)
 
 OSG_END_NAMESPACE
 
-#define OSGXWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGXWindowBase.inl,v 1.1 2002/01/31 00:28:39 dirk Exp $"
+#define OSGXWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGXWindowBase.inl,v 1.2 2002/03/25 01:26:01 vossg Exp $"
 

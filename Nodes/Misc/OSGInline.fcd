@@ -17,4 +17,13 @@
 		access="public"
 	>
 	</Field>
+	<Field
+		name="loaded"
+		type="bool"
+		cardinality="single"
+		visibility="internal"
+		access="public"
+		defaultValue="true"
+	>
+	</Field>
 </FieldContainer>

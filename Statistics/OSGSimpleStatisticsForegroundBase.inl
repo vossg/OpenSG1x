@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &SimpleStatisticsForegroundBase::getClassType(void)
+inline
+OSG::FieldContainerType &SimpleStatisticsForegroundBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 SimpleStatisticsForegroundBase::getClassTypeId(void) 
+inline
+OSG::UInt32 SimpleStatisticsForegroundBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline SimpleStatisticsForegroundPtr SimpleStatisticsForegroundBase::create(void) 
+inline
+SimpleStatisticsForegroundPtr SimpleStatisticsForegroundBase::create(void) 
 {
     SimpleStatisticsForegroundPtr fc; 
 
@@ -80,7 +83,8 @@ inline SimpleStatisticsForegroundPtr SimpleStatisticsForegroundBase::create(void
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline SimpleStatisticsForegroundPtr SimpleStatisticsForegroundBase::createEmpty(void) 
+inline
+SimpleStatisticsForegroundPtr SimpleStatisticsForegroundBase::createEmpty(void) 
 { 
     SimpleStatisticsForegroundPtr returnValue; 
     
@@ -92,73 +96,75 @@ inline SimpleStatisticsForegroundPtr SimpleStatisticsForegroundBase::createEmpty
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFString *SimpleStatisticsForegroundBase::getMFFormats(void)
 {
     return &_mfFormats;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *SimpleStatisticsForegroundBase::getSFSize(void)
 {
     return &_sfSize;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFColor4f *SimpleStatisticsForegroundBase::getSFColor(void)
 {
     return &_sfColor;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &SimpleStatisticsForegroundBase::getSize(void)
 {
     return _sfSize.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &SimpleStatisticsForegroundBase::getSize(void) const
 {
     return _sfSize.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SimpleStatisticsForegroundBase::setSize(const Real32 &value)
 {
     _sfSize.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Color4f &SimpleStatisticsForegroundBase::getColor(void)
 {
     return _sfColor.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Color4f &SimpleStatisticsForegroundBase::getColor(void) const
 {
     return _sfColor.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SimpleStatisticsForegroundBase::setColor(const Color4f &value)
 {
     _sfColor.setValue(value);
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 string &SimpleStatisticsForegroundBase::getFormats(UInt32 index)
 {
     return _mfFormats.getValue( index );
 }
 
+inline
 MFString &SimpleStatisticsForegroundBase::getFormats(void)
 {
     return _mfFormats;
 }
 
+inline
 const MFString &SimpleStatisticsForegroundBase::getFormats(void) const
 {
     return _mfFormats;
@@ -167,5 +173,5 @@ const MFString &SimpleStatisticsForegroundBase::getFormats(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLESTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGSimpleStatisticsForegroundBase.inl,v 1.1 2002/03/19 17:46:17 dirk Exp $"
+#define OSGSIMPLESTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGSimpleStatisticsForegroundBase.inl,v 1.2 2002/03/25 01:26:00 vossg Exp $"
 

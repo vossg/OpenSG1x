@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &SwitchBase::getClassType(void)
+inline
+OSG::FieldContainerType &SwitchBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 SwitchBase::getClassTypeId(void) 
+inline
+OSG::UInt32 SwitchBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline SwitchPtr SwitchBase::create(void) 
+inline
+SwitchPtr SwitchBase::create(void) 
 {
     SwitchPtr fc; 
 
@@ -80,7 +83,8 @@ inline SwitchPtr SwitchBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline SwitchPtr SwitchBase::createEmpty(void) 
+inline
+SwitchPtr SwitchBase::createEmpty(void) 
 { 
     SwitchPtr returnValue; 
     
@@ -92,26 +96,26 @@ inline SwitchPtr SwitchBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFInt32 *SwitchBase::getSFChoice(void)
 {
     return &_sfChoice;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Int32 &SwitchBase::getChoice(void)
 {
     return _sfChoice.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Int32 &SwitchBase::getChoice(void) const
 {
     return _sfChoice.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SwitchBase::setChoice(const Int32 &value)
 {
     _sfChoice.setValue(value);

@@ -306,7 +306,11 @@ void VRMLAppearanceBinder::setMaterial(MaterialChunkPtr pMat)
 
     if(pChunkMat != NullFC)
     {
-        pChunkMat->addChunk(pMat);
+        beginEditCP(pChunkMat, ChunkMaterial::ChunksFieldMask);
+        {
+            pChunkMat->addChunk(pMat);
+        }
+        endEditCP  (pChunkMat, ChunkMaterial::ChunksFieldMask);
     }
 }
 

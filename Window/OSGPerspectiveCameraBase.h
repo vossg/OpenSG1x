@@ -118,17 +118,17 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFReal32            *getSFFov            (void);
+           SFReal32            *getSFFov            (void);
 
-    inline       Real32              &getFov            (void);
-    inline const Real32              &getFov            (void) const;
+           Real32              &getFov            (void);
+     const Real32              &getFov            (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setFov            ( const Real32 &value );
+     void setFov            ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -222,6 +222,6 @@ typedef PerspectiveCameraBase *PerspectiveCameraBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: OSGPerspectiveCameraBase.h,v 1.19 2002/03/19 17:48:18 dirk Exp $"
+#define OSGPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: OSGPerspectiveCameraBase.h,v 1.20 2002/03/25 01:26:00 vossg Exp $"
 
 #endif /* _OSGPERSPECTIVECAMERABASE_H_ */

@@ -102,11 +102,17 @@ namespace
 const OSG::BitVector  InlineBase::UrlFieldMask = 
     (1 << InlineBase::UrlFieldId);
 
+const OSG::BitVector  InlineBase::LoadedFieldMask = 
+    (1 << InlineBase::LoadedFieldId);
+
 
 
 // Field descriptions
 
 /*! \var string          InlineBase::_mfUrl
+    
+*/
+/*! \var bool            InlineBase::_sfLoaded
     
 */
 
@@ -118,7 +124,12 @@ FieldDescription *InlineBase::_desc[] =
                      "url", 
                      UrlFieldId, UrlFieldMask,
                      true,
-                     (FieldAccessMethod) &InlineBase::getMFUrl)
+                     (FieldAccessMethod) &InlineBase::getMFUrl),
+    new FieldDescription(SFBool::getClassType(), 
+                     "loaded", 
+                     LoadedFieldId, LoadedFieldMask,
+                     true,
+                     (FieldAccessMethod) &InlineBase::getSFLoaded)
 };
 
 //! Inline type
@@ -178,6 +189,7 @@ void InlineBase::executeSync(      FieldContainer &other,
 
 InlineBase::InlineBase(void) :
     _mfUrl                    (), 
+    _sfLoaded                 (bool(true)), 
     Inherited() 
 {
 }
@@ -190,6 +202,7 @@ InlineBase::InlineBase(void) :
 
 InlineBase::InlineBase(const InlineBase &source) :
     _mfUrl                    (source._mfUrl                    ), 
+    _sfLoaded                 (source._sfLoaded                 ), 
     Inherited                 (source)
 {
 }
@@ -213,6 +226,11 @@ UInt32 InlineBase::getBinSize(const BitVector &whichField)
         returnValue += _mfUrl.getBinSize();
     }
 
+    if(FieldBits::NoField != (LoadedFieldMask & whichField))
+    {
+        returnValue += _sfLoaded.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -225,6 +243,11 @@ void InlineBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (UrlFieldMask & whichField))
     {
         _mfUrl.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (LoadedFieldMask & whichField))
+    {
+        _sfLoaded.copyToBin(pMem);
     }
 
 
@@ -240,6 +263,11 @@ void InlineBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfUrl.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (LoadedFieldMask & whichField))
+    {
+        _sfLoaded.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -251,6 +279,9 @@ void InlineBase::executeSyncImpl(      InlineBase *pOther,
 
     if(FieldBits::NoField != (UrlFieldMask & whichField))
         _mfUrl.syncWith(pOther->_mfUrl);
+
+    if(FieldBits::NoField != (LoadedFieldMask & whichField))
+        _sfLoaded.syncWith(pOther->_sfLoaded);
 
 
 }

@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &GrabForegroundBase::getClassType(void)
+inline
+OSG::FieldContainerType &GrabForegroundBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 GrabForegroundBase::getClassTypeId(void) 
+inline
+OSG::UInt32 GrabForegroundBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline GrabForegroundPtr GrabForegroundBase::create(void) 
+inline
+GrabForegroundPtr GrabForegroundBase::create(void) 
 {
     GrabForegroundPtr fc; 
 
@@ -80,7 +83,8 @@ inline GrabForegroundPtr GrabForegroundBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline GrabForegroundPtr GrabForegroundBase::createEmpty(void) 
+inline
+GrabForegroundPtr GrabForegroundBase::createEmpty(void) 
 { 
     GrabForegroundPtr returnValue; 
     
@@ -92,26 +96,26 @@ inline GrabForegroundPtr GrabForegroundBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFImageP *GrabForegroundBase::getSFImage(void)
 {
     return &_sfImage;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 ImageP &GrabForegroundBase::getImage(void)
 {
     return _sfImage.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const ImageP &GrabForegroundBase::getImage(void) const
 {
     return _sfImage.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void GrabForegroundBase::setImage(const ImageP &value)
 {
     _sfImage.setValue(value);
@@ -121,5 +125,5 @@ void GrabForegroundBase::setImage(const ImageP &value)
 
 OSG_END_NAMESPACE
 
-#define OSGGRABFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGGrabForegroundBase.inl,v 1.1 2002/01/18 22:58:09 dirk Exp $"
+#define OSGGRABFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGGrabForegroundBase.inl,v 1.2 2002/03/25 01:26:00 vossg Exp $"
 

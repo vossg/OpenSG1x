@@ -121,21 +121,21 @@ class OSG_SYSTEMLIB_DLLMAPPING MatrixCameraBase : public Camera
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFMatrix            *getSFProjectionMatrix(void);
-    inline       SFMatrix            *getSFModelviewMatrix(void);
+           SFMatrix            *getSFProjectionMatrix(void);
+           SFMatrix            *getSFModelviewMatrix(void);
 
-    inline       Matrix              &getProjectionMatrix(void);
-    inline const Matrix              &getProjectionMatrix(void) const;
-    inline       Matrix              &getModelviewMatrix(void);
-    inline const Matrix              &getModelviewMatrix(void) const;
+           Matrix              &getProjectionMatrix(void);
+     const Matrix              &getProjectionMatrix(void) const;
+           Matrix              &getModelviewMatrix(void);
+     const Matrix              &getModelviewMatrix(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setProjectionMatrix( const Matrix &value );
-    inline void setModelviewMatrix( const Matrix &value );
+     void setProjectionMatrix( const Matrix &value );
+     void setModelviewMatrix( const Matrix &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -230,6 +230,6 @@ typedef MatrixCameraBase *MatrixCameraBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATRIXCAMERABASE_HEADER_CVSID "@(#)$Id: OSGMatrixCameraBase.h,v 1.2 2002/03/19 17:48:18 dirk Exp $"
+#define OSGMATRIXCAMERABASE_HEADER_CVSID "@(#)$Id: OSGMatrixCameraBase.h,v 1.3 2002/03/25 01:26:00 vossg Exp $"
 
 #endif /* _OSGMATRIXCAMERABASE_H_ */

@@ -101,7 +101,7 @@ Color3f TriangleIterator::getColor( Int32 which ) const
     Int32 ind = getColorIndex( which );
     
     if ( ind < 0 )
-        return NullColor3f;
+        return Color3f::Null;
         
     return _geo->getColors()->getValue( ind );
 }

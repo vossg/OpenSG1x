@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &DirectionalLightBase::getClassType(void)
+inline
+OSG::FieldContainerType &DirectionalLightBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 DirectionalLightBase::getClassTypeId(void) 
+inline
+OSG::UInt32 DirectionalLightBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline DirectionalLightPtr DirectionalLightBase::create(void) 
+inline
+DirectionalLightPtr DirectionalLightBase::create(void) 
 {
     DirectionalLightPtr fc; 
 
@@ -80,7 +83,8 @@ inline DirectionalLightPtr DirectionalLightBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline DirectionalLightPtr DirectionalLightBase::createEmpty(void) 
+inline
+DirectionalLightPtr DirectionalLightBase::createEmpty(void) 
 { 
     DirectionalLightPtr returnValue; 
     
@@ -92,26 +96,26 @@ inline DirectionalLightPtr DirectionalLightBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFVec3f *DirectionalLightBase::getSFDirection(void)
 {
     return &_sfDirection;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Vec3f &DirectionalLightBase::getDirection(void)
 {
     return _sfDirection.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Vec3f &DirectionalLightBase::getDirection(void) const
 {
     return _sfDirection.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void DirectionalLightBase::setDirection(const Vec3f &value)
 {
     _sfDirection.setValue(value);
@@ -121,5 +125,5 @@ void DirectionalLightBase::setDirection(const Vec3f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGDIRECTIONALLIGHTBASE_INLINE_CVSID "@(#)$Id: OSGDirectionalLightBase.inl,v 1.8 2001/10/03 20:37:35 dirk Exp $"
+#define OSGDIRECTIONALLIGHTBASE_INLINE_CVSID "@(#)$Id: OSGDirectionalLightBase.inl,v 1.9 2002/03/25 01:25:58 vossg Exp $"
 

@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &GradientBackgroundBase::getClassType(void)
+inline
+OSG::FieldContainerType &GradientBackgroundBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 GradientBackgroundBase::getClassTypeId(void) 
+inline
+OSG::UInt32 GradientBackgroundBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline GradientBackgroundPtr GradientBackgroundBase::create(void) 
+inline
+GradientBackgroundPtr GradientBackgroundBase::create(void) 
 {
     GradientBackgroundPtr fc; 
 
@@ -80,7 +83,8 @@ inline GradientBackgroundPtr GradientBackgroundBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline GradientBackgroundPtr GradientBackgroundBase::createEmpty(void) 
+inline
+GradientBackgroundPtr GradientBackgroundBase::createEmpty(void) 
 { 
     GradientBackgroundPtr returnValue; 
     
@@ -92,13 +96,13 @@ inline GradientBackgroundPtr GradientBackgroundBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFColor3f *GradientBackgroundBase::getMFColor(void)
 {
     return &_mfColor;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFReal32 *GradientBackgroundBase::getMFPosition(void)
 {
     return &_mfPosition;
@@ -106,33 +110,37 @@ MFReal32 *GradientBackgroundBase::getMFPosition(void)
 
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Color3f &GradientBackgroundBase::getColor(UInt32 index)
 {
     return _mfColor.getValue( index );
 }
 
+inline
 MFColor3f &GradientBackgroundBase::getColor(void)
 {
     return _mfColor;
 }
 
+inline
 const MFColor3f &GradientBackgroundBase::getColor(void) const
 {
     return _mfColor;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &GradientBackgroundBase::getPosition(UInt32 index)
 {
     return _mfPosition.getValue( index );
 }
 
+inline
 MFReal32 &GradientBackgroundBase::getPosition(void)
 {
     return _mfPosition;
 }
 
+inline
 const MFReal32 &GradientBackgroundBase::getPosition(void) const
 {
     return _mfPosition;
@@ -141,5 +149,5 @@ const MFReal32 &GradientBackgroundBase::getPosition(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGGradientBackgroundBase.inl,v 1.8 2001/10/03 20:37:36 dirk Exp $"
+#define OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGGradientBackgroundBase.inl,v 1.9 2002/03/25 01:26:00 vossg Exp $"
 

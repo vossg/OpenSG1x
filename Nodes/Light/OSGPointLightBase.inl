@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &PointLightBase::getClassType(void)
+inline
+OSG::FieldContainerType &PointLightBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 PointLightBase::getClassTypeId(void) 
+inline
+OSG::UInt32 PointLightBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline PointLightPtr PointLightBase::create(void) 
+inline
+PointLightPtr PointLightBase::create(void) 
 {
     PointLightPtr fc; 
 
@@ -80,7 +83,8 @@ inline PointLightPtr PointLightBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline PointLightPtr PointLightBase::createEmpty(void) 
+inline
+PointLightPtr PointLightBase::createEmpty(void) 
 { 
     PointLightPtr returnValue; 
     
@@ -92,26 +96,26 @@ inline PointLightPtr PointLightBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFPnt3f *PointLightBase::getSFPosition(void)
 {
     return &_sfPosition;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Pnt3f &PointLightBase::getPosition(void)
 {
     return _sfPosition.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Pnt3f &PointLightBase::getPosition(void) const
 {
     return _sfPosition.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void PointLightBase::setPosition(const Pnt3f &value)
 {
     _sfPosition.setValue(value);
@@ -121,5 +125,5 @@ void PointLightBase::setPosition(const Pnt3f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPOINTLIGHTBASE_INLINE_CVSID "@(#)$Id: OSGPointLightBase.inl,v 1.8 2001/10/03 20:37:35 dirk Exp $"
+#define OSGPOINTLIGHTBASE_INLINE_CVSID "@(#)$Id: OSGPointLightBase.inl,v 1.9 2002/03/25 01:25:58 vossg Exp $"
 

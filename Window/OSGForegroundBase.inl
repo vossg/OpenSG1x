@@ -54,13 +54,15 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &ForegroundBase::getClassType(void)
+inline
+OSG::FieldContainerType &ForegroundBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 ForegroundBase::getClassTypeId(void) 
+inline
+OSG::UInt32 ForegroundBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 

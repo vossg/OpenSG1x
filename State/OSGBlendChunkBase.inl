@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &BlendChunkBase::getClassType(void)
+inline
+OSG::FieldContainerType &BlendChunkBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 BlendChunkBase::getClassTypeId(void) 
+inline
+OSG::UInt32 BlendChunkBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline BlendChunkPtr BlendChunkBase::create(void) 
+inline
+BlendChunkPtr BlendChunkBase::create(void) 
 {
     BlendChunkPtr fc; 
 
@@ -80,7 +83,8 @@ inline BlendChunkPtr BlendChunkBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline BlendChunkPtr BlendChunkBase::createEmpty(void) 
+inline
+BlendChunkPtr BlendChunkBase::createEmpty(void) 
 { 
     BlendChunkPtr returnValue; 
     
@@ -92,122 +96,122 @@ inline BlendChunkPtr BlendChunkBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFUInt32 *BlendChunkBase::getSFSrcFactor(void)
 {
     return &_sfSrcFactor;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFUInt32 *BlendChunkBase::getSFDestFactor(void)
 {
     return &_sfDestFactor;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFColor4f *BlendChunkBase::getSFColor(void)
 {
     return &_sfColor;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFUInt32 *BlendChunkBase::getSFAlphaFunc(void)
 {
     return &_sfAlphaFunc;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *BlendChunkBase::getSFAlphaValue(void)
 {
     return &_sfAlphaValue;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 UInt32 &BlendChunkBase::getSrcFactor(void)
 {
     return _sfSrcFactor.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const UInt32 &BlendChunkBase::getSrcFactor(void) const
 {
     return _sfSrcFactor.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void BlendChunkBase::setSrcFactor(const UInt32 &value)
 {
     _sfSrcFactor.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 UInt32 &BlendChunkBase::getDestFactor(void)
 {
     return _sfDestFactor.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const UInt32 &BlendChunkBase::getDestFactor(void) const
 {
     return _sfDestFactor.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void BlendChunkBase::setDestFactor(const UInt32 &value)
 {
     _sfDestFactor.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Color4f &BlendChunkBase::getColor(void)
 {
     return _sfColor.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Color4f &BlendChunkBase::getColor(void) const
 {
     return _sfColor.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void BlendChunkBase::setColor(const Color4f &value)
 {
     _sfColor.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 UInt32 &BlendChunkBase::getAlphaFunc(void)
 {
     return _sfAlphaFunc.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const UInt32 &BlendChunkBase::getAlphaFunc(void) const
 {
     return _sfAlphaFunc.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void BlendChunkBase::setAlphaFunc(const UInt32 &value)
 {
     _sfAlphaFunc.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &BlendChunkBase::getAlphaValue(void)
 {
     return _sfAlphaValue.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &BlendChunkBase::getAlphaValue(void) const
 {
     return _sfAlphaValue.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void BlendChunkBase::setAlphaValue(const Real32 &value)
 {
     _sfAlphaValue.setValue(value);
@@ -217,5 +221,5 @@ void BlendChunkBase::setAlphaValue(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGBLENDCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGBlendChunkBase.inl,v 1.10 2002/01/04 16:47:40 dirk Exp $"
+#define OSGBLENDCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGBlendChunkBase.inl,v 1.11 2002/03/25 01:25:59 vossg Exp $"
 

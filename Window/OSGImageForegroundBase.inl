@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &ImageForegroundBase::getClassType(void)
+inline
+OSG::FieldContainerType &ImageForegroundBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 ImageForegroundBase::getClassTypeId(void) 
+inline
+OSG::UInt32 ImageForegroundBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline ImageForegroundPtr ImageForegroundBase::create(void) 
+inline
+ImageForegroundPtr ImageForegroundBase::create(void) 
 {
     ImageForegroundPtr fc; 
 
@@ -80,7 +83,8 @@ inline ImageForegroundPtr ImageForegroundBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline ImageForegroundPtr ImageForegroundBase::createEmpty(void) 
+inline
+ImageForegroundPtr ImageForegroundBase::createEmpty(void) 
 { 
     ImageForegroundPtr returnValue; 
     
@@ -92,13 +96,13 @@ inline ImageForegroundPtr ImageForegroundBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFImageP *ImageForegroundBase::getMFImages(void)
 {
     return &_mfImages;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFPnt2f *ImageForegroundBase::getMFPositions(void)
 {
     return &_mfPositions;
@@ -106,33 +110,37 @@ MFPnt2f *ImageForegroundBase::getMFPositions(void)
 
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 ImageP &ImageForegroundBase::getImages(UInt32 index)
 {
     return _mfImages.getValue( index );
 }
 
+inline
 MFImageP &ImageForegroundBase::getImages(void)
 {
     return _mfImages;
 }
 
+inline
 const MFImageP &ImageForegroundBase::getImages(void) const
 {
     return _mfImages;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Pnt2f &ImageForegroundBase::getPositions(UInt32 index)
 {
     return _mfPositions.getValue( index );
 }
 
+inline
 MFPnt2f &ImageForegroundBase::getPositions(void)
 {
     return _mfPositions;
 }
 
+inline
 const MFPnt2f &ImageForegroundBase::getPositions(void) const
 {
     return _mfPositions;
@@ -141,5 +149,5 @@ const MFPnt2f &ImageForegroundBase::getPositions(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGImageForegroundBase.inl,v 1.2 2001/10/04 03:02:03 vossg Exp $"
+#define OSGIMAGEFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGImageForegroundBase.inl,v 1.3 2002/03/25 01:26:00 vossg Exp $"
 

@@ -124,25 +124,25 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       MFString            *getMFFormats        (void);
-    inline       SFReal32            *getSFSize           (void);
-    inline       SFColor4f           *getSFColor          (void);
+           MFString            *getMFFormats        (void);
+           SFReal32            *getSFSize           (void);
+           SFColor4f           *getSFColor          (void);
 
-    inline       Real32              &getSize           (void);
-    inline const Real32              &getSize           (void) const;
-    inline       Color4f             &getColor          (void);
-    inline const Color4f             &getColor          (void) const;
-    inline       string              &getFormats        (UInt32 index);
-    inline       MFString            &getFormats        (void);
-    inline const MFString            &getFormats        (void) const;
+           Real32              &getSize           (void);
+     const Real32              &getSize           (void) const;
+           Color4f             &getColor          (void);
+     const Color4f             &getColor          (void) const;
+           string              &getFormats        (UInt32 index);
+           MFString            &getFormats        (void);
+     const MFString            &getFormats        (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setSize           ( const Real32 &value );
-    inline void setColor          ( const Color4f &value );
+     void setSize           ( const Real32 &value );
+     void setColor          ( const Color4f &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -238,6 +238,6 @@ typedef SimpleStatisticsForegroundBase *SimpleStatisticsForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLESTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSimpleStatisticsForegroundBase.h,v 1.1 2002/03/19 17:46:17 dirk Exp $"
+#define OSGSIMPLESTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSimpleStatisticsForegroundBase.h,v 1.2 2002/03/25 01:26:00 vossg Exp $"
 
 #endif /* _OSGSIMPLESTATISTICSFOREGROUNDBASE_H_ */

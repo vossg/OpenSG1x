@@ -500,7 +500,7 @@ struct OSG_BASE_DLLMAPPING TypeConstantsBase
  */
 
 template <class LookupTypeT>
-struct OSG_BASE_DLLMAPPING TypeConstants : public TypeConstantsBase
+struct TypeConstants : public TypeConstantsBase
 {
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
     typedef LookupTypeT RealReturnType;

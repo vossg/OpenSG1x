@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &ParticlesBase::getClassType(void)
+inline
+OSG::FieldContainerType &ParticlesBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 ParticlesBase::getClassTypeId(void) 
+inline
+OSG::UInt32 ParticlesBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline ParticlesPtr ParticlesBase::create(void) 
+inline
+ParticlesPtr ParticlesBase::create(void) 
 {
     ParticlesPtr fc; 
 
@@ -80,7 +83,8 @@ inline ParticlesPtr ParticlesBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline ParticlesPtr ParticlesBase::createEmpty(void) 
+inline
+ParticlesPtr ParticlesBase::createEmpty(void) 
 { 
     ParticlesPtr returnValue; 
     
@@ -92,309 +96,315 @@ inline ParticlesPtr ParticlesBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFUInt32 *ParticlesBase::getSFMode(void)
 {
     return &_sfMode;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFGeoPositionsPtr *ParticlesBase::getSFPositions(void)
 {
     return &_sfPositions;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFVec3f *ParticlesBase::getMFSizes(void)
 {
     return &_mfSizes;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFGeoPositionsPtr *ParticlesBase::getSFSecPositions(void)
 {
     return &_sfSecPositions;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFGeoColorsPtr *ParticlesBase::getSFColors(void)
 {
     return &_sfColors;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFGeoNormalsPtr *ParticlesBase::getSFNormals(void)
 {
     return &_sfNormals;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFInt32 *ParticlesBase::getMFIndices(void)
 {
     return &_mfIndices;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFReal32 *ParticlesBase::getMFTextureZs(void)
 {
     return &_mfTextureZs;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFMaterialPtr *ParticlesBase::getSFMaterial(void)
 {
     return &_sfMaterial;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFUInt32 *ParticlesBase::getSFDrawOrder(void)
 {
     return &_sfDrawOrder;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFBool *ParticlesBase::getSFDynamic(void)
 {
     return &_sfDynamic;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFUInt32 *ParticlesBase::getSFPump(void)
 {
     return &_sfPump;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFParticleBSPTree *ParticlesBase::getSFBsp(void)
 {
     return &_sfBsp;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 UInt32 &ParticlesBase::getMode(void)
 {
     return _sfMode.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const UInt32 &ParticlesBase::getMode(void) const
 {
     return _sfMode.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ParticlesBase::setMode(const UInt32 &value)
 {
     _sfMode.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 GeoPositionsPtr &ParticlesBase::getPositions(void)
 {
     return _sfPositions.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const GeoPositionsPtr &ParticlesBase::getPositions(void) const
 {
     return _sfPositions.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ParticlesBase::setPositions(const GeoPositionsPtr &value)
 {
     _sfPositions.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 GeoPositionsPtr &ParticlesBase::getSecPositions(void)
 {
     return _sfSecPositions.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const GeoPositionsPtr &ParticlesBase::getSecPositions(void) const
 {
     return _sfSecPositions.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ParticlesBase::setSecPositions(const GeoPositionsPtr &value)
 {
     _sfSecPositions.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 GeoColorsPtr &ParticlesBase::getColors(void)
 {
     return _sfColors.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const GeoColorsPtr &ParticlesBase::getColors(void) const
 {
     return _sfColors.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ParticlesBase::setColors(const GeoColorsPtr &value)
 {
     _sfColors.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 GeoNormalsPtr &ParticlesBase::getNormals(void)
 {
     return _sfNormals.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const GeoNormalsPtr &ParticlesBase::getNormals(void) const
 {
     return _sfNormals.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ParticlesBase::setNormals(const GeoNormalsPtr &value)
 {
     _sfNormals.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MaterialPtr &ParticlesBase::getMaterial(void)
 {
     return _sfMaterial.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const MaterialPtr &ParticlesBase::getMaterial(void) const
 {
     return _sfMaterial.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ParticlesBase::setMaterial(const MaterialPtr &value)
 {
     _sfMaterial.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 UInt32 &ParticlesBase::getDrawOrder(void)
 {
     return _sfDrawOrder.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const UInt32 &ParticlesBase::getDrawOrder(void) const
 {
     return _sfDrawOrder.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ParticlesBase::setDrawOrder(const UInt32 &value)
 {
     _sfDrawOrder.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 bool &ParticlesBase::getDynamic(void)
 {
     return _sfDynamic.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const bool &ParticlesBase::getDynamic(void) const
 {
     return _sfDynamic.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ParticlesBase::setDynamic(const bool &value)
 {
     _sfDynamic.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 UInt32 &ParticlesBase::getPump(void)
 {
     return _sfPump.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const UInt32 &ParticlesBase::getPump(void) const
 {
     return _sfPump.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ParticlesBase::setPump(const UInt32 &value)
 {
     _sfPump.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 ParticleBSPTree &ParticlesBase::getBsp(void)
 {
     return _sfBsp.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const ParticleBSPTree &ParticlesBase::getBsp(void) const
 {
     return _sfBsp.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ParticlesBase::setBsp(const ParticleBSPTree &value)
 {
     _sfBsp.setValue(value);
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Vec3f &ParticlesBase::getSizes(UInt32 index)
 {
     return _mfSizes.getValue( index );
 }
 
+inline
 MFVec3f &ParticlesBase::getSizes(void)
 {
     return _mfSizes;
 }
 
+inline
 const MFVec3f &ParticlesBase::getSizes(void) const
 {
     return _mfSizes;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Int32 &ParticlesBase::getIndices(UInt32 index)
 {
     return _mfIndices.getValue( index );
 }
 
+inline
 MFInt32 &ParticlesBase::getIndices(void)
 {
     return _mfIndices;
 }
 
+inline
 const MFInt32 &ParticlesBase::getIndices(void) const
 {
     return _mfIndices;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &ParticlesBase::getTextureZs(UInt32 index)
 {
     return _mfTextureZs.getValue( index );
 }
 
+inline
 MFReal32 &ParticlesBase::getTextureZs(void)
 {
     return _mfTextureZs;
 }
 
+inline
 const MFReal32 &ParticlesBase::getTextureZs(void) const
 {
     return _mfTextureZs;
@@ -403,5 +413,5 @@ const MFReal32 &ParticlesBase::getTextureZs(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_INLINE_CVSID "@(#)$Id: OSGParticlesBase.inl,v 1.7 2002/03/19 17:19:38 dirk Exp $"
+#define OSGPARTICLESBASE_INLINE_CVSID "@(#)$Id: OSGParticlesBase.inl,v 1.8 2002/03/25 01:25:59 vossg Exp $"
 

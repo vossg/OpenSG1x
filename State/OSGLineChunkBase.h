@@ -127,29 +127,29 @@ class OSG_SYSTEMLIB_DLLMAPPING LineChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFReal32            *getSFWidth          (void);
-    inline       SFInt32             *getSFStippleRepeat  (void);
-    inline       SFUInt16            *getSFStipplePattern (void);
-    inline       SFBool              *getSFSmooth         (void);
+           SFReal32            *getSFWidth          (void);
+           SFInt32             *getSFStippleRepeat  (void);
+           SFUInt16            *getSFStipplePattern (void);
+           SFBool              *getSFSmooth         (void);
 
-    inline       Real32              &getWidth          (void);
-    inline const Real32              &getWidth          (void) const;
-    inline       Int32               &getStippleRepeat  (void);
-    inline const Int32               &getStippleRepeat  (void) const;
-    inline       UInt16              &getStipplePattern (void);
-    inline const UInt16              &getStipplePattern (void) const;
-    inline       bool                &getSmooth         (void);
-    inline const bool                &getSmooth         (void) const;
+           Real32              &getWidth          (void);
+     const Real32              &getWidth          (void) const;
+           Int32               &getStippleRepeat  (void);
+     const Int32               &getStippleRepeat  (void) const;
+           UInt16              &getStipplePattern (void);
+     const UInt16              &getStipplePattern (void) const;
+           bool                &getSmooth         (void);
+     const bool                &getSmooth         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setWidth          ( const Real32 &value );
-    inline void setStippleRepeat  ( const Int32 &value );
-    inline void setStipplePattern ( const UInt16 &value );
-    inline void setSmooth         ( const bool &value );
+     void setWidth          ( const Real32 &value );
+     void setStippleRepeat  ( const Int32 &value );
+     void setStipplePattern ( const UInt16 &value );
+     void setSmooth         ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -246,6 +246,6 @@ typedef LineChunkBase *LineChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLINECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLineChunkBase.h,v 1.4 2002/03/19 18:08:16 dirk Exp $"
+#define OSGLINECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLineChunkBase.h,v 1.5 2002/03/25 01:25:59 vossg Exp $"
 
 #endif /* _OSGLINECHUNKBASE_H_ */

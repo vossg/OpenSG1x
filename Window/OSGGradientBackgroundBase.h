@@ -121,15 +121,15 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       MFColor3f           *getMFColor          (void);
-    inline       MFReal32            *getMFPosition       (void);
+           MFColor3f           *getMFColor          (void);
+           MFReal32            *getMFPosition       (void);
 
-    inline       Color3f             &getColor          (UInt32 index);
-    inline       MFColor3f           &getColor          (void);
-    inline const MFColor3f           &getColor          (void) const;
-    inline       Real32              &getPosition       (UInt32 index);
-    inline       MFReal32            &getPosition       (void);
-    inline const MFReal32            &getPosition       (void) const;
+           Color3f             &getColor          (UInt32 index);
+           MFColor3f           &getColor          (void);
+     const MFColor3f           &getColor          (void) const;
+           Real32              &getPosition       (UInt32 index);
+           MFReal32            &getPosition       (void);
+     const MFReal32            &getPosition       (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -230,6 +230,6 @@ typedef GradientBackgroundBase *GradientBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGradientBackgroundBase.h,v 1.17 2002/03/19 17:48:18 dirk Exp $"
+#define OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGradientBackgroundBase.h,v 1.18 2002/03/25 01:26:00 vossg Exp $"
 
 #endif /* _OSGGRADIENTBACKGROUNDBASE_H_ */

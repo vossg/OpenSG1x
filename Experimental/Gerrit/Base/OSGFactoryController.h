@@ -129,6 +129,7 @@ class OSG_BASE_DLLMAPPING FactoryController
 #endif
 
     friend  bool OSG::osgInit(int argc, char **argv);
+    friend  bool OSG::osgExit(void                 );
 
     //-----------------------------------------------------------------------
     //   class variables                                                     

@@ -301,6 +301,91 @@ void test4(void)
     OSG::Thread::getCurrent()->getChangeList()->dump();
 }
 
+
+void test5(void)
+{
+    OSG::Thread::getCurrent()->getChangeList()->dump();
+
+    OSG::NodePtr           p1  = OSG::Node::create();
+
+    OSG::addRefCP(p1);
+
+    OSG::GroupPtr pG  = OSG::Group::create();
+
+    p1->setCore(pG);
+
+    OSG::NodePtr  p2 = OSG::Node::create();
+    
+    pG = OSG::Group::create();
+    p2->setCore(pG);
+
+    OSG::NodePtr p3  = OSG::Node::create();
+    
+    pG = OSG::Group::create();
+    p3->setCore(pG);
+
+    OSG::NodePtr p4  = OSG::Node::create();
+    
+    pG = OSG::Group::create();
+    p4->setCore(pG);
+
+    OSG::NodePtr p5  = OSG::Node::create();
+    
+    pG = OSG::Group::create();
+    p5->setCore(pG);
+
+    OSG::NodePtr p6  = OSG::Node::create();
+    
+    pG = OSG::Group::create();
+    p6->setCore(pG);
+
+    OSG::NodePtr p7  = OSG::Node::create();
+
+    pG = OSG::Group::create();
+    p7->setCore(pG);
+
+    OSG::Thread::getCurrent()->getChangeList()->dump();
+
+    p1->addChild(p2);
+    p1->addChild(p3);
+
+    p2->addChild(p4);
+    p2->addChild(p5);
+
+    p3->addChild(p6);
+    p3->addChild(p7);
+
+    OSG::Thread::getCurrent()->getChangeList()->dump();
+
+    p1->dump(0);
+
+    OSG::NodePtr  p8 = OSG::Node::create();
+    
+    pG = OSG::Group::create();
+    p8->setCore(pG);
+
+    OSG::NodePtr  p9 = OSG::Node::create();
+    
+    pG = OSG::Group::create();
+    p9->setCore(pG);
+
+    OSG::NodePtr  p9 = OSG::Node::create();
+    
+    pG = OSG::Group::create();
+    p9->setCore(pG);
+
+    p9->dump(0);
+
+    p1->replaceChildBy(p2, p9);
+
+    p1->dump(0);
+    p9->dump(0);
+
+    OSG::subRefCP(p1);
+
+    OSG::Thread::getCurrent()->getChangeList()->dump();
+}
+
 int main (int argc, char **argv)
 {
     OSG::osgInit(argc, argv);

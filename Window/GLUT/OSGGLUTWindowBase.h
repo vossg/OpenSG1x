@@ -118,17 +118,17 @@ class OSG_WINDOWGLUTLIB_DLLMAPPING GLUTWindowBase : public Window
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFInt32             *getSFId             (void);
+           SFInt32             *getSFId             (void);
 
-    inline       Int32               &getId             (void);
-    inline const Int32               &getId             (void) const;
+           Int32               &getId             (void);
+     const Int32               &getId             (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setId             ( const Int32 &value );
+     void setId             ( const Int32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -222,6 +222,6 @@ typedef GLUTWindowBase *GLUTWindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGLUTWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGGLUTWindowBase.h,v 1.2 2002/03/19 18:01:40 dirk Exp $"
+#define OSGGLUTWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGGLUTWindowBase.h,v 1.3 2002/03/25 01:26:01 vossg Exp $"
 
 #endif /* _OSGGLUTWINDOWBASE_H_ */

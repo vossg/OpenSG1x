@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &ComponentTransformBase::getClassType(void)
+inline
+OSG::FieldContainerType &ComponentTransformBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 ComponentTransformBase::getClassTypeId(void) 
+inline
+OSG::UInt32 ComponentTransformBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline ComponentTransformPtr ComponentTransformBase::create(void) 
+inline
+ComponentTransformPtr ComponentTransformBase::create(void) 
 {
     ComponentTransformPtr fc; 
 
@@ -80,7 +83,8 @@ inline ComponentTransformPtr ComponentTransformBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline ComponentTransformPtr ComponentTransformBase::createEmpty(void) 
+inline
+ComponentTransformPtr ComponentTransformBase::createEmpty(void) 
 { 
     ComponentTransformPtr returnValue; 
     
@@ -92,122 +96,122 @@ inline ComponentTransformPtr ComponentTransformBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFVec3f *ComponentTransformBase::getSFCenter(void)
 {
     return &_sfCenter;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFQuaternion *ComponentTransformBase::getSFRotation(void)
 {
     return &_sfRotation;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFVec3f *ComponentTransformBase::getSFScale(void)
 {
     return &_sfScale;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFQuaternion *ComponentTransformBase::getSFScaleOrientation(void)
 {
     return &_sfScaleOrientation;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFVec3f *ComponentTransformBase::getSFTranslation(void)
 {
     return &_sfTranslation;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Vec3f &ComponentTransformBase::getCenter(void)
 {
     return _sfCenter.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Vec3f &ComponentTransformBase::getCenter(void) const
 {
     return _sfCenter.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ComponentTransformBase::setCenter(const Vec3f &value)
 {
     _sfCenter.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Quaternion &ComponentTransformBase::getRotation(void)
 {
     return _sfRotation.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Quaternion &ComponentTransformBase::getRotation(void) const
 {
     return _sfRotation.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ComponentTransformBase::setRotation(const Quaternion &value)
 {
     _sfRotation.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Vec3f &ComponentTransformBase::getScale(void)
 {
     return _sfScale.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Vec3f &ComponentTransformBase::getScale(void) const
 {
     return _sfScale.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ComponentTransformBase::setScale(const Vec3f &value)
 {
     _sfScale.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Quaternion &ComponentTransformBase::getScaleOrientation(void)
 {
     return _sfScaleOrientation.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Quaternion &ComponentTransformBase::getScaleOrientation(void) const
 {
     return _sfScaleOrientation.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ComponentTransformBase::setScaleOrientation(const Quaternion &value)
 {
     _sfScaleOrientation.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Vec3f &ComponentTransformBase::getTranslation(void)
 {
     return _sfTranslation.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Vec3f &ComponentTransformBase::getTranslation(void) const
 {
     return _sfTranslation.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ComponentTransformBase::setTranslation(const Vec3f &value)
 {
     _sfTranslation.setValue(value);
@@ -217,5 +221,5 @@ void ComponentTransformBase::setTranslation(const Vec3f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCOMPONENTTRANSFORMBASE_INLINE_CVSID "@(#)$Id: OSGComponentTransformBase.inl,v 1.1 2001/10/03 20:37:35 dirk Exp $"
+#define OSGCOMPONENTTRANSFORMBASE_INLINE_CVSID "@(#)$Id: OSGComponentTransformBase.inl,v 1.2 2002/03/25 01:25:59 vossg Exp $"
 

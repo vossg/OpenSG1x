@@ -118,17 +118,17 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFColor3f           *getSFColor          (void);
+           SFColor3f           *getSFColor          (void);
 
-    inline       Color3f             &getColor          (void);
-    inline const Color3f             &getColor          (void) const;
+           Color3f             &getColor          (void);
+     const Color3f             &getColor          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setColor          ( const Color3f &value );
+     void setColor          ( const Color3f &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -222,6 +222,6 @@ typedef SolidBackgroundBase *SolidBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSOLIDBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSolidBackgroundBase.h,v 1.18 2002/03/19 17:48:18 dirk Exp $"
+#define OSGSOLIDBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSolidBackgroundBase.h,v 1.19 2002/03/25 01:26:00 vossg Exp $"
 
 #endif /* _OSGSOLIDBACKGROUNDBASE_H_ */

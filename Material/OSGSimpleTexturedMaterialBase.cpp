@@ -91,7 +91,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleTexturedMaterialBase.cpp,v 1.9 2002/02/26 06:10:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleTexturedMaterialBase.cpp,v 1.10 2002/03/25 01:25:58 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSIMPLETEXTUREDMATERIALBASE_INLINE_CVSID;
 
@@ -136,6 +136,7 @@ const OSG::BitVector  SimpleTexturedMaterialBase::EnvMapFieldMask =
 /*! \var bool            SimpleTexturedMaterialBase::_sfEnvMap
     use the texture as a spherical environment map
 */
+
 //! SimpleTexturedMaterial description
 
 FieldDescription *SimpleTexturedMaterialBase::_desc[] = 
@@ -380,4 +381,5 @@ void SimpleTexturedMaterialBase::executeSyncImpl(      SimpleTexturedMaterialBas
 
 
 }
+
 

@@ -124,25 +124,25 @@ class OSG_WINDOWXLIB_DLLMAPPING XWindowBase : public Window
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFDisplayP          *getSFDisplay        (void);
-    inline       SFX11Window         *getSFWindow         (void);
-    inline       SFGLXContext        *getSFContext        (void);
+           SFDisplayP          *getSFDisplay        (void);
+           SFX11Window         *getSFWindow         (void);
+           SFGLXContext        *getSFContext        (void);
 
-    inline       DisplayP            &getDisplay        (void);
-    inline const DisplayP            &getDisplay        (void) const;
-    inline       X11Window           &getWindow         (void);
-    inline const X11Window           &getWindow         (void) const;
-    inline       GLXContext          &getContext        (void);
-    inline const GLXContext          &getContext        (void) const;
+           DisplayP            &getDisplay        (void);
+     const DisplayP            &getDisplay        (void) const;
+           X11Window           &getWindow         (void);
+     const X11Window           &getWindow         (void) const;
+           GLXContext          &getContext        (void);
+     const GLXContext          &getContext        (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setDisplay        ( const DisplayP &value );
-    inline void setWindow         ( const X11Window &value );
-    inline void setContext        ( const GLXContext &value );
+     void setDisplay        ( const DisplayP &value );
+     void setWindow         ( const X11Window &value );
+     void setContext        ( const GLXContext &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -238,6 +238,6 @@ typedef XWindowBase *XWindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGXWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGXWindowBase.h,v 1.3 2002/03/19 18:01:41 dirk Exp $"
+#define OSGXWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGXWindowBase.h,v 1.4 2002/03/25 01:26:01 vossg Exp $"
 
 #endif /* _OSGXWINDOWBASE_H_ */

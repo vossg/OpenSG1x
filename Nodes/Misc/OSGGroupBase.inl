@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &GroupBase::getClassType(void)
+inline
+OSG::FieldContainerType &GroupBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 GroupBase::getClassTypeId(void) 
+inline
+OSG::UInt32 GroupBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline GroupPtr GroupBase::create(void) 
+inline
+GroupPtr GroupBase::create(void) 
 {
     GroupPtr fc; 
 
@@ -80,7 +83,8 @@ inline GroupPtr GroupBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline GroupPtr GroupBase::createEmpty(void) 
+inline
+GroupPtr GroupBase::createEmpty(void) 
 { 
     GroupPtr returnValue; 
     
@@ -97,5 +101,5 @@ inline GroupPtr GroupBase::createEmpty(void)
 
 OSG_END_NAMESPACE
 
-#define OSGGROUPBASE_INLINE_CVSID "@(#)$Id: OSGGroupBase.inl,v 1.6 2001/09/17 14:15:06 vossg Exp $"
+#define OSGGROUPBASE_INLINE_CVSID "@(#)$Id: OSGGroupBase.inl,v 1.7 2002/03/25 01:25:59 vossg Exp $"
 

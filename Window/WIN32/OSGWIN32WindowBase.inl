@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &WIN32WindowBase::getClassType(void)
+inline
+OSG::FieldContainerType &WIN32WindowBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 WIN32WindowBase::getClassTypeId(void) 
+inline
+OSG::UInt32 WIN32WindowBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline WIN32WindowPtr WIN32WindowBase::create(void) 
+inline
+WIN32WindowPtr WIN32WindowBase::create(void) 
 {
     WIN32WindowPtr fc; 
 
@@ -80,7 +83,8 @@ inline WIN32WindowPtr WIN32WindowBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline WIN32WindowPtr WIN32WindowBase::createEmpty(void) 
+inline
+WIN32WindowPtr WIN32WindowBase::createEmpty(void) 
 { 
     WIN32WindowPtr returnValue; 
     
@@ -92,98 +96,98 @@ inline WIN32WindowPtr WIN32WindowBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_WINDOWWIN32LIB_DLLMAPPING
+inline
 SFHWND *WIN32WindowBase::getSFHwnd(void)
 {
     return &_sfHwnd;
 }
 
-OSG_WINDOWWIN32LIB_DLLMAPPING
+inline
 SFHDC *WIN32WindowBase::getSFHdc(void)
 {
     return &_sfHdc;
 }
 
-OSG_WINDOWWIN32LIB_DLLMAPPING
+inline
 SFHGLRC *WIN32WindowBase::getSFHglrc(void)
 {
     return &_sfHglrc;
 }
 
-OSG_WINDOWWIN32LIB_DLLMAPPING
+inline
 SFPAINTSTRUCT *WIN32WindowBase::getSFPaintstruct(void)
 {
     return &_sfPaintstruct;
 }
 
 
-OSG_WINDOWWIN32LIB_DLLMAPPING
+inline
 HWND &WIN32WindowBase::getHwnd(void)
 {
     return _sfHwnd.getValue();
 }
 
-OSG_WINDOWWIN32LIB_DLLMAPPING
+inline
 const HWND &WIN32WindowBase::getHwnd(void) const
 {
     return _sfHwnd.getValue();
 }
 
-OSG_WINDOWWIN32LIB_DLLMAPPING
+inline
 void WIN32WindowBase::setHwnd(const HWND &value)
 {
     _sfHwnd.setValue(value);
 }
 
-OSG_WINDOWWIN32LIB_DLLMAPPING
+inline
 HDC &WIN32WindowBase::getHdc(void)
 {
     return _sfHdc.getValue();
 }
 
-OSG_WINDOWWIN32LIB_DLLMAPPING
+inline
 const HDC &WIN32WindowBase::getHdc(void) const
 {
     return _sfHdc.getValue();
 }
 
-OSG_WINDOWWIN32LIB_DLLMAPPING
+inline
 void WIN32WindowBase::setHdc(const HDC &value)
 {
     _sfHdc.setValue(value);
 }
 
-OSG_WINDOWWIN32LIB_DLLMAPPING
+inline
 HGLRC &WIN32WindowBase::getHglrc(void)
 {
     return _sfHglrc.getValue();
 }
 
-OSG_WINDOWWIN32LIB_DLLMAPPING
+inline
 const HGLRC &WIN32WindowBase::getHglrc(void) const
 {
     return _sfHglrc.getValue();
 }
 
-OSG_WINDOWWIN32LIB_DLLMAPPING
+inline
 void WIN32WindowBase::setHglrc(const HGLRC &value)
 {
     _sfHglrc.setValue(value);
 }
 
-OSG_WINDOWWIN32LIB_DLLMAPPING
+inline
 PAINTSTRUCT &WIN32WindowBase::getPaintstruct(void)
 {
     return _sfPaintstruct.getValue();
 }
 
-OSG_WINDOWWIN32LIB_DLLMAPPING
+inline
 const PAINTSTRUCT &WIN32WindowBase::getPaintstruct(void) const
 {
     return _sfPaintstruct.getValue();
 }
 
-OSG_WINDOWWIN32LIB_DLLMAPPING
+inline
 void WIN32WindowBase::setPaintstruct(const PAINTSTRUCT &value)
 {
     _sfPaintstruct.setValue(value);
@@ -193,5 +197,5 @@ void WIN32WindowBase::setPaintstruct(const PAINTSTRUCT &value)
 
 OSG_END_NAMESPACE
 
-#define OSGWIN32WINDOWBASE_INLINE_CVSID "@(#)$Id: OSGWIN32WindowBase.inl,v 1.2 2002/02/07 08:51:14 dirk Exp $"
+#define OSGWIN32WINDOWBASE_INLINE_CVSID "@(#)$Id: OSGWIN32WindowBase.inl,v 1.3 2002/03/25 01:26:01 vossg Exp $"
 

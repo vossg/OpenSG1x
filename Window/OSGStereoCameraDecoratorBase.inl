@@ -54,13 +54,15 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &StereoCameraDecoratorBase::getClassType(void)
+inline
+OSG::FieldContainerType &StereoCameraDecoratorBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 StereoCameraDecoratorBase::getClassTypeId(void) 
+inline
+OSG::UInt32 StereoCameraDecoratorBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
@@ -68,50 +70,50 @@ inline OSG::UInt32 StereoCameraDecoratorBase::getClassTypeId(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFBool *StereoCameraDecoratorBase::getSFLeftEye(void)
 {
     return &_sfLeftEye;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *StereoCameraDecoratorBase::getSFEyeSeparation(void)
 {
     return &_sfEyeSeparation;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 bool &StereoCameraDecoratorBase::getLeftEye(void)
 {
     return _sfLeftEye.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const bool &StereoCameraDecoratorBase::getLeftEye(void) const
 {
     return _sfLeftEye.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void StereoCameraDecoratorBase::setLeftEye(const bool &value)
 {
     _sfLeftEye.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &StereoCameraDecoratorBase::getEyeSeparation(void)
 {
     return _sfEyeSeparation.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &StereoCameraDecoratorBase::getEyeSeparation(void) const
 {
     return _sfEyeSeparation.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void StereoCameraDecoratorBase::setEyeSeparation(const Real32 &value)
 {
     _sfEyeSeparation.setValue(value);
@@ -121,5 +123,5 @@ void StereoCameraDecoratorBase::setEyeSeparation(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSTEREOCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGStereoCameraDecoratorBase.inl,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGSTEREOCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGStereoCameraDecoratorBase.inl,v 1.2 2002/03/25 01:26:00 vossg Exp $"
 

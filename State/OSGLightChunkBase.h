@@ -145,53 +145,53 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFColor4f           *getSFDiffuse        (void);
-    inline       SFColor4f           *getSFAmbient        (void);
-    inline       SFColor4f           *getSFSpecular       (void);
-    inline       SFVec4f             *getSFPosition       (void);
-    inline       SFVec3f             *getSFDirection      (void);
-    inline       SFReal32            *getSFExponent       (void);
-    inline       SFReal32            *getSFCutoff         (void);
-    inline       SFReal32            *getSFConstantAttenuation(void);
-    inline       SFReal32            *getSFLinearAttenuation(void);
-    inline       SFReal32            *getSFQuadraticAttenuation(void);
+           SFColor4f           *getSFDiffuse        (void);
+           SFColor4f           *getSFAmbient        (void);
+           SFColor4f           *getSFSpecular       (void);
+           SFVec4f             *getSFPosition       (void);
+           SFVec3f             *getSFDirection      (void);
+           SFReal32            *getSFExponent       (void);
+           SFReal32            *getSFCutoff         (void);
+           SFReal32            *getSFConstantAttenuation(void);
+           SFReal32            *getSFLinearAttenuation(void);
+           SFReal32            *getSFQuadraticAttenuation(void);
 
-    inline       Color4f             &getDiffuse        (void);
-    inline const Color4f             &getDiffuse        (void) const;
-    inline       Color4f             &getAmbient        (void);
-    inline const Color4f             &getAmbient        (void) const;
-    inline       Color4f             &getSpecular       (void);
-    inline const Color4f             &getSpecular       (void) const;
-    inline       Vec4f               &getPosition       (void);
-    inline const Vec4f               &getPosition       (void) const;
-    inline       Vec3f               &getDirection      (void);
-    inline const Vec3f               &getDirection      (void) const;
-    inline       Real32              &getExponent       (void);
-    inline const Real32              &getExponent       (void) const;
-    inline       Real32              &getCutoff         (void);
-    inline const Real32              &getCutoff         (void) const;
-    inline       Real32              &getConstantAttenuation(void);
-    inline const Real32              &getConstantAttenuation(void) const;
-    inline       Real32              &getLinearAttenuation(void);
-    inline const Real32              &getLinearAttenuation(void) const;
-    inline       Real32              &getQuadraticAttenuation(void);
-    inline const Real32              &getQuadraticAttenuation(void) const;
+           Color4f             &getDiffuse        (void);
+     const Color4f             &getDiffuse        (void) const;
+           Color4f             &getAmbient        (void);
+     const Color4f             &getAmbient        (void) const;
+           Color4f             &getSpecular       (void);
+     const Color4f             &getSpecular       (void) const;
+           Vec4f               &getPosition       (void);
+     const Vec4f               &getPosition       (void) const;
+           Vec3f               &getDirection      (void);
+     const Vec3f               &getDirection      (void) const;
+           Real32              &getExponent       (void);
+     const Real32              &getExponent       (void) const;
+           Real32              &getCutoff         (void);
+     const Real32              &getCutoff         (void) const;
+           Real32              &getConstantAttenuation(void);
+     const Real32              &getConstantAttenuation(void) const;
+           Real32              &getLinearAttenuation(void);
+     const Real32              &getLinearAttenuation(void) const;
+           Real32              &getQuadraticAttenuation(void);
+     const Real32              &getQuadraticAttenuation(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setDiffuse        ( const Color4f &value );
-    inline void setAmbient        ( const Color4f &value );
-    inline void setSpecular       ( const Color4f &value );
-    inline void setPosition       ( const Vec4f &value );
-    inline void setDirection      ( const Vec3f &value );
-    inline void setExponent       ( const Real32 &value );
-    inline void setCutoff         ( const Real32 &value );
-    inline void setConstantAttenuation( const Real32 &value );
-    inline void setLinearAttenuation( const Real32 &value );
-    inline void setQuadraticAttenuation( const Real32 &value );
+     void setDiffuse        ( const Color4f &value );
+     void setAmbient        ( const Color4f &value );
+     void setSpecular       ( const Color4f &value );
+     void setPosition       ( const Vec4f &value );
+     void setDirection      ( const Vec3f &value );
+     void setExponent       ( const Real32 &value );
+     void setCutoff         ( const Real32 &value );
+     void setConstantAttenuation( const Real32 &value );
+     void setLinearAttenuation( const Real32 &value );
+     void setQuadraticAttenuation( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -294,6 +294,6 @@ typedef LightChunkBase *LightChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLightChunkBase.h,v 1.18 2002/03/19 18:08:16 dirk Exp $"
+#define OSGLIGHTCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLightChunkBase.h,v 1.19 2002/03/25 01:25:59 vossg Exp $"
 
 #endif /* _OSGLIGHTCHUNKBASE_H_ */

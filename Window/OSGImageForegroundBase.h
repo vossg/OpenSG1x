@@ -121,15 +121,15 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageForegroundBase : public Foreground
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       MFImageP            *getMFImages         (void);
-    inline       MFPnt2f             *getMFPositions      (void);
+           MFImageP            *getMFImages         (void);
+           MFPnt2f             *getMFPositions      (void);
 
-    inline       ImageP              &getImages         (UInt32 index);
-    inline       MFImageP            &getImages         (void);
-    inline const MFImageP            &getImages         (void) const;
-    inline       Pnt2f               &getPositions      (UInt32 index);
-    inline       MFPnt2f             &getPositions      (void);
-    inline const MFPnt2f             &getPositions      (void) const;
+           ImageP              &getImages         (UInt32 index);
+           MFImageP            &getImages         (void);
+     const MFImageP            &getImages         (void) const;
+           Pnt2f               &getPositions      (UInt32 index);
+           MFPnt2f             &getPositions      (void);
+     const MFPnt2f             &getPositions      (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -230,6 +230,6 @@ typedef ImageForegroundBase *ImageForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageForegroundBase.h,v 1.6 2002/03/19 17:48:18 dirk Exp $"
+#define OSGIMAGEFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageForegroundBase.h,v 1.7 2002/03/25 01:26:00 vossg Exp $"
 
 #endif /* _OSGIMAGEFOREGROUNDBASE_H_ */

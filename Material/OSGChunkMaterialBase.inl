@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &ChunkMaterialBase::getClassType(void)
+inline
+OSG::FieldContainerType &ChunkMaterialBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 ChunkMaterialBase::getClassTypeId(void) 
+inline
+OSG::UInt32 ChunkMaterialBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline ChunkMaterialPtr ChunkMaterialBase::create(void) 
+inline
+ChunkMaterialPtr ChunkMaterialBase::create(void) 
 {
     ChunkMaterialPtr fc; 
 
@@ -80,7 +83,8 @@ inline ChunkMaterialPtr ChunkMaterialBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline ChunkMaterialPtr ChunkMaterialBase::createEmpty(void) 
+inline
+ChunkMaterialPtr ChunkMaterialBase::createEmpty(void) 
 { 
     ChunkMaterialPtr returnValue; 
     
@@ -92,7 +96,7 @@ inline ChunkMaterialPtr ChunkMaterialBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFStateChunkPtr *ChunkMaterialBase::getMFChunks(void)
 {
     return &_mfChunks;
@@ -100,17 +104,19 @@ MFStateChunkPtr *ChunkMaterialBase::getMFChunks(void)
 
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 StateChunkPtr &ChunkMaterialBase::getChunks(UInt32 index)
 {
     return _mfChunks.getValue( index );
 }
 
+inline
 MFStateChunkPtr &ChunkMaterialBase::getChunks(void)
 {
     return _mfChunks;
 }
 
+inline
 const MFStateChunkPtr &ChunkMaterialBase::getChunks(void) const
 {
     return _mfChunks;
@@ -119,5 +125,5 @@ const MFStateChunkPtr &ChunkMaterialBase::getChunks(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGCHUNKMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGChunkMaterialBase.inl,v 1.8 2001/10/03 20:37:34 dirk Exp $"
+#define OSGCHUNKMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGChunkMaterialBase.inl,v 1.9 2002/03/25 01:25:58 vossg Exp $"
 

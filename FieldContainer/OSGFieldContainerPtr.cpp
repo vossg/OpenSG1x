@@ -56,7 +56,7 @@
 #include "OSGLock.h"
 #include "OSGFieldContainer.h"
 
-#ifdef OSG_GV_BETA
+#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
 #include "OSGTime.h"
 #endif
 
@@ -467,7 +467,7 @@ void FieldContainerPtrBase::subRefUnlocked(void) const
 
         ((FieldContainer *) pTmp)->onDestroy();
 
-#ifdef OSG_GV_BETA
+#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
         fprintf(stderr, "GV_MEM_FC_DBG : (%u|%lf|%I64d) d (%p|%s|%u)\n", 
                 Thread::getAspect(),
                 getSystemTime(), 
@@ -501,7 +501,7 @@ void FieldContainerPtrBase::subRefUntraced(void) const
 
         ((FieldContainer *) pTmp)->onDestroy();
 
-#ifdef OSG_GV_BETA
+#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
         fprintf(stderr, "GV_MEM_FC_DBG : (%u|%lf|%I64d) d (%p|%s|%u)\n", 
                 Thread::getAspect(),
                 getSystemTime(), 

@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &DistanceLODBase::getClassType(void)
+inline
+OSG::FieldContainerType &DistanceLODBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 DistanceLODBase::getClassTypeId(void) 
+inline
+OSG::UInt32 DistanceLODBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline DistanceLODPtr DistanceLODBase::create(void) 
+inline
+DistanceLODPtr DistanceLODBase::create(void) 
 {
     DistanceLODPtr fc; 
 
@@ -80,7 +83,8 @@ inline DistanceLODPtr DistanceLODBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline DistanceLODPtr DistanceLODBase::createEmpty(void) 
+inline
+DistanceLODPtr DistanceLODBase::createEmpty(void) 
 { 
     DistanceLODPtr returnValue; 
     
@@ -92,49 +96,51 @@ inline DistanceLODPtr DistanceLODBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFPnt3f *DistanceLODBase::getSFCenter(void)
 {
     return &_sfCenter;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFReal32 *DistanceLODBase::getMFRange(void)
 {
     return &_mfRange;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Pnt3f &DistanceLODBase::getCenter(void)
 {
     return _sfCenter.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Pnt3f &DistanceLODBase::getCenter(void) const
 {
     return _sfCenter.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void DistanceLODBase::setCenter(const Pnt3f &value)
 {
     _sfCenter.setValue(value);
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &DistanceLODBase::getRange(UInt32 index)
 {
     return _mfRange.getValue( index );
 }
 
+inline
 MFReal32 &DistanceLODBase::getRange(void)
 {
     return _mfRange;
 }
 
+inline
 const MFReal32 &DistanceLODBase::getRange(void) const
 {
     return _mfRange;
@@ -143,5 +149,5 @@ const MFReal32 &DistanceLODBase::getRange(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGDISTANCELODBASE_INLINE_CVSID "@(#)$Id: OSGDistanceLODBase.inl,v 1.6 2001/10/03 20:37:35 dirk Exp $"
+#define OSGDISTANCELODBASE_INLINE_CVSID "@(#)$Id: OSGDistanceLODBase.inl,v 1.7 2002/03/25 01:25:59 vossg Exp $"
 

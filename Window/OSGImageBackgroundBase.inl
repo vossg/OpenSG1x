@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &ImageBackgroundBase::getClassType(void)
+inline
+OSG::FieldContainerType &ImageBackgroundBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 ImageBackgroundBase::getClassTypeId(void) 
+inline
+OSG::UInt32 ImageBackgroundBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline ImageBackgroundPtr ImageBackgroundBase::create(void) 
+inline
+ImageBackgroundPtr ImageBackgroundBase::create(void) 
 {
     ImageBackgroundPtr fc; 
 
@@ -80,7 +83,8 @@ inline ImageBackgroundPtr ImageBackgroundBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline ImageBackgroundPtr ImageBackgroundBase::createEmpty(void) 
+inline
+ImageBackgroundPtr ImageBackgroundBase::createEmpty(void) 
 { 
     ImageBackgroundPtr returnValue; 
     
@@ -92,74 +96,74 @@ inline ImageBackgroundPtr ImageBackgroundBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFColor3f *ImageBackgroundBase::getSFColor(void)
 {
     return &_sfColor;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFImageP *ImageBackgroundBase::getSFImage(void)
 {
     return &_sfImage;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFBool *ImageBackgroundBase::getSFScale(void)
 {
     return &_sfScale;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Color3f &ImageBackgroundBase::getColor(void)
 {
     return _sfColor.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Color3f &ImageBackgroundBase::getColor(void) const
 {
     return _sfColor.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ImageBackgroundBase::setColor(const Color3f &value)
 {
     _sfColor.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 ImageP &ImageBackgroundBase::getImage(void)
 {
     return _sfImage.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const ImageP &ImageBackgroundBase::getImage(void) const
 {
     return _sfImage.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ImageBackgroundBase::setImage(const ImageP &value)
 {
     _sfImage.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 bool &ImageBackgroundBase::getScale(void)
 {
     return _sfScale.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const bool &ImageBackgroundBase::getScale(void) const
 {
     return _sfScale.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ImageBackgroundBase::setScale(const bool &value)
 {
     _sfScale.setValue(value);
@@ -169,5 +173,5 @@ void ImageBackgroundBase::setScale(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGImageBackgroundBase.inl,v 1.4 2002/03/19 17:48:18 dirk Exp $"
+#define OSGIMAGEBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGImageBackgroundBase.inl,v 1.5 2002/03/25 01:26:00 vossg Exp $"
 

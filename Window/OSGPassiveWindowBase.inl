@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &PassiveWindowBase::getClassType(void)
+inline
+OSG::FieldContainerType &PassiveWindowBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 PassiveWindowBase::getClassTypeId(void) 
+inline
+OSG::UInt32 PassiveWindowBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline PassiveWindowPtr PassiveWindowBase::create(void) 
+inline
+PassiveWindowPtr PassiveWindowBase::create(void) 
 {
     PassiveWindowPtr fc; 
 
@@ -80,7 +83,8 @@ inline PassiveWindowPtr PassiveWindowBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline PassiveWindowPtr PassiveWindowBase::createEmpty(void) 
+inline
+PassiveWindowPtr PassiveWindowBase::createEmpty(void) 
 { 
     PassiveWindowPtr returnValue; 
     
@@ -97,5 +101,5 @@ inline PassiveWindowPtr PassiveWindowBase::createEmpty(void)
 
 OSG_END_NAMESPACE
 
-#define OSGPASSIVEWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGPassiveWindowBase.inl,v 1.2 2002/03/19 17:48:18 dirk Exp $"
+#define OSGPASSIVEWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGPassiveWindowBase.inl,v 1.3 2002/03/25 01:26:00 vossg Exp $"
 

@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &SpotLightBase::getClassType(void)
+inline
+OSG::FieldContainerType &SpotLightBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 SpotLightBase::getClassTypeId(void) 
+inline
+OSG::UInt32 SpotLightBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline SpotLightPtr SpotLightBase::create(void) 
+inline
+SpotLightPtr SpotLightBase::create(void) 
 {
     SpotLightPtr fc; 
 
@@ -80,7 +83,8 @@ inline SpotLightPtr SpotLightBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline SpotLightPtr SpotLightBase::createEmpty(void) 
+inline
+SpotLightPtr SpotLightBase::createEmpty(void) 
 { 
     SpotLightPtr returnValue; 
     
@@ -92,74 +96,74 @@ inline SpotLightPtr SpotLightBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFVec3f *SpotLightBase::getSFDirection(void)
 {
     return &_sfDirection;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *SpotLightBase::getSFSpotExponent(void)
 {
     return &_sfSpotExponent;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *SpotLightBase::getSFSpotCutOff(void)
 {
     return &_sfSpotCutOff;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Vec3f &SpotLightBase::getDirection(void)
 {
     return _sfDirection.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Vec3f &SpotLightBase::getDirection(void) const
 {
     return _sfDirection.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SpotLightBase::setDirection(const Vec3f &value)
 {
     _sfDirection.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &SpotLightBase::getSpotExponent(void)
 {
     return _sfSpotExponent.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &SpotLightBase::getSpotExponent(void) const
 {
     return _sfSpotExponent.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SpotLightBase::setSpotExponent(const Real32 &value)
 {
     _sfSpotExponent.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &SpotLightBase::getSpotCutOff(void)
 {
     return _sfSpotCutOff.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &SpotLightBase::getSpotCutOff(void) const
 {
     return _sfSpotCutOff.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SpotLightBase::setSpotCutOff(const Real32 &value)
 {
     _sfSpotCutOff.setValue(value);
@@ -169,5 +173,5 @@ void SpotLightBase::setSpotCutOff(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSPOTLIGHTBASE_INLINE_CVSID "@(#)$Id: OSGSpotLightBase.inl,v 1.8 2001/10/03 20:37:35 dirk Exp $"
+#define OSGSPOTLIGHTBASE_INLINE_CVSID "@(#)$Id: OSGSpotLightBase.inl,v 1.9 2002/03/25 01:25:58 vossg Exp $"
 

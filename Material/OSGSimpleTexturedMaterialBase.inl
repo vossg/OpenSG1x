@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &SimpleTexturedMaterialBase::getClassType(void)
+inline
+OSG::FieldContainerType &SimpleTexturedMaterialBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 SimpleTexturedMaterialBase::getClassTypeId(void) 
+inline
+OSG::UInt32 SimpleTexturedMaterialBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline SimpleTexturedMaterialPtr SimpleTexturedMaterialBase::create(void) 
+inline
+SimpleTexturedMaterialPtr SimpleTexturedMaterialBase::create(void) 
 {
     SimpleTexturedMaterialPtr fc; 
 
@@ -80,7 +83,8 @@ inline SimpleTexturedMaterialPtr SimpleTexturedMaterialBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline SimpleTexturedMaterialPtr SimpleTexturedMaterialBase::createEmpty(void) 
+inline
+SimpleTexturedMaterialPtr SimpleTexturedMaterialBase::createEmpty(void) 
 { 
     SimpleTexturedMaterialPtr returnValue; 
     
@@ -92,122 +96,122 @@ inline SimpleTexturedMaterialPtr SimpleTexturedMaterialBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFImageP *SimpleTexturedMaterialBase::getSFImage(void)
 {
     return &_sfImage;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFUInt32 *SimpleTexturedMaterialBase::getSFMinFilter(void)
 {
     return &_sfMinFilter;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFUInt32 *SimpleTexturedMaterialBase::getSFMagFilter(void)
 {
     return &_sfMagFilter;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFUInt32 *SimpleTexturedMaterialBase::getSFEnvMode(void)
 {
     return &_sfEnvMode;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFBool *SimpleTexturedMaterialBase::getSFEnvMap(void)
 {
     return &_sfEnvMap;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 ImageP &SimpleTexturedMaterialBase::getImage(void)
 {
     return _sfImage.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const ImageP &SimpleTexturedMaterialBase::getImage(void) const
 {
     return _sfImage.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SimpleTexturedMaterialBase::setImage(const ImageP &value)
 {
     _sfImage.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 UInt32 &SimpleTexturedMaterialBase::getMinFilter(void)
 {
     return _sfMinFilter.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const UInt32 &SimpleTexturedMaterialBase::getMinFilter(void) const
 {
     return _sfMinFilter.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SimpleTexturedMaterialBase::setMinFilter(const UInt32 &value)
 {
     _sfMinFilter.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 UInt32 &SimpleTexturedMaterialBase::getMagFilter(void)
 {
     return _sfMagFilter.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const UInt32 &SimpleTexturedMaterialBase::getMagFilter(void) const
 {
     return _sfMagFilter.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SimpleTexturedMaterialBase::setMagFilter(const UInt32 &value)
 {
     _sfMagFilter.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 UInt32 &SimpleTexturedMaterialBase::getEnvMode(void)
 {
     return _sfEnvMode.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const UInt32 &SimpleTexturedMaterialBase::getEnvMode(void) const
 {
     return _sfEnvMode.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SimpleTexturedMaterialBase::setEnvMode(const UInt32 &value)
 {
     _sfEnvMode.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 bool &SimpleTexturedMaterialBase::getEnvMap(void)
 {
     return _sfEnvMap.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const bool &SimpleTexturedMaterialBase::getEnvMap(void) const
 {
     return _sfEnvMap.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SimpleTexturedMaterialBase::setEnvMap(const bool &value)
 {
     _sfEnvMap.setValue(value);
@@ -217,5 +221,5 @@ void SimpleTexturedMaterialBase::setEnvMap(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLETEXTUREDMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGSimpleTexturedMaterialBase.inl,v 1.3 2002/02/04 20:14:08 dirk Exp $"
+#define OSGSIMPLETEXTUREDMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGSimpleTexturedMaterialBase.inl,v 1.4 2002/03/25 01:25:58 vossg Exp $"
 

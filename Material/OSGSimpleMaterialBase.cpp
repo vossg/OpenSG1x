@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.21 2002/02/26 06:10:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.22 2002/03/25 01:25:58 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSIMPLEMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSIMPLEMATERIALBASE_INLINE_CVSID;
 
@@ -135,6 +135,7 @@ const OSG::BitVector  SimpleMaterialBase::ColorMaterialFieldMask =
 /*! \var UInt32          SimpleMaterialBase::_sfColorMaterial
     
 */
+
 //! SimpleMaterial description
 
 FieldDescription *SimpleMaterialBase::_desc[] = 
@@ -454,4 +455,5 @@ void SimpleMaterialBase::executeSyncImpl(      SimpleMaterialBase *pOther,
 
 
 }
+
 

@@ -118,17 +118,17 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLightBase : public LightBase
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFPnt3f             *getSFPosition       (void);
+           SFPnt3f             *getSFPosition       (void);
 
-    inline       Pnt3f               &getPosition       (void);
-    inline const Pnt3f               &getPosition       (void) const;
+           Pnt3f               &getPosition       (void);
+     const Pnt3f               &getPosition       (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setPosition       ( const Pnt3f &value );
+     void setPosition       ( const Pnt3f &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -222,6 +222,6 @@ typedef PointLightBase *PointLightBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPOINTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGPointLightBase.h,v 1.18 2002/03/19 17:38:55 dirk Exp $"
+#define OSGPOINTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGPointLightBase.h,v 1.19 2002/03/25 01:25:58 vossg Exp $"
 
 #endif /* _OSGPOINTLIGHTBASE_H_ */

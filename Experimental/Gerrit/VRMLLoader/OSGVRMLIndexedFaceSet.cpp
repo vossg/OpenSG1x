@@ -645,81 +645,22 @@ void VRMLIndexedFaceSetBinder::finish(VRMLToOSGAction *pAction)
     if(pGeo == NullFC)
         return;
 
-    MFInt32 *pCoordIndex    = NULL;
-    MFInt32 *pColorIndex    = NULL;
-    MFInt32 *pNormalIndex   = NULL;
-    MFInt32 *pTexCoordIndex = NULL;
-
-    UInt32   uiNumIndices;
-
-    
-    pCoordIndex = new MFInt32;
-
-    if(pNode->getMFCoordIndex()->empty() == false)
-    {
-        uiNumIndices = pNode->getMFCoordIndex()->size();
-
-        pCoordIndex->resize(uiNumIndices);
-
-        memcpy(&(pCoordIndex                   ->front()),
-               &(pNode      ->getMFCoordIndex()->front()),
-               sizeof(Int32) * uiNumIndices);
-    }
-
-
-    pNormalIndex = new MFInt32;
-
-    if(pNode->getMFNormalIndex()->empty() == false)
-    {
-        uiNumIndices = pNode->getMFNormalIndex()->size();
-
-        pNormalIndex->resize(uiNumIndices);
-
-        memcpy(&(pNormalIndex                    ->front()),
-               &(pNode       ->getMFNormalIndex()->front()),
-               sizeof(Int32) * uiNumIndices);
-    }
-
-
-    pColorIndex = new MFInt32;
-
-    if(pNode->getMFColorIndex()->empty() == false)
-    {
-        uiNumIndices = pNode->getMFColorIndex()->size();
-
-        pColorIndex->resize(uiNumIndices);
-
-        memcpy(&(pColorIndex                   ->front()),
-               &(pNode      ->getMFColorIndex()->front()),
-               sizeof(Int32) * uiNumIndices);
-    }
-
-
-    pTexCoordIndex = new MFInt32;
-
-    if(pNode->getMFTexCoordIndex()->empty() == false)
-    {
-        uiNumIndices = pNode->getMFTexCoordIndex()->size();
-
-        pTexCoordIndex->resize(uiNumIndices);
-
-        memcpy(&(pTexCoordIndex                      ->front()),
-               &(pNode         ->getMFTexCoordIndex()->front()),
-               sizeof(Int32) * uiNumIndices);
-    }
-   
+    MFInt32 *pCoordIndex    = pNode->getMFCoordIndex();
+    MFInt32 *pNormalIndex   = pNode->getMFNormalIndex();
+    MFInt32 *pColorIndex    = pNode->getMFColorIndex();
+    MFInt32 *pTexCoordIndex = pNode->getMFTexCoordIndex();
 
     setIndexFromVRMLData(pGeo,
-                              pCoordIndex   ->getValues(),
-                              pNormalIndex  ->getValues(),
-                              pColorIndex   ->getValues(),
-                              pTexCoordIndex->getValues(),
-                              pNode->getSFConvex         ()->getValue(),
-                              pNode->getSFCcw            ()->getValue(),
-                              pNode->getSFNormalPerVertex()->getValue(),
-                              pNode->getSFColorPerVertex ()->getValue(),
-                              false,
-                              true);
+                         pCoordIndex   ->getValues(),
+                         pNormalIndex  ->getValues(),
+                         pColorIndex   ->getValues(),
+                         pTexCoordIndex->getValues(),
+                         pNode->getSFConvex         ()->getValue(),
+                         pNode->getSFCcw            ()->getValue(),
+                         pNode->getSFNormalPerVertex()->getValue(),
+                         pNode->getSFColorPerVertex ()->getValue(),
+                         false,
+                         true);
 
 
     if((0 != (pAction->getOptions() & VRMLToOSGAction::CreateNormals)) &&
@@ -732,11 +673,6 @@ void VRMLIndexedFaceSetBinder::finish(VRMLToOSGAction *pAction)
     {
         createOptimizedPrimitives(pGeo, 1, true, true, 8, false);
     }
-    
-    delete pCoordIndex;
-    delete pNormalIndex;
-    delete pColorIndex;
-    delete pTexCoordIndex;
 }
 
 

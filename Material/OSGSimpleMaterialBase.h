@@ -116,6 +116,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
     static const osg::BitVector LitFieldMask;
     static const osg::BitVector ColorMaterialFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -138,45 +139,45 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFColor3f           *getSFAmbient        (void);
-    inline       SFColor3f           *getSFDiffuse        (void);
-    inline       SFColor3f           *getSFSpecular       (void);
-    inline       SFReal32            *getSFShininess      (void);
-    inline       SFColor3f           *getSFEmission       (void);
-    inline       SFReal32            *getSFTransparency   (void);
-    inline       SFBool              *getSFLit            (void);
-    inline       SFUInt32            *getSFColorMaterial  (void);
+           SFColor3f           *getSFAmbient        (void);
+           SFColor3f           *getSFDiffuse        (void);
+           SFColor3f           *getSFSpecular       (void);
+           SFReal32            *getSFShininess      (void);
+           SFColor3f           *getSFEmission       (void);
+           SFReal32            *getSFTransparency   (void);
+           SFBool              *getSFLit            (void);
+           SFUInt32            *getSFColorMaterial  (void);
 
-    inline       Color3f             &getAmbient        (void);
-    inline const Color3f             &getAmbient        (void) const;
-    inline       Color3f             &getDiffuse        (void);
-    inline const Color3f             &getDiffuse        (void) const;
-    inline       Color3f             &getSpecular       (void);
-    inline const Color3f             &getSpecular       (void) const;
-    inline       Real32              &getShininess      (void);
-    inline const Real32              &getShininess      (void) const;
-    inline       Color3f             &getEmission       (void);
-    inline const Color3f             &getEmission       (void) const;
-    inline       Real32              &getTransparency   (void);
-    inline const Real32              &getTransparency   (void) const;
-    inline       bool                &getLit            (void);
-    inline const bool                &getLit            (void) const;
-    inline       UInt32              &getColorMaterial  (void);
-    inline const UInt32              &getColorMaterial  (void) const;
+           Color3f             &getAmbient        (void);
+     const Color3f             &getAmbient        (void) const;
+           Color3f             &getDiffuse        (void);
+     const Color3f             &getDiffuse        (void) const;
+           Color3f             &getSpecular       (void);
+     const Color3f             &getSpecular       (void) const;
+           Real32              &getShininess      (void);
+     const Real32              &getShininess      (void) const;
+           Color3f             &getEmission       (void);
+     const Color3f             &getEmission       (void) const;
+           Real32              &getTransparency   (void);
+     const Real32              &getTransparency   (void) const;
+           bool                &getLit            (void);
+     const bool                &getLit            (void) const;
+           UInt32              &getColorMaterial  (void);
+     const UInt32              &getColorMaterial  (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setAmbient        ( const Color3f &value );
-    inline void setDiffuse        ( const Color3f &value );
-    inline void setSpecular       ( const Color3f &value );
-    inline void setShininess      ( const Real32 &value );
-    inline void setEmission       ( const Color3f &value );
-    inline void setTransparency   ( const Real32 &value );
-    inline void setLit            ( const bool &value );
-    inline void setColorMaterial  ( const UInt32 &value );
+     void setAmbient        ( const Color3f &value );
+     void setDiffuse        ( const Color3f &value );
+     void setSpecular       ( const Color3f &value );
+     void setShininess      ( const Real32 &value );
+     void setEmission       ( const Color3f &value );
+     void setTransparency   ( const Real32 &value );
+     void setLit            ( const bool &value );
+     void setColorMaterial  ( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -277,6 +278,6 @@ typedef SimpleMaterialBase *SimpleMaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLEMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleMaterialBase.h,v 1.19 2002/02/04 20:14:08 dirk Exp $"
+#define OSGSIMPLEMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleMaterialBase.h,v 1.20 2002/03/25 01:25:58 vossg Exp $"
 
 #endif /* _OSGSIMPLEMATERIALBASE_H_ */

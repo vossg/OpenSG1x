@@ -54,21 +54,21 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline 
+inline
 OSG::FieldContainerType &PassiveBackgroundBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline 
+inline
 OSG::UInt32 PassiveBackgroundBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline 
+inline
 PassiveBackgroundPtr PassiveBackgroundBase::create(void) 
 {
     PassiveBackgroundPtr fc; 
@@ -83,7 +83,7 @@ PassiveBackgroundPtr PassiveBackgroundBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline 
+inline
 PassiveBackgroundPtr PassiveBackgroundBase::createEmpty(void) 
 { 
     PassiveBackgroundPtr returnValue; 
@@ -92,6 +92,12 @@ PassiveBackgroundPtr PassiveBackgroundBase::createEmpty(void)
 
     return returnValue; 
 }
+
+
+/*------------------------------ get -----------------------------------*/
+
+
+
 
 OSG_END_NAMESPACE
 

@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &MaterialGroupBase::getClassType(void)
+inline
+OSG::FieldContainerType &MaterialGroupBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 MaterialGroupBase::getClassTypeId(void) 
+inline
+OSG::UInt32 MaterialGroupBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline MaterialGroupPtr MaterialGroupBase::create(void) 
+inline
+MaterialGroupPtr MaterialGroupBase::create(void) 
 {
     MaterialGroupPtr fc; 
 
@@ -80,7 +83,8 @@ inline MaterialGroupPtr MaterialGroupBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline MaterialGroupPtr MaterialGroupBase::createEmpty(void) 
+inline
+MaterialGroupPtr MaterialGroupBase::createEmpty(void) 
 { 
     MaterialGroupPtr returnValue; 
     
@@ -92,26 +96,26 @@ inline MaterialGroupPtr MaterialGroupBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFMaterialPtr *MaterialGroupBase::getSFMaterial(void)
 {
     return &_sfMaterial;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MaterialPtr &MaterialGroupBase::getMaterial(void)
 {
     return _sfMaterial.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const MaterialPtr &MaterialGroupBase::getMaterial(void) const
 {
     return _sfMaterial.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void MaterialGroupBase::setMaterial(const MaterialPtr &value)
 {
     _sfMaterial.setValue(value);
@@ -121,5 +125,5 @@ void MaterialGroupBase::setMaterial(const MaterialPtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALGROUPBASE_INLINE_CVSID "@(#)$Id: OSGMaterialGroupBase.inl,v 1.7 2001/10/03 20:37:35 dirk Exp $"
+#define OSGMATERIALGROUPBASE_INLINE_CVSID "@(#)$Id: OSGMaterialGroupBase.inl,v 1.8 2002/03/25 01:25:59 vossg Exp $"
 

@@ -121,21 +121,21 @@ class OSG_SYSTEMLIB_DLLMAPPING StereoCameraDecoratorBase : public CameraDecorato
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFBool              *getSFLeftEye        (void);
-    inline       SFReal32            *getSFEyeSeparation  (void);
+           SFBool              *getSFLeftEye        (void);
+           SFReal32            *getSFEyeSeparation  (void);
 
-    inline       bool                &getLeftEye        (void);
-    inline const bool                &getLeftEye        (void) const;
-    inline       Real32              &getEyeSeparation  (void);
-    inline const Real32              &getEyeSeparation  (void) const;
+           bool                &getLeftEye        (void);
+     const bool                &getLeftEye        (void) const;
+           Real32              &getEyeSeparation  (void);
+     const Real32              &getEyeSeparation  (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setLeftEye        ( const bool &value );
-    inline void setEyeSeparation  ( const Real32 &value );
+     void setLeftEye        ( const bool &value );
+     void setEyeSeparation  ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -214,6 +214,6 @@ typedef StereoCameraDecoratorBase *StereoCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTEREOCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGStereoCameraDecoratorBase.h,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGSTEREOCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGStereoCameraDecoratorBase.h,v 1.2 2002/03/25 01:26:00 vossg Exp $"
 
 #endif /* _OSGSTEREOCAMERADECORATORBASE_H_ */

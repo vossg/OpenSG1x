@@ -136,41 +136,41 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFColor4f           *getSFDiffuse        (void);
-    inline       SFColor4f           *getSFAmbient        (void);
-    inline       SFColor4f           *getSFSpecular       (void);
-    inline       SFColor4f           *getSFEmission       (void);
-    inline       SFReal32            *getSFShininess      (void);
-    inline       SFBool              *getSFLit            (void);
-    inline       SFUInt32            *getSFColorMaterial  (void);
+           SFColor4f           *getSFDiffuse        (void);
+           SFColor4f           *getSFAmbient        (void);
+           SFColor4f           *getSFSpecular       (void);
+           SFColor4f           *getSFEmission       (void);
+           SFReal32            *getSFShininess      (void);
+           SFBool              *getSFLit            (void);
+           SFUInt32            *getSFColorMaterial  (void);
 
-    inline       Color4f             &getDiffuse        (void);
-    inline const Color4f             &getDiffuse        (void) const;
-    inline       Color4f             &getAmbient        (void);
-    inline const Color4f             &getAmbient        (void) const;
-    inline       Color4f             &getSpecular       (void);
-    inline const Color4f             &getSpecular       (void) const;
-    inline       Color4f             &getEmission       (void);
-    inline const Color4f             &getEmission       (void) const;
-    inline       Real32              &getShininess      (void);
-    inline const Real32              &getShininess      (void) const;
-    inline       bool                &getLit            (void);
-    inline const bool                &getLit            (void) const;
-    inline       UInt32              &getColorMaterial  (void);
-    inline const UInt32              &getColorMaterial  (void) const;
+           Color4f             &getDiffuse        (void);
+     const Color4f             &getDiffuse        (void) const;
+           Color4f             &getAmbient        (void);
+     const Color4f             &getAmbient        (void) const;
+           Color4f             &getSpecular       (void);
+     const Color4f             &getSpecular       (void) const;
+           Color4f             &getEmission       (void);
+     const Color4f             &getEmission       (void) const;
+           Real32              &getShininess      (void);
+     const Real32              &getShininess      (void) const;
+           bool                &getLit            (void);
+     const bool                &getLit            (void) const;
+           UInt32              &getColorMaterial  (void);
+     const UInt32              &getColorMaterial  (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setDiffuse        ( const Color4f &value );
-    inline void setAmbient        ( const Color4f &value );
-    inline void setSpecular       ( const Color4f &value );
-    inline void setEmission       ( const Color4f &value );
-    inline void setShininess      ( const Real32 &value );
-    inline void setLit            ( const bool &value );
-    inline void setColorMaterial  ( const UInt32 &value );
+     void setDiffuse        ( const Color4f &value );
+     void setAmbient        ( const Color4f &value );
+     void setSpecular       ( const Color4f &value );
+     void setEmission       ( const Color4f &value );
+     void setShininess      ( const Real32 &value );
+     void setLit            ( const bool &value );
+     void setColorMaterial  ( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -270,6 +270,6 @@ typedef MaterialChunkBase *MaterialChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGMaterialChunkBase.h,v 1.20 2002/03/19 18:08:16 dirk Exp $"
+#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGMaterialChunkBase.h,v 1.21 2002/03/25 01:25:59 vossg Exp $"
 
 #endif /* _OSGMATERIALCHUNKBASE_H_ */

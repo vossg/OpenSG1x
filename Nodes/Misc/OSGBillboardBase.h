@@ -124,25 +124,25 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public NodeCore
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFVec3f             *getSFAxisOfRotation (void);
-    inline       SFBool              *getSFFocusOnCamera  (void);
-    inline       SFBool              *getSFAlignToScreen  (void);
+           SFVec3f             *getSFAxisOfRotation (void);
+           SFBool              *getSFFocusOnCamera  (void);
+           SFBool              *getSFAlignToScreen  (void);
 
-    inline       Vec3f               &getAxisOfRotation (void);
-    inline const Vec3f               &getAxisOfRotation (void) const;
-    inline       bool                &getFocusOnCamera  (void);
-    inline const bool                &getFocusOnCamera  (void) const;
-    inline       bool                &getAlignToScreen  (void);
-    inline const bool                &getAlignToScreen  (void) const;
+           Vec3f               &getAxisOfRotation (void);
+     const Vec3f               &getAxisOfRotation (void) const;
+           bool                &getFocusOnCamera  (void);
+     const bool                &getFocusOnCamera  (void) const;
+           bool                &getAlignToScreen  (void);
+     const bool                &getAlignToScreen  (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setAxisOfRotation ( const Vec3f &value );
-    inline void setFocusOnCamera  ( const bool &value );
-    inline void setAlignToScreen  ( const bool &value );
+     void setAxisOfRotation ( const Vec3f &value );
+     void setFocusOnCamera  ( const bool &value );
+     void setAlignToScreen  ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -37,7 +37,9 @@ endif
 PEDANTIC_ERRORS      := @ac_gdz_ped_errors_e1@
 
 SO_PRAEFIX           := @ac_gdz_so_praefix@
+SO_SEARCH_SUFFIX     := @ac_gdz_so_suffix@
 SO_SUFFIX            := $(DEBUG_CHAR)@ac_gdz_so_suffix@
+LIB_SEARCH_SUFFIX    := @ac_gdz_lib_suffix@
 LIB_SUFFIX           := $(DEBUG_CHAR)@ac_gdz_lib_suffix@
 
 LNK_LIB_SUFFIX       := $(DEBUG_CHAR)Lnk@ac_gdz_lib_suffix@

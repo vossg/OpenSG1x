@@ -160,12 +160,6 @@ bool FactoryController::terminate(void)
 {
     bool returnValue = true;
 
-    if(_pTypeFactory != NULL)
-        returnValue = _pTypeFactory->terminate();
-
-    if(returnValue == false)
-        return returnValue;
-
     FactoryMapIt mapIt  = _mFactoryMap.begin();
     FactoryMapIt mapEnd = _mFactoryMap.end  ();
 
@@ -178,6 +172,9 @@ bool FactoryController::terminate(void)
 
         mapIt++;
     }
+
+    if(_pTypeFactory != NULL)
+        returnValue = _pTypeFactory->terminate();
 
     return returnValue;
 }

@@ -54,13 +54,15 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &StateChunkBase::getClassType(void)
+inline
+OSG::FieldContainerType &StateChunkBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 StateChunkBase::getClassTypeId(void) 
+inline
+OSG::UInt32 StateChunkBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
@@ -73,5 +75,5 @@ inline OSG::UInt32 StateChunkBase::getClassTypeId(void)
 
 OSG_END_NAMESPACE
 
-#define OSGSTATECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGStateChunkBase.inl,v 1.5 2001/09/17 14:15:07 vossg Exp $"
+#define OSGSTATECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGStateChunkBase.inl,v 1.6 2002/03/25 01:25:59 vossg Exp $"
 

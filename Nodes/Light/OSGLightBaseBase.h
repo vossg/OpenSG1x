@@ -139,45 +139,45 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFColor4f           *getSFAmbient        (void);
-    inline       SFColor4f           *getSFDiffuse        (void);
-    inline       SFColor4f           *getSFSpecular       (void);
-    inline       SFNodePtr           *getSFBeacon         (void);
-    inline       SFBool              *getSFOn             (void);
-    inline       SFReal32            *getSFConstantAttenuation(void);
-    inline       SFReal32            *getSFLinearAttenuation(void);
-    inline       SFReal32            *getSFQuadraticAttenuation(void);
+           SFColor4f           *getSFAmbient        (void);
+           SFColor4f           *getSFDiffuse        (void);
+           SFColor4f           *getSFSpecular       (void);
+           SFNodePtr           *getSFBeacon         (void);
+           SFBool              *getSFOn             (void);
+           SFReal32            *getSFConstantAttenuation(void);
+           SFReal32            *getSFLinearAttenuation(void);
+           SFReal32            *getSFQuadraticAttenuation(void);
 
-    inline       Color4f             &getAmbient        (void);
-    inline const Color4f             &getAmbient        (void) const;
-    inline       Color4f             &getDiffuse        (void);
-    inline const Color4f             &getDiffuse        (void) const;
-    inline       Color4f             &getSpecular       (void);
-    inline const Color4f             &getSpecular       (void) const;
-    inline       NodePtr             &getBeacon         (void);
-    inline const NodePtr             &getBeacon         (void) const;
-    inline       bool                &getOn             (void);
-    inline const bool                &getOn             (void) const;
-    inline       Real32              &getConstantAttenuation(void);
-    inline const Real32              &getConstantAttenuation(void) const;
-    inline       Real32              &getLinearAttenuation(void);
-    inline const Real32              &getLinearAttenuation(void) const;
-    inline       Real32              &getQuadraticAttenuation(void);
-    inline const Real32              &getQuadraticAttenuation(void) const;
+           Color4f             &getAmbient        (void);
+     const Color4f             &getAmbient        (void) const;
+           Color4f             &getDiffuse        (void);
+     const Color4f             &getDiffuse        (void) const;
+           Color4f             &getSpecular       (void);
+     const Color4f             &getSpecular       (void) const;
+           NodePtr             &getBeacon         (void);
+     const NodePtr             &getBeacon         (void) const;
+           bool                &getOn             (void);
+     const bool                &getOn             (void) const;
+           Real32              &getConstantAttenuation(void);
+     const Real32              &getConstantAttenuation(void) const;
+           Real32              &getLinearAttenuation(void);
+     const Real32              &getLinearAttenuation(void) const;
+           Real32              &getQuadraticAttenuation(void);
+     const Real32              &getQuadraticAttenuation(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setAmbient        ( const Color4f &value );
-    inline void setDiffuse        ( const Color4f &value );
-    inline void setSpecular       ( const Color4f &value );
-    inline void setBeacon         ( const NodePtr &value );
-    inline void setOn             ( const bool &value );
-    inline void setConstantAttenuation( const Real32 &value );
-    inline void setLinearAttenuation( const Real32 &value );
-    inline void setQuadraticAttenuation( const Real32 &value );
+     void setAmbient        ( const Color4f &value );
+     void setDiffuse        ( const Color4f &value );
+     void setSpecular       ( const Color4f &value );
+     void setBeacon         ( const NodePtr &value );
+     void setOn             ( const bool &value );
+     void setConstantAttenuation( const Real32 &value );
+     void setLinearAttenuation( const Real32 &value );
+     void setQuadraticAttenuation( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -262,6 +262,6 @@ typedef LightBaseBase *LightBaseBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTBASEBASE_HEADER_CVSID "@(#)$Id: OSGLightBaseBase.h,v 1.20 2002/03/19 17:38:55 dirk Exp $"
+#define OSGLIGHTBASEBASE_HEADER_CVSID "@(#)$Id: OSGLightBaseBase.h,v 1.21 2002/03/25 01:25:58 vossg Exp $"
 
 #endif /* _OSGLIGHTBASEBASE_H_ */

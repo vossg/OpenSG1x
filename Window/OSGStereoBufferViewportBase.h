@@ -121,21 +121,21 @@ class OSG_SYSTEMLIB_DLLMAPPING StereoBufferViewportBase : public Viewport
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFBool              *getSFLeftBuffer     (void);
-    inline       SFBool              *getSFRightBuffer    (void);
+           SFBool              *getSFLeftBuffer     (void);
+           SFBool              *getSFRightBuffer    (void);
 
-    inline       bool                &getLeftBuffer     (void);
-    inline const bool                &getLeftBuffer     (void) const;
-    inline       bool                &getRightBuffer    (void);
-    inline const bool                &getRightBuffer    (void) const;
+           bool                &getLeftBuffer     (void);
+     const bool                &getLeftBuffer     (void) const;
+           bool                &getRightBuffer    (void);
+     const bool                &getRightBuffer    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setLeftBuffer     ( const bool &value );
-    inline void setRightBuffer    ( const bool &value );
+     void setLeftBuffer     ( const bool &value );
+     void setRightBuffer    ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -230,6 +230,6 @@ typedef StereoBufferViewportBase *StereoBufferViewportBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTEREOBUFFERVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGStereoBufferViewportBase.h,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGSTEREOBUFFERVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGStereoBufferViewportBase.h,v 1.2 2002/03/25 01:26:00 vossg Exp $"
 
 #endif /* _OSGSTEREOBUFFERVIEWPORTBASE_H_ */

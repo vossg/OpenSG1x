@@ -50,7 +50,7 @@
 #include "OSGTypeBase.h"
 #include <OSGTypeFactory.h>
 
-#ifdef OSG_GV_BETA
+#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
 #include <OSGTime.h>
 #endif
 
@@ -122,7 +122,7 @@ TypeBase::TypeBase(const TypeBase &source) :
 
     _bTypeBaseInitialized(source._bTypeBaseInitialized)
 {
-#ifdef OSG_GV_BETA
+#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
         fprintf(stderr, "GV_MEM_TYPE_DBG : (%u|%lf|%I64d) cc (%p|%s|%u)\n", 
                 0,
                 getSystemTime(), 
@@ -200,7 +200,7 @@ TypeBase::TypeBase(const Char8 *szName,
 {
     _uiTypeId = TypeFactory::the()->registerType(this);
 
-#ifdef OSG_GV_BETA
+#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
         fprintf(stderr, "GV_MEM_TYPE_DBG : (%u|%lf|%I64d) c (%p|%s|%u)\n", 
                 0,
                 getSystemTime(), 
@@ -213,7 +213,7 @@ TypeBase::TypeBase(const Char8 *szName,
 
 TypeBase::~TypeBase(void)
 {
-#ifdef OSG_GV_BETA
+#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
         fprintf(stderr, "GV_MEM_TYPE_DBG : (%u|%lf|%I64d) d (%p|%s|%u)\n", 
                 0,
                 getSystemTime(), 

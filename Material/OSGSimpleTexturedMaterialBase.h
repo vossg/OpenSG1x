@@ -107,6 +107,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMateria
     static const osg::BitVector EnvModeFieldMask;
     static const osg::BitVector EnvMapFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -129,33 +130,33 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMateria
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFImageP            *getSFImage          (void);
-    inline       SFUInt32            *getSFMinFilter      (void);
-    inline       SFUInt32            *getSFMagFilter      (void);
-    inline       SFUInt32            *getSFEnvMode        (void);
-    inline       SFBool              *getSFEnvMap         (void);
+           SFImageP            *getSFImage          (void);
+           SFUInt32            *getSFMinFilter      (void);
+           SFUInt32            *getSFMagFilter      (void);
+           SFUInt32            *getSFEnvMode        (void);
+           SFBool              *getSFEnvMap         (void);
 
-    inline       ImageP              &getImage          (void);
-    inline const ImageP              &getImage          (void) const;
-    inline       UInt32              &getMinFilter      (void);
-    inline const UInt32              &getMinFilter      (void) const;
-    inline       UInt32              &getMagFilter      (void);
-    inline const UInt32              &getMagFilter      (void) const;
-    inline       UInt32              &getEnvMode        (void);
-    inline const UInt32              &getEnvMode        (void) const;
-    inline       bool                &getEnvMap         (void);
-    inline const bool                &getEnvMap         (void) const;
+           ImageP              &getImage          (void);
+     const ImageP              &getImage          (void) const;
+           UInt32              &getMinFilter      (void);
+     const UInt32              &getMinFilter      (void) const;
+           UInt32              &getMagFilter      (void);
+     const UInt32              &getMagFilter      (void) const;
+           UInt32              &getEnvMode        (void);
+     const UInt32              &getEnvMode        (void) const;
+           bool                &getEnvMap         (void);
+     const bool                &getEnvMap         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setImage          ( const ImageP &value );
-    inline void setMinFilter      ( const UInt32 &value );
-    inline void setMagFilter      ( const UInt32 &value );
-    inline void setEnvMode        ( const UInt32 &value );
-    inline void setEnvMap         ( const bool &value );
+     void setImage          ( const ImageP &value );
+     void setMinFilter      ( const UInt32 &value );
+     void setMagFilter      ( const UInt32 &value );
+     void setEnvMode        ( const UInt32 &value );
+     void setEnvMap         ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +254,6 @@ typedef SimpleTexturedMaterialBase *SimpleTexturedMaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialBase.h,v 1.6 2002/02/04 20:14:08 dirk Exp $"
+#define OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialBase.h,v 1.7 2002/03/25 01:25:58 vossg Exp $"
 
 #endif /* _OSGSIMPLETEXTUREDMATERIALBASE_H_ */

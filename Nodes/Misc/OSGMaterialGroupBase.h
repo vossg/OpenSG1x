@@ -118,17 +118,17 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroupBase : public NodeCore
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFMaterialPtr       *getSFMaterial       (void);
+           SFMaterialPtr       *getSFMaterial       (void);
 
-    inline       MaterialPtr         &getMaterial       (void);
-    inline const MaterialPtr         &getMaterial       (void) const;
+           MaterialPtr         &getMaterial       (void);
+     const MaterialPtr         &getMaterial       (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setMaterial       ( const MaterialPtr &value );
+     void setMaterial       ( const MaterialPtr &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -222,6 +222,6 @@ typedef MaterialGroupBase *MaterialGroupBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALGROUPBASE_HEADER_CVSID "@(#)$Id: OSGMaterialGroupBase.h,v 1.18 2002/03/19 17:38:56 dirk Exp $"
+#define OSGMATERIALGROUPBASE_HEADER_CVSID "@(#)$Id: OSGMaterialGroupBase.h,v 1.19 2002/03/25 01:25:59 vossg Exp $"
 
 #endif /* _OSGMATERIALGROUPBASE_H_ */

@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &SkyBackgroundBase::getClassType(void)
+inline
+OSG::FieldContainerType &SkyBackgroundBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 SkyBackgroundBase::getClassTypeId(void) 
+inline
+OSG::UInt32 SkyBackgroundBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline SkyBackgroundPtr SkyBackgroundBase::create(void) 
+inline
+SkyBackgroundPtr SkyBackgroundBase::create(void) 
 {
     SkyBackgroundPtr fc; 
 
@@ -80,7 +83,8 @@ inline SkyBackgroundPtr SkyBackgroundBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline SkyBackgroundPtr SkyBackgroundBase::createEmpty(void) 
+inline
+SkyBackgroundPtr SkyBackgroundBase::createEmpty(void) 
 { 
     SkyBackgroundPtr returnValue; 
     
@@ -92,259 +96,267 @@ inline SkyBackgroundPtr SkyBackgroundBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFColor3f *SkyBackgroundBase::getMFSkyColor(void)
 {
     return &_mfSkyColor;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFReal32 *SkyBackgroundBase::getMFSkyAngle(void)
 {
     return &_mfSkyAngle;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFColor3f *SkyBackgroundBase::getMFGroundColor(void)
 {
     return &_mfGroundColor;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFReal32 *SkyBackgroundBase::getMFGroundAngle(void)
 {
     return &_mfGroundAngle;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFUInt32 *SkyBackgroundBase::getSFSphereRes(void)
 {
     return &_sfSphereRes;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFTextureChunkPtr *SkyBackgroundBase::getSFBackTexture(void)
 {
     return &_sfBackTexture;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFTextureChunkPtr *SkyBackgroundBase::getSFBottomTexture(void)
 {
     return &_sfBottomTexture;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFTextureChunkPtr *SkyBackgroundBase::getSFFrontTexture(void)
 {
     return &_sfFrontTexture;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFTextureChunkPtr *SkyBackgroundBase::getSFLeftTexture(void)
 {
     return &_sfLeftTexture;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFTextureChunkPtr *SkyBackgroundBase::getSFRightTexture(void)
 {
     return &_sfRightTexture;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFTextureChunkPtr *SkyBackgroundBase::getSFTopTexture(void)
 {
     return &_sfTopTexture;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 UInt32 &SkyBackgroundBase::getSphereRes(void)
 {
     return _sfSphereRes.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const UInt32 &SkyBackgroundBase::getSphereRes(void) const
 {
     return _sfSphereRes.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SkyBackgroundBase::setSphereRes(const UInt32 &value)
 {
     _sfSphereRes.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 TextureChunkPtr &SkyBackgroundBase::getBackTexture(void)
 {
     return _sfBackTexture.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const TextureChunkPtr &SkyBackgroundBase::getBackTexture(void) const
 {
     return _sfBackTexture.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SkyBackgroundBase::setBackTexture(const TextureChunkPtr &value)
 {
     _sfBackTexture.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 TextureChunkPtr &SkyBackgroundBase::getBottomTexture(void)
 {
     return _sfBottomTexture.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const TextureChunkPtr &SkyBackgroundBase::getBottomTexture(void) const
 {
     return _sfBottomTexture.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SkyBackgroundBase::setBottomTexture(const TextureChunkPtr &value)
 {
     _sfBottomTexture.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 TextureChunkPtr &SkyBackgroundBase::getFrontTexture(void)
 {
     return _sfFrontTexture.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const TextureChunkPtr &SkyBackgroundBase::getFrontTexture(void) const
 {
     return _sfFrontTexture.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SkyBackgroundBase::setFrontTexture(const TextureChunkPtr &value)
 {
     _sfFrontTexture.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 TextureChunkPtr &SkyBackgroundBase::getLeftTexture(void)
 {
     return _sfLeftTexture.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const TextureChunkPtr &SkyBackgroundBase::getLeftTexture(void) const
 {
     return _sfLeftTexture.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SkyBackgroundBase::setLeftTexture(const TextureChunkPtr &value)
 {
     _sfLeftTexture.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 TextureChunkPtr &SkyBackgroundBase::getRightTexture(void)
 {
     return _sfRightTexture.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const TextureChunkPtr &SkyBackgroundBase::getRightTexture(void) const
 {
     return _sfRightTexture.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SkyBackgroundBase::setRightTexture(const TextureChunkPtr &value)
 {
     _sfRightTexture.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 TextureChunkPtr &SkyBackgroundBase::getTopTexture(void)
 {
     return _sfTopTexture.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const TextureChunkPtr &SkyBackgroundBase::getTopTexture(void) const
 {
     return _sfTopTexture.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SkyBackgroundBase::setTopTexture(const TextureChunkPtr &value)
 {
     _sfTopTexture.setValue(value);
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Color3f &SkyBackgroundBase::getSkyColor(UInt32 index)
 {
     return _mfSkyColor.getValue( index );
 }
 
+inline
 MFColor3f &SkyBackgroundBase::getSkyColor(void)
 {
     return _mfSkyColor;
 }
 
+inline
 const MFColor3f &SkyBackgroundBase::getSkyColor(void) const
 {
     return _mfSkyColor;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &SkyBackgroundBase::getSkyAngle(UInt32 index)
 {
     return _mfSkyAngle.getValue( index );
 }
 
+inline
 MFReal32 &SkyBackgroundBase::getSkyAngle(void)
 {
     return _mfSkyAngle;
 }
 
+inline
 const MFReal32 &SkyBackgroundBase::getSkyAngle(void) const
 {
     return _mfSkyAngle;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Color3f &SkyBackgroundBase::getGroundColor(UInt32 index)
 {
     return _mfGroundColor.getValue( index );
 }
 
+inline
 MFColor3f &SkyBackgroundBase::getGroundColor(void)
 {
     return _mfGroundColor;
 }
 
+inline
 const MFColor3f &SkyBackgroundBase::getGroundColor(void) const
 {
     return _mfGroundColor;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &SkyBackgroundBase::getGroundAngle(UInt32 index)
 {
     return _mfGroundAngle.getValue( index );
 }
 
+inline
 MFReal32 &SkyBackgroundBase::getGroundAngle(void)
 {
     return _mfGroundAngle;
 }
 
+inline
 const MFReal32 &SkyBackgroundBase::getGroundAngle(void) const
 {
     return _mfGroundAngle;
@@ -353,5 +365,5 @@ const MFReal32 &SkyBackgroundBase::getGroundAngle(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSKYBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGSkyBackgroundBase.inl,v 1.1 2002/01/08 23:33:36 dirk Exp $"
+#define OSGSKYBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGSkyBackgroundBase.inl,v 1.2 2002/03/25 01:26:00 vossg Exp $"
 

@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialBase.cpp,v 1.21 2002/02/11 03:46:27 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialBase.cpp,v 1.22 2002/03/25 01:25:58 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALBASE_INLINE_CVSID;
 
@@ -98,6 +98,7 @@ namespace
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
+
 
 
 //! Material type
@@ -204,4 +205,5 @@ void MaterialBase::executeSyncImpl(      MaterialBase *pOther,
 
 
 }
+
 

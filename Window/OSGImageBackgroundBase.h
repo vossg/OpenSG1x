@@ -124,25 +124,25 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBackgroundBase : public Background
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFColor3f           *getSFColor          (void);
-    inline       SFImageP            *getSFImage          (void);
-    inline       SFBool              *getSFScale          (void);
+           SFColor3f           *getSFColor          (void);
+           SFImageP            *getSFImage          (void);
+           SFBool              *getSFScale          (void);
 
-    inline       Color3f             &getColor          (void);
-    inline const Color3f             &getColor          (void) const;
-    inline       ImageP              &getImage          (void);
-    inline const ImageP              &getImage          (void) const;
-    inline       bool                &getScale          (void);
-    inline const bool                &getScale          (void) const;
+           Color3f             &getColor          (void);
+     const Color3f             &getColor          (void) const;
+           ImageP              &getImage          (void);
+     const ImageP              &getImage          (void) const;
+           bool                &getScale          (void);
+     const bool                &getScale          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setColor          ( const Color3f &value );
-    inline void setImage          ( const ImageP &value );
-    inline void setScale          ( const bool &value );
+     void setColor          ( const Color3f &value );
+     void setImage          ( const ImageP &value );
+     void setScale          ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -238,6 +238,6 @@ typedef ImageBackgroundBase *ImageBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageBackgroundBase.h,v 1.5 2002/03/19 17:48:18 dirk Exp $"
+#define OSGIMAGEBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageBackgroundBase.h,v 1.6 2002/03/25 01:26:00 vossg Exp $"
 
 #endif /* _OSGIMAGEBACKGROUNDBASE_H_ */

@@ -136,29 +136,29 @@ class OSG_SYSTEMLIB_DLLMAPPING ProjectionCameraDecoratorBase : public StereoCame
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFNodePtr           *getSFUser           (void);
-    inline       MFPnt3f             *getMFSurface        (void);
-    inline       SFReal32            *getSFWidth          (void);
-    inline       SFReal32            *getSFHeight         (void);
+           SFNodePtr           *getSFUser           (void);
+           MFPnt3f             *getMFSurface        (void);
+           SFReal32            *getSFWidth          (void);
+           SFReal32            *getSFHeight         (void);
 
-    inline       NodePtr             &getUser           (void);
-    inline const NodePtr             &getUser           (void) const;
-    inline       Real32              &getWidth          (void);
-    inline const Real32              &getWidth          (void) const;
-    inline       Real32              &getHeight         (void);
-    inline const Real32              &getHeight         (void) const;
-    inline       Pnt3f               &getSurface        (UInt32 index);
-    inline       MFPnt3f             &getSurface        (void);
-    inline const MFPnt3f             &getSurface        (void) const;
+           NodePtr             &getUser           (void);
+     const NodePtr             &getUser           (void) const;
+           Real32              &getWidth          (void);
+     const Real32              &getWidth          (void) const;
+           Real32              &getHeight         (void);
+     const Real32              &getHeight         (void) const;
+           Pnt3f               &getSurface        (UInt32 index);
+           MFPnt3f             &getSurface        (void);
+     const MFPnt3f             &getSurface        (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setUser           ( const NodePtr &value );
-    inline void setWidth          ( const Real32 &value );
-    inline void setHeight         ( const Real32 &value );
+     void setUser           ( const NodePtr &value );
+     void setWidth          ( const Real32 &value );
+     void setHeight         ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -232,25 +232,25 @@ class OSG_SYSTEMLIB_DLLMAPPING ProjectionCameraDecoratorBase : public StereoCame
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFPlane             *getSFLeft           (void);
-    inline       SFPlane             *getSFBottom         (void);
-    inline       SFPlane             *getSFNormal         (void);
+           SFPlane             *getSFLeft           (void);
+           SFPlane             *getSFBottom         (void);
+           SFPlane             *getSFNormal         (void);
 
-    inline       Plane               &getLeft           (void);
-    inline const Plane               &getLeft           (void) const;
-    inline       Plane               &getBottom         (void);
-    inline const Plane               &getBottom         (void) const;
-    inline       Plane               &getNormal         (void);
-    inline const Plane               &getNormal         (void) const;
+           Plane               &getLeft           (void);
+     const Plane               &getLeft           (void) const;
+           Plane               &getBottom         (void);
+     const Plane               &getBottom         (void) const;
+           Plane               &getNormal         (void);
+     const Plane               &getNormal         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setLeft           (const Plane &value);
-    inline void setBottom         (const Plane &value);
-    inline void setNormal         (const Plane &value);
+     void setLeft           (const Plane &value);
+     void setBottom         (const Plane &value);
+     void setNormal         (const Plane &value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -283,6 +283,6 @@ typedef ProjectionCameraDecoratorBase *ProjectionCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPROJECTIONCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGProjectionCameraDecoratorBase.h,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGPROJECTIONCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGProjectionCameraDecoratorBase.h,v 1.2 2002/03/25 01:26:00 vossg Exp $"
 
 #endif /* _OSGPROJECTIONCAMERADECORATORBASE_H_ */

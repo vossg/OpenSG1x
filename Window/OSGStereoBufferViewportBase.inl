@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &StereoBufferViewportBase::getClassType(void)
+inline
+OSG::FieldContainerType &StereoBufferViewportBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 StereoBufferViewportBase::getClassTypeId(void) 
+inline
+OSG::UInt32 StereoBufferViewportBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline StereoBufferViewportPtr StereoBufferViewportBase::create(void) 
+inline
+StereoBufferViewportPtr StereoBufferViewportBase::create(void) 
 {
     StereoBufferViewportPtr fc; 
 
@@ -80,7 +83,8 @@ inline StereoBufferViewportPtr StereoBufferViewportBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline StereoBufferViewportPtr StereoBufferViewportBase::createEmpty(void) 
+inline
+StereoBufferViewportPtr StereoBufferViewportBase::createEmpty(void) 
 { 
     StereoBufferViewportPtr returnValue; 
     
@@ -92,50 +96,50 @@ inline StereoBufferViewportPtr StereoBufferViewportBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFBool *StereoBufferViewportBase::getSFLeftBuffer(void)
 {
     return &_sfLeftBuffer;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFBool *StereoBufferViewportBase::getSFRightBuffer(void)
 {
     return &_sfRightBuffer;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 bool &StereoBufferViewportBase::getLeftBuffer(void)
 {
     return _sfLeftBuffer.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const bool &StereoBufferViewportBase::getLeftBuffer(void) const
 {
     return _sfLeftBuffer.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void StereoBufferViewportBase::setLeftBuffer(const bool &value)
 {
     _sfLeftBuffer.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 bool &StereoBufferViewportBase::getRightBuffer(void)
 {
     return _sfRightBuffer.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const bool &StereoBufferViewportBase::getRightBuffer(void) const
 {
     return _sfRightBuffer.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void StereoBufferViewportBase::setRightBuffer(const bool &value)
 {
     _sfRightBuffer.setValue(value);
@@ -145,5 +149,5 @@ void StereoBufferViewportBase::setRightBuffer(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSTEREOBUFFERVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGStereoBufferViewportBase.inl,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGSTEREOBUFFERVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGStereoBufferViewportBase.inl,v 1.2 2002/03/25 01:26:00 vossg Exp $"
 

@@ -53,20 +53,15 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <class ValueTypeT>
-class OSG_BASE_DLLMAPPING Color3
+class Color3
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
     typedef ValueTypeT ValueType;
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
+    static const Color3 Null;
 
-    static const char *getClassname(void) { return "Color3"; };
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Class Specific                          */
     /*! \{                                                                 */
@@ -169,10 +164,6 @@ class OSG_BASE_DLLMAPPING Color3
   protected:
           
     ValueType _rgb[3];
-
-  private:
-
-    static char cvsid[];
 };
 
 /*! \ingroup BaseColors
@@ -180,20 +171,15 @@ class OSG_BASE_DLLMAPPING Color3
  */
 
 template <class ValueTypeT>
-class OSG_BASE_DLLMAPPING Color4
+class Color4
 {
     /*==========================  PUBLIC  =================================*/    
   public:
 
     typedef ValueTypeT ValueType;
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
+    static const Color4 Null;
 
-    static const char *getClassname(void) { return "Color4"; };
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -281,10 +267,6 @@ class OSG_BASE_DLLMAPPING Color4
   protected:
 
     ValueType _rgba[4];
-
-  private:
-
-    static char cvsid[];
 };
 
 
@@ -303,16 +285,12 @@ ostream &operator <<(      ostream            &outStream,
 
 typedef Color3<Real32> Color3f;
 
-extern OSG_BASE_DLLMAPPING Color3f NullColor3f;
-
 /*! \var Color4<Real32> Color4f;
  *  \ingroup BaseColors
  *  \brief Color4f
  */
 
 typedef Color4<Real32> Color4f;
-
-extern OSG_BASE_DLLMAPPING Color4f NullColor4f;
 
 /*! \var Color3<UInt8> Color3ub;
  *  \ingroup BaseColors
@@ -321,8 +299,6 @@ extern OSG_BASE_DLLMAPPING Color4f NullColor4f;
 
 typedef Color3<UInt8> Color3ub;
 
-extern OSG_BASE_DLLMAPPING Color3ub NullColor3ub;
-
 /*! \var Color4<UInt8> Color4ub;
  *  \ingroup BaseColors
  *  \brief Color4ub
@@ -330,10 +306,10 @@ extern OSG_BASE_DLLMAPPING Color3ub NullColor3ub;
 
 typedef Color4<UInt8> Color4ub;
 
-extern OSG_BASE_DLLMAPPING Color4ub NullColor4ub;
-
 OSG_END_NAMESPACE
 
 #include <OSGColor.inl>
+
+#define OSGCOLOR_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* OSG_COLOR */

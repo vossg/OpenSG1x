@@ -53,7 +53,7 @@
 OSG_BEGIN_NAMESPACE
 
 template <class ValueTypeT>
-char Color3<ValueTypeT>::cvsid[] = "@(#)$Id: $";
+const Color3<ValueTypeT> Color3<ValueTypeT>::Null;
 
 template <class ValueTypeT> inline
 void Color3<ValueTypeT>::convertFromHSV(ValueType *rgbP,
@@ -408,6 +408,12 @@ void Color3<ValueTypeT>::setValue( char *szString )
 }
 
 
+
+
+
+template <class ValueTypeT>
+const Color4<ValueTypeT> Color4<ValueTypeT>::Null;
+
 template <class ValueTypeT> inline
 void Color4<ValueTypeT>::setValue( const char *szString )
 {
@@ -514,9 +520,6 @@ bool Color3<ValueTypeT>::operator != (const Color3 &other) const
 {
     return ! (*this == other);
 }
-
-template <class ValueTypeT>
-char Color4<ValueTypeT>::cvsid[] = "@(#)$Id: $";
 
 /** \brief Constructor
  */
@@ -813,3 +816,5 @@ ostream &operator <<(      ostream            &outStream,
 }
 
 OSG_END_NAMESPACE
+
+#define OSGCOLOR_INLINE_CVSID "@(#)$Id: $"

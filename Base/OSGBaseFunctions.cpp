@@ -65,12 +65,12 @@ static vector<ExitFuncF> *osgExitFunctions   = NULL;
 static vector<InitFuncF> *osgMPInitFunctions = NULL;
 static vector<ExitFuncF> *osgMPExitFunctions = NULL;
 
-OSG_BASE_DLLMAPPING SystemState GlobalSystemState = Startup;
+OSG_BASE_DLLMAPPING 
+SystemState GlobalSystemState = Startup;
 
 OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
-
 
 void OSG::addInitFunction(InitFuncF initFunc)
 {
@@ -102,7 +102,7 @@ void OSG::addMPInitFunction(InitFuncF initFunc)
     osgMPInitFunctions->push_back(initFunc);
 }
 
-void osg::addMPExitFunction(ExitFuncF exitFunc)
+void OSG::addMPExitFunction(ExitFuncF exitFunc)
 {
     if(osgMPExitFunctions == NULL)
     {
@@ -168,6 +168,10 @@ bool OSG::osgExit(void)
         }
     }
 
+#ifdef OSG_GV_BETA
+    FactoryController::the()->terminate();
+#endif
+
     if(osgMPExitFunctions != NULL)
     {
         for(Int32 i = osgMPExitFunctions->size() - 1; i >= 0; i--)
@@ -181,4 +185,6 @@ bool OSG::osgExit(void)
 
     return returnValue;
 }
+
+
 

@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &ShearedStereoCameraDecoratorBase::getClassType(void)
+inline
+OSG::FieldContainerType &ShearedStereoCameraDecoratorBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 ShearedStereoCameraDecoratorBase::getClassTypeId(void) 
+inline
+OSG::UInt32 ShearedStereoCameraDecoratorBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline ShearedStereoCameraDecoratorPtr ShearedStereoCameraDecoratorBase::create(void) 
+inline
+ShearedStereoCameraDecoratorPtr ShearedStereoCameraDecoratorBase::create(void) 
 {
     ShearedStereoCameraDecoratorPtr fc; 
 
@@ -80,7 +83,8 @@ inline ShearedStereoCameraDecoratorPtr ShearedStereoCameraDecoratorBase::create(
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline ShearedStereoCameraDecoratorPtr ShearedStereoCameraDecoratorBase::createEmpty(void) 
+inline
+ShearedStereoCameraDecoratorPtr ShearedStereoCameraDecoratorBase::createEmpty(void) 
 { 
     ShearedStereoCameraDecoratorPtr returnValue; 
     
@@ -92,50 +96,50 @@ inline ShearedStereoCameraDecoratorPtr ShearedStereoCameraDecoratorBase::createE
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *ShearedStereoCameraDecoratorBase::getSFZeroParallaxDistance(void)
 {
     return &_sfZeroParallaxDistance;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *ShearedStereoCameraDecoratorBase::getSFOverlap(void)
 {
     return &_sfOverlap;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &ShearedStereoCameraDecoratorBase::getZeroParallaxDistance(void)
 {
     return _sfZeroParallaxDistance.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &ShearedStereoCameraDecoratorBase::getZeroParallaxDistance(void) const
 {
     return _sfZeroParallaxDistance.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ShearedStereoCameraDecoratorBase::setZeroParallaxDistance(const Real32 &value)
 {
     _sfZeroParallaxDistance.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &ShearedStereoCameraDecoratorBase::getOverlap(void)
 {
     return _sfOverlap.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &ShearedStereoCameraDecoratorBase::getOverlap(void) const
 {
     return _sfOverlap.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ShearedStereoCameraDecoratorBase::setOverlap(const Real32 &value)
 {
     _sfOverlap.setValue(value);
@@ -145,5 +149,5 @@ void ShearedStereoCameraDecoratorBase::setOverlap(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHEAREDSTEREOCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGShearedStereoCameraDecoratorBase.inl,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGSHEAREDSTEREOCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGShearedStereoCameraDecoratorBase.inl,v 1.2 2002/03/25 01:26:00 vossg Exp $"
 

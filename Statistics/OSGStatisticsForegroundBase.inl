@@ -54,13 +54,15 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &StatisticsForegroundBase::getClassType(void)
+inline
+OSG::FieldContainerType &StatisticsForegroundBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 StatisticsForegroundBase::getClassTypeId(void) 
+inline
+OSG::UInt32 StatisticsForegroundBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
@@ -68,49 +70,51 @@ inline OSG::UInt32 StatisticsForegroundBase::getClassTypeId(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFInt32 *StatisticsForegroundBase::getMFElementIDs(void)
 {
     return &_mfElementIDs;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFStatCollector *StatisticsForegroundBase::getSFCollector(void)
 {
     return &_sfCollector;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 StatCollector &StatisticsForegroundBase::getCollector(void)
 {
     return _sfCollector.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const StatCollector &StatisticsForegroundBase::getCollector(void) const
 {
     return _sfCollector.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void StatisticsForegroundBase::setCollector(const StatCollector &value)
 {
     _sfCollector.setValue(value);
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Int32 &StatisticsForegroundBase::getElementIDs(UInt32 index)
 {
     return _mfElementIDs.getValue( index );
 }
 
+inline
 MFInt32 &StatisticsForegroundBase::getElementIDs(void)
 {
     return _mfElementIDs;
 }
 
+inline
 const MFInt32 &StatisticsForegroundBase::getElementIDs(void) const
 {
     return _mfElementIDs;
@@ -119,5 +123,5 @@ const MFInt32 &StatisticsForegroundBase::getElementIDs(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGStatisticsForegroundBase.inl,v 1.1 2002/03/19 17:46:18 dirk Exp $"
+#define OSGSTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGStatisticsForegroundBase.inl,v 1.2 2002/03/25 01:26:00 vossg Exp $"
 

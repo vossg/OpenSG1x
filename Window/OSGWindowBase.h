@@ -136,29 +136,29 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFUInt16            *getSFWidth          (void);
-    inline       SFUInt16            *getSFHeight         (void);
-    inline       MFViewportPtr       *getMFPort           (void);
-    inline       SFBool              *getSFResizePending  (void);
+           SFUInt16            *getSFWidth          (void);
+           SFUInt16            *getSFHeight         (void);
+           MFViewportPtr       *getMFPort           (void);
+           SFBool              *getSFResizePending  (void);
 
-    inline       UInt16              &getWidth          (void);
-    inline const UInt16              &getWidth          (void) const;
-    inline       UInt16              &getHeight         (void);
-    inline const UInt16              &getHeight         (void) const;
-    inline       bool                &getResizePending  (void);
-    inline const bool                &getResizePending  (void) const;
-    inline       ViewportPtr         &getPort           (UInt32 index);
-    inline       MFViewportPtr       &getPort           (void);
-    inline const MFViewportPtr       &getPort           (void) const;
+           UInt16              &getWidth          (void);
+     const UInt16              &getWidth          (void) const;
+           UInt16              &getHeight         (void);
+     const UInt16              &getHeight         (void) const;
+           bool                &getResizePending  (void);
+     const bool                &getResizePending  (void) const;
+           ViewportPtr         &getPort           (UInt32 index);
+           MFViewportPtr       &getPort           (void);
+     const MFViewportPtr       &getPort           (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setWidth          ( const UInt16 &value );
-    inline void setHeight         ( const UInt16 &value );
-    inline void setResizePending  ( const bool &value );
+     void setWidth          ( const UInt16 &value );
+     void setHeight         ( const UInt16 &value );
+     void setResizePending  ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -216,25 +216,25 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFUInt32            *getSFGlObjectEventCounter(void);
-    inline       MFUInt32            *getMFGlObjectLastRefresh(void);
-    inline       MFUInt32            *getMFGlObjectLastReinitialize(void);
+           SFUInt32            *getSFGlObjectEventCounter(void);
+           MFUInt32            *getMFGlObjectLastRefresh(void);
+           MFUInt32            *getMFGlObjectLastReinitialize(void);
 
-    inline       UInt32              &getGlObjectEventCounter(void);
-    inline const UInt32              &getGlObjectEventCounter(void) const;
-    inline       UInt32              &getGlObjectLastRefresh(UInt32 index);
-    inline       MFUInt32            &getGlObjectLastRefresh(void);
-    inline const MFUInt32            &getGlObjectLastRefresh(void) const;
-    inline       UInt32              &getGlObjectLastReinitialize(UInt32 index);
-    inline       MFUInt32            &getGlObjectLastReinitialize(void);
-    inline const MFUInt32            &getGlObjectLastReinitialize(void) const;
+           UInt32              &getGlObjectEventCounter(void);
+     const UInt32              &getGlObjectEventCounter(void) const;
+           UInt32              &getGlObjectLastRefresh(UInt32 index);
+           MFUInt32            &getGlObjectLastRefresh(void);
+     const MFUInt32            &getGlObjectLastRefresh(void) const;
+           UInt32              &getGlObjectLastReinitialize(UInt32 index);
+           MFUInt32            &getGlObjectLastReinitialize(void);
+     const MFUInt32            &getGlObjectLastReinitialize(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setGlObjectEventCounter(const UInt32 &value);
+     void setGlObjectEventCounter(const UInt32 &value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

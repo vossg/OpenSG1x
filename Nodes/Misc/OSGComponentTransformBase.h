@@ -130,33 +130,33 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransformBase : public Transform
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFVec3f             *getSFCenter         (void);
-    inline       SFQuaternion        *getSFRotation       (void);
-    inline       SFVec3f             *getSFScale          (void);
-    inline       SFQuaternion        *getSFScaleOrientation(void);
-    inline       SFVec3f             *getSFTranslation    (void);
+           SFVec3f             *getSFCenter         (void);
+           SFQuaternion        *getSFRotation       (void);
+           SFVec3f             *getSFScale          (void);
+           SFQuaternion        *getSFScaleOrientation(void);
+           SFVec3f             *getSFTranslation    (void);
 
-    inline       Vec3f               &getCenter         (void);
-    inline const Vec3f               &getCenter         (void) const;
-    inline       Quaternion          &getRotation       (void);
-    inline const Quaternion          &getRotation       (void) const;
-    inline       Vec3f               &getScale          (void);
-    inline const Vec3f               &getScale          (void) const;
-    inline       Quaternion          &getScaleOrientation(void);
-    inline const Quaternion          &getScaleOrientation(void) const;
-    inline       Vec3f               &getTranslation    (void);
-    inline const Vec3f               &getTranslation    (void) const;
+           Vec3f               &getCenter         (void);
+     const Vec3f               &getCenter         (void) const;
+           Quaternion          &getRotation       (void);
+     const Quaternion          &getRotation       (void) const;
+           Vec3f               &getScale          (void);
+     const Vec3f               &getScale          (void) const;
+           Quaternion          &getScaleOrientation(void);
+     const Quaternion          &getScaleOrientation(void) const;
+           Vec3f               &getTranslation    (void);
+     const Vec3f               &getTranslation    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setCenter         ( const Vec3f &value );
-    inline void setRotation       ( const Quaternion &value );
-    inline void setScale          ( const Vec3f &value );
-    inline void setScaleOrientation( const Quaternion &value );
-    inline void setTranslation    ( const Vec3f &value );
+     void setCenter         ( const Vec3f &value );
+     void setRotation       ( const Quaternion &value );
+     void setScale          ( const Vec3f &value );
+     void setScaleOrientation( const Quaternion &value );
+     void setTranslation    ( const Vec3f &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -254,6 +254,6 @@ typedef ComponentTransformBase *ComponentTransformBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGComponentTransformBase.h,v 1.5 2002/03/19 17:38:56 dirk Exp $"
+#define OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGComponentTransformBase.h,v 1.6 2002/03/25 01:25:59 vossg Exp $"
 
 #endif /* _OSGCOMPONENTTRANSFORMBASE_H_ */

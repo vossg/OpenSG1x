@@ -133,37 +133,37 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFReal32            *getSFLeft           (void);
-    inline       SFReal32            *getSFRight          (void);
-    inline       SFReal32            *getSFBottom         (void);
-    inline       SFReal32            *getSFTop            (void);
-    inline       SFUInt32            *getSFFullWidth      (void);
-    inline       SFUInt32            *getSFFullHeight     (void);
+           SFReal32            *getSFLeft           (void);
+           SFReal32            *getSFRight          (void);
+           SFReal32            *getSFBottom         (void);
+           SFReal32            *getSFTop            (void);
+           SFUInt32            *getSFFullWidth      (void);
+           SFUInt32            *getSFFullHeight     (void);
 
-    inline       Real32              &getLeft           (void);
-    inline const Real32              &getLeft           (void) const;
-    inline       Real32              &getRight          (void);
-    inline const Real32              &getRight          (void) const;
-    inline       Real32              &getBottom         (void);
-    inline const Real32              &getBottom         (void) const;
-    inline       Real32              &getTop            (void);
-    inline const Real32              &getTop            (void) const;
-    inline       UInt32              &getFullWidth      (void);
-    inline const UInt32              &getFullWidth      (void) const;
-    inline       UInt32              &getFullHeight     (void);
-    inline const UInt32              &getFullHeight     (void) const;
+           Real32              &getLeft           (void);
+     const Real32              &getLeft           (void) const;
+           Real32              &getRight          (void);
+     const Real32              &getRight          (void) const;
+           Real32              &getBottom         (void);
+     const Real32              &getBottom         (void) const;
+           Real32              &getTop            (void);
+     const Real32              &getTop            (void) const;
+           UInt32              &getFullWidth      (void);
+     const UInt32              &getFullWidth      (void) const;
+           UInt32              &getFullHeight     (void);
+     const UInt32              &getFullHeight     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setLeft           ( const Real32 &value );
-    inline void setRight          ( const Real32 &value );
-    inline void setBottom         ( const Real32 &value );
-    inline void setTop            ( const Real32 &value );
-    inline void setFullWidth      ( const UInt32 &value );
-    inline void setFullHeight     ( const UInt32 &value );
+     void setLeft           ( const Real32 &value );
+     void setRight          ( const Real32 &value );
+     void setBottom         ( const Real32 &value );
+     void setTop            ( const Real32 &value );
+     void setFullWidth      ( const UInt32 &value );
+     void setFullHeight     ( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -262,6 +262,6 @@ typedef TileCameraDecoratorBase *TileCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTILECAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorBase.h,v 1.15 2002/03/19 17:48:18 dirk Exp $"
+#define OSGTILECAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorBase.h,v 1.16 2002/03/25 01:26:00 vossg Exp $"
 
 #endif /* _OSGTILECAMERADECORATORBASE_H_ */
