@@ -59,8 +59,7 @@ class BaseThread;
 //#define MULTICAST_BUFFER_COUNT 31
 //#define MULTICAST_BUFFER_SIZE  8192
 
-#define MULTICAST_BUFFER_COUNT 2
-#define MULTICAST_BUFFER_SIZE  32768
+#define MULTICAST_BUFFER_SIZE  65000
 
 class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
 {
@@ -106,39 +105,25 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
     enum UDPHeaderType {
         ACK_REQUEST,
         ACK,
+        NAK,
         DATA,
         ALIVE,
-        SYNC,
         CONNECT,
         CLOSED
     };
-
-    typedef std::vector< std::vector<UInt8> > UDPBuffersT;
-
-    struct UDPBuffer;
-    friend struct UDPBuffer;
 
     struct UDPHeader
     {
         UInt32 seqNumber;
         UInt8  type;
     };
-    
     struct UDPBuffer
     {
-        UDPHeader  header;
-        
-        typedef struct 
-        {
-            UInt32 size;
-            UInt32 missing[MULTICAST_BUFFER_COUNT];
-        } nackT;
-
+        UDPHeader header;
         union 
         {
-            UInt8 data[1];
+            UInt8 data[MULTICAST_BUFFER_SIZE];
             UInt32 member;
-            nackT nack;
         };
     };
 
@@ -171,8 +156,8 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
     std::vector<UInt32>               _channelSeqNumber;
     UInt32                            _channel;
     UInt32                            _seqNumber;
-    UDPBuffersT                       _udpReadBuffers;
-    UDPBuffersT                       _udpWriteBuffers;
+    UDPBuffer                         _readBuffer;
+    UDPBuffer                         _writeBuffer;
     Time                              _maxWaitForAck;
     Time                              _waitForAck;
     Time                              _maxWaitForSync;

@@ -95,8 +95,6 @@ OSG_USING_NAMESPACE
 MulticastConnection::MulticastConnection(int ) :
 	Inherited(0),
     _seqNumber(1),
-    _udpReadBuffers(32),
-    _udpWriteBuffers(32),
     _maxWaitForAck(40),
     _waitForAck(0.04),
     _maxWaitForSync(0.5),
@@ -105,35 +103,18 @@ MulticastConnection::MulticastConnection(int ) :
     _stopAliveThread(false),
     _multicastGroupAddress()
 {
-    UInt32 i;
-
-    // create read buffers
-    _udpReadBuffers.resize( MULTICAST_BUFFER_COUNT );
-    for(i=0 ; i < (_udpReadBuffers.size() - 1) ; i++)
-    {
-        _udpReadBuffers[i].resize(MULTICAST_BUFFER_SIZE);
-        readBufAdd(&_udpReadBuffers[i][sizeof(UDPHeader)],
-                   _udpReadBuffers[i].size()-sizeof(UDPHeader));
-    }
-    _udpReadBuffers[i].resize(MULTICAST_BUFFER_SIZE);
-
-    // create write buffers
-    _udpWriteBuffers.resize( MULTICAST_BUFFER_COUNT );
-    for(i=0 ; i < (_udpWriteBuffers.size() - 1) ; i++)
-    {
-        _udpWriteBuffers[i].resize(MULTICAST_BUFFER_SIZE);
-        writeBufAdd(&_udpWriteBuffers[i][sizeof(UDPHeader)],
-                     _udpWriteBuffers[i].size()-sizeof(UDPHeader));
-    }
-    _udpWriteBuffers[i].resize(MULTICAST_BUFFER_SIZE);
+    // set read buffer
+    readBufAdd(_readBuffer.data,MULTICAST_BUFFER_SIZE);
+    // set write buffer
+    writeBufAdd(_writeBuffer.data,MULTICAST_BUFFER_SIZE);
 
     _socket.open();
     _groupSocket.open();
     _aliveSocket.open();
     _aliveSocket.bind();
 
-    int readSize  = MULTICAST_BUFFER_SIZE*MULTICAST_BUFFER_COUNT*2;
-    int writeSize = MULTICAST_BUFFER_SIZE*MULTICAST_BUFFER_COUNT;
+    int readSize  = MULTICAST_BUFFER_SIZE*2;
+    int writeSize = MULTICAST_BUFFER_SIZE*2;
     if(_socket.getWriteBufferSize() < writeSize)
         _socket.setWriteBufferSize(writeSize);
     if(_groupSocket.getWriteBufferSize() < writeSize)
@@ -257,7 +238,7 @@ void MulticastConnection::accept(void)
                 if(connect.header.type != CONNECT        ||
                    connect.member      != htonl(_member))
                     continue;
-                // we can only ansper the question from the first socket
+                // we can only answer the question from the first socket
                 // otherwise more then one connection is accepted
                 if(firstRequestPort != 0 && 
                    firstRequestPort != destination.getPort())
@@ -393,14 +374,14 @@ void MulticastConnection::selectChannel(UInt32 channel)
                 if(_channelAddress[i]==from &&
                    ( header.type == DATA ||
                      (header.type == ACK_REQUEST && 
-                      ntohl(header.seqNumber) > _channelSeqNumber[i])))
+                      ntohl(header.seqNumber) == _channelSeqNumber[i])))
                 {
                     _channel=i;
                     return;
                 }
             }
         }
-        _inSocket.recv(&header,sizeof(header));
+        _inSocket.recvAvailable(&header,sizeof(header));
     }
 }
 
@@ -420,91 +401,52 @@ const ConnectionType *MulticastConnection::getType()
  */
 void MulticastConnection::readBuffer()
 {
-    UDPBuffersT::iterator currentBuffer=_udpReadBuffers.begin(); 
-    BuffersT::iterator    buffer;
-    UDPHeader            *header;
-    UDPBuffer             responseAck;
-    UInt32                pos;
+    UDPHeader             response;
     SocketAddress         from;
-    SocketSelection       selection;
     UInt32                dataSize;
-    UInt32                nacks;
     UInt32                seqNumber;
-
-    // clear read buffers
-    for(buffer=readBufBegin();buffer!=readBufEnd();++buffer)
-        buffer->setDataSize(0);
 
     for(;;)
     {
-        selection.setRead(_inSocket);
-        if(selection.select(_readAliveTimeout)<=0)
+        if(_inSocket.waitReadable(_readAliveTimeout)<=0)
         {
             throw ReadError("Timeout");
         }
-        dataSize = _inSocket.recvFrom(&(*currentBuffer)[0],
-                                      currentBuffer->size(),
+        dataSize = _inSocket.recvFrom(&_readBuffer,
+                                      sizeof(_readBuffer),
                                       from);
         if(from != _channelAddress[_channel])
             continue;
-        header    = (UDPHeader*)&(*currentBuffer)[0];
-        seqNumber = ntohl(header->seqNumber);
+        seqNumber = ntohl(_readBuffer.header.seqNumber);
 
-        if(header->type == ACK_REQUEST)
+        // got a response request
+        if(_readBuffer.header.type == ACK_REQUEST)
         {
-            responseAck.header.type      = ACK;
-            responseAck.header.seqNumber = header->seqNumber;
-            nacks                        = 0;
-            if(seqNumber > _channelSeqNumber[_channel])
-            {
-                for(pos = 0 , buffer=readBufBegin();
-                    pos < (seqNumber - _channelSeqNumber[_channel]);
-                    pos++   , buffer++)
-                {
-                    if(buffer->getDataSize()==0)
-                    {
-                        SINFO << "missing" << pos << " " 
-                              << _channelSeqNumber[_channel] << " "
-                              << seqNumber << std::endl;
-                        responseAck.nack.missing[nacks++]=htonl(pos);
-                    }
-                }
-            }
-            responseAck.nack.size        = htonl(nacks);
-            // send ack
-            _socket.sendTo(&responseAck,
-                             (MemoryHandle)(&responseAck.nack.missing
-                                            [nacks])-
-                             (MemoryHandle)(&responseAck),
-                             from);
-            if(nacks==0 && 
-               _channelSeqNumber[_channel] < seqNumber)
-            {
-                // ok we got all packages
-                _channelSeqNumber[_channel] = seqNumber+1;
-                break;
-            }
+            if(seqNumber >= _channelSeqNumber[_channel])
+                response.type      = NAK;
+            else
+                response.type      = ACK;
+            response.seqNumber = htonl(seqNumber);
+            // send response
+            _socket.sendTo(&response,sizeof(response),from);
+            continue;
         }
-        if(header->type == DATA)
+        
+        if(_readBuffer.header.type == DATA)
         {
             // ignore old packages
-            if(seqNumber < _channelSeqNumber[_channel])
-            {
+            if(seqNumber != _channelSeqNumber[_channel])
                 continue;
-            }
-            buffer=readBufBegin() + (seqNumber -
-                                     _channelSeqNumber[_channel]);
-            // ignore retransmitted packages
-            if(buffer->getDataSize()>0)
-            {
-                continue;
-            }
-            buffer->setMem ( (MemoryHandle)&(*currentBuffer)
-                             [sizeof(UDPHeader)] );
-            buffer->setDataSize ( dataSize - sizeof(UDPHeader) );
-            buffer->setSize ( currentBuffer->size() );
-            currentBuffer++;
+            _channelSeqNumber[_channel] = seqNumber+1;
+            // send ack response
+            response.type      = ACK;
+            response.seqNumber = htonl(seqNumber);
+            _socket.sendTo(&response,sizeof(response),from);
+            // set data size
+            readBufBegin()->setDataSize ( dataSize - sizeof(UDPHeader) );
+            break;
         }
+        
     }
 }    
 
@@ -513,112 +455,68 @@ void MulticastConnection::readBuffer()
  */
 void MulticastConnection::writeBuffer(void)
 {
-    std::vector<int>            send;
-    std::vector<int>::iterator  sendI;
-    BuffersT::iterator          bufferI;
-    UDPHeader                   ackRequest;
     std::set<SocketAddress>     receivers(_channelAddress.begin(),
                                           _channelAddress.end());
-    std::set<SocketAddress>     missingAcks;
-    SocketSelection             selection;
-    UDPBuffer                   responseAck;
+    UDPHeader                   response;
+    UDPHeader                   request;
     Time                        waitTime,t0,t1;
     SocketAddress               from;
-    UDPHeader                  *header;
-    UInt32                      nacks;
+    UInt32                      datasize;
 
-    for(bufferI=writeBufBegin() ; 
-        bufferI!=writeBufEnd() && bufferI->getDataSize()>0 ;
-        bufferI++)
+    // send package
+    _writeBuffer.header.type      = DATA;
+    _writeBuffer.header.seqNumber = htonl(_seqNumber++);
+    datasize = writeBufBegin()->getDataSize()+sizeof(UDPHeader);
+    _socket.sendTo(&_writeBuffer,datasize,_destination);
+
+    // cancle transmission if maxWaitForAck reached
+    t0=OSG::getSystemTime();
+    while((!receivers.empty()) && 
+          (_maxWaitForAck-(OSG::getSystemTime()-t0))>0.001)
     {
-        header = (UDPHeader*)(
-            bufferI->getMem()-sizeof(UDPHeader));
-        header->type      = DATA;
-        header->seqNumber = htonl(_seqNumber++);
-        send.push_back(true);
-    }
 
-    // prepate ackRequest
-    ackRequest.seqNumber       = htonl(_seqNumber++);
-    ackRequest.type            = ACK_REQUEST;
-
-    // loop as long as one receiver needs some data
-    while(!receivers.empty())
-    {   
-        // send packages as fast as possible
-        for(sendI =  send.begin()       , bufferI=writeBufBegin();
-            sendI != send.end();
-            sendI++                     , bufferI++)
+        // wait for acknolages. Max _waitForAck seconds.
+        for(waitTime=_waitForAck,t1=OSG::getSystemTime();
+            waitTime>0.001 && (!receivers.empty());
+            waitTime=_waitForAck-(OSG::getSystemTime()-t1))
         {
-            if(*sendI == true)
+            if(_socket.waitReadable(waitTime)>0)
             {
-                _socket.sendTo(
-                    bufferI->getMem()      - sizeof(UDPHeader),
-                    bufferI->getDataSize() + sizeof(UDPHeader),
-                    _destination);
-                *sendI=false;
-            }
-        }
-        missingAcks=receivers;
-        // cancle transmission if maxWaitForAck reached
-        t0=OSG::getSystemTime();
-        while((!missingAcks.empty()) && 
-              (_maxWaitForAck-(OSG::getSystemTime()-t0))>0.001)
-        {
-            // send acknolage request
-            _socket.sendTo(&ackRequest,
-                           sizeof(UDPHeader),
-                           _destination);
-            // wait for acknolages. Max _waitForAck seconds.
-            for(waitTime=_waitForAck,t1=OSG::getSystemTime();
-                waitTime>0.001 && (!missingAcks.empty());
-                waitTime=_waitForAck-(OSG::getSystemTime()-t1))
-            {
-                selection.setRead(_socket);
-                if(selection.select(waitTime)>0)
+                _socket.recvFrom(&response,sizeof(response),from);
+                
+                // ignore if we are not waiting for this ack
+                if(receivers.find(from)==receivers.end())
+                    continue;
+                // ignore if wrong seq number
+                if(response.seqNumber != _writeBuffer.header.seqNumber)
+                    continue;
+                // ok
+                if(response.type == ACK)
+                    receivers.erase(from);
+                // not ok, retransmit
+                if(response.type == NAK)
                 {
-                    _socket.recvFrom(&responseAck,sizeof(responseAck),from);
-                    // ignore if we are not waiting for this ack
-                    if(missingAcks.find(from)==missingAcks.end())
-                    {
-                        continue;
-                    }
-                    // ignore if no ack or old package
-                    if(responseAck.header.type != ACK ||
-                       responseAck.header.seqNumber != 
-                       ackRequest.seqNumber)
-                    {
-                        continue;
-                    }
-                    // we got it, so we do not longer wait for this
-                    missingAcks.erase(from);
-                    nacks=ntohl(responseAck.nack.size);
-                    if(nacks==0)
-                    {
-                        // receiver has got all packages, so we can remove 
-                        // from list of receivers for this transmission
-                        receivers.erase(from);
-                    }
-                    else
-                    {
-                        // mark packages for retransmission
-                        for(UInt32 i=0;i<nacks;i++) 
-                        {
-                            SINFO << "Missing package "
-                                  << htonl(responseAck.nack.missing[i]) << " "
-                                  << from.getHost().c_str() << ":"
-                                  << from.getPort() << std::endl;
-                            send[ntohl(responseAck.nack.missing[i])]=true;
-                        }
-                    }
+                    FDEBUG(("Got NAK: %d\n",ntohl(response.seqNumber)))
+                    _socket.sendTo(&_writeBuffer,datasize,_destination);
                 }
             }
         }
-        // not all acks received after maxWaitForAck seconds
-        if(!missingAcks.empty())
+
+        // request ack
+        if(!receivers.empty())
         {
-            throw WriteError("ACK Timeout");
+            request.type      = ACK_REQUEST;
+            request.seqNumber = _writeBuffer.header.seqNumber;
+            _socket.sendTo(&request,sizeof(request),
+                           _destination);
+            FDEBUG(( "No response, request ACK: %d\n",ntohl(request.seqNumber)))
         }
+            
+    }
+    // not all acks received after maxWaitForAck seconds
+    if(!receivers.empty())
+    {
+        throw WriteError("ACK Timeout");
     }
 }
 
