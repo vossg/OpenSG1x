@@ -65,7 +65,7 @@
 #include <GL/glx.h>   
 #endif
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 #if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
 #pragma warning (disable)
@@ -828,6 +828,7 @@ void Window::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 }
 
     
+OSG_END_NAMESPACE
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
