@@ -88,7 +88,7 @@ For finer-level iterators see \sa FaceIterator \sa TriangleIterator.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.19 2002/02/15 14:55:45 dirk Exp $";
+char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.20 2002/02/19 16:57:43 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -250,9 +250,18 @@ void PrimitiveIterator::operator++ ()
     else
     {
         _actPrimType = _types->getValue( _primIndex );
-        _actPrimLength = (_lengths != NullFC) ?     
-                            _lengths->getValue( _primIndex ) :
-                            _geo->getPositions()->getSize();
+        if(_lengths != NullFC)
+        {
+            _actPrimLength = _lengths->getValue( _primIndex );
+        }
+        else if(_indices != NullFC)
+        {
+            _actPrimLength = _indices->getSize() / _nmappings;
+        }
+        else
+        {
+            _actPrimLength = _geo->getPositions()->getSize() / _nmappings;
+        }
     }
 }
 
@@ -273,9 +282,18 @@ void PrimitiveIterator::setToBegin( void )
     if ( _types != NullFC && _types->getSize() > 0 )
     {
         _actPrimType = _types->getValue( _primIndex );
-        _actPrimLength = (_lengths != NullFC) ?     
-                            _lengths->getValue( _primIndex ) :
-                            _geo->getPositions()->getSize();
+        if(_lengths != NullFC)
+        {
+            _actPrimLength = _lengths->getValue( _primIndex );
+        }
+        else if(_indices != NullFC)
+        {
+            _actPrimLength = _indices->getSize() / _nmappings;
+        }
+        else
+        {
+            _actPrimLength = _geo->getPositions()->getSize() / _nmappings;
+        }
     }
     else
     {
