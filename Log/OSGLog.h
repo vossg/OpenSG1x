@@ -187,7 +187,7 @@ private:
  
   std::list<LogBuf::Chunk*> _chunkBag;
   
-  LogBuf::Callback _callback;
+  Callback _callback;
   void* _clientData; 
 
   const LogBuf &operator=(const LogBuf &);
@@ -281,7 +281,7 @@ class OSG_BASE_DLLMAPPING Log : public ostream
                               const Char8    *file,
                                     UInt32    line);
 
-    void  doLog (char * format, ...);
+    void  doLog (const char * format, ...);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

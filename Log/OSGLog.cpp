@@ -655,7 +655,7 @@ void Log::setLogFile(const Char8 *fileName, Bool force)
 /*! \brief print for C-interface helper method 
  */
 
-void Log::doLog(char * format, ...)
+void Log::doLog(const char * format, ...)
 {
     char buffer[1000];
     va_list args;
