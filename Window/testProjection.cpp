@@ -75,7 +75,7 @@ void keyboard(unsigned char k, int, int)
                 break;         
     }
     
-    cout << " ED:" << ed << endl;
+    std::cout << " ED:" << ed << std::endl;
     
     for (int i = 0; i < 6; ++i)
     {

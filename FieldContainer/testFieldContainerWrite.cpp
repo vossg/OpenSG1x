@@ -1,10 +1,6 @@
 #include <OSGConfig.h>
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
-#else
-#include <iostream.h>
-#endif
 
 #include <string>
 #include <map>
@@ -37,10 +33,10 @@ OSG_USING_NAMESPACE
 class OSGWriter
 {
     public:
-    OSGWriter(ostream& stream, UInt32 indentStep=4);
+    OSGWriter(std::ostream& stream, UInt32 indentStep=4);
     ~OSGWriter(void);
     void write( NodePtr node );
-    void write( vector<NodePtr> nodes );
+    void write( std::vector<NodePtr> nodes );
 
     private:
     void indentLine(void);
@@ -48,19 +44,19 @@ class OSGWriter
     void doListFC( FieldContainerPtr fieldConPtr );
     void doPrintListedFC( FieldContainerPtr fieldConPtr );
 
-    ostream& _outstream;
+    std::ostream& _outstream;
 
     struct SharedFCInfoHelper
     {
         bool printed;
         bool named;
-        string name;
-        static string buildName(FieldContainerPtr fcptr,
+        std::string name;
+        static std::string buildName(FieldContainerPtr fcptr,
                                      UInt32 num);
         SharedFCInfoHelper(void) : printed(false), named(false) {}
     };
 
-    typedef map<FieldContainerPtr, SharedFCInfoHelper> SharedFCInfoMap;
+    typedef std::map<FieldContainerPtr, SharedFCInfoHelper> SharedFCInfoMap;
 
     SharedFCInfoMap _fcmap;
     UInt32 _sharedFCCount;
@@ -68,7 +64,7 @@ class OSGWriter
     UInt32 _indentStep;
 };
 
-OSGWriter::OSGWriter(ostream& stream, UInt32 indentStep) :
+OSGWriter::OSGWriter(std::ostream& stream, UInt32 indentStep) :
                     _outstream(stream), _indentStep(indentStep)
 {
     ;
@@ -85,21 +81,21 @@ void OSGWriter::write(NodePtr node)
     _sharedFCCount = 0;
     _indention = 0;
 
-    _outstream << "#OSG V1.0 " << endl;
+    _outstream << "#OSG V1.0 " << std::endl;
 
     doListFC(node);
     doPrintListedFC(node);
 }
 
-void OSGWriter::write(vector<NodePtr> nodes)
+void OSGWriter::write(std::vector<NodePtr> nodes)
 {
     _fcmap.clear();
     _sharedFCCount = 0;
     _indention = 0;
 
-    _outstream << "#OSG V1.0 " << endl;
+    _outstream << "#OSG V1.0 " << std::endl;
 
-    vector<NodePtr>::iterator iter = nodes.begin();
+    std::vector<NodePtr>::iterator iter = nodes.begin();
     for( ; iter != nodes.end(); ++iter )
     {
         doListFC( *iter );
@@ -132,8 +128,8 @@ void OSGWriter::doListFC( FieldContainerPtr fieldConPtr )
         return;
     }
 
-    if( _fcmap.insert(make_pair(fieldConPtr, SharedFCInfoHelper()) ).second ==
-                                                                         true )
+    if( _fcmap.insert(std::make_pair(fieldConPtr, 
+                                     SharedFCInfoHelper()) ).second == true )
     {
         FieldContainerType &fcType = fieldConPtr->getType();
         for( UInt32 i=1; i <= fcType.getNumFieldDescs(); ++i )
@@ -170,7 +166,7 @@ void OSGWriter::doListFC( FieldContainerPtr fieldConPtr )
         SharedFCInfoMap::iterator iter = _fcmap.find( fieldConPtr );
         if( iter == _fcmap.end() )
         {
-            cerr << "ERROR: This should not happen!" << endl;
+            std::cerr << "ERROR: This should not happen!" << std::endl;
         }
         if( (*iter).second.named == false )
         {
@@ -186,13 +182,13 @@ void OSGWriter::doPrintListedFC( FieldContainerPtr fieldConPtr )
 {
     if( fieldConPtr == NullFC )
     {
-        indentLine(); _outstream << "NULL" << endl;
+        indentLine(); _outstream << "NULL" << std::endl;
         return;
     }
     SharedFCInfoMap::iterator iter = _fcmap.find(fieldConPtr);
     if( iter == _fcmap.end() )
     {
-        cerr << "ERROR: This should not happen!" << endl;
+        std::cerr << "ERROR: This should not happen!" << std::endl;
     }
     if( (*iter).second.printed == false )
     {
@@ -205,7 +201,7 @@ void OSGWriter::doPrintListedFC( FieldContainerPtr fieldConPtr )
 
         }
         _outstream << fieldConPtr->getTypeName()
-                   << " {" << endl;
+                   << " {" << std::endl;
         for( UInt32 i=1; i <= fcType.getNumFieldDescs(); ++i )
         {
             FieldDescription* fDesc = fcType.getFieldDescription(i);
@@ -218,7 +214,7 @@ void OSGWriter::doPrintListedFC( FieldContainerPtr fieldConPtr )
                 {
                     if( fieldPtr->getCardinality() == FieldType::SINGLE_FIELD )
                     {
-                        _outstream << endl;
+                        _outstream << std::endl;
                         _indention += _indentStep;
                         doPrintListedFC( ((SFFieldContainerPtr *)
                                           fieldPtr)->getValue() );
@@ -227,7 +223,7 @@ void OSGWriter::doPrintListedFC( FieldContainerPtr fieldConPtr )
                     else if( fieldPtr->getCardinality() ==
                                      FieldType::MULTI_FIELD )
                     {
-                        _outstream << " [" << endl;
+                        _outstream << " [" << std::endl;
                         _indention += _indentStep;
                         for( UInt32 j=0;
                           j<((MFFieldContainerPtr *) fieldPtr)->size(); ++j )
@@ -236,47 +232,47 @@ void OSGWriter::doPrintListedFC( FieldContainerPtr fieldConPtr )
                                 (*(((MFFieldContainerPtr *)fieldPtr)))[j] );
                         }
                         _indention -= _indentStep;
-                        indentLine(); _outstream << "]" <<endl;
+                        indentLine(); _outstream << "]" <<std::endl;
                     }
                 }
                 else
                 {
-                    string val;
+                    std::string val;
                     fieldPtr->getValueByStr(val);
                     if( fieldPtr->getCardinality() == FieldType::SINGLE_FIELD )
                     {
-                        _outstream << " " << val <<endl;
+                        _outstream << " " << val <<std::endl;
                     }
                     else
                     {
-                        _outstream << " [" << endl;
+                        _outstream << " [" << std::endl;
                         _indention += _indentStep;
-                        indentLine(); _outstream << val <<endl;
+                        indentLine(); _outstream << val <<std::endl;
                         _indention -= _indentStep;
-                        indentLine(); _outstream << "]" << endl;
+                        indentLine(); _outstream << "]" << std::endl;
                     }
                 }
             }
         }
-        indentLine(); _outstream << "}" << endl;
+        indentLine(); _outstream << "}" << std::endl;
     }
     else
     {
         if( (*iter).second.named == false )
         {
-            cerr << "WARNING: FC is shared, but was not named!" << endl;
+            std::cerr << "WARNING: FC is shared, but was not named!" << std::endl;
         }
         indentLine(); _outstream << "USE "
-                                 << (*iter).second.name << endl;
+                                 << (*iter).second.name << std::endl;
     }
 }
 
 
-string OSGWriter::SharedFCInfoHelper::buildName(
-                                            FieldContainerPtr ,
-                                            UInt32 num)
+std::string OSGWriter::SharedFCInfoHelper::buildName(
+    FieldContainerPtr ,
+    UInt32 num)
 {
-    string temp;
+    std::string temp;
     temp.assign( "FCName" );
     temp.append( TypeConstants<UInt32>::putToString(num) );
     return temp;
@@ -287,7 +283,7 @@ string OSGWriter::SharedFCInfoHelper::buildName(
 int main (int argc, char *argv[])
 {
     for ( int i = 0; i < argc; i++ )
-        cout << "Param " << i << ":" << argv[i] << endl;
+        std::cout << "Param " << i << ":" << argv[i] << std::endl;
 
     osgInit(argc, argv);
 
@@ -302,14 +298,14 @@ int main (int argc, char *argv[])
 
     NodePtr root = SceneFileHandler::the().read(inFileName,0);
 
-    ofstream outFileStream( outFileName );
+    std::ofstream outFileStream( outFileName );
     if( !outFileStream )
     {
-        cerr << "Can not open output stream to file: " << outFileName << endl;
+        std::cerr << "Can not open output stream to file: " << outFileName << std::endl;
         return -1;
     }
 
-    cerr << "STARTING PRINTOUT:" << endl;
+    std::cerr << "STARTING PRINTOUT:" << std::endl;
     OSGWriter writer( outFileStream, 4 );
     writer.write( root );
 

@@ -99,7 +99,7 @@ display(void)
 
 void reshape( int w, int h )
 {
-	cerr << "Reshape: " << w << "," << h << endl;
+	std::cerr << "Reshape: " << w << "," << h << std::endl;
 	win->resize( w, h );
 }
 
@@ -190,31 +190,31 @@ void key(unsigned char key, int , int )
 	{
 	case 27:	osgExit(); exit(0);
 	case 'z':	glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
-				cerr << "PolygonMode: Point." << endl;
+				std::cerr << "PolygonMode: Point." << std::endl;
 				break;
 	case 'x':	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
-				cerr << "PolygonMode: Line." << endl;
+				std::cerr << "PolygonMode: Line." << std::endl;
 				break;
 	case 'c':	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
-				cerr << "PolygonMode: Fill." << endl;
+				std::cerr << "PolygonMode: Fill." << std::endl;
 				break;
 	case 'q':	glDisable( GL_COLOR_MATERIAL );
-				cerr << "ColorMaterial disabled." << endl;
+				std::cerr << "ColorMaterial disabled." << std::endl;
 				break;
 	case 'w':	glEnable( GL_COLOR_MATERIAL );
-				cerr << "ColorMaterial enabled." << endl;
+				std::cerr << "ColorMaterial enabled." << std::endl;
 				break;
 	case 'e':	doWire = !doWire;
-				cerr << "BBox render: " << (doWire?"on":"off") << endl;
+				std::cerr << "BBox render: " << (doWire?"on":"off") << std::endl;
 				break;
 	case 'd':	ract->setFrustumCulling( ! ract->getFrustumCulling() );
-				cerr << "Culling: " << (ract->getFrustumCulling()?"on":"off") << endl;
+				std::cerr << "Culling: " << (ract->getFrustumCulling()?"on":"off") << std::endl;
 				break;
 	case 'f':	ract->setVolumeDrawing( ! ract->getVolumeDrawing() );
-				cerr << "Volume Drawing: " << (ract->getVolumeDrawing()?"on":"off") << endl;
+				std::cerr << "Volume Drawing: " << (ract->getVolumeDrawing()?"on":"off") << std::endl;
 				break;
 	case 'r':	headlight->setOn( ! headlight->getOn() );
-				cerr << "Headlight: " << (headlight->getOn()?"on":"off") << endl;
+				std::cerr << "Headlight: " << (headlight->getOn()?"on":"off") << std::endl;
 				break;
 	case 'R':	doRender = !doRender;
 				printf("Now using %s action\n", doRender?"render":"draw" );
@@ -373,9 +373,9 @@ int main (int argc, char **argv)
     Vec3f min,max;
     dlight->getVolume().getBounds( min, max );
 	
-    cout << "Volume: from " << min << " to " << max << endl;
+    std::cout << "Volume: from " << min << " to " << max << std::endl;
 
-    //cerr << "Tree: " << endl;
+    //std::cerr << "Tree: " << std::endl;
     //root->dump();
 
 	// Camera
@@ -403,7 +403,7 @@ int main (int argc, char **argv)
 	vp->setSize( 0,0, 1,1 );
 
 	// Window
-	cout << "GLUT winid: " << winid << endl;
+	std::cout << "GLUT winid: " << winid << std::endl;
 
 	GLUTWindowPtr gwin;
 

@@ -32,7 +32,7 @@ TextureTransformChunkPtr txchunk;
 CubeTextureChunkPtr cchunk1;
 TexGenChunkPtr gchunk1;
 
-Image image;
+Image *pImage;
 
 GLint dlid, dlid2;
 
@@ -101,16 +101,16 @@ void key(unsigned char key, int , int)
     case 'a':   UChar8 imgdata[32];
                 for ( int i = 0; i < 32; i++ )
                     imgdata[i] = (UChar8) rand();
-                image.set( Image::OSG_RGB_PF, 2, 2, 2, 1, 1, 0, imgdata );
+                pImage->set( Image::OSG_RGB_PF, 2, 2, 2, 1, 1, 0, imgdata );
                 xchunk1->imageContentChanged();
                 break;
     case 'b':   {
                 UChar8 imgdata[16];
                 for ( int i = 0; i < 16; i++ )
                     imgdata[i] = (UChar8) rand();
-                image.set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
+                pImage->set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
                 beginEditCP( xchunk1 );
-                xchunk1->setImage( &image );
+                xchunk1->setImage( pImage );
                 endEditCP( xchunk1 );
                 }
                 break;
@@ -145,6 +145,8 @@ int main( int argc, char *argv[] )
     // glutMotionFunc(motion);
 
     glutIdleFunc(display);
+
+    pImage = new Image;
 
     // create the dummy structures
 
@@ -224,14 +226,14 @@ int main( int argc, char *argv[] )
            255,255,0,  255,255,0,  255,255,255, };
 //  UChar8 limgdata[] =
 //      {  0, 128, 64, 255 };
-    image.set( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata );
+    pImage->set( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata );
 
     if ( argc > 1 )
-        image.read( argv[1] );
+        pImage->read( argv[1] );
 
     xchunk1 = TextureChunk::create();
     beginEditCP(xchunk1);
-    xchunk1->setImage( &image );
+    xchunk1->setImage( pImage );
     xchunk1->setMinFilter( GL_LINEAR );
     xchunk1->setMagFilter( GL_NEAREST );
     xchunk1->setWrapS( GL_REPEAT );
@@ -243,17 +245,17 @@ int main( int argc, char *argv[] )
     xchunk1->imageContentChanged();
 
     beginEditCP(xchunk1);
-    xchunk1->setImage( &image );
+    xchunk1->setImage( pImage );
     endEditCP(xchunk1);
 
     UChar8 imgdata2[] =
     {  255,0,0,  0,255,0,  0,0,255,  255,255,255 };
 
-    Image image2( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata2 );
+    Image *pImage2 = new Image(Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata2);
 
     xchunk2 = TextureChunk::create();
     beginEditCP(xchunk2);
-    xchunk2->setImage( &image2 );
+    xchunk2->setImage( pImage2 );
     xchunk2->setMinFilter( GL_LINEAR );
     xchunk2->setMagFilter( GL_NEAREST );
     xchunk2->setWrapS( GL_REPEAT );
@@ -270,22 +272,22 @@ int main( int argc, char *argv[] )
            negx[] = {  255,0,255,  128,0,128,  64,0,64,  255,255,255 },
            posx[] = {  0,255,255,  0,128,128,  0,64,64,  255,255,255 };
     
-    Image inegz( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, negz ),
-          iposz( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, posz ),
-          inegy( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, negy ),
-          iposy( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, posy ),
-          inegx( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, negx ),
-          iposx( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, posx );
+    Image *inegz = new Image( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, negz );
+    Image *iposz = new Image( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, posz );
+    Image *inegy = new Image( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, negy );
+    Image *iposy = new Image( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, posy );
+    Image *inegx = new Image( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, negx );
+    Image *iposx = new Image( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, posx );
     
     
     cchunk1 = CubeTextureChunk::create();
     beginEditCP(cchunk1);
-    cchunk1->setImage( &inegz );
-    cchunk1->setPosZImage( &iposz );
-    cchunk1->setPosYImage( &iposy );
-    cchunk1->setNegYImage( &inegy );
-    cchunk1->setPosXImage( &iposx );
-    cchunk1->setNegXImage( &inegx );
+    cchunk1->setImage( inegz );
+    cchunk1->setPosZImage( iposz );
+    cchunk1->setPosYImage( iposy );
+    cchunk1->setNegYImage( inegy );
+    cchunk1->setPosXImage( iposx );
+    cchunk1->setNegXImage( inegx );
     cchunk1->setMinFilter( GL_LINEAR );
     cchunk1->setMagFilter( GL_NEAREST );
     cchunk1->setWrapS( GL_REPEAT );

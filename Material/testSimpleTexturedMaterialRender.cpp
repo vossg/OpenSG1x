@@ -117,9 +117,9 @@ int main (int argc, char **argv)
     UChar8 imgdata[] =
         {  255,0,0,128,  255,0,0,255,  255,0,255,0,
            255,0,0,128,  255,0,0,255,  255,0,255,0 };
-    Image image( Image::OSG_RGBA_PF, 3, 2, 1, 1, 1, 0, imgdata );
+    Image *pImage = new Image( Image::OSG_RGBA_PF, 3, 2, 1, 1, 1, 0, imgdata );
 
-    pm->setImage( &image ); // NOTE: the image is NOT copied, the variable
+    pm->setImage( pImage ); // NOTE: the image is NOT copied, the variable
                             // needs to be kept around as long as the texture
                             // is used
     pm->setMagFilter( GL_NEAREST );
@@ -137,9 +137,9 @@ int main (int argc, char **argv)
     UChar8 imgdata2[] =
         {  255,0,0,  255,0,0,  255,0,255,
            255,0,0,  255,0,0,  255,0,255 };
-    Image image2( Image::OSG_RGB_PF, 3, 2, 1, 1, 1, 0, imgdata2 );
+    Image *pImage2 = new Image( Image::OSG_RGB_PF, 3, 2, 1, 1, 1, 0, imgdata2 );
 
-    tm->setImage( &image2 );
+    tm->setImage( pImage2 );
     tm->setEnvMode( GL_REPLACE );
     tm->setEnvMap( true );
     endEditCP(tm);

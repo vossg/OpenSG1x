@@ -89,14 +89,14 @@ int main(int argc, char **argv)
    
     UChar8 imgdata1[] =
         {  255,0,0,  0,255,0,  0,0,255, 255,0,255 };
-    Image img1(Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata1 );
+    Image *pImg1 = new Image(Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata1 );
    
     UChar8 imgdata2[] =
         {  64,64,64, 128,128,128, 192,192,192, 255,255,255 };
-    Image img2(Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata2 );
+    Image *pImg2 = new Image(Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata2 );
     
     beginEditCP(tx1);
-    tx1->setImage(&img1); // NOTE: the image is NOT copied, the variable
+    tx1->setImage(pImg1); // NOTE: the image is NOT copied, the variable
                           // needs to be kept around as long as the 
                           // texture is used
     tx1->setMinFilter(GL_LINEAR);
@@ -107,7 +107,7 @@ int main(int argc, char **argv)
     endEditCP(tx1);
     
     beginEditCP(tx2);
-    tx2->setImage(&img2); // NOTE: the image is NOT copied, the variable
+    tx2->setImage(pImg2); // NOTE: the image is NOT copied, the variable
                           // needs to be kept around as long as the 
                           // texture is used
     tx2->setMinFilter(GL_NEAREST);

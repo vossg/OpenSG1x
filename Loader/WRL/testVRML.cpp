@@ -16,11 +16,11 @@ int main(int argc, char **argv)
 
     pRoot = OSG::SceneFileHandler::the().read(argv[1]);
 
-    cerr << "Tree : " << endl;
+    std::cerr << "Tree : " << std::endl;
 
     if(pRoot == OSG::NullFC)
     {
-        cerr << "\t Empty" << endl;
+        std::cerr << "\t Empty" << std::endl;
     }
     else
     {

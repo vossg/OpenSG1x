@@ -31,7 +31,7 @@ using namespace OSG;
 
 Action::ResultE groupEnter(CNodePtr& node, Action * action) 
 { 
-    cerr << "groupEnter: " << node << " " << action << endl;
+    std::cerr << "groupEnter: " << node << " " << action << std::endl;
     return Action::Continue; 
 }
 
@@ -39,7 +39,7 @@ Action::ResultE groupEnter(CNodePtr& node, Action * action)
 
 Action::ResultE geometryEnter(CNodePtr& node, Action * action) 
 { 
-    cerr << "geometryEnter: " << node << " " << action << endl;
+    std::cerr << "geometryEnter: " << node << " " << action << std::endl;
     
     IntersectAction * ia = dynamic_cast<IntersectAction*>(action);
     NodePtr n( node );
@@ -66,7 +66,7 @@ Action::ResultE geometryEnter(CNodePtr& node, Action * action)
 
 Action::ResultE transformEnter(CNodePtr& node, Action * action) 
 { 
-    cerr << "transformEnter: " << node << " " << action << endl;
+    std::cerr << "transformEnter: " << node << " " << action << std::endl;
 
     IntersectAction * ia = dynamic_cast<IntersectAction*>(action);
     NodePtr n( node );
@@ -85,7 +85,7 @@ Action::ResultE transformEnter(CNodePtr& node, Action * action)
 
 Action::ResultE transformLeave(CNodePtr& node, Action * action) 
 { 
-    cerr << "transformLeave: " << node << " " << action << endl;
+    std::cerr << "transformLeave: " << node << " " << action << std::endl;
 
     IntersectAction * ia = dynamic_cast<IntersectAction*>(action);
     NodePtr n( node );
@@ -179,17 +179,17 @@ int main (int argc, char **argv)
 
         act->apply( g1 );
 
-        cerr << "Line " << act->getLine().getPosition() << " dir " 
+        std::cerr << "Line " << act->getLine().getPosition() << " dir " 
              << act->getLine().getDirection() << " hit: " << act->didHit() << " ";
 
         if ( act->didHit() )
         {
-            cerr << " object " << act->getHitObject() 
+            std::cerr << " object " << act->getHitObject() 
                  << " tri " << act->getHitTriangle() 
                  << " at " << act->getHitPoint();
         }
 
-        cerr << endl;
+        std::cerr << std::endl;
     }
     
     return 0;

@@ -102,7 +102,7 @@ display(void)
 
 void reshape( int w, int h )
 {
-    cerr << "Reshape: " << w << "," << h << endl;
+    std::cerr << "Reshape: " << w << "," << h << std::endl;
     win->resize( w, h );
 }
 
@@ -273,55 +273,55 @@ void key(unsigned char key, int, int)
             OSG::osgExit(); exit(0);
         case 'a':   
             glDisable( GL_LIGHTING );
-            cerr << "Lighting disabled." << endl;
+            std::cerr << "Lighting disabled." << std::endl;
             break;
         case 's':   
             glEnable( GL_LIGHTING );
-            cerr << "Lighting enabled." << endl;
+            std::cerr << "Lighting enabled." << std::endl;
             break;
         case 'z':   
             glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
-            cerr << "PolygonMode: Point." << endl;
+            std::cerr << "PolygonMode: Point." << std::endl;
             break;
         case 'x':   
             glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
-            cerr << "PolygonMode: Line." << endl;
+            std::cerr << "PolygonMode: Line." << std::endl;
             break;
         case 'c':   
             glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
-            cerr << "PolygonMode: Fill." << endl;
+            std::cerr << "PolygonMode: Fill." << std::endl;
             break;
         case 'w':   
             doWire = !doWire;
-            cerr << "BBox render: " << (doWire?"on":"off") << endl;
+            std::cerr << "BBox render: " << (doWire?"on":"off") << std::endl;
             break;
         case 'd':
             root->dump(0, 0);
             break;
         case 'v':
             glEnable(GL_COLOR_MATERIAL);
-            cerr << "Color material on" << endl;
+            std::cerr << "Color material on" << std::endl;
             break;
         case 'V':
             glDisable(GL_COLOR_MATERIAL);
-            cerr << "Color material off" << endl;
+            std::cerr << "Color material off" << std::endl;
             break;
         case 'b':     
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            cerr << "Blending on" << endl;
+            std::cerr << "Blending on" << std::endl;
             break;
         case 'B':     
             glDisable(GL_BLEND);
-            cerr << "Blending off" << endl;
+            std::cerr << "Blending off" << std::endl;
             break;
         case 'f':     
             ract->setFrustumCulling(true);
-            cerr << "Frustum cull on" << endl;
+            std::cerr << "Frustum cull on" << std::endl;
             break;
         case 'F':     
             ract->setFrustumCulling(false);            
-            cerr << "Frustum cull off" << endl;
+            std::cerr << "Frustum cull off" << std::endl;
             break;
             
         case '1':
@@ -455,9 +455,9 @@ int main (int argc, char **argv)
     OSG::Vec3f min,max;
     vol->getBounds( min, max );
     
-    cout << "Volume: from " << min << " to " << max << endl;
+    std::cout << "Volume: from " << min << " to " << max << std::endl;
 
-//  cerr << "Tree: " << endl;
+//  std::cerr << "Tree: " << std::endl;
 //    root->print();
 
     // Camera
@@ -481,7 +481,7 @@ int main (int argc, char **argv)
     vp->setSize( 0,0, 1,1 );
 
     // Window
-    cout << "GLUT winid: " << winid << endl;
+    std::cout << "GLUT winid: " << winid << std::endl;
 
     OSG::GLUTWindowPtr gwin;
 
@@ -500,7 +500,7 @@ int main (int argc, char **argv)
     
     ract = OSG::RenderAction::create();
 
-    cerr << "Calculating normals...";
+    std::cerr << "Calculating normals...";
     
     // Task 1: Cal Vertex Normals
 //  ract->registerEnterFunction( OSG::Geometry::getClassType(),
@@ -508,7 +508,7 @@ int main (int argc, char **argv)
     
 //  ract->apply( dlight );
 
-    cerr << "done." << endl;
+    std::cerr << "done." << std::endl;
     
     // Task 2: draw wireframe bbox, if wanted
 //  ract->registerEnterFunction( OSG::Geometry::getClassType(),

@@ -32,15 +32,15 @@ class Core1 : public NodeCore
 
    Action::ResultE enter(Action * action )
    {
-        cerr << "Core1::enter: " << this << " action " 
-             << action << endl;
+        std::cerr << "Core1::enter: " << this << " action " 
+             << action << std::endl;
         return Action::Continue;        
    }
    
    Action::ResultE leave(Action * action )
    {
-        cerr << "Core1::leave: " << this << " action " 
-             << action << endl;
+        std::cerr << "Core1::leave: " << this << " action " 
+             << action << std::endl;
         return Action::Continue;        
    }
     
@@ -111,15 +111,15 @@ public:
 
     Action::ResultE enter(CNodePtr &node, Action * action)
     { 
-        cerr << "Core1 enter: " << node << " action " 
-             << hex << action << " for Core1 " << this << endl;
+        std::cerr << "Core1 enter: " << node << " action " 
+             << std::hex << action << " for Core1 " << this << std::endl;
         return Action::Continue; 
     }
 
     Action::ResultE leave(CNodePtr &node, Action * action)
     { 
-        cerr << "Core1 leave: " << node << " action " 
-             << hex << action << " for Core1 " << this << endl;
+        std::cerr << "Core1 leave: " << node << " action " 
+             << std::hex << action << " for Core1 " << this << std::endl;
         return Action::Continue; 
     }
 };
@@ -129,16 +129,16 @@ public:
 
 Action::ResultE Core2Enter(CNodePtr& node, Action * action) 
 { 
-    cerr << "Core2 enter: " << node 
-         << " action " << hex << action << endl;
+    std::cerr << "Core2 enter: " << node 
+         << " action " << std::hex << action << std::endl;
 
     return Action::Continue; 
 }
 
 Action::ResultE Core2Leave(CNodePtr& node, Action * action) 
 { 
-    cerr << "Core2 leave: " << node 
-         << " action " << hex << action << endl;
+    std::cerr << "Core2 leave: " << node 
+         << " action " << std::hex << action << std::endl;
 
     return Action::Continue; 
 }
@@ -148,8 +148,8 @@ Action::ResultE Core2Leave(CNodePtr& node, Action * action)
 
 Action::ResultE firstOnly(CNodePtr& node, Action * action) 
 { 
-    cerr << "Core1 (first only) enter: " << node << " action " << hex << action 
-         << endl;
+    std::cerr << "Core1 (first only) enter: " << node << " action " << std::hex << action 
+         << std::endl;
 
     const NodePtr p = action->getNode( 0 );
 
@@ -163,32 +163,32 @@ Action::ResultE firstOnly(CNodePtr& node, Action * action)
 
 Action::ResultE defenter1(CNodePtr& node, Action * action) 
 { 
-    cerr << "Default enter 1 called: " << node 
-         << " action " << hex << action << endl;
+    std::cerr << "Default enter 1 called: " << node 
+         << " action " << std::hex << action << std::endl;
 
     return Action::Continue; 
 }
 
 Action::ResultE defleave1(CNodePtr& node, Action * action) 
 { 
-    cerr << "Default leave 1 called: " << node 
-         << " action " << hex << action << endl;
+    std::cerr << "Default leave 1 called: " << node 
+         << " action " << std::hex << action << std::endl;
 
     return Action::Continue; 
 }
 
 Action::ResultE defenter2(CNodePtr& node, Action * action) 
 { 
-    cerr << "Default enter 2 called: " << node 
-         << " action " << hex << action << endl;
+    std::cerr << "Default enter 2 called: " << node 
+         << " action " << std::hex << action << std::endl;
 
     return Action::Continue; 
 }
 
 Action::ResultE defleave2(CNodePtr& node, Action * action) 
 { 
-    cerr << "Default leave 2 called: " << node 
-         << " action " << hex << action << endl;
+    std::cerr << "Default leave 2 called: " << node 
+         << " action " << std::hex << action << std::endl;
 
     return Action::Continue; 
 }
@@ -196,14 +196,14 @@ Action::ResultE defleave2(CNodePtr& node, Action * action)
 
 Action::ResultE traventer(NodePtr& node) 
 { 
-    cerr << "traventer called: " << node << endl;
+    std::cerr << "traventer called: " << node << std::endl;
 
     return Action::Continue; 
 }
 
 Action::ResultE travleave(NodePtr& node, Action::ResultE res) 
 { 
-    cerr << "travleave called: " << node << " " << res << endl;
+    std::cerr << "travleave called: " << node << " " << res << std::endl;
 
     return Action::Continue; 
 }
@@ -212,13 +212,13 @@ struct TravActor
 {
     Action::ResultE enter(NodePtr& n)
     {
-        cerr << "TravActor::enter " << this << " Node " << n << endl;
+        std::cerr << "TravActor::enter " << this << " Node " << n << std::endl;
         return Action::Continue;
     }
     Action::ResultE leave(NodePtr& n, Action::ResultE res)
     {
-        cerr << "TravActor::leave " << this << " Node " << n 
-             << " Res " << res << endl;
+        std::cerr << "TravActor::leave " << this << " Node " << n 
+             << " Res " << res << std::endl;
         return Action::Continue;
     }
 };
@@ -270,7 +270,7 @@ int main( int argc, char *argv[] )
     Action *act1;
     act1 = Action::create();
 
-    cerr << "Apply (c2 unset):" << endl;
+    std::cerr << "Apply (c2 unset):" << std::endl;
     act1->apply(g2);    
 
     Action::registerEnterDefault(Core2::getClassType(), 
@@ -285,14 +285,14 @@ int main( int argc, char *argv[] )
                                      Action *                   >(defleave2));
 
 
-    cerr << "Apply (c2 unset, pickup from default):" << endl;
+    std::cerr << "Apply (c2 unset, pickup from default):" << std::endl;
     act1->apply(g2);    
 
 
     Action *act2;
     act2 = Action::create();
 
-    cerr << "Apply (c2 set):" << endl;
+    std::cerr << "Apply (c2 set):" << std::endl;
     act2->apply(g2);    
 
     // assign functors
@@ -327,12 +327,12 @@ int main( int argc, char *argv[] )
     
     // call on single node
 
-    cerr << "Apply(leaf):" << endl;
+    std::cerr << "Apply(leaf):" << std::endl;
     act1->apply( t1 );
 
     // call on single node
 
-    cerr << "Apply(leaf), second action :" << endl;
+    std::cerr << "Apply(leaf), second action :" << std::endl;
     act2->apply( t1 );
     
     // call on single node
@@ -341,17 +341,17 @@ int main( int argc, char *argv[] )
     delete act2;
     act2 = Action::create();
 
-    cerr << "Apply(leaf), second action from prototype:" << endl;
+    std::cerr << "Apply(leaf), second action from prototype:" << std::endl;
     act2->apply( t1 );
 
     // call on node with single child:
 
-    cerr << "Apply(node):" << endl;
+    std::cerr << "Apply(node):" << std::endl;
     act1->apply( g2 );
 
     // call on tree:
 
-    cerr << "Apply(tree):" << endl;
+    std::cerr << "Apply(tree):" << std::endl;
     act1->apply( g1 );
 
     //use a function that only traverses the first node (if any)
@@ -361,13 +361,13 @@ int main( int argc, char *argv[] )
                                      CNodePtr,
                                      Action *                  >(firstOnly));
 
-    cerr << "Apply(single child traversal):" << endl;
+    std::cerr << "Apply(single child traversal):" << std::endl;
 
     act1->apply( g1 );
 
     // call on node with single child:
 
-    cerr << "Apply(list):" << endl;
+    std::cerr << "Apply(list):" << std::endl;
     act1->apply( g1->getMFChildren()->begin(), g1->getMFChildren()->end() );
 
 
@@ -375,21 +375,21 @@ int main( int argc, char *argv[] )
     
     TravActor tact1,tact2;
     // traversal function test
-    cerr << "Traverse(node,enter):" << endl;
+    std::cerr << "Traverse(node,enter):" << std::endl;
     traverse(g1, 
              osgTypedMethodFunctor1ObjPtrCPtrRef<
                  Action::ResultE,
                  TravActor,
                  NodePtr        >(&tact1, &TravActor::enter));    
 
-    cerr << "Traverse(node,enter):" << endl;
+    std::cerr << "Traverse(node,enter):" << std::endl;
     traverse(g1, 
              osgTypedMethodFunctor1ObjPtrCPtrRef<
                  Action::ResultE,
                  TravActor,
                  NodePtr        >(&tact1, &TravActor::enter));    
     
-    cerr << "Traverse(list,enter):" << endl;
+    std::cerr << "Traverse(list,enter):" << std::endl;
     traverse(g1->getMFChildren()->getValues(), 
              osgTypedMethodFunctor1ObjPtrCPtrRef<
                  Action::ResultE,
@@ -397,7 +397,7 @@ int main( int argc, char *argv[] )
                  NodePtr        >(&tact2, &TravActor::enter) );
 
     
-    cerr << "Traverse(node,enter&leave):" << endl;
+    std::cerr << "Traverse(node,enter&leave):" << std::endl;
     traverse(g1, 
              osgTypedMethodFunctor1ObjPtrCPtrRef<
                  Action::ResultE,
@@ -410,7 +410,7 @@ int main( int argc, char *argv[] )
                  NodePtr,
                  Action::ResultE>(&tact1, &TravActor::leave) );
     
-    cerr << "Traverse(list,enter&leave):" << endl;
+    std::cerr << "Traverse(list,enter&leave):" << std::endl;
     traverse(g1->getMFChildren()->getValues(), 
              osgTypedMethodFunctor1ObjPtrCPtrRef<
                  Action::ResultE,
@@ -423,19 +423,19 @@ int main( int argc, char *argv[] )
                  Action::ResultE>(&tact2, &TravActor::leave) );
  
     
-    cerr << "Traverse(node,enter):" << endl;
+    std::cerr << "Traverse(node,enter):" << std::endl;
     traverse(g1, 
              osgTypedFunctionFunctor1CPtrRef<
                  Action::ResultE, 
                  NodePtr        >(traventer));    
     
-    cerr << "Traverse(list,enter):" << endl;
+    std::cerr << "Traverse(list,enter):" << std::endl;
     traverse(g1->getMFChildren()->getValues(), 
              osgTypedFunctionFunctor1CPtrRef<
                  Action::ResultE, 
                  NodePtr        >(traventer) );
     
-    cerr << "Traverse(node,enter&leave):" << endl;
+    std::cerr << "Traverse(node,enter&leave):" << std::endl;
     traverse(g1, 
              osgTypedFunctionFunctor1CPtrRef<
                  Action::ResultE, 
@@ -445,7 +445,7 @@ int main( int argc, char *argv[] )
                  NodePtr,
                  Action::ResultE>(travleave) );
     
-    cerr << "Traverse(list,enter&leave):" << endl;
+    std::cerr << "Traverse(list,enter&leave):" << std::endl;
     traverse(g1->getMFChildren()->getValues(), 
              osgTypedFunctionFunctor1CPtrRef<
                  Action::ResultE, 
@@ -460,17 +460,17 @@ int main( int argc, char *argv[] )
 
     // NULL nodes
 
-    vector<NodePtr> nullvec;
+    std::vector<NodePtr> nullvec;
     nullvec.push_back( NullFC );
 
-    cerr << "Apply(list) Null:" << endl;
+    std::cerr << "Apply(list) Null:" << std::endl;
     act1->apply( nullvec.begin(), nullvec.end() );
 
-    cerr << "Apply(node) Null:" << endl;
+    std::cerr << "Apply(node) Null:" << std::endl;
     act1->apply( NullFC );
 
     NodePtr g3 = Node::create();
-    cerr << "Apply(node) without core:" << endl;
+    std::cerr << "Apply(node) without core:" << std::endl;
     act1->apply( g3 );
 
 }

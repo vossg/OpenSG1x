@@ -1,13 +1,8 @@
 
 #include "OSGConfig.h"
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
 #include <fstream>
-#else
-#include <iostream.h>
-#include <fstream.h>
-#endif
 
 #include "OSGBaseFunctions.h"
 #include "OSGLog.h"
@@ -17,9 +12,9 @@
 int main (int argc, char **argv)
 {
     bool retCode = 0;
-    ofstream out;
+    std::ofstream out;
     osg::ImageFileType *fileType;
-    osg::Image image;
+    osg::Image *pImage = new OSG::Image;;
     osg::UChar8 *data = 0;
     unsigned long i,maxSize;
 
@@ -38,25 +33,25 @@ int main (int argc, char **argv)
     
     if (argc > 2)
     {
-        if (image.read(argv[1]))
+        if (pImage->read(argv[1]))
         {
             FINFO (( "Input image has alpha: %s\n",
-                     image.hasAlphaChannel() ? "true" : "false" ));
+                     pImage->hasAlphaChannel() ? "true" : "false" ));
 
             out.open(argv[2]);
             if (out.eof() == false)
             {
-                maxSize = fileType->maxBufferSize(image);
+                maxSize = fileType->maxBufferSize(*pImage);
                 data = new osg::UChar8[maxSize];
-                maxSize = fileType->store(image,(osg::UChar8*)data);
+                maxSize = fileType->store(*pImage,(osg::UChar8*)data);
                 out << "static unsigned char imageData[" << maxSize << "] = {" ;
                 for (i = 0; i < maxSize; i++)
                 {
                     if ((i % 8) == 0)
-                        out << endl;
+                        out << std::endl;
                     out << int(data[i]) << ", ";
                 }
-                out << endl << "};" << endl;
+                out << std::endl << "};" << std::endl;
                 delete [] data;
                 retCode = 0;
             }

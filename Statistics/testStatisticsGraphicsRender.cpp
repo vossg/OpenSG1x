@@ -117,7 +117,6 @@ int main(int argc, char **argv)
 	Color4f highColor(0.0 , 1.0 , 0.0 , 0.75);
 
 
-	UInt32 flags = 0x0;
 	beginEditCP(statfg);
 	
 	statfg->addElement(RenderAction::statDrawTime,
@@ -250,7 +249,7 @@ int main(int argc, char **argv)
     mgr->getAction()->setStatistics(collector);
 
     beginEditCP(pwin->getPort(0));
-    pwin->getPort(0)->getForegrounds().addValue(statfg);
+    pwin->getPort(0)->getForegrounds().push_back(statfg);
     endEditCP  (pwin->getPort(0));
     
     // GLUT main loop

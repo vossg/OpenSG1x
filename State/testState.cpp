@@ -14,16 +14,16 @@ int main( int argc, char *argv[] )
 
     StateChunkClass::iterator it;
 
-    cerr << "StateChunk classes:" << endl;
+    std::cerr << "StateChunk classes:" << std::endl;
 
     for ( it = StateChunkClass::begin(); it != StateChunkClass::end(); it++ )
     {
-        cerr << *it << endl;
+        std::cerr << *it << std::endl;
     }
 
     TransformChunkPtr tchunk = TransformChunk::create();
 
-    cerr << "Transform chunk class: " << tchunk->getClassID() << endl;
+    std::cerr << "Transform chunk class: " << tchunk->getClassID() << std::endl;
 
     Matrix m;
 
@@ -35,7 +35,7 @@ int main( int argc, char *argv[] )
     for ( int i = 0; i < 9; i++ )
         lchunks[i] = LightChunk::create();
 
-    cerr << "Light chunk class: " << lchunks[0]->getClassID() << endl;
+    std::cerr << "Light chunk class: " << lchunks[0]->getClassID() << std::endl;
 
 
     // State
@@ -44,33 +44,33 @@ int main( int argc, char *argv[] )
 
     state->dump();
 
-    cerr << "TransformChunk present? "
-         << (state->chunkPresent( tchunk->getClassID() )?"Yes":"No") << endl;
-    cerr << "TransformChunk present (class)? "
-         << (state->chunkPresent( tchunk )?"Yes":"No") << endl;
+    std::cerr << "TransformChunk present? "
+         << (state->chunkPresent( tchunk->getClassID() )?"Yes":"No") << std::endl;
+    std::cerr << "TransformChunk present (class)? "
+         << (state->chunkPresent( tchunk )?"Yes":"No") << std::endl;
 
     state->addChunk( tchunk );
 
     state->dump();
 
-    cerr << "TransformChunk present? "
-         << (state->chunkPresent( tchunk->getClassID() )?"Yes":"No") << endl;
+    std::cerr << "TransformChunk present? "
+         << (state->chunkPresent( tchunk->getClassID() )?"Yes":"No") << std::endl;
 
-    cerr << "TransformChunk present (class)? "
-         << (state->chunkPresent( tchunk )?"Yes":"No") << endl;
+    std::cerr << "TransformChunk present (class)? "
+         << (state->chunkPresent( tchunk )?"Yes":"No") << std::endl;
 
 
-    cerr << "Test the multiple light chunks..." << endl;
+    std::cerr << "Test the multiple light chunks..." << std::endl;
 
-    cerr << "Single add..." << endl;
+    std::cerr << "Single add..." << std::endl;
     state->addChunk( lchunks[0], -1 );
     state->dump();
 
-    cerr << "Specific set (index = 2)..." << endl;
+    std::cerr << "Specific set (index = 2)..." << std::endl;
     state->addChunk( lchunks[1], 2 );
     state->dump();
 
-    cerr << "Multiple adds..." << endl;
+    std::cerr << "Multiple adds..." << std::endl;
     state->addChunk( lchunks[2], -1 );
     state->addChunk( lchunks[3], -1 );
     state->addChunk( lchunks[4], -1 );
@@ -79,21 +79,21 @@ int main( int argc, char *argv[] )
     state->addChunk( lchunks[7], -1 );
     state->dump();
 
-    cerr << "This one shouldn't work..." << endl;
+    std::cerr << "This one shouldn't work..." << std::endl;
     state->addChunk( lchunks[8], -1 );
     state->dump();
 
-    cerr << "Now try to get rid of them..." << endl;
+    std::cerr << "Now try to get rid of them..." << std::endl;
 
-    cerr << "direct index (0)" << endl;
+    std::cerr << "direct index (0)" << std::endl;
     state->subChunk( lchunks[0], 0 );
     state->dump();
 
-    cerr << "automatic find (last)" << endl;
+    std::cerr << "automatic find (last)" << std::endl;
     state->subChunk( lchunks[7] );
     state->dump();
 
-    cerr << "automatic find (rest)" << endl;
+    std::cerr << "automatic find (rest)" << std::endl;
     state->subChunk( lchunks[1] );
     state->subChunk( lchunks[2] );
     state->subChunk( lchunks[3] );
@@ -103,7 +103,7 @@ int main( int argc, char *argv[] )
     state->subChunk( tchunk );
     state->dump();
 
-    cerr << "should be empty now" << endl;
+    std::cerr << "should be empty now" << std::endl;
 
     return 0;
 }

@@ -72,30 +72,30 @@ int main (int argc, char **argv)
     FieldContainerPtr gb1 = g1;
     FieldContainerPtr tb1 = t1;
 
-    cout << "Types:" << endl;
+    std::cout << "Types:" << std::endl;
 
-    cout << "Node (NodePtr):           " << p1->getType().getId() << endl
-         << "(Node::getStaticType()) : " << Node::getClassType().getId() << endl
-         << "(FieldContainerPtr)     : " << pb1->getType().getId() << endl
-         << "Fields: " << endl;
+    std::cout << "Node (NodePtr):           " << p1->getType().getId() << std::endl
+         << "(Node::getStaticType()) : " << Node::getClassType().getId() << std::endl
+         << "(FieldContainerPtr)     : " << pb1->getType().getId() << std::endl
+         << "Fields: " << std::endl;
     p1->getType().dump();
-    cout << endl;
+    std::cout << std::endl;
 
-    cout << "Nodes:" << endl;
+    std::cout << "Nodes:" << std::endl;
 
-    cout << "Group (GroupPtr):           " << g1->getType().getId() << endl
-         << "(GroupPtr::getStaticType()):" << Group::getClassType().getId() << endl
-         << "(FieldContainerPtr):        " << gb1->getType().getId() << endl
-         << "Fields: " << endl;
+    std::cout << "Group (GroupPtr):           " << g1->getType().getId() << std::endl
+         << "(GroupPtr::getStaticType()):" << Group::getClassType().getId() << std::endl
+         << "(FieldContainerPtr):        " << gb1->getType().getId() << std::endl
+         << "Fields: " << std::endl;
     g1->getType().dump();
-    cout << endl;
+    std::cout << std::endl;
 
-    cout << "Transform (TransformPtr):       " << t1->getType().getId() << endl
-         << "(TransformPtr::getStaticType()):" << Transform::getClassType().getId() << endl
-         << "(FieldContainerPtr):            " << tb1->getType().getId() << endl
-         << "Fields: " << endl;
+    std::cout << "Transform (TransformPtr):       " << t1->getType().getId() << std::endl
+         << "(TransformPtr::getStaticType()):" << Transform::getClassType().getId() << std::endl
+         << "(FieldContainerPtr):            " << tb1->getType().getId() << std::endl
+         << "Fields: " << std::endl;
     t1->getType().dump();
-    cout << endl;
+    std::cout << std::endl;
 
     // create a test tree
 
@@ -128,17 +128,17 @@ int main (int argc, char **argv)
     t1->getSFMatrix()->setValue( m1 );  
     t2->getSFMatrix()->setValue( m2 );  
 
-    cout << "Testtree:" << endl;
+    std::cout << "Testtree:" << std::endl;
 
     p1->dump();
 
-    cout << "ToWorlds:" << endl;
+    std::cout << "ToWorlds:" << std::endl;
 
-    cout << "p1:" << endl << p1->getToWorld() << endl;
-    cout << "p2:" << endl << p2->getToWorld() << endl;
-    cout << "p3:" << endl << p3->getToWorld() << endl;
-    cout << "p4:" << endl << p4->getToWorld() << endl;
-    cout << "p5:" << endl << p5->getToWorld() << endl;
+    std::cout << "p1:" << std::endl << p1->getToWorld() << std::endl;
+    std::cout << "p2:" << std::endl << p2->getToWorld() << std::endl;
+    std::cout << "p3:" << std::endl << p3->getToWorld() << std::endl;
+    std::cout << "p4:" << std::endl << p4->getToWorld() << std::endl;
+    std::cout << "p5:" << std::endl << p5->getToWorld() << std::endl;
 
     p1 = NullFC;
 
@@ -162,13 +162,13 @@ int main (int argc, char **argv)
 
     // double children
 
-    cout << "Double add: before:" << endl;
+    std::cout << "Double add: before:" << std::endl;
 
     p2->dump();
 
     p2->addChild( p5 );
 
-    cout << "Double add: after:" << endl;
+    std::cout << "Double add: after:" << std::endl;
 
     p2->dump();
 

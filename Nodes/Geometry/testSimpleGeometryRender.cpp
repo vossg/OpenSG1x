@@ -81,30 +81,30 @@ void key( unsigned char key, int, int )
     {
     case 27:    exit(0);
     case ' ':   autoswitch = ! autoswitch;
-                cerr << "autoswitch " << (autoswitch?"on":"off") << endl;
+                std::cerr << "autoswitch " << (autoswitch?"on":"off") << std::endl;
                 break;
     case 'w':   autowire = ! autowire;
-                cerr << "autowire " << (autowire?"on":"off") << endl;
+                std::cerr << "autowire " << (autowire?"on":"off") << std::endl;
                 break;
     case 'a':   obj = ( ++ obj ) % nobjects;
-                cerr << "object now " << obj << endl;
+                std::cerr << "object now " << obj << std::endl;
                 break;
     case 'n':   shownormals = ! shownormals;
-                cerr << "shownormals " << (shownormals?"on":"off") << endl;
+                std::cerr << "shownormals " << (shownormals?"on":"off") << std::endl;
                 break;
     case 's':   obj = ( -- obj + nobjects ) % nobjects;
-                cerr << "object now " << obj << endl;
+                std::cerr << "object now " << obj << std::endl;
                 break;
 
     case 'c':   if ( glIsEnabled( GL_CULL_FACE ) )
                 {
                     glDisable( GL_CULL_FACE );
-                    cerr << "cullface disabled" << endl;
+                    std::cerr << "cullface disabled" << std::endl;
                 }
                 else
                 {
                     glEnable( GL_CULL_FACE );
-                    cerr << "cullface enabled" << endl;
+                    std::cerr << "cullface enabled" << std::endl;
                 }
     }
 }
@@ -175,14 +175,14 @@ int main (int argc, char **argv)
     
     UChar8 imgdata[] = 
         {  255,0,0,128,  0,255,0,128,  0,0,255,255,  255,255,255,255 };
-    Image image( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
+    Image *pImage = new Image( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
 
     if ( argc > 1 )
-        image.read( argv[1] );
+        pImage->read( argv[1] );
     
     TextureChunkPtr xchunk;
     xchunk = TextureChunk::create();
-    xchunk->setImage( &image );
+    xchunk->setImage( pImage );
     xchunk->setMinFilter( GL_NEAREST );
     xchunk->setMagFilter( GL_NEAREST );
     xchunk->setWrapS( GL_REPEAT );
@@ -196,7 +196,7 @@ int main (int argc, char **argv)
 
     objects[0] = makePlane( 1, 1, 2, 2 );
     GeometryPtr::dcast(objects[0]->getCore())->setMaterial( mat );
-    cerr << "Plane Node: " << hex << objects[0] << endl;
+    std::cerr << "Plane Node: " << std::hex << objects[0] << std::endl;
  
     unsigned int ntris = 0;
     unsigned int nquads = 0;
@@ -220,32 +220,32 @@ int main (int argc, char **argv)
 
     objects[1] = makeCone( 2.5, 2, 20, true, true );
     GeometryPtr::dcast(objects[1]->getCore())->setMaterial( mat );
-    cerr << "Cone Node: " << hex << objects[1] << endl;
+    std::cerr << "Cone Node: " << std::hex << objects[1] << std::endl;
 
     objects[2] = makeTorus( .6, 2, 8, 16 );
     GeometryPtr::dcast(objects[2]->getCore())->setMaterial( mat );
-    cerr << "Torus Node: " << hex << objects[2] << endl;
+    std::cerr << "Torus Node: " << std::hex << objects[2] << std::endl;
 
     objects[3] = makeSphere( 3, 1 );
     GeometryPtr::dcast(objects[3]->getCore())->setMaterial( mat );
-    cerr << "Sphere Node: " << hex << objects[3] << endl;
+    std::cerr << "Sphere Node: " << std::hex << objects[3] << std::endl;
 
     
     objects[4] = makeCylinder( 3, 2, 20, true, true, true );
     GeometryPtr::dcast(objects[4]->getCore())->setMaterial( mat );
-    cerr << "Cylinder Node: " << hex << objects[4] << endl;
+    std::cerr << "Cylinder Node: " << std::hex << objects[4] << std::endl;
     
     objects[5] = makeConicalFrustum( 3, 2, 1, 3, true, true, true );
     GeometryPtr::dcast(objects[5]->getCore())->setMaterial( mat );
-    cerr << "Frustum Node: " << hex << objects[5] << endl;
+    std::cerr << "Frustum Node: " << std::hex << objects[5] << std::endl;
 
     objects[6] = makeBox( 4, 3, 2, 4, 3, 2 );
     GeometryPtr::dcast(objects[6]->getCore())->setMaterial( mat );
-    cerr << "Box Node: " << hex << objects[6] << endl;
+    std::cerr << "Box Node: " << std::hex << objects[6] << std::endl;
 
     objects[7] = makeLatLongSphere( 16, 32, 1 );
     GeometryPtr::dcast(objects[7]->getCore())->setMaterial( mat );
-    cerr << "LatLongSphere Node: " << hex << objects[7] << endl;
+    std::cerr << "LatLongSphere Node: " << std::hex << objects[7] << std::endl;
     
     // try the vertex normal calc
     //OSG::GeometryPtr pGeo = dcast<GeometryPtr>(objects[3]->getCore());

@@ -173,24 +173,24 @@ void key(unsigned char key, int x, int y)
     {
         case 27:    osgExit(); exit(0);
         case 'a':   glDisable( GL_LIGHTING );
-            cerr << "Lighting disabled." << endl;
+            std::cerr << "Lighting disabled." << std::endl;
             break;
         case 's':   glEnable( GL_LIGHTING );
-            cerr << "Lighting enabled." << endl;
+            std::cerr << "Lighting enabled." << std::endl;
             break;
         case 'z':   glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
-            cerr << "PolygonMode: Point." << endl;
+            std::cerr << "PolygonMode: Point." << std::endl;
             break;
         case 'x':   glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
-            cerr << "PolygonMode: Line." << endl;
+            std::cerr << "PolygonMode: Line." << std::endl;
             break;
         case 'c':   glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
-            cerr << "PolygonMode: Fill." << endl;
+            std::cerr << "PolygonMode: Fill." << std::endl;
             break;
-        case 'r':   cerr << "Sending ray through " << x << "," << y << endl;
+        case 'r':   std::cerr << "Sending ray through " << x << "," << y << std::endl;
             Line l;
             camera->calcViewRay( l, x, y, *viewp );
-            cerr << "From " << l.getPosition() << ", dir " << l.getDirection() << endl;
+            std::cerr << "From " << l.getPosition() << ", dir " << l.getDirection() << std::endl;
             break;
     }
 }
@@ -199,10 +199,10 @@ void key(unsigned char key, int x, int y)
 
 int main(int argc, char** argv)
 {
-    cout << "osgInit()..." << endl;
+    std::cout << "osgInit()..." << std::endl;
     osgInit( argc, argv );
     
-    cout << "glutInit()..." <<  endl;
+    std::cout << "glutInit()..." <<  std::endl;
     glutInit( &argc, argv );
     glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE );
     int winID = glutCreateWindow("OpenSG");
@@ -221,7 +221,7 @@ int main(int argc, char** argv)
     glEnable( GL_LIGHT0 );
     glClearColor( .3, .3, .8, 1 );
     
-    cout << "Creating objects..." << endl;
+    std::cout << "Creating objects..." << std::endl;
     
     //BEACON
     NodePtr beaconNode = Node::create();

@@ -28,49 +28,53 @@ int main (int argc, char **argv)
 
     collector.getElem(fpsDesc)->stop();
     
-    cerr << "Time real: " << elem->getValue() << endl;
+    std::cerr << "Time real: " << elem->getValue() << std::endl;
     
     elem->putToString(str);
-    cerr << "Time out: " << str << endl;
+    std::cerr << "Time out: " << str << std::endl;
     
     elem->putToString(str, "Format: %f");
-    cerr << "Time formatted out: " << str << endl;
+    std::cerr << "Time formatted out: " << str << std::endl;
     
     elem->putToString(str, "Format: %ms");
-    cerr << "Time ms formatted out: " << str << endl;
+    std::cerr << "Time ms formatted out: " << str << std::endl;
     
     elem->putToString(str, "Format: %r.2f 1/s");
-    cerr << "Time r formatted out: " << str << endl;
+    std::cerr << "Time r formatted out: " << str << std::endl;
     
-    cerr << "Int real: " << collector.getElem(fooDesc)->getValue() << endl;
+    std::cerr << "Int real: "
+              << collector.getElem(fooDesc)->getValue() 
+              << std::endl;
 
     collector.getElem(fooDesc)->putToString(str);
-    cerr << "Int out: " << str << endl;
+    std::cerr << "Int out: " << str << std::endl;
 
     collector.getElem(fooDesc)->putToString(str, "Format: %04d");
-    cerr << "Int formatted out: " << str << endl;
+    std::cerr << "Int formatted out: " << str << std::endl;
     
-    cerr << "Real real: " << collector.getElem(barDesc)->getValue() << endl;
+    std::cerr << "Real real: " 
+              << collector.getElem(barDesc)->getValue() 
+              << std::endl;
 
     collector.getElem(barDesc)->putToString(str);
-    cerr << "Real out: " << str << endl;
+    std::cerr << "Real out: " << str << std::endl;
 
     collector.getElem(barDesc)->putToString(str, "Format: %4.2f");
-    cerr << "Real formatted out: " << str << endl;
+    std::cerr << "Real formatted out: " << str << std::endl;
 
     collector.getElem(bazDesc)->putToString(str);
-    cerr << "String out: " << str << endl;
+    std::cerr << "String out: " << str << std::endl;
 
     collector.getElem(bazDesc)->putToString(str, "Format: '%s'");
-    cerr << "String formatted out: " << str << endl;
+    std::cerr << "String formatted out: " << str << std::endl;
 
     collector.putToString(str);
-    cerr << "Collector data:" << endl << str << endl;
+    std::cerr << "Collector data:" << std::endl << str << std::endl;
  
     const osg::Char8 *c = str.c_str();
     collector.getFromString(c);
     collector.putToString(str);
-    cerr << "Collector data:" << endl << str << endl;
+    std::cerr << "Collector data:" << std::endl << str << std::endl;
     
     osg::StatElemDescBase::printAll();
 }

@@ -19,26 +19,26 @@ using osg::Image;
 int main (int argc, char **argv)
 {
     int retCode = 0;
-    Image image;
+    Image *pImage = new Image;
     unsigned w,h,d;
 
     OSG::ImageFileHandler::the().print();
 
     if (argc > 2)
     {
-      if ( image.read(argv[1])) {
-        image.dump();
+      if ( pImage->read(argv[1])) {
+        pImage->dump();
         if (argc > 5) 
         {
           w = atoi(argv[3]);
           h = atoi(argv[4]);
           d = atoi(argv[5]);
-          image.scale( w, h, d );
+          pImage->scale( w, h, d );
         }
         else
-          image.scaleNextPower2();
-        image.dump();
-        image.write( argv[2] );
+          pImage->scaleNextPower2();
+        pImage->dump();
+        pImage->write( argv[2] );
       }
       else 
       {

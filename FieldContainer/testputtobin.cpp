@@ -162,17 +162,19 @@ int main(int argc,char **argv)
         31,32,33, 41,42,43
     };
 
-    OSG::Image image(OSG::Image::OSG_RGB_PF,
-                     2,2,
-                     1,
-                     1,
-                     1,0.0,
-                     img,true);
+    OSG::Image *pImage = new OSG::Image(OSG::Image::OSG_RGB_PF,
+                                        2,2,
+                                        1,
+                                        1,
+                                        1,0.0,
+                                        img,true);
 
-    image.setAttachment("hallo","blubber");
-    image.setAttachment("hallo2","blubber2");
+    pImage->setAttachment("hallo","blubber");
+    pImage->setAttachment("hallo2","blubber2");
+
     OSG::SFImageP sfimage;
-    sfimage.setValue(&image);
+
+    sfimage.setValue(pImage);
 
     sfimage.copyToBin(imgw);
     imgw.flush();

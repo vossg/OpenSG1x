@@ -50,10 +50,10 @@ int main(int argc, char **argv)
         FWARNING(("No file given!\n"));
         FWARNING(("Supported file formats:\n"));
         
-        list<const char*> suffixes;
+        std::list<const char*> suffixes;
         SceneFileHandler::the().getSuffixList(suffixes);
         
-        for(list<const char*>::iterator it  = suffixes.begin();
+        for(std::list<const char*>::iterator it  = suffixes.begin();
                                         it != suffixes.end();
                                         ++it)
         {
@@ -98,7 +98,7 @@ void display(void)
 {
     mgr->redraw();
     
-    string str;
+    std::string str;
     stats.putToString(str);
     FLOG(("Stats: %s\n",str.c_str()));
 }

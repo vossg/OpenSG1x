@@ -33,7 +33,7 @@ OSG_USING_NAMESPACE
 int main (int argc, char *argv[])
 {
 	for ( int i = 0; i < argc; i++ )
-		cout << "Param " << i << ":" << argv[i] << endl;
+		std::cout << "Param " << i << ":" << argv[i] << std::endl;
 
     osgInit(argc, argv);
    
@@ -45,7 +45,7 @@ int main (int argc, char *argv[])
 	
 	if( argc >=2 && *(argv[1]) == '1' )
 	{
-		cout << "Sharing the positions..." << endl;
+		std::cout << "Sharing the positions..." << std::endl;
 		beginEditCP( planeNode2 );
 		GeometryPtr::dcast(planeNode2->getCore())->setPositions(
 					GeometryPtr::dcast(planeNode1->getCore())->getPositions() );
@@ -54,25 +54,25 @@ int main (int argc, char *argv[])
 	else if( argc >=2 && *(argv[1]) == '2' )
 	{
 		//This case crashes with Segmentation fault, see below
-		cout << "Sharing the core..." << endl;
+		std::cout << "Sharing the core..." << std::endl;
 		beginEditCP( planeNode2 );
 		planeNode2->setCore( planeNode1->getCore() );
 		endEditCP( planeNode2 );
-		cerr << "Core set..." << endl;
+		std::cerr << "Core set..." << std::endl;
 	}
 	
 	NodePtr root = Node::create();
 	GroupPtr rootCore = Group::create();
-	cerr << "Building root node..." << endl;
+	std::cerr << "Building root node..." << std::endl;
 	beginEditCP(root);
-	cerr << "setcore..." << endl;
+	std::cerr << "setcore..." << std::endl;
 	root->setCore( rootCore );
-	cerr << "addChild..." << endl;
+	std::cerr << "addChild..." << std::endl;
 	root->addChild( planeNode1 );
-	cerr << "addChild..." << endl;
+	std::cerr << "addChild..." << std::endl;
 	root->addChild( planeNode2 );	//Here it happens
-	cerr << "endEditCP..." << endl;
+	std::cerr << "endEditCP..." << std::endl;
 	endEditCP(root);
-	cerr << "done" << endl;
+	std::cerr << "done" << std::endl;
 	return 0;
 }

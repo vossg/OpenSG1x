@@ -13,6 +13,7 @@
 
 #include "OSGImageFileHandler.h"
 #include "OSGImage.h"
+#include "OSGBaseFunctions.h"
 
 using osg::Image;
 
@@ -20,15 +21,20 @@ int main (int argc, char **argv)
 {
     int retCode = 0;
     char defaultOutImage[] = "out.pnm";
-    Image image, image2;
+    Image *pImage;
 
     OSG::ImageFileHandler::the().print();
 
     if (argc > 1)
     {
-        image.read(argv[1]);
-        image.dump();
-        image.write( (argc > 2) ? argv[2] : defaultOutImage);
+        pImage = new Image;
+
+        pImage->read(argv[1]);
+        pImage->dump();
+        pImage->write( (argc > 2) ? argv[2] : defaultOutImage);
+
+        OSG::subRefP(pImage);
+
     }
     else
     {

@@ -118,39 +118,39 @@ int main (int argc, char **argv)
     endEditCP(index);
 
     
-    cerr << g->getLengths()->getSize() << " primitives with ";
+    std::cerr << g->getLengths()->getSize() << " primitives with ";
     for ( j = 0; j < g->getLengths()->getSize(); j++ )
     {
-        cerr <<  g->getLengths()->getValue( j ) << " ";
+        std::cerr <<  g->getLengths()->getValue( j ) << " ";
     }
-    cerr << " points" << endl << g->getIndices()->getSize() << " indices: ";
+    std::cerr << " points" << std::endl << g->getIndices()->getSize() << " indices: ";
     for ( j = 0; j < g->getIndices()->getSize(); j++ )
     {
-        cerr <<  g->getIndices()->getValue( j ) << " ";
+        std::cerr <<  g->getIndices()->getValue( j ) << " ";
     }
     
     // Try the primitive iterator
-    cerr << endl << endl << "Primitive Iterator:" << endl;
+    std::cerr << std::endl << std::endl << "Primitive Iterator:" << std::endl;
     
     PrimitiveIterator pi;
     
     for ( pi = g->beginPrimitives(); pi != g->endPrimitives(); ++pi )
     {
-        cerr << "Primitive " << pi.getIndex() << ": "
+        std::cerr << "Primitive " << pi.getIndex() << ": "
              << Geometry::mapType( pi.getType() ) << " with " 
-             << pi.getLength() << " points" << endl;
+             << pi.getLength() << " points" << std::endl;
         for ( j = 0; j < pi.getLength(); j++ )
         {
-            cerr << "Point " << j << ":  " << pi.getPositionIndex( j ) << ": "
+            std::cerr << "Point " << j << ":  " << pi.getPositionIndex( j ) << ": "
                  << pi.getPosition( j );
-            cerr << "\tcol: " << pi.getColorIndex( j );
-            cerr << "\tnorm: " << pi.getNormalIndex( j ) << endl;
+            std::cerr << "\tcol: " << pi.getColorIndex( j );
+            std::cerr << "\tnorm: " << pi.getNormalIndex( j ) << std::endl;
         }
     }
     
     // try seek
     
-    cerr << "Checking seek...";
+    std::cerr << "Checking seek...";
     
     PrimitiveIterator pi2(g);
     
@@ -164,13 +164,13 @@ int main (int argc, char **argv)
              pi.getLength() != pi2.getLength()
             )
         {
-            cerr << "Seek mismatch!" << endl;
-            cerr << "Primitive " << pi.getIndex() << ": "
+            std::cerr << "Seek mismatch!" << std::endl;
+            std::cerr << "Primitive " << pi.getIndex() << ": "
                  << Geometry::mapType( pi.getType() ) << " with " 
-                 << pi.getLength() << " points" << endl;
-            cerr << "Primitive " << pi2.getIndex() << ": "
+                 << pi.getLength() << " points" << std::endl;
+            std::cerr << "Primitive " << pi2.getIndex() << ": "
                  << Geometry::mapType( pi2.getType() ) << " with " 
-                 << pi2.getLength() << " points" << endl;
+                 << pi2.getLength() << " points" << std::endl;
         }
         for ( int k = 0; k < pi.getLength(); k++ )
         {
@@ -178,43 +178,43 @@ int main (int argc, char **argv)
                  pi.getColorIndex( k )      != pi2.getColorIndex( k ) ||
                  pi.getNormalIndex( k )     != pi2.getNormalIndex( k ) )
             {            
-                cerr << "Prim " << j << endl;
-                cerr << "Point " << k << ":  " << pi.getPositionIndex( k );
-                cerr << "\tcol: " << pi.getColorIndex( k );
-                cerr << "\tnorm: " << pi.getNormalIndex( k ) << endl;
-                cerr << "Point " << k << ":  " << pi2.getPositionIndex( k );
-                cerr << "\tcol: " << pi2.getColorIndex( k );
-                cerr << "\tnorm: " << pi2.getNormalIndex( k ) << endl;
+                std::cerr << "Prim " << j << std::endl;
+                std::cerr << "Point " << k << ":  " << pi.getPositionIndex( k );
+                std::cerr << "\tcol: " << pi.getColorIndex( k );
+                std::cerr << "\tnorm: " << pi.getNormalIndex( k ) << std::endl;
+                std::cerr << "Point " << k << ":  " << pi2.getPositionIndex( k );
+                std::cerr << "\tcol: " << pi2.getColorIndex( k );
+                std::cerr << "\tnorm: " << pi2.getNormalIndex( k ) << std::endl;
             }
         }
     }
-    cerr << "done" << endl;
+    std::cerr << "done" << std::endl;
     
     
     // Try the triangle iterator
     
-    cerr << endl << "Triangle Iterator:" << endl;
+    std::cerr << std::endl << "Triangle Iterator:" << std::endl;
     
     TriangleIterator ti;
     
     for ( ti = g->beginTriangles(); ti != g->endTriangles(); ++ti )
     {
-        cerr << "Triangle " << ti.getIndex() << endl;
-        cerr << "Points:  " << ti.getPositionIndex( 0 ) << ": "
+        std::cerr << "Triangle " << ti.getIndex() << std::endl;
+        std::cerr << "Points:  " << ti.getPositionIndex( 0 ) << ": "
                            << ti.getPosition( 0 ) << ", "
                            << ti.getPositionIndex( 1 ) << ": "
                            << ti.getPosition( 1 ) << ", "
                            << ti.getPositionIndex( 2 ) << ": "
-                           << ti.getPosition( 2 ) << endl;
-        cerr << "Colors:  " << ti.getColorIndex( 0 ) << ","
+                           << ti.getPosition( 2 ) << std::endl;
+        std::cerr << "Colors:  " << ti.getColorIndex( 0 ) << ","
                            << ti.getColorIndex( 1 ) << ","
-                           << ti.getColorIndex( 2 ) << endl;
-        cerr << "Normals: " << ti.getNormalIndex( 0 ) << ","
+                           << ti.getColorIndex( 2 ) << std::endl;
+        std::cerr << "Normals: " << ti.getNormalIndex( 0 ) << ","
                            << ti.getNormalIndex( 1 ) << ","
-                           << ti.getNormalIndex( 2 ) << endl;
+                           << ti.getNormalIndex( 2 ) << std::endl;
     }
     
-    cerr << "Checking seek...";
+    std::cerr << "Checking seek...";
     
     TriangleIterator ti2(g);
     
@@ -225,9 +225,9 @@ int main (int argc, char **argv)
         
         if ( ti.getIndex()  != ti2.getIndex() )
         {
-            cerr << "Seek mismatch!" << endl;
-            cerr << "Primitive " << ti.getIndex() << endl;
-            cerr << "Primitive " << ti2.getIndex() << endl;
+            std::cerr << "Seek mismatch!" << std::endl;
+            std::cerr << "Primitive " << ti.getIndex() << std::endl;
+            std::cerr << "Primitive " << ti2.getIndex() << std::endl;
         }
         for ( int k = 0; k < 3; k++ )
         {
@@ -235,51 +235,51 @@ int main (int argc, char **argv)
                  ti.getColorIndex( k )      != ti2.getColorIndex( k ) ||
                  ti.getNormalIndex( k )     != ti2.getNormalIndex( k ) )
             {            
-                cerr << "Prim " << j << endl;
-                cerr << "Point " << k << ":  " << ti.getPositionIndex( k );
-                cerr << "\tcol: " << ti.getColorIndex( k );
-                cerr << "\tnorm: " << ti.getNormalIndex( k ) << endl;
-                cerr << "Point " << k << ":  " << ti2.getPositionIndex( k );
-                cerr << "\tcol: " << ti2.getColorIndex( k );
-                cerr << "\tnorm: " << ti2.getNormalIndex( k ) << endl;
+                std::cerr << "Prim " << j << std::endl;
+                std::cerr << "Point " << k << ":  " << ti.getPositionIndex( k );
+                std::cerr << "\tcol: " << ti.getColorIndex( k );
+                std::cerr << "\tnorm: " << ti.getNormalIndex( k ) << std::endl;
+                std::cerr << "Point " << k << ":  " << ti2.getPositionIndex( k );
+                std::cerr << "\tcol: " << ti2.getColorIndex( k );
+                std::cerr << "\tnorm: " << ti2.getNormalIndex( k ) << std::endl;
             }
         }
     
     }
     
-    cerr << "done" << endl;
+    std::cerr << "done" << std::endl;
     
     
     
-    cerr << endl << "Face Iterator:" << endl;
+    std::cerr << std::endl << "Face Iterator:" << std::endl;
     
     // Try the Face iterator
     FaceIterator fi;
     
     for ( fi = g->beginFaces(); fi != g->endFaces(); ++fi )
     {
-        cerr << "Face " << fi.getIndex() << endl;
-        cerr << "Points:  " << fi.getPositionIndex( 0 ) << ": "
+        std::cerr << "Face " << fi.getIndex() << std::endl;
+        std::cerr << "Points:  " << fi.getPositionIndex( 0 ) << ": "
                            << fi.getPosition( 0 ) << ", "
                            << fi.getPositionIndex( 1 ) << ": "
                            << fi.getPosition( 1 ) << ", "
                            << fi.getPositionIndex( 2 ) << ": "
                            << fi.getPosition( 2 )  << ", "
                            << fi.getPositionIndex( 3 ) << ": "
-                           << fi.getPosition( 3 ) << endl;
-        cerr << "Colors:  " << fi.getColorIndex( 0 ) << ","
+                           << fi.getPosition( 3 ) << std::endl;
+        std::cerr << "Colors:  " << fi.getColorIndex( 0 ) << ","
                            << fi.getColorIndex( 1 ) << ","
                            << fi.getColorIndex( 2 ) << ","
-                           << fi.getColorIndex( 3 ) << endl;
-        cerr << "Normals: " << fi.getNormalIndex( 0 ) << ","
+                           << fi.getColorIndex( 3 ) << std::endl;
+        std::cerr << "Normals: " << fi.getNormalIndex( 0 ) << ","
                            << fi.getNormalIndex( 1 ) << ","
                            << fi.getNormalIndex( 2 ) << ","
-                           << fi.getNormalIndex( 3 ) << endl;
+                           << fi.getNormalIndex( 3 ) << std::endl;
     }
     
     // try seek
     
-    cerr << "Checking seek...";
+    std::cerr << "Checking seek...";
     
     FaceIterator fi2(g);
     
@@ -290,9 +290,9 @@ int main (int argc, char **argv)
         
         if ( fi.getIndex()  != fi2.getIndex() )
         {
-            cerr << "Seek mismatch!" << endl;
-            cerr << "Primitive " << fi.getIndex() << endl;
-            cerr << "Primitive " << fi2.getIndex() << endl;
+            std::cerr << "Seek mismatch!" << std::endl;
+            std::cerr << "Primitive " << fi.getIndex() << std::endl;
+            std::cerr << "Primitive " << fi2.getIndex() << std::endl;
         }
         for ( int k = 0; k < 4; k++ )
         {
@@ -300,38 +300,38 @@ int main (int argc, char **argv)
                  fi.getColorIndex( k )      != fi2.getColorIndex( k ) ||
                  fi.getNormalIndex( k )     != fi2.getNormalIndex( k ) )
             {            
-                cerr << "Prim " << j << endl;
-                cerr << "Point " << k << ":  " << fi.getPositionIndex( k );
-                cerr << "\tcol: " << fi.getColorIndex( k );
-                cerr << "\tnorm: " << fi.getNormalIndex( k ) << endl;
-                cerr << "Point " << k << ":  " << fi2.getPositionIndex( k );
-                cerr << "\tcol: " << fi2.getColorIndex( k );
-                cerr << "\tnorm: " << fi2.getNormalIndex( k ) << endl;
+                std::cerr << "Prim " << j << std::endl;
+                std::cerr << "Point " << k << ":  " << fi.getPositionIndex( k );
+                std::cerr << "\tcol: " << fi.getColorIndex( k );
+                std::cerr << "\tnorm: " << fi.getNormalIndex( k ) << std::endl;
+                std::cerr << "Point " << k << ":  " << fi2.getPositionIndex( k );
+                std::cerr << "\tcol: " << fi2.getColorIndex( k );
+                std::cerr << "\tnorm: " << fi2.getNormalIndex( k ) << std::endl;
             }
         }
     }
-    cerr << "done" << endl;
+    std::cerr << "done" << std::endl;
     
     
     // try a second time, to see if restart works
     
-    cerr << endl << "Triangle Iterator (second run):" << endl;
+    std::cerr << std::endl << "Triangle Iterator (second run):" << std::endl;
     
     for ( ti = g->beginTriangles(); ti != g->endTriangles(); ++ti )
     {
-        cerr << "Triangle " << ti.getIndex() << endl;
-        cerr << "Points:  " << ti.getPositionIndex( 0 ) << ": "
+        std::cerr << "Triangle " << ti.getIndex() << std::endl;
+        std::cerr << "Points:  " << ti.getPositionIndex( 0 ) << ": "
                            << ti.getPosition( 0 ) << ", "
                            << ti.getPositionIndex( 1 ) << ": "
                            << ti.getPosition( 1 ) << ", "
                            << ti.getPositionIndex( 2 ) << ": "
-                           << ti.getPosition( 2 ) << endl;
-        cerr << "Colors:  " << ti.getColorIndex( 0 ) << ","
+                           << ti.getPosition( 2 ) << std::endl;
+        std::cerr << "Colors:  " << ti.getColorIndex( 0 ) << ","
                            << ti.getColorIndex( 1 ) << ","
-                           << ti.getColorIndex( 2 ) << endl;
-        cerr << "Normals: " << ti.getNormalIndex( 0 ) << ","
+                           << ti.getColorIndex( 2 ) << std::endl;
+        std::cerr << "Normals: " << ti.getNormalIndex( 0 ) << ","
                            << ti.getNormalIndex( 1 ) << ","
-                           << ti.getNormalIndex( 2 ) << endl;
+                           << ti.getNormalIndex( 2 ) << std::endl;
     }
     
     return 0;

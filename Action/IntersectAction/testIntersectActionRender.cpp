@@ -146,7 +146,7 @@ void key( unsigned char key, int , int )
 
     act->apply( iroot );
 
-    cerr << "Line " << act->getLine().getPosition() << " dir " 
+    std::cerr << "Line " << act->getLine().getPosition() << " dir " 
          << act->getLine().getDirection() << " hit: " << act->didHit() << " ";
 
     beginEditCP(points);
@@ -155,7 +155,7 @@ void key( unsigned char key, int , int )
 
     if ( act->didHit() )
     {
-        cerr << " object " << act->getHitObject() 
+        std::cerr << " object " << act->getHitObject() 
              << " tri " << act->getHitTriangle() 
              << " at " << act->getHitPoint();
 
@@ -183,7 +183,7 @@ void key( unsigned char key, int , int )
     }
     endEditCP(points);
 
-    cerr << endl;
+    std::cerr << std::endl;
 
     glutPostRedisplay();
     

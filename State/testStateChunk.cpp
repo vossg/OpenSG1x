@@ -16,11 +16,11 @@ int main( int argc, char *argv[] )
 
     StateChunkClass::iterator it;
 
-    cerr << "StateChunk classes:" << endl;
+    std::cerr << "StateChunk classes:" << std::endl;
 
     for ( it = StateChunkClass::begin(); it != StateChunkClass::end(); it++ )
     {
-        cerr << *it << endl;
+        std::cerr << *it << std::endl;
     }
 
     // test values
@@ -37,17 +37,17 @@ int main( int argc, char *argv[] )
 
     // Test macros for simple set/get correspondence
 
-#define testField( name, set,get, v1,v2,comp )              \
-    set(v1);                                                \
-    v2 = get();                                             \
-    cerr << name;                                           \
-    if ( ! comp )                                           \
-    {                                                       \
-        cerr << " " << v1 << "!=" << v2 << "!!!" << endl;   \
-        exit(1);                                            \
-    }                                                       \
-    else                                                    \
-        cerr << " ok" << endl
+#define testField( name, set,get, v1,v2,comp )                        \
+    set(v1);                                                          \
+    v2 = get();                                                       \
+    std::cerr << name;                                                \
+    if ( ! comp )                                                     \
+    {                                                                 \
+        std::cerr << " " << v1 << "!=" << v2 << "!!!" << std::endl;   \
+        exit(1);                                                      \
+    }                                                                 \
+    else                                                              \
+        std::cerr << " ok" << std::endl
 
 #define testMatrixField( name, set, get )   \
     testField( name, set, get, m1, m2, m1.equals( m2, Eps ) )
@@ -71,11 +71,11 @@ int main( int argc, char *argv[] )
 
     TransformChunkPtr tchunk = TransformChunk::create();
 
-    cerr << "Transform chunk class: " << tchunk->getClass()->getName()
-         << ", id "
-         << tchunk->getClassID() << ", numslots "
-         << tchunk->getClass()->getNumSlots()
-         << endl;
+    std::cerr << "Transform chunk class: " << tchunk->getClass()->getName()
+              << ", id "
+              << tchunk->getClassID() << ", numslots "
+              << tchunk->getClass()->getNumSlots()
+              << std::endl;
 
     testMatrixField( "TransformChunk: matrix", tchunk->setMatrix,
                      tchunk->getMatrix );
@@ -84,11 +84,11 @@ int main( int argc, char *argv[] )
 
     MaterialChunkPtr mchunk = MaterialChunk::create();
 
-    cerr << "Material chunk class: " << mchunk->getClass()->getName()
-         << ", id "
-         << mchunk->getClassID() << ", numslots "
-         << tchunk->getClass()->getNumSlots()
-         << endl;
+    std::cerr << "Material chunk class: " << mchunk->getClass()->getName()
+              << ", id "
+              << mchunk->getClassID() << ", numslots "
+              << tchunk->getClass()->getNumSlots()
+              << std::endl;
 
     testColor4fField( "MaterialChunk: diffuse", mchunk->setDiffuse,
                       mchunk->getDiffuse );
@@ -105,10 +105,11 @@ int main( int argc, char *argv[] )
 
     LightChunkPtr lchunk = LightChunk::create();
 
-    cerr << "Light chunk class: " << lchunk->getClass()->getName() << ", id "
-         << lchunk->getClassID() << ", numslots "
-         << lchunk->getClass()->getNumSlots()
-         << endl;
+    std::cerr << "Light chunk class: " 
+              << lchunk->getClass()->getName() << ", id "
+              << lchunk->getClassID() << ", numslots "
+              << lchunk->getClass()->getNumSlots()
+              << std::endl;
 
     testColor4fField( "LightChunk: diffuse", lchunk->setDiffuse,
                       lchunk->getDiffuse );
@@ -140,11 +141,11 @@ int main( int argc, char *argv[] )
 
     TextureChunkPtr xchunk = TextureChunk::create();
 
-    cerr << "Texture chunk class: " << xchunk->getClass()->getName()
-         << ", id "
-         << xchunk->getClassID() << ", numslots "
-         << xchunk->getClass()->getNumSlots()
-         << endl;
+    std::cerr << "Texture chunk class: " << xchunk->getClass()->getName()
+              << ", id "
+              << xchunk->getClassID() << ", numslots "
+              << xchunk->getClass()->getNumSlots()
+              << std::endl;
 
     testUInt32Field( "TextureChunk: minFilter", xchunk->setMinFilter,
                      xchunk->getMinFilter );

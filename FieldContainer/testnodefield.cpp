@@ -31,11 +31,11 @@ int main (int argc, char **argv)
     OSG::Field *pField = sfInt;
 #endif
 
-    cerr << "CT : " << pField->getContentType().getCName() << endl;
+    std::cerr << "CT : " << pField->getContentType().getCName() << std::endl;
 
     if(pField->getCardinality() == OSG::FieldType::SINGLE_FIELD)
     {
-        cerr << "SField " << endl;
+        std::cerr << "SField " << std::endl;
 
         if(pField->getContentType() == 
            OSG::FieldDataTraits<OSG::FieldContainerPtr>::getType())
@@ -46,21 +46,21 @@ int main (int argc, char **argv)
                         
             if(pFC != OSG::NullFC)
             {
-                cerr << "Got empty FC " << endl;
+                std::cerr << "Got empty FC " << std::endl;
             }
             else
             {
-                cerr << "Got valid FC" << endl;
+                std::cerr << "Got valid FC" << std::endl;
             }
         }
         else
         {
-            cerr << "Field contais no container " << endl;
+            std::cerr << "Field contais no container " << std::endl;
         }
     }
     else
     {
-        cerr << "MField " << endl;
+        std::cerr << "MField " << std::endl;
     }
 
     return 0;

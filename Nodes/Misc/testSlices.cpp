@@ -128,7 +128,7 @@ display(void)
 
 void reshape( int w, int h )
 {
-    cerr << "Reshape: " << w << "," << h << endl;
+    std::cerr << "Reshape: " << w << "," << h << std::endl;
     win->resize( w, h );
 }
 
@@ -238,7 +238,7 @@ void key(unsigned char key, int x, int y)
         glEnable(GL_CULL_FACE);
       else
         glDisable(GL_CULL_FACE);
-      cout << "cullFace: " << cullFace << endl;
+      std::cout << "cullFace: " << cullFace << std::endl;
       break;
     case 's':      
     case 'S':
@@ -250,29 +250,29 @@ void key(unsigned char key, int x, int y)
           slicesCore->setNumberOfSlices(numberOfSlices);
         }
         endEditCP(slicesCore);
-        cout << numberOfSlices << endl;
+        std::cout << numberOfSlices << std::endl;
       }
       break;
-    case 'p': cout << "p pressed" << endl; break;                  
+    case 'p': std::cout << "p pressed" << std::endl; break;                  
     case 'L':   glDisable( GL_LIGHTING );
-      cerr << "Lighting disabled." << endl;
+      std::cerr << "Lighting disabled." << std::endl;
       break;
     case 'l':   glEnable( GL_LIGHTING );
-      cerr << "Lighting enabled." << endl;
+      std::cerr << "Lighting enabled." << std::endl;
       break;
     case 'z':   glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
-      cerr << "PolygonMode: Point." << endl;
+      std::cerr << "PolygonMode: Point." << std::endl;
       break;
     case 'x':   glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
-      cerr << "PolygonMode: Line." << endl;
+      std::cerr << "PolygonMode: Line." << std::endl;
       break;
     case 'c':   glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
-      cerr << "PolygonMode: Fill." << endl;
+      std::cerr << "PolygonMode: Fill." << std::endl;
       break;
-    case 'r':   cerr << "Sending ray through " << x << "," << y << endl;
+    case 'r':   std::cerr << "Sending ray through " << x << "," << y << std::endl;
       Line l;
       cam->calcViewRay( l, x, y, *vp );
-      cerr << "From " << l.getPosition() << ", dir " << l.getDirection() << endl;
+      std::cerr << "From " << l.getPosition() << ", dir " << l.getDirection() << std::endl;
       break;
     }
 }
@@ -382,7 +382,7 @@ int main (int argc, char **argv)
                 imageP->reformat(Image::OSG_RGBA_PF);
                 break;
               default:
-                cerr << "Can not reformat image\n" << endl;
+                std::cerr << "Can not reformat image\n" << std::endl;
                 break;
               }
             }
@@ -391,7 +391,7 @@ int main (int argc, char **argv)
         else
           {
             FFATAL (("Can not read \'%s\'\n", argv[1]));
-            delete imageP;
+            subRefP(imageP);
             imageP = 0;
             return -1;
           }
@@ -401,7 +401,7 @@ int main (int argc, char **argv)
     
     if (imageP) 
       {
-        cout << "Create ChunkMaterial" << endl;
+        std::cout << "Create ChunkMaterial" << std::endl;
         ChunkMaterialPtr  texMatPtr     = ChunkMaterial::create();
         TextureChunkPtr   texChunkPtr   = TextureChunk::create();
         BlendChunkPtr     blendChunkPtr = BlendChunk::create();
@@ -438,7 +438,7 @@ int main (int argc, char **argv)
       }
     else 
       {
-        cout << "Create SimpleMaterial" << endl;
+        std::cout << "Create SimpleMaterial" << std::endl;
         SimpleMaterialPtr colMatPtr = SimpleMaterial::create();
         beginEditCP (colMatPtr);
         {
@@ -453,8 +453,8 @@ int main (int argc, char **argv)
         numberOfSlices = 10;
       }
     
-    cout << size << endl;
-    cout << numberOfSlices << endl;
+    std::cout << size << std::endl;
+    std::cout << numberOfSlices << std::endl;
     
     beginEditCP(slicesCore);
     {
@@ -469,7 +469,7 @@ int main (int argc, char **argv)
     Vec3f min,max;
     slicesNode->getVolume().getBounds( min, max );
     
-    cout << "Volume: from " << min << " to " << max << endl;
+    std::cout << "Volume: from " << min << " to " << max << std::endl;
     
     beginEditCP(dlight);
     dlight->addChild( slicesNode );
@@ -495,7 +495,7 @@ int main (int argc, char **argv)
     vp->setSize( 0,0, 1,1 );
 
     // Window
-    cout << "GLUT winid: " << winid << endl;
+    std::cout << "GLUT winid: " << winid << std::endl;
 
     GLUTWindowPtr gwin;
 
@@ -523,7 +523,7 @@ int main (int argc, char **argv)
     // navigation speed
     Vec3f dim(max - min);
 
-    cout << "dim: " << dim.length() << endl;
+    std::cout << "dim: " << dim.length() << std::endl;
     navigator.set( Pnt3f ( dim.length() * 2, 0, 0),
                    Pnt3f ( 0,0,0),
                    Vec3f ( 0,1,0) );

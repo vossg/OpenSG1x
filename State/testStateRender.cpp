@@ -115,10 +115,10 @@ int main( int argc, char *argv[] )
     lchunk2->setPosition( Vec4f( 0,0,-2,1 ) );
     state2->addChunk( lchunk2 );
 
-    cerr << "State1:" << endl;
+    std::cerr << "State1:" << std::endl;
     state1->dump();
 
-    cerr << "State2:" << endl;
+    std::cerr << "State2:" << std::endl;
     state2->dump();
 
     glutMainLoop();

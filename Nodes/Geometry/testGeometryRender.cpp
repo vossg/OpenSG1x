@@ -110,13 +110,13 @@ int main (int argc, char **argv)
         endEditCP(root);
 
         beginEditCP(g1);
-    cerr << "Geometry Node: " << hex << (Geometry*) g1.getCPtr() << endl;
+    std::cerr << "Geometry Node: " << std::hex << (Geometry*) g1.getCPtr() << std::endl;
 
     GeoPositions3fPtr pnts = GeoPositions3f::create();
     g1->setPositions( pnts );
-    cerr << "Points property: " << hex << pnts << endl;
+    std::cerr << "Points property: " << std::hex << pnts << std::endl;
 
-    cerr << "Geometry Points: " << hex << g1->getPositions() << endl;
+    std::cerr << "Geometry Points: " << std::hex << g1->getPositions() << std::endl;
 
 
     MFPnt3f* p = pnts->getFieldPtr();
@@ -231,7 +231,7 @@ int main (int argc, char **argv)
 
         endEditCP(g1);
     
-    cerr << "Geometry type " << g1->getType().getId() << endl;
+    std::cerr << "Geometry type " << g1->getType().getId() << std::endl;
     
     dact = DrawAction::create();
     

@@ -68,12 +68,12 @@ int main (int argc, char **argv)
 
     if ( root == NullFC )
     {
-        cerr << "Error loading " << fileName << "!" << endl;
+        std::cerr << "Error loading " << fileName << "!" << std::endl;
         exit(1);
     }
 
 
-    cerr << "Tree: " << endl;
+    std::cerr << "Tree: " << std::endl;
     root->dump();
 
     // GLUT init

@@ -54,19 +54,19 @@ int main (int argc, char **argv)
 
     p1->setCore( g1 );
 
-    cerr << "Geometry Node: " << hex << (Geometry*) g1.getCPtr() << endl;
+    std::cerr << "Geometry Node: " << std::hex << (Geometry*) g1.getCPtr() << std::endl;
 
     GeoPositions3f::PtrType pnts = GeoPositions3f::create();
     GeoPositionsPtr pnt = pnts;
 
-    cerr << "Positions: " << endl;
-    cerr << "Dim:" << pnts->getDimension() << ", Format:" 
-         << hex << pnts->getFormat() << dec
+    std::cerr << "Positions: " << std::endl;
+    std::cerr << "Dim:" << pnts->getDimension() << ", Format:" 
+         << std::hex << pnts->getFormat() << std::dec
          << ", Stride:" << pnts->getStride() << ", Data:" 
-         << hex << pnts->getData() << dec 
+         << std::hex << pnts->getData() << std::dec 
          << ", getSize " << pnts->getSize()
          << ", size " << pnts->size()
-         << endl;
+         << std::endl;
 
     g1->setPositions( pnts );
 
@@ -87,45 +87,45 @@ int main (int argc, char **argv)
 
     endEditCP(g1, FieldBits::AllFields);
     
-    cerr << "Positions: " << endl;
-    cerr << "Dim:" << pnts->getDimension() << ", Format:" 
-         << hex << pnts->getFormat() << dec
+    std::cerr << "Positions: " << std::endl;
+    std::cerr << "Dim:" << pnts->getDimension() << ", Format:" 
+         << std::hex << pnts->getFormat() << std::dec
          << ", Stride:" << pnts->getStride() << ", Data:" 
-         << hex << pnts->getData() << dec 
+         << std::hex << pnts->getData() << std::dec 
          << ", Size " << pnts->getSize()
          << ", size " << pnts->size()
-         << endl;
+         << std::endl;
 
-    cerr << "Geometry Points: " << hex << g1->getPositions() << endl;
-    cerr << p->size() << " Points: " << endl;
+    std::cerr << "Geometry Points: " << std::hex << g1->getPositions() << std::endl;
+    std::cerr << p->size() << " Points: " << std::endl;
 
     for(i = 0; i < p->size(); i++ )
     {
-        cerr << "Point " << i << " " << (*p)[i] << endl;
+        std::cerr << "Point " << i << " " << (*p)[i] << std::endl;
     }
 
-    cerr << "Generic Access" << endl;
-    cerr << pnts->getSize() << " Points: " << endl;
+    std::cerr << "Generic Access" << std::endl;
+    std::cerr << pnts->getSize() << " Points: " << std::endl;
     for(i = 0; i < pnts->getSize(); i++ )
     {
         Pnt3f pp;
         pnts->getValue(pp,i);
-        cerr << "Point " << i << " " << pnts->getValue(i) << " " << pp << endl;
+        std::cerr << "Point " << i << " " << pnts->getValue(i) << " " << pp << std::endl;
     }
 
-    cerr << "Geometry Points: " << hex << g1->getPositions() << endl;
+    std::cerr << "Geometry Points: " << std::hex << g1->getPositions() << std::endl;
 
     Pnt3f mean = calcMean(*p);
 
-    cerr << "Mean " << mean << endl;
+    std::cerr << "Mean " << mean << std::endl;
 
     p1->updateVolume();
 
     Vec3f center;
     p1->getVolume().getCenter(center);
 
-    cerr << "Volume: center " << center << ", volume "
-         << p1->getVolume().getScalarVolume() << endl;
+    std::cerr << "Volume: center " << center << ", volume "
+         << p1->getVolume().getScalarVolume() << std::endl;
 
     return 0;
 }

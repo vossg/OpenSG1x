@@ -172,22 +172,22 @@ int main (int argc, char **argv)
     UChar8 imgdata[] =
         {  255,0,0,  255,0,0,  255,0,255,
            255,0,0,  255,0,0,  255,0,255 };
-    Image image;
+    Image *pImage = new Image;
 
     if (argc > 1)
     {
-        image.read(argv[1]);
+        pImage->read(argv[1]);
     }
     else
     {
-        image.set(Image::OSG_RGB_PF, 3, 2, 1, 1, 1, 0, imgdata);
+        pImage->set(Image::OSG_RGB_PF, 3, 2, 1, 1, 1, 0, imgdata);
     }
     
     beginEditCP(tm);
     tm->setDiffuse( Color3f( 1,1,1 ) );
     tm->setLit( false );
 
-    tm->setImage( &image );
+    tm->setImage( pImage );
     tm->setEnvMode( GL_MODULATE );
     
     BlendChunkPtr bl=BlendChunk::create();

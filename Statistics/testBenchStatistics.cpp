@@ -30,7 +30,7 @@ int main (int argc, char **argv)
         dummy->getStatistics()->getElem(fooDesc)->inc();
     }
     stop = getSystemTime();    
-    cerr << "Int(inc): " << (stop-start)/count << "sec" << endl;
+    std::cerr << "Int(inc): " << (stop-start)/count << "sec" << std::endl;
     
     start = getSystemTime();
     for(i = 0; i < count; ++i)
@@ -38,7 +38,7 @@ int main (int argc, char **argv)
         dummy->getStatistics()->getElem(fooDesc,false)->inc();
     }
     stop = getSystemTime();    
-    cerr << "Int(inc): " << (stop-start)/count << "sec" << endl;
+    std::cerr << "Int(inc): " << (stop-start)/count << "sec" << std::endl;
 
     start = getSystemTime();
     for(i = 0; i < count; ++i)
@@ -47,7 +47,7 @@ int main (int argc, char **argv)
     }
     stop = getSystemTime();
     
-    cerr << "Real(set): " << (stop-start)/count << "sec" << endl;
+    std::cerr << "Real(set): " << (stop-start)/count << "sec" << std::endl;
 
     return 0;
 }

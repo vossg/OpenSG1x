@@ -1,12 +1,7 @@
 #include <OSGConfig.h>
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
 #include <fstream>
-#else
-#include <iostream.h>
-#include <fstream.h>
-#endif
 
 #include <OSGBaseFunctions.h>
 #include <OSGFieldContainerFactory.h>
@@ -15,14 +10,14 @@ int main (int argc, char **argv)
 {
     OSG::osgInit(argc, argv);
 
-    ostream * out = &cout;
+    std::ostream * out = &std::cout;
     char * name = "TextureChunk";
-    ofstream f;
+    std::ofstream f;
 
     switch ( argc )
     {
     case 2: if ( ! strcmp( argv[1], "-" ) )
-                out = &cout;
+                out = &std::cout;
             else
             {
                 f.open( argv[1] );
@@ -30,7 +25,7 @@ int main (int argc, char **argv)
             }
             break;
     case 3: if ( ! strcmp( argv[1], "-" ) )
-                out = &cout;
+                out = &std::cout;
             else
             {
                 f.open( argv[1] );

@@ -28,7 +28,7 @@ int main (int argc, char **argv)
 
     OSG::PLOG << "Num types : "
               << OSG::FieldContainerFactory::the()->getNumTypes()
-              << endl;
+              << std::endl;
 
     OSG::FieldContainerPtr pFC;
 
@@ -61,8 +61,8 @@ int main (int argc, char **argv)
     p1.dump (0, OSG::FCDumpFlags::RefCount);
     pb1.dump(0, OSG::FCDumpFlags::RefCount);
 
-    cerr << " N : " << p1->getType().getId()              << endl;
-    cerr << " N : " << OSG::Node::getClassType().getId() << endl;
+    std::cerr << " N : " << p1->getType().getId()              << std::endl;
+    std::cerr << " N : " << OSG::Node::getClassType().getId() << std::endl;
 
     OSG::NodePtr p2 = OSG::Node::create();
     OSG::NodePtr p3 = OSG::Node::create();
@@ -81,13 +81,13 @@ int main (int argc, char **argv)
 
     OSG::beginEditCP(p1);
 
-    cerr << "add p2" << endl;
+    std::cerr << "add p2" << std::endl;
 
     p1->addChild(p2);
     p1->dump (0, OSG::FCDumpFlags::RefCount);
     p1.dump(0, OSG::FCDumpFlags::RefCount);
 
-    cerr << "add p3" << endl;
+    std::cerr << "add p3" << std::endl;
 
     OSG::addRefCP(p3);
     p1->addChild(p3);
@@ -95,13 +95,13 @@ int main (int argc, char **argv)
     p1.dump  (0, OSG::FCDumpFlags::RefCount);
     p3.dump  (0, OSG::FCDumpFlags::RefCount);
 
-    cerr << "insert p4" << endl;
+    std::cerr << "insert p4" << std::endl;
 
     p1->insertChild(1, p4);
     p1->dump (0, OSG::FCDumpFlags::RefCount);
     p1.dump  (0, OSG::FCDumpFlags::RefCount);
 
-    cerr << "replace p3 -> p5" << endl;
+    std::cerr << "replace p3 -> p5" << std::endl;
 
     p1->replaceChild(2, p5);
     p1->dump (0, OSG::FCDumpFlags::RefCount);
@@ -113,32 +113,32 @@ int main (int argc, char **argv)
     p3->dump(0, OSG::FCDumpFlags::RefCount);
     p1.dump (0, OSG::FCDumpFlags::RefCount);
 
-    cerr << "replace p5 -> p3" << endl;
+    std::cerr << "replace p5 -> p3" << std::endl;
 
     p1->replaceChildBy(p5, p3);
     p1->dump(0, OSG::FCDumpFlags::RefCount);
     p1.dump (0, OSG::FCDumpFlags::RefCount);
 
-    cerr << "sub p2" << endl;
+    std::cerr << "sub p2" << std::endl;
 
     p2.dump (0, OSG::FCDumpFlags::RefCount);
     p1->subChild(p2);
     p1->dump(0, OSG::FCDumpFlags::RefCount);
     p1.dump (0, OSG::FCDumpFlags::RefCount);
 
-    cerr << "sub p6" << endl;
+    std::cerr << "sub p6" << std::endl;
 
     p1->subChild(p6);
     p1->dump(0, OSG::FCDumpFlags::RefCount);
     p1.dump (0, OSG::FCDumpFlags::RefCount);
 
-    cerr << "sub child 1" << endl;
+    std::cerr << "sub child 1" << std::endl;
 
     p1->subChild(1);
     p1->dump(0, OSG::FCDumpFlags::RefCount);
     p1.dump (0, OSG::FCDumpFlags::RefCount);
 
-    cerr << "sub child 0" << endl;
+    std::cerr << "sub child 0" << std::endl;
 
     p1->subChild(0);
     p1->dump(0, OSG::FCDumpFlags::RefCount);
@@ -155,7 +155,7 @@ int main (int argc, char **argv)
     p5.dump (0, OSG::FCDumpFlags::RefCount);
     p6.dump (0, OSG::FCDumpFlags::RefCount);
 
-    cerr << endl << endl << "Core test" << endl;
+    std::cerr << std::endl << std::endl << "Core test" << std::endl;
 
     p1.dump (0, OSG::FCDumpFlags::RefCount);
 
@@ -192,7 +192,7 @@ int main (int argc, char **argv)
     p1->dump(0, OSG::FCDumpFlags::RefCount);
     p2->dump(0, OSG::FCDumpFlags::RefCount);
 
-    cerr << endl << endl << "Indirect Del" << endl;
+    std::cerr << std::endl << std::endl << "Indirect Del" << std::endl;
 
     p2->setCore(OSG::NullFC);
 
@@ -200,7 +200,7 @@ int main (int argc, char **argv)
     p2.dump(0, OSG::FCDumpFlags::RefCount);
 
 
-    cerr << endl << endl << "Attachment test" << endl;
+    std::cerr << std::endl << std::endl << "Attachment test" << std::endl;
 
     OSG::NamePtr n1 = OSG::Name::create();
     OSG::NamePtr n2 = OSG::Name::create();
@@ -242,21 +242,21 @@ int main (int argc, char **argv)
 
     // test name convenience functions
     
-    cerr << "Name convenience" << endl;
+    std::cerr << "Name convenience" << std::endl;
     
-    cerr << "No name: " << OSG::getName(p3) << endl;
+    std::cerr << "No name: " << OSG::getName(p3) << std::endl;
     
     OSG::setName(p3, "Hugo");
     
-    cerr << "Name: " << OSG::getName(p3) << endl;
+    std::cerr << "Name: " << OSG::getName(p3) << std::endl;
     
-    OSG::setName(p3, string("Hugo"));
+    OSG::setName(p3, std::string("Hugo"));
     
-    cerr << "String Name: " << OSG::getName(p3) << endl;
+    std::cerr << "String Name: " << OSG::getName(p3) << std::endl;
      
     OSG::setName(p3, NULL);
     
-    cerr << "Removed Name: " << OSG::getName(p3) << endl;
+    std::cerr << "Removed Name: " << OSG::getName(p3) << std::endl;
    
 
 
@@ -382,8 +382,8 @@ int main (int argc, char **argv)
 
 //  Field *pI;
 
-    cout << "TypeCounter: "
-         << " | " << sizeof(FieldContainerPtr) << endl;
+    std::cout << "TypeCounter: "
+         << " | " << sizeof(FieldContainerPtr) << std::endl;
 
 
     FieldContainerPtr qFC = NullFC;
@@ -393,32 +393,32 @@ int main (int argc, char **argv)
 
 //    NullFC.dump();
 
-//  cout << "Stream output" << endl;
+//  std::cout << "Stream output" << std::endl;
 
-//  cout << "pFC: " ;
-//  cout << pFC << endl;
+//  std::cout << "pFC: " ;
+//  std::cout << pFC << std::endl;
 
-//  cout << "NullFC: " << qFC << endl;
+//  std::cout << "NullFC: " << qFC << std::endl;
 
 
     if(pFC != NullFC)
     {
 //        pFC->getType().print();
 
-//        cerr << pFC.dcast<NodePtr>()->getMFChildren() << endl;
+//        std::cerr << pFC.dcast<NodePtr>()->getMFChildren() << std::endl;
 
 //        pI = pFC->getField("children");
 
-//        cerr << pI << endl;
+//        std::cerr << pI << std::endl;
 
-//        cerr << pFC.dcast<NodePtr>()->getSFName() << endl;
+//        std::cerr << pFC.dcast<NodePtr>()->getSFName() << std::endl;
 
 //        pI = pFC->getField("name");
 
-//        cerr << pI << endl;
+//        std::cerr << pI << std::endl;
     }
 
-//    cerr << endl << endl;
+//    std::cerr << std::endl << std::endl;
 
 
 //    pb1->getType().print();
@@ -432,14 +432,14 @@ int main (int argc, char **argv)
 //    p1.dump();
 //    p2.dump();
 
-    cerr << endl << "Attachment test" << endl;
+    std::cerr << std::endl << "Attachment test" << std::endl;
 
     GeoPointsPtr pPoint;
 
-    cerr << "GeoPoints::getClassname()=" << GeoPoints::getClassname() << endl;
-    cerr << "GeoPointsPtr::getClassname()=" << GeoPointsPtr::getClassname() << endl;
-    cerr << "pPoint.getClassname()=" << pPoint.getClassname() << endl;
-    cerr << "(*pPoint).getClassname()=" << (*pPoint).getClassname() << endl;
+    std::cerr << "GeoPoints::getClassname()=" << GeoPoints::getClassname() << std::endl;
+    std::cerr << "GeoPointsPtr::getClassname()=" << GeoPointsPtr::getClassname() << std::endl;
+    std::cerr << "pPoint.getClassname()=" << pPoint.getClassname() << std::endl;
+    std::cerr << "(*pPoint).getClassname()=" << (*pPoint).getClassname() << std::endl;
 
     pPoint = GeoPoints::create();
 
@@ -455,7 +455,7 @@ int main (int argc, char **argv)
 
 //    NewNode *pNewProto = NewNode::getStaticType().createPrototype();
 
-    cerr << endl << "Proto test\n" << endl;
+    std::cerr << std::endl << "Proto test\n" << std::endl;
 
 //    NewNodePtr newNodeP = NewNode::create();
     NodePtr    nodeP    = Node::create();

@@ -268,22 +268,22 @@ int main(int argc, char **argv)
     UChar8 imgdata[] =
         {  255,255,255,  255,0,0,  255,0,255,
            255,0,0,  255,0,0,  255,255,255 };
-    Image image;
+    Image *pImage = new Image;
 
     if (argc > 2)
     {
-        image.read(argv[2]);
+        pImage->read(argv[2]);
     }
     else
     {
-        image.set(Image::OSG_RGB_PF, 3, 2, 1, 1, 1, 0, imgdata);
+        pImage->set(Image::OSG_RGB_PF, 3, 2, 1, 1, 1, 0, imgdata);
     }
     
     beginEditCP(tm);
     tm->setDiffuse( Color3f( 1,1,1 ) );
     tm->setLit( false );
 
-    tm->setImage( &image );
+    tm->setImage( pImage );
     tm->setEnvMode( GL_MODULATE );
     
     BlendChunkPtr bl=BlendChunk::create();
@@ -477,7 +477,7 @@ public:
         fwrite(mem,size,1,_file);
     }
 private:
-    vector<vector<OSG::UInt8> > _memory;
+    std::vector<std::vector<OSG::UInt8> > _memory;
     FILE *_file;
 };
 
@@ -540,9 +540,9 @@ void keyboard(unsigned char k, int , int )
                 bsp.dump();
                 
                 // ASCII
-                string s;
+                std::string s;
                 FieldDataTraits<ParticleBSPTree>::putToString(bsp,s);
-                PLOG << s << endl;
+                PLOG << s << std::endl;
                 const Char8 *c=s.c_str();
                 FieldDataTraits<ParticleBSPTree>::getFromString(bsp,c);
                 bsp.dump();
@@ -551,15 +551,15 @@ void keyboard(unsigned char k, int , int )
                 Int32 *order = bsp.traverse(ref,length);
                 for(UInt32 i = 0; i < length; i++)
                 {
-                    cout << order[i] << " ";
+                    std::cout << order[i] << " ";
                 }
-                cout << endl;
+                std::cout << std::endl;
                 delete [] order;
                 
                 // Bin
-                cout << "BIN:" 
+                std::cout << "BIN:" 
                      << FieldDataTraits<ParticleBSPTree>::getBinSize(bsp) 
-                     << endl;
+                     << std::endl;
                 
                 FILE* wfile=fopen("binfile","w");
                 TestHandler w(wfile);               

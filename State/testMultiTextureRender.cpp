@@ -34,7 +34,7 @@ TextureChunkPtr xchunk1, xchunk2;
 BlendChunkPtr blchunk;
 TextureTransformChunkPtr txchunk,txchunk2;
 
-Image image;
+Image *pImage;
 
 GLint dlid, dlid2;
 
@@ -102,14 +102,14 @@ void key(unsigned char key, int , int)
     case 'a':   UChar8 imgdata[32];
                 for ( int i = 0; i < 32; i++ )
                     imgdata[i] = (UChar8) rand();
-                image.set( Image::OSG_RGB_PF, 2, 2, 2, 1, 1, 0, imgdata );
+                pImage->set( Image::OSG_RGB_PF, 2, 2, 2, 1, 1, 0, imgdata );
                 xchunk1->imageContentChanged();
                 break;
     case 'b':   {
                 UChar8 imgdata[16];
                 for ( int i = 0; i < 16; i++ )
                     imgdata[i] = (UChar8) rand();
-                image.set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
+                pImage->set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
                 beginEditCP( xchunk1 );
                 xchunk1->setImage( &image );
                 endEditCP( xchunk1 );
@@ -200,6 +200,8 @@ int main( int argc, char *argv[] )
 
     Matrix m;
 
+    pImage = new Image;
+
     tchunk1 = TransformChunk::create();
     m.setTranslate( 0, 1, 0 );
     tchunk1->setMatrix( m );
@@ -229,14 +231,14 @@ int main( int argc, char *argv[] )
            255,255,0,  255,255,0,  255,255,255, };
 //  UChar8 limgdata[] =
 //      {  0, 128, 64, 255 };
-    image.set( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata );
+    pImage->set( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata );
 
     if ( argc > 1 )
-        image.read( argv[1] );
+        pImage->read( argv[1] );
 
     xchunk1 = TextureChunk::create();
     beginEditCP(xchunk1);
-    xchunk1->setImage( &image ); // NOTE: the image is NOT copied, the variable
+    xchunk1->setImage( pImage ); // NOTE: the image is NOT copied, the variable
                                  // needs to be kept around as long as the 
                                  // texture is used
     xchunk1->setMinFilter( GL_LINEAR );
@@ -250,7 +252,7 @@ int main( int argc, char *argv[] )
     xchunk1->imageContentChanged();
 
     beginEditCP(xchunk1);
-    xchunk1->setImage( &image );
+    xchunk1->setImage( pImage );
     endEditCP(xchunk1);
 
     UChar8 imgdata2[] =

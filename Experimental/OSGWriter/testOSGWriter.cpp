@@ -34,7 +34,7 @@ OSG_USING_NAMESPACE
 int main (int argc, char *argv[])
 {
     for ( int i = 0; i < argc; i++ )
-        cout << "Param " << i << ":" << argv[i] << endl;
+        std::cout << "Param " << i << ":" << argv[i] << std::endl;
     
     osgInit(argc, argv);
     
@@ -59,14 +59,15 @@ int main (int argc, char *argv[])
     root->addAttachment(pName);
     */
 
-    ofstream outFileStream( outFileName );
+    std::ofstream outFileStream( outFileName );
     if( !outFileStream )
     {
-        cerr << "Can not open output stream to file: " << outFileName << endl;
+        std::cerr << "Can not open output stream to file: "
+                  << outFileName << std::endl;
         return -1;
     }
 
-    cerr << "STARTING PRINTOUT:" << endl;
+    std::cerr << "STARTING PRINTOUT:" << std::endl;
     OSGWriter writer( outFileStream, 4 );
     writer.write( root );
                 

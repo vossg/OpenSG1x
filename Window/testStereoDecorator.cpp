@@ -66,7 +66,7 @@ void keyboard(unsigned char k, int, int)
                 break;         
     }
     
-    cout << "ZPP:" << zpp << " ED:" << ed << endl;
+    std::cout << "ZPP:" << zpp << " ED:" << ed << std::endl;
     
     beginEditCP(decoleft);
     decoleft->setEyeSeparation(ed);

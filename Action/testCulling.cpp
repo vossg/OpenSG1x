@@ -79,7 +79,7 @@ display(void)
 
 void reshape( int w, int h )
 {
-    cerr << "Reshape: " << w << "," << h << endl;
+    std::cerr << "Reshape: " << w << "," << h << std::endl;
     win->resize( w, h );
 }
 
@@ -170,34 +170,34 @@ void key(unsigned char key, int x, int y)
     {
         case 27:    osgExit(); exit(0);
         case 'a':   glDisable( GL_LIGHTING );
-            cerr << "Lighting disabled." << endl;
+            std::cerr << "Lighting disabled." << std::endl;
             break;
         case 's':   glEnable( GL_LIGHTING );
-            cerr << "Lighting enabled." << endl;
+            std::cerr << "Lighting enabled." << std::endl;
             break;
         case 'z':   glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
-            cerr << "PolygonMode: Point." << endl;
+            std::cerr << "PolygonMode: Point." << std::endl;
             break;
         case 'x':   glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
-            cerr << "PolygonMode: Line." << endl;
+            std::cerr << "PolygonMode: Line." << std::endl;
             break;
         case 'c':   glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
-            cerr << "PolygonMode: Fill." << endl;
+            std::cerr << "PolygonMode: Fill." << std::endl;
             break;
-        case 'r':   cerr << "Sending ray through " << x << "," << y << endl;
+        case 'r':   std::cerr << "Sending ray through " << x << "," << y << std::endl;
             {
         Line l;
             cam->calcViewRay( l, x, y, *vp );
-            cerr << "From " << l.getPosition() << ", dir " << l.getDirection() << endl;
+            std::cerr << "From " << l.getPosition() << ", dir " << l.getDirection() << std::endl;
             }
         break;
         case 'd':   ract->setAutoFrustum( ! ract->getAutoFrustum() );
-            cerr << "autoFrustum: " << (ract->getAutoFrustum()?"true":"false")
-             << endl;
+            std::cerr << "autoFrustum: " << (ract->getAutoFrustum()?"true":"false")
+             << std::endl;
             break;
         case 'f':   ract->setVolumeDrawing( ! ract->getVolumeDrawing() );
-            cerr << "VolumeDrawing: " << (ract->getVolumeDrawing()?"true":"false")
-             << endl;
+            std::cerr << "VolumeDrawing: " << (ract->getVolumeDrawing()?"true":"false")
+             << std::endl;
             break;
     }
 }
@@ -334,7 +334,7 @@ int main (int argc, char **argv)
     Vec3f min,max;
     georoot->getVolume().getBounds( min, max );
     
-    cout << "Volume: from " << min << " to " << max << endl;
+    std::cout << "Volume: from " << min << " to " << max << std::endl;
 
     beginEditCP(dlight);
     dlight->addChild( georoot );
@@ -360,7 +360,7 @@ int main (int argc, char **argv)
     vp->setSize( 0,0, 1,1 );
 
     // Window
-    cout << "GLUT winid: " << winid << endl;
+    std::cout << "GLUT winid: " << winid << std::endl;
 
     GLUTWindowPtr gwin;
 
