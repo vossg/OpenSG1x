@@ -45,7 +45,7 @@ int     optopt = 0;
 char    *optarg = 0;
 
 int
-getopt(int argc, char **argv, char *opts)
+getopt(int argc, char **argv, const char *opts)
 {
         static int sp = 1;
         register int c;
