@@ -70,9 +70,21 @@ class LightBase;
 
 typedef FCPtr<NodeCorePtr, LightBase> LightBasePtr;
 
+/*! \brief LightBasePtr field traits 
+    \ingroup FieldLib
+*/
+
+template <>
+struct FieldDataTraits<LightBasePtr> : 
+    public FieldTraitsRecurseMapper<LightBasePtr>
+{
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
+};
+
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTBASEFIELDS_HEADER_CVSID "@(#)$Id: OSGLightBaseFields.h,v 1.9 2001/11/30 11:48:20 vossg Exp $"
+#define OSGLIGHTBASEFIELDS_HEADER_CVSID "@(#)$Id: OSGLightBaseFields.h,v 1.10 2002/06/20 13:02:21 vossg Exp $"
 
 #endif /* _OSGLIGHTBASEFIELDS_H_ */

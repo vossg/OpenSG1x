@@ -70,9 +70,21 @@ class DirectionalLight;
 
 typedef FCPtr<LightBasePtr, DirectionalLight> DirectionalLightPtr;
 
+/*! \brief DirectionalLightPtr field traits 
+    \ingroup FieldLib
+*/
+
+template <>
+struct FieldDataTraits<DirectionalLightPtr> : 
+    public FieldTraitsRecurseMapper<DirectionalLightPtr>
+{
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
+};
+
 
 OSG_END_NAMESPACE
 
-#define OSGDIRECTIONALLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGDirectionalLightFields.h,v 1.9 2001/11/30 11:48:20 vossg Exp $"
+#define OSGDIRECTIONALLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGDirectionalLightFields.h,v 1.10 2002/06/20 13:02:21 vossg Exp $"
 
 #endif /* _OSGDIRECTIONALLIGHTFIELDS_H_ */

@@ -98,8 +98,7 @@ PassiveViewportPtr PassiveViewportBase::createEmpty(void)
 
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGPASSIVEVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGPassiveViewportBase.inl,v 1.2 2002/03/25 01:26:00 vossg Exp $"
+#define OSGPASSIVEVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGPassiveViewportBase.inl,v 1.3 2002/06/20 13:02:17 vossg Exp $"
 

@@ -240,8 +240,7 @@ const MFUInt32 &WindowBase::getGlObjectLastReinitialize(void) const
     return _mfGlObjectLastReinitialize;
 }
 
-
 OSG_END_NAMESPACE
 
-#define OSGWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGWindowBase.inl,v 1.16 2002/05/13 09:21:12 vossg Exp $"
+#define OSGWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGWindowBase.inl,v 1.17 2002/06/20 13:02:17 vossg Exp $"
 

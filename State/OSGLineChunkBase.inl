@@ -194,8 +194,7 @@ void LineChunkBase::setSmooth(const bool &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGLINECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGLineChunkBase.inl,v 1.5 2002/03/25 01:25:59 vossg Exp $"
+#define OSGLINECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGLineChunkBase.inl,v 1.6 2002/06/20 13:02:19 vossg Exp $"
 

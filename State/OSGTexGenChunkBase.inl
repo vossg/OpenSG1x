@@ -290,8 +290,7 @@ void TexGenChunkBase::setGenFuncQPlane(const Vec4f &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGTEXGENCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTexGenChunkBase.inl,v 1.1 2002/06/10 22:10:47 dirk Exp $"
+#define OSGTEXGENCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTexGenChunkBase.inl,v 1.2 2002/06/20 13:02:20 vossg Exp $"
 

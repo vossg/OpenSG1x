@@ -146,7 +146,6 @@ void MultiDisplayWindowBase::setVServers(const UInt32 &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
 #define OSGMULTIDISPLAYWINDOWBASE_INLINE_CVSID "@(#)$Id: $"

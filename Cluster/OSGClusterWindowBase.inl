@@ -194,7 +194,6 @@ const MFString &ClusterWindowBase::getServers(void) const
     return _mfServers;
 }
 
-
 OSG_END_NAMESPACE
 
 #define OSGCLUSTERWINDOWBASE_INLINE_CVSID "@(#)$Id: $"

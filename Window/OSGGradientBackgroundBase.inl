@@ -146,8 +146,7 @@ const MFReal32 &GradientBackgroundBase::getPosition(void) const
     return _mfPosition;
 }
 
-
 OSG_END_NAMESPACE
 
-#define OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGGradientBackgroundBase.inl,v 1.10 2002/05/13 09:21:11 vossg Exp $"
+#define OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGGradientBackgroundBase.inl,v 1.11 2002/06/20 13:02:17 vossg Exp $"
 

@@ -122,8 +122,7 @@ const MFStateChunkPtr &ChunkMaterialBase::getChunks(void) const
     return _mfChunks;
 }
 
-
 OSG_END_NAMESPACE
 
-#define OSGCHUNKMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGChunkMaterialBase.inl,v 1.10 2002/05/13 09:21:10 vossg Exp $"
+#define OSGCHUNKMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGChunkMaterialBase.inl,v 1.11 2002/06/20 13:02:22 vossg Exp $"
 

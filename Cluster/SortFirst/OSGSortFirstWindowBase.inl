@@ -218,7 +218,6 @@ const MFUInt32 &SortFirstWindowBase::getRegion(void) const
     return _mfRegion;
 }
 
-
 OSG_END_NAMESPACE
 
 #define OSGSORTFIRSTWINDOWBASE_INLINE_CVSID "@(#)$Id: $"

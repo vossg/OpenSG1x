@@ -70,9 +70,21 @@ class LineChunk;
 
 typedef FCPtr<StateChunkPtr, LineChunk> LineChunkPtr;
 
+/*! \brief LineChunkPtr field traits 
+    \ingroup FieldLib
+*/
+
+template <>
+struct FieldDataTraits<LineChunkPtr> : 
+    public FieldTraitsRecurseMapper<LineChunkPtr>
+{
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
+};
+
 
 OSG_END_NAMESPACE
 
-#define OSGLINECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGLineChunkFields.h,v 1.2 2002/01/09 10:27:56 dirk Exp $"
+#define OSGLINECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGLineChunkFields.h,v 1.3 2002/06/20 13:02:19 vossg Exp $"
 
 #endif /* _OSGLINECHUNKFIELDS_H_ */

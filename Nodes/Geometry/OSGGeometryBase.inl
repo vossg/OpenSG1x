@@ -458,8 +458,7 @@ const MFUInt16 &GeometryBase::getIndexMapping(void) const
     return _mfIndexMapping;
 }
 
-
 OSG_END_NAMESPACE
 
-#define OSGGEOMETRYBASE_INLINE_CVSID "@(#)$Id: OSGGeometryBase.inl,v 1.16 2002/06/10 22:08:18 dirk Exp $"
+#define OSGGEOMETRYBASE_INLINE_CVSID "@(#)$Id: OSGGeometryBase.inl,v 1.17 2002/06/20 13:02:21 vossg Exp $"
 

@@ -122,7 +122,6 @@ void SwitchBase::setChoice(const Int32 &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
 #define OSGSWITCHBASE_INLINE_CVSID "@(#)$Id: $"

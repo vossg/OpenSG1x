@@ -72,7 +72,6 @@ OSG::UInt32 ForegroundBase::getClassTypeId(void)
 
 
 
-
 OSG_END_NAMESPACE
 
 #define OSGFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: $"

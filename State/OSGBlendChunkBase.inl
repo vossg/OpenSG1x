@@ -218,8 +218,7 @@ void BlendChunkBase::setAlphaValue(const Real32 &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGBLENDCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGBlendChunkBase.inl,v 1.11 2002/03/25 01:25:59 vossg Exp $"
+#define OSGBLENDCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGBlendChunkBase.inl,v 1.12 2002/06/20 13:02:19 vossg Exp $"
 

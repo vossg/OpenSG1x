@@ -72,8 +72,7 @@ OSG::UInt32 BackgroundBase::getClassTypeId(void)
 
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGBackgroundBase.inl,v 1.6 2002/03/25 01:26:00 vossg Exp $"
+#define OSGBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGBackgroundBase.inl,v 1.7 2002/06/20 13:02:16 vossg Exp $"
 

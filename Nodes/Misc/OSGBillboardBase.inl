@@ -170,7 +170,6 @@ void BillboardBase::setAlignToScreen(const bool &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
 #define OSGBILLBOARDBASE_INLINE_CVSID "@(#)$Id: $"

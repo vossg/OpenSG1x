@@ -98,8 +98,7 @@ TextureTransformChunkPtr TextureTransformChunkBase::createEmpty(void)
 
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGTEXTURETRANSFORMCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTextureTransformChunkBase.inl,v 1.2 2002/03/25 01:25:59 vossg Exp $"
+#define OSGTEXTURETRANSFORMCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTextureTransformChunkBase.inl,v 1.3 2002/06/20 13:02:20 vossg Exp $"
 

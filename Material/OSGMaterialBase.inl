@@ -72,8 +72,7 @@ OSG::UInt32 MaterialBase::getClassTypeId(void)
 
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGMaterialBase.inl,v 1.6 2002/03/25 01:25:58 vossg Exp $"
+#define OSGMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGMaterialBase.inl,v 1.7 2002/06/20 13:02:23 vossg Exp $"
 

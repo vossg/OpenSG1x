@@ -120,8 +120,7 @@ const MFInt32 &StatisticsForegroundBase::getElementIDs(void) const
     return _mfElementIDs;
 }
 
-
 OSG_END_NAMESPACE
 
-#define OSGSTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGStatisticsForegroundBase.inl,v 1.3 2002/05/13 09:21:11 vossg Exp $"
+#define OSGSTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGStatisticsForegroundBase.inl,v 1.4 2002/06/20 13:02:20 vossg Exp $"
 

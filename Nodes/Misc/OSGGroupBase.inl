@@ -98,8 +98,7 @@ GroupPtr GroupBase::createEmpty(void)
 
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGGROUPBASE_INLINE_CVSID "@(#)$Id: OSGGroupBase.inl,v 1.7 2002/03/25 01:25:59 vossg Exp $"
+#define OSGGROUPBASE_INLINE_CVSID "@(#)$Id: OSGGroupBase.inl,v 1.8 2002/06/20 13:02:22 vossg Exp $"
 

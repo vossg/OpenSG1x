@@ -70,9 +70,21 @@ class PointLight;
 
 typedef FCPtr<LightBasePtr, PointLight> PointLightPtr;
 
+/*! \brief PointLightPtr field traits 
+    \ingroup FieldLib
+*/
+
+template <>
+struct FieldDataTraits<PointLightPtr> : 
+    public FieldTraitsRecurseMapper<PointLightPtr>
+{
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
+};
+
 
 OSG_END_NAMESPACE
 
-#define OSGPOINTLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGPointLightFields.h,v 1.9 2001/11/30 11:48:20 vossg Exp $"
+#define OSGPOINTLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGPointLightFields.h,v 1.10 2002/06/20 13:02:21 vossg Exp $"
 
 #endif /* _OSGPOINTLIGHTFIELDS_H_ */

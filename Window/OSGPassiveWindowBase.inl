@@ -98,8 +98,7 @@ PassiveWindowPtr PassiveWindowBase::createEmpty(void)
 
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGPASSIVEWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGPassiveWindowBase.inl,v 1.3 2002/03/25 01:26:00 vossg Exp $"
+#define OSGPASSIVEWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGPassiveWindowBase.inl,v 1.4 2002/06/20 13:02:17 vossg Exp $"
 

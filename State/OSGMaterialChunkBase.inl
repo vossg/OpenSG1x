@@ -266,8 +266,7 @@ void MaterialChunkBase::setColorMaterial(const UInt32 &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGMATERIALCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGMaterialChunkBase.inl,v 1.12 2002/03/25 01:25:59 vossg Exp $"
+#define OSGMATERIALCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGMaterialChunkBase.inl,v 1.13 2002/06/20 13:02:19 vossg Exp $"
 

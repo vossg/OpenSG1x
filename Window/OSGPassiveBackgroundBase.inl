@@ -98,7 +98,6 @@ PassiveBackgroundPtr PassiveBackgroundBase::createEmpty(void)
 
 
 
-
 OSG_END_NAMESPACE
 
 #define OSGPASSIVEBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: $"

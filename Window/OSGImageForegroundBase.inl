@@ -146,8 +146,7 @@ const MFPnt2f &ImageForegroundBase::getPositions(void) const
     return _mfPositions;
 }
 
-
 OSG_END_NAMESPACE
 
-#define OSGIMAGEFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGImageForegroundBase.inl,v 1.4 2002/05/13 09:21:11 vossg Exp $"
+#define OSGIMAGEFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGImageForegroundBase.inl,v 1.5 2002/06/20 13:02:17 vossg Exp $"
 

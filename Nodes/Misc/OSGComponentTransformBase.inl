@@ -218,8 +218,7 @@ void ComponentTransformBase::setTranslation(const Vec3f &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGCOMPONENTTRANSFORMBASE_INLINE_CVSID "@(#)$Id: OSGComponentTransformBase.inl,v 1.2 2002/03/25 01:25:59 vossg Exp $"
+#define OSGCOMPONENTTRANSFORMBASE_INLINE_CVSID "@(#)$Id: OSGComponentTransformBase.inl,v 1.3 2002/06/20 13:02:21 vossg Exp $"
 

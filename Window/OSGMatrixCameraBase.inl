@@ -146,8 +146,7 @@ void MatrixCameraBase::setModelviewMatrix(const Matrix &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGMATRIXCAMERABASE_INLINE_CVSID "@(#)$Id: OSGMatrixCameraBase.inl,v 1.3 2002/03/25 01:26:00 vossg Exp $"
+#define OSGMATRIXCAMERABASE_INLINE_CVSID "@(#)$Id: OSGMatrixCameraBase.inl,v 1.4 2002/06/20 13:02:17 vossg Exp $"
 

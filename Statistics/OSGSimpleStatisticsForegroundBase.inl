@@ -170,8 +170,7 @@ const MFString &SimpleStatisticsForegroundBase::getFormats(void) const
     return _mfFormats;
 }
 
-
 OSG_END_NAMESPACE
 
-#define OSGSIMPLESTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGSimpleStatisticsForegroundBase.inl,v 1.3 2002/05/13 09:21:11 vossg Exp $"
+#define OSGSIMPLESTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGSimpleStatisticsForegroundBase.inl,v 1.4 2002/06/20 13:02:20 vossg Exp $"
 

@@ -70,6 +70,18 @@ class SortFirstWindow;
 
 typedef FCPtr<ClusterWindowPtr, SortFirstWindow> SortFirstWindowPtr;
 
+/*! \brief SortFirstWindowPtr field traits 
+    \ingroup FieldLib
+*/
+
+template <>
+struct FieldDataTraits<SortFirstWindowPtr> : 
+    public FieldTraitsRecurseMapper<SortFirstWindowPtr>
+{
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
+};
+
 
 OSG_END_NAMESPACE
 

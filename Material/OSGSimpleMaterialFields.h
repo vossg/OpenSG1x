@@ -70,6 +70,10 @@ class SimpleMaterial;
 
 typedef FCPtr<ChunkMaterialPtr, SimpleMaterial> SimpleMaterialPtr;
 
+/*! \brief SimpleMaterialPtr field traits 
+    \ingroup FieldLib
+*/
+
 template <>
 struct FieldDataTraits<SimpleMaterialPtr> : 
     public FieldTraitsRecurseMapper<SimpleMaterialPtr>
@@ -78,8 +82,9 @@ struct FieldDataTraits<SimpleMaterialPtr> :
     enum                        { bHasParent        = 0x01 };
 };
 
+
 OSG_END_NAMESPACE
 
-#define OSGSIMPLEMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGSimpleMaterialFields.h,v 1.10 2002/06/18 11:39:56 vossg Exp $"
+#define OSGSIMPLEMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGSimpleMaterialFields.h,v 1.11 2002/06/20 13:02:23 vossg Exp $"
 
 #endif /* _OSGSIMPLEMATERIALFIELDS_H_ */

@@ -338,8 +338,7 @@ void LightChunkBase::setQuadraticAttenuation(const Real32 &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGLIGHTCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGLightChunkBase.inl,v 1.9 2002/03/25 01:25:59 vossg Exp $"
+#define OSGLIGHTCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGLightChunkBase.inl,v 1.10 2002/06/20 13:02:19 vossg Exp $"
 

@@ -170,8 +170,7 @@ void ImageBackgroundBase::setScale(const bool &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGImageBackgroundBase.inl,v 1.5 2002/03/25 01:26:00 vossg Exp $"
+#define OSGIMAGEBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGImageBackgroundBase.inl,v 1.6 2002/06/20 13:02:17 vossg Exp $"
 

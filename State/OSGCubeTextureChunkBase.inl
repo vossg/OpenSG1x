@@ -218,8 +218,7 @@ void CubeTextureChunkBase::setNegYImage(const ImageP &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGCUBETEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGCubeTextureChunkBase.inl,v 1.1 2002/06/10 22:10:46 dirk Exp $"
+#define OSGCUBETEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGCubeTextureChunkBase.inl,v 1.2 2002/06/20 13:02:19 vossg Exp $"
 

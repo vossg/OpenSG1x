@@ -170,8 +170,7 @@ void XWindowBase::setContext(const GLXContext &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGXWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGXWindowBase.inl,v 1.2 2002/03/25 01:26:01 vossg Exp $"
+#define OSGXWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGXWindowBase.inl,v 1.3 2002/06/20 13:02:18 vossg Exp $"
 

@@ -70,6 +70,10 @@ class Geometry;
 
 typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
 
+/*! \brief GeometryPtr field traits 
+    \ingroup FieldLib
+*/
+
 template <>
 struct FieldDataTraits<GeometryPtr> : 
     public FieldTraitsRecurseMapper<GeometryPtr>
@@ -78,8 +82,9 @@ struct FieldDataTraits<GeometryPtr> :
     enum                        { bHasParent        = 0x01 };
 };
 
+
 OSG_END_NAMESPACE
 
-#define OSGGEOMETRYFIELDS_HEADER_CVSID "@(#)$Id: OSGGeometryFields.h,v 1.10 2002/06/20 11:02:16 vossg Exp $"
+#define OSGGEOMETRYFIELDS_HEADER_CVSID "@(#)$Id: OSGGeometryFields.h,v 1.11 2002/06/20 13:02:21 vossg Exp $"
 
 #endif /* _OSGGEOMETRYFIELDS_H_ */

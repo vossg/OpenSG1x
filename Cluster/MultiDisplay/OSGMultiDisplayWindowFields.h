@@ -70,6 +70,18 @@ class MultiDisplayWindow;
 
 typedef FCPtr<ClusterWindowPtr, MultiDisplayWindow> MultiDisplayWindowPtr;
 
+/*! \brief MultiDisplayWindowPtr field traits 
+    \ingroup FieldLib
+*/
+
+template <>
+struct FieldDataTraits<MultiDisplayWindowPtr> : 
+    public FieldTraitsRecurseMapper<MultiDisplayWindowPtr>
+{
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
+};
+
 
 OSG_END_NAMESPACE
 

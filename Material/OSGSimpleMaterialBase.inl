@@ -290,8 +290,7 @@ void SimpleMaterialBase::setColorMaterial(const UInt32 &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGSIMPLEMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGSimpleMaterialBase.inl,v 1.11 2002/03/25 01:25:58 vossg Exp $"
+#define OSGSIMPLEMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGSimpleMaterialBase.inl,v 1.12 2002/06/20 13:02:23 vossg Exp $"
 

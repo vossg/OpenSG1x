@@ -120,8 +120,7 @@ void StereoCameraDecoratorBase::setEyeSeparation(const Real32 &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGSTEREOCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGStereoCameraDecoratorBase.inl,v 1.2 2002/03/25 01:26:00 vossg Exp $"
+#define OSGSTEREOCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGStereoCameraDecoratorBase.inl,v 1.3 2002/06/20 13:02:17 vossg Exp $"
 

@@ -770,8 +770,7 @@ const MFUInt32 &RegisterCombinersChunkBase::getVariableG(void) const
     return _mfVariableG;
 }
 
-
 OSG_END_NAMESPACE
 
-#define OSGREGISTERCOMBINERSCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGRegisterCombinersChunkBase.inl,v 1.1 2002/06/10 22:10:47 dirk Exp $"
+#define OSGREGISTERCOMBINERSCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGRegisterCombinersChunkBase.inl,v 1.2 2002/06/20 13:02:20 vossg Exp $"
 

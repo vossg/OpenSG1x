@@ -122,8 +122,7 @@ void DirectionalLightBase::setDirection(const Vec3f &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGDIRECTIONALLIGHTBASE_INLINE_CVSID "@(#)$Id: OSGDirectionalLightBase.inl,v 1.9 2002/03/25 01:25:58 vossg Exp $"
+#define OSGDIRECTIONALLIGHTBASE_INLINE_CVSID "@(#)$Id: OSGDirectionalLightBase.inl,v 1.10 2002/06/20 13:02:21 vossg Exp $"
 

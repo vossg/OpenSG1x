@@ -122,8 +122,7 @@ void GLUTWindowBase::setId(const Int32 &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGGLUTWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGGLUTWindowBase.inl,v 1.2 2002/03/25 01:26:01 vossg Exp $"
+#define OSGGLUTWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGGLUTWindowBase.inl,v 1.3 2002/06/20 13:02:18 vossg Exp $"
 

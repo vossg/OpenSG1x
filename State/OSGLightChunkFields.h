@@ -70,9 +70,21 @@ class LightChunk;
 
 typedef FCPtr<StateChunkPtr, LightChunk> LightChunkPtr;
 
+/*! \brief LightChunkPtr field traits 
+    \ingroup FieldLib
+*/
+
+template <>
+struct FieldDataTraits<LightChunkPtr> : 
+    public FieldTraitsRecurseMapper<LightChunkPtr>
+{
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
+};
+
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGLightChunkFields.h,v 1.9 2001/11/30 11:48:20 vossg Exp $"
+#define OSGLIGHTCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGLightChunkFields.h,v 1.10 2002/06/20 13:02:19 vossg Exp $"
 
 #endif /* _OSGLIGHTCHUNKFIELDS_H_ */

@@ -72,8 +72,7 @@ OSG::UInt32 StateChunkBase::getClassTypeId(void)
 
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGSTATECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGStateChunkBase.inl,v 1.6 2002/03/25 01:25:59 vossg Exp $"
+#define OSGSTATECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGStateChunkBase.inl,v 1.7 2002/06/20 13:02:20 vossg Exp $"
 

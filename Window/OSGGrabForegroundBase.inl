@@ -122,8 +122,7 @@ void GrabForegroundBase::setImage(const ImageP &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGGRABFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGGrabForegroundBase.inl,v 1.2 2002/03/25 01:26:00 vossg Exp $"
+#define OSGGRABFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGGrabForegroundBase.inl,v 1.3 2002/06/20 13:02:17 vossg Exp $"
 

@@ -122,8 +122,7 @@ const MFStateChunkPtr &StateBase::getChunks(void) const
     return _mfChunks;
 }
 
-
 OSG_END_NAMESPACE
 
-#define OSGSTATEBASE_INLINE_CVSID "@(#)$Id: OSGStateBase.inl,v 1.12 2002/05/13 09:21:11 vossg Exp $"
+#define OSGSTATEBASE_INLINE_CVSID "@(#)$Id: OSGStateBase.inl,v 1.13 2002/06/20 13:02:20 vossg Exp $"
 

@@ -146,8 +146,7 @@ void StereoBufferViewportBase::setRightBuffer(const bool &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGSTEREOBUFFERVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGStereoBufferViewportBase.inl,v 1.2 2002/03/25 01:26:00 vossg Exp $"
+#define OSGSTEREOBUFFERVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGStereoBufferViewportBase.inl,v 1.3 2002/06/20 13:02:17 vossg Exp $"
 

@@ -266,8 +266,7 @@ const MFPnt3f &ProjectionCameraDecoratorBase::getSurface(void) const
     return _mfSurface;
 }
 
-
 OSG_END_NAMESPACE
 
-#define OSGPROJECTIONCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGProjectionCameraDecoratorBase.inl,v 1.3 2002/05/13 09:21:11 vossg Exp $"
+#define OSGPROJECTIONCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGProjectionCameraDecoratorBase.inl,v 1.4 2002/06/20 13:02:17 vossg Exp $"
 

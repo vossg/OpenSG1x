@@ -70,9 +70,21 @@ class DistanceLOD;
 
 typedef FCPtr<GroupPtr, DistanceLOD> DistanceLODPtr;
 
+/*! \brief DistanceLODPtr field traits 
+    \ingroup FieldLib
+*/
+
+template <>
+struct FieldDataTraits<DistanceLODPtr> : 
+    public FieldTraitsRecurseMapper<DistanceLODPtr>
+{
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
+};
+
 
 OSG_END_NAMESPACE
 
-#define OSGDISTANCELODFIELDS_HEADER_CVSID "@(#)$Id: OSGDistanceLODFields.h,v 1.7 2002/02/04 16:09:54 dirk Exp $"
+#define OSGDISTANCELODFIELDS_HEADER_CVSID "@(#)$Id: OSGDistanceLODFields.h,v 1.8 2002/06/20 13:02:22 vossg Exp $"
 
 #endif /* _OSGDISTANCELODFIELDS_H_ */

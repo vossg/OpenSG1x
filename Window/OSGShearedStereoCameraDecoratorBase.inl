@@ -146,8 +146,7 @@ void ShearedStereoCameraDecoratorBase::setOverlap(const Real32 &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGSHEAREDSTEREOCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGShearedStereoCameraDecoratorBase.inl,v 1.2 2002/03/25 01:26:00 vossg Exp $"
+#define OSGSHEAREDSTEREOCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGShearedStereoCameraDecoratorBase.inl,v 1.3 2002/06/20 13:02:17 vossg Exp $"
 

@@ -122,8 +122,7 @@ void MaterialGroupBase::setMaterial(const MaterialPtr &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGMATERIALGROUPBASE_INLINE_CVSID "@(#)$Id: OSGMaterialGroupBase.inl,v 1.8 2002/03/25 01:25:59 vossg Exp $"
+#define OSGMATERIALGROUPBASE_INLINE_CVSID "@(#)$Id: OSGMaterialGroupBase.inl,v 1.9 2002/06/20 13:02:22 vossg Exp $"
 

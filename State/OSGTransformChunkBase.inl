@@ -122,8 +122,7 @@ void TransformChunkBase::setMatrix(const Matrix &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTransformChunkBase.inl,v 1.9 2002/03/25 01:25:59 vossg Exp $"
+#define OSGTRANSFORMCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTransformChunkBase.inl,v 1.10 2002/06/20 13:02:20 vossg Exp $"
 

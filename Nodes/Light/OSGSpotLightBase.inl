@@ -170,8 +170,7 @@ void SpotLightBase::setSpotCutOff(const Real32 &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGSPOTLIGHTBASE_INLINE_CVSID "@(#)$Id: OSGSpotLightBase.inl,v 1.9 2002/03/25 01:25:58 vossg Exp $"
+#define OSGSPOTLIGHTBASE_INLINE_CVSID "@(#)$Id: OSGSpotLightBase.inl,v 1.10 2002/06/20 13:02:21 vossg Exp $"
 

@@ -194,8 +194,7 @@ void WIN32WindowBase::setPaintstruct(const PAINTSTRUCT &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGWIN32WINDOWBASE_INLINE_CVSID "@(#)$Id: OSGWIN32WindowBase.inl,v 1.3 2002/03/25 01:26:01 vossg Exp $"
+#define OSGWIN32WINDOWBASE_INLINE_CVSID "@(#)$Id: OSGWIN32WindowBase.inl,v 1.4 2002/06/20 13:02:18 vossg Exp $"
 

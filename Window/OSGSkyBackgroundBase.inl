@@ -362,8 +362,7 @@ const MFReal32 &SkyBackgroundBase::getGroundAngle(void) const
     return _mfGroundAngle;
 }
 
-
 OSG_END_NAMESPACE
 
-#define OSGSKYBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGSkyBackgroundBase.inl,v 1.3 2002/05/13 09:21:11 vossg Exp $"
+#define OSGSKYBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGSkyBackgroundBase.inl,v 1.4 2002/06/20 13:02:17 vossg Exp $"
 
