@@ -49,7 +49,7 @@ $(OBJDIR)/%.$(OBJEXT): %.s
 		     $(PROJLIBS) $(POST_LINK_LIBS) /out:$@ 
 
 $(OBJDIRBASE)$(DBG)/%_qt_moc.cpp: %_qt.hpp
-	$(MOC) $< -o $@
+	$(MOC) $< -i -o $@
 
 else
 
@@ -83,7 +83,7 @@ $(OBJDIRBASE)$(DBG)/%.$(OBJEXT): %.s
 		     $(PROJLIBS) $(POST_LINK_LIBS) -o $@ 
 
 $(OBJDIRBASE)$(DBG)/%_qt_moc.cpp: %_qt.hpp
-	$(MOC) $< -o $@
+	$(MOC) $< -i -o $@
 
 endif
 
@@ -186,26 +186,26 @@ DEF_SOFLAG :=
 endif
 endif
 
-$(SUB_LIB): $(LIBOBJECTS) 
+$(SUB_LIB): $(LIBQTMOCSOURCES_CPP) $(LIBOBJECTS) 
 ifdef LIBOBJECTS
 	@echo $(LIBOBJECTS) 
 	$(AR) /out:"$(SUB_LIB)" $(LIBOBJECTS) $(AR_FLAGS) $(DEF_FLAG)
 endif
 
-$(SUB_SO): $(LIBOBJECTS) $(PROJLIBSDEP)
+$(SUB_SO): $(LIBQTMOCSOURCES_CPP) $(LIBOBJECTS) $(PROJLIBSDEP)
 	@echo $(LIBOBJECTS) $(AR_FLAGS)
 	$(LD_SHARED) /out:"$(SUB_SO)" $(LD_SHARED_FLAGS) $(DEF_SOFLAG) \
 	$(LIBOBJECTS) $(PROJLIBS) $(POST_LINK_LIBS) 
 
 else
 
-$(SUB_LIB): $(LIBOBJECTS) 
+$(SUB_LIB): $(LIBQTMOCSOURCES_CPP) $(LIBOBJECTS) 
 ifdef LIBOBJECTS
 	@echo $(LIBOBJECTS) 
 	$(AR) $(SUB_LIB) $(LIBOBJECTS) $(AR_FLAGS)
 endif
 
-$(SUB_SO): $(LIBOBJECTS) $(PROJLIBSDEP)
+$(SUB_SO): $(LIBQTMOCSOURCES_CPP) $(LIBOBJECTS) $(PROJLIBSDEP)
 	@echo $(LIBOBJECTS) $(AR_FLAGS)
 	$(LD_SHARED) -o $(SUB_SO) $(LIBOBJECTS) $(PROJLIBS)
 endif
