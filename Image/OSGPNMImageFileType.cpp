@@ -114,11 +114,11 @@ PNMImageFileType PNMImageFileType::_the ( 	suffixArray,
 //------------------------------
 bool PNMImageFileType::read (Image &image, const Char8 *fileName )
 {
-  bool isBinary = true;
-	Int16 dataSize, type = 0;
+        bool isBinary = true;
+	Int16 type = 0;
 	Int16 width, height, lineSize, maxValue = 0, value, x, y;
 	UInt16 i;
-  UInt8 id, commentKey = '#';
+        UInt8 id, commentKey = '#';
 	ifstream in(fileName, ios::in );
 	
 	if (in.rdbuf()->is_open()) {
@@ -127,8 +127,13 @@ bool PNMImageFileType::read (Image &image, const Char8 *fileName )
 		while (in.peek() == commentKey) 
 			in.ignore(INT_MAX, '\n');
 		in >> width >> height;
-    isBinary = (type > 3) ? true : false;
+                isBinary = (type > 3) ? true : false;
 	}
+        else
+        {
+                FWARNING(( "Error opening PNM file %s!\n", fileName ));
+                return false;
+        }
 
 	switch (type) {
 	case 1:
@@ -166,7 +171,7 @@ bool PNMImageFileType::read (Image &image, const Char8 *fileName )
 	in.ignore(INT_MAX, '\n');
 	
 	
-	if (maxValue && (dataSize = image.getSize())) 
+	if (maxValue && image.getSize()) 
     {
       
       SINFO << "read pnm file of type " << type << ", "
