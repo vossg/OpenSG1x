@@ -281,6 +281,7 @@ bool GroupSockConnection::wait(Time timeout) throw (ReadError)
                 if(result.isSetRead(_sockets[index]))
                 {
                     len = _sockets[index].recv(&tag,sizeof(tag));
+                    tag = ntohl(tag);
                     if(len == 0)
                         throw ReadError("Channel closed");
                     selection.clearRead(_sockets[index]);
@@ -305,7 +306,7 @@ bool GroupSockConnection::wait(Time timeout) throw (ReadError)
  */
 void GroupSockConnection::signal(void) throw (WriteError)
 {
-    UInt32 tag=314156;
+    UInt32 tag=htonl(314156);
     UInt32 index;
 
     try

@@ -235,13 +235,14 @@ Connection::Channel PointSockConnection::selectChannel(Time timeout)
  */
 bool PointSockConnection::wait(Time timeout) throw (ReadError)
 {
-    UInt32      tag;
+    UInt32 tag;
     try
     {
         if(!_socket.waitReadable(timeout))
             return false;
         if(!_socket.recv(&tag,sizeof(tag)))
             throw ReadError("Channel closed");
+        tag = ntohl(tag);
         if(tag != 314156)
         {
             FFATAL(("Stream out of sync in SockConnection\n"));
@@ -259,7 +260,7 @@ bool PointSockConnection::wait(Time timeout) throw (ReadError)
  */
 void PointSockConnection::signal(void) throw (WriteError)
 {
-    UInt32 tag=314156;
+    UInt32 tag=htonl(314156);
     try
     {
         _socket.send(&tag,sizeof(tag));
