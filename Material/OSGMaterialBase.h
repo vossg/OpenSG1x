@@ -65,7 +65,7 @@
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
 
-#include <OSGFieldContainer.h> // Parent
+#include <OSGAttachmentContainer.h> // Parent
 
 
 #include <OSGMaterialFields.h>
@@ -77,11 +77,11 @@ class BinaryDataHandler;
 
 //! \brief Material Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public FieldContainer
+class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public AttachmentContainer
 {
   private:
 
-    typedef FieldContainer Inherited;
+    typedef AttachmentContainer Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -172,6 +172,6 @@ typedef MaterialBase *MaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMaterialBase.h,v 1.14 2001/11/09 08:17:10 vossg Exp $"
+#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMaterialBase.h,v 1.15 2001/12/03 23:53:41 dirk Exp $"
 
 #endif /* _OSGMATERIALBASE_H_ */

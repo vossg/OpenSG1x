@@ -68,7 +68,7 @@ class Material;
 
 //! MaterialPtr
 
-typedef FCPtr<FieldContainerPtr, Material> MaterialPtr;
+typedef FCPtr<AttachmentContainerPtr, Material> MaterialPtr;
 
 /*! \brief MaterialPtr field traits 
     \ingroup FieldLib
@@ -127,6 +127,6 @@ OSG_DLLEXPORT_DECL1(MField, MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialFields.h,v 1.12 2001/11/30 11:48:19 vossg Exp $"
+#define OSGMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialFields.h,v 1.13 2001/12/03 23:53:41 dirk Exp $"
 
 #endif /* _OSGMATERIALFIELDS_H_ */
