@@ -46,7 +46,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-#ifdef OSG_MICROSOFT_COMPILER_HACKS
+#if defined(OSG_MICROSOFT_COMPILER_HACKS) || defined(__sun)
 static const UInt32 JacobiRank = 3;
 #endif
 
@@ -426,7 +426,7 @@ class TransformationMatrix
 #pragma set woff 1424
 #endif
 
-#ifndef OSG_MICROSOFT_COMPILER_HACKS
+#if !defined(OSG_MICROSOFT_COMPILER_HACKS) && !defined(__sun)
     static const UInt32 JacobiRank = 3;
 #endif
 
