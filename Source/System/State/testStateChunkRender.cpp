@@ -148,7 +148,15 @@ void key(unsigned char key, int , int)
                 for ( int i = 0; i < 16; i++ )
                     imgdata[i] = (UChar8) rand();
                 pImage->set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
-                xchunk1->imageContentChanged(0,0,0,0);
+                xchunk1->imageContentChanged(1,1,1,1);
+                }
+                break;
+    case 'f':   {
+                UChar8 imgdata[16];
+                for ( int i = 0; i < 16; i++ )
+                    imgdata[i] = (UChar8) rand();
+                pImage->set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
+                xchunk1->imageContentChanged(0,1,0,0);
                 }
                 break;
     }

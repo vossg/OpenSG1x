@@ -1217,13 +1217,19 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
         GLenum externalFormat = img->getPixelFormat();
         GLenum type           = img->getDataType();
         bool   compressedData = img->hasCompressedData();
-
-        if(getExternalFormat() != GL_NONE)
-            externalFormat = getExternalFormat();
-
+        bool   has3DTex       = win->hasExtension(_extTex3D);
+        
+        if(bindtarget == GL_TEXTURE_3D && !has3DTex)
+        {
+            FINFO(("3D textures not supported on Window %p!\n", win));
+            return;
+        }
 
         if(! img) // no image ?
             return;
+
+        if(getExternalFormat() != GL_NONE)
+            externalFormat = getExternalFormat();
 
         if(! getScale() || (osgispower2(img->getWidth() ) &&
                             osgispower2(img->getHeight()) &&
@@ -1246,6 +1252,12 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
             w = ax - ix + 1;
             h = ay - iy + 1;
             d = az - iz + 1;
+
+            glPixelStorei(GL_UNPACK_ROW_LENGTH,  img->getWidth());
+            glPixelStorei(GL_UNPACK_SKIP_PIXELS, ix);
+            glPixelStorei(GL_UNPACK_SKIP_ROWS,   iy);
+            if(has3DTex)
+                glPixelStorei(GL_UNPACK_SKIP_IMAGES, iz);
             
             if(compressedData)
             {
@@ -1328,6 +1340,12 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                 }
             }
             
+            glPixelStorei(GL_UNPACK_ROW_LENGTH,  0);
+            glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+            glPixelStorei(GL_UNPACK_SKIP_ROWS,   0);
+            if(has3DTex)
+                glPixelStorei(GL_UNPACK_SKIP_IMAGES, 0);
+           
             if(paramtarget != GL_NONE)
                 glTexParameterf(paramtarget, GL_TEXTURE_PRIORITY,
                                   getPriority());
