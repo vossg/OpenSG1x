@@ -1,5 +1,5 @@
 
-.PHONY: tags
+.PHONY: vtags etags
 
 #########################################################################
 # Normal lib Targets
@@ -214,7 +214,12 @@ endif
 
 TAGS_SUBDIRS := $(filter-out $(TAGS_EXCLUDEDIRS), $(SUBLIBS) )
 
-tags:
+vtags:
 	@echo Creating common tags file for directories
 	@echo " $(TAGS_SUBDIRS) .."
-	@$(TAGS) $(TAGS_OPTIONS) $(TAGS_SUBDIRS)
+	@$(CTAGS) $(TAGS_OPTIONS) $(TAGS_SUBDIRS)
+
+etags:
+	@echo Creating common tags file for directories
+	@echo " $(TAGS_SUBDIRS) .."
+	@$(CTAGS) -e $(TAGS_OPTIONS) $(TAGS_SUBDIRS)

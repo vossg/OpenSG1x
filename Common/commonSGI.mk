@@ -24,7 +24,7 @@ FLEX       = /igd/a4/software/bin/flex
 BISON      = /igd/a4/software/bin/bison
 STRIP      = strip
 LINK       = ln -s
-TAGS       = /igd/a4/software/vim/bin/ctags
+CTAGS      = /igd/a4/software/vim/bin/ctags 
 
 MAKEDEPEND = -M
 INCPRE     = -I
