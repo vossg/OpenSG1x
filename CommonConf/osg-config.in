@@ -237,6 +237,10 @@ while test $# -gt 0; do
       echo_lflags=yes
       valid_print=yes
       ;;
+    --llibs)
+      echo_llibs=yes
+      valid_print=yes
+      ;;
     --libs)
       echo_libs=yes
       valid_print=yes
