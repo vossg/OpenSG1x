@@ -218,6 +218,8 @@ void DrawAction::setMaterial(Material *material)
 
 Action::ResultE DrawAction::start( void )
 {
+    Inherited::start();
+    
     _lightCount = 0;
     
     return Continue;
