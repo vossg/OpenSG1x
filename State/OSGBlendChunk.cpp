@@ -75,7 +75,7 @@ pixel are combined with the pixel already in the frame buffer.
  *                           Class variables                               *
 \***************************************************************************/
 
-char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.11 2002/01/04 16:47:40 dirk Exp $";
+char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.12 2002/01/16 15:14:43 dirk Exp $";
 
 StateChunkClass BlendChunk::_class("Blend");
 
@@ -162,10 +162,10 @@ void BlendChunk::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void BlendChunk::dump(      UInt32    uiIndent,
-                      const BitVector bvFlags) const
+void BlendChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
+                      const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-   Inherited::dump(uiIndent, bvFlags);
+    SLOG << "Dump BlendChunk NI" << endl;
 }
 
 /*-------------------------- your_category---------------------------------*/
@@ -174,23 +174,36 @@ void BlendChunk::activate(DrawActionBase *action, UInt32)
 {
     if(_sfSrcFactor.getValue() != GL_NONE)
     {
-        glBlendFunc(_sfSrcFactor.getValue(), _sfDestFactor.getValue());
+        GLenum src  = _sfSrcFactor.getValue();
+        GLenum dest = _sfDestFactor.getValue();
+        
+        glBlendFunc(src, dest);
 
-        if ( action->getWindow()->hasExtension(_extBlend ))
+#if GL_EXT_blend_color
+        // This is not nice, but efficient
+        // As the OpenGL constants are fixed it should be safe
+        if((src  >= GL_CONSTANT_COLOR_EXT && 
+            src  <= GL_ONE_MINUS_CONSTANT_ALPHA_EXT ) ||
+           (dest >= GL_CONSTANT_COLOR_EXT && 
+            dest <= GL_ONE_MINUS_CONSTANT_ALPHA_EXT )
+          )
         {
-            // get "glBlendColorEXT" function pointer
-            void (*blendcolor)(GLclampf red,GLclampf green,GLclampf blue,
-                 GLclampf alpha ) =
-                (void (*)(GLclampf red,GLclampf green,GLclampf blue,
-                 GLclampf alpha))
-                action->getWindow()->getFunction( _funcBlendColor );
+            if ( action->getWindow()->hasExtension(_extBlend ))
+            {
+                // get "glBlendColorEXT" function pointer
+                void (*blendcolor)(GLclampf red,GLclampf green,GLclampf blue,
+                     GLclampf alpha ) =
+                    (void (*)(GLclampf red,GLclampf green,GLclampf blue,
+                     GLclampf alpha))
+                    action->getWindow()->getFunction( _funcBlendColor );
 
-                blendcolor(_sfColor.getValue().red(),
-                           _sfColor.getValue().green(),
-                           _sfColor.getValue().blue(),
-                           _sfColor.getValue().alpha());
-                 }
-
+                 blendcolor(_sfColor.getValue().red(),
+                            _sfColor.getValue().green(),
+                            _sfColor.getValue().blue(),
+                            _sfColor.getValue().alpha());
+            }
+        }
+#endif
         glEnable(GL_BLEND);
     }
     
