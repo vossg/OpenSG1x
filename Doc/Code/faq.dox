@@ -1,0 +1,58 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \page PageFaq Frequently Asked Questions
+
+Questions:
+
+<ol>
+
+<li>How do I make the test programs?</li>
+
+<li>Why do my 1.0 programs crash on 1.1 and later?</li>
+
+<li>How do I set the name of an object?</li>
+
+</ol>
+
+Answers:
+
+<ol>
+
+<li>How do I make the test programs?
+
+Configure will create a directory in the Builds hierarchy for your system. In
+that directory you will find different directories for building the libraries
+(BaseLib, SystemLib etc.) and the test programs (BaseTest, SystemTest etc.).
+Go into the ...Test directory and say make to create all tests, make list
+gives you a list of the possible tests.</li>
+
+
+<li>Why do my 1.0 programs crash on 1.1 and later?
+
+One of the major changes that we made was a revamp of the reference counting
+system. As a consequence the UnlinkSubTree and friends methods are not needed
+any more, subRefCP() is fine and will destroy the tree if it's not used
+anywhere else. But as a consequence you will have to make sure to addRefCP()
+objects that you want to be kept around, especially if you move them in and
+out of the tree. A simple subChild() will decrement the refcount and delete
+the object if it's not refed anywhere else. A rule of thumb would be to
+addRefCP all the objects that you keep a pointer to in your own code and be
+careful when moving objects around in the tree. The easy way is to leave the
+burden on the system and just add the node to the new parent. As we only have
+single parents it will automatically be removed from the original parent and
+moved to the new one, taking care of the refcounts.</li>
+
+
+<li>How do I set the name of an object?
+
+Names in OpenSG are done via osg::Attachment classes. As names are a quite
+common problem, there are convenience functions osg::getName(void) and 
+osg::setName(const Char8 *) in OSGSimpleAttachments.h. See the attachment
+tutorial for more info on using names and attachments in general.</li>
+
+</ol>
+
+
+*/

@@ -1,9 +1,0 @@
-#include <OSGConfig.h>
-
-using namespace OSG;
-
-/*! \page Introduction Introduction
-
-General Scenegraph intro with some references to OpenSG here
-
-*/
