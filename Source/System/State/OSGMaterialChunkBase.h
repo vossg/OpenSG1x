@@ -71,7 +71,7 @@
 #include <OSGColor4fFields.h> // Emission type
 #include <OSGReal32Fields.h> // Shininess type
 #include <OSGBoolFields.h> // Lit type
-#include <OSGUInt32Fields.h> // ColorMaterial type
+#include <OSGGLenumFields.h> // ColorMaterial type
 
 #include <OSGMaterialChunkFields.h>
 
@@ -140,7 +140,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
            SFColor4f           *getSFEmission       (void);
            SFReal32            *getSFShininess      (void);
            SFBool              *getSFLit            (void);
-           SFUInt32            *getSFColorMaterial  (void);
+           SFGLenum            *getSFColorMaterial  (void);
 
            Color4f             &getDiffuse        (void);
      const Color4f             &getDiffuse        (void) const;
@@ -154,8 +154,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
      const Real32              &getShininess      (void) const;
            bool                &getLit            (void);
      const bool                &getLit            (void) const;
-           UInt32              &getColorMaterial  (void);
-     const UInt32              &getColorMaterial  (void) const;
+           GLenum              &getColorMaterial  (void);
+     const GLenum              &getColorMaterial  (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -168,7 +168,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
      void setEmission       ( const Color4f &value );
      void setShininess      ( const Real32 &value );
      void setLit            ( const bool &value );
-     void setColorMaterial  ( const UInt32 &value );
+     void setColorMaterial  ( const GLenum &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -220,7 +220,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
     SFColor4f           _sfEmission;
     SFReal32            _sfShininess;
     SFBool              _sfLit;
-    SFUInt32            _sfColorMaterial;
+    SFGLenum            _sfColorMaterial;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

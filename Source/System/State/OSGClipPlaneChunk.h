@@ -61,15 +61,15 @@ class OSG_SYSTEMLIB_DLLMAPPING ClipPlaneChunk : public ClipPlaneChunkBase
     /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    inline virtual const  StateChunkClass * getClass        (void) const;
+           virtual const StateChunkClass * getClass         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name              Static Chunk Class Access                       */
     /*! \{                                                                 */
 
-    inline static         UInt32           getStaticClassId  (void);
-    inline static   const StateChunkClass *getStaticClass    (void);
+    inline static        UInt32           getStaticClassId  (void);
+    inline static  const StateChunkClass *getStaticClass    (void);
 
     /*! \}                                                                 */ 
     /*---------------------------------------------------------------------*/ 

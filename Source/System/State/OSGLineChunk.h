@@ -65,7 +65,7 @@ class OSG_SYSTEMLIB_DLLMAPPING LineChunk : public LineChunkBase
     /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    inline virtual const StateChunkClass * getClass         (void) const;
+           virtual const StateChunkClass * getClass         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

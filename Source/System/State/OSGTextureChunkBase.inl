@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ TextureChunkPtr TextureChunkBase::create(void)
 {
     TextureChunkPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = TextureChunkPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -105,7 +105,7 @@ SFImageP *TextureChunkBase::getSFImage(void)
 
 //! Get the TextureChunk::_sfInternalFormat field.
 inline
-SFUInt32 *TextureChunkBase::getSFInternalFormat(void)
+SFGLenum *TextureChunkBase::getSFInternalFormat(void)
 {
     return &_sfInternalFormat;
 }
@@ -323,21 +323,21 @@ void TextureChunkBase::setImage(const ImageP &value)
 
 //! Get the value of the TextureChunk::_sfInternalFormat field.
 inline
-UInt32 &TextureChunkBase::getInternalFormat(void)
+GLenum &TextureChunkBase::getInternalFormat(void)
 {
     return _sfInternalFormat.getValue();
 }
 
 //! Get the value of the TextureChunk::_sfInternalFormat field.
 inline
-const UInt32 &TextureChunkBase::getInternalFormat(void) const
+const GLenum &TextureChunkBase::getInternalFormat(void) const
 {
     return _sfInternalFormat.getValue();
 }
 
 //! Set the value of the TextureChunk::_sfInternalFormat field.
 inline
-void TextureChunkBase::setInternalFormat(const UInt32 &value)
+void TextureChunkBase::setInternalFormat(const GLenum &value)
 {
     _sfInternalFormat.setValue(value);
 }

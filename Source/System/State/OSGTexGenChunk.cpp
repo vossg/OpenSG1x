@@ -112,6 +112,13 @@ TexGenChunk::~TexGenChunk(void)
 {
 }
 
+/*------------------------- Chunk Class Access ---------------------------*/
+
+const StateChunkClass *TexGenChunk::getClass( void ) const
+{
+    return &_class;
+}
+
 /*------------------------------- Sync -----------------------------------*/
 
 void TexGenChunk::changed(BitVector whichField, UInt32 origin)

@@ -165,6 +165,12 @@ TextureChunk::~TextureChunk(void)
         Window::destroyGLObject(getGLId(), 1);
 }
 
+/*------------------------- Chunk Class Access ---------------------------*/
+
+const StateChunkClass *TextureChunk::getClass( void ) const
+{
+    return &_class;
+}
 
 /*------------------------------- Sync -----------------------------------*/
 

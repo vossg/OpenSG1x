@@ -114,6 +114,13 @@ LightChunk::~LightChunk(void)
 {
 }
 
+/*------------------------- Chunk Class Access ---------------------------*/
+
+const StateChunkClass *LightChunk::getClass( void ) const
+{
+    return &_class;
+}
+
 /*------------------------------- Sync -----------------------------------*/
 
 void LightChunk::changed(BitVector whichField, UInt32 origin)

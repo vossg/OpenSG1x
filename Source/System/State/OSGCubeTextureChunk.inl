@@ -42,13 +42,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-
-inline
-const StateChunkClass *CubeTextureChunk::getClass( void ) const
-{
-    return TextureChunk::getClass();
-}
-
 inline
 UInt32 CubeTextureChunk::getStaticClassId(void)
 {

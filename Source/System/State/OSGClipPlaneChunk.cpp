@@ -100,6 +100,13 @@ ClipPlaneChunk::~ClipPlaneChunk(void)
 {
 }
 
+/*----------------------- Chunk Class Access -----------------------------*/
+
+const StateChunkClass *ClipPlaneChunk::getClass( void ) const
+{
+     return &_class;
+}
+
 /*------------------------------- Sync -----------------------------------*/
 
 void ClipPlaneChunk::changed(BitVector, UInt32)

@@ -62,7 +62,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunk : public CubeTextureChunkBase
     /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    inline virtual const StateChunkClass * getClass         (void) const;
+           virtual const StateChunkClass * getClass         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

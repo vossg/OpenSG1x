@@ -104,6 +104,13 @@ MaterialChunk::~MaterialChunk(void)
 {
 }
 
+/*------------------------- Chunk Class Access ---------------------------*/
+
+const StateChunkClass *MaterialChunk::getClass( void ) const
+{
+    return &_class;
+}
+
 /*------------------------------- Sync -----------------------------------*/
 
 void MaterialChunk::changed(BitVector whichField, UInt32 origin)

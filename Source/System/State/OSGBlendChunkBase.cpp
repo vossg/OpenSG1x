@@ -90,19 +90,19 @@ const OSG::BitVector  BlendChunkBase::AlphaValueFieldMask =
 
 // Field descriptions
 
-/*! \var UInt32          BlendChunkBase::_sfSrcFactor
+/*! \var GLenum          BlendChunkBase::_sfSrcFactor
     The incoming pixel is multiplied by the source factor. Legal values are directly taken from the glBlendFunc() manpage.
 */
-/*! \var UInt32          BlendChunkBase::_sfDestFactor
+/*! \var GLenum          BlendChunkBase::_sfDestFactor
     The frame buffer pixel is multiplied by the destination factor. Legal values are directly taken from the glBlendFunc() manpage.
 */
-/*! \var UInt32          BlendChunkBase::_sfEquation
+/*! \var GLenum          BlendChunkBase::_sfEquation
     The equation used to combine the two values. Only available where GL_ARB_imaging is supported. See glBlendEquation() for details.
 */
 /*! \var Color4f         BlendChunkBase::_sfColor
     This is the constant color used by blend modes *_CONSTANT_*.
 */
-/*! \var UInt32          BlendChunkBase::_sfAlphaFunc
+/*! \var GLenum          BlendChunkBase::_sfAlphaFunc
     The alphaFunc defines how fragments which do not fulfill a certain condition are handled.          See glAlphaFunc() for details. GL_NONE is used to disable alpha comparison.
 */
 /*! \var Real32          BlendChunkBase::_sfAlphaValue
@@ -113,17 +113,17 @@ const OSG::BitVector  BlendChunkBase::AlphaValueFieldMask =
 
 FieldDescription *BlendChunkBase::_desc[] = 
 {
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "srcFactor", 
                      SrcFactorFieldId, SrcFactorFieldMask,
                      false,
                      (FieldAccessMethod) &BlendChunkBase::getSFSrcFactor),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "destFactor", 
                      DestFactorFieldId, DestFactorFieldMask,
                      false,
                      (FieldAccessMethod) &BlendChunkBase::getSFDestFactor),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "equation", 
                      EquationFieldId, EquationFieldMask,
                      false,
@@ -133,7 +133,7 @@ FieldDescription *BlendChunkBase::_desc[] =
                      ColorFieldId, ColorFieldMask,
                      false,
                      (FieldAccessMethod) &BlendChunkBase::getSFColor),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "alphaFunc", 
                      AlphaFuncFieldId, AlphaFuncFieldMask,
                      false,
@@ -198,11 +198,11 @@ void BlendChunkBase::executeSync(      FieldContainer &other,
 #endif
 
 BlendChunkBase::BlendChunkBase(void) :
-    _sfSrcFactor              (UInt32(GL_ONE)), 
-    _sfDestFactor             (UInt32(GL_ZERO)), 
-    _sfEquation               (UInt32(GL_NONE)), 
+    _sfSrcFactor              (GLenum(GL_ONE)), 
+    _sfDestFactor             (GLenum(GL_ZERO)), 
+    _sfEquation               (GLenum(GL_NONE)), 
     _sfColor                  (Color4f(0,0,0,0)), 
-    _sfAlphaFunc              (UInt32(GL_NONE)), 
+    _sfAlphaFunc              (GLenum(GL_NONE)), 
     _sfAlphaValue             (Real32(0)), 
     Inherited() 
 {

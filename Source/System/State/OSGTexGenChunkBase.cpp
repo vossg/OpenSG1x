@@ -96,16 +96,16 @@ const OSG::BitVector  TexGenChunkBase::GenFuncQPlaneFieldMask =
 
 // Field descriptions
 
-/*! \var UInt32          TexGenChunkBase::_sfGenFuncS
+/*! \var GLenum          TexGenChunkBase::_sfGenFuncS
     
 */
-/*! \var UInt32          TexGenChunkBase::_sfGenFuncT
+/*! \var GLenum          TexGenChunkBase::_sfGenFuncT
     
 */
-/*! \var UInt32          TexGenChunkBase::_sfGenFuncR
+/*! \var GLenum          TexGenChunkBase::_sfGenFuncR
     
 */
-/*! \var UInt32          TexGenChunkBase::_sfGenFuncQ
+/*! \var GLenum          TexGenChunkBase::_sfGenFuncQ
     
 */
 /*! \var Vec4f           TexGenChunkBase::_sfGenFuncSPlane
@@ -125,22 +125,22 @@ const OSG::BitVector  TexGenChunkBase::GenFuncQPlaneFieldMask =
 
 FieldDescription *TexGenChunkBase::_desc[] = 
 {
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "genFuncS", 
                      GenFuncSFieldId, GenFuncSFieldMask,
                      false,
                      (FieldAccessMethod) &TexGenChunkBase::getSFGenFuncS),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "genFuncT", 
                      GenFuncTFieldId, GenFuncTFieldMask,
                      false,
                      (FieldAccessMethod) &TexGenChunkBase::getSFGenFuncT),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "genFuncR", 
                      GenFuncRFieldId, GenFuncRFieldMask,
                      false,
                      (FieldAccessMethod) &TexGenChunkBase::getSFGenFuncR),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "genFuncQ", 
                      GenFuncQFieldId, GenFuncQFieldMask,
                      false,
@@ -220,10 +220,10 @@ void TexGenChunkBase::executeSync(      FieldContainer &other,
 #endif
 
 TexGenChunkBase::TexGenChunkBase(void) :
-    _sfGenFuncS               (UInt32(GL_NONE)), 
-    _sfGenFuncT               (UInt32(GL_NONE)), 
-    _sfGenFuncR               (UInt32(GL_NONE)), 
-    _sfGenFuncQ               (UInt32(GL_NONE)), 
+    _sfGenFuncS               (GLenum(GL_NONE)), 
+    _sfGenFuncT               (GLenum(GL_NONE)), 
+    _sfGenFuncR               (GLenum(GL_NONE)), 
+    _sfGenFuncQ               (GLenum(GL_NONE)), 
     _sfGenFuncSPlane          (), 
     _sfGenFuncTPlane          (), 
     _sfGenFuncRPlane          (), 

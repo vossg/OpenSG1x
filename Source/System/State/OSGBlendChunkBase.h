@@ -65,11 +65,11 @@
 
 #include <OSGStateChunk.h> // Parent
 
-#include <OSGUInt32Fields.h> // SrcFactor type
-#include <OSGUInt32Fields.h> // DestFactor type
-#include <OSGUInt32Fields.h> // Equation type
+#include <OSGGLenumFields.h> // SrcFactor type
+#include <OSGGLenumFields.h> // DestFactor type
+#include <OSGGLenumFields.h> // Equation type
 #include <OSGColor4fFields.h> // Color type
-#include <OSGUInt32Fields.h> // AlphaFunc type
+#include <OSGGLenumFields.h> // AlphaFunc type
 #include <OSGReal32Fields.h> // AlphaValue type
 
 #include <OSGBlendChunkFields.h>
@@ -131,23 +131,23 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFUInt32            *getSFSrcFactor      (void);
-           SFUInt32            *getSFDestFactor     (void);
-           SFUInt32            *getSFEquation       (void);
+           SFGLenum            *getSFSrcFactor      (void);
+           SFGLenum            *getSFDestFactor     (void);
+           SFGLenum            *getSFEquation       (void);
            SFColor4f           *getSFColor          (void);
-           SFUInt32            *getSFAlphaFunc      (void);
+           SFGLenum            *getSFAlphaFunc      (void);
            SFReal32            *getSFAlphaValue     (void);
 
-           UInt32              &getSrcFactor      (void);
-     const UInt32              &getSrcFactor      (void) const;
-           UInt32              &getDestFactor     (void);
-     const UInt32              &getDestFactor     (void) const;
-           UInt32              &getEquation       (void);
-     const UInt32              &getEquation       (void) const;
+           GLenum              &getSrcFactor      (void);
+     const GLenum              &getSrcFactor      (void) const;
+           GLenum              &getDestFactor     (void);
+     const GLenum              &getDestFactor     (void) const;
+           GLenum              &getEquation       (void);
+     const GLenum              &getEquation       (void) const;
            Color4f             &getColor          (void);
      const Color4f             &getColor          (void) const;
-           UInt32              &getAlphaFunc      (void);
-     const UInt32              &getAlphaFunc      (void) const;
+           GLenum              &getAlphaFunc      (void);
+     const GLenum              &getAlphaFunc      (void) const;
            Real32              &getAlphaValue     (void);
      const Real32              &getAlphaValue     (void) const;
 
@@ -156,11 +156,11 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setSrcFactor      ( const UInt32 &value );
-     void setDestFactor     ( const UInt32 &value );
-     void setEquation       ( const UInt32 &value );
+     void setSrcFactor      ( const GLenum &value );
+     void setDestFactor     ( const GLenum &value );
+     void setEquation       ( const GLenum &value );
      void setColor          ( const Color4f &value );
-     void setAlphaFunc      ( const UInt32 &value );
+     void setAlphaFunc      ( const GLenum &value );
      void setAlphaValue     ( const Real32 &value );
 
     /*! \}                                                                 */
@@ -207,11 +207,11 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFUInt32            _sfSrcFactor;
-    SFUInt32            _sfDestFactor;
-    SFUInt32            _sfEquation;
+    SFGLenum            _sfSrcFactor;
+    SFGLenum            _sfDestFactor;
+    SFGLenum            _sfEquation;
     SFColor4f           _sfColor;
-    SFUInt32            _sfAlphaFunc;
+    SFGLenum            _sfAlphaFunc;
     SFReal32            _sfAlphaValue;
 
     /*! \}                                                                 */

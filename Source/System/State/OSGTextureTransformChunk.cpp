@@ -104,6 +104,13 @@ TextureTransformChunk::~TextureTransformChunk(void)
 {
 }
 
+/*------------------------- Chunk Class Access ---------------------------*/
+
+const StateChunkClass *TextureTransformChunk::getClass( void ) const
+{
+    return &_class;
+}
+
 /*------------------------------- Sync -----------------------------------*/
 
 void TextureTransformChunk::changed(BitVector whichField, UInt32 origin)

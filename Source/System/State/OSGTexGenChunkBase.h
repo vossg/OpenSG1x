@@ -65,10 +65,10 @@
 
 #include <OSGStateChunk.h> // Parent
 
-#include <OSGUInt32Fields.h> // GenFuncS type
-#include <OSGUInt32Fields.h> // GenFuncT type
-#include <OSGUInt32Fields.h> // GenFuncR type
-#include <OSGUInt32Fields.h> // GenFuncQ type
+#include <OSGGLenumFields.h> // GenFuncS type
+#include <OSGGLenumFields.h> // GenFuncT type
+#include <OSGGLenumFields.h> // GenFuncR type
+#include <OSGGLenumFields.h> // GenFuncQ type
 #include <OSGVec4fFields.h> // GenFuncSPlane type
 #include <OSGVec4fFields.h> // GenFuncTPlane type
 #include <OSGVec4fFields.h> // GenFuncRPlane type
@@ -137,23 +137,23 @@ class OSG_SYSTEMLIB_DLLMAPPING TexGenChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFUInt32            *getSFGenFuncS       (void);
-           SFUInt32            *getSFGenFuncT       (void);
-           SFUInt32            *getSFGenFuncR       (void);
-           SFUInt32            *getSFGenFuncQ       (void);
+           SFGLenum            *getSFGenFuncS       (void);
+           SFGLenum            *getSFGenFuncT       (void);
+           SFGLenum            *getSFGenFuncR       (void);
+           SFGLenum            *getSFGenFuncQ       (void);
            SFVec4f             *getSFGenFuncSPlane  (void);
            SFVec4f             *getSFGenFuncTPlane  (void);
            SFVec4f             *getSFGenFuncRPlane  (void);
            SFVec4f             *getSFGenFuncQPlane  (void);
 
-           UInt32              &getGenFuncS       (void);
-     const UInt32              &getGenFuncS       (void) const;
-           UInt32              &getGenFuncT       (void);
-     const UInt32              &getGenFuncT       (void) const;
-           UInt32              &getGenFuncR       (void);
-     const UInt32              &getGenFuncR       (void) const;
-           UInt32              &getGenFuncQ       (void);
-     const UInt32              &getGenFuncQ       (void) const;
+           GLenum              &getGenFuncS       (void);
+     const GLenum              &getGenFuncS       (void) const;
+           GLenum              &getGenFuncT       (void);
+     const GLenum              &getGenFuncT       (void) const;
+           GLenum              &getGenFuncR       (void);
+     const GLenum              &getGenFuncR       (void) const;
+           GLenum              &getGenFuncQ       (void);
+     const GLenum              &getGenFuncQ       (void) const;
            Vec4f               &getGenFuncSPlane  (void);
      const Vec4f               &getGenFuncSPlane  (void) const;
            Vec4f               &getGenFuncTPlane  (void);
@@ -168,10 +168,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TexGenChunkBase : public StateChunk
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setGenFuncS       ( const UInt32 &value );
-     void setGenFuncT       ( const UInt32 &value );
-     void setGenFuncR       ( const UInt32 &value );
-     void setGenFuncQ       ( const UInt32 &value );
+     void setGenFuncS       ( const GLenum &value );
+     void setGenFuncT       ( const GLenum &value );
+     void setGenFuncR       ( const GLenum &value );
+     void setGenFuncQ       ( const GLenum &value );
      void setGenFuncSPlane  ( const Vec4f &value );
      void setGenFuncTPlane  ( const Vec4f &value );
      void setGenFuncRPlane  ( const Vec4f &value );
@@ -221,10 +221,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TexGenChunkBase : public StateChunk
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFUInt32            _sfGenFuncS;
-    SFUInt32            _sfGenFuncT;
-    SFUInt32            _sfGenFuncR;
-    SFUInt32            _sfGenFuncQ;
+    SFGLenum            _sfGenFuncS;
+    SFGLenum            _sfGenFuncT;
+    SFGLenum            _sfGenFuncR;
+    SFGLenum            _sfGenFuncQ;
     SFVec4f             _sfGenFuncSPlane;
     SFVec4f             _sfGenFuncTPlane;
     SFVec4f             _sfGenFuncRPlane;

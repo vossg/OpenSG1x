@@ -140,7 +140,7 @@ SFBool *MaterialChunkBase::getSFLit(void)
 
 //! Get the MaterialChunk::_sfColorMaterial field.
 inline
-SFUInt32 *MaterialChunkBase::getSFColorMaterial(void)
+SFGLenum *MaterialChunkBase::getSFColorMaterial(void)
 {
     return &_sfColorMaterial;
 }
@@ -274,21 +274,21 @@ void MaterialChunkBase::setLit(const bool &value)
 
 //! Get the value of the MaterialChunk::_sfColorMaterial field.
 inline
-UInt32 &MaterialChunkBase::getColorMaterial(void)
+GLenum &MaterialChunkBase::getColorMaterial(void)
 {
     return _sfColorMaterial.getValue();
 }
 
 //! Get the value of the MaterialChunk::_sfColorMaterial field.
 inline
-const UInt32 &MaterialChunkBase::getColorMaterial(void) const
+const GLenum &MaterialChunkBase::getColorMaterial(void) const
 {
     return _sfColorMaterial.getValue();
 }
 
 //! Set the value of the MaterialChunk::_sfColorMaterial field.
 inline
-void MaterialChunkBase::setColorMaterial(const UInt32 &value)
+void MaterialChunkBase::setColorMaterial(const GLenum &value)
 {
     _sfColorMaterial.setValue(value);
 }

@@ -43,12 +43,6 @@
 OSG_BEGIN_NAMESPACE
 
 inline
-const StateChunkClass *LineChunk::getClass( void ) const
-{
-    return &_class;
-}
-
-inline
 UInt32 LineChunk::getStaticClassId(void)
 {
     return getStaticClass()->getId();

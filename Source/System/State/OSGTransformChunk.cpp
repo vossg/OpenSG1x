@@ -102,6 +102,13 @@ TransformChunk::~TransformChunk(void)
 {
 }
 
+/*------------------------- Chunk Class Access ---------------------------*/
+
+const StateChunkClass *TransformChunk::getClass( void ) const
+{
+    return &_class;
+}
+
 /*------------------------------- Sync -----------------------------------*/
 
 void TransformChunk::changed(BitVector whichField, UInt32 origin)

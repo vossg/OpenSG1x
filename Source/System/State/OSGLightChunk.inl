@@ -42,13 +42,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-
-inline
-const StateChunkClass *LightChunk::getClass( void ) const
-{
-    return &_class;
-}
-
 inline
 UInt32 LightChunk::getStaticClassId(void)
 {

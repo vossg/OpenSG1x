@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,7 +66,7 @@
 #include <OSGStateChunk.h> // Parent
 
 #include <OSGImagePFields.h> // Image type
-#include <OSGUInt32Fields.h> // InternalFormat type
+#include <OSGGLenumFields.h> // InternalFormat type
 #include <OSGGLenumFields.h> // ExternalFormat type
 #include <OSGBoolFields.h> // Scale type
 #include <OSGUInt32Fields.h> // Frame type
@@ -147,35 +147,35 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
         NextFieldId             = GLIdFieldId             + 1
     };
 
-    static const osg::BitVector ImageFieldMask;
-    static const osg::BitVector InternalFormatFieldMask;
-    static const osg::BitVector ExternalFormatFieldMask;
-    static const osg::BitVector ScaleFieldMask;
-    static const osg::BitVector FrameFieldMask;
-    static const osg::BitVector MinFilterFieldMask;
-    static const osg::BitVector MagFilterFieldMask;
-    static const osg::BitVector WrapSFieldMask;
-    static const osg::BitVector WrapTFieldMask;
-    static const osg::BitVector WrapRFieldMask;
-    static const osg::BitVector EnvModeFieldMask;
-    static const osg::BitVector EnvColorFieldMask;
-    static const osg::BitVector EnvCombineRGBFieldMask;
-    static const osg::BitVector EnvCombineAlphaFieldMask;
-    static const osg::BitVector EnvScaleRGBFieldMask;
-    static const osg::BitVector EnvScaleAlphaFieldMask;
-    static const osg::BitVector EnvSource0RGBFieldMask;
-    static const osg::BitVector EnvSource1RGBFieldMask;
-    static const osg::BitVector EnvSource2RGBFieldMask;
-    static const osg::BitVector EnvSource0AlphaFieldMask;
-    static const osg::BitVector EnvSource1AlphaFieldMask;
-    static const osg::BitVector EnvSource2AlphaFieldMask;
-    static const osg::BitVector EnvOperand0RGBFieldMask;
-    static const osg::BitVector EnvOperand1RGBFieldMask;
-    static const osg::BitVector EnvOperand2RGBFieldMask;
-    static const osg::BitVector EnvOperand0AlphaFieldMask;
-    static const osg::BitVector EnvOperand1AlphaFieldMask;
-    static const osg::BitVector EnvOperand2AlphaFieldMask;
-    static const osg::BitVector GLIdFieldMask;
+    static const OSG::BitVector ImageFieldMask;
+    static const OSG::BitVector InternalFormatFieldMask;
+    static const OSG::BitVector ExternalFormatFieldMask;
+    static const OSG::BitVector ScaleFieldMask;
+    static const OSG::BitVector FrameFieldMask;
+    static const OSG::BitVector MinFilterFieldMask;
+    static const OSG::BitVector MagFilterFieldMask;
+    static const OSG::BitVector WrapSFieldMask;
+    static const OSG::BitVector WrapTFieldMask;
+    static const OSG::BitVector WrapRFieldMask;
+    static const OSG::BitVector EnvModeFieldMask;
+    static const OSG::BitVector EnvColorFieldMask;
+    static const OSG::BitVector EnvCombineRGBFieldMask;
+    static const OSG::BitVector EnvCombineAlphaFieldMask;
+    static const OSG::BitVector EnvScaleRGBFieldMask;
+    static const OSG::BitVector EnvScaleAlphaFieldMask;
+    static const OSG::BitVector EnvSource0RGBFieldMask;
+    static const OSG::BitVector EnvSource1RGBFieldMask;
+    static const OSG::BitVector EnvSource2RGBFieldMask;
+    static const OSG::BitVector EnvSource0AlphaFieldMask;
+    static const OSG::BitVector EnvSource1AlphaFieldMask;
+    static const OSG::BitVector EnvSource2AlphaFieldMask;
+    static const OSG::BitVector EnvOperand0RGBFieldMask;
+    static const OSG::BitVector EnvOperand1RGBFieldMask;
+    static const OSG::BitVector EnvOperand2RGBFieldMask;
+    static const OSG::BitVector EnvOperand0AlphaFieldMask;
+    static const OSG::BitVector EnvOperand1AlphaFieldMask;
+    static const OSG::BitVector EnvOperand2AlphaFieldMask;
+    static const OSG::BitVector GLIdFieldMask;
 
 
     /*---------------------------------------------------------------------*/
@@ -201,7 +201,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     /*! \{                                                                 */
 
            SFImageP            *getSFImage          (void);
-           SFUInt32            *getSFInternalFormat (void);
+           SFGLenum            *getSFInternalFormat (void);
            SFGLenum            *getSFExternalFormat (void);
            SFBool              *getSFScale          (void);
            SFUInt32            *getSFFrame          (void);
@@ -232,8 +232,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 
            ImageP              &getImage          (void);
      const ImageP              &getImage          (void) const;
-           UInt32              &getInternalFormat (void);
-     const UInt32              &getInternalFormat (void) const;
+           GLenum              &getInternalFormat (void);
+     const GLenum              &getInternalFormat (void) const;
            GLenum              &getExternalFormat (void);
      const GLenum              &getExternalFormat (void) const;
            bool                &getScale          (void);
@@ -295,7 +295,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     /*! \{                                                                 */
 
      void setImage          ( const ImageP &value );
-     void setInternalFormat ( const UInt32 &value );
+     void setInternalFormat ( const GLenum &value );
      void setExternalFormat ( const GLenum &value );
      void setScale          ( const bool &value );
      void setFrame          ( const UInt32 &value );
@@ -369,7 +369,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     /*! \{                                                                 */
 
     SFImageP            _sfImage;
-    SFUInt32            _sfInternalFormat;
+    SFGLenum            _sfInternalFormat;
     SFGLenum            _sfExternalFormat;
     SFBool              _sfScale;
     SFUInt32            _sfFrame;

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -180,7 +180,7 @@ const OSG::BitVector  TextureChunkBase::GLIdFieldMask =
 /*! \var ImageP          TextureChunkBase::_sfImage
     
 */
-/*! \var UInt32          TextureChunkBase::_sfInternalFormat
+/*! \var GLenum          TextureChunkBase::_sfInternalFormat
     The internal texture format.
 */
 /*! \var GLenum          TextureChunkBase::_sfExternalFormat
@@ -274,7 +274,7 @@ FieldDescription *TextureChunkBase::_desc[] =
                      ImageFieldId, ImageFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFImage),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "internalFormat", 
                      InternalFormatFieldId, InternalFormatFieldMask,
                      false,
@@ -470,7 +470,7 @@ void TextureChunkBase::executeSync(      FieldContainer &other,
 
 TextureChunkBase::TextureChunkBase(void) :
     _sfImage                  (ImageP(0)), 
-    _sfInternalFormat         (UInt32(GL_NONE)), 
+    _sfInternalFormat         (GLenum(GL_NONE)), 
     _sfExternalFormat         (GLenum(GL_NONE)), 
     _sfScale                  (bool(true)), 
     _sfFrame                  (UInt32(0)), 

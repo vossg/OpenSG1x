@@ -61,7 +61,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunk : public BlendChunkBase
     /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    inline virtual const StateChunkClass * getClass         (void) const;
+           virtual const StateChunkClass * getClass         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -61,7 +61,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunk : public PolygonChunkBase
     /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    inline virtual const StateChunkClass * getClass         (void) const;
+           virtual const StateChunkClass * getClass         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

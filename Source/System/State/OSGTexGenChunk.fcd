@@ -13,7 +13,7 @@
 Chunk for texture coordinate generation functions.
 	<Field
 		name="genFuncS"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
@@ -23,7 +23,7 @@ Chunk for texture coordinate generation functions.
 	</Field>
 	<Field
 		name="genFuncT"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
@@ -33,7 +33,7 @@ Chunk for texture coordinate generation functions.
 	</Field>
 	<Field
 		name="genFuncR"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
@@ -43,7 +43,7 @@ Chunk for texture coordinate generation functions.
 	</Field>
 	<Field
 		name="genFuncQ"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"

@@ -43,12 +43,6 @@
 OSG_BEGIN_NAMESPACE
 
 inline
-const StateChunkClass *TexGenChunk::getClass( void ) const
-{
-    return &_class;
-}
-
-inline
 UInt32 TexGenChunk::getStaticClassId(void)
 {
     return getStaticClass()->getId();

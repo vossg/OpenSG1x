@@ -108,7 +108,7 @@ const OSG::BitVector  MaterialChunkBase::ColorMaterialFieldMask =
 /*! \var bool            MaterialChunkBase::_sfLit
     Switch for using this material in lighting calculation.          If not set the diffuse color is used as is.
 */
-/*! \var UInt32          MaterialChunkBase::_sfColorMaterial
+/*! \var GLenum          MaterialChunkBase::_sfColorMaterial
     The mode for using Geometry colors in lighting. Defaults to GL_DIFFUSE.
 */
 
@@ -146,7 +146,7 @@ FieldDescription *MaterialChunkBase::_desc[] =
                      LitFieldId, LitFieldMask,
                      false,
                      (FieldAccessMethod) &MaterialChunkBase::getSFLit),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "colorMaterial", 
                      ColorMaterialFieldId, ColorMaterialFieldMask,
                      false,
@@ -212,7 +212,7 @@ MaterialChunkBase::MaterialChunkBase(void) :
     _sfEmission               (Color4f(0,0,0,0)), 
     _sfShininess              (Real32(10)), 
     _sfLit                    (bool(true)), 
-    _sfColorMaterial          (UInt32(GL_DIFFUSE)), 
+    _sfColorMaterial          (GLenum(GL_DIFFUSE)), 
     Inherited() 
 {
 }

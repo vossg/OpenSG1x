@@ -12,7 +12,7 @@
 The blending chunk handles OpenGL blending, i.e. the definition how incoming pixel are combined with the pixel already in the frame buffer.
 	<Field
 		name="srcFactor"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultHeader="<OSGGL.h>"
@@ -23,7 +23,7 @@ The blending chunk handles OpenGL blending, i.e. the definition how incoming pix
 	</Field>
 	<Field
 		name="destFactor"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultHeader="<OSGGL.h>"
@@ -34,7 +34,7 @@ The blending chunk handles OpenGL blending, i.e. the definition how incoming pix
 	</Field>
 	<Field
 		name="equation"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultHeader="<OSGGL.h>"
@@ -55,7 +55,7 @@ The blending chunk handles OpenGL blending, i.e. the definition how incoming pix
 	</Field>
 	<Field
 		name="alphaFunc"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"

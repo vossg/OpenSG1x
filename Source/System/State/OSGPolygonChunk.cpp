@@ -113,6 +113,13 @@ PolygonChunk::~PolygonChunk(void)
 {
 }
 
+/*------------------------- Chunk Class Access ---------------------------*/
+
+const StateChunkClass *PolygonChunk::getClass( void ) const
+{
+    return &_class;
+}
+
 /*------------------------------- Sync -----------------------------------*/
 
 void PolygonChunk::changed(BitVector whichField, UInt32 origin)

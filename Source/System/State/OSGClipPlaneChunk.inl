@@ -43,12 +43,6 @@
 OSG_BEGIN_NAMESPACE
 
 inline
-const StateChunkClass *ClipPlaneChunk::getClass( void ) const
-{
-     return &_class;
-}
-
-inline
 UInt32 ClipPlaneChunk::getStaticClassId(void)
 {
     return getStaticClass()->getId();

@@ -61,7 +61,7 @@
 	</Field>
 	<Field
 		name="colorMaterial"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_DIFFUSE"

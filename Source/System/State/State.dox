@@ -177,10 +177,12 @@ includes line width, stippling and antialiasing.
 
 \section PageSystemMaterialChunk MaterialChunk
 
-The osg::MaterialChunk controls the material parameters, i.e. the parameters for
-phong lighting as used by glMaterial(). It also covers the commonly used
+The osg::MaterialChunk controls the material parameters, i.e. the parameters
+for phong lighting as used by glMaterial(). It also covers the commonly used
 parameters to enable/disable lighting and switching the influence of geometry
-colors on lighting (glColorMaterial).
+colors on lighting (glColorMaterial). When lighting is enabled external colors
+like osg::Geometry colors are only used for the diffuse lighting component. In
+the unlit case they are always used.
 
 \section PageSystemPolygonChunk PolygonChunk
 

@@ -136,6 +136,13 @@ BlendChunk::~BlendChunk(void)
 {
 }
 
+/*------------------------- Chunk Class Access ---------------------------*/
+
+const StateChunkClass *BlendChunk::getClass( void ) const
+{
+    return &_class;
+}
+
 /*------------------------------- Sync -----------------------------------*/
 
 void BlendChunk::changed(BitVector whichField, UInt32 origin)

@@ -103,6 +103,13 @@ CubeTextureChunk::~CubeTextureChunk(void)
     subRefP(_sfNegYImage.getValue());
 }
 
+/*------------------------- Chunk Class Access ---------------------------*/
+
+const StateChunkClass *CubeTextureChunk::getClass( void ) const
+{
+    return TextureChunk::getClass();
+}
+
 /*----------------------------- onCreate --------------------------------*/
 
 void CubeTextureChunk::onCreate(const CubeTextureChunk *)

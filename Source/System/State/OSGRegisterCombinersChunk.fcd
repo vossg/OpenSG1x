@@ -37,7 +37,7 @@
 	</Field>
 	<Field
 		name="variableArgb"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -46,7 +46,7 @@
 	</Field>
 	<Field
 		name="variableBrgb"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -54,7 +54,7 @@
 	</Field>
 	<Field
 		name="variableCrgb"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -62,7 +62,7 @@
 	</Field>
 	<Field
 		name="variableDrgb"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -70,7 +70,7 @@
 	</Field>
 	<Field
 		name="variableAalpha"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -78,7 +78,7 @@
 	</Field>
 	<Field
 		name="variableBalpha"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -86,7 +86,7 @@
 	</Field>
 	<Field
 		name="variableCalpha"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -94,7 +94,7 @@
 	</Field>
 	<Field
 		name="variableDalpha"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -102,7 +102,7 @@
 	</Field>
 	<Field
 		name="outputABrgb"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -110,7 +110,7 @@
 	</Field>
 	<Field
 		name="outputCDrgb"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -118,7 +118,7 @@
 	</Field>
 	<Field
 		name="outputSumrgb"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -126,7 +126,7 @@
 	</Field>
 	<Field
 		name="scalergb"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -134,7 +134,7 @@
 	</Field>
 	<Field
 		name="biasrgb"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -142,7 +142,7 @@
 	</Field>
 	<Field
 		name="outputABalpha"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -150,7 +150,7 @@
 	</Field>
 	<Field
 		name="outputCDalpha"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -158,7 +158,7 @@
 	</Field>
 	<Field
 		name="outputSumalpha"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -190,7 +190,7 @@
 	</Field>
 	<Field
 		name="scalealpha"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -198,7 +198,7 @@
 	</Field>
 	<Field
 		name="biasalpha"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -214,7 +214,7 @@
 	</Field>
 	<Field
 		name="variableE"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -222,7 +222,7 @@
 	</Field>
 	<Field
 		name="variableF"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"
@@ -230,7 +230,7 @@
 	</Field>
 	<Field
 		name="variableG"
-		type="UInt32"
+		type="GLenum"
 		cardinality="multi"
 		visibility="external"
 		access="public"

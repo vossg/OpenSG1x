@@ -156,6 +156,13 @@ RegisterCombinersChunk::~RegisterCombinersChunk(void)
 {
 }
 
+/*------------------------- Chunk Class Access ---------------------------*/
+
+const StateChunkClass *RegisterCombinersChunk::getClass( void ) const
+{
+    return &_class;
+}
+
 /*------------------------------- Sync -----------------------------------*/
 
 void RegisterCombinersChunk::changed(BitVector whichField, UInt32 origin)

@@ -44,12 +44,6 @@ OSG_BEGIN_NAMESPACE
 
 
 inline
-const StateChunkClass *TransformChunk::getClass( void ) const
-{
-    return &_class;
-}
-
-inline
 UInt32 TransformChunk::getStaticClassId(void)
 {
     return getStaticClass()->getId();

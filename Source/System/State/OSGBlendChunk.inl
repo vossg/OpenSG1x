@@ -43,12 +43,6 @@
 OSG_BEGIN_NAMESPACE
 
 inline
-const StateChunkClass *BlendChunk::getClass( void ) const
-{
-    return &_class;
-}
-
-inline
 UInt32 BlendChunk::getStaticClassId(void)
 {
     return getStaticClass()->getId();

@@ -68,31 +68,31 @@
 #include <OSGColor4fFields.h> // Color0 type
 #include <OSGColor4fFields.h> // Color1 type
 #include <OSGBoolFields.h> // ColorSumClamp type
-#include <OSGUInt32Fields.h> // VariableArgb type
-#include <OSGUInt32Fields.h> // VariableBrgb type
-#include <OSGUInt32Fields.h> // VariableCrgb type
-#include <OSGUInt32Fields.h> // VariableDrgb type
-#include <OSGUInt32Fields.h> // VariableAalpha type
-#include <OSGUInt32Fields.h> // VariableBalpha type
-#include <OSGUInt32Fields.h> // VariableCalpha type
-#include <OSGUInt32Fields.h> // VariableDalpha type
-#include <OSGUInt32Fields.h> // OutputABrgb type
-#include <OSGUInt32Fields.h> // OutputCDrgb type
-#include <OSGUInt32Fields.h> // OutputSumrgb type
-#include <OSGUInt32Fields.h> // Scalergb type
-#include <OSGUInt32Fields.h> // Biasrgb type
-#include <OSGUInt32Fields.h> // OutputABalpha type
-#include <OSGUInt32Fields.h> // OutputCDalpha type
-#include <OSGUInt32Fields.h> // OutputSumalpha type
+#include <OSGGLenumFields.h> // VariableArgb type
+#include <OSGGLenumFields.h> // VariableBrgb type
+#include <OSGGLenumFields.h> // VariableCrgb type
+#include <OSGGLenumFields.h> // VariableDrgb type
+#include <OSGGLenumFields.h> // VariableAalpha type
+#include <OSGGLenumFields.h> // VariableBalpha type
+#include <OSGGLenumFields.h> // VariableCalpha type
+#include <OSGGLenumFields.h> // VariableDalpha type
+#include <OSGGLenumFields.h> // OutputABrgb type
+#include <OSGGLenumFields.h> // OutputCDrgb type
+#include <OSGGLenumFields.h> // OutputSumrgb type
+#include <OSGGLenumFields.h> // Scalergb type
+#include <OSGGLenumFields.h> // Biasrgb type
+#include <OSGGLenumFields.h> // OutputABalpha type
+#include <OSGGLenumFields.h> // OutputCDalpha type
+#include <OSGGLenumFields.h> // OutputSumalpha type
 #include <OSGUInt8Fields.h> // DotABrgb type
 #include <OSGUInt8Fields.h> // DotCDrgb type
 #include <OSGUInt8Fields.h> // MuxSumrgb type
-#include <OSGUInt32Fields.h> // Scalealpha type
-#include <OSGUInt32Fields.h> // Biasalpha type
+#include <OSGGLenumFields.h> // Scalealpha type
+#include <OSGGLenumFields.h> // Biasalpha type
 #include <OSGUInt8Fields.h> // MuxSumalpha type
-#include <OSGUInt32Fields.h> // VariableE type
-#include <OSGUInt32Fields.h> // VariableF type
-#include <OSGUInt32Fields.h> // VariableG type
+#include <OSGGLenumFields.h> // VariableE type
+#include <OSGGLenumFields.h> // VariableF type
+#include <OSGGLenumFields.h> // VariableG type
 #include <OSGColor4fFields.h> // CombinerColor0 type
 #include <OSGColor4fFields.h> // CombinerColor1 type
 #include <OSGUInt8Fields.h> // PerStageConstants type
@@ -209,31 +209,31 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
            SFColor4f           *getSFColor0         (void);
            SFColor4f           *getSFColor1         (void);
            SFBool              *getSFColorSumClamp  (void);
-           MFUInt32            *getMFVariableArgb   (void);
-           MFUInt32            *getMFVariableBrgb   (void);
-           MFUInt32            *getMFVariableCrgb   (void);
-           MFUInt32            *getMFVariableDrgb   (void);
-           MFUInt32            *getMFVariableAalpha (void);
-           MFUInt32            *getMFVariableBalpha (void);
-           MFUInt32            *getMFVariableCalpha (void);
-           MFUInt32            *getMFVariableDalpha (void);
-           MFUInt32            *getMFOutputABrgb    (void);
-           MFUInt32            *getMFOutputCDrgb    (void);
-           MFUInt32            *getMFOutputSumrgb   (void);
-           MFUInt32            *getMFScalergb       (void);
-           MFUInt32            *getMFBiasrgb        (void);
-           MFUInt32            *getMFOutputABalpha  (void);
-           MFUInt32            *getMFOutputCDalpha  (void);
-           MFUInt32            *getMFOutputSumalpha (void);
+           MFGLenum            *getMFVariableArgb   (void);
+           MFGLenum            *getMFVariableBrgb   (void);
+           MFGLenum            *getMFVariableCrgb   (void);
+           MFGLenum            *getMFVariableDrgb   (void);
+           MFGLenum            *getMFVariableAalpha (void);
+           MFGLenum            *getMFVariableBalpha (void);
+           MFGLenum            *getMFVariableCalpha (void);
+           MFGLenum            *getMFVariableDalpha (void);
+           MFGLenum            *getMFOutputABrgb    (void);
+           MFGLenum            *getMFOutputCDrgb    (void);
+           MFGLenum            *getMFOutputSumrgb   (void);
+           MFGLenum            *getMFScalergb       (void);
+           MFGLenum            *getMFBiasrgb        (void);
+           MFGLenum            *getMFOutputABalpha  (void);
+           MFGLenum            *getMFOutputCDalpha  (void);
+           MFGLenum            *getMFOutputSumalpha (void);
            MFUInt8             *getMFDotABrgb       (void);
            MFUInt8             *getMFDotCDrgb       (void);
            MFUInt8             *getMFMuxSumrgb      (void);
-           MFUInt32            *getMFScalealpha     (void);
-           MFUInt32            *getMFBiasalpha      (void);
+           MFGLenum            *getMFScalealpha     (void);
+           MFGLenum            *getMFBiasalpha      (void);
            MFUInt8             *getMFMuxSumalpha    (void);
-           MFUInt32            *getMFVariableE      (void);
-           MFUInt32            *getMFVariableF      (void);
-           MFUInt32            *getMFVariableG      (void);
+           MFGLenum            *getMFVariableE      (void);
+           MFGLenum            *getMFVariableF      (void);
+           MFGLenum            *getMFVariableG      (void);
            MFColor4f           *getMFCombinerColor0 (void);
            MFColor4f           *getMFCombinerColor1 (void);
            SFUInt8             *getSFPerStageConstants(void);
@@ -246,54 +246,54 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
      const bool                &getColorSumClamp  (void) const;
            UInt8               &getPerStageConstants(void);
      const UInt8               &getPerStageConstants(void) const;
-           UInt32              &getVariableArgb   (const UInt32 index);
-           MFUInt32            &getVariableArgb   (void);
-     const MFUInt32            &getVariableArgb   (void) const;
-           UInt32              &getVariableBrgb   (const UInt32 index);
-           MFUInt32            &getVariableBrgb   (void);
-     const MFUInt32            &getVariableBrgb   (void) const;
-           UInt32              &getVariableCrgb   (const UInt32 index);
-           MFUInt32            &getVariableCrgb   (void);
-     const MFUInt32            &getVariableCrgb   (void) const;
-           UInt32              &getVariableDrgb   (const UInt32 index);
-           MFUInt32            &getVariableDrgb   (void);
-     const MFUInt32            &getVariableDrgb   (void) const;
-           UInt32              &getVariableAalpha (const UInt32 index);
-           MFUInt32            &getVariableAalpha (void);
-     const MFUInt32            &getVariableAalpha (void) const;
-           UInt32              &getVariableBalpha (const UInt32 index);
-           MFUInt32            &getVariableBalpha (void);
-     const MFUInt32            &getVariableBalpha (void) const;
-           UInt32              &getVariableCalpha (const UInt32 index);
-           MFUInt32            &getVariableCalpha (void);
-     const MFUInt32            &getVariableCalpha (void) const;
-           UInt32              &getVariableDalpha (const UInt32 index);
-           MFUInt32            &getVariableDalpha (void);
-     const MFUInt32            &getVariableDalpha (void) const;
-           UInt32              &getOutputABrgb    (const UInt32 index);
-           MFUInt32            &getOutputABrgb    (void);
-     const MFUInt32            &getOutputABrgb    (void) const;
-           UInt32              &getOutputCDrgb    (const UInt32 index);
-           MFUInt32            &getOutputCDrgb    (void);
-     const MFUInt32            &getOutputCDrgb    (void) const;
-           UInt32              &getOutputSumrgb   (const UInt32 index);
-           MFUInt32            &getOutputSumrgb   (void);
-     const MFUInt32            &getOutputSumrgb   (void) const;
-           UInt32              &getScalergb       (const UInt32 index);
-           MFUInt32            &getScalergb       (void);
-     const MFUInt32            &getScalergb       (void) const;
-           UInt32              &getBiasrgb        (const UInt32 index);
-           MFUInt32            &getBiasrgb        (void);
-     const MFUInt32            &getBiasrgb        (void) const;
-           UInt32              &getOutputABalpha  (const UInt32 index);
-           MFUInt32            &getOutputABalpha  (void);
-     const MFUInt32            &getOutputABalpha  (void) const;
-           UInt32              &getOutputCDalpha  (const UInt32 index);
-           MFUInt32            &getOutputCDalpha  (void);
-     const MFUInt32            &getOutputCDalpha  (void) const;
-           UInt32              &getOutputSumalpha (const UInt32 index);
-           MFUInt32            &getOutputSumalpha (void);
-     const MFUInt32            &getOutputSumalpha (void) const;
+           GLenum              &getVariableArgb   (const UInt32 index);
+           MFGLenum            &getVariableArgb   (void);
+     const MFGLenum            &getVariableArgb   (void) const;
+           GLenum              &getVariableBrgb   (const UInt32 index);
+           MFGLenum            &getVariableBrgb   (void);
+     const MFGLenum            &getVariableBrgb   (void) const;
+           GLenum              &getVariableCrgb   (const UInt32 index);
+           MFGLenum            &getVariableCrgb   (void);
+     const MFGLenum            &getVariableCrgb   (void) const;
+           GLenum              &getVariableDrgb   (const UInt32 index);
+           MFGLenum            &getVariableDrgb   (void);
+     const MFGLenum            &getVariableDrgb   (void) const;
+           GLenum              &getVariableAalpha (const UInt32 index);
+           MFGLenum            &getVariableAalpha (void);
+     const MFGLenum            &getVariableAalpha (void) const;
+           GLenum              &getVariableBalpha (const UInt32 index);
+           MFGLenum            &getVariableBalpha (void);
+     const MFGLenum            &getVariableBalpha (void) const;
+           GLenum              &getVariableCalpha (const UInt32 index);
+           MFGLenum            &getVariableCalpha (void);
+     const MFGLenum            &getVariableCalpha (void) const;
+           GLenum              &getVariableDalpha (const UInt32 index);
+           MFGLenum            &getVariableDalpha (void);
+     const MFGLenum            &getVariableDalpha (void) const;
+           GLenum              &getOutputABrgb    (const UInt32 index);
+           MFGLenum            &getOutputABrgb    (void);
+     const MFGLenum            &getOutputABrgb    (void) const;
+           GLenum              &getOutputCDrgb    (const UInt32 index);
+           MFGLenum            &getOutputCDrgb    (void);
+     const MFGLenum            &getOutputCDrgb    (void) const;
+           GLenum              &getOutputSumrgb   (const UInt32 index);
+           MFGLenum            &getOutputSumrgb   (void);
+     const MFGLenum            &getOutputSumrgb   (void) const;
+           GLenum              &getScalergb       (const UInt32 index);
+           MFGLenum            &getScalergb       (void);
+     const MFGLenum            &getScalergb       (void) const;
+           GLenum              &getBiasrgb        (const UInt32 index);
+           MFGLenum            &getBiasrgb        (void);
+     const MFGLenum            &getBiasrgb        (void) const;
+           GLenum              &getOutputABalpha  (const UInt32 index);
+           MFGLenum            &getOutputABalpha  (void);
+     const MFGLenum            &getOutputABalpha  (void) const;
+           GLenum              &getOutputCDalpha  (const UInt32 index);
+           MFGLenum            &getOutputCDalpha  (void);
+     const MFGLenum            &getOutputCDalpha  (void) const;
+           GLenum              &getOutputSumalpha (const UInt32 index);
+           MFGLenum            &getOutputSumalpha (void);
+     const MFGLenum            &getOutputSumalpha (void) const;
            UInt8               &getDotABrgb       (const UInt32 index);
            MFUInt8             &getDotABrgb       (void);
      const MFUInt8             &getDotABrgb       (void) const;
@@ -303,24 +303,24 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
            UInt8               &getMuxSumrgb      (const UInt32 index);
            MFUInt8             &getMuxSumrgb      (void);
      const MFUInt8             &getMuxSumrgb      (void) const;
-           UInt32              &getScalealpha     (const UInt32 index);
-           MFUInt32            &getScalealpha     (void);
-     const MFUInt32            &getScalealpha     (void) const;
-           UInt32              &getBiasalpha      (const UInt32 index);
-           MFUInt32            &getBiasalpha      (void);
-     const MFUInt32            &getBiasalpha      (void) const;
+           GLenum              &getScalealpha     (const UInt32 index);
+           MFGLenum            &getScalealpha     (void);
+     const MFGLenum            &getScalealpha     (void) const;
+           GLenum              &getBiasalpha      (const UInt32 index);
+           MFGLenum            &getBiasalpha      (void);
+     const MFGLenum            &getBiasalpha      (void) const;
            UInt8               &getMuxSumalpha    (const UInt32 index);
            MFUInt8             &getMuxSumalpha    (void);
      const MFUInt8             &getMuxSumalpha    (void) const;
-           UInt32              &getVariableE      (const UInt32 index);
-           MFUInt32            &getVariableE      (void);
-     const MFUInt32            &getVariableE      (void) const;
-           UInt32              &getVariableF      (const UInt32 index);
-           MFUInt32            &getVariableF      (void);
-     const MFUInt32            &getVariableF      (void) const;
-           UInt32              &getVariableG      (const UInt32 index);
-           MFUInt32            &getVariableG      (void);
-     const MFUInt32            &getVariableG      (void) const;
+           GLenum              &getVariableE      (const UInt32 index);
+           MFGLenum            &getVariableE      (void);
+     const MFGLenum            &getVariableE      (void) const;
+           GLenum              &getVariableF      (const UInt32 index);
+           MFGLenum            &getVariableF      (void);
+     const MFGLenum            &getVariableF      (void) const;
+           GLenum              &getVariableG      (const UInt32 index);
+           MFGLenum            &getVariableG      (void);
+     const MFGLenum            &getVariableG      (void) const;
            Color4f             &getCombinerColor0 (const UInt32 index);
            MFColor4f           &getCombinerColor0 (void);
      const MFColor4f           &getCombinerColor0 (void) const;
@@ -385,31 +385,31 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
     SFColor4f           _sfColor0;
     SFColor4f           _sfColor1;
     SFBool              _sfColorSumClamp;
-    MFUInt32            _mfVariableArgb;
-    MFUInt32            _mfVariableBrgb;
-    MFUInt32            _mfVariableCrgb;
-    MFUInt32            _mfVariableDrgb;
-    MFUInt32            _mfVariableAalpha;
-    MFUInt32            _mfVariableBalpha;
-    MFUInt32            _mfVariableCalpha;
-    MFUInt32            _mfVariableDalpha;
-    MFUInt32            _mfOutputABrgb;
-    MFUInt32            _mfOutputCDrgb;
-    MFUInt32            _mfOutputSumrgb;
-    MFUInt32            _mfScalergb;
-    MFUInt32            _mfBiasrgb;
-    MFUInt32            _mfOutputABalpha;
-    MFUInt32            _mfOutputCDalpha;
-    MFUInt32            _mfOutputSumalpha;
+    MFGLenum            _mfVariableArgb;
+    MFGLenum            _mfVariableBrgb;
+    MFGLenum            _mfVariableCrgb;
+    MFGLenum            _mfVariableDrgb;
+    MFGLenum            _mfVariableAalpha;
+    MFGLenum            _mfVariableBalpha;
+    MFGLenum            _mfVariableCalpha;
+    MFGLenum            _mfVariableDalpha;
+    MFGLenum            _mfOutputABrgb;
+    MFGLenum            _mfOutputCDrgb;
+    MFGLenum            _mfOutputSumrgb;
+    MFGLenum            _mfScalergb;
+    MFGLenum            _mfBiasrgb;
+    MFGLenum            _mfOutputABalpha;
+    MFGLenum            _mfOutputCDalpha;
+    MFGLenum            _mfOutputSumalpha;
     MFUInt8             _mfDotABrgb;
     MFUInt8             _mfDotCDrgb;
     MFUInt8             _mfMuxSumrgb;
-    MFUInt32            _mfScalealpha;
-    MFUInt32            _mfBiasalpha;
+    MFGLenum            _mfScalealpha;
+    MFGLenum            _mfBiasalpha;
     MFUInt8             _mfMuxSumalpha;
-    MFUInt32            _mfVariableE;
-    MFUInt32            _mfVariableF;
-    MFUInt32            _mfVariableG;
+    MFGLenum            _mfVariableE;
+    MFGLenum            _mfVariableF;
+    MFGLenum            _mfVariableG;
     MFColor4f           _mfCombinerColor0;
     MFColor4f           _mfCombinerColor1;
     SFUInt8             _sfPerStageConstants;

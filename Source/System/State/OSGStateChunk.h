@@ -110,7 +110,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunk : public StateChunkBase
     /*! \{                                                                 */
 
                          UInt32           getClassId      (void) const;
-    inline virtual const StateChunkClass *getClass        (void) const;
+           virtual const StateChunkClass *getClass        (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

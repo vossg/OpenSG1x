@@ -43,12 +43,6 @@
 OSG_BEGIN_NAMESPACE
 
 inline
-const StateChunkClass *MaterialChunk::getClass( void ) const
-{
-    return &_class;
-}
-
-inline
 UInt32 MaterialChunk::getStaticClassId(void)
 {
     return getStaticClass()->getId();
