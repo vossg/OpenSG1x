@@ -103,6 +103,13 @@ SFReal32 *PerspectiveCameraBase::getSFFov(void)
     return &_sfFov;
 }
 
+//! Get the PerspectiveCamera::_sfAspect field.
+inline
+SFReal32 *PerspectiveCameraBase::getSFAspect(void)
+{
+    return &_sfAspect;
+}
+
 
 //! Get the value of the PerspectiveCamera::_sfFov field.
 inline
@@ -123,6 +130,27 @@ inline
 void PerspectiveCameraBase::setFov(const Real32 &value)
 {
     _sfFov.setValue(value);
+}
+
+//! Get the value of the PerspectiveCamera::_sfAspect field.
+inline
+Real32 &PerspectiveCameraBase::getAspect(void)
+{
+    return _sfAspect.getValue();
+}
+
+//! Get the value of the PerspectiveCamera::_sfAspect field.
+inline
+const Real32 &PerspectiveCameraBase::getAspect(void) const
+{
+    return _sfAspect.getValue();
+}
+
+//! Set the value of the PerspectiveCamera::_sfAspect field.
+inline
+void PerspectiveCameraBase::setAspect(const Real32 &value)
+{
+    _sfAspect.setValue(value);
 }
 
 

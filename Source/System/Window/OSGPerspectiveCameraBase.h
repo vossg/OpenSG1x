@@ -66,6 +66,7 @@
 #include <OSGCamera.h> // Parent
 
 #include <OSGReal32Fields.h> // Fov type
+#include <OSGReal32Fields.h> // Aspect type
 
 #include <OSGPerspectiveCameraFields.h>
 
@@ -87,12 +88,16 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
 
     enum
     {
-        FovFieldId  = Inherited::NextFieldId,
-        NextFieldId = FovFieldId  + 1
+        FovFieldId    = Inherited::NextFieldId,
+        AspectFieldId = FovFieldId    + 1,
+        NextFieldId   = AspectFieldId + 1
     };
 
     static const OSG::BitVector FovFieldMask;
+    static const OSG::BitVector AspectFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -117,9 +122,12 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
     /*! \{                                                                 */
 
            SFReal32            *getSFFov            (void);
+           SFReal32            *getSFAspect         (void);
 
            Real32              &getFov            (void);
      const Real32              &getFov            (void) const;
+           Real32              &getAspect         (void);
+     const Real32              &getAspect         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -127,6 +135,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
     /*! \{                                                                 */
 
      void setFov            ( const Real32 &value );
+     void setAspect         ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -173,6 +182,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
     /*! \{                                                                 */
 
     SFReal32            _sfFov;
+    SFReal32            _sfAspect;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

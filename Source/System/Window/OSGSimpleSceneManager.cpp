@@ -252,6 +252,13 @@ bool SimpleSceneManager::getHeadlightState(void)
     return _headlight->getOn();
 }
 
+/*! get the camera
+ */
+PerspectiveCameraPtr SimpleSceneManager::getCamera(void)
+{
+    return _camera;
+}
+
 /*! set the window to be used for display
  */
 void SimpleSceneManager::setWindow(WindowPtr win)
@@ -284,16 +291,19 @@ void SimpleSceneManager::setRoot(NodePtr root)
         initialize();
     }
 
-    if(_root != NullFC)
+    if(_root != root)
     {
-        _internalRoot->subChild(_root);
-        subRefCP(_root);
+        addRefCP(_root);
+
+        if(_root != NullFC)
+        {
+            _internalRoot->subChild(_root);
+            subRefCP(_root);
+        }
+
+        _root = root;
+        _internalRoot->addChild(_root);
     }
-
-    _root = root;
-
-    addRefCP(_root);
-    _internalRoot->addChild(_root);
 }
 
 /*! set the headlight setting

@@ -18,4 +18,13 @@ A perspective camera with a symmetric frustum.
 	>
 	The vertical field of view, in radians.
 	</Field>
+	<Field
+		name="aspect"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+                defaultValue="1"
+	>
+	The aspect ratio (i.e. width / height) of a pixel.
+	</Field>
 </FieldContainer>

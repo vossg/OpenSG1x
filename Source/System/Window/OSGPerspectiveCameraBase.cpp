@@ -65,14 +65,23 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  PerspectiveCameraBase::FovFieldMask = 
-    (1 << PerspectiveCameraBase::FovFieldId);
+    (TypeTraits<BitVector>::One << PerspectiveCameraBase::FovFieldId);
 
+const OSG::BitVector  PerspectiveCameraBase::AspectFieldMask = 
+    (TypeTraits<BitVector>::One << PerspectiveCameraBase::AspectFieldId);
+
+const OSG::BitVector PerspectiveCameraBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
 
 /*! \var Real32          PerspectiveCameraBase::_sfFov
     The vertical field of view, in radians.
+*/
+/*! \var Real32          PerspectiveCameraBase::_sfAspect
+    The aspect ratio (i.e. width / height) of a pixel.
 */
 
 //! PerspectiveCamera description
@@ -83,7 +92,12 @@ FieldDescription *PerspectiveCameraBase::_desc[] =
                      "fov", 
                      FovFieldId, FovFieldMask,
                      false,
-                     (FieldAccessMethod) &PerspectiveCameraBase::getSFFov)
+                     (FieldAccessMethod) &PerspectiveCameraBase::getSFFov),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "aspect", 
+                     AspectFieldId, AspectFieldMask,
+                     false,
+                     (FieldAccessMethod) &PerspectiveCameraBase::getSFAspect)
 };
 
 
@@ -140,6 +154,7 @@ void PerspectiveCameraBase::executeSync(      FieldContainer &other,
 
 PerspectiveCameraBase::PerspectiveCameraBase(void) :
     _sfFov                    (), 
+    _sfAspect                 (Real32(1)), 
     Inherited() 
 {
 }
@@ -150,6 +165,7 @@ PerspectiveCameraBase::PerspectiveCameraBase(void) :
 
 PerspectiveCameraBase::PerspectiveCameraBase(const PerspectiveCameraBase &source) :
     _sfFov                    (source._sfFov                    ), 
+    _sfAspect                 (source._sfAspect                 ), 
     Inherited                 (source)
 {
 }
@@ -171,6 +187,11 @@ UInt32 PerspectiveCameraBase::getBinSize(const BitVector &whichField)
         returnValue += _sfFov.getBinSize();
     }
 
+    if(FieldBits::NoField != (AspectFieldMask & whichField))
+    {
+        returnValue += _sfAspect.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -183,6 +204,11 @@ void PerspectiveCameraBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (FovFieldMask & whichField))
     {
         _sfFov.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AspectFieldMask & whichField))
+    {
+        _sfAspect.copyToBin(pMem);
     }
 
 
@@ -198,6 +224,11 @@ void PerspectiveCameraBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfFov.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (AspectFieldMask & whichField))
+    {
+        _sfAspect.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -209,6 +240,9 @@ void PerspectiveCameraBase::executeSyncImpl(      PerspectiveCameraBase *pOther,
 
     if(FieldBits::NoField != (FovFieldMask & whichField))
         _sfFov.syncWith(pOther->_sfFov);
+
+    if(FieldBits::NoField != (AspectFieldMask & whichField))
+        _sfAspect.syncWith(pOther->_sfAspect);
 
 
 }
