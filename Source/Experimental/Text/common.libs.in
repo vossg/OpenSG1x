@@ -1,5 +1,5 @@
 # Add our directory to the System Lib
 
-#ac_gdz_package_dirs_System="${ac_gdz_package_dirs_System} Experimental/Text@" 
-#ac_gdz_package_inc_dep_System="${ac_gdz_package_inc_dep_System} FREETYPE1" 
-#ac_gdz_package_link_dep_System="${ac_gdz_package_link_dep_System} FREETYPE1" 
+ac_gdz_package_dirs_System="${ac_gdz_package_dirs_System} Experimental/Text@" 
+ac_gdz_package_inc_dep_System="${ac_gdz_package_inc_dep_System} FREETYPE1" 
+ac_gdz_package_link_dep_System="${ac_gdz_package_link_dep_System} FREETYPE1" 
