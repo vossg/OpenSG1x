@@ -75,7 +75,7 @@ void TGAImageFileType::readHeader(std::istream &in, TGAHeader &header)
 {
     UInt8 dum[18];
     
-    in.read(dum, 18);
+    in.read(reinterpret_cast<char *>(dum), 18);
 
     header.idLength      = dum[ 0];
     header.colorMapType  = dum[ 1];
@@ -115,7 +115,7 @@ bool TGAImageFileType::readCompressedImageData(std::istream &in, Image &image,
         
     while(npix)
     {
-        in.read(&rep, 1);
+        in.read(reinterpret_cast<char *>(&rep), 1);
         
         if(rep & 0x80)
         {
@@ -124,46 +124,47 @@ bool TGAImageFileType::readCompressedImageData(std::istream &in, Image &image,
             
             switch(image.getPixelFormat())
             {
-            case Image::OSG_L_PF:
-                                        in.read(&a, 1);
-                                        while(rep--)
-                                        {
-                                            *data++ = a;
-                                        }
-                                        break;
-            case Image::OSG_RGB_PF:     
-                                        in.read(&b, 1);
-                                        in.read(&g, 1);
-                                        in.read(&r, 1);
-                                        while(rep--)
-                                        {
-                                            *data++ = b;
-                                            *data++ = g;
-                                            *data++ = r;
-                                        }
-                                        break;
-            case Image::OSG_RGBA_PF:
-                                        in.read(&b, 1);
-                                        in.read(&g, 1);
-                                        in.read(&r, 1);
-                                        in.read(&a, 1);
-                                        while(rep--)
-                                        {
-                                            *data++ = b;
-                                            *data++ = g;
-                                            *data++ = r;
-                                            *data++ = a;
-                                        }
-                                        break;
-            default:                    FWARNING(("TGA: unknown pixel "
-                                            "format!?!\n"));
-                                        return false;
+                case Image::OSG_L_PF:
+                    in.read(reinterpret_cast<char *>(&a), 1);
+                    while(rep--)
+                    {
+                        *data++ = a;
+                    }
+                    break;
+                case Image::OSG_RGB_PF:     
+                    in.read(reinterpret_cast<char *>(&b), 1);
+                    in.read(reinterpret_cast<char *>(&g), 1);
+                    in.read(reinterpret_cast<char *>(&r), 1);
+                    while(rep--)
+                    {
+                        *data++ = b;
+                        *data++ = g;
+                        *data++ = r;
+                    }
+                    break;
+                case Image::OSG_RGBA_PF:
+                    in.read(reinterpret_cast<char *>(&b), 1);
+                    in.read(reinterpret_cast<char *>(&g), 1);
+                    in.read(reinterpret_cast<char *>(&r), 1);
+                    in.read(reinterpret_cast<char *>(&a), 1);
+                    while(rep--)
+                    {
+                        *data++ = b;
+                        *data++ = g;
+                        *data++ = r;
+                        *data++ = a;
+                    }
+                    break;
+                default:
+                    FWARNING(("TGA: unknown pixel "
+                              "format!?!\n"));
+                    return false;
             }
         }
         else // raw packet
         {
             rep = (rep & 0x7f) + 1;
-            in.read(data, bpp * rep);
+            in.read(reinterpret_cast<char *>(data), bpp * rep);
             data += rep * bpp;
             npix -= rep;
         }   
@@ -223,7 +224,7 @@ bool TGAImageFileType::read(      Image &image,
 
     // read the image ID
     UInt8 imageid[256];
-    in.read(imageid, header.idLength);
+    in.read(reinterpret_cast<char *>(imageid), header.idLength);
     imageid[header.idLength] = 0;
     
     FDEBUG(("TGA: Image ID '%s'\n", imageid));
@@ -235,7 +236,7 @@ bool TGAImageFileType::read(      Image &image,
         
         UInt8 * dum = new UInt8 [len];
         
-        in.read(dum, len);
+        in.read(reinterpret_cast<char *>(dum), len);
     
         delete [] dum;
     }
@@ -251,7 +252,7 @@ bool TGAImageFileType::read(      Image &image,
     }
     else
     {
-        in.read(image.getData(), image.getSize());
+        in.read(reinterpret_cast<char *>(image.getData()), image.getSize());
     }
 
     // check origin
