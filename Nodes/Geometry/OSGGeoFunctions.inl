@@ -46,26 +46,25 @@ OSG_BEGIN_NAMESPACE
 inline       
 Int32 IndexDic::entry(vector<Int32> &indexVec)
 {
-    Int32 returnValue = 0;
+  std::map< std::vector<Int32>, Int32>::iterator iI;
+  pair< std::map< std::vector<Int32>,Int32>::iterator, bool > mapRes;
 
-    map<vector<Int32>, Int32>::iterator mIt;
-
-    mIt = _indexMap.find(indexVec);
-
-    if(mIt == _indexMap.end())
+  iI = _indexMap.find(indexVec);
+  if (iI == _indexMap.end())
     {
-        returnValue = _indexVec.size();
-
-        _indexVec.push_back(&indexVec);
-
-        _indexMap[indexVec] = returnValue;
+      mapRes = _indexMap.insert (std::map< std::vector<Int32>, Int32>::value_type(indexVec,_indexVec.size()));
+      if (mapRes.second)
+        {
+          iI = mapRes.first;
+          _indexVec.push_back(&(iI->first));
+        }
+      else
+        {
+          FFATAL (("IndexDic::entry() map insert error\n"));
+        }
     }
-    else
-    {
-        returnValue = mIt->second;
-    }
-
-    return returnValue;
+  
+  return iI->second;
 }
     
 inline const vector<Int32> &IndexDic::entry(Int32 index)
