@@ -2191,14 +2191,24 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
 {
     if(pFC != NullFC)
     {
-#if 0
-        MaterialGroupPtr pMatGroup = MaterialGroupPtr::dcast(pFC);
+        ChunkMaterialPtr pChunkMat = ChunkMaterialPtr::dcast(pFC);
 
-        if(pMatGroup != NullFC)
+        if(pChunkMat != NullFC && pChunkMat->isTransparent() == true)
         {
-            ChunkMaterialPtr pChunkMat = 
-                ChunkMaterialPtr::dcast(pMatGroup->getMaterial());
+            BlendChunkPtr pBlendChunk = OSG::BlendChunk::create();
+            
+            pBlendChunk->setSrcFactor (GL_SRC_ALPHA);
+            pBlendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+            
+            beginEditCP(pChunkMat, ChunkMaterial::ChunksFieldMask);
+            {
+                pChunkMat->addChunk(pBlendChunk);
+            }
+            endEditCP  (pChunkMat, ChunkMaterial::ChunksFieldMask);
+        }
+    }
 
+#if 0
             TextureChunkPtr pTexture = 
                 TextureChunkPtr::dcast(_sfTexture.getValue());
 
@@ -2251,10 +2261,8 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
                     }
                     endEditCP(pMatGroup);
                 }
-            }
-        }
-#endif
     }
+#endif
 
 #ifdef OSG_DEBUG_VRML
     decIndent();
