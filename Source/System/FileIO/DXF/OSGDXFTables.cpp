@@ -155,8 +155,10 @@ DXFTables *DXFTables::_the = new DXFTables();
 //DXFTableAppid		 *DXFTableAppid::_the		 = new DXFTableAppid();
 //DXFTableBlock_record *DXFTableBlock_record::_the = new DXFTableBlock_record();
 //DXFTableDimstyle 	 *DXFTableDimstyle::_the	 = new DXFTableDimstyle();
-DXFTableLayer 		 *DXFTableLayer::_the		 = new DXFTableLayer();
+template <>
+DXFTableLayer		 *DXFTableLayer::_the		 = new DXFTableLayer();
 
+template <>
 DXFTableLtype 		 *DXFTableLtype::_the		 = new DXFTableLtype();
 
 //DXFTableStyle 		 *DXFTableStyle::_the		 = new DXFTableStyle();
@@ -246,7 +248,7 @@ DXFTables::~DXFTables(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFTables.cpp,v 1.2 2004/02/20 12:58:56 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFTables.cpp,v 1.3 2004/05/08 08:26:52 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGDXFTABLES_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGDXFTABLES_INLINE_CVSID;
 }
