@@ -590,7 +590,7 @@ MemoryHandle Node::copyToBin  (      MemoryHandle  pMem,
 MemoryHandle Node::copyFromBin(      MemoryHandle  pMem, 
                                const BitVector    &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (VolumeFieldMask & whichField))
     {
