@@ -80,7 +80,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.2 2002/02/04 20:14:10 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.3 2002/02/08 12:56:09 dirk Exp $";
     static char cvsid_hpp[] = OSGPARTICLEBSP_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLEBSP_INLINE_CVSID;
 }
@@ -169,10 +169,13 @@ void ParticleBSPTree::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 {
     PLOG << "ParticleBSPTree(";
 
-    for(vector<ParticleBSPNode>::const_iterator i = _tree.begin() + 1;
-        i != _tree.end(); ++i )
+    if(!_tree.empty())
     {
-        i->dump();
+        for(vector<ParticleBSPNode>::const_iterator i = _tree.begin() + 1;
+            i != _tree.end(); ++i )
+        {
+            i->dump();
+        }
     }   
     
     PLOG << ")" << endl;
@@ -185,25 +188,28 @@ void ParticleBSPTree::putToString(string &outVal) const
     outVal.assign(TypeConstants<UInt32>::putToString(_tree.size()));
     outVal.append(";");
     
-    for(vector<ParticleBSPNode>::const_iterator i = _tree.begin() + 1;
-        i != _tree.end(); ++i )
+    if(! _tree.empty())
     {
-        outVal.append(TypeConstants<UInt8>::putToString(i->getAxis()));
-        outVal.append(":");
-        if(i->isLeaf())
+        for(vector<ParticleBSPNode>::const_iterator i = _tree.begin() + 1;
+            i != _tree.end(); ++i )
         {
-            outVal.append(TypeConstants<Int32>::putToString(i->getValue()));
-        }
-        else
-        {
-            outVal.append(TypeConstants<Real32>::putToString(
-                                                    i->getSplitValue()
-                         )                                  );
-        }
-        outVal.append(";");
-    }   
+            outVal.append(TypeConstants<UInt8>::putToString(i->getAxis()));
+            outVal.append(":");
+            if(i->isLeaf())
+            {
+                outVal.append(TypeConstants<Int32>::putToString(i->getValue()));
+            }
+            else
+            {
+                outVal.append(TypeConstants<Real32>::putToString(
+                                                        i->getSplitValue()
+                             )                                  );
+            }
+            outVal.append(";");
+        }   
+    }
 }
-     
+    
 bool ParticleBSPTree::getFromString(const Char8 *&inVal)
 {
     UInt32 size = TypeConstants<UInt32>::getFromString(inVal);
@@ -249,6 +255,9 @@ bool ParticleBSPTree::getFromString(const Char8 *&inVal)
 Int32 *ParticleBSPTree::traverse(const Pnt3f &refPoint, UInt32 &length, 
                                  Int32 *order) const
 {
+    if(_tree.empty())
+        return NULL;
+        
     if(order == NULL)
     {
         order = new Int32 [length];
