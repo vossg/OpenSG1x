@@ -95,6 +95,25 @@ static std::string _fp_program =
 "	gl_FragColor = vec4(finalColor, 1.0);\n"
 "}\n";
 
+// This is needed to make doneCurrent() public.
+class OpenSGGLContext : public QGLContext
+{
+public:
+    OpenSGGLContext::OpenSGGLContext(const QGLFormat &format, QPaintDevice *device) :
+            QGLContext(format, device)
+    {
+    }
+
+    virtual OpenSGGLContext::~OpenSGGLContext()
+    {
+    }
+
+    virtual void OpenSGGLContext::doneCurrent(void)
+    {
+        QGLContext::doneCurrent();
+    }
+};
+
 class OpenSGWidget : public QGLWidget
 {
 public:
@@ -124,6 +143,8 @@ OpenSGWidget::OpenSGWidget( QGLFormat f, QWidget *parent, const char *name )
      : QGLWidget( f, parent, name )
 {
     setAutoBufferSwap(false);
+    setContext(new OpenSGGLContext(f, this));
+
     mgr = new SimpleSceneManager;
     pwin = PassiveWindow::create();
     mgr->setWindow(pwin);
@@ -154,8 +175,7 @@ void OpenSGWidget::makeCurrent(void)
 
 void OpenSGWidget::doneCurrent(void)
 {
-    // just to make it public ...
-    QGLWidget::doneCurrent();
+    ((OpenSGGLContext *) context())->doneCurrent();
 }
 
 void OpenSGWidget::initializeGL()
