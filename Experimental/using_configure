@@ -26,11 +26,11 @@ cd Build/i686-pc-cygwin-icl45
 make
 
 
-Linux:
+Linux (RH 7.0, including patch gcc/RHBA-2000-132, glibc/RHBA-2000-079) 
 
-on some confgurations, but only some. We're working on it...
-
-
+./configure --with-compiler=g++ --with-glut --with-qt=<qtdir>
+cd Build/i686-pc-linux-g++
+make
 
 To make the system:
 
@@ -46,8 +46,7 @@ make testWindowGLUT
 
 
 To make the VRML Loader test program you need to be in SystemTest and
-ln -s .../SystemLib/obj-dbg/OSGScanParseSkel.tab.h .../SystemTest/obj-dbg
-ln -s .../Experimental/VRMLLoader/std.wrl .
+ln -s ../../../VRMLLoader/std.wrl .
 make testVRMLRender
 ./testVRMLRender ../../../VRMLLoader/tie.wrl
 Used keys: a s z x c w ESC
