@@ -115,6 +115,8 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty :
 
     /*----------------------------- access ----------------------------------*/
     
+    virtual PtrType clone        (void) = 0;
+    
     virtual UInt32  getFormat    (void) = 0;
     // number of bytes per format element
     virtual UInt32  getFormatSize(void) = 0;    
@@ -310,6 +312,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
           StoredFieldType &getField(void);
     const StoredFieldType &getField(void) const;
     
+	   
+    virtual typename GeoPropertyDesc::InheritPtr clone(void);
     
     virtual UInt32  getFormat    (void);
     // number of bytes per format element
@@ -556,23 +560,18 @@ OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
 
 // Primitive Type
 
-// just one kind, to cut down the number of pumps needed
-// screwed up architectures might have a problem with uint8, maybe we'll
-// have to expand it later 
-
-typedef GeoProperty<GeoPTypePropertyDesc> GeoPType;
+typedef AbstractGeoProperty<GeoPTypePropertyDesc> GeoPType;
 
 #ifndef OSG_COMPILEGEOPROPINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate GeoProperty<GeoPTypePropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoPTypePropertyDesc>::_desc
+#pragma do_not_instantiate AbstractGeoProperty<GeoPTypePropertyDesc>::_type
 
 #else
 
-OSG_FC_DLLEXPORT_DECL(GeoProperty, 
-                      GeoPTypePropertyDesc, 
-                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty, 
+                      		GeoPTypePropertyDesc, 
+                      		OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -584,19 +583,18 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 // screwed up architectures might have a problem with uint8, maybe we'll
 // have to expand it later 
 
-typedef GeoProperty<GeoPLengthPropertyDesc> GeoPLength;
+typedef AbstractGeoProperty<GeoPLengthPropertyDesc> GeoPLength;
 
 #ifndef OSG_COMPILEGEOPROPINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate GeoProperty<GeoPLengthPropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoPLengthPropertyDesc>::_desc
+#pragma do_not_instantiate AbstractGeoProperty<GeoPLengthPropertyDesc>::_type
 
 #else
 
-OSG_FC_DLLEXPORT_DECL(GeoProperty, 
-                      GeoPLengthPropertyDesc, 
-                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty, 
+                    	   GeoPLengthPropertyDesc, 
+                    	   OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif

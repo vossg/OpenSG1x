@@ -278,21 +278,14 @@ typedef GeoPropertyInterface<GeoIndexPropertyDesc> GeoIndexInterface;
 struct GeoPTypePropertyDesc
 {
     static const Char8 *getTypeName (void) { return "GeoPType"; }
-    static const Char8 *getClassName(void) { return "GeoPTypeProperty"; }
-    static const Char8 *getFieldName(void) { return "Types"; }
     static const Char8 *getGroupName(void) { return "GeoPType"; }
+    static const Char8 *getClassName(void) { return "GeoPTypeProperty"; }
 
     static InitContainerF getInitMethod(void) { return NULL; }
-
-    static UInt32 getFormat    (void) { return GL_UNSIGNED_BYTE;  }
-    static UInt32 getFormatSize(void) { return sizeof(GLubyte);   }
-    static UInt32 getDimension (void) { return 1;                 }
-    static UInt32 getStride    (void) { return 0;                 }
 
     typedef Attachment             Inherit;
     typedef AttachmentPtr          InheritPtr;
     typedef AttachmentPropertyDesc InheritDesc;
-    typedef MFUInt8                FieldType;
 
     typedef UInt8                  GenericType;
  
@@ -309,20 +302,13 @@ struct GeoPLengthPropertyDesc
 {
     static const Char8 *getTypeName (void) { return "GeoPLength";         }
     static const Char8 *getClassName(void) { return "GeoPLengthProperty"; }
-    static const Char8 *getFieldName(void) { return "Lengths";            }
     static const Char8 *getGroupName(void) { return "GeoPLength";         }
 
     static InitContainerF getInitMethod(void) { return NULL; }
 
-    static UInt32 getFormat    (void) { return GL_UNSIGNED_INT; }
-    static UInt32 getFormatSize(void) { return sizeof(GLuint);  }
-    static UInt32 getDimension (void) { return 1;               }
-    static UInt32 getStride    (void) { return 0;               }
-
     typedef Attachment             Inherit;
     typedef AttachmentPtr          InheritPtr;
     typedef AttachmentPropertyDesc InheritDesc;
-    typedef MFUInt32               FieldType;
 
     typedef UInt32                 GenericType;
  

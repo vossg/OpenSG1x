@@ -179,19 +179,19 @@ int main (int argc, char **argv)
 	    Geometry::MapTexcoords );
     	g1->getIndexMapping().addValue( Geometry::MapColor );
 
-	GeoPLengthPtr lens = GeoPLength::create();	
+	GeoPLengthPtr lens = GeoPLengthUI32::create();	
 	g1->setLengths( lens );
 	beginEditCP(lens);
-	lens->getFieldPtr()->addValue( 4 );
-	lens->getFieldPtr()->addValue( 4 );
+	lens->addValue( 4 );
+	lens->addValue( 4 );
 	endEditCP(lens);
 
 
-	GeoPTypePtr type = GeoPType::create();	
+	GeoPTypePtr type = GeoPTypeUI8::create();	
 	g1->setTypes( type );
 	beginEditCP(type);
-	type->getFieldPtr()->addValue( GL_POLYGON );
-	type->getFieldPtr()->addValue( GL_POLYGON );
+	type->addValue( GL_POLYGON );
+	type->addValue( GL_POLYGON );
 	endEditCP(type);
 
     	endEditCP(g1);

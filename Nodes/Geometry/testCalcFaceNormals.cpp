@@ -284,8 +284,8 @@ int main (int argc, char **argv)
   GeoIndexUI32Ptr obj3Index = GeoIndexUI32::create();
   GeoPosition3f::PtrType obj3Pnts = GeoPosition3f::create();
   GeoColor3f::PtrType obj3Colors = GeoColor3f::create();
-  GeoPTypePtr obj3Types = GeoPType::create();
-  GeoPLengthPtr obj3Lengths = GeoPLength::create();
+  GeoPTypePtr obj3Types = GeoPTypeUI8::create();
+  GeoPLengthPtr obj3Lengths = GeoPLengthUI32::create();
  
   beginEditCP( obj3Pnts );
   obj3Pnts->addValue( Pnt3f(0, 0,0) );

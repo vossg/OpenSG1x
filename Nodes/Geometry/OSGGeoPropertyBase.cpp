@@ -75,11 +75,9 @@ efficient as the specific one.
 
 #pragma instantiate AbstractGeoProperty<GeoIndexPropertyDesc     >::_type
 
-#pragma instantiate GeoProperty        <GeoPTypePropertyDesc     >::_type
-#pragma instantiate GeoProperty        <GeoPTypePropertyDesc     >::_desc
+#pragma instantiate AbstractGeoProperty<GeoPTypePropertyDesc     >::_type
 
-#pragma instantiate GeoProperty        <GeoPLengthPropertyDesc   >::_type
-#pragma instantiate GeoProperty        <GeoPLengthPropertyDesc   >::_desc
+#pragma instantiate AbstractGeoProperty<GeoPLengthPropertyDesc   >::_type
 
 #else
 
@@ -103,11 +101,11 @@ OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty,
                            GeoIndexPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
-OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
+OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty,
                            GeoPTypePropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
-OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
+OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty,
                            GeoPLengthPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 

@@ -142,8 +142,8 @@ NodePtr OFFSceneFileType::read (const char *fileName ) const
       geo = Geometry::create();
       points = GeoPosition3f::create();
       index = GeoIndexUI32::create();  
-      lens = GeoPLength::create();  
-      type = GeoPType::create();
+      lens = GeoPLengthUI32::create();  
+      type = GeoPTypeUI8::create();
       mat = SimpleMaterial::create();
       
       beginEditCP(mat);
@@ -221,13 +221,13 @@ NodePtr OFFSceneFileType::read (const char *fileName ) const
             if (i == 5) {
               beginEditCP(lens);
               {
-                lens->getFieldPtr()->addValue( n );
+                lens->addValue( n );
               }
               endEditCP(lens);
               
               beginEditCP(type, FieldBits::AllFields);
               {
-                type->getFieldPtr()->addValue( GL_POLYGON );
+                type->addValue( GL_POLYGON );
               }
             endEditCP(type, FieldBits::AllFields);
             }
@@ -248,13 +248,13 @@ NodePtr OFFSceneFileType::read (const char *fileName ) const
           if (pType) {
             beginEditCP(lens);
             {
-              lens->getFieldPtr()->addValue( n );
+              lens->addValue( n );
             }
             endEditCP(lens);
             
             beginEditCP(type, FieldBits::AllFields);
             {
-              type->getFieldPtr()->addValue( pType );
+              type->addValue( pType );
             }
             endEditCP(type, FieldBits::AllFields);
           }

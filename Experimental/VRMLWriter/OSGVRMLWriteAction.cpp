@@ -739,9 +739,9 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
     if(pGeo == NullFC)
         return;
 
-    GeoIndexUI32Ptr pIndex  = GeoIndexUI32Ptr::dcast(pGeo->getIndex());
-    GeoPTypePtr     pTypes  = pGeo->getTypes();
-    GeoPLengthPtr   pLength = pGeo->getLengths();
+    GeoIndexUI32Ptr   pIndex  = GeoIndexUI32Ptr::dcast(pGeo->getIndex());
+    GeoPTypeUI8Ptr    pTypes  = GeoPTypeUI8Ptr::dcast(pGeo->getTypes());
+    GeoPLengthUI32Ptr pLength = GeoPLengthUI32Ptr::dcast(pGeo->getLengths());
 
     if((pIndex  == NullFC) ||
        (pTypes  == NullFC) ||
@@ -750,9 +750,9 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
         return;
     }
 
-    GeoIndexUI32::StoredFieldType *pIndexField  = pIndex->getFieldPtr();
-    GeoPType::StoredFieldType     *pTypeField   = pTypes->getFieldPtr();
-    GeoPLength::StoredFieldType   *pLengthField = pLength->getFieldPtr();
+    GeoIndexUI32::StoredFieldType   *pIndexField  = pIndex->getFieldPtr();
+    GeoPTypeUI8::StoredFieldType    *pTypeField   = pTypes->getFieldPtr();
+    GeoPLengthUI32::StoredFieldType *pLengthField = pLength->getFieldPtr();
 
     if(pIndexField          == NULL ||
        pIndexField->size()  == 0    ||

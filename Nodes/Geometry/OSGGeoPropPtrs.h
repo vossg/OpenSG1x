@@ -52,6 +52,8 @@
 #include <OSGGeoPropNormals.h>
 #include <OSGGeoPropTexCoords.h>
 #include <OSGGeoPropIndices.h>
+#include <OSGGeoPropPTypes.h>
+#include <OSGGeoPropPLengths.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -74,6 +76,10 @@ typedef GeoNormal3f::PtrType    GeoNormal3fPtr;
 typedef GeoTexCoords2f::PtrType GeoTexCoords2fPtr;
 
 typedef GeoIndexUI32::PtrType   GeoIndexUI32Ptr;
+
+typedef GeoPTypeUI8::PtrType    GeoPTypeUI8Ptr;
+
+typedef GeoPLengthUI32::PtrType GeoPLengthUI32Ptr;
 
 OSG_END_NAMESPACE
 

@@ -396,6 +396,20 @@ const GeoProperty<GeoPropertyDesc>::StoredFieldType &
 }
 
 
+/** \brief Clone this Property
+ */
+
+template <class GeoPropertyDesc> 
+typename GeoPropertyDesc::InheritPtr
+GeoProperty<GeoPropertyDesc>::clone(void)
+{
+    PtrType obj = GeoProperty<GeoPropertyDesc>::create();
+    
+    obj->_field.setValues( _field );
+    return obj;
+}
+
+
 /** \brief Returns dimensionality of property
  */
 

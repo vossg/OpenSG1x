@@ -80,7 +80,7 @@ int main (int argc, char **argv)
 
 	// Make me one with everything...
 
-	GeoPTypePtr type = GeoPType::create();	
+	GeoPTypeUI8Ptr type = GeoPTypeUI8::create();	
 	g->setTypes( type );
 	beginEditCP(type);
 	type->getFieldPtr()->addValue( GL_POINTS );
@@ -98,7 +98,7 @@ int main (int argc, char **argv)
 	endEditCP(type);
 
 
-	GeoPLengthPtr lens = GeoPLength::create();	
+	GeoPLengthUI32Ptr lens = GeoPLengthUI32::create();	
 	g->setLengths( lens );
 	beginEditCP(lens);
 	{

@@ -99,8 +99,8 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 	GeoNormal3fPtr		norms = GeoNormal3f::create();
 	GeoTexCoords2fPtr	tex   = GeoTexCoords2f::create();
 	GeoIndexUI32Ptr		index = GeoIndexUI32::create();	
-	GeoPLengthPtr		lens  = GeoPLength::create();	
-	GeoPTypePtr			types = GeoPType::create();	
+	GeoPLengthUI32Ptr	lens  = GeoPLengthUI32::create();	
+	GeoPTypeUI8Ptr		types = GeoPTypeUI8::create();	
 	
 	UInt16 x,y;
 	Real32 xstep,ystep;
@@ -133,9 +133,9 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 
 	// create the faces
 	
-	GeoIndexUI32::StoredFieldType * i = index->getFieldPtr();
-	GeoPLength::StoredFieldType   * l = lens->getFieldPtr();
-	GeoPType::StoredFieldType     * t = types->getFieldPtr();
+	GeoIndexUI32::StoredFieldType     * i = index->getFieldPtr();
+	GeoPLengthUI32::StoredFieldType   * l = lens->getFieldPtr();
+	GeoPTypeUI8::StoredFieldType     * t = types->getFieldPtr();
 
 	beginEditCP(index);
 	beginEditCP(lens);
@@ -313,8 +313,8 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
 	GeoNormal3fPtr		norms = GeoNormal3f::create();
 	GeoTexCoords2fPtr	tex   = GeoTexCoords2f::create();
 	GeoIndexUI32Ptr		index = GeoIndexUI32::create();	
-	GeoPLengthPtr		lens  = GeoPLength::create();	
-	GeoPTypePtr			types = GeoPType::create();	
+	GeoPLengthUI32Ptr	lens  = GeoPLengthUI32::create();	
+	GeoPTypeUI8Ptr		types = GeoPTypeUI8::create();	
 	
 	UInt16 j;
 	Real32 delta = 2.0 * Pi / sides;
@@ -326,13 +326,13 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
 
 	GeoPosition3f::StoredFieldType 	* p  = pnts->getFieldPtr();
 	GeoNormal3f::StoredFieldType   	* n  = norms->getFieldPtr();
-	GeoTexCoords2f::StoredFieldType   * tx = tex->getFieldPtr();
+	GeoTexCoords2f::StoredFieldType * tx = tex->getFieldPtr();
 
 	// faces
 	
 	GeoIndexUI32::StoredFieldType 	* i  = index->getFieldPtr();
-	GeoPLength::StoredFieldType    	* l  = lens->getFieldPtr();
-	GeoPType::StoredFieldType     	* t  = types->getFieldPtr();
+	GeoPLengthUI32::StoredFieldType * l  = lens->getFieldPtr();
+	GeoPTypeUI8::StoredFieldType    * t  = types->getFieldPtr();
 
 	// 
 	
@@ -516,8 +516,8 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
 	GeoNormal3fPtr		norms = GeoNormal3f::create();
 	GeoTexCoords2fPtr	tex   = GeoTexCoords2f::create();
 	GeoIndexUI32Ptr		index = GeoIndexUI32::create();	
-	GeoPLengthPtr		lens  = GeoPLength::create();	
-	GeoPTypePtr			types = GeoPType::create();	
+	GeoPLengthUI32Ptr	lens  = GeoPLengthUI32::create();	
+	GeoPTypeUI8Ptr		types = GeoPTypeUI8::create();	
 	
 	UInt16 a, b;
 	Real32 theta, phi;
@@ -562,9 +562,9 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
 
 	// create the faces
 	
-	GeoIndexUI32::StoredFieldType * i = index->getFieldPtr();
-	GeoPLength::StoredFieldType   * l = lens->getFieldPtr();
-	GeoPType::StoredFieldType     * t = types->getFieldPtr();
+	GeoIndexUI32::StoredFieldType 	* i = index->getFieldPtr();
+	GeoPLengthUI32::StoredFieldType * l = lens->getFieldPtr();
+	GeoPTypeUI8::StoredFieldType    * t = types->getFieldPtr();
 
 	beginEditCP(index);
 	beginEditCP(lens);
@@ -715,8 +715,8 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
 	GeoNormal3fPtr		norms = GeoNormal3f::create();
 	GeoTexCoords2fPtr	tex   = GeoTexCoords2f::create();
 	GeoIndexUI32Ptr		index = GeoIndexUI32::create();	
-	GeoPLengthPtr		lens  = GeoPLength::create();	
-	GeoPTypePtr			types = GeoPType::create();	
+	GeoPLengthPtr		lens  = GeoPLengthUI32::create();	
+	GeoPTypePtr			types = GeoPTypeUI8::create();	
 	UInt32				j,z;
 	
 	static Vec3f v[12] = {  Vec3f( -X, 0.,  Z ),
@@ -872,8 +872,8 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
 	GeoNormal3fPtr		norms = GeoNormal3f::create();
 	GeoTexCoords2fPtr	tex   = GeoTexCoords2f::create();
 	GeoIndexUI32Ptr		index = GeoIndexUI32::create();	
-	GeoPLengthPtr		lens  = GeoPLength::create();	
-	GeoPTypePtr			types = GeoPType::create();	
+	GeoPLengthUI32Ptr	lens  = GeoPLengthUI32::create();	
+	GeoPTypeUI8Ptr		types = GeoPTypeUI8::create();	
 	
 	UInt16 x,y,pl;
 	Vec3f size( xsize,  ysize,  zsize );
@@ -925,9 +925,9 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
 
 	// create the faces
 	
-	GeoIndexUI32::StoredFieldType * i = index->getFieldPtr();
-	GeoPLength::StoredFieldType   * l = lens->getFieldPtr();
-	GeoPType::StoredFieldType     * t = types->getFieldPtr();
+	GeoIndexUI32::StoredFieldType 	* i = index->getFieldPtr();
+	GeoPLengthUI32::StoredFieldType * l = lens->getFieldPtr();
+	GeoPTypeUI8::StoredFieldType    * t = types->getFieldPtr();
 
 	beginEditCP(index);
 	beginEditCP(lens);
@@ -1016,7 +1016,7 @@ OSG_SYSTEMLIB_DLLMAPPING GeoIndexUI32Ptr OSG::makeGeoIndexUI32Ptr(UInt32 uiSize)
 
 OSG_SYSTEMLIB_DLLMAPPING GeoPLengthPtr OSG::makeGeoPLengthPtr(UInt32 uiSize)
 {
-    GeoPLengthPtr returnValue = GeoPLength::create();
+    GeoPLengthPtr returnValue = GeoPLengthUI32::create();
 
     returnValue->resize(uiSize);
 
@@ -1025,7 +1025,7 @@ OSG_SYSTEMLIB_DLLMAPPING GeoPLengthPtr OSG::makeGeoPLengthPtr(UInt32 uiSize)
 
 OSG_SYSTEMLIB_DLLMAPPING GeoPTypePtr OSG::makeGeoPTypePtr(UInt32 uiSize)
 {
-    GeoPTypePtr returnValue = GeoPType::create();
+    GeoPTypePtr returnValue = GeoPTypeUI8::create();
 
     returnValue->resize(uiSize);
 

@@ -115,8 +115,8 @@ NodePtr RAWSceneFileType::read (const char *fileName ) const
 	GeoPosition3f::PtrType points;
 	GeoNormal3f::PtrType   normals;
 	GeoIndexUI32Ptr index;
-	GeoPLengthPtr lens;
-	GeoPTypePtr type;
+	GeoPLengthUI32Ptr lens;
+	GeoPTypeUI8Ptr type;
 	Vec3f vec[3];
 	Int32 i = 0, n, triCount = 0;
 	Real32 x,y,z;
@@ -181,16 +181,16 @@ NodePtr RAWSceneFileType::read (const char *fileName ) const
 			endEditCP(index, FieldBits::AllFields);
 			
 
-			lens = GeoPLength::create();
+			lens = GeoPLengthUI32::create();
 			geo->setLengths( lens );
             beginEditCP(lens, FieldBits::AllFields);
-			lens->getFieldPtr()->addValue( n );
+			lens->addValue( n );
 			endEditCP(lens, FieldBits::AllFields);
 
-			type = GeoPType::create();
+			type = GeoPTypeUI8::create();
 			geo->setTypes( type );
 			beginEditCP(type, FieldBits::AllFields);
-			type->getFieldPtr()->addValue( GL_TRIANGLES );
+			type->addValue( GL_TRIANGLES );
 			endEditCP(type, FieldBits::AllFields);
 		}
 
