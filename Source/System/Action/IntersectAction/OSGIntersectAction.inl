@@ -132,6 +132,14 @@ inline Pnt3f IntersectAction::getHitPoint( void ) const
     return res;
 }
 
+inline Vec3f IntersectAction::getHitNormal( void ) const
+{
+    if ( ! didHit() )
+        return Vec3f::Null;
+    
+    return _hitNormal;
+}
+
 inline NodePtr IntersectAction::getHitObject( void ) const
 {
     if ( ! didHit() )
