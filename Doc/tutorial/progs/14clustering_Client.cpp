@@ -18,6 +18,9 @@ int setupGLUT( int *argc, char *argv[] );
 
 int main(int argc, char **argv)
 {
+#if OSG_MINOR_VERSION > 2
+    ChangeList::setReadWriteDefault();
+#endif
     osgInit(argc,argv);
 
     int winid = setupGLUT(&argc, argv);

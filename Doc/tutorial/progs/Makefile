@@ -1,4 +1,6 @@
-# Very general use makefile for openSG Programs 
+# Very general use makefile for compiling OpenSG Programs
+# This makefile will compile every programm in this folder 
+# with a filename like this 01******.cpp
 
 # use debug or opt libs?
 LIBTYPE ?= dbg
@@ -7,12 +9,10 @@ LIBTYPE ?= dbg
 # e.g. if you installed in /usr/local
 OSGCONFIG := /usr/local/bin/osg-config
 
+# use osg-config to set the options needs to compile and link
 CC = "$(shell $(OSGCONFIG) --compiler)"
-
 CCFLAGS = $(shell $(OSGCONFIG) --cflags --$(LIBTYPE) Base System GLUT)
-
 LDFLAGS = $(shell $(OSGCONFIG) --libs --$(LIBTYPE) Base System GLUT)
-
 
 # all tutorials in this directory
 

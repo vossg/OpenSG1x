@@ -81,7 +81,15 @@ DOC_TUTORIAL_PAGES  := 	        tutorial/main.dox \
 				tutorial/geometry.dox \
 				tutorial/light.dox \
 				tutorial/windows.dox \
-				tutorial/solutions.dox
+				tutorial/traversal.dox \
+				tutorial/multithreading.dox \
+				tutorial/clustering.dox \
+				tutorial/modelling.dox \
+				tutorial/solutions.dox \
+				tutorial/qt.dox \
+				tutorial/doxypages.dox \
+				Code/acknowledgements.dox \
+				Code/faq.dox 
                                 
 DOC_OLD_PAGES  := 	        Code/mainpage.dox \
 				$(DOC_INTRO) \
@@ -119,17 +127,16 @@ DOC_OLD_PAGES  := 	        Code/mainpage.dox \
 				../Source/System/System.dox  \
 				../Source/System/Cluster/Cluster.dox  \
 				../Source/System/RenderingBackend/RenderingBackend.dox \
-				../Source/System/Statistics/Statistics.dox\
-				Code/acknowledgements.dox \
-				Code/faq.dox 
+				../Source/System/Statistics/Statistics.dox
 
 DOC_PAGES :=                    ../Common/dummyClasses.dox\
-                                $(DOC_OLD_PAGES)\
-                                $(DOC_TUTORIAL_PAGES)
+                                $(DOC_TUTORIAL_PAGES)\
+                                $(DOC_OLD_PAGES)
 
 DOC_IMAGE_PATHES := Images
 
-DOC_FILES := $(DOC_LIBS) $(DOC_PAGES)
+#DOC_FILES := $(DOC_LIBS) $(DOC_PAGES)
+DOC_FILES :=  $(DOC_PAGES)
 
 #DOC_FILES := ../Source/Base/Base/Base.dox         					\
 #			 ../Source/Base/Base 									\
@@ -230,15 +237,15 @@ dostarter:
 
 userstarter:
 	$(MAKE) DOC_IMAGE_TYPE=latex images2
-	$(MAKE) DOC_STARTER="user" dostarter
+	$(MAKE) DOC_STARTER="user" DOC_FILES="$(DOC_TUTORIAL_PAGES)" dostarter
 
 extstarter:
 	$(MAKE) DOC_IMAGE_TYPE=latex images2
-	$(MAKE) DOC_STARTER="ext" dostarter
+	$(MAKE) DOC_STARTER="ext" DOC_FILES="$(DOC_TUTORIAL_PAGES)" dostarter
 
 devstarter:
 	$(MAKE) DOC_IMAGE_TYPE=latex images2
-	$(MAKE) DOC_STARTER="dev" dostarter
+	$(MAKE) DOC_STARTER="dev" DOC_FILES="$(DOC_TUTORIAL_PAGES)" dostarter
 
 
 # Image conversion rules

@@ -48,15 +48,15 @@ Any action can be executed by calling a single command
 	myAction->apply(someNode)
 \endcode
 
-Actions can be applied to any node or to a vector of nodes. In any case the action will be applied to all children as it is recursively called to every 
-children. However, depending on the action that is beeing executed, not every child may be visited. For exampl,e you could define an action that traverses the
+Actions can be applied to any node or to a vector of nodes. In any case the action will be applied to all children as it is recursively called on every 
+child. However, depending on the action that is being executed, not every child may be visited. For example you could define an action that traverses the
 graph until it encounters a specific node and then ends immediately. The following image illustrates how nodes are visited when applying an action
 
 \image html traversal.png "Sample graph"
 \image latex traversal.eps "Sample graph" width=6cm
 
-Assuming that the traversal will not be interrupted for some reason, a traverse starting by node C would visit the nodes C, F and G in that 
-order. If you would start the action at the root node, all will be visited in that order: A, B, C, F, G, D, E, H. When providing
+Assuming that the traversal will not be interrupted for some reason, a traverse starting at node C would visit the nodes C, F and G in that 
+order. If you start the action at the root node, all Nodes will be visited in that order: A, B, C, F, G, D, E, H. When providing
 a vector of nodes, let's say G and E then the visited nodes would be G, E and H.
 
 Another example: If you start with root node A and node C will return Action::Skip then the processed nodes are A, B, C, D, E, H. Node C
@@ -64,8 +64,8 @@ itself is processed but not it's children.
 
 \section TutorialTraversalActionsRender Render Action
 
-This action was used by the simple scene manager right on from the beginning. Needless to say that it's primary task is to transform the scene graph into 
-an two dimensional image that can be displayed on the screen. If you do not use the simple scene manager you need to tell the window of your application what
+This action was used by the simple scene manager right from the beginning. Needless to say that its primary task is to transform the scene graph into 
+a two dimensional image that can be displayed on the screen. If you do not use the simple scene manager you need to tell the window of your application what
 render action to use. If you have not something really fancy in mind, the osg::RenderAction is all you need to do the job. 
 
 The render action actually does a lot of important work for you. In the background a draw tree is generated (which will minimize OpenGL state changes), geometry
@@ -76,7 +76,7 @@ as well as deactivate the update of the view frustum with setAutoFrustum().
 
 \section TutorialTraversalActionsIntersect Intersect Action
 
-osg::IntersectAction might be very useful for some problems, but it may also cause some new performance problems, as ray interection tests are not that 
+osg::IntersectAction might be very useful for some problems, but it may also cause some new performance problems, as ray intersection tests are not that 
 optimized right now. This action enables you to send a ray from a position into a direction of your choice. Afterwards you can gain detailed information 
 about the first object that was hit. Here is a little example on how you would typically use the intersect action.
 
@@ -87,26 +87,30 @@ about the first object that was hit. Here is a little example on how you would t
 	iAct->setLine(ray);
 	iAct->apply(someNode);
 	
-	if (iAct->didHit()){
+	if (iAct->didHit())
+        {
 		std::cout << "Hit Point : "<< act->getHitPoint();
 	}
 \endcode
 
 <I>
-	We would sent a ray from (5,0,-10) in the opposite direction of the y axis. If we hit something the intersection point will be printed on screen.
+We would sent a ray from (5,0,-10) in the opposite direction of the y axis. If we hit something the intersection point will be printed on screen.
 </I>
 
 Please notice that intersection tests are really expensive. It will be sufficient for object picking and the like, but collision dectection for example
-would require collision models to be fast enough. I participated in a project, where we used OpenSG for driving a stereo application. We fist used
-the intersect action every frame and tested against the geometry to determine if the user ran into some obstacle. Well, that was not a very good idea, our
+would require collision models to be fast enough. I participated in a project where we used OpenSG for driving a stereo application. We first used
+the intersect action every frame and tested against the complete geometry to determine if the user ran into some obstacle. Well, that was not a very good idea, our
 framerate dropped from more than 30 down to three frames per second. We later had collision wall models with very few polygons. With that we were able to use
 the intersect action again.
 
-\section TutorialTraversalActionsTraverse Traverse Action
+<i>The main reason for the slowdown is that the Geometry Nodes are not optimized for ray intersection, thus if the ray intersects the bounding every triangle of the Geometry needs to be tested, and that means a lot of calculation for every ray. If you need more efficient ray intersection ask the Users list about Genvis.</i>
+
+
+\section TutorialTraversalActionsTraverse Traverse Functions
 
 Traversal of a graph is very important and used by many important features like the two actions I presented above. Previously we could have used such an action:
 Please remember the \ref TutorialNodeCoresTutorial from Chapter \ref NodeCores, where we tried to find a specific node with a specific name in the graph. We
-implemented a little helper function that will start at the root node, check if the name matches the search string (which was hard coded at that point) and if
+implemented a little helper function that will start at the root node, check if the name matches the search string (which was hardcoded at that point) and if
 not, recursivly calling that function with all children. Here is the code of that function again
 
 \code
@@ -146,16 +150,16 @@ traversal of a graph by printing either "enter" or "leaving" when entering or le
 First we need a function that will be called when we enter a node
 
 \code
-Action::ResultE enter(NodePtr& node){
-	std::cout << "Enter node : " << node << std::endl;
+Action::ResultE enter(NodePtr& node)
+{
+    std::cout << "Enter node : " << node << std::endl;
 	
-	return Action::Continue;
+    return Action::Continue;
 }
 \endcode
 
 The first line should be obvious, the second line returns Action::Continue, which simply means that the traversal of the graph should be continued. By returning
-Action::Skip you tell OpenSG to not continue with the current node and thus skipping it and all children, but continuing with all other nodes still left. 
-Action::Quit finally stops the traversal, no new node is entered.
+Action::Skip you tell OpenSG to not continue with the current node and thus skipping it and all children, but continuing with all other nodes still left. This is useful if you determine that all the current Node's descendents are not interesting (e.g. they are invisible). Action::Quit finally stops the traversal, no new node is entered. This is primarily useful if you were looking for a specific Node in the graph and found it, to prevent any further search.
 
 Here is the function that will be called when leaving a node
 
@@ -195,17 +199,19 @@ a function that will count the polygons.
 <B>
 Attention:
 
-Graph Operators are not available in OpenSG Version 1.2! If you want to benefit from graph operators you have to use the CVS version.
+Graph Operators are not available in OpenSG Version 1.2! If you want to benefit from graph operators you have to use a more current version.
 </B>
 
-Graph operators can apply complex operations on the graph, with only very few effort (for you). Usually one or more graph operators are applied after you
-loaded a modell from file. The problem is, that a loader needs to be very flexible. Some want highly optimized geometry for high performance, where others
-might prefer a close as possible representation of the original modell with the structure staying untouched. With the help of graph operators you can make 
+Graph operators can apply complex operations on the graph, with only very little effort (on your side). Usually one or more graph operators are applied after you
+loaded a model from file. The problem is that a loader needs to be very flexible. Some want highly optimized geometry for high performance, where others
+might prefer a close as possible representation of the original model with the structure staying untouched. With the help of graph operators you can make 
 sure the result fits your needs.  
 
-Often you want to apply more than just one operator. osg::GraphOpSeq stores a sequence of osg::GrapOp which will be applied one after another. Note, that
-the graph is traversed once for every operator you have defined which may slow down loading of bigger files. It is possible to specify an exclude list of
-nodes which will be skipped during traversal.
+Often you want to apply more than just one operator. osg::GraphOpSeq stores a sequence of osg::GraphOp which will be applied one after another. Note that
+the graph is traversed once for every operator you have defined which may slow down loading of bigger files. 
+
+It is also possible to specify an exclude list of
+nodes which will be skipped during traversal. This can be used to keep a number of important nodes intact, while optimizing the rest of the graph.
 
 Depending on your scene, graph operators can have a great impact of on the performance of your application, but keep in mind that this is not true in general.
 For example, the 3D Studio Max VRML exporter is not very good, therefore you can archive great results with graph operators, where as the Cinema 4D exporter is
@@ -225,7 +231,7 @@ usually the root node.
 	spo->traverse(scene);
 \endcode
 
-The most common way is to create a sequence of operators and pass it to the loader. The follwoing example shows a sequence of two operators which are 
+The most common way is to create a sequence of operators and pass it to the loader. The following example shows a sequence of two operators which are 
 passed to the loader.
 
 \code
@@ -245,12 +251,12 @@ Here is an overview of the predefined graph operators
 
 osg::MergeGraphOp tries to combine geometry that has the same attributes. Remember the section about \ref GeometryIndexing? This
 operator will change some indices and deletes the attribute values that become obsolete. In addition to that the graph will be flattened as transformations
-are applied to the vertices thus there is only one transformation per vertex. This operator is smart enough to handle LOD correct, so it should work with any
-modell.
+are applied to the vertices thus there is only one transformation per vertex. This operator is smart enough to handle LODs correctly, so it should work with any
+model.
 
 \subsection TutorialTraversalGraphOpsMaterialMerge Material Merge
 
-This one is extremly useful under certain circumstances. I had the following situation during a recent project: Someone modelled a few different buildings and
+This one is extremly useful under certain circumstances. I had the following situation during a recent project: Someone modeled a few different buildings and
 someone else build a little city from these with copy and paste. The buildings were textured, of course. Well, we exported that to VRML with Studio Max and
 after loading with OpenSG our RAM was all but gone... 1 GB of memory wasted. What happend? The texture that was assigned to the buildings was loaded once
 for each object and was not reused probably... and we had lots of buildings. 
@@ -261,8 +267,8 @@ This operator can actually cause no harm to your scenegraph so you can use it in
 
 \subsection TutorialTraversalGraphOpsPrune Prune
 
-Very small objects (realtive to the whole scene) are automatically deleted by osg::PruneGraphOp. Of course, it is possible that you may loose important data, 
-but on the other side if you have a file created by some architect you might not be happy about the scews he modelled throughout the skyscaper object. The 
+Very small objects (relative to the whole scene) are automatically deleted by osg::PruneGraphOp. Of course, it is possible that you may loose important data, 
+but on the other side if you have a file created by some architect you might not be happy about the scews he modeled throughout the skyscaper object. The 
 prune operator might be able to remove these small objects automatically. However, in most cases you have to check if the result is good for your needs.
 
 \subsection TutorialTraversalGraphOpsStripe Stripe
@@ -273,25 +279,24 @@ This one simply stripes geometry. The result is the same as if you were using QU
 
 The osg::SharePtrGraphOp tries to share field containers which have the same values regardless of what type they are. You should stripe a geometry fist, before
 you share field containers and not the other way around, else you might encounter some problems. The reason is, that OpenSG has to know where "double instances" 
-of vertices are in order to stripe the mesh, but exactly these double occurences are removed from this operator.  
+of vertices are in order to stripe the mesh, but exactly these double occurences are removed from this operator. [DR: das stimmt nicht, der Op verglcieht nur ganze Fields, nicht Elemente. Hast Du damit Probleme gehabt oder warum sagst Du das?]
 
 \subsection TutorialTraversalGraphOpsVerify Verify
 
-Simply checks if the geometry is consitent.
-[TODO: what happens if it is not?]
+Simply checks if the geometries are consitent and outputs a warning if they're not.
 
 \subsection TutorialTraversalGraphOpsSplit Split Graph Operator
 
 With this operator you can split a scenegraph into several parts which will contain a predefined number of polygons. This is very useful if you, for example,
 are loading a single very large mesh. Usually this will not be very performant as this object is stored in one single node and the view frustum culling can not 
-work efficiently. By splitting it up into several nodes you can improve performance remarkably. But be careful, splitting up a 100.000 geometry core into single 
-nodes with 50 polygons each won't be speedy at all...
+work efficiently. By splitting it up into several nodes you can improve performance remarkably. But be careful, splitting up a 100.000 polygon geometry core into single 
+nodes with 50 polygons each won't be speedy at all... As a rule of thumb I'd recommend splitting into nodes with about 1000 polygons each.
 
 \section TutorialTraversalTutorial Tutorial - Graph Traversal
 
 In this tutorial we are going to load a VRML file from disk (you already know that from \ref TutorialBasicTutorial4) containing a simple scene with just three
-objects - a torus, a sphere and a cone. This file was created using a 3D modelling package. All three objects are named after what they are. No additional 
-features, like textures or geometry modifieres from the modelling package were used. I will use some different approaches on how to use traverse() and
+objects - a torus, a sphere and a cone. This file was created using a 3D modeling package. All three objects are named after what they are. No additional 
+features, like textures or geometry modifieres from the modeling package were used. I will use some different approaches on how to use traverse() and
 osg::GraphOps
 
 Again we take 00framework.cpp as a starting point. First we need to add some include files we already know from other tutorials
@@ -311,12 +316,13 @@ At the beginning we are going to load the VRML file mentioned above. This, too, 
 createScenegraph() function.
 
 \code
-	NodePtr n = SceneFileHandler::the().read("data/torus_sphere_cone.wrl");
+    NodePtr n = SceneFileHandler::the().read("data/torus_sphere_cone.wrl");
     
     //we check the result
     if (n != NullFC)
 		return n;
-    else{
+    else
+    {
         cout << "Loading the specified file was not possible!" << endl;
         return NullFC;
     }
@@ -325,15 +331,18 @@ createScenegraph() function.
 \endcode
 
 Let us start with something simple: When the 'p' button is pressed, our application should print a list of the names of every node found in the scenegraph. We
-first need a functor, which will print the nodes name on entering during traversal of the graph.
+first need a functor, which will print the node's name on entering during traversal of the graph.
 
 \code
 //This is the function that will be called when a node
 //is entered during traversal.
-Action::ResultE enter(NodePtr& node){   
-    if (getName(node)){
+Action::ResultE enter(NodePtr& node)
+{   
+    if (getName(node))
+    {
 		cout << getName(node) << endl;
-	}else
+    }
+    else
 		cout << "No name was set!" << endl;
 
     return Action::Continue; 
@@ -343,15 +352,15 @@ Action::ResultE enter(NodePtr& node){
 Now add a keyboard callback function like you know it from other tutorials. The following code should be executed when the 'p' key is pressed
 
 \code
-			cout << endl << endl;
-			cout << "Printing all node names";
-			cout << "---------------------------------------";
-			cout << endl << endl;
+    cout << endl << endl;
+    cout << "Printing all node names";
+    cout << "---------------------------------------";
+    cout << endl << endl;
 			
-			// now we invoke the traversal
-			traverse(scene, 
-					osgTypedFunctionFunctor1CPtrRef
-					<Action::ResultE, NodePtr>(enter));
+    // now we invoke the traversal
+    traverse(scene, 
+                osgTypedFunctionFunctor1CPtrRef
+                    <Action::ResultE, NodePtr>(enter));
 \endcode
 
 Now compile and execute the application. After the window appears push 'p' and watch for output in the terminal. If nothing happens, make sure that the window
@@ -361,12 +370,12 @@ and not the terminal is active. The result should look like this
 \image latex terminal_results.eps "Terminal results" width=6cm
 
 As you can see there are three nodes, whose name contain the prefix "FACESET_" which we encountered previously, when we were implementing a search for the 
-geometry core of the woman modell in section \ref TutorialNodeCoresTutorial. Some nodes have no name set at all but three other have exactly the same name as 
-it was provided in the modelling package (torus, sphere and cone).
+geometry core of the woman model in section \ref TutorialNodeCoresTutorial. Some nodes have no name set at all but three other have exactly the same name as 
+it was provided in the modeling package (torus, sphere and cone).
 
 It seems that the FACESET_* nodes were created automatically when exporting a scene to VRML. Maybe nodes named FACESET_* always contain the geometry cores? 
 We can proof the assumtion by implementing another traversal action.
-Instead of the most simple enter() function we used above, we now will have a functor that checks if the current node's core is derived from osg::Geometry and
+Instead of the most enter() function we used above, we now will have a functor that checks if the current node's core is derived from osg::Geometry and
 if that is true it will print the name of that node. If our assumtion is correct we will have only node names that will beginn with FACESET_ . 
 Of course this will only be correct if you have not created your own geometry or loaded some other files.
 
@@ -374,15 +383,16 @@ Of course this will only be correct if you have not created your own geometry or
 //This function will test if the core is of type
 //geometry and if it is, it will print the node's
 //name
-Action::ResultE isGeometry(NodePtr& node){
-	// this tests if the core is derived from geometry
-	if (node->getCore()->getType().isDerivedFrom(Geometry::getClassType()))
-		if (getName(node))
-			cout << "Found a geometry core stored in " << getName(node) << endl;
-		else
-			cout << "Found a geometry core but node has no name" << endl;
+Action::ResultE isGeometry(NodePtr& node)
+{
+    // this tests if the core is derived from geometry
+    if (node->getCore()->getType().isDerivedFrom(Geometry::getClassType()))
+        if (getName(node))
+            cout << "Found a geometry core stored in " << getName(node) << endl;
+        else
+            cout << "Found a geometry core but node has no name" << endl;
 	
-	return Action::Continue;
+    return Action::Continue;
 }
 \endcode
 
@@ -398,7 +408,7 @@ to load files from the command line. This is actually no big deal. In the main()
 
 \code
 	if (argc > 1)
-		scene =createScenegraph(argv[1]);
+		scene = createScenegraph(argv[1]);
 	else
 		scene = createScenegraph("data/brick_quads.wrl");
 \endcode
@@ -450,7 +460,7 @@ now we need to pass the sequence object to the loader. Once again change the lin
 \endcode
 
 Now, after loading, the resulting graph will be modified by the graph operator sequence. In this sepcifc case the geometry will first be verified, then the
-geometry will be optimized by merging reusable parts, as well as appling transformations to the vertices directly, where possible. Next all field containers
+geometry will be optimized by merging reusable parts, as well as applying transformations to the vertices directly, where possible. Next all field containers
 with identical content are shared and finally the the geometry is verified again.
 	
 Again, please note, that this does not always result in better graphs! If you try it with the scene from "brick_quads.wrl" you will not notice any 
@@ -462,12 +472,15 @@ identified as the nodes storing the geometry cores. All other nodes have not sur
 into the vertex positions. Well, that's 11 nodes have been reduced to 4 nodes, which is more than 50%! 
 	
 As next we want to apply another graph operator manually during runtime. This time we will use the split graph operator. In order to have some feedback we
-will create another traversal action that count nodes beforehand. This is now business as usual: The function that will act as a functor 
+will create another traversal action that counts nodes beforehand. This is now business as usual: The function that will act as a functor 
 (add it just below the others)
+
+[DR: das Beispiel sollte besser eine Klasse verwenden, um um den globalen counter herumzukommen. Das hast Du oben angedeutet, aber scheinbar noch nicht gemacht.]
 	
 \code
 //This one will count how many nodes are stored in the graph
-Action::ResultE countNodes(NodePtr& node){
+Action::ResultE countNodes(NodePtr& node)
+{
 	counter++;
 	return Action::Continue;
 }
@@ -509,7 +522,7 @@ and add the following code
 \endcode
 
 <B>
-If you have less than 512 MB of memory, you should choose more than 50 polygons as max polygon value - maybe 100 or 250.
+If you have less than 512 MB of memory, you should choose more than 50 polygons as max polygon value - maybe 400 or 1000.
 </B>
 
 After compiling execute the application with
@@ -530,8 +543,8 @@ The code so far can be found in "progs/12traversal2.cpp"
 Finally we add a last feature for this tutorial. We are going to add the possibility to click into the window to select objects which will then be deleted. 
 
 First remove the code that created the graph operator sequence during createScenegraph(). Do not forget to adjust the load command by removing the operator
-sequence parameter. We do not want these optimiziations for this example, because the single boxes would be merged into a single one. You see - as we
-want to preserve the structure this time, graph optimizer are not always a solution to all problems.
+sequence parameter. We do not want these optimiziations for this example, because the individual boxes would be merged into a single one. You see - as we
+want to preserve the structure this time, graph optimizers are not always a solution to all problems.
 
 Anyway, replace the mouse() function with the following code
 
@@ -563,10 +576,10 @@ void mouse(int button, int state, int x, int y)
 		
 			cout << "Hit point : " << p[0] << " " << p[1] << " " << p[2] << endl;
 			
-			//and the node that was hitted
+			//and the node that was hit
 			NodePtr n = iAct->getHitObject();
 			
-			//we decrease the refernce count - which will now
+			//we decrease the reference count - which will now
 			//be zero, hence the object will be deleted!
 			subRefCP(n);
 		}
@@ -577,7 +590,7 @@ void mouse(int button, int state, int x, int y)
 \endcode
 
 and then compile and execute the application. You can now click away boxes... with some more features this one could evolve into a game! ;) You see, using
-intersect actions is quite not difficult.
+intersect actions is not difficult at all.
 
 Next Chapter : \ref Multithreading
 */

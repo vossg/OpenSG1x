@@ -13,15 +13,15 @@ Chapter Overview
 	\ref TutorialQTCompiling<BR>
 <HR>
 
-Throughout the tutorials we used a GLUT Window for rendering, but as I mentioned earlier, there are some more options. QT (from Trolltech www.trolltech.com) is
-a very common and powerfull cross platform tool for radid GUI development. This appendix will show you how to create a simple application that is capable to
+Throughout the tutorials we used a GLUT Window for rendering, but as I mentioned earlier, there are some more options. QT (from Trolltech (www.trolltech.com)) is
+a very common and powerful cross platform tool for rapid GUI development. This appendix will show you how to create a simple application that is capable to
 render OpenSG content, though this will not (and can not) be an introduction to QT development. If you are new to QT have a look at their website where you
 can find some tutorials dealing with QT stuff only.
 
 \section TutorialQTGeneral General
 
-We are going to develop a simple application that features one incredible button which will allow us to load a file from disk. The most place will be taken by
-the area in which will be rendered. Here is an image of the application how it will be looking like. The model was loaded by clicking the load button and then
+We are going to develop a simple application that features one incredible button which will allow us to load a file from disk. The most space will be taken by
+the area in which the model will be rendered. Here is an image what the application will be looking like. The model was loaded by clicking the load button and then
 selecting the appropiate file with a standart dialog.
 
 \image html qtdesigner_final.png "The application we will create"
@@ -60,7 +60,7 @@ in their start menu. After startup, you should see a window like below - if it i
 As we are not going to develop a complex application with multiple windows, we need not to create a project. Just select the "Dialog" icon, as seen above, and 
 click on "OK". 
 
-You see now and empty window in the middle of the screen titled with "Form1", which is actually your application. On the right hand side you have two toolbox 
+You see now an empty window in the middle of the screen titled with "Form1", which is actually your application. On the right hand side you have two toolbox 
 windows named "Object Explorer" and "Property Editor/Signal Handlers". The latter will be used to set attributes of the selected object, like the size or name
 of the window. On the left hand side is the "Toolbox" where you can select different GUI elements to place in your window.
 
@@ -73,7 +73,7 @@ skip the next section
 
 \subsubsection TutorialQTDesignerBuildGUICreating Creating the OSGQLManagedDesignerWidget
 
-In the menu bar select "Tools > Custom > Edit Custom Widgets...". YOu should see the following window, which might be totally empty
+In the menu bar select "Tools > Custom > Edit Custom Widgets...". You should see the following window, which might be totally empty
 
 \image html qtdesigner_customwidget.png "Creating a new custom widget"
 \image latex qtdesigner_customwidget.eps "Creating a new custom widget" width = 10cm
@@ -84,7 +84,7 @@ Class :			OSGQGLManagedDesignerWidget<BR>
 Headerfile :	OpenSG/OSGQGLManagedDesignerWidget_qt.h<BR>
 Dropdownfield : Global  (instead of local)
 
-All other options should be left as they are. Please make sure that everthing is spelled correctly, else you application will not compile correctly.
+All other options should be left as they are. Please make sure that everything is spelled correctly, else your application will not compile correctly.
 
 \subsubsection TutorialQTDesignerBuildGUIPlacing Place the Custom Widget
 
@@ -97,7 +97,7 @@ like this
 \subsection TutorialQTDesignerProperties Edit the Properties
 
 Now we are going to give our elements some reasonable names and values. If you select an object (like the button or the custom widget), you will see the 
-coresponding properties in the "Property Editor/Signal Handlers" Window on the right side. Select the push button and change it's name from "PushButton1" to
+corresponding properties in the "Property Editor/Signal Handlers" Window on the right side. Select the push button and change it's name from "PushButton1" to
 "loadButton". The caption of the button will not change, as we changed only the internal name - look for the property called text and change the value to "load".
 That will change the capption of the button.
 
@@ -115,11 +115,11 @@ should now look like this
 \image latex qtdesigner_editfunctions.eps "Edit Functions window" width = 8cm
 
 Click on "OK" to close that window. We need to connect the parts with each other. Press F3 on your keyboard and click on the load button. In the new window click
-on "No Singnal" below Signal and select clicked(). Set Receiver to "MainWindow" and finally set slot to load() - click OK.
+on "No Signal" below Signal and select clicked(). Set Receiver to "MainWindow" and finally set slot to load() - click OK.
 
 Now click on the load() slot, found beneath the public specifier. That will open a new window, where you find the body
 of the load() function. Here we can add code to perform the actions we want it to do. Repleace the contents of the file with the following code - of course you
-can leave the comments...
+can leave out the comments...
 
 \code
 #include <qfiledialog.h>
@@ -129,25 +129,26 @@ can leave the comments...
 void MainWindow::load()
 {
     // this command will open a file select dialog, allowing wrl, osg, and bin file types. The selected
-	// filename along with it's path will be stored in 's'
-	QString s(QFileDialog::getOpenFileName(QString::null, "Szenenformate (*.wrl *.osg *.bin)"));
-    if (!s.isEmpty()) {
-		char *filename;
-		//create a correct filename
-		filename = (char*)s.latin1();
-		NodePtr n = SceneFileHandler::the().read(filename);
-		
-		//load that file - if it fails for some reason, we crate a torus
-		if (n != NullFC)
-			osgWidget->getManager().setRoot(n);
-		else
-			osgWidget->getManager().setRoot(makeTorus(0.5,2,16,16));
-		}
+    // filename along with it's path will be stored in 's'
+    QString s(QFileDialog::getOpenFileName(QString::null, "Szenenformate (*.wrl *.osg *.bin)"));
+    if (!s.isEmpty()) 
+    {
+        char *filename;
+        //create a correct filename
+        filename = (char*)s.latin1();
+        NodePtr n = SceneFileHandler::the().read(filename);
+
+        //load that file - if it fails for some reason, we crate a torus
+        if (n != NullFC)
+	        osgWidget->getManager().setRoot(n);
+        else
+	        osgWidget->getManager().setRoot(makeTorus(0.5,2,16,16));
+    }
 }
 \endcode
 
-Now it is about time to save everthing. Select "File > Save All". I advise you to create a new folder - let us name it OpenSGViewer. QT suggests the filename
-"mainwindow.ui", which is allright for us. Just click "OK" after you have entered the new folder. If you have a look in that foler you will see that there are
+Now it is about time to save everything. Select "File > Save All". I advise you to create a new folder - let us name it OpenSGViewer. QT suggests the filename
+"mainwindow.ui", which is alright for us. Just click "OK" after you have entered the new folder. If you have a look in that folder you will see that there are
 two files now: "mainwindow.ui" and "mainwindow.ui.h". The latter contains exactly what we have written in the editor, where as the first on is created 
 automatically by QT and describes the GUI.
 
@@ -165,7 +166,8 @@ location as both other files. Add this code to that file
 
 OSG_USING_NAMESPACE;
 
-int main(int argc, char **argv){
+int main(int argc, char **argv)
+{
 	osgInit(argc, argv);
 	
 	QApplication app (argc, argv);
@@ -210,7 +212,7 @@ and finally the "usual" compiler command
 	-lGL -lglut -lqt -lXmu -lXi -lXT -lpthread -ldl -o OpenSGViewer
 </PRE>
 
-Yes, really that is one single command! However, you might have to adjust some thing. Fisrt, if you build the optimized OpenSG library you have to use
+Yes, really that is one single command! However, you might have to adjust some things. First, if you build the optimized OpenSG library you have to use
 -L/usr/local/lib/opt instead of -L/usr/local/lib/dbg. Also you have to make sure $QTDIR is defined correctly. If not you can also specify the full path here.
 I hope your terminal supports copy and paste ;-)
 
@@ -226,4 +228,6 @@ move the camera to see anything, depending on the file you loaded.
 You can find all source files in the tutorial/progs/qt folder!
 
 Here you go!
+
+Next Chapter : \ref Solutions
 */

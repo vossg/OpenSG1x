@@ -14,6 +14,8 @@ Questions:
 
 <li>How do I set the name of an object?</li>
 
+<li>Why does multithreading/clustering/change list access not work anymore?</li>
+
 </ol>
 
 Answers:
@@ -51,6 +53,25 @@ Names in OpenSG are done via osg::Attachment classes. As names are a quite
 common problem, there are convenience functions osg::getName(void) and 
 osg::setName(const Char8 *) in OSGSimpleAttachments.h. See the attachment
 tutorial for more info on using names and attachments in general.</li>
+
+
+<li>Why does multithreading/clustering/change list access not work anymore?
+
+After 1.2 it was decided to switch the osg::ChangeList to read-only by
+defulat, to prevent an annoying memory leak in applications that don't 
+care about multi-threading and never clear their change list. To turn
+it to read-write you need to add the following code snippet 
+<b>before</b> osgInit:
+
+\code
+
+#if OSG_MINOR_VERSION > 2
+    ChangeList::setReadWriteDefault();
+#endif
+
+\endcode
+
+</li>
 
 </ol>
 

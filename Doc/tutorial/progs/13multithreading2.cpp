@@ -69,7 +69,10 @@ void rotate(void *args){
 
 int main(int argc, char **argv)
 {
-    osgInit(argc,argv);
+ #if OSG_MINOR_VERSION > 2
+    ChangeList::setReadWriteDefault();
+#endif
+   osgInit(argc,argv);
         
     int winid = setupGLUT(&argc, argv);
     GLUTWindowPtr gwin= GLUTWindow::create();

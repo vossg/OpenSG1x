@@ -18,32 +18,39 @@ Chapter Overview
 \image html opensg_logo_small.png ""
 \image latex opensg_logo_small.eps "OpenSG Logo" width=8cm
 
+Hello and welcome to the OpenSG tutorial. My name is Oliver Abert, I'm a 
+student of  computer visualistics at the Univeristy of Koblenz. After
+helping a large number of my fellow students getting to know OpenSG I
+decided that we needed a written introduction to help people get into it.
+This is what you're reading right now. Enjoy!
+
 \section TutorialWhatIsOpenSG What is OpenSG
 
-OpenSG is an open source real-time rendering system based on a scenegraph metaphor on top of OpenGL. But 
-what is actually the difference compared to OpenGL? OpenGL is a state machine which means it does not know 
-anything about the environment. It is only aware of the triangle just being calculated and drawn, it 
+OpenSG is an Open Source real-time rendering system based on a scenegraph metaphor on top of OpenGL. But 
+what is the actual difference compared to OpenGL? OpenGL is a very thin layer above the graphics hardware and is designed as a state machine, which means it does not know 
+anything about the whole scene. It is only aware of the triangle just being calculated and drawn, it 
 has no knowledge about the past nor the future. Here comes the strength of a scenegraph system into play. 
-OpenSG stores the whole scene in a graph (now you get where the name is from) and thus can optimize 
+OpenSG stores the whole scene in a graph (now you see where the name comes from) and thus can optimize 
 the way data is passed to the graphics hardware. With that it is possible (and extremly useful) to check if 
-parts of the scene are not visible, like a desk behind a closed door. The entire rendering for such parts can be
+parts of the scene are not visible, like everything behind the user. The entire rendering for such parts can be
 skipped completely, resulting in a great increase of performance depending on the scene.
 
 Of course OpenSG is not the only scenegraph based system. Libraries like Performer, OpenInventor and
 Java3D, to name a few, are all based on the same idea. As always every system has its own advantages
-and disadvantages. In case of OpenSG the biggest advantages are lieing in the ability to handle a cluster 
-and multithreaded data structures in a very easy and still efficient way. In addition it works seamlessly
+and disadvantages. In case of OpenSG the biggest advantages are the ability to handle a cluster 
+and multithreaded data structures in a very easy and still efficient way. In addition to that it works seamlessly
 on heterogeneous networks, so multiple computers with different graphic cards can drive one and the
-same application. Another big advantage is it's accessibility which makes it very easy to extend. Compared
+same application. Another big advantage is its accessibility which makes it very easy to extend. Compared
 to the other scenegraph systems mentioned, OpenSG has only few disadvantages. Some have more build-in
 functionality due to their much earlier date of release, but this will vanish as OpenSG hits version
 1.3 and above. In my personal opinion the biggest problem with OpenSG was the lack of a good documentation,
-because the learning curve was very hard at the beginning. This makes it especially difficult for new
+because the learning curve was very steep at the beginning. This makes it especially difficult for new
 users to get started. It is my goal to fight this disadvantage by writing the online tutorial you are reading 
 right now ;-)
 
 Some last words in general : OpenSG runs on various Unix systems as well as on Windows. If you are
-using Windows you need the Microsdoft Visual Studio compiler version 7 or above, whereas on Unix you
+using Windows you need the Microsoft Visual Studio compiler version 7 or above (i.e. Visual Studio .Net or above),
+or the Intel compiler version 6 or above. On Unix you
 only need the gcc compiler (3.x +) and a few libraries like GLUT or Qt and some image libries which are 
 installed on most Unix systems by default. For more detailed instructions, see \ref TutorialInstallation
 
@@ -52,27 +59,31 @@ installed on most Unix systems by default. For more detailed instructions, see \
 OpenSG is not a full application on it's own, it is a library which can help you developing graphics intensive applications so you do
 not need to implement your own scenegraph. Altough OpenSG can do more than displaying graphics on your monitor,
 you will in most cases not use OpenSG all alone. Often you will need a VR System, capable of handling your
-input devices like a tracker. <a href = "http://www.vrjuggler.org">VRJuggler</a> and Open Tracker are VR Systems 
+input devices like a tracker. <a href = "http://www.vrjuggler.org">VRJuggler</a> and <a href="http://www.studierstube.org/opentracker/">Open Tracker</a> are VR Systems 
 working well together with OpenSG.
 
 \section TutorialInstallation Installation
 
 \subsection TutorialInstalationGetIt Where to get OpenSG
 
-There are three different possibilites to choose from:\n
-1. Download a binary installer\n
-2. Download the source code\n
-3. Download the source code via CVS
+There are three different possibilites to choose from:
+
+\li Download a binary installer
+\li Download the source code
+\li Download the source code via CVS
 
 Binary installers are available for Suse 8.0, Suse 8.1, Redhat 8.0, Windows with Microsoft Visual Studio 2002/2003 and Windows with Visual Studio 6 and the
 Intel Compiler. If you are using another operating system, this is no option for you, you have to compile OpenSG yourself. If you choose (or have to 'choose')
-Option one or two, download your file from <A HREF="http://www.opensg.org/download.EN.html">http://www.opensg.org/download.EN.html</A>. 
+Option one or two, you can download the latest released version from <A HREF="http://www.opensg.org/download.EN.html">http://www.opensg.org/download.EN.html</A>. 
 
-If you want the most recent version of OpenSG you need to get the source code from the CVS repository. Note that the differences between the latest milestone
-1.2 and the CVS version are quite big at the moment (until the release of version 1.3 of course) - so you really should consider using CVS! However compiling on
-Windows can get difficult...
+Note that the latest release has been quite a while ago, so a number of features have been added. 
+It is therefore recommended to use a more current version. The most current version is the CVS source, 
+but only slightly older versions are available as source, compiled snapshot and binary installer. OpenSG 
+has a daily build system that checks out the current CVS every night on a number of different platforms,
+automatically compiles them and creates a binary installer. These can be accessed on the <a href="http://www.opensg.org/dailybuild_logs">Dailybuild Page</a>.
 
-Here is how to obtain the CVS source code
+If you want to change the code and still stay up-to-date, using the CVS source is the best way to do
+that. Here is how:
 
 Open a terminal and enter the two following commands
 
@@ -86,23 +97,23 @@ Open a terminal and enter the two following commands
 Attention :
 If you are promted for a password, just hit enter.
 As you are downloading from a UNIX Server, you have to pay special attention to the case of the letters. The
-path must be specified using  lowecase characters (i.e. /cvsroot/opensg), where as "co OpenSG" must be specified exactly 
+path must be specified using lowercase characters (i.e. /cvsroot/opensg), where as "co OpenSG" must be specified exactly 
 as it is.
 </I>
 
-The first command connects you to the sorceforge server, where the second tells the server that you want to download the 
+The first command connects you to the SourceForge server, while the second tells the server that you want to download the 
 module called "OpenSG". The parameter "-z3" enables compression during data transfer and is considered optional but useful.
-The servers of sourceforge are sometimes down (as I personally discovered), so if you get an error message or a timeout again and again it is most
+The servers of SourceForge are sometimes down (as I personally discovered), so if you get an error message or a timeout again and again it is most
 likely not your fault. Just try again later or if you are as unpatient as I am, download the source tarball from the OpenSG
-homepage as mentioned above.
+dailybuild page as mentioned above.
 
 \subsection TutorialInstallationLinux Installation on Linux
 
-If you are using one of the major Linux distributions you can download a rpm package from the
-<a href = "www.opensg.org/download.EN.html"> OpenSG Homepage </a>. Currently there are precompiled
+If you are using one of the major Linux distributions you can download a binary installer from the
+<a href = "www.opensg.org/download.EN.html">OpenSG Homepage</a>. Currently there are precompiled
 packages for Suse 8.0, Suse 8.1, as well as Redhat 8.0. The older Suse version is compiled with gcc 2.95.3 and the
 others with the new gcc 3.2. You can choose between an optimized and a debug version. The latter on is a whole lot bigger
-and not that fast, although the difference is quite not grave. However the the debug version is better for debugging ;-)
+and not that fast, although the difference is not big enough to make it useless. However the the debug version is better for debugging ;-)
 
 The installation of any of these binary packages is as easy as any other. Just download and install it and there you go!
 
@@ -112,7 +123,7 @@ the OpenSG library, which has a lot more features compared to the latest officia
 that the CVS version does not work at all. Maybe it does not compile or it runs not stable - so it is your choice, but because of much more 
 features in the CVS version, I would recommend using that version, if you do not mind some compiling.
 
-In either case you now should have a new directory called "OpenSG" or "OpenSG-1.2.0", depending on how you downloaded the source
+In either case you should now have a new directory called "OpenSG" or "OpenSG-1.2.0", depending on how you downloaded the source
 code. Now we need to configure and compile the library. Here is a "default" installation, which is good for most purposes.
 
 If you want to use QT have a look at \ref QT, because you need some different configure options.
@@ -135,6 +146,11 @@ The compilation of OpenSG may take quite some time - the author recommends watch
 (or two if you have a slow computer) ;-)
 </I>
 
+<I>
+Warning:
+Be very careful when writing the --enable-... options! There is no typo checking done on these, so don't be surprised if nothing happens after typing <PRE>--enable-tiff --enable-jpeg</PRE>!
+</I>
+
 Hopefully you finished the compilation without errors. If you had errors during compilation, the reason is a missing library in 
 most cases. Check if you correctly have installed glut and the image libraries. If you have all required libraries already 
 installed and they are not found by the configure script anyway it is possibly because they are not installed on default locations. You can
@@ -155,7 +171,7 @@ If you were using default parameters during installtion you should type
 <PRE> export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib/dbg </PRE>
 
 If you are using a csh/tcsh shell, the line is nearly the same:
-<PRE> setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:/prefix/lib/{dbg, opt}</PRE>
+<PRE> setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:/prefix/lib/dbg</PRE>
 
 You need to set the LD_LIBRARY_PATH every time you open a new terminal! Because that would be very annoying, there is, of course,
 a better way. Instead of typing that command every time you can add it to your profile file. That file lies within your homefolder 
@@ -166,8 +182,12 @@ of the X server.
 
 \subsection TutorialInstallationCygwin Installation on Cygwin
 
-The installation on cygwin is almost indentical to the Linux installtion procedure, but there are some different prerequisites. 
-It is recommonded to have the Intel or Viusal Studio Compiler installed at their default locations (i.e. c:\\program files\\), otherwise it
+Cygwin is a set of little programs that allows you to run UNIX-commands on Windows. You can get it from the <a href="http://www.cygwin.com">Cygwin Homepage</a>. Just download and run the installer. When the list of 
+packages is shown click "View" to go to "Full" alphabetical mode. To compile OpenSG you need the preselected 
+packages and the following ones: bison, flex, make, perl, sed and tar. Cygwin will create an icon on the desktop that opens a standard shell, just like Unix.
+
+The installation on cygwin is almost indentical to the Linux installation procedure, but there are some different prerequisites. 
+It is recommonded to have the Intel or Visual Studio Compiler installed at their default locations (i.e. c:\\program files\\), otherwise it
 is possible that the configure script can not find them. In addition to that I supplied the path to some Visual Studio .dll by extending
 the Windows path variable by : 
 \code
@@ -177,7 +197,7 @@ where a lot of important files lie. You might adjust the path to your current Ve
 
 \subsubsection TutorialInstallationCygwinNeededStuff Installing Necessary Libraries
 
-If you have not installed GLUT before you need now to do so. The easiest way is to visit 
+If you have not installed GLUT before you need to do so now. The easiest way is to visit 
 <A HREF="http://www.xmission.com/~nate/glut.html">http://www.xmission.com/~nate/glut.html</A>, Nate Robins page where you can get his port of GLUT for Win32. 
 Download the precompiled zip file. There is no need to compile it yourself, however if OpenSG is not enough terminal hacking, you can do so, of course ;-). 
 After the download has finished open the zip package and copy the following files to these locations
@@ -194,7 +214,9 @@ After the download has finished open the zip package and copy the following file
 
 That should do it, however if you need more information on the installation of GLUT, have a look at Nate Robins Readme file.
 
-Most likely you will also need the libaray files for the different image formats. You could search the internet for these libs, but after I did, I found an 
+If you don't want to write into your System directories you can also put all the supporting libraries into another place, but then you will have to tell the configure script where you put them.
+
+Most likely you will also need the libaray files for the different image formats. You could search the internet for these libs, there is an 
 easier way. Open the following folder: your_OpenSG_Folder\\dist\\win. There open the zip package 'suportlibs.zip' and there you will find 
 libjpeg.lib, libpng.lib and tif32.lib - copy these files to the same location as glut32.lib file (i.e. ...\\Microsoft Visual Studio .NET\\Vc7\\lib)
 
@@ -202,12 +224,17 @@ Now you have all the libraries needed for a typical OpenSG installation
 
 \subsubsection TutorialInstallationCygwinConfigureStuff Configuring
 
-Unless you are using the old version 5.0 of visual studio you also need to add the following parameter to your configure line:
+Unless you are using the old version 5.0 of the Intel compiler you also need to add the following parameter to your configure line:
 <PRE>./configure [--all-options-you-want] --with-compiler={icl60, icl70, cl.net}</PRE>
-Choose the compiler coressponding to your version of Visual Studio.
+Choose the compiler coressponding to your version of the Intel compiler/Visual Studio. 
 
-The compiler also needs to know the location of some platform depandant include files and libraries. These can be made accessible by the following commands.
-Wether you hack them directly into the terminal or you add these to your .profile file, which is useful if you intend to compile the library more that just once.
+<I>Note:\n
+OpenSG does not work with the Visual Studio 6 compiler! You can use the VS6 IDE, but you have to have a 
+supported version of the Intel compiler for that. It doesn work with VS 7 (.Net) and up.
+</I>
+
+The compiler also needs to know the location of some platform depandent include files and libraries. These can be made accessible by the following commands.
+I'd recommend adding these to your .profile file, which is useful if you intend to compile the library more that just once. Otherwise just adding them in the shell works, too.
 
 \code
 
@@ -221,7 +248,7 @@ export  LIB="C:\Program Files\Microsoft Visual Studio
 \endcode
 
 <I>Note:\n
-Depending on your language version of Windows and also depending on your version of Visual Studio .NET you have to adjust the path!
+Depending on your language version of Windows and also depending on your version of Visual Studio .NET you might have to adjust the path!
 </I>
 
 Both commands are a single line each, of course. If you are one of the GUI-clickers, you also can add both paths in the environment variables panel found in
@@ -231,22 +258,24 @@ the corresponding window for setting environment variables
 \image html enviro_vars.png "Setting up Windows environment variables"
 \image latex enviro_vars.eps "Setting up Windows environment variables" width = 6cm
 
-If you open a new cygwin bash shell, all Windows environmental variables are recognized by cygwin! Note that this does not apply to shells already running.
+If you open a new cygwin bash shell, all Windows environment variables are recognized by cygwin! Note that this does not apply to shells already running.
 
-On last important thing: as on windows some things are quite... well, "different" you will need an additional configure command in nearly all cases
+One last important thing: as on windows some things are quite... well, "different" you will need an additional configure command in nearly all cases
 \code
 	--enable-win-localstorage
 \endcode
-If you omit this parameter, you will most likely get several errors telling you that 'thread data may not have dll interface'
+If you omit this parameter, you will most likely get several errors telling you that 'thread data may not have dll interface'.
 
 Finally,<br>
-assuming that you have set the environmental variables correctly, here is an exmaple configure call for Visual Studio .NET 2002
+assuming that you have set the environment variables correctly, here is an example configure call for Visual Studio .NET 2002
 \code
 	./configure --enable-glut --enable-jpg --enable-tif --enable-png
 	--enable-win-localstorage --with-compiler=cl.net
 \endcode
 
 After a successfull configuration, call 'make' or 'make opt'. Hopefully the compilation process will finish without any errors...
+
+If you put your suppoty libraries someplace other than the System directories, you need to add the <PRE>--with-jpg=/path/to/jpg/library</PRE> etc. options to the configure call.
 
 \subsubsection TutorialInstallationCygwinRunning Executing the Tutorials
 
@@ -263,14 +292,15 @@ Regardless of which variant you choose, you should now be able to make all tutor
 from within the cygwin shell, you have to call them by typing './01hello.exe' and NOT '01hello.exe'
 
 <I>
-If you know about improvements or some addiotions (for other windows versions than XP) about the installation procedure, please send me an mail. At the moment
+If you know about improvements or some additions (for other windows versions than XP) about the installation procedure, please send me an mail. At the moment
 i have only access to a single, old stupid Windows XP box, so my testing ablities with other Visual Studio versions or different Windows versions are limited.
 </I>
+
 
 \subsection TutorialInstallationMacintosh Installation on a Macintosh PowerPC
 
 Installing OpenSG on a Macintosh was, and still is, not a very easy task at all. Currently there is somebody working on a improved port, but unfortunately
-this port is not finished yet. However, it is possible to run in on a Mac with either some missing features on Mac OS or full features on Linux on Mac.
+this port is not finished yet. However, it is possible to run it on a Mac with either some missing features on Mac OS or full features on Linux on Mac.
 
 Installation on Linux/ppc a bit extra effort, but the actual problem might be installing Linux itself on a Mac. At least you are rewarded with
 a fully functional and performant OpenSG. 
@@ -279,14 +309,16 @@ installing Gentoo is not very easy, if you are not an experienced Linux user. In
 Yellow Dog Linux is actually a port of Red Hat, but
 YDL is available for the PowerPC architecture only. You can find the distributions at
 
-<A HREF = "http://www.yellowdoglinux.com">http://www.yellowdoglinux.com</A> and <A HREF = "http://www.gentoo.org">http://www.gentoo.org</A>
+<A HREF="http://www.yellowdoglinux.com">http://www.yellowdoglinux.com</A> and <A HREF="http://www.gentoo.org">http://www.gentoo.org</A>
 
 Regardless of which Linux you actually use, you will of course need OpenGL (i.e. Mesa) development packages installed, as well as the GLUT package,
-if you would like to use it. Furthermore the appropiate packages for the image libraries are needed. You can simply install imagemagick, for example, because
-all image libraries needed by OpenSG are also installed with imagemagick and furthermore, if you want to build the decomentation yourself from source you need
+if you would like to use it. Furthermore the appropriate packages for the image libraries are needed. You can simply install imagemagick, for example, because
+all image libraries needed by OpenSG are also installed with imagemagick and furthermore, if you want to build the documentation yourself from source you need
 it anyway.
 
 However there is still one thing to do before you start compiling, because your system will be identified as powerpc-unknown-linux-gnu. 
+
+<B>Ist das noetig? Ich dachte das geht inzwischen?</B>
 
 Well, this is a bit quick and dirty but it works well, so open the "OSGConfig.h" which can be found in <I>your_openg_folder/Source/Base/Base</I>.
 \code
@@ -305,7 +337,7 @@ Well, this is a bit quick and dirty but it works well, so open the "OSGConfig.h"
 
 <I>Note on Gentoo
 There is an additional step to take if compiling on a Gentoo based systems. For some reasons, I do not understand, OpenSG will complain about an unknown
-GNU major version - which is not correct, as this version is 3.80 as expected by OpenSG. You can check this by running
+GNU major version - which is not correct, as this version is 3.80 as supported by OpenSG. You can check this by running
 </I>
 <PRE>
   make --version
@@ -329,7 +361,7 @@ and replace them with
 this will tell OpenSG the correct version of GNU make. You can now continue as normal
 </I>
 
-Your system will now be identified as linux throught OpenSG. Now, just run the configure and make command as you would normally on 
+Your system will now be identified as linux throughout OpenSG. Now, just run the configure and make command as you would normally on 
 Linux based systems. If you are encountering any problems during compilation make sure you have all the needed libraries (and the appropriate devel packages)
 installed.
 
@@ -339,7 +371,7 @@ NOTE:
 If you have just installed a new linux on your Mac, the hardware acceleration of your graphic cards is most likely not activated. I can not explain
 how to activate it as this is not our concern here, but if you need help, the direct rendering infrastructure page would be a good point to start
 off: <A HREF = "dri.sf.net">dri.sf.net</A>. This will only help you out if you have an ATI based graphics board (including some other, older chipsets), but 
-not if you have an NVidia card. I am very sorry, but as NVidia develops their on closed source drivers for x86 only, there is currently no way to get 3D hardware
+not if you have an NVidia card. I am very sorry, but as NVidia develops their own closed source drivers for x86 only, there is currently no way to get 3D hardware
 acceleration to your Mac!
 
 \subsection TutorialInstallationWindows Installation on Windows
@@ -355,13 +387,13 @@ Notice:
 
 The download page offers two different versions of OpenSG for Windows. One is using the Microsoft's STL and the other is using
 the STLPort. I would recommend the STLPort in any case, because it is much faster! Especially if you are loading VRML files from
-disk or you are manipulating big parts of geometry data the STLPort is quite more than two times faster! The necessary header files
+disk or you are manipulating big parts of geometry data the STLPort is quite often more than two times faster! The necessary header files
 are also automatically installed, so you do not have to download it yourself.
 </I>
 
 \section TutorialMakingAndExecuting Making and executing the tutorials
 
-The fist thing to do with your fresh installation of OpenSG is most likely to test wether the tutorial programs are working or not. If
+The fist thing to do with your fresh installation of OpenSG is most likely to test whether the tutorial programs are working or not. If
 you just installed the binary version on windows you need only to point and click on start button > OpenSG > Tutorials>...
 
 In all other cases you first have to build the tutorials, but that is as easy as clicking in Windows
@@ -385,11 +417,11 @@ The following picture shows what you should see if you type (assuming you are st
 \image html tutorial_tie.png "The legendary Tie Fighter loaded from VRML by OpenSG!"
 \image latex tutorial_tie.eps "The legendary Tie Fighter loaded from VRML by OpenSG!" width = 4cm
 
-If you get an error when you are executing one of the tutorials you should check if you have correctly specified the LD_LIBRARY_PATH
-or the PATH variable, depending on your platform
+If you get an error like <PRE>error while loading shared libraries: libOSGSystem.so: cannot open shared object file: No such file or directory</PRE> when you are executing one of the tutorials you should check if you have correctly specified the LD_LIBRARY_PATH
+or the PATH variable, depending on your platform.
 
 Windows users need not to compile the tutorials on their own as they are precompiled, but my advise is to open one Visual 
-Studio project file and try to compile that tutorial. By doing this you can see if everthing is working fine.
+Studio project file and try to compile that tutorial. By doing this you can see if everything is working fine.
 
 \section TutorialCompilation Compilation of Own Applications
 
@@ -399,7 +431,7 @@ some more general words about compiling OpenSG Projects.
 
 \subsection TutorialCompilationWin Projects on Windows
 
-If you want to spare a lot of time and trouble, do not try to start a new project from
+If you want to save yourself a lot of time and trouble, do not try to start a new project from
 within Visual Studio. There is a template project file provided. Use this template or simple change the code of a existing tutorial found in the "Tutorials" 
 folder. Of course all those settings can be done by hand, but you should only do that, if you have no other choice (i.e. extend an existing project with
 OpenSG Functionality)
@@ -412,7 +444,7 @@ OpenSG Functionality)
 
 Often Linux users have more trouble with setting up stuff compared to Mac or Windows. However this time it is quite easy, if you know what to do. If you are 
 comfortable with Makefiles you can write your own one or use the sample \ref FirstAppTutorialMakefile I'll provide in the next chapter. This sample
-assumes that every OpenSG application is consisting of one file only (which is really sufficent for us right now) and that each cpp filename is starting with
+assumes that every OpenSG application consists of one file only (which is really sufficent for us right now) and that each cpp filename is starting with
 a two digit number like 00framework.cpp. Also those files found will compile into an application with the same name. If you want to or need to write your own
 makefile you can peek into the sample one, to get an idea what is needed.
 
@@ -447,14 +479,18 @@ C/C++ preprocessor flags (CPPFLAGS)
 and 
 
 <PRE>
+Linker Flags (LDFLAGS)
+
 -L/usr/local/lib/dbg -lOSGWindowGLUT -lOSGSystem -lOSGBase -lglut 
 -lGLU -lGL -lXmu -lXi -lXt  -lqt -lpthread -ldl 
 -L/usr/qt/3/lib -L/usr/X11R6/lib
 </PRE>
 
-<B>Important Note:</B>
+<B>Important Notes:</B>
 <I>
-I used default paths (i.e. -I/ust/qt/3/include) - you possibly have to adjust some values
+I used default paths (i.e. -I/ust/qt/3/include) - you possibly have to adjust some values.
+
+These settings are for the current version of OpenSG. To get them for the version you find the command \c osg-config and call it as <pre>osg-config --cflags --dbg Base System GLUT QT</pre> for the preprocessor flags and as <pre>osg-config --libs --dbg Base System GLUT QT</pre> for the linker flags. Leave out the QT if you didn't configure it.
 </I>
 
 \section TutorialExercises Exercises
@@ -464,7 +500,7 @@ I used default paths (i.e. -I/ust/qt/3/include) - you possibly have to adjust so
 
 \subsection TutorialIntroductionExercises2 Ex. Compile Tutorials
 2. Compile all tutorials found in the "OpenSG/Tutorials" folder. Please notice that these tutorials are not related to
-the tutorials I will present throughout theses pages! Execute some (or all) of the tutorials, after compilation has finised
+the tutorials I will present throughout theses pages! Execute some (or all) of the tutorials, after compilation has finished.
 
 Next Chapter : \ref FirstApp
 */

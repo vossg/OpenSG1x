@@ -16,7 +16,7 @@ Chapter Overview
 
 \section TutorialAppendixCDoxy Doxygen Documentation Pages
 
-Although, I really tried hard and spent a lot of time, this documentation cannot cover every question that might appear... ;-) So, there still be some
+Although, I really tried hard and spent a lot of time, this documentation cannot cover every question that might appear... ;-) So, there still will be some
 unanswered questions after all, most of them, I hope, are class specific questions like: "what was that method called" for example. In that case the
 doxgen documentation from OpenSG may help you. 
 
@@ -25,7 +25,7 @@ If you want the documentation for the cvs version you have to build it yourself 
 
 \code
 	cd /path/to/your/OpenSG_Folder
-	make userstarter
+	make userdoc userstarter // Create HTML and PDF versions
 \endcode
 
 Building the doc pages will take about an hour on an average PC. 
@@ -42,7 +42,7 @@ variables are not stored in the classes themselves, but in their corresponding b
 that there is not much interesting to see. However the most important method for this class is setMatrix() which can be found in osg::TransformBase. You can 
 simply click on that class in the inheritance diagram.
 
-The bad news is, that this doxygen documentation is quite not complete. A detailed description for every (or at least most) methods or classes in general is
+The bad news is, that this doxygen documentation is not quite complete. A detailed description for every (or at least most) methods or classes in general is
 missing. So if you want to implement something, and you have no clue how a class you need could be named or even exists at all, the doxygen pages won't help 
 you.
 
@@ -50,8 +50,8 @@ you.
 
 However, you need not to desperate, because there is always a last chance where you can and nearly always will get help. The OpenSG mailinglists can be found
 at sourceforge.net : <A HREF="http://sourceforge.net/mail/?group_id=5283">http://sourceforge.net/mail/?group_id=5283</A> where you can subscribe to
-the userlist, which is the most interesting. You can read all mails in the archieve without subscribing, but you need to, if you want to send mails yourself. 
-When subscribing, you can also let sourceforge send you a mail every two or three days, where all new messages are bundeled in. 
+the userlist, which is the most interesting one. You can read all mails in the archieve without subscribing, but you need to if you want to send mails yourself. 
+When subscribing, you can also let sourceforge send you a mail in a digest every two or three days, where all new messages are bundled in a single message. 
 
 The developers themselves, among other experienced users, are very active in replying to questions - so if there is nobody who can help you... then 
 no one will ;-)
@@ -64,19 +64,18 @@ However, this should be one of your last options in order to solve a problem... 
 
 \section TutorialAppendixCDesperate  Despairing
 
-Well, if everthing fails... read the source code. You should only do that if you are a excellent programmer and have a considerable amount of time as well
-as a high frustration threshold...
+Well, if everything fails... read the source code. You should only do that if you are a excellent programmer and have a considerable amount of time... OpenSG is quite powerful and uses some pretty sophisticated C++ code, that can be quite intimidating at first. Don't worry, it's actually quite logical once you see the logic.
 
 \section TutorialAppendixCSceneViewer OpenSG Scene Viewer
 
 Actually the OpenSG Scene Viewer is not related to documentation in any way, but it is a useful tool from time to time. The scene viewer enables you to load any
-scene file, that OpenSG is able to read and besides rendering the modell there is also a tree view of the graph structure. Especially for exported files from
-modelling packages this comes in very useful. The following image  shows the running appication with the Beethoven modell loaded
+scene file, that OpenSG is able to read and besides rendering the model there is also a tree view of the graph structure. Especially for exported files from
+modeling packages this comes in very useful. The following image  shows the running appication with the Beethoven model loaded
 
 \image html sceneViewer.png "The OpenSG Scene Viewer in action"
 \image latex sceneViewer.eps "The OpenSG Scene Viewer in action" width = 10cm 
 
-As you can see, there are also some statistics displayed in the rendering window, thus you can test how well a modell is being rended by OpenSG or if it loads
+As you can see, there are also some statistics displayed in the rendering window, thus you can test how well a model is being rended by OpenSG or if it loads
 coorectly at all...
 
 The OpenSG Scene Viewer is not compiled by default, you have to do it yourself, if you have not downloaded a precompiled package. However if you have compiled
@@ -93,7 +92,7 @@ After a short time of compiling you can start the viewer by calling
 \endcode
 in that folder. It may be useful to create a symbolic link or copy the binary to /usr/local/bin if you use it often, but that is up to you. 
 
-Windows users will have an entry in their start menu.
+Windows users using a binary installer will have an entry in their start menu.
 
-Well, I am sure yiu can use this aplication without further explanation ;-) 
+Well, I am sure you can use this application without further explanation ;-) 
 */

@@ -17,8 +17,8 @@ Chapter Overview
     \ref TutorialGeometryUtilities <BR>
 <HR>
 
-Geometry is actually a common core like all the others from the last chapter, too. However, the geometry core is of course the most important 
-one and there are somethings you should know about. That is why a whole chapter is dedicated to this special core.
+Geometry is actually a common core like all the others from the last chapter, too. However, the geometry core is of course the most important and most complicated
+one, and there are some things you should know about it. That is why a whole chapter is dedicated to this special core.
 
 \section GeometryBackground Background
 
@@ -33,16 +33,16 @@ along with triangles and others.
 \subsection GeometryBackgroundProperties Properties
 
 All data describing the geometry is stored in seperate arrays. Positions, colors, normals as well as texture coordinates are stored in their
-own osg::MField. OpenGL is capable of processing different formats of data, because some perform better under certain circumstances. OpenSG 
+own osg::MField. OpenGL is capable of processing different formats of data, because some perform better under certain circumstances, or only a part of the data is needed. OpenSG 
 features the same data formats, by providing a lot of different classes which are luckily very similar to use and are all derived 
 from osg::GeoProperty. Prominent examples for geometry properties are osg::GeoPosition3f or osg::GeoNormal3f. There are a lot of other datatypes, 
 of course, just have a look at the osg::GeoProperty description page. All these geometry property classes are simple STL vectors slightly 
-enhanced with some features we allready now like multi thread safty.
+enhanced with some features we already know like multi thread safty.
 
 \subsection GeometryBackgroundIndex Indices
 
-Often one vertex is used by more than just one primitive. On a uniform grid for example most vertex are used by four quads. OpenSG can take
-advantage of this by indexing the geometry. Every primitive does not have a seperate copy of vertices, but an integer index which points
+Often one vertex is used by more than just one primitive. On a uniform grid for example most vertices are used by four quads. OpenSG can take
+advantage of this by indexing the geometry. Every primitive does not have to have a seperate copy of the vertices, but an integer index which points
 to a vertex. In this way it is possible to reuse data with a minimum of additional effort. It is even possible to use more than one index
 for different properties. Jump to \ref GeometryIndexing for a detailed overview.
 
@@ -57,10 +57,10 @@ store the height value (the value that is going to be changed during simulation)
 where the grid is going to be placed.
 
 There are a lot of algorithms which try to simulate the movement of water more or less adequate or fast but as we are more concerned on how to 
-do stuff in OpenSG, I suppose we just take a very easy 'formula' to calculate the height values. Of course, if you are interested, you may repalce
+do stuff in OpenSG, I propose that we just take a very easy 'formula' to calculate the height values. Of course, if you are interested, you may replace
 the formula by any other.
 
-Now take our framework again as a starting point, then add some global variables and a include file.
+Now take our framework again as a starting point, then add some global variables and a new include file.
 
 \code
 #include <OpenSG/OSGGeometry.h>
@@ -126,7 +126,7 @@ vertices! OpenSG is smart enought to know that a quad needs four vertices and th
 creation of a quad after four vertices have been passed and begins with the next one.
 </I>
 
-Now we will provide the positions of our verticesby using the data of the 'wMesh' array we initialized previously.
+Now we will provide the positions of our vertices by using the data of the 'wMesh' array we initialized previously.
 
 \code
     // GeoPositions3f stores the positions of all vertices used in 
@@ -146,13 +146,13 @@ corresponds to the resolution we choose, that is the higher the resolution the g
 creating the complete geometry core we are going to scale that whole thing to the correct size provided by the global variables
 [The Author: I actually haven't found the time to do that - so this may follow in the near future]. Of course it 
 would be reasonable to store not just height values but whole points like an two dimensional array of osg::Pnt3f. But storing whole points 
-consumes more memory than one Real16 value. Anyway, it is up to you or wether memory is a concern or not. As we want to play a bit around with
+consumes more memory than one Real32 value. Anyway, it is up to you or whether memory is a concern or not. As we want to play a bit around with
 scenegraph manipulation I have chosen the first variant.
 </I>
 
 Now we assign colors to the geometry, actually just one color this time, to be specific. However, every vertex needs a color, so the same color
 value is added as often as we have vertices stored. This is not very efficent in this special case, however it is easy to implement. Multi 
-indexing will be an alternative, I present to you later on.
+indexing will be an alternative I present to you later on.
 
 \code
     //GeoColors3f stores all color values that will be used
@@ -191,7 +191,7 @@ Something still missing? Yes of course! If you think about what we have done so 
 not considered yet that a quad uses four vertices and thus most quads, except for these at borders, uses vertices already used by four other 
 quads. However we provided every vertex just a single time.
 
-Of course we did, because everthing else would be a waste of memory. That is what indeces are used for. The next block of code tells OpenSG which 
+Of course we did, because everything else would be a waste of memory. That is what indeces are used for. The next block of code tells OpenSG which 
 vertices are used by a quad. The vertices are only referenced, but not copied, in this way.
 
 \image html vertex_multi_use.png "Vertex are used by multiple quads"
@@ -303,7 +303,7 @@ core even mixed with lines and points.
 
 This is done by first telling OpenSG what primitives you are going to use. Let us imagine this little example: We want to use 8 quads, 
 16 triangles two lines and another 8 quads. Sure, you could (and should) put the quads together to  16 quads, but we leave it that way for now.
-Data from modelling packages is not quite well structured most of the time, so better get used to it ;-)
+Data from modeling packages is not quite well structured most of the time, so better get used to it ;-)
 
 We simply tell now OpenSG what is going to come:
 
@@ -340,6 +340,14 @@ number of vertices, not the number of quads, triangles or whatever. So with some
 Here is a list of all supported primitives:
 
 <TABLE>
+    <TR>
+        <TD>
+            Type
+        </TD>
+        <TD>
+            Number of vertices per primitive
+        </TD>
+    </TR>
     <TR>
         <TD>
             GL_POINTS
@@ -421,6 +429,7 @@ Here is a list of all supported primitives:
         </TD>
     </TR>
 </TABLE>
+
 If you are striping geometry, please make sure to provide a correct number of vertices!
 
 Please notice that concave polygons are not supported neither by OpenGL nor by OpenSG! So make sure your polygons with more than three vertices are convex.
@@ -432,32 +441,32 @@ The following image shows an example of primitive types and corresponding length
 
 \section GeometryIterator Iterators
 
-OpenSG geometry is very flexible and powerful. It is easy to mix up different primitive types in one core, assign some properties like normals
-or texture coordinates to them and you can even reuse data with indexing (see next section \ref GeometryIndexing). So far everthing seems to
+OpenSG geometry is very flexible and powerful. It is easy to mix different primitive types in one core, assign some properties like normals
+or texture coordinates to them and you can even reuse data with indexing (see next section \ref GeometryIndexing). So far everything seems to
 be fine, but from another point of view things might become difficult. If you want to walk over all triangles for example you can easily run
-into problems, as the data might be highly mixed up with different primitive types. So you would have to take care of a lot of sepcial cases
-usually solved by some kind of big ugly switch block.
+into problems, as the data might be highly mixed up with different primitive types. So you would have to take care of a lot of special cases
+usualy solved by some kind of big ugly switch block.
 
-This is were geometry iterators may help you out. These will iterate primitive by primitive, face by face
+This is where geometry iterators may help you out. These will iterate primitive by primitive, face by face
 (which is either a quad or a triangle) or triangle by triangle.
 
 For example
 if you are using the build-in ray intersection functionality you might have encountered the problem of finding the triangle you actually hit.
 You can easly get the hit point, but the promising method "getHitTriangle" returns an Int32... so what to do? This integer defines the position
-in the index data array of the geometry. Will will have a closer look at the ray intersection functions later in section \ref TutorialTraversalActionsIntersect, 
+in the index data array of the geometry. We will have a closer look at the ray intersection functions later in section \ref TutorialTraversalActionsIntersect, 
 but for now I only want to show a little code fragment of how to use a geometry iterator. Let's image we have send some ray into the scene, hit a 
 triangle and now we have an integer returned from that class. We now try to compute the coordinates of the three vertices.
 
 \code
     // the object 'ia' is of type osg::IntersectAction and
-    // stores the result ans stores the result of the intersection
+    // stores the result of the intersection traversal
     
-    //retrieve the hitted triangle as well as the node
+    //retrieve the hit triangle as well as the node
     Int32 pIndex = ia->getHitTriangle();
     NodePtr n = ia->getHitObject();
 
     // we make sure that the core of this node is
-    // actually a geometry core
+    // actually a geometry core, just for safety
     std::string coretype = n->getCore()->getTypeName();
     if (coretype != "Geometry"){
 	  	std::cerr << "No geometry core! Nothing to do!" << std::endl;
@@ -480,7 +489,7 @@ triangle and now we have an integer returned from that class. We now try to comp
     Pnt3f p3 = ti.getPosition(2);
 \endcode
 
-The usage of these iterators is very easy, at least if you now how to do it. When I fist startet using OpenSG I had a similar problem to solve
+The usage of these iterators is very easy, at least if you know how to do it. When I fist started using OpenSG I had a similar problem to solve
 and I did it with five times the code length and much more effort. It took me some time to cut it down to these few lines... :)
 
 \section GeometryIndexing Indexing
@@ -501,7 +510,7 @@ I guess this figure could need some explanation. At the top you have three color
 used by both quads and the triangle, whereas the blue vertex is used by the right quad and the triangle. Below you find a sample data set. The 
 first row contains the data of a GeoPTypes object. In this case we have two quads, a triangle, a polygon, another quad followed by two triangles
 and finally another polygon. This row may continue with even more types. The next row defines the length of these types. The quads have a length
-of four and the triangles have three, that's easy, but polygons can have any number of vertices. The last three rows represent the data that define
+of four and the triangles have three, that's easy, but polygons can have any number of vertices. The last three rows represent the data that defines
 the geometry. In this case we have position-, normal- and color information given. This could be extended by some more data (i.e. texture 
 coordiantes etc.). A column is one dataset for one vertex.
 </I>
@@ -511,8 +520,8 @@ course this is not very efficient. You will learn more efficent methods next.
 
 \subsection GeometryIndexingSimpleIndexing Simple Indexing
 
-This is the most often used type of geometry and this is also very close to OpenGL when using striping. Indexing is easy and efficient, but it 
-does not handle all cases, tough. This is the kind of geometry storage we used in the water mesh example above. The following figure shows 
+This is the most often used type of geometry and this is also very close to OpenGL. Indexing is easy and efficient, but it 
+does not handle all cases. This is the kind of geometry storage we used in the water mesh example above. The following figure shows 
 how simple indexing work.
 
 \image html indexing.png "Indexed geometry data"
@@ -527,14 +536,14 @@ In our water mesh example every vertex has exactly the same color. With indexed 
 there are in the normals and colors array - so we need to store the same color a lot too often. This issue is adressed by multi indexed
 geometry.
 
-Another issue is, that some vertex need additional different data even though the position is the same. For example a textured cube has
-different normals at the edges where the position is the same. To handle such cases the vertex data need to be replicated.
+Another issue is, that some vertices need additional different data even though the position is the same. For example a textured cube has
+different normals at the corners whereas the position is the same. To handle such cases the vertex data need to be replicated.
 This too can be handeled with multi indexed geometry.
 
 \subsection GeometryIndexingMultiIndexed Multi Indexed Geometry
 
 In order to face the issues encountered with single indexing you need to use multiple indices. However using a seperate index field for
-every property would increase memory consuption considerably and working with several different index fields would not be fun at all. 
+every property would double the number of Fields for the Geometry NodeCore, which is already pretty complex, and working with several different index fields would not be fun at all. 
 That is why OpenSG uses another approach: interleaving indeces. 
 
 The idea is quite simple. You define a mask of which indices you are going to use, let's say we want to use indices for positions,
@@ -548,6 +557,11 @@ Again the following figure shows how it works
 
 If using multi indexing the property arrays need not to be equally long any more. In our case this means that our color array could
 be one entry long with every color index pointing to this one and only entry.
+
+
+So now that you have non-indexed, single- and multi-indexed Geometry at hand, which should you use? In general single-indexed Geometry is the most efficient way for rendering. It can make sense to use non-indexed geometry, if there are no shared vertices. In this case indices only cost memory brint no benefit. Multi-indexed data can be more compact in terms of memory (if the data s bigger than the additional index), but OpenGL doesn't natively support it. Therefore it has to be split up to be used with OpenGL, which can have a big impact on performance. Only use it if memory is really critical or you really need it.
+
+Conclusion: use single-indexed geometry, if you can. 
 
 \section GeometryEfficientManipulation Efficient Manipulation
 
@@ -584,7 +598,7 @@ void display(void)
 }
 \endcode
 
-Well, but of course we won't see anything different now on screen, because we have updated our datastructure, but not not the scenegraph. So now 
+Well, but of course we won't see anything different now on screen, because we have updated our datastructure, but not the scenegraph. So now 
 comes the interesting part: We are going to modify the data stored in the graph. Of course we could generate a new geometry node and replace the
 old with the new one. Well, this is obviously not very efficient due to a big amount of memory deletion and allocation. What we are actually
 going to do is the following:
@@ -595,7 +609,7 @@ node itself contains the geometry core. Add this block of code in the display() 
 \code
 
     // we extract the core out of the root node
-    // as we now this is a geometry node
+    // as we know this is a geometry node
     GeometryPtr geo = GeometryPtr::dcast(scene->getCore());
     
     //now modify it's content
@@ -635,8 +649,7 @@ camera with the mouse on my AMD 1400 Mhz machine with an ATI Radeon 9700! So we 
 
 \subsection GeometryEfficientManipulationMField Direct Manipulation of the Multi Field
 
-We used the interface methods provided by the GeoPositions class. These are relativly slow compared when working on the data lying beneath, 
-directly. By getting access to the muli field, where all data is finally stored, we can speed up the rendering process a bit. 
+We used the interface methods provided by the GeoPositions class. These are relativly slow compared to directly working on the data lying beneath. By getting access to the multi field, where all data is finally stored, we can speed up the rendering process quite a bit. 
 In your display function remove some of the code we added in the last step
 
 \code
@@ -654,12 +667,12 @@ In your display function remove some of the code we added in the last step
 and replace with this
 
 \code
-    //get the data field the pointer is pointing at
+    //get the data field the pointer used to store the positions
     GeoPositions3f::StoredFieldType *posfield = pos->getFieldPtr();
     //get some iterators
     GeoPositions3f::StoredFieldType::iterator last, it;
 
-    // set the iterator to the first data
+    // set the iterator to the first data element
     it = posfield->begin();
     
     beginEditCP(pos, GeoPositions3f::GeoPropDataFieldMask);
@@ -667,7 +680,7 @@ and replace with this
     for (int x = 0; x < N; x++)
         for (int z = 0; z < N; z++){
             (*it) = Pnt3f(x, wMesh[x][z], z);
-            it++;
+            ++it;
         }
     endEditCP(pos, GeoPositions3f::GeoPropDataFieldMask);
 \endcode
@@ -678,7 +691,7 @@ The result will be all the same, of course, but working directly on the field wi
 As you might know, OpenGL is capable of using "display lists". Such lists are usually defined by a programmer and OpenGL compiles this list
 and thus can render the content of such a list a bit faster. However there is an overhead in compiling display lists, which makes it useless for
 objects which change permanently - like our water mesh. In OpenSG display lists will be generated per default for every geometry, and they 
-will generated again if the geometry data change. You can turn off this feature by telling your geometry core :
+will be generated again if the geometry data changes. You can turn off this feature by telling your geometry core :
 
 \code
 	// geo is of type osg::Geometry
@@ -692,7 +705,7 @@ Add this line where the geometry core is created during createScenegraph(). Don'
 \endcode
 
 This may increase rendering performance a lot if used wisely. When using static geometry you should not turn this feature off as this will
-slow down rendering. Only disable display lists on geometry which is often or even every frame is modified.
+slow down rendering. Only disable display lists on geometry which is modified often or even every frame.
 <I>
 Please notice: transformations do not affect the geometry in that way! Only direct manipulation of the geometry data is a performance problem
 with display lists!
@@ -717,8 +730,8 @@ display lists off, is rewarded with a performance increase by about 170%!
 
 <B>Notice:</B>
 You might know think that display lists are stupid and should be turned off, to increase performance - of course that is not the case, as a display lists 
-only purpose is to increase performance! They <B>only</B> will slow rendering down if the list themselves are constantl recreated as this will be the case
-with non-ridigid transformations. With static geometry they perform very well. I ran some small tests on my machine with the beethoven modell 
+only purpose is to increase performance! They <B>only</B> will slow rendering down if the list themselves are constantly recreated as this will be the case
+with non-rigid transformations. With static geometry they perform very well. I ran some small tests on my machine with the beethoven model 
 (progs/data/beethoven.wrl), which has 60k polygons. For this benchmark I let OpenSG render 5000 frames and took the time. The figure below shows the results
 
 \image html speedbar2.png "Display Lists on Static Objects"
@@ -740,7 +753,7 @@ I did it with some dozens lines of code where one single line would have done th
         #include <OpenSG/OSGGeoFunctions.h>
 \endcode
 
-If you have some geometry core, which face normals you want to calculate you simply need to type
+If you have some geometry core, for which you want to calculate face normals you simply need to type
 
 \code
     //geo again is of type osg::Geometry
@@ -755,8 +768,8 @@ Of course with vertex normals it is just all the same
 
 You proably already know, that face normals are unique for every triangle or quad. Objects rendered with face normals will look faceted, which 
 might not be what you want. For a smooth rendering normals per vertex are required. Please keep in mind that vertex normals can only be
-computed correctly, if the geometry data is also correct. The resulting vertex normal is just the result of averaging all neighboring
-vertex normals and if some vertex are stored multiple times the result will be incorrect. 
+computed correctly, if the geometry data is also correct. The resulting vertex normal is just the result of averaging all neighbouring
+vertex normals and if some vertices are stored multiple times the result will be incorrect. 
 
 Anyway, identical vertices, which are defined multiple times, can be unified automatically (i.e. they are "merged" into one vertex) by calling
 
@@ -771,11 +784,11 @@ on the geometry beforehand.
 
 <I>
 The left image was rendered using face normals, resulting in a faceted look, as promised. The middle image shows what happens if you calculate
-vertex normals with multiple vertex defintions, where the right image shows correct vertex normal rendering with usage of createSharedIndex() 
+vertex normals with multiple vertex definitions, where the right image shows correct vertex normal rendering with usage of createSharedIndex() 
 before the vertex normals were calculated
 </I> 
 
-The facetted effect on a sphere is often not what you want and calculating vertex normals does a fine job here. However, some other objects 
+The faceted effect on a sphere is often not what you want and calculating vertex normals does a fine job here. However, some other objects 
 might not perform so well. The problem is, that all normals at a vertex will be averaged and thus edges you may want to keep will
 be averaged out, too. 
 
@@ -791,25 +804,30 @@ preserved.
 
 Replacing the old function call with
 \code
-    calcVertexNormals(geo, 30)
+    calcVertexNormals(geo, deg2rad(30))
 \endcode 
 would help us out with the cube.
 
+<I>
+deg2rad is a useful function that allows you to convert degree values into radians. As you might guess there is also a rad2deg 
+function.
+</I>
+
 Calculating vertex normals is more complex than it sounds and it requires a considerably amount of time to compute. Using one of these methods
-on a per frame basis is not recommended!
+on a per frame basis is not really recommended!
 
 As OpenGL supports a lot of different geometry data formats, also new problems arise. Of course, not all of these variants are equally efficient,
 but luckily OpenSG also offers some methods to improve the data automatically. I mentioned createSharedIndex() before, which will look for 
 identical elements and remove the copies, changing only the indeces. 
 
-This step is necessary for osg::createOptimizedPrimitivs to work probably as this method needs to know which primitves are using the same vertex
+This step is necessary for osg::createOptimizedPrimitivs to work as this method needs to know which primitves are using the same vertex
 which means they are neighbours. It tries to reduce the needed number of vertices to a minimum by combining primitives to stripes or fans. 
-No property values will be changed, only the indeces are modified. The actual algorithm used here will not provide an optimal solution. Due
-to it's pseudo random nature you can run it several times and take the best result. If performace is critical you can of course do it
-only once which will yields an non-optimal but definetly better solution than before.
+No property values will be changed, only the indeces are modified. The actual algorithm used here is very fast, but will not necessarily provide an optimal solution. Due
+to its pseudo random nature you can run it several times and take the best result. If performace is critical you can of course do it
+only once which will yield a non-optimal but definetly better solution than before.
 
-osg::createSingleIndex will reduce a multi indexed geometry into a single indexed. Multi indexing is very efficient in storage but when it
-comes to performance single indexing is better. The reason is that OpenGL does not support multi indexing directly. OpenGL's more efficient 
+osg::createSingleIndex will reduce a multi indexed geometry into a single indexed. Multi-indexing is very efficient in storage but when it
+comes to rendering performance single indexing is better. The reason is that OpenGL does not support multi indexing directly. OpenGL's more efficient 
 specifiers like vertex arrays cannot be used with OpenSG's multi indexing geometry. Finally you have do decide for yourself what's suiting
 better for you, but it is good to know that you can convert from multi- to single indexing.
 

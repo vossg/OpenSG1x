@@ -35,19 +35,19 @@ given at the beginning of the appropiate tuotorials.
 //most things used here are explained now or on the next few pages, so don't 
 //worry if not everything is clear right at the beginning...
 
-//Some needed inlcude files - these will become more, believe me ;)
-#include <OpenSG/OSGGLUT.h>
+//Some needed include files - these will become more, believe me ;)
 #include <OpenSG/OSGConfig.h>
+#include <OpenSG/OSGGLUT.h>
 #include <OpenSG/OSGSimpleGeometry.h>
 #include <OpenSG/OSGGLUTWindow.h>
 #include <OpenSG/OSGSimpleSceneManager.h>
 
-//In most cases it is useful to add this line, else every OpenSG command
-//must be proceeded by an extra OSG::
+//In most cases it is useful to add this line, otherwise every OpenSG command
+//must be preceeded by an extra OSG::
 OSG_USING_NAMESPACE
 
 //The SimpleSceneManager is a useful class which helps us to 
-//manage little scenes. It will be discussed in detail later on
+//manage simple configurations. It will be discussed in detail later on
 SimpleSceneManager *mgr;
 
 //we have a forward declarion here, just to have a better order 
@@ -65,7 +65,7 @@ int main(int argc, char **argv)
 	gwin->setId(winid);
 	gwin->init();
 
-	// That will be our whole scene for now : an incredible Torus
+	// This will be our whole scene for now : an incredible torus
 	NodePtr scene = makeTorus(.5, 2, 16, 16);
 
 	// Create and setup our little friend - the SSM
@@ -90,35 +90,35 @@ void reshape(int w, int h)
 // just redraw our scene if this GLUT callback is invoked
 void display(void)
 {
-	mgr->redraw();
+    mgr->redraw();
 }
 
 //The GLUT subsystem is set up here. This is very similar to other GLUT 
 //applications. If you have worked with GLUT before, you may have the 
 //feeling of meeting old friends again, if you have not used GLUT before 
-//that is no problem. GLUT will be introduced shortly on the next section
+//that is no problem. GLUT will be introduced briefly on the next section
 
 int setupGLUT(int *argc, char *argv[])
 {
-	glutInit(argc, argv);
-	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+    glutInit(argc, argv);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
     
-	int winid = glutCreateWindow("OpenSG First Application");
+    int winid = glutCreateWindow("OpenSG First Application");
     
-	// register the GLUT callback functions
-	glutDisplayFunc(display);
-	glutReshapeFunc(reshape);
+    // register the GLUT callback functions
+    glutDisplayFunc(display);
+    glutReshapeFunc(reshape);
 
-	return winid;
+    return winid;
 }
 
 \endcode
 
-That is all to get a little nice window, displaying a torus. I admit that there are OpenGL programs out there, that are shorter
+That is all to get a little nice window, displaying a torus. I admit that there are OpenGL programs out there that are shorter
 and do the same - but that will soon change, as our tutorials will get more advanced.
 
-The first thing that is boring, is the fact the we can not interact with our newly created virtual world. It would be wonderful
-to have some mouse input, that we can navigate with. So that will be our first task: Open (if you have closed it) the file you
+The first thing that is boring is the fact the we can not interact with our newly created virtual world. It would be wonderful
+to have some mouse input, so that we can navigate within it. That will be our first task: Open (if you have closed it) the file you
 just created and jump to the setupGLUT() function. Just below the other two callback functions add these two lines
 
 \code
@@ -154,7 +154,7 @@ The complete file of our first little programm can also be found in the progs fo
 
 \subsection FirstAppTutorialMakefile A Makefile 
 
-As far as well - but still we need to compile that file we just created. Windows users should paste the
+So far so good - but still we need to compile that file we just created. Windows users should paste the
 code simply in one of the existing tutorial files where as Unix users should create a little makefile. 
 Because the last part is a bit tricky, I present a makefile which is ready to use and which can easily be 
 taken as a starting point for own better suited makefiles
@@ -173,6 +173,7 @@ LIBTYPE ?= dbg
 # i.e. if you installed in /usr/local it is
 OSGCONFIG := /usr/local/bin/osg-config
 
+# use osg-config to set the options needs to compile and link
 CC = "$(shell $(OSGCONFIG) --compiler)"
 CCFLAGS = $(shell $(OSGCONFIG) --cflags --$(LIBTYPE) Base System GLUT)
 LDFLAGS = $(shell $(OSGCONFIG) --libs --$(LIBTYPE) Base System GLUT)
@@ -212,20 +213,20 @@ Clean: clean
 \endcode
 
 I often wonder why makefiles work, because often they are hard to read. If
-you are not very familiar with makefiles, like I am, then let me tell you,
+you are not very familiar with makefiles, like I am, then let me tell you
 that it doesn't matter if you don't understand how this file works. Just
 believe that it works! ;-)
 
 \section FirstAppTutorialGLUT GLUT
 
 If you are familiar with GLUT, you can skip to the next section right away, 
-otherwise you may find it usefull, even tough GLUT is not a must as OpenSG 
-applications can also be driven by other windowing systems like QT or MFC.
+otherwise you may find it useful, even though GLUT is not a must as OpenSG 
+applications can also be driven by other window systems like QT or MFC, or anything that has an OpenGL window.
 
 So what is GLUT? GLUT stands for GL Utility Library - with GLUT you can easily
 create a window in which OpenGL will render. Furthermore you can access the keyboard
 and mouse with just a few lines of code. That is what OpenSG uses GLUT for. Of course 
-it is not as powerful as QT, but it is much more simpler to handle. 
+it is not as powerful as QT, but it is much simpler to handle. 
 
 GLUT is always initialized at the beginning, by telling the library the size of the
 window, the color depth and similar things. Afterwards the callbacks are registered.
@@ -253,15 +254,15 @@ likely not what you want.
 
 And what about those callbacks? If you have a look at the main() function of our first application you
 will notice that the last command (before the return) is the glutMainLoop(). Calling this will give control
-of your application to GLUT. That is if you have registered not a single callback you will never get control
-back... even worse you won't be able to see anything on the sceen exept a black window. So what does this 
-main loop actually do. Without going in to much of unecessary detail, it simply checks if any event occurs 
-that a callback is registered for and invoking it in that case. There is at least 
+of your application to GLUT. That is if you have not registered a single callback you will never get control
+back... even worse you won't be able to see anything on the screen except a black window. So what does this 
+main loop actually do? Without going into too much unecessary detail, it simply checks if any event occurs 
+that a callback is registered for and invokes it in that case. There is at least 
 one callback you should always register (and of course implemet) and that is the display function. This function
 will always be called if the window needs to be redrawn. That is either the case if the operating system says
-that this window needs redrawing or you explicitly tell the system (via glutPostRedisplay() for example).
+that this window needs redrawing or if you explicitly tell the system (via glutPostRedisplay() for example).
 
-Well, we registered the display callback like that
+Well, we registered the display callback like this
 
 \code
 glutDisplayFunc(display);
@@ -278,19 +279,19 @@ void display(void){
 \endcode
 
 That is not really much, isn't it? Normally a lot of stuff is done in here, because that is what we will see on screen
-in the end. If you  would write an usual OpenGL application with GLUT but without OpenSG you would place all your
-drawing related OpenGL commands here - and that is usually quit a lot! 
+in the end. If you would write a usual OpenGL application with GLUT but without OpenSG you would place all your
+drawing related OpenGL commands here - and that is usually quite a lot! 
 
 Fortunately we do use OpenSG, so in most cases we do not need to hack OpenGL commands directly. OpenSG does
 the dirty work for us ;). The next section is about what happens when mgr->redraw() is called. 
 
 A last word about all the other callbacks: The procedure is always the same, you register the desired callback somewhere at the 
 beginning and you implement the function you passed as the argument. This function will be called if the corresponding event occurs,
-that is the keyboard callback is invoked when a key is pressed and the mouse callback when the mouse button is pressed and so on.
+e.g. the keyboard callback is invoked when a key is pressed, the mouse callback when the mouse button is pressed and so on.
 
 \section FirstAppTutorialSSM Simple Scene Manager
 
-The simple scene manager is auseful helper class for quickly creating simple scenes. If you do not want to use the 
+The simple scene manager is a useful helper class for quickly creating simple window configurations and interact with them. If you do not want to use the 
 simple scene manager (SSM) you would have quite a lot of work to to (if you are already comfortable with OpenSG you can have a look at 
 \ref TutorialWindowsTutorial to see how you can setup a scene witout the SSM). You need to create a window, add a viewport to that window,
 create one or more lights and a camera, set up a navigation and you have to bind that all together. Sometimes that has to be done as the manager
@@ -298,13 +299,13 @@ is useable for simple scenes only (as the name already says), but that will be d
 with the SSM as it does all of the tasks described above for us. 
 
 Sometimes using the SSM is not a good idea. If you are devolping a stereo application for example you would have to change so
-much that it is a better idea to write your own code from bottom up. As a rule of thumb you can and should use the SSM if and
+much that it is a better idea to write your own code from the bottom up. As a rule of thumb you can and should use the SSM if and
 only if you want to have a window with one viewport and a perspective camera. If you want to change the navigation mode or
 the light sources you can easily do that.
 
 \subsection FirstAppTutorialSSMUsage How to use the Simple Scene Manager
 
-In most cases you need a global instance of the simple scene manager. So like in the \ref FirstAppTutorial we define a global variable mgr as
+In most cases you need a global instance of the simple scene manager. So like in the \ref FirstAppTutorial we define a global variable mgr as aw
 pointer. Of course we need to include the header file for the SSM
 
 \code
@@ -325,36 +326,38 @@ mgr = new SimpleSceneManager;
 mgr->setWindow(gwin);
 // set the root of the scenegraph
 mgr->setRoot(scene);
-// makes the hole scene visible
+// makes the whole scene visible
 mgr->showAll();
 \endcode
 
 The last command ensures the correct position of the camera. The camera is positioned so that the whole scene will be visible. Of course
-this is not always optimal, because OpenSG cannot know where the most beautiful spot in your scene is...
+this is not always optimal, because OpenSG cannot know where the most beautiful spot in your scene is, but it effectively prevents one of the most common problems in OpenGL programs: "So I'm done with the program, but why is everything black?".
 
 Maybe you have already some knowledge of OpenSG and want to know what the simple scene manager actually creates for you. 
 So here it is: A simple single fullscreen Viewport (osg::Viewport), a perspective Camera (osg::PerspectiveCamera), a render action needed for rendering
 traversals of the graph (osg::RenderAction) and a simple 
-pointlight (osg::PointLight) attached to the camera are created for you. In addition to that a simple Navigator (osg::Navigator) 
+cirectional light (osg::DirectionalLight) attached to the camera, i,.e. functioning as a headlight, are created for you. In addition to that a simple Navigator (osg::Navigator) 
 is created which allows you do rotate with the left, to pan with the right and to zoom with the middle mouse
 button, except for me (Mac user with an one button mouse...).
 
 \section FirstAppTutorialScenegraph The Scenegraph
 
-I guess the probability that you already know what a scenegraph is, is very high, because you are reading these lines right now. So
+I guess the probability that you already know what a scenegraph is is very high, because you are reading these lines right now. So
 it would be worth a whole book to discuss scenegraphs in every aspect and detail. That cannot be achieved here and it also won't 
 be necessary, so I make it short. 
 
+The basic idea of a scene graph is just that: a graph (i.e. a group of nodes connected to each other) that represents the whole scene you want to display. In the next parts of this tutorial we will talk about the different kinds of nodes that you put in the graph and what they do.
+
 To get a feeling for the power that lies within scenegraph systems we should look at recent computer games. Wether the 300+ first person
-shooters found at a time in stores are educatinal valuable for kids or not is another question, but one thing is for sure: the high
-demand for these games have pushed the development of high performance graphic cards and other technologies. They show us in a very
+shooters found at a time in stores are educationally valuable for kids or not is another question, but one thing is for sure: the high
+demand for these games has pushed the development of high performance graphics cards and other technologies. They show us in a very
 illustrative way what is possible in computer graphics. And they all rely on a scenegraph one way or another. 
 
-A Scenegraph holds a scene efficient in memory and tries to sort the big polygon soup so it can be passed to the hardware in the most 
+A Scenegraph holds a scene efficiently in memory and tries to sort the big polygon soup so that it can be passed to the hardware in the most 
 efficient way. If you have some basic knowledge of OpenGL you will know that the glBegin(...) and glEnd() command is very expensive. 
 Imagine you have one hundred red and one hundred blue triangles and you draw them all in a loop, first a red one, then a blue, and a red
 and so on. If programmed that bad, it will result in 200 glBegin/End blocks and 200 color state changes. If programmed 
-well, it only requires on begin/end block and two color state changes. A good scenegraph will sort the triangles in the last way no matter
+well, it only requires on begin/end block and two color state changes. A good scenegraph will sort the triangles in the latter way no matter
 what the input was. Of course this is a very synthetic example, but real life will show you, that big scenes coded by hand are never 
 optimal and with models exported from another software it gets even worse.
 
@@ -362,16 +365,16 @@ Another very important aspect of scenegraphs is, that they have knowledge of the
 are not visible. There is no need to render things that are behind the camera. The scenegraph detects parts that are not inside the
 viewing frustum and do not render them. In this way a lot of processing time is saved.
 
-\subsection FirstAppTutorialScenegraphCompared OpenSG Scenegraph Compared to Oher Systems
+\subsection FirstAppTutorialScenegraphCompared OpenSG Scenegraph Compared to Other Systems
 
 Most scenegraphs have a similar data structure. Nodes are used to build a graph and these store information about the functionality. 
 Nodes may carry information about transformations, materials, geometry and a lot of other stuff. One of the biggest 
-differences is, wether the scenegraph is a mutiparent or single parent one. 
+differences is, whether the scenegraph is a mutiparent or single parent one. 
 Imagine the simplified model of a car consisting of a body and four wheels. 
 The geometry of every wheel is identical, so you do not need four wheels in memory. If you have a single parent scenegraph, there is no
 way, you need to have four copies of the wheel. A multi parent system only needs four transformations relative 
 to the body of the car and one wheel which is applied to each transformation and thus a complete car will be rendered. 
-All recent scenegraphs support multiple parents one way or another. 
+All current scenegraphs support multiple parents one way or another. 
 
 \image html car_graph_general.png "This graph shows the concept how scenegraphs work"
 \image latex car_graph_general.eps "This graph shows the concept how scenegraphs work" width=8cm
@@ -379,13 +382,13 @@ All recent scenegraphs support multiple parents one way or another.
 In OpenSG nodes are used only to define the hierarchy of the graph. They store their children (if any) and a core. The core is
 the place where all the important information is stored, i.e. geometry, transformations etc. It is very important to know, that every node
 can only have one parent, but of course as many children as necessary. If for some reason a new parent is assigned to a node, the 
-former parent will be replaced by the new one (actually not the node itslef, but the link to it). The cores themselfs can be referenced
-by as many nodes as desired. 
+former parent will be replaced by the new one (actually not the node itself, but the link to it). The cores themselves can be referenced
+by as many nodes as desired, and this is how OpenSG can share data efficiently, even though it formally is only single-parent.
 
 \image html car_graph.png "A simple graph demonstrating how node and cores are used in OpenSG"
 \image latex car_graph.eps "A simple graph demonstrating how node and cores are used in OpenSG" width=8cm
 
-<I>The yellow circles are representing nodes where the oragne rectangles are cores. As you can see every node has one parent, but
+<I>The yellow circles represent nodes while the orange rectangles are cores. As you can see every node has one parent, but
 the wheel geometry core has four. There are four different transform cores and every one of them stores a unique transform matrix.</I>
 
 If you compare the last two pictures it seems that the concept of how OpenSG works is much more difficult. You will see soon, that 

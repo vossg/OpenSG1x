@@ -17,11 +17,13 @@ Chapter Overview
 	\ref TutorialWindowsExercises
 <HR>
 
-This chapter is all about windows and viewports. What a window is, should be self explaining, as of course, OpenSG needs a window which it will render in. 
-Viewports are rectangular areas within the window. Every application has exactly one window and one or more viewports. All applications you have seen so far, 
-had one window with one viewport, which were provided by the simple scene manager. I will also introduce foregrounds and backgrounds, as these are closely related 
-to windows and viewports. Foregrounds can be used to display some sort of logo or even they can be used to capture a screenshot, where as backgrounds do 
-exactly what you expect them to do.
+This chapter is all about windows and viewports. What a window is should be self explanatory, as of course, OpenSG needs a window which it will render into. 
+Viewports are rectangular areas within the window. Applications can have an arbitrary number of Windows, each of which can have one or more viewports. All applications you have seen so far, 
+had one window with one viewport, which were provided by the simple scene manager, but that is by means a limitation of the system.
+
+I will also introduce foregrounds and backgrounds, as these are closely related 
+to windows and viewports. Foregrounds can be used to display logos or they can even be used to capture a screenshot amongst other things, whereas backgrounds do 
+exactly what you expect them to do: the clear the background in different ways.
 
 \section TutorialWindowsWindows Windows
 
@@ -62,28 +64,28 @@ that may help you out. We have used GLUT windows all the way, so you should be f
 
 So what does a window actally do? First of all, it is responsible for output of the rendered images. It does no handling of input events or similar things. 
 A window
-keeps it's instances of viewports and manages OpenGL context creation and activation/deactivation. It also handles detection of OpenGL extensions. 
+keeps its instances of viewports and manages OpenGL context creation and activation/deactivation. It also handles detection of OpenGL extensions. 
 
-The passive window is a bit different from the others. A passive window does not handle OpenGL context. It's purpose is to fit seamlessly into other OpenGL
-programs. Passive windows can be used with any window system and GUI.
+The passive window is a bit different from the others. A passive window does not handle an OpenGL context. It's purpose is to fit seamlessly into other OpenGL
+programs. Passive windows can be used with any window and GUI system that supports OpenGL.
 
 The last three windows, cluster, multi display and sort fist windows are used for clustering. These will be discussed in more detail in chapter \ref Clustering.
 
 At the end of this chapter there will be a tutorial where we will set up an application from scratch, without the simple scene manager. This tutorial
-may explain the usage of windows and viewports better that words can tell.
+may explain the usage of windows and viewports better than words can tell.
 
 \section TutorialWindowsViewports Viewports
 
-A Window must at least have one viewport, but can have more. A viewport represents a part of the scene that is being rendered into. One or more viewports
-can, but have not to, cover the whole window. Every viewport can only be attached to one window. A typical use of multiple viewports is the 
-perspective/front/left/right view you might know from a modelling package or other applications
+A Window must at least have one viewport, but can have more. A viewport represents a part of the screen that is being rendered into. One or more viewports
+can, but don't have to, cover the whole window. Every viewport can only be attached to one window. A typical use of multiple viewports is the 
+perspective/front/left/right view you might know from a modeling package or other applications
 
 \image html 4ports.png "Typical use of four viewports"
 \image latex 4ports.eps "Typical use of four viewports" width = 8cm
 
-The size of a viewport is definied by providing values for left, right, top and bottom paramters. These can either be bewtween 0 and 1 or greater than 1. The
-first variant means the size of the viewport is relative to the window whereas values above 1 specify the size in pixels. You should decide which variant to
-use depending on wether the viewports shall scale together with the window if it is resized or not. Here is an example showing a window with two viewports,
+The size of a viewport is definied by providing values for left, right, top and bottom borders. These can either be between 0 and 1 (inclusively) or greater than 1. The
+first variant means the size of the viewport is relative to the window size whereas values above 1 specify the size in pixels. You should decide which variant to
+use depending on whether the viewports shall scale together with the window if it is resized or not. Here is an example showing a window with two viewports,
 one defined relativly and the other absolute.
 
 \image html viewports_new.png "Resizing window with two different viewports"
@@ -95,12 +97,12 @@ one defined relativly and the other absolute.
 </I>
 
 You can also pass a -1 to one or more parameters which means that the most possible space is taken by the viewport. An exception to these sizing rules is the
-passiveViewport which simply ingnores all given values, as they are taken from the current active OpenGL context. 
+passiveViewport which simply ingnores all given values, as they are taken from the currently active OpenGL context. 
 
-In order to use a viewport correctly you need not only to define it's size but some things more are needed: A node of the scenegraph (usually the root node)
-where rendering traversal should begein, a camera and a background are needed. Optionally you can provide a foreground. 
+In order to use a viewport correctly you not only need to define its size, but some additional things are needed: A node of the scenegraph (usually the root node)
+where rendering traversal should begein, a camera and a background are needed. Optionally you can provide one or more foreground(s). 
 
-As you might guess there are also differnt types of viewports. The one that came along with the simple scene manager was a standard viewport. Here is a list
+As you might guess there are also different types of viewports. The one that came along with the simple scene manager was a standard viewport. Here is a list
 of all available viewports
 
 <UL>
@@ -111,7 +113,7 @@ of all available viewports
 </UL>
 
 Well, the default Vieport is what you want in most cases. Passive viewports are needed to integrate OpenSG into existing OpenGL programs. The color buffer
-viewport allows rendering in specific color channels and finally the stero buffer viewport is used mostly for active stereo applications. Stero with
+viewport allows rendering in specific color channels and finally the stereo buffer viewport is used mostly for active stereo applications. Stereo with
 shutter glasses for example need four buffers which are provided by osg::StereoBufferViewport. Passive stereo can be achived with default viewports. 
 Again, more on that in \ref Clustering.
 
@@ -143,9 +145,9 @@ Here is a short overview of the different cameras you can use with OpenSG
 
 \subsection TutorialWindowsCameraPerspective Perspective Camera
 
-This is the most common camera. The osg::PerspectiveCamera is the same kind of camera OpenGL uses for rendering. Unless you are doing something special you 
+This is the most common camera. Unless you are doing something special you 
 will be fine with this camera. There is only one additional attribute, the vertical field of view defines the opening angle of the camera. The horizontal 
-field of view is automatically adjusted to create a square aspect ratio. The value is given in radians not in degrees!
+field of view is automatically adjusted to create a square aspect ratio. If your pixels are not square you can set the pixel aspect ratio in the aspect Field. Like all angles in OpenSG, the value for the fov is given in radians not in degrees!
 
 Here is an example on how to setup a camera
 
@@ -177,10 +179,10 @@ as passive viewports. With this camera you are very close to standard OpenGL beh
 
 \subsection TutorialWindowsCameraDecorators Camera Decorators
 
-A decorator can be used instead of the original camera object, where as the decorator enhances the original in some way. Here is an example: For an stereo 
+A decorator can be used instead of the original camera object, where as the decorator enhances the original in some way. Here is an example: For a stereo 
 application you need two cameras and if you are moving the camera around you normally would have to do things twice. With camera decorators you can use two
 osg::ShearedStereoCameraDecorator which will point both to the same camera. The decorators will be assigned to the viewports instead of the camera. If
-you now move the camera both virtual cameras represtened by the decorators will move simultanously. And again, more on stereo in chapter \ref Clustering.
+you now move the camera both virtual cameras represented by the decorators will move simultanously. And again, more on stereo in chapter \ref Clustering.
 
 A big advantage of decorators in general is, that you can easily change the object which is decorated by some other and maintain the enhancements the
 decorators provide. In our example you could exchange a perspective camera with a matrix camera and the stereo setup won't be destroyed!
@@ -190,13 +192,13 @@ Here is an overview of the decorators currently available
 \subsubsection TutorialWindowsCameraDecoratorsStero Stereo Decorators
 
 There are actually two different decorators for stereo solutions. Both have some attributes in common. The eye seperation defines the distance between the
-eyes and is provided in modell units. You should be very careful with this value as too small or big values will destroy the stereo effect (and may
+eyes and is provided in model units. You should be very careful with this value as too small or big values will destroy the stereo effect (and may
 make people sick...). Finally you need to tell the decorator if it is the left or the right one. This is handeled by a simple boolean variable where true
 indicates the left eye.
 
-OSG::ShearedStereoCameraDecorators are used for typical passive stereo applications, where two beamer are projecting the image and the audience is wearing
+OSG::ShearedStereoCameraDecorators are used for typical passive stereo applications, where two beamers are projecting the image and the audience is wearing
 polarising glasses. They add one additional attribute, the distance to the zero parallax plane. The zero parallax plane is a plane where the left and 
-right image perectly overlap, i.e. the parallax is zero. This value should reflect the distance from the user's point of view to the image plane.
+right image perfectly overlap, i.e. the parallax is zero. This value should reflect the distance from the user's point of view to the image plane.
 
 The following code creates a decorator for the right eye and a corresponding vieport
 
@@ -222,8 +224,9 @@ The following code creates a decorator for the right eye and a corresponding vie
     might have to adjust these values according to your units. 
 </I>
 
-OSG::ProjectionStereoCameraDecorators are mainly used for tracked stereo applicaions like a CAVE. I will not discuss this decorator here unless there
-is a public demand for it ;-)
+OSG::ProjectionStereoCameraDecorators are mainly used for head-tracked stereo applications like a CAVE. I will not discuss this decorator here unless there
+is a public demand for it. ;-) [DR: Wenn noch Zeit ist... aber da das nur wenige Leute haben ist es nicht dringend]
+
 
 \subsubsection TutorialWindowsCameraDecoratorsTile Tile Camera Decorator
 
@@ -231,11 +234,12 @@ This kind of decorator is used to scale some rectangular area up to full viewpor
 areas which are displayed on a dfifferent sceen each. The parameters of the camera can be set up as if you were using one large viewport. This is much easier
 than placing several cameras side by side to archive the same effect. 
 
-In Darmstadt, Germany there is a wall of screens, called HEye Wall, with 6 * 4 screens which is capable of stereo rendering. An 48 + 1 cluster running 
+In Darmstadt, Germany there is a wall of screens, called HEye Wall, with 6 * 4 screens which is capable of stereo rendering. A 48 + 1 node cluster running 
 OpenSG is driving the HEye Wall. Instead of using 48 cameras it is sufficient to use only one single camera and let the decorators do the rest!
 
 \image html heye_wall.png "The Heye Wall in Darmstadt, Germany"
 \image latex heye_wall.eps "The Heye Wall in Darmstadt, Germany" width=6cm
+
 
 \section TutorialWindowsBackground Backgrounds
 
@@ -258,7 +262,7 @@ endEditCP(bg, SolidBackground::ColorFieldID);
 \subsection TutorialWindowsBackgroundGradient Gradient Background
 
 osg::GradientBackground enables you to fill the background with a color gradient. To specify the gradient you can use any number of color keys. Gradients in
-OpenSG are always vertical. Every color key needs a value between 0 (bottom) and 1 (top). If no color key is givin the background will be black, if only one
+OpenSG are always vertical. Every color key needs a value between 0 (bottom) and 1 (top). If no color key is given the background will be black, if only one
 key is given the background will be identical to a solid background with the same color. Regions which are not filled will be drawn in black, too.
 
 \code
@@ -267,7 +271,7 @@ key is given the background will be identical to a solid background with the sam
 
 \subsection TutorialWindowsBackgroundImage Image Background
 
-You also can use images for background with osg::ImageBackground. The image can be scaled to fill the whole viewport, else it will be drawn from the
+You also can use images for the background with osg::ImageBackground. The image can be scaled to fill the whole viewport, else it will be drawn from the
 lower left corner, leaving unoccupied regions in a user defined color. Please notice that the image is not used like a texture, thus image backgrounds are
 not as fast to draw than the others. Setting up an image background is also very simple. The following example will create a background with some image,
 which will not be scaled to fit the viewport and left areas will be drawn black.
@@ -275,15 +279,15 @@ which will not be scaled to fit the viewport and left areas will be drawn black.
 \code
 	ImageBackgroundPtr imBkg = ImageBackground::create();
 	beginEditCP(imBkg,  ImageBackground::ColorFieldMask |
-						ImageBackground::ImageFieldMask |
-						ImageBackground::ScaleFieldMask
+                            ImageBackground::ImageFieldMask |
+                            ImageBackground::ScaleFieldMask
 			   ); 
 		imBkg->setColor(Color3f(0,0,0));
 		imBkg->setImage(some_image);
 		imBkg->setScale(false);
-	endEditCP(imBkg,  ImageBackground::ColorFieldMask |
-						ImageBackground::ImageFieldMask |
-						ImageBackground::ScaleFieldMask
+	endEditCP(imBkg,    ImageBackground::ColorFieldMask |
+                            ImageBackground::ImageFieldMask |
+                            ImageBackground::ScaleFieldMask
 			   );
 \endcode
 
@@ -301,7 +305,7 @@ to make it possible to have two or more overlapping viewports to generate combin
 
 The most exciting background for virtual reality environments is most likely to be the osg::SkyBackground. Inspired by the VRML background node the OpenSG
 sky background is actually a sky box. By setting some parameters you can quickly create a ground-sky environment, but even more interesting is to use six 
-specially designed textures, which then can simulate an infine environment that will move if the user looks around.
+specially designed textures, which then can simulate an infinite environment that will move if the user looks around, but always be infinitely far away, so you don't have to worry about moving out of the skybox.
 
 \image html skybox.png "All six images of a skybox stichted together"
 \image latex skybox.eps "All six images of a skybox stichted together" width = 4cm
@@ -309,7 +313,7 @@ specially designed textures, which then can simulate an infine environment that 
 \section TutorialWindowsForegrounds Foregrounds
 
 Foregrounds are painted on top of the rendered image. They can be used to add a logo or a watermark for example, but a foreground can also be used to grab
-an rendered image into an osg::Image or store it in a file. There can be more than one foreground assigned to a viewport. If that is the case they are evaluted in the same
+a rendered image into an osg::Image or store it in a file. There can be more than one foreground assigned to a viewport. If that is the case they are evaluted in the same
 order as they were added.
 
 \subsection TutorialWindowsForegroundsImage Image Foreground
@@ -319,19 +323,24 @@ image foreground supports correct alpha blending.
 
 \subsection TutorialWindowsForegroundsPolygon Polygon Foreground
 
-The osg::PolygonForeground draws a single polygon with an optional texture on top of the rendered image. It's main purpose is to archive the same results
-as with the default image foreground, but by using a texture rather than an image, which is quite faster to compute as this process can be accelerated by the
-graphics hardware. The usage might be a bit strange (at least it seems to me ;-) ) - you
+The osg::PolygonForeground draws a single polygon with an optional texture on top of the rendered image. It's main purpose is to achive the same results
+as with the default image foreground, but by using a texture rather than an image, which is quite faster to compute as this process is better accelerated by the
+graphics hardware. 
+
+The usage might be a bit strange (at least it seems to me ;-) ) - you
 need a set of 2D points and an equal number of 3D points to define the polygon and it's position on screen. If values for the 2D points are greater than one, 
-the starting point is the lower left corner and for values smaller then -1 are using the upper right corner as origin. 
+the starting point is the lower left corner and for values smaller then -1 are using the upper right corner as origin. This allows you to define polygons that are independent of the viewport size. The 3D pointes define the texture coordinates used by the 2D points, which allows you to use 3D textures as a Foreground, or to pass 3 parameters to the Material used to render the polygon.
+
 
 \subsection TutorialWindowsForegroundGrab Grab Foreground
 
 The osg::GrabForeground can be used to grab a rendered image into an osg::Image. The size and position of the image define the area that will be grabbed. If
 you create the image only and leave it's size to default values (i.e 1D image with 1 pixel) the whole viewport will be grabbed. It might be a bit confusing
 that there is no such method like grab() or anything else that will actually invoke the grabbing process, but the grab is executed every time the frame is 
-rendered. So if you are implementing something like a screenshoot function you should remove the foreground after fetching the image to avoid grabbing one 
+rendered. So if you are implementing something like a screenshoot function you should deactivate the foreground after fetching the image to avoid grabbing one 
 image each frame!
+
+The GrabForeground is inactive by default and needs to be activated by setting its boolean "active" flag to true.
 
 The following example shows how you could set up a grab foreground. We are creating an image in RGBA color mode with size 1 to grab the whole viewport.
 
@@ -343,6 +352,8 @@ The following example shows how you could set up a grab foreground. We are creat
 			grabImage->set(GL_RGBA, 1);
 		endEditCP(grabImage);
 		grab->setImage(grabImage);
+                
+                grab->setActive(true);
 	endEditCP(grab);
 	
 	//mgr is of type osg::SimpleSceneManager
@@ -358,12 +369,12 @@ Whenever a frame is rendered the osg::Image grabImage will store the rendered fr
 \subsection TutorialWindowsForegroundFileGrab File Grab Foreground
 
 osg::FileGrabForeground works pretty much the same way grab foreground does. However as the name implies the result is stored in a file rather than in an
-OpenSG image object. There is a boolean flag to tell the system wether this foreground is avtive or not. Furthermore you do not need to create an image 
+OpenSG image object. There is a boolean flag to tell the system whether this foreground is active or not, inherited from the GrabForeground. Furthermore you do not need to create an image 
 instance as this is done automatically for you, but you have to provide a filename for the image to be stored. You are not limited to storing single files only,
 it is also possible to store image sequences. The filename is given in a printf style thus naming an image "image%d" will lead to an image sequence as 
 an internal frame counter
 will replace the variable in the filename with the counter value. If you use %04d instead you will have leading zeros in your filename which might be very
-useful for other applications that are capable to render a video from an image sequence source.
+useful for other applications that are capable to create a video from an image sequence source.
 
 \subsection TutorialWindowsForegroundSimpleStatistics
 
@@ -377,7 +388,7 @@ same as simple statistics foreground
 
 As promised, we are going to build an application which will show a torus only. Again? Well, this time we are doing it from bottom up, without 
 the comfortable support of the simple scene manager! Additionally we are going to use nice backgrounds and a logo in the foreground and add a screenshot feature
-which will grab the rendered image and saves it in a file! To make the whole thing complete we are going to use two viewports thus we are having two different
+which will grab the rendered image and save it in a file! To make the whole thing complete we are going to use two viewports thus we are having two different
 viewing angles on our sceen! So here we go:
 
 Here is an overview of what we are going to do.
@@ -413,7 +424,7 @@ the lazy ones, like me, you can of course simply include "OSGSimpleSceneManager.
 
 As long as not stated otherwise all coming blocks of code should be added to the bottom of the file, i.e. below the block you just added. 
 
-Allright, now activate the OpenSG namespace, because we do not want to begin with osg:: every time
+Alright, now activate the OpenSG namespace, because we do not want to begin with OSG:: every time
 
 \code
 OSG_USING_NAMESPACE
@@ -457,7 +468,7 @@ int main(int argc, char **argv)
 \endcode
 
 Normally we would create the scenegraph now and create an instance of the simple scene manager. This time we will create a node with a group node, which will 
-be a palceholder for the scenegraph we add later on.
+be a placeholder for the scenegraph we'll add later on.
 
 \code
 	NodePtr scene = Node::create();
@@ -466,7 +477,7 @@ be a palceholder for the scenegraph we add later on.
 	endEditCP(scene);
 \endcode
 
-As far as well... we now can begin with creating some needed objects, the simple scene manager would have taken care of otherwise. As we want two different views
+Now we can begin with creating some needed objects the simple scene manager would have taken care of otherwise. As we want two different views
 on the same scene, we need two viewports and two cameras.
 
 \code
@@ -491,10 +502,10 @@ on the same scene, we need two viewports and two cameras.
 	endEditCP(rightCamera);
 \endcode
 
-So we just created two cameras with an field of view angle of 90 degrees. The near clipping plane is 0.1 units away from the camera where the far clipping plane
+So we just created two cameras with a field of view of 90 degrees. The near clipping plane is 0.1 units away from the camera where the far clipping plane
 is 100 units away. 
 
-Good, next we need a background. We decieded previously to have one gradient and one image background. 
+Good, next we need a background. We decided previously to have one gradient and one image background. 
 
 \code
 	GradientBackgroundPtr leftBkg = GradientBackground::create();
@@ -551,8 +562,8 @@ the viewports (i.e. camera, background and a root node).
 \endcode
 
 As you can see, both viewports are of course quite similar. They both now have a camera, the corresponding background, the same root node and different sizes.
-If you recall what we have said about sizes of viewports earlier you can see, that we now have a viewport which covers the left have of the screen whereas the
-other covers the right have. We have provided the size not in pixel format, so the viewports will scale as the window is being resized. 
+If you recall what we have said about sizes of viewports earlier you can see, that we now have a viewport which covers the left half of the screen whereas the
+other covers the right half. We have provided the size not in pixel format, so the viewports will scale as the window is being resized. 
 
 Finally we complete the main() function by creating the window and the render action that will be needed for actually rendering the windows content
 
@@ -621,7 +632,7 @@ the beginning of the main() function
 	endEditCP(scene);
 \endcode
 
-anr replace them with our well know call of
+and replace them with our well know call of
 
 \code
 	scene =createScenegraph();
@@ -686,7 +697,9 @@ now we fill the three nodes we just created with life:
 	// -- end of camera beacon creation
 \endcode
 
-All three nodes now contain a transformation core with some different transformation matrix. Relativ to the origin, the first camera is located in the upper 
+<i>(Note that this can be quite a bit more compact when using CPEdit and makeCoredNode(), if you can use a more current version than 1.2.)</i>
+
+All three nodes now contain a transformation core with a different transformation matrix. Relative to the origin, the first camera is located in the upper 
 left corner where as the second is in the lower right, both 10 units away along the z axis. The light will be located 10 units above the origin. 
 
 Next, we create the light source for the scene. As we have only very simple geometry in our scene, one directional light should be sufficient. 
@@ -744,8 +757,7 @@ Now try to compile and execute the application. It should look like this
 \image html 2viewports.png "Two different viewports on the same scene"
 \image latex 2viewports.eps "Two different viewports on the same scene" width = 4cm
 
-As you can see, the torus is displayed from two different positions. This is really not a miracle as we have defined different locations for both cameras. As
-far as well, but if you resize the window, the viewports are not scaled correctly altough they should! The reason is, that we have not specified the GLUT 
+As you can see, the torus is displayed from two different positions. This is really not a miracle as we have defined different locations for both cameras. This is nice, but if you resize the window, the viewports are not scaled correctly altough they should! The reason is, that we have not specified the GLUT 
 reshape callback function. Add this line to the setupGLUT() function
 
 \code
@@ -767,40 +779,40 @@ If you compare this function with the previous reshape function you will notice 
 object with the window object. 
 </I>
 
-Now the application can be resized correctly. We are still missing functionality, we wanted to implement: the foreground is still missing as well as the snapshot
+Now the application can be resized correctly. We are still missing functionality we wanted to implement: the foreground is still missing as well as the snapshot
 feature. First we create a foreground which will display a png file in the right viewport. In the main() function locate the lines that say
 
 \code
-	rightViewport->setRoot(scene);
-		rightViewport->setSize(0.5,0,1,1);
-	endEditCP(rightViewport);
+    rightViewport->setRoot(scene);
+    rightViewport->setSize(0.5,0,1,1);
+    endEditCP(rightViewport);
 
-	//and the render action - more on that later
-	renderAction = RenderAction::create();
+    //and the render action - more on that later
+    renderAction = RenderAction::create();
 \endcode
 
 and add the following new code right before the renderAction is created.
 
 \code
-	// add an logo foreground to the right viwport
-	
-	//load the logo image file
-	ImagePtr frgImage = Image::create();
-	beginEditCP(frgImage);
-		frgImage->read("data/logo.png");
-	endEditCP(frgImage);
-	
-	ImageForegroundPtr imgFrg = ImageForeground::create();
-	beginEditCP(imgFrg);
-		//NOTE: the position values are between 0 and 1
-		//and are relative to the viewport!
-		imgFrg->addImage(frgImage,Pnt2f(0.1,0));
-	endEditCP(imgFrg);
+    // add a logo foreground to the right viwport
+
+    //load the logo image file
+    ImagePtr frgImage = Image::create();
+    beginEditCP(frgImage);
+        frgImage->read("data/logo.png");
+    endEditCP(frgImage);
+
+    ImageForegroundPtr imgFrg = ImageForeground::create();
+    beginEditCP(imgFrg);
+	    //NOTE: the position values are between 0 and 1
+	    //and are relative to the viewport!
+	    imgFrg->addImage(frgImage,Pnt2f(0.1,0));
+    endEditCP(imgFrg);
 \endcode
 
 Now we have loaded an image from a file like we did for the image background. After that, we created the image foreground and simply added the image. The
 position I provided via Pnt2f is the location of the image relative to the lower left corner of that viewport. As these values are smaller than one, these
-are meant realtive the same way when defining sizes of viewports.
+are meant relative the same way when defining sizes of viewports.
 
 The foreground still would not be visible, because we need to add it to the foreground field of a viewport. That is done by the following line of code
 
@@ -829,7 +841,7 @@ We added the foreground the same way we did with the image foreground. We only s
 it's active flag to false, to avoid that the applications starts to shot screenshots right at the beginning. Rather we want to de-/ activate this feature
 by pressing the 's' key. Maybe you find the filename a bit unusual - if I would have set it to "data/screenshot.jpg" every screenshot taken, would have 
 overwritten that file. Of course that can be exactly what you want, but I decided, we want to have a series of images taken. The %d is replaced by some
-internal counter varibale and %04d means that there are leading zeros until four digits are used. Therefore the images series is screenshot0001.jpg 
+internal counter variable and %04d means that there are leading zeros until four digits are used. Therefore the images series is screenshot0001.jpg 
 screenshot0002.jpg and so on. 
 
 Let us add the keyboard callback to enable the user to switch screen capturing on and off. Add this to the setupGLUT function
@@ -848,33 +860,32 @@ void keyboard(unsigned char k, int x, int y){
             exit(1);
         }
         break;
-		
-		case 's':
-			// The return value is actually a pointer to on osgPtr class
-			// I don't know if that makes much sense at all...
-			MFForegroundPtr foregrounds = *(window->getPort(1)->getMFForegrounds());
-			FileGrabForegroundPtr fg = FileGrabForegroundPtr::dcast(foregrounds[1]);
-			
-			if (!fg->getActive()){
-				std::cout << "start recording..." << std::endl;
-				fg->setActive(true);
-			}else{
-				std::cout << "stopped" << std::endl;
-				fg->setActive(false);
-			}
-		break;
+
+	case 's':
+		// The return value is actually a pointer to on osgPtr class
+		// I don't know if that makes much sense at all...
+		MFForegroundPtr foregrounds = *(window->getPort(1)->getMFForegrounds());
+		FileGrabForegroundPtr fg = FileGrabForegroundPtr::dcast(foregrounds[1]);
+
+		if (!fg->getActive()){
+			std::cout << "start recording..." << std::endl;
+			fg->setActive(true);
+		}else{
+			std::cout << "stopped" << std::endl;
+			fg->setActive(false);
+		}
+	break;
 	}
 }
 \endcode
 <I>
 	This one looks a bit more complicated... well, if the 's' key is pressed we enter the corresponding case statement, where we first get an 
-	osg::MFForegroundPtr variable, which is actually a muli field that contains all osg::ForegroundPtr of this specific viewport. The viewport we have
+	osg::MFForegroundPtr variable, which is actually a multi field that contains all osg::ForegroundPtr of this specific viewport. The viewport we have
 	chosen is the right one with the image background. Remember we added the viewport with the gradient background first, which will become viewport 
-	number 0 and the right viewport therefore becoming number 1 which we got above the call of 'window->getPort(1)'. Unfortunately the return result of 
-	getMFForegrounds() is actually a pointer to the osg::MFForegroundPtr datastructure. I am not quite sure if that was intended as in most cases this is
-	handeled different, but anyhow we simply dereference the pointer and now have the multi field correctly stored. In the next line we 'extract' the 
+	number 0 and the right viewport therefore becoming number 1 which we got above the call of 'window->getPort(1)'. The return value of 
+	getMFForegrounds() is actually a pointer to the osg::MFForegroundPtr datastructure. We simply dereference the pointer and now have the multi field correctly stored. In the next line we 'extract' the 
 	osg::FileGrabForeground which is number 1, because we first added the image foreground which is number 0 - same procedure as with the viewport numbers.
-	However, the multi field stores osg::ForegroundPtr and we need to downcast it to the correct type. As we now that this foreground is a file grab foreground,
+	However, the multi field stores osg::ForegroundPtr and we need to downcast it to the correct type. As we know that this foreground is a file grab foreground,
 	we invoke a dynamic cast. Finally we have the foreground we are looking for and can now set the active attribut.
 	
 	By the way: I know that it would be easier to store the foreground as a global variable, but I wanted to show you how elements of OpenSG can be retrieved

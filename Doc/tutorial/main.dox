@@ -2,7 +2,7 @@
 
 using namespace OSG;
 
-/*! \mainpage Preface
+/*! \page Preface Preface
 
 \latexonly Starter:NewChapter \endlatexonly
 
@@ -32,4 +32,6 @@ not have downloaded this piece of software ;-)
 
 If you have not downloaded and installed OpenSG you should start off here : 
 \ref TutorialIntroduction
+
+
 **/

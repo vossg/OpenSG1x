@@ -14,13 +14,13 @@ Chapter Overview
     \ref BasicColor<br>
     \ref BasicNode<br>
     \ref basicNodeNames<br>
-	\ref BasicNodeVolumes<br>
+    \ref BasicNodeVolumes<br>
     \ref BasicCores<br>
     \ref TutorialBasicTutorial<br>
     \ref BasicFieldContainer<br>
     \ref TutorialBasicEditingFieldContainers<br>
-	TutorialBasicFieldContainerCoredPtr<br>
-	\ref TutorialBasicStandardGeometry<br>
+    \ref TutorialBasicFieldContainerCoredPtr<br>
+    \ref TutorialBasicStandardGeometry<br>
     \ref TutorialBasicTutorial2<br>
     \ref TutorialBasicImages<br>
     \ref TutorialBasicTutorial3<br>
@@ -29,40 +29,46 @@ Chapter Overview
     \ref TutorialBasicExercises<br>
 <HR>
 
-If you have read this online tutorial right from the beginning, you are now able to install OpenSG, you know a few things about GLUT as well as the 
+If you have read this tutorial right from the beginning, you are now able to install OpenSG, you know a few things about GLUT as well as the 
 Simple Scene Manager and you have compiled and executed your first program. Well that is good, but you need to know a bit more
-before you write your first real application. In this chapter I will show you the basic things of OpenSG, that is: 
+before you write your first real application. 
+
+In this chapter I will show you the basic things of OpenSG, that is: 
 <UL>
     <LI>math using OpenSG classes</LI>
     <LI>creating new nodes and cores</LI>
-    <LI>Fieldcontainer</LI>
+    <LI>Fieldcontainers</LI>
     <LI>Images</LI>
     <LI>Loading and saving</LI>
 </UL>
 
+<I>Note:
+A general comment about the class documentation that is referenced here sometimes: OpenSG uses C++ inheritance and templates quite extensively to simplify creating variants of classes that have similar functionality but different types. As a result, when looking at the documentation for a class like osg::Matrix, some of the documentation and some of the useful methods might actually be in the parent class osg::TransformationMatrix. So if in doubt, generally check the parent classes for functionality, too.
+</I>
+
 \section Datatypes Datatypes
 
-OpenSG has it's own base types for integers and floats. In many cases you can get along by using int, float etc. as you normally
-would, but if you want to develop a cross platform application it might be safer to use the OpenSG wrapper base types. 
+OpenSG has its own base types for integers and floats. In many cases you can get along by using int, float etc. as you normally
+would, but if you want to develop a cross platform application it is safer to use the OpenSG wrapper base types. 
 
 These types can be easily identified by their names
 <TABLE>
   <TR>
-    <TD>[U]Int<I>N</I></TD><TD><I>N</I> defines how many bits to use.8, 16, 32 or 64 is allowed. The optinal U stands for unsigned </TD>
+    <TD>[U]Int<I>N</I></TD><TD><I>N</I> defines how many bits to use. 8, 16, 32 or 64 are supported. The optinal U stands for unsigned </TD>
   </TR>
   <TR>  
-    <TD>Real<I>N</I></TD><TD>Floating point with either N = 32, 64 or 128 (bytes)</TD>
+    <TD>Real<I>N</I></TD><TD>Floating point with either N = 32, 64 or 128 bits precision</TD>
   </TR>
 </TABLE>
 
-An unsigned 32 bit integer is therefore <I>UInt32</I>. The reason for using these wrapper is, that the usual "int" variable is 32 bits
+An unsigned 32 bit integer is therefore <I>UInt32</I>. The reason for using these wrapper is that the usual "int" variable is 32 bits
 long for most systems... but not for every system. By using Int32 you do not have to care, you can be sure that this type is always
 that long.
 
 \section BasicMath The Math Stuff
 
-OpenSG comes together with it's own classes for calculating with Vectores, Matrices etc. We all know that there are approximately a 
-thousand other math libraries which are more or less equal powerful. If you are in need of lots of mathematical computations and high
+OpenSG comes with it's own classes for doing calculations with Vectors, Matrices etc. We all know that there are approximately a 
+thousand other math libraries which are more or less equally powerful. If you are in need of lots of mathematical computations and high
 performance is very critical to you, you may consider using another software component for these tasks, but in every other case, you will
 be fine with OpenSG's build in functions.
 
@@ -104,7 +110,7 @@ The one you need in many circumstances is most likely to be Vec3f, a three dimen
 
 \subsection BasicMathWorkinfWithVectors Working with vectors
 
-The OpenSG vector classes can do everything you expect from them and probably even more ;-). Here is an overview of the most important
+The OpenSG vector classes can do everything you expect from them and probably even more. ;-) Here is an overview of the most important
 operations. Have a look at osg::Vec3f (or any other vector) for a full list of their methods
 
 \code
@@ -144,35 +150,16 @@ if (v==w)
     cout << "these vectors are equal" << endl;
 \endcode
 
-If you have never written an own class with overloaded operators, you should keep the following in mind:
-OpenSG has an overloaded operator for the * (multiplication) with vectors, which yields the scalar product.
-Thus you can write
-
-\code
-	//v some vector
-	
-	Vec3f result = v * 4; 
-\endcode
-
-However the type with the overloaded operator has to be left of the operator. The following is not a valid commmand:
-\code
-	Vec3f result = 4 * v;
-	//This will cause an compiler error
-\endcode
-
-The compiler does not know how to multiply 4 with a vector, he only knows how to multiply a vector with 4. So please keep
-that in mind. That knowledge can save you a big amount of debugging time ;-)
-
 \subsection Basicpoints Points
 
 Points are quite similar to vectors. They come in all the same variants like vectors, only replace "Vec"
 by "Pnt" and you have it. The difference compared to vectors is that points mark a definite location
 within the spacial domain, where vectors are not bound to a specific point as they represent a 
-direction or power (you remember ;-)...)
+direction or power (remembering your math and physics lessons now ;-)...)
 
 Let us say points are vectors with some fewer possibilities. Of course points cannot be normalized and
 there is no dot product between two points. Please notice that two Points can be added neither! If you
-need to convert between vectors and points, there are two useful methods to do that
+need to convert between vectors and points, there are two useful methods to do that very efficiently
 
 \code
 
@@ -186,12 +173,12 @@ p = v.addToZero();
 
 \subsection BasicColor Colors
 
-Colors, too, are similar to vectors. They are available in three or four dimensions, where the fouth
+Colors, too, are similar to vectors. They are available in three or four dimensions, where the fourth
 dimension represents the alpha channel, whereas the first three are RGB color channels. The color
-classes support also the HSV color modell. They have named access methods (red, green and blue)
+classes support also the HSV color model. They have named access methods (red, green and blue)
 with which you can access the values in a more reasonable way than with color[0]. Furthermore
 scalar multiplication is possible but most other operations known from vectors are missing as they
-are not needed.
+are generally not needed.
 
 Detailed information about the methods for colors can be found at osg::Color3f
 
@@ -206,6 +193,8 @@ In OpenSG matrices are stored column major like shown in the next picture
 
 \image html matrix_storage.png "Storage of a matrix in memory"
 \image latex matrix_storage.eps "Storage of a matrix in memory" width=8cm
+
+Note that this is not how 2D arrays are usually stored in C/C++, but it is consistent with how OpenGL stores matrices.
 
 The first column vector can be retrieved with a simple matrix[0]. Storing the values in this manner 
 has a little advantage compared to row major storage as you can easily access the matrix coordiante
@@ -232,7 +221,7 @@ Matrix m;
 
 m = Matrix(1,0,0,2,0,2,0,2,0,0,1,3,0,0,0,1);
 // ATTENTION : noticed something? The arguments are passed row major! This applies to
-// this specific constructor only!
+// this specific constructor only and is done to simplify copying matrices from paper!
 
 // if we had base vectors like this...
 Vec4f v1 = (1,0,0,0);
@@ -250,7 +239,7 @@ m = Matrix (v1,v2,v3,v4);
 // this one resets the matrix to identity
 m.setIdentity();
 
-// we set the scale factor
+// we set the scale factor(s)
 m.setScale(1,2,1);
 // and the translation
 m.setTranslate(2,2,3);
@@ -293,17 +282,21 @@ can see, it is safe to set a translation and scalation at once, as these share n
 you do not want in most cases. You need then to multiplicate two seperte matrices correctly...
 </I>
 
-Have a look at osg::Matrix for a complete list of all setter methods available.
+If you want to create a Matrix of a specific kind (transform, scale, rotate...) you can use
+the \c setTransform method. It is overloaded and there are a number of varieties that 
+create different things, depending on the passed arguments. The most common ones are using a single Vec3f as an argument for a translation, a single Quaternon for a rotation, or a Vec3f and a Quaternion for rotation and translation.
+
+Have a look at osg::Matrix for a complete list of all set and get methods available.
 
 \subsection BasicQuaternion Quaternions
 
-The last topic for this OpenSG-math-quick-tour are quaternions. The background of quaternions is quite
-not simple to understand, but do not worry, you can use them without knowing how they actually work - I can
-stand proof for that ;)
+The last topic for this OpenSG-math-quick-tour are quaternions. The background of quaternions is 
+not really easy to understand, but do not worry, you can use them without knowing how they actually work - I can
+stand proof for that. ;)
 
 So what are quaternions about? You might know that interpolating between rotation matrices does not
 work that well. That is if you have a matrix describing a 30 degree rotation around the y axis and 
-another matrix doing the same with 60 degree you just cannot interpolate between these two for an 
+another matrix doing the same with 60 degree you just cannot interpolate the matrix elements between these two for an 
 animation. 
 
 Quaternions are an execellent solution to this problem. They are described by an angle and a vector.
@@ -315,6 +308,9 @@ The angle is the amount that you want to rotate around the vector you provided.
 <I>
 This quaternion is described by a vector, which could be approximately v=(1.5,3,0.5). For example, if the provided angle would be 30 deegres, then
 the entire scene would be rotated by 30 degrees around the axis defined by that vector v. You see, rotations have never been so easy!
+
+Note that internally the quaternions only use and store normalized vectors, as the length
+of the vector is irrelevant for describing the rotation.
 </I>
 
 
@@ -325,7 +321,7 @@ the situation described above
 
 \code
 
-// well this is a bit theroetically... we will have more real-world examples 
+// well this is a bit theroetical... we will have more real-world examples 
 // within the next tutorial
 
 // we need a quaternion and a matrix
@@ -348,7 +344,10 @@ for (int t = 0; t < 30; t++){
 If you do not like radians you can also use degree by invoking 
 <PRE>q.setValueAsAxisDeg(Vec3f(...), 90)</PRE>
 
-Furthermore standard operations like length(), normalize(), inverse(), multiplication, slerp and
+The big deal about quaternions is that you can interpolate between quaternions quite nicely, using the slerp() member function. As quaternions always define rotations using slerp() 
+always gives you a valid rotation that linearly (i.e. with constant speed) interpolates between the input rotations.
+
+Furthermore standard operations like length(), normalize(), inverse(), multiplication and
 others are possible. Detailed information are here : osg::Quaternion
 
 \section BasicNode Nodes
@@ -362,14 +361,14 @@ hierarchy of the graph only! Here is a simple graph we want to build:
 \code
 
 //First, we create all the nodes we need
-osg::NodePtr grandpa = osg::Node::create();
-osg::NodePtr aunt = osg::Node::create();
-osg::NodePtr mother = osg::Node::create();
-osg::NodePtr me = osg::Node::create();
+NodePtr grandpa = Node::create();
+NodePtr aunt    = Node::create();
+NodePtr mother  = Node::create();
+NodePtr me      = Node::create();
 
 // uh, what is happening here???
 // I guess you expected somthing like
-// Node n = Node();
+// Node n = Node(); or Node *n = new Node();
 // do not worry, explanation will follow hereafter...
 
 // now we create the hierarchy
@@ -387,7 +386,7 @@ endEditCP(mother);
 \endcode
 
 Please do not wonder about that strange begin- and endEditCP thing. For now you only need to know, that we need
-these whenever we want to modify an OpenSG object (excluding basic math types and some other). We will learn more 
+these whenever we want to modify an OpenSG object (excluding basic math types and very few other). We will learn more 
 about it in section \ref TutorialBasicEditingFieldContainers.
 But for now we will be fine with the way it is.
 
@@ -400,7 +399,7 @@ code from our \ref FirstAppTutorial and replace the following line
 \endcode
 
 with the example code from above. But be carful, with grandpa it will not work, you have to rename him
-to "scene", because the Simple Scene Manager is told to use scene as root.
+to "scene", because the Simple Scene Manager is told to use scene as root. Or you can change the code to <pre>mgr->setRoot(grandpa);</pre>, whichever you prefer.
 
 And? Did it work? We will come back later to this little example.
 
@@ -410,49 +409,73 @@ You might wonder why objects are instantiated this unsual way. Actually the "nor
 for most OpenSG objects.
 In fact calling
 
-<PRE> Node n = Node() </PRE>
+<PRE>Node n = Node()</PRE>
 will get you an error during compiling like this one
-<PRE> osg::Node::Node() is protected within this context </PRE>
-Well, that is looking bad. What to do, if the constructor is obviously not public thus it cannot be called.
-I remember still when I faced this probem and wondered about it. 
+<PRE>osg::Node::Node() is protected within this context</PRE>.
 
-Actually every class that is derived from FieldContainer has protected constructors whereas other classes, 
+Well, that is looking bad. What to do, if the constructor is obviously not public thus it cannot be called.
+I still remember when I faced this probem and wondered about it. 
+
+Actually every class that is derived from osg::FieldContainer has protected constructors. This includes pretty much all high-level objects like Nodes for the graph, Materials, Textures, Images etc. Other, lower-level, classes, 
 like the math classes we just saw, have their constructors declared public as usual. So if you are unsure 
-wether you can use the constructor as usual, just have a look at the inheritance diagramm and if none of
+whether you can use the constructor directly, just have a look at the inheritance diagramm and if none of
 the parents is of type FieldContainer then it will work. In [TODO] Chapter(xxx) I'll explain how you
 can find the inheritance diagramm in the doxygen documentation.
 
 If that is not the case, you must invoke the static create() method as you saw above. This static method
-wrapps the constructor. It is done this way to ensure multithread safty, but we will discuss that in
-an own chapter (\ref Multithreading).
+wraps the constructor. It is done this way for different reasons, the most important being able to ensure multithread safety, but we will discuss that in
+a separate chapter (\ref Multithreading).
 
-\subsection BasicNodePtr Smart Pointer
+One consequence of the constructor not being public is not you can't create arrys 
+of OpenSG objects, so code like 
+
+\code
+Node myNodes[20];
+myNodes[0] = Node();
+\endcode
+
+doesn't work. This is not a real problem, as the objects are too big to be passed 
+around by value anyway, and you should use pointers to them instead. Which brings 
+us to the <pre>...Ptr</pre> classes.
+
+\subsection BasicNodePtr What are these Ptr thingies?
 
 Alright, we now understand when we have to use create, but another strange thing is, that the
-variable which represents a node is not of type "Node", but "NodePtr". take it as a rule of thumb:
-For every <I>object</I> created with ::create() the returning type is a corresponding <I>objectPtr</I>.
+variable which represents a node is not of type "Node" or "Node *", but "NodePtr". Take it as a rule of thumb:
+For every <I>object</I> created with ::create() the return type is a corresponding <I>objectPtr</I>.
 
 Here are some examples
 \code
 NodePtr n = Node::create();
 TransformPtr t = Transform::create();
-GeometryPtr geo = Geometry::create()
-ShearedStereoCameraDecoratorPtr sscd = ShearedStereoCameraDecorator::create();
+GeometryPtr geo = Geometry::create();
+ShearedStereoCameraDecoratorPtr sscd = ShearedStereoCameraDecorator::create(); 
+// yes, that is an actual class, and a very useful one at that ;)
 \endcode
 
-I think you get the picture. These Ptr classes are smart pointer. That means if you pass them around to
-other methods you copy only a pointer (i.e a pointerclass) and not the actual object. This is very 
-important to know. Let us imagine you have a GeometryPtr which points to model of a tree which is as large
-as 5 MB. It actually does make a big difference if you pass the whole 5 MB or just the tiny pointer 
-to another method. As I assume that you are familiar with the concept of pointers you might say, that this
-is not very special as that is what a pointer does. The smart thing with these pointers from OpenSG is, 
-that they are multithread safe and that you do not need to manually delete them in most cases as these
-are reference counted. If you create an object it has an reference count of zero. Some operations like adding
-it as a child to another node increses the reference count by one, whereas others decrease it by one 
-(this is for example deleting a child). Whenever the reference count goes down to zero the object is deleted
-auomatically. This is very nice to work with, but there are also some aspects to take care about.
+I think you get the picture. The Ptr classes act as pointers in pretty much any  way. You
+can dereference them using <pre>*</pre> and call member functions on them using 
+<pre>-></pre>. The limitation is that you can't do pointer arithmetic on them and they
+can't be used to represent arrays of objects, every Ptr always points to one object. But that is not a real limitation, you can (and should) use arrays of Ptrs just like arrys of pointers quite easily.
 
-This little example demonstrates what can go wrong with smart pointers
+Standard pointers have a defined value to indicate they are unset or invalid, the NULL constant. Given that the Ptrs are actualt classes, you can't compaer them to NULL. Instead there is a special value NullFC (for NULL FieldContainer), that can be used instead. It is recommended to check FieldContainerPtr against this value before dereferencing them, just like you should check normal pointers for NULL before using them.
+
+\subsection BasicRefCounting Cleaning up after yourself - Reference Counting
+
+One of the problems of the C++ language is keeping track of and deallocating memory.
+Other languages like Java solve by garbage collection, i.e. the Java runtime environment keeps track of all objects and object references in a program. Every now and then it goes through all the references and finds the objects that no reference any more, which means that the program has no way to access that object any more. These objects' memory is freed.
+The problem with this approach lies in the time the garbage collector takes every now and then, which for large or long-running programs can lead to annoying pause periods while the garbage collector is running, which is a serious problem for interactive or real-time programs.
+
+C++ doesn't have garbage collection, and is designed for explicit memory managament using new and delete. It's the program's resposibility to know when an object is not used anymore and call delete on it. This can become pretty tedious, espcially in a system where objects point to each other from different directions, which is a pretty nice characterisation of a scenegraph. Nodes point at their children, Geometries point at their Materials etc. For an application it would very hard to keep track of all these references to know when to delete the memory of an object.
+
+Therefore OpenSG implements an approach known as reference counting. Each object derived from FieldContainer has a counter for all the references (i.e. pointers, or, more exact Ptrs) to it. If this counter goes to zero, the program can't access the object anymore, and the object's memory can be freed. This relieves the program from all responsibility of memory management.
+
+Not quite. Reference counting is not free. The reference count needs to be kept consistent to be useful, and in a multi-threading environment that means locking. Locking can get pretty expensive, especially for a common operation like setting eh value of a pointer. This happens a lot, especially for passing objects around as parameters to functions. if OpenSG had to lock the reference count of all parameter objects for every function call, the cost would be prohibitive.
+
+Therefore this responsibility rests on the shoulders of the application writer, i.e. you.
+The two functions <pre>addRefCP()</pre> and <pre>subRefCP()</pre> increment and decrement the reference count of an object. When it goes to or below zero the object is destroyed. Objects are created with a reference count of zero. 
+
+The system helps where it can, in places like setting attributes of scene graph objects (e.g. setting the Material of a Geometry) or adding or subbing Nodes to/from other Nodes it automatically changes the reference count. This takes care of most cases, but can have some unexpected consequences, like the following pice of code demonstrates:
 
 \code
     Node a = Node::create();
@@ -479,8 +502,8 @@ This little example demonstrates what can go wrong with smart pointers
 Well, looks good, does it not? Actually your compiler will not complain about it, as it is correct in it's syntax, but if
 you run an application with this piece of code it will crash! Think about, why it will crash, before reading ahead...
 
-Okay, no big deal? The explanation stands right above the code... when we call subChild on a the reference
-count is reduced from one to zero and is then immediatly deleted from memory. When we want add a to c we 
+Okay, no big deal? The explanation stands right above the code... when we call subChild on a Node the reference
+count is reduced from one to zero and it is immediatly deleted from memory. When we want add a to c we 
 are operating on a non existent object - and that is never good.
 
 So if you want to change parents of a node you need to make sure that it's reference count stays above zero.
@@ -527,18 +550,57 @@ the correct code
     endeditCP(c);
 \endcode
 
-The usage of add- and subRefCP might seem a bit confusing at the beginning, but it really does make sense. By the way,
-the current operating system of Macintosh systems, Mac OS X, is also using the smart pointer concept!
+\subsubsection BasicRefPtr RefPtr - as smart as it gets
+
+This can become tedious and lead to unexpected failures, therefore versions after 1.2 add a helper class that automates refcounting a little more (told ya using a newer version was better!). These are known as Smart Pointers, in OpenSG the class is called <pre>RefPtr<></pre>.
+
+A RefPtr is just like any other pointer, except that it automatically increments and decrements the reference count of an object assigned to it. So when you set a RefPtr, its current object's refcount in decremeneted, and the new objects refcount is incremented. When the RefPtr object is destroyed, the object's refcount is also decremented.
+
+An example:
+
+\code
+    #include <OpenSG/OSGRefPtr.h>
+
+    void moveNode(NodePtr parent, NodePtr newparent, int childnum)
+    {
+        RefPtr<NodePtr> c = parent->getChild(childnum); // refcount++, to make sure it survives
+        
+        beginEditCP(parent);
+            parent->subChild(c); // refcount--, but the RefPtr keeps it safe
+        endEditCP(parent);
+        
+        beginEditCP(newparent);
+            newparent->addChild(c);
+        endEditCP(newparent);
+        
+    } // refcount--, as the RefPtr is destroyed
+    
+    RefPtr<NodePtr> a = Node::create(); // we use this Node, keep it alive
+
+    beginEditCP(a);
+        a->addChild(Node::create()); // the new nodes refcount is now 1
+    endEditCP(a);
+
+    RefPtr<NodePtr> b = Node::create(); // keep this alive, too
+
+    moveNode(a, b, 0);    
+    // a has no children now, b has one
+\endcode
+
+This is a non-standard use of the RefPtr, just to show what it does. In general, as a rule of thumb, I'd recommend using RefPtrs for all the pointers that are kept and used outside the function they're first used in. This applies to Ptrs that are global variables or kept in your own classes. Don't generally use them for temporary variables, the example above shows where it can make sense, but in general it's not necessary.
+
+Reference counting can seem imposing at first, but it is extemely useful, and the RefPtr takes most of the tedium out of it. As it is only available is versions later than 1.2, it is not used in these tutorial examples, but if you can, use them in your own programs.
+
 
 \section basicNodeNames Naming your nodes
 
 When working with big scenes it can be very useful to name your nodes. For instance you could name your node which holds
 the geometry for a car "car_geo". You will see that it will be much easier to search your graph for a node with a known
-name. In Chapter \ref Modelling we will learn how to use modelling software like Studio Max in conjunction with OpenSG. At this point
-I only want to mention that if you have named parts of your modell, you can search for these nodes by using exactly the same
-names as specified in your modelling software.
+name. In Chapter \ref Modeling we will learn how to use modeling software like 3D Studio Max in conjunction with OpenSG. At this point
+I only want to mention that if you have named parts of your model, you can search for these nodes by using exactly the same
+names as specified in your modeling software.
 
-It is very easy to assign a name to you nodes. Here is an example
+It is very easy to assign a name to your nodes. Here is an example
 
 \code
 
@@ -548,7 +610,7 @@ It is very easy to assign a name to you nodes. Here is an example
 NodePtr n = Node::create();
 
 // now we assign a name of our choice
-setName(n, "Karl-Eberhard");
+setName(n, "BigScene");
 
 // if we want to extract the name later on...
 if (getName(n))
@@ -556,7 +618,7 @@ if (getName(n))
 \endcode
 
 It is very important to check if the result of getName() is true. If you skip the if clause and use the result right away, your
-program will crash if no name was set!
+program will crash if no name was set, as getName() returns NULL in that case!
 
 Later I will introduce a helper class which searches the whole graph and returns the node matching a given name. (see \ref TutorialNodeCoresTutorial)
 However that is not the optimal way to traverse the graph - of course there are some powerful functions that you can use to traverse the graph fast. This 
@@ -564,9 +626,9 @@ will be discussed in chapter \ref Traversal
 
 \section BasicNodeVolumes Volumes
 
-Every node has an axis aligned bounding volume. That is the smallest possible box, contaning all polygons, with all edges parallel to the axis of the 
+Every node has an axis-aligned box as a bounding volume. That is the smallest possible box, containing all polygons, with all edges parallel to the axis of the 
 coordinate system. As you might know or guess, these bounding volumes are used to speed up several 
-processes like casting a ray or checking if an object is within the frustum of the camera. If you want to know wether a ray hits 
+processes like casting a ray or checking if an object is within the frustum of the camera. If you want to know whether a ray hits 
 an object with 20.000 polygons or not, you can first test against it's bounding box  and if that box is not hit the object can not be
 hit, saving you a lot of intersection tests. 
 
@@ -580,7 +642,7 @@ do so by invoking the following on any node
 \code
 n->invalidateVolume()
 \endcode
-Note that these updates will walk the graph back up. If a bounding box of any node is recalculated so is the bounding box of the node's 
+Note that the invalidation will walk the graph back up. If a bounding box of any node is invalidated so is the bounding box of the node's 
 parent. That will be repeated until the root node is reached.
 
 The volume is stored at the node level (cores do not carry a volume) and they can be aquired by the following command
@@ -590,11 +652,11 @@ The volume is stored at the node level (cores do not carry a volume) and they ca
 	DynamicVolume &vol = n->getVolume(false);
 \endcode 
 
-The boolean parameter specifies wether the bounding volume hierarchy should be updated or not. You have now several possibilities to work on the volume. With
+The boolean parameter specifies whether the bounding volume should be updated or not. You have now several possibilities to work on the volume. With
 the help of the intersect() method can can test manually if an osg::Point is inside the volume or if an osg::Line or an osg::Volume intersects the volume. Also
 you can extend the volume with another point. Very important is the possibilty to avoid updating of the volume. Later (\ref TutorialGeometryUtilities) we will
-create a water model from bottom up, which will bbe animated. That means that the volume will be updated every single frame (and also all parents) which is
-not necessary in every situation. So it would be a good idea, to set the volume to the maximum extend and disbale updating of that single volume. The following
+create a water model from the bottom up, which will be animated. This means that the volume will be updated every single frame (and also all parents) which is
+not necessary in every situation. So it would be a good idea, to set the volume to the maximum extend and disable updating of that single volume. The following
 code fragment shows how you could implement such a functionality
 
 \code
@@ -607,16 +669,15 @@ code fragment shows how you could implement such a functionality
 	vol.extendBy(Pnt3f(100,100,100));
 	//now we have a cube with all edges 100 units long
 	
-	//mark it as valid, so it will not be updated
+	//mark it as valid, so it will not be updated with the actual geometry
 	vol.setValid(true);
 	
-	//finally we tell OpenSG to never modify this volume
+	//finally we tell OpenSG to never modify/invalidate this volume
 	vol.setStatic(true);
 \endcode
 
 <B>Notice:</B>
-Please keep in mind that in this case the volume is totally static. That means the volume will always be at that position, even if there are transformation
-matrices above that node! You would have to update that volume manually.
+Please keep in mind that in this case the volume is totally static. Changes to the geometry are just ignored for the volume's status.
 
 \section BasicCores Cores
 
@@ -624,7 +685,7 @@ Cores in OpenSG are one of the most important datatypes. I hope you got a feelin
 but all we did so far was not really visible on screen except for the first complete tutorial. Anyway, remember that we used
 <PRE>NodePtr scene = makeTorus(.5, 2, 16, 16);</PRE>
 to create the scenegraph. The makeTorus is a high level command which creates a node already connected with a geometry core containing the
-data for the torus. If you want to fill your scene with live you will need to assign cores to every of your nodes.
+data for the torus. If you want to fill your scene with life you will need to assign cores to each and every one of your nodes.
 
 \subsection TutorialBasicCoresFamily Empty Cores Are No Good
 
@@ -644,10 +705,10 @@ routine will break at this point. The next figure will show what I mean.
 
 Well, remember the family scene graph example a few pages (or a little bit of scrolling for the HTML version) ago? (see \ref BasicNode) If you tried it
 yourself, you realized that it didn't work and now we have seen why - because of missing cores! You could assign a group node, I'll present in the very next
-section, to every node. If you are doing so, the error message will not occur any longer, however in Order to see anything, you need to add also some
-geometry. The upcoming tutorial will show you, how to create nodes and cores and also how to animate your geometry.
+section, to every node. If you are doing so, the error message will not occur any longer, however in order to see anything, you need to add also some
+geometry. The upcoming tutorial will show you how to create nodes and cores and also how to animate your geometry.
 
-All important cores will be introduced in the next chapter (\ref NodeCores). However as real time graphics without any movement are quite 
+All important cores will be introduced in the next chapter (\ref NodeCores). However as real time graphics without any movements are quite 
 boring, I will introduce the transformation and group core briefly here already.
 
 \subsection TutorialBasicCoresGroup Group core
@@ -658,14 +719,13 @@ see, this is the solution to our empty node problem from above. Like every other
 created via the static ::create() method of it's pointer class. This example demonstrate how you can create a node containing a group core
 
 \code
-NodePtr n = Node::create();
-// the group core is created just like the nodes were
-GroupPtr g = Group::create();
+    NodePtr n = Node::create();
+    // the group core is created just like the nodes were
+    GroupPtr g = Group::create();
 
-beginEditCP(n);
-    n->setCore(g);
-endEditCP(n);
-
+    beginEditCP(n);
+        n->setCore(g);
+    endEditCP(n);
 \endcode
 
 That's all! The "setCore()" method is used to assign a core to the node. As explained in \ref FirstAppTutorialScenegraphCompared these cores
@@ -700,19 +760,19 @@ how you can create a node containing a transformation, which will translate all 
 If you now add children to that node they all will be translated by this transformaton you specified. 
 
 <B>IMPORTANT</B>:\n
-I suppose that you expected it that way, but just to make sure you know: In OpenSG, like in most other scenegraph systems, all states are 
-derived to all children only, but never are they passed to neighbours. 
+I suppose that you expected it that way, but just to make sure you know: In OpenSG, like in most other scenegraph systems, transformations are 
+only handed down to the children, but never are they passed to neighbours. 
 
-\image html inheritance_example.png "A graph demonstratning the kind of inheritance"
-\image latex inheritance_example.eps "A graph demonstarting the kind of inheritance" width = 6cm
+\image html inheritance_example.png "A graph demonstratning the kind of data inheritance"
+\image latex inheritance_example.eps "A graph demonstarting the kind of data inheritance" width = 6cm
 
 <I>
-    Here we have two different transformation nodes A and B. All states are inherited by children only, so the terrain has 
+    Here we have two different transformation nodes A and B. Transformations are inherited by children only, so the terrain has 
     transformation A assigned to it, where the house is transformed by B. The car and trees are not transformed at all, because
     there is no parent which has a transformation assigned to it.
 </I>
 
-Because we really need that kind of core to do anything other than boring, I have introduced the transform core here. A detailed discussed about
+Because we really need that kind of core to do anything other than boring stuff, I have introduced the transform core here. A detailed discussed about
 this and most other cores can be found in the next Chapter (\ref NodeCores).
 
 \section TutorialBasicTutorial Tutorial - it's moving!
@@ -778,8 +838,42 @@ scene = transNode;
 
 \endcode
 
-This piece of code will create a little scenegraph with a transformation as the root node and one child, which is the torus geometry. If we now
-modify the matrix of the transformation node we will actually modify the position and/or rotation as well as scalation of the torus. Just to 
+This piece of code will create a little scenegraph with a transformation as the root node and one child, which is the torus geometry. 
+
+By now you might be asking yourself "If you need a Core for every Node anyway, why is it so damn complicated to get one?". You will do the whole create Node, create Core, assign Core to Node process a lot in your own programs, and there are very few variations in it. Therefore versions after 1.2 add a convenience method \c makeCoredNode that helps creating Node and Core in one step. using it you can replace the above example with something shorter
+
+\code
+NodePtr scene;
+        
+// create all that stuff we will need:
+//one geometry and one transform node
+        
+NodePtr torus = makeTorus(.5, 2, 16, 16);
+NodePtr transNode = makeCoredNode<Transform>(&transCore);     
+
+Matrix m;
+        
+// now provide some data...
+        
+// no rotation at the beginning
+m.setIdentity();
+        
+// now "insert" the core into the node
+beginEditCP(transNode);
+    // add the torus as a child to
+    // the transformation node
+    transNode->addChild(torus);
+endEditCP(transNode);
+        
+// "declare" the transformation as root
+scene = transNode;  
+
+\endcode
+
+\c makeCoredNode does exactly what the name says: it creates a Node that has a Core of the type specified as the template parameter. If you need that Core you can pass a pointer to the Ptr to store the Core Ptr in. If you don't need that Core right away you just call the function without parameters. Again, as with the RefPtr, this is only available in versions after 1.2, so our examples will not use it.
+
+If we now
+modify the matrix of the transformation node we will actually modify the position and/or rotation as well as the scaling of the torus. Just to 
 make sure it works, I recommend to compile and execute the program. You should see the torus just like in the last tutorial. You also should
 be able to move the camera by pressing and holding the left mouse button while moving the mouse around. However we have more code but no more
 features than in the old tutorial - so let's change this now!
@@ -827,19 +921,20 @@ By the way, the order in which the callbacks are registered does not matter.
 
 You can find the full code here : <A HREF = "progs/02movingTorus.cpp">progs/02movingTorus.cpp</A>
 
+
 \section BasicFieldContainer Field Container
 
-Now that we have seen how the very basic concepts of OpenSG works, it is time for some more background knowledge. In this section I will explain
+Now that we have seen how the very basic concepts of OpenSG work, it is time for some more background knowledge. In this section I will explain
 the field container concept to you. Even if you do not care about how things are realized and how they actually work, you should read this section
 as it is very essential to the way how OpenSG works. As I mentioned before, OpenSG was designed to handle multithreaded data in an easy way and
-thereforee makes also clustering very easy. The developers decided to create containers which are protected against simultaneous access from more
-than one thread. With these field containers, the smart pointer were introduced as it was necessary to avoid working with standard pointer. Nearly
+that extends to clustering quite naturally. The developers decided to create containers which are protected against simultaneous access from more
+than one thread. With these field containers, the Ptrs were introduced as it was necessary to avoid working with standard pointers. Nearly
 every OpenSG specific class related to data storage is derived from FieldContainer. If you want to convince yourself how often this class is 
 derived, then have a look at osg::FieldContainer. As I mentioned before: <B>Every class that is derived from FieldContainer, needs to be 
 created via the static ::create method! The return type is always <I>classname</I>Ptr</B>
 
 There are some more interesting aspects about the field containers. All containers are reflective, that is they provide information about
-themselfs like the classname or an unique id. The follwoing example shows a few operations that are possible on all field containers.
+themselfs like the classname or a unique id. The following example shows a few operations that are possible on all field containers.
 
 \code
 // this object could be any other node core, it
@@ -854,9 +949,11 @@ printf ("Typename: %s\n",c);
 const UInt32 id = trans->getTypeId();
 printf("Type ID: %d\n", id); 
 
-// And this will print "Type ID: 82";
+// And this will print "Type ID: 82"; or something else, the IDs are assigned at runtime
+// and can change.
 
 \endcode
+
 There are some other get functions that might be useful in certain situations. If you need to now more look them up here: osg::FieldContainer - usage should
 be as simple as above.
 
@@ -873,116 +970,109 @@ of the static class method ::create(). Here are some examples
 NodePtr n_usual = Node::create();
 
 //This does the same thing in another way
-FieldContainer n_factory = ContainerFactory::the().createContainer("Node");
+FieldContainerPtr n_factory = ContainerFactory::the().createContainer("Node");
 
 //it works with every type derived from Field Container
-FieldContainer g = Container::the().createContainer("Group");
+FieldContainerPtr g = Container::the().createContainer("Group");
 
 \endcode
 
-This comes in very usueful when writing a loader for example. Without this possibility you would have no choice but to write a huge
-if-then-else cascade, where you catch every possible type. However, unless you are doing that or something similar you should stick to the usual way
-of instancination via ::create().
+This comes in very useful when writing a loader for example. Without this possibility you would have no choice but to write a huge
+if-then-else cascade, where you have to catch every possible type. It can also be used to conservatively use components of which you're not sure whether they exist (they might not have been linked to the program). If the FieldContainer you get back is NullFC, you know the class does not exist in the system. 
 
-Well, this is only to show you what is possible with the introduced concepts of field containers and smart pointers. I remember when I started
-learning OpenSG - I found these things not very comfortable and I did not understood what they are for. I would like you to see that all these
-"unhandy" concepts were implemented for a good reason and they make life easier if you start using them!
+\subsection BasicFields Fields
 
-\subsection BasicFieldContainerSingleMulti Single and Mutlifields
+But being able to create FieldContainers very generally is only a part of the solution, because the general FieldContainerPtr can obviously not give you access to any of the data fields in the concrete class. It's a base class, it can't know anything about the data its children add.
 
-In OpenSG we have two different kinds of fields: single- and multifields. As the names are already telling, the singlefield stores a single value
-whereas the mulifield is compareable to the STL vector (i.e. an array). 
+Or can it? Not directly of course, but using a little abstraction it can. 
 
-Often objects in OpenSG can return both, "usual" datatypes (like float or std::string) and also as a single field container. Let us have a closer look 
-at the window class for a little example.
-In every tutorial we used a GLUTWindow to display our results. Of course this window has a defined height and width. This information can be
-retrieved during runtime in two different ways:
+Data in OpenSG FieldContainers is not stored as simple variables, but as instances derived from the osg::Field class. As these Fields are very general, there is not much you can do with them, but enough to make them interesting. If you know the type you can downcast the generic Field into the concrete type. If you don't, you can access the Field's data in string form using the getValueByStr() and pushValueByStr(). 
+
+Access to a FieldContainer's Fields is possible through its getField() method, which can take an index or a name to identify a Field. But how do you know which Fields the FieldContainer has, and what their names are?
+
+Every FieldContainer can give you a descriptive structure that contains information about the Fields contained in the Container, called the osg::FieldContainerType. The FieldContainerType keeps an osg::FieldDescription for each Field in the FieldContainer. The FieldContainerType knows the number of Fields (and tells it via <pre>getNumFieldDescs()</pre>), and returns FieldDescriptions either per index (getFieldDescription()) or per name (findFieldDescription()).
+
+These methods allow you totally generic access to any kind of FieldContainer known to the system only knowing its naming or having a pointer to an instance. This allows you to write programs that can handle any kind of FieldContainer, even the ones that have been added after the program was written. This can be used for generic input/output operations, and for generic user interfaces, among other things.
+
+However, these are relatively advanced topics. In most of your own programs you will probably prefer to use the usual way of instanciation via ::create() and access the data directly. But as your programs become more complicated or more general (or both), remember that there is a very general framework here that can abstract a lot of the concrete details.
+
+
+\subsection BasicFieldContainerSingleMulti Single and Multifields
+
+In OpenSG we have two different kinds of fields: single- and multifields. As the names are already telling, the osg::SField stores a single value
+whereas the osg::MField is comparable to an STL vector (i.e. a dynamically resizing array). SField and MField are template classes, and there are predefined instances for all the standard types in the system. These have names starting with \c SF and \c MF, e.g. \c SFNodePtr and \c MFNodePtr.
+
+Let's start with a simple example. You've already seen the Node class. Nodes keep a bunch of children in a multi field called children and some other data, like a pointer to their parent Node in a single field called parent. Now assume you have the family scenegraph described in \ref BasicNode.
 
 \code
-//our window as it was created in the tutorials
-GLUTWindowPtr gwin = GLUTWindow::create();
+    NodePtr grandpa = Node::create();
+    NodePtr aunt    = Node::create();
+    NodePtr mother  = Node::create();
+    NodePtr me      = Node::create();
 
-// one way to get the width (height is analog to this)
-UInt16 width_noFC = gwin->getWidth();
+    setName(grandpa, "Grandpa");
+    setName(aunt,    "Aunt");
+    setName(mother,  "Mother");
+    setName(me,      "Me");
+    
+    beginEditCP(grandpa);
+        grandpa->addChild(aunt);
+        grandpa->addChild(mother);
+    endEditCP(root);
 
-// or in a single field container
-SFUInt16 width_sFC = gwin->getSFWidth();
+    beginEditCP(mother);
+        mother->addChild(me);
+    endEditCP(mother);
+
+    NodePtr n;  
+    
+    n = me->getParent()->getParent();           // sets n to grandpa
+    
+    cout << "Grandpa has " << grandpa->getChildren().size() << " children."
+    
+    n = grandpa->getChildren()[0];             // sets n to aunt
+    n = grandpa->getChildren().getValue(1);    // sets n to mother
+    
 \endcode
 
-Maybe you still ask yourself what that is good for. Well, if you just want to print the screen size information on the screen, you will be
-fine with the first one, but if you have a multithreaded application where this information is used by another thread, you have to make sure
-that the data is handeled correctly - or you let OpenSG take care of it by using the second variant! 
+This shows you the basic ways to get data from FieldContainers. They have accessor methods that are called get<Fieldname> for each Field. Single-value fields just return their value that can be used directly. For multi-value fields a reference to the actual MField is returned, which acts pretty much like an STL vector, for example it supports the [] operator to access elements, and the size() method to find out how many elements it has, as well as iterator-based access. For consistency reasons the MFields also have a getValue() method, which acts just like the [] operator.
 
-Single field containers can be accessed easily with getValue() and setValue()
+Of course the Field also support changing values
 
 \code
-//we print out the screen width
-cout << "Screenwidth: " << width_sFC.getvalue();
 
-//and we set it to another value
-width_sFC.setValue(640);
-\endcode
+    NodePtr uncle = Node::create();
+    setName(uncle, "Uncle");
+   
+    beginEditCP(grandpa);
+    grandpa->getChildren().push_back(uncle); // add uncle to grandpa's children
+    endEditCP(grandpa);
+    
+    beginEditCP(uncle);
+    uncle->setParent(grandpa);  // set uncle's parent to grandpa
+    endEditCP(uncle);
 
-If you want to create an instance of a single field container you have to use the usual ::create() method. For every <I>Type</I> there is a 
-corresponding single field type called SF<I>Type</I>. Here are some examples.
-\code
-SFInt16
-SFReal64
-SFNodePtr
-\endcode
-
-Multifields are 1D arrays and are very similar to standard STL vectors. The usual operations like begin(), end() and push_back() all work, as well
-as access via the bracket operator []. Iterators work just like you are used to it.  Multifields are used to store the vertices of geometry 
-or the viewports (Viewports are explained in Chapter \ref Windows) attached to a window and for many other things. Here is an example when 
-multifields can be used
-
-\code
-//lets imagine we have a window "gwin" with four viewports
-
-//you can get one specific viewport by using the [] operator
-ViewportPtr vport = gwin->getPorts()[0];
-
-// or you get all of them at once
-MFViewportPtr vports = gwin->getports();
-
-//now you can get the first viewport this way
-vport = vports[0];
-\endcode
-
-Like with the single field containers the multi field containers have the same naming convention MF<I>type</I>. Here is another example showing
-how you can work with multifields
-
-\code
-// we are going to create some vectors 
-// and print them afterwards 
+    cout << "Grandpa's children: ";
+    for(MFNodePtr::iterator it = grandpa->getChildren().begin();
+        it != grandpa->getChildren().end(); ++it)
+        cout << getName(*it) << " ";
         
-v = MFVec3f();
-        
-for (int i = 0; i < 10; i++)
-    v.push_back(Vec3f(i,i*2,i*3));
-         
-MFVec3f::iterator it;
-for (it = v.begin(); it < v.end();){
-    cout << (*it)[0] <<" "<< (*it)[1]<<" "<<(*it)[2]<<endl;
-    it++;
-}
 \endcode
 
-The standard access methods setValue() and getValue() are also available with multifields, you need only to supply an additional index.
-\code
-myfield->setValue(Vec3f(0,1,0),3)
-\endcode
-The line above would set the given Vector at the 4th position of the field (of course we are starting to count at zero)
+For SFields the setValue() method is all it needs. For MFields the standard vector methods like push_back apply. For consistency reasons they also have a setValue method that takes the data to set and the index of the element to change.
+
+Note that these are just examples, for child/parent manipulation it's better to use the special Node methods that you've seen before like addChild() or subChild(), as they automatically take care of the parent field consistency.
+
 
 \section TutorialBasicEditingFieldContainers Editing Field Containers
 
 Now it is time to solve another mystery you encountered on previous tutorials: "begin- /endEditCP() blocks". As I mentioned before at the 
-beginning of this chapter, we need these begin- endEditCP brackets every time we want to modify an OpenSG specific object. To be exact we
-do only need these when modifing an object, that is derived from osg::FieldContainer. Vectors, for example, are not derived from field container and
-thus need no begin- /endEditCP() block. By the way CP stands for "Container Pointer" - at least the author believes so...
+beginning of this chapter, we need these begin-/endEditCP brackets every time we want to modify an OpenSG specific object. To be exact we
+do only need these when modifing an object that is derived from osg::FieldContainer. Vectors or Points for example are not derived from FieldContainer and
+thus need no begin-/endEditCP() block. By the way CP stands for "Container Pointer"...
 
 Alright, so as we saw before we need to start with a beginEditCP(<I>object</I>), where object is the one we want to edit, of course. Then
-one or more modifications should follow and finally we are ending up with beginEditCP(<I>object</I>). Here is another example how to do it right:
+one or more modifications should follow and finally we are ending up with endEditCP(<I>object</I>). Here is another example how to do it right:
 
 \code
 NodePtr n = Node::create();
@@ -1015,31 +1105,30 @@ the object and these blocks must not be seperate. As you can see I have two bloc
 block which modifies n. The additional {}-brackets are used for cosmetic reasons only, they are not neccessary, but they can be extremly
 useful, if you have more complex graphs.
 
-Maybe you wonder, what they are for anyway. Well and again it is multithread safety... by using begin- and endEditCP you tell the system
+Maybe you wonder what these bloacks are for anyway. Well and again it is multithread safety... by using begin- and endEditCP you tell the system
 when something is going to be changed. Normally every thread would need a full copy of the data, but that would result in very high memory
 consumption, so in OpenSG much of the data is shared. The multifields I just introduced are shared for example. Only when data is changed
 it will be copied to the current thread. The changes are recorded in a change list which will be used to syncronize the threads again at a
-given time. Have a look at chapter \ref Multithreading for more details about multithreading. This is roughly why the system needs to be informed when
+later time. Have a look at chapter \ref Multithreading for more details about multithreading. This is roughly why the system needs to be informed when
 something is going to be changed.
 
-So what happens, if you forget a begin- endEditCP block? If you are running a single threaded application on a single machine it will work in
+So what happens, if you forget a begin-/endEditCP block? If you are running a single threaded application on a single machine it will work in
 most cases, but you should not treat this as an excuse to leave them all out. I said in most cases, but you have no garantee that it will
 work at all, as this is not the way OpenSG is meant to be used! I know that it is sometimes a bit annonying to write half a mile of code, but
-please make the editCPs your friends ;-) You will be rewarded whenever you want to drive your application with multiple threads and/or in stereo.
+please make the editCPs your friends ;-) You will be rewarded whenever you want to drive your application with multiple threads and/or in cluster mode.
 
 But even more important: what happens if you skip the editCP blocks if you are using mutiple threads or are running a cluster? Depending on
 how violently you skipped the editCP blocks, your modifications will occur in one thread only and that is most likely not what you want. No matter
-what actually happens to your data, you have a good chance crashing your application. So if you are using multiple threads you have to pay
+what actually happens to your data, you have a good chance crashing your application. So if you are using multiple threads or a cluster you have to pay
 special attention to your editCP blocks! If your applications are crashing for some strange reason you should first check if you have missed such
-a block. 
+a block. Especially clusters are pretty sensitive to this, 90% of cluster problems are inconsistent or plainly forgotten begin-/endEditCP blocks.
 
 \subsection TutorialBasicEditFieldContainersParameters begin- endEditCP with Field Masks
 
 By invoking beginEditCP(object) you tell the system that you want to change everything. You can specify explicitly which attributes you want
 to modify. This will save some computing power, although it is often not necessary, when initializing the graph. In performance critical sections
 this will be much more important. For example, lets say we have a geometry node representing water, which we need to update every frame. We need
-to update the positions and maybe the nomals too, but color, texture coordinates and other geometry attributes stay untouched. Now wether to
-define the changing attributes or not can make a speed difference of up to 10% in this special case!
+to update the positions and maybe the nomals too, but color, texture coordinates and other geometry attributes stay untouched. If you just call beginEditCP the system can't know what you changes, so it has to assume you changed everything. For a cluster application that means every bit of data has to be transfered across the network, even if it didn't change. The consequences are less severe for non-cluster applications, but still serious.
 
 Here is the same example from above, but this time with correct specification of the changing attributes
 
@@ -1071,7 +1160,6 @@ endEditCP(n, Node::ChildrenFieldMask | Node::CoreFieldMask);
 
 <B>NOTICE:</B>\n
 If you want to modify more then one field at once you can use the binary or operator ( "|" ) to join the field masks.
-
 
 With that the code becomes even a bit longer, but that should not scare you to use it in performance critical parts of your application!
 
@@ -1113,31 +1201,91 @@ names are very easy to "guess", here are a few examples
     </TR>
 </TABLE>
 
-You see it is very easy in most cases. In gerneral it is 
+You see it is very easy in most cases. In general it is 
 <PRE>
     <I>ClassToBeEdited</I>::<I>FieldToBeEdited</I>FieldMask
 </PRE>
 If you are unsure about a certain field mask then have a look at the tutorials if that what you want to do was used before. If not you have to
 look it up in the doxygen class documentation. You can find the available masks at the "Static Public Attributes" section.
 
-\section TutorialBasicFieldContainerCoredPtr CoredNodePtr - Alternative Approach to Field Containers
+\section TutorialBasicNewFCHandling More Convenient FieldContainer handling
 
-Lately an alternative to the usual way to work with field containers was added to OpenSG. Please notice that this extension was implemented after the 
-release of version 1.2 therfore if you want to use this feature you have to get a copy from cvs and compile it yourself.
+People new to OpenSG see a lot of the described specifics as pretty tedious. You get used to it pretty quickly, but it does make code pretty long. To simplify and shorten it a couple new featres were added after the 1.2 release, that simplify storing and changing FieldContainers and Nodes.
 
-If you have implemented the previous tutorials you will have already noticed that OpenSG code can become quickly very long as you often have to repeat all these
-::create and beginEditCP() stuff, furthermore to set a simple transformation, you need a node, a core of type transform and a matrix with correct values. That 
-usually takes up approximately more than ten lines of code. 
+\subsection TutorialBasicFCEdits FCEditor and FCEdit
 
-However, you will rarely have a node without a core or a core without a node, in most cases they appear together, thus it is logical to have a wrapper class 
-that takes care of both. As the possibilities of C++ are not unlimited this is only possible to some extend, but the following concept can reduce the code length.
+osg::FCEditor is a simple helper object that wraps beginEditCP and endEditCP in its constructor and destructor, coupling the FieldContainer changes to the lifetime of the object. Let's rewrite last section's example using CPEditor:
 
-The class that may help you out is osg::CoredNodePtr. This class provides a node as well as a core for you. osg::CoresNodePtr is a templated class, so you
-need to define the type of core you want to use. This is how you would define a cored node pointer that will feature a geometry core
+\code
+{
+    NodePtr n = Node::create();
+    CPEditor ned(n, Node::ChildrenFieldMask | Node::CoreFieldMask);
+
+    {
+        GroupPtr g = Group::create();
+        NodePtr c1 = Node::create();
+        NodePtr c2 = Node::create();
+
+        CPEditor c1ed(c1, Node::CoreFieldMask);
+        CPEditor c2ed(c2, Node::CoreFieldMask);
+
+        GeometryPtr g1 = generateSomeGeometry();
+        GeometyrPtr g2 = generateSomeOtherGeometry();
+
+        c1->setCore(g1);
+        c2->setCore(g2);
+
+        n->setCore(g);
+        n->addChild(c1);
+        n->addChild(c2);
+    } // as c1ed and c2ed are destroyed here, they calls endEdit
+} // as ned is destroyed here, it calls endEdit
+
+\endcode
+
+Looks a bit more friendly, doesn't it? The only slight snnoyance is that you have to come up with a name for the CPEditor object. Don't despair, CPEdit relieves you frm even that littel chore:
+
+
+\code
+{
+    NodePtr n = Node::create();
+    CPEdit(n, Node::ChildrenFieldMask | Node::CoreFieldMask);
+
+    {
+        GroupPtr g = Group::create();
+        NodePtr c1 = Node::create();
+        NodePtr c2 = Node::create();
+
+        CPEdit(c1, Node::CoreFieldMask);
+        CPEdit(c2, Node::CoreFieldMask);
+
+        GeometryPtr g1 = generateSomeGeometry();
+        GeometyrPtr g2 = generateSomeOtherGeometry();
+
+        c1->setCore(g1);
+        c2->setCore(g2);
+
+        n->setCore(g);
+        n->addChild(c1);
+        n->addChild(c2);
+    }
+}
+
+\endcode
+
+\subsection TutorialBasicFieldContainerCoredPtr CoredNodePtr - Core and Node under one roof
+
+CPEditor takes care of the begin/endEditCP, but you still need to handle two separate classes, the Node and the Core. However, you will rarely have a node without a core or a core without a node, in most cases they appear together, thus it is logical to have a wrapper class 
+that takes care of both. As the possibilities of C++ are not unlimited this is only possible to some extend, but the following concept can reduce the code length somewhat.
+
+The class that may help you out is osg::CoredNodePtr. This class provides a node as well as a core for you. osg::CoredNodePtr is a templated class, so you
+need to define the type of core you want to use. This is how you would define a cored node pointer that will manages a geometry core
 
 \code
 	CoredNodePtr<Geometry> cnpGeo = CoredNodePtr<Geometry>::create();
 \endcode
+
+<i>If you use a specific type of CNP more than once, it makes sense to typedef it.</i>
 
 If you are working with cored pointers you have to keep in mind, that this object behave similar to a core, but it does have a node 'around it'. That means the
 -> operaror, as well as the = operator refer to the core. The following example shows how you can assign a geometry core to the cnpGeo object we created above
@@ -1154,49 +1302,50 @@ If you need the node itself for any reason, you can access it with
 	NodePtr n = cnpGeo.node();
 \endcode
 
+In addition to wrapping eh Node/Core separation, CNPs also handle reference counting that same way RefPtr<> does. Thus the same limitations and additional features described in \ref BasicRefPtr apply.
+
 Well, next here is the code for an little example showing the cored node pointers in action. You can find the file in 
 <A HREF="progs/examples/00CoredPointer.cpp">progs/examples/00coredPointer.cpp</A>
 
 I will show the createScenegraph() function only, because that is where all interesting changes are.
 
 \code
-NodePtr createScenegraph(){
-	//create the torus geometry (core and geometry)
-	GeometryNodePtr torus = GeometryNodePtr::create();
-	torus = makeTorusGeo(0.5,2,8,12);
-	
-	//create box
-	GeometryNodePtr box = GeometryNodePtr::create();
-	box = makeBoxGeo(0.5,0.5,0.5,1,1,1);
-	
-	//create the group node and core
-	GroupNodePtr root = GroupNodePtr::create();
-	root = Group::create();
-	
-	//add the torus and box to the group node
-	root.node()->addChild(torus);
-	root.node()->addChild(box);
-	
-	addRefCP(torus.node());
-	addRefCP(box.node());
-	addRefCP(root.node());
-	
-	return root.node();
+
+NodePtr createScenegraph(void)
+{
+    //create the torus geometry (core and geometry)
+    GeometryNodePtr torus = GeometryNodePtr::create();
+    torus = makeTorusGeo(0.5,2,8,12);
+
+    //create box
+    GeometryNodePtr box = GeometryNodePtr::create();
+    box = makeBoxGeo(0.5,0.5,0.5,1,1,1);
+
+    //create the group node and core
+    GroupNodePtr root = GroupNodePtr::create();
+    root = Group::create();
+
+    //add the torus and box to the group node
+    root.node()->addChild(torus);
+    root.node()->addChild(box);
+
+    addRefCP(root.node()); // keep the root node around, even after the CNP is destroyed
+    
+    return root.node();
 }
 \endcode
 
-Well, you can try how much lines it would take, if using the usual way... I am sure that will be about twice as long. You might wonder yourself about the three
-addRefCP()'s add the end of the function. Well, to be honest, I am not quite sure why it is handeled different than the usual Pointers, but if you leave these
-out your application will crash, because the reference count will drop to zero when leaving the function, thus deleting your objects. So simply add one manually
-to the reference count, and you are fine.
+Well, you can try how much lines it would take, if using the usual way... I am sure that will be about twice as long. 
 
 <B>Notice:</B>
 I personally started learning OpenSG, before these wrapper class existed, so I am from the "old school". Some things will work quite different, so to not confuse
-you, I decided to use the usual concept of editing field containers (i.e. the long version) as this is the more righteous way ... ;-)
+you and to not leave out the people using the old version, I decided to use the usual concept of editing field containers (i.e. the long version) as this is the more righteous way ... ;-)
+
+
 
 \section TutorialBasicStandardGeometry Standard Geometry
 
-OpenSG comes along with some build-in functionality to generate standard geometries. One of these was already used in the first tutorial: a torus.
+OpenSG comes with some build-in functionality to generate standard geometries. One of these was already used in the first tutorial: a torus.
 As these geometries are very easy to generate and used often for testing purposes, I will list them here for reference
 
 \code
@@ -1212,17 +1361,16 @@ makeConicalFrustum(height, topRadius, bottomRadius, doSide, doTop, doBottom);
 
 The methods themself should be selfexplaining - they do that what they are supposed to do. All sizes and radii are of type Real32, where as all
 resolution parameters (beginning with <I>res</I>) are Int16. Paramters beginning with <I>do</I> are of type bool, they enable or disable the
-rendering of the appropriate parts. The following example would generate a 10 unit height cone with 32 edges but without a bottom
+rendering of the appropriate parts. The following example generates a 10 unit height cone with 32 edges with a top but without a bottom
 <PRE>
     NodePtr n = makeCone(10, 5, 32, true, false);
 </PRE>
-Always be careful with the resulution paramters. Big values can lead to really huge geometry data. Especially the sphere resolution depth should be
-used moderatly, because this one is recursive, meaning a value of four is already a smooth sphere and a value of 64 may kill your machine!\n 
-<I>(A word from the author: I just tried what I said, just to make sure... and yes, 64 definitely kills your machine unless you are equipped with 
-a G5 full of memory (8 GB)... and I am not)</I>
 
-All of these geometry-generating methods return a NodePtr. Often you have already existing nodes and are only in need of the geometry. In this case
-you do not need to throw your node away as there are the same functions that return a GeometryPtr. You only need to append a "geo" to the above 
+Always be careful with the resulution paramters. Big values can lead to really huge geometry data. Especially the sphere resolution depth should be
+used moderatly, because this one uses a recursive subdivison algorithm proportional to 4^res, meaning a value of four is already a pretty smooth sphere and a value of 64 will kill your machine (unless you have enough memory for about 10^38 polygons)! For better control use the LatLongSphere, it has nicer texture coordinates anyway.
+
+All of these geometry-generating methods return a NodePtr ready to be inserted into a scenegraph. Often you have already existing nodes and are only in need of the geometry. In this case
+you do not need to throw your node away as there are the same functions that return a GeometryPtr. You only need to append a "Geo" to the above 
 functions.
 
 \code
@@ -1241,7 +1389,7 @@ is much longer in code, but in other circumstances it can be just the other way 
 
 \section TutorialBasicTutorial2 Tutorial - More than a torus
 
-This time we are capable of doing some more intersting stuff than displaying and rotating a torus. In this tutorial we will build a complete house
+This time we are capable of doing some more interesting stuff than displaying and rotating a torus. In this tutorial we will build a complete house
 with roof and chimney. And maybe you can build even more things into it ;-). Okay so let us think about it, before we begin to write code...
 
 \image html house_wire.png "'Wireframe' of our house"
@@ -1252,11 +1400,11 @@ This is a frontal wireframe view of the house we want to build. Because we are l
 have no appropriate standard geometry so we use a box with the correct length and rotate it by 45 degrees. So the diagonal length of the box must
 be as long as the top side of our house is: The diagonal length must therefore be twenty and our old friend Pythagoras tells us that the edge length
 have to be approximately 14.14. The chimney will be a cylinder with height 10 and radius 1, just stuck into the roof. Please notice that I am not
-claiming to do excellent modelling work here.
+claiming to do excellent modeling work here.
 </I>
 
 We will use a very similar framework than we did before, but this time we write a method which will create a scenegraph and return a NodePtr. Of
-course that is not really necessary, but it is easer to read. In larger projects it could even be useful to put this method into an own file.
+course that is not really necessary, but it is easier to read. In larger projects it could even be useful to put this method into its own file.
 
 Like we did in the last tutorial, exchange the line that says
 \code
@@ -1273,7 +1421,8 @@ Now add this function at the beginning of your file (It has to be defined before
 //File : 03MoreThanATorus.cpp
 
 //This function will create our scenegraph
-NodePtr createScenegraph(){
+NodePtr createScenegraph(void)
+{
     // First we will create all needed geometry
     // the body of the house
     NodePtr houseMain = makeBox(20,20,20,1,1,1);
@@ -1376,7 +1525,9 @@ NodePtr createScenegraph(){
 
 Have a close look at the transformation matrices. Maybe you wonder how to figure out the correct translation values. Well, you need to know 
 where the pivot is. When using OpenSG standard geometry the pivot is at the geometric center. The next figure shows the intial situation, when the geometry 
-is created, but yet not translated.
+is created, but yet not translated. 
+
+<i>In general the OpenSG standard geometries are modeled after the ones defined in the VRML97 ISO standard.</i>
 
 \image html house_wire_init.png "Initial situation before translating"
 \image latex house_wire_init.eps "Initial situation before translating" width = 4cm
@@ -1400,7 +1551,7 @@ rotate the roof by 45 degrees</I>
 Every realtime rendering system can of course load images and use these as a texture for your models. OpenSG would be not a real scenegraph
 system if it were not able to load several image formats. Please notice that you need to enable support for the image formats you want to use 
 when configuring the OpenSG library (See : \ref TutorialInstallationLinux). If you are using a precompiled package, all available image
-formats are enabled.
+formats are enabled. 
 
 The supported image formats are png, jpeg, tiff, gif, ppm, rgb and sgi. Others may follow in future versions, but actually you can do all you need with
 the provided formats. Images in OpenSG are stored in a field container class called "Image". But this class is not used directly to texture
@@ -1416,7 +1567,7 @@ ImagePtr img = Image::create();
 img->read("myVeryNiceImageFile.jpg");
 \endcode
 
-The good thing is, that the image loader is very smart, as he automatically detects the filetype by the file extension and thus one method
+The good thing is that the image loader is pretty smart, as he automatically detects the filetype by the file extension and thus one method
 can load all formats which are supported - there is no need for loadPNG, loadJPG etc.
 
 Of course you can generate your own image by hacking code. 
@@ -1450,8 +1601,8 @@ image you actually need to set the pixel format, width, height and the data only
 
 <I>pixelFormat</I>\n
 The first paramter of the set method defines the pixel format. The two most important are OSG_RGB_PF and OSG_RGBA_PF. If you are using RGB 
-pixel format, you need to provide three bytes for each pixel, so in our example we have four pixels from black to white each consisting of
-three values for the color channels <I>R</I>ED, <I>G</I>reen and <I>B</I>lue. RGBA adds a fouth component "alpha" which defines the opacity 
+pixel format, you need to provide three components for each pixel, so in our example we have four pixels from black to white each consisting of
+three values for the color channels <I>R</I>ed, <I>G</I>reen and <I>B</I>lue. RGBA adds a fourth component "alpha" which defines the opacity 
 of the pixel. A value of zero is a fully transparent (i.e. invisible) pixel where as 255 is not transparent at all. 
 
 <I>width, height, depth</I>\n
@@ -1475,12 +1626,12 @@ You will need
 values. The last digit have to be three in RGB and four in RGBA mode. If this number is not exact, your application will crash or at least it will do 
 something different as you want.
 
-The data is stored row after row beginning at the bottom left corner! The following figure illustrates this:
+The data is stored row after row beginning at the bottom left corner, just like OpenGL! The following figure illustrates this:
 
 \image html image_storage.png "The direction in which the pixels are stored in memory"
 \image latex image_storage.eps "The direction in which the pixels are stored in memory" width=4cm
 
-You need to remember this, whenever you provide the image data "by hand", if you do not your image is displayed mirrored
+You need to remember this, whenever you provide the image data "by hand", if you do not your image is displayed mirrored.
 
 \section TutorialBasicTutorial3 Tutorial - Using textures
 
@@ -1527,10 +1678,10 @@ The following code describes the createScenegraph() function, which will create 
 \endcode
 
 Just zoom out a bit and turn the camera around and you will see a wonderful textured cube!  Of course there are a lot more properties that can
-be set in the SimpleTexturedMaterial object, but we will have a closer look at that in Chapter(xxx). 
+be set in the SimpleTexturedMaterial object, but we will have a closer look at that in Chapter [TODO]. 
 
 <I>Notice:</I>\n
-If you create you own geometry (not the OpenSG standard geometry) then you have to supply all texture coordinates - these are generated 
+If you create your own geometry (not the OpenSG standard geometry) then you have to supply all texture coordinates - these are generated 
 automatically when using standard geometry, but not if you are creating your own!
 
 \section TutorialBasicLoadingSaving Loading and saving of scenes
@@ -1542,15 +1693,15 @@ The next interesting and important topic is loading and saving of models and who
 <LI>OBJ</LI>
 <LI>RAW</LI>
 <LI>OSG</LI>
-<LI>BIN</LI>
+<LI>BIN (/OSB after 1.2)</LI>
 </UL>
 
-As far as I know VRML97 and OBJ are the most important formats as nearly every 3D modelling package can at least export one of them. BIN is
-the OpenSG native binary format and can be very useful if you are storing scenes on disk. You can find more on modelling packages here : \ref Modelling
+As far as I know VRML97 and OBJ are the most important formats as nearly every 3D modeling package can at least export one of them. BIN is
+the OpenSG native binary format and can be very for scenes that are pretty stable and that you need to load often, as it loads very fast. You can find more on modeling packages here : \ref Modeling.
 
-Loading scenes and models from disk is quite easy, at least if it works ;) Normally a simple
+Loading scenes and models from disk is quite easy. Normally a simple
 <PRE>
-    NodePtr n = SceneFileHandler::the().read(<I>filename</I>)
+    NodePtr n = SceneFileHandler::the().read(<I>filename</I>);
 </PRE>
 will do. If you have, let's say a VRML-file, the generic loader will automatically select the appropiate loader. Like when loading images, you can
 use one and the same command for loading all supported filetypes.
@@ -1558,8 +1709,11 @@ use one and the same command for loading all supported filetypes.
 As you can see, the return type is a NodePtr - if the loading process was not successfull for some reason "NullFC" is returned. It might be a
 good idea to check against the success of loading, else you might crash you application.
 
-Saving a scene is as nearly as simple. You need a filestream and an instance of a writer class, like the BINWriter. Have a look at the next tutorial
-there I will use the BINWriter to save the loaded scene to disk.
+Saving a scene is as nearly as simple, if you're not using version 1.2 or older:
+<PRE>
+    SceneFileHandler::the().write(n, <I>filename</I>);
+</PRE>
+. In 1.2 it takes a little more than that, see below.
 
 \section TutorialBasicTutorial4 Tutorial - loading and saving
 
@@ -1576,9 +1730,9 @@ Insert the following code into the createScenegraph() method
 \endcode
 
 Easy, isn't it? However, sometimes problems occur when loading scene from disk, especially in version 1.2. For more information about problems with loading
-see chapter \ref Modelling 
+see chapter \ref Modeling.
 
-Well, know we implement the possibility to save the scene by pressing a key. Three changes are necessary
+Well, now we implement the possibility to save the scene by pressing a key. Three changes are necessary:
 
 1.\n
 At first we need to register a new callback function which will listen to keyboard input. Add
@@ -1598,16 +1752,8 @@ void keyboard(unsigned char k, int , int ){
             // there were some changes in the interface since version 1.2.0
 #if OSG_MINOR_VERSION > 2
             // this is the cvs version or version 1.3+
-        
-            // create an output stream (this is STL code, and
-            // is not OpenSG specific!)
-            ofstream out("data/output.bin");
-            if(!out){
-                cout << "Output stream could not be created!" << endl;
-                return;
-            }
-            //create the writer object
-            BINWriter writer(out);
+           
+            SceneFileHandler::the().write(scene, "data/output.bin");
 #else
             // this code applies to version 1.2
             FILE* outFile = fopen("data/output.bin", "wb");
@@ -1617,10 +1763,10 @@ void keyboard(unsigned char k, int , int ){
             }
             //create the writer object
             BINWriter writer(outFile);
-#endif
             
             //write the file now
             writer.write(scene);
+#endif
             
             cout << "File written!" << endl;
             break;
@@ -1634,14 +1780,6 @@ There were some changes in the interface of the BINWriter class since version 1.
 
 3.\n
 Additionally you have to add "<OpenSG/OSGBINWriter.h>"  to your list of files to include
-
-
-
-
-
-
-
-
 
 
 
@@ -1662,7 +1800,7 @@ beginEditCP(tRoof, Transform::MatrixFieldMask);
 endEditCP(tRoof, Transform::MatrixFieldMask);
 \endcode
 
-What would happen if we swap the "setTranslate()" and the "setRotate()" commands? After you found out: why did it happen that way?
+What would happen if we swap the "setTranslate()" and the "setRotate()" commands? After you found out: why did it happen that way? Can you replace both of them with a single setTransform()?
 
 \subsection TutorialBasicExercises2 Ex. Loading
 

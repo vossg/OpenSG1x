@@ -24,7 +24,7 @@ Well, let's start right of with something very simple, just to see how easy it c
 As always, please make a copy of the framwork file. We really need no geometry at all for this little demonstration, but the scene manager must have at least
 a root node. So create a group node or some simple geometry, whatever you want, and set it as root for the simple scene manager. This is necessary to surpress
 error messages. Try to execute, just to make sure
-everthing works fine - there is nothing more annoying than searching hours for an error in your threads, where the real error lies somewhere else!
+everything works fine - there is nothing more annoying than searching hours for an error in your threads, where the real error lies somewhere else!
 
 First there is, of course, a new include file, that needs to be added.
 
@@ -87,24 +87,24 @@ We will later be able to solve the output problem...
 
 \section TutorialMultithreadingChangeList Change Lists
 
-Well, it is time for some therory now. As I mentioned above, the real problem is the asynchronous read and write of data, which will happen for sure, if two or
-more threads are working on the sccene graph. So how does OpenSG handle that problem? You already have used osg::FieldContainers all the time, well, at least
+Well, it is time for some theory now. As I mentioned above, the real problem is the asynchronous read and write of data, which will happen for sure, if two or
+more threads are working on the scene graph. So how does OpenSG handle that problem? You already have used osg::FieldContainers all the time, well, at least
 objects that were derived from it - remember, all node cores are derived from field container, for example. 
 
 Every time a field container is created, not only one instance is created, but two per default. These multiple instances of one and the same field container
-are called aspects and every thread is associated with one single aspect. If data is written by one thread, only the corresponding aspect's data is changed at
+are called aspects and every thread is associated with one single aspect. If data is written by a thread, only the corresponding aspect's data is changed at
 that time. The following figure illustrates this:
 
 \image html aspects.png "Two threads and one field container with two aspects" 
 \image latex aspects.eps "Two threads and one field container with two aspects" width = 10cm
 
-Here you have one field container of type transform, which holds two aspects. Two threads are running and each has assigned a single aspect. If thread two
+Here you have one field container of type Transform, which holds two aspects. Two threads are running and each has assigned a single aspect. If thread two
 now sets a new matrix that field in the appropiate threads aspect is changed - the other thread's field stays untouched.
 
 Of course, this has the potential to cause heavy problems, as we now have inconsistent data, because thread one seems not to be aware of the new matrix thread 
-two has set. That is what change lists are for. Every thread has it's own change list. Each time data is written, an entry is added to the corresponding change 
-list. At some point, the threads needs to be synchronized and that is where a change lists content is read and the relevant data of this aspect is copied to 
-all other aspects. The synchronizing has to be initiated manually and can't be done automatically.
+two has set. That is what ChangeLists are for. Every thread has its own change list. Every time data is written, an entry is added to the corresponding change 
+list. At some point, the threads needs to be synchronized and that is where a change list's content is read and the relevant data of this aspect is copied to 
+the other aspect. The synchronization has to be initiated manually and can't be done automatically, asboth threads have to be aware of it and be in state where they can accept changes to the graph.
 
 Well, this will be easier to understand if we consider a little example. So here we go: imagine we want a simple torus (yes, again amazing geometry!) which 
 should rotate around the y axis - so we need a new transformation matrix every frame. This time, computation of the matrix will be done in an additional thread. 
@@ -114,9 +114,9 @@ Please keep in mind that this is for didactic reasons only, as it would not be v
 Important Notice:
 </B>
 <I>
-Currently the handling of multiple aspects is not fully implemented yet! In detail that means, that there is currently no way to change the number of aspects,
-there are always two aspects per default, so if you have three threads that need to read/write data independantly, you have a problem ;) However that is
-unlikly... anyway if you do need that feature, you should have a look at the mailing list (see \ref TutorialAppendixCMailinglist).
+Currently the dynamic configuration of multiple aspects is not fully implemented yet! In detail that means, that there is currently no way to change the number of aspects at runtime,
+there are always two aspects per default, so if you have three threads that need to read/write data independantly, you have to recompile the library. However that is
+unlikely... anyway if you do need that feature, you should have a look at the mailing list (see \ref TutorialAppendixCMailinglist).
 </I>
 
 \section TutorialMultithreadingTutorial Tutorial - Moving torus with multiple threads
@@ -141,7 +141,7 @@ Barrier *syncBarrier;
 
 This should look familiar to you, except for the Barrier variable, which will be used later to synchronize the threads again.
 
-The createScenegraph() function is quite not that interesting - we have a transform node with a single child, the torus. That's all
+The createScenegraph() function is not that interesting - we have a transform node with a single child, the torus. That's all
 
 \code
 NodePtr createScenegraph(){
@@ -167,10 +167,10 @@ NodePtr createScenegraph(){
 \endcode
 
 Next comes the function that will compute and set the new transformation. This function
-will be run in an own thread
+will be run in its own thread.
 
 \code
-//this function will run in a thread and simply will
+//this function will run in a thread and will simply
 //rotate the cube by setting a new transformation matrix
 void rotate(void *args){
 	// we won't stop calculating new matrices....
@@ -197,7 +197,7 @@ void rotate(void *args){
 }
 \endcode
 
-The display() function also needs to be replaced
+The display() function also needs to be replaced.
 
 \code
 void display(void)
@@ -220,22 +220,33 @@ void display(void)
 Finally you need to add the following code between the call of createScenegraph() and glutMainLoop() in the main() function.
 
 \code
-	//create the barrier, that will be used to
-	//synchronize threads
-	
-	//instead of NULL you could provide a name
-	syncBarrier = Barrier::get(NULL);
+    //create the barrier, that will be used to
+    //synchronize threads
+
+    //instead of NULL you could provide a name
+    syncBarrier = Barrier::get(NULL);
 
     mgr = new SimpleSceneManager;
     mgr->setWindow(gwin );
     mgr->setRoot  (scene);
     mgr->showAll();
-	
-	//create the thread that will run generation of new matrices
-	animationThread = dynamic_cast<Thread *>(ThreadManager::the()->getThread("anim"));
 
-	//do it...
-	animationThread->runFunction(rotate, 1, NULL);
+    //create the thread that will run generation of new matrices
+    animationThread = dynamic_cast<Thread *>(ThreadManager::the()->getThread("anim"));
+
+    //do it...
+    animationThread->runFunction(rotate, 1, NULL);
+\endcode
+
+<b>Note:</b>
+If you're using versions after 1.2, the ChangeLists are set to read-only by default. To actually record any changes, you have to set them to read-write by adding the following command <b>before</b> osgInit:
+
+\code
+
+#if OSG_MINOR_VERSION > 2
+    ChangeList::setReadWriteDefault();
+#endif
+
 \endcode
 
 If you execute this application you will see an animated torus... well, amazing as this one looks exactly like the one from the second tutorial 
@@ -266,13 +277,13 @@ The next figure shows what happens on applying the change list
 
 Well, I assume that you have not 
 worked with threads before, so if you have already you can jump to the next passage right away. When working with threads some things might get a bit confusing.
-It is somehow like having two independant programs running, which are written in one and the same source file and can use the same gloabl variables or objects. 
-You have to keep in mind that two or more (nearly) indepandant applications can access the same data at the same time.
+It is somehow like having two independent programs running, which are written in one and the same source file and can use the same gloabl variables or objects. 
+You have to keep in mind that two or more (nearly) independant applications can access the same data at the same time.
 
 In this specific case, the synching command is called within the display() function, which is run by the main thread. That is, if we call 
 <I>animationThread->getChangeList()->applyAndClear();</I>, we will get the change list from the other thread, which will have one entry (the changed matrix
-flield). This change list will be applied to the current thread, the main thread. Remember, the main thread is also the one, that will render - so afterwards
-the new matrix can taken into account when rendering. Additionally, applyAndClear() also removes all entries in the change list, so that it is empty again.
+field). This change list will be applied to the current thread, the main thread. Remember, the main thread is also the one, that will render - so afterwards
+the new matrix can be taken into account when rendering. Additionally, applyAndClear() also removes all entries in the change list, so that it is empty again.
 
 There is still one thing we have not talked about: Barriers. You might have noticed that we used an object of type osg::Barrier. This barrier is entered two 
 times at the end of the animation thread and also two times during the display() function, where they appear to be like brackets around the sync command. 
@@ -285,9 +296,9 @@ be synchronized have to stop until the process has finished. That is what barrie
 
 When a barriers is entered via 
 \code
-	some_barrier->enter(2)
+	some_barrier->enter(2);
 \endcode
-the thread will stop. The integer argument tells the system how many threads wild be hold in this barrier until they are released again. In our example
+the thread will stop. The integer argument tells the system how many threads will have to enter this barrier until they are released again. In our example
 the main thread will stop during the display function() at the very fist line, until the animation thread also enters the first barrier at the end of the 
 function(). At the moment that happens, both threads will continue to run. However the animation thread will be stopped at the next line already, where the main
 thread will first finish executing the synchronization until it enters the next barrier, where both will be released again.
@@ -307,9 +318,9 @@ Now that you have a basic understanding of how threads work, you might come to t
 every frame until the other has also finised - yes, as I said before, this was for didactic reasons only and should not be used like that in the real world.
 
 A little example where multithreading might be useful: imagine you have a virtual reality system, that has to load files from disk during runtime. If these files
-contain some bigger modells, such as terrain our houses, loading might take some noticeable time. If you are running a single threaded application, the whole
+contain some bigger models, such as terrain our houses, loading might take some noticeable time. If you are running a single threaded application, the whole
 thing will stop (i.e. the picture will freeze) until loading is finished. In this case you could have a second thread for loading. This thread will be started
-when a modell should be loaded. The modell will be loaded into memory while the main application will continue to run. When the loading process has finished,
+when a model should be loaded. The model will be loaded into memory while the main application will continue to run. When the loading process has finished,
 both threads will be synchronized and then the additional thread will be terminated. Done.
 
 Next Chapter : \ref Clustering

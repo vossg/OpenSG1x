@@ -28,6 +28,9 @@ int main(int argc,char **argv)
 	}
 	    
 	// init OpenSG
+#if OSG_MINOR_VERSION > 2
+    ChangeList::setReadWriteDefault();
+#endif
 	osgInit(argc, argv);
 
 	winid = glutCreateWindow(argv[1]);

@@ -5,25 +5,25 @@
 OSG_USING_NAMESPACE;
 
 /*! 
-\page Modelling Using Models from Modelling Packages
+\page Modeling Using Models from Modeling Packages
 \latexonly Starter:NewChapter \endlatexonly
 
 Chapter Overview
 <HR>
-	\ref TutorialModellingWhat <BR>
-	\ref TutorialModellingThingsGoodToKnow <BR>
-	\ref TutorialModellingUsingBINFiles
+	\ref TutorialModelingWhat <BR>
+	\ref TutorialModelingThingsGoodToKnow <BR>
+	\ref TutorialModelingUsingBINFiles
 <HR>
 
-One very important aspect when creating virtual environments is modelling. A powerfull scenegraph system like OpenSG is not that usefull at all, if there is 
-nothing to render. So in many cases you have to feed your scenegraph with models designed with the help of a modelling package - I am sure you agree, that 
+One very important aspect when creating virtual environments is modeling. A powerfull scenegraph system like OpenSG is not that usefull at all, if there is 
+nothing to render. So in many cases you have to feed your scenegraph with models designed with the help of a modeling package - I am sure you agree, that 
 (hopfully) no one will create a realistic character by using standard primitve geometries...
 
 <B>Note:</B>
 
 There is a useful tool with which you can examine the OpenSG graph structure of any file readable by OpenSG. Have a look here \ref TutorialAppendixCSceneViewer
 
-\section TutorialModellingWhat  What Package to Use
+\section TutorialModelingWhat  What Package to Use
 
 If you want to create models and load them in OpenSG you have several options. You can use any application you like that can export any format OpenSG can read.
 So please don't be angry if your favourite application is not mentioned here.
@@ -36,13 +36,13 @@ In many cases VRML will be your format of choice, because OpenSG can read it and
 	<LI>3D Studio Max (Windows only)</LI>
 </UL>
 
-Of course these are not the only programs available, but these are really powerfull. On Linux it might become a bit difficult to find professional software. I
-know of none, that is copareable with these above - but if you do, please tell me.
+Of course these are not the only programs available, but these are really powerful. On Linux it might become a bit difficult to find professional software. I
+know of none that is compareable with these above - but if you do, please tell me.
 
 
-\section TutorialModellingThingsGoodToKnow Things Good to Know About
+\section TutorialModelingThingsGoodToKnow Things Good to Know About
 
-\subsection TutorialModellingThingsGoodToKnowExporter Exporter
+\subsection TutorialModelingThingsGoodToKnowExporter Exporter
 
 Although, I personally really like Studio Max, the VRML export is quite bad. OpenSG has often problems reading those files, especially when they are big. In
 most cases you will get some error message, resulting in a program crash. If you have the possibility, I advise using another exporter - if you have not, it
@@ -52,10 +52,10 @@ that works you can split the model again in several parts either using Studio Ma
 Another soultion is to not use Studio Max at all, but another application. However, if you spent 4000 Euro for the licence you might not want to do that anyway...
 But if you have the choice I would recommend Cinema 4D, as the files exported from Cinema were loaded correctly most times.
 
-If you make extensive use of VRML files I also recommend using the cvs version, rather than 1.2 as of the latter the loader is quite a bit buggy. The cvs version
+If you make extensive use of VRML files I also recommend using the cvs version, rather than 1.2 as of the latter the loader is a bit buggy. The cvs version
 does a much better job here.
 
-\subsection TutorialModellingThingsGoodToKnowExportOptions Export Options
+\subsection TutorialModelingThingsGoodToKnowExportOptions Export Options
 
 Different applications will offer you different options for export. However there are some things you have to take care of in any case. First of all, you really
 should export normals (if not automatically done so). If you don't OpenSG will calculate the normals when loading the file and that make take some time.
@@ -71,15 +71,15 @@ By exporting the normals along with the other data, loading performance increase
 
 Furthermore you don't need to export camera position and light sources, as these are not interpreted by the loader, although that might change in the future.
 
-\subsection TutorialModellingThingsGoodToKnowImageFiles Image Resource Files
+\subsection TutorialModelingThingsGoodToKnowImageFiles Image Resource Files
 
 If you are using textures you have to provide the image resource files, too, else if OpenSG cannot find them the texture will not be loaded thus leaving
 your model naked! In order to find them, these files have to be placed at that location the exporter has set. If you have not had the choice to set this
 path, that place is where the VRML file itself lies or in a "maps" folder relative to your file. In case of Studio Max you have to specify a path. 
 
-Of course you have to make sure to use only those image types that you have compiled support for in!
+Of course you have to make sure to use only those image types that you have compiled in support for!
 
-\subsection TutorialModellingThingsGoodToKnowTexture Textures
+\subsection TutorialModelingThingsGoodToKnowTexture Textures
 
 Be careful with textures! Depending on your cleverness of your exporter you can run into great trouble. If you use the same material (i.e. with some texture 
 of course) several times it can happen that OpenSG loads this textures as often into memory as you have assigned it. As far as I know that is the case with
@@ -88,15 +88,15 @@ Studio Max, but not with Cinema 4D.
 If you are working with Studio Max and have assigned a texure a hundred times, you either have to expand your memory our to use the osg::MaterialMergeGraphOp
 (see TutorialTraversalGraphOps) as this graph operator is designed to find identical textures and reference them correctly. 
 
-\section TutorialModellingUsingBINFiles Using BIN Files
+\section TutorialModelingUsingBINFiles Using BIN/OSB Files
 
-VRML files are nice to transport data from your modelling package to your OpenSG application. However, it is some kind of annoying to keep track of all those
+VRML files are nice to transport data from your modeling package to your OpenSG application. However, it is some kind of annoying to keep track of all those
 image files needed and loading huge VRML files is of course not that performant, too. Here comes the BIN file format of OpenSG! If you remember the last
 tutorials from the basics chapter (\ref TutorialBasicLoadingSaving), then you know already how a BIN file can be saved from a scene currently loaded in
 OpenSG. But what's the big picture?
 
 The BIN file format is a binary file format and thus is not that blithering than VRML. Furthermore all images are stored in that file, so you can not loose one
-of that files. And maybe most important for systems that need to load models during runtime: loading from a .bin file is much faster than from a .wrl file!
+of that files. And maybe most important for systems that need to load models during runtime: loading from a .bin file is <i>much</i> faster than from a .wrl file!
 
 However, there is of course no application that can directly export to OpenSG BIN, so you first have to load VRML files as usual and then you can save them as
 BIN. A good approch could be to have a look if there is a binary version and if not the appropiate VRML is loaded and directly saved as BIN afterwards. The
@@ -106,77 +106,103 @@ If that else fails it will try to load the file with the given filename (maybe a
 
 If loading was successfull and was read from a VRML file a appropiate BIN file is written, thus next time it can be loaded from that BIN file.
 
+
 \code
 
-bool appendFileAtNode(string file, NodePtr node, string name){
-	// at first we try to load an BIN File
+bool appendFileAtNode(string file, NodePtr node, string name)
+{
+    // at first we try to load an BIN File
 
-	//let's assume there is an binary version
-	bool binaryVersionPresent = true;
+    //let's assume there is a binary version
+    bool binaryVersionPresent = true;
 
-	ifstream stream((file+".bin").c_str());
-	string str = file+".bin";
-	if (!stream){
-		//There was no file "filename.bin"
-		binaryVersionPresent = false;
-		cerr << "> no binary version of " << file << " found. Try to load VRML!" << endl;
-		ifstream stream((file+".wrl").c_str());
-		str = file+".wrl";
-		if (!stream){
-			cerr << "No VRML file found for " << file << ". Maybe full name given? I'll try.. " << endl;
-			//this is the case if the full filename was given (i.e. with extension)
-			ifstream stream(file.c_str());
-			str = file;
-			if(!stream){
-				cerr << "No file found for " << file << ". Quitting! " << endl;
-				return false;
-			}
-		}
-	}
+    ifstream stream((file+".bin").c_str());
+    string str = file+".bin";
+    if (!stream)
+    {
+        //There was no file "filename.bin"
+        binaryVersionPresent = false;
+        cerr << "> no binary version of " << file 
+        << " found. Try to load VRML!" << endl;
+        ifstream stream((file+".wrl").c_str());
+        str = file+".wrl";
+        if (!stream)
+        {
+            cerr << "No VRML file found for " << file 
+            << ". Maybe full name given? I'll try.. " 
+            << endl;
+            // this is the case if the full filename was 
+            // given (i.e. with extension)
+            ifstream stream(file.c_str());
+            str = file;
+            if(!stream)
+            {
+                cerr << "No file found for " << file 
+                     << ". Quitting! " << endl;
+                return false;
+            }
+        }
+    }
 
-	NodePtr fileNode;
-	beginEditCP(node, Node::ChildrenFieldMask);
-		fileNode = SceneFileHandler::the().read(str.c_str());
-		if (fileNode != NullFC)
-			node->addChild(fileNode);
-		else{
-			cerr << "File " << file << " could not be loaded correctly" << endl;
-			return false;
-		}
-	node->invalidateVolume();
-	endEditCP(node, Node::ChildrenFieldMask);
+    NodePtr fileNode;
+    beginEditCP(node, Node::ChildrenFieldMask);
+    fileNode = SceneFileHandler::the().read(str.c_str());
+    if (fileNode != NullFC)
+        node->addChild(fileNode);
+    else
+    {
+        cerr << "File " << file 
+             << " could not be loaded correctly" << endl;
+        return false;
+    }
+    node->invalidateVolume();
+    endEditCP(node, Node::ChildrenFieldMask);
 
-	// also set a resonable name
-	setName(fileNode, name+" FILE");
+    // also set a resonable name
+    setName(fileNode, name+" FILE");
 
-	cout << "> " << file << " is now loaded" << endl;
+    cout << "> " << file << " is now loaded" << endl;
 
-	// here you could apply some graphOps if loaded from VRML
-      
-	if (!binaryVersionPresent){
-		// if there was no binary version write such a file now
-		#ifndef _WIN32
-			FILE *outFile = fopen((file+".bin").c_str(), "w");
-		#else
-			FILE *outFile = fopen((file+".bin").c_str(), "wb");
-		#endif
+    // here you could apply some graphOps if loaded from VRML
 
-		if(outFile == NULL){
-			cerr << "ERROR: Cannot create file " << file+".bin" << endl;
-			return false;
-		}else{
-			// go on : write
-			BINWriter writer(outFile);
+    if (!binaryVersionPresent)
+    {
+        // if there was no binary version write such a file now
+#ifndef _WIN32
+        FILE *outFile = fopen((file+".bin").c_str(), "w");
+#else
+        FILE *outFile = fopen((file+".bin").c_str(), "wb");
+#endif
 
-			writer.write(node);
-     		
-			cout << "An binary file with the content of " << file << " has been created" << endl;
-		}
-	}
+        if(outFile == NULL)
+        {
+            cerr << "ERROR: Cannot create file " << file+".bin" 
+                 << endl;
+            return false;
+        }
+        else
+        {
+            // go on : write
+            BINWriter writer(outFile);
 
-	return true;  	
+            writer.write(node);
+
+            cout << "An binary file with the content of " << file 
+                 << " has been created" << endl;
+        }
+    }
+
+    return true;  	
 }
 
 \endcode
+
+As described BIN files contain the whole graph and all its data, including textures. Therefore they can become quite large. But their loading time can be order of magnitude smaller than the time for ASCII files, therefore the abovementioned cachine can make sense.
+
+The BIN file use the reflective interface to be independent of additions to the system. A disadvantage of this apporach is that the BIN file format is very tightly connected to the actual library. If the library is changed, by adding or removing Fields to/from an existing FieldContainer all old BIN files cannot be loaded anymore! Thus BIN should never be used as an actual storage format, it is only a cache format that can be used to reduce load times.
+
+In versions after 1.2 there is a new binary file format called OSB which is not quite as sensitive to changes to the library as BIN. I still wouldn't use it as a storage format, but it doesn't need rewriting files every time the library changes a little bit.
+
+Next Chapter : \ref QT
 
 */

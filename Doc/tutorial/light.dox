@@ -17,7 +17,7 @@ Chapter Overview
 <HR>
 
 This chapter is dedicated to another very important aspect of computer graphics: light sources. Well, most scenes have at least one, but
-often more, lighsources to simulate a realistic environment. OpenSG features the common OpenGL lightsourses : spot, directional and point
+often more, lightsources to simulate a realistic environment. OpenSG features the common OpenGL lightsourses: spot, directional and point
 lights. The actual usage is easy and should be simiar to OpenGL. At the end of this chapter there will be a tutorial in which will add some
 light sources to the water mesh from the last chapter.
 
@@ -39,8 +39,7 @@ beginEditCP(pLight, PointLight::PositionFieldMask             |
                     PointLight::AmbientFieldMask              |
                     PointLight::SpecularFieldMask             |
                     PointLight::BeaconFieldMask);
-    pLight->setPosition(Pnt3f(0,0,0));
-    
+                        
     //Attenuation parameters
     pLight->setConstantAttenuation(1);
     pLight->setLinearAttenuation(0);
@@ -65,10 +64,6 @@ endEditCP  (pLight, PointLight::PositionFieldMask             |
 
 \endcode
 
-<I>
-Please note that the position is not global. The light source will of course be translated by all relevant transformation nodes if present.
-</I>
-
 \section TutorialLightDirectionalLight Directional Light
 
 Directional light sources are faster to compute than point light sources, but often they look less realistic. Light is not emitted from
@@ -81,8 +76,6 @@ needs a direction, where the light is coming from, beside of the color informati
 DirectionalLightPtr dLight = DirectionalLight::create();
 
 beginEditCP(dLight);
-    
-    dLight->setDirection(Vec3f(0,-1,2));
     
     //color information
     dLight->setDiffuse(Color4f(1,1,1,1));
@@ -98,8 +91,8 @@ endEditCP  (dLight);
 
 \section TutorialLightSpotLight Spot Light
 
-The spot light is the most expensive light source to compute. It is similar to a point light, but spot lights have an additional
-direction and angle which will define the area that is lit. Another value is needed to specify how fast intensity drops as light reaches the
+The spot light is the most expensive light source to compute. It is similar to a point light in that it has colors, attenuation and a position, but spot lights have an additional
+direction and angle which will define the area that is lit. Another value is needed to specify how fast intensity drops off as light reaches the
 border of the lit area. I suggest that you play around with the paramates to see what happens.
 
 \code
@@ -108,8 +101,6 @@ SpotLightPtr sLight = SpotLight::create();
 
 beginEditCP(sLight);
     
-    sLight->setPosition(Pnt3f(0,0,0));
-    sLight->setDirection(Vec3f(0,-1,2));
     l->setSpotExponent(2);
     l->setSpotCutOff(deg2rad(30));
     
@@ -125,61 +116,52 @@ endEditCP  (sLight);
 
 \endcode
 
-<I>
-deg2rad is a useful function that allows you to convert degree values into radians. As you might guess there is also a rad2deg 
-function.
-</I>
-
 As mentioned above, spot lights are really expensive and should be used with caution!
 
-\section TutorialLightGeneral General Things About Light in OpenSG
+\section TutorialLightGeneral Light Position, Direction and Influence Area
 
-There is one big difference compared to OpenGL, which might be a bit uncomfortable right at the beginning, but actually it is no big deal 
-at all. Beacons is what I am talking about. Every light source must be assigned to a beacon, which can be any node in the scenegraph. 
-This beacon acts like a container where the light source is located in. All transformations that are applied to this beacon will also be
-applied to the light source.
+If you read the above sections carefully you have noticed that I talked about positions and directions, but never set them on the lights. Instead I set something I haven't talked about: the beacon.
 
-<I>
-Just to mention it: The camera is located in a beacon the same way. We have not seen that so far, as the simple scene manager takes
-care about that automatically. The simple scene manager also provides one point light per default. That is the reason why we had not
-a black sceen in the tutorials, altough we had not defined a single light source.
-</I>
+The problem with light source nodes in scenegraphs is that their position in the graph can be used to define two things: their position and orientation (via the transformations defined by their ancestors), and their area of influence (via their descendants). It generally makes sense to control both indepedently, for example to have a light source attached to a moving object like a car, but influence the local surroundings like a street, and not the whole scene, like the mountains in the distance.
 
-Furthermore as all light sources are derived from node core they need to be inserted into a core of a node just like every other core, too.
-I suppose you wonder why you need both, to set is as a core and to define a beacon. Well, the beacon defines the 
-position in the world, where as
-the position of the core in the graph should define which objects will be lit. Yes, I said should, as this feature is not implemented in
-version 1.2 and as far as I know it will not be in 1.3 as well. For know simply all objects are lit by the lighsources thus the position
-of the core does not matter right know. Anyway, keep that in mind, as it may change in a future release of OpenSG. The following pictures
-are showing two variants on how to set up a light source.
+But a single node can only be in one place in a graph at any single time. Therefore in OpenSG a second node is employed, the beacon. The location of the light source in the scene graph defines its area of influence: only the descendants of the light source are lit. This generally means that light sources are located at the top of the graph, to influence a large part of it. The position and orientation of the light source is defined by the Node references by the beacon. Light sources are located at the origin of the beacon's coordinate system, the direction is along the positive z-axis. The following picture shows a simple graph with a light source.
 
-\image html light_source_easy.png "Easy setup"
-\image latex light_source_easy.eps "Easy setup" width = 8cm
+[DR: kannst Du hier bitte ein Bild machen ohne Group? Die Transformation tut als beacon]
+
+\image html light_source_setup.png "Light setup"
+\image latex light_source_setup.eps "Light setup" width = 8cm
+
+This is a typical setup if you want to move the light source independent of the rest of the scene. But the beacon is not limited in any way, it can be an arbitrary Node in the graph, including nodes below the light source or even the light source itself.
+
+The main maotivation for specifying the position/orientation of the lights via a beaconn Node and not via for example a Matrix is consistency and automatisms. This approach hides the difference between light sources and other Nodes for purposes of maniuplation and animation. Light sources are manipulated exactly like any other node, by changing transformations on a Transform or ComponentTransform node. This also allows passive changes in the sense that a light source can be literally attached to another object and move whenever it moves. All just by setting the beacon. 
+
+For the attachment to another object situation the current setup is still somewhat limited. Given that the position and orientation of the light source is defined by constant values in the coordinate system of the beacon, you'd have to add temporary transformations to move the light source inside this coordinate system, for example to move the two headlights of a car to the correct position within the car. To simplify these operations, the light sources actually do have position and direction Fields, as applicable to the give type of light source. But you still need to set a beacon to define the reference coordinate system. If in doubt, just use the light source's Node as a beacon.
+
 
 <I>
-In this example we have a root node which has several children. One is a transformation node with the light source attachted to it. The other
-nodes represent the rest of the entire scenegraph. The light source node has no further children. 
+Just to mention it: The camera uses the same beacon mechanism to define the position and orientation of the viewer. This unifies moving and animation of all relevant objects in the scenegraph to changing Transformation nodes.
+
+Another comment: the SimpleSceneManager by default provides a directional light set up as a headlight. That is the reason why we didn't have 
+a black sceen in the previous tutorials, altough we had not defined a single light source.
 </I>
 
-This setup is very easy to handle. You can modifiy the transformation node to alter the position of the light source. The beacon of the
-light source is the node of the lightsource itself. Please note, that this setup will not work anymore, in that moment when the "correct" 
-implemantation of handling light sources, as mentioned above, is added. If you want to be sure your application will work correctly with future
-versions of OpenSG the following setup is recommended!
+<b>Note:</b>
+Right now the limitation of the area of influence is not implemented yet, a light source will also influence its siblings, not only its children. It is still stringly recommended to follow the abovementioned sceen setup, otherwise things will break once the area feature is implemented, and even today unexpected effects can appear due to culling of light sources. So do it right from the beginning and you never have to worry. 
 
-\image html light_source_setup.png "Recommended setup"
-\image latex light_source_setup.eps "Recommended setup" width = 8cm
-<I>
-There is still a transformation node with a single child attached to the root, but this time it is only a group node. Usually this
-node would be useless, because it would have no function if there won't be added any further children to that node. However the other 
-child of the root is the
-point lightsource which sets the "useless" group node as it's beacon. Some other children have been added to the light source node as well.
-</I>
+\subsection TutorialLightSwitch Where's the switch?
 
-Now we can still alter the light source's position by modifing the transformation matrix, but now only the children of the point 
-lightsource node should be lit. Again, please remember, that this functionality is not implemented yet, but may follow in the
-near future. If you now add children to the root directly, these should not be lit (but still they are).
+So far there is no way to turn lights on and off, expect for removing them from the graph. That would be too inconvenient, therefore lights also have an on/off switch. it is just a boolean SField (remember what these were? See \ref BasicFieldContainerSingleMulti if you don't) called "on". 
 
-So these two setup variants are very different, but actually it makes no difference at all with the current version of OpenSG.
+\code 
+    LightPtr l = roomlight;
+    
+    beginEditCP(l, Light::OnFieldMask);
+    
+    l->setOn(false);    // nighty night!
+    
+    endEditCP(l, Light::OnFieldMask);
+\endcode
+ 
 
 \subsection TutorialLightGeneralAttenuation Attenuation Paramaters
 
@@ -200,12 +182,13 @@ image shows results for some different attenuation values.
 You see that some caution is advised, else you might end up with a blank screen. After hours of search for the error you might begin to
 dislike these parameters... so keep it in mind ;-)
 
+
 \section TutorialLightTutorial Tutorial - Light it up
 
 As promised we are going to extend the last tutorial with some light sources, which will hopefully enhance the visual apperance of our
 water simulation ;-). Please take <a href="progs/09geometry_water3.cpp">progs/09geometry_water3.cpp</a> as a starting point. The first thing
-we need to to is to shut off the default head light, which the simple scene manger creates automatically. This is very easy indedd, just 
-add that line in the main method somewhere after we created the simple scene manager and before we enter the glutMainLoop!
+we need to to is to shut off the default head light, which the simple scene manger creates automatically. This is very easy indeed, just 
+add the following line in the main method somewhere after we created the simple scene manager and before we enter the glutMainLoop!
 
 \code
     mgr->setHeadlight(false);
@@ -360,7 +343,7 @@ to
     GeometryPtr geo = GeometryPtr::dcast(scene->getChild(0)->getCore());
 \endcode
 
-Now you should see blue and lit water. The blue is now not constant any more, you can see that the borders are in a darker blue that the center. This is 
+Now you should see blue and lit water. The blue is not constant any more, you can see that the borders are in a darker blue that the center. This is 
 because the light source is floating right above the center and there the distance is the shortest of course. Now we would have to calculate correct normals
 in order to render a more realistic result. 
 
@@ -369,7 +352,7 @@ in order to render a more realistic result.
 
 The normals need to be computed every frame as they change steadily. This is a problem because computation of normals is quite expensive. However this is not
 our concern for now. If you like to, you can try to compute the normals. You could also use the calcVertexNormals() utility function I introduced in the last
-chapter, but I warned you, that this will slow down the simulation significantly! My Linux box with 1400 Mhz can't do the job in real time!
+chapter, but I warned you, that this will slow down the simulation significantly. calcVertexNormals() is very generic and can handle some pretty nasty situations, but that takes time. My Linux box with 1400 Mhz can't do the job in real time!
 
 The code so far can be found in the file <a href = "progs/10water_lit.cpp">progs/10water_lit.cpp</a>. We will now replace the point light with a directional 
 light. If you have not completed the last part of the tutorial you can take the file mentioned above as a starting point!
@@ -385,7 +368,7 @@ with
 
 <I>
 Just to mention it: We need not to include another header file for the directional light. We have used the simple scene manager which comes along with 
-a default light source and thus includes automatically the header for dircetional light sources.
+a default light source and thus includes automatically the header for directional light sources.
 </I>
 
 Next locate and remove the following lines
@@ -424,7 +407,7 @@ in the exercises part ;-)
 
 \subsection TutoralLightExercises1 Ex. Different Light Sources - Different results
 
-I few lines up ahead we realized that the results from directional and point light sources differ in shading. Explain the cause for that phenomena.
+A few lines up ahead we realized that the results from directional and point light sources differ in shading. Explain the cause for that phenomena.
 
 \subsection TutoralLightExercises2 Ex. Spot Light
 

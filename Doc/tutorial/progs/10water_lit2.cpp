@@ -157,7 +157,7 @@ NodePtr createScenegraph(){
         pLightTransform->setMatrix(m);
     endEditCP(pLightTransform);
     
-    //we add a little spehere that will represent the light source
+    //we add a little sphere that will represent the light source
     GeometryPtr sphere = makeSphereGeo(2,2);
 
     SimpleMaterialPtr sm = SimpleMaterial::create();

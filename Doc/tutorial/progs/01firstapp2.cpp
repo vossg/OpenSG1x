@@ -3,14 +3,14 @@
 //worry if not everythings clear right at the beginning...
 
 //Some needed inlcude files - these will become more, believe me ;)
-#include <OpenSG/OSGGLUT.h>
 #include <OpenSG/OSGConfig.h>
+#include <OpenSG/OSGGLUT.h>
 #include <OpenSG/OSGSimpleGeometry.h>
 #include <OpenSG/OSGGLUTWindow.h>
 #include <OpenSG/OSGSimpleSceneManager.h>
 
 //In most cases it is useful to add this line, else every OpenSG command
-//must be proceeded by an extra OSG::
+//must be preceeded by an extra OSG::
 OSG_USING_NAMESPACE
 
 //The SimpleSceneManager is a little usefull class which helps us to 
@@ -77,10 +77,10 @@ void motion(int x, int y)
     glutPostRedisplay();
 }
 
-//The GLUT subsystem is set up here. This is very similar to other GLUT applications
-//If you have worked with GLUT before, you may have the feeling of meeting old friends again,
-//if you have not used GLUT before that is no problem. GLUT will be introduced shortly on the
-//next section
+//The GLUT subsystem is set up here. This is very similar to other GLUT
+//applications If you have worked with GLUT before, you may have the feeling
+//of meeting old friends again, if you have not used GLUT before that is no
+//problem. GLUT will be introduced briefly in the next section.
 
 int setupGLUT(int *argc, char *argv[])
 {
