@@ -313,8 +313,8 @@ case $system in
 
         cd Examples/SceneViewer
 
-#LIBTYPE=opt
-        $build_make  QTDIR=$qt_dir OSGROOT=$OSGPOOL/Builds/$system-$compiler$suffix
+
+        $build_make LIBTYPE=opt QTDIR=$qt_dir OSGROOT=$OSGPOOL/Builds/$system-$compiler$suffix
 
         cd ../..
  
@@ -347,8 +347,7 @@ case $system in
 
         cd Tutorials
 
-#LIBTYPE=opt
-        $build_make OSGPOOL=$OSGPOOL OSGROOT=$OSGPOOL/Builds/$system-$compiler$suffix -f Makefile
+        $build_make LIBTYPE=opt OSGPOOL=$OSGPOOL OSGROOT=$OSGPOOL/Builds/$system-$compiler$suffix -f Makefile
     else
         echo "OSG_DIST_NO_TUTORIALBUILD set, skipping tutorial build"
     fi

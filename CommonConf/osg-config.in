@@ -48,9 +48,6 @@ link_flags_dbg=@am_gdz_link_flags_dbg@
 inc_add_path=@am_gdz_add_inc@
 lib_add_path=@am_gdz_add_link@
 
-base_libs=@am_gdz_base_libs@
-#@ac_gdz_base_system_libs_e15@
-
 win_sys_libs="opengl32.lib glu32.lib gdi32.lib"
 unix_sys_libs="-lGLU -lGL -lXmu -lXi -lXt -lX11"
 
@@ -361,6 +358,9 @@ fi
 
 opensg_libs=
 system_libs=
+
+base_libs=@am_gdz_base_libs@
+#@ac_gdz_base_system_libs_e15@
 
 system_libs_path=
 system_incs_path=
