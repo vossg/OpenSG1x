@@ -1742,7 +1742,7 @@ int ParSpaceTrimmer::PerformTrimming2( void )
 
 //					std::cerr << "x: " << d_ratio << std::endl;
 
-					mesh->SubdivideQuadEW( pcl_inside_face, 1.0 - d_ratio );
+					mesh->SubdivideQuadEW( pcl_inside_face, d_ratio );
 				}
 				else
 				{
@@ -1752,7 +1752,7 @@ int ParSpaceTrimmer::PerformTrimming2( void )
 
 //					std::cerr << "y: " << d_ratio << std::endl;
 
-					mesh->SubdivideQuadNS( pcl_inside_face, 1.0 - d_ratio );
+					mesh->SubdivideQuadNS( pcl_inside_face, d_ratio );
 				}
 			}
 		}
