@@ -84,12 +84,32 @@ void GeoProperty<GeoPositions3dPropertyDesc>::setValue(const Pnt3f  &val,
 }
 
 template<>
-inline 
+inline
 void GeoProperty<GeoPositions3dPropertyDesc>::addValue(const Pnt3f &val)
 {
     _field.push_back(Pnt3d( val[0], val[1], val[2]));
 }
 
+template <> inline
+bool GeoProperty<GeoPositions3dPropertyDesc>::insertValue(const Pnt3f &val,
+                                                          const UInt32 index)
+{
+    if(_field.size() < index)
+    {
+        return false;
+    }
+    else if(_field.size() == index)
+    {
+        addValue(val);
+        return true;
+    }
+    else
+    {
+        _field.insert(_field.begin() + index,
+                      Pnt3d(Pnt3d(val[0], val[1], val[2])));
+        return true;
+    }
+}
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 OSG_END_NAMESPACE

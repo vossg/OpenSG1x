@@ -117,6 +117,8 @@ class AbstractGeoProperty :
 
     virtual void        addValue (const GenericType &val   )       = 0;
 
+    virtual bool        insertValue(const GenericType &val,
+                                    const UInt32 index)            = 0;
 
     virtual void        clear    (      void               )       = 0;
     virtual void        resize   (      size_t      newsize)       = 0;
@@ -253,6 +255,8 @@ class GeoProperty :
 
     virtual void              addValue(const StoredGenericType &val);
 
+    virtual bool              insertValue(const StoredGenericType &val,
+                                          const UInt32 index);
     virtual void    clear();
 
     virtual void    resize(size_t newsize);

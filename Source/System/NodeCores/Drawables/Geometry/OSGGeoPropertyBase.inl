@@ -7,7 +7,7 @@
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*\
+/*------------StoredFieldType---------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
  * This library is free software; you can redistribute it and/or modify it   *
@@ -224,7 +224,7 @@ void GeoProperty<GeoPropertyDesc>::copyFromBin(
 
     This allows direct access to the data, which is faster than the access via 
     the generic Interface that the AbstractGeoProperty provides, but it
-    necessitates compile-time knowledge about the involved concrete types. 
+    necessitates compile-time knowledge about the involved concrete types.
 */
 template <class GeoPropertyDesc> inline 
 typename GeoProperty<GeoPropertyDesc>::StoredFieldType * 
@@ -332,7 +332,7 @@ typename GeoProperty<GeoPropertyDesc>::StoredGenericType
     return StoredGenericType(_field[index]);
 }
 
-template <class GeoPropertyDesc> inline 
+template <class GeoPropertyDesc> inline
 typename GeoProperty<GeoPropertyDesc>::StoredGenericType
     GeoProperty<GeoPropertyDesc>::getValue(const UInt32 index) const
 {
@@ -369,6 +369,26 @@ void GeoProperty<GeoPropertyDesc>::addValue(const StoredGenericType & value)
 {
 //CHECKCHECK do conversion constructor iff necessary
     _field.push_back( StoredType(value) );
+}
+
+template <class GeoPropertyDesc> inline
+bool GeoProperty<GeoPropertyDesc>::insertValue(const StoredGenericType &val,
+                                               const UInt32 index)
+{
+    if(_field.size() < index)
+    {
+        return false;
+    }
+    else if(_field.size() == index)
+    {
+        addValue(val);
+        return true;
+    }
+    else
+    {
+        _field.insert(_field.begin() + index, StoredType(val));
+        return true;
+    }
 }
 
 template <class GeoPropertyDesc> inline

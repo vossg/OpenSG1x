@@ -90,17 +90,36 @@ GeoProperty<GeoTexCoords1fPropertyDesc>::addValue( const Vec2f & val )
     _field.push_back(val[0]);
 }
 
+template <> inline
+bool GeoProperty<GeoTexCoords1fPropertyDesc>::insertValue(const Vec2f & val,
+                                                          const UInt32 index)
+{
+    if(_field.size() < index)
+    {
+        return false;
+    }
+    else if(_field.size() == index)
+    {
+        addValue(val);
+        return true;
+    }
+    else
+    {
+        _field.insert(_field.begin() + index, val[0]);
+        return true;
+    }
+}
 
 
 // TexCoords3f
 
-template<> inline 
+template<> inline
 Vec2f GeoProperty<GeoTexCoords3fPropertyDesc>::getValue(const UInt32 index)
 {
     return Vec2f(_field[index][0], _field[index][1]);
 }
 
-template<> inline 
+template<> inline
 Vec2f GeoProperty<GeoTexCoords3fPropertyDesc>::getValue(
     const UInt32 index) const
 {
@@ -138,5 +157,26 @@ GeoProperty<GeoTexCoords3fPropertyDesc>::addValue( const Vec2f & val )
 {
     _field.push_back(Vec3f( val[0], val[1], 0));
 }
+
+template <> inline
+bool GeoProperty<GeoTexCoords3fPropertyDesc>::insertValue(const Vec2f & val,
+                                                          const UInt32 index)
+{
+    if(_field.size() < index)
+    {
+        return false;
+    }
+    else if(_field.size() == index)
+    {
+        addValue(val);
+        return true;
+    }
+    else
+    {
+        _field.insert(_field.begin() + index, Vec3f(val[0], val[1], 0));
+        return true;
+    }
+}
+
 
 OSG_END_NAMESPACE
