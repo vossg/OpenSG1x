@@ -102,7 +102,7 @@ void NFIOOptions::init(const std::string &options)
     _packIndices = false;
     
     std::string option;
-    UInt32 i = 0;
+    std::string::size_type i = std::string::npos;
 
     // parse options
     if(options.find("inlineTextures=true") != std::string::npos)
@@ -218,6 +218,6 @@ Int32 NFIOOptions::getInteger(const std::string &str)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOOptions.cpp,v 1.3 2004/04/08 13:44:14 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOOptions.cpp,v 1.4 2005/01/14 00:34:37 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOOPTIONS_HEADER_CVSID;
 }
