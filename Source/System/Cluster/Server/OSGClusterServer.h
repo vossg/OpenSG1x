@@ -43,7 +43,6 @@
 #endif
 
 #include <OSGBaseTypes.h>
-#include <OSGThread.h>
 #include <OSGSystemDef.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGRemoteAspect.h>
@@ -55,7 +54,6 @@ OSG_BEGIN_NAMESPACE
 class PointConnection;
 class ClusterWindow;
 class RemoteAspect;
-class Thread;
 class RenderActionBase;
 
 class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
@@ -133,11 +131,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
     ClusterWindowPtr  _clusterWindow;
     RemoteAspect     *_aspect;
     std::string       _serviceName;
+    std::string       _connectionType;
     UInt32            _servicePort;
     std::string       _serviceGroup;
-    bool              _serviceAvailable;
     UInt32            _serverId;
-    std::string       _connectionType;
     std::string       _interface;
 
     /*! \}                                                                 */
@@ -145,10 +142,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
   private:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                     Thread                                   */
+    /*! \name                     helper function                          */
     /*! \{                                                                 */
 
-    static void serviceProc(void *arg);
+    void acceptClient();
 
     /*! \}                                                                 */
 

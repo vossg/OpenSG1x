@@ -97,11 +97,10 @@ ClusterServer::ClusterServer(        WindowPtr    window,
     _clusterWindow(),
     _aspect(NULL),
     _serviceName(serviceName),
+    _connectionType(connectionType),
     _servicePort(servicePort),
     _serviceGroup(serviceGroup),
-    _serviceAvailable(false),
     _serverId(0),
-    _connectionType(connectionType),
     _interface("")
 {
 }
@@ -136,30 +135,15 @@ ClusterServer::~ClusterServer(void)
  */
 void ClusterServer::start()
 {
-    Thread                  *serviceThread;
     OSG::FieldContainerType *fct;
 
-    // create connection
-    _connection = ConnectionFactory::the().createPoint(_connectionType);
-    if(_connection == NULL)
-    {
-        SFATAL << "Unknown connection type " << _connectionType << std::endl;
-        return;
-    }
-
-    // set interface
-    _connection->setInterface(_interface);
+    // reset conneciton
+    if(_connection)
+        delete _connection;
+    _connection = NULL;
 
     // create aspect
     _aspect = new RemoteAspect();
-
-    // bind connection
-    _boundAddress = _connection->bind(_requestAddress);
-
-    // start service proc
-    _serviceAvailable=true;
-    serviceThread=dynamic_cast<Thread*>(ThreadManager::the()->getThread(NULL));
-    serviceThread->runFunction( serviceProc, 0, (void *) (this) );
 
     // register interrest for all changed cluster windows
     for(UInt32 i = 0; i < OSG::TypeFactory::the()->getNumTypes(); ++i)
@@ -187,23 +171,17 @@ void ClusterServer::start()
         UInt8                    littleEndian = false;
 #endif
 
-        // todo timeout e.g 10 Minutes ??
-        _connection->acceptGroup();
+        // accept
+        acceptClient();
         // determine network order
         _connection->putValue(littleEndian);
         _connection->flush();
         _connection->selectChannel();
         _connection->getValue(forceNetworkOrder);
         _connection->setNetworkOrder((forceNetworkOrder != 0));
-        _serviceAvailable=false;
-
-        SINFO << "Connection accepted " << _boundAddress << std::endl;
-
-        Thread::join(serviceThread);
     } 
     catch(...)
     {
-        _serviceAvailable=false;
         throw;
     }
 }
@@ -224,6 +202,7 @@ void ClusterServer::stop()
     {
         if(_connection)
             delete _connection;
+        _connection = NULL;
     }
     catch(...)
     {
@@ -359,81 +338,82 @@ bool ClusterServer::windowChanged(FieldContainerPtr& fcp,
     return true;
 }
 
-/*! Tell address of server requested over broadcast. A clusterServer
- *  instance is given as parameter.
- *
- *  serviceProc is a static class function that is processed in a
- *  seperate thread. It tells all requesting clients on which
- *  network address this server is waiting for connecitons.
- *
- *  We do this in a thread because not all network types are
- *  able to set a timeout for accept. The service thread tells
- *  clients the address on wich the accept is expected.
- *  After a successful connection the service thread will be
- *  termnated.
+/*! Wait for incomming clients. A client can send a request for a
+ *  special connection type or it can try to connect it it knows
+ *  the servers address. 
  */
-void ClusterServer::serviceProc(void *arg)
+void ClusterServer::acceptClient()
 {
-    ClusterServer *server = static_cast<ClusterServer *>(arg);
     BinaryMessage  msg;
     DgramSocket    serviceSock;
     SocketAddress  addr;
     std::string    service;
     std::string    connectionType;
     UInt32         readable;
+    bool           connected=false;
 
     SINFO << "Waiting for request of "
-          << server->_serviceName
-          << " "
-          << server->_connection->getType()->getName()
+          << _serviceName
           << std::endl;
 
     try
     {
+        // create connection
+        _connection = ConnectionFactory::the().
+            createPoint(_connectionType);
+        if(_connection)
+        {
+            // set interface
+            _connection->setInterface(_interface);
+            // bind connection
+            try 
+            {
+                _boundAddress = _connection->bind(_serviceName);
+            }
+            catch(...)
+            {
+                SINFO << "Unable to bind, use name as symbolic service name" 
+                      << std::endl;
+            }
+        }
         serviceSock.open();
         serviceSock.setReusePort(true);
         // join to multicast group
-        if(!server->_serviceGroup.empty())
+        if(!_serviceGroup.empty())
         {
-            if(server->_serviceGroup.size() > 3 &&
-               server->_serviceGroup[0] == '2' &&
-               server->_serviceGroup[1] == '2' &&
-               server->_serviceGroup[2] == '4')
+            SocketAddress groupAddress = SocketAddress(
+                _serviceGroup.c_str(),
+                _servicePort);
+            if(groupAddress.isMulticast())
             {
-                SINFO << "wait for request on group:" << 
-                    server->_serviceGroup << std::endl;
+                SINFO << "wait for request on multicast:" << 
+                    _serviceGroup << std::endl;
                 serviceSock.bind(SocketAddress(SocketAddress::ANY,
-                                               server->_servicePort));
-                serviceSock.join(
-                    SocketAddress(server->_serviceGroup.c_str()));
+                                               _servicePort));
+                serviceSock.join(SocketAddress(groupAddress));
             }
             else
             {
                 SINFO << "wait for request by broadcast:" << 
-                    server->_serviceGroup << std::endl;
-                serviceSock.bind(
-                    SocketAddress(server->_serviceGroup.c_str(),
-                                  server->_servicePort));
+                    _serviceGroup << std::endl;
+                serviceSock.bind(SocketAddress(groupAddress));
             }
         }
         else
         {
             SINFO << "wait for request by broadcast" << std::endl;
             serviceSock.bind(SocketAddress(SocketAddress::ANY,
-                                           server->_servicePort));
+                                           _servicePort));
         }
 
-        while(server->_serviceAvailable)
-        {        
+        while(!connected)
+        {
             try
             {
-                do
-                {
-                    readable = serviceSock.waitReadable(.1);
-                }
-                while((readable                  == false) && 
-                      (server->_serviceAvailable == true )  );
-
+                if(_connection)
+                    readable = serviceSock.waitReadable(.01);
+                else
+                    readable = true;
                 if(readable)
                 {
                     serviceSock.recvFrom(msg,addr);
@@ -445,21 +425,57 @@ void ClusterServer::serviceProc(void *arg)
                           << service << " " 
                           << connectionType 
                           << std::endl;
-
-                    if(service        == 
-                                     server->_serviceName                    &&
-                       connectionType == 
-                                     server->_connection->getType()->getName())
+                    
+                    if(service == _serviceName)
                     {
-                        msg.clear    (                );
-                        msg.putString(service         );
-                        msg.putString(server->_boundAddress);
-
-                        serviceSock.sendTo(msg, addr);
-
-                        SINFO << "Response " 
-                              << server->_boundAddress 
-                              << std::endl;
+                        // remove old connection if typename missmaches
+                        if(_connection && 
+                           _connection->getType()->getName() != connectionType)
+                        {
+                            delete _connection;
+                            _connection = NULL;
+                        }
+                        // try to create connection
+                        if(!_connection)
+                        {
+                            // create connection
+                            _connection = ConnectionFactory::the().
+                                createPoint(connectionType);
+                            if(_connection)
+                            {
+                                // set interface
+                                _connection->setInterface(_interface);
+                                // bind connection
+                                _boundAddress = _connection->bind(_requestAddress);
+                            } 
+                            else
+                            {
+                                SINFO << "Unknown connection type '" 
+                                      << connectionType << "'" << std::endl;
+                            }
+                        }
+                        if(_connection)
+                        {
+                            msg.clear    (             );
+                            msg.putString(service      );
+                            msg.putString(_boundAddress);
+                            
+                            serviceSock.sendTo(msg, addr);
+                        
+                            SINFO << "Response " 
+                                  << connectionType << ":"
+                                  << _boundAddress 
+                                  << std::endl;
+                        }
+                    }
+                }
+                else
+                {
+                    // try to accept
+                    if(_connection && _connection->acceptGroup(0.2) >= 0)
+                    {
+                        connected = true;
+                        SINFO << "Connection accepted " << _boundAddress << std::endl;
                     }
                 }
             }
@@ -468,15 +484,12 @@ void ClusterServer::serviceProc(void *arg)
                 SWARNING << e.what() << std::endl;
             }
         }
-
         serviceSock.close();
     }
     catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
     {
-        SFATAL << e.what() << ": Server is now unknown" << std::endl;
+        throw;
     }
-
-    SINFO << "Stop service thread" << std::endl;
 }
 
 
