@@ -68,7 +68,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.2 2001/09/25 04:10:11 vossg Exp $";
+    char cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.3 2001/09/25 10:18:18 dirk Exp $";
     char cvsid_hpp[] = OSGOFFSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -360,8 +360,6 @@ OFFSceneFileType::OFFSceneFileType(const Char8  *suffixArray[],
                   override,
                   overridePriority)
 {
-    fprintf(stderr, "Init OFF Scene File Type %d\n", this);
-	return;
 }
 
 //----------------------------
