@@ -104,12 +104,15 @@ struct FieldDataTraits<GeoPositionsPtr> :
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpSystemFieldSingle */
-
 typedef SField<GeoPositionsPtr> SFGeoPositionsPtr;
+
+/*! \ingroup GrpSystemFieldMulti */
+typedef MField<GeoPositionsPtr> MFGeoPositionsPtr;
 #endif
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 OSG_DLLEXPORT_DECL1(SField, GeoPositionsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, GeoPositionsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 
@@ -145,12 +148,16 @@ struct FieldDataTraits<GeoNormalsPtr> :
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpSystemFieldSingle */
-
 typedef SField<GeoNormalsPtr> SFGeoNormalsPtr;
+
+/*! \ingroup GrpSystemFieldMulti */
+typedef MField<GeoNormalsPtr> MFGeoNormalsPtr;
+
 #endif
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 OSG_DLLEXPORT_DECL1(SField, GeoNormalsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, GeoNormalsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 
@@ -186,12 +193,15 @@ struct FieldDataTraits<GeoColorsPtr> :
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpSystemFieldSingle */
-
 typedef SField<GeoColorsPtr> SFGeoColorsPtr;
+
+/*! \ingroup GrpSystemFieldMulti */
+typedef MField<GeoColorsPtr> MFGeoColorsPtr;
 #endif
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 OSG_DLLEXPORT_DECL1(SField, GeoColorsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, GeoColorsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 
@@ -227,12 +237,15 @@ struct FieldDataTraits<GeoTexCoordsPtr> :
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpSystemFieldSingle */
-
 typedef SField<GeoTexCoordsPtr> SFGeoTexCoordsPtr;
+
+/*! \ingroup GrpSystemFieldMulti */
+typedef MField<GeoTexCoordsPtr> MFGeoTexCoordsPtr;
 #endif
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 OSG_DLLEXPORT_DECL1(SField, GeoTexCoordsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, GeoTexCoordsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 
@@ -268,12 +281,15 @@ struct FieldDataTraits<GeoIndicesPtr> :
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)  
 /*! \ingroup GrpSystemFieldSingle */
-
 typedef SField<GeoIndicesPtr> SFGeoIndicesPtr;
+
+/*! \ingroup GrpSystemFieldMulti */
+typedef MField<GeoIndicesPtr> MFGeoIndicesPtr;
 #endif
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 OSG_DLLEXPORT_DECL1(SField, GeoIndicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, GeoIndicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 
@@ -309,12 +325,15 @@ struct FieldDataTraits<GeoPTypesPtr> :
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
 /*! \ingroup GrpSystemFieldSingle */
-
 typedef SField<GeoPTypesPtr> SFGeoPTypesPtr;
+
+/*! \ingroup GrpSystemFieldMulti */
+typedef MField<GeoPTypesPtr> MFGeoPTypesPtr;
 #endif
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 OSG_DLLEXPORT_DECL1(SField, GeoPTypesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, GeoPTypesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 
@@ -350,12 +369,15 @@ struct FieldDataTraits<GeoPLengthsPtr> :
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
 /*! \ingroup GrpSystemFieldSingle */
-
 typedef SField<GeoPLengthsPtr> SFGeoPLengthsPtr;
+
+/*! \ingroup GrpSystemFieldMulti */
+typedef MField<GeoPLengthsPtr> MFGeoPLengthsPtr;
 #endif
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 OSG_DLLEXPORT_DECL1(SField, GeoPLengthsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, GeoPLengthsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 OSG_END_NAMESPACE
