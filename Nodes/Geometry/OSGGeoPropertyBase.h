@@ -93,10 +93,10 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef AbstractGeoProperty<GeoPropertyDesc>        PropertyType;
+    typedef AbstractGeoProperty<GeoPropertyDesc>          PropertyType;
 
-    typedef FCPtr<typename GeoPropertyDesc::InheritPtr, 
-                           PropertyType               > PtrType;
+    typedef FCPtr<typename GeoPropertyDesc::InterfacePtr, 
+                           PropertyType                 > PtrType;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     

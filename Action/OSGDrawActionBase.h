@@ -36,8 +36,9 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGDRAWACTION_H_
-#define _OSGDRAWACTION_H_
+
+#ifndef _OSGDRAWACTIONBASE_H_
+#define _OSGDRAWACTIONBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -46,11 +47,8 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <vector>
-
-#include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
-#include <OSGDrawActionBase.h>
+#include <OSGAction.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -58,7 +56,11 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class Material;
+class Camera;
+class Background;
+class Window;
+class Node;
+
 
 //---------------------------------------------------------------------------
 //   Types
@@ -68,12 +70,19 @@ class Material;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \brief DrawAction class
+/*! \ingroup baselib
+ *  \brief Brief
+ *
+ *  detailed
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public DrawActionBase
+class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
 {
   public:
+
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -86,54 +95,35 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public DrawActionBase
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
-
-    static const char *getClassname(void) { return "DrawAction"; };
-
-	// create a new DrawAction by cloning the prototype
-	static DrawAction * create( void );
-	
-	// prototype access
-	// after setting the prototype all new DrawActions are clones of it
-	static void        setPrototype( DrawAction * proto );
-	static DrawAction *getPrototype( void );
-
+ 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual ~DrawAction(void); 
-
-    // default registration. static, so it can be called during static init
-    
-    static void registerEnterDefault(   const FieldContainerType &type, 
-                                        const Functor            &func);
-    
-    static void registerLeaveDefault(   const FieldContainerType &type, 
-                                        const Functor            &func);
+    virtual ~DrawActionBase(void); 
 
     /*------------------------- your_category -------------------------------*/
-    
-    Material   *getMaterial(void) const;
-    void        setMaterial(Material *material);
-    
-    UInt32      getLightCount(void) const;
-    void        incLightCount(void);
-    void        decLightCount(void);
 
-
-    // initialisation
-    virtual Action::ResultE start( void );
+    // rendering state handling
+    
+    Camera     *getCamera    (void                  ) const;    
+    void        setCamera    (Camera     *cam       );
+    
+    Background *getBackground(void                  ) const;
+    void        setBackground(Background *background);
+    
+    Window     *getWindow    (void                  ) const;
+    void        setWindow    (Window * window       );
 
     /*------------------------- your_operators ------------------------------*/
+
+    // initialisation
+    virtual Action::ResultE start(void) = 0;
 
     /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
 
-    Bool operator < (const DrawAction &other) const;
-    
-    Bool operator == (const DrawAction &other) const;
-    Bool operator != (const DrawAction &other) const;
 
   protected:
 
@@ -157,14 +147,21 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public DrawActionBase
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
+    Camera     *_camera;
+    Background *_background;
+    Window     *_window;
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// access default functors
+    DrawActionBase(void);
 
-	virtual vector<Functor>* getDefaultEnterFunctors(void);
-	virtual vector<Functor>* getDefaultLeaveFunctors(void);
+    DrawActionBase(const DrawActionBase &source);
+    void operator =(const DrawActionBase &source);
+
+	virtual vector<Functor> *getDefaultEnterFunctors(void) = 0;
+	virtual vector<Functor> *getDefaultLeaveFunctors(void) = 0;
 
   private:
 
@@ -176,7 +173,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public DrawActionBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef DrawActionBase Inherited;
+    typedef Action Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -190,15 +187,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public DrawActionBase
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    static char cvsid[];
+	static char cvsid[];
 
-	// the prototype which is copied to create new actions
-	static DrawAction * _prototype;
-
-    // default functors for instantiation
-    static vector<Functor> *_defaultEnterFunctors;
-    static vector<Functor> *_defaultLeaveFunctors;
-    
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
@@ -207,19 +197,11 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public DrawActionBase
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    Material *_material;
-    
-    UInt32 _lightCount;
-    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    // prohibit default functions (move to 'public' if you need one)
-
-    DrawAction(void);
-    DrawAction(const DrawAction &source);
-    DrawAction& operator =(const DrawAction &source);
+	// prohibit default functions (move to 'public' if you need one)
 };
 
 //---------------------------------------------------------------------------
@@ -228,12 +210,10 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public DrawActionBase
 
 // class pointer
 
-typedef DrawAction *DrawActionP;
+typedef DrawActionBase *DrawActionBaseP;
 
 OSG_END_NAMESPACE
 
-#include "OSGDrawAction.inl"
+#include <OSGDrawActionBase.inl>
 
-#endif /* _OSGDRAWACTION_H_ */
-
-
+#endif /* _OSGDRAWACTIONBASE_H_ */

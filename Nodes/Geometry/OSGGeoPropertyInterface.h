@@ -81,6 +81,11 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING GeoPropertyInterface :
 {
   public:
 
+    typedef GeoPropertyInterface<GeoPropertyDesc>       InterfaceType;
+
+    typedef FCPtr<typename GeoPropertyDesc::InheritPtr, 
+                           InterfaceType              > PtrType;
+
     typedef typename GeoPropertyDesc::Inherit Inherited;
    
     virtual UInt32  getFormat    (void) = 0;
@@ -167,7 +172,8 @@ struct GeoPositionPropertyDesc
 
     typedef Pnt3f                  GenericType;
  
-    typedef GeoPropertyInterface<GeoPositionPropertyDesc> Interface;
+    typedef GeoPropertyInterface<GeoPositionPropertyDesc>          Interface;
+    typedef GeoPropertyInterface<GeoPositionPropertyDesc>::PtrType InterfacePtr;
 };
 
 typedef GeoPropertyInterface<GeoPositionPropertyDesc> GeoPositionInterface;
@@ -189,7 +195,8 @@ struct GeoNormalPropertyDesc
 
     typedef Vec3f                  GenericType;
  
-    typedef GeoPropertyInterface<GeoNormalPropertyDesc> Interface;
+    typedef GeoPropertyInterface<GeoNormalPropertyDesc>          Interface;
+    typedef GeoPropertyInterface<GeoNormalPropertyDesc>::PtrType InterfacePtr;
 };
 
 typedef GeoPropertyInterface<GeoNormalPropertyDesc> GeoNormalInterface;
@@ -211,7 +218,8 @@ struct GeoColorPropertyDesc
 
     typedef Color3f                GenericType;
  
-    typedef GeoPropertyInterface<GeoColorPropertyDesc> Interface;
+    typedef GeoPropertyInterface<GeoColorPropertyDesc>          Interface;
+    typedef GeoPropertyInterface<GeoColorPropertyDesc>::PtrType InterfacePtr;
 };
 
 typedef GeoPropertyInterface<GeoColorPropertyDesc> GeoColorInterface;
@@ -233,7 +241,10 @@ struct GeoTexCoordsPropertyDesc
 
     typedef Vec2f                   GenericType;
  
-    typedef GeoPropertyInterface<GeoTexCoordsPropertyDesc> Interface;
+    typedef 
+        GeoPropertyInterface<GeoTexCoordsPropertyDesc>          Interface;
+    typedef 
+        GeoPropertyInterface<GeoTexCoordsPropertyDesc>::PtrType InterfacePtr;
 };
 
 typedef GeoPropertyInterface<GeoTexCoordsPropertyDesc> GeoTexCoordsInterface;
@@ -255,7 +266,8 @@ struct GeoIndexPropertyDesc
 
     typedef UInt32                 GenericType;
  
-    typedef GeoPropertyInterface<GeoIndexPropertyDesc> Interface;
+    typedef GeoPropertyInterface<GeoIndexPropertyDesc>          Interface;
+    typedef GeoPropertyInterface<GeoIndexPropertyDesc>::PtrType InterfacePtr;
 };
 
 typedef GeoPropertyInterface<GeoIndexPropertyDesc> GeoIndexInterface;
@@ -284,11 +296,12 @@ struct GeoPTypePropertyDesc
 
     typedef UInt8                  GenericType;
  
-    typedef GeoPropertyInterface<GeoPTypePropertyDesc> Interface;
+    typedef GeoPropertyInterface<GeoPTypePropertyDesc>          Interface;
+    typedef GeoPropertyInterface<GeoPTypePropertyDesc>::PtrType InterfacePtr;
 };
 
-typedef GeoPropertyInterface<GeoPTypePropertyDesc> GeoPTypeInterface;
 
+typedef GeoPropertyInterface<GeoPTypePropertyDesc> GeoPTypeInterface;
 
 // Primitive Lengths
 
@@ -313,7 +326,8 @@ struct GeoPLengthPropertyDesc
 
     typedef UInt32                 GenericType;
  
-    typedef GeoPropertyInterface<GeoPLengthPropertyDesc> Interface;
+    typedef GeoPropertyInterface<GeoPLengthPropertyDesc>          Interface;
+    typedef GeoPropertyInterface<GeoPLengthPropertyDesc>::PtrType InterfacePtr;
 };
 
 typedef GeoPropertyInterface<GeoPLengthPropertyDesc> GeoPLengthInterface;

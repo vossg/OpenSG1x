@@ -46,8 +46,6 @@
 
 #include <OSGConfig.h>
 
-#include <OSGAction.h>
-
 OSG_BEGIN_NAMESPACE
 
 /***************************************************************************\
@@ -102,23 +100,6 @@ OSG_BEGIN_NAMESPACE
 
 /*---------------------------- properties ---------------------------------*/
 
-inline    
-Camera *DrawAction::getCamera( void ) const
-{
-    return _camera;
-}
-    
-inline
-Background *DrawAction::getBackground( void ) const
-{
-    return _background;
-}
-    
-inline
-Window *DrawAction::getWindow( void ) const
-{
-    return _window;
-}
 
 inline 
 Material *DrawAction::getMaterial(void) const
