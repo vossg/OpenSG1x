@@ -13,7 +13,9 @@
 #if defined(__sgi)
 #include <inttypes.h>
 #else
+#if !defined(WIN32)
 #include <stdint.h>
+#endif
 #endif
 
 #include <limits>
@@ -46,6 +48,7 @@ int main(int argc, char *argv[])
     Real128 r128;
         
 
+#if !defined(WIN32)
     fprintf(stderr, "%hhu | %02hhx\n", UINT8_MIN, UINT8_MIN);
     fprintf(stderr, "%hhu | %02hhx\n", UINT8_MAX, UINT8_MAX);
 
@@ -129,6 +132,8 @@ int main(int argc, char *argv[])
 
     i64 = TypeTraits<Int64>::getFromString("-9223372036854775808");
     fprintf(stderr, "%lld\n", i64);
+#endif
+
 
     fprintf(stderr, "%e |\n", FLT_MIN);
     fprintf(stderr, "%e |\n", FLT_MAX);
@@ -151,7 +156,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, "%Le |\n", LDBL_MIN);
     fprintf(stderr, "%Le |\n", LDBL_MAX);
 
-#if defined(__sgi)
+#if defined(__sgi) || defined(WIN32)
     r128 = TypeTraits<Real128>::getFromString("2.2250738585072014e-308");
     fprintf(stderr, "%Le\n", r128);
 
