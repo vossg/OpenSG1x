@@ -12,6 +12,7 @@ endif
 
 OBJDIR = $(OBJDIR_BASE)-$(DBG)
 LIBDIR = $(LIBDIR_BASE)-$(DBG)
+EXEDIR = $(EXEDIR_BASE)-$(DBG)
 
 OBJ_SUFFIX := $(strip $(OBJ_SUFFIX))
 
@@ -21,7 +22,7 @@ OBJ_SUFFIX := $(strip $(OBJ_SUFFIX))
 
 NONBUILDTARGETS    = depend commonclean dbgclean optclean clean commonClean	\
 					 dbgClean optClean Clean commonDepClean dbgDepClean		\
-					 optDepClean DepClean LibClean
+					 optDepClean DepClean LibClean Tests
 
 ifeq ($(MAKECMDGOALS),)
 SUB_JOB := build
@@ -50,12 +51,23 @@ getSourceFiles         = \
 	 					 $(wildcard $(1)/*.c)   	   	\
 			 			 $(wildcard $(1)/$(PROJ)*.s)
 
+getTestSourceFiles     = \
+					     $(wildcard $(1)/test*.cpp)
+
+getQTSourceFiles       = $(wildcard $(1)/OSG*_qt.cpp)
+getTestQTSourceFiles   = $(wildcard $(1)/test*_qt.cpp)
+
 getProjSourceFiles     =$(foreach dir,$(1),$(call getSourceFiles,$(dir))) \
 					    $(wildcard ./*.cpp)
 
+getProjTestSourceFiles =$(foreach dir,$(1),$(call getTestSourceFiles,$(dir)))
 
 getProjAllMDSourceFiles= $(foreach dir,$(1),$(call getAllMDSourceFiles,$(dir)))
 getProjSysMDSourceFiles= $(foreach dir,$(1),$(call getSysMDSourceFiles,$(dir)))
+
+getProjQTSourceFiles   = $(foreach dir,$(1),$(call getQTSourceFiles,$(dir)))
+
+getPrTestQTSourceFiles = $(foreach dir,$(1),$(call getTestQTSourceFiles,$(dir)))
 
 #########################################################################
 # Get Flex/Bison Source Files
@@ -156,11 +168,16 @@ LIB_SOURCES        := $(filter-out $(LIB_RMMDSOURCES),$(LIB_SOURCES))
 
 LIB_OBJECTS        := $(call cnvSourceToObject,$(LIB_SOURCES))
 
+TEST_SOURCES       := $(call getProjTestSourceFiles,$(LIB_ABSSOURCEDIRS))
+TEST_SOURCES        := $(notdir $(TEST_SOURCES))
+
 #########################################################################
-# Define Objects
+# Define Dep Objects
 #########################################################################
 
+ifeq ($($(PROJ)NODEPS),)
 LIB_DEPS           := $(call cnvSourceToDep,$(LIB_SOURCES))
+endif
 
 #########################################################################
 # Define FLex/Bison Objects
@@ -204,22 +221,75 @@ LIB_OBJECTS := $(call cnvSourceToObject, $(notdir $(LIB_BISONTARGET_CPP))) \
 endif
 
 #########################################################################
+# Define QT Objects
+#########################################################################
+
+LIB_QT_SOURCES   := $(call getProjQTSourceFiles,$(LIB_ABSSOURCEDIRS))
+
+ifneq ($(LIB_QT_SOURCES),)
+LIB_QT_SOURCES   := $(notdir $(LIB_QT_SOURCES))
+
+LIB_QTTARGET_CPP := $(subst _qt,_qt_moc,$(LIB_QT_SOURCES))
+
+LIB_QTTARGET_CPP := $(addprefix $(OBJDIR)/,$(LIB_QTTARGET_CPP))
+
+LIB_QT_TARGET    := $(LIB_QTTARGET_CPP) : $(LIB_QT_SOURCES)
+endif
+
+#########################################################################
+# Define Test Targets
+#########################################################################
+
+TEST_TARGETS_IN := $(basename $(TEST_SOURCES))
+
+ifneq ($(FILTEREDCMDGOALS),)
+TEST_TARGETS_IN := $(filter $(FILTEREDCMDGOALS),$(TEST_TARGETS_IN))
+endif
+
+
+TEST_TARGETS       := $(addprefix $(EXEDIR)$(DIR_SEP),$(TEST_TARGETS_IN))
+
+TEST_TARGETS_CPP   := $(addsuffix .cpp,$(TEST_TARGETS_IN))
+
+ifeq ($($(PROJ)NODEPS),)
+TEST_DEPS          := $(call cnvSourceToDep,$(TEST_TARGETS_CPP))
+endif
+
+TEST_OBJS          := $(call cnvSourceToObject,$(TEST_TARGETS_CPP))
+
+
+LIB_TESTQT_SOURCES := $(call getPrTestQTSourceFiles,$(LIB_ABSSOURCEDIRS))
+
+ifneq ($(LIB_TESTQT_SOURCES),)
+LIB_TESTQT_SOURCES   := $(notdir $(LIB_TESTQT_SOURCES))
+
+LIB_TESTQTTARGET_CPP := $(subst _qt,_qt_moc,$(LIB_TESTQT_SOURCES))
+
+LIB_TESTQTTARGET_CPP := $(addprefix $(OBJDIR)/,$(LIB_TESTQTTARGET_CPP))
+
+LIB_TESTQT_TARGET    := $(LIB_TESTQTTARGET_CPP) : $(LIB_TESTQT_SOURCES)
+endif
+
+#########################################################################
 # Define Packages
 #########################################################################
 
-REQUIRED_PACKAGES := $(LIB_SOURCEPACKAGES)
-REQUIRED_PACKAGES += $(LIB_REQUIRED_INCPACKAGES) $(LIB_REQUIRED_LNKPACKAGES)
+REQUIRED_PACKAGES := $(LIB_ABSSOURCEDIRS)
+
+REQUIRED_PACKAGES := \
+	$(addsuffix /common$(MAK_SUFFIX),$(REQUIRED_PACKAGES))
+
+REQUIRED_PACKAGES += $(LIB_REQUIRED_INCPACKAGES_FILES) \
+					 $(LIB_REQUIRED_LNKPACKAGES_FILES)
+
+ifeq ($(IN_TEST_DIR),1)
+REQUIRED_PACKAGES += $(LIB_REQUIRED_TESTLNKPACKAGES_FILES)
+endif
 
 REQUIRED_PACKAGES := $(sort $(REQUIRED_PACKAGES))
 
-
-REQUIRED_PACKAGES := \
-   $(addprefix $($(PROJ)POOL)/$($(PROJ)COMMONPACK)/common,$(REQUIRED_PACKAGES))
-
-REQUIRED_PACKAGES := \
-	$(addsuffix $(MAK_SUFFIX)/,$(REQUIRED_PACKAGES))
-
 include $(REQUIRED_PACKAGES)
+
 
 #########################################################################
 # Setup Compiler Environment
@@ -228,13 +298,20 @@ include $(REQUIRED_PACKAGES)
 INCL         := $(INCL_$(OS_BASE))
 LIBPATHS     := $(LIBPATHS_$(OS_BASE))
 
-LIBPACKPATHS := $(foreach lp,$(LIB_REQUIRED_LNKPACKAGES), $(LIBPATHS_$(lp)))
+RQ_LPACKS    := $(LIB_REQUIRED_LNKPACKAGES)
+
+ifeq ($(IN_TEST_DIR),1)
+RQ_LPACKS    := $(LIB_REQUIRED_TESTLNKPACKAGES) $(RQ_LPACKS)
+endif
+
+LIBPACKPATHS := $(foreach lp,$(RQ_LPACKS), $(LIBPATHS_$(lp)))
 
 LIBPATHS     := $(LIBPATHS) $(LIBPACKPATHS)
 
-LIBS      := $(foreach lp,$(LIB_REQUIRED_LNKPACKAGES), $(LIB_FILE_$(lp)))
+LIBS      := $(foreach lp,$(RQ_LPACKS), $(LIB_FILE_$(lp)))
+
 LIBS      := $(LIBS) $(LIBS_$(OS_BASE))
 
-LIBS_DEP  := $(foreach lp,$(LIB_REQUIRED_LNKPACKAGES), $(LIB_FILE_DEP_$(lp)))
+LIBS_DEP  := $(foreach lp,$(RQ_LPACKS), $(LIB_FILE_DEP_$(lp)))
 
 include $($(PROJ)POOL)/$($(PROJ)COMMON)/DefaultRules.mk

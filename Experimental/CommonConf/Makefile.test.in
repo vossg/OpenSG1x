@@ -23,11 +23,17 @@ LIB_REQUIRED_LNKPACKAGES := @ac_gdz_package_link_dep_out@
 LIB_REQUIRED_INCPACKAGES_FILES := @ac_gdz_package_inc_dep_out_files@
 LIB_REQUIRED_LNKPACKAGES_FILES := @ac_gdz_package_link_dep_out_files@
 
-IN_TEST_DIR := 0
+LIB_REQUIRED_TESTLNKPACKAGES       := @ac_gdz_package_testlink_dep_out@
+LIB_REQUIRED_TESTLNKPACKAGES_FILES := @ac_gdz_package_testlink_dep_out_files@
+
+IN_TEST_DIR := 1
 
 PACKAGE_NAME := @ac_gdz_package_name_out@
 
 SO_NEEDS_INIT := @ac_gdz_package_so_needs_init_e2@
 
+Tests: Test
+
 include $(@ac_gdz_project_praefix@POOL)/$(@ac_gdz_project_praefix@COMMON)/@ac_gdz_package_sys_common_out@
 include $(@ac_gdz_project_praefix@POOL)/$(@ac_gdz_project_praefix@COMMON)/commonSub.mk
+

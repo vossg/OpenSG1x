@@ -11,7 +11,7 @@ COMPONLY_OPTION      := -c
 DEPEND_OPTION        := -M
 
 LD_OUTOPT            := -o
-
+LD_OUTSPACE          :=  
 DIR_SEP              := /
 
 II_FILESDIR          := ii_files
@@ -36,7 +36,8 @@ DEFLIBS := 32
 ### Defines #######################################################
 
 # For QT
-DEP_PLATTFORMDEF = -D__sgi -D__EDG__ -D_STANDARD_C_PLUS_PLUS
+DEP_PLATTFORMDEF = -D__sgi -D__EDG__ -D_STANDARD_C_PLUS_PLUS        \
+                   -DQT_CLEAN_NAMESPACE
 
 SOURCE_DEFINES   = 
 
@@ -89,7 +90,7 @@ endif
 ### Compiler Flags ################################################
 
 
-DEFINES     = $(SOURCE_DEFINES) $(SYSTEM_DEFINES) 
+DEFINES     = $(SOURCE_DEFINES) $(SYSTEM_DEFINES) $(DEP_PLATTFORMDEF)
 
 # C Compiler Flags
 
@@ -121,3 +122,6 @@ else
 	LINK_OPTIMIZE    =
 	LINK_DEBUG       = -g 
 endif
+
+
+LD_FLAGS += -$(ABI) -$(ISA) $(LINK_OPTIMIZE) $(LINK_DEBUG)

@@ -35,6 +35,10 @@ $(OBJDIR)/%$(OBJ_SUFFIX): $(OBJDIR)/%.cpp
 	$(INC_OPTION)$(OBJDIR) $(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
 endif
 
+$(EXEDIR)/%: $(OBJDIR)/%.o 
+	@echo test
+	$(CC) $(LD_OUTOPT)$(LD_OUTSPACE)$@ $(LD_FLAGS) $(LDLOCALFLAGS) \
+		$(call cnvSubDirsUnix2Win,$<) $(LIBPATHS) $(LIBS)
 
 define win_make_depend 	
 	@echo "# Building dependency $(@F) from $(<F)" 				
@@ -80,6 +84,13 @@ $(OBJDIR)/%$(DEP_SUFFIX): %.c
 	$(unix_make_depend)
 endif
 
+$(OBJDIR)/%_qt_moc.cpp: %_qt.h
+	$(MOC) $< -i -o $@
+
+$(OBJDIR)/%_qt_moc.cpp: %_qt.cpp
+	$(MOC) $< -i -o $@
+
+
 #########################################################################
 # Automatic Targets Lib Toplevel
 #########################################################################
@@ -98,14 +109,35 @@ ifneq ($(SUB_SO),)
 SubLib: $(LIB_DEPS) $(SUB_SO) 
 	@echo "LASTDBG=$(DBG)" > .lastdbg
 
-$(SUB_SO): $(LIBQTMOCSOURCES_CPP) $(LIB_OBJECTS) $(LIBS_DEP)
+$(SUB_SO): $(LIBS_DEP) $(LIB_QTTARGET_CPP) $(LIB_OBJECTS) 
 	@echo $(LIB_OBJECTS) $(AR_FLAGS) $(SUB_SO)
 	$(LD_SHARED) $(LD_OUTOPT)$(LD_OUTSPACE)$(SUB_SO) \
 		$(call cnvSubDirsUnix2Win,$(LIB_OBJECTS)) $(LIBPATHS) $(LIBS) \
 		$(SO_INIT_FLAGS)
 
-#		-Wl,-init -Wl,vscInitSharedObject
+$(LIB_QT_TARGET)
 endif
+
+#########################################################################
+# Automatic Targets Test Toplevel
+#########################################################################
+
+
+
+$(TEST_TARGETS): $(TEST_OBJS) $(LIBS_DEP) $(TEST_DEPS)  
+
+
+$(TEST_TARGETS_IN): $(LIB_TESTQTTARGET_CPP) $(TEST_TARGETS) 
+	@for file in $@; do                \
+		echo $$file;                   \
+		rm -f $$file;                  \
+		ln -s $(EXEDIR)/$$file $$file; \
+	done
+
+Test: $(TEST_TARGETS_IN)
+	@echo Test
+
+$(LIB_TESTQT_TARGET)
 
 
 #########################################################################
@@ -218,10 +250,19 @@ LibClean:
 ifeq ($(OS_BASE), cygwin)
 	@-rm -f $(LIBDIR)/*.exp 			2>/dev/null
 	@-rm -f $(LIBDIR)/*.pdb 			2>/dev/null
-	-rm -f $(LIBDIR)/*$(LIB_SUFFIX) 	2>/dev/null
-	-rm -f $(LIBDIR)/*$(SO_SUFFIX)	 	2>/dev/null
+	@-rm -f $(LIBDIR)/*$(LIB_SUFFIX) 	2>/dev/null
 endif
+	@-rm -f $(LIBDIR)/*$(SO_SUFFIX)	 	2>/dev/null
 
+ExeClean:
+	@-rm -f $(EXEDIR)/*                 2>/dev/null
+
+ifeq ($(IN_TEST_DIR),0)
 ifeq ($(SUB_JOB), build)
 -include $(LIB_DEPS)
+endif
+else
+ifeq ($(SUB_JOB), build)
+-include $(TEST_DEPS)
+endif
 endif

@@ -11,3 +11,7 @@ ifneq ($(LINK_STL),)
 LIBPATHS_$(OS_BASE) := $(LIBPATH_OPTION)$(LINK_STL) $(LIBPATHS_$(OS_BASE))
 endif
 
+ifneq ($(LIB_STL),)
+LIBS_$(OS_BASE) := $(LIB_STL) $(LIBS_$(OS_BASE))
+endif
+

@@ -17,11 +17,12 @@ endif
 
 $(PROJ)SUBMAKEPAR :=
 
-ifdef $(PROJ)SUBPARJOBS
-ifneq ($($(PROJ)SUBPARJOBS), 0)
+ifneq ($($(PROJ)SUBPARJOBS),)
+ifneq ($($(PROJ)SUBPARJOBS),0)
 $(PROJ)SUBMAKEPAR = -j $($(PROJ)SUBPARJOBS)
 endif
 endif
+
 
 SUB_MAKE      := gmake -r -k $($(PROJ)SUBMAKEPAR)
 
@@ -69,6 +70,8 @@ Clean: $(SUB_LIBTARGETS)
 LibClean: SUB_TARGET := LibClean
 LibClean: $(SUB_LIBTARGETS) 
 
+DepClean: SUB_TARGET := DepClean
+DepClean: $(SUB_LIBTARGETS) 
 
 
 %.src:

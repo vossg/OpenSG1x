@@ -326,26 +326,34 @@ AC_DEFUN(AC_GDZ_SCAN_PACKET_DESC,
 
     until [[ $i = ${#ac_gdz_package[*]} ]]; do
 
-        p1=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\1/'`
+        p1=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\1/'`
         p1=`echo $p1 | sed 's/://g'`
 
-        p2=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\2/'`
+        p2=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\2/'`
         p2=`echo $p2 | sed 's/://g'`
 
-        p3=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\3/'`
+        p3=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\3/'`
         p3=`echo $p3 | sed 's/://g'`
 
-        p4=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\4/'`
+        p4=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\4/'`
         p4=`echo $p4 | sed 's/://g'`
 
-        p5=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\5/'`
+        p5=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\5/'`
         p5=`echo $p5 | sed 's/://g'`
+
+        p6=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\6/'`
+        p6=`echo $p6 | sed 's/://g'`
+
+        p7=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\7/'`
+        p7=`echo $p7 | sed 's/://g'`
 
         ac_gdz_package_name[$i]=$p1;
         ac_gdz_package_fact_init[$i]=$p2
         ac_gdz_package_dirs[$i]=$p3;
         ac_gdz_package_inc_dep[$i]=$p4;
         ac_gdz_package_link_dep[$i]=$p5;
+        ac_gdz_package_testinc_dep[$i]=$p6;
+        ac_gdz_package_testlink_dep[$i]=$p7;
 
         let i=i+1
     done
@@ -368,12 +376,60 @@ dnl e2
         echo configuring package $i ${ac_gdz_package_name[$i]}
 
         ac_gdz_package_name_out=${ac_gdz_package_name[$i]}
-        ac_gdz_package_inc_dep_out=${ac_gdz_package_inc_dep[$i]}
-        ac_gdz_package_link_dep_out=${ac_gdz_package_link_dep[$i]}
 
-        ac_gdz_package_dir=${ac_gdz_package_sub_dir_out}/${ac_gdz_package_name[$i]}Lib
+        ac_gdz_package_inc_dep_out=${ac_gdz_package_inc_dep[$i]}
+        ac_gdz_package_inc_dep_out_files= 
+
+        for dir in ${ac_gdz_package_inc_dep[$i]}; do
+
+            ac_gdz_package_check_dir_e2=$ac_gdz_src_dir/$dir
+
+            if [[ -d $ac_gdz_package_check_dir_e2 ]]; then
+                ac_gdz_package_inc_dep_out_files=$ac_gdz_package_inc_dep_out_files' $('${ac_gdz_project_praefix}'POOL)'/$dir/common.mk
+            else
+                ac_gdz_package_check_file_e2=$ac_gdz_commonpackage_dir/common$dir.mk
+
+                if [[ -r $ac_gdz_package_check_file_e2 ]]; then
+                    ac_gdz_package_inc_dep_out_files="$ac_gdz_package_inc_dep_out_files $ac_gdz_commonpackage_dir/common$dir.mk"
+                else
+                    ac_gdz_package_inc_dep_out_files=$ac_gdz_package_inc_dep_out_files' $('${ac_gdz_project_praefix}'POOL)'/$dir/common.mk
+                fi
+            fi
+        done
+
+        ac_gdz_package_link_dep_out=${ac_gdz_package_link_dep[$i]}
+        ac_gdz_package_link_dep_out_files=
+
+        for dir in ${ac_gdz_package_link_dep[$i]}; do
+            ac_gdz_package_check_file_e2=$ac_gdz_commonpackage_dir/common$dir.mk
+            
+            if [[ -r $ac_gdz_package_check_file_e2 ]]; then
+                ac_gdz_package_link_dep_out_files="$ac_gdz_package_link_dep_out_files $ac_gdz_commonpackage_dir/common$dir.mk"
+            else
+                ac_gdz_package_link_dep_out_files=$ac_gdz_package_link_dep_out_files' $(BUILD_BASE)'/$dir/common.mk
+            fi
+        done
+
+        ac_gdz_package_testlink_dep_out=${ac_gdz_package_name_out}Lib' '${ac_gdz_package_testlink_dep[$i]}
+        ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_link_dep_out_files' $(BUILD_BASE)'/${ac_gdz_package_name_out}Lib/common.mk
+
+        for dir in ${ac_gdz_package_testlink_dep[$i]}; do
+            ac_gdz_package_check_file_e2=$ac_gdz_commonpackage_dir/common$dir.mk
+            
+            if [[ -r $ac_gdz_package_check_file_e2 ]]; then
+                ac_gdz_package_testlink_dep_out_files="$ac_gdz_package_testlink_dep_out_files $ac_gdz_commonpackage_dir/common$dir.mk"
+            else
+                ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_testlink_dep_out_files' $(BUILD_BASE)'/$dir/common.mk
+            fi
+        done
+
+
+        ac_gdz_package_dir_base=${ac_gdz_package_sub_dir_out}/${ac_gdz_package_name[$i]}
+        ac_gdz_package_dir=${ac_gdz_package_dir_base}Lib
+        ac_gdz_package_test_dir=${ac_gdz_package_dir_base}Test
 
         ac_gdz_common_packet_make=${ac_gdz_package_dir}/Makefile
+        ac_gdz_common_packet_testmake=${ac_gdz_package_test_dir}/Makefile
 
         if [[ ${ac_gdz_package_fact_init[$i]} = "1" ]]; then
             if [[ $build_os = cygwin ]]; then
@@ -392,6 +448,10 @@ dnl e2
             ac_gdz_package_so_needs_init_e2=0
         fi
 
+        ac_gdz_common_mk_in_e2=${ac_gdz_commonconf_dir}/common.mk.in
+        ac_gdz_common_mk_out_e2=${ac_gdz_package_dir}/common.mk
+        ac_gdz_common_mk_files_e2="$ac_gdz_common_mk_out_e2:$ac_gdz_common_mk_in_e2"
+
         az_gdz_vpath_out=.
 
         for dir in ${ac_gdz_package_dirs[$i]}; do
@@ -408,31 +468,8 @@ dnl e2
             fi
         done
 
-        if ! test -w $ac_gdz_package_dir; then 
-        	echo Need $ac_gdz_package_dir
-	        mkdir $ac_gdz_package_dir
-        fi
-
-        if ! test -w $ac_gdz_package_dir/obj-dbg; then 
-        	echo Need $ac_gdz_package_dir/obj-dbg
-	        mkdir $ac_gdz_package_dir/obj-dbg
-        fi
-
-        if ! test -w $ac_gdz_package_dir/obj-opt; then 
-        	echo Need $ac_gdz_package_dir/obj-opt
-	        mkdir $ac_gdz_package_dir/obj-opt
-        fi
-
-        if ! test -w $ac_gdz_package_dir/lib-dbg; then 
-        	echo Need $ac_gdz_package_dir/lib-dbg
-	        mkdir $ac_gdz_package_dir/lib-dbg
-        fi
-
-        if ! test -w $ac_gdz_package_dir/lib-opt; then 
-        	echo Need $ac_gdz_package_dir/lib-opt
-	        mkdir $ac_gdz_package_dir/lib-opt
-        fi
-
+        FK_GDZ_CREATE_PACKAGE_DIRS ${ac_gdz_package_dir_base}
+        
         changequote([, ])dnl
 
         ac_gdz_win_pool_e2=
@@ -446,7 +483,7 @@ dnl e2
             ac_gdz_win_build_base_e2="BUILD_BASE_WIN := "$ac_gdz_package_sub_dir_win_e2
         fi
 
-        ac_gdz_build_dir_e2=$ac_gdz_build_dir
+        ac_gdz_build_dir_e2=$ac_gdz_build_dir        
 
         AC_SUBST(ac_gdz_src_dir)
         AC_SUBST(ac_gdz_build_dir_e2)
@@ -454,7 +491,11 @@ dnl e2
         AC_SUBST(ac_gdz_win_build_base_e2)
         AC_SUBST(ac_gdz_package_name_out)
         AC_SUBST(ac_gdz_package_inc_dep_out)
+        AC_SUBST(ac_gdz_package_inc_dep_out_files)
         AC_SUBST(ac_gdz_package_link_dep_out)
+        AC_SUBST(ac_gdz_package_link_dep_out_files)
+        AC_SUBST(ac_gdz_package_testlink_dep_out)
+        AC_SUBST(ac_gdz_package_testlink_dep_out_files)
 
         AC_SUBST(ac_gdz_package_sub_dir_out)
         AC_SUBST(ac_gdz_package_sys_common_out)
@@ -466,7 +507,10 @@ dnl e2
 
         touch confdefs.h
 
-        AC_OUTPUT($ac_gdz_common_packet_make:$ac_gdz_common_packetmake_in $ac_gdz_common_init_code_files_e2)
+        AC_OUTPUT([$ac_gdz_common_packet_make:$ac_gdz_common_packetmake_in
+                   $ac_gdz_common_packet_testmake:$ac_gdz_common_testmake_in
+                   $ac_gdz_common_init_code_files_e2 
+                   $ac_gdz_common_mk_files_e2])
 
         let i=i+1
     done
@@ -545,4 +589,41 @@ dnl e5
     touch confdefs.h
 
     AC_OUTPUT($ac_gdz_common_glut_e5:$ac_gdz_common_glut_in_e5)
+])
+
+
+AC_DEFUN(AC_GDZ_WRITE_COMMON_QT,
+[
+dnl e5
+
+    ac_gdz_qt_lib_e6=
+    ac_gdz_qt_incdir_e6=
+    ac_gdz_qt_libdir_e6=
+    ac_gdz_qt_moc_e6=
+
+    if [[ -n "$ac_gdz_qt_dir" ]]; then
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_qt_incdir_e6='"'`cygpath -w $ac_gdz_qt_dir/include`'"'
+           ac_gdz_qt_libdir_e6='"'`cygpath -w $ac_gdz_qt_dir/lib`'"'
+           ac_gdz_qt_moc_e6='"'`cygpath -w $ac_gdz_qt_dir/bin/moc`'"'
+           ac_gdz_qt_lib_e6='qt.lib'
+        else
+           ac_gdz_qt_incdir_e6=$ac_gdz_qt_dir/include
+           ac_gdz_qt_libdir_e6=$ac_gdz_qt_dir/lib
+           ac_gdz_qt_moc_e6=$ac_gdz_qt_dir/bin/moc
+           ac_gdz_qt_lib_e6='-lqt'
+        fi
+    fi
+
+    ac_gdz_common_qt_in_e6=$ac_gdz_commonconf_dir/commonQT.in
+    ac_gdz_common_qt_e6=$ac_gdz_commonpackage_dir/commonQT.mk
+
+    AC_SUBST(ac_gdz_qt_incdir_e6)
+    AC_SUBST(ac_gdz_qt_libdir_e6)
+    AC_SUBST(ac_gdz_qt_lib_e6)
+    AC_SUBST(ac_gdz_qt_moc_e6)
+   
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_common_qt_e6:$ac_gdz_common_qt_in_e6)
 ])

@@ -6,8 +6,19 @@ AC_INIT(Base/OSGConfig.h)
 
 dnl ############# Default Settings #####################
 
-ac_gdz_common_dir=Common
-ac_gdz_commonpackage_dir=CommonPackages
+if [[ $srcdir = . ]]; then
+	ac_gdz_src_dir=`pwd`
+	ac_gdz_lib_src_dir=`pwd`
+elif [[ $srcdir = .. ]]; then
+    ac_gdz_src_dir=`pwd`/..
+    ac_gdz_lib_src_dir=`pwd`/..
+else
+	ac_gdz_src_dir=$srcdir
+	ac_gdz_lib_src_dir=$srcdir
+fi
+
+ac_gdz_common_dir=$ac_gdz_src_dir/Common.new
+ac_gdz_commonpackage_dir=$ac_gdz_src_dir/CommonPackages.new
 ac_gdz_commonconf_dir=CommonConf
 ac_gdz_so_praefix=
 ac_gdz_so_suffix=
@@ -56,6 +67,19 @@ else
 	ac_gdz_glut_dir=$with_glut
 fi
 
+dnl ############# QT Settings #####################
+
+AC_ARG_WITH(qt,     [  --with-qt=DIR          Where to find the qt files to use],
+			,with_qt=no) 
+
+if [[ "$with_qt" = yes ]]; then
+	ac_gdz_qt_dir=
+elif [[ "$with_qt" = no ]]; then
+	ac_gdz_qt_dir=
+else
+	ac_gdz_qt_dir=$with_qt
+fi
+
 dnl ############# TLS Settings #####################
 
 AC_ARG_WITH(glut,     [  --with-win-localstorage=DIR          Use local storage instead of __declspec to get thread local storage on windows],
@@ -65,6 +89,67 @@ dnl ############# Bool=unsigned int Settings #####################
 
 AC_ARG_WITH(glut,     [  --with-win-bool-is-unsigned=DIR      Define Bool as unsigned, required to combine the software with Microsoft stuff, since preprocessors ignore namespaces ],
 			,with_win_bool_is_unsigned=no) 
+
+dnl ############# Helper #####################
+
+function FK_GDZ_CREATE_PACKAGE_DIRS
+{
+    ac_gdz_package_dir_build=${1}Lib
+    ac_gdz_package_dir_test=${1}Test
+
+    if ! test -w $ac_gdz_package_dir_build; then 
+        echo Need $ac_gdz_package_dir_build
+	    mkdir $ac_gdz_package_dir_build
+    fi
+
+    if ! test -w $ac_gdz_package_dir_build/obj-dbg; then 
+     	echo Need $ac_gdz_package_dir_build/obj-dbg
+	    mkdir $ac_gdz_package_dir_build/obj-dbg
+    fi
+
+    if ! test -w $ac_gdz_package_dir_build/obj-opt; then 
+       	echo Need $ac_gdz_package_dir_build/obj-opt
+	    mkdir $ac_gdz_package_dir_build/obj-opt
+    fi
+
+    if ! test -w $ac_gdz_package_dir_build/lib-dbg; then 
+      	echo Need $ac_gdz_package_dir_build/lib-dbg
+	    mkdir $ac_gdz_package_dir_build/lib-dbg
+    fi
+
+    if ! test -w $ac_gdz_package_dir_build/lib-opt; then 
+      	echo Need $ac_gdz_package_dir_build/lib-opt
+	    mkdir $ac_gdz_package_dir_build/lib-opt
+    fi
+
+
+
+
+    if ! test -w $ac_gdz_package_dir_test; then 
+        echo Need $ac_gdz_package_dir_test
+	    mkdir $ac_gdz_package_dir_test
+    fi
+
+    if ! test -w $ac_gdz_package_dir_test/obj-dbg; then 
+     	echo Need $ac_gdz_package_dir_test/obj-dbg
+	    mkdir $ac_gdz_package_dir_test/obj-dbg
+    fi
+
+    if ! test -w $ac_gdz_package_dir_test/obj-opt; then 
+       	echo Need $ac_gdz_package_dir_test/obj-opt
+	    mkdir $ac_gdz_package_dir_test/obj-opt
+    fi
+
+    if ! test -w $ac_gdz_package_dir_test/exe-dbg; then 
+      	echo Need $ac_gdz_package_dir_test/exe-dbg
+	    mkdir $ac_gdz_package_dir_test/exe-dbg
+    fi
+
+    if ! test -w $ac_gdz_package_dir_test/exe-opt; then 
+      	echo Need $ac_gdz_package_dir_test/exe-opt
+	    mkdir $ac_gdz_package_dir_test/exe-opt
+    fi
+}
 
 dnl ############# Run Tests #####################
 
@@ -166,19 +251,6 @@ else
 	exit
 fi
 
-
-
-if [[ $srcdir = . ]]; then
-	ac_gdz_src_dir=`pwd`
-	ac_gdz_lib_src_dir=`pwd`
-elif [[ $srcdir = .. ]]; then
-    ac_gdz_src_dir=`pwd`/..
-    ac_gdz_lib_src_dir=`pwd`/..
-else
-	ac_gdz_src_dir=$srcdir
-	ac_gdz_lib_src_dir=$srcdir
-fi
-
 ac_gdz_package_sub_dir_out=Builds/$build-$ac_gdz_compiler
 
 AC_CONFIG_HEADER($ac_gdz_package_sub_dir_out/Base/OSGConfigured.h:CommonConf/OSGConfigured.h.in)
@@ -225,20 +297,19 @@ ac_gdz_common_platform=$ac_gdz_common_dir/common.$build-$ac_gdz_compiler.mk
 
 ac_gdz_common_packetmake_in=$ac_gdz_commonconf_dir/Makefile.lib.in
 ac_gdz_common_buildsmake_in=$ac_gdz_commonconf_dir/Makefile.builds.in
+ac_gdz_common_testmake_in=$ac_gdz_commonconf_dir/Makefile.test.in
 
 AC_OUTPUT($ac_gdz_common_platform:$ac_gdz_common_platform_in)
+
+AC_GDZ_WRITE_COMMON_STL()
+
+AC_GDZ_WRITE_COMMON_GLUT()
+
+AC_GDZ_WRITE_COMMON_QT()
 
 ac_gdz_package_sys_common_out=common.$build-$ac_gdz_compiler.mk
 
 AC_GDZ_WRITE_PACKET_MAKE()
-
-ac_gdz_lib_package_sys_common_out=common.$build-$ac_gdz_compiler.mk
-
-AC_GDZ_WRITE_BUILDS_MAKE()
-
-AC_GDZ_WRITE_COMMON_STL()
-
-dnl AC_DEFINE(XXX)
 
 if [[ "$with_win_localstorage" = yes ]]; then
     AC_DEFINE(OSG_ASPECT_USE_LOCALSTORAGE)
@@ -250,4 +321,9 @@ if [[ "$with_win_bool_is_unsigned" = yes ]]; then
     AC_DEFINE(OSG_BOOL_IS_UNSIGNED)
 fi
 
-AC_GDZ_WRITE_COMMON_GLUT()
+ac_gdz_lib_package_sys_common_out=common.$build-$ac_gdz_compiler.mk
+
+AC_GDZ_WRITE_BUILDS_MAKE()
+
+
+
