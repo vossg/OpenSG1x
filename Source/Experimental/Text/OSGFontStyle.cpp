@@ -20,7 +20,7 @@ FontStyle::FontStyle(void) :
     _maxDescent   (0.f ),
     _maxAscent    (0.f ),
     _baselineSkip (0.f ),
-    _fontName     (NULL),
+    _fontName     (    ),
 
     _vectorGlyphs (    ),
     _imageGlyphs  (    ),
@@ -134,7 +134,7 @@ Real32 FontStyle::getBaselineSkip(void)
 
 const Char8 *FontStyle::getFontName(void)
 {
-    return _fontName;
+    return _fontName.c_str();
 }
 
 void FontStyle::setFontName(const Char8 *name)

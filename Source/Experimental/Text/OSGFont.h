@@ -26,7 +26,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Font
     std::string             _fontPath;
     
     /** Name of Font */
-    const Char8            *_fontName;
+    std::string             _fontName;
     
     bool                    _valid;
     

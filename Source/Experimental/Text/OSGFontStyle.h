@@ -33,7 +33,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FontStyle
             Real32                  _maxAscent;
             Real32                  _baselineSkip;
 
-    const   Char8                  *_fontName;
+            std::string             _fontName;
 
     std::vector<VectorFontGlyph *>  _vectorGlyphs;
     std::vector<ImageFontGlyph  *>  _imageGlyphs;

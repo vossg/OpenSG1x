@@ -41,7 +41,7 @@ OSG_BEGIN_NAMESPACE
 inline
 const Char8 *Font::getName(void)
 {
-    return _fontName;
+    return _fontName.c_str();
 }
 
 OSG_END_NAMESPACE

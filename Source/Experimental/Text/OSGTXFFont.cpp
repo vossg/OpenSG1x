@@ -226,7 +226,7 @@ bool TXFFont::initFont(void)
     if(_valid)
         return true;
 
-    if(!_fontName || _fontPath.empty())
+    if(_fontName.empty() || _fontPath.empty())
     {
         FWARNING(("No FontName or no path specified."));
         return false;
@@ -251,7 +251,7 @@ bool TXFFont::createInstance(Text *fs)
     bool           retVal = false;
     TXFFontStyle *fInst   = new TXFFontStyle;
 
-    fInst->setFontName    (_fontName         );
+    fInst->setFontName    (_fontName.c_str() );
     fInst->setMaxAscent   (_txfFontMaxAscent );
     fInst->setMaxDescent  (_txfFontMaxDescent);
     fInst->setBaselineSkip(
@@ -281,7 +281,7 @@ OSG::FontStyle *TXFFont::createInstance(Real32 size)
     bool          retVal = false;
     TXFFontStyle *fInst  = new TXFFontStyle;
 
-    fInst->setFontName    (_fontName         );
+    fInst->setFontName    (_fontName.c_str() );
     fInst->setSize        ( size             );
     fInst->setMaxAscent   (_txfFontMaxAscent );
     fInst->setMaxDescent  (_txfFontMaxDescent);
