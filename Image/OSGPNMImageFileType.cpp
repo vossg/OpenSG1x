@@ -246,7 +246,7 @@ bool PNMImageFileType::write (const Image &image, const char *fileName )
 			// with alpha
 			lineSize = image.bpp() * image.width();		
 			for (y = image.height() - 1; y >= 0; y--) 
-				out.write((char *) (image.data() + (lineSize * y)), lineSize);
+				out.write((image.data() + (lineSize * y)), lineSize);
 		}
 		else {
 			// skip alpha

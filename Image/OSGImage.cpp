@@ -87,7 +87,7 @@ OSG_DLLEXPORT_DEF1(MField, Image*, OSG_IMAGE_DLLTMPLMAPPING)
 
 #endif
 
-UInt32 Image::_formatMap[][2] = {
+Int32 Image::_formatMap[][2] = {
 	{ OSG_L_PF, 1 },
 	{ OSG_LA_PF, 2 },
 	{ OSG_RGB_PF, 3 },
@@ -140,7 +140,7 @@ UInt32 Image::_formatMap[][2] = {
 //----------------------------
 //
 //Parameters:
-//p: PixelFormat pixelFormat, Int32 width, Int32 height, Int32 depth, Int32 mipmapSize, Int32 frameSize, Time frameDelay, UChar8 *data
+//p: PixelFormat pixelFormat, Int32 width, Int32 height, Int32 depth, Int32 mipmapCount, Int32 frameCount, Time frameDelay, UChar8 *data
 //GlobalVars:
 //g: 
 //Returns:
@@ -167,9 +167,9 @@ Bool Image::set ( PixelFormat pF,
 	_height = h;
 	_depth = d;
 
-	_mipmapSize = mmS;
+	_mipmapCount = mmS;
 
-	_frameSize = fS;
+	_frameCount = fS;
 	_frameDelay = fD;
 
 	return createData(da);
@@ -342,7 +342,7 @@ Bool Image::reformat (const PixelFormat pF, Image *destination )
 //----------------------------------------------------------------------
 void Image::clear(UChar8 pixelValue)
 {
-	unsigned long n = size();
+	unsigned long n = getSize();
 	UChar8 *d = _data;
 
 	if (n && d) 
@@ -370,53 +370,76 @@ void Image::clear(UChar8 pixelValue)
 //s:
 //
 //------------------------------
-Bool Image::scale (int width, int height, int depth, Image *destination )
+Bool Image::scale ( int width, int height, int depth, Image *destination )
 {
+	Image *destImage = destination ? destination : new Image;
 	Bool retCode = true;
-	UChar8 *data, *dest, *slice, *line, *pixel;
-	float sx, sy, sz, p;
-	int x,y,z;
+	Int32 sw,sh,sd,dw,dh,dd;
+	Int32 frame, mipmap;
+	UChar8 *src, *dest;
   
 	if (width != _width || height != _height || depth != _depth) {
-		sx = float(_width) / float(width);
-		sy = float(_height) / float(height);
-		sz = float(_depth) / float(depth);
-		if (destination) {
-			destination->set(_pixelFormat,width,height,depth);
-			dest = data = destination->data();
-		}
-		else
-			dest = data = new UChar8[width * height * depth * _bpp];
 
-		if (data) {			
-			for ( z = 0; z < depth; z++) {
-				slice = _data + int(sz * z + 0.5) * _bpp * _width * _height;
-				for ( y = 0; y < height; y++) {
-					line = slice + int (sy * y + 0.5) * _bpp * _width;
-					for ( x = 0; x < width; x++) {
-						pixel = line + int(sx * x + 0.5) * _bpp;
-						p = _bpp;
-						while (p--)
-							*dest++ = *pixel++;
-					}
-				}
+		// set image data
+		destImage->set ( _pixelFormat, width, height, depth,
+										 _mipmapCount, _frameCount, _frameDelay, 0 );
+		
+		// copy every mipmap in every frame
+		for (frame = 0; frame < _frameCount; frame++) {
+			for (mipmap = 0; mipmap < _mipmapCount; mipmap++) {
+
+				// get the memory pointer
+				src  = this->getData(mipmap,frame);
+				dest = destImage->getData(mipmap,frame);
+
+				// calc the mipmap size
+				this->calcMipmapGeometry(mipmap,sw,sh,sd);
+				destImage->calcMipmapGeometry(mipmap,dw,dh,dd);
+
+				// copy and scale the data
+				scaleData (src,sw,sh,sd,dest,dw,dh,dd);
 			}
-			if (!destination) {
-				delete [] _data;
-				_data = data;
-				_width = width;
-				_height = height;
-				_depth = depth;
-			}
-			retCode = true;
 		}
 	}
-	else { // same size; just copy the data
+	else { // same size; just copy the data necessary
 		if (destination)
 			*destination = *this;
 	}
 
+	// rip the data from the local destImage if necessary
+	if (!destination) {
+		delete [] _data;
+		_data = destImage->_data;
+		destImage->_data = 0;
+		delete destImage;
+	}
+
 	return retCode;
+}
+
+//----------------------------
+// Function name: scale
+//----------------------------
+//
+//Parameters:
+//p: int width, int height, int depth =1, Image *destination = 0
+//GlobalVars:
+//g: 
+//Returns:
+//r:bool
+// Caution
+//c: 
+//Assumations:
+//a: 
+//Describtions:
+//d: scale the image to the given dimension
+//SeeAlso:
+//s:
+//
+//------------------------------
+Bool Image::createMipmap ( Int32 level )
+{
+	return true;
 }
 
 //----------------------------
@@ -477,7 +500,6 @@ Bool Image::read (const Char8 *fileName )
 *private	
 ******************************/
 
-
 //----------------------------
 // Function name: createData
 //----------------------------
@@ -517,12 +539,15 @@ Bool Image::createData (const UChar8 *data )
 	else
 		_dimension = 3;
 
+	// set frameSize
+	_frameSize = calcMipmapSumSize(_mipmapCount);  
+
 	// delete old data
 	if (_data)
 		delete [] _data;
 
 	// copy new data
-	if ((byteCount = size())) {
+	if ((byteCount = getSize())) {
 		_data = new UChar8[byteCount];
 		if (_data) {
 			if (data)
@@ -535,6 +560,61 @@ Bool Image::createData (const UChar8 *data )
 		_data = 0;
 		
 	return _data;
+}
+
+//----------------------------
+// Function name: createData
+//----------------------------
+//
+//Parameters:
+//p: UChar8* srcData, Int32 srcW, Int32 srcH, Int32 srcD, UChar8* destData, Int32 destW, Int32 destH, Int32 destD
+//GlobalVars:
+//g: 
+//Returns:
+//r:bool
+// Caution
+//c: 
+//Assumations:
+//a: 
+//Describtions:
+//d: Internal medhot to copy&scale image data 
+//SeeAlso:
+//s:
+//
+//------------------------------
+Bool Image::scaleData ( UChar8* srcData, 
+												Int32 srcW, Int32 srcH, Int32 srcD,
+												UChar8* destData, 
+												Int32 destW, Int32 destH, Int32 destD)
+{
+	Real32 sx = Real32(srcW) / Real32(destW);
+	Real32 sy = Real32(srcH) / Real32(destH);
+	Real32 sz = Real32(srcD) / Real32(destD);
+	Int32 srcSize = srcW * srcH * srcD;
+	Int32 destDize = destW * destH * destD;
+	Int32 x,y,z,p;
+	UChar8 *slice,*line,*pixel;
+
+	if (destW == srcW && destH == srcH && destD == srcD) {
+		// same size, just copy
+		memcpy(destData,srcData,srcSize);
+	}
+	else		
+		// different size, to 'nearest' copy
+		for ( z = 0; z < destD; z++) {
+			slice = srcData + int(sz * z + 0.5) * _bpp * srcW * srcH;
+			for ( y = 0; y < destH; y++) {
+				line = slice + int (sy * y + 0.5) * _bpp * srcW;
+				for ( x = 0; x < destW; x++) {
+					pixel = line + int(sx * x + 0.5) * _bpp;
+					p = _bpp;
+					while (p--)
+						*destData++ = *pixel++;
+				}
+			}
+		}
+
+	return true;
 }
 
 /***************************
@@ -572,8 +652,8 @@ Bool Image::createData (const UChar8 *data )
 //------------------------------
 Image::Image (void )
 : _pixelFormat(OSG_INVALID_PF), 
-	_width(0), _height(0), _depth(0), _mipmapSize(0), 
-	_frameSize(0), _frameDelay(0),
+	_width(0), _height(0), _depth(0), _mipmapCount(0), 
+	_frameCount(0), _frameDelay(0),
 	_bpp(0),_dimension(0),
 	_data(0)
 {
@@ -600,15 +680,15 @@ Image::Image (void )
 //s:
 //
 //------------------------------
-Image::Image (const Image &obj, Bool copy )
+Image::Image (const Image &obj, Bool copyData )
 : _pixelFormat(obj._pixelFormat),
 	_width(obj._width), _height(obj._height), _depth(obj._depth),
-	_mipmapSize(obj._mipmapSize), 
-	_frameSize(obj._frameSize), _frameDelay(obj._frameDelay),
+	_mipmapCount(obj._mipmapCount), 
+	_frameCount(obj._frameCount), _frameDelay(obj._frameDelay),
 	_bpp(0), _dimension(0),
 	_data(0)
 {
-	createData ( copy ? obj._data : 0 );
+	createData ( copyData ? obj._data : 0 );
 }
 
 //----------------------------
@@ -661,12 +741,12 @@ Image::~Image (void )
 //------------------------------
 Image::Image ( PixelFormat pixelFormat, 
 							 Int32 width, Int32 height, Int32 depth, 
-							 Int32 mipmapSize, Int32 frameSize, Time frameDelay,
+							 Int32 mipmapCount, Int32 frameCount, Time frameDelay,
 							 UChar8 *data)
 	: _pixelFormat(pixelFormat),
 		_width(width), _height(height), _depth(depth),
-		_mipmapSize(mipmapSize), 
-		_frameSize(frameSize), _frameDelay(frameDelay),
+		_mipmapCount(mipmapCount), 
+		_frameCount(frameCount), _frameDelay(frameDelay),
 		_bpp(0), _dimension(0),
 		_data(0)
 {
@@ -704,13 +784,13 @@ Image::Image ( PixelFormat pixelFormat,
 //------------------------------
 Bool Image::operator == (const Image &image )
 {
- unsigned long i, s = size();
+ unsigned long i, s = getSize();
 
   if ((_width == image._width) &&
       (_height == image._height) &&
       (_depth == image._depth) &&
-			(_mipmapSize == image._mipmapSize) &&
-			(_frameSize == image._frameSize) &&
+			(_mipmapCount == image._mipmapCount) &&
+			(_frameCount == image._frameCount) &&
 			(_frameDelay == image._frameDelay) &&
       (_pixelFormat == image._pixelFormat)) {
     for (i = 0; i < s; ++i)
@@ -742,7 +822,7 @@ Bool Image::operator == (const Image &image )
 //------------------------------
 Bool Image::operator < (const Image &image )
 {
-	return (size() < image.size()) ? true : false;
+	return (getSize() < image.getSize()) ? true : false;
 }
 
 
