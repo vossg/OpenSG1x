@@ -175,14 +175,14 @@ void TextureBackground::clear(DrawActionBase *action, Viewport *OSG_CHECK_ARG(vi
             glTexCoord2f(getTexCoords()[0].getValues()[0],
                          getTexCoords()[0].getValues()[1]);
             glVertex3f(0.0f, 0.0f, 0.0f);
-            glTexCoord2f(getTexCoords()[3].getValues()[0],
-                         getTexCoords()[3].getValues()[1]);
+            glTexCoord2f(getTexCoords()[1].getValues()[0],
+                         getTexCoords()[1].getValues()[1]);
             glVertex3f(1.0f, 0.0f, 0.0f);
             glTexCoord2f(getTexCoords()[2].getValues()[0],
                          getTexCoords()[2].getValues()[1]);
             glVertex3f(1.0f, 1.0f, 0.0f);
-            glTexCoord2f(getTexCoords()[1].getValues()[0],
-                         getTexCoords()[1].getValues()[1]);
+            glTexCoord2f(getTexCoords()[3].getValues()[0],
+                         getTexCoords()[3].getValues()[1]);
             glVertex3f(0.0f, 1.0f, 0.0f);
         glEnd();
     }
@@ -232,7 +232,7 @@ void TextureBackground::dump(UInt32,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackground.cpp,v 1.3 2004/02/03 15:31:08 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackground.cpp,v 1.4 2004/02/05 15:53:38 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID;
 

@@ -133,6 +133,7 @@ int main(int argc, char **argv)
     tex->setEnvMode(GL_REPLACE);
     tex->setEnvMode(GL_REPLACE);
     tex->setWrapS(GL_CLAMP);
+    tex->setWrapT(GL_CLAMP);
     endEditCP(tex);
     
     // Background
@@ -143,9 +144,9 @@ int main(int argc, char **argv)
         // add some user defined texture coordinates.
         // default values are (0 0) (1 0) (1 1) (0 1)
         //bkgnd->getTexCoords().push_back(Vec2f(0.0f, 0.0f));
-        //bkgnd->getTexCoords().push_back(Vec2f(0.5f, 0.0f));
-        //bkgnd->getTexCoords().push_back(Vec2f(0.5f, 0.5f));
-        //bkgnd->getTexCoords().push_back(Vec2f(0.0f, 0.5f));
+        //bkgnd->getTexCoords().push_back(Vec2f(2.0f, 0.0f));
+        //bkgnd->getTexCoords().push_back(Vec2f(2.0f, 2.0f));
+        //bkgnd->getTexCoords().push_back(Vec2f(0.0f, 2.0f));
     endEditCP(bkgnd);
     
     // take the viewport
