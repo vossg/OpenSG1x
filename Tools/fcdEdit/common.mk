@@ -31,7 +31,6 @@ ifeq ($(OS),SunOS)
 
 	STRIP   = strip
 	LINK    = ln -s
-	QTDIR   = /opt/qt
 	LEX     = /solaris/bin/flex -dLst
 #	YACC    = yacc
 	YACC    = /hgdv/software/gnu/SunOS5/bin/bison
@@ -103,8 +102,8 @@ ifeq ($(OS),SunOS)
 	XPMLIB 	= -R$(PPOOL)/lib/$(OS) -lXpm
 	MINC 		=	-I/usr/dt/include 
 	MLIB		= -R/usr/dt/lib -L/usr/dt/lib -lXm 
-	QTINC		=	-I$(PPOOL)/include/qt -D QT_LIB
-	QTLIB		= -L$(PPOOL)/lib/$(OS) -lqt
+	QTINC		=	-I$(QTDIR)/include -D QT_LIB
+	QTLIB		= -L$(QTDIR)/lib -lqt
 	QGLINC	=	-I$(QTDIR)/include -D QGL_LIB
 	QGLLIB	= -L$(QTDIR)/lib -lqgl
 	PMINC   = -I$(PPOOL)/include/pmesh -D PMESH_LIB
@@ -577,7 +576,7 @@ endif
 #-- NT --------------------------------------------------------------
 ifeq ($(findstring WIN,$(OS)),WIN)
 	
-	QTDIR := Q:\\Win\NT\VC6\qt-2.23
+	QTDIR := Q:\\\\packages\\qt-2.3
 	OS		= WIN32
 	GCC 		= gcc
 	GCXX 		= g++
@@ -700,7 +699,7 @@ ifeq ($(findstring WIN,$(OS)),WIN)
 	A3DINC  = -I "V:\include\a3d" -D A3D_LIB
 	A3DLIB  = ia3dutil.lib
 	QTINC		=	-I "$(QTDIR)\include"
-	QTLIB		= /libpath:"$(QTDIR)\lib"  qt223.lib
+	QTLIB		= /libpath:"$(QTDIR)\lib"  qt230.lib
 	GLTTINC = -I "V:\include\gltt" /D GLTT_LIB
 	GLTTLIB = gltt.lib 
 	OGLINC	= /D OPENGL_LIB

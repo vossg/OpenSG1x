@@ -125,6 +125,7 @@ void FieldContainerViewCtl::updateActivePartView(void)
 		partNameInput->setText(QString(_activePart->name()));
 		partTypeCombo->setCurrentItem(int(_activePart->type()));
 		partVisibilityCombo->setCurrentItem(int(_activePart->visibility()));
+		partCardinalityCombo->setCurrentItem(int(_activePart->cardinality()));
 		partAccessCombo->setCurrentItem(int(_activePart->access()));
 		partIncludeInput->setText(QString(_activePart->header()));
 		partDefaultValueInput->setText(QString(_activePart->defaultValue()));
@@ -135,6 +136,7 @@ void FieldContainerViewCtl::updateActivePartView(void)
 		partNameInput->clear();
 		partTypeCombo->setCurrentItem(0);
 		partVisibilityCombo->setCurrentItem(0);
+		partCardinalityCombo->setCurrentItem(0);
 		partAccessCombo->setCurrentItem(0);
 		partIncludeInput->clear();
 		partDefaultValueInput->clear();
