@@ -111,7 +111,7 @@ Exception::Exception(const Exception &source) :
 /** \brief Destructor
  */
 
-Exception::~Exception(void)
+Exception::~Exception(void) THROW_NOTHING()
 {
 }
 
@@ -121,7 +121,7 @@ Exception::~Exception(void)
 
 /*-------------------------- your_category---------------------------------*/
 
-const char *Exception::what() const
+const char *Exception::what() const THROW_NOTHING()
 {
     return _what.c_str();
 }

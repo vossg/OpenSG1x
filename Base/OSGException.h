@@ -104,11 +104,11 @@ class OSG_BASE_DLLMAPPING Exception : public std::exception
 
     Exception(void);
     Exception(const Exception &source);
-    virtual ~Exception(void); 
+    virtual ~Exception(void) THROW_NOTHING(); 
 
     /*------------------------- your_category -------------------------------*/
 
-    virtual const char *what() const;
+    virtual const char *what() const THROW_NOTHING();
 
     /*------------------------- your_operators ------------------------------*/
 
