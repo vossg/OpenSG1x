@@ -783,6 +783,42 @@ const typename PointInterface<ValueTypeT,
     return *(static_cast<const VecInterface *>(this));
 }
 
+
+//! Returns the distance between the two points, squared
+
+template <class ValueTypeT,
+          class StorageInterfaceT> inline
+typename PointInterface<ValueTypeT, 
+                        StorageInterfaceT>::RealReturnType 
+PointInterface<ValueTypeT, StorageInterfaceT>::dist2(const PointInterface &vec) 
+    const
+{
+    UInt32 i;
+    RealReturnType   returnValue = 0;
+    RealReturnType   tmp;
+
+    for(i = 0; i < _iSize; i++)
+    {
+        tmp = _values[i] - vec._values[i];
+        
+        returnValue += tmp * tmp;
+    }
+
+    return returnValue;
+}
+
+//! Returns the distance between the two points
+
+template <class ValueTypeT,
+          class StorageInterfaceT> inline
+typename PointInterface<ValueTypeT, 
+                        StorageInterfaceT>::RealReturnType 
+PointInterface<ValueTypeT, StorageInterfaceT>::dist(const PointInterface &vec) 
+    const
+{
+    return osgsqrt(dist2(vec));
+}
+
 /*-------------------------------------------------------------------------*/
 /*                                Math                                     */
 

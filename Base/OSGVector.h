@@ -395,7 +395,7 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 
     /*! \brief Set function which take a lot of types as it's argument :-).
      
-       The argument type must provide a _iSize enum entry, a *getValueRef(void)
+       The argument type must provide a _iSize enum entry, a *getValues(void)
        function and the value types must be convertable to the current one.
        The main problem is that through the set function
        void setValue(const ValueTypeT *pVals); and the following cast
@@ -458,15 +458,18 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
     /*! \name                   Common Math                                */
     /*! \{                                                                 */
 
-          Bool          isZero (void                           ) const;
+          Bool            isZero (void                           ) const;
 
-          void          negate (void                           );
+          void            negate (void                           );
 
-          Bool          equals (const PointInterface &vec,
-                                const ValueTypeT      tolerance) const;
+          Bool            equals (const PointInterface &vec,
+                                  const ValueTypeT      tolerance) const;
 
-          VecInterface &subZero(void                           );
-    const VecInterface &subZero(void                           ) const;
+          VecInterface   &subZero(void                           );
+    const VecInterface   &subZero(void                           ) const;
+
+          RealReturnType  dist   (const PointInterface &vec      ) const;
+          RealReturnType  dist2  (const PointInterface &vec      ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
