@@ -53,16 +53,16 @@ static std::vector<std::vector<Real32> > _surfo;
 class OpenSGGLContext : public QGLContext
 {
 public:
-    OpenSGGLContext::OpenSGGLContext(const QGLFormat &format, QPaintDevice *device) :
+    OpenSGGLContext(const QGLFormat &format, QPaintDevice *device) :
             QGLContext(format, device)
     {
     }
 
-    virtual OpenSGGLContext::~OpenSGGLContext()
+    virtual ~OpenSGGLContext()
     {
     }
 
-    virtual void OpenSGGLContext::doneCurrent(void)
+    virtual void doneCurrent(void)
     {
         QGLContext::doneCurrent();
     }
