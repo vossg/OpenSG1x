@@ -1484,7 +1484,7 @@ void matNSMTest(void)
 
 // Instantiation Tests
 
-void nonFloatTest(void)
+Real32 nonFloatTest(void)
 {
     Real32 rVal = osgsqrt(90);
 
@@ -1532,6 +1532,8 @@ void nonFloatTest(void)
     rVal = osglog(90.);
     rVal = osgexp(90.f);
     rVal = osgfloor(90.);
+    
+    return rVal;
 }
 
 int main(void)
