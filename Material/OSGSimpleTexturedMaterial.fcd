@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="SimpleTexturedMaterial"
+	parent="SimpleMaterial"
+	library="System"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+>
+A SimpleMaterial with an added texture. It doesn't expose all features of the texture, just the ones needed most often.
+	<Field
+		name="image"
+		type="ImageP"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	the texture image
+	</Field>
+	<Field
+		name="minFilter"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_LINEAR_MIPMAP_LINEAR"
+		defaultHeader="<GL/gl.h>"
+		access="public"
+	>
+	the minification filter
+	</Field>
+	<Field
+		name="magFilter"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_LINEAR"
+		defaultHeader="<GL/gl.h>"
+		access="public"
+	>
+	the magnification filter
+	</Field>
+	<Field
+		name="envMode"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_REPLACE"
+		defaultHeader="<GL/gl.h>"
+		access="public"
+	>
+	the environment mode, defining how texture and lighting color interact
+	</Field>
+	<Field
+		name="envMap"
+		type="Bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+		access="public"
+	>
+	use the texture as a spherical environment map
+	</Field>
+</FieldContainer>

@@ -36,64 +36,55 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
-#ifndef _OSGSIMPLEMATERIAL_H_
-#define _OSGSIMPLEMATERIAL_H_
+#ifndef _OSGTEXTUREDSIMPLEMATERIAL_H_
+#define _OSGTEXTUREDSIMPLEMATERIAL_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGConfig.h>
-#include <OSGMaterialChunk.h>
-#include <OSGSimpleMaterialBase.h>
+
+#include <OSGTextureChunk.h>
+#include <OSGSimpleTexturedMaterialBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief SimpleMaterial class
+/*! \brief *put brief class description here* 
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterial : public SimpleMaterialBase
+class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterial : public SimpleTexturedMaterialBase
 {
+  private:
+
+    typedef SimpleTexturedMaterialBase Inherited;
+
     /*==========================  PUBLIC  =================================*/
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                    Constants                                 */
-    /*! \{                                                                 */
-
-    static const SimpleMaterialPtr NullPtr;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const char *getClassname(void) { return "SimpleMaterial"; };
+    static const char *getClassname(void);
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-
-    virtual void changed(BitVector  whichField,
-                        ChangeMode from);
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Output                                  */
+    /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0,
+    virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector &bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Rendering                                  */
     /*! \{                                                                 */
-
-    virtual void       draw              (Geometry* geo,
-                                          DrawAction * action );
 
     virtual StatePtr   makeState         (void);
 
@@ -102,52 +93,50 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterial : public SimpleMaterialBase
     virtual Bool       isTransparent     (void) const;
 
     /*! \}                                                                 */
- 
+
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    // this chunk is used for rendering the material
+
+    TextureChunkPtr    _textureChunk;
+
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name                  Constructors                                */
     /*! \{                                                                 */
 
-    SimpleMaterial(void);
-    SimpleMaterial(const SimpleMaterial &source);
+    SimpleTexturedMaterial(void);
+    SimpleTexturedMaterial(const SimpleTexturedMaterial &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~SimpleMaterial(void);
+    virtual ~SimpleTexturedMaterial(void); 
 
     /*! \}                                                                 */
+    
     /*==========================  PRIVATE  ================================*/
   private:
 
-    typedef SimpleMaterialBase Inherited;
-
     friend class FieldContainer;
-    friend class SimpleMaterialBase;
+    friend class SimpleTexturedMaterialBase;
 
-    static char cvsid[];
-
-    static void initMethod( void );
-
-
-    // this chunk is used for rendering the material
-
-    MaterialChunkPtr    _materialChunk;
+    static void initMethod(void);
 
     // prohibit default functions (move to 'public' if you need one)
 
-    // void operator =(const SimpleMaterial &source);
+    void operator =(const SimpleTexturedMaterial &source);
 };
 
-typedef SimpleMaterial *SimpleMaterialP;
+typedef SimpleTexturedMaterial *SimpleTexturedMaterialP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSimpleMaterial.inl>
-#include <OSGSimpleMaterialBase.inl>
+#include <OSGSimpleTexturedMaterial.inl>
+#include <OSGSimpleTexturedMaterialBase.inl>
 
-#endif /* _OSGSIMPLEMATERIAL_H_ */
+#define OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.h,v 1.1 2001/10/06 18:01:26 dirk Exp $"
+
+#endif /* _OSGTEXTUREDSIMPLEMATERIAL_H_ */

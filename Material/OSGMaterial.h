@@ -117,7 +117,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
   protected:
 
 
-    StatePtr _pState;
+    StatePtr _pState;  // !!! TODO is that MT safe?
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
