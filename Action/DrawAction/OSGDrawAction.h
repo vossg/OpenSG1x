@@ -161,6 +161,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public DrawActionBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
+    DrawAction(void);
+    DrawAction(const DrawAction &source);
+
     // access default functors
 
     virtual vector<Functor>* getDefaultEnterFunctors(void);
@@ -217,8 +220,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public DrawActionBase
 
     // prohibit default functions (move to 'public' if you need one)
 
-    DrawAction(void);
-    DrawAction(const DrawAction &source);
     DrawAction& operator =(const DrawAction &source);
 };
 

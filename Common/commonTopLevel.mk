@@ -128,9 +128,9 @@ ifeq ($(INSTALL_WRITABLE),not)
 endif
 
 install-includes: install-test
-	if [ ! -w $(INSTALL_DIR)/include ]; then                                \
-            mkdir $(INSTALL_DIR)/include;                                       \
-        fi;                                                                     \
+	@if [ ! -w $(INSTALL_DIR)/include ]; then                               \
+            mkdir $(INSTALL_DIR)/include;                                   \
+        fi;                                                                 \
 	if [ ! -w $(INSTALL_DIR)/include/OpenSG ]; then                         \
 	    mkdir $(INSTALL_DIR)/include/OpenSG ;                               \
 	fi;                                                                     \
@@ -161,6 +161,37 @@ install-includes: install-test
 	       -name Tools -o -name Builds \) -prune \)                         \
 	    -o -type f -name '*\.inl'                                           \
 	-exec $($(PROJ)POOL)/Common/sedInl {} $(INSTALL_DIR)/include/OpenSG \;
+
+update-includes: install-test
+	@if [ ! -w $(INSTALL_DIR)/include ]; then                                \
+            mkdir $(INSTALL_DIR)/include;                                    \
+        fi;                                                                  \
+	if [ ! -w $(INSTALL_DIR)/include/OpenSG ]; then                          \
+	    mkdir $(INSTALL_DIR)/include/OpenSG ;                                \
+	fi;                                                                      \
+	CURRDIR=`pwd`;                                                           \
+	find $($(PROJ)POOL) -follow                                              \
+	    \( -type d \( -name CVS -o -name Test -o -name include  -o           \
+	       -name Tools -o -name '.*' -o -name examples -o                    \
+	       -name Templates -o -name Builds -o -name VS \) -prune \) -o       \
+	       -type f -name '*.h'                                               \
+	-exec $($(PROJ)POOL)/Common/sedIncU {} $(INSTALL_DIR)/include/OpenSG \; ;\
+	find $($(PROJ)POOL) -follow                                              \
+	    \( -type d \( -name CVS -o -name Test -o -name include  -o           \
+	       -name Tools -o -name '.*' -o -name examples -o                    \
+	       -name Templates -o -name Builds -o -name VS \) -prune \) -o       \
+	       -type f -name '*.inl'                                             \
+	-exec $($(PROJ)POOL)/Common/sedInlU {} $(INSTALL_DIR)/include/OpenSG \; ;\
+	find $$CURRDIR  -follow                                                  \
+	    \( -type d \( -name CVS -o -name '*Test' -o -name include  -o        \
+	       -name Tools -o -name Builds \) -prune \)                          \
+	    -o -type f -name '*\.h'                                              \
+	-exec $($(PROJ)POOL)/Common/sedIncBuildU {} $(INSTALL_DIR)/include/OpenSG \; ; \
+	find $$CURRDIR -follow                                                   \
+	    \( -type d \( -name CVS -o -name '*Test' -o -name include -o         \
+	       -name Tools -o -name Builds \) -prune \)                          \
+	    -o -type f -name '*\.inl'                                            \
+	-exec $($(PROJ)POOL)/Common/sedInlU {} $(INSTALL_DIR)/include/OpenSG \;
 
 install-includes-gabe: install-test
 	@if [ ! -w $(INSTALL_DIR)/include ]; then mkdir $(INSTALL_DIR)/include; fi
@@ -290,7 +321,8 @@ LD_FLAGS_EXT_SED := $(shell echo $(LD_FLAGS_EXT) | sed -e 's/\//\\\//g')
 
 install-bin: install-test
 	@if [ ! -w $(INSTALL_DIR)/bin ]; then mkdir $(INSTALL_DIR)/bin; fi
-	VERSION=`cat $($(PROJ)POOL)/VERSION`;                                   \
+	@echo "installing $(INSTALL_DIR)/bin/osg-config from CommonPackages/osg-config" 
+	@VERSION=`cat $($(PROJ)POOL)/VERSION`;                                  \
 	ICOMP=`echo $(CC) | sed -e 's|^[ ]*||' -e 's|[ ]*$$||'`;                \
 	cat CommonPackages/osg-config |                                         \
 	$(SED) -e 's/@am_gdz_system_flags@/\"$(CCFLAGS_EXT)\"/g'                \
@@ -306,7 +338,7 @@ install-bin: install-test
 	       -e 's/@am_gdz_exe_linker@/\"$(LD_SED)\"/g'                       \
 	       -e "s/@am_gdz_compiler_id@/$(OS_CMPLR)/g"                        \
 	    > $(INSTALL_DIR)/bin/osg-config
-	chmod 755 $(INSTALL_DIR)/bin/osg-config
+	@chmod 755 $(INSTALL_DIR)/bin/osg-config
 
 install-libs-ln: INSTLINK := $(LINK)
 install-libs-ln: install-libs
@@ -320,6 +352,9 @@ install: install-includes install-libs-cp install-bin
 
 install-gabe: INSTLINK := cp
 install-gabe: install-includes-gabe install-libs-cp
+
+update-ln: update-includes install-libs-ln install-bin
+update: update-includes install-libs-cp install-bin
 
 %.src:
 	@if [ -d $* ]; then                                                     \
@@ -376,10 +411,13 @@ help:
 	@echo "install-libs-cp   copying them"
 	@echo "install-libs      linking or copying them, the same as last time"
 	@echo "install-includes  install the include files into INSTALL_DIR/include"
+	@echo "update-includes   install the include files into INSTALL_DIR/include iff the source is newer"
 	@echo "install-bin       install osg-config into INSTALL_DIR/bin"
 	@echo "install-ln        install-includes + install-libs-ln + install-bin"
 	@echo "install-cp        install-includes + install-libs-cp + install-bin"
 	@echo "install           install-includes + install-libs-cp + install-bin"
+	@echo "update-ln         update-includes  + install-libs-ln + install-bin"
+	@echo "update            update-includes  + install-libs-cp + install-bin"
 	@echo 
 	@echo "Other targets"
 	@echo 
@@ -387,4 +425,6 @@ help:
 	@echo 
 	@echo "Useful Environment Variables"
 	@echo 
-	@echo "OSGSUBPARJOBS     number of parallel compiler jobs to run"
+	@echo "OSGSUBPARJOBS       number of parallel compiler jobs to run"
+	@echo "OSGNODEPS=1         do not evaluate the dependencies"
+	@echo "OSGNODEPSREBUILD=1  do not rebuld the dependency files"

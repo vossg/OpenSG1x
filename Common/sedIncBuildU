@@ -1,0 +1,14 @@
+#!/bin/sh
+
+file=`echo $1 | sed 's/\(.*\)\/\(.*\.h\)/\2/'`
+
+if test $1 -nt $2/$file; then
+    echo "Installing $1"
+    echo "    to $2/$file"
+
+    rm -f $2/$file
+
+    sed -e 's/include[ ]*<OSG/include <OpenSG\/OSG/g' -e 's/include[ ]*\"OSG/include \"OpenSG\/OSG/g' $1 > $2/$file
+
+    chmod 444 $2/$file
+fi
