@@ -82,9 +82,30 @@ ifneq ($(LINK_COMPILER),)
 LIBPATHS_$(OS_BASE) := $(LIBPATH_OPTION)$(LINK_COMPILER) $(LIBPATHS_$(OS_BASE))
 endif
 
+#########################################################################
+# Build include directive
+#########################################################################
+
+ifeq ($(OS_BASE), cygwin)
+ifeq ($(OS_CMPLR),g++)
+buildCIncPath      = $(INC_OPTION)$(1) 
+else
+buildCIncPath      = $(INC_OPTION)"$(shell cygpath -w $(1))"
+endif
+else
+buildCIncPath      = $(INC_OPTION)$(1) 
+endif
+
+ifeq ($(OS_BASE), cygwin)
+buildCLibPath      = $(LIBPATH_OPTION)"$(shell cygpath -w $(1))"
+else
+buildCLibPath      = $(LIBPATH_OPTION)$(1)
+endif
+
 ifneq ($(ADD_INCLUDE),)
 
-ADD_INCL_$(OS_BASE) := $(foreach dir,$(ADD_INCLUDE),$(INC_OPTION)$(dir))
+ADD_INCL_$(OS_BASE) := \
+	$(foreach dir,$(ADD_INCLUDE),$(call buildCIncPath,$(dir)))
 
 INCL_$(OS_BASE) := $(INCL_$(OS_BASE)) $(ADD_INCL_$(OS_BASE))
 
@@ -92,15 +113,20 @@ endif
 
 ifneq ($(ADD_LINK),)
 
-ADD_LIBPATHS_$(OS_BASE) := $(foreach dir,$(ADD_LINK),$(LIBPATH_OPTION)$(dir))
+ADD_LIBPATHS_$(OS_BASE) := \
+	$(foreach dir,$(ADD_LINK),$(call buildCLibPath,$(dir)))
 
 LIBPATHS_$(OS_BASE) := $(LIBPATHS_$(OS_BASE)) $(ADD_LIBPATHS_$(OS_BASE))
 
 endif
-                   
+
 ifneq ($(ADD_LIBS),)
 
+ifeq ($(OS_BASE),cygwin)
+ADD_LIBS_$(OS_BASE) := $(foreach lib,$(ADD_LIBS),$(lib)$(LIB_SUFFIX))
+else
 ADD_LIBS_$(OS_BASE) := $(foreach lib,$(ADD_LIBS),$(LIBLNK_OPTION)$(lib))
+endif
 
 LIBS_$(OS_BASE) := $(ADD_LIBS_$(OS_BASE)) $(LIBS_$(OS_BASE))
 
