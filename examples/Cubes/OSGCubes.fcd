@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="Cubes"
+	parent="NodeCore"
+	library="MyLib"
+	pointerfieldtypes="both"
+	structure="concrete"
+>
+
+	<Field
+		name="material"
+		type="MaterialPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The cubes' material.
+	</Field>
+	<Field
+		name="position"
+		type="Pnt3f"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	The cubes' positions.
+	</Field>
+	<Field
+		name="length"
+		type="Real32"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	The cubes' sizes.
+	</Field>
+	<Field
+		name="color"
+		type="Color3f"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	The cubes' colors.
+	</Field>
+</FieldContainer>
