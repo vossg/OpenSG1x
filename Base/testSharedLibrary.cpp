@@ -19,16 +19,23 @@ int main( osg::Int32 argc, osg::Char8** argv)
 
 	OSG::osgInit(argc, argv);
 
+#ifdef WIN32
     OSG::SharedLibrary  oSharedGLLib("opengl32.dll");
     OSG::SharedLibrary *pSharedGLUTLib = new OSG::SharedLibrary;
+#else
+    OSG::SharedLibrary  oSharedGLLib("libGL.so");
+    OSG::SharedLibrary *pSharedGLUTLib = new OSG::SharedLibrary;
+#endif
 
-    pSharedGLUTLib->open("glut32.dll");
+    pSharedGLUTLib->open("libGLU.so");
 
 
-    OSG::AnonSymbolHandle hSym  = oSharedGLLib.getSymbol("glBegin");
-    OSG::AnonSymbolHandle hSym1 = oSharedGLLib.getSymbol("glutPostRedisplay");
+    OSG::AnonSymbolHandle hSym  = 
+        oSharedGLLib.getSymbol("glBegin");
+    OSG::AnonSymbolHandle hSym1 = 
+        pSharedGLUTLib->getSymbol("gluCylinder");
 
-    fprintf(stderr, "%p | %p\n", hSym, hSym);
+    fprintf(stderr, "%p | %p\n", hSym, hSym1);
 	
 	return 0;
 }

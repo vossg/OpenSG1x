@@ -52,6 +52,8 @@
 #include <dlfcn.h>
 #endif
 
+#define OSG_DLOPEN_LAZY
+
 OSG_USING_NAMESPACE
 
 Char8 SharedLibrary::_szApplicationName[] = "Application";
@@ -72,10 +74,10 @@ bool SharedLibrary::open(void)
     }
 
 #ifndef WIN32
-#ifdef VSC_DLOPEN_LAZY
-    _pHandle = dlopen(libName, RTLD_LAZY);
+#ifdef OSG_DLOPEN_LAZY
+    _pHandle = dlopen(libName, RTLD_LAZY | RTLD_GLOBAL);
 #else
-    _pHandle = dlopen(libName, RTLD_NOW);
+    _pHandle = dlopen(libName, RTLD_NOW  | RTLD_GLOBAL);
 #endif
 
     if(_pHandle == NULL)
