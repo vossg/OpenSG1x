@@ -25,8 +25,9 @@ int main (int argc, char **argv)
     OSG::Thread::getCurrent()->getChangeList()->clearAll();
     OSG::Thread::getCurrent()->getChangeList()->dump();
 
-    PLOG << "Num types : " << OSG::FieldContainerFactory::the()->getNumTypes()
-         << endl;
+    OSG::PLOG << "Num types : " 
+              << OSG::FieldContainerFactory::the()->getNumTypes()
+              << endl;
 
 	OSG::FieldContainerPtr pFC;
 
