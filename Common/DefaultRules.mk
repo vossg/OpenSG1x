@@ -449,15 +449,21 @@ $(LIB_TESTQT_TARGET)
 ifeq ($(IN_TEST_DIR),1)
 $(LIB_TESTQTTARGET_DEPS): $(LIB_TESTQTTARGET_CPP)
 
+ifeq ($(TEST_TARGETS_LIST),)
 list: 
-	@echo 
+	@echo "No tests available!"
+else
+list: 
+	@echo
 	@echo "	available test cases :"
-	@echo "	======================\n"
-	@(for file in $(TEST_TARGETS_LIST); do	\
-		echo "		$(MAKE) $$file";         	\
+	@echo "	======================"
+	@(for file in $(TEST_TARGETS_LIST); do  \
+		echo "		$(MAKE) $$file"; \
 	done) | sort
-	@echo 
-	@echo 
+	@echo
+	@echo
+endif
+
 endif
 
 #########################################################################
