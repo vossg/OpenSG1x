@@ -135,10 +135,7 @@ int main(int argc, char **argv)
     gwin->setId(winid);
     gwin->init();
 
-    // set log level to lowest unless specified otherwise by env variable
-    osgLog().setLogLevel((LogLevel) 0);
-    
-    // create the scene or load it from a .osg-file
+   // create the scene or load it from a .osg-file
     if (argc == 1)
         scene = makeVolume("00_data64x64x64.dat");
     else

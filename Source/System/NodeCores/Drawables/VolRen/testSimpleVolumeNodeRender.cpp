@@ -40,11 +40,24 @@ SimpleSceneManager *mgr;
 // The Scene
 NodePtr scene = NullFC;
 
+DVRVolumePtr vol;
+
 // forward declaration of the volume node construction function
 NodePtr makeVolume( const char * datFile);
 
 // forward declaration so we can have the interesting stuff upfront
 int setupGLUT( int *argc, char *argv[] );
+
+// Find volume node
+Action::ResultE findVolume(NodePtr& node)
+{   
+    if(node->getCore()->getType().isDerivedFrom( DVRVolume::getClassType()))
+    {
+        vol = DVRVolumePtr::dcast(node->getCore());
+        return Action::Skip;
+    }   
+    return Action::Continue; 
+}
 
 // Initialize GLUT & OpenSG and set up the scene
 int main(int argc, char **argv)
@@ -66,11 +79,15 @@ int main(int argc, char **argv)
     else
     {
         scene = SceneFileHandler::the().read(argv[1]);
-	if (scene == NullFC)
-	{
-	    SLOG << "Could not read file " << argv[1] << std::endl;
-	    exit(-1);
-	}
+        if (scene == NullFC)
+        {
+	        SLOG << "Could not read file " << argv[1] << std::endl;
+	        exit(-1);
+        }
+        traverse(scene, 
+             osgTypedFunctionFunctor1CPtrRef<Action::ResultE,
+                                             NodePtr        >(findVolume));
+
     }
 
     // create the SimpleSceneManager helper
@@ -138,6 +155,26 @@ void keyboard(unsigned char k, int OSG_CHECK_ARG(x), int OSG_CHECK_ARG(y))
             exit(0);
         }
         break;
+        case 'a':
+        {
+            OSG::beginEditCP(vol, OSG::DVRVolume::SamplingFieldMask);
+            vol->setSampling(vol->getSampling() * 1.1);
+            OSG::endEditCP(vol, OSG::DVRVolume::SamplingFieldMask);
+            std::cout << "Sampling set to " << vol->getSampling() 
+                      << std::endl;
+            glutPostRedisplay();
+        }
+        break;
+        case 'z':
+        {
+            OSG::beginEditCP(vol, OSG::DVRVolume::SamplingFieldMask);
+            vol->setSampling(vol->getSampling() * 0.9);
+            OSG::endEditCP(vol, OSG::DVRVolume::SamplingFieldMask);
+            std::cout << "Sampling set to " << vol->getSampling() 
+                      << std::endl;
+            glutPostRedisplay();
+        }
+        break;
     }
 }
 
@@ -161,7 +198,7 @@ int setupGLUT(int *argc, char *argv[])
 // Create a volume rendering node with all desired attachments
 NodePtr makeVolume( const char * datFile)
 {  
-    DVRVolumePtr         vol         = DVRVolume::create();
+    vol         = DVRVolume::create();
     DVRAppearancePtr     app         = DVRAppearance::create(); 
     DVRVolumeTexturePtr  tex         = DVRVolumeTexture::create();
 

@@ -150,21 +150,21 @@ int main(int argc, char **argv)
     GLUTWindowPtr gwin= GLUTWindow::create();
     gwin->setId(winid);
     gwin->init();
-
-    // set log level to lowest unless specified otherwise by env variable
-    osgLog().setLogLevel((LogLevel) 0);
-    
+  
     // create the scene or load it from a .osg-file
     if (argc == 1)
         scene = makeVolume("00_data64x64x64.dat");
     else
     {
-        scene = SceneFileHandler::the().read(argv[1]);
-	if (scene == NullFC)
-	{
-	    SLOG << "Could not read file " << argv[1] << std::endl;
-	    exit(-1);
-	}
+        if(!strcmp(strrchr(argv[1], '.'), ".dat"))
+            scene = makeVolume(argv[1]);
+        else
+            scene = SceneFileHandler::the().read(argv[1]);
+	    if (scene == NullFC)
+	    {
+	        SLOG << "Could not read file " << argv[1] << std::endl;
+	        exit(-1);
+	    }
     }
 
     // create the SimpleSceneManager helper
@@ -200,8 +200,8 @@ void display(void)
 	float ctime   = glutGet(GLUT_ELAPSED_TIME);
 	int   dtime   = ctime / 1000 / 2;
 
-	newMode = dtime % numModes;
-
+	//newMode = dtime % numModes;
+    
 	// Make the volume rotate
  	int movement = (int) (ctime - lastFrame) * aniSpeed;
  	if (movement != 0) lastFrame = ctime;
@@ -334,7 +334,7 @@ NodePtr makeVolume( const char * datFile)
     // Load the 3D-image and store it in the volume texture attachment
     ImagePtr datImage = Image::create();
     if (false == datImage->read(datFile)) {
-        SLOG << "File: " << datFile << " not found" << std::endl;
+        SLOG << "Error loading " << datFile << std::endl;
 	exit (-1);
     }
     beginEditCP(tex);

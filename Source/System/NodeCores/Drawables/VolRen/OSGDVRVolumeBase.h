@@ -75,9 +75,9 @@
 #include <OSGBoolFields.h> // DoTextures type
 #include <OSGUInt32Fields.h> // BrickOverlap type
 #include <OSGQBit.h> // Textures2D type
+#include <OSGUInt16Fields.h> // BrickStaticMemoryMB type
 #include <OSGMaterialFields.h> // RenderMaterial type
 #include <OSGUInt16Fields.h> // BrickingMode type
-#include <OSGUInt16Fields.h> // BrickStaticMemoryMB type
 #include <OSGVec3fFields.h> // BrickStaticSubdivision type
 #include <OSGVec3fFields.h> // BrickMaxSize type
 #include <OSGBoolFields.h> // ShowBricks type
@@ -117,10 +117,10 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRVolumeBase : public NodeCore
         DoTexturesFieldId             = BaseAlphaFieldId              + 1,
         BrickOverlapFieldId           = DoTexturesFieldId             + 1,
         Textures2DFieldId             = BrickOverlapFieldId           + 1,
-        RenderMaterialFieldId         = Textures2DFieldId             + 1,
+        BrickStaticMemoryMBFieldId    = Textures2DFieldId             + 1,
+        RenderMaterialFieldId         = BrickStaticMemoryMBFieldId    + 1,
         BrickingModeFieldId           = RenderMaterialFieldId         + 1,
-        BrickStaticMemoryMBFieldId    = BrickingModeFieldId           + 1,
-        BrickStaticSubdivisionFieldId = BrickStaticMemoryMBFieldId    + 1,
+        BrickStaticSubdivisionFieldId = BrickingModeFieldId           + 1,
         BrickMaxSizeFieldId           = BrickStaticSubdivisionFieldId + 1,
         ShowBricksFieldId             = BrickMaxSizeFieldId           + 1,
         DrawStyleFieldId              = ShowBricksFieldId             + 1,
@@ -139,9 +139,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRVolumeBase : public NodeCore
     static const OSG::BitVector DoTexturesFieldMask;
     static const OSG::BitVector BrickOverlapFieldMask;
     static const OSG::BitVector Textures2DFieldMask;
+    static const OSG::BitVector BrickStaticMemoryMBFieldMask;
     static const OSG::BitVector RenderMaterialFieldMask;
     static const OSG::BitVector BrickingModeFieldMask;
-    static const OSG::BitVector BrickStaticMemoryMBFieldMask;
     static const OSG::BitVector BrickStaticSubdivisionFieldMask;
     static const OSG::BitVector BrickMaxSizeFieldMask;
     static const OSG::BitVector ShowBricksFieldMask;
@@ -184,6 +184,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRVolumeBase : public NodeCore
            SFBool              *getSFDoTextures     (void);
            SFUInt32            *getSFBrickOverlap   (void);
            SFQBit              *getSFTextures2D     (void);
+           SFUInt16            *getSFBrickStaticMemoryMB(void);
            SFChunkMaterialPtr  *getSFTextureStorage (void);
 
            DVRAppearancePtr    &getAppearance     (void);
@@ -206,6 +207,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRVolumeBase : public NodeCore
      const UInt32              &getBrickOverlap   (void) const;
            QBit                &getTextures2D     (void);
      const QBit                &getTextures2D     (void) const;
+           UInt16              &getBrickStaticMemoryMB(void);
+     const UInt16              &getBrickStaticMemoryMB(void) const;
            ChunkMaterialPtr    &getTextureStorage (void);
      const ChunkMaterialPtr    &getTextureStorage (void) const;
 
@@ -224,6 +227,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRVolumeBase : public NodeCore
      void setDoTextures     ( const bool &value );
      void setBrickOverlap   ( const UInt32 &value );
      void setTextures2D     ( const QBit &value );
+     void setBrickStaticMemoryMB( const UInt16 &value );
      void setTextureStorage ( const ChunkMaterialPtr &value );
 
     /*! \}                                                                 */
@@ -280,9 +284,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRVolumeBase : public NodeCore
     SFBool              _sfDoTextures;
     SFUInt32            _sfBrickOverlap;
     SFQBit              _sfTextures2D;
+    SFUInt16            _sfBrickStaticMemoryMB;
     SFMaterialPtr       _sfRenderMaterial;
     SFUInt16            _sfBrickingMode;
-    SFUInt16            _sfBrickStaticMemoryMB;
     SFVec3f             _sfBrickStaticSubdivision;
     SFVec3f             _sfBrickMaxSize;
     SFBool              _sfShowBricks;
@@ -312,7 +316,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRVolumeBase : public NodeCore
 
            SFMaterialPtr       *getSFRenderMaterial (void);
            SFUInt16            *getSFBrickingMode   (void);
-           SFUInt16            *getSFBrickStaticMemoryMB(void);
            SFVec3f             *getSFBrickStaticSubdivision(void);
            SFVec3f             *getSFBrickMaxSize   (void);
            SFBool              *getSFShowBricks     (void);
@@ -323,8 +326,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRVolumeBase : public NodeCore
      const MaterialPtr         &getRenderMaterial (void) const;
            UInt16              &getBrickingMode   (void);
      const UInt16              &getBrickingMode   (void) const;
-           UInt16              &getBrickStaticMemoryMB(void);
-     const UInt16              &getBrickStaticMemoryMB(void) const;
            Vec3f               &getBrickStaticSubdivision(void);
      const Vec3f               &getBrickStaticSubdivision(void) const;
            Vec3f               &getBrickMaxSize   (void);
@@ -344,7 +345,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRVolumeBase : public NodeCore
 
      void setRenderMaterial (const MaterialPtr &value);
      void setBrickingMode   (const UInt16 &value);
-     void setBrickStaticMemoryMB(const UInt16 &value);
      void setBrickStaticSubdivision(const Vec3f &value);
      void setBrickMaxSize   (const Vec3f &value);
      void setShowBricks     (const bool &value);

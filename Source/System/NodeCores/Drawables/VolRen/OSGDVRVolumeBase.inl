@@ -166,6 +166,13 @@ SFQBit *DVRVolumeBase::getSFTextures2D(void)
     return &_sfTextures2D;
 }
 
+//! Get the DVRVolume::_sfBrickStaticMemoryMB field.
+inline
+SFUInt16 *DVRVolumeBase::getSFBrickStaticMemoryMB(void)
+{
+    return &_sfBrickStaticMemoryMB;
+}
+
 //! Get the DVRVolume::_sfRenderMaterial field.
 inline
 SFMaterialPtr *DVRVolumeBase::getSFRenderMaterial(void)
@@ -178,13 +185,6 @@ inline
 SFUInt16 *DVRVolumeBase::getSFBrickingMode(void)
 {
     return &_sfBrickingMode;
-}
-
-//! Get the DVRVolume::_sfBrickStaticMemoryMB field.
-inline
-SFUInt16 *DVRVolumeBase::getSFBrickStaticMemoryMB(void)
-{
-    return &_sfBrickStaticMemoryMB;
 }
 
 //! Get the DVRVolume::_sfBrickStaticSubdivision field.
@@ -440,6 +440,27 @@ void DVRVolumeBase::setTextures2D(const QBit &value)
     _sfTextures2D.setValue(value);
 }
 
+//! Get the value of the DVRVolume::_sfBrickStaticMemoryMB field.
+inline
+UInt16 &DVRVolumeBase::getBrickStaticMemoryMB(void)
+{
+    return _sfBrickStaticMemoryMB.getValue();
+}
+
+//! Get the value of the DVRVolume::_sfBrickStaticMemoryMB field.
+inline
+const UInt16 &DVRVolumeBase::getBrickStaticMemoryMB(void) const
+{
+    return _sfBrickStaticMemoryMB.getValue();
+}
+
+//! Set the value of the DVRVolume::_sfBrickStaticMemoryMB field.
+inline
+void DVRVolumeBase::setBrickStaticMemoryMB(const UInt16 &value)
+{
+    _sfBrickStaticMemoryMB.setValue(value);
+}
+
 //! Get the value of the DVRVolume::_sfRenderMaterial field.
 inline
 MaterialPtr &DVRVolumeBase::getRenderMaterial(void)
@@ -480,27 +501,6 @@ inline
 void DVRVolumeBase::setBrickingMode(const UInt16 &value)
 {
     _sfBrickingMode.setValue(value);
-}
-
-//! Get the value of the DVRVolume::_sfBrickStaticMemoryMB field.
-inline
-UInt16 &DVRVolumeBase::getBrickStaticMemoryMB(void)
-{
-    return _sfBrickStaticMemoryMB.getValue();
-}
-
-//! Get the value of the DVRVolume::_sfBrickStaticMemoryMB field.
-inline
-const UInt16 &DVRVolumeBase::getBrickStaticMemoryMB(void) const
-{
-    return _sfBrickStaticMemoryMB.getValue();
-}
-
-//! Set the value of the DVRVolume::_sfBrickStaticMemoryMB field.
-inline
-void DVRVolumeBase::setBrickStaticMemoryMB(const UInt16 &value)
-{
-    _sfBrickStaticMemoryMB.setValue(value);
 }
 
 //! Get the value of the DVRVolume::_sfBrickStaticSubdivision field.

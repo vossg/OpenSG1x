@@ -105,6 +105,16 @@ OpenSG NodeCore for direct volume rendering
 	>
 	</Field>
 	<Field
+		name="brickStaticMemoryMB"
+		type="UInt16"
+		cardinality="single"
+		visibility="external"
+		defaultValue="16"
+		access="public"
+	>
+	FIXME: temporary parameter. Max. texture memory to be used for brick size.
+	</Field>
+	<Field
 		name="renderMaterial"
 		type="MaterialPtr"
 		cardinality="single"
@@ -124,16 +134,6 @@ OpenSG NodeCore for direct volume rendering
 		access="protected"
 	>
 	FIXME: temporary parameter. Bricking mode - specifies how bricking is computed.
-	</Field>
-	<Field
-		name="brickStaticMemoryMB"
-		type="UInt16"
-		cardinality="single"
-		visibility="external"
-		defaultValue="1"
-		access="protected"
-	>
-	FIXME: temporary parameter. Available texture memory.
 	</Field>
 	<Field
 		name="brickStaticSubdivision"

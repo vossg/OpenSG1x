@@ -102,9 +102,6 @@ int main(int argc, char **argv)
     GLUTWindowPtr gwin= GLUTWindow::create();
     gwin->setId(winid);
     gwin->init();
-
-    // set log level to lowest unless specified otherwise by env variable
-    osgLog().setLogLevel((LogLevel) 0);
     
     // create the scene or load it from a .osg-file
     if (argc == 1)
@@ -300,6 +297,9 @@ NodePtr makeVolume( const char * datFile)
     vol->setFileName(datFile);
     vol->setAppearance(app);
     vol->setShader(shader);
+    
+    vol->setBrickStaticMemoryMB(64);
+    
     endEditCP(vol);
 
     // Create a node for the volume core

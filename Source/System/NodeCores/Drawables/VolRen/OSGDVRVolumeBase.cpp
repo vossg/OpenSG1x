@@ -95,14 +95,14 @@ const OSG::BitVector  DVRVolumeBase::BrickOverlapFieldMask =
 const OSG::BitVector  DVRVolumeBase::Textures2DFieldMask = 
     (TypeTraits<BitVector>::One << DVRVolumeBase::Textures2DFieldId);
 
+const OSG::BitVector  DVRVolumeBase::BrickStaticMemoryMBFieldMask = 
+    (TypeTraits<BitVector>::One << DVRVolumeBase::BrickStaticMemoryMBFieldId);
+
 const OSG::BitVector  DVRVolumeBase::RenderMaterialFieldMask = 
     (TypeTraits<BitVector>::One << DVRVolumeBase::RenderMaterialFieldId);
 
 const OSG::BitVector  DVRVolumeBase::BrickingModeFieldMask = 
     (TypeTraits<BitVector>::One << DVRVolumeBase::BrickingModeFieldId);
-
-const OSG::BitVector  DVRVolumeBase::BrickStaticMemoryMBFieldMask = 
-    (TypeTraits<BitVector>::One << DVRVolumeBase::BrickStaticMemoryMBFieldId);
 
 const OSG::BitVector  DVRVolumeBase::BrickStaticSubdivisionFieldMask = 
     (TypeTraits<BitVector>::One << DVRVolumeBase::BrickStaticSubdivisionFieldId);
@@ -159,14 +159,14 @@ const OSG::BitVector DVRVolumeBase::MTInfluenceMask =
 /*! \var QBit            DVRVolumeBase::_sfTextures2D
     
 */
+/*! \var UInt16          DVRVolumeBase::_sfBrickStaticMemoryMB
+    FIXME: temporary parameter. Max. texture memory to be used for brick size.
+*/
 /*! \var MaterialPtr     DVRVolumeBase::_sfRenderMaterial
     FIXME: Fake material used for render action - qualifies DVRVolume as transparent node.
 */
 /*! \var UInt16          DVRVolumeBase::_sfBrickingMode
     FIXME: temporary parameter. Bricking mode - specifies how bricking is computed.
-*/
-/*! \var UInt16          DVRVolumeBase::_sfBrickStaticMemoryMB
-    FIXME: temporary parameter. Available texture memory.
 */
 /*! \var Vec3f           DVRVolumeBase::_sfBrickStaticSubdivision
     FIXME: temporary parameter. Static number of bricks.
@@ -241,6 +241,11 @@ FieldDescription *DVRVolumeBase::_desc[] =
                      Textures2DFieldId, Textures2DFieldMask,
                      true,
                      (FieldAccessMethod) &DVRVolumeBase::getSFTextures2D),
+    new FieldDescription(SFUInt16::getClassType(), 
+                     "brickStaticMemoryMB", 
+                     BrickStaticMemoryMBFieldId, BrickStaticMemoryMBFieldMask,
+                     false,
+                     (FieldAccessMethod) &DVRVolumeBase::getSFBrickStaticMemoryMB),
     new FieldDescription(SFMaterialPtr::getClassType(), 
                      "renderMaterial", 
                      RenderMaterialFieldId, RenderMaterialFieldMask,
@@ -251,11 +256,6 @@ FieldDescription *DVRVolumeBase::_desc[] =
                      BrickingModeFieldId, BrickingModeFieldMask,
                      true,
                      (FieldAccessMethod) &DVRVolumeBase::getSFBrickingMode),
-    new FieldDescription(SFUInt16::getClassType(), 
-                     "brickStaticMemoryMB", 
-                     BrickStaticMemoryMBFieldId, BrickStaticMemoryMBFieldMask,
-                     false,
-                     (FieldAccessMethod) &DVRVolumeBase::getSFBrickStaticMemoryMB),
     new FieldDescription(SFVec3f::getClassType(), 
                      "brickStaticSubdivision", 
                      BrickStaticSubdivisionFieldId, BrickStaticSubdivisionFieldMask,
@@ -351,9 +351,9 @@ DVRVolumeBase::DVRVolumeBase(void) :
     _sfDoTextures             (bool(true)), 
     _sfBrickOverlap           (UInt32(1)), 
     _sfTextures2D             (QBit(2)), 
+    _sfBrickStaticMemoryMB    (UInt16(16)), 
     _sfRenderMaterial         (MaterialPtr(NullFC)), 
     _sfBrickingMode           (UInt16(TextureManager::BRICK_SUBDIVIDE_ON_TEXTURE_MEMORY)), 
-    _sfBrickStaticMemoryMB    (UInt16(1)), 
     _sfBrickStaticSubdivision (Vec3f(Vec3f(2, 2, 2))), 
     _sfBrickMaxSize           (Vec3f(Vec3f(256, 256, 256))), 
     _sfShowBricks             (bool(false)), 
@@ -379,9 +379,9 @@ DVRVolumeBase::DVRVolumeBase(const DVRVolumeBase &source) :
     _sfDoTextures             (source._sfDoTextures             ), 
     _sfBrickOverlap           (source._sfBrickOverlap           ), 
     _sfTextures2D             (source._sfTextures2D             ), 
+    _sfBrickStaticMemoryMB    (source._sfBrickStaticMemoryMB    ), 
     _sfRenderMaterial         (source._sfRenderMaterial         ), 
     _sfBrickingMode           (source._sfBrickingMode           ), 
-    _sfBrickStaticMemoryMB    (source._sfBrickStaticMemoryMB    ), 
     _sfBrickStaticSubdivision (source._sfBrickStaticSubdivision ), 
     _sfBrickMaxSize           (source._sfBrickMaxSize           ), 
     _sfShowBricks             (source._sfShowBricks             ), 
@@ -454,6 +454,11 @@ UInt32 DVRVolumeBase::getBinSize(const BitVector &whichField)
         returnValue += _sfTextures2D.getBinSize();
     }
 
+    if(FieldBits::NoField != (BrickStaticMemoryMBFieldMask & whichField))
+    {
+        returnValue += _sfBrickStaticMemoryMB.getBinSize();
+    }
+
     if(FieldBits::NoField != (RenderMaterialFieldMask & whichField))
     {
         returnValue += _sfRenderMaterial.getBinSize();
@@ -462,11 +467,6 @@ UInt32 DVRVolumeBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (BrickingModeFieldMask & whichField))
     {
         returnValue += _sfBrickingMode.getBinSize();
-    }
-
-    if(FieldBits::NoField != (BrickStaticMemoryMBFieldMask & whichField))
-    {
-        returnValue += _sfBrickStaticMemoryMB.getBinSize();
     }
 
     if(FieldBits::NoField != (BrickStaticSubdivisionFieldMask & whichField))
@@ -558,6 +558,11 @@ void DVRVolumeBase::copyToBin(      BinaryDataHandler &pMem,
         _sfTextures2D.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (BrickStaticMemoryMBFieldMask & whichField))
+    {
+        _sfBrickStaticMemoryMB.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (RenderMaterialFieldMask & whichField))
     {
         _sfRenderMaterial.copyToBin(pMem);
@@ -566,11 +571,6 @@ void DVRVolumeBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (BrickingModeFieldMask & whichField))
     {
         _sfBrickingMode.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (BrickStaticMemoryMBFieldMask & whichField))
-    {
-        _sfBrickStaticMemoryMB.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (BrickStaticSubdivisionFieldMask & whichField))
@@ -661,6 +661,11 @@ void DVRVolumeBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfTextures2D.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (BrickStaticMemoryMBFieldMask & whichField))
+    {
+        _sfBrickStaticMemoryMB.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (RenderMaterialFieldMask & whichField))
     {
         _sfRenderMaterial.copyFromBin(pMem);
@@ -669,11 +674,6 @@ void DVRVolumeBase::copyFromBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (BrickingModeFieldMask & whichField))
     {
         _sfBrickingMode.copyFromBin(pMem);
-    }
-
-    if(FieldBits::NoField != (BrickStaticMemoryMBFieldMask & whichField))
-    {
-        _sfBrickStaticMemoryMB.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (BrickStaticSubdivisionFieldMask & whichField))
@@ -745,14 +745,14 @@ void DVRVolumeBase::executeSyncImpl(      DVRVolumeBase *pOther,
     if(FieldBits::NoField != (Textures2DFieldMask & whichField))
         _sfTextures2D.syncWith(pOther->_sfTextures2D);
 
+    if(FieldBits::NoField != (BrickStaticMemoryMBFieldMask & whichField))
+        _sfBrickStaticMemoryMB.syncWith(pOther->_sfBrickStaticMemoryMB);
+
     if(FieldBits::NoField != (RenderMaterialFieldMask & whichField))
         _sfRenderMaterial.syncWith(pOther->_sfRenderMaterial);
 
     if(FieldBits::NoField != (BrickingModeFieldMask & whichField))
         _sfBrickingMode.syncWith(pOther->_sfBrickingMode);
-
-    if(FieldBits::NoField != (BrickStaticMemoryMBFieldMask & whichField))
-        _sfBrickStaticMemoryMB.syncWith(pOther->_sfBrickStaticMemoryMB);
 
     if(FieldBits::NoField != (BrickStaticSubdivisionFieldMask & whichField))
         _sfBrickStaticSubdivision.syncWith(pOther->_sfBrickStaticSubdivision);
@@ -800,7 +800,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRVOLUMEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRVOLUMEBASE_INLINE_CVSID;
 
