@@ -161,7 +161,7 @@ SimpleMaterialPtr SimpleSceneManager::_highlightMaterial;
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.17 2002/02/04 20:14:12 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.18 2002/02/05 20:37:31 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
@@ -276,8 +276,12 @@ void SimpleSceneManager::setRoot(NodePtr root)
  */
 void SimpleSceneManager::setHeadlight(bool on)
 {
-    if(_headlight != NullFC)
-        _headlight->setOn(on);
+    if(_headlight != NullFC) 
+    {
+        beginEditCP(_headlight, LightBaseBase::OnFieldMask); 
+	    _headlight->setOn(on);
+        endEditCP(_headlight, LightBaseBase::OnFieldMask); 
+    }
 }
 
 /*! turn headlight on.
@@ -288,9 +292,12 @@ void SimpleSceneManager::turnHeadlightOn(void)
 #pragma warning (disable : 383)
 #endif
 
-    if(_headlight != NullFC)
+    if(_headlight != NullFC) 
+    {
+        beginEditCP(_headlight, LightBaseBase::OnFieldMask); 
         _headlight->setOn(true);
-
+        endEditCP(_headlight, LightBaseBase::OnFieldMask); 
+    }
 #ifdef OSG_WIN32_ICL
 #pragma warning (default : 383)
 #endif
@@ -304,9 +311,12 @@ void SimpleSceneManager::turnHeadlightOff(void)
 #pragma warning (disable : 383)
 #endif
 
-    if(_headlight != NullFC)
+    if(_headlight != NullFC) 
+    {
+        beginEditCP(_headlight, LightBaseBase::OnFieldMask); 
         _headlight->setOn(false);
-
+        endEditCP(_headlight, LightBaseBase::OnFieldMask); 
+    }
 #ifdef OSG_WIN32_ICL
 #pragma warning (default : 383)
 #endif
