@@ -176,7 +176,7 @@ void VRMLWriteAction::FCInfo::setWriten(void)
     _iTimesUsed = -1;
 }
 
-void VRMLWriteAction::FCInfo::clear(void)
+Int32 VRMLWriteAction::FCInfo::clear(void)
 {
     _iTimesUsed = 0;
 
@@ -187,6 +187,8 @@ void VRMLWriteAction::FCInfo::clear(void)
 
     _bOwnName = false;
     _szName   = NULL;
+
+    return 0;
 }
 
 /***************************************************************************\
@@ -683,6 +685,8 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
                                  FILE            *pFile,
                                  VRMLWriteAction *pWriter)
 {
+    Int32 j;
+
     if(pGeo == NullFC)
         return;
 
@@ -723,7 +727,7 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
         switch((*pTypeField)[i])
         {
             case GL_TRIANGLES:
-                for(int j = 0; j < (*pLengthField)[i]; j+=3)
+                for(j = 0; j < (*pLengthField)[i]; j+=3)
                 {
                     pWriter->printIndent();
                     fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex++]);
@@ -744,7 +748,7 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
             case GL_POLYGON:
                 pWriter->printIndent();
 
-                for(int j = 0; j < (*pLengthField)[i]; j++)
+                for(j = 0; j < (*pLengthField)[i]; j++)
                 {
                     fprintf(pFile, "%d, ", (*pIndexField)[uiCurrentIndex++]);
                 }

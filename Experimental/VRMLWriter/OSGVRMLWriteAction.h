@@ -240,7 +240,8 @@ class OSG_VRMLWRITER_DLLMAPPING VRMLWriteAction : public Action
         Bool  getWriten(void) const;
         void  setWriten (void);
 
-        void clear    (void);
+        // returnvalue required by MS
+        Int32 clear    (void);
     };
 
     //-----------------------------------------------------------------------
