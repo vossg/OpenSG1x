@@ -1,0 +1,246 @@
+diff -r -u -p FTGL/include/FTLibrary.h FTGL.my/include/FTLibrary.h
+--- FTGL/include/FTLibrary.h	2002-12-20 05:18:02.000000000 -0500
++++ FTGL.my/include/FTLibrary.h	2004-07-28 11:53:48.000000000 -0500
+@@ -57,6 +57,59 @@ class FTGL_EXPORT FTLibrary
+          */
+         ~FTLibrary();
+         
++        
++        /**
++         * Callback function types
++         * 
++         */
++
++        typedef void   (APIENTRY *GenTexturesCB)   (GLsizei n, GLuint *textures);
++        typedef void   (APIENTRY *DeleteTexturesCB)(GLsizei n, const GLuint *textures);
++        typedef GLuint (APIENTRY *GenListsCB   )   (GLsizei range);
++        typedef void   (APIENTRY *DeleteListsCB)   (GLuint list, GLsizei range);
++        
++        /**
++         * Set the callback functions for OpenGL object management
++         * 
++         * @param texgenfunc    the function to call for glGenTextures   
++         * @param texdelfunc    the function to call for glDeleteTextures   
++         * @param listgenfunc   the function to call for glGenLists   
++         * @param listdelfunc   the function to call for glDeleteLists   
++         */
++        void setGLCallbacks( GenTexturesCB    texgenfunc, 
++                             DeleteTexturesCB texdelfunc,
++                             GenListsCB       listgenfunc, 
++                             DeleteListsCB    listdelfunc);
++        
++        
++        /**
++         * Call the callback function for OpenGL glGenTextures
++         * 
++         */
++        void genTextures(GLsizei n, GLuint *textures) 
++        { doGenTextures(n, textures); }
++        
++        /**
++         * Call the callback function for OpenGL glDeleteTextures
++         * 
++         */
++        void deleteTextures(GLsizei n, const GLuint *textures) 
++        { doDeleteTextures(n, textures); }
++         
++        /**
++         * Call the callback function for OpenGL glGenLists
++         * 
++         */
++        GLuint genLists(GLsizei range) 
++        { return doGenLists(range); }
++        
++        /**
++         * Call the callback function for OpenGL glDeleteLists
++         * 
++         */
++        void deleteLists(GLuint list, GLsizei range) 
++        { doDeleteLists(list, range); }
++       
+     private:
+         /**
+          * Default constructors.
+@@ -92,6 +145,26 @@ class FTGL_EXPORT FTLibrary
+          */
+         FT_Error err;
+         
++        /**
++         * Callback function to generate texture ids (glGenTextures)
++         */
++        GenTexturesCB doGenTextures;
++
++        /**
++         * Callback function to delete a texture id (glDeleteTextures)
++         */
++        DeleteTexturesCB doDeleteTextures;     
++        
++        /**
++         * Callback function to generate texture ids (glGenTextures)
++         */
++        GenListsCB doGenLists;
++
++        /**
++         * Callback function to delete a texture id (glDeleteTextures)
++         */
++        DeleteListsCB doDeleteLists;     
++       
+ };
+ 
+ #endif  //  __FTLibrary__
+Only in FTGL.my/src: backup
+diff -r -u -p FTGL/src/FTExtrdGlyph.cpp FTGL.my/src/FTExtrdGlyph.cpp
+--- FTGL/src/FTExtrdGlyph.cpp	2003-09-29 15:59:51.000000000 -0500
++++ FTGL.my/src/FTExtrdGlyph.cpp	2004-07-28 11:34:34.000000000 -0500
+@@ -2,6 +2,7 @@
+ 
+ #include    "FTExtrdGlyph.h"
+ #include    "FTVectoriser.h"
++#include    "FTLibrary.h"
+ 
+ 
+ FTExtrdGlyph::FTExtrdGlyph( FT_GlyphSlot glyph, float d)
+@@ -24,7 +25,7 @@ FTExtrdGlyph::FTExtrdGlyph( FT_GlyphSlot
+     }
+ 
+     unsigned int tesselationIndex;
+-    glList = glGenLists(1);
++    glList = FTLibrary::Instance().genLists(1);
+     glNewList( glList, GL_COMPILE);
+ 
+         vectoriser.MakeMesh( 1.0);
+@@ -101,7 +102,7 @@ FTExtrdGlyph::FTExtrdGlyph( FT_GlyphSlot
+ 
+ FTExtrdGlyph::~FTExtrdGlyph()
+ {
+-    glDeleteLists( glList, 1);
++    FTLibrary::Instance().deleteLists( glList, 1);
+ }
+ 
+ 
+diff -r -u -p FTGL/src/FTGLTextureFont.cpp FTGL.my/src/FTGLTextureFont.cpp
+--- FTGL/src/FTGLTextureFont.cpp	2004-01-22 03:11:48.000000000 -0500
++++ FTGL.my/src/FTGLTextureFont.cpp	2004-07-28 11:37:28.000000000 -0500
+@@ -2,6 +2,7 @@
+ 
+ #include "FTGLTextureFont.h"
+ #include "FTTextureGlyph.h"
++#include "FTLibrary.h"
+ 
+ 
+ inline GLuint NextPowerOf2( GLuint in)
+@@ -50,7 +51,7 @@ FTGLTextureFont::FTGLTextureFont( const 
+ 
+ FTGLTextureFont::~FTGLTextureFont()
+ {
+-    glDeleteTextures( textureIDList.size(), (const GLuint*)&textureIDList[0]);
++    FTLibrary::Instance().deleteTextures( textureIDList.size(), (const GLuint*)&textureIDList[0]);
+ }
+ 
+ 
+@@ -123,7 +124,7 @@ GLuint FTGLTextureFont::CreateTexture()
+     memset( textureMemory, 0, totalMemory);
+ 
+     GLuint textID;
+-    glGenTextures( 1, (GLuint*)&textID);
++    FTLibrary::Instance().genTextures( 1, (GLuint*)&textID);
+ 
+     glBindTexture( GL_TEXTURE_2D, textID);
+     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+@@ -143,7 +144,7 @@ bool FTGLTextureFont::FaceSize( const un
+ {
+     if( !textureIDList.empty())
+     {
+-        glDeleteTextures( textureIDList.size(), (const GLuint*)&textureIDList[0]);
++        FTLibrary::Instance().deleteTextures( textureIDList.size(), (const GLuint*)&textureIDList[0]);
+         remGlyphs = numGlyphs = face.GlyphCount();
+     }
+ 
+diff -r -u -p FTGL/src/FTLibrary.cpp FTGL.my/src/FTLibrary.cpp
+--- FTGL/src/FTLibrary.cpp	2002-12-19 05:25:36.000000000 -0500
++++ FTGL.my/src/FTLibrary.cpp	2004-07-28 11:36:56.000000000 -0500
+@@ -30,7 +30,11 @@ FTLibrary::~FTLibrary()
+ 
+ FTLibrary::FTLibrary()
+ :   library(0),
+-    err(0)
++    err(0),
++    doGenTextures(glGenTextures),
++    doDeleteTextures(glDeleteTextures),
++    doGenLists(glGenLists),
++    doDeleteLists(glDeleteLists)
+ {
+     Initialise();
+ }
+@@ -62,3 +66,15 @@ bool FTLibrary::Initialise()
+ 
+     return true;
+ }
++
++void FTLibrary::setGLCallbacks( GenTexturesCB    texgenfunc, 
++                                DeleteTexturesCB texdelfunc,
++                                GenListsCB       listgenfunc, 
++                                DeleteListsCB    listdelfunc)
++{
++    doGenTextures    = texgenfunc;
++    doDeleteTextures = texdelfunc;
++    doGenLists       = listgenfunc;
++    doDeleteLists    = listdelfunc;
++}
++ 
+diff -r -u -p FTGL/src/FTOutlineGlyph.cpp FTGL.my/src/FTOutlineGlyph.cpp
+--- FTGL/src/FTOutlineGlyph.cpp	2003-09-24 22:55:19.000000000 -0500
++++ FTGL.my/src/FTOutlineGlyph.cpp	2004-07-28 11:37:42.000000000 -0500
+@@ -1,5 +1,6 @@
+ #include    "FTOutlineGlyph.h"
+ #include    "FTVectoriser.h"
++#include    "FTLibrary.h"
+ 
+ 
+ FTOutlineGlyph::FTOutlineGlyph( FT_GlyphSlot glyph)
+@@ -20,7 +21,7 @@ FTOutlineGlyph::FTOutlineGlyph( FT_Glyph
+         return;
+     }
+ 
+-    glList = glGenLists(1);
++    glList = FTLibrary::Instance().genLists(1);
+     glNewList( glList, GL_COMPILE);
+         for( unsigned int c = 0; c < numContours; ++c)
+         {
+@@ -39,7 +40,7 @@ FTOutlineGlyph::FTOutlineGlyph( FT_Glyph
+ 
+ FTOutlineGlyph::~FTOutlineGlyph()
+ {
+-    glDeleteLists( glList, 1);
++    FTLibrary::Instance().deleteLists( glList, 1);
+ }
+ 
+ 
+diff -r -u -p FTGL/src/FTPolyGlyph.cpp FTGL.my/src/FTPolyGlyph.cpp
+--- FTGL/src/FTPolyGlyph.cpp	2003-09-24 22:55:19.000000000 -0500
++++ FTGL.my/src/FTPolyGlyph.cpp	2004-07-28 11:38:01.000000000 -0500
+@@ -1,5 +1,6 @@
+ #include "FTPolyGlyph.h"
+ #include "FTVectoriser.h"
++#include "FTLibrary.h"
+ 
+ 
+ FTPolyGlyph::FTPolyGlyph( FT_GlyphSlot glyph)
+@@ -21,7 +22,7 @@ FTPolyGlyph::FTPolyGlyph( FT_GlyphSlot g
+ 
+     vectoriser.MakeMesh( 1.0);
+     
+-    glList = glGenLists( 1);
++    glList = FTLibrary::Instance().genLists( 1);
+     glNewList( glList, GL_COMPILE);
+ 
+         const FTMesh* mesh = vectoriser.GetMesh();
+@@ -45,7 +46,7 @@ FTPolyGlyph::FTPolyGlyph( FT_GlyphSlot g
+ 
+ FTPolyGlyph::~FTPolyGlyph()
+ {
+-    glDeleteLists( glList, 1);
++    FTLibrary::Instance().deleteLists( glList, 1);
+ }
+ 
+ 

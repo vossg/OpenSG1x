@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="FTGLFont"
+	parent="FieldContainer"
+	library="Contrib"
+	pointerfieldtypes="both"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	structure="concrete"
+>
+	<Field
+		name="name"
+		type="std::string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The font file name.
+	</Field>
+	<Field
+		name="drawType"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Type of Font to use for drawing, see OSGFTGLFont.h for possible types.
+	</Field>
+	<Field
+		name="size"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Size, in points.
+	</Field>
+	<Field
+		name="res"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Resolution of the output device.
+	</Field>
+	<Field
+		name="depth"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Extrusion depth, in points.
+	</Field>
+	<Field
+		name="GLId"
+		type="UInt32"
+		cardinality="single"
+		visibility="internal"
+		access="protected"
+	>
+	Internal ID for registration with Window, needed for updates and
+        validation. 
+	</Field>
+</FieldContainer>

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="FTGLText"
+	parent="MaterialDrawable"
+	library="Contrib"
+	pointerfieldtypes="both"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	structure="concrete"
+>
+	<Field
+		name="text"
+		type="std::string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The text to display.
+	</Field>
+	<Field
+		name="font"
+		type="FTGLFontPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+                header="OSGFTGLFontFields.h"
+	>
+	Font to use.
+	</Field>
+	<Field
+		name="position"
+		type="Pnt3f"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Position of the text string, in 3D space.
+	</Field>
+</FieldContainer>

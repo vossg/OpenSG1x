@@ -1,0 +1,49 @@
+
+README for FTGLText
+===================
+
+Name:                 FTGLText
+License:              LGPL
+Maintainer:           Dirk Reiners <dirk@opensg.org>
+Initial Author:       Dirk Reiners <dirk@opensg.org>
+Additional Libraries: FTGL (http://homepages.paradise.net.nz/henryj/code/#FTGL)
+                      Freetype2 (http://www.freetype.org/)
+Added:                2004/08/05
+Last modified:        2004/08/05
+Last tested:          2004/08/05
+
+Description:
+
+FTGL is a simple wrapper around the FTGL font rendering library. It can
+display text in a number of different ways inside OpenSG. This code was
+whipped up pretty quickly as an immediate stopgap to cover the time until
+the text is redesigned. Therefore it's not complete and probably has a bunch
+of problems.
+
+Known problems:
+
+- This probably won't work on Windows right now. Non-library FieldContainers 
+  with Fields haven't been done before. 
+
+- Texture and Bitmap rendering don't work. The OpenGL commands seem to be
+  sensible, but the output is just wrong.
+
+The official FTGL version can't be used directly, as its managing of OpenGL
+objects interferes with OpenSG's. You need to patch FTGL, until (maybe) the
+changes I made are integrated into the FTGL core. The patch file is
+ftgl.patch, and it is designed for FTGL 2.0.9. I wouldn't expect there to be
+problems with other versions, as the changes are in an area that is unlikely
+to change.
+
+Once you have the patched FTGL in place you can just use the FTGLFont and
+FTGLText classes to display text, see testText.cpp for an example.
+
+Configure:
+
+./configure <your standard options> \
+--with-add-incdir=/usr/include/freetype2:<wherever you have ftgl headers> \
+--with-add-libdir=<wherever you have ftgl libs> --with-add-lib=ftgl:freetype
+
+Have fun
+
+    Dirk
