@@ -43,16 +43,20 @@
 
 // export/import #define's for building a win32 dll
 //# ifdef XMLPP_EXPORTS
-# ifdef OSG_BUILD_DLL
-#  define XMLPP_API __declspec(dllexport)
-# else
-#  define XMLPP_API __declspec(dllimport)
-# endif
-
-# ifdef XMLPP_NOEXPORTS
-#  undef XMLPP_API
+#if defined(WIN32) && defined(OSG_BUILD_DLL)
+#   ifdef OSG_COMPILEBASELIB
+#     define XMLPP_API __declspec(dllexport)
+#   else
+#     define XMLPP_API __declspec(dllimport)
+#   endif
+#else
 #  define XMLPP_API
-# endif
+#endif
+
+//# ifdef XMLPP_NOEXPORTS
+//#  undef XMLPP_API
+//#  define XMLPP_API
+//# endif
 
 // includes building of the httpinstream class
 #define XMLPP_WITH_CUSTOM_IOSTREAM
