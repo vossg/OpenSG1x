@@ -192,6 +192,24 @@ bool StatCollector::getFromString(const Char8 *&inVal)
     return true;
 }
 
+/*! Get the value of the named element, if it exists, return false if not.
+*/
+bool StatCollector::getValue(std::string &name, Real64 &val)
+{
+    StatElemDescBase *desc = StatElemDescBase::findDescByName(name.c_str());
+    
+    if(!desc)
+        return false;
+    
+    StatElem *el = getElem(*desc, false);
+    
+    if(!el)
+        return false;
+    
+    val = el->getValue();
+    
+    return true;
+}
 
 /*! Remove all elements from the collector.
 */

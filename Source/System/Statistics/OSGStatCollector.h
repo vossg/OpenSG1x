@@ -100,6 +100,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector
             void      putToString  (std::string &outVal) const;
      
             bool      getFromString(const Char8 *&inVal);
+
+            bool      getValue     (std::string &name, Real64 &val);
             
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

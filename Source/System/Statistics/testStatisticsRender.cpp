@@ -61,6 +61,16 @@ void keyboard(unsigned char k, int, int)
             osgExit();
             exit(0);
         }
+        
+        case 'v':
+        {
+            mgr->getAction()->setVolumeDrawing(
+                                    !mgr->getAction()->getVolumeDrawing());
+		    std::cerr << "Volume Drawing: " 
+                      << (mgr->getAction()->getVolumeDrawing()?"on":"off") 
+                      << std::endl;
+        }
+        break;
     }
 }
 
@@ -92,7 +102,16 @@ int main(int argc, char **argv)
     
     if(argc > 1)
     {
-        scene = SceneFileHandler::the().read(argv[1]);
+        scene = Node::create();
+        GroupPtr g = Group::create();
+        
+        beginEditCP(scene);
+        scene->setCore(g);
+        
+        for(UInt16 i = 1; i < argc; ++i)
+            scene->addChild(SceneFileHandler::the().read(argv[i]));
+        
+        endEditCP(scene);
     }
     else
     {
