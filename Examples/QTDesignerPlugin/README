@@ -1,0 +1,13 @@
+This directory contains an example project to show the usage of the QT Designer
+widget plugin.
+
+The osgdesignerexampleform.ui is generated with the QT Designer and contains 
+a form showing off the QT Designer plugin.
+
+The osgdesignerexample.pro file can be used with qmake to create a Makefile
+for the project like this:
+qmake osgdesignerexample.pro
+
+(This project file is tested under Linux and works perfectly there. 
+Spending hours on stupid path adjustments on the Windoze platform i resigned,
+thus the project file is not meant to be used under that platform.)
