@@ -274,22 +274,66 @@ or the PATH variable, depending on your Platform
 Windows users need not to compile the tutorials on their own as they are precompiled, but my advise is to open one Visual 
 Studio Project File and try to compile that tutorial. By doing this you can see if everthing is working fine.
 
-\section TutorialCompilation Compilation
+\section TutorialCompilation Compilation of Own Applications
 
 After compiling and executing your tutorials you are ready to start right off with your first own applications! In the next chapter 
 I will introduce a first tutorial where you can get used to some core aspects of OpenSG. But at this point I want to start with
 some more general words about compiling OpenSG Projects.
 
-The first thing is for Windows users only: If you want to spare a lot of time and trouble, do not try to start a new project from
-within Visual Studio. There is a template project File provided. Use this template or the project file of a tutorial. Of course all
-those settings can be done by Hand, but you should only do that, if you have no other choice (i.e. extend an existing project with
+\subsection TutorialCompilation Projects on Windows
+
+If you want to spare a lot of time and trouble, do not try to start a new project from
+within Visual Studio. There is a template project file provided. Use this template or simple change the code of a existing tutorial found in the "Tutorials" 
+folder. Of course all those settings can be done by hand, but you should only do that, if you have no other choice (i.e. extend an existing project with
 OpenSG Functionality)
 
 [TODO: List all the entries that have to be done...]
 
 [TODO : MFC Example]
 
-For Linux users it is not that complicated. Wether you just edit the tutorials or you write your own little makefile.
+\subsection TutorialCompilation Projects on Linux
+
+Often linux users have more trouble with setting up stuff compared to Mac or Windows. However this time it is quite easy, if you know what to do. If you are 
+comfortable with Makefiles you can write your own little one or use the sample \ref FirstAppTutorialMakefile I provide in the next chapter. This sample one
+assumes that every OpenSG application is consisting of one file only (which is really sufficent for us right now) and that each cpp filename is starting with
+a two digit number like 00framework.cpp. Also those files found will compile into an application with the same name. If you want to or need to write your own
+makefile you can peek into the sample one, to get an idea what is needed.
+
+If you do not like terminal hacking you can of course also use your favourite integrated development environment. I will show you what is necessary to set up an
+project using kdevelop 3.0. First create a simple new C++ project like shown in the next picture
+
+\image html new_project.png "Setup new simple C++ project"
+\image latex new_project.eps "Setup new simple C++ project" width = 8cm
+
+Replace the "hello world" code with your OpenSG program. If you want to try this, before you have any knowledge of OpenSG itself, you can simply copy the contents
+of some tutorial. Now we need to specify some configure commands - click on "Project" in the menu bar and choose "Project Options". On the left hand side click
+on "Configure Options". The following image shows what you should see
+
+\image html project_options.png "Project Options"
+\image latex project_options.eps "Project Options" width = 8cm
+
+The red circles indicate where you need to make changes. These fields are empty on your screen, but you need to provide quite a lot of arguments here. Ready your
+copy and paste shortcut...
+
+<PRE>
+C/C++ preprocessor flags (CPPFLAGS)
+
+-D_GNU_SOURCE -DQT_CLEAN_NAMESPACE -DOSG_WITH_GLUT -DOSG_WITH_QT -DOSG_WITH_JPG 
+-DOSG_WITH_PNG -D_OSG_HAVE_CONFIGURED_H_ -DQT_NO_XINERAMA -DQT_NO_XRENDER 
+-DQT_NO_XFTFREETYPE -DQT_NO_XKB -DQT_NO_SM_SUPPORT -DQT_NO_IMAGEIO_MNG 
+-DQT_NO_IMAGEIO_JPEG -DQT_NO_STYLE_AQUA -DQT_NO_STYLE_MAC 
+-DQT_NO_STYLE_INTERLACE -DQT_NO_STYLE_COMPACT -use_readonly_const 
+-ftemplate-depth-100 
+-I/usr/local/include -I/usr/qt/3/include -march=athlon -Wno-deprecated
+</PRE>
+
+and 
+
+<PRE>
+-L/usr/local/lib/dbg -lOSGWindowGLUT -lOSGSystem -lOSGBase -lglut 
+-lGLU -lGL -lXmu -lXi -lXt  -lqt -lpthread -ldl 
+-L/usr/qt/3/lib -L/usr/X11R6/lib
+</PRE>
 
 \section TutorialExercises Exercises
 

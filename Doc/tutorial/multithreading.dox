@@ -10,6 +10,7 @@ Chapter Overview
 	\ref TutorialMultithreadigSimpleExample <BR>
 	\ref TutorialMultithreadingChangeList <BR>
 	\ref TutorialMultithreadingTutorial <BR>
+	\ref TutorialMultithreadingBarriers 
 <HR>
 
 Multithreading is often not very easy to handle and even more often it is dangerous and evil to debug. However, multithreading is powerful and very useful in
@@ -24,7 +25,7 @@ As always, please make a copy of the framwork file. We really need no geometry a
 a root node. So create a group node or some simple geometry, whatever you want, an give it to the simple scene manager. Try to execute, just to make sure
 everthing works fine - there is nothing more annoying than searching hours for an error in your threads where the real error lies somewhere else!
 
-First there is, of course, a new include files, that needs to be added.
+First there is, of course, a new include file, that needs to be added.
 
 \code
 	#include "#include <OpenSG/OSGThreadManager.h>"
@@ -67,7 +68,7 @@ If you like to replace the letters with a word or a sentence and watch what happ
 terminal output.
 
 \image html thread_change.png "Two threads producing non-stop output"
-\image latex thread_change.eps "Two threads producing non-stop output" width=6cm
+\image latex thread_change.eps "Two threads producing non-stop output" width=3cm
 
 As you can see, the printing of "Taschenrechner" was completed correctly, but "Power Mac G5" suddenly started at " G5" and left out the beginning. Afterwards
 the output continues normally. What happend? Well, the execution of threads is handled by your operating system, which decides when a thread is
@@ -94,10 +95,10 @@ are called aspects and every thread is associated with one single aspect. If dat
 that time. The following figure illustrates this:
 
 \image html aspects.png "Two threads and one field container with two aspects" 
-\image latex aspects.eps "Two threads and one field container with two aspects" width = 8cm
+\image latex aspects.eps "Two threads and one field container with two aspects" width = 10cm
 
 Here you have one field container of type transform, which holds two aspects. Two threads are running and each has assigned a single aspect. If thread two
-now sets a new matrix that field in the appropiate threads aspect is changed - the other thread's fild stays untouched.
+now sets a new matrix that field in the appropiate threads aspect is changed - the other thread's field stays untouched.
 
 Of course, this has the potential to cause heavy problems, as we now have inconsistent data, because thread one seems not to be aware of the new matrix thread 
 two has set. That is what change lists are for. Every thread has it's own change list. Each time data is written an entry is added to the corresponding change 
@@ -107,6 +108,15 @@ all other aspects. The synchronizing has to be initiated manually and can't be d
 Well, this will be easier to understand if we consider a little example. So here we go: imagine we want a simple torus (yes, again amazing geometry!) which 
 should rotate around the y axis - so we need a new transformation matrix every frame. This time this computation will be done in an additional thread. Please
 keep in mind that this is for didactic reasons only, as it would not be very smart to create own threads for such simple tasks ;)
+
+<B>
+Important Notice:
+</B>
+<I>
+Currently the handling of multiple aspects is not fully implemented yet! In detail that means, that there is currently no way to change the number of aspects,
+there are always two aspects per default, so if you have three threads that need to read/write data independantly, you have a problem ;) However that is
+unlikly... anyway if you do need that feature, you should have a look at the mailing list (see Chapter (xxx)).
+</I>
 
 \section TutorialMultithreadingTutorial Tutorial - Moving torus with multiple threads
 
@@ -247,5 +257,58 @@ The application will still run, but this time without any movement of the torus.
 command thread 2 is doing a fine job, but thread 1 will never become aware of the changes. So the change list of thread 2 has to be applied on thread 1 thus
 all changes from aspect 2 are copied to aspect 1.
 
-[TODO: continue]
+Alright, it seems that <I>animationThread->getChangeList()->applyAndClear();</I> will do some synching between the threads. 
+The next figure shows what happens on applying the change list
+
+\image html sync.png "Applying a change list"
+\image latex sync.eps "Applying a change list" width = 10cm
+
+Well, I assume that you have not 
+worked with threads before, so if you have already you can jump to the next passage right away. When working with threads some things might get a bit confusing.
+It is like having to independant programs running, which are written in one and the same source file and can use the same gloabl variables or objects. You have
+to keep track in mind in which thread you are actually right now when programming.
+
+In this specific case, the synching command is called within the display() function, which is run by the main thread. That is, if we call 
+<I>animationThread->getChangeList()->applyAndClear();</I>, we will get the change list from the other thread, which will have one entry (the changed matrix
+flield). This change list will be applied to the current thread, the main thread. Remember, the main thread is also the one, that will render - so afterwards
+the new matrix can taken into account when rendering. Additionally, applyAndClear() also removes all entries in the change list, so that it is empty again.
+
+There is still one thing we have not talked about: Barriers. You might have noticed that we used an object of type osg::Barrier. This barrier is entered two 
+times at the end of the animation thread and also two times during the display() function, where they are like brackets around the sync command. All have one
+integer parameter of two passed to them. The reason why these barriers have to be used is quite simple: during synchronization, that is when data is written
+from one aspect to another, no new data is allowed to be written (or even read), because this may cause inconsistent data. So all threads that are going to
+be synchronized have to stop until the process has finished. That is what barriers are for.
+
+\section TutorialMultithreadingBarriers Barriers
+
+When a barriers is entered via 
+<PRE>
+	some_barrier->enter(2)
+</PRE>
+the thread will stop. The integer argument tells the system how many threads should be trapped in this barrier until they are released again. In our example
+the main thread will stop during the display function() at the very fist line, until the animation thread also enters the first barrier at the end of the 
+function(). At the moment that happens, both threads will continue to run. However the animation thread will be stopped at the next line already, where the main
+thread will first finish executing the synchronization until it enters the next barrier, where both will be realesed again.
+
+\image html barriers.png "Usage of barriers"
+\image latex barriers.eps "Usage of barriers" width = 10cm
+
+<I>
+Code is executed downwards along the red line, until the blue line marks a barrier. If and only if both threads have arrived at the blue barrier, execution
+of both threads continues.
+</I>
+
+Be careful to use the correct value as argument for entering barriers. If I would have accidently given a 3 instead of two to any barrier, the application will
+wait there forever and never continue, because there is no third thread that could enter the barrier.
+
+Now that you have a basic understanding of how threads work, you might come to the conclusion, that this is not very efficient, as every thread has to wait
+every frame until the other has also finised - yes, as I set before, this was for didactic reasons only and should not be used like that in rthe real world.
+
+A little example where multithreading might be useful: image you have a virtual reality system, that has to load files from disk during runtime. If these files
+contain some bigger modells, such as terrain our houses, loading might take some noticeable time. If you are running a single threaded application, the whole
+thing will stop (i.e. the picture will freeze) until loading is finished. In this case you could have a second thread for loading. This thread will be started
+when a modell should be loaded. The modell will be loaded into memory while the main application will continue to run. When the loading process has finished,
+both threads will be synchronized and then the additional thread will be terminated. Done.
+
+Next Chapter : \ref Clustering
 */
