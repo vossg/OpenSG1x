@@ -18,7 +18,7 @@ int                      recvCount=4;
 std::vector<std::string> recvAddress;
 UInt32                   dataCount=100000;
 
-void *connectProc(void *)
+void connectProc(void *)
 {
     UInt32 i,j,c;
     try
@@ -66,10 +66,9 @@ void *connectProc(void *)
     {
         FFATAL(("Error while connecting: %s\n",e.what()));
     }
-    return NULL;
 }
 
-void *acceptProc(void *)
+void acceptProc(void *)
 {
     UInt32 i,j;
 
@@ -107,7 +106,6 @@ void *acceptProc(void *)
     {
         FFATAL(("Error while connecting: %s\n",e.what()));
     }
-    return NULL;
 }
 
 void testConnection(char *name)
