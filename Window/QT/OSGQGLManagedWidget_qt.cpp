@@ -59,7 +59,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.10 2001/10/17 09:21:37 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.11 2001/11/16 13:08:29 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGQGLMANAGEDWIDGET_HEADER_CVSID;
 }
 
@@ -127,7 +127,8 @@ namespace
  */
 
 OSGQGLManagedWidget::OSGQGLManagedWidget ( QWidget *parent, 
-                                           const char *name) 
+                                           const char *name,
+                                           SimpleSceneManager *manager ) 
   : Inherited(parent,name)
 {
   FDEBUG (("OSGQGLManagedWidget constructor called\n"));
@@ -140,7 +141,16 @@ OSGQGLManagedWidget::OSGQGLManagedWidget ( QWidget *parent,
   }
   osg::endEditCP(qtWinPtr);
 
-  _manager.setWindow ( qtWinPtr );
+  if(manager != NULL)
+  {
+    _manager = manager;
+  }
+  else
+  {
+    _manager = new SimpleSceneManager; // mem leak here
+  }
+  
+  _manager->setWindow ( qtWinPtr );
 }
 
 
@@ -196,7 +206,7 @@ Bool OSGQGLManagedWidget::operator < (const OSGQGLManagedWidget &other) const
 //----------------------------------------------------------------------
 SimpleSceneManager & OSGQGLManagedWidget::getManager ( void )
 {
-  return _manager;
+  return *_manager;
 }
 
 //----------------------------------------------------------------------
@@ -206,11 +216,11 @@ void OSGQGLManagedWidget::initializeGL ( void )
 {
   FDEBUG (("OSGQGLManagedWidget::initializeGL()\n"));
 
-  _manager.getWindow()->init();      // create the context
+  _manager->getWindow()->init();      // create the context
  
   FDEBUG (("after init()\n"));
 
-  _manager.getWindow()->activate();  // and activate it
+  _manager->getWindow()->activate();  // and activate it
 
   // some manual init, will be moved into StateChunks later
   glEnable( GL_LIGHTING );
@@ -230,9 +240,9 @@ void OSGQGLManagedWidget::paintGL ( void )
 {
   FDEBUG (("OSGQGLManagedWidget::paintGL() \n"));
 
-  _manager.getWindow()->activate(); // and activate it
+  _manager->getWindow()->activate(); // and activate it
 
-  _manager.redraw();
+  _manager->redraw();
 }
 
 //----------------------------------------------------------------------
@@ -242,7 +252,7 @@ void OSGQGLManagedWidget::resizeGL ( int w, int h )
 {   
   FDEBUG (("OSGQGLManagedWidget::resizeGL()\n"));
 
-  _manager.resize(w,h);
+  _manager->resize(w,h);
   paintGL();
 }
 
@@ -256,16 +266,16 @@ void OSGQGLManagedWidget::mousePressEvent ( QMouseEvent *me )
   switch ( me->button() ) 
     {
     case LeftButton:
-      _manager.mouseButtonPress ( SimpleSceneManager::MouseLeft, 
-                                  me->x(), me->y()  );
+      _manager->mouseButtonPress ( SimpleSceneManager::MouseLeft, 
+                                   me->x(), me->y()  );
       break;
     case MidButton:
-      _manager.mouseButtonPress ( SimpleSceneManager::MouseMiddle, 
-                                  me->x(), me->y()   );
+      _manager->mouseButtonPress ( SimpleSceneManager::MouseMiddle, 
+                                   me->x(), me->y()   );
       break;
     case RightButton:
-      _manager.mouseButtonPress ( SimpleSceneManager::MouseRight, 
-                                  me->x(), me->y() );
+      _manager->mouseButtonPress ( SimpleSceneManager::MouseRight, 
+                                   me->x(), me->y() );
       break;
     }
   
@@ -282,16 +292,16 @@ void OSGQGLManagedWidget::mouseReleaseEvent ( QMouseEvent *me )
   switch ( me->button() ) 
     {
     case LeftButton:
-      _manager.mouseButtonRelease ( SimpleSceneManager::MouseLeft, 
-                                  me->x(), me->y()  );
+      _manager->mouseButtonRelease ( SimpleSceneManager::MouseLeft, 
+                                     me->x(), me->y()  );
       break;
     case MidButton:
-      _manager.mouseButtonRelease ( SimpleSceneManager::MouseMiddle, 
-                                    me->x(), me->y()   );
+      _manager->mouseButtonRelease ( SimpleSceneManager::MouseMiddle, 
+                                     me->x(), me->y()   );
       break;
     case RightButton:
-      _manager.mouseButtonRelease ( SimpleSceneManager::MouseRight, 
-                                  me->x(), me->y() );
+      _manager->mouseButtonRelease ( SimpleSceneManager::MouseRight, 
+                                     me->x(), me->y() );
       break;
     }
   
@@ -305,7 +315,7 @@ void OSGQGLManagedWidget::mouseMoveEvent ( QMouseEvent *me )
 {
   FDEBUG (("OSGQGLManagedWidget::mouseMoveEvent()\n"));
   
-  _manager.mouseMove ( me->pos().x(), me->pos().y());
+  _manager->mouseMove ( me->pos().x(), me->pos().y());
   
   paintGL();
 }

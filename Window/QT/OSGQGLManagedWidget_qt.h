@@ -67,7 +67,9 @@ class OSG_QTWINDOWLIB_DLLMAPPING OSGQGLManagedWidget : public OSGQGLWidget
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
  
-    OSGQGLManagedWidget(QWidget *parent =0, const char *name = 0);
+    OSGQGLManagedWidget(      QWidget            *parent  = 0, 
+                        const char               *name    = 0,
+                              SimpleSceneManager *manager = 0);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -110,7 +112,7 @@ class OSG_QTWINDOWLIB_DLLMAPPING OSGQGLManagedWidget : public OSGQGLWidget
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    SimpleSceneManager _manager;
+    SimpleSceneManager *_manager;
 
     virtual void initializeGL (void);
     virtual void paintGL (void);
@@ -144,6 +146,6 @@ typedef OSGQGLManagedWidget *OSGQGLManagedWidgetP;
 
 OSG_END_NAMESPACE
 
-#define OSGQGLMANAGEDWIDGET_HEADER_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.4 2001/10/16 18:37:45 jbehr Exp $"
+#define OSGQGLMANAGEDWIDGET_HEADER_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.5 2001/11/16 13:08:29 dirk Exp $"
 
 #endif /* _OSGQGLManagedWidget_H_ */
