@@ -988,7 +988,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 					"Abstract", "hasFields", 
 					"hasPrivateFields", "hasProtectedFields", "hasPublicFields", 
 					"isPrivate", "isProtected", "isPublic",
-					"hasDefaultHeader",
+					"hasDefaultHeader", "SystemComponent",
 					NULL };
 				
 				char *key = s + strcspn( s, " \t");
@@ -1103,6 +1103,10 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 							if ( ! fieldIt->defaultHeader() || 
 								  *fieldIt->defaultHeader() == 0 )
 								skipIf = 1;
+							break;
+				case 12:	// SystemComponent
+                            if ( ! _systemComponent )
+							    skipIf = 1;
 							break;
 							
 				default:
