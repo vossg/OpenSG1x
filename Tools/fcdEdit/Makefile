@@ -22,18 +22,11 @@ OSGROOT ?= $(OSGINSTALLPREFIX)
 
 OSGROOT ?= $(wildcard ../../Builds/$(shell ../../CommonConf/config.guess)-*)
 
+# use debug or opt libs?
+LIBTYPE ?= dbg
+
 ### PROJECT ##########################################################
 TARGET = fcdEdit
-######################################################################
-
-### Common Makefile Declarations #####################################
-######################################################################
-### Common Makefile Declarations, Johannes Behr 1997,98,99  ##########
-######################################################################
-
-### System dependences ###############################################
-######################################################################
-### Common Makefile Declarations, Johannes Behr 1997,98,99  ##########
 ######################################################################
 
 ### System dependences ###############################################
@@ -41,42 +34,43 @@ TARGET = fcdEdit
 OS      := $(shell echo `uname`)
 OS_TYPE := $(shell echo `uname`_`uname -r`_`uname -p`)
 
-# init flags for system-specific options
-CXXFLAGS   :=
-LDFLAGS    :=
-
 # be very careful with these lines. There needs to be a space after the Unix
 # lines and nothing after the win lines!!
 
 ifeq ($(OS),IRIX)
     
-        CCOUT := -o 
-        LDOUT := -o 
+    	CCOUT := -o 
+	LDOUT := -o 
 	BINSUF:=
-        CXXFLAGS := $(CXXFLAGS) -signed
 
 endif
 ifeq ($(OS),IRIX64)
     
-        CCOUT := -o 
-        LDOUT := -o 
+    	CCOUT := -o 
+    	LDOUT := -o 
 	BINSUF:=
-        CXXFLAGS := $(CXXFLAGS) -signed
 
 endif
 ifeq ($(OS),Linux)
     
-        CCOUT := -o 
-        LDOUT := -o 
+    	CCOUT := -o 
+    	LDOUT := -o 
 	BINSUF:=
 
 endif
 ifeq ($(findstring WIN,$(OS)),WIN)
     
-        OS := WIN32
-        CCOUT := -Fo
-        LDOUT := /out:
+    	OS := WIN32
+    	CCOUT := -Fo
+    	LDOUT := /out:
 	BINSUF := .exe
+
+endif
+ifeq ($(OS),HP-UX)
+    
+    	CCOUT := -o 
+    	LDOUT := -o 
+	BINSUF:=
 
 endif
 
@@ -86,16 +80,18 @@ OSG_CONFIG := $(OSGROOT)/bin/osg-config
 
 MOC        :=  $(shell $(OSG_CONFIG) --moc)
 UIC        :=  $(shell $(OSG_CONFIG) --uic)
-CXX        := "$(shell $(OSG_CONFIG) --compiler)"
-CXXFLAGS   :=  $(CXXFLAGS) $(shell $(OSG_CONFIG) --cflags QT ) -DXMLPP_NOEXPORTS
-LD         := "$(shell $(OSG_CONFIG) --exe-linker)"
-LDFLAGS    :=  $(LDFLAGS)
-LIBS       :=  $(shell $(OSG_CONFIG) --libs QT)
+CXX        := "$(shell $(OSG_CONFIG) --compiler --$(LIBTYPE) )"
+CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags --$(LIBTYPE) Base System QT )
+ifeq ($(findstring WIN,$(OS)),WIN)
+LD         := "$(shell $(OSG_CONFIG) --exe-linker --$(LIBTYPE) )"
+else
+LD         := $(shell $(OSG_CONFIG) --exe-linker --$(LIBTYPE) )
+endif
+LDFLAGS    :=
+LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base System QT )
 CMPLR_ID   :=  $(shell $(OSG_CONFIG) --compiler-id)
 
 SYSDEP     := $(OS)-$(CMPLR_ID)
-
-#$(error -$(CXXFLAGS))
 
 # check these (GV)
 
@@ -117,50 +113,26 @@ endif
 
 ### Object and source files ##########################################
 
-HEADERS  := $(wildcard *.h *.H *.hh *.hxx *.ui)
-# all ui files that neads moc 
+# all ui files that need moc 
 UI_IN   := $(wildcard *.ui)
-UI_H    := $(addsuffix .h, $(basename $(UI_IN))) 
-UI_CPP  := $(addsuffix .cpp, $(basename $(UI_IN))) 
-# all qt files that neads moc 
-MOC_IN   := $(sort $(shell grep -l Q_OBJECT *.[hH]) $(UI_H))
+UI_CPP  := $(addsuffix .cpp, $(basename $(addprefix uic_,$(UI_IN)))) 
+UI_HPP  := $(addsuffix .h,   $(basename $(addprefix uic_,$(UI_IN)))) 
+# all qt files that need moc. This includes the header generate from .ui 
+MOC_IN   := $(sort $(UI_HPP) $(shell grep -l Q_OBJECT *.[hH]))
 MOC_CPP  := $(addsuffix .cpp, $(basename $(addprefix moc_,$(MOC_IN)))) 
 # all source files without generated sources
 SOURCES  := $(filter-out $(UI_CPP) $(MOC_CPP), $(wildcard *.[ylcC] *.cc *.cxx *.cpp))
+# all headers without generated headers
+HEADERS  := $(filter-out $(UI_HPP),$(wildcard *.h *.H *.hh *.hxx *.ui))
 # all object files
-BINOBJS  := $(addsuffix .$(SYSDEP).o,$(basename $(UI_CPP) $(MOC_CPP) $(SOURCES) ))
+BINOBJS  := $(addsuffix .$(SYSDEP).o,$(basename $(UI_CPP) $(MOC_CPP) $(SOURCES)))
 # all object files without main object
-LIBOBJS  := $(filter-out main.*.o ,$(BINOBJS))
-# required dependencies
-DEPLIST  := $(addsuffix .$(SYSDEP).dep,$(basename $(SOURCES) ))
-# existing dependencies
-DEPFOUND := $(filter $(wildcard *.dep),$(DEPLIST))
-
-#$(error $(BINOBJS) -- $(LIBOBJS))
-
-#ifeq ($(strip $(HEADERS)),)
-#$(warning HEADERS empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
-#endif
-
-#ifeq ($(strip $(SOURCES)),)
-#$(warning SOURCES empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
-#endif
-
-#ifeq ($(strip $(BINOBJS)),)
-#$(warning BINOBJS empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
-#endif
-
-#ifeq ($(strip $(LIBOBJS)),)
-#$(warning LIBOBJS empty, be shure your lists are up to date use $(MAKE) lists to rebuild them) 
-#endif
-
+LIBOBJS  := $(filter-out main.$(SYSDEP).o ,$(BINOBJS))
 
 ######################################################################
-
 ### TARGET build rules ###############################################
 
-allstuff : 
-	$(MAKE) $(TARGET)$(BINSUF)
+allstuff : $(TARGET)$(BINSUF)
 
 $(TARGET)$(BINSUF): $(SYSTARGET) 
 	@echo "TARGET:   " $(TARGET)
@@ -174,12 +146,12 @@ endif
 
 $(SYSTARGET):  $(BINOBJS)
 	@echo "Linking $(SYSTARGET) (from $(BINOBJS))"
-	$(LDPREFIX) $(LD) $(LDFLAGS) $(BINOBJS) $(LIBS) $(LDOUT)$@
+	$(LD) $(LDFLAGS) $(BINOBJS) $(LIBS) $(LDOUT)$@
 	@$(BINSET) $(SYSTARGET)
 
 ######################################################################
 
-.PRECIOUS: moc_%.cpp %.cpp
+.PRECIOUS: moc_%.cpp uic_%.cpp uic_%.h
 
 ### Implicit rules ###################################################
 %.cpp: %.y
@@ -188,22 +160,14 @@ $(SYSTARGET):  $(BINOBJS)
 %.cpp: %.l
 	$(LEX) $< > $@
 
-%.h: %.ui
+uic_%.h: %.ui
 	$(UIC) -o $@ $<
 
-%.cpp: %.ui
-	$(UIC) -i $*.h -o $@ $<
-	$(UIC) -o $*.h $<
+uic_%.cpp: %.ui uic_%.h
+	$(UIC) -i uic_$*.h -o $@ $<
 
 moc_%.cpp: %.h
 	$(MOC) -f$< $< -o $@
-
-%.$(SYSDEP).dep: %.cpp
-	@echo "Updating " $@ 
-	@echo "THIS OPERATION IS DISABLED RIGHT NOW !!"
-	@echo 
-	touch $@
-#	@$(MKDEP) $(INCS) -I. $< | sed 's/\.o/\.$(SYSDEP)\.o/' > $@
 
 %.$(SYSDEP).o: %.cc
 	$(CXX) $(CXXFLAGS) $<
@@ -211,8 +175,8 @@ moc_%.cpp: %.h
 %.$(SYSDEP).o: %.cxx
 	$(CXX) $(CXXFLAGS) $<
 
-%.$(SYSDEP).o: %.cpp %.$(SYSDEP).dep
-	$(CXX) -c $(CXXFLAGS) -I. $< $(CCOUT)$@
+%.$(SYSDEP).o: %.cpp
+	$(CXX) -c $(CXXFLAGS) $< $(CCOUT)$@
 
 %.$(SYSDEP).o: %.C
 	$(CXX) $(CXXFLAGS) $<
@@ -225,188 +189,29 @@ moc_%.cpp: %.h
 
 ######################################################################
 
-### File lists #######################################################
-lists: declist implist objlist depend 
-
-declist:
-	@echo "make declist.mk"
-	@rm -rf declist.mk
-	@for i in *.ui ;\
-	do \
-	    echo $$i | sed 's/.ui/.h/g' > declist.mk ; \
-	done
-	@echo *.[hH] *.hh *.hxx *.ui " " | \
-	sed 's/\*\.[a-zA-Z]* //g' | \
-	cat >> declist.mk
-
-implist:
-	@echo "make implist.mk"
-	@rm -rf implist.mk
-	@grep -l Q_OBJECT *.[hH] | sed -e 's/^/moc_/g' -e 's/.[hH]/.cpp/' >> implist.mk
-	@for i in *.ui ;\
-	do \
-	    echo $$i | sed -e 's/^/moc_/g' -e 's/.ui/.cpp/g' >> implist.mk ; \
-	    echo $$i | sed -e 's/.ui/.cpp/g' >> implist.mk ; \
-	done
-	@echo *.y *.l *.c *.C *.cc *.cxx *.cpp " " | \
-	sed 's/\*\.[a-zA-Z]* //g' | \
-	cat >> implist.mk
-
-objlist: implist.mk
-	@echo "make objlist.$(SYSDEP).mk"
-	@rm -rf objlist.mk
-	@rm -rf objlist.$(SYSDEP).mk
-	@cat implist.mk >> objlist.mk
-	@cat < objlist.mk | \
-	tr '\n' ' ' | \
-	tr '\r' ' ' | \
-	sed 's/\.cc/\.$(SYSDEP)\.o/g' | \
-	sed 's/\.cxx/\.$(SYSDEP)\.o/g' | \
-	sed 's/\.cpp/\.$(SYSDEP)\.o/g' | \
-	sed 's/\.[cC]/\.$(SYSDEP)\.o/g' | \
-	sed 's/\.[ly]/\.$(SYSDEP)\.o/g' | \
-	sed 's/\.[hH]/\.$(SYSDEP)\.o/g' | \
-	cat >objlist.$(SYSDEP).mk
-
-deplist.$(SYSDEP).mk:
-	@echo "init deplist.$(SYSDEP).mk"
-	@echo >deplist.$(SYSDEP).mk ""
-	$(MAKE) lists
-
-depend: $(DEPLIST)
-
 ######################################################################
 
 ### Commands #########################################################
 all: $(TARGET)$(BINSUF)
-
-uinstall: $(SYSTARGET)
-	$(STRIP) $(SYSTARGET)
-	cp $(SYSTARGET) $(HOME)/bin/$(OS)/$(TARGET)$(BINSUF)
-
-install: $(SYSTARGET)
-	$(STRIP) $(SYSTARGET)
-	cp $(SYSTARGET) $(PPOOL)/bin/$(OS)/$(TARGET)$(BINSUF)
-
-lib: $(LIBOBJS)
-	rm -f $(LIBTARGET).a
-	$(AR) $(LIBTARGET).a $(LIBOBJS)
-
-so: $(LIBOBJS)
-	rm -f $(LIBTARGET).so
-	$(SOLD) -o $(LIBTARGET).so $(LIBOBJS)
-
-ulibinstall: lib
-	mv $(LIBTARGET).a $(HOME)/lib/$(OS)/$(LIBDIR)
-
-libinstall: lib
-	mv $(LIBTARGET).a $(PPOOL)/lib/$(OS)/$(LIBDIR)
-
-soinstall: so
-	mv $(LIBTARGET).so $(PPOOL)/lib/$(OS)/$(LIBDIR)
-
-usoinstall: so
-	mv $(LIBTARGET).so $(HOME)/lib/$(OS)/$(LIBDIR)
-
-incinstall: 
-	cp *.h $(PPOOL)/include/$(NAMESPACE)
-
-uincinstall: 
-	cp *.h $(HOME)/include/$(NAMESPACE)
-
-soinc: so
-	cp *.h $(PPOOL)/include/$(NAMESPACE)
-	mv $(LIBTARGET).so $(PPOOL)/lib/$(OS)/$(LIBDIR)
-
-usoinc: so
-	cp *.h $(HOME)/include/$(NAMESPACE)
-	mv $(LIBTARGET).so $(HOME)/lib/$(OS)/$(LIBDIR)
-
-includelink:
-	ln -s $(PWD) $(PPOOL)/include/$(TARGET)
-
+	
 clean:
 	-rm -f *.$(SYSDEP).o *.$(SYSDEP)*_pure_* *.bak *.swp *~ *% \#*\# 
 	-rm -f $(TARGET)$(BINSUF) $(SYSTARGET)
+	-rm $(shell grep -l "generated from reading ui file" *.h *.cpp)
+	-rm $(shell grep -l "This file was generated using the moc" *.h *.cpp)
 
 Clean: clean
 	-rm -rf *.o *.mk OOBR* *.dep TAGS tags *.bin
 
-run: $(RUN)
-
-xrun: $(SYSTARGET) 
-	@echo "RUN: $(SYSTARGET)"
-	@$(XTERM) -geometry 80x60+0+0 -bg black -fg green \
-	-title '$(SYSTARGET) console' \
-	-e $(SYSTARGET) -geometry +200+200
-
-run: $(SYSTARGET)
-	@echo "RUN: $(SYSTARGET)"
-	$(SYSTARGET) 
-
-strip: $(SYSTARGET)
-	@echo "STRIP: $(SYSTARGET)"
-	@$(STRIP) $(SYSTARGET)
-
-edit:
-	$(EDIT) &
-
-docify:
-	mdocify $(HEADERS)
-
-$(DOCDIR):
-	mkdir -p $(DOCDIR)
-
-doc: $(DOCDIR)
-
-$(DOCDIR)/tex: doc
-	mkdir -p $(DOCDIR)/tex
-
-tex:	$(HEADERS) $(DOCDIR)/tex
-	doc++ -t -o $(DOCDIR)/tex/$(TARGET).tex $(HEADERS)
-
-ps: tex
-	cd $(DOCDIR)/tex; latex $(TARGET).tex; latex $(TARGET).tex; \
-	dvips -o $(TARGET).ps $(TARGET).dvi
-
-$(DOCDIR)/html: doc
-	mkdir -p $(DOCDIR)/html
-
-html: $(HEADERS) $(DOCDIR)/html
-	doc++ -p -u -H -d $(DOCDIR)/html -b $(HEADERS)
-
-docu: ps html
-
-debug: $(SYSTARGET)
-	@echo "DEBUG: $(SYSTARGET)"
-	@$(XDEBUGER) --$(DEBUGER) $(SYSTARGET)
-
-count: 
-	wc $(HEADERS) $(SOURCES)
-
-tar:
-	tar cvf $(TARGET).tar $(HEADERS) $(SOURCES) [Mm]akefile $(PROBACK)
-
-star:
-	tar cvf $(TARGET)-src.tar $(HEADERS) $(SOURCES) [Mm]akefile 
-
-tgz: tar
-	gzip $(TARGET).tar
-	mv $(TARGET).tar $(TARGET).tgz
-
-backup: tar
-	mv $(TARGET).tar $(PPOOL)/src/backup
-
-sbackup: star
-	mv $(TARGET)-src.tar $(PPOOL)/src/backup
-
-tags: declist.mk implist.mk
-	@echo "make tag file"
-	@etags -C $(shell cat implist.mk) $(shell cat implist.mk)
-
 ######################################################################
 
+# DO NOT DELETE
 
-moc_FieldContainerViewCtl.cpp:	FieldContainerView.h
-
-
+FieldContainer.o: FieldContainer.cpp FieldContainer.h
+FieldContainerViewCtl.o: FieldContainerViewCtl.cpp FieldContainerViewCtl.h
+Field.o: Field.cpp Field.h
+main.o: main.cpp 
+ParseComandLine.o: ParseComandLine.cpp ParseComandLine.h
+xmlparser.o: xmlparser.cpp xmlparser.hpp
+xmlpp.o: xmlpp.cpp xmlpp.hpp
+xmltokenizer.o: xmltokenizer.cpp xmltokenizer.hpp
