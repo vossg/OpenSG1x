@@ -52,12 +52,11 @@ def InstallLibrary(env, lib):
     else:
         dest = env['PREFIX'].Dir('lib')
 
-    #print "Installing to %s: %s" % (dest, env.subst(dest))
-    #print "  %s" % lib.abspath
-    #print "    ->"
-    tgt = env.Install(dest, lib)
-    #print "  %s" % tgt
-
+    # just want to install .lib and .dll not .exp files!
+    if env.get('PLATFORM') == 'win32':
+        tgt = env.Install(dest, [lib[0], lib[1]])
+    else:
+        tgt = env.Install(dest, lib)
 
 def ExpandCPPPath(list, generated = []):
     return [n.srcnode() for n in list] + generated
