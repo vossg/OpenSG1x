@@ -2369,7 +2369,7 @@ else
 	ac_gdz_system_lib_dir_e1=
 
 	ac_gdz_base_system_libs='-lm'
-	
+
         if test $build_os = linux-gnu; then
 		ac_gdz_base_system_libs="-ldl $ac_gdz_base_system_libs"
 	fi
@@ -2483,6 +2483,7 @@ fi
     done
 
     
+
 
 
 
@@ -2706,6 +2707,7 @@ s%@ac_gdz_conf_package_png_e1@%$ac_gdz_conf_package_png_e1%g
 s%@ac_gdz_conf_package_mng_e1@%$ac_gdz_conf_package_mng_e1%g
 s%@ac_gdz_conf_package_gif_e1@%$ac_gdz_conf_package_gif_e1%g
 s%@ac_gdz_conf_package_glut_e1@%$ac_gdz_conf_package_glut_e1%g
+s%@ac_gdz_conf_package_freetype1_e1@%$ac_gdz_conf_package_freetype1_e1%g
 /@ac_gdz_common_patterns@/r $ac_gdz_common_patterns
 s%@ac_gdz_common_patterns@%%g
 /@ac_gdz_common_system@/r $ac_gdz_common_system
