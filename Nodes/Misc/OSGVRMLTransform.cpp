@@ -168,8 +168,6 @@ void VRMLTransform::changed(BitVector, ChangeMode)
                              getScale           (),
                              getScaleOrientation(),
                              getCenter          ());
-
-    cerr << getMatrix() << endl;
 }
 
 /*------------------------------- dump ----------------------------------*/
