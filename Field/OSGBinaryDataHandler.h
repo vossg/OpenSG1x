@@ -85,7 +85,7 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    BinaryDataHandler(void);
+    BinaryDataHandler(UInt32 zeroCopyThreshold=0);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -119,45 +119,48 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    struct MemoryBlock 
+    class MemoryBlock 
     {
-        MemoryBlock(MemoryHandle m, UInt32 s);
-
-        MemoryHandle  mem;
-        UInt32        size;
-        UInt32        dataSize;
+    public:
+        MemoryBlock              (MemoryHandle m, UInt32 s, UInt32 ds=0);
+        MemoryHandle getMem      (void                                 );
+        UInt32       getSize     (void                                 );
+        UInt32       getDataSize (void                                 );
+        void         setDataSize (UInt32 dataSize                      );
+        void         setSize     (UInt32 dataSize                      );
+        void         setMem      (MemoryHandle m                       );
+    private:
+        MemoryHandle  _mem;
+        UInt32        _size;
+        UInt32        _dataSize;
     };
 
     typedef vector<MemoryBlock>  BuffersT;
 
     typedef list  <MemoryHandle> FreeMemT;
     
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Instance Variables                         */
-    /*! \{                                                                 */
-
-    BuffersT _buffers;
-    BuffersT _zeroCopyBuffers;
-    UInt32   _zeroCopyThreshold;
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Class Specific                             */
     /*! \{                                                                 */
 
-            void               reset(void                                   );
-    virtual void               read (MemoryHandle       mem     , Int32 size);
-    virtual BuffersT::iterator read (void                                   );
-    virtual void               write(MemoryHandle       mem     , Int32 size);
-    virtual void               write(BuffersT::iterator writeEnd            );
+            BuffersT::iterator readBufBegin(void                           ); 
+            BuffersT::iterator readBufEnd  (void                           ); 
+            void               readBufAdd  (MemoryHandle   mem   , 
+                                            UInt32         size  ,
+                                            UInt32         dataSize=0      );
+            void               readBufClear(void                           );
+
+            BuffersT::iterator writeBufBegin(void                          ); 
+            BuffersT::iterator writeBufEnd  (void                          ); 
+            void               writeBufAdd  (MemoryHandle  mem   , 
+                                            UInt32         size  ,
+                                            UInt32         dataSize=0      );
+            void               writeBufClear(void);
+
+    virtual void               read     (MemoryHandle   mem   , UInt32 size);
+    virtual void               read     (void                              );
+    virtual void               write    (MemoryHandle   mem   , UInt32 size);
+    virtual void               write    (void                              );
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -167,11 +170,16 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     /*! \name                   Class Specific                             */
     /*! \{                                                                 */
 
+    BuffersT           _readBuffers;
+    BuffersT           _writeBuffers;
+    BuffersT           _zeroCopyBuffers;
+    UInt32             _zeroCopyThreshold;
+
     FreeMemT           _freeMem;
     BuffersT::iterator _currentReadBuffer;
     UInt32             _currentReadBufferPos;
     BuffersT::iterator _currentWriteBuffer;
-    BuffersT::iterator _readBufferEnd;
+    UInt32             _currentWriteBufferPos;
 
     void pushBuffer(void);
     void pullBuffer(void);

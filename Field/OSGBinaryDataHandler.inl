@@ -126,10 +126,73 @@ void BinaryDataHandler::getString(string &value)
 }
 
 inline
-BinaryDataHandler::MemoryBlock::MemoryBlock(MemoryHandle m, UInt32 s) : 
-    mem (m),
-    size(s)
+BinaryDataHandler::BuffersT::iterator BinaryDataHandler::readBufBegin( void )
 {
+    return _readBuffers.begin();
+}
+
+inline
+BinaryDataHandler::BuffersT::iterator BinaryDataHandler::readBufEnd( void )
+{
+    return _readBuffers.end();
+}
+
+inline
+BinaryDataHandler::BuffersT::iterator BinaryDataHandler::writeBufBegin( void )
+{
+    return _writeBuffers.begin();
+}
+
+inline
+BinaryDataHandler::BuffersT::iterator BinaryDataHandler::writeBufEnd( void )
+{
+    return _writeBuffers.end();
+}
+
+inline
+BinaryDataHandler::MemoryBlock::MemoryBlock(MemoryHandle m,
+                                            UInt32       s,
+                                            UInt32       ds) : 
+    _mem     ( m ),
+    _size    ( s ),
+    _dataSize( ds )
+{
+}
+
+inline
+MemoryHandle BinaryDataHandler::MemoryBlock::getMem(void)
+{
+    return _mem;
+}
+
+inline
+UInt32 BinaryDataHandler::MemoryBlock::getSize(void)
+{
+    return _size;
+}
+
+inline
+UInt32 BinaryDataHandler::MemoryBlock::getDataSize(void)
+{
+    return _dataSize;
+}
+
+inline
+void BinaryDataHandler::MemoryBlock::setDataSize(UInt32 dataSize)
+{
+    _dataSize=dataSize;
+}
+
+inline
+void BinaryDataHandler::MemoryBlock::setSize(UInt32 size)
+{
+    _size=size;
+}
+
+inline
+void BinaryDataHandler::MemoryBlock::setMem(MemoryHandle mem)
+{
+    _mem=mem;
 }
 
 /*-------------------------------------------------------------------------*\

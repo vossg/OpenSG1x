@@ -95,15 +95,16 @@ namespace
 
 /** \brief Constructor
  */
-BinaryDataHandler::BinaryDataHandler(void) :
-    _buffers(),
+BinaryDataHandler::BinaryDataHandler(UInt32 zeroCopyThreshold) :
+    _readBuffers(),
+    _writeBuffers(),
     _zeroCopyBuffers(),
-    _zeroCopyThreshold(0),
+    _zeroCopyThreshold(zeroCopyThreshold),
     _freeMem(),
     _currentReadBuffer(),
     _currentReadBufferPos(0),
     _currentWriteBuffer(),
-    _readBufferEnd()
+    _currentWriteBufferPos(0)
 {
 }
 
@@ -126,37 +127,48 @@ void BinaryDataHandler::put(void const *src,UInt32 size)
 {
     UInt8 const *data=static_cast<UInt8 const *>(src);
 
-    if(_zeroCopyThreshold && size>_zeroCopyThreshold)
+    if(_zeroCopyThreshold && size>=_zeroCopyThreshold)
     {
-        UInt8 tag=1;
-        // we have to write a tag, to indicate the membership
-        // of this zero copy block to the current data block
-        put(&tag,sizeof(tag));
-        _zeroCopyBuffers.push_back(MemoryBlock(
-            const_cast<MemoryHandle>(data),size));
+        if(_zeroCopyThreshold==1)
+        {
+            write(const_cast<MemoryHandle>(data),size);
+        }
+        else
+        {
+            UInt8 tag=1;
+            // we have to write a tag, to indicate the membership
+            // of this zero copy block to the current data block
+            put(&tag,sizeof(tag));
+            _zeroCopyBuffers.push_back(MemoryBlock(
+                const_cast<MemoryHandle>(data),size,size));
+        }
     }
     else
     {
         int copySize;
         while(size)
         {
-            // skip to next buffer if current buffer is full
-            if(_currentWriteBuffer->dataSize == _currentWriteBuffer->size)
+            if(_currentWriteBuffer == writeBufEnd())
             {
-                _currentWriteBuffer++;
-                if(_currentWriteBuffer == _buffers.end())
-                    pushBuffer();
-                _currentWriteBuffer->dataSize=0;
+                pushBuffer();
             }
-            copySize=osgMin(_currentWriteBuffer->size    -
-                            _currentWriteBuffer->dataSize,
-                             size);
-            memcpy(_currentWriteBuffer->mem + _currentWriteBuffer->dataSize,
-                    data,
-                    copySize);
-            size                         -=copySize;
-            _currentWriteBuffer->dataSize+=copySize;
-            data                         +=copySize;
+            copySize=osgMin(_currentWriteBuffer->getSize()    -
+                            _currentWriteBufferPos,
+                            size);
+            memcpy(_currentWriteBuffer->getMem() + 
+                   _currentWriteBufferPos,
+                   data,
+                   copySize);
+            size                    -=copySize;
+            _currentWriteBufferPos  +=copySize;
+            data                    +=copySize;
+            // skip to next buffer if current buffer is full
+            if(_currentWriteBufferPos == _currentWriteBuffer->getSize())
+            {
+                _currentWriteBuffer->setDataSize(_currentWriteBufferPos);
+                _currentWriteBuffer++;
+                _currentWriteBufferPos=0;
+            }
         }
     }
 }
@@ -185,12 +197,15 @@ void BinaryDataHandler::get(void *dst,UInt32 size)
 {
     MemoryHandle data=static_cast<MemoryHandle>(dst);
 
-    if(_zeroCopyThreshold && size>_zeroCopyThreshold)
+    if(_zeroCopyThreshold && size>=_zeroCopyThreshold)
     {
-        UInt8 tag;
-        // we have to read the tag, to force reading of data blocks
-        // if the first data field was zero copied
-        get(&tag,sizeof(tag));
+        if(_zeroCopyThreshold>1)
+        {
+            UInt8 tag;
+            // we have to read the tag, to force reading of data blocks
+            // if the first data field was zero copied
+            get(&tag,sizeof(tag));
+        }
         // read direct into destination
         read(data,size);
     }
@@ -199,26 +214,31 @@ void BinaryDataHandler::get(void *dst,UInt32 size)
         int copySize;
         while(size)
         {
-            // skip to next buffer if current buffer is full
-            if(_currentReadBufferPos == _currentReadBuffer->dataSize)
+            // read new data if nothing left
+            if(_currentReadBuffer == readBufEnd())
             {
-                _currentReadBuffer++;
-                // read new data if no space left
-                if(_currentReadBuffer == _readBufferEnd)
-                {
-                    pullBuffer();
-                }
-                _currentReadBufferPos=0;
+                pullBuffer();
             }
-            copySize=osgMin(_currentReadBuffer->dataSize -
+            // num bytes to copy
+            copySize=osgMin(_currentReadBuffer->getDataSize() -
                             _currentReadBufferPos,
                             size);
-            memcpy(data,
-                   _currentReadBuffer->mem+_currentReadBufferPos,
-                   copySize);
-            size                 -=copySize;
-            _currentReadBufferPos+=copySize;
-            data                 +=copySize;
+            // no data in buffer ?
+            if(copySize)
+            {
+                memcpy(data,
+                       _currentReadBuffer->getMem()+_currentReadBufferPos,
+                       copySize);
+                size                 -=copySize;
+                _currentReadBufferPos+=copySize;
+                data                 +=copySize;
+            }
+            // skip to next buffer if current buffer is full
+            if(_currentReadBufferPos == _currentReadBuffer->getDataSize())
+            {
+                _currentReadBuffer++;
+                _currentReadBufferPos=0;
+            }
         }
     }
 }
@@ -241,6 +261,17 @@ void BinaryDataHandler::getAndAlloc(MemoryHandle &src,UInt32 size)
  */
 void BinaryDataHandler::flush()
 {
+    if(_currentWriteBuffer != writeBufEnd())
+    {
+        // mark rest of buffer as empty
+        _currentWriteBuffer->setDataSize(_currentWriteBufferPos);
+        _currentWriteBuffer++;
+        while(_currentWriteBuffer!=writeBufEnd())
+        {
+            _currentWriteBuffer->setDataSize(0);
+            _currentWriteBuffer++;
+        }
+    }
     pushBuffer();
 }
 
@@ -252,20 +283,33 @@ void BinaryDataHandler::flush()
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-void BinaryDataHandler::reset()
+void BinaryDataHandler::readBufAdd(MemoryHandle mem,
+                                   UInt32       size,
+                                   UInt32       dataSize)
 {
-    UInt32 size=0;
+    _readBuffers.push_back(MemoryBlock(mem,size,dataSize));
+    _currentReadBuffer=readBufEnd();
+}
 
-    // set read write buffer pos
-    _currentWriteBuffer          =_buffers.begin();
-    _currentWriteBuffer->dataSize=0;
-    // set read buffer so that next get will cause a read
-    _currentReadBuffer           =_buffers.begin();
-    _readBufferEnd               =_buffers.begin();
-    _readBufferEnd++;
-    _currentReadBufferPos        =_currentReadBuffer->dataSize;
-    // clear zero copy buffers
-    _zeroCopyBuffers.clear();
+void BinaryDataHandler::readBufClear( void )
+{
+    _readBuffers.clear();
+    _currentReadBuffer=readBufEnd();
+}
+
+void BinaryDataHandler::writeBufAdd(MemoryHandle mem,
+                                    UInt32       size,
+                                    UInt32       dataSize)
+{
+    _writeBuffers.push_back(MemoryBlock(mem,size,dataSize));
+    _currentWriteBuffer    = writeBufBegin();
+    _currentWriteBufferPos = 0;
+}
+
+void BinaryDataHandler::writeBufClear( void )
+{
+    _writeBuffers.clear();
+    _currentWriteBuffer=writeBufEnd();
 }
 
 /** \brief default buffer read
@@ -275,24 +319,31 @@ void BinaryDataHandler::reset()
  *
  * @return buffer iterator points behind the last buffer containing data
  */
-BinaryDataHandler::BuffersT::iterator BinaryDataHandler::read()
+void BinaryDataHandler::read()
 {
-    BuffersT::iterator i=_buffers.begin();
+    BuffersT::iterator i;
     OSG::UInt32 size,readSize;
-    OSG::UInt32 p;
 
     // read buffer size
     read((MemoryHandle)&size,sizeof(size));
     // read rest of buffer
-    for(;size;++i)
+    for(i=readBufBegin();size;++i)
     {
-        readSize=osgMin(size, i->size);
-        read(i->mem,readSize);
-        i->dataSize=readSize;
+        if(i==readBufEnd())
+        {
+            SFATAL << "Read buffer is to small. " << size
+                   << "bytes missing" << endl;
+            throw ReadError("Read buffer to small for whole block");
+        }
+        readSize=osgMin(size, i->getSize());
+        read(i->getMem(),readSize);
+        i->setDataSize(readSize);
         size-=readSize;
     }
-    // read end
-    return i;
+    for(;i!=readBufEnd();++i)
+    {
+        i->setDataSize(0);
+    }
 }
 
 /** \brief direct buffer read
@@ -303,7 +354,7 @@ BinaryDataHandler::BuffersT::iterator BinaryDataHandler::read()
  * write data into given buffer
  *
  */
-void BinaryDataHandler::read(MemoryHandle mem,int size)
+void BinaryDataHandler::read(MemoryHandle mem,UInt32 size)
 {
     SWARNING << "BinaryDataHandler::read(MemoryHandle mem,int size) called" 
              << endl;
@@ -311,24 +362,27 @@ void BinaryDataHandler::read(MemoryHandle mem,int size)
 
 /** \brief default buffer write
  *
- * @param writeEnd  iterator points behind the last buffer containing data
- *
  * Use direct write to implement buffer write.
  *
  */
-void BinaryDataHandler::write(BuffersT::iterator writeEnd)
+void BinaryDataHandler::write()
 {
     BuffersT::iterator i;
     UInt32 size=0;
 
     // calculate blocksize
-    for(i=_buffers.begin(); i!=writeEnd; ++i)
-        size+=i->dataSize;
+    for(i=writeBufBegin(); i!=writeBufEnd(); ++i)
+        size+=i->getDataSize();
     // write buffer size
     write((MemoryHandle)&size,sizeof(size));
     // write buffers
-    for(i =_buffers.begin(); i!=writeEnd; ++i)
-        write(i->mem,i->dataSize);
+    for(i=writeBufBegin(); i!=writeBufEnd(); ++i)
+    {
+        if(i->getDataSize())
+        {
+            write(i->getMem(),i->getDataSize());
+        }
+    }
 }
 
 /** \brief direct buffer write
@@ -339,7 +393,7 @@ void BinaryDataHandler::write(BuffersT::iterator writeEnd)
  * write data into given buffer
  *
  */
-void BinaryDataHandler::write(MemoryHandle mem,int size)
+void BinaryDataHandler::write(MemoryHandle mem,UInt32 size)
 {
     SWARNING << "BinaryDataHandler::write(MemoryHandle mem,int size) called" 
              << endl;
@@ -353,29 +407,27 @@ void BinaryDataHandler::pushBuffer()
 {
     BuffersT::iterator i,writeEnd;
 
-    writeEnd=_currentWriteBuffer;
-    if(writeEnd != _buffers.end())
-        writeEnd++;
     // write buffers
-    write(writeEnd);
+    write();
     // direct write zero copy buffers
     for(i =_zeroCopyBuffers.begin();
         i!=_zeroCopyBuffers.end();++i)
-        write(i->mem,i->size);
+        write(i->getMem(),i->getDataSize());
     _zeroCopyBuffers.clear();
-    // remove bufers given with getAndFree
+    // remove buffers given with getAndFree
     freeMem();
     // reset buffer pos
-    _currentWriteBuffer          =_buffers.begin();
-    _currentWriteBuffer->dataSize=0;
+    _currentWriteBuffer          =writeBufBegin();
+    _currentWriteBufferPos       =0;
+    _currentWriteBuffer->setDataSize(0);
 }
 
 void BinaryDataHandler::pullBuffer()
 {
     // read buffers
-    _readBufferEnd = read();
-    _currentReadBuffer   =_buffers.begin();
-    _currentReadBufferPos=0;
+    read();
+    _currentReadBuffer    = readBufBegin();
+    _currentReadBufferPos = 0;
 }
 
 void BinaryDataHandler::freeMem()
@@ -384,6 +436,8 @@ void BinaryDataHandler::freeMem()
         delete [] *i;
     _freeMem.clear();
 }
+
+
 
 
 
