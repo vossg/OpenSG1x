@@ -1,0 +1,8 @@
+
+ac_gdz_compiler_exe=g++3
+ac_gdz_c_compiler_exe=g++3
+ac_gdz_compiler_dir=/opt/gcc-3.3-bin
+ac_gdz_compiler_path=/opt/gcc-3.3-bin/bin
+ac_gdz_compiler_incl=
+ac_gdz_compiler_lib=
+

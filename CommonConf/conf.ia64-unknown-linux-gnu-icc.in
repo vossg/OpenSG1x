@@ -1,0 +1,8 @@
+
+ac_gdz_compiler_exe=ecc
+ac_gdz_c_compiler_exe=ecc
+ac_gdz_compiler_dir=/opt/intel/compiler70/ia64
+ac_gdz_compiler_path=/opt/intel/compiler70/ia64/bin
+ac_gdz_compiler_incl=
+ac_gdz_compiler_lib=
+
