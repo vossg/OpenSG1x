@@ -56,18 +56,27 @@ The base class for all windows.
 		type="UInt32"
 		cardinality="single"
 		visibility="internal"
-		defaultValue="0"
+		defaultValue="1"
 		access="public"
 	>
 	Counter for GL object invalidations. Needed for multi-aspect updates.
 	</Field>
 	<Field
-		name="glObjectLastInvalidate"
+		name="glObjectLastRefresh"
 		type="UInt32"
 		cardinality="multi"
 		visibility="internal"
 		access="public"
 	>
-	indicates the last invalidation for the GL object
+	indicates the last refresh for the GL object
+	</Field>
+	<Field
+		name="glObjectLastReinitialize"
+		type="UInt32"
+		cardinality="multi"
+		visibility="internal"
+		access="public"
+	>
+	indicates the last reinit for the GL object
 	</Field>
 </FieldContainer>

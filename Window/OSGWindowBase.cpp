@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.25 2002/02/04 20:14:12 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.26 2002/02/05 20:38:31 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWINDOWBASE_INLINE_CVSID;
 
@@ -146,10 +146,10 @@ const OSG::BitVector  WindowBase::GlObjectLastReinitializeFieldMask =
     Counter for GL object invalidations. Needed for multi-aspect updates.
 */
 /*! \var UInt32          WindowBase::_mfGlObjectLastRefresh
-    indicates the last invalidation for the GL object
+    indicates the last refresh for the GL object
 */
 /*! \var UInt32          WindowBase::_mfGlObjectLastReinitialize
-    indicates the last invalidation for the GL object
+    indicates the last reinit for the GL object
 */
 //! Window description
 
@@ -249,7 +249,7 @@ WindowBase::WindowBase(void) :
     _mfPort                   (), 
     _sfResizePending          (), 
     _mfGlObjectStatus         (), 
-    _sfGlObjectInvalidateCounter(UInt32(0)), 
+    _sfGlObjectInvalidateCounter(UInt32(1)), 
     _mfGlObjectLastRefresh    (), 
     _mfGlObjectLastReinitialize(), 
     Inherited() 
