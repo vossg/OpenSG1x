@@ -78,7 +78,7 @@ Background is the base class for all background clearing.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ImageForeground::cvsid[] = "@(#)$Id: OSGImageForeground.cpp,v 1.12 2002/06/30 05:04:24 vossg Exp $";
+char ImageForeground::cvsid[] = "@(#)$Id: OSGImageForeground.cpp,v 1.13 2002/07/02 15:13:51 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -185,8 +185,8 @@ void ImageForeground::draw(DrawActionBase *, Viewport *)
     bool light = glIsEnabled(GL_LIGHTING);
 //      if (light)  glDisable(GL_LIGHTING);
 
-    GLint fill;
-    glGetIntegerv(GL_POLYGON_MODE, &fill);
+    GLint fill[2];
+    glGetIntegerv(GL_POLYGON_MODE, fill);
     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
 
     bool depth = glIsEnabled( GL_DEPTH_TEST );
@@ -232,7 +232,8 @@ void ImageForeground::draw(DrawActionBase *, Viewport *)
     if ( depth )    glEnable( GL_DEPTH_TEST );
     if ( light )    glEnable( GL_LIGHTING );
     if ( colmat )   glEnable( GL_COLOR_MATERIAL );
-    glPolygonMode( GL_FRONT_AND_BACK, fill );
+    glPolygonMode( GL_FRONT, fill[0] );
+    glPolygonMode( GL_BACK , fill[1] );
 }
 
 

@@ -79,7 +79,7 @@ A background showing a vertical color gradient. The colors and positions corresp
  *                           Class variables                               *
 \***************************************************************************/
 
-char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.19 2002/06/30 05:04:24 vossg Exp $";
+char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.20 2002/07/02 15:13:51 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -181,9 +181,9 @@ void GradientBackground::clear(DrawActionBase *, Viewport *)
         bool light = glIsEnabled(GL_LIGHTING);
         if (light)  glDisable(GL_LIGHTING);
 
-        GLint fill;
-        glGetIntegerv(GL_POLYGON_MODE, &fill);
-        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
+        GLint fill[2];
+        glGetIntegerv(GL_POLYGON_MODE, fill);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
         bool depth = glIsEnabled( GL_DEPTH_TEST );
         glDisable( GL_DEPTH_TEST );
@@ -241,7 +241,8 @@ void GradientBackground::clear(DrawActionBase *, Viewport *)
         if ( depth )    glEnable( GL_DEPTH_TEST );
         if ( light )    glEnable( GL_LIGHTING );
         if ( colmat )   glEnable( GL_COLOR_MATERIAL );
-        glPolygonMode( GL_FRONT_AND_BACK, fill );
+        glPolygonMode( GL_FRONT, fill[0] );
+        glPolygonMode( GL_BACK , fill[1] );
 
         glClear( GL_DEPTH_BUFFER_BIT );
     }

@@ -156,8 +156,8 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
     bool light = glIsEnabled(GL_LIGHTING);
     if (light)  glDisable(GL_LIGHTING);
 
-    GLint fill;
-    glGetIntegerv(GL_POLYGON_MODE, &fill);
+    GLint fill[2];
+    glGetIntegerv(GL_POLYGON_MODE, fill);
     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
 
     GLint depth;
@@ -372,7 +372,8 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
     glPopMatrix();
 
     glDepthFunc(depth);
-    glPolygonMode( GL_FRONT_AND_BACK, fill);
+    glPolygonMode( GL_FRONT, fill[0] );
+    glPolygonMode( GL_BACK , fill[1] );
     if (light)  glEnable(GL_LIGHTING);
     glColor3f(1.0, 1.0, 1.0);
 
@@ -394,7 +395,7 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSkyBackground.cpp,v 1.12 2002/06/30 05:04:24 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSkyBackground.cpp,v 1.13 2002/07/02 15:13:51 dirk Exp $";
     static char cvsid_hpp[] = OSGSKYBACKGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSKYBACKGROUND_INLINE_CVSID;
 }
