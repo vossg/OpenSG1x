@@ -189,8 +189,9 @@ void DVRVolumeTexture::changed(BitVector whichField, UInt32 origin)
         } 
         else 
         {
-            SWARNING << "DVRVolumeTexture::changed - No Resolution found"
-                     << std::endl;
+            _sfResolution.setValue(Vec3f(getImage()->getWidth (), 
+                                         getImage()->getHeight(), 
+                                         getImage()->getDepth ()));
         }
 
         //!! FIXME:

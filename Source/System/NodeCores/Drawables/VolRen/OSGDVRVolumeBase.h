@@ -185,6 +185,7 @@ class OSG_VOLRENLIB_DLLMAPPING DVRVolumeBase : public NodeCore
            SFUInt32            *getSFBrickOverlap   (void);
            SFQBit              *getSFTextures2D     (void);
            SFChunkMaterialPtr  *getSFTextureStorage (void);
+           SFUInt16            *getSFBrickStaticMemoryMB(void);
 
            DVRAppearancePtr    &getAppearance     (void);
      const DVRAppearancePtr    &getAppearance     (void) const;
@@ -208,6 +209,8 @@ class OSG_VOLRENLIB_DLLMAPPING DVRVolumeBase : public NodeCore
      const QBit                &getTextures2D     (void) const;
            ChunkMaterialPtr    &getTextureStorage (void);
      const ChunkMaterialPtr    &getTextureStorage (void) const;
+           UInt16              &getBrickStaticMemoryMB(void);
+     const UInt16              &getBrickStaticMemoryMB(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -225,6 +228,7 @@ class OSG_VOLRENLIB_DLLMAPPING DVRVolumeBase : public NodeCore
      void setBrickOverlap   ( const UInt32 &value );
      void setTextures2D     ( const QBit &value );
      void setTextureStorage ( const ChunkMaterialPtr &value );
+     void setBrickStaticMemoryMB(const UInt16 &value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -312,7 +316,6 @@ class OSG_VOLRENLIB_DLLMAPPING DVRVolumeBase : public NodeCore
 
            SFMaterialPtr       *getSFRenderMaterial (void);
            SFUInt16            *getSFBrickingMode   (void);
-           SFUInt16            *getSFBrickStaticMemoryMB(void);
            SFVec3f             *getSFBrickStaticSubdivision(void);
            SFVec3f             *getSFBrickMaxSize   (void);
            SFBool              *getSFShowBricks     (void);
@@ -323,8 +326,6 @@ class OSG_VOLRENLIB_DLLMAPPING DVRVolumeBase : public NodeCore
      const MaterialPtr         &getRenderMaterial (void) const;
            UInt16              &getBrickingMode   (void);
      const UInt16              &getBrickingMode   (void) const;
-           UInt16              &getBrickStaticMemoryMB(void);
-     const UInt16              &getBrickStaticMemoryMB(void) const;
            Vec3f               &getBrickStaticSubdivision(void);
      const Vec3f               &getBrickStaticSubdivision(void) const;
            Vec3f               &getBrickMaxSize   (void);
@@ -344,7 +345,6 @@ class OSG_VOLRENLIB_DLLMAPPING DVRVolumeBase : public NodeCore
 
      void setRenderMaterial (const MaterialPtr &value);
      void setBrickingMode   (const UInt16 &value);
-     void setBrickStaticMemoryMB(const UInt16 &value);
      void setBrickStaticSubdivision(const Vec3f &value);
      void setBrickMaxSize   (const Vec3f &value);
      void setShowBricks     (const bool &value);

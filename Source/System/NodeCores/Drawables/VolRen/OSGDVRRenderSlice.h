@@ -33,6 +33,10 @@ class DVRRenderSlicePrimitive
   A structure that holds the data for a complete clipped slice
 */
 
+#ifdef __sgi
+#pragma set woff 1375
+#endif
+
 class DVRRenderSlice : public std::vector<DVRRenderSlicePrimitive *>
 {
   public:
@@ -75,6 +79,10 @@ class DVRRenderSlice : public std::vector<DVRRenderSlicePrimitive *>
     Orientation  orientation;
 
 };
+
+#ifdef __sgi
+#pragma reset woff 1375
+#endif
 
 OSG_END_NAMESPACE
 
