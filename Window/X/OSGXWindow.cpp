@@ -184,7 +184,9 @@ void (*XWindow::getFunctionByName( const Char8 *s ))(void)
 
     return (void (*)(void)) dlsym(libHandle, s);
 #else
-#if GLX_ARB_get_proc_address
+// UGLY HACK: SGI/NVidia header don't define GLX_ARB_get_proc_address,
+// but they use __GLX_glx_h__ instead of GLX_H as an include guard.
+#if defined(GLX_ARB_get_proc_address) || defined(__GLX_glx_h__)
     return glXGetProcAddressARB((const GLubyte *) s);
 #else
     return NULL;
