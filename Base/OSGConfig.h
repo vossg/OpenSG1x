@@ -290,6 +290,8 @@
 
 # define OSG_THROW_NOTHING() THROW_NOTHING()
 
+# define OSG_SGI_CC
+
 # endif
 
 
