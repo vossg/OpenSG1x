@@ -83,7 +83,7 @@ char *FCTemplate_h[]={
 "    /*! \\{                                                                 */",
 "",
 "    virtual void dump(      UInt32     uiIndent = 0, ",
-"                      const BitVector &bvFlags  = 0) const;",
+"                      const BitVector  bvFlags  = 0) const;",
 "",
 "    /*! \\}                                                                 */",
 "    /*=========================  PROTECTED  ===============================*/",
@@ -127,7 +127,7 @@ char *FCTemplate_h[]={
 "#include <OSG@!Classname!@.inl>",
 "#include <OSG@!Classname!@Base.inl>",
 "",
-"#define OSG@!CLASSNAME!@_HEADER_CVSID \"@(#)$Id: FCTemplate_h.h,v 1.12 2001/10/15 07:05:37 vossg Exp $\"",
+"#define OSG@!CLASSNAME!@_HEADER_CVSID \"@(#)$Id: FCTemplate_h.h,v 1.13 2001/10/30 22:26:17 dirk Exp $\"",
 "",
 "#endif /* _OSG@!CLASSNAME!@_H_ */",
 NULL };
