@@ -239,7 +239,9 @@ namespace __gnu_cxx {} using namespace __gnu_cxx;
 
 # define OSG_THROW_NOTHING() THROW_NOTHING()
 
+#ifndef OSG_SGI_USE_PTHREAD
 # define OSG_USE_SPROC
+#endif
 
 # define OSG_SGI_CC
 

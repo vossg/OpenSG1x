@@ -53,6 +53,7 @@
 #   if defined(OSG_SGI_USE_PTHREAD)
 #       define OSG_USE_PTHREADS
 #       define OSG_ASPECT_USE_PTHREADKEY
+#       undef  OSG_USE_SPROC
 #   else
 #       define OSG_USE_SPROC
 #   endif
