@@ -173,7 +173,7 @@ OSG_BASE_DLLMAPPING FloatTypeT osgfloor(const FloatTypeT &rVal);
  */
 
 template <Int32 uiValue1, Int32 uiValue2>
-struct OSG_BASE_DLLMAPPING osgMax
+struct OSG_BASE_DLLMAPPING osgStaticMax
 {
     enum _iMax { iMax = uiValue1 < uiValue2 ? uiValue2 : uiValue1 };
 };
