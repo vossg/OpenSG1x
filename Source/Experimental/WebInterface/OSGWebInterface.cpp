@@ -169,7 +169,19 @@ const std::string &WebInterface::getFooter(void)
  */
 void WebInterface::addHandler(char *path,MethodT method)
 {
-    _handler[IDString(path)] = method;
+    HandlerT::value_type newEntry;
+
+    newEntry.first  = IDString(path);
+    newEntry.second = method;
+
+    std::pair<HandlerT::iterator, bool> retVal;
+    
+    retVal = _handler.insert(newEntry);
+
+    if(retVal.second == false)
+        retVal.first->second = method;
+
+//    _handler[IDString(path)] = method;
 }
 
 /*-------------------------------------------------------------------------*/
