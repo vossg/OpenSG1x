@@ -145,7 +145,7 @@ int main(int argc, char **argv)
     mgr->getAction()->setStatistics(collector);
     
     beginEditCP(pwin->getPort(0));
-    pwin->getPort(0)->getForegrounds().addValue(statfg);
+    pwin->getPort(0)->getForegrounds().push_back(statfg);
     endEditCP  (pwin->getPort(0));
     
     // GLUT main loop
