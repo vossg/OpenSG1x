@@ -90,8 +90,6 @@ class OSG_BASE_DLLMAPPING StreamSockConnection:public Connection
     string                bind            ( const string &address );
     void                  accept          ( void                  );
     void                  connect         ( const string &address );
-    void                  wait            ( void                  );
-    void                  signal          ( void                  );
     UInt32                getChannelCount ( void                  );
     void                  selectChannel   ( void                  );
     const ConnectionType *getType         ( void                  );

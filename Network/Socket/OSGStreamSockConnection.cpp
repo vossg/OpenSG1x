@@ -291,52 +291,6 @@ void StreamSockConnection::connect( const string &address )
     _sockets.push_back(socket);
 }
 
-/** wait for sync signal
- **/
-void StreamSockConnection::wait(void)
-{
-    SocketsT::iterator   i;
-    UInt8                trigger;
-
-    for(i =_sockets.begin();
-        i!=_sockets.end();
-        i++)
-    {
-        // wait for signal
-        i->recv(&trigger,sizeof(UInt8));
-    }
-    for(i =_sockets.begin();
-        i!=_sockets.end();
-        i++)
-    {
-        // tell receiver wait entered
-        i->send(&trigger,sizeof(UInt8));
-    }
-}
-
-/** send synchronisaiton signale
- **/
-void StreamSockConnection::signal(void)
-{
-    SocketsT::iterator   i;
-    UInt8                trigger;
-
-    for(i =_sockets.begin();
-        i!=_sockets.end();
-        i++)
-    {
-        // send signal to all links
-        i->send(&trigger,sizeof(UInt8));
-    }
-    for(i =_sockets.begin();
-        i!=_sockets.end();
-        i++)
-    {
-        // wait for all links to enter wait
-        i->recv(&trigger,sizeof(UInt8));
-    }
-}
-
 /** get number of links
  **/
 UInt32 StreamSockConnection::getChannelCount(void)

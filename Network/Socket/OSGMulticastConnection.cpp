@@ -334,30 +334,6 @@ void MulticastConnection::connect( const string &address )
          << ":" << member << endl;
 }
 
-/** wait for sync
- *
- **/
-void MulticastConnection::wait(void)
-{
-    UInt32 tag;
-
-    // read sync tag;
-    selectChannel();
-    getValue(tag);
-}
-
-/** send sync
- *
- **/
-void MulticastConnection::signal(void)
-{
-    UInt32 tag=0;
-
-    // send signal
-    putValue(tag);
-    flush();
-}
-
 /** get number of links
  *
  **/
