@@ -41,6 +41,7 @@ DOCS_SYS   := ../Source/System/Action  										\
               ../Source/System/FileIO/RAW                                   \
               ../Source/System/FileIO/WRL                                   \
               ../Source/System/FileIO/ScanParseSkel                         \
+              ../Source/System/GraphOp                                      \
               ../Source/System/Image                                        \
               ../Source/System/Material                                     \
               ../Source/System/NodeCores/Drawables/Base                     \
@@ -72,13 +73,55 @@ DOC_INTRO ?= "tutorial/main.dox"
 
 # The separate documentation pages
 
-
-DOC_PAGES  := 	tutorial/main.dox \
-				../Common/dummyClasses.dox \
+DOC_TUTORIAL_PAGES  := 	        tutorial/main.dox \
 				tutorial/introduction.dox \
 				tutorial/firstapp.dox \
 				tutorial/basics.dox \
 				tutorial/nodecores.dox
+                                
+DOC_OLD_PAGES  := 	        Code/mainpage.dox \
+				$(DOC_INTRO) \
+				Code/scenegraph.dox \
+				../Source/Base/Base/Base.dox \
+				../Source/System/System.dox \
+				../Source/Base/Field/Field.dox \
+				../Source/Base/Functors/Functors.dox \
+				../Source/Base/Network/Socket.dox \
+				../Source/Base/Network/Socket/socket.dox \
+				../Source/Base/StringConversion/StringConversion.dox \
+				../Source/System/FieldContainer/FieldContainer.dox \
+				../Source/System/Image/Image.dox \
+				../Source/System/NodeCores/NodeCores.dox \
+				../Source/System/NodeCores/Groups/Groups.dox \
+				../Source/System/NodeCores/Groups/Base/GroupsBase.dox \
+				../Source/System/NodeCores/Groups/Light/GroupsLight.dox \
+				../Source/System/NodeCores/Groups/Misc/GroupsMisc.dox \
+				../Source/System/NodeCores/Drawables/Drawables.dox \
+				../Source/System/NodeCores/Drawables/Base/DrawablesBase.dox \
+				../Source/System/NodeCores/Drawables/Geometry/DrawablesGeometry.dox \
+				../Source/System/NodeCores/Drawables/Misc/DrawablesMisc.dox \
+				../Source/System/NodeCores/Drawables/Particles/DrawablesParticles.dox \
+				../Source/System/State/State.dox \
+				../Source/System/Material/Material.dox \
+				../Source/System/Action/Action.dox \
+				../Source/System/Window/Window.dox \
+				../Source/System/Window/OGLExt.dox \
+				../Source/WindowSystem/WindowSystem.dox \
+				../Source/WindowSystem/GLUT/WindowGlut.dox \
+				../Source/WindowSystem/QT/WindowQt.dox \
+				../Source/WindowSystem/X/WindowX.dox \
+				../Source/WindowSystem/WIN32/WindowWin32.dox \
+				../Source/System/FileIO/FileIO.dox \
+				../Source/System/System.dox  \
+				../Source/System/Cluster/Cluster.dox  \
+				../Source/System/RenderingBackend/RenderingBackend.dox \
+				../Source/System/Statistics/Statistics.dox\
+				Code/acknowledgements.dox \
+				Code/faq.dox 
+
+DOC_PAGES :=                    ../Common/dummyClasses.dox\
+                                $(DOC_OLD_PAGES)\
+                                $(DOC_TUTORIAL_PAGES)
 
 DOC_IMAGE_PATHES := Images
 
@@ -147,7 +190,7 @@ dodoc:
 	$(MAKE) DOC_IMAGE_TYPE=html images2
 
 #   do doxygen
-	-$(DOC_ENV) $(DOXYGEN) ../Common/Doxygen_$(BUILD_ENV).cfg -d
+	$(DOC_ENV) $(DOXYGEN) ../Common/Doxygen_$(BUILD_ENV).cfg -d
 
 #	@rm -f ../Common/dummyClasses.dox 
 
