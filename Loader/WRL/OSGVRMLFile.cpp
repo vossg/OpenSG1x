@@ -517,7 +517,8 @@ void VRMLFile::beginField(const Char8  *szFieldname,
         if(_pCurrentFC != NullFC)
         {
             beginEditCP(_pCurrentFC, 
-                         FieldBits::AllFields, 
+//                         FieldBits::AllFields, 
+                        _pCurrentFieldDesc->getFieldMask(),
                          ChangedOrigin::Abstract         |
                          ChangedOrigin::AbstrIgnoreCore  |
                          ChangedOrigin::AbstrIgnoreChild |
@@ -529,12 +530,13 @@ void VRMLFile::beginField(const Char8  *szFieldname,
 
                 pCore = pNode->getCore();
 
-                beginEditCP(pCore, 
-                            FieldBits::AllFields, 
-                            ChangedOrigin::Abstract         |
-                            ChangedOrigin::AbstrIgnoreCore  |
-                            ChangedOrigin::AbstrIgnoreChild |
-                            ChangedOrigin::AbstrCheckValid);
+                beginEditCP( pCore, 
+//                            FieldBits::AllFields, 
+                            _pCurrentFieldDesc->getFieldMask(),
+                             ChangedOrigin::Abstract         |
+                             ChangedOrigin::AbstrIgnoreCore  |
+                             ChangedOrigin::AbstrIgnoreChild |
+                             ChangedOrigin::AbstrCheckValid);
             }
         }
     }
@@ -565,7 +567,8 @@ void VRMLFile::endField(void)
         if(_pCurrentFC != NullFC)
         {
             endEditCP(_pCurrentFC, 
-                       FieldBits::AllFields, 
+//                       FieldBits::AllFields, 
+                      _pCurrentFieldDesc->getFieldMask(),
                        ChangedOrigin::Abstract         |
                        ChangedOrigin::AbstrIgnoreCore  |
                        ChangedOrigin::AbstrIgnoreChild |
@@ -577,12 +580,13 @@ void VRMLFile::endField(void)
 
                 pCore = pNode->getCore();
 
-                endEditCP(pCore, 
-                          FieldBits::AllFields, 
-                          ChangedOrigin::Abstract         |
-                          ChangedOrigin::AbstrIgnoreCore  |
-                          ChangedOrigin::AbstrIgnoreChild |
-                          ChangedOrigin::AbstrCheckValid  );
+                endEditCP( pCore, 
+//                           FieldBits::AllFields, 
+                          _pCurrentFieldDesc->getFieldMask(),
+                           ChangedOrigin::Abstract         |
+                           ChangedOrigin::AbstrIgnoreCore  |
+                           ChangedOrigin::AbstrIgnoreChild |
+                           ChangedOrigin::AbstrCheckValid  );
             }
         }
     }

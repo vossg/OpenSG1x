@@ -74,7 +74,7 @@ void MaterialGroup::changed(BitVector whichField, UInt32 origin)
             }
         }
     }
- 
+
     Inherited::changed(whichField, origin);
 }
 
@@ -216,7 +216,7 @@ void MaterialGroup::initMethod(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.21 2002/09/02 03:11:06 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.22 2002/09/06 07:58:05 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGMATERIALGROUP_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGMATERIALGROUP_INLINE_CVSID;
 }
