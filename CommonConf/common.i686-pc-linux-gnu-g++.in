@@ -22,6 +22,12 @@ II_FILESDIR          :=
 
 ### Defines #######################################################
 
+ifeq ($(CONFIGURED_GVBETA),1)
+DEF_GVBETA := -DOSG_GV_BETA
+else
+DEF_GVBETA :=
+endif
+
 # For QT
 DEP_PLATTFORMDEF =  -DQT_NO_XINERAMA -DQT_NO_XRENDER -DQT_NO_XFTFREETYPE 	\
 					-DQT_NO_XKB -DQT_NO_SM_SUPPORT -DQT_NO_IMAGEIO_MNG		\
@@ -34,7 +40,9 @@ SOURCE_DEFINES   = -D_GNU_SOURCE -DQT_CLEAN_NAMESPACE \
 #-DMNG_LIB -DPNG_LIB
 #-D__STL_USE_NEW_IOSTREAMS
 
-SYSTEM_DEFINES   = -D_OSG_HAVE_CONFIGURED_H_
+SYSTEM_DEFINES   = -D_OSG_HAVE_CONFIGURED_H_    \
+                   $(DEF_GVBETA)
+
 
 ### Warnings #######################################################
 
