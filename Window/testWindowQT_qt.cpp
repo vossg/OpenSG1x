@@ -50,7 +50,7 @@
 
 #include "OSGTrackball.h"
 
-using namespace OSG;
+OSG_BEGIN_NAMESPACE
 
 class MyOSGQGLWidget : public OSGQGLWidget
 {
@@ -76,6 +76,9 @@ class MyOSGQGLWidget : public OSGQGLWidget
 		UInt32		lasty;
 };
 
+OSG_END_NAMESPACE
+
+using namespace OSG;
 
 MyOSGQGLWidget  *glWidget;
 QApplication    *a;
@@ -87,6 +90,7 @@ ViewportPtr     vp;
 TransformPtr    cam_trans;
 PerspectiveCameraPtr cam;
 
+QTWindowPtr osgTWin;
 
 MyOSGQGLWidget::MyOSGQGLWidget ( QWidget *parent, const char *name ) :
     OSGQGLWidget( parent, name )
@@ -335,10 +339,19 @@ int main( int argc, char **argv )
 	glWidget->osgWin = QTWindow::create();
 	glWidget->osgWin->setGlWidget( glWidget );
 	glWidget->osgWin->addPort( vp );
-	glWidget->osgWin->init();
+//	glWidget->osgWin->init();
+
+/*
+	osgTWin = QTWindow::create();
+	osgTWin->setGlWidget( glWidget );
+	osgTWin->addPort( vp );
+	osgTWin->init();
+*/    
 
 	a->setMainWidget( glWidget );
 	
+    a->processEvents();
+
 	glWidget->show();
 	
 	return ( a->exec() );    // execute QT main loop

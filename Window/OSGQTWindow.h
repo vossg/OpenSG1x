@@ -269,6 +269,7 @@ struct FieldDataTraits<QTWindowPtr> : public Traits
  */
 typedef SField<QTWindowPtr>       SFQTWindowPtr;
 
+#ifndef OSG_COMPILEQTWINDOWINST
 #if defined(__sgi)
 
 #pragma do_not_instantiate SField<QTWindowPtr>::_fieldType
@@ -278,11 +279,13 @@ typedef SField<QTWindowPtr>       SFQTWindowPtr;
 OSG_DLLEXPORT_DECL1(SField, QTWindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
 
 #endif
+#endif
 
 /** \brief MFQTWindowPtr
  */
 typedef MField<QTWindowPtr>       MFQTWindowPtr;
 
+#ifndef OSG_COMPILEQTWINDOWINST
 #if defined(__sgi)
 
 #pragma do_not_instantiate MField<QTWindowPtr>::_fieldType
@@ -291,6 +294,7 @@ typedef MField<QTWindowPtr>       MFQTWindowPtr;
 
 OSG_DLLEXPORT_DECL1(MField, QTWindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
 
+#endif
 #endif
 
 OSG_END_NAMESPACE

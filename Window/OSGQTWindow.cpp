@@ -54,6 +54,7 @@
 #endif
 
 #define OSG_COMPILEWINDOW
+#define OSG_COMPILEQTWINDOWINST
 
 #include "OSGViewport.h"
 #include "OSGCamera.h"
@@ -82,7 +83,7 @@ The QTWindow class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char QTWindow::cvsid[] = "@(#)$Id: OSGQTWindow.cpp,v 1.5 2001/02/15 16:34:14 vossg Exp $";
+char QTWindow::cvsid[] = "@(#)$Id: OSGQTWindow.cpp,v 1.6 2001/02/16 09:11:53 vossg Exp $";
 
 // Static Class Varible implementations: 
 
@@ -168,8 +169,14 @@ QTWindow::~QTWindow(void)
 void QTWindow::init( void )
 {
 #ifdef WIN32
-    setGLContext( wglCreateContext( getHDC() ) );
-
+    if(_glWidget != NULL)
+    {
+        setWindow ( _glWidget->winId() );
+        setHDC    ( GetDC(_glWidget->winId()) );
+        
+        Inherited::init();
+        setGLContext( wglCreateContext( getHDC() ) );
+    }
 #else
     XVisualInfo *vi;
 
