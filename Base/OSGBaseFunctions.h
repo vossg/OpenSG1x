@@ -473,7 +473,7 @@ enum SystemState
     Shutdown = 0x03
 };
 
-extern SystemState GlobalSystemState;
+extern OSG_BASE_DLLMAPPING SystemState GlobalSystemState;
 
 /*! \var Bool (*InitFuncF)(int argc, char **argv);
  *  \brief InitFuncF

@@ -89,7 +89,7 @@ LINK32=xilink6.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=..\..\..\Loader\testLoaderRender.cpp
+SOURCE=..\..\..\Field\testputtobin.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"

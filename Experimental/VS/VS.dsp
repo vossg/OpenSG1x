@@ -85,9 +85,12 @@ LINK32=xilink6.exe
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=..\..\Loader\testLoaderRender.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\FieldContainer\testputtobin.cpp
 # End Source File
 # End Group
 # End Target
 # End Project
-
