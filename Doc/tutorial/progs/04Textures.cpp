@@ -105,5 +105,6 @@ int setupGLUT(int *argc, char *argv[])
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
     glutReshapeFunc(reshape);
+    glutIdleFunc(display);
     return winid;
 }

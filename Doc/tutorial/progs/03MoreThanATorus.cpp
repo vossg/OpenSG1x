@@ -115,8 +115,9 @@ int setupGLUT(int *argc, char *argv[])
         int winid = glutCreateWindow("OpenSG First Application");
     
         glutDisplayFunc(display);
-		glutMouseFunc(mouse);
-		glutMotionFunc(motion);
-		glutReshapeFunc(reshape);
+        glutMouseFunc(mouse);
+	glutMotionFunc(motion);
+	glutReshapeFunc(reshape);
+        glutIdleFunc(display);
         return winid;
 }

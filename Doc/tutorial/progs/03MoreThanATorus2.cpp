@@ -40,7 +40,6 @@ NodePtr createScenegraph(){
         m.setTranslate(0,10,0);
         m.setRotate(Quaternion(Vec3f(0,0,1), 3.14159/4));
         
-        
         tRoof->setMatrix(m);
     endEditCP(tRoof, Transform::MatrixFieldMask);
     
@@ -157,8 +156,9 @@ int setupGLUT(int *argc, char *argv[])
         int winid = glutCreateWindow("OpenSG First Application");
     
         glutDisplayFunc(display);
-		glutMouseFunc(mouse);
-		glutMotionFunc(motion);
-		glutReshapeFunc(reshape);
+	glutMouseFunc(mouse);
+	glutMotionFunc(motion);
+	glutReshapeFunc(reshape);
+        glutIdleFunc(display);
         return winid;
 }
