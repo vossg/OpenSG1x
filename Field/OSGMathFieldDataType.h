@@ -76,11 +76,11 @@ struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
 
     static Matrix    getDefault   (void) { return Matrix();         }
 
-    static Bool      getFromString(      Matrix   &,
-                                   const Char8   *&)
+    static Bool      getFromString(      Matrix   &outVal,
+                                   const Char8   *&inVal)
     {
-        // TO_BE_DONE
-        return false;
+        outVal.setValue(inVal);
+        return true;
     }
 
     static void      putToString  (const Matrix &inVal,
