@@ -68,7 +68,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
     {
         TRACKBALL=0,
         FLY,
-        WALK
+        WALK,
+        NONE
     };
 
     enum State
@@ -182,8 +183,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
     Pnt3f       _ip;
     Vec3f       _dir;
     Matrix      theMatrix;
-    
+
+    Matrix      _NoneMatrix;
+
     /*! \}                                                                 */
+
+    void setNoneMatrix(Pnt3f new_from, Pnt3f new_at, Vec3f new_up);
 
     void getIntersectionPoint(Int16 x, Int16 y);
     void calcDeltas(Int16 fromX, Int16 fromY, Int16 toX, Int16 toY,

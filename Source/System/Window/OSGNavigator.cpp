@@ -64,7 +64,8 @@ OSG_USING_NAMESPACE
 
 /*! \enum osg::Navigator::Mode
 
-    The navigation mode, i.e. the actual active low-level navigator. 
+    The navigation mode, i.e. the actual active low-level navigator.
+    The NONE case is also used for the purpose of matrix consistency.
 */
 
 
@@ -181,6 +182,10 @@ void Navigator::buttonPress(Int16 button, Int16 x, Int16 y)
 
     switch (_currentMode)
     {
+    case NONE:
+        _currentState = IDLE;
+        break;
+
     case TRACKBALL:
 
         switch (button)
@@ -194,11 +199,11 @@ void Navigator::buttonPress(Int16 button, Int16 x, Int16 y)
         case MIDDLE_MOUSE:  _currentState = TRANSLATING_XY;
                             getIntersectionPoint(x,y);      
                             break;
- 
+
         case UP_MOUSE    :  _currentState = IDLE;
                             _trackball.translateZ(-_rMotionFactor);
                             break;
- 
+
         case DOWN_MOUSE  :  _currentState = IDLE;
                             _trackball.translateZ(_rMotionFactor);
                             break;
@@ -273,6 +278,8 @@ void Navigator::buttonRelease(Int16 , Int16 x, Int16 y)
 {
     switch (_currentMode)
     {
+    case NONE:      break;
+
     case TRACKBALL: if (!_moved && _clickCenter)
                     {
                         IntersectAction * act  =  IntersectAction::create();
@@ -307,8 +314,11 @@ void Navigator::keyPress(Int16 key, Int16 , Int16 )
 {
     switch (_currentMode)
     {
-    case TRACKBALL: 
-    
+    case NONE:
+        break;
+
+    case TRACKBALL:
+
         switch (key)
         {
         case LEFT      : /*undefined*/ break;
@@ -323,8 +333,8 @@ void Navigator::keyPress(Int16 key, Int16 , Int16 )
     
         switch (key)
         {
-        case LEFT      : _flyer.right(-_rMotionFactor);   break;
-        case RIGHT     : _flyer.right(_rMotionFactor);    break;
+        case LEFT      : _flyer.right(_rMotionFactor);   break;
+        case RIGHT     : _flyer.right(-_rMotionFactor);    break;
         case FORWARDS  : _flyer.forward(-_rMotionFactor); break;
         case BACKWARDS : _flyer.forward(_rMotionFactor);  break;
         default        : FNOTICE(("Navigator: keyPress, unknown key\n"));
@@ -335,8 +345,8 @@ void Navigator::keyPress(Int16 key, Int16 , Int16 )
     
         switch (key)
         {
-        case LEFT      : _walker.right(-_rMotionFactor);   break;
-        case RIGHT     : _walker.right(_rMotionFactor);    break;
+        case LEFT      : _walker.right(_rMotionFactor);   break;
+        case RIGHT     : _walker.right(-_rMotionFactor);    break;
         case FORWARDS  : _walker.forward(-_rMotionFactor); break;
         case BACKWARDS : _walker.forward(_rMotionFactor);  break;
         default        : FNOTICE(("Navigator: keyPress, unknown key\n"));
@@ -369,6 +379,10 @@ void Navigator::moveTo(Int16 x, Int16 y)
 
     switch (_currentMode)
     {
+    case NONE:
+        FNOTICE(("Navigator: moveTo NONE mode\n"));
+        break;
+
     case TRACKBALL: 
     
         switch (_currentState)
@@ -442,7 +456,7 @@ void Navigator::moveTo(Int16 x, Int16 y)
         break;
 
     default: 
-    
+
         FNOTICE(("Navigator: moveTo, unknown mode\n"));
         break;
     }
@@ -464,14 +478,15 @@ void Navigator::updateCameraTransformation()
 
     switch(_currentMode)
     {
+    case NONE:      theMatrix.mult(_NoneMatrix);            break;
     case TRACKBALL: theMatrix.mult(_trackball.getMatrix()); break;
     case FLY:       theMatrix.mult(_flyer    .getMatrix()); break;
-    case WALK:      theMatrix.mult(_walker   .getMatrix()); break;        
+    case WALK:      theMatrix.mult(_walker   .getMatrix()); break;
     default:        FNOTICE(("Navigator: updateCamTrans, unknown mode\n"));
                     break;
     }
 
-    if(_cartN != NullFC) 
+    if(_cartN != NullFC)
     {
         TransformPtr t = TransformPtr::dcast(_cartN->getCore());
         if(t == NullFC)
@@ -520,12 +535,26 @@ void Navigator::setViewport(ViewportPtr new_viewport)
     _walker.setWorld (_vp->getRoot());
 }
 
+/*! Set the navigation parameters in case of NONE mode
+*/
+void Navigator::setNoneMatrix(Pnt3f new_from, Pnt3f new_at, Vec3f new_up)
+{
+    bool b = MatrixLookAt(_NoneMatrix, new_at, new_at+(new_at-new_from), new_up);
+
+    if (b) FNOTICE(("Navigator: set(.,.,.) failed\n"));
+}
+
 /*! Set the from point, i.e. the viewer position.
 */
 void Navigator::setFrom(Pnt3f new_from)
 {
     switch (_currentMode)
     {
+    case NONE:
+        setNoneMatrix( new_from,
+                      (Pnt3f)(_NoneMatrix[3]-_NoneMatrix[2]),
+                      (Vec3f) _NoneMatrix[1] );
+        break;
     case TRACKBALL:     _trackball.setFrom(new_from);   break;
     case FLY:           _flyer    .setFrom(new_from);   break;
     case WALK:          _walker   .setFrom(new_from);   break;
@@ -540,6 +569,9 @@ void Navigator::setAt(Pnt3f new_at)
 {
     switch (_currentMode)
     {
+    case NONE:
+        setNoneMatrix((Pnt3f)_NoneMatrix[3], new_at, (Vec3f)_NoneMatrix[1]);
+        break;
     case TRACKBALL:     _trackball.setAt(new_at);   break;
     case FLY:           _flyer    .setAt(new_at);   break;
     case WALK:          _walker   .setAt(new_at);   break;
@@ -554,6 +586,8 @@ void Navigator::setDistance(Real32 new_distance)
 {
     switch (_currentMode)
     {
+    case NONE:          break;
+
     case TRACKBALL:     _trackball.setDistance(new_distance);
                         break;
                         
@@ -575,6 +609,12 @@ void Navigator::setUp(Vec3f new_up)
 {
     switch (_currentMode)
     {
+    case NONE:
+        setNoneMatrix((Pnt3f) _NoneMatrix[3],
+                      (Pnt3f)(_NoneMatrix[3]-_NoneMatrix[2]),
+                       new_up );
+        break;
+
     case TRACKBALL:     _trackball.setUp(new_up);
                         break;
                         
@@ -595,6 +635,9 @@ void Navigator::set(Pnt3f new_from, Pnt3f new_at, Vec3f new_up)
 {
     switch (_currentMode)
     {
+    case NONE:          setNoneMatrix(new_from, new_at, new_up);
+                        break;
+
     case TRACKBALL:     _trackball.set(new_from, new_at, new_up);
                         break;
                         
@@ -615,6 +658,12 @@ void Navigator::set(const Matrix & new_matrix)
 {
     switch (_currentMode)
     {
+    case NONE:          //setNoneMatrix((Pnt3f) new_matrix[3],
+                        //              (Pnt3f)(new_matrix[3]-new_matrix[2]),
+                        //              (Vec3f) new_matrix[1]);
+                        _NoneMatrix = new_matrix;
+                        break;
+
     case TRACKBALL:     _trackball.set(new_matrix);
                         break;
                         
@@ -650,6 +699,7 @@ const Matrix &Navigator::getMatrix()
 {
     switch (_currentMode)
     {
+    case NONE:      return _NoneMatrix;
     case TRACKBALL: return _trackball.getMatrix();
     case FLY:       return _flyer    .getMatrix();
     case WALK:      return _walker   .getMatrix();        
@@ -664,16 +714,18 @@ const Matrix &Navigator::getMatrix()
 */
 const Pnt3f  &Navigator::getFrom()
 {
+    static Pnt3f returnValue(0.f, 0.f, 0.f);
+    returnValue = (Pnt3f)_NoneMatrix[3];
+
     switch (_currentMode)
     {
+    case NONE:      return returnValue;
     case TRACKBALL: return _trackball.getFrom();
     case FLY:       return _flyer    .getFrom();
     case WALK:      return _walker   .getFrom();
     default:        FNOTICE(("Navigator: getFrom, unknown mode"));
                     break;
     }
-
-    static Pnt3f returnValue(0.f, 0.f, 0.f);
 
     return returnValue;
 }
@@ -682,16 +734,18 @@ const Pnt3f  &Navigator::getFrom()
 */
 const Pnt3f  &Navigator::getAt()
 {
+    static Pnt3f returnValue(0.f, 0.f, 0.f);
+    returnValue = (Pnt3f)(_NoneMatrix[3] - _NoneMatrix[2]);
+
     switch (_currentMode)
     {
+    case NONE:      return returnValue;
     case TRACKBALL: return _trackball.getAt();
     case FLY:       return _flyer    .getAt();
     case WALK:      return _walker   .getAt();
     default:        FNOTICE(("Navigator: getAt, unknown mode"));
                     break;
     }
-
-    static Pnt3f returnValue(0.f, 0.f, 0.f);
 
     return returnValue;
 }
@@ -700,16 +754,18 @@ const Pnt3f  &Navigator::getAt()
 */
 const Vec3f  &Navigator::getUp()
 {
+    static Vec3f returnValue(0.f, 0.f, 0.f);
+    returnValue = (Vec3f)_NoneMatrix[1];
+
     switch (_currentMode)
     {
+    case NONE:      return returnValue;
     case TRACKBALL: return _trackball.getUp();
     case FLY:       return _flyer    .getUp();
     case WALK:      return _walker   .getUp();
     default:        FNOTICE(("NavigUpor: getUp, unknown mode"));
                     break;
     }
-
-    static Vec3f returnValue(0.f, 0.f, 0.f);
 
     return returnValue;
 }
