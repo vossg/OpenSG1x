@@ -230,8 +230,12 @@ DOC_HTML  = NO
 DOC_LATEX = NO
 DOC_MAN   = NO
 
-DOC_LIBS   ?= Base Communication DataStorage Field Log Math \
-			  PluginsInternal PluginsExternal
+DOC_LIBS   ?= Base Field FieldContainer Image Loader Log Material Nodes \
+			Nodes/Geometry Nodes/Light Nodes/Misc State Window
+
+#DOC_LIBS   ?= Base Communication DataStorage Field Log Math \
+#                        PluginsInternal PluginsExternal
+			  
 
 DOC_PATTERN = OSG*.cpp OSG*.hpp OSG*.inl 
 
