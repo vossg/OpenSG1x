@@ -161,8 +161,7 @@ for $n ( @sfout )
 	if ( $n ne $last )
 	{
         print	"/*!\n";
-        print   " \\ingroup BaseField\n";
-        print   " \\ingroup SingleFields\n";
+        print   " \\ingroup GrpBaseFieldSingle\n";
         printCommon();
 		print	"*/\n";
 
@@ -177,8 +176,7 @@ for $n ( @mfout )
 	if ( $n ne $last )
 	{
         print	"/*!\n";
-        print   " \\ingroup BaseField\n";
-        print   " \\ingroup MultiFields\n";
+        print   " \\ingroup GrpBaseFieldMulti\n";
         printCommon();
 		print	"*/\n";
 

@@ -73,11 +73,12 @@ typedef FCPtr<NodeCorePtr, Group> GroupPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief GroupPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<GroupPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<GroupPtr> :
     static char     *getSName(void) { return "SFGroupPtr"; }
     static char     *getMName(void) { return "MFGroupPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFGroupPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<GroupPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<GroupPtr> SFGroupPtr;
+#endif
 
 #ifndef OSG_COMPILEGROUPINST
 OSG_DLLEXPORT_DECL1(SField, GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFGroupPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<GroupPtr> MFGroupPtr;
+#endif
 
 #ifndef OSG_COMPILEGROUPINST
 OSG_DLLEXPORT_DECL1(MField, GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

@@ -73,11 +73,12 @@ typedef FCPtr<MaterialDrawablePtr, Slices> SlicesPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief SlicesPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<SlicesPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<SlicesPtr> :
     static char     *getSName(void) { return "SFSlicesPtr"; }
     static char     *getMName(void) { return "MFSlicesPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFSlicesPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<SlicesPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<SlicesPtr> SFSlicesPtr;
+#endif
 
 #ifndef OSG_COMPILESLICESINST
 OSG_DLLEXPORT_DECL1(SField, SlicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFSlicesPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<SlicesPtr> MFSlicesPtr;
+#endif
 
 #ifndef OSG_COMPILESLICESINST
 OSG_DLLEXPORT_DECL1(MField, SlicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

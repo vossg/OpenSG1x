@@ -79,9 +79,10 @@ DOC_DOT   ?= "NO"
 DOC_INTRO ?= "Code/intro.dox"
 
 # The separate documentation pages
-                
-DOC_PAGES  := 	../Common/dummyClasses.dox \
-                Code/mainpage.dox \
+
+
+DOC_PAGES  := 	Code/mainpage.dox \
+				../Common/dummyClasses.dox \
 				$(DOC_INTRO) \
 				../Source/Base/Base/Base.dox \
 				../Source/System/System.dox \
@@ -120,10 +121,14 @@ DOC_IMAGE_PATHES := Images
 
 DOC_FILES := $(DOC_LIBS) $(DOC_PAGES)
 
-#DOC_FILES := ../Source/Base/Base/Base.dox         		\
-#			 ../Source/Base/Base 						\
-#             ../Source/Base/Functors/Functors.dox 		\
-#			 ../Source/Base/Functors
+#DOC_FILES := ../Source/Base/Base/Base.dox         					\
+#			 ../Source/Base/Base 									\
+#             ../Source/Base/Functors/Functors.dox 					\
+#			 ../Source/Base/Functors								\
+#			 ../Source/Base/Field/Field.dox							\
+#			 ../Source/Base/Field									\
+#			 ../Source/Base/StringConversion/StringConversion.dox	\
+#			 ../Source/Base/StringConversion
 
 # DOC_FILES := $(DOC_PAGES) ../Source/System/NodeCores/Groups/Misc \
 #            ../Source/System/NodeCores/Groups/Base
@@ -137,12 +142,15 @@ DOC_LEVEL_ENABLED ?= ""
 DOC_ENV := DOC_PROJECT_NAME="$(DOC_PROJECT_NAME)" DOCDIR=$(DOCDIR) 
 DOC_ENV += DOC_PROJECT_NUMBER=$(DOC_PROJECT_NUMBER) DOC_FILES="$(DOC_FILES)"
 DOC_ENV += OSGPOOL="$(OSGPOOL)"  DOC_LATEX="$(DOC_LATEX)" DOC_DOT="$(DOC_DOT)"
-DOC_ENV += OSG_DOC_LEVEL="$(DOC_LEVEL)" DOC_LEVEL_PREDEF="$(DOC_LEVEL_PREDEF)"
+DOC_ENV += OSG_USE_DOC_LEVEL="$(DOC_LEVEL)" DOC_LEVEL_PREDEF="$(DOC_LEVEL_PREDEF)"
 DOC_ENV += DOC_LEVEL_ENABLED="$(DOC_LEVEL_ENABLED)" 
 DOC_ENV += DOC_IMAGE_PATHES="$(DOC_IMAGE_PATHES)"
 
 DOXYGEN := doxygen
 #DOXYGEN := /home/gerrit/SoftwareTest/doxygen/bin/doxygen
+#DOXYGEN := /home/gerrit/SoftwareInstall/doxygen_cvs/bin/doxygen
+#DOXYGEN := /home/gerrit/SoftwareInstall/doxygen_cvs_org/bin/doxygen
+#DOXYGEN := /home/gerrit/SoftwareTest/doxygen-1.3-rc1/bin/doxygen
 #DOXYGEN := /data/dirk/software/doxygen-1.2.18/bin/doxygen
 
 default: help
@@ -181,25 +189,29 @@ dodoc:
 #	@rm -f ../Common/dummyClasses.dox 
 
 userdoc:
-	make DOC_LEVEL=1 DOC_LEVEL_NAME=user \
+	make DOC_LEVEL=1 DOC_LEVEL_NAME=user DOC_LEVEL_NAME=user \
 	    DOC_LEVEL_PREDEF= \
 		DOC_LEVEL_ENABLED= dodoc
 
 extdoc:
-	make DOC_LEVEL=2 DOC_LEVEL_NAME=ext \
+	make DOC_LEVEL=2 DOC_LEVEL_NAME=ext DOC_LEVEL_NAME=ext \
 	    DOC_LEVEL_PREDEF="OSG_DOC_EXT" \
 		DOC_LEVEL_ENABLED="ext" dodoc
 
 devdoc:
-	make DOC_LEVEL=3 DOC_LEVEL_NAME=dev \
+	make DOC_LEVEL=3 DOC_LEVEL_NAME=dev DOC_LEVEL_NAME=dev \
 	    DOC_LEVEL_PREDEF="OSG_DOC_EXT OSG_DOC_DEV" \
 	    DOC_LEVEL_ENABLED="ext dev"  dodoc
+
+devtrdoc:
+	make DOC_LEVEL=4 DOC_LEVEL_NAME=dev_traits DOC_LEVEL_NAME=dev \
+	    DOC_LEVEL_PREDEF="OSG_DOC_EXT OSG_DOC_DEV OSG_DOC_DEV_TRAITS" \
+	    DOC_LEVEL_ENABLED="ext dev dev_traits"  dodoc
 
 # Starter targets
 
 dostarter:
-	make DOC_LATEX="YES" DOC_DOT="NO" DOC_INTRO="starter.dox" $(DOC_STARTER)doc
-	# link the images
+	make DOC_LATEX="YES" DOC_DOT="NO" DOC_INTRO="starter.dox" $(DOC_STARTER)doc# link the images
 	cd $(DOCDIR)/$(DOC_STARTER)/latex/ ; \
 	../../../../Common/refmanToStarter refman.tex StarterGuide.tex ;  \
 	latex StarterGuide && latex StarterGuide && dvips StarterGuide && \
