@@ -4886,12 +4886,19 @@ void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
     {
         std::string path = SceneFileHandler::the().getPathHandler()->
                            extractPath(filename.c_str());
+
         SceneFileHandler::the().getPathHandler()->push_backPath(path.c_str());
         ImageFileHandler::the().getPathHandler()->push_backPath(path.c_str());
+
         if(SceneFileHandler::the().isGZip(in))
         {
+#ifdef OSG_ZSTREAM_SUPPORTED
             zip_istream unzipper(in);
             pVRMLLoader->scanStream(unzipper);
+#else
+            FWARNING(("zstream no configured, could not read "
+                      "compressed file"));
+#endif
         }
         else
         {
