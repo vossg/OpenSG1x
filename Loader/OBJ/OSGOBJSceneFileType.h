@@ -135,6 +135,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
       MTL_LIB_DE, NEW_MTL_DE, 
       MTL_DIFFUSE_DE, MTL_AMBIENT_DE, MTL_SPECULAR_DE, 
       MTL_SHININESS_DE, MTL_ILLUM_DE,
+      MTL_MAP_KD_DE, MTL_MAP_KA_DE, MTL_MAP_KS_DE,
       FACE_DE, 
       USE_MTL_DE, 
       GROUP_DE, SMOOTHING_GROUP_DE, OBJECT_DE
@@ -162,7 +163,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
     };
 
     Int32 readMTL ( const Char8 *fileName, 
-                    map<string, SimpleMaterialPtr> & mtlMap ) const;
+                    map<string, SimpleTexturedMaterialPtr> & mtlMap ) const;
 
     /* prohibit default function (move to 'public' if needed) */
     void operator =(const OBJSceneFileType &source);
@@ -172,7 +173,7 @@ typedef OBJSceneFileType* OBJSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSGOBJSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOBJSceneFileType.h,v 1.9 2001/10/15 14:13:12 jbehr Exp $"
+#define OSGOBJSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOBJSceneFileType.h,v 1.10 2001/10/16 10:58:37 jbehr Exp $"
 
 #endif // _OSGOBJSCENEFILETYPE_H_
 

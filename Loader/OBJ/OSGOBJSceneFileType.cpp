@@ -59,6 +59,7 @@
 #include <OSGGeoProperty.h>
 #include <OSGGeoFunctions.h>
 #include <OSGSimpleTexturedMaterial.h>
+#include <OSGImageFileHandler.h>
 #include <OSGGroup.h>
 
 #include "OSGOBJSceneFileType.h"
@@ -75,7 +76,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.17 2001/10/15 14:13:12 jbehr Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.18 2001/10/16 10:58:37 jbehr Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -150,8 +151,8 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
   Int32 strBufSize = sizeof(strBuf)/sizeof(Char8), index, indexType;
   Int32 i,j,n,primCount[3];
   std::list<Mesh> meshList;
-  map<string, SimpleMaterialPtr> mtlMap;
-  map<string, SimpleMaterialPtr>::iterator mtlI;
+  map<string, SimpleTexturedMaterialPtr> mtlMap;
+  map<string, SimpleTexturedMaterialPtr>::iterator mtlI;
   Mesh emptyMesh;
   Face emptyFace;
   TiePoint  emptyTie;
@@ -236,14 +237,13 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                     index = strtol(token, &nextToken, 10);
                     if (token == nextToken)
                       break;
-                    if (index)
-                      {
-                        if (indexType == 0)
-                          faceI->tieVec.push_back(emptyTie);
-                        index = (index > 0) 
-                          ? (index - 1) : (primCount[indexType] - index);
-                        faceI->tieVec.back().index[indexType] = index;
-                      }
+                    if (indexType == 0)
+                      faceI->tieVec.push_back(emptyTie);
+                    if (index >= 0)
+                      index--;
+                    else
+                      index =  primCount[indexType] + index;        
+                    faceI->tieVec.back().index[indexType] = index;
                     token = nextToken;
                   }
                 break;
@@ -326,7 +326,7 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
 
                 if (meshI->mtlPtr == NullFC)
                   {
-                    meshI->mtlPtr = SimpleMaterial::create();
+                    meshI->mtlPtr = SimpleTexturedMaterial::create();
                     beginEditCP( meshI->mtlPtr );
                     {
                       meshI->mtlPtr->setDiffuse( Color3f( .8, .8, .8 ) );
@@ -599,6 +599,10 @@ void OBJSceneFileType::initDataElemMap(void)
       _dataElemMap["Ka"]      = MTL_AMBIENT_DE;
       _dataElemMap["Ks"]      = MTL_SPECULAR_DE;
       _dataElemMap["Ns"]      = MTL_SHININESS_DE;
+      _dataElemMap["map_Kd"]  = MTL_MAP_KD_DE;
+      _dataElemMap["map_Ka"]  = MTL_MAP_KA_DE;
+      _dataElemMap["map_Ks"]  = MTL_MAP_KS_DE;
+      _dataElemMap["illum"]   = MTL_ILLUM_DE;
       _dataElemMap["usemtl"]  = USE_MTL_DE;
       _dataElemMap["g"]       = GROUP_DE;
       _dataElemMap["s"]       = SMOOTHING_GROUP_DE;
@@ -607,16 +611,19 @@ void OBJSceneFileType::initDataElemMap(void)
 }
 
 Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
-                                  map<string, SimpleMaterialPtr> & mtlMap )
+                                  map<string, SimpleTexturedMaterialPtr> & mtlMap )
   const
 {
   Int32 mtlCount = 0;
   ifstream in(fileName);
-  SimpleMaterialPtr mtlPtr;
+  SimpleTexturedMaterialPtr mtlPtr;
   Real32 a,b,c;
   string elem;
   map<string, DataElem>::iterator elemI;
   DataElem dataElem;
+  std::map<string, osg::Image*> imageMap;
+  std::map<string, osg::Image*>::iterator iI;
+  Image *image;
 
   if (in)
     for (in >> elem; in.eof() == false; in >> elem) 
@@ -631,7 +638,7 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
             {
             case NEW_MTL_DE:
               in >> elem;
-              mtlPtr = SimpleMaterial::create();
+              mtlPtr = SimpleTexturedMaterial::create();
               beginEditCP(mtlPtr);
               {
                 mtlPtr->setColorMaterial(GL_NONE);
@@ -714,12 +721,41 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
                 {
                   beginEditCP(mtlPtr);
                   {
-                    in >> a;
+                    in >> elem
                     ; // TODO: What to do with illum ?!?
                   }
                   endEditCP(mtlPtr);
                 }
               break;
+            case MTL_MAP_KD_DE:
+            case MTL_MAP_KA_DE:
+            case MTL_MAP_KS_DE:
+              if (mtlPtr == NullFC)
+                {
+                  FFATAL (( "Invalid %s entry in %s\n",
+                            elem.c_str(), fileName ));
+                }
+              else
+                {
+                  in >> elem;
+                  iI = imageMap.find(elem);
+                  if (iI == imageMap.end())
+                    {
+                      image = osg::ImageFileHandler::the().read(elem.c_str());
+                      imageMap[elem] = image;
+                    }                     
+                  else
+                    image = iI->second;
+                  if (image)
+                    {
+                      beginEditCP(mtlPtr);
+                      {
+                        mtlPtr->setImage(image);
+                      }
+                      endEditCP(mtlPtr);
+                    }
+                }
+              break;               
             default:
               FWARNING (( "Invalid %s entry in %s\n",
                           elem.c_str(), fileName ));
