@@ -76,7 +76,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.13 2001/07/30 22:17:45 vossg Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.14 2001/08/07 17:10:34 dirk Exp $";
 
 StateChunkClass TextureChunk::_class(String("Texture"));
 
@@ -168,7 +168,14 @@ TextureChunk::~TextureChunk(void)
 
 void TextureChunk::changed(BitVector fields, ChangeMode)
 {
-	
+    if ( fields & FrameFieldMask )
+    {
+    	Window::refreshGLObject( getGLId() );
+    }
+    if ( fields & ImageFieldMask )
+    {
+    	Window::reinitializeGLObject( getGLId() );
+    }
 }
 
 /*----------------------------- onCreate --------------------------------*/
@@ -188,7 +195,7 @@ void TextureChunk::onCreate( const FieldContainer & )
 	setGLId( Window::registerGLObject( 
 						osgMethodFunctor2CPtr<
 										void,
-										Window *,
+										Window*,
 										UInt32,
 										TextureChunkPtr
 										>( tmpPtr, &TextureChunk::handleGL ), 1 
@@ -221,10 +228,10 @@ void TextureChunk::dump(      UInt32     uiIndent,
 
 // GL object handler
 // create the texture and destroy it
-void TextureChunk::handleGL(Window *win, UInt32 id)
+void TextureChunk::handleGL( Window *win, UInt32 id )
 {
-    Window::GLObjectStatusE mode = win->getGLObjectStatus(id);
-
+	Window::GLObjectStatusE mode = win->getGLObjectStatus( id );
+	
 	if ( mode == Window::destroy )
 	{
 		GLuint tex = id;
@@ -234,8 +241,10 @@ void TextureChunk::handleGL(Window *win, UInt32 id)
 	{
 		//SWARNING << "Last texture user destroyed" << endl;
 	}
-	else if ( mode == Window::initialize )
+	else if ( mode == Window::initialize || mode == Window::reinitialize )
 	{		
+		// as we're not allocating anything here, the same code can be used 
+		// for reinitialization
 		ImageP img = getImage();
 		
 		if ( ! img ) // no image ?
@@ -244,10 +253,6 @@ void TextureChunk::handleGL(Window *win, UInt32 id)
 		GLenum target;		
 		if ( img->getDepth() > 1 )			
 		{
-			// need the window here to ask for the extension...
-			// if ( win->hasExtension( _extTex3D ) )
-			//		target = GL_TEXTURE_3D;
-			// else
 			SWARNING << "TextureChunk::initialize: 3D textures not supported "
 					 << "yet!" << endl;
 			return;
@@ -268,7 +273,7 @@ void TextureChunk::handleGL(Window *win, UInt32 id)
 		glErr( "TextureChunk::initialize params" );
 		
 		// set the image
-		GLenum internalFormat = img->getPixelFormat();
+		GLenum internalFormat = getInternalFormat();
 		GLenum externalFormat = img->getPixelFormat();
 		GLenum type = GL_UNSIGNED_BYTE;
 		UInt32 width = img->getWidth();
@@ -282,7 +287,10 @@ void TextureChunk::handleGL(Window *win, UInt32 id)
 							getMinFilter() == GL_LINEAR_MIPMAP_NEAREST ||
 							getMinFilter() == GL_NEAREST_MIPMAP_LINEAR ||
 							getMinFilter() == GL_LINEAR_MIPMAP_LINEAR ;
-							
+
+		if ( internalFormat == GL_NONE ) 
+			internalFormat = externalFormat;
+			
 		// do we need mipmaps?
 		if ( needMipmaps )
 		{

@@ -1,11 +1,11 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 
 <FieldContainer
 	name="TextureChunk"
 	parent="StateChunk"
 	library="System"
-	structure="concrete"
 	pointerfieldtypes="none"
+	structure="concrete"
 	systemcomponent="true"
 	parentsystemcomponent="true"
 >
@@ -14,7 +14,19 @@
 		type="ImageP"
 		cardinality="single"
 		visibility="external"
+		access="public"
 	>
+	</Field>
+	<Field
+		name="internalFormat"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_NONE"
+		defaultHeader="<GL/gl.h>"
+		access="public"
+	>
+	The internal texture format.
 	</Field>
 	<Field
 		name="scale"
@@ -22,6 +34,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="true"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -30,6 +43,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="0"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -39,6 +53,7 @@
 		visibility="external"
 		defaultValue="GL_LINEAR_MIPMAP_LINEAR"
 		defaultHeader="<GL/gl.h>"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -48,6 +63,7 @@
 		visibility="external"
 		defaultValue="GL_LINEAR"
 		defaultHeader="<GL/gl.h>"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -57,6 +73,7 @@
 		visibility="external"
 		defaultValue="GL_REPEAT"
 		defaultHeader="<GL/gl.h>"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -66,6 +83,7 @@
 		visibility="external"
 		defaultValue="GL_REPEAT"
 		defaultHeader="<GL/gl.h>"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -75,6 +93,7 @@
 		visibility="external"
 		defaultValue="GL_REPEAT"
 		defaultHeader="<GL/gl.h>"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -84,6 +103,7 @@
 		visibility="external"
 		defaultValue="GL_REPLACE"
 		defaultHeader="<GL/gl.h>"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -93,6 +113,7 @@
 		visibility="external"
 		defaultValue="GL_NONE"
 		defaultHeader="<GL/gl.h>"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -102,6 +123,7 @@
 		visibility="external"
 		defaultValue="GL_NONE"
 		defaultHeader="<GL/gl.h>"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -111,6 +133,7 @@
 		visibility="external"
 		defaultValue="GL_NONE"
 		defaultHeader="<GL/gl.h>"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -120,6 +143,7 @@
 		visibility="external"
 		defaultValue="GL_NONE"
 		defaultHeader="<GL/gl.h>"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -127,6 +151,7 @@
 		type="Plane"
 		cardinality="single"
 		visibility="external"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -134,6 +159,7 @@
 		type="Plane"
 		cardinality="single"
 		visibility="external"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -141,6 +167,7 @@
 		type="Plane"
 		cardinality="single"
 		visibility="external"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -148,6 +175,7 @@
 		type="Plane"
 		cardinality="single"
 		visibility="external"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -155,6 +183,7 @@
 		type="UInt32"
 		cardinality="single"
 		visibility="internal"
+		access="public"
 	>
 	</Field>
 </FieldContainer>
