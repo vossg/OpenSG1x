@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
  * In most cases, the buffer read and the network send of the previous
  * tile is done in parallel.
  * 
- * \todo currently ClusterViewBuffer works on the activated window.
+ * todo: currently ClusterViewBuffer works on the activated window.
  *       Is this a good idea. Better WindowPtr as parameter and then
  *       call activate before send,recv? MR
  **/

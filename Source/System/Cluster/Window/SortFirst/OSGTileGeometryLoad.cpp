@@ -283,7 +283,7 @@ void TileGeometryLoad::updateView(Matrix &viewing,
  * 
  * This funciton should only be called when geometies have changed.
  *
- * \todo Use a simple cost estimation mechanism for rapidly changeing
+ * todo: Use a simple cost estimation mechanism for rapidly changeing
  *       geometries.
  *
  **/

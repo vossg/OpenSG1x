@@ -235,7 +235,7 @@ void ClusterServer::stop()
  *  contains the name of this server. <code>serverInit</code> is
  *  called after the first ClusterWindow sync. 
  *
- *  \todo Sync RenderAciton contents
+ *  todo: Sync RenderAciton contents
  */
 void ClusterServer::render(RenderAction *action)
 {

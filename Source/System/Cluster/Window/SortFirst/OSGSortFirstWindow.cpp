@@ -150,7 +150,7 @@ void SortFirstWindow::serverInit( WindowPtr serverWindow,
 
 /** update server window
  *
- * \todo enamble frustum culling if error is removed
+ * todo: enamble frustum culling if error is removed
  **/
 void SortFirstWindow::serverRender( WindowPtr serverWindow,
                                     UInt32 id,

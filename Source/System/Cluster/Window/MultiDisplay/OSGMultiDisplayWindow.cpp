@@ -57,7 +57,6 @@ OSG_USING_NAMESPACE
 
 /*! \class osg::MultiDisplayWindow
  *  \ingroup GrpSystemCluster
- *  \brief Cluster rendering configuration for multible display
  */
 
 /*----------------------- constructors & destructors ----------------------*/
