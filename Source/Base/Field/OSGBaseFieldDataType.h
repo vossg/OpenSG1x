@@ -643,6 +643,8 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
 
             pSVol->setCenter(Pnt3f(valStore[0], valStore[1], valStore[2]));
             pSVol->setRadius(valStore[3]);
+            
+            outVal.instanceChanged();
 
             return true;
         }
@@ -655,6 +657,8 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
 
             pBVol->setBounds(valStore[0], valStore[1], valStore[2],
                              valStore[3], valStore[4], valStore[5]);
+            
+            outVal.instanceChanged();
 
             return true;
         }
@@ -666,10 +670,11 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
                 dynamic_cast<BoxVolume *>(&(outVal.getInstance()));
 
             pBVol->setBounds(0.,0.,0., 0.,0.,0.);
+            
+            outVal.instanceChanged();
 
             return false;
         }
-        outVal.instanceChanged();
     }
 
     static void putToString(const      DynamicVolume &inVal,
