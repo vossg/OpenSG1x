@@ -48,11 +48,12 @@
 #include <OSGNodeCore.h>
 #include <OSGSystemDef.h>
 #include <OSGGeoProperty.h>
+#include <OSGDrawable.h>
 
 OSG_BEGIN_NAMESPACE
 
 class Geometry;
-typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
+typedef FCPtr<DrawablePtr, Geometry> GeometryPtr;
 
 //! The PrimitiveIterator iterates through a geometry one primitive at a time.
 //! \ingroup GeoIterators

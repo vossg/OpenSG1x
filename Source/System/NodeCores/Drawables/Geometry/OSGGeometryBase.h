@@ -63,7 +63,7 @@
 
 #include <OSGBaseTypes.h>
 
-#include <OSGNodeCore.h> // Parent
+#include <OSGDrawable.h> // Parent
 
 #include <OSGGeoPTypesFields.h> // Types type
 #include <OSGGeoPLengthsFields.h> // Lengths type
@@ -90,11 +90,11 @@ class BinaryDataHandler;
 
 //! \brief Geometry Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
+class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public Drawable
 {
   private:
 
-    typedef NodeCore Inherited;
+    typedef Drawable Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:

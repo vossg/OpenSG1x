@@ -53,10 +53,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-
-class Geometry;
-typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
-
 //! The FaceIterator allows iteration through faces, i.e. tris and/or quads.
 //! \ingroup GeoIterators
 

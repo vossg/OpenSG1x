@@ -2,7 +2,7 @@
 
 <FieldContainer
 	name="Geometry"
-	parent="NodeCore"
+	parent="Drawable"
 	library="System"
 	pointerfieldtypes="none"
 	structure="concrete"

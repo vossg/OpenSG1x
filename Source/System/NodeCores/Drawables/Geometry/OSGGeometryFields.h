@@ -60,7 +60,7 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
-#include <OSGNodeCoreFields.h>
+#include <OSGDrawableFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -68,7 +68,7 @@ class Geometry;
 
 //! GeometryPtr
 
-typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
+typedef FCPtr<DrawablePtr, Geometry> GeometryPtr;
 
 /*! \brief GeometryPtr field traits 
     \ingroup FieldLib

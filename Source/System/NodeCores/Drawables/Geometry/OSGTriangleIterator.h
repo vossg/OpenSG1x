@@ -51,9 +51,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-class Geometry;
-typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
-
 //! The TriangleIterator allows iteration through triangles.
 //! \ingroup GeoIterators
 

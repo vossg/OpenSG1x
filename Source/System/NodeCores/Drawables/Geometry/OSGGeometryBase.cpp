@@ -244,7 +244,7 @@ FieldDescription *GeometryBase::_desc[] =
 
 FieldContainerType GeometryBase::_type(
     "Geometry",
-    "NodeCore",
+    "Drawable",
     NULL,
     (PrototypeCreateF) &GeometryBase::createEmpty,
     Geometry::initMethod,
@@ -658,7 +658,7 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<GeometryPtr>::_type("GeometryPtr", "NodeCorePtr");
+DataType FieldDataTraits<GeometryPtr>::_type("GeometryPtr", "DrawablePtr");
 
 
 OSG_END_NAMESPACE
