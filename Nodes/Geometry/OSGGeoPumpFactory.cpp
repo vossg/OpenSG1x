@@ -384,7 +384,7 @@ void GeoPumpFactory::masterGeoPump( Window *win, Geometry * geo )
 	
 	if ( ! PositionData )
 	{
-		SWARNING << "masterPump: Geometry " << geo << "has no positions!?!"
+		SWARNING << "masterPump: Geometry " << geo << " has no positions!?!"
 				 << endl;
 		return;
 	}
