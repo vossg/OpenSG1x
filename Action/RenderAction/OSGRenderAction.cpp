@@ -865,12 +865,17 @@ Action::ResultE RenderAction::stop(ResultE res)
     {
         glFinish();
         getStatistics()->getElem(statDrawTime)->stop();
+
+        getStatistics()->getElem(statNMaterials      )->set(
+            _uiNumMaterialChanges);
+        getStatistics()->getElem(statNMatrices       )->set(
+            _uiNumMatrixChanges);
+        getStatistics()->getElem(statNGeometries     )->set(
+            _uiNumGeometries);
+        getStatistics()->getElem(statNTransGeometries)->set(
+            _uiNumTransGeometries);
     }
     
-    getStatistics()->getElem(statNMaterials      )->set(_uiNumMaterialChanges);
-    getStatistics()->getElem(statNMatrices       )->set(_uiNumMatrixChanges);
-    getStatistics()->getElem(statNGeometries     )->set(_uiNumGeometries);
-    getStatistics()->getElem(statNTransGeometries)->set(_uiNumTransGeometries);
 
 //    FINFO (("Material %d Matrix %d Geometry %d Transparent %d\r",
 //            _uiNumMaterialChanges, 

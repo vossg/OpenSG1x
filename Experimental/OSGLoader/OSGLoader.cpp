@@ -428,6 +428,12 @@ void OSGLoader::scanFile(const Char8  *szFilename,
         
         ImageFileHandler::the().setPathHandler(&_pathHandler);
         
+        _pRootNode         = NullFC;
+        _pCurrentFC        = NullFC;
+        _pCurrentField     = NULL;
+        _pCurrentFieldDesc = NULL;
+        _defMap.clear();
+
         Inherited::scanFile(szFilename, uiOptions);
         
         ImageFileHandler::the().setPathHandler(oldPathHandler);
@@ -449,6 +455,12 @@ void OSGLoader::scanFile(const Char8   *szFilename,
         _pathHandler.setBaseFile(szFilename);
         
         ImageFileHandler::the().setPathHandler(&_pathHandler);
+
+        _pRootNode         = NullFC;
+        _pCurrentFC        = NullFC;
+        _pCurrentField     = NULL;
+        _pCurrentFieldDesc = NULL;
+        _defMap.clear();
         
         Inherited::scanFile(szFilename, uiAddOptions, uiSubOptions);
         

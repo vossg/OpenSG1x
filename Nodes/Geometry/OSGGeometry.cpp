@@ -616,24 +616,28 @@ Action::ResultE Geometry::draw(DrawActionBase * action)
     }
     
     StatCollector *coll = action->getStatistics();
-    StatIntElem *el = coll->getElem(statNTriangles,false);
-    if(el)
+
+    if(coll != NULL)
     {
-        GeometryPtr geo(this);
-        UInt32 ntri,nl,np;
-        
-        calcPrimitiveCount(geo, ntri, nl, np);
-        el->add(ntri);
-        coll->getElem(statNLines)->add(nl);
-        coll->getElem(statNLines)->add(np);
-        
-        if(getIndices() != NullFC)
+        StatIntElem *el = coll->getElem(statNTriangles,false);
+        if(el)
         {
-            coll->getElem(statNVertices)->add(getIndices()->getSize());
-        }
-        else
-        {
-            coll->getElem(statNVertices)->add(getPositions()->getSize());
+            GeometryPtr geo(this);
+            UInt32 ntri,nl,np;
+            
+            calcPrimitiveCount(geo, ntri, nl, np);
+            el->add(ntri);
+            coll->getElem(statNLines)->add(nl);
+            coll->getElem(statNLines)->add(np);
+            
+            if(getIndices() != NullFC)
+            {
+                coll->getElem(statNVertices)->add(getIndices()->getSize());
+            }
+            else
+            {
+                coll->getElem(statNVertices)->add(getPositions()->getSize());
+            }
         }
     }
     
