@@ -27,7 +27,7 @@ children [
 
 # Object "TF_WINDOW" 
 
-Shape {
+DEF TF_WINDOW Shape {
 geometry IndexedFaceSet {
 solid FALSE
 creaseAngle 0.5
@@ -810,7 +810,7 @@ appearance Appearance {
 
 # Object "TF_Pyron" 
 
-Shape {
+DEF TF_Pyron Shape {
 appearance Appearance { 
  material Material {
   diffuseColor 0.372549 0.372549 0.372549
@@ -2317,7 +2317,7 @@ coordIndex [
 
 # Object "TF_DETAIL" 
 
-Shape {
+DEF TF_DETAIL Shape {
 appearance Appearance { 
  material Material {
   diffuseColor 0.647059 0.427451 0.168627
@@ -2425,7 +2425,7 @@ coordIndex [
 
 # Object "TF_BODY" 
 
-Shape {
+DEF TF_BODY Shape {
 appearance Appearance { 
  material Material {
   diffuseColor 0.647059 0.647059 0.647059
@@ -3193,7 +3193,7 @@ coordIndex [
 
 # Object "TF_HATCH" 
 
-Shape {
+DEF TF_HATCH Shape {
 appearance Appearance { 
  material Material {
   diffuseColor 0.647059 0.647059 0.647059
@@ -4421,7 +4421,7 @@ coordIndex [
 
 # Object "TF_frame" 
 
-Shape {
+DEF TF_FRAME Shape {
 appearance Appearance { 
  material Material {
   diffuseColor 0.647059 0.647059 0.647059
@@ -4829,7 +4829,7 @@ coordIndex [
 
 # Object "TF_Slr_ceL" 
 
-Shape {
+DEF TF_SLR_CEL Shape {
 appearance Appearance { 
  material Material {
   diffuseColor 0.145098 0.145098 0.329412
@@ -4874,7 +4874,7 @@ coordIndex [
 
 # Object "TF_Blast_" 
 
-Shape {
+DEF TF_Blast Shape {
 appearance Appearance { 
  material Material {
   diffuseColor 0.647059 0.243137 0.243137
@@ -4910,14 +4910,14 @@ coordIndex [
 
 # Object "TF_Glass" 
 
-Shape {
+DEF TF_Glass Shape {
 appearance Appearance { 
  material Material {
   diffuseColor 0.14902 0.14902 0.439216
   specularColor 0.498039 0.498039 0.498039
   emissiveColor 0 0 0
   shininess 0.078125
-  transparency 0.500000
+  transparency 0.000000
  }
 }
 geometry IndexedFaceSet {
