@@ -294,12 +294,6 @@ NodePtr OFFSceneFileType::read(std::istream &is) const
     return root;
 }
 
-NodePtr OFFSceneFileType::read(const Char8 *) const
-{
-    FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
-    return NullFC;
-}
-
 /******************************
 *protected
 ******************************/

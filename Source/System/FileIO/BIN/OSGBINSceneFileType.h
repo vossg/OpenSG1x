@@ -82,7 +82,6 @@ class OSG_SYSTEMLIB_DLLMAPPING BINSceneFileType : public SceneFileType
     /*! \{                                                                 */
 
     virtual NodePtr read(std::istream &is) const;
-    virtual NodePtr read(const Char8 *fileName) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -90,7 +89,6 @@ class OSG_SYSTEMLIB_DLLMAPPING BINSceneFileType : public SceneFileType
     /*! \{                                                                 */
 
     virtual bool write(const NodePtr &node, std::ostream &os) const;
-    virtual bool write(const NodePtr &node, const Char8 *fileName) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

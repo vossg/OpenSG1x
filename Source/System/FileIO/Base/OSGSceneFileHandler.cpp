@@ -330,9 +330,10 @@ NodePtr SceneFileHandler::read(const  Char8  *fileName,
             SWARNING << "Couldn't open input stream for file " << fullFilePath << std::endl;
         }
 
+#ifndef OSG_DISABLE_DEPRECATED
         // Ok stream interface didn't work try via filename
         if(scene == NullFC)
-            scene = type->read(fullFilePath.c_str());
+            scene = type->readFile(fullFilePath.c_str());
 
         if (scene != NullFC)
         {
@@ -345,6 +346,7 @@ NodePtr SceneFileHandler::read(const  Char8  *fileName,
         {
             SWARNING << "could not read " << std::endl;
         }
+#endif
     }
     else
     {
@@ -485,8 +487,10 @@ bool SceneFileHandler::write (const NodePtr &node, const Char8 *fileName)
             SWARNING << "Can not open output stream for file '" << fileName << "'!" << std::endl;
         }
 
+#ifndef OSG_DISABLE_DEPRECATED
         if(!retCode)
-            retCode = type->write(node, fileName);
+            retCode = type->writeFile(node, fileName);
+#endif
 
         if(!retCode)
             SWARNING << "Couldn't write " << fileName << std::endl;

@@ -101,23 +101,11 @@ NodePtr VRMLSceneFileType::read(std::istream &is) const
     return  _pVRMLLoader->getRoot();
 }
 
-NodePtr VRMLSceneFileType::read(const Char8 *) const
-{
-    FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
-    return NullFC;
-}
-
 /*-------------------------------------------------------------------------*/
 /*                               Write                                     */
 
-bool VRMLSceneFileType::write(const NodePtr &,
-                             std::ostream &) const
-{
-    FWARNING (("STREAM INTERFACE NOT IMPLEMENTED!\n"));
-    return false;
-}
-
-bool VRMLSceneFileType::write(const NodePtr &root, const Char8 *name) const
+#ifndef OSG_DISABLE_DEPRECATED
+bool VRMLSceneFileType::writeFile(const NodePtr &root, const Char8 *name) const
 {
 
     VRMLWriteAction *pWriter = VRMLWriteAction::create();
@@ -130,6 +118,7 @@ bool VRMLSceneFileType::write(const NodePtr &root, const Char8 *name) const
 
     return true;
 }
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */

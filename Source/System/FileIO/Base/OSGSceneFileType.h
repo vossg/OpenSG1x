@@ -93,7 +93,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
 
     virtual NodePtr    read        (std::istream &is) const;
 
-    virtual NodePtr    read        (const Char8 *fileName) const;
+#ifndef OSG_DISABLE_DEPRECATED
+    virtual NodePtr    readFile    (const Char8 *fileName) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -102,8 +104,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
 
     virtual bool write(const NodePtr &node, std::ostream &os) const;
 
-    virtual bool write(const NodePtr &node,
-                       const Char8 *fileName) const;
+#ifndef OSG_DISABLE_DEPRECATED
+    virtual bool writeFile(const NodePtr &node,
+                           const Char8 *fileName) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

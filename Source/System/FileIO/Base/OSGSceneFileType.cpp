@@ -150,11 +150,13 @@ NodePtr SceneFileType::read(std::istream & OSG_CHECK_ARG(is)) const
     return NullFC;
 }
 
-NodePtr SceneFileType::read(const Char8 * OSG_CHECK_ARG(fileName)) const
+#ifndef OSG_DISABLE_DEPRECATED
+NodePtr SceneFileType::readFile(const Char8 * OSG_CHECK_ARG(fileName)) const
 {
     FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
     return NullFC;
 }
+#endif
 
 bool SceneFileType::write(const NodePtr & OSG_CHECK_ARG(node),
                           std::ostream & OSG_CHECK_ARG(os)) const
@@ -163,12 +165,14 @@ bool SceneFileType::write(const NodePtr & OSG_CHECK_ARG(node),
     return false;
 }
 
-bool SceneFileType::write(const NodePtr & OSG_CHECK_ARG(node),
-                          const Char8 *OSG_CHECK_ARG(fileName)) const
+#ifndef OSG_DISABLE_DEPRECATED
+bool SceneFileType::writeFile(const NodePtr & OSG_CHECK_ARG(node),
+                              const Char8 *OSG_CHECK_ARG(fileName)) const
 {
     FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
     return false;
 }
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
