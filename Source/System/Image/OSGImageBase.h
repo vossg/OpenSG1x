@@ -127,6 +127,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
     static const OSG::BitVector FrameSizeFieldMask;
 
 
+    static const OSG::BitVector MTInfluenceMask;
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */

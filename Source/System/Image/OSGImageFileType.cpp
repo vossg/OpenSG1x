@@ -299,7 +299,7 @@ UInt64 ImageFileType::store(const ImagePtr &image,
     const UChar8    *src = image->getData();
     std::map<std::string, std::string>::const_iterator aI;
     UInt32          l;
-		Int32           i;
+    Int32           i;
     std::string     value;
 
     attachmentSize = 0;

@@ -65,41 +65,44 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  ImageBase::ParentsFieldMask = 
-    (1 << ImageBase::ParentsFieldId);
+    (TypeTraits<BitVector>::One << ImageBase::ParentsFieldId);
 
 const OSG::BitVector  ImageBase::DimensionFieldMask = 
-    (1 << ImageBase::DimensionFieldId);
+    (TypeTraits<BitVector>::One << ImageBase::DimensionFieldId);
 
 const OSG::BitVector  ImageBase::WidthFieldMask = 
-    (1 << ImageBase::WidthFieldId);
+    (TypeTraits<BitVector>::One << ImageBase::WidthFieldId);
 
 const OSG::BitVector  ImageBase::HeightFieldMask = 
-    (1 << ImageBase::HeightFieldId);
+    (TypeTraits<BitVector>::One << ImageBase::HeightFieldId);
 
 const OSG::BitVector  ImageBase::DepthFieldMask = 
-    (1 << ImageBase::DepthFieldId);
+    (TypeTraits<BitVector>::One << ImageBase::DepthFieldId);
 
 const OSG::BitVector  ImageBase::BppFieldMask = 
-    (1 << ImageBase::BppFieldId);
+    (TypeTraits<BitVector>::One << ImageBase::BppFieldId);
 
 const OSG::BitVector  ImageBase::MipMapCountFieldMask = 
-    (1 << ImageBase::MipMapCountFieldId);
+    (TypeTraits<BitVector>::One << ImageBase::MipMapCountFieldId);
 
 const OSG::BitVector  ImageBase::FrameCountFieldMask = 
-    (1 << ImageBase::FrameCountFieldId);
+    (TypeTraits<BitVector>::One << ImageBase::FrameCountFieldId);
 
 const OSG::BitVector  ImageBase::FrameDelayFieldMask = 
-    (1 << ImageBase::FrameDelayFieldId);
+    (TypeTraits<BitVector>::One << ImageBase::FrameDelayFieldId);
 
 const OSG::BitVector  ImageBase::PixelFormatFieldMask = 
-    (1 << ImageBase::PixelFormatFieldId);
+    (TypeTraits<BitVector>::One << ImageBase::PixelFormatFieldId);
 
 const OSG::BitVector  ImageBase::PixelFieldMask = 
-    (1 << ImageBase::PixelFieldId);
+    (TypeTraits<BitVector>::One << ImageBase::PixelFieldId);
 
 const OSG::BitVector  ImageBase::FrameSizeFieldMask = 
-    (1 << ImageBase::FrameSizeFieldId);
+    (TypeTraits<BitVector>::One << ImageBase::FrameSizeFieldId);
 
+const OSG::BitVector ImageBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -261,17 +264,17 @@ void ImageBase::executeSync(      FieldContainer &other,
 
 ImageBase::ImageBase(void) :
     _mfParents                (), 
-    _sfDimension              (), 
-    _sfWidth                  (), 
-    _sfHeight                 (), 
-    _sfDepth                  (), 
-    _sfBpp                    (), 
-    _sfMipMapCount            (), 
-    _sfFrameCount             (), 
-    _sfFrameDelay             (), 
-    _sfPixelFormat            (), 
+    _sfDimension              (Int32(0)), 
+    _sfWidth                  (Int32(0)), 
+    _sfHeight                 (Int32(1)), 
+    _sfDepth                  (Int32(1)), 
+    _sfBpp                    (Int32(1)), 
+    _sfMipMapCount            (Int32(1)), 
+    _sfFrameCount             (Int32(1)), 
+    _sfFrameDelay             (Time(0)), 
+    _sfPixelFormat            (UInt32(0)), 
     _mfPixel                  (), 
-    _sfFrameSize              (), 
+    _sfFrameSize              (Int32(0)), 
     Inherited() 
 {
 }
