@@ -57,10 +57,16 @@ class OSG_SYSTEMLIB_DLLMAPPING TileLoadBalancer
 {
     /*==========================  PUBLIC  =================================*/
   public:
-
+    struct Region {
+        Int32  x1,y1,x2,y2;
+        Real32 culledFaces;
+        Real32 culledNodes;
+        Real32 faces;
+        Real32 pixel;
+    };
     typedef std::vector<TileGeometryLoad>                   TileGeometryLoadLstT;
     typedef std::map<UInt32,TileGeometryLoadLstT::iterator> TileGeometryLoadMapT;
-    typedef std::vector<Int32>                     ResultT;
+    typedef std::vector<Region>                    ResultT;
     typedef std::vector<RenderNode>                RenderNodeLstT;
 
     /*---------------------------------------------------------------------*/
@@ -77,7 +83,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TileLoadBalancer
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    TileLoadBalancer(bool useFaceDistribution=false);
+    TileLoadBalancer(bool useFaceDistribution=false,
+                     bool cutBestDirection=true);
     TileLoadBalancer(const TileLoadBalancer &source);
 
     /*! \}                                                                 */
@@ -105,6 +112,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TileLoadBalancer
                              ResultT          &result );
     void addRenderNode      (const RenderNode &rn,UInt32 id);
     void drawVolumes        (WindowPtr win);
+    void setRegionStatistics(ViewportPtr           vp,
+                             ResultT              &result);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -153,9 +162,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TileLoadBalancer
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    TileGeometryLoadLstT           _tileGeometryLoad;
+    TileGeometryLoadLstT  _tileGeometryLoad;
     RenderNodeLstT        _renderNode;
     bool                  _useFaceDistribution;
+    bool                  _cutBestDirection;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -169,6 +179,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TileLoadBalancer
                         RegionLoadVecT &visible,
                         Int32           amin[2],
                         Int32           amax[2],
+                        UInt32          depth,
                         ResultT        &result);
     Real32 findBestCut (const RenderNode &renderNodeA,
                         const RenderNode &renderNodeB,

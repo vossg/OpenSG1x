@@ -373,10 +373,10 @@ void SortFirstWindow::clientPreSync( void )
                               region);
         for(i=0;i<getServers().size();i++)
         {
-            getRegion().push_back(region[4*i+0]);
-            getRegion().push_back(region[4*i+1]);
-            getRegion().push_back(region[4*i+2]);
-            getRegion().push_back(region[4*i+3]);
+            getRegion().push_back(region[i].x1);
+            getRegion().push_back(region[i].y1);
+            getRegion().push_back(region[i].x2);
+            getRegion().push_back(region[i].y2);
         }
     }
 #endif

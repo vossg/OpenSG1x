@@ -103,10 +103,10 @@ TileGeometryLoad::~TileGeometryLoad(void)
  **/
 
 void TileGeometryLoad::updateView(Matrix &viewing,
-                         Matrix &projection,
-                         Real32 rNear,
-                         UInt32 width,
-                         UInt32 height)
+                                  Matrix &projection,
+                                  Real32 rNear,
+                                  UInt32 width,
+                                  UInt32 height)
 {
     Vec3f  vol[2];
     Pnt3f  pnt;
@@ -177,13 +177,29 @@ void TileGeometryLoad::updateView(Matrix &viewing,
     }
     else
     {
-        _min[0]=(Int32)(width * ( minx + 1.0 ) / 2.0);
-        _max[0]=(Int32)(width * ( maxx + 1.0 ) / 2.0);
-        _min[1]=(Int32)(height * ( miny + 1.0 ) / 2.0);
-        _max[1]=(Int32)(height * ( maxy + 1.0 ) / 2.0);
+        minx=width  * ( minx + 1.0 ) / 2.0 - .5;
+        maxx=width  * ( maxx + 1.0 ) / 2.0 + .5;
+        miny=height * ( miny + 1.0 ) / 2.0 - .5;
+        maxy=height * ( maxy + 1.0 ) / 2.0 + .5;
+        _min[0]=(Int32)minx;
+        _max[0]=(Int32)maxx;
+        _min[1]=(Int32)miny;
+        _max[1]=(Int32)maxy;
+
         _areaSize = 
-            ( _max[0] - _min[0] + 1 ) *
-            ( _max[1] - _min[1] + 1 );
+            (Real32)( _max[0] - _min[0] + 1 ) *
+            (Real32)( _max[1] - _min[1] + 1 );
+/*
+        if(_areaSize<0)
+        {
+            cout << "areasize " 
+                 << _areaSize 
+                 << " " << fabs(minx) 
+                 << " " << miny 
+                 << " " << maxx 
+                 << " " << maxy << endl; 
+        }
+*/
         /* Don't clip!
         if(_min[0]<0) _min[0]=0;
         if(_min[1]<0) _min[1]=0;
@@ -267,7 +283,6 @@ void TileGeometryLoad::updateGeometry()
                         max=osgMax(max,plane[i].distance(pos));
                         min=osgMin(min,plane[i].distance(pos));
                     }
-                    //
                 }
                 if(i>=3)
                 {
@@ -286,6 +301,11 @@ void TileGeometryLoad::updateGeometry()
         {
             sum+=(faceStart[i]/(float)faceCount);
             _faceDistribution[i]=sum;
+            /*
+            printf("%10.6f %10.6f\n",
+                   ((float)i)/(FACE_DISTRIBUTION_SAMPLING_COUNT-1),
+                   sum);
+            */
         }
     }
 }
@@ -390,8 +410,8 @@ Real32 TileGeometryLoad::getVisibleFraction( const Int32 wmin[2],
     // geometry complete in region?
     if(viswmin[0] == _min[0] &&
        viswmin[1] == _min[1] &&
-       viswmax[0] == _min[0] &&
-       viswmax[1] == _min[1])
+       viswmax[0] == _max[0] &&
+       viswmax[1] == _max[1])
     {
         return 1;
     }
@@ -409,8 +429,8 @@ Real32 TileGeometryLoad::getVisibleFraction( const Int32 wmin[2],
     else
     {
         return 
-            ((viswmax[0] - viswmin[0] + 1) *
-             (viswmax[1] - viswmin[1] + 1)) / _areaSize;
+            ((Real32)(viswmax[0] - viswmin[0] + 1) *
+             (Real32)(viswmax[1] - viswmin[1] + 1)) / _areaSize;
     }
 }
 

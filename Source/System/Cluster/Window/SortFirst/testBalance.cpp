@@ -13,6 +13,8 @@
 #include <OSGRenderNode.h>
 #include <OSGSimpleMaterial.h>
 #include <OSGSkyBackground.h>
+#include <OSGStatCollector.h>
+#include <OSGStatElemTypes.h>
 
 // Activate the OpenSG namespace
 OSG_USING_NAMESPACE
@@ -25,8 +27,92 @@ bool            useFaceDistribution=false;
 bool            viewVolume=false;
 bool            simulateRendering=false;
 int             serverCount=10;
-int             loop=0;
-bool            cache;
+int             startLoop,loop=0;
+char            *resultfile="result";
+FILE            *resultio=NULL;
+bool            navigate=false;
+bool            loopbin=false;
+bool            useCrossCut=false;
+bool            useFixCrossRegions=false;
+bool            useFixSliceRegions=false;
+std::vector<Quaternion>  animOri;
+std::vector<Vec3f     >  animPos;
+std::string              animName="animation.txt";
+bool                     animate=false;
+double                   animTime=0;
+bool                     setRegionStatistics=true;
+Time tmin    ,tmax    ,tbalance;
+Time sum_tmin=0,sum_tmax=0,sum_tbalance=0;
+float sum_faces=0,sum_culledFaces=0,sum_pixel=0,sum_culledNodes=0;
+float facemax,fcullmax,pmax;
+float sum_facemax=0,sum_fcullmax=0,sum_pmax=0;
+int                      animFrames=4;
+RenderAction             *raction;
+StatCollector            stat;
+float                    sum_travTime;
+float                    sum_drawTime;
+
+void setFixCrossRegions( Int32 count,
+                         UInt32 x1,
+                         UInt32 y1,
+                         UInt32 x2,
+                         UInt32 y2,
+                         bool   cutX,
+                         TileLoadBalancer::ResultT &region )
+{
+    Int32 c1,c2;
+    UInt32 nxA,nxB,nyA,nyB;
+
+    if(count==1)
+    {
+        TileLoadBalancer::Region r;
+        r.x1=x1;
+        r.y1=y1;
+        r.x2=x2;
+        r.y2=y2;
+        region.push_back(r);
+        return;
+    }
+    c1=count/2;
+    c2=count-c1;
+    if(cutX)
+    {
+        nyA=y2;
+        nyB=y1;
+        nxA=x1+UInt32((x2-x1)*c1/(float)count);
+        nxB=nxA+1;
+    }
+    else
+    {
+        nxA=x2;
+        nxB=x1;
+        nyA=y1+UInt32((y2-y1)*c1/(float)count);
+        nyB=nyA+1;
+    }
+    setFixCrossRegions(c1,x1,y1,nxA,nyA,cutX^1,region);
+    setFixCrossRegions(c2,nxB,nyB,x2,y2,cutX^1,region);
+}
+
+void setFixSliceRegions( Int32 count,
+                         UInt32 width,
+                         UInt32 height,
+                         TileLoadBalancer::ResultT &region )
+{
+    Int32 from=0;
+    Int32 to=0;
+    Int32 i;
+    for(i=0;i<count;i++)
+    {
+        to=Int32((i+1)*width/float(count));
+        TileLoadBalancer::Region r;
+        r.x1=from;
+        r.y1=0;
+        r.x2=to;
+        r.y2=height;
+        region.push_back(r);
+        from=to+1;
+    }
+}
 
 class MySceneManager:public SimpleSceneManager
 {
@@ -37,22 +123,45 @@ public:
         static RenderNode rn;
         static int currentServers=0;
         int i;
-        double tbalance;
+        Real32 travTime;
+        Real32 drawTime;
         TileLoadBalancer::ResultT region;
         if (_internalRoot == NullFC)
         {
             initialize();
             showAll();
         }
-        _cart->getSFMatrix()->setValue(_navigator.getMatrix());    
+        if(animate && animPos.size()>1)
+        {
+            Real32 a;
+            UInt32 i;
+            Vec3f v;
+            i=(UInt32)animTime;
+            a=animTime-i;
+            v=animPos[i] + (animPos[i+1] - animPos[i]) * a; 
+            _cart->getMatrix().setTranslate(v[0],v[1],v[2]);
+            _cart->getMatrix().setRotate(
+                Quaternion::slerp(animOri[i],animOri[i+1],a));
+        }
+        else
+        {
+            _cart->getSFMatrix()->setValue(_navigator.getMatrix());    
+        }
         updateHighlight();
+        if(navigate)
+        {
+            _win->render(_action);
+            return;
+        }
         _win->activate();
         _win->frameInit();
         if(first)
         {
-            tileLoadBalancer=new TileLoadBalancer(useFaceDistribution);
+            tileLoadBalancer=new TileLoadBalancer(useFaceDistribution,
+                                                  !useCrossCut);
             first=false;
             rn.determinePerformance(_win);
+            rn.dump();
         }
         if(currentServers < serverCount)
         {
@@ -87,52 +196,101 @@ public:
         }
         tbalance = -getSystemTime();
         tileLoadBalancer->update(_win->getPort()[0]->getRoot());
-        tileLoadBalancer->balance(_win->getPort()[0],false,region);
+        if(useFixCrossRegions)
+        {
+            setFixCrossRegions( serverCount,
+                                0,
+                                0,
+                                _win->getWidth()-1,
+                                _win->getHeight()-1,
+                                true,
+                                region );
+        }
+        else
+        {
+            if(useFixSliceRegions)
+            {
+                setFixSliceRegions( serverCount,
+                                    _win->getWidth()-1,
+                                    _win->getHeight()-1,
+                                    region );
+            }
+            else
+            {
+                tileLoadBalancer->balance(_win->getPort()[0],false,region);
+            }
+        }
         tbalance += getSystemTime();
         if(simulateRendering)
         {
             ViewportPtr vp;
             TileCameraDecoratorPtr deco;
-            for(i=0;i<region.size();i+=4)
+            for(i=0;i<region.size();++i)
             {
-#if 1
-                std::cout << "Region: " << i << " ";
-                std::cout << region[i+0] << " ";
-                std::cout << region[i+1] << " ";
-                std::cout << region[i+2] << " ";
-                std::cout << region[i+3] << std::endl;
-                if(region[i+0] >= region[i+2]) {
-                    std::cout << "!!!" << std::endl;
-                    region[i+2]++;
-                }
-                if(region[i+1] >= region[i+3]) {
-                    std::cout << "!!!" << std::endl;
-                    region[i+3]++;
-                }
-#endif
-                vp=_win->getPort()[i/4+1];
+                vp=_win->getPort()[i+1];
                 deco=TileCameraDecoratorPtr::dcast(vp->getCamera());
                 beginEditCP(deco);
                 beginEditCP(vp);
-                vp->setSize(region[i+0],
-                            region[i+1],
-                            region[i+2],
-                            region[i+3]);
-                deco->setSize(region[i+0]/(float)_win->getWidth(),
-                              region[i+1]/(float)_win->getHeight(),
-                              region[i+2]/(float)_win->getWidth(),
-                              region[i+3]/(float)_win->getHeight());
+                vp->setSize(region[i].x1,
+                            region[i].y1,
+                            region[i].x2,
+                            region[i].y2);
+                deco->setSize(region[i].x1/(float)_win->getWidth(),
+                              region[i].y1/(float)_win->getHeight(),
+                              region[i].x2/(float)_win->getWidth(),
+                              region[i].y2/(float)_win->getHeight());
                 endEditCP(deco);
                 endEditCP(vp);
             }
         }
-        Time t,tmin,tmax;
+        Time t;
+        if(setRegionStatistics)
+        {
+            tileLoadBalancer->setRegionStatistics(_win->getPort()[0],
+                                                  region);
+            for(i=0;i<region.size();++i)
+            {
+                if(i==0)
+                {
+                    facemax=region[i].faces;
+                    fcullmax=region[i].culledFaces;
+                    pmax=region[i].pixel;
+                }
+                else
+                {
+                    if(region[i].faces>facemax) 
+                        facemax=region[i].faces;
+                    if(region[i].culledFaces>fcullmax) 
+                        fcullmax=region[i].culledFaces;
+                    if(region[i].pixel>pmax) 
+                        pmax=region[i].pixel;
+                }
+                sum_faces+=region[i].faces;
+                sum_culledFaces+=region[i].culledFaces;
+                sum_pixel+=region[i].pixel;
+            }
+            sum_facemax +=facemax;
+            sum_fcullmax+=fcullmax;
+            sum_pmax    +=pmax;
+
+        }
         for(i=0;i<_win->getPort().size();++i)
         {
-            t=-getSystemTime();
+            if(i==0 && _win->getPort().size() >1)
+                continue;
             _action->setWindow( _win.getCPtr() );
+            _action->setStatistics( &stat );
             _win->getPort(i)->render( _action );
-            glFlush();
+            _action->setStatistics( NULL );
+            StatElem *statElem;
+            statElem=stat.getElem(DrawActionBase::statTravTime);
+            travTime=statElem->getValue();
+            statElem=stat.getElem(RenderAction::statDrawTime);
+            drawTime=statElem->getValue();
+            glFinish();
+            t=-getSystemTime();
+            _win->getPort(i)->render( _action );
+            glFinish();
             t+=getSystemTime();
             if(i==0)
                 continue;
@@ -145,12 +303,12 @@ public:
                 if(t<tmin) tmin=t;
                 if(t>tmax) tmax=t;
             }
+            sum_travTime+=travTime-drawTime;
+            sum_drawTime+=drawTime;
         }
-        if(!cache && simulateRendering)
-            printf("speed %5d %10.6f %10.6f %10.6f\n",_win->getPort().size()-1,
-                   tmin,
-                   tmax,
-                   tbalance);
+        sum_tmin+=tmin;
+        sum_tmax+=tmax;
+        sum_tbalance+=tbalance;
         glPushAttrib(GL_ALL_ATTRIB_BITS);
         glDisable(GL_SCISSOR_TEST);
         glViewport(0,0,
@@ -167,21 +325,21 @@ public:
                    0,_win->getHeight());
         glDisable(GL_DEPTH_TEST);
         glEnable(GL_COLOR_MATERIAL);
-        for(i=0;i<region.size();i+=4)
+        for(i=0;i<region.size();++i)
         {
 #if 0
             std::cout << "Region: ";
-            std::cout << region[i+0] << " ";
-            std::cout << region[i+1] << " ";
-            std::cout << region[i+2] << " ";
-            std::cout << region[i+3] << std::endl;
+            std::cout << region[i].x1 << " ";
+            std::cout << region[i].y1 << " ";
+            std::cout << region[i].x2 << " ";
+            std::cout << region[i].y2 << std::endl;
 #endif
             glBegin(GL_LINE_LOOP);
             glColor3f(1, 1, 0);
-            glVertex3f(region[i+0],region[i+1],0);
-            glVertex3f(region[i+2],region[i+1],0);
-            glVertex3f(region[i+2],region[i+3],0);
-            glVertex3f(region[i+0],region[i+3],0);
+            glVertex3f(region[i].x1,region[i].y1,0);
+            glVertex3f(region[i].x2,region[i].y1,0);
+            glVertex3f(region[i].x2,region[i].y2,0);
+            glVertex3f(region[i].x1,region[i].y2,0);
             glEnd();
         }
         glDisable(GL_COLOR_MATERIAL);
@@ -222,23 +380,76 @@ public:
     }
 };
 
+void loadAnim()
+{
+    Real32 ax,ay,az,r,x,y,z;
+    FILE *file=fopen(animName.c_str(),"r");
+    
+    animOri.clear();
+    animPos.clear();
+    if(!file)
+        return;
+    while(fscanf(file,"%f %f %f %f,%f %f %f",&ax,&ay,&az,&r,&x,&y,&z)==7)
+    {
+        animOri.push_back(Quaternion(Vec3f(ax,ay,az),r));
+        animPos.push_back(Vec3f(x,y,z));
+    }
+    fclose(file);
+}
+
 SimpleSceneManager *mgr;
 NodePtr             scene;
 
 // Standard GLUT callback functions
 void display( void )
 {
-    cache=true;
     mgr->redraw();
-    cache=false;
-    mgr->redraw();
-    if(loop)
+    if(!navigate)
     {
-        SLOG << loop << std::endl;
-        loop--;
-        serverCount++;
-        if(!loop)
-            exit(0);
+        if(animate)
+        {
+            animTime+=animPos.size()/(double)animFrames;
+            if(animTime<(animPos.size()-1))
+                return;
+            animTime=0;
+        }
+        if(simulateRendering)
+        {
+            if(!resultio)
+                resultio=fopen(resultfile,"w");
+            fprintf(resultio,
+                    "%5d %10.6f %10.6f %10.6f "
+                    "%10.6f %10.6f %10.6f %10.6f %10.6f %10.6f %10.6f %10.6f\n",
+                    serverCount,
+                    sum_tmin,
+                    sum_tmax,
+                    sum_tbalance,
+                    sum_faces,
+                    sum_culledFaces,
+                    sum_pixel,
+                    sum_facemax,
+                    sum_fcullmax,
+                    sum_pmax,
+                    sum_travTime,
+                    sum_drawTime);
+            sum_tmin=sum_tmax=sum_tbalance=0;
+            sum_travTime=sum_drawTime=sum_faces=sum_culledFaces=sum_pixel=0;
+            sum_pmax=sum_travTime=sum_drawTime=0;
+        }
+        if(loop)
+        {
+            loop--;
+            if(loopbin)
+                serverCount*=2;
+            else
+                serverCount++;
+            if(!loop)
+            {
+                if(resultio)
+                    fclose(resultio);
+                exit(0);
+            }
+        }
     }
 }
 
@@ -270,6 +481,8 @@ void key(unsigned char key, int , int )
         case 27:    exit(1);
         case 'm':   doSave=!doSave;
             break;
+        case 'r':   navigate=false;
+            break;
         case 'a':   mgr->setHighlight(scene);
             break;
         case 's':   mgr->setHighlight(NullFC);
@@ -282,7 +495,10 @@ void key(unsigned char key, int , int )
             break;
         case  'c': glutSetCursor(GLUT_CURSOR_NONE); break;
         case  'C': glutSetCursor(GLUT_CURSOR_CYCLE); break;
-        case 'v': viewVolume=!viewVolume; break;
+        case 'v': 
+            viewVolume=!viewVolume; 
+//            mgr->getAction()->setVolumeDrawing(viewVolume);
+            break;
     }
     glutPostRedisplay();
 }
@@ -310,6 +526,7 @@ int main (int argc, char **argv)
     GLUTWindowPtr gwin= GLUTWindow::create();
     gwin->setId(winid);
     gwin->init();
+    gwin->setSize(1024,768);
 
     // create the scene
     float x,y,z;
@@ -326,8 +543,17 @@ int main (int argc, char **argv)
         {
             switch(argv[i][1])
             {
+                case 'f':
+                    if(argv[i][2]=='s')
+                        useFixSliceRegions=true;
+                    else
+                        useFixCrossRegions=true;
+                    break;
                 case 'd':
                     useFaceDistribution=true;
+                    break;
+                case 'c':
+                    useCrossCut=true;
                     break;
                 case 'v':
                     viewVolume=true;
@@ -336,10 +562,27 @@ int main (int argc, char **argv)
                     serverCount=atoi(&argv[i][2]);
                     break;
                 case 'l':
-                    loop=atoi(&argv[i][2]);
+                    startLoop=loop=atoi(&argv[i][2]);
                     break;
                 case 'S':
                     simulateRendering=true;
+                    break;
+                case 'r':
+                    resultfile=argv[i]+2;
+                    break;
+                case 'a':
+                    animName=argv[i]+2;
+                    loadAnim();
+                    animate=true;
+                    break;
+                case 'A':
+                    animFrames=atoi(&argv[i][2]);
+                    break;
+                case 'n':
+                    navigate=true;
+                    break;
+                case 'b':
+                    loopbin=true;
                     break;
             }
         }
@@ -359,7 +602,7 @@ int main (int argc, char **argv)
             }
             else
             {
-                filename=argv[1];
+                filename=argv[i];
             }
         }
     }
@@ -439,7 +682,7 @@ int main (int argc, char **argv)
     if(loop)
         glutIdleFunc(display);
 //    glutReshapeWindow(720,576);
-    glutReshapeWindow(1152,864);
+    glutReshapeWindow(gwin->getWidth(),gwin->getHeight());
     glutMainLoop();
 
     return 0;

@@ -90,8 +90,8 @@ inline Real32 TileLoadBalancer::RegionLoad::getCost(const RenderNode &renderNode
  * \param wmax        top, right corner of the area
  **/
 inline Real32 TileLoadBalancer::RegionLoad::getCost(const RenderNode &renderNode,
-                                                  const Int32 wmin[2],
-                                                  const Int32 wmax[2]) const
+                                                    const Int32 wmin[2],
+                                                    const Int32 wmax[2]) const
 {
     Int32 vismin[2];
     Int32 vismax[2];

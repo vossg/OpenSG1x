@@ -69,8 +69,10 @@ OSG_USING_NAMESPACE
 
 /*! Constructor
  */
-TileLoadBalancer::TileLoadBalancer(bool useFaceDistribution):
-    _useFaceDistribution(useFaceDistribution)
+TileLoadBalancer::TileLoadBalancer(bool useFaceDistribution,
+                                   bool cutBestDirection=true):
+    _useFaceDistribution(useFaceDistribution),
+    _cutBestDirection(cutBestDirection)
 {
 }
 
@@ -79,7 +81,8 @@ TileLoadBalancer::TileLoadBalancer(bool useFaceDistribution):
 TileLoadBalancer::TileLoadBalancer(const TileLoadBalancer &source):
     _tileGeometryLoad(source._tileGeometryLoad),
     _renderNode(source._renderNode),
-    _useFaceDistribution(source._useFaceDistribution)
+    _useFaceDistribution(source._useFaceDistribution),
+    _cutBestDirection(source._cutBestDirection)
 {
 }
 
@@ -104,6 +107,7 @@ TileLoadBalancer& TileLoadBalancer::operator = (const TileLoadBalancer &source)
     _tileGeometryLoad = source._tileGeometryLoad;
     _renderNode = source._renderNode;
     _useFaceDistribution = source._useFaceDistribution;
+    _cutBestDirection = source._cutBestDirection;
     return *this;
 }
 
@@ -135,8 +139,8 @@ void TileLoadBalancer::update(NodePtr node)
  *
  **/
 void TileLoadBalancer::balance(ViewportPtr    vp,
-                             bool           shrink,
-                             ResultT       &result)
+                               bool           shrink,
+                               ResultT       &result)
 {
     Matrix                   projection,viewing;
     RegionLoadVecT           visible;
@@ -210,12 +214,80 @@ void TileLoadBalancer::balance(ViewportPtr    vp,
                     visible,
                     wmin,
                     wmax,
+                    0,
                     result);
     }
     else
     {
-        result.insert(result.end(),wmin,wmin+2);
-        result.insert(result.end(),wmax,wmax+2);
+        Region region;
+        region.x1=wmin[0];
+        region.y1=wmin[1];
+        region.x2=wmax[0];
+        region.y2=wmax[1];
+        result.push_back(region);
+    }
+}
+
+void TileLoadBalancer::setRegionStatistics(ViewportPtr     vp,
+                                           ResultT        &result)
+{
+    Matrix                         projection,viewing;
+    Int32                          width =vp->getPixelWidth();
+    Int32                          height=vp->getPixelHeight();
+    Real32                         rNear=vp->getCamera()->getNear();
+    ResultT::iterator              resultI;
+    TileGeometryLoadLstT::iterator l;
+
+    vp->getCamera()->getViewing   ( viewing   ,width,height );
+    vp->getCamera()->getProjection( projection,width,height );
+    for(resultI=result.begin();
+        resultI!=result.end();
+        ++resultI)
+    {
+        resultI->culledNodes=0;
+        resultI->faces=0;
+        resultI->culledFaces=0;
+        resultI->pixel=0;
+    }
+    for(l=_tileGeometryLoad.begin() ; 
+        l!=_tileGeometryLoad.end() ;
+        ++l)
+    {
+        l->updateView(viewing,
+                      projection,
+                      rNear,
+                      width,
+                      height);
+        for(resultI=result.begin();
+            resultI!=result.end();
+            ++resultI)
+        {
+            if(!l->isVisible())
+                resultI->culledNodes++;
+            else
+            {
+                Int32 wmin[2];
+                Int32 wmax[2];
+                Int32 vismin[2];
+                Int32 vismax[2];
+                wmin[0]=resultI->x1;
+                wmin[1]=resultI->y1;
+                wmax[0]=resultI->x2;
+                wmax[1]=resultI->y2;
+                Real32 visible=l->getVisibleFraction(wmin,wmax,vismin,vismax)*
+                    l->getFaces();
+                if(visible==0)
+                    resultI->culledNodes++;
+                else
+                {
+                    resultI->faces+=visible;
+                    resultI->culledFaces+= l->getFaces()-visible;
+                    resultI->pixel+=
+                        (vismax[0] - vismin[0] + 1)*
+                        (vismax[1] - vismin[1] + 1);
+                }
+            }
+        }
     }
 }
 
@@ -299,6 +371,7 @@ void TileLoadBalancer::splitRegion(UInt32          rnFrom,
                                    RegionLoadVecT &visible,
                                    Int32           wmin[2],
                                    Int32           wmax[2],
+                                   UInt32          depth,
                                    ResultT        &result)
 {
     Int32  axis,cut;
@@ -332,10 +405,20 @@ void TileLoadBalancer::splitRegion(UInt32          rnFrom,
     {
         renderNodeB=&_renderNode[rnFromB];
     }
-
+#if 0
+    if((rnToA-rnFrom) != (rnTo-rnFromB))
+    {
+        renderNodeB->setInvisibleFaceCost(renderNodeA->getInvisibleFaceCost());
+    }
+#endif
+    // do we check both axis?
+    if(_cutBestDirection)
+        axis=-1;
+    else
+        axis=depth&1;
     // search for best cut
-    /*Real32 cost=*/findBestCut(*renderNodeA,*renderNodeB,
-                                visible,wmin,wmax,axis,cut);
+    findBestCut(*renderNodeA,*renderNodeB,
+                visible,wmin,wmax,axis,cut);
     // create new regions
     maxA[axis  ]=cut;
     maxA[axis^1]=wmax[axis^1];
@@ -365,18 +448,26 @@ void TileLoadBalancer::splitRegion(UInt32          rnFrom,
         }
     }
     if(rnFrom != rnToA)
-        splitRegion(rnFrom,rnToA,visibleA,wmin,maxA,result);
+        splitRegion(rnFrom,rnToA,visibleA,wmin,maxA,depth+1,result);
     else
     {
-        result.insert(result.end(),wmin,wmin+2);
-        result.insert(result.end(),maxA,maxA+2);
+        Region region;
+        region.x1=wmin[0];
+        region.y1=wmin[1];
+        region.x2=maxA[0];
+        region.y2=maxA[1];
+        result.push_back(region);
     }
     if(rnFromB != rnTo)
-        splitRegion(rnFromB,rnTo,visibleB,minB,wmax,result);
+        splitRegion(rnFromB,rnTo,visibleB,minB,wmax,depth+1,result);
     else
     {
-        result.insert(result.end(),minB,minB+2);
-        result.insert(result.end(),wmax,wmax+2);
+        Region region;
+        region.x1=minB[0];
+        region.y1=minB[1];
+        region.x2=wmax[0];
+        region.y2=wmax[1];
+        result.push_back(region);
     }
 }
 
@@ -397,9 +488,21 @@ Real32 TileLoadBalancer::findBestCut (const RenderNode &renderNodeA,
     Real32 costA=0,costB=0;
     Real32 newCost;
     Real32 bestCost;
-    
+    Int32 checkAxisFrom,checkAxisTo;
     bestCost=1e22;
-    for(a=0;a<=1;++a)
+
+    if(bestAxis>=0)
+    {
+        // only check given axis
+        checkAxisFrom=checkAxisTo=bestAxis;
+    }
+    else
+    {
+        // check x and y cut
+        checkAxisFrom=0;
+        checkAxisTo=1;
+    }
+    for(a=checkAxisFrom;a<=checkAxisTo;++a)
     {
         f=wmin[a];
         t=wmax[a];
@@ -416,10 +519,14 @@ Real32 TileLoadBalancer::findBestCut (const RenderNode &renderNodeA,
             for(vi=visible.begin();vi!=visible.end();vi++)
             {
                 if(vi->getLoad()->getMax()[a] <= newCut)
+                {
                     costA+=vi->getCost(renderNodeA);
+                }
                 else
                     if(vi->getLoad()->getMin()[a] > newCut)
+                    {
                         costB+=vi->getCost(renderNodeB);
+                    }
                     else
                     {
                         costA+=vi->getCost(renderNodeA,wmin,maxA);
