@@ -37,7 +37,9 @@
 \*---------------------------------------------------------------------------*/
 
 
-// System declarations
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
 
 #include "OSGConfig.h"
 
@@ -47,114 +49,143 @@
 #include <iostream.h>
 #endif
 
+
 #include <assert.h>
 
 #define OSG_COMPILEBASE
+
+// Application declarations
+
+#include <OSGPlane.h>
+#include <OSGVolume.h>
 
 // Class declarations
 #include "OSGCylinderVolume.h"
 
 OSG_USING_NAMESPACE
 
-// Static Class Variable implementations: 
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
 
-//----------------------------------------------------------------------
-// Method: getCenter
-// Author: pdaehne
-// Date:   Mon Dec 5 14:20:20 1999
-// Description:
-//         Change the axis and radius
-//----------------------------------------------------------------------
-void CylinderVolume::getCenter(Vec3f &center) const 
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/**  */
+void CylinderVolume::getCenter(Pnt3f &center) const 
 { 
-	assert(false);
+	center = _axisPos + _axisDir * .5;
 }
 
-//----------------------------------------------------------------------
-// Method: getVolume
-// Author: pdaehne
-// Date:   Mon Dec 5 14:20:20 1999
-// Description:
-//         Change the axis and radius
-//----------------------------------------------------------------------
+/**  */
 float CylinderVolume::getVolume(void) const
 { 
-	assert(false);
-    return 0.;
+    return _radius * _radius * Pi * _axisDir.length();
 }
 
-//----------------------------------------------------------------------
-// Method: initEnclose
-// Author: pdaehne
-// Date:   Mon Dec 5 14:20:20 1999
-// Description:
-//----------------------------------------------------------------------
+/** gives the boundaries of the volume */
+void CylinderVolume::getBounds( Pnt3f &min, Pnt3f &max ) const
+{
+	// this is rather simpleminded, but good enough for now
+	
+	if ( _axisDir[0] < 0 )
+	{
+		min[0] = _axisPos[0] + _axisDir[0] - _radius;
+		max[0] = _axisPos[0] - _axisDir[0] + _radius;
+	}
+	else
+	{
+		min[0] = _axisPos[0] - _axisDir[0] - _radius;
+		max[0] = _axisPos[0] + _axisDir[0] + _radius;
+	}
+	
+	if ( _axisDir[1] < 0 )
+	{
+		min[1] = _axisPos[1] + _axisDir[1] - _radius;
+		max[1] = _axisPos[1] - _axisDir[1] + _radius;
+	}
+	else
+	{
+		min[1] = _axisPos[1] - _axisDir[1] - _radius;
+		max[1] = _axisPos[1] + _axisDir[1] + _radius;
+	}
+	
+	if ( _axisDir[2] < 0 )
+	{
+		min[2] = _axisPos[2] + _axisDir[2] - _radius;
+		max[2] = _axisPos[2] - _axisDir[2] + _radius;
+	}
+	else
+	{
+		min[2] = _axisPos[2] - _axisDir[2] - _radius;
+		max[2] = _axisPos[2] + _axisDir[2] + _radius;
+	}
+}
+
 void CylinderVolume::initEnclose (const Volume &volume)
 {
 	assert(false);
 }
 
-//----------------------------------------------------------------------
-// Method: initInside
-// Author: pdaehne
-// Date:   Mon Dec 5 14:20:20 1999
-// Description:
-//----------------------------------------------------------------------
 void CylinderVolume::initInside (const Volume &volume)
 {
 	assert(false);
 }
 
-//----------------------------------------------------------------------
-// Method: intersect
-// Author: pdaehne
-// Date:   Mon Dec 5 14:20:20 1999
-// Description:
-//         TODOC
-//----------------------------------------------------------------------
-Bool CylinderVolume::intersect (const Vec3f &point) const
+/*-------------------------- extending ------------------------------------*/
+
+/** extends (if necessary) to contain the given 3D point */
+void CylinderVolume::extendBy (const Pnt3f &pt)
 {
 	assert(false);
-	return false;
+}
+
+void CylinderVolume::extendBy (const Volume &volume)
+{
+	assert(false);
+}
+
+/*-------------------------- intersection ---------------------------------*/
+	
+/** Returns true if intersection of given point and CylinderVolume is not empty */
+Bool CylinderVolume::intersect (const Pnt3f &point) const
+{
+	Real32 dist = Line(_axisPos, _axisDir).distance( point );
+
+	if ( dist > _radius )
+		return false;
+		
+	Plane bottom( _axisDir, _axisPos), top( -_axisDir, _axisPos + _axisDir );
+	
+	Bool inspace = bottom.isInHalfSpace( point ) && top.isInHalfSpace( point );
+	
+	return inspace;
 }
 
 
-//----------------------------------------------------------------------
-// Method: intersect
-// Author: pdaehne
-// Date:   Mon Dec 5 14:20:20 1999
-// Description:
-//         TODOC
-//----------------------------------------------------------------------
+/** intersect the CylinderVolume with the given Line */
 Bool CylinderVolume::intersect ( const Line &line ) const
 {
-  // TODO
-  assert(false);
-  return false;
+	return line.intersect(*this);
 }
 
-//----------------------------------------------------------------------
-// Method: intersect
-// Author: pdaehne
-// Date:   Mon Dec 5 14:20:20 1999
-// Description:
-//         TODOC
-//----------------------------------------------------------------------
+/** intersect the volume with the given Line */
 Bool CylinderVolume::intersect ( const Line &line,
-																			 Vec3f &min, Vec3f &max ) const
+		 Real32 &enter, Real32 &exit ) const
 {
-  // TODO
-  assert(false);
-  return false;
+		return line.intersect(*this, enter, exit);
 }
 
-//----------------------------------------------------------------------
-// Method: intersect
-// Author: pdaehne
-// Date:   Mon Dec 5 14:20:20 1999
-// Description:
-//         TODOC
-//----------------------------------------------------------------------
+ /** intersect the CylinderVolume with another Volume */
 Bool CylinderVolume::intersect (const Volume &volume) const
 {
 	// TODO; not impl.
@@ -162,13 +193,7 @@ Bool CylinderVolume::intersect (const Volume &volume) const
 	return false;
 }
 
-//----------------------------------------------------------------------
-// Method: intersect
-// Author: pdaehne
-// Date:   Mon Dec 5 14:20:20 1999
-// Description:
-//         TODOC
-//----------------------------------------------------------------------
+ /** intersect the CylinderVolume with another CylinderVolume */
 Bool CylinderVolume::intersect (const CylinderVolume &volume) const
 {
 	// TODO; not impl.
@@ -176,38 +201,33 @@ Bool CylinderVolume::intersect (const CylinderVolume &volume) const
 	return false;
 }
 
-
-//----------------------------------------------------------------------
-// Method: extendBy
-// Author: pdaehne
-// Date:   Mon Dec 5 14:20:20 1999
-// Description:
-//         TODOC
-//----------------------------------------------------------------------
-void CylinderVolume::extendBy (const Pnt3f &pt)
+Bool CylinderVolume::isOnSurface (const Pnt3f &point) const
 {
+	Real32 dist = Line(_axisPos, _axisDir).distance( point );
+
+	if ( dist > _radius )
+		return false;
+		
+	Plane bottom( -_axisDir, _axisPos), top( _axisDir, _axisPos + _axisDir );
+	
+	Bool onplane = bottom.isOnPlane( point ) || top.isOnPlane( point );
+	
+	return	( onplane && dist <= _radius ) || 
+			( !onplane && osgabs( dist - _radius ) < Eps );
 }
 
-//----------------------------------------------------------------------
-// Method: extendBy
-// Author: pdaehne
-// Date:   Mon Dec 5 14:20:20 1999
-// Description:
-//         TODOC
-//----------------------------------------------------------------------
-void CylinderVolume::extendBy (const Volume &volume)
-{
-}
+/*-------------------------- transformation -------------------------------*/
 
-
-//----------------------------------------------------------------------
-// Method: transform
-// Author: pdaehne
-// Date:   Mon Dec 5 14:20:20 1999
-// Description:
-//         TODOC
-//----------------------------------------------------------------------
+/** transform volume by the given matrix */
 void CylinderVolume::transform (const Matrix &mat)
 {
-	;
+	assert(false);
 }
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/

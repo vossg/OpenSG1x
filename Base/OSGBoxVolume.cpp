@@ -25,6 +25,7 @@
  * License along with this library; if not, write to the Free Software       *
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
+ *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                Changes                                    *
@@ -41,6 +42,10 @@
 #ifdef WIN32
 //#include <iosfwd>
 #endif
+
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
 
 #include "OSGConfig.h"
 
@@ -59,13 +64,6 @@
 #include <OSGLine.h>
 #include <OSGMatrix.h>
 
-#ifdef WIN32
-#define MAXFLOAT (float)1E+30
-#define MINFLOAT (float)-1E+30
-#else
-#include <values.h>
-#endif
-
 // Application declarations
 
 
@@ -74,23 +72,35 @@
 
 OSG_USING_NAMESPACE
 
-// Static Class Varible implementations: 
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
 
 
-/* *********** */
-/* * FEATURE * */
-/* *********** */
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------------------------ feature ----------------------------------*/
 
 /// Returns the center of a box
-void BoxVolume::getCenter(Vec3f &center) const
+void BoxVolume::getCenter(Pnt3f &center) const
 {
 	if (isEmpty())
+	{
 		center.setValues(0.0, 0.0, 0.0);
-	else {
-		center = _min;
-		center += _max;
-		center /= 2.0;
+	}
+	else 
+	{
+		center = _min + ( _max - _min ) * .5;
 	}
 }
 
@@ -103,7 +113,7 @@ float BoxVolume::getVolume() const
 }
 
 /// set method
-void BoxVolume::setBoundsByCenterAndSize(const Vec3f &center,
+void BoxVolume::setBoundsByCenterAndSize(const Pnt3f &center,
                                             const Vec3f &size)
 {
 	_min.setValues(center.x() - size.x() / 2.0,
@@ -118,9 +128,7 @@ void BoxVolume::setBoundsByCenterAndSize(const Vec3f &center,
 	Volume::setInfinite(true);
 }                                          
 
-/****************/
-/** Initialize **/
-/****************/
+/*-------------------------- initialize -----------------------------------*/
 
 /// init the object by enclosing the given volume 
 void BoxVolume::initEnclose (const Volume &volume) 
@@ -144,9 +152,7 @@ void BoxVolume::initInside (const Volume &volume)
 		cerr << "BoxVolume::initInside NOT IMPLEMENTED" << endl;
 }
 
-/***************/
-/** EXTENDING **/
-/***************/
+/*-------------------------- extending ------------------------------------*/
 
 /// Extends Box3f (if necessary) to contain given 3D point
 void BoxVolume::extendBy(const Pnt3f &pt)
@@ -235,12 +241,10 @@ void BoxVolume::extendBy(const BoxVolume &bb)
 }
 
 
-/*******************/
-/** INTERSECTTION **/
-/*******************/	
+/*-------------------------- intersection ---------------------------------*/
 
 /// Returns true if intersection of given point and Box3f is not empty
-Bool BoxVolume::intersect(const Vec3f &pt) const
+Bool BoxVolume::intersect(const Pnt3f &pt) const
 {
 	return (!isEmpty() &&
 		(_min[0] < pt[0] && _max[0] > pt[0]) &&
@@ -249,22 +253,35 @@ Bool BoxVolume::intersect(const Vec3f &pt) const
 }
 
 
-/** intersect the volume with the given Line */
+/** intersect the box with the given Line */
 Bool BoxVolume::intersect (const Line &line) const 
 { 
-	return false; 
+
+	Real32 enter, exit;
+	Bool erg;
+
+	erg = line.intersect(*this, enter, exit);
+
+	return erg;
 }
 
-/** intersect the volume with the given Line */
-Bool BoxVolume::intersect ( const Line &line, 
-																	Vec3f &min, Vec3f &max  ) const
+
+
+/** intersect the box with the given Line */
+//min und max sind der Eintritts- und Austrittspunkt der Linie
+Bool BoxVolume::intersect ( const Line &line, Real32 &min, Real32 &max  ) const
 {
-	return false;
+	Bool erg;
+
+	erg = line.intersect(*this, min, max);
+
+	return erg;
 }
 
-  /// intersect the volume with another volume 
+  /// intersect the box with another volume 
 Bool BoxVolume::intersect (const Volume &volume) const
 {
+	//return volume.intersect(*this);
 	return false;
 }
 
@@ -272,10 +289,41 @@ Bool BoxVolume::intersect (const Volume &volume) const
 Bool BoxVolume::intersect(const BoxVolume &bb) const
 {
 	return (!isEmpty() &&
-		(_min[0] < bb._max[0] && _max[0] > bb._min[0]) &&
-		(_min[1] < bb._max[1] && _max[1] > bb._min[1]) &&
-		(_min[2] < bb._max[2] && _max[2] > bb._min[2]));
+		(_min[0] <= bb._max[0] && _max[0] >= bb._min[0]) &&
+		(_min[1] <= bb._max[1] && _max[1] >= bb._min[1]) &&
+		(_min[2] <= bb._max[2] && _max[2] >= bb._min[2]));
 }
+
+
+Bool BoxVolume::isOnSurface (const Pnt3f &point) const
+{
+	if ( ( ( osgabs( point[0] - _min[0] ) < Eps || 
+			 osgabs( point[0] - _max[0] ) < Eps
+		   ) &&
+		   ( point[1] >= _min[1] && point[1] <= _max[1] &&
+		     point[2] >= _min[2] && point[2] <= _max[2] 
+		   )
+		 ) ||
+		 ( ( osgabs( point[1] - _min[1] ) < Eps || 
+			 osgabs( point[1] - _max[1] ) < Eps
+		   ) &&
+		   ( point[0] >= _min[0] && point[0] <= _max[1] &&
+		     point[2] >= _min[2] && point[2] <= _max[2] 
+		   )
+		 ) ||
+		 ( ( osgabs( point[2] - _min[2] ) < Eps || 
+			 osgabs( point[2] - _max[2] ) < Eps
+		   ) &&
+		   ( point[1] >= _min[1] && point[1] <= _max[1] &&
+		     point[0] >= _min[0] && point[0] <= _max[0] 
+		   )
+		 )
+		)
+		return true;
+
+	return false;
+}
+
 
 /// Transforms Box3f by matrix, enlarging Box3f to contain result
 void BoxVolume::transform(const Matrix &m)
@@ -438,8 +486,6 @@ Bool operator ==(const BoxVolume &b1, const BoxVolume &b2)
 /// write values in stream
 ostream &operator <<(ostream &os, const BoxVolume &obj)
 {
-	Vec3f xx;
-
 	return os << obj._min << ", " << obj._max;
 }
 

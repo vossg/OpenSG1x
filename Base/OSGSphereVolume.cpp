@@ -36,7 +36,9 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-// System declarations
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
 
 #include "OSGConfig.h"
 
@@ -50,6 +52,9 @@
 
 #define OSG_COMPILEBASE
 
+#include "OSGBaseTypes.h"
+
+// Application declarations
 #include "OSGLine.h"
 #include "OSGBoxVolume.h"
 
@@ -58,17 +63,17 @@
 
 OSG_USING_NAMESPACE
 
-// Static Class Variable implementations: 
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
 
 
+/** Return a sphere containing a given box */
 /*
-//----------------------------------------------------------------------
-// Method: circumscribe
-// Author: steschne
-// Date:   Mon Dec 22 17:38:03 1997
-// Description:
-//         Return a sphere containing a given box
-//----------------------------------------------------------------------
 void SphereVolume::circumscribe(const BoxVolume &box)
 {
 	float radius = 0.5 * (box.getMax() - box.getMin()).length();
@@ -80,156 +85,146 @@ void SphereVolume::circumscribe(const BoxVolume &box)
 }
 */
 
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-//----------------------------------------------------------------------
-// Method: initEnclose
-// Author: pdaehne
-// Date:   Mon Dec 5 14:20:20 1999
-// Description:
-//----------------------------------------------------------------------
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+
 void SphereVolume::initEnclose (const Volume &volume)
 {
 	assert(false);
 }
 
-//----------------------------------------------------------------------
-// Method: initInside
-// Author: pdaehne
-// Date:   Mon Dec 5 14:20:20 1999
-// Description:
-//----------------------------------------------------------------------
 void SphereVolume::initInside (const Volume &volume)
 {
 	assert(false);
 }
 
-//----------------------------------------------------------------------
-// Method: getVolume
-// Author: steschne
-// Date:   Mon Dec 22 17:38:03 1997
-// Description:
-//----------------------------------------------------------------------
 float SphereVolume::getVolume (void) const
 {
-	return 0;
+	return 4.f / 3.f * Pi * _radius * _radius * _radius;
 }
 
-//----------------------------------------------------------------------
-// Method: extendBy
-// Author: steschne
-// Date:   Mon Dec 22 17:38:03 1997
-// Description:
-//----------------------------------------------------------------------
+void SphereVolume::getBounds( Pnt3f &min, Pnt3f &max ) const
+{
+	min.setValues( _center[0] - _radius, 
+				   _center[1] - _radius, 
+				   _center[2] - _radius );
+	max.setValues( _center[0] + _radius, 
+				   _center[1] + _radius, 
+				   _center[2] + _radius );
+}
+
 void SphereVolume::extendBy (const Pnt3f &pt)
 {
-	return;
+	Real32 d = ( _center - pt ).length();
+	
+	if ( d > _radius)
+		_radius = d;
 }
 
-//----------------------------------------------------------------------
-// Method: extendBy
-// Author: steschne
-// Date:   Mon Dec 22 17:38:03 1997
-// Description:
-//----------------------------------------------------------------------
 void SphereVolume::extendBy (const Volume &volume)
 {
-	return;
+	assert(false);
 }
 
-//----------------------------------------------------------------------
-// Method: extendBy
-// Author: steschne
-// Date:   Mon Dec 22 17:38:03 1997
-// Description:
-//----------------------------------------------------------------------
 void SphereVolume::extendBy (const SphereVolume &volume)
 {
-	return;
+	assert(false);
 }
 
-//----------------------------------------------------------------------
-// Method: intersect
-// Author: steschne
-// Date:   Mon Dec 22 17:38:03 1997
-// Description:
-//----------------------------------------------------------------------
-Bool SphereVolume::intersect (const Vec3f &point) const
+/*------------------------- intersection ------------------------------*/
+
+/** Returns true if intersection of given point and Volume is not empty */
+Bool SphereVolume::intersect (const Pnt3f &point) const
 {
-	// TODO; not impl.
-	assert(false);
+	Real32 d = ( _center - point ).length();
+	
+	if ( d <= _radius)
+		return true;
+
 	return false;
 }
 
-//----------------------------------------------------------------------
-// Method: intersect
-// Author: steschne
-// Date:   Mon Dec 22 17:38:03 1997
-// Description:
-//          Intersect line and sphere, 
-//          returning true if there is an intersection
-//----------------------------------------------------------------------
+/** intersect the SphereVolume with the given Line */
 Bool SphereVolume::intersect( const Line &line ) const
 {
-	// TODO; not impl.
-	assert(false);
-	return false;
+	return line.intersect(*this);
 }
 
-//----------------------------------------------------------------------
-// Method: intersect
-// Author: steschne
-// Date:   Mon Dec 22 17:38:03 1997
-// Description:
-//          Intersect line and sphere, 
-//          returning true if there is an intersection
-//----------------------------------------------------------------------
+/** intersect the SphereVolume with the given Line */
 Bool SphereVolume::intersect( const Line &line, 
-																	  Vec3f &min, 
-																	  Vec3f &max ) const
+				Real32& enter, Real32& exit ) const
 {
-	// TODO; not impl.
-	assert(false);
-	return false;
+	return line.intersect(*this, enter, exit);
 }
 
-//----------------------------------------------------------------------
-// Method: intersect
-// Author: steschne
-// Date:   Mon Dec 22 17:38:03 1997
-// Description:
-//----------------------------------------------------------------------
+/** intersect the SphereVolume with another volume */
 Bool SphereVolume::intersect (const Volume &volume) const
 {
+	//return volume.intersect(*this);
 	// TODO; not impl.
 	assert(false);
 	return false;
 }
 
-//----------------------------------------------------------------------
-// Method: intersect
-// Author: steschne
-// Date:   Mon Dec 22 17:38:03 1997
-// Description:
-//----------------------------------------------------------------------
+/// Intersect SphereVolume and SphereVolume, returning true if there is an intersection
 Bool SphereVolume::intersect(const SphereVolume &sphere) const
 {
-	float distance = getRadius() + sphere.getRadius();
-	float currentDistance = 0; // (sphere.getCenter() - getCenter()).length();
+	float dist = (sphere._center - _center).length();
 
-	if (currentDistance < distance)
+	if ( dist < getRadius() + sphere.getRadius())
 		return true;
-	else
-		return false;
+
+	return false;
 }
 
-//----------------------------------------------------------------------
-// Method: transform
-// Author: steschne
-// Date:   Mon Dec 22 17:38:03 1997
-// Description:
-//----------------------------------------------------------------------
+
+Bool SphereVolume::isOnSurface (const Pnt3f &point) const
+{
+	if ( osgabs( ( point - _center ).length() - _radius ) < Eps )
+		return true;
+		
+	return false;
+}
+
+
+/*-------------------------- transformation -------------------------------*/
+
+ /// Transforms Box3f by matrix
 void SphereVolume::transform (const Matrix &mat)
 {
 	// TODO; not impl.
 	assert(false);
 }
+
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/

@@ -25,6 +25,7 @@
  * License along with this library; if not, write to the Free Software       *
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
+ *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                Changes                                    *
@@ -36,8 +37,13 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef OSGBOX3F_CLASS_DECLARATION
-#define OSGBOX3F_CLASS_DECLARATION
+
+#ifndef BOX3F_CLASS_DECLARATION
+#define BOX3F_CLASS_DECLARATION
+
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
 
 #include "OSGConfig.h"
 #include "OSGVolume.h"
@@ -61,114 +67,102 @@ box in 3D space.
 
 */
 
+//---------------------------------------------------------------------------
+//   Types
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+//  Forward References
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
 class OSG_BASE_DLLMAPPING BoxVolume : public Volume {
-
-  /// Minimum point
-  Vec3f _min;
-
-  /// Maximum point
-  Vec3f _max;
 
 public:
 
-  /// Default constructor - leaves box totally empty
-  inline BoxVolume() : Volume() {;}
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+/*-------------------------- constructor ----------------------------------*/
+
+/*! Default constructor - leaves box totally empty
+*/
+  inline BoxVolume(); 
 
   /// Constructor given bounds 
   inline BoxVolume ( float xmin, float ymin, float zmin,
-									  float xmax, float ymax, float zmax) 
-		: Volume(), _min(xmin, ymin, zmin), _max(xmax, ymax, zmax) {;}
+									  float xmax, float ymax, float zmax) ;
+
 
   /// Constructor given minimum and maximum points 
-  inline BoxVolume(const Vec3f &min, const Vec3f &max)
-		: Volume(), _min(min), _max(max) {;}
+  inline BoxVolume(const Pnt3f &min, const Pnt3f &max);
+
 
   /// Copy Constructor
-  inline BoxVolume(const BoxVolume &obj)
-		: Volume(obj), _min(obj._min), _max(obj._max) {;}
+  inline BoxVolume(const BoxVolume &obj);
+
 
   /// Destructor
-  inline ~BoxVolume() {}
+  inline ~BoxVolume(); 
 
 
-	/*************/
-	/** FEATURE **/
-	/*************/
+/*------------------------------ feature ----------------------------------*/
 
   /// Returns the min and max points
-  inline const Vec3f &getMin() const { return _min; }
-  inline const Vec3f &getMax() const { return _max; }
+  inline const Pnt3f &getMin() const; 
+  inline const Pnt3f &getMax() const; 
 
   /// Returns the center of a box
-  void getCenter(Vec3f &center) const;
+  void getCenter(Pnt3f &center) const;
 
   /** gives the scalar volume of the volume */
   virtual float getVolume (void) const;
 
   /// set method with center 0,0,0
-  inline void setBounds(float w, float h, float d)
-  {
-    _min.setValues(-w / 2.0, -h / 2.0, -d / 2.0);
-    _max.setValues( w / 2.0,  h / 2.0,  d / 2.0);
-
-		Volume::setValid(true);
-		Volume::setEmpty(false);
-		Volume::setInfinite(true);
-  }
+  inline void setBounds(float w, float h, float d);
 
   /// set method
   inline void setBounds(float xmin, float ymin, float zmin,
-                        float xmax, float ymax, float zmax)
-  {
-    _min.setValues(xmin, ymin, zmin);
-    _max.setValues(xmax, ymax, zmax);
-
-		Volume::setValid(true);
-		Volume::setEmpty(false);
-		Volume::setInfinite(true);
-  }
+                        float xmax, float ymax, float zmax);
+  /// set method
+  inline void setBounds(const Pnt3f &min, const Pnt3f &max);
 
   /// set method
-  inline void setBounds(const Vec3f &min, const Vec3f &max)
-		{ 
-			_min = min; _max = max; 
-			
-			Volume::setValid(true);
-			Volume::setEmpty(false);
-			Volume::setInfinite(true);
-		}
-
-  /// set method
-  void setBoundsByCenterAndSize(const Vec3f &center, const Vec3f &size);
+  void setBoundsByCenterAndSize(const Pnt3f &center, const Vec3f &size);
 
   /// get method
   inline void getBounds(float &xmin, float &ymin, float &zmin,
-                        float &xmax, float &ymax, float &zmax ) const
-		{ _min.getValues(xmin, ymin, zmin); _max.getValues(xmax, ymax, zmax); }
+                        float &xmax, float &ymax, float &zmax ) const;
 
   /// get method
-  inline void getBounds(Vec3f &min, Vec3f &max) const
-		{ min = _min; max = _max; }
+  inline void getBounds(Pnt3f &min, Pnt3f &max) const;
     
   /// Returns origin (minimum point) of box
-  inline void getOrigin(float &originX, float &originY, float &originZ) const
-  { originX = _min[0]; originY = _min[1]; originZ = _min[2]; }
+  inline void getOrigin(float &originX, float &originY, float &originZ) const;
 
   /// Returns size of box
-  inline void getSize(float &sizeX, float &sizeY, float &sizeZ) const
-  {
-    sizeX = _max[0] - _min[0];
-    sizeY = _max[1] - _min[1]; 
-    sizeZ = _max[2] - _min[2]; 
-  }
+  inline void getSize(float &sizeX, float &sizeY, float &sizeZ) const;
 
   /// Returns the size of the box as vector
-  inline void getSize(Vec3f &vec) const
-		{ vec.setValues(_max[0] - _min[0], _max[1] - _min[1], _max[2] - _min[2]); }
+  inline void getSize(Vec3f &vec) const;
 
-	/****************/
-	/** Initialize **/
-	/****************/
+
+/*-------------------------- initialize -----------------------------------*/
 
 	/** init the object by enclosing the given volume */
 	virtual void initEnclose (const Volume &volume);
@@ -176,9 +170,8 @@ public:
 	/** init the object by fitting into the given volume */
 	virtual void initInside (const Volume &volume);
 
-  /***************/
-  /** EXTENDING **/
-  /***************/
+
+/*-------------------------- extending ------------------------------------*/
 
   /** extends (if necessary) to contain the given 3D point */
   virtual void extendBy (const Pnt3f &pt);
@@ -190,19 +183,17 @@ public:
   void extendBy(const BoxVolume &bb);
 
 
-	/*******************/
-	/** INTERSECTTION **/
-	/*******************/	
+/*-------------------------- intersection ---------------------------------*/
 
   /// Returns true if intersection of given point and Box3f is not empty
-  Bool intersect(const Vec3f &point) const;
+  Bool intersect(const Pnt3f &point) const;
 
-	/** intersect the volume with the given Line */
+	/** Returns true if intersection of given Line with the box is not empty */  
 	Bool intersect (const Line &line) const;
 
-	/** intersect the volume with the given Line */
-	virtual Bool intersect ( const Line &line, 
-														  Vec3f &min, Vec3f &max  ) const;
+	/** intersect the box with the given Line */
+	Bool intersect ( const Line &line, 
+		Real32 &min, Real32 &max  ) const;
 
   /// intersect the volume with another volume 
   virtual Bool intersect (const Volume &volume) const;
@@ -210,36 +201,43 @@ public:
   /// Returns true if intersection of given Box3f and Box3f is not empty
   Bool intersect(const BoxVolume &bb) const;
 
+  /** check if the point is on the volume's surface */
+  virtual Bool isOnSurface (const Pnt3f &point) const;
 
-	/********************/
-	/** TRANSFORMATION **/
-	/********************/
+
+/*-------------------------- transformation -------------------------------*/
 
   /// Transforms Box3f by matrix
   virtual void transform(const Matrix &m);
 
 	
-	/***************/
-	/** OPERATION **/
-	/***************/
+/*-------------------------- operation ------------------------------------*/
 
   /// Equality comparisons
   friend Bool operator ==(const BoxVolume &b1, const BoxVolume &b2);
 
   /// Unequality comparisons
-  inline friend Bool operator != (const BoxVolume &b1, 
-																  const BoxVolume &b2)
-		{ return !(b1 == b2); }
+  inline friend bool operator !=(const BoxVolume &b1, const BoxVolume &b2);
 
   /// Assignment operator
   const BoxVolume &operator =(const BoxVolume &b1);
 
   /// write values in stream
-  friend ostream &operator <<(ostream            &os, 
-                              const BoxVolume &obj);
+  friend ostream &operator <<(ostream &os, const BoxVolume &obj);
+
+private:
+
+  /// Minimum point
+  Pnt3f _min;
+
+  /// Maximum point
+  Pnt3f _max;
 
 };
 
 OSG_END_NAMESPACE
 
-#endif // OSGBOX_CLASS_DECLARATION
+#include <OSGBoxVolume.inl>
+
+#endif // BOX_CLASS_DECLARATION
+
