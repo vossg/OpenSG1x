@@ -171,7 +171,6 @@ void ClipPlaneChunk::activate(DrawActionBase *action, UInt32 idx)
         glEq[2] = eq[2];
         glEq[3] = eq[3];
         
-        glMatrixMode(GL_MODELVIEW_MATRIX);
         glPushMatrix();
         glLoadMatrixf(cameraMat.getValues());
         
@@ -246,7 +245,6 @@ void ClipPlaneChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
 	    glEq[2] = eq[2];
 	    glEq[3] = eq[3];
 	    
-	    glMatrixMode(GL_MODELVIEW_MATRIX);
 	    glPushMatrix();
 	    glLoadMatrixf(cameraMat.getValues());
 	
