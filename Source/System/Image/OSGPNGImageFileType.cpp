@@ -84,6 +84,9 @@ static const Char8 *suffixArray[] = {
 /*****************************
  *  PNG lib helper
  *****************************/
+
+#ifdef OSG_WITH_PNG
+
 static void errorOutput (png_structp png_ptr, const char *message)
 {
   FFATAL   (("PNG: %s\n", message ));
@@ -95,6 +98,8 @@ static void warningOutput (png_structp png_ptr, const char *message)
 {
   FWARNING (("PNG: %s\n", message )); 
 }
+
+#endif
 
 PNGImageFileType PNGImageFileType:: _the(suffixArray, sizeof(suffixArray));
 
