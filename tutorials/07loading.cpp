@@ -83,6 +83,7 @@ int main (int argc, char **argv)
     mgr->setRoot( scene );
 
     mgr->showAll();
+    mgr->useOpenSGLogo();
 
     // GLUT main loop
     glutMainLoop();

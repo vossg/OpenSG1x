@@ -45,8 +45,10 @@
 
 #include <OSGConfig.h>
 #include <OSGBaseFunctions.h>
+#include <OSGImageFileType.h>
 #include <OSGSolidBackground.h>
 #include <OSGViewport.h>
+#include <OSGLogoData.h>
 
 #include "OSGSimpleSceneManager.h"
 
@@ -151,7 +153,7 @@ SimpleMaterialPtr SimpleSceneManager::_highlightMaterial;
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.7 2001/10/10 22:04:56 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.8 2001/10/11 23:51:52 dirk Exp $";
     static char cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static char cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
@@ -241,12 +243,15 @@ void SimpleSceneManager::initialize(void)
         bg->setColor(Color3f(0, 0, 0));
         endEditCP(bg);
 
+        _foreground = ImageForeground::create();
+
         ViewportPtr vp = Viewport::create();
         beginEditCP(vp);
-        vp->setCamera     (_camera);
-        vp->setBackground (bg);
-        vp->setRoot       (_internalRoot);
-        vp->setSize       (0,0, 1,1);
+        vp->setCamera                  (_camera);
+        vp->setRoot                    (_internalRoot);
+        vp->setSize                    (0,0, 1,1);
+        vp->setBackground              (bg);
+        vp->getForegrounds().addValue  (_foreground);
         endEditCP(vp);
 
         beginEditCP(_win);
@@ -286,6 +291,18 @@ void SimpleSceneManager::showAll(void)
     _camera->setNear (diag / 100.f);
     _camera->setFar  (3 * diag);
     endEditCP(_camera);
+}
+
+/*! add the "Powered by OpenSG" logo to the lower left corner
+ */
+void SimpleSceneManager::useOpenSGLogo(void)
+{
+    ImageP lo = new Image();
+    ImageFileType::restore( *lo, (UChar8*)LogoData, -1 );
+    
+    beginEditCP(_foreground);
+    _foreground->addImage( lo, Pnt2f( 0,0 ) );
+    endEditCP  (_foreground);
 }
 
 /*! Draw the next frame, update if needed.

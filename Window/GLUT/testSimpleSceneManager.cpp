@@ -62,6 +62,8 @@ key(unsigned char key, int x, int y)
                 break;
     case 's':   mgr->setHighlight( NullFC );
                 break;
+    case 'l':   mgr->useOpenSGLogo();
+                break;
     }
     glutPostRedisplay();
 }

@@ -250,6 +250,7 @@ void OSGSceneView::createView( osg::NodePtr node )
                 this,   SLOT   ( removeView (QWidget *) ) );
       widget->getManager().setRoot( node );
       widget->getManager().showAll();
+      widget->getManager().useOpenSGLogo();
       widget->show();
     }  
 }

@@ -19,11 +19,22 @@ int main (int argc, char **argv)
     ofstream out;
     osg::ImageFileType *fileType;
     osg::Image image;
-    osg::UChar8 *data = 0;
+    osg::UInt32 *data = 0;
     unsigned long i,maxSize;
 
     OSG::ImageFileHandler::the().print();
 
+    if(argc >= 3 && !strcasecmp(argv[1], "-type"))
+    {
+        fileType = osg::ImageFileHandler::the().getFileType(argv[2]);  
+        argv += 2;
+        argc -= 2;       
+    }
+    else 
+    {
+        fileType = osg::ImageFileHandler::the().getFileType("MTD");
+    }
+    
     if (argc > 2)
     {
         if (image.read(argv[1]))
@@ -31,16 +42,16 @@ int main (int argc, char **argv)
             out.open(argv[2]);
             if (out.eof() == false)
             {
-                fileType = osg::ImageFileHandler::the().getFileType("MTD");
                 maxSize = fileType->maxBufferSize(image);
-                data = new osg::UChar8[maxSize];
-                fileType->store(image,data);
-                out << "unsigned char imageData[] = {";
+                data = new osg::UInt32[( maxSize + 3 ) / 4];
+                maxSize = fileType->store(image,(osg::UChar8*)data);
+                maxSize = ( maxSize + 3 ) / 4;
+                out << "unsigned long imageData[] = {" << hex;
                 for (i = 0; i < maxSize; i++)
                 {
-                    if ((i % 8) == 0)
+                    if ((i % 6) == 0)
                         out << endl;
-                    out << int(data[i]) << ", ";
+                    out << "0x" << long(data[i]) << ", ";
                 }
                 out << endl << "};" << endl;
                 delete [] data;

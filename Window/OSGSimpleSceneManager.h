@@ -49,6 +49,7 @@
 #include <OSGRenderAction.h>
 #include <OSGNode.h>
 #include <OSGWindow.h>
+#include <OSGImageForeground.h>
 #include <OSGTransform.h>
 #include <OSGGeometry.h>
 #include <OSGGeoPropPtrs.h>
@@ -117,6 +118,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
 
            void  showAll          ( void );
 
+           void  useOpenSGLogo    ( void );
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name               Interaction handling                           */
@@ -164,6 +167,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     WindowPtr            _win;
     NodePtr              _root;
 
+    ImageForegroundPtr   _foreground;
+
     NodePtr              _highlight;
     NodePtr              _highlightNode;
     GeoPositions3fPtr    _highlightPoints;
@@ -204,6 +209,6 @@ OSG_END_NAMESPACE
 
 #include "OSGSimpleSceneManager.inl"
 
-#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.5 2001/10/11 08:26:09 dirk Exp $"
+#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.6 2001/10/11 23:51:52 dirk Exp $"
 
 #endif /* _OSGSIMPLESCENEMANAGER_H_ */
