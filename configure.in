@@ -153,14 +153,14 @@ if test "$enable_glut" = yes; then
 	ac_gdz_conf_package_glut_e1='1'
 
     if test -n "$with_glut"; then
-    	ac_gdz_glut_incdir=$with_glut/include
+		ac_gdz_glut_incdir=$with_glut/include
 
         case $build_os in
             hpux*)
                 ac_gdz_glut_libdir=$with_glut/lib/X11
             ;;
             *)
-    	        ac_gdz_glut_libdir=$with_glut/lib
+		        ac_gdz_glut_libdir=$with_glut/lib
             ;;
         esac
 
@@ -175,7 +175,7 @@ if test "$enable_glut" = yes; then
     fi
 
     if test -n "$with_glutincludedir"; then
-    	ac_gdz_glut_incdir=$with_glutincludedir
+		ac_gdz_glut_incdir=$with_glutincludedir
 
         if ! test -d "$ac_gdz_glut_incdir"; then
             echo "ERROR glut include dir does not seem to exist, please check the given dir \"$with_glutincludedir\""
@@ -228,7 +228,7 @@ if test "$enable_qt" = yes; then
 	ac_gdz_conf_package_qt_e1='1'
 
     if test -n "$with_qt"; then
-    	ac_gdz_qt_incdir=$with_qt/include
+		ac_gdz_qt_incdir=$with_qt/include
         ac_gdz_qt_libdir=$with_qt/lib
         ac_gdz_qt_bindir=$with_qt/bin
 
@@ -247,7 +247,7 @@ if test "$enable_qt" = yes; then
     fi
 
     if test -n "$with_qtincludedir"; then
-    	ac_gdz_qt_incdir=$with_qtincludedir
+		ac_gdz_qt_incdir=$with_qtincludedir
 
         if ! test -d "$ac_gdz_qt_incdir"; then
             echo "ERROR qt include dir does not seem to exist, please check the given dir \"$with_qtincludedir\""
@@ -307,7 +307,7 @@ if test "$enable_tif" = yes; then
 	ac_gdz_conf_package_tif_e1='1'
 
     if test -n "$with_tif"; then
-    	ac_gdz_tif_incdir=$with_tif/include
+		ac_gdz_tif_incdir=$with_tif/include
 
         ac_gdz_tif_libdir=$with_tif/lib
 
@@ -322,7 +322,7 @@ if test "$enable_tif" = yes; then
     fi
 
     if test -n "$with_tifincludedir"; then
-    	ac_gdz_tif_incdir=$with_tifincludedir
+		ac_gdz_tif_incdir=$with_tifincludedir
 
         if ! test -d "$ac_gdz_tif_incdir"; then
             echo "ERROR tif include dir does not seem to exist, please check the given dir \"$with_tifincludedir\""
@@ -372,7 +372,7 @@ if test "$enable_jpg" = yes; then
 	ac_gdz_conf_package_jpg_e1='1'
 
     if test -n "$with_jpg"; then
-    	ac_gdz_jpg_incdir=$with_jpg/include
+		ac_gdz_jpg_incdir=$with_jpg/include
 
         ac_gdz_jpg_libdir=$with_jpg/lib
 
@@ -387,7 +387,7 @@ if test "$enable_jpg" = yes; then
     fi
 
     if test -n "$with_jpgincludedir"; then
-    	ac_gdz_jpg_incdir=$with_jpgincludedir
+		ac_gdz_jpg_incdir=$with_jpgincludedir
 
         if ! test -d "$ac_gdz_jpg_incdir"; then
             echo "ERROR jpg include dir does not seem to exist, please check the given dir \"$with_jpgincludedir\""
@@ -437,7 +437,7 @@ if test "$enable_png" = yes; then
 	ac_gdz_conf_package_png_e1='1'
 
     if test -n "$with_png"; then
-    	ac_gdz_png_incdir=$with_png/include
+		ac_gdz_png_incdir=$with_png/include
 
         ac_gdz_png_libdir=$with_png/lib
 
@@ -452,7 +452,7 @@ if test "$enable_png" = yes; then
     fi
 
     if test -n "$with_pngincludedir"; then
-    	ac_gdz_png_incdir=$with_pngincludedir
+		ac_gdz_png_incdir=$with_pngincludedir
 
         if ! test -d "$ac_gdz_png_incdir"; then
             echo "ERROR png include dir does not seem to exist, please check the given dir \"$with_pngincludedir\""
@@ -503,7 +503,7 @@ if test "$enable_mng" = yes; then
 	ac_gdz_conf_package_mng_e1='1'
 
     if test -n "$with_mng"; then
-    	ac_gdz_mng_incdir=$with_mng/include
+		ac_gdz_mng_incdir=$with_mng/include
 
         ac_gdz_mng_libdir=$with_mng/lib
 
@@ -518,7 +518,7 @@ if test "$enable_mng" = yes; then
     fi
 
     if test -n "$with_mngincludedir"; then
-    	ac_gdz_mng_incdir=$with_mngincludedir
+		ac_gdz_mng_incdir=$with_mngincludedir
 
         if ! test -d "$ac_gdz_mng_incdir"; then
             echo "ERROR mng include dir does not seem to exist, please check the given dir \"$with_mngincludedir\""
@@ -643,7 +643,7 @@ if test "$enable_freetype1" = yes; then
 	ac_gdz_conf_package_freetype1_e1='1'
 
     if test -n "$with_freetype1"; then
-    	ac_gdz_freetype1_incdir=$with_freetype1/include
+		ac_gdz_freetype1_incdir=$with_freetype1/include
 
         ac_gdz_freetype1_libdir=$with_freetype1/lib
 
@@ -658,7 +658,7 @@ if test "$enable_freetype1" = yes; then
     fi
 
     if test -n "$with_freetype1includedir"; then
-    	ac_gdz_freetype1_incdir=$with_freetype1includedir
+		ac_gdz_freetype1_incdir=$with_freetype1includedir
 
         if ! test -d "$ac_gdz_freetype1_incdir"; then
             echo "ERROR freetype1 include dir does not seem to exist, please check the given dir \"$with_freetype1includedir\""
@@ -739,7 +739,7 @@ fi
 
 dnl ############# Add Path Settings #####################
 
-AC_ARG_WITH(add-incdir,   [  --with-add-incdir=DIR{:DIR}*       use additional include directories],
+AC_ARG_WITH(add-incdir,   [  --with-add-incdir=DIR{:DIR}*       use additional include directories (no spaces allowed) ],
 			,with_add_incdir=no) 
 
 if test "$with_add_incdir" = yes; then
@@ -750,7 +750,7 @@ else
 	ac_gdz_with_add_incdirs=$with_add_incdir 
 fi
 
-AC_ARG_WITH(add-libdir,   [  --with-add-libdir=DIR{:DIR}*       use additional library directories],
+AC_ARG_WITH(add-libdir,   [  --with-add-libdir=DIR{:DIR}*       use additional library directories (no spaces allowed) ],
 			,with_add_libdir=no) 
 
 if test "$with_add_libdir" = yes; then
@@ -761,7 +761,7 @@ else
 	ac_gdz_with_add_libdirs=$with_add_libdir 
 fi
 
-AC_ARG_WITH(add-lib,   [  --with-add-lib=LIB{:LIB}*          use additional libraries (use foo not libfoo.so)],
+AC_ARG_WITH(add-lib,   [  --with-add-lib=LIB{:LIB}*          use additional libraries (use foo not libfoo.so, no spaces allowed)],
 			,with_add_lib=no) 
 
 if test "$with_add_lib" = yes; then
@@ -946,7 +946,7 @@ if test $build_os = cygwin; then
 		ac_gdz_ln_exe="cp"
 
         if test $enable_win_exclude_default_path = yes; then
-    		ac_gdz_system_incl_dir_e1=
+			ac_gdz_system_incl_dir_e1=
 	    	ac_gdz_system_lib_dir_e1=
 
     		ac_gdz_compiler_incl=

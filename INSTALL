@@ -10,7 +10,11 @@ On a Unix or Unix-like system it's pretty easy.
 
 ./configure && make && make install 
 
-should work.
+should work. And as this is based on quite some unix scripts, spaces within
+pathnames might confuse the system. So please do not install OpenSG
+using a path where one or more directory names contain spaces. The same
+holds for most of the places where more than on directory can be 
+given (--with-add-....).
 
 The only things it really depends on are OpenGL (or Mesa) and a decent C++
 compiler (see below for the definition of decent for the different platforms).
