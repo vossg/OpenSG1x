@@ -239,7 +239,7 @@ bool TextureChunk::isTransparent(void) const
 
     if(getImage() != NullFC)
     {
-        returnValue = getImage()->hasAlphaChannel();
+        returnValue = getImage()->hasAlphaChannel() && getEnvMode() != GL_DECAL;
     }
 
     return returnValue;
