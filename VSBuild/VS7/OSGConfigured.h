@@ -1,4 +1,4 @@
-/* Builds/i686-pc-cygwin-cl.net/Base/OSGConfigured.h.  Generated automatically by configure.  */
+/* Builds/i686-pc-cygwin-cl.net-ms_stl/Base/OSGConfigured.h.  Generated automatically by configure.  */
 /*---------------------------------------------------------------------------*\
  *                                OpenSG                                     *
  *                                                                           *
@@ -41,6 +41,18 @@
 #define OSG_DEFAULT_LOG_LEVEL LOG_WARNING
 #define OSG_DEFAULT_LOG_TYPE LOG_STDERR 
 
+#ifndef OSG_DEFAULT_LOG_LEVEL
+#    define OSG_DEFAULT_LOG_LEVEL LOG_WARNING
+#endif
+
+#ifndef OSG_DEFAULT_LOG_TYPE
+#    define OSG_DEFAULT_LOG_TYPE LOG_STDERR 
+#endif
+
+#define OSG_DISABLE_DEPRECIATED 1
+
+/* #undef OSG_NO_GLUT_GLSUBDIR */
+
 #if defined(WIN32) && ! defined(__ICL)
 #pragma warning( disable : 4786 4661 4305 )
 #endif
@@ -52,6 +64,7 @@
 #   if defined(OSG_SGI_USE_PTHREAD)
 #       define OSG_USE_PTHREADS
 #       define OSG_ASPECT_USE_PTHREADKEY
+/* #       undef  OSG_USE_SPROC */
 #   else
 #       define OSG_USE_SPROC
 #   endif

@@ -1,0 +1,5 @@
+LIBRARY   OSGWindowQTD
+DESCRIPTION "Window QT lib"
+EXPORTS
+
+
