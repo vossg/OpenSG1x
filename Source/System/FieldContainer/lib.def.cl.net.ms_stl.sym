@@ -165,7 +165,3 @@
     ?getClassType@?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
     ?getField@?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@osg@@QAEAAV?$SField@PAX$0A@@2@XZ
     ?create@?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@osg@@SA?AV?$FCPtr@VAttachmentPtr@osg@@V?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@2@@2@XZ 
-
-    ?addEventInDecl@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXPBD0@Z
-    ?addEventOutDecl@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXPBD0@Z
-    

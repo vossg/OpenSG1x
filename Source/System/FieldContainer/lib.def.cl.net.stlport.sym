@@ -157,6 +157,3 @@
 
     ?getFieldPtr@?$SimpleAttachment@UNameAttachmentDesc@osg@@@osg@@QAEPAV?$SField@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@$0A@@2@XZ
     ?getField@?$SimpleAttachment@UNameAttachmentDesc@osg@@@osg@@QAEAAV?$SField@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@$0A@@2@XZ
-    
-    ?addEventInDecl@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXPBD0@Z
-    ?addEventOutDecl@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXPBD0@Z
