@@ -13,6 +13,7 @@
 #include "OSGTextureTransformChunk.h"
 #include "OSGBlendChunk.h"
 #include "OSGPolygonChunk.h"
+#include "OSGLineChunk.h"
 
 OSG_USING_NAMESPACE
 
@@ -20,8 +21,9 @@ TransformChunkPtr tchunk1, tchunk2;
 MaterialChunkPtr mchunk1, mchunk2;
 TextureChunkPtr xchunk1;
 BlendChunkPtr blchunk;
-PolygonChunkPtr pchunk;
+PolygonChunkPtr pchunk1,pchunk2;
 TextureTransformChunkPtr txchunk;
+LineChunkPtr lichunk1,lichunk2;
 
 Image image;
 
@@ -40,6 +42,13 @@ display(void)
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
+    switch ( (int) ( t / 4000 ) % 3 )   
+    {
+    case 0:     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL ); break;
+    case 1:     glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); break;
+    case 2:     glPolygonMode( GL_FRONT_AND_BACK, GL_POINT ); break;
+    }
+
     Matrix m;
     Quaternion q;
     q.setValueAsAxisDeg( 0,1,0, -t/20 );
@@ -48,7 +57,8 @@ display(void)
 
     tchunk1->activate( dact );
     mchunk1->activate( dact );
-    pchunk->activate( dact );
+    pchunk1->activate( dact );
+    lichunk1->activate( dact );
 
     glCallList( dlid );
 
@@ -57,15 +67,18 @@ display(void)
     tchunk2->setMatrix( m );
 
 
-    pchunk->deactivate( dact );
+    pchunk2->changeFrom( dact, pchunk1.getCPtr() );
     tchunk2->changeFrom( dact, tchunk1.getCPtr() );
     mchunk2->changeFrom( dact, mchunk1.getCPtr() );
+    lichunk2->changeFrom( dact, lichunk1.getCPtr() );
     blchunk->activate( dact );
 
     glCallList( dlid );
 
     tchunk2->deactivate( dact );
     mchunk2->deactivate( dact );
+    pchunk2->deactivate( dact );
+    lichunk2->deactivate( dact );
     blchunk->deactivate( dact );
 
     xchunk1->activate( dact );
@@ -234,7 +247,7 @@ int main( int argc, char *argv[] )
 
     // polygon chunk
 
-    pchunk = PolygonChunk::create();
+    pchunk1 = PolygonChunk::create();
     {
     UInt32 stipple[32] = {
         0xffff0000, 0x0000ffff, 0xffff0000, 0x0000ffff,
@@ -247,10 +260,37 @@ int main( int argc, char *argv[] )
         0xffff0000, 0x0000ffff, 0xffff0000, 0x0000ffff
         };
 
-    pchunk->getMFStipple()->clear();
+    pchunk1->getMFStipple()->clear();
     for ( int i = 0; i < 32; i++ )
-        pchunk->getMFStipple()->push_back( stipple[i] );
+        pchunk1->getMFStipple()->push_back( stipple[i] );
     }
+
+    pchunk2 = PolygonChunk::create();
+    {
+    UInt32 stipple[32] = {
+        0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
+        0x00000000, 0x00000000, 0x00000000, 0x00000000,
+        0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
+        0x00000000, 0x00000000, 0x00000000, 0x00000000,
+        0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
+        0x00000000, 0x00000000, 0x00000000, 0x00000000,
+        0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
+        0x00000000, 0x00000000, 0x00000000, 0x00000000,
+        };
+
+    pchunk2->getMFStipple()->clear();
+    for ( int i = 0; i < 32; i++ )
+        pchunk2->getMFStipple()->push_back( stipple[i] );
+    }
+
+
+    lichunk1 = LineChunk::create();
+    lichunk1->setSmooth(true);
+    lichunk1->setStipplePattern(0xf0f0);
+
+    lichunk2 = LineChunk::create();
+    lichunk2->setStippleRepeat(5);
+    lichunk2->setStipplePattern(0xaaaa);
 
     glutMainLoop();
 
