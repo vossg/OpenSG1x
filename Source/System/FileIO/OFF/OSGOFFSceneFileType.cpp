@@ -78,7 +78,11 @@ OSG_USING_NAMESPACE
 // Static Class Varible implementations:
 const Char8 *OFFSceneFileType::     _suffixA[] = { "off" };
 
-OFFSceneFileType OFFSceneFileType:: _the(_suffixA, sizeof(_suffixA), false, 10);
+OFFSceneFileType OFFSceneFileType:: _the(_suffixA,
+                                         sizeof(_suffixA),
+                                         false,
+                                         10,
+                                         SceneFileType::OSG_READ_SUPPORTED);
 
 /*****************************
  *  Classvariables
@@ -334,8 +338,10 @@ NodePtr OFFSceneFileType::read(std::istream &is, const Char8 *) const
 //------------------------------
 OFFSceneFileType::OFFSceneFileType(const Char8 *suffixArray[],
                                    UInt16 suffixByteCount, bool override,
-                                   UInt32 overridePriority) :
-    SceneFileType(suffixArray, suffixByteCount, override, overridePriority)
+                                   UInt32 overridePriority,
+                                   UInt32 flags) :
+    SceneFileType(suffixArray, suffixByteCount,
+                  override, overridePriority, flags)
 {
 }
 

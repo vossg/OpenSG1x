@@ -165,16 +165,20 @@ SceneFileType *SceneFileHandler::getFileType(const Char8 *fileNameOrExtension)
 #pragma warning (disable : 383)
 #endif
 
-Int32 SceneFileHandler::getSuffixList(std::list<const char *> & suffixList)
+Int32 SceneFileHandler::getSuffixList(std::list<const char *> & suffixList,
+                                      UInt32 flags)
 {
     Int32                 count = 0;
     FileTypeMap::iterator sI;
 
-    for ( sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); sI++)
+    for ( sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); ++sI)
     {
-
-      suffixList.push_back(sI->first.str());
-      count++;
+        SceneFileType *type = sI->second->front();
+        if(type->getFlags() & flags)
+        {
+            suffixList.push_back(sI->first.str());
+            count++;
+        }
     }
 
   return count;
@@ -597,9 +601,24 @@ void SceneFileHandler::print (void )
 
     for(sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); sI++)
     {
+        std::string rw;
+        SceneFileType *type = sI->second->front();
+        if((type->getFlags() & SceneFileType::OSG_READ_SUPPORTED) &&
+           (type->getFlags() & SceneFileType::OSG_WRITE_SUPPORTED))
+        {
+            rw = "reader and writer";
+        }
+        else
+        {
+            if(type->getFlags() & SceneFileType::OSG_READ_SUPPORTED)
+                rw = "reader";
+            if(type->getFlags() & SceneFileType::OSG_WRITE_SUPPORTED)
+                rw = "writer";
+        }
+        
         std::cerr << "suffix: " << sI->first.str()
                   << ", type: " << sI->second->front()->getName()
-                  << std::endl;
+                  << " " << rw << std::endl;
     }
 }
 

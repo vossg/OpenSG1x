@@ -88,7 +88,8 @@ const Char8 *OBJSceneFileType::_suffixA[] =  { "obj" };
 OBJSceneFileType  OBJSceneFileType::_the         (_suffixA,
                                                   sizeof(_suffixA),
                                                   false,
-                                                  10);
+                                                  10,
+                                                  SceneFileType::OSG_READ_SUPPORTED);
 
 /*****************************
  *    Classvariables
@@ -503,11 +504,13 @@ NodePtr OBJSceneFileType::read(std::istream &is, const Char8 *) const
 OBJSceneFileType::OBJSceneFileType(const Char8  *suffixArray[],
                                          UInt16  suffixByteCount,
                                          bool    override,
-                                         UInt32  overridePriority) :
+                                         UInt32  overridePriority,
+                                         UInt32  flags) :
     SceneFileType(suffixArray,
                   suffixByteCount,
                   override,
-                  overridePriority),
+                  overridePriority,
+                  flags),
     _dataElemMap()
 
 {

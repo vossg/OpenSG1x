@@ -106,7 +106,8 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
     OBJSceneFileType(const Char8  *suffixArray[],
                            UInt16  suffixByteCount,
                            bool    override,
-                           UInt32  overridePriority);
+                           UInt32  overridePriority,
+                           UInt32  flags);
 
     OBJSceneFileType(const OBJSceneFileType &obj);
 

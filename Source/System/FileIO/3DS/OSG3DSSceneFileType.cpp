@@ -64,7 +64,8 @@ const Char8 *A3DSSceneFileType::_suffixA[] = {"3ds"};
 A3DSSceneFileType  A3DSSceneFileType::_the         (_suffixA,
                                                   sizeof(_suffixA),
                                                   false,
-                                                  10);
+                                                  10,
+                                                  SceneFileType::OSG_READ_SUPPORTED);
 
 /*!
  * \brief
@@ -111,11 +112,13 @@ NodePtr A3DSSceneFileType::read(std::istream &is, const Char8 *) const
 A3DSSceneFileType::A3DSSceneFileType(const Char8  *suffixArray[],
                                          UInt16  suffixByteCount,
                                          bool    override,
-                                         UInt32  overridePriority) :
+                                         UInt32  overridePriority,
+                                         UInt32  flags) :
     SceneFileType(suffixArray,
                   suffixByteCount,
                   override,
-                  overridePriority)
+                  overridePriority,
+                  flags)
 {
 }
 
@@ -138,7 +141,7 @@ A3DSSceneFileType &A3DSSceneFileType::the(void)
  */
 const Char8 *A3DSSceneFileType::getName(void) const
 {
-    return "3ds File";
+    return "3DS GEOMETRY";
 }
 
 
@@ -342,6 +345,6 @@ MaterialPtr A3DSSceneFileType::createMaterial(L3DS &scene, UInt32 id) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSG3DSSceneFileType.cpp,v 1.4 2003/08/19 15:23:37 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSG3DSSceneFileType.cpp,v 1.5 2003/08/22 14:25:21 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSG3DSSCENEFILETYPE_HEADER_CVSID;
 }

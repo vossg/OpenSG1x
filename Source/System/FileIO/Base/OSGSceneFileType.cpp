@@ -71,10 +71,12 @@ OSG_USING_NAMESPACE
 SceneFileType::SceneFileType(const Char8  *suffixArray[],
                                    UInt16  suffixByteCount,
                                    bool    override,
-                                   UInt32  overridePriority) :
+                                   UInt32  overridePriority,
+                                   UInt32  flags) :
     _suffixList      (                ),
     _override        (override        ),
-    _overridePriority(overridePriority)
+    _overridePriority(overridePriority),
+    _flags           (flags           )
 {
     FINFO(( "Init %s Scene File Type %d\n", suffixArray[0], this ));
 
@@ -93,7 +95,8 @@ SceneFileType::SceneFileType(const Char8  *suffixArray[],
 SceneFileType::SceneFileType(const SceneFileType &obj) :
     _suffixList      (obj._suffixList      ),
     _override        (obj._override        ),
-    _overridePriority(obj._overridePriority)
+    _overridePriority(obj._overridePriority),
+    _flags           (obj._flags)
 {
     SWARNING << "In SceneFileType copy constructor" << std::endl;
 }
@@ -140,6 +143,13 @@ bool SceneFileType::doOverride(void)
 UInt32 SceneFileType::getOverridePriority(void)
 {
     return _overridePriority;
+}
+
+//---------------------------------------------------------
+
+UInt32 SceneFileType::getFlags(void)
+{
+    return _flags;
 }
 
 //---------------------------------------------------------

@@ -71,6 +71,17 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                     Flags                                    */
+    /*! \{                                                                 */
+  
+    enum
+    {
+        OSG_READ_SUPPORTED = 1,
+        OSG_WRITE_SUPPORTED = 2
+    };
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
@@ -85,6 +96,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
 
             bool                 doOverride         (void);
             UInt32               getOverridePriority(void);
+            UInt32               getFlags           (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -130,6 +142,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
 
     bool                _override;
     UInt32              _overridePriority;
+    UInt32              _flags;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -139,7 +152,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
     SceneFileType(const Char8  *suffixArray[],
                         UInt16  suffixByteCount,
                         bool    override,
-                        UInt32  overridePriority);
+                        UInt32  overridePriority,
+                        UInt32  flags = OSG_READ_SUPPORTED |
+                                        OSG_WRITE_SUPPORTED);
 
     SceneFileType (const SceneFileType &obj);
 

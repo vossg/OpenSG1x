@@ -103,7 +103,8 @@ class OSG_SYSTEMLIB_DLLMAPPING OFFSceneFileType : public SceneFileType
     OFFSceneFileType(const Char8  *suffixArray[],
                            UInt16  suffixByteCount,
                            bool    override,
-                           UInt32  overridePriority);
+                           UInt32  overridePriority,
+                           UInt32  flags);
 
     OFFSceneFileType(const OFFSceneFileType &obj);
 

@@ -78,7 +78,8 @@ protected:
     A3DSSceneFileType(const Char8  *suffixArray[],
                            UInt16  suffixByteCount,
                            bool    override,
-                           UInt32  overridePriority);
+                           UInt32  overridePriority,
+                           UInt32  flags);
 
     A3DSSceneFileType(const A3DSSceneFileType &obj);
 
@@ -95,6 +96,6 @@ typedef A3DSSceneFileType* A3DSSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSG3DSSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSG3DSSceneFileType.h,v 1.4 2003/08/22 14:25:21 a-m-z Exp $"
+#define OSG3DSSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSG3DSSceneFileType.h,v 1.5 2003/09/19 13:47:10 a-m-z Exp $"
 
 #endif // _OSG3DSSCENEFILETYPE_H_
