@@ -87,7 +87,7 @@ do
     	echo "<td style=snap> </td>" >> $outfile
     fi
  
-    status=`gzip -dc $i | fgrep "had errors" | cut -c32- | sed -e 's|</font><br>||'`
+    status=`gzip -dc $i | fgrep "had errors" | cut -c32- | sed -e 's|</font><br>||' -e 's|!|!<br>|g`
     
 		if test "x$status" == "x"
 		then
