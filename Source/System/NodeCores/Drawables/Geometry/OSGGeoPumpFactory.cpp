@@ -103,12 +103,31 @@ UInt32 GeoPumpFactory::_extSecondaryColor;
 UInt32 GeoPumpFactory::_extMultitexture;
 UInt32 GeoPumpFactory::_extCompiledVertexArray;
 
+#ifdef WIN32
+# if !defined(GL_VERSION_1_2)
+UInt32 GeoPumpFactory::_extDrawRangeElements;
+# endif
+#endif
+
 /*! OpenGL extension function indices.
 */
 UInt32 GeoPumpFactory::_funcglSecondaryColorPointer;
 UInt32 GeoPumpFactory::_funcglClientActiveTextureARB;
 UInt32 GeoPumpFactory::_funcglLockArraysEXT;
 UInt32 GeoPumpFactory::_funcglUnlockArraysEXT;
+
+#ifdef WIN32
+# if !defined(GL_VERSION_1_2)
+UInt32 GeoPumpFactory::_funcglDrawRangeElementsEXT;
+
+typedef void (APIENTRY *GLDrawRangeElementsF)(      GLenum   mode, 
+                                                    GLuint   start,
+                                                    GLuint   end, 
+                                                    GLsizei  count, 
+                                                    GLenum   type, 
+                                              const GLvoid  *indices );
+# endif
+#endif
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -338,7 +357,7 @@ class glextFuncInit
         UInt32  _dim;
 };
 
-glextFuncInit secondaryColorInitFuncs[8] = {
+static glextFuncInit secondaryColorInitFuncs[8] = {
     glextFuncInit(OSG_DLSYM_UNDERSCORE"glSecondaryColor3bvEXT",
                   GL_BYTE,
                   3),
@@ -365,7 +384,7 @@ glextFuncInit secondaryColorInitFuncs[8] = {
                   3)
 };
 
-glextFuncInit multiTexCoordsInitFuncs[16] = {
+static glextFuncInit multiTexCoordsInitFuncs[16] = {
     glextFuncInit(OSG_DLSYM_UNDERSCORE"glMultiTexCoord1svARB",
                   GL_SHORT,
                   1),
@@ -501,6 +520,8 @@ static UInt32 TexCoords1IDs[numFormats][4];
 
 /*! MasterPump for empty geometry, does nothing
 */
+
+static
 void GeoPump0(Window   *OSG_CHECK_ARG(win),
               Geometry *OSG_CHECK_ARG(geo))
 {
@@ -523,6 +544,7 @@ void GeoPump0(Window   *OSG_CHECK_ARG(win),
 
 /*! MasterPump for non-indexed geometry
 */
+static
 void GeoPump128(Window   *win,
                 Geometry *geo               )
 {
@@ -716,6 +738,8 @@ void GeoPump128(Window   *win,
 
 /*! MasterPump for single-indexed geometry
  */
+
+static
 void GeoPump129(Window   *win,
                 Geometry *geo)
 {
@@ -869,6 +893,14 @@ void GeoPump129(Window   *win,
                 
             _glLockArraysEXT(0, IndicesSize);
     }
+
+#ifdef WIN32
+# if !defined(GL_VERSION_1_2)
+    GLDrawRangeElementsF osgGLDrawRangeElementsEXT =
+        (GLDrawRangeElementsF) 
+            win->getFunction(GeoPumpFactory::_funcglDrawRangeElementsEXT);
+# endif
+#endif
     
     for(LengthsInd = 0; LengthsInd < LengthsSize; LengthsInd++)
     {
@@ -880,9 +912,38 @@ void GeoPump129(Window   *win,
         glDrawElements(*(TypesData + TypesInd++ * TypesStride),count,
                         IndicesPtr->getFormat(),vind);
 #else
+#ifdef WIN32
+
+# if !defined(GL_VERSION_1_2)
+        if(win->hasExtension(GeoPumpFactory::_extDrawRangeElements))
+        {
+            osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
+                                      0, 
+                                      IndicesSize, 
+                                      count,
+                                      IndicesPtr->getFormat(), 
+                                      vind);
+        }
+        else
+        {
+            // hope this still works
+            glDrawElements(*(TypesData + TypesInd++ * TypesStride),
+                           count,
+                           IndicesPtr->getFormat(),
+                           vind);
+        }
+# else
         glDrawRangeElements(*(TypesData + TypesInd++ * TypesStride),
                         0, IndicesSize, count,
                         IndicesPtr->getFormat(), vind);
+# endif
+
+#else
+        glDrawRangeElements(*(TypesData + TypesInd++ * TypesStride),
+                        0, IndicesSize, count,
+                        IndicesPtr->getFormat(), vind);
+#endif
+
 #endif                        
     }
 
@@ -1135,6 +1196,7 @@ void GeoPump129(Window   *win,
 */
 
 #define defMultiGeoPump( func, init , render )                              \
+static                                                                      \
 void GeoPump##func( Window   *win,                                          \
                            Geometry *geo)                                   \
 {                                                                           \
@@ -1619,6 +1681,13 @@ bool GeoPumpFactory::glextInitFunction(void)
     _extMultitexture   = Window::registerExtension("GL_ARB_multitexture");
     _extCompiledVertexArray = Window::registerExtension("GL_EXT_compiled_vertex_array");
 
+#ifdef WIN32
+# if !defined(GL_VERSION_1_2)
+    _extDrawRangeElements = 
+        Window::registerExtension("GL_EXT_draw_range_elements");
+# endif
+#endif
+
     UInt16 i,j;
     for(i = 0; i < numFormats; i++)
     {
@@ -1643,6 +1712,13 @@ bool GeoPumpFactory::glextInitFunction(void)
                                 OSG_DLSYM_UNDERSCORE"glLockArraysEXT");
     _funcglUnlockArraysEXT = Window::registerFunction(
                                 OSG_DLSYM_UNDERSCORE"glUnlockArraysEXT");
+
+#ifdef WIN32
+# if !defined(GL_VERSION_1_2)
+    _funcglDrawRangeElementsEXT = Window::registerFunction(
+                                OSG_DLSYM_UNDERSCORE"glDrawRangeElementsEXT");
+# endif
+#endif
 
     return true;
 }
