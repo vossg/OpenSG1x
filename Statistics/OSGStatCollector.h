@@ -85,10 +85,6 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
     inline  StatElem  *getElem     (StatElemDesc &desc, Bool create = true );
 
 
-    template<class T> inline T* getElem(int id);
-
-    template<class T> inline T* getElem(StatElemDesc &desc);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructor                                 */

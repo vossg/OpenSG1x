@@ -51,7 +51,7 @@ inline  Bool StatCollector::isValidID     (Int32 ID)
 }
 
 /*-------------------------------------------------------------------------*/
-inline  StatElem *StatCollector::getElem (Int32 ID, Bool create = true)  
+inline  StatElem *StatCollector::getElem (Int32 ID, Bool create)  
 {
   StatElem *elem = _elemVec[ID];
 
@@ -65,22 +65,10 @@ inline  StatElem *StatCollector::getElem (Int32 ID, Bool create = true)
 }
 
 /*-------------------------------------------------------------------------*/
-inline  StatElem  *StatCollector::getElem  ( StatElemDesc &desc, 
-                                             Bool create = true )
+inline  StatElem  *StatCollector::getElem  (StatElemDesc &desc, 
+                                            Bool create)
 { 
   return getElem(desc.getID(),create); 
-}
-
-/*-------------------------------------------------------------------------*/
-template<class T> inline T* StatCollector::getElem(int id)
-{ 
-  return ((T*)(this->getElem(id))); 
-}
-
-/*-------------------------------------------------------------------------*/
-template<class T> inline T* StatCollector::getElem(StatElemDesc &desc)
-{ 
-  return ((T*)(this->getElem(desc))); 
 }
 
 OSG_END_NAMESPACE
