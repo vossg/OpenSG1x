@@ -57,23 +57,22 @@ working well together with OpenSG.
 
 \section TutorialInstallation Installation
 
-\subsection TutorialInstallationLinux Installation on Linux
+\subsection TutorialInstalationGetIt Where to get OpenSG
 
-If you are using one of the major Linux distributions you can download a rpm package from the
-<a href = "www.opensg.org/download.EN.html"> OpenSG Homepage </a>. Currently there are precompiled
-packages for Suse 8.0, Suse 8.1, as well as Redhat 8.0. The older Suse version is compiled with gcc 2.95.3 and the
-others with the new gcc 3.2. You can choose between an optimized and a debug version. The latter on is a whole lot bigger
-and not that fast, although the difference is quite not grave. However the the debug version is better for debugging ;-)
+There are three different possibilites to choose from:\n
+1. Download a binary installer\n
+2. Download the source code\n
+3. Download the source code via CVS
 
-The installation of any of these binary packages is as easy as any other. Just download and install it and there you go!
+Binary installers are available for Suse 8.0, Suse 8.1, Redhat 8.0, Windows with Microsoft Visual Studio 2002/2003 and Windows with Visual Studio 6 and the
+Intel Compiler. If you are using another operating system, this is no option for you, you have to compile OpenSG yourself. If you choose (or have to 'choose')
+Option one or two, download your file from <A HREF="http://www.opensg.org/download.EN.html">http://www.opensg.org/download.EN.html</A>. 
 
-If you are using any other Linux distribution or if you like to compile things yourself, you have to get the source code.
-You can either download the source tarball or you get a copy via CVS. The source code from the CVS is the bleeding edge of
-the OpenSG library, which has a lot more features compared to the latest official release version 1.2.0. On the other hand it is possible
-that the CVS version does not work at all. Maybe it does not compile or it runs not stable - so it is your choice, but because of much more 
-features in the CVS version, I would recommend using that version, if you do not mind some compiling.
+If you want the most recent version of OpenSG you need to get the source code from the CVS repository. Note that the differences between the latest milestone
+1.2 and the CVS version are quite big at the moment (until the release of version 1.3 of course) - so you really should consider using CVS! However compiling on
+Windows can get difficult...
 
-If CVS is your choice, here is what you need to do:
+Here is how to obtain the CVS source code
 
 Open a terminal and enter the two following commands
 
@@ -97,6 +96,22 @@ The servers of sourceforge are sometimes down (as I personally discovered), so i
 likely not your fault. Just try again later or if you are as unpatient as I am, download the source tarball from the OpenSG
 homepage as mentioned above.
 
+\subsection TutorialInstallationLinux Installation on Linux
+
+If you are using one of the major Linux distributions you can download a rpm package from the
+<a href = "www.opensg.org/download.EN.html"> OpenSG Homepage </a>. Currently there are precompiled
+packages for Suse 8.0, Suse 8.1, as well as Redhat 8.0. The older Suse version is compiled with gcc 2.95.3 and the
+others with the new gcc 3.2. You can choose between an optimized and a debug version. The latter on is a whole lot bigger
+and not that fast, although the difference is quite not grave. However the the debug version is better for debugging ;-)
+
+The installation of any of these binary packages is as easy as any other. Just download and install it and there you go!
+
+If you are using any other Linux distribution or if you like to compile things yourself, you have to get the source code.
+The source code from the CVS is the bleeding edge of
+the OpenSG library, which has a lot more features compared to the latest official release version 1.2.0. On the other hand it is possible
+that the CVS version does not work at all. Maybe it does not compile or it runs not stable - so it is your choice, but because of much more 
+features in the CVS version, I would recommend using that version, if you do not mind some compiling.
+
 In either case you now should have a new directory called "OpenSG" or "OpenSG-1.2.0", depending on how you downloaded the source
 code. Now we need to configure and compile the library. Here is a "default" installation, which is good for most purposes.
 
@@ -110,7 +125,6 @@ If you want to use QT have a look at \ref QT, because you need some different co
 	make
 	// you need root privileges for that
 	sudo make install				
-
 \endcode
 
 <I>
@@ -153,7 +167,7 @@ of the X server.
 \subsection TutorialInstallationCygwin Installation on Cygwin
 
 The installation on cygwin is almost indentical to the Linux installtion procedure, but there are some different prerequisites. 
-It is best to have the Intel or Viusal Studio Compiler installed at their default locations (i.e. c:\\program files\\), otherwise it
+It is recommonded to have the Intel or Viusal Studio Compiler installed at their default locations (i.e. c:\\program files\\), otherwise it
 is possible that the configure script can not find them. In addition to that I supplied the path to some Visual Studio .dll by extending
 the Windows path variable by : 
 \code
@@ -161,19 +175,97 @@ c:\program files\Microsoft Visual Studio .NET\Common7\IDE
 \endcode 
 where a lot of important files lie. You might adjust the path to your current Version (this applies to .NET 2002 and maybe also 2003).
 
-GLUT needs to be installed in UNIX-style directories in order to be found
+\subsubsection TutorialInstallationCygwinNeededStuff Installing Necessary Libraries
 
-Unless you are using the old version 5.0 of visual studio you also need to add a parameter to your configure line:
+If you have not installed GLUT before you need now to do so. The easiest way is to visit 
+<A HREF="http://www.xmission.com/~nate/glut.html">http://www.xmission.com/~nate/glut.html</A>, Nate Robins page where you can get his port of GLUT for Win32. 
+Download the precompiled zip file. There is no need to compile it yourself, however if OpenSG is not enough terminal hacking, you can do so, of course ;-). 
+After the download has finished open the zip package and copy the following files to these locations
+
+\code
+	//replace 'Windows' with your Windows base directory (possibly 'WinNT')
+	glut.dll	->  C:\Windows\System
+	
+	//again, adjust the path corresponding to your installation
+	//this applies to default installation of VS .NET 2002
+	glut32.lib  ->  C:\Program Files\Microsoft Visual Studio .NET\Vc7\lib
+	glut.h		->  C:\Program Files\Microsoft Visual Studio .NET\Vc7\include\GL
+\endcode
+
+That should do it, however if you need more information on the installation of GLUT, have a look at Nate Robins Readme file.
+
+Most likely you will also need the libaray files for the different image formats. You could search the internet for these libs, but after I did, I found an 
+easier way. Open the following folder: your_OpenSG_Folder\\dist\\win. There open the zip package 'suportlibs.zip' and there you will find 
+libjpeg.lib, libpng.lib and tif32.lib - copy these files to the same location as glut32.lib file (i.e. ...\\Microsoft Visual Studio .NET\\Vc7\\lib)
+
+Now you have all the libraries needed for a typical OpenSG installation
+
+\subsubsection TutorialInstallationCygwinConfigureStuff Configuring
+
+Unless you are using the old version 5.0 of visual studio you also need to add the following parameter to your configure line:
 <PRE>./configure [--all-options-you-want] --with-compiler={icl60, icl70, cl.net}</PRE>
 Choose the compiler coressponding to your version of Visual Studio.
 
-Depending on your environment you also have to make standard include files accessible to the compiler. The simplest way to do that, is 
-to add another paramter to your configure command
-<PRE>--with-add-incdir=/usr/include/w32api</PRE>
-This is the default location for important windows header files like windows.h within your cygwin environment
+The compiler also needs to know the location of some platform depandant include files and libraries. These can be made accessible by the following commands.
+Wether you hack them directly into the terminal or you add these to your .profile file, which is useful if you intend to compile the library more that just once.
 
-Like with the installation on Linux you need to tell your system where to find the dll and lib files. You can simply copy them
-all to the folder where your executable is, but a more clever way is to adjust your PATH variable
+\code
+
+export  INCLUDE="C:\Program Files\Microsoft Visual Studio .NET\
+		Vc7\Include;C:\Program Files\Microsoft Visual Studio.NET\
+		Vc7\PlatformSDK\Include"
+
+export  LIB="C:\Program Files\Microsoft Visual Studio
+		.NET\Vc7\Lib;C:\Program Files\Microsoft Visual Studio
+		.NET\Vc7\PlatformSDK\Lib"
+\endcode
+
+<I>Note:\n
+Depending on your language version of Windows and also depending on your version of Visual Studio .NET you have to adjust the path!
+</I>
+
+Both commands are a single line each, of course. If you are one of the GUI-clickers, you also can add both paths in the environment variables panel found in
+System Preferences>System>Extended>Environment Variables. (The actual words may differ, as I own only the german Windows version). The following image shows
+the corresponding window for setting environment variables
+
+\image html enviro_vars.png "Setting up Windows environment variables"
+\image latex enviro_vars.eps "Setting up Windows environment variables" width = 6cm
+
+If you open a new cygwin bash shell, all Windows environmental variables are recognized by cygwin! Note that this does not apply to shells already running.
+
+On last important thing: as on windows some things are quite... well, "different" you will need an additional configure command in nearly all cases
+\code
+	--enable-win-localstorage
+\endcode
+If you omit this parameter, you will most likely get several errors telling you that 'thread data may not have dll interface'
+
+Finally,<br>
+assuming that you have set the environmental variables correctly, here is an exmaple configure call for Visual Studio .NET 2002
+\code
+	./configure --enable-glut --enable-jpg --enable-tif --enable-png
+	--enable-win-localstorage --with-compiler=cl.net
+\endcode
+
+After a successfull configuration, call 'make' or 'make opt'. Hopefully the compilation process will finish without any errors...
+
+\subsubsection TutorialInstallationCygwinRunning Executing the Tutorials
+
+Before you can run any OpenSG powered applications you need to add the path where the OpenSG libraries lie to the environment varibales. All these files can
+be found at
+\code
+/usr/local/lib
+\endcode
+be careful, this is different from the linux version (i.e. /usr/local/lib/dbg). You can add the path by editing your .bash_profile in your home directory or
+again by editing your windows environment variables. If you are very lazy and are not concerned about wasting your hard disk space, you can also copy all lib
+files in the tutorials folder.
+
+Regardless of which variant you choose, you should now be able to make all tutorials and to execute them! Remember if you are calling the complied .exe files
+from within the cygwin shell, you have to call them by typing './01hello.exe' and NOT '01hello.exe'
+
+<I>
+If you know about improvements or some addiotions (for other windows versions than XP) about the installation procedure, please send me an mail. At the moment
+i have only access to a single, old stupid Windows XP box, so my testing ablities with other Visual Studio versions or different Windows versions are limited.
+</I>
 
 \subsection TutorialInstallationMacintosh Installation on a Macintosh PowerPC
 
@@ -305,7 +397,7 @@ After compiling and executing your tutorials you are ready to start right off wi
 I will introduce a first tutorial where you can get used to some core aspects of OpenSG. But at this point I want to start with
 some more general words about compiling OpenSG Projects.
 
-\subsection TutorialCompilation Projects on Windows
+\subsection TutorialCompilationWin Projects on Windows
 
 If you want to spare a lot of time and trouble, do not try to start a new project from
 within Visual Studio. There is a template project file provided. Use this template or simple change the code of a existing tutorial found in the "Tutorials" 
@@ -316,7 +408,7 @@ OpenSG Functionality)
 
 [TODO : MFC Example]
 
-\subsection TutorialCompilation Projects on Linux
+\subsection TutorialCompilationLinux Projects on Linux
 
 Often Linux users have more trouble with setting up stuff compared to Mac or Windows. However this time it is quite easy, if you know what to do. If you are 
 comfortable with Makefiles you can write your own one or use the sample \ref FirstAppTutorialMakefile I'll provide in the next chapter. This sample

@@ -565,13 +565,9 @@ shows how the LOD object we just created, works.
 \image latex lod.eps "Example of a LOD setup" width = 6cm
 
 <I>
-This figure illustrates how a level of detail object works. The numbers at the bottom are distances taken from the code example. These values are
-of course highly depended on your environment, so these values may be totally useless for your application. You can see that the high detailed model
-is rendered if the distance from the camera to the LOD center point is less than 6 units. Is the distance between 6 and 12 the medium resolution
-model is rendered and so one. The lowest detailed model (in this case only a billboard) is rendered if the distance is greater than 24 units. Notice
-that this is just one example, so the lowest detailed model must not be a billboard nor are you bound to four levels of detail - it is entirely up
-to you. The polygon count given in the figure are rough possible values that would make sense in many cases. However there could be situations where 
-you need totally different values.
+This figure shows how reasonable modells for a distance LOD could look like. On the left hand side there is the full resolution modell which should be rendered
+if the camera is very close to the modell. When distance is increasing the quality will drop as each following modell has only a tenth of the polygons. You have
+to figure out the correct values for the distance when modells will swap as this is of course highly depandant on your scene and the scale you have choosen.
 </I>
 
 \section TutorialNodeCoresTutorial Big Tutorial

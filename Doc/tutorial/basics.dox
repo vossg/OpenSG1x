@@ -19,6 +19,7 @@ Chapter Overview
     \ref TutorialBasicTutorial<br>
     \ref BasicFieldContainer<br>
     \ref TutorialBasicEditingFieldContainers<br>
+	TutorialBasicFieldContainerCoredPtr<br>
 	\ref TutorialBasicStandardGeometry<br>
     \ref TutorialBasicTutorial2<br>
     \ref TutorialBasicImages<br>
@@ -732,8 +733,7 @@ TransformPtr transCore;
 This node will contain our transformation matrix, which will be altered every frame. Of course we do not need to make it global, but it is
 the easiest way for now... and the most efficient, too. There is another way down to the transform core: as we have an instance of the simple
 scene manager, we have access to the root, from there we have access to all the root's children, in this case to the transform node. From the
-node we can retrieve the core. If you are interested in "graph acrobatics" have a look at Chapter (xxx), otherwise we are fine with the global
-variable ;)
+node we can retrieve the core.
 
 Let us continue:\n
 Now please, in the "main" function locate the lines that say
@@ -839,8 +839,28 @@ derived, then have a look at osg::FieldContainer. As I mentioned before: <B>Ever
 created via the static ::create method! The return type is always <I>classname</I>Ptr</B>
 
 There are some more interesting aspects about the field containers. All containers are reflective, that is they provide information about
-themselfs like the classname or an unique id. Furthermore generic access methods exist which can be used with every field container. To be honest
-there is indeed another method to create instances of field containers than create() : the "factory". 
+themselfs like the classname or an unique id. The follwoing example shows a few operations that are possible on all field containers.
+
+\code
+// this object could be any other node core, it
+//would work just the same way
+
+TransformPtr trans = Transform::create();
+const Char8 *c = trans->getTypeName();
+printf ("Typename: %s\n",c);
+
+// This will print "Typename: Transform" to your terminal
+
+const UInt32 id = trans->getTypeId();
+printf("Type ID: %d\n", id); 
+
+// And this will print "Type ID: 82";
+
+\endcode
+There are some other get functions that might be useful in certain situations. If you need to now more look them up here: osg::FieldContainer - usage should
+be as simple as above.
+
+There is also a completly different way to create instances of field containers than create() : the "factory". 
 
 \subsection BasicFieldContainerFactory Field Container Factory
 
@@ -1099,6 +1119,80 @@ You see it is very easy in most cases. In gerneral it is
 </PRE>
 If you are unsure about a certain field mask then have a look at the tutorials if that what you want to do was used before. If not you have to
 look it up in the doxygen class documentation. You can find the available masks at the "Static Public Attributes" section.
+
+\section TutorialBasicFieldContainerCoredPtr CoredNodePtr - Alternative Approach to Field Containers
+
+Lately an alternative to the usual way to work with field containers was added to OpenSG. Please notice that this extension was implemented after the 
+release of version 1.2 therfore if you want to use this feature you have to get a copy from cvs and compile it yourself.
+
+If you have implemented the previous tutorials you will have already noticed that OpenSG code can become quickly very long as you often have to repeat all these
+::create and beginEditCP() stuff, furthermore to set a simple transformation, you need a node, a core of type transform and a matrix with correct values. That 
+usually takes up approximately more than ten lines of code. 
+
+However, you will rarely have a node without a core or a core without a node, in most cases they appear together, thus it is logical to have a wrapper class 
+that takes care of both. As the possibilities of C++ are not unlimited this is only possible to some extend, but the following concept can reduce the code length.
+
+The class that may help you out is osg::CoredNodePtr. This class provides a node as well as a core for you. osg::CoresNodePtr is a templated class, so you
+need to define the type of core you want to use. This is how you would define a cored node pointer that will feature a geometry core
+
+\code
+	CoredNodePtr<Geometry> cnpGeo = CoredNodePtr<Geometry>::create();
+\endcode
+
+If you are working with cored pointers you have to keep in mind, that this object behave similar to a core, but it does have a node 'around it'. That means the
+-> operaror, as well as the = operator refer to the core. The following example shows how you can assign a geometry core to the cnpGeo object we created above
+
+\code
+	// geo is of type osg::Geometry and contains
+	// some geometry
+	cnpGeo = geo;
+\endcode
+
+If you need the node itself for any reason, you can access it with
+
+\code
+	NodePtr n = cnpGeo.node();
+\endcode
+
+Well, next here is the code for an little example showing the cored node pointers in action. You can find the file in 
+<A HREF="progs/examples/00CoredPointer.cpp">progs/examples/00coredPointer.cpp</A>
+
+I will show the createScenegraph() function only, because that is where all interesting changes are.
+
+\code
+NodePtr createScenegraph(){
+	//create the torus geometry (core and geometry)
+	GeometryNodePtr torus = GeometryNodePtr::create();
+	torus = makeTorusGeo(0.5,2,8,12);
+	
+	//create box
+	GeometryNodePtr box = GeometryNodePtr::create();
+	box = makeBoxGeo(0.5,0.5,0.5,1,1,1);
+	
+	//create the group node and core
+	GroupNodePtr root = GroupNodePtr::create();
+	root = Group::create();
+	
+	//add the torus and box to the group node
+	root.node()->addChild(torus);
+	root.node()->addChild(box);
+	
+	addRefCP(torus.node());
+	addRefCP(box.node());
+	addRefCP(root.node());
+	
+	return root.node();
+}
+\endcode
+
+Well, you can try how much lines it would take, if using the usual way... I am sure that will be about twice as long. You might wonder yourself about the three
+addRefCP()'s add the end of the function. Well, to be honest, I am not quite sure why it is handeled different than the usual Pointers, but if you leave these
+out your application will crash, because the reference count will drop to zero when leaving the function, thus deleting your objects. So simply add one manually
+to the reference count, and you are fine.
+
+<B>Notice:</B>
+I personally started learning OpenSG, before these wrapper class existed, so I am from the "old school". Some things will work quite different, so to not confuse
+you, I decided to use the usual concept of editing field containers (i.e. the long version) as this is the more righteous way ... ;-)
 
 \section TutorialBasicStandardGeometry Standard Geometry
 

@@ -9,6 +9,8 @@ Chapter Overview
 <HR>
 	\ref TutorialAppendixCDoxy<BR>
 	\ref TutorialAppendixCMailinglist<BR>
+	\ref TutorialAppendixCTestfiles<BR>
+	\ref TutorialAppendixCDesperate<BR>
 	\ref TutorialAppendixCSceneViewer
 <HR>
 
@@ -53,6 +55,17 @@ When subscribing, you can also let sourceforge send you a mail every two or thre
 
 The developers themselves, among other experienced users, are very active in replying to questions - so if there is nobody who can help you... then 
 no one will ;-)
+
+\section TutorialAppendixCTestfiles OpenSG Test Files
+
+There are quite a lot test .cpp files, which are used by the developers to test basic OpenSG functionality. These test files are stored together with the rest
+of the source code. So you can simply search for all files named 'test*.cpp'. Maybe one of the 150+ files shows you something you need an I fergot to tell you.
+However, this should be one of your last options in order to solve a problem... ;-)
+
+\section TutorialAppendixCDesperate  Despairing
+
+Well, if everthing fails... read the source code. You should only do that if you are a excellent programmer and have a considerable amount of time as well
+as a high frustration threshold...
 
 \section TutorialAppendixCSceneViewer OpenSG Scene Viewer
 

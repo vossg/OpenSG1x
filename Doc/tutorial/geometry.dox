@@ -421,7 +421,7 @@ Here is a list of all supported primitives:
         </TD>
     </TR>
 </TABLE>
-[TODO: verify what happens, if the given number of vertices in a strip is not correct...]
+If you are striping geometry, please make sure to provide a correct number of vertices!
 
 Please notice that concave polygons are not supported neither by OpenGL nor by OpenSG! So make sure your polygons with more than three vertices are convex.
 
@@ -709,37 +709,21 @@ book about this specific topic.
 I run a little self-made benchmark on my machine to show you the results of the optimizations I suggested above. Please keep in mind that this
 is only one example and thus claims not to be an objective benchmark! I simply let OpenSG render 500 frames and watched how long it took. 
 
-<TABLE>
-    <TR>
-        <TD>
-            No optimizations
-        </TD>
-        <TD>
-            56 sec.
-        </TD>
-    </TR>
-    <TR>
-        <TD>
-            Using multi field direct manipulation
-        </TD>
-        <TD>
-            54 sec.
-        </TD>
-    </TR>
-    <TR>
-        <TD>
-            Additionally turning display lists off
-        </TD>
-        <TD>
-            20 sec.
-        </TD>
-    </TR>
-</TABLE>
+\image html speedbar1.png "Display Lists on Dynamic objects" 
+\image latex speedbar1.eps "Display Lists on Dynamic objects" width=6cm  
 
 As you can easily see the usage of the multi field manipulation instead of the interface methods is not such a big win at all, but turning the
 display lists off, is rewarded with a performance increase by about 170%! 
 
-[TODO: maybe insert an example showing how display lists perform on static objects! people might think that d-lists are stupid... :-( ]
+<B>Notice:</B>
+You might know think that display lists are stupid and should be turned off, to increase performance - of course that is not the case, as a display lists 
+only purpose is to increase performance! They <B>only</B> will slow rendering down if the list themselves are constantl recreated as this will be the case
+with non-ridigid transformations. With static geometry they perform very well. I ran some small tests on my machine with the beethoven modell 
+(progs/data/beethoven.wrl), which has 60k polygons. For this benchmark I let OpenSG render 5000 frames and took the time. The figure below shows the results
+
+\image html speedbar2.png "Display Lists on Static Objects"
+\image latex speedbar2.eps "Display Lists on Static Objects" width=6cm
+
 
 \section TutorialGeometryUtilities Geometry Utility Functions
 

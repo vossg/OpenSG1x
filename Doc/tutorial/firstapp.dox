@@ -335,7 +335,7 @@ this is not always optimal, because OpenSG cannot know where the most beautiful 
 Maybe you have already some knowledge of OpenSG and want to know what the simple scene manager actually creates for you. 
 So here it is: A simple single fullscreen Viewport (osg::Viewport), a perspective Camera (osg::PerspectiveCamera), a render action needed for rendering
 traversals of the graph (osg::RenderAction) and a simple 
-pointlight (osg::Pointlight) attached to the camera are created for you. In addition to that a simple Navigator (osg::Navigator) 
+pointlight (osg::PointLight) attached to the camera are created for you. In addition to that a simple Navigator (osg::Navigator) 
 is created which allows you do rotate with the left, to pan with the right and to zoom with the middle mouse
 button, except for me (Mac user with an one button mouse...).
 
