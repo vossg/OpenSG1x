@@ -7,7 +7,9 @@
 
 #include <OSGPerspectiveCamera.h>
 #include <OSGStereoBufferViewport.h>
+#include <OSGColorBufferViewport.h>
 #include <OSGShearedStereoCameraDecorator.h>
+#include <OSGSceneFileHandler.h>
 
 OSG_USING_NAMESPACE
 
@@ -88,8 +90,17 @@ int main(int argc, char **argv)
     glutInit(&argc, argv);
     
     bool stereobuffer = false;
+    bool amberblue = false;
     if(argc >= 2 && !strcmp(argv[1],"-s"))
+    {
         stereobuffer = true;
+        --argc, ++argv;
+    }
+    if(argc >= 2 && !strcmp(argv[1],"-a"))
+    {
+        amberblue = true;
+        --argc, ++argv;
+    }
     
     
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE |
@@ -108,7 +119,16 @@ int main(int argc, char **argv)
     pwin->init();
 
     // create the scene
-    NodePtr scene = makeBox(2,2,2, 1,1,1);
+    NodePtr scene;
+    
+    if(argc > 1)
+    {
+        scene = SceneFileHandler::the().read(argv[1]);
+    }
+    else
+    {
+        scene = makeBox(2,2,2, 1,1,1);
+    }
 
     // create the SimpleSceneManager helper
     mgr = new SimpleSceneManager;
@@ -130,6 +150,8 @@ int main(int argc, char **argv)
     nav->setAt(Pnt3f(0,0,0));
     nav->setDistance(1.5);
     
+    mgr->showAll();
+    
     // create the decorators and the second viewport
     ViewportPtr vpleft,vpright;
        
@@ -150,7 +172,43 @@ int main(int argc, char **argv)
     decoright->setDecoratee(cam);  
     endEditCP  (decoright);
 
-    if(stereobuffer)
+    if(amberblue)
+    {
+        ColorBufferViewportPtr svpleft = ColorBufferViewport::create();
+        ColorBufferViewportPtr svpright = ColorBufferViewport::create();
+ 
+        beginEditCP(svpleft);
+        svpleft->setLeft(0);
+        svpleft->setRight(1);
+        svpleft->setBottom(0);
+        svpleft->setTop(1);
+        svpleft->setCamera(decoleft);
+        svpleft->setBackground(vp->getBackground());
+        svpleft->setRoot(vp->getRoot());
+        svpleft->setRed(GL_TRUE);
+        svpleft->setGreen(GL_TRUE);
+        svpleft->setBlue(GL_FALSE);
+        svpleft->setAlpha(GL_TRUE);
+        endEditCP  (svpleft);
+ 
+        beginEditCP(svpright);
+        svpright->setLeft(0);
+        svpright->setRight(1);
+        svpright->setBottom(0);
+        svpright->setTop(1);
+        svpright->setCamera(decoright);
+        svpright->setBackground(vp->getBackground());
+        svpright->setRoot(vp->getRoot());
+        svpright->setRed(GL_FALSE);
+        svpright->setGreen(GL_FALSE);
+        svpright->setBlue(GL_TRUE);
+        svpright->setAlpha(GL_FALSE);
+        endEditCP  (svpright);
+        
+        vpleft = svpleft;
+        vpright = svpright;
+    }
+    else if(stereobuffer)
     {
         StereoBufferViewportPtr svpleft = StereoBufferViewport::create();
         StereoBufferViewportPtr svpright = StereoBufferViewport::create();
