@@ -310,6 +310,7 @@ endif
 fcdToBase:
 	@FCDEDIT=$($(PROJ)POOL)/Tools/fcdEdit/fcdEdit;                          \
 	CURRDIRBASE=`pwd` ;                                                     \
+        echo "Collecting .fcd files...";                                        \
 	cd $($(PROJ)POOL) ;                                                     \
 	for i in `find . -follow                                                \
 	    \( -type d \( -name CVS -o -name Test -o -name Builds -o            \
