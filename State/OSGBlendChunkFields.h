@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGStateChunkFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class BlendChunk;
@@ -71,6 +73,6 @@ typedef FCPtr<StateChunkPtr, BlendChunk> BlendChunkPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGBLENDCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGBlendChunkFields.h,v 1.8 2001/11/09 08:17:08 vossg Exp $"
+#define OSGBLENDCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGBlendChunkFields.h,v 1.9 2001/11/30 11:48:20 vossg Exp $"
 
 #endif /* _OSGBLENDCHUNKFIELDS_H_ */

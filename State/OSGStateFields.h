@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGFieldContainerFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class State;
@@ -125,6 +127,6 @@ OSG_DLLEXPORT_DECL1(MField, StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSTATEFIELDS_HEADER_CVSID "@(#)$Id: OSGStateFields.h,v 1.10 2001/11/09 08:17:08 vossg Exp $"
+#define OSGSTATEFIELDS_HEADER_CVSID "@(#)$Id: OSGStateFields.h,v 1.11 2001/11/30 11:48:20 vossg Exp $"
 
 #endif /* _OSGSTATEFIELDS_H_ */

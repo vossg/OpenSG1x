@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGForegroundFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class ImageForeground;

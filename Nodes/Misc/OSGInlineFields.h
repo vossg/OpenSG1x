@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGNodeCoreFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class Inline;

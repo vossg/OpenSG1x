@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGAttachmentContainerFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class Camera;
@@ -125,6 +127,6 @@ OSG_DLLEXPORT_DECL1(MField, CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGCameraFields.h,v 1.12 2001/11/09 08:17:07 vossg Exp $"
+#define OSGCAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGCameraFields.h,v 1.13 2001/11/30 11:48:20 vossg Exp $"
 
 #endif /* _OSGCAMERAFIELDS_H_ */

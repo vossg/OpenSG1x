@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGNodeCoreFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class Geometry;
@@ -71,6 +73,6 @@ typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGGEOMETRYFIELDS_HEADER_CVSID "@(#)$Id: OSGGeometryFields.h,v 1.8 2001/11/09 08:17:09 vossg Exp $"
+#define OSGGEOMETRYFIELDS_HEADER_CVSID "@(#)$Id: OSGGeometryFields.h,v 1.9 2001/11/30 11:48:19 vossg Exp $"
 
 #endif /* _OSGGEOMETRYFIELDS_H_ */

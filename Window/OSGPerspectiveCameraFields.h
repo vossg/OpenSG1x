@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGCameraFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class PerspectiveCamera;
@@ -125,6 +127,6 @@ OSG_DLLEXPORT_DECL1(MField, PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGPERSPECTIVECAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGPerspectiveCameraFields.h,v 1.11 2001/11/09 08:17:07 vossg Exp $"
+#define OSGPERSPECTIVECAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGPerspectiveCameraFields.h,v 1.12 2001/11/30 11:48:21 vossg Exp $"
 
 #endif /* _OSGPERSPECTIVECAMERAFIELDS_H_ */

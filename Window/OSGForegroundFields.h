@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGAttachmentContainerFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class Foreground;

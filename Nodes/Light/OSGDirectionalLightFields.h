@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGLightBaseFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class DirectionalLight;
@@ -71,6 +73,6 @@ typedef FCPtr<LightBasePtr, DirectionalLight> DirectionalLightPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDIRECTIONALLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGDirectionalLightFields.h,v 1.8 2001/11/09 08:17:09 vossg Exp $"
+#define OSGDIRECTIONALLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGDirectionalLightFields.h,v 1.9 2001/11/30 11:48:20 vossg Exp $"
 
 #endif /* _OSGDIRECTIONALLIGHTFIELDS_H_ */

@@ -70,6 +70,8 @@ char *FCPtrTemplate_h[]={
 "#include <@!HeaderPrefix!@OSGNodeCoreFieldDataType.h>",
 "#include <OSG@!Libname!@Def.h>",
 "",
+"#include <OSG@!Parent!@Fields.h>",
+"", 
 "OSG_BEGIN_NAMESPACE",
 "",
 "class @!Classname!@;", 
@@ -149,7 +151,7 @@ char *FCPtrTemplate_h[]={
 "@@endif",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@FIELDS_HEADER_CVSID \"@(#)$Id: FCFieldsTemplate_h.h,v 1.12 2001/11/09 08:17:08 vossg Exp $\"",
+"#define OSG@!CLASSNAME!@FIELDS_HEADER_CVSID \"@(#)$Id: FCFieldsTemplate_h.h,v 1.13 2001/11/30 11:48:19 vossg Exp $\"",
 "", 
 "#endif /* _OSG@!CLASSNAME!@FIELDS_H_ */",
 NULL };

@@ -86,11 +86,11 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGImageBackgroundBase.cpp,v 1.4 2001/11/16 13:12:09 dirk Exp $";
-    static char cvsid_hpp       [] = OSGIMAGEBACKGROUNDBASE_HEADER_CVSID;
-    static char cvsid_inl       [] = OSGIMAGEBACKGROUNDBASE_INLINE_CVSID;
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageBackgroundBase.cpp,v 1.5 2001/11/30 11:48:20 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGIMAGEBACKGROUNDBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGIMAGEBACKGROUNDBASE_INLINE_CVSID;
 
-    static char cvsid_fields_hpp[] = OSGIMAGEBACKGROUNDFIELDS_HEADER_CVSID;
+    static Char8 cvsid_fields_hpp[] = OSGIMAGEBACKGROUNDFIELDS_HEADER_CVSID;
 }
 
 #ifdef __sgi

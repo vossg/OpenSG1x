@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGChunkMaterialFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class SimpleMaterial;
@@ -71,6 +73,6 @@ typedef FCPtr<ChunkMaterialPtr, SimpleMaterial> SimpleMaterialPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLEMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGSimpleMaterialFields.h,v 1.8 2001/11/09 08:17:10 vossg Exp $"
+#define OSGSIMPLEMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGSimpleMaterialFields.h,v 1.9 2001/11/30 11:48:19 vossg Exp $"
 
 #endif /* _OSGSIMPLEMATERIALFIELDS_H_ */

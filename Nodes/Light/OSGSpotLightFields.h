@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGPointLightFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class SpotLight;
@@ -71,6 +73,6 @@ typedef FCPtr<PointLightPtr, SpotLight> SpotLightPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSPOTLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGSpotLightFields.h,v 1.8 2001/11/09 08:17:09 vossg Exp $"
+#define OSGSPOTLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGSpotLightFields.h,v 1.9 2001/11/30 11:48:20 vossg Exp $"
 
 #endif /* _OSGSPOTLIGHTFIELDS_H_ */

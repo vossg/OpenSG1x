@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGNodeCoreFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class Transform;
@@ -125,6 +127,6 @@ OSG_DLLEXPORT_DECL1(MField, TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMFIELDS_HEADER_CVSID "@(#)$Id: OSGTransformFields.h,v 1.10 2001/11/09 08:17:09 vossg Exp $"
+#define OSGTRANSFORMFIELDS_HEADER_CVSID "@(#)$Id: OSGTransformFields.h,v 1.11 2001/11/30 11:48:20 vossg Exp $"
 
 #endif /* _OSGTRANSFORMFIELDS_H_ */

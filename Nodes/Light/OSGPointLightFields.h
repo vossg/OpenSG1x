@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGLightBaseFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class PointLight;
@@ -71,6 +73,6 @@ typedef FCPtr<LightBasePtr, PointLight> PointLightPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPOINTLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGPointLightFields.h,v 1.8 2001/11/09 08:17:09 vossg Exp $"
+#define OSGPOINTLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGPointLightFields.h,v 1.9 2001/11/30 11:48:20 vossg Exp $"
 
 #endif /* _OSGPOINTLIGHTFIELDS_H_ */

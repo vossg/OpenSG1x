@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGCameraDecoratorFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class TileCameraDecorator;
@@ -125,6 +127,6 @@ OSG_DLLEXPORT_DECL1(MField, TileCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING
 
 OSG_END_NAMESPACE
 
-#define OSGTILECAMERADECORATORFIELDS_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorFields.h,v 1.7 2001/11/09 08:17:07 vossg Exp $"
+#define OSGTILECAMERADECORATORFIELDS_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorFields.h,v 1.8 2001/11/30 11:48:21 vossg Exp $"
 
 #endif /* _OSGTILECAMERADECORATORFIELDS_H_ */

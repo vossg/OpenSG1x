@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGNodeCoreFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class LightBase;
@@ -71,6 +73,6 @@ typedef FCPtr<NodeCorePtr, LightBase> LightBasePtr;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTBASEFIELDS_HEADER_CVSID "@(#)$Id: OSGLightBaseFields.h,v 1.8 2001/11/09 08:17:09 vossg Exp $"
+#define OSGLIGHTBASEFIELDS_HEADER_CVSID "@(#)$Id: OSGLightBaseFields.h,v 1.9 2001/11/30 11:48:20 vossg Exp $"
 
 #endif /* _OSGLIGHTBASEFIELDS_H_ */

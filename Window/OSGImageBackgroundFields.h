@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGBackgroundFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class ImageBackground;
@@ -68,9 +70,10 @@ class ImageBackground;
 
 typedef FCPtr<BackgroundPtr, ImageBackground> ImageBackgroundPtr;
 
-/*! \ingroup FieldLib ImageBackground
- *  ImageBackgroundPtr field traits 
- */
+/*! \brief ImageBackgroundPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+*/
 
 template <>
 struct FieldDataTraits<ImageBackgroundPtr> : 
@@ -87,6 +90,7 @@ struct FieldDataTraits<ImageBackgroundPtr> :
 };
 
 //! SFImageBackgroundPtr
+//! \ingroup SingleFields
 
 typedef SField<ImageBackgroundPtr> SFImageBackgroundPtr;
 
@@ -104,6 +108,6 @@ OSG_DLLEXPORT_DECL1(SField, ImageBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGImageBackgroundFields.h,v 1.3 2001/11/16 13:12:09 dirk Exp $"
+#define OSGIMAGEBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGImageBackgroundFields.h,v 1.4 2001/11/30 11:48:20 vossg Exp $"
 
 #endif /* _OSGIMAGEBACKGROUNDFIELDS_H_ */

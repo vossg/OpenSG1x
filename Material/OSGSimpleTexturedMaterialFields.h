@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGSimpleMaterialFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class SimpleTexturedMaterial;
@@ -125,6 +127,6 @@ OSG_DLLEXPORT_DECL1(MField, SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPP
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLETEXTUREDMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialFields.h,v 1.3 2001/11/09 08:17:10 vossg Exp $"
+#define OSGSIMPLETEXTUREDMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialFields.h,v 1.4 2001/11/30 11:48:19 vossg Exp $"
 
 #endif /* _OSGSIMPLETEXTUREDMATERIALFIELDS_H_ */

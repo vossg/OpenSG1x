@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGNodeCoreFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class Group;
@@ -125,6 +127,6 @@ OSG_DLLEXPORT_DECL1(MField, GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGGROUPFIELDS_HEADER_CVSID "@(#)$Id: OSGGroupFields.h,v 1.11 2001/11/09 08:17:09 vossg Exp $"
+#define OSGGROUPFIELDS_HEADER_CVSID "@(#)$Id: OSGGroupFields.h,v 1.12 2001/11/30 11:48:20 vossg Exp $"
 
 #endif /* _OSGGROUPFIELDS_H_ */

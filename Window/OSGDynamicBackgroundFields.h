@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGBackgroundFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class DynamicBackground;
@@ -107,6 +109,6 @@ OSG_DLLEXPORT_DECL1(MField, DynamicBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGDYNAMICBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGDynamicBackgroundFields.h,v 1.11 2001/11/09 08:17:07 vossg Exp $"
+#define OSGDYNAMICBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGDynamicBackgroundFields.h,v 1.12 2001/11/30 11:48:20 vossg Exp $"
 
 #endif /* _OSGDYNAMICBACKGROUNDFIELDS_H_ */
