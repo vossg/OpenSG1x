@@ -64,6 +64,8 @@ OSG_BEGIN_NAMESPACE
 #        define OSG_STL_DEFAULT_ALLOCATOR(TP) = allocator<TP>
 #    elif defined (OSG_HPUX_ACC)
 #        define OSG_STL_DEFAULT_ALLOCATOR(TP) _RWSTD_COMPLEX_DEFAULT(allocator<TP>)
+#    else
+#        define OSG_STL_DEFAULT_ALLOCATOR(TP) = __STL_DEFAULT_ALLOCATOR(TP)
 #    endif
 #else
 #    define OSG_STL_DEFAULT_ALLOCATOR(TP) = __STL_DEFAULT_ALLOCATOR(TP)
