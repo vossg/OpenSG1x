@@ -1,2 +1,11 @@
+#!/bin/bash
 
-rsh rubens /usr/sbin/Mail $*
+# add "" around all arguments, as they might contain spaces
+ind=0
+for i
+do
+	args[$ind]=\"$i\"
+	(( ind=$ind + 1 ))
+done
+
+rsh rubens /usr/sbin/Mail ${args[*]}

@@ -47,6 +47,8 @@ body	    	{ background-color:#ffffff }
 td.date		{ text-align:left; vertical-align:top }
 td.system	{ text-align:left; vertical-align:top }
 td.status	{ text-align:left; vertical-align:top }
+td.source    	{ text-align:left; vertical-align:top }
+td.snap	    	{ text-align:left; vertical-align:top }
 //-->
 </style>
 </head>
@@ -55,7 +57,8 @@ td.status	{ text-align:left; vertical-align:top }
 <p>
 <table border=1>
 <tr>
-<td><center>Date</center></td><td>System</td><td>Status</td>
+<td><center>Date</center></td><td>System</td>
+<td colspan=2><center>Snapshots</center></td><td>Status</td>
 </tr>
 EOF
 
@@ -77,10 +80,26 @@ do
     fi
     echo "<td style=system><a href=$i>$system</a></td>" >> $outfile
 
-    status=`fgrep "had errors" $i | cut -c25- | sed -e 's|</font><br>||'`
+    snap=`echo $i | sed -e 's|Main.html|source.tgz|'`    
+    if test -f $snap
+    then
+    	echo "<td style=source><a href=$snap>Src</a></td>" >> $outfile
+    else
+    	echo "<td style=source> </td>" >> $outfile
+    fi
+
+    snap=`echo $i | sed -e 's|Main.html|snapshot.tgz|'`    
+    if test -f $snap
+    then
+    	echo "<td style=snap><a href=$snap>Lib</a></td>" >> $outfile
+    else
+    	echo "<td style=snap> </td>" >> $outfile
+    fi
+ 
+    status=`fgrep "had errors" $i | cut -c32- | sed -e 's|</font><br>||'`
     
     echo "<td style=status>$status</td>" >> $outfile
-    
+   
     echo "</tr>" >> $outfile
 
 done

@@ -65,10 +65,10 @@ write_html_head ()
 <body>
 <h1>OpenSG dailybuild $today on $host results</h1>
 <p>
-Start: `date +%H:%M`<br><br>
+`date +%H:%M`: Start<br><br>
 System: $system<br>
 Compiler: $compiler<br>
-Configuration: $stl_args $glut_args $qt_args $tif_args $jpeg_args $png_args<br>
+Configuration: --with-compiler=$compiler $stl_args $glut_args $qt_args $tif_args $jpeg_args $png_args<br>
 </p>
 EOF
 }
@@ -77,7 +77,7 @@ write_html_tail ()
 {
     cat << EOF >> $1
 <br><br>
-Finish: `date +%H:%M`
+`date +%H:%M`: Finish
 </body>
 </html>
 EOF
@@ -285,9 +285,9 @@ checkerror ()
     if test \! -s $log_errors 
     then
 	rm -f $log_errors
-	echo "<a href=$link_html.$title.html>$title</a> finished sucessfully.<br>" >> $out_html.Main.html
+	echo "`date +%H:%M`: <a href=$link_html.$title.html>$title</a> finished sucessfully.<br>" >> $out_html.Main.html
     else
- 	echo "<br><font color=#b00000><a href=$link_html.$title.html>$title</a> had errors!</font><br>" >> $out_html.Main.html
+ 	echo "`date +%H:%M`: <br><font color=#b00000><a href=$link_html.$title.html>$title</a> had errors!</font><br>" >> $out_html.Main.html
 
 	IFS=':'
 	cat $log_errors | while read line err
@@ -347,7 +347,6 @@ rm -rf OpenSG
 # cvs needs to be in the path!
 cvs -d:pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg co OpenSG > $log_cvs 2>&1
 
-
 # find the right parameters for this system
 
 cd OpenSG
@@ -371,7 +370,6 @@ case $system in
 
     mips-sgi-irix6.5 )	
     	
-	stl_args="--with-stl=/igd/a4/software/IRIX/packages/stdlib"
 	glut_args="--with-glut=/igd/a4/software/IRIX/packages/glut-3.7"
 	qt_args="--with-qt=/igd/a4/software/IRIX/packages/qt-2.3"
 	tif_args="--with-tif=/igd/a4/software/IRIX/"
@@ -426,11 +424,17 @@ build_id=`date '+%y%m%d%H%M'`.$system.$compiler
 link_html=opensg_dailybuild.$build_id
 out_html=$basedir/$link_html
 
+
 rm -f $out_html.Main.html
 write_html_head $out_html.Main.html 
 
 
 checkerror "Cvs" $log_cvs
+
+# create the source snapshot
+cd ..
+tar cf - OpenSG | gzip -9 > $out_html.source.tgz
+cd OpenSG
 
 # configure it
 
@@ -442,7 +446,7 @@ checkerror "Configure" $log_configure
 # start making the doc
 # takes forever, do it in parallel
 
-if which doxygen > /dev/null 2>&1 then 
+if type doxygen > /dev/null 2>&1 then 
 then
 	has_doxygen=0
 else
@@ -467,6 +471,9 @@ gmake INSTALL_DIR=`pwd` install > $log_install 2>&1
 export LD_LIBRARY_PATH=`pwd`/lib/dbg
 
 checkerror "Install" $log_install
+
+# create the snapshot
+tar cf - lib include | gzip -9 > $out_html.snapshot.tgz
 
 
 # make and run the tests that have gold test results
@@ -509,11 +516,12 @@ done
 
 if expr $has_doxygen > /dev/null 2>&1 = 1 ;
 then
-	# wait for the doc to finish
-	while ! test -r $doc_flag ; do sleep 30; done
+     
+    # wait for the doc to finish
+    while ! test -r $doc_flag ; do sleep 30; done
 
-	# check the doc
-	checkerror "Doc" $log_doc
+    # check the doc
+    checkerror "Doc" $log_doc
 fi
 
 # all done

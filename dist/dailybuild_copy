@@ -7,7 +7,7 @@ source ~/.bashrc
 rcp rubens:/igd/a4/opensg/reiners/opensg/OpenSG/dist/dailybuild .
 
 # remove old logs
-rm -f opensg.*
+rm -f opensg_dailybuild*
 
 # setup needed envvars
 
