@@ -104,7 +104,7 @@ bool MergeGraphOp::traverse(NodePtr& root)
     return result;
 }
 
-void MergeGraphOp::setParams(const std::string params)
+void MergeGraphOp::setParams(const std::string)
 {
 }
 

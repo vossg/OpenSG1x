@@ -242,7 +242,7 @@ void ScanParseSkel::endProto(void)
 {
 }
 
-void ScanParseSkel::beginExternProto(const Char8 *szProtoname)
+void ScanParseSkel::beginExternProto(const Char8 *)
 {
 }
 

@@ -397,7 +397,7 @@ bool VerifyGeoGraphOp::travNodeEnter(NodePtr node)
         return Action::Quit;
 }
 
-bool VerifyGeoGraphOp::travNodeLeave(NodePtr node)
+bool VerifyGeoGraphOp::travNodeLeave(NodePtr)
 {
     return true;
 }
