@@ -49,6 +49,8 @@
 #include "OSGTextureChunk.h"
 #include "OSGWindow.h"
 #include "OSGMaterial.h"
+#include "OSGVertexProgramChunk.h"
+#include "OSGFragmentProgramChunk.h"
 
 #include <map>
 
@@ -99,6 +101,10 @@ RemoteAspect::RemoteAspect(UInt32 aspectId) :
         Geometry::GLIdFieldMask;
     _fieldFilter[TextureChunk::getClassType().getId()] = 
         TextureChunk::GLIdFieldMask;
+    _fieldFilter[VertexProgramChunk::getClassType().getId()] = 
+        VertexProgramChunk::GLIdFieldMask;
+    _fieldFilter[FragmentProgramChunk::getClassType().getId()] = 
+        FragmentProgramChunk::GLIdFieldMask;
 
     for(typeI = FieldContainerFactory::the()->beginTypes();
             typeI != FieldContainerFactory::the()->endTypes(); ++typeI)
