@@ -1637,6 +1637,221 @@ inline UInt32 IndexDic::entryCount(void) const
 
 /*! \ingroup GrpSystemDrawablesGeometryFunctions
 
+    calcVertexTexCoords calculates the texCoords for the geometry's vertices, see
+    \ref PageSystemGeoFunctionsCalcTexCoords for a description.
+*/
+
+OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTexCoords(GeometryPtr geo, Int32 texIndex)
+{
+    struct Key {
+        Real32 value;
+        Int32 pos;
+    } key[3], rem;
+
+    Int32 S = -1, T = -1, n = 3, i, j; 
+    Real32 sDenom, tDenom, sMin, tMin;
+    
+    MFUInt16 &im = geo->getIndexMapping();
+    UInt16 mapTex = 0;
+
+    GeoIndicesPtr ip = geo->getIndices();
+    GeoPositionsPtr posP = geo->getPositions();
+    GeoTexCoordsPtr texP;
+
+    if (posP == NullFC || !posP->size() || ip == NullFC || !ip->size())
+    {
+        FFATAL(("Geo without indices/ positions in calcVertexTexCoords()\n"));
+        return;
+    }
+    
+    for (MFNodePtr::iterator pnI = geo->getMFParents()->begin();
+         pnI != geo->getMFParents()->end(); ++pnI)
+    {
+        NodePtr node = *pnI;
+
+        if (node != NullFC)
+        {
+            DynamicVolume &dVol = node->getVolume(true);
+            Pnt3f min, max;
+            dVol.getBounds(min, max);
+    
+            Vec3f dia(max - min);
+            for (i=0; i<3; i++)
+            {
+                key[i].value = dia[i];
+                key[i].pos = i;
+            }
+    
+            for (i=1; i<n; i++)
+            {
+                for (j=n-1; j>=i; j--)
+                {
+                    if (key[j-1].value > key[j].value)
+                    {
+                        rem = key[j];
+                        key[j] = key[j-1];
+                        key[j-1] = rem;
+                    }
+                }
+            }
+    
+            S = key[2].pos;
+            T = key[1].pos;
+            sDenom = dia[S];
+            tDenom = dia[T];
+            sMin = min[S];
+            tMin = min[T];
+    
+            break;
+        }
+    }
+
+    if (S < 0 || T < 0)
+    {
+        FFATAL(("Geo without parents in calcVertexTexCoords()\n"));
+        return;
+    }
+
+    switch (texIndex)
+    {
+        case 0:
+            if (geo->getTexCoords() == osg::NullFC)
+            {
+                texP = GeoTexCoords2f::create();
+                beginEditCP(geo);
+                    geo->setTexCoords(texP);
+                endEditCP(geo);
+            }
+            else
+            {
+                texP = geo->getTexCoords();
+            }
+            mapTex = Geometry::MapTexCoords;
+            break;
+        case 1:
+            if (geo->getTexCoords1() == osg::NullFC)
+            {
+                texP = GeoTexCoords2f::create();
+                beginEditCP(geo);
+                    geo->setTexCoords1(texP);
+                endEditCP(geo);
+            }
+            else
+            {
+                texP = geo->getTexCoords1();
+            }
+            mapTex = Geometry::MapTexCoords1;
+            break;
+        case 2:
+            if (geo->getTexCoords2() == osg::NullFC)
+            {
+                texP = GeoTexCoords2f::create();
+                beginEditCP(geo);
+                    geo->setTexCoords2(texP);
+                endEditCP(geo);
+            }
+            else
+            {
+                texP = geo->getTexCoords2();
+            }
+            mapTex = Geometry::MapTexCoords2;
+            break;
+        case 3:
+            if (geo->getTexCoords3() == osg::NullFC)
+            {
+                texP = GeoTexCoords2f::create();
+                beginEditCP(geo);
+                    geo->setTexCoords3(texP);
+                endEditCP(geo);
+            }
+            else
+            {
+                texP = geo->getTexCoords3();
+            }
+            mapTex = Geometry::MapTexCoords3;
+            break;
+        default:
+            FWARNING(("Parameters are [0|1|2|3] in calcVertexTexCoords()\n"));
+            return;
+    }
+
+    Int16 niTex = geo->calcMappingIndex(mapTex),
+          niPos = geo->calcMappingIndex(Geometry::MapPosition);
+    Int32 len = posP->size(), indexMapSize = im.size(), imsize = 0, ibsize;
+    UInt32 nind = ip->size() / (indexMapSize ? indexMapSize : 1);
+        
+    Pnt3f point;
+    Vec2f texCoord;
+
+    if (indexMapSize > 1)
+    {
+        MFUInt16::iterator imIt = im.begin();
+        std::vector<UInt32> indexBuffer;
+
+        if (niTex >= 0)
+            im[niTex] = im[niTex] &~ mapTex;
+
+        im.push_back(mapTex);
+
+        for (i=0; i<nind; i++)
+        {
+            for (j=0; j<indexMapSize; j++)
+            {
+                if (j != niTex || im[niTex] >= 1)
+                    indexBuffer.push_back(ip->getValue(i*indexMapSize + j));
+            }
+            indexBuffer.push_back(ip->getValue(i*indexMapSize + niPos));
+        }
+
+        if (niTex >= 0 && im[niTex] < 1)
+            im.erase(imIt + niTex);
+            
+        imsize = im.size();
+        ibsize = indexBuffer.size();
+
+        beginEditCP(ip);
+        {
+            ip->clear();
+
+            if (imsize != indexMapSize)
+                ip->resize(ibsize);
+
+            for (i=0; i<ibsize; i++)
+                ip->setValue(indexBuffer[i], i);
+        }
+        endEditCP(ip);
+
+        niTex = imsize ? imsize - 1 : 0;
+    }
+
+    beginEditCP(texP);
+    {
+        niPos = geo->calcMappingIndex(Geometry::MapPosition);
+        niPos = (niPos >= 0) ? niPos : 0;
+        
+        if (texP->size() != len)
+            texP->resize(len);
+
+        beginEditCP(ip);
+        {
+            for (i=0; i<len; i++)
+            {
+                posP->getValue(point, i);
+    
+                texCoord[0] = (point[S] - sMin) / sDenom;
+                texCoord[1] = (point[T] - tMin) / tDenom;
+
+                texP->setValue(texCoord, i);
+            }
+        }
+        endEditCP(ip);
+    }
+    endEditCP(texP);
+}
+
+
+/*! \ingroup GrpSystemDrawablesGeometryFunctions
+
     calcVertexTangents calculates the tangents/ binormals for the geometry's vertices, see
     \ref PageSystemGeoFunctionsCalcTangents for a description. 
 */

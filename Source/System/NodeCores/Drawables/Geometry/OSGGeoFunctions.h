@@ -61,6 +61,10 @@ void                    calcVertexTangents  (GeometryPtr geo,
                                              Int32 dstAttribTan = Geometry::TexCoords1FieldId,
                                              Int32 dstAttribBin = Geometry::TexCoords2FieldId);
 
+OSG_SYSTEMLIB_DLLMAPPING
+void                    calcVertexTexCoords (GeometryPtr geo,
+                                             Int32 texIndex = 0);
+
 OSG_SYSTEMLIB_DLLMAPPING 
 Int32                   setIndexFromVRMLData(GeometryPtr geo,
                                              std::vector<Int32> &coordIndex,
