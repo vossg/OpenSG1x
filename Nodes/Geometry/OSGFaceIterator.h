@@ -49,8 +49,9 @@
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldContainerPtr.h>
+#include <OSGNodePtr.h>
 #include <OSGNodeCore.h>
-#include <OSGGeometryBase.h>
+#include <OSGGeometryDef.h>
 #include <OSGGeoProperty.h>
 #include <OSGPrimitiveIterator.h>
 
@@ -123,7 +124,7 @@ class OSG_GEOMETRY_DLLMAPPING FaceIterator
 	inline Int32    	getIndex		( void 	      ) const;
 
 	//! get the type of the currently processed primitive
-	inline UInt8 getType				( void ) const;
+	inline UInt32 getType				( void ) const;
 
 	//! get the length, i.e. number of points of the face
 	inline Int32    	getLength		( void 	      ) const;

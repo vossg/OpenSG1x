@@ -125,7 +125,7 @@ Int32 PrimitiveIterator::getLength( void ) const
 }
 
 inline		 
-UInt8 PrimitiveIterator::getType( void ) const
+UInt32 PrimitiveIterator::getType( void ) const
 {
 	return _actPrimType;
 }

@@ -106,7 +106,7 @@ Int32 TriangleIterator::getIndex( void) const
 }
 
 inline		 
-UInt8 TriangleIterator::getType( void ) const
+UInt32 TriangleIterator::getType( void ) const
 {
 	return _primIt.getType();
 }

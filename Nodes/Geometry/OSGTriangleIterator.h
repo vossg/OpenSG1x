@@ -50,7 +50,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGNodeCore.h>
-#include <OSGGeometryBase.h>
+#include <OSGGeometryDef.h>
 #include <OSGGeoProperty.h>
 #include <OSGPrimitiveIterator.h>
 
@@ -117,7 +117,7 @@ class OSG_GEOMETRY_DLLMAPPING TriangleIterator
 	inline Int32    	getIndex		( void 	      ) const;
 
 	// type of currently processed primitive
-	inline UInt8 		getType			( void ) const;
+	inline UInt32 		getType			( void ) const;
 
 	// get the data indices/values. Indices < 0 indicate data not present
 	// in that case the value will be Nullxxx

@@ -50,7 +50,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGNodeCore.h>
-#include <OSGGeometryBase.h>
+#include <OSGGeometryDef.h>
 #include <OSGGeoProperty.h>
 
 OSG_BEGIN_NAMESPACE
@@ -125,7 +125,7 @@ class OSG_GEOMETRY_DLLMAPPING PrimitiveIterator
 	// get the primitive information
 	inline Int32    	getIndex		( void 	      ) const;
 	inline Int32    	getLength		( void 	      ) const;
-	inline UInt8    	getType			( void 	      ) const;
+	inline UInt32    	getType			( void 	      ) const;
 
 	// get the data indices/values. Indices < 0 indicate data not present
 	// in that case the value will be Nullxxx

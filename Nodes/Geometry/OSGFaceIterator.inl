@@ -112,7 +112,7 @@ Int32 FaceIterator::getIndex( void ) const
 	primitives.
 */
 inline		 
-UInt8 FaceIterator::getType( void ) const
+UInt32 FaceIterator::getType( void ) const
 {
 	return _primIt.getType();
 }
