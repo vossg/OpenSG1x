@@ -2288,7 +2288,7 @@ PROTO Text [
      endExposedFieldDecl  ();
 
      beginFieldDecl       ("SFNode", OSGsfNode, "fontStyle");
-     addFieldValue        ("NULL");
+//     addFieldValue        ("NULL");
      endFieldDecl         ();
 
      beginFieldDecl       ("MFFloat", OSGmfFloat, "length");
