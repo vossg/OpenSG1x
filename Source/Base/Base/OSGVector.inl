@@ -1051,6 +1051,7 @@ PointInterface <ValueTypeT, StorageInterfaceT>
 }
 
 
+#if 0
 //! Component wise binary scalar multiplication
 
 template <class ValueTypeT,
@@ -1069,6 +1070,7 @@ PointInterface <ValueTypeT, StorageInterfaceT>
 
     return returnValue;
 }
+#endif
 
 //! Nondestructive unary negation, returns new point
 

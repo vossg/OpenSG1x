@@ -462,11 +462,6 @@ class PointInterface : public StorageInterfaceT
     void            operator +=(const VecInterface   &vec );
     void            operator -=(const VecInterface   &vec );
 
-
-    template <class VT, class ST> inline friend 
-    PointInterface<VT,ST>  operator * (const PointInterface<VT,ST> &vec,
-                                       const VT rVal);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Element Access                             */
