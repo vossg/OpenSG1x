@@ -193,7 +193,7 @@ bool Line::intersect(const SphereVolume &sphere,
 
     v = center - _pos;
 
-    h = (v.dot(v))-radius;
+    h = (v.dot(v))-(radius*radius);
     b = (v.dot(_dir));
 
     if(h >= 0 && b <= 0)
