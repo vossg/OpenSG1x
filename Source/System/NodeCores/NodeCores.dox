@@ -40,7 +40,7 @@ pointers.
 \image html node_core_share.png "Node & Node Core Sharing"
 \image latex node_core_share.eps "Node & Node Core Sharing" width=8cm
 
-The types of NodeCores using in OpenSG are divided intto two large groups:
-Groups and Drawables. 
+The types of NodeCores using in OpenSG are divided into two large groups:
+Groups (\ref PageSystemNCGroups) and Drawables (\ref PageSystemNCDrawables). 
 
 */

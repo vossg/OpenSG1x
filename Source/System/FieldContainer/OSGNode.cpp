@@ -52,11 +52,16 @@
 
 OSG_USING_NAMESPACE
 
-const BitVector Node::VolumeFieldMask      = (1 << Node::VolumeFieldId     );
-const BitVector Node::ActiveFieldMask      = (1 << Node::ActiveFieldId     );
-const BitVector Node::ParentFieldMask      = (1 << Node::ParentFieldId     );
-const BitVector Node::ChildrenFieldMask    = (1 << Node::ChildrenFieldId   );
-const BitVector Node::CoreFieldMask        = (1 << Node::CoreFieldId       );
+const BitVector Node::VolumeFieldMask      =
+        (TypeTraits<BitVector>::One << Node::VolumeFieldId     );
+const BitVector Node::ActiveFieldMask      = 
+        (TypeTraits<BitVector>::One << Node::ActiveFieldId     );
+const BitVector Node::ParentFieldMask      = 
+        (TypeTraits<BitVector>::One << Node::ParentFieldId     );
+const BitVector Node::ChildrenFieldMask    = 
+        (TypeTraits<BitVector>::One << Node::ChildrenFieldId   );
+const BitVector Node::CoreFieldMask        = 
+        (TypeTraits<BitVector>::One << Node::CoreFieldId       );
 
 FieldDescription *Node::_desc[] =
 {

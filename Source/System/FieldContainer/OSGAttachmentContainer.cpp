@@ -53,7 +53,8 @@
 OSG_USING_NAMESPACE
 
 const BitVector AttachmentContainer::AttachmentsFieldMask =
-    (1 << AttachmentContainer::AttachmentsFieldId);
+    (TypeTraits<BitVector>::One << 
+        AttachmentContainer::AttachmentsFieldId);
 
 FieldDescription *AttachmentContainer::_desc[] =
 {
