@@ -201,7 +201,7 @@ Transform::intersectEnter(ActorBase *pActor)
     }
     pIA->endEditState  ();
 
-    pIA->prioritizeChildren();
+    pIA->setupChildrenPriorities();
 
     return NewActionTypes::Continue;
 }

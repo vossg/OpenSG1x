@@ -785,12 +785,12 @@ Geometry::intersect(ActorBase *pActor)
                                    itTris.getPosition(2),
                                    hitDist,                &hitNormal) == true)
         {
-            pIA->setHit(hitDist * scaleFactor, pIA->getCurrNode(),
-                        itTris.getIndex(),     hitNormal          );
+            pIA->setHit(hitDist * scaleFactor, pIA->getNode(),
+                        itTris.getIndex(),     hitNormal      );
         }
     }
 
-    pIA->prioritizeChildren();
+    pIA->setupChildrenPriorities();
 
     return NewActionTypes::Continue;
 }
