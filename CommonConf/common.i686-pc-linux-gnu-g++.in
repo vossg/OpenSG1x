@@ -79,7 +79,7 @@ endif
 
 LANG_FLAGS          = 
 #-frepo  -fno-implicit-templates
-COMPILER    		= -ansi  -use_readonly_const
+COMPILER    		= -ansi  -use_readonly_const -ftemplate-depth-100
 
 ### Optimize / Debug ###############################################
 
