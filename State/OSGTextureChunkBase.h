@@ -69,6 +69,8 @@
 #include <OSGSystemDef.h>
 #include <OSGStateChunk.h>
 #include <OSGImagePFields.h>	// Image type
+#include <OSGBoolFields.h>	// Scale type
+#include <OSGUInt32Fields.h>	// Frame type
 #include <OSGUInt32Fields.h>	// MinFilter type
 #include <OSGUInt32Fields.h>	// MagFilter type
 #include <OSGUInt32Fields.h>	// WrapS type
@@ -120,7 +122,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     enum
     {
         ImageFieldId = Inherited::NextFieldId,
-        MinFilterFieldId = ImageFieldId + 1,
+        ScaleFieldId = ImageFieldId + 1,
+        FrameFieldId = ScaleFieldId + 1,
+        MinFilterFieldId = FrameFieldId + 1,
         MagFilterFieldId = MinFilterFieldId + 1,
         WrapSFieldId = MagFilterFieldId + 1,
         WrapTFieldId = WrapSFieldId + 1,
@@ -138,6 +142,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     };
 
     static const osg::BitVector ImageFieldMask;
+    static const osg::BitVector ScaleFieldMask;
+    static const osg::BitVector FrameFieldMask;
     static const osg::BitVector MinFilterFieldMask;
     static const osg::BitVector MagFilterFieldMask;
     static const osg::BitVector WrapSFieldMask;
@@ -200,6 +206,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     //! Return the fields.
 
     inline SFImageP	*getSFImage(void);
+    inline SFBool	*getSFScale(void);
+    inline SFUInt32	*getSFFrame(void);
     inline SFUInt32	*getSFMinFilter(void);
     inline SFUInt32	*getSFMagFilter(void);
     inline SFUInt32	*getSFWrapS(void);
@@ -223,6 +231,12 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     inline       ImageP	&getImage(void);
     inline const ImageP	&getImage(void) const;
     inline       void	             setImage( ImageP value );
+    inline       Bool	&getScale(void);
+    inline const Bool	&getScale(void) const;
+    inline       void	             setScale( Bool value );
+    inline       UInt32	&getFrame(void);
+    inline const UInt32	&getFrame(void) const;
+    inline       void	             setFrame( UInt32 value );
     inline       UInt32	&getMinFilter(void);
     inline const UInt32	&getMinFilter(void) const;
     inline       void	             setMinFilter( UInt32 value );
@@ -305,6 +319,12 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     /*! 
      */
     SFImageP	_sfImage;
+    /*! 
+     */
+    SFBool	_sfScale;
+    /*! 
+     */
+    SFUInt32	_sfFrame;
     /*! 
      */
     SFUInt32	_sfMinFilter;

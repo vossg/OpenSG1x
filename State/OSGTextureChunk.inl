@@ -86,6 +86,11 @@ const StateChunkClass *  TextureChunk::getClass( void ) const
 }
 
 
+inline void TextureChunk::imageContentChanged( void )
+{
+	Window::refreshGLObject( getGLId() );
+}
+
 /*------------- constructors & destructors --------------------------------*/
 
 /*--------------------------- type information-----------------------------*/

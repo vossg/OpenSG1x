@@ -17,6 +17,22 @@
 	>
 	</Field>
 	<Field
+		name="scale"
+		type="Bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+	>
+	</Field>
+	<Field
+		name="frame"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+	>
+	</Field>
+	<Field
 		name="minFilter"
 		type="UInt32"
 		cardinality="single"

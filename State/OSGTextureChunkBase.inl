@@ -139,6 +139,18 @@ SFImageP *TextureChunkBase::getSFImage(void)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
+SFBool *TextureChunkBase::getSFScale(void)
+{
+	return &_sfScale;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+SFUInt32 *TextureChunkBase::getSFFrame(void)
+{
+	return &_sfFrame;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *TextureChunkBase::getSFMinFilter(void)
 {
 	return &_sfMinFilter;
@@ -245,6 +257,42 @@ OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setImage( ImageP value )
 {
 	_sfImage.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+Bool &TextureChunkBase::getScale(void)
+{
+	return _sfScale.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const Bool &TextureChunkBase::getScale(void) const
+{
+	return _sfScale.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void TextureChunkBase::setScale( Bool value )
+{
+	_sfScale.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+UInt32 &TextureChunkBase::getFrame(void)
+{
+	return _sfFrame.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const UInt32 &TextureChunkBase::getFrame(void) const
+{
+	return _sfFrame.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void TextureChunkBase::setFrame( UInt32 value )
+{
+	_sfFrame.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING

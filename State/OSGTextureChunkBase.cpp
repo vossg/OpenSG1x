@@ -91,6 +91,12 @@ OSG_USING_NAMESPACE
 const OSG::BitVector	TextureChunkBase::ImageFieldMask = 
     (1 << TextureChunkBase::ImageFieldId);
 
+const OSG::BitVector	TextureChunkBase::ScaleFieldMask = 
+    (1 << TextureChunkBase::ScaleFieldId);
+
+const OSG::BitVector	TextureChunkBase::FrameFieldMask = 
+    (1 << TextureChunkBase::FrameFieldId);
+
 const OSG::BitVector	TextureChunkBase::MinFilterFieldMask = 
     (1 << TextureChunkBase::MinFilterFieldId);
 
@@ -138,7 +144,7 @@ const OSG::BitVector	TextureChunkBase::GLIdFieldMask =
 
 
 
-char TextureChunkBase::cvsid[] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.9 2001/07/23 11:39:11 dirk Exp $";
+char TextureChunkBase::cvsid[] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.10 2001/07/28 15:05:06 dirk Exp $";
 
 /** \brief Group field description
  */
@@ -150,6 +156,16 @@ FieldDescription *TextureChunkBase::_desc[] =
                      ImageFieldId, ImageFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFImage),
+    new FieldDescription(SFBool::getClassType(), 
+                     "scale", 
+                     ScaleFieldId, ScaleFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFScale),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "frame", 
+                     FrameFieldId, FrameFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFFrame),
     new FieldDescription(SFUInt32::getClassType(), 
                      "minFilter", 
                      MinFilterFieldId, MinFilterFieldMask,
@@ -304,6 +320,8 @@ void TextureChunkBase::executeSync(      FieldContainer &other,
 
 TextureChunkBase::TextureChunkBase(void) :
 	_sfImage	(), 
+	_sfScale	(Bool(true)), 
+	_sfFrame	(UInt32(0)), 
 	_sfMinFilter	(UInt32(GL_LINEAR_MIPMAP_LINEAR)), 
 	_sfMagFilter	(UInt32(GL_LINEAR)), 
 	_sfWrapS	(UInt32(GL_REPEAT)), 
@@ -328,6 +346,8 @@ TextureChunkBase::TextureChunkBase(void) :
 
 TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
 	_sfImage		(source._sfImage), 
+	_sfScale		(source._sfScale), 
+	_sfFrame		(source._sfFrame), 
 	_sfMinFilter		(source._sfMinFilter), 
 	_sfMagFilter		(source._sfMagFilter), 
 	_sfWrapS		(source._sfWrapS), 
@@ -363,6 +383,16 @@ UInt32 TextureChunkBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (ImageFieldMask & whichField))
     {
         returnValue += _sfImage.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ScaleFieldMask & whichField))
+    {
+        returnValue += _sfScale.getBinSize();
+    }
+
+    if(FieldBits::NoField != (FrameFieldMask & whichField))
+    {
+        returnValue += _sfFrame.getBinSize();
     }
 
     if(FieldBits::NoField != (MinFilterFieldMask & whichField))
@@ -454,6 +484,16 @@ MemoryHandle TextureChunkBase::copyToBin(      MemoryHandle  pMem,
         pMem = _sfImage.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (ScaleFieldMask & whichField))
+    {
+        pMem = _sfScale.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FrameFieldMask & whichField))
+    {
+        pMem = _sfFrame.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (MinFilterFieldMask & whichField))
     {
         pMem = _sfMinFilter.copyToBin(pMem);
@@ -541,6 +581,16 @@ MemoryHandle TextureChunkBase::copyFromBin(      MemoryHandle  pMem,
     if(FieldBits::NoField != (ImageFieldMask & whichField))
     {
         pMem = _sfImage.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ScaleFieldMask & whichField))
+    {
+        pMem = _sfScale.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FrameFieldMask & whichField))
+    {
+        pMem = _sfFrame.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (MinFilterFieldMask & whichField))
@@ -638,6 +688,16 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
     if(FieldBits::NoField != (ImageFieldMask & whichField))
     {
         _sfImage.syncWith(pOther->_sfImage);
+    }
+
+    if(FieldBits::NoField != (ScaleFieldMask & whichField))
+    {
+        _sfScale.syncWith(pOther->_sfScale);
+    }
+
+    if(FieldBits::NoField != (FrameFieldMask & whichField))
+    {
+        _sfFrame.syncWith(pOther->_sfFrame);
     }
 
     if(FieldBits::NoField != (MinFilterFieldMask & whichField))

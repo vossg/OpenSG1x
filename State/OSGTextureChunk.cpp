@@ -76,9 +76,12 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.10 2001/07/23 11:38:28 dirk Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.11 2001/07/28 15:05:06 dirk Exp $";
 
 StateChunkClass TextureChunk::_class(String("Texture"));
+
+UInt32 TextureChunk::_extTex3D;
+
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -163,8 +166,9 @@ TextureChunk::~TextureChunk(void)
 /** \brief react to field changes
  */
 
-void TextureChunk::changed(BitVector, ChangeMode)
+void TextureChunk::changed(BitVector fields, ChangeMode)
 {
+	
 }
 
 /*----------------------------- onCreate --------------------------------*/
@@ -184,7 +188,7 @@ void TextureChunk::onCreate( const FieldContainer & )
 	setGLId( Window::registerGLObject( 
 						osgMethodFunctor2CPtr<
 										void,
-										Window::GLObjectFlagE,
+										Window::GLObjectStatusE,
 										UInt32,
 										TextureChunkPtr
 										>( tmpPtr, &TextureChunk::handleGL ), 1 
@@ -196,6 +200,8 @@ void TextureChunk::onCreate( const FieldContainer & )
                     1));
 #endif
 	endEditCP( tmpPtr, TextureChunk::GLIdFieldMask );
+
+	_extTex3D = Window::registerExtension( "EXT_texture3D" );
 }
 
 
@@ -215,7 +221,7 @@ void TextureChunk::dump(      UInt32     uiIndent,
 
 // GL object handler
 // create the texture and destroy it
-void TextureChunk::handleGL( Window::GLObjectFlagE mode, UInt32 id )
+void TextureChunk::handleGL( Window::GLObjectStatusE mode, UInt32 id )
 {
 	if ( mode == Window::destroy )
 	{
@@ -236,6 +242,10 @@ void TextureChunk::handleGL( Window::GLObjectFlagE mode, UInt32 id )
 		GLenum target;		
 		if ( img->getDepth() > 1 )			
 		{
+			// need the window here to ask for the extension...
+			// if ( win->hasExtension( _extTex3D ) )
+			//		target = GL_TEXTURE_3D;
+			// else
 			SWARNING << "TextureChunk::initialize: 3D textures not supported "
 					 << "yet!" << endl;
 			return;
@@ -262,6 +272,9 @@ void TextureChunk::handleGL( Window::GLObjectFlagE mode, UInt32 id )
 		UInt32 width = img->getWidth();
 		UInt32 height = img->getHeight();
 		
+		Bool doScale = getScale(); // scale the texture to 2^?
+		UInt32 frame = getFrame();
+		
 		Bool defined = false;	// Texture defined ?
 		Bool needMipmaps = getMinFilter() == GL_NEAREST_MIPMAP_NEAREST ||
 							getMinFilter() == GL_LINEAR_MIPMAP_NEAREST ||
@@ -271,12 +284,42 @@ void TextureChunk::handleGL( Window::GLObjectFlagE mode, UInt32 id )
 		// do we need mipmaps?
 		if ( needMipmaps )
 		{
-			// do we have mipmaps ?
-			
-			// NIY   if ( img->hasMipmaps() )
-			
-			// Nope, try to use gluBuild?DMipmaps
+			// do we have usable mipmaps ?
+			if ( img->getMipMapCount() == img->calcMipmapLevelCount() && 
+				 osgispower2( width ) && osgispower2( height ) 
+			   )
 			{
+				for ( UInt16 i = 0; i < img->getMipMapCount(); i++ )
+				{
+					UInt32 w, h, d;
+					img->calcMipmapGeometry( i, w, h, d );
+					
+					switch ( target )
+					{
+					case GL_TEXTURE_1D:
+						glTexImage1D( GL_TEXTURE_1D, 0, internalFormat, 
+										w, 0,
+										externalFormat, type, 
+										img->getData( i, frame ) );					
+						break;
+					case GL_TEXTURE_2D:					
+						glTexImage2D( GL_TEXTURE_2D, 0, internalFormat, 
+										w, h, 0,
+										externalFormat, type, 
+										img->getData( i, frame ) );
+						break;
+					default:
+							SFATAL << "TextureChunk::initialize: unknown target "
+								   << target << "!!!" << endl;	
+							break;
+					}					
+				}
+				defined = true;
+			}
+			
+			if ( ! defined )
+			{
+				// Nope, try to use gluBuild?DMipmaps
 				void * data = NULL;
 				
 				// can we use it directly?
@@ -291,36 +334,58 @@ void TextureChunk::handleGL( Window::GLObjectFlagE mode, UInt32 id )
 								 << "non-2D textures that are not 2^x !!!"
 								 << endl;
 					}
-					else // use gluScaleImage to get to 2^
+					else
 					{
 						UInt32 outw = osgnextpower2( width );
 						UInt32 outh = osgnextpower2( height );
 						
-						// biggest possible: RGBA FLOAT
-						data = malloc( outw * outh * sizeof( GL_FLOAT ) * 4 );
+						// type is always ubyte right now
+						data = malloc( outw * outh * sizeof( GLubyte ) * 4 );
 						
-						GLint res = gluScaleImage( externalFormat, 
-										width, height, type, img->getData(),
-										outw, outh, type, data );
-						
-						if ( res )
+						// should we scale to next power of 2?
+						if ( doScale )
 						{
-							SWARNING << "TextureChunk::initialize: "
-									 << "gluScaleImage failed: " 
-									 << gluErrorString( res ) << "("
-									 << res << ")!" << endl;
-							free( data );
-							data = NULL;
+							GLint res = gluScaleImage( externalFormat, 
+											width, height, type, img->getData( 0, frame ),
+											outw, outh, type, data );
+							
+							if ( res )
+							{
+								SWARNING << "TextureChunk::initialize: "
+										 << "gluScaleImage failed: " 
+										 << gluErrorString( res ) << "("
+										 << res << ")!" << endl;
+								free( data );
+								data = NULL;
+							}
+							else
+							{
+								width = outw;
+								height = outh;					
+							}
 						}
-						else
+						else // nope, just copy the image to the lower left part
 						{
+							memset( data, 0, outw * outh * sizeof( GLubyte ) * 4 );
+							
+							UInt16 bpl = width * img->getBpp();
+							UInt8 * src = (UInt8 *) img->getData();
+							UInt8 * dest= (UInt8 *) data;
+							
+							for ( int y = 0; y < height; y++ )
+							{
+								memcpy( dest, src, bpl );
+								
+								src  += bpl;
+								dest += outw * img->getBpp();
+							}
 							width = outw;
 							height = outh;					
 						}
 					}
 				}
 				else
-					data = img->getData();
+					data = img->getData( 0, frame );
 				
 				if ( data )
 				{
@@ -340,7 +405,7 @@ void TextureChunk::handleGL( Window::GLObjectFlagE mode, UInt32 id )
 								   << target << "!!!" << endl;
 					}
 
-					if ( data != img->getData() )
+					if ( data != img->getData( 0, frame ) )
 						free( data );
 					defined = true;
 				} // data
@@ -355,70 +420,103 @@ void TextureChunk::handleGL( Window::GLObjectFlagE mode, UInt32 id )
 				glTexParameteri( target, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 			
 			void * data = NULL;
-			// can we use the texture directly?
-			if ( ! osgispower2( width ) ||
-				 ! osgispower2( height )
-			   )
+
+			// should we scale to next power of 2?
+			if ( doScale )
 			{
-				// scale is only implemented for 2D
-				if ( target != GL_TEXTURE_2D )
-				{
-					SWARNING << "TextureChunk::initialize: can't scale "
-							 << "non-2D textures that are not 2^x !!!"
-							 << endl;
-				}
-				else // use gluScaleImage to get to 2^
-				{
-					UInt32 outw = osgnextpower2( width );
-					UInt32 outh = osgnextpower2( height );
-					
-					// biggest possible: RGBA FLOAT
-					data = malloc( outw * outh * sizeof( GL_FLOAT ) * 4 );
-					
-					GLint res = gluScaleImage( externalFormat, 
-									width, height, type, img->getData(),
-									outw, outh, type, data );
-					
-					if ( res )
+				// can we use the texture directly?
+				if ( ! osgispower2( width ) ||
+					 ! osgispower2( height )
+				   )
+				{						
+					// scale is only implemented for 2D
+					if ( target != GL_TEXTURE_2D )
 					{
-						SWARNING << "TextureChunk::initialize: "
-								 << "gluScaleImage failed: " 
-								 << gluErrorString( res ) << "("
-								 << res << ")!" << endl;
-						free( data );
-						data = NULL;
+						SWARNING << "TextureChunk::initialize: can't scale "
+								 << "non-2D textures that are not 2^x !!!"
+								 << endl;
 					}
 					else
 					{
-						width = outw;
-						height = outh;					
+						UInt32 outw = osgnextpower2( width );
+						UInt32 outh = osgnextpower2( height );
+						
+						// biggest possible: RGBA FLOAT
+						data = malloc( outw * outh * sizeof( GL_FLOAT ) * 4 );
+						
+						GLint res = gluScaleImage( externalFormat, 
+										width, height, type, img->getData( 0, frame ),
+										outw, outh, type, data );
+						
+						if ( res )
+						{
+							SWARNING << "TextureChunk::initialize: "
+									 << "gluScaleImage failed: " 
+									 << gluErrorString( res ) << "("
+									 << res << ")!" << endl;
+							free( data );
+							data = NULL;
+						}
+						else
+						{
+							width = outw;
+							height = outh;					
+						}
 					}
 				}
+				else
+					data = img->getData( 0, frame );
+				
+				if ( data )
+				{
+					switch ( target )
+					{
+					case GL_TEXTURE_1D:
+						glTexImage1D( GL_TEXTURE_1D, 0, internalFormat, 
+										width, 0,
+										externalFormat, type, 
+										data );					
+						break;
+					case GL_TEXTURE_2D:					
+						glTexImage2D( GL_TEXTURE_2D, 0, internalFormat, 
+										width, height, 0,
+										externalFormat, type, 
+										data );
+						break;
+						default:
+							SFATAL << "TextureChunk::initialize: unknown target "
+								   << target << "!!!" << endl;	
+					}	
+				}				
 			}
-			else
-				data = img->getData();
-			
-			if ( data )
+			else // don't scale, just use ll corner
+			{
 				switch ( target )
 				{
 				case GL_TEXTURE_1D:
 					glTexImage1D( GL_TEXTURE_1D, 0, internalFormat, 
-									width, 0,
+									osgnextpower2( width ), 0,
 									externalFormat, type, 
-									data );					
+									NULL );		
+					glTexSubImage1D( GL_TEXTURE_1D, 0, 0, width,
+									externalFormat, type, img->getData( 0, frame ) );
 					break;
 				case GL_TEXTURE_2D:					
 					glTexImage2D( GL_TEXTURE_2D, 0, internalFormat, 
-									width, height, 0,
+									osgnextpower2( width ), osgnextpower2( height ), 0,
 									externalFormat, type, 
-									data );
+									NULL );
+					glTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0, width, height, 
+									externalFormat, type, img->getData( 0, frame ) );
 					break;
-					default:
+				default:
 						SFATAL << "TextureChunk::initialize: unknown target "
 							   << target << "!!!" << endl;	
-				}					
-
-			if ( data != img->getData() )
+				}	
+				
+			}
+			
+			if ( data != img->getData( 0, frame ) )
 				free( data );
 		}
 		
@@ -426,8 +524,59 @@ void TextureChunk::handleGL( Window::GLObjectFlagE mode, UInt32 id )
 	}
 	else if ( mode == Window::needrefresh )
 	{
-		SWARNING 	<< "TextureChunk(" << this << ")::handleGL: needrefresh: " 
-			 		<< "not implemented yet!" << endl;		
+		// TODO: mipmap recreation/handling
+		
+		ImageP img = getImage();
+		
+		if ( ! img ) // no image ?
+			return;
+				
+		if ( ! getScale() || ( osgispower2( img->getWidth()  ) && 
+							   osgispower2( img->getHeight() )
+		   )                 )
+		{
+			GLenum target;		
+			if ( img->getDepth() > 1 )			
+			{
+				// need the window here to ask for the extension...
+				// if ( win->hasExtension( _extTex3D ) )
+				//		target = GL_TEXTURE_3D;
+				// else
+				SWARNING << "TextureChunk::refresh: 3D textures not supported "
+						 << "yet!" << endl;
+				return;
+			}
+			else if ( img->getHeight() > 1 )		target = GL_TEXTURE_2D;
+			else									target = GL_TEXTURE_1D;
+	
+			// activate the texture
+			glBindTexture( target, id );
+			
+			switch ( target )
+			{
+			case GL_TEXTURE_1D:
+				glTexSubImage1D( GL_TEXTURE_1D, 0, 0, img->getWidth(),
+								img->getPixelFormat(), GL_UNSIGNED_BYTE, 
+								img->getData( 0, getFrame() ) );
+				break;
+			case GL_TEXTURE_2D:					
+				glTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0, img->getWidth(), 
+								img->getHeight(),
+								img->getPixelFormat(), GL_UNSIGNED_BYTE, 
+								img->getData( 0, getFrame() ) );
+				break;
+			default:
+					SFATAL << "TextureChunk::refresh: unknown target "
+						   << target << "!!!" << endl;	
+			}	
+		}
+		else
+		{
+			SWARNING << "TextureChunk::refresh: not implemented yet for "
+					 << "scaling!!!" << endl;	
+		}
+
+		glErr( "TextureChunk::refresh image" );
 	}
 	else
 	{

@@ -167,6 +167,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
 	virtual Bool operator == (const StateChunk &other) const;
 	virtual Bool operator != (const StateChunk &other) const;
 
+    /*---------------------- texture specific -------------------------------*/
+
+	inline void imageContentChanged( void );
+
   protected:
 
     //-----------------------------------------------------------------------
@@ -234,6 +238,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
 	// class. Used for indexing in State
 	static StateChunkClass _class;
 
+	// extension indices for used extensions;
+	static UInt32 _extTex3D;
+	
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
@@ -249,7 +256,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     //-----------------------------------------------------------------------
 
 	// handle the GL stuff: creation, activatiom, deletion
-	void handleGL( Window::GLObjectFlagE mode, UInt32 id );
+	void handleGL( Window::GLObjectStatusE mode, UInt32 id );
 
     // prohibit default functions (move to 'public' if you need one)
 
