@@ -60,8 +60,6 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
-#include <OSGStateChunkFields.h>
-
 OSG_BEGIN_NAMESPACE
 
 class PolygonChunk;
@@ -73,6 +71,6 @@ typedef FCPtr<StateChunkPtr, PolygonChunk> PolygonChunkPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGPolygonChunkFields.h,v 1.9 2001/11/30 11:48:20 vossg Exp $"
+#define OSGPOLYGONCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGPolygonChunkFields.h,v 1.10 2001/12/17 15:39:05 dirk Exp $"
 
 #endif /* _OSGPOLYGONCHUNKFIELDS_H_ */

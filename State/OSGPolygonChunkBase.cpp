@@ -79,7 +79,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.18 2001/11/09 08:17:08 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.19 2001/12/17 15:39:05 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONCHUNKBASE_INLINE_CVSID;
 
@@ -140,7 +140,7 @@ const OSG::BitVector  PolygonChunkBase::StippleFieldMask =
     Defines if polygons are rendered filled, outlined or as points.
 */
 /*! \var Bool            PolygonChunkBase::_sfSmooth
-    Defines if gouraud or flat shading is used.
+    Defines if polygon antialiasing is used.
 */
 /*! \var Real32          PolygonChunkBase::_sfOffsetFactor
     Defines the polygon offset factor.
@@ -277,11 +277,11 @@ void PolygonChunkBase::executeSync(      FieldContainer &other,
 #endif
 
 PolygonChunkBase::PolygonChunkBase(void) :
-    _sfCullFace               (Int32(GL_FALSE)), 
+    _sfCullFace               (Int32(GL_NONE)), 
     _sfFrontFace              (Int32(GL_CCW)), 
     _sfModeFace               (Int32(GL_FRONT)), 
     _sfMode                   (Int32(GL_FILL)), 
-    _sfSmooth                 (Bool(GL_TRUE)), 
+    _sfSmooth                 (Bool(GL_FALSE)), 
     _sfOffsetFactor           (Real32(0)), 
     _sfOffsetBias             (Real32(0)), 
     _sfOffsetPoint            (Bool(GL_FALSE)), 

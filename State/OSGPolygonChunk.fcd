@@ -16,7 +16,7 @@ i.e. polygons.
 		type="Int32"
 		cardinality="single"
 		visibility="external"
-		defaultValue="GL_FALSE"
+		defaultValue="GL_NONE"
 		defaultHeader="<GL/gl.h>"
 	>
 	Defines which side of the polygon is invisible.
@@ -55,10 +55,10 @@ i.e. polygons.
 		type="Bool"
 		cardinality="single"
 		visibility="external"
-		defaultValue="GL_TRUE"
+		defaultValue="GL_FALSE"
 		defaultHeader="<GL/gl.h>"
 	>
-	Defines if gouraud or flat shading is used.
+	Defines if polygon antialiasing is used.
 	</Field>
 	<Field
 		name="offsetFactor"
