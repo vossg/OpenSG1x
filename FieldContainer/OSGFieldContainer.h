@@ -288,27 +288,29 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
         result._containerSize = sizeof(ObjectType);
 
         pTmp        = 
-            (UInt8 *) operator new(
+            static_cast<UInt8 *>(operator new(
                 sizeof(Int32)      + // ReferenceCount
                 sizeof(UInt32)     + // ContainerId
-                sizeof(ObjectType) * ThreadManager::getNumAspects());
+                sizeof(ObjectType) * ThreadManager::getNumAspects()));
 
-        *((Int32 *) pTmp) = 0;
+        *(reinterpret_cast<Int32 *>(pTmp)) = 0;
         
         pTmp += sizeof(Int32);
 
         result._storeP = (pTmp + sizeof(UInt32));
 
-        *((UInt32 *) pTmp) = 
+        *(reinterpret_cast<UInt32 *>(pTmp)) = 
             FieldContainerFactory::the()->registerFieldContainer(result);
 
-        Thread::getCurrentChangeList()->addCreated(*((UInt32 *) pTmp));
+        Thread::getCurrentChangeList()->addCreated(
+            *(reinterpret_cast<UInt32 *>(pTmp)));
 
         pTmp += sizeof(UInt32);
 
         for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
         {
-            pTmp = (UInt8 *) new (pTmp) ObjectType(*prototypeP);
+            pTmp = 
+                reinterpret_cast<UInt8 *>(new (pTmp) ObjectType(*prototypeP));
 
             pTmp += sizeof(ObjectType);
         }
@@ -331,27 +333,28 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
         result._containerSize = sizeof(ObjectType);
 
         pTmp        =             
-            (UInt8 *) operator new(
+            static_cast<UInt8 *>(operator new(
                 sizeof(Int32)      + // ReferenceCount
                 sizeof(UInt32)     + // ContainerId
-                sizeof(ObjectType) * ThreadManager::getNumAspects());
+                sizeof(ObjectType) * ThreadManager::getNumAspects()));
 
-        *((Int32 *) pTmp) = 0;
+        *(reinterpret_cast<Int32 *>(pTmp)) = 0;
         
         pTmp  += sizeof(Int32);
 
         result._storeP = (pTmp + sizeof(UInt32));
 
-        *((UInt32 *) pTmp) = 
+        *(reinterpret_cast<UInt32 *>(pTmp)) = 
             FieldContainerFactory::the()->registerFieldContainer(result);
 
-        Thread::getCurrentChangeList()->addCreated(*((UInt32 *) pTmp));
+        Thread::getCurrentChangeList()->addCreated(
+            *(reinterpret_cast<UInt32 *>(pTmp)));
 
         pTmp += sizeof(UInt32);
         
         for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
         {
-            pTmp = (UInt8 *) new (pTmp) ObjectType();
+            pTmp = reinterpret_cast<UInt8 *>(new (pTmp) ObjectType());
             
             pTmp += sizeof(ObjectType);
         }
