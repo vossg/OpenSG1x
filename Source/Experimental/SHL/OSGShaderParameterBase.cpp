@@ -156,7 +156,7 @@ void ShaderParameterBase::executeSync(      FieldContainer &other,
 
 ShaderParameterBase::ShaderParameterBase(void) :
     _sfName                   (), 
-    _sfChanged                (bool(false)), 
+    _sfChanged                (bool(true)), 
     _sfTypeId                 (UInt32(0)), 
     Inherited() 
 {
@@ -299,7 +299,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterBase.cpp,v 1.1 2004/06/05 18:16:43 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterBase.cpp,v 1.2 2004/06/06 16:44:21 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERBASE_INLINE_CVSID;
 

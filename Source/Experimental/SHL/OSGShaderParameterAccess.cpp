@@ -61,7 +61,8 @@ OSG_USING_NAMESPACE
 
 ShaderParameterAccess::ShaderParameterAccess(MFShaderParameterPtr &parameters) :
     _parameters(parameters),
-    _parametermap()
+    _parametermap(),
+    _mapsize(0)
 {
 }
 
@@ -71,4 +72,33 @@ ShaderParameterAccess::~ShaderParameterAccess(void)
 
 void ShaderParameterAccess::operator =(const ShaderParameterAccess &/*source*/)
 {
+}
+
+bool ShaderParameterAccess::subParameter(const char *name)
+{
+    if(name == NULL)
+        return false;
+
+    updateMap();
+    parameterIt it = _parametermap.find(name);
+    
+    if(it == _parametermap.end())
+        return false;
+
+    _parameters.erase(_parameters.begin() + (*it).second);
+    _parametermap.erase(it);
+    _mapsize = _parameters.size();
+
+    return true;
+}
+
+void ShaderParameterAccess::updateMap(void)
+{
+    if(_mapsize == _parameters.size())
+        return;
+    
+    UInt32 size = _parameters.size();
+    for(UInt32 i=0;i<size;++i)
+        _parametermap.insert(std::pair<std::string, UInt32>(_parameters[i]->getName(), i));
+    _mapsize = size;
 }

@@ -73,7 +73,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterAccess
     /*! \{                                                                 */
   
     template<class ParameterType, class ValueType> 
-    void    setParameter(const char *name, ValueType value);
+    bool    setParameter(const char *name, ValueType value);
+    bool    subParameter(const char *name);
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -84,18 +85,20 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterAccess
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const ShaderParameterAccess &source);
+    void updateMap(void);
 
     MFShaderParameterPtr &_parameters;
 
     typedef std::map<std::string, UInt32> parameterMap;
     typedef parameterMap::iterator parameterIt;
     parameterMap _parametermap;
+    UInt32       _mapsize;
 };
 
 OSG_END_NAMESPACE
 
 #include <OSGShaderParameterAccess.inl>
 
-#define OSGSHADERPARAMETERACCESS_HEADER_CVSID "@(#)$Id: OSGShaderParameterAccess.h,v 1.1 2004/06/05 18:16:43 a-m-z Exp $"
+#define OSGSHADERPARAMETERACCESS_HEADER_CVSID "@(#)$Id: OSGShaderParameterAccess.h,v 1.2 2004/06/06 16:44:21 a-m-z Exp $"
 
 #endif /* _OSGSHADERPARAMETERACCESS_H_ */

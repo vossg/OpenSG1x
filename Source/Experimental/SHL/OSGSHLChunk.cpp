@@ -775,36 +775,40 @@ bool SHLChunk::readFragmentProgram(std::istream &stream)
     return true;
 }
 
-void SHLChunk::setUniformParameter(const char *name, Int32 value)
+bool SHLChunk::setUniformParameter(const char *name, Int32 value)
 {
-    _parameter_access->setParameter<ShaderParameterInt>(name, value);
+    return _parameter_access->setParameter<ShaderParameterInt>(name, value);
 }
 
-void SHLChunk::setUniformParameter(const char *name, Real32 value)
+bool SHLChunk::setUniformParameter(const char *name, Real32 value)
 {
-    _parameter_access->setParameter<ShaderParameterReal>(name, value);
+    return _parameter_access->setParameter<ShaderParameterReal>(name, value);
 }
 
-void SHLChunk::setUniformParameter(const char *name, const Vec2f &value)
+bool SHLChunk::setUniformParameter(const char *name, const Vec2f &value)
 {
-    _parameter_access->setParameter<ShaderParameterVec2f>(name, value);
+    return _parameter_access->setParameter<ShaderParameterVec2f>(name, value);
 }
 
-void SHLChunk::setUniformParameter(const char *name, const Vec3f &value)
+bool SHLChunk::setUniformParameter(const char *name, const Vec3f &value)
 {
-    _parameter_access->setParameter<ShaderParameterVec3f>(name, value);
+    return _parameter_access->setParameter<ShaderParameterVec3f>(name, value);
 }
 
-void SHLChunk::setUniformParameter(const char *name, const Vec4f &value)
+bool SHLChunk::setUniformParameter(const char *name, const Vec4f &value)
 {
-    _parameter_access->setParameter<ShaderParameterVec4f>(name, value);
+    return _parameter_access->setParameter<ShaderParameterVec4f>(name, value);
 }
 
-void SHLChunk::setUniformParameter(const char *name, const Matrix &value)
+bool SHLChunk::setUniformParameter(const char *name, const Matrix &value)
 {
-    _parameter_access->setParameter<ShaderParameterMatrix>(name, value);
+    return _parameter_access->setParameter<ShaderParameterMatrix>(name, value);
 }
 
+bool SHLChunk::subUniformParameter(const char *name)
+{
+    return _parameter_access->subParameter(name);
+}
 
 /*------------------------------ State ------------------------------------*/
 
@@ -918,7 +922,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.10 2004/06/06 11:29:30 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.11 2004/06/06 16:44:21 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

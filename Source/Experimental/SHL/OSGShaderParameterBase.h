@@ -224,6 +224,6 @@ typedef ShaderParameterBase *ShaderParameterBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBase.h,v 1.1 2004/06/05 18:16:43 a-m-z Exp $"
+#define OSGSHADERPARAMETERBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBase.h,v 1.2 2004/06/06 16:44:21 a-m-z Exp $"
 
 #endif /* _OSGSHADERPARAMETERBASE_H_ */

@@ -43,10 +43,12 @@
 OSG_BEGIN_NAMESPACE
 
 template<class ParameterType, class ValueType> inline
-void ShaderParameterAccess::setParameter(const char *name, ValueType value)
+bool ShaderParameterAccess::setParameter(const char *name, ValueType value)
 {
     if(name == NULL)
-        return;
+        return false;
+
+    updateMap();
 
     parameterIt it = _parametermap.find(name);
     
@@ -57,7 +59,7 @@ void ShaderParameterAccess::setParameter(const char *name, ValueType value)
         if(p == NullFC)
         {
             FWARNING(("Parameter '%s' has wrong type!\n", name));
-            return;
+            return false;
         }
         p->setValue(value);
         p->setChanged(true);
@@ -73,10 +75,12 @@ void ShaderParameterAccess::setParameter(const char *name, ValueType value)
             p->setChanged(true);
             _parameters.push_back(p);
             _parametermap.insert(std::pair<std::string, UInt32>(name, _parameters.size()-1));
+            _mapsize = _parameters.size();
         }
     }
+    return true;
 }
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERACCESS_INLINE_CVSID "@(#)$Id: OSGShaderParameterAccess.inl,v 1.2 2004/06/06 09:54:35 a-m-z Exp $"
+#define OSGSHADERPARAMETERACCESS_INLINE_CVSID "@(#)$Id: OSGShaderParameterAccess.inl,v 1.3 2004/06/06 16:44:21 a-m-z Exp $"

@@ -91,12 +91,14 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
                  bool    readFragmentProgram      (const char   *file);
                  bool    readFragmentProgram      (std::istream &stream);
 
-                 void    setUniformParameter(const char *name, Int32 value);
-                 void    setUniformParameter(const char *name, Real32 value);
-                 void    setUniformParameter(const char *name, const Vec2f &value);
-                 void    setUniformParameter(const char *name, const Vec3f &value);
-                 void    setUniformParameter(const char *name, const Vec4f &value);
-                 void    setUniformParameter(const char *name, const Matrix &value);
+                 bool    setUniformParameter(const char *name, Int32 value);
+                 bool    setUniformParameter(const char *name, Real32 value);
+                 bool    setUniformParameter(const char *name, const Vec2f &value);
+                 bool    setUniformParameter(const char *name, const Vec3f &value);
+                 bool    setUniformParameter(const char *name, const Vec4f &value);
+                 bool    setUniformParameter(const char *name, const Matrix &value);
+
+                 bool    subUniformParameter(const char *name);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -223,6 +225,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.5 2004/06/05 18:16:43 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.6 2004/06/06 16:44:21 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */
