@@ -43,10 +43,12 @@ display(void)
 
     float a = glutGet( GLUT_ELAPSED_TIME );
 
+#if 0
     if ( (int) ( a / 2000 ) & 1 )
         glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     else
         glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+#endif
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
@@ -152,6 +154,7 @@ int main (int argc, char **argv)
 
     tm->setDiffuse( Color3f( 0,1,0 ) );
     tm->setAmbient( Color3f( 0,1,0 ) );
+    tm->setTransparency(0.6);
 
     torus_geo->setMaterial( tm );
 

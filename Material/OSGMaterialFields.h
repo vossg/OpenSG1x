@@ -60,7 +60,7 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
-#include <OSGFieldContainerFields.h>
+#include <OSGAttachmentContainerFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -127,6 +127,6 @@ OSG_DLLEXPORT_DECL1(MField, MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialFields.h,v 1.13 2001/12/03 23:53:41 dirk Exp $"
+#define OSGMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialFields.h,v 1.14 2002/01/20 21:17:01 dirk Exp $"
 
 #endif /* _OSGMATERIALFIELDS_H_ */

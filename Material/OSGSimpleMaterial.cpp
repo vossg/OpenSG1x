@@ -1,4 +1,4 @@
-/*---------------------------------------------------------------------------*\
+ /*---------------------------------------------------------------------------*\
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
@@ -18,8 +18,8 @@
  *                                                                           *
  * This library is distributed in the hope that it will be useful, but       *
  * WITHOUT ANY WARRANTY; without even the implied warranty of                *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
- * Library General Public License for more details.                          *
+ * MERCHANTABILITY or FITNESS forA PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License formore details.                          *
  *                                                                           *
  * You should have received a copy of the GNU Library General Public         *
  * License along with this library; if not, write to the Free Software       *
@@ -79,7 +79,7 @@ The simple material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.20 2002/01/04 16:40:29 dirk Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.21 2002/01/20 21:17:01 dirk Exp $";
 
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
@@ -127,7 +127,6 @@ void SimpleMaterial::initMethod (void)
 SimpleMaterial::SimpleMaterial(void) :
     Inherited()
 {
-    _materialChunk = MaterialChunk::create();
 }
 
 /** \brief Copy Constructor
@@ -137,6 +136,12 @@ SimpleMaterial::SimpleMaterial(const SimpleMaterial &source) :
     Inherited(source)
 {
     _materialChunk = MaterialChunk::create();
+    _blendChunk    = BlendChunk::create();
+
+    beginEditCP(_blendChunk);
+    _blendChunk->setSrcFactor (GL_SRC_ALPHA);
+    _blendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+    endEditCP  (_blendChunk);
 }
 
 /** \brief Destructor
@@ -144,6 +149,8 @@ SimpleMaterial::SimpleMaterial(const SimpleMaterial &source) :
 
 SimpleMaterial::~SimpleMaterial(void)
 {
+    subRefCP(_materialChunk);
+    subRefCP(_blendChunk);    
 }
 
 
@@ -156,7 +163,7 @@ void SimpleMaterial::changed(BitVector, ChangeMode)
 
 /*-------------------------- your_category---------------------------------*/
 
-StatePtr SimpleMaterial::makeState( void )
+StatePtr SimpleMaterial::makeState(void)
 {
     StatePtr state = State::create();
 
@@ -164,28 +171,31 @@ StatePtr SimpleMaterial::makeState( void )
     Color4f v4;
     float alpha = 1.f - getTransparency();
 
-    beginEditCP( _materialChunk );
+    beginEditCP(_materialChunk);
 
-    v3 = getAmbient(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha );
-    _materialChunk->setAmbient( v4 );
-    v3 = getDiffuse(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha );
-    _materialChunk->setDiffuse( v4 );
-    v3 = getSpecular(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha );
-    _materialChunk->setSpecular( v4 );
-    _materialChunk->setShininess( getShininess() );
-    v3 = getEmission(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha );
-    _materialChunk->setEmission( v4 );
+    v3 = getAmbient(); v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
+    _materialChunk->setAmbient(v4);
+    v3 = getDiffuse(); v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
+    _materialChunk->setDiffuse(v4);
+    v3 = getSpecular(); v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
+    _materialChunk->setSpecular(v4);
+    _materialChunk->setShininess(getShininess());
+    v3 = getEmission(); v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
+    _materialChunk->setEmission(v4);
 
-    _materialChunk->setLit( getLit() );
-    _materialChunk->setColorMaterial( getColorMaterial() );
+    _materialChunk->setLit(getLit());
+    _materialChunk->setColorMaterial(getColorMaterial());
 
-    endEditCP( _materialChunk );
+    endEditCP(_materialChunk);
 
-    state->addChunk( _materialChunk );
+    state->addChunk(_materialChunk);
 
-    for ( MFStateChunkPtr::iterator i = _mfChunks.begin();
-            i != _mfChunks.end(); i++ )
-        state->addChunk( *i );
+    if(isTransparent())
+        state->addChunk(_blendChunk);
+    
+    for(MFStateChunkPtr::iterator i = _mfChunks.begin();
+            i != _mfChunks.end(); ++i)
+        state->addChunk(*i);
 
     return state;
 }
@@ -229,13 +239,15 @@ void SimpleMaterial::rebuildState(void)
 
     _materialChunk->setEmission(v4);
 
-    _materialChunk->setLit( getLit() );
-    _materialChunk->setColorMaterial( getColorMaterial() );
+    _materialChunk->setLit(getLit());
+    _materialChunk->setColorMaterial(getColorMaterial());
 
     endEditCP(_materialChunk);
 
     _pState->addChunk(_materialChunk);
 
+    if(isTransparent())
+        _pState->addChunk(_blendChunk);
 
     MFStateChunkPtr::iterator it        = _mfChunks.begin();
     MFStateChunkPtr::iterator chunksEnd = _mfChunks.end();
@@ -255,8 +267,8 @@ Bool SimpleMaterial::isTransparent(void) const
 
 /*------------------------------- dump ----------------------------------*/
 
-void SimpleMaterial::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
-                          const BitVector OSG_CHECK_ARG(bvFlags )) const
+void SimpleMaterial::dump(     UInt32    OSG_CHECK_ARG(uiIndent),
+                          const BitVector OSG_CHECK_ARG(bvFlags)) const
 {
     SLOG << "SimpleMaterial at " << this << endl;
     PLOG << "\tambient: " << getAmbient() << endl;
@@ -267,8 +279,8 @@ void SimpleMaterial::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
     PLOG << "\ttransparency: " << getTransparency()  << endl;
     PLOG << "\tChunks: " << endl;
 
-    for ( MFStateChunkPtr::const_iterator i = _mfChunks.begin();
-            i != _mfChunks.end(); i++ )
+    for(MFStateChunkPtr::const_iterator i = _mfChunks.begin();
+            i != _mfChunks.end(); i++)
         PLOG << "\t" << *i << endl;
 }
 

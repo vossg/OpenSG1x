@@ -40,11 +40,12 @@ display(void)
     // use the draw action to check the material
 
     float a = glutGet( GLUT_ELAPSED_TIME );
-
+#if 0
     if ( (int) ( a / 2000 ) & 1 )
         glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     else
         glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+#endif
 
     win->frameInit();
 
@@ -118,9 +119,9 @@ int main (int argc, char **argv)
     pm->setShininess( 10 );
 
     UChar8 imgdata[] =
-        {  255,0,0,  255,0,0,  255,0,255,
-           255,0,0,  255,0,0,  255,0,255 };
-    Image image( Image::OSG_RGB_PF, 3, 2, 1, 1, 1, 0, imgdata );
+        {  255,0,0,128,  255,0,0,255,  255,0,255,0,
+           255,0,0,128,  255,0,0,255,  255,0,255,0 };
+    Image image( Image::OSG_RGBA_PF, 3, 2, 1, 1, 1, 0, imgdata );
 
     pm->setImage( &image );
     pm->setMagFilter( GL_NEAREST );
@@ -135,7 +136,12 @@ int main (int argc, char **argv)
     tm->setDiffuse( Color3f( 0,1,0 ) );
     tm->setAmbient( Color3f( 0,1,0 ) );
 
-    tm->setImage( &image );
+    UChar8 imgdata2[] =
+        {  255,0,0,  255,0,0,  255,0,255,
+           255,0,0,  255,0,0,  255,0,255 };
+    Image image2( Image::OSG_RGB_PF, 3, 2, 1, 1, 1, 0, imgdata2 );
+
+    tm->setImage( &image2 );
     tm->setEnvMode( GL_MODULATE );
     tm->setEnvMap( true );
     endEditCP(tm);

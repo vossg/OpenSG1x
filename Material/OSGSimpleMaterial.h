@@ -45,6 +45,7 @@
 
 #include <OSGConfig.h>
 #include <OSGMaterialChunk.h>
+#include <OSGBlendChunk.h>
 #include <OSGSimpleMaterialBase.h>
 
 OSG_BEGIN_NAMESPACE
@@ -130,9 +131,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterial : public SimpleMaterialBase
     static void initMethod( void );
 
 
-    // this chunk is used for rendering the material
+    // these chunks are used for rendering the material
 
     MaterialChunkPtr    _materialChunk;
+    BlendChunkPtr       _blendChunk;
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const SimpleMaterial &source);
