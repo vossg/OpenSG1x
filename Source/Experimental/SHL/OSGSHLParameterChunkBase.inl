@@ -96,13 +96,6 @@ SHLParameterChunkPtr SHLParameterChunkBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-//! Get the SHLParameterChunk::_mfParameters field.
-inline
-MFShaderParameterPtr *SHLParameterChunkBase::getMFParameters(void)
-{
-    return &_mfParameters;
-}
-
 //! Get the SHLParameterChunk::_sfSHLChunk field.
 inline
 SFSHLChunkPtr *SHLParameterChunkBase::getSFSHLChunk(void)
@@ -133,28 +126,7 @@ void SHLParameterChunkBase::setSHLChunk(const SHLChunkPtr &value)
 }
 
 
-//! Get the value of the \a index element the SHLParameterChunk::_mfParameters field.
-inline
-ShaderParameterPtr &SHLParameterChunkBase::getParameters(const UInt32 index)
-{
-    return _mfParameters[index];
-}
-
-//! Get the SHLParameterChunk::_mfParameters field.
-inline
-MFShaderParameterPtr &SHLParameterChunkBase::getParameters(void)
-{
-    return _mfParameters;
-}
-
-//! Get the SHLParameterChunk::_mfParameters field.
-inline
-const MFShaderParameterPtr &SHLParameterChunkBase::getParameters(void) const
-{
-    return _mfParameters;
-}
-
 OSG_END_NAMESPACE
 
-#define OSGSHLPARAMETERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLParameterChunkBase.inl,v 1.1 2004/08/26 18:27:15 a-m-z Exp $"
+#define OSGSHLPARAMETERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLParameterChunkBase.inl,v 1.2 2004/08/27 12:50:51 a-m-z Exp $"
 

@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class ShaderChunk
+ **     class ShaderParameterChunk
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGSHADERCHUNKBASE_H_
-#define _OSGSHADERCHUNKBASE_H_
+#ifndef _OSGSHADERPARAMETERCHUNKBASE_H_
+#define _OSGSHADERPARAMETERCHUNKBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -63,40 +63,37 @@
 
 #include <OSGBaseTypes.h>
 
-#include <OSGShaderParameterChunk.h> // Parent
+#include <OSGStateChunk.h> // Parent
 
-#include <OSGStringFields.h> // VertexProgram type
-#include <OSGStringFields.h> // FragmentProgram type
+#include <OSGShaderParameterFields.h> // Parameters type
 
-#include <OSGShaderChunkFields.h>
+#include <OSGShaderParameterChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class ShaderChunk;
+class ShaderParameterChunk;
 class BinaryDataHandler;
 
-//! \brief ShaderChunk Base Class.
+//! \brief ShaderParameterChunk Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING ShaderChunkBase : public ShaderParameterChunk
+class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterChunkBase : public StateChunk
 {
   private:
 
-    typedef ShaderParameterChunk    Inherited;
+    typedef StateChunk    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef ShaderChunkPtr  Ptr;
+    typedef ShaderParameterChunkPtr  Ptr;
 
     enum
     {
-        VertexProgramFieldId   = Inherited::NextFieldId,
-        FragmentProgramFieldId = VertexProgramFieldId   + 1,
-        NextFieldId            = FragmentProgramFieldId + 1
+        ParametersFieldId = Inherited::NextFieldId,
+        NextFieldId       = ParametersFieldId + 1
     };
 
-    static const OSG::BitVector VertexProgramFieldMask;
-    static const OSG::BitVector FragmentProgramFieldMask;
+    static const OSG::BitVector ParametersFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -123,21 +120,17 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderChunkBase : public ShaderParameterChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFString            *getSFVertexProgram  (void);
-           SFString            *getSFFragmentProgram(void);
+           MFShaderParameterPtr *getMFParameters     (void);
 
-           std::string         &getVertexProgram  (void);
-     const std::string         &getVertexProgram  (void) const;
-           std::string         &getFragmentProgram(void);
-     const std::string         &getFragmentProgram(void) const;
+           ShaderParameterPtr  &getParameters     (const UInt32 index);
+           MFShaderParameterPtr &getParameters     (void);
+     const MFShaderParameterPtr &getParameters     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setVertexProgram  ( const std::string &value );
-     void setFragmentProgram( const std::string &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -167,30 +160,29 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderChunkBase : public ShaderParameterChunk
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFString            _sfVertexProgram;
-    SFString            _sfFragmentProgram;
+    MFShaderParameterPtr   _mfParameters;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    ShaderChunkBase(void);
-    ShaderChunkBase(const ShaderChunkBase &source);
+    ShaderParameterChunkBase(void);
+    ShaderParameterChunkBase(const ShaderParameterChunkBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~ShaderChunkBase(void); 
+    virtual ~ShaderParameterChunkBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      ShaderChunkBase *pOther,
+    void executeSyncImpl(      ShaderParameterChunkBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -204,7 +196,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderChunkBase : public ShaderParameterChunk
 
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const ShaderChunkBase &source);
+    void operator =(const ShaderParameterChunkBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -212,10 +204,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderChunkBase : public ShaderParameterChunk
 //---------------------------------------------------------------------------
 
 
-typedef ShaderChunkBase *ShaderChunkBaseP;
+typedef ShaderParameterChunkBase *ShaderParameterChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGShaderChunkBase.h,v 1.2 2004/08/27 12:50:51 a-m-z Exp $"
+#define OSGSHADERPARAMETERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterChunkBase.h,v 1.1 2004/08/27 12:50:51 a-m-z Exp $"
 
-#endif /* _OSGSHADERCHUNKBASE_H_ */
+#endif /* _OSGSHADERPARAMETERCHUNKBASE_H_ */

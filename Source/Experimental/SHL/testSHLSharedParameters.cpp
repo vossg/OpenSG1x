@@ -1,6 +1,7 @@
 // OpenSG example: testSHL
 //
 // Demonstrates the use of the SHLChunk
+// Ok this creates 1 CGChunk with different parameter sets for each geometry.
 
 // Headers
 #include <GL/glut.h>
@@ -27,8 +28,6 @@
 #include <OSGTextureChunk.h>
 #include <OSGSHLChunk.h>
 #include <OSGSHLParameterChunk.h>
-
-#define ENABLE_SHARING
 
 // vertex shader program for 
 static std::string _vp_program =
@@ -126,14 +125,16 @@ int main(int argc, char **argv)
 
     GeometryPtr geo = makeBoxGeo(0.5, 0.5, 0.5, 1, 1, 1);
 
-#ifdef ENABLE_SHARING
-    // share the chunks
+    // share the chunk
     SHLChunkPtr shl = SHLChunk::create();
     beginEditCP(shl);
         shl->setVertexProgram(_vp_program);
         shl->setFragmentProgram(_fp_program);
+        // These parameters are the same for all geometries so we
+        // keep them in here.
+        shl->setUniformParameter("Scale", Vec2f(20.0f, 20.0f));
+        shl->setUniformParameter("Threshold", Vec2f(0.7f, 0.7f));
     endEditCP(shl);
-#endif
 
     Int32 size = 4;
     
@@ -160,35 +161,18 @@ int main(int argc, char **argv)
     {
         ChunkMaterialPtr cmat = ChunkMaterial::create();
 
-#ifdef ENABLE_SHARING
         // ok use one SHLChunk and n SHLParameterChunks
+        // Assing a different "SurfaceColor" parameter to each geometry.
         SHLParameterChunkPtr shlparameter = SHLParameterChunk::create();
         beginEditCP(shlparameter);
             shlparameter->setSHLChunk(shl);
-            shlparameter->setUniformParameter("Scale", Vec2f(20.0f, 20.0f));
-            shlparameter->setUniformParameter("Threshold", Vec2f(0.7f, 0.7f));
             shlparameter->setUniformParameter("SurfaceColor", color);
         endEditCP(shlparameter);
         _shlparameter = shlparameter;
-#endif
-
-#ifndef ENABLE_SHARING
-        SHLChunkPtr shl = SHLChunk::create();
-        beginEditCP(shl);
-            shl->setVertexProgram(_vp_program);
-            shl->setFragmentProgram(_fp_program);
-    
-            shl->setUniformParameter("Scale", Vec2f(20.0f, 20.0f));
-            shl->setUniformParameter("Threshold", Vec2f(0.7f, 0.7f));
-            shl->setUniformParameter("SurfaceColor", color);
-        endEditCP(shl);
-#endif
 
         beginEditCP(cmat);
             cmat->addChunk(shl);
-#ifdef ENABLE_SHARING
             cmat->addChunk(shlparameter);
-#endif
         endEditCP(cmat);
     
         TransformPtr trans;

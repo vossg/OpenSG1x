@@ -36,28 +36,28 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGSHADERCHUNK_H_
-#define _OSGSHADERCHUNK_H_
+#ifndef _OSGSHADERPARAMETERCHUNK_H_
+#define _OSGSHADERPARAMETERCHUNK_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGConfig.h>
 
-#include <OSGShaderChunkBase.h>
+#include <OSGShaderParameterChunkBase.h>
 #include <OSGShaderParameterAccess.h>
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief ShaderChunk class. See \ref 
-           PageSystemShaderChunk for a description.
+/*! \brief ShaderParameterChunk class. See \ref 
+           PageSystemShaderParameterChunk for a description.
 */
 
-class OSG_SYSTEMLIB_DLLMAPPING ShaderChunk : public ShaderChunkBase
+class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterChunk : public ShaderParameterChunkBase
 {
   private:
 
-    typedef ShaderChunkBase Inherited;
+    typedef ShaderParameterChunkBase Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -79,33 +79,55 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderChunk : public ShaderChunkBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                 ShaderChunk Access                           */
+    /*! \name                 ShaderParameterChunk Access                           */
     /*! \{                                                                 */
 
-            bool    readVertexProgram        (const char   *file  );
-            bool    readVertexProgram        (std::istream &stream);
-            bool    readFragmentProgram      (const char   *file  );
-            bool    readFragmentProgram      (std::istream &stream);
+            bool    setUniformParameter(const char *name, bool   value       );
+            bool    setUniformParameter(const char *name, Int32  value       );
+            bool    setUniformParameter(const char *name, Real32 value       );
+            bool    setUniformParameter(const char *name, const Vec2f  &value);
+            bool    setUniformParameter(const char *name, const Vec3f  &value);
+            bool    setUniformParameter(const char *name, const Vec4f  &value);
+            bool    setUniformParameter(const char *name, const Matrix &value);
+
+            bool    getUniformParameter(const char *name, bool   &value);
+            bool    getUniformParameter(const char *name, Int32  &value);
+            bool    getUniformParameter(const char *name, Real32 &value);
+            bool    getUniformParameter(const char *name, Vec2f  &value);
+            bool    getUniformParameter(const char *name, Vec3f  &value);
+            bool    getUniformParameter(const char *name, Vec4f  &value);
+            bool    getUniformParameter(const char *name, Matrix &value);
+
+            bool    subUniformParameter(const char *name);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    // Variables should all be in ShaderChunkBase.
+    // Variables should all be in ShaderParameterChunkBase.
+
+    void onCreate(const ShaderParameterChunk *source = NULL);
+    void onDestroy(void);
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */
 
-    ShaderChunk(void);
-    ShaderChunk(const ShaderChunk &source);
+    ShaderParameterChunk(void);
+    ShaderParameterChunk(const ShaderParameterChunk &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~ShaderChunk(void); 
+    virtual ~ShaderParameterChunk(void); 
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Parameter Access                            */
+    /*! \{                                                                 */
+
+    ShaderParameterAccess *_parameter_access;
 
     /*! \}                                                                 */
 
@@ -113,22 +135,22 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderChunk : public ShaderChunkBase
   private:
 
     friend class FieldContainer;
-    friend class ShaderChunkBase;
+    friend class ShaderParameterChunkBase;
 
     static void initMethod(void);
 
     // prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const ShaderChunk &source);
+    void operator =(const ShaderParameterChunk &source);
 };
 
-typedef ShaderChunk *ShaderChunkP;
+typedef ShaderParameterChunk *ShaderParameterChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGShaderChunkBase.inl>
-#include <OSGShaderChunk.inl>
+#include <OSGShaderParameterChunkBase.inl>
+#include <OSGShaderParameterChunk.inl>
 
-#define OSGSHADERCHUNK_HEADER_CVSID "@(#)$Id: OSGShaderChunk.h,v 1.3 2004/08/27 12:50:51 a-m-z Exp $"
+#define OSGSHADERPARAMETERCHUNK_HEADER_CVSID "@(#)$Id: OSGShaderParameterChunk.h,v 1.1 2004/08/27 12:50:51 a-m-z Exp $"
 
-#endif /* _OSGSHADERCHUNK_H_ */
+#endif /* _OSGSHADERPARAMETERCHUNK_H_ */

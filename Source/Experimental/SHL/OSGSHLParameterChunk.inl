@@ -42,6 +42,20 @@
 
 OSG_BEGIN_NAMESPACE
 
+inline
+void SHLParameterChunk::updateParameters(Window *win)
+{
+    SHLChunkPtr shl = getSHLChunk();
+
+    if(shl == NullFC)
+    {
+        FWARNING(("SHLParameterChunk: SHLChunk == NullFC, call setSHLChunk()\n"));
+        return;
+    }
+
+    shl->updateParameters(win, getParameters(), false);
+}
+
 OSG_END_NAMESPACE
 
-#define OSGSHLPARAMETERCHUNK_INLINE_CVSID "@(#)$Id: OSGSHLParameterChunk.inl,v 1.1 2004/08/26 18:27:15 a-m-z Exp $"
+#define OSGSHLPARAMETERCHUNK_INLINE_CVSID "@(#)$Id: OSGSHLParameterChunk.inl,v 1.2 2004/08/27 12:50:51 a-m-z Exp $"

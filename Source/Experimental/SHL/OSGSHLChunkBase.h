@@ -65,6 +65,7 @@
 
 #include <OSGShaderChunk.h> // Parent
 
+#include <OSGUInt32Fields.h> // GLId type
 
 #include <OSGSHLChunkFields.h>
 
@@ -86,6 +87,14 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
 
     typedef SHLChunkPtr  Ptr;
 
+    enum
+    {
+        GLIdFieldId = Inherited::NextFieldId,
+        NextFieldId = GLIdFieldId + 1
+    };
+
+    static const OSG::BitVector GLIdFieldMask;
+
 
     static const OSG::BitVector MTInfluenceMask;
 
@@ -105,6 +114,23 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
     virtual const FieldContainerType &getType  (void) const; 
 
     virtual       UInt32              getContainerSize(void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+           SFUInt32            *getSFGLId           (void);
+
+           UInt32              &getGLId           (void);
+     const UInt32              &getGLId           (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+     void setGLId           ( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -147,6 +173,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
   protected:
 
     /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
+
+    SFUInt32            _sfGLId;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
@@ -174,6 +207,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
 
     friend class FieldContainer;
 
+    static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
 
@@ -190,6 +224,6 @@ typedef SHLChunkBase *SHLChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.4 2004/07/01 11:26:56 a-m-z Exp $"
+#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.5 2004/08/27 12:50:51 a-m-z Exp $"
 
 #endif /* _OSGSHLCHUNKBASE_H_ */

@@ -60,7 +60,7 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
-#include <OSGStateChunkFields.h>
+#include <OSGShaderParameterChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -69,7 +69,7 @@ class ShaderChunk;
 #if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! ShaderChunkPtr
 
-typedef FCPtr<StateChunkPtr, ShaderChunk> ShaderChunkPtr;
+typedef FCPtr<ShaderParameterChunkPtr, ShaderChunk> ShaderChunkPtr;
 
 #endif
 
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, ShaderChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGShaderChunkFields.h,v 1.1 2004/07/01 11:26:56 a-m-z Exp $"
+#define OSGSHADERCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGShaderChunkFields.h,v 1.2 2004/08/27 12:50:51 a-m-z Exp $"
 
 #endif /* _OSGSHADERCHUNKFIELDS_H_ */

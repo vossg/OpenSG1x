@@ -1,22 +1,23 @@
 <?xml version="1.0"?>
 
 <FieldContainer
-	name="SHLChunk"
-	parent="ShaderChunk"
+	name="ShaderParameterChunk"
+	parent="StateChunk"
 	library="System"
 	pointerfieldtypes="both"
-	structure="concrete"
+	structure="abstract"
 	systemcomponent="true"
 	parentsystemcomponent="true"
 	decoratable="false"
 	useLocalIncludes="false"
 >
 	<Field
-		name="GLId"
-		type="UInt32"
-		cardinality="single"
-		visibility="internal"
+		name="parameters"
+		type="ShaderParameterPtr"
+		cardinality="multi"
+		visibility="external"
 		access="public"
 	>
+	parameter list
 	</Field>
 </FieldContainer>

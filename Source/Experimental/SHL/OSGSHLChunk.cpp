@@ -106,6 +106,9 @@ UInt32 SHLChunk::_funcUniform4fv = Window::invalidFunctionID;
 
 UInt32 SHLChunk::_funcUniformMatrix4fv = Window::invalidFunctionID;
 
+UInt32 SHLChunk::_funcGetUniformiv = Window::invalidFunctionID;
+UInt32 SHLChunk::_funcGetUniformfv = Window::invalidFunctionID;
+
 // prototypes
 
 typedef GLuint  (OSG_APIENTRY * PFNGLCREATEPROGRAMOBJECTARBPROC) (void);
@@ -129,6 +132,9 @@ typedef void   (OSG_APIENTRY * PFNGLUNIFORMFVARBPROC) (GLint location, GLsizei c
 
 typedef void   (OSG_APIENTRY * PFNGLUNIFORMMATRIXFVARBPROC) (GLint location, GLsizei count, GLboolean transpose, GLfloat *value);
 
+typedef void   (OSG_APIENTRY * PFNGLGETUNIFORMFIARBPROC) (GLuint programObj, GLint location, GLint *value);
+typedef void   (OSG_APIENTRY * PFNGLGETUNIFORMFVARBPROC) (GLuint programObj, GLint location, GLfloat *value);
+
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -150,14 +156,12 @@ void SHLChunk::initMethod (void)
 /*----------------------- constructors & destructors ----------------------*/
 
 SHLChunk::SHLChunk(void) :
-    Inherited(),
-    _reset(-1)
+    Inherited()
 {
 }
 
 SHLChunk::SHLChunk(const SHLChunk &source) :
-    Inherited(source),
-    _reset(source._reset)
+    Inherited(source)
 {
     _shl_extension = Window::registerExtension("GL_ARB_shading_language_100");
     
@@ -254,6 +258,14 @@ SHLChunk::SHLChunk(const SHLChunk &source) :
 
     _funcUniformMatrix4fv =
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glUniformMatrix4fvARB", 
+                                  _shl_extension);
+
+    _funcGetUniformiv =
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGetUniformivARB", 
+                                  _shl_extension);
+    
+    _funcGetUniformfv =
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGetUniformfvARB", 
                                   _shl_extension);
 }
 
@@ -361,7 +373,7 @@ void SHLChunk::handleGL(Window *win, UInt32 idstatus)
             updateProgram(win);
         }
 
-        updateParameters(win);
+        updateParameters(win, getParameters());
     }
     else
     {
@@ -517,40 +529,46 @@ void SHLChunk::updateProgram(Window *win)
         win->setGLObjectId(getGLId(), 0);
     }
     // update all parameters.
-    updateParameters(win, true);
+    updateParameters(win, getParameters());
 }
 
-void SHLChunk::updateParameters(Window *win, bool all)
+void SHLChunk::updateParameters(Window *win,
+                                const MFShaderParameterPtr &parameters,
+                                bool useProgram)
 {
     GLuint program = (GLuint) win->getGLObjectId(getGLId());
 
     if(program == 0)
         return;
 
-    if(getParameters().empty())
+    if(parameters.empty())
         return;
 
-    _reset = 0;
-
-    //GLuint program = (*it).second;
 
     // get "glUseProgramObjectARB" function pointer
     PFNGLUSEPROGRAMOBJECTARBPROC useProgramObject = (PFNGLUSEPROGRAMOBJECTARBPROC)
         win->getFunction(_funcUseProgramObject);
-    
-    useProgramObject(program);
+
+    if(useProgram)
+        useProgramObject(program);
 
     // get "glGetUniformLocationARB" function pointer
     PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation = (PFNGLGETUNIFORMLOCATIONARBPROC)
         win->getFunction(_funcGetUniformLocation);
 
-    for(UInt32 i = 0; i < getParameters().size(); ++i)
-    {
-        ShaderParameterPtr parameter = getParameters()[i];
-        
-        if(!all && !parameter->getChanged())
-            continue;
+    // just a example showing how to get parameter values.
+#if 0
+    // get "glGetUniformfvARB" function pointer
+    PFNGLGETUNIFORMFVARBPROC getUniformfv = (PFNGLGETUNIFORMFVARBPROC)
+        win->getFunction(_funcGetUniformfv);
+    GLfloat values[2];
+    getUniformfv(program, location, values);
+#endif
 
+    for(UInt32 i = 0; i < parameters.size(); ++i)
+    {
+        ShaderParameterPtr parameter = parameters[i];
+        
         // works also but is not possible with a switch and a switch is much faster.
         //UInt16 groupid = parameter->getType().getGroupId();
         //if(groupid == ShaderParameterInt::getClassType().getGroupId())
@@ -661,34 +679,8 @@ void SHLChunk::updateParameters(Window *win, bool all)
         }
     }
 
-    useProgramObject(0);
-}
-
-void SHLChunk::resetParameters(void)
-{
-    // ok this is a HACK but I can't reset the changed field immediately
-    // this doesn't work with the cluster.
-    if(_reset == -1)
-        return;
-    
-    ++_reset;
-    
-    if(_reset <= 1)
-        return;
-    
-    _reset = -1;
-    
-    MFShaderParameterPtr &parameters = getParameters();
-    for(UInt32 i = 0; i < parameters.size(); ++i)
-    {
-        ShaderParameterPtr &parameter = parameters[i];
-        if(parameter->getChanged())
-        {
-            beginEditCP(parameter);
-                parameter->setChanged(false);
-            endEditCP(parameter);
-        }
-    }
+    if(useProgram)
+        useProgramObject(0);
 }
 
 /*------------------------------ State ------------------------------------*/
@@ -702,15 +694,12 @@ void SHLChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
     if(program == 0)
         return;
 
-    resetParameters();
-
     //printf("SHLChunk::activate : %p %x\n", action->getWindow(), action->getWindow()->getGLObjectId(getGLId()));
 
     // get "glUseProgramObjectARB" function pointer
     PFNGLUSEPROGRAMOBJECTARBPROC useProgramObject = (PFNGLUSEPROGRAMOBJECTARBPROC)
         action->getWindow()->getFunction(_funcUseProgramObject);
     
-    //GLuint program = (*it).second;
     useProgramObject(program);
 }
 
@@ -737,8 +726,6 @@ void SHLChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
 
     if(action->getWindow()->getGLObjectId(old->getGLId()) != 0)
         useProgramObject(0);
-
-    resetParameters();
 
     //printf("SHLChunk::changeFrom : %p %x\n", action->getWindow(), action->getWindow()->getGLObjectId(getGLId()));
 
@@ -806,7 +793,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.18 2004/08/26 18:27:04 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.19 2004/08/27 12:50:51 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

@@ -84,20 +84,6 @@ SFString *ShaderChunkBase::getSFFragmentProgram(void)
     return &_sfFragmentProgram;
 }
 
-//! Get the ShaderChunk::_mfParameters field.
-inline
-MFShaderParameterPtr *ShaderChunkBase::getMFParameters(void)
-{
-    return &_mfParameters;
-}
-
-//! Get the ShaderChunk::_sfGLId field.
-inline
-SFUInt32 *ShaderChunkBase::getSFGLId(void)
-{
-    return &_sfGLId;
-}
-
 
 //! Get the value of the ShaderChunk::_sfVertexProgram field.
 inline
@@ -141,50 +127,8 @@ void ShaderChunkBase::setFragmentProgram(const std::string &value)
     _sfFragmentProgram.setValue(value);
 }
 
-//! Get the value of the ShaderChunk::_sfGLId field.
-inline
-UInt32 &ShaderChunkBase::getGLId(void)
-{
-    return _sfGLId.getValue();
-}
-
-//! Get the value of the ShaderChunk::_sfGLId field.
-inline
-const UInt32 &ShaderChunkBase::getGLId(void) const
-{
-    return _sfGLId.getValue();
-}
-
-//! Set the value of the ShaderChunk::_sfGLId field.
-inline
-void ShaderChunkBase::setGLId(const UInt32 &value)
-{
-    _sfGLId.setValue(value);
-}
-
-
-//! Get the value of the \a index element the ShaderChunk::_mfParameters field.
-inline
-ShaderParameterPtr &ShaderChunkBase::getParameters(const UInt32 index)
-{
-    return _mfParameters[index];
-}
-
-//! Get the ShaderChunk::_mfParameters field.
-inline
-MFShaderParameterPtr &ShaderChunkBase::getParameters(void)
-{
-    return _mfParameters;
-}
-
-//! Get the ShaderChunk::_mfParameters field.
-inline
-const MFShaderParameterPtr &ShaderChunkBase::getParameters(void) const
-{
-    return _mfParameters;
-}
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGShaderChunkBase.inl,v 1.1 2004/07/01 11:26:56 a-m-z Exp $"
+#define OSGSHADERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGShaderChunkBase.inl,v 1.2 2004/08/27 12:50:51 a-m-z Exp $"
 

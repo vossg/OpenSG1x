@@ -47,15 +47,6 @@
 
 #include "OSGShaderChunk.h"
 
-#include <OSGShaderParameter.h>
-#include <OSGShaderParameterBool.h>
-#include <OSGShaderParameterInt.h>
-#include <OSGShaderParameterReal.h>
-#include <OSGShaderParameterVec2f.h>
-#include <OSGShaderParameterVec3f.h>
-#include <OSGShaderParameterVec4f.h>
-#include <OSGShaderParameterMatrix.h>
-
 OSG_USING_NAMESPACE
 
 /***************************************************************************\
@@ -90,38 +81,17 @@ void ShaderChunk::initMethod (void)
 /*----------------------- constructors & destructors ----------------------*/
 
 ShaderChunk::ShaderChunk(void) :
-    Inherited(),
-    _parameter_access(NULL)
+    Inherited()
 {
 }
 
 ShaderChunk::ShaderChunk(const ShaderChunk &source) :
-    Inherited(source),
-    _parameter_access(source._parameter_access)
+    Inherited(source)
 {
 }
 
 ShaderChunk::~ShaderChunk(void)
 {
-}
-
-void ShaderChunk::onCreate(const ShaderChunk *source)
-{
-    Inherited::onCreate(source);
-
-    // ignore prototypes.
-    if(GlobalSystemState == Startup)
-        return;
-
-    _parameter_access = new ShaderParameterAccess(getParameters());
-}
-
-void ShaderChunk::onDestroy(void)
-{
-    Inherited::onDestroy();
-
-    if(_parameter_access != NULL)
-        delete _parameter_access;
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -225,85 +195,6 @@ bool ShaderChunk::readFragmentProgram(std::istream &stream)
     return true;
 }
 
-/*------------------------------------ Set --------------------------------*/
-
-bool ShaderChunk::setUniformParameter(const char *name, bool value)
-{
-    return _parameter_access->setParameter<ShaderParameterBool>(name, value);
-}
-
-bool ShaderChunk::setUniformParameter(const char *name, Int32 value)
-{
-    return _parameter_access->setParameter<ShaderParameterInt>(name, value);
-}
-
-bool ShaderChunk::setUniformParameter(const char *name, Real32 value)
-{
-    return _parameter_access->setParameter<ShaderParameterReal>(name, value);
-}
-
-bool ShaderChunk::setUniformParameter(const char *name, const Vec2f &value)
-{
-    return _parameter_access->setParameter<ShaderParameterVec2f>(name, value);
-}
-
-bool ShaderChunk::setUniformParameter(const char *name, const Vec3f &value)
-{
-    return _parameter_access->setParameter<ShaderParameterVec3f>(name, value);
-}
-
-bool ShaderChunk::setUniformParameter(const char *name, const Vec4f &value)
-{
-    return _parameter_access->setParameter<ShaderParameterVec4f>(name, value);
-}
-
-bool ShaderChunk::setUniformParameter(const char *name, const Matrix &value)
-{
-    return _parameter_access->setParameter<ShaderParameterMatrix>(name, value);
-}
-
-/*------------------------------------ Get --------------------------------*/
-
-bool ShaderChunk::getUniformParameter(const char *name, bool &value)
-{
-    return _parameter_access->getParameter<ShaderParameterBool>(name, value);
-}
-
-bool ShaderChunk::getUniformParameter(const char *name, Int32 &value)
-{
-    return _parameter_access->getParameter<ShaderParameterInt>(name, value);
-}
-
-bool ShaderChunk::getUniformParameter(const char *name, Real32 &value)
-{
-    return _parameter_access->getParameter<ShaderParameterReal>(name, value);
-}
-
-bool ShaderChunk::getUniformParameter(const char *name, Vec2f &value)
-{
-    return _parameter_access->getParameter<ShaderParameterVec2f>(name, value);
-}
-
-bool ShaderChunk::getUniformParameter(const char *name, Vec3f &value)
-{
-    return _parameter_access->getParameter<ShaderParameterVec3f>(name, value);
-}
-
-bool ShaderChunk::getUniformParameter(const char *name, Vec4f &value)
-{
-    return _parameter_access->getParameter<ShaderParameterVec4f>(name, value);
-}
-
-bool ShaderChunk::getUniformParameter(const char *name, Matrix &value)
-{
-    return _parameter_access->getParameter<ShaderParameterMatrix>(name, value);
-}
-
-bool ShaderChunk::subUniformParameter(const char *name)
-{
-    return _parameter_access->subParameter(name);
-}
-
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
 
@@ -317,7 +208,7 @@ bool ShaderChunk::subUniformParameter(const char *name)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderChunk.cpp,v 1.3 2004/08/26 18:27:15 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderChunk.cpp,v 1.4 2004/08/27 12:50:51 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERCHUNKBASE_INLINE_CVSID;
 

@@ -64,9 +64,6 @@
 
 OSG_USING_NAMESPACE
 
-const OSG::BitVector  SHLParameterChunkBase::ParametersFieldMask = 
-    (TypeTraits<BitVector>::One << SHLParameterChunkBase::ParametersFieldId);
-
 const OSG::BitVector  SHLParameterChunkBase::SHLChunkFieldMask = 
     (TypeTraits<BitVector>::One << SHLParameterChunkBase::SHLChunkFieldId);
 
@@ -77,9 +74,6 @@ const OSG::BitVector SHLParameterChunkBase::MTInfluenceMask =
 
 // Field descriptions
 
-/*! \var ShaderParameterPtr SHLParameterChunkBase::_mfParameters
-    parameter list
-*/
 /*! \var SHLChunkPtr     SHLParameterChunkBase::_sfSHLChunk
     
 */
@@ -88,11 +82,6 @@ const OSG::BitVector SHLParameterChunkBase::MTInfluenceMask =
 
 FieldDescription *SHLParameterChunkBase::_desc[] = 
 {
-    new FieldDescription(MFShaderParameterPtr::getClassType(), 
-                     "parameters", 
-                     ParametersFieldId, ParametersFieldMask,
-                     false,
-                     (FieldAccessMethod) &SHLParameterChunkBase::getMFParameters),
     new FieldDescription(SFSHLChunkPtr::getClassType(), 
                      "SHLChunk", 
                      SHLChunkFieldId, SHLChunkFieldMask,
@@ -103,7 +92,7 @@ FieldDescription *SHLParameterChunkBase::_desc[] =
 
 FieldContainerType SHLParameterChunkBase::_type(
     "SHLParameterChunk",
-    "StateChunk",
+    "ShaderParameterChunk",
     NULL,
     (PrototypeCreateF) &SHLParameterChunkBase::createEmpty,
     SHLParameterChunk::initMethod,
@@ -153,7 +142,6 @@ void SHLParameterChunkBase::executeSync(      FieldContainer &other,
 #endif
 
 SHLParameterChunkBase::SHLParameterChunkBase(void) :
-    _mfParameters             (), 
     _sfSHLChunk               (SHLChunkPtr(NullFC)), 
     Inherited() 
 {
@@ -164,7 +152,6 @@ SHLParameterChunkBase::SHLParameterChunkBase(void) :
 #endif
 
 SHLParameterChunkBase::SHLParameterChunkBase(const SHLParameterChunkBase &source) :
-    _mfParameters             (source._mfParameters             ), 
     _sfSHLChunk               (source._sfSHLChunk               ), 
     Inherited                 (source)
 {
@@ -182,11 +169,6 @@ UInt32 SHLParameterChunkBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
-    if(FieldBits::NoField != (ParametersFieldMask & whichField))
-    {
-        returnValue += _mfParameters.getBinSize();
-    }
-
     if(FieldBits::NoField != (SHLChunkFieldMask & whichField))
     {
         returnValue += _sfSHLChunk.getBinSize();
@@ -201,11 +183,6 @@ void SHLParameterChunkBase::copyToBin(      BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
-    if(FieldBits::NoField != (ParametersFieldMask & whichField))
-    {
-        _mfParameters.copyToBin(pMem);
-    }
-
     if(FieldBits::NoField != (SHLChunkFieldMask & whichField))
     {
         _sfSHLChunk.copyToBin(pMem);
@@ -218,11 +195,6 @@ void SHLParameterChunkBase::copyFromBin(      BinaryDataHandler &pMem,
                                     const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
-
-    if(FieldBits::NoField != (ParametersFieldMask & whichField))
-    {
-        _mfParameters.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (SHLChunkFieldMask & whichField))
     {
@@ -238,9 +210,6 @@ void SHLParameterChunkBase::executeSyncImpl(      SHLParameterChunkBase *pOther,
 
     Inherited::executeSyncImpl(pOther, whichField);
 
-    if(FieldBits::NoField != (ParametersFieldMask & whichField))
-        _mfParameters.syncWith(pOther->_mfParameters);
-
     if(FieldBits::NoField != (SHLChunkFieldMask & whichField))
         _sfSHLChunk.syncWith(pOther->_sfSHLChunk);
 
@@ -255,7 +224,7 @@ void SHLParameterChunkBase::executeSyncImpl(      SHLParameterChunkBase *pOther,
 OSG_BEGIN_NAMESPACE
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldDataTraits<SHLParameterChunkPtr>::_type("SHLParameterChunkPtr", "StateChunkPtr");
+DataType FieldDataTraits<SHLParameterChunkPtr>::_type("SHLParameterChunkPtr", "ShaderParameterChunkPtr");
 #endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(SHLParameterChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
@@ -277,7 +246,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLParameterChunkBase.cpp,v 1.1 2004/08/26 18:27:15 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLParameterChunkBase.cpp,v 1.2 2004/08/27 12:50:51 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLPARAMETERCHUNKBASE_INLINE_CVSID;
 

@@ -43,7 +43,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class SHLChunk!
+ **     class ShaderParameterChunk!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -55,78 +55,52 @@ OSG_BEGIN_NAMESPACE
 
 //! access the type of the class
 inline
-OSG::FieldContainerType &SHLChunkBase::getClassType(void)
+OSG::FieldContainerType &ShaderParameterChunkBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
 inline
-OSG::UInt32 SHLChunkBase::getClassTypeId(void) 
+OSG::UInt32 ShaderParameterChunkBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
-//! create a new instance of the class
-inline
-SHLChunkPtr SHLChunkBase::create(void) 
-{
-    SHLChunkPtr fc; 
-
-    if(getClassType().getPrototype() != OSG::NullFC) 
-    {
-        fc = SHLChunkPtr::dcast(
-            getClassType().getPrototype()-> shallowCopy()); 
-    }
-    
-    return fc; 
-}
-
-//! create an empty new instance of the class, do not copy the prototype
-inline
-SHLChunkPtr SHLChunkBase::createEmpty(void) 
-{ 
-    SHLChunkPtr returnValue; 
-    
-    newPtr(returnValue); 
-
-    return returnValue; 
-}
-
 
 /*------------------------------ get -----------------------------------*/
 
-//! Get the SHLChunk::_sfGLId field.
+//! Get the ShaderParameterChunk::_mfParameters field.
 inline
-SFUInt32 *SHLChunkBase::getSFGLId(void)
+MFShaderParameterPtr *ShaderParameterChunkBase::getMFParameters(void)
 {
-    return &_sfGLId;
+    return &_mfParameters;
 }
 
 
-//! Get the value of the SHLChunk::_sfGLId field.
+
+//! Get the value of the \a index element the ShaderParameterChunk::_mfParameters field.
 inline
-UInt32 &SHLChunkBase::getGLId(void)
+ShaderParameterPtr &ShaderParameterChunkBase::getParameters(const UInt32 index)
 {
-    return _sfGLId.getValue();
+    return _mfParameters[index];
 }
 
-//! Get the value of the SHLChunk::_sfGLId field.
+//! Get the ShaderParameterChunk::_mfParameters field.
 inline
-const UInt32 &SHLChunkBase::getGLId(void) const
+MFShaderParameterPtr &ShaderParameterChunkBase::getParameters(void)
 {
-    return _sfGLId.getValue();
+    return _mfParameters;
 }
 
-//! Set the value of the SHLChunk::_sfGLId field.
+//! Get the ShaderParameterChunk::_mfParameters field.
 inline
-void SHLChunkBase::setGLId(const UInt32 &value)
+const MFShaderParameterPtr &ShaderParameterChunkBase::getParameters(void) const
 {
-    _sfGLId.setValue(value);
+    return _mfParameters;
 }
-
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.5 2004/08/27 12:50:51 a-m-z Exp $"
+#define OSGSHADERPARAMETERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterChunkBase.inl,v 1.1 2004/08/27 12:50:51 a-m-z Exp $"
 

@@ -45,19 +45,24 @@
 
 #include <OSGConfig.h>
 
-#include <OSGGL.h>
-#include <OSGGLU.h>
-#include <OSGGLEXT.h>
-#include <OSGRemoteAspect.h>
+#include "OSGShaderParameterChunk.h"
 
-#include <OSGSHLChunk.h>
-
-#include "OSGSHLParameterChunk.h"
+#include <OSGShaderParameter.h>
+#include <OSGShaderParameterBool.h>
+#include <OSGShaderParameterInt.h>
+#include <OSGShaderParameterReal.h>
+#include <OSGShaderParameterVec2f.h>
+#include <OSGShaderParameterVec3f.h>
+#include <OSGShaderParameterVec4f.h>
+#include <OSGShaderParameterMatrix.h>
 
 OSG_USING_NAMESPACE
 
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-/*! \class osg::SHLParameterChunk
+/*! \class osg::ShaderParameterChunk
 
 */
 
@@ -65,15 +70,11 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-StateChunkClass SHLParameterChunk::_class("SHLParameter");
-
-UInt32 SHLParameterChunk::_shl_extension;
-
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
 
-void SHLParameterChunk::initMethod (void)
+void ShaderParameterChunk::initMethod (void)
 {
 }
 
@@ -88,108 +89,134 @@ void SHLParameterChunk::initMethod (void)
 
 /*----------------------- constructors & destructors ----------------------*/
 
-SHLParameterChunk::SHLParameterChunk(void) :
-    Inherited()
+ShaderParameterChunk::ShaderParameterChunk(void) :
+    Inherited(),
+    _parameter_access(NULL)
 {
 }
 
-SHLParameterChunk::SHLParameterChunk(const SHLParameterChunk &source) :
-    Inherited(source)
-{
-    _shl_extension = Window::registerExtension("GL_ARB_shading_language_100");
-}
-
-SHLParameterChunk::~SHLParameterChunk(void)
+ShaderParameterChunk::ShaderParameterChunk(const ShaderParameterChunk &source) :
+    Inherited(source),
+    _parameter_access(source._parameter_access)
 {
 }
 
-const StateChunkClass *SHLParameterChunk::getClass(void) const
+ShaderParameterChunk::~ShaderParameterChunk(void)
 {
-    return &_class;
+}
+
+void ShaderParameterChunk::onCreate(const ShaderParameterChunk *source)
+{
+    Inherited::onCreate(source);
+
+    // ignore prototypes.
+    if(GlobalSystemState == Startup)
+        return;
+
+    _parameter_access = new ShaderParameterAccess(getParameters());
+}
+
+void ShaderParameterChunk::onDestroy(void)
+{
+    Inherited::onDestroy();
+
+    if(_parameter_access != NULL)
+        delete _parameter_access;
 }
 
 /*----------------------------- class specific ----------------------------*/
 
-void SHLParameterChunk::changed(BitVector whichField, UInt32 origin)
+void ShaderParameterChunk::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
 
-void SHLParameterChunk::dump(      UInt32    ,
+void ShaderParameterChunk::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump SHLParameterChunk NI" << std::endl;
+    SLOG << "Dump ShaderParameterChunk NI" << std::endl;
 }
 
-/*------------------------------ State ------------------------------------*/
+/*---------------------------------- Access -------------------------------*/
 
-void SHLParameterChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
+
+/*------------------------------------ Set --------------------------------*/
+
+bool ShaderParameterChunk::setUniformParameter(const char *name, bool value)
 {
-    if(!action->getWindow()->hasExtension(_shl_extension))
-    {
-        FWARNING(("OpenGL Shading Language is not supported, couldn't find extension 'GL_ARB_shading_language_100'!\n"));
-        return;
-    }
-    updateParameters(action->getWindow());
+    return _parameter_access->setParameter<ShaderParameterBool>(name, value);
 }
 
-void SHLParameterChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
-                                UInt32 /*idx*/)
+bool ShaderParameterChunk::setUniformParameter(const char *name, Int32 value)
 {
-    if(!action->getWindow()->hasExtension(_shl_extension))
-    {
-        FWARNING(("OpenGL Shading Language is not supported, couldn't find extension 'GL_ARB_shading_language_100'!\n"));
-        return;
-    }
-
-    SHLParameterChunk *old = dynamic_cast<SHLParameterChunk *>(old_chunk);
-
-    if(old == NULL)
-    {
-        FWARNING(( "SHLParameterChunk::changeFrom: caught non-SHLParameterChunk!\n"));
-        return;
-    }
-
-    // SHLParameterChunk didn't change so do nothing.
-    if(old == this)
-        return;
-
-    updateParameters(action->getWindow());
+    return _parameter_access->setParameter<ShaderParameterInt>(name, value);
 }
 
-
-void SHLParameterChunk::deactivate(DrawActionBase */*action*/, UInt32 /*idx*/)
+bool ShaderParameterChunk::setUniformParameter(const char *name, Real32 value)
 {
+    return _parameter_access->setParameter<ShaderParameterReal>(name, value);
 }
 
-/*-------------------------- Comparison -----------------------------------*/
-
-Real32 SHLParameterChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
+bool ShaderParameterChunk::setUniformParameter(const char *name, const Vec2f &value)
 {
-    return 0;
+    return _parameter_access->setParameter<ShaderParameterVec2f>(name, value);
 }
 
-bool SHLParameterChunk::operator < (const StateChunk &other) const
+bool ShaderParameterChunk::setUniformParameter(const char *name, const Vec3f &value)
 {
-    return this < &other;
+    return _parameter_access->setParameter<ShaderParameterVec3f>(name, value);
 }
 
-bool SHLParameterChunk::operator == (const StateChunk &other) const
+bool ShaderParameterChunk::setUniformParameter(const char *name, const Vec4f &value)
 {
-    SHLParameterChunk const *tother = dynamic_cast<SHLParameterChunk const*>(&other);
-
-    if(!tother)
-        return false;
-
-    if(getParameters().size() != tother->getParameters().size())
-        return false;
-
-    return true;
+    return _parameter_access->setParameter<ShaderParameterVec4f>(name, value);
 }
 
-bool SHLParameterChunk::operator != (const StateChunk &other) const
+bool ShaderParameterChunk::setUniformParameter(const char *name, const Matrix &value)
 {
-    return ! (*this == other);
+    return _parameter_access->setParameter<ShaderParameterMatrix>(name, value);
+}
+
+/*------------------------------------ Get --------------------------------*/
+
+bool ShaderParameterChunk::getUniformParameter(const char *name, bool &value)
+{
+    return _parameter_access->getParameter<ShaderParameterBool>(name, value);
+}
+
+bool ShaderParameterChunk::getUniformParameter(const char *name, Int32 &value)
+{
+    return _parameter_access->getParameter<ShaderParameterInt>(name, value);
+}
+
+bool ShaderParameterChunk::getUniformParameter(const char *name, Real32 &value)
+{
+    return _parameter_access->getParameter<ShaderParameterReal>(name, value);
+}
+
+bool ShaderParameterChunk::getUniformParameter(const char *name, Vec2f &value)
+{
+    return _parameter_access->getParameter<ShaderParameterVec2f>(name, value);
+}
+
+bool ShaderParameterChunk::getUniformParameter(const char *name, Vec3f &value)
+{
+    return _parameter_access->getParameter<ShaderParameterVec3f>(name, value);
+}
+
+bool ShaderParameterChunk::getUniformParameter(const char *name, Vec4f &value)
+{
+    return _parameter_access->getParameter<ShaderParameterVec4f>(name, value);
+}
+
+bool ShaderParameterChunk::getUniformParameter(const char *name, Matrix &value)
+{
+    return _parameter_access->getParameter<ShaderParameterMatrix>(name, value);
+}
+
+bool ShaderParameterChunk::subUniformParameter(const char *name)
+{
+    return _parameter_access->subParameter(name);
 }
 
 /*------------------------------------------------------------------------*/
@@ -205,11 +232,11 @@ bool SHLParameterChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLParameterChunk.cpp,v 1.2 2004/08/27 12:50:51 a-m-z Exp $";
-    static Char8 cvsid_hpp       [] = OSGSHLPARAMETERCHUNKBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGSHLPARAMETERCHUNKBASE_INLINE_CVSID;
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterChunk.cpp,v 1.1 2004/08/27 12:50:51 a-m-z Exp $";
+    static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERCHUNKBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGSHADERPARAMETERCHUNKBASE_INLINE_CVSID;
 
-    static Char8 cvsid_fields_hpp[] = OSGSHLPARAMETERCHUNKFIELDS_HEADER_CVSID;
+    static Char8 cvsid_fields_hpp[] = OSGSHADERPARAMETERCHUNKFIELDS_HEADER_CVSID;
 }
 
 #ifdef __sgi

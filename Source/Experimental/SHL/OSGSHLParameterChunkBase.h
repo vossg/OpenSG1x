@@ -63,9 +63,8 @@
 
 #include <OSGBaseTypes.h>
 
-#include <OSGStateChunk.h> // Parent
+#include <OSGShaderParameterChunk.h> // Parent
 
-#include <OSGShaderParameterFields.h> // Parameters type
 #include <OSGSHLChunkFields.h> // SHLChunk type
 
 #include <OSGSHLParameterChunkFields.h>
@@ -77,11 +76,11 @@ class BinaryDataHandler;
 
 //! \brief SHLParameterChunk Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING SHLParameterChunkBase : public StateChunk
+class OSG_SYSTEMLIB_DLLMAPPING SHLParameterChunkBase : public ShaderParameterChunk
 {
   private:
 
-    typedef StateChunk    Inherited;
+    typedef ShaderParameterChunk    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -90,12 +89,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLParameterChunkBase : public StateChunk
 
     enum
     {
-        ParametersFieldId = Inherited::NextFieldId,
-        SHLChunkFieldId   = ParametersFieldId + 1,
-        NextFieldId       = SHLChunkFieldId   + 1
+        SHLChunkFieldId = Inherited::NextFieldId,
+        NextFieldId     = SHLChunkFieldId + 1
     };
 
-    static const OSG::BitVector ParametersFieldMask;
     static const OSG::BitVector SHLChunkFieldMask;
 
 
@@ -123,14 +120,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLParameterChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFShaderParameterPtr *getMFParameters     (void);
            SFSHLChunkPtr       *getSFSHLChunk       (void);
 
            SHLChunkPtr         &getSHLChunk       (void);
      const SHLChunkPtr         &getSHLChunk       (void) const;
-           ShaderParameterPtr  &getParameters     (const UInt32 index);
-           MFShaderParameterPtr &getParameters     (void);
-     const MFShaderParameterPtr &getParameters     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -183,7 +176,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLParameterChunkBase : public StateChunk
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    MFShaderParameterPtr   _mfParameters;
     SFSHLChunkPtr       _sfSHLChunk;
 
     /*! \}                                                                 */
@@ -232,6 +224,6 @@ typedef SHLParameterChunkBase *SHLParameterChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSHLPARAMETERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLParameterChunkBase.h,v 1.1 2004/08/26 18:27:15 a-m-z Exp $"
+#define OSGSHLPARAMETERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLParameterChunkBase.h,v 1.2 2004/08/27 12:50:51 a-m-z Exp $"
 
 #endif /* _OSGSHLPARAMETERCHUNKBASE_H_ */

@@ -4,6 +4,8 @@
  *                                                                           *
  *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
@@ -42,91 +44,88 @@
  **          Any changes made to this file WILL be lost when it is          **
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
- **     Do not change this file, changes should be done in the derived      **
- **     class SHLChunk!
- **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
+
+#ifndef _OSGSHADERPARAMETERCHUNKFIELDS_H_
+#define _OSGSHADERPARAMETERCHUNKFIELDS_H_
+#ifdef __sgi
+#pragma once
+#endif
+
 #include <OSGConfig.h>
+
+#include <OSGFieldContainerPtr.h>
+#include <OSGNodeCoreFieldDataType.h>
+#include <OSGSystemDef.h>
+
+#include <OSGStateChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 
+class ShaderParameterChunk;
 
-//! access the type of the class
-inline
-OSG::FieldContainerType &SHLChunkBase::getClassType(void)
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
+//! ShaderParameterChunkPtr
+
+typedef FCPtr<StateChunkPtr, ShaderParameterChunk> ShaderParameterChunkPtr;
+
+#endif
+
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
+
+template <>
+struct FieldDataTraits<ShaderParameterChunkPtr> : 
+    public FieldTraitsRecurseMapper<ShaderParameterChunkPtr, true>
 {
-    return _type; 
-} 
+    static DataType             _type;                       
 
-//! access the numerical type of the class
-inline
-OSG::UInt32 SHLChunkBase::getClassTypeId(void) 
-{
-    return _type.getId(); 
-} 
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
 
-//! create a new instance of the class
-inline
-SHLChunkPtr SHLChunkBase::create(void) 
-{
-    SHLChunkPtr fc; 
+    static DataType &getType (void) { return _type;        }
 
-    if(getClassType().getPrototype() != OSG::NullFC) 
-    {
-        fc = SHLChunkPtr::dcast(
-            getClassType().getPrototype()-> shallowCopy()); 
-    }
-    
-    return fc; 
-}
+    static char     *getSName(void) { return "SFShaderParameterChunkPtr"; }
+    static char     *getMName(void) { return "MFShaderParameterChunkPtr"; }
+};
 
-//! create an empty new instance of the class, do not copy the prototype
-inline
-SHLChunkPtr SHLChunkBase::createEmpty(void) 
-{ 
-    SHLChunkPtr returnValue; 
-    
-    newPtr(returnValue); 
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<ShaderParameterChunkPtr, true>
+    \hideinhierarchy
+ */
+#endif
 
-    return returnValue; 
-}
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 
-/*------------------------------ get -----------------------------------*/
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
-//! Get the SHLChunk::_sfGLId field.
-inline
-SFUInt32 *SHLChunkBase::getSFGLId(void)
-{
-    return &_sfGLId;
-}
+typedef SField<ShaderParameterChunkPtr> SFShaderParameterChunkPtr;
+#endif
 
+#ifndef OSG_COMPILESHADERPARAMETERCHUNKINST
+OSG_DLLEXPORT_DECL1(SField, ShaderParameterChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
 
-//! Get the value of the SHLChunk::_sfGLId field.
-inline
-UInt32 &SHLChunkBase::getGLId(void)
-{
-    return _sfGLId.getValue();
-}
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
-//! Get the value of the SHLChunk::_sfGLId field.
-inline
-const UInt32 &SHLChunkBase::getGLId(void) const
-{
-    return _sfGLId.getValue();
-}
+typedef MField<ShaderParameterChunkPtr> MFShaderParameterChunkPtr;
+#endif
 
-//! Set the value of the SHLChunk::_sfGLId field.
-inline
-void SHLChunkBase::setGLId(const UInt32 &value)
-{
-    _sfGLId.setValue(value);
-}
-
+#ifndef OSG_COMPILESHADERPARAMETERCHUNKINST
+OSG_DLLEXPORT_DECL1(MField, ShaderParameterChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.5 2004/08/27 12:50:51 a-m-z Exp $"
+#define OSGSHADERPARAMETERCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGShaderParameterChunkFields.h,v 1.1 2004/08/27 12:50:51 a-m-z Exp $"
 
+#endif /* _OSGSHADERPARAMETERCHUNKFIELDS_H_ */

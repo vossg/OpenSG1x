@@ -2,7 +2,7 @@
 
 <FieldContainer
 	name="ShaderChunk"
-	parent="StateChunk"
+	parent="ShaderParameterChunk"
 	library="System"
 	pointerfieldtypes="both"
 	structure="abstract"
@@ -28,22 +28,5 @@
 		access="public"
 	>
 	fragment program source
-	</Field>
-	<Field
-		name="parameters"
-		type="ShaderParameterPtr"
-		cardinality="multi"
-		visibility="external"
-		access="public"
-	>
-	parameter list
-	</Field>
-	<Field
-		name="GLId"
-		type="UInt32"
-		cardinality="single"
-		visibility="internal"
-		access="public"
-	>
 	</Field>
 </FieldContainer>

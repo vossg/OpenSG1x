@@ -82,6 +82,14 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                       Paramerters                            */
+    /*! \{                                                                 */
+
+    void updateParameters(Window *win, const MFShaderParameterPtr &parameters,
+                          bool useProgram = true);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                       State                                  */
     /*! \{                                                                 */
 
@@ -172,8 +180,11 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     static UInt32 _funcUniform2fv;
     static UInt32 _funcUniform3fv;
     static UInt32 _funcUniform4fv;
-    
+
     static UInt32 _funcUniformMatrix4fv;
+
+    static UInt32 _funcGetUniformiv;
+    static UInt32 _funcGetUniformfv;
 
     /*! \}                                                                 */
 
@@ -185,10 +196,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     void operator =(const SHLChunk &source);
 
     void updateProgram(Window *win);
-    void updateParameters(Window *win, bool all = false);
-    void resetParameters(void);
-
-    Int32 _reset;
 };
 
 typedef SHLChunk *SHLChunkP;
@@ -198,6 +205,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.10 2004/07/05 11:38:12 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.11 2004/08/27 12:50:51 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */

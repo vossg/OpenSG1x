@@ -64,10 +64,30 @@
 
 OSG_USING_NAMESPACE
 
+const OSG::BitVector  SHLChunkBase::GLIdFieldMask = 
+    (TypeTraits<BitVector>::One << SHLChunkBase::GLIdFieldId);
+
 const OSG::BitVector SHLChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
+
+// Field descriptions
+
+/*! \var UInt32          SHLChunkBase::_sfGLId
+    
+*/
+
+//! SHLChunk description
+
+FieldDescription *SHLChunkBase::_desc[] = 
+{
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "GLId", 
+                     GLIdFieldId, GLIdFieldMask,
+                     true,
+                     (FieldAccessMethod) &SHLChunkBase::getSFGLId)
+};
 
 
 FieldContainerType SHLChunkBase::_type(
@@ -76,8 +96,8 @@ FieldContainerType SHLChunkBase::_type(
     NULL,
     (PrototypeCreateF) &SHLChunkBase::createEmpty,
     SHLChunk::initMethod,
-    NULL,
-    0);
+    _desc,
+    sizeof(_desc));
 
 //OSG_FIELD_CONTAINER_DEF(SHLChunkBase, SHLChunkPtr)
 
@@ -122,6 +142,7 @@ void SHLChunkBase::executeSync(      FieldContainer &other,
 #endif
 
 SHLChunkBase::SHLChunkBase(void) :
+    _sfGLId                   (), 
     Inherited() 
 {
 }
@@ -131,6 +152,7 @@ SHLChunkBase::SHLChunkBase(void) :
 #endif
 
 SHLChunkBase::SHLChunkBase(const SHLChunkBase &source) :
+    _sfGLId                   (source._sfGLId                   ), 
     Inherited                 (source)
 {
 }
@@ -147,6 +169,11 @@ UInt32 SHLChunkBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+    {
+        returnValue += _sfGLId.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -156,6 +183,11 @@ void SHLChunkBase::copyToBin(      BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+    {
+        _sfGLId.copyToBin(pMem);
+    }
+
 
 }
 
@@ -163,6 +195,11 @@ void SHLChunkBase::copyFromBin(      BinaryDataHandler &pMem,
                                     const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+    {
+        _sfGLId.copyFromBin(pMem);
+    }
 
 
 }
@@ -172,6 +209,9 @@ void SHLChunkBase::executeSyncImpl(      SHLChunkBase *pOther,
 {
 
     Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+        _sfGLId.syncWith(pOther->_sfGLId);
 
 
 }
@@ -206,7 +246,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunkBase.cpp,v 1.4 2004/07/01 11:26:56 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunkBase.cpp,v 1.5 2004/08/27 12:50:51 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

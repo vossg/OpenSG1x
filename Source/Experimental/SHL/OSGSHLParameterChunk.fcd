@@ -2,7 +2,7 @@
 
 <FieldContainer
 	name="SHLParameterChunk"
-	parent="StateChunk"
+	parent="ShaderParameterChunk"
 	library="System"
 	pointerfieldtypes="both"
 	structure="concrete"
@@ -11,15 +11,6 @@
 	decoratable="false"
 	useLocalIncludes="false"
 >
-	<Field
-		name="parameters"
-		type="ShaderParameterPtr"
-		cardinality="multi"
-		visibility="external"
-		access="public"
-	>
-	parameter list
-	</Field>
 	<Field
 		name="SHLChunk"
 		type="SHLChunkPtr"
