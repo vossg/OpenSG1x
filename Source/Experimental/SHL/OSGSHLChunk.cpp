@@ -305,11 +305,18 @@ void SHLChunk::onDestroy(void)
         }
     }
 
-    if(getGLId() > 0)
-        Window::destroyGLObject(getGLId(), 1);
-    
     if(_parameter_access != NULL)
         delete _parameter_access;
+
+    for(UInt32 i = 0; i < getParameters().size(); ++i)
+    {
+        ShaderParameterPtr parameter = getParameters()[i];
+        if(parameter != NullFC)
+            subRefCP(parameter);
+    }
+
+    if(getGLId() > 0)
+        Window::destroyGLObject(getGLId(), 1);
 }
 
 const StateChunkClass *SHLChunk::getClass(void) const
@@ -911,7 +918,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.9 2004/06/05 18:16:42 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.10 2004/06/06 11:29:30 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
