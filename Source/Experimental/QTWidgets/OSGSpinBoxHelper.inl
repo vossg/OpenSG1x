@@ -27,7 +27,7 @@ SpinBoxHelper<ValueTypeT>::SpinBoxHelper(
     ValueType pageStepSize                       )
 
     : _bWrapAround (false       ),
-      _value       (initalValue ),
+      _value       (initialValue),
       _lowerBound  (lowerBound  ),
       _upperBound  (upperBound  ),
       _stepSize    (stepSize    ),
@@ -266,4 +266,4 @@ SpinBoxHelper<ValueTypeT>::stepDown(ValueType stepSize)
 
 OSG_END_NAMESPACE
 
-#define OSGSPINBOXHELPER_INLINE_CVSID "@(#)$Id: OSGSpinBoxHelper.inl,v 1.1 2004/07/30 15:32:15 neumannc Exp $"
+#define OSGSPINBOXHELPER_INLINE_CVSID "@(#)$Id: OSGSpinBoxHelper.inl,v 1.2 2005/02/20 19:48:41 dirk Exp $"

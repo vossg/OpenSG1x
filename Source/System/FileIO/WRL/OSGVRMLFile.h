@@ -67,6 +67,9 @@ typedef VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> > Parent;
 #        define OSG_GCC_34 1
 #    endif
 #endif
+# if __GNUC__ >= 4
+#    define OSG_GCC_34 1
+#endif
 
 #ifndef OSG_COMPILEVRMLLOADERINST
 #if !defined(__sgi) && !defined(__hpux) && !defined(OSG_LINUX_ICC) && \
