@@ -59,6 +59,7 @@
 
 #include <OpenSG/OSGAction.h>
 #include <OpenSG/OSGDrawAction.h>
+#include <OpenSG/OSGRenderAction.h>
 #include <OpenSG/OSGState.h>
 #include <OpenSG/OSGMaterial.h>
 
@@ -117,11 +118,17 @@ char Cubes::cvsid[] = "@(#)$Id: $";
 
 void Cubes::initMethod (void)
 {
-    DrawAction::registerEnterDefault( getClassType(), 
-        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
-                                          CubesPtr , 
-                                          CNodePtr    ,
-                                          Action     *>(&Cubes::draw));
+  DrawAction::registerEnterDefault( getClassType(),
+                                    osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          MaterialDrawablePtr  ,
+                                    CNodePtr      ,
+                                    Action       *>(&MaterialDrawable::drawActionHandler));
+  
+  RenderAction::registerEnterDefault( getClassType(),
+                                      osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                      MaterialDrawablePtr  ,
+                                      CNodePtr      ,
+                                      Action       *>(&MaterialDrawable::renderActionHandler));
 }
 
 /***************************************************************************\
@@ -178,22 +185,14 @@ void Cubes::dump(      UInt32     uiIndent,
 }
 
     
-Action::ResultE Cubes::draw(Action * action )
+Action::ResultE Cubes::drawPrimitives(DrawActionBase * action )
 {
-    DrawAction * da = dynamic_cast<DrawAction *>(action);
-
     if ( getMFPosition()->size() != getMFLength()->size() ||
          getMFPosition()->size() != getMFColor()->size() )
     {
         SWARNING << "Cubes::draw: inconsistent attributes!" << std::endl;
         return Action::Continue;
     }
-
-    // Setup the material
-    StatePtr st = getMaterial()->makeState();
-    addRefCP( st );     
-    st->activate( da );
-
 
     // some variables for faster access
     MFPnt3f   *pos = getMFPosition();
@@ -248,10 +247,6 @@ Action::ResultE Cubes::draw(Action * action )
     }
     
     glEnd();
-
-    // deactivate and free the state
-    st->deactivate( da );
-    subRefCP( st );
     
     return Action::Continue;
 }

@@ -97,12 +97,6 @@ CubesPtr CubesBase::createEmpty(void)
 /*------------------------------ get -----------------------------------*/
 
 inline
-SFMaterialPtr *CubesBase::getSFMaterial(void)
-{
-    return &_sfMaterial;
-}
-
-inline
 MFPnt3f *CubesBase::getMFPosition(void)
 {
     return &_mfPosition;
@@ -120,24 +114,6 @@ MFColor3f *CubesBase::getMFColor(void)
     return &_mfColor;
 }
 
-
-inline
-MaterialPtr &CubesBase::getMaterial(void)
-{
-    return _sfMaterial.getValue();
-}
-
-inline
-const MaterialPtr &CubesBase::getMaterial(void) const
-{
-    return _sfMaterial.getValue();
-}
-
-inline
-void CubesBase::setMaterial(const MaterialPtr &value)
-{
-    _sfMaterial.setValue(value);
-}
 
 
 inline
@@ -193,7 +169,6 @@ const MFColor3f &CubesBase::getColor(void) const
 {
     return _mfColor;
 }
-
 
 OSG_END_NAMESPACE
 

@@ -109,7 +109,7 @@ class OSG_MYLIB_DLLMAPPING Cubes : public CubesBase
                       const BitVector  bvFlags  = 0) const;
     
     // draw the object
-    Action::ResultE draw(Action * action );
+    virtual Action::ResultE drawPrimitives(DrawActionBase * action );
    
     // updates 
     

@@ -2,23 +2,13 @@
 
 <FieldContainer
 	name="Cubes"
-	parent="NodeCore"
+	parent="MaterialDrawable"
 	library="My"
 	pointerfieldtypes="both"
 	systemcomponent="false"
 	parentsystemcomponent="true"
 	structure="concrete"
 >
-
-	<Field
-		name="material"
-		type="MaterialPtr"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
-	The cubes' material.
-	</Field>
 	<Field
 		name="position"
 		type="Pnt3f"

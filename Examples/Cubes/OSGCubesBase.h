@@ -62,12 +62,9 @@
 #include <OSGMyDef.h>
 
 #include <OpenSG/OSGBaseTypes.h>
-#include <OpenSG/OSGFieldDescription.h>
-#include <OpenSG/OSGFieldContainer.h>
 
-#include <OpenSG/OSGNodeCore.h> // Parent
+#include <OpenSG/OSGMaterialDrawable.h> // Parent
 
-#include <OpenSG/OSGMaterialFields.h> // Material type
 #include <OpenSG/OSGPnt3fFields.h> // Position type
 #include <OpenSG/OSGReal32Fields.h> // Length type
 #include <OpenSG/OSGColor3fFields.h> // Color type
@@ -81,25 +78,23 @@ class BinaryDataHandler;
 
 //! \brief Cubes Base Class.
 
-class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
+class OSG_MYLIB_DLLMAPPING CubesBase : public MaterialDrawable
 {
   private:
 
-    typedef NodeCore Inherited;
+    typedef MaterialDrawable Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
     enum
     {
-        MaterialFieldId = Inherited::NextFieldId,
-        PositionFieldId = MaterialFieldId + 1,
+        PositionFieldId = Inherited::NextFieldId,
         LengthFieldId   = PositionFieldId + 1,
         ColorFieldId    = LengthFieldId   + 1,
         NextFieldId     = ColorFieldId    + 1
     };
 
-    static const osg::BitVector MaterialFieldMask;
     static const osg::BitVector PositionFieldMask;
     static const osg::BitVector LengthFieldMask;
     static const osg::BitVector ColorFieldMask;
@@ -127,13 +122,10 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFMaterialPtr       *getSFMaterial       (void);
            MFPnt3f             *getMFPosition       (void);
            MFReal32            *getMFLength         (void);
            MFColor3f           *getMFColor          (void);
 
-           MaterialPtr         &getMaterial       (void);
-     const MaterialPtr         &getMaterial       (void) const;
            Pnt3f               &getPosition       (const UInt32 index);
            MFPnt3f             &getPosition       (void);
      const MFPnt3f             &getPosition       (void) const;
@@ -149,7 +141,6 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setMaterial       ( const MaterialPtr &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -195,7 +186,6 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFMaterialPtr       _sfMaterial;
     MFPnt3f             _mfPosition;
     MFReal32            _mfLength;
     MFColor3f           _mfColor;

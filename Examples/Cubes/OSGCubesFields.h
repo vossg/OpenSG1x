@@ -60,7 +60,7 @@
 #include <OpenSG/OSGNodeCoreFieldDataType.h>
 #include <OSGMyDef.h>
 
-#include <OpenSG/OSGNodeCoreFields.h>
+#include <OpenSG/OSGMaterialDrawableFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -68,8 +68,9 @@ class Cubes;
 
 //! CubesPtr
 
-typedef FCPtr<NodeCorePtr, Cubes> CubesPtr;
+typedef FCPtr<MaterialDrawablePtr, Cubes> CubesPtr;
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief CubesPtr field traits 
     \ingroup FieldLib
     \ingroup SingleFields
@@ -90,6 +91,7 @@ struct FieldDataTraits<CubesPtr> :
     static char     *getSName(void) { return "SFCubesPtr"; }
     static char     *getMName(void) { return "MFCubesPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFCubesPtr
 //! \ingroup SingleFields

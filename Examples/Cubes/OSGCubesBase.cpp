@@ -64,9 +64,6 @@
 
 OSG_USING_NAMESPACE
 
-const OSG::BitVector  CubesBase::MaterialFieldMask = 
-    (1 << CubesBase::MaterialFieldId);
-
 const OSG::BitVector  CubesBase::PositionFieldMask = 
     (1 << CubesBase::PositionFieldId);
 
@@ -80,9 +77,6 @@ const OSG::BitVector  CubesBase::ColorFieldMask =
 
 // Field descriptions
 
-/*! \var MaterialPtr     CubesBase::_sfMaterial
-    The cubes' material.
-*/
 /*! \var Pnt3f           CubesBase::_mfPosition
     The cubes' positions.
 */
@@ -97,11 +91,6 @@ const OSG::BitVector  CubesBase::ColorFieldMask =
 
 FieldDescription *CubesBase::_desc[] = 
 {
-    new FieldDescription(SFMaterialPtr::getClassType(), 
-                     "material", 
-                     MaterialFieldId, MaterialFieldMask,
-                     false,
-                     (FieldAccessMethod) &CubesBase::getSFMaterial),
     new FieldDescription(MFPnt3f::getClassType(), 
                      "position", 
                      PositionFieldId, PositionFieldMask,
@@ -123,7 +112,7 @@ FieldDescription *CubesBase::_desc[] =
 
 FieldContainerType CubesBase::_type(
     "Cubes",
-    "NodeCore",
+    "MaterialDrawable",
     NULL,
     (PrototypeCreateF) &CubesBase::createEmpty,
     Cubes::initMethod,
@@ -175,7 +164,6 @@ void CubesBase::executeSync(      FieldContainer &other,
 #endif
 
 CubesBase::CubesBase(void) :
-    _sfMaterial               (), 
     _mfPosition               (), 
     _mfLength                 (), 
     _mfColor                  (), 
@@ -190,7 +178,6 @@ CubesBase::CubesBase(void) :
 //! Copy Constructor
 
 CubesBase::CubesBase(const CubesBase &source) :
-    _sfMaterial               (source._sfMaterial               ), 
     _mfPosition               (source._mfPosition               ), 
     _mfLength                 (source._mfLength                 ), 
     _mfColor                  (source._mfColor                  ), 
@@ -211,11 +198,6 @@ CubesBase::~CubesBase(void)
 UInt32 CubesBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
-
-    if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
-        returnValue += _sfMaterial.getBinSize();
-    }
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
     {
@@ -241,11 +223,6 @@ void CubesBase::copyToBin(      BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
-    if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
-        _sfMaterial.copyToBin(pMem);
-    }
-
     if(FieldBits::NoField != (PositionFieldMask & whichField))
     {
         _mfPosition.copyToBin(pMem);
@@ -268,11 +245,6 @@ void CubesBase::copyFromBin(      BinaryDataHandler &pMem,
                                     const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
-
-    if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
-        _sfMaterial.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
     {
@@ -298,9 +270,6 @@ void CubesBase::executeSyncImpl(      CubesBase *pOther,
 
     Inherited::executeSyncImpl(pOther, whichField);
 
-    if(FieldBits::NoField != (MaterialFieldMask & whichField))
-        _sfMaterial.syncWith(pOther->_sfMaterial);
-
     if(FieldBits::NoField != (PositionFieldMask & whichField))
         _mfPosition.syncWith(pOther->_mfPosition);
 
@@ -320,8 +289,7 @@ void CubesBase::executeSyncImpl(      CubesBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<CubesPtr>::_type("CubesPtr", "NodeCorePtr");
-
+DataType FieldDataTraits<CubesPtr>::_type("CubesPtr", "MaterialDrawablePtr");
 
 OSG_DLLEXPORT_SFIELD_DEF1(CubesPtr, OSG_MYLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(CubesPtr, OSG_MYLIB_DLLTMPLMAPPING);
