@@ -837,6 +837,24 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
     glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, 
                 (GLfloat*)getEnvColor().getValuesRGBA());
 
+    if(getEnvMode() == GL_COMBINE_EXT)
+    {
+        glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT,  getEnvCombineRGB ());
+        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_RGB_EXT,  getEnvSource0RGB ()); 
+        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB_EXT,  getEnvSource1RGB ()); 
+        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB_EXT,  getEnvSource2RGB ()); 
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB_EXT, getEnvOperand0RGB()); 
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB_EXT, getEnvOperand0RGB()); 
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB_EXT, getEnvOperand0RGB()); 
+
+        glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA_EXT, getEnvCombineAlpha ());
+        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA_EXT, getEnvSource0Alpha ());
+        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_ALPHA_EXT, getEnvSource1Alpha ());
+        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_ALPHA_EXT, getEnvSource2Alpha ());
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA_EXT,getEnvOperand0Alpha());
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA_EXT,getEnvOperand1Alpha());
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_ALPHA_EXT,getEnvOperand2Alpha());
+    }
     // register combiners etc. goes here
 
     glEnable(target);
@@ -940,6 +958,25 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, 
                     (GLfloat*)getEnvColor().getValuesRGBA());
 
+    if(getEnvMode() == GL_COMBINE_EXT)
+    {
+        glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT,  getEnvCombineRGB ());
+        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_RGB_EXT,  getEnvSource0RGB ()); 
+        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB_EXT,  getEnvSource1RGB ()); 
+        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB_EXT,  getEnvSource2RGB ()); 
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB_EXT, getEnvOperand0RGB()); 
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB_EXT, getEnvOperand0RGB()); 
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB_EXT, getEnvOperand0RGB()); 
+
+        glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA_EXT, getEnvCombineAlpha ());
+        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA_EXT, getEnvSource0Alpha ());
+        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_ALPHA_EXT, getEnvSource1Alpha ());
+        glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_ALPHA_EXT, getEnvSource2Alpha ());
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA_EXT,getEnvOperand0Alpha());
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA_EXT,getEnvOperand1Alpha());
+        glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_ALPHA_EXT,getEnvOperand2Alpha());
+    }
+
     if(target != oldtarget)
     {
         glEnable(target);
@@ -1007,13 +1044,42 @@ bool TextureChunk::operator == (const StateChunk &other) const
     if(tother == this)
         return true;
 
-    return  getImage()       == tother->getImage() &&
-            getMinFilter()  == tother->getMinFilter() &&
-            getMagFilter()  == tother->getMagFilter() &&
-            getWrapS()      == tother->getWrapS() &&
-            getWrapT()      == tother->getWrapT() &&
-            getWrapR()      == tother->getWrapR() &&
-            getEnvMode()    == tother->getEnvMode();
+    
+
+    bool returnValue =  
+        getImage    () == tother->getImage    () &&
+        getMinFilter() == tother->getMinFilter() &&
+        getMagFilter() == tother->getMagFilter() &&
+        getWrapS    () == tother->getWrapS    () &&
+        getWrapT    () == tother->getWrapT    () &&
+        getWrapR    () == tother->getWrapR    () &&
+        getEnvMode  () == tother->getEnvMode  ();
+
+    if(returnValue == true && getEnvMode() == GL_COMBINE_EXT)
+    {
+        returnValue = 
+            getEnvCombineRGB ()   == tother->getEnvCombineRGB   () &&
+
+            getEnvSource0RGB ()   == tother->getEnvSource0RGB   () && 
+            getEnvSource1RGB ()   == tother->getEnvSource1RGB   () && 
+            getEnvSource2RGB ()   == tother->getEnvSource2RGB   () && 
+
+            getEnvOperand0RGB()   == tother->getEnvOperand0RGB  () && 
+            getEnvOperand0RGB()   == tother->getEnvOperand0RGB  () && 
+            getEnvOperand0RGB()   == tother->getEnvOperand0RGB  () && 
+
+            getEnvCombineAlpha () == tother->getEnvCombineAlpha () &&
+
+            getEnvSource0Alpha () == tother->getEnvSource0Alpha () &&
+            getEnvSource1Alpha () == tother->getEnvSource1Alpha () &&
+            getEnvSource2Alpha () == tother->getEnvSource2Alpha () &&
+
+            getEnvOperand0Alpha() == tother->getEnvOperand0Alpha() &&
+            getEnvOperand1Alpha() == tother->getEnvOperand1Alpha() &&
+            getEnvOperand2Alpha() == tother->getEnvOperand2Alpha();
+    }
+
+    return returnValue;
 }
 
 bool TextureChunk::operator != (const StateChunk &other) const

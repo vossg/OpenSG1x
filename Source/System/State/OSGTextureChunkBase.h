@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -77,6 +77,20 @@
 #include <OSGUInt32Fields.h> // WrapR type
 #include <OSGUInt32Fields.h> // EnvMode type
 #include <OSGColor4fFields.h> // EnvColor type
+#include <OSGUInt32Fields.h> // EnvCombineRGB type
+#include <OSGUInt32Fields.h> // EnvCombineAlpha type
+#include <OSGUInt32Fields.h> // EnvSource0RGB type
+#include <OSGUInt32Fields.h> // EnvSource1RGB type
+#include <OSGUInt32Fields.h> // EnvSource2RGB type
+#include <OSGUInt32Fields.h> // EnvSource0Alpha type
+#include <OSGUInt32Fields.h> // EnvSource1Alpha type
+#include <OSGUInt32Fields.h> // EnvSource2Alpha type
+#include <OSGUInt32Fields.h> // EnvOperand0RGB type
+#include <OSGUInt32Fields.h> // EnvOperand1RGB type
+#include <OSGUInt32Fields.h> // EnvOperand2RGB type
+#include <OSGUInt32Fields.h> // EnvOperand0Alpha type
+#include <OSGUInt32Fields.h> // EnvOperand1Alpha type
+#include <OSGUInt32Fields.h> // EnvOperand2Alpha type
 #include <OSGUInt32Fields.h> // GLId type
 
 #include <OSGTextureChunkFields.h>
@@ -99,35 +113,63 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 
     enum
     {
-        ImageFieldId          = Inherited::NextFieldId,
-        InternalFormatFieldId = ImageFieldId          + 1,
-        ExternalFormatFieldId = InternalFormatFieldId + 1,
-        ScaleFieldId          = ExternalFormatFieldId + 1,
-        FrameFieldId          = ScaleFieldId          + 1,
-        MinFilterFieldId      = FrameFieldId          + 1,
-        MagFilterFieldId      = MinFilterFieldId      + 1,
-        WrapSFieldId          = MagFilterFieldId      + 1,
-        WrapTFieldId          = WrapSFieldId          + 1,
-        WrapRFieldId          = WrapTFieldId          + 1,
-        EnvModeFieldId        = WrapRFieldId          + 1,
-        EnvColorFieldId       = EnvModeFieldId        + 1,
-        GLIdFieldId           = EnvColorFieldId       + 1,
-        NextFieldId           = GLIdFieldId           + 1
+        ImageFieldId            = Inherited::NextFieldId,
+        InternalFormatFieldId   = ImageFieldId            + 1,
+        ExternalFormatFieldId   = InternalFormatFieldId   + 1,
+        ScaleFieldId            = ExternalFormatFieldId   + 1,
+        FrameFieldId            = ScaleFieldId            + 1,
+        MinFilterFieldId        = FrameFieldId            + 1,
+        MagFilterFieldId        = MinFilterFieldId        + 1,
+        WrapSFieldId            = MagFilterFieldId        + 1,
+        WrapTFieldId            = WrapSFieldId            + 1,
+        WrapRFieldId            = WrapTFieldId            + 1,
+        EnvModeFieldId          = WrapRFieldId            + 1,
+        EnvColorFieldId         = EnvModeFieldId          + 1,
+        EnvCombineRGBFieldId    = EnvColorFieldId         + 1,
+        EnvCombineAlphaFieldId  = EnvCombineRGBFieldId    + 1,
+        EnvSource0RGBFieldId    = EnvCombineAlphaFieldId  + 1,
+        EnvSource1RGBFieldId    = EnvSource0RGBFieldId    + 1,
+        EnvSource2RGBFieldId    = EnvSource1RGBFieldId    + 1,
+        EnvSource0AlphaFieldId  = EnvSource2RGBFieldId    + 1,
+        EnvSource1AlphaFieldId  = EnvSource0AlphaFieldId  + 1,
+        EnvSource2AlphaFieldId  = EnvSource1AlphaFieldId  + 1,
+        EnvOperand0RGBFieldId   = EnvSource2AlphaFieldId  + 1,
+        EnvOperand1RGBFieldId   = EnvOperand0RGBFieldId   + 1,
+        EnvOperand2RGBFieldId   = EnvOperand1RGBFieldId   + 1,
+        EnvOperand0AlphaFieldId = EnvOperand2RGBFieldId   + 1,
+        EnvOperand1AlphaFieldId = EnvOperand0AlphaFieldId + 1,
+        EnvOperand2AlphaFieldId = EnvOperand1AlphaFieldId + 1,
+        GLIdFieldId             = EnvOperand2AlphaFieldId + 1,
+        NextFieldId             = GLIdFieldId             + 1
     };
 
-    static const OSG::BitVector ImageFieldMask;
-    static const OSG::BitVector InternalFormatFieldMask;
-    static const OSG::BitVector ExternalFormatFieldMask;
-    static const OSG::BitVector ScaleFieldMask;
-    static const OSG::BitVector FrameFieldMask;
-    static const OSG::BitVector MinFilterFieldMask;
-    static const OSG::BitVector MagFilterFieldMask;
-    static const OSG::BitVector WrapSFieldMask;
-    static const OSG::BitVector WrapTFieldMask;
-    static const OSG::BitVector WrapRFieldMask;
-    static const OSG::BitVector EnvModeFieldMask;
-    static const OSG::BitVector EnvColorFieldMask;
-    static const OSG::BitVector GLIdFieldMask;
+    static const osg::BitVector ImageFieldMask;
+    static const osg::BitVector InternalFormatFieldMask;
+    static const osg::BitVector ExternalFormatFieldMask;
+    static const osg::BitVector ScaleFieldMask;
+    static const osg::BitVector FrameFieldMask;
+    static const osg::BitVector MinFilterFieldMask;
+    static const osg::BitVector MagFilterFieldMask;
+    static const osg::BitVector WrapSFieldMask;
+    static const osg::BitVector WrapTFieldMask;
+    static const osg::BitVector WrapRFieldMask;
+    static const osg::BitVector EnvModeFieldMask;
+    static const osg::BitVector EnvColorFieldMask;
+    static const osg::BitVector EnvCombineRGBFieldMask;
+    static const osg::BitVector EnvCombineAlphaFieldMask;
+    static const osg::BitVector EnvSource0RGBFieldMask;
+    static const osg::BitVector EnvSource1RGBFieldMask;
+    static const osg::BitVector EnvSource2RGBFieldMask;
+    static const osg::BitVector EnvSource0AlphaFieldMask;
+    static const osg::BitVector EnvSource1AlphaFieldMask;
+    static const osg::BitVector EnvSource2AlphaFieldMask;
+    static const osg::BitVector EnvOperand0RGBFieldMask;
+    static const osg::BitVector EnvOperand1RGBFieldMask;
+    static const osg::BitVector EnvOperand2RGBFieldMask;
+    static const osg::BitVector EnvOperand0AlphaFieldMask;
+    static const osg::BitVector EnvOperand1AlphaFieldMask;
+    static const osg::BitVector EnvOperand2AlphaFieldMask;
+    static const osg::BitVector GLIdFieldMask;
 
 
     /*---------------------------------------------------------------------*/
@@ -164,6 +206,20 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
            SFUInt32            *getSFWrapR          (void);
            SFUInt32            *getSFEnvMode        (void);
            SFColor4f           *getSFEnvColor       (void);
+           SFUInt32            *getSFEnvCombineRGB  (void);
+           SFUInt32            *getSFEnvCombineAlpha(void);
+           SFUInt32            *getSFEnvSource0RGB  (void);
+           SFUInt32            *getSFEnvSource1RGB  (void);
+           SFUInt32            *getSFEnvSource2RGB  (void);
+           SFUInt32            *getSFEnvSource0Alpha(void);
+           SFUInt32            *getSFEnvSource1Alpha(void);
+           SFUInt32            *getSFEnvSource2Alpha(void);
+           SFUInt32            *getSFEnvOperand0RGB (void);
+           SFUInt32            *getSFEnvOperand1RGB (void);
+           SFUInt32            *getSFEnvOperand2RGB (void);
+           SFUInt32            *getSFEnvOperand0Alpha(void);
+           SFUInt32            *getSFEnvOperand1Alpha(void);
+           SFUInt32            *getSFEnvOperand2Alpha(void);
            SFUInt32            *getSFGLId           (void);
 
            ImageP              &getImage          (void);
@@ -190,6 +246,34 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      const UInt32              &getEnvMode        (void) const;
            Color4f             &getEnvColor       (void);
      const Color4f             &getEnvColor       (void) const;
+           UInt32              &getEnvCombineRGB  (void);
+     const UInt32              &getEnvCombineRGB  (void) const;
+           UInt32              &getEnvCombineAlpha(void);
+     const UInt32              &getEnvCombineAlpha(void) const;
+           UInt32              &getEnvSource0RGB  (void);
+     const UInt32              &getEnvSource0RGB  (void) const;
+           UInt32              &getEnvSource1RGB  (void);
+     const UInt32              &getEnvSource1RGB  (void) const;
+           UInt32              &getEnvSource2RGB  (void);
+     const UInt32              &getEnvSource2RGB  (void) const;
+           UInt32              &getEnvSource0Alpha(void);
+     const UInt32              &getEnvSource0Alpha(void) const;
+           UInt32              &getEnvSource1Alpha(void);
+     const UInt32              &getEnvSource1Alpha(void) const;
+           UInt32              &getEnvSource2Alpha(void);
+     const UInt32              &getEnvSource2Alpha(void) const;
+           UInt32              &getEnvOperand0RGB (void);
+     const UInt32              &getEnvOperand0RGB (void) const;
+           UInt32              &getEnvOperand1RGB (void);
+     const UInt32              &getEnvOperand1RGB (void) const;
+           UInt32              &getEnvOperand2RGB (void);
+     const UInt32              &getEnvOperand2RGB (void) const;
+           UInt32              &getEnvOperand0Alpha(void);
+     const UInt32              &getEnvOperand0Alpha(void) const;
+           UInt32              &getEnvOperand1Alpha(void);
+     const UInt32              &getEnvOperand1Alpha(void) const;
+           UInt32              &getEnvOperand2Alpha(void);
+     const UInt32              &getEnvOperand2Alpha(void) const;
            UInt32              &getGLId           (void);
      const UInt32              &getGLId           (void) const;
 
@@ -210,6 +294,20 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      void setWrapR          ( const UInt32 &value );
      void setEnvMode        ( const UInt32 &value );
      void setEnvColor       ( const Color4f &value );
+     void setEnvCombineRGB  ( const UInt32 &value );
+     void setEnvCombineAlpha( const UInt32 &value );
+     void setEnvSource0RGB  ( const UInt32 &value );
+     void setEnvSource1RGB  ( const UInt32 &value );
+     void setEnvSource2RGB  ( const UInt32 &value );
+     void setEnvSource0Alpha( const UInt32 &value );
+     void setEnvSource1Alpha( const UInt32 &value );
+     void setEnvSource2Alpha( const UInt32 &value );
+     void setEnvOperand0RGB ( const UInt32 &value );
+     void setEnvOperand1RGB ( const UInt32 &value );
+     void setEnvOperand2RGB ( const UInt32 &value );
+     void setEnvOperand0Alpha( const UInt32 &value );
+     void setEnvOperand1Alpha( const UInt32 &value );
+     void setEnvOperand2Alpha( const UInt32 &value );
      void setGLId           ( const UInt32 &value );
 
     /*! \}                                                                 */
@@ -268,6 +366,20 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     SFUInt32            _sfWrapR;
     SFUInt32            _sfEnvMode;
     SFColor4f           _sfEnvColor;
+    SFUInt32            _sfEnvCombineRGB;
+    SFUInt32            _sfEnvCombineAlpha;
+    SFUInt32            _sfEnvSource0RGB;
+    SFUInt32            _sfEnvSource1RGB;
+    SFUInt32            _sfEnvSource2RGB;
+    SFUInt32            _sfEnvSource0Alpha;
+    SFUInt32            _sfEnvSource1Alpha;
+    SFUInt32            _sfEnvSource2Alpha;
+    SFUInt32            _sfEnvOperand0RGB;
+    SFUInt32            _sfEnvOperand1RGB;
+    SFUInt32            _sfEnvOperand2RGB;
+    SFUInt32            _sfEnvOperand0Alpha;
+    SFUInt32            _sfEnvOperand1Alpha;
+    SFUInt32            _sfEnvOperand2Alpha;
     SFUInt32            _sfGLId;
 
     /*! \}                                                                 */

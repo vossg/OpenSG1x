@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -69,6 +69,20 @@
 #include <OSGGL.h>                        // WrapT default header
 #include <OSGGL.h>                        // WrapR default header
 #include <OSGGL.h>                        // EnvMode default header
+#include <OSGGL.h>                        // EnvCombineRGB default header
+#include <OSGGL.h>                        // EnvCombineAlpha default header
+#include <OSGGL.h>                        // EnvSource0RGB default header
+#include <OSGGLEXT.h>                     // EnvSource1RGB default header
+#include <OSGGLEXT.h>                     // EnvSource2RGB default header
+#include <OSGGL.h>                        // EnvSource0Alpha default header
+#include <OSGGLEXT.h>                     // EnvSource1Alpha default header
+#include <OSGGLEXT.h>                     // EnvSource2Alpha default header
+#include <OSGGL.h>                        // EnvOperand0RGB default header
+#include <OSGGL.h>                        // EnvOperand1RGB default header
+#include <OSGGL.h>                        // EnvOperand2RGB default header
+#include <OSGGL.h>                        // EnvOperand0Alpha default header
+#include <OSGGL.h>                        // EnvOperand1Alpha default header
+#include <OSGGL.h>                        // EnvOperand2Alpha default header
 
 OSG_USING_NAMESPACE
 
@@ -107,6 +121,48 @@ const OSG::BitVector  TextureChunkBase::EnvModeFieldMask =
 
 const OSG::BitVector  TextureChunkBase::EnvColorFieldMask = 
     (1 << TextureChunkBase::EnvColorFieldId);
+
+const OSG::BitVector  TextureChunkBase::EnvCombineRGBFieldMask = 
+    (1 << TextureChunkBase::EnvCombineRGBFieldId);
+
+const OSG::BitVector  TextureChunkBase::EnvCombineAlphaFieldMask = 
+    (1 << TextureChunkBase::EnvCombineAlphaFieldId);
+
+const OSG::BitVector  TextureChunkBase::EnvSource0RGBFieldMask = 
+    (1 << TextureChunkBase::EnvSource0RGBFieldId);
+
+const OSG::BitVector  TextureChunkBase::EnvSource1RGBFieldMask = 
+    (1 << TextureChunkBase::EnvSource1RGBFieldId);
+
+const OSG::BitVector  TextureChunkBase::EnvSource2RGBFieldMask = 
+    (1 << TextureChunkBase::EnvSource2RGBFieldId);
+
+const OSG::BitVector  TextureChunkBase::EnvSource0AlphaFieldMask = 
+    (1 << TextureChunkBase::EnvSource0AlphaFieldId);
+
+const OSG::BitVector  TextureChunkBase::EnvSource1AlphaFieldMask = 
+    (1 << TextureChunkBase::EnvSource1AlphaFieldId);
+
+const OSG::BitVector  TextureChunkBase::EnvSource2AlphaFieldMask = 
+    (1 << TextureChunkBase::EnvSource2AlphaFieldId);
+
+const OSG::BitVector  TextureChunkBase::EnvOperand0RGBFieldMask = 
+    (1 << TextureChunkBase::EnvOperand0RGBFieldId);
+
+const OSG::BitVector  TextureChunkBase::EnvOperand1RGBFieldMask = 
+    (1 << TextureChunkBase::EnvOperand1RGBFieldId);
+
+const OSG::BitVector  TextureChunkBase::EnvOperand2RGBFieldMask = 
+    (1 << TextureChunkBase::EnvOperand2RGBFieldId);
+
+const OSG::BitVector  TextureChunkBase::EnvOperand0AlphaFieldMask = 
+    (1 << TextureChunkBase::EnvOperand0AlphaFieldId);
+
+const OSG::BitVector  TextureChunkBase::EnvOperand1AlphaFieldMask = 
+    (1 << TextureChunkBase::EnvOperand1AlphaFieldId);
+
+const OSG::BitVector  TextureChunkBase::EnvOperand2AlphaFieldMask = 
+    (1 << TextureChunkBase::EnvOperand2AlphaFieldId);
 
 const OSG::BitVector  TextureChunkBase::GLIdFieldMask = 
     (1 << TextureChunkBase::GLIdFieldId);
@@ -150,6 +206,48 @@ const OSG::BitVector  TextureChunkBase::GLIdFieldMask =
 */
 /*! \var Color4f         TextureChunkBase::_sfEnvColor
     Texture environment color default transparent black.
+*/
+/*! \var UInt32          TextureChunkBase::_sfEnvCombineRGB
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfEnvCombineAlpha
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfEnvSource0RGB
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfEnvSource1RGB
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfEnvSource2RGB
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfEnvSource0Alpha
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfEnvSource1Alpha
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfEnvSource2Alpha
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfEnvOperand0RGB
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfEnvOperand1RGB
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfEnvOperand2RGB
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfEnvOperand0Alpha
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfEnvOperand1Alpha
+    
+*/
+/*! \var UInt32          TextureChunkBase::_sfEnvOperand2Alpha
+    
 */
 /*! \var UInt32          TextureChunkBase::_sfGLId
     The OpenGL texture id for this texture.
@@ -219,6 +317,76 @@ FieldDescription *TextureChunkBase::_desc[] =
                      EnvColorFieldId, EnvColorFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFEnvColor),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "envCombineRGB", 
+                     EnvCombineRGBFieldId, EnvCombineRGBFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFEnvCombineRGB),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "envCombineAlpha", 
+                     EnvCombineAlphaFieldId, EnvCombineAlphaFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFEnvCombineAlpha),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "envSource0RGB", 
+                     EnvSource0RGBFieldId, EnvSource0RGBFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFEnvSource0RGB),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "envSource1RGB", 
+                     EnvSource1RGBFieldId, EnvSource1RGBFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFEnvSource1RGB),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "envSource2RGB", 
+                     EnvSource2RGBFieldId, EnvSource2RGBFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFEnvSource2RGB),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "envSource0Alpha", 
+                     EnvSource0AlphaFieldId, EnvSource0AlphaFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFEnvSource0Alpha),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "envSource1Alpha", 
+                     EnvSource1AlphaFieldId, EnvSource1AlphaFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFEnvSource1Alpha),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "envSource2Alpha", 
+                     EnvSource2AlphaFieldId, EnvSource2AlphaFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFEnvSource2Alpha),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "envOperand0RGB", 
+                     EnvOperand0RGBFieldId, EnvOperand0RGBFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFEnvOperand0RGB),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "envOperand1RGB", 
+                     EnvOperand1RGBFieldId, EnvOperand1RGBFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFEnvOperand1RGB),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "envOperand2RGB", 
+                     EnvOperand2RGBFieldId, EnvOperand2RGBFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFEnvOperand2RGB),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "envOperand0Alpha", 
+                     EnvOperand0AlphaFieldId, EnvOperand0AlphaFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFEnvOperand0Alpha),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "envOperand1Alpha", 
+                     EnvOperand1AlphaFieldId, EnvOperand1AlphaFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFEnvOperand1Alpha),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "envOperand2Alpha", 
+                     EnvOperand2AlphaFieldId, EnvOperand2AlphaFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFEnvOperand2Alpha),
     new FieldDescription(SFUInt32::getClassType(), 
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
@@ -291,6 +459,20 @@ TextureChunkBase::TextureChunkBase(void) :
     _sfWrapR                  (UInt32(GL_REPEAT)), 
     _sfEnvMode                (UInt32(GL_REPLACE)), 
     _sfEnvColor               (Color4f(0,0,0,0)), 
+    _sfEnvCombineRGB          (UInt32(GL_MODULATE)), 
+    _sfEnvCombineAlpha        (UInt32(GL_MODULATE)), 
+    _sfEnvSource0RGB          (UInt32(GL_TEXTURE)), 
+    _sfEnvSource1RGB          (UInt32(GL_PREVIOUS_EXT)), 
+    _sfEnvSource2RGB          (UInt32(GL_CONSTANT_EXT)), 
+    _sfEnvSource0Alpha        (UInt32(GL_TEXTURE)), 
+    _sfEnvSource1Alpha        (UInt32(GL_PREVIOUS_EXT)), 
+    _sfEnvSource2Alpha        (UInt32(GL_CONSTANT_EXT)), 
+    _sfEnvOperand0RGB         (UInt32(GL_SRC_COLOR)), 
+    _sfEnvOperand1RGB         (UInt32(GL_SRC_COLOR)), 
+    _sfEnvOperand2RGB         (UInt32(GL_SRC_ALPHA)), 
+    _sfEnvOperand0Alpha       (UInt32(GL_SRC_ALPHA)), 
+    _sfEnvOperand1Alpha       (UInt32(GL_SRC_ALPHA)), 
+    _sfEnvOperand2Alpha       (UInt32(GL_SRC_ALPHA)), 
     _sfGLId                   (UInt32(0)), 
     Inherited() 
 {
@@ -313,6 +495,20 @@ TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
     _sfWrapR                  (source._sfWrapR                  ), 
     _sfEnvMode                (source._sfEnvMode                ), 
     _sfEnvColor               (source._sfEnvColor               ), 
+    _sfEnvCombineRGB          (source._sfEnvCombineRGB          ), 
+    _sfEnvCombineAlpha        (source._sfEnvCombineAlpha        ), 
+    _sfEnvSource0RGB          (source._sfEnvSource0RGB          ), 
+    _sfEnvSource1RGB          (source._sfEnvSource1RGB          ), 
+    _sfEnvSource2RGB          (source._sfEnvSource2RGB          ), 
+    _sfEnvSource0Alpha        (source._sfEnvSource0Alpha        ), 
+    _sfEnvSource1Alpha        (source._sfEnvSource1Alpha        ), 
+    _sfEnvSource2Alpha        (source._sfEnvSource2Alpha        ), 
+    _sfEnvOperand0RGB         (source._sfEnvOperand0RGB         ), 
+    _sfEnvOperand1RGB         (source._sfEnvOperand1RGB         ), 
+    _sfEnvOperand2RGB         (source._sfEnvOperand2RGB         ), 
+    _sfEnvOperand0Alpha       (source._sfEnvOperand0Alpha       ), 
+    _sfEnvOperand1Alpha       (source._sfEnvOperand1Alpha       ), 
+    _sfEnvOperand2Alpha       (source._sfEnvOperand2Alpha       ), 
     _sfGLId                   (source._sfGLId                   ), 
     Inherited                 (source)
 {
@@ -390,6 +586,76 @@ UInt32 TextureChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfEnvColor.getBinSize();
     }
 
+    if(FieldBits::NoField != (EnvCombineRGBFieldMask & whichField))
+    {
+        returnValue += _sfEnvCombineRGB.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EnvCombineAlphaFieldMask & whichField))
+    {
+        returnValue += _sfEnvCombineAlpha.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EnvSource0RGBFieldMask & whichField))
+    {
+        returnValue += _sfEnvSource0RGB.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EnvSource1RGBFieldMask & whichField))
+    {
+        returnValue += _sfEnvSource1RGB.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EnvSource2RGBFieldMask & whichField))
+    {
+        returnValue += _sfEnvSource2RGB.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EnvSource0AlphaFieldMask & whichField))
+    {
+        returnValue += _sfEnvSource0Alpha.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EnvSource1AlphaFieldMask & whichField))
+    {
+        returnValue += _sfEnvSource1Alpha.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EnvSource2AlphaFieldMask & whichField))
+    {
+        returnValue += _sfEnvSource2Alpha.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EnvOperand0RGBFieldMask & whichField))
+    {
+        returnValue += _sfEnvOperand0RGB.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EnvOperand1RGBFieldMask & whichField))
+    {
+        returnValue += _sfEnvOperand1RGB.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EnvOperand2RGBFieldMask & whichField))
+    {
+        returnValue += _sfEnvOperand2RGB.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EnvOperand0AlphaFieldMask & whichField))
+    {
+        returnValue += _sfEnvOperand0Alpha.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EnvOperand1AlphaFieldMask & whichField))
+    {
+        returnValue += _sfEnvOperand1Alpha.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EnvOperand2AlphaFieldMask & whichField))
+    {
+        returnValue += _sfEnvOperand2Alpha.getBinSize();
+    }
+
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
     {
         returnValue += _sfGLId.getBinSize();
@@ -462,6 +728,76 @@ void TextureChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (EnvColorFieldMask & whichField))
     {
         _sfEnvColor.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvCombineRGBFieldMask & whichField))
+    {
+        _sfEnvCombineRGB.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvCombineAlphaFieldMask & whichField))
+    {
+        _sfEnvCombineAlpha.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvSource0RGBFieldMask & whichField))
+    {
+        _sfEnvSource0RGB.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvSource1RGBFieldMask & whichField))
+    {
+        _sfEnvSource1RGB.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvSource2RGBFieldMask & whichField))
+    {
+        _sfEnvSource2RGB.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvSource0AlphaFieldMask & whichField))
+    {
+        _sfEnvSource0Alpha.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvSource1AlphaFieldMask & whichField))
+    {
+        _sfEnvSource1Alpha.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvSource2AlphaFieldMask & whichField))
+    {
+        _sfEnvSource2Alpha.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvOperand0RGBFieldMask & whichField))
+    {
+        _sfEnvOperand0RGB.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvOperand1RGBFieldMask & whichField))
+    {
+        _sfEnvOperand1RGB.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvOperand2RGBFieldMask & whichField))
+    {
+        _sfEnvOperand2RGB.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvOperand0AlphaFieldMask & whichField))
+    {
+        _sfEnvOperand0Alpha.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvOperand1AlphaFieldMask & whichField))
+    {
+        _sfEnvOperand1Alpha.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvOperand2AlphaFieldMask & whichField))
+    {
+        _sfEnvOperand2Alpha.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
@@ -537,6 +873,76 @@ void TextureChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfEnvColor.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (EnvCombineRGBFieldMask & whichField))
+    {
+        _sfEnvCombineRGB.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvCombineAlphaFieldMask & whichField))
+    {
+        _sfEnvCombineAlpha.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvSource0RGBFieldMask & whichField))
+    {
+        _sfEnvSource0RGB.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvSource1RGBFieldMask & whichField))
+    {
+        _sfEnvSource1RGB.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvSource2RGBFieldMask & whichField))
+    {
+        _sfEnvSource2RGB.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvSource0AlphaFieldMask & whichField))
+    {
+        _sfEnvSource0Alpha.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvSource1AlphaFieldMask & whichField))
+    {
+        _sfEnvSource1Alpha.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvSource2AlphaFieldMask & whichField))
+    {
+        _sfEnvSource2Alpha.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvOperand0RGBFieldMask & whichField))
+    {
+        _sfEnvOperand0RGB.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvOperand1RGBFieldMask & whichField))
+    {
+        _sfEnvOperand1RGB.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvOperand2RGBFieldMask & whichField))
+    {
+        _sfEnvOperand2RGB.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvOperand0AlphaFieldMask & whichField))
+    {
+        _sfEnvOperand0Alpha.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvOperand1AlphaFieldMask & whichField))
+    {
+        _sfEnvOperand1Alpha.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvOperand2AlphaFieldMask & whichField))
+    {
+        _sfEnvOperand2Alpha.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
     {
         _sfGLId.copyFromBin(pMem);
@@ -586,6 +992,48 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
 
     if(FieldBits::NoField != (EnvColorFieldMask & whichField))
         _sfEnvColor.syncWith(pOther->_sfEnvColor);
+
+    if(FieldBits::NoField != (EnvCombineRGBFieldMask & whichField))
+        _sfEnvCombineRGB.syncWith(pOther->_sfEnvCombineRGB);
+
+    if(FieldBits::NoField != (EnvCombineAlphaFieldMask & whichField))
+        _sfEnvCombineAlpha.syncWith(pOther->_sfEnvCombineAlpha);
+
+    if(FieldBits::NoField != (EnvSource0RGBFieldMask & whichField))
+        _sfEnvSource0RGB.syncWith(pOther->_sfEnvSource0RGB);
+
+    if(FieldBits::NoField != (EnvSource1RGBFieldMask & whichField))
+        _sfEnvSource1RGB.syncWith(pOther->_sfEnvSource1RGB);
+
+    if(FieldBits::NoField != (EnvSource2RGBFieldMask & whichField))
+        _sfEnvSource2RGB.syncWith(pOther->_sfEnvSource2RGB);
+
+    if(FieldBits::NoField != (EnvSource0AlphaFieldMask & whichField))
+        _sfEnvSource0Alpha.syncWith(pOther->_sfEnvSource0Alpha);
+
+    if(FieldBits::NoField != (EnvSource1AlphaFieldMask & whichField))
+        _sfEnvSource1Alpha.syncWith(pOther->_sfEnvSource1Alpha);
+
+    if(FieldBits::NoField != (EnvSource2AlphaFieldMask & whichField))
+        _sfEnvSource2Alpha.syncWith(pOther->_sfEnvSource2Alpha);
+
+    if(FieldBits::NoField != (EnvOperand0RGBFieldMask & whichField))
+        _sfEnvOperand0RGB.syncWith(pOther->_sfEnvOperand0RGB);
+
+    if(FieldBits::NoField != (EnvOperand1RGBFieldMask & whichField))
+        _sfEnvOperand1RGB.syncWith(pOther->_sfEnvOperand1RGB);
+
+    if(FieldBits::NoField != (EnvOperand2RGBFieldMask & whichField))
+        _sfEnvOperand2RGB.syncWith(pOther->_sfEnvOperand2RGB);
+
+    if(FieldBits::NoField != (EnvOperand0AlphaFieldMask & whichField))
+        _sfEnvOperand0Alpha.syncWith(pOther->_sfEnvOperand0Alpha);
+
+    if(FieldBits::NoField != (EnvOperand1AlphaFieldMask & whichField))
+        _sfEnvOperand1Alpha.syncWith(pOther->_sfEnvOperand1Alpha);
+
+    if(FieldBits::NoField != (EnvOperand2AlphaFieldMask & whichField))
+        _sfEnvOperand2Alpha.syncWith(pOther->_sfEnvOperand2Alpha);
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
         _sfGLId.syncWith(pOther->_sfGLId);
