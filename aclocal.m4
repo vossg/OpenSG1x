@@ -980,7 +980,7 @@ dnl e11
         if [[ $build_os = cygwin ]]; then
            ac_gdz_png_lib_e11='png32.lib'
         else
-           ac_gdz_png_lib_e11='-lpng'
+           ac_gdz_png_lib_e11='-lpng -lz'
         fi
     elif [[ -n "$ac_gdz_png_dir" ]]; then
         if [[ $build_os = cygwin ]]; then

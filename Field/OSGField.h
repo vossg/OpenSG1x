@@ -120,11 +120,12 @@ class OSG_BASE_DLLMAPPING Field
 
     /*-------------------------- field type ---------------------------------*/
 
-	virtual const FieldType &getType(void) const = 0;
+	virtual const FieldType &getType       (void) const = 0;
+            const DataType  &getContentType(void) const;
 
     /*-------------------------- string io ----------------------------------*/
 
-	virtual void     pushValueByStr(const char *str   )       = 0;
+	virtual void          pushValueByStr(const char *str        )       = 0;
 	virtual std::string  &getValueByStr (std::string     &string) const = 0;
 
     /*----------------------- field information -----------------------------*/
