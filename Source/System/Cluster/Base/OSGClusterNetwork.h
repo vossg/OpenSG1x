@@ -93,8 +93,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterNetwork : public MemoryObject
     /*! \name                   establish connection                       */
     /*! \{                                                                 */
 
-    void connect(           UInt32  thidId,
-                 const std::string &connectionType);
+    void connectAllPointToPoint(           UInt32  thidId,
+                                const std::string &connectionType);
+    void connectAllGroupToPoint(           UInt32  thidId,
+                                const std::string &connectionType);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -207,8 +207,17 @@ void ClusterNetwork::setConnection(UInt32 id,Connection *connection)
 /*                          establish connection                           */
 
 /*! crossconnect servers and the client. 
+ *
+ * Each Server is connected with all other servers with a point to 
+ * point connection. Thre connection number N is used to read from
+ * node N and to write to node N. If N is equal to the servers id
+ * then the connection is used to exchange data with the client. 
+ * The client gathers all connections in a GroupConnection. So all
+ * Server-Server communication is done with point to point connections 
+ * and if N=server id then a point to group connection is used to 
+ * communicate with the client.
  */
-void ClusterNetwork::connect(
+void ClusterNetwork::connectAllPointToPoint(
     UInt32 thisId,
     const std::string &connectionType)
 {
@@ -345,6 +354,103 @@ void ClusterNetwork::connect(
             catch(...)
             {
             }
+    }
+}
+
+/*! crossconnect servers and the client. 
+ *
+ * Each server is connected over a GroupConnection with all other
+ * servers. Connection N is used to read and write to the server 
+ * with id N. If N is equal to the current server id, then write
+ * operations are passed to all other servers and read collects
+ * data from all other servers. The client connection is stored
+ * in the index equal to the number of servers.
+ * 
+ */
+void ClusterNetwork::connectAllGroupToPoint(
+    UInt32 thisId,
+    const std::string &connectionType)
+{
+    UInt32                                 id,toId;
+    bool                                   isClient;
+    UInt32                                 servers;
+    std::map<UInt32,std::string>           address;
+    Connection::Channel                    channel;
+    std::string                            groupAddress;
+
+    // determine if this is a server 
+    if(dynamic_cast<GroupConnection*>(_mainConnection))
+        isClient = true;
+    else
+        isClient = false;
+
+    // communicate server count
+    if(isClient)
+    {
+        servers = getMainGroupConnection()->getChannelCount();
+        _mainConnection->putValue(servers);
+        _mainConnection->flush();
+    }
+    else
+    {
+        _mainConnection->getValue(servers);
+    }
+    
+    // create all connections
+    _connection.resize(servers+1);
+    for(id = 0; id <= servers; ++id)
+    {
+        if(id == thisId)
+        {
+            _connection[id] = 
+                ConnectionFactory::the().createGroup(connectionType);
+            groupAddress = _connection[id]->bind();
+        }
+        else
+            _connection[id] = 
+                ConnectionFactory::the().createPoint(connectionType);
+    }
+    if(isClient)
+    {
+        address[thisId] = groupAddress;
+        while(getMainGroupConnection()->getSelectionCount())
+        {
+            channel = _mainConnection->selectChannel();
+            getMainGroupConnection()->subSelection(channel);
+            getMainGroupConnection()->getValue(groupAddress);
+            address[channel] = groupAddress;
+        }
+        getMainGroupConnection()->resetSelection();
+        for(id = 0; id <= servers; ++id)
+        {
+            _mainConnection->putValue(address[id]);
+        }
+        _mainConnection->flush();
+    }
+    else
+    {
+        _mainConnection->putValue(groupAddress);
+        _mainConnection->flush();
+        for(id = 0; id <= servers; ++id)
+        {
+            _mainConnection->getValue(groupAddress);
+            address[id] = groupAddress;
+        }
+    }
+
+    for(id = 1; id <= servers; ++id)
+    {
+        toId = (thisId+id)%(servers+1);
+        if(thisId & 1)
+        {
+            getGroupConnection(thisId)->acceptPoint();
+            getPointConnection(toId)->connectGroup(address[toId]);
+        }
+        else
+        {
+            getPointConnection(toId)->connectGroup(address[toId]);
+            getGroupConnection(thisId)->acceptPoint();
+        }
     }
 }
 
