@@ -73,11 +73,12 @@ typedef FCPtr<StereoCameraDecoratorPtr, ProjectionCameraDecorator> ProjectionCam
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief ProjectionCameraDecoratorPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<ProjectionCameraDecoratorPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<ProjectionCameraDecoratorPtr> :
     static char     *getSName(void) { return "SFProjectionCameraDecoratorPtr"; }
     static char     *getMName(void) { return "MFProjectionCameraDecoratorPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFProjectionCameraDecoratorPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<ProjectionCameraDecoratorPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<ProjectionCameraDecoratorPtr> SFProjectionCameraDecoratorPtr;
+#endif
 
 #ifndef OSG_COMPILEPROJECTIONCAMERADECORATORINST
 OSG_DLLEXPORT_DECL1(SField, ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFProjectionCameraDecoratorPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<ProjectionCameraDecoratorPtr> MFProjectionCameraDecoratorPtr;
+#endif
 
 #ifndef OSG_COMPILEPROJECTIONCAMERADECORATORINST
 OSG_DLLEXPORT_DECL1(MField, ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

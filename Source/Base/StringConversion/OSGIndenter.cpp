@@ -49,10 +49,6 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::Indenter
-    Indenter documentation,
- */
-
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
@@ -73,8 +69,6 @@ Indenter::Indenter(const Indenter &source) :
 /*-------------------------------------------------------------------------*/
 /*                             Destructor                                  */
 
-/*! Destructor documentation
- */
 Indenter::~Indenter(void)
 {
 }
@@ -82,29 +76,16 @@ Indenter::~Indenter(void)
 /*-------------------------------------------------------------------------*/
 /*                             Assignment                                  */
 
-/*! assignment
- */
-Indenter& Indenter::operator = (const Indenter &source)
+Indenter &Indenter::operator =(const Indenter &source)
 {
     if(this == &source)
         return *this;
 
     this->_indent = source._indent;
     this->_step   = source._step;
+
     return *this;
 }
-
-/*-------------------------------------------------------------------------*/
-/*                             Comparison                                  */
-
-/*! less
- */
-
-bool Indenter::operator < (const Indenter &other) const
-{
-    return this < &other;
-}
-
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

@@ -73,10 +73,12 @@ typedef FCPtr<BackgroundPtr, PassiveBackground> PassiveBackgroundPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief PassiveBackgroundPtr field traits 
-    \ingroup BaseFieldSingle
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<PassiveBackgroundPtr> : 
@@ -91,12 +93,21 @@ struct FieldDataTraits<PassiveBackgroundPtr> :
 
     static char     *getSName(void) { return "SFPassiveBackgroundPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFPassiveBackgroundPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<PassiveBackgroundPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<PassiveBackgroundPtr> SFPassiveBackgroundPtr;
+#endif
 
 #ifndef OSG_COMPILEPASSIVEBACKGROUNDINST
 OSG_DLLEXPORT_DECL1(SField, PassiveBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

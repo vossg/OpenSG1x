@@ -132,7 +132,11 @@ rgbtorgb(unsigned char *r,unsigned char *g,unsigned char *b,unsigned char *l,
 }
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-typedef struct _ImageRec 
+
+/*! \hideinhierarchy
+ */
+
+struct ImageRec 
 {
     unsigned short imagic;
     unsigned short type;
@@ -147,7 +151,8 @@ typedef struct _ImageRec
     unsigned long rleEnd;
     unsigned int *rowStart;
     int *rowSize;
-} ImageRec;
+};
+
 #endif
 
 static void

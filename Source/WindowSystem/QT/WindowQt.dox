@@ -9,6 +9,32 @@ using namespace OSG;
     See \ref WindowQt for details.
 */
 
+/*! \defgroup GrpWindowQTField Fields
+    \ingroup GrpWindowQt
+    
+    See \ref PageBaseField for details.
+*/
+
+#if (OSG_DOC_LEVEL >= 3)
+/*! \defgroup GrpWindowQTFieldTraits Field Data Traits
+    \ingroup GrpWindowQTField
+
+    ToDo
+*/
+#endif
+
+/*! \defgroup GrpWindowQTFieldSingle Single-Element Fields
+    \ingroup GrpWindowQTField
+
+    ToDo
+*/
+
+/*! \defgroup GrpWindowQTFieldMulti Multi-Element Fields
+    \ingroup GrpWindowQTField
+
+    ToDo
+*/
+
 /*! \page WindowQt QT Window System Library
 
 

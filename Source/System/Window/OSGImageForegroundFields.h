@@ -73,11 +73,12 @@ typedef FCPtr<ForegroundPtr, ImageForeground> ImageForegroundPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief ImageForegroundPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<ImageForegroundPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<ImageForegroundPtr> :
     static char     *getSName(void) { return "SFImageForegroundPtr"; }
     static char     *getMName(void) { return "MFImageForegroundPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFImageForegroundPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<ImageForegroundPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<ImageForegroundPtr> SFImageForegroundPtr;
+#endif
 
 #ifndef OSG_COMPILEIMAGEFOREGROUNDINST
 OSG_DLLEXPORT_DECL1(SField, ImageForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFImageForegroundPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<ImageForegroundPtr> MFImageForegroundPtr;
+#endif
 
 #ifndef OSG_COMPILEIMAGEFOREGROUNDINST
 OSG_DLLEXPORT_DECL1(MField, ImageForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

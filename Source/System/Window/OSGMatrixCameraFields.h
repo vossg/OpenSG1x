@@ -73,11 +73,12 @@ typedef FCPtr<CameraPtr, MatrixCamera> MatrixCameraPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief MatrixCameraPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<MatrixCameraPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<MatrixCameraPtr> :
     static char     *getSName(void) { return "SFMatrixCameraPtr"; }
     static char     *getMName(void) { return "MFMatrixCameraPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFMatrixCameraPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<MatrixCameraPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<MatrixCameraPtr> SFMatrixCameraPtr;
+#endif
 
 #ifndef OSG_COMPILEMATRIXCAMERAINST
 OSG_DLLEXPORT_DECL1(SField, MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFMatrixCameraPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<MatrixCameraPtr> MFMatrixCameraPtr;
+#endif
 
 #ifndef OSG_COMPILEMATRIXCAMERAINST
 OSG_DLLEXPORT_DECL1(MField, MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

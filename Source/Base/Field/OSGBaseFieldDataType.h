@@ -52,14 +52,15 @@
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
 /*! \file OSGBaseFieldDataType.h
     \ingroup GrpBaseField
     \ingroup GrpBaseFieldTraits
 */
 
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -147,8 +148,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3f> :
 /*! \hideinhierarchy                        */
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -241,8 +241,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color4f> :
 /*! \hideinhierarchy                        */
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -328,8 +327,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3ub> :
 /*! \hideinhierarchy                         */
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -422,8 +420,7 @@ struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
 /*! \hideinhierarchy                         */
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -525,8 +522,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<std::string> :
 /*! \hideinhierarchy                            */
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -606,8 +602,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<Time> :
 /*! \hideinhierarchy                     */
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -903,8 +898,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
 /*! \hideinhierarchy                              */
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -979,8 +973,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<BitVector> :
 /*! \hideinhierarchy                          */
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -1064,12 +1057,11 @@ struct FieldDataTraits1<GLenum> :
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsIntegralRecurseMapper<GLenum> */
-/*! \hideinhierarchy                                 */
+/*! \class  FieldTraitsRecurseBase<GLenum> */
+/*! \hideinhierarchy                       */
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -1174,6 +1166,8 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Plane> :
 /*! \class  FieldTraitsRecurseBase<Plane> */
 /*! \hideinhierarchy                      */
 #endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 OSG_END_NAMESPACE
 

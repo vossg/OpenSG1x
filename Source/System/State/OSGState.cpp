@@ -51,6 +51,31 @@
 
 #include "OSGState.h"
 
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+
+OSG_BEGIN_NAMESPACE
+
+/*! \ingroup STLHelpers
+    \hideinhierarchy
+    Helper struct to remove chunks from a state.
+*/
+
+struct ClearSlot : public std::unary_function<      StateChunkPtr         &, 
+                                              const NullFieldContainerPtr &>
+{
+    const NullFieldContainerPtr &operator() (StateChunkPtr &slotPtr) 
+    { 
+        subRefCP(slotPtr);
+        
+        return NullFC;
+    }
+};
+
+OSG_END_NAMESPACE
+
+#endif
+
 OSG_USING_NAMESPACE
 
 
@@ -395,24 +420,6 @@ bool State::subChunk(UInt32 classid, Int32 index)
     
     return false;
 }
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-
-/*! \ingroup STLHelpers
-    Helper struct to remove chunks from a state.
-*/
-
-struct ClearSlot : public std::unary_function<      StateChunkPtr         &, 
-                                              const NullFieldContainerPtr &>
-{
-    const NullFieldContainerPtr &operator() (StateChunkPtr &slotPtr) 
-    { 
-        subRefCP(slotPtr);
-        
-        return NullFC;
-    }
-};
-#endif
 
 /*! Remove all chunks from the state
 */

@@ -83,6 +83,8 @@ class VRMLImageTextureDesc;
 //  Class
 //---------------------------------------------------------------------------
 
+/*! \hideinhierarchy */
+
 struct GenericAttDesc
 {
     typedef Attachment    Parent;
@@ -110,6 +112,14 @@ OSG_ABSTR_FC_DLLEXPORT_DECL(DynFieldAttachment,
 
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
+
 template <>
 struct FieldDataTraits<GenericAttPtr> : 
     public FieldTraitsRecurseMapper<GenericAttPtr, true>
@@ -123,8 +133,18 @@ struct FieldDataTraits<GenericAttPtr> :
     static Char8    *getMName(void) { return "MFGenericAttPtr"; }
 };
 
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class FieldTraitsRecurseMapper<GenericAttPtr, true> */
+/*! \hideinhierarchy                                     */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<GenericAttPtr>       SFGenericPtr;
+#endif
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
@@ -134,11 +154,11 @@ OSG_DLLEXPORT_DECL1(SField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
-/*! MFGenericAttrPtr
-    \ingroup GrpBaseFieldMulti
- */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<GenericAttPtr>       MFGenericAttPtr;
+#endif
 
 #ifndef OSG_COMPILEVRMLNODEDESCINST
 OSG_DLLEXPORT_DECL1(MField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

@@ -73,11 +73,12 @@ typedef FCPtr<ViewportPtr, PassiveViewport> PassiveViewportPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief PassiveViewportPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<PassiveViewportPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<PassiveViewportPtr> :
     static char     *getSName(void) { return "SFPassiveViewportPtr"; }
     static char     *getMName(void) { return "MFPassiveViewportPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFPassiveViewportPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<PassiveViewportPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<PassiveViewportPtr> SFPassiveViewportPtr;
+#endif
 
 #ifndef OSG_COMPILEPASSIVEVIEWPORTINST
 OSG_DLLEXPORT_DECL1(SField, PassiveViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFPassiveViewportPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<PassiveViewportPtr> MFPassiveViewportPtr;
+#endif
 
 #ifndef OSG_COMPILEPASSIVEVIEWPORTINST
 OSG_DLLEXPORT_DECL1(MField, PassiveViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

@@ -73,11 +73,12 @@ typedef FCPtr<StateChunkPtr, TextureChunk> TextureChunkPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief TextureChunkPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<TextureChunkPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<TextureChunkPtr> :
     static char     *getSName(void) { return "SFTextureChunkPtr"; }
     static char     *getMName(void) { return "MFTextureChunkPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFTextureChunkPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<TextureChunkPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<TextureChunkPtr> SFTextureChunkPtr;
+#endif
 
 #ifndef OSG_COMPILETEXTURECHUNKINST
 OSG_DLLEXPORT_DECL1(SField, TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFTextureChunkPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<TextureChunkPtr> MFTextureChunkPtr;
+#endif
 
 #ifndef OSG_COMPILETEXTURECHUNKINST
 OSG_DLLEXPORT_DECL1(MField, TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

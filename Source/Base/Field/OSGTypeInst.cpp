@@ -62,6 +62,8 @@
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
 DataType FieldDataTraits2<bool >::_type("bool"  , "IntegralType");
 DataType FieldDataTraits< Int8 >::_type("Int8"  , "IntegralType");
 DataType FieldDataTraits<UInt8 >::_type("UInt8" , "IntegralType");
@@ -109,6 +111,8 @@ DataType FieldDataTraits<Matrix    >::_type("Matrix"    , "BaseType");
 DataType FieldDataTraits<Quaternion>::_type("Quaternion", "BaseType");
 
 DataType FieldDataTraits<Plane>::_type("Plane", "BaseType");
+
+#endif //!defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 OSG_DLLEXPORT_SFIELD_DEF2(bool  , 2, OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1( Int8 , OSG_BASE_DLLTMPLMAPPING);

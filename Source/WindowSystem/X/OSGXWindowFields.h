@@ -73,11 +73,12 @@ typedef FCPtr<WindowPtr, XWindow> XWindowPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief XWindowPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpWindowXFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<XWindowPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<XWindowPtr> :
     static char     *getSName(void) { return "SFXWindowPtr"; }
     static char     *getMName(void) { return "MFXWindowPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFXWindowPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<XWindowPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpWindowXFieldSingle */
 
 typedef SField<XWindowPtr> SFXWindowPtr;
+#endif
 
 #ifndef OSG_COMPILEXWINDOWINST
 OSG_DLLEXPORT_DECL1(SField, XWindowPtr, OSG_WINDOWXLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFXWindowPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpWindowXFieldMulti */
 
 typedef MField<XWindowPtr> MFXWindowPtr;
+#endif
 
 #ifndef OSG_COMPILEXWINDOWINST
 OSG_DLLEXPORT_DECL1(MField, XWindowPtr, OSG_WINDOWXLIB_DLLTMPLMAPPING)

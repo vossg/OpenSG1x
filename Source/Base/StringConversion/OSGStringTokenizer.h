@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _StringTokenizer_H_
-#define _StringTokenizer_H_
+#ifndef _OSGSTRINGTOKENIZER_H_
+#define _OSGSTRINGTOKENIZER_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -48,12 +48,17 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! Brief
-//! \ingroup GrpBaseStringConversion
+/*! \file OSGStringTokenizer.h
+    \ingroup GrpBaseStringConversion
+ */
+
+/*! \ingroup GrpBaseStringConversion
+ */
 
 class OSG_BASE_DLLMAPPING StringTokenizer
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     /*---------------------------------------------------------------------*/
@@ -71,7 +76,7 @@ class OSG_BASE_DLLMAPPING StringTokenizer
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   your_category                              */
+    /*! \name                    Tokenize                                  */
     /*! \{                                                                 */
    
     bool        hasNext    (void                 );
@@ -81,6 +86,7 @@ class OSG_BASE_DLLMAPPING StringTokenizer
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -107,9 +113,9 @@ class OSG_BASE_DLLMAPPING StringTokenizer
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
-    
     /*!\brief prohibit default function (move to 'public' if needed) */
     StringTokenizer(const StringTokenizer &source);
     /*!\brief prohibit default function (move to 'public' if needed) */
@@ -122,4 +128,4 @@ OSG_END_NAMESPACE
 
 #include "OSGStringTokenizer.inl"
 
-#endif /* _StringTokenizer_H_ */
+#endif /* _OSGSTRINGTOKENIZER_H_ */

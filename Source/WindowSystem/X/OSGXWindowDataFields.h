@@ -60,6 +60,14 @@ OSG_BEGIN_NAMESPACE
 typedef Display *DisplayP;
 typedef ::Window X11Window;
 
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+/*! \ingroup GrpWindowXFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<DisplayP> : 
@@ -89,6 +97,17 @@ struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<DisplayP> :
     }
 };
 
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseBase<DisplayP> */
+/*! \hideinhierarchy                         */
+#endif
+
+/*! \ingroup GrpWindowXFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
+
 template <>
 struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<X11Window> : 
     public FieldTraitsRecurseBase<X11Window>
@@ -116,6 +135,17 @@ struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<X11Window> :
         outStr.assign("X11Window");
     }
 };
+
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseBase<X11Window> */
+/*! \hideinhierarchy                          */
+#endif
+
+/*! \ingroup GrpWindowXFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<GLXContext> : 
@@ -145,35 +175,46 @@ struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<GLXContext> :
     }
 };
 
-//! SFDisplayP
-//! \ingroup GrpBaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseBase<GLXContext> */
+/*! \hideinhierarchy                           */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+
+/*! \ingroup GrpWindowXFieldSingle
+ */
 
 typedef SField<DisplayP> SFDisplayP;
 
-//! MFDisplayP
-//! \ingroup GrpBaseFieldMulti
+/*! \ingroup GrpWindowXFieldMulti
+ */
 
 typedef MField<DisplayP> MFDisplayP;
 
-//! SFX11Window
-//! \ingroup GrpBaseFieldSingle
+/*! \ingroup GrpWindowXFieldSingle
+ */
 
 typedef SField<X11Window> SFX11Window;
 
-//! MFX11Window
-//! \ingroup GrpBaseFieldMulti
+/*! \ingroup GrpWindowXFieldMulti
+ */
 
 typedef MField<X11Window> MFX11Window;
 
-//! SFGLXContext
-//! \ingroup GrpBaseFieldSingle
+/*! \ingroup GrpWindowXFieldSingle
+ */
 
 typedef SField<GLXContext> SFGLXContext;
 
-//! MFGLXContext
-//! \ingroup GrpBaseFieldMulti
+/*! \ingroup GrpWindowXFieldMulti
+ */
 
 typedef MField<GLXContext> MFGLXContext;
+
+#endif
 
 // Instantiations
 
@@ -189,6 +230,6 @@ OSG_DLLEXPORT_DECL1(MField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWXFIELDS_HEADER_CVSID "@(#)$Id: OSGXWindowDataFields.h,v 1.3 2002/02/17 18:43:15 dirk Exp $"
+#define OSGWINDOWXFIELDS_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGXWINDOWDATAFIELDS_H_ */

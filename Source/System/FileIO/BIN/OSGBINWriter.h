@@ -87,6 +87,9 @@ class OSG_SYSTEMLIB_DLLMAPPING BINWriter
     /*---------------------------------------------------------------------*/
     /*! \name                  Type information                            */
     /*! \{                                                                 */
+
+    /*! \hideinhierarchy */
+
 	struct FCInfo 
 	{
          OSG::IDString     type;
@@ -97,6 +100,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BINWriter
     //FieldContainerId is of type UInt32
   	typedef std::map<     UInt32,             FCInfo  > FCInfoMap;	
     typedef std::map<std::string, std::vector<UInt32> > FCTypeIdMap;
+
+    /*! \hideinhierarchy */
 
 	class BinaryFileHandler : public BinaryDataHandler
     {

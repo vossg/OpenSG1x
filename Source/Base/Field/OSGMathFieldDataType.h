@@ -48,14 +48,15 @@
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
 /*! \file OSGMathFieldDataType.h
     \ingroup GrpBaseField
     \ingroup GrpBaseFieldTraits
 */
 
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -168,8 +169,7 @@ struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
 /*! \hideinhierarchy                       */
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -274,6 +274,8 @@ struct FieldDataTraits<Quaternion> :
 /*! \class  FieldTraitsRecurseBase<Quaternion> */
 /*! \hideinhierarchy                           */
 #endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 OSG_END_NAMESPACE
 

@@ -73,11 +73,12 @@ typedef FCPtr<StereoCameraDecoratorPtr, ShearedStereoCameraDecorator> ShearedSte
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief ShearedStereoCameraDecoratorPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<ShearedStereoCameraDecoratorPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<ShearedStereoCameraDecoratorPtr> :
     static char     *getSName(void) { return "SFShearedStereoCameraDecoratorPtr"; }
     static char     *getMName(void) { return "MFShearedStereoCameraDecoratorPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFShearedStereoCameraDecoratorPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<ShearedStereoCameraDecoratorPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<ShearedStereoCameraDecoratorPtr> SFShearedStereoCameraDecoratorPtr;
+#endif
 
 #ifndef OSG_COMPILESHEAREDSTEREOCAMERADECORATORINST
 OSG_DLLEXPORT_DECL1(SField, ShearedStereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFShearedStereoCameraDecoratorPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<ShearedStereoCameraDecoratorPtr> MFShearedStereoCameraDecoratorPtr;
+#endif
 
 #ifndef OSG_COMPILESHEAREDSTEREOCAMERADECORATORINST
 OSG_DLLEXPORT_DECL1(MField, ShearedStereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

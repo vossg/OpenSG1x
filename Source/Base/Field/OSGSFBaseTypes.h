@@ -54,100 +54,110 @@
 OSG_BEGIN_NAMESPACE
 
 
-/*! \ingroup GrpBaseFieldSingle
- */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldSingle */
 
 typedef SField<std::string> SFString;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(SField, std::string, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \ingroup GrpBaseFieldSingle
- */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldSingle */
 
 typedef SField<Time, 1> SFTime;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL2(SField,Time, 1, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \ingroup GrpBaseFieldSingle
- */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldSingle */
 
 typedef SField<Color3f> SFColor3f;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(SField, Color3f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \ingroup GrpBaseFieldSingle
- */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldSingle */
 
 typedef SField<Color4f> SFColor4f;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(SField, Color4f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \ingroup GrpBaseFieldSingle
- */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldSingle */
 
 typedef SField<Color3ub> SFColor3ub;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(SField, Color3ub, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \ingroup GrpBaseFieldSingle
- */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldSingle */
 
 typedef SField<Color4ub> SFColor4ub;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(SField, Color4ub, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \ingroup GrpBaseFieldSingle
- */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldSingle */
 
 typedef SField<DynamicVolume> SFDynamicVolume;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(SField, DynamicVolume, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \ingroup GrpBaseFieldSingle
- */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldSingle */
 
 typedef SField<BitVector, 1>  SFBitVector;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL2(SField, BitVector, 1, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \ingroup GrpBaseFieldSingle
- */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldSingle */
 
 typedef SField<GLenum, 1>  SFGLenum;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL2(SField, GLenum, 1, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \ingroup GrpBaseFieldSingle
- */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldSingle */
 
 typedef SField<Plane> SFPlane;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(SField, Plane, OSG_BASE_DLLTMPLMAPPING)

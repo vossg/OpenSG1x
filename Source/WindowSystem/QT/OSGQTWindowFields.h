@@ -70,11 +70,12 @@ class QTWindow;
 
 typedef FCPtr<WindowPtr, QTWindow> QTWindowPtr;
 
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
 /*! \brief QTWindowPtr field traits 
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-*/
+    \ingroup GrpWindowQTField
+    \ingroup GrpWindowQTFieldTraits
+ */
 
 template <>
 struct FieldDataTraits<QTWindowPtr> : 
@@ -91,19 +92,30 @@ struct FieldDataTraits<QTWindowPtr> :
     static char     *getMName(void) { return "MFQTWindowPtr"; }
 };
 
-//! SFQTWindowPtr
-//! \ingroup GrpBaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class FieldTraitsRecurseMapper<QTWindowPtr, true> */
+/*! \hideinhierarchy                                   */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpWindowQTFieldSingle */
 
 typedef SField<QTWindowPtr> SFQTWindowPtr;
+#endif
 
 #ifndef OSG_COMPILEQTWINDOWINST
 OSG_DLLEXPORT_DECL1(SField, QTWindowPtr, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFQTWindowPtr
-//! \ingroup GrpBaseFieldMulti
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpWindowQTFieldMulti */
 
 typedef MField<QTWindowPtr> MFQTWindowPtr;
+#endif
 
 #ifndef OSG_COMPILEQTWINDOWINST
 OSG_DLLEXPORT_DECL1(MField, QTWindowPtr, OSG_WINDOWQTLIB_DLLTMPLMAPPING)

@@ -73,11 +73,12 @@ typedef FCPtr<FieldContainerPtr, State> StatePtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief StatePtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<StatePtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<StatePtr> :
     static char     *getSName(void) { return "SFStatePtr"; }
     static char     *getMName(void) { return "MFStatePtr"; }
 };
-#endif             // exclude from doc
 
-//! SFStatePtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<StatePtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<StatePtr> SFStatePtr;
+#endif
 
 #ifndef OSG_COMPILESTATEINST
 OSG_DLLEXPORT_DECL1(SField, StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFStatePtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<StatePtr> MFStatePtr;
+#endif
 
 #ifndef OSG_COMPILESTATEINST
 OSG_DLLEXPORT_DECL1(MField, StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

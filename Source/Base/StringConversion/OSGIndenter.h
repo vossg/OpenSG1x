@@ -36,8 +36,8 @@
  *                                                                           *
  \*---------------------------------------------------------------------------*/
 
-#ifndef _Indenter_H_
-#define _Indenter_H_
+#ifndef _OSGINDENTER_H_
+#define _OSGINDENTER_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -49,30 +49,26 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! Brief
-//! \ingroup GrpBaseStringConversion
+/*! \file OSGIndenter.h
+    \ingroup GrpBaseStringConversion
+ */
+
+/*! \ingroup GrpBaseStringConversion
+ */
 
 class OSG_BASE_DLLMAPPING Indenter 
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                      dcast                                   */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name        General Fieldcontainer Declaration                    */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    Indenter(UInt32 indent=0, UInt32 step=4);
-    Indenter(const Indenter &source);
+    Indenter(      UInt32    indent = 0, 
+                   UInt32    step   = 4);
+    Indenter(const Indenter &source    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -83,118 +79,55 @@ class OSG_BASE_DLLMAPPING Indenter
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                    Helper                                    */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-    inline UInt32 getIndent(void) const;
-    inline UInt32 getStep  (void) const;
+    UInt32 getIndent(void) const;
+    UInt32 getStep  (void) const;
 
-    inline std::string str (void) const;
+    std::string str (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Set                                     */
     /*! \{                                                                 */
 
-    inline void setIndent(UInt32 indent);
-    inline void setStep  (UInt32 step  );
+    void setIndent(UInt32 indent);
+    void setStep  (UInt32 step  );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   your_category                              */
+    /*! \name                      operators                               */
     /*! \{                                                                 */
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                 Container Access                             */
-    /*! \{                                                                 */
+    void      operator++(      int             );
+    void      operator++(      void            );
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Binary Access                              */
-    /*! \{                                                                 */
+    void      operator--(      int             ); 
+    void      operator--(      void            );
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   your_operators                             */
-    /*! \{                                                                 */
-
-    inline void operator++(int); // int to destinguish pre/postfix
-    inline void operator++(   );
-
-    inline void operator--(int); // int to destinguish pre/postfix
-    inline void operator--(   );
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Assignment                                */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Comparison                                */
-    /*! \{                                                                 */
-
-    bool operator < (const Indenter &other) const;
-    //bool operator == (const Indenter &other) const;
-    //bool operator != (const Indenter &other) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                        Dump                                  */
-    /*! \{                                                                 */
+    Indenter &operator =(const Indenter &source);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                  Type information                            */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Fields                                  */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
     UInt32     _indent;
     UInt32     _step;
-    
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Changed                                 */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   MT Destruction                             */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                       Sync                                   */
-    /*! \{                                                                 */
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
-  private:
 
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    Indenter& operator =(const Indenter &source);
+  private:
 };
 
-inline std::ostream& operator<<(std::ostream& stream, const Indenter& indent);
+inline 
+std::ostream &operator <<(std::ostream &stream, const Indenter &indent);
 
 
 OSG_END_NAMESPACE

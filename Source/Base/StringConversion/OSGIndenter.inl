@@ -38,109 +38,98 @@
 
 OSG_BEGIN_NAMESPACE
 
-
-
-/*! increase indent by _step
- *
- */
-inline void Indenter::operator++(int)
-{
-    _indent += _step;
-}
-
-
-/*! increase indent by _step
- *
- */
-inline void Indenter::operator++()
-{
-    _indent += _step;
-}
-
-
-/*! decrease indent by _step
- *
- */
-inline void Indenter::operator--(int)
-{
-    _indent -= _step;
-}
-
-
-/*! decrease indent by _step
- *
- */
-inline void Indenter::operator--()
-{
-    _indent -= _step;
-}
-
-
-/*! get _indent
- *
- */
-inline UInt32 Indenter::getIndent(void) const
+inline 
+UInt32 Indenter::getIndent(void) const
 {
     return _indent;
 }
 
-
-/*! get _step
- *
- */
-inline UInt32 Indenter::getStep(void) const
+inline 
+UInt32 Indenter::getStep(void) const
 {
     return _step;
 }
 
-/*! return a string of _indent many spaces
- *
- */
-
-inline std::string Indenter::str(void) const
+inline 
+std::string Indenter::str(void) const
 {
     std::string indStr;
 
-    for(UInt32 i=0; i<_indent; i++)
+    for(UInt32 i = 0; i < _indent; i++)
     {
         indStr.append(" ");
     }
+
     return indStr;
 }
 
-
-
-/*! set _indent
- *
- */
-inline void Indenter::setIndent(UInt32 indent)
+inline 
+void Indenter::setIndent(UInt32 indent)
 {
     _indent = indent;
 }
 
-
-/*! set _step
- *
- */
-inline void Indenter::setStep(UInt32 step)
+inline 
+void Indenter::setStep(UInt32 step)
 {
     _step = step;
 }
 
-
-/*! write _indent spaces to stream
- *
+/*! increase indent by _step
  */
-inline std::ostream& operator << (std::ostream& stream, const Indenter& indent)
+
+inline 
+void Indenter::operator++(int)
 {
-    for(UInt32 i=0; i<indent.getIndent(); i++)
+    _indent += _step;
+}
+
+/*! increase indent by _step
+ */
+
+inline 
+void Indenter::operator++(void)
+{
+    _indent += _step;
+}
+
+
+/*! decrease indent by _step
+ */
+
+inline 
+void Indenter::operator--(int)
+{
+    _indent -= _step;
+}
+
+
+/*! decrease indent by _step
+ */
+
+inline 
+void Indenter::operator--(void)
+{
+    _indent -= _step;
+}
+
+
+/*! \ingroup GrpBaseStringConversion
+    write _indent spaces to stream
+ */
+
+inline 
+std::ostream &operator <<(std::ostream &stream, const Indenter &indent)
+{
+    for(UInt32 i = 0; i < indent.getIndent(); i++)
     {
         stream << ' ';
     }
+
     return stream;
 }
 
 OSG_END_NAMESPACE
 
-#define OSGINDENTER_INLINE_CVSID "@(#)$Id: template.inl,v 1.2 2001/10/15 03:10:24 vossg Exp $"
+#define OSGINDENTER_INLINE_CVSID "@(#)$Id: $"
 

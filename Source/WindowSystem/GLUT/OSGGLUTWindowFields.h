@@ -73,11 +73,12 @@ typedef FCPtr<WindowPtr, GLUTWindow> GLUTWindowPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief GLUTWindowPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpWindowGLUTFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<GLUTWindowPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<GLUTWindowPtr> :
     static char     *getSName(void) { return "SFGLUTWindowPtr"; }
     static char     *getMName(void) { return "MFGLUTWindowPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFGLUTWindowPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<GLUTWindowPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpWindowGLUTFieldSingle */
 
 typedef SField<GLUTWindowPtr> SFGLUTWindowPtr;
+#endif
 
 #ifndef OSG_COMPILEGLUTWINDOWINST
 OSG_DLLEXPORT_DECL1(SField, GLUTWindowPtr, OSG_WINDOWGLUTLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFGLUTWindowPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpWindowGLUTFieldMulti */
 
 typedef MField<GLUTWindowPtr> MFGLUTWindowPtr;
+#endif
 
 #ifndef OSG_COMPILEGLUTWINDOWINST
 OSG_DLLEXPORT_DECL1(MField, GLUTWindowPtr, OSG_WINDOWGLUTLIB_DLLTMPLMAPPING)

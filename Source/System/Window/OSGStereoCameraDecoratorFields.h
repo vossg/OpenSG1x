@@ -73,11 +73,12 @@ typedef FCPtr<CameraDecoratorPtr, StereoCameraDecorator> StereoCameraDecoratorPt
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief StereoCameraDecoratorPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<StereoCameraDecoratorPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<StereoCameraDecoratorPtr> :
     static char     *getSName(void) { return "SFStereoCameraDecoratorPtr"; }
     static char     *getMName(void) { return "MFStereoCameraDecoratorPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFStereoCameraDecoratorPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<StereoCameraDecoratorPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<StereoCameraDecoratorPtr> SFStereoCameraDecoratorPtr;
+#endif
 
 #ifndef OSG_COMPILESTEREOCAMERADECORATORINST
 OSG_DLLEXPORT_DECL1(SField, StereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFStereoCameraDecoratorPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<StereoCameraDecoratorPtr> MFStereoCameraDecoratorPtr;
+#endif
 
 #ifndef OSG_COMPILESTEREOCAMERADECORATORINST
 OSG_DLLEXPORT_DECL1(MField, StereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

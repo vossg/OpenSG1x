@@ -73,11 +73,12 @@ typedef FCPtr<FieldContainerPtr, StateChunk> StateChunkPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief StateChunkPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<StateChunkPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<StateChunkPtr> :
     static char     *getSName(void) { return "SFStateChunkPtr"; }
     static char     *getMName(void) { return "MFStateChunkPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFStateChunkPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<StateChunkPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<StateChunkPtr> SFStateChunkPtr;
+#endif
 
 #ifndef OSG_COMPILESTATECHUNKINST
 OSG_DLLEXPORT_DECL1(SField, StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFStateChunkPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<StateChunkPtr> MFStateChunkPtr;
+#endif
 
 #ifndef OSG_COMPILESTATECHUNKINST
 OSG_DLLEXPORT_DECL1(MField, StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

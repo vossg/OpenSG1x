@@ -148,8 +148,13 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
 typedef StatCollector *StatCollectorP;
 
 
-/*! \brief StatCollector field traits 
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<StatCollector> : 
@@ -181,13 +186,19 @@ struct FieldDataTraits<StatCollector> :
 
 };
 
-/*! \brief StatCollector fields
-*/
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class FieldTraitsRecurseBase<StatCollector> */
+/*! \hideinhierarchy                             */
+#endif
 
-//! SFStatCollector
-//! \ingroup GrpBaseFieldSingle
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<StatCollector> SFStatCollector;
+#endif
 
 #ifndef OSG_COMPILESTATCOLLECTORINST
 OSG_DLLEXPORT_DECL1(SField, StatCollector, OSG_SYSTEMLIB_DLLTMPLMAPPING)

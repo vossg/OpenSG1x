@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _StringConversionStateBase_H_
-#define _StringConversionStateBase_H_
+#ifndef _OSGSTRINGCONVERSIONSTATEBASE_H_
+#define _OSGSTRINGCONVERSIONSTATEBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -48,30 +48,35 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! Brief
-//! \ingroup GrpBaseStringConversion
+/*! \file OSGStringConversionStateBase.h
+    \ingroup GrpBaseStringConversion
+ */
+
+/*! \ingroup GrpBaseStringConversion
+ */
 
 class OSG_BASE_DLLMAPPING StringConversionStateBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    //StringConversionStateBase(void);
+    StringConversionStateBase(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual ~StringConversionStateBase(void){ }
+    virtual ~StringConversionStateBase(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
+    /*! \name                    Handle Fields                             */
     /*! \{                                                                 */
 
     virtual std::string &beginField (const Field       *pF,    
@@ -82,36 +87,24 @@ class OSG_BASE_DLLMAPPING StringConversionStateBase
                                            std::string &outStr) = 0;
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Comparison                                */
-    /*! \{                                                                 */
-
-    //virtual bool operator < (const StringConversionStateBase &other) const;
-
-    //bool operator == (const StringConversionStateBase &other) const;
-    //bool operator != (const StringConversionStateBase &other) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                        Dump                                  */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*==========================  PRIVATE  ================================*/
+
   private:
 
-
     /*!\brief prohibit default function (move to 'public' if needed) */
-//    StringConversionStateBase(const StringConversionStateBase &source);
+    StringConversionStateBase(const StringConversionStateBase &source);
     /*!\brief prohibit default function (move to 'public' if needed) */
-//    void operator =(const StringConversionStateBase &source);
+    void operator =(const StringConversionStateBase &source);
 };
 
 OSG_END_NAMESPACE
 
 #define OSGSTRINGCONVERSIONSTATEBASE_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _StringConversionStateBase_H_ */
+#include <OSGStringConversionStateBase.inl>
+
+#endif /* _OSGSTRINGCONVERSIONSTATEBASE_H_ */

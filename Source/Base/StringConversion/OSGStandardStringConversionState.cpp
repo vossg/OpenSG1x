@@ -49,100 +49,44 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::StandardStringConversionState
-    StandardStringConversionState documentation,
- */
-
-
-/*! \enum StandardStringConversionState::ENUMNAME
-  
- */
-
-
-/*! \var VARTYPE StandardStringConversionState::_VARNAME
-    variable documentation
- */
-
-
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
-/*! Constructor. Set Members to initial values.
- */
+
 StandardStringConversionState::StandardStringConversionState(UInt32 indent,
                                                              UInt32 width  ) :
-    _indent(indent),
-    _width(width), 
-    _noLineBreakHint(false), 
-    _multiFieldHint(false), 
-    _mfSeparator(", "),
-    _mfSepLength(2),
-    _lastMFSepStart(0)
+     Inherited      (      ),
+
+    _indent         (indent),
+    _width          (width ), 
+    
+    _lineLength     (     0),
+    _noLineBreakHint(false ), 
+    _multiFieldHint (false ), 
+    _mfSeparator    (", "  ),
+    _mfSepLength    (     2),
+    _lastMFSepStart (      0)
 {
 }
 
 /*-------------------------------------------------------------------------*/
 /*                             Destructor                                  */
 
-/*! Destructor. No dynamic members => nothing to destroy
- */
 StandardStringConversionState::~StandardStringConversionState(void)
 {
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Assignment                                  */
-
-/*! assignment. This is just a dummy.
- */
-//StandardStringConversionState& StandardStringConversionState::operator = (
-//    const StandardStringConversionState &source)
-//{
-//    if(this == &source)
-//        return *this;
-//    
-//    return *this;
-//}
 
 /*-------------------------------------------------------------------------*/
-/*                             Comparison                                  */
+/*                             Handle Fields                               */
 
-/*! less
- */
-
-//bool StandardStringConversionState::operator < (
-//    const StandardStringConversionState &other) const
-//{
-//    return this < &other;
-//}
-
-/*! equal
- */
-
-//bool StandardStringConversionState::operator == (
-//    const StandardStringConversionState &other) const
-//{
-//    return this == &other;
-//}
-
-/*! unequal
- */
-
-//bool StandardStringConversionState::operator != (
-//    const StandardStringConversionState &other) const
-//{
-//    return ! (*this == other);
-//}
-
-
-/*-------------------------------------------------------------------------*/
-/*                             Class Specific                              */
-
-/*! beginField. StandardStringConversionState adds the _indent many spaces
-    before the values of a field. Also resets internal state variables.
+/*! beginField. StandardStringConversionState adds _indent many spaces
+    before the values of a field. 
 */
+
 std::string &StandardStringConversionState::beginField(
-    const Field *pF, std::string &outStr)
+    const Field       *pF, 
+          std::string &outStr)
 {
     _lineLength     = 0;
     _lastMFSepStart = 0;
@@ -193,34 +137,39 @@ std::string &StandardStringConversionState::addValueStr(std::string &value,
     else
     {
         StringTokenizer tokens(value);
-        std::string token;
-        UInt32 tokenLength;
+        std::string     token;
+
         bool first = true;
 
-        while(tokens.hasNext())
+        while(tokens.hasNext() == true)
         {
-            token = tokens.getNext();
-            tokenLength = token.length();
-            if(_lineLength+tokenLength > _width)
+                        token       = tokens.getNext();
+            UInt32      tokenLength = token.length();
+
+            if(_lineLength + tokenLength > _width)
             {
                 outStr.append("\n");
                 _lineLength = 0;
                 outStr.append(_indent.str());
-                first = true; //new Line: no space for separation
+                first = true; 
             }
-            if(first){
+
+            if(first == true)
+            {
                 first = false;
             }
             else
             {
                 outStr.append(" ");
             }
+
             outStr.append(token);
+
             _lineLength += tokenLength+1;
         }
      }
     
-    if(_multiFieldHint)
+    if(_multiFieldHint == true)
     {
         _lastMFSepStart = outStr.length();
         outStr.append(_mfSeparator);
@@ -234,14 +183,16 @@ std::string &StandardStringConversionState::addValueStr(std::string &value,
 /*! endField. StandardStringConversionState removes the last MultiField-
     Separator-String appended to outStr.
 */
+
 std::string &StandardStringConversionState::endField(
     const      Field  *OSG_CHECK_ARG(pF),
           std::string &outStr)
 {
-    if(_multiFieldHint)
+    if(_multiFieldHint == true)
     {
         outStr = outStr.erase(_lastMFSepStart, _mfSepLength);
     }
+
     return outStr;
 }
 

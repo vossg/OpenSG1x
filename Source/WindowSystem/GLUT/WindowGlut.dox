@@ -9,6 +9,32 @@ using namespace OSG;
     See \ref WindowGlut for details.
 */
 
+/*! \defgroup GrpWindowGLUTField Fields
+    \ingroup GrpWindowGlut
+    
+    See \ref PageBaseField for details.
+*/
+
+#if (OSG_DOC_LEVEL >= 3)
+/*! \defgroup GrpWindowGlutFieldTraits Field Data Traits
+    \ingroup GrpWindowGLUTField
+
+    ToDo
+*/
+#endif
+
+/*! \defgroup GrpWindowGLUTFieldSingle Single-Element Fields
+    \ingroup GrpWindowGLUTField
+
+    ToDo
+*/
+
+/*! \defgroup GrpWindowGLUTFieldMulti Multi-Element Fields
+    \ingroup GrpWindowGLUTField
+
+    ToDo
+*/
+
 /*! \page WindowGlut GLUT Window System Library
 
 

@@ -48,14 +48,15 @@
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
 /*! \file OSGVecFieldDataType.h
     \ingroup GrpBaseField
     \ingroup GrpBaseFieldTraits
 */
 
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -123,8 +124,7 @@ template<class ValueTypeT>
 const UInt32 FieldTraitsRecurseVecStoreBase<ValueTypeT>::uiTest;
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -137,8 +137,7 @@ struct FieldTraitsRecurseVecStore2Base :
     enum               { bHasParent = 0x00 };
 };
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -151,8 +150,7 @@ struct FieldTraitsRecurseVecStore3Base :
     enum              { bHasParent = 0x00 };
 };
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -165,8 +163,7 @@ struct FieldTraitsRecurseVecStore4Base :
     enum              { bHasParent = 0x00 };
 };
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -215,8 +212,7 @@ struct FieldDataTraits<Vec2f> : public FieldTraitsRecurseVecStore2Base<Vec2f>
 /*! \hideinhierarchy                               */
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -267,8 +263,7 @@ struct FieldDataTraits<Vec3f> : public FieldTraitsRecurseVecStore3Base<Vec3f>
 /*! \hideinhierarchy                               */
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -320,8 +315,7 @@ struct FieldDataTraits<Vec4f> : public FieldTraitsRecurseVecStore4Base<Vec4f>
 /*! \hideinhierarchy                               */
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -373,8 +367,7 @@ struct FieldDataTraits<Vec4ub> : public FieldTraitsRecurseVecStore4Base<Vec4ub>
 /*! \hideinhierarchy                                */
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -423,8 +416,7 @@ struct FieldDataTraits<Pnt2f> : public FieldTraitsRecurseVecStore2Base<Pnt2f>
 /*! \hideinhierarchy                               */
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -472,8 +464,7 @@ struct FieldDataTraits<Pnt2d> : public FieldTraitsRecurseVecStore2Base<Pnt2d>
 /*! \hideinhierarchy                               */
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -522,8 +513,7 @@ struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseVecStore3Base<Pnt3f>
 /*! \hideinhierarchy                               */
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -572,8 +562,7 @@ struct FieldDataTraits<Pnt3d> : public FieldTraitsRecurseVecStore3Base<Pnt3d>
 /*! \hideinhierarchy                               */
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -625,8 +614,7 @@ struct FieldDataTraits<Pnt4f> : public FieldTraitsRecurseVecStore4Base<Pnt4f>
 /*! \hideinhierarchy                               */
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -677,6 +665,8 @@ struct FieldDataTraits<Pnt4d> : public FieldTraitsRecurseVecStore4Base<Pnt4d>
 /*! \class  FieldTraitsRecurseVecStore4Base<Pnt4d> */
 /*! \hideinhierarchy                               */
 #endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 OSG_END_NAMESPACE
 

@@ -73,10 +73,12 @@ typedef FCPtr<BackgroundPtr, GradientBackground> GradientBackgroundPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief GradientBackgroundPtr field traits 
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<GradientBackgroundPtr> : 
@@ -91,13 +93,22 @@ struct FieldDataTraits<GradientBackgroundPtr> :
 
     static char     *getMName(void) { return "MFGradientBackgroundPtr"; }
 };
-#endif             // exclude from doc
+
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<GradientBackgroundPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 
-//! MFGradientBackgroundPtr
-//! \ingroup BaseFieldMulti
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<GradientBackgroundPtr> MFGradientBackgroundPtr;
+#endif
 
 #ifndef OSG_COMPILEGRADIENTBACKGROUNDINST
 OSG_DLLEXPORT_DECL1(MField, GradientBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

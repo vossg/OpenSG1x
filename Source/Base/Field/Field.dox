@@ -8,11 +8,13 @@ using namespace OSG;
     See \ref PageBaseField for details.
 */
 
+#if (OSG_DOC_LEVEL >= 3)
 /*! \defgroup GrpBaseFieldTraits Field Data Traits
     \ingroup GrpBaseField
 
     ToDo
 */
+#endif
 
 /*! \defgroup GrpBaseFieldSingle Single-Element Fields
     \ingroup GrpBaseField

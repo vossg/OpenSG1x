@@ -48,14 +48,15 @@
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
 /*! \file OSGFieldDataType.h
     \ingroup GrpBaseField
     \ingroup GrpBaseFieldTraits
 */
 
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits
+/*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -72,8 +73,7 @@ struct FieldTraits
     static const Char8 *getPName(void) { return "Field"; }
 };
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits */
+/*! \ingroup GrpBaseFieldTraits */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy            */
 #endif
@@ -81,8 +81,7 @@ struct FieldTraits
 template<class FieldTypeT>
 struct FieldDataTraits;
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits */
+/*! \ingroup GrpBaseFieldTraits */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy            */
 #endif
@@ -90,8 +89,7 @@ struct FieldDataTraits;
 template<class FieldTypeT>
 struct FieldDataTraits1;
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits */
+/*! \ingroup GrpBaseFieldTraits */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy            */
 #endif
@@ -99,8 +97,7 @@ struct FieldDataTraits1;
 template<class FieldTypeT>
 struct FieldDataTraits2;
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits */
+/*! \ingroup GrpBaseFieldTraits */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy            */
 #endif
@@ -209,8 +206,7 @@ template <class FieldTypeT> inline
 const UInt32 FieldTraitsRecurseBase<FieldTypeT>::uiTest;
 #endif
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits */
+/*! \ingroup GrpBaseFieldTraits */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy            */
 #endif
@@ -258,8 +254,7 @@ struct FieldTraitsIntegralRecurseMapper :
 };
 
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits */
+/*! \ingroup GrpBaseFieldTraits */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy            */
 #endif
@@ -314,8 +309,7 @@ struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
     }
 };
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits */
+/*! \ingroup GrpBaseFieldTraits */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy            */
 #endif
@@ -369,8 +363,7 @@ struct FieldTraitsRecurseMapper1 : public FieldTraitsRecurseBase<FieldTypeT>
 };
 
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits */
+/*! \ingroup GrpBaseFieldTraits */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy            */
 #endif
@@ -423,8 +416,7 @@ struct FieldTraitsRecurseMapper2 : public FieldTraitsRecurseBase<FieldTypeT>
     }
 };
 
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits */
+/*! \ingroup GrpBaseFieldTraits */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy            */
 #endif
@@ -438,8 +430,7 @@ struct FieldDataTraits : public FieldTraitsRecurseMapper<FieldTypeT, false>
 /*! \class  FieldTraitsRecurseMapper<FieldTypeT, false> */
 /*! \hideinhierarchy                                    */
 #endif
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits */
+/*! \ingroup GrpBaseFieldTraits */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy            */
 #endif
@@ -454,8 +445,7 @@ struct FieldDataTraits1 : public FieldTraitsRecurseMapper1<FieldTypeT, false>
 /*! \class  FieldTraitsRecurseMapper1<FieldTypeT, false> */
 /*! \hideinhierarchy                                     */
 #endif
-/*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldTraits */
+/*! \ingroup GrpBaseFieldTraits */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy            */
 #endif
@@ -469,6 +459,8 @@ struct FieldDataTraits2 : public FieldTraitsRecurseMapper2<FieldTypeT, false>
 /*! \class  FieldTraitsRecurseMapper2<FieldTypeT, false> */
 /*! \hideinhierarchy                                     */
 #endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 OSG_END_NAMESPACE
 

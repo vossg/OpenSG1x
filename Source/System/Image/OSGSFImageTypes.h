@@ -47,22 +47,18 @@
 #include <OSGImage.h>
 #include <OSGImageFieldDataType.h>
 
-/** \file OSGSFImageTypes.h
- *  \ingroup GrpBaseField
- *  \ingroup GrpBaseFieldSingle
- *  \brief OpenSG image single fields
- *
- *  <UL>
- *  <LI> osg::SFImagePointer
- *  </UL>
+/*! \file OSGSFImageTypes.h
+    \ingroup GrpSystemField
+    \ingroup GrpSystemFieldSingle
  */
 
 OSG_BEGIN_NAMESPACE
 
-/** \brief SFImagePointer
- */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<ImageP> SFImageP;
+#endif
 
 #ifndef OSG_COMPILEIMAGEINST
 OSG_DLLEXPORT_DECL1(SField, ImageP, OSG_SYSTEMLIB_DLLTMPLMAPPING)

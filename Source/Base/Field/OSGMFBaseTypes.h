@@ -57,100 +57,110 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup GrpBaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldMulti */
 
 typedef MField<std::string> MFString;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(MField, std::string, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \ingroup GrpBaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldMulti */
 
 typedef MField<Time, 1> MFTime;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL2(MField, Time, 1, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \ingroup GrpBaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldMulti */
 
 typedef MField<Color3f> MFColor3f;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(MField, Color3f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \ingroup GrpBaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldMulti */
 
 typedef MField<Color4f> MFColor4f;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(MField, Color4f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \ingroup GrpBaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldMulti */
 
 typedef MField<Color3ub> MFColor3ub;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(MField, Color3ub, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \ingroup GrpBaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldMulti */
 
 typedef MField<Color4ub> MFColor4ub;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(MField, Color4ub, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \ingroup GrpBaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldMulti */
 
 typedef MField<DynamicVolume> MFVolume;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(MField, DynamicVolume, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \ingroup GrpBaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldMulti */
 
 typedef MField<BitVector, 1>  MFBitVector;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL2(MField, BitVector, 1, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \ingroup GrpBaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldMulti */
 
 typedef MField<GLenum, 1>  MFGLenum;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL2(MField, GLenum, 1, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \ingroup GrpBaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldMulti */
 
 typedef MField<Plane> MFPlane;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(MField, Plane, OSG_BASE_DLLTMPLMAPPING)

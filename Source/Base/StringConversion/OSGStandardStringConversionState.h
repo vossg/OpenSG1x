@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _StandardStringConversionState_H_
-#define _StandardStringConversionState_H_
+#ifndef _OSGSTANDARDSTRINGCONVERSIONSTATE_H_
+#define _OSGSTANDARDSTRINGCONVERSIONSTATE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -51,20 +51,27 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! Brief
-//! \ingroup GrpBaseStringConversion
+/*! \file OSGStandardStringConversionState.h
+    \ingroup GrpBaseStringConversion
+ */
+
+/*! \ingroup GrpBaseStringConversion
+ */
 
 class OSG_BASE_DLLMAPPING StandardStringConversionState : 
     public StringConversionStateBase
 {
+
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                      Types                                   */
+    /*! \name                   Constants                                  */
     /*! \{                                                                 */
 
-    enum { DefaultIndent, DefaultWidth, UnlimitedWidth };
+    static const UInt32 DefaultIndent  = 0; 
+    static const UInt32 DefaultWidth   = 80; 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -86,20 +93,20 @@ class OSG_BASE_DLLMAPPING StandardStringConversionState :
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-    inline UInt32 getIndent(void) const;
-    inline UInt32 getWidth (void) const;
+    UInt32 getIndent(void) const;
+    UInt32 getWidth (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Set                                     */
     /*! \{                                                                 */
 
-    inline void setIndent(UInt32 newIndent);
-    inline void setWidth (UInt32 newWidth );
+    void setIndent(UInt32 newIndent);
+    void setWidth (UInt32 newWidth );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   your_category                              */
+    /*! \name                   Handle Fields                              */
     /*! \{                                                                 */
 
     virtual std::string &beginField (const      Field  *pF,    
@@ -110,47 +117,41 @@ class OSG_BASE_DLLMAPPING StandardStringConversionState :
                                            std::string &outStr);
     
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Comparison                                */
-    /*! \{                                                                 */
-
-    // virtual bool operator < (const StandardStringConversionState &other) const;
-    
-    //bool operator == (const StandardStringConversionState &other) const;
-    //bool operator != (const StandardStringConversionState &other) const;
-
-    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
+
+    typedef StringConversionStateBase Inherited;
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
     /*! \{                                                                 */
     
-    Indenter        _indent;
-    UInt32          _width;
+    Indenter    _indent;
+    UInt32      _width;
 
-    UInt32          _lineLength;
+    UInt32      _lineLength;
 
-    bool            _noLineBreakHint;
-    bool            _multiFieldHint;
+    bool        _noLineBreakHint;
+    bool        _multiFieldHint;
 
-    std::string     _mfSeparator;
-    UInt32          _mfSepLength;
-    UInt32          _lastMFSepStart;
+    std::string _mfSeparator;
+    UInt32      _mfSepLength;
+    UInt32      _lastMFSepStart;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     typedef StringConversionStateBase Inherited;
 
 
     /*!\brief prohibit default function (move to 'public' if needed) */
-//    StandardStringConversionState(const StandardStringConversionState &source);
+    StandardStringConversionState(const StandardStringConversionState &source);
     /*!\brief prohibit default function (move to 'public' if needed) */
-//    StandardStringConversionState& operator =(
-//        const StandardStringConversionState &source);
+    StandardStringConversionState& operator =(
+        const StandardStringConversionState &source);
 };
 
 OSG_END_NAMESPACE
@@ -159,5 +160,5 @@ OSG_END_NAMESPACE
 
 #include "OSGStandardStringConversionState.inl"
 
-#endif /* _StandardStringConversionState_H_ */
+#endif /* _OSGSTANDARDSTRINGCONVERSIONSTATE_H_ */
 

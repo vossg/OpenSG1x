@@ -73,10 +73,12 @@ typedef FCPtr<BackgroundPtr, SkyBackground> SkyBackgroundPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief SkyBackgroundPtr field traits 
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<SkyBackgroundPtr> : 
@@ -91,13 +93,22 @@ struct FieldDataTraits<SkyBackgroundPtr> :
 
     static char     *getMName(void) { return "MFSkyBackgroundPtr"; }
 };
-#endif             // exclude from doc
+
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<SkyBackgroundPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 
-//! MFSkyBackgroundPtr
-//! \ingroup BaseFieldMulti
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<SkyBackgroundPtr> MFSkyBackgroundPtr;
+#endif
 
 #ifndef OSG_COMPILESKYBACKGROUNDINST
 OSG_DLLEXPORT_DECL1(MField, SkyBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

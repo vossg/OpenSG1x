@@ -9,6 +9,32 @@ using namespace OSG;
     See \ref WindowX for details.
 */
 
+/*! \defgroup GrpWindowXField Fields
+    \ingroup GrpWindowX
+    
+    See \ref PageBaseField for details.
+*/
+
+#if (OSG_DOC_LEVEL >= 3)
+/*! \defgroup GrpWindowXFieldTraits Field Data Traits
+    \ingroup GrpWindowXField
+
+    ToDo
+*/
+#endif
+
+/*! \defgroup GrpWindowXSingle Single-Element Fields
+    \ingroup GrpWindowXField
+
+    ToDo
+*/
+
+/*! \defgroup GrpWindowXFieldMulti Multi-Element Fields
+    \ingroup GrpWindowXField
+
+    ToDo
+*/
+
 /*! \page WindowX X Window System Library
 
 

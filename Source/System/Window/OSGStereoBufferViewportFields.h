@@ -73,11 +73,12 @@ typedef FCPtr<ViewportPtr, StereoBufferViewport> StereoBufferViewportPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief StereoBufferViewportPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<StereoBufferViewportPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<StereoBufferViewportPtr> :
     static char     *getSName(void) { return "SFStereoBufferViewportPtr"; }
     static char     *getMName(void) { return "MFStereoBufferViewportPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFStereoBufferViewportPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<StereoBufferViewportPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<StereoBufferViewportPtr> SFStereoBufferViewportPtr;
+#endif
 
 #ifndef OSG_COMPILESTEREOBUFFERVIEWPORTINST
 OSG_DLLEXPORT_DECL1(SField, StereoBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFStereoBufferViewportPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<StereoBufferViewportPtr> MFStereoBufferViewportPtr;
+#endif
 
 #ifndef OSG_COMPILESTEREOBUFFERVIEWPORTINST
 OSG_DLLEXPORT_DECL1(MField, StereoBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

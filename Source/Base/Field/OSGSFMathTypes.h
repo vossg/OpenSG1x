@@ -54,20 +54,22 @@
 OSG_BEGIN_NAMESPACE
 
 
-/*! \ingroup GrpBaseFieldSingle
- */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldSingle */
 
 typedef SField<Matrix>     SFMatrix;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(SField, Matrix, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \ingroup GrpBaseFieldSingle
- */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldSingle */
 
 typedef SField<Quaternion> SFQuaternion;
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(SField, Quaternion, OSG_BASE_DLLTMPLMAPPING)

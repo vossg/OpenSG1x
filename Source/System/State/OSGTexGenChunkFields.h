@@ -73,11 +73,12 @@ typedef FCPtr<StateChunkPtr, TexGenChunk> TexGenChunkPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief TexGenChunkPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<TexGenChunkPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<TexGenChunkPtr> :
     static char     *getSName(void) { return "SFTexGenChunkPtr"; }
     static char     *getMName(void) { return "MFTexGenChunkPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFTexGenChunkPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<TexGenChunkPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<TexGenChunkPtr> SFTexGenChunkPtr;
+#endif
 
 #ifndef OSG_COMPILETEXGENCHUNKINST
 OSG_DLLEXPORT_DECL1(SField, TexGenChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFTexGenChunkPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<TexGenChunkPtr> MFTexGenChunkPtr;
+#endif
 
 #ifndef OSG_COMPILETEXGENCHUNKINST
 OSG_DLLEXPORT_DECL1(MField, TexGenChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

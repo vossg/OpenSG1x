@@ -8,6 +8,32 @@ using namespace OSG;
     See \ref WindowWin32 for details.
 */
 
+/*! \defgroup GrpWindowWIN32Field Fields
+    \ingroup GrpWindowWin32
+    
+    See \ref PageBaseField for details.
+*/
+
+#if (OSG_DOC_LEVEL >= 3)
+/*! \defgroup GrpWindowWIN32FieldTraits Field Data Traits
+    \ingroup GrpWindowWIN32Field
+
+    ToDo
+*/
+#endif
+
+/*! \defgroup GrpWindowWIN32FieldSingle Single-Element Fields
+    \ingroup GrpWindowWIN32Field
+
+    ToDo
+*/
+
+/*! \defgroup GrpWindowWIN32FieldMulti Multi-Element Fields
+    \ingroup GrpWindowWIN32Field
+
+    ToDo
+*/
+
 /*! \page WindowWin32 Microsoft Windows Window System Library
 
 */

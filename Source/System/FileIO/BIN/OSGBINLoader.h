@@ -77,6 +77,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
     struct FCIdMapper;
     friend class FCIdMapper;
 
+    /*! \hideinhierarchy */
+
     struct FCInfoStruct
     {
         UInt32            newId;
@@ -87,6 +89,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
     //          oldID	newId + FCPtr
     typedef std::map<UInt32, FCInfoStruct> IDLookupMap;
 
+    /*! \hideinhierarchy */
+
     struct FCIdMapper : public FieldContainerMapper
     {                                              
       public:
@@ -95,6 +99,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
 
         virtual UInt32 map(UInt32 uiId);
     };
+
+    /*! \hideinhierarchy */
 
     class BinaryFileHandler : public BinaryDataHandler
     {

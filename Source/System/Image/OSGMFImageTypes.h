@@ -47,22 +47,18 @@
 #include <OSGImage.h>
 #include <OSGImageFieldDataType.h>
 
-/** \file OSGMFImageTypes.h
- *  \ingroup GrpSystemImage
- *  \ingroup GrpBaseFieldMulti
- *  \brief OpenSG image multi fields
- *
- *  <UL>
- *  <LI> osg::MFImagePointer
- *  </UL>
+/*! \file OSGMFImageTypes.h
+    \ingroup GrpSystemField
+    \ingroup GrpSystemFieldMulti
  */
 
 OSG_BEGIN_NAMESPACE
 
-/** \brief MFImagePointer
- */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<ImageP> MFImageP;
+#endif
 
 #ifndef OSG_COMPILEIMAGEINST
 OSG_DLLEXPORT_DECL1(MField, ImageP, OSG_SYSTEMLIB_DLLTMPLMAPPING)

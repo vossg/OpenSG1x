@@ -73,11 +73,12 @@ typedef FCPtr<StatisticsForegroundPtr, GraphicStatisticsForeground> GraphicStati
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief GraphicStatisticsForegroundPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<GraphicStatisticsForegroundPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<GraphicStatisticsForegroundPtr> :
     static char     *getSName(void) { return "SFGraphicStatisticsForegroundPtr"; }
     static char     *getMName(void) { return "MFGraphicStatisticsForegroundPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFGraphicStatisticsForegroundPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<GraphicStatisticsForegroundPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<GraphicStatisticsForegroundPtr> SFGraphicStatisticsForegroundPtr;
+#endif
 
 #ifndef OSG_COMPILEGRAPHICSTATISTICSFOREGROUNDINST
 OSG_DLLEXPORT_DECL1(SField, GraphicStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFGraphicStatisticsForegroundPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<GraphicStatisticsForegroundPtr> MFGraphicStatisticsForegroundPtr;
+#endif
 
 #ifndef OSG_COMPILEGRAPHICSTATISTICSFOREGROUNDINST
 OSG_DLLEXPORT_DECL1(MField, GraphicStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

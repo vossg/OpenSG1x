@@ -73,11 +73,12 @@ typedef FCPtr<AttachmentContainerPtr, Viewport> ViewportPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief ViewportPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<ViewportPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<ViewportPtr> :
     static char     *getSName(void) { return "SFViewportPtr"; }
     static char     *getMName(void) { return "MFViewportPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFViewportPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<ViewportPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<ViewportPtr> SFViewportPtr;
+#endif
 
 #ifndef OSG_COMPILEVIEWPORTINST
 OSG_DLLEXPORT_DECL1(SField, ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFViewportPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<ViewportPtr> MFViewportPtr;
+#endif
 
 #ifndef OSG_COMPILEVIEWPORTINST
 OSG_DLLEXPORT_DECL1(MField, ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

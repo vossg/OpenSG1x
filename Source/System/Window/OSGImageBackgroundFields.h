@@ -73,10 +73,12 @@ typedef FCPtr<BackgroundPtr, ImageBackground> ImageBackgroundPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief ImageBackgroundPtr field traits 
-    \ingroup BaseFieldSingle
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<ImageBackgroundPtr> : 
@@ -91,12 +93,21 @@ struct FieldDataTraits<ImageBackgroundPtr> :
 
     static char     *getSName(void) { return "SFImageBackgroundPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFImageBackgroundPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<ImageBackgroundPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<ImageBackgroundPtr> SFImageBackgroundPtr;
+#endif
 
 #ifndef OSG_COMPILEIMAGEBACKGROUNDINST
 OSG_DLLEXPORT_DECL1(SField, ImageBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

@@ -73,11 +73,12 @@ typedef FCPtr<AbstractTextPtr, ScreenAlignedText> ScreenAlignedTextPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief ScreenAlignedTextPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<ScreenAlignedTextPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<ScreenAlignedTextPtr> :
     static char     *getSName(void) { return "SFScreenAlignedTextPtr"; }
     static char     *getMName(void) { return "MFScreenAlignedTextPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFScreenAlignedTextPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<ScreenAlignedTextPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<ScreenAlignedTextPtr> SFScreenAlignedTextPtr;
+#endif
 
 #ifndef OSG_COMPILESCREENALIGNEDTEXTINST
 OSG_DLLEXPORT_DECL1(SField, ScreenAlignedTextPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFScreenAlignedTextPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<ScreenAlignedTextPtr> MFScreenAlignedTextPtr;
+#endif
 
 #ifndef OSG_COMPILESCREENALIGNEDTEXTINST
 OSG_DLLEXPORT_DECL1(MField, ScreenAlignedTextPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

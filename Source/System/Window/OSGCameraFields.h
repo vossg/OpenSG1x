@@ -73,11 +73,12 @@ typedef FCPtr<AttachmentContainerPtr, Camera> CameraPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief CameraPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<CameraPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<CameraPtr> :
     static char     *getSName(void) { return "SFCameraPtr"; }
     static char     *getMName(void) { return "MFCameraPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFCameraPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<CameraPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<CameraPtr> SFCameraPtr;
+#endif
 
 #ifndef OSG_COMPILECAMERAINST
 OSG_DLLEXPORT_DECL1(SField, CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFCameraPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<CameraPtr> MFCameraPtr;
+#endif
 
 #ifndef OSG_COMPILECAMERAINST
 OSG_DLLEXPORT_DECL1(MField, CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

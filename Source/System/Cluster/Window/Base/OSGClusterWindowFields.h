@@ -73,11 +73,12 @@ typedef FCPtr<WindowPtr, ClusterWindow> ClusterWindowPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief ClusterWindowPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<ClusterWindowPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<ClusterWindowPtr> :
     static char     *getSName(void) { return "SFClusterWindowPtr"; }
     static char     *getMName(void) { return "MFClusterWindowPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFClusterWindowPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<ClusterWindowPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<ClusterWindowPtr> SFClusterWindowPtr;
+#endif
 
 #ifndef OSG_COMPILECLUSTERWINDOWINST
 OSG_DLLEXPORT_DECL1(SField, ClusterWindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFClusterWindowPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<ClusterWindowPtr> MFClusterWindowPtr;
+#endif
 
 #ifndef OSG_COMPILECLUSTERWINDOWINST
 OSG_DLLEXPORT_DECL1(MField, ClusterWindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

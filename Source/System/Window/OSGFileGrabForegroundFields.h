@@ -73,11 +73,12 @@ typedef FCPtr<GrabForegroundPtr, FileGrabForeground> FileGrabForegroundPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief FileGrabForegroundPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<FileGrabForegroundPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<FileGrabForegroundPtr> :
     static char     *getSName(void) { return "SFFileGrabForegroundPtr"; }
     static char     *getMName(void) { return "MFFileGrabForegroundPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFFileGrabForegroundPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<FileGrabForegroundPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<FileGrabForegroundPtr> SFFileGrabForegroundPtr;
+#endif
 
 #ifndef OSG_COMPILEFILEGRABFOREGROUNDINST
 OSG_DLLEXPORT_DECL1(SField, FileGrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFFileGrabForegroundPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<FileGrabForegroundPtr> MFFileGrabForegroundPtr;
+#endif
 
 #ifndef OSG_COMPILEFILEGRABFOREGROUNDINST
 OSG_DLLEXPORT_DECL1(MField, FileGrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

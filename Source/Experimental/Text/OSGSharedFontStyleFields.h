@@ -73,10 +73,12 @@ typedef FCPtr<FieldContainerPtr, SharedFontStyle> SharedFontStylePtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief SharedFontStylePtr field traits 
-    \ingroup BaseFieldSingle
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<SharedFontStylePtr> : 
@@ -91,12 +93,21 @@ struct FieldDataTraits<SharedFontStylePtr> :
 
     static char     *getSName(void) { return "SFSharedFontStylePtr"; }
 };
-#endif             // exclude from doc
 
-//! SFSharedFontStylePtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<SharedFontStylePtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<SharedFontStylePtr> SFSharedFontStylePtr;
+#endif
 
 #ifndef OSG_COMPILESHAREDFONTSTYLEINST
 OSG_DLLEXPORT_DECL1(SField, SharedFontStylePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

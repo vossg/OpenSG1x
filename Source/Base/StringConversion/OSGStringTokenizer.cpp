@@ -49,41 +49,29 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::StringTokenizer
-    StringTokenizer documentation,
- */
-
-
-/*! \enum StringTokenizer::ENUMNAME
-  
- */
-
-
-/*! \var VARTYPE StringTokenizer::_VARNAME
-    variable documentation
- */
-
-
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
-/*! Constructor documentation
- */
 StringTokenizer::StringTokenizer(std::string &toTokens) : 
-    _tokenString(toTokens)
+    _hasNext    (false   ),
+    _tokenString(toTokens),
+    _nextToken  (        ),
+    _currPos    (       0)
 {
-    _currPos = 0;
-    std::string::size_type start, end;
+    std::string::size_type start;
+    std::string::size_type end;
+
     nextTokenPos(start, end);
+
     if((start == std::string::npos) ||
-       (end   == std::string::npos)   )
+       (end   == std::string::npos)  )
     {
         _hasNext = false;
     }
     else
     {
         _hasNext   = true;
-        _nextToken = _tokenString.substr(start, end-start);
+        _nextToken = _tokenString.substr(start, end - start);
         _currPos   = end;
     }  
 }
@@ -91,44 +79,17 @@ StringTokenizer::StringTokenizer(std::string &toTokens) :
 /*-------------------------------------------------------------------------*/
 /*                             Destructor                                  */
 
-/*! Destructor documentation
- */
 StringTokenizer::~StringTokenizer(void)
 {
 }
 
 /*-------------------------------------------------------------------------*/
-/*                             Assignment                                  */
-
-/*! assignment
- */
-void StringTokenizer::operator = (const StringTokenizer &OSG_CHECK_ARG(source))
-{
-    ;
-}
-
+/*                              Tokenize                                   */
 
 bool StringTokenizer::hasNext(void)
 {
     return _hasNext;
 }
-
-void StringTokenizer::nextTokenPos(std::string::size_type& start,
-                                   std::string::size_type& end)
-{
-    start = _tokenString.find_first_not_of(" \t\n", _currPos);
-    if(start == std::string::npos)
-    {
-        end = std::string::npos;
-        return;
-    }
-    end   = _tokenString.find_first_of(" \t\n", start);
-    if(end == std::string::npos)
-    {
-        end = _tokenString.length();
-    }
-}
-
 
 std::string StringTokenizer::getNext(void)
 {
@@ -154,38 +115,42 @@ std::string StringTokenizer::getNext(void)
 
 void StringTokenizer::setString(std::string &toTokens)
 {
-    _currPos = 0;
+    _currPos     = 0;
     _tokenString = toTokens;
+
     std::string::size_type start, end;
+
     nextTokenPos(start, end);
+
     if((start == std::string::npos) ||
-       (end   == std::string::npos)   )
+       (end   == std::string::npos)  )
     {
         _hasNext = false;
     }
     else
     {
         _hasNext   = true;
-        _nextToken = _tokenString.substr(start, end-start);
+        _nextToken = _tokenString.substr(start, end - start);
         _currPos   = end;
     }   
 }
 
-
 UInt32 StringTokenizer::countTokens(void)
 {
-    std::string::size_type storePos = _currPos;     //need to save these
-    bool              storeHasNext = _hasNext;
+    std::string::size_type storePos     = _currPos;
+    bool                   storeHasNext = _hasNext;
 
-    UInt32 count = 0;  //token counter
+    UInt32 count = 0;
 
     std::string::size_type start;
     std::string::size_type end;
 
     _currPos = 0;
+
     nextTokenPos(start, end);
+
     if((start == std::string::npos) ||
-       (end   == std::string::npos)   )
+       (end   == std::string::npos)  )
     {
         _hasNext = false;
     }
@@ -195,12 +160,14 @@ UInt32 StringTokenizer::countTokens(void)
         _currPos = end;
     }
     
-    while(_hasNext)
+    while(_hasNext == true)
     {
         count++;
+
         nextTokenPos(start, end);
+
         if((start == std::string::npos) ||
-           (end   == std::string::npos)   )
+           (end   == std::string::npos)  )
         {
             _hasNext = false;
         }
@@ -215,8 +182,27 @@ UInt32 StringTokenizer::countTokens(void)
     _hasNext = storeHasNext;
 
     return count;
+}        
+
+void StringTokenizer::nextTokenPos(std::string::size_type &start,
+                                   std::string::size_type &end  )
+{
+    start = _tokenString.find_first_not_of(" \t\n", _currPos);
+
+    if(start == std::string::npos)
+    {
+        end = std::string::npos;
+
+        return;
+    }
+
+    end = _tokenString.find_first_of(" \t\n", start);
+
+    if(end == std::string::npos)
+    {
+        end = _tokenString.length();
+    }
 }
-        
     
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

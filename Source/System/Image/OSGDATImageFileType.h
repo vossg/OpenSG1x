@@ -142,6 +142,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
           
+    /*! \hideinhierarchy */
+
     struct FormatDesc 
     {
       bool               needConversion;

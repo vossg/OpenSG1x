@@ -73,11 +73,12 @@ typedef FCPtr<TextureChunkPtr, CubeTextureChunk> CubeTextureChunkPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief CubeTextureChunkPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<CubeTextureChunkPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<CubeTextureChunkPtr> :
     static char     *getSName(void) { return "SFCubeTextureChunkPtr"; }
     static char     *getMName(void) { return "MFCubeTextureChunkPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFCubeTextureChunkPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<CubeTextureChunkPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<CubeTextureChunkPtr> SFCubeTextureChunkPtr;
+#endif
 
 #ifndef OSG_COMPILECUBETEXTURECHUNKINST
 OSG_DLLEXPORT_DECL1(SField, CubeTextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFCubeTextureChunkPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<CubeTextureChunkPtr> MFCubeTextureChunkPtr;
+#endif
 
 #ifndef OSG_COMPILECUBETEXTURECHUNKINST
 OSG_DLLEXPORT_DECL1(MField, CubeTextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

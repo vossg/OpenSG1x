@@ -139,12 +139,6 @@ communication. This objects are mainly used by OpenSG-Cluster support
 
 */
 
-/*! \defgroup GrpBaseStringConversion StringConversion
-    \ingroup GrpBase
-
-    \brief ToDo
-*/
-
 /*! \defgroup GrpBaseSTLHelpers STLHelpers
     \ingroup GrpBase
 

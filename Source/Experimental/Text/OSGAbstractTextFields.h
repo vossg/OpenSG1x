@@ -73,11 +73,12 @@ typedef FCPtr<MaterialDrawablePtr, AbstractText> AbstractTextPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief AbstractTextPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<AbstractTextPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<AbstractTextPtr> :
     static char     *getSName(void) { return "SFAbstractTextPtr"; }
     static char     *getMName(void) { return "MFAbstractTextPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFAbstractTextPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<AbstractTextPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<AbstractTextPtr> SFAbstractTextPtr;
+#endif
 
 #ifndef OSG_COMPILEABSTRACTTEXTINST
 OSG_DLLEXPORT_DECL1(SField, AbstractTextPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFAbstractTextPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<AbstractTextPtr> MFAbstractTextPtr;
+#endif
 
 #ifndef OSG_COMPILEABSTRACTTEXTINST
 OSG_DLLEXPORT_DECL1(MField, AbstractTextPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

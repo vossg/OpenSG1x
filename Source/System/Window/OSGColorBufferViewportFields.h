@@ -73,11 +73,12 @@ typedef FCPtr<ViewportPtr, ColorBufferViewport> ColorBufferViewportPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief ColorBufferViewportPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<ColorBufferViewportPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<ColorBufferViewportPtr> :
     static char     *getSName(void) { return "SFColorBufferViewportPtr"; }
     static char     *getMName(void) { return "MFColorBufferViewportPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFColorBufferViewportPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<ColorBufferViewportPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<ColorBufferViewportPtr> SFColorBufferViewportPtr;
+#endif
 
 #ifndef OSG_COMPILECOLORBUFFERVIEWPORTINST
 OSG_DLLEXPORT_DECL1(SField, ColorBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFColorBufferViewportPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<ColorBufferViewportPtr> MFColorBufferViewportPtr;
+#endif
 
 #ifndef OSG_COMPILECOLORBUFFERVIEWPORTINST
 OSG_DLLEXPORT_DECL1(MField, ColorBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

@@ -73,10 +73,12 @@ typedef FCPtr<BackgroundPtr, SolidBackground> SolidBackgroundPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief SolidBackgroundPtr field traits 
-    \ingroup BaseFieldSingle
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<SolidBackgroundPtr> : 
@@ -91,12 +93,21 @@ struct FieldDataTraits<SolidBackgroundPtr> :
 
     static char     *getSName(void) { return "SFSolidBackgroundPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFSolidBackgroundPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<SolidBackgroundPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<SolidBackgroundPtr> SFSolidBackgroundPtr;
+#endif
 
 #ifndef OSG_COMPILESOLIDBACKGROUNDINST
 OSG_DLLEXPORT_DECL1(SField, SolidBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

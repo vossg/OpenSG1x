@@ -58,6 +58,14 @@
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+/*! \ingroup GrpWindowQTFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct OSG_WINDOWQTLIB_DLLMAPPING FieldDataTraits<OSGQGLWidgetP> : 
@@ -87,15 +95,22 @@ struct OSG_WINDOWQTLIB_DLLMAPPING FieldDataTraits<OSGQGLWidgetP> :
     }
 };
 
-//! SFOSGQGLWidgetP
-//! \ingroup GrpBaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseBase<OSGQGLWidgetP> */
+/*! \hideinhierarchy                              */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpWindowQTFieldSingle */
 
 typedef SField<OSGQGLWidgetP> SFOSGQGLWidgetP;
 
-//! MFOSGQGLWidgetP
-//! \ingroup GrpBaseFieldMulti
+/*! \ingroup GrpWindowQTFieldMulti */
 
 typedef MField<OSGQGLWidgetP> MFOSGQGLWidgetP;
+#endif
 
 // Instantiations
 
@@ -106,6 +121,6 @@ OSG_DLLEXPORT_DECL1(MField, OSGQGLWidgetP, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGQTWINDOWDATAFIELDS_HEADER_CVSID "@(#)$Id: OSGQTWindowDataFields.h,v 1.2 2002/02/17 18:43:14 dirk Exp $"
+#define OSGQTWINDOWDATAFIELDS_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGQTWINDOWDATAFIELDS_H_ */

@@ -73,11 +73,12 @@ typedef FCPtr<CameraPtr, PerspectiveCamera> PerspectiveCameraPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief PerspectiveCameraPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<PerspectiveCameraPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<PerspectiveCameraPtr> :
     static char     *getSName(void) { return "SFPerspectiveCameraPtr"; }
     static char     *getMName(void) { return "MFPerspectiveCameraPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFPerspectiveCameraPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<PerspectiveCameraPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<PerspectiveCameraPtr> SFPerspectiveCameraPtr;
+#endif
 
 #ifndef OSG_COMPILEPERSPECTIVECAMERAINST
 OSG_DLLEXPORT_DECL1(SField, PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFPerspectiveCameraPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<PerspectiveCameraPtr> MFPerspectiveCameraPtr;
+#endif
 
 #ifndef OSG_COMPILEPERSPECTIVECAMERAINST
 OSG_DLLEXPORT_DECL1(MField, PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

@@ -73,11 +73,12 @@ typedef FCPtr<WindowPtr, WIN32Window> WIN32WindowPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief WIN32WindowPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpWindowWIN32FieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<WIN32WindowPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<WIN32WindowPtr> :
     static char     *getSName(void) { return "SFWIN32WindowPtr"; }
     static char     *getMName(void) { return "MFWIN32WindowPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFWIN32WindowPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<WIN32WindowPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpWindowWIN32FieldSingle */
 
 typedef SField<WIN32WindowPtr> SFWIN32WindowPtr;
+#endif
 
 #ifndef OSG_COMPILEWIN32WINDOWINST
 OSG_DLLEXPORT_DECL1(SField, WIN32WindowPtr, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
 #endif
 
-//! MFWIN32WindowPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpWindowWIN32FieldMulti */
 
 typedef MField<WIN32WindowPtr> MFWIN32WindowPtr;
+#endif
 
 #ifndef OSG_COMPILEWIN32WINDOWINST
 OSG_DLLEXPORT_DECL1(MField, WIN32WindowPtr, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)

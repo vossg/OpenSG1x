@@ -45,11 +45,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \ingroup GrpBaseField
- *  \ingroup GrpBaseFieldSingle
- *  \ingroup GrpBaseFieldMulti
- *  \brief  base field traits 
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+/*! \ingroup GrpSystemFieldTraits
  */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
@@ -230,6 +232,13 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
     }
 
 };
+
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseBase<ImageP> */
+/*! \hideinhierarchy                       */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 OSG_END_NAMESPACE
 
