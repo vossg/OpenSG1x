@@ -544,6 +544,30 @@ OSG_BASE_DLLMAPPING void osgstringDup(const char *szInput, char *&szOutput)
     }
 }
 
+/*! \brief limited string compare
+ *  \ingroup BaseFunctions
+ */
+
+
+inline 
+OSG_BASE_DLLMAPPING
+Int32 osgstrncmp(const char *string1, const char *string2, size_t count)
+{
+	return strncmp(string1, string2, count);
+}
+
+/*! \brief limited string compare
+ *  \ingroup BaseFunctions
+ */
+
+
+inline 
+OSG_BASE_DLLMAPPING Int32 osgstrlen(const char *string1)
+{
+    return strlen(string1);
+}
+
+
 /*! \brief string compare
  *  \ingroup BaseFunctions
  */
