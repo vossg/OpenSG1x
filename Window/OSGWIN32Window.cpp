@@ -56,6 +56,7 @@
 #endif
 
 #define OSG_COMPILEWINDOW
+#define OSG_COMPILEWINDOWWIN32INST
 
 #include "OSGViewport.h"
 #include "OSGCamera.h"
@@ -84,7 +85,7 @@ The WIN32Window class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char WIN32Window::cvsid[] = "@(#)$Id: OSGWIN32Window.cpp,v 1.4 2001/02/13 16:01:29 dirk Exp $";
+char WIN32Window::cvsid[] = "@(#)$Id: OSGWIN32Window.cpp,v 1.5 2001/02/15 17:22:18 vossg Exp $";
 
 // Static Class Varible implementations: 
 

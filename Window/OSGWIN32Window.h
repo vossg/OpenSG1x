@@ -54,7 +54,6 @@ OSG_BEGIN_NAMESPACE
 class WIN32Window;
 typedef FCPtr <WindowPtr, WIN32Window> WIN32WindowPtr;
 
-
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
@@ -66,7 +65,7 @@ typedef FCPtr <WindowPtr, WIN32Window> WIN32WindowPtr;
 /*! \brief WIN32 window class
  */
 
-class WIN32Window : public Window
+class OSG_WINDOW_DLLMAPPING WIN32Window : public Window
 {
   public:
 
@@ -240,9 +239,34 @@ struct FieldDataTraits<WIN32WindowPtr> : public Traits
  */
 typedef SField<WIN32WindowPtr>       SFWIN32WindowPtr;
 
+#ifndef OSG_COMPILEWINDOWWIN32INST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<WIN32WindowPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, WIN32WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 /** \brief MFWIN32WindowPtr
  */
 typedef MField<WIN32WindowPtr>       MFWIN32WindowPtr;
+
+
+#ifndef OSG_COMPILEWINDOWWIN32INST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<WIN32WindowPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, WIN32WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 OSG_END_NAMESPACE
 

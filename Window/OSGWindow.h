@@ -422,17 +422,6 @@ struct FieldDataTraits<WindowPtr> : public Traits
 
 typedef SField<WindowPtr>       SFWindowPtr;
 
-
-
-template <>
-struct FieldDataTraits<Window::GLObjectFlagE> : public Traits
-{
-    enum                           { StringConvertable = 0x00  };
-
-    static Char8 *getSName(void)   { return "SFGLObjectFlagE"; }
-    static Char8 *getMName(void)   { return "MFGLObjectFlagE"; }
-};
-
 #ifndef OSG_COMPILEWINDOWINST
 #if defined(__sgi)
 
@@ -444,6 +433,16 @@ OSG_DLLEXPORT_DECL1(SField, WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
 
 #endif
 #endif
+
+
+template <>
+struct FieldDataTraits<Window::GLObjectFlagE> : public Traits
+{
+    enum                           { StringConvertable = 0x00  };
+
+    static Char8 *getSName(void)   { return "SFGLObjectFlagE"; }
+    static Char8 *getMName(void)   { return "MFGLObjectFlagE"; }
+};
 
 
 /** \brief MFWindowPtr
