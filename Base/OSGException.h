@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _EXCEPTION_H_
 #define _EXCEPTION_H_
 #ifdef __sgi
@@ -50,11 +49,11 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup baselib
- *  \brief Brief
- */
+//! Exception
+//! \ingroup baselib
 
 class Exception;
+
 OSG_BASE_DLLMAPPING ostream &operator <<(      ostream   &os,
                                          const Exception &obj);
 
@@ -63,44 +62,39 @@ class OSG_BASE_DLLMAPPING Exception : public exception
     /*==========================  PUBLIC  =================================*/
   public:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
-
-    static const char *getException(void) { return "Exception"; }
-
-    /*! \}                                                                 */
      /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-                Exception   (void                       );
-                Exception   (const Exception &source    );
+    Exception(void                   );
+    Exception(const Exception &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
+    /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual     ~Exception  (void                       ) OSG_THROW_NOTHING();
+    virtual ~Exception(void) OSG_THROW_NOTHING();
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                                                              */
+    /*! \name                    Info                                      */
     /*! \{                                                                 */
 
-    virtual const char      *what   () const OSG_THROW_NOTHING();
+    virtual const char *what(void) const OSG_THROW_NOTHING();
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Assignment                                 */
     /*! \{                                                                 */
 
-    Exception& operator     =       (const Exception &source);
+    Exception& operator =(const Exception &source);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
+
+    typedef exception Inherited;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Specific                            */
@@ -112,19 +106,14 @@ class OSG_BASE_DLLMAPPING Exception : public exception
     /*==========================  PRIVATE  ================================*/
   private:
 
-
-    typedef exception Inherited;
-
     friend OSG_BASE_DLLMAPPING
     ostream &operator <<(      ostream   &os,
                          const Exception &obj);
 
-    static char cvsid[];
-
 };
 
-typedef Exception *ExceptionP;
-
 OSG_END_NAMESPACE
+
+#define OSGEXCEPTION_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _EXCEPTION_H_ */

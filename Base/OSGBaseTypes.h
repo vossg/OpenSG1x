@@ -1,4 +1,3 @@
-
 /*---------------------------------------------------------------------------*\
  *                                OpenSG                                     *
  *                                                                           *
@@ -484,11 +483,15 @@ const Real32 Eps = 1E-6f;
 const Real32 Pi  = (Real32) 3.141592653589793;
 
 /*! positive infinity
-*/
+ *  \ingroup BaseConstants
+ */
+
 const Real32 Inf = 1E30;
 
 /*! negative infinity
-*/
+ *  \ingroup BaseConstants
+ */
+
 const Real32 NegInf = - 1E30;
 
 /*! \brief MathTypeProperties
@@ -567,8 +570,10 @@ struct TypeConstants<UInt8> : public TypeConstantsBase
     static inline string putToString (const UInt8 val)
     {
         char buffer[10];
-        sprintf( buffer, "%c", val );
-        return string( buffer );
+
+        sprintf(buffer, "%c", val);
+
+        return string(buffer);
     }
 };
 
@@ -615,8 +620,10 @@ struct TypeConstants<Int8> : public TypeConstantsBase
     static inline string putToString (const Int8 val)
     {
         char buffer[10];
-        sprintf( buffer, "%c", val );
-        return string( buffer );
+
+        sprintf(buffer, "%c", val);
+
+        return string(buffer);
     }
 };
 
@@ -666,11 +673,11 @@ struct TypeConstants<UInt16> : public TypeConstantsBase
 
 //      Check WIN32 Version
 #ifdef WIN32
-        sprintf( buffer, "%u", UInt32(val));
+        sprintf(buffer, "%u", UInt32(val));
 #else
-        sprintf( buffer, "%u", val );
+        sprintf(buffer, "%u", val);
 #endif
-        return string( buffer );
+        return string(buffer);
     }
 };
 
@@ -716,9 +723,11 @@ struct TypeConstants<Int16> : public TypeConstantsBase
 
     static inline string putToString (const Int16 val)
     {
-      char buffer[10];
-        sprintf( buffer, "%i", val );
-        return string( buffer );
+        char buffer[10];
+
+        sprintf(buffer, "%i", val);
+
+        return string(buffer);
     }
 };
 
@@ -765,8 +774,10 @@ struct TypeConstants<UInt32> : public TypeConstantsBase
     static inline string putToString (const UInt32 val)
     {
         char buffer[15];
-        sprintf( buffer, "%u", val );
-        return string( buffer );
+
+        sprintf(buffer, "%u", val);
+
+        return string(buffer);
     }
 };
 
@@ -813,8 +824,10 @@ struct TypeConstants<Int32> : public TypeConstantsBase
     static inline string putToString (const Int32 val)
     {
         char buffer[15];
-        sprintf( buffer, "%i", val );
-        return string( buffer );
+
+        sprintf(buffer, "%i", val);
+
+        return string(buffer);
     }
 };
 
@@ -874,8 +887,10 @@ struct TypeConstants<UInt64> : public TypeConstantsBase
     static inline string putToString (const UInt64 val)
     {
         char buffer[25];
-        sprintf( buffer, "%llu", val );
-        return string( buffer );
+
+        sprintf(buffer, "%llu", val);
+
+        return string(buffer);
     }
 };
 
@@ -936,8 +951,10 @@ struct TypeConstants<Int64> : public TypeConstantsBase
     static inline string putToString (const Int64 val)
     {
         char buffer[25];
-        sprintf( buffer, "%lli", val );
-        return string( buffer );
+
+        sprintf(buffer, "%lli", val);
+
+        return string(buffer);
     }
 };
 
@@ -969,8 +986,10 @@ struct TypeConstants<Real64> : public TypeConstantsBase
     static inline string putToString (const Real64 val)
     {
         char buffer[25];
-        sprintf( buffer, "%e", val );
-        return string( buffer );
+
+        sprintf(buffer, "%e", val);
+
+        return string(buffer);
     }
 
     static inline Real64 getMax(void) { return DBL_MAX; };
@@ -1005,8 +1024,10 @@ struct TypeConstants<Real32> : public TypeConstantsBase
     static inline string putToString (const Real32 val)
     {
         char buffer[20];
-        sprintf( buffer, "%e", val );
-        return string( buffer );
+
+        sprintf(buffer, "%e", val);
+
+        return string(buffer);
     }
 
     static inline Real32 getMax(void) { return FLT_MAX; };
@@ -1014,5 +1035,7 @@ struct TypeConstants<Real32> : public TypeConstantsBase
 };
 
 OSG_END_NAMESPACE
+
+#define OSGBASETPYES_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* OSGBASETYPES_H */

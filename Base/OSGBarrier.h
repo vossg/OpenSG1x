@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGBARRIER_H_
 #define _OSGBARRIER_H_
 #ifdef __sgi
@@ -60,38 +59,22 @@ OSG_BEGIN_NAMESPACE
 template <class MPFieldT>
 class MPFieldStore;
 
-/*! \ingroup BaseThreading
- *  \brief BarrierCommonBase
- */
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+//! BarrierCommonBase
+//! \ingroup BaseThreading
 
 class OSG_BASE_DLLMAPPING BarrierCommonBase : public MPBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    typedef MPBase Inherited;
-
-    static char cvsid[];
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    BarrierCommonBase(const BarrierCommonBase &source);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Operators                                 */
-    /*! \{                                                                 */
-
-    void operator =(const BarrierCommonBase &source);
-
-    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
+
+    typedef MPBase Inherited;
 
     UInt32  _uiBarrierId;
     Int32   _iRefCount;
@@ -104,57 +87,49 @@ class OSG_BASE_DLLMAPPING BarrierCommonBase : public MPBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
+    /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
     virtual ~BarrierCommonBase(void);
-};
-
-#if defined (OSG_USE_PTHREADS)
-
-/*! \ingroup BaseThreading
- *  \brief PThreadBarrierBase
- */
-
-class PThreadBarrierBase : public BarrierCommonBase
-{
-    /*==========================  PUBLIC  =================================*/
-  public:
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
-    /*! \{                                                                 */
-
-    void enter(UInt32 uiNumWaitFor);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
-    typedef BarrierCommonBase Inherited;
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    BarrierCommonBase(const BarrierCommonBase &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const BarrierCommonBase &source);
+};
 
-    static char cvsid[];
 
-    pthread_mutex_t _pLockOne;
-    pthread_mutex_t _pLockTwo;
-    pthread_cond_t  _pWakeupCondition;
-    UInt32       _uiCount;
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+#if defined (OSG_USE_PTHREADS)
+
+//! PThreadBarrierBase
+//! \ingroup BaseThreading
+
+class PThreadBarrierBase : public BarrierCommonBase
+{
+    /*==========================  PUBLIC  =================================*/
+  public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name                     Enter                                    */
     /*! \{                                                                 */
 
-    PThreadBarrierBase(const PThreadBarrierBase &source);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Operators                                 */
-    /*! \{                                                                 */
-
-    void operator =(const PThreadBarrierBase &source);
+    void enter(UInt32 uiNumWaitFor);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
+
+    typedef BarrierCommonBase Inherited;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -164,7 +139,7 @@ class PThreadBarrierBase : public BarrierCommonBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
+    /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
     virtual ~PThreadBarrierBase(void);
@@ -174,27 +149,45 @@ class PThreadBarrierBase : public BarrierCommonBase
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    Bool init    (void);
+    Bool init(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destruction                                */
     /*! \{                                                                 */
 
-    void    shutdown(void);
+    void shutdown(void);
 
     /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    pthread_mutex_t _pLockOne;
+    pthread_mutex_t _pLockTwo;
+    pthread_cond_t  _pWakeupCondition;
+    UInt32          _uiCount;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    PThreadBarrierBase(const PThreadBarrierBase &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const PThreadBarrierBase &source);
 };
 
 typedef PThreadBarrierBase BarrierBase;
 
 #endif /* OSG_USE_PTHREADS */
 
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
 #if defined (OSG_USE_SPROC)
 
-/*! \ingroup BaseThreading
- *  \brief SprocBarrierBase
- */
+//! SprocBarrierBase
+//! \ingroup BaseThreading
 
 class SprocBarrierBase : public BarrierCommonBase
 {
@@ -202,36 +195,16 @@ class SprocBarrierBase : public BarrierCommonBase
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
+    /*! \name                      Enter                                   */
     /*! \{                                                                 */
 
     void enter(UInt32 uiNumWaitFor);
-    /*! \}                                                                 */
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    typedef BarrierCommonBase Inherited;
-
-    static char cvsid[];
-
-    barrier_t      *_pBarrier;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    SprocBarrierBase(const SprocBarrierBase &source);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Operators                                 */
-    /*! \{                                                                 */
-
-    void operator =(const SprocBarrierBase &source);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
+
+    typedef BarrierCommonBase Inherited;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -241,7 +214,7 @@ class SprocBarrierBase : public BarrierCommonBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
+    /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
     virtual ~SprocBarrierBase(void);
@@ -251,21 +224,32 @@ class SprocBarrierBase : public BarrierCommonBase
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    Bool init    (void);
+    Bool init(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destruction                                */
     /*! \{                                                                 */
 
-    void    shutdown(void);
+    void shutdown(void);
 
     /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    barrier_t *_pBarrier;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    SprocBarrierBase(const SprocBarrierBase &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const SprocBarrierBase &source);
 };
 
 typedef SprocBarrierBase BarrierBase;
 
 #endif /* OSG_USE_SPROC */
+
+
 
 
 //---------------------------------------------------------------------------
@@ -274,41 +258,20 @@ typedef SprocBarrierBase BarrierBase;
 
 #if defined (OSG_USE_WINTHREADS)
 
-/*! \ingroup BaseThreading
- *  \brief WinThreadBarrierBase
- */
+//! WinThreadBarrierBase
+//! \ingroup BaseThreading
 
 class OSG_BASE_DLLMAPPING WinThreadBarrierBase :
     public BarrierCommonBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Enter                                   */
+    /*! \{                                                                 */
+
     void enter(UInt32 uiNumWaitFor);
-
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    typedef BarrierCommonBase Inherited;
-
-    static char cvsid[];
-
-    Handle       _pMutex1;
-    Handle       _pMutex2;
-    Handle       _pConditionEvent;
-    UInt32       _uiCount;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    WinThreadBarrierBase(const WinThreadBarrierBase &source);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Operators                                 */
-    /*! \{                                                                 */
-
-    void operator =(const WinThreadBarrierBase &source);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -322,7 +285,7 @@ class OSG_BASE_DLLMAPPING WinThreadBarrierBase :
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
+    /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
     virtual ~WinThreadBarrierBase(void);
@@ -332,57 +295,65 @@ class OSG_BASE_DLLMAPPING WinThreadBarrierBase :
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    Bool init    (void);
+    Bool init(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destruction                                */
     /*! \{                                                                 */
 
-    void    shutdown(void);
+    void shutdown(void);
 
     /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    typedef BarrierCommonBase Inherited;
+
+    Handle _pMutex1;
+    Handle _pMutex2;
+    Handle _pConditionEvent;
+    UInt32 _uiCount;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    WinThreadBarrierBase(const WinThreadBarrierBase &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const WinThreadBarrierBase &source);
 };
 
 typedef WinThreadBarrierBase BarrierBase;
 
 #endif /* OSG_USE_WINTHREADS */
 
-/*! \ingroup BaseThreading
- *  \brief Barrier
- */
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+//! Barrier
+//! \ingroup BaseThreading
 
 class OSG_BASE_DLLMAPPING Barrier : public BarrierBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
+
     typedef MPBarrierType Type;
 
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    typedef BarrierBase Inherited;
-
-    friend class MPFieldStore<Barrier>;
-
-    static char cvsid[];
-
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name                      Get                                     */
     /*! \{                                                                 */
-
-    Barrier(const Barrier &source);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Operators                                 */
-    /*! \{                                                                 */
-
-    void operator =(const Barrier &source);
+    
+    static Barrier *get (const Char8 *szName);
+    static Barrier *find(const Char8 *szName);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
+
+    typedef BarrierBase Inherited;
 
     static MPBarrierType _type;
 
@@ -394,7 +365,7 @@ class OSG_BASE_DLLMAPPING Barrier : public BarrierBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
+    /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
     virtual ~Barrier(void);
@@ -405,24 +376,23 @@ class OSG_BASE_DLLMAPPING Barrier : public BarrierBase
     /*! \{                                                                 */
 
     static Barrier *create (const Char8  *szName,
-                                     UInt32  uiId);
+                                  UInt32  uiId);
 
     /*! \}                                                                 */
-    /*==========================  PUBLIC  =================================*/
-  public:
+    /*==========================  PRIVATE  ================================*/
+  private:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Get                                     */
-    /*! \{                                                                 */
-    
-    static Barrier *get (const Char8 *szName);
-    static Barrier *find(const Char8 *szName);
+    friend class MPFieldStore<Barrier>;
 
-    /*! \}                                                                 */
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    Barrier(const Barrier &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const Barrier &source);
 };
 
-typedef Barrier *BarrierP;
-
 OSG_END_NAMESPACE
+
+#define OSGBARRIER_HEADER_CVSID "@(#)$Id: $"
+
 
 #endif /* _OSGBARRIER_H_ */

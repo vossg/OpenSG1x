@@ -47,44 +47,12 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \ingroup BaseLib
-    \brief Memory, simple reference counted memory object. Parent of
-    everything that should be shared, but must not be thread safe.
-*/
+//! Memory, simple reference counted memory object. Parent of
+//! everything that should be shared, but must not be thread safe.
+//! \ingroup BaseLib
 
 class OSG_BASE_DLLMAPPING MemoryObject
 {
-
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    static char cvsid[];
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
-    /*! \{                                                                 */
-
-    Int32  _refCount;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Assignment                                 */
-    /*! \{                                                                 */
-
-    void operator =(const MemoryObject &source);
-
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
- 
-    MemoryObject(       void                );
-    MemoryObject(const  MemoryObject &source);
-
-    /*! \}                                                                 */
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -97,16 +65,36 @@ class OSG_BASE_DLLMAPPING MemoryObject
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
+    /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
     void  addRef     (void);
     void  subRef     (void);    
     Int32 getRefCount(void);
-    /*! \}                                                                 */
 
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+ 
+    MemoryObject(void);
+    MemoryObject(const  MemoryObject &source);
+
+    /*! \}                                                                 */
+   /*==========================  PRIVATE  ================================*/
+  private:
+
+    Int32  _refCount;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const MemoryObject &source);
 };
 
 OSG_END_NAMESPACE
+
+#define OSGMEMORYOBJECT_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGMEMORYOBJECT_H_ */

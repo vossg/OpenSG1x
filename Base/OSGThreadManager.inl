@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -48,10 +47,137 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \class MPFieldStore
+ */
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 template <class MPFieldT>
-char MPFieldStore<MPFieldT>::cvsid[] = "@(#)$Id: $";
+MPFieldStore<MPFieldT>::MPFieldStore(void)
+{
+}
 
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+template <class MPFieldT>
+MPFieldStore<MPFieldT>::~MPFieldStore(void)
+{
+}
+
+/*------------------------------ access -----------------------------------*/
+
+template <class MPFieldT>
+MPFieldT *MPFieldStore<MPFieldT>::getMPField(const Char8 *szName,
+                                             const Char8 *szTypeName)
+{
+    MPFieldT    *returnValue = NULL;
+    MPFieldType *pElemType;
+
+    returnValue = findMPField(szName);
+
+    if(returnValue == NULL)
+    {
+        pElemType = findMPFieldType(szTypeName);
+
+        if(pElemType != NULL)
+        {
+            returnValue = pElemType->create(szName);
+
+            if(returnValue != NULL)
+            {
+                _mFieldMap[IDStringLink(returnValue->getCName())]= returnValue;
+            }
+        }
+        else
+        {
+            PWARNING  << "could not find type named : " << szName << endl;
+
+            returnValue = NULL;
+        }
+    }
+
+    return returnValue;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
+
+template <class MPFieldT>
+MPFieldT *MPFieldStore<MPFieldT>::findMPField(const Char8 *szName)
+{
+    MPFieldMapIt gIt;
+
+    if(szName == NULL)
+        return NULL;
+
+    gIt = _mFieldMap.find(IDStringLink(szName));
+
+    if(gIt != _mFieldMap.end())
+        return (*gIt).second;
+    else
+        return NULL;
+}
+
+template <class MPFieldT>
+MPFieldStore<MPFieldT>::MPFieldType *
+    MPFieldStore<MPFieldT>::findMPFieldType(const Char8 *szName) const
+{
+    MPFieldTypeMapCIt gIt;
+
+    if(szName == NULL)
+    {
+        SWARNING << "typename == NULL" << endl;
+        return NULL;
+    }
+
+    gIt = _mFieldTypeMap.find(IDStringLink(szName));
+
+    if(gIt != _mFieldTypeMap.end())
+    {
+        return (*gIt).second;
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
+template <class MPFieldT>
+void MPFieldStore<MPFieldT>::removeMPField(MPFieldT *pField)
+{
+    if(pField == NULL)
+        return;
+
+    MPFieldMapIt gIt = _mFieldMap.find(
+        IDStringLink(pField->getCName()));
+
+    if(gIt != _mFieldMap.end())
+    {
+        _mFieldMap.erase(gIt);
+    }
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Helper                                    */
+
+template <class MPFieldT>
+void MPFieldStore<MPFieldT>::clear(void)
+{
+    MPFieldMapIt gIt = _mFieldMap.begin();
+
+    while(gIt != _mFieldMap.end())
+    {
+        delete (*gIt).second;
+        gIt++;
+    }
+
+    _mFieldMap.clear();
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Register                                    */
 
 template <class MPFieldT>
 UInt32 MPFieldStore<MPFieldT>::registerMPType(MPFieldType *pType)
@@ -85,158 +211,6 @@ UInt32 MPFieldStore<MPFieldT>::registerMPType(MPFieldType *pType)
     return returnValue;
 }
 
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
-
-template <class MPFieldT>
-MPFieldStore<MPFieldT>::MPFieldStore(void)
-{
-}
-
-/** \brief Destructor
- */
-
-template <class MPFieldT>
-MPFieldStore<MPFieldT>::~MPFieldStore(void)
-{
-}
-
-/*------------------------------ access -----------------------------------*/
-
-template <class MPFieldT>
-MPFieldT *MPFieldStore<MPFieldT>::getMPField(const Char8 *szName,
-                                             const Char8 *szTypeName)
-{
-    MPFieldT    *returnValue = NULL;
-    MPFieldType *pElemType;
-
-    returnValue = findMPField(szName);
-
-    if(returnValue == NULL)
-    {
-        pElemType = findMPFieldType(szTypeName);
-
-        if(pElemType != NULL)
-        {
-            returnValue = pElemType->create(szName);
-
-            if(returnValue != NULL)
-            {
-                _mFieldMap[IDStringLink(returnValue->getCName())] = returnValue;
-            }
-        }
-        else
-        {
-            PWARNING  << "could not find type named : " << szName << endl;
-
-            returnValue = NULL;
-        }
-    }
-
-    return returnValue;
-}
-
-template <class MPFieldT>
-MPFieldT *MPFieldStore<MPFieldT>::findMPField(const Char8 *szName)
-{
-    MPFieldMapIt gIt;
-
-    if(szName == NULL)
-        return NULL;
-
-    gIt = _mFieldMap.find(IDStringLink(szName));
-
-    if(gIt != _mFieldMap.end())
-        return (*gIt).second;
-    else
-        return NULL;
-}
-
-template <class MPFieldT>
-void MPFieldStore<MPFieldT>::removeMPField(MPFieldT *pField)
-{
-    if(pField == NULL)
-        return;
-
-    MPFieldMapIt gIt = _mFieldMap.find(
-        IDStringLink(pField->getCName()));
-
-    if(gIt != _mFieldMap.end())
-    {
-        _mFieldMap.erase(gIt);
-    }
-}
-
-template <class MPFieldT>
-void MPFieldStore<MPFieldT>::clear(void)
-{
-    MPFieldMapIt gIt = _mFieldMap.begin();
-
-    while(gIt != _mFieldMap.end())
-    {
-        delete (*gIt).second;
-        gIt++;
-    }
-
-    _mFieldMap.clear();
-}
-
-/*---------------------------- properties ---------------------------------*/
-
-template <class MPFieldT>
-MPFieldStore<MPFieldT>::MPFieldType *
-    MPFieldStore<MPFieldT>::findMPFieldType(const Char8 *szName) const
-{
-    MPFieldTypeMapCIt gIt;
-
-    if(szName == NULL)
-    {
-        SWARNING << "typename == NULL" << endl;
-        return NULL;
-    }
-
-    gIt = _mFieldTypeMap.find(IDStringLink(szName));
-
-    if(gIt != _mFieldTypeMap.end())
-    {
-        return (*gIt).second;
-    }
-    else
-    {
-        return NULL;
-    }
-}
-
-
-
-//---------------------------------------------------------------------------
-//  FUNCTION:
-//---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-//---------------------------------------------------------------------------
-//
-//p: Paramaters:
-//p:
-//
-//g: GlobalVars:
-//g:
-//
-//r: Return:
-//r:
-//
-//c: Caution:
-//c:
-//
-//a: Assumptions:
-//a:
-//
-//d: Description:
-//d:
-//
-//s: SeeAlso:
-//s:
-//---------------------------------------------------------------------------
-
 OSG_END_NAMESPACE
+
+#define OSGTHREADMANAGER_INLINE_CVSID "@(#)$Id: $"

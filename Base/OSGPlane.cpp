@@ -271,7 +271,7 @@ void Plane::transform(const Matrix &matrix)
     // TODO
 //  assert(false);
 
-    matrix.transform(_normalVec);
+    matrix.mult(_normalVec);
     _normalVec.normalize();
 
     Vec3f trans;

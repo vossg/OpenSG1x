@@ -125,7 +125,7 @@ inline Real32 IntersectAction::getHitT( void ) const
 inline Pnt3f IntersectAction::getHitPoint( void ) const
 {
     if ( ! didHit() )
-        return NullPnt3f;
+        return Pnt3f::Null;
     
     Pnt3f res;
     res = _line.getPosition() + getHitT() * _line.getDirection();

@@ -84,7 +84,7 @@ Vec3f TriangleIterator::getNormal( Int32 which ) const
     Int32 ind = getNormalIndex( which );
     
     if ( ind < 0 )
-        return NullVec3f;
+        return Vec3f::Null;
         
     return _geo->getNormals()->getValue( ind );
 }
@@ -125,7 +125,7 @@ Vec2f TriangleIterator::getTexCoords( Int32 which ) const
     Int32 ind = getTexCoordsIndex( which );
     
     if ( ind < 0 )
-        return NullVec2f;
+        return Vec2f::Null;
         
     return _geo->getTexCoords()->getValue( ind );
 }

@@ -36,11 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -51,70 +46,42 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/** \typedef TransformationMatrix::ValueType
- *  \brief Value type, eg Real32
+/*! \class TransformationMatrix
  */
 
-/** \typedef VectorInterface<ValueTypeT, VecStorage4<ValueTypeT> >\
-     TransformationMatrix::VectorType;
- *   \brief Matrix vector type, eg Vec4f
- */
+/*! \typedef TransformationMatrix::ValueType
+    \brief Value type, eg Real32
+*/
 
+/*! \typedef VectorInterface<ValueTypeT, VecStorage4<ValueTypeT> >    \
+             TransformationMatrix::VectorType;
+    \brief Matrix vector type, eg Vec4f
+*/
 
-/** \typedef QuaternionBase<ValueType> \
-    TransformationMatrix::QuaternionType;
- *  \brief Matrix quaternion type
- */
+/*! \typedef QuaternionBase<ValueType> TransformationMatrix::QuaternionType;
+    \brief Matrix quaternion type
+*/
 
-/** \typedef VectorInterface<ValueTypeT, VecStorage3<ValueTypeT> >\
-    TransformationMatrix::VectorType3f;
- *  \brief Matrix vec3f type
- */
+/*! \typedef VectorInterface<ValueTypeT, VecStorage3<ValueTypeT> >    \
+             TransformationMatrix::VectorType3f;
+    \brief Matrix vec3f type
+*/
 
-/** \typedef PointInterface<ValueTypeT, VecStorage3<ValueTypeT> >\
-    TransformationMatrix::PointType3f;
- *  \brief Matrix pnt3f type
- */
+/*! \typedef PointInterface<ValueTypeT, VecStorage3<ValueTypeT> >     \
+             TransformationMatrix::PointType3f;
+    \brief Matrix pnt3f type
+*/
 
-/** \fn const char *TransformationMatrix::getClassname(void)
- *  \brief Classname
- */
-
-/** \var VectorType TransformationMatrix::_matrix[4];
- *  \brief Value store
- */
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+/*! \var VectorType TransformationMatrix::_matrix[4];
+    \brief Value store
+*/
 
 template<class ValueTypeT>
-char TransformationMatrix<ValueTypeT>::cvsid[] = "@(#)$Id: $";
-
-/** \brief Identity matrix
- */
-template<class ValueTypeT>
-TransformationMatrix<ValueTypeT>
+TransformationMatrix<ValueTypeT> 
     TransformationMatrix<ValueTypeT>::_identityMatrix;
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Returns identity matrix
- */
+/*-------------------------------------------------------------------------*/
+/*                            Class Get                                    */
 
 template<class ValueTypeT> inline
 const TransformationMatrix<ValueTypeT> &
@@ -123,26 +90,8 @@ const TransformationMatrix<ValueTypeT> &
     return _identityMatrix;
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 template<class ValueTypeT> inline
 TransformationMatrix<ValueTypeT>::TransformationMatrix(void)
@@ -154,9 +103,6 @@ TransformationMatrix<ValueTypeT>::TransformationMatrix(void)
         _matrix[i][i] = TypeConstants<ValueType>::getOneElement();
     }
 }
-
-/** \brief Copy Constructor
- */
 
 template<class ValueTypeT> inline
 TransformationMatrix<ValueTypeT>::TransformationMatrix(
@@ -170,9 +116,6 @@ TransformationMatrix<ValueTypeT>::TransformationMatrix(
     }
 }
 
-/** \brief Construtor using 3 Vec3f values
- */
-
 template<class ValueTypeT> inline
 TransformationMatrix<ValueTypeT>::TransformationMatrix(
     const VectorType3f &vector1,
@@ -183,9 +126,6 @@ TransformationMatrix<ValueTypeT>::TransformationMatrix(
     _matrix[1].setValue(vector2);
     _matrix[2].setValue(vector3);
 }
-
-/** \brief Constructor using 4 Vec3f values
- */
 
 template<class ValueTypeT> inline
 TransformationMatrix<ValueTypeT>::TransformationMatrix(
@@ -199,9 +139,6 @@ TransformationMatrix<ValueTypeT>::TransformationMatrix(
     _matrix[2].setValue(vector3);
     _matrix[3].setValue(vector4);
 }
-
-/** \brief Construtor using 16 ValueTypeT values
- */
 
 template<class ValueTypeT> inline
 TransformationMatrix<ValueTypeT>::TransformationMatrix(
@@ -231,18 +168,16 @@ TransformationMatrix<ValueTypeT>::TransformationMatrix(
     _matrix[3].setValues(rVal30, rVal31, rVal32, rVal33);
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 template<class ValueTypeT> inline
 TransformationMatrix<ValueTypeT>::~TransformationMatrix(void)
 {
 }
 
-/*------------------------- set functions -------------------------------*/
-
-/** \brief Resets the matrix to identity
- */
+/*-------------------------------------------------------------------------*/
+/*                                Set                                      */
 
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::setIdentity(void)
@@ -256,10 +191,6 @@ void TransformationMatrix<ValueTypeT>::setIdentity(void)
     }
 }
 
-
-/** \brief Set values from a given matrix
- */
-
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::setValue(
     const TransformationMatrix &mat)
@@ -270,29 +201,21 @@ void TransformationMatrix<ValueTypeT>::setValue(
     }
 }
 
-/** \brief Set values from 3 Vec3f vectors
- */
-
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setValue(
-    const VectorType3f &vector1,
-    const VectorType3f &vector2,
-    const VectorType3f &vector3)
+void TransformationMatrix<ValueTypeT>::setValue(const VectorType3f &vector1,
+                                                const VectorType3f &vector2,
+                                                const VectorType3f &vector3)
 {
     _matrix[0].setValue(vector1);
     _matrix[1].setValue(vector2);
     _matrix[2].setValue(vector3);
 }
 
-/** \brief Set values from 4 Vec3f vectors
- */
-
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setValue(
-    const VectorType3f &vector1,
-    const VectorType3f &vector2,
-    const VectorType3f &vector3,
-    const VectorType3f &vector4)
+void TransformationMatrix<ValueTypeT>::setValue(const VectorType3f &vector1,
+                                                const VectorType3f &vector2,
+                                                const VectorType3f &vector3,
+                                                const VectorType3f &vector4)
 {
     _matrix[0].setValue(vector1);
     _matrix[1].setValue(vector2);
@@ -300,39 +223,32 @@ void TransformationMatrix<ValueTypeT>::setValue(
     _matrix[3].setValue(vector4);
 }
 
-/** \brief Set values from 16 ValueTypeT values
- */
-
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setValue(
-    const ValueTypeT rVal00,
-    const ValueTypeT rVal10,
-    const ValueTypeT rVal20,
-    const ValueTypeT rVal30,
-
-    const ValueTypeT rVal01,
-    const ValueTypeT rVal11,
-    const ValueTypeT rVal21,
-    const ValueTypeT rVal31,
-
-    const ValueTypeT rVal02,
-    const ValueTypeT rVal12,
-    const ValueTypeT rVal22,
-    const ValueTypeT rVal32,
-
-    const ValueTypeT rVal03,
-    const ValueTypeT rVal13,
-    const ValueTypeT rVal23,
-    const ValueTypeT rVal33)
+void TransformationMatrix<ValueTypeT>::setValue(const ValueTypeT rVal00,
+                                                const ValueTypeT rVal10,
+                                                const ValueTypeT rVal20,
+                                                const ValueTypeT rVal30,
+                                                
+                                                const ValueTypeT rVal01,
+                                                const ValueTypeT rVal11,
+                                                const ValueTypeT rVal21,
+                                                const ValueTypeT rVal31,
+                                                
+                                                const ValueTypeT rVal02,
+                                                const ValueTypeT rVal12,
+                                                const ValueTypeT rVal22,
+                                                const ValueTypeT rVal32,
+                                                
+                                                const ValueTypeT rVal03,
+                                                const ValueTypeT rVal13,
+                                                const ValueTypeT rVal23,
+                                                const ValueTypeT rVal33)
 {
     _matrix[0].setValues(rVal00, rVal01, rVal02, rVal03);
     _matrix[1].setValues(rVal10, rVal11, rVal12, rVal13);
     _matrix[2].setValues(rVal20, rVal21, rVal22, rVal23);
     _matrix[3].setValues(rVal30, rVal31, rVal32, rVal33);
 }
-
-/** \brief Set values from 16 ValueTypeT values, the matrix is transposed
- */
 
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::setValueTransposed(
@@ -362,12 +278,11 @@ void TransformationMatrix<ValueTypeT>::setValueTransposed(
     _matrix[3].setValues(rVal30, rVal31, rVal32, rVal33);
 }
 
-/** \brief Set value from an ValueTypeT array, be shure the sizes match
- */
+//! Set value from an ValueTypeT array, be shure the sizes match
 
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setValue(
-    const ValueTypeT *pMat, Bool bTransposed)
+void TransformationMatrix<ValueTypeT>::setValue(const ValueTypeT *pMat, 
+                                                      Bool        bTransposed)
 {
     const ValueTypeT *pTmpMat = pMat;
 
@@ -376,6 +291,7 @@ void TransformationMatrix<ValueTypeT>::setValue(
         for(UInt32 i = 0; i < 4; i++)
         {
             _matrix[i].setValue(pTmpMat);
+
             pTmpMat += 4;
         }
     }
@@ -391,12 +307,10 @@ void TransformationMatrix<ValueTypeT>::setValue(
     }
 }
 
-/** \brief Set value from an VectorTypeT array, be shure the sizes match
- */
+//! Set value from an VectorTypeT array, be shure the sizes match
 
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setValue(
-    const VectorType *pMat)
+void TransformationMatrix<ValueTypeT>::setValue(const VectorType *pMat)
 {
     for(UInt32 i = 0; i < 4; i++)
     {
@@ -406,12 +320,10 @@ void TransformationMatrix<ValueTypeT>::setValue(
 
 #ifndef WIN32
 
-/** \brief Set value from an VectorType3f array, be shure the sizes match
- */
+//! Set value from an VectorType3f array, be shure the sizes match
 
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setValue(
-    const VectorType3f *pMat)
+void TransformationMatrix<ValueTypeT>::setValue(const VectorType3f *pMat)
 {
     for(UInt32 i = 0; i < 4; i++)
     {
@@ -421,29 +333,30 @@ void TransformationMatrix<ValueTypeT>::setValue(
 
 #endif
 
-/** \brief Set matrix by a given str (like "1.0 0.0 0.0 0.0 ... (16 entries at all)"),
-    be shure the size matches
- */
+/*! \brief Set matrix by a given str (like "1.0 0.0 0.0 0.0 ... 
+    (16 entries at all)"), be shure the size matches
+*/
+
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setValue(const char *str)
+void TransformationMatrix<ValueTypeT>::setValue(const Char8 *str)
 {
     UInt32 i;
     UInt32 numOfToken = 16;
+    
+    Char8 *c = const_cast<char*>(str);
 
-      char *c = const_cast<char*>(str);
+    Char8 *tokenC = 0;
+    Char8  token[256];
 
-      char *tokenC = 0;
-      char  token[256];
-
-      ValueTypeT vec[16];
-
-      if( (str  == NULL) ||
+    ValueTypeT vec[16];
+    
+    if( (str  == NULL) ||
         (*str == '\0') )
-      {
+    {
         setIdentity();
         return;
-      }
-
+    }
+    
     for(i = 0; i < numOfToken; c++)
     {
         switch (*c)
@@ -483,17 +396,17 @@ void TransformationMatrix<ValueTypeT>::setValue(const char *str)
         }
     }
 
-      setValue(vec[0],  vec[1],  vec[2],  vec[3],
-                       vec[4],  vec[5],  vec[6],  vec[7],
-                       vec[8],  vec[9],  vec[10], vec[11],
-                       vec[12], vec[13], vec[14], vec[15]);
+    setValue(vec[0],  vec[1],  vec[2],  vec[3],
+             vec[4],  vec[5],  vec[6],  vec[7],
+             vec[8],  vec[9],  vec[10], vec[11],
+             vec[12], vec[13], vec[14], vec[15]);
 }
 
 
-/*------------------------------ get Values -------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
 
-/** Returns an C++ pointer to the value store
- */
+//! Returns an C++ pointer to the value store
 
 template<class ValueTypeT> inline
 ValueTypeT *TransformationMatrix<ValueTypeT>::getValues(void)
@@ -507,10 +420,11 @@ const ValueTypeT *TransformationMatrix<ValueTypeT>::getValues(void) const
     return _matrix[0].getValues();
 }
 
-/*------------------------- create transformation -------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                       Set Transformation                                */
 
-/** \brief Sets matrix to scale by given uniform factor
- */
+//! Sets matrix to scale by given uniform factor
+
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::setScale(const ValueTypeT s)
 {
@@ -519,76 +433,71 @@ void TransformationMatrix<ValueTypeT>::setScale(const ValueTypeT s)
     _matrix[2][2] = s;
 }
 
-/** \brief Sets matrix to scale by given uniform factor
- */
+//! Sets matrix to scale by given uniform factor
+
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::setScale(const ValueTypeT sx,
-            const ValueTypeT sy, const ValueTypeT sz)
+                                                const ValueTypeT sy, 
+                                                const ValueTypeT sz)
 {
     _matrix[0][0] = sx;
     _matrix[1][1] = sy;
     _matrix[2][2] = sz;
 }
 
-/** \brief Sets matrix to scale by given vector
- */
+//! Sets matrix to scale by given vector
+
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setScale(
-    const VectorType3f &s)
+void TransformationMatrix<ValueTypeT>::setScale(const VectorType3f &s)
 {
     _matrix[0][0] = s[0];
     _matrix[1][1] = s[1];
     _matrix[2][2] = s[2];
 }
 
-/** \brief Sets matrix to translate by given values
- */
+//! Sets matrix to translate by given values
 
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setTranslate(
-    const ValueTypeT tx,
-    const ValueTypeT ty,
-    const ValueTypeT tz)
+void TransformationMatrix<ValueTypeT>::setTranslate(const ValueTypeT tx,
+                                                    const ValueTypeT ty,
+                                                    const ValueTypeT tz)
 {
     _matrix[3][0] = tx;
     _matrix[3][1] = ty;
     _matrix[3][2] = tz;
 }
 
+//! Sets matrix to translate by given vector
 
-/** \brief Sets matrix to translate by given vector
- */
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setTranslate(
-    const VectorType3f &t)
+void TransformationMatrix<ValueTypeT>::setTranslate(const VectorType3f &t)
 {
     _matrix[3].setValue(t);
 }
 
-/** \brief Sets matrix to translate by given point
- */
+//! Sets matrix to translate by given point
+
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setTranslate(
-    const PointType3f &t)
+void TransformationMatrix<ValueTypeT>::setTranslate(const PointType3f &t)
 {
     _matrix[3].setValue(t);
 }
 
-/** \brief Sets matrix to rotate by given rotation
- */
+//! Sets matrix to rotate by given rotation
+
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setRotate(
-    const QuaternionType &q)
+void TransformationMatrix<ValueTypeT>::setRotate(const QuaternionType &q)
 {
-    q.getValue(*this);
+    q.getValuesOnly(*this);
 }
 
 
-/** \brief Composes the matrix based on a translation, rotation, scale,
+/*! \brief Composes the matrix based on a translation, rotation, scale,
    orientation for scale, and center.  The "center" is the
    center point for scaling and rotation.  The "scaleOrientation"
    chooses the primary axes for the scale.
 */
+
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::setTransform(
     const VectorType3f   &translation,
@@ -703,11 +612,10 @@ void TransformationMatrix<ValueTypeT>::setTransform(
 
 }
 
-/** \brief Composes the matrix based on a translation
- */
+//! Composes the matrix based on a translation
+
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setTransform(
-    const VectorType3f   &t )
+void TransformationMatrix<ValueTypeT>::setTransform(const VectorType3f &t)
 {
     setIdentity();
 
@@ -717,23 +625,20 @@ void TransformationMatrix<ValueTypeT>::setTransform(
 
 }
 
-/** \brief Composes the matrix based on a translation and rotation
- */
-template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setTransform(
-    const QuaternionType &r )
-{
-    setIdentity();
+//! Composes the matrix based on a translation and rotation
 
-    // Calculate the 3x3 rotation matrix
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setTransform(const QuaternionType &r)
+{
+    // Calculate the 4x4 rotation matrix
     r.getValue(*this);
 }
 
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setTransform (const VectorType3f   &t,
-                                                     const QuaternionType &r)
+void TransformationMatrix<ValueTypeT>::setTransform(const VectorType3f   &t,
+                                                    const QuaternionType &r)
 {
-    r.getValue(*this);
+    r.getValuesOnly(*this);
 
     // Calculate the resulting transformation matrix
     _matrix[0][3] = 0.0;
@@ -746,18 +651,15 @@ void TransformationMatrix<ValueTypeT>::setTransform (const VectorType3f   &t,
     _matrix[3][3] = 1.0;
 }
 
-/** \brief Composes the matrix based on a translation, rotation and scale
- */
-template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setTransform(
-    const VectorType3f   &t,
-    const QuaternionType &r,
-    const VectorType3f   &s)
-{
-//    Matrix tmpMat;
+//! Composes the matrix based on a translation, rotation and scale
 
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setTransform(const VectorType3f   &t,
+                                                    const QuaternionType &r,
+                                                    const VectorType3f   &s)
+{
     // Calculate the 3x3 rotation matrix
-    r.getValue(*this);
+    r.getValuesOnly(*this);
 
     // Calculate the resulting transformation matrix
     _matrix[0][0] *= s[0]; _matrix[0][1] *= s[0]; _matrix[0][2] *=s[0];
@@ -774,15 +676,13 @@ void TransformationMatrix<ValueTypeT>::setTransform(
     _matrix[3][3] = 1.0;
 }
 
-/** \brief Composes the matrix based on a translation, rotation, scale and
-   orientation
-*/
+//! Composes the matrix based on a translation, rotation, scale and orientation
+
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setTransform(
-    const VectorType3f   &t,
-    const QuaternionType &r,
-    const VectorType3f   &s,
-    const QuaternionType &so)
+void TransformationMatrix<ValueTypeT>::setTransform(const VectorType3f   &t,
+                                                    const QuaternionType &r,
+                                                    const VectorType3f   &s,
+                                                    const QuaternionType &so)
 {
     Matrix tmpMat1;
     Matrix tmpMat2;
@@ -863,14 +763,18 @@ void TransformationMatrix<ValueTypeT>::setTransform(
     _matrix[3][3] = 1.0;
 }
 
-/** \brief Decomposes the matrix into a translation, rotation, scale,
-   and scale orientation.  Any projection information is discarded.
-   The decomposition depends upon choice of center point for
-   rotation and scaling, which is optional as the last parameter.
-   Note that if the center is 0, decompose() is the same as
-   factor() where "t" is translation, "u" is rotation, "s" is
-   scaleFactor, and "r" is ScaleOrientattion.
+/*-------------------------------------------------------------------------*/
+/*                           Get Transform                                 */
+
+/*! \brief Decomposes the matrix into a translation, rotation, scale,
+    and scale orientation.  Any projection information is discarded.
+    The decomposition depends upon choice of center point for
+    rotation and scaling, which is optional as the last parameter.
+    Note that if the center is 0, decompose() is the same as
+    factor() where "t" is translation, "u" is rotation, "s" is
+    scaleFactor, and "r" is ScaleOrientattion.
 */
+
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::getTransform(
     VectorType3f   &translation,
@@ -882,8 +786,8 @@ void TransformationMatrix<ValueTypeT>::getTransform(
     cerr << "Matrix::getTransform not implemented yet\n";
 }
 
-/** \brief Decomposes the matrix into a translation, rotation  and scale
- */
+//! Decomposes the matrix into a translation, rotation  and scale
+
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::getTransform(
     VectorType3f   &translation,
@@ -894,27 +798,27 @@ void TransformationMatrix<ValueTypeT>::getTransform(
     cerr << "Matrix::getTransform not implemented yet\n";
 }
 
-/** \brief Factors a matrix m into 5 pieces: m = r s rt u t, where rt
+/*! \brief Factors a matrix m into 5 pieces: m = r s rt u t, where rt
     means transpose of r, and r and u are rotations, s is a scale,
     and t is a translation. Any projection information is returned
     in proj.
 */
+
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::factor(
-    TransformationMatrix &r,
-    VectorType3f         &s,
-    TransformationMatrix &u,
-    VectorType3f         &t,
-    TransformationMatrix &proj) const
+Bool TransformationMatrix<ValueTypeT>::factor(TransformationMatrix &r,
+                                              VectorType3f         &s,
+                                              TransformationMatrix &u,
+                                              VectorType3f         &t,
+                                              TransformationMatrix &proj) const
 {
     cerr << "Matrix::getTransform not implemented yet\n";
 }
 
 /*---------------------------- transform objects ---------------------------*/
 
-/** \brief Multiplies matrix by given column point, where the resulting point
- *  is given
- */
+/*! \brief Multiplies matrix by given column point, where the resulting point
+    is given
+*/
 
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::multMatrixPnt(
@@ -935,19 +839,17 @@ void TransformationMatrix<ValueTypeT>::multMatrixPnt(
                             _matrix[3][2]));
 }
 
-/** \brief Multiplies matrix by given column point
- */
+//! Multiplies matrix by given column point
 
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::multMatrixPnt(
-    PointType3f &pnt) const
+void TransformationMatrix<ValueTypeT>::multMatrixPnt(PointType3f &pnt) const
 {
     multMatrixPnt(pnt, pnt);
 }
 
-/** \brief Multiplies matrix by given column point, where the resulting point
- *  is given. The full (4x4) matrix is used.
- */
+/*! \brief Multiplies matrix by given column point, where the resulting point
+    is given. The full (4x4) matrix is used.
+*/
 
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::multFullMatrixPnt(
@@ -955,14 +857,16 @@ void TransformationMatrix<ValueTypeT>::multFullMatrixPnt(
           PointType3f &dst) const
 {
     ValueTypeT w =  src[0] * _matrix[0][3] +
-                        src[1] * _matrix[1][3] +
-                        src[2] * _matrix[2][3] +
-                                 _matrix[3][3];
+                    src[1] * _matrix[1][3] +
+                    src[2] * _matrix[2][3] +
+                             _matrix[3][3];
 
-    if ( w < Eps && w > -Eps )
+    if( w < Eps && w > -Eps)
     {
         SINFO << "multFullMatrixPnt: w < Eps!" << endl;
+
         dst.setValues(0, 0, 0);
+
         return;
     }
 
@@ -981,19 +885,17 @@ void TransformationMatrix<ValueTypeT>::multFullMatrixPnt(
                             _matrix[3][2]) * w);
 }
 
-/** \brief Multiplies matrix by given column point. The full (4x4) matrix is used.
- */
-
+//! Multiplies matrix by given column point. The full (4x4) matrix is used.
+ 
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::multFullMatrixPnt(
-    PointType3f &pnt) const
+void TransformationMatrix<ValueTypeT>::multFullMatrixPnt(PointType3f &pnt)const
 {
     multFullMatrixPnt(pnt, pnt);
 }
 
-/** \brief Multiplies matrix by given column vector,  where the resulting
- *  vector is given
- */
+/*! \brief Multiplies matrix by given column vector,  where the resulting
+    vector is given
+*/
 
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::multMatrixVec(
@@ -1011,65 +913,57 @@ void TransformationMatrix<ValueTypeT>::multMatrixVec(
                    src[2] * _matrix[2][2]));
 }
 
-/** \brief Multiplies matrix by given column vector
- */
+//! Multiplies matrix by given column vector
 
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::multMatrixVec(
-    VectorType3f &vec) const
+void TransformationMatrix<ValueTypeT>::multMatrixVec(VectorType3f &vec) const
 {
     multMatrixVec(vec, vec);
 }
 
-/** \brief Transforms the given point by the matrix and stores the result in
- *  dest
- */
+/*! \brief Transforms the given point by the matrix and stores the result in
+    dest
+*/
 
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::transform(
-    const PointType3f &src,
-          PointType3f &dest) const
+void TransformationMatrix<ValueTypeT>::mult(const PointType3f &src,
+                                                  PointType3f &dest) const
 {
     multMatrixPnt(src, dest);
 }
 
-/** \brief Transforms the given point by the matrix
- */
+//! Transforms the given point by the matrix
 
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::transform(
-    PointType3f &pnt) const
+void TransformationMatrix<ValueTypeT>::mult(PointType3f &pnt) const
 {
     multMatrixPnt(pnt, pnt);
 }
 
-/** \brief Transforms the given vector by the matrix and stores the result in
- *  dest
- */
+/*! \brief Transforms the given vector by the matrix and stores the result in
+    dest
+*/
 
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::transform(
-    const VectorType3f &src,
-          VectorType3f &dest) const
+void TransformationMatrix<ValueTypeT>::mult(const VectorType3f &src,
+                                                  VectorType3f &dest) const
 {
     multMatrixVec(src, dest);
 }
 
-/** \brief Transforms the given vector by the matrix
- */
+//! Transforms the given vector by the matrix
 
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::transform(
-    VectorType3f &vec) const
+void TransformationMatrix<ValueTypeT>::mult(VectorType3f &vec) const
 {
     multMatrixVec(vec, vec);
 }
 
 /*---------------------------- simple math ---------------------------------*/
 
-/** \brief Returns true iff all matrix elements are equal within the given
- *  tolerance
- */
+/*! \brief Returns true iff all matrix elements are equal within the given
+    tolerance
+*/
 
 template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::equals(
@@ -1090,8 +984,7 @@ Bool TransformationMatrix<ValueTypeT>::equals(
     return returnValue;
 }
 
-/** \brief Returns the determinat of the upper 3x3 submatrix
- */
+//! Returns the determinat of the upper 3x3 submatrix
 
 template<class ValueTypeT> inline
 ValueTypeT TransformationMatrix<ValueTypeT>::det3(void) const
@@ -1104,8 +997,7 @@ ValueTypeT TransformationMatrix<ValueTypeT>::det3(void) const
             _matrix[0][0] * _matrix[1][2] * _matrix[2][1]);
 }
 
-/** \brief Returns the determinat of the whole 4x4 matrix
- */
+//! Returns the determinat of the whole 4x4 matrix
 
 template<class ValueTypeT> inline
 ValueTypeT TransformationMatrix<ValueTypeT>::det (void) const
@@ -1146,9 +1038,9 @@ ValueTypeT TransformationMatrix<ValueTypeT>::det (void) const
 // This inverse stuff should be grouped in a better way :-). It's just a
 // Cut&Paste section. I will have a look at it lateron (GV)
 
-/** \brief Stores the inverse of the matrix into result, returns true if the
- *   matrix is not singular
- */
+/*! \brief Stores the inverse of the matrix into result, returns true if the
+     matrix is not singular
+*/
 
 template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::inverse(
@@ -1235,9 +1127,9 @@ Bool TransformationMatrix<ValueTypeT>::inverse(
     return true;
 }
 
-/** \brief Inverts the matrix, returns true if the
- *   matrix is not singular
- */
+/*! \brief Inverts the matrix, returns true if the
+     matrix is not singular
+*/
 
 template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::invert(void)
@@ -1326,9 +1218,9 @@ Bool TransformationMatrix<ValueTypeT>::invert(void)
     return true;
 }
 
-/** \brief Set the matrix to be the inverse of the given one, returns true if
- *   the matrix is not singular
- */
+/*! \brief Set the matrix to be the inverse of the given one, returns true if
+     the matrix is not singular
+*/
 
 template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::invertFrom(
@@ -1621,11 +1513,12 @@ template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::transposed(
         TransformationMatrix &result) const
 {
-    result.setValues((*this)[0][0], (*this)[1][0], (*this)[2][0], (*this)[3][0],
-                     (*this)[0][1], (*this)[1][1], (*this)[2][1], (*this)[3][1],
-                     (*this)[0][2], (*this)[1][2], (*this)[2][2], (*this)[3][2],
-                     (*this)[0][3], (*this)[1][3], (*this)[2][3], (*this)[3][3]
-                     );
+    result.setValues(
+        (*this)[0][0], (*this)[1][0], (*this)[2][0], (*this)[3][0],
+        (*this)[0][1], (*this)[1][1], (*this)[2][1], (*this)[3][1],
+        (*this)[0][2], (*this)[1][2], (*this)[2][2], (*this)[3][2],
+        (*this)[0][3], (*this)[1][3], (*this)[2][3], (*this)[3][3]);
+
     return true;
 }
 
@@ -1633,12 +1526,14 @@ template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::transpose(void)
 {
     ValueTypeT tmp;
+
     tmp = (*this)[1][0]; (*this)[1][0] = (*this)[0][1]; (*this)[0][1] = tmp;
     tmp = (*this)[2][0]; (*this)[2][0] = (*this)[0][2]; (*this)[0][2] = tmp;
     tmp = (*this)[3][0]; (*this)[3][0] = (*this)[0][3]; (*this)[0][3] = tmp;
     tmp = (*this)[2][1]; (*this)[2][1] = (*this)[1][2]; (*this)[1][2] = tmp;
     tmp = (*this)[3][1]; (*this)[3][1] = (*this)[1][3]; (*this)[1][3] = tmp;
     tmp = (*this)[3][2]; (*this)[3][2] = (*this)[2][3]; (*this)[2][3] = tmp;
+
     return true;
 }
 
@@ -1646,38 +1541,38 @@ template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::transposeFrom(
     const TransformationMatrix &matrix)
 {
-    this->setValues(    matrix[0][0], matrix[1][0], matrix[2][0], matrix[3][0],
-                        matrix[0][1], matrix[1][1], matrix[2][1], matrix[3][1],
-                        matrix[0][2], matrix[1][2], matrix[2][2], matrix[3][2],
-                        matrix[0][3], matrix[1][3], matrix[2][3], matrix[3][3]);
+    this->setValues(matrix[0][0], matrix[1][0], matrix[2][0], matrix[3][0],
+                    matrix[0][1], matrix[1][1], matrix[2][1], matrix[3][1],
+                    matrix[0][2], matrix[1][2], matrix[2][2], matrix[3][2],
+                    matrix[0][3], matrix[1][3], matrix[2][3], matrix[3][3]);
+
     return true;
 }
 
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::mult(
-    const TransformationMatrix &matrix)
+void TransformationMatrix<ValueTypeT>::mult(const TransformationMatrix &matrix)
 {
     ValueTypeT rTmpMat[4][4];
 
-    (rTmpMat)[0][0] = rowMulCol4((*this),0,(matrix),0);
-    (rTmpMat)[0][1] = rowMulCol4((*this),1,(matrix),0);
-    (rTmpMat)[0][2] = rowMulCol4((*this),2,(matrix),0);
-    (rTmpMat)[0][3] = rowMulCol4((*this),3,(matrix),0);
+    (rTmpMat)[0][0] = rowMulCol4((*this), 0, (matrix), 0);
+    (rTmpMat)[0][1] = rowMulCol4((*this), 1, (matrix), 0);
+    (rTmpMat)[0][2] = rowMulCol4((*this), 2, (matrix), 0);
+    (rTmpMat)[0][3] = rowMulCol4((*this), 3, (matrix), 0);
 
-    (rTmpMat)[1][0] = rowMulCol4((*this),0,(matrix),1);
-    (rTmpMat)[1][1] = rowMulCol4((*this),1,(matrix),1);
-    (rTmpMat)[1][2] = rowMulCol4((*this),2,(matrix),1);
-    (rTmpMat)[1][3] = rowMulCol4((*this),3,(matrix),1);
+    (rTmpMat)[1][0] = rowMulCol4((*this), 0, (matrix), 1);
+    (rTmpMat)[1][1] = rowMulCol4((*this), 1, (matrix), 1);
+    (rTmpMat)[1][2] = rowMulCol4((*this), 2, (matrix), 1);
+    (rTmpMat)[1][3] = rowMulCol4((*this), 3, (matrix), 1);
 
-    (rTmpMat)[2][0] = rowMulCol4((*this),0,(matrix),2);
-    (rTmpMat)[2][1] = rowMulCol4((*this),1,(matrix),2);
-    (rTmpMat)[2][2] = rowMulCol4((*this),2,(matrix),2);
-    (rTmpMat)[2][3] = rowMulCol4((*this),3,(matrix),2);
+    (rTmpMat)[2][0] = rowMulCol4((*this), 0, (matrix), 2);
+    (rTmpMat)[2][1] = rowMulCol4((*this), 1, (matrix), 2);
+    (rTmpMat)[2][2] = rowMulCol4((*this), 2, (matrix), 2);
+    (rTmpMat)[2][3] = rowMulCol4((*this), 3, (matrix), 2);
 
-    (rTmpMat)[3][0] = rowMulCol4((*this),0,(matrix),3);
-    (rTmpMat)[3][1] = rowMulCol4((*this),1,(matrix),3);
-    (rTmpMat)[3][2] = rowMulCol4((*this),2,(matrix),3);
-    (rTmpMat)[3][3] = rowMulCol4((*this),3,(matrix),3);
+    (rTmpMat)[3][0] = rowMulCol4((*this), 0, (matrix), 3);
+    (rTmpMat)[3][1] = rowMulCol4((*this), 1, (matrix), 3);
+    (rTmpMat)[3][2] = rowMulCol4((*this), 2, (matrix), 3);
+    (rTmpMat)[3][3] = rowMulCol4((*this), 3, (matrix), 3);
 
     _matrix[0][0] = rTmpMat[0][0];
     _matrix[0][1] = rTmpMat[0][1];
@@ -1706,25 +1601,25 @@ void TransformationMatrix<ValueTypeT>::multLeft(
 {
     ValueTypeT rTmpMat[4][4];
 
-    (rTmpMat)[0][0] = rowMulCol4((matrix),0,(*this),0);
-    (rTmpMat)[0][1] = rowMulCol4((matrix),1,(*this),0);
-    (rTmpMat)[0][2] = rowMulCol4((matrix),2,(*this),0);
-    (rTmpMat)[0][3] = rowMulCol4((matrix),3,(*this),0);
+    (rTmpMat)[0][0] = rowMulCol4((matrix), 0, (*this), 0);
+    (rTmpMat)[0][1] = rowMulCol4((matrix), 1, (*this), 0);
+    (rTmpMat)[0][2] = rowMulCol4((matrix), 2, (*this), 0);
+    (rTmpMat)[0][3] = rowMulCol4((matrix), 3, (*this), 0);
 
-    (rTmpMat)[1][0] = rowMulCol4((matrix),0,(*this),1);
-    (rTmpMat)[1][1] = rowMulCol4((matrix),1,(*this),1);
-    (rTmpMat)[1][2] = rowMulCol4((matrix),2,(*this),1);
-    (rTmpMat)[1][3] = rowMulCol4((matrix),3,(*this),1);
+    (rTmpMat)[1][0] = rowMulCol4((matrix), 0, (*this), 1);
+    (rTmpMat)[1][1] = rowMulCol4((matrix), 1, (*this), 1);
+    (rTmpMat)[1][2] = rowMulCol4((matrix), 2, (*this), 1);
+    (rTmpMat)[1][3] = rowMulCol4((matrix), 3, (*this), 1);
 
-    (rTmpMat)[2][0] = rowMulCol4((matrix),0,(*this),2);
-    (rTmpMat)[2][1] = rowMulCol4((matrix),1,(*this),2);
-    (rTmpMat)[2][2] = rowMulCol4((matrix),2,(*this),2);
-    (rTmpMat)[2][3] = rowMulCol4((matrix),3,(*this),2);
+    (rTmpMat)[2][0] = rowMulCol4((matrix), 0, (*this), 2);
+    (rTmpMat)[2][1] = rowMulCol4((matrix), 1, (*this), 2);
+    (rTmpMat)[2][2] = rowMulCol4((matrix), 2, (*this), 2);
+    (rTmpMat)[2][3] = rowMulCol4((matrix), 3, (*this), 2);
 
-    (rTmpMat)[3][0] = rowMulCol4((matrix),0,(*this),3);
-    (rTmpMat)[3][1] = rowMulCol4((matrix),1,(*this),3);
-    (rTmpMat)[3][2] = rowMulCol4((matrix),2,(*this),3);
-    (rTmpMat)[3][3] = rowMulCol4((matrix),3,(*this),3);
+    (rTmpMat)[3][0] = rowMulCol4((matrix), 0, (*this), 3);
+    (rTmpMat)[3][1] = rowMulCol4((matrix), 1, (*this), 3);
+    (rTmpMat)[3][2] = rowMulCol4((matrix), 2, (*this), 3);
+    (rTmpMat)[3][3] = rowMulCol4((matrix), 3, (*this), 3);
 
     _matrix[0][0] = rTmpMat[0][0];
     _matrix[0][1] = rTmpMat[0][1];
@@ -1747,13 +1642,10 @@ void TransformationMatrix<ValueTypeT>::multLeft(
     _matrix[3][3] = rTmpMat[3][3];
 }
 
-
-/** \brief Adds the given matrix to this matrix
-*/
+//! Adds the given matrix to this matrix
 
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::add(
-    const TransformationMatrix &matrix)
+void TransformationMatrix<ValueTypeT>::add(const TransformationMatrix &matrix)
 {
     _matrix[0][0] += matrix._matrix[0][0];
     _matrix[0][1] += matrix._matrix[0][1];
@@ -1776,12 +1668,12 @@ void TransformationMatrix<ValueTypeT>::add(
     _matrix[3][3] += matrix._matrix[3][3];
 }
 
-/** \brief Adds a scaled version of the given matrix to this matrix
-*/
+//! Adds a scaled version of the given matrix to this matrix
 
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::addScaled(
-    const TransformationMatrix &matrix, ValueTypeT s)
+    const TransformationMatrix &matrix, 
+          ValueTypeT            s)
 {
     _matrix[0][0] += s*matrix._matrix[0][0];
     _matrix[0][1] += s*matrix._matrix[0][1];
@@ -1804,8 +1696,7 @@ void TransformationMatrix<ValueTypeT>::addScaled(
     _matrix[3][3] += s*matrix._matrix[3][3];
 }
 
-/** \brief Negates the matrix in place
-*/
+//! Negates the matrix in place
 
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::negate(void)
@@ -1831,12 +1722,10 @@ void TransformationMatrix<ValueTypeT>::negate(void)
     _matrix[3][3] *= -1.0;
 }
 
-/** \brief Scales the elements of this matrix
-*/
+//! Scales the elements of this matrix
 
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::scale(
-ValueTypeT s)
+void TransformationMatrix<ValueTypeT>::scale(ValueTypeT s)
 {
     _matrix[0][0] *= s;
     _matrix[0][1] *= s;
@@ -1859,8 +1748,7 @@ ValueTypeT s)
     _matrix[3][3] *= s;
 }
 
-/** \brief Returns the 1-norm of _matrix matrix
-*/
+//! Returns the 1-norm of _matrix matrix
 
 template<class ValueTypeT> inline
 ValueTypeT TransformationMatrix<ValueTypeT>::norm1(void) const
@@ -1887,13 +1775,13 @@ ValueTypeT TransformationMatrix<ValueTypeT>::norm1(void) const
     return m;
 }
 
-/** \brief Returns the 2-norm of this matrix
-*/
+//! Returns the 2-norm of this matrix
 
 template<class ValueTypeT> inline
 ValueTypeT TransformationMatrix<ValueTypeT>::norm2(void) const
 {
-    ValueTypeT m(0), t;
+    ValueTypeT m = 0.;
+    ValueTypeT t;
 
     t = _matrix[0][0]; m += t*t;
     t = _matrix[0][1]; m += t*t;
@@ -1915,153 +1803,203 @@ ValueTypeT TransformationMatrix<ValueTypeT>::norm2(void) const
     return osgsqrt(m);
 }
 
-/** \brief Returns the infinity norm of this matrix
-*/
+//! Returns the infinity norm of this matrix
 
 template<class ValueTypeT> inline
 ValueTypeT TransformationMatrix<ValueTypeT>::normInfinity(void) const
 {
-    ValueTypeT m(0),t;
+    ValueTypeT m = 0.;
+    ValueTypeT t;
 
-    if ((t = osgabs(_matrix[0][0])) > m) m = t;
-    if ((t = osgabs(_matrix[0][1])) > m) m = t;
-    if ((t = osgabs(_matrix[0][2])) > m) m = t;
-    if ((t = osgabs(_matrix[0][3])) > m) m = t;
-    if ((t = osgabs(_matrix[1][0])) > m) m = t;
-    if ((t = osgabs(_matrix[1][1])) > m) m = t;
-    if ((t = osgabs(_matrix[1][2])) > m) m = t;
-    if ((t = osgabs(_matrix[1][3])) > m) m = t;
-    if ((t = osgabs(_matrix[2][0])) > m) m = t;
-    if ((t = osgabs(_matrix[2][1])) > m) m = t;
-    if ((t = osgabs(_matrix[2][2])) > m) m = t;
-    if ((t = osgabs(_matrix[2][3])) > m) m = t;
-    if ((t = osgabs(_matrix[3][0])) > m) m = t;
-    if ((t = osgabs(_matrix[3][1])) > m) m = t;
-    if ((t = osgabs(_matrix[3][2])) > m) m = t;
-    if ((t = osgabs(_matrix[3][3])) > m) m = t;
+    if((t = osgabs(_matrix[0][0])) > m) 
+        m = t;
+    if((t = osgabs(_matrix[0][1])) > m)
+        m = t;
+    if((t = osgabs(_matrix[0][2])) > m) 
+        m = t;
+    if((t = osgabs(_matrix[0][3])) > m) 
+        m = t;
+    if((t = osgabs(_matrix[1][0])) > m) 
+        m = t;
+    if((t = osgabs(_matrix[1][1])) > m) 
+        m = t;
+    if((t = osgabs(_matrix[1][2])) > m) 
+        m = t;
+    if((t = osgabs(_matrix[1][3])) > m) 
+        m = t;
+    if((t = osgabs(_matrix[2][0])) > m) 
+        m = t;
+    if((t = osgabs(_matrix[2][1])) > m) 
+        m = t;
+    if((t = osgabs(_matrix[2][2])) > m) 
+        m = t;
+    if((t = osgabs(_matrix[2][3])) > m) 
+        m = t;
+    if((t = osgabs(_matrix[3][0])) > m) 
+        m = t;
+    if((t = osgabs(_matrix[3][1])) > m) 
+        m = t;
+    if((t = osgabs(_matrix[3][2])) > m) 
+        m = t;
+    if((t = osgabs(_matrix[3][3])) > m) 
+        m = t;
 
     return m;
 }
 
-
-/*---------------------------- non-simple math ------------------------------*/
-
-/** \brief Computes the square root of the matrix and stores it in
+/*! \brief Computes the square root of the matrix and stores it in
     result, assumes det > 0
 */
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::sqrt(
-    TransformationMatrix &result) const
+Bool TransformationMatrix<ValueTypeT>::sqrt(TransformationMatrix &result) const
 {
-    TransformationMatrix<ValueTypeT> iX, Y, iY;
-    ValueTypeT g, ig;
+    TransformationMatrix iX;
+    TransformationMatrix  Y;
+    TransformationMatrix iY;
+
+    ValueTypeT  g;
+    ValueTypeT ig;
 
     result.setValue(*this);
+
     Y.setIdentity();
-    for (int i = 0; i < 6; i++)
+
+    for(UInt32 i = 0; i < 6; i++)
     {
         result.inverse(iX);
+
         Y.inverse(iY);
-        g = osgabs(osgpow(result.det()*Y.det(),ValueTypeT(-0.125)));
-        ig = ValueTypeT(1.0/g);
-        result.scale(g);
-        result.addScaled(iY,ig);
-        result.scale(0.5);
-        Y.scale(g);
-        Y.addScaled(iX,ig);
-        Y.scale(0.5);
+
+        g = osgabs(osgpow(result.det() * Y.det(), ValueTypeT(-0.125)));
+
+        ig = ValueTypeT(1.0 / g);
+
+        result.scale    (g     );
+        result.addScaled(iY, ig);
+        result.scale    (0.5   );
+
+        Y.scale    (g     );
+        Y.addScaled(iX, ig);
+        Y.scale    (0.5   );
     }
+
     // ToDo: return should depend on achieved accuracy
     return true;
 }
 
-/** \brief Sets this matrix to the square root of the given matrix,
-   assumes det > 0
+/*! \brief Sets this matrix to the square root of the given matrix,
+     assumes det > 0
 */
 
 template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::sqrtOf(
     const TransformationMatrix &matrix)
 {
-    TransformationMatrix<ValueTypeT> iX, Y, iY;
-    ValueTypeT g, ig;
+    TransformationMatrix iX;
+    TransformationMatrix  Y;
+    TransformationMatrix iY;
+
+    ValueTypeT  g;
+    ValueTypeT ig;
 
     setValue(matrix);
+
     Y.setIdentity();
-    for (int i = 0; i < 6; i++)
+
+    for(Int32 i = 0; i < 6; i++)
     {
         inverse(iX);
+
         Y.inverse(iY);
-        g = osgabs(osgpow(det()*Y.det(),ValueTypeT(-0.125)));
-        ig = ValueTypeT(1.0/g);
-        scale(g);
-        addScaled(iY,ig);
-        scale(0.5);
-        Y.scale(g);
-        Y.addScaled(iX,ig);
-        Y.scale(0.5);
+
+        g = osgabs(osgpow(det() * Y.det(), ValueTypeT(-0.125)));
+
+        ig = ValueTypeT(1.0 / g);
+
+        scale    (g     );
+        addScaled(iY, ig);
+        scale    (0.5   );
+
+        Y.scale    (g     );
+        Y.addScaled(iX, ig);
+        Y.scale    (0.5);
     }
+
     // ToDo: return should depend on achieved accuracy
     return true;
 }
 
-/** \brief Sets this matrix to its square root,
-   assumes det > 0
-*/
+//! Sets this matrix to its square root, assumes det > 0
 
 template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::sqrt(void)
 {
-    TransformationMatrix<ValueTypeT> iX, Y, iY;
-    ValueTypeT g, ig;
+    TransformationMatrix iX;
+    TransformationMatrix  Y;
+    TransformationMatrix iY;
+
+    ValueTypeT  g;
+    ValueTypeT ig;
 
     Y.setIdentity();
-    for (int i = 0; i < 6; i++)
+
+    for(Int32 i = 0; i < 6; i++)
     {
         inverse(iX);
+
         Y.inverse(iY);
-        g = osgabs(osgpow(det()*Y.det(),ValueTypeT(-0.125)));
-        ig = ValueTypeT(1.0/g);
-        scale(g);
-        addScaled(iY,ig);
-        scale(0.5);
-        Y.scale(g);
-        Y.addScaled(iX,ig);
-        Y.scale(0.5);
+
+        g = osgabs(osgpow(det() * Y.det(), ValueTypeT(-0.125)));
+
+        ig = ValueTypeT(1.0 / g);
+
+        scale    (g     );
+        addScaled(iY, ig);
+        scale    (0.5   );
+
+        Y.scale    (g     );
+        Y.addScaled(iX, ig);
+        Y.scale    (0.5   );
     }
+
     // ToDo: return should depend on achieved accuracy
     return true;
 }
 
-/** \brief Computes the logarithm of this matrix and stores it in
+/*! \brief Computes the logarithm of this matrix and stores it in
     result, assumes det > 0
 */
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::log(
-    TransformationMatrix &result) const
+Bool TransformationMatrix<ValueTypeT>::log(TransformationMatrix &result) const
 {
-    const int maxiter(12);
-    const ValueTypeT eps(1e-12);
-    int k(0), i(0);
-    TransformationMatrix<ValueTypeT> A(*this),Z;
+    const Int32      maxiter = 12;
+          Int32      k       = 0;
+          Int32      i       = 0;
+    const ValueTypeT eps     = 1e-12;
 
+    TransformationMatrix A(*this);
+    TransformationMatrix Z;
 
     // Take repeated square roots to reduce spectral radius
     Z.setValue(A);
+
     Z[0][0] -= TypeConstants<ValueType>::getOneElement();
     Z[1][1] -= TypeConstants<ValueType>::getOneElement();
     Z[2][2] -= TypeConstants<ValueType>::getOneElement();
     Z[3][3] -= TypeConstants<ValueType>::getOneElement();
-    while (Z.normInfinity() > 0.5)
+
+    while(Z.normInfinity() > 0.5)
     {
-        A.sqrt();
+        A.sqrt    ( );
         Z.setValue(A);
+
         Z[0][0] -= TypeConstants<ValueType>::getOneElement();
         Z[1][1] -= TypeConstants<ValueType>::getOneElement();
         Z[2][2] -= TypeConstants<ValueType>::getOneElement();
         Z[3][3] -= TypeConstants<ValueType>::getOneElement();
+
         k++;
     }
 
@@ -2069,22 +2007,30 @@ Bool TransformationMatrix<ValueTypeT>::log(
     A[1][1] -= TypeConstants<ValueType>::getOneElement();
     A[2][2] -= TypeConstants<ValueType>::getOneElement();
     A[3][3] -= TypeConstants<ValueType>::getOneElement();
+
     A.negate();
+
     result.setValue(A);
+
     Z.setValue(A);
+
     i = 1;
+
     while(Z.normInfinity() > eps && i < maxiter)
     {
         Z.mult(A);
-        i++;
-        result.addScaled(Z,ValueTypeT(1.0)/ValueTypeT(i));
-    }
-    result.scale(ValueTypeT(-1.0)*ValueTypeT(1<<k));
 
-    return (i<maxiter);
+        i++;
+
+        result.addScaled(Z, ValueTypeT(1.0) / ValueTypeT(i));
+    }
+
+    result.scale(ValueTypeT(-1.0) * ValueTypeT(1 << k));
+
+    return (i < maxiter);
 }
 
-/** \brief Sets this matrix to the logarithm of the given matrix,
+/*! \brief Sets this matrix to the logarithm of the given matrix,
     assumes det > 0
 */
 
@@ -2092,26 +2038,32 @@ template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::logOf(
     const TransformationMatrix &matrix)
 {
-    const int maxiter(12);
-    const ValueTypeT eps(1e-12);
-    int k(0), i(0);
-    TransformationMatrix<ValueTypeT> A(matrix),Z;
+    const Int32      maxiter = 12;
+          Int32      k       = 0;
+          Int32      i       = 0;
+    const ValueTypeT eps     = 1e-12;
 
+    TransformationMatrix<ValueTypeT> A(matrix),Z;
 
     // Take repeated square roots to reduce spectral radius
     Z.setValue(A);
+
     Z[0][0] -= TypeConstants<ValueType>::getOneElement();
     Z[1][1] -= TypeConstants<ValueType>::getOneElement();
     Z[2][2] -= TypeConstants<ValueType>::getOneElement();
     Z[3][3] -= TypeConstants<ValueType>::getOneElement();
-    while (Z.normInfinity() > 0.5)
+
+    while(Z.normInfinity() > 0.5)
     {
         A.sqrt();
+
         Z.setValue(A);
+
         Z[0][0] -= TypeConstants<ValueType>::getOneElement();
         Z[1][1] -= TypeConstants<ValueType>::getOneElement();
         Z[2][2] -= TypeConstants<ValueType>::getOneElement();
         Z[3][3] -= TypeConstants<ValueType>::getOneElement();
+
         k++;
     }
 
@@ -2119,50 +2071,79 @@ Bool TransformationMatrix<ValueTypeT>::logOf(
     A[1][1] -= TypeConstants<ValueType>::getOneElement();
     A[2][2] -= TypeConstants<ValueType>::getOneElement();
     A[3][3] -= TypeConstants<ValueType>::getOneElement();
+
     A.negate();
+
     setValue(A);
+
     Z.setValue(A);
+
     i = 1;
     while(Z.normInfinity() > eps && i < maxiter)
     {
         Z.mult(A);
+
         i++;
-        addScaled(Z,ValueTypeT(1.0)/ValueTypeT(i));
+
+        addScaled(Z, ValueTypeT(1.0) / ValueTypeT(i));
     }
-    scale(ValueTypeT(-1.0)*ValueTypeT(1<<k));
+
+    scale(ValueTypeT(-1.0) * ValueTypeT(1 << k));
 
     return (i<maxiter);
 }
 
-/** \brief Computes the exponential of this matrix and stores it in
+/*! \brief Computes the exponential of this matrix and stores it in
     result
 */
 
 template<class ValueTypeT> inline
-Bool TransformationMatrix<ValueTypeT>::exp(
-    TransformationMatrix &result) const
+Bool TransformationMatrix<ValueTypeT>::exp(TransformationMatrix &result) const
 {
-    TransformationMatrix<ValueTypeT> A(*this), D, N;
-    const int q(6);
-    int j(1), k;
-    ValueTypeT c(1.0);
+    const Int32                q = 6;
 
-    j += int(osglog(A.normInfinity()/0.693));
-    if (j < 0) j = 0;
-    A.scale(1.0/(ValueTypeT(1<<j)));
+          TransformationMatrix A(*this);
+          TransformationMatrix D;
+          TransformationMatrix N;
+
+          Int32                j = 1;
+          Int32                k;
+
+          ValueTypeT           c(1.0);
+
+    j += Int32(osglog(A.normInfinity() / 0.693));
+
+    if(j < 0) 
+        j = 0;
+
+    A.scale(1.0 / (ValueTypeT(1 << j)));
+
     result.setIdentity();
-    for (k = 1; k <= q; k++)
+
+    for(k = 1; k <= q; k++)
     {
-        c *= ValueTypeT(q-k+1)/ValueTypeT(k*(2*q-k+1));
+        c *= ValueTypeT(q - k + 1) / ValueTypeT(k * (2 * q - k + 1));
+
         result.multLeft(A);
-        N.addScaled(result,c);
-        if (k%2) D.addScaled(result,-c);
-        else D.addScaled(result,c);
+
+        N.addScaled(result, c);
+
+        if(k % 2) 
+        {
+            D.addScaled(result, -c);
+        }
+        else
+        {
+            D.addScaled(result,  c);
+        }
     }
+
     result.invertFrom(D);
-    result.mult(N);
-    for (k=0;k<j;k++)
+    result.mult      (N);
+
+    for(k = 0; k < j; k++)
         result.mult(result);
+
     // ToDo: return value
     return true;
 }
@@ -2174,35 +2155,56 @@ template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::expOf(
     const TransformationMatrix &matrix)
 {
-    TransformationMatrix<ValueTypeT> A(matrix), D, N;
-    const int q(6);
-    int j(1), k;
-    ValueTypeT c(1.0);
+    const Int32                q = 6;
 
-    j += int(osglog(A.normInfinity()/0.693));
-    if (j < 0) j = 0;
-    A.scale(1.0/(ValueTypeT(1<<j)));
+          TransformationMatrix A(matrix);
+          TransformationMatrix D;
+          TransformationMatrix N;
+
+          Int32                j = 1;
+          Int32                k;
+
+          ValueTypeT           c(1.0);
+
+    j += int(osglog(A.normInfinity() / 0.693));
+
+    if(j < 0) 
+        j = 0;
+
+    A.scale(1.0 / (ValueTypeT(1 << j)));
+
     setIdentity();
-    for (k = 1; k <= q; k++)
+
+    for(k = 1; k <= q; k++)
     {
-        c *= ValueTypeT(q-k+1)/ValueTypeT(k*(2*q-k+1));
+        c *= ValueTypeT(q - k + 1) / ValueTypeT(k * (2 *q - k + 1));
+
         multLeft(A);
+
         N.addScaled(*this,c);
-        if (k%2) D.addScaled(*this,-c);
-        else D.addScaled(*this,c);
+
+        if(k % 2) 
+        {
+            D.addScaled(*this, -c);
+        }
+        else 
+        {
+            D.addScaled(*this,  c);
+        }
     }
+
     invertFrom(D);
-    mult(N);
-    for (k=0;k<j;k++)
+    mult      (N);
+
+    for(k = 0; k < j; k++)
         mult(*this);
+
     // ToDo: return value
     return true;
 }
 
-/*--------------------------- element access --------------------------------*/
-
-/** \brief Returns a reference to the element stored at the given index
- */
+/*-------------------------------------------------------------------------*/
+/*                          Element Access                                 */
 
 template<class ValueTypeT> inline
 TransformationMatrix<ValueTypeT>::VectorType &
@@ -2211,20 +2213,15 @@ TransformationMatrix<ValueTypeT>::VectorType &
     return _matrix[uiIndex];
 }
 
-/** \brief Returns a const reference to the element stored at the given index
- */
-
 template<class ValueTypeT> inline
 const TransformationMatrix<ValueTypeT>::VectorType &
-   TransformationMatrix<ValueTypeT>::operator [](UInt32 uiIndex) const
+    TransformationMatrix<ValueTypeT>::operator [](UInt32 uiIndex) const
 {
     return _matrix[uiIndex];
 }
 
-/*-------------------------- assignment -----------------------------------*/
-
-/** \brief assignment
- */
+/*-------------------------------------------------------------------------*/
+/*                             Assignment                                  */
 
 template<class ValueTypeT> inline
 TransformationMatrix<ValueTypeT> &
@@ -2242,9 +2239,11 @@ TransformationMatrix<ValueTypeT> &
     return *this;
 }
 
-/*-------------------------- comparison -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                             Comparison                                  */
 
-/** \brief equal
+/*! \brief equal, returns true if all matrix elements are equal with
+    the tolerance of Eps
  */
 
 template<class ValueTypeT> inline
@@ -2254,8 +2253,8 @@ Bool TransformationMatrix<ValueTypeT>::operator == (
     return equals(other, Eps);
 }
 
-/** \brief not equal, returns true if all matrix elements are equal with
- *  the tolerance of Eps
+/*! \brief not equal, returns true if all matrix elements are not equal with
+    the tolerance of Eps
  */
 
 template<class ValueTypeT> inline
@@ -2265,9 +2264,8 @@ Bool TransformationMatrix<ValueTypeT>::operator != (
     return ! (*this == other);
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                               Helper                                    */
 
 template<class ValueTypeT> inline
 ValueTypeT TransformationMatrix<ValueTypeT>::rowMulCol4(
@@ -2307,23 +2305,23 @@ ValueTypeT TransformationMatrix<ValueTypeT>::det3(
         (a1 * b3 * c2) - (a2 * b1 * c3) - (a3 * b2 * c1);
 }
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                               Functions                                 */
 
-/** \brief write vector to stream
- */
+//! write matrix to stream
+
 template<class ValueTypeT> inline
-ostream &operator <<(ostream                                  &os,
-                     const   TransformationMatrix<ValueTypeT> &obj)
+ostream &operator <<(      ostream                          &os,
+                     const TransformationMatrix<ValueTypeT> &obj)
 {
     UInt32 i;
     UInt32 j;
 
     ios::fmtflags oldflags = os.flags(ios::showpoint | ios::fixed);
-    int pr = os.precision(3);
-    char fill = os.fill(' ');
-    int width = os.width(8);
+
+    Int32 pr    = os.precision(3  );
+    Char8 fill  = os.fill     (' ');
+    Int32 width = os.width    (8  );
 
     for(j = 0; j < 4; j++)
     {
@@ -2335,12 +2333,14 @@ ostream &operator <<(ostream                                  &os,
         os << "\n";
     }
 
-    os.flags(oldflags);
-    os.precision(pr);
-    os.fill(fill);
-    os.width(width);
+    os.flags    (oldflags);
+    os.precision(pr      );
+    os.fill     (fill    );
+    os.width    (width   );
 
     return os;
 }
 
 OSG_END_NAMESPACE
+
+#define OSGMATRIX_INLINE_CVSID "@(#)$Id: $"

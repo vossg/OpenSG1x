@@ -53,9 +53,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup baselib
- *  \brief Brief
- */
+//! Pathhandler
+//! \ingroup baselib
 
 class OSG_BASE_DLLMAPPING PathHandler
 {
@@ -189,17 +188,9 @@ class OSG_BASE_DLLMAPPING PathHandler
     void operator =(const PathHandler &source);
 };
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-// class pointer
-
-typedef PathHandler *PathHandlerP;
-
 OSG_END_NAMESPACE
 
 #endif /* _OSGPATHHANDLER_H */
 
-#define OSGPATHHANDLER_HEADER_CVSID "@(#)$Id: OSGPathHandler.h,v 1.3 2001/10/09 10:01:15 vossg Exp $"
+#define OSGPATHHANDLER_HEADER_CVSID "@(#)$Id: OSGPathHandler.h,v 1.4 2001/11/07 11:15:46 vossg Exp $"
 

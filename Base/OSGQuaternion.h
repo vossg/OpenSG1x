@@ -50,9 +50,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup BaseMathQuaternions
- *  \brief QuaternionBase, that's the way how to define rotations.
- */
+//! QuaternionBase, that's the way how to define rotations.
+//! \ingroup BaseMathQuaternions
 
 template <class ValueTypeT>
 class OSG_BASE_DLLMAPPING QuaternionBase
@@ -74,13 +73,11 @@ class OSG_BASE_DLLMAPPING QuaternionBase
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const char           *getClassname(void                          )
-                                { return "QuaternionBase"; };
-    static const QuaternionBase &identity    (void                          );
+    static const QuaternionBase &identity(void                          );
 
-    static       QuaternionBase slerp        (const QuaternionBase &rot0,
-                                              const QuaternionBase &rot1,
-                                              const ValueTypeT      t       );
+    static       QuaternionBase slerp    (const QuaternionBase &rot0,
+                                          const QuaternionBase &rot1,
+                                          const ValueTypeT      t       );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -106,90 +103,100 @@ class OSG_BASE_DLLMAPPING QuaternionBase
     /*! \name                   Set                                        */
     /*! \{                                                                 */
 
-    void setIdentity        (       void                                    );
-    void setValueAsAxisRad  (const  ValueTypeT *valsP                       );
-    void setValueAsAxisDeg  (const  ValueTypeT *valsP                       );
-    void setValueAsQuat     (const  ValueTypeT *valsP                       );
-    void setValueAsAxisRad  (const  ValueTypeT  x,
-                             const  ValueTypeT  y,
-                             const  ValueTypeT  z,
-                             const  ValueTypeT  w                           );
-    void setValueAsAxisDeg  (const  ValueTypeT  x,
-                             const  ValueTypeT  y,
-                             const  ValueTypeT  z,
-                             const  ValueTypeT  w                           );
-    void setValueAsQuat     (const  ValueTypeT  x,
-                             const  ValueTypeT  y,
-                             const  ValueTypeT  z,
-                             const  ValueTypeT  w                           );
-    void setValue           (const  MatrixType &matrix);
-    void setValueAsAxisRad  (const  VectorType &axis,    ValueTypeT angle   );
-    void setValueAsAxisDeg  (const  VectorType &axis,    ValueTypeT angle   );
-    void setValue           (const  VectorType &rotateFrom,
-                             const  VectorType &rotateTo                    );
-    void setValueAsQuat     (const  char       *str                         );
-    void setValueAsAxisRad  (const  char       *str                         );
-    void setValueAsAxisDeg  (const  char       *str                         );
-    void setValue           (const  ValueTypeT alpha,
-                             const  ValueTypeT beta,
-                             const  ValueTypeT gamma                        );
+    void setIdentity      (       void                  );
+
+    void setValueAsAxisRad(const  ValueTypeT *valsP     );
+    void setValueAsAxisDeg(const  ValueTypeT *valsP     );
+    void setValueAsQuat   (const  ValueTypeT *valsP     );
+
+    void setValueAsAxisRad(const  ValueTypeT  x,
+                           const  ValueTypeT  y,
+                           const  ValueTypeT  z,
+                           const  ValueTypeT  w         );
+    void setValueAsAxisDeg(const  ValueTypeT  x,
+                           const  ValueTypeT  y,
+                           const  ValueTypeT  z,
+                           const  ValueTypeT  w         );
+    void setValueAsQuat   (const  ValueTypeT  x,
+                           const  ValueTypeT  y,
+                           const  ValueTypeT  z,
+                           const  ValueTypeT  w         );
+
+    void setValue         (const  MatrixType &matrix    );
+
+    void setValueAsAxisRad(const  VectorType &axis,    
+                                  ValueTypeT  angle     );
+    void setValueAsAxisDeg(const  VectorType &axis,
+                                  ValueTypeT  angle     );
+
+    void setValue         (const  VectorType &rotateFrom,
+                           const  VectorType &rotateTo  );
+
+    void setValueAsAxisRad(const  Char8       *str      );
+    void setValueAsAxisDeg(const  Char8       *str      );
+    void setValueAsQuat   (const  Char8       *str      );
+
+    void setValue         (const  ValueTypeT alpha,
+                           const  ValueTypeT beta,
+                           const  ValueTypeT gamma      );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
     /*! \{                                                                 */
 
-    const ValueTypeT *getValues (void) const;
-    void  getValueAsAxisDeg     (ValueTypeT &x,
-                                 ValueTypeT &y,
-                                 ValueTypeT &z,
-                                 ValueTypeT &w)      const;
-    void  getValueAsAxisRad     (ValueTypeT &x,
-                                 ValueTypeT &y,
-                                 ValueTypeT &z,
-                                 ValueTypeT &w)      const;
-    void  getValueAsQuat        (ValueTypeT &x,
-                                 ValueTypeT &y,
-                                 ValueTypeT &z,
-                                 ValueTypeT &w)      const;
+    const ValueTypeT *getValues             (void               ) const;
 
-    void  getValueAsAxisRad (VectorType &axis, ValueTypeT &radians) const;
-    void  getValueAsAxisDeg (VectorType &axis, ValueTypeT &radians) const;
-    void  getValue          (MatrixType &matrix)                    const;
+          void        getValueAsAxisDeg     (ValueTypeT &x,
+                                             ValueTypeT &y,
+                                             ValueTypeT &z,
+                                             ValueTypeT &w      ) const;
+          void        getValueAsAxisRad     (ValueTypeT &x,
+                                             ValueTypeT &y,
+                                             ValueTypeT &z,
+                                             ValueTypeT &w      ) const;
+          void        getValueAsQuat        (ValueTypeT &x,
+                                             ValueTypeT &y,
+                                             ValueTypeT &z,
+                                             ValueTypeT &w      ) const;
+    
+          void       getValueAsAxisRad      (VectorType &axis, 
+                                             ValueTypeT &radians) const;
+          void       getValueAsAxisDeg      (VectorType &axis, 
+                                             ValueTypeT &radians) const;
+          void       getValue               (MatrixType &matrix ) const;
+          void       getValuesOnly          (MatrixType &matrix ) const;
 
-    ValueTypeT x(void) const;
-    ValueTypeT y(void) const;
-    ValueTypeT z(void) const;
-    ValueTypeT w(void) const;
+          ValueTypeT x                      (void               ) const;
+          ValueTypeT y                      (void               ) const;
+          ValueTypeT z                      (void               ) const;
+          ValueTypeT w                      (void               ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Simple Math                               */
     /*! \{                                                                 */
 
-    ValueTypeT            length    (void);
-    void                  normalize (void);
+          ValueTypeT      length    (void                        );
+          void            normalize (void                        );
 
-    void                  invert    (void);
-    const QuaternionBase  inverse   (void)                       const;
+          void            invert    (void                        );
+    const QuaternionBase  inverse   (void                        ) const;
 
-    void                  multVec   (const VectorType &src,
-                                          VectorType &dst)       const;
+          void            multVec   (const VectorType &src,
+                                           VectorType &dst       ) const;
 
-    void                  transform (const VectorType &src,
-                                          VectorType &dst)       const;
+          void            scaleAngle(      ValueTypeT scaleFactor);
 
-    void                  scaleAngle(ValueTypeT scaleFactor);
-
-    void                  slerpThis (const QuaternionBase &rot0,
+          void            slerpThis (const QuaternionBase &rot0,
                                      const QuaternionBase &rot1,
-                                     const ValueTypeT      t);
+                                     const ValueTypeT      t     );
 
-    void                  mult      (const QuaternionBase &other);
-    void                  multLeft  (const QuaternionBase &other);
+          void            mult      (const QuaternionBase &other );
+          void            multLeft  (const QuaternionBase &other );
 
-    Bool                  equals    (const QuaternionBase &rot,
-                                     const ValueTypeT tolerance) const;
+          Bool            equals    (const QuaternionBase &rot,
+                                     const ValueTypeT tolerance  ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -218,15 +225,12 @@ class OSG_BASE_DLLMAPPING QuaternionBase
     /*! \name                   Comparison                                 */
     /*! \{                                                                 */
 
-    Bool operator <  (const QuaternionBase &other) const;
-
     Bool operator == (const QuaternionBase &other) const;
     Bool operator != (const QuaternionBase &other) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
-
 
     static void slerp(const QuaternionBase &rot0,
                       const QuaternionBase &rot1,
@@ -247,17 +251,17 @@ class OSG_BASE_DLLMAPPING QuaternionBase
         Q_W = 3
     };
 
-    static char            cvsid[];
-
     static QuaternionBase _identity;
 
            ValueTypeT     _quat[4];
-
 };
 
-/** \var typedef QuaternionBase<Real32> Quaternion;
- *  \brief Quaternion
- *  \ingroup BaseMathQuaternions
+template <class ValueTypeT> inline
+ostream &operator <<(ostream &os, const QuaternionBase<ValueTypeT> &obj);
+
+/*! \var typedef QuaternionBase<Real32> Quaternion;
+    \brief Quaternion
+    \ingroup BaseMathQuaternions
  */
 
 typedef QuaternionBase<Real32> Quaternion;
@@ -265,5 +269,7 @@ typedef QuaternionBase<Real32> Quaternion;
 OSG_END_NAMESPACE
 
 #include <OSGQuaternion.inl>
+
+#define OSGQUATERNION_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGQUATERNION_H_ */

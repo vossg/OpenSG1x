@@ -851,8 +851,8 @@ void matrixTest(void)
     v1.setValues(0., 0., 1.);
     p1.setValues(0., 1., 0.);
 
-    m1.transform(v1, v2);
-    m1.transform(p1, p2);
+    m1.mult(v1, v2);
+    m1.mult(p1, p2);
 
     cout << "Transform P : " << endl << p2 << endl;
     cout << "Transform V : " << endl << v2 << endl;
@@ -1235,7 +1235,7 @@ void quattest(void)
 
     q1.scaleAngle(2.);
 
-    q1.transform(v1, v2);
+    q1.mult(v1, v2);
 
     cout << v1 << "\n" << v2 << "\n";
 

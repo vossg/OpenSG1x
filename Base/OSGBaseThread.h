@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGBASETHREAD_H_
 #define _OSGBASETHREAD_H_
 #ifdef __sgi
@@ -69,48 +68,29 @@ class BaseThread;
 template <class MPFieldT>
 class MPFieldStore;
 
-/*! \ingroup BaseThreading
- *  \brief ThreadCommonBase
- */
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+//! ThreadCommonBase
+//! \ingroup BaseThreading
 
 class OSG_BASE_DLLMAPPING BaseThreadCommonBase : public MPBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    typedef MPBase Inherited;
-
-    friend class ThreadManager;
-
-    static char cvsid[];
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    BaseThreadCommonBase(const BaseThreadCommonBase &source);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Operators                                  */
-    /*! \{                                                                 */
-
-    void operator =(const BaseThreadCommonBase &source);
-
-    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    UInt32      _uiThreadId;
+    typedef MPBase Inherited;
+
+    UInt32 _uiThreadId;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    BaseThreadCommonBase(void);
     BaseThreadCommonBase(const Char8 *szName, UInt32 uiId);
 
     /*! \}                                                                 */
@@ -121,13 +101,28 @@ class OSG_BASE_DLLMAPPING BaseThreadCommonBase : public MPBase
     virtual ~BaseThreadCommonBase(void);
 
     /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    friend class ThreadManager;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    BaseThreadCommonBase(const BaseThreadCommonBase &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const BaseThreadCommonBase &source);
 };
+
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
 
 #ifdef OSG_USE_PTHREADS
 
-/*! \ingroup BaseThreading
- *  \brief PThreadBase
- */
+//! PThreadBase
+//! \ingroup BaseThreading
 
 class BasePThreadBase : public BaseThreadCommonBase
 {
@@ -136,17 +131,47 @@ class BasePThreadBase : public BaseThreadCommonBase
 
     typedef void *(*ThreadFuncF)(void *pThreadArg);
 
-    /*==========================  PRIVATE  ================================*/
-  private:
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-    typedef BaseThreadCommonBase Inherited;
+    static BaseThread *getCurrent(void);
 
-    friend class ThreadManager;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Join                                    */
+    /*! \{                                                                 */
 
-    static char cvsid[];
+    static void join(BasePThreadBase *threadP);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Run                                     */
+    /*! \{                                                                 */
+
+    Bool run(ThreadFuncF  fThreadFunc,
+             void        *pThreadArg );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Blocking                                   */
+    /*! \{                                                                 */
+
+    void block  (void);
+    void unblock(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Dump                                      */
+    /*! \{                                                                 */
+
+    void print(void);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
+
+    typedef BaseThreadCommonBase Inherited;
 
 #ifdef OSG_ASPECT_USE_PTHREADKEY
     static pthread_key_t        _threadKey;
@@ -183,7 +208,6 @@ class BasePThreadBase : public BaseThreadCommonBase
     /*! \{                                                                 */
 
     BasePThreadBase(const Char8 *szName, UInt32 uiId);
-    BasePThreadBase(const BasePThreadBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -197,36 +221,21 @@ class BasePThreadBase : public BaseThreadCommonBase
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    virtual void  init   (void);
+    virtual void init          (void);
 
-    void  setupThread    (void);
-    void  setupBlockCond (void);
+            void setupThread   (void);
+            void setupBlockCond(void);
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Operators                                  */
-    /*! \{                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
 
+    friend class ThreadManager;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    BasePThreadBase(const BasePThreadBase &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const BasePThreadBase &source);
-
-    /*! \}                                                                 */
-    /*==========================  PUBLIC  =================================*/
-  public :
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
-    /*! \{                                                                 */
-
-    static BaseThread  *getCurrent(void);
-    static void         join      (BasePThreadBase *threadP);
-    Bool run (ThreadFuncF  fThreadFunc,
-              void        *pThreadArg);
-
-    void block  (void);
-    void unblock(void);
-
-    void print  (void);
-    /*! \}                                                                 */
 };
 
 typedef BasePThreadBase BaseThreadBase;
@@ -234,11 +243,16 @@ typedef BasePThreadBase BaseThreadBase;
 #endif /* OSG_USE_PTHREADS */
 
 
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
 #ifdef OSG_USE_SPROC
 
-/*! \ingroup BaseThreading
- *  \brief Brief SprocBase
- */
+//! Brief SprocBase
+//! \ingroup BaseThreading
 
 class BaseSprocBase : public BaseThreadCommonBase
 {
@@ -247,31 +261,57 @@ class BaseSprocBase : public BaseThreadCommonBase
 
     typedef void *(*ThreadFuncF)(void *pThreadArg);
 
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    typedef BaseThreadCommonBase Inherited;
-
-    friend class ThreadManager;
-
-    static char cvsid[];
-
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name                       Get                                    */
     /*! \{                                                                 */
 
-    BaseSprocBase(const BaseSprocBase &source);
+    static BaseThread *getCurrent(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Operators                                  */
+    /*! \name                      Join                                    */
     /*! \{                                                                 */
 
-    void operator =(const BaseSprocBase &source);
+    static void join(BaseSprocBase *pThread);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Run                                     */
+    /*! \{                                                                 */
+
+    Bool run(ThreadFuncF  fThreadFunc,
+             void        *pThreadArg);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Blocking                                   */
+    /*! \{                                                                 */
+
+    void block    (void);
+    void unblock  (void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
+
+    Bool exists   (void);
+
+    void terminate(void);
+    void kill     (void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Dump                                      */
+    /*! \{                                                                 */
+
+    void print(void);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
+
+    typedef BaseThreadCommonBase Inherited;
 
     struct ProcessData
     {
@@ -284,8 +324,8 @@ class BaseSprocBase : public BaseThreadCommonBase
     /*! \name                   Instance Variables                         */
     /*! \{                                                                 */
 
-    void      *_pThreadData[3];
-    pid_t      _pid;
+    void  *_pThreadData[3];
+    pid_t  _pid;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -306,46 +346,38 @@ class BaseSprocBase : public BaseThreadCommonBase
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    virtual void init      (void);
+    virtual void init              (void);
 
-    void setPid            (void);
-    void setCurrentInternal(BaseThread *pThread);
+            void setPid            (void);
+            void setCurrentInternal(BaseThread *pThread);
 
     /*! \}                                                                 */
-    /*==========================  PUBLIC  =================================*/
-  public :
+    /*==========================  PRIVATE  ================================*/
+  private:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
-    /*! \{                                                                 */
+    friend class ThreadManager;
 
-    static BaseThread *getCurrent(void);
-    static void        join      (BaseSprocBase *pThread);
-
-    Bool run      (ThreadFuncF  fThreadFunc,
-                   void        *pThreadArg);
-
-    void block    (void);
-    void unblock  (void);
-
-    Bool exists   (void);
-
-    void    terminate(void);
-    void    kill     (void);
-
-    void    print    (void);
-    /*! \}                                                                 */
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    BaseSprocBase(const BaseSprocBase &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const BaseSprocBase &source);
 };
 
 typedef BaseSprocBase BaseThreadBase;
 
 #endif /* OSG_USE_SPROC */
 
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
 #ifdef OSG_USE_WINTHREADS
 
-/*! \ingroup BaseThreading
- *  \brief Brief WinThreadBase
- */
+//! Brief WinThreadBase
+//! \ingroup BaseThreading
 
 class OSG_BASE_DLLMAPPING BaseWinThreadBase : public BaseThreadCommonBase
 {
@@ -354,17 +386,57 @@ class OSG_BASE_DLLMAPPING BaseWinThreadBase : public BaseThreadCommonBase
 
     typedef void *(*ThreadFuncF)(void *pThreadArg);
 
-    /*==========================  PRIVATE  ================================*/
-   private:
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-    typedef BaseThreadCommonBase Inherited;
+    static BaseThread *getCurrent(void);
 
-    friend class ThreadManager;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Join                                    */
+    /*! \{                                                                 */
 
-    static char cvsid[];
+    static void join(BaseWinThreadBase *pThread);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Run                                     */
+    /*! \{                                                                 */
+
+    Bool run(ThreadFuncF fThreadFunc,
+             void        *pThreadArg);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Blocking                                   */
+    /*! \{                                                                 */
+
+    void block  (void);
+    void unblock(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
+
+    Bool exists   (void);
+
+    void terminate(void);
+    void kill     (void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Dump                                      */
+    /*! \{                                                                 */
+
+    void print(void);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
+
+    typedef BaseThreadCommonBase Inherited;
 
 #if defined(OSG_ASPECT_USE_LOCALSTORAGE)
     static UInt32 _threadKey;
@@ -377,18 +449,18 @@ class OSG_BASE_DLLMAPPING BaseWinThreadBase : public BaseThreadCommonBase
     /*! \name                   Class Specific                             */
     /*! \{                                                                 */
 
-#ifdef OSG_ASPECT_USE_LOCALSTORAGE
-    static void  freeThread    (void);
-#endif
+    static void threadFunc (void *pThreadArg);
 
-    static void threadFunc(void       *pThreadArg);
+#ifdef OSG_ASPECT_USE_LOCALSTORAGE
+    static void  freeThread(void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Instance Variables                         */
     /*! \{                                                                 */
 
-    void *_pThreadData[3];
+    void   *_pThreadData[3];
 
     Handle  _pThreadHandle;
     Handle  _pExternalHandle;
@@ -400,7 +472,6 @@ class OSG_BASE_DLLMAPPING BaseWinThreadBase : public BaseThreadCommonBase
     /*! \{                                                                 */
 
     BaseWinThreadBase(const Char8 *szName, UInt32 uiId);
-    BaseWinThreadBase(const BaseWinThreadBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -414,53 +485,38 @@ class OSG_BASE_DLLMAPPING BaseWinThreadBase : public BaseThreadCommonBase
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    virtual void init     (void);
+    virtual void init             (void);
 
-    void setPid           (void);
-    void setExternalHandle(Handle pExternalHandle);
+            void setPid           (void);
+            void setExternalHandle(Handle pExternalHandle);
 
-    void  setupThread     (void);
+            void setupThread      (void);
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Operators                                  */
-    /*! \{                                                                 */
+    /*==========================  PRIVATE  ================================*/
+   private:
 
+    friend class ThreadManager;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    BaseWinThreadBase(const BaseWinThreadBase &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const BaseWinThreadBase &source);
-    /*! \}                                                                 */
-    /*==========================  PUBLIC  =================================*/
-  public :
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
-    /*! \{                                                                 */
-
-    static BaseThread *getCurrent(void);
-
-    static void        join      (BaseWinThreadBase *pThread);
-
-    Bool run      (ThreadFuncF fThreadFunc,
-                   void        *pThreadArg);
-
-    void block    (void);
-    void unblock  (void);
-
-    Bool exists   (void);
-
-    void terminate(void);
-    void kill     (void);
-
-    void print    (void);
-    /*! \}                                                                 */
 };
 
 typedef BaseWinThreadBase BaseThreadBase;
 
 #endif /* OSG_USE_WINTHREADS */
 
-/*! \ingroup BaseThreading
- *  \brief Thread
- */
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+//! Thread
+//! \ingroup BaseThreading
 
 class OSG_BASE_DLLMAPPING BaseThread : public BaseThreadBase
 {
@@ -469,28 +525,12 @@ class OSG_BASE_DLLMAPPING BaseThread : public BaseThreadBase
 
     typedef MPThreadType Type;
 
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    typedef BaseThreadBase Inherited;
-
-    friend class ThreadManager;
-    friend class MPFieldStore<BaseThread>;
-
-    static char cvsid[];
-
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name                      Get                                     */
     /*! \{                                                                 */
-
-    BaseThread(const BaseThread &source);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Operators                                  */
-    /*! \{                                                                 */
-
-    void operator =(const BaseThread &source);
+    
+    static BaseThread *get (const Char8 *szName);
+    static BaseThread *find(const Char8 *szName);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -521,21 +561,22 @@ class OSG_BASE_DLLMAPPING BaseThread : public BaseThreadBase
     virtual ~BaseThread(void);
 
     /*! \}                                                                 */
-    /*==========================  PUBLIC  =================================*/
-  public:
+    /*==========================  PRIVATE  ================================*/
+  private:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Get                                     */
-    /*! \{                                                                 */
-    
-    static BaseThread *get (const Char8 *szName);
-    static BaseThread *find(const Char8 *szName);
+    typedef BaseThreadBase Inherited;
 
-    /*! \}                                                                 */
+    friend class ThreadManager;
+    friend class MPFieldStore<BaseThread>;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    BaseThread(const BaseThread &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const BaseThread &source);
 };
-
-typedef BaseThread *BaseThreadP;
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGTHREAD_H_ */
+#define OSGBASETHREAD_HEADER_CVSID "@(#)$Id: $"
+
+#endif /* _OSGBASETHREAD_H_ */

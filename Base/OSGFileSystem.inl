@@ -298,5 +298,11 @@ vector<Char8 *> *Directory::getEntries(const Char8 *szDirname)
 
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
+#define OSGFILESYSTEM_INLINE_CVSID "@(#)$Id: $"
+
 OSG_END_NAMESPACE
+
+
+
+
 

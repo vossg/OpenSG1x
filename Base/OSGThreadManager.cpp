@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
@@ -52,19 +48,23 @@
 
 OSG_USING_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGTHREADMANAGER_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGTHREADMANAGER_INLINE_CVSID;
+}
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
-char ThreadManager::cvsid[] = "@(#)$Id: $";
+/*! \class osg::ThreadManager
+ */
 
 ThreadManager *ThreadManager::_pThreadManager      = NULL;
 BaseThread    *ThreadManager::_pAppThread          = NULL;
@@ -78,32 +78,9 @@ Char8         *ThreadManager::_szAppThreadType     = NULL;
 Bool           ThreadManager::_bNumAspectSet       = false;
 #endif
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-Bool ThreadManager::initialize(Int32  &OSG_CHECK_ARG(argc), 
-                               Char8 **OSG_CHECK_ARG(argv))
-{
-    return the()->init();
-}
-
-Bool ThreadManager::terminate (void)
-{
-    return the()->shutdown();
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                           Get / Set                                     */
 
 void ThreadManager::setAppThreadType(const Char8 *szAppThreadType)
 {
@@ -155,221 +132,8 @@ UInt32 ThreadManager::getNumAspects(void)
     return _uiNumAspects;
 }
 
-#if defined(OSG_USE_SPROC)
-usptr_t *ThreadManager::getArena(void)
-{
-    return _pArena;
-}
-#endif
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-void ThreadManager::removeThread(BaseThread *pThread)
-{
-    if(_bShutdownInProgress == true)
-        return;
-
-    _storePLock->aquire();
-
-    _sThreadStore.removeMPField(pThread);
-    
-    _storePLock->release();
-}
-
-void ThreadManager::removeBarrier(Barrier *pBarrier)
-{
-    if(_bShutdownInProgress == true)
-        return;
-
-    _storePLock->aquire();
-
-    _sBarrierStore.removeMPField(pBarrier);
-    
-    _storePLock->release();
-}
-
-void ThreadManager::removeLock(Lock *pLock)
-{
-    if(_bShutdownInProgress == true)
-        return;
-
-    _storePLock->aquire();
-
-    _sLockStore.removeMPField(pLock);
-    
-    _storePLock->release();
-}
-
-void ThreadManager::removeLockPool(LockPool *pLockPool)
-{
-    if(_bShutdownInProgress == true)
-        return;
-
-    _storePLock->aquire();
-
-    _sLockPoolStore.removeMPField(pLockPool);
-    
-    _storePLock->release();
-}
-
-UInt32 ThreadManager::registerThreadType  (MPThreadType   *pType)
-{
-    return _sThreadStore.registerMPType(pType);
-}
-
-UInt32 ThreadManager::registerBarrierType (MPBarrierType  *pType)
-{
-    return _sBarrierStore.registerMPType(pType);
-}
-
-UInt32 ThreadManager::registerLockType    (MPLockType     *pType)
-{
-    return _sLockStore.registerMPType(pType);
-}
-
-UInt32 ThreadManager::registerLockPoolType(MPLockPoolType *pType)
-{
-    return _sLockPoolStore.registerMPType(pType);
-}
-
-#ifdef __sgi
-#pragma set woff 1209
-#endif
-
-Bool ThreadManager::init(void)
-{
-    Bool returnValue = true;
-
-    FDEBUG(("OSGThreadManager init\n"))
-
-#if defined(OSG_USE_SPROC)
-    usconfig(CONF_AUTOGROW,   1);
-    usconfig(CONF_INITUSERS, 20);
-    usconfig(CONF_INITSIZE, 10 * 1048576);
-    usconfig(CONF_CHMOD, 0666);
-
-    _pArena = usinit("/dev/zero");
-
-    if(_pArena == NULL)
-    {
-        SFATAL << "OSGTM : could not initialize arena " << errno << endl;
-        returnValue = false;
-    }
-    else
-    {
-        SINFO << "OSGTM : got arena " << _pArena << endl;
-    }
-#endif
-
-    _storePLock = _sLockStore.getMPField("OSGTMStoreLock", "OSGLock");
-    
-    if(_storePLock == NULL)
-    {
-        SFATAL << "OSGTM : could not get table lock" << endl;
-
-        returnValue = false;
-    }
-    else
-    {
-        SINFO << "OSGTM : got table lock " << _storePLock << endl;
-    }
-
-    if(_szAppThreadType == NULL)
-    {
-        FINFO(("OSGTM : create -OSGBaseThread- app thread\n"))
-
-        _pAppThread = getThread("OSGAppThread", "OSGBaseThread");
-    }
-    else
-    {
-        FINFO(("OSGTM : create -%s- app thread\n", _szAppThreadType))
-        _pAppThread = getThread("OSGAppThread", _szAppThreadType);
-    }
-
-    FFASSERT((_pAppThread != NULL), 1, 
-             ("OSGTM : could not get application thread \n");)
-             
-
-    FINFO(("OSGTM : got application thread %p\n", _pAppThread))
-
-    _pAppThread->init();
-
-    return returnValue;
-}
-
-#ifdef __sgi
-#pragma reset woff 1209
-#endif
-
-Bool ThreadManager::shutdown(void)
-{
-    _bShutdownInProgress = true;
-
-    _sThreadStore.clear();
-    _sBarrierStore.clear();
-    _sLockStore.clear();
-    _sLockPoolStore.clear();
-
-#ifdef CHECK
-#if defined (OSG_ASPECT_USE_LOCALSTORAGE)
-    Thread::freeAspect();
-    Thread::freeThread();
-    Thread::freeChangeList();
-#endif
-#endif
-
-#if defined(OSG_USE_SPROC)
-    if(_pArena != NULL)
-        usdetach(_pArena);
-#endif
-
-    return true;
-}
-
-ThreadManager::ThreadManager(void) :
-    _sThreadStore  (),
-    _sBarrierStore (),
-    _sLockStore    (),
-    _sLockPoolStore(),
-
-    _storePLock    (NULL)
-{
-#if defined(_OSG_USE_SPROC_)
-    _pArena = NULL;
-#endif
-
-    addMPInitFunction(initialize);
-    addMPExitFunction(terminate);
-}
-
-ThreadManager::~ThreadManager(void)
-{
-}
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
-
-/** \brief Destructor
- */
-
-/*------------------------------ access -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                     Create Threading Elements                           */
 
 BaseThread *ThreadManager::getThread(const Char8 *szName,
                                      const Char8 *szTypeName)
@@ -479,41 +243,216 @@ LockPool *ThreadManager::findLockPool(const Char8 *szName)
     return returnValue;
 }
 
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
 
-/*---------------------------- properties ---------------------------------*/
+#if defined(OSG_USE_SPROC)
+usptr_t *ThreadManager::getArena(void)
+{
+    return _pArena;
+}
+#endif
 
-/*-------------------------- your_category---------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                               Helper                                    */
 
-/*-------------------------- assignment -----------------------------------*/
+Bool ThreadManager::initialize(Int32  &OSG_CHECK_ARG(argc), 
+                               Char8 **OSG_CHECK_ARG(argv))
+{
+    return the()->init();
+}
 
-/*-------------------------- comparison -----------------------------------*/
+Bool ThreadManager::terminate (void)
+{
+    return the()->shutdown();
+}
+
+void ThreadManager::removeThread(BaseThread *pThread)
+{
+    if(_bShutdownInProgress == true)
+        return;
+
+    _storePLock->aquire();
+
+    _sThreadStore.removeMPField(pThread);
+    
+    _storePLock->release();
+}
+
+void ThreadManager::removeBarrier(Barrier *pBarrier)
+{
+    if(_bShutdownInProgress == true)
+        return;
+
+    _storePLock->aquire();
+
+    _sBarrierStore.removeMPField(pBarrier);
+    
+    _storePLock->release();
+}
+
+void ThreadManager::removeLock(Lock *pLock)
+{
+    if(_bShutdownInProgress == true)
+        return;
+
+    _storePLock->aquire();
+
+    _sLockStore.removeMPField(pLock);
+    
+    _storePLock->release();
+}
+
+void ThreadManager::removeLockPool(LockPool *pLockPool)
+{
+    if(_bShutdownInProgress == true)
+        return;
+
+    _storePLock->aquire();
+
+    _sLockPoolStore.removeMPField(pLockPool);
+    
+    _storePLock->release();
+}
+
+UInt32 ThreadManager::registerThreadType  (MPThreadType   *pType)
+{
+    return _sThreadStore.registerMPType(pType);
+}
+
+UInt32 ThreadManager::registerBarrierType (MPBarrierType  *pType)
+{
+    return _sBarrierStore.registerMPType(pType);
+}
+
+UInt32 ThreadManager::registerLockType    (MPLockType     *pType)
+{
+    return _sLockStore.registerMPType(pType);
+}
+
+UInt32 ThreadManager::registerLockPoolType(MPLockPoolType *pType)
+{
+    return _sLockPoolStore.registerMPType(pType);
+}
 
 
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
+#ifdef __sgi
+#pragma set woff 1209
+#endif
+
+Bool ThreadManager::init(void)
+{
+    Bool returnValue = true;
+
+    FDEBUG(("OSGThreadManager init\n"))
+
+#if defined(OSG_USE_SPROC)
+    usconfig(CONF_AUTOGROW,   1);
+    usconfig(CONF_INITUSERS, 20);
+    usconfig(CONF_INITSIZE, 10 * 1048576);
+    usconfig(CONF_CHMOD, 0666);
+
+    _pArena = usinit("/dev/zero");
+
+    if(_pArena == NULL)
+    {
+        SFATAL << "OSGTM : could not initialize arena " << errno << endl;
+        returnValue = false;
+    }
+    else
+    {
+        SINFO << "OSGTM : got arena " << _pArena << endl;
+    }
+#endif
+
+    _storePLock = _sLockStore.getMPField("OSGTMStoreLock", "OSGLock");
+    
+    if(_storePLock == NULL)
+    {
+        SFATAL << "OSGTM : could not get table lock" << endl;
+
+        returnValue = false;
+    }
+    else
+    {
+        SINFO << "OSGTM : got table lock " << _storePLock << endl;
+    }
+
+    if(_szAppThreadType == NULL)
+    {
+        FINFO(("OSGTM : create -OSGBaseThread- app thread\n"))
+
+        _pAppThread = getThread("OSGAppThread", "OSGBaseThread");
+    }
+    else
+    {
+        FINFO(("OSGTM : create -%s- app thread\n", _szAppThreadType))
+        _pAppThread = getThread("OSGAppThread", _szAppThreadType);
+    }
+
+    FFASSERT((_pAppThread != NULL), 1, 
+             ("OSGTM : could not get application thread \n");)
+             
+
+    FINFO(("OSGTM : got application thread %p\n", _pAppThread))
+
+    _pAppThread->init();
+
+    return returnValue;
+}
+
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
+
+Bool ThreadManager::shutdown(void)
+{
+    _bShutdownInProgress = true;
+
+    _sThreadStore.clear();
+    _sBarrierStore.clear();
+    _sLockStore.clear();
+    _sLockPoolStore.clear();
+
+#ifdef CHECK
+#if defined (OSG_ASPECT_USE_LOCALSTORAGE)
+    Thread::freeAspect();
+    Thread::freeThread();
+    Thread::freeChangeList();
+#endif
+#endif
+
+#if defined(OSG_USE_SPROC)
+    if(_pArena != NULL)
+        usdetach(_pArena);
+#endif
+
+    return true;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
+
+ThreadManager::ThreadManager(void) :
+    _sThreadStore  (),
+    _sBarrierStore (),
+    _sLockStore    (),
+    _sLockPoolStore(),
+
+    _storePLock    (NULL)
+{
+#if defined(_OSG_USE_SPROC_)
+    _pArena = NULL;
+#endif
+
+    addMPInitFunction(initialize);
+    addMPExitFunction(terminate);
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+ThreadManager::~ThreadManager(void)
+{
+}
 

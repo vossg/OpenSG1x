@@ -46,31 +46,11 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup TypeLib
- *  \brief DataType
- */
+//! DataType
+//! \ingroup TypeLib
 
 class OSG_BASE_DLLMAPPING DataType : public TypeBase
 {
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    typedef TypeBase Inherited;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    DataType(const DataType &source);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Operators                                 */
-    /*! \{                                                                 */
-
-    void operator =(const DataType &source);
-
-    /*! \}                                                                 */
     /*==========================  PUBLIC  =================================*/
   public :
 
@@ -98,6 +78,18 @@ class OSG_BASE_DLLMAPPING DataType : public TypeBase
     Bool operator !=(const DataType &other) const;
 
     /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    typedef TypeBase Inherited;
+
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    DataType(const DataType &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const DataType &source);
 };
 
 typedef DataType *DataTypeP;

@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGTYPEFACTORY_H_
 #define _OSGTYPEFACTORY_H_
 #ifdef __sgi
@@ -53,41 +52,46 @@ OSG_BEGIN_NAMESPACE
 
 class TypeBase;
 
-/*! \ingroup TypeLib
- *  \brief TypeFactory
- */
+//! TypeFactory
+//! \ingroup TypeLib
 
 class OSG_BASE_DLLMAPPING TypeFactory
 {
     /*==========================  PUBLIC  =================================*/
-  public:
-
-    /*==========================  PRIVATE  ================================*/
-  private:
+  public :
 
     /*---------------------------------------------------------------------*/
-    /*! \name                      Types                                   */
+    /*! \name                      Get                                     */
     /*! \{                                                                 */
+
+    static TypeFactory *the(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Type Info                                   */
+    /*! \{                                                                 */
+
+    UInt32 registerType  (      TypeBase *pType);
+    UInt32 findTypeStatic(const Char8    *szName);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
     typedef map<IDStringLink, UInt32>   TypeNameMap;
 
     typedef TypeNameMap::iterator       TypeNameMapIt;
     typedef TypeNameMap::const_iterator TypeNameMapCnstIt;
 
-    /*! \}                                                                 */
-
-    static char          cvsid[];
-
     static TypeFactory *_the;
 
-    // prohibit default functions (move to 'public' if you need one)
+    TypeNameMap _mTypeNameMap;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
     TypeFactory(void);
-    TypeFactory(const TypeFactory &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -97,42 +101,21 @@ class OSG_BASE_DLLMAPPING TypeFactory
     virtual ~TypeFactory(void);
 
     /*! \}                                                                 */
-
-    void operator =(const TypeFactory &source);
-
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                  Friend Classes                              */
-    /*! \{                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
 
     friend class TypeBase;
     friend class FieldFactory;
     friend class FieldContainerFactory;
 
-    /*! \}                                                                 */
-
-    TypeNameMap _mTypeNameMap;
-
-    /*==========================  PUBLIC  =================================*/
-  public :
-
-
-    static TypeFactory *the(void);
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                  Your Category                               */
-    /*! \{                                                                 */
-
-    UInt32 registerType  (      TypeBase *pType);
-    UInt32 findTypeStatic(const Char8    *szName);
-
-    /*! \}                                                                 */
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    TypeFactory(const TypeFactory &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const TypeFactory &source);
 };
 
-typedef TypeFactory *TypeFactoryP;
-
 OSG_END_NAMESPACE
+
+#define OSGTYPEFACTORY_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGTYPEFACTORY_H_ */

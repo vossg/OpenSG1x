@@ -102,13 +102,11 @@ namespace Directory
     static vector<Char8 *> *getEntries(const Char8 *szDirname);
 }
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
 OSG_END_NAMESPACE
 
 #include <OSGFileSystem.inl>
+
+#define OSGFILESYSTEM_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGFILESYSTEM_H_ */
 

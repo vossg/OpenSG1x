@@ -325,7 +325,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             
         getActNode()->getVolume().getCenter(objPos);
         
-        _currMatrix.second.transform(objPos);
+        _currMatrix.second.mult(objPos);
             
         pNewElem->setGeometry   (pGeo);
         pNewElem->setMatrixStore(_currMatrix);

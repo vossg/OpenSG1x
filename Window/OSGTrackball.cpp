@@ -204,7 +204,7 @@ void Trackball::updatePosition(Real32 rLastX,    Real32 rLastY,
 
             m1.setRotate(getRotation());
 
-            m1.transform(tmpVec);
+            m1.mult(tmpVec);
 
             _pVal[0] += tmpVec[0];
             _pVal[1] += tmpVec[1];
@@ -232,7 +232,7 @@ void Trackball::updatePositionNeg(Real32 /*rLastX*/,    Real32 rLastY,
             
             m1.setRotate(getRotation());
 
-            m1.transform(tmpVec);
+            m1.mult(tmpVec);
 
             _pVal[0] += tmpVec[0];
             _pVal[1] += tmpVec[1];

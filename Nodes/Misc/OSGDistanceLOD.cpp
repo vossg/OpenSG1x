@@ -60,7 +60,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.16 2001/11/05 11:15:31 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.17 2001/11/07 11:15:47 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGDISTANCELOD_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGDISTANCELOD_INLINE_CVSID;
 }
@@ -153,10 +153,10 @@ Action::ResultE DistanceLOD::draw(Action *action)
     Pnt3f            eyepos(0.f, 0.f, 0.f);
     Pnt3f            objpos;
 
-    da->getCamera()->getBeacon()->getToWorld().transform(eyepos);
+    da->getCamera()->getBeacon()->getToWorld().mult(eyepos);
 
-    da->getActNode()            ->getToWorld().transform(getCenter(), 
-                                                         objpos);
+    da->getActNode()            ->getToWorld().mult(getCenter(), 
+                                                    objpos);
         
     Real32 dist = osgsqrt((eyepos[0] - objpos[0])*(eyepos[0] - objpos[0]) +
                           (eyepos[1] - objpos[1])*(eyepos[1] - objpos[1]) +

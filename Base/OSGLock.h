@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGLOCK_H_
 #define _OSGLOCK_H_
 #ifdef __sgi
@@ -71,44 +70,31 @@ static const UInt32 uiLockPoolMask = 0x0f80;
 template <class MPFieldT>
 class MPFieldStore;
 
-/*! \ingroup BaseThreading
- *  \brief LockCommonBase
- */
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+//! LockCommonBase
+//! \ingroup BaseThreading
 
 class OSG_BASE_DLLMAPPING LockCommonBase : public MPBase
 {
-    /*==========================  PRIVATE  ================================*/
-  private:
+    /*==========================  PUBLIC  =================================*/
+  public:
 
-    typedef MPBase Inherited;
-  
-    static char cvsid[];
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    LockCommonBase  (const LockCommonBase &source);
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Assignment                                 */
-    /*! \{                                                                 */
-
-    void operator =     (const LockCommonBase &source);
-
-    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    UInt32  _uiLockId;
+    typedef MPBase Inherited;
+
+    UInt32 _uiLockId;
   
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    LockCommonBase(          void                               );
-    LockCommonBase(const Char8 *szName, UInt32 uiId     );
+    LockCommonBase(void);
+    LockCommonBase(const Char8 *szName, UInt32 uiId);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -118,52 +104,52 @@ class OSG_BASE_DLLMAPPING LockCommonBase : public MPBase
     virtual ~LockCommonBase(void); 
     
     /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
 
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    LockCommonBase  (const LockCommonBase &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator = (const LockCommonBase &source);
 };
+
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
 
 #if defined (OSG_USE_PTHREADS)
 
-/*! \ingroup BaseThreading
- *  \brief PThreadLockBase
- */
+//! PThreadLockBase
+//! \ingroup BaseThreading
 
 class PThreadLockBase : public LockCommonBase
 {
-
-    /*==========================  PRIVATE  ================================*/
-  private:
-    
-    typedef LockCommonBase Inherited;
-
-    friend class LockPool;
-
-    static char cvsid[];
-
-    pthread_mutex_t _pLowLevelLock;
+    /*==========================  PUBLIC  =================================*/
+  public :
 
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructor                                */
+    /*! \name                   Lock                                       */
     /*! \{                                                                 */
 
-    PThreadLockBase(const PThreadLockBase &source);
+    void aquire (void);
+    void release(void);
+    Bool request(void);
     
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Assignment                                 */
-    /*! \{                                                                 */
-
-    void operator =(const PThreadLockBase &source);
-
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
+
+    typedef LockCommonBase Inherited;
     
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    PThreadLockBase(        void                        );
-    PThreadLockBase(const   Char8 *szName, UInt32 uiId  );
+    PThreadLockBase(void);
+    PThreadLockBase(const Char8 *szName, UInt32 uiId  );
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -174,73 +160,72 @@ class PThreadLockBase : public LockCommonBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
+    /*! \name                  Construction                                */
     /*! \{                                                                 */
 
-    Bool    init    (void);
-    void    shutdown(void);
+    Bool init(void);
 
     /*! \}                                                                 */
-    /*==========================  PUBLIC  =================================*/
-  public :
-
     /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
+    /*! \name                  Destruction                                 */
     /*! \{                                                                 */
 
-    void    aquire (void);
-    void    release(void);
-    Bool    request(void);
-    
-    /*! \}                                                                 */
+    void shutdown(void);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+    
+    friend class LockPool;
+
+    pthread_mutex_t _pLowLevelLock;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    PThreadLockBase(const PThreadLockBase &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const PThreadLockBase &source);
 };
 
 typedef PThreadLockBase LockBase;
 
 #endif /* OSG_USE_PTHREADS */
 
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
 #if defined (OSG_USE_SPROC)
 
-/*! \ingroup BaseThreading
- *  \brief SprocLockBase
- */
+//! SprocLockBase
+//! \ingroup BaseThreading
 
 class SprocLockBase : public LockCommonBase
 {
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    typedef LockCommonBase Inherited;
-
-    friend class LockPool;
-
-    static char cvsid[];
-
-    ulock_t    _pLowLevelLock;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructor                                */
-    /*! \{                                                                 */
+    /*==========================  PUBLIC  =================================*/
+  public :
     
-    SprocLockBase(const SprocLockBase &source);
-    
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Assignment                                 */
+    /*! \name                    Lock                                      */
     /*! \{                                                                 */
 
-    void operator =(const SprocLockBase &source);
+    void aquire (void);
+    void release(void);
+    Bool request(void);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    typedef LockCommonBase Inherited;
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    SprocLockBase(      void                        );
+    SprocLockBase(void);
     SprocLockBase(const Char8 *szName, UInt32 uiId  );
     
     /*! \}                                                                 */
@@ -252,25 +237,30 @@ class SprocLockBase : public LockCommonBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
+    /*! \name                   Construction                               */
     /*! \{                                                                 */
 
     Bool    init    (void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destruction                                */
+    /*! \{                                                                 */
+
     void    shutdown(void);
     
     /*! \}                                                                 */
-    /*==========================  PUBLIC  =================================*/
-  public :
-    
-      /*-------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
-    /*! \{                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
 
-    void    aquire (void);
-    void    release(void);
-    Bool    request(void);
+    friend class LockPool;
 
-    /*! \}                                                                     */   
+    ulock_t _pLowLevelLock;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    SprocLockBase(const SprocLockBase &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const SprocLockBase &source);
 };
 
 typedef SprocLockBase LockBase;
@@ -278,56 +268,45 @@ typedef SprocLockBase LockBase;
 #endif /* OSG_USE_SPROC */
 
 
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
 #if defined (OSG_USE_WINTHREADS)
 
 #if _WIN32_WINNT < 0x0400
 #define OSG_WINLOCK_USE_MUTEX
 #endif
 
-/*! \ingroup BaseThreading
- *  \brief WinThreadLockBase
- */
+//! WinThreadLockBase
+//! \ingroup BaseThreading
 
 class OSG_BASE_DLLMAPPING WinThreadLockBase : public LockCommonBase
 {
+    /*==========================  PUBLIC  =================================*/
+  public :
 
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    typedef LockCommonBase Inherited;
-
-    friend class LockPool;
-
-    static char cvsid[];
-
-#ifdef OSG_WINLOCK_USE_MUTEX
-    Handle  _pMutex;
-#else
-    CRITICAL_SECTION _pCriticalSection;
-#endif
-  
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructor                                */
+    /*! \name                       Lock                                   */
     /*! \{                                                                 */
 
-    WinThreadLockBase(const WinThreadLockBase &source);
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Assignment                                 */
-    /*! \{                                                                 */
-
-    void operator =(const WinThreadLockBase &source);
+    void    aquire (void);
+    void    release(void);
+    Bool    request(void);
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
+
+    typedef LockCommonBase Inherited;
     
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    WinThreadLockBase(      void                        );
+    WinThreadLockBase(void);
     WinThreadLockBase(const Char8 *szName, UInt32 uiId  );
     
     /*! \}                                                                 */
@@ -339,26 +318,34 @@ class OSG_BASE_DLLMAPPING WinThreadLockBase : public LockCommonBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
+    /*! \name                   Construction                               */
     /*! \{                                                                 */
     
     Bool    init    (void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destruction                                */
+    /*! \{                                                                 */
+
     void    shutdown(void);
 
     /*! \}                                                                 */
-    /*==========================  PUBLIC  =================================*/
-  public :
+    /*==========================  PRIVATE  ================================*/
+  private:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
-    /*! \{                                                                 */
+    friend class LockPool;
 
-    void    aquire (void);
-    void    release(void);
-    Bool    request(void);
-    
-    /*! \}                                                                 */
-
+#ifdef OSG_WINLOCK_USE_MUTEX
+    Handle  _pMutex;
+#else
+    CRITICAL_SECTION _pCriticalSection;
+#endif
+  
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    WinThreadLockBase(const WinThreadLockBase &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const WinThreadLockBase &source);
 };
 
 typedef WinThreadLockBase LockBase;
@@ -366,9 +353,14 @@ typedef WinThreadLockBase LockBase;
 #endif /* OSG_USE_WINTHREADS */
 
 
-/*! \ingroup BaseThreading
- *  \brief Lock
- */
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+//! Lock
+//! \ingroup BaseThreading
 
 class OSG_BASE_DLLMAPPING Lock : public LockBase
 {
@@ -377,32 +369,18 @@ class OSG_BASE_DLLMAPPING Lock : public LockBase
 
     typedef MPLockType Type;
 
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    typedef LockBase Inherited;
-
-    friend class LockPool;
-    friend class MPFieldStore<Lock>;
-
-    static char cvsid[];
-
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructor                                */
+    /*! \name                      Get                                     */
     /*! \{                                                                 */
-
-    Lock(const Lock &source);
     
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Assignment                                 */
-    /*! \{                                                                 */
+    static Lock *get (const Char8 *szName);
+    static Lock *find(const Char8 *szName);
 
-    void operator =(const Lock &source);
-    
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
+
+    typedef LockBase Inherited;
 
     static MPLockType _type;
   
@@ -417,8 +395,8 @@ class OSG_BASE_DLLMAPPING Lock : public LockBase
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    Lock(      void                             );
-    Lock(const Char8 *szName, UInt32 uiId   );
+    Lock(void);
+    Lock(const Char8 *szName, UInt32 uiId);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -428,22 +406,27 @@ class OSG_BASE_DLLMAPPING Lock : public LockBase
     virtual ~Lock(void);
 
     /*! \}                                                                 */
-    /*==========================  PUBLIC  =================================*/
-  public:
+    /*==========================  PRIVATE  ================================*/
+  private:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Get                                     */
-    /*! \{                                                                 */
-    
-    static Lock *get (const Char8 *szName);
-    static Lock *find(const Char8 *szName);
+    friend class LockPool;
+    friend class MPFieldStore<Lock>;
 
-    /*! \}                                                                 */
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    Lock(const Lock &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const Lock &source);
 };
 
-/*! \ingroup BaseThreading
- *  \brief LockPool
- */
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+//! LockPool
+//! \ingroup BaseThreading
 
 class OSG_BASE_DLLMAPPING LockPool : public LockCommonBase
 {
@@ -452,50 +435,41 @@ class OSG_BASE_DLLMAPPING LockPool : public LockCommonBase
 
     typedef MPLockPoolType Type;
 
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    typedef LockCommonBase Inherited;
-
-    friend class MPFieldStore<LockPool>;
-
-    static char cvsid[];
-
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructor                                */
+    /*! \name                      Get                                     */
     /*! \{                                                                 */
-
-    LockPool(const LockPool &source);
     
+    static LockPool *get (const Char8 *szName);
+    static LockPool *find(const Char8 *szName);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Assignment                                 */
+    /*! \name                   Lock                                       */
     /*! \{                                                                 */
 
-    void operator =(const LockPool &source);
-
+    void aquire (void *keyP);
+    void release(void *keyP);
+    Bool request(void *keyP);
+    
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    typedef LockCommonBase Inherited;
+
     static MPLockPoolType _type;
-    
+
+    Lock   _pLocks    [uiLockPoolSize];
+
+#ifdef OSG_DEBUG_LOCK_STAT
+    UInt32 _pLockStats[uiLockPoolSize];
+#endif
+
     /*---------------------------------------------------------------------*/
-    /*! \name                   Construction                               */
+    /*! \name                      Create                                  */
     /*! \{                                                                 */
 
     static LockPool *create(const Char8 *szName, UInt32 uiId);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
-    /*! \{                                                                 */
-
-    Lock    _pLocks    [uiLockPoolSize];
-
-#ifdef OSG_DEBUG_LOCK_STAT
-    UInt32  _pLockStats[uiLockPoolSize];
-#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -513,45 +487,32 @@ class OSG_BASE_DLLMAPPING LockPool : public LockCommonBase
      
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
+    /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    Bool    init    (void);
-    void    shutdown(void);
+    Bool init(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destruction                                */
+    /*! \{                                                                 */
+
+    void shutdown(void);
         
     /*! \}                                                                 */
-    /*==========================  PUBLIC  =================================*/
-  public:
+    /*==========================  PRIVATE  ================================*/
+  private:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Get                                     */
-    /*! \{                                                                 */
-    
-    static LockPool *get (const Char8 *szName);
-    static LockPool *find(const Char8 *szName);
+    friend class MPFieldStore<LockPool>;
 
-    /*! \}                                                                 */
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
-    /*! \{                                                                 */
-
-    void    aquire (void *keyP);
-    void    release(void *keyP);
-    Bool    request(void *keyP);
-    
-    /*! \}                                                                 */
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    LockPool(const LockPool &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const LockPool &source);
 };
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-// class pointer
-
-typedef Lock     *LockP;
-typedef LockPool *LockPoolP;
-
 OSG_END_NAMESPACE
+
+#define OSGLOCK_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGLOCK_H_ */

@@ -48,34 +48,11 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup TypeLib
- *  \brief TypeBase
- */
+//! TypeBase
+//! \ingroup TypeLib
 
 class OSG_BASE_DLLMAPPING TypeBase
 {
-    /*==========================  PUBLIC  =================================*/
-  public:
-
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    TypeBase       (const TypeBase &source);
-    void operator =(const TypeBase &source);
-
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-    UInt32    _uiTypeId;
-    UInt32    _uiTypeRootId;
-
-    TypeBase *_pParent;
-
-    IDString  _szName;
-    IDString  _szParentName;
-
     /*==========================  PUBLIC  =================================*/
   public :
 
@@ -123,9 +100,25 @@ class OSG_BASE_DLLMAPPING TypeBase
     Bool operator !=(const TypeBase &other) const;
 
     /*! \}                                                                 */
-};
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
-typedef TypeBase *TypeBaseP;
+    UInt32    _uiTypeId;
+    UInt32    _uiTypeRootId;
+
+    TypeBase *_pParent;
+
+    IDString  _szName;
+    IDString  _szParentName;
+
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    TypeBase       (const TypeBase &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const TypeBase &source);
+};
 
 OSG_END_NAMESPACE
 

@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -60,88 +56,49 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGLOCK_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char LockCommonBase::cvsid[] = "@(#)$Id: $";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Constructor
+/*! \class osg::LockCommonBase
  */
 
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
+
 LockCommonBase::LockCommonBase(void) :
-    Inherited(NULL),
-    _uiLockId(0)
+     Inherited(NULL),
+    _uiLockId (0)
 {
 }
 
 LockCommonBase::LockCommonBase(const Char8  *szName,
-                                           UInt32  uiId):
-    Inherited(szName),
-    _uiLockId(uiId)
+                                     UInt32  uiId  ):
+     Inherited(szName),
+    _uiLockId (uiId  )
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 LockCommonBase::~LockCommonBase(void)
 {
 }
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
 
 
 
@@ -151,93 +108,15 @@ LockCommonBase::~LockCommonBase(void)
 //  Class
 //---------------------------------------------------------------------------
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char PThreadLockBase::cvsid[] = "@(#)$Id: $";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Constructor
+/*! \class osg::PThreadLockBase
  */
 
-PThreadLockBase::PThreadLockBase(void):
-    Inherited(),
-    _pLowLevelLock()
-{
-}
-
-/** \brief Constructor
- */
-
-PThreadLockBase::PThreadLockBase(const Char8  *szName,
-                                             UInt32  uiId) :
-    Inherited(szName, uiId),
-    _pLowLevelLock()
-{
-}
-
-/** \brief Destructor
- */
-
-PThreadLockBase::~PThreadLockBase(void)
-{
-}
-
-Bool PThreadLockBase::init(void)
-{
-    pthread_mutex_init(&(_pLowLevelLock), NULL);
-
-    return true;
-}
-
-void PThreadLockBase::shutdown(void)
-{
-    pthread_mutex_destroy(&(_pLowLevelLock));
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Lock                                     */
 
 void PThreadLockBase::aquire(void)
 {
-    pthread_mutex_lock  (&(_pLowLevelLock));
+    pthread_mutex_lock(&(_pLowLevelLock));
 }
 
 void PThreadLockBase::release(void)
@@ -250,13 +129,46 @@ Bool PThreadLockBase::request(void)
     return (pthread_mutex_trylock(&(_pLowLevelLock)) != EBUSY);
 }
 
-/*---------------------------- properties ---------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
-/*-------------------------- your_category---------------------------------*/
+PThreadLockBase::PThreadLockBase(void):
+     Inherited    (),
+    _pLowLevelLock()
+{
+}
 
-/*-------------------------- assignment -----------------------------------*/
+PThreadLockBase::PThreadLockBase(const Char8  *szName,
+                                       UInt32  uiId  ) :
+     Inherited    (szName, uiId),
+    _pLowLevelLock()
+{
+}
 
-/*-------------------------- comparison -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+PThreadLockBase::~PThreadLockBase(void)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                            Construction                                 */
+
+Bool PThreadLockBase::init(void)
+{
+    pthread_mutex_init(&(_pLowLevelLock), NULL);
+
+    return true;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                            Destruction                                  */
+
+void PThreadLockBase::shutdown(void)
+{
+    pthread_mutex_destroy(&(_pLowLevelLock));
+}
 
 #endif /* OSG_USE_PTHREADS */
 
@@ -269,115 +181,11 @@ Bool PThreadLockBase::request(void)
 //  Class
 //---------------------------------------------------------------------------
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char SprocLockBase::cvsid[] = "@(#)$Id: $";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Constructor
+/*! \class osg::SprocLockBase
  */
 
-SprocLockBase::SprocLockBase(void):
-    Inherited(),
-    _pLowLevelLock(NULL)
-{
-}
-
-/** \brief Constructor
- */
-
-SprocLockBase::SprocLockBase(const Char8  *szName,
-                                         UInt32  uiId):
-    Inherited(szName, uiId),
-    _pLowLevelLock(NULL)
-{
-}
-
-/** \brief Destructor
- */
-
-SprocLockBase::~SprocLockBase(void)
-{
-}
-
-Bool SprocLockBase::init(void)
-{
-    ThreadManager *pThreadManager = ThreadManager::the();
-
-    if(pThreadManager == NULL)
-        return false;
-
-    if(pThreadManager->getArena() == NULL)
-        return false;
-
-    _pLowLevelLock = usnewlock(pThreadManager->getArena());
-
-    if(_pLowLevelLock == NULL)
-        return false;
-
-    usinitlock(_pLowLevelLock);
-
-    return true;
-}
-
-void SprocLockBase::shutdown(void)
-{
-    ThreadManager *pThreadManager = ThreadManager::the();
-
-    if(pThreadManager == NULL)
-        return;
-
-    if(pThreadManager->getArena() == NULL)
-        return;
-
-    if(_pLowLevelLock != NULL)
-    {
-        usfreelock(_pLowLevelLock, pThreadManager->getArena());
-
-        _pLowLevelLock = NULL;
-    }
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Lock                                     */
 
 void SprocLockBase::aquire(void)
 {
@@ -404,14 +212,72 @@ Bool SprocLockBase::request(void)
     return returnValue;
 }
 
-/*---------------------------- properties ---------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
-/*-------------------------- your_category---------------------------------*/
+SprocLockBase::SprocLockBase(void):
+     Inherited    (    ),
+    _pLowLevelLock(NULL)
+{
+}
 
-/*-------------------------- assignment -----------------------------------*/
+SprocLockBase::SprocLockBase(const Char8  *szName,
+                                   UInt32  uiId  ):
+     Inherited    (szName, uiId),
+    _pLowLevelLock(NULL        )
+{
+}
 
-/*-------------------------- comparison -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
+SprocLockBase::~SprocLockBase(void)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                            Construction                                 */
+
+Bool SprocLockBase::init(void)
+{
+    ThreadManager *pThreadManager = ThreadManager::the();
+
+    if(pThreadManager == NULL)
+        return false;
+
+    if(pThreadManager->getArena() == NULL)
+        return false;
+
+    _pLowLevelLock = usnewlock(pThreadManager->getArena());
+
+    if(_pLowLevelLock == NULL)
+        return false;
+
+    usinitlock(_pLowLevelLock);
+
+    return true;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                            Destruction                                  */
+
+void SprocLockBase::shutdown(void)
+{
+    ThreadManager *pThreadManager = ThreadManager::the();
+
+    if(pThreadManager == NULL)
+        return;
+
+    if(pThreadManager->getArena() == NULL)
+        return;
+
+    if(_pLowLevelLock != NULL)
+    {
+        usfreelock(_pLowLevelLock, pThreadManager->getArena());
+
+        _pLowLevelLock = NULL;
+    }
+}
 
 #endif /* OSG_USE_SPROC */
 
@@ -423,113 +289,11 @@ Bool SprocLockBase::request(void)
 //  Class
 //---------------------------------------------------------------------------
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char WinThreadLockBase::cvsid[] = "@(#)$Id: $";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Constructor
+/*! \class osg::WinThreadLockBase
  */
 
-WinThreadLockBase::WinThreadLockBase(void) :
-    Inherited()
-#ifdef OSG_WINLOCK_USE_MUTEX
-    , _pMutex(NULL)
-#endif
-{
-}
-
-/** \brief Constructor
- */
-
-WinThreadLockBase::WinThreadLockBase(const Char8  *szName,
-                                                 UInt32  uiId) :
-    Inherited(szName, uiId)
-#ifdef OSG_WINLOCK_USE_MUTEX
-    , _pMutex(NULL)
-#endif
-{
-}
-
-/** \brief Destructor
- */
-
-WinThreadLockBase::~WinThreadLockBase(void)
-{
-}
-
-Bool WinThreadLockBase::init(void)
-{
-#ifdef OSG_WINLOCK_USE_MUTEX
-    _pMutex = CreateMutex(NULL,      // no security attributes
-                          FALSE,     // initially not owned
-                          _szName);  // name of mutex
-
-    if(_pMutex == NULL)
-    {
-        return false;
-    }
-
-    return true;
-#else
-    InitializeCriticalSection(&_pCriticalSection);
-
-    return true;
-#endif
-}
-
-void WinThreadLockBase::shutdown(void)
-{
-#ifdef OSG_WINLOCK_USE_MUTEX
-    if(_pMutex != NULL)
-    {
-        CloseHandle(_pMutex);
-    }
-#else
-    DeleteCriticalSection(&_pCriticalSection);
-#endif
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Lock                                     */
 
 void WinThreadLockBase::aquire(void)
 {
@@ -568,17 +332,72 @@ Bool WinThreadLockBase::request(void)
 #endif
 }
 
-/*---------------------------- properties ---------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
-/*-------------------------- your_category---------------------------------*/
+WinThreadLockBase::WinThreadLockBase(void) :
+      Inherited()
+#ifdef OSG_WINLOCK_USE_MUTEX
+    , _pMutex  (NULL)
+#endif
+{
+}
 
-/*-------------------------- assignment -----------------------------------*/
+WinThreadLockBase::WinThreadLockBase(const Char8  *szName,
+                                           UInt32  uiId  ) :
+       Inherited(szName, uiId)
+#ifdef OSG_WINLOCK_USE_MUTEX
+    , _pMutex   (NULL)
+#endif
+{
+}
 
-/*-------------------------- comparison -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+WinThreadLockBase::~WinThreadLockBase(void)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                           Construction                                  */
+
+Bool WinThreadLockBase::init(void)
+{
+#ifdef OSG_WINLOCK_USE_MUTEX
+    _pMutex = CreateMutex( NULL,     // no security attributes
+                           FALSE,    // initially not owned
+                          _szName);  // name of mutex
+
+    if(_pMutex == NULL)
+    {
+        return false;
+    }
+
+    return true;
+#else
+    InitializeCriticalSection(&_pCriticalSection);
+
+    return true;
+#endif
+}
+
+/*-------------------------------------------------------------------------*/
+/*                           Destruction                                   */
+
+void WinThreadLockBase::shutdown(void)
+{
+#ifdef OSG_WINLOCK_USE_MUTEX
+    if(_pMutex != NULL)
+    {
+        CloseHandle(_pMutex);
+    }
+#else
+    DeleteCriticalSection(&_pCriticalSection);
+#endif
+}
 
 #endif /* OSG_USE_WINTHREADS */
-
-
 
 
 
@@ -586,28 +405,26 @@ Bool WinThreadLockBase::request(void)
 //  Class
 //---------------------------------------------------------------------------
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+/*! \class osg::Lock
+ */
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char          Lock::cvsid[] = "@(#)$Id: $";
 MPLockType Lock::_type("OSGLock", "OSGMPBase", Lock::create);
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+Lock *Lock::get(const Char8 *szName)
+{
+    return ThreadManager::the()->getLock(szName, "OSGLock");
+}
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+Lock *Lock::find(const Char8 *szName)
+{
+    return ThreadManager::the()->findLock(szName);
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Create                                    */
 
 Lock *Lock::create(const Char8 *szName, UInt32 uiId)
 {
@@ -624,34 +441,8 @@ Lock *Lock::create(const Char8 *szName, UInt32 uiId)
     return returnValue;
 }
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-Lock *Lock::get(const Char8 *szName)
-{
-    return ThreadManager::the()->getLock(szName, "OSGLock");
-}
-
-Lock *Lock::find(const Char8 *szName)
-{
-    return ThreadManager::the()->findLock(szName);
-}
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 Lock::Lock(void) :
     Inherited()
@@ -663,8 +454,8 @@ Lock::Lock(const Char8 *szName, UInt32 uiId) :
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 Lock::~Lock(void)
 {
@@ -673,55 +464,60 @@ Lock::~Lock(void)
     shutdown();
 }
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
-
-
 
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char LockPool::cvsid[] = "@(#)$Id: $";
+/*! \class osg::LockPool
+ */
 
 MPLockPoolType LockPool::_type("OSGLockPool",
                                "OSGMPBase",
                                LockPool::create);
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+LockPool *LockPool::get(const Char8 *szName)
+{
+    return ThreadManager::the()->getLockPool(szName, "OSGLockPool");
+}
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+LockPool *LockPool::find(const Char8 *szName)
+{
+    return ThreadManager::the()->findLockPool(szName);
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Lock                                      */
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 171)
+#endif
+
+void LockPool::aquire(void *keyP)
+{
+    _pLocks[((UInt32(keyP)) & uiLockPoolMask) >> 7].aquire();
+}
+
+void LockPool::release(void *keyP)
+{
+    _pLocks[((UInt32(keyP)) & uiLockPoolMask) >> 7].release();
+}
+
+Bool LockPool::request(void *keyP)
+{
+    return _pLocks[((UInt32(keyP)) & uiLockPoolMask) >> 7].request();
+}
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (error : 171)
+#endif
+
+/*-------------------------------------------------------------------------*/
+/*                               Create                                    */
 
 LockPool *LockPool::create(const Char8 *szName, UInt32 uiId)
 {
@@ -738,28 +534,27 @@ LockPool *LockPool::create(const Char8 *szName, UInt32 uiId)
     return returnValue;
 }
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
-LockPool *LockPool::get(const Char8 *szName)
+LockPool::LockPool(const Char8  *szName,
+                         UInt32  uiId  ) :
+    Inherited(szName, uiId)
 {
-    return ThreadManager::the()->getLockPool(szName, "OSGLockPool");
 }
 
-LockPool *LockPool::find(const Char8 *szName)
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+LockPool::~LockPool(void)
 {
-    return ThreadManager::the()->findLockPool(szName);
+    ThreadManager::the()->removeLockPool(this);
+
+    shutdown();
 }
 
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                            Construction                                 */
 
 Bool LockPool::init(void)
 {
@@ -785,6 +580,9 @@ Bool LockPool::init(void)
     return returnValue;
 }
 
+/*-------------------------------------------------------------------------*/
+/*                            Destruction                                  */
+
 void LockPool::shutdown(void)
 {
     for(UInt32 i = 0; i < uiLockPoolSize; i++)
@@ -792,94 +590,3 @@ void LockPool::shutdown(void)
         _pLocks[i].shutdown();
     }
 }
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Constructor
- */
-
-LockPool::LockPool(const Char8  *szName,
-                         UInt32  uiId) :
-    Inherited(szName, uiId)
-{
-}
-
-/** \brief Destructor
- */
-
-LockPool::~LockPool(void)
-{
-    ThreadManager::the()->removeLockPool(this);
-
-    shutdown();
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-#ifdef OSG_WIN32_ICL
-#pragma warning (disable : 171)
-#endif
-
-void LockPool::aquire(void *keyP)
-{
-    _pLocks[((UInt32(keyP)) & uiLockPoolMask) >> 7].aquire();
-}
-
-void LockPool::release(void *keyP)
-{
-    _pLocks[((UInt32(keyP)) & uiLockPoolMask) >> 7].release();
-}
-
-Bool LockPool::request(void *keyP)
-{
-    return _pLocks[((UInt32(keyP)) & uiLockPoolMask) >> 7].request();
-}
-
-#ifdef OSG_WIN32_ICL
-#pragma warning (error : 171)
-#endif
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
-///---------------------------------------------------------------------------
-///  FUNCTION:
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters:
-//p:
-///
-//g: GlobalVars:
-//g:
-///
-//r: Return:
-//r:
-///
-//c: Caution:
-//c:
-///
-//a: Assumptions:
-//a:
-///
-//d: Description:
-//d:
-///
-//s: SeeAlso:
-//s:
-///---------------------------------------------------------------------------
-

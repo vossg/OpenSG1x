@@ -53,7 +53,7 @@ int main (int argc, char **argv)
   
     if(uint32P != NULL)
     {
-        cout << "UInt32 : " << (*uint32P).getClassname() << endl;
+        cout << "UInt32 : " << (*uint32P).getType().getCName() << endl;
     }
 
     fieldP = FieldFactory::the().createField("SFInt32");
@@ -64,7 +64,7 @@ int main (int argc, char **argv)
 
     if(int32P != NULL)
     {
-        cout << "Int32 : " << (*int32P).getClassname() << endl;
+        cout << "Int32 : " << (*int32P).getType().getCName() << endl;
     }
 
     cout << endl << "Some sizes:" << endl;

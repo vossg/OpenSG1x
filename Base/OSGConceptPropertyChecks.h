@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGCONCEPTPROPERTYCHECKS_H_
 #define _OSGCONECPTPROPERTYCHECKS_H_
 #ifdef __sgi
