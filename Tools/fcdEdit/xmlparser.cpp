@@ -268,6 +268,8 @@ void xmlparser::parse_node( xmlnode &node, xmlcontextptr &ctxptr )
       
       node.nodetype = xml_nt_leaf;
 
+      if (handle) ctxptr->get_eventhandler().end_node(node); // akira said so
+      
       // return, let the caller continue to parse
       return;
    }
