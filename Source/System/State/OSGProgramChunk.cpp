@@ -299,7 +299,7 @@ void ProgramChunk::printCompileError(Window *win, UInt32 idstatus)
               win, id, mode, pos, glGetString(GL_PROGRAM_ERROR_STRING_ARB)));
     
     UInt32 first, last;
-    first = osgMax(0L, pos-20);
+    first = osgMax(static_cast<GLint>(                  0), pos-20);
     last  = osgMin(static_cast<GLint>(getProgram().size()), pos+20);
     
     std::string mesg("Location: ");
