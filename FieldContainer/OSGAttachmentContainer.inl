@@ -47,9 +47,10 @@ OSG_BEGIN_NAMESPACE
 
 OSG_ABSTR_FIELD_CONTAINER_INL_DEF(AttachmentContainer, AttachmentContainerPtr)
 
+inline
 AttachmentPtr AttachmentContainer::findAttachment(
-        const FieldContainerType &type,
-              UInt16             binding)
+    const FieldContainerType &type,
+          UInt16             binding)
 {
     return findAttachment(type.getGroupId(), binding);
 }

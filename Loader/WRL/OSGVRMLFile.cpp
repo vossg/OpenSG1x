@@ -1733,7 +1733,7 @@ PROTO PixelTexture [
  beginProtoInterface("PixelTexture");
  {
      beginProtoExposedField("SFImage", OSGsfImage, "image");
-     addFieldValue         ("0 0 0");
+//     addFieldValue         ("0 0 0");
      endProtoExposedField  ();
 
      beginProtoField       ("SFBool", OSGsfBool, "repeatS");

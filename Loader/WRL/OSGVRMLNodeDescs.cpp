@@ -3352,7 +3352,7 @@ void VRMLGroupDesc::getFieldAndDesc(
         pField = &_boxCenter;
         pDesc  = NULL;
     }
-    else if(stringcasecmp("whichChoice", szFieldname) == 0)
+    else if(stringcasecmp("bboxSize", szFieldname) == 0)
     {
         indentLog(getIndent(), PINFO);
         PINFO << "VRMLGroupDesc::getFieldAndDesc :  : request internal "
