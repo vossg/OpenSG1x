@@ -42,7 +42,8 @@
 # pragma warning( disable: 4786 4275 4251 )
 
 // export/import #define's for building a win32 dll
-# ifdef XMLPP_EXPORTS
+//# ifdef XMLPP_EXPORTS
+# ifdef OSG_BUILD_DLL
 #  define XMLPP_API __declspec(dllexport)
 # else
 #  define XMLPP_API __declspec(dllimport)
