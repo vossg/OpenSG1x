@@ -142,8 +142,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
     /*! \name             Intialization / Termination                      */
     /*! \{                                                                 */
 
-    static bool initialize(int &argc, char **argv);
-    static bool terminate (void                  );
+    static bool initialize(void);
+    static bool terminate (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

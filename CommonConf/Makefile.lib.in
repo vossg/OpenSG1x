@@ -1,4 +1,5 @@
 
+SHELL := /bin/sh
 
 @ac_gdz_project_praefix@COMMON     ?= Common
 @ac_gdz_project_praefix@COMMONCONF ?= CommonConf

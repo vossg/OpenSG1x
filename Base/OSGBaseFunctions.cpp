@@ -52,6 +52,7 @@
 #include <vector>
 
 #include "OSGBaseFunctions.h"
+#include "OSGThreadManager.h"
 
 #ifdef OSG_GV_BETA
 #include <OSGFactoryController.h>
@@ -59,11 +60,11 @@
 
 OSG_BEGIN_NAMESPACE
 
-static vector<InitFuncF> *osgInitFunctions   = NULL;
-static vector<ExitFuncF> *osgExitFunctions   = NULL;
+static vector<InitFuncF> *osgInitFunctions       = NULL;
+static vector<ExitFuncF> *osgSystemExitFunctions = NULL;
 
-static vector<InitFuncF> *osgMPInitFunctions = NULL;
-static vector<ExitFuncF> *osgMPExitFunctions = NULL;
+static vector<InitFuncF> *osgPreMPInitFunctions  = NULL;
+static vector<ExitFuncF> *osgPostMPExitFunctions = NULL;
 
 OSG_BASE_DLLMAPPING 
 SystemState GlobalSystemState = Startup;
@@ -82,68 +83,78 @@ void OSG::addInitFunction(InitFuncF initFunc)
     osgInitFunctions->push_back(initFunc);
 }
 
-void OSG::addExitFunction(ExitFuncF exitFunc)
+void OSG::addSystemExitFunction(ExitFuncF exitFunc)
 {
-    if(osgExitFunctions == NULL)
+    if(osgSystemExitFunctions == NULL)
     {
-        osgExitFunctions = new vector<ExitFuncF>(0);
+        osgSystemExitFunctions = new vector<ExitFuncF>(0);
     }
     
-    osgExitFunctions->push_back(exitFunc);
+    osgSystemExitFunctions->push_back(exitFunc);
 }
 
-void OSG::addMPInitFunction(InitFuncF initFunc)
+void OSG::addPreMPInitFunction(InitFuncF initFunc)
 {
-    if(osgMPInitFunctions == NULL)
+    if(osgPreMPInitFunctions == NULL)
     {
-        osgMPInitFunctions = new vector<InitFuncF>;
+        osgPreMPInitFunctions = new vector<InitFuncF>;
     }
 
-    osgMPInitFunctions->push_back(initFunc);
+    osgPreMPInitFunctions->push_back(initFunc);
 }
 
-void OSG::addMPExitFunction(ExitFuncF exitFunc)
+void OSG::addPostMPExitFunction(ExitFuncF exitFunc)
 {
-    if(osgMPExitFunctions == NULL)
+    if(osgPostMPExitFunctions == NULL)
     {
-        osgMPExitFunctions = new vector<ExitFuncF>;
+        osgPostMPExitFunctions = new vector<ExitFuncF>;
     }
     
-    osgMPExitFunctions->push_back(exitFunc);
+    osgPostMPExitFunctions->push_back(exitFunc);
 }
 
 bool OSG::osgInit(int argc, char **argv)
 {
     UInt32 i;
-    bool returnValue = true;
+    bool   returnValue = true;
 
-    if(osgMPInitFunctions == NULL)
-        return false;
-
-    for(i = 0; i < osgMPInitFunctions->size(); i++)
+    if(osgPreMPInitFunctions != NULL)
     {
-        returnValue &= (*osgMPInitFunctions)[i](argc, argv);
-
-        if(returnValue == false)
-            break;         
+        for(i = 0; i < osgPreMPInitFunctions->size(); i++)
+        {
+            returnValue &= (*osgPreMPInitFunctions)[i]();
+            
+            if(returnValue == false)
+                break;         
+        }
     }
 
     if(returnValue == false)
         return returnValue;
 
-    if(osgInitFunctions == NULL)
+    returnValue &= ThreadManager::initialize();
+
+    if(returnValue == false)
         return returnValue;
 
-    for(i = 0; i < osgInitFunctions->size(); i++)
+    if(osgInitFunctions != NULL)
     {
-        returnValue &= (*osgInitFunctions)[i](argc, argv);
+        for(i = 0; i < osgInitFunctions->size(); i++)
+        {
+            returnValue &= (*osgInitFunctions)[i]();
+            
+            if(returnValue == false)
+                break;         
+        }
 
-        if(returnValue == false)
-            break;         
+        osgInitFunctions->clear();
     }
 
+    if(returnValue == false)
+        return returnValue;
+
 #ifdef OSG_GV_BETA
-    FactoryController::the()->initialize();
+    returnValue &= FactoryController::the()->initialize();
 #endif
 
     GlobalSystemState = Running;
@@ -157,26 +168,28 @@ bool OSG::osgExit(void)
 
     GlobalSystemState = Shutdown;
 
-    if(osgExitFunctions != NULL)
+#ifdef OSG_GV_BETA
+    returnValue &= FactoryController::the()->terminate();
+#endif
+
+    if(osgSystemExitFunctions != NULL)
     {
-        for(Int32 i = osgExitFunctions->size() - 1; i >= 0; i--)
+        for(Int32 i = osgSystemExitFunctions->size() - 1; i >= 0; i--)
         {
-            returnValue &= (*osgExitFunctions)[i]();
+            returnValue &= (*osgSystemExitFunctions)[i]();
             
             if(returnValue == false)
                 break;         
         }
     }
 
-#ifdef OSG_GV_BETA
-    FactoryController::the()->terminate();
-#endif
+    returnValue &= ThreadManager::terminate();
 
-    if(osgMPExitFunctions != NULL)
+    if(osgPostMPExitFunctions != NULL)
     {
-        for(Int32 i = osgMPExitFunctions->size() - 1; i >= 0; i--)
+        for(Int32 i = osgPostMPExitFunctions->size() - 1; i >= 0; i--)
         {
-            returnValue &= (*osgMPExitFunctions)[i]();
+            returnValue &= (*osgPostMPExitFunctions)[i]();
             
             if(returnValue == false)
                 break;         

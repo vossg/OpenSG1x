@@ -241,8 +241,7 @@ usptr_t *ThreadManager::getArena(void)
 /*-------------------------------------------------------------------------*/
 /*                               Helper                                    */
 
-bool ThreadManager::initialize(Int32  &OSG_CHECK_ARG(argc), 
-                               Char8 **OSG_CHECK_ARG(argv))
+bool ThreadManager::initialize(void)
 {
     return the()->init();
 }
@@ -429,9 +428,6 @@ ThreadManager::ThreadManager(void) :
 #if defined(_OSG_USE_SPROC_)
     _pArena = NULL;
 #endif
-
-    addMPInitFunction(initialize);
-    addMPExitFunction(terminate);
 }
 
 /*-------------------------------------------------------------------------*/

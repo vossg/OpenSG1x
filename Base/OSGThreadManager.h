@@ -220,7 +220,7 @@ class OSG_BASE_DLLMAPPING ThreadManager
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    static bool initialize(Int32 &argc, Char8 **argv);
+    static bool initialize(void);
     static bool terminate (void);
 
     void removeThread  (BaseThread *pThread);
@@ -266,6 +266,9 @@ class OSG_BASE_DLLMAPPING ThreadManager
     friend class Barrier;
     friend class Lock;
     friend class LockPool;
+
+    friend bool osgInit(Int32 argc, Char8 **argv);
+    friend bool osgExit(void                    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

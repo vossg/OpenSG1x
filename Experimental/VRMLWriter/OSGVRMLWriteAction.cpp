@@ -84,8 +84,8 @@ The draw action class.
 
 VRMLWriteAction::ActionInitializer::ActionInitializer(void)
 {
-    addInitFunction(&VRMLWriteAction::initializeAction);
-    addExitFunction(&VRMLWriteAction::terminateAction);
+    addInitFunction      (&VRMLWriteAction::initializeAction);
+    addSystemExitFunction(&VRMLWriteAction::terminateAction );
 }
 
 VRMLWriteAction::ActionInitializer::~ActionInitializer(void)
@@ -1196,7 +1196,7 @@ Action::ResultE VRMLWriteAction::writeMatGroupLeave(CNodePtr &,
 }
 
 
-bool VRMLWriteAction::initializeAction(int &, char **)
+bool VRMLWriteAction::initializeAction(void)
 {
     FINFO(( "Init VRMLWriter\n" ));
 

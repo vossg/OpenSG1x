@@ -2,7 +2,7 @@
 define([AC_CACHE_LOAD], )dnl
 define([AC_CACHE_SAVE], )dnl
 
-AC_INIT(Base/OSGConfig.h)
+AC_INIT(Base/OSGBase.h)
 
 AC_PREREQ(1.3)
 

@@ -187,7 +187,7 @@ TypeBase::TypeBase(const Char8 *szName,
     _uiTypeId = TypeFactory::the()->registerType(this);
 
 #if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
-        fprintf(stderr, "GV_MEM_TYPE_DBG : (%u|%lf|%I64d) c (%p|%s|%u)\n", 
+        fprintf(stderr, "GV_MEM_TYPE_DBG : (%u|%lf|%ld) c (%p|%s|%u)\n", 
                 0,
                 getSystemTime(), 
                 getPerfCounter(),
@@ -200,6 +200,7 @@ TypeBase::TypeBase(const Char8 *szName,
 TypeBase::~TypeBase(void)
 {
 #if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
+//I64
         fprintf(stderr, "GV_MEM_TYPE_DBG : (%u|%lf|%I64d) d (%p|%s|%u)\n", 
                 0,
                 getSystemTime(), 

@@ -180,8 +180,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     /*! \name             Intialization / Termination                      */
     /*! \{                                                                 */
 
-    static bool initializeFactory (int &argc, char **argv);
-    static bool terminateFactory  (void                  );
+    static bool initializeFactory(void);
+    static bool terminateFactory (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -220,10 +220,10 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     /*! \name         Instance Initialization / Termination                */
     /*! \{                                                                 */
 
-    bool   initialize (int &argc, char **argv);
-    bool   terminate  (void                  );
+    bool   initialize (void);
+    bool   terminate  (void);
 
-    void   initTypeMap(void                  );
+    void   initTypeMap(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -319,8 +319,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     static Action::ResultE writeGeoLeave(CNodePtr &pGroup,
                                          Action   *pAction);
 
-    static bool initializeAction(int &argc, char **argv);
-    static bool terminateAction(void);
+    static bool initializeAction(void);
+    static bool terminateAction (void);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  

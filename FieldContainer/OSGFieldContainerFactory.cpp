@@ -459,9 +459,9 @@ const FieldContainerFactory::FieldContainerStore *
 /*-------------------------------------------------------------------------*/
 /*                            Static Init                                  */
 
-bool FieldContainerFactory::initializeFactory(int &argc, char **argv)
+bool FieldContainerFactory::initializeFactory(void)
 {
-    bool returnValue = the()->initialize(argc, argv);
+    bool returnValue = the()->initialize();
 
     // CHECKCHECK
     // clear changelist from prototypes, move this to a different place soon
@@ -489,11 +489,11 @@ FieldContainerFactory::FieldContainerFactory(void) :
     _pMapLock            (NULL ),
     _pMapper             (NULL )
 {
-    addInitFunction(&FieldContainerPtr::initialize           );
-    addInitFunction(&FieldContainerFactory::initializeFactory);
+    addInitFunction      (&FieldContainerPtr::initialize           );
+    addInitFunction      (&FieldContainerFactory::initializeFactory);
 
-    addExitFunction(&FieldContainerPtr::terminate            );
-    addExitFunction(&FieldContainerFactory::terminateFactory );
+    addSystemExitFunction(&FieldContainerPtr::terminate            );
+    addSystemExitFunction(&FieldContainerFactory::terminateFactory );
 
     initTypeMap();
 }
@@ -508,8 +508,7 @@ FieldContainerFactory::~FieldContainerFactory(void)
 /*-------------------------------------------------------------------------*/
 /*                                Init                                     */
 
-bool FieldContainerFactory::initialize(int   &OSG_CHECK_ARG(argc), 
-                                       char **OSG_CHECK_ARG(argv))
+bool FieldContainerFactory::initialize(void)
 {
     TypeIdMapIt typeIt;
 

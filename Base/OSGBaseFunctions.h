@@ -531,51 +531,69 @@ extern OSG_BASE_DLLMAPPING SystemState GlobalSystemState;
 /*! \var bool (*InitFuncF)(int argc, char **argv);
  *  \brief InitFuncF
  *  \ingroup BaseFunctions
+ *
+ * order :
+ * 
+ * PreMP
+ * MP
+ * (Factory [GV])
+ * Init
  */
 
-typedef bool (*InitFuncF)(int &argc, char **argv);
+typedef bool (*InitFuncF)(void);
 
 /*! \var bool (*ExitFuncF)(void);
  *  \brief ExitFuncF
  *  \ingroup BaseFunctions
+ * order :
+ * 
+ * (Factory [GV])
+ * SystemExit
+ * MP
+ * PostMP
  */
 
 typedef bool (*ExitFuncF)(void);
 
-/*! \brief AddInitFunction
+/*! \brief addInitFunction, function called by osgInit after the
+ *         multithreading is initialized and after dynamically loading 
+ *         a shared object
  *  \ingroup BaseFunctions
  */
 
 OSG_BASE_DLLMAPPING 
-void addInitFunction(InitFuncF initFunc);
+void addInitFunction      (InitFuncF initFunc);
 
-/*! \brief AddExitFunction
+/*! \brief addSystemExitFunction, function called by osgExit before
+ *         multithreading is termininated
  *  \ingroup BaseFunctions
  */
 
 OSG_BASE_DLLMAPPING 
-void addExitFunction(ExitFuncF exitFunc);
+void addSystemExitFunction(ExitFuncF exitFunc);
 
-/*! \brief vscAddMPInitFunction
+/*! \brief addMPInitFunction, function called by osgInit before
+           the multithreading is initialized.
  *  \ingroup BaseFunctions
  */
 
 OSG_BASE_DLLMAPPING 
-void addMPInitFunction(InitFuncF initFunc);
+void addPreMPInitFunction (InitFuncF initFunc);
 
-/*! \brief vscAddMPExitFunction
+/*! \brief addPostMPExitFunction, function called by osgExit after
+ *         multithreading is terminated
  *  \ingroup BaseFunctions
  */
 
 OSG_BASE_DLLMAPPING 
-void addMPExitFunction(ExitFuncF exitFunc);
+void addPostMPExitFunction(ExitFuncF exitFunc);
 
 /*! \brief Init
  *  \ingroup BaseFunctions
  */
 
 OSG_BASE_DLLMAPPING 
-bool osgInit(int argc, char **argv);
+bool osgInit(Int32 argc, Char8 **argv);
 
 /*! \brief Exit
  *  \ingroup BaseFunctions

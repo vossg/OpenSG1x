@@ -219,7 +219,7 @@ void FieldContainerPtrBase::dump(      UInt32    uiIndent,
 /*-------------------------------------------------------------------------*/
 /*                                Init                                     */
 
-bool FieldContainerPtrBase::initialize(int &, char **)
+bool FieldContainerPtrBase::initialize(void)
 {
     bool           returnValue = false;
     ThreadManager *pManager    = ThreadManager::the();
