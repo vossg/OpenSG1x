@@ -70,7 +70,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
 #else
                          OSG_BGR_PF     = 0,
 #endif
-                         
+
 #if defined(GL_BGRA)
                          OSG_BGRA_PF    = GL_BGRA,
 #elif defined(GL_BGRA_EXT)
@@ -81,11 +81,20 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
                          OSG_RGB_PF     = GL_RGB,
                          OSG_RGBA_PF    = GL_RGBA
     };
+
+    enum Type {
+                         OSG_INVALID_IMAGEDATATYPE  = GL_NONE,
+                         OSG_UINT8_IMAGEDATA        = GL_UNSIGNED_BYTE,
+                         OSG_UINT16_IMAGEDATA       = GL_UNSIGNED_SHORT,
+                         OSG_UINT32_IMAGEDATA       = GL_UNSIGNED_INT,
+                         OSG_FLOAT32_IMAGEDATA      = GL_FLOAT
+    };
+
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
+    virtual void changed(BitVector  whichField,
                          UInt32     origin    );
 
     /*! \}                                                                 */
@@ -93,7 +102,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0, 
+    virtual void dump(      UInt32     uiIndent = 0,
                       const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
@@ -102,13 +111,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     /*! \{                                                                 */
 
     bool set                (      UInt32      pixelFormat,
-                                   Int32       width, 
+                                   Int32       width,
                                    Int32       height = 1,
                                    Int32       depth = 1,
                                    Int32       mipmapCount = 1,
-                                   Int32       frameCount = 1, 
+                                   Int32       frameCount = 1,
                                    Time        frameDelay = 0.0,
-                             const UInt8     *data = 0         );
+                             const UInt8     *data = 0,
+                            Int32 type = OSG_UINT8_IMAGEDATA   );
     bool set                (      ImagePtr   image            );
     bool setData            (const UInt8     *data = 0         );
     bool setSubData ( Int32 offX, Int32 offY, Int32 offZ,
@@ -131,6 +141,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
 
     bool reformat ( const PixelFormat pixelFormat,
                     ImagePtr destination = NullFC);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Convert dataType                          */
+    /*! \{                                                                 */
+
+    bool convertDataTypeTo ( Int32 destDataType = OSG_UINT8_IMAGEDATA );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -196,7 +213,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     /*---------------------------------------------------------------------*/
     /*! \name                    Get  Methods                              */
     /*! \{                                                                 */
-    
+
     inline bool isValid        (void) const;
            bool hasAlphaChannel(void);
 
@@ -213,9 +230,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     /*! \name                   Get Methods                                */
     /*! \{                                                                 */
 
-    inline const UInt8 *getData ( UInt32 mipmapNum = 0, 
+    inline const UInt8 *getData ( UInt32 mipmapNum = 0,
                                   UInt32 frameNum = 0) const;
-    inline       UInt8 *getData ( UInt32 mipmapNum = 0, 
+    inline       UInt8 *getData ( UInt32 mipmapNum = 0,
                                   UInt32 frameNum = 0);
     UInt8 *getDataByTime(Time time, UInt32 mipmapNum = 1);
 
@@ -225,8 +242,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     /*! \{                                                                 */
 
     void   calcMipmapGeometry   ( UInt32 mipmapNum,
-                                         UInt32 &width, 
-                                         UInt32 &height, 
+                                         UInt32 &width,
+                                         UInt32 &height,
                                          UInt32 &depth       ) const;
     UInt32 calcMipmapLevelCount ( void                       ) const;
     UInt32 calcFrameNum         ( Time time, bool loop = true) const;
@@ -236,7 +253,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     /*! \name                   Clear Image                                */
     /*! \{                                                                 */
 
-    virtual void clear (UInt8 pixelValue = 0);
+    virtual void clear (UChar8 pixelValue = 0);
+    virtual void clearFloat (Real32 pixelValue = 0.0);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -245,7 +263,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
 
     bool   hasAttachment   (void) const;
     UInt32 attachmentCount (void) const;
-    void   setAttachmentField ( const std::string &key, 
+    void   setAttachmentField ( const std::string &key,
                                 const std::string &data);
     const std::string * findAttachmentField ( const std::string &key) const;
 
@@ -258,6 +276,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     /*! \{                                                                 */
 
     static Int32 _formatDic[][2];
+    static Int32 _typeDic[][2];
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -272,10 +291,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~Image(void); 
+    virtual ~Image(void);
 
     /*! \}                                                                 */
-    
+
     /*==========================  PRIVATE  ================================*/
   private:
     /*---------------------------------------------------------------------*/
@@ -295,9 +314,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     /*! \{                                                                 */
 
     bool createData ( const UInt8 *data );
-    bool scaleData  ( UInt8* srcData, 
+    bool scaleData  ( UInt8* srcData,
                       Int32 srcW, Int32 srcH, Int32 srcD,
-                      UInt8* destData, 
+                      UInt8* destData,
                       Int32 destW, Int32 destH, Int32 destD );
 
     /*! \}                                                                 */

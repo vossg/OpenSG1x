@@ -78,6 +78,8 @@
 #include <OSGUInt8Fields.h> // Pixel type
 #include <OSGInt32Fields.h> // FrameSize type
 #include <OSGStringFields.h> // Name type
+#include <OSGInt32Fields.h> // DataType type
+#include <OSGInt32Fields.h> // ComponentSize type
 
 #include <OSGImageFields.h>
 
@@ -101,20 +103,22 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
 
     enum
     {
-        ParentsFieldId     = Inherited::NextFieldId,
-        DimensionFieldId   = ParentsFieldId     + 1,
-        WidthFieldId       = DimensionFieldId   + 1,
-        HeightFieldId      = WidthFieldId       + 1,
-        DepthFieldId       = HeightFieldId      + 1,
-        BppFieldId         = DepthFieldId       + 1,
-        MipMapCountFieldId = BppFieldId         + 1,
-        FrameCountFieldId  = MipMapCountFieldId + 1,
-        FrameDelayFieldId  = FrameCountFieldId  + 1,
-        PixelFormatFieldId = FrameDelayFieldId  + 1,
-        PixelFieldId       = PixelFormatFieldId + 1,
-        FrameSizeFieldId   = PixelFieldId       + 1,
-        NameFieldId        = FrameSizeFieldId   + 1,
-        NextFieldId        = NameFieldId        + 1
+        ParentsFieldId       = Inherited::NextFieldId,
+        DimensionFieldId     = ParentsFieldId       + 1,
+        WidthFieldId         = DimensionFieldId     + 1,
+        HeightFieldId        = WidthFieldId         + 1,
+        DepthFieldId         = HeightFieldId        + 1,
+        BppFieldId           = DepthFieldId         + 1,
+        MipMapCountFieldId   = BppFieldId           + 1,
+        FrameCountFieldId    = MipMapCountFieldId   + 1,
+        FrameDelayFieldId    = FrameCountFieldId    + 1,
+        PixelFormatFieldId   = FrameDelayFieldId    + 1,
+        PixelFieldId         = PixelFormatFieldId   + 1,
+        FrameSizeFieldId     = PixelFieldId         + 1,
+        NameFieldId          = FrameSizeFieldId     + 1,
+        DataTypeFieldId      = NameFieldId          + 1,
+        ComponentSizeFieldId = DataTypeFieldId      + 1,
+        NextFieldId          = ComponentSizeFieldId + 1
     };
 
     static const OSG::BitVector ParentsFieldMask;
@@ -130,6 +134,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
     static const OSG::BitVector PixelFieldMask;
     static const OSG::BitVector FrameSizeFieldMask;
     static const OSG::BitVector NameFieldMask;
+    static const OSG::BitVector DataTypeFieldMask;
+    static const OSG::BitVector ComponentSizeFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -169,6 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
            MFUInt8             *getMFPixel          (void);
            SFInt32             *getSFFrameSize      (void);
            SFString            *getSFName           (void);
+           SFInt32             *getSFDataType       (void);
 
            Int32               &getDimension      (void);
      const Int32               &getDimension      (void) const;
@@ -192,6 +199,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
      const Int32               &getFrameSize      (void) const;
            std::string         &getName           (void);
      const std::string         &getName           (void) const;
+           Int32               &getDataType       (void);
+     const Int32               &getDataType       (void) const;
            FieldContainerPtr   &getParents        (const UInt32 index);
            MFFieldContainerPtr &getParents        (void);
      const MFFieldContainerPtr &getParents        (void) const;
@@ -215,6 +224,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
      void setPixelFormat    ( const UInt32 &value );
      void setFrameSize      ( const Int32 &value );
      void setName           ( const std::string &value );
+     void setDataType       ( const Int32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -273,6 +283,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
     MFUInt8             _mfPixel;
     SFInt32             _sfFrameSize;
     SFString            _sfName;
+    SFInt32             _sfDataType;
+    SFInt32             _sfComponentSize;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -288,6 +300,23 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
     /*! \{                                                                 */
 
     virtual ~ImageBase(void); 
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+           SFInt32             *getSFComponentSize  (void);
+
+           Int32               &getComponentSize  (void);
+     const Int32               &getComponentSize  (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+     void setComponentSize  (const Int32 &value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -320,6 +349,6 @@ typedef ImageBase *ImageBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGIMAGEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGIMAGEBASE_H_ */

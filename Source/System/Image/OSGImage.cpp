@@ -79,6 +79,16 @@ Int32 Image::_formatDic[][2] =
     { OSG_BGRA_PF, 4 },
 };
 
+Int32 Image::_typeDic[][2] =
+{
+    { OSG_INVALID_IMAGEDATATYPE, 0 },
+    { OSG_UINT8_IMAGEDATA, 1 },
+    { OSG_UINT16_IMAGEDATA, 2 },
+    { OSG_UINT32_IMAGEDATA, 4 },
+    { OSG_FLOAT32_IMAGEDATA, 4 },
+
+};
+
 /*----------------------------- class specific ----------------------------*/
 
 void Image::initMethod (void)
@@ -94,7 +104,7 @@ void Image::changed(BitVector whichField, UInt32 origin)
 
     while(parentsIt != parentsEnd)
     {
-        (*parentsIt)->changed(TypeTraits<BitVector>::One << 
+        (*parentsIt)->changed(  TypeTraits<BitVector>::One <<
                                     parentsIt->getParentFieldPos(),
                                 ChangedOrigin::Child);
         ++parentsIt;
@@ -105,12 +115,11 @@ void Image::changed(BitVector whichField, UInt32 origin)
 
 /*----------------------------- output ------------------------------------*/
 
-void Image::dump(UInt32    , 
+void Image::dump(UInt32    ,
                  const BitVector ) const
 {
     const char  *pfStr = "UNDEF_PIXEL_FORMAT";
-
-    std::cout << "pixel format " << getPixelFormat() << std::endl;
+    const char  *typeStr = "INVALID_IMAGEDATA_TYPE";
 
     switch(getPixelFormat())
     {
@@ -141,11 +150,31 @@ void Image::dump(UInt32    ,
         break;
     };
 
-    FLOG (("ImageDump: %s; %d/%d/%d; #mm: %d, #frame: %d, frameDelay %g\n",
-           pfStr, getWidth(), 
-           getHeight(), getDepth(), 
-           getMipMapCount(), getFrameCount(), 
-           getFrameDelay()
+    switch (getDataType())
+    {
+    case OSG_UINT8_IMAGEDATA:
+        typeStr = "IMAGEDATA_TYPE UCHAR8";
+        break;
+    case OSG_UINT16_IMAGEDATA:
+        typeStr = "IMAGEDATA_TYPE UCHAR16";
+        break;
+    case OSG_UINT32_IMAGEDATA:
+        typeStr = "IMAGEDATA_TYPE UCHAR32";
+        break;
+    case OSG_FLOAT32_IMAGEDATA:
+        typeStr = "IMAGEDATA_TYPE FLOAT32";
+        break;
+
+    default:
+        typeStr = "UNKNOWN_IMAGEDATA_TYPE";
+        break;
+    };
+
+    FLOG (("ImageDump: %s; %d/%d/%d; #mm: %d, #frame: %d, frameDelay %g, dataType %s\n",
+           pfStr, getWidth(),
+           getHeight(), getDepth(),
+           getMipMapCount(), getFrameCount(),
+           getFrameDelay(), typeStr
               ));
 }
 
@@ -154,10 +183,10 @@ void Image::dump(UInt32    ,
 /*! method to set the image data. Use the doCopy parameter to specify, whether
     the method should copy or link the pixel data.
 */
-bool Image::set(UInt32 pF, 
-                Int32 w, Int32 h, 
+bool Image::set(UInt32 pF,
+                Int32 w, Int32 h,
                 Int32 d, Int32 mmS, Int32 fS,
-                Time fD, const UChar8 *da)
+                Time fD, const UChar8 *da, Int32 t )
 {
     ImagePtr iPtr(this);
 
@@ -168,7 +197,8 @@ bool Image::set(UInt32 pF,
                 DepthFieldMask |
                 MipMapCountFieldMask |
                 FrameCountFieldMask |
-                FrameDelayFieldMask);
+                FrameDelayFieldMask |
+                DataTypeFieldMask);
 
     setPixelFormat(pF);
 
@@ -181,6 +211,8 @@ bool Image::set(UInt32 pF,
     setFrameCount(fS);
     setFrameDelay(fD);
 
+    setDataType (t);
+
     endEditCP(iPtr,
               PixelFormatFieldMask |
               WidthFieldMask |
@@ -188,12 +220,13 @@ bool Image::set(UInt32 pF,
               DepthFieldMask |
               MipMapCountFieldMask |
               FrameCountFieldMask |
-              FrameDelayFieldMask);
+              FrameDelayFieldMask |
+              DataTypeFieldMask);
 
     return createData(da);
 }
 
-/*! method to set the image from another image object. 
+/*! method to set the image from another image object.
     Use the doCopy parameter to specify, whether
     the method should copy or link the pixel data.
 */
@@ -206,12 +239,8 @@ bool Image::set(ImagePtr image)
               image->getMipMapCount(),
               image->getFrameCount(),
               image->getFrameDelay(),
-              image->getData());
-
-#ifdef OSG_DEBUG
-    FDEBUG(("Running image set(image) \n"));
-    this->dump();
-#endif
+              image->getData(),
+              image->getDataType());
     return true;
 }
 
@@ -219,16 +248,16 @@ bool Image::set(ImagePtr image)
     width,height and depth) stay the same
 */
 bool Image::setData(const UChar8 *da)
-{  
-    if(da) 
+{
+    if(da)
     {
         createData(da);
     }
-    else 
+    else
     {
         FWARNING(("Image::setData(Null) call\n"));
     }
-  
+
     return (da ? true : false);
 }
 
@@ -245,7 +274,7 @@ bool Image::setSubData ( Int32 offX, Int32 offY, Int32 offZ,
     FDEBUG(( "Image::setSubData (%d %d %d) - (%d %d %d) - src %p\n",
              offX, offY, offZ, srcW, srcH, srcD, src ));
 
-    if(!src || !dest) 
+    if(!src || !dest)
     {
         FFATAL(("Invalid data pointer in Image::setSubData\n"));
         return false;
@@ -263,9 +292,9 @@ bool Image::setSubData ( Int32 offX, Int32 offY, Int32 offZ,
     // fill the destination buffer with the subdata
     UInt32 destIdx, srcIdx = 0;
 
-    for(UInt32 z = zMin; z < zMax; z++) 
+    for(UInt32 z = zMin; z < zMax; z++)
     {
-        for(UInt32 y = yMin; y < yMax; y++) 
+        for(UInt32 y = yMin; y < yMax; y++)
         {
             lineSize = (xMax - xMin) * getBpp();
             destIdx = ( (z * getHeight() + y) * getWidth() + xMin) * getBpp();
@@ -281,21 +310,21 @@ bool Image::setSubData ( Int32 offX, Int32 offY, Int32 offZ,
 /*! The Image is not just a 2D container. The class can hold 3D (volume)
     and movie data. If we have 3D/singleFrame or 2D/multiFrame data without
     mipmaps we can flip between this two formats by just swapping the
-    getFrameCount() and getDepth() values. 
+    getFrameCount() and getDepth() values.
 */
 bool Image::flipDepthFrameData (void)
 {
   bool retCode = false;
   Int32 value;
 
-  if((getMipMapCount() == 1)&&((getFrameCount() == 1)||(getDepth() == 1))) 
+  if((getMipMapCount() == 1)&&((getFrameCount() == 1)||(getDepth() == 1)))
   {
       value = getFrameCount();
       setFrameCount(getDepth());
       setDepth(value);
       retCode = true;
   }
-  else 
+  else
   {
       FWARNING (("Cant flipDepthFrameData(); invalid data layout\n"));
   }
@@ -344,27 +373,98 @@ bool Image::addValue(const char *value)
         // read the head
         sscanf(value, "%d %d %d", &width, &height, &pixelDepth);
 
-        FDEBUG(("Image::addValue() set: w/h/bpp: %d/%d/%d\n", 
+        FDEBUG(("Image::addValue() set: w/h/bpp: %d/%d/%d\n",
                 width, height, pixelDepth));
 
-        switch(pixelDepth)
+        switch(getDataType())
         {
-            case 1:
-                pf = osg::Image::OSG_L_PF;
+            case OSG_UINT8_IMAGEDATA:
+                switch(pixelDepth)
+                {
+                    case 1:
+                        pf = osg::Image::OSG_L_PF;
+                        break;
+                    case 2:
+                        pf = osg::Image::OSG_LA_PF;
+                        break;
+                    case 3:
+                        pf = osg::Image::OSG_RGB_PF;
+                        break;
+                    case 4:
+                        pf = osg::Image::OSG_RGBA_PF;
+                        break;
+                    default:
+                        pf = osg::Image::OSG_INVALID_PF;
+                        FFATAL(("Invalid pixel depth: %d\n", pixelDepth));
+                        break;
+                }
                 break;
-            case 2:
-                pf = osg::Image::OSG_LA_PF;
+            case OSG_UINT16_IMAGEDATA:
+                switch(pixelDepth)
+                {
+                    case 2:
+                        pf = osg::Image::OSG_L_PF;
+                        break;
+                    case 4:
+                        pf = osg::Image::OSG_LA_PF;
+                        break;
+                    case 6:
+                        pf = osg::Image::OSG_RGB_PF;
+                        break;
+                    case 8:
+                        pf = osg::Image::OSG_RGBA_PF;
+                        break;
+                    default:
+                        pf = osg::Image::OSG_INVALID_PF;
+                        FFATAL(("Invalid pixel depth: %d\n", pixelDepth));
+                        break;
+                }
                 break;
-            case 3:
-                pf = osg::Image::OSG_RGB_PF;
+            case OSG_UINT32_IMAGEDATA:
+                switch(pixelDepth)
+                {
+                    case 4:
+                        pf = osg::Image::OSG_L_PF;
+                        break;
+                    case 8:
+                        pf = osg::Image::OSG_LA_PF;
+                        break;
+                    case 12:
+                        pf = osg::Image::OSG_RGB_PF;
+                        break;
+                    case 16:
+                        pf = osg::Image::OSG_RGBA_PF;
+                        break;
+                    default:
+                        pf = osg::Image::OSG_INVALID_PF;
+                        FFATAL(("Invalid pixel depth: %d\n", pixelDepth));
+                        break;
+                }
                 break;
-            case 4:
-                pf = osg::Image::OSG_RGBA_PF;
+            case OSG_FLOAT32_IMAGEDATA:
+                switch(pixelDepth)
+                {
+                    case 4:
+                        pf = osg::Image::OSG_L_PF;
+                        break;
+                    case 8:
+                        pf = osg::Image::OSG_LA_PF;
+                        break;
+                    case 12:
+                        pf = osg::Image::OSG_RGB_PF;
+                        break;
+                    case 16:
+                        pf = osg::Image::OSG_RGBA_PF;
+                        break;
+                    default:
+                        pf = osg::Image::OSG_INVALID_PF;
+                        FFATAL(("Invalid pixel depth: %d\n", pixelDepth));
+                        break;
+                }
                 break;
             default:
-                pf = osg::Image::OSG_INVALID_PF;
-                FFATAL(("Invalid pixel depth: %d\n", pixelDepth));
-                break;
+                setDataType(OSG_INVALID_IMAGEDATATYPE);
+                FFATAL(("Invalid type of image data: %d\n", getDataType()));
         }
 
         if(pf != 0 && (width > 0) && (height > 0))
@@ -383,7 +483,7 @@ bool Image::addValue(const char *value)
         if(currentData != NULL)
         {
             // add data
-            // TODO; should we check the bounds, should be done by the parser 
+            // TODO; should we check the bounds, should be done by the parser
 
             v = strtoul(value, 0, strchr(value, 'x') ? 16 : 10);
 
@@ -401,12 +501,13 @@ bool Image::addValue(const char *value)
 /*! It is a simple method to reformat the image pixelFormat (not the size).
     So you can for example convert a RGBA to RGB or RGB to Grey image.
 */
-bool Image::reformat ( const Image::PixelFormat pixelFormat, 
+bool Image::reformat ( const Image::PixelFormat pixelFormat,
                        ImagePtr destination )
-{  
-    UChar8 *data = 0;
+{
+    UChar8 *data,*sourceData = 0;
     UInt32 srcI, destI, destSize = 0;
     UInt32 sum;
+    Real64 sumReal;
     ImagePtr dest = destination;
 
     if(destination == NullFC)
@@ -420,171 +521,701 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
 
     // TODO !!! code all the cases !!!
 
-    if ( getSize() && pixelFormat && 
+    if ( getSize() && pixelFormat &&
          (destination != NullFC || (pixelFormat != getPixelFormat()) ) )
     {
+
         dest->set(pixelFormat, getWidth(), getHeight(), getDepth() );
+        sourceData = getData();
         data = dest->getData();
         destSize = dest->getSize();
+
+        UInt16 *sourceDataUC16 = (UInt16*) sourceData;
+        UInt16 *destDataUC16 = (UInt16*) data;
+        UInt32 *sourceDataUC32 = (UInt32*) sourceData;
+        UInt32 *destDataUC32 = (UInt32*) data;
+        Real32 *sourceDataF32 = (Real32*) sourceData;
+        Real32 *destDataF32 = (Real32*) data;
+
         if (data)
-        { 
-            switch (getPixelFormat()) 
+        {
+            switch (getPixelFormat())
             {
                 //-----------------------------------------------------
-                case OSG_L_PF: 
+                case OSG_L_PF:
                     switch (pixelFormat) {
                         case OSG_L_PF:
-                            memcpy (getData(),data,destSize);
+                            switch (getDataType())
+                            {
+                            case OSG_UINT8_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
+
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
+                            }
+                            break;
+
+                        case OSG_LA_PF:
+                            switch (getDataType())
+                            {
+                            case OSG_UINT8_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize;)
+                                {
+                                    data[destI++] = sourceData[srcI];
+                                    data[destI++] = sourceData[srcI++];
+                                }
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC16[destI++] = sourceDataUC16[srcI];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI++];
+                                }
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC32[destI++] = sourceDataUC32[srcI];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI++];
+                                }
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataF32[destI++] = sourceDataF32[srcI];
+                                    destDataF32[destI++] = sourceDataF32[srcI++];
+                                }
+                                break;
+
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
+                            }
+                            break;
+
+                        case OSG_RGB_PF:
+                            switch (getDataType())
+                            {
+                            case OSG_UINT8_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize;)
+                                {
+                                    data[destI++] = sourceData[srcI];
+                                    data[destI++] = sourceData[srcI];
+                                    data[destI++] = sourceData[srcI++];
+                                }
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC16[destI++] = sourceDataUC16[srcI];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI++];
+                                }
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC32[destI++] = sourceDataUC32[srcI];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI++];
+                                }
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataF32[destI++] = sourceDataF32[srcI];
+                                    destDataF32[destI++] = sourceDataF32[srcI];
+                                    destDataF32[destI++] = sourceDataF32[srcI++];
+                                }
+                                break;
+
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
+                            }
+                            break;
+
+                        case OSG_RGBA_PF:
+                            switch (getDataType())
+                            {
+                            case OSG_UINT8_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize;)
+                                {
+                                    data[destI++] = sourceData[srcI];
+                                    data[destI++] = sourceData[srcI];
+                                    data[destI++] = sourceData[srcI];
+                                    data[destI++] = sourceData[srcI++];
+                                }
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC16[destI++] = sourceDataUC16[srcI];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI++];
+                                }
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC32[destI++] = sourceDataUC32[srcI];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI++];
+                                }
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataF32[destI++] = sourceDataF32[srcI];
+                                    destDataF32[destI++] = sourceDataF32[srcI];
+                                    destDataF32[destI++] = sourceDataF32[srcI];
+                                    destDataF32[destI++] = sourceDataF32[srcI++];
+                                }
+                                break;
+
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
+                            }
+                            break;
+                    }
+                    break;
+
+                //-----------------------------------------------------
+                case OSG_LA_PF:
+                    switch (pixelFormat) {
+                        case OSG_L_PF:
+                            switch (getDataType())
+                            {
+                            case OSG_UINT8_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize;)
+                                {
+                                    data[destI++] = sourceData[srcI];
+                                    srcI++;
+                                }
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC16[destI++] = sourceDataUC16[srcI];
+                                    srcI++;
+                                }
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC32[destI++] = sourceDataUC32[srcI];
+                                    srcI++;
+                                }
+                                break;
+
+                            case OSG_FLOAT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataF32[destI++] = sourceDataF32[srcI];
+                                    srcI++;
+                                }
+                                break;
+
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
+                            }
                             break;
                         case OSG_LA_PF:
-                            for (srcI = destI = 0; destI < destSize; ) 
+                            switch (getDataType())
                             {
-                                data[destI++] = getData()[srcI];
-                                data[destI++] = getData()[srcI++];
+                            case OSG_UINT8_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
+
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
+                            }
+                            break;
+
+                        case OSG_RGB_PF:
+                            switch (getDataType())
+                            {
+                            case OSG_UINT8_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize;)
+                                {
+                                    data[destI++] = sourceData[srcI];
+                                    data[destI++] = sourceData[srcI];
+                                    data[destI++] = sourceData[srcI++];
+                                    srcI++;
+                                }
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC16[destI++] = sourceDataUC16[srcI];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI++];
+                                    srcI++;
+                                }
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC32[destI++] = sourceDataUC32[srcI];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI++];
+                                    srcI++;
+                                }
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataF32[destI++] = sourceDataF32[srcI];
+                                    destDataF32[destI++] = sourceDataF32[srcI];
+                                    destDataF32[destI++] = sourceDataF32[srcI++];
+                                    srcI++;
+                                }
+                                break;
+
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
+                            }
+                            break;
+
+                        case OSG_RGBA_PF:
+                            switch (getDataType())
+                            {
+                            case OSG_UINT8_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize;)
+                                {
+                                    data[destI++] = sourceData[srcI];
+                                    data[destI++] = sourceData[srcI];
+                                    data[destI++] = sourceData[srcI++];
+                                    data[destI++] = sourceData[srcI++];
+                                }
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC16[destI++] = sourceDataUC16[srcI];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI++];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI++];
+                                }
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC32[destI++] = sourceDataUC32[srcI];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI++];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI++];
+                                }
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataF32[destI++] = sourceDataF32[srcI];
+                                    destDataF32[destI++] = sourceDataF32[srcI];
+                                    destDataF32[destI++] = sourceDataF32[srcI++];
+                                    destDataF32[destI++] = sourceDataF32[srcI++];
+                                }
+                                break;
+
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
+                            }
+                            break;
+                    }
+                    break;
+
+                //-----------------------------------------------------
+                case OSG_RGB_PF:
+                    switch (pixelFormat) {
+                        case OSG_L_PF:
+                            switch (getDataType())
+                            {
+                            case OSG_UINT8_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize;)
+                                {
+                                    sum = 0;
+                                    sum += sourceData[srcI++];
+                                    sum += sourceData[srcI++];
+                                    sum += sourceData[srcI++];
+                                    data[destI++] = sum / 3;
+                                }
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sum = 0;
+                                    sum += sourceDataUC16[srcI++];
+                                    sum += sourceDataUC16[srcI++];
+                                    sum += sourceDataUC16[srcI++];
+                                    destDataUC16[destI++] = sum / 3;
+                                }
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sum = 0;
+                                    sum += sourceDataUC32[srcI++];
+                                    sum += sourceDataUC32[srcI++];
+                                    sum += sourceDataUC32[srcI++];
+                                    destDataUC32[destI++] = sum / 3;
+                                }
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sumReal = 0;
+                                    sumReal += sourceDataF32[srcI++];
+                                    sumReal += sourceDataF32[srcI++];
+                                    sumReal += sourceDataF32[srcI++];
+                                    destDataF32[destI++] = sumReal / 3.0;
+                                }
+                                break;
+
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
+                            }
+                            break;
+                        case OSG_LA_PF:
+                            switch (getDataType())
+                            {
+                            case OSG_UINT8_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize;)
+                                {
+                                    sum = 0;
+                                    sum += sourceData[srcI++];
+                                    sum += sourceData[srcI++];
+                                    sum += sourceData[srcI++];
+                                    data[destI++] = sum / 3;
+                                    data[destI++] = sum / 3;
+                                }
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sum = 0;
+                                    sum += sourceDataUC16[srcI++];
+                                    sum += sourceDataUC16[srcI++];
+                                    sum += sourceDataUC16[srcI++];
+                                    destDataUC16[destI++] = sum / 3;
+                                    destDataUC16[destI++] = sum / 3;
+                                }
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sum = 0;
+                                    sum += sourceDataUC32[srcI++];
+                                    sum += sourceDataUC32[srcI++];
+                                    sum += sourceDataUC32[srcI++];
+                                    destDataUC32[destI++] = sum / 3;
+                                    destDataUC32[destI++] = sum / 3;
+                                }
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sumReal = 0;
+                                    sumReal += sourceDataF32[srcI++];
+                                    sumReal += sourceDataF32[srcI++];
+                                    sumReal += sourceDataF32[srcI++];
+                                    destDataF32[destI++] = sumReal / 3.0;
+                                    destDataF32[destI++] = sumReal / 3.0;
+                                }
+                                break;
+
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
                             }
                             break;
                         case OSG_RGB_PF:
-                            for (srcI = destI = 0; destI < destSize; ) 
+                           switch (getDataType())
                             {
-                                data[destI++] = getData()[srcI];
-                                data[destI++] = getData()[srcI];
-                                data[destI++] = getData()[srcI++];
+                            case OSG_UINT8_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
+
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
                             }
                             break;
+
                         case OSG_RGBA_PF:
-                            for (srcI = destI = 0; destI < destSize; ) 
+                            switch (getDataType())
                             {
-                                data[destI++] = getData()[srcI];
-                                data[destI++] = getData()[srcI];
-                                data[destI++] = getData()[srcI];
-                                data[destI++] = getData()[srcI++];
+                            case OSG_UINT8_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize;)
+                                {
+                                    sum = 0;
+                                    sum += data[destI++] = sourceData[srcI++];
+                                    sum += data[destI++] = sourceData[srcI++];
+                                    sum += data[destI++] = sourceData[srcI++];
+                                    data[destI++] = sum / 3;
+                                }
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sum = 0;
+                                    sum += destDataUC16[destI++] = sourceDataUC16[srcI++];
+                                    sum += destDataUC16[destI++] = sourceDataUC16[srcI++];
+                                    sum += destDataUC16[destI++] = sourceDataUC16[srcI++];
+                                    destDataUC16[destI++] = sum / 3;
+                                }
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sum = 0;
+                                    sum += destDataUC32[destI++] = sourceDataUC32[srcI++];
+                                    sum += destDataUC32[destI++] = sourceDataUC32[srcI++];
+                                    sum += destDataUC32[destI++] = sourceDataUC32[srcI++];
+                                    destDataUC32[destI++] = sum / 3;
+                                }
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sumReal = 0;
+                                    sumReal += destDataF32[destI++] = sourceDataF32[srcI++];
+                                    sumReal += destDataF32[destI++] = sourceDataF32[srcI++];
+                                    sumReal += destDataF32[destI++] = sourceDataF32[srcI++];
+                                    destDataF32[destI++] = sumReal / 3.0;
+                                }
+                                break;
+
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
                             }
-                            break;
-                        default:
                             break;
                     }
                     break;
                     //-----------------------------------------------------
-                case OSG_LA_PF: 
+                case OSG_RGBA_PF:
                     switch (pixelFormat) {
                         case OSG_L_PF:
-                            for (srcI = destI = 0; destI < destSize; ) 
+                            switch (getDataType())
                             {
-                                data[destI++] = getData()[srcI++];
-                                srcI++;
+                            case OSG_UINT8_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize;)
+                                {
+                                    sum = 0;
+                                    sum += sourceData[srcI++];
+                                    sum += sourceData[srcI++];
+                                    sum += sourceData[srcI++];
+                                    data[destI++] = sum / 3;
+                                    srcI++;
+                                }
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sum = 0;
+                                    sum += sourceDataUC16[srcI++];
+                                    sum += sourceDataUC16[srcI++];
+                                    sum += sourceDataUC16[srcI++];
+                                    destDataUC16[destI++] = sum / 3;
+                                    srcI++;
+                                }
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sum = 0;
+                                    sum += sourceDataUC32[srcI++];
+                                    sum += sourceDataUC32[srcI++];
+                                    sum += sourceDataUC32[srcI++];
+                                    destDataUC32[destI++] = sum / 3;
+                                    srcI++;
+                                }
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sumReal = 0;
+                                    sumReal += sourceDataF32[srcI++];
+                                    sumReal += sourceDataF32[srcI++];
+                                    sumReal += sourceDataF32[srcI++];
+                                    destDataF32[destI++] = sumReal / 3.0;
+                                    srcI++;
+                                }
+                                break;
+
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
+                            }
+
+                        case OSG_LA_PF:
+                            switch (getDataType())
+                            {
+                            case OSG_UINT8_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize;)
+                                {
+                                    sum = 0;
+                                    sum += sourceData[srcI++];
+                                    sum += sourceData[srcI++];
+                                    sum += sourceData[srcI++];
+                                    data[destI++] = sum / 3;
+                                    data[destI++] = sourceData[srcI++];;
+                                }
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sum = 0;
+                                    sum += sourceDataUC16[srcI++];
+                                    sum += sourceDataUC16[srcI++];
+                                    sum += sourceDataUC16[srcI++];
+                                    destDataUC16[destI++] = sum / 3;
+                                    destDataUC16[destI++] = sourceDataUC16[srcI++];;
+                                }
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sum = 0;
+                                    sum += sourceDataUC32[srcI++];
+                                    sum += sourceDataUC32[srcI++];
+                                    sum += sourceDataUC32[srcI++];
+                                    destDataUC32[destI++] = sum / 3;
+                                    destDataUC32[destI++] = sourceDataUC32[srcI++];;
+                                }
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    sumReal = 0;
+                                    sumReal += sourceDataF32[srcI++];
+                                    sumReal += sourceDataF32[srcI++];
+                                    sumReal += sourceDataF32[srcI++];
+                                    destDataF32[destI++] = sumReal / 3.0;
+                                    destDataF32[destI++] = sourceDataF32[srcI++];
+                                }
+                                break;
+
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
                             }
                             break;
-                        case OSG_LA_PF:
-                            memcpy (getData(),data,destSize);
-                            break;
                         case OSG_RGB_PF:
-                            for (srcI = destI = 0; destI < destSize; ) 
+                           switch (getDataType())
                             {
-                                data[destI++] = getData()[srcI];
-                                data[destI++] = getData()[srcI];
-                                data[destI++] = getData()[srcI++];
-                                srcI++;
+                            case OSG_UINT8_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize;)
+                                {
+                                    data[destI++] = sourceData[srcI++];
+                                    data[destI++] = sourceData[srcI++];
+                                    data[destI++] = sourceData[srcI++];
+                                    srcI++;
+                                }
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC16[destI++] = sourceDataUC16[srcI++];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI++];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI++];
+                                    srcI++;
+                                }
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC32[destI++] = sourceDataUC32[srcI++];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI++];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI++];
+                                    srcI++;
+                                }
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataF32[destI++] = sourceDataF32[srcI++];
+                                    destDataF32[destI++] = sourceDataF32[srcI++];
+                                    destDataF32[destI++] = sourceDataF32[srcI++];
+                                    srcI++;
+                                }
+                                break;
+
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
                             }
                             break;
                         case OSG_RGBA_PF:
-                            for (srcI = destI = 0; destI < destSize; ) 
+                            switch (getDataType())
                             {
-                                data[destI++] = getData()[srcI];
-                                data[destI++] = getData()[srcI];
-                                data[destI++] = getData()[srcI++];
-                                data[destI++] = getData()[srcI++];
+                            case OSG_UINT8_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                memcpy (getData(), data, destSize);
+                                break;
+
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
                             }
                             break;
+
                         default:
                             break;
                     }
                     break;
-                    //-----------------------------------------------------
-                case OSG_RGB_PF: 
-                    switch (pixelFormat) 
-                    {
-                        case OSG_L_PF:
-                            for (srcI = destI = 0; destI < destSize; ) 
-                            {
-                                data[destI++] = static_cast<UInt32>
-                                                (getData()[srcI++] * 0.263 +
-                                                 getData()[srcI++] * 0.655 +
-                                                 getData()[srcI++] * 0.082  );                                
-                            }               
-                            break;
-                        case OSG_LA_PF:
-                            for (srcI = destI = 0; destI < destSize; ) 
-                            {
-                                sum = static_cast<UInt32>
-                                                (getData()[srcI++] * 0.263 +
-                                                 getData()[srcI++] * 0.655 +
-                                                 getData()[srcI++] * 0.082  );                                
-                                data[destI++] = sum;
-                                data[destI++] = sum;
-                            }               
-                            break;
-                        case OSG_RGB_PF:
-                            memcpy (getData(),data,destSize);
-                            break;
-                        case OSG_RGBA_PF:
-                            for (srcI = destI = 0; destI < destSize; ) 
-                            {
-                                sum = 0;
-                                sum += data[destI++] = getData()[srcI++];
-                                sum += data[destI++] = getData()[srcI++];
-                                sum += data[destI++] = getData()[srcI++];
-                                data[destI++] = sum / 3;
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                    //-----------------------------------------------------
-                case OSG_RGBA_PF: 
-                    switch (pixelFormat) {
-                        case OSG_L_PF:
-                            for (srcI = destI = 0; destI < destSize; ) 
-                            {
-                                data[destI++] = static_cast<UInt32>
-                                                (getData()[srcI++] * 0.263 +
-                                                 getData()[srcI++] * 0.655 +
-                                                 getData()[srcI++] * 0.082  );                                
-                                srcI++;
-                            }               
-                            break;
-                        case OSG_LA_PF:
-                            for (srcI = destI = 0; destI < destSize; ) 
-                            {
-                                data[destI++] = static_cast<UInt32>
-                                                (getData()[srcI++] * 0.263 +
-                                                 getData()[srcI++] * 0.655 +
-                                                 getData()[srcI++] * 0.082  );                                
-                                data[destI++] =  getData()[srcI++];
-                            }               
-                            break;
-                        case OSG_RGB_PF:
-                            for (srcI = destI = 0; destI < destSize; ) 
-                            {
-                                data[destI++] = getData()[srcI++];
-                                data[destI++] = getData()[srcI++];
-                                data[destI++] = getData()[srcI++];
-                                srcI++;
-                            }               
-                            break;
-                        case OSG_RGBA_PF:
-                            memcpy (getData(),data,destSize);
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
+
                 default:
                     FWARNING (( "Unvalid pixeldepth (%d) in reformat() !\n",
                                 pixelFormat ));
             }
         }
-        if (data) 
+        if (data)
         {
             // rip the data from the local destImage if necessary
             if(destination == NullFC)
@@ -594,17 +1225,186 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
             }
         }
     }
-  
+
     return (data ? true : false);
 }
 
-/*! It just fills the whole image data with the given pixel value. It is 
+/*! It is a simple method to convert the image dataType. Does not change the pixelFormat.
+    So you can for example convert a image consisting of UChar8 data to Float data.
+*/
+bool Image::convertDataTypeTo (Int32 destDataType)
+{
+
+    if (destDataType == getDataType())
+    {
+        FWARNING (( "source image and destination image have same data types: no conversion possible"));
+        return true;
+    }
+
+    FINFO (( "Try to convert image from dataType %d to %d\n",
+             getDataType(), destDataType ));
+
+    ImagePtr dest;
+    dest = Image::create();
+    addRefCP(dest);
+
+    dest->set(getPixelFormat(), getWidth(), getHeight(), getDepth(), getMipMapCount(), getFrameCount(), 0.0, 0, destDataType);
+
+    UChar8 *sourceData = getData();
+    UChar8 *destData = dest->getData();
+
+    Int32 sourceSize = getSize()/getComponentSize();
+    Int32 destSize = dest->getSize()/dest->getComponentSize();
+
+    UInt16 *sourceDataUC16 = (UInt16*) sourceData;
+    UInt16 *destDataUC16 = (UInt16*) destData;
+    UInt32 *sourceDataUC32 = (UInt32*) sourceData;
+    UInt32 *destDataUC32 = (UInt32*) destData;
+    Real32 *sourceDataF32 = (Real32*) sourceData;
+    Real32 *destDataF32 = (Real32*) destData;
+
+    switch (getDataType())
+    {
+        case OSG_UINT8_IMAGEDATA:
+            switch (destDataType)
+            {
+                case OSG_UINT16_IMAGEDATA:
+                    for (int i = 0; i < sourceSize; i++)
+                    {
+                        destDataUC16[i] = (UInt16) (sourceData[i]<<8);
+                    }
+                    break;
+                case OSG_UINT32_IMAGEDATA:
+                    for (int i = 0; i < sourceSize; i++)
+                    {
+                        destDataUC32[i] = (UInt32) (sourceData[i]<<24);
+                    }
+                    break;
+                case OSG_FLOAT32_IMAGEDATA:
+                    for (int i = 0; i < sourceSize; i++)
+                    {
+                        destDataF32[i] = (Real32) (sourceData[i]/255.0);
+                    }
+                    break;
+                default:
+                    FWARNING (( "invalid destination data type \n" ));
+                    break;
+            }
+
+            break;
+
+        case OSG_UINT16_IMAGEDATA:
+            switch (destDataType)
+            {
+                case OSG_UINT8_IMAGEDATA:
+                    for (int i = 0; i < sourceSize; i++)
+                    {
+                        destData[i] = (UInt8) (sourceDataUC16[i]>>8);
+                    }
+                    break;
+                case OSG_UINT32_IMAGEDATA:
+                    for (int i = 0; i < sourceSize; i++)
+                    {
+                        destDataUC32[i] = (UInt32) (sourceDataUC16[i]<<16);
+                    }
+                    break;
+                case OSG_FLOAT32_IMAGEDATA:
+                    for (int i = 0; i < sourceSize; i++)
+                    {
+                        destDataF32[i] = (Real32) (sourceDataUC16[i]/255.0);
+                    }
+                    break;
+                default:
+                    FWARNING (( "invalid destination data type \n" ));
+                    break;
+            }
+            break;
+
+        case OSG_UINT32_IMAGEDATA:
+            switch (destDataType)
+            {
+                case OSG_UINT8_IMAGEDATA:
+                    for (int i = 0; i < sourceSize; i++)
+                    {
+                        destData[i] = (UInt8) (sourceDataUC32[i] >> 24);
+                    }
+                    break;
+                case OSG_UINT16_IMAGEDATA:
+                    for (int i = 0; i < sourceSize; i++)
+                    {
+                        destDataUC16[i] = (UInt16) (sourceDataUC32[i] >> 16);
+                    }
+                    break;
+                case OSG_FLOAT32_IMAGEDATA:
+                    for (int i = 0; i < sourceSize; i++)
+                    {
+                        destDataF32[i] = ((Real32) sourceDataUC32[i]) / 4294967295.0;
+                    }
+                    break;
+                default:
+                    FWARNING (( "invalid destination data type \n" ));
+                    break;
+            }
+            break;
+
+        case OSG_FLOAT32_IMAGEDATA:
+            switch (destDataType)
+            {
+                case OSG_UINT8_IMAGEDATA:
+                    for (int i = 0; i < sourceSize; i++)
+                    {
+                        destData[i] = (UInt8) (sourceDataF32[i]*255.0);
+                    }
+                    break;
+                case OSG_UINT16_IMAGEDATA:
+                    for (int i = 0; i < sourceSize; i++)
+                    {
+                        destDataUC16[i] = (UInt16) (sourceDataF32[i]*65535.0);
+                    }
+                    break;
+                case OSG_UINT32_IMAGEDATA:
+                    for (int i = 0; i < sourceSize; i++)
+                    {
+                        destDataUC32[i] = (UInt32) (sourceDataF32[i]*4294967295.0);
+                    }
+                    break;
+                default:
+                    FWARNING (( "invalid destination data type \n" ));
+                    break;
+            }
+            break;
+
+        default:
+            FWARNING (( "invalid source data type \n"));
+            break;
+    }
+
+    if (dest->getData()!= NULL)
+    {
+        this->set(dest);
+        subRefCP(dest);
+    }
+
+    return ((getData() && !(dest->getData())) ? true : false);
+}
+
+/*! It just fills the hole image data with the given pixel value. It is
     mainly used to initialize the image data.
 */
 void Image::clear(UChar8 pixelValue)
 {
     unsigned long   n = getSize();
     UChar8          *d = getData();
+
+    if(n && d)
+        while(n--)
+            *d++ = pixelValue;
+}
+
+void Image::clearFloat(Real32 pixelValue)
+{
+    unsigned long   n = getSize()/getComponentSize();
+    Real32       *d = (Real32*) getData();
 
     if(n && d)
         while(n--)
@@ -644,9 +1444,9 @@ UInt32 Image::attachmentCount (void) const
 
 /*! set a single string attachment for the given key/data pair
  */
-void Image::setAttachmentField ( const std::string &key, 
+void Image::setAttachmentField ( const std::string &key,
                                  const std::string &data)
-{ 
+{
     ImageGenericAttPtr att=ImageGenericAttPtr::dcast(
         findAttachment(
             ImageGenericAtt::getClassType().getGroupId()));
@@ -676,7 +1476,7 @@ void Image::setAttachmentField ( const std::string &key,
 /*! returns the string attachment for the given key or Null
  */
 const std::string * Image::findAttachmentField( const std::string &key) const
-{ 
+{
     Image *img=const_cast<Image*>(this);
     ImageGenericAttPtr att=ImageGenericAttPtr::dcast(
         img->findAttachment(
@@ -696,10 +1496,10 @@ const std::string * Image::findAttachmentField( const std::string &key) const
 
 /*! Method to scale the image. It just does a very simple but fast
     'nearest' scale. Should handle mipmap and frame data correct.
-    The method can operate on the object or stores the result in 
+    The method can operate on the object or stores the result in
     the optional destination Image.
 */
-bool Image::scale(Int32 width, Int32 height, Int32 depth, 
+bool Image::scale(Int32 width, Int32 height, Int32 depth,
                   ImagePtr destination)
 {
     ImagePtr destImage;
@@ -721,7 +1521,7 @@ bool Image::scale(Int32 width, Int32 height, Int32 depth,
     // set image data
     destImage->set((PixelFormat)getPixelFormat(),
                    width, height, depth, getMipMapCount(),
-                   getFrameCount(), getFrameDelay(), 0);
+                   getFrameCount(), getFrameDelay(), 0, getDataType());
 
     beginEditCP(destImage,PixelFieldMask);
 
@@ -731,14 +1531,14 @@ bool Image::scale(Int32 width, Int32 height, Int32 depth,
         for(mipmap = 0; mipmap < getMipMapCount(); mipmap++)
         {
             // get the memory pointer
-            src = (&srcPixel[0]) + 
+            src = (&srcPixel[0]) +
                 (frame * getFrameSize() * getBpp());
             if(mipmap)
                 src+=calcMipmapSumSize(
                     mipmap - 1,
                     oldWidth, oldHeight, oldDepth) * getBpp();
             dest=destImage->getData(mipmap,frame);
-            
+
             // calc the mipmap size
             sw = oldWidth  >> mipmap;
             sh = oldHeight >> mipmap;
@@ -756,19 +1556,19 @@ bool Image::scale(Int32 width, Int32 height, Int32 depth,
 }
 
 /*! Scale the image to the next power of 2 dimensions
-    The method can operate on the object or stores the result in 
+    The method can operate on the object or stores the result in
     the optional destination Image.
 */
 bool Image::scaleNextPower2(ImagePtr destination)
 {
-  return scale ( osgnextpower2(getWidth()), 
+  return scale ( osgnextpower2(getWidth()),
                  osgnextpower2(getHeight()),
                  osgnextpower2(getDepth()),
                  destination );
 }
 
-/*! Crop the image to the given bounding box. 
-    The method can operate on the object or stores the result in 
+/*! Crop the image to the given bounding box.
+    The method can operate on the object or stores the result in
     the optional destination Image.
 */
 bool Image::subImage ( Int32 offX, Int32 offY, Int32 offZ,
@@ -783,16 +1583,16 @@ bool Image::subImage ( Int32 offX, Int32 offY, Int32 offZ,
         destImage = Image::create();
         addRefCP(destImage);
     }
-    
+
     destImage->set((PixelFormat)getPixelFormat(),
-                   destW, destH, destD);
-    
+                   destW, destH, destD,1,1,0.0,0,getDataType());
+
     UChar8  *src = getData();
     UChar8 *dest = destImage->getData();
-    
+
     FDEBUG(("Image::subImage (%d %d %d) - (%d %d %d) - destPtr %p\n",
             offX, offY, offZ, destW, destH, destD, dest));
-    
+
     // ensure destination data is zero
     memset(dest, 0, destImage->getSize());
 
@@ -807,17 +1607,17 @@ bool Image::subImage ( Int32 offX, Int32 offY, Int32 offZ,
 
     // fill the destination buffer with the subdata
     UInt32 destIdx = 0;
-    
-    for(UInt32 z = zMin; z < zMax; z++) 
+
+    for(UInt32 z = zMin; z < zMax; z++)
     {
-        for(UInt32 y = yMin; y < yMax; y++) 
+        for(UInt32 y = yMin; y < yMax; y++)
         {
-            for(UInt32 x = xMin; x < xMax; x++) 
+            for(UInt32 x = xMin; x < xMax; x++)
             {
-                for(Int32 i = 0; i < getBpp(); i++) 
+                for(UInt32 i = 0; i < getBpp(); i++)
                 {
-                    dest[destIdx] = src[((z * getHeight() + y) * 
-											getWidth() + x) * getBpp() + i];
+                    dest[destIdx] = src[((z * getHeight() + y) *
+                                            getWidth() + x) * getBpp() + i];
                     destIdx++;
                 }
             }
@@ -837,7 +1637,7 @@ bool Image::subImage ( Int32 offX, Int32 offY, Int32 offZ,
 }
 
 /*! Crop a slice.
-    The method can operate on the object or stores the result in 
+    The method can operate on the object or stores the result in
     the optional destination Image.
 */
 bool Image::slice ( Int32 offX, Int32 offY, Int32 offZ,
@@ -852,9 +1652,9 @@ bool Image::slice ( Int32 offX, Int32 offY, Int32 offZ,
         destImage = Image::create();
         addRefCP(destImage);
     }
-    
+
     FDEBUG(("Image::slice (%d %d %d)\n",
-	    offX, offY, offZ));
+        offX, offY, offZ));
 
     if (offX >= 0) counter++;
     if (offY >= 0) counter++;
@@ -864,59 +1664,60 @@ bool Image::slice ( Int32 offX, Int32 offY, Int32 offZ,
         FWARNING(("Image::slice - more/less than one non negative value\n"));
         return false;
     }
-	
+
     if (offZ >= 0) {
         // XY slice
-        retCode = subImage( 0, 0, offZ, getWidth(), getHeight(), 1, 
+        retCode = subImage( 0, 0, offZ, getWidth(), getHeight(), 1,
                             destImage );
     }
 
     if (offY >= 0) {
         // XZ slice
-        destImage->set((PixelFormat)getPixelFormat(), 
-                       getWidth(), getDepth(), 1);
-    
+        destImage->set((PixelFormat)getPixelFormat(),
+                       getWidth(), getDepth(), 1,1,1,0.0,0,getDataType());
+
         UChar8  *src  = getData();
         UChar8  *dest = destImage->getData();
 
         // ensure destination data is zero
         memset(dest, 0, destImage->getSize());
-        
-        for(Int32 z = 0; z < getDepth(); z++) 
-        { 
-          for(Int32 x = 0; x < getWidth(); x++) 
-          { 
-            for(Int32 i = 0; i < getBpp(); i++) 
-            { 
-              dest[(z * getWidth() + x) * getBpp() + i] = src[((z * getHeight() + offY) * 
-                                                       getWidth() + x) * 
-                                                     getBpp() + i]; 
+
+        for(UInt32 z = 0; z < getDepth(); z++)
+        {
+          for(UInt32 x = 0; x < getWidth(); x++)
+          {
+            for(UInt32 i = 0; i < getBpp(); i++)
+            {
+              dest[(z * getWidth() + x) * getBpp() + i] = src[((z * getHeight() + offY) *
+                                                       getWidth() + x) *
+                                                     getBpp() + i];
             }
           }
-        } 
-    } 
-    
+        }
+    }
+
     if (offX >= 0) {
         // YZ slice
-        destImage->set((PixelFormat)getPixelFormat(), getHeight(), getDepth(), 1);
-      
+        destImage->set((PixelFormat)getPixelFormat(),
+                       getWidth(), getDepth(), 1,1,1,0.0,0,getDataType());
+
         UChar8  *src  = getData();
         UChar8  *dest = destImage->getData();
-        
+
         // ensure destination data is zero
         memset(dest, 0, destImage->getSize());
-        
-        for(Int32 z = 0; z < getDepth(); z++) 
-        { 
-          for(Int32 y = 0; y < getHeight(); y++) 
-          { 
-            for(Int32 i = 0; i < getBpp(); i++) 
-            { 
-              dest[(z * getHeight() + y) * getBpp() + i] = src[((z * getHeight() + y) * 
-                                                        getWidth() + offX) * 
-                                                      getBpp() + i]; 
-            } 
-          } 
+
+        for(UInt32 z = 0; z < getDepth(); z++)
+        {
+          for(UInt32 y = 0; y < getHeight(); y++)
+          {
+            for(UInt32 i = 0; i < getBpp(); i++)
+            {
+              dest[(z * getHeight() + y) * getBpp() + i] = src[((z * getHeight() + y) *
+                                                        getWidth() + offX) *
+                                                      getBpp() + i];
+            }
+          }
         }
     }
 
@@ -931,7 +1732,7 @@ bool Image::slice ( Int32 offX, Int32 offY, Int32 offZ,
 }
 
 /*! Create mipmaps data, level defines the number of level
-    The method can operate on the object or stores the result in 
+    The method can operate on the object or stores the result in
     the optional destination Image.
 */
 bool Image::createMipmap(Int32 level, ImagePtr destination)
@@ -942,32 +1743,32 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
       Int32   h;
       Int32   w;
     };
-  
+
     Offset  offset[][8] =
     {
         {   // 000
-            { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 
+            { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 },
             { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
         {   // 100
-            { 0, 0, 0 }, { 1, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 
+            { 0, 0, 0 }, { 1, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 },
             { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
         {   // 010
-            { 0, 0, 0 }, { 0, 1, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 
+            { 0, 0, 0 }, { 0, 1, 0 }, { 0, 0, 0 }, { 0, 0, 0 },
             { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
         {   // 110
-            { 0, 0, 0 }, { 0, 1, 0 }, { 1, 0, 0 }, { 1, 1, 0 }, 
+            { 0, 0, 0 }, { 0, 1, 0 }, { 1, 0, 0 }, { 1, 1, 0 },
             { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
         {   // 001
-            { 0, 0, 0 }, { 0, 0, 1 }, { 0, 0, 0 }, { 0, 0, 0 }, 
+            { 0, 0, 0 }, { 0, 0, 1 }, { 0, 0, 0 }, { 0, 0, 0 },
             { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
         {   // 101
-            { 0, 0, 0 }, { 1, 0, 0 }, { 0, 0, 1 }, { 1, 0, 1 }, 
+            { 0, 0, 0 }, { 1, 0, 0 }, { 0, 0, 1 }, { 1, 0, 1 },
             { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
         {   // 011
-            { 0, 0, 0 }, { 0, 0, 1 }, { 0, 1, 0 }, { 0, 1, 1 }, 
+            { 0, 0, 0 }, { 0, 0, 1 }, { 0, 1, 0 }, { 0, 1, 1 },
             { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
         {   // 111
-            { 0, 0, 0 }, { 1, 0, 0 }, { 0, 1, 0 }, { 1, 1, 0 }, 
+            { 0, 0, 0 }, { 1, 0, 0 }, { 0, 1, 0 }, { 1, 1, 0 },
             { 0, 0, 1 }, { 1, 0, 1 }, { 0, 1, 1 }, { 1, 1, 1 } }
     };
     Int32   offsetSize[] = { 0, 2, 2, 4, 2, 4, 4, 8 };
@@ -975,6 +1776,9 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
     Int32   w = getWidth(), h = getHeight(), d = getDepth();
     Int32   wm, hm, dm, wi, hi, di;
     UChar8  *src, *dest;
+    UInt16 *sourceDataUC16, *destDataUC16;
+    UInt32 *sourceDataUC32, *destDataUC32;
+    Real32 *sourceDataF32,  *destDataF32;
 
     if(destImage == NullFC)
     {
@@ -982,7 +1786,7 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
         addRefCP(destImage);
     }
 
-    /* ,*pixel; */
+    Real32 valueFloat;
     Int32   value, i, elem, dim, frame, size, mipmap;
     Int32   channel, lineSize, sliceSize;
 
@@ -996,59 +1800,262 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
     destImage->set(getPixelFormat(),
                    getWidth(), getHeight(), getDepth(),
                    level, getFrameCount(),
-                   getFrameDelay(), 0);
+                   getFrameDelay(), 0, getDataType());
 
     // copy the data;
-    for(frame = 0; frame < getFrameCount(); frame++)
+    switch (getDataType())
     {
-        src = this->getData(0, frame);
-        dest = destImage->getData(0, frame);
-        size = getWidth() * getHeight() * getDepth() * getBpp();
-        memcpy(dest,src, size);
-        src = dest;
-        dest = src + size;
-        w = getWidth();
-        h = getHeight();
-        d = getDepth();
-        for(mipmap = 1; mipmap < level; mipmap++)
-        {
-            lineSize = w * getBpp();
-            sliceSize = w * h * getBpp();
-            wm = (w == 1) ? w : (w >> 1);
-            hm = (h == 1) ? h : (h >> 1);
-            dm = (d == 1) ? d : (d >> 1);
-
-            dim = (d > dm) * 1 + (h > hm) * 2 + (w > wm) * 4;
-            elem = offsetSize[dim];
-
-            for(di = 0; di < dm; di++)
+        case OSG_UINT8_IMAGEDATA:
+            for(frame = 0; frame < getFrameCount(); frame++)
             {
-                for(hi = 0; hi < hm; hi++)
+                src = this->getData(0, frame);
+                dest = destImage->getData(0, frame);
+                size = getWidth() * getHeight() * getDepth() * getBpp();
+                memcpy(dest,src, size);
+                src = dest;
+                dest = src + size;
+                w = getWidth();
+                h = getHeight();
+                d = getDepth();
+
+                for(mipmap = 1; mipmap < level; mipmap++)
                 {
-                    for(wi = 0; wi < wm; wi++)
+                    lineSize = w * getBpp();
+                    sliceSize = w * h * getBpp();
+                    wm = (w == 1) ? w : (w >> 1);
+                    hm = (h == 1) ? h : (h >> 1);
+                    dm = (d == 1) ? d : (d >> 1);
+
+                    dim = (d > dm) * 1 + (h > hm) * 2 + (w > wm) * 4;
+                    elem = offsetSize[dim];
+
+                    for(di = 0; di < dm; di++)
                     {
-                        for(channel = 0; channel < getBpp(); channel++)
+                        for(hi = 0; hi < hm; hi++)
                         {
-                            value = 0;
-                            for(i = 0; i < elem; i++)
+                            for(wi = 0; wi < wm; wi++)
                             {
-                                value += src[
-                                    ((wi * 2) + offset[dim][i].w) * getBpp() +
-                                    ((hi * 2) + offset[dim][i].h) * lineSize +
-                                    ((di * 2) + offset[dim][i].d) * sliceSize +
-                                                channel];
+                                for(channel = 0; channel < getBpp(); channel++)
+                                {
+                                    value = 0;
+                                    for(i = 0; i < elem; i++)
+                                    {
+                                        value += src[
+                                            ((wi * 2) + offset[dim][i].w) * getBpp() +
+                                            ((hi * 2) + offset[dim][i].h) * lineSize +
+                                            ((di * 2) + offset[dim][i].d) * sliceSize +
+                                                        channel];
+                                    }
+                                *dest++ = (Int8) (value / elem);
+                                }
                             }
-                            *dest++ = value / elem;
                         }
                     }
+
+                    src += sliceSize;
+                    w = wm;
+                    h = hm;
+                    d = dm;
                 }
             }
+            break;
 
-            src += sliceSize;
-            w = wm;
-            h = hm;
-            d = dm;
-        }
+        case OSG_UINT16_IMAGEDATA:
+            for(frame = 0; frame < getFrameCount(); frame++)
+            {
+                src = this->getData(0, frame);
+                // sourceDataUC16 = (UInt16*) this->getData(0, frame);
+                dest = destImage->getData(0, frame);
+                // destDataUC16 = (UInt16*) destImage->getData(0, frame);
+
+                size = getWidth() * getHeight() * getDepth() * getBpp();
+                // UInt32 sizeUC16 = getWidth() * getHeight() * getDepth() * getBpp()/getComponentSize();
+                // for (int i = 0; i < sizeUC16; i++) destDataUC16[i] = sourceDataUC16[i];
+
+                memcpy(dest,src, size);
+
+                src = dest;
+                dest = src + size;
+                // sourceDataUC16 = destDataUC16;
+                // destDataUC16 = sourceDataUC16 + sizeUC16;
+
+                w = getWidth();
+                h = getHeight();
+                d = getDepth();
+
+                sourceDataUC16 = (UInt16*) src;
+                destDataUC16 = (UInt16*) dest;
+
+                for(mipmap = 1; mipmap < level; mipmap++)
+                {
+                    lineSize = w * getBpp()/getComponentSize();
+                    sliceSize = w * h * getBpp()/getComponentSize();
+                    wm = (w == 1) ? w : (w >> 1);
+                    hm = (h == 1) ? h : (h >> 1);
+                    dm = (d == 1) ? d : (d >> 1);
+
+                    dim = (d > dm) * 1 + (h > hm) * 2 + (w > wm) * 4;
+                    elem = offsetSize[dim];
+
+                    for(di = 0; di < dm; di++)
+                    {
+                        for(hi = 0; hi < hm; hi++)
+                        {
+                            for(wi = 0; wi < wm; wi++)
+                            {
+                                for(channel = 0; channel < (getBpp()/getComponentSize()); channel++)
+                                {
+                                    value = 0;
+                                    for(i = 0; i < elem; i++)
+                                    {
+                                        value += sourceDataUC16[
+                                            ((wi * 2) + offset[dim][i].w) * (getBpp() / getComponentSize()) +
+                                            ((hi * 2) + offset[dim][i].h) * lineSize +
+                                            ((di * 2) + offset[dim][i].d) * sliceSize +
+                                                        channel];
+                                    }
+                                *destDataUC16++ = (UInt16) (value / elem);
+                                }
+                            }
+                        }
+                    }
+
+                    sourceDataUC16 += sliceSize;
+                    w = wm;
+                    h = hm;
+                    d = dm;
+                }
+            }
+            break;
+
+        case OSG_UINT32_IMAGEDATA:
+            for(frame = 0; frame < getFrameCount(); frame++)
+            {
+                src = this->getData(0, frame);
+                // sourceDataUC32 = (UInt32*) this->getData(0, frame);
+                dest = destImage->getData(0, frame);
+                // destDataUC32 = (UInt32*) destImage->getData(0, frame);
+
+                size = getWidth() * getHeight() * getDepth() * getBpp();
+                // UInt32 sizeUC32 = getWidth() * getHeight() * getDepth() * getBpp()/getComponentSize();
+
+                memcpy(dest,src, size);
+
+                src = dest;
+                dest = src + size;
+                // sourceDataUC32 = destDataUC32;
+                // destDataUC32 = sourceDataUC32 + sizeUC32;
+
+                w = getWidth();
+                h = getHeight();
+                d = getDepth();
+
+                sourceDataUC32 = (UInt32*) src;
+                destDataUC32 = (UInt32*) dest;
+
+                for(mipmap = 1; mipmap < level; mipmap++)
+                {
+                    lineSize = w * (getBpp() / getComponentSize());
+                    sliceSize = w * h * (getBpp() / getComponentSize());
+                    wm = (w == 1) ? w : (w >> 1);
+                    hm = (h == 1) ? h : (h >> 1);
+                    dm = (d == 1) ? d : (d >> 1);
+
+                    dim = (d > dm) * 1 + (h > hm) * 2 + (w > wm) * 4;
+                    elem = offsetSize[dim];
+
+                    for(di = 0; di < dm; di++)
+                    {
+                        for(hi = 0; hi < hm; hi++)
+                        {
+                            for(wi = 0; wi < wm; wi++)
+                            {
+                                for(channel = 0; channel < (getBpp()/getComponentSize()); channel++)
+                                {
+                                    value = 0;
+                                    for(i = 0; i < elem; i++)
+                                    {
+                                        value += (sourceDataUC32[
+                                            ((wi * 2) + offset[dim][i].w) * (getBpp() / getComponentSize()) +
+                                            ((hi * 2) + offset[dim][i].h) * lineSize +
+                                            ((di * 2) + offset[dim][i].d) * sliceSize +
+                                                        channel]/elem);
+                                    }
+                                *destDataUC32++ = (UInt32) value;
+                                }
+                            }
+                        }
+                    }
+
+                    sourceDataUC32 += sliceSize;
+                    w = wm;
+                    h = hm;
+                    d = dm;
+                }
+            }
+            break;
+
+        case OSG_FLOAT32_IMAGEDATA:
+            for(frame = 0; frame < getFrameCount(); frame++)
+            {
+                src = this->getData(0, frame);
+                dest = destImage->getData(0, frame);
+                size = getWidth() * getHeight() * getDepth() * getBpp();
+                memcpy(dest,src, size);
+                src = dest;
+                dest = src + size;
+                w = getWidth();
+                h = getHeight();
+                d = getDepth();
+
+                sourceDataF32 = (Real32*) src;
+                destDataF32 = (Real32*) dest;
+
+                for(mipmap = 1; mipmap < level; mipmap++)
+                {
+                    lineSize = w * (getBpp() / getComponentSize());
+                    sliceSize = w * h * (getBpp() / getComponentSize());
+                    wm = (w == 1) ? w : (w >> 1);
+                    hm = (h == 1) ? h : (h >> 1);
+                    dm = (d == 1) ? d : (d >> 1);
+
+                    dim = (d > dm) * 1 + (h > hm) * 2 + (w > wm) * 4;
+                    elem = offsetSize[dim];
+
+                    for(di = 0; di < dm; di++)
+                    {
+                        for(hi = 0; hi < hm; hi++)
+                        {
+                            for(wi = 0; wi < wm; wi++)
+                            {
+                                for(channel = 0; channel < (getBpp()/getComponentSize()); channel++)
+                                {
+                                    valueFloat = 0;
+                                    for(i = 0; i < elem; i++)
+                                    {
+                                        valueFloat += sourceDataF32[
+                                            ((wi * 2) + offset[dim][i].w) * (getBpp() / getComponentSize()) +
+                                            ((hi * 2) + offset[dim][i].h) * lineSize +
+                                            ((di * 2) + offset[dim][i].d) * sliceSize +
+                                                        channel];
+                                    }
+                                *destDataF32++ = (Real32) (valueFloat / elem);
+                                }
+                            }
+                        }
+                    }
+
+                    sourceDataF32 += sliceSize;
+                    w = wm;
+                    h = hm;
+                    d = dm;
+                }
+            }
+            break;
+
+        default:
+            FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+            break;
     }
 
     // rip the data from the local destImage if necessary
@@ -1094,7 +2101,7 @@ bool Image::read(const Char8 *fileName)
 #endif
                 delete [] cdir;
             }
-            
+
             abspath += base;
             abspath += fileName;
         }
@@ -1102,7 +2109,7 @@ bool Image::read(const Char8 *fileName)
         {
             abspath = fileName;
         }
-        
+
         beginEditCP(iPtr, NameFieldMask);
             setName(abspath);
         endEditCP(iPtr, NameFieldMask);
@@ -1110,7 +2117,7 @@ bool Image::read(const Char8 *fileName)
     return ok;
 }
 
-/*! Store the image to the given mem block as 'mimeType'. 
+/*! Store the image to the given mem block as 'mimeType'.
     mimeType can be 0, in which case the method will store the
     object as uncompressed mtd data.
     Returns the number of bytes used.
@@ -1123,7 +2130,7 @@ UInt64 Image::store(Char8 *mimeType, UChar8 *mem, Int32 memSize)
 }
 
 /*! Restore the image from the given mem block. Returns the
-    number of bytes used. 
+    number of bytes used.
 */
 UInt64 Image::restore(const UChar8 *mem, Int32 memSize)
 {
@@ -1169,10 +2176,10 @@ bool Image::hasAlphaChannel(void)
 
 /*! Method returns the right frame data for the given time.
  */
-UInt8 *Image::getDataByTime(Time   time, UInt32) 
+UInt8 *Image::getDataByTime(Time   time, UInt32)
 {
     UInt32 frameNum = calcFrameNum(time, true);
-  
+
     return getData(0, frameNum);
 }
 
@@ -1189,8 +2196,8 @@ UInt32 Image::calcFrameNum(Time time, bool OSG_CHECK_ARG(loop)) const
 /*! Internal used method to calculate the next mipmap geo for the given level
  */
 void Image::calcMipmapGeometry   ( UInt32 mipmapNum,
-                                   UInt32 &width, 
-                                   UInt32 &height, 
+                                   UInt32 &width,
+                                   UInt32 &height,
                                    UInt32 &depth ) const
 {
   width  = getWidth() >> mipmapNum;
@@ -1208,7 +2215,7 @@ UInt32 Image::calcMipmapLevelCount ( void ) const
 {
   UInt32  w = getWidth(), h = getHeight(), d = getDepth();
   UInt32 level;
-  
+
   for (level = 1; true; level++)
     {
       if ((w == 1) && (h == 1) && (d == 1))
@@ -1235,7 +2242,7 @@ UInt32 Image::calcMipmapSize    ( UInt32 mipmapNum,
   w >>= mipmapNum;
   h >>= mipmapNum;
   d >>= mipmapNum;
-  
+
   return (w?w:1) * (h?h:1) * (d?d:1);
 }
 
@@ -1256,15 +2263,15 @@ UInt32 Image::calcMipmapSumSize ( UInt32 mipmapNum,
                                          UInt32 w, UInt32 h, UInt32 d) const
 {
     Int32 sum = w * h * d;
-    
-    while (mipmapNum--) 
+
+    while (mipmapNum--)
     {
         w >>= 1;
         h >>= 1;
         d >>= 1;
         sum += (w?w:1) * (h?h:1) * (d?d:1);
     }
-  
+
     return sum;
 }
 
@@ -1283,22 +2290,36 @@ UInt32 Image::calcMipmapSumSize (UInt32 mipmapNum) const
  */
 bool Image::createData(const UInt8 *data)
 {
-    Int32   i, mapSize = sizeof(_formatDic) / sizeof(UInt32[2]);
+    Int32 i;
+    Int32 mapSizeFormat = sizeof(_formatDic) / sizeof(UInt32[2]);
+    Int32 mapSizeType = sizeof(_typeDic) / sizeof(UInt32[2]);
+
     UInt32 byteCount = 0;
     ImagePtr iPtr(this);
 
     beginEditCP(iPtr,
-                BppFieldMask |
-                DimensionFieldMask |
-                FrameSizeFieldMask |
+                BppFieldMask           |
+                DimensionFieldMask     |
+                FrameSizeFieldMask     |
+                ComponentSizeFieldMask |
                 PixelFieldMask);
 
-    // set bbp
-    for(i = 0; i < mapSize; i++)
+    // set bpp
+    UInt32 pixelFormat = 0;
+    UInt32 typeFormat  = 0;
+    for(i = 0; i < mapSizeFormat; i++)
     {
         if(_formatDic[i][0] == getPixelFormat())
-            setBpp(_formatDic[i][1]);
+            pixelFormat = _formatDic[i][1];
     }
+    for(i = 0; i < mapSizeType; i++)
+    {
+        if(_typeDic[i][0] == getDataType())
+            typeFormat = _typeDic[i][1];
+    }
+
+    setComponentSize( typeFormat );
+    setBpp( pixelFormat * typeFormat );
 
     // set dimension
     setDimension(0);
@@ -1335,9 +2356,10 @@ bool Image::createData(const UInt8 *data)
     }
 
     endEditCP(iPtr,
-              BppFieldMask |
-              DimensionFieldMask |
-              FrameSizeFieldMask |
+              BppFieldMask           |
+              DimensionFieldMask     |
+              FrameSizeFieldMask     |
+              ComponentSizeFieldMask |
               PixelFieldMask);
 
     return (getData() != NULL);
@@ -1351,7 +2373,7 @@ bool Image::scaleData(UInt8 *srcData, Int32 srcW, Int32 srcH, Int32 srcD,
     Real32  sx = Real32(srcW) / Real32(destW);
     Real32  sy = Real32(srcH) / Real32(destH);
     Real32  sz = Real32(srcD) / Real32(destD);
-    Int32   srcSize = srcW * srcH * srcD;
+    Int32   srcSize = srcW * srcH * srcD * getBpp();
 
     //  Int32 destDize = destW * destH * destD;
     Int32   x, y, z, p;
@@ -1388,16 +2410,13 @@ bool Image::scaleData(UInt8 *srcData, Int32 srcW, Int32 srcH, Int32 srcD,
  */
 Image &Image::operator=(const Image &image)
 {
-    this->set((PixelFormat)image.getPixelFormat(), image.getWidth(), 
+    this->set((PixelFormat)image.getPixelFormat(), image.getWidth(),
               image.getHeight(), image.getDepth(),
-              image.getMipMapCount(), image.getFrameCount(), 
+              image.getMipMapCount(), image.getFrameCount(),
               image.getFrameDelay(),
-              image.getData());
+              image.getData(),
+              image.getDataType());
 
-#ifdef OSG_DEBUG
-    FDEBUG(("Running image assign operator\n"));
-    this->dump();
-#endif
     return *this;
 }
 
@@ -1408,7 +2427,7 @@ bool Image::operator<(const Image &image)
     return (getSize() < image.getSize()) ? true : false;
 }
 
-/*! Method to compare the object to another Image instance; 
+/*! Method to compare the object to another Image instance;
     Checks first all parameter and afterwards the Image data;
 */
 bool Image::operator==(const Image &image)
@@ -1421,7 +2440,8 @@ bool Image::operator==(const Image &image)
        (getMipMapCount() == image.getMipMapCount()) &&
        (getFrameCount() == image.getFrameCount()) &&
        (getFrameDelay() == image.getFrameDelay()) &&
-       (getPixelFormat() == image.getPixelFormat()))
+       (getPixelFormat() == image.getPixelFormat()) &&
+       (getDataType() == image.getDataType()))
     {
         for(i = 0; i < s; ++i)
         {
@@ -1433,7 +2453,7 @@ bool Image::operator==(const Image &image)
     return false;
 }
 
-/*! Method to compare the object to another Image instance; 
+/*! Method to compare the object to another Image instance;
     Checks first all parameter and afterwards the Image data;
 */
 bool Image::operator!=(const Image &image)

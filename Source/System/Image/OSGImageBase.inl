@@ -187,6 +187,20 @@ SFString *ImageBase::getSFName(void)
     return &_sfName;
 }
 
+//! Get the Image::_sfDataType field.
+inline
+SFInt32 *ImageBase::getSFDataType(void)
+{
+    return &_sfDataType;
+}
+
+//! Get the Image::_sfComponentSize field.
+inline
+SFInt32 *ImageBase::getSFComponentSize(void)
+{
+    return &_sfComponentSize;
+}
+
 
 //! Get the value of the Image::_sfDimension field.
 inline
@@ -419,6 +433,48 @@ void ImageBase::setName(const std::string &value)
     _sfName.setValue(value);
 }
 
+//! Get the value of the Image::_sfDataType field.
+inline
+Int32 &ImageBase::getDataType(void)
+{
+    return _sfDataType.getValue();
+}
+
+//! Get the value of the Image::_sfDataType field.
+inline
+const Int32 &ImageBase::getDataType(void) const
+{
+    return _sfDataType.getValue();
+}
+
+//! Set the value of the Image::_sfDataType field.
+inline
+void ImageBase::setDataType(const Int32 &value)
+{
+    _sfDataType.setValue(value);
+}
+
+//! Get the value of the Image::_sfComponentSize field.
+inline
+Int32 &ImageBase::getComponentSize(void)
+{
+    return _sfComponentSize.getValue();
+}
+
+//! Get the value of the Image::_sfComponentSize field.
+inline
+const Int32 &ImageBase::getComponentSize(void) const
+{
+    return _sfComponentSize.getValue();
+}
+
+//! Set the value of the Image::_sfComponentSize field.
+inline
+void ImageBase::setComponentSize(const Int32 &value)
+{
+    _sfComponentSize.setValue(value);
+}
+
 
 //! Get the value of the \a index element the Image::_mfParents field.
 inline
@@ -464,5 +520,5 @@ const MFUInt8 &ImageBase::getPixel(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGIMAGEBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 
