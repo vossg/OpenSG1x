@@ -142,10 +142,16 @@ ifeq ($(INSTALL_WRITABLE),not)
 	$(error Install dir $(INSTALL_DIR) exists but is not writable! I can't install there)
 endif
 
+ifeq ($(CONFIGURED_GVBETA),0)
+GV_EXCLUDE := -o -name Gerrit -o -name VRMLLoader
+else
+GV_EXCLUDE := -o -name tmp_gv
+endif
+
 install-includes: install-test
 	@if [ ! -w $(INSTALL_DIR)/include ]; then                               \
-            mkdir $(INSTALL_DIR)/include;                                       \
-        fi;                                                                     \
+            mkdir $(INSTALL_DIR)/include;                                   \
+        fi;                                                                 \
 	if [ ! -w $(INSTALL_DIR)/include/OpenSG ]; then                         \
 	    mkdir $(INSTALL_DIR)/include/OpenSG ;                               \
 	fi;                                                                     \
@@ -157,13 +163,15 @@ install-includes: install-test
 	find $($(PROJ)POOL) -follow                                             \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o          \
 	       -name Tools -o -name '.*' -o -name examples -o -name tmp -o      \
-	       -name Templates -o -name Builds -o -name VS \) -prune \) -o      \
+	       -name Templates -o -name Builds -o                               \
+		   -name VS $(GV_EXCLUDE) \) -prune \) -o                           \
 	       -type f -name '*.h'                                              \
 	-exec $($(PROJ)POOL)/Common/sedInc {} $(INSTALL_DIR)/include/OpenSG \; ;\
 	find $($(PROJ)POOL) -follow                                             \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o          \
 	       -name Tools -o -name '.*' -o -name examples -o -name tmp -o      \
-	       -name Templates -o -name Builds -o -name VS \) -prune \) -o      \
+	       -name Templates -o -name Builds -o                               \
+		   -name VS $(GV_EXCLUDE) \) -prune \) -o      	                    \
 	       -type f -name '*.inl'                                            \
 	-exec $($(PROJ)POOL)/Common/sedInl {} $(INSTALL_DIR)/include/OpenSG \; ;\
 	find $$CURRDIR  -follow                                                 \
@@ -179,8 +187,8 @@ install-includes: install-test
 
 update-includes: install-test
 	@if [ ! -w $(INSTALL_DIR)/include ]; then                                \
-            mkdir $(INSTALL_DIR)/include;                                        \
-        fi;                                                                      \
+            mkdir $(INSTALL_DIR)/include;                                    \
+        fi;                                                                  \
 	if [ ! -w $(INSTALL_DIR)/include/OpenSG ]; then                          \
 	    mkdir $(INSTALL_DIR)/include/OpenSG ;                                \
 	fi;                                                                      \
@@ -188,13 +196,15 @@ update-includes: install-test
 	find $($(PROJ)POOL) -follow                                              \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o           \
 	       -name Tools -o -name '.*' -o -name examples -o -name tmp -o       \
-	       -name Templates -o -name Builds -o -name VS \) -prune \) -o       \
+	       -name Templates -o -name Builds -o                                \
+		   -name VS $(GV_EXCLUDE) \) -prune \) -o                            \
 	       -type f -name '*.h'                                               \
 	-exec $($(PROJ)POOL)/Common/sedIncU {} $(INSTALL_DIR)/include/OpenSG \; ;\
 	find $($(PROJ)POOL) -follow                                              \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o           \
 	       -name Tools -o -name '.*' -o -name examples -o -name tmp -o       \
-	       -name Templates -o -name Builds -o -name VS \) -prune \) -o       \
+	       -name Templates -o -name Builds -o 								 \
+		   -name VS $(GV_EXCLUDE) \) -prune \) -o                            \
 	       -type f -name '*.inl'                                             \
 	-exec $($(PROJ)POOL)/Common/sedInlU {} $(INSTALL_DIR)/include/OpenSG \; ;\
 	find $$CURRDIR  -follow                                                  \

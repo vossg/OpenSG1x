@@ -195,7 +195,7 @@ bool FieldDescription::isInternal(void)  const
 
 bool FieldDescription::isValid(void)  const
 {
-    return (this != NULL && _szName.length()) ? true : false;
+    return (this != NULL && _szName.getLength()) ? true : false;
 }
 
 /*-------------------------------------------------------------------------*/

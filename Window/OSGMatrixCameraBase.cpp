@@ -74,7 +74,7 @@ OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<MatrixCameraPtr>::_type("MatrixCameraPtr", "CameraPtr", true);
+DataType FieldDataTraits<MatrixCameraPtr>::_type("MatrixCameraPtr", "CameraPtr");
 
 #if defined(__sgi)
 
@@ -102,7 +102,7 @@ const OSG::BitVector	MatrixCameraBase::ModelviewMatrixFieldMask =
 
 
 
-char MatrixCameraBase::cvsid[] = "@(#)$Id: OSGMatrixCameraBase.cpp,v 1.1 2002/01/29 17:50:57 dirk Exp $";
+char MatrixCameraBase::cvsid[] = "@(#)$Id: OSGMatrixCameraBase.cpp,v 1.2 2002/02/11 03:46:28 vossg Exp $";
 
 /** \brief Group field description
  */

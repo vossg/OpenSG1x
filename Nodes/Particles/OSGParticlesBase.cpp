@@ -64,7 +64,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<ParticlesPtr>::_type("ParticlesPtr", "NodeCorePtr", true);
+DataType FieldDataTraits<ParticlesPtr>::_type("ParticlesPtr", "NodeCorePtr");
 
 #if defined(__sgi)
 
@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParticlesBase.cpp,v 1.6 2002/02/04 20:14:10 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParticlesBase.cpp,v 1.7 2002/02/11 03:46:27 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPARTICLESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPARTICLESBASE_INLINE_CVSID;
 

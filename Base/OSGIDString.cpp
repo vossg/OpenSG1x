@@ -117,7 +117,7 @@ IDString::~IDString()
 
 void IDString::toUpper(void)
 {
-    int i, l = length();
+    int i, l = getLength();
 
     for (i = 0; i < l; i++)
         _str[i] = toupper(_str[i]);
@@ -126,7 +126,7 @@ void IDString::toUpper(void)
 
 void IDString::toLower(void)
 {
-    int i, l = length();
+    int i, l = getLength();
 
     for (i = 0; i < l; i++)
         _str[i] = tolower(_str[i]);
@@ -137,9 +137,9 @@ void IDString::toLower(void)
 #pragma warning ( default : 810 )
 #endif
 
-/** get the str length
+/** get the str getLength
 */
-unsigned IDString::length(void) const
+unsigned IDString::getLength(void) const
 {
     return _str ? strlen(_str) : 0;
 }
@@ -199,7 +199,7 @@ void IDString::set(const Char8 *str, MemType memType)
 //----------------------------------------------------------------------
 void IDString::tokenize(vector <IDString*> &v)
 {
-    int l             = length(),
+    int l             = getLength(),
         oldpos        = 0,
         pos           = 0,
         inQuotes      = 0,
@@ -302,7 +302,7 @@ void IDString::tokenize(vector <IDString*> &v)
 
 void IDString::tokenize(vector <IDString> &v)
 {
-    int l        = length(),
+    int l        = getLength(),
         oldpos   = 0,
         pos      = 0,
         inQuotes = 0,

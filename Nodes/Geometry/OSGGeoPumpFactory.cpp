@@ -84,7 +84,7 @@ function to send the geometry's data to OpenGL.
 
 char GeoPumpFactory::cvsid[] = "@(#)$Id: $";
 
-GeoPumpFactory GeoPumpFactory::_the;
+GeoPumpFactory *GeoPumpFactory::_the = NULL;
 
 /***************************************************************************\
  *                           Class methods                                 *

@@ -64,7 +64,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<PassiveWindowPtr>::_type("PassiveWindowPtr", "WindowPtr", true);
+DataType FieldDataTraits<PassiveWindowPtr>::_type("PassiveWindowPtr", "WindowPtr");
 
 #if defined(__sgi)
 
@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPassiveWindowBase.cpp,v 1.1 2002/01/28 21:24:11 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPassiveWindowBase.cpp,v 1.2 2002/02/11 03:46:28 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPASSIVEWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPASSIVEWINDOWBASE_INLINE_CVSID;
 

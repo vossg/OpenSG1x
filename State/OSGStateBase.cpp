@@ -64,7 +64,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<StatePtr>::_type("StatePtr", "FieldContainerPtr", true);
+DataType FieldDataTraits<StatePtr>::_type("StatePtr", "FieldContainerPtr");
 
 #if defined(__sgi)
 
@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateBase.cpp,v 1.20 2001/11/09 08:17:08 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateBase.cpp,v 1.21 2002/02/11 03:46:28 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATEBASE_INLINE_CVSID;
 

@@ -43,10 +43,14 @@
 #endif
 
 #include <stdlib.h>
-#include <unistd.h>
 #include <fcntl.h>
 #include <list>
 #include <string>
+
+#ifndef WIN32
+#include <unistd.h>
+#endif
+
 #include <OSGBaseTypes.h>
 #include <OSGConfig.h>
 #include <OSGLog.h>
@@ -192,5 +196,5 @@ OSG_END_NAMESPACE
 
 #endif /* _OSGPATHHANDLER_H */
 
-#define OSGPATHHANDLER_HEADER_CVSID "@(#)$Id: OSGPathHandler.h,v 1.4 2001/11/07 11:15:46 vossg Exp $"
+#define OSGPATHHANDLER_HEADER_CVSID "@(#)$Id: OSGPathHandler.h,v 1.5 2002/02/11 03:46:26 vossg Exp $"
 

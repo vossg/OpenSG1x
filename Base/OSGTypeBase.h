@@ -61,8 +61,7 @@ class OSG_BASE_DLLMAPPING TypeBase
     /*! \{                                                                 */
 
     TypeBase(const Char8  *szName, 
-             const Char8  *szParentName,
-                   bool    bRegister   = false);
+             const Char8  *szParentName);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

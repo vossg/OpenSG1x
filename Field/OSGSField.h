@@ -79,6 +79,7 @@ class OSG_BASE_DLLMAPPING SField : public Field
 
     typedef          SField<FieldTypeT, fieldNameSpace>          Self;
 
+    typedef          FieldTypeT                                  StoredType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Class Get                                  */

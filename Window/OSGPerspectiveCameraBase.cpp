@@ -64,7 +64,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<PerspectiveCameraPtr>::_type("PerspectiveCameraPtr", "CameraPtr", true);
+DataType FieldDataTraits<PerspectiveCameraPtr>::_type("PerspectiveCameraPtr", "CameraPtr");
 
 #if defined(__sgi)
 
@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.21 2001/11/09 08:17:07 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.22 2002/02/11 03:46:28 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPERSPECTIVECAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPERSPECTIVECAMERABASE_INLINE_CVSID;
 

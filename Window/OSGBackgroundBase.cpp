@@ -64,7 +64,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<BackgroundPtr>::_type("BackgroundPtr", "AttachmentContainerPtr", true);
+DataType FieldDataTraits<BackgroundPtr>::_type("BackgroundPtr", "AttachmentContainerPtr");
 
 #if defined(__sgi)
 
@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.20 2001/11/09 08:17:06 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.21 2002/02/11 03:46:28 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBACKGROUNDBASE_INLINE_CVSID;
 

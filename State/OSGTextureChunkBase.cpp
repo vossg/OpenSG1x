@@ -75,7 +75,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<TextureChunkPtr>::_type("TextureChunkPtr", "StateChunkPtr", true);
+DataType FieldDataTraits<TextureChunkPtr>::_type("TextureChunkPtr", "StateChunkPtr");
 
 #if defined(__sgi)
 
@@ -99,7 +99,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.24 2002/02/04 20:14:10 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.25 2002/02/11 03:46:28 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 

@@ -59,8 +59,7 @@ class OSG_BASE_DLLMAPPING DataType : public TypeBase
     /*! \{                                                                 */
 
     DataType(const Char8 *szName, 
-             const Char8 *szParentName,
-                   bool   bRegister = false);
+             const Char8 *szParentName);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

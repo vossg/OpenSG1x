@@ -64,7 +64,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<ImageBackgroundPtr>::_type("ImageBackgroundPtr", "BackgroundPtr", true);
+DataType FieldDataTraits<ImageBackgroundPtr>::_type("ImageBackgroundPtr", "BackgroundPtr");
 
 #if defined(__sgi)
 
@@ -86,7 +86,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageBackgroundBase.cpp,v 1.6 2002/02/04 20:14:12 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageBackgroundBase.cpp,v 1.7 2002/02/11 03:46:28 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGIMAGEBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGIMAGEBACKGROUNDBASE_INLINE_CVSID;
 

@@ -343,9 +343,9 @@ void Geometry::handleGL( Window* win, UInt32 id )
     {       
         glNewList( id, GL_COMPILE );
         
-        GeoPumpFactory::Index ind = GeoPumpFactory::the().getIndex( this );
+        GeoPumpFactory::Index ind = GeoPumpFactory::the()->getIndex( this );
         GeoPumpFactory::GeoPump p = 
-            GeoPumpFactory::the().getGeoPump( win, ind );
+            GeoPumpFactory::the()->getGeoPump( win, ind );
 
         // call the pump
 
@@ -580,9 +580,9 @@ Action::ResultE Geometry::draw(DrawActionBase * action)
     }
     else
     {
-        GeoPumpFactory::Index ind = GeoPumpFactory::the().getIndex( this );
+        GeoPumpFactory::Index ind = GeoPumpFactory::the()->getIndex( this );
         GeoPumpFactory::GeoPump p = 
-            GeoPumpFactory::the().getGeoPump( action->getWindow(), ind );
+            GeoPumpFactory::the()->getGeoPump( action->getWindow(), ind );
 
         // call the pump
 

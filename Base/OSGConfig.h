@@ -595,7 +595,9 @@ OSG_USING_STD_NAMESPACE
 #define OSG_NUM_ASPECTS 2
 
 #ifdef OSG_WIN_TYPES
+#ifndef OSG_NO_WINDOWD_H_INCLUDE
 #include <windows.h>
+#endif
 #endif
 
 #ifndef OSG_WIN_TYPES

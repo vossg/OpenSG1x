@@ -76,7 +76,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.23 2002/02/04 20:14:07 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.24 2002/02/11 03:46:27 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -89,7 +89,6 @@ namespace
  *****************************/
 // Static Class Varible implementations:
 const Char8 *OBJSceneFileType::_suffixA[] =  { "obj" };
-map<string, OBJSceneFileType::DataElem> OBJSceneFileType::_dataElemMap;
 
 OBJSceneFileType  OBJSceneFileType::_the         (_suffixA,
                                                   sizeof(_suffixA),
@@ -135,7 +134,7 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
   NodePtr rootPtr, nodePtr;
   ifstream in(fileName);
   string elem;
-  map<string, DataElem>::iterator elemI;
+  map<string, DataElem>::const_iterator elemI;
   Vec3f vec3f;
   Vec2f vec2f;
   Real32 x,y,z;
@@ -501,7 +500,9 @@ OBJSceneFileType::OBJSceneFileType(const Char8  *suffixArray[],
     SceneFileType(suffixArray,
                   suffixByteCount,
                   override,
-                  overridePriority)
+                  overridePriority),
+    _dataElemMap()
+
 {
     initDataElemMap();
 }
@@ -628,7 +629,7 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
   SimpleTexturedMaterialPtr mtlPtr;
   Real32 a,b,c;
   string elem;
-  map<string, DataElem>::iterator elemI;
+  map<string, DataElem>::const_iterator elemI;
   DataElem dataElem;
   std::map<string, osg::Image*> imageMap;
   std::map<string, osg::Image*>::iterator iI;

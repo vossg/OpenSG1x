@@ -1428,8 +1428,10 @@ bool Image::operator<(const Image &image)
 /****************************
 *private
 ****************************/
-OSG_BEGIN_NAMESPACE DataType FieldDataTraits<ImageP>::  _type("ImageP", NULL,
-                                                              true);
+
+OSG_BEGIN_NAMESPACE 
+
+DataType FieldDataTraits<ImageP>::  _type("ImageP", NULL);
 
 #if defined(__sgi)
 #   pragma instantiate SField < ImageP >::_fieldType
@@ -1438,4 +1440,5 @@ OSG_BEGIN_NAMESPACE DataType FieldDataTraits<ImageP>::  _type("ImageP", NULL,
 OSG_DLLEXPORT_DEF1(SField, ImageP, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(MField, ImageP, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
+
 OSG_END_NAMESPACE

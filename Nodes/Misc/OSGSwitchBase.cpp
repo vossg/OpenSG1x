@@ -64,7 +64,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<SwitchPtr>::_type("SwitchPtr", "GroupPtr", true);
+DataType FieldDataTraits<SwitchPtr>::_type("SwitchPtr", "GroupPtr");
 
 #if defined(__sgi)
 

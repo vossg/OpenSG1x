@@ -64,7 +64,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<GroupPtr>::_type("GroupPtr", "NodeCorePtr", true);
+DataType FieldDataTraits<GroupPtr>::_type("GroupPtr", "NodeCorePtr");
 
 #if defined(__sgi)
 
@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGroupBase.cpp,v 1.18 2001/11/09 08:17:09 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGroupBase.cpp,v 1.19 2002/02/11 03:46:27 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGROUPBASE_INLINE_CVSID;
 

@@ -106,10 +106,10 @@ FieldType::FieldType(const Char8             *szName,
                      const DataType          &contentType,
                            CreateFieldMethod  createMethod,
                            Cardinality        cardinality) :
-     Inherited   (szName, szParentName, true),
-    _cardinality (cardinality               ),
-    _contentType (contentType               ),
-    _createMethod(createMethod              )
+     Inherited   (szName, szParentName),
+    _cardinality (cardinality         ),
+    _contentType (contentType         ),
+    _createMethod(createMethod        )
 {
     FieldFactory::addType(this);
     FDEBUG (("Initialized FieldType : %s\n", getCName()));

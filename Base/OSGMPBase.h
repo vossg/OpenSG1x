@@ -82,8 +82,7 @@ class OSG_BASE_DLLMAPPING MPType : public TypeBase
     /*! \{                                                                 */
 
     MPType(const Char8 *szName, 
-           const Char8 *szParentName,
-                 bool   bRegister = false);
+           const Char8 *szParentName);
                  
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

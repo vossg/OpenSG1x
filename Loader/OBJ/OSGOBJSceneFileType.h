@@ -143,8 +143,8 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
       GROUP_DE, SMOOTHING_GROUP_DE, OBJECT_DE
     };
 
-    static map<string, DataElem> _dataElemMap;
-    static void initDataElemMap(void);
+    map<string, DataElem> _dataElemMap;
+    void initDataElemMap(void);
 
     struct TiePoint {
       Int32 index[3];
@@ -176,7 +176,7 @@ typedef OBJSceneFileType* OBJSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSGOBJSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOBJSceneFileType.h,v 1.13 2002/02/04 20:14:07 dirk Exp $"
+#define OSGOBJSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOBJSceneFileType.h,v 1.14 2002/02/11 03:46:27 vossg Exp $"
 
 #endif // _OSGOBJSCENEFILETYPE_H_
 

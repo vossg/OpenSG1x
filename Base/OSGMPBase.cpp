@@ -75,9 +75,8 @@ namespace
 /*                            Constructors                                 */
 
 MPType::MPType(const Char8 *szName, 
-               const Char8 *szParentName,
-                     bool   bRegister) :
-    Inherited(szName, szParentName, bRegister)
+               const Char8 *szParentName) :
+    Inherited(szName, szParentName)
 {
 }
 
@@ -287,7 +286,7 @@ LockPool *MPLockPoolType::create(const Char8 *szName)
 /*! \class osg::MPBase
  */
 
-MPType MPBase::_type("OSGMPBase", NULL, true);
+MPType MPBase::_type("OSGMPBase", NULL);
 
 /*-------------------------------------------------------------------------*/
 /*                            Class Get                                    */

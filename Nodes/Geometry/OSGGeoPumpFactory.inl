@@ -53,8 +53,13 @@
 OSG_BEGIN_NAMESPACE
 
 inline
-GeoPumpFactory& GeoPumpFactory::the(void)
+GeoPumpFactory *GeoPumpFactory::the(void)
 {
+    if(_the == NULL)
+    {
+        _the = new GeoPumpFactory();
+    }
+
     return _the;
 }
 

@@ -62,20 +62,16 @@ namespace
 }
 
 DataType FieldDataTraits<HWND>::_type("HWND",
-                                      NULL,
-                                      true);
+                                      NULL);
 
 DataType FieldDataTraits<HDC>::_type("HDC",
-                                     NULL,
-                                     true);
+                                     NULL);
 
 DataType FieldDataTraits<HGLRC>::_type("HGLRC",
-                                       NULL,
-                                       true);
+                                       NULL);
 
 DataType FieldDataTraits<PAINTSTRUCT>::_type("PAINTSTRUCT",
-                                             NULL,
-                                             true);
+                                             NULL);
 
 OSG_DLLEXPORT_DEF1(SField, HWND,        OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(SField, HDC,         OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)

@@ -101,9 +101,9 @@ class OSG_BASE_DLLMAPPING IDString
     /*! \name                  Your Category                               */
     /*! \{                                                                 */
 
-    inline const Char8   *str  (void) const { return _str; }
+    inline const Char8   *str    (void) const { return _str; }
 
-    inline bool          empty (void) const { return (_str && *_str) ?
+    inline bool           isEmpty(void) const { return (_str && *_str) ?
                                                  false : true; }
 
     void   set       (const Char8 *str, MemType memType = COPY);
@@ -111,7 +111,7 @@ class OSG_BASE_DLLMAPPING IDString
     void   toUpper   (void);
     void   toLower   (void);
 
-    UInt32 length    (void) const;
+    UInt32 getLength (void) const;
 
     void   setLength (UInt32 length);
 

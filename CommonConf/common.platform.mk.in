@@ -50,6 +50,8 @@ CONFIGURED_MNG          :=@ac_gdz_conf_package_mng_e1@
 CONFIGURED_FREETYPE     :=@ac_gdz_conf_package_freetype1_e1@
 CONFIGURED_PACKAGE_DEFS :=@ac_gdz_conf_package_defs@
 
+CONFIGURED_GVBETA       :=@ac_gdz_conf_gvbeta_e1@
+
 @ac_gdz_common_system@
 
 

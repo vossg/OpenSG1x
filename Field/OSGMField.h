@@ -87,6 +87,8 @@ class MField : public Field
 
     typedef          MField<FieldTypeT, fieldNameSpace>          Self;
 
+    typedef          FieldTypeT                                  StoredType;
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Class Get                                  */
     /*! \{                                                                 */

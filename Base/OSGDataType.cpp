@@ -73,9 +73,8 @@ namespace
 /*                            Constructors                                 */
 
 DataType::DataType(const Char8 *szName,
-                   const Char8 *szParentName,
-                         bool   bRegister) :
-    Inherited(szName, szParentName, bRegister)
+                   const Char8 *szParentName) :
+    Inherited(szName, szParentName)
 {
 }
 

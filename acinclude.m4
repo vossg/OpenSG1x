@@ -478,6 +478,39 @@ dnl e2
 
     for ac_gdz_package_name in ${ac_gdz_packages} ; do
 
+        echo resolving $ac_gdz_package_name
+
+        eval ac_gdz_package_inc_cnv_in=\${ac_gdz_package_inc_dep_${ac_gdz_package_name}}
+
+        ac_gdz_package_inc_cnv_out=
+
+        for dir in ${ac_gdz_package_inc_cnv_in}; do
+
+            p1=`echo ${dir} | sed 's/@\([^@]*\)@/\1/'`
+            p2=`echo ${dir} | sed 's/@\([^@]*\)@/XXX/'`
+
+            if test $p2 = "XXX"; then
+
+                eval ac_gdz_package_inc_cnv_tmp=\${ac_gdz_package_dirs_${p1}}
+
+                ac_gdz_package_inc_cnv_tmp=`echo ${ac_gdz_package_inc_cnv_tmp} | sed 's/@//g'`
+
+                ac_gdz_package_inc_cnv_out="$ac_gdz_package_inc_cnv_out $ac_gdz_package_inc_cnv_tmp"
+            else
+                ac_gdz_package_inc_cnv_out="$ac_gdz_package_inc_cnv_out $p1" 
+            fi
+                    
+        done
+
+        echo "    from :${ac_gdz_package_inc_cnv_in}"
+        echo "        to : ${ac_gdz_package_inc_cnv_out}"
+
+        eval ac_gdz_package_inc_dep_${ac_gdz_package_name}=\$ac_gdz_package_inc_cnv_out
+
+    done
+
+    for ac_gdz_package_name in ${ac_gdz_packages} ; do
+
         echo configuring package ${ac_gdz_package_name}
 
         if test ${ac_gdz_package_name} = "WindowX"; then
@@ -538,7 +571,7 @@ dnl e2
 
         for dir in ${ac_gdz_package_inc_dep}; do
 
-            ac_gdz_package_check_dir_e2=$ac_gdz_src_dir/$dir
+            ac_gdz_package_check_dir_e2=$ac_gdz_src_dir/$dir            
 
             if test -d $ac_gdz_package_check_dir_e2; then
                 ac_gdz_package_inc_dep_out_files=$ac_gdz_package_inc_dep_out_files' $('${ac_gdz_project_praefix}'POOL)'/$dir/common.mk

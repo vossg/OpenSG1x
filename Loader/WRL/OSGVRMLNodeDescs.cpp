@@ -100,8 +100,7 @@ namespace
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<GenericAttPtr>::_type("GenericAttPtr",
-                                               "AttachmentPtr",
-                                               true);
+                                               "AttachmentPtr");
 
 #if defined(__sgi)
 

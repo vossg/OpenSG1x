@@ -105,7 +105,7 @@ UInt32 TypeFactory::registerType(TypeBase *pType)
         return returnValue;
     }
 
-    if(pType->getName().empty() == true)
+    if(pType->getName().isEmpty() == true)
     {
         SWARNING << "OSGDataElementType without name" << endl;
 

@@ -64,7 +64,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<BillboardPtr>::_type("BillboardPtr", "NodeCorePtr", true);
+DataType FieldDataTraits<BillboardPtr>::_type("BillboardPtr", "NodeCorePtr");
 
 #if defined(__sgi)
 

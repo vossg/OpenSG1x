@@ -319,6 +319,17 @@ dnl ############# CP Settings #####################
 AC_ARG_ENABLE(compiler-path,     [  --enable-compiler-path             Reference compiler with path],
 			,enable_compiler_path=no) 
 
+dnl ############# CP Settings #####################
+
+AC_ARG_ENABLE(gv-beta,     [  --enable-gv-beta                   enable gv beta],
+			,enable_gv_beta=no) 
+
+if test $enable_gv_beta = yes; then
+	ac_gdz_conf_gvbeta_e1=1
+else
+	ac_gdz_conf_gvbeta_e1=0
+fi
+
 dnl ############# Add Path Settings #####################
 
 AC_ARG_WITH(add-incdir,   [  --with-add-incdir=DIR{:DIR}*       use additional include directory, right now only one dir works],
@@ -653,7 +664,7 @@ do
     then
         dir=`echo "$i" | sed -e 's|/common.libs.in$||'`
         echo -n " $dir"
-        . "$i"
+        . "$i "
     fi
 done
 AC_MSG_RESULT("")
@@ -728,6 +739,7 @@ AC_SUBST(ac_gdz_conf_package_mng_e1)
 AC_SUBST(ac_gdz_conf_package_gif_e1)
 AC_SUBST(ac_gdz_conf_package_glut_e1)
 AC_SUBST(ac_gdz_conf_package_freetype1_e1)
+AC_SUBST(ac_gdz_conf_gvbeta_e1)
 
 AC_SUBST_FILE(ac_gdz_common_patterns)
 AC_SUBST_FILE(ac_gdz_common_system)

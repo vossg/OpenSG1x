@@ -58,7 +58,7 @@ OSG_BEGIN_NAMESPACE
 /*-------------------------- field instantiations -------------------------*/
 
 DataType FieldDataTraits<ParticleBSPTree>::_type("ParticleBSPTree", 
-        "None", true);
+        "None");
 
 #if defined(__sgi)
 
@@ -80,7 +80,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.3 2002/02/08 12:56:09 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.4 2002/02/11 03:46:27 vossg Exp $";
     static char cvsid_hpp[] = OSGPARTICLEBSP_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLEBSP_INLINE_CVSID;
 }

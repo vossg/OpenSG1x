@@ -69,16 +69,14 @@ namespace
 /*                            Constructors                                 */
 
 TypeBase::TypeBase(const Char8 *szName,
-                   const Char8 *szParentName,
-                         bool   bRegister) :
+                   const Char8 *szParentName) :
     _uiTypeId    (0),
     _uiTypeRootId(0),
     _pParent     (NULL),
     _szName      (szName),
     _szParentName(szParentName)
 {
-    if(bRegister == true)
-        _uiTypeId = TypeFactory::the()->registerType(this);
+    _uiTypeId = TypeFactory::the()->registerType(this);
 }
 
 /*-------------------------------------------------------------------------*/

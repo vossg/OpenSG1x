@@ -136,7 +136,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
     /*! \name                       Access                                 */
     /*! \{                                                                 */
 
-    static GeoPumpFactory& the( void );
+    static GeoPumpFactory *the( void );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -156,7 +156,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 
     static char cvsid[];
 
-    static GeoPumpFactory _the;
+    static GeoPumpFactory *_the;
 
     /*---------------------------------------------------------------------*/
     /*! \name                       The Pumps                              */
