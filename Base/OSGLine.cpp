@@ -47,11 +47,11 @@
 
 #include <assert.h>
 
-//#include "OSGLine.h"
-//#include "OSGPlane.h"
-//#include "OSGBoxVolume.h"
-//#include "OSGSphereVolume.h"
-//#include "OSGCylinderVolume.h"
+#include "OSGLine.h"
+#include "OSGPlane.h"
+#include "OSGBoxVolume.h"
+#include "OSGSphereVolume.h"
+#include "OSGCylinderVolume.h"
 
 OSG_USING_NAMESPACE
 
