@@ -30,7 +30,7 @@
 	</Field>
 	<Field
 		name="Text"
-		type="string"
+		type="std::string"
 		cardinality="multi"
 		visibility="external"
 		access="public"

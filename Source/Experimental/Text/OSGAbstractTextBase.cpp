@@ -89,7 +89,7 @@ const OSG::BitVector  AbstractTextBase::AlignmentFieldMask =
 /*! \var SharedFontStylePtr AbstractTextBase::_sfFont
     The font to be used.
 */
-/*! \var string          AbstractTextBase::_mfText
+/*! \var std::string     AbstractTextBase::_mfText
     The text strings. One string per line.
 */
 /*! \var Real32          AbstractTextBase::_sfVerticalLineDistance

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -97,7 +97,6 @@ FieldDescription *ScreenAlignedTextBase::_desc[] =
                      (FieldAccessMethod) &ScreenAlignedTextBase::getSFRenderImage)
 };
 
-//! ScreenAlignedText type
 
 FieldContainerType ScreenAlignedTextBase::_type(
     "ScreenAlignedText",
@@ -146,8 +145,6 @@ void ScreenAlignedTextBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -163,8 +160,6 @@ ScreenAlignedTextBase::ScreenAlignedTextBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 ScreenAlignedTextBase::ScreenAlignedTextBase(const ScreenAlignedTextBase &source) :
     _sfColor                  (source._sfColor                  ), 
     _sfRenderImage            (source._sfRenderImage            ), 
@@ -173,8 +168,6 @@ ScreenAlignedTextBase::ScreenAlignedTextBase(const ScreenAlignedTextBase &source
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 ScreenAlignedTextBase::~ScreenAlignedTextBase(void)
 {
@@ -258,10 +251,12 @@ void ScreenAlignedTextBase::executeSyncImpl(      ScreenAlignedTextBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<ScreenAlignedTextPtr>::_type("ScreenAlignedTextPtr", "AbstractTextPtr");
+#endif
 
-OSG_DLLEXPORT_SFIELD_DEF1(ScreenAlignedTextPtr, OSG_WINDOWGLUTLIB_DLLTMPLMAPPING);
-OSG_DLLEXPORT_MFIELD_DEF1(ScreenAlignedTextPtr, OSG_WINDOWGLUTLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_SFIELD_DEF1(ScreenAlignedTextPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(ScreenAlignedTextPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE
 
@@ -279,7 +274,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.35 2002/09/16 18:39:11 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
     static Char8 cvsid_hpp       [] = OSGSCREENALIGNEDTEXTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSCREENALIGNEDTEXTBASE_INLINE_CVSID;
 

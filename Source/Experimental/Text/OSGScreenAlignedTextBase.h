@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -93,8 +93,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ScreenAlignedTextBase : public AbstractText
         NextFieldId        = RenderImageFieldId + 1
     };
 
-    static const osg::BitVector ColorFieldMask;
-    static const osg::BitVector RenderImageFieldMask;
+    static const OSG::BitVector ColorFieldMask;
+    static const OSG::BitVector RenderImageFieldMask;
 
 
     /*---------------------------------------------------------------------*/
@@ -106,7 +106,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScreenAlignedTextBase : public AbstractText
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 
@@ -241,6 +241,6 @@ typedef ScreenAlignedTextBase *ScreenAlignedTextBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSCREENALIGNEDTEXTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.27 2002/09/16 18:39:11 vossg Exp $"
+#define OSGSCREENALIGNEDTEXTBASE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGSCREENALIGNEDTEXTBASE_H_ */

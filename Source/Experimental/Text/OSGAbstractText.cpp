@@ -87,7 +87,7 @@ void AbstractText::changed(BitVector whichField, UInt32 origin)
 void AbstractText::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump AbstractText NI" << endl;
+    SLOG << "Dump AbstractText NI" << std::endl;
 }
 
 

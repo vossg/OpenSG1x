@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ ScreenAlignedTextPtr ScreenAlignedTextBase::create(void)
 {
     ScreenAlignedTextPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = ScreenAlignedTextPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,12 +96,14 @@ ScreenAlignedTextPtr ScreenAlignedTextBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the ScreenAlignedText::_sfColor field.
 inline
 SFColor4f *ScreenAlignedTextBase::getSFColor(void)
 {
     return &_sfColor;
 }
 
+//! Get the ScreenAlignedText::_sfRenderImage field.
 inline
 SFImageP *ScreenAlignedTextBase::getSFRenderImage(void)
 {
@@ -109,36 +111,42 @@ SFImageP *ScreenAlignedTextBase::getSFRenderImage(void)
 }
 
 
+//! Get the value of the ScreenAlignedText::_sfColor field.
 inline
 Color4f &ScreenAlignedTextBase::getColor(void)
 {
     return _sfColor.getValue();
 }
 
+//! Get the value of the ScreenAlignedText::_sfColor field.
 inline
 const Color4f &ScreenAlignedTextBase::getColor(void) const
 {
     return _sfColor.getValue();
 }
 
+//! Set the value of the ScreenAlignedText::_sfColor field.
 inline
 void ScreenAlignedTextBase::setColor(const Color4f &value)
 {
     _sfColor.setValue(value);
 }
 
+//! Get the value of the ScreenAlignedText::_sfRenderImage field.
 inline
 ImageP &ScreenAlignedTextBase::getRenderImage(void)
 {
     return _sfRenderImage.getValue();
 }
 
+//! Get the value of the ScreenAlignedText::_sfRenderImage field.
 inline
 const ImageP &ScreenAlignedTextBase::getRenderImage(void) const
 {
     return _sfRenderImage.getValue();
 }
 
+//! Set the value of the ScreenAlignedText::_sfRenderImage field.
 inline
 void ScreenAlignedTextBase::setRenderImage(const ImageP &value)
 {
@@ -148,5 +156,5 @@ void ScreenAlignedTextBase::setRenderImage(const ImageP &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSCREENALIGNEDTEXTBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.17 2002/09/16 18:39:11 vossg Exp $"
+#define OSGSCREENALIGNEDTEXTBASE_INLINE_CVSID "@(#)$Id: $"
 

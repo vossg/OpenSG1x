@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class ScreenAlignedText;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! ScreenAlignedTextPtr
 
 typedef FCPtr<AbstractTextPtr, ScreenAlignedText> ScreenAlignedTextPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief ScreenAlignedTextPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,27 +93,28 @@ struct FieldDataTraits<ScreenAlignedTextPtr> :
     static char     *getSName(void) { return "SFScreenAlignedTextPtr"; }
     static char     *getMName(void) { return "MFScreenAlignedTextPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFScreenAlignedTextPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<ScreenAlignedTextPtr> SFScreenAlignedTextPtr;
 
 #ifndef OSG_COMPILESCREENALIGNEDTEXTINST
-OSG_DLLEXPORT_DECL1(SField, ScreenAlignedTextPtr, OSG_WINDOWGLUTLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, ScreenAlignedTextPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFScreenAlignedTextPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<ScreenAlignedTextPtr> MFScreenAlignedTextPtr;
 
 #ifndef OSG_COMPILESCREENALIGNEDTEXTINST
-OSG_DLLEXPORT_DECL1(MField, ScreenAlignedTextPtr, OSG_WINDOWGLUTLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, ScreenAlignedTextPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSCREENALIGNEDTEXTFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.18 2002/08/21 07:05:49 vossg Exp $"
+#define OSGSCREENALIGNEDTEXTFIELDS_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGSCREENALIGNEDTEXTFIELDS_H_ */

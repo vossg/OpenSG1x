@@ -193,7 +193,7 @@ void AbstractTextBase::setAlignment(const UInt8 &value)
 
 //! Get the value of the \a index element the AbstractText::_mfText field.
 inline
-string &AbstractTextBase::getText(const UInt32 index)
+std::string &AbstractTextBase::getText(const UInt32 index)
 {
     return _mfText[index];
 }

@@ -3,11 +3,11 @@
 <FieldContainer
 	name="ScreenAlignedText"
 	parent="AbstractText"
-	library="WindowGLUT"
+	library="System"
 	pointerfieldtypes="both"
 	structure="concrete"
-	systemcomponent="false"
-	parentsystemcomponent="false"
+	systemcomponent="true"
+	parentsystemcomponent="true"
 	decoratable="false"
 >
 	<Field

@@ -142,7 +142,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AbstractTextBase : public MaterialDrawable
      const Real32              &getVerticalLineDistance(void) const;
            UInt8               &getAlignment      (void);
      const UInt8               &getAlignment      (void) const;
-           string              &getText           (const UInt32 index);
+           std::string         &getText           (const UInt32 index);
            MFString            &getText           (void);
      const MFString            &getText           (void) const;
 
