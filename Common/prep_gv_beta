@@ -14,6 +14,13 @@ if ! test -w Field/tmp_gv; then
     mkdir Field/tmp_gv
 fi
 
+if ! test -w Loader/OBJ/tmp_gv; then 
+    echo "Need Loader/OBJ/tmp_gv"
+	echo "mkdir Loader/OBJ/tmp_gv"
+
+    mkdir Loader/OBJ/tmp_gv
+fi
+
 if test -w Base/tmp_gv; then
 	echo "Moving stuff out of the way"
 
@@ -81,5 +88,16 @@ if test -w Base/tmp_gv; then
     if test -w Field/OSGSField.inl; then
         echo "mv Field/OSGSField.inl Field/tmp_gv"
         mv Field/OSGSField.inl Field/tmp_gv
+    fi
+
+
+    if test -w Loader/OBJ/OSGOBJSceneFileType.hpp; then
+        echo "mv Loader/OBJ/OSGOBJSceneFileType.hpp Loader/OBJ/tmp_gv"
+        mv Loader/OBJ/OSGOBJSceneFileType.hpp Loader/OBJ/tmp_gv
+    fi
+
+    if test -w Loader/OBJ/OSGOBJSceneFileType.cpp; then
+        echo "mv Loader/OBJ/OSGOBJSceneFileType.cpp Loader/OBJ/tmp_gv"
+        mv Loader/OBJ/OSGOBJSceneFileType.cpp Loader/OBJ/tmp_gv
     fi
 fi

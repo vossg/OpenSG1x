@@ -75,13 +75,11 @@ DataType FieldDataTraits<VRMLNodeAttachmentMap>::_type(
 #pragma warning (disable : 424)
 #endif
 
-OSG_DLLEXPORT_DEF1(SField, 
-                   VRMLNodeAttachmentMap, 
-                   OSG_VRML_DLLTMPLMAPPING);
+OSG_DLLEXPORT_SFIELD_DEF1(VRMLNodeAttachmentMap, 
+                          OSG_VRML_DLLTMPLMAPPING);
 
-OSG_DLLEXPORT_DEF1(MField, 
-                   VRMLNodeAttachmentMap, 
-                   OSG_VRML_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(VRMLNodeAttachmentMap, 
+                          OSG_VRML_DLLTMPLMAPPING);
 
 
 #if defined(WIN32) || defined(OSG_LINUX_ICC)

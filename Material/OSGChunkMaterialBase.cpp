@@ -235,8 +235,8 @@ DataType FieldDataTraits<ChunkMaterialPtr>::_type("ChunkMaterialPtr", "MaterialP
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_MFIELD_DEF1(ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
@@ -256,7 +256,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.23 2002/05/16 04:10:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.24 2002/05/20 02:45:54 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCHUNKMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHUNKMATERIALBASE_INLINE_CVSID;
 

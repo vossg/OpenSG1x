@@ -354,22 +354,59 @@
 #define OSG_DLLEXPORT_DECL1(CLASSNAME, T1, DLLMAPPING)
 #define OSG_DLLEXPORT_DECL2(CLASSNAME, T1, T2, DLLMAPPING) 
 
-#define OSG_EXPORT_TYPE_DEF1(CLASSNAME, T1, DLLMAPPING)                      \
-    template const FieldType &CLASSNAME<T1>::getClassType(void);
+#define OSG_EXPORT_TYPE_SFIELD_DEF1(T1, DLLMAPPING)                      \
+    template <> \
+    const FieldType SField<T1, 0>::_fieldType( \
+        SFieldTraits::getSName(),  \
+        SFieldTraits::getPName(),  \
+        SFieldTraits::getType (),  \
+        SField<T1, 0>::create,     \
+        FieldType::SINGLE_FIELD);
 
-//    template const FieldType  CLASSNAME<T1>::_fieldType;
+#define OSG_EXPORT_TYPE_SFIELD_DEF2(T1, T2, DLLMAPPING)                  \
+    template <> \
+    const FieldType SField<T1, T2>::_fieldType( \
+        SFieldTraits::getSName(),  \
+        SFieldTraits::getPName(),  \
+        SFieldTraits::getType (),  \
+        SField<T1, T2>::create,    \
+        FieldType::SINGLE_FIELD);
 
-#define OSG_EXPORT_TYPE_DEF2(CLASSNAME, T1, T2, DLLMAPPING)                  \
-    template const FieldType &CLASSNAME<T1, T2>::getClassType(void);
+
+#define OSG_EXPORT_TYPE_MFIELD_DEF1(T1, DLLMAPPING)                      \
+    template <> \
+    const FieldType MField<T1, 0>::_fieldType( \
+        MFieldTraits::getMName(),  \
+        MFieldTraits::getPName(),  \
+        MFieldTraits::getType (),  \
+        MField<T1, 0>::create,     \
+        FieldType::MULTI_FIELD);
 
 
-//    template const FieldType  CLASSNAME<T1, T2>::_fieldType;
+#define OSG_EXPORT_TYPE_MFIELD_DEF2(T1, T2, DLLMAPPING)                  \
+    template <> \
+    const FieldType MField<T1, T2>::_fieldType( \
+        MFieldTraits::getMName(),  \
+        MFieldTraits::getPName(),  \
+        MFieldTraits::getType (),  \
+        MField<T1, T2>::create,    \
+        FieldType::MULTI_FIELD);
 
-#define OSG_DLLEXPORT_DEF1(CLASSNAME, T1, DLLMAPPING)                        \
-    OSG_EXPORT_TYPE_DEF1        (CLASSNAME, T1, DLLMAPPING)
 
-#define OSG_DLLEXPORT_DEF2(CLASSNAME, T1, T2, DLLMAPPING)                    \
-    OSG_EXPORT_TYPE_DEF2        (CLASSNAME, T1, T2, DLLMAPPING)
+#define OSG_DLLEXPORT_SFIELD_DEF1(T1, DLLMAPPING)                 \
+    OSG_EXPORT_TYPE_SFIELD_DEF1  (T1, DLLMAPPING)
+
+#define OSG_DLLEXPORT_SFIELD_DEF2(T1, T2, DLLMAPPING)             \
+    OSG_EXPORT_TYPE_SFIELD_DEF2  (T1, T2, DLLMAPPING)
+
+
+#define OSG_DLLEXPORT_MFIELD_DEF1(T1, DLLMAPPING)                 \
+    OSG_EXPORT_TYPE_MFIELD_DEF1  (T1, DLLMAPPING)
+
+#define OSG_DLLEXPORT_MFIELD_DEF2(T1, T2, DLLMAPPING)             \
+    OSG_EXPORT_TYPE_MFIELD_DEF2  (T1, T2, DLLMAPPING)
+
+
 
 #define OSG_FC_EXPORT_TYPE_DECL(CLASSNAME, T1, DLLMAPPING)
 #define OSG_FC_DLLEXPORT_DECL(CLASSNAME, T1, DLLMAPPING)

@@ -328,8 +328,8 @@ DataType FieldDataTraits<FileGrabForegroundPtr>::_type("FileGrabForegroundPtr", 
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, FileGrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, FileGrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(FileGrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_MFIELD_DEF1(FileGrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
@@ -349,7 +349,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFileGrabForegroundBase.cpp,v 1.8 2002/05/16 04:10:18 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFileGrabForegroundBase.cpp,v 1.9 2002/05/20 02:45:55 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFILEGRABFOREGROUNDBASE_INLINE_CVSID;
 

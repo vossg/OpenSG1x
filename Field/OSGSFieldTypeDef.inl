@@ -41,6 +41,7 @@ OSG_BEGIN_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                             FieldType                                   */
 
+#if 0
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class FieldTypeT, Int32 fieldNameSpace>
 const FieldType SField<FieldTypeT, fieldNameSpace>::_fieldType = FieldType(
@@ -57,6 +58,7 @@ const FieldType SField<FieldTypeT, fieldNameSpace>::_fieldType(
     SFieldTraits::getType (),
     SField<FieldTypeT, fieldNameSpace>::create,
     FieldType::SINGLE_FIELD);
+#endif
 #endif
 
 OSG_END_NAMESPACE

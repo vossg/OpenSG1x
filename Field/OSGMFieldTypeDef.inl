@@ -45,6 +45,7 @@ OSG_BEGIN_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                             FieldType                                   */
 
+#if 0
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class FieldTypeT, Int32 fieldNameSpace>
 const FieldType MField<FieldTypeT, fieldNameSpace>::_fieldType = FieldType(
@@ -61,6 +62,7 @@ const FieldType MField<FieldTypeT, fieldNameSpace>::_fieldType(
     MFieldTraits::getType (),
     MField<FieldTypeT, fieldNameSpace>::create,
     FieldType::MULTI_FIELD);
+#endif
 #endif
 
 OSG_END_NAMESPACE

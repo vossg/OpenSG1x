@@ -193,7 +193,7 @@ DataType FieldDataTraits<PassiveBackgroundPtr>::_type("PassiveBackgroundPtr", "B
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, PassiveBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(PassiveBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 

@@ -543,7 +543,7 @@ DataType FieldDataTraits<SkyBackgroundPtr>::_type("SkyBackgroundPtr", "Backgroun
 
 #else
 
-OSG_DLLEXPORT_DEF1(MField, SkyBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_MFIELD_DEF1(SkyBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
@@ -563,7 +563,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSkyBackgroundBase.cpp,v 1.7 2002/05/16 04:10:19 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSkyBackgroundBase.cpp,v 1.8 2002/05/20 02:45:55 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSKYBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSKYBACKGROUNDBASE_INLINE_CVSID;
 

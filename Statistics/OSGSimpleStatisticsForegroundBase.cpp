@@ -297,8 +297,8 @@ DataType FieldDataTraits<SimpleStatisticsForegroundPtr>::_type("SimpleStatistics
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, SimpleStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, SimpleStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(SimpleStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_MFIELD_DEF1(SimpleStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
@@ -318,7 +318,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleStatisticsForegroundBase.cpp,v 1.5 2002/05/16 04:10:18 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleStatisticsForegroundBase.cpp,v 1.6 2002/05/20 02:45:55 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSIMPLESTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSIMPLESTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 

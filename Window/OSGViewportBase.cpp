@@ -483,8 +483,8 @@ DataType FieldDataTraits<ViewportPtr>::_type("ViewportPtr", "AttachmentContainer
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_MFIELD_DEF1(ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
@@ -504,7 +504,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.30 2002/05/16 04:10:19 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.31 2002/05/20 02:45:55 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGVIEWPORTBASE_INLINE_CVSID;
 

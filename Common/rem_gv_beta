@@ -71,3 +71,18 @@ if test -w Field/tmp_gv; then
         mv Field/tmp_gv/OSGSField.inl Field
     fi
 fi
+
+
+if test -w Loader/OBJ/tmp_gv; then 
+
+    if test -w Loader/OBJ/tmp_gv/OSGOBJSceneFileType.hpp; then
+        echo "mv Loader/OBJ/tmp_gv/OSGOBJSceneFileType.hpp Loader/OBJ"
+        mv Loader/OBJ/tmp_gv/OSGOBJSceneFileType.hpp Loader/OBJ
+    fi
+
+    if test -w Loader/OBJ/tmp_gv/OSGOBJSceneFileType.cpp; then
+        echo "mv Loader/OBJ/tmp_gv/OSGOBJSceneFileType.cpp Loader/OBJ"
+        mv Loader/OBJ/tmp_gv/OSGOBJSceneFileType.cpp Loader/OBJ
+    fi
+
+fi

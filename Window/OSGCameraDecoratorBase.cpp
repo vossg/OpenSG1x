@@ -222,8 +222,8 @@ DataType FieldDataTraits<CameraDecoratorPtr>::_type("CameraDecoratorPtr", "Camer
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_MFIELD_DEF1(CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
@@ -243,7 +243,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.23 2002/05/16 04:10:18 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.24 2002/05/20 02:45:55 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCAMERADECORATORBASE_INLINE_CVSID;
 

@@ -75,6 +75,10 @@ OSG_BEGIN_NAMESPACE
 template <class ValueTypeT> inline
 VecStorage2<ValueTypeT>::VecStorage2(void)
 {
+    for(UInt32 i = 0; i < _iSize; i++)
+    {
+        _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+    }
 }
 
 /*-------------------------------------------------------------------------*/
@@ -143,6 +147,10 @@ ValueTypeT VecStorage2<ValueTypeT>::y(void) const
 template <class ValueTypeT> inline
 VecStorage3<ValueTypeT>::VecStorage3(void)
 {
+    for(UInt32 i = 0; i < _iSize; i++)
+    {
+        _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+    }
 }
 
 /*-------------------------------------------------------------------------*/
@@ -221,6 +229,10 @@ ValueTypeT VecStorage3<ValueTypeT>::z(void) const
 template <class ValueTypeT> inline
 VecStorage4<ValueTypeT>::VecStorage4(void)
 {
+    for(UInt32 i = 0; i < _iSize; i++)
+    {
+        _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+    }
 }
 
 /*-------------------------------------------------------------------------*/
@@ -316,12 +328,12 @@ template <class ValueTypeT,
 PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(void) : 
     Inherited()
 {
-    UInt32 i;
+//    UInt32 i;
 
-    for(i = 0; i < Self::_iSize; i++)
-    {
-        Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
-    }
+//    for(i = 0; i < Self::_iSize; i++)
+//    {
+//        Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+//    }
 }
 
 /*! \brief Constructor which takes a const value array.

@@ -364,8 +364,8 @@ DataType FieldDataTraits<CameraPtr>::_type("CameraPtr", "AttachmentContainerPtr"
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_MFIELD_DEF1(CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
@@ -385,7 +385,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCameraBase.cpp,v 1.30 2002/05/16 04:10:18 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCameraBase.cpp,v 1.31 2002/05/20 02:45:55 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCAMERABASE_INLINE_CVSID;
 

@@ -359,8 +359,8 @@ DataType FieldDataTraits<ComponentTransformPtr>::_type("ComponentTransformPtr", 
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_MFIELD_DEF1(ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
@@ -380,7 +380,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGComponentTransformBase.cpp,v 1.12 2002/05/16 04:10:17 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGComponentTransformBase.cpp,v 1.13 2002/05/20 02:45:54 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOMPONENTTRANSFORMBASE_INLINE_CVSID;
 

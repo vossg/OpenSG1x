@@ -186,8 +186,8 @@ DataType FieldDataTraits<BackgroundPtr>::_type("BackgroundPtr", "AttachmentConta
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, BackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, BackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(BackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_MFIELD_DEF1(BackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
@@ -207,7 +207,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.26 2002/05/16 04:10:18 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.27 2002/05/20 02:45:55 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBACKGROUNDBASE_INLINE_CVSID;
 

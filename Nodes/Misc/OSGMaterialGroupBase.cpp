@@ -235,8 +235,8 @@ DataType FieldDataTraits<MaterialGroupPtr>::_type("MaterialGroupPtr", "NodeCoreP
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_MFIELD_DEF1(MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
@@ -256,7 +256,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.26 2002/05/16 04:10:17 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.27 2002/05/20 02:45:54 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALGROUPBASE_INLINE_CVSID;
 

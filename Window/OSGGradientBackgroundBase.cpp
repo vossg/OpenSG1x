@@ -264,7 +264,7 @@ DataType FieldDataTraits<GradientBackgroundPtr>::_type("GradientBackgroundPtr", 
 
 #else
 
-OSG_DLLEXPORT_DEF1(MField, GradientBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_MFIELD_DEF1(GradientBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
@@ -284,7 +284,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.27 2002/05/16 04:10:18 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.28 2002/05/20 02:45:55 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID;
 

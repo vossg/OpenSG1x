@@ -266,8 +266,8 @@ DataType FieldDataTraits<MatrixCameraPtr>::_type("MatrixCameraPtr", "CameraPtr")
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_MFIELD_DEF1(MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
@@ -287,7 +287,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMatrixCameraBase.cpp,v 1.8 2002/05/16 04:10:18 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMatrixCameraBase.cpp,v 1.9 2002/05/20 02:45:55 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATRIXCAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATRIXCAMERABASE_INLINE_CVSID;
 

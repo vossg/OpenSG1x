@@ -421,8 +421,8 @@ DataType FieldDataTraits<ProjectionCameraDecoratorPtr>::_type("ProjectionCameraD
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_MFIELD_DEF1(ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
@@ -442,7 +442,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGProjectionCameraDecoratorBase.cpp,v 1.5 2002/05/16 04:10:19 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGProjectionCameraDecoratorBase.cpp,v 1.6 2002/05/20 02:45:55 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPROJECTIONCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPROJECTIONCAMERADECORATORBASE_INLINE_CVSID;
 

@@ -186,8 +186,8 @@ DataType FieldDataTraits<MaterialPtr>::_type("MaterialPtr", "AttachmentContainer
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_MFIELD_DEF1(MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
@@ -207,7 +207,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialBase.cpp,v 1.26 2002/05/16 04:10:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialBase.cpp,v 1.27 2002/05/20 02:45:54 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALBASE_INLINE_CVSID;
 

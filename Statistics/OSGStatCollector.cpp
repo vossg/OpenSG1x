@@ -267,7 +267,7 @@ DataType FieldDataTraits<StatCollector>::_type("StatCollector",
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, StatCollector, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_SFIELD_DEF1(StatCollector, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 

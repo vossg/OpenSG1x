@@ -199,6 +199,9 @@ UInt32 TypeFactory::registerType(TypeBase *pType)
                      << "(" << pType << ")"
                      << endl;
 
+
+            findType(uiTypeId)->dump();
+
             returnValue = uiTypeId;
         }
 
