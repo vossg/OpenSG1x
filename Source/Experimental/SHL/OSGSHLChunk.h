@@ -184,14 +184,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const SHLChunk &source);
 
-    typedef std::map<Window *, GLuint> programsMap;
-    typedef programsMap::iterator programsIt;
-    programsMap _programs;
-
-    typedef std::map<Window *, std::vector<GLuint> > destroyMap;
-    typedef destroyMap::iterator destroyIt;
-    static destroyMap _destroy;
-
     void updateProgram(Window *win);
     void updateParameters(Window *win, bool all = false);
     void resetParameters(void);
@@ -206,6 +198,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.9 2004/07/01 11:26:56 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.10 2004/07/05 11:38:12 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */

@@ -106,8 +106,6 @@ UInt32 SHLChunk::_funcUniform4fv = Window::invalidFunctionID;
 
 UInt32 SHLChunk::_funcUniformMatrix4fv = Window::invalidFunctionID;
 
-SHLChunk::destroyMap SHLChunk::_destroy;
-
 // prototypes
 
 typedef GLuint  (OSG_APIENTRY * PFNGLCREATEPROGRAMOBJECTARBPROC) (void);
@@ -153,14 +151,12 @@ void SHLChunk::initMethod (void)
 
 SHLChunk::SHLChunk(void) :
     Inherited(),
-    _programs(),
     _reset(-1)
 {
 }
 
 SHLChunk::SHLChunk(const SHLChunk &source) :
     Inherited(source),
-    _programs(source._programs),
     _reset(source._reset)
 {
     _shl_extension = Window::registerExtension("GL_ARB_shading_language_100");
@@ -289,35 +285,6 @@ void SHLChunk::onDestroy(void)
 {
     Inherited::onDestroy();
 
-#if 1
-    // I will remove the maps just need to extend GLObject in Window ...
-    // Can't delete the programs here will be deleted in handleGL.
-    for(programsIt it = _programs.begin(); it != _programs.end(); ++it)
-    {
-        Window *win = (*it).first;
-        GLuint id = (*it).second;
-
-        destroyIt itd = _destroy.find(win);
-        
-        if(itd != _destroy.end())
-        {
-            (*itd).second.push_back(id);
-        }
-        else
-        {
-            std::vector<GLuint> v;
-            v.push_back(id);
-            _destroy.insert(std::pair<Window *, std::vector<GLuint> >(win, v));
-        }
-    }
-
-    for(UInt32 i = 0; i < getParameters().size(); ++i)
-    {
-        ShaderParameterPtr parameter = getParameters()[i];
-        if(parameter != NullFC)
-            subRefCP(parameter);
-    }
-#endif
     if(getGLId() > 0)
         Window::destroyGLObject(getGLId(), 1);
 }
@@ -370,28 +337,20 @@ void SHLChunk::handleGL(Window *win, UInt32 idstatus)
     // BUG this is not called for every window!
     if(mode == Window::destroy)
     {
-        // This is called after the destructor so getGLId() diesn't work anymore!
-        //printf("Window::destroy: %p %x\n", win, win->getGLObjectId(id));
-        //deleteObject(win->getGLObjectId(getGLId()));
-        
-        destroyIt itd = _destroy.find(win);
-        if(itd != _destroy.end())
+        // This is called after the destructor so getGLId() doesn't work anymore!
+        //printf("Window::destroy: %p %u %x\n", win, id, win->getGLObjectId(id));
+        GLuint program = (GLuint) win->getGLObjectId(id);
+        if(program != 0)
         {
             // get "glDeleteObjectARB" function pointer
             PFNGLDELETEOBJECTARBPROC deleteObject = (PFNGLDELETEOBJECTARBPROC)
                 win->getFunction(_funcDeleteObject);
-
-            for(UInt32 i=0;i<(*itd).second.size();++i)
-            {
-                //printf("destroy program id %u\n", (*itd).second[i]);
-                deleteObject((*itd).second[i]);
-            }
-            (*itd).second.clear();
+            deleteObject(program);
+            win->setGLObjectId(getGLId(), 0);
         }
     }
     else if(mode == Window::finaldestroy)
     {
-        //printf("Window::finaldestroy: %p %x\n", win, win->getGLObjectId(id));
         ;//SWARNING << "Last program user destroyed" << std::endl;
     }
     else if(mode == Window::initialize || mode == Window::reinitialize ||
@@ -454,31 +413,14 @@ void SHLChunk::updateProgram(Window *win)
     // get "glUseProgramObjectARB" function pointer
     PFNGLUSEPROGRAMOBJECTARBPROC useProgramObject = (PFNGLUSEPROGRAMOBJECTARBPROC)
         win->getFunction(_funcUseProgramObject);
-    
-    UInt32 program = 0;
-    programsIt it = _programs.find(win);
-    if(it == _programs.end())
-    {
-        program = createProgramObject();
-        //printf("updateProgram create: %p %x\n", win, program);
-        
-        win->setGLObjectId(getGLId(), program);
 
-        _programs.insert(std::pair<Window *, UInt32>(win, program));
-        it = _programs.find(win);
-    }
-    else
-    {
-        //printf("updateProgram delete : %p (%x == %x)\n", win, (*it).second, win->getGLObjectId(getGLId()));
-        deleteObject((*it).second);
-        program = createProgramObject();
-        (*it).second = program;
-        //printf("updateProgram create : %p %x\n", win, program);
-
-        //deleteObject(win->getGLObjectId(getGLId()));
-        //program = createProgramObject();
-        win->setGLObjectId(getGLId(), program);
-    }
+    GLuint program = (GLuint) win->getGLObjectId(getGLId());
+    // delete old program.
+    if(program != 0)
+        deleteObject(program);
+    program = createProgramObject();
+    //printf("updateProgram create: %p %u %x\n", win, getGLId(), program);
+    win->setGLObjectId(getGLId(), (UInt32) program);
 
     UInt32 vShader = 0;
     GLint has_vertex = 0;
@@ -565,14 +507,14 @@ void SHLChunk::updateProgram(Window *win)
         
             FFATAL(("Couldn't link vertex and fragment program!\n%s\n", debug));
             delete [] debug;
-            _programs.erase(it);
             deleteObject(program);
+            win->setGLObjectId(getGLId(), 0);
         }
     }
     else
     {
-        _programs.erase(it);
         deleteObject(program);
+        win->setGLObjectId(getGLId(), 0);
     }
     // update all parameters.
     updateParameters(win, true);
@@ -580,14 +522,15 @@ void SHLChunk::updateProgram(Window *win)
 
 void SHLChunk::updateParameters(Window *win, bool all)
 {
-    programsIt it = _programs.find(win);
-    if(it == _programs.end())
+    GLuint program = (GLuint) win->getGLObjectId(getGLId());
+
+    if(program == 0)
         return;
 
     _reset = 0;
 
-    GLuint program = (*it).second;
-        
+    //GLuint program = (*it).second;
+
     // get "glUseProgramObjectARB" function pointer
     PFNGLUSEPROGRAMOBJECTARBPROC useProgramObject = (PFNGLUSEPROGRAMOBJECTARBPROC)
         win->getFunction(_funcUseProgramObject);
@@ -752,12 +695,8 @@ void SHLChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
     //printf("SHLChunk::activate : %p\n", action->getWindow());
     action->getWindow()->validateGLObject(getGLId());
 
-    //GLuint program = action->getWindow()->getGLObjectId(getGLId());
-    //if(program == 0)
-    //    return;
-
-    programsIt it = _programs.find(action->getWindow());
-    if(it == _programs.end())
+    GLuint program = (GLuint) action->getWindow()->getGLObjectId(getGLId());
+    if(program == 0)
         return;
 
     resetParameters();
@@ -768,12 +707,9 @@ void SHLChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
     PFNGLUSEPROGRAMOBJECTARBPROC useProgramObject = (PFNGLUSEPROGRAMOBJECTARBPROC)
         action->getWindow()->getFunction(_funcUseProgramObject);
     
-    GLuint program = (*it).second;
+    //GLuint program = (*it).second;
     useProgramObject(program);
 }
-
-
-
 
 void SHLChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
                                 UInt32 /*idx*/)
@@ -792,31 +728,25 @@ void SHLChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
     PFNGLUSEPROGRAMOBJECTARBPROC useProgramObject = (PFNGLUSEPROGRAMOBJECTARBPROC)
         action->getWindow()->getFunction(_funcUseProgramObject);
 
-    programsIt it = old->_programs.find(action->getWindow());
-    // deactivate the old one
-    if(it != old->_programs.end())
+    if(action->getWindow()->getGLObjectId(old->getGLId()) != 0)
         useProgramObject(0);
 
     resetParameters();
 
     //printf("SHLChunk::changeFrom : %p %x\n", action->getWindow(), action->getWindow()->getGLObjectId(getGLId()));
 
-    it = _programs.find(action->getWindow());
+    GLuint program = (GLuint) action->getWindow()->getGLObjectId(getGLId());
 
-    if(it != _programs.end())
-    {
-        GLuint program = (*it).second;
+    if(program != 0)
         useProgramObject(program);
-    }
 }
 
 
 void SHLChunk::deactivate(DrawActionBase *action, UInt32 /*idx*/)
 {
-    programsIt it = _programs.find(action->getWindow());
-    if(it == _programs.end())
+    if(action->getWindow()->getGLObjectId(getGLId()) == 0)
         return;
-
+    
     // get "glUseProgramObjectARB" function pointer
     PFNGLUSEPROGRAMOBJECTARBPROC useProgramObject = (PFNGLUSEPROGRAMOBJECTARBPROC)
         action->getWindow()->getFunction(_funcUseProgramObject);
@@ -869,7 +799,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.16 2004/07/02 17:59:45 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.17 2004/07/05 11:38:11 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
