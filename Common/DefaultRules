@@ -6,7 +6,7 @@
 .SUFFIXES:	.src .$(OBJEXT) .cpp .c _m.cpp .hpp .l .y .tab.cpp .tab.h .s 	\
 			.$(SYSDEP).$(OBJEXT) .$(LIBEXT)
 
-ifeq ($(OS_BASE), NT40)
+ifeq ($(OS_BASE), NT)
 
 %.$(SYSDEP).$(OBJEXT): %.cpp
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLYFLAG) $(INCL) \
@@ -108,7 +108,7 @@ SubLib: $(SUB_LIB)
 	@-$(LINK) $(SUB_LIB) $(SUB_LIB_LINK) 2> /dev/null
 endif
 
-ifeq ($(OS_BASE), NT40)
+ifeq ($(OS_BASE), NT)
 
 $(SUB_LIB): $(LIBOBJECTS) 
 	@echo $(LIBOBJECTS) 
@@ -262,7 +262,7 @@ endif
 #				-- $(LANG_FLAGS) --
 #	@-rm -f $(DEP_MAKEFILE).bak
 
-ifeq ($(OS_BASE), NT40)
+ifeq ($(OS_BASE), NT)
 depend: 
 	@-rm -f $(DEP_MAKEFILE)
 	@echo '# Module dependencies' > $(DEP_MAKEFILE)

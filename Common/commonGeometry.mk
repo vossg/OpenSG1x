@@ -6,7 +6,7 @@ PROJLIBS_FILE             := \
 
 REQUIRED_SYSTEM_LIBS$(OS) := 
 
-ifeq ($(OS_BASE), NT40)
+ifeq ($(OS_BASE), NT)
 REQUIRED_SYSTEM_LIBS$(OS) += /LIBPATH:$(LINK_GLUT)
 REQUIRED_SYSTEM_LIBS$(OS) += glut32.lib opengl32.lib glu32.lib $(LIBCIO)
 else
@@ -24,7 +24,7 @@ POST_LINK_LIBS$(OS)       := \
 
 POST_LINK_LIBS$(OS)      += $(REQUIRED_SYSTEM_LIBS$(OS))
 
-ifeq ($(OS_BASE), NT40)
+ifeq ($(OS_BASE), NT)
 INCL$(OS)    += /I"$(shell cygpath -w $(INCL_DIR))"
 INCL$(OS)    += /I$(INCLUDE_GLUT)
 PROJLIBS_GEO := "$(shell cygpath -w $(PROJLIBS_FILE))"

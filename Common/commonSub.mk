@@ -140,7 +140,7 @@ POST_LINK_LIBS       := $(POST_LINK_LIBS) $(POST_LINK_LIBS$(OS))
 
 ifneq ($(MAKECMDGOAL),)
 
-ifeq ($(OS_BASE), NT40)
+ifeq ($(OS_BASE), NT)
 PROJLIBSCHECKSYS := $(foreach file,$(PROJLIBS),$(shell cygpath -u $(file)))
 else
 PROJLIBSCHECKSYS := $(PROJLIBS)
