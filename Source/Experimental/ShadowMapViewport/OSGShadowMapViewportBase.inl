@@ -138,6 +138,13 @@ MFNodePtr *ShadowMapViewportBase::getMFLightNodes(void)
     return &_mfLightNodes;
 }
 
+//! Get the ShadowMapViewport::_sfShadowOn field.
+inline
+SFBool *ShadowMapViewportBase::getSFShadowOn(void)
+{
+    return &_sfShadowOn;
+}
+
 
 //! Get the value of the ShadowMapViewport::_sfOffBias field.
 inline
@@ -244,6 +251,27 @@ void ShadowMapViewportBase::setMapSize(const UInt32 &value)
     _sfMapSize.setValue(value);
 }
 
+//! Get the value of the ShadowMapViewport::_sfShadowOn field.
+inline
+bool &ShadowMapViewportBase::getShadowOn(void)
+{
+    return _sfShadowOn.getValue();
+}
+
+//! Get the value of the ShadowMapViewport::_sfShadowOn field.
+inline
+const bool &ShadowMapViewportBase::getShadowOn(void) const
+{
+    return _sfShadowOn.getValue();
+}
+
+//! Set the value of the ShadowMapViewport::_sfShadowOn field.
+inline
+void ShadowMapViewportBase::setShadowOn(const bool &value)
+{
+    _sfShadowOn.setValue(value);
+}
+
 
 //! Get the value of the \a index element the ShadowMapViewport::_mfLightNodes field.
 inline
@@ -268,5 +296,5 @@ const MFNodePtr &ShadowMapViewportBase::getLightNodes(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowMapViewportBase.inl,v 1.2 2004/08/06 15:38:14 a-m-z Exp $"
+#define OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowMapViewportBase.inl,v 1.3 2004/08/12 17:16:14 a-m-z Exp $"
 

@@ -387,39 +387,33 @@ void keyboard(unsigned char k, int x, int y)
 
         case 'w':
         {
-            int t = svp->getOffBias();    
+            int t = svp->getOffBias();
             
-            beginEditCP(svp);
-            {
+            beginEditCP(svp, ShadowMapViewport::OffBiasFieldMask);
                 svp->setOffBias(++t);
-            }
-            endEditCP(svp);
+            endEditCP(svp, ShadowMapViewport::OffBiasFieldMask);
             SLOG << "Polygon-OffsetBias is: " << t << endLog;
             break;
         }
         
         case 's':
         {
-            int t = svp->getOffBias();    
+            int t = svp->getOffBias();
             
-            beginEditCP(svp);
-            {
+            beginEditCP(svp, ShadowMapViewport::OffBiasFieldMask);
                 svp->setOffBias(--t);
-            }
-            endEditCP(svp);
+            endEditCP(svp, ShadowMapViewport::OffBiasFieldMask);
             SLOG << "Polygon-OffsetBias is: " << t << endLog;
             break;
         }
         
         case 'e':
         {
-            int t = svp->getOffFactor();    
+            int t = svp->getOffFactor();
             
-            beginEditCP(svp);
-            {
+            beginEditCP(svp, ShadowMapViewport::OffFactorFieldMask);
                 svp->setOffFactor(++t);
-            }
-            endEditCP(svp);
+            endEditCP(svp, ShadowMapViewport::OffFactorFieldMask);
             SLOG << "Polygon-OffsetFactor is: " << t << endLog;
             break;
         }
@@ -428,13 +422,18 @@ void keyboard(unsigned char k, int x, int y)
         {    
             int t = svp->getOffFactor();    
             
-            beginEditCP(svp);
-            {
+            beginEditCP(svp, ShadowMapViewport::OffFactorFieldMask);
                 svp->setOffFactor(--t);
-            }
-            endEditCP(svp);
+            endEditCP(svp, ShadowMapViewport::OffFactorFieldMask);
             SLOG << "Polygon-OffsetFactor is: " << t << endLog;
             break;
+        }
+        case 'a':
+        {
+            bool s = svp->getShadowOn();
+            beginEditCP(svp, ShadowMapViewport::OffFactorFieldMask);
+                svp->setShadowOn(!s);
+            endEditCP(svp, ShadowMapViewport::OffFactorFieldMask);
         }
         case 'x':
         {

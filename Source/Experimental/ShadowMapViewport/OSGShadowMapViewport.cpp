@@ -302,6 +302,12 @@ void ShadowMapViewport::render(RenderActionBase* action)
         return;
     }
 
+    if(!getShadowOn())
+    {
+        Viewport::render(action);
+        return;
+    }
+
     GLfloat globalAmbient[] = {0.0,0.0,0.0,1.0};
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT,globalAmbient);
         
@@ -1004,7 +1010,7 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.4 2004/08/12 16:17:06 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.5 2004/08/12 17:16:14 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 
