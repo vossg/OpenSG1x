@@ -307,6 +307,12 @@ NodePtr SceneFileHandler::read(const  Char8  *fileName,
     else
         fullFilePath = fileName;
 
+    if(fullFilePath.empty())
+    {
+        SWARNING << "Couldn't open file " << fileName << std::endl;
+        return NullFC;
+    }
+
     SceneFileType *type = getFileType(fullFilePath.c_str());
     NodePtr scene = NullFC;
 
