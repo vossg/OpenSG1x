@@ -466,7 +466,7 @@ void createGraph()
     endEditCP  (cam);
 }
 
-void *drawThreadProc (void *arg) 
+void drawThreadProc (void *arg) 
 {               
     RenderAction *ract = RenderAction::create();
     WinInfo *w=(WinInfo*)arg;
@@ -507,10 +507,9 @@ void *drawThreadProc (void *arg)
         w->win->frameExit();
         w->win->deactivate();
     }
-    return NULL;
 }
 
-void *syncThreadProc (void *OSG_CHECK_ARG(arg)) 
+void syncThreadProc (void *OSG_CHECK_ARG(arg)) 
 {               
     while(doRun)
     {
@@ -518,7 +517,6 @@ void *syncThreadProc (void *OSG_CHECK_ARG(arg))
         mainThread->getChangeList()->applyToCurrent();
         syncBarrier->enter( syncCount );
     }
-    return NULL;
 }
 
 void startThreads()

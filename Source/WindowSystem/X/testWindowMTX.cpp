@@ -109,7 +109,7 @@ void doCamTrans (UInt32 )
 }
 
 
-void *drawThreadProc (void *arg) 
+void drawThreadProc (void *arg) 
 {               
     int            my_id = (int) arg;
     XWindowPtr my_win = win[my_id];
@@ -137,9 +137,6 @@ void *drawThreadProc (void *arg)
         my_win->swap();
         my_win->frameExit();
     }
-    
-    // Destroy context
-    return ( NULL );
 }
 
 int wait_for_map_notify(Display *, XEvent *event, char *arg)
