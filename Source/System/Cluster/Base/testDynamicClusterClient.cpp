@@ -127,11 +127,20 @@ static void connectCluster(void)
 
     endEditCP(_cluster_win);
 
+    // now store all changes and clear current change list.
+    RemoteAspect::storeChangeList(Thread::getCurrentChangeList());
+    Thread::getCurrentChangeList()->clearAll();
+
     // merge all fieldcontainers in the scene to the current changelist.
     RemoteAspect::restoreChangeList(Thread::getCurrentChangeList());
 
     // initialize window
     _cluster_win->init();
+    
+    // if we don't do this our created changelist is stored again
+    // in the store list with the next render update.
+    _cluster_win->render((RenderAction *) _mgr->getAction());
+    Thread::getCurrentChangeList()->clearAll();
 
     glutPostRedisplay();
 }
@@ -141,12 +150,17 @@ static void disconnectCluster(void)
     if(_cluster_win == NullFC)
         return;
 
+    // merge all fieldcontainers in the scene to the current changelist.
+    RemoteAspect::restoreChangeList(Thread::getCurrentChangeList());
+    _cluster_win->render((RenderAction *) _mgr->getAction());
+    Thread::getCurrentChangeList()->clearAll();
+
     ViewportPtr vp = _cluster_win->getPort(0);
-    if(vp != NullFC)
-        subRefCP(vp);
-    
     subRefCP(_cluster_win);
     _cluster_win = NullFC;
+
+    if(vp != NullFC)
+        subRefCP(vp);
     
     // merge all created, addRefd, subRefd, destroyed into the created list.
     ChangeList *cl = OSG::Thread::getCurrentChangeList();
