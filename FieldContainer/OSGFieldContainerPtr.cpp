@@ -203,7 +203,7 @@ Bool FieldContainerPtrBase::operator ! (void) const
 void FieldContainerPtrBase::dump(      UInt32    uiIndent,
                                  const BitVector bvFlags) const
 {
-    if(_storeP != NULL)
+    if(this != NULL && _storeP != NULL)
     {
         indentLog(uiIndent, PLOG);
         PLOG << "FCPtr Dump :" << endl;
