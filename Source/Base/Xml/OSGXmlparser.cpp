@@ -367,7 +367,7 @@ void xmlparser::parse_attributes( xmlattributes &attr )
    }
 }
 
-void xmlparser::parse_comment( xmlcontextptr &ctxptr )
+void xmlparser::parse_comment( xmlcontextptr &/*ctxptr*/ )
 {
    // get tokens until comment is over
    while (1==1)

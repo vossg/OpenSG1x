@@ -361,17 +361,17 @@ public:
    virtual void end_document(){}
 
    //! called when parsing a processing instruction
-   virtual void processing_instruction( xmlnode &pinode ){}
+   virtual void processing_instruction( xmlnode &/*pinode*/ ){}
 
    //! called when start parsing a node
-   virtual void start_node( xmlstring &nodename ){}
+   virtual void start_node( xmlstring &/*nodename*/ ){}
    //! called when an attribute list was parsed
-   virtual void parsed_attributes( xmlattributes &attr){}
+   virtual void parsed_attributes( xmlattributes &/*attr*/){}
    //! called when parsing of a node was finished
-   virtual void end_node( xmlnode &node ){}
+   virtual void end_node( xmlnode &/*node*/ ){}
 
    //! called when a cdata section ended
-   virtual void got_cdata( xmlstring &cdata ){}
+   virtual void got_cdata( xmlstring &/*cdata*/ ){}
 };
 
 
