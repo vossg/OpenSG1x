@@ -42,7 +42,7 @@
 #include "OSGWIN32Window.h"
 #include "OSGCamera.h"
 #include "OSGPerspectiveCamera.h"
-#include "OSGBackground.h"
+#include "OSGSolidBackground.h"
 
 #if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
 #include "OSGRAWSceneFileType.h"
@@ -89,6 +89,7 @@ void display (UInt32 id)
     Matrix m1, m2, m3;
     Quaternion q1;
 
+    win[id]->frameInit();
 	win[id]->resizeGL();
 
     tball[id].getRotation().getValue(m3);
@@ -100,7 +101,7 @@ void display (UInt32 id)
     
     win[id]->drawAllViewports( ract );
     win[id]->swap();
-    win[id]->frame();
+    win[id]->frameExit();
 }
 
 
@@ -287,8 +288,8 @@ int main (int argc, char **argv)
     endEditCP(dlight);
 	
     beginEditCP(dl);
-    dl->setAmbientColor( .3, .3, .3, 1 );
-    dl->setDiffuseColor( 1, 1, 1, 1 );
+    dl->setAmbient( .3, .3, .3, 1 );
+    dl->setDiffuse( 1, 1, 1, 1 );
     dl->setDirection(0,0,1);
     dl->setBeacon( b1n);
     endEditCP(dl);
@@ -327,7 +328,7 @@ int main (int argc, char **argv)
     endEditCP(dlight);       
     
     // Background
-    BackgroundPtr bkgnd = Background::create();
+    SolidBackgroundPtr bkgnd = SolidBackground::create();
 	
     // Action
 	
@@ -356,7 +357,7 @@ int main (int argc, char **argv)
     	cam[i] = PerspectiveCamera::create();
 
     	cam[i]->setBeacon( t1n );
-    	cam[i]->setDegrees( 60 );
+    	cam[i]->setFov( 60 );
     	cam[i]->setNear( 0.1 );
     	cam[i]->setFar( 10000 );
     	

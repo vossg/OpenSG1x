@@ -9,9 +9,9 @@ ac_gdz_package[2]="WindowGLUT:1:Window/GLUT@: Action Action/DrawAction Action/In
 
 ac_gdz_package[3]="WindowX:1:Window/X@: Action Action/DrawAction Base Field FieldContainer Loader Log MultiThreading Nodes/Misc Nodes/Geometry Nodes/Light Window GL:SystemLib BaseLib :: GL:" 
 
-ac_gdz_package[4]="WindowQT:1:Window/QT@:  Action Action/DrawAction Base Field FieldContainer Loader Log MultiThreading Nodes/Misc Nodes/Geometry Nodes/Light Window Window/@WINDOWSYSTEM@ QT GL: Window@WINDOWSYSTEM@Lib  SystemLib BaseLib ::QT GL:" 
+ac_gdz_package[4]="WindowQT:1:Window/QT@:  Action Action/DrawAction Base Field FieldContainer Loader Log MultiThreading Material Nodes/Misc Nodes/Geometry Nodes/Light Window Window/@WINDOWSYSTEM@ QT GL: Window@WINDOWSYSTEM@Lib  SystemLib BaseLib ::QT GL:" 
 
-ac_gdz_package[5]="WindowWIN32:1:Window/WIN32@: Action Action/DrawAction Base Field FieldContainer Loader Log MultiThreading Nodes/Misc Nodes/Geometry Nodes/Light Window Window/X QT GLUT GL:SystemLib BaseLib ::QT GLUT GL:" 
+ac_gdz_package[5]="WindowWIN32:1:Window/WIN32@: Action Action/DrawAction Base Field FieldContainer Loader Log Material MultiThreading Nodes/Misc Nodes/Geometry Nodes/Light Window Window/X QT GLUT GL:SystemLib BaseLib ::QT GLUT GL:" 
 
 
 

@@ -248,10 +248,10 @@ int main (int argc, char **argv)
   	//  g1->(g2->g3->p1,t1->p2)
 	GeometryPtr g;
     NodePtr  p1 = makePlane( 2,2,2,2 );
-    g = dcast<GeometryPtr>(p1->getCore());
+    g = GeometryPtr::dcast(p1->getCore());
 	g->setMaterial( white );
 	NodePtr  p2 = makePlane( 2,2,2,2 );
-    g = dcast<GeometryPtr>(p2->getCore());
+    g = GeometryPtr::dcast(p2->getCore());
 	g->setMaterial( white );
 	
     NodePtr g4 = Node::create();

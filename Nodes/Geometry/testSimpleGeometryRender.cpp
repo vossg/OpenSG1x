@@ -185,32 +185,32 @@ int main (int argc, char **argv)
 	// create the objects
 
 	objects[0] = makePlane( 2, 2, 2, 2 );
-	dcast<GeometryPtr>(objects[0]->getCore())->setMaterial( mat );
+	GeometryPtr::dcast(objects[0]->getCore())->setMaterial( mat );
 	cerr << "Plane Node: " << hex << objects[0] << endl;
 
 	objects[1] = makeCone( 2.5, 2, 20, true, true );
-	dcast<GeometryPtr>(objects[1]->getCore())->setMaterial( mat );
+	GeometryPtr::dcast(objects[1]->getCore())->setMaterial( mat );
 	cerr << "Cone Node: " << hex << objects[1] << endl;
 
 	objects[2] = makeTorus( .6, 2, 8, 16 );
-	dcast<GeometryPtr>(objects[2]->getCore())->setMaterial( mat );
+	GeometryPtr::dcast(objects[2]->getCore())->setMaterial( mat );
 	cerr << "Torus Node: " << hex << objects[2] << endl;
 
 	objects[3] = makeSphere( 1, 2 );
-	dcast<GeometryPtr>(objects[3]->getCore())->setMaterial( mat );
+	GeometryPtr::dcast(objects[3]->getCore())->setMaterial( mat );
 	cerr << "Sphere Node: " << hex << objects[3] << endl;
 
 	
 	objects[4] = makeCylinder( 3, 2, 20, true, true, true );
-	dcast<GeometryPtr>(objects[4]->getCore())->setMaterial( mat );
+	GeometryPtr::dcast(objects[4]->getCore())->setMaterial( mat );
 	cerr << "Cylinder Node: " << hex << objects[4] << endl;
 	
 	objects[5] = makeConicalFrustum( 3, 2, 1, 20, true, true, true );
-	dcast<GeometryPtr>(objects[5]->getCore())->setMaterial( mat );
+	GeometryPtr::dcast(objects[5]->getCore())->setMaterial( mat );
 	cerr << "Frustum Node: " << hex << objects[5] << endl;
 
 	objects[6] = makeBox( 4, 3, 2, 4, 3, 2 );
-	dcast<GeometryPtr>(objects[6]->getCore())->setMaterial( mat );
+	GeometryPtr::dcast(objects[6]->getCore())->setMaterial( mat );
 	cerr << "Box Node: " << hex << objects[0] << endl;
 	
 	// try the vertex normal calc
@@ -228,9 +228,10 @@ int main (int argc, char **argv)
 	
 	for ( UInt16 i = 0; i < nobjects; i++ )
 	{
-		normalobjects[i] = getNormals( dcast<GeometryPtr>(objects[i]->getCore()),
-										.5 );
-		dcast<GeometryPtr>(normalobjects[i]->getCore())->setMaterial( nmat );
+		normalobjects[i] = getNormals(
+            GeometryPtr::dcast(objects[i]->getCore()), .5);
+
+		GeometryPtr::dcast(normalobjects[i]->getCore())->setMaterial(nmat);
 	}
 	
 	// 

@@ -1893,7 +1893,7 @@ Bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator != (
  */
 template <class    ValueTypeT, 
           class    StorageInterfaceT> inline
-OSG_BASE_DLLMAPPING
+OSG_MS_BASE_DLLMAPPING
 VectorInterface<ValueTypeT, StorageInterfaceT>
     operator *(const ValueTypeT                             val, 
                const VectorInterface<ValueTypeT, 

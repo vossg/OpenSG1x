@@ -113,8 +113,8 @@ int main (int argc, char **argv)
 	torus = makeTorus( .2, 1, 16, 8 );
 
 	GeometryPtr plane_geo, torus_geo;
-	plane_geo = dcast<GeometryPtr>(plane->getCore());
-	torus_geo = dcast<GeometryPtr>(torus->getCore());
+	plane_geo = GeometryPtr::dcast(plane->getCore());
+	torus_geo = GeometryPtr::dcast(torus->getCore());
 	
 	
 	pm = ChunkMaterial::create();

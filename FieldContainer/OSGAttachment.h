@@ -89,7 +89,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
     enum 
 	{ 
 		ParentsFieldId     = Inherited::NextFieldId, 
-		NextFieldId        = ParentsFieldId + 1, 
+		NextFieldId        = ParentsFieldId + 1
 	};
 
 	static const BitVector ParentsFieldMask;

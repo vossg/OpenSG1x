@@ -177,7 +177,7 @@ int main (int argc, char **argv)
     p1->setCore(g1);
     g1.dump (0, OSG::FCDumpFlags::RefCount);
 
-    p2 = OSG::dcast<OSG::NodePtr>(p1->shallowCopy());
+    p2 = OSG::NodePtr::dcast(p1->shallowCopy());
 //    OSG::addRefCP(p2);
 
     g1.dump (0, OSG::FCDumpFlags::RefCount);
@@ -231,7 +231,7 @@ int main (int argc, char **argv)
     n1.dump (0, OSG::FCDumpFlags::RefCount);
     n2.dump (0, OSG::FCDumpFlags::RefCount);
 
-    p2 = OSG::dcast<OSG::NodePtr>(p1->shallowCopy());
+    p2 = OSG::NodePtr::dcast(p1->shallowCopy());
 
     p1.dump (0, OSG::FCDumpFlags::RefCount);
     p2.dump (0, OSG::FCDumpFlags::RefCount);

@@ -21,6 +21,7 @@ using namespace OSG;
 int main (int argc, char **argv) {
 
  	Real32 ent, ex;
+    int i;
 
 	//Lines:
 
@@ -40,7 +41,7 @@ int main (int argc, char **argv) {
 					    Pnt3f(-4,6,0), Pnt3f(0,6,0)
 						};
 
-	for ( int i = 0; i < nlines; i++ )
+	for ( i = 0; i < nlines; i++ )
 		lines[i].setValue( pnts[i*2], pnts[i*2+1] );
 
 
@@ -61,7 +62,7 @@ int main (int argc, char **argv) {
 	b.dump();
 	cout << endl;
 
-	for ( int i = 0 ; i < nlines; i++ )
+	for ( i = 0 ; i < nlines; i++ )
 	{
 		cout << "Line: (" << lines[i].getPosition() << ") (" 
 			 << lines[i].getDirection() << ")" << endl;
@@ -111,7 +112,7 @@ int main (int argc, char **argv) {
 	cout << endl;
 
 
-	for ( int i = 0 ; i < nlines; i++ )
+	for ( i = 0 ; i < nlines; i++ )
 	{
 		cout << "Line: (" << lines[i].getPosition() << ") (" 
 			 << lines[i].getDirection() << ")" << endl;
@@ -171,7 +172,7 @@ int main (int argc, char **argv) {
 	cout << endl;
 
 
-	for ( int i = 0 ; i < nlines; i++ )
+	for ( i = 0 ; i < nlines; i++ )
 	{
 		cout << "Line: (" << lines[i].getPosition() << ") (" 
 			 << lines[i].getDirection() << ")" << endl;
@@ -214,14 +215,14 @@ int main (int argc, char **argv) {
 	SphereVolume sphereIn(Pnt3f(1,0,0),1);
 	CylinderVolume cylinder(Pnt3f(0,1,0),Vec3f(0,1,0),1);
  
- 	Plane near(Vec3f(-1,0,0),0);
-	Plane far(Vec3f(1,0,0),-10);
-	Plane right(Vec3f(-1,-1,0),3.5355);
-	Plane left(Vec3f(-1,1,0),-3.5355);
-	Plane top(Vec3f(-1,0,-1),3.5355);
-	Plane bottom(Vec3f(-1,0,1),-3.5355);
+ 	Plane pNear(Vec3f(-1,0,0),0);
+	Plane pFar(Vec3f(1,0,0),-10);
+	Plane pRight(Vec3f(-1,-1,0),3.5355);
+	Plane pLeft(Vec3f(-1,1,0),-3.5355);
+	Plane pTop(Vec3f(-1,0,-1),3.5355);
+	Plane pBottom(Vec3f(-1,0,1),-3.5355);
 
-	FrustumVolume frustum(near, far, right, left, top, bottom);
+	FrustumVolume frustum(pNear, pFar, pRight, pLeft, pTop, pBottom);
 	
 	cout << "Box/Frustum test : " << flush;
 	cout << (box.intersect(frustum) ? "**BAD**" : "ok") << endl;

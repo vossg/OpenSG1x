@@ -672,6 +672,23 @@ void TransformationMatrix<ValueTypeT>::setTransform(
     r.getValue(*this);
 }
 
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setTransform (const VectorType3f   &t, 
+                                                     const QuaternionType &r)
+{
+    r.getValue(*this);
+
+	// Calculate the resulting transformation matrix
+	_matrix[0][3] = 0.0;
+	_matrix[1][3] = 0.0;
+	_matrix[2][3] = 0.0;
+
+	_matrix[3][0] = t[0];
+	_matrix[3][1] = t[1];
+	_matrix[3][2] = t[2];
+	_matrix[3][3] = 1.0;
+}
+
 /** \brief Composes the matrix based on a translation, rotation and scale
  */
 template<class ValueTypeT> inline

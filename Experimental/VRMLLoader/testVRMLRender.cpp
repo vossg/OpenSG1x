@@ -200,7 +200,7 @@ OSG::Action::ResultE wireDraw( OSG::CNodePtr &, OSG::Action * action )
 			glEnable( GL_LIGHTING );
 	}
 	
-	OSG::GeometryPtr g = OSG::dcast<OSG::GeometryPtr>( node->getCore() );
+	OSG::GeometryPtr g = OSG::GeometryPtr::dcast( node->getCore() );
 	
 	return g->doDraw( action );
 }
@@ -208,7 +208,7 @@ OSG::Action::ResultE wireDraw( OSG::CNodePtr &, OSG::Action * action )
 OSG::Action::ResultE calcVNormal( OSG::CNodePtr &, OSG::Action * action )
 {
 	OSG::NodePtr node = action->getActNode();
-	OSG::GeometryPtr g = OSG::dcast<OSG::GeometryPtr>( node->getCore() );
+	OSG::GeometryPtr g = OSG::GeometryPtr::dcast( node->getCore() );
 
 	if ( g->getNormals() == OSG::GeoNormalPtr::NullPtr )
 	{

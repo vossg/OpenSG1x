@@ -24,6 +24,7 @@ using OSG::Matrix;
 using OSG::Quaternion;
 
 using OSG::UInt32;
+using OSG::Int32;
 
 using OSG::Real32;
 
@@ -501,8 +502,8 @@ void vectorMathTests(void)
 
     fprintf(stderr, "%f %f %f %f\n", v4f1[0], v4f1[1], v4f1[2], v4f1[3]);
     fprintf(stderr, "%f %f %f %f\n", 
-            v4f1.getValues()[0], v4f1.getValues()[1], 
-            v4f1.getValues()[2], v4f1.getValues()[3]);
+            v4f1.getValuesRef()[0], v4f1.getValuesRef()[1], 
+            v4f1.getValuesRef()[2], v4f1.getValuesRef()[3]);
 
     v4f1.getValues(rX, rY, rZ, rW);
 
@@ -573,6 +574,8 @@ void matrixTest(void)
     pVec3Array[3].setValues(41., 42., 43.);
 
     Vec4f pVec4Array[4];
+
+    UInt32 i;
 
     pVec4Array[0].setValues(11., 12., 13., 14.);
     pVec4Array[1].setValues(21., 22., 23., 24.);
@@ -665,7 +668,7 @@ void matrixTest(void)
 
     cout << "Get Values : " << endl;
 
-    for(UInt32 i = 0; i < 4; i++)
+    for(i = 0; i < 4; i++)
     {
         for(UInt32 j = 0; j < 4; j++)
         {
@@ -936,6 +939,8 @@ void matrixTest(void)
 
 void quattest(void)
 {
+    UInt32 i;
+
     Vec3f v1;
     Vec3f v2;
     Vec3f v3;
@@ -1071,7 +1076,7 @@ void quattest(void)
 
     printf("Get val pointer\n");
 
-    for(UInt32 i = 0; i < 4; i++)
+    for(i = 0; i < 4; i++)
     {
         fprintf(stderr, "%5.3f ", q1.getValues()[i]);
     }

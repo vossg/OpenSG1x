@@ -363,17 +363,17 @@ int main (int argc, char **argv)
 	gbkgnd->addColors( Color3f(0, 1, 0), 180 );
 */
 
-	gbkgnd->addColors( Color3f(0, 0, 0), 190 );
-	gbkgnd->addColors( Color3f(1, 1, 0), 40 );
-	gbkgnd->addColors( Color3f(0, 0, 1), 105 );
-	gbkgnd->addColors( Color3f(0, 1, 0), 180 );
-	gbkgnd->addColors( Color3f(1, 0, 0), 80 );
-	gbkgnd->addColors( Color3f(0, 0, 0), 500 );
-	gbkgnd->addColors( Color3f(0, 0, 0), -100 );
-	gbkgnd->addColors( Color3f(1, 0, 1), 90 );
-	gbkgnd->addColors( Color3f(1, 1, 1), 0 );
-	gbkgnd->addColors( Color3f(0, 1, 1), 135 );
-	gbkgnd->addColors( Color3f(0, 0, 0), -2 );
+	gbkgnd->addColor( Color3f(0, 0, 0), 190 );
+	gbkgnd->addColor( Color3f(1, 1, 0), 40 );
+	gbkgnd->addColor( Color3f(0, 0, 1), 105 );
+	gbkgnd->addColor( Color3f(0, 1, 0), 180 );
+	gbkgnd->addColor( Color3f(1, 0, 0), 80 );
+	gbkgnd->addColor( Color3f(0, 0, 0), 500 );
+	gbkgnd->addColor( Color3f(0, 0, 0), -100 );
+	gbkgnd->addColor( Color3f(1, 0, 1), 90 );
+	gbkgnd->addColor( Color3f(1, 1, 1), 0 );
+	gbkgnd->addColor( Color3f(0, 1, 1), 135 );
+	gbkgnd->addColor( Color3f(0, 0, 0), -2 );
 
 
 	// Viewport

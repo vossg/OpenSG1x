@@ -22,7 +22,7 @@ Real32 lowtime,hightime;
 #define WORK(res) \
 { 												\
 	(res) = 0;									\
-	for ( Int32 i=0; i < worksize; i++ )		\
+	for (Int32 i=0; i < worksize; i++ )		\
 		(res) = (res) + ( i / 100. );		\
 }
 
@@ -99,7 +99,9 @@ typedef Functor1Base<Real32, Int32> benchFunctor;
 int main( int argc, char *argv[] )
 {
 	Real32 result = 0;
-	
+	Int32 i;
+    Int32 l;
+
     osgInit(argc, argv);
 
 #ifdef WIN32
@@ -136,7 +138,7 @@ int main( int argc, char *argv[] )
 	{
 		cerr << ".";
 		start = now();
-		for ( Int32 l = 0; l < repeats; l++ )
+		for ( l = 0; l < repeats; l++ )
 			WORK(result);
 		stop = now();
 		dur = delta( stop, start );
@@ -155,7 +157,7 @@ int main( int argc, char *argv[] )
 	// direct loop, for base timing
 	start = now();
 	{
-	for ( Int32 l = 0; l < repeats; l++ )
+	for ( l = 0; l < repeats; l++ )
 		WORK(result);
 	}
 	stop = now();
@@ -164,7 +166,7 @@ int main( int argc, char *argv[] )
 	
 	// simple function
 	start = now();
-	for ( Int32 l = 0; l < repeats; l++ )
+	for ( l = 0; l < repeats; l++ )
 		result += function( l );
 	stop = now();
 	pres("Simple function", delta(stop,start));
@@ -174,21 +176,21 @@ int main( int argc, char *argv[] )
 	
 	// method
 	start = now();
-	for ( Int32 l = 0; l < repeats; l++ )
+	for ( l = 0; l < repeats; l++ )
 		t.method( l );
 	stop = now();
 	pres("Method", delta(stop,start));
 	
 	// method via pionter
 	start = now();
-	for ( Int32 l = 0; l < repeats; l++ )
+	for ( l = 0; l < repeats; l++ )
 		tp->method( l );
 	stop = now();
 	pres("Method via pointer", delta(stop,start));
 	
 	// virtual method via pionter
 	start = now();
-	for ( Int32 l = 0; l < repeats; l++ )
+	for ( l = 0; l < repeats; l++ )
 		tp->vmethod( l );
 	stop = now();
 	pres("Virtual method via pointer", delta(stop,start));
@@ -202,7 +204,7 @@ int main( int argc, char *argv[] )
 	// simple function functor
 	f = osgFunctionFunctor1( function );
 	start = now();
-	for ( Int32 l = 0; l < repeats; l++ )
+	for ( l = 0; l < repeats; l++ )
 		fp->call( l );
 	stop = now();
 	pres("Function functor", delta(stop,start));
@@ -210,7 +212,7 @@ int main( int argc, char *argv[] )
 	// method functor
 	f = osgMethodFunctor1Ptr( &t, &test::method );
 	start = now();
-	for ( Int32 l = 0; l < repeats; l++ )
+	for ( l = 0; l < repeats; l++ )
 		fp->call( l );
 	stop = now();
 	pres("Method functor", delta(stop,start));
@@ -218,7 +220,7 @@ int main( int argc, char *argv[] )
 	// virtual method functor
 	f = osgMethodFunctor1Ptr( &t, &test::vmethod );
 	start = now();
-	for ( Int32 l = 0; l < repeats; l++ )
+	for ( l = 0; l < repeats; l++ )
 		fp->call( l );
 	stop = now();
 	pres("Virtual method functor", delta(stop,start));

@@ -222,12 +222,12 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
 
 	void setRotate   (const QuaternionType &q);
 
-	void setTransform ( const VectorType3f   &t );
+	void setTransform (const VectorType3f   &t);
 
-	void setTransform ( const QuaternionType &r );
+	void setTransform (const QuaternionType &r);
 
-	void setTransform ( const VectorType3f   &t, 
-                      const QuaternionType &r );
+	void setTransform (const VectorType3f   &t, 
+                       const QuaternionType &r);
 
 	void setTransform(const VectorType3f   &t, 
                       const QuaternionType &r,
