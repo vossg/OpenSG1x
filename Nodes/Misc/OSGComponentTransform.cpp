@@ -69,7 +69,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char ComponentTransform::cvsid[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.4 2001/10/21 17:19:04 dirk Exp $";
+char ComponentTransform::cvsid[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.5 2001/11/02 14:39:44 neumannc Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -161,6 +161,18 @@ void ComponentTransform::initMethod (void)
                                 ComponentTransformPtr, 
                                 Action *>(&ComponentTransform::renderLeave));
 
+    
+    RenderAction::registerEnterDefault(getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                ComponentTransformPtr, 
+                                Action *>(&ComponentTransform::intersectEnter));
+    RenderAction::registerLeaveDefault(getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                ComponentTransformPtr, 
+                                Action *>(&ComponentTransform::intersectLeave));
+    
 #else
 
     DrawAction::registerEnterDefault(getClassType(), 
@@ -243,10 +255,20 @@ void ComponentTransform::dump(      UInt32    uiIndent,
 }
 
     
-
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+Action::ResultE ComponentTransform::intersectEnter(Action * action)
+{
+    return this->Transform::intersectEnter(action);
+}
+
+Action::ResultE ComponentTransform::intersectLeave(Action * action)
+{
+    return this->Transform::intersectLeave(action);
+}
+
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

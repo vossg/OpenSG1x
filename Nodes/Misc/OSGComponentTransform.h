@@ -88,7 +88,16 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransform : public ComponentTransformBas
     static Action::ResultE ComponentTransformDrawLeave(CNodePtr &cnode,
                                                   Action   *pAction);
 #endif
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Action Callback                            */
+    /*! \{                                                                 */
 
+    Action::ResultE intersectEnter(Action * action);
+    Action::ResultE intersectLeave(Action * action);
+    
+    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
