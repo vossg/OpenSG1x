@@ -74,7 +74,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.23 2001/10/15 03:10:24 vossg Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.24 2001/11/30 12:10:01 vossg Exp $";
 
 StateChunkClass TextureChunk::_class("Texture");
 
@@ -611,10 +611,10 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
 #define setGenFunc( func, genfunc, getfunc, getplane )                  \
     if ( getfunc() != GL_NONE )                                         \
     {                                                                   \
-        GLfloat p[4] = { getplane().getNormal()[0],                     \
-                         getplane().getNormal()[1],                     \
-                         getplane().getNormal()[2],                     \
-                         getplane().getDistanceFromOrigin() };          \
+        GLfloat p[4] = { getplane()[0],                                 \
+                         getplane()[1],                                 \
+                         getplane()[2],                                 \
+                         getplane()[4] };                               \
         glTexGeni( func, GL_TEXTURE_GEN_MODE, getfunc() );              \
         if ( getfunc() == GL_OBJECT_LINEAR )                            \
             glTexGenfv( func, GL_OBJECT_PLANE, p );                     \

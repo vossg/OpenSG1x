@@ -148,7 +148,7 @@
 	</Field>
 	<Field
 		name="genFuncSPlane"
-		type="Plane"
+		type="Pnt4f"
 		cardinality="single"
 		visibility="external"
 		access="public"
@@ -156,7 +156,7 @@
 	</Field>
 	<Field
 		name="genFuncTPlane"
-		type="Plane"
+		type="Pnt4f"
 		cardinality="single"
 		visibility="external"
 		access="public"
@@ -164,7 +164,7 @@
 	</Field>
 	<Field
 		name="genFuncRPlane"
-		type="Plane"
+		type="Pnt4f"
 		cardinality="single"
 		visibility="external"
 		access="public"
@@ -172,7 +172,7 @@
 	</Field>
 	<Field
 		name="genFuncQPlane"
-		type="Plane"
+		type="Pnt4f"
 		cardinality="single"
 		visibility="external"
 		access="public"

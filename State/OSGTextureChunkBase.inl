@@ -177,25 +177,25 @@ SFUInt32 *TextureChunkBase::getSFGenFuncQ(void)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-SFPlane *TextureChunkBase::getSFGenFuncSPlane(void)
+SFPnt4f *TextureChunkBase::getSFGenFuncSPlane(void)
 {
     return &_sfGenFuncSPlane;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-SFPlane *TextureChunkBase::getSFGenFuncTPlane(void)
+SFPnt4f *TextureChunkBase::getSFGenFuncTPlane(void)
 {
     return &_sfGenFuncTPlane;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-SFPlane *TextureChunkBase::getSFGenFuncRPlane(void)
+SFPnt4f *TextureChunkBase::getSFGenFuncRPlane(void)
 {
     return &_sfGenFuncRPlane;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-SFPlane *TextureChunkBase::getSFGenFuncQPlane(void)
+SFPnt4f *TextureChunkBase::getSFGenFuncQPlane(void)
 {
     return &_sfGenFuncQPlane;
 }
@@ -460,73 +460,73 @@ void TextureChunkBase::setGenFuncQ(const UInt32 &value)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Plane &TextureChunkBase::getGenFuncSPlane(void)
+Pnt4f &TextureChunkBase::getGenFuncSPlane(void)
 {
     return _sfGenFuncSPlane.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Plane &TextureChunkBase::getGenFuncSPlane(void) const
+const Pnt4f &TextureChunkBase::getGenFuncSPlane(void) const
 {
     return _sfGenFuncSPlane.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setGenFuncSPlane(const Plane &value)
+void TextureChunkBase::setGenFuncSPlane(const Pnt4f &value)
 {
     _sfGenFuncSPlane.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Plane &TextureChunkBase::getGenFuncTPlane(void)
+Pnt4f &TextureChunkBase::getGenFuncTPlane(void)
 {
     return _sfGenFuncTPlane.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Plane &TextureChunkBase::getGenFuncTPlane(void) const
+const Pnt4f &TextureChunkBase::getGenFuncTPlane(void) const
 {
     return _sfGenFuncTPlane.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setGenFuncTPlane(const Plane &value)
+void TextureChunkBase::setGenFuncTPlane(const Pnt4f &value)
 {
     _sfGenFuncTPlane.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Plane &TextureChunkBase::getGenFuncRPlane(void)
+Pnt4f &TextureChunkBase::getGenFuncRPlane(void)
 {
     return _sfGenFuncRPlane.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Plane &TextureChunkBase::getGenFuncRPlane(void) const
+const Pnt4f &TextureChunkBase::getGenFuncRPlane(void) const
 {
     return _sfGenFuncRPlane.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setGenFuncRPlane(const Plane &value)
+void TextureChunkBase::setGenFuncRPlane(const Pnt4f &value)
 {
     _sfGenFuncRPlane.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Plane &TextureChunkBase::getGenFuncQPlane(void)
+Pnt4f &TextureChunkBase::getGenFuncQPlane(void)
 {
     return _sfGenFuncQPlane.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-const Plane &TextureChunkBase::getGenFuncQPlane(void) const
+const Pnt4f &TextureChunkBase::getGenFuncQPlane(void) const
 {
     return _sfGenFuncQPlane.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TextureChunkBase::setGenFuncQPlane(const Plane &value)
+void TextureChunkBase::setGenFuncQPlane(const Pnt4f &value)
 {
     _sfGenFuncQPlane.setValue(value);
 }
@@ -553,5 +553,5 @@ void TextureChunkBase::setGLId(const UInt32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTextureChunkBase.inl,v 1.9 2001/10/03 20:37:35 dirk Exp $"
+#define OSGTEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTextureChunkBase.inl,v 1.10 2001/11/30 12:10:01 vossg Exp $"
 

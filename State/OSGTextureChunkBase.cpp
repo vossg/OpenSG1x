@@ -82,7 +82,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.21 2001/11/09 08:17:08 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.22 2001/11/30 12:10:01 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 
@@ -196,16 +196,16 @@ const OSG::BitVector  TextureChunkBase::GLIdFieldMask =
 /*! \var UInt32          TextureChunkBase::_sfGenFuncQ
     
 */
-/*! \var Plane           TextureChunkBase::_sfGenFuncSPlane
+/*! \var Pnt4f           TextureChunkBase::_sfGenFuncSPlane
     
 */
-/*! \var Plane           TextureChunkBase::_sfGenFuncTPlane
+/*! \var Pnt4f           TextureChunkBase::_sfGenFuncTPlane
     
 */
-/*! \var Plane           TextureChunkBase::_sfGenFuncRPlane
+/*! \var Pnt4f           TextureChunkBase::_sfGenFuncRPlane
     
 */
-/*! \var Plane           TextureChunkBase::_sfGenFuncQPlane
+/*! \var Pnt4f           TextureChunkBase::_sfGenFuncQPlane
     
 */
 /*! \var UInt32          TextureChunkBase::_sfGLId
@@ -285,22 +285,22 @@ FieldDescription *TextureChunkBase::_desc[] =
                      GenFuncQFieldId, GenFuncQFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFGenFuncQ),
-    new FieldDescription(SFPlane::getClassType(), 
+    new FieldDescription(SFPnt4f::getClassType(), 
                      "genFuncSPlane", 
                      GenFuncSPlaneFieldId, GenFuncSPlaneFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFGenFuncSPlane),
-    new FieldDescription(SFPlane::getClassType(), 
+    new FieldDescription(SFPnt4f::getClassType(), 
                      "genFuncTPlane", 
                      GenFuncTPlaneFieldId, GenFuncTPlaneFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFGenFuncTPlane),
-    new FieldDescription(SFPlane::getClassType(), 
+    new FieldDescription(SFPnt4f::getClassType(), 
                      "genFuncRPlane", 
                      GenFuncRPlaneFieldId, GenFuncRPlaneFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFGenFuncRPlane),
-    new FieldDescription(SFPlane::getClassType(), 
+    new FieldDescription(SFPnt4f::getClassType(), 
                      "genFuncQPlane", 
                      GenFuncQPlaneFieldId, GenFuncQPlaneFieldMask,
                      false,
