@@ -1,7 +1,5 @@
 #!gmake
 
-OS_BASE= $(shell 'CommonConf/config.guess')
-
 include Common/common.mk
 
 #########################################################################
@@ -36,16 +34,16 @@ DOC_ENV += OSGPOOL="$(OSGPOOL)"
 # if multiple compilers have been used)
 
 default:
-	$(MAKE) -C Builds/${OS_BASE}* 
+	$(MAKE) -C Builds/${BUILD_ENV}* 
         
 opt:
-	$(MAKE) -C Builds/${OS_BASE}* opt
+	$(MAKE) -C Builds/${BUILD_ENV}* opt
 
 install:
-	cd Builds/${OS_BASE}* && $(MAKE) install
+	cd Builds/${BUILD_ENV}* && $(MAKE) install
 
 clean:
-	cd Builds/${OS_BASE}* && $(MAKE) clean
+	cd Builds/${BUILD_ENV}* && $(MAKE) clean
 
 ctags:
 	ctags -R --c-types=+c --totals -h +.inl --langmap=c++:.h.hpp.cpp.cxx.inl .
@@ -86,7 +84,7 @@ doc:
 	@rm -f Common/dummyClasses.list       						
 
 	# do doxygen
-	$(DOC_ENV) doxygen Common/Doxygen_$(OS_BASE).cfg -d
+	$(DOC_ENV) doxygen Common/Doxygen_$(BUILD_ENV).cfg -d
 
 
 #	@rm -f Common/dummyClasses.doxygen  
