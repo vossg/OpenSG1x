@@ -382,7 +382,7 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
   // TODO !!! code all the cases !!!
 
   if ( getSize() && pixelFormat &&
-       (destination || (pixelFormat != _pixelFormat) ) {
+       (destination || (pixelFormat != _pixelFormat) ) )
     {
       dest->set(pixelFormat, _width, _height, _depth );
       data = dest->_data;
