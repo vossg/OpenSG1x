@@ -17,9 +17,9 @@
 while (<>) 
 {
 	# SField/MField
-	if ( /typedef\s+(S)Field<\s*([^>]*)\s*>\s+([^;\s]*);/ )
+	if ( /typedef\s+(S)Field<\s*([^>]*)\s*>\s+([^; ]+);/ )
 	{
-		$ftype = $1 ;
+ 		$ftype = $1 ;
 		$fname = $2 ;
 		$cname = $3 ;
 
@@ -28,13 +28,13 @@ while (<>)
 		$line = join( "", 
 					  ("class ", $cname, ": public ", $ftype, "Field { };")
 					);
-
+        
         if($cname ne "Self")
         {
             push( @sfout, $line );
         }
 	}
-	elsif ( /typedef\s+(M)Field<\s*([^>]*)\s*>\s+([^;\s]*);/ )
+	elsif ( /typedef\s+(M)Field<\s*([^>]*)\s*>\s+([^; ]+);/ )
 	{
 		$ftype = $1 ;
 		$fname = $2 ;
@@ -50,7 +50,7 @@ while (<>)
         }
 	}
 	# AbstractGeoProperty
-	elsif  ( /^typedef\s+AbstractGeoProperty<\s*([^>]*)\s*>\s+([^;\s]*);/ )
+	elsif  ( /^typedef\s+AbstractGeoProperty<\s*([^>]*)\s*>\s+([^; ]+);/ )
 	{
 		$ftype = $1;
 		$fname = $2;
@@ -65,7 +65,7 @@ while (<>)
 		
 	}
 	# GeoProperty
-	elsif  ( /^typedef\s+GeoProperty<\s*([^>]*)\s*>\s+([^;\s]*);/ )
+	elsif  ( /^typedef\s+GeoProperty<\s*([^>]*)\s*>\s+([^; ]+);/ )
 	{
 		$tname = $1;
 		$fname = $2;
@@ -82,7 +82,7 @@ while (<>)
 		}		
 	}
 	# FCPtr
-	elsif  ( /^typedef\s+FCPtr<\s*([^,]+),([^>]+)*\s*>\s+([^;\s]*);/ )
+	elsif  ( /^typedef\s+FCPtr<\s*([^,]+),([^>]+)*\s*>\s+([^; ]+);/ )
 	{
 		$ppname = $1;
 		$pname  = $2;
@@ -97,7 +97,7 @@ while (<>)
 
 	}
 	# simple ones 
-	elsif  ( /^typedef\s+(\w+)\s*<\s*([^>]*)\s*>\s+([^;\s]*);/ )
+	elsif  ( /^typedef\s+(\w+)\s*<\s*([^>]*)\s*>\s+([^; ]+);/ )
 	{
 		$tname = $1 ;
 		$tparam = $2 ;
@@ -118,7 +118,7 @@ while (<>)
 	}
 	# pretty simple ones: vectors have a <> inside the template parameter 
 	# doxygen doesn't like that and stops working there, so remove it
-	elsif  ( /^typedef\s+(\w+)\s*<\s*([^<]*)(<[^>]*>)([^>]*)\s*>\s+([^;\s]*);/ )
+	elsif  ( /^typedef\s+(\w+)\s*<\s*([^<]*)(<[^>]*>)([^>]*)\s*>\s+([^; ]+);/ )
 	{
 		$tname = $1 ;
 		$tparam1 = $2 ;
