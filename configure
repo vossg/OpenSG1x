@@ -1569,7 +1569,7 @@ if test "${enable_win_exclude_default_path+set}" = set; then
   enableval="$enable_win_exclude_default_path"
   :
 else
-  enable_win_exlucde_default_path=no
+  enable_win_exclude_default_path=no
 fi
  
 
@@ -4451,10 +4451,10 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
 
         case $build_os in
             cygwin*)
-                ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_dir/lib; ls qt-mt[0-9]*.lib 2> /dev/null`
+                ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_libdir; ls qt-mt[0-9]*.lib 2> /dev/null`
                             
                 if test "x"$ac_gdz_qt_lib_e6 = "x"; then
-                    ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_dir/lib; ls qt[0-9]*.lib 2> /dev/null`
+                    ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_libdir; ls qt[0-9]*.lib 2> /dev/null`
                 fi
             ;;
 

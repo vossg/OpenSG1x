@@ -708,7 +708,7 @@ AC_ARG_ENABLE(win-bool-is-unsigned,     [  --enable-win-bool-is-unsigned      De
 dnl ############# Win Default Path Settings #####################
 
 AC_ARG_ENABLE(win-exclude-default-path,     [  --enable-win-exclude-default-path      Do not include the default compiler and include path's on the command line, use INCLUDE and LIB instead ],
-			,enable_win_exlucde_default_path=no) 
+			,enable_win_exclude_default_path=no) 
 
 dnl ############# TLS Settings #####################
 
