@@ -273,7 +273,10 @@ void VRMLWriteAction::registerEnterDefault(const FieldContainerType &type,
     while(type.getId() >= _defaultEnterFunctors->size())
     {
         _defaultEnterFunctors->push_back( 
-                osgFunctionFunctor2(&Action::_defaultEnterFunction));
+            osgTypedFunctionFunctor2CPtrRef<
+                ResultE, 
+                CNodePtr,
+                Action *                   >(&Action::_defaultEnterFunction));
     }
     
     (*_defaultEnterFunctors)[ type.getId() ] = func;
@@ -288,7 +291,10 @@ void VRMLWriteAction::registerLeaveDefault(const FieldContainerType &type,
     while(type.getId() >= _defaultLeaveFunctors->size())
     {
         _defaultLeaveFunctors->push_back( 
-                osgFunctionFunctor2(&Action::_defaultLeaveFunction));
+            osgTypedFunctionFunctor2CPtrRef<
+                ResultE, 
+                CNodePtr,
+                Action *                   >(&Action::_defaultLeaveFunction));
     }
     
     (*_defaultLeaveFunctors)[ type.getId() ] = func;
@@ -764,8 +770,8 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
     if(pGeo == NullFC)
         return;
 
-    GeoIndicesUI32Ptr   pIndex  = GeoIndicesUI32Ptr::dcast(pGeo->getIndices());
-    GeoPTypesUI8Ptr    pTypes  = GeoPTypesUI8Ptr::dcast(pGeo->getTypes());
+    GeoIndicesUI32Ptr  pIndex  = GeoIndicesUI32Ptr ::dcast(pGeo->getIndices());
+    GeoPTypesUI8Ptr    pTypes  = GeoPTypesUI8Ptr   ::dcast(pGeo->getTypes());
     GeoPLengthsUI32Ptr pLength = GeoPLengthsUI32Ptr::dcast(pGeo->getLengths());
 
     if((pIndex  == NullFC) ||
@@ -775,7 +781,7 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
         return;
     }
 
-    GeoIndicesUI32::StoredFieldType   *pIndexField  = pIndex->getFieldPtr();
+    GeoIndicesUI32::StoredFieldType  *pIndexField  = pIndex->getFieldPtr();
     GeoPTypesUI8::StoredFieldType    *pTypeField   = pTypes->getFieldPtr();
     GeoPLengthsUI32::StoredFieldType *pLengthField = pLength->getFieldPtr();
 
@@ -1049,6 +1055,39 @@ Action::ResultE VRMLWriteAction::writeGeoEnter(CNodePtr &pGroup,
         pWriter->printIndent();
         fprintf(pFile, "{\n");
 
+        PrimitiveIterator pIt  = pGeo->beginPrimitives();
+        PrimitiveIterator pEnd = pGeo->endPrimitives();
+
+        UInt32 uiPointCount = 0;
+        UInt32 uiLineCount  = 0;
+        UInt32 uiFaceCount  = 0;
+        
+        while(pIt != pEnd)
+        {
+            if(pIt.getType() == GL_LINES      ||
+               pIt.getType() == GL_LINE_STRIP ||
+               pIt.getType() == GL_LINE_LOOP   )
+            {
+                ++uiLineCount;
+            }
+            else if(pIt.getType() == GL_POINTS)
+            {
+                ++uiPointCount;
+            }
+            else
+            {
+                ++uiFaceCount;
+            }
+
+            ++pIt;
+        }
+
+        fprintf(stderr,
+                "Geo Stat : %d %d %d\n", 
+                uiPointCount, 
+                uiLineCount,
+                uiFaceCount);
+
         pWriter->incIndent(4);
 
         pWriter->printIndent();
@@ -1156,87 +1195,63 @@ bool VRMLWriteAction::initializeAction(int &, char **)
 {
     FINFO(( "Init VRMLWriter\n" ));
 
-#ifndef OSG_NOFUNCTORS
-
     VRMLWriteAction::registerEnterDefault( 
         Group::getClassType(), 
-        osgFunctionFunctor2<Action::ResultE,
-                            CNodePtr &, 
-                            Action *>(VRMLWriteAction::writeGroupEnter));
+        osgTypedFunctionFunctor2CPtrRef<
+            Action::ResultE,
+            CNodePtr        , 
+            Action         *>(VRMLWriteAction::writeGroupEnter));
 
     VRMLWriteAction::registerEnterDefault( 
         ComponentTransform::getClassType(), 
-        osgFunctionFunctor2<Action::ResultE,
-                            CNodePtr &, 
-                            Action *>(VRMLWriteAction::writeVTransformEnter));
+        osgTypedFunctionFunctor2CPtrRef<
+            Action::ResultE,
+            CNodePtr        , 
+            Action         *>(VRMLWriteAction::writeVTransformEnter));
 
     VRMLWriteAction::registerEnterDefault( 
         Geometry::getClassType(), 
-        osgFunctionFunctor2<Action::ResultE,
-                            CNodePtr &, 
-                            Action *>(VRMLWriteAction::writeGeoEnter));
+        osgTypedFunctionFunctor2CPtrRef<
+            Action::ResultE,
+            CNodePtr        , 
+            Action         *>(VRMLWriteAction::writeGeoEnter));
 
     VRMLWriteAction::registerEnterDefault( 
         MaterialGroup::getClassType(), 
-        osgFunctionFunctor2<Action::ResultE,
-                            CNodePtr &, 
-                            Action *>(VRMLWriteAction::writeMatGroupEnter));
+        osgTypedFunctionFunctor2CPtrRef<
+            Action::ResultE,
+            CNodePtr       , 
+            Action        *>(VRMLWriteAction::writeMatGroupEnter));
 
 
 
     VRMLWriteAction::registerLeaveDefault(
         Group::getClassType(), 
-        osgFunctionFunctor2<Action::ResultE,
-                            CNodePtr &,
-                            Action *>(&VRMLWriteAction::writeGroupLeave));
+        osgTypedFunctionFunctor2CPtrRef<
+            Action::ResultE,
+            CNodePtr        ,
+            Action         *>(&VRMLWriteAction::writeGroupLeave));
 
     VRMLWriteAction::registerLeaveDefault(
         ComponentTransform::getClassType(), 
-        osgFunctionFunctor2<Action::ResultE,
-                            CNodePtr &,
-                            Action *>(&VRMLWriteAction::writeVTransformLeave));
+        osgTypedFunctionFunctor2CPtrRef<
+            Action::ResultE,
+            CNodePtr        ,
+            Action         *>(&VRMLWriteAction::writeVTransformLeave));
 
     VRMLWriteAction::registerLeaveDefault(
         Geometry::getClassType(), 
-        osgFunctionFunctor2<Action::ResultE,
-                            CNodePtr &,
-                            Action *>(&VRMLWriteAction::writeGeoLeave));
+        osgTypedFunctionFunctor2CPtrRef<
+            Action::ResultE,
+            CNodePtr        ,
+            Action         *>(&VRMLWriteAction::writeGeoLeave));
 
     VRMLWriteAction::registerLeaveDefault(
         MaterialGroup::getClassType(), 
-        osgFunctionFunctor2<Action::ResultE,
-                            CNodePtr &,
-                            Action *>(&VRMLWriteAction::writeMatGroupLeave));
-
-#else
-
-    VRMLWriteAction::registerEnterDefault( 
-        Group::getClassType(), 
-        Action::osgFunctionFunctor2(VRMLWriteAction::writeGroupEnter));
-
-    VRMLWriteAction::registerEnterDefault( 
-        ComponentTransform::getClassType(), 
-        Action::osgFunctionFunctor2(VRMLWriteAction::writeVTransformEnter));
-
-    VRMLWriteAction::registerEnterDefault( 
-        Geometry::getClassType(), 
-        Action::osgFunctionFunctor2(VRMLWriteAction::writeGeoEnter));
-
-
-
-    VRMLWriteAction::registerLeaveDefault(
-        Group::getClassType(), 
-        Action::osgFunctionFunctor2(&VRMLWriteAction::writeGroupLeave));
-
-    VRMLWriteAction::registerLeaveDefault(
-        ComponentTransform::getClassType(), 
-        Action::osgFunctionFunctor2(&VRMLWriteAction::writeVTransformLeave));
-
-    VRMLWriteAction::registerLeaveDefault(
-        Geometry::getClassType(), 
-        Action::osgFunctionFunctor2(&VRMLWriteAction::writeGeoLeave));
-
-#endif
+        osgTypedFunctionFunctor2CPtrRef<
+            Action::ResultE,
+            CNodePtr        ,
+            Action         *>(&VRMLWriteAction::writeMatGroupLeave));
 
     return true;
 }

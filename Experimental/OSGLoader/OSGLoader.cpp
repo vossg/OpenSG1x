@@ -140,7 +140,7 @@ namespace
 void OSGLoader::initFieldTypeMapper(void)
 {
     setIntExtMapping(SFBool::getClassType().getId(),
-                     ScanParseSkel::OSGsfbool);
+                     ScanParseSkel::OSGsfBool);
 
 /*
     setIntExtMapping(ScanParseSkel::OSGsfColor, 
