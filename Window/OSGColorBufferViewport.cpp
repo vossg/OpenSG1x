@@ -96,7 +96,7 @@ void ColorBufferViewport::changed(BitVector whichField, UInt32 origin)
 void ColorBufferViewport::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump ColorBufferViewport NI" << endl;
+    SLOG << "Dump ColorBufferViewport NI" << std::endl;
 }
 
 
