@@ -292,7 +292,7 @@ const char *Field::accessStr(void)
 //----------------------------------------------------------------------
 void Field::setName (const char* name )
 {
-    delete _name;
+    delete [] _name;
     
     if (name && *name && strcmp(name,FieldContainer::_nil)) {
         _name = new char [strlen(name)+1];
@@ -311,7 +311,7 @@ void Field::setName (const char* name )
 //----------------------------------------------------------------------
 void Field::setDefaultValue (const char* defaultValue )
 {
-    delete _defaultValue;
+    delete [] _defaultValue;
     
     if (defaultValue && *defaultValue && strcmp(defaultValue,FieldContainer::_nil)) {
         _defaultValue = new char [strlen(defaultValue)+1];
@@ -330,7 +330,7 @@ void Field::setDefaultValue (const char* defaultValue )
 //----------------------------------------------------------------------
 void Field::setDefaultHeader ( const char* defaultHeader )
 {
-    delete _defaultHeader;
+    delete [] _defaultHeader;
     
     if (defaultHeader && *defaultHeader && strcmp(defaultHeader,FieldContainer::_nil)) 
     {
@@ -350,7 +350,7 @@ void Field::setDefaultHeader ( const char* defaultHeader )
 //----------------------------------------------------------------------
 void Field::setDescription ( const char* description )
 {
-    delete _description;
+    delete [] _description;
     
     if (description && *description && strcmp(description,FieldContainer::_nil)) {
         _description = new char [strlen(description)+1];
@@ -374,7 +374,7 @@ void Field::setDescription ( const char* description )
 //----------------------------------------------------------------------
 void Field::setHeader ( const char* header )
 {
-    delete _header;
+    delete [] _header;
     
     if (header && *header && strcmp(header,FieldContainer::_nil) &&
         strcmp(header,"auto") ) 
@@ -395,7 +395,7 @@ void Field::setHeader ( const char* header )
 //----------------------------------------------------------------------
 void Field::setType ( const char* type )
 {
-    delete _type;
+    delete [] _type;
     
     if (type && *type && strcmp(type,FieldContainer::_nil) ) 
     {
