@@ -666,7 +666,9 @@ void VRMLIndexedFaceSetBinder::finish(VRMLToOSGAction *pAction)
                          pNode->getSFColorPerVertex ()->getValue(),
                          false,
                          true);
-
+    
+    if (pNode->getSFConvex()->getValue() == false)
+      createConvexPrimitives( pGeo ); 
 
     if((0 != (pAction->getOptions() & VRMLToOSGAction::CreateNormals)) &&
        (pGeo->getNormals() == NullFC))

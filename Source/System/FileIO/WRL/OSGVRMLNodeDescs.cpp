@@ -1374,6 +1374,9 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
                                  false, // create normal; not yet :)
                                  true);
 
+            if (pConvex->getValue() == false)
+                createConvexPrimitives( pGeo );
+
             // TODO: Need some option _uiOptions param
 						createSharedIndex( pGeo);
 
