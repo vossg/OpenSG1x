@@ -412,6 +412,7 @@ struct EQString
     }
 };
 
+#ifdef OSG_USE_HASH_COMPARE
 struct HashCmpString : 
     public OSG_STDEXTENSION_NAMESPACE::hash_compare<const Char8 *, LTString>
 {
@@ -432,6 +433,7 @@ struct HashCmpString :
         return Inherited::operator()(_Keyval1, _Keyval2);
     }
 };
+#endif
 
 // String Tokenizer
 
