@@ -194,6 +194,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
+	
+	// instance init
+	void onCreate(const FieldContainer &source);
 
     TextureChunk(void);
     TextureChunk(const TextureChunk &source);

@@ -76,7 +76,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.9 2001/07/13 14:14:12 jbehr Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.10 2001/07/23 11:38:28 dirk Exp $";
 
 StateChunkClass TextureChunk::_class(String("Texture"));
 
@@ -150,33 +150,6 @@ TextureChunk::TextureChunk(void) :
 TextureChunk::TextureChunk(const TextureChunk &source) :
     Inherited(source)
 {
-	// already assigned a GLId?
-	// if not this is the copy from the prototype
-	
-	// !!! this temporary is needed to work around compiler problems (sgi)
-// CHECK CEHCK
-//	TextureChunkPtr tmpPtr = FieldContainer::getPtr<TextureChunkPtr>(*this);
-	TextureChunkPtr tmpPtr(*this);
-
-#ifndef OSG_NOFUNCTORS
-	if ( ! getGLId() )	
-		setGLId( Window::registerGLObject( 
-						osgMethodFunctor2CPtr<
-										void,
-										Window::GLObjectFlagE,
-										UInt32,
-										TextureChunkPtr
-										>( tmpPtr, &TextureChunk::handleGL ), 1 
-			   )                         );
-#else
-	if(! getGLId())	
-    {
-		setGLId(Window::registerGLObject( 
-						osgMethodFunctor2CPtr(tmpPtr, 
-                                              &TextureChunk::handleGL), 
-                        1));
-    }
-#endif
 }
 
 /** \brief Destructor
@@ -193,6 +166,38 @@ TextureChunk::~TextureChunk(void)
 void TextureChunk::changed(BitVector, ChangeMode)
 {
 }
+
+/*----------------------------- onCreate --------------------------------*/
+
+/** \brief instance initialization
+ */
+
+void TextureChunk::onCreate( const FieldContainer & )
+{
+	// !!! this temporary is needed to work around compiler problems (sgi)
+	// CHECK CHECK
+	//	TextureChunkPtr tmpPtr = FieldContainer::getPtr<TextureChunkPtr>(*this);
+	TextureChunkPtr tmpPtr(*this);
+
+	beginEditCP( tmpPtr, TextureChunk::GLIdFieldMask );
+#ifndef OSG_NOFUNCTORS
+	setGLId( Window::registerGLObject( 
+						osgMethodFunctor2CPtr<
+										void,
+										Window::GLObjectFlagE,
+										UInt32,
+										TextureChunkPtr
+										>( tmpPtr, &TextureChunk::handleGL ), 1 
+	)                         );
+#else
+	setGLId(Window::registerGLObject( 
+						osgMethodFunctor2CPtr(tmpPtr, 
+                                              &TextureChunk::handleGL), 
+                    1));
+#endif
+	endEditCP( tmpPtr, TextureChunk::GLIdFieldMask );
+}
+
 
 /*------------------------------- dump ----------------------------------*/
 
