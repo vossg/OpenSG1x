@@ -475,6 +475,10 @@
 
 # define OSG_FOUND_OS
 
+# if _MSC_VER >= 1300 && _MSC_VER < 1310
+#    define OSG_WIN32_CL_NET70 1
+# endif
+
 # if _MSC_VER > 1300
 # define OSG_NEED_BOOL_MFIELD_SPEZ
 # endif

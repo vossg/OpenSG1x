@@ -898,11 +898,13 @@ dsp7:
 			-e 's|@OSG_QT_DEFS@|$(QT_PLATTFORMDEF_EXT)|g'				\
 			-e 's|@OSG_INCL@|$(INCL_EXP_$(OS_BASE))|g'					\
 			-e 's|@OSG_LIB_EXT@|$(OSG_LIB_EXT)|g'                       \
-		> $(PACKAGE_NAME)Lib.dsp
+		> $(PACKAGE_NAME)Lib.dsp.in
+	@cat $(PACKAGE_NAME)Lib.dsp.in | $(OSGPOOL)/$(OSGCOMMON)/fix_vs.net_zm_option.pl $(PACKAGE_NAME) > $(PACKAGE_NAME)Lib.dsp
+	@rm $(PACKAGE_NAME)Lib.dsp.in
 	@$(OSGPOOL)/$(OSGCOMMON)/createDSPSourcePart.pl $(DSP_PACKS) $(DSP_DEFS) >> $(PACKAGE_NAME)Lib.dsp
 	@rm -f $(DSP_PACKS)
 	@perl -pi -e 's/\n/\r\n/;' < $(PACKAGE_NAME)Lib.dsp > $(PACKAGE_NAME)Lib.dsp.cooked       
-	@mv $(PACKAGE_NAME)Lib.dsp.cooked $(OSGPOOL)/VSBuild/VS7/$(PACKAGE_NAME)Lib
+	@mv $(PACKAGE_NAME)Lib.dsp.cooked $(OSGPOOL)/VSBuild/VS7/$(PACKAGE_NAME)Lib/$(PACKAGE_NAME)Lib.dsp
 ifneq ($(DSP_DEFS),)
 	@cp lib.$(DBG).def $(OSGPOOL)/VSBuild/VS7/$(PACKAGE_NAME)Lib
 endif

@@ -412,11 +412,18 @@ struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
     typedef typename FieldTypeT::Inherited       Inherited;
     typedef          FieldDataTraits<FieldTypeT> FieldTypeTraits;
 
+#if defined(OSG_WIN32_CL_NET70) 
+#pragma warning (disable : 4806)
+#endif
 
     typedef typename osgIF<(bTypeHasParent == true),
                            FieldDataTraits<Inherited>, 
                            FieldTraitsRecurseBase<FieldTypeT> >::_IRet 
         MappedTrait;
+
+#if defined(OSG_WIN32_CL_NET70) 
+#pragma warning (default : 4806)
+#endif
 
     static UInt32 getBinSize(const FieldTypeT &oObject)
     {
@@ -479,10 +486,18 @@ struct FieldTraitsRecurseMapper1 : public FieldTraitsRecurseBase<FieldTypeT>
     typedef typename FieldTypeT::Inherited       Inherited;
     typedef          FieldDataTraits<FieldTypeT> FieldTypeTraits;
 
+#if defined(OSG_WIN32_CL_NET70) 
+#pragma warning (disable : 4806)
+#endif
+
     typedef typename osgIF<bTypeHasParent == true,
                            FieldDataTraits1<Inherited>, 
                            FieldTraitsRecurseBase<FieldTypeT> >::_IRet 
         MappedTrait;
+
+#if defined(OSG_WIN32_CL_NET70) 
+#pragma warning (default : 4806)
+#endif
 
     static UInt32 getBinSize(const FieldTypeT &oObject)
     {
@@ -545,10 +560,18 @@ struct FieldTraitsRecurseMapper2 : public FieldTraitsRecurseBase<FieldTypeT>
     typedef typename FieldTypeT::Inherited       Inherited;
     typedef          FieldDataTraits<FieldTypeT> FieldTypeTraits;
 
+#if defined(OSG_WIN32_CL_NET70) 
+#pragma warning (disable : 4806)
+#endif
+
     typedef typename osgIF<bTypeHasParent == true,
                            FieldDataTraits2<Inherited>, 
                            FieldTraitsRecurseBase<FieldTypeT> >::_IRet 
         MappedTrait;
+
+#if defined(OSG_WIN32_CL_NET70) 
+#pragma warning (default : 4806)
+#endif
 
     static UInt32 getBinSize(const FieldTypeT &oObject)
     {

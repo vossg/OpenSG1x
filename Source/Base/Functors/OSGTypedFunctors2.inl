@@ -100,6 +100,10 @@ TypedFunctor2Base<RetT,
 #pragma set woff 1551 
 #endif
 
+#if defined(OSG_WIN32_CL_NET70) 
+#pragma warning (disable : 4700)
+#endif
+
 template <class RetT,
           class CallArgT,
           class ArgsT,
@@ -116,6 +120,10 @@ RetT TypedFunctor2Base<RetT,
 
     return returnValue;
 }
+
+#if defined(OSG_WIN32_CL_NET70) 
+#pragma warning (default : 4700)
+#endif
 
 #ifdef __sgi
 #pragma reset woff 1551 
@@ -261,16 +269,16 @@ RetT TypedFunctionFunctor2<RetT,
 { 
     typedef typename Self::FunctionF FuncF;
 
-    RetT returnValue;
-
     if(Self::_flags & Self::FuncPtrValid)
     {
         FuncF pFunc = *((FuncF *) Self::_data2);
         
         return pFunc(obj, oArg1);
     }
-    
-    return returnValue;
+	else
+	{
+		return RetT();
+	}
 }
 
 #ifdef __sgi
@@ -399,15 +407,14 @@ RetT TypedObjectFunctor2<RetT,
                          SizeTraitsT>::call(CallArgType obj,
                                             Arg1        oArg1) 
 { 
-    RetT returnValue;
-
     if(Self::_flags & Self::FuncPtrValid)
     {
         return TypeTraits::callObjectMethod(Self::_data2, obj, oArg1);
     }
-    
-
-    return returnValue;
+	else
+	{
+		return RetT();
+	}
 }
 
 #ifdef __sgi
@@ -540,8 +547,6 @@ RetT TypedStoredObjectFunctor2<RetT,
                                SizeTraitsT>::call(CallArgType obj,
                                                   Arg1        oArg1) 
 { 
-    RetT returnValue;
-
     if(Self::_flags & Self::FuncPtrValid &&
        Self::_flags & Self::ObjectValid)
     {
@@ -550,8 +555,10 @@ RetT TypedStoredObjectFunctor2<RetT,
                                                obj,
                                                oArg1);
     }
-
-    return returnValue;
+	else
+	{
+		return RetT();
+	}
 }
 
 #ifdef __sgi
