@@ -55,7 +55,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGNormalQuantifier.cpp,v 1.1 2002/04/24 17:23:25 jbehr Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGNormalQuantifier.cpp,v 1.2 2002/04/24 18:37:40 jbehr Exp $";
     static Char8 cvsid_hpp[] = OSG_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSG_INLINE_CVSID;
 }
@@ -106,7 +106,7 @@ void NormalQuantifier::build (UInt32 numberSubdivisions)
 {
   Vec3f point1, point2, point3;
   UInt32 octant, xoctant, yoctant, zoctant;
-  UInt32 index, nN = ((1<<(2*numberSubdivisions))*8);
+  UInt32 index = 0, nN = ((1<<(2*numberSubdivisions))*8);
   
   _numberSubdivisions = numberSubdivisions;
   _normalTable.resize(nN);

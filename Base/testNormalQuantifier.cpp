@@ -13,7 +13,11 @@ int main (int argc, char **argv)
 
 	osg::NormalQuantifier nq;
 
+	FLOG (("Build NormalQuantifier with 4 subdivisions\n"));
+
 	nq.build(4);
+
+	FLOG (("Normal count: %d\n", nq.getNormalCount()));
 
 	return retCode;
 }
