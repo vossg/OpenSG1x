@@ -94,6 +94,7 @@
 #include <OSGGLenumFields.h> // EnvOperand1Alpha type
 #include <OSGGLenumFields.h> // EnvOperand2Alpha type
 #include <OSGGLenumFields.h> // GLId type
+#include <OSGBoolFields.h> // PointSprite type
 
 #include <OSGTextureChunkFields.h>
 
@@ -144,7 +145,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
         EnvOperand1AlphaFieldId = EnvOperand0AlphaFieldId + 1,
         EnvOperand2AlphaFieldId = EnvOperand1AlphaFieldId + 1,
         GLIdFieldId             = EnvOperand2AlphaFieldId + 1,
-        NextFieldId             = GLIdFieldId             + 1
+        PointSpriteFieldId      = GLIdFieldId             + 1,
+        NextFieldId             = PointSpriteFieldId      + 1
     };
 
     static const OSG::BitVector ImageFieldMask;
@@ -176,7 +178,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     static const OSG::BitVector EnvOperand1AlphaFieldMask;
     static const OSG::BitVector EnvOperand2AlphaFieldMask;
     static const OSG::BitVector GLIdFieldMask;
+    static const OSG::BitVector PointSpriteFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -229,6 +234,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
            SFGLenum            *getSFEnvOperand1Alpha(void);
            SFGLenum            *getSFEnvOperand2Alpha(void);
            SFGLenum            *getSFGLId           (void);
+           SFBool              *getSFPointSprite    (void);
 
            ImagePtr            &getImage          (void);
      const ImagePtr            &getImage          (void) const;
@@ -288,6 +294,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      const GLenum              &getEnvOperand2Alpha(void) const;
            GLenum              &getGLId           (void);
      const GLenum              &getGLId           (void) const;
+           bool                &getPointSprite    (void);
+     const bool                &getPointSprite    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -323,6 +331,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      void setEnvOperand1Alpha( const GLenum &value );
      void setEnvOperand2Alpha( const GLenum &value );
      void setGLId           ( const GLenum &value );
+     void setPointSprite    ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -397,6 +406,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     SFGLenum            _sfEnvOperand1Alpha;
     SFGLenum            _sfEnvOperand2Alpha;
     SFGLenum            _sfGLId;
+    SFBool              _sfPointSprite;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

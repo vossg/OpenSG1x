@@ -106,7 +106,7 @@ MaterialChunk::~MaterialChunk(void)
 
 /*------------------------- Chunk Class Access ---------------------------*/
 
-const StateChunkClass *MaterialChunk::getClass( void ) const
+const StateChunkClass *MaterialChunk::getClass(void) const
 {
     return &_class;
 }

@@ -106,7 +106,7 @@ TextureTransformChunk::~TextureTransformChunk(void)
 
 /*------------------------- Chunk Class Access ---------------------------*/
 
-const StateChunkClass *TextureTransformChunk::getClass( void ) const
+const StateChunkClass *TextureTransformChunk::getClass(void) const
 {
     return &_class;
 }

@@ -83,96 +83,103 @@
 #include <OSGGL.h>                        // EnvOperand0Alpha default header
 #include <OSGGL.h>                        // EnvOperand1Alpha default header
 #include <OSGGL.h>                        // EnvOperand2Alpha default header
+#include <OSGGL.h>                        // PointSprite default header
 
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  TextureChunkBase::ImageFieldMask = 
-    (1 << TextureChunkBase::ImageFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::ImageFieldId);
 
 const OSG::BitVector  TextureChunkBase::InternalFormatFieldMask = 
-    (1 << TextureChunkBase::InternalFormatFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::InternalFormatFieldId);
 
 const OSG::BitVector  TextureChunkBase::ExternalFormatFieldMask = 
-    (1 << TextureChunkBase::ExternalFormatFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::ExternalFormatFieldId);
 
 const OSG::BitVector  TextureChunkBase::ScaleFieldMask = 
-    (1 << TextureChunkBase::ScaleFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::ScaleFieldId);
 
 const OSG::BitVector  TextureChunkBase::FrameFieldMask = 
-    (1 << TextureChunkBase::FrameFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::FrameFieldId);
 
 const OSG::BitVector  TextureChunkBase::MinFilterFieldMask = 
-    (1 << TextureChunkBase::MinFilterFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::MinFilterFieldId);
 
 const OSG::BitVector  TextureChunkBase::MagFilterFieldMask = 
-    (1 << TextureChunkBase::MagFilterFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::MagFilterFieldId);
 
 const OSG::BitVector  TextureChunkBase::WrapSFieldMask = 
-    (1 << TextureChunkBase::WrapSFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::WrapSFieldId);
 
 const OSG::BitVector  TextureChunkBase::WrapTFieldMask = 
-    (1 << TextureChunkBase::WrapTFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::WrapTFieldId);
 
 const OSG::BitVector  TextureChunkBase::WrapRFieldMask = 
-    (1 << TextureChunkBase::WrapRFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::WrapRFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvModeFieldMask = 
-    (1 << TextureChunkBase::EnvModeFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvModeFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvColorFieldMask = 
-    (1 << TextureChunkBase::EnvColorFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvColorFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvCombineRGBFieldMask = 
-    (1 << TextureChunkBase::EnvCombineRGBFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvCombineRGBFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvCombineAlphaFieldMask = 
-    (1 << TextureChunkBase::EnvCombineAlphaFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvCombineAlphaFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvScaleRGBFieldMask = 
-    (1 << TextureChunkBase::EnvScaleRGBFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvScaleRGBFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvScaleAlphaFieldMask = 
-    (1 << TextureChunkBase::EnvScaleAlphaFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvScaleAlphaFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvSource0RGBFieldMask = 
-    (1 << TextureChunkBase::EnvSource0RGBFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvSource0RGBFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvSource1RGBFieldMask = 
-    (1 << TextureChunkBase::EnvSource1RGBFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvSource1RGBFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvSource2RGBFieldMask = 
-    (1 << TextureChunkBase::EnvSource2RGBFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvSource2RGBFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvSource0AlphaFieldMask = 
-    (1 << TextureChunkBase::EnvSource0AlphaFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvSource0AlphaFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvSource1AlphaFieldMask = 
-    (1 << TextureChunkBase::EnvSource1AlphaFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvSource1AlphaFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvSource2AlphaFieldMask = 
-    (1 << TextureChunkBase::EnvSource2AlphaFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvSource2AlphaFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvOperand0RGBFieldMask = 
-    (1 << TextureChunkBase::EnvOperand0RGBFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvOperand0RGBFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvOperand1RGBFieldMask = 
-    (1 << TextureChunkBase::EnvOperand1RGBFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvOperand1RGBFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvOperand2RGBFieldMask = 
-    (1 << TextureChunkBase::EnvOperand2RGBFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvOperand2RGBFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvOperand0AlphaFieldMask = 
-    (1 << TextureChunkBase::EnvOperand0AlphaFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvOperand0AlphaFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvOperand1AlphaFieldMask = 
-    (1 << TextureChunkBase::EnvOperand1AlphaFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvOperand1AlphaFieldId);
 
 const OSG::BitVector  TextureChunkBase::EnvOperand2AlphaFieldMask = 
-    (1 << TextureChunkBase::EnvOperand2AlphaFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::EnvOperand2AlphaFieldId);
 
 const OSG::BitVector  TextureChunkBase::GLIdFieldMask = 
-    (1 << TextureChunkBase::GLIdFieldId);
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::GLIdFieldId);
 
+const OSG::BitVector  TextureChunkBase::PointSpriteFieldMask = 
+    (static_cast<OSG::BitVector>(1) << TextureChunkBase::PointSpriteFieldId);
+
+const OSG::BitVector TextureChunkBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (0x0 << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -262,6 +269,9 @@ const OSG::BitVector  TextureChunkBase::GLIdFieldMask =
     Texture environment combine operand 2 alpha, default GL_SRC_ALPHA
 */
 /*! \var GLenum          TextureChunkBase::_sfGLId
+    The OpenGL texture id for this texture.
+*/
+/*! \var bool            TextureChunkBase::_sfPointSprite
     The OpenGL texture id for this texture.
 */
 
@@ -413,7 +423,12 @@ FieldDescription *TextureChunkBase::_desc[] =
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
                      true,
-                     (FieldAccessMethod) &TextureChunkBase::getSFGLId)
+                     (FieldAccessMethod) &TextureChunkBase::getSFGLId),
+    new FieldDescription(SFBool::getClassType(), 
+                     "pointSprite", 
+                     PointSpriteFieldId, PointSpriteFieldMask,
+                     true,
+                     (FieldAccessMethod) &TextureChunkBase::getSFPointSprite)
 };
 
 
@@ -498,6 +513,7 @@ TextureChunkBase::TextureChunkBase(void) :
     _sfEnvOperand1Alpha       (GLenum(GL_SRC_ALPHA)), 
     _sfEnvOperand2Alpha       (GLenum(GL_SRC_ALPHA)), 
     _sfGLId                   (GLenum(0)), 
+    _sfPointSprite            (bool(GL_FALSE)), 
     Inherited() 
 {
 }
@@ -536,6 +552,7 @@ TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
     _sfEnvOperand1Alpha       (source._sfEnvOperand1Alpha       ), 
     _sfEnvOperand2Alpha       (source._sfEnvOperand2Alpha       ), 
     _sfGLId                   (source._sfGLId                   ), 
+    _sfPointSprite            (source._sfPointSprite            ), 
     Inherited                 (source)
 {
 }
@@ -697,6 +714,11 @@ UInt32 TextureChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfGLId.getBinSize();
     }
 
+    if(FieldBits::NoField != (PointSpriteFieldMask & whichField))
+    {
+        returnValue += _sfPointSprite.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -849,6 +871,11 @@ void TextureChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
     {
         _sfGLId.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (PointSpriteFieldMask & whichField))
+    {
+        _sfPointSprite.copyToBin(pMem);
     }
 
 
@@ -1004,6 +1031,11 @@ void TextureChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfGLId.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (PointSpriteFieldMask & whichField))
+    {
+        _sfPointSprite.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -1099,6 +1131,9 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
         _sfGLId.syncWith(pOther->_sfGLId);
+
+    if(FieldBits::NoField != (PointSpriteFieldMask & whichField))
+        _sfPointSprite.syncWith(pOther->_sfPointSprite);
 
 
 }

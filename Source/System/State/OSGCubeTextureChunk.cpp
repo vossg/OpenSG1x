@@ -112,7 +112,7 @@ CubeTextureChunk::~CubeTextureChunk(void)
 
 /*------------------------- Chunk Class Access ---------------------------*/
 
-const StateChunkClass *CubeTextureChunk::getClass( void ) const
+const StateChunkClass *CubeTextureChunk::getClass(void) const
 {
     return TextureChunk::getClass();
 }

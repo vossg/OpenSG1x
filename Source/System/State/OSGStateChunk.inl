@@ -45,7 +45,7 @@ OSG_BEGIN_NAMESPACE
 /*---------------------- Chunk Class Access -------------------------------*/
 
 inline
-UInt32 StateChunk::getClassId( void ) const
+UInt32 StateChunk::getClassId(void) const
 {
     return getClass()->getId();
 }

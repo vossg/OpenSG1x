@@ -176,6 +176,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     // extension indices for used extensions;
     static UInt32 _extTex3D;
     static UInt32 _arbMultiTex;
+    static UInt32 _nvPointSprite;
     
     // extension indices for used fucntions;
     static UInt32 _funcTexImage3D;
@@ -188,7 +189,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     static StateChunkClass _class;
 
     // protected to give CubeTextureChunk access
-    static void initMethod( void );
+    static void initMethod(void);
 
     /*==========================  PRIVATE  ================================*/
   private:
@@ -204,7 +205,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     /*! \name                         GL                                   */
     /*! \{                                                                 */
 
-    void handleGL( Window *win, UInt32 id );
+    void handleGL(Window *win, UInt32 id);
     
    /*! \}                                                                 */
 

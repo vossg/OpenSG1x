@@ -70,9 +70,9 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkClass
     /*! \name                 Instance Access                              */
     /*! \{                                                                 */
 
-          UInt32   getId       ( void ) const;
-    const Char8   *getName     ( void ) const;
-          Int32    getNumSlots ( void ) const;
+          UInt32   getId       (void) const;
+    const Char8   *getName     (void) const;
+          Int32    getNumSlots (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -183,7 +183,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunk : public StateChunkBase
 
     /*! \}                                                                 */
 
-    static void initMethod( void );
+    static void initMethod(void);
 
     /*==========================  PRIVATE  ================================*/
   private:

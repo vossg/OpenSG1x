@@ -115,7 +115,7 @@ PolygonChunk::~PolygonChunk(void)
 
 /*------------------------- Chunk Class Access ---------------------------*/
 
-const StateChunkClass *PolygonChunk::getClass( void ) const
+const StateChunkClass *PolygonChunk::getClass(void) const
 {
     return &_class;
 }

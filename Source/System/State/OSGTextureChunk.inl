@@ -72,7 +72,7 @@ void TextureChunk::setImage(ImagePtr &pImage)
 */
 
 inline 
-void TextureChunk::imageContentChanged( void )
+void TextureChunk::imageContentChanged(void)
 {
     Window::refreshGLObject(getGLId());
 }

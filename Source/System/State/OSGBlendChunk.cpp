@@ -138,7 +138,7 @@ BlendChunk::~BlendChunk(void)
 
 /*------------------------- Chunk Class Access ---------------------------*/
 
-const StateChunkClass *BlendChunk::getClass( void ) const
+const StateChunkClass *BlendChunk::getClass(void) const
 {
     return &_class;
 }
@@ -178,14 +178,14 @@ void BlendChunk::activate(DrawActionBase *action, UInt32)
             dest <= GL_ONE_MINUS_CONSTANT_ALPHA_EXT )
           )
         {
-            if ( action->getWindow()->hasExtension(_extBlend ))
+            if(action->getWindow()->hasExtension(_extBlend))
             {
                 // get "glBlendColorEXT" function pointer
                 void (OSG_APIENTRY*blendcolor)(GLclampf red,GLclampf green,GLclampf blue,
                      GLclampf alpha ) =
                     (void (OSG_APIENTRY*)(GLclampf red,GLclampf green,GLclampf blue,
                      GLclampf alpha))
-                    action->getWindow()->getFunction( _funcBlendColor );
+                    action->getWindow()->getFunction(_funcBlendColor);
 
                  blendcolor(_sfColor.getValue().red(),
                             _sfColor.getValue().green(),
@@ -233,9 +233,9 @@ void BlendChunk::activate(DrawActionBase *action, UInt32)
     }
 }
 
-void BlendChunk::changeFrom( DrawActionBase *action, 
-                             StateChunk * old_chunk, 
-                             UInt32 )
+void BlendChunk::changeFrom(DrawActionBase *action, 
+                            StateChunk * old_chunk, 
+                            UInt32 )
 {
     BlendChunk *old = dynamic_cast<BlendChunk *>(old_chunk);
     
@@ -328,7 +328,7 @@ void BlendChunk::changeFrom( DrawActionBase *action,
     
 }
 
-void BlendChunk::deactivate ( DrawActionBase *action, UInt32 )
+void BlendChunk::deactivate(DrawActionBase *action, UInt32 )
 {
     if(_sfSrcFactor.getValue() != GL_NONE)
     {

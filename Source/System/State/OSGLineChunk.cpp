@@ -112,7 +112,7 @@ LineChunk::~LineChunk(void)
 
 /*------------------------- Chunk Class Access ---------------------------*/
 
-const StateChunkClass *LineChunk::getClass( void ) const
+const StateChunkClass *LineChunk::getClass(void) const
 {
     return &_class;
 }

@@ -83,7 +83,9 @@ osg::TextureChunk::_sfEnvScaleAlpha, osg::TextureChunk::_sfEnvSource0Alpha,
 osg::TextureChunk::_sfEnvSource1Alpha, osg::TextureChunk::_sfEnvSource2Alpha,
 osg::TextureChunk::_sfEnvOperand0Alpha,
 osg::TextureChunk::_sfEnvOperand1Alpha, osg::TextureChunk::_sfEnvOperand2Alpha, 
-). The two
+). It is possible to enable the point sprite coordinate replacement 
+(osg::TextureChunk::_sfPointSprite), see \ref PageSystemPointChunk for
+details. The two
 parameters osg::TextureChunk::_sfScale and osg::TextureChunk::_sfFrame specify
 details about the texture.
 
@@ -100,6 +102,7 @@ StateChunkClass TextureChunk::_class("Texture", osgMaxTextures);
 UInt32 TextureChunk::_extTex3D;
 UInt32 TextureChunk::_arbMultiTex;
 UInt32 TextureChunk::_arbCubeTex;
+UInt32 TextureChunk::_nvPointSprite;
 UInt32 TextureChunk::_funcTexImage3D    = Window::invalidFunctionID;
 UInt32 TextureChunk::_funcTexSubImage3D = Window::invalidFunctionID;
 UInt32 TextureChunk::_funcActiveTexture = Window::invalidFunctionID;
@@ -146,6 +149,8 @@ TextureChunk::TextureChunk(void) :
         Window::registerExtension("GL_ARB_multitexture" );
     _arbCubeTex        = 
         Window::registerExtension("GL_ARB_texture_cube_map");
+    _nvPointSprite        = 
+        Window::registerExtension("GL_NV_point_sprite");
     _funcTexImage3D    = 
         Window::registerFunction (GL_FUNC_TEXIMAGE3D                        );
     _funcTexSubImage3D = 
@@ -169,7 +174,7 @@ TextureChunk::~TextureChunk(void)
 
 /*------------------------- Chunk Class Access ---------------------------*/
 
-const StateChunkClass *TextureChunk::getClass( void ) const
+const StateChunkClass *TextureChunk::getClass(void) const
 {
     return &_class;
 }
@@ -857,6 +862,14 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
     glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, 
                 (GLfloat*)getEnvColor().getValuesRGBA());
 
+#ifdef GL_NV_point_sprite
+    if(getPointSprite() &&
+       action->getWindow()->hasExtension(_nvPointSprite))
+    {
+        glTexEnvi(GL_POINT_SPRITE_NV, GL_COORD_REPLACE_NV, GL_TRUE);
+    }
+#endif
+    
     if(getEnvMode() == GL_COMBINE_EXT)
     {
         glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT,  getEnvCombineRGB ());
@@ -982,6 +995,15 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, 
                     (GLfloat*)getEnvColor().getValuesRGBA());
 
+#ifdef GL_NV_point_sprite
+    if(oldp->getPointSprite() != getPointSprite() &&
+       action->getWindow()->hasExtension(_nvPointSprite)
+      )
+    {
+        glTexEnvi(GL_POINT_SPRITE_NV, GL_COORD_REPLACE_NV, getPointSprite());
+    }
+#endif
+    
     if(getEnvMode() == GL_COMBINE_EXT)
     {
         glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT,  getEnvCombineRGB ());
@@ -1044,6 +1066,15 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
     }
     
     glDisable(target);
+
+#ifdef GL_NV_point_sprite
+    if(getPointSprite() &&
+       action->getWindow()->hasExtension(_nvPointSprite)
+      )
+    {
+        glTexEnvi(GL_POINT_SPRITE_NV, GL_COORD_REPLACE_NV, GL_FALSE);
+    }
+#endif
 
     glErr("TextureChunk::deactivate");
 }

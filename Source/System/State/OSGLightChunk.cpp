@@ -116,7 +116,7 @@ LightChunk::~LightChunk(void)
 
 /*------------------------- Chunk Class Access ---------------------------*/
 
-const StateChunkClass *LightChunk::getClass( void ) const
+const StateChunkClass *LightChunk::getClass(void) const
 {
     return &_class;
 }

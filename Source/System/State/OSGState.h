@@ -160,7 +160,7 @@ class OSG_SYSTEMLIB_DLLMAPPING State : public StateBase
 
     static char cvsid[];
 
-    static void initMethod( void );
+    static void initMethod(void);
 
     void operator =(const State &source);
 };

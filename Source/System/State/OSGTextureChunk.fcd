@@ -328,4 +328,15 @@
 	>
         The OpenGL texture id for this texture.
 	</Field>
+	<Field
+		name="pointSprite"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		access="public"
+		defaultValue="GL_FALSE"
+		defaultHeader="<OSGGL.h>"
+	>
+        Flag to use this texture for Point Sprites.
+	</Field>
 </FieldContainer>

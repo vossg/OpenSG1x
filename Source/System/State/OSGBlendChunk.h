@@ -99,7 +99,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunk : public BlendChunkBase
 
     virtual void deactivate    ( DrawActionBase * action, UInt32 index = 0 );
 
-    virtual bool isTransparent ( void ) const;
+    virtual bool isTransparent (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -159,7 +159,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunk : public BlendChunkBase
 
     /*! \}                                                                 */
 
-    static void initMethod( void );
+    static void initMethod(void);
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const BlendChunk &source);

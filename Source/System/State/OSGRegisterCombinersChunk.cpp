@@ -158,7 +158,7 @@ RegisterCombinersChunk::~RegisterCombinersChunk(void)
 
 /*------------------------- Chunk Class Access ---------------------------*/
 
-const StateChunkClass *RegisterCombinersChunk::getClass( void ) const
+const StateChunkClass *RegisterCombinersChunk::getClass(void) const
 {
     return &_class;
 }

@@ -145,7 +145,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunk : public PolygonChunkBase
     // class. Used for indexing in State
     static StateChunkClass _class;
 
-    static void initMethod( void );
+    static void initMethod(void);
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const PolygonChunk &source);

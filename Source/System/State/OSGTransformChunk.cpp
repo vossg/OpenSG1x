@@ -104,7 +104,7 @@ TransformChunk::~TransformChunk(void)
 
 /*------------------------- Chunk Class Access ---------------------------*/
 
-const StateChunkClass *TransformChunk::getClass( void ) const
+const StateChunkClass *TransformChunk::getClass(void) const
 {
     return &_class;
 }

@@ -299,6 +299,13 @@ SFGLenum *TextureChunkBase::getSFGLId(void)
     return &_sfGLId;
 }
 
+//! Get the TextureChunk::_sfPointSprite field.
+inline
+SFBool *TextureChunkBase::getSFPointSprite(void)
+{
+    return &_sfPointSprite;
+}
+
 
 //! Get the value of the TextureChunk::_sfImage field.
 inline
@@ -907,6 +914,27 @@ inline
 void TextureChunkBase::setGLId(const GLenum &value)
 {
     _sfGLId.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfPointSprite field.
+inline
+bool &TextureChunkBase::getPointSprite(void)
+{
+    return _sfPointSprite.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfPointSprite field.
+inline
+const bool &TextureChunkBase::getPointSprite(void) const
+{
+    return _sfPointSprite.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfPointSprite field.
+inline
+void TextureChunkBase::setPointSprite(const bool &value)
+{
+    _sfPointSprite.setValue(value);
 }
 
 

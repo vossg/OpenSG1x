@@ -114,7 +114,7 @@ TexGenChunk::~TexGenChunk(void)
 
 /*------------------------- Chunk Class Access ---------------------------*/
 
-const StateChunkClass *TexGenChunk::getClass( void ) const
+const StateChunkClass *TexGenChunk::getClass(void) const
 {
     return &_class;
 }

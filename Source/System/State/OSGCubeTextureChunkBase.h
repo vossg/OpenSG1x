@@ -106,6 +106,8 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunkBase : public TextureChunk
     static const OSG::BitVector NegYImageFieldMask;
 
 
+    static const OSG::BitVector MTInfluenceMask;
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */

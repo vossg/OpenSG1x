@@ -65,20 +65,23 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  CubeTextureChunkBase::PosZImageFieldMask = 
-    (1 << CubeTextureChunkBase::PosZImageFieldId);
+    (static_cast<Int64>(1) << CubeTextureChunkBase::PosZImageFieldId);
 
 const OSG::BitVector  CubeTextureChunkBase::PosXImageFieldMask = 
-    (1 << CubeTextureChunkBase::PosXImageFieldId);
+    (static_cast<Int64>(1) << CubeTextureChunkBase::PosXImageFieldId);
 
 const OSG::BitVector  CubeTextureChunkBase::NegXImageFieldMask = 
-    (1 << CubeTextureChunkBase::NegXImageFieldId);
+    (static_cast<Int64>(1) << CubeTextureChunkBase::NegXImageFieldId);
 
 const OSG::BitVector  CubeTextureChunkBase::PosYImageFieldMask = 
-    (1 << CubeTextureChunkBase::PosYImageFieldId);
+    (static_cast<Int64>(1) << CubeTextureChunkBase::PosYImageFieldId);
 
 const OSG::BitVector  CubeTextureChunkBase::NegYImageFieldMask = 
-    (1 << CubeTextureChunkBase::NegYImageFieldId);
+    (static_cast<Int64>(1) << CubeTextureChunkBase::NegYImageFieldId);
 
+const OSG::BitVector CubeTextureChunkBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (0x0 << Inherited::NextFieldId); 
 
 
 // Field descriptions
