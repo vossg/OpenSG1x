@@ -43,7 +43,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 #include <OSGConfig.h>
 #include <OSGAction.h>
@@ -537,7 +537,7 @@ void Slices::drawSlices ( const Vec3f &planeNormal,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSlices.cpp,v 1.2 2002/07/17 23:14:32 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSlices.cpp,v 1.3 2002/07/29 12:18:40 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSLICESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSLICESBASE_INLINE_CVSID;
 
