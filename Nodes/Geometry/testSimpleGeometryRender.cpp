@@ -224,7 +224,7 @@ int main (int argc, char **argv)
 	SimpleMaterialPtr nmat;	
 	
 	nmat = SimpleMaterial::create();
-	mat->setEmission( Color3f( 0,1,0 ) );
+	nmat->setEmission( Color3f( 0,1,0 ) );
 	
 	for ( UInt16 i = 0; i < nobjects; i++ )
 	{
