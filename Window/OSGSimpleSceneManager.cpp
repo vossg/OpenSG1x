@@ -161,7 +161,7 @@ SimpleMaterialPtr SimpleSceneManager::_highlightMaterial;
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.18 2002/02/05 20:37:31 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.19 2002/02/18 06:28:55 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
@@ -255,15 +255,15 @@ DrawActionBase *SimpleSceneManager::getAction(void)
  */
 void SimpleSceneManager::setRoot(NodePtr root)
 {
+    if(_internalRoot == NullFC)
+    {
+        initialize();
+    }
+
     if(_root != NullFC)
     {
         _internalRoot->subChild(_root);
         subRefCP(_root);
-    }
-    
-    if(_internalRoot == NullFC)
-    {
-        initialize();
     }
 
     _root = root;

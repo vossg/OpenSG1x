@@ -74,7 +74,7 @@ for definition, which doesn't change.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TileCameraDecorator::cvsid[] = "@(#)$Id: OSGTileCameraDecorator.cpp,v 1.6 2001/10/15 04:52:17 vossg Exp $";
+char TileCameraDecorator::cvsid[] = "@(#)$Id: OSGTileCameraDecorator.cpp,v 1.7 2002/02/18 06:28:55 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -165,9 +165,9 @@ void TileCameraDecorator::setSize( Real32 left, Real32 bottom, Real32 right,
 void TileCameraDecorator::getProjection( Matrix &result, 
                                          UInt32 width, UInt32 height)
 {
-    getCamera()->getProjection( result, 
-                ( getFullWidth()  == 0 )? width  : getFullWidth(), 
-                ( getFullHeight() == 0 )? height : getFullHeight() );
+    getProjection( result, 
+                  ( getFullWidth()  == 0 )? width  : getFullWidth(), 
+                  ( getFullHeight() == 0 )? height : getFullHeight() );
     
     // scale the wanted part from the projection matrix
     Real32  xs = 1.f / ( getRight() - getLeft() ),

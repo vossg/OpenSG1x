@@ -399,29 +399,31 @@ void Window::validateGLObject ( UInt32 id )
         s = s + 1;
     }
     
+    GLObject *obj = _glObjects[id];
+    
     if(_mfGlObjectLastReinitialize.size() > id &&
-       _mfGlObjectLastReinitialize[id] > _glObjects[id]->getLastValidate())
+       _mfGlObjectLastReinitialize[id] > obj->getLastValidate())
     {
         _mfGlObjectStatus[id] = reinitialize;
-        _glObjects[id]->getFunctor().call( this, id );
+        obj->getFunctor().call( this, id );
         _mfGlObjectStatus[id] = initialized;
-        _glObjects[id]->setLastValidate(getGlObjectInvalidateCounter());
+        obj->setLastValidate(getGlObjectInvalidateCounter());
     }
     else if(_mfGlObjectLastRefresh.size() > id &&
-            _mfGlObjectLastRefresh[id] > _glObjects[id]->getLastValidate())
+            _mfGlObjectLastRefresh[id] > obj->getLastValidate())
     {
         _mfGlObjectStatus[id] = needrefresh;
-        _glObjects[id]->getFunctor().call( this, id );
+        obj->getFunctor().call( this, id );
         _mfGlObjectStatus[id] = initialized;
-        _glObjects[id]->setLastValidate(getGlObjectInvalidateCounter());
+        obj->setLastValidate(getGlObjectInvalidateCounter());
     }
-    else if(_glObjects[id]->getLastValidate() == 0)
+    else if(obj->getLastValidate() == 0)
     {
         _mfGlObjectStatus[id] = initialize;
-        _glObjects[id]->incRefCounter();
-        _glObjects[id]->getFunctor().call( this, id );
+        obj->incRefCounter();
+        obj->getFunctor().call( this, id );
         _mfGlObjectStatus[id] = initialized;
-        _glObjects[id]->setLastValidate(getGlObjectInvalidateCounter());
+        obj->setLastValidate(getGlObjectInvalidateCounter());
     }
 }
 
