@@ -134,7 +134,8 @@ void NFIOImage::writeFC(const FieldContainerPtr &fc)
     {
         // only write the name field.
         exclude = "'dimension' 'width' 'height' 'depth' 'bpp' 'mipMapCount' "
-                  "'frameCount' 'frameDelay' 'pixelFormat' 'pixel' 'frameSize'";
+                  "'frameCount' 'frameDelay' 'pixelFormat' 'pixel' 'frameSize'"
+                  "'dataType' 'componentSize' 'sideCount'";
     }
     else
     {
@@ -199,7 +200,7 @@ void NFIOImage::writeCompressedPixel(const ImagePtr &img)
     _out->putValue(std::string("MFUInt8"));
     
     std::vector<UInt8> buffer;
-    buffer.resize(img->getSize(false, false));
+    buffer.resize(img->getSize(false, false, false));
     JPGImageFileType::the().setQuality(getOptions().texturesCompressionQuality());
     UInt64 msize = img->store("jpeg", &buffer[0]);
 
@@ -240,6 +241,6 @@ bool NFIOImage::isJPEGSupported(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOImage.cpp,v 1.2 2004/09/03 16:38:25 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOImage.cpp,v 1.3 2004/11/05 16:57:11 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOIMAGE_HEADER_CVSID;
 }

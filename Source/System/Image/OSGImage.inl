@@ -58,7 +58,7 @@ inline unsigned long Image::getSize ( bool withMipmap,
                                       bool withFrames,
                                       bool withSides ) const
 { 
-    return  ( calcMipmapSumSize((withMipmap ? getMipMapCount() : 0)) *
+    return  ( calcMipmapSumSize((withMipmap ? getMipMapCount() : 1)) *
               (withSides  ? getSideCount() : 1) *
               (withFrames ? getFrameCount() : 1) ); 
 }
