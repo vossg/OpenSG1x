@@ -36,124 +36,112 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGSCENEFILEHANDLER_H_
-#define _OSGSCENEFILEHANDLER_H_
-#ifdef  __sgi
-#pragma  once
+#ifndef _OSGQGLManagedWidget_H_
+#define _OSGQGLManagedWidget_H_
+#ifdef __sgi
+#pragma once
 #endif
 
-#include <list>
-#include <map>
+#include <OpenSG/OSGBaseTypes.h>
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGSceneFileType.h>
+#include <OpenSG/OSGQGLWidget_qt.h>
+#include <OpenSG/OSGWindow.h>
+#include <OpenSG/OSGSimpleSceneManager.h>
 
-OSG_BEGIN_NAMESPACE
 
-/*! \ingroup GeometryLoaderLib
- *  \brief Brief OSGSceneFileHandler
+//OSG_BEGIN_NAMESPACE
+namespace osg {
+
+/*! \ingroup baselib
+ *  \brief Brief
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
+class OSGQGLManagedWidget : public OSGQGLWidget
 {
+
+  Q_OBJECT
+
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef vector<FieldContainerPtr> FCPtrStore;
-
     /*---------------------------------------------------------------------*/
-    /*! \name                   Class Get                                  */
+    /*! \name                   Constructors                               */
     /*! \{                                                                 */
-
-    static SceneFileHandler &the(void);
+ 
+    OSGQGLManagedWidget(QWidget *parent =0, const char *name = 0);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
+    /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual ~SceneFileHandler(void);
+    virtual ~OSGQGLManagedWidget(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Get                                        */
+    /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-    virtual SceneFileType *getFileType(const Char8 *fileName);
-		virtual int getSuffixList(list<const char*> & suffixList);
+    SimpleSceneManager &getManager(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Read                                       */
+    /*! \name                      Set                                     */
     /*! \{                                                                 */
 
-    virtual NodePtr    read        (const  Char8  *fileName,
-                                           UInt32  uiOptions = 0);
-    virtual FCPtrStore readTopNodes(const  Char8  *fileName,
-                                           UInt32  uiOptions = 0);
-
     /*! \}                                                                 */
+
     /*---------------------------------------------------------------------*/
-    /*! \name                   Write                                      */
+    /*! \name                    Comparison                                */
     /*! \{                                                                 */
 
-    virtual Bool write(const NodePtr node, const Char8 *fileName);
-
+    Bool operator < (const OSGQGLManagedWidget &other) const;
+    
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Debug                                      */
-    /*! \{                                                                 */
-
-    void print (void);
-
-    /*! \}                                                                 */
+    
     /*=========================  PROTECTED  ===============================*/
   protected:
-
-    typedef list<          SceneFileType *> FileTypeList;
-    typedef map <IDString, FileTypeList  *> FileTypeMap;
-
-    struct FindOverride
-    {
-        UInt32 uiRefPriority;
-
-        Bool operator() (SceneFileType *fileTypeP);
-    };
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    static SceneFileHandler *_the;
+    SimpleSceneManager _manager;
 
-           FileTypeMap       _suffixTypeMap;
-
-
-    static Bool               addSceneFileType(SceneFileType &fileType);
-
+    virtual void initializeGL (void);
+    virtual void paintGL (void);
+    virtual void resizeGL (int w, int h);
+    virtual void mousePressEvent ( QMouseEvent* );
+    virtual void mouseReleaseEvent ( QMouseEvent* );
+    virtual void mouseMoveEvent ( QMouseEvent* );
+    virtual void keyPressEvent ( QKeyEvent* );
+    
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
 
-    SceneFileHandler(void);
-    SceneFileHandler(const SceneFileHandler &obj);
-
-    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
-    friend class OSG_SYSTEMLIB_DLLMAPPING SceneFileType;
+    typedef OSGQGLWidget Inherited;
+
 
     /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const SceneFileHandler &source);
+
+    OSGQGLManagedWidget(const OSGQGLManagedWidget &source);
+    OSGQGLManagedWidget & operator =(const OSGQGLManagedWidget &source);
 };
 
-typedef SceneFileHandler* SceneFileHandlerP;
+//---------------------------------------------------------------------------
+//   Exported Types
+//---------------------------------------------------------------------------
 
-OSG_END_NAMESPACE
+// class pointer
 
-#define OSGSCENEFILEHANDLER_HEADER_CVSID "@(#)$Id: $"
+typedef OSGQGLManagedWidget *OSGQGLManagedWidgetP;
 
-#endif // OSGIMAGEFILEHANDLER_CLASS_DECLARATION
+//OSG_END_NAMESPACE
+}; // namespace osg
+
+#define OSG_HEADER_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.1 2001/10/06 15:12:50 jbehr Exp $"
+#define OSG_INLINE_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.1 2001/10/06 15:12:50 jbehr Exp $"
+
+#endif /* _OSGQGLManagedWidget_H_ */

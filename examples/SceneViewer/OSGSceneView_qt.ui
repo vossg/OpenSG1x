@@ -1,0 +1,293 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>OSGSceneView</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>OSGSceneView</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>781</width>
+            <height>744</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Form1</string>
+    </property>
+    <hbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>2</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="QSplitter">
+            <property name="name">
+                <cstring>mainSplitter</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>MShape</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>MShadow</enum>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <widget class="QSplitter">
+                <property name="name">
+                    <cstring>Splitter3</cstring>
+                </property>
+                <property name="orientation">
+                    <enum>Horizontal</enum>
+                </property>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>GroupBox1</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Tree</string>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>2</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="QListView">
+                            <column>
+                                <property name="text">
+                                    <string>Node Type</string>
+                                </property>
+                                <property name="clickable">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="resizeable">
+                                    <bool>true</bool>
+                                </property>
+                            </column>
+                            <column>
+                                <property name="text">
+                                    <string>Core Type</string>
+                                </property>
+                                <property name="clickable">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="resizeable">
+                                    <bool>true</bool>
+                                </property>
+                            </column>
+                            <column>
+                                <property name="text">
+                                    <string>Core USEed</string>
+                                </property>
+                                <property name="clickable">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="resizeable">
+                                    <bool>true</bool>
+                                </property>
+                            </column>
+                            <property name="name">
+                                <cstring>treeListView</cstring>
+                            </property>
+                            <property name="rootIsDecorated">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+            </widget>
+            <widget class="QSplitter">
+                <property name="name">
+                    <cstring>Splitter5</cstring>
+                </property>
+                <property name="orientation">
+                    <enum>Vertical</enum>
+                </property>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>GroupBox3</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Info</string>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>2</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="QTable">
+                            <column>
+                                <property name="text">
+                                    <string>Value</string>
+                                </property>
+                                <property name="pixmap">
+                                    <pixmap></pixmap>
+                                </property>
+                            </column>
+                            <row>
+                                <property name="text">
+                                    <string>Node Type Name</string>
+                                </property>
+                                <property name="pixmap">
+                                    <pixmap></pixmap>
+                                </property>
+                            </row>
+                            <row>
+                                <property name="text">
+                                    <string>Core Type Name</string>
+                                </property>
+                                <property name="pixmap">
+                                    <pixmap></pixmap>
+                                </property>
+                            </row>
+                            <row>
+                                <property name="text">
+                                    <string>Core USEed count</string>
+                                </property>
+                                <property name="pixmap">
+                                    <pixmap></pixmap>
+                                </property>
+                            </row>
+                            <property name="name">
+                                <cstring>infoTable</cstring>
+                            </property>
+                            <property name="numRows">
+                                <number>3</number>
+                            </property>
+                            <property name="numCols">
+                                <number>1</number>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>GroupBox5</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Fields</string>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>2</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="QTable">
+                            <column>
+                                <property name="text">
+                                    <string>Name</string>
+                                </property>
+                            </column>
+                            <column>
+                                <property name="text">
+                                    <string>Type</string>
+                                </property>
+                            </column>
+                            <column>
+                                <property name="text">
+                                    <string>Value</string>
+                                </property>
+                            </column>
+                            <column>
+                                <property name="text">
+                                    <string>Cardinality</string>
+                                </property>
+                            </column>
+                            <column>
+                                <property name="text">
+                                    <string>ID</string>
+                                </property>
+                            </column>
+                            <column>
+                                <property name="text">
+                                    <string>Mask</string>
+                                </property>
+                            </column>
+                            <property name="name">
+                                <cstring>fieldsTable</cstring>
+                            </property>
+                            <property name="numRows">
+                                <number>0</number>
+                            </property>
+                            <property name="numCols">
+                                <number>6</number>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+            </widget>
+        </widget>
+    </hbox>
+</widget>
+<connections>
+    <connection>
+        <sender>treeListView</sender>
+        <signal>rightButtonPressed(QListViewItem*,const QPoint&amp;,int)</signal>
+        <receiver>OSGSceneView</receiver>
+        <slot>popupTreeMenu(QListViewItem*)</slot>
+    </connection>
+    <connection>
+        <sender>treeListView</sender>
+        <signal>selectionChanged(QListViewItem*)</signal>
+        <receiver>OSGSceneView</receiver>
+        <slot>setActiveNodeFromListItem(QListViewItem*)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="global" impldecl="in declaration">qpopupmenu.h</include>
+    <include location="global" impldecl="in declaration">OpenSG/OSGNode.h</include>
+    <include location="global" impldecl="in implementation">qfiledialog.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGSceneFileHandler.h</include>
+    <include location="global" impldecl="in implementation">qpopupmenu.h</include>
+    <include location="global" impldecl="in implementation">OSGQGLManagedWidget_qt.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGSFFieldContainerPtr.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGMFFieldContainerPtr.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGNodeCore.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGNode.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGLog.h</include>
+    <include location="local" impldecl="in implementation">OSGSceneView_qt.ui.h</include>
+</includes>
+<variables>
+    <variable>QListViewItem *activeTreeItem;</variable>
+    <variable>QListViewItem *rootTreeItem;</variable>
+    <variable>QString filter;</variable>
+    <variable>osg::NodePtr activeNode;</variable>
+    <variable>QPopupMenu *treePopupMenu;</variable>
+    <variable>osg::NodePtr rootNode;</variable>
+</variables>
+<slots>
+    <slot>addListItem(osg::NodePtr node, QListViewItem * parentItem)</slot>
+    <slot>init()</slot>
+    <slot>destroy()</slot>
+    <slot>setRootNode(osg::NodePtr root)</slot>
+    <slot>setActiveNode(osg::NodePtr node)</slot>
+    <slot>setActiveNodeFromListItem(QListViewItem * item)</slot>
+    <slot>createView(osg::NodePtr node)</slot>
+    <slot>popupTreeMenu(QListViewItem * parentItem)</slot>
+    <slot>menuHandler(int id)</slot>
+    <slot>insertFromFile(osg::NodePtr parent)</slot>
+    <slot>exportToFile(osg::NodePtr node)</slot>
+    <slot>rebuild()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

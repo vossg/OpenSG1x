@@ -119,7 +119,7 @@ Bool PNMImageFileType::read (Image &image, const Char8 *fileName )
 	UInt32 i,n;
 	UChar8 *imageData = 0;
   UInt8 id, commentKey = '#';
-	ifstream in(fileName, ios::in );
+	ifstream in(fileName, ios::in | ios::binary );
 	
 	if (in.rdbuf()->is_open()) 
     {
@@ -227,7 +227,7 @@ Bool PNMImageFileType::read (Image &image, const Char8 *fileName )
 Bool PNMImageFileType::write (const Image &image, const Char8 *fileName )
 {	
 	Int16  p, y, x, lineSize;
-	ofstream  out(fileName);
+	ofstream  out(fileName, ios::out | ios::binary );
 	UInt16 bpp = image.getBpp();
 	UInt8  *data = 0;
 

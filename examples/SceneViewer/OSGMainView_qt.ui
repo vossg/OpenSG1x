@@ -1,0 +1,362 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>OSGMainView</class>
+<widget class="QMainWindow">
+    <property name="name">
+        <cstring>OSGMainView</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>717</width>
+            <height>553</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>OpenSG Scene Viewer</string>
+    </property>
+    <property name="icon">
+        <pixmap>image0</pixmap>
+    </property>
+    <hbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="QTabWidget">
+            <property name="name">
+                <cstring>tabView</cstring>
+            </property>
+        </widget>
+    </hbox>
+</widget>
+<menubar>
+    <property name="name">
+        <cstring>menubar</cstring>
+    </property>
+    <item text="&amp;File" name="fileMenu">
+        <action name="fileNewAction"/>
+        <action name="fileOpenAction"/>
+        <action name="fileInsertAction"/>
+        <action name="fileSaveAction"/>
+        <action name="fileSaveAsAction"/>
+        <separator/>
+        <action name="filePrintAction"/>
+        <separator/>
+        <action name="fileExitAction"/>
+    </item>
+    <item text="&amp;Help" name="helpMenu">
+        <action name="helpContentsAction"/>
+        <action name="helpIndexAction"/>
+        <separator/>
+        <action name="helpAboutAction"/>
+    </item>
+</menubar>
+<toolbars>
+    <toolbar dock="2">
+        <property name="name">
+            <cstring>toolBar</cstring>
+        </property>
+        <property name="label">
+            <string>Tools</string>
+        </property>
+        <action name="fileNewAction"/>
+        <action name="fileOpenAction"/>
+        <action name="fileSaveAction"/>
+        <separator/>
+        <action name="filePrintAction"/>
+    </toolbar>
+    <toolbar dock="2">
+        <property name="name">
+            <cstring>Toolbar</cstring>
+        </property>
+        <property name="label">
+            <string>Toolbar</string>
+        </property>
+        <action name="createViewAction"/>
+    </toolbar>
+</toolbars>
+<actions>
+    <action>
+        <property name="name">
+            <cstring>fileNewAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>image1</iconset>
+        </property>
+        <property name="text">
+            <string>New</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;New</string>
+        </property>
+        <property name="accel">
+            <number>4194382</number>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>fileOpenAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>image2</iconset>
+        </property>
+        <property name="text">
+            <string>Open</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;Open...</string>
+        </property>
+        <property name="accel">
+            <number>4194383</number>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>fileSaveAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>image3</iconset>
+        </property>
+        <property name="text">
+            <string>Save</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;Save</string>
+        </property>
+        <property name="accel">
+            <number>4194387</number>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>fileSaveAsAction</cstring>
+        </property>
+        <property name="text">
+            <string>Save As</string>
+        </property>
+        <property name="menuText">
+            <string>Save &amp;As...</string>
+        </property>
+        <property name="accel">
+            <number>0</number>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>filePrintAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>image4</iconset>
+        </property>
+        <property name="text">
+            <string>Print</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;Print...</string>
+        </property>
+        <property name="accel">
+            <number>4194384</number>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>fileExitAction</cstring>
+        </property>
+        <property name="text">
+            <string>Exit</string>
+        </property>
+        <property name="menuText">
+            <string>E&amp;xit</string>
+        </property>
+        <property name="accel">
+            <number>0</number>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>helpContentsAction</cstring>
+        </property>
+        <property name="text">
+            <string>Contents</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;Contents...</string>
+        </property>
+        <property name="accel">
+            <number>0</number>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>helpIndexAction</cstring>
+        </property>
+        <property name="text">
+            <string>Index</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;Index...</string>
+        </property>
+        <property name="accel">
+            <number>0</number>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>helpAboutAction</cstring>
+        </property>
+        <property name="text">
+            <string>About</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;About...</string>
+        </property>
+        <property name="accel">
+            <number>0</number>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>createViewAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>image5</iconset>
+        </property>
+        <property name="text">
+            <string>Create View</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>fileInsertAction</cstring>
+        </property>
+        <property name="text">
+            <string>Insert</string>
+        </property>
+    </action>
+</actions>
+<images>
+    <image name="image0">
+        <data format="XPM.GZ" length="11342">789ced985953dd3a12c7dff329a8f45b6a4af72cb66cd7d43c908410083b8110a6e6a125cb2c872dec706bbefbb4ff2d3be7b00408877baba68842c2cfad23fdd59b0c7fbc9bd8589a9f78f7c79b93533eddf1137e9b8f27de9567fbfb57fffecfbffe7cf3d62613f2b79be513bdb7ff78f376f974c24f2c1c1e841a6855807a99ed160ebc02669b1425b8030ed61698cf9735f77b36e70eec05d85acf589c3f800b1bb80f7b0af6599753d8b76a4e3a599f2decdf22279c81bbe024b39c63fe677096e5cce00b709e15ca6617cc499576f1f904ec32cf1ef601b84c7b69029ea939eda4698afd8c05f7d33c2db0feb272dee50a76ec97dad4a5ea8f6b7091068bf3f3149873eb705e730cf6b663e10fda8bdc55e6137099e70e7ae86be422f239b8b28955fff89a6dcf5a0b7f98ef913365faa49c7ba7f337c0491e9cfa3303a7c23a1ffe92d5d8c23f548173ebadc6774eb9e838f883a62377958dda9dad32f89b0fc1bee83bcd9fa9c849e42b70c87a19cec767ca45ea343e88b7acd6573bcd2b1756edbc5473d62b72077d06f99425599e693e18e5a2503b4f826de1bce66709ce3297217e06f9249f960c01f723fb68df017316728d6fe42278c4cf201ef2e968a7d3c855e423709977729dff2d7257991795b9e3355f545f103b9807ca8d9d904fb25a92a37e88c0fddce69a0fc82fb166cab4a02ce1453ef00f70dab0519680e6f01f5d44e61cf162e4532ee875fdf7e0222f73f5ef8a7263e7a3c8459c8f7c918fc7f906fd23f745a750ff9cb5acf9b3a6ccec55cfe7c84ed9a0dfe465339f1cb82a7a85e60be223d67ee465650e5ee38bf962b585d6c39cb2eb788d7700db428e00fba6b2eb79d43f1f803361ed97e85f32db155a3f1fc12ced01e733c87fb106ed8f3cadec6cb4a31e0bdfd8cd61e42a32ea5facddd84fbf2abbbcd47c423dc9ec9eda0dfa9d50a2fd95d6959d2bb5df294b77d57e4ad88fd386794fd98552f305f5c7b66183f8b2745fd6fc9851f69d52fb27fa3dd7e153ff84c8a532af2ab7f3e12f76ad1df5c4def74ad5b3deb2f6635daff47d6583f870701da7f9807a9268a6a5f68385c836f29796a1dfe4e0aeeb6bbf353a3f7156fb25cf2afbbcd4fc61b07585d3fcc07d515f2fa5eadf074bfb552665495fed5ff45dd997a5e613fa85730d1bf45f991d9c32eacb95aed2fec5e80f2ef82ae0bc06f7adeff89ef623c27de2fb3ef188bfe98113dfd43bea4128d3faa4cbc85282589f94cb34a83f906fbe10f9dabfbf284b39eb7ac80fef7dd07ae02b6509a7c60ffd424ee79409fdd887b2a3f94fbdc8d16e74fd4aec1a4fe497501954df36b82bacfe47ff2a7b653fe637f2ab4c4b1bf315f95053ccb7edc85964f8ab94f614f3692972a1f9623622b332e5caa117f4fe477f2e5de9353f785739a441e3affb85b28af19d6d38e8f9fbca21ab34bee84f62cd950df22774653fad6ff4c79a82de0fd791b9d2f8a3fe42bf65e46b4864683e50e454e347386fb02248fd877e1ff27a80d1df821458d0f8af45ae2a7d7f3b57ae3aca84fb37c881f4fc5c2957bd4afb2dfaa7cceee8f9e87dcbdaff8f232795ee8f7ca9fa32f47d01fda24aabbcd2f8a07e2a7961d0f519e7adad95d62bfc5349838cf3757f5f0fec3fdbb2de4fb88f2afca979f9f4ef1daf1a5e353c4e8321c3c6192fa334c15466ebafd560b6cd8ed9bd310666cfecff351acc8139bcb5ff4f1d472faf4114fc88fb1d9b2373624ecd997c9d987373119f5fbeb886abb8d3a1b996dd87c7a4791f6d1f5e5283d9176fd7bb7cbcb17f33a662443ebda08669ecb1778f823389d4e7f1c7635883c47d063becdfabe1cccc62c68c79290d5fb0fedc2f14d4630eb3e65f48c30256770f687098b560b6cc621c4b66727455b12d9b15b36a0e5a5e34b3f2ffa4f92acfd77ea1611dabaf3fa0a199b53ed239be998d36a2d3edd3ef66b55dd99bcd18eb5dd369d4dda3e1ea010d5abd47987d815ede45350d4c0ffda58fe7ce242695ef6c5d43983b100541bc9061767e8f86e281aad0b18759453c1b9e9121aaf723237b8802e2f8dc690d61ae559f0805a1ee3d1ad6b0ba456fbc6f9c8abd9eb536aca1ae5af2b577a8947fcfdba7b5b28b2616ed3ef3b557eed6b07c8a757629fc42c32666546d8c5b0b6dc18717b51511d251cf3637342cd64fefd36072ad7edabe5b81f858bdb0705b43e47acf1d64eccf31f9240dd714ef2b1adca1615fee31ed20077768b8acfd40922d74eb867f8a0689c6209e7460123a18da61920ea345326ea8de5a3beed5bcae4b89c550e599276b9019abed2d3d23197668d6698b8edaca160f0d9d2d6d157c833a43b8f9e9984cf4eb89f9fe740d7557a3d391fed30e3aa3f684da4de89c2e3413cd807093918b374a2ac3ea6e4fd780957e88572f8676f792f723718e351ffd4357f4a3b56cd2b569debb7668f27735341ea9ef031ad0fb3b6c9a0fd792418b37df77a55bced69f7bdcedfafbeff6a3677bce78d5f07fa1614532f2f0efd530bef1aae155c3ef69a00ff491a6e8134dd3679ab9c33e4b5f688ee665c62799b7408bb4345e0db44c2bb43a34bed2d04f09b2ff3a7d1bb1ebd8a0ef343b1e0db419d7ec5057bef4fb5e6bed5332b46f7768cec8bce768a035ac9992adcf049f673fd7a69c0add8d0d13b33e6527b19886efc6a2813d7628479e055d9b2bde828294b7ef50ff8177c6e4873968d8bdcbc60355406b0fadf24c3fec619fb9bbce1933f5cbef2b78a41f74a715bef5cece07f0d0336faec7d5051fc5acfbc1c723cf4ff0f4590a1e5d9bb37c162b2da5f526f7e5790a0de77f850654e466d3a5f882e24feecacf53f0b4fb422aed30aab8e4ab9f1a7efa45075f0ff74a9e7c68dda7de59fc5eba60bdf287ba1a636fc86fcc79610db2c3479ec2da9fc40fd3f86efac68c8a27eb21b7c50b69909d97f852d6fe2cbbcd687edc8c469cd71b9f06fe786bf529cd453ed6bb82effc4dfa5835ccf28d3ec873755ee2bbf918f5e9db9f1bab8605596991ab96a9ae523e89d4748eec566e2e8c5743fdee2077f31ecfb0d13ed1dca3d2bf96da1a58e615f632bf7ee32ac65917944b25de7843e291dfdcf3eaed19cd5b0f7f1d87863af7786de85d2db9991fa8d819b93d86de9fa47636787df47e798e86e88f25c9b2deaf6e07e9e8fd7a8e8c47becf3e55c34b8d570daf1a4634fcf79f6ffe0756b911a6</data>
+    </image>
+    <image name="image1">
+        <data format="XPM.GZ" length="721">789cedd2b10ac2301405d03d5ff148b62056035241fc04c5511087f425a2432b681d44fc777ba329d6b47fe07d19dee50cc9904cd376b3229d896b6deb13131fed85b4bb95e57db75f3e8434869a93d3548e841c13d3fa5c79ecaad9d52404b540351e83caa833c6a03ad4798e41f5a86c30a816f510126ee94d14d52611fb8e2ad49070a4445ca4447ca4446ca444da07fecac7ffd2956ebe64f81ff4c873215e0583a9b0</data>
+    </image>
+    <image name="image2">
+        <data format="XPM.GZ" length="691">789cad914d0ac2301085f739c5d0d915b11a140ae211149782b898448b2e5a41eb42c4bb9b9fa6a67644045f0299978f37134896c27ab5803413979aeaa3067da033a4bb6b59de36dbf95d245282d953182703910c41c3f254ed6d8da6c69193b5dada7c924b6fc9dac2c85b156c51b83eacfe41d0c89defc4dfa2dd7c37fc44b025a179043c4152a4b055f4365414ad0e8901fd94c1ae5e19441da9211c68e7f44098d3074d86019e70a0210c089958df7ffb31134fa13797a8</data>
+    </image>
+    <image name="image3">
+        <data format="XPM.GZ" length="691">789cd3d7528808f055d0d2e72a2e492cc94c5648ce482c52d04a29cdcdad8c8eb5ade6523232520022530543251d2e253d856405bffcbc54105b19c856360003103711c4b530b13082709340dc644310047193c1dcc424d314883958015846190b80ca24262a2721012087349964a030ba69c9c9303d403e9132087b68279388ecff4414193440948c32aa71d86470bb80863258a21b9a0eb0a7905a6b2e006d59a436</data>
+    </image>
+    <image name="image4">
+        <data format="XPM.GZ" length="2509">789c7d944973db461085effa152cf54d956a932089a55239c896572d96bcc4b253390033186ea2488aa416a7f2dfd3db0cbd44e6d340f8f8def43406209e1c742ecf4f3b074ff6d69b7a33711d37ae6f3a077e3b9f3ffcf5f71fffeced675987fecab293edffb6b77fb1e9b8ced9e2ba65c08c00baf2117e2f5c86d02d99e196b9d7ed963df53f2ab3c47789258fa7c26564688d4bf30f23673de113e6ac1719ae9459e27f4d5c893f17ae126f8d2be3ebc87d9dff4e3904f317ccfd5ef23f28b3c45f26963c7e510ec1fc9570157dd81857967f883c90cd8635f3208b8c0b6596f863e17a500fd597fe8744c35afc1be33aef8bff5ad9b5e637cc7993f7f346fca571637c1fb9d0f99f9543b07ab2df453ff9723d0551a1f3d791cb8170573904f3a5bf725034e66f133be96fa44c1246799e4a573495e461a29cfcbbc8e64f8d9df96564f5519e876a1019668975fda05c593d5c25d67a6f945d6ef3bdb08b3ed491eba1e467c6561fcf229bff4ad9b5c6c7ccf530fa8089bdf8136596703fb1f800c23ee5ff548e3e7a636f3c8ddc68bd8ab91926066596b05c5fe359c285b2cf8de5f7ed7296f050b825d6f74763dc1a0f227bcdbf60f679e29789353f5666093f4facfe857208e63f156e93df8bdc16c223e358ff28b2f939735b240eca2ce1678983f0a57208e6bf150ec96f8d83f127e650b084cf85e5a32fdf9d10b0c6c6e44835c9631dfd9ff235b618925ad1e89779278af5750df7681ea40316d8111eef876a79ad977ae773d8257ec8efead629fdeb3ca4ba9ae6e11fcdbbef6aa72b7934ef695702eddf4e631a13d2f4c73cd599e115f533a639bbc173e6788d0b5cf23a314fe915dee01a37df698bb77887f7f8805ff190e64c342fb59fe2333ca2e373d30b7c89aff035bec1634a9e904ef1417faf78866ff1fc275de03b7c4fa3a1553e50fd8f78a2ef0bfcf43fe973bcc4cff805bb74d6a3de0e31b37c9f561fe090c6583a19612e9d1dd179417db1575237191eeafb172b9cd22a7d409a7bcc8f0c4e68f01900ef44090db8547f4ee9a966456732445083078f779a8756dfdf52f19b1cd59c699254e31c46d0703f30b6fa5239a5d27faabc22b78409de838316bdd51fd1377730a531a12bd363c949aa3d936f1a6821e8fda566aef8fe011d612eba860569495a9196721ebe7d7ed0c30dac491b58d2bd21c116b634bf25ddd2fd9dd9f3f6efef7bff0111915e41</data>
+    </image>
+    <image name="image5">
+        <data format="XPM.GZ" length="8443">789c5d99596f25398e85dfeb57244a6f85812a364528309807a7773bbdafe9c63c9012c3fbbebbd1ffbd651e5ea3db70a3aabf0a85447139a2e2fefdd78fe3ed8d1f7ffdfdc7e3133d9da71fe98c1e7efc959fafafdffff1fffff7cf3ffe6c9a1fe57f5d187f347ffecf1f7f4ee73fd28fcddb1bf90489ff09630197facf3fe5e1bf799a3eb99dbad88ccafedbf8ee1bf7dfdee76f9cbeb1fbc667df98beb17ce3fc8d4fbfd913fe9bfdcb275755c3542bbf1a27aa944fc0ed9407e50adcd53928d7c6adf1ef2f4eca8d7197b15e6b1c8c3be321ab3f7d30a6cccabdb180dda5f194a3f21538d49974fcf0c5babebb366e8c6fbe382bdf1a07d1fdba3be351d41f6ec598edf9bd7112cd24f7f0c59df2aa71365e03f795a87fdcba7123ba5fb769dc4d98ff977110d8b7611c45f3d3993f867ad27838dbefd04dba7f178dfb49fd45667fec8c97bf58e723b33746b0bb50ae4365fe9f576eda8e104fccdf7492d4ff1ef6b6edc4f0c723380c09fb433cdb62afee9fe08f36a669d2f71794bb32bfeed7ef1853d2e7b4048ebd8dd7fcff0cdf007b9e8da711f9fb062ef3215f178d83cdbf64dc1b2f1b0fc62bc691d41f7ed59818f3af1927ecd7af1bdbfefd08eeea88f9902f7d1b22fcb5613c11f203eb977023bfbcea41353462fb3b03b755d4f509fb198a3f30bfea49159b6900a33e625bc756f9ea8b753d7f6edc603e7ff1c5187ffdc5a8cf1be32ec29fb7c6b3fddc19f7c6c7e08eadbeb6c07dc8ba3ec11f31b68827d9f8b1b3f83e298fb3fdfa07e32122bfed793722de84f5c758db7c0bc6ed047b544f2b6aab01f13c356e23e2b56d2c0cfba05f3436660fea935b891a0f423d709ce5f3bb7133c19e0763cb577a348e369fea7395da0ef125e44f8ad9c61f81cbfaea3ffaa99ccbfc6a2f21bfa59f12f404fa29a5fe357e847a9428982fe1fda91e1a7d3f1d194f0df412f1995ab2f8ee82bb36617d9c07531847ecf7003c0c569f73e0e26fdd7f52aeaba6c2fc3b4fe0922f88e7643c183f1a0beac58de032bdbe4f1fe0a257d8ffed1743bf0e8d19fa99343e755d57b5ea4f3a368ed8bf17703b0eb05fcfb7ba192d1f139eb74dd3a8fe25cd87baab9b1a3c1953037fef818b40415ff7c181909f49cfcb3ad46dadf1e60370995feda3014c01ebb3e653895691587d7e038e23f29936c0b37a499acf752c2b60fe046eab16f6aa5ed4540fb5fa3761bf5cf7b5fa8f0f8d13d64bc64d6eb13f02cfe2ef5af0c0389f92d65b9d8a05c8971e4c95d9a77a5be7b282b23b07f7bda8be24c457dabac3f9b10d0e3c62bff09f8c01f1661ddfd4b5209eacf9dc34b378a46b636ef4fdb46c2c8dc6234fe0b628acbe9f8da983fdf67ef137fca1fadf94e8c15f69c53837c8b71afcb982daefc06164f85ff7d374f584fc711e1cea083dd2fa6c42a819fede048f6cfe53fd6ffaa66ed4ffe9dd583ae417ecefdbd4c1bf4be0a145ffc1a7c664f668bd3743f120eae3c03837c83fac57d436637e8d5713cbfa980ffe8bfd88fed0e9f9db8ce538807ff4fc6e4a34cc3f6fc67dabebf13eb89807ff0bf8f300d6f9ecfd308df0bf9e5f0d376d0b7bb41e1a693ad4a723704fd86f82ffa6a6b77add37ced0a30c7f4f6d46fc09f19bc699fe6abfd2566323c81fd5bfb62e166b7e703016b07f0707c2f9cfaa7f251d02e64fbbc623e2c7c7c6dc229e5aaf6de99f02eadd834b39a13ef47c6bbbcf08295f1897135279cf586c7fa7e0d6f48bdfc01d07d87f0e1e2bf4dbb405a6dafac308663b4f59f5af0d333d61d5d7b6efeaa0f667316e516facfe6d4bffd0c1be972fd6f325b1710ec877e341129e6bffd296e3afd5fd70076e03f481aec045bee13fbd5fb4d4daf9e6e10fea47f41f49cf8b96cb7cc81fd5cf36b5564f8cf1a90b01fb833d298c3de287f5730908f275011c8641f7470edce751e345b02753037f66c4b3542bf42f6b7fd095f30e7a999fc1e539f46717dc1789d7e75adf5ddd31f6471d388eb86f655dbf6bba59bd61beb6e54efd975ae309fa974670d7617c9e331e1be49bf6675df90fc8cf9cc05db6f3ee125cea05e3b51fee42f130fc73622cb67e007733fd780587a6c773addfaeef528ff9616f5ff213f90a1e8a07c017e0b1417d38f57717c716f723c2f358f219faa6e76b377601fbcb646cfd408ac623eccbc75f0c3d7f0117fdc4feb01e951da0df7b028f93f943fb998e5b86dea5276341fe32e2cf9405f5aa7adba592bf581fe35327c8b7ccc613f2357f8083e513c1bed44f11f982f5a534181a5f567deba68e02ce53c4731a05fd126bbe852ac441fdcf8be0be477f9cb49f0c7517a137f91d5c0208d67c094df117e6ab8c39a09f3c02c706e73d6570f117ce63b5bf5ccfcc5e3f071e02a37ed55fa1ebea16fdf239987ac4376b3e85620ef29bcec0d4993e683f12faf25cdfcf6fc6c1c69f82cb7c3a5e607f0cbd9d87d85f1c13faddacfa17c62e99be6bff5edab70efd922c1a07e83509b81c68ba9e687d040eb5f5df1fe08119fdee04a688fe43546f420aade9f99a71e8359e82fde6607a2fe7c676feb0f60341fa1ef7c3a47a11a67ec47d902fc1e390117ff5575f1a92a0f1e275e37283d37a38038f01f59675bdbee88de9d9a571467e3281871091af239847d347add73eccc6e7dfe010e1fface75fdf87caf24df5bf8fa57e916f37e0a141bfcd8f6016d4a368fef76360f4db7c0bee25c29f2fe0a143ff42cfe0126fe40be6e7727dc17e604fb9df11ea57f3bb4f61b0f364073c64f4af59fbc93e97e30bf98ef5a5c807e6d3feb29f4a7c106fd5bba10d09e379195cec457f5c81295b3ea91e0d21583fca9be01847c45feb77e87b1ea0ff7a1e0d43b10ff3d560ae707f64f56f69ffec7b9d3b351e04f66aff3b8cfd84fb346bff30a471608c5f0453827dace7ed2003d9f78b1d7009bfce279a9f43d93ff459341f62550a16fdc435982af407b40de61efd59d6fb4aacfb0af9c7115c3c86fb90035348e8273cb8bcaff3b1e6636c878cef1f59eb2d76c5fff8be780266823e38d5cb58da3d7c0f653d5f623f04dcff18f60da5fd477e6b3c22f576becb8a31e1be26abc619fd6a567fc554f683fc3f30eec1326f1ced3cd5f322664ed0d7acfd6e94aff1cbc66cf7c3673065e899687ce3d40f38dfb3f64363d50f76fe6c19dbfd2eef1893d977629ce12f59339eb05e567f8c75591fdfd76f8cb3f12fe3c9fca3f11e9bc1e2291bc6b5f94bf5616c7b3b6ff2aeb1dd2fe5d6d8f44454bfc6ae30e6db0497f9f07d53fd55e4a1c5f705f76a1c91ef19fbe9fb64f35d818b7db0ffceb8863db2656cdf0be4deb8b5fb2f83d9ce0387fd1401815e39cde73126fb9e23aaa7a5ddad6d3df89306bbefcbc317a35f390697f9f07d51f5a9a8d900cef077eed9fcb76a6c7a23886f1ea2c54ffd47259eb6bf2370d99fd693a8de523df4f65cfb7f6aca7ee1ef5de388f16e015c1a16d4bbda5bda77bb8fba0370b2fbb7a83fa82bf3e1bcd7faa150e20f3d0de061d6cfaa9e50695f2c5e7be061b4f7b51e682801c2f80e3c58ff215a4f1407b2e7aa6734967c87ffb53f212af3c1dff3e094f13d3eab7e130f56bf0eeb73691fb01fec2f95f7717ef433b6f554cf2997fda2fe6a63ab47d93766f3ffb3f12cdfb59fa06998d59bf613fc192fc453cf0f6ebe9ebf80e32c9fb5bfe36e10ab6fd5b7d2ccb1e587f64f1ca3f59f6e1f9c2d7f45eb87c768fe74099c2b3ccfaacfccc5bf5a6fa2fd117ffa03f6e3f7ab6a665fc6ef71f560e79be0f7b24ffbf1bdf0273813fc2ff83d2e44f3bf3f04e7d19edbef6fc34c6ff07b5b8c8dede7039cc5c6e3f736fadaaffa3389d87dd9693ee446ec7bb353fb7339e0f1fdd26bbcf32811df739dfa575a998cd59fd24d95fdfea2fe109eec7be0ce93779e3cfbe4b3173ff9537fe6cffd85bff457febafcddf85b7fe7effd837fd4f59efcb37ff1affecdbffb0f3fe77ffa79bfe017fd925ff62be56fd5aff975ffcb6ff84d1dbfe5b7fd8edff57b7edf1ff8437fe48ffd6f7fe22b5ffbc6b7bef3c1f77ef0d1a33ebd738e1cbbe4b21337b95377e6cedd85bb7457eedaddb85b77e7eedd837b744f3afed9bdb857f7e6dedd879b733fddbc5b708b6ec92dbb15b7ead6dcbafbe536dca6db72db3a7ec7edba3db7ef0edca13b72c7eeb73b7195ab5de35ad7b9e07a37b85804ce93d37e8088295126a1894ee98ccee9822ee98aaee9866ee98eeee9811ee9899ee945c7bfd21bbdd307cdd14f9aa7055aa4255aa6155aa5355aa75fb4419bb445dbb443bb3a7e8ff6e9800ee9888ee9379d50453535d452b9509543bcb43534b267c7f67d8d13672ee1e3533ee373bee04bbee26bbee15bbee37b7ee0477ee2677ee1577ed3f1effcc173fc93e7798117798997798557798dd7f9176ff0266ff136eff02eeff1be8e3fe0433ee263fecd275c71cd4db96a96cb1697068f238fc9a792ada9e80dbedf2749533a4d67e93c5da4cb7495aed34dba4d77e93e3da4c7f4949ed34b7a4d6fe93d7de8f8b9f433cda785b49896d2725a49ab692dada75f69236da6adb49d76d26eda4bfbe9201deaf8a3749c7ea79354a53a35a94de56a9a4afb9b621ab3cf2e53e69c72ce92a127a7f92c9fe78b7c99aff275bec9b7f92edfe787fc989ff2737ec9aff92dbfe78f3c977feaf8f9bc9017f3525ece2b7935afe5f5fc2b6fe4cdbc95b7f34edecd7b793f1fe4c37c948f75fcef7c92ab72d837b9cd5d0eb92fd2184bfd797142c292248bc824a772a6f57d2e17722957722d37722b77722f0ff2284ff22c2ff22a6ff22e1f32273f655e1674fca22cc9b2acc8aaacc9bafc920dd9942dd9961dd9953dd997033994233996df72a2e3ab72912fea20e54a2ea5e794687fe3e73f273ffbf7e4d0cf96ff4713cb30a5294f529edbf8699a4e0b0dd319e699cecbf87ffdef1fff06d51d8a6a</data>
+    </image>
+</images>
+<connections>
+    <connection>
+        <sender>fileNewAction</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>fileNew()</slot>
+    </connection>
+    <connection>
+        <sender>fileOpenAction</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>fileOpen()</slot>
+    </connection>
+    <connection>
+        <sender>fileSaveAction</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>fileSave()</slot>
+    </connection>
+    <connection>
+        <sender>fileSaveAsAction</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>fileSaveAs()</slot>
+    </connection>
+    <connection>
+        <sender>filePrintAction</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>filePrint()</slot>
+    </connection>
+    <connection>
+        <sender>fileExitAction</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>fileExit()</slot>
+    </connection>
+    <connection>
+        <sender>helpIndexAction</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>helpIndex()</slot>
+    </connection>
+    <connection>
+        <sender>helpContentsAction</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>helpContents()</slot>
+    </connection>
+    <connection>
+        <sender>helpAboutAction</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>helpAbout()</slot>
+    </connection>
+    <connection>
+        <sender>createViewAction</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>createView()</slot>
+    </connection>
+    <connection>
+        <sender>fileInsertAction</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>fileInsert()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">OSGSceneView_qt.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGGroup.h</include>
+    <include location="global" impldecl="in implementation">qtimer.h</include>
+    <include location="global" impldecl="in implementation">qstring.h</include>
+    <include location="global" impldecl="in implementation">qmessagebox.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGLog.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGNode.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGNodeCore.h</include>
+    <include location="local" impldecl="in implementation">OSGMainView_qt.ui.h</include>
+</includes>
+<variables>
+    <variable>osg::NodePtr root;</variable>
+    <variable>OSGSceneView *sceneView;</variable>
+</variables>
+<slots>
+    <slot>init()</slot>
+    <slot>destroy()</slot>
+    <slot>fileExit()</slot>
+    <slot>fileNew()</slot>
+    <slot>fileOpen()</slot>
+    <slot>fileInsert()</slot>
+    <slot>filePrint()</slot>
+    <slot>fileSave()</slot>
+    <slot>fileSaveAs()</slot>
+    <slot>helpAbout()</slot>
+    <slot>helpContents()</slot>
+    <slot>helpIndex()</slot>
+    <slot>createView()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

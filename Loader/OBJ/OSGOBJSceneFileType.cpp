@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.6 2001/10/05 12:38:25 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.7 2001/10/06 15:12:49 jbehr Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -84,13 +84,13 @@ namespace
  *   Types
  *****************************/
 // Static Class Varible implementations: 
+const Char8 *OBJSceneFileType::_suffixA[] =  { "obj" };
+map<string, OBJSceneFileType::DataElem> OBJSceneFileType::_dataElemMap;
 
-const Char8            *OBJSceneFileType::_suffixA[] = { "obj" };
-
-      OBJSceneFileType  OBJSceneFileType::_the         (_suffixA, 
-                                                        sizeof(_suffixA),
-                                                        false,
-                                                        10);
+OBJSceneFileType  OBJSceneFileType::_the         (_suffixA, 
+                                                  sizeof(_suffixA),
+                                                  false,
+                                                  10);
 
 /*****************************
  *	  Classvariables
@@ -128,165 +128,245 @@ const Char8            *OBJSceneFileType::_suffixA[] = { "obj" };
 //------------------------------
 NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
 {
-  typedef vector<int> Face;
-
-  vector<Face> faceVec;
-
-  char head[256];
+	NodePtr rootPtr, nodePtr;
 	ifstream in(fileName);
-	NodePtr root;
-	GeometryPtr geo;
-  Vec3f point;
-  GeoPositions3fPtr points;
- 	GeoIndicesUI32Ptr index;
-	GeoPLengthsPtr lens;
-	GeoPTypesPtr type;   
-  SimpleMaterialPtr mat;
-  Int32 i,j,k,n,vN,fN,pType;
-  Int32 triCount = 0, vertexCount, faceCount, uk;
-  Real64 x, y, z;
+  string elem;
+  map<string, DataElem>::iterator elemI;
+  Vec3f vec3f;
+  Vec2f vec2f;
+  Real32 x,y,z;
+  GeoPositionsPtr coordPtr      = GeoPositions3f::create();
+  GeoTexCoordsPtr  texCoordPtr  = GeoTexCoords2f::create();
+  GeoNormalsPtr     normalPtr   = GeoNormals3f::create(); 
+  GeometryPtr geoPtr;
+	GeoIndicesPtr indexPtr;
+	GeoPLengthsPtr lensPtr;
+	GeoPTypesPtr typePtr; 
+  DataElem dataElem;
+  Char8 strBuf[8192], *token, *nextToken;
+  Int32 strBufSize = sizeof(strBuf)/sizeof(Char8), index, indexType;
+  Int32 type, i,j,k,l,n, tieNum, meshNum, faceNum, primCount[3];
+  vector<Mesh> meshVec;
+  map<string, SimpleMaterialPtr> mtlMap;
+  map<string, SimpleMaterialPtr>::iterator mtlI;
+  Mesh *mesh;
+  Face *face;
+  Int32 indexMask, meshIndexMask;
 
-  if (in) {
-    in >> head >> vertexCount >> faceCount >> uk;
+  // create the first mesh entry
+  meshNum = 1;
+  faceNum = 0;
+  meshVec.resize(meshNum);
+  mesh = &(meshVec.front());
 
-    FDEBUG (( "OBJ Head/vertexCount/faceCount: %s/%d/%d\n",
-              head, vertexCount, faceCount ));
- 
-    if (vertexCount && faceCount) {
-
-      //-------------------------------------------------------------------
-      // create the OSG objects
-      root = Node::create();
-      geo = Geometry::create();
-      points = GeoPositions3f::create();
-      index = GeoIndicesUI32::create();  
-      lens = GeoPLengthsUI32::create();  
-      type = GeoPTypesUI8::create();
-      mat = SimpleMaterial::create();
-      
-      beginEditCP(mat);
-      {
-         mat->setDiffuse( Color3f( 0.42, 0.42, 0.52 ) );
-         mat->setSpecular( Color3f( 1, 1, 1 ) );
-         mat->setShininess( 20 );
-      }
-      endEditCP(mat);
-		
-      
-      beginEditCP ( root, Node::CoreFieldMask);
-      {
-        root->setCore( geo );
-      }
-      endEditCP ( root, Node::CoreFieldMask);
-      
-      beginEditCP ( geo );
-      {
-        geo->setPositions ( points );
-        geo->setIndices   ( index );
-        geo->setLengths   ( lens );
-        geo->setTypes     ( type );
-        geo->setMaterial  ( mat ); 
-      }
-      
-      //-------------------------------------------------------------------
-      // read/set the points
-      beginEditCP ( points );
-      {
-        for (i = 0; (!in.eof()) && (i < vertexCount); i++) {
-          in >> x >> y >> z;
-          point.setValues (x,y,z);
-          points->push_back(point);
-        }
-      }
-      beginEditCP ( points );
-      
-      //-------------------------------------------------------------------
-      // read the faces
-      // TODO; should we 'reserve' some index mem (3,4,..) ?
-      faceVec.resize(faceCount);
-      triCount = 0;
-      for (i = 0; (!in.eof()) && (i < faceCount); i++) {
-        in >> n;
-        if (n >= 0) {
-          triCount += n - 2;
-          for (j = 0; (!in.eof()) && (j < n); j++) {
-            in >> k;
-            if ((k >= 0) && (k < vertexCount))
-              faceVec[i].push_back(k);
-            else {
-              FFATAL (("Invalid vertex index %d in face %d\n", k, i));
-            }     
-          }
-        }
-        else {
-          FFATAL (("Invalid face vec num %d\n",n));
-        }
-      }
-      
-      //-------------------------------------------------------------------
-      // set the faces
-      for (i = 3; i <= 5; i++) {
-        n = 0;
-        for (j = 0; j < faceCount; j++) {
-          fN = faceVec[j].size();
-          if (fN >= 5)
-            fN = 5;
-          if (fN == i) {
-            n += vN = faceVec[j].size();
-            for (k = vN-1; k >= 0; k--) {
-              index->getFieldPtr()->addValue( faceVec[j][k] );    
-            }       
-            if (i == 5) {
-              beginEditCP(lens);
+  if (in)
+    {
+      primCount[0] = 0;
+      primCount[0] = 1;
+      primCount[0] = 2;  
+      for (in >> elem; in.eof() == false; in >> elem) 
+        if (elem[0] == '#')
+          in.ignore(INT_MAX, '\n'); 
+        else
+          {
+            elemI = _dataElemMap.find(elem);
+            dataElem = ((elemI == _dataElemMap.end()) ?
+                        elemI->second : UNKNOWN_DE);
+            switch (dataElem) 
               {
-                lens->addValue( n );
+              case GROUP_DE:
+                in >> elem;
+                if (faceNum) 
+                  {
+                    meshVec.resize(++meshNum);
+                    mesh = &(meshVec.front());
+                    faceNum = 0;
+                  }
+                mesh->name = elem;
+                in.ignore(INT_MAX, '\n'); 
+                break;
+              case VERTEX_DE:
+                primCount[0]++;
+                in >> x >> y >> z;
+                vec3f.setValues(x,y,z);
+                coordPtr->push_back(vec3f);                    
+                break;
+              case VERTEX_TEXTURECOORD_DE:
+                primCount[1]++;
+                in >> x >> y;
+                vec2f.setValues(x,y);
+                texCoordPtr->push_back(vec2f);
+                break;
+              case VERTEX_NORMAL_DE:
+                primCount[2]++;
+                in >> x >> y >> z;
+                vec3f.setValues(x,y,z);
+                normalPtr->push_back(vec3f);                    
+                break;
+              case MTL_LIB_DE:
+                in >> elem;
+                readMTL (elem.c_str(), mtlMap);
+                in.ignore(INT_MAX, '\n'); 
+                break;
+              case NEW_MTL_DE:
+                in >> elem;
+                if (meshVec[meshNum].faceVec.empty())
+                  {
+                    mtlI = mtlMap.find(elem);
+                    if (mtlI == mtlMap.end())
+                      {
+                        FFATAL (("Unkown mtl %s\n", elem.c_str()));
+                      }
+                    else
+                      meshVec[meshNum].mtlPtr = mtlI->second;
+                  }
+                break;
+              case FACE_DE:
+                mesh->faceVec.resize(++faceNum);
+                face = &(mesh->faceVec.back());
+                  in.get(strBuf,strBufSize);
+                token = strBuf;
+                while (token && *token) 
+                  {
+                    for (; *token == '/'; token++)
+                      indexType++;
+                    if (isspace(*token))
+                      indexType = 0;
+                    index = strtol(token, &nextToken, 10);
+                    if (token == nextToken)
+                      break;
+                    if (index == 0) 
+                      {
+                        FFATAL (("Invalid index in face %d\n", faceNum));
+                      }
+                    else
+                      {
+                        index = (index > 0) 
+                          ? (index - 1) : (primCount[indexType] - index);
+                        face->tieVec[indexType] = index;
+                      }
+                    token = nextToken;
+                  }
+              case UNKNOWN_DE:
+              default:
+                FFATAL (("Unkown obj data elem: %s\n", elem.c_str()));
+                break;
               }
-              endEditCP(lens);
+          }
+
+      // create Geometry objects
+      for (i = 0; i < meshNum; i++)
+        {
+          geoPtr   = Geometry::create();
+          indexPtr = GeoIndicesUI32::create();  
+          lensPtr  = GeoPLengthsUI32::create();  
+          typePtr  = GeoPTypesUI8::create();
+
+          faceNum = mesh[i].faceVec.size();
+
+          // create and check mesh index mask
+          meshIndexMask = 0;
+          for (k = 0; k < faceNum; k++) 
+            {
+              indexMask = 0;
+              n = mesh[i].faceVec[k].tieVec.size();
+              for (l = 0; l < n; l++)
+                for (j = 0; j < 3; j++)
+                  if (mesh[i].faceVec[k].tieVec[l].index[j] >= 0)
+                    indexMask |= (1 << j);
+              if (meshIndexMask == 0)
+                meshIndexMask = indexMask;
+              else
+                if (meshIndexMask != indexMask)
+                  {
+                    FFATAL (("IndexMask unmatch, can not create geo"));
+                    meshIndexMask = 0;
+                    break;
+                  }
+            }
+
+          // fill the geo properties
+          if (meshIndexMask) 
+            {
+              beginEditCP ( geoPtr );
+              {
+                if (meshIndexMask & 1)
+                  geoPtr->getIndexMapping().addValue( Geometry::MapPosition );
+                if (meshIndexMask & 2)
+                  geoPtr->getIndexMapping().addValue( Geometry::MapTexcoords );
+                if (meshIndexMask & 4)
+                  geoPtr->getIndexMapping().addValue( Geometry::MapNormal );
+                geoPtr->setPositions ( coordPtr );
+                geoPtr->setTexCoords ( texCoordPtr );
+                geoPtr->setNormals   ( normalPtr );
+                geoPtr->setIndices   ( indexPtr );
+                geoPtr->setLengths   ( lensPtr );
+                geoPtr->setTypes     ( typePtr );
+                geoPtr->setMaterial  ( mesh[i].mtlPtr ); 
+              }
+              endEditCP ( geoPtr );
               
-              beginEditCP(type, FieldBits::AllFields);
+              for (k = 0; k < faceNum; k++)
+                {
+                  face = &(mesh[i].faceVec[k]);
+                  n = face->tieVec.size();
+                  
+                  // add the lens entry
+                  beginEditCP(lensPtr);
+                  {
+                    lensPtr->addValue(n);
+                  }
+                  endEditCP(lensPtr);
+                  
+                  // add the type entry
+                  beginEditCP(typePtr);
+                  {
+                    typePtr->addValue(GL_POLYGON);
+                  }
+                  
+                  // create the index values
+                  beginEditCP ( indexPtr );
+                  {
+                    for (j = 0; j < 3; j++)
+                      if ( meshIndexMask && (1 << j))
+                        for (l = 0; l < n; l++)
+                          indexPtr->addValue( face->tieVec[l].index[j]);
+                  }
+                  endEditCP ( indexPtr );
+                }
+              
+              // create and link the node
+              nodePtr = Node::create();
+              beginEditCP ( nodePtr );
               {
-                type->addValue( GL_POLYGON );
+                rootPtr->setCore( geoPtr );
               }
-            endEditCP(type, FieldBits::AllFields);
+              endEditCP ( nodePtr );
+              
+              // check if we have normals
+              if ((meshIndexMask & 4) == 0)
+                calcVertexNormals(geoPtr);
+              
+              // createOptimizedPrimitives(geoPtr);
+
+              if (meshNum > 1)
+                {
+                  if (rootPtr == NullFC)
+                    rootPtr = Node::create();
+                  beginEditCP (rootPtr);
+                  {
+                    rootPtr->addChild(nodePtr);
+                  }
+                  endEditCP (rootPtr);
+                }
+              else
+                rootPtr = nodePtr;
             }
-          }
         }
-        if (n) { 
-          switch (i) {
-          case 3:
-            pType = GL_TRIANGLES;
-            break;
-          case 4:
-            pType = GL_QUADS;
-            break;
-          default:
-            pType = 0;
-            break;
-          }
-          if (pType) {
-            beginEditCP(lens);
-            {
-              lens->addValue( n );
-            }
-            endEditCP(lens);
-            
-            beginEditCP(type, FieldBits::AllFields);
-            {
-              type->addValue( pType );
-            }
-            endEditCP(type, FieldBits::AllFields);
-          }
-        }
-      }
     }
-  }
 
-  FNOTICE (("Number of triangle read: %d\n", triCount));
 
-  calcVertexNormals(geo);
-  createOptimizedPrimitives(geo);
-
-	return root;
+  return rootPtr;
 }
 
 //----------------------------
@@ -369,6 +449,7 @@ OBJSceneFileType::OBJSceneFileType(const Char8  *suffixArray[],
                   override,
                   overridePriority)
 {
+  initDataElemMap();
 }
 
 //----------------------------
@@ -395,7 +476,7 @@ OBJSceneFileType::OBJSceneFileType(const Char8  *suffixArray[],
 OBJSceneFileType::OBJSceneFileType(const OBJSceneFileType &obj) :
 	SceneFileType(obj)
 {
-	return;
+  initDataElemMap();
 }
 
 //----------------------------
@@ -454,4 +535,109 @@ const Char8 *OBJSceneFileType::getName(void) const
  *private
  ****************************/
 
+
+void OBJSceneFileType::initDataElemMap(void)
+{
+  if (_dataElemMap.empty()) 
+    {
+      _dataElemMap[""]        = UNKNOWN_DE;
+      _dataElemMap["v"]       = VERTEX_DE;
+      _dataElemMap["vt"]      = VERTEX_TEXTURECOORD_DE;
+      _dataElemMap["vn"]      = VERTEX_NORMAL_DE;
+      _dataElemMap["f"]       = FACE_DE;
+      _dataElemMap["fo"]      = FACE_DE;
+      _dataElemMap["mtllib"]  = MTL_LIB_DE;
+      _dataElemMap["newmtl"]  = NEW_MTL_DE;
+      _dataElemMap["Ka"]      = MTL_DIFFUSE_DE;
+      _dataElemMap["Ka"]      = MTL_AMBIENT_DE;
+      _dataElemMap["Ks"]      = MTL_SPECULAR_DE;
+      _dataElemMap["g"]       = GROUP_DE;
+    }
+}
+
+Int32 OBJSceneFileType::readMTL ( const Char8 *fileName, 
+                                  map<string, SimpleMaterialPtr> & mtlMap ) 
+  const
+{
+  Int32 mtlCount = 0;
+	ifstream in(fileName);
+  SimpleMaterialPtr mtlPtr;
+  Real32 a,b,c;
+  string elem;
+  map<string, DataElem>::iterator elemI;
+  DataElem dataElem;
+
+  if (in)
+    for (in >> elem; in.eof() == false; in >> elem) 
+      if (elem[0] == '#')
+        in.ignore(INT_MAX, '\n'); 
+      else
+        {
+          elemI = _dataElemMap.find(elem);
+          dataElem = ((elemI == _dataElemMap.end()) ?
+                      elemI->second : UNKNOWN_DE);
+          switch (dataElem) 
+            {
+            case NEW_MTL_DE:
+              in >> elem;
+              mtlPtr = SimpleMaterial::create();
+              mtlMap[elem] = mtlPtr;
+              mtlCount++;
+              break;
+            case MTL_DIFFUSE_DE:
+              if (mtlPtr != NullFC)
+                {
+                  FFATAL (( "Invalid %s entry in %s\n",
+                            elem.c_str(), fileName ));
+                }
+              else
+                {
+                  beginEditCP(mtlPtr);
+                  {
+                    in >> a >> b >> c;
+                    mtlPtr->setDiffuse( Color3f( a,b,c ));
+                  }
+                  endEditCP(mtlPtr);
+                }
+              break;
+            case MTL_AMBIENT_DE:
+              if (mtlPtr != NullFC)
+                {
+                  FFATAL (( "Invalid %s entry in %s\n",
+                            elem.c_str(), fileName ));
+                }
+              else
+                {
+                  beginEditCP(mtlPtr);
+                  {
+                    in >> a >> b >> c;
+                    mtlPtr->setAmbient( Color3f( a,b,c ));
+                  }
+                  endEditCP(mtlPtr);
+                }
+              break;
+            case MTL_SPECULAR_DE:
+              if (mtlPtr != NullFC)
+                {
+                  FFATAL (( "Invalid %s entry in %s\n",
+                            elem.c_str(), fileName ));
+                }
+              else
+                {
+                  beginEditCP(mtlPtr);
+                  {
+                    in >> a >> b >> c;
+                    mtlPtr->setSpecular( Color3f( a,b,c ));
+                  }
+                  endEditCP(mtlPtr);
+                }
+              break;
+            default:
+              FFATAL (( "Invalid %s entry in %s\n",
+                        elem.c_str(), fileName ));
+            }
+        }
+
+  return mtlCount;
+}
 

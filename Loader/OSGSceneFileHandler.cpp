@@ -167,6 +167,20 @@ SceneFileType *SceneFileHandler::getFileType(const Char8 *fileName)
 	return type;
 }
 
+Int32 SceneFileHandler::getSuffixList(list<const char *> & suffixList)
+{
+	Int32 count = 0;
+	FileTypeMap::iterator sI;
+
+	for ( sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); sI++)
+    {
+      suffixList.push_back(sI->first.str());
+      count++;
+    }
+
+  return count;
+}
+	
 //----------------------------
 // Function name: read
 //----------------------------

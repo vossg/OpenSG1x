@@ -8,6 +8,9 @@
 #include <qmultilineedit.h>
 #include <qcheckbox.h>
 #include <qbuttongroup.h>
+#include <qlineedit.h>
+#include <qlistview.h>
+#include <qlistbox.h>
 
 using namespace std;
 

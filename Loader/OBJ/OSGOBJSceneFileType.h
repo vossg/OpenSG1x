@@ -46,6 +46,9 @@
 
 #include "OSGSceneFileType.h"
 
+#include <map>
+
+
 OSG_BEGIN_NAMESPACE
 
 /*! \ingroup GeometryLoaderLib
@@ -120,15 +123,47 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
 
     typedef SceneFileType Inherited;
 
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const OBJSceneFileType &source);
+    enum DataElem 
+    { 
+      UNKNOWN_DE = 0,
+      VERTEX_DE, VERTEX_TEXTURECOORD_DE, VERTEX_NORMAL_DE,
+      MTL_LIB_DE, NEW_MTL_DE, 
+      MTL_DIFFUSE_DE, MTL_AMBIENT_DE, MTL_SPECULAR_DE,
+      GROUP_DE,
+      FACE_DE 
+    };
+
+    static map<string, DataElem> _dataElemMap;
+    static void initDataElemMap(void);
+
+    struct TiePoint {
+      Int32 index[3];
+      TiePoint( Int32 v = -1, Int32 vt = -1, Int32 vn = -1 )
+        { index[0] = v; index[1] = vt; index[2] = vn; }
+      inline void set ( Int32 v = -1, Int32 vt = -1, Int32 vn = -1 )
+        { index[0] = v; index[1] = vt; index[2] = vn; }
+    };
+    
+    struct Face {
+      vector<TiePoint> tieVec;
+    };
+
+    struct Mesh {
+      string name;
+      vector<Face> faceVec;
+      SimpleMaterialPtr mtlPtr;
+    };
+
+    Int32 readMTL ( const Char8 *fileName, 
+                    map<string, SimpleMaterialPtr> & mtlMap ) const;
+
 };
 
 typedef OBJSceneFileType* OBJSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSGOBJSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOBJSceneFileType.h,v 1.3 2001/10/05 12:38:25 vossg Exp $"
+#define OSGOBJSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOBJSceneFileType.h,v 1.4 2001/10/06 15:12:49 jbehr Exp $"
 
 #endif // _OSGOBJSCENEFILETYPE_H_
 
