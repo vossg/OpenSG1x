@@ -100,6 +100,12 @@ inline NodePtr Action::getActNode( void )
     return _actNode;
 }
 
+    
+inline void Action::setActNode(NodePtr node)
+{
+    _actNode = node;
+}
+
 inline
 const NodePtr Action::getNode( int index )
 {

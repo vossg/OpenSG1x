@@ -108,6 +108,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
     
     void          setState        (State    *pState               );
     State        *getState        (void                           );
+    
+    void          setNode         (NodePtr   pNode                );
+    NodePtr       getNode         (void                           );
 
     void          setMatrixStore  (const MatrixStore &oMatrixStore);
     MatrixStore  &getMatrixStore  (void                           );        
@@ -129,6 +132,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
     DrawTreeNode              *_pLastChild;
 
     DrawTreeNode              *_pBrother;
+
+    NodePtr                    _pNode;
 
     State                     *_pState;
     Geometry                  *_pGeo;

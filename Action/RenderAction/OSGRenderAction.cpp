@@ -330,6 +330,8 @@ void RenderAction::dropGeometry(Geometry *pGeo)
         
         _currMatrix.second.mult(objPos);
             
+        pNewElem->setNode       (getActNode());
+            
         pNewElem->setGeometry   (pGeo);
         pNewElem->setMatrixStore(_currMatrix);
             
@@ -393,6 +395,8 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             
             _mMatMap[pMat].push_back(pNewMatElem);
             
+            pNewElem->setNode       (getActNode());
+            
             pNewElem->setGeometry   (pGeo);
             pNewElem->setMatrixStore(_currMatrix);
             
@@ -449,6 +453,8 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
         getActNode()->getVolume().getCenter(objPos);
         
         _currMatrix.second.mult(objPos);
+            
+        pNewElem->setNode       (getActNode());
             
         pNewElem->setFunctor    (func);
         pNewElem->setMatrixStore(_currMatrix);
@@ -512,6 +518,8 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             DrawTreeNode *pNewMatElem = new DrawTreeNode;
             
             _mMatMap[pMat].push_back(pNewMatElem);
+            
+            pNewElem->setNode       (getActNode());
             
             pNewElem->setFunctor    (func);
             pNewElem->setMatrixStore(_currMatrix);
@@ -586,6 +594,7 @@ void RenderAction::dump(DrawTreeNode *pRoot, UInt32 uiIndent)
     PWARNING << "Node : "   << pRoot                         << " | " 
              << "Geo : "    << pRoot->getGeometry()          << " | "
              << "State : "  << pRoot->getState()             << " | "
+             << "Node : "   << pRoot->getNode()              << " | "
              << "Matrix : " << pRoot->getMatrixStore().first << endl;
 
     indentLog(uiIndent, PWARNING);
@@ -656,13 +665,15 @@ void RenderAction::draw(DrawTreeNode *pRoot)
         else
         {
             _pActiveState = pRoot->getState();
-            
+             
             _pActiveState->activate(this);
 
             _uiNumMaterialChanges++;
         }
     }
 
+    setActNode(pRoot->getNode());
+    
     if(pRoot->getGeometry() != NULL)
     {
         pRoot->getGeometry()->draw(this);

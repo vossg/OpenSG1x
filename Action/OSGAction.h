@@ -278,6 +278,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
     
     vector<Functor> _enterFunctors;
     vector<Functor> _leaveFunctors;
+   
+    // the node being traversed. Might be needed by the traversed core
+    // needs to be set by the RenderAction, as the draw tree is traversed 
+    // after the graph traversal
+    
+    inline void setActNode(NodePtr node);
 
   private:
 

@@ -206,6 +206,16 @@ State *DrawTreeNode::getState(void)
     return _pState;
 }
 
+void DrawTreeNode::setNode(NodePtr pNode)
+{
+    _pNode = pNode;
+}
+
+NodePtr DrawTreeNode::getNode(void)
+{
+    return _pNode;
+}
+
 void DrawTreeNode::setMatrixStore(const MatrixStore &oMatrixStore)
 {
     _oMatrixStore = oMatrixStore;
