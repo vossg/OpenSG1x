@@ -507,8 +507,9 @@ void QuaternionBase<ValueTypeT>::setValueAsQuat(const Char8 *str)
                         TypeConstants<ValueTypeT>::getZeroElement();
 
                 break;
-            case ' ':
+            case ' ' :
             case '\t':
+            case '\n':
                 if (tokenC)
                 {
                     *tokenC = 0;
