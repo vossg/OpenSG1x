@@ -2,9 +2,9 @@
 
 <FieldContainer
 	name="Geometry"
-	parent="Drawable"
+	parent="MaterialDrawable"
 	library="System"
-	pointerfieldtypes="none"
+	pointerfieldtypes="both"
 	structure="concrete"
 	systemcomponent="true"
 	parentsystemcomponent="true"
@@ -128,15 +128,6 @@
         The indexMapping property contains the definition which index element
         is used for which attribute data. See \ref PageSystemGeoIndexing for
         a description of the indexing options.
-	</Field>
-	<Field
-		name="material"
-		type="MaterialPtr"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
-        The osg::Material used to render the Geometry.
 	</Field>
 	<Field
 		name="dlistCache"

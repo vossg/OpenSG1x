@@ -63,7 +63,7 @@
 
 #include <OSGBaseTypes.h>
 
-#include <OSGDrawable.h> // Parent
+#include <OSGMaterialDrawable.h> // Parent
 
 #include <OSGGeoPTypesFields.h> // Types type
 #include <OSGGeoPLengthsFields.h> // Lengths type
@@ -77,7 +77,6 @@
 #include <OSGGeoTexCoordsFields.h> // TexCoords3 type
 #include <OSGGeoIndicesFields.h> // Indices type
 #include <OSGUInt16Fields.h> // IndexMapping type
-#include <OSGMaterialFields.h> // Material type
 #include <OSGBoolFields.h> // DlistCache type
 #include <OSGInt32Fields.h> // GLId type
 
@@ -90,11 +89,11 @@ class BinaryDataHandler;
 
 //! \brief Geometry Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public Drawable
+class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
 {
   private:
 
-    typedef Drawable Inherited;
+    typedef MaterialDrawable Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -113,8 +112,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public Drawable
         TexCoords3FieldId      = TexCoords2FieldId      + 1,
         IndicesFieldId         = TexCoords3FieldId      + 1,
         IndexMappingFieldId    = IndicesFieldId         + 1,
-        MaterialFieldId        = IndexMappingFieldId    + 1,
-        DlistCacheFieldId      = MaterialFieldId        + 1,
+        DlistCacheFieldId      = IndexMappingFieldId    + 1,
         GLIdFieldId            = DlistCacheFieldId      + 1,
         NextFieldId            = GLIdFieldId            + 1
     };
@@ -131,10 +129,11 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public Drawable
     static const OSG::BitVector TexCoords3FieldMask;
     static const OSG::BitVector IndicesFieldMask;
     static const OSG::BitVector IndexMappingFieldMask;
-    static const OSG::BitVector MaterialFieldMask;
     static const OSG::BitVector DlistCacheFieldMask;
     static const OSG::BitVector GLIdFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -170,7 +169,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public Drawable
            SFGeoTexCoordsPtr   *getSFTexCoords3     (void);
            SFGeoIndicesPtr     *getSFIndices        (void);
            MFUInt16            *getMFIndexMapping   (void);
-           SFMaterialPtr       *getSFMaterial       (void);
            SFBool              *getSFDlistCache     (void);
 
            GeoPTypesPtr        &getTypes          (void);
@@ -195,8 +193,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public Drawable
      const GeoTexCoordsPtr     &getTexCoords3     (void) const;
            GeoIndicesPtr       &getIndices        (void);
      const GeoIndicesPtr       &getIndices        (void) const;
-           MaterialPtr         &getMaterial       (void);
-     const MaterialPtr         &getMaterial       (void) const;
            bool                &getDlistCache     (void);
      const bool                &getDlistCache     (void) const;
            UInt16              &getIndexMapping   (const UInt32 index);
@@ -219,7 +215,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public Drawable
      void setTexCoords2     ( const GeoTexCoordsPtr &value );
      void setTexCoords3     ( const GeoTexCoordsPtr &value );
      void setIndices        ( const GeoIndicesPtr &value );
-     void setMaterial       ( const MaterialPtr &value );
      void setDlistCache     ( const bool &value );
 
     /*! \}                                                                 */
@@ -278,7 +273,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public Drawable
     SFGeoTexCoordsPtr   _sfTexCoords3;
     SFGeoIndicesPtr     _sfIndices;
     MFUInt16            _mfIndexMapping;
-    SFMaterialPtr       _sfMaterial;
     SFBool              _sfDlistCache;
     SFInt32             _sfGLId;
 

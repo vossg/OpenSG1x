@@ -96,6 +96,8 @@ int main (int argc, char **argv)
          << ", size " << pnts->size()
          << std::endl;
 
+    pnts->resize(10);
+
     std::cerr << "Geometry Points: " << std::hex << g1->getPositions() << std::endl;
     std::cerr << p->size() << " Points: " << std::endl;
 

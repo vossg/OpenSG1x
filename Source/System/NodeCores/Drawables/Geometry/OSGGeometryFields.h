@@ -60,7 +60,7 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
-#include <OSGDrawableFields.h>
+#include <OSGMaterialDrawableFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -69,7 +69,7 @@ class Geometry;
 #if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! GeometryPtr
 
-typedef FCPtr<DrawablePtr, Geometry> GeometryPtr;
+typedef FCPtr<MaterialDrawablePtr, Geometry> GeometryPtr;
 
 #endif
 
@@ -88,6 +88,11 @@ struct FieldDataTraits<GeometryPtr> :
 
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
+
+    static DataType &getType (void) { return _type;        }
+
+    static char     *getSName(void) { return "SFGeometryPtr"; }
+    static char     *getMName(void) { return "MFGeometryPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -99,6 +104,25 @@ struct FieldDataTraits<GeometryPtr> :
 #endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
+
+typedef SField<GeometryPtr> SFGeometryPtr;
+#endif
+
+#ifndef OSG_COMPILEGEOMETRYINST
+OSG_DLLEXPORT_DECL1(SField, GeometryPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
+
+typedef MField<GeometryPtr> MFGeometryPtr;
+#endif
+
+#ifndef OSG_COMPILEGEOMETRYINST
+OSG_DLLEXPORT_DECL1(MField, GeometryPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
 
 OSG_END_NAMESPACE
 

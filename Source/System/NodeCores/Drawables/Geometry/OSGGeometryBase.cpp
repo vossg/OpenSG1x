@@ -65,50 +65,50 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  GeometryBase::TypesFieldMask = 
-    (1 << GeometryBase::TypesFieldId);
+    (static_cast<OSG::BitVector>(1) << GeometryBase::TypesFieldId);
 
 const OSG::BitVector  GeometryBase::LengthsFieldMask = 
-    (1 << GeometryBase::LengthsFieldId);
+    (static_cast<OSG::BitVector>(1) << GeometryBase::LengthsFieldId);
 
 const OSG::BitVector  GeometryBase::PositionsFieldMask = 
-    (1 << GeometryBase::PositionsFieldId);
+    (static_cast<OSG::BitVector>(1) << GeometryBase::PositionsFieldId);
 
 const OSG::BitVector  GeometryBase::NormalsFieldMask = 
-    (1 << GeometryBase::NormalsFieldId);
+    (static_cast<OSG::BitVector>(1) << GeometryBase::NormalsFieldId);
 
 const OSG::BitVector  GeometryBase::ColorsFieldMask = 
-    (1 << GeometryBase::ColorsFieldId);
+    (static_cast<OSG::BitVector>(1) << GeometryBase::ColorsFieldId);
 
 const OSG::BitVector  GeometryBase::SecondaryColorsFieldMask = 
-    (1 << GeometryBase::SecondaryColorsFieldId);
+    (static_cast<OSG::BitVector>(1) << GeometryBase::SecondaryColorsFieldId);
 
 const OSG::BitVector  GeometryBase::TexCoordsFieldMask = 
-    (1 << GeometryBase::TexCoordsFieldId);
+    (static_cast<OSG::BitVector>(1) << GeometryBase::TexCoordsFieldId);
 
 const OSG::BitVector  GeometryBase::TexCoords1FieldMask = 
-    (1 << GeometryBase::TexCoords1FieldId);
+    (static_cast<OSG::BitVector>(1) << GeometryBase::TexCoords1FieldId);
 
 const OSG::BitVector  GeometryBase::TexCoords2FieldMask = 
-    (1 << GeometryBase::TexCoords2FieldId);
+    (static_cast<OSG::BitVector>(1) << GeometryBase::TexCoords2FieldId);
 
 const OSG::BitVector  GeometryBase::TexCoords3FieldMask = 
-    (1 << GeometryBase::TexCoords3FieldId);
+    (static_cast<OSG::BitVector>(1) << GeometryBase::TexCoords3FieldId);
 
 const OSG::BitVector  GeometryBase::IndicesFieldMask = 
-    (1 << GeometryBase::IndicesFieldId);
+    (static_cast<OSG::BitVector>(1) << GeometryBase::IndicesFieldId);
 
 const OSG::BitVector  GeometryBase::IndexMappingFieldMask = 
-    (1 << GeometryBase::IndexMappingFieldId);
-
-const OSG::BitVector  GeometryBase::MaterialFieldMask = 
-    (1 << GeometryBase::MaterialFieldId);
+    (static_cast<OSG::BitVector>(1) << GeometryBase::IndexMappingFieldId);
 
 const OSG::BitVector  GeometryBase::DlistCacheFieldMask = 
-    (1 << GeometryBase::DlistCacheFieldId);
+    (static_cast<OSG::BitVector>(1) << GeometryBase::DlistCacheFieldId);
 
 const OSG::BitVector  GeometryBase::GLIdFieldMask = 
-    (1 << GeometryBase::GLIdFieldId);
+    (static_cast<OSG::BitVector>(1) << GeometryBase::GLIdFieldId);
 
+const OSG::BitVector GeometryBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (0x0 << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -148,9 +148,6 @@ const OSG::BitVector  GeometryBase::GLIdFieldMask =
 */
 /*! \var UInt16          GeometryBase::_mfIndexMapping
     The indexMapping property contains the definition which index element         is used for which attribute data. See \ref PageSystemGeoIndexing for         a description of the indexing options.
-*/
-/*! \var MaterialPtr     GeometryBase::_sfMaterial
-    The osg::Material used to render the Geometry.
 */
 /*! \var bool            GeometryBase::_sfDlistCache
     Flag to activate caching the geometry inside a display list.
@@ -223,11 +220,6 @@ FieldDescription *GeometryBase::_desc[] =
                      IndexMappingFieldId, IndexMappingFieldMask,
                      false,
                      (FieldAccessMethod) &GeometryBase::getMFIndexMapping),
-    new FieldDescription(SFMaterialPtr::getClassType(), 
-                     "material", 
-                     MaterialFieldId, MaterialFieldMask,
-                     false,
-                     (FieldAccessMethod) &GeometryBase::getSFMaterial),
     new FieldDescription(SFBool::getClassType(), 
                      "dlistCache", 
                      DlistCacheFieldId, DlistCacheFieldMask,
@@ -243,7 +235,7 @@ FieldDescription *GeometryBase::_desc[] =
 
 FieldContainerType GeometryBase::_type(
     "Geometry",
-    "Drawable",
+    "MaterialDrawable",
     NULL,
     (PrototypeCreateF) &GeometryBase::createEmpty,
     Geometry::initMethod,
@@ -305,7 +297,6 @@ GeometryBase::GeometryBase(void) :
     _sfTexCoords3             (), 
     _sfIndices                (), 
     _mfIndexMapping           (), 
-    _sfMaterial               (), 
     _sfDlistCache             (bool(true)), 
     _sfGLId                   (Int32(0)), 
     Inherited() 
@@ -329,7 +320,6 @@ GeometryBase::GeometryBase(const GeometryBase &source) :
     _sfTexCoords3             (source._sfTexCoords3             ), 
     _sfIndices                (source._sfIndices                ), 
     _mfIndexMapping           (source._mfIndexMapping           ), 
-    _sfMaterial               (source._sfMaterial               ), 
     _sfDlistCache             (source._sfDlistCache             ), 
     _sfGLId                   (source._sfGLId                   ), 
     Inherited                 (source)
@@ -406,11 +396,6 @@ UInt32 GeometryBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (IndexMappingFieldMask & whichField))
     {
         returnValue += _mfIndexMapping.getBinSize();
-    }
-
-    if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
-        returnValue += _sfMaterial.getBinSize();
     }
 
     if(FieldBits::NoField != (DlistCacheFieldMask & whichField))
@@ -492,11 +477,6 @@ void GeometryBase::copyToBin(      BinaryDataHandler &pMem,
         _mfIndexMapping.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
-        _sfMaterial.copyToBin(pMem);
-    }
-
     if(FieldBits::NoField != (DlistCacheFieldMask & whichField))
     {
         _sfDlistCache.copyToBin(pMem);
@@ -575,11 +555,6 @@ void GeometryBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfIndexMapping.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
-        _sfMaterial.copyFromBin(pMem);
-    }
-
     if(FieldBits::NoField != (DlistCacheFieldMask & whichField))
     {
         _sfDlistCache.copyFromBin(pMem);
@@ -635,9 +610,6 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
     if(FieldBits::NoField != (IndexMappingFieldMask & whichField))
         _mfIndexMapping.syncWith(pOther->_mfIndexMapping);
 
-    if(FieldBits::NoField != (MaterialFieldMask & whichField))
-        _sfMaterial.syncWith(pOther->_sfMaterial);
-
     if(FieldBits::NoField != (DlistCacheFieldMask & whichField))
         _sfDlistCache.syncWith(pOther->_sfDlistCache);
 
@@ -649,12 +621,17 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
 
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
+
 OSG_BEGIN_NAMESPACE
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldDataTraits<GeometryPtr>::_type("GeometryPtr", "DrawablePtr");
+DataType FieldDataTraits<GeometryPtr>::_type("GeometryPtr", "MaterialDrawablePtr");
 #endif
 
+OSG_DLLEXPORT_SFIELD_DEF1(GeometryPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(GeometryPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE
 

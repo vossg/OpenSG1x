@@ -157,10 +157,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     /*! \{                                                                 */
 
     // should these be public?	
-    Action::ResultE doDraw               (Action * action );
-    Action::ResultE draw                 (DrawActionBase *action);
-    Action::ResultE render               (Action *action);
-    Action::ResultE intersect            (Action * action );
+    virtual Action::ResultE drawPrimitives (DrawActionBase * action );
+            Action::ResultE intersect      (Action * action );
 
     void            invalidateDlistCache (void);
 

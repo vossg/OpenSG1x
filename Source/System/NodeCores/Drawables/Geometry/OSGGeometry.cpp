@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *             Copyright(C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -78,10 +78,6 @@ description.
 */
 
 /***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
     
@@ -104,19 +100,11 @@ const UInt16 Geometry::MapEmpty          = Geometry::MapTexCoords3 << 1;
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 /*! A little helper function to map the OpenGL primitive type to a name.
 */
-const char *Geometry::mapType( UInt8 type )
+const char *Geometry::mapType(UInt8 type)
 {
-    switch ( type )
+    switch(type)
     {
     case GL_POINTS:         return "Points";
     case GL_LINES:          return "Lines";
@@ -137,25 +125,19 @@ const char *Geometry::mapType( UInt8 type )
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-void Geometry::initMethod (void)
+void Geometry::initMethod(void)
 {
-    DrawAction::registerEnterDefault( getClassType(), 
-        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
-                                          GeometryPtr , 
-                                          CNodePtr    ,
-                                          Action     *>(&Geometry::doDraw));
+    DrawAction::registerEnterDefault(getClassType(), 
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr, 
+              CNodePtr, Action *>(&MaterialDrawable::drawActionHandler));
 
-    IntersectAction::registerEnterDefault( getClassType(), 
-        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
-                                          GeometryPtr ,  
-                                          CNodePtr    , 
-                                          Action     *>(&Geometry::intersect));
+    IntersectAction::registerEnterDefault(getClassType(), 
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, GeometryPtr,  
+              CNodePtr, Action *>(&Geometry::intersect));
 
-    RenderAction::registerEnterDefault( getClassType(), 
-        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
-                                          GeometryPtr  ,  
-                                          CNodePtr     , 
-                                          Action      *>(&Geometry::render));
+    RenderAction::registerEnterDefault(getClassType(), 
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr,  
+              CNodePtr, Action *>(&MaterialDrawable::renderActionHandler));
 }
 
 
@@ -316,40 +298,40 @@ Geometry::~Geometry(void)
         Window::destroyGLObject(getGLId(), 1);
 }
 
-void Geometry::onCreate( const Geometry * )
+void Geometry::onCreate(const Geometry *)
 {
     // if we're in startup this is the prototype, which shouldn't have an id
     if(GlobalSystemState == Startup)
         return;
 
-    // !!! this temporary is needed to work around compiler problems (sgi)
+    // !!! this temporary is needed to work around compiler problems(sgi)
     // CHECK CHECK
     //  TextureChunkPtr tmpPtr = FieldContainer::getPtr<TextureChunkPtr>(*this);
     GeometryPtr tmpPtr(*this);
 
-    beginEditCP( tmpPtr, Geometry::GLIdFieldMask );
+    beginEditCP(tmpPtr, Geometry::GLIdFieldMask);
 
     setGLId(
-        Window::registerGLObject( 
+          Window::registerGLObject(
             osgTypedMethodVoidFunctor2ObjCPtrPtr<GeometryPtr, 
                                                  Window , 
                                                  UInt32>(tmpPtr, 
                                                          &Geometry::handleGL),
             1));
 
-    endEditCP( tmpPtr, Geometry::GLIdFieldMask );
+    endEditCP(tmpPtr, Geometry::GLIdFieldMask);
 }
 
 /*------------------------------ access -----------------------------------*/
 
-void Geometry::adjustVolume( Volume & volume )
+void Geometry::adjustVolume(Volume & volume)
 {
     GeoPositionsPtr pos = getPositions();
     
     volume.setValid();
     volume.setEmpty();
 
-    if ( pos == NullFC )
+    if(pos == NullFC)
         return;                  // Node has no points, no volume
 
     PrimitiveIterator it;
@@ -373,26 +355,26 @@ GeometryPtr Geometry::getPtr(void) const
 
 /*! OpenGL object handler. Used for DisplayList caching.
 */
-void Geometry::handleGL( Window* win, UInt32 idstatus )
+void Geometry::handleGL(Window* win, UInt32 idstatus)
 {
     Window::GLObjectStatusE mode;
     UInt32 id;
    
     Window::unpackIdStatus(idstatus, id, mode);
     
-    if ( mode == Window::initialize || mode == Window::needrefresh ||
-         mode == Window::reinitialize )
+    if(mode == Window::initialize || mode == Window::needrefresh ||
+       mode == Window::reinitialize)
     {       
-        glNewList( id, GL_COMPILE );
+        glNewList(id, GL_COMPILE);
         
-        GeoPumpFactory::Index ind = GeoPumpFactory::the()->getIndex( this );
+        GeoPumpFactory::Index ind = GeoPumpFactory::the()->getIndex(this);
         GeoPumpFactory::GeoPump p = 
-            GeoPumpFactory::the()->getGeoPump( win, ind );
+            GeoPumpFactory::the()->getGeoPump(win, ind);
 
         // call the pump
 
-        if ( p )
-            p( win, this );
+        if(p)
+            p(win, this);
         else
         {
             SWARNING << "Geometry::handleGL: no Pump found for geometry " 
@@ -402,18 +384,18 @@ void Geometry::handleGL( Window* win, UInt32 idstatus )
         
         glEndList();
     }
-    else if ( mode == Window::destroy )
+    else if(mode == Window::destroy)
     {
-        glDeleteLists( id, 1 );
+        glDeleteLists(id, 1);
     }
-    else if ( mode == Window::finaldestroy )
+    else if(mode == Window::finaldestroy)
     {
         //SWARNING << "Last geometry user destroyed" << std::endl;
     }
     else
     {
         SWARNING << "Geometry(" << this << "::handleGL: Illegal mode: " 
-             << mode << " for id " << id << std::endl;
+                 << mode << " for id " << id << std::endl;
     }
     
 }
@@ -532,34 +514,37 @@ GeoPropertyArrayInterface *Geometry::getProperty(Int32 mapID)
 {
     GeoPropertyArrayInterface *pP = 0;
     
-    switch (mapID) 
+    switch(mapID) 
     {
         case 0:
             pP = 0;
             break;
         case MapPosition:
-            pP = (getPositions() == NullFC) ? 0 : &(*getPositions());
+            pP =(getPositions()       == NullFC) ? 0 : &(*getPositions());
             break;
         case MapNormal:
-            pP = (getNormals() == NullFC) ? 0 : &(*getNormals());
+            pP =(getNormals()         == NullFC) ? 0 : &(*getNormals());
             break;
         case MapColor:
-            pP = (getColors() == NullFC) ? 0 : &(*getColors());
+            pP =(getColors()          == NullFC) ? 0 : &(*getColors());
+            break;
+        case MapSecondaryColor:
+            pP =(getSecondaryColors() == NullFC) ? 0 : &(*getSecondaryColors());
             break;
         case MapTexCoords:
-            pP = (getTexCoords() == NullFC) ? 0 : &(*getTexCoords());
+            pP =(getTexCoords()       == NullFC) ? 0 : &(*getTexCoords());
             break;
         case MapTexCoords1:
-            pP = (getTexCoords1() == NullFC) ? 0 : &(*getTexCoords1());
+            pP =(getTexCoords1()      == NullFC) ? 0 : &(*getTexCoords1());
             break;
         case MapTexCoords2:
-            pP = (getTexCoords2() == NullFC) ? 0 : &(*getTexCoords2());
+            pP =(getTexCoords2()      == NullFC) ? 0 : &(*getTexCoords2());
             break;
         case MapTexCoords3:
-            pP = (getTexCoords3() == NullFC) ? 0 : &(*getTexCoords3());
+            pP =(getTexCoords3()      == NullFC) ? 0 : &(*getTexCoords3());
             break;
         default:
-            FFATAL(("Invalid mapID (%d) in Geometry::getProperty()\n", 
+            FFATAL(("Invalid mapID(%d) in Geometry::getProperty()\n", 
                     mapID));
           break;
     }
@@ -580,10 +565,10 @@ Int16  Geometry::calcMappingIndex(UInt16 attrib) const
     UInt16 nmappings = getIndexMapping().size();
     Int16 i;
 
-    for ( i = nmappings - 1; i >= 0; i-- )
+    for(i = nmappings - 1; i >= 0; i--)
     {
-        if ( getIndexMapping()[i] & attrib  ) 
-          break;
+        if(getIndexMapping()[i] & attrib ) 
+            break;
     }   
     
     return i;
@@ -595,34 +580,43 @@ Int16  Geometry::calcMappingIndex(UInt16 attrib) const
     They need to have the same material and the same mappings or the same set of
     attributes.
 */
-bool Geometry::isMergeable( const GeometryPtr other )
+bool Geometry::isMergeable(const GeometryPtr other)
 {
-    if ( getMaterial()            != other->getMaterial()            ||
-         getIndexMapping().size() != other->getIndexMapping().size()  )
+    if(getMaterial()            != other->getMaterial()            ||
+       getIndexMapping().size() != other->getIndexMapping().size() )
         return false;
     
     UInt16 i;
     
     // this could be better if resorting was checked too. later.
-    for ( i=0; i < getIndexMapping().size(); i++ )
-        if ( getIndexMapping()[i] != other->getIndexMapping()[i] )
+    for(i=0; i < getIndexMapping().size(); i++)
+        if(getIndexMapping()[i] != other->getIndexMapping()[i])
             return false;
     
     // if no index mapping, compare the existing properties
-    if ( ! getIndexMapping().size() )
+    if(! getIndexMapping().size())
     {
-        if ( ( (        getNormals()            != NullFC ) ^
-               ( other->getNormals()            != NullFC ) 
-             ) ||
-             ( (        getColors()             != NullFC ) ^
-               ( other->getColors()             != NullFC ) 
-             ) ||
-             ( (        getSecondaryColors()    != NullFC ) ^
-               ( other->getSecondaryColors()    != NullFC ) 
-             ) ||
-             ( (        getTexCoords()          != NullFC ) ^
-               ( other->getTexCoords()          != NullFC ) 
-           ) )
+        if(((        getNormals()            != NullFC) ^
+            ( other->getNormals()            != NullFC) 
+           ) ||
+           ((        getColors()             != NullFC) ^
+            ( other->getColors()             != NullFC) 
+           ) ||
+           ((        getSecondaryColors()    != NullFC) ^
+            ( other->getSecondaryColors()    != NullFC) 
+           ) ||
+           ((        getTexCoords()          != NullFC) ^
+            ( other->getTexCoords()          != NullFC) 
+           ) ||
+           ((        getTexCoords1()         != NullFC) ^
+            ( other->getTexCoords1()         != NullFC) 
+           ) ||
+           ((        getTexCoords2()         != NullFC) ^
+            ( other->getTexCoords2()         != NullFC) 
+           ) ||
+           ((        getTexCoords3()         != NullFC) ^
+            ( other->getTexCoords3()         != NullFC) 
+          ))
             return false;    
     }
     
@@ -634,9 +628,9 @@ bool Geometry::isMergeable( const GeometryPtr other )
     NOTE: Not completely implemented yet, use at your own risk. 
 */
 
-bool Geometry::merge( const GeometryPtr other )
+bool Geometry::merge(const GeometryPtr other)
 {
-    if ( ! isMergeable( other ) )
+    if(! isMergeable(other))
         return false;
     
     // append the data
@@ -649,57 +643,57 @@ bool Geometry::merge( const GeometryPtr other )
     // this is generic, but not very efficient. 
     // specialize if you need more speed
 
-#define copyAttrib( NAME, APTR, GETFUNC )               \
+#define copyAttrib(NAME, APTR, GETFUNC)                 \
 {                                                       \
     APTR NAME    =        GETFUNC();                    \
     APTR o##NAME = other->GETFUNC();                    \
                                                         \
-    beginEditCP( NAME );                                \
+    beginEditCP(NAME);                                  \
     NAME##Base = NAME->getSize();                       \
-    NAME->resize( NAME##Base + o##NAME->getSize() );    \
+    NAME->resize(NAME##Base + o##NAME->getSize());      \
                                                         \
-    for ( i = 0; i < o##NAME->getSize(); i++ )          \
-        NAME->setValue( o##NAME->getValue( i ), NAME##Base + i );       \
+    for(i = 0; i < o##NAME->getSize(); i++)             \
+        NAME->setValue(o##NAME->getValue(i), NAME##Base + i);       \
                                                         \
-    endEditCP( NAME );                                  \
+    endEditCP(NAME);                                    \
 }
 
-    copyAttrib( pos, GeoPositionsPtr, getPositions );
-    copyAttrib( type, GeoPTypesPtr, getTypes );
-    copyAttrib( length, GeoPLengthsPtr, getLengths );
+    copyAttrib(pos, GeoPositionsPtr, getPositions);
+    copyAttrib(type, GeoPTypesPtr, getTypes);
+    copyAttrib(length, GeoPLengthsPtr, getLengths);
     
     // this is not perfect, I should test the index mapping if the property
     // is used at all and not blindly copy it. later.
-    if ( getNormals() != NullFC )
-        copyAttrib( normal, GeoNormalsPtr, getNormals );
+    if(getNormals() != NullFC)
+        copyAttrib(normal, GeoNormalsPtr, getNormals);
     
-    if ( getColors() != NullFC )
-        copyAttrib( color, GeoColorsPtr, getColors );
+    if(getColors() != NullFC)
+        copyAttrib(color, GeoColorsPtr, getColors);
     
-    if ( getTexCoords() != NullFC )
-        copyAttrib( texcoord, GeoTexCoordsPtr, getTexCoords );
+    if(getTexCoords() != NullFC)
+        copyAttrib(texcoord, GeoTexCoordsPtr, getTexCoords);
 
 #undef copyAttrib
     
     // now the fun part: indices
     
     // do we have indices? if not, we're done
-    if ( getIndices() != NullFC )
+    if(getIndices() != NullFC)
     {
         // indices
         GeoIndicesPtr ind  =        getIndices();
         GeoIndicesPtr oind = other->getIndices();
 
         indBase = ind->getSize();
-        ind->resize( indBase + oind->getSize() ); 
+        ind->resize(indBase + oind->getSize()); 
 
-        beginEditCP( ind );
+        beginEditCP(ind);
         
         // single index?
-        if ( getIndexMapping().size() < 2 )
+        if(getIndexMapping().size() < 2)
         {
-            for ( i = 0; i < oind->getSize(); i++ )
-                ind->setValue( oind->getValue(i) + posBase, indBase + i );          
+            for(i = 0; i < oind->getSize(); i++)
+                ind->setValue(oind->getValue(i) + posBase, indBase + i);          
         }
         else  // multi-index
         {
@@ -712,30 +706,30 @@ bool Geometry::merge( const GeometryPtr other )
             // that's together, but logically they have to be, as they all 
             // use the same index
             
-            if ( ( mind = calcMappingIndex( MapPosition ) ) >= 0 )
+            if((mind = calcMappingIndex(MapPosition)) >= 0)
                 offsets[ mind ] = posBase;
             
-            if ( ( mind = calcMappingIndex( MapNormal ) ) >= 0 )
+            if((mind = calcMappingIndex(MapNormal)) >= 0)
                 offsets[ mind ] = normalBase;
             
-            if ( ( mind = calcMappingIndex( MapColor ) ) >= 0 )
+            if((mind = calcMappingIndex(MapColor)) >= 0)
                 offsets[ mind ] = colorBase;
             
-            if ( ( mind = calcMappingIndex( MapTexCoords ) ) >= 0 )
+            if((mind = calcMappingIndex(MapTexCoords)) >= 0)
                 offsets[ mind ] = texcoordBase;
                 
             // bump every index by its offset
-            for ( i = 0, j = 0; i < oind->getSize(); 
-                  i++, j = ( j + 1 ) % nmap )
+            for(i = 0, j = 0; i < oind->getSize(); 
+                  i++, j =(j + 1) % nmap)
             {
                 ind->setValue(oind->getValue(i) + offsets[j], 
-                              indBase + i );
+                              indBase + i);
             }
 
             delete [] offsets;
         }
         
-        endEditCP( ind );
+        endEditCP(ind);
     }
     
     return true;
@@ -744,43 +738,24 @@ bool Geometry::merge( const GeometryPtr other )
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
-   
-Action::ResultE Geometry::doDraw(Action * action )
-{
-    DrawAction *a = dynamic_cast<DrawAction*>(action);
-
-    if(a->getMaterial() != NULL)
-    {
-        a->getMaterial()->draw(this, a);
-    }
-    else if ( getMaterial() != NullFC )
-    {
-        getMaterial()->draw( this, a );
-    }
-    else
-    {
-        draw( a );
-    }
-    return Action::Continue;
-}
     
-Action::ResultE Geometry::draw(DrawActionBase * action)
+Action::ResultE Geometry::drawPrimitives(DrawActionBase * action)
 {
-    if ( getDlistCache() == true )
+    if(getDlistCache() == true)
     {
-        action->getWindow()->validateGLObject( getGLId() );
-        glCallList( getGLId() );
+        action->getWindow()->validateGLObject(getGLId());
+        glCallList(getGLId());
     }
     else
     {
-        GeoPumpFactory::Index ind = GeoPumpFactory::the()->getIndex( this );
+        GeoPumpFactory::Index ind = GeoPumpFactory::the()->getIndex(this);
         GeoPumpFactory::GeoPump p = 
-            GeoPumpFactory::the()->getGeoPump( action->getWindow(), ind );
+            GeoPumpFactory::the()->getGeoPump(action->getWindow(), ind);
 
         // call the pump
 
-        if ( p )
-            p( action->getWindow(), this );
+        if(p)
+            p(action->getWindow(), this);
         else
         {
             SWARNING << "draw: no Pump found for geometry "
@@ -818,7 +793,7 @@ Action::ResultE Geometry::draw(DrawActionBase * action)
             else
             {
                 is = getIndexMapping().size();
-                is = getIndices()->getSize() / ( is ? is : 1 );
+                is = getIndices()->getSize() /(is ? is : 1);
             }
             coll->getElem(Drawable::statNVertices)->add(is);
         }
@@ -827,12 +802,12 @@ Action::ResultE Geometry::draw(DrawActionBase * action)
     return Action::Continue;
 }
 
-Action::ResultE Geometry::intersect(Action * action )
+Action::ResultE Geometry::intersect(Action * action)
 { 
     IntersectAction     * ia = dynamic_cast<IntersectAction*>(action);
     const DynamicVolume  &dv = ia->getActNode()->getVolume();
     
-    if( dv.isValid() && !dv.intersect(ia->getLine()) )
+    if(dv.isValid() && !dv.intersect(ia->getLine()))
     {
         return Action::Skip; //bv missed -> can not hit children
     }
@@ -841,13 +816,13 @@ Action::ResultE Geometry::intersect(Action * action )
     Real32 t;
     Vec3f norm;
     
-    for( it = this->beginTriangles(); it != this->endTriangles(); ++it )
+    for(it = this->beginTriangles(); it != this->endTriangles(); ++it)
     {
-        if( ia->getLine().intersect( it.getPosition(0),
+        if(ia->getLine().intersect(it.getPosition(0),
                                      it.getPosition(1),
-                                     it.getPosition(2), t, &norm) )
+                                     it.getPosition(2), t, &norm))
         {
-            ia->setHit( t, ia->getActNode(), it.getIndex(), norm );
+            ia->setHit(t, ia->getActNode(), it.getIndex(), norm);
         }
     }
     
@@ -855,23 +830,11 @@ Action::ResultE Geometry::intersect(Action * action )
 }
         
 
-
-Action::ResultE Geometry::render(Action *action)
-{
-    // fprintf(stderr, "Geometry::render\n");
-
-    RenderAction *pAction = dynamic_cast<RenderAction *>(action);
-
-    pAction->dropGeometry(this);
-
-    return Action::Continue;
-}
-
 /*! React to field changes, take care of incrementing/decrementing the
     reference count of the changed properties.
 */
 void Geometry::changed(BitVector whichField, 
-                       UInt32    origin    )
+                       UInt32    origin   )
 {
     if(whichField & TypesFieldMask)
     {
@@ -882,7 +845,7 @@ void Geometry::changed(BitVector whichField,
                 GeometryPtr thisP = getPtr();
                 
                 if(_sfTypes.getValue()                    != NullFC &&
-                   _sfTypes.getValue()->findParent(thisP) ==     -1  )
+                   _sfTypes.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoPTypesPtr pType = _sfTypes.getValue();
                     
@@ -915,7 +878,7 @@ void Geometry::changed(BitVector whichField,
                 GeometryPtr thisP = getPtr();
                 
                 if(_sfLengths.getValue()                    != NullFC &&
-                   _sfLengths.getValue()->findParent(thisP) ==     -1  )
+                   _sfLengths.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoPLengthsPtr pLength = _sfLengths.getValue();
                     
@@ -953,7 +916,7 @@ void Geometry::changed(BitVector whichField,
                 GeometryPtr thisP = getPtr();
                 
                 if(_sfPositions.getValue()                    != NullFC &&
-                   _sfPositions.getValue()->findParent(thisP) ==     -1  )
+                   _sfPositions.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoPositionsPtr pPos = _sfPositions.getValue();
                     
@@ -989,7 +952,7 @@ void Geometry::changed(BitVector whichField,
                 GeometryPtr thisP = getPtr();
                 
                 if(_sfNormals.getValue()                    != NullFC &&
-                   _sfNormals.getValue()->findParent(thisP) ==     -1  )
+                   _sfNormals.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoNormalsPtr pNorm = _sfNormals.getValue();
                     
@@ -1022,7 +985,7 @@ void Geometry::changed(BitVector whichField,
                 GeometryPtr thisP = getPtr();
                 
                 if(_sfColors.getValue()                    != NullFC &&
-                   _sfColors.getValue()->findParent(thisP) ==     -1  )
+                   _sfColors.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoColorsPtr pColor = _sfColors.getValue();
                     
@@ -1046,6 +1009,39 @@ void Geometry::changed(BitVector whichField,
         }
     }
 
+    if(whichField & SecondaryColorsFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                GeometryPtr thisP = getPtr();
+                
+                if(_sfSecondaryColors.getValue()                   != NullFC &&
+                   _sfSecondaryColors.getValue()->findParent(thisP)==     -1 )
+                {
+                    GeoColorsPtr pColor = _sfSecondaryColors.getValue();
+                    
+                    _sfSecondaryColors.setValue(NullFC);
+                    
+                    setSecondaryColors(pColor);
+                }
+            }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfSecondaryColors.getValue());
+            }
+            else
+            {
+                GeoColorsPtr pColor = _sfSecondaryColors.getValue();
+                
+                _sfSecondaryColors.setValue(NullFC);
+                
+                setSecondaryColors(pColor);
+            }
+        }
+    }
+
     if(whichField & TexCoordsFieldMask)
     {
         if(origin & ChangedOrigin::Abstract)
@@ -1055,7 +1051,7 @@ void Geometry::changed(BitVector whichField,
                 GeometryPtr thisP = getPtr();
                 
                 if(_sfTexCoords.getValue()                    != NullFC &&
-                   _sfTexCoords.getValue()->findParent(thisP) ==     -1  )
+                   _sfTexCoords.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoTexCoordsPtr pTexCoord = _sfTexCoords.getValue();
                     
@@ -1088,7 +1084,7 @@ void Geometry::changed(BitVector whichField,
                 GeometryPtr thisP = getPtr();
                 
                 if(_sfTexCoords1.getValue()                    != NullFC &&
-                   _sfTexCoords1.getValue()->findParent(thisP) ==     -1  )
+                   _sfTexCoords1.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoTexCoordsPtr pTexCoord = _sfTexCoords1.getValue();
                     
@@ -1121,7 +1117,7 @@ void Geometry::changed(BitVector whichField,
                 GeometryPtr thisP = getPtr();
                 
                 if(_sfTexCoords2.getValue()                    != NullFC &&
-                   _sfTexCoords2.getValue()->findParent(thisP) ==     -1  )
+                   _sfTexCoords2.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoTexCoordsPtr pTexCoord = _sfTexCoords2.getValue();
                     
@@ -1154,7 +1150,7 @@ void Geometry::changed(BitVector whichField,
                 GeometryPtr thisP = getPtr();
                 
                 if(_sfTexCoords3.getValue()                    != NullFC &&
-                   _sfTexCoords3.getValue()->findParent(thisP) ==     -1  )
+                   _sfTexCoords3.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoTexCoordsPtr pTexCoord = _sfTexCoords3.getValue();
                     
@@ -1187,7 +1183,7 @@ void Geometry::changed(BitVector whichField,
                 GeometryPtr thisP = getPtr();
                 
                 if(_sfIndices.getValue()                    != NullFC &&
-                   _sfIndices.getValue()->findParent(thisP) ==     -1  )
+                   _sfIndices.getValue()->findParent(thisP) ==     -1 )
                 {
                     GeoIndicesPtr pIndex = _sfIndices.getValue();
                     
@@ -1237,17 +1233,18 @@ void Geometry::changed(BitVector whichField,
         {
             GeometryPtr tmpPtr(*this);
 
-            beginEditCP( tmpPtr, Geometry::GLIdFieldMask );
+            beginEditCP(tmpPtr, Geometry::GLIdFieldMask);
 
             setGLId(
                 Window::registerGLObject( 
-                    osgTypedMethodVoidFunctor2ObjCPtrPtr<GeometryPtr, 
-                                                         Window , 
-                                                         UInt32>(tmpPtr, 
-                                                                 &Geometry::handleGL),
+                    osgTypedMethodVoidFunctor2ObjCPtrPtr<
+                                GeometryPtr, 
+                                Window , 
+                                UInt32>(tmpPtr, 
+                                        &Geometry::handleGL),
                     1));
 
-            endEditCP( tmpPtr, Geometry::GLIdFieldMask );
+            endEditCP(tmpPtr, Geometry::GLIdFieldMask);
         }
         
         Window::refreshGLObject(getGLId());
@@ -1291,9 +1288,9 @@ TriangleIterator Geometry::endTriangles(void) const
 
 /*! Return a PrimitiveIterator poiting to the beginning of the Geometry.
 */
-PrimitiveIterator Geometry::beginPrimitives( void ) const
+PrimitiveIterator Geometry::beginPrimitives(void) const
 {
-    PrimitiveIterator it( this->getPtr() );
+    PrimitiveIterator it(this->getPtr());
 
     it.setToBegin();
     
@@ -1302,9 +1299,9 @@ PrimitiveIterator Geometry::beginPrimitives( void ) const
 
 /*! Return a PrimitiveIterator poiting to the end of the Geometry.
 */
-PrimitiveIterator Geometry::endPrimitives  ( void ) const
+PrimitiveIterator Geometry::endPrimitives(void) const
 {
-    PrimitiveIterator it( this->getPtr() );
+    PrimitiveIterator it(this->getPtr());
 
     it.setToEnd();
     
@@ -1315,9 +1312,9 @@ PrimitiveIterator Geometry::endPrimitives  ( void ) const
 
 /*! Return a FaceIterator poiting to the beginning of the Geometry.
 */
-FaceIterator Geometry::beginFaces( void ) const
+FaceIterator Geometry::beginFaces(void) const
 {
-    FaceIterator it( this->getPtr() );
+    FaceIterator it(this->getPtr());
 
     it.setToBegin();
     
@@ -1326,9 +1323,9 @@ FaceIterator Geometry::beginFaces( void ) const
 
 /*! Return a FaceIterator poiting to the end of the Geometry.
 */
-FaceIterator Geometry::endFaces  ( void ) const
+FaceIterator Geometry::endFaces(void) const
 {
-    FaceIterator it( this->getPtr() );
+    FaceIterator it(this->getPtr());
 
     it.setToEnd();
     
@@ -1340,7 +1337,7 @@ FaceIterator Geometry::endFaces  ( void ) const
     properties the given one uses. 
 */
 
-GeometryPtr Geometry::clone( void )
+GeometryPtr Geometry::clone(void)
 {
     GeometryPtr geo = Geometry::create();
 //  FieldContainerFactory * fcf = FieldContainerFactory::the();
@@ -1409,10 +1406,10 @@ GeometryPtr Geometry::clone( void )
             geo->getMFIndexMapping()->setValues(*getMFIndexMapping());
         }
 
-        geo->setMaterial  (getMaterial  ());
+        geo->setMaterial(getMaterial());
         geo->setDlistCache(getDlistCache());
     }
-    endEditCP  (geo);
+    endEditCP(geo);
 
     return geo;
 }
@@ -1426,7 +1423,7 @@ GeometryPtr Geometry::clone( void )
 #endif
 
 #ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
+#pragma warning(disable : 177)
 #endif
 
 namespace

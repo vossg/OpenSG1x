@@ -180,13 +180,6 @@ MFUInt16 *GeometryBase::getMFIndexMapping(void)
     return &_mfIndexMapping;
 }
 
-//! Get the Geometry::_sfMaterial field.
-inline
-SFMaterialPtr *GeometryBase::getSFMaterial(void)
-{
-    return &_sfMaterial;
-}
-
 //! Get the Geometry::_sfDlistCache field.
 inline
 SFBool *GeometryBase::getSFDlistCache(void)
@@ -431,27 +424,6 @@ inline
 void GeometryBase::setIndices(const GeoIndicesPtr &value)
 {
     _sfIndices.setValue(value);
-}
-
-//! Get the value of the Geometry::_sfMaterial field.
-inline
-MaterialPtr &GeometryBase::getMaterial(void)
-{
-    return _sfMaterial.getValue();
-}
-
-//! Get the value of the Geometry::_sfMaterial field.
-inline
-const MaterialPtr &GeometryBase::getMaterial(void) const
-{
-    return _sfMaterial.getValue();
-}
-
-//! Set the value of the Geometry::_sfMaterial field.
-inline
-void GeometryBase::setMaterial(const MaterialPtr &value)
-{
-    _sfMaterial.setValue(value);
 }
 
 //! Get the value of the Geometry::_sfDlistCache field.
