@@ -120,18 +120,18 @@ char OSG::Window::cvsid[] = "@(#)$Id: $";
 /* I've had trouble with interferences with the X Window type, thus I'm using
    the fully qualified name here. */
    
-std::vector<WindowPtr         >  OSG::Window::_allWindows;
+std::vector<WindowPtr              >  OSG::Window::_allWindows;
 
 // GLobject handling
 
-Lock                            *OSG::Window::_GLObjectLock;
-std::vector<Window::GLObject *>  OSG::Window::_glObjects;
-std::vector<UInt32            >  OSG::Window::_glObjectDestroyList;
+Lock                                *OSG::Window::_GLObjectLock;
+std::vector<Window::GLObject      *>  OSG::Window::_glObjects;
+std::list<std::pair<UInt32,UInt32> >  OSG::Window::_glObjectDestroyList;
 
 // GL extension handling
 
-std::vector<IDStringLink      >  OSG::Window::_registeredExtensions;
-std::vector<IDStringLink      >  OSG::Window::_registeredFunctions;
+std::vector<IDStringLink           >  OSG::Window::_registeredExtensions;
+std::vector<IDStringLink           >  OSG::Window::_registeredFunctions;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -561,8 +561,7 @@ void OSG::Window::doInitRegisterGLObject(UInt32 id, UInt32 num)
 
 void OSG::Window::destroyGLObject(UInt32 id, UInt32 num)
 {
-    _glObjectDestroyList.push_back( id );
-    _glObjectDestroyList.push_back( num );
+    _glObjectDestroyList.push_back(DestroyEntry(id,num));
 }
 
 void OSG::Window::dumpExtensions ( void )
@@ -618,11 +617,12 @@ void OSG::Window::frameInit( void )
 
 void OSG::Window::frameExit(void)
 {   
-    while(_glObjectDestroyList.size() > 0)
+    std::list<DestroyEntry>::iterator st,en,del;
+    
+    for(st = _glObjectDestroyList.begin(), en = _glObjectDestroyList.end();
+        st != en; st++)
     {
-        UInt32 i, n;
-        i = _glObjectDestroyList[ _glObjectDestroyList.size()-2 ] ;
-        n = _glObjectDestroyList[ _glObjectDestroyList.size()-1 ] ;
+        UInt32 i = st->first, n = st->second;
 
         GLObject *obj = _glObjects[ i ];
         
@@ -630,13 +630,15 @@ void OSG::Window::frameExit(void)
         {
             FDEBUG(("Window::frameExit: objects %d (%d) already destroyed?!?\n",
                     i, n));
-            _glObjectDestroyList.pop_back(); 
-            _glObjectDestroyList.pop_back();
+            del = st;
+            st  = --st;
+            _glObjectDestroyList.erase(del);
             continue;
         }
            
         UInt32 rc = obj->getRefCounter();
 
+        // has the object been used in this context at all?
         if(getGlObjectLastReinitialize()[i] != 0) 
         {                  
             _glObjects[i]->getFunctor().call( this, packIdStatus(i, destroy));
@@ -658,8 +660,9 @@ void OSG::Window::frameExit(void)
             {
                 _glObjects[i+j] = NULL;
             }   
-            _glObjectDestroyList.pop_back(); 
-            _glObjectDestroyList.pop_back();
+            del = st;
+            st  = --st;
+            _glObjectDestroyList.erase(del);
         }
     }
 }

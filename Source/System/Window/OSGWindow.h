@@ -45,6 +45,9 @@
 
 #include <OSGConfig.h>
 
+#include <list>
+#include <utility>
+
 #include <OSGTypedFunctors.h>
 
 #include <OSGWindowBase.h>
@@ -336,11 +339,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \name   Static GL Object / Extension variables                     */
     /*! \{                                                                 */
 
-    static std::vector<IDStringLink  >  _registeredExtensions;
-    static std::vector<IDStringLink  >  _registeredFunctions;
-    static Lock                        *_GLObjectLock;
-    static std::vector<GLObject     *>  _glObjects;
-    static std::vector<UInt32        >  _glObjectDestroyList;
+    static std::vector<IDStringLink>  _registeredExtensions;
+    static std::vector<IDStringLink>  _registeredFunctions;
+    static Lock                      *_GLObjectLock;
+    static std::vector<GLObject   *>  _glObjects;
+
+    typedef std::pair<UInt32,UInt32>   DestroyEntry;
+    static std::list<DestroyEntry>    _glObjectDestroyList;
 
     /*! \}                                                                 */
 
