@@ -2584,7 +2584,7 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::mergeGeometries(std::vector<NodePtr> &nodes,
 #endif
 
 #define separateProperty(TypeT, Type) \
-    Geo ## TypeT ## Ptr Type = geo->get ## Type ## (); \
+    Geo ## TypeT ## Ptr Type = geo->get ## Type (); \
     if(Type != NullFC && Type->getParents().size() > 1) \
     { \
         for(UInt32 i=0;i<Type->getParents().size();++i) \
@@ -2592,9 +2592,9 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::mergeGeometries(std::vector<NodePtr> &nodes,
             GeometryPtr parent = GeometryPtr::dcast(Type->getParents()[i]); \
             if(parent != NullFC) \
             { \
-                beginEditCP(parent, Geometry:: ## Type ## FieldMask); \
-                    parent->set ## Type ## (Geo ## TypeT ## Ptr::dcast(OSG::deepClone(Type))); \
-                endEditCP(parent, Geometry:: ## Type ## FieldMask); \
+                beginEditCP(parent, Geometry :: Type ## FieldMask); \
+                    parent->set ## Type (Geo ## TypeT ## Ptr::dcast(OSG::deepClone(Type))); \
+                endEditCP(parent, Geometry :: Type ## FieldMask); \
             } \
         } \
     }
