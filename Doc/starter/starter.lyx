@@ -1215,6 +1215,11 @@ The Date class provides a second resolution timestamp, factored into second,
 \layout Section
 
 Line 
+\begin_inset LatexCommand \label{sec:line}
+
+\end_inset 
+
+
 \layout Standard
 
 The Line defines a ray in space.
@@ -1549,6 +1554,39 @@ subRefCP()
 \shape italic 
 (we should fill the destroyed fcs with 0xdeadbeef or something similar.
  Does the recursive tree removal work right now?)
+\layout Section
+
+Manipulation
+\layout Standard
+
+The FieldContainer is the basic unit for multi-thread safety.
+ To synchronize changes between different copies of the data the system
+ needs to know when and what changed.
+ 
+\layout Standard
+
+This has to be done explicitly by the program.
+ Thus before changing a FieldContainer 
+\family typewriter 
+beginEditCP(fcPtr, fieldMask);
+\family default 
+ has to be called.
+ After the changes to the FieldContainer are done this also has to be communicat
+ed via calling 
+\family typewriter 
+endEditCP(fcPtr, fieldMask);
+\family default 
+.
+ 
+\family typewriter 
+fcPtr
+\family default 
+ is the pointer to the FieldContainer being changed, 
+\family typewriter 
+fieldMask
+\family default 
+ a bitmask describing the fields that are changed.
+ Every FieldContainer defines 
 \layout Section
 
 Fields
@@ -2086,8 +2124,9 @@ Using these properties it is already possible to define geometry (see fig.
 \layout Standard
 \align center 
 
-\begin_inset Figure size 525 261
+\begin_inset Figure size 476 236
 file geo_nonindexed.eps
+width 3 80
 flags 9
 
 \end_inset 
@@ -2133,8 +2172,9 @@ Indices are stored in the GeoIndices property, which only exists in the
 \layout Standard
 \align center 
 
-\begin_inset Figure size 525 261
+\begin_inset Figure size 476 236
 file geo_indexed.eps
+width 3 80
 flags 9
 
 \end_inset 
@@ -2179,8 +2219,9 @@ To get around that you need multiple indices per vertex to index the different
 \layout Standard
 \align center 
 
-\begin_inset Figure size 525 246
+\begin_inset Figure size 476 223
 file geo_multiindexed.eps
+width 3 80
 flags 9
 
 \end_inset 
@@ -2645,8 +2686,58 @@ setVolumeDraw()
 IntersectAction
 \layout Standard
 
-The IntersectAction is used for sending rays into the scene and retrieving
- the first hit object.
+The 
+\family typewriter 
+IntersectAction
+\family default 
+ is used for sending rays into the scene and retrieving the first hit object.
+ Right now the intersection is not very optimized, which is okay for selecting
+ an object, but probably too slow for programmatic use.
+\layout Standard
+
+The ray is defined by a 
+\family typewriter 
+Line
+\family default 
+ (see sec.
+ 
+\begin_inset LatexCommand \ref{sec:line}
+
+\end_inset 
+
+) and optionally a maximum distance.
+ It can either be set at construction time or via 
+\family typewriter 
+setLine()
+\family default 
+.
+ To test the ray, apply the action to the root of the possible intersection
+ objects.
+\layout Standard
+
+If the ray did hit an object 
+\family typewriter 
+didHit(
+\family default 
+) will return true.
+ In that case the detailed info about what was hit and where can be accessed
+ via 
+\family typewriter 
+getHitT()
+\family default 
+, 
+\family typewriter 
+getHitPoint()
+\family default 
+, 
+\family typewriter 
+getHitObject()
+\family default 
+ and 
+\family typewriter 
+getHitTriangle()
+\family default 
+.
 \layout Section
 
 Simple Traversal
@@ -2655,15 +2746,44 @@ Simple Traversal
 \end_inset 
 
 
+\layout Standard
+
+Actions are somewhat complicated to derive, and furthermore they manage
+ the callback functors on a 
+\family typewriter 
+NodeCore
+\family default 
+ basis.
+ Sometimes it's easier to just define a function that is called for every
+ node in a graph.
+ That's what 
+\family typewriter 
+traverse()
+\family default 
+ is for.
+\layout Standard
+
+
+\family typewriter 
+traverse()
+\family default 
+ takes a 
+\family typewriter 
+NodePtr
+\family default 
+ to define the graph and a functor to define the function to be called for
+ every node as parameters.
+ The functor just gets the traversed node as a parameter 
 \layout Section
 
-Write our own action handler
+Write your own action handler
 \layout Standard
 
 Don't.
  The Actions are being completely redesigned for 1.1 to become more flexible
  and clean.
- Try to stay with the 
+ Use the available actions and for your own traversal needs try to stay
+ with the 
 \family typewriter 
 traverse()
 \family default 
@@ -2676,10 +2796,13 @@ traverse()
  
 \layout Standard
 
-If you really need to do your own action take a look at the IntersectAction,
- it shows what you need to implement.
+If you really need to do your own action take a look at the 
+\family typewriter 
+IntersectAction
+\family default 
+, it shows what you need to implement.
  Talk to us before you do it, though, maybe the redesign is already usable
- so you base your new stuff on that.
+ so you can base your new stuff on that.
 \layout Chapter
 
 Window
