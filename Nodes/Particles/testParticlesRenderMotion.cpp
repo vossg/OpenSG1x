@@ -32,6 +32,7 @@ UInt32 numParticles;
 Bool doMotion=true;
 Bool doIndices=false;
 Bool runBench=false;
+Bool testSet=false;
 
 
 #ifdef __sgi
@@ -126,6 +127,13 @@ int main(int argc, char **argv)
         glutInitWindowSize(600,600);
     }
 
+    if (argc > 1 && ! strcmp(argv[1],"-test"))
+    {
+        testSet = true;
+        argc--;
+        argv++;
+    }
+
     // GLUT init
     int winid = setupGLUT(&argc, argv);
 
@@ -147,7 +155,7 @@ int main(int argc, char **argv)
     beginEditCP(trans);
     trans->setTranslation(Vec3f(2,0,0));
     trans->setRotation(Quaternion(Vec3f(0,1,0),Pi/2));
-    trans->setScale(Vec3f(2,2,2));
+//    trans->setScale(Vec3f(2,2,2));
     endEditCP(trans);
     
     
@@ -181,17 +189,53 @@ int main(int argc, char **argv)
     beginEditCP(pnts);
     beginEditCP(secpnts);
     beginEditCP(cols);
-    for(UInt32 i=0; i < numParticles; ++i)
+    if(!testSet)
     {
-        Pnt3f pnt(osgrand(),osgrand(),osgrand());
-        indices->addValue(i);  
-        p->addValue(pnt);  
-        sp->addValue(pnt);  
-        velocities[i].setValues(osgrand()/30.f/2, osgrand()/30.f/2, osgrand()/30.f/2);
-        cols->getFieldPtr()->addValue( 
-            Color3f(osgrand()/2.f + .5f,osgrand()/2.f + .5f,osgrand()/2.f + .5f) );
-        size->addValue(
-            Vec3f(osgrand()/20.f+0.05,osgrand()/20.f+0.05,osgrand()/20.f+0.05));
+        for(UInt32 i=0; i < numParticles; ++i)
+        {
+            Pnt3f pnt(osgrand(),osgrand(),osgrand());
+            indices->addValue(i);  
+            p->addValue(pnt);  
+            sp->addValue(pnt);  
+            velocities[i].setValues(osgrand()/30.f/2, osgrand()/30.f/2, osgrand()/30.f/2);
+            cols->getFieldPtr()->addValue( 
+                Color3f(osgrand()/2.f + .5f,osgrand()/2.f + .5f,osgrand()/2.f + .5f) );
+            size->addValue(
+                Vec3f(osgrand()/20.f+0.05,osgrand()/20.f+0.05,osgrand()/20.f+0.05));
+        }
+    }
+    else
+    {
+        Pnt3f   tpos[] = 
+        { Pnt3f(.5,.5,.5), Pnt3f (.5,.5,.7), Pnt3f(.5,.5,.9), Pnt3f(.7,.5,.5), 
+          Pnt3f(.5,.7,.5), Pnt3f (-1000,-1000,-1000) };
+        
+        Pnt3f   tsecpos[] = 
+        { Pnt3f(0,0,0), Pnt3f(0,0,0), Pnt3f(0,0,0), Pnt3f(0,0,0), 
+          Pnt3f(0,0,0) };
+        
+        Vec3f   tvel[] = 
+        { Vec3f(0,0,0), Vec3f(0,0,0), Vec3f(0,0,0), Vec3f(0,0,0), 
+          Vec3f(0,0,0) };
+        
+        Color3f tcol[] = 
+        { Color3f(1,0,0), Color3f(0,1,0), Color3f(0,0,1), Color3f(1,1,0), 
+          Color3f(1,0,1), Color3f(0,1,1), Color3f(1,1,1) };
+        
+        Vec3f   tsize[] = 
+        { Vec3f(.1,0,0), Vec3f(.1,0,0), Vec3f(.1,0,0), Vec3f(.1,0,0), 
+          Vec3f(.1,0,0) };
+
+        for(UInt32 i=0; tpos[i][0] > -1000; ++i)
+        {
+            indices->addValue(i);  
+            p->addValue(tpos[i]);  
+            sp->addValue(tsecpos[i]);  
+            velocities[i].setValue(tvel[i]);
+            cols->getFieldPtr()->addValue(tcol[i]);
+            size->addValue(tsize[i]);
+        }
+       
     }
     endEditCP(pnts);
     endEditCP(secpnts);

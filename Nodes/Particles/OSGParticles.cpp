@@ -63,7 +63,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.9 2002/01/18 22:51:55 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.10 2002/01/20 21:18:04 dirk Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }
@@ -1052,19 +1052,23 @@ struct drawViewDirQuads : public ParticlesDrawer
     virtual void draw(Particles *part, DrawActionBase *action)
     {
         // get ModelView matrix to define the direction vectors
-        Matrix modelview;
-        action->getCamera()->getBeacon()->getToWorld(modelview);
-        modelview.invert();
-        modelview.mult(action->getActNode()->getToWorld());
-        modelview.transpose();
+        Matrix camera,toworld;
+        action->getCamera()->getBeacon()->getToWorld(camera);
+        action->getActNode()->getToWorld(toworld);
+        // normalize them, we don't want to neutralize scales in toworld
+        toworld[0].normalize();
+        toworld[1].normalize();
+        toworld[2].normalize();       
+        toworld.transpose();
+        camera.multLeft(toworld);
 
         // Direction vectors
         Vec4f  d1, d2, d3, d4;
 
-        d1 = -1.0f * modelview[0] + -1.0f * modelview[1];
-        d2 =  1.0f * modelview[0] + -1.0f * modelview[1];
-        d3 =  1.0f * modelview[0] +  1.0f * modelview[1];
-        d4 = -1.0f * modelview[0] +  1.0f * modelview[1];
+        d1 = -1.0f * camera[0] + -1.0f * camera[1];
+        d2 =  1.0f * camera[0] + -1.0f * camera[1];
+        d3 =  1.0f * camera[0] +  1.0f * camera[1];
+        d4 = -1.0f * camera[0] +  1.0f * camera[1];
 
         // some variables for faster access
         GeoPositionsPtr pos = part->getPositions();
@@ -1621,11 +1625,14 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
     MFInt32         *indices = getMFIndices();
  
     // get ModelView matrix to define the direction vectors
-    Matrix modelview;
-    action->getCamera()->getBeacon()->getToWorld(modelview);
-    modelview.invert();
-    //modelview.mult(actnode->getToWorld());
-    //modelview.transpose();
+    Matrix camera,toworld;
+    action->getCamera()->getBeacon()->getToWorld(camera);
+    action->getActNode()->getToWorld(toworld);
+    toworld.invert();
+    camera.multLeft(toworld);
+
+    Pnt3f refpoint;
+    refpoint.setValue(camera[3].getValues());
     
     Pnt3f p,q;
     UInt32 size;
@@ -1660,10 +1667,7 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
         
         pos->getValue(p,i);
         
-        modelview.mult(p);      // !!! optimize me. transform the viewer into
-                                // the local coord system instead. 
-        
-        list[len]._value = p[2];
+        list[len]._value = - refpoint.dist2(p);
         
         len++;
     }
