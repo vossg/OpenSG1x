@@ -60,7 +60,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.2 2002/03/20 06:32:39 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.3 2002/04/03 11:20:05 dirk Exp $";
     static char cvsid_hpp[] = OSGSIMPLESTATISTICSFOREGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSIMPLESTATISTICSFOREGROUND_INLINE_CVSID;
 }
@@ -239,7 +239,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
             if(el)
             {
                 stat.resize(stat.size() + 1);
-                string *str = stat.end() - 1;
+                vector<string>::iterator str = stat.end() - 1;
                 
                 const char *format = NULL;
                 if(i < getFormats().getSize())
