@@ -68,7 +68,7 @@ FieldDescription *NodeCore::_desc[] =
 	new FieldDescription(MFNodePtr::getClassType(), 
                          "parents", 
                          OSG_FC_FIELD_IDM_DESC(ParentsField),
-                         false,
+                         true,
                          (FieldAccessMethod) &NodeCore::getMFParents)
 };
 
