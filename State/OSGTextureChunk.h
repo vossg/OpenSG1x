@@ -190,6 +190,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     // extension indices for used extensions;
     static UInt32 _extTex3D;
 
+    // extension indices for used fucntions;
+    static UInt32 _funcTexImage3D;
+    static UInt32 _funcTexSubImage3D;
+
     static void initMethod( void );
 
     /*---------------------------------------------------------------------*/
