@@ -67,14 +67,16 @@ class OSG_SYSTEMLIB_DLLMAPPING Group : public GroupBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       GroupDraw Functions                    */
+    /*! \name                   Static Action Callbacks                    */
     /*! \{                                                                 */
 
 #ifdef OSG_NOFUNCTORS
     static Action::ResultE GroupDrawEnter(CNodePtr &cnode,
-                                             Action   *pAction);
+                                          Action   *pAction);
     static Action::ResultE GroupDrawLeave(CNodePtr &cnode,
-                                             Action   *pAction);
+                                          Action   *pAction);
+	static Action::ResultE GroupIntEnter(CNodePtr  &cnode,
+										 Action    *pAction);
 #endif
 
     /*! \}                                                                 */
@@ -90,11 +92,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Group : public GroupBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Draw                                   */
+    /*! \name                       Action Callbacks                       */
     /*! \{                                                                 */
 
     Action::ResultE drawEnter(Action * action );
     Action::ResultE drawLeave(Action * action );
+	Action::ResultE intersect(Action * action );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

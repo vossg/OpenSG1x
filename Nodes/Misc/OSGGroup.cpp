@@ -47,6 +47,7 @@
 
 #include <OSGDrawAction.h>
 #include <OSGRenderAction.h>
+#include <OSGIntersectAction.h>
 
 #include "OSGGroup.h"
 
@@ -137,6 +138,24 @@ OSG::Action::ResultE Group::GroupDrawLeave(CNodePtr &cnode,
         return pSC->drawLeave(pAction);
     }
 }
+
+OSG::Action::ResultE Group::GroupIntEnter(CNodePtr &cnode,
+										  Action   *pAction)
+{
+	NodeCore *pNC = cnode.getCPtr();
+	Group    *pSC = dynamic_cast<Group *>(pNC);
+	
+	if(pSC == NULL )
+	{
+		fprintf(stderr, "MDIE: core NULL\n");
+		return Action::Skip;
+	}
+	else
+	{
+		return pSC->intersect(pAction);
+	}
+}
+
 #endif
 
 void Group::initMethod (void)
@@ -162,6 +181,11 @@ void Group::initMethod (void)
                                 CNodePtr,  
                                 GroupPtr, 
                                 Action *>(&Group::drawLeave));
+	IntersectAction::registerEnterDefault( getClassType(),
+		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+								CNodePtr,
+								GroupPtr,
+								Action *>(&Group::intersect));
 #else
     DrawAction::registerEnterDefault(getClassType(), 
                                      Action::osgFunctionFunctor2(
@@ -175,6 +199,9 @@ void Group::initMethod (void)
     RenderAction::registerLeaveDefault(getClassType(), 
                                      Action::osgFunctionFunctor2(
                                         Group::GroupDrawLeave));
+	IntersectAction::registerEnterDefault(getClassType(),
+									Action::osgFunctionFunctor2(
+										Group::GroupIntEnter));
 #endif
 }
 
@@ -253,8 +280,27 @@ Action::ResultE Group::drawLeave(Action * action)
     return Action::Continue;
 }
 
+Action::ResultE Group::intersect(Action * action)
+{
+	IntersectAction 	*ia = dynamic_cast<IntersectAction*>(action);
+	const DynamicVolume &dv = ia->getActNode()->getVolume();
+	
+	if( dv.isValid() && !dv.intersect(ia->getLine()) )
+	{
+		return Action::Skip;  //bv missed -> can not hit children
+	}
+	
+	return Action::Continue;
+}
+
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
+
+
+
+
+
+
 

@@ -600,23 +600,29 @@ Action::ResultE Geometry::draw(DrawActionBase * action)
 
 Action::ResultE Geometry::intersect(Action * action )
 { 
-	IntersectAction * ia = dynamic_cast<IntersectAction*>(action);
-
+	IntersectAction 	* ia = dynamic_cast<IntersectAction*>(action);
+	const DynamicVolume  &dv = ia->getActNode()->getVolume();
+	
+	if( dv.isValid() && !dv.intersect(ia->getLine()) )
+	{
+		return Action::Skip; //bv missed -> can not hit children
+	}
+	
 	TriangleIterator it;
 	Real32 t;
-	
-	for ( it = this->beginTriangles(); it != this->endTriangles(); ++it )
+	for( it = this->beginTriangles(); it != this->endTriangles(); ++it )
 	{
-		if ( ia->getLine().intersect( 	it.getPosition(0), 
-										it.getPosition(1),
-										it.getPosition(2), t ) )
+		if( ia->getLine().intersect( it.getPosition(0),
+									 it.getPosition(1),
+									 it.getPosition(2), t) )
 		{
 			ia->setHit( t, ia->getActNode(), it.getIndex() );
 		}
 	}
 	
-	return Action::Continue; 
+	return Action::Continue;
 }
+		
 
 
 Action::ResultE Geometry::render(Action *action)
