@@ -701,4 +701,8 @@
 #    define OSG_STDEXTENSION_NAMESPACE  std
 #endif
 
+#if !defined(OSG_DOC_LEVEL)
+#    define OSG_DOC_LEVEL 0
+#endif
+
 #endif /* _OSGCONFIG_H_ */
