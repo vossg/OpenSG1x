@@ -479,7 +479,9 @@ class PlatformOptions:
         # add common options
         opts.Add(EnumOption('type', 'Compile dbg, opt or both', 'opt',
                             allowed_values=('dbg', 'opt', 'both')))
-        
+
+        opts.Add(BoolOption('gv_beta', 'enable gv beta', 0))
+
         opts.Update(self.de)
 
     def getOption(self, opt):
@@ -493,6 +495,15 @@ class PlatformOptions:
     
     def buildOpt(self):
         return (self.getOption('type') == 'opt' or self.getOption('type') == 'both')
+
+def moveGVBetaFiles():
+    current_dir = Dir('.').abspath
+    #path = os.path.join(current_dir , 'Source', 'Base', 'Base')
+    #if os.path.exists(path):
+    #    print 'path exists'
+
+def unmoveGVBetaFiles():
+    current_dir = Dir('.').abspath
 
 class ToolChain:
     def __init__(self, name, **kw):
@@ -535,6 +546,11 @@ class ToolChain:
                     print "Couldn't find qt-mt*.lib file!"
             else:
                 self.env['OSG_WINDOW_QT_LIBS'] = ['qt-mt']
+
+        if _po.getOption('gv_beta'):
+            moveGVBetaFiles()
+        else:
+            unmoveGVBetaFiles()
 
         # add include path for OSGConfigured.h file
         self.env.Append(CPPPATH=[Dir(os.path.join('Build', self.name, 'Source', 'Base'))])
