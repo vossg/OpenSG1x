@@ -51,6 +51,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGPathHandler.h>
 #include <OSGGraphOpSeq.h>
+#include <OSGImageFileHandler.h>
 
 #include "OSGSceneFileHandler.h"
 
@@ -301,12 +302,7 @@ NodePtr SceneFileHandler::read(const  Char8  *fileName,
         return NullFC;
     }
 
-    std::string fullFilePath;
-    if(_pathHandler != NULL)
-        fullFilePath = _pathHandler->findFile(fileName);
-    else
-        fullFilePath = fileName;
-
+    std::string fullFilePath = initPathHandler(fileName);
     if(fullFilePath.empty())
     {
         SWARNING << "Couldn't open file " << fileName << std::endl;
@@ -375,11 +371,12 @@ SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
         return nodeVec;
     }
 
-    std::string fullFilePath;
-    if(_pathHandler != NULL)
-        fullFilePath = _pathHandler->findFile(fileName);
-    else
-        fullFilePath = fileName;
+    std::string fullFilePath = initPathHandler(fileName);
+    if(fullFilePath.empty())
+    {
+        SWARNING << "Couldn't open file " << fileName << std::endl;
+        return nodeVec;
+    }
 
     std::ifstream in(fullFilePath.c_str(), std::ios::binary);
 
@@ -513,7 +510,10 @@ Returns the path handler used
 */
 PathHandler *SceneFileHandler::getPathHandler(void)
 {
-    return _pathHandler;
+    if(_pathHandler == NULL)
+        return &_defaultPathHandler;
+    else
+        return _pathHandler;
 }
 
 //-------------------------------------------------------------------------
@@ -525,7 +525,35 @@ void SceneFileHandler::setPathHandler(PathHandler *pathHandler)
     _pathHandler = pathHandler;
 }
 
+/*!
+Method to initialize the path handler.
+*/
+std::string SceneFileHandler::initPathHandler(const Char8 *fileName)
+{
+    std::string fullFilePath;
+    if(_pathHandler != NULL)
+    {
+        // Set also a image path handler if not set.
+        if(ImageFileHandler::the().getPathHandler() == NULL)
+            ImageFileHandler::the().setPathHandler(_pathHandler);
+        
+        fullFilePath = _pathHandler->findFile(fileName);
+    }
+    else
+    {
+        // Set a default image path handler if not set.
+        if(ImageFileHandler::the().getPathHandler() == NULL)
+            ImageFileHandler::the().setPathHandler(&_defaultPathHandler);
+        
+        _defaultPathHandler.clearPathList();
+        _defaultPathHandler.push_frontCurrentDir();
+        _defaultPathHandler.setBaseFile(fileName);
+        fullFilePath = _defaultPathHandler.findFile(fileName);
+    }
 
+    return fullFilePath;
+}
+    
 //----------------------------
 // Function name: print
 //----------------------------
@@ -748,7 +776,8 @@ SceneFileHandler::SceneFileHandler (void) :
     _readProgressFP(NULL),
     _progressData(),
     _readReady(false),
-    _pathHandler(NULL)
+    _pathHandler(NULL),
+    _defaultPathHandler()
 {
     return;
 }

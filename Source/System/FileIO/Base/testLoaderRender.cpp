@@ -114,12 +114,16 @@ int main (int argc, char **argv)
 
     SceneFileHandler::the().print();
 
+    // As default the SceneFileHandler sets a PathHandler for geo and image files,
+    // but it is also possible use your own PathHandler.
+    /*
     // set image and scene path handler to find relative texture and scene paths.
     PathHandler pathHandler;
     pathHandler.push_frontCurrentDir();
     pathHandler.setBaseFile(fileName);
     ImageFileHandler::the().setPathHandler(&pathHandler);
     SceneFileHandler::the().setPathHandler(&pathHandler);
+    */
 
     // set a callback for reading progress.
     SceneFileHandler::the().setReadProgressCB(progress);

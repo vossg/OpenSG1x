@@ -42,6 +42,7 @@
 #pragma  once
 #endif
 
+#include <string>
 #include <list>
 #include <map>
 #include <iostream>
@@ -49,10 +50,10 @@
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGSceneFileType.h>
+#include <OSGPathHandler.h>
 
 OSG_BEGIN_NAMESPACE
 
-class PathHandler;
 class GraphOpSeq;
 
 /*! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
@@ -177,6 +178,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
 
     friend class OSG_SYSTEMLIB_DLLMAPPING SceneFileType;
 
+    std::string SceneFileHandler::initPathHandler(const Char8 *fileName);
+    
     /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const SceneFileHandler &source);
 
@@ -195,6 +198,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     bool            _readReady;
 
     PathHandler     *_pathHandler;
+    PathHandler     _defaultPathHandler;
 };
 
 typedef SceneFileHandler* SceneFileHandlerP;
