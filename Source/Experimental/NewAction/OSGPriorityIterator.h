@@ -109,6 +109,21 @@ protected:
   private:
     typedef StateAwareIterator Inherited;
 
+    class PIBase;
+    friend class PIBase;
+
+    class PILeave;
+    friend class PILeave;
+
+    class PIEnter;
+    friend class PIEnter;
+
+    class PIEnterOrd;
+    friend class PIEnterOrd;
+
+    class PILeaveOrd;
+    friend class PILeaveOrd;
+
     class PIBase
     {
     public:
@@ -124,6 +139,12 @@ protected:
         virtual void    receiveStateWrite(UInt32  uiActorId) = 0;
 
     protected:
+
+        struct PQEntryLessCompare;
+        friend struct PQEntryLessCompare;
+
+        friend class PILeave;
+
         class LeaveEntryBase
         {
         public:
@@ -235,7 +256,13 @@ protected:
 
     protected:
         class LeaveEntry;
-        
+        friend class LeaveEntry;
+
+        class PQEntry;
+        friend class PQEntry;
+
+        friend class PriorityIterator;
+
         typedef std::list<LeaveEntry> LeaveList;
         typedef LeaveList::iterator   LeaveListIt;
 
@@ -283,6 +310,9 @@ protected:
         LeaveList     _leaveList;
     };
 
+    friend class PILeave::LeaveEntry;
+    friend class PILeave::PQEntry;
+
     class PIEnterOrd : public PIEnter
     {
     public:
@@ -298,6 +328,12 @@ protected:
         virtual void    receiveStateWrite(UInt32  uiActorId);
 
     protected:
+
+        class PQEntry;
+        friend class PQEntry;
+
+        friend class PriorityIterator;
+
         typedef std::list<ActorStateChunk> StateList;
         typedef StateList::iterator        StateListIt;
 
@@ -336,6 +372,8 @@ protected:
         StateListIt   _currState;
     };
 
+    friend class PIEnterOrd::PQEntry;
+
     class PILeaveOrd : public PILeave
     {
     public:
@@ -352,6 +390,12 @@ protected:
 
     protected:        
         class LeaveEntry;
+        friend class LeaveEntry;
+
+        class PQEntry;
+        friend class PQEntry;
+
+        friend class PriorityIterator;
 
         typedef std::list<LeaveEntry>      LeaveList;
         typedef LeaveList::iterator        LeaveListIt;
@@ -416,6 +460,9 @@ protected:
 
         StateListIt   _currState;
     };
+
+    friend class PILeaveOrd::LeaveEntry;
+    friend class PILeaveOrd::PQEntry;
 
     PriorityIterator(void);
 

@@ -135,7 +135,7 @@ MultiFunctorStore<TagTypeT>::getDefaultFunctor(void)
 
     if(_bHasDefaultFunctor)
     {
-        pRetFunc = _defaultFunc;
+        pRetFunc = &_defaultFunc;
     }
 
     return pRetFunc;
@@ -143,4 +143,4 @@ MultiFunctorStore<TagTypeT>::getDefaultFunctor(void)
 
 OSG_END_NAMESPACE
 
-#define OSGMULTIFUNCTORSTORE_INLINE_CVSID "@(#)$Id: OSGMultiFunctorStore.inl,v 1.2 2003/10/10 14:27:44 neumannc Exp $"
+#define OSGMULTIFUNCTORSTORE_INLINE_CVSID "@(#)$Id: OSGMultiFunctorStore.inl,v 1.3 2003/10/13 08:07:02 vossg Exp $"
