@@ -102,12 +102,7 @@ GeoPumpFactory::_glextInitFuncWrapper(GeoPumpFactory::glextInitFunction);
 UInt32 GeoPumpFactory::_extSecondaryColor;
 UInt32 GeoPumpFactory::_extMultitexture;
 UInt32 GeoPumpFactory::_extCompiledVertexArray;
-
-#ifdef WIN32
-# if !defined(GL_VERSION_1_2)
 UInt32 GeoPumpFactory::_extDrawRangeElements;
-# endif
-#endif
 
 /*! OpenGL extension function indices.
 */
@@ -115,19 +110,7 @@ UInt32 GeoPumpFactory::_funcglSecondaryColorPointer;
 UInt32 GeoPumpFactory::_funcglClientActiveTextureARB;
 UInt32 GeoPumpFactory::_funcglLockArraysEXT;
 UInt32 GeoPumpFactory::_funcglUnlockArraysEXT;
-
-#ifdef WIN32
-# if !defined(GL_VERSION_1_2)
 UInt32 GeoPumpFactory::_funcglDrawRangeElementsEXT;
-
-typedef void (APIENTRY *GLDrawRangeElementsF)(      GLenum   mode, 
-                                                    GLuint   start,
-                                                    GLuint   end, 
-                                                    GLsizei  count, 
-                                                    GLenum   type, 
-                                              const GLvoid  *indices );
-# endif
-#endif
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -894,13 +877,11 @@ void GeoPump129(Window   *win,
             _glLockArraysEXT(0, IndicesSize);
     }
 
-#ifdef WIN32
-# if !defined(GL_VERSION_1_2)
-    GLDrawRangeElementsF osgGLDrawRangeElementsEXT =
-        (GLDrawRangeElementsF) 
+    void (APIENTRY *osgGLDrawRangeElementsEXT)(GLenum mode, GLuint start,
+           GLuint end, GLsizei count, GLenum type, const GLvoid*indices) =
+    (void (APIENTRY *)(GLenum mode, GLuint start,
+           GLuint end, GLsizei count, GLenum type, const GLvoid*indices))
             win->getFunction(GeoPumpFactory::_funcglDrawRangeElementsEXT);
-# endif
-#endif
     
     for(LengthsInd = 0; LengthsInd < LengthsSize; LengthsInd++)
     {
@@ -912,9 +893,6 @@ void GeoPump129(Window   *win,
         glDrawElements(*(TypesData + TypesInd++ * TypesStride),count,
                         IndicesPtr->getFormat(),vind);
 #else
-#ifdef WIN32
-
-# if !defined(GL_VERSION_1_2)
         if(win->hasExtension(GeoPumpFactory::_extDrawRangeElements))
         {
             osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
@@ -932,18 +910,6 @@ void GeoPump129(Window   *win,
                            IndicesPtr->getFormat(),
                            vind);
         }
-# else
-        glDrawRangeElements(*(TypesData + TypesInd++ * TypesStride),
-                        0, IndicesSize, count,
-                        IndicesPtr->getFormat(), vind);
-# endif
-
-#else
-        glDrawRangeElements(*(TypesData + TypesInd++ * TypesStride),
-                        0, IndicesSize, count,
-                        IndicesPtr->getFormat(), vind);
-#endif
-
 #endif                        
     }
 
@@ -1677,16 +1643,14 @@ void GeoPumpFactory::masterPartialInterfacePump(
 
 bool GeoPumpFactory::glextInitFunction(void)
 {
-    _extSecondaryColor = Window::registerExtension("GL_EXT_secondary_color");
-    _extMultitexture   = Window::registerExtension("GL_ARB_multitexture");
-    _extCompiledVertexArray = Window::registerExtension("GL_EXT_compiled_vertex_array");
-
-#ifdef WIN32
-# if !defined(GL_VERSION_1_2)
-    _extDrawRangeElements = 
+    _extSecondaryColor      = 
+        Window::registerExtension("GL_EXT_secondary_color");
+    _extMultitexture        = 
+        Window::registerExtension("GL_ARB_multitexture");
+    _extCompiledVertexArray = 
+        Window::registerExtension("GL_EXT_compiled_vertex_array");
+    _extDrawRangeElements   = 
         Window::registerExtension("GL_EXT_draw_range_elements");
-# endif
-#endif
 
     UInt16 i,j;
     for(i = 0; i < numFormats; i++)
@@ -1704,21 +1668,16 @@ bool GeoPumpFactory::glextInitFunction(void)
     for(i = 0; i < 16; i++)
         multiTexCoordsInitFuncs[i].init(TexCoords1IDs);
 
-    _funcglSecondaryColorPointer = Window::registerFunction(
+    _funcglSecondaryColorPointer  = Window::registerFunction(
                             OSG_DLSYM_UNDERSCORE"glSecondaryColorPointerEXT");
     _funcglClientActiveTextureARB = Window::registerFunction(
                             OSG_DLSYM_UNDERSCORE"glClientActiveTextureARB");
-    _funcglLockArraysEXT = Window::registerFunction(
+    _funcglLockArraysEXT          = Window::registerFunction(
                                 OSG_DLSYM_UNDERSCORE"glLockArraysEXT");
-    _funcglUnlockArraysEXT = Window::registerFunction(
+    _funcglUnlockArraysEXT        = Window::registerFunction(
                                 OSG_DLSYM_UNDERSCORE"glUnlockArraysEXT");
-
-#ifdef WIN32
-# if !defined(GL_VERSION_1_2)
-    _funcglDrawRangeElementsEXT = Window::registerFunction(
+    _funcglDrawRangeElementsEXT   = Window::registerFunction(
                                 OSG_DLSYM_UNDERSCORE"glDrawRangeElementsEXT");
-# endif
-#endif
 
     return true;
 }

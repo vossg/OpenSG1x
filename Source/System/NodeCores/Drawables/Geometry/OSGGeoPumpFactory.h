@@ -146,22 +146,13 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
     static UInt32           _extSecondaryColor;
     static UInt32           _extMultitexture;
     static UInt32           _extCompiledVertexArray;
-#ifdef WIN32
-# if !defined(GL_VERSION_1_2)
     static UInt32           _extDrawRangeElements;
-# endif
-#endif
 
     static UInt32           _funcglSecondaryColorPointer;
     static UInt32           _funcglClientActiveTextureARB;
     static UInt32           _funcglLockArraysEXT;
     static UInt32           _funcglUnlockArraysEXT;
-
-#ifdef WIN32
-# if !defined(GL_VERSION_1_2)
     static UInt32           _funcglDrawRangeElementsEXT;
-# endif
-#endif
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
