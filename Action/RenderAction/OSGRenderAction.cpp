@@ -386,7 +386,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
     else
     {
         DrawTreeNode *pNewElem = new DrawTreeNode;
-
+ 
         if(it == _mMatMap.end())
         {
             DrawTreeNode *pNewMatElem = new DrawTreeNode;
@@ -506,7 +506,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
     else
     {
         DrawTreeNode *pNewElem = new DrawTreeNode;
-
+        
         if(it == _mMatMap.end())
         {
             DrawTreeNode *pNewMatElem = new DrawTreeNode;
@@ -672,6 +672,8 @@ void RenderAction::draw(DrawTreeNode *pRoot)
     else if(pRoot->hasFunctor())
     {
         pRoot->getFunctor().call(this);
+
+        _uiNumGeometries++;
     }
     
     if(pRoot->getFirstChild() != NULL)
