@@ -168,9 +168,14 @@ void XWindow::swap( void )
 
 OSG_BEGIN_NAMESPACE
 
+// doxygen can't find these
+#ifndef OSG_DO_DOC 
+
 DataType FieldDataTraits<DisplayP>   ::_type("DisplayP", NULL);
 DataType FieldDataTraits<X11Window>  ::_type("X11Window", NULL);
 DataType FieldDataTraits1<GLXContext>::_type("GLXContext", NULL);
+
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(DisplayP,      OSG_WINDOWXLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(DisplayP,      OSG_WINDOWXLIB_DLLTMPLMAPPING);

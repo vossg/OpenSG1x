@@ -73,10 +73,6 @@ not depend on external libs.
         
 */
 
-/*! \class osg::PNMImageFileType 
-    \ingroup GrpSystemImage
-    
-*/
 
 /*****************************
  *   Types

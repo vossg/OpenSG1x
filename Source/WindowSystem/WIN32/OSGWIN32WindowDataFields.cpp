@@ -62,6 +62,9 @@ namespace
 
 OSG_BEGIN_NAMESPACE
 
+// doxygen can't find these
+#ifndef OSG_DO_DOC 
+
 DataType FieldDataTraits<HWND>::_type("HWND",
                                       NULL);
 
@@ -73,6 +76,8 @@ DataType FieldDataTraits<HGLRC>::_type("HGLRC",
 
 DataType FieldDataTraits<PAINTSTRUCT>::_type("PAINTSTRUCT",
                                              NULL);
+
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(HWND,        OSG_WINDOWWIN32LIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(HDC,         OSG_WINDOWWIN32LIB_DLLTMPLMAPPING);

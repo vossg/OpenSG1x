@@ -44,7 +44,7 @@ that it should and thus will change pretty soon. Stay tuned.\endext
 \subsection PageSystemMaterialChunkMaterial ChunkMaterial
 
 The osg::ChunkMaterial is a material that is just a collection of \ref
-osg::StateChunk "osg::StateChunks". This allows adding and using new
+StateChunk "osg::StateChunks". This allows adding and using new
 extensions in the form of state chunks pretty easily. 
 
 It is also the base class for the simple materials given below.
@@ -75,7 +75,7 @@ added in the form of \ref StateChunk "StateChunks".
 \subsection PageSystemMaterialTexturedSimpleMaterial TexturedSimpleMaterial
 
 osg::SimpleTexturedMaterial is derived from osg::SimpleMaterial and adds a
-texture. The texture is defined by an image (see \ref PageImage for details on
+texture. The texture is defined by an image (see \ref PageSystemImage for details on
 how to define or load an image). 
 
 Additionally there are some parameters to define the behavior of a texture.

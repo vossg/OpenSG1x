@@ -99,7 +99,8 @@ OSG_DYNFIELD_FC_DLLEXPORT_DEF(DynFieldAttachment,
 //---------------------------------------------------------------------------
 
 /*! \class osg::VRMLNodeDesc
- */
+    General VRML Node description
+*/
 
 UInt32 VRMLNodeDesc::_uiIndent = 0;
 

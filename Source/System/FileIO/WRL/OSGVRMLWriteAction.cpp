@@ -73,10 +73,10 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \class osg::DrawAction
+/*! \class osg::VRMLWriteAction
     \ingroup GrpSystemAction
 
-The draw action class.
+The action class for writing VRML files.
 
 */
 

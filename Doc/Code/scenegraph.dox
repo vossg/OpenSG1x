@@ -60,7 +60,7 @@ parts and to control either attributes of their subgraph (e.g. \ref
 NCGroupsTransform) or to select only a selection of their children for
 traversal (e.g. \ref NCGroupsSwitch).
 
-Drawables (see \ref PageSystemDrawables) are usually put in the leaves of the
+Drawables (see \ref PageSystemNCDrawables) are usually put in the leaves of the
 tree (i.e. they have no children) and contain the actual elements to be
 rendered. In most cases this will be polygonal geometry (see \ref
 PageSystemGeometry), but other types are possible (e.g. \ref

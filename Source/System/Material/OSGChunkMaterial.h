@@ -49,7 +49,7 @@
 OSG_BEGIN_NAMESPACE
 
 /*! \brief Material using chunk set.  See \ref 
-    PageSystemChunkMaterial for a description.
+    PageSystemMaterialChunkMaterial for a description.
 */
 
 class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterial : public ChunkMaterialBase

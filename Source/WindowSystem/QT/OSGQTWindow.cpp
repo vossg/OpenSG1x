@@ -157,7 +157,12 @@ void QTWindow::init( void )
 
 OSG_BEGIN_NAMESPACE
 
+// doxygen can't find this
+#ifndef OSG_DO_DOC 
+
 DataType FieldDataTraits<OSGQGLWidgetP>::_type("OSGQGLWidgetP", NULL);
+
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(OSGQGLWidgetP, OSG_WINDOWQTLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(OSGQGLWidgetP, OSG_WINDOWQTLIB_DLLTMPLMAPPING);

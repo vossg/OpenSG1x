@@ -108,7 +108,7 @@ cygwin environment (http://sources.redhat.com/cygwin/) to get the needed shell
 tools.
 
 Note that there are some constraints. You should install the Visual Studio and
-Intel compiler in their default locations (...:\Program Files\...), otherwise
+Intel compiler in their default locations (...:\\Program Files\\...), otherwise
 the configure script will not find them. Install the GLUT in UNIX-style
 directories, i.e. .../include/GL/glut.h and .../lib/ *dll+*lib, otherwise it
 won't be found. Note that you need to add the directory where the libs are
@@ -116,9 +116,9 @@ created to your PATH or WINPATH (or to the Windows environment variable PATH),
 or copy all the dlls to the directory where your programs are. Some of these
 will be lifted in the future, but that's the way it is right now.
 
-All options are optional. The most useful ones are --with-jpg[=<dir>],
---with-glut[=<dir>], --with-qt[=<dir>], --with-tif[=<dir>]</tt> and
---with-png[=<dir>] which specify the directories where the specific
+All options are optional. The most useful ones are <tt>--with-jpg[=\<dir>],
+--with-glut[=\<dir>], --with-qt[=\<dir>], --with-tif[=\<dir>]</tt> and
+<tt>--with-png[=\<dir>]</tt> which specify the directories where the specific
 libraries/header can be found. If you need to download these libraries, check
 http://www.opensg.org/prerequisites.EN.html for locations. All examples and
 tutorials use GLUT, so it's highly recommended to configure it. There are some
@@ -174,7 +174,7 @@ The sources for all of these are in the \p Source subdirectory.
 
 Call make install to install the libraries in the place specified to
 configure, or /usr/local per default. You can change the installation
-directory at install time by specifying it as make INSTALL_DIR=<dir> install.
+directory at install time by specifying it as make INSTALL_DIR=\<dir> install.
 make install will copy all include files into a directory OpenSG in
 $INSTALL_DIR/include and the libs into $INSTALL_DIR/lib/dbg or
 $INSTALL_DIR/lib/opt, depending on the optimization used. 

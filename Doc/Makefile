@@ -36,7 +36,7 @@ DOC_LIBS   ?= $(DOCS_BASE) $(DOCS_SYS) 										\
 DOC_LATEX ?= "NO"
 DOC_DOT   ?= "NO"
 # DOC_DOT   ?= "YES"
-DOC_INTRO ?= 
+DOC_INTRO ?= "starter.dox"
 
 # The separate documentation pages
 

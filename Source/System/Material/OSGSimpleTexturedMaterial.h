@@ -52,7 +52,7 @@ OSG_BEGIN_NAMESPACE
 
 /*! \brief Simple textured Material wrapping standard OpenGL lighting and a
     single texture.  See \ref 
-    PageSystemMaterialSimpleTexturedMaterial for a description.
+    PageSystemMaterialTexturedSimpleMaterial for a description.
 */
 
 class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterial : public SimpleTexturedMaterialBase

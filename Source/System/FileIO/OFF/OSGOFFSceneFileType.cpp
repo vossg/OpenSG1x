@@ -66,7 +66,7 @@ OSG_USING_NAMESPACE
 /*! \class osg::OFFSceneFileType 
     \ingroup GrpSystemFileIO
     
- */
+*/
 
 #if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
 #pragma warning (disable : 383)

@@ -53,24 +53,24 @@
 
 OSG_USING_NAMESPACE
 
-/** \class osg::ClusterViewBuffer
- *  \ingroup GrpSystemCluster
- *  \brief Viewbuffer functions
- *
- * This class provides an interface to an OpenGL view buffer.
- * The Buffer contents can be transfered over a Connection.
- * All Image types can be used for image compression. The
- * ClusterViewBuffer can access RGBA, Stencil and Z-Buffer values.
- * 
- * The whole imagebuffer is divided into subtiles. Each subtile
- * is read from the buffer, compressed and send over the nertwork.
- * In most cases, the buffer read and the network send of the previous
- * tile is done in parallel.
- * 
- * todo: currently ClusterViewBuffer works on the activated window.
- *       Is this a good idea. Better WindowPtr as parameter and then
- *       call activate before send,recv? MR
- **/
+/*! \class osg::ClusterViewBuffer
+   \ingroup GrpSystemCluster
+   \brief Viewbuffer functions
+
+   This class provides an interface to an OpenGL view buffer.
+   The Buffer contents can be transfered over a Connection.
+   All Image types can be used for image compression. The
+   ClusterViewBuffer can access RGBA, Stencil and Z-Buffer values.
+
+   The whole imagebuffer is divided into subtiles. Each subtile
+   is read from the buffer, compressed and send over the nertwork.
+   In most cases, the buffer read and the network send of the previous
+   tile is done in parallel.
+
+   todo: currently ClusterViewBuffer works on the activated window.
+         Is this a good idea. Better WindowPtr as parameter and then
+         call activate before send,recv? MR
+*/
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors/Destructor                      */
@@ -225,16 +225,12 @@ void ClusterViewBuffer::recv(Connection &connection)
 }
 
 /*! Send parts of a view buffer to a Connection
- *
- *  \param connection   send to this connection
- *  \param component    Component to transfer
- *  \param x1           left begin of rectangle to be transfered
- *  \param y1           bottom begin of rectangle to be transfered
- *  \param x2           right. The right pixel is included
- *  \param x2           top. The top pixel is included
- *  \param toX          copy to this x position on destination buffer
- *  \param toY          copy to this y position on destination buffer
- */
+
+    \a connection defines the connection to use, \a component which color
+    channels (RGB/RGBA) should be transferred, \a x1, \a y1, \a x2, \a y2
+    (inclusive) define the source area and \a toX and \a toY the lower left
+    corner of the destination area.
+*/
 void ClusterViewBuffer::send(Connection &connection, 
                              UInt32 component, UInt32 x1,
                              UInt32 y1, UInt32 x2, UInt32 y2, UInt32 toX,

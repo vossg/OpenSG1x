@@ -48,8 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
- *  \brief Brief OSGOFFSceneFileType
+/*! \brief OSGOFFSceneFileType
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING OFFSceneFileType : public SceneFileType

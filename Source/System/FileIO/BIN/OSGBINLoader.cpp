@@ -52,9 +52,10 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::BINSceneFileType 
+/*! \class osg::BINLoader 
     \ingroup GrpSystemFileIO
-    \brief OpenSG propritrary file loader
+    
+    OpenSG propritrary file loader
 
     <pre>
     UInt32          num of root nodes

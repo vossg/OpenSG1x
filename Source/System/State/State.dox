@@ -45,20 +45,18 @@ environment). The maximum number of concurrently active slots of the
 osg::StateChunk type is also stored in the osg::StateChunkClass.
 
 \anchor State The complete OpenGL state wrapper is the osg::State. It
-primarily contains a vector of \ref PageSystemStateChunk
-"osg::StateChunks". For every type of chunk there are as many slots as
-possibly concurrently active copies of the chunk. A chunk can be \ref
-osg::StateChunk::activate "activated", which sets the OpenGL state
+primarily contains a vector of osg::StateChunks. For every type of chunk there
+are as many slots as possibly concurrently active copies of the chunk. A chunk
+can be \ref StateChunk::activate "activated", which sets the OpenGL state
 it covers to its settings, if the settings differ from an internally defined
-default state. It is possible to \ref osg::StateChunk::changeFrom
-"switch" from one instance of a state chunk to another instance of the same
-type. This tries to optimize and minimize the changes, to speed up switching.
-The cost of switching can be \ref osg::StateChunk::switchCost "estimated",
-currently that estimation will always be 0, though. Finally a chunk can be
-\ref osg::StateChunk::deactivate "deactivated", which resets the
-OpenGL state it covers to the default value. All the chunks in a osg::State
-can be managed at the same time by using the equivalent methods of the
-osg::State.
+default state. It is possible to \ref StateChunk::changeFrom "switch"
+from one instance of a state chunk to another instance of the same type. This
+tries to optimize and minimize the changes, to speed up switching. The cost of
+switching can be \ref StateChunk::switchCost "estimated", currently that
+estimation will always be 0, though. Finally a chunk can be \ref
+StateChunk::deactivate "deactivated", which resets the OpenGL state it
+covers to the default value. All the chunks in a osg::State can be managed at
+the same time by using the equivalent methods of the osg::State.
 
 \ext To add new chunks you need to derive it from osg::StateChunk. It needs to
 keep  a static instance of osg::StateChunkClass and implement the public
@@ -300,46 +298,15 @@ instance.
 \section PageSystemVertexProgramChunk VertexProgramChunk
 
 The osg::VertexProgramChunk wraps the GL_ARB_vertex_program extension. The
-extension is much too big to be reproduced here (~100 pages), see the <A
-HREF="http://oss.sgi.com/projects/ogl-sample/registry/ARB/vertex_program.txt">
+extension is much too big to be reproduced here (~100 pages), see the 
+<a HREF="http://oss.sgi.com/projects/ogl-sample/registry/ARB/vertex_program.txt">
 specification</A> for details.
 
 \section PageSystemFragmentProgramChunk FragmentProgramChunk
 
 The osg::FragmentProgramChunk wraps the GL_ARB_fragment_program extension. This
-extension is also much too big to be reproduced here (~100 pages), see the <A
-HREF="http://oss.sgi.com/projects/ogl-sample/registry/ARB/fragment_program.txt">
+extension is also much too big to be reproduced here (~100 pages), see the 
+<a HREF="http://oss.sgi.com/projects/ogl-sample/registry/ARB/fragment_program.txt">
 specification</A> for details.
-
-*/
-
-
-/*! \file OSGCubeBack.tif
-
-Test texture for back side of cube map texture.
-
-*/
-
-/*! \file OSGCubeFront.tif
-
-Test texture for front side of cube map texture.
-
-*/
-
-/*! \file OSGCubeLeft.tif
-
-Test texture for left side of cube map texture.
-
-*/
-
-/*! \file OSGCubeRight.tif
-
-Test texture for right side of cube map texture.
-
-*/
-
-/*! \file OSGCubeDown.tif
-
-Test texture for down side of cube map texture.
 
 */

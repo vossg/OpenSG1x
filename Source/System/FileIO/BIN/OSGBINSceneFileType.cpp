@@ -57,7 +57,8 @@ OSG_USING_NAMESPACE
 
 /*! \class osg::BINSceneFileType 
     \ingroup GrpSystemFileIO
-    \brief Binary file type
+    
+    Binary file type
  */
 
 #if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)

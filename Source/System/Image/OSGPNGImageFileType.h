@@ -48,8 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief PNG File Handler. Used to read/write MNG files.
-See \ref PageSystemImage for a detailed description.
+/*! \brief PNG File Handler. See \ref PageSystemImage for a detailed description.
 */
 
 

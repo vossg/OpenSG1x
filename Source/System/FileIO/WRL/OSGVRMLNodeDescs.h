@@ -168,8 +168,9 @@ OSG_DLLEXPORT_DECL1(MField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 //  Class
 //---------------------------------------------------------------------------
 
-//! General VRML Node Desc
-//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
+/*! \brief General VRML Node Desc
+    \ingroup GrpSystemFileIO
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc 
 {

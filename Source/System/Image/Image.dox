@@ -18,8 +18,8 @@ supported to handle gray and RGB color images with or without alpha channel.
 
 An Image is only a container for the pixel data and image description. It does
 not create or handle any OpenGL state elements. However, image objects are
-utilized to handle the data for texture (e.g. SimpleTextureMaterial of TextureChunk) or 
-bitmap objects (e.g. ImageForeground).
+utilized to handle the data for texture (e.g. osg::SimpleTextureMaterial or
+osg::TextureChunk) or  bitmap objects (e.g. osg::ImageForeground).
 
 The image object holds some describing fields (e.g. width/height/depth),
 and a single block of memory for all the raster data. 
@@ -49,7 +49,7 @@ The pyramid (at least one Level) defines a frame. All frames
 are stored after each other separately starting with frame 0.
 
 If the user loads a multi-frame image and assigns the 
-object to a \link osg::TextureChunk TextureChunk \endlink
+object to a osg::TextureChunk
 it is not played automatically as movie.
 The Application has to set and change the 'current' frame in the
 TextureChunk.

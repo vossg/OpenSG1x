@@ -89,8 +89,9 @@ void Image::changed(BitVector whichField, UInt32 origin)
 
     while(parentsIt != parentsEnd)
     {
-        (*parentsIt)->changed(1 << parentsIt->getParentFieldPos(),
-                              ChangedOrigin::Child);
+        (*parentsIt)->changed(  TypeTraits<BitVector>::One << 
+                                    parentsIt->getParentFieldPos(),
+                                ChangedOrigin::Child);
         ++parentsIt;
     }
 

@@ -55,7 +55,7 @@ handle that. The standard QT methods for OpenGL handling (makeCurrent,
 swapBuffers, initializeGL, paintGL, resizeGL) need to be redirected to the
 QTWindow, see testWindowQT_qt.cpp for an example.
 
-\anchor "PageOSGQGLManagedWidget" As a convenience class there is a
+\anchor PageOSGQGLManagedWidget As a convenience class there is a
 osg::OSGQGLManagedWidget, which is derived from osg::QGLWidget and implements
 all the necessary functions. Furthermore it has an osg::SimpleSceneManager
 built in to provide some basic interaction features. 

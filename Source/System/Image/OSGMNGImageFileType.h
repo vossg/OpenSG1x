@@ -48,8 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief MNG File Handler. Used to read/write MNG files.
-See \ref PageSystemImage for a detailed description.
+/*! \brief MNG File Handler. See \ref PageSystemImage for a detailed description.
 */
 
 class OSG_SYSTEMLIB_DLLMAPPING MNGImageFileType : public ImageFileType

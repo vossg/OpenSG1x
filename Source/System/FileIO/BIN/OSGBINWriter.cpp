@@ -58,9 +58,10 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::BINSceneFileType 
+/*! \class osg::BINWriter 
     \ingroup GrpSystemFileIO
-    \brief OpenSG propritrary file writer
+    
+    OpenSG propritrary file writer
  */
 
 /*-------------------------------------------------------------------------*/
