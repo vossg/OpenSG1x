@@ -2,8 +2,7 @@
 
 using namespace OSG;
 
-/*!
-\page TutorialIntroduction Introduction
+/*! \page TutorialIntroduction Introduction
 \latexonly Starter:NewChapter \endlatexonly
 
 \image html opensg_logo_small.png ""
@@ -143,7 +142,9 @@ The installation on cygwin is almost indentical to the Linux installtion procedu
 It is best to have the Intel or Viusal Studio Compiler installed at their default locations (i.e. c:\\program files\\), otherwise it
 is possible that the configure script can not find them. In addition to that I supplied the path to some Visual Studio .dll by extending
 the Windows path variable by : 
-<PRE>c:\\program files\\Microsoft Visual Studio .NET\\Common7\\IDE</PRE> 
+\code
+c:\program files\Microsoft Visual Studio .NET\Common7\IDE
+\endcode 
 where a lot of important files lie. You might adjust the path to your current Version (this applies to .NET 2002 and maybe also 2003).
 
 GLUT needs to be installed in UNIX-style directories in order to be found

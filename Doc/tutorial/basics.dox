@@ -567,10 +567,13 @@ how you can create a node containing a transformation, which will translate all 
     NodePtr n = Node::create();
     TransformPtr t = Transform::create();
     
+    Matrix m;
+    m->setTranslation(Vec3f(0,0,5));
+    
     // we want to modify our fresh transform object 
     // so we need to call begin-/ and endEditCP on it
     beginEditCP(t);
-        t->setTranslation(Vec3f(0,0,5));
+        t->setMatrix(m);
     endEditCP(t);
     
     beginEditCP(n);
@@ -592,4 +595,240 @@ derived to all children only, but never are they passed to neighbours.
     transformation A assigned to it, where the house is transformed by B. The car and trees are not transformed at all, because
     there is no parent which has a transformation assigned to it.
 </I>
+
+Because we really need that kind of core to do anything other than boring, I have introduced the transform core here. A detailed discussed about
+this and most other cores can be found at Chapter (xxx).
+
+\section TutorialBasicTutorial Tutorial - it's moving!
+
+Well, let's have a look what we can do know. In theory we know, how we can execute code on a frame by frame basis (via the display callback) and
+we now can use transformation. That is wonderful, because by now we can realize our first animation! We already have a torus from the last 
+tutorial (\ref FirstAppTutorial), so let us extend this one: The torus should turn around its own axis. Please use this tutorial as a starting
+point. I you have not completed it yourself you can find it here: <A HREF="progs/01firstapp2.ccp">progs/01firstapp2.cpp</A>.
+
+The first thing you have to do,is to add a global variable we will need for the animation
+
+\code
+// add this line below the declaration of the SimpleSceneManager
+// or anywhere else where it will be global
+TrannsformPtr transCore;
+\endcode
+
+This node will contain our transformation matrix, which will be altered every frame. Of course we do not need to make it global, but it is
+the easiest way for now... and the most efficent too. There is another way down to the transform core: as we have an instance of the simple
+scene manager, we have access to the root, from there we have access to all the root's children, in this case to the transform node. From the
+node we can retrieve the core. If you are interested in "graph acrobatics" have a look at Chapter (xxx), otherwise we are fine with the global
+variable ;)
+
+Let us continue:\n
+Now please, in the "main" function locate the lines that say
+<PRE>
+     // That will be our whole scene for now : an incredible Torus
+    NodePtr scene = makeTorus(.5, 2, 16, 16);
+</PRE> 
+
+and replace them with the following code
+\code
+NodePtr scene;
+        
+// create all that stuff we will need:
+//one geometry and one transform node
+        
+NodePtr torus = makeTorus(.5, 2, 16, 16);
+NodePtr transNode = Node::create();
+        
+transCore = Transform::create();
+Matrix m;
+        
+// now provide some data...
+        
+// no rotation at the beginning
+m.setIdentity();
+        
+// set the core to the matrix we created
+beginEditCP(transCore);
+    transCore->setMatrix(m);
+endEditCP(transCore);
+        
+// now "insert" the core into the node
+beginEditCP(transNode);
+    transNode->setCore(transCore);
+    // add the torus as a child to
+    // the transformation node
+    transNode->addChild(torus);
+endEditCP(transNode);
+        
+// "declare" the transformation as root
+scene = transNode;  
+
+\endcode
+
+This piece of code will create a little scenegraph with a transformation as the root node and one child which is the torus geometry. If we now
+modify the matrix of the transformation node we will actually modify the position and/or rotation as well as scalation of the torus. Just to 
+make sure it works, I recommend to compile and execute the program. You should see the torus just like in the last tutorial. You also should
+be able to move the camera by pressing and holding the left mouse button while moving the mouse around. Fine, we have more code but no more
+features than in the old tutorial - so let's change this now!
+
+Locate your display method - it should look like this
+
+<PRE>
+void display(void)
+{
+    mgr->redraw();
+}
+</PRE>
+
+Insert the following code before the redraw method of the SSM is called
+
+\code
+Matrix m;
+        
+// get the time since the apllication startet
+Real32 time = glutGet(GLUT_ELAPSED_TIME );
+        
+// set the rotation
+m.setRotate(Quaternion(Vec3f(0,1,0), time/1000.f));
+        
+//apply the new matrix to our transform core
+beginEditCP(transCore);
+    transCore->setMatrix(m);
+endEditCP(transCore);
+\endcode
+
+Now again, compile and run!
+
+No difference? Nothing is moving? Try to move another window over your GLUT window and your torus will move. So what happend? The display callback
+is only called if the window needs to be redrawn - that is the case, if it is overlapped by some other window. well, but that is not what we
+actuall want, isn't it? We need the display method to be called as often as possible. That is very another callback comes into play: the idle 
+callback.
+
+Jump to the setupGLUT function where all the other callbacks are registered an add this one :
+
+\code
+glutIdleFunc(display);
+\endcode
+
+This tells GLUT, whenever there is nothing to do, the display function is called. Now compile and run again and watch your torus turning around. 
+By the way, the order in which the callbacks are registered does not matter.
+
+You can find the full code here : <A HREF = "progs/02movingTorus.cpp">progs/02movingTorus.cpp</A>
+
+\section BasicFieldContainer Field Container
+
+Now that we have seen how the very basic concepts of OpenSG works, it is time for some more background knowledge. In this section I will explain
+the field container concept to you. Even if you do not care about how things are realized and how the actually work, you should read this section
+as it is very essential to the way how OpenSG works. As I mentioned before, OpenSG was designed to handle multithreaded data in an easy way and
+therefore makes also clustering very easy. The developers decided to create containers which are protected against simultaneous access from more
+than one thread. With these field containers, the smart pointer were introduced as it was necessary to avoid working with standard pointer. Nearly
+every OpenSG specific class related to data storage is derived from FieldContainer. If you want to convince yourself how often this class is 
+derived, then have a look at osg::FieldContainer. As I mentioned before: <B>Every class that is derived from FieldContainer, needs to be 
+created via the static ::create method! The return type is always <I>classname</I>Ptr</B>
+
+There are some more interesting aspects about the field containers. All containers are reflective, that is they provide information about
+themselfs like the classname or an unique id. Furthermore generic access methods exist which can be used with every field container. To be honest
+there is indeed another method to create instances of field containers than create() : the "factory". 
+
+\subsection BasicFieldContainer Fied Container Factory
+
+The factory can be very useful in some special cases. With the factory at your hand it is possible to create objectes by using strings instead
+of the static class method ::create(). Here are some examples
+
+\code
+
+//You know this
+NodePtr n_usual = Node::create();
+
+//This does the same thing in another way
+FieldContainer n_factory = ContainerFactory::the().createContainer("Node");
+
+//it works with every type derived from Field Container
+FieldContainer g = Container::the().createContainer("Group");
+
+\endcode
+
+This comes in very usueful when writing a loader for example. If you would not have this possibility you had no choice but to write a huge
+if-then-else cascade, where you catch every posible type. but unless you are doing exactly that you should stick to the "usual way".
+
+Well, this is only to show you what is possible with the introduced concepts of field containers and smart pointer. I remember when I started
+learninig OpenSG - I found these things not very comfortable and I did not understood what they are for. I would like you to see that all these
+"unhandy" concepts were implemented for a good reason and they make life easier if you start using them!
+
+\subsection BasicFieldContainerSingleMulti Single and Mutlifields
+
+In OpenSG we have to different kinds of fields: single- and multifields. As the names are already telling, the singlefield stores a single value
+whereas the mulifield is compareable to the STL vector (i.e. an array). 
+
+Often ojects in OpenSG can return both, "usual" datatypes and the same in a single field container. Let us have a closer look at the window class.
+In every tutorial we used a GLUTWindow to display our results. Of course this window has a defined height and width. This information can be
+retrieved during runtime in two different ways:
+
+\code
+//our window as it was created in the tutorials
+GLUTWindowPtr gwin = GLUTWindow::create();
+
+// one way to get the width (height is analog to this)
+UInt16 width_noFC = gwin->getWidth();
+
+// or in a single field container
+SFUInt16 width_sFC = gwin->getSFWidth();
+\endcode
+
+Maybe you still ask yourself what that is good for. Well, if you just want to print the screen size information on the screen, you will be
+fine with the first one, but if you have a multithreaded application where this information is used by another thread, you have to make sure
+that the data is handeled correctly - or you let OpenSG take care of it by using the second variant! 
+
+Single field containers can be accessed easily with getValue() and setValue()
+
+\code
+//we print out the screen width
+cout << "Screenwidth: " << width_sFC.getvalue();
+
+//and we set it to another value
+width_sFC.setValue(640);
+\endcode
+
+If you want to create an instance of a single field container you have to use the usual ::create() method. For every <I>Type</I> there is a 
+corresponding single field type called SF<I>Type</I>. Here are some examples.
+\code
+SFInt16
+SFReal64
+SFNodePtr
+\endcode
+
+Multifield are 1D arrays and are very similar to standard STL vectors. The usual operations like begin(), end() and push_back() all work, as well
+as the access via the bracket operator []. Iterators work just like you are used to it.  Multifields are used to store the vertices of geometry 
+or the viewports attached to a window and for many other things. Here is an example when multifields can be used (Viewports are explained in
+Chapter (xxx))
+
+\code
+//lets imagine we have a window "gwin" with four viewports
+
+//you can get one specific viewport by using the [] operator
+ViewportPtr vport = gwin->getPorts()[0];
+
+// or you get all of them at once
+MFViewportPtr vports = gwin->getports();
+
+//now you can get the first viewport this way
+vport = vports[0];
+\endcode
+
+Like with the single field containers the multi field containers have the same naming convention MF<I>type</I>. Here is another example showing
+how you can work with multifields
+
+\code
+// we are going to create some vectors 
+// and print them afterwards 
+        
+v = MFVec3f();
+        
+for (int i = 0; i < 10; i++)
+    v.push_back(Vec3f(i,i*2,i*3));
+         
+MFVec3f::iterator it;
+for (it = v.begin(); it < v.end();){
+    cout << (*it)[0] <<" "<< (*it)[1]<<" "<<(*it)[2]<<endl;
+    it++;
+}
+\endcode
 */
