@@ -88,7 +88,7 @@ endif
 ifeq ($(LNK),lnk)
 RUNTIME_DEFINES  = 
 else
-RUNTIME_DEFINES  = -DOSG_BUILD_DLL -DOSG_NEW_DLLS
+RUNTIME_DEFINES  = -DOSG_BUILD_DLL
 endif
 
 
@@ -138,7 +138,7 @@ COMP_INLINE :=
 endif
 
 ifeq ($(DEBUG_VERSION), 0)
-	COMP_OPTIMIZE    =  -O2 -Ob1
+	COMP_OPTIMIZE    =  -O2 -Ob1 -Oy- -Zi
 	COMP_DEBUG       = 
     COMPILER_RUNTIME = $(COMPILER_RUNTIME_OPT)
 else

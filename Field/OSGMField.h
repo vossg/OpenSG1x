@@ -241,7 +241,7 @@ class MField : public Field
 
     /*---------------------------------------------------------------------*/
     /*                             Member                                  */
-
+    
     static const FieldType    _fieldType;
 
                  StorageType  _values;

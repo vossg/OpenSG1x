@@ -66,6 +66,15 @@
 #           define OSG_BASE_SPEZ_HEAD_DLLMAPPING
 #       endif
 #   endif
+#   if defined(OSG_WIN32_ICL)
+#       define OSG_FIELD_DLLMAPPING
+#   else
+#       if defined(OSG_COMPILE_FIELD_INST) 
+#           define OSG_FIELD_DLLMAPPING                __declspec(dllexport)
+#       else
+#           define OSG_FIELD_DLLMAPPING                __declspec(dllimport)
+#       endif
+#   endif
 #else
 #define OSG_BASE_DLLMAPPING
 #define OSG_BASE_DLLTMPLMAPPING
