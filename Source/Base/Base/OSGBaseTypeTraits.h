@@ -794,7 +794,11 @@ struct TypeTraits<Real32> : public TypeTraitsBase
     {
         if(szString != NULL)
         {
+#if defined(__sgi)
+            return Real32(atof  (szString));
+#else
             return Real32(strtof(szString, NULL));
+#endif
         }
         else
         {

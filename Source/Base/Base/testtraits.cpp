@@ -10,14 +10,18 @@
 #include <OSGQuaternion.h>
 #include <OSGMatrix.h>
 
-
+#if defined(__sgi)
+#include <inttypes.h>
+#else
 #include <stdint.h>
+#endif
+
 #include <limits>
 
 #define UINT8_MIN 0
 #define UINT16_MIN 0
 #define UINT32_MIN 0
-#define UINT64_MIN (__UINT64_C(0))
+#define UINT64_MIN (0LL)
 
 OSG_USING_NAMESPACE
 
@@ -147,11 +151,32 @@ int main(int argc, char *argv[])
     fprintf(stderr, "%Le |\n", LDBL_MIN);
     fprintf(stderr, "%Le |\n", LDBL_MAX);
 
+#if defined(__sgi)
+    r128 = TypeTraits<Real128>::getFromString("2.2250738585072014e-308");
+    fprintf(stderr, "%Le\n", r128);
+
+    r128 = TypeTraits<Real128>::getFromString("1.7976931348623157e+308");
+    fprintf(stderr, "%Le\n", r128);
+#else
     r128 = TypeTraits<Real128>::getFromString("3.36210314311209350626e-4932");
     fprintf(stderr, "%Le\n", r128);
 
     r128 = TypeTraits<Real128>::getFromString("1.18973149535723176502e+4932");
     fprintf(stderr, "%Le\n", r128);
+#endif
+
+    fprintf(stderr, "Real32  (%u)\n", sizeof(Real32 ));
+    fprintf(stderr, "Real64  (%u)\n", sizeof(Real64 ));
+    fprintf(stderr, "Real128 (%u)\n", sizeof(Real128));
+
+    fprintf(stderr, "%e |\n", std::numeric_limits<Real32>::min());
+    fprintf(stderr, "%e |\n", std::numeric_limits<Real32>::max());
+
+    fprintf(stderr, "%le |\n", std::numeric_limits<Real64>::min());
+    fprintf(stderr, "%le |\n", std::numeric_limits<Real64>::max());
+
+    fprintf(stderr, "%Le |\n", std::numeric_limits<Real128>::min());
+    fprintf(stderr, "%Le |\n", std::numeric_limits<Real128>::max());
 
     osgExit();
 }
