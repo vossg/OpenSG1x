@@ -6,6 +6,8 @@ include Common/common.mk
 # NOTE: this will fail if there are multiple directories for one system (i.e.
 # if multiple compilers have been used)
 
+.PHONY: install ctags etags
+
 default:
 	$(MAKE) -C Builds/${BUILD_ENV}* 
 
