@@ -281,6 +281,10 @@ int main( int argc, char **argv )
         clusterWindow->addPort(vp1);
         if(!serviceAddress.empty())
             clusterWindow->setServiceAddress(serviceAddress);
+        // without the setManageClientViewports(false) call the viewport would be
+        // replaced by another one from the cluster window and this leads to a crash
+        // cause the SimpleSceneManager still works with the old viewport pointer (navigator)
+        clusterWindow->setManageClientViewports(false);
         clusterWindow->setClientWindow(w.getWindow());
     endEditCP(clusterWindow);
 
