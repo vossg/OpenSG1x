@@ -69,9 +69,13 @@ extern "C" {
 
 OSG_BEGIN_NAMESPACE
 
+class ImageFileType;
+
 //! Image
 
 class OSG_SYSTEMLIB_DLLMAPPING Image {
+
+  friend class ImageFileType;
 
     /*==========================  PUBLIC  =================================*/
   public:

@@ -359,7 +359,7 @@ UInt64 DATImageFileType::restoreData(      Image  &image,
 {
     image.setData(buffer);
 
-    return true;
+    return image.getSize();
 }
 
 //----------------------------------------------------------------------

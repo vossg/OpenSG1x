@@ -58,26 +58,35 @@ OSG_USING_NAMESPACE
 
 bool ImageFileType::Head::netToHost(void)
 {
-    pixelFormat  = ntohs(pixelFormat);
-    width        = ntohs(width);
-    height       = ntohs(height);
-    depth        = ntohs(depth);
-    mipmapCount  = ntohs(mipmapCount);
-    frameCount   = ntohs(frameCount);
-    frameDelay   = ntohs(frameDelay);
+    pixelFormat    = ntohs(pixelFormat);
+    width          = ntohs(width);
+    height         = ntohs(height);
+    depth          = ntohs(depth);
+    mipmapCount    = ntohs(mipmapCount);
+    frameCount     = ntohs(frameCount);
+    frameDelay     = ntohs(frameDelay);
+    _reserved1     = ntohs(_reserved1);
+    _reserved2     = ntohs(_reserved2);
+    _reserved3     = ntohs(_reserved3);
+    attachmentSize = ntohs(attachmentSize);
+
 
     return true;
 }
 
 bool ImageFileType::Head::hostToNet(void)
 {
-    pixelFormat  = htons(pixelFormat);
-    width        = htons(width);
-    height       = htons(height);
-    depth        = htons(depth);
-    mipmapCount  = htons(mipmapCount);
-    frameCount   = htons(frameCount);
-    frameDelay   = htons(frameDelay);
+    pixelFormat    = htons(pixelFormat);
+    width          = htons(width);
+    height         = htons(height);
+    depth          = htons(depth);
+    mipmapCount    = htons(mipmapCount);
+    frameCount     = htons(frameCount);
+    frameDelay     = htons(frameDelay);
+    _reserved1     = htons(_reserved1);
+    _reserved2     = htons(_reserved2);
+    _reserved3     = htons(_reserved3);
+    attachmentSize = htons(attachmentSize);
 
     return true;
 }
@@ -159,31 +168,56 @@ UInt64 ImageFileType::storeData(const Image  &OSG_CHECK_ARG(image  ),
 // Description:
 //         Destructor
 //----------------------------------------------------------------------
-UInt64 ImageFileType::restore(Image &image, const UChar8 *buffer, Int32 memSize)
+UInt64 ImageFileType::restore( Image &image, 
+                               const UChar8 *buffer, Int32 memSize)
 {
-    UInt32          headSize = sizeof(Head);
+    UInt32          imageSize, headSize = sizeof(Head);
     Head            *head = (Head *) const_cast<UChar8*>((buffer));
     const UChar8    *data = buffer ? (buffer + headSize) : 0;
+    char            *attData, *attKey, *attValue;
     ImageFileType   *type;
     const char      *mimeType;
+    unsigned int    i,attachmentSize;
+
 
     if(head && data && head->netToHost() && (mimeType = head->mimeType))
     {
-        if((type = ImageFileHandler::the().getFileType(mimeType, 0)))
+      if((type = ImageFileHandler::the().getFileType(mimeType, 0)))
         {
-            image.set(Image::PixelFormat(head->pixelFormat), head->width,
-                      head->height, head->depth, head->mipmapCount,
-                      head->frameCount, float(head->frameDelay) / 1000.0, 0);
-            type->restoreData(image, data, memSize - headSize);
+          image.set(Image::PixelFormat(head->pixelFormat), head->width,
+                    head->height, head->depth, head->mipmapCount,
+                    head->frameCount, float(head->frameDelay) / 1000.0, 0);
+          imageSize = type->restoreData(image, data, memSize - headSize);
         }
-        else
+      else
         {
-            FWARNING(("Can not restore image data, invalid mimeType: %s\n",
-                     mimeType ? mimeType : "Unknown"));
+          imageSize = 0;
+          FWARNING(("Can not restore image data, invalid mimeType: %s\n",
+                    mimeType ? mimeType : "Unknown"));
+        }
+
+      if ((attachmentSize = head->attachmentSize))
+        {
+          attData = (char*)(buffer + headSize + imageSize);
+          attKey = attData;
+          attValue = 0;
+          for (i = 0; i < attachmentSize; i++) {
+            if (attData[i] == 0) 
+              if (attKey) {
+                attValue = &(attData[i+1]);
+                image.setAttachment (attKey,attValue);
+                attKey = attValue = 0;
+              }
+              else
+                attKey = &(attData[i+1]);
+          }
+          if (attKey || attValue) {
+            FFATAL (("Attachment restore error\n"));
+          }
         }
     }
 
-    return headSize + image.getSize();
+    return (headSize + imageSize + attachmentSize);
 }
 
 //----------------------------------------------------------------------
@@ -202,7 +236,7 @@ UInt64 ImageFileType::store(const Image &image, const char *mimeType,
 }
 
 //----------------------------------------------------------------------
-// Method: print
+// Method: store
 // Author: jbehr
 // Date:   Tue Apr 11 15:32:43 2000
 // Description:
@@ -210,28 +244,73 @@ UInt64 ImageFileType::store(const Image &image, const char *mimeType,
 //----------------------------------------------------------------------
 UInt64 ImageFileType::store(const Image &image, UChar8 *buffer, Int32 memSize)
 {
-    Head            *head = (Head *) (buffer);
-    unsigned        dataSize = 0, headSize = sizeof(Head);
-    UChar8          *dest = (UChar8 *) (buffer ? (buffer + headSize) : 0);
-    const UChar8    *src = image.getData();
+  Head            *head;
+  unsigned        dataSize = 0, headSize = sizeof(Head);
+  char            *strData;           
+  UChar8          *dest;
+  const UChar8    *src = image.getData();
+  std::map<std::string, std::string>::const_iterator aI;
+  unsigned int    attachmentSize;
+  unsigned int    i,l;
+  attachmentSize = 0;
 
-  head->pixelFormat  = image.getPixelFormat();
-  head->width        = image.getWidth();
-  head->height       = image.getHeight();
-  head->depth        = image.getDepth();
-  head->mipmapCount  = image.getMipMapCount();
-  head->frameCount   = image.getFrameCount();
-  head->frameDelay   = short(image.getFrameDelay() * 1000.0);
-  head->hostToNet();
-
-    strcpy(head->mimeType, getMimeType());
-
-    if(src && dest)
+  for ( aI = image._attachmentMap.begin();
+        aI != image._attachmentMap.end(); ++aI )
     {
-        dataSize = storeData(image, dest, memSize - headSize);
+      l = aI->first.length();
+      attachmentSize += l ? (l + 1) : 0;
+      l = aI->second.length();
+      attachmentSize += l ? (l + 1) : 0;
     }
+  
+  if (buffer) 
+    {
+      head = (Head *)buffer;
 
-    return headSize + dataSize;
+      head->pixelFormat    = image.getPixelFormat();
+      head->width          = image.getWidth();
+      head->height         = image.getHeight();
+      head->depth          = image.getDepth();
+      head->mipmapCount    = image.getMipMapCount();
+      head->frameCount     = image.getFrameCount();
+      head->frameDelay     = short(image.getFrameDelay() * 1000.0);
+      head->attachmentSize = attachmentSize;
+      head->hostToNet();
+      
+      strcpy(head->mimeType, getMimeType());
+      
+      dest = (UChar8 *) (buffer + headSize);
+
+      if (src) 
+        dataSize = storeData(image, dest, memSize - headSize);
+
+      dest = (UChar8 *) (buffer + headSize + dataSize);
+
+      if (attachmentSize) 
+        {
+          for ( aI = image._attachmentMap.begin();
+                aI != image._attachmentMap.end(); ++aI )
+            {
+              l = aI->first.length();
+              for (i = 0; i < l; i++)
+                *dest++ = aI->first[i];
+              *dest++ = 0;
+              l = aI->second.length();
+              for (i = 0; i < l; i++)
+                *dest++ = aI->second[i];
+              *dest++ = 0;
+            }
+        }     
+
+      FLOG (( "Store image data: (%d/%d/%d byte)\n",
+              headSize, dataSize, attachmentSize ));
+    }
+  else {
+    FFATAL (("Invalid buffer in ImageFileType::store()\n"));
+  }
+  
+  return (headSize + dataSize + attachmentSize);
+
 }
 
 //----------------------------------------------------------------------
@@ -243,11 +322,26 @@ UInt64 ImageFileType::store(const Image &image, UChar8 *buffer, Int32 memSize)
 //----------------------------------------------------------------------
 UInt64 ImageFileType::maxBufferSize(const Image &image)
 {
-    UInt64  size = sizeof(Head) + image.getSize();
+  UInt64        size;
+  unsigned int  imageSize = image.getSize(), headSize = sizeof(Head);
+  unsigned int  attachmentSize = 0, l;
+  std::map<std::string, std::string>::const_iterator aI;
 
-    FDEBUG(("ImageFileType::maxBufferSize(): %d\n", size));
-
-    return size;
+  for ( aI = image._attachmentMap.begin();
+        aI != image._attachmentMap.end(); ++aI )
+    {
+      l = aI->first.length();
+      attachmentSize += l ? (l + 1) : 0;
+      l = aI->second.length();
+      attachmentSize += l ? (l + 1) : 0;
+    }
+  
+  size = headSize + imageSize + attachmentSize;
+  
+  FLOG (( "ImageFileType::maxBufferSize(): %d (%d/%d/%d)\n", 
+          size, headSize, imageSize, attachmentSize ));
+  
+  return size;
 }
 
 //----------------------------------------------------------------------

@@ -186,7 +186,7 @@ UInt64 MTDImageFileType::restoreData(      Image  &image,
 {
     image.setData(buffer);
 
-    return true;
+    return image.getSize();
 }
 
 //----------------------------------------------------------------------
