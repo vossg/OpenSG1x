@@ -350,8 +350,8 @@ int main( int argc, char **argv )
 
     // Background
     GradientBackgroundPtr bkgnd = GradientBackground::create();
-    bkgnd->addColor( Color3f( 0,0,0 ), 0 );
-    bkgnd->addColor( Color3f( 0,0,1 ), 0 );
+    bkgnd->addLine( Color3f( 0,0,0 ), 0 );
+    bkgnd->addLine( Color3f( 0,0,1 ), 0 );
 
     
     // Action

@@ -310,16 +310,18 @@ int main (int argc, char **argv)
     // Background
     GradientBackgroundPtr gbkgnd = GradientBackground::create();
 
-    gbkgnd->addColor( Color3f(1, 0, 0), 0.0 );
-    gbkgnd->addColor( Color3f(0, 1, 0), 0.2 );
-    gbkgnd->addColor( Color3f(0, 0, 1), 0.3 );
-    gbkgnd->addColor( Color3f(0, 1, 1), 0.4 );
-    gbkgnd->addColor( Color3f(0, 1, 0), 0.5 );
-    gbkgnd->addColor( Color3f(1, 1, 0), 0.6 );
-    gbkgnd->addColor( Color3f(0, 1, 0), 0.7 );
-    gbkgnd->addColor( Color3f(1, 0, 0), 0.8 );
-    gbkgnd->addColor( Color3f(0, 0, 1), 0.9 );
-    gbkgnd->addColor( Color3f(0, 0, 1), 1.0 );
+    beginEditCP(gbkgnd, GradientBackground::LineFieldMask);
+    gbkgnd->addLine( Color3f(1, 0, 0), 0.0 );
+    gbkgnd->addLine( Color3f(0, 1, 0), 0.2 );
+    gbkgnd->addLine( Color3f(0, 0, 1), 0.3 );
+    gbkgnd->addLine( Color3f(0, 1, 1), 0.4 );
+    gbkgnd->addLine( Color3f(0, 1, 0), 0.5 );
+    gbkgnd->addLine( Color3f(1, 1, 0), 0.6 );
+    gbkgnd->addLine( Color3f(0, 1, 0), 0.7 );
+    gbkgnd->addLine( Color3f(1, 0, 0), 0.8 );
+    gbkgnd->addLine( Color3f(0, 0, 1), 0.9 );
+    gbkgnd->addLine( Color3f(0, 0, 1), 1.0 );
+    endEditCP  (gbkgnd, GradientBackground::LineFieldMask);
 
     // Viewport
 
