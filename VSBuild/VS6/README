@@ -27,7 +27,6 @@ Current Requirements :
 
         use Intels icl compiler (> 5.0.1)
         find the glut headers and libs
-        find the tif headers and libs
         find the qt headers and libs (qt-mt301.lib) and the moc executable
 
     If you want to edit any .l or .y file your VStudio additionally has to
@@ -37,11 +36,7 @@ Current Requirements :
 
 What works :
 
-    Currently only the debug Libs could be build.
-
-Near future :
-
-    Add opt lib support
+    Currently only the debug and opt Libs could be build.
 
 Further ahead :
 

@@ -1,4 +1,4 @@
-/* Builds/i686-pc-cygwin-icl50/Base/OSGConfigured.h.  Generated automatically by configure.  */
+/* Builds/i686-pc-cygwin-icl60/Base/OSGConfigured.h.  Generated automatically by configure.  */
 /*---------------------------------------------------------------------------*\
  *                                OpenSG                                     *
  *                                                                           *
@@ -57,6 +57,12 @@
 #   endif
 #endif
 
+/* #undef OSG_USE_MPATROL */
+
+#if defined(OSG_USE_MPATROL)
+#define MP_NONEWDELETE 1
+#include <mpatrol.h>
+#endif
 
 #endif
 

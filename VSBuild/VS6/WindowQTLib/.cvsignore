@@ -1,3 +1,4 @@
 Debug
 *.plg
 *_qt_moc.cpp
+Release

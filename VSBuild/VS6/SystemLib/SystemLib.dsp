@@ -42,9 +42,9 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /MD /W3 /GR /GX /O2 /I ".." /I "..\..\..\Base" /I "..\..\..\Log" /I "..\..\..\Field" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D WINVER=0x0400 /D WIN32_WINDOWS=0x0410 /D "OSG_BUILD_DLL" /D "_OSG_HAVE_CONFIGURED_H_" /FD /c
-# SUBTRACT CPP /nologo /YX
+# ADD BASE CPP 
+# ADD CPP -Qwd985 -Qwd530 -Qwd981 -Qwd193 -Qwd444 -Qwd279 -Qwe698  -Qwe47 -Qwe373 -Qwe171 -Qwe373 -Qwe261 -DWIN32 -D_WINDOWS -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 -D_WIN32_WINNT=0x0400 -D_OSG_HAVE_CONFIGURED_H_ -D__INTEL_COMPILER_VERSION=600  -DOSG_BUILD_DLL -Qvc6 -GX -Gi- -Qansi -GR -O2 -Ob1 -MD -DOSG_COMPILESYSTEMLIB -DOSG_WITH_GLUT -DOSG_WITH_QT -DOSG_WITH_GIF -DQT_NO_STL -DQT_DLL -DQT_THREAD_SUPPORT -DQT_ACCESSIBILITY_SUPPORT -DQT_NO_DEBUG -I.. -I.  -I../../../Action/DrawAction  -I../../../Action/IntersectAction  -I../../../Action/RenderAction  -I../../../Action  -I../../../Base  -I../../../BaseLib  -I../../../Cluster/MultiDisplay  -I../../../Cluster/SortFirst  -I../../../Cluster  -I../../../Experimental/BINWriter  -I../../../Experimental/BINWriter  -I../../../Experimental/OSGLoader  -I../../../Experimental/OSGWriter  -I../../../Experimental/StringConversionState  -I../../../Experimental/Text  -I../../../Experimental/VRMLLoader  -I../../../Experimental/VRMLWriter  -I../../../Field  -I../../../FieldContainer/Impl  -I../../../FieldContainer  -I../../../Functors  -I../../../Image  -I../../../Loader/OBJ  -I../../../Loader/OFF  -I../../../Loader/OSG  -I../../../Loader/RAW  -I../../../Loader/ScanParseSkel  -I../../../Loader/WRL  -I../../../Loader  -I../../../Log  -I../../../Material  -I../../../MultiThreading  -I../../../Network/Socket  -I../../../Network  -I../../../Nodes/Geometry  -I../../../Nodes/Light  -I../../../Nodes/Misc  -I../../../Nodes/Particles  -I../../../RenderingBackend  -I../../../State  -I../../../Statistics  -I../../../Window  /FD /c
+# SUBTRACT CPP 
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -53,8 +53,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=xilink6.exe
-# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /subsystem:windows /dll /machine:I386
-# ADD LINK32 winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /subsystem:windows /dll /machine:I386
+# ADD BASE LINK32
+# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib  opengl32.lib glu32.lib gdi32.lib -NODEFAULTLIB -dll -map -out:..\lib\dbg\OSGSystem.dll
 
 !ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
 
@@ -70,7 +70,7 @@ LINK32=xilink6.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP 
-# ADD CPP -Qwd985 -Qwd530 -Qwd981 -Qwd193 -Qwd444 -Qwd279 -Qwe698  -Qwe47 -Qwe373 -Qwe171 -Qwe373 -Qwe261 -DWIN32 -D_WINDOWS -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 -D_WIN32_WINNT=0x0400 -D_OSG_HAVE_CONFIGURED_H_ -D__INTEL_COMPILER_VERSION=600  -DOSG_BUILD_DLL -Qvc6 -GX -Gi- -Qansi -GR -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG -MDd -DOSG_COMPILESYSTEMLIB -DOSG_WITH_GLUT -DOSG_WITH_QT -DOSG_WITH_TIF -DOSG_WITH_JPG -DOSG_WITH_GIF -DQT_NO_STL -DQT_DLL -DQT_THREAD_SUPPORT -DQT_ACCESSIBILITY_SUPPORT -DQT_NO_DEBUG -I.. -I.  -I../../../Action/DrawAction  -I../../../Action/IntersectAction  -I../../../Action/RenderAction  -I../../../Action  -I../../../Base  -I../../../BaseLib  -I../../../Cluster/MultiDisplay  -I../../../Cluster/SortFirst  -I../../../Cluster  -I../../../Experimental/BINWriter  -I../../../Experimental/BINWriter  -I../../../Experimental/OSGLoader  -I../../../Experimental/OSGWriter  -I../../../Experimental/StringConversionState  -I../../../Experimental/Text  -I../../../Experimental/VRMLLoader  -I../../../Experimental/VRMLWriter  -I../../../Field  -I../../../FieldContainer/Impl  -I../../../FieldContainer  -I../../../Functors  -I../../../Image  -I../../../Loader/Fhs  -I../../../Loader/OBJ  -I../../../Loader/OFF  -I../../../Loader/OSG  -I../../../Loader/RAW  -I../../../Loader/ScanParseSkel  -I../../../Loader/WRL  -I../../../Loader  -I../../../Log  -I../../../Material  -I../../../MultiThreading  -I../../../Network/Socket  -I../../../Network  -I../../../Nodes/Geometry  -I../../../Nodes/Light  -I../../../Nodes/Misc  -I../../../Nodes/Particles  -I../../../RenderingBackend  -I../../../State  -I../../../Statistics  -I../../../Window  /FD /c
+# ADD CPP -Qwd985 -Qwd530 -Qwd981 -Qwd193 -Qwd444 -Qwd279 -Qwe698  -Qwe47 -Qwe373 -Qwe171 -Qwe373 -Qwe261 -DWIN32 -D_WINDOWS -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 -D_WIN32_WINNT=0x0400 -D_OSG_HAVE_CONFIGURED_H_ -D__INTEL_COMPILER_VERSION=600  -DOSG_BUILD_DLL -Qvc6 -GX -Gi- -Qansi -GR -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG -MDd -DOSG_COMPILESYSTEMLIB -DOSG_WITH_GLUT -DOSG_WITH_QT -DOSG_WITH_GIF -DQT_NO_STL -DQT_DLL -DQT_THREAD_SUPPORT -DQT_ACCESSIBILITY_SUPPORT -DQT_NO_DEBUG -I.. -I.  -I../../../Action/DrawAction  -I../../../Action/IntersectAction  -I../../../Action/RenderAction  -I../../../Action  -I../../../Base  -I../../../BaseLib  -I../../../Cluster/MultiDisplay  -I../../../Cluster/SortFirst  -I../../../Cluster  -I../../../Experimental/BINWriter  -I../../../Experimental/BINWriter  -I../../../Experimental/OSGLoader  -I../../../Experimental/OSGWriter  -I../../../Experimental/StringConversionState  -I../../../Experimental/Text  -I../../../Experimental/VRMLLoader  -I../../../Experimental/VRMLWriter  -I../../../Field  -I../../../FieldContainer/Impl  -I../../../FieldContainer  -I../../../Functors  -I../../../Image  -I../../../Loader/OBJ  -I../../../Loader/OFF  -I../../../Loader/OSG  -I../../../Loader/RAW  -I../../../Loader/ScanParseSkel  -I../../../Loader/WRL  -I../../../Loader  -I../../../Log  -I../../../Material  -I../../../MultiThreading  -I../../../Network/Socket  -I../../../Network  -I../../../Nodes/Geometry  -I../../../Nodes/Light  -I../../../Nodes/Misc  -I../../../Nodes/Particles  -I../../../RenderingBackend  -I../../../State  -I../../../Statistics  -I../../../Window  /FD /c
 # SUBTRACT CPP 
 # ADD BASE MTL /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /D "_DEBUG" /mktyplib203 /win32
@@ -81,7 +81,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=xilink6.exe
 # ADD BASE LINK32           
-# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib  opengl32.lib glu32.lib gdi32.lib tif32.lib -NODEFAULTLIB -dll -map -Debug -out:..\lib\dbg\OSGSystemD.dll
+# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib  opengl32.lib glu32.lib gdi32.lib -NODEFAULTLIB -dll -map -Debug -out:..\lib\dbg\OSGSystemD.dll
       
 
 !ENDIF 
@@ -385,6 +385,11 @@ SOURCE=../../../Experimental/VRMLLoader/OSGAnimation.h
 
 # Begin Source File
 SOURCE=../../../Experimental/VRMLLoader/OSGGenericInterpolator.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=v2a.tab.h
 # End Source File
 
 # End Group
@@ -795,24 +800,6 @@ SOURCE=../../../Loader/OSGSceneFileHandler.h
 
 # Begin Source File
 SOURCE=../../../Loader/OSGSceneFileType.h
-# End Source File
-
-# End Group
-# Begin Group "LoaderFhs h"
-# PROP Default_Filter ""
-
-# Begin Source File
-SOURCE=../../../Loader/Fhs/OSGFhsComm.h
-# End Source File
-
-
-# Begin Source File
-SOURCE=../../../Loader/Fhs/OSGFhsFile.h
-# End Source File
-
-
-# Begin Source File
-SOURCE=../../../Loader/Fhs/OSGFhsSceneFileType.h
 # End Source File
 
 # End Group
@@ -2225,9 +2212,6 @@ SOURCE=../../../Image/OSGImage.inl
 # Begin Group "Loader inl"
 # PROP Default_Filter ""
 # End Group
-# Begin Group "LoaderFhs inl"
-# PROP Default_Filter ""
-# End Group
 # Begin Group "LoaderOBJ inl"
 # PROP Default_Filter ""
 # End Group
@@ -3221,6 +3205,16 @@ SOURCE=../../../Experimental/VRMLLoader/OSGAnimation.cpp
 SOURCE=../../../Experimental/VRMLLoader/OSGGenericInterpolator.cpp
 # End Source File
 
+
+# Begin Source File
+SOURCE=v2a.tab.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=v2a.lex.cpp
+# End Source File
+
 # End Group
 # Begin Group "ExperimentalVRMLWriter cpp"
 # PROP Default_Filter ""
@@ -3379,19 +3373,6 @@ SOURCE=../../../Loader/OSGSceneFileHandler.cpp
 
 # Begin Source File
 SOURCE=../../../Loader/OSGSceneFileType.cpp
-# End Source File
-
-# End Group
-# Begin Group "LoaderFhs cpp"
-# PROP Default_Filter ""
-
-# Begin Source File
-SOURCE=../../../Loader/Fhs/OSGFhsFile.cpp
-# End Source File
-
-
-# Begin Source File
-SOURCE=../../../Loader/Fhs/OSGFhsSceneFileType.cpp
 # End Source File
 
 # End Group
@@ -4281,6 +4262,58 @@ SOURCE=../../../Window/OSGWindowBase.cpp
 # End Group
 # Begin Group "ExperimentalVRMLLoader ly"
 # PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Experimental/VRMLLoader/v2a.y
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+InputPath=../../../Experimental/VRMLLoader/v2a.y
+
+BuildCmds= \
+	bison.exe -d -v -pv2a_  -bv2a_ ../../../Experimental/VRMLLoader/v2a.y \
+	move v2a_.tab.c v2a.tab.cpp \
+	move v2a_.tab.h v2a.tab.h \
+	move v2a_.output v2a.tab.output \
+
+"v2a.tab.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"v2a.tab.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Experimental/VRMLLoader/v2a.l
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+InputPath=../../../Experimental/VRMLLoader/v2a.l
+
+BuildCmds= \
+	flex.exe -l -Pv2a_ ../../../Experimental/VRMLLoader/v2a.l \
+	move lex.v2a_.c v2a.lex.cpp \
+
+"v2a.lex.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
 # End Group
 # Begin Group "ExperimentalVRMLWriter ly"
 # PROP Default_Filter ""
@@ -4295,9 +4328,6 @@ SOURCE=../../../Window/OSGWindowBase.cpp
 # PROP Default_Filter ""
 # End Group
 # Begin Group "Loader ly"
-# PROP Default_Filter ""
-# End Group
-# Begin Group "LoaderFhs ly"
 # PROP Default_Filter ""
 # End Group
 # Begin Group "LoaderOBJ ly"
