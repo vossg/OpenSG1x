@@ -327,6 +327,30 @@ NodePtr OBJSceneFileType::read(std::istream &is, const Char8 *) const
             {
                 beginEditCP ( geoPtr );
                 {
+                  geoPtr->setPositions ( coordPtr );
+                  geoPtr->setIndices   ( indexPtr );
+                  geoPtr->setLengths   ( lensPtr );
+                  geoPtr->setTypes     ( typePtr );
+
+                  if ( texCoordPtr->size() > 0 )
+                  {
+                      geoPtr->setTexCoords ( texCoordPtr );
+                  }
+                  else
+                  {
+                      geoPtr->setTexCoords ( NullFC );
+                      meshIndexMask &= ~Geometry::MapTexCoords;
+                  }
+                  
+                  if ( normalPtr->size() > 0 )
+                  {
+                      geoPtr->setNormals   ( normalPtr );
+                  }
+                  else
+                  {
+                      geoPtr->setNormals   ( NullFC );
+                      meshIndexMask &= ~Geometry::MapNormal;
+                  }
 
                   if (isSingleIndex)
                   {
@@ -357,13 +381,6 @@ NodePtr OBJSceneFileType::read(std::istream &is, const Char8 *) const
                       geoPtr->getIndexMapping().push_back( indexType);
                     }
                   }
-
-                  geoPtr->setPositions ( coordPtr );
-                  geoPtr->setTexCoords ( texCoordPtr );
-                  geoPtr->setNormals   ( normalPtr );
-                  geoPtr->setIndices   ( indexPtr );
-                  geoPtr->setLengths   ( lensPtr );
-                  geoPtr->setTypes     ( typePtr );
 
                   if (meshI->mtlPtr == NullFC)
                   {
