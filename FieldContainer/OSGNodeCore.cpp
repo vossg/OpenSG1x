@@ -204,9 +204,16 @@ void NodeCore::adjustVolume(Volume &)
 
 void NodeCore::print(UInt32 indent) const
 {
+/*
     UInt32 i;
     UInt32 j;
+*/
 
+    indentLog(indent, PLOG);
+
+    PLOG << "Core : " << getType().getName() << endl;
+
+/*
     for(i = 0; i < indent; i++)
         fprintf(stderr, " ");
 
@@ -234,6 +241,7 @@ void NodeCore::print(UInt32 indent) const
         (*fcI).second->print(indent + 2);
         ++fcI;
     }
+*/
 }
 
 /*------------------------------- dump ----------------------------------*/

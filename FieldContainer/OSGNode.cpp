@@ -472,7 +472,8 @@ void Node::print(UInt32 indent) const
 
     indentLog(indent, PLOG);
     
-    PLOG << "Node : " << _children.size() << " children | " 
+    PLOG << "Node : " << _children.size() << " children | "
+         << _attachmentMap.getValue().size() << " attachments | "
          << "Parent : ";
 
     if(_parent.getValue() != NullNode)
@@ -486,14 +487,15 @@ void Node::print(UInt32 indent) const
 
     PLOG << "[" << endl;
 
-    indentLog(indent + 4, PLOG);
-
-    
-
     if(_core.getValue() != NullNode)
+    {
         _core.getValue()->print(indent + 4);
+    }
     else
+    {
+        indentLog(indent + 4, PLOG);
         PLOG << "Core : " << "NULL" << endl;
+    }
 
     indentLog(indent, PLOG);
 

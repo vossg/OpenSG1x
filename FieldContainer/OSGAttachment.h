@@ -53,6 +53,7 @@
 #include <OSGFieldContainerPtr.h>
 #include <OSGSFFieldContainerTypes.h>
 #include <OSGMFFieldContainerTypes.h>
+#include <OSGSFBaseTypes.h>
 
 #include <map>
 
@@ -345,6 +346,33 @@ class OSG_FIELDCONTAINER_DLLMAPPING SimpleAttachment : public Attachment
 
     SimpleAttachment &operator =(const SimpleAttachment &source);
 };
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/*! \ingroup baselib
+ *  \brief Brief
+ *
+ *  detailed
+ */
+
+struct NameAttachmentDesc
+{
+    typedef SFString FieldTypeT;
+
+    static const Char8 *getTypeName (void) { return "Name"; }
+    static const Char8 *getFieldName(void) { return "name"; }
+    static const Char8 *getGroupName(void) { return "name"; }
+    static const Char8 *getClassName(void) { return "NameAttachment"; }
+
+    static InitContainerF getInitMethod(void) { return NULL; }
+};
+
+typedef SimpleAttachment<NameAttachmentDesc> Name;
+
+typedef FCPtr<AttachmentPtr,  Name> NamePtr;
 
 //---------------------------------------------------------------------------
 //  Class

@@ -292,24 +292,6 @@ class OSG_FIELDCONTAINER_DLLMAPPING Node : public FieldContainer
 
 typedef Node *NodeP;
 
-
-struct NodenameAttachmentDesc
-{
-    typedef SFString FieldTypeT;
-
-    static const Char8 *getTypeName (void) { return "Nodename"; }
-    static const Char8 *getFieldName(void) { return "name"; }
-    static const Char8 *getGroupName(void) { return "name"; }
-    static const Char8 *getClassName(void) { return "NodenameAttachment"; }
-
-    static InitContainerF getInitMethod(void) { return NULL; }
-};
-
-typedef SimpleAttachment<NodenameAttachmentDesc> Nodename;
-
-typedef FCPtr<AttachmentPtr,  Nodename> NodenamePtr;
-
-
 OSG_END_NAMESPACE
 
 #include <OSGNode.inl>
