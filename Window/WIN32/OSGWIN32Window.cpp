@@ -103,7 +103,7 @@ void WIN32Window::initMethod (void)
 
 //! react to field changes
 
-void WIN32Window::changed(BitVector, ChangeMode)
+void WIN32Window::changed(BitVector, UInt32)
 {
 }
 
