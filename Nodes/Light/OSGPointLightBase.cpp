@@ -58,7 +58,6 @@
 
 #include <OSGConfig.h>
 
-#include "OSGNodePtr.h"
 #include "OSGPointLightBase.h"
 #include "OSGPointLight.h"
 
@@ -223,6 +222,13 @@ void PointLightBase::executeSyncImpl(      PointLightBase *pOther,
 
 
 
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<PointLightPtr>::_type("PointLightPtr", "LightBasePtr");
+
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -237,7 +243,7 @@ void PointLightBase::executeSyncImpl(      PointLightBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPointLightBase.cpp,v 1.24 2002/08/07 04:04:12 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPointLightBase.cpp,v 1.25 2002/09/16 18:39:08 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPOINTLIGHTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOINTLIGHTBASE_INLINE_CVSID;
 

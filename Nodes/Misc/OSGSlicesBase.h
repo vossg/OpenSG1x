@@ -236,6 +236,6 @@ typedef SlicesBase *SlicesBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSLICESBASE_HEADER_CVSID "@(#)$Id: OSGSlicesBase.h,v 1.1 2002/07/16 21:10:42 jbehr Exp $"
+#define OSGSLICESBASE_HEADER_CVSID "@(#)$Id: OSGSlicesBase.h,v 1.2 2002/09/16 18:39:08 vossg Exp $"
 
 #endif /* _OSGSLICESBASE_H_ */

@@ -378,6 +378,13 @@ void BlendChunkBase::executeSyncImpl(      BlendChunkBase *pOther,
 
 
 
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<BlendChunkPtr>::_type("BlendChunkPtr", "StateChunkPtr");
+
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -392,7 +399,7 @@ void BlendChunkBase::executeSyncImpl(      BlendChunkBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.29 2002/08/29 16:08:09 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.30 2002/09/16 18:39:09 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGBLENDCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBLENDCHUNKBASE_INLINE_CVSID;
 

@@ -58,7 +58,6 @@
 
 #include <OSGConfig.h>
 
-#include "OSGNodePtr.h"
 #include "OSGSimpleStatisticsForegroundBase.h"
 #include "OSGSimpleStatisticsForeground.h"
 
@@ -78,7 +77,7 @@ const OSG::BitVector  SimpleStatisticsForegroundBase::ColorFieldMask =
 
 // Field descriptions
 
-/*! \var string          SimpleStatisticsForegroundBase::_mfFormats
+/*! \var std::string     SimpleStatisticsForegroundBase::_mfFormats
     The format strings for the given StatElemDesc IDs. If not set, name and value are used.
 */
 /*! \var Real32          SimpleStatisticsForegroundBase::_sfSize
@@ -292,7 +291,6 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<SimpleStatisticsForegroundPtr>::_type("SimpleStatisticsForegroundPtr", "StatisticsForegroundPtr");
 
-
 OSG_DLLEXPORT_SFIELD_DEF1(SimpleStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(SimpleStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -312,7 +310,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleStatisticsForegroundBase.cpp,v 1.11 2002/08/07 04:04:13 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleStatisticsForegroundBase.cpp,v 1.12 2002/09/16 18:39:10 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSIMPLESTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSIMPLESTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 

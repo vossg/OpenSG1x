@@ -1159,7 +1159,6 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<RegisterCombinersChunkPtr>::_type("RegisterCombinersChunkPtr", "StateChunkPtr");
 
-
 OSG_DLLEXPORT_SFIELD_DEF1(RegisterCombinersChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(RegisterCombinersChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -1179,7 +1178,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRegisterCombinersChunkBase.cpp,v 1.2 2002/08/29 16:09:11 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRegisterCombinersChunkBase.cpp,v 1.3 2002/09/16 18:39:09 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGREGISTERCOMBINERSCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGREGISTERCOMBINERSCHUNKBASE_INLINE_CVSID;
 

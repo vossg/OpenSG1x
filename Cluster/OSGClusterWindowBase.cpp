@@ -76,16 +76,17 @@ const OSG::BitVector  ClusterWindowBase::ClientWindowFieldMask =
 const OSG::BitVector  ClusterWindowBase::ServicePortFieldMask = 
     (1 << ClusterWindowBase::ServicePortFieldId);
 
-const osg::BitVector ClusterWindowBase::BroadcastAddressFieldMask=
+const OSG::BitVector  ClusterWindowBase::BroadcastAddressFieldMask = 
     (1 << ClusterWindowBase::BroadcastAddressFieldId);
+
 
 
 // Field descriptions
 
-/*! \var string          ClusterWindowBase::_mfServers
+/*! \var std::string     ClusterWindowBase::_mfServers
     List of all symbolic server names
 */
-/*! \var string          ClusterWindowBase::_sfConnectionType
+/*! \var std::string     ClusterWindowBase::_sfConnectionType
     How to connect to the servers
 */
 /*! \var WindowPtr       ClusterWindowBase::_sfClientWindow
@@ -93,6 +94,9 @@ const osg::BitVector ClusterWindowBase::BroadcastAddressFieldMask=
 */
 /*! \var UInt32          ClusterWindowBase::_sfServicePort
     Broadcastport used for server search
+*/
+/*! \var std::string     ClusterWindowBase::_sfBroadcastAddress
+    Broadcast address used for server search
 */
 
 //! ClusterWindow description
@@ -119,7 +123,6 @@ FieldDescription *ClusterWindowBase::_desc[] =
                      ServicePortFieldId, ServicePortFieldMask,
                      false,
                      (FieldAccessMethod) &ClusterWindowBase::getSFServicePort),
-
     new FieldDescription(SFString::getClassType(), 
                      "broadcastAddress", 
                      BroadcastAddressFieldId, BroadcastAddressFieldMask,
@@ -187,7 +190,7 @@ ClusterWindowBase::ClusterWindowBase(void) :
     _sfConnectionType         (), 
     _sfClientWindow           (), 
     _sfServicePort            (UInt32(8437)), 
-    _sfBroadcastAddress       (),
+    _sfBroadcastAddress       (), 
     Inherited() 
 {
 }
@@ -203,7 +206,7 @@ ClusterWindowBase::ClusterWindowBase(const ClusterWindowBase &source) :
     _sfConnectionType         (source._sfConnectionType         ), 
     _sfClientWindow           (source._sfClientWindow           ), 
     _sfServicePort            (source._sfServicePort            ), 
-    _sfBroadcastAddress       (source._sfBroadcastAddress       ),
+    _sfBroadcastAddress       (source._sfBroadcastAddress       ), 
     Inherited                 (source)
 {
 }
@@ -246,6 +249,7 @@ UInt32 ClusterWindowBase::getBinSize(const BitVector &whichField)
     {
         returnValue += _sfBroadcastAddress.getBinSize();
     }
+
 
     return returnValue;
 }
@@ -312,11 +316,14 @@ void ClusterWindowBase::copyFromBin(      BinaryDataHandler &pMem,
     {
         _sfBroadcastAddress.copyFromBin(pMem);
     }
+
+
 }
 
 void ClusterWindowBase::executeSyncImpl(      ClusterWindowBase *pOther,
                                         const BitVector         &whichField)
 {
+
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (ServersFieldMask & whichField))
@@ -333,6 +340,8 @@ void ClusterWindowBase::executeSyncImpl(      ClusterWindowBase *pOther,
 
     if(FieldBits::NoField != (BroadcastAddressFieldMask & whichField))
         _sfBroadcastAddress.syncWith(pOther->_sfBroadcastAddress);
+
+
 }
 
 
@@ -343,7 +352,6 @@ void ClusterWindowBase::executeSyncImpl(      ClusterWindowBase *pOther,
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<ClusterWindowPtr>::_type("ClusterWindowPtr", "WindowPtr");
-
 
 OSG_DLLEXPORT_SFIELD_DEF1(ClusterWindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ClusterWindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

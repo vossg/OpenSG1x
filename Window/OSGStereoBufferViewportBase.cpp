@@ -58,7 +58,6 @@
 
 #include <OSGConfig.h>
 
-#include "OSGNodePtr.h"
 #include "OSGStereoBufferViewportBase.h"
 #include "OSGStereoBufferViewport.h"
 
@@ -261,7 +260,6 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<StereoBufferViewportPtr>::_type("StereoBufferViewportPtr", "ViewportPtr");
 
-
 OSG_DLLEXPORT_SFIELD_DEF1(StereoBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(StereoBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -281,7 +279,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStereoBufferViewportBase.cpp,v 1.11 2002/08/07 04:04:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStereoBufferViewportBase.cpp,v 1.12 2002/09/16 18:39:11 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTEREOBUFFERVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTEREOBUFFERVIEWPORTBASE_INLINE_CVSID;
 

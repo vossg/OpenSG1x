@@ -58,7 +58,6 @@
 
 #include <OSGConfig.h>
 
-#include "OSGNodePtr.h"
 #include "OSGPerspectiveCameraBase.h"
 #include "OSGPerspectiveCamera.h"
 
@@ -230,7 +229,6 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<PerspectiveCameraPtr>::_type("PerspectiveCameraPtr", "CameraPtr");
 
-
 OSG_DLLEXPORT_SFIELD_DEF1(PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -250,7 +248,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.33 2002/08/07 04:04:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.34 2002/09/16 18:39:11 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPERSPECTIVECAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPERSPECTIVECAMERABASE_INLINE_CVSID;
 

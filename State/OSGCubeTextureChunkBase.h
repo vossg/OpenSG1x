@@ -150,11 +150,11 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunkBase : public TextureChunk
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setPosZImage      ( ImageP &value );
-     void setPosXImage      ( ImageP &value );
-     void setNegXImage      ( ImageP &value );
-     void setPosYImage      ( ImageP &value );
-     void setNegYImage      ( ImageP &value );
+     void setPosZImage      ( const ImageP &value );
+     void setPosXImage      ( const ImageP &value );
+     void setNegXImage      ( const ImageP &value );
+     void setPosYImage      ( const ImageP &value );
+     void setNegYImage      ( const ImageP &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -252,6 +252,6 @@ typedef CubeTextureChunkBase *CubeTextureChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCUBETEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGCubeTextureChunkBase.h,v 1.3 2002/09/02 03:11:06 vossg Exp $"
+#define OSGCUBETEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGCubeTextureChunkBase.h,v 1.4 2002/09/16 18:39:09 vossg Exp $"
 
 #endif /* _OSGCUBETEXTURECHUNKBASE_H_ */

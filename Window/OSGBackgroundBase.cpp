@@ -180,7 +180,6 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<BackgroundPtr>::_type("BackgroundPtr", "AttachmentContainerPtr");
 
-
 OSG_DLLEXPORT_SFIELD_DEF1(BackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(BackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -200,7 +199,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.31 2002/06/18 08:17:55 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.32 2002/09/16 18:39:11 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBACKGROUNDBASE_INLINE_CVSID;
 

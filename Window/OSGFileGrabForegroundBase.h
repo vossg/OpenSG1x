@@ -144,10 +144,10 @@ class OSG_SYSTEMLIB_DLLMAPPING FileGrabForegroundBase : public GrabForeground
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setActive         (const bool        &value);
-     void setName           (const std::string &value);
-     void setFrame          (const UInt32      &value);
-     void setIncrement      (const bool        &value);
+     void setActive         ( const bool &value );
+     void setName           ( const std::string &value );
+     void setFrame          ( const UInt32 &value );
+     void setIncrement      ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -244,6 +244,6 @@ typedef FileGrabForegroundBase *FileGrabForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGFileGrabForegroundBase.h,v 1.6 2002/09/02 07:05:11 vossg Exp $"
+#define OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGFileGrabForegroundBase.h,v 1.7 2002/09/16 18:39:11 vossg Exp $"
 
 #endif /* _OSGFILEGRABFOREGROUNDBASE_H_ */

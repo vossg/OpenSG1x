@@ -78,6 +78,8 @@ template <>
 struct FieldDataTraits<SpotLightPtr> : 
     public FieldTraitsRecurseMapper<SpotLightPtr, true>
 {
+    static DataType             _type;                       
+
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 };
@@ -85,6 +87,6 @@ struct FieldDataTraits<SpotLightPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGSPOTLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGSpotLightFields.h,v 1.11 2002/08/07 04:04:12 vossg Exp $"
+#define OSGSPOTLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGSpotLightFields.h,v 1.12 2002/09/16 18:39:08 vossg Exp $"
 
 #endif /* _OSGSPOTLIGHTFIELDS_H_ */

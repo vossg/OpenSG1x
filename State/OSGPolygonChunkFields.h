@@ -70,9 +70,23 @@ class PolygonChunk;
 
 typedef FCPtr<StateChunkPtr, PolygonChunk> PolygonChunkPtr;
 
+/*! \brief PolygonChunkPtr field traits 
+    \ingroup FieldLib
+*/
+
+template <>
+struct FieldDataTraits<PolygonChunkPtr> : 
+    public FieldTraitsRecurseMapper<PolygonChunkPtr, true>
+{
+    static DataType             _type;                       
+
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
+};
+
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGPolygonChunkFields.h,v 1.13 2002/07/02 15:00:53 dirk Exp $"
+#define OSGPOLYGONCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGPolygonChunkFields.h,v 1.14 2002/09/16 18:39:09 vossg Exp $"
 
 #endif /* _OSGPOLYGONCHUNKFIELDS_H_ */

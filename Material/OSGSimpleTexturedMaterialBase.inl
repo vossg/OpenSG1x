@@ -218,8 +218,7 @@ void SimpleTexturedMaterialBase::setEnvMap(const bool &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGSIMPLETEXTUREDMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGSimpleTexturedMaterialBase.inl,v 1.6 2002/07/02 14:38:23 dirk Exp $"
+#define OSGSIMPLETEXTUREDMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGSimpleTexturedMaterialBase.inl,v 1.7 2002/09/16 18:39:07 vossg Exp $"
 

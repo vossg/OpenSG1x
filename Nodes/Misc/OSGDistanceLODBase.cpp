@@ -253,6 +253,13 @@ void DistanceLODBase::executeSyncImpl(      DistanceLODBase *pOther,
 
 
 
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<DistanceLODPtr>::_type("DistanceLODPtr", "GroupPtr");
+
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -267,7 +274,7 @@ void DistanceLODBase::executeSyncImpl(      DistanceLODBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.18 2002/05/16 04:10:17 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.19 2002/09/16 18:39:08 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDISTANCELODBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDISTANCELODBASE_INLINE_CVSID;
 

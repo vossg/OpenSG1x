@@ -290,7 +290,6 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<ImageBackgroundPtr>::_type("ImageBackgroundPtr", "BackgroundPtr");
 
-
 OSG_DLLEXPORT_SFIELD_DEF1(ImageBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE
@@ -309,7 +308,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageBackgroundBase.cpp,v 1.17 2002/06/18 08:17:56 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageBackgroundBase.cpp,v 1.18 2002/09/16 18:39:11 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGIMAGEBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGIMAGEBACKGROUNDBASE_INLINE_CVSID;
 

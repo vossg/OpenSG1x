@@ -78,6 +78,8 @@ template <>
 struct FieldDataTraits<GeometryPtr> : 
     public FieldTraitsRecurseMapper<GeometryPtr, true>
 {
+    static DataType             _type;                       
+
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 };
@@ -85,6 +87,6 @@ struct FieldDataTraits<GeometryPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGGEOMETRYFIELDS_HEADER_CVSID "@(#)$Id: OSGGeometryFields.h,v 1.12 2002/08/07 04:04:12 vossg Exp $"
+#define OSGGEOMETRYFIELDS_HEADER_CVSID "@(#)$Id: OSGGeometryFields.h,v 1.13 2002/09/16 18:39:07 vossg Exp $"
 
 #endif /* _OSGGEOMETRYFIELDS_H_ */

@@ -58,7 +58,6 @@
 
 #include <OSGConfig.h>
 
-#include "OSGNodePtr.h"
 #include "OSGLightBaseBase.h"
 #include "OSGLightBase.h"
 
@@ -431,6 +430,13 @@ void LightBaseBase::executeSyncImpl(      LightBaseBase *pOther,
 
 
 
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<LightBasePtr>::_type("LightBasePtr", "NodeCorePtr");
+
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -445,7 +451,7 @@ void LightBaseBase::executeSyncImpl(      LightBaseBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.27 2002/08/07 04:04:12 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.28 2002/09/16 18:39:07 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTBASEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTBASEBASE_INLINE_CVSID;
 

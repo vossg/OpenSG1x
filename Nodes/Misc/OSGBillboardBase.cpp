@@ -58,7 +58,6 @@
 
 #include <OSGConfig.h>
 
-#include "OSGNodePtr.h"
 #include "OSGBillboardBase.h"
 #include "OSGBillboard.h"
 
@@ -291,7 +290,6 @@ void BillboardBase::executeSyncImpl(      BillboardBase *pOther,
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<BillboardPtr>::_type("BillboardPtr", "NodeCorePtr");
-
 
 OSG_DLLEXPORT_SFIELD_DEF1(BillboardPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(BillboardPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

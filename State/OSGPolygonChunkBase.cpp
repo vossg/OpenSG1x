@@ -540,6 +540,13 @@ void PolygonChunkBase::executeSyncImpl(      PolygonChunkBase *pOther,
 
 
 
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<PolygonChunkPtr>::_type("PolygonChunkPtr", "StateChunkPtr");
+
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -554,7 +561,7 @@ void PolygonChunkBase::executeSyncImpl(      PolygonChunkBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.27 2002/07/02 15:00:53 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.28 2002/09/16 18:39:09 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONCHUNKBASE_INLINE_CVSID;
 

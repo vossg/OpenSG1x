@@ -199,6 +199,7 @@ void ClusterWindowBase::setBroadcastAddress(const std::string &value)
     _sfBroadcastAddress.setValue(value);
 }
 
+
 inline
 std::string &ClusterWindowBase::getServers(const UInt32 index)
 {

@@ -229,7 +229,6 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<ChunkMaterialPtr>::_type("ChunkMaterialPtr", "MaterialPtr");
 
-
 OSG_DLLEXPORT_SFIELD_DEF1(ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -249,7 +248,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.28 2002/06/18 08:17:51 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.29 2002/09/16 18:39:07 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCHUNKMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHUNKMATERIALBASE_INLINE_CVSID;
 

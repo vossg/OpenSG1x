@@ -253,6 +253,13 @@ void MultiDisplayWindowBase::executeSyncImpl(      MultiDisplayWindowBase *pOthe
 
 
 
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<MultiDisplayWindowPtr>::_type("MultiDisplayWindowPtr", "ClusterWindowPtr");
+
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */

@@ -58,7 +58,6 @@
 
 #include <OSGConfig.h>
 
-#include "OSGNodePtr.h"
 #include "OSGInlineBase.h"
 #include "OSGInline.h"
 
@@ -75,7 +74,7 @@ const OSG::BitVector  InlineBase::LoadedFieldMask =
 
 // Field descriptions
 
-/*! \var string          InlineBase::_mfUrl
+/*! \var std::string     InlineBase::_mfUrl
     
 */
 /*! \var bool            InlineBase::_sfLoaded
@@ -260,7 +259,6 @@ void InlineBase::executeSyncImpl(      InlineBase *pOther,
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<InlinePtr>::_type("InlinePtr", "NodeCorePtr");
-
 
 OSG_DLLEXPORT_SFIELD_DEF1(InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

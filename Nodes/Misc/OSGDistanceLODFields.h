@@ -78,6 +78,8 @@ template <>
 struct FieldDataTraits<DistanceLODPtr> : 
     public FieldTraitsRecurseMapper<DistanceLODPtr, true>
 {
+    static DataType             _type;                       
+
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 };
@@ -85,6 +87,6 @@ struct FieldDataTraits<DistanceLODPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGDISTANCELODFIELDS_HEADER_CVSID "@(#)$Id: OSGDistanceLODFields.h,v 1.9 2002/08/07 04:04:12 vossg Exp $"
+#define OSGDISTANCELODFIELDS_HEADER_CVSID "@(#)$Id: OSGDistanceLODFields.h,v 1.10 2002/09/16 18:39:08 vossg Exp $"
 
 #endif /* _OSGDISTANCELODFIELDS_H_ */

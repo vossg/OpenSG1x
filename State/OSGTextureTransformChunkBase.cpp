@@ -182,6 +182,13 @@ void TextureTransformChunkBase::executeSyncImpl(      TextureTransformChunkBase 
 
 
 
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<TextureTransformChunkPtr>::_type("TextureTransformChunkPtr", "TransformChunkPtr");
+
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -196,7 +203,7 @@ void TextureTransformChunkBase::executeSyncImpl(      TextureTransformChunkBase 
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureTransformChunkBase.cpp,v 1.6 2002/05/16 04:10:17 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureTransformChunkBase.cpp,v 1.7 2002/09/16 18:39:10 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURETRANSFORMCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURETRANSFORMCHUNKBASE_INLINE_CVSID;
 

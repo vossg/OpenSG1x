@@ -501,6 +501,13 @@ void LightChunkBase::executeSyncImpl(      LightChunkBase *pOther,
 
 
 
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<LightChunkPtr>::_type("LightChunkPtr", "StateChunkPtr");
+
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -515,7 +522,7 @@ void LightChunkBase::executeSyncImpl(      LightChunkBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.24 2002/05/16 04:10:17 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.25 2002/09/16 18:39:09 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTCHUNKBASE_INLINE_CVSID;
 

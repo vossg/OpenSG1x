@@ -57,7 +57,6 @@
 #pragma once
 #endif
 
-#ifndef WIN32
 
 #include <OSGConfig.h>
 #include <OSGSystemDef.h>
@@ -354,8 +353,6 @@ typedef GraphicStatisticsForegroundBase *GraphicStatisticsForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGraphicStatisticsForegroundBase.h,v 1.5 2002/09/02 09:33:56 vossg Exp $"
-
-#endif
+#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGraphicStatisticsForegroundBase.h,v 1.6 2002/09/16 18:39:10 vossg Exp $"
 
 #endif /* _OSGGRAPHICSTATISTICSFOREGROUNDBASE_H_ */

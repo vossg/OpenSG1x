@@ -58,7 +58,6 @@
 
 #include <OSGConfig.h>
 
-#include "OSGNodePtr.h"
 #include "OSGPassiveViewportBase.h"
 #include "OSGPassiveViewport.h"
 
@@ -190,7 +189,6 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<PassiveViewportPtr>::_type("PassiveViewportPtr", "ViewportPtr");
 
-
 OSG_DLLEXPORT_SFIELD_DEF1(PassiveViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PassiveViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -210,7 +208,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPassiveViewportBase.cpp,v 1.11 2002/08/07 04:04:13 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPassiveViewportBase.cpp,v 1.12 2002/09/16 18:39:11 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPASSIVEVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPASSIVEVIEWPORTBASE_INLINE_CVSID;
 

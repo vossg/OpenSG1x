@@ -69,6 +69,7 @@
 #include <OSGStringFields.h> // ConnectionType type
 #include <OSGWindowFields.h> // ClientWindow type
 #include <OSGUInt32Fields.h> // ServicePort type
+#include <OSGStringFields.h> // BroadcastAddress type
 
 #include <OSGClusterWindowFields.h>
 
@@ -127,33 +128,34 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFString            *getMFServers         (void);
-           SFString            *getSFConnectionType  (void);
-           SFWindowPtr         *getSFClientWindow    (void);
-           SFUInt32            *getSFServicePort     (void);
+           MFString            *getMFServers        (void);
+           SFString            *getSFConnectionType (void);
+           SFWindowPtr         *getSFClientWindow   (void);
+           SFUInt32            *getSFServicePort    (void);
            SFString            *getSFBroadcastAddress(void);
 
-           std::string         &getConnectionType  (void);
-     const std::string         &getConnectionType  (void) const;
-           WindowPtr           &getClientWindow    (void);
-     const WindowPtr           &getClientWindow    (void) const;
-           UInt32              &getServicePort     (void);
-     const UInt32              &getServicePort     (void) const;
+           std::string         &getConnectionType (void);
+     const std::string         &getConnectionType (void) const;
+           WindowPtr           &getClientWindow   (void);
+     const WindowPtr           &getClientWindow   (void) const;
+           UInt32              &getServicePort    (void);
+     const UInt32              &getServicePort    (void) const;
            std::string         &getBroadcastAddress(void);
      const std::string         &getBroadcastAddress(void) const;
-           std::string         &getServers         (const UInt32 index);
-           MFString            &getServers         (void);
-     const MFString            &getServers         (void) const;
+           std::string         &getServers        (const UInt32 index);
+           MFString            &getServers        (void);
+     const MFString            &getServers        (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setConnectionType  ( const std::string &value );
-     void setClientWindow    ( const WindowPtr   &value );
-     void setServicePort     ( const UInt32      &value );
+     void setConnectionType ( const std::string &value );
+     void setClientWindow   ( const WindowPtr &value );
+     void setServicePort    ( const UInt32 &value );
      void setBroadcastAddress( const std::string &value );
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */

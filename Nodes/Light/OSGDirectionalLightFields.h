@@ -78,6 +78,8 @@ template <>
 struct FieldDataTraits<DirectionalLightPtr> : 
     public FieldTraitsRecurseMapper<DirectionalLightPtr, true>
 {
+    static DataType             _type;                       
+
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 };
@@ -85,6 +87,6 @@ struct FieldDataTraits<DirectionalLightPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGDIRECTIONALLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGDirectionalLightFields.h,v 1.11 2002/08/07 04:04:12 vossg Exp $"
+#define OSGDIRECTIONALLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGDirectionalLightFields.h,v 1.12 2002/09/16 18:39:07 vossg Exp $"
 
 #endif /* _OSGDIRECTIONALLIGHTFIELDS_H_ */

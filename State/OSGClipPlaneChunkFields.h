@@ -78,6 +78,8 @@ template <>
 struct FieldDataTraits<ClipPlaneChunkPtr> : 
     public FieldTraitsRecurseMapper<ClipPlaneChunkPtr, true>
 {
+    static DataType             _type;                       
+
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 };
@@ -85,6 +87,6 @@ struct FieldDataTraits<ClipPlaneChunkPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGCLIPPLANECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGClipPlaneChunkFields.h,v 1.3 2002/08/12 06:49:48 dirk Exp $"
+#define OSGCLIPPLANECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGClipPlaneChunkFields.h,v 1.4 2002/09/16 18:39:09 vossg Exp $"
 
 #endif /* _OSGCLIPPLANECHUNKFIELDS_H_ */

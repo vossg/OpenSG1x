@@ -58,7 +58,6 @@
 
 #include <OSGConfig.h>
 
-#include "OSGNodePtr.h"
 #include "OSGSlicesBase.h"
 #include "OSGSlices.h"
 
@@ -292,7 +291,6 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<SlicesPtr>::_type("SlicesPtr", "NodeCorePtr");
 
-
 OSG_DLLEXPORT_SFIELD_DEF1(SlicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(SlicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -312,7 +310,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSlicesBase.cpp,v 1.2 2002/08/07 04:04:12 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSlicesBase.cpp,v 1.3 2002/09/16 18:39:08 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSLICESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSLICESBASE_INLINE_CVSID;
 

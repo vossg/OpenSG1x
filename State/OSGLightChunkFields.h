@@ -78,6 +78,8 @@ template <>
 struct FieldDataTraits<LightChunkPtr> : 
     public FieldTraitsRecurseMapper<LightChunkPtr, true>
 {
+    static DataType             _type;                       
+
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 };
@@ -85,6 +87,6 @@ struct FieldDataTraits<LightChunkPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGLightChunkFields.h,v 1.11 2002/08/07 04:04:13 vossg Exp $"
+#define OSGLIGHTCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGLightChunkFields.h,v 1.12 2002/09/16 18:39:09 vossg Exp $"
 
 #endif /* _OSGLIGHTCHUNKFIELDS_H_ */

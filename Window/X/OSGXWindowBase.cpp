@@ -291,7 +291,6 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<XWindowPtr>::_type("XWindowPtr", "WindowPtr");
 
-
 OSG_DLLEXPORT_SFIELD_DEF1(XWindowPtr, OSG_WINDOWXLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(XWindowPtr, OSG_WINDOWXLIB_DLLTMPLMAPPING);
 
@@ -311,7 +310,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGXWindowBase.cpp,v 1.12 2002/06/18 08:17:58 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGXWindowBase.cpp,v 1.13 2002/09/16 18:39:12 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGXWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGXWINDOWBASE_INLINE_CVSID;
 

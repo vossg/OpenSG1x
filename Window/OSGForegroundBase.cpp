@@ -180,7 +180,6 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<ForegroundPtr>::_type("ForegroundPtr", "AttachmentContainerPtr");
 
-
 OSG_DLLEXPORT_SFIELD_DEF1(ForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 

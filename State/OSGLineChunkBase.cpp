@@ -316,6 +316,13 @@ void LineChunkBase::executeSyncImpl(      LineChunkBase *pOther,
 
 
 
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<LineChunkPtr>::_type("LineChunkPtr", "StateChunkPtr");
+
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -330,7 +337,7 @@ void LineChunkBase::executeSyncImpl(      LineChunkBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLineChunkBase.cpp,v 1.9 2002/05/16 04:10:17 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLineChunkBase.cpp,v 1.10 2002/09/16 18:39:09 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGLINECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLINECHUNKBASE_INLINE_CVSID;
 

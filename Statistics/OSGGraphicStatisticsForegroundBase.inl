@@ -465,8 +465,7 @@ const MFUInt32 &GraphicStatisticsForegroundBase::getHistorySize(void) const
 }
 
 inline
-std::string &GraphicStatisticsForegroundBase::getDescription(
-    const UInt32 index)
+std::string &GraphicStatisticsForegroundBase::getDescription(const UInt32 index)
 {
     return _mfDescription[index];
 }
@@ -485,5 +484,5 @@ const MFString &GraphicStatisticsForegroundBase::getDescription(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGGraphicStatisticsForegroundBase.inl,v 1.4 2002/09/02 09:33:56 vossg Exp $"
+#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGGraphicStatisticsForegroundBase.inl,v 1.5 2002/09/16 18:39:10 vossg Exp $"
 

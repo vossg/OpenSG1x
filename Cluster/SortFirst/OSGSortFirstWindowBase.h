@@ -152,9 +152,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SortFirstWindowBase : public ClusterWindow
     /*! \{                                                                 */
 
      void setCompression    ( const std::string &value );
-     void setSubtileSize    ( const      UInt32 &value );
-     void setCompose        ( const      bool &value );
-     void setUseFaceDistribution( const  bool &value );
+     void setSubtileSize    ( const UInt32 &value );
+     void setCompose        ( const bool &value );
+     void setUseFaceDistribution( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

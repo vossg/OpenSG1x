@@ -450,7 +450,6 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<TexGenChunkPtr>::_type("TexGenChunkPtr", "StateChunkPtr");
 
-
 OSG_DLLEXPORT_SFIELD_DEF1(TexGenChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(TexGenChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -470,7 +469,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTexGenChunkBase.cpp,v 1.1 2002/06/10 22:10:47 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTexGenChunkBase.cpp,v 1.2 2002/09/16 18:39:09 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXGENCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXGENCHUNKBASE_INLINE_CVSID;
 

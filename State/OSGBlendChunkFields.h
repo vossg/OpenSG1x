@@ -78,6 +78,8 @@ template <>
 struct FieldDataTraits<BlendChunkPtr> : 
     public FieldTraitsRecurseMapper<BlendChunkPtr, true>
 {
+    static DataType             _type;                       
+
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 };
@@ -85,6 +87,6 @@ struct FieldDataTraits<BlendChunkPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGBLENDCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGBlendChunkFields.h,v 1.11 2002/08/07 04:04:13 vossg Exp $"
+#define OSGBLENDCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGBlendChunkFields.h,v 1.12 2002/09/16 18:39:09 vossg Exp $"
 
 #endif /* _OSGBLENDCHUNKFIELDS_H_ */

@@ -58,7 +58,6 @@
 
 #include <OSGConfig.h>
 
-#include "OSGNodePtr.h"
 #include "OSGStateChunkBase.h"
 #include "OSGStateChunk.h"
 
@@ -181,7 +180,6 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<StateChunkPtr>::_type("StateChunkPtr", "FieldContainerPtr");
 
-
 OSG_DLLEXPORT_SFIELD_DEF1(StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -201,7 +199,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.31 2002/08/07 04:04:13 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.32 2002/09/16 18:39:09 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATECHUNKBASE_INLINE_CVSID;
 

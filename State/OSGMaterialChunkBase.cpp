@@ -409,6 +409,13 @@ void MaterialChunkBase::executeSyncImpl(      MaterialChunkBase *pOther,
 
 
 
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<MaterialChunkPtr>::_type("MaterialChunkPtr", "StateChunkPtr");
+
+
+OSG_END_NAMESPACE
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -423,7 +430,7 @@ void MaterialChunkBase::executeSyncImpl(      MaterialChunkBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.26 2002/05/16 04:10:17 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.27 2002/09/16 18:39:09 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALCHUNKBASE_INLINE_CVSID;
 

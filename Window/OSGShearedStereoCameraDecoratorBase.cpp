@@ -58,7 +58,6 @@
 
 #include <OSGConfig.h>
 
-#include "OSGNodePtr.h"
 #include "OSGShearedStereoCameraDecoratorBase.h"
 #include "OSGShearedStereoCameraDecorator.h"
 
@@ -261,7 +260,6 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<ShearedStereoCameraDecoratorPtr>::_type("ShearedStereoCameraDecoratorPtr", "StereoCameraDecoratorPtr");
 
-
 OSG_DLLEXPORT_SFIELD_DEF1(ShearedStereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ShearedStereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -281,7 +279,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShearedStereoCameraDecoratorBase.cpp,v 1.11 2002/08/07 04:04:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShearedStereoCameraDecoratorBase.cpp,v 1.12 2002/09/16 18:39:11 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHEAREDSTEREOCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHEAREDSTEREOCAMERADECORATORBASE_INLINE_CVSID;
 

@@ -78,6 +78,8 @@ template <>
 struct FieldDataTraits<MultiDisplayWindowPtr> : 
     public FieldTraitsRecurseMapper<MultiDisplayWindowPtr, true>
 {
+    static DataType             _type;                       
+
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 };

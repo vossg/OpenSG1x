@@ -140,7 +140,7 @@ const ImageP &CubeTextureChunkBase::getPosZImage(void) const
 }
 
 inline
-void CubeTextureChunkBase::setPosZImage(ImageP &value)
+void CubeTextureChunkBase::setPosZImage(const ImageP &value)
 {
     _sfPosZImage.setValue(value);
 }
@@ -158,7 +158,7 @@ const ImageP &CubeTextureChunkBase::getPosXImage(void) const
 }
 
 inline
-void CubeTextureChunkBase::setPosXImage(ImageP &value)
+void CubeTextureChunkBase::setPosXImage(const ImageP &value)
 {
     _sfPosXImage.setValue(value);
 }
@@ -176,7 +176,7 @@ const ImageP &CubeTextureChunkBase::getNegXImage(void) const
 }
 
 inline
-void CubeTextureChunkBase::setNegXImage(ImageP &value)
+void CubeTextureChunkBase::setNegXImage(const ImageP &value)
 {
     _sfNegXImage.setValue(value);
 }
@@ -194,7 +194,7 @@ const ImageP &CubeTextureChunkBase::getPosYImage(void) const
 }
 
 inline
-void CubeTextureChunkBase::setPosYImage(ImageP &value)
+void CubeTextureChunkBase::setPosYImage(const ImageP &value)
 {
     _sfPosYImage.setValue(value);
 }
@@ -212,7 +212,7 @@ const ImageP &CubeTextureChunkBase::getNegYImage(void) const
 }
 
 inline
-void CubeTextureChunkBase::setNegYImage(ImageP &value)
+void CubeTextureChunkBase::setNegYImage(const ImageP &value)
 {
     _sfNegYImage.setValue(value);
 }
@@ -220,5 +220,5 @@ void CubeTextureChunkBase::setNegYImage(ImageP &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCUBETEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGCubeTextureChunkBase.inl,v 1.3 2002/09/02 03:11:06 vossg Exp $"
+#define OSGCUBETEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGCubeTextureChunkBase.inl,v 1.4 2002/09/16 18:39:09 vossg Exp $"
 

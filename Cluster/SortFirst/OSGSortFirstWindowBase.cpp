@@ -83,7 +83,7 @@ const OSG::BitVector  SortFirstWindowBase::UseFaceDistributionFieldMask =
 
 // Field descriptions
 
-/*! \var string          SortFirstWindowBase::_sfCompression
+/*! \var std::string     SortFirstWindowBase::_sfCompression
     
 */
 /*! \var UInt32          SortFirstWindowBase::_sfSubtileSize
@@ -345,6 +345,13 @@ void SortFirstWindowBase::executeSyncImpl(      SortFirstWindowBase *pOther,
 }
 
 
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<SortFirstWindowPtr>::_type("SortFirstWindowPtr", "ClusterWindowPtr");
+
+
+OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/

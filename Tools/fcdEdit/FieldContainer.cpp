@@ -1212,6 +1212,7 @@ bool FieldContainer::writeTempl(
 				"@!FieldtypeInclude",
 				"@!FieldTypedDefault",	
 				"@!CARDINALITY",		"@!Fieldtype",
+                "@!CapsFieldtypeClean",
                 "@!CapsFieldtype",
 				"@!fieldnameDesc",
 				"@!fieldname", 			"@!Fieldname", 
@@ -1228,6 +1229,7 @@ bool FieldContainer::writeTempl(
 					FieldtypeIncludeE,
 					FieldTypedDefaultE, 
 					CARDINALITYE,		FieldtypeE,
+                    FieldtypeCapsCleanE,
                     FieldtypeCapsE,
 					fieldnameDescE,
 					fieldnameE, 		FieldnameE, 
@@ -1254,16 +1256,36 @@ bool FieldContainer::writeTempl(
 			{
 				char * s;
 
-				values[CARDINALITYE]      = fieldcardinality;
-				values[FieldtypeE]        = strdup(fieldtype);
-				values[FieldtypeCapsE]    = strdup(fieldtype);
-				values[fieldnameE]        = strdup(fieldname);
-				values[FieldnameE]        = fieldnameCaps;
-				values[FIELDNAMEE]        = fieldnameUpper;
-				values[fieldvisibilityE]  = (char*)(fieldIt->visibility() ? "false" : "true");
-                values[fieldnameDescE]    = fieldnameDesc;
+				values[CARDINALITYE]        = fieldcardinality;
+				values[FieldtypeE]          = strdup(fieldtype);
+				values[FieldtypeCapsE]      = strdup(fieldtype);
+				values[FieldtypeCapsCleanE] = strdup(fieldtype);
+				values[fieldnameE]          = strdup(fieldname);
+				values[FieldnameE]          = fieldnameCaps;
+				values[FIELDNAMEE]          = fieldnameUpper;
+				values[fieldvisibilityE]    = (char*)(fieldIt->visibility() ? "false" : "true");
+                values[fieldnameDescE]      = fieldnameDesc;
 
 				values[FieldtypeCapsE][0] = toupper(values[FieldtypeCapsE][0]);
+
+                if(strncmp(values[FieldtypeCapsCleanE], "std::", 5) == 0)
+                {
+                    char *tmpStrIn  = values[FieldtypeCapsCleanE] + 5;
+                    char *tmpStrOut = values[FieldtypeCapsCleanE];
+
+                    while(*tmpStrIn != '\0')
+                    {
+                        *tmpStrOut++ = *tmpStrIn++;
+                    }
+
+                    *tmpStrOut = '\0';
+
+                    values[FieldtypeCapsCleanE][0] = toupper(values[FieldtypeCapsCleanE][0]);
+                }
+                else
+                {
+                    values[FieldtypeCapsCleanE][0] = toupper(values[FieldtypeCapsCleanE][0]);
+                }
 
 				if ( fieldIt->defaultValue() )
 				{
@@ -1287,12 +1309,21 @@ bool FieldContainer::writeTempl(
 				// FieldtypeInclude
 				if ( ! fieldIt->header() || ! strcmp( fieldIt->header(), "auto" ) )
 				{
+                    char *valueStart = values[FieldtypeCapsE];
+
 					s = new char [ strlen(fieldtype) + 20];
+                    
+                    if(strncmp(valueStart, "Std::", 5) == 0)
+                    {
+                        valueStart += 5;
+                        *valueStart = toupper(*valueStart);
+                    }
+
 					if ( _systemComponent )
 						strcpy( s, "OSG" );
 					else
 						strcpy( s, "OpenSG/OSG" );
-					strcat( s, values[FieldtypeCapsE] );
+					strcat( s, valueStart );
 
 					// remove the Ptr suffix
 					if ( !strcmp( &s[strlen(s) - 3], "Ptr" ) )
@@ -1322,7 +1353,7 @@ bool FieldContainer::writeTempl(
 			else
 			{
 				values[CARDINALITYE] = values[FieldtypeE] = values[FieldtypeCapsE] = 
-				values[fieldnameE] = values[FieldnameE] = 
+                values[FieldtypeCapsCleanE] = values[fieldnameE] = values[FieldnameE] = 
 				values[FIELDNAMEE] = values[fieldvisibilityE] = 
 				values[FieldTypedDefaultE] = values[FieldtypeIncludeE] = 
 				values[FielddescriptionE] = values[FieldSeparatorE] = 
@@ -1342,6 +1373,7 @@ bool FieldContainer::writeTempl(
 				
 				int i;
 				for ( i = 0; keys[i] ; i++ )
+                {
 					if ( ! strncmp( ce, keys[i], strlen( keys[i] ) ) )
 					{
 						int len = 0;
@@ -1368,7 +1400,8 @@ bool FieldContainer::writeTempl(
 						cs = ce;
 						break;
 					}
-				
+                }
+
 				if ( ! keys[i] )
 				{
 					cerr << "No replacement found for " << ce << " in line " 

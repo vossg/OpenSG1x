@@ -172,5 +172,5 @@ void SlicesBase::setNumberOfSlices(const Int32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSLICESBASE_INLINE_CVSID "@(#)$Id: OSGSlicesBase.inl,v 1.1 2002/07/16 21:10:42 jbehr Exp $"
+#define OSGSLICESBASE_INLINE_CVSID "@(#)$Id: OSGSlicesBase.inl,v 1.2 2002/09/16 18:39:08 vossg Exp $"
 

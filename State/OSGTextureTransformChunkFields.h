@@ -78,6 +78,8 @@ template <>
 struct FieldDataTraits<TextureTransformChunkPtr> : 
     public FieldTraitsRecurseMapper<TextureTransformChunkPtr, true>
 {
+    static DataType             _type;                       
+
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 };
@@ -85,6 +87,6 @@ struct FieldDataTraits<TextureTransformChunkPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURETRANSFORMCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGTextureTransformChunkFields.h,v 1.4 2002/08/07 04:04:13 vossg Exp $"
+#define OSGTEXTURETRANSFORMCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGTextureTransformChunkFields.h,v 1.5 2002/09/16 18:39:10 vossg Exp $"
 
 #endif /* _OSGTEXTURETRANSFORMCHUNKFIELDS_H_ */

@@ -353,7 +353,6 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<CubeTextureChunkPtr>::_type("CubeTextureChunkPtr", "TextureChunkPtr");
 
-
 OSG_DLLEXPORT_SFIELD_DEF1(CubeTextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(CubeTextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -373,7 +372,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCubeTextureChunkBase.cpp,v 1.1 2002/06/10 22:10:46 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCubeTextureChunkBase.cpp,v 1.2 2002/09/16 18:39:09 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCUBETEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCUBETEXTURECHUNKBASE_INLINE_CVSID;
 

@@ -58,7 +58,6 @@
 
 #include <OSGConfig.h>
 
-#include "OSGNodePtr.h"
 #include "OSGTransformBase.h"
 #include "OSGTransform.h"
 
@@ -230,7 +229,6 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<TransformPtr>::_type("TransformPtr", "NodeCorePtr");
 
-
 OSG_DLLEXPORT_SFIELD_DEF1(TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -250,7 +248,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTransformBase.cpp,v 1.32 2002/08/07 04:04:12 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTransformBase.cpp,v 1.33 2002/09/16 18:39:08 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTRANSFORMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTRANSFORMBASE_INLINE_CVSID;
 

@@ -50,7 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-#ifndef WIN32
 
 #define OSG_COMPILEGRAPHICSTATISTICSFOREGROUNDINST
 
@@ -147,7 +146,7 @@ const OSG::BitVector  GraphicStatisticsForegroundBase::BorderEnabledFieldMask =
 /*! \var UInt32          GraphicStatisticsForegroundBase::_mfHistorySize
     
 */
-/*! \var string          GraphicStatisticsForegroundBase::_mfDescription
+/*! \var std::string     GraphicStatisticsForegroundBase::_mfDescription
     The description for every id
 */
 /*! \var Real32          GraphicStatisticsForegroundBase::_sfLineWidth
@@ -695,7 +694,6 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<GraphicStatisticsForegroundPtr>::_type("GraphicStatisticsForegroundPtr", "StatisticsForegroundPtr");
 
-
 OSG_DLLEXPORT_SFIELD_DEF1(GraphicStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(GraphicStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -715,11 +713,10 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForegroundBase.cpp,v 1.4 2002/07/31 07:32:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForegroundBase.cpp,v 1.5 2002/09/16 18:39:10 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGGRAPHICSTATISTICSFOREGROUNDFIELDS_HEADER_CVSID;
 }
 
-#endif

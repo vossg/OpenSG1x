@@ -58,7 +58,6 @@
 
 #include <OSGConfig.h>
 
-#include "OSGNodePtr.h"
 #include "OSGGroupBase.h"
 #include "OSGGroup.h"
 
@@ -190,7 +189,6 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<GroupPtr>::_type("GroupPtr", "NodeCorePtr");
 
-
 OSG_DLLEXPORT_SFIELD_DEF1(GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -210,7 +208,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGroupBase.cpp,v 1.30 2002/08/07 04:04:12 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGroupBase.cpp,v 1.31 2002/09/16 18:39:08 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGROUPBASE_INLINE_CVSID;
 

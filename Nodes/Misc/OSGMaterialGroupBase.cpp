@@ -58,7 +58,6 @@
 
 #include <OSGConfig.h>
 
-#include "OSGNodePtr.h"
 #include "OSGMaterialGroupBase.h"
 #include "OSGMaterialGroup.h"
 
@@ -230,7 +229,6 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<MaterialGroupPtr>::_type("MaterialGroupPtr", "NodeCorePtr");
 
-
 OSG_DLLEXPORT_SFIELD_DEF1(MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -250,7 +248,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.32 2002/08/07 04:04:12 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.33 2002/09/16 18:39:08 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALGROUPBASE_INLINE_CVSID;
 
