@@ -217,8 +217,6 @@ void State::changeFrom(DrawActionBase *action, State *old)
             ind = 0;
     }
 
-    ind = 0;
-
     for(i = cind; i < old->getChunks().size(); ++i)
     {
         StateChunkPtr o = old->getChunk(i);
