@@ -141,6 +141,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 
     Bool            hasExtension      ( UInt32 id );
     void           *getFunction       ( UInt32 id );
+    void           *getFunctionNoCheck( UInt32 id );
     void            dumpExtensions    ( void );
 
     /*! \}                                                                 */

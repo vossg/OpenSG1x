@@ -83,9 +83,31 @@ inline Bool Window::hasExtension( UInt32 id )
 }
 
 /** get the indicated extension function
-\warning No error checks are done on the passed index!
+The id and the returned functions are checked for sanity and a warning is
+issued if there are problems. Use getFunctionNoCheck if you're sure
+you don't need them.
 */
 inline void* Window::getFunction ( UInt32 id )
+{
+    if(id >= _extFunctions.size())
+    {
+        FWARNING(("Window::getFunction: illegal id %d!\n", id));
+        return NULL;
+    }
+    if(_extFunctions[id] == NULL)
+    {
+        FWARNING(("Window::getFunction: function \"%s\" is NULL!\n", 
+                    _registeredFunctions[id].str()));
+        return NULL;       
+    }
+    return _extFunctions[id];
+}
+
+/** get the indicated extension function
+\warning No error checks are done on the passed index nor on the returned 
+function!
+*/
+inline void* Window::getFunctionNoCheck( UInt32 id )
 {
     return _extFunctions[ id ];
 }

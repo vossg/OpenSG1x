@@ -560,8 +560,10 @@ void Window::frameInit( void )
     
     while ( _registeredFunctions.size() > _extFunctions.size() )
     {   
-        _extFunctions.push_back( (void*)getFunctionByName( 
-                        _registeredFunctions[ _extFunctions.size() ].str() ));
+        const Char8 *s = _registeredFunctions[_extFunctions.size()].str();
+        void *func     = (void*)getFunctionByName(s);
+                        
+        _extFunctions.push_back(func);
     }
 
 }
