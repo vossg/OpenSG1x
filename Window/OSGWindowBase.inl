@@ -154,7 +154,7 @@ const UInt16 &WindowBase::getWidth(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void WindowBase::setWidth( UInt16 value )
+void WindowBase::setWidth( const UInt16 &value )
 {
 	_sfWidth.setValue(value);
 }
@@ -172,7 +172,7 @@ const UInt16 &WindowBase::getHeight(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void WindowBase::setHeight( UInt16 value )
+void WindowBase::setHeight( const UInt16 &value )
 {
 	_sfHeight.setValue(value);
 }
@@ -190,7 +190,7 @@ const Bool &WindowBase::getResizePending(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void WindowBase::setResizePending( Bool value )
+void WindowBase::setResizePending( const Bool &value )
 {
 	_sfResizePending.setValue(value);
 }

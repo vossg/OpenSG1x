@@ -144,6 +144,30 @@ MFReal32 *DynamicBackgroundBase::getMFAngle(void)
 	return &_mfAngle;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
+SFInt16 *DynamicBackgroundBase::getSFSubdivisions(void)
+{
+	return &_sfSubdivisions;
+}
+
+
+OSG_SYSTEMLIB_DLLMAPPING
+Int16 &DynamicBackgroundBase::getSubdivisions(void)
+{
+	return _sfSubdivisions.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const Int16 &DynamicBackgroundBase::getSubdivisions(void) const
+{
+	return _sfSubdivisions.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void DynamicBackgroundBase::setSubdivisions( const Int16 &value )
+{
+	_sfSubdivisions.setValue(value);
+}
 
 
 OSG_SYSTEMLIB_DLLMAPPING

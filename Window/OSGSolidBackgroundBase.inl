@@ -152,7 +152,7 @@ const Color3f &SolidBackgroundBase::getColor(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SolidBackgroundBase::setColor( Color3f value )
+void SolidBackgroundBase::setColor( const Color3f &value )
 {
 	_sfColor.setValue(value);
 }

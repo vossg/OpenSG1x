@@ -70,6 +70,7 @@
 #include <OSGBackground.h>
 #include <OSGColor3fFields.h>	// Color type
 #include <OSGReal32Fields.h>	// Angle type
+#include <OSGInt16Fields.h>	// Subdivisions type
 
 #include <OSGDynamicBackgroundFields.h>
 
@@ -107,12 +108,14 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
     {
         ColorFieldId = Inherited::NextFieldId,
         AngleFieldId = ColorFieldId + 1,
-        NextFieldId = AngleFieldId + 1
+        SubdivisionsFieldId = AngleFieldId + 1,
+        NextFieldId = SubdivisionsFieldId + 1
 
     };
 
     static const osg::BitVector ColorFieldMask;
     static const osg::BitVector AngleFieldMask;
+    static const osg::BitVector SubdivisionsFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -161,11 +164,15 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
 
     inline MFColor3f	*getMFColor(void);
     inline MFReal32	*getMFAngle(void);
+    inline SFInt16	*getSFSubdivisions(void);
 
     /*----------------------------- access ----------------------------------*/
 
     //!@{ Return the fields' values.
 
+    inline       Int16	&getSubdivisions(void);
+    inline const Int16	&getSubdivisions(void) const;
+    inline       void	         setSubdivisions( const Int16 &value );
 
     inline       Color3f	               &getColor( UInt32 index );
     inline       MFColor3f &getColor(void);
@@ -209,9 +216,12 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
     /*! The colors of the sphere's rings.
      */
     MFColor3f	_mfColor;
-    /*! The angles for the colors in degrees, from 0 (top) to 180 (bottom).
+    /*! The angles for the colors in radians, from 0 (top) to Pi (bottom).
      */
     MFReal32	_mfAngle;
+    /*! Number of subdivisions per ring
+     */
+    SFInt16	_sfSubdivisions;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

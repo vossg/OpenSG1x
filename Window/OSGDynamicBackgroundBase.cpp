@@ -99,9 +99,12 @@ const OSG::BitVector	DynamicBackgroundBase::ColorFieldMask =
 const OSG::BitVector	DynamicBackgroundBase::AngleFieldMask = 
     (1 << DynamicBackgroundBase::AngleFieldId);
 
+const OSG::BitVector	DynamicBackgroundBase::SubdivisionsFieldMask = 
+    (1 << DynamicBackgroundBase::SubdivisionsFieldId);
 
 
-char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.11 2001/08/03 16:11:02 vossg Exp $";
+
+char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.12 2001/08/07 17:20:08 dirk Exp $";
 
 /** \brief Group field description
  */
@@ -117,7 +120,12 @@ FieldDescription *DynamicBackgroundBase::_desc[] =
                      "angle", 
                      AngleFieldId, AngleFieldMask,
                      false,
-                     (FieldAccessMethod) &DynamicBackgroundBase::getMFAngle)
+                     (FieldAccessMethod) &DynamicBackgroundBase::getMFAngle),
+    new FieldDescription(SFInt16::getClassType(), 
+                     "subdivisions", 
+                     SubdivisionsFieldId, SubdivisionsFieldMask,
+                     false,
+                     (FieldAccessMethod) &DynamicBackgroundBase::getSFSubdivisions)
 };
 
 /** \brief DynamicBackground type
@@ -198,6 +206,7 @@ void DynamicBackgroundBase::executeSync(      FieldContainer &other,
 DynamicBackgroundBase::DynamicBackgroundBase(void) :
 	_mfColor	(), 
 	_mfAngle	(), 
+	_sfSubdivisions	(Int16(8)), 
 	Inherited() 
 {
 }
@@ -208,6 +217,7 @@ DynamicBackgroundBase::DynamicBackgroundBase(void) :
 DynamicBackgroundBase::DynamicBackgroundBase(const DynamicBackgroundBase &source) :
 	_mfColor		(source._mfColor), 
 	_mfAngle		(source._mfAngle), 
+	_sfSubdivisions		(source._sfSubdivisions), 
 	Inherited        (source)
 {
 }
@@ -235,6 +245,11 @@ UInt32 DynamicBackgroundBase::getBinSize(const BitVector &whichField)
         returnValue += _mfAngle.getBinSize();
     }
 
+    if(FieldBits::NoField != (SubdivisionsFieldMask & whichField))
+    {
+        returnValue += _sfSubdivisions.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -254,6 +269,11 @@ MemoryHandle DynamicBackgroundBase::copyToBin(      MemoryHandle  pMem,
         pMem = _mfAngle.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (SubdivisionsFieldMask & whichField))
+    {
+        pMem = _sfSubdivisions.copyToBin(pMem);
+    }
+
 
     return pMem;
 }
@@ -271,6 +291,11 @@ MemoryHandle DynamicBackgroundBase::copyFromBin(      MemoryHandle  pMem,
     if(FieldBits::NoField != (AngleFieldMask & whichField))
     {
         pMem = _mfAngle.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SubdivisionsFieldMask & whichField))
+    {
+        pMem = _sfSubdivisions.copyFromBin(pMem);
     }
 
 
@@ -298,6 +323,11 @@ void DynamicBackgroundBase::executeSyncImpl(      DynamicBackgroundBase *pOther,
     if(FieldBits::NoField != (AngleFieldMask & whichField))
     {
         _mfAngle.syncWith(pOther->_mfAngle);
+    }
+
+    if(FieldBits::NoField != (SubdivisionsFieldMask & whichField))
+    {
+        _sfSubdivisions.syncWith(pOther->_sfSubdivisions);
     }
 
 

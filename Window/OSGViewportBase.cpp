@@ -121,7 +121,7 @@ const OSG::BitVector	ViewportBase::BackgroundFieldMask =
 
 
 
-char ViewportBase::cvsid[] = "@(#)$Id: OSGViewportBase.cpp,v 1.11 2001/08/03 16:11:02 vossg Exp $";
+char ViewportBase::cvsid[] = "@(#)$Id: OSGViewportBase.cpp,v 1.12 2001/08/07 17:20:08 dirk Exp $";
 
 /** \brief Group field description
  */
@@ -175,7 +175,7 @@ FieldDescription *ViewportBase::_desc[] =
 
 FieldContainerType ViewportBase::_type(
     "Viewport",
-    "FieldContainer",
+    "AttachmentContainer",
     NULL,
     (PrototypeCreateF) &ViewportBase::createEmpty,
     Viewport::initMethod,

@@ -67,7 +67,7 @@
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
 #include <OSGSystemDef.h>
-#include <OSGFieldContainer.h>
+#include <OSGAttachmentContainer.h>
 #include <OSGNodeFields.h>	// Beacon type
 #include <OSGReal32Fields.h>	// Near type
 #include <OSGReal32Fields.h>	// Far type
@@ -92,11 +92,11 @@ class Camera;
 
 /*! Camera Base Class. */
 
-class OSG_SYSTEMLIB_DLLMAPPING CameraBase : public FieldContainer
+class OSG_SYSTEMLIB_DLLMAPPING CameraBase : public AttachmentContainer
 {
   private:
 
-    typedef FieldContainer Inherited;
+    typedef AttachmentContainer Inherited;
 
   public:
 
@@ -168,13 +168,13 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraBase : public FieldContainer
 
     inline       NodePtr	&getBeacon(void);
     inline const NodePtr	&getBeacon(void) const;
-    inline       void	             setBeacon( NodePtr value );
+    inline       void	         setBeacon( const NodePtr &value );
     inline       Real32	&getNear(void);
     inline const Real32	&getNear(void) const;
-    inline       void	             setNear( Real32 value );
+    inline       void	         setNear( const Real32 &value );
     inline       Real32	&getFar(void);
     inline const Real32	&getFar(void) const;
-    inline       void	             setFar( Real32 value );
+    inline       void	         setFar( const Real32 &value );
 
 
     //!@}

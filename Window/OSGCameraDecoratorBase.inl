@@ -130,7 +130,7 @@ const CameraPtr &CameraDecoratorBase::getCamera(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void CameraDecoratorBase::setCamera( CameraPtr value )
+void CameraDecoratorBase::setCamera( const CameraPtr &value )
 {
 	_sfCamera.setValue(value);
 }

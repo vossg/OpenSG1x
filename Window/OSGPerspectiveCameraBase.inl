@@ -152,7 +152,7 @@ const Real32 &PerspectiveCameraBase::getFov(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PerspectiveCameraBase::setFov( Real32 value )
+void PerspectiveCameraBase::setFov( const Real32 &value )
 {
 	_sfFov.setValue(value);
 }

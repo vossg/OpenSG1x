@@ -96,14 +96,14 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char BackgroundBase::cvsid[] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.9 2001/08/03 16:11:02 vossg Exp $";
+char BackgroundBase::cvsid[] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.10 2001/08/07 17:20:08 dirk Exp $";
 
 /** \brief Background type
  */
 
 FieldContainerType BackgroundBase::_type(
     "Background",
-    "FieldContainer",
+    "AttachmentContainer",
     NULL,
     NULL, 
     Background::initMethod,

@@ -160,7 +160,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
 
     inline       CameraPtr	&getCamera(void);
     inline const CameraPtr	&getCamera(void) const;
-    inline       void	             setCamera( CameraPtr value );
+    inline       void	         setCamera( const CameraPtr &value );
 
 
     //!@}

@@ -107,9 +107,15 @@ const OSG::BitVector	TileCameraDecoratorBase::BottomFieldMask =
 const OSG::BitVector	TileCameraDecoratorBase::TopFieldMask = 
     (1 << TileCameraDecoratorBase::TopFieldId);
 
+const OSG::BitVector	TileCameraDecoratorBase::FullWidthFieldMask = 
+    (1 << TileCameraDecoratorBase::FullWidthFieldId);
+
+const OSG::BitVector	TileCameraDecoratorBase::FullHeightFieldMask = 
+    (1 << TileCameraDecoratorBase::FullHeightFieldId);
 
 
-char TileCameraDecoratorBase::cvsid[] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.7 2001/08/03 16:11:02 vossg Exp $";
+
+char TileCameraDecoratorBase::cvsid[] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.8 2001/08/07 17:20:08 dirk Exp $";
 
 /** \brief Group field description
  */
@@ -135,7 +141,17 @@ FieldDescription *TileCameraDecoratorBase::_desc[] =
                      "top", 
                      TopFieldId, TopFieldMask,
                      true,
-                     (FieldAccessMethod) &TileCameraDecoratorBase::getSFTop)
+                     (FieldAccessMethod) &TileCameraDecoratorBase::getSFTop),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "fullWidth", 
+                     FullWidthFieldId, FullWidthFieldMask,
+                     false,
+                     (FieldAccessMethod) &TileCameraDecoratorBase::getSFFullWidth),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "fullHeight", 
+                     FullHeightFieldId, FullHeightFieldMask,
+                     true,
+                     (FieldAccessMethod) &TileCameraDecoratorBase::getSFFullHeight)
 };
 
 /** \brief TileCameraDecorator type
@@ -218,6 +234,8 @@ TileCameraDecoratorBase::TileCameraDecoratorBase(void) :
 	_sfRight	(Real32(1)), 
 	_sfBottom	(Real32(0)), 
 	_sfTop	(Real32(1)), 
+	_sfFullWidth	(UInt32(0)), 
+	_sfFullHeight	(UInt32(0)), 
 	Inherited() 
 {
 }
@@ -230,6 +248,8 @@ TileCameraDecoratorBase::TileCameraDecoratorBase(const TileCameraDecoratorBase &
 	_sfRight		(source._sfRight), 
 	_sfBottom		(source._sfBottom), 
 	_sfTop		(source._sfTop), 
+	_sfFullWidth		(source._sfFullWidth), 
+	_sfFullHeight		(source._sfFullHeight), 
 	Inherited        (source)
 {
 }
@@ -267,6 +287,16 @@ UInt32 TileCameraDecoratorBase::getBinSize(const BitVector &whichField)
         returnValue += _sfTop.getBinSize();
     }
 
+    if(FieldBits::NoField != (FullWidthFieldMask & whichField))
+    {
+        returnValue += _sfFullWidth.getBinSize();
+    }
+
+    if(FieldBits::NoField != (FullHeightFieldMask & whichField))
+    {
+        returnValue += _sfFullHeight.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -296,6 +326,16 @@ MemoryHandle TileCameraDecoratorBase::copyToBin(      MemoryHandle  pMem,
         pMem = _sfTop.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (FullWidthFieldMask & whichField))
+    {
+        pMem = _sfFullWidth.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FullHeightFieldMask & whichField))
+    {
+        pMem = _sfFullHeight.copyToBin(pMem);
+    }
+
 
     return pMem;
 }
@@ -323,6 +363,16 @@ MemoryHandle TileCameraDecoratorBase::copyFromBin(      MemoryHandle  pMem,
     if(FieldBits::NoField != (TopFieldMask & whichField))
     {
         pMem = _sfTop.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FullWidthFieldMask & whichField))
+    {
+        pMem = _sfFullWidth.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FullHeightFieldMask & whichField))
+    {
+        pMem = _sfFullHeight.copyFromBin(pMem);
     }
 
 
@@ -360,6 +410,16 @@ void TileCameraDecoratorBase::executeSyncImpl(      TileCameraDecoratorBase *pOt
     if(FieldBits::NoField != (TopFieldMask & whichField))
     {
         _sfTop.syncWith(pOther->_sfTop);
+    }
+
+    if(FieldBits::NoField != (FullWidthFieldMask & whichField))
+    {
+        _sfFullWidth.syncWith(pOther->_sfFullWidth);
+    }
+
+    if(FieldBits::NoField != (FullHeightFieldMask & whichField))
+    {
+        _sfFullHeight.syncWith(pOther->_sfFullHeight);
     }
 
 

@@ -67,7 +67,7 @@
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
 #include <OSGSystemDef.h>
-#include <OSGFieldContainer.h>
+#include <OSGAttachmentContainer.h>
 #include <OSGReal32Fields.h>	// Left type
 #include <OSGReal32Fields.h>	// Right type
 #include <OSGReal32Fields.h>	// Bottom type
@@ -97,11 +97,11 @@ class Viewport;
 
 /*! Viewport Base Class. */
 
-class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public FieldContainer
+class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
 {
   private:
 
-    typedef FieldContainer Inherited;
+    typedef AttachmentContainer Inherited;
 
   public:
 
@@ -192,28 +192,28 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public FieldContainer
 
     inline       Real32	&getLeft(void);
     inline const Real32	&getLeft(void) const;
-    inline       void	             setLeft( Real32 value );
+    inline       void	         setLeft( const Real32 &value );
     inline       Real32	&getRight(void);
     inline const Real32	&getRight(void) const;
-    inline       void	             setRight( Real32 value );
+    inline       void	         setRight( const Real32 &value );
     inline       Real32	&getBottom(void);
     inline const Real32	&getBottom(void) const;
-    inline       void	             setBottom( Real32 value );
+    inline       void	         setBottom( const Real32 &value );
     inline       Real32	&getTop(void);
     inline const Real32	&getTop(void) const;
-    inline       void	             setTop( Real32 value );
+    inline       void	         setTop( const Real32 &value );
     inline       WindowPtr	&getParent(void);
     inline const WindowPtr	&getParent(void) const;
-    inline       void	             setParent( WindowPtr value );
+    inline       void	         setParent( const WindowPtr &value );
     inline       CameraPtr	&getCamera(void);
     inline const CameraPtr	&getCamera(void) const;
-    inline       void	             setCamera( CameraPtr value );
+    inline       void	         setCamera( const CameraPtr &value );
     inline       NodePtr	&getRoot(void);
     inline const NodePtr	&getRoot(void) const;
-    inline       void	             setRoot( NodePtr value );
+    inline       void	         setRoot( const NodePtr &value );
     inline       BackgroundPtr	&getBackground(void);
     inline const BackgroundPtr	&getBackground(void) const;
-    inline       void	             setBackground( BackgroundPtr value );
+    inline       void	         setBackground( const BackgroundPtr &value );
 
 
     //!@}

@@ -164,7 +164,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
 
     inline       Real32	&getFov(void);
     inline const Real32	&getFov(void) const;
-    inline       void	             setFov( Real32 value );
+    inline       void	         setFov( const Real32 &value );
 
 
     //!@}

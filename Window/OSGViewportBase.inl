@@ -194,7 +194,7 @@ const Real32 &ViewportBase::getLeft(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void ViewportBase::setLeft( Real32 value )
+void ViewportBase::setLeft( const Real32 &value )
 {
 	_sfLeft.setValue(value);
 }
@@ -212,7 +212,7 @@ const Real32 &ViewportBase::getRight(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void ViewportBase::setRight( Real32 value )
+void ViewportBase::setRight( const Real32 &value )
 {
 	_sfRight.setValue(value);
 }
@@ -230,7 +230,7 @@ const Real32 &ViewportBase::getBottom(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void ViewportBase::setBottom( Real32 value )
+void ViewportBase::setBottom( const Real32 &value )
 {
 	_sfBottom.setValue(value);
 }
@@ -248,7 +248,7 @@ const Real32 &ViewportBase::getTop(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void ViewportBase::setTop( Real32 value )
+void ViewportBase::setTop( const Real32 &value )
 {
 	_sfTop.setValue(value);
 }
@@ -266,7 +266,7 @@ const WindowPtr &ViewportBase::getParent(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void ViewportBase::setParent( WindowPtr value )
+void ViewportBase::setParent( const WindowPtr &value )
 {
 	_sfParent.setValue(value);
 }
@@ -284,7 +284,7 @@ const CameraPtr &ViewportBase::getCamera(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void ViewportBase::setCamera( CameraPtr value )
+void ViewportBase::setCamera( const CameraPtr &value )
 {
 	_sfCamera.setValue(value);
 }
@@ -302,7 +302,7 @@ const NodePtr &ViewportBase::getRoot(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void ViewportBase::setRoot( NodePtr value )
+void ViewportBase::setRoot( const NodePtr &value )
 {
 	_sfRoot.setValue(value);
 }
@@ -320,7 +320,7 @@ const BackgroundPtr &ViewportBase::getBackground(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void ViewportBase::setBackground( BackgroundPtr value )
+void ViewportBase::setBackground( const BackgroundPtr &value )
 {
 	_sfBackground.setValue(value);
 }

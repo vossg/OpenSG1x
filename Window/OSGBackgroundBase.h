@@ -67,7 +67,7 @@
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
 #include <OSGSystemDef.h>
-#include <OSGFieldContainer.h>
+#include <OSGAttachmentContainer.h>
 
 #include <OSGBackgroundFields.h>
 
@@ -89,11 +89,11 @@ class Background;
 
 /*! Background Base Class. */
 
-class OSG_SYSTEMLIB_DLLMAPPING BackgroundBase : public FieldContainer
+class OSG_SYSTEMLIB_DLLMAPPING BackgroundBase : public AttachmentContainer
 {
   private:
 
-    typedef FieldContainer Inherited;
+    typedef AttachmentContainer Inherited;
 
   public:
 

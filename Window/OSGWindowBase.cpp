@@ -112,7 +112,7 @@ const OSG::BitVector	WindowBase::GlObjectStatusFieldMask =
 
 
 
-char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.12 2001/08/03 16:11:02 vossg Exp $";
+char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.13 2001/08/07 17:20:08 dirk Exp $";
 
 /** \brief Group field description
  */
@@ -151,7 +151,7 @@ FieldDescription *WindowBase::_desc[] =
 
 FieldContainerType WindowBase::_type(
     "Window",
-    "FieldContainer",
+    "AttachmentContainer",
     NULL,
     NULL, 
     Window::initMethod,

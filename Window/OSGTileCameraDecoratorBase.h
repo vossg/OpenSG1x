@@ -72,6 +72,8 @@
 #include <OSGReal32Fields.h>	// Right type
 #include <OSGReal32Fields.h>	// Bottom type
 #include <OSGReal32Fields.h>	// Top type
+#include <OSGUInt32Fields.h>	// FullWidth type
+#include <OSGUInt32Fields.h>	// FullHeight type
 
 #include <OSGTileCameraDecoratorFields.h>
 
@@ -111,7 +113,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
         RightFieldId = LeftFieldId + 1,
         BottomFieldId = RightFieldId + 1,
         TopFieldId = BottomFieldId + 1,
-        NextFieldId = TopFieldId + 1
+        FullWidthFieldId = TopFieldId + 1,
+        FullHeightFieldId = FullWidthFieldId + 1,
+        NextFieldId = FullHeightFieldId + 1
 
     };
 
@@ -119,6 +123,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
     static const osg::BitVector RightFieldMask;
     static const osg::BitVector BottomFieldMask;
     static const osg::BitVector TopFieldMask;
+    static const osg::BitVector FullWidthFieldMask;
+    static const osg::BitVector FullHeightFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -169,6 +175,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
     inline SFReal32	*getSFRight(void);
     inline SFReal32	*getSFBottom(void);
     inline SFReal32	*getSFTop(void);
+    inline SFUInt32	*getSFFullWidth(void);
+    inline SFUInt32	*getSFFullHeight(void);
 
     /*----------------------------- access ----------------------------------*/
 
@@ -176,16 +184,22 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
 
     inline       Real32	&getLeft(void);
     inline const Real32	&getLeft(void) const;
-    inline       void	             setLeft( Real32 value );
+    inline       void	         setLeft( const Real32 &value );
     inline       Real32	&getRight(void);
     inline const Real32	&getRight(void) const;
-    inline       void	             setRight( Real32 value );
+    inline       void	         setRight( const Real32 &value );
     inline       Real32	&getBottom(void);
     inline const Real32	&getBottom(void) const;
-    inline       void	             setBottom( Real32 value );
+    inline       void	         setBottom( const Real32 &value );
     inline       Real32	&getTop(void);
     inline const Real32	&getTop(void) const;
-    inline       void	             setTop( Real32 value );
+    inline       void	         setTop( const Real32 &value );
+    inline       UInt32	&getFullWidth(void);
+    inline const UInt32	&getFullWidth(void) const;
+    inline       void	         setFullWidth( const UInt32 &value );
+    inline       UInt32	&getFullHeight(void);
+    inline const UInt32	&getFullHeight(void) const;
+    inline       void	         setFullHeight( const UInt32 &value );
 
 
     //!@}
@@ -232,6 +246,12 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
     /*! The top border of the selected tile.
      */
     SFReal32	_sfTop;
+    /*! The width of the full image this is a tile of.
+     */
+    SFUInt32	_sfFullWidth;
+    /*! The height of the full image this is a tile of.
+     */
+    SFUInt32	_sfFullHeight;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

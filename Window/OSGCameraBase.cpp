@@ -106,7 +106,7 @@ const OSG::BitVector	CameraBase::FarFieldMask =
 
 
 
-char CameraBase::cvsid[] = "@(#)$Id: OSGCameraBase.cpp,v 1.11 2001/08/03 16:11:02 vossg Exp $";
+char CameraBase::cvsid[] = "@(#)$Id: OSGCameraBase.cpp,v 1.12 2001/08/07 17:20:08 dirk Exp $";
 
 /** \brief Group field description
  */
@@ -135,7 +135,7 @@ FieldDescription *CameraBase::_desc[] =
 
 FieldContainerType CameraBase::_type(
     "Camera",
-    "FieldContainer",
+    "AttachmentContainer",
     NULL,
     NULL, 
     Camera::initMethod,

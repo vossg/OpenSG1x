@@ -142,7 +142,7 @@ const NodePtr &CameraBase::getBeacon(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void CameraBase::setBeacon( NodePtr value )
+void CameraBase::setBeacon( const NodePtr &value )
 {
 	_sfBeacon.setValue(value);
 }
@@ -160,7 +160,7 @@ const Real32 &CameraBase::getNear(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void CameraBase::setNear( Real32 value )
+void CameraBase::setNear( const Real32 &value )
 {
 	_sfNear.setValue(value);
 }
@@ -178,7 +178,7 @@ const Real32 &CameraBase::getFar(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void CameraBase::setFar( Real32 value )
+void CameraBase::setFar( const Real32 &value )
 {
 	_sfFar.setValue(value);
 }

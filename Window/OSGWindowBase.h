@@ -67,7 +67,7 @@
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
 #include <OSGSystemDef.h>
-#include <OSGFieldContainer.h>
+#include <OSGAttachmentContainer.h>
 #include <OSGUInt16Fields.h>	// Width type
 #include <OSGUInt16Fields.h>	// Height type
 #include <OSGViewportFields.h>	// Port type
@@ -94,11 +94,11 @@ class Window;
 
 /*! Window Base Class. */
 
-class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public FieldContainer
+class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
 {
   private:
 
-    typedef FieldContainer Inherited;
+    typedef AttachmentContainer Inherited;
 
   public:
 
@@ -176,13 +176,13 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public FieldContainer
 
     inline       UInt16	&getWidth(void);
     inline const UInt16	&getWidth(void) const;
-    inline       void	             setWidth( UInt16 value );
+    inline       void	         setWidth( const UInt16 &value );
     inline       UInt16	&getHeight(void);
     inline const UInt16	&getHeight(void) const;
-    inline       void	             setHeight( UInt16 value );
+    inline       void	         setHeight( const UInt16 &value );
     inline       Bool	&getResizePending(void);
     inline const Bool	&getResizePending(void) const;
-    inline       void	             setResizePending( Bool value );
+    inline       void	         setResizePending( const Bool &value );
 
     inline       ViewportPtr	               &getPort( UInt32 index );
     inline       MFViewportPtr &getPort(void);

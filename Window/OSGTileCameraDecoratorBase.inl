@@ -156,6 +156,18 @@ SFReal32 *TileCameraDecoratorBase::getSFTop(void)
 	return &_sfTop;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
+SFUInt32 *TileCameraDecoratorBase::getSFFullWidth(void)
+{
+	return &_sfFullWidth;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+SFUInt32 *TileCameraDecoratorBase::getSFFullHeight(void)
+{
+	return &_sfFullHeight;
+}
+
 
 OSG_SYSTEMLIB_DLLMAPPING
 Real32 &TileCameraDecoratorBase::getLeft(void)
@@ -170,7 +182,7 @@ const Real32 &TileCameraDecoratorBase::getLeft(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TileCameraDecoratorBase::setLeft( Real32 value )
+void TileCameraDecoratorBase::setLeft( const Real32 &value )
 {
 	_sfLeft.setValue(value);
 }
@@ -188,7 +200,7 @@ const Real32 &TileCameraDecoratorBase::getRight(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TileCameraDecoratorBase::setRight( Real32 value )
+void TileCameraDecoratorBase::setRight( const Real32 &value )
 {
 	_sfRight.setValue(value);
 }
@@ -206,7 +218,7 @@ const Real32 &TileCameraDecoratorBase::getBottom(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TileCameraDecoratorBase::setBottom( Real32 value )
+void TileCameraDecoratorBase::setBottom( const Real32 &value )
 {
 	_sfBottom.setValue(value);
 }
@@ -224,9 +236,45 @@ const Real32 &TileCameraDecoratorBase::getTop(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void TileCameraDecoratorBase::setTop( Real32 value )
+void TileCameraDecoratorBase::setTop( const Real32 &value )
 {
 	_sfTop.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+UInt32 &TileCameraDecoratorBase::getFullWidth(void)
+{
+	return _sfFullWidth.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const UInt32 &TileCameraDecoratorBase::getFullWidth(void) const
+{
+	return _sfFullWidth.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void TileCameraDecoratorBase::setFullWidth( const UInt32 &value )
+{
+	_sfFullWidth.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+UInt32 &TileCameraDecoratorBase::getFullHeight(void)
+{
+	return _sfFullHeight.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const UInt32 &TileCameraDecoratorBase::getFullHeight(void) const
+{
+	return _sfFullHeight.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void TileCameraDecoratorBase::setFullHeight( const UInt32 &value )
+{
+	_sfFullHeight.setValue(value);
 }
 
 

@@ -164,7 +164,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
 
     inline       Color3f	&getColor(void);
     inline const Color3f	&getColor(void) const;
-    inline       void	             setColor( Color3f value );
+    inline       void	         setColor( const Color3f &value );
 
 
     //!@}
