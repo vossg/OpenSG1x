@@ -23,6 +23,9 @@
 #include <OSGMFFieldContainerPtr.h>
 #include <OSGSimpleGeometry.h>
 
+#include <OSGRefPtr.h>
+
+
 OSG_USING_NAMESPACE
 
 int main (int argc, char *argv[])
@@ -74,9 +77,52 @@ int main (int argc, char *argv[])
         // makeNode test
         
         NodePtr n1 = makeCoredNode<Geometry>();
-        
+        addRefCP(n1);
+       
         GeometryPtr geo;
         NodePtr n2 = makeCoredNode<Geometry>(&geo);
+        addRefCP(n2);
+
+        PLOG << "n1 " ; n1.dump(0, FCDumpFlags::RefCount);
+        PLOG << "n2 " ; n2.dump(0, FCDumpFlags::RefCount);
         
+        // RefPtr test
+        
+        RefPtr<NodePtr> r1(n1),r2;
+        
+        PLOG << "r1 " ; r1.get().dump(0, FCDumpFlags::RefCount);
+        
+        r2 = n2;
+        
+        PLOG << "r2 = n2;" << std::endl;
+        PLOG << "r2 " ; r2.get().dump(0, FCDumpFlags::RefCount);
+         
+        r1->addChild(r2);
+         
+        PLOG << "r1->addChild(r2);" << std::endl;
+        PLOG << "r1 " ; r1.get().dump(0, FCDumpFlags::RefCount);
+        PLOG << "r2 " ; r2.get().dump(0, FCDumpFlags::RefCount);
+      
+        r2 = r1;
+        
+        PLOG << "r2 = r1;" << std::endl;
+        PLOG << "r2 " ; r2.get().dump(0, FCDumpFlags::RefCount);     
+
+        std::vector< RefPtr<NodePtr> > v;
+        
+        v.push_back(r1);
+        v.push_back(r2);
+
+        PLOG << "r1 " ; r1.get().dump(0, FCDumpFlags::RefCount);
+        PLOG << "r2 " ; r2.get().dump(0, FCDumpFlags::RefCount);
+        
+        r1 = r2 = NullFC;
+        
+        PLOG << "r1 = r2 = NullFC;" << std::endl;
+        PLOG << "r1 " ; r1.get().dump(0, FCDumpFlags::RefCount);
+        PLOG << "r2 " ; r2.get().dump(0, FCDumpFlags::RefCount);
+        PLOG << "n1 " ; n1.dump(0, FCDumpFlags::RefCount);
+        PLOG << "n2 " ; n2.dump(0, FCDumpFlags::RefCount);
+          
 	return 0;
 }
