@@ -115,7 +115,8 @@ void Slices::initMethod (void)
 
 //! react to field changes
 
-void Slices::changed(BitVector whichField, UInt32 from)
+void Slices::changed(BitVector OSG_CHECK_ARG(whichField), 
+                     UInt32 OSG_CHECK_ARG(from) )
 {
   // TODO; only reinit on _size change
   initEdgeVec();
@@ -129,7 +130,7 @@ void Slices::dump(      UInt32    ,
     SLOG << "Dump Slices NI" << endl;
 }
 
-Action::ResultE Slices::intersect(Action * action )
+Action::ResultE Slices::intersect(Action * OSG_CHECK_ARG(action) )
 {
   /*
     IntersectAction     * ia = dynamic_cast<IntersectAction*>(action);
@@ -536,7 +537,7 @@ void Slices::drawSlices ( const Vec3f &planeNormal,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSlices.cpp,v 1.1 2002/07/16 21:10:42 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSlices.cpp,v 1.2 2002/07/17 23:14:32 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSLICESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSLICESBASE_INLINE_CVSID;
 

@@ -472,7 +472,6 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                   data[destI++] = sum / 3;
                 }               
               break;
-              break;
             case OSG_LA_PF:
               for (srcI = destI = 0; destI < destSize; ) 
                 {
@@ -514,7 +513,6 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                 data[destI++] = sum / 3;
                 srcI++;
               }               
-              break;
             break;
           case OSG_LA_PF:
             for (srcI = destI = 0; destI < destSize; ) 
@@ -742,7 +740,7 @@ bool Image::scale(Int32 width, Int32 height, Int32 depth, Image *destination)
 //s:
 //
 //------------------------------
-bool Image::scaleNextPower2 ( Image *destination = 0 )
+bool Image::scaleNextPower2 ( Image *destination )
 {
   return scale ( osgnextpower2(_width), 
                  osgnextpower2(_height),
