@@ -70,7 +70,8 @@ WARNINGS_C_OFF		:=
 # 4355 'this' : used in base member initializer list
 
 WARNINGS_CPP_OFF 	:= $(WARNINGS_C_OFF) -w44049 -w44065 \
-						-w44251 -w44275 -w44099 -w44250 -w44231
+						-w44251 -w44275 -w44099 -w44250 -w44231 \
+                        -w44290
 
 WARN_ERR_CPP        :=
 
