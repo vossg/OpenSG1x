@@ -103,6 +103,7 @@ public:
     SimpleSceneManager *getManager(void);
     bool isInitialized(void);
     virtual void makeCurrent(void);
+    virtual void doneCurrent(void);
 
 protected:
     void initializeGL();
@@ -149,6 +150,12 @@ void OpenSGWidget::makeCurrent(void)
             return;
     }
     QGLWidget::makeCurrent();
+}
+
+void OpenSGWidget::doneCurrent(void)
+{
+    // just to make it public ...
+    QGLWidget::doneCurrent();
 }
 
 void OpenSGWidget::initializeGL()
