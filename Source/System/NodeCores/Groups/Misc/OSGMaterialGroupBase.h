@@ -81,10 +81,11 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroupBase : public Group
   private:
 
     typedef Group    Inherited;
-    typedef MaterialGroupPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef MaterialGroupPtr  Ptr;
 
     enum
     {

@@ -102,6 +102,6 @@ struct FieldDataTraits<PointChunkPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGPOINTCHUNKFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
+#define OSGPOINTCHUNKFIELDS_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGPOINTCHUNKFIELDS_H_ */

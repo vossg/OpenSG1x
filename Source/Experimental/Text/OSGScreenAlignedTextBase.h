@@ -82,10 +82,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ScreenAlignedTextBase : public AbstractText
   private:
 
     typedef AbstractText    Inherited;
-    typedef ScreenAlignedTextPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef ScreenAlignedTextPtr  Ptr;
 
     enum
     {

@@ -82,10 +82,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageForegroundBase : public Foreground
   private:
 
     typedef Foreground    Inherited;
-    typedef ImageForegroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef ImageForegroundPtr  Ptr;
 
     enum
     {

@@ -86,10 +86,11 @@ class OSG_CONTRIBLIB_DLLMAPPING LinearCombinerGeometryBase : public Geometry
   private:
 
     typedef Geometry    Inherited;
-    typedef LinearCombinerGeometryPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef LinearCombinerGeometryPtr  Ptr;
 
     enum
     {

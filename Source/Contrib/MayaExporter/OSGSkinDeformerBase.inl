@@ -324,5 +324,5 @@ const MFReal32 &SkinDeformerBase::getNormalInfluenceWeights(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSKINDEFORMERBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGSKINDEFORMERBASE_INLINE_CVSID "@(#)$Id: $"
 

@@ -87,10 +87,11 @@ class OSG_CONTRIBLIB_DLLMAPPING AVCodecGrabForegroundBase : public GrabForegroun
   private:
 
     typedef GrabForeground    Inherited;
-    typedef AVCodecGrabForegroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef AVCodecGrabForegroundPtr  Ptr;
 
     enum
     {

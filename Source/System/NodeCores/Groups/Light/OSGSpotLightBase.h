@@ -83,10 +83,11 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
   private:
 
     typedef PointLight    Inherited;
-    typedef SpotLightPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef SpotLightPtr  Ptr;
 
     enum
     {

@@ -81,10 +81,11 @@ class OSG_SYSTEMLIB_DLLMAPPING StateBase : public FieldContainer
   private:
 
     typedef FieldContainer    Inherited;
-    typedef StatePtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef StatePtr  Ptr;
 
     enum
     {

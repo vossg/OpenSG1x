@@ -83,10 +83,11 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public MaterialDrawable
   private:
 
     typedef MaterialDrawable    Inherited;
-    typedef CubesPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef CubesPtr  Ptr;
 
     enum
     {

@@ -82,10 +82,11 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
   private:
 
     typedef Background    Inherited;
-    typedef GradientBackgroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef GradientBackgroundPtr  Ptr;
 
     enum
     {

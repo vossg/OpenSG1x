@@ -80,10 +80,11 @@ class OSG_SYSTEMLIB_DLLMAPPING PassiveWindowBase : public Window
   private:
 
     typedef Window    Inherited;
-    typedef PassiveWindowPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef PassiveWindowPtr  Ptr;
 
 
     static const OSG::BitVector MTInfluenceMask;

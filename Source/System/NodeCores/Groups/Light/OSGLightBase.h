@@ -88,10 +88,11 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public NodeCore
   private:
 
     typedef NodeCore    Inherited;
-    typedef LightPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef LightPtr  Ptr;
 
     enum
     {

@@ -87,10 +87,11 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
   private:
 
     typedef AttachmentContainer    Inherited;
-    typedef WindowPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef WindowPtr  Ptr;
 
     enum
     {

@@ -81,10 +81,11 @@ class OSG_SYSTEMLIB_DLLMAPPING SharedFontStyleBase : public FieldContainer
   private:
 
     typedef FieldContainer    Inherited;
-    typedef SharedFontStylePtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef SharedFontStylePtr  Ptr;
 
     enum
     {

@@ -81,10 +81,11 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
   private:
 
     typedef Background    Inherited;
-    typedef SolidBackgroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef SolidBackgroundPtr  Ptr;
 
     enum
     {

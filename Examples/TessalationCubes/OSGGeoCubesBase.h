@@ -83,10 +83,11 @@ class OSG_MYLIB_DLLMAPPING GeoCubesBase : public Geometry
   private:
 
     typedef Geometry    Inherited;
-    typedef GeoCubesPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef GeoCubesPtr  Ptr;
 
     enum
     {

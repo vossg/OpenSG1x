@@ -84,10 +84,11 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureGrabBackgroundBase : public SolidBackgroun
   private:
 
     typedef SolidBackground    Inherited;
-    typedef TextureGrabBackgroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef TextureGrabBackgroundPtr  Ptr;
 
     enum
     {

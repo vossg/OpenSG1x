@@ -85,10 +85,11 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunkBase : public TextureChunk
   private:
 
     typedef TextureChunk    Inherited;
-    typedef CubeTextureChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef CubeTextureChunkPtr  Ptr;
 
     enum
     {

@@ -94,10 +94,11 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
   private:
 
     typedef StateChunk    Inherited;
-    typedef MaterialChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef MaterialChunkPtr  Ptr;
 
     enum
     {

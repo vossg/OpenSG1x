@@ -80,10 +80,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ForegroundBase : public AttachmentContainer
   private:
 
     typedef AttachmentContainer    Inherited;
-    typedef ForegroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef ForegroundPtr  Ptr;
 
 
     static const OSG::BitVector MTInfluenceMask;

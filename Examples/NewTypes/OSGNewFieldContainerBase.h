@@ -81,10 +81,11 @@ class NewFieldContainerBase : public FieldContainer
   private:
 
     typedef FieldContainer    Inherited;
-    typedef NewFieldContainerPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef NewFieldContainerPtr  Ptr;
 
     enum
     {

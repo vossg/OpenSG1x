@@ -94,10 +94,11 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
   private:
 
     typedef MaterialDrawable    Inherited;
-    typedef GeometryPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef GeometryPtr  Ptr;
 
     enum
     {

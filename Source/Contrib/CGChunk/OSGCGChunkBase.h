@@ -84,10 +84,11 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public StateChunk
   private:
 
     typedef StateChunk    Inherited;
-    typedef CGChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef CGChunkPtr  Ptr;
 
     enum
     {

@@ -83,10 +83,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ClipPlaneChunkBase : public StateChunk
   private:
 
     typedef StateChunk    Inherited;
-    typedef ClipPlaneChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef ClipPlaneChunkPtr  Ptr;
 
     enum
     {

@@ -81,10 +81,11 @@ class OSG_SYSTEMLIB_DLLMAPPING GrabForegroundBase : public Foreground
   private:
 
     typedef Foreground    Inherited;
-    typedef GrabForegroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef GrabForegroundPtr  Ptr;
 
     enum
     {

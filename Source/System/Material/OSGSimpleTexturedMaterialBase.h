@@ -85,10 +85,11 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMateria
   private:
 
     typedef SimpleMaterial    Inherited;
-    typedef SimpleTexturedMaterialPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef SimpleTexturedMaterialPtr  Ptr;
 
     enum
     {

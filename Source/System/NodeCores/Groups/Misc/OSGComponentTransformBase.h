@@ -85,10 +85,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransformBase : public Transform
   private:
 
     typedef Transform    Inherited;
-    typedef ComponentTransformPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef ComponentTransformPtr  Ptr;
 
     enum
     {

@@ -81,10 +81,11 @@ class OSG_SYSTEMLIB_DLLMAPPING SwitchBase : public Group
   private:
 
     typedef Group    Inherited;
-    typedef SwitchPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef SwitchPtr  Ptr;
 
     enum
     {

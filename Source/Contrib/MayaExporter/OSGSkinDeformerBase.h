@@ -88,10 +88,11 @@ class OSG_CONTRIBLIB_DLLMAPPING SkinDeformerBase : public Deformer
   private:
 
     typedef Deformer    Inherited;
-    typedef SkinDeformerPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef SkinDeformerPtr  Ptr;
 
     enum
     {

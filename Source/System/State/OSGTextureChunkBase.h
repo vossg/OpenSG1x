@@ -119,10 +119,11 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
   private:
 
     typedef StateChunk    Inherited;
-    typedef TextureChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef TextureChunkPtr  Ptr;
 
     enum
     {

@@ -81,10 +81,11 @@ class OSG_WINDOWGLUTLIB_DLLMAPPING GLUTWindowBase : public Window
   private:
 
     typedef Window    Inherited;
-    typedef GLUTWindowPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef GLUTWindowPtr  Ptr;
 
     enum
     {

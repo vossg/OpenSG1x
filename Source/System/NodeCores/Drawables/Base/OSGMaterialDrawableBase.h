@@ -81,10 +81,11 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialDrawableBase : public Drawable
   private:
 
     typedef Drawable    Inherited;
-    typedef MaterialDrawablePtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef MaterialDrawablePtr  Ptr;
 
     enum
     {
@@ -207,6 +208,6 @@ typedef MaterialDrawableBase *MaterialDrawableBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableBase.h,v 1.4 2003/10/24 15:39:16 dirk Exp $"
+#define OSGMATERIALDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableBase.h,v 1.5 2003/10/29 08:30:16 vossg Exp $"
 
 #endif /* _OSGMATERIALDRAWABLEBASE_H_ */

@@ -80,10 +80,11 @@ class OSG_SYSTEMLIB_DLLMAPPING PassiveBackgroundBase : public Background
   private:
 
     typedef Background    Inherited;
-    typedef PassiveBackgroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef PassiveBackgroundPtr  Ptr;
 
 
     static const OSG::BitVector MTInfluenceMask;

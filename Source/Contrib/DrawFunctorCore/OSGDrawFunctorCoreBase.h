@@ -82,10 +82,11 @@ class OSG_CONTRIBLIB_DLLMAPPING DrawFunctorCoreBase : public MaterialDrawable
   private:
 
     typedef MaterialDrawable    Inherited;
-    typedef DrawFunctorCorePtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef DrawFunctorCorePtr  Ptr;
 
     enum
     {

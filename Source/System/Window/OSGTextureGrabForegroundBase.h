@@ -84,10 +84,11 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureGrabForegroundBase : public Foreground
   private:
 
     typedef Foreground    Inherited;
-    typedef TextureGrabForegroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef TextureGrabForegroundPtr  Ptr;
 
     enum
     {

@@ -80,10 +80,11 @@ class OSG_SYSTEMLIB_DLLMAPPING BackgroundBase : public AttachmentContainer
   private:
 
     typedef AttachmentContainer    Inherited;
-    typedef BackgroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef BackgroundPtr  Ptr;
 
 
     static const OSG::BitVector MTInfluenceMask;

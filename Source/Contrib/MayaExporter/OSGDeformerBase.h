@@ -81,10 +81,11 @@ class OSG_CONTRIBLIB_DLLMAPPING DeformerBase : public AttachmentContainer
   private:
 
     typedef AttachmentContainer    Inherited;
-    typedef DeformerPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef DeformerPtr  Ptr;
 
     enum
     {

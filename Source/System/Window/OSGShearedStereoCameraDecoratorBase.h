@@ -82,10 +82,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ShearedStereoCameraDecoratorBase : public StereoC
   private:
 
     typedef StereoCameraDecorator    Inherited;
-    typedef ShearedStereoCameraDecoratorPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef ShearedStereoCameraDecoratorPtr  Ptr;
 
     enum
     {

@@ -102,6 +102,6 @@ struct FieldDataTraits<PolygonChunkPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONCHUNKFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
+#define OSGPOLYGONCHUNKFIELDS_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGPOLYGONCHUNKFIELDS_H_ */

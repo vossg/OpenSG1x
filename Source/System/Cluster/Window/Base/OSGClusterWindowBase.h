@@ -87,10 +87,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
   private:
 
     typedef Window    Inherited;
-    typedef ClusterWindowPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef ClusterWindowPtr  Ptr;
 
     enum
     {

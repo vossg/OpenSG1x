@@ -85,10 +85,11 @@ class OSG_SYSTEMLIB_DLLMAPPING MultiDisplayWindowBase : public ClusterWindow
   private:
 
     typedef ClusterWindow    Inherited;
-    typedef MultiDisplayWindowPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef MultiDisplayWindowPtr  Ptr;
 
     enum
     {

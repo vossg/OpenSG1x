@@ -87,10 +87,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ProjectionCameraDecoratorBase : public StereoCame
   private:
 
     typedef StereoCameraDecorator    Inherited;
-    typedef ProjectionCameraDecoratorPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef ProjectionCameraDecoratorPtr  Ptr;
 
     enum
     {

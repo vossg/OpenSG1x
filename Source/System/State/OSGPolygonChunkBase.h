@@ -91,10 +91,11 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
   private:
 
     typedef StateChunk    Inherited;
-    typedef PolygonChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef PolygonChunkPtr  Ptr;
 
     enum
     {

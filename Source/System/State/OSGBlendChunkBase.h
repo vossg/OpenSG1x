@@ -86,10 +86,11 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
   private:
 
     typedef StateChunk    Inherited;
-    typedef BlendChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef BlendChunkPtr  Ptr;
 
     enum
     {

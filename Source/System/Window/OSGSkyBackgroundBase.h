@@ -92,10 +92,11 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
   private:
 
     typedef Background    Inherited;
-    typedef SkyBackgroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef SkyBackgroundPtr  Ptr;
 
     enum
     {

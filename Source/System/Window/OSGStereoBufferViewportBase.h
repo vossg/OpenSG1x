@@ -82,10 +82,11 @@ class OSG_SYSTEMLIB_DLLMAPPING StereoBufferViewportBase : public Viewport
   private:
 
     typedef Viewport    Inherited;
-    typedef StereoBufferViewportPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef StereoBufferViewportPtr  Ptr;
 
     enum
     {

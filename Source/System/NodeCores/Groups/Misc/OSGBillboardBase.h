@@ -83,10 +83,11 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public Group
   private:
 
     typedef Group    Inherited;
-    typedef BillboardPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef BillboardPtr  Ptr;
 
     enum
     {

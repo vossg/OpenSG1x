@@ -81,10 +81,11 @@ class OSG_SYSTEMLIB_DLLMAPPING TransformBase : public Group
   private:
 
     typedef Group    Inherited;
-    typedef TransformPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef TransformPtr  Ptr;
 
     enum
     {

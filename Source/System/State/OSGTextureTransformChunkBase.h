@@ -80,10 +80,11 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunkBase : public TransformChunk
   private:
 
     typedef TransformChunk    Inherited;
-    typedef TextureTransformChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef TextureTransformChunkPtr  Ptr;
 
 
     static const OSG::BitVector MTInfluenceMask;

@@ -84,10 +84,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ColorBufferViewportBase : public Viewport
   private:
 
     typedef Viewport    Inherited;
-    typedef ColorBufferViewportPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef ColorBufferViewportPtr  Ptr;
 
     enum
     {

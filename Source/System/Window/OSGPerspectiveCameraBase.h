@@ -82,10 +82,11 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
   private:
 
     typedef Camera    Inherited;
-    typedef PerspectiveCameraPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef PerspectiveCameraPtr  Ptr;
 
     enum
     {

@@ -81,10 +81,11 @@ class OSG_SYSTEMLIB_DLLMAPPING TransformChunkBase : public StateChunk
   private:
 
     typedef StateChunk    Inherited;
-    typedef TransformChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef TransformChunkPtr  Ptr;
 
     enum
     {

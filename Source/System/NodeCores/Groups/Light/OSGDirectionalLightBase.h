@@ -81,10 +81,11 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLightBase : public Light
   private:
 
     typedef Light    Inherited;
-    typedef DirectionalLightPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef DirectionalLightPtr  Ptr;
 
     enum
     {

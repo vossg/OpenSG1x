@@ -96,10 +96,11 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
   private:
 
     typedef StatisticsForeground    Inherited;
-    typedef GraphicStatisticsForegroundPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef GraphicStatisticsForegroundPtr  Ptr;
 
     enum
     {

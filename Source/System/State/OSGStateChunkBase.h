@@ -80,10 +80,11 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public FieldContainer
   private:
 
     typedef FieldContainer    Inherited;
-    typedef StateChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef StateChunkPtr  Ptr;
 
 
     static const OSG::BitVector MTInfluenceMask;

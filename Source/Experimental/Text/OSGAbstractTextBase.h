@@ -85,10 +85,11 @@ class OSG_SYSTEMLIB_DLLMAPPING AbstractTextBase : public MaterialDrawable
   private:
 
     typedef MaterialDrawable    Inherited;
-    typedef AbstractTextPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef AbstractTextPtr  Ptr;
 
     enum
     {

@@ -88,10 +88,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroupBase : public Group
   private:
 
     typedef Group    Inherited;
-    typedef ProxyGroupPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef ProxyGroupPtr  Ptr;
 
     enum
     {

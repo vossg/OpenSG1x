@@ -92,10 +92,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public MaterialDrawable
   private:
 
     typedef MaterialDrawable    Inherited;
-    typedef ParticlesPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef ParticlesPtr  Ptr;
 
     enum
     {

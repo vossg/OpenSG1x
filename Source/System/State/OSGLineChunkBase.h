@@ -84,10 +84,11 @@ class OSG_SYSTEMLIB_DLLMAPPING LineChunkBase : public StateChunk
   private:
 
     typedef StateChunk    Inherited;
-    typedef LineChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef LineChunkPtr  Ptr;
 
     enum
     {

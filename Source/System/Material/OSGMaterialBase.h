@@ -80,10 +80,11 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public AttachmentContainer
   private:
 
     typedef AttachmentContainer    Inherited;
-    typedef MaterialPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef MaterialPtr  Ptr;
 
 
     static const OSG::BitVector MTInfluenceMask;

@@ -82,10 +82,11 @@ class OSG_MYLIBRARYLIB_DLLMAPPING NewFieldContainerLibBase : public FieldContain
   private:
 
     typedef FieldContainer    Inherited;
-    typedef NewFieldContainerLibPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef NewFieldContainerLibPtr  Ptr;
 
     enum
     {

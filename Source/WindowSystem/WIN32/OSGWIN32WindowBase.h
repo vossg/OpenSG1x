@@ -83,10 +83,11 @@ class OSG_WINDOWWIN32LIB_DLLMAPPING WIN32WindowBase : public Window
   private:
 
     typedef Window    Inherited;
-    typedef WIN32WindowPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef WIN32WindowPtr  Ptr;
 
     enum
     {

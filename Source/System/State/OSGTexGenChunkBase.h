@@ -88,10 +88,11 @@ class OSG_SYSTEMLIB_DLLMAPPING TexGenChunkBase : public StateChunk
   private:
 
     typedef StateChunk    Inherited;
-    typedef TexGenChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef TexGenChunkPtr  Ptr;
 
     enum
     {

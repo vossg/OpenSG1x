@@ -81,10 +81,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterialBase : public Material
   private:
 
     typedef Material    Inherited;
-    typedef ChunkMaterialPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef ChunkMaterialPtr  Ptr;
 
     enum
     {

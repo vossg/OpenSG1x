@@ -87,10 +87,11 @@ class OSG_CONTRIBLIB_DLLMAPPING BlendShapeDeformerBase : public Deformer
   private:
 
     typedef Deformer    Inherited;
-    typedef BlendShapeDeformerPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef BlendShapeDeformerPtr  Ptr;
 
     enum
     {

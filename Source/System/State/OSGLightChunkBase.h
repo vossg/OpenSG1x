@@ -90,10 +90,11 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
   private:
 
     typedef StateChunk    Inherited;
-    typedef LightChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef LightChunkPtr  Ptr;
 
     enum
     {

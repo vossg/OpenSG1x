@@ -80,10 +80,11 @@ class OSG_SYSTEMLIB_DLLMAPPING FragmentProgramChunkBase : public ProgramChunk
   private:
 
     typedef ProgramChunk    Inherited;
-    typedef FragmentProgramChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef FragmentProgramChunkPtr  Ptr;
 
 
     static const OSG::BitVector MTInfluenceMask;

@@ -83,10 +83,11 @@ class OSG_WINDOWXLIB_DLLMAPPING XWindowBase : public Window
   private:
 
     typedef Window    Inherited;
-    typedef XWindowPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef XWindowPtr  Ptr;
 
     enum
     {

@@ -80,10 +80,11 @@ class OSG_SYSTEMLIB_DLLMAPPING VertexProgramChunkBase : public ProgramChunk
   private:
 
     typedef ProgramChunk    Inherited;
-    typedef VertexProgramChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef VertexProgramChunkPtr  Ptr;
 
 
     static const OSG::BitVector MTInfluenceMask;

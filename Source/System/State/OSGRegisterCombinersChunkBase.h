@@ -111,10 +111,11 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
   private:
 
     typedef StateChunk    Inherited;
-    typedef RegisterCombinersChunkPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef RegisterCombinersChunkPtr  Ptr;
 
     enum
     {

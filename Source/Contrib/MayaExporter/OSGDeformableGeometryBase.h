@@ -83,10 +83,11 @@ class OSG_CONTRIBLIB_DLLMAPPING DeformableGeometryBase : public Geometry
   private:
 
     typedef Geometry    Inherited;
-    typedef DeformableGeometryPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef DeformableGeometryPtr  Ptr;
 
     enum
     {

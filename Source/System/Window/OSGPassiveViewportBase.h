@@ -80,10 +80,11 @@ class OSG_SYSTEMLIB_DLLMAPPING PassiveViewportBase : public Viewport
   private:
 
     typedef Viewport    Inherited;
-    typedef PassiveViewportPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef PassiveViewportPtr  Ptr;
 
 
     static const OSG::BitVector MTInfluenceMask;

@@ -80,10 +80,11 @@ class OSG_SYSTEMLIB_DLLMAPPING GroupBase : public NodeCore
   private:
 
     typedef NodeCore    Inherited;
-    typedef GroupPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef GroupPtr  Ptr;
 
 
     static const OSG::BitVector MTInfluenceMask;

@@ -82,10 +82,11 @@ class OSG_SYSTEMLIB_DLLMAPPING InlineBase : public NodeCore
   private:
 
     typedef NodeCore    Inherited;
-    typedef InlinePtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef InlinePtr  Ptr;
 
     enum
     {

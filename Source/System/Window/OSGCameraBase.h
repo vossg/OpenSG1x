@@ -83,10 +83,11 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraBase : public AttachmentContainer
   private:
 
     typedef AttachmentContainer    Inherited;
-    typedef CameraPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef CameraPtr  Ptr;
 
     enum
     {

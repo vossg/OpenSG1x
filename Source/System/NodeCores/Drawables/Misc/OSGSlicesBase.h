@@ -82,10 +82,11 @@ class OSG_SYSTEMLIB_DLLMAPPING SlicesBase : public MaterialDrawable
   private:
 
     typedef MaterialDrawable    Inherited;
-    typedef SlicesPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef SlicesPtr  Ptr;
 
     enum
     {

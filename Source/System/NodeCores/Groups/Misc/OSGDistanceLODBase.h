@@ -82,10 +82,11 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public Group
   private:
 
     typedef Group    Inherited;
-    typedef DistanceLODPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef DistanceLODPtr  Ptr;
 
     enum
     {

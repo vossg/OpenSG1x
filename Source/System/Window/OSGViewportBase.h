@@ -90,10 +90,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
   private:
 
     typedef AttachmentContainer    Inherited;
-    typedef ViewportPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef ViewportPtr  Ptr;
 
     enum
     {

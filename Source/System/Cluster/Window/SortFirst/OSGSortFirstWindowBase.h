@@ -85,10 +85,11 @@ class OSG_SYSTEMLIB_DLLMAPPING SortFirstWindowBase : public ClusterWindow
   private:
 
     typedef ClusterWindow    Inherited;
-    typedef SortFirstWindowPtr  Ptr;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef SortFirstWindowPtr  Ptr;
 
     enum
     {
