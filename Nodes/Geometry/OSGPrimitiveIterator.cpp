@@ -97,7 +97,7 @@ For finer-level iterators see \sa FaceIterator \sa TriangleIterator.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.6 2001/02/13 15:54:16 dirk Exp $";
+char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.7 2001/04/23 21:00:21 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -224,13 +224,23 @@ void PrimitiveIterator::setToBegin( void )
 	_primIndex = 0;
 	_actPointIndex = 0;
 	_ended = false;
-	_actPrimType = _types->getValue( _primIndex );
-	_actPrimLength = _lengths->getValue( _primIndex );
+	if ( _types != GeoPType::NullPtr && _types->getSize() > 0 )
+	{
+		_actPrimType = _types->getValue( _primIndex );
+		_actPrimLength = _lengths->getValue( _primIndex );
+	}
+	else
+	{
+		setToEnd();
+	}
 }
 
 void PrimitiveIterator::setToEnd( void )
 {
-	_primIndex = _types->getSize();
+	if ( _types != GeoPType::NullPtr )
+		_primIndex = _types->getSize();
+	else
+		_primIndex = 0;
 	_actPointIndex = 0;
 	_ended = true;
 }
