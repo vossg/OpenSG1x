@@ -80,12 +80,16 @@ class OSG_BASE_DLLMAPPING BaseThreadCommonBase : public MPBase
     /*==========================  PUBLIC  =================================*/
   public:
 
+    Bool isInitialized(void);
+
     /*=========================  PROTECTED  ===============================*/
   protected:
 
     typedef MPBase Inherited;
 
     UInt32 _uiThreadId;
+    Bool   _bInitialized;
+
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */

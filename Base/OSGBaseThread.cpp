@@ -81,6 +81,12 @@ namespace
 //  Class
 //---------------------------------------------------------------------------
 
+Bool BaseThreadCommonBase::isInitialized(void)
+{
+    return _bInitialized;
+}
+
+
 /*! \class osg::BaseThreadCommonBase
  */
 
@@ -90,8 +96,9 @@ namespace
 BaseThreadCommonBase::BaseThreadCommonBase(const Char8  *szName,
                                                  UInt32  uiId  ) :
 
-     Inherited (szName),
-    _uiThreadId(uiId)
+     Inherited   (szName),
+    _uiThreadId  (uiId  ),
+    _bInitialized(false )
 {
 }
 
@@ -329,8 +336,13 @@ void BasePThreadBase::setupBlockCond(void)
 
 void BasePThreadBase::init(void)
 {
+    if(bInitialized == true)
+        return;
+
     setupThread    ();
     setupBlockCond ();
+
+    _bInitialized = true;
 }
 
 #endif /* OSG_USE_PTHREADS */
@@ -491,7 +503,12 @@ BaseSprocBase::~BaseSprocBase(void)
 
 void BaseSprocBase::init(void)
 {
+    if(_bInitialized == true)
+        return;
+
     setCurrentInternal((BaseThread *) this);
+
+    _bInitialized = true;
 }
 
 void BaseSprocBase::setPid(void)
@@ -724,7 +741,12 @@ BaseWinThreadBase::~BaseWinThreadBase(void)
 
 void BaseWinThreadBase::init(void)
 {
+    if(_bInitialized == true)
+        return;
+
     setupThread();
+
+    _bInitialized = true;
 }
 
 void BaseWinThreadBase::setPid(void)

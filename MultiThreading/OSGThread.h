@@ -529,7 +529,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ExternalThread : public ThreadBase
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-    void initialize(UInt32 uiAspectId);
+    void initialize   (UInt32 uiAspectId);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

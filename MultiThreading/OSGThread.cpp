@@ -261,10 +261,16 @@ PThreadBase::~PThreadBase(void)
 
 void PThreadBase::init(void)
 {
+    if(_bInitialized == true)
+        return;
+
     Inherited::init();
 
-    setupAspect    ();        
-    setupChangeList();        
+    if(_bInitialized == true)
+    {
+        setupAspect    ();        
+        setupChangeList();        
+    }
 }
 
 
@@ -434,10 +440,16 @@ void SprocBase::setAspectInternal(UInt32 uiAspect)
 
 void SprocBase::init(void)
 {
-    Inherited::init();
+    if(_bInitialized == true)
+        return; 
 
-    setAspectInternal      (this->_uiAspectId);
-    setupChangeListInternal();
+   Inherited::init();
+
+    if(_bInitialized == true)
+    {
+        setAspectInternal      (this->_uiAspectId);
+        setupChangeListInternal();
+    }
 }
 
 void SprocBase::setupChangeListInternal(void)
@@ -574,10 +586,16 @@ WinThreadBase::~WinThreadBase(void)
 
 void WinThreadBase::init(void)
 {
+    if(_bInitialized == true)
+        return;
+
     Inherited::init();
 
-    setupAspect    ();
-    setupChangeList();        
+    if(_bInitialized == true)
+    {
+        setupAspect    ();
+        setupChangeList();        
+    }
 }
 
 void WinThreadBase::setupAspect(void)
@@ -771,6 +789,9 @@ ExternalThread *ExternalThread::find(const Char8 *szName)
 
 void ExternalThread::initialize(UInt32 uiAspectId)
 {
+    if(_bInitialized == true)
+        return;
+
     Inherited::setAspect(uiAspectId);
     
     this->init();    
