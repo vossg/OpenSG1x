@@ -249,7 +249,7 @@ VRMLDirectionalLightBinder::~VRMLDirectionalLightBinder(void)
 
 /*------------------------------ access -----------------------------------*/
 
-void VRMLDirectionalLightBinder::init(VRMLToOSGAction *pAction)
+void VRMLDirectionalLightBinder::init(VRMLToOSGAction *)
 {
 }
 
