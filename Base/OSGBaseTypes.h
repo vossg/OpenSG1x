@@ -54,135 +54,422 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \defgroup BaseLib BaseLib
- *  \brief This lib contains all base elements like vectors, matrices.
- */
-
-/** OSG Base Types 
- */
-
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
 
 #if defined(OSG_SGI_TYPES)
 
-/// OSGBool
+/*! \var typedef bool OSGBool;
+ *  \brief OSGBool
+ *  \ingroup BaseTypes
+ */
+
 typedef bool          OSGBool;
 
-/// OSGChar 
-typedef char          OSGChar;
+/*! \var typedef char OSGChar8;
+ *  \brief OSGChar8
+ *  \ingroup BaseTypes
+ */
 
-/// OSGUChar 
-typedef unsigned char OSGUChar;
-
-/// OSGChar8 
 typedef char          OSGChar8;
 
-// OSGUChar8
+/*! \var typedef unsigned char OSGUChar8;
+ *  \brief OSGUChar8
+ *  \ingroup BaseTypes
+ */
+
 typedef unsigned char OSGUChar8;
 
-// OSGInt8
+/*! \var typedef int8_t OSGInt8;
+ *  \brief OSGInt8
+ *  \ingroup BaseTypes
+ */
+
 typedef int8_t    OSGInt8;
 
-// OSGUInt8
+/*! \var typedef uint8_t OSGUInt8;
+ *  \brief OSGUInt8
+ *  \ingroup BaseTypes
+ */
+
 typedef uint8_t   OSGUInt8;
 
-// OSGInt16
+/*! \var typedef int16_t OSGInt16;
+ *  \brief OSGInt16
+ *  \ingroup BaseTypes
+ */
+
 typedef int16_t   OSGInt16;
 
-// OSGUInt16
+/*! \var typedef uint16_t OSGUInt16;
+ *  \brief OSGUInt16
+ *  \ingroup BaseTypes
+ */
+
 typedef uint16_t  OSGUInt16;
 
-// OSGInt32
+/*! \var typedef int32_t OSGInt32;
+ *  \brief OSGInt32
+ *  \ingroup BaseTypes
+ */
+
 typedef int32_t   OSGInt32;
 
-// OSGUInt32
+/*! \var typedef uint32_t OSGUInt32;
+ *  \brief OSGUInt32
+ *  \ingroup BaseTypes
+ */
+
 typedef uint32_t  OSGUInt32;
 
-// OSGInt64
+/*! \var typedef int64_t OSGInt64;
+ *  \brief OSGInt64
+ *  \ingroup BaseTypes
+ */
+
 typedef int64_t   OSGInt64;
 
-// OSGUInt64
+/*! \var typedef uint64_t OSGUInt64;
+ *  \brief OSGUInt64
+ *  \ingroup BaseTypes
+ */
+
 typedef uint64_t  OSGUInt64;
 
-// OSGReal32
+/*! \var typedef float OSGReal32;
+ *  \brief OSGReal32
+ *  \ingroup BaseTypes
+ */
+
 typedef float     OSGReal32;
 
-//  OSGReal64
+/*! \var typedef double OSGReal64;
+ *  \brief OSGReal64
+ *  \ingroup BaseTypes
+ */
+
 typedef double    OSGReal64;
 
 #elif defined(OSG_LINUX_TYPES)
 
+/*! \var typedef bool OSGBool;
+ *  \brief OSGBool
+ *  \ingroup BaseTypes
+ */
+
 typedef bool          OSGBool;
-typedef char          OSGChar;
-typedef unsigned char OSGUChar;
+
+/*! \var typedef char OSGChar8;
+ *  \brief OSGChar8
+ *  \ingroup BaseTypes
+ */
+
 typedef char          OSGChar8;
+
+/*! \var typedef unsigned char OSGUChar8;
+ *  \brief OSGUChar8
+ *  \ingroup BaseTypes
+ */
+
 typedef unsigned char OSGUChar8;
 
+/*! \var typedef int8_t OSGInt8;
+ *  \brief OSGInt8
+ *  \ingroup BaseTypes
+ */
+
 typedef int8_t     OSGInt8;
+
+/*! \var typedef u_int8_t OSGUInt8;
+ *  \brief OSGUInt8
+ *  \ingroup BaseTypes
+ */
+
 typedef u_int8_t   OSGUInt8;
+
+/*! \var typedef int16_t OSGInt16;
+ *  \brief OSGInt16
+ *  \ingroup BaseTypes
+ */
+
 typedef int16_t    OSGInt16;
+
+/*! \var typedef u_int16_t OSGUInt16;
+ *  \brief OSGUInt16
+ *  \ingroup BaseTypes
+ */
+
 typedef u_int16_t  OSGUInt16;
+
+/*! \var typedef int32_t OSGInt32;
+ *  \brief OSGInt32
+ *  \ingroup BaseTypes
+ */
+
 typedef int32_t    OSGInt32;
+
+/*! \var typedef u_int32_t OSGUInt32;
+ *  \brief OSGUInt32
+ *  \ingroup BaseTypes
+ */
+
 typedef u_int32_t  OSGUInt32;
+
+/*! \var typedef int64_t OSGInt64;
+ *  \brief OSGInt64
+ *  \ingroup BaseTypes
+ */
+
 typedef int64_t    OSGInt64;
+
+/*! \var typedef u_int64_t OSGUInt64;
+ *  \brief OSGUInt64
+ *  \ingroup BaseTypes
+ */
+
 typedef u_int64_t  OSGUInt64;
 
+/*! \var typedef float OSGReal32;
+ *  \brief OSGReal32
+ *  \ingroup BaseTypes
+ */
+
 typedef float      OSGReal32;
+
+/*! \var typedef double OSGReal64;
+ *  \brief OSGReal64
+ *  \ingroup BaseTypes
+ */
+
 typedef double     OSGReal64;
 
 #elif defined(OSG_WIN_TYPES)
 
+/*! \var typedef bool OSGBool;
+ *  \brief OSGBool
+ *  \ingroup BaseTypes
+ */
+
 typedef bool          OSGBool;
-typedef char          OSGChar;
-typedef unsigned char OSGUChar;
+
+/*! \var typedef char OSGChar8;
+ *  \brief OSGChar8
+ *  \ingroup BaseTypes
+ */
+
 typedef char          OSGChar8;
+
+/*! \var typedef unsigned char OSGUChar8;
+ *  \brief OSGUChar8
+ *  \ingroup BaseTypes
+ */
+
 typedef unsigned char OSGUChar8;
 
+/*! \var typedef CHAR OSGInt8;
+ *  \brief OSGInt8
+ *  \ingroup BaseTypes
+ */
+
 typedef CHAR    OSGInt8;
+
+/*! \var typedef UCHAR OSGUInt8;
+ *  \brief OSGUInt8
+ *  \ingroup BaseTypes
+ */
+
 typedef UCHAR   OSGUInt8;
+
+/*! \var typedef SHORT OSGInt16;
+ *  \brief OSGInt16
+ *  \ingroup BaseTypes
+ */
+
 typedef SHORT   OSGInt16;
+
+/*! \var typedef USHORT OSGUInt16;
+ *  \brief OSGUInt16
+ *  \ingroup BaseTypes
+ */
+
 typedef USHORT  OSGUInt16;
+
+/*! \var typedef INT32 OSGInt32;
+ *  \brief OSGInt32
+ *  \ingroup BaseTypes
+ */
+
 typedef INT32   OSGInt32;
+
+/*! \var typedef UINT32 OSGUInt32;
+ *  \brief OSGUInt32
+ *  \ingroup BaseTypes
+ */
+
 typedef UINT32  OSGUInt32;
+
+/*! \var typedef INT64 OSGInt64;
+ *  \brief OSGInt64
+ *  \ingroup BaseTypes
+ */
+
 typedef INT64   OSGInt64;
+
+/*! \var typedef UINT64 OSGUInt64;
+ *  \brief OSGUInt64
+ *  \ingroup BaseTypes
+ */
+
 typedef UINT64  OSGUInt64;
 
+/*! \var typedef DWORD OSGDWord;
+ *  \brief OSGDWord
+ *  \ingroup BaseTypes
+ */
+
 typedef DWORD   OSGDWord;
+
+/*! \var typedef HANDLE OSGHandle;
+ *  \brief OSGHandle
+ *  \ingroup BaseTypes
+ */
+
 typedef HANDLE  OSGHandle;
 
+/*! \var typedef float OSGReal32;
+ *  \brief OSGReal32
+ *  \ingroup BaseTypes
+ */
+
 typedef float     OSGReal32;
+
+/*! \var typedef double OSGReal64;
+ *  \brief OSGReal64
+ *  \ingroup BaseTypes
+ */
+
 typedef double    OSGReal64;
 
 #elif defined(OSG_SUNOS_TYPES)
 
+/*! \var typedef bool OSGBool;
+ *  \brief OSGBool
+ *  \ingroup BaseTypes
+ */
+
 typedef bool          OSGBool;
-typedef char          OSGChar;
-typedef unsigned char OSGUChar;
+
+/*! \var typedef charOSGChar8;
+ *  \brief OSGChar8
+ *  \ingroup BaseTypes
+ */
+
 typedef char          OSGChar8;
+
+/*! \var typedef unsigned char OSGUChar8;
+ *  \brief OSGUChar8
+ *  \ingroup BaseTypes
+ */
+
 typedef unsigned char OSGUChar8;
 
+/*! \var typedef int8_t OSGInt8;
+ *  \brief OSGInt8
+ *  \ingroup BaseTypes
+ */
+
 typedef int8_t     OSGInt8;
+
+/*! \var typedef uint8_t OSGUInt8;
+ *  \brief OSGUInt8
+ *  \ingroup BaseTypes
+ */
+
 typedef uint8_t   OSGUInt8;
+
+/*! \var typedef int16_t OSGInt16;
+ *  \brief OSGInt16
+ *  \ingroup BaseTypes
+ */
+
 typedef int16_t    OSGInt16;
+
+/*! \var typedef uint16_t OSGUInt16;
+ *  \brief OSGUInt16
+ *  \ingroup BaseTypes
+ */
+
 typedef uint16_t  OSGUInt16;
+
+/*! \var typedef int32_t OSGInt32;
+ *  \brief OSGInt32
+ *  \ingroup BaseTypes
+ */
+
 typedef int32_t    OSGInt32;
+
+/*! \var typedef uint32_t OSGUInt32;
+ *  \brief OSGUInt32
+ *  \ingroup BaseTypes
+ */
+
 typedef uint32_t  OSGUInt32;
+
+/*! \var typedef long long OSGInt64;
+ *  \brief OSGInt64
+ *  \ingroup BaseTypes
+ */
+
 typedef long long    OSGInt64;
+
+/*! \var typedef unsigned long long OSGUInt64;
+ *  \brief OSGUInt64
+ *  \ingroup BaseTypes
+ */
+
 typedef unsigned long long  OSGUInt64;
 
+/*! \var typedef float OSGReal32;
+ *  \brief OSGReal32
+ *  \ingroup BaseTypes
+ */
+
 typedef float      OSGReal32;
+
+/*! \var typedef double OSGReal64;
+ *  \brief OSGReal64
+ *  \ingroup BaseTypes
+ */
+
 typedef double     OSGReal64;
 
 #else
 #error "Could not define base types, check your system/compiler combination"
 #endif
 
+/*! \var OSGUInt32 OSGBitVector;
+ *  \brief OSGBitVector
+ *  \ingroup BaseTypes
+ */
+
 typedef OSGUInt32 OSGBitVector;
 
+/*! \brief osgEps
+ *  \ingroup BaseConstants
+ */
+
 const OSGReal32 osgEps = 1E-7f;
-const OSGReal32 osgPi  = (OSGReal32) 3.14159265359797;
+
+/*! \brief osgEps
+ *  \ingroup BaseConstants
+ */
+
+const OSGReal32 osgPi  = (OSGReal32) 3.141592653589797;
+
+/*! \brief OSGMathTypeProperties
+ *  \ingroup BaseConstants
+ */
 
 enum OSGMathTypeProperties
 {
@@ -190,13 +477,29 @@ enum OSGMathTypeProperties
     OSGIntValue
 };
 
-template <class OSGLookupTypeT>
-struct OSGTypeConstants
+/*! \brief OSGTypeConstantsBase, documentation dummy
+ *  \ingroup BaseConstants
+ */
+
+struct OSGTypeConstantsBase
 {
 };
 
+/*! \brief OSGTypeConstants
+ *  \ingroup BaseConstants
+ */
+
+template <class OSGLookupTypeT>
+struct OSGTypeConstants : public OSGTypeConstantsBase
+{
+};
+
+/*! \brief OSGTypeConstants<OSGUInt8>
+ *  \ingroup BaseConstants
+ */
+
 template <> 
-struct OSGTypeConstants<OSGUInt8>
+struct OSGTypeConstants<OSGUInt8> : public OSGTypeConstantsBase
 {
     typedef       OSGReal32 OSGRealReturnType;
 
@@ -232,8 +535,12 @@ struct OSGTypeConstants<OSGUInt8>
     }
 };
 
+/*! \brief OSGTypeConstants<OSGInt8>
+ *  \ingroup BaseConstants
+ */
+
 template <> 
-struct OSGTypeConstants<OSGInt8>
+struct OSGTypeConstants<OSGInt8> : public OSGTypeConstantsBase
 {
     typedef       OSGReal32 OSGRealReturnType;
 
@@ -269,8 +576,12 @@ struct OSGTypeConstants<OSGInt8>
     }
 };
 
+/*! \brief OSGTypeConstants<OSGUInt16>
+ *  \ingroup BaseConstants
+ */
+
 template <> 
-struct OSGTypeConstants<OSGUInt16>
+struct OSGTypeConstants<OSGUInt16> : public OSGTypeConstantsBase
 {
     typedef       OSGReal32 OSGRealReturnType;
 
@@ -306,8 +617,12 @@ struct OSGTypeConstants<OSGUInt16>
     }
 };
 
+/*! \brief OSGTypeConstants<OSGInt16>
+ *  \ingroup BaseConstants
+ */
+
 template <> 
-struct OSGTypeConstants<OSGInt16>
+struct OSGTypeConstants<OSGInt16> : public OSGTypeConstantsBase
 {
     typedef       OSGReal32 OSGRealReturnType;
 
@@ -343,8 +658,12 @@ struct OSGTypeConstants<OSGInt16>
     }
 };
 
+/*! \brief OSGTypeConstants<OSGUInt32>
+ *  \ingroup BaseConstants
+ */
+
 template <> 
-struct OSGTypeConstants<OSGUInt32>
+struct OSGTypeConstants<OSGUInt32> : public OSGTypeConstantsBase
 {
     typedef       OSGReal32 OSGRealReturnType;
 
@@ -380,8 +699,12 @@ struct OSGTypeConstants<OSGUInt32>
     }
 };
 
+/*! \brief OSGTypeConstants<OSGInt32>
+ *  \ingroup BaseConstants
+ */
+
 template <> 
-struct OSGTypeConstants<OSGInt32>
+struct OSGTypeConstants<OSGInt32> : public OSGTypeConstantsBase
 {
     typedef       OSGReal32 OSGRealReturnType;
 
@@ -417,8 +740,12 @@ struct OSGTypeConstants<OSGInt32>
     }
 };
 
+/*! \brief OSGTypeConstants<OSGUInt64>
+ *  \ingroup BaseConstants
+ */
+
 template <> 
-struct OSGTypeConstants<OSGUInt64>
+struct OSGTypeConstants<OSGUInt64> : public OSGTypeConstantsBase
 {
     typedef       OSGReal32 OSGRealReturnType;
 
@@ -467,8 +794,12 @@ struct OSGTypeConstants<OSGUInt64>
     }
 };
 
+/*! \brief OSGTypeConstants<OSGInt64>
+ *  \ingroup BaseConstants
+ */
+
 template <> 
-struct OSGTypeConstants<OSGInt64>
+struct OSGTypeConstants<OSGInt64> : public OSGTypeConstantsBase
 {
     typedef       OSGReal32 OSGRealReturnType;
 
@@ -518,8 +849,12 @@ struct OSGTypeConstants<OSGInt64>
     }
 };
 
+/*! \brief OSGTypeConstants<OSGReal64>
+ *  \ingroup BaseConstants
+ */
+
 template <>
-struct OSGTypeConstants<OSGReal64>
+struct OSGTypeConstants<OSGReal64> : public OSGTypeConstantsBase
 {
     typedef       OSGReal64 OSGRealReturnType;
 
@@ -540,8 +875,12 @@ struct OSGTypeConstants<OSGReal64>
     }
 };
 
+/*! \brief OSGTypeConstants<OSGReal32>
+ *  \ingroup BaseConstants
+ */
+
 template <>
-struct OSGTypeConstants<OSGReal32>
+struct OSGTypeConstants<OSGReal32> : public OSGTypeConstantsBase
 {
     typedef       OSGReal32 OSGRealReturnType;
 

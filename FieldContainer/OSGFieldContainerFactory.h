@@ -106,10 +106,10 @@ class OSGFieldContainerFactory
     OSGFieldContainerType * findType (const char *name);
 
 		
-	const OSGChar * findGroupName (OSGUInt16 Id);
+	const OSGChar8 * findGroupName (OSGUInt16 Id);
 
 		
-	OSGUInt16 findGroupId (const OSGChar * name);
+	OSGUInt16 findGroupId (const OSGChar8 * name);
 
 		
 	OSGUInt16 getGroupCount (void) { return _groupMap ? _groupMap->size() : 0;}
@@ -209,7 +209,7 @@ class OSGFieldContainerFactory
 	static void initTypeMap();
 
 	/**  method to add a group, retuns the group Id */
-	static OSGUInt16 addGroup(const OSGChar *groupName);
+	static OSGUInt16 addGroup(const OSGChar8 *groupName);
 
     /** Default Constructor */
     OSGFieldContainerFactory (void);

@@ -49,23 +49,7 @@
 #endif
 
 
-OSG_USING_OSG_NAMESPACE
-
-/** \enum OSGVecBase::VectorSizeE
- *  \brief 
- */
-
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
- * 
- */
-
-/** \fn const char *OSGVecBase::getClassname(void)
- *  \brief Classname
- */
-
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
- *  \brief Value store
- */
+OSG_BEGIN_NAMESPACE
 
 /***************************************************************************\
  *                               Types                                     *
@@ -512,22 +496,6 @@ OSGBool OSGColor3<OSGValueTypeT>::operator != (const OSGColor3 &other) const
 
 
 
-/** \enum OSGVecBase::VectorSizeE
- *  \brief 
- */
-
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
- * 
- */
-
-/** \fn const char *OSGVecBase::getClassname(void)
- *  \brief Classname
- */
-
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
- *  \brief Value store
- */
-
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -860,8 +828,8 @@ OSGBool OSGColor4<OSGValueTypeT>::operator != (const OSGColor4 &other) const
 ///---------------------------------------------------------------------------
 
 template <class OSGValueTypeT> inline
-ostream &OSG::operator <<(ostream                        &outStream,
-                          const OSGColor3<OSGValueTypeT> &color)
+ostream &operator <<(ostream                        &outStream,
+                     const OSGColor3<OSGValueTypeT> &color)
 {
     return outStream << color.red()   << ' ' 
                      << color.green() << ' ' 
@@ -869,11 +837,13 @@ ostream &OSG::operator <<(ostream                        &outStream,
 }
 
 template <class OSGValueTypeT> inline
-ostream &OSG::operator <<(ostream                        &outStream,
-                          const OSGColor4<OSGValueTypeT> &color)
+ostream &operator <<(ostream                        &outStream,
+                     const OSGColor4<OSGValueTypeT> &color)
 {
     return outStream << color.red()   << ' ' 
                      << color.green() << ' ' 
                      << color.blue()  << ' ' 
                      << color.alpha();
 }
+
+OSG_END_NAMESPACE

@@ -120,7 +120,7 @@ html:
 	 fi
 
 doc: 
-	$(DOC_ENV) doxygen $(OSGPOOL)/$(OSGCOMMON)/Doxygen.cfg
+	$(DOC_ENV) doxygen $(OSGPOOL)/$(OSGCOMMON)/Doxygen$(OS_BASE).cfg
 
 docg:
 	$(DOC_ENV) doxygen $(OSGPOOL)/Doxygeng.cfg

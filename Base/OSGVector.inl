@@ -30,9 +30,9 @@
  *
  * Important : 
  *
- * - vectors and points are different classes
- * - M * v | M * p semantics
- * - M transposed is stored
+ * \li vectors and points are different classes
+ * \li M * v | M * p semantics
+ * \li M transposed is stored
  */
 
 //---------------------------------------------------------------------------

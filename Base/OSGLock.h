@@ -64,10 +64,8 @@ static const OSGUInt32 uiLockPoolMask = 0x0f80;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup BaseThreading
+ *  \brief OSGLockCommonBase
  */
 
 class OSGLockCommonBase 
@@ -197,6 +195,11 @@ class OSGLockCommonBase
 //---------------------------------------------------------------------------
 
 #if defined (OSG_USE_PTHREADS)
+
+/*! \ingroup BaseThreading
+ *  \brief OSGPThreadLockBase
+ */
+
 class OSGPThreadLockBase : public OSGLockCommonBase
 {
   public:
@@ -323,6 +326,11 @@ typedef OSGPThreadLockBase OSGLockBase;
 //---------------------------------------------------------------------------
 
 #if defined (OSG_USE_SPROC)
+
+/*! \ingroup BaseThreading
+ *  \brief OSGSprocLockBase
+ */
+
 class OSGSprocLockBase : public OSGLockCommonBase
 {
   public:
@@ -449,6 +457,11 @@ typedef OSGSprocLockBase OSGLockBase;
 //---------------------------------------------------------------------------
 
 #if defined (OSG_USE_WINTHREADS)
+
+/*! \ingroup BaseThreading
+ *  \brief OSGWinThreadLockBase
+ */
+
 class OSGWinThreadLockBase : public OSGLockCommonBase
 {
   public:
@@ -571,6 +584,10 @@ typedef OSGWinThreadLockBase OSGLockBase;
 
 #endif /* OSG_USE_WINTHREADS */
 
+/*! \ingroup BaseThreading
+ *  \brief OSGLock
+ */
+
 class OSGLock : public OSGLockBase
 {
   public:
@@ -591,10 +608,8 @@ class OSGLock : public OSGLockBase
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup BaseThreading
+ *  \brief OSGLockPool
  */
 
 class OSGLockPool : public OSGLockCommonBase

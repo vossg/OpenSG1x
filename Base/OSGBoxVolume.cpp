@@ -33,14 +33,14 @@
 // Class declarations
 #include "OSGBoxVolume.h"
 
-OSG_USING_OSG_NAMESPACE
+OSG_USING_NAMESPACE
 
 // Static Class Varible implementations: 
 
 
-/*************/
-/** FEATURE **/
-/*************/
+/* *********** */
+/* * FEATURE * */
+/* *********** */
 
 
 /// Returns the center of a box
@@ -372,17 +372,6 @@ void OSGBoxVolume::transform(const OSGMatrix &m)
 	_max.setValues(xmax, ymax, zmax);
 }
 
-/// Equality comparisons
-bool OSG::operator ==(const OSGBoxVolume &b1, const OSGBoxVolume &b2)
-{
-	return ((b1._min[0] == b2._min[0]) &&
-	        (b1._min[1] == b2._min[1]) &&
-	        (b1._min[2] == b2._min[2]) &&
-	        (b1._max[0] == b2._max[0]) &&
-	        (b1._max[1] == b2._max[1]) &&
-	        (b2._max[2] == b2._max[2]));
-}
-
 /// Assignment operator
 const OSGBoxVolume &OSGBoxVolume::operator =(const OSGBoxVolume &b1)
 {
@@ -393,10 +382,26 @@ const OSGBoxVolume &OSGBoxVolume::operator =(const OSGBoxVolume &b1)
 	return *this;
 }
 
+OSG_BEGIN_NAMESPACE
+
+/// Equality comparisons
+bool operator ==(const OSGBoxVolume &b1, const OSGBoxVolume &b2)
+{
+	return ((b1._min[0] == b2._min[0]) &&
+	        (b1._min[1] == b2._min[1]) &&
+	        (b1._min[2] == b2._min[2]) &&
+	        (b1._max[0] == b2._max[0]) &&
+	        (b1._max[1] == b2._max[1]) &&
+	        (b2._max[2] == b2._max[2]));
+}
+
+
 /// write values in stream
-ostream &OSG::operator <<(ostream &os, const OSGBoxVolume &obj)
+ostream &operator <<(ostream &os, const OSGBoxVolume &obj)
 {
 	OSGVec3f xx;
 
 	return os << obj._min << ", " << obj._max;
 }
+
+OSG_END_NAMESPACE

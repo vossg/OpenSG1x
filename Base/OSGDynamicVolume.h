@@ -24,7 +24,7 @@ private:
 
 	Type _type;
 
-	OSGUChar _volumeMem [36];
+	OSGUChar8 _volumeMem [36];
 
 
 protected:

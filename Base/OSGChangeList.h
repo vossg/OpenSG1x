@@ -58,10 +58,8 @@ class OSGField;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup BaseThreading
+ *  \brief OSGChangeList
  */
 
 class OSGChangeList : public OSGMemoryObject

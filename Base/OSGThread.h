@@ -70,10 +70,8 @@ class OSGThread;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup BaseThreading
+ *  \brief OSGThreadCommonBase
  */
 
 class OSGThreadCommonBase 
@@ -213,11 +211,10 @@ class OSGThreadCommonBase
 
 #ifdef OSG_USE_PTHREADS
 
-/*! \ingroup baselib
+/*! \ingroup BaseThreading
  *  \brief OSGPThreadBase
- *
- *  
  */
+
 class OSGPThreadBase : public OSGThreadCommonBase
 {
   public:
@@ -390,10 +387,8 @@ typedef OSGPThreadBase OSGThreadBase;
 
 #ifdef OSG_USE_SPROC
 
-/*! \ingroup baselib
+/*! \ingroup BaseThreading
  *  \brief OSGSprocBase
- *
- *  
  */
 
 class OSGSprocBase : public OSGThreadCommonBase
@@ -548,10 +543,8 @@ typedef OSGSprocBase OSGThreadBase;
 
 #ifdef OSG_USE_WINTHREADS
 
-/*! \ingroup baselib
- *  \brief OSGSprocBase
- *
- *  
+/*! \ingroup BaseThreading
+ *  \brief OSGWinThreadBase
  */
 
 class OSGWinThreadBase : public OSGThreadCommonBase
@@ -713,6 +706,10 @@ class OSGWinThreadBase : public OSGThreadCommonBase
 typedef OSGWinThreadBase OSGThreadBase;
 
 #endif /* OSG_USE_SPROC */
+
+/*! \ingroup BaseThreading
+ *  \brief OSGThread
+ */
 
 class OSGThread : public OSGThreadBase
 {

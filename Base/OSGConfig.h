@@ -25,20 +25,70 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGCONFIG_H_
 #define _OSGCONFIG_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-/** \defgroup baselib OpenSG Base Library
-    OpenSG Base Library
- */
-
 /** \namespace osg 
     \brief OpenSG namespace    
  */
+
+/** \defgroup BaseLib OpenSG Base Library
+    OpenSG Base Library
+*/
+
+/*! \defgroup BaseConstants OpenSG Base Library - Constants
+    \ingroup BaseLib
+    OpenSG Base Library - Constants
+*/
+
+/*! \defgroup BaseColors OpenSG Base Library - Colors
+    \ingroup BaseLib
+    OpenSG Base Library - Colors
+*/
+
+/*! \defgroup BaseDefines OpenSG Base Library - Defines
+    \ingroup BaseLib
+    OpenSG Base Library - Defines
+*/
+
+/*! \defgroup BaseFunctions OpenSG Base Library - Functions
+    \ingroup BaseLib
+    OpenSG Base Library - Functions
+*/
+
+/*! \defgroup BaseMathFunctions OpenSG Base Library - Math Functions
+    \ingroup BaseLib
+    OpenSG Base Library - Math Functions
+*/
+
+/*! \defgroup BaseMathMatrices OpenSG Base Library - Math Matrices
+    \ingroup BaseLib
+    OpenSG Base Library - Math Matrices
+*/
+
+/*! \defgroup BaseMathQuaternions OpenSG Base Library - Math Quaternions
+    \ingroup BaseLib
+    OpenSG Base Library - Math Quaternions
+*/
+
+/*! \defgroup BaseMathVectors OpenSG Base Library - Math Vectors
+    \ingroup BaseLib
+    OpenSG Base Library - Math Vectors
+*/
+
+/*! \defgroup BaseTypes OpenSG Base Library - Types
+    \ingroup BaseLib
+    OpenSG Base Library - Types, this lib contains all base elements like 
+    vectors, matrices.
+*/
+
+/*! \defgroup BaseThreading OpenSG Base Library - Threading
+    \ingroup BaseLib
+    OpenSG Base Library - Threading
+*/
 
 /** \file OSGConfig.h
     \brief OpenSG Configuration file.
@@ -99,10 +149,18 @@
 #   endif  /* __EXCEPTIONS */
 
 #   if (_COMPILER_VERSION >= 721) && defined(_NAMESPACES)
-// compiler supports namespaces
-# define OSG_HAS_NAMESPACE
-// compiler supports std namespace
-# define OSG_HAS_STD_NAMESPACE
+        /*! \brief compiler supports namespaces
+         *  \ingroup BaseDefines
+         */
+
+#       define OSG_HAS_NAMESPACE
+
+        /*! \brief compiler supports std namespace
+         *  \ingroup BaseDefines
+         */
+
+#       define OSG_HAS_STD_NAMESPACE
+
 #   endif  /* _COMPILER_VERSION >= 721 */
 
 #   if (_COMPILER_VERSION < 721)
@@ -118,38 +176,104 @@
 #   endif  /*  */
 
 #   if _COMPILER_VERSION >= 730
-// compiler supports namespaces
-# define OSG_HAS_NAMESPACE
-// compiler supports the use of template types for return values only
-# define OSG_HAS_TEMPLATE_RETURNVALUES
-# define  OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
-# if defined(_STANDARD_C_PLUS_PLUS)
-// streams in std namespace
-# define OSG_STREAM_IN_STD_NAMESPACE
-#   endif  /* _STANDARD_C_PLUS_PLUS */
+        /*! \brief compiler supports namespaces
+         *  \ingroup BaseDefines
+         */
 
-// stream->rdbuf get the new buffer as a parameter
-# define OSG_STREAM_RDBUF_HAS_PARAM
-# define OSG_STREAM_HAS_ISOPEN
-# define OSG_HAS_VSNPRINTF
-# define OSG_HAS_NILBUF
+#       define OSG_HAS_NAMESPACE
+
+        /*! \brief compiler supports the use of template types for 
+         *  return values only
+         *  \ingroup BaseDefines
+         */
+
+#       define OSG_HAS_TEMPLATE_RETURNVALUES
+
+        /*! \brief compiler supports the use of template types for 
+         *  return values only on instance functions
+         *  \ingroup BaseDefines
+         */
+
+#       define OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
+
+#       if defined(_STANDARD_C_PLUS_PLUS)
+
+            /*! \brief streams in std namespace
+             *  \ingroup BaseDefines
+             */
+
+#           define OSG_STREAM_IN_STD_NAMESPACE
+
+#       endif  /* _STANDARD_C_PLUS_PLUS */
+
+        /*! \brief stream->rdbuf get the new buffer as a parameter
+         *  \ingroup BaseDefines
+         */
+
+#       define OSG_STREAM_RDBUF_HAS_PARAM
+
+        /*! \brief stream->isopen is available
+         *  \ingroup BaseDefines
+         */
+
+#       define OSG_STREAM_HAS_ISOPEN
+
+        /*! \brief vsnprintf is available
+         *  \ingroup BaseDefines
+         */
+
+#       define OSG_HAS_VSNPRINTF
+
+        /*! \brief nilbuffer is defined in the stdlib
+         *  \ingroup BaseDefines
+         */
+
+#       define OSG_HAS_NILBUF
+
 #   endif  /* _COMPILER_VERSION >= 730 */
 
-// Use SGI internal types to define OpenSG base types
-# define OSG_SGI_TYPES
-// atan2f function available
-# define OSG_HAS_ATANF2
-// General float math
-# define OSG_HAS_FLOATMATH
-// SGI STL available
-# define OSG_SGI_STL
+    /*! \brief Use SGI internal types to define OpenSG base types
+     *  \ingroup BaseDefines
+     */
+
+#   define OSG_SGI_TYPES
+
+    /*! \brief atan2f function available
+     *  \ingroup BaseDefines
+     */
+
+#   define OSG_HAS_ATANF2
+
+    /*! \brief General float math
+     *  \ingroup BaseDefines
+     */
+
+#   define OSG_HAS_FLOATMATH
+
+    /*! \brief SGI's stl implementation is available
+     *  \ingroup BaseDefines
+     */
+
+#   define OSG_SGI_STL
+
 // Use pthreads
 //# define OSG_USE_PTHREADS
-// Use sproc
-# define OSG_USE_SPROC
 
-// Use GLX 
-# define OSG_USE_GLX
+    /*! \brief Use sproc
+     *  \ingroup BaseDefines
+     */
+
+#   define OSG_USE_SPROC
+
+    /*! \brief Use GLX 
+     *  \ingroup BaseDefines
+     */
+
+#   define OSG_USE_GLX
+
+    /*! \brief LongLong constants have LL suffix
+     *  \ingroup BaseDefines
+     */
 
 # define OSG_LONGLONG_HAS_LL
 
@@ -344,16 +468,46 @@ OSG_USING_STD_NAMESPACE
 #endif
 
 #if defined(OSG_HAS_NAMESPACE)
+
+/*! @name Namespace Defines
+ */
+
+/*@{*/
+
+/** \brief Begin the osg namespace
+ *  \ingroup BaseDefines
+ */
+
 # define OSG_BEGIN_NAMESPACE namespace osg { 
+
+/** \brief End the osg namespace
+ *  \ingroup BaseDefines
+ */
+
 # define OSG_END_NAMESPACE }
+
+/** \brief osg namespace, use to reference a object within the namespace, like
+ *  \ingroup BaseDefines
+    OSG::OSGUInt32.
+*/
+
 # define OSG osg
-# define OSG_USING_OSG_NAMESPACE namespace osg {} using namespace osg;
+
+/** \brief Use the osg namespace throughout the following code.
+ *  \ingroup BaseDefines
+ */
+
 # define OSG_USING_NAMESPACE namespace osg {} using namespace osg;
-# else /* Use std::rel_ops namespace */
+
+/*@}*/
+
+# else /* OSG_HAS_NAMESPACE */
+
 # define OSG_BEGIN_NAMESPACE 
 # define OSG_END_NAMESPACE 
 # define OSG 
 # define OSG_USING_OSG_NAMESPACE
+
 #endif /*  */
 
 

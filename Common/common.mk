@@ -6,12 +6,23 @@
 OS      := $(shell echo `uname`)
 OS_TYPE := $(shell echo `uname`_`uname -r`_`uname -p`)
 
+OS_BASE := $(OS)
+
+ifeq ($(OS), IRIX64)
+OS_BASE := IRIX
+endif
+
 ifeq ($(OS), CYGWIN_NT-4.0)
 OS      := NT40
 OS_TYPE := NT40
+OS_BASE := NT
 endif
 
-OS_BASE := $(OS)
+ifeq ($(OS), CYGWIN_NT-5.0)
+OS      := NT50
+OS_TYPE := NT50
+OS_BASE := NT
+endif
 
 PROC    := $(shell uname -m)
 
@@ -135,7 +146,8 @@ DOC_HTML  = NO
 DOC_LATEX = NO
 DOC_MAN   = NO
 
-DOC_LIBS   = Base Field FieldContainer Action Log Nodes/Geometry
+DOC_LIBS    = Base 
+#Field FieldContainer Action Log Nodes/Geometry
 DOC_PATTERN = OSG*.cpp OSG*.h OSG*.inl 
 
 DOC_ENV := DOC_PROJECT_NAME=$(DOC_PROJECT_NAME) DOCDIR=$(DOCDIR) 

@@ -20,7 +20,7 @@
 // Class declarations
 #include "OSGCylinderVolume.h"
 
-OSG_USING_OSG_NAMESPACE
+OSG_USING_NAMESPACE
 
 // Static Class Variable implementations: 
 

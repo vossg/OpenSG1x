@@ -17,7 +17,7 @@
 // Class declarations
 #include "OSGString.h"
 
-using OSG::OSGString;
+OSG_USING_NAMESPACE
 
 // Static Class Variable implementations: 
 
@@ -181,7 +181,12 @@ void OSGString::set(const char *str, MemType memType)
 // Description:
 //          write str value in stream
 //----------------------------------------------------------------------
-ostream &OSG::operator <<(ostream &os, const OSGString &obj)
+
+OSG_BEGIN_NAMESPACE
+
+ostream &operator <<(ostream &os, const OSGString &obj)
 {
 	return os << (obj.str() ? obj.str() : "0 String");
 } 
+
+OSG_END_NAMESPACE

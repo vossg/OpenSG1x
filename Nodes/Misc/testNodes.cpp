@@ -152,6 +152,14 @@ int main (int argc, char **argv)
 
     p1.dump();
 
+    OSGNodeCorePtr nc1 = OSGNullNodeCore;
+
+    nc1.dump();
+
+    nc1 = OSGFieldContainerFactory::the().createNodeCore("Transform");
+
+    nc1.dump();
+
     return 0;
 }
 

@@ -121,9 +121,13 @@ OSGBool OSGPlane::isInHalfSpace( const OSGVec3f &point ) const
 	return scalar >= 0 ? true : false;
 }
 
+OSG_BEGIN_NAMESPACE
+
 /// Equality comparison operators
-bool OSG::operator ==(const OSGPlane &p1, const OSGPlane &p2)
+bool operator ==(const OSGPlane &p1, const OSGPlane &p2)
 {
 	return ((p1._distance == p2._distance) &&
 	        (p1._normalVec == p2._normalVec));
 }
+
+OSG_END_NAMESPACE

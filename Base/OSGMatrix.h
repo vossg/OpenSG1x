@@ -54,8 +54,8 @@ template <class OSGValueTypeT> class OSGQuaternionBase;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseLib
- *  \brief OSG transformation matrix, for details about the vector, point and
+/*! \ingroup BaseMathMatrices
+ *  \brief OSGTransformationMatrix, for details about the vector, point and
  *  matrix desing see \ref vecpointmat
  */
 
@@ -405,7 +405,18 @@ class OSGTransformationMatrix
 //   Exported Types
 //---------------------------------------------------------------------------
 
+/** \var typedef OSGTransformationMatrix<OSGReal32> OSGMatrix;
+ *  \brief OSGMatrix
+ *  \ingroup BaseMathMatrices
+ */
+
 typedef OSGTransformationMatrix<OSGReal32> OSGMatrix;
+
+/** \var typedef OSGTransformationMatrix<OSGReal32> OSGMatrix4f;
+ *  \brief OSGMatrix4f
+ *  \ingroup BaseMathMatrices
+ */
+
 typedef OSGTransformationMatrix<OSGReal32> OSGMatrix4f;
 
 OSG_END_NAMESPACE

@@ -56,8 +56,8 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseLib
- *  \brief OSG quaternion, that's the way how to define rotations.
+/*! \ingroup BaseMathQuaternions
+ *  \brief OSGQuaternionBase, that's the way how to define rotations.
  */
 
 template <class OSGValueTypeT>
@@ -298,6 +298,11 @@ class OSGQuaternionBase
 //---------------------------------------------------------------------------
 
 // class pointer
+
+/** \var typedef OSGQuaternionBase<OSGReal32> OSGQuaternion;
+ *  \brief OSGQuaternion
+ *  \ingroup BaseMathQuaternions
+ */
 
 typedef OSGQuaternionBase<OSGReal32> OSGQuaternion;
 

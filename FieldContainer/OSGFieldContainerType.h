@@ -98,9 +98,9 @@ class OSGFieldContainerType
     //-----------------------------------------------------------------------
 
 	OSGFieldContainerType(
-        const OSGChar                 *name,  
-        const OSGChar                 *parentName       = NULL,
-        const OSGChar                 *group            = NULL,
+        const OSGChar8                *name,  
+        const OSGChar8                *parentName       = NULL,
+        const OSGChar8                *group            = NULL,
         OSGPrototypeCreateF            prototypeCreateF = NULL,
         OSGInitContainerMethod         initMethod       = NULL,
         OSGFieldDescription           *desc             = NULL,
@@ -257,7 +257,7 @@ class OSGFieldContainerType
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	void registerType(const OSGChar *group);
+	void registerType(const OSGChar8 *group);
 
 	void initialize  (void);
     void terminate   (void);

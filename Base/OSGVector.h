@@ -64,7 +64,7 @@ class OSGPointInterface;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseLib
+/*! \ingroup BaseMathVectors
  *  \brief Vector storage holding 2 elements, for details about how vectors,
  *         points and matrices are actually build see \ref vecpointmat.
  */
@@ -181,7 +181,7 @@ class OSGVecStorage2
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseLib
+/*! \ingroup BaseMathVectors
  *  \brief Vector storage holding 3 elements, for details about how vectors,
  *         points and matrices are actually build see \ref vecpointmat.
  */
@@ -303,7 +303,7 @@ class OSGVecStorage3
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseLib
+/*! \ingroup BaseMathVectors
  *  \brief Vector storage holding 4 elements, for details about how vectors,
  *         points and matrices are actually build see \ref vecpointmat.
  */
@@ -428,7 +428,7 @@ class OSGVecStorage4
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseLib
+/*! \ingroup BaseMathVectors
  *  \brief Point Interface, for details about how vectors, points and matrices
  *   are actually build see \ref vecpointmat. 
  */
@@ -744,7 +744,7 @@ class OSGPointInterface : public OSGStorageInterfaceT
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseLib
+/*! \ingroup BaseMathVectors
  *  \brief Vector Interface, for details about how vectors, points and matrices
  *   are actually build see \ref vecpointmat. 
  */
@@ -980,76 +980,121 @@ class OSGVectorInterface :
 //   Exported Types
 //---------------------------------------------------------------------------
 
-/** OSGVec2f
+/** \var typedef OSGVectorInterface<OSGReal32, \
+                                    OSGVecStorage2<OSGReal32> > OSGVec2f;
+ *  \brief OSGVec2f
+ *  \ingroup BaseMathVectors
  */
 typedef OSGVectorInterface<OSGReal32, OSGVecStorage2<OSGReal32> > OSGVec2f;
 
-/** OSGVec2fP
+/** \var typedef OSGVec2f *OSGVec2fP;
+ *  \brief OSGVec2fP
+ *  \ingroup BaseMathVectors
  */
 typedef OSGVec2f *OSGVec2fP;
 
-/** OSGVec3f
+/** \var typedef OSGVectorInterface<OSGReal32, \
+                                    OSGVecStorage3<OSGReal32> > OSGVec3f;
+ *  \brief OSGVec3f
+ *  \ingroup BaseMathVectors
  */
 typedef OSGVectorInterface<OSGReal32, OSGVecStorage3<OSGReal32> > OSGVec3f;
 
-/** OSGVec3fP
+/** \var typedef OSGVec3f *OSGVec3fP;
+ *  \brief OSGVec3fP
+ *  \ingroup BaseMathVectors
  */
 typedef OSGVec3f *OSGVec3fP;
 
-/** OSGVec4f
+/** \var typedef OSGVectorInterface<OSGReal32, \
+                                    OSGVecStorage4<OSGReal32> > OSGVec4f;
+ *  \brief OSGVec4f
+ *  \ingroup BaseMathVectors
  */
 typedef OSGVectorInterface<OSGReal32, OSGVecStorage4<OSGReal32> > OSGVec4f;
 
-/** OSGVec4fP
+/** \var typedef OSGVec4f *OSGVec4fP;
+ *  \brief OSGVec4fP
+ *  \ingroup BaseMathVectors
  */
 typedef OSGVec4f *OSGVec4fP;
 
-/** OSGVec2s
+/** \var typedef OSGVectorInterface<OSGUInt16, \
+                                    OSGVecStorage2<OSGUInt16> > OSGVec2s;
+ *  \brief OSGVec2s
+ *  \ingroup BaseMathVectors
  */
 typedef OSGVectorInterface<OSGUInt16, OSGVecStorage2<OSGUInt16> > OSGVec2s;
 
-/** OSGVec2sP
+/** \var typedef OSGVec2s *OSGVec2sP;
+ *  \brief OSGVec2sP
+ *  \ingroup BaseMathVectors
  */
 typedef OSGVec2s *OSGVec2sP;
 
-/** OSGVec4ub
+/** \var typedef OSGVectorInterface<OSGUInt8, \
+                                    OSGVecStorage4<OSGUInt8> > OSGVec4ub;
+ *  \brief OSGVec4ub
+ *  \ingroup BaseMathVectors
  */
 typedef OSGVectorInterface<OSGUInt8, OSGVecStorage4<OSGUInt8> > OSGVec4ub;
 
-/** OSGVec4ubP
+/** \var typedef OSGVec4ub *OSGVec4ubP;
+ *  \brief OSGVec4ubP
+ *  \ingroup BaseMathVectors
  */
 typedef OSGVec4ub *OSGVec4ubP;
 
 
-/** OSGVec2f
+/** \var typedef OSGPointInterface<OSGReal32, \ 
+                                   OSGVecStorage2<OSGReal32> > OSGPnt2f;
+ *  \brief OSGVec2f
+ *  \ingroup BaseMathVectors
  */
 typedef OSGPointInterface<OSGReal32, OSGVecStorage2<OSGReal32> > OSGPnt2f;
 
-/** OSGVec2fP
+/** \var typedef OSGPnt2f *OSGPnt2fP;
+ *  \brief OSGVec2fP
+ *  \ingroup BaseMathVectors
  */
 typedef OSGPnt2f *OSGPnt2fP;
 
-/** OSGVec3f
+/** \var typedef OSGPointInterface<OSGReal32, \
+                                   OSGVecStorage3<OSGReal32> > OSGPnt3f;
+ *  \brief OSGVec3f
+ *  \ingroup BaseMathVectors
  */
 typedef OSGPointInterface<OSGReal32, OSGVecStorage3<OSGReal32> > OSGPnt3f;
 
-/** OSGVec3fP
+/** \var typedef OSGPnt3f *OSGPnt3fP;
+ *  \brief OSGVec3fP
+ *  \ingroup BaseMathVectors
  */
 typedef OSGPnt3f *OSGPnt3fP;
 
-/** OSGVec4f
+/** \var typedef OSGPointInterface<OSGReal32, \
+                                   OSGVecStorage4<OSGReal32> > OSGPnt4f;
+ *  \brief OSGVec4f
+ *  \ingroup BaseMathVectors
  */
 typedef OSGPointInterface<OSGReal32, OSGVecStorage4<OSGReal32> > OSGPnt4f;
 
-/** OSGVec4fP
+/** \var typedef OSGPnt4f *OSGPnt4fP;
+ *  \brief OSGVec4fP
+ *  \ingroup BaseMathVectors
  */
 typedef OSGPnt4f *OSGPnt4fP;
 
-/** OSGVec2s
+/** \var typedef OSGPointInterface<OSGUInt16, \
+                                   OSGVecStorage2<OSGUInt16> > OSGPnt2s;
+ *  \brief OSGVec2s
+ *  \ingroup BaseMathVectors
  */
 typedef OSGPointInterface<OSGUInt16, OSGVecStorage2<OSGUInt16> > OSGPnt2s;
 
-/** OSGVec2sP
+/** \var typedef OSGVec2s *OSGVec2sP;
+ *  \brief OSGVec2sP
+ *  \ingroup BaseMathVectors
  */
 
 typedef OSGVec2s *OSGVec2sP;

@@ -55,7 +55,7 @@
 
 #include "OSGFieldContainerPtr.h"
 
-OSG_USING_OSG_NAMESPACE
+OSG_USING_NAMESPACE
 
 /***************************************************************************\
  *                               Types                                     *
@@ -97,9 +97,9 @@ char OSGFieldContainerType::cvsid[] = "@(#)$Id: OSGFieldContainerType.cpp,v 1.25
  */
 
 OSGFieldContainerType::OSGFieldContainerType(
-    const OSGChar *name,
-    const OSGChar *parentName,
-    const OSGChar *group,
+    const OSGChar8 *name,
+    const OSGChar8 *parentName,
+    const OSGChar8 *group,
     OSGPrototypeCreateF            prototypeCreateF,
     OSGInitContainerMethod         initMethod,
     OSGFieldDescription           *desc,
@@ -338,10 +338,10 @@ void OSGFieldContainerType::print(void) const
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-void OSGFieldContainerType::registerType(const OSGChar *group)
+void OSGFieldContainerType::registerType(const OSGChar8 *group)
 {
 	OSGFieldContainerType *idType, *nameType;
-	const OSGChar *groupName = group ? group : _name.str();
+	const OSGChar8 *groupName = group ? group : _name.str();
 	OSGInt32 i;
 	OSGInt16 groupId;
 

@@ -55,7 +55,7 @@ extern "C" {
 #include "OSGJPGImageFileType.h"
 #include <OSGLog.h>
 
-OSG_USING_OSG_NAMESPACE
+OSG_USING_NAMESPACE
 
 /*****************************
  *   Types

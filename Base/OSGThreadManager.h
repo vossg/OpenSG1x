@@ -39,7 +39,7 @@
 #include <map>
 #include <vector>
 
-#include "OSGConfig.h"
+#include <OSGConfig.h>
 
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
@@ -67,6 +67,10 @@ class OSGChangeList;
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
+
+/*! \ingroup BaseThreading
+ *  \brief OSGThreadManager
+ */
 
 class OSGThreadManager 
 {

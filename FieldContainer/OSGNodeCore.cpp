@@ -54,7 +54,7 @@
 #include "OSGNodeCore.h"
 #include "OSGAttachment.h"
 
-OSG_USING_OSG_NAMESPACE
+OSG_USING_NAMESPACE
 
 /** \enum OSGVecBase::VectorSizeE
  *  \brief 

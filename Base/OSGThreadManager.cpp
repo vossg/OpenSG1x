@@ -47,15 +47,13 @@
 #include "OSGThread.h"
 #include "OSGBarrier.h"
 #include "OSGLock.h"
-#include <OSGLog.h>
+#include "OSGLog.h"
 
 OSG_USING_NAMESPACE
 
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
-
-
 
 /***************************************************************************\
  *                           Class variables                               *
@@ -434,7 +432,7 @@ void OSGThreadManager::freeLockPool(OSGLockPool *lockPoolP)
     }
 }
 
-OSGThread  *OSGThreadManager::findThread (const char *szName)
+OSGThread  *OSGThreadManager::findThread (const OSGChar8 *szName)
 {
     OSGThread *returnValue = NULL;
 
@@ -455,7 +453,7 @@ OSGThread  *OSGThreadManager::findThread (const char *szName)
     return returnValue;
 }
 
-OSGBarrier *OSGThreadManager::findBarrier(const char *szName)
+OSGBarrier *OSGThreadManager::findBarrier(const OSGChar8 *szName)
 {
     OSGBarrier *returnValue = NULL;
 
@@ -476,7 +474,7 @@ OSGBarrier *OSGThreadManager::findBarrier(const char *szName)
     return returnValue;
 }
 
-OSGLock *OSGThreadManager::findLock(const char *szName)
+OSGLock *OSGThreadManager::findLock(const OSGChar8 *szName)
 {
     OSGLock *returnValue = NULL;
 
@@ -497,7 +495,7 @@ OSGLock *OSGThreadManager::findLock(const char *szName)
     return returnValue;
 }
 
-OSGLockPool *OSGThreadManager::findLockPool(const char *szName)
+OSGLockPool *OSGThreadManager::findLockPool(const OSGChar8 *szName)
 {
     OSGLockPool *returnValue = NULL;
 

@@ -148,6 +148,11 @@ int main (int argc, char **argv)
     tnode->addChild( g2 );
     osgEndEditCP(tnode);
 
+    OSGNodeCorePtr tcr = 
+        OSGFieldContainerFactory::the().createNodeCore("Group");
+
+    OSGNodePtr pcr = 
+        OSGFieldContainerFactory::the().createNode("Node");
 
     //
 

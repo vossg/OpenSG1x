@@ -4,14 +4,15 @@
 #include "OSGString.h"
 
 
+
+OSG_BEGIN_NAMESPACE
+
 /** String which always links to the data.
 
 
 @author jbehr, Tue Jan 13 15:14:22 1998
 
 */
-
-OSG_BEGIN_NAMESPACE
 
 class OSGStringLink : public OSGString {
 	typedef OSGString ParentClass;

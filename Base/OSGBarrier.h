@@ -62,10 +62,8 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup BaseThreading
+ *  \brief OSGBarrierCommonBase
  */
 
 class OSGBarrierCommonBase 
@@ -194,6 +192,11 @@ class OSGBarrierCommonBase
 //---------------------------------------------------------------------------
 
 #if defined (OSG_USE_PTHREADS)
+
+/*! \ingroup BaseThreading
+ *  \brief OSGPThreadBarrierBase
+ */
+
 class OSGPThreadBarrierBase : public OSGBarrierCommonBase
 {
   public:
@@ -320,6 +323,11 @@ typedef OSGPThreadBarrierBase OSGBarrierBase;
 //---------------------------------------------------------------------------
 
 #if defined (OSG_USE_SPROC)
+
+/*! \ingroup BaseThreading
+ *  \brief OSGSprocBarrierBase
+ */
+
 class OSGSprocBarrierBase : public OSGBarrierCommonBase
 {
   public:
@@ -443,6 +451,11 @@ typedef OSGSprocBarrierBase OSGBarrierBase;
 //---------------------------------------------------------------------------
 
 #if defined (OSG_USE_WINTHREADS)
+
+/*! \ingroup BaseThreading
+ *  \brief OSGWinThreadBarrierBase
+ */
+
 class OSGWinThreadBarrierBase : public OSGBarrierCommonBase
 {
   public:
@@ -563,6 +576,10 @@ class OSGWinThreadBarrierBase : public OSGBarrierCommonBase
 typedef OSGWinThreadBarrierBase OSGBarrierBase;
 
 #endif /* OSG_USE_WINTHREADS */
+
+/*! \ingroup BaseThreading
+ *  \brief OSGBarrier
+ */
 
 class OSGBarrier : public OSGBarrierBase
 {

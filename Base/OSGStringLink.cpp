@@ -15,11 +15,7 @@
 // Class declarations
 #include "OSGStringLink.h"
 
-using OSG::OSGStringLink;
-
-#ifdef WIN32
-using OSG::OSGString;
-#endif
+OSG_USING_NAMESPACE
 
 // Static Class Variable implementations: 
 

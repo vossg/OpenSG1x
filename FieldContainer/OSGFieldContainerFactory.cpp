@@ -48,7 +48,7 @@
 #include "OSGLock.h"
 #include "OSGLog.h"
 
-OSG_USING_OSG_NAMESPACE
+OSG_USING_NAMESPACE
 
 /** \enum OSGVecBase::VectorSizeE
  *  \brief 
@@ -192,7 +192,7 @@ void OSGFieldContainerFactory::initTypeMap(void)
 
 /*---------------------------- properties ---------------------------------*/
 
-OSGUInt16 OSGFieldContainerFactory::addGroup(const OSGChar *groupName)
+OSGUInt16 OSGFieldContainerFactory::addGroup(const OSGChar8 *groupName)
 {
 	map< OSGString, OSGUInt16>::iterator gI;
 
@@ -244,7 +244,7 @@ OSGFieldContainerType * OSGFieldContainerFactory::findType(const char *name)
 }
 
 
-const OSGChar * OSGFieldContainerFactory::findGroupName(OSGUInt16 Id)
+const OSGChar8 * OSGFieldContainerFactory::findGroupName(OSGUInt16 Id)
 {
 	map <OSGString, OSGUInt16>::iterator gI;
 
@@ -258,7 +258,7 @@ const OSGChar * OSGFieldContainerFactory::findGroupName(OSGUInt16 Id)
 }
 
 
-OSGUInt16 OSGFieldContainerFactory::findGroupId ( const OSGChar *groupName)
+OSGUInt16 OSGFieldContainerFactory::findGroupId ( const OSGChar8 *groupName)
 {
 	map <OSGString, OSGUInt16>::iterator gI;
 

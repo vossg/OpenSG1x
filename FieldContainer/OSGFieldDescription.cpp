@@ -45,7 +45,7 @@
 #include "OSGFieldContainer.h"
 #include "OSGFieldDescription.h"
 
-OSG_USING_OSG_NAMESPACE
+OSG_USING_NAMESPACE
 
 /** \enum OSGVecBase::VectorSizeE
  *  \brief 

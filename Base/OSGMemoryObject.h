@@ -52,9 +52,8 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-/** \ingroup baselib
-    \brief OSGMemory, simple not thread safe reference counted memory object. 
-
+/** \ingroup BaseLib
+    \brief OSGMemory, simple not thread safe reference counted memory object.
 */
 
 class OSGMemoryObject

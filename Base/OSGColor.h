@@ -51,10 +51,8 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup BaseColors
+ *  \brief OSGColor3
  */
 
 template <class OSGValueTypeT>
@@ -117,10 +115,8 @@ class OSGColor3
 
     void setRandom(void);
 
-    /// method to get a packed rgb value (AOSGBGGRR)
     OSGUInt32 getRGB(void) const;
 
-    /// method to set the rgb values (AOSGBGGRR)
     void setRGB(OSGUInt32 rgbPack);
 
 
@@ -221,6 +217,10 @@ class OSGColor3
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
+
+/*! \ingroup BaseColors
+ *  \brief OSGColor4
+ */
 
 template <class OSGValueTypeT>
 class OSGColor4
@@ -382,11 +382,32 @@ template <class OSGValueTypeT>
 ostream &operator <<(ostream                        &outStream,
                      const OSGColor4<OSGValueTypeT> &color);
 
+/*! \var OSGColor3<OSGReal32> OSGColor3f;
+ *  \ingroup BaseColors
+ *  \brief OSGColor3f
+ */
 
 typedef OSGColor3<OSGReal32> OSGColor3f;
+
+/*! \var OSGColor4<OSGReal32> OSGColor4f;
+ *  \ingroup BaseColors
+ *  \brief OSGColor4f
+ */
+
 typedef OSGColor4<OSGReal32> OSGColor4f;
 
+/*! \var OSGColor3<OSGUInt8> OSGColor3ub;
+ *  \ingroup BaseColors
+ *  \brief OSGColor3ub
+ */
+
 typedef OSGColor3<OSGUInt8> OSGColor3ub;
+
+/*! \var OSGColor4<OSGUInt8> OSGColor4ub;
+ *  \ingroup BaseColors
+ *  \brief OSGColor4ub
+ */
+
 typedef OSGColor4<OSGUInt8> OSGColor4ub;
 
 OSG_END_NAMESPACE

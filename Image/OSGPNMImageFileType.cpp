@@ -56,7 +56,7 @@
 
 #include "OSGPNMImageFileType.h"
 
-OSG_USING_OSG_NAMESPACE
+OSG_USING_NAMESPACE
 
 /*****************************
  *   Types
