@@ -343,180 +343,6 @@ void RenderAction::setMaterial(Material *pMaterial)
     _pMaterial = pMaterial;
 }
 
-void RenderAction::dropGeometry(Geometry *pGeo)
-{
-    Material *pMat;
-    State    *pState;
-
-    if(pGeo == NULL)
-    {
-        return;
-    }
-
-    if(_pMaterial != NULL)
-    {
-        pMat = _pMaterial;
-    }
-    else if(pGeo->getMaterial() != NullFC)
-    {
-        pMat = pGeo->getMaterial().getCPtr();
-    }
-    else
-    {
-        return;
-    }
-
-    MaterialMap::iterator it        = _mMatMap.find(pMat);
-
-#if 0
-    pMat->rebuildState();
-#endif
-
-    UInt32 sortKey = pMat->getSortKey();
-
-    pState = pMat->getState().getCPtr();
-
-    if(_bSortTrans == true && pMat->isTransparent() == true)
-    {
-#if defined(OSG_OPT_DRAWTREE)
-        DrawTreeNode *pNewElem = _pNodeFactory->create();
-#else
-        DrawTreeNode *pNewElem = new DrawTreeNode;
-#endif
-
-        Pnt3f         objPos;
-            
-        getActNode()->getVolume().getCenter(objPos);
-        
-        _currMatrix.second.mult(objPos);
-            
-        pNewElem->setNode       (getActNode());
-            
-        pNewElem->setGeometry   (pGeo);
-        pNewElem->setMatrixStore(_currMatrix);
-            
-        pNewElem->setState      (pState);
-        pNewElem->setScalar     (objPos[2]);
-        pNewElem->setLightsState(_lightsState);
-
-        UInt32 rsize = _pTransMatRoots.size();
-        if(sortKey >= rsize)
-        {
-            _pTransMatRoots.resize(sortKey + 1);
-            for(UInt32 i=rsize;i<sortKey;++i)
-                _pTransMatRoots[i] = NULL;
-
-#if defined(OSG_OPT_DRAWTREE)
-            _pTransMatRoots[sortKey] = _pNodeFactory->create();
-#else
-            _pTransMatRoots[sortKey] =  new DrawTreeNode;
-            addRefP(_pTransMatRoots[sortKey]);
-#endif
-        }
-
-        if(_pTransMatRoots[sortKey]->getFirstChild() == NULL)
-        {
-            _pTransMatRoots[sortKey]->addChild(pNewElem);
-        }
-        else
-        {
-            DrawTreeNode *pCurrent = _pTransMatRoots[sortKey]->getFirstChild();
-            DrawTreeNode *pLast    = NULL;
-            bool          bFound   = false;
-
-            do
-            {
-
-                if(pNewElem->getScalar() > pCurrent->getScalar())
-                {
-                    pLast    = pCurrent;
-                    pCurrent = pCurrent->getBrother();
-                }
-                else
-                {
-                    bFound = true;
-                }
-
-            } while(bFound   == false && 
-                    pCurrent != NULL    );
-            
-            
-            if(bFound == true)
-            {
-                if(pLast == NULL)
-                {
-                    _pTransMatRoots[sortKey]->insertFirstChild(       pNewElem);
-                }
-                else
-                {
-                    _pTransMatRoots[sortKey]->insertChildAfter(pLast, pNewElem);
-                }
-            }
-            else
-            {
-                _pTransMatRoots[sortKey]->addChild(pNewElem);
-            }
-        }
-
-
-        _uiNumTransGeometries++;
-    }
-    else
-    {
-#if defined(OSG_OPT_DRAWTREE)
-        DrawTreeNode *pNewElem = _pNodeFactory->create();
-#else
-        DrawTreeNode *pNewElem = new DrawTreeNode;
-#endif
- 
-        if(it == _mMatMap.end())
-        {
-#if defined(OSG_OPT_DRAWTREE)
-            DrawTreeNode *pNewMatElem = _pNodeFactory->create();
-#else
-            DrawTreeNode *pNewMatElem = new DrawTreeNode;
-#endif
-            
-            //_mMatMap[pMat].push_back(pNewMatElem);
-            _mMatMap[pMat] = pNewMatElem;
-            
-            pNewElem->setNode       (getActNode());           
-            pNewElem->setGeometry   (pGeo);
-            pNewElem->setMatrixStore(_currMatrix);
-            pNewElem->setLightsState(_lightsState);
-
-            pNewMatElem->addChild(pNewElem);
-            pNewMatElem->setState(pState);
-            
-            //_pMatRoot->addChild(pNewMatElem);
-            UInt32 rsize = _pMatRoots.size();
-            if(sortKey >= rsize)
-            {
-                _pMatRoots.resize(sortKey + 1);
-                for(UInt32 i=rsize;i<sortKey;++i)
-                    _pMatRoots[i] = NULL;
-                
-#if defined(OSG_OPT_DRAWTREE)
-                _pMatRoots[sortKey] = _pNodeFactory->create();
-#else
-                _pMatRoots[sortKey] =  new DrawTreeNode;
-                addRefP(_pMatRoots[sortKey]);
-#endif
-            }
-            _pMatRoots[sortKey]->addChild(pNewMatElem);
-        }
-        else
-        {
-            pNewElem->setNode       (getActNode());
-            pNewElem->setGeometry   (pGeo);
-            pNewElem->setMatrixStore(_currMatrix);
-            pNewElem->setLightsState(_lightsState);
-
-            it->second->addChild(pNewElem);
-        }
-    }
-}
-
 void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
 {
     Material *pMat;
@@ -886,39 +712,6 @@ void RenderAction::draw(DrawTreeNode *pRoot)
 {
     while(pRoot != NULL)
     {
-        // local lights
-        // need to move this in a function and call it only when pRoot->hasFunctor()
-        if(_bLocalLights)
-        {
-            if(_activeLightsState != pRoot->getLightsState())
-            {
-                //printf("lightsState: %d\n", pRoot->getLightsState());
-                for(LightsMap::iterator it = _lightsMap.begin();it != _lightsMap.end();++it)
-                {
-                    UInt32 i = (*it).second;
-
-                    if((_activeLightsState & (1 << i)) ==
-                       (pRoot->getLightsState() & (1 << i)))
-                        continue;
-
-                    if(pRoot->getLightsState() & (1 << i))
-                    {
-                        //printf("activate light: %u\n", i);
-                        glPushMatrix();
-                        glLoadMatrixf(_vLights[i].second.getValues());
-                        _vLights[i].first->activate(this, i);
-                        glPopMatrix();
-                    }
-                    else
-                    {
-                        //printf("deactivate light: %u\n", i);
-                        _vLights[i].first->deactivate(this, i);
-                    }
-                }
-                _activeLightsState = pRoot->getLightsState();
-            }
-        }
-
         UInt32 uiNextMatrix = pRoot->getMatrixStore().first;
 
         if(uiNextMatrix != 0 && uiNextMatrix != _uiActiveMatrix)
@@ -973,14 +766,40 @@ void RenderAction::draw(DrawTreeNode *pRoot)
 
         setActNode(pRoot->getNode());
 
-        if(pRoot->getGeometry() != NULL)
+        if(pRoot->hasFunctor())
         {
-            pRoot->getGeometry()->drawPrimitives(this);
+            // local lights
+            if(_bLocalLights)
+            {
+                if(_activeLightsState != pRoot->getLightsState())
+                {
+                    //printf("lightsState: %d\n", pRoot->getLightsState());
+                    for(LightsMap::iterator it = _lightsMap.begin();it != _lightsMap.end();++it)
+                    {
+                        UInt32 i = (*it).second;
+    
+                        if((_activeLightsState & (1 << i)) ==
+                           (pRoot->getLightsState() & (1 << i)))
+                            continue;
+    
+                        if(pRoot->getLightsState() & (1 << i))
+                        {
+                            //printf("activate light: %u\n", i);
+                            glPushMatrix();
+                            glLoadMatrixf(_vLights[i].second.getValues());
+                            _vLights[i].first->activate(this, i);
+                            glPopMatrix();
+                        }
+                        else
+                        {
+                            //printf("deactivate light: %u\n", i);
+                            _vLights[i].first->deactivate(this, i);
+                        }
+                    }
+                    _activeLightsState = pRoot->getLightsState();
+                }
+            }
 
-            _uiNumGeometries++;
-        }
-        else if(pRoot->hasFunctor())
-        {
             pRoot->getFunctor().call(this);
 
             _uiNumGeometries++;

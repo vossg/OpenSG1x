@@ -80,11 +80,6 @@ class DrawTreeNodeFactory;
 //  Class
 //---------------------------------------------------------------------------
 
-typedef std::pair<UInt32      ,      Matrix                 > MatrixStore;
-typedef std::map <Material   *,      DrawTreeNode *         > MaterialMap;
-typedef std::pair<LightChunk *,      Matrix                 > LightStore;
-typedef std::map<Light       *,      UInt32                 > LightsMap;
-
 /*! \brief RenderAction class
  */
 
@@ -92,6 +87,11 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 {
   public:
 
+    typedef std::pair<UInt32      ,      Matrix                 > MatrixStore;
+    typedef std::map <Material   *,      DrawTreeNode *         > MaterialMap;
+    typedef std::pair<LightChunk *,      Matrix                 > LightStore;
+    typedef std::map<Light       *,      UInt32                 > LightsMap;
+  
     //-----------------------------------------------------------------------
     //   constants                                                               
     //-----------------------------------------------------------------------
@@ -149,7 +149,6 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     /*------------------------- assignment ----------------------------------*/
 
-    void dropGeometry(Geometry  *pGeo);
     void dropLight     (Light     *pLight);
     void undropLight   (Light     *pLight);
     void dropFunctor (Material::DrawFunctor &func, Material *mat);

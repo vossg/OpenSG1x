@@ -185,13 +185,13 @@ NodePtr DrawTreeNode::getNode(void)
 }
 
 inline
-void DrawTreeNode::setMatrixStore(const MatrixStore &oMatrixStore)
+void DrawTreeNode::setMatrixStore(const RenderAction::MatrixStore &oMatrixStore)
 {
     _oMatrixStore = oMatrixStore;
 }
 
 inline
-MatrixStore &DrawTreeNode::getMatrixStore(void)
+RenderAction::MatrixStore &DrawTreeNode::getMatrixStore(void)
 {
     return _oMatrixStore;
 }

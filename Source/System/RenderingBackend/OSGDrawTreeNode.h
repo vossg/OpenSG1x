@@ -115,8 +115,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
     void          setNode         (NodePtr   pNode                );
     NodePtr       getNode         (void                           );
 
-    void          setMatrixStore  (const MatrixStore &oMatrixStore);
-    MatrixStore  &getMatrixStore  (void                           );        
+    void          setMatrixStore  (const RenderAction::MatrixStore &oMatrixStore);
+    RenderAction::MatrixStore  &getMatrixStore  (void                           );        
 
     void          setScalar       (Real32 rScalar                 );
     Real32        getScalar       (void                           );
@@ -148,7 +148,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
     Material::DrawFunctor      _functor;
     bool                       _hasFunctor;
     
-    MatrixStore                _oMatrixStore;        
+    RenderAction::MatrixStore  _oMatrixStore;        
 
     Real32                     _rScalarVal;
 
