@@ -192,6 +192,14 @@ std::string SocketAddress::getHostByName() const
     return result;
 }
 
+/*! Returns true, if this is a multicast address
+ */ 
+bool SocketAddress::isMulticast(void)
+{
+    UInt32 addr = ntohl(_sockaddr.sin_addr.s_addr);
+    return addr & 0xC0000;
+}
+
 /*! Get a pointer to the sockaddr struct
  */
 sockaddr *SocketAddress::getSockAddr(void) const
