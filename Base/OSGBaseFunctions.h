@@ -194,7 +194,32 @@ struct OSG_BASE_DLLMAPPING osgStaticMax
     enum _iMax { iMax = uiValue1 < uiValue2 ? uiValue2 : uiValue1 };
 };
 
-#if 0
+#ifdef __sgi
+
+/*
+ *  \brief osgIF
+ */
+
+template<bool IConditionV, class IThenT, class IElseT>
+struct osgIF
+{
+    typedef IThenT _IRet;
+    typedef IElseT _IDummyRef;
+};
+
+/*! \ingroup BaseMathFunctions
+ *  \brief osgIF<false, IThenT, IElseT>
+ */
+
+template<class IThenT, class IElseT>
+struct osgIF<false, IThenT, IElseT>
+{
+    typedef IElseT _IRet;
+    typedef IThenT _IDummyRef;
+};
+
+#else
+
 /*! \ingroup BaseMathFunctions
  *  \brief osgIFGen
  */
@@ -238,45 +263,6 @@ struct osgIF
 };
 
 #endif
-
-/*! \ingroup BaseMathFunctions
- *  \brief osgIFGen
- */
-
-template <bool IConditionV>
-struct osgIFGen
-{
-	template<class IThenT, class IElseT>
-	struct osgIFSwitch
-	{
-		typedef IThenT _IRet;
-	    typedef IElseT _IDummyRef;
-	};
-};
-
-template <>
-struct osgIFGen<false>
-{
-	template<class IThenT, class IElseT>
-	struct osgIFSwitch
-	{
-	    typedef IElseT _IRet;
-		typedef IThenT _IDummyRef;
-	};
-};
-
-
-/*! \ingroup BaseMathFunctions
- *  \brief osgIF
- */
-
-template<bool IConditionV, class IThenT, class IElseT>
-struct osgIF
-{
-    typedef osgIFGen<IConditionV> _IfGen;
-
-	typedef typename _IfGen::osgIFSwitch<IThenT, IElseT>::_IRet _IRet;
-};
 
 /*! \brief osgispower2
  *  \ingroup BaseMathFunctions
