@@ -118,6 +118,7 @@ void AttachmentContainer::addAttachment(const AttachmentPtr &fieldContainerP,
 
     if(fcI != _attachmentMap.getValue().end())
     {
+// TODO SUBPARENT
         subRefCP((*fcI).second);
         (*fcI).second = fieldContainerP;
     }
@@ -247,7 +248,10 @@ AttachmentContainer::AttachmentContainer(const AttachmentContainer &source) :
     AttachmentMap::const_iterator fcI =
         source._attachmentMap.getValue().begin();
 
-    while(fcI != source._attachmentMap.getValue().end())
+    AttachmentMap::const_iterator fcEnd =
+        source._attachmentMap.getValue().end  ();
+
+    while(fcI != fcEnd)
     {
         addAttachment((*fcI).second);
 
