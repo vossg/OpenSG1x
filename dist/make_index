@@ -26,6 +26,7 @@ split_name ()
 
 logdir=$1
 skeleton=$2
+target=$3
 
 
 
@@ -103,8 +104,8 @@ EOF
 
 # merge with index_skeleton.html
 
-sed -e '/##DAILYBUILD_LOGS##/r index_raw.html' \
-	-e '/##DAILYBUILD_LOGS##/d' < $skeleton > index.html
+sed -e '/DAILYBUILD_LOGS/r index_raw.html' \
+	-e '/DAILYBUILD_LOGS/d' < $skeleton > $target
 
 # remove temporary
 
