@@ -1629,7 +1629,7 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
         {
             graph.init(triN * 3, triN, 8);
             indexVec.resize(indexMapSize);
-            for(tI = geoPtr->beginTriangles(); tI != geoPtr->endTriangles();
+            for(tI = geoPtr->beginTriangles(); (triCount < triN) && (tI != geoPtr->endTriangles());
                             ++tI)
             {
                 for(i = 0; i < 3; i++)
@@ -1652,7 +1652,7 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
         else
         {
             graph.init(pN, triN, 8);
-            for(tI = geoPtr->beginTriangles(); tI != geoPtr->endTriangles();
+            for(tI = geoPtr->beginTriangles(); (triCount < triN) && (tI != geoPtr->endTriangles());
                             ++tI)
             {
                 invalidTriCount += graph.setNode(triCount++,
@@ -1669,11 +1669,6 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
         }
 
         graph.verify(true);
-        if(triN != triCount)
-        {
-            FFATAL(("Triangle count missmatch (%d/%d)\n", triN, triCount));
-            return 0;
-        }
 
         pathVec[1].resize(triN);
         if(iteration > 1)
