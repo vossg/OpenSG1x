@@ -282,6 +282,24 @@ DrawActionBase *SimpleSceneManager::getAction(void)
     return _action;
 }
 
+/*! set the action used to render the scene
+ */
+void SimpleSceneManager::setAction(DrawActionBase *action)
+{
+    bool statstate = _statstate;
+
+    if(_action != NULL)
+    {
+        if(statstate)
+            setStatistics(false);
+        delete _action;
+    }
+
+    _action = action;
+    if(statstate)
+        setStatistics(true);
+}
+
 /*! set the root of the displayed tree
  */
 void SimpleSceneManager::setRoot(NodePtr root)

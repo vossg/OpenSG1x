@@ -113,6 +113,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     /*! \name                      Set                                     */
     /*! \{                                                                 */
 
+    virtual void  setAction        ( DrawActionBase *action );
     virtual void  setRoot          ( NodePtr root );
     virtual void  setWindow        ( WindowPtr win );
     virtual void  setHighlight     ( NodePtr obj );
