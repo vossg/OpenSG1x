@@ -63,7 +63,11 @@ OSG_BEGIN_NAMESPACE
 #endif
 
 template <>
-struct OSG_BASE_DLLMAPPING FieldDataTraits2<bool> : 
+#ifndef OSG_WIN32_CL
+struct OSG_BASE_DLLMAPPING FieldDataTraits2<bool> :
+#else
+struct FieldDataTraits2<bool> :
+#endif
     public FieldTraitsIntegralRecurseMapper<bool>
 {
     static  DataType               _type;
