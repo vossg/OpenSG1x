@@ -60,7 +60,7 @@ bool TTFont::initFont(void)
     if(_valid)
         return true;
 
-    if(!_fontName || _fontPath.empty())
+    if(_fontName.empty() || _fontPath.empty())
     {
         FWARNING(("No FontName or no path specified."));
         return false;
@@ -86,8 +86,8 @@ bool TTFont::createInstance(Text *fs)
     TT_Instance *inst   = new TT_Instance;
     TTFontStyle *fInst  = new TTFontStyle;
 
-    fInst->setFontName(_fontName );
-    fInst->setSize    (fs->size());
+    fInst->setFontName(_fontName.c_str());
+    fInst->setSize    (fs->size()       );
 
     retVal = fInst->set_ttInstance(inst, &_ttFace);
 
@@ -110,8 +110,8 @@ OSG::FontStyle *TTFont::createInstance(Real32 size)
     TT_Instance *inst   = new TT_Instance;
     TTFontStyle *fInst  = new TTFontStyle;
 
-    fInst->setFontName(_fontName);
-    fInst->setSize    (size     );
+    fInst->setFontName(_fontName.c_str());
+    fInst->setSize    (size             );
 
     retVal = fInst->set_ttInstance(inst, &_ttFace);
 

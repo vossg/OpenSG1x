@@ -6,7 +6,7 @@
 
 #ifdef OSG_WITH_FREETYPE1
 
-#include "freetype.h"
+#include "freetype/freetype.h"
 
 #include <OSGFontStyle.h>
 
