@@ -81,6 +81,9 @@ LibClean: $(SUB_LIBTARGETS)
 DepClean: SUB_TARGET := DepClean
 DepClean: $(SUB_LIBTARGETS) 
 
+distclean: SUB_TARGET := distclean
+distclean: $(SUB_LIBTARGETS)
+
 #########################################################################
 # install
 #########################################################################

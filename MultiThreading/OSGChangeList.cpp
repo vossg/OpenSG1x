@@ -172,6 +172,36 @@ ChangeList::refd_const_iterator ChangeList::endSubRefd(void) const
     return _vSubRefdFieldContainers.end();
 }
 
+ChangeList::idrefd_const_iterator ChangeList::beginCreated(void) const
+{
+    return _vCreatedFieldContainers.begin();
+}
+
+ChangeList::idrefd_const_iterator ChangeList::endCreated(void) const
+{
+    return _vCreatedFieldContainers.end();
+}
+
+ChangeList::idrefd_size_type ChangeList::sizeCreated(void) const
+{
+    return _vCreatedFieldContainers.size();
+}
+
+ChangeList::idrefd_const_iterator ChangeList::beginDestroyed(void) const
+{
+    return _vDestroyedFieldContainers.begin();
+}
+
+ChangeList::idrefd_const_iterator ChangeList::endDestroyed(void) const
+{
+    return _vDestroyedFieldContainers.end();
+}
+
+ChangeList::idrefd_size_type ChangeList::sizeDestroyed(void) const
+{
+    return _vDestroyedFieldContainers.size();
+}
+
 void ChangeList::addChanged(const FieldContainerPtrBase &pFieldContainer, 
                                   BitVector              bvWhichField)
 {

@@ -309,9 +309,9 @@ opt: SubLib
 	@echo "LASTDBG=dbg" > .lastdbg
 else
 dbg:
-        @echo "LASTDBG=dbg" > .lastdbg
+	@echo "LASTDBG=dbg" > .lastdbg
 opt:
-        @echo "LASTDBG=dbg" > .lastdbg
+	@echo "LASTDBG=dbg" > .lastdbg
 endif
 
 #########################################################################
@@ -327,19 +327,22 @@ depend: DepClean depend_i
 #########################################################################
 
 commonclean:
-	@-rm -f core                       2>/dev/null
-	@-rm -f *.pure                     2>/dev/null
-	@-rm -f *.idb			           2>/dev/null
-	@-rm -f *.pdb				       2>/dev/null
-	@-rm -f *.core                     2>/dev/null
-	@-rm -f $(OBJDIR)/*$(OBJ_SUFFIX)   2>/dev/null
-	@-rm -f $(OBJDIR)/*_moc.cpp        2>/dev/null
-	@-rm -f $(OBJDIR)/*.lex.cpp        2>/dev/null
-	@-rm -f $(OBJDIR)/*.tab.cpp        2>/dev/null
-	@-rm -f $(OBJDIR)/*.tab.h          2>/dev/null
-	@-rm -f $(OBJDIR)/*.output         2>/dev/null
+	-rm -f core                       2>/dev/null
+	-rm -f *.pure                     2>/dev/null
+	-rm -f *.idb                      2>/dev/null
+	-rm -f *.pdb                      2>/dev/null
+	-rm -f *.core                     2>/dev/null
+	-rm -f *.stackdump                2>/dev/null
+	-rm -f *.h                        2>/dev/null
+	-rm -f .lastdbg                   2>/dev/null
+	-rm -f $(OBJDIR)/*$(OBJ_SUFFIX)   2>/dev/null
+	-rm -f $(OBJDIR)/*_moc.cpp        2>/dev/null
+	-rm -f $(OBJDIR)/*.lex.cpp        2>/dev/null
+	-rm -f $(OBJDIR)/*.tab.cpp        2>/dev/null
+	-rm -f $(OBJDIR)/*.tab.h          2>/dev/null
+	-rm -f $(OBJDIR)/*.output         2>/dev/null
 ifneq ($(II_FILESDIR),)
-	@-rm -rf  $(OBJDIR)/$(II_FILESDIR)  2>/dev/null
+	-rm -rf  $(OBJDIR)/$(II_FILESDIR)  2>/dev/null
 endif
 
 dbgclean: DBG := dbg
@@ -355,24 +358,41 @@ clean: commonclean
 # Clean
 #########################################################################
 
+.PHONY: commonClean
+
 commonClean : commonclean DepClean
-	@-rm -f $(LIBDIR)/*$(SO_SUFFIX) 2>/dev/null
-	@-rm -f so_locations            2>/dev/null
+	-rm -f $(LIBDIR)/*$(SO_SUFFIX)  2>/dev/null
+	-rm -f $(LIBDIR)/*$(LIB_SUFFIX) 2>/dev/null
+	-rm -f $(LIBDIR)/*.exp          2>/dev/null
+	-rm -f $(LIBDIR)/*.ilk          2>/dev/null
+	-rm -f $(LIBDIR)/*.map          2>/dev/null
+	-rm -f $(LIBDIR)/*.pdb          2>/dev/null
+	-rm -f so_locations             2>/dev/null
 
 dbgClean: DBG := dbg
+dbgClean: OBJDIR := $(OBJDIR_BASE)-$(DBG)
+dbgClean: LIBDIR := $(LIBDIR_BASE)-$(DBG)
 dbgClean: commonClean
+	@echo "Done dbgClean"
 
 optClean: DBG := opt
+optClean: OBJDIR := $(OBJDIR_BASE)-$(DBG)
+optClean: LIBDIR := $(LIBDIR_BASE)-$(DBG)
 optClean: commonClean
+	@echo "Done optClean"
 
 Clean: commonClean
+
+distclean: 
+	@$(SUB_MAKE) dbgClean 
+	@$(SUB_MAKE) optClean
 
 #########################################################################
 # DepClean
 #########################################################################
 
 commonDepClean:
-	@-rm -f $(OBJDIR)/*.d 2>/dev/null
+	-rm -f $(OBJDIR)/*.d 2>/dev/null
 
 dbgDepClean: DBG := dbg
 dbgDepClean: commonDepClean
