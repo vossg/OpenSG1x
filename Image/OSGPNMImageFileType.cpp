@@ -114,27 +114,28 @@ PNMImageFileType PNMImageFileType::_the ( 	suffixArray,
 //------------------------------
 bool PNMImageFileType::read (Image &image, const Char8 *fileName )
 {
-        bool isBinary = true;
-	Int16 type = 0;
-	Int16 width, height, lineSize, maxValue = 0, value, x, y;
-	UInt16 i;
-        UInt8 id, commentKey = '#';
+  Bool isBinary = true;
+	Int16 type = 0, width, height, lineSize, maxValue = 0, value, x, y;
+	UInt32 i,n;
+	UChar8 *imageData = 0;
+  UInt8 id, commentKey = '#';
 	ifstream in(fileName, ios::in );
 	
-	if (in.rdbuf()->is_open()) {
-		in >> id >> type;
-		in.ignore(INT_MAX, '\n');
-		while (in.peek() == commentKey) 
-			in.ignore(INT_MAX, '\n');
-		in >> width >> height;
-                isBinary = (type > 3) ? true : false;
-	}
-        else
-        {
-                FWARNING(( "Error opening PNM file %s!\n", fileName ));
-                return false;
-        }
-
+	if (in.rdbuf()->is_open()) 
+    {
+      in >> id >> type;
+      in.ignore(INT_MAX, '\n');
+      while (in.peek() == commentKey) 
+        in.ignore(INT_MAX, '\n');
+      in >> width >> height;
+      isBinary = (type > 3) ? true : false;
+    }
+  else
+    {
+      FWARNING(( "Error opening PNM file %s!\n", fileName ));
+      return false;
+    }
+  
 	switch (type) {
 	case 1:
 	case 4:
@@ -166,22 +167,20 @@ bool PNMImageFileType::read (Image &image, const Char8 *fileName )
 			maxValue = 0;
 		}
 	}
-
+  
 	// eat the endline
 	in.ignore(INT_MAX, '\n');
 	
-	
-	if (maxValue && image.getSize()) 
+	if (maxValue && (imageData = image.getData()))
     {
-      
-      SINFO << "read pnm file of type " << type << ", "
+      SINFO << "Read pnm file of type " << type << ", "
             << width << "x" << height << endl;
       
       lineSize = width * image.getBpp();
       if (isBinary) 
         { // image is binary
           for (y = height - 1; y >= 0; y--) 
-            in.read((Char8 *) &(image.getData()[y * lineSize]), lineSize);
+            in.read((Char8 *) &(imageData[y * lineSize]), lineSize);
         }
       else 
         { // image is ascii
@@ -190,12 +189,18 @@ bool PNMImageFileType::read (Image &image, const Char8 *fileName )
               for (x = 0; x < lineSize; x++) 
                 {
                   in >> value;
-                  image.getData()[y * lineSize + x] = UChar8(value);
+                  imageData[y * lineSize + x] = UChar8(value);
                 }
             }
         }
+      
+      if (maxValue == 1) {
+        n = image.getSize();
+        for ( i = 0; i < n; i++)
+          imageData[0] *= 255;
+      }
     }
-
+  
 	return true;
 }
 
