@@ -57,32 +57,24 @@ OSG_BEGIN_NAMESPACE
 
 class ConnectionType;
 
-class OSG_BASE_DLLMAPPING Connection:public BinaryDataHandler
+class OSG_BASE_DLLMAPPING Connection : public BinaryDataHandler
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
-    enum { ALL_CHANNELS=0xffff };
+    /*---------------------------------------------------------------------*/
+    /*! \name        public types                                          */
+    /*! \{                                                                 */
 
+    typedef Int32 Channel;
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
              Connection ( int zeroCopyThreshold );
     virtual ~Connection ( void                  ); 
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Connection functionaliy                    */
-    /*! \{                                                                 */
-
-    virtual std::string bind           (const std::string &address) = 0;
-    virtual void        accept         (      void                ) = 0;
-    virtual void        connect        (const std::string &address) = 0;
-    virtual void        wait           (      UInt32 channel=ALL_CHANNELS);
-    virtual void        signal         (      void                       );
-    virtual UInt32      getChannelCount(      void                ) = 0;
-    virtual void        selectChannel  (UInt32 channel=ALL_CHANNELS) = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -93,21 +85,51 @@ class OSG_BASE_DLLMAPPING Connection:public BinaryDataHandler
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   timeout setting                            */
+    /*! \name                   connection                                 */
     /*! \{                                                                 */
 
-    void setReadAliveTimeout (Time timeout);
-    void setSendAliveInterval(Time timeout);
+    virtual Channel connectPoint(const std::string &address,
+                                       Time        timeout=-1) = 0;
+    virtual Channel acceptPoint (      Time        timeout=-1) = 0;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   synchronisation                            */
+    /*! \{                                                                 */
+
+    virtual bool wait  (Time timeout = -1) throw (ReadError ) = 0;
+    virtual void signal(void             ) throw (WriteError) = 0;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   channel handling                           */
+    /*! \{                                                                 */
+
+    virtual Channel selectChannel(Time timeout=-1) throw (ReadError) = 0;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   bind to interface                          */
+    /*! \{                                                                 */
+    
+    virtual std::string bind (const std::string &address="") = 0;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   interface                                  */
+    /*! \{                                                                 */
+    
+    const std::string &getInterface(void                        );
+               void    setInterface(const std::string &interface);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
     /*---------------------------------------------------------------------*/
-    /*! \name                   timeout settings                           */
+    /*! \name                   protected members                          */
     /*! \{                                                                 */
 
-    Time _readAliveTimeout;
-    Time _sendAliveInterval;
+    std::string _interface;
 
     /*! \}                                                                 */
 
@@ -130,8 +152,6 @@ class OSG_BASE_DLLMAPPING Connection:public BinaryDataHandler
 typedef Connection *ConnectionP;
 
 OSG_END_NAMESPACE
-
-#include "OSGConnection.inl"
 
 #define OSG_CONNECTION_HEADER_CVSID "@(#)$Id: $"
 

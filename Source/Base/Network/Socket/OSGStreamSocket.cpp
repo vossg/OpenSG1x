@@ -129,6 +129,22 @@ void StreamSocket::open()
     {
         throw SocketError("socket()");
     }
+    struct linger li;
+    li.l_onoff = 1;
+    li.l_linger = 1;
+    int rc = setsockopt(_sd, SOL_SOCKET, SO_LINGER, 
+                        (SocketOptT*)&li, sizeof(li));
+}
+
+/*! close socket
+ */
+void StreamSocket::close(void)
+{
+#ifdef WIN32
+    ::closesocket(_sd);
+#else
+    ::close(_sd);
+#endif
 }
 
 /*! Accept incomming connection. Use the returned StreamSocket to 

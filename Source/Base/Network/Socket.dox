@@ -148,6 +148,14 @@ get socket exceptions. To be able to assign more then one process to
 the same port you have to call  socket.setReusePort(true) before the
 call to bind.
 
+It is possible set the network device that is used to send 
+multicast packages. By default the system uses the first device
+that is capable to send multicast packages.
+
+<PRE>
+socket.setInterface(SocketAddress("192.168.10.1"));
+</PRE>
+
 Nonblocking IO
 
 In many applications it is not possible or not wanted to block

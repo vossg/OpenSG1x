@@ -67,10 +67,11 @@ class OSG_BASE_DLLMAPPING DgramSocket:public Socket
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   open                                       */
+    /*! \name                   open/close                                 */
     /*! \{                                                                 */
 
-    virtual void open(void);
+    virtual void open (void);
+    virtual void close(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -96,13 +97,14 @@ class OSG_BASE_DLLMAPPING DgramSocket:public Socket
     /*! \name                multicast                                     */
     /*! \{                                                                 */
 
-    void join  (const SocketAddress &group,
-                const SocketAddress &interf=
-                      SocketAddress(SocketAddress::ANY));
-    void leave (const SocketAddress &group,
-                const SocketAddress &interf=
-                      SocketAddress(SocketAddress::ANY));
-    void setTTL(      unsigned char ttl                );
+    void join             (const SocketAddress &group,
+                           const SocketAddress &interf=
+                                 SocketAddress(SocketAddress::ANY));
+    void leave            (const SocketAddress &group,
+                           const SocketAddress &interf=
+                                 SocketAddress(SocketAddress::ANY));
+    void setTTL           (      unsigned char ttl                );
+    void setMCastInterface(const SocketAddress &interface         );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

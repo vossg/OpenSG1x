@@ -47,6 +47,9 @@
 
 OSG_BEGIN_NAMESPACE
 
+class PointConnection;
+class GroupConnection;
+
 /*! \brief Types for Connection, see XXX for details.
     \ingroup GrpBaseNetwork
 */
@@ -60,14 +63,18 @@ class OSG_BASE_DLLMAPPING ConnectionType
     /*! \name                       Types                                  */
     /*! \{                                                                 */
 
-    typedef Connection *(*CreateFunction)(void);
+    typedef PointConnection *(*CreatePointFunction)(void);
+    typedef GroupConnection *(*CreateGroupFunction)(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    ConnectionType(CreateFunction,const std::string &name);
+    ConnectionType(CreateGroupFunction,
+                   const std::string &name);
+    ConnectionType(CreatePointFunction,
+                   const std::string &name);
     ConnectionType(const ConnectionType &source);
 
     /*! \}                                                                 */
@@ -82,15 +89,17 @@ class OSG_BASE_DLLMAPPING ConnectionType
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-    std::string    getName          (void) const;
-    CreateFunction getCreateFunction(void) const;
+    std::string         getName       (void) const;
+    CreateGroupFunction getCreateGroup(void) const;
+    CreatePointFunction getCreatePoint(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   creation                                   */
     /*! \{                                                                 */
 
-    Connection *create(void);
+    PointConnection *createPoint(void);
+    GroupConnection *createGroup(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -112,8 +121,9 @@ class OSG_BASE_DLLMAPPING ConnectionType
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    CreateFunction _createFunction;
-    std::string    _name;
+    CreateGroupFunction _createGroup;
+    CreatePointFunction _createPoint;
+    std::string         _name;
 
     /*==========================  PRIVATE  ================================*/
   private:

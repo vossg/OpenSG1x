@@ -254,6 +254,23 @@ void BinaryDataHandler::flush(void)
     pushBuffer();
 }
 
+/*! always copy memory blocks befor write
+    forceCopy must be called for all endpoints of this connection
+ */
+void BinaryDataHandler::forceCopy(void)
+{
+    _zeroCopyThreshold = 0;
+}
+
+/*! always read or write directly into or from memory blocks
+    forceDirectIO must be called for all endpoints of this connection
+ */
+void BinaryDataHandler::forceDirectIO(void)
+{
+    _zeroCopyThreshold = 1;
+}
+
+
 /*--------------------------------------------------------------------------*/
 /*                             NetworkOrder mode                            */
 
@@ -407,6 +424,17 @@ void BinaryDataHandler::writeBuffer(void)
             write(i->getMem(), i->getDataSize());
         }
     }
+}
+
+/*! check for data in read buffer
+ */
+bool BinaryDataHandler::isReadBufferEmpty(void)
+{
+    if(_zeroCopyThreshold == 1)
+        return true;
+    if(_currentReadBuffer == readBufEnd())
+        return true;
+    return false;
 }
 
 /*-------------------------------------------------------------------------*/

@@ -75,8 +75,7 @@ OSG_USING_NAMESPACE
 
 Connection::Connection(int zeroCopyThreshold):
     BinaryDataHandler(zeroCopyThreshold),
-    _readAliveTimeout(6),
-    _sendAliveInterval(2)
+    _interface("")
 {
 }
 
@@ -87,62 +86,18 @@ Connection::~Connection(void)
 {
 }
 
-/*-------------------------------------------------------------------------*/
-/*                            connection functionallity                    */
-
-/*! wait for signal
+/*! get network interface
  */
-void Connection::wait(UInt32 channel)
+const std::string &Connection::getInterface(void)
 {
-    UInt32 tag;
-    UInt32 waitFor;
-
-    if(channel == ALL_CHANNELS)
-        waitFor = getChannelCount();
-    else
-        waitFor = 1;
-
-    // wait for signals on all channels
-    while(waitFor--)
-    {
-        // read sync tag;
-        do
-        {
-            selectChannel(channel);
-            getValue(tag);
-        } 
-        while(tag != 0x12345678);
-    }
+    return _interface;
 }
 
-/*! send signal
+/*! set network interface
  */
-void Connection::signal(void)
+void Connection::setInterface(const std::string &interface)
 {
-    UInt32 tag=0x12345678;
-
-    // send signal
-    putValue(tag);
-    flush();
-}
-
-/*-------------------------------------------------------------------------*/
-/*                            timeout settings                             */
-
-/*! Set timeout for read of this connection. A timeout of 0 indicates
-    immediate timout, no timeout all other values are in seconds.
- */
-void Connection::setReadAliveTimeout (Time timeout)
-{
-    _readAliveTimeout = timeout;
-}
-
-/*! Set timeout for the receivers connection. This is used to send
-    allive packages
- */
-void Connection::setSendAliveInterval(Time timeout)
-{
-    _sendAliveInterval = timeout;
+    _interface = interface;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -159,7 +114,6 @@ void Connection::setSendAliveInterval(Time timeout)
 namespace
 {
     static Char8 cvsid_cpp       [] = "@(#)$Id: $";
-    static Char8 cvsid_inl       [] = OSG_CONNECTION_INLINE_CVSID;
     static Char8 cvsid_hpp       [] = OSG_CONNECTION_HEADER_CVSID;
 }
 

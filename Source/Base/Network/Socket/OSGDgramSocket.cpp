@@ -134,6 +134,17 @@ void DgramSocket::open()
     setTTL(2);
 }
 
+/*! close socket
+ */
+void DgramSocket::close(void)
+{
+#ifdef WIN32
+    ::closesocket(_sd);
+#else
+    ::close(_sd);
+#endif
+}
+
 /*-------------------------------------------------------------------------*/
 /*                        read, write                                      */
 
@@ -147,12 +158,21 @@ int DgramSocket::recvFrom(void *buf,int size,SocketAddress &from)
     int len;
     SocketLenT addrLen=from.getSockAddrSize();
 
-    len=recvfrom(_sd,
-                 (char*)buf,
-                 size,
-                 0,
-                 from.getSockAddr(),
-                 &addrLen);
+#ifndef WIN32
+    do
+    {
+#endif
+        len=recvfrom(_sd,
+                     (char*)buf,
+                     size,
+                     0,
+                     from.getSockAddr(),
+                     &addrLen);
+#ifndef WIN32
+    } 
+    while(len < 0 && errno == EAGAIN);
+#endif
+
     if(len < 0)
     {
 #if defined WIN32
@@ -230,7 +250,11 @@ int DgramSocket::sendTo(const void *buf,int size,const SocketAddress &to)
     // send Request
     len=sendto(_sd,
                (const char*)buf,size,
+#if defined(WIN32) && defined(MSG_NOSIGNAL)
+               MSG_NOSIGNAL,
+#else
                0,
+#endif
                to.getSockAddr(),
                to.getSockAddrSize());
     if(len == -1)
@@ -265,6 +289,7 @@ void DgramSocket::join(const SocketAddress &group,const SocketAddress &interf)
     // group to join
     joinAddr.imr_multiaddr.s_addr =
         ((sockaddr_in*)group.getSockAddr())->sin_addr.s_addr;
+
     // interface that joins. (equal to bind address)
     joinAddr.imr_interface =
         ((struct sockaddr_in*)interf.getSockAddr())->sin_addr;
@@ -315,6 +340,23 @@ void DgramSocket::setTTL(unsigned char ttl)
     {
         throw SocketError("setsockopt(IPPROTO_IP,IP_MULTICAST_TTL)");
     }
+}
+
+/*! Spcify the network interface for outgoing multicast
+    packages
+ */
+void DgramSocket::setMCastInterface(const SocketAddress &interf)
+{
+    int rc=setsockopt(_sd,
+                      IPPROTO_IP,
+                      IP_MULTICAST_IF,
+                      (SocketOptT*)interf.getSockAddr(),
+                      interf.getSockAddrSize());
+    if(rc < 0)
+    {
+        throw SocketError("setsockopt(IPPROTO_IP,IP_MULTICAST_IF)");
+    }
+
 }
 
 /*-------------------------------------------------------------------------*/

@@ -73,6 +73,7 @@ class OSG_BASE_DLLMAPPING StreamSocket:public Socket
     /*! \{                                                                 */
 
     virtual void         open      (void                  );
+    virtual void         close     (void                  );
             StreamSocket acceptFrom(SocketAddress &address);
             StreamSocket accept    (void                  );
             void         setDelay  (bool           value  );

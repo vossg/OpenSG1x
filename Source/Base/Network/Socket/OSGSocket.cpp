@@ -136,17 +136,6 @@ Socket::~Socket()
 /*-------------------------------------------------------------------------*/
 /*                        open, close, connect                             */
 
-/*! close socket
- */
-void Socket::close(void)
-{
-#ifdef WIN32
-    ::closesocket(_sd);
-#else
-    ::close(_sd);
-#endif
-}
-
 /*! Bind a socket to a given SocketAddress. It is possible to bind a 
     Socket to a special network interface ore to all availabel interfaces.
 
@@ -254,7 +243,15 @@ int Socket::recvAvailable(void *buf,int size)
 {
     int len;
 
-    len=::recv(_sd,(char*)buf,size,0);
+#ifndef WIN32
+    do
+    {
+#endif
+        len=::recv(_sd,(char*)buf,size,0);
+#ifndef WIN32
+    } 
+    while(len < 0 && errno == EAGAIN);
+#endif
     if(len==-1)
     {
 #if defined WIN32
@@ -335,7 +332,11 @@ int Socket::send(const void *buf,int size)
     int pos=0;
     while(size)
     {
+#if defined(WIN32) && defined(MSG_NOSIGNAL)
+        writeSize=::send(_sd,((const char*)buf)+pos,size,MSG_NOSIGNAL);
+#else
         writeSize=::send(_sd,((const char*)buf)+pos,size,0);
+#endif
         if(writeSize == -1)
         {
             throw SocketError("send()");

@@ -82,7 +82,8 @@ ConnectionFactory *ConnectionFactory::_the=NULL;
 /*! Constructor documentation
  */
 ConnectionFactory::ConnectionFactory(void) :
-    _map()
+    _groupMap(),
+    _pointMap()
 {
 }
 
@@ -98,15 +99,26 @@ ConnectionFactory::~ConnectionFactory(void)
 /*-------------------------------------------------------------------------*/
 /*                      public interface                                   */
 
-/*! create connection by name
+/*! create group connection by name
  */
-Connection *ConnectionFactory::create(const std::string &name)
+GroupConnection *ConnectionFactory::createGroup(const std::string &name)
 {
-    TypeMap::iterator i=_map.find(name);
-    if(i == _map.end())
-       return NULL;
+    TypeMap::iterator i=_groupMap.find(name);
+    if(i == _groupMap.end())
+        return NULL;
     else
-        return i->second->create();
+        return i->second->createGroup();
+}
+
+/*! create point connection by name
+ */
+PointConnection *ConnectionFactory::createPoint(const std::string &name)
+{
+    TypeMap::iterator i=_pointMap.find(name);
+    if(i == _pointMap.end())
+        return NULL;
+    else
+        return i->second->createPoint();
 }
 
 /*! get singelton factory 
@@ -121,22 +133,41 @@ ConnectionFactory &ConnectionFactory::the(void)
 /*-------------------------------------------------------------------------*/
 /*                      protected interface                                */
 
-/*! add new type
+/*! add new group type
  */
-void ConnectionFactory::addType(ConnectionType *type)
+void ConnectionFactory::addGroupType(ConnectionType *type)
 {
-    _map[type->getName()]=type;
-    SINFO << "Connection type " << type->getName() << " added" << std::endl;
+    _groupMap[type->getName()]=type;
+    SINFO << "Group Connection type " << type->getName() << " added" << std::endl;
 }
 
-/*! remove type
+/*! add new point type
  */
-void ConnectionFactory::subType(ConnectionType *type)
+void ConnectionFactory::addPointType(ConnectionType *type)
 {
-    TypeMap::iterator i=_map.find(type->getName());
-    if(i != _map.end() && i->second == type)
-        _map.erase(i);
-    SINFO << "Connection type " << type->getName() 
+    _pointMap[type->getName()]=type;
+    SINFO << "Point Connection type " << type->getName() << " added" << std::endl;
+}
+
+/*! remove point type
+ */
+void ConnectionFactory::subPointType(ConnectionType *type)
+{
+    TypeMap::iterator i=_pointMap.find(type->getName());
+    if(i != _pointMap.end() && i->second == type)
+        _pointMap.erase(i);
+    SINFO << "Point connection type " << type->getName() 
+          << " removed" << std::endl;
+}
+
+/*! remove group type
+ */
+void ConnectionFactory::subGroupType(ConnectionType *type)
+{
+    TypeMap::iterator i=_groupMap.find(type->getName());
+    if(i != _groupMap.end() && i->second == type)
+        _groupMap.erase(i);
+    SINFO << "Group connection type " << type->getName() 
           << " removed" << std::endl;
 }
 

@@ -74,7 +74,7 @@ class OSG_BASE_DLLMAPPING Socket
     /*! \{                                                                 */
 
     virtual void open   (      void                       )=0;
-            void close  (      void                       );
+    virtual void close  (      void                       )=0;
             void bind   (const SocketAddress &address=
                          SocketAddress(SocketAddress::ANY));
             void listen (      int maxPending=10          );

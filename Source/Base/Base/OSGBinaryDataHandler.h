@@ -168,10 +168,13 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     /*! \name                      Helper                                  */
     /*! \{                                                                 */
 
-    void flush          (void      );
+    virtual void forceCopy      (void      );
+    virtual void forceDirectIO  (void      );
 
-    void setNetworkOrder(bool value);
-    bool getNetworkOrder(void      );
+            void flush          (void      );
+
+            void setNetworkOrder(bool value);
+            bool getNetworkOrder(void      );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -253,6 +256,13 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     virtual void               write        (MemoryHandle   src,    
                                              UInt32         size      );
     virtual void               writeBuffer  (void                     );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Helper                                  */
+    /*! \{                                                                 */
+
+    bool isReadBufferEmpty(void);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

@@ -75,7 +75,8 @@ class OSG_BASE_DLLMAPPING ConnectionFactory
     /*! \name                   interface                                  */
     /*! \{                                                                 */
 
-    Connection *create(const std::string &name);
+    GroupConnection *createGroup(const std::string &name);
+    PointConnection *createPoint(const std::string &name);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -92,7 +93,8 @@ class OSG_BASE_DLLMAPPING ConnectionFactory
     /*! \name                   fields                                     */
     /*! \{                                                                 */
 
-    TypeMap _map;
+    TypeMap _groupMap;
+    TypeMap _pointMap;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -113,8 +115,10 @@ class OSG_BASE_DLLMAPPING ConnectionFactory
     /*! \name                  Type information                            */
     /*! \{                                                                 */
 
-    void addType(ConnectionType *type);
-    void subType(ConnectionType *type);
+    void addGroupType(ConnectionType *type);
+    void addPointType(ConnectionType *type);
+    void subGroupType(ConnectionType *type);
+    void subPointType(ConnectionType *type);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
