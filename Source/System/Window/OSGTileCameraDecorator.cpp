@@ -114,7 +114,6 @@ void TileCameraDecorator::setSize( Real32 left, Real32 bottom, Real32 right,
     _sfTop.setValue( top );
 }
 
-
 void TileCameraDecorator::getProjection( Matrix &result, 
                                          UInt32 width, UInt32 height)
 {
@@ -123,20 +122,41 @@ void TileCameraDecorator::getProjection( Matrix &result,
         result.setIdentity();
         return;
     }
-       
-    getDecoratee()->getProjection( result, 
-                  ( getFullWidth()  == 0 )? width  : getFullWidth(), 
-                  ( getFullHeight() == 0 )? height : getFullHeight() );
     
+    if(getFullWidth() != 0)
+        width = getFullWidth();
+    
+    if(getFullHeight() != 0)
+        height = getFullHeight();
+        
+    getDecoratee()->getProjection(result, width, height);
+    
+    Real32 left   = getLeft(),
+           right  = getRight(),
+           top    = getTop(),
+           bottom = getBottom();
+           
+    if(left < 0)
+        left = -left / width;
+        
+    if(right < 0)
+        right = -right / width;
+        
+    if(top < 0)
+        top = -top / height;
+        
+    if(bottom < 0)
+        bottom = -bottom / height;
+
     // scale the wanted part from the projection matrix
-    Real32  xs = 1.f / ( getRight() - getLeft() ),
-            ys = 1.f / ( getTop() - getBottom() );
-    Matrix sm(  xs, 0, 0, -(getLeft()*2-1)*xs-1,  
-                0, ys, 0, -(getBottom()*2-1)*ys-1,  
+    Real32  xs = 1.f / (right - left),
+            ys = 1.f / (top - bottom);
+    Matrix sm(  xs, 0, 0, -(left*2-1)*xs-1,  
+                0, ys, 0, -(bottom*2-1)*ys-1,  
                 0, 0, 1, 0, 
                 0, 0, 0, 1);
     
-    result.multLeft( sm );
+    result.multLeft(sm);
 }                                       
 
 /*------------------------------- dump ----------------------------------*/
