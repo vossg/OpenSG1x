@@ -147,6 +147,8 @@ void TextureBackground::clear(DrawActionBase *action, Viewport *OSG_CHECK_ARG(vi
     glLoadIdentity();
     glOrtho(0, 1, 0, 1, 0, 1);
 
+    glColor4fv(getColor().getValuesRGBA());
+    
     tex->activate(action);
 
     if(tex->isTransparent())
@@ -232,7 +234,7 @@ void TextureBackground::dump(UInt32,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackground.cpp,v 1.4 2004/02/05 15:53:38 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackground.cpp,v 1.5 2004/03/05 18:29:56 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID;
 
