@@ -39,7 +39,7 @@ ifeq ($(OS),SunOS)
 	DFLAG		= -g -DDEBUG_BIN # -frepo
 	OPTFLAG =	#-O6
 	LDFLAGS = -o $(SYSTARGET)
-	SYSTMP	= /tmp/
+	SYSTMP	= ./
 	XDEBUGER	=	ddd
 	EDIT		= xemacs
 	XTERM		= rxvt
@@ -183,7 +183,7 @@ ifeq ($(OS),HP-UX)
 	DFLAG		= -g -DDEBUG_BIN
 	OPTFLAG =	
 	LDFLAGS = -o $(SYSTARGET)
-	SYSTMP	= /tmp/
+	SYSTMP	= ./
 	XDEBUGER	=	ddd
 	EDIT		= xemacs
 	XTERM		= rxvt
@@ -267,7 +267,7 @@ ifeq ($(OS),IRIX)
 	DFLAG		= -g -DDEBUG_BIN
 	OPTFLAG =	-O2 
 	LDFLAGS = -o $(SYSTARGET) 
-	SYSTMP	= /tmp/
+	SYSTMP	= ./
 	XDEBUGER	=	ddd
 	EDIT		= xemacs
 	XTERM		= xterm
@@ -353,7 +353,7 @@ ifeq ($(OS),IRIX64)
 	DFLAG		= -g -DDEBUG_BIN
 	OPTFLAG =
 	LDFLAGS = -o $(SYSTARGET) 
-	SYSTMP	= /tmp/
+	SYSTMP	= ./
 	XDEBUGER	=	ddd
 	EDIT		= xemacs
 	XTERM		= xterm
@@ -487,7 +487,7 @@ ifeq ($(OS),Linux)
 	DFLAG		= -g -DDEBUG_BIN
 	OPTFLAG =	-O2
 	LDFLAGS = -o $(SYSTARGET) 
-	SYSTMP	= /tmp/
+	SYSTMP	= ./
 	XDEBUGER	=	ddd
 	EDIT		= xemacs
 	XTERM		= rxvt
