@@ -181,6 +181,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 
     void            validateGLObject    (UInt32 id);
     GLObjectStatusE getGLObjectStatus   (UInt32 id);
+    inline void     setGLObjectId       (UInt32 id, UInt32 id2);
+    inline UInt32   getGLObjectId       (UInt32 id);
+
     static void     refreshGLObject     (UInt32 id);
     static void     reinitializeGLObject(UInt32 id);
     static void     destroyGLObject     (UInt32 id, UInt32 num);
@@ -292,11 +295,15 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
         UInt32 getRefCounter(void);
         UInt32 incRefCounter(void);
         UInt32 decRefCounter(void);
+
+        UInt32 getId(void     );
+        void   setId(UInt32 id);
  
       protected:
         GLObjectFunctor _functor;
         volatile UInt32 _refCounter;
                  UInt32 _lastValidate;
+                 UInt32 _id;
     };
 
     /*! \}                                                                 */

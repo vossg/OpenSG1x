@@ -158,6 +158,15 @@ inline const std::vector<std::string> &Window::getIgnoredExtensions(void)
     return _ignoredExtensions;
 }
 
+inline void Window::setGLObjectId(UInt32 id, UInt32 id2)
+{
+    _glObjects[id]->setId(id2);
+}
+
+inline UInt32 Window::getGLObjectId(UInt32 id)
+{
+    return _glObjects[id]->getId();
+}
 
 /*! Pack the id and the status into one UInt32. Used to pass the id and status
     to the actual implementation functions.
@@ -189,7 +198,8 @@ inline void Window::unpackIdStatus(UInt32 idstatus, UInt32 &id,
 inline Window::GLObject::GLObject( GLObjectFunctor funct ) :
             _functor(funct),
             _refCounter(0),
-            _lastValidate(0)
+            _lastValidate(0),
+            _id(0)
 {
 }
 
@@ -251,6 +261,16 @@ inline UInt32 Window::GLObject::decRefCounter(void)
     _GLObjectLock->release();
 
     return val;
+}
+
+inline UInt32 Window::GLObject::getId(void)
+{
+    return _id;
+}
+
+inline void Window::GLObject::setId(UInt32 id)
+{
+    _id = id;
 }
 
 OSG_END_NAMESPACE
