@@ -370,7 +370,7 @@ bool WinThreadLockBase::request(void)
 //  Class
 //---------------------------------------------------------------------------
 
-MPLockType Lock::_type("OSGLock", "OSGMPBase", Lock::create);
+MPLockType Lock::_type("OSGLock", "OSGMPBase", &Lock::create);
 
 /*------------------------------- Get -------------------------------------*/
 
@@ -455,7 +455,7 @@ Lock::~Lock(void)
 //  Class
 //---------------------------------------------------------------------------
 
-MPLockPoolType LockPool::_type("OSGLockPool", "OSGMPBase", LockPool::create);
+MPLockPoolType LockPool::_type("OSGLockPool", "OSGMPBase", &LockPool::create);
 
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */

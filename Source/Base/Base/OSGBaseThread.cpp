@@ -729,7 +729,7 @@ void BaseWinThreadBase::print(void)
 
 MPThreadType BaseThread::_type("OSGBaseThread",
                                "OSGMPBase",
-                               BaseThread::create,
+                               &BaseThread::create,
                                BaseThread::initThreading);
 
 /*------------------------------- Get -------------------------------------*/

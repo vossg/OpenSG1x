@@ -374,7 +374,7 @@ void WinThreadBarrierBase::enter(UInt32 uiNumWaitFor)
 //  Class
 //---------------------------------------------------------------------------
 
-MPBarrierType Barrier::_type("OSGBarrier", "OSGMPBase", Barrier::create);
+MPBarrierType Barrier::_type("OSGBarrier", "OSGMPBase", &Barrier::create);
 
 
 /*-------------------------------- Get ------------------------------------*/

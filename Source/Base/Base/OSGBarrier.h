@@ -406,8 +406,8 @@ class OSG_BASE_DLLMAPPING Barrier : public BarrierBase
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static Barrier *create (const Char8  *szName,
-                                  UInt32  uiId);
+    static Barrier *create(const Char8  *szName,
+                                 UInt32  uiId);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
