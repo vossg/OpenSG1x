@@ -43,6 +43,7 @@
 
 #include "OSGVRMLSceneFileType.h"
 #include "OSGVRMLLoader.h"
+#include "OSGVRMLNode.h"
 #include "OSGVRMLToOSGAction.h"
 
 OSG_USING_NAMESPACE

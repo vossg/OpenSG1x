@@ -215,7 +215,7 @@ class SimpleAttachment : public Attachment
     };
 
     static const BitVector SimpleFieldMask = 
-        1 << SimpleAttachment<AttachmentDescT>::SimpleFieldId;
+                                       1 << static_cast<UInt32>(SimpleFieldId);
 
     /*---------------------------------------------------------------------*/
     /*! \name        General Fieldcontainer Declaration                    */
