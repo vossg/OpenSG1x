@@ -64,7 +64,7 @@ WARNINGS_CPP_OFF 	= #-woff 1110,1174,1375,1682,1424,3322
 
 ### Language #######################################################
 
-LANG_FLAGS          = -LANG:restrict
+LANG_FLAGS          = -LANG:restrict -LANG:exception=OFF
 
 
 ifeq ($(COMPILERVERSION),730)
