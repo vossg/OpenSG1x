@@ -1392,6 +1392,32 @@ case "$build_os" in
         echo "In case you are interested in the OSX port"
         echo "please contact me (vossg@camtech.ntu.edu.sg) beforehand"
     ;;
+    linux*)
+        case `\ls -1 /usr/lib/libGL.*so* | wc -l` in
+         *0)
+            echo "NOTICE: Can't find libGL.so. Do you have OpenGL support?"
+            ;;
+         *1)
+            ;;
+         *2)
+            diff -q /usr/lib/libGL.*so* > /dev/null
+            if test $? != 0
+            then
+                echo "#############################"
+                echo "WARNING"
+                echo "#############################"
+                echo "The libraries" 
+                \ls -ol /usr/lib/libGL.*so* | sed -e 's|^.*/usr|/usr|'
+                echo "differ from each other. This is usually a sign of a broken installation"
+                echo "If OpenSG programs crash when accessing OpenGL extensions, please make "
+                echo "sure your OpenGL installation is ok."
+            fi
+            ;;
+        *)
+            echo "NOTICE: More than 2 OpenGL libs found. Make sure your installation is ok"
+            ;;
+        esac
+    ;;
 esac
 
 grep '#' config.status | grep configure | grep '\-\-with' | sed -e 's/# //g' > $ac_gdz_commonbin/run_configure
