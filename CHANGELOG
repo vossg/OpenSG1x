@@ -10,6 +10,7 @@ ADDED:
     CG and OpenGL Shading Language support.
     Non power-of-two textures.
     Texture LOD control, SGIS_generate_mipmap support.
+    Improved textures supports up to 16 teximages and 8 texcoords (via texgen)
     Beacons for Genfuncs
     BackMaterial
     Local light sources.
@@ -34,6 +35,12 @@ ADDED:
     FOX render widget.
     Mayaexport.
     FTGLText class, a simple wrapper around the FTGL font rendering library.
+
+CHANGED:
+
+    For multi threaded and cluster applications you have to call
+    "ChangeList::setReadWriteDefault();" before osgInit.
+    renamed DEPRECIATED to DEPRECATED, which seems to be more widely used.
 
 1.3.0
 
