@@ -128,7 +128,7 @@ bool DATImageFileType::read (      ImagePtr &image,
     std::map<std::string, KeyType>::iterator keyI;
     std::map<std::string, FormatDesc>::iterator formatI;
     KeyType key;
-    FormatType formatType;
+    Image::Type formatType;
     UInt32 res[3];
     int bpv, dataSize = 0;
     Image::PixelFormat pixelFormat;
@@ -137,7 +137,7 @@ bool DATImageFileType::read (      ImagePtr &image,
 
     res[0] = res[1] = res[2] = 0;
     fileOffset = 0;
-    formatType = UNKNOWN_FT;
+    formatType = Image::OSG_INVALID_IMAGEDATATYPE;
     bpv = 0;
     dataSize = 0;
     dataBuffer = 0;
@@ -185,7 +185,7 @@ bool DATImageFileType::read (      ImagePtr &image,
                     }
                     else 
                     {
-                        formatType = UNKNOWN_FT;
+                        formatType = Image::OSG_INVALID_IMAGEDATATYPE;
                         bpv = 0;
                         pixelFormat = Image::OSG_INVALID_PF;
                         needConversion = false;
@@ -218,7 +218,7 @@ bool DATImageFileType::read (      ImagePtr &image,
     {
         if ( (res[0] > 0) && (res[1] > 0) && (res[2] > 0) ) 
         {
-            if (formatType != UNKNOWN_FT) 
+            if (formatType != Image::OSG_INVALID_IMAGEDATATYPE) 
             {
                 inVol.open(objectFileName.c_str(), 
                            std::ios::in | std::ios::binary );
@@ -232,7 +232,7 @@ bool DATImageFileType::read (      ImagePtr &image,
                 }
                 if (inVol.good())
                 {
-                    image->set ( pixelFormat, res[0], res[1], res[2]);
+                    image->set ( pixelFormat, res[0], res[1], res[2], 1, 1, 0.0, 0, formatType);
                     dataSize = bpv * res[0] * res[1] * res[2];
                     if (needConversion)
                         dataBuffer = new char [ dataSize ];
@@ -272,17 +272,13 @@ bool DATImageFileType::read (      ImagePtr &image,
             {
                 switch (formatType)
                 {
-                    case UCHAR_FT:
+                    case Image::OSG_UINT8_IMAGEDATA:
                         break;
-                    case USHORT_FT:
+                    case Image::OSG_UINT16_IMAGEDATA:
                         break;
-                    case UINT_FT:
+                    case Image::OSG_UINT32_IMAGEDATA:
                         break;
-                    case ULONG_FT:
-                        break;
-                    case FLOAT_FT:
-                        break;
-                    case DOUBLE_FT:
+                    case Image::OSG_FLOAT32_IMAGEDATA:
                         break;
                     default:
                         ;
@@ -441,37 +437,37 @@ void DATImageFileType::initTypeMap(void)
   if (_formatStrMap.empty())
     {
       desc = &(_formatStrMap["UCHAR"]);
-      desc->type = UCHAR_FT;
+      desc->type = Image::OSG_UINT8_IMAGEDATA;
       desc->bpv  = 1;
       desc->pixelFormat = Image::OSG_L_PF;
       desc->needConversion = false;
 
       desc = &(_formatStrMap["USHORT"]);
-      desc->type = USHORT_FT;
+      desc->type = Image::OSG_UINT16_IMAGEDATA;
       desc->bpv  = 2;
       desc->pixelFormat = Image::OSG_L_PF;
       desc->needConversion = false;
 
       desc = &(_formatStrMap["UINT"]);
-      desc->type = UINT_FT;
+      desc->type = Image::OSG_UINT32_IMAGEDATA;
       desc->bpv  = 4; // TODO; is this right ?
       desc->pixelFormat = Image::OSG_L_PF;
       desc->needConversion = false;
 
       desc = &(_formatStrMap["ULONG"]);
-      desc->type = ULONG_FT;
+      desc->type = Image::OSG_UINT32_IMAGEDATA;
       desc->bpv  = 4;
       desc->pixelFormat = Image::OSG_L_PF;
       desc->needConversion = false;
 
       desc = &(_formatStrMap["FLOAT"]);
-      desc->type = FLOAT_FT;
+      desc->type = Image::OSG_FLOAT32_IMAGEDATA;
       desc->bpv  = 4;
       desc->pixelFormat = Image::OSG_L_PF;
       desc->needConversion = false;
 
       desc = &(_formatStrMap["DOUBLE"]);
-      desc->type = DOUBLE_FT;
+      desc->type = Image::OSG_FLOAT32_IMAGEDATA; // we have no OSG_FLOAT64_IMAGEDATA
       desc->bpv  = 8;
       desc->pixelFormat = Image::OSG_L_PF;
       desc->needConversion = false;

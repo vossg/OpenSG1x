@@ -57,18 +57,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
     /*==========================  PUBLIC  =================================*/
   public:
 
-    enum FormatType
-    {
-        UNKNOWN_FT = 0,
-      
-        UCHAR_FT, 
-        USHORT_FT, 
-        UINT_FT, 
-        ULONG_FT, 
-        FLOAT_FT, 
-        DOUBLE_FT
-    };
-
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
@@ -147,7 +135,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
     struct FormatDesc 
     {
       bool               needConversion;
-      FormatType         type;
+      //FormatType         type;
+      Image::Type        type;
       UInt32             bpv;
       Image::PixelFormat pixelFormat;
     };
