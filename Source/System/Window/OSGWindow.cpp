@@ -60,6 +60,7 @@
 #include <link.h>
 #endif
 
+#include <OSGBaseFunctions.h>
 #include <OSGDrawAction.h>
 #include <OSGRenderActionBase.h>
 #include "OSGViewport.h"
@@ -203,6 +204,11 @@ used for the first time.
 */
 Lock                                 *OSG::Window::_GLObjectLock;
 
+/*! The lock used to mutex access of the Window's static elements to manage
+OpenGL extensions/functions/constants/objects.
+*/
+Lock                                 *OSG::Window::_staticWindowLock;
+
 /*! Global list of all GL Objects used in the system. See \ref
 PageSystemOGLObjects for a description.
 */ 
@@ -215,7 +221,14 @@ std::list<std::pair<UInt32,UInt32> >  OSG::Window::_glObjectDestroyList;
 // GL extension handling
 
 std::vector<std::string            >  OSG::Window::_registeredExtensions;
+std::vector<std::string            >  OSG::Window::_ignoredExtensions;
+std::vector<bool                   >  OSG::Window::_commonExtensions;
 std::vector<std::string            >  OSG::Window::_registeredFunctions;
+
+// GL constant handling
+
+std::vector<GLenum                 >  OSG::Window::_registeredConstants;
+
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -262,6 +275,8 @@ OSG::Window::Window(const Window &source) :
     _extensions(),
     _availExtensions(),
     _extFunctions(),
+    _availConstants(),
+    _numAvailConstants(0),
     _windowId(0)
 {       
     // mark all GL objects as not yet initialized
@@ -316,6 +331,20 @@ void OSG::Window::onDestroy(void)
     // prototype windowa re not added to the list, so they might not be found.
     if(it != _allWindows.end()) 
         _allWindows.erase( it );
+}
+
+void OSG::Window::staticAcquire(void)
+{
+    if(_staticWindowLock == NULL)
+    {
+        _staticWindowLock = ThreadManager::the()->getLock(NULL);
+    }
+    _staticWindowLock->aquire();
+}
+
+void OSG::Window::staticRelease(void)
+{
+    _staticWindowLock->release();
 }
 
 /*-------------------------------------------------------------------------*\
@@ -439,6 +468,8 @@ UInt32 OSG::Window::registerGLObject(GLObjectFunctor functor, UInt32 num)
     UInt32    id, i; 
     GLObject *pGLObject;
 
+    staticAcquire();
+    
     // reserve index 0, illegal for most OpenGL functions
     if(_glObjects.empty())
         _glObjects.push_back( NULL );   
@@ -453,6 +484,8 @@ UInt32 OSG::Window::registerGLObject(GLObjectFunctor functor, UInt32 num)
         _glObjects.insert(_glObjects.end(), num, pGLObject );
         
         initRegisterGLObject(id, num);
+
+        staticRelease();
        
         return id;
     }
@@ -484,6 +517,8 @@ UInt32 OSG::Window::registerGLObject(GLObjectFunctor functor, UInt32 num)
                 } 
                 
                 initRegisterGLObject(id, num);
+
+                staticRelease();
                    
                 return id;
             }
@@ -510,7 +545,9 @@ UInt32 OSG::Window::registerGLObject(GLObjectFunctor functor, UInt32 num)
         _glObjects.push_back( pGLObject );
     }
                 
-     initRegisterGLObject(id, num);
+    initRegisterGLObject(id, num);
+    
+    staticRelease();
     
     return id;
 }
@@ -714,8 +751,14 @@ void OSG::Window::destroyGLObject(UInt32 id, UInt32 num)
 */
 UInt32 OSG::Window::registerExtension(const Char8 *s)
 {
+    FDEBUG(("Window::registerExtension: register '%s': ", s));
+    staticAcquire();
+   
     if(s == NULL)
+    {
+        staticRelease();
         return TypeTraits<UInt32>::getMax();
+    }
     
     std::vector<std::string>::iterator i;
     
@@ -723,11 +766,112 @@ UInt32 OSG::Window::registerExtension(const Char8 *s)
                   s);
     
     if(i < _registeredExtensions.end())
+    {
+        staticRelease();
+        FDEBUG(("reusing id %d\n", i - _registeredExtensions.begin()));
         return i - _registeredExtensions.begin();
+    }
         
     UInt32 r = _registeredExtensions.size();
     _registeredExtensions.push_back(s);
+    
+    FDEBUG(("new id %d\n", r));
+    
+    staticRelease();
     return r;
+}
+
+/*! Register new OpenGL extensions to ignore. See \ref PageSystemOGLExt for details. 
+*/
+void OSG::Window::ignoreExtensions(const Char8 *s)
+{    
+    FDEBUG(("Window:: Ignoring extensions '%s'\n", s));
+
+    staticAcquire();
+    
+    std::back_insert_iterator< std::vector<std::string> > 
+            extension_back_inserter(_ignoredExtensions);
+
+    std::string toex(s);
+    
+    for(string_token_iterator ignit = string_token_iterator(toex, ",. ");
+        ignit != string_token_iterator(); ++ignit)
+    {          
+        std::string ignore = *ignit;
+
+        FDEBUG(("Ignoring '%s':", ignore.c_str()));
+        
+        if(std::find(_ignoredExtensions.begin(),
+                     _ignoredExtensions.end(),
+                     ignore.c_str())            != _ignoredExtensions.end())
+        {
+            FPDEBUG((" already ignored.\n"));
+            continue;
+        }
+        
+        _ignoredExtensions.push_back(ignore);
+        
+        std::vector<std::string>::iterator regit;
+        
+        // if extension is registered, disable it on all existing Windows
+        
+        regit = std::find(_registeredExtensions.begin(),
+                          _registeredExtensions.end(),
+                          ignore.c_str());                                 
+        
+        Int32 ind = -1;
+        
+        if(regit != _registeredExtensions.end())
+        {
+            ind = regit - _registeredExtensions.begin();
+            FPDEBUG(("(reg as %d)", ind));
+        }
+
+        // Walk all existing windows and remove the ignored extension 
+        // from the _extensions vector. Disable it if it was a registered one.
+        
+        std::vector<WindowPtr>::iterator winit;
+
+        for(winit = _allWindows.begin(); winit != _allWindows.end(); ++winit)
+        {
+            FPDEBUG((" %p:", (*winit).getCPtr()));
+            
+            std::vector<std::string>::iterator extit;
+            
+            extit = std::find((*winit)->_extensions.begin(),
+                              (*winit)->_extensions.end(),
+                              ignore.c_str()); 
+                                                                     
+            if(extit != (*winit)->_extensions.end())
+            {
+                FPDEBUG((" removed"));
+                (*winit)->_extensions.erase(extit);
+            }
+            else
+            {
+                FPDEBUG((" nonsupp"));            
+            }
+                        
+            if(ind >= 0)
+            {
+                if((*winit)->_availExtensions.size() > ind)
+                {
+                    (*winit)->_availExtensions[ind] = false;
+                    FPDEBUG((" disabled"));            
+                }
+                if((*winit)->_commonExtensions.size() > ind)
+                {
+                    (*winit)->_commonExtensions[ind] = false;
+                    FPDEBUG((" uncommoned"));            
+                }
+            }
+        }
+        FPDEBUG(("\n"));    
+    }
+
+    std::sort(_ignoredExtensions.begin(), _ignoredExtensions.end());
+    
+    staticRelease();
 }
 
 /*! Register a new OpenGL extension function. See \ref PageSystemOGLExt for 
@@ -737,6 +881,10 @@ UInt32 OSG::Window::registerFunction(const Char8 *s)
 {
     if(s == NULL)
         return TypeTraits<UInt32>::getMax();
+
+    FDEBUG(("Window::registerFunction: register '%s': ", s));
+
+    staticAcquire();
     
     std::vector<std::string>::iterator i;
     
@@ -744,11 +892,31 @@ UInt32 OSG::Window::registerFunction(const Char8 *s)
                   s);
     
     if(i < _registeredFunctions.end())
+    {
+        staticRelease();
+        FPDEBUG(("reusing id %d\n", i - _registeredFunctions.begin()));
         return i - _registeredFunctions.begin();
-        
+    }
+            
     UInt32 r=_registeredFunctions.size();
     _registeredFunctions.push_back(s);
+
+    FPDEBUG(("new id %d\n", r));
+    
+    staticRelease();
     return r;
+}
+
+/*! Register a new OpenGL constant. See \ref PageSystemOGLExt for 
+    details.
+*/
+void OSG::Window::registerConstant(GLenum val)
+{
+    staticAcquire();
+    
+    _registeredConstants.push_back(val),
+    
+    staticRelease();
 }
 
 #endif // remove the OpenGL object handling from user docs
@@ -780,111 +948,47 @@ void OSG::Window::dumpExtensions(void)
 */
 
 
-// String tokenizer, by Daniel Andersson
-// taken from http://www.codeproject.com/string/stringsplitter.asp
-
-#include <string>
-#include <iterator>
-
-struct string_token_iterator : 
-#if defined(__GNUC__) && __GNUC__ < 3
-    public std::input_iterator<std::string, std::ptrdiff_t>
-#else
-    public std::iterator<std::input_iterator_tag, std::string>
-#endif
-{
-  public:   
-    string_token_iterator() : str(0), start(0), end(0) 
-    {
-    }
-  
-    string_token_iterator(const std::string & str_, 
-                        const char *separator_ = " ") :
-        separator(separator_),
-        str(&str_),
-        end(0)
-    {
-        find_next();
-    }
-  
-    string_token_iterator(const string_token_iterator & rhs) :
-        separator(rhs.separator),
-        str(rhs.str),
-        start(rhs.start),
-        end(rhs.end)
-    {
-    }
-
-    string_token_iterator & operator++()
-    {
-        find_next();
-        return *this;
-    }
-
-    string_token_iterator operator++(int)
-    {
-        string_token_iterator temp(*this);
-        ++(*this);
-        return temp;
-    }
-
-    std::string operator*() const
-    {
-        return std::string(*str, start, end - start);
-    }
-
-    bool operator==(const string_token_iterator & rhs) const
-    {
-        return (rhs.str == str && rhs.start == start && rhs.end == end);
-    }
-
-    bool operator!=(const string_token_iterator & rhs) const
-    {
-        return !(rhs == *this);
-    }
-
-  private:
-
-    void find_next(void)
-    {
-        start = str->find_first_not_of(separator, end);
-        if(start == std::string::npos)
-        {
-            start = end = 0;
-            str = 0;
-            return;
-        }
-
-        end = str->find_first_of(separator, start);
-    }
-
-    const char * separator;
-    const std::string * str;
-    std::string::size_type start;
-    std::string::size_type end;
-};
-
 void OSG::Window::frameInit(void)
 {
+    static bool ignoreEnvDone = false;
+    
+    if(!ignoreEnvDone)
+    {
+        ignoreEnvDone = true;
+        char *p = getenv("OSG_IGNORE_EXTENSIONS");
+        if(p)
+            ignoreExtensions(p);
+    }
+    
     // get extensions and split them
     if(_extensions.empty())
     {
         FDEBUG(("Window %p: GL Extensions: %s\n", this, 
                 glGetString(GL_EXTENSIONS) ));
-        
-        std::back_insert_iterator< std::vector<std::string> > 
-            extension_front_inserter(_extensions);
 
         std::string foo(reinterpret_cast<const char*>
                         (glGetString(GL_EXTENSIONS)));
 
+        for(string_token_iterator it = string_token_iterator(foo, ",. ");
+            it != string_token_iterator(); ++it)
+        {          
+            if(! std::binary_search(_ignoredExtensions.begin(),
+                                    _ignoredExtensions.end(),
+                                    (*it).c_str()))
+            {
+                _extensions.push_back(*it);
+            }
+        }
+        
+/*          std::back_insert_iterator< std::vector<std::string> > 
+            extension_back_inserter(_extensions);
 
-        std::copy(string_token_iterator(
+            std::copy(string_token_iterator(
                                 foo,
                                 ",. "),
                   string_token_iterator(),
-                  extension_front_inserter);
-
+                  extension_back_inserter);
+*/
         std::sort(_extensions.begin(), _extensions.end());
                  
         // if we don't have any extensions, add something anyway
@@ -893,18 +997,35 @@ void OSG::Window::frameInit(void)
     }
     
     // any new extension registered ? 
-    while(_registeredExtensions.size() > _availExtensions.size())
-    {                           
-        /* perform a binary search over the retrieved extension strings.
-           Push back the result as an availability flag for the extension
-           requested by the application */         
-        _availExtensions.push_back( 
-            std::binary_search( 
-                _extensions.begin(),
-                _extensions.end(),
-                _registeredExtensions[_availExtensions.size()] ) );
-    }
+    if(_registeredExtensions.size() > _availExtensions.size())
+    {
+        staticAcquire();
+        while(_registeredExtensions.size() > _availExtensions.size())
+        {                          
+            UInt32 s = _availExtensions.size();
 
+            /* perform a binary search over the retrieved extension strings.
+               Push back the result as an availability flag for the extension
+               requested by the application */         
+            bool supported = std::binary_search( 
+                                _extensions.begin(),
+                                _extensions.end(),
+                                _registeredExtensions[s].c_str());
+
+            _availExtensions.push_back(supported);
+
+            if(_commonExtensions.size() <= s)
+            {
+                _commonExtensions.push_back(supported);
+            }
+            else if (!supported)
+            {
+                _commonExtensions[s] = false;
+            }
+        }
+        staticRelease();
+    }
+    
     // any new functions registered ? 
     while(_registeredFunctions.size() > _extFunctions.size())
     {   
@@ -912,6 +1033,23 @@ void OSG::Window::frameInit(void)
         void        *func = (void*)getFunctionByName(s);
 
         _extFunctions.push_back(func);
+    }
+
+    // any new constants registered ? 
+    while(_registeredConstants.size() > _numAvailConstants)
+    {   
+        for(std::vector<GLenum>::iterator it = _registeredConstants.begin() + 
+                                               _numAvailConstants;
+            it != _registeredConstants.end();
+            ++it)
+        {
+            Vec2f val(0,0);
+            glGetFloatv(*it, static_cast<GLfloat*>(val.getValues()));
+            _availConstants[*it] = val;
+            FDEBUG(("Window(%p): Constant 0x%x value is %.3f %.3f\n", this,
+                    *it, val[0], val[1]));
+        }
+        _numAvailConstants = _registeredConstants.size();
     }
 }
 

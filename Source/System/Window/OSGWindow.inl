@@ -66,6 +66,15 @@ inline bool Window::hasExtension(UInt32 id)
     return _availExtensions[id];
 }
 
+/*! Check if the window has the indicated extension.
+    \warning No error checks are done on the passed index!
+*/
+inline bool Window::hasCommonExtension(UInt32 id)
+{
+    bool has = _commonExtensions[id];
+    return has;
+}
+
 /*! Get the indicated extension function.
     The id and the returned functions are checked for sanity and a warning is
     issued if there are problems. Use getFunctionNoCheck if you're sure you
@@ -95,6 +104,76 @@ inline void* Window::getFunctionNoCheck(UInt32 id)
 {
     return _extFunctions[ id ];
 }
+
+
+/*! Return the value of the registered constant, Inf if not registered 
+    or no value received yet.
+*/
+inline Real32 Window::getConstantValue(GLenum id)
+{
+    return getConstantValuev(id)[0];
+}
+
+/*! Return the value of the registered constant, (Inf, Inf) if not 
+    registered or no value received yet.
+*/
+inline const Vec2f& Window::getConstantValuev(GLenum id)
+{
+    static Vec2f inf(Inf, Inf);
+    
+    ConstHash::iterator it = _availConstants.find(id);
+    
+    if(it != _availConstants.end())
+        return _availConstants[id];
+        
+    return inf;
+}
+
+/*! Find the id of a registered extension. Return -1 if extension not
+    registered.
+*/
+inline Int32 Window::getExtensionId(const Char8  *s)
+{
+    vector<string>::iterator it;
+    
+    it = find(_registeredExtensions.begin(),
+              _registeredExtensions.end(),
+              s);
+
+    if(it == _registeredExtensions.end())
+        return -1;
+    
+    return it -_registeredExtensions.begin();
+}
+
+/*! Access the available extensions.
+*/
+inline const std::vector<std::string> &Window::getExtensions(void)
+{
+    return _extensions;
+}
+
+/*! Access the registered extensions.
+*/
+inline const std::vector<std::string> &Window::getRegisteredExtensions(void)
+{
+    return _registeredExtensions;
+}
+
+/*! Access the registered functions.
+*/
+inline const std::vector<std::string> &Window::getRegisteredFunctions(void)
+{
+    return _registeredFunctions;
+}
+
+/*! Access the ignored extensions.
+*/
+inline const std::vector<std::string> &Window::getIgnoredExtensions(void)
+{
+    return _ignoredExtensions;
+}
+
 
 /*! Pack the id and the status into one UInt32. Used to pass the id and status 
     to the actual implementation functions.

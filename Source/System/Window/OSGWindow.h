@@ -48,6 +48,16 @@
 #include <list>
 #include <utility>
 
+#ifdef OSG_STL_HAS_HASH_MAP
+#ifdef OSG_HASH_MAP_AS_EXT
+#include <ext/hash_map>
+#else
+#include <hash_map>
+#endif
+#else
+#include <map>
+#endif
+
 #include <OSGTypedFunctors.h>
 
 #include <OSGWindowBase.h>
@@ -125,19 +135,35 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \name             Extension registration                           */
     /*! \{                                                                 */
 
-    static UInt32   registerExtension ( const Char8 *s );
-    static UInt32   registerFunction  ( const Char8 *s );
+    static UInt32   registerExtension ( const Char8 *s   );
+    static void     ignoreExtensions  ( const Char8 *s   );
+
+    static UInt32   registerFunction  ( const Char8 *s   );
+
+    static void     registerConstant  (       GLenum val );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name               Extension handling                             */
     /*! \{                                                                 */
 
-    bool                 hasExtension      (      UInt32  id);
-    void                *getFunction       (      UInt32  id);
-    void                *getFunctionNoCheck(      UInt32  id);
-    void                 dumpExtensions    (      void      );
-    GLExtensionFunction  getFunctionByName (const Char8  *s );
+    static 
+    inline Int32                getExtensionId    (const Char8  *s   );
+    inline bool                 hasExtension      (      UInt32  id  );
+    static 
+    inline bool                 hasCommonExtension(      UInt32  id  );
+           void                *getFunction       (      UInt32  id  );
+           void                *getFunctionNoCheck(      UInt32  id  );
+           void                 dumpExtensions    (      void        );
+           GLExtensionFunction  getFunctionByName (const Char8  *s   );
+    inline Real32               getConstantValue  (      GLenum  val );
+    inline const  Vec2f        &getConstantValuev (      GLenum  val );    
+    
+    static  
+    inline const std::vector<std::string> &getRegisteredExtensions(void);   
+    inline const std::vector<std::string> &getRegisteredFunctions (void);   
+    inline const std::vector<std::string> &getExtensions          (void);
+    inline const std::vector<std::string> &getIgnoredExtensions   (void);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -272,10 +298,22 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
                  UInt32 _lastValidate;
     };
 
-    // is this really needed???    friend class GLObject;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name            Map for GL cvonstant handling                     */
+    /*! \{                                                                 */
+
+#ifdef OSG_STL_HAS_HASH_MAP
+    typedef 
+        OSG_STDEXTENSION_NAMESPACE::hash_map<
+            GLenum,  
+            Vec2f> ConstHash;
+#else
+    typedef 
+        std::map< GLenum,  Vec2f > ConstHash;
+#endif
 
     /*! \}                                                                 */
-
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -287,21 +325,29 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     static std::vector<WindowPtr> _allWindows;
     static UInt32                 _currentWindowId;
 
-    static void initMethod( void );
+    static void initMethod(void);
 
     void onCreate      (const Window *source = NULL);
     void onCreateAspect(const Window *source = NULL);
 
-    void onDestroy( void );
+    void onDestroy(void);
+
+    static void staticAcquire(void);
+    static void staticRelease(void);
 
     /*---------------------------------------------------------------------*/
     /*! \name   Static GL Object / Extension variables                     */
     /*! \{                                                                 */
 
     static Lock                      *_GLObjectLock;
+    static Lock                      *_staticWindowLock;
     static std::vector<std::string>   _registeredExtensions;
+    static std::vector<std::string>   _ignoredExtensions;
+    static std::vector<bool       >   _commonExtensions;
     static std::vector<std::string>   _registeredFunctions;
-    static std::vector<GLObject   *>  _glObjects;
+    static std::vector<GLObject  *>   _glObjects;
+
+    static std::vector<GLenum     >   _registeredConstants;
 
     typedef std::pair<UInt32,UInt32>   DestroyEntry;
     static  std::list<DestroyEntry >  _glObjectDestroyList;
@@ -317,6 +363,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     std::vector<std::string> _extensions;
     std::vector<bool       > _availExtensions;
     std::vector<void      *> _extFunctions;
+    ConstHash                _availConstants;
+    UInt32                   _numAvailConstants;
 
     /*! \}                                                                 */
 
