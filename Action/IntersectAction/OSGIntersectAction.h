@@ -134,6 +134,9 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectAction : public Action
     // set (temporary) results
     Action::ResultE setEnterLeave( Real32 enter, Real32 leave );
     void setHit( Real32 t, NodePtr obj, Int32 triIndex );
+    // when entering/leaving a different coordinate system, the values might
+    // have to be scaled
+    void scale(Real32 s);
     
 
     /*------------------------- your_operators ------------------------------*/
