@@ -2,7 +2,7 @@
   OpenSG Windows Binary Distribution Readme
   =========================================
 
-This is a binary distribution of OpenSG, Version 1.0. It contains some
+This is a binary distribution of OpenSG, Version 1.1.0. It contains some
 tutorial examples for OpenSG and the includes and libs to remake them.
 
 The programs are in tutorials. To try the ones that want to load a file just
