@@ -140,6 +140,7 @@ void NFIOImage::writeFC(const FieldContainerPtr &fc)
     {
         // jpeg supports only 1 and 3 byte per pixel images :-(
         if(jpeg && getOptions().compressTextures() &&
+           img->getDataType() == Image::OSG_UINT8_IMAGEDATA &&
            (img->getBpp() == 1 || img->getBpp() == 3))
         {
             compressTextures = true;
@@ -239,6 +240,6 @@ bool NFIOImage::isJPEGSupported(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOImage.cpp,v 1.1 2004/01/08 18:00:04 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOImage.cpp,v 1.2 2004/09/03 16:38:25 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOIMAGE_HEADER_CVSID;
 }
