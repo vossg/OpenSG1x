@@ -12,10 +12,10 @@ OSG_USING_NAMESPACE
 SimpleSceneManager *mgr;
 NodePtr scene;
 
+int setupGLUT( int *argc, char *argv[] );
+
 typedef CoredNodePtr<Group> GroupNodePtr;
 typedef CoredNodePtr<Geometry> GeometryNodePtr;
-
-int setupGLUT( int *argc, char *argv[] );
 
 NodePtr createScenegraph(){
 	//create the torus geometry (core and geometry)

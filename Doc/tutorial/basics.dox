@@ -1342,6 +1342,9 @@ I will show the createScenegraph() function only, because that is where all inte
 
 \code
 
+typedef CoredNodePtr<Group> GroupNodePtr;
+typedef CoredNodePtr<Geometry> GeometryNodePtr;
+
 NodePtr createScenegraph(void)
 {
     //create the torus geometry (core and geometry)
