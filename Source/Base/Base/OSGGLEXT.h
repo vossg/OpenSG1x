@@ -789,6 +789,20 @@
 #define GL_GENERATE_MIPMAP_HINT_SGIS                        0x8192
 
 #endif
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name GL_EXT_texture_lod_bias                                      */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+
+#ifndef GL_EXT_texture_lod_bias
+#define GL_EXT_texture_lod_bias 1
+
+#define GL_TEXTURE_FILTER_CONTROL_EXT                       0x8500
+#define GL_TEXTURE_LOD_BIAS_EXT                             0x8501
+#define GL_MAX_TEXTURE_LOD_BIAS_EXT                         0x84FD
+
+#endif
 
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
