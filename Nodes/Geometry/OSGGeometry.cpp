@@ -1347,25 +1347,73 @@ GeometryPtr Geometry::clone( void )
     
     // create copies of the attributes
 
-    beginEditCP( geo );
-    
-    geo->setTypes             ( getTypes             ()->clone() );
-    geo->setLengths           ( getLengths           ()->clone() );
-    geo->setPositions         ( getPositions         ()->clone() );
-    geo->setNormals           ( getNormals           ()->clone() );
-    geo->setColors            ( getColors            ()->clone() );
-    geo->setSecondaryColors   ( getSecondaryColors   ()->clone() );
-    geo->setTexCoords         ( getTexCoords         ()->clone() );
-    geo->setTexCoords1        ( getTexCoords1        ()->clone() );
-    geo->setTexCoords2        ( getTexCoords2        ()->clone() );
-    geo->setTexCoords3        ( getTexCoords3        ()->clone() );
-    geo->setIndices           ( getIndices           ()->clone() );
-    
-    geo->getMFIndexMapping()->setValues( *getMFIndexMapping() );
+    beginEditCP(geo);
+    {
+        if(getTypes() != NullFC)
+        {
+            geo->setTypes(getTypes()->clone());
+        }
 
-    geo->setMaterial           ( getMaterial  () );
-    geo->setDlistCache         ( getDlistCache() );
-    
+        if(getLengths() != NullFC)
+        {
+            geo->setLengths(getLengths()->clone());
+        }
+
+        if(getPositions() != NullFC)
+        {
+            geo->setPositions(getPositions()->clone());
+        }
+
+        if(getNormals() != NullFC)
+        {
+            geo->setNormals(getNormals()->clone());
+        }
+
+        if(getColors() != NullFC)
+        {
+            geo->setColors(getColors()->clone());
+        }
+
+        if(getSecondaryColors() != NullFC)
+        {
+            geo->setSecondaryColors(getSecondaryColors()->clone());
+        }
+
+        if(getTexCoords() != NullFC)
+        {
+            geo->setTexCoords(getTexCoords()->clone());
+        }
+
+        if(getTexCoords1() != NullFC)
+        {
+            geo->setTexCoords1(getTexCoords1()->clone());
+        }
+
+        if(getTexCoords2() != NullFC)
+        {
+            geo->setTexCoords2(getTexCoords2()->clone());
+        }
+
+        if(getTexCoords3() != NullFC)
+        {
+            geo->setTexCoords3(getTexCoords3()->clone());
+        }
+
+        if(getIndices() != NullFC)
+        {
+            geo->setIndices(getIndices()->clone());
+        }
+
+        if(getMFIndexMapping() != NULL)
+        {
+            geo->getMFIndexMapping()->setValues(*getMFIndexMapping());
+        }
+
+        geo->setMaterial  (getMaterial  ());
+        geo->setDlistCache(getDlistCache());
+    }
+    endEditCP  (geo);
+
     return geo;
 }
 
