@@ -51,6 +51,12 @@
 
 OSG_USING_NAMESPACE
 
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: $";
+    char cvsid_hpp[] = OSGOSGSCENEFILETYPE_HEADER_CVSID;
+}
+
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -59,11 +65,12 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGSceneFileType::cvsid[] = "@(#)$Id: $";
-
 const char *OSGSceneFileType::_suffixA[] =  { "osg" };
 
-OSGSceneFileType OSGSceneFileType::_the(_suffixA, sizeof(_suffixA));
+OSGSceneFileType OSGSceneFileType::_the(_suffixA, 
+                                        sizeof(_suffixA),
+                                        false,
+                                        10);
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -102,16 +109,25 @@ OSGSceneFileType &OSGSceneFileType::the(void)
     return _the;
 }
 
+const Char8 *OSGSceneFileType::getName(void) const 
+{ 
+    return "OSG GEOMETRY"; 
+}
+
+
 NodePtr OSGSceneFileType::read(const Char8 *fileName, UInt32 uiOptions) const
 {
-    _pFile->scanFile(fileName, 0);
+    _pFile->scanFile(fileName, uiOptions);
+
     return _pFile->getRoot();
 }
 
-vector<FieldContainerPtr> OSGSceneFileType::readTopNodes(const Char8 *fileName,
-                                                         UInt32 uiOptions) const
+OSGSceneFileType::FCPtrStore OSGSceneFileType::readTopNodes(
+    const Char8  *fileName,
+          UInt32  uiOptions) const
 {
-	_pFile->scanFile(fileName, 0);
+	_pFile->scanFile(fileName, uiOptions);
+
 	return _pFile->getRoots();
 }
 
@@ -139,8 +155,13 @@ Bool OSGSceneFileType::write(const NodePtr, const char *) const
  */
 
 OSGSceneFileType::OSGSceneFileType(const char   *suffixArray[], 
-                                         UInt16  suffixByteCount) :
-	Inherited(suffixArray, suffixByteCount)
+                                         UInt16  suffixByteCount,
+                                         Bool    override,
+                                         UInt32  overridePriority) :
+	Inherited(suffixArray, 
+              suffixByteCount, 
+              override, 
+              overridePriority)
 {
     fprintf(stderr, "Init OSG Scene File Type %d\n", this);
 

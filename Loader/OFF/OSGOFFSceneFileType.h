@@ -38,7 +38,7 @@
 
 #ifndef _OSGOFFSCENEFILETYPE_H_
 #define _OSGOFFSCENEFILETYPE_H_
-#ifdef  __sig
+#ifdef  __sgi
 #pragma  once
 #endif
 
@@ -64,7 +64,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OFFSceneFileType : public SceneFileType
     /*! \name                   Get                                        */
     /*! \{                                                                 */
 
-    virtual OFFSceneFileType & the (void) { return _the; }
+    virtual OFFSceneFileType &the(void) { return _the; }
 
 #if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
     static  OFFSceneFileType & staticThe (void) { return _the; }
@@ -82,14 +82,14 @@ class OSG_SYSTEMLIB_DLLMAPPING OFFSceneFileType : public SceneFileType
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual Bool write (const NodePtr node, const char *fileName) const;
+    virtual Bool write(const NodePtr node, const Char8 *fileName) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Class Get                                  */
     /*! \{                                                                 */
 
-    virtual const char *getName (void) const { return "OFF GEOMETRY"; }
+    virtual const Char8 *getName(void) const { return "OFF GEOMETRY"; }
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -99,10 +99,12 @@ class OSG_SYSTEMLIB_DLLMAPPING OFFSceneFileType : public SceneFileType
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    OFFSceneFileType ( const char *suffixArray[],
-                       UInt16 suffixByteCount );
+    OFFSceneFileType(const Char8  *suffixArray[],
+                           UInt16  suffixByteCount,
+                           Bool    override,
+                           UInt32  overridePriority);
 
-    OFFSceneFileType (const OFFSceneFileType &obj);
+    OFFSceneFileType(const OFFSceneFileType &obj);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -111,11 +113,12 @@ class OSG_SYSTEMLIB_DLLMAPPING OFFSceneFileType : public SceneFileType
     typedef SceneFileType Inherited;
 
     static OFFSceneFileType _the;
-
 };
 
 typedef OFFSceneFileType* OFFSceneFileTypeP;
 
 OSG_END_NAMESPACE
+
+#define OSGOFFSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOFFSceneFileType.h,v 1.2 2001/09/25 04:10:11 vossg Exp $"
 
 #endif // _OSGOFFSCENEFILETYPE_H_

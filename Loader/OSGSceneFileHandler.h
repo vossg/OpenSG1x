@@ -60,6 +60,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     /*==========================  PUBLIC  =================================*/
   public:
 
+    typedef vector<FieldContainerPtr> FCPtrStore;
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
@@ -71,26 +73,29 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     /*! \name                   Get                                        */
     /*! \{                                                                 */
 
-    virtual SceneFileType * getFileType ( const char *fileName );
-    static SceneFileHandler & the (void) { return *_the; }
+    static  SceneFileHandler &the        (void                 ) 
+    {
+        return *_the;
+    }
+
+    virtual SceneFileType    *getFileType(const Char8 *fileName);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Read                                       */
     /*! \{                                                                 */
 
-    virtual NodePtr 		read 		(const  Char8 *fileName,
-                                 UInt32 uiOptions = 0	);
-    virtual vector<FieldContainerPtr> readTopNodes(const  Char8 *fileName,
-                                                   UInt32 uiOptions = 0	);
-
+    virtual NodePtr    read        (const  Char8  *fileName,
+                                           UInt32  uiOptions = 0);
+    virtual FCPtrStore readTopNodes(const  Char8  *fileName,
+                                           UInt32  uiOptions = 0);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual Bool write (const NodePtr node, const char *fileName);
+    virtual Bool write(const NodePtr node, const Char8 *fileName);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -106,21 +111,35 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
+
     SceneFileHandler (void);
     SceneFileHandler (const SceneFileHandler &obj);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
-  static SceneFileHandler * _the;
 
-  map < String, SceneFileType *>  _suffixTypeMap;
+    typedef list<        SceneFileType *> FileTypeList;
+    typedef map <String, FileTypeList  *> FileTypeMap;
 
-  static Bool addSceneFileType (SceneFileType &fileType);
+    struct FindOverride
+    {
+        UInt32 uiRefPriority;
+
+        Bool operator() (SceneFileType *fileTypeP);
+    };
+
+    static SceneFileHandler *_the;
+
+    FileTypeMap _suffixTypeMap;
+
+    static Bool addSceneFileType(SceneFileType &fileType);
 };
 
 typedef SceneFileHandler* SceneFileHandlerP;
 
 OSG_END_NAMESPACE
+
+#define OSGSCENEFILEHANDLER_HEADER_CVSID "@(#)$Id: $"
 
 #endif // OSGIMAGEFILEHANDLER_CLASS_DECLARATION

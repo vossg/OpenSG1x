@@ -69,13 +69,23 @@
 
 OSG_USING_NAMESPACE
 
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.2 2001/09/25 04:10:11 vossg Exp $";
+    char cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
+}
+
+
 /*****************************
  *   Types
  *****************************/
 // Static Class Varible implementations: 
-static const char *suffixA[] =  { "obj" };
+static const Char8 *suffixA[] =  { "obj" };
 
-OBJSceneFileType OBJSceneFileType::_the ( suffixA, sizeof(suffixA));
+OBJSceneFileType OBJSceneFileType::_the(suffixA, 
+                                        sizeof(suffixA),
+                                        false,
+                                        10);
 
 /*****************************
  *	  Classvariables
@@ -295,7 +305,7 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
 //
 //------------------------------
 Bool OBJSceneFileType::write ( const NodePtr node, 
-                               const char *fileName) const
+                               const Char8 *fileName) const
 {	
   FFATAL (("OBJSceneFileType::write() is not impl.\n"));
 	return false;
@@ -344,11 +354,17 @@ Bool OBJSceneFileType::write ( const NodePtr node,
 //s:
 //
 //------------------------------
-OBJSceneFileType::OBJSceneFileType ( const char *suffixArray[], 
-                                     UInt16 suffixByteCount )
-	: SceneFileType ( suffixArray, suffixByteCount)
+
+OBJSceneFileType::OBJSceneFileType(const Char8  *suffixArray[], 
+                                         UInt16  suffixByteCount,
+                                         Bool    override,
+                                         UInt32  overridePriority) :
+	SceneFileType(suffixArray, 
+                  suffixByteCount,
+                  override,
+                  overridePriority)
 {
-    fprintf(stderr, "Init Raw Scene File Type %d\n", this);
+    fprintf(stderr, "Init OBJ Scene File Type %d\n", this);
 	return;
 }
 
@@ -372,8 +388,9 @@ OBJSceneFileType::OBJSceneFileType ( const char *suffixArray[],
 //s:
 //
 //------------------------------
-OBJSceneFileType::OBJSceneFileType (const OBJSceneFileType &obj )
-	: SceneFileType(obj)
+
+OBJSceneFileType::OBJSceneFileType(const OBJSceneFileType &obj) :
+	SceneFileType(obj)
 {
 	return;
 }
@@ -399,7 +416,7 @@ OBJSceneFileType::OBJSceneFileType (const OBJSceneFileType &obj )
 //
 //------------------------------
 
-OBJSceneFileType::~OBJSceneFileType (void )
+OBJSceneFileType::~OBJSceneFileType(void)
 {
 	return;
 }

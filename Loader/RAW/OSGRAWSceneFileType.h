@@ -38,7 +38,7 @@
 
 #ifndef _OSGRAWSCENEFILETYPE_H_
 #define _OSGRAWSCENEFILETYPE_H_
-#ifdef  __sig
+#ifdef  __sgi
 #pragma  once
 #endif
 
@@ -57,17 +57,19 @@ class OSG_SYSTEMLIB_DLLMAPPING RAWSceneFileType : public SceneFileType
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~RAWSceneFileType (void);
+    virtual ~RAWSceneFileType(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
     /*! \{                                                                 */
 
-    virtual RAWSceneFileType & the (void) { return _the; }
+    virtual       RAWSceneFileType &the    (void)       { return _the; }
+    virtual const Char8            *getName(void) const 
+        { return "RAW GEOMETRY"; }
 
 #if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
-    static  RAWSceneFileType & staticThe (void) { return _the; }
+    static  RAWSceneFileType &staticThe(void) { return _the; }
 #endif
 
     /*! \}                                                                 */
@@ -82,14 +84,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RAWSceneFileType : public SceneFileType
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual Bool write (const NodePtr node, const char *fileName) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Class Get                                  */
-    /*! \{                                                                 */
-
-    virtual const char *getName (void) const { return "RAW GEOMETRY"; }
+    virtual Bool write(const NodePtr node, const Char8 *fileName) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -99,10 +94,12 @@ class OSG_SYSTEMLIB_DLLMAPPING RAWSceneFileType : public SceneFileType
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-   RAWSceneFileType ( const char *suffixArray[],
-                                                UInt16 suffixByteCount );
+    RAWSceneFileType(const Char8  *suffixArray[],
+                           UInt16  suffixByteCount,
+                           Bool    override,
+                           UInt32  overridePriority);
 
-    RAWSceneFileType (const RAWSceneFileType &obj);
+    RAWSceneFileType(const RAWSceneFileType &obj);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -116,5 +113,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RAWSceneFileType : public SceneFileType
 typedef RAWSceneFileType* RAWSceneFileTypeP;
 
 OSG_END_NAMESPACE
+
+#define OSGRAWSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGRAWSceneFileType.h,v 1.2 2001/09/25 04:10:11 vossg Exp $"
 
 #endif // _OSGRAWSCENEFILETYPE_H_

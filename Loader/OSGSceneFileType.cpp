@@ -55,13 +55,25 @@
 
 OSG_USING_NAMESPACE
 
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: $";
+    char cvsid_hpp[] = OSGSCENEFILETYPE_HEADER_CVSID;
+}
+
 //---------------------------------------------------------
-SceneFileType::SceneFileType ( const char * suffixArray[], 
-																		 UInt16 suffixByteCount )
+
+SceneFileType::SceneFileType(const Char8  *suffixArray[], 
+                                   UInt16  suffixByteCount,
+                                   Bool    override,
+                                   UInt32  overridePriority) :
+    _suffixList      (                ),
+    _override        (override        ),
+    _overridePriority(overridePriority)
 {
     FINFO(( "Init Scene File Type %d\n", this ));
 
-	int count = (suffixByteCount / sizeof(const char *)), i = 0;
+	int count = (suffixByteCount / sizeof(const Char8 *)), i = 0;
 	list<String>::iterator sI;
 
 	_suffixList.resize(count);
@@ -72,14 +84,16 @@ SceneFileType::SceneFileType ( const char * suffixArray[],
 }
 
 //---------------------------------------------------------
-SceneFileType::SceneFileType (const SceneFileType &obj )
-	: _suffixList(obj._suffixList)
+SceneFileType::SceneFileType(const SceneFileType &obj) :
+	_suffixList      (obj._suffixList      ),
+    _override        (obj._override        ),
+    _overridePriority(obj._overridePriority)
 {
 	SWARNING << "In SceneFileType copy constructor" << endl;
 }
 
 //---------------------------------------------------------
-SceneFileType::~SceneFileType (void )
+SceneFileType::~SceneFileType(void)
 {
 	return;
 }
@@ -101,8 +115,30 @@ void SceneFileType::print(void)
 }
 
 //---------------------------------------------------------
-vector<FieldContainerPtr> SceneFileType::readTopNodes( const Char8 *fileName,
-                                                       UInt32 uiOpts) const 
+
+list<String> &SceneFileType::suffixList(void)
+{
+    return _suffixList;
+}
+
+//---------------------------------------------------------
+
+Bool SceneFileType::doOverride(void)
+{
+    return _override;
+}
+
+//---------------------------------------------------------
+
+UInt32 SceneFileType::getOverridePriority(void)
+{
+    return _overridePriority;
+}
+
+//---------------------------------------------------------
+SceneFileType::FCPtrStore SceneFileType::readTopNodes(
+    const Char8  *fileName,
+          UInt32  uiOpts) const 
 {
   FieldContainerPtr fcPtr = read(fileName,uiOpts);
   vector<FieldContainerPtr> fcVec;

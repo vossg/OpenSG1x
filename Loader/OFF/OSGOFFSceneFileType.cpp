@@ -66,13 +66,22 @@
 
 OSG_USING_NAMESPACE
 
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.2 2001/09/25 04:10:11 vossg Exp $";
+    char cvsid_hpp[] = OSGOFFSCENEFILETYPE_HEADER_CVSID;
+}
+
 /*****************************
  *   Types
  *****************************/
 // Static Class Varible implementations: 
-static const char *suffixA[] =  { "off" };
+static const Char8 *suffixA[] =  { "off" };
 
-OFFSceneFileType OFFSceneFileType::_the ( suffixA, sizeof(suffixA));
+OFFSceneFileType OFFSceneFileType::_the(suffixA, 
+                                        sizeof(suffixA),
+                                        false,
+                                        10);
 
 /*****************************
  *	  Classvariables
@@ -291,10 +300,10 @@ NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32) const
 //s:
 //
 //------------------------------
-Bool OFFSceneFileType::write ( const NodePtr node, 
-                               const char *fileName) const
+Bool OFFSceneFileType::write(const NodePtr  node, 
+                             const Char8   *fileName) const
 {	
-  FFATAL (("OFFSceneFileType::write() is not impl.\n"));
+    FFATAL (("OFFSceneFileType::write() is not impl.\n"));
 	return false;
 }
 
@@ -341,11 +350,17 @@ Bool OFFSceneFileType::write ( const NodePtr node,
 //s:
 //
 //------------------------------
-OFFSceneFileType::OFFSceneFileType ( const char *suffixArray[], 
-                                     UInt16 suffixByteCount )
-	: SceneFileType ( suffixArray, suffixByteCount)
+
+OFFSceneFileType::OFFSceneFileType(const Char8  *suffixArray[], 
+                                         UInt16  suffixByteCount,
+                                         Bool    override,
+                                         UInt32  overridePriority) :
+	SceneFileType(suffixArray, 
+                  suffixByteCount,
+                  override,
+                  overridePriority)
 {
-    fprintf(stderr, "Init Raw Scene File Type %d\n", this);
+    fprintf(stderr, "Init OFF Scene File Type %d\n", this);
 	return;
 }
 
@@ -369,8 +384,9 @@ OFFSceneFileType::OFFSceneFileType ( const char *suffixArray[],
 //s:
 //
 //------------------------------
-OFFSceneFileType::OFFSceneFileType (const OFFSceneFileType &obj )
-	: SceneFileType(obj)
+
+OFFSceneFileType::OFFSceneFileType(const OFFSceneFileType &obj) :
+	SceneFileType(obj)
 {
 	return;
 }

@@ -38,7 +38,7 @@
 
 #ifndef _OSGOBJSCENEFILETYPE_H_
 #define _OSGOBJSCENEFILETYPE_H_
-#ifdef  __sig
+#ifdef  __sgi
 #pragma  once
 #endif
 
@@ -64,7 +64,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
     /*! \name                   Get                                        */
     /*! \{                                                                 */
 
-    virtual OBJSceneFileType & the (void) { return _the; }
+    virtual OBJSceneFileType &the(void) { return _the; }
 
 #if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
     static  OBJSceneFileType & staticThe (void) { return _the; }
@@ -82,14 +82,14 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual Bool write (const NodePtr node, const char *fileName) const;
+    virtual Bool write(const NodePtr node, const Char8 *fileName) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Class Get                                  */
     /*! \{                                                                 */
 
-    virtual const char *getName (void) const { return "OBJ GEOMETRY"; }
+    virtual const Char8 *getName(void) const { return "OBJ GEOMETRY"; }
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -99,10 +99,12 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    OBJSceneFileType ( const char *suffixArray[],
-                       UInt16 suffixByteCount );
+    OBJSceneFileType(const Char8  *suffixArray[],
+                           UInt16  suffixByteCount,
+                           Bool    override,
+                           UInt32  overridePriority);
 
-    OBJSceneFileType (const OBJSceneFileType &obj);
+    OBJSceneFileType(const OBJSceneFileType &obj);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -111,11 +113,12 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
     typedef SceneFileType Inherited;
 
     static OBJSceneFileType _the;
-
 };
 
 typedef OBJSceneFileType* OBJSceneFileTypeP;
 
 OSG_END_NAMESPACE
+
+#define OSGOBJSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOBJSceneFileType.h,v 1.2 2001/09/25 04:10:11 vossg Exp $"
 
 #endif // _OSGOBJSCENEFILETYPE_H_

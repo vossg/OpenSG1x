@@ -65,13 +65,23 @@
 
 OSG_USING_NAMESPACE
 
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.2 2001/09/25 04:10:11 vossg Exp $";
+    char cvsid_hpp[] = OSGRAWSCENEFILETYPE_HEADER_CVSID;
+}
+
+
 /*****************************
  *   Types
  *****************************/
 // Static Class Varible implementations: 
-static const char *suffixA[] =  { "raw" };
+static const Char8 *suffixA[] =  { "raw" };
 
-RAWSceneFileType RAWSceneFileType::_the ( suffixA, sizeof(suffixA));
+RAWSceneFileType RAWSceneFileType::_the(suffixA, 
+                                        sizeof(suffixA),
+                                        false,
+                                        10);
 
 /*****************************
  *	  Classvariables
@@ -120,6 +130,8 @@ NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
 	Vec3f vec[3];
 	Int32 i = 0, n, triCount = 0;
 	Real32 x,y,z;
+
+    fprintf(stderr, "Loading using Loader 0\n");
 
 	if (in) 
     {
@@ -233,8 +245,9 @@ NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
 //s:
 //
 //------------------------------
-Bool RAWSceneFileType::write ( const NodePtr node, 
-																  const char *fileName) const
+
+Bool RAWSceneFileType::write(const NodePtr  node, 
+                             const Char8   *fileName) const
 {	
 	return false;
 }
@@ -282,11 +295,18 @@ Bool RAWSceneFileType::write ( const NodePtr node,
 //s:
 //
 //------------------------------
-RAWSceneFileType::RAWSceneFileType ( const char *suffixArray[], 
-																					 UInt16 suffixByteCount )
-	: SceneFileType ( suffixArray, suffixByteCount)
+
+RAWSceneFileType::RAWSceneFileType(const Char8  *suffixArray[], 
+                                         UInt16  suffixByteCount,
+                                         Bool    override,
+                                         UInt32  overridePriority) :
+	SceneFileType(suffixArray, 
+                  suffixByteCount,
+                  override,
+                  overridePriority)
 {
     fprintf(stderr, "Init Raw Scene File Type %d\n", this);
+
 	return;
 }
 
@@ -310,8 +330,9 @@ RAWSceneFileType::RAWSceneFileType ( const char *suffixArray[],
 //s:
 //
 //------------------------------
-RAWSceneFileType::RAWSceneFileType (const RAWSceneFileType &obj )
-	: SceneFileType(obj)
+
+RAWSceneFileType::RAWSceneFileType(const RAWSceneFileType &obj) :
+	SceneFileType(obj)
 {
 	return;
 }

@@ -55,6 +55,12 @@
 
 OSG_USING_NAMESPACE
 
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: $";
+    char cvsid_hpp[] = OSGSCENEFILEHANDLER_HEADER_CVSID;
+}
+
 /* enum VecBase::VectorSizeE
  * brief 
 */
@@ -85,7 +91,7 @@ OSG_USING_NAMESPACE
  *****************************/
 
 
-SceneFileHandler * SceneFileHandler::_the = 0;
+SceneFileHandler * SceneFileHandler::_the = NULL;
 
 
 /********************************
@@ -118,34 +124,38 @@ SceneFileHandler * SceneFileHandler::_the = 0;
 //s:
 //
 //------------------------------
-SceneFileType * SceneFileHandler::getFileType ( const char *fileName )
+
+SceneFileType *SceneFileHandler::getFileType(const Char8 *fileName)
 {
-	String suffix;
-	SceneFileType *type = 0;
-	map <String, SceneFileType *>::iterator sI;
-	const char separator = '.';
-	int i, l;
-	ifstream fin;
+	      Int32                  i;
+          Int32                  l;
+          String                 suffix;
+	const Char8                  separator = '.';
+	      SceneFileType         *type = NULL;
+	      FileTypeMap::iterator  sI;
+          ifstream               fin;
 
-	if (fileName) {
-
-		// check file suffix
-		if (!type) {
-			l = strlen(fileName);
-			for (i = l - 1; i >= 0; i--) {
-				if (fileName[i] == separator) 
-					break;
-			}
-			if (i >= 0) {
-				suffix.set(&(fileName[i+1]));
-				suffix.toLower();
-				sI = _suffixTypeMap.find(suffix);
-				type = (sI == _suffixTypeMap.end()) ? 0 : sI->second;
-			}
-		}
-
-	}
-		
+	if(fileName) 
+    {
+        l = strlen(fileName);
+        
+        for(i = l - 1; i >= 0; i--) 
+        {
+            if(fileName[i] == separator) 
+                break;
+        }
+        
+        if(i >= 0) 
+        {
+            suffix.set(&(fileName[i+1]));
+            suffix.toLower();
+            
+            sI = _suffixTypeMap.find(suffix);
+            
+            type = (sI == _suffixTypeMap.end()) ? 0 : sI->second->front();
+        }
+    }
+    		
 	return type;
 }
 
@@ -225,8 +235,9 @@ NodePtr SceneFileHandler::read(const char *fileName,  UInt32 uiOptions)
 //s:
 //
 //------------------------------
-vector<FieldContainerPtr> SceneFileHandler::readTopNodes(const char *fileName,
-													 UInt32 uiOptions)
+SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
+    const Char8  *fileName,
+          UInt32  uiOptions)
 {
 	SceneFileType *type = getFileType(fileName);
 	vector<FieldContainerPtr> nodeVec;
@@ -320,12 +331,14 @@ Bool SceneFileHandler::write ( const NodePtr node, const char *fileName )
 //------------------------------
 void SceneFileHandler::print (void )
 {
-	map <String, SceneFileType *>::iterator sI;
+	FileTypeMap::iterator sI;
 
-	for (sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); sI++)
+	for(sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); sI++)
+    {
 		cerr << "suffix: " << sI->first.str() 
-				 << ", type: " << sI->second->getName()
-				 << endl;
+             << ", type: " << sI->second->front()->getName()
+             << endl;
+    }
 }
 
 /******************************
@@ -358,27 +371,82 @@ void SceneFileHandler::print (void )
 //s:
 //
 //------------------------------
-Bool SceneFileHandler::addSceneFileType (SceneFileType &fileType )
+
+Bool SceneFileHandler::FindOverride::operator() (SceneFileType *fileTypeP)
+{
+    if(fileTypeP == NULL)
+        return false;
+
+    if(fileTypeP->doOverride() == false)
+        return true;
+
+    if(fileTypeP->getOverridePriority() <= uiRefPriority)
+        return true;
+
+    return false;
+}
+
+Bool SceneFileHandler::addSceneFileType(SceneFileType &fileType)
 {
 	Bool retCode = false;
+
 	list<String>::iterator sI;
-	map <String, SceneFileType *>::iterator smI;
+	FileTypeMap ::iterator smI;
+
 	String suffix;
 
-	if (!_the)
+	if(_the == NULL)
+    {
 		_the = new SceneFileHandler;
+    }
 
-	for ( sI = fileType.suffixList().begin();
-				sI != fileType.suffixList().end(); ++sI) {
+	for(  sI  = fileType.suffixList().begin();
+          sI != fileType.suffixList().end(); 
+        ++sI) 
+    {
 		suffix.set(sI->str());
 		suffix.toLower();
+
 		smI = _the->_suffixTypeMap.find(suffix);
-		if (smI != _the->_suffixTypeMap.end()) {
-			SWARNING << "Can't add an image file type with suffix "
-							 << suffix << " a second time" << endl;
+
+		if (smI != _the->_suffixTypeMap.end()) 
+        {
+            if(fileType.doOverride() == true)
+            {
+                FindOverride           overrideFinder;
+                FileTypeList::iterator lIt;
+                
+                overrideFinder.uiRefPriority = fileType.getOverridePriority();
+
+                lIt = ::find_if(_the->_suffixTypeMap[suffix]->begin(),
+                                _the->_suffixTypeMap[suffix]->end(),
+                                 overrideFinder);
+
+                _the->_suffixTypeMap[suffix]->insert(lIt, &fileType);
+
+                SWARNING << "Added an file type with suffix "
+                         << suffix 
+                         << " overriding "
+                         << endl;
+            }
+            else
+            {
+                _the->_suffixTypeMap[suffix]->push_back(&fileType);
+
+                SWARNING << "Added an file type with suffix "
+                         << suffix 
+                         << " non overriding at the end of the list"
+                         << endl;
+            }
 		}
-		else {
-			_the->_suffixTypeMap[suffix] = &fileType;
+		else 
+        {
+            FileTypeList *pTmpList = new FileTypeList;
+
+            pTmpList->push_back(&fileType);
+
+			_the->_suffixTypeMap[suffix] = pTmpList;
+
 			retCode = true;
 		}
 	}

@@ -61,44 +61,49 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
     /*==========================  PUBLIC  =================================*/
   public:
 
+    typedef vector<FieldContainerPtr> FCPtrStore;
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Class Get                                  */
     /*! \{                                                                 */
 
-    static const char *getClassname(void) { return "SceneFileType"; };
-    virtual const char *getName (void) const = 0;
+    virtual const char *getName(void) const = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~SceneFileType (void);
+    virtual ~SceneFileType(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
     /*! \{                                                                 */
 
-    virtual list<String> & suffixList (void) { return _suffixList; }
+    virtual list<String> &suffixList         (void);
+
+            Bool          doOverride         (void);
+            UInt32        getOverridePriority(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Read                                       */
     /*! \{                                                                 */
-    virtual NodePtr 		read		(const  Char8 *fileName,
-                                 UInt32  uiOptions	) const = 0;
 
-    virtual vector<FieldContainerPtr> readTopNodes(const Char8 *fileName,
-                                                   UInt32 uiOptions ) const;
+    virtual NodePtr    read        (const Char8  *fileName,
+                                          UInt32  uiOptions) const = 0;
+
+    virtual FCPtrStore readTopNodes(const Char8  *fileName,
+                                          UInt32  uiOptions) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual Bool write ( const NodePtr node,
-                         const char *fileName ) const = 0;
+    virtual Bool write(const NodePtr  node,
+                       const Char8   *fileName) const = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -115,19 +120,27 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    SceneFileType ( const char * suffixArray[],
-                    UInt16 suffixByteCount );
+    SceneFileType(const Char8  *suffixArray[],
+                        UInt16  suffixByteCount,
+                        Bool    override,
+                        UInt32  overridePriority);
 
     SceneFileType (const SceneFileType &obj);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
+
     list<String> _suffixList;
+    
+    Bool         _override;
+    UInt32       _overridePriority;
 };
 
 typedef SceneFileType* SceneFileTypeP;
 
 OSG_END_NAMESPACE
+
+#define OSGSCENEFILETYPE_HEADER_CVSID "@(#)$Id: $"
 
 #endif // _OSGSCENEFILETYPE_H_

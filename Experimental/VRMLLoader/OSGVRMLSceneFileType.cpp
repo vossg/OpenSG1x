@@ -51,6 +51,12 @@
 
 OSG_USING_NAMESPACE
 
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: $";
+    char cvsid_hpp[] = OSGVRMLSCENEFILETYPE_HEADER_CVSID;
+}
+
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -59,11 +65,12 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char VRMLSceneFileType::cvsid[] = "@(#)$Id: $";
-
 const char *VRMLSceneFileType::_suffixA[] =  { "wrl" };
 
-VRMLSceneFileType VRMLSceneFileType::_the(_suffixA, sizeof(_suffixA));
+VRMLSceneFileType VRMLSceneFileType::_the(_suffixA, 
+                                          sizeof(_suffixA),
+                                          false,
+                                          10);
 
 VRMLFile *VRMLSceneFileType::_pVRMLLoader = NULL;
 
@@ -77,10 +84,6 @@ VRMLFile *VRMLSceneFileType::_pVRMLLoader = NULL;
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-VRMLSceneFileType &VRMLSceneFileType::the(void)
-{
-    return _the;
-}
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
@@ -101,6 +104,16 @@ VRMLSceneFileType &VRMLSceneFileType::the(void)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
+VRMLSceneFileType &VRMLSceneFileType::the(void)
+{
+    return _the;
+}
+
+const Char8 *VRMLSceneFileType::getName(void) const 
+{ 
+    return "VRML GEOMETRY"; 
+}
+
 /*------------------------------ access -----------------------------------*/
 
 NodePtr VRMLSceneFileType::read(const Char8 *fileName, UInt32 uiOptions) const
@@ -117,15 +130,17 @@ NodePtr VRMLSceneFileType::read(const Char8 *fileName, UInt32 uiOptions) const
     return  _pVRMLLoader->getRoot();
 }
 
-vector<FieldContainerPtr> VRMLSceneFileType::readTopNodes(const Char8* fName,
-                                                          UInt32 uiOpts)const
+VRMLSceneFileType::FCPtrStore VRMLSceneFileType::readTopNodes(
+    const Char8  *fName,
+          UInt32  uiOpts)const
 {
-  NodePtr nodePtr = read(fName, uiOpts);
-	vector<FieldContainerPtr> fcVec;
+    FCPtrStore fcVec;
 
-  if (nodePtr != NullFC)
-    fcVec.push_back( nodePtr );
-
+    NodePtr    nodePtr = read(fName, uiOpts);
+    
+    if(nodePtr != NullFC)
+        fcVec.push_back(nodePtr);
+    
 	return fcVec;
 }
 
@@ -153,11 +168,15 @@ Bool VRMLSceneFileType::write(const NodePtr, const char *) const
  */
 
 VRMLSceneFileType::VRMLSceneFileType(const char   *suffixArray[], 
-                                           UInt16  suffixByteCount) :
-	Inherited(suffixArray, suffixByteCount)
+                                           UInt16  suffixByteCount,
+                                           Bool    override,
+                                           UInt32  overridePriority) :
+	Inherited(suffixArray, 
+              suffixByteCount,
+              override,
+              overridePriority)
 {
     fprintf(stderr, "Init VRML Scene File Type %d\n", this);
-	return;
 }
 
 
