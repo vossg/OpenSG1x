@@ -111,7 +111,7 @@ void key(unsigned char key, int , int)
                     imgdata[i] = (UChar8) rand();
                 pImage->set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
                 beginEditCP( xchunk1 );
-                xchunk1->setImage( &image );
+                xchunk1->setImage( pImage );
                 endEditCP( xchunk1 );
                 }
                 break;
