@@ -60,7 +60,7 @@ basic_zip_streambuf<charT, traits>::~basic_zip_streambuf(void)
 template <class charT, class traits>
 int basic_zip_streambuf<charT, traits>::sync(void)
 { 
-    if(pptr() && pptr() > pbase()) 
+    if(this->pptr() && this->pptr() > this->pbase()) 
     {
         /*int c =*/ overflow(EOF);
 
@@ -82,15 +82,15 @@ template <class charT, class traits>
 typename basic_zip_streambuf<charT, traits>::int_type
 basic_zip_streambuf<charT, traits>::overflow(int_type c)
 { 
-    int w = static_cast<int>(pptr() - pbase());
+    int w = static_cast<int>(this->pptr() - this->pbase());
     if (c != EOF)
     {
-        *pptr() = c;
+        *this->pptr() = c;
         ++w;
     }
-    if (zip_to_stream(pbase(), w))
+    if (zip_to_stream(this->pbase(), w))
     {
-        setp(pbase(), epptr() - 1);
+        setp(this->pbase(), this->epptr() - 1);
         return c;
     }
     else
@@ -284,9 +284,9 @@ basic_unzip_streambuf<charT, traits>::basic_unzip_streambuf(istream_reference is
 
     _err = inflateInit2(&_zip_stream, window_size);
         
-    setg(&_buffer[0] + 4,     // beginning of putback area
-         &_buffer[0] + 4,     // read position
-         &_buffer[0] + 4);    // end position    
+    this->setg(&_buffer[0] + 4,     // beginning of putback area
+               &_buffer[0] + 4,     // read position
+               &_buffer[0] + 4);    // end position    
 }
 
 /**
@@ -306,15 +306,15 @@ template <class charT, class traits>
 typename basic_unzip_streambuf<charT, traits>::int_type
 basic_unzip_streambuf<charT, traits>::underflow(void)
 { 
-    if(gptr() && ( gptr() < egptr()))
-        return * reinterpret_cast<unsigned char *>(gptr());
+    if(this->gptr() && ( this->gptr() < this->egptr()))
+        return * reinterpret_cast<unsigned char *>(this->gptr());
      
-    int n_putback = static_cast<int>(gptr() - eback());
+    int n_putback = static_cast<int>(this->gptr() - this->eback());
     if(n_putback > 4)
         n_putback = 4;
        
     memcpy(&_buffer[0] + (4 - n_putback),
-           gptr() - n_putback,
+           this->gptr() - n_putback,
            n_putback * sizeof(char_type));
   
     int num = 
@@ -326,12 +326,12 @@ basic_unzip_streambuf<charT, traits>::underflow(void)
         return EOF;
     
     // reset buffer pointers
-    setg(&_buffer[0] + (4 - n_putback),   // beginning of putback area
-         &_buffer[0] + 4,                 // read position
-         &_buffer[0] + 4 + num);          // end of buffer
+    this->setg(&_buffer[0] + (4 - n_putback),   // beginning of putback area
+               &_buffer[0] + 4,                 // read position
+               &_buffer[0] + 4 + num);          // end of buffer
     
     // return next character
-    return * reinterpret_cast<unsigned char *>(gptr());    
+    return * reinterpret_cast<unsigned char *>(this->gptr());    
 }
 
 /** returns the compressed input istream
@@ -547,13 +547,13 @@ basic_zip_ostream<charT,traits>& basic_zip_ostream<charT, traits>::add_header(vo
 {
     char_type zero = 0;
         
-    get_ostream() << static_cast<char_type>(detail::gz_magic[0])
-                  << static_cast<char_type>(detail::gz_magic[1])
-                  << static_cast<char_type>(Z_DEFLATED)
-                  << zero //flags
-                  << zero<<zero<<zero<<zero // time
-                  << zero //xflags
-                  << static_cast<char_type>(OS_CODE);
+    this->get_ostream() << static_cast<char_type>(detail::gz_magic[0])
+                        << static_cast<char_type>(detail::gz_magic[1])
+                        << static_cast<char_type>(Z_DEFLATED)
+                        << zero //flags
+                        << zero<<zero<<zero<<zero // time
+                        << zero //xflags
+                        << static_cast<char_type>(OS_CODE);
         
     return *this;
 }
@@ -572,17 +572,17 @@ basic_zip_ostream<charT,traits>& basic_zip_ostream<charT, traits>::add_footer(vo
     _added_footer = true;
 
     // Writes crc and length in LSB order to the stream.
-    unsigned long crc = get_crc();
+    unsigned long crc = this->get_crc();
     for(int n=0;n<4;++n)
     {
-        get_ostream().put((int)(crc & 0xff));
+        this->get_ostream().put((int)(crc & 0xff));
         crc >>= 8;
     }
 
-    unsigned long length = get_in_size();
+    unsigned long length = this->get_in_size();
     for(int n=0;n<4;++n)
     {
-        get_ostream().put((int)(length & 0xff));
+        this->get_ostream().put((int)(length & 0xff));
         length >>= 8;
     }
 
@@ -616,7 +616,7 @@ basic_zip_istream<charT, traits>::basic_zip_istream(istream_reference istream,
       _gzip_crc(0),
       _gzip_data_size(0)
 {
-    if(get_zerr() == Z_OK)
+    if(this->get_zerr() == Z_OK)
         check_header();
 }
 
@@ -641,7 +641,7 @@ bool
 basic_zip_istream<charT, traits>::check_crc(void)
 {
     read_footer();
-    return get_crc() == _gzip_crc;
+    return this->get_crc() == _gzip_crc;
 }
 
 /** return data size check
@@ -650,7 +650,7 @@ template <class charT, class traits> inline
 bool
 basic_zip_istream<charT, traits>::check_data_size(void) const
 {
-    return get_out_size() == _gzip_data_size;
+    return this->get_out_size() == _gzip_data_size;
 }
 
 /** return the crc value in the file
@@ -687,19 +687,19 @@ basic_zip_istream<charT, traits>::check_header(void)
     uInt len;
     int c;
     int err=0;
-    z_stream &zip_stream = get_zip_stream();
+    z_stream &zip_stream = this->get_zip_stream();
 
     /* Check the gzip magic header */
     for(len = 0; len < 2; len++) 
     {
-        c = (int)get_istream().get();
+        c = (int)this->get_istream().get();
         if (c != detail::gz_magic[len]) 
         {
             if (len != 0) 
-                get_istream().unget();
+                this->get_istream().unget();
             if (c!= EOF) 
             {
-                get_istream().unget();
+                this->get_istream().unget();
             }
             
             err = zip_stream.avail_in != 0 ? Z_OK : Z_STREAM_END;
@@ -709,8 +709,8 @@ basic_zip_istream<charT, traits>::check_header(void)
     }
     
     _is_gzip = true;
-    method = (int)get_istream().get();
-    flags = (int)get_istream().get();
+    method = (int)this->get_istream().get();
+    flags = (int)this->get_istream().get();
     if (method != Z_DEFLATED || (flags & detail::gz_reserved) != 0) 
     {
         err = Z_DATA_ERROR;
@@ -719,32 +719,32 @@ basic_zip_istream<charT, traits>::check_header(void)
 
     /* Discard time, xflags and OS code: */
     for (len = 0; len < 6; len++) 
-        get_istream().get();
+        this->get_istream().get();
     
     if ((flags & detail::gz_extra_field) != 0) 
     { 
         /* skip the extra field */
-        len  =  (uInt)get_istream().get();
-        len += ((uInt)get_istream().get())<<8;
+        len  =  (uInt)this->get_istream().get();
+        len += ((uInt)this->get_istream().get())<<8;
         /* len is garbage if EOF but the loop below will quit anyway */
-        while (len-- != 0 && get_istream().get() != EOF) ;
+        while (len-- != 0 && this->get_istream().get() != EOF) ;
     }
     if ((flags & detail::gz_orig_name) != 0) 
     { 
         /* skip the original file name */
-        while ((c = get_istream().get()) != 0 && c != EOF) ;
+        while ((c = this->get_istream().get()) != 0 && c != EOF) ;
     }
     if ((flags & detail::gz_comment) != 0) 
     {   
         /* skip the .gz file comment */
-        while ((c = get_istream().get()) != 0 && c != EOF) ;
+        while ((c = this->get_istream().get()) != 0 && c != EOF) ;
     }
     if ((flags & detail::gz_head_crc) != 0) 
     {  /* skip the header crc */
         for (len = 0; len < 2; len++) 
-            get_istream().get();
+            this->get_istream().get();
     }
-    err = get_istream().eof() ? Z_DATA_ERROR : Z_OK;
+    err = this->get_istream().eof() ? Z_DATA_ERROR : Z_OK;
 
     return err;
 }
@@ -760,10 +760,11 @@ basic_zip_istream<charT, traits>::read_footer(void)
     {
         _gzip_crc = 0;
         for(int n=0;n<4;++n)
-            _gzip_crc += ((((int) get_istream().get()) & 0xff) << (8*n));
+            _gzip_crc += ((((int) this->get_istream().get()) & 0xff) << (8*n));
 
         _gzip_data_size = 0;
         for(int n=0;n<4;++n)
-            _gzip_data_size += ((((int) get_istream().get()) & 0xff) << (8*n));
+            _gzip_data_size += 
+                ((((int) this->get_istream().get()) & 0xff) << (8*n));
     }
 }
