@@ -453,8 +453,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             
             _mMatMap[pMat].push_back(pNewMatElem);
             
-            pNewElem->setNode       (getActNode());
-            
+            pNewElem->setNode       (getActNode());           
             pNewElem->setGeometry   (pGeo);
             pNewElem->setMatrixStore(_currMatrix);
             
@@ -468,6 +467,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             std::vector<DrawTreeNode *>::iterator treesIt = it->second.begin();
             std::vector<DrawTreeNode *>::iterator treesEnd= it->second.end();
             
+            pNewElem->setNode       (getActNode());
             pNewElem->setGeometry   (pGeo);
             pNewElem->setMatrixStore(_currMatrix);
             
@@ -591,8 +591,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
 #endif            
             _mMatMap[pMat].push_back(pNewMatElem);
             
-            pNewElem->setNode       (getActNode());
-            
+            pNewElem->setNode       (getActNode());            
             pNewElem->setFunctor    (func);
             pNewElem->setMatrixStore(_currMatrix);
             
@@ -606,6 +605,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             std::vector<DrawTreeNode *>::iterator treesIt = it->second.begin();
             std::vector<DrawTreeNode *>::iterator treesEnd= it->second.end();
 
+            pNewElem->setNode       (getActNode());
             pNewElem->setFunctor    (func);
             pNewElem->setMatrixStore(_currMatrix);
             
