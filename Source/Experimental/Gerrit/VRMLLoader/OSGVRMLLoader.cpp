@@ -122,7 +122,7 @@ void VRMLLoader::decIndent(void)
     _uiIndent -= 4;
 }
 
-void VRMLLoader::doIndent(ostream &outstream)
+void VRMLLoader::doIndent(std::ostream &outstream)
 {
 #ifdef DEBUG_WRL
     indentLog(_uiIndent, outstream);

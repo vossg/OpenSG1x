@@ -174,9 +174,9 @@ class OSG_VRML_DLLMAPPING VRMLLoader :
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static void incIndent(void              );
-    static void decIndent(void              );
-    static void doIndent (ostream &outstream);
+    static void incIndent(void                   );
+    static void decIndent(void                   );
+    static void doIndent (std::ostream &outstream);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
