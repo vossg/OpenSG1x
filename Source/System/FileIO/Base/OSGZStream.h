@@ -47,6 +47,7 @@ Altered by: Andreas Zieringer 2003
 #include <iostream>
 #include <algorithm>
 
+OSG_BEGIN_NAMESPACE
 //! Helper function to check whether stream is compressed or not.
 inline bool isGZip(std::istream &is)
 {
@@ -71,6 +72,7 @@ inline bool isGZip(std::istream &is)
     is.putback(c1);
     return true;
 }
+OSG_END_NAMESPACE
 
 #ifdef OSG_ZSTREAM_SUPPORTED
 

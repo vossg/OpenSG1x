@@ -4890,7 +4890,7 @@ void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
         SceneFileHandler::the().getPathHandler()->push_backPath(path.c_str());
         ImageFileHandler::the().getPathHandler()->push_backPath(path.c_str());
 
-        if(SceneFileHandler::the().isGZip(in))
+        if(OSG::isGZip(in))
         {
 #ifdef OSG_ZSTREAM_SUPPORTED
             zip_istream unzipper(in);
