@@ -9,7 +9,7 @@ int main( int argc, char ** argv )
     QApplication a(argc, argv);
     OSGMainView *w;
 
-    osg::osgInit(argc,argv);
+    OSG::osgInit(argc,argv);
 
     w = new OSGMainView;
 
@@ -21,5 +21,9 @@ int main( int argc, char ** argv )
     w->show();
     
     a.connect( &a, SIGNAL( lastWindowClosed() ), &a, SLOT( quit() ) );
-    return a.exec();
+    int result = a.exec();
+    
+    OSG::osgExit();
+    
+    return result;
 }
