@@ -9,7 +9,7 @@
 #include <fstream.h>
 #endif
 
-#include "OSGImageFileHandler.cpp"
+#include "OSGImageFileHandler.h"
 #include "OSGImage.h"
 
 using osg::Image;
@@ -18,7 +18,7 @@ int main (int argc, char **argv)
 {
 	Image image, image2;
 	
-	ImageFileHandler::the().print();
+	OSG::ImageFileHandler::the().print();
 
 	image.set ( Image::OSG_RGB_PF, 256, 256 );
 
