@@ -1923,7 +1923,7 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
 
 //Dummy edge handler: Switches off the creation of triangle strips
 //and fans
-void gluTessEdgeFlagCB(GLboolean flag)
+void gluTessEdgeFlagCB(GLboolean /*flag*/)
 {
   //empty 
   FDEBUG(("gluEdgeVertexCB called\n"));
@@ -2054,20 +2054,20 @@ void OSG::createConvexPrimitives(GeometryPtr geoPtr)
   }
 
   // convert function pointers to the type expected by the GLU Tesselator
-  _GLUfuncptr gluTessBeginDataCBPtr = 
-    reinterpret_cast<_GLUfuncptr>(gluTessBeginDataCB);
+  OSGGLUfuncptr gluTessBeginDataCBPtr = 
+    reinterpret_cast<OSGGLUfuncptr>(gluTessBeginDataCB);
 
-  _GLUfuncptr gluTessEdgeFlagCBPtr = 
-    reinterpret_cast<_GLUfuncptr>(gluTessEdgeFlagCB);
+  OSGGLUfuncptr gluTessEdgeFlagCBPtr = 
+    reinterpret_cast<OSGGLUfuncptr>(gluTessEdgeFlagCB);
 
-  _GLUfuncptr gluTessVertexDataCBPtr = 
-    reinterpret_cast<_GLUfuncptr>(gluTessVertexDataCB);
+  OSGGLUfuncptr gluTessVertexDataCBPtr = 
+    reinterpret_cast<OSGGLUfuncptr>(gluTessVertexDataCB);
 
-  _GLUfuncptr gluTessEndCBPtr = 
-    reinterpret_cast<_GLUfuncptr>(gluTessEndCB);
+  OSGGLUfuncptr gluTessEndCBPtr = 
+    reinterpret_cast<OSGGLUfuncptr>(gluTessEndCB);
 
-  _GLUfuncptr gluTessErrorCBPtr = 
-    reinterpret_cast<_GLUfuncptr>(gluTessErrorCB);
+  OSGGLUfuncptr gluTessErrorCBPtr = 
+    reinterpret_cast<OSGGLUfuncptr>(gluTessErrorCB);
 
   // create and setup a new GLU Tesselator
   FDEBUG(("gluNewTess()\n"));
