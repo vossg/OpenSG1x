@@ -1,7 +1,7 @@
 
 #include "OSGConfig.h"
 
-#define __EXTENSIONS__
+#define __EXTENSIONS__	// ??? what's this ???
 #include <stdlib.h>
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
@@ -20,6 +20,7 @@
 using OSG::osgLogP;
 using OSG::osgLog;
 using OSG::initLog;
+using OSG::endLog;
 
 int main (int argc, char **argv)
 {
