@@ -546,7 +546,7 @@ void SHLChunk::updateParameters(Window *win,
     if(program == 0)
         return;
 
-    checkOSGParameters(win, program);
+    checkOSGParameters();
 
     if(parameters.empty())
         return;
@@ -941,7 +941,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.25 2004/09/09 15:04:04 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.26 2004/09/09 17:56:15 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
