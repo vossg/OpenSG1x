@@ -57,7 +57,7 @@ class Exception;
 OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream &os,
                                               const Exception    &obj);
 
-class OSG_BASE_DLLMAPPING Exception : public exception
+class OSG_BASE_DLLMAPPING Exception : public OSG_EX_NAMESPACE::exception
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -94,7 +94,7 @@ class OSG_BASE_DLLMAPPING Exception : public exception
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    typedef exception Inherited;
+    typedef OSG_EX_NAMESPACE::exception Inherited;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Specific                            */

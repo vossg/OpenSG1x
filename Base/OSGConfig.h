@@ -68,6 +68,7 @@
 #error Endian determination : could not guess your plattform
 #endif
 
+
 /*-------------------------------------------------------------------------*/
 /*                              icc general                                */
 
@@ -244,6 +245,8 @@ namespace __gnu_cxx {} using namespace __gnu_cxx;
 
 # define OSG_FOUND_OS 
 
+# define OSG_EX_NAMESPACE std
+
 # endif // defined(__sgi) && !defined(__GNUC__)
 
 
@@ -314,6 +317,8 @@ namespace __gnu_cxx {} using namespace __gnu_cxx;
 # define OSG_LINUX_ICC
 
 # define OSG_FOUND_OS
+
+# define OSG_EX_NAMESPACE std
 
 # endif // defined(__INTEL_COMPILER) && defined(__linux)
 
@@ -662,5 +667,13 @@ namespace __gnu_cxx {} using namespace __gnu_cxx;
 
 //#define OSG_DBG_MEM
 //#define OSG_DBG_LCK
+
+// ToBeChecked Defaults
+
+#if !defined(OSG_EX_NAMESPACE)
+
+#    define OSG_EX_NAMESPACE
+
+#endif
 
 #endif /* _OSGCONFIG_H_ */
