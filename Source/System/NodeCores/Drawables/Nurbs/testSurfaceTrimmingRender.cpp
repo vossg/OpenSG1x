@@ -24,8 +24,8 @@ void display(void)
     
     mgr->redraw();
 
-    // all done, swap    
-    glutSwapBuffers();
+    // all done, swap  (better not GV)
+    //glutSwapBuffers();
 }
 
 // react to size changes
