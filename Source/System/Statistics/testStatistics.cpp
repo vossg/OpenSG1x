@@ -27,7 +27,10 @@ int main (int argc, char **argv)
     collector.getElem(barDesc)->set(2.0);
     collector.getElem(bazDesc)->set("HUGO");
 
+#ifndef WIN32
     sleep(2);
+#endif
+
     collector.getElem(fpsDesc)->stop();
     
     std::cerr << "Time real: " << elem->getValue() << std::endl;
