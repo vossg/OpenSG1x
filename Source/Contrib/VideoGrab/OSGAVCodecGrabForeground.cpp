@@ -52,7 +52,7 @@
 
 
 #include "OSGAVCodecGrabForeground.h"
-#include "OSGAV.h"
+#include "OSGAVCodec.h"
 
 OSG_USING_NAMESPACE
 
