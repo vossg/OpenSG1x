@@ -55,70 +55,6 @@
 
 OSG_USING_NAMESPACE
 
-/********************************************************
- *   Types
-\********************************************************/
-
-
-/********************************************************
- *	  Classvariables
-\********************************************************/
-
-
-
-
-/********************************************************
- *	  Class methodes
-\********************************************************/
-
-
-/********************************************************
-*instance methodes 
-\*********************************************************/
-
-
-/********************************************************
-*public
-\********************************************************/
-
-
-/********************************************************
-*protected
-\*********************************************************/
-
-
-/*********************************************************
-*private	
-\**********************************************************/
-
-
-/*********************************************************
-*public
-\**********************************************************/
-
-
-/**constructors & destructors**/
-
-
-//--------------------------------------------------------
-// Function name: SceneFileType
-//--------------------------------------------------------
-//
-//Parameters:
-//p: void
-//GlobalVars:
-//g: 
-//Returns:
-//r:
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: Default Constructor
-//SeeAlso:
-//s:
-//
 //---------------------------------------------------------
 SceneFileType::SceneFileType ( const char * suffixArray[], 
 																		 UInt16 suffixByteCount )
@@ -135,25 +71,6 @@ SceneFileType::SceneFileType ( const char * suffixArray[],
 	SceneFileHandler::addSceneFileType(*this);
 }
 
-//--------------------------------------------------------
-// Function name: SceneFileType
-//--------------------------------------------------------
-//
-//Parameters:
-//p: const SceneFileType &obj
-//GlobalVars:
-//g: 
-//Returns:
-//r:
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: Copy Constructor
-//SeeAlso:
-//s:
-//
 //---------------------------------------------------------
 SceneFileType::SceneFileType (const SceneFileType &obj )
 	: _suffixList(obj._suffixList)
@@ -161,51 +78,12 @@ SceneFileType::SceneFileType (const SceneFileType &obj )
 	SWARNING << "In SceneFileType copy constructor" << endl;
 }
 
-//--------------------------------------------------------
-// Function name: ~SceneFileType
-//--------------------------------------------------------
-//
-//Parameters:
-//p: void
-//GlobalVars:
-//g: 
-//Returns:
-//r:
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: Destructor
-//SeeAlso:
-//s:
-//
 //---------------------------------------------------------
 SceneFileType::~SceneFileType (void )
 {
 	return;
 }
 
-
-//--------------------------------------------------------
-// Function name: print
-//--------------------------------------------------------
-//
-//Parameters:
-//p: void
-//GlobalVars:
-//g: 
-//Returns:
-//r:
-// Caution
-//c: 
-//Assumations:
-//a: 
-//Describtions:
-//d: Destructor
-//SeeAlso:
-//s:
-//
 //---------------------------------------------------------
 void SceneFileType::print(void)
 {
@@ -222,25 +100,17 @@ void SceneFileType::print(void)
 	osgLog() << endl;
 }
 
+//---------------------------------------------------------
+vector<FieldContainerPtr> SceneFileType::readTopNodes( const Char8 *fileName,
+                                                       UInt32 uiOpts) const 
+{
+  FieldContainerPtr fcPtr = read(fileName,uiOpts);
+  vector<FieldContainerPtr> fcVec;
 
+  FDEBUG (("Running generic SceneFileType::readTopNodes()\n"));
 
-/*----------------------access----------------------------*/
+  if (fcPtr != osg::NullFC)
+    fcVec.push_back(fcPtr);
 
-/*----------------------properies-------------------------*/
-
-/*----------------------your Category---------------------*/
-
-/*----------------------Operators-------------------------*/
-
-
-
-/**********************************************************
-*protected	
-\**********************************************************/
-
-
-/*********************************************************
-*private
-\***********************************************************/
-
-
+  return fcVec;
+}

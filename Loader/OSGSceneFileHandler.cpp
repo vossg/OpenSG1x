@@ -225,11 +225,11 @@ NodePtr SceneFileHandler::read(const char *fileName,  UInt32 uiOptions)
 //s:
 //
 //------------------------------
-vector<NodePtr> SceneFileHandler::readTopNodes(const char *fileName,
+vector<FieldContainerPtr> SceneFileHandler::readTopNodes(const char *fileName,
 													 UInt32 uiOptions)
 {
 	SceneFileType *type = getFileType(fileName);
-	vector<NodePtr> nodeVec;
+	vector<FieldContainerPtr> nodeVec;
 	
 	if(! fileName)
 	{

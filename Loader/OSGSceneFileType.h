@@ -87,9 +87,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
     /*! \name                   Read                                       */
     /*! \{                                                                 */
     virtual NodePtr 		read		(const  Char8 *fileName,
-			 									UInt32  uiOptions	) const = 0;
-	virtual vector<NodePtr> readTopNodes(const Char8 *fileName,
-											   UInt32 uiOptions		) const = 0;
+                                 UInt32  uiOptions	) const = 0;
+
+    virtual vector<FieldContainerPtr> readTopNodes(const Char8 *fileName,
+                                                   UInt32 uiOptions ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
