@@ -8,21 +8,31 @@ OSG_USING_NAMESPACE;
 \page NodeCores Node Cores
 \latexonly Starter:NewChapter \endlatexonly
 
+Chapter Overview
+<HR>
+    \ref TutorialNodeCoresTransform<br>
+    \ref TutorialNodeCoresTransformComponentTransform<br>
+    \ref TutorialNodeCoresMaterial<br>
+    \ref TutorialNodeCoresSwitch<br>
+    \ref TutorialNodeCoresLOD<br>
+    \ref TutorialNodeCoresTutorial<br>
+<HR>
+
 In this chapter you will learn how to use the most important cores. The transform and material core are discussed in more detail and additionally
-I will introduce Switch, LOD and the component transform core as well. At the end of the chapter there will be our first bigger tutorial, where
+I will introduce the Switch, LOD and component transform cores as well. At the end of the chapter there will be our first bigger tutorial, where
 we will use all the cores introduced here.
 
-The geometry core is of course one of the most important cores of all of them, but because of it's importance, the geometry core is not introduced
-here, but in the next chapter which is about geometry only!
+The geometry core is for sure the most important one, but due to its complexity ad importance the whole next Chapter (\ref Geometry) is
+dedicated to this core alone!
 
 \section TutorialNodeCoresTransform Transform Core
 
 The transform core was already briefly introduced in the last Chapter (\ref TutorialBasicCoresTransform), but now we will have a more deeper
 look at it. However, about the transform class itself is not much left to say, as the most important method is the "setMatrix()" method, which let us
-use any matrix as a transformation matrix. In order to create the transformation that you want, you need only to create the apropiate matrix. 
+use any matrix as a transformation matrix. In order to create the transformation that you want, you need only to create the appropiate matrix. 
 
 Let us imagine a more complex scene using more than just one transformation like we did before. A very common example is the model of a solor 
-system. To make it a bit easier, we only want a sun and one planet with one moon. The sun should be stationary and the planet is orbiting in a 
+system. To make it a bit easier, we only want a sun and one planet with a single moon. The sun should be stationary and the planet is orbiting in a 
 circle around the sun whereas the moon is doing the same around the planet. We also don't want to pay any attention to real sizes and distances. 
 There is not only one way to solve this problem. We will have a closer look at two variants: One possibility is to have a deep graph, where the 
 planet is attached to the sun whereas the moon is attached to the planet with each having a transformation describing the rotation around their 
@@ -776,7 +786,131 @@ Just add the code somewhere after we have defined the GeometryPtr geo
 Now it is time to demonstrate the usage of the component transform core. We will a rotation, scalation and a tranlation at once and you will
 see how easily these can be modified using a component transform core.
 
-[TODO: continue]
+Fist create a new global variable
+<PRE>
+    ComponentTransformPtr ct;
+</PRE>
+
+Now add the following code directly before the root node is created in createScenegraph():
+
+\code
+// component transform ************************************
+    NodePtr ctNode = Node::create();
+    
+    //this one is declared globally
+    ct = ComponentTransform::create();
+    beginEditCP(ct, ComponentTransform::TranslationFieldMask |
+                    ComponentTransform::ScaleFieldMask |
+                    ComponentTransform::RotationFieldMask);
+    
+        ct->setTranslate(Vec3f(0,0,200));
+        ct->setScale(Vec3f(1,1,1));
+        ct->setRotation(Quaternion(Vec3f(0,1,0),0));
+        
+    endEditCP(ct,   ComponentTransform::TranslationFieldMask |
+                    ComponentTransform::ScaleFieldMask |
+                    ComponentTransform::RotationFieldMask);
+    
+    beginEditCP(ctNode);
+        ctNode->setCore(ct);
+        ctNode->addChild(woman);
+    endEditCP(ctNode);
+    // end component transform ********************************
+\endcode
+
+We now need to integrate our new component transform into our scenegraph. As this one will replace the old translation you can delete the code
+that creates the "normal" translation node. The application will still work if you leave it as it is, but this will result in useless code in your
+program (We all know this problem, don't we...). 
+
+For this to compile succesfully you need to add one more inlcude file
+<PRE>
+    #inlcude <OpenSG/OSGComponentTransform.h>
+</PRE>
+
+One thing still to do: change the child of the root node from the old transform node to the new one:
+<PRE>
+    root->addChild(ctNode);
+</PRE>
+
+After executing you will see that nothing visible has changed at all. Of course not, as the new component transform describes the same 
+transformation as the one before. Well, to make it a bit more exciting we are going to modify the transformation every frame, which will 
+show the advantages of the component transform.
+
+We are gooing to let the user decide which kind of transformation will be applied. If he presses 's' a scalation will be applied, 't' is a 
+translation whereas 'r' yields a rotation.
+
+First we need two more global variables that will count the rendered frames so far and keeps track of the selected translation mode.
+<PRE>
+    UInt32 frame = 0;
+    // 0 = translation
+    // 1 = rotation
+    // 2 = scalation
+    UInt8 mode = 0;
+</PRE>
+
+Add a new callback functions to the registration in setupGLUT
+<PRE>
+    glutKeyboardFunc(keyboard);
+</PRE>
+
+And now add the keyboard function anywhere before the setupGLUT function
+
+\code
+void keyboard(unsigned char k, int x, int y){
+    switch (k){
+        case 't' : mode = 0; break;
+        case 'r' : mode = 1; break;
+        case 's' : mode = 2; break;
+    }
+}
+\endcode
+
+Finally exchange the display function with this code:
+
+\code
+void display(void)
+{
+    frame++;
+    Real32 time = glutGet(GLUT_ELAPSED_TIME);
+    
+    beginEditCP(ct, ComponentTransform::TranslationFieldMask |
+                    ComponentTransform::ScaleFieldMask |
+                    ComponentTransform::RotationFieldMask);
+    
+        switch (mode){
+            case 0 :
+                ct->setTranslation(Vec3f(0,cos(time/2000.f)*100,200));
+                break;
+            case 1 :
+                ct->setRotation(Quaternion(Vec3f(0,1,0), time/2000));
+                break;
+            case 2 :
+                ct->setScale(Vec3f(cos(time/2000), sin(time/2000), tan(time/2000)));
+                break;
+            }
+        
+    endEditCP(ct,   ComponentTransform::TranslationFieldMask |
+                    ComponentTransform::ScaleFieldMask |
+                    ComponentTransform::RotationFieldMask);    
+    
+    mgr->redraw();
+}   
+\endcode
+The final code can be found in file 08coresdemo3.cpp
+
+<I>
+You should really try the 's' key for scalation... nice isn't it. These strange effects occur, beacause we are using trigonometric functions which
+will return zero periodically resulting in a reduction onto a plane if used for scalation. Actually if the argument (time/2000) becomes a multiple
+of pi we have the scalation Vector (1,0,0) where the object is scaled down to a single line.
+</I>
+
+You see, that it is very easy and comfortable to edit parts of a transformation this way. If you would have used a standard transform core you
+would have run into big trouble or you would have to store all three transformation parts seperatly and construct the final matrix every frame
+by hand.
+
 
 [TODO: Exercises: Copy the eyes for the last tutorial....]
+[TODO: Exercises: 08nodecores3 performance question; switchblock in display...]
+
+Next Chapter: \ref Geometry
 */

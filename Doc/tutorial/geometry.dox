@@ -1,0 +1,30 @@
+#include <OpenSG/OSGConfig.h>
+
+OSG_USING_NAMESPACE;
+
+/*! 
+\page Geometry Geometry
+\latexonly Starter:NewChapter \endlatexonly
+
+Chapter Overview
+<HR>
+    \ref GeometryBackground
+<HR>
+
+Geometry is actually a usual core like the others from the last chapter too. However, the geometry core is of course the most important one and there
+are some more things you should know about. That is why a whole chapter is dedicated to the geometry core.
+
+\section GeometryBackground Background
+
+Before we start generating geometry like crazy, we need to know something about the background. In the very beginning the implementation might
+look a bit uncomfortable, but please keep in mind that the geometry class was designed to provide a maximum of flexibility while still beeing
+most performant. 
+
+\subsection GeometryBackgroundProperties Properties
+
+All data describing the geometry is stored in seperate arrays. Positions, Colors, Normals as well as Texture Coordinates are stored in their
+own osg::MField. OpenGL is capable of processing different formats of data, because some perform better under certain circumstances. OpenSG features
+all the same different data formats by providing a lot of different classes which are luckily very similar to use and are all derived from
+osg::GeoProperty. Prominent examples for geometry properties are osg::GeoPosition3f or osg::GeoNormal3f. There are a lot of other datatypes, of
+course, just have a look at the osg::GeoProperty description page. 
+*/
