@@ -138,10 +138,12 @@ AC_DEFUN(AC_GDZ_FIND_STUDIONET_DIR,
 
     for drive in c d e f g; do
      for progdir in "Program Files" "Programme"; do
-      if test -d "/cygdrive/$drive/$progdir/Microsoft Visual Studio.NET"; then
-       ac_gdz_find_prog_dir_result="/cygdrive/$drive/$progdir/Microsoft Visual Studio.NET"
-       break 2
-      fi
+      for vsnet in "Microsoft Visual Studio.NET" "Microsoft Visual Studio .NET"; do
+       if test -d "/cygdrive/$drive/$progdir/$vsnet/"; then
+        ac_gdz_find_prog_dir_result="/cygdrive/$drive/$progdir/$vsnet"
+        break 2
+       fi
+      done
      done
     done
 ])
@@ -246,7 +248,9 @@ AC_DEFUN(AC_GDZ_SETUP_MSVCNET,
 
         for drive in c d e f g; do
             for progdir in "Program Files" "Programme"; do
-                echo "    /cygdrive/$drive/$progdir/Microsoft Visual Studio.NET"
+                for vsnet in "Microsoft Visual Studio.NET" "Microsoft Visual Studio .NET"; do
+                    echo "    /cygdrive/$drive/$progdir/$vsnet"
+                done
             done
         done
 
