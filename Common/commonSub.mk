@@ -15,6 +15,7 @@ MAKECMDGOAL  := $(filter-out $(INTERNALTARGETS),$(MAKECMDGOALS))
 getBisonSources  = $(wildcard *.y)
 getFlexSources   = $(wildcard *.l)
 getQTSources     = $(wildcard OSG*_qt.cpp)
+#getTestQTSources = $(wildcard test*_qt.cpp)
 
 createMocSources = $(subst _qt,_qt_moc,$(1))
 
