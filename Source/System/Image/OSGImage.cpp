@@ -381,6 +381,8 @@ bool Image::addValue(const char *value)
             case OSG_UINT8_IMAGEDATA:
                 switch(pixelDepth)
                 {
+										case 0:
+												pf = osg::Image::OSG_INVALID_PF;
                     case 1:
                         pf = osg::Image::OSG_L_PF;
                         break;
@@ -402,6 +404,8 @@ bool Image::addValue(const char *value)
             case OSG_UINT16_IMAGEDATA:
                 switch(pixelDepth)
                 {
+										case 0:
+												pf = osg::Image::OSG_INVALID_PF;
                     case 2:
                         pf = osg::Image::OSG_L_PF;
                         break;
@@ -423,6 +427,8 @@ bool Image::addValue(const char *value)
             case OSG_UINT32_IMAGEDATA:
                 switch(pixelDepth)
                 {
+										case 0:
+												pf = osg::Image::OSG_INVALID_PF;
                     case 4:
                         pf = osg::Image::OSG_L_PF;
                         break;
@@ -444,6 +450,8 @@ bool Image::addValue(const char *value)
             case OSG_FLOAT32_IMAGEDATA:
                 switch(pixelDepth)
                 {
+										case 0:
+												pf = osg::Image::OSG_INVALID_PF;
                     case 4:
                         pf = osg::Image::OSG_L_PF;
                         break;
