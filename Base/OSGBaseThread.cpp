@@ -755,7 +755,7 @@ void BaseWinThreadBase::setExternalHandle(Handle pExternalHandle)
 void BaseWinThreadBase::setupThread(void)
 {
 #if defined (OSG_ASPECT_USE_LOCALSTORAGE)
-	BaseThread **pThread = new Thread *;
+	BaseThread **pThread = new BaseThread *;
 
 	*pThread = (BaseThread *) this;
 
@@ -948,7 +948,7 @@ void BaseThread::initThreading(void)
 	BaseThread::_threadKey     = TlsAlloc();
 
 	FFASSERT((BaseThread::_threadKey != 0xFFFFFFFF), 1, 
-             ("Failed to alloc thread key local storage\n"))
+             ("Failed to alloc thread key local storage\n");)
 #endif
 }
 
