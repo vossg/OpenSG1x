@@ -42,6 +42,9 @@ int main( int argc, char **argv )
 			break;
 		}
 	}
+	
+	if ( optind < argc )
+		fcdFile = argv[ optind ];
 		
 	if (typeFile.empty())
 		Field::loadDefaultFieldTypeList();
