@@ -1,7 +1,7 @@
 
 INCLUDE_STL := 
 LINK_STL    := 
-LIB_STL     := -lCio
+LIB_STL     := 
 
 ifneq ($(INCLUDE_STL),)
 INCL_$(OS_BASE) := $(INC_OPTION)$(INCLUDE_STL) $(INCL_$(OS_BASE))

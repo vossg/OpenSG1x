@@ -113,10 +113,12 @@ LIB_ABSSOURCEDIRS  := $(strip $(subst :, ,$(subst .:,,$(VPATH))))
 LIB_SYSMDSOURCES   := $(call getSysMDSourceFiles,$(LIB_ABSSOURCEDIRS))
 
 LIB_ALLMDSOURCES   := $(call getProjAllMDSourceFiles,$(LIB_ABSSOURCEDIRS))
+
 LIB_RMMDSOURCES    := $(filter-out $(LIB_SYSMDSOURCES),$(LIB_ALLMDSOURCES))
 LIB_RMMDSOURCES    := $(notdir $(LIB_RMMDSOURCES))
 
 LIB_SOURCES        := $(call getProjSourceFiles,$(LIB_ABSSOURCEDIRS))
+
 LIB_SOURCES        := $(notdir $(LIB_SOURCES))
 LIB_SOURCES        := $(filter-out $(LIB_RMMDSOURCES),$(LIB_SOURCES))
 

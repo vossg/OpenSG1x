@@ -140,6 +140,10 @@ AC_DEFUN(AC_GDZ_GUESS_COMPILER_DIR_AND_EXE,
         ac_gdz_compiler_exe=$ac_gdz_compiler
         ac_gdz_compiler_path=/usr/bin
         ;;
+        *-pc-linux-gnu)
+        ac_gdz_compiler_exe=$ac_gdz_compiler
+        ac_gdz_compiler_path=/usr/bin
+        ;;
        cygwin*)
 
         case "$ac_gdz_compiler" in
