@@ -579,7 +579,7 @@ void GroupMCastConnection::initialize()
         if((index % ackNum) == 0)
         {
             _waitFor.push_back(_receiver[index]);
-            numSource = osgMin( ackNum-1,_sockets.size()-index-1 );
+            numSource = osgMin( ackNum-1, (UInt32) _sockets.size()-index-1 );
             message.putUInt32(numSource);
             for(UInt32 r = index+1 ; r < index+1+numSource ; ++r)
             {
