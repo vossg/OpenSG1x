@@ -391,7 +391,7 @@ bool DATImageFileType::write(const ImagePtr &image,
     }
 
     std::string basename = fileName;
-    int i = basename.rfind(".");
+    std::string::size_type i = basename.rfind(".");
     if(i != std::string::npos)
         basename = basename.substr(0, i);
     basename += ".raw";
