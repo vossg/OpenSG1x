@@ -294,7 +294,11 @@ Action::ResultE Billboard::renderEnter(Action *action)
 {
     RenderAction *pAction = dynamic_cast<RenderAction *>(action);
 
-//    pAction->push_matrix(this->getMatrix());
+    Matrix mMat;
+
+    calcMatrix(pAction, mMat);
+
+    pAction->push_matrix(mMat);
 
     pAction->selectVisibles();
 
