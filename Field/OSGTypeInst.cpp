@@ -143,6 +143,9 @@ OSG_BEGIN_NAMESPACE
 #pragma instantiate MField<Matrix    >::_fieldType
 #pragma instantiate MField<Quaternion>::_fieldType
 
+#pragma instantiate SField<Plane>::_fieldType
+#pragma instantiate MField<Plane>::_fieldType
+
 #else
 
 OSG_DLLEXPORT_DEF2(SField, Bool  , 2, OSG_SYSTEMLIB_DLLTMPLMAPPING)
