@@ -227,13 +227,13 @@ void TexGenChunk::deactivate(DrawActionBase *action, UInt32 idx)
     if(getGenFuncS() != GL_NONE)
         glDisable(GL_TEXTURE_GEN_S);
 
-    if(getGenFuncS() != GL_NONE)
+    if(getGenFuncT() != GL_NONE)
         glDisable(GL_TEXTURE_GEN_T);
 
-    if(getGenFuncS() != GL_NONE)
+    if(getGenFuncR() != GL_NONE)
         glDisable(GL_TEXTURE_GEN_R);
 
-    if(getGenFuncS() != GL_NONE)
+    if(getGenFuncQ() != GL_NONE)
         glDisable(GL_TEXTURE_GEN_Q);
 
     glErr("TexGenChunk::deactivate");
