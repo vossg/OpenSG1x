@@ -52,7 +52,7 @@
 
 #define OSG_COMPILEGEOMETRY
 
-#include <OSGGeometryBase.h>
+#include <OSGGeometryDef.h>
 
 #include <OSGLog.h>
 
@@ -73,7 +73,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.2 2001/02/15 10:09:42 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.3 2001/04/15 02:01:14 dirk Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -91,7 +91,7 @@ use the vertex and renormalizing.
 */
 
 OSG_GEOMETRY_DLLMAPPING
-void osg::calcVertexNormals( GeometryPtr& geo )
+void osg::calcVertexNormals( GeometryPtr geo )
 {
 	GeoNormalPtr norms;
     int          i;

@@ -48,7 +48,7 @@
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
 #include <OSGNode.h>
-#include <OSGGeometryBase.h>
+#include <OSGGeometryDef.h>
 
 
 OSG_BEGIN_NAMESPACE
@@ -61,7 +61,7 @@ OSG_BEGIN_NAMESPACE
 /*! \brief calculate vertex normals for the geometry
  *  \ingroup Geometry
  */
-OSG_GEOMETRY_DLLMAPPING void calcVertexNormals( GeometryPtr& geo );
+OSG_GEOMETRY_DLLMAPPING void calcVertexNormals( GeometryPtr geo );
 
 
 OSG_END_NAMESPACE
