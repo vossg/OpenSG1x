@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="GraphicStatisticsForeground"
+	parent="Foreground"
+	library="System"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+Background is the base class for all background clearing.
+	<Field
+		name="elementIDs"
+		type="Int32"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	The StatElemDesc IDs to use. If not set, use all in the descriptor.
+	</Field>
+	<Field
+		name="collector"
+		type="StatCollector"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="displayType"
+		type="UInt32"
+		cardinality="multi"
+		visibility="external"
+		access="protected"
+	>
+	type[i] sets the graphical representation of this statistics data
+	</Field>
+	<Field
+		name="size"
+		type="Vec2f"
+		cardinality="multi"
+		visibility="external"
+		access="protected"
+	>
+	size of this StatisticsElement
+	</Field>
+	<Field
+		name="pos"
+		type="Vec2f"
+		cardinality="multi"
+		visibility="external"
+		access="protected"
+	>
+	Position at which this StatisticsElement should be drawn
+	</Field>
+	<Field
+		name="colorMax"
+		type="Color4f"
+		cardinality="multi"
+		visibility="external"
+		access="protected"
+	>
+	max color of this StatisticsElement
+	</Field>
+	<Field
+		name="colorMin"
+		type="Color4f"
+		cardinality="multi"
+		visibility="external"
+		access="protected"
+	>
+	color2[i] is the second color of this StatisticsElement
+	</Field>
+	<Field
+		name="colorCurrent"
+		type="Color4f"
+		cardinality="multi"
+		visibility="external"
+		access="protected"
+	>
+	color2[i] is the third color of this StatisticsElement
+	</Field>
+	<Field
+		name="minValue"
+		type="Real32"
+		cardinality="multi"
+		visibility="external"
+		access="protected"
+	>
+	The minimum value to be displayed by the Statistic
+	</Field>
+	<Field
+		name="maxValue"
+		type="Real32"
+		cardinality="multi"
+		visibility="external"
+		access="protected"
+	>
+	The maximum value to be displayed by the Statistic
+	</Field>
+	<Field
+		name="flags"
+		type="UInt32"
+		cardinality="multi"
+		visibility="external"
+		defaultValue="0"
+		access="protected"
+	>
+	</Field>
+	<Field
+		name="description"
+		type="string"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	The description for every id
+	</Field>
+	<Field
+		name="lineWidth"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1.0"
+		access="public"
+	>
+	The default line width to be used by this foreground
+	</Field>
+	<Field
+		name="colorBackground"
+		type="Color3f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0.0,0.0,0.0"
+		access="public"
+	>
+	BackgroundColor of the statistics Display
+	</Field>
+	<Field
+		name="textEnabled"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	Set this to false to disable the text
+	</Field>
+	<Field
+		name="backgroundEnabled"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	Set this to "false" to disable the backround of all Graphs
+	</Field>
+	<Field
+		name="borderEnabled"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	Set this to false to disable the border around elements
+	</Field>
+</FieldContainer>
