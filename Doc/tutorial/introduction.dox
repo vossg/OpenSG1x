@@ -15,12 +15,12 @@ using namespace OSG;
 
 OpenSG is an open source real-time rendering system based on a scenegraph metaphor on top of OpenGL. So what is the
 difference compared to OpenGL? OpenGL is a state machine and that means it does not know anything 
-about the environment. OpenGL is only aware of the polygon jsut beeing calculated and drawn, it does 
+about the environment. OpenGL is only aware of the polygon just being calculated and drawn, it does 
 not know what was and what will come. Here comes the strength of a scenegraph system. OpenSG stores 
 the whole scene in a graph (know you get where the name is from) and thus can optimize the way data
 is passed to the graphics hardware. It is even possible (and extrem useful) to check if parts of
 the scene are not visible, like a desk behind a closed door. The rendering for these parts can be
-skipped completly resulting in a great increase of performance depending on the scene.
+skipped completely resulting in a great increase of performance depending on the scene.
 
 Of course OpenSG is not the only scenegraph based system. Applications like Performer, OpenInventor and
 Java3D, to name a few, are working in a similar way. As always every system has its own advantages
