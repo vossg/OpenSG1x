@@ -171,8 +171,7 @@ public:
   virtual void extendBy (const Volume &volume);   
 
   /// Extends Box3f (if necessary) to contain given Box3f
-  void extendBy(const BoxVolume &bb);
-
+  void extendBy ( const BoxVolume &bb);
 
 /*-------------------------- intersection ---------------------------------*/
 
@@ -184,7 +183,7 @@ public:
 
 	/** intersect the box with the given Line */
 	Bool intersect ( const Line &line, 
-		Real32 &min, Real32 &max  ) const;
+									 Real32 &min, Real32 &max  ) const;
 
   /// intersect the volume with another volume 
   virtual Bool intersect (const Volume &volume) const;

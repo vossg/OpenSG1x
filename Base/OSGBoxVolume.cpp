@@ -68,7 +68,10 @@
 
 
 // Class declarations
+#include "OSGCylinderVolume.h"
+#include "OSGSphereVolume.h"
 #include "OSGBoxVolume.h"
+#include "OSGDynamicVolume.h"
 
 OSG_USING_NAMESPACE
 
@@ -168,12 +171,23 @@ void BoxVolume::extendBy(const Pnt3f &pt)
 /** extend the volume by the given volume */
 void BoxVolume::extendBy (const Volume &volume)
 {
-	BoxVolume const *box = dynamic_cast<const BoxVolume *>(&volume);
+	const Volume *v = &volume;
+	const BoxVolume *box;
+	const SphereVolume *sphere;
+	const CylinderVolume *cylinder;
+	const DynamicVolume *dynamic = dynamic_cast<const DynamicVolume*>(v);
 
-	if (box)
-		extendBy(*box);
+	if (dynamic)
+		v = &(dynamic->getInstance());
+	
+	if (box = dynamic_cast<const BoxVolume*>(v))
+		this->extendBy(*v);
 	else
-		cerr << "BoxVolume::extendBy NOT IMPLEMENTED" << endl;
+		if (sphere = dynamic_cast<const SphereVolume*>(v))
+			; // code it !
+	  else
+			if (cylinder = dynamic_cast<const CylinderVolume*>(v))
+			  ; // code it !
 }
 	
 
@@ -183,7 +197,7 @@ void BoxVolume::extendBy(const BoxVolume &bb)
 	if ( (! isValid() && ! isEmpty()) || isInfinite() || isStatic() )
 		return;
 
-	if ( ! bb.isValid() || bb.isInfinite() )
+	if ( ! bb.isValid() )
 		return;
 	
 	if (isEmpty())
@@ -214,6 +228,9 @@ void BoxVolume::extendBy(const BoxVolume &bb)
 	
 	if (bb._max[2] > _max[2])
 		_max[2] = bb._max[2];
+
+	if (bb.isInfinite())
+		setInfinite(true);
 }
 
 
