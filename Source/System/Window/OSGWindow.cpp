@@ -51,7 +51,7 @@
 #include <GL/glx.h>
 #endif
 
-#if defined(__sgi) || defined(darwin) || defined(__hpux)
+#if defined(__sgi) || defined(darwin) || defined(__hpux) || defined(__linux)
 #include <dlfcn.h>
 #endif
 
@@ -1150,39 +1150,7 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
 {
     GLExtensionFunction retval = NULL;
 
-#if defined(GLX_VERSION_1_4)
-
-    retval = glXGetProcAddress((const GLubyte *) s);
-
-#elif defined(__hpux) || defined (__sgi) || defined(__sun)
-
-    static void *libHandle = NULL;
-
-    if(libHandle == NULL)
-    {
-        // HACK, but if we get here we link against libGL anyway
-        libHandle = dlopen(NULL, RTLD_NOW | RTLD_GLOBAL);
-        
-        if(!libHandle)
-        {
-            FWARNING(("Error in dlopen: %s\n",dlerror()));
-            abort();
-        }
-    }
-
-    retval = reinterpret_cast<GLExtensionFunction>(dlsym(libHandle, s));
-
-// UGLY HACK: SGI/NVidia header don't define GLX_ARB_get_proc_address,
-// but they use __GLX_glx_h__ instead of GLX_H as an include guard.
-// Grmbl. In the 40.x drivers the define is the standard now,
-// but they still don't define GLX_ARB_get_proc_address... Test for an 
-// NV-specific symbol instead...
-#elif defined(GLX_ARB_get_proc_address) || defined(__GLX_glx_h__) || \
-      defined(GLX_FLOAT_COMPONENTS_NV)
-
-    retval = glXGetProcAddressARB((const GLubyte *) s);
-
-#elif defined(darwin)
+#if defined(darwin)
 
     static void *libHandle = NULL;
 
@@ -1196,6 +1164,45 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
 #elif defined(WIN32)
 
     retval = (void(__cdecl*)(void)) wglGetProcAddress(s);
+    
+#elif defined(__sgi) || defined(darwin) || defined(__hpux) || defined(__linux)
+
+    /* Workaround for multiple nVidia/Linux installation bugs, based on code by */
+    /* Manfred Weiler (Patch 783637) */
+    
+    static void (*(*__GetProcAddress)(const GLubyte *))(void) = NULL; 
+
+    static void *libHandle = NULL; 
+
+    if(libHandle == NULL) 
+    { 
+        libHandle = dlopen(NULL, RTLD_NOW | RTLD_LOCAL); 
+
+        if(!libHandle) 
+        { 
+            FWARNING(("Error in dlopen: %s\n",dlerror())); 
+            abort(); 
+        } 
+    } 
+
+    if(__GetProcAddress == NULL) 
+    { 
+        __GetProcAddress = (void (*(*)(const GLubyte*))()) dlsym(libHandle, "glXGetProcAddress"); 
+
+        if(__GetProcAddress == NULL) 
+        { 
+            __GetProcAddress = (void (*(*)(const GLubyte*))()) dlsym(libHandle, "glXGetProcAddressARB"); 
+        } 
+    } 
+
+    if(__GetProcAddress != NULL) 
+    { 
+        retval = reinterpret_cast<GLExtensionFunction>(__GetProcAddress((const GLubyte*)s)); 
+    } 
+    else 
+    { 
+        retval = (GLExtensionFunction)(dlsym(libHandle, s)); 
+    } 
 
 #else
 
