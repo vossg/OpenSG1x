@@ -87,13 +87,13 @@ Plane::Plane(const Plane &obj)
 */
 Plane::Plane(const Pnt3f &p0, const Pnt3f &p1, const Pnt3f &p2)
 {
-    Vec3f vec1(p1 - p0), vec2(p2 - p0);
+    Vec3f vec2(p2 - p0);
 
-    vec1.crossThis(vec2);
-    _distance = vec1.dot(p0);
-
-    _normalVec.setValues(vec1[0], vec1[1], vec1[2]);
+    _normalVec=p1 - p0;
+    _normalVec.crossThis(vec2);
     _normalVec.normalize();
+    
+    _distance = _normalVec.dot(p0);
 }
 
 /**
