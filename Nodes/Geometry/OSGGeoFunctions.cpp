@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.32 2001/10/14 17:24:55 dirk Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.33 2001/10/14 20:50:42 dirk Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -537,7 +537,7 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
             
             Vec3f norm(0, 0, 0);
             
-            for(set< Vec3f, less<Vec3f> >::iterator it = normset.begin(); 
+            for(set< Vec3f, vecless<Vec3f> >::iterator it = normset.begin(); 
                 it != normset.end();
                 ++it)
             {
