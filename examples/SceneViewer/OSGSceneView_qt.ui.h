@@ -12,7 +12,7 @@
 class TreeViewItem : public QListViewItem {
 public:
 
-   osg::NodePtr _node;
+  osg::NodePtr _node;
 
   TreeViewItem (QListView *parent, osg::NodePtr node)
     : QListViewItem(parent), _node(node) {;}
@@ -240,7 +240,7 @@ void OSGSceneView::setActiveNodeFromListItem( QListViewItem *item )
 void OSGSceneView::createView( osg::NodePtr node )
 {
   osg::OSGQGLManagedWidget *widget;
-  unsigned maxViewNum = 1; // will be removed/increased
+  unsigned maxViewNum = 1; // TODO; will be removed/increased
 
   if ((viewList.size() < maxViewNum) && (node != osg::NullFC))
     {
@@ -251,8 +251,49 @@ void OSGSceneView::createView( osg::NodePtr node )
       widget->getManager().setRoot( node );
       widget->getManager().showAll();
       widget->show();
-    }
+    }  
+}
+
+//////////////////////////////////////////////////////////////////
+// updateAllViews: redraws all OpenSG views                     //
+//////////////////////////////////////////////////////////////////
+void OSGSceneView::updateAllViews(void)
+{
+  std::list<QWidget*>::iterator wI;
+  QGLWidget *w;
   
+  for (wI = viewList.begin(); wI != viewList.end(); ++wI)
+    if ((w = dynamic_cast<QGLWidget*>(*wI)))
+      w->updateGL();
+}
+
+//////////////////////////////////////////////////////////////////
+// deleteNode: deletes a subtree                                //
+//////////////////////////////////////////////////////////////////
+void OSGSceneView::deleteNode(osg::NodePtr node)
+{
+  TreeViewItem *item = dynamic_cast<TreeViewItem*>(activeTreeItem);
+
+  if (node != osg::NullFC)
+    if (node == rootNode)
+      {
+        while (node->getNChildren())
+          node->subChild(0);
+        rebuild();
+      }
+    else
+      {
+        node->getParent()->subChild(node);
+        if (item && (item->_node == node))
+          {
+            delete activeTreeItem;
+            activeTreeItem = 0;
+          }
+        else
+          rebuild();
+      }
+
+  updateAllViews();
 }
 
 //////////////////////////////////////////////////////////////////
@@ -274,7 +315,7 @@ void OSGSceneView::menuHandler( int id )
       createView(activeNode);
       break;
     case DELETE_MID:
-      // TODO; delete node;
+      deleteNode(activeNode);
       break;
     case INSERT_MID: 
       insertFromFile(activeNode);
@@ -291,6 +332,8 @@ void OSGSceneView::menuHandler( int id )
 void OSGSceneView::insertFromFile( osg::NodePtr parent )
 {
   osg::NodePtr node;
+  std::list<QWidget*>::iterator wI;
+  osg::OSGQGLManagedWidget *w;
   QListViewItem *parentItem;
   QString fName = QFileDialog::getOpenFileName ( QString::null,
                                                  filter,
@@ -303,9 +346,16 @@ void OSGSceneView::insertFromFile( osg::NodePtr parent )
       if (node != osg::NullFC) 
         {
           parent->addChild(node);
+          if ((parent == rootNode) && (rootNode->getNChildren() == 1))
+            {
+              for (wI = viewList.begin(); wI != viewList.end(); ++wI)
+                if ((w = dynamic_cast<osg::OSGQGLManagedWidget*>(*wI)))
+                  w->getManager().showAll();
+            }
           parentItem = (parent == rootNode) ? rootTreeItem : activeTreeItem;
           addListItem(node,parentItem);
         }
+      updateAllViews();
     }
 }
 
@@ -344,10 +394,11 @@ void OSGSceneView::rebuild()
   
   addListItem(rootNode,0); 
   setActiveNode(rootNode);
+  activeTreeItem = rootTreeItem;
 }
 
 //////////////////////////////////////////////////////////////////
-// remove the given view from the list                         //
+// remove the given view from the list                          //
 //////////////////////////////////////////////////////////////////
 void OSGSceneView::removeView( QWidget *object )
 {
