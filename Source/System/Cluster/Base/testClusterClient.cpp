@@ -296,7 +296,6 @@ void display(void)
     if(animate)
     {
         Real32 a;
-        UInt32 i;
         Vec3f v;
 
         printf("Frame %8.3f %8.5f %8.3f\n",
@@ -828,9 +827,9 @@ int main(int argc,char **argv)
     bool                     clientRendering=true;
     bool                     compose=false;
 
-    int                      subtilesize=32;
-    UInt32                   balanceType=0;
-    bool                     sortPipe=true;
+    //int                      subtilesize=32;
+    //UInt32                   balanceType=0;
+    //bool                     sortPipe=true;
     std::string              composerType="";
     ImageComposerPtr         composer=NullFC;
     
@@ -867,7 +866,7 @@ int main(int argc,char **argv)
                     break;
                 case 't':
                     opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
-                    subtilesize=atoi(opt);
+                    //subtilesize=atoi(opt);
                     break;
 #ifdef FRAMEINTERLEAVE
                 case 'i':
@@ -890,12 +889,14 @@ int main(int argc,char **argv)
                     int lpos=2;
                     while(argv[i][lpos])
                     {
+                        /*
                         if(argv[i][lpos] == 'v')
                             balanceType=1;
                         if(argv[i][lpos] == 'p')
                             balanceType=2;
                         if(argv[i][lpos] == 's')
                             sortPipe=true;
+                        */
                         if(argv[i][lpos] == 'B') 
                             composerType = "BinarySwapComposer";
                         if(argv[i][lpos] == 'P')
