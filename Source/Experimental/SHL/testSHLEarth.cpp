@@ -188,12 +188,14 @@ void display(void)
         t = glutGet(GLUT_ELAPSED_TIME);
 
     if(_animation)
+    {
         t2 = (2 * OSG::Pi / speed) * td;
 
-    beginEditCP(_shl, SHLChunk::ParametersFieldMask);
-        _shl->setUniformParameter("cos_time_0_2PI", osgcos(t2));
-        _shl->setUniformParameter("sin_time_0_2PI", osgsin(t2));
-    endEditCP(_shl, SHLChunk::ParametersFieldMask);
+        beginEditCP(_shl, SHLChunk::ParametersFieldMask);
+            _shl->setUniformParameter("cos_time_0_2PI", osgcos(t2));
+            _shl->setUniformParameter("sin_time_0_2PI", osgsin(t2));
+        endEditCP(_shl, SHLChunk::ParametersFieldMask);
+    }
 
     // render scene
     _mgr->redraw();
