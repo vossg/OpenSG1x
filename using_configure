@@ -1,0 +1,56 @@
+
+How to use configure is quite straight forward. But be warned it is still
+considered to be experimental.
+
+cd <..../OpenSG>
+ln -s Experimental/Common         Common.new
+ln -s Experimental/CommonPackages CommonPackages.new
+ln -s Experimental/CommonConf     CommonConf
+
+cd Experimental
+autoconf
+
+IRIX :
+
+./configure --with-compiler=CC --with-stl=<stl-dir>
+		    --with-qt=<qt-dir> --with-glut=<glut-dir>
+
+cd Builds/mips-sgi-irix6.5-CC
+gmake
+
+
+CYGWIN (ICL4.5, including patch P000223C, P000421C, p000512c, P000616C)
+       (ICL5.0)
+
+bash ./configure --with-compiler=icl45 --with-qt=<qtdir> --with-glut=<glut-dir>
+cd Build/i686-pc-cygwin-icl45
+make
+
+
+Linux (RH 7.0, including patch gcc/RHBA-2000-132, glibc/RHBA-2000-079) 
+
+./configure --with-compiler=g++ --with-glut --with-qt=<qtdir>
+cd Build/i686-pc-linux-g++
+make
+
+To make the system:
+
+cd Builds/<system>
+gmake
+(build BaseLib and SystemLib)
+you need to add BaseLib/lib-dbg and SystemLib/lib-dbg to your library path
+
+to make a test program
+cd SystemTest
+make testWindowGLUT
+./testWindowGLUT ../../../../Loader/dino.raw
+
+
+To make the VRML Loader test program you need to be in SystemTest and
+ln -s ../../../VRMLLoader/std.wrl .
+make testVRMLRender
+./testVRMLRender ../../../VRMLLoader/tie.wrl
+Used keys: a s z x c w ESC
+
+
+
