@@ -778,7 +778,8 @@ dsp7:
 			-e 's|@OSG_CONF_PACKS@|$(CONFIGURED_PACKAGE_DEFS)|g'		\
 			-e 's|@OSG_QT_DEFS@|$(QT_PLATTFORMDEF_EXT)|g'				\
 			-e 's|@OSG_INCL@|$(INCL_EXP_$(OS_BASE))|g'					\
-			-e 's|@OSG_LIB_EXT@|$(OSG_LIB_EXT)|g'						\
+			-e 's|@OSG_LIB_EXT@|$(OSG_LIB_EXT)|g'	|					\
+			perl -pi -e 's/\n/\r\n/;' 					\
 		> $(PACKAGE_NAME)Lib.dsp
 	@$(OSGPOOL)/$(OSGCOMMON)/createDSPSourcePart.pl $(DSP_PACKS) $(DSP_DEFS) >> $(PACKAGE_NAME)Lib.dsp
 	@rm -f $(DSP_PACKS)
