@@ -180,7 +180,7 @@ case $system in
         glut_dir="`pwd`/../supportlibs"
         glut_lib="glut32.dll"
         glut_args="--with-glut=$glut_dir"
-        qt_dir=${qt_dir:="`pwd`/../packages/qt-3.0"}
+        qt_dir=${qt_dir:="`pwd`/../packages/qt-3.12"}
         qt_lib=qt-mt312.dll
         qt_args="--with-qt=$qt_dir"
         tif_args=""
@@ -225,7 +225,7 @@ echo "System" $system
 echo "Dist" $distname
 
 # Add QT to PATH for moc and uic
-export PATH="${qt_dir}/bin:$PATH"
+export PATH="${qt_dir}/bin:${qt_dir}/lib:$PATH"     # The /lib is for cygwin
 export LD_LIBRARY_PATH="${qt_dir}/lib:$LD_LIBRARY_PATH"
 
 # configure it
@@ -473,7 +473,7 @@ case $system in
     then
         rm -rf OpenSG-$OSGVERSION-$distname-$compiler$suffix
 
-        echo "Removed OpenSG-$OSGVERSION-$distname-$compiler$suffixmt";
+        echo "Removed OpenSG-$OSGVERSION-$distname-$compiler$suffix";
     fi
     
     exit
