@@ -170,19 +170,19 @@ bool PNMImageFileType::read (Image &image, const char *fileName )
 	in.ignore(INT_MAX, '\n');
 	
 	
-	if (maxValue && (image.size())) {
+	if (maxValue && (image.getSize())) {
 		
 		SINFO << "read pnm file of type " << type << ", "
 					<< width << "x" << height << endl;
 
-		lineSize = width * image.bpp();
+		lineSize = width * image.getBpp();
 		if (type >= 4) { // image is binary
 			for (y = height - 1; y >= 0; y--) 
-				in.read((char *) &(image.data()[y * lineSize]), lineSize);
+				in.read((char *) &(image.getData()[y * lineSize]), lineSize);
 		}
 		else {           // image is ascii
 			for (y = height - 1; y >= 0; y--) {
-				line = image.data() + (y * lineSize);
+				line = image.getData() + (y * lineSize);
 				for (x = 0; x < lineSize; x++) {
 					in >> value;
 					*line++ = value;
@@ -191,8 +191,8 @@ bool PNMImageFileType::read (Image &image, const char *fileName )
 		}
 
 		if (maxValue == 1) 
-			for (i = 0; i < image.size(); i++) 
-				image.data()[i] = image.data()[i] * 255;
+			for (i = 0; i < image.getSize(); i++) 
+				image.getData()[i] = image.getData()[i] * 255;
 		
 	}
 
@@ -223,7 +223,7 @@ bool PNMImageFileType::write (const Image &image, const char *fileName )
 {	
 	Int16  p, y, x, lineSize;
 	ofstream  out(fileName);
-	UInt16 bpp = image.bpp();
+	UInt16 bpp = image.getBpp();
 	UInt8  *data = 0;
 
 	if (out.rdbuf()->is_open()) {
@@ -239,21 +239,21 @@ bool PNMImageFileType::write (const Image &image, const char *fileName )
 		}
 
 		out << "# PNMImageFileType write" << endl;
-		out << image.width() << " " << image.height() << endl;
+		out << image.getWidth() << " " << image.getHeight() << endl;
 		out << "255" << endl;
 
 		if (bpp & 1) {
 			// with alpha
-			lineSize = image.bpp() * image.width();		
-			for (y = image.height() - 1; y >= 0; y--) 
-				out.write((image.data() + (lineSize * y)), lineSize);
+			lineSize = image.getBpp() * image.getWidth();		
+			for (y = image.getHeight() - 1; y >= 0; y--) 
+				out.write( (char*) (image.getData() + (lineSize * y)), lineSize);
 		}
 		else {
 			// skip alpha
-			lineSize = image.bpp() * image.width();		
-			for (y = image.height() - 1; y >= 0; y--) {
-				data = (UInt8*)(image.data() + (lineSize * y));
-				for ( x = 0; x < image.width(); x++) {
+			lineSize = image.getBpp() * image.getWidth();		
+			for (y = image.getHeight() - 1; y >= 0; y--) {
+				data = (UInt8*)(image.getData() + (lineSize * y));
+				for ( x = 0; x < image.getWidth(); x++) {
 					for (p = bpp-1; p--; ) 
 						out << *data++;
 					data++;

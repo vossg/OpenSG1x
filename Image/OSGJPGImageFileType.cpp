@@ -168,7 +168,7 @@ bool JPGImageFileType::read (Image &image, const char *fileName )
 	};
 
   if ( image.set(pixelFormat,cinfo.output_width,cinfo.output_height)) {
-		destData = image.data() + image.size();
+		destData = image.getData() + image.getSize();
 		row_stride = cinfo.output_width * cinfo.output_components;
 		buffer = (*cinfo.mem->alloc_sarray)
 			((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride,1 );
@@ -194,9 +194,9 @@ bool JPGImageFileType::read (Image &image, const char *fileName )
 					 << " read is not compiled into the current binary " 
 					 << endl;
 
-#endif                     
-
   return false;
+
+#endif                     
 
 }
 
@@ -222,9 +222,82 @@ bool JPGImageFileType::read (Image &image, const char *fileName )
 //------------------------------
 bool JPGImageFileType::write (const Image &image, const char *fileName )
 {
-	SWARNING << getName() << " write is not implemented" << endl;
+#ifdef JPEG_LIB
 
-	return false;
+	if ( ( image.getBpp() != 1 && image.getBpp() != 3 ) ||
+			image.getDepth() != 1
+	   )
+	{
+		SWARNING 	<< getName() 
+		 			<< " JPEG write only works for 2D 1 or 3 bpp images " 
+		 			<< endl;
+		return false;
+	}
+
+	bool retCode = false;
+
+	struct my_error_mgr 
+	{
+		struct jpeg_error_mgr pub;
+		jmp_buf setjmp_buffer;
+	};
+	typedef struct my_error_mgr * my_error_ptr;
+
+	struct my_error_mgr jerr;
+	struct jpeg_compress_struct cinfo;
+	FILE * outfile;
+	JSAMPARRAY buffer;
+	UChar8 * data;
+	
+	if ((outfile = fopen(fileName, "wb")) == NULL) 
+	{
+		fprintf(stderr, "can't open %s\n", fileName);
+		return retCode;
+	}
+
+	cinfo.err = jpeg_std_error(&jerr.pub);
+	if (setjmp(jerr.setjmp_buffer)) 
+	{
+		jpeg_destroy_compress(&cinfo);
+		fclose(outfile);
+		return 0;
+	}
+	jpeg_create_compress(&cinfo);
+	jpeg_stdio_dest(&cinfo, outfile);
+
+	cinfo.image_width = image.getWidth();
+	cinfo.image_height = image.getHeight();
+	cinfo.input_components = image.getBpp();	
+	cinfo.in_color_space = (image.getBpp()==1)?JCS_GRAYSCALE:JCS_RGB;
+
+	jpeg_set_defaults(&cinfo);
+	jpeg_set_quality(&cinfo, 90, TRUE);
+	jpeg_start_compress(&cinfo, TRUE);
+
+	buffer = &data;
+	while (cinfo.next_scanline < cinfo.image_height) 
+	{
+		data = image.getData() + ( image.getHeight() - cinfo.next_scanline ) * 
+					image.getWidth() * image.getBpp();
+		jpeg_write_scanlines(&cinfo, buffer,1);
+	}
+
+	jpeg_finish_compress(&cinfo);
+	jpeg_destroy_compress(&cinfo);
+	fclose(outfile);
+
+	return true;
+
+#else
+
+	SWARNING << getName() 
+					 << " write is not compiled into the current binary " 
+					 << endl;
+
+  return false;
+
+#endif                     
+
 }
 
 /******************************

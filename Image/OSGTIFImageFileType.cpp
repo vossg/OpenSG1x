@@ -178,7 +178,7 @@ bool TIFImageFileType::read (Image &image, const char *fileName )
 	
 		if (valid) {
 			image.set(((bpp == 3) ? Image::OSG_RGB_PF : Image::OSG_RGBA_PF),w,h );
-			dest = image.data();
+			dest = image.getData();
 			
 			red   = 3; 
 			green = 2; 
@@ -242,14 +242,14 @@ bool TIFImageFileType::write (const Image &image, const char *fileName )
 #ifdef TIFF_LIB
 
 	TIFF *out = TIFFOpen(fileName, "w");
-	int lineSize = image.width() * image.bpp();
+	int lineSize = image.getWidth() * image.getBpp();
 	int photometric, samplesPerPixel;
 	const unsigned char *data;
 	int row;
 	
 	// TODO: implemet all cases correct 
 	
-	switch (image.bpp()) 	{
+	switch (image.getBpp()) 	{
 	case 1:
 		samplesPerPixel = 1;
 		photometric = PHOTOMETRIC_MINISBLACK;
@@ -269,8 +269,8 @@ bool TIFImageFileType::write (const Image &image, const char *fileName )
 	}
 	
 	if (out) {
-		TIFFSetField(out, TIFFTAG_IMAGEWIDTH,  image.width());
-		TIFFSetField(out, TIFFTAG_IMAGELENGTH, image.height());
+		TIFFSetField(out, TIFFTAG_IMAGEWIDTH,  image.getWidth());
+		TIFFSetField(out, TIFFTAG_IMAGELENGTH, image.getHeight());
 		TIFFSetField(out, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
 		TIFFSetField(out, TIFFTAG_SAMPLESPERPIXEL, samplesPerPixel);
 		TIFFSetField(out, TIFFTAG_BITSPERSAMPLE, 8);
@@ -279,8 +279,8 @@ bool TIFImageFileType::write (const Image &image, const char *fileName )
 		TIFFSetField(out, TIFFTAG_COMPRESSION, COMPRESSION_LZW);
 		TIFFSetField(out, TIFFTAG_ROWSPERSTRIP, TIFFDefaultStripSize(out, -1));
 		
-		for (row = 0; row < image.height(); row++) {
-			data = image.data() + ((image.height() - row - 1) * lineSize);
+		for (row = 0; row < image.getHeight(); row++) {
+			data = image.getData() + ((image.getHeight() - row - 1) * lineSize);
 			if (TIFFWriteScanline(out, (tdata_t)data, row, 0) < 0)
 				break;
 		}
