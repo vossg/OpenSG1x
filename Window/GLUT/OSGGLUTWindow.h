@@ -48,6 +48,19 @@
 
 #ifdef OSG_WITH_GLUT
 
+#if defined(WIN32) && defined(OSG_BUILD_DLL)
+#   ifdef OSG_COMPILEGLUTWINDOW
+#       define OSG_GLUTWINDOW_DLLMAPPING     __declspec(dllexport)
+#       define OSG_GLUTWINDOW_DLLTMPLMAPPING __declspec(dllexport)
+#   else
+#       define OSG_GLUTWINDOW_DLLMAPPING     __declspec(dllimport)
+#       define OSG_GLUTWINDOW_DLLTMPLMAPPING __declspec(dllimport)
+#   endif
+#else
+#define OSG_GLUTWINDOW_DLLMAPPING
+#define OSG_GLUTWINDOW_DLLTMPLMAPPING
+#endif
+
 #include "OSGWindowBase.h"
 #include "OSGWindow.h"
 
@@ -71,7 +84,7 @@ typedef FCPtr <WindowPtr, GLUTWindow> GLUTWindowPtr;
 /*! \brief GLUT window class
  */
 
-class OSG_WINDOW_DLLMAPPING GLUTWindow : public Window
+class OSG_GLUTWINDOW_DLLMAPPING GLUTWindow : public Window
 {
   public:
 
@@ -247,7 +260,7 @@ typedef SField<GLUTWindowPtr>       SFGLUTWindowPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GLUTWindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GLUTWindowPtr, OSG_GLUTWINDOW_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -264,7 +277,7 @@ typedef MField<GLUTWindowPtr>       MFGLUTWindowPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, GLUTWindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, GLUTWindowPtr, OSG_GLUTWINDOW_DLLTMPLMAPPING)
 
 #endif
 #endif

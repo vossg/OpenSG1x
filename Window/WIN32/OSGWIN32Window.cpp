@@ -55,7 +55,7 @@
 #include <iostream.h>
 #endif
 
-#define OSG_COMPILEWINDOW
+#define OSG_COMPILEWIN32WINDOW
 #define OSG_COMPILEWINDOWWIN32INST
 
 #include "OSGViewport.h"

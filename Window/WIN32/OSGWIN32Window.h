@@ -41,6 +41,20 @@
 // Forget everything if we're not doing a windows compile
 #ifdef WIN32
 
+#if defined(WIN32) && defined(OSG_BUILD_DLL)
+#   ifdef OSG_COMPILEWIN32WINDOW
+#       define OSG_WIN32WINDOW_DLLMAPPING     __declspec(dllexport)
+#       define OSG_WIN32WINDOW_DLLTMPLMAPPING __declspec(dllexport)
+#   else
+#       define OSG_WIN32WINDOW_DLLMAPPING     __declspec(dllimport)
+#       define OSG_WIN32WINDOW_DLLTMPLMAPPING __declspec(dllimport)
+#   endif
+#else
+#define OSG_WIN32WINDOW_DLLMAPPING
+#define OSG_WIN32WINDOW_DLLTMPLMAPPING
+#endif
+
+
 #include <windows.h>
 
 #include "OSGWindow.h"
@@ -65,7 +79,7 @@ typedef FCPtr <WindowPtr, WIN32Window> WIN32WindowPtr;
 /*! \brief WIN32 window class
  */
 
-class OSG_WINDOW_DLLMAPPING WIN32Window : public Window
+class OSG_WIN32WINDOW_DLLMAPPING WIN32Window : public Window
 {
   public:
 
@@ -246,7 +260,7 @@ typedef SField<WIN32WindowPtr>       SFWIN32WindowPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, WIN32WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, WIN32WindowPtr, OSG_WIN32WINDOW_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -263,7 +277,7 @@ typedef MField<WIN32WindowPtr>       MFWIN32WindowPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, WIN32WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, WIN32WindowPtr, OSG_WIN32WINDOW_DLLTMPLMAPPING)
 
 #endif
 #endif

@@ -42,7 +42,7 @@
 
 #ifdef OSG_WITH_QT
 
-#define OSG_COMPILEWINDOW
+#define OSG_COMPILEQTWINDOW
 
 #include <stdlib.h>
 #include <stdio.h>

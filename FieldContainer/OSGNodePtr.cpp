@@ -430,6 +430,7 @@ CNodePtr::CNodePtr(const Node   *source,
 /** \brief Write FC to the given stream
  */
 
+OSG_FIELDCONTAINER_DLLMAPPING
 ostream &OSG::operator <<(      ostream  &os,
                           const NodePtr  &fc)
 {
@@ -450,6 +451,7 @@ ostream &OSG::operator <<(      ostream  &os,
 /** \brief Write FC to the given stream
  */
 
+OSG_FIELDCONTAINER_DLLMAPPING
 ostream &OSG::operator <<(      ostream  &os,
                           const CNodePtr &fc)
 {

@@ -48,6 +48,19 @@
 
 #ifdef OSG_WITH_QT
 
+#if defined(WIN32) && defined(OSG_BUILD_DLL)
+#   ifdef OSG_COMPILEQTWINDOW
+#       define OSG_QTWINDOW_DLLMAPPING     __declspec(dllexport)
+#       define OSG_QTWINDOW_DLLTMPLMAPPING __declspec(dllexport)
+#   else
+#       define OSG_QTWINDOW_DLLMAPPING     __declspec(dllimport)
+#       define OSG_QTWINDOW_DLLTMPLMAPPING __declspec(dllimport)
+#   endif
+#else
+#define OSG_QTWINDOW_DLLMAPPING
+#define OSG_QTWINDOW_DLLTMPLMAPPING
+#endif
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -88,7 +101,7 @@ OSG_BEGIN_NAMESPACE
 /*! OSGQGL widget class
  */
 
-class OSG_WINDOW_DLLMAPPING OSGQGLWidget : public QGLWidget
+class OSG_QTWINDOW_DLLMAPPING OSGQGLWidget : public QGLWidget
 {
   Q_OBJECT
 

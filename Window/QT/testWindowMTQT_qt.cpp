@@ -54,7 +54,7 @@
 #include "OSGPerspectiveCamera.h"
 #include "OSGGradientBackground.h"
 
-#if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
+#if defined(__linux)
 #include "OSGRAWSceneFileType.h"
 #endif
 
@@ -222,7 +222,7 @@ void *drawThreadProc (void *arg)
 	MyOSGQGLWidget *my_widget = glWidget[*my_id];
 	QTWindowPtr    my_win = my_widget->_osgWin;
 
-	sleep( 2 + *my_id );
+	osgsleep( 2 + *my_id );
 	dpr << "drawThead " << *my_id << " started." << endl;
 
 	my_win->init(); 	// create the context
@@ -263,10 +263,6 @@ int main( int argc, char **argv )
     basetime = getSystemTime();
     gThreadManager = ThreadManager::the();	
 
-
-#ifdef WIN32
-    RAWSceneFileType *pR = &(RAWSceneFileType::staticThe());
-#endif
 
     SceneFileHandler::the().print();
 

@@ -53,7 +53,7 @@
 #include <iostream.h>
 #endif
 
-#define OSG_COMPILEWINDOW
+#define OSG_COMPILEQTWINDOW
 #define OSG_COMPILEQTWINDOWINST
 
 #include "OSGViewport.h"

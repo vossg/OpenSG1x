@@ -386,6 +386,14 @@ AC_DEFUN(AC_GDZ_SCAN_PACKET_DESC,
 
         p7=`echo ${ac_gdz_package[$i]} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\7/'`
         p7=`echo $p7 | sed 's/://g'`
+    
+        if [[ ${build_os} = "cygwin" ]]; then
+            p4=`echo $p4 | sed 's/@WINDOWSYSTEM@/WIN32/g'`
+            p5=`echo $p5 | sed 's/@WINDOWSYSTEM@/WIN32/g'`
+        else
+            p4=`echo $p4 | sed 's/@WINDOWSYSTEM@/X/g'`
+            p5=`echo $p5 | sed 's/@WINDOWSYSTEM@/X/g'`
+        fi
 
         ac_gdz_package_name[$i]=$p1;
         ac_gdz_package_fact_init[$i]=$p2

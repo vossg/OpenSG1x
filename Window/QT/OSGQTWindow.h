@@ -91,9 +91,9 @@ typedef FCPtr <WindowPtr, QTWindow> QTWindowPtr;
  */
 
 #ifdef WIN32
-class OSG_WINDOW_DLLMAPPING QTWindow : public WIN32Window
+class OSG_QTWINDOW_DLLMAPPING QTWindow : public WIN32Window
 #else
-class OSG_WINDOW_DLLMAPPING QTWindow : public XWindow
+class OSG_QTWINDOW_DLLMAPPING QTWindow : public XWindow
 #endif
 {
   public:
@@ -276,7 +276,7 @@ typedef SField<QTWindowPtr>       SFQTWindowPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, QTWindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, QTWindowPtr, OSG_QTWINDOW_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -292,7 +292,7 @@ typedef MField<QTWindowPtr>       MFQTWindowPtr;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, QTWindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, QTWindowPtr, OSG_QTWINDOW_DLLTMPLMAPPING)
 
 #endif
 #endif

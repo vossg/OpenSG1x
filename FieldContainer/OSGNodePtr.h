@@ -350,8 +350,10 @@ class OSG_FIELDCONTAINER_DLLMAPPING CNodePtr : public FieldContainerPtr
 //   Exported Types
 //---------------------------------------------------------------------------
 
+OSG_FIELDCONTAINER_DLLMAPPING
 ostream &operator <<(      ostream  &os,
                      const NodePtr  &fc);
+OSG_FIELDCONTAINER_DLLMAPPING
 ostream &operator <<(      ostream  &os,
                      const CNodePtr &fc);
 
