@@ -148,7 +148,7 @@ void MaterialDrawable::changed(BitVector whichField, UInt32 origin)
 void MaterialDrawable::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump MaterialDrawable NI" << endl;
+    SLOG << "Dump MaterialDrawable NI" << std::endl;
 }
 
 
@@ -165,7 +165,7 @@ void MaterialDrawable::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialDrawable.cpp,v 1.1 2002/09/25 16:46:17 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialDrawable.cpp,v 1.2 2002/09/25 21:17:04 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALDRAWABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALDRAWABLEBASE_INLINE_CVSID;
 

@@ -95,7 +95,7 @@ void Drawable::changed(BitVector whichField, UInt32 origin)
 void Drawable::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump Drawable NI" << endl;
+    SLOG << "Dump Drawable NI" << std::endl;
 }
 
 
@@ -112,7 +112,7 @@ void Drawable::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDrawable.cpp,v 1.1 2002/09/25 16:46:16 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDrawable.cpp,v 1.2 2002/09/25 21:17:04 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGDRAWABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDRAWABLEBASE_INLINE_CVSID;
 
