@@ -5,7 +5,7 @@
 
 #include <OSGGLUT.h>
 
-#include <OSGFieldContainerFactory.h>a
+#include <OSGFieldContainerFactory.h>
 #include <OSGSFSysTypes.h>
 #include <OSGVector.h>
 #include <OSGQuaternion.h>
