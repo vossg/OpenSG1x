@@ -59,7 +59,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.9 2001/10/16 22:57:21 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.10 2001/10/17 09:21:37 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGQGLMANAGEDWIDGET_HEADER_CVSID;
 }
 
@@ -145,7 +145,9 @@ OSGQGLManagedWidget::OSGQGLManagedWidget ( QWidget *parent,
 
 
 OSGQGLManagedWidget::OSGQGLManagedWidget(
-                            const OSGQGLManagedWidget OSG_CHECK_ARG(&source) )
+    const OSGQGLManagedWidget &OSG_CHECK_ARG(source) ):
+
+    Inherited()
 {
   FDEBUG (("OSGQGLManagedWidget copy constructor called\n"));
 }
