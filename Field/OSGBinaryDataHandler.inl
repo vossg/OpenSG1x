@@ -57,9 +57,45 @@ void BinaryDataHandler::putUInt8(const UInt8 &value)
 }
 
 inline 
+void BinaryDataHandler::putUInt16(const UInt16 &value)
+{
+    put(&value, sizeof(UInt16));
+}
+
+inline 
 void BinaryDataHandler::putUInt32(const UInt32 &value)
 {
     put(&value, sizeof(UInt32));
+}
+
+inline 
+void BinaryDataHandler::putInt8(const Int8 &value)
+{
+    put(&value, sizeof(Int8));
+}
+
+inline 
+void BinaryDataHandler::putInt16(const Int16 &value)
+{
+    put(&value, sizeof(Int16));
+}
+
+inline 
+void BinaryDataHandler::putInt32(const Int32 &value)
+{
+    put(&value, sizeof(Int32));
+}
+
+inline 
+void BinaryDataHandler::putReal32(const Real32 &value)
+{
+    put(&value, sizeof(Real32));
+}
+
+inline 
+void BinaryDataHandler::putReal64(const Real64 &value)
+{
+    put(&value, sizeof(Real64));
 }
 
 inline 
@@ -78,9 +114,45 @@ void BinaryDataHandler::getUInt8(UInt8 &value)
 }
 
 inline 
+void BinaryDataHandler::getUInt16(UInt16 &value)
+{
+    get(&value, sizeof(UInt16));
+}
+
+inline 
 void BinaryDataHandler::getUInt32(UInt32 &value)
 {
     get(&value, sizeof(UInt32));
+}
+
+inline 
+void BinaryDataHandler::getInt8(Int8 &value)
+{
+    get(&value, sizeof(Int8));
+}
+
+inline 
+void BinaryDataHandler::getInt16(Int16 &value)
+{
+    get(&value, sizeof(Int16));
+}
+
+inline 
+void BinaryDataHandler::getInt32(Int32 &value)
+{
+    get(&value, sizeof(Int32));
+}
+
+inline 
+void BinaryDataHandler::getReal32(Real32 &value)
+{
+    get(&value, sizeof(Real32));
+}
+
+inline 
+void BinaryDataHandler::getReal64(Real64 &value)
+{
+    get(&value, sizeof(Real64));
 }
 
 inline 

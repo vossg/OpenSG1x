@@ -97,14 +97,26 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     void putAndFree(      MemoryHandle  src, UInt32 size);
 
     void putUInt8  (const UInt8        &value);
+    void putUInt16 (const UInt16       &value);
     void putUInt32 (const UInt32       &value);
+    void putInt8   (const Int8         &value);
+    void putInt16  (const Int16        &value);
+    void putInt32  (const Int32        &value);
+    void putReal32 (const Real32       &value);
+    void putReal64 (const Real64       &value);
     void putString (const string       &value);
 
     void get        (     void         *dst, UInt32 size);
     void getAndAlloc(     MemoryHandle &src, UInt32 size);
 
     void getUInt8   (     UInt8        &value);
+    void getUInt16  (     UInt16       &value);
     void getUInt32  (     UInt32       &value);
+    void getInt8    (     Int8         &value);
+    void getInt16   (     Int16        &value);
+    void getInt32   (     Int32        &value);
+    void getReal32  (     Real32       &value);
+    void getReal64  (     Real64       &value);
     void getString  (     string       &value);
 
     void flush      (     void               );
