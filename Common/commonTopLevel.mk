@@ -273,14 +273,25 @@ fcdToBase:
 
 INSTALL_DIR_SED := $(shell echo $(INSTALL_DIR) | sed -e 's/\//\\\//g')
 
+$(warning [$(LD_FLAGS)])
+
+$(warning [$(LD_FLAGS_EXT)])
+$(warning [$(LD_FLAGS_EXT_OPT)])
+$(warning [$(LD_FLAGS_EXT_DBG)])
+
+
 install-bin:
 	@if [ ! -w $(INSTALL_DIR)/bin ]; then mkdir $(INSTALL_DIR)/bin; fi
-	@cat CommonPackages/osg-config |										\
+	cat CommonPackages/osg-config |										\
 	$(SED) -e 's/@am_gdz_system_flags@/\"$(CCFLAGS_EXT)\"/g'			\
 	       -e 's/@am_gdz_system_flags_opt@/\"$(CCFLAGS_EXT_OPT)\"/g'	\
 	       -e 's/@am_gdz_system_flags_dbg@/\"$(CCFLAGS_EXT_DBG)\"/g'	\
+		   -e 's/@am_gdz_link_flags@/\"$(LD_FLAGS_EXT)\"/g'				\
+		   -e 's/@am_gdz_link_flags_opt@/\"$(LD_FLAGS_EXT_OPT)\"/g'		\
+		   -e 's/@am_gdz_link_flags_dbg@/\"$(LD_FLAGS_EXT_DBG)\"/g'		\
 		   -e 's/@am_gdz_install_dir@/"$(INSTALL_DIR_SED)\"/g'			\
 		> $(INSTALL_DIR)/bin/osg-config
+	chmod 755 $(INSTALL_DIR)/bin/osg-config
 
 install-libs-ln: INSTLINK := $(LINK)
 install-libs-ln: install-libs

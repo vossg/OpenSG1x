@@ -40,10 +40,9 @@ DEFLIBS := 32
 ### Defines #######################################################
 
 # For QT
-DEP_PLATTFORMDEF = -D__sgi -D__EDG__ -D_STANDARD_C_PLUS_PLUS 
-                   
+DEP_PLATTFORMDEF = -D__EDG__ -D_STANDARD_C_PLUS_PLUS 
 
-SOURCE_DEFINES   = -DQT_CLEAN_NAMESPACE $(CONFIGURED_PACKAGE_DEFS)
+SOURCE_DEFINES   = -DQT_CLEAN_NAMESPACE
 
 SYSTEM_DEFINES   = -D_OSG_HAVE_CONFIGURED_H_
 
@@ -98,10 +97,14 @@ else
 	COMP_DEBUG       = -g -INLINE:none -DOSG_DEBUG
 endif
 
+CCFLAGS_EXT_OPT := -OPT:Olimit=8192 -O2
+CCFLAGS_EXT_DBG := -g -INLINE:none -DOSG_DEBUG
+
 ### Compiler Flags ################################################
 
 
-DEFINES     = $(SOURCE_DEFINES) $(SYSTEM_DEFINES) $(DEP_PLATTFORMDEF)
+DEFINES     = $(SOURCE_DEFINES) $(SYSTEM_DEFINES) $(DEP_PLATTFORMDEF)	\
+		      $(CONFIGURED_PACKAGE_DEFS)
 
 # C Compiler Flags
 
@@ -112,6 +115,8 @@ CFLAGS   := $(WARNINGS) $(WARNINGS_C_OFF) -D__STDC__ 						\
 
 CCFLAGS  := $(WARNINGS) $(WARNINGS_CPP_OFF) $(WARN_ERR_CPP) $(DEFINES) \
 		    $(COMPILER) $(COMP_OPTIMIZE) $(COMP_DEBUG) 
+
+CCFLAGS_EXT     := $(SOURCE_DEFINES) $(SYSTEM_DEFINES) $(DEP_PLATTFORMDEF) $(COMPILER) 
 
 # Assembler Flags
 
@@ -136,3 +141,7 @@ endif
 
 
 LD_FLAGS += -$(ABI) -$(ISA) $(LINK_OPTIMIZE) $(LINK_DEBUG)
+
+LD_FLAGS_EXT      = -$(ABI) -$(ISA)
+LD_FLAGS_EXT_OPT := -O2 -OPT:Olimit=8192 $(LINK_INLINE)
+LD_FLAGS_EXT_DBG := -g 
