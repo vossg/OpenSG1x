@@ -342,6 +342,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MField : public Field
 	// sensible
     virtual UInt32     size    (void) const;
             UInt32     getSize (void) const;
+	
+		virtual Bool       empty   (void) const;
 
     /*-------------------------- field type ---------------------------------*/
 

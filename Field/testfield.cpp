@@ -26,6 +26,9 @@ int main (int argc, char **argv)
     SFQuaternion sfquad;
     MFQuaternion mfquad;
 
+	if (mfquad.empty() == false)
+		cerr << "new mfquad field is not empty" << endl;
+
 	SFInt32  *int32P;
 	SFUInt32 *uint32P;
 

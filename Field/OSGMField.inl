@@ -642,6 +642,15 @@ UInt32 MField<FieldTypeT, fieldNameSpace>::getSize(void) const
 	return size();
 }
 
+/** \brief Returns true if the field does not hold any value
+ */
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+UInt32 MField<FieldTypeT, fieldNameSpace>::empty(void) const
+{
+	return _value.empty();
+}
+
 /** \brief Returns the type of the field
  */
 
