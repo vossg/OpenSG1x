@@ -277,6 +277,9 @@ void TrackballNavigator::translateXY(Real32 distanceX, Real32 distanceY)
 void TrackballNavigator::translateZ(Real32 distance)
 {
     _rDistance+=distance;
+    // don't navigate beyond the at point.
+    if(_rDistance < 0.0f)
+        _rDistance = 0.0f;
 }
 
 /*! Project a point on the virtual trackball. 
