@@ -136,7 +136,7 @@ Action::ResultE DistanceLOD::draw(Action *action)
         } 
         else if(dist >= (*(getMFRange()))[numRanges-1])
         {
-            index =  limit-1;
+	    index = (numLevels > numRanges) ? numRanges : (limit-1); 
         }
         else
         {
@@ -197,7 +197,7 @@ void DistanceLOD::initMethod (void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.22 2002/06/30 05:04:22 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.23 2002/08/08 17:37:20 jbehr Exp $";
     static Char8 cvsid_hpp[] = OSGDISTANCELOD_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGDISTANCELOD_INLINE_CVSID;
 }
