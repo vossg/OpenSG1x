@@ -65,6 +65,8 @@
 #include <OSGGL.h>                        // DestFactor default header
 #include <OSGGL.h>                        // Equation default header
 #include <OSGGL.h>                        // AlphaFunc default header
+#include <OSGGL.h>                        // AlphaSrcFactor default header
+#include <OSGGL.h>                        // AlphaDestFactor default header
 
 OSG_USING_NAMESPACE
 
@@ -85,6 +87,12 @@ const OSG::BitVector  BlendChunkBase::AlphaFuncFieldMask =
 
 const OSG::BitVector  BlendChunkBase::AlphaValueFieldMask = 
     (TypeTraits<BitVector>::One << BlendChunkBase::AlphaValueFieldId);
+
+const OSG::BitVector  BlendChunkBase::AlphaSrcFactorFieldMask = 
+    (TypeTraits<BitVector>::One << BlendChunkBase::AlphaSrcFactorFieldId);
+
+const OSG::BitVector  BlendChunkBase::AlphaDestFactorFieldMask = 
+    (TypeTraits<BitVector>::One << BlendChunkBase::AlphaDestFactorFieldId);
 
 const OSG::BitVector BlendChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -110,6 +118,12 @@ const OSG::BitVector BlendChunkBase::MTInfluenceMask =
 */
 /*! \var Real32          BlendChunkBase::_sfAlphaValue
     The value used in alpha comparison.
+*/
+/*! \var GLenum          BlendChunkBase::_sfAlphaSrcFactor
+    The incoming alpha is multiplied by the source factor before being stored          in the frame buffer. Only available where GL_EXT_blend_func_separate is supported.         The default is GL_NONE, which indicates using the standard BlendFunction.
+*/
+/*! \var GLenum          BlendChunkBase::_sfAlphaDestFactor
+    The frame buffer alpha is multiplied by the source factor before being stored          in the frame buffer. Only available where GL_EXT_blend_func_separate is supported.         The default is GL_NONE, which indicates using the standard BlendFunction.
 */
 
 //! BlendChunk description
@@ -145,7 +159,17 @@ FieldDescription *BlendChunkBase::_desc[] =
                      "alphaValue", 
                      AlphaValueFieldId, AlphaValueFieldMask,
                      false,
-                     (FieldAccessMethod) &BlendChunkBase::getSFAlphaValue)
+                     (FieldAccessMethod) &BlendChunkBase::getSFAlphaValue),
+    new FieldDescription(SFGLenum::getClassType(), 
+                     "alphaSrcFactor", 
+                     AlphaSrcFactorFieldId, AlphaSrcFactorFieldMask,
+                     false,
+                     (FieldAccessMethod) &BlendChunkBase::getSFAlphaSrcFactor),
+    new FieldDescription(SFGLenum::getClassType(), 
+                     "alphaDestFactor", 
+                     AlphaDestFactorFieldId, AlphaDestFactorFieldMask,
+                     false,
+                     (FieldAccessMethod) &BlendChunkBase::getSFAlphaDestFactor)
 };
 
 
@@ -207,6 +231,8 @@ BlendChunkBase::BlendChunkBase(void) :
     _sfColor                  (Color4f(0,0,0,0)), 
     _sfAlphaFunc              (GLenum(GL_NONE)), 
     _sfAlphaValue             (Real32(0)), 
+    _sfAlphaSrcFactor         (GLenum(OSG_GL_UNUSED)), 
+    _sfAlphaDestFactor        (GLenum(OSG_GL_UNUSED)), 
     Inherited() 
 {
 }
@@ -222,6 +248,8 @@ BlendChunkBase::BlendChunkBase(const BlendChunkBase &source) :
     _sfColor                  (source._sfColor                  ), 
     _sfAlphaFunc              (source._sfAlphaFunc              ), 
     _sfAlphaValue             (source._sfAlphaValue             ), 
+    _sfAlphaSrcFactor         (source._sfAlphaSrcFactor         ), 
+    _sfAlphaDestFactor        (source._sfAlphaDestFactor        ), 
     Inherited                 (source)
 {
 }
@@ -268,6 +296,16 @@ UInt32 BlendChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfAlphaValue.getBinSize();
     }
 
+    if(FieldBits::NoField != (AlphaSrcFactorFieldMask & whichField))
+    {
+        returnValue += _sfAlphaSrcFactor.getBinSize();
+    }
+
+    if(FieldBits::NoField != (AlphaDestFactorFieldMask & whichField))
+    {
+        returnValue += _sfAlphaDestFactor.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -305,6 +343,16 @@ void BlendChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (AlphaValueFieldMask & whichField))
     {
         _sfAlphaValue.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AlphaSrcFactorFieldMask & whichField))
+    {
+        _sfAlphaSrcFactor.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AlphaDestFactorFieldMask & whichField))
+    {
+        _sfAlphaDestFactor.copyToBin(pMem);
     }
 
 
@@ -345,6 +393,16 @@ void BlendChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfAlphaValue.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (AlphaSrcFactorFieldMask & whichField))
+    {
+        _sfAlphaSrcFactor.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AlphaDestFactorFieldMask & whichField))
+    {
+        _sfAlphaDestFactor.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -371,6 +429,12 @@ void BlendChunkBase::executeSyncImpl(      BlendChunkBase *pOther,
 
     if(FieldBits::NoField != (AlphaValueFieldMask & whichField))
         _sfAlphaValue.syncWith(pOther->_sfAlphaValue);
+
+    if(FieldBits::NoField != (AlphaSrcFactorFieldMask & whichField))
+        _sfAlphaSrcFactor.syncWith(pOther->_sfAlphaSrcFactor);
+
+    if(FieldBits::NoField != (AlphaDestFactorFieldMask & whichField))
+        _sfAlphaDestFactor.syncWith(pOther->_sfAlphaDestFactor);
 
 
 }
@@ -400,7 +464,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGBLENDCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBLENDCHUNKBASE_INLINE_CVSID;
 

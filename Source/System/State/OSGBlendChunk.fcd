@@ -75,4 +75,30 @@ The blending chunk handles OpenGL blending, i.e. the definition how incoming pix
 	>
         The value used in alpha comparison.
 	</Field>
+	<Field
+		name="alphaSrcFactor"
+		type="GLenum"
+		cardinality="single"
+		visibility="external"
+		defaultHeader="<OSGGL.h>"
+		defaultValue="OSG_GL_UNUSED"
+		access="public"
+	>
+	The incoming alpha is multiplied by the source factor before being stored 
+        in the frame buffer. Only available where GL_EXT_blend_func_separate is supported.
+        The default is GL_NONE, which indicates using the standard BlendFunction.
+	</Field>
+	<Field
+		name="alphaDestFactor"
+		type="GLenum"
+		cardinality="single"
+		visibility="external"
+		defaultHeader="<OSGGL.h>"
+		defaultValue="OSG_GL_UNUSED"
+		access="public"
+	>
+	The frame buffer alpha is multiplied by the source factor before being stored 
+        in the frame buffer. Only available where GL_EXT_blend_func_separate is supported.
+        The default is GL_NONE, which indicates using the standard BlendFunction.
+	</Field>
 </FieldContainer>

@@ -71,6 +71,8 @@
 #include <OSGColor4fFields.h> // Color type
 #include <OSGGLenumFields.h> // AlphaFunc type
 #include <OSGReal32Fields.h> // AlphaValue type
+#include <OSGGLenumFields.h> // AlphaSrcFactor type
+#include <OSGGLenumFields.h> // AlphaDestFactor type
 
 #include <OSGBlendChunkFields.h>
 
@@ -94,13 +96,15 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
 
     enum
     {
-        SrcFactorFieldId  = Inherited::NextFieldId,
-        DestFactorFieldId = SrcFactorFieldId  + 1,
-        EquationFieldId   = DestFactorFieldId + 1,
-        ColorFieldId      = EquationFieldId   + 1,
-        AlphaFuncFieldId  = ColorFieldId      + 1,
-        AlphaValueFieldId = AlphaFuncFieldId  + 1,
-        NextFieldId       = AlphaValueFieldId + 1
+        SrcFactorFieldId       = Inherited::NextFieldId,
+        DestFactorFieldId      = SrcFactorFieldId       + 1,
+        EquationFieldId        = DestFactorFieldId      + 1,
+        ColorFieldId           = EquationFieldId        + 1,
+        AlphaFuncFieldId       = ColorFieldId           + 1,
+        AlphaValueFieldId      = AlphaFuncFieldId       + 1,
+        AlphaSrcFactorFieldId  = AlphaValueFieldId      + 1,
+        AlphaDestFactorFieldId = AlphaSrcFactorFieldId  + 1,
+        NextFieldId            = AlphaDestFactorFieldId + 1
     };
 
     static const OSG::BitVector SrcFactorFieldMask;
@@ -109,6 +113,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     static const OSG::BitVector ColorFieldMask;
     static const OSG::BitVector AlphaFuncFieldMask;
     static const OSG::BitVector AlphaValueFieldMask;
+    static const OSG::BitVector AlphaSrcFactorFieldMask;
+    static const OSG::BitVector AlphaDestFactorFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -141,6 +147,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
            SFColor4f           *getSFColor          (void);
            SFGLenum            *getSFAlphaFunc      (void);
            SFReal32            *getSFAlphaValue     (void);
+           SFGLenum            *getSFAlphaSrcFactor (void);
+           SFGLenum            *getSFAlphaDestFactor(void);
 
            GLenum              &getSrcFactor      (void);
      const GLenum              &getSrcFactor      (void) const;
@@ -154,6 +162,10 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
      const GLenum              &getAlphaFunc      (void) const;
            Real32              &getAlphaValue     (void);
      const Real32              &getAlphaValue     (void) const;
+           GLenum              &getAlphaSrcFactor (void);
+     const GLenum              &getAlphaSrcFactor (void) const;
+           GLenum              &getAlphaDestFactor(void);
+     const GLenum              &getAlphaDestFactor(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -166,6 +178,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
      void setColor          ( const Color4f &value );
      void setAlphaFunc      ( const GLenum &value );
      void setAlphaValue     ( const Real32 &value );
+     void setAlphaSrcFactor ( const GLenum &value );
+     void setAlphaDestFactor( const GLenum &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -217,6 +231,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     SFColor4f           _sfColor;
     SFGLenum            _sfAlphaFunc;
     SFReal32            _sfAlphaValue;
+    SFGLenum            _sfAlphaSrcFactor;
+    SFGLenum            _sfAlphaDestFactor;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

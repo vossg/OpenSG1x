@@ -102,6 +102,6 @@ struct FieldDataTraits<BlendChunkPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGBLENDCHUNKFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
+#define OSGBLENDCHUNKFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.24 2004/08/03 05:53:03 dirk Exp $"
 
 #endif /* _OSGBLENDCHUNKFIELDS_H_ */

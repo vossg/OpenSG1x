@@ -83,9 +83,11 @@ UInt32 BlendChunk::_extImaging;
 UInt32 BlendChunk::_extBlendSubtract;
 UInt32 BlendChunk::_extBlendMinMax;
 UInt32 BlendChunk::_extBlendLogicOp;
+UInt32 BlendChunk::_extBlendFuncSeparate;
 UInt32 BlendChunk::_funcBlendColor;
 UInt32 BlendChunk::_funcBlendEquation;
 UInt32 BlendChunk::_funcBlendEquationExt;
+UInt32 BlendChunk::_funcBlendFuncSeparateExt;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -119,12 +121,16 @@ BlendChunk::BlendChunk(void) :
         Window::registerExtension("GL_EXT_blend_minmax");
     _extBlendLogicOp      =
         Window::registerExtension("GL_EXT_blend_logic_op");
+    _extBlendFuncSeparate      =
+        Window::registerExtension("GL_EXT_blend_func_separate");
     _funcBlendColor       = Window::registerFunction(
-                    OSG_DLSYM_UNDERSCORE"glBlendColorEXT",   _extBlend);
+          OSG_DLSYM_UNDERSCORE"glBlendColorEXT",        _extBlend);
     _funcBlendEquation    = Window::registerFunction(
-                    OSG_DLSYM_UNDERSCORE"glBlendEquation");
+          OSG_DLSYM_UNDERSCORE"glBlendEquation");
     _funcBlendEquationExt = Window::registerFunction(
-                    OSG_DLSYM_UNDERSCORE"glBlendEquationEXT",_extBlendLogicOp);
+          OSG_DLSYM_UNDERSCORE"glBlendEquationEXT",     _extBlendLogicOp);
+    _funcBlendFuncSeparateExt = Window::registerFunction(
+          OSG_DLSYM_UNDERSCORE"glBlendFuncSeparateEXT", _extBlendFuncSeparate);
 }
 
 BlendChunk::BlendChunk(const BlendChunk &source) :
@@ -162,21 +168,54 @@ void BlendChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
 void BlendChunk::activate(DrawActionBase *action, UInt32)
 {
-    GLenum src  = _sfSrcFactor.getValue();
-    GLenum dest = _sfDestFactor.getValue();
+    GLenum src   = _sfSrcFactor.getValue();
+    GLenum dest  = _sfDestFactor.getValue();
+    GLenum asrc  = _sfAlphaSrcFactor.getValue();
+    GLenum adest = _sfAlphaDestFactor.getValue();
 
-    if(src != GL_ONE || dest != GL_ZERO)
+    if(src != GL_ONE || dest != GL_ZERO ||
+       (asrc  != OSG_GL_UNUSED && asrc  != GL_ONE) || 
+       (adest != OSG_GL_UNUSED && adest != GL_ZERO)
+      )
     {
-        
-        glBlendFunc(src, dest);
+        if(asrc != OSG_GL_UNUSED || adest != OSG_GL_UNUSED)
+        {
+            if(asrc == OSG_GL_UNUSED || adest == OSG_GL_UNUSED)
+            {
+                FWARNING(("BlendChunk::activate: only one of alpha src and"
+                          " alpha dest is set. Ignored.\n"));
+                glBlendFunc(src, dest);
+            }
+            else if(action->getWindow()->hasExtension(_extBlendFuncSeparate))
+            {
+                // get "glBlendFuncSeparate" function pointer
+                void (OSG_APIENTRY* blendfuncsep)(GLenum,GLenum,GLenum,GLenum) =
+                   (void (OSG_APIENTRY*)(GLenum,GLenum,GLenum,GLenum))
+                   action->getWindow()->getFunction(_funcBlendFuncSeparateExt);
+
+                blendfuncsep(src, dest, asrc, adest);
+            }
+            else
+            {
+                FWARNING(("BlendChunk::activate: Window %p doesn't "
+                          "support EXT_blend_func_separate, ignored.\n"));
+                glBlendFunc(src, dest);
+            }
+        }
+        else
+            glBlendFunc(src, dest);
 
 #if GL_EXT_blend_color
         // This is not nice, but efficient
         // As the OpenGL constants are fixed it should be safe
-        if((src  >= GL_CONSTANT_COLOR_EXT && 
-            src  <= GL_ONE_MINUS_CONSTANT_ALPHA_EXT ) ||
-           (dest >= GL_CONSTANT_COLOR_EXT && 
-            dest <= GL_ONE_MINUS_CONSTANT_ALPHA_EXT )
+        if((src   >= GL_CONSTANT_COLOR_EXT && 
+            src   <= GL_ONE_MINUS_CONSTANT_ALPHA_EXT ) ||
+           (dest  >= GL_CONSTANT_COLOR_EXT && 
+            dest  <= GL_ONE_MINUS_CONSTANT_ALPHA_EXT ) ||
+           (asrc  >= GL_CONSTANT_COLOR_EXT && 
+            asrc  <= GL_ONE_MINUS_CONSTANT_ALPHA_EXT ) ||
+           (adest >= GL_CONSTANT_COLOR_EXT && 
+            adest <= GL_ONE_MINUS_CONSTANT_ALPHA_EXT )
           )
         {
             if(action->getWindow()->hasExtension(_extBlend))
@@ -240,24 +279,65 @@ void BlendChunk::changeFrom(DrawActionBase *action,
 {
     BlendChunk *old = dynamic_cast<BlendChunk *>(old_chunk);
 
-    GLenum src  = _sfSrcFactor.getValue();
-    GLenum dest = _sfDestFactor.getValue();
-    GLenum osrc  = old->_sfSrcFactor.getValue();
-    GLenum odest = old->_sfDestFactor.getValue();
+    GLenum src    = _sfSrcFactor.getValue();
+    GLenum dest   = _sfDestFactor.getValue();
+    GLenum osrc   = old->_sfSrcFactor.getValue();
+    GLenum odest  = old->_sfDestFactor.getValue();
+    GLenum asrc   = _sfAlphaSrcFactor.getValue();
+    GLenum adest  = _sfAlphaDestFactor.getValue();
+    GLenum oasrc  = old->_sfAlphaSrcFactor.getValue();
+    GLenum oadest = old->_sfAlphaDestFactor.getValue();
 
-    if(src != GL_ONE || dest != GL_ZERO)
+    if(src != GL_ONE || dest != GL_ZERO ||
+       (asrc  != OSG_GL_UNUSED && asrc  != GL_ONE) || 
+       (adest != OSG_GL_UNUSED && adest != GL_ZERO)
+      )
     {
-        
-        if(osrc != src || odest != dest)
+        if(asrc != OSG_GL_UNUSED || adest != OSG_GL_UNUSED)
+        {
+            if(asrc == OSG_GL_UNUSED || adest == OSG_GL_UNUSED)
+            {
+                FWARNING(("BlendChunk::changeFrom: only one of alpha src and"
+                          " alpha dest is set. Ignored.\n"));
+                glBlendFunc(src, dest);
+            }
+            else if(action->getWindow()->hasExtension(_extBlendFuncSeparate))
+            {
+                if(osrc  != src  || odest  != dest ||
+                   oasrc != asrc || oadest != adest 
+                   )
+                {
+                    // get "glBlendFuncSeparate" function pointer
+                    void (OSG_APIENTRY* blendfuncsep)(GLenum,GLenum,
+                                                      GLenum,GLenum) =
+                       (void (OSG_APIENTRY*)(GLenum,GLenum,GLenum,GLenum))
+                       action->getWindow()->getFunction(
+                                _funcBlendFuncSeparateExt);
+
+                    blendfuncsep(src, dest, asrc, adest);
+                }
+            }
+            else
+            {
+                FWARNING(("BlendChunk::changeFrom: Window %p doesn't "
+                          "support EXT_blend_func_separate, ignored.\n"));
+                glBlendFunc(src, dest);
+            }
+        }
+        else if(osrc != src || odest != dest)
             glBlendFunc(src, dest);
 
 #if GL_EXT_blend_color
         // This is not nice, but efficient
         // As the OpenGL constants are fixed it should be safe
-        if((src  >= GL_CONSTANT_COLOR_EXT && 
-            src  <= GL_ONE_MINUS_CONSTANT_ALPHA_EXT ) ||
-           (dest >= GL_CONSTANT_COLOR_EXT && 
-            dest <= GL_ONE_MINUS_CONSTANT_ALPHA_EXT )
+        if((src   >= GL_CONSTANT_COLOR_EXT && 
+            src   <= GL_ONE_MINUS_CONSTANT_ALPHA_EXT ) ||
+           (dest  >= GL_CONSTANT_COLOR_EXT && 
+            dest  <= GL_ONE_MINUS_CONSTANT_ALPHA_EXT ) ||
+           (asrc  >= GL_CONSTANT_COLOR_EXT && 
+            asrc  <= GL_ONE_MINUS_CONSTANT_ALPHA_EXT ) ||
+           (adest >= GL_CONSTANT_COLOR_EXT && 
+            adest <= GL_ONE_MINUS_CONSTANT_ALPHA_EXT )
           )
         {
             if ( action->getWindow()->hasExtension(_extBlend ))
@@ -281,7 +361,10 @@ void BlendChunk::changeFrom(DrawActionBase *action,
     }
     else
     {
-        if(osrc != GL_ONE || odest != GL_ZERO)
+        if(osrc != GL_ONE || odest != GL_ZERO || 
+           (oasrc  != OSG_GL_UNUSED && oasrc  != GL_ONE) || 
+           (oadest != OSG_GL_UNUSED && oadest != GL_ZERO)
+          )
             glDisable(GL_BLEND);
     }
 
@@ -333,8 +416,15 @@ void BlendChunk::changeFrom(DrawActionBase *action,
 
 void BlendChunk::deactivate(DrawActionBase *action, UInt32 )
 {
-    if(_sfSrcFactor.getValue()  != GL_ONE ||
-       _sfDestFactor.getValue() != GL_ZERO  )
+    GLenum src    = _sfSrcFactor.getValue();
+    GLenum dest   = _sfDestFactor.getValue();
+    GLenum asrc   = _sfAlphaSrcFactor.getValue();
+    GLenum adest  = _sfAlphaDestFactor.getValue();
+
+    if(src != GL_ONE || dest != GL_ZERO ||
+       (asrc  != OSG_GL_UNUSED && asrc  != GL_ONE) || 
+       (adest != OSG_GL_UNUSED && adest != GL_ZERO)
+      )
     {
         glDisable(GL_BLEND);
     }

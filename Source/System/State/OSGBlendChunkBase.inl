@@ -138,6 +138,20 @@ SFReal32 *BlendChunkBase::getSFAlphaValue(void)
     return &_sfAlphaValue;
 }
 
+//! Get the BlendChunk::_sfAlphaSrcFactor field.
+inline
+SFGLenum *BlendChunkBase::getSFAlphaSrcFactor(void)
+{
+    return &_sfAlphaSrcFactor;
+}
+
+//! Get the BlendChunk::_sfAlphaDestFactor field.
+inline
+SFGLenum *BlendChunkBase::getSFAlphaDestFactor(void)
+{
+    return &_sfAlphaDestFactor;
+}
+
 
 //! Get the value of the BlendChunk::_sfSrcFactor field.
 inline
@@ -263,6 +277,48 @@ inline
 void BlendChunkBase::setAlphaValue(const Real32 &value)
 {
     _sfAlphaValue.setValue(value);
+}
+
+//! Get the value of the BlendChunk::_sfAlphaSrcFactor field.
+inline
+GLenum &BlendChunkBase::getAlphaSrcFactor(void)
+{
+    return _sfAlphaSrcFactor.getValue();
+}
+
+//! Get the value of the BlendChunk::_sfAlphaSrcFactor field.
+inline
+const GLenum &BlendChunkBase::getAlphaSrcFactor(void) const
+{
+    return _sfAlphaSrcFactor.getValue();
+}
+
+//! Set the value of the BlendChunk::_sfAlphaSrcFactor field.
+inline
+void BlendChunkBase::setAlphaSrcFactor(const GLenum &value)
+{
+    _sfAlphaSrcFactor.setValue(value);
+}
+
+//! Get the value of the BlendChunk::_sfAlphaDestFactor field.
+inline
+GLenum &BlendChunkBase::getAlphaDestFactor(void)
+{
+    return _sfAlphaDestFactor.getValue();
+}
+
+//! Get the value of the BlendChunk::_sfAlphaDestFactor field.
+inline
+const GLenum &BlendChunkBase::getAlphaDestFactor(void) const
+{
+    return _sfAlphaDestFactor.getValue();
+}
+
+//! Set the value of the BlendChunk::_sfAlphaDestFactor field.
+inline
+void BlendChunkBase::setAlphaDestFactor(const GLenum &value)
+{
+    _sfAlphaDestFactor.setValue(value);
 }
 
 

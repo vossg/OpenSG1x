@@ -816,8 +816,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                             UInt32 outw = osgnextpower2(width);
                             UInt32 outh = osgnextpower2(height);
 
-                            // type is always ubyte right now
-                            data = malloc(outw * outh * sizeof(GLubyte) * 4);
+                            data = malloc(outw * outh * img->getBpp());
                             
                             // should we scale to next power of 2?
                             if(doScale)
@@ -844,7 +843,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                             }
                             else // nope, just copy the image to the lower left part
                             {
-                                memset(data, 0, outw * outh * sizeof(GLubyte) * 4);
+                                memset(data, 0, outw * outh * img->getBpp());
 
                                 UInt16 bpl = width * img->getBpp();
                                 UInt8 * src = (UInt8 *) img->getData(0, frame, side);
@@ -948,9 +947,8 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                         UInt32 outw = osgnextpower2(width);
                         UInt32 outh = osgnextpower2(height);
 
-                        // biggest possible: RGBA FLOAT
-                        data = malloc(outw * outh * sizeof(GL_FLOAT) * 4);
-                        datasize = outw * outh * sizeof(GL_FLOAT) * 4;
+                        data = malloc(outw * outh * img->getBpp());
+                        datasize = outw * outh * img->getBpp();
                         
                         GLint res = gluScaleImage(externalFormat,
                                         width, height, type, 
