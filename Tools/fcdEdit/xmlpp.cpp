@@ -145,7 +145,7 @@ void xmlattributes::set(xmlstring &key, xmlstring &value)
    {
       // insert, because the key-value pair was not found
       xmlattrmap::value_type pa(key,value);
-      insert(pa);
+      this->insert(pa);
    }
 }
 
