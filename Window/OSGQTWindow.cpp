@@ -69,7 +69,7 @@ using namespace osg;
  *                           Class variables                               *
 \***************************************************************************/
 
-char QTWindow::cvsid[] = "@(#)$Id: OSGQTWindow.cpp,v 1.2 2001/02/12 15:59:17 vossg Exp $";
+char QTWindow::cvsid[] = "@(#)$Id: OSGQTWindow.cpp,v 1.3 2001/02/12 16:44:22 dirk Exp $";
 
 // Static Class Varible implementations: 
 
@@ -155,7 +155,7 @@ QTWindow::~QTWindow(void)
 void QTWindow::init( void )
 {
 #ifdef WIN32
-    _glrc = wglCreateContext( _hdc );
+    setGLContext( wglCreateContext( getHDC() ) );
 
 #else
     XVisualInfo *vi;
@@ -185,7 +185,9 @@ void QTWindow::init( void )
 	// create the new context
 	setGlContext(  glXCreateContext( getDisplay(), vi, None, GL_TRUE )  );
 #endif
-
+	
+	activate();
+	setupGL();
 }
 
 /*-------------------------- assignment -----------------------------------*/

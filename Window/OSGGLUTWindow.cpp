@@ -141,13 +141,11 @@ OSG_FIELD_CONTAINER_DEF(GLUTWindow, GLUTWindowPtr)
 GLUTWindow::GLUTWindow( void ) :
 	Inherited(), _winid( 0 )
 {
-	setupGL();
 }
 
 GLUTWindow::GLUTWindow( const GLUTWindow& source ) :
 	Inherited( source ), _winid( source._winid )
 {
-	setupGL();
 }
 
 /** \brief Destructor
@@ -168,6 +166,7 @@ GLUTWindow::~GLUTWindow(void)
 // init the window: create the context	
 void GLUTWindow::init( void )
 {
+	setupGL();
 }
 	
 // activate the window: bind the OGL context	

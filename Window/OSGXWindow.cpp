@@ -75,7 +75,7 @@ using namespace osg;
  *                           Class variables                               *
 \***************************************************************************/
 
-char XWindow::cvsid[] = "@(#)$Id: OSGXWindow.cpp,v 1.2 2001/02/12 15:59:17 vossg Exp $";
+char XWindow::cvsid[] = "@(#)$Id: OSGXWindow.cpp,v 1.3 2001/02/12 16:46:01 dirk Exp $";
 
 // Static Class Varible implementations: 
 
@@ -183,6 +183,9 @@ void XWindow::init( void )
   
 	// create the new context
 	_glcx = glXCreateContext( _dpy, vi, None, GL_TRUE );
+
+    glXMakeCurrent( _dpy, _hwin, _glcx );
+	setupGL();
 }
 	
 // activate the window: bind the OGL context	
