@@ -1,7 +1,53 @@
-#ifndef OSGLOG_CLASS_DECLARATION
-#define OSGLOG_CLASS_DECLARATION
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *         contact: dirk@opensg.org, vossg@igd.fhg.de, jbehr@zgdv.de         *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
 
-#include <OSGConfig.h>
+
+#ifndef _OSGLog_H_
+#define _OSGLog_H_
+#ifdef __sgi
+#pragma once
+#endif
+
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
+#include <OSGBaseTypes.h>
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <fstream>
@@ -11,16 +57,39 @@
 
 OSG_BEGIN_NAMESPACE
 
-enum OSGLogType  { LOG_NONE = 0, LOG_STDOUT, LOG_STDERR, LOG_FILE };
-enum OSGLogLevel { LOG_LOG  = 0, LOG_FATAL, LOG_WARNING, LOG_NOTICE,
-									 LOG_INFO, LOG_DEBUG };
+//---------------------------------------------------------------------------
+//  Forward References
+//---------------------------------------------------------------------------
 
-/** Message logger class.
-*
-* handles info,warning and error messages
-*
-* @author jbehr, Thu Oct 21 19:25:45 1999
-*/
+//---------------------------------------------------------------------------
+//   Types
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+//   Enums
+//---------------------------------------------------------------------------
+
+enum OSGLogType  
+{ 
+    LOG_NONE = 0, 
+    LOG_STDOUT, 
+    LOG_STDERR, 
+    LOG_FILE 
+};
+
+enum OSGLogLevel 
+{
+    LOG_LOG  = 0, 
+    LOG_FATAL, 
+    LOG_WARNING, 
+    LOG_NOTICE,
+    LOG_INFO, 
+    LOG_DEBUG 
+};
+
+//---------------------------------------------------------------------------
+//  Support Class
+//---------------------------------------------------------------------------
 
 class OSGLogOStream : public ostream
 {
@@ -36,11 +105,144 @@ class OSGLogOStream : public ostream
 #endif
 };
 
-class OSGLog : public ostream {
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
 
-private:
+/*! \ingroup baselib
+ *  \brief Brief
+ *
+ *  detailed
+ */
+
+class OSGLog : public ostream 
+{
+  public:
+
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    static const char *getClassname(void) { return "OSGLog"; }
+ 
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    /** Default Constructor */
+    OSGLog(OSGLogType  logType  = LOG_STDERR, 
+           OSGLogLevel logLevel = LOG_NOTICE);
+
+    /** Constructor which takes a log file name*/
+    OSGLog(const char *fileName, OSGLogLevel logLevel = LOG_NOTICE );
+
+    virtual ~OSGLog(void); 
+
+    /*------------------------- your_category -------------------------------*/
+
+    /** get method for attribute logType */
+    virtual OSGLogType getLogType(void);
+
+    /** set method for attribute logType */
+    virtual void setLogType(OSGLogType logType);
+
+    /** get method for attribute logLevel */
+    virtual OSGLogLevel getLogLevel(void);
+
+    /** set method for attribute logLevel */
+    virtual void setLogLevel(OSGLogLevel logLevel); 
+
+	/** method to set and activate the log file */
+	virtual void setLogFile(const char *fileName);
+
+	/** returns the error stream */
+	ostream &stream(OSGLogLevel level) { return *(_streamVec[level]); }
+
+	/** print for C-interface helper method */
+	void doLog( char * format, ... );
+
+    /*------------------------- your_operators ------------------------------*/
+
+    /*------------------------- assignment ----------------------------------*/
+
+    /*------------------------- comparison ----------------------------------*/
+
+  protected:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+	/** reconnects the streams for the current settings */
+	void connect(void );
+
+  private:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    typedef ostream Inherited;
+
+    //-----------------------------------------------------------------------
+    //   friend classes                                                      
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   friend functions                                                    
+    //-----------------------------------------------------------------------
 
     friend inline void initOSGLog(void);
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+	static char cvsid[];
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
 
 	/** defines a nil buffer */
 	class nilbuf : public streambuf {	};
@@ -52,85 +254,42 @@ private:
     static fstream *_nilstreamP;
 #endif
 
-  /** holds the log type */
-	OSGLogType _logType;
+    /** holds the log type */
+	OSGLogType      _logType;
 
 	/** hosts the log level */
-	OSGLogLevel _logLevel;
+	OSGLogLevel     _logLevel;
 
 	/** file stream */
-	fstream _fileStream;
+	fstream         _fileStream;
 
 	/** stream vector */
 	OSGLogOStream *_streamVec[6];
 
-protected:
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
 
-	/** reconnects the streams for the current settings */
-	void connect(void );
+	// prohibit default functions (move to 'public' if you need one)
 
-public:
-
-  /** Default Constructor */
-  OSGLog (OSGLogType logType = LOG_STDERR, OSGLogLevel logLevel = LOG_NOTICE );
-
-  /** Constructor which takes a log file name*/
-  OSGLog (const char *fileName, OSGLogLevel logLevel = LOG_NOTICE );
-
-  /** Copy Constructor */
-  OSGLog (const OSGLog &obj);
-
-  /** Destructor */
-  virtual ~OSGLog (void);
-
-  /** get method for attribute logType */
-  virtual OSGLogType getLogType (void) { return _logType; }
-
-  /** set method for attribute logType */
-  virtual void setLogType (OSGLogType logType) 
-		{ _logType = logType; connect() ; }
-
-  /** get method for attribute logLevel */
-  virtual OSGLogLevel getLogLevel (void) { return _logLevel; }
-
-  /** set method for attribute logLevel */
-  virtual void setLogLevel (OSGLogLevel logLevel); 
-
-	/** method to set and activate the log file */
-	virtual void setLogFile (const char *fileName);
-
-	/** returns the error stream */
-	ostream &stream(OSGLogLevel level) { return *(_streamVec[level]); }
-
-	/** print for C-interface helper method */
-	void doLog( char * format, ... );
-	
+    OSGLog(const OSGLog &source);
+    void operator =(const OSGLog &source);
 };
 
-typedef OSGLog* OSGLogP;
+//---------------------------------------------------------------------------
+//   Exported Types
+//---------------------------------------------------------------------------
+
+// class pointer
+
+typedef OSGLog *OSGLogP;
 
 /** appOSGLog */
 extern OSGLogP osgLogP;
 
-inline void initOSGLog(void)
-{
-#ifdef OSG_HAS_NILBUF
-    if(OSGLog::_nilbufP == NULL)
-        OSGLog::_nilbufP = new OSGLog::nilbuf();
-#else
-    if(OSGLog::_nilStreamP == NULL)
-        OSGLog::_nilStreamP = new fstream("/dev/null", ios::out);
-#endif
+inline void    initOSGLog(void);
+inline OSGLog &osgLog    (void); 
 
-	if(osgLogP == NULL)
-		osgLogP = new OSGLog ( LOG_STDERR, LOG_NOTICE );
-}
-
-inline OSGLog & osgLog() 
-{
-	initOSGLog();
-	return *osgLogP;
-}
 
 #define SLOG \
 osgLog() << __FILE__ << ':' << __LINE__ \
@@ -257,4 +416,6 @@ osgLog().stream(OSG::LOG_DEBUG) << __FILE__ << ':' << __LINE__ \
 
 OSG_END_NAMESPACE
 
-#endif // OSGLOG_CLASS_DECLARATION
+#include <OSGLog.inl>
+
+#endif /* _OSGLOG_H_ */
