@@ -709,9 +709,9 @@ UInt32 MField<FieldTypeT, fieldNameSpace>::getBinSize(void)
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MemoryHandle MField<FieldTypeT, fieldNameSpace>::copyToBin(MemoryHandle pMem)
 {
-    return MFieldTraits::copyToBin( pMem, 
-                                   (MemoryHandle) (&_values),
-                                   _values.size());
+    return MFieldTraits::copyToBin(   pMem, 
+                                   &(_values[0]),
+                                     _values.size());
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline

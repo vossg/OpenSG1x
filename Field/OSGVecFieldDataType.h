@@ -65,8 +65,8 @@ struct FieldTraitsRecurseVecStore2Base : public Traits
         return 0;
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle pMem, 
-                                  const MemoryHandle pObjectStore)
+    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
+                                  const ValueTypeT   &oObject)
     {
         fprintf(stderr, 
                 "FieldTraitsRecurseMapper<VecStorage2<ValueTypeT> >::cTB\n");
@@ -74,9 +74,9 @@ struct FieldTraitsRecurseVecStore2Base : public Traits
         return pMem;
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle pMem, 
-                                  const MemoryHandle pObjectStore,
-                                        UInt32       uiNumObjects)
+    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
+                                  const ValueTypeT   *pObjectStore,
+                                        UInt32        uiNumObjects)
     {
         fprintf(stderr, 
                 "FieldTraitsRecurseMapper<VecStorage2<ValueTypeT> >::cFB\n");
@@ -104,8 +104,8 @@ struct FieldTraitsRecurseVecStore3Base : public Traits
         return 0;
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle pMem, 
-                                  const MemoryHandle pObjectStore)
+    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
+                                  const ValueTypeT   &oObject)
     {
         fprintf(stderr, 
                 "FieldTraitsRecurseMapper<VecStorage3<ValueTypeT> >::cTB\n");
@@ -113,9 +113,9 @@ struct FieldTraitsRecurseVecStore3Base : public Traits
         return pMem;
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle pMem, 
-                                  const MemoryHandle pObjectStore,
-                                        UInt32       uiNumObjects)
+    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
+                                  const ValueTypeT   *pObjectStore,
+                                        UInt32        uiNumObjects)
     {
         fprintf(stderr, 
                 "FieldTraitsRecurseMapper<VecStorage3<ValueTypeT> >::cFB\n");
@@ -143,8 +143,8 @@ struct FieldTraitsRecurseVecStore4Base : public Traits
         return 0;
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle pMem, 
-                                  const MemoryHandle pObjectStore)
+    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
+                                  const ValueTypeT   &oObjectStore)
     {
         fprintf(stderr, 
                 "FieldTraitsRecurseMapper<VecStorage4<ValueTypeT> >::cTB\n");
@@ -152,9 +152,9 @@ struct FieldTraitsRecurseVecStore4Base : public Traits
         return pMem;
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle pMem, 
-                                  const MemoryHandle pObjectStore,
-                                        UInt32       uiNumObjects)
+    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
+                                  const ValueTypeT   *pObjectStore,
+                                        UInt32        uiNumObjects)
     {
         fprintf(stderr, 
                 "FieldTraitsRecurseMapper<VecStorage4<ValueTypeT> >::cFB\n");

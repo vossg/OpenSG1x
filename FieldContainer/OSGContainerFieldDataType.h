@@ -72,8 +72,8 @@ struct FieldTraitsRecurseMapper<FieldContainerPtr> :
         return 0;
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle pMem, 
-                                  const MemoryHandle pObjectStore)
+    static MemoryHandle copyToBin(      MemoryHandle       pMem, 
+                                  const FieldContainerPtr &pObject)
     {
         fprintf(stderr, 
                 "FieldTraitsToBin<FieldContainerPtr>::copyToBin\n");
@@ -81,9 +81,9 @@ struct FieldTraitsRecurseMapper<FieldContainerPtr> :
         return pMem;
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle pMem, 
-                                  const MemoryHandle pObjectStore,
-                                        UInt32       uiNumObjects)
+    static MemoryHandle copyToBin(      MemoryHandle       pMem, 
+                                  const FieldContainerPtr *pObjectStore,
+                                        UInt32             uiNumObjects)
     {
         fprintf(stderr, 
                 "FieldTraitsToBin<FieldContainerPtr>::mcopyToBin\n");
@@ -104,9 +104,30 @@ struct FieldTraitsRecurseMapper<AttachmentMap> :
 {
     enum                        { bHasParent        = 0x00      };
 
+    static UInt32 getBinSize(void)
+    {
+        fprintf(stderr, "FieldTraitsToBin<AttachmentMap>::getSize\n");
+        return 0;
+    }
+
+    static MemoryHandle copyToBin(      MemoryHandle   pMem, 
+                                  const AttachmentMap &pObject)
+    {
+        fprintf(stderr, "FieldTraitsToBin<AttachmentMap>::copyToBin\n");
+
+        return pMem;
+    }
+
+    static MemoryHandle copyToBin(      MemoryHandle   pMem, 
+                                  const AttachmentMap *pObjectStore,
+                                        UInt32         uiNumObjects)
+    {
+        fprintf(stderr, "FieldTraitsToBin<AttachmentMap>::mcopyToBin\n");
+
+        return pMem;
+    }
     static void putToBin (void) 
     { 
-        fprintf(stderr, "FieldTraitsToBin<AttachmentMap>\n");
     }
 };
 
