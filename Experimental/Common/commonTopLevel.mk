@@ -99,29 +99,42 @@ install-libs:
 	@if [ ! -w lib ]; then mkdir lib; fi
 	@if [ ! -w lib/dbg ]; then mkdir lib/dbg; fi
 	@if [ ! -w lib/opt ]; then mkdir lib/opt; fi
-	@CURRDIR=`pwd`															\
+	@CURRDIR=`pwd`;                                                          \
 	BUILDLIBS=`find $$CURRDIR -name 'lib-dbg' 			        			\
 						-exec find {} -name '*\$(SO_SUFFIX)' -print \;` ;	\
 	cd lib/dbg;																\
 	rm -f *$(SO_SUFFIX);													\
 	for t in $$BUILDLIBS; 													\
 	do																		\
-		echo  $$t;															\
+		echo $$t;															\
 		$(LINK) $$t .;														\
-	done
-	@CURRDIR=`pwd`															\
+	done;                                                                   \
+	cd ..;
+	@CURRDIR=`pwd`;															\
 	BUILDLIBS=`find $$CURRDIR -name 'lib-opt' 			        			\
 						-exec find {} -name '*\$(SO_SUFFIX)' -print \;` ;	\
 	cd lib/opt;																\
 	rm -f *$(SO_SUFFIX);													\
 	for t in $$BUILDLIBS; 													\
 	do																		\
-		echo  $$t;															\
+		echo $$t;															\
 		$(LINK) $$t .;														\
-	done
+	done;																	\
+	cd ..;
 ifeq ($(OS_BASE),cygwin)
-	@CURRDIR=`pwd`															\
+	@CURRDIR=`pwd`;															\
 	BUILDLIBS=`find $$CURRDIR -name 'lib-dbg' 			        			\
+						-exec find {} -name '*\$(LIB_SUFFIX)' -print \;` ;	\
+	cd lib/dbg;																\
+	rm -f *$(LIB_SUFFIX);													\
+	for t in $$BUILDLIBS; 													\
+	do																		\
+		echo  $$t;															\
+		$(LINK) $$t .;														\
+	done;																	\
+	cd ..;
+	@CURRDIR=`pwd`;															\
+	BUILDLIBS=`find $$CURRDIR -name 'lib-opt' 			        			\
 						-exec find {} -name '*\$(LIB_SUFFIX)' -print \;` ;	\
 	cd lib/opt;																\
 	rm -f *$(LIB_SUFFIX);													\
@@ -129,17 +142,8 @@ ifeq ($(OS_BASE),cygwin)
 	do																		\
 		echo  $$t;															\
 		$(LINK) $$t .;														\
-	done
-	CURRDIR=`pwd`															\
-	BUILDLIBS=`find $$CURRDIR -name 'lib-dbg' 			        			\
-						-exec find {} -name '*\$(LIB_SUFFIX)' -print \;` ;	\
-	cd lib/opt;																\
-	rm -f *$(LIB_SUFFIX);													\
-	for t in $$BUILDLIBS; 													\
-	do																		\
-		echo  $$t;															\
-		$(LINK) $$t .;														\
-	done
+	done;																	\
+	cd ..;
 endif
 
 install: install-includes install-libs
