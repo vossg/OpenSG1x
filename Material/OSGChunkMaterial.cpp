@@ -75,7 +75,7 @@ The chunk material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.16 2001/10/15 03:10:22 vossg Exp $";
+char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.17 2001/12/28 18:31:03 jbehr Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -223,7 +223,7 @@ Bool ChunkMaterial::isTransparent(void) const
     MFStateChunkPtr::const_iterator it        = _mfChunks.begin();
     MFStateChunkPtr::const_iterator chunksEnd = _mfChunks.end();
 
-    for (; it != chunksEnd; ++it, returnValue == false)
+    for (; (it != chunksEnd) && (returnValue == false); ++it)
     {
         returnValue = (*it)->isTransparent();
     }
