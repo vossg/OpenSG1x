@@ -171,6 +171,8 @@
     ?copyFromBin@?$SField@VNodePtr@osg@@$0A@@osg@@QAEXAAVBinaryDataHandler@2@@Z
     ?syncWith@?$SField@VNodePtr@osg@@$0A@@osg@@QAEXAAV12@@Z
 
+    ?addValue@?$MField@VNodePtr@osg@@$0A@@osg@@QAEXABVNodePtr@2@@Z
+
     ?copyToBin@?$MField@VNodePtr@osg@@$0A@@osg@@QBEXAAVBinaryDataHandler@2@@Z
     ?copyFromBin@?$MField@VNodePtr@osg@@$0A@@osg@@QAEXAAVBinaryDataHandler@2@@Z
     ?syncWith@?$MField@VNodePtr@osg@@$0A@@osg@@QAEXAAV12@@Z
