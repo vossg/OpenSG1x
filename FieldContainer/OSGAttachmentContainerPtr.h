@@ -50,9 +50,8 @@ OSG_BEGIN_NAMESPACE
 
 class AttachmentContainer;
 
-/*! \ingroup FieldContainerLib
- *  \brief Pointer to an attachment container
- */
+//! Pointer to an attachment container
+//! \ingroup FieldContainerLib
 
 #ifdef __sgi
 #pragma set woff 1375,1424
@@ -63,8 +62,6 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainerPtr :
 {
     /*==========================  PUBLIC  =================================*/
   public:
-
-//    static const AttachmentContainerPtr NullPtr;
 
     typedef AttachmentContainer ObjectType;
 
@@ -94,7 +91,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainerPtr :
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
+    /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
     ~AttachmentContainerPtr(void); 
@@ -126,7 +123,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainerPtr :
     /*! \name             Container Constructors                           */
     /*! \{                                                                 */
     /*! \brief Container Constructor, used to work around MS Bugs,  
-     *  use them only if you really now what you are doing ;-)             */
+        use them only if you really now what you are doing ;-)             */
 
     explicit AttachmentContainerPtr(const AttachmentContainer &source);
     explicit AttachmentContainerPtr(const AttachmentContainer *source);

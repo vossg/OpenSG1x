@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -57,58 +53,24 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: $";
-    static char cvsid_hpp[] = OSGATTACHMENTPTR_HEADER_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGATTACHMENTPTR_HEADER_CVSID;
 }
 
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
 
-/** \typedef AttachmentPtr::Inherited
- *  \brief Parent type
+/*! \class osg::AttachmentPtr
  */
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 AttachmentPtr::AttachmentPtr(void) :
     Inherited()
 {
 }
-
-/** \brief Copy Constructor
- */
 
 AttachmentPtr::AttachmentPtr(const AttachmentPtr &source) :
 
@@ -116,50 +78,36 @@ AttachmentPtr::AttachmentPtr(const AttachmentPtr &source) :
 {
 }
 
-/** \brief NullPtr Constructor
- */
-
 AttachmentPtr::AttachmentPtr(const NullFieldContainerPtr &source) :
 
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 AttachmentPtr::~AttachmentPtr(void)
 {
 }
 
-/*-------------------------- pointer operators ------------------------------*/
-
-/** \brief Arrow operator
- */
+/*-------------------------------------------------------------------------*/
+/*                        Container Access                                 */
 
 Attachment *AttachmentPtr::operator->(void)
 {
     return (Attachment *) getElemP(Thread::getAspect());
 }
 
-/** \brief Const arrow operator
- */
-
 Attachment *AttachmentPtr::operator->(void) const
 {
     return (Attachment *) getElemP(Thread::getAspect());
 }
 
-/** \brief Dereference operator
- */
-
 Attachment &AttachmentPtr::operator *(void)
 {
     return *((Attachment *) getElemP(Thread::getAspect()));
 }
-
-/** \brief Const dereference operator
- */
 
 Attachment &AttachmentPtr::operator *(void) const
 {
@@ -176,10 +124,8 @@ Attachment *AttachmentPtr::getCPtr(void) const
     return (Attachment *) getElemP(Thread::getAspect());
 }
 
-/*-------------------------- assignment -----------------------------------*/
-
-/** \brief assignment
- */
+/*-------------------------------------------------------------------------*/
+/*                             Assignment                                  */
 
 void AttachmentPtr::operator = (const AttachmentPtr &source)
 {
@@ -187,21 +133,14 @@ void AttachmentPtr::operator = (const AttachmentPtr &source)
     *(static_cast<Inherited *>(this)) = source;
 }
 
-/** \brief NullPtr assignment
- */
-
 void AttachmentPtr::operator = (const NullFieldContainerPtr &source)
 {
     // copy parts inherited from parent
     *(static_cast<Inherited *>(this)) = source;
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Construct a pointer from a give node.
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 AttachmentPtr::AttachmentPtr(const Attachment &source) :
 
@@ -223,13 +162,10 @@ AttachmentPtr::AttachmentPtr(const Attachment *source,
 {
 }
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                               Functions                                 */
 
-
-/** \brief Write FC to the given stream
- */
+//! Write FC to the given stream
 
 OSG_SYSTEMLIB_DLLMAPPING
 ostream &OSG::operator <<(      ostream        &os,
@@ -248,35 +184,3 @@ ostream &OSG::operator <<(      ostream        &os,
 
     return os;
 }
-
-///---------------------------------------------------------------------------
-///  FUNCTION:
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters:
-//p:
-///
-//g: GlobalVars:
-//g:
-///
-//r: Return:
-//r:
-///
-//c: Caution:
-//c:
-///
-//a: Assumptions:
-//a:
-///
-//d: Description:
-//d:
-///
-//s: SeeAlso:
-//s:
-///---------------------------------------------------------------------------
-
-
-
-

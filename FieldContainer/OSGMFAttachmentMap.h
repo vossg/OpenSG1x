@@ -46,19 +46,16 @@
 #include <OSGSField.h>
 #include <OSGAttachmentMapFieldDataType.h>
 
-/** \file OSGMFAttachmentMap.h
- *  \ingroup FieldLib
- *  \ingroup MultiFields
- *  \brief OpenSG field container multi fields
- *
- * <UL>
- * <LI> osg::MFAttachmentMap;
- * </UL>
+/*! \file OSGMFAttachmentMap.h
+    \ingroup FieldLib
+    \ingroup MultiFields
+    \brief OpenSG field container multi fields
  */
 
 OSG_BEGIN_NAMESPACE
 
-/** \brief MFAttachmentMap
+/*! \brief MFAttachmentMap
+    \ingroup MultiFields
  */
 
 typedef MField<AttachmentMap>     MFAttachmentMap;

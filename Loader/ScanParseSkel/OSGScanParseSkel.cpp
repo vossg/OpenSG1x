@@ -67,73 +67,11 @@ namespace
 #pragma reset woff 1174
 #endif
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 extern int  OSGScanParseSkel_char;
 extern void resetScanner(void);
 
-void ScanParseSkel::reset(void)
-{
-    OSGScanParseSkel_char = -2;
-    resetScanner();
-}
-
-void ScanParseSkel::setMapTypeIds(Bool bVal)
-{
-    _bMapTypeIds = bVal;
-}
-
-void ScanParseSkel::setReferenceHeader(const Char8 *szReferenceHeader)
-{
-    stringDup(szReferenceHeader, _szReferenceHeader);
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 ScanParseSkel::ScanParseSkel(void) :
     _uiCurrOptions    (0),
@@ -143,22 +81,21 @@ ScanParseSkel::ScanParseSkel(void) :
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 ScanParseSkel::~ScanParseSkel(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Scan                                     */
 
 extern int   OSGScanParseSkel_parse(void);
 extern FILE *OSGScanParseSkel_in;
 
-extern void setSkel(ScanParseSkel *pSkel);
-extern void clearSkel(void);
+extern void setSkel    (ScanParseSkel *pSkel);
+extern void clearSkel  (void);
 extern void abortParser(void);
 
 void ScanParseSkel::scanFile(const Char8 *szFilename, 
@@ -206,8 +143,8 @@ void ScanParseSkel::setDefaultOptions(UInt32 uiOptions)
     _uiDefOptions = uiOptions;
 }
 
-
-/*-------------------------- your_category---------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                             Prototypes                                  */
 
 Bool ScanParseSkel::verifyHeader(const Char8 *szHeader)
 {
@@ -279,6 +216,8 @@ void ScanParseSkel::endProtoExposedField(void)
 {
 }
 
+/*-------------------------------------------------------------------------*/
+/*                               Fields                                    */
 
 void ScanParseSkel::beginField(const Char8 *,
                                const UInt32)
@@ -288,6 +227,9 @@ void ScanParseSkel::beginField(const Char8 *,
 void ScanParseSkel::endField(void)
 {
 }
+
+/*-------------------------------------------------------------------------*/
+/*                               Nodes                                     */
 
 void ScanParseSkel::beginNode(const Char8 *,
                               const Char8 *)
@@ -303,6 +245,9 @@ void ScanParseSkel::use(const Char8 *szName)
     PINFO << "Use : " << szName << endl;
 }
 
+/*-------------------------------------------------------------------------*/
+/*                               Helper                                    */
+
 void ScanParseSkel::addFieldValue(const Char8 *)
 {
 }
@@ -314,7 +259,8 @@ void ScanParseSkel::addRoute(const Char8 *,
 {
 }
 
-/*-------------------------- assignment -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                           Type Information                              */
 
 Bool ScanParseSkel::getMapFieldTypes(void)
 {
@@ -331,36 +277,23 @@ UInt32 ScanParseSkel::getFieldType(const Char8 *)
     return 0;
 }
 
-/*-------------------------- comparison -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                               Set                                       */
 
+void ScanParseSkel::reset(void)
+{
+    OSGScanParseSkel_char = -2;
+    resetScanner();
+}
 
+void ScanParseSkel::setMapTypeIds(Bool bVal)
+{
+    _bMapTypeIds = bVal;
+}
 
+void ScanParseSkel::setReferenceHeader(const Char8 *szReferenceHeader)
+{
+    stringDup(szReferenceHeader, _szReferenceHeader);
+}
 
-//---------------------------------------------------------------------------
-//  FUNCTION: 
-//---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-//---------------------------------------------------------------------------
-//
-//p: Paramaters: 
-//p: 
-//
-//g: GlobalVars:
-//g: 
-//
-//r: Return:
-//r: 
-//
-//c: Caution:
-//c: 
-//
-//a: Assumptions:
-//a: 
-//
-//d: Description:
-//d: 
-//
-//s: SeeAlso:
-//s: 
-//---------------------------------------------------------------------------
 

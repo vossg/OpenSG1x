@@ -60,14 +60,13 @@ OSG_BEGIN_NAMESPACE
 class NodeCore;
 class BinaryDataHandler;
 
-/*! \ingroup FieldContainerLib
- *  \brief Node
- */
+//! Node
+//! \ingroup FieldContainerLib
 
 class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer 
 {
-    /*==========================  PRIVATE  ================================*/
-  private:
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
     typedef AttachmentContainer Inherited;
 
@@ -87,7 +86,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     static const BitVector ParentFieldMask;
     static const BitVector ChildrenFieldMask;
     static const BitVector CoreFieldMask;
-
 
     typedef NodePtr Ptr;
 
@@ -109,16 +107,16 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                                                              */
-    /*! \{                           Unlink                                */
+    /*! \name                       Unlink                                 */
+    /*! \{                                                                 */
 
     void unlink       (void);
     void unlinkSubTree(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                                                              */
-    /*! \{                           Parent                                */
+    /*! \name                       Parent                                 */
+    /*! \{                                                                 */
 
     NodePtr getParent(void);
 
@@ -149,9 +147,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                                                              */
+    /*! \name                     Access Fields                            */
     /*! \{                                                                 */
-    /*--------------------------- access fields ----------------------------*/
 
     SFDynamicVolume *getSFVolume  (void);
 
@@ -289,12 +286,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /* prohibit default function (move to 'public' if needed) */
     void operator =(const Node &source);
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-typedef Node *NodeP;
 
 OSG_END_NAMESPACE
 

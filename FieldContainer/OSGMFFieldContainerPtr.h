@@ -46,19 +46,16 @@
 #include <OSGMField.h>
 #include <OSGFieldContainerFieldDataType.h>
 
-/** \file OSGMFFieldContainerPtr.h
- *  \ingroup FieldLib
- *  \ingroup MultiFields
- *  \brief OpenSG  field container multi fields
- *
- * <UL>
- * <LI> osg::MFFieldContainerPtr
- * </UL>
+/*! \file OSGMFFieldContainerPtr.h
+    \ingroup FieldLib
+    \ingroup MultiFields
+    \brief OpenSG field container multi fields
  */
 
 OSG_BEGIN_NAMESPACE
 
-/** \brief MFFieldContainerPtr
+/*! \brief MFFieldContainerPtr
+    \ingroup MultiFields
  */
 
 typedef MField<FieldContainerPtr> MFFieldContainerPtr;

@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -60,48 +56,22 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: $";
-    static char cvsid_hpp[] = OSGFIELDCONTAINER_HEADER_CVSID;
-    static char cvsid_inl[] = OSGFIELDCONTAINER_INLINE_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGFIELDCONTAINER_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGFIELDCONTAINER_INLINE_CVSID;
 }
 
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+/*! \class osg::FieldContainer
+ */
 
 FieldContainerType FieldContainer::_type("FieldContainer");
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
 
 FieldContainerType &FieldContainer::getType(void)
 {
@@ -128,7 +98,6 @@ const Char8 *FieldContainer::getTypeName(void) const
     return getType().getCName();
 }
 
-
 Field *FieldContainer::getField(UInt32 fieldId)
 {
     const FieldDescription *desc = getType().getFieldDescription(fieldId);
@@ -142,6 +111,9 @@ Field *FieldContainer::getField(const Char8 *fieldName)
 
     return desc ? desc->getField(*this) : NULL;
 }
+
+/*-------------------------------------------------------------------------*/
+/*                            Binary Access                                */
 
 UInt32 FieldContainer::getBinSize(const BitVector &)
 {
@@ -158,33 +130,13 @@ void FieldContainer::copyFromBin(      BinaryDataHandler &,
 {
 }
 
-/*------------------------------ access -----------------------------------*/
-
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 FieldContainer::FieldContainer(void) :
     _shares(0)
 {
 }
-
-/** \brief Copy Constructor
- */
 
 FieldContainer::FieldContainer(const FieldContainer &) :
     _shares(0)
@@ -192,22 +144,24 @@ FieldContainer::FieldContainer(const FieldContainer &) :
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 FieldContainer::~FieldContainer(void)
 {
 }
 
-void FieldContainer::onDestroy(void)
-{
-}
+/*-------------------------------------------------------------------------*/
+/*                               Changed                                   */
 
 void FieldContainer::changed(BitVector  OSG_CHECK_ARG(whichField),
                              ChangeMode OSG_CHECK_ARG(from      ))
 {
     // fprintf(stderr, "FC Changed %d %d\n", whichField, fromSync);
 }
+
+/*-------------------------------------------------------------------------*/
+/*                             MT Contruction                              */
 
 void FieldContainer::onCreate(void)
 {
@@ -217,44 +171,23 @@ void FieldContainer::onCreate(const FieldContainer &)
 {
 }
 
+/*-------------------------------------------------------------------------*/
+/*                             MT Destruction                              */
+
+void FieldContainer::onDestroy(void)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                                Sync                                     */
+
 void FieldContainer::executeSyncImpl(      FieldContainer *,
                                      const BitVector      &)
 {
 }
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
-//---------------------------------------------------------------------------
-//  FUNCTION:
-//---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-//---------------------------------------------------------------------------
-//
-//p: Paramaters:
-//p:
-//
-//g: GlobalVars:
-//g:
-//
-//r: Return:
-//r:
-//
-//c: Caution:
-//c:
-//
-//a: Assumptions:
-//a:
-//
-//d: Description:
-//d:
-//
-//s: SeeAlso:
-//s:
-//---------------------------------------------------------------------------
+/*-------------------------------------------------------------------------*/
+/*                               Functions                                 */
 
 OSG_BEGIN_NAMESPACE
 
@@ -264,7 +197,6 @@ void addRefCP(const FieldContainerPtrBase &objectP)
         objectP.addRef();
 }
 
-/*! subRefP */
 void subRefCP(const FieldContainerPtrBase &objectP)
 {
     if(objectP != NullFC)
@@ -294,7 +226,6 @@ void setRefdCP(      FieldContainerPtrBase &objectP,
     }
 }
 
-/*! osgBeginEditCP */
 void beginEditCP(const FieldContainerPtr &objectP,
                        BitVector         whichField)
 {
@@ -302,7 +233,6 @@ void beginEditCP(const FieldContainerPtr &objectP,
         objectP.beginEdit(whichField);
 }
 
-/*! osgEndEditCP */
 void endEditCP(const FieldContainerPtr &objectP,
                      BitVector          whichField)
 {

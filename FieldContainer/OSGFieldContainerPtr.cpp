@@ -64,9 +64,9 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: $";
-    static char cvsid_hpp[] = OSGFIELDCONTAINERPTR_HEADER_CVSID;
-    static char cvsid_inl[] = OSGFIELDCONTAINERPTR_INLINE_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGFIELDCONTAINERPTR_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGFIELDCONTAINERPTR_INLINE_CVSID;
 }
 
 #ifdef __sgi
@@ -75,33 +75,163 @@ namespace
 
 const NullFieldContainerPtr OSG::NullFC;
 
+
+
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+/*! \class osg::FieldContainerPtrBase
+ */
 
 const UInt16    FieldContainerPtrBase::InvalidParentEPos = 0xFFFF;
 
       LockPool *FieldContainerPtrBase::_pRefCountLock    = NULL;
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+FieldContainerPtrBase::FieldContainerPtrBase(void) :
+    _containerSize(0),
+    _uiParentEPos(InvalidParentEPos),
+    _storeP(NULL)
+{
+#ifdef OSG_DEBUG_TYPED_FCPTR
+    _szTypename = NULL;
+#endif
+}
+
+FieldContainerPtrBase::FieldContainerPtrBase(
+    const FieldContainerPtrBase &source) :
+
+    _containerSize(source._containerSize),
+    _uiParentEPos (source._uiParentEPos),
+    _storeP       (source._storeP)
+{
+#ifdef OSG_DEBUG_TYPED_FCPTR
+    if(_storeP == NULL)
+        _szTypename = NULL;
+    else
+        _szTypename = ((FieldContainer *) _storeP)->getType().getName();
+#endif
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+FieldContainerPtrBase::~FieldContainerPtrBase(void)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                         Parent Field Pos                                */
+
+void FieldContainerPtrBase::setParentFieldPos(UInt16 uiParentEPos)
+{
+    _uiParentEPos = uiParentEPos;
+}
+
+UInt16 FieldContainerPtrBase::getParentFieldPos(void) const
+{
+    return _uiParentEPos;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
+
+UInt32 FieldContainerPtrBase::getFieldContainerId(void) const
+{
+    return (*getIdP());
+}
+
+UInt16  FieldContainerPtrBase::getContainerSize(void) const
+{
+    return _containerSize;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Assignment                                  */
+
+void FieldContainerPtrBase::operator =(const FieldContainerPtrBase &source)
+{
+    if (this == &source)
+        return;
+
+    _containerSize = source._containerSize;
+    _uiParentEPos  = source._uiParentEPos;
+    _storeP        = source._storeP;
+
+#ifdef OSG_DEBUG_TYPED_FCPTR
+    if(_storeP == NULL)
+        _szTypename = NULL;
+    else
+        _szTypename = ((FieldContainer *) _storeP)->getType().getName();
+#endif
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Comparison                                  */
+
+Bool FieldContainerPtrBase::operator < (
+    const FieldContainerPtrBase &other)const
+{
+    return _storeP < other._storeP;
+}
+
+Bool FieldContainerPtrBase::operator ==(
+    const FieldContainerPtrBase &other) const
+{
+    return _storeP == other._storeP;
+}
+
+Bool FieldContainerPtrBase::operator !=(
+    const FieldContainerPtrBase &other) const
+{
+    return ! (*this == other);
+}
+
+Bool FieldContainerPtrBase::operator ! (void) const
+{
+    return _storeP == NULL;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                                Dump                                     */
+
+void FieldContainerPtrBase::dump(      UInt32    uiIndent,
+                                 const BitVector bvFlags) const
+{
+    if(_storeP != NULL)
+    {
+        indentLog(uiIndent, PLOG);
+        PLOG << "FCPtr Dump :" << endl;
+
+        uiIndent += 4;
+
+        indentLog(uiIndent, PLOG);
+        PLOG << "Id       : " << (*(getIdP()))   << endl;
+
+        indentLog(uiIndent, PLOG);
+        PLOG << "Storage  : " << hex << (UInt32 *)getFirstElemP() << endl;
+
+        if(bvFlags & FCDumpFlags::RefCount)
+        {
+             indentLog(uiIndent, PLOG);
+             PLOG << "RefCount : " << *(getRefCountP()) << endl;
+        }
+
+//        dumpContent();
+    }
+    else
+    {
+        PLOG << "FCPtr Dump : (NULL)" << endl;
+    }
+}
+
+/*-------------------------------------------------------------------------*/
+/*                                Init                                     */
 
 Bool FieldContainerPtrBase::initialize(int &, char **)
 {
@@ -137,22 +267,6 @@ Bool FieldContainerPtrBase::terminate(void)
     return true;
 }
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 #ifdef OSG_DEBUG_TYPED_FCPTR
 void FieldContainerPtrBase::updateTypedStore(void)
 {
@@ -163,38 +277,9 @@ void FieldContainerPtrBase::updateTypedStore(void)
 }
 #endif
 
-/*------------- constructors & destructors --------------------------------*/
 
-/** \brief Constructor
- */
-
-FieldContainerPtrBase::FieldContainerPtrBase(void) :
-    _containerSize(0),
-    _uiParentEPos(InvalidParentEPos),
-    _storeP(NULL)
-{
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    _szTypename = NULL;
-#endif
-}
-
-FieldContainerPtrBase::FieldContainerPtrBase(
-    const FieldContainerPtrBase &source) :
-
-    _containerSize(source._containerSize),
-    _uiParentEPos (source._uiParentEPos),
-    _storeP       (source._storeP)
-{
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    if(_storeP == NULL)
-        _szTypename = NULL;
-    else
-        _szTypename = ((FieldContainer *) _storeP)->getType().getName();
-#endif
-}
-
-/** \brief Construct a pointer from a give fieldcontainer.
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 FieldContainerPtrBase::FieldContainerPtrBase(const FieldContainer &source)
 {
@@ -244,12 +329,12 @@ FieldContainerPtrBase::FieldContainerPtrBase(const FieldContainer *source,
 
     if(source != NULL)
     {
-        _storeP          = (UInt8 *) (const_cast<FieldContainer *>(source));
-        _storeP         -= getElemOff(Thread::getAspect());
+        _storeP  = (UInt8 *) (const_cast<FieldContainer *>(source));
+        _storeP -= getElemOff(Thread::getAspect());
     }
     else
     {
-        _storeP          = NULL;
+        _storeP  = NULL;
     }
 
 #ifdef OSG_DEBUG_TYPED_FCPTR
@@ -260,15 +345,8 @@ FieldContainerPtrBase::FieldContainerPtrBase(const FieldContainer *source,
 #endif
 }
 
-/** \brief Destructor
- */
-
-FieldContainerPtrBase::~FieldContainerPtrBase(void)
-{
-}
-
-
-/*----------------------------- Sync --------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Sync                                     */
 
 void FieldContainerPtrBase::executeSync(UInt32    uiFromAspect,
                                         UInt32    uiToAspect,
@@ -278,7 +356,8 @@ void FieldContainerPtrBase::executeSync(UInt32    uiFromAspect,
         (*((FieldContainer *) getElemP(uiFromAspect)), whichField);
 }
 
-/*----------------------------- Mem ---------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                         Get Memory Locations                            */
 
 Int32 *FieldContainerPtrBase::getRefCountP(void)
 {
@@ -320,7 +399,8 @@ UInt8 *FieldContainerPtrBase::getFirstElemP(void) const
     return _storeP;
 }
 
-/*----------------------------- Mem Off -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                         Get Memory Offsets                              */
 
 Int32  FieldContainerPtrBase::getRefCountOff(void) const
 {
@@ -342,7 +422,8 @@ Int32  FieldContainerPtrBase::getElemOff(UInt32 uiElemNum) const
     return (_containerSize * uiElemNum);
 }
 
-/*----------------------------- Mem Off -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                           Reference Counting                            */
 
 void FieldContainerPtrBase::addRef(void) const
 {
@@ -415,192 +496,79 @@ void FieldContainerPtrBase::subRefUntraced(void) const
     }
 }
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
 
-/*----------------------------- parent field pos -----------------------*/
-
-void FieldContainerPtrBase::setParentFieldPos(UInt16 uiParentEPos)
-{
-    _uiParentEPos = uiParentEPos;
-}
-
-UInt16 FieldContainerPtrBase::getParentFieldPos(void) const
-{
-    return _uiParentEPos;
-}
-
-/*---------------------------- container id ---------------------------------*/
-
-UInt32 FieldContainerPtrBase::getFieldContainerId(void) const
-{
-    return (*getIdP());
-}
-
-UInt16  FieldContainerPtrBase::getContainerSize(void) const
-{
-    return _containerSize;
-}
-
-/*-------------------------- assignment -----------------------------------*/
-
-void FieldContainerPtrBase::operator =(const FieldContainerPtrBase &source)
-{
-    if (this == &source)
-        return;
-
-    _containerSize = source._containerSize;
-    _uiParentEPos  = source._uiParentEPos;
-    _storeP        = source._storeP;
-
-#ifdef OSG_DEBUG_TYPED_FCPTR
-    if(_storeP == NULL)
-        _szTypename = NULL;
-    else
-        _szTypename = ((FieldContainer *) _storeP)->getType().getName();
-#endif
-}
-
-/*-------------------------- comparison -----------------------------------*/
-
-/** \brief less than
- */
-
-Bool FieldContainerPtrBase::operator < (const FieldContainerPtrBase &other)const
-{
-    return _storeP < other._storeP;
-}
-
-/** \brief equal
- */
-
-Bool FieldContainerPtrBase::operator ==(const FieldContainerPtrBase &other)const
-{
-    return _storeP == other._storeP;
-}
-
-/** \brief not equal
- */
-
-Bool FieldContainerPtrBase::operator !=(const FieldContainerPtrBase &other)const
-{
-    return ! (*this == other);
-}
-
-/** \brief not
- */
-
-Bool FieldContainerPtrBase::operator !(void) const
-{
-    return _storeP == NULL;
-}
-
-
-
-void FieldContainerPtrBase::dump(      UInt32    uiIndent,
-                                 const BitVector bvFlags) const
-{
-    if(_storeP != NULL)
-    {
-        indentLog(uiIndent, PLOG);
-        PLOG << "FCPtr Dump :" << endl;
-
-        uiIndent += 4;
-
-        indentLog(uiIndent, PLOG);
-        PLOG << "Id       : " << (*(getIdP()))   << endl;
-
-        indentLog(uiIndent, PLOG);
-        PLOG << "Storage  : " << hex << (UInt32 *)getFirstElemP() << endl;
-
-        if(bvFlags & FCDumpFlags::RefCount)
-        {
-             indentLog(uiIndent, PLOG);
-             PLOG << "RefCount : " << *(getRefCountP()) << endl;
-        }
-
-//        dumpContent();
-    }
-    else
-    {
-        PLOG << "FCPtr Dump : (NULL)" << endl;
-    }
-}
 
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-//const FieldContainerPtr FieldContainerPtr::NullPtr;
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/** \brief Construct a pointer from a give fieldcontainer.
+/*! \class osg::FieldContainerPtr
  */
 
-FieldContainerPtr::FieldContainerPtr(const FieldContainer &source) :
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
+
+FieldContainerPtr::FieldContainerPtr(void) :
+    Inherited()
+{
+}
+
+FieldContainerPtr::FieldContainerPtr(const FieldContainerPtr &source) :
     Inherited(source)
 {
 }
 
-/** \brief Construct a pointer from a give fieldcontainer.
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
-FieldContainerPtr::FieldContainerPtr(const FieldContainer *source) :
-    Inherited(source)
+FieldContainerPtr::~FieldContainerPtr(void)
 {
 }
 
+/*-------------------------------------------------------------------------*/
+/*                        Container Access                                 */
 
-FieldContainerPtr::FieldContainerPtr(const FieldContainer *source,
-                                     const UInt16          uiSize,
-                                     const UInt16          uiParentEPos) :
-    Inherited(source, uiSize, uiParentEPos)
+FieldContainer *FieldContainerPtr::operator->(void)
 {
+    return (FieldContainer *) (getElemP(Thread::getAspect()));
 }
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+FieldContainer *FieldContainerPtr::operator->(void) const
+{
+    return (FieldContainer *) (getElemP(Thread::getAspect()));
+}
 
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
+FieldContainer &FieldContainerPtr::operator *(void)
+{
+    return *((FieldContainer *) (getElemP(Thread::getAspect())));
+}
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+FieldContainer &FieldContainerPtr::operator *(void) const
+{
+    return *((FieldContainer *) (getElemP(Thread::getAspect())));
+}
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+FieldContainer *FieldContainerPtr::getCPtr(void)
+{
+    return (FieldContainer *) (getElemP(Thread::getAspect()));
+}
 
-/*----------------------------- Sync --------------------------------------*/
+FieldContainer *FieldContainerPtr::getCPtr(void) const
+{
+    return (FieldContainer *) (getElemP(Thread::getAspect()));
+}
 
-/*----------------------------- Mem ---------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                             Assignment                                  */
 
-/*-------------------------------- Edit -----------------------------------*/
+void FieldContainerPtr::operator =(const FieldContainerPtr &source)
+{
+    *(static_cast<Inherited *>(this)) = source;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             MT Edit                                     */
 
 void FieldContainerPtr::beginEdit(BitVector OSG_CHECK_ARG(whichField)) const
 {
@@ -622,146 +590,117 @@ void FieldContainerPtr::endEditNotChanged(BitVector whichField) const
     Thread::getCurrentChangeList()->addChanged(*this, whichField);
 }
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
-
-FieldContainerPtr::FieldContainerPtr(void) :
-    Inherited()
+FieldContainerPtr::FieldContainerPtr(const FieldContainer &source) :
+    Inherited(source)
 {
 }
 
-FieldContainerPtr::FieldContainerPtr(const FieldContainerPtr &source) :
+FieldContainerPtr::FieldContainerPtr(const FieldContainer *source) :
     Inherited(source)
 {
 }
 
 
-
-/** \brief Destructor
- */
-
-FieldContainerPtr::~FieldContainerPtr(void)
+FieldContainerPtr::FieldContainerPtr(const FieldContainer *source,
+                                     const UInt16          uiSize,
+                                     const UInt16          uiParentEPos) :
+    Inherited(source, uiSize, uiParentEPos)
 {
 }
 
-/*-------------------------- pointer operators ------------------------------*/
 
-/** \brief Arrow operator
- */
-
-FieldContainer *FieldContainerPtr::operator->(void)
-{
-    return (FieldContainer *) (getElemP(Thread::getAspect()));
-}
-
-/** \brief Const arrow operator
- */
-
-FieldContainer *FieldContainerPtr::operator->(void) const
-{
-    return (FieldContainer *) (getElemP(Thread::getAspect()));
-}
-
-/** \brief Dereference operator
- */
-
-FieldContainer &FieldContainerPtr::operator *(void)
-{
-    return *((FieldContainer *) (getElemP(Thread::getAspect())));
-}
-
-/** \brief Const dereference operator
- */
-
-FieldContainer &FieldContainerPtr::operator *(void) const
-{
-    return *((FieldContainer *) (getElemP(Thread::getAspect())));
-}
-
-/** \brief get OSGFieldContainer *
- */
-
-FieldContainer *FieldContainerPtr::getCPtr(void)
-{
-    return (FieldContainer *) (getElemP(Thread::getAspect()));
-}
-
-/** \brief get const OSGFieldContainer *
- */
-
-FieldContainer *FieldContainerPtr::getCPtr(void) const
-{
-    return (FieldContainer *) (getElemP(Thread::getAspect()));
-}
-
-/*-------------------------- assignment -----------------------------------*/
-
-void FieldContainerPtr::operator =(const FieldContainerPtr &source)
-{
-    *(static_cast<Inherited *>(this)) = source;
-}
-
-/*-------------------------- comparison -----------------------------------*/
 
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-//const ConstFieldContainerPtr ConstFieldContainerPtr::NullPtr;
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Construct a pointer from a give fieldcontainer.
+/*! \class osg::ConstFieldContainerPtr
  */
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
+
+ConstFieldContainerPtr::ConstFieldContainerPtr(void) :
+    Inherited()
+{
+}
+
+ConstFieldContainerPtr::ConstFieldContainerPtr(
+    const FieldContainerPtr &source) :
+    Inherited(source)
+{
+}
+
+ConstFieldContainerPtr::ConstFieldContainerPtr(
+    const ConstFieldContainerPtr &source):
+    Inherited(source)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+ConstFieldContainerPtr::~ConstFieldContainerPtr(void)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                           Container Access                              */
+
+const FieldContainer *ConstFieldContainerPtr::operator->(void)
+{
+    return (FieldContainer *) (getElemP(Thread::getAspect()));
+}
+
+const FieldContainer *ConstFieldContainerPtr::operator->(void) const
+{
+    return (const FieldContainer *) (getElemP(Thread::getAspect()));
+}
+
+const FieldContainer &ConstFieldContainerPtr::operator *(void)
+{
+    return *((FieldContainer *) (getElemP(Thread::getAspect())));
+}
+
+const FieldContainer &ConstFieldContainerPtr::operator *(void) const
+{
+    return *((const FieldContainer *) (getElemP(Thread::getAspect())));
+}
+
+const FieldContainer *ConstFieldContainerPtr::getCPtr(void)
+{
+    return (FieldContainer *) (getElemP(Thread::getAspect()));
+}
+
+const FieldContainer *ConstFieldContainerPtr::getCPtr(void) const
+{
+    return (const FieldContainer *) (getElemP(Thread::getAspect()));
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Assignment                                  */
+
+void ConstFieldContainerPtr::operator =(const FieldContainerPtr &source)
+{
+    *(static_cast<Inherited *>(this)) = source;
+}
+
+void ConstFieldContainerPtr::operator =(const ConstFieldContainerPtr &source)
+{
+    *(static_cast<Inherited *>(this)) = source;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 ConstFieldContainerPtr::ConstFieldContainerPtr(const FieldContainer &source) :
     Inherited(source)
 {
 }
-
-/** \brief Construct a pointer from a give fieldcontainer.
- */
 
 ConstFieldContainerPtr::ConstFieldContainerPtr(const FieldContainer *source) :
     Inherited(source)
@@ -778,110 +717,25 @@ ConstFieldContainerPtr::ConstFieldContainerPtr(
 }
 
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
-
-ConstFieldContainerPtr::ConstFieldContainerPtr(void) :
-    Inherited()
-{
-}
-
-ConstFieldContainerPtr::ConstFieldContainerPtr(const FieldContainerPtr &source) :
-    Inherited(source)
-{
-}
-
-ConstFieldContainerPtr::ConstFieldContainerPtr(const ConstFieldContainerPtr &source):
-    Inherited(source)
-{
-}
-
-/** \brief Destructor
- */
-
-ConstFieldContainerPtr::~ConstFieldContainerPtr(void)
-{
-}
-
-/*-------------------------- pointer operators ------------------------------*/
-
-/** \brief Arrow operator
- */
-
-const FieldContainer *ConstFieldContainerPtr::operator->(void)
-{
-    return (FieldContainer *) (getElemP(Thread::getAspect()));
-}
-
-/** \brief Const arrow operator
- */
-
-const FieldContainer *ConstFieldContainerPtr::operator->(void) const
-{
-    return (const FieldContainer *) (getElemP(Thread::getAspect()));
-}
-
-/** \brief Dereference operator
- */
-
-const FieldContainer &ConstFieldContainerPtr::operator *(void)
-{
-    return *((FieldContainer *) (getElemP(Thread::getAspect())));
-}
-
-/** \brief Const dereference operator
- */
-
-const FieldContainer &ConstFieldContainerPtr::operator *(void) const
-{
-    return *((const FieldContainer *) (getElemP(Thread::getAspect())));
-}
-
-/** \brief get OSGFieldContainer *
- */
-
-const FieldContainer *ConstFieldContainerPtr::getCPtr(void)
-{
-    return (FieldContainer *) (getElemP(Thread::getAspect()));
-}
-
-/** \brief get const OSGFieldContainer *
- */
-
-const FieldContainer *ConstFieldContainerPtr::getCPtr(void) const
-{
-    return (const FieldContainer *) (getElemP(Thread::getAspect()));
-}
-
-/*-------------------------- assignment -----------------------------------*/
-
-void ConstFieldContainerPtr::operator =(const FieldContainerPtr &source)
-{
-    *(static_cast<Inherited *>(this)) = source;
-}
-
-void ConstFieldContainerPtr::operator =(const ConstFieldContainerPtr &source)
-{
-    *(static_cast<Inherited *>(this)) = source;
-}
-
-
 
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
+/*! \class osg::NullFieldContainerPtr
+ */
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
+
 NullFieldContainerPtr::NullFieldContainerPtr(void) :
     FieldContainerPtr()
 {
 }
+
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 NullFieldContainerPtr::~NullFieldContainerPtr(void)
 {

@@ -56,14 +56,13 @@ class BinaryDataHandler;
 class NodeCore;
 typedef FCPtr<AttachmentContainerPtr, NodeCore> NodeCorePtr;
 
-/*! \ingroup FieldContainerLib
- *  \brief NodeCore
- */
+//! NodeCore
+//! \ingroup FieldContainerLib
 
 class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public AttachmentContainer
 {
-    /*==========================  PRIVATE  ================================*/
-  private:
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
     typedef AttachmentContainer Inherited;
 
@@ -207,15 +206,6 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public AttachmentContainer
     /* prohibit default function (move to 'public' if needed) */
     void operator =(const NodeCore &source);
 };
-
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-//extern OSG_SYSTEMLIB_DLLMAPPING const NodeCorePtr         NullNodeCore;
-
-typedef NodeCore *NodeCoreP;
 
 OSG_END_NAMESPACE
 

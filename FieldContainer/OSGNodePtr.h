@@ -57,9 +57,8 @@ class CNodePtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup FieldContainerLib
- *  \brief Pointer to a node
- */
+//! Pointer to a node
+//! \ingroup FieldContainerLib
 
 #ifdef __sgi
 #pragma set woff 1375,1424
@@ -69,8 +68,6 @@ class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public AttachmentContainerPtr
 {
     /*==========================  PUBLIC  =================================*/
   public:
-
-//    static const NodePtr NullPtr;
 
     typedef Node                   ObjectType;
 
@@ -170,9 +167,8 @@ class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public AttachmentContainerPtr
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup FieldContainerLib
- *  \brief Pointer to a node
- */
+//! Pointer to a node
+//! \ingroup FieldContainerLib
 
 class OSG_SYSTEMLIB_DLLMAPPING CNodePtr : public AttachmentContainerPtr
 {
@@ -197,7 +193,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CNodePtr : public AttachmentContainerPtr
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-            ~CNodePtr(void); 
+    ~CNodePtr(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -262,10 +258,6 @@ class OSG_SYSTEMLIB_DLLMAPPING CNodePtr : public AttachmentContainerPtr
 #ifdef __sgi
 #pragma reset woff 1375,1424
 #endif
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
 
 OSG_SYSTEMLIB_DLLMAPPING
 ostream &operator <<(      ostream  &os,

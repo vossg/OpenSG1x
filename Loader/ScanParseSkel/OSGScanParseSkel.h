@@ -48,9 +48,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup GeometryLoaderLib 
- *  \brief Parser / Scanner Skeleton for VRML97 syntax based file formats 
- */
+//! Parser / Scanner Skeleton for VRML97 syntax based file formats 
+//! \ingroup GeometryLoaderLib 
 
 class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
 {
@@ -238,12 +237,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
 //   Exported Types
 //---------------------------------------------------------------------------
 
-// class pointer
-
-typedef ScanParseSkel *ScanParseSkelP;
-
 OSG_END_NAMESPACE
 
 #define OSGSCANPARSESKEL_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGSCANPARSESKEL_H_ */
+

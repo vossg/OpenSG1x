@@ -56,46 +56,15 @@ class Field;
 typedef Field * (FieldContainer::*FieldAccessMethod)(void); 
 typedef Field * (FieldContainer::*FieldIndexAccessMethod)(UInt32);
 
-/*! \ingroup FieldContainerLib
- *  \brief FieldDescription
- */
+//---------------------------------------------------------------------------
+//   Class         
+//---------------------------------------------------------------------------
+
+//! FieldDescription
+//! \ingroup FieldContainerLib
 
 class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
 {
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    friend class FieldContainer;
-    friend class FieldContainerPtr;
-
-    /*!\brief prohibit default function (move to 'public' if needed) */
-
-    void operator =(const FieldDescription &source);
-
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-    IDString                 _szName;
-
-    const TypeBase          &_fieldType;
-
-    UInt32                   _uiFieldId;
-    BitVector                _vFieldMask;
-
-    Bool                     _bInternal;
-
-    FieldAccessMethod        _fAccessMethod;
-    FieldIndexAccessMethod   _fIndexedAccessMethod;
-
-    IDString                 _defaultValue;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                                                              */
-    /*! \{                  Generic Field Access                           */
-
-    Field *getField(FieldContainer &dataStore) const;
-
-    /*! \}                                                                 */
     /*==========================  PUBLIC  =================================*/
   public :
 
@@ -103,13 +72,13 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-     FieldDescription(const TypeBase              &elementType,
-                      const Char8                 *szName,
-                      const UInt32                 uiFieldId,
-                      const BitVector              vFieldMask,
-                      const Bool                   bInternal,
-                            FieldAccessMethod      fAccessMethod,
-                      const Char8                 *defaultValue = NULL  );
+     FieldDescription(const TypeBase               &elementType,
+                      const Char8                  *szName,
+                      const UInt32                  uiFieldId,
+                      const BitVector               vFieldMask,
+                      const Bool                    bInternal,
+                            FieldAccessMethod       fAccessMethod,
+                      const Char8                  *defaultValue = NULL );
 
      FieldDescription(const TypeBase               &elementType,
                       const Char8                  *szName,
@@ -144,28 +113,71 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
           UInt32     getFieldId     (void                ) const;
           void       setFieldId     (UInt32 uiFieldId    );
 
-          Bool       isInternal     (void                ) const;
-
-          Bool       isValid        (void                ) const;
-
     const Char8     *getDefaultValue(void) const;
 
     const TypeBase  &getFieldType   (void) const;
+
+          Bool       isInternal     (void                ) const;
+
+          Bool       isValid        (void                ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Set                                     */
     /*! \{                                                                 */
 
-    void setAccessMethod     (FieldAccessMethod         fAccessMethod);
+    void setAccessMethod     (FieldAccessMethod       fAccessMethod       );
     void setIndexAccessMethod(FieldIndexAccessMethod  fIndexedAccessMethod);
 
     /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    IDString                 _szName;
+
+    const TypeBase          &_fieldType;
+
+    UInt32                   _uiFieldId;
+    BitVector                _vFieldMask;
+
+    Bool                     _bInternal;
+
+    FieldAccessMethod        _fAccessMethod;
+    FieldIndexAccessMethod   _fIndexedAccessMethod;
+
+    IDString                 _defaultValue;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                                                              */
+    /*! \{                  Generic Field Access                           */
+
+    Field *getField(FieldContainer &dataStore) const;
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    friend class FieldContainer;
+    friend class FieldContainerPtr;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const FieldDescription &source);
 };
+
+
+
 
 //---------------------------------------------------------------------------
 //   Class         
 //---------------------------------------------------------------------------
+
+//! FieldDescription point less than
+//! \ingroup FieldContainerLib
 
 struct FieldDescriptionPLT
 {
@@ -175,13 +187,6 @@ struct FieldDescriptionPLT
         return (pElemDesc1->getFieldId() < pElemDesc2->getFieldId());
     }
 };
-
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-typedef FieldDescription *FieldDescriptionP;
 
 OSG_END_NAMESPACE
 

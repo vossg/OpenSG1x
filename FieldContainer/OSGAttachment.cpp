@@ -48,9 +48,8 @@
 #include "OSGAttachment.h"
 #include "OSGMFNodePtr.h"
 
-OSG_USING_NAMESPACE
-
 OSG_BEGIN_NAMESPACE
+
 #if defined(__sgi)
 
 #pragma instantiate SimpleAttachment<NameAttachmentDesc>::_type
@@ -66,44 +65,36 @@ OSG_FC_DLLEXPORT_DEF      (SimpleAttachment,
 
 OSG_END_NAMESPACE
 
+OSG_USING_NAMESPACE
+
 #ifdef __sgi
 #pragma set woff 1174
 #endif
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: $";
-    static char cvsid_hpp[] = OSGATTACHMENT_HEADER_CVSID;
-    static char cvsid_inl[] = OSGATTACHMENT_INLINE_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGATTACHMENT_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGATTACHMENT_INLINE_CVSID;
 }
 
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
 
-/** \var MFFieldContainerPtr Attachment::_parents
- *  \brief Parents multifield
+/*! \class osg::Attachment
  */
 
-/** \typedef Attachment::Inherited
- *  \brief Parent type
+/*! \var MFFieldContainerPtr Attachment::_parents
+    \brief Parents multifield
  */
 
+/*! \typedef Attachment::Inherited
+    \brief Parent type
+ */
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-const BitVector
+const BitVector 
     Attachment::ParentsFieldMask  = (1 << Attachment::ParentsFieldId);
-
-
-/** \brief Attachment field description
- */
 
 FieldDescription *Attachment::_desc[] =
 {
@@ -116,44 +107,18 @@ FieldDescription *Attachment::_desc[] =
         "test")
 };
 
-/** \brief Attachment type
- */
-
 FieldContainerType Attachment::_type("Attachment",
                                      "FieldContainer",
-                                     NULL,
-                                     NULL,
-                                     NULL,
+                                      NULL,
+                                      NULL,
+                                      NULL,
                                      _desc,
-                                     sizeof(_desc));
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+                                      sizeof(_desc));
 
 OSG_FIELD_CONTAINER_DEF(Attachment, AttachmentPtr)
 
-/*------------------------------ access -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                               Parents                                   */
 
 MFFieldContainerPtr &Attachment::getParents(void)
 {
@@ -165,25 +130,16 @@ const MFFieldContainerPtr &Attachment::getParents(void) const
     return _parents;
 }
 
-/** \brief Returns pointer to parent field
- */
-
 MFFieldContainerPtr *Attachment::getMFParents(void)
 {
     return &_parents;
 }
 
-/** \brief Add given pointer to parent list
- */
-
 void Attachment::addParent(FieldContainerPtr parent)
 {
-     addRefCP(parent);
+     addRefCP        (parent);
     _parents.addValue(parent);
 }
-
-/**  \brief Sub given pointer from parent list
- */
 
 void Attachment::subParent(FieldContainerPtr parent)
 {
@@ -191,12 +147,13 @@ void Attachment::subParent(FieldContainerPtr parent)
 
     if(parentIt != _parents.end())
     {
-         subRefCP(parent);
+         subRefCP     (parent);
         _parents.erase(parentIt);
     }
 }
 
-/*--------------------------To / From Bin ------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                            Binary Access                                */
 
 UInt32 Attachment::getBinSize(const BitVector &whichField)
 {
@@ -228,13 +185,10 @@ void Attachment::copyFromBin(      BinaryDataHandler &pMem,
     }
 }
 
-/*------------------------------- dump ------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                               Dump                                      */
 
-/** \brief Dump attachment contents to stderr, should be changed to use a
- *  log stream instead
- */
-
-void Attachment::dump(      UInt32    uiIndent,
+void Attachment::dump(      UInt32                  uiIndent,
                       const BitVector OSG_CHECK_ARG(bvFlags)) const
 {
     UInt32 i;
@@ -266,14 +220,8 @@ void Attachment::dump(      UInt32    uiIndent,
     PLOG << "}" << endl;
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 Attachment::Attachment(void) :
     Inherited(),
@@ -281,21 +229,22 @@ Attachment::Attachment(void) :
 {
 }
 
-/** \brief Copy Constructor
- */
-
 Attachment::Attachment(const Attachment &obj) :
     Inherited(obj),
     _parents()
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 Attachment::~Attachment(void)
 {
 }
+
+
+/*-------------------------------------------------------------------------*/
+/*                          MT Destruction                                 */
 
 void Attachment::onDestroy(void)
 {
@@ -308,14 +257,17 @@ void Attachment::onDestroy(void)
     }
 }
 
+/*-------------------------------------------------------------------------*/
+/*                                Sync                                     */
+
 void Attachment::executeSync(      FieldContainer &other,
                              const BitVector      &whichField)
 {
-    this->executeSyncImpl((Attachment *) &other, whichField);
+    this->executeSyncImpl(static_cast<Attachment *>(&other), whichField);
 }
 
-void Attachment::executeSyncImpl(      Attachment     *pOther,
-                                 const BitVector      &whichField)
+void Attachment::executeSyncImpl(      Attachment *pOther,
+                                 const BitVector  &whichField)
 {
     Inherited::executeSyncImpl(pOther, whichField);
 
@@ -324,38 +276,6 @@ void Attachment::executeSyncImpl(      Attachment     *pOther,
         _parents.syncWith(pOther->_parents);
     }
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-///---------------------------------------------------------------------------
-///  FUNCTION:
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters:
-//p:
-///
-//g: GlobalVars:
-//g:
-///
-//r: Return:
-//r:
-///
-//c: Caution:
-//c:
-///
-//a: Assumptions:
-//a:
-///
-//d: Description:
-//d:
-///
-//s: SeeAlso:
-//s:
-///---------------------------------------------------------------------------
 
 OSG_SYSTEMLIB_DLLMAPPING
 ostream &OSG::operator <<(ostream             &stream,

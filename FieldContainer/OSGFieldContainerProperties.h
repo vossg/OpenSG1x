@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGFIELDCONTAINERPROPERTIES_H_
 #define _OSGFIELDCONTAINERPROPERTIES_H_
 #ifdef __sgi
@@ -46,10 +45,6 @@
 #include <OSGBaseTypes.h>
 
 OSG_BEGIN_NAMESPACE
-
-/*! \ingroup FieldContainerLib 
- *  \brief FieldContainerProperties
- */
 
 #ifdef __sgi
 #pragma set woff 1209

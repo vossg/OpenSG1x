@@ -55,26 +55,20 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class BinaryDataHandler;
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup FieldContainerLib
- *  \brief Attachment is the base class for sharable thread safe data 
- *  stores,
- *  which could be attached to other fieldcontainers than Attachments.
- */
+//! Attachment is the base class for sharable thread safe data stores,
+//! which could be attached to other fieldcontainers than Attachments.
+//! \ingroup FieldContainerLib
 
 class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer 
 {
-    /*==========================  PRIVATE  ================================*/
-  private:
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
     typedef FieldContainer Inherited;
     
@@ -130,7 +124,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
-
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -157,7 +150,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
+    /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
     virtual ~Attachment(void);
@@ -167,7 +160,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
     /*! \name                MT Destruction                                */
     /*! \{                                                                 */
 
-    virtual void onDestroy  (void);
+    virtual void onDestroy(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -187,7 +180,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
     friend class FieldContainer;
 
     /*! \brief prohibit default functions (move to 'public' if needed) */
-
     void operator =(const Attachment &source);
 };
 
@@ -196,35 +188,31 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup FieldContainerLib
- *  \brief Template to build simple attachment classes which store only one 
- *  field.
- */
+//! Template to build simple attachment classes which store only one field.
+//! \ingroup FieldContainerLib
 
 template <class AttachmentDescT>
 class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
 {
-    /*==========================  PRIVATE  ================================*/
-  private:
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
     typedef Attachment Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef typename AttachmentDescT::FieldTypeT  StoredFieldType;
+    typedef typename AttachmentDescT::FieldTypeT          StoredFieldType;
 
-    typedef SimpleAttachment<AttachmentDescT>     SimpleAttType;
+    typedef          SimpleAttachment<AttachmentDescT>    SimpleAttType;
 
-    typedef FCPtr<AttachmentPtr,  SimpleAttType>  PtrType;
-
+    typedef          FCPtr<AttachmentPtr,  SimpleAttType> PtrType;
 
     enum 
     { 
         SimpleFieldId     = Inherited::NextFieldId, 
         NextFieldId       = SimpleFieldId + 1
     };
-
 
     static const BitVector SimpleFieldMask;
 
@@ -249,12 +237,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
 
-    virtual void copyToBin(      BinaryDataHandler &pMem, 
-                           const BitVector         &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem, 
-                             const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem, 
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem, 
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -297,16 +285,16 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
 
     virtual ~SimpleAttachment(void); 
 
-    virtual void executeSync    (      FieldContainer &other,
-                                 const BitVector      &whichField);
-
-            void executeSyncImpl(      SimpleAttachment *pOther,
-                                 const BitVector        &whichField);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Sync                                     */
     /*! \{                                                                 */
+
+    virtual void executeSync    (      FieldContainer   &other,
+                                 const BitVector        &whichField);
+
+            void executeSyncImpl(      SimpleAttachment *pOther,
+                                 const BitVector        &whichField);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -315,7 +303,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
     friend class FieldContainer;
 
     /*! \brief prohibit default functions (move to 'public' if needed) */
-
     SimpleAttachment &operator =(const SimpleAttachment &source);
 };
 
@@ -323,25 +310,24 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup FieldContainerLib
- *  \brief Name attachment
- */
+//! Name attachment
+//! \ingroup FieldContainerLib
 
 struct NameAttachmentDesc
 {
     typedef SFString FieldTypeT;
 
-    static const Char8 *getTypeName (void) { return "Name"; }
-    static const Char8 *getFieldName(void) { return "name"; }
-    static const Char8 *getGroupName(void) { return "name"; }
-    static const Char8 *getClassName(void) { return "NameAttachment"; }
+    static const Char8         *getTypeName  (void) { return "Name";          }
+    static const Char8         *getFieldName (void) { return "name";          }
+    static const Char8         *getGroupName (void) { return "name";          }
+    static const Char8         *getClassName (void) { return "NameAttachment";}
 
-    static InitContainerF getInitMethod(void) { return NULL; }
+    static       InitContainerF getInitMethod(void) { return NULL;            }
 };
 
-typedef SimpleAttachment<NameAttachmentDesc> Name;
+typedef SimpleAttachment<NameAttachmentDesc  > Name;
 
-typedef FCPtr<AttachmentPtr,  Name> NamePtr;
+typedef FCPtr           <AttachmentPtr,  Name> NamePtr;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
@@ -366,10 +352,8 @@ OSG_FC_DLLEXPORT_DECL(SimpleAttachment,
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup FieldContainerLib
- *  \brief Template to build simple attachment classes which store only one 
- *  field.
- */
+//! Template to build simple attachment classes which store only one field.
+//! \ingroup FieldContainerLib
 
 template <class AttachmentDescT>
 class OSG_SYSTEMLIB_DLLMAPPING DynFieldAttachment : 
@@ -378,11 +362,11 @@ class OSG_SYSTEMLIB_DLLMAPPING DynFieldAttachment :
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef DynFieldAttachment<AttachmentDescT   > DynFieldAttType;
+    typedef          DynFieldAttachment<AttachmentDescT   > DynFieldAttType;
 
-    typedef typename AttachmentDescT::ParentPtr    ParentPtrType;
+    typedef typename AttachmentDescT::ParentPtr             ParentPtrType;
 
-    typedef FCPtr<ParentPtrType,  DynFieldAttType> PtrType;
+    typedef          FCPtr<ParentPtrType,  DynFieldAttType> PtrType;
 
     /*---------------------------------------------------------------------*/
     /*! \name        General Fieldcontainer Declaration                    */
@@ -396,9 +380,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DynFieldAttachment :
     /*! \{                                                                 */
 
     UInt32 addField       (const FieldDescription &fieldDesc);
-    void   subField       (      UInt32            fieldId);
+    void   subField       (      UInt32            fieldId  );
 
-    Field *getDynamicField(UInt32 index);
+    Field *getDynamicField(      UInt32            index    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -419,6 +403,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DynFieldAttachment :
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
+
+    typedef typename AttachmentDescT::Parent Inherited;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Type information                            */
@@ -454,29 +440,16 @@ class OSG_SYSTEMLIB_DLLMAPPING DynFieldAttachment :
     /*==========================  PRIVATE  ================================*/
   private:
 
-    typedef typename AttachmentDescT::Parent Inherited;
-
-
     friend class FieldContainer;
-
     
     /*!\brief prohibit default functions (move to 'public' if needed) */
-
     void operator =(const DynFieldAttachment &source);
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-/*! \brief AttachmentP
- */
-
-typedef Attachment                 *AttachmentP;
 
 typedef map<UInt32, AttachmentPtr>  AttachmentMap;
 
 OSG_SYSTEMLIB_DLLMAPPING
+
 ostream &operator <<(      ostream       &stream,
                      const AttachmentMap &amap);
 

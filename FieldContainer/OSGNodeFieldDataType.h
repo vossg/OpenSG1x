@@ -45,11 +45,18 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief NodePtr field traits 
- */
+/*! \file OSGNodeFieldDataType.h
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+    \brief OpenSG Node Field Data Types  
+*/
+
+/*! \brief NodePtr field traits
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields 
+*/
 
 template <>
 struct FieldDataTraits<NodePtr> : public FieldTraitsRecurseMapper<NodePtr>

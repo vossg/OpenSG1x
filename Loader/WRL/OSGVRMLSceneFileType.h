@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGVRMLSCENEFILETYPE_H_
 #define _OSGVRMLSCENEFILETYPE_H_
 #ifdef __sgi
@@ -49,9 +48,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup GeometryLoaderLib
- *  \brief VRML97 SceneFileType
- */
+//! VRML97 SceneFileType
+//! \ingroup GeometryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLSceneFileType : public SceneFileType
 {
@@ -116,10 +114,10 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLSceneFileType : public SceneFileType
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    static const char        *_suffixA[];
-    static VRMLSceneFileType  _the;
+    static const Char8             *_suffixA[];
+    static       VRMLSceneFileType  _the;
     
-    static VRMLFile          *_pVRMLLoader;
+    static       VRMLFile          *_pVRMLLoader;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -143,12 +141,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLSceneFileType : public SceneFileType
     void operator =(const VRMLSceneFileType &source);
 };
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
 OSG_END_NAMESPACE
 
 #define OSGVRMLSCENEFILETYPE_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _GFHSSCENEFILETYPE_H_ */
+#endif /* _OSGVRMLSCENEFILETYPE_H_ */

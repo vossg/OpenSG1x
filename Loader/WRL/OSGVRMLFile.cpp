@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #define OSG_COMPILEVRMLLOADERINST
 
 #include <stdlib.h>
@@ -88,420 +84,16 @@ namespace
 #pragma reset woff 1174
 #endif
 
+/*! \class osg::VRMLFile
+ */
 
 #ifndef __sgi
 template OSG_SYSTEMLIB_DLLMAPPING
 VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >;
 #endif
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-void VRMLFile::initIntExtFieldTypeMapper(void)
-{
-    setIntExtMapping(SFBool::getClassType().getId(),
-                     ScanParseSkel::OSGsfBool);
-
-    setIntExtMapping(SFColor3f::getClassType().getId(),
-                     ScanParseSkel::OSGsfColor);
-
-    setIntExtMapping(SFReal32::getClassType().getId(), 
-                     ScanParseSkel::OSGsfFloat);
-
-    setIntExtMapping(SFImageP::getClassType().getId(),
-                     ScanParseSkel::OSGsfImage);
-
-    setIntExtMapping(SFInt32::getClassType().getId(),
-                     ScanParseSkel::OSGsfInt32);
-
-    setIntExtMapping(SFQuaternion::getClassType().getId(),
-                     ScanParseSkel::OSGsfRotation);
-
-    setIntExtMapping(SFString::getClassType().getId(),
-                     ScanParseSkel::OSGsfString);
-
-    setIntExtMapping(SFTime::getClassType().getId(),
-                     ScanParseSkel::OSGsfTime);
-
-    setIntExtMapping(SFVec2f::getClassType().getId(),
-                     ScanParseSkel::OSGsfVec2f);
-
-    setIntExtMapping(SFVec3f::getClassType().getId(),
-                     ScanParseSkel::OSGsfVec3f);
-
-
-
-    setIntExtMapping(MFColor3f::getClassType().getId(),
-                     ScanParseSkel::OSGmfColor);
-
-    setIntExtMapping(MFReal32::getClassType().getId(),
-                     ScanParseSkel::OSGmfFloat);
-
-    setIntExtMapping(MFInt32::getClassType().getId(),
-                     ScanParseSkel::OSGmfInt32);
-
-    setIntExtMapping(MFQuaternion::getClassType().getId(),
-                     ScanParseSkel::OSGmfRotation);
-
-    setIntExtMapping(MFString::getClassType().getId(),
-                     ScanParseSkel::OSGmfString);
-
-    setIntExtMapping(MFTime::getClassType().getId(),
-                     ScanParseSkel::OSGmfTime);
-
-    setIntExtMapping(MFVec3f::getClassType().getId(),
-                     ScanParseSkel::OSGmfVec3f);
-
-    setIntExtMapping(MFVec2f::getClassType().getId(),
-                     ScanParseSkel::OSGmfVec2f);
-
-
-    setIntExtMapping(SFNodePtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-
-    setIntExtMapping(MFNodePtr::getClassType().getId(),
-                     ScanParseSkel::OSGmfNode);
-
-    /* To Base Type Mappings */
-
-    setIntExtMapping(SFUInt8::getClassType().getId(),
-                     ScanParseSkel::OSGsfInt32);
-
-    setIntExtMapping(MFUInt8::getClassType().getId(),
-                     ScanParseSkel::OSGmfInt32);
-
-    setIntExtMapping(SFUInt32::getClassType().getId(),
-                     ScanParseSkel::OSGsfInt32);
-
-    setIntExtMapping(MFUInt32::getClassType().getId(),
-                     ScanParseSkel::OSGmfInt32);
-
-    /* To Node Mappings */
-
-    setIntExtMapping(SFNodeCorePtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-
-    setIntExtMapping(SFMaterialPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-    
-    setIntExtMapping(SFGeoPTypesPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-
-    setIntExtMapping(SFGeoIndicesPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-
-    setIntExtMapping(SFGeoPLengthsPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-
-    setIntExtMapping(SFGeoColorsPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-
-    setIntExtMapping(SFGeoPositionsPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-
-    setIntExtMapping(SFGeoNormalsPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-
-    setIntExtMapping(SFGeoTexCoordsPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-
-    setIntExtMapping(MFStateChunkPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-
-    setIntExtMapping(SFAttachmentMap::getClassType().getId(),
-                     ScanParseSkel::OSGmfNode);
-
-    setIntExtMapping(SFFieldContainerPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-
-    /* extended types */
-
-    setIntExtMapping(SFMatrix::getClassType().getId(),
-                     ScanParseSkel::OSGsfMatrix);
-
-    setIntExtMapping(SFPnt3f::getClassType().getId(),
-                     ScanParseSkel::OSGsfPnt3f);
-
-    setIntExtMapping(MFPnt3f::getClassType().getId(),
-                     ScanParseSkel::OSGmfPnt3f);
-}
-
-
-void VRMLFile::initExtIntFieldTypeMapper(void)
-{
-    setExtIntMapping(ScanParseSkel::OSGsfBool, 
-                     SFBool::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGsfColor, 
-                     SFColor3f::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGsfFloat, 
-                     SFReal32::getClassType().getId());
-
-/*
-    setExtIntMapping(SFImage::getClassType().getId(),
-                     ScanParseSkel::OSGsfInt32);
-                     */
-
-    setExtIntMapping(ScanParseSkel::OSGsfImage, 
-                     SFImageP::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGsfInt32, 
-                     SFInt32::getClassType().getId());
-    
-
-    setExtIntMapping(ScanParseSkel::OSGsfRotation, 
-                     SFQuaternion::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGsfString, 
-                     SFString::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGsfTime, 
-                     SFTime::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGsfVec2f, 
-                     SFVec2f::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGsfVec3f, 
-                     SFVec3f::getClassType().getId());
-
-
-
-    setExtIntMapping(ScanParseSkel::OSGmfColor, 
-                     MFColor3f::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGmfFloat, 
-                     MFReal32::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGmfInt32, 
-                     MFInt32::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGmfRotation, 
-                     MFQuaternion::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGmfString, 
-                     MFString::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGmfTime, 
-                     MFTime::getClassType().getId());
-
-
-    setExtIntMapping(ScanParseSkel::OSGmfVec3f, 
-                     MFVec3f::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGmfVec2f, 
-                     MFVec2f::getClassType().getId());
-
-
-    setExtIntMapping(ScanParseSkel::OSGsfNode,
-                     SFNodePtr::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGmfNode,
-                     MFNodePtr::getClassType().getId());
-
-    /* extended types */
-
-    setExtIntMapping(ScanParseSkel::OSGsfMatrix, 
-                     SFMatrix::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGsfPnt3f, 
-                     SFPnt3f::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGmfPnt3f, 
-                     MFPnt3f::getClassType().getId());
-}
-
-/* remove this, if there is a general methode to find containers */
-FieldContainerPtr VRMLFile::findFCByName(const Char8  *szName,
-                                               NodePtr pNode)
-{
-    MFNodePtr::iterator i;
-
-    NamePtr           pNodename;
-    NodeCorePtr       pCore;
-    FieldContainerPtr pFC;
-
-    // check if name matches nodename
-
-    pNodename = 
-        NamePtr::dcast(
-            pNode->findAttachment(Name::getClassType().getGroupId()));
-
-    if(pNodename != NullFC)
-    {
-        if(strcmp(szName, pNodename->getFieldPtr()->getValue().c_str())==0)
-            return pNode;
-    }
-    // check if name matches corename
-    
-    pCore = pNode->getCore();
-
-    if(pCore != NullFC)
-    {
-        pNodename = NamePtr::dcast(
-            pCore->findAttachment(Name::getClassType().getGroupId()));
-
-        if(pNodename != NullFC)
-        {
-            if(strcmp(szName, pNodename->getFieldPtr()->getValue().c_str())==0)
-                return pCore;
-        }
-    }
-
-    // matching for children
-    for(i  = pNode->getMFChildren()->begin();
-        i != pNode->getMFChildren()->end();
-        i++)
-    {
-        pFC = findFCByName(szName, *i);
-
-        if(pFC != NullFC)
-        {
-            return pFC;
-        }
-    }
-    return pFC;
-}
-
-FieldContainerPtr VRMLFile::findReference(const Char8 *szName)
-{
-    // search reference in this file
-    FieldContainerPtr          returnValue = NullFC;
-
-    NameContainerMap::iterator mIt         = 
-        _nameFCMap.find(IDStringLink(szName));
-
-    if(mIt != _nameFCMap.end())
-    {
-        returnValue = mIt->second;
-    }
-    else
-    {
-        returnValue = findFCByName(szName, _pRootNode);
-    }
-    
-    return returnValue;
-}
-
-void VRMLFile::setContainerFieldValue(const FieldContainerPtr &pFC)
-{
-    if(_pCurrentField != NULL        &&        
-        pFC           != NullFC)
-    {
-        if(_pCurrentFC   !=   NullFC && 
-           _pCurrentField == _pCurrentFC->getField("children"))
-        {
-            indentLog(VRMLNodeDesc::getIndent(), PINFO);
-            PINFO << "Add Child "
-                  << &(*_pCurrentFC)
-                  << " "
-                  << &(*pFC)
-                  << endl;
-
-            NodePtr pNode      = NodePtr::dcast(_pCurrentFC);
-            NodePtr pChildNode = NodePtr::dcast(pFC);
-            
-            pNode->addChild(pChildNode);
-        }
-        else if(_pCurrentFC   !=   NullFC && 
-                _pCurrentField == _pCurrentFC->getField("core"))
-        {
-            indentLog(VRMLNodeDesc::getIndent(), PINFO);
-            PINFO << "Add Core "
-                  << &(*_pCurrentFC)
-                  << " "
-                  << &(*pFC)
-                  << endl;
-
-            NodePtr     pNode = NodePtr    ::dcast(_pCurrentFC);
-            NodeCorePtr pCore = NodeCorePtr::dcast(pFC);
-            
-            pNode->setCore(pCore);
-        }
-
-/*
-        else if(_pCurrentField == _pCurrentFC->getField("attachments"))
-        {
-            if(pNewNode->getType().isAttachment() == true)
-            {
-                if(_pCurrentFC->getType().isNode() == true)
-                {
-                    NodePtr       pNode = _pCurrentFC.dcast<NodePtr>();
-                    AttachmentPtr pAtt  =  pNewNode.dcast<AttachmentPtr>();
-
-                    pNode->addAttachment(pAtt);
-                }
-                else if(_pCurrentFC->getType().isNodeCore() == true)
-                {
-                    NodeCorePtr   pNodeCore = _pCurrentFC.dcast<NodeCorePtr>();
-                    AttachmentPtr pAtt      =  pNewNode.dcast<AttachmentPtr>();
-
-                    pNodeCore->addAttachment(pAtt); 
-                }
-            }
-            else
-            {
-                SLOG << "FieldContainer : " << szNodeTypename 
-                     << " is no attachment" << endl;
-            }
-        }
-*/
-        else if(_pCurrentField->getCardinality() == FieldType::SINGLE_FIELD)
-        {
-            ((SFFieldContainerPtr *) _pCurrentField)->setValue(pFC);
-        }
-        else if(_pCurrentField->getCardinality() == FieldType::MULTI_FIELD)
-        {
-            ((MFFieldContainerPtr *) _pCurrentField)->push_back(pFC);
-        }
-    }
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 VRMLFile::VRMLFile(void) :
     Inherited(),
@@ -535,14 +127,15 @@ VRMLFile::VRMLFile(void) :
     _pathHandler.push_frontCurrentDir();
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 VRMLFile::~VRMLFile(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                           Skel Replacements                             */
 
 void VRMLFile::scanFile(const Char8 *szFilename, UInt32 uiOptions)
 {
@@ -591,9 +184,8 @@ void VRMLFile::scanFile(const Char8  *szFilename,
     }
 }
 
-void VRMLFile::beginNode(
-    const Char8 *szNodeTypename,
-    const Char8 *szNodename)
+void VRMLFile::beginNode(const Char8 *szNodeTypename,
+                         const Char8 *szNodename)
 {
     FieldContainerPtr pNewNode;
 
@@ -911,8 +503,6 @@ void VRMLFile::addFieldValue(const Char8 *szFieldVal)
     }
 }
 
-/*---------------------------- properties ---------------------------------*/
-
 UInt32 VRMLFile::getFieldType(const Char8 *szFieldname)
 {
     UInt32   returnValue = 0;
@@ -947,8 +537,6 @@ UInt32 VRMLFile::getFieldType(const Char8 *szFieldname)
 
     return returnValue;
 }
-
-/*-------------------------- your_category---------------------------------*/
 
 void VRMLFile::use(const Char8 *szName)
 {
@@ -1008,9 +596,8 @@ void VRMLFile::use(const Char8 *szName)
     VRMLNodeDesc::decIndent();
 }
 
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                          Helper                                         */
 
 void VRMLFile::scanStandardPrototypes(const Char8  *szFilename, 
                                             UInt32  uiOptions)
@@ -2884,31 +2471,365 @@ NodePtr VRMLFile::cloneTree(NodePtr pRootNode)
     return returnValue;
 }
 
-//---------------------------------------------------------------------------
-//  FUNCTION: 
-//---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-//---------------------------------------------------------------------------
-//
-//p: Paramaters: 
-//p: 
-//
-//g: GlobalVars:
-//g: 
-//
-//r: Return:
-//r: 
-//
-//c: Caution:
-//c: 
-//
-//a: Assumptions:
-//a: 
-//
-//d: Description:
-//d: 
-//
-//s: SeeAlso:
-//s: 
-//---------------------------------------------------------------------------
+/*-------------------------------------------------------------------------*/
+/*                           Member                                        */
 
+void VRMLFile::initIntExtFieldTypeMapper(void)
+{
+    setIntExtMapping(SFBool::getClassType().getId(),
+                     ScanParseSkel::OSGsfBool);
+
+    setIntExtMapping(SFColor3f::getClassType().getId(),
+                     ScanParseSkel::OSGsfColor);
+
+    setIntExtMapping(SFReal32::getClassType().getId(), 
+                     ScanParseSkel::OSGsfFloat);
+
+    setIntExtMapping(SFImageP::getClassType().getId(),
+                     ScanParseSkel::OSGsfImage);
+
+    setIntExtMapping(SFInt32::getClassType().getId(),
+                     ScanParseSkel::OSGsfInt32);
+
+    setIntExtMapping(SFQuaternion::getClassType().getId(),
+                     ScanParseSkel::OSGsfRotation);
+
+    setIntExtMapping(SFString::getClassType().getId(),
+                     ScanParseSkel::OSGsfString);
+
+    setIntExtMapping(SFTime::getClassType().getId(),
+                     ScanParseSkel::OSGsfTime);
+
+    setIntExtMapping(SFVec2f::getClassType().getId(),
+                     ScanParseSkel::OSGsfVec2f);
+
+    setIntExtMapping(SFVec3f::getClassType().getId(),
+                     ScanParseSkel::OSGsfVec3f);
+
+
+
+    setIntExtMapping(MFColor3f::getClassType().getId(),
+                     ScanParseSkel::OSGmfColor);
+
+    setIntExtMapping(MFReal32::getClassType().getId(),
+                     ScanParseSkel::OSGmfFloat);
+
+    setIntExtMapping(MFInt32::getClassType().getId(),
+                     ScanParseSkel::OSGmfInt32);
+
+    setIntExtMapping(MFQuaternion::getClassType().getId(),
+                     ScanParseSkel::OSGmfRotation);
+
+    setIntExtMapping(MFString::getClassType().getId(),
+                     ScanParseSkel::OSGmfString);
+
+    setIntExtMapping(MFTime::getClassType().getId(),
+                     ScanParseSkel::OSGmfTime);
+
+    setIntExtMapping(MFVec3f::getClassType().getId(),
+                     ScanParseSkel::OSGmfVec3f);
+
+    setIntExtMapping(MFVec2f::getClassType().getId(),
+                     ScanParseSkel::OSGmfVec2f);
+
+
+    setIntExtMapping(SFNodePtr::getClassType().getId(),
+                     ScanParseSkel::OSGsfNode);
+
+    setIntExtMapping(MFNodePtr::getClassType().getId(),
+                     ScanParseSkel::OSGmfNode);
+
+    /* To Base Type Mappings */
+
+    setIntExtMapping(SFUInt8::getClassType().getId(),
+                     ScanParseSkel::OSGsfInt32);
+
+    setIntExtMapping(MFUInt8::getClassType().getId(),
+                     ScanParseSkel::OSGmfInt32);
+
+    setIntExtMapping(SFUInt32::getClassType().getId(),
+                     ScanParseSkel::OSGsfInt32);
+
+    setIntExtMapping(MFUInt32::getClassType().getId(),
+                     ScanParseSkel::OSGmfInt32);
+
+    /* To Node Mappings */
+
+    setIntExtMapping(SFNodeCorePtr::getClassType().getId(),
+                     ScanParseSkel::OSGsfNode);
+
+    setIntExtMapping(SFMaterialPtr::getClassType().getId(),
+                     ScanParseSkel::OSGsfNode);
+    
+    setIntExtMapping(SFGeoPTypesPtr::getClassType().getId(),
+                     ScanParseSkel::OSGsfNode);
+
+    setIntExtMapping(SFGeoIndicesPtr::getClassType().getId(),
+                     ScanParseSkel::OSGsfNode);
+
+    setIntExtMapping(SFGeoPLengthsPtr::getClassType().getId(),
+                     ScanParseSkel::OSGsfNode);
+
+    setIntExtMapping(SFGeoColorsPtr::getClassType().getId(),
+                     ScanParseSkel::OSGsfNode);
+
+    setIntExtMapping(SFGeoPositionsPtr::getClassType().getId(),
+                     ScanParseSkel::OSGsfNode);
+
+    setIntExtMapping(SFGeoNormalsPtr::getClassType().getId(),
+                     ScanParseSkel::OSGsfNode);
+
+    setIntExtMapping(SFGeoTexCoordsPtr::getClassType().getId(),
+                     ScanParseSkel::OSGsfNode);
+
+    setIntExtMapping(MFStateChunkPtr::getClassType().getId(),
+                     ScanParseSkel::OSGsfNode);
+
+    setIntExtMapping(SFAttachmentMap::getClassType().getId(),
+                     ScanParseSkel::OSGmfNode);
+
+    setIntExtMapping(SFFieldContainerPtr::getClassType().getId(),
+                     ScanParseSkel::OSGsfNode);
+
+    /* extended types */
+
+    setIntExtMapping(SFMatrix::getClassType().getId(),
+                     ScanParseSkel::OSGsfMatrix);
+
+    setIntExtMapping(SFPnt3f::getClassType().getId(),
+                     ScanParseSkel::OSGsfPnt3f);
+
+    setIntExtMapping(MFPnt3f::getClassType().getId(),
+                     ScanParseSkel::OSGmfPnt3f);
+}
+
+
+void VRMLFile::initExtIntFieldTypeMapper(void)
+{
+    setExtIntMapping(ScanParseSkel::OSGsfBool, 
+                     SFBool::getClassType().getId());
+
+    setExtIntMapping(ScanParseSkel::OSGsfColor, 
+                     SFColor3f::getClassType().getId());
+
+    setExtIntMapping(ScanParseSkel::OSGsfFloat, 
+                     SFReal32::getClassType().getId());
+
+/*
+    setExtIntMapping(SFImage::getClassType().getId(),
+                     ScanParseSkel::OSGsfInt32);
+                     */
+
+    setExtIntMapping(ScanParseSkel::OSGsfImage, 
+                     SFImageP::getClassType().getId());
+
+    setExtIntMapping(ScanParseSkel::OSGsfInt32, 
+                     SFInt32::getClassType().getId());
+    
+
+    setExtIntMapping(ScanParseSkel::OSGsfRotation, 
+                     SFQuaternion::getClassType().getId());
+
+    setExtIntMapping(ScanParseSkel::OSGsfString, 
+                     SFString::getClassType().getId());
+
+    setExtIntMapping(ScanParseSkel::OSGsfTime, 
+                     SFTime::getClassType().getId());
+
+    setExtIntMapping(ScanParseSkel::OSGsfVec2f, 
+                     SFVec2f::getClassType().getId());
+
+    setExtIntMapping(ScanParseSkel::OSGsfVec3f, 
+                     SFVec3f::getClassType().getId());
+
+
+
+    setExtIntMapping(ScanParseSkel::OSGmfColor, 
+                     MFColor3f::getClassType().getId());
+
+    setExtIntMapping(ScanParseSkel::OSGmfFloat, 
+                     MFReal32::getClassType().getId());
+
+    setExtIntMapping(ScanParseSkel::OSGmfInt32, 
+                     MFInt32::getClassType().getId());
+
+    setExtIntMapping(ScanParseSkel::OSGmfRotation, 
+                     MFQuaternion::getClassType().getId());
+
+    setExtIntMapping(ScanParseSkel::OSGmfString, 
+                     MFString::getClassType().getId());
+
+    setExtIntMapping(ScanParseSkel::OSGmfTime, 
+                     MFTime::getClassType().getId());
+
+
+    setExtIntMapping(ScanParseSkel::OSGmfVec3f, 
+                     MFVec3f::getClassType().getId());
+
+    setExtIntMapping(ScanParseSkel::OSGmfVec2f, 
+                     MFVec2f::getClassType().getId());
+
+
+    setExtIntMapping(ScanParseSkel::OSGsfNode,
+                     SFNodePtr::getClassType().getId());
+
+    setExtIntMapping(ScanParseSkel::OSGmfNode,
+                     MFNodePtr::getClassType().getId());
+
+    /* extended types */
+
+    setExtIntMapping(ScanParseSkel::OSGsfMatrix, 
+                     SFMatrix::getClassType().getId());
+
+    setExtIntMapping(ScanParseSkel::OSGsfPnt3f, 
+                     SFPnt3f::getClassType().getId());
+
+    setExtIntMapping(ScanParseSkel::OSGmfPnt3f, 
+                     MFPnt3f::getClassType().getId());
+}
+
+/* remove this, if there is a general methode to find containers */
+FieldContainerPtr VRMLFile::findFCByName(const Char8  *szName,
+                                               NodePtr pNode)
+{
+    MFNodePtr::iterator i;
+
+    NamePtr           pNodename;
+    NodeCorePtr       pCore;
+    FieldContainerPtr pFC;
+
+    // check if name matches nodename
+
+    pNodename = 
+        NamePtr::dcast(
+            pNode->findAttachment(Name::getClassType().getGroupId()));
+
+    if(pNodename != NullFC)
+    {
+        if(strcmp(szName, pNodename->getFieldPtr()->getValue().c_str())==0)
+            return pNode;
+    }
+    // check if name matches corename
+    
+    pCore = pNode->getCore();
+
+    if(pCore != NullFC)
+    {
+        pNodename = NamePtr::dcast(
+            pCore->findAttachment(Name::getClassType().getGroupId()));
+
+        if(pNodename != NullFC)
+        {
+            if(strcmp(szName, pNodename->getFieldPtr()->getValue().c_str())==0)
+                return pCore;
+        }
+    }
+
+    // matching for children
+    for(i  = pNode->getMFChildren()->begin();
+        i != pNode->getMFChildren()->end();
+        i++)
+    {
+        pFC = findFCByName(szName, *i);
+
+        if(pFC != NullFC)
+        {
+            return pFC;
+        }
+    }
+    return pFC;
+}
+
+FieldContainerPtr VRMLFile::findReference(const Char8 *szName)
+{
+    // search reference in this file
+    FieldContainerPtr          returnValue = NullFC;
+
+    NameContainerMap::iterator mIt         = 
+        _nameFCMap.find(IDStringLink(szName));
+
+    if(mIt != _nameFCMap.end())
+    {
+        returnValue = mIt->second;
+    }
+    else
+    {
+        returnValue = findFCByName(szName, _pRootNode);
+    }
+    
+    return returnValue;
+}
+
+void VRMLFile::setContainerFieldValue(const FieldContainerPtr &pFC)
+{
+    if(_pCurrentField != NULL  &&        
+        pFC           != NullFC)
+    {
+        if(_pCurrentFC   !=   NullFC                        && 
+           _pCurrentField == _pCurrentFC->getField("children"))
+        {
+            indentLog(VRMLNodeDesc::getIndent(), PINFO);
+            PINFO << "Add Child "
+                  << &(*_pCurrentFC)
+                  << " "
+                  << &(*pFC)
+                  << endl;
+
+            NodePtr pNode      = NodePtr::dcast(_pCurrentFC);
+            NodePtr pChildNode = NodePtr::dcast(pFC);
+            
+            pNode->addChild(pChildNode);
+        }
+        else if(_pCurrentFC   !=   NullFC && 
+                _pCurrentField == _pCurrentFC->getField("core"))
+        {
+            indentLog(VRMLNodeDesc::getIndent(), PINFO);
+            PINFO << "Add Core "
+                  << &(*_pCurrentFC)
+                  << " "
+                  << &(*pFC)
+                  << endl;
+
+            NodePtr     pNode = NodePtr    ::dcast(_pCurrentFC);
+            NodeCorePtr pCore = NodeCorePtr::dcast(pFC);
+            
+            pNode->setCore(pCore);
+        }
+
+/*
+        else if(_pCurrentField == _pCurrentFC->getField("attachments"))
+        {
+            if(pNewNode->getType().isAttachment() == true)
+            {
+                if(_pCurrentFC->getType().isNode() == true)
+                {
+                    NodePtr       pNode = _pCurrentFC.dcast<NodePtr>();
+                    AttachmentPtr pAtt  =  pNewNode.dcast<AttachmentPtr>();
+
+                    pNode->addAttachment(pAtt);
+                }
+                else if(_pCurrentFC->getType().isNodeCore() == true)
+                {
+                    NodeCorePtr   pNodeCore = _pCurrentFC.dcast<NodeCorePtr>();
+                    AttachmentPtr pAtt      =  pNewNode.dcast<AttachmentPtr>();
+
+                    pNodeCore->addAttachment(pAtt); 
+                }
+            }
+            else
+            {
+                SLOG << "FieldContainer : " << szNodeTypename 
+                     << " is no attachment" << endl;
+            }
+        }
+*/
+        else if(_pCurrentField->getCardinality() == FieldType::SINGLE_FIELD)
+        {
+            ((SFFieldContainerPtr *) _pCurrentField)->setValue(pFC);
+        }
+        else if(_pCurrentField->getCardinality() == FieldType::MULTI_FIELD)
+        {
+            ((MFFieldContainerPtr *) _pCurrentField)->push_back(pFC);
+        }
+    }
+}

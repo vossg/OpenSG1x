@@ -54,94 +54,14 @@ OSG_BEGIN_NAMESPACE
 
 class FieldDescription;
 
-
 typedef void              (*InitContainerF)  (void);
 typedef FieldContainerPtr (*PrototypeCreateF)(void);
 
-/*! \ingroup FieldContainerLib
- *  \brief FieldContainerType
- */
+//! FieldContainerType
+//! \ingroup FieldContainerLib
 
 class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
 {
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    typedef DataType Inherited;
-
-
-    friend class FieldContainerFactory;
-
-    /*!\brief prohibit default function (move to 'public' if needed) */
-
-    void operator =(const FieldContainerType &source);
-
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-    enum BaseType
-    {
-        IsFieldContainer,
-        IsNode,
-        IsNodeCore,
-        IsAttachment
-    };
-
-
-    typedef map   <IDStringLink, FieldDescription *> DescMap;
-    typedef vector<            FieldDescription *> DescVec;
-
-    typedef DescMap::iterator                      DescMapIt;
-    typedef DescVec::iterator                      DescVecIt;
-
-    typedef DescMap::const_iterator                DescMapConstIt;
-    typedef DescVec::const_iterator                DescVecConstIt;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Member                                  */
-    /*! \{                                                                 */
-
-    UInt16              _uiGroupId;
-
-    Bool                _bInitialized;
-    Bool                _bDescsAddable;
-
-    BaseType            _baseType;
-
-    FieldContainerType *_pParent;
-    IDString            _szParentName;
-    IDString            _szGroupName;
-
-    FieldContainerPtr   _pPrototype;
-    PrototypeCreateF    _fPrototypeCreate;
-
-    FieldDescription  **_pDesc;
-    UInt32              _uiDescByteCounter;
-
-    DescMap             _mDescMap;
-    DescVec             _vDescVec;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Register                                  */
-    /*! \{                                                                 */
-
-    void registerType(const Char8 *szGroupName);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name             Intialization / Termination                      */
-    /*! \{                                                                 */
-
-    Bool initPrototype   (void);
-    Bool initBaseType    (void);
-    Bool initFields      (void);
-    Bool initParentFields(void);
-
-    Bool initialize      (void);
-    void terminate       (void);
-
-    /*! \}                                                                 */
     /*==========================  PUBLIC  =================================*/
   public :
 
@@ -149,16 +69,16 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
    
-    FieldContainerType(const Char8            *szName,
-                       const Char8            *szParentName      = NULL,
-                       const Char8            *szGroupName       = NULL,
-                       PrototypeCreateF        fPrototypeCreate  = NULL,
-                       InitContainerF          fInitMethod       = NULL,
-                       FieldDescription      **pDesc             = NULL,
-                       UInt32                  uiDescByteCounter = 0,
-                       Bool                    bDescsAddable     = false);
+    FieldContainerType(const Char8       *szName,
+                       const Char8       *szParentName      = NULL,
+                       const Char8       *szGroupName       = NULL,
+                       PrototypeCreateF   fPrototypeCreate  = NULL,
+                       InitContainerF     fInitMethod       = NULL,
+                       FieldDescription **pDesc             = NULL,
+                       UInt32             uiDescByteCounter = 0,
+                       Bool               bDescsAddable     = false);
 
-    FieldContainerType(const FieldContainerType &source                 );
+    FieldContainerType(const FieldContainerType &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -236,16 +156,84 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
                       const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    enum BaseType
+    {
+        IsFieldContainer,
+        IsNode,
+        IsNodeCore,
+        IsAttachment
+    };
+
+    typedef map   <IDStringLink, FieldDescription *> DescMap;
+    typedef vector<              FieldDescription *> DescVec;
+
+    typedef DescMap::iterator                        DescMapIt;
+    typedef DescVec::iterator                        DescVecIt;
+
+    typedef DescMap::const_iterator                  DescMapConstIt;
+    typedef DescVec::const_iterator                  DescVecConstIt;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    UInt16              _uiGroupId;
+
+    Bool                _bInitialized;
+    Bool                _bDescsAddable;
+
+    BaseType            _baseType;
+
+    FieldContainerType *_pParent;
+    IDString            _szParentName;
+    IDString            _szGroupName;
+
+    FieldContainerPtr   _pPrototype;
+    PrototypeCreateF    _fPrototypeCreate;
+
+    FieldDescription  **_pDesc;
+    UInt32              _uiDescByteCounter;
+
+    DescMap             _mDescMap;
+    DescVec             _vDescVec;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Register                                  */
+    /*! \{                                                                 */
+
+    void registerType(const Char8 *szGroupName);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name             Intialization / Termination                      */
+    /*! \{                                                                 */
+
+    Bool initPrototype   (void);
+    Bool initBaseType    (void);
+    Bool initFields      (void);
+    Bool initParentFields(void);
+
+    Bool initialize      (void);
+    void terminate       (void);
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    typedef DataType Inherited;
+
+    friend class FieldContainerFactory;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const FieldContainerType &source);
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-typedef FieldContainerType *FieldContainerTypeP;
 
 OSG_END_NAMESPACE
 
 #define OSGFIELDCONTAINERTYPE_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSGFIELDCONTAINERP_H_ */
+#endif /* _OSGFIELDCONTAINERTYPE_H_ */

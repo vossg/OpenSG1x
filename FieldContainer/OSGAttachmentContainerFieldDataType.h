@@ -44,12 +44,18 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \file OSGAttachmentContainerFieldDataType.h
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+    \brief OpenSG AttachmentContainer Field Data Types  
+*/
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief AttachmentPtr field traits 
- */
+/*! \brief AttachmentPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<AttachmentContainerPtr> : 

@@ -56,30 +56,16 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: $";
-    static char cvsid_hpp[] = OSGNODE_HEADER_CVSID;
-    static char cvsid_inl[] = OSGNODE_INLINE_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGNODE_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGNODE_INLINE_CVSID;
 }
 
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
 
-/** \brief NULL node pointer
- */
-
-//const NodePtr OSG::NullNode;
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/* Could not put this in the class declaration, since MS interprets them there
- * as pure virtual functions :-( (GV)
+/*! \class osg::Node
  */
 
 const BitVector Node::VolumeFieldMask      = (1 << Node::VolumeFieldId     );
@@ -126,55 +112,47 @@ FieldContainerType Node::_type(
 
 const NodePtr Node::NullNode(NullFC);
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*! \fn FieldContainerType &Node::getClassType(void)
- *  \brief returns node type
- */
-
-/*! \fn UInt32 Node::getClassTypeId(void)
- *  \brief returns node type id
- */
-
-/*! \fn NodePtr Node::create(void)
- *  \brief creates a clone of the prototype
- */
-
-/*! \fn NodePtr Node::createEmpty(void)
- *  \brief creates a empty node, does not clone the prototype
- */
-
 OSG_FIELD_CONTAINER_DEF(Node, NodePtr)
 
-/*------------------------------ access -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Set                                      */
+
+void Node::setCore(const NodeCorePtr &core)
+{
+    NodePtr thisP = getPtr();
+
+    thisP.setParentFieldPos(CoreFieldId);
+
+    if(_core.getValue() != NullFC)
+    {
+        beginEditCP(_core.getValue(), NodeCore::ParentsFieldMask);
+        {
+            _core.getValue()->subParent(thisP);
+        }
+        endEditCP  (_core.getValue(), NodeCore::ParentsFieldMask);
+
+        subRefCP(_core.getValue());
+    }
+
+    _core.setValue(core);
+
+    if(_core.getValue() != NullFC)
+    {
+        beginEditCP(_core.getValue(), NodeCore::ParentsFieldMask);
+        {
+            _core.getValue()->addParent(thisP);
+        }
+        endEditCP  (_core.getValue(), NodeCore::ParentsFieldMask);
+
+        addRefCP(_core.getValue());
+    }
+
+    // TODO Check if required (GV)
+    invalidateVolume();
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Unlink                                    */
 
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
@@ -241,39 +219,8 @@ void Node::unlinkSubTree(void)
 #pragma warning (default : 383)
 #endif
 
-void Node::setCore(const NodeCorePtr &core)
-{
-    NodePtr thisP = getPtr();
-
-    thisP.setParentFieldPos(CoreFieldId);
-
-    if(_core.getValue() != NullFC)
-    {
-        beginEditCP(_core.getValue(), NodeCore::ParentsFieldMask);
-        {
-            _core.getValue()->subParent(thisP);
-        }
-        endEditCP  (_core.getValue(), NodeCore::ParentsFieldMask);
-
-        subRefCP(_core.getValue());
-    }
-
-    _core.setValue(core);
-
-    if(_core.getValue() != NullFC)
-    {
-        beginEditCP(_core.getValue(), NodeCore::ParentsFieldMask);
-        {
-            _core.getValue()->addParent(thisP);
-        }
-        endEditCP  (_core.getValue(), NodeCore::ParentsFieldMask);
-
-        addRefCP(_core.getValue());
-    }
-
-    // TODO Check if required (GV)
-    invalidateVolume();
-}
+/*-------------------------------------------------------------------------*/
+/*                             Children                                    */
 
 void Node::addChild(const NodePtr &childP)
 {
@@ -378,7 +325,9 @@ Bool Node::replaceChildBy(const NodePtr &childP,
     {
         if(childIt != _children.end())
         {
-            // do the ref early, to prevent destroys on getParent(a)->addChild(a)
+            // do the ref early, to prevent destroys on 
+            // getParent(a)->addChild(a)
+
             addRefCP(newChildP);
 
             beginEditCP(childP, Node::ParentFieldMask);
@@ -483,7 +432,8 @@ NodePtr Node::getChild(UInt32 childIndex)
     return _children.getValue(childIndex);
 }
 
-/*---------------------------- properties ---------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                          Access Fields                                  */
 
 SFDynamicVolume *Node::getSFVolume(void)
 {
@@ -505,12 +455,8 @@ MFNodePtr *Node::getMFChildren(void)
     return &_children;
 }
 
-NodePtr Node::getPtr(void)
-{
-    return NodePtr(*this);
-}
-
-/*-------------------------- your_category---------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                           Get Transformation                            */
 
 Matrix Node::getToWorld(void)
 {
@@ -535,27 +481,33 @@ void Node::getToWorld(Matrix &result)
     getCore()->accumulateMatrix(result);
 }
 
-/*-------------------------- assignment -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                           Volume                                        */
 
 void Node::getWorldVolume(DynamicVolume &result)
 {
     Matrix m;
 
     if(getParent() != NullFC)
+    {
         getParent()->getToWorld(m);
+    }
     else
+    {
         m.setIdentity();
+    }
 
     updateVolume();
+
     result = getVolume();
     result.transform(m);
 }
 
 void Node::updateVolume(void)
 {
-    Volume & vol = _volume.getValue().getInstance();
+    Volume &vol = _volume.getValue().getInstance();
 
-    if(vol.isValid())
+    if(vol.isValid() == true)
         return;             // still valid, nothing to do
 
     MFNodePtr::iterator it;
@@ -564,7 +516,7 @@ void Node::updateVolume(void)
 
     vol.setEmpty();
 
-    for(it = _children.begin(); it != _children.end(); it++)
+    for(it = _children.begin(); it != _children.end(); ++it)
     {
         (*it)->updateVolume();
         vol.extendBy((*it)->getVolume());
@@ -594,6 +546,9 @@ void Node::invalidateVolume(void)
     }
 }
 
+/*-------------------------------------------------------------------------*/
+/*                              Changed                                    */
+
 void Node::changed(BitVector  whichField,
                    ChangeMode OSG_CHECK_ARG(from))
 {
@@ -602,6 +557,9 @@ void Node::changed(BitVector  whichField,
         invalidateVolume();
     }
 }
+
+/*-------------------------------------------------------------------------*/
+/*                           Binary Interface                              */
 
 UInt32 Node::getBinSize(const BitVector &whichField)
 {
@@ -630,8 +588,8 @@ UInt32 Node::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-void Node::copyToBin  (      BinaryDataHandler &pMem,
-                       const BitVector         &whichField)
+void Node::copyToBin(      BinaryDataHandler &pMem,
+                     const BitVector         &whichField)
 {
     Inherited::copyToBin(pMem, whichField);
 
@@ -682,7 +640,8 @@ void Node::copyFromBin(      BinaryDataHandler &pMem,
     }
 }
 
-/*------------------------------- dump ----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Dump                                     */
 
 void Node::dump(      UInt32    uiIndent,
                 const BitVector bvFlags) const
@@ -781,55 +740,43 @@ void Node::dump(      UInt32    uiIndent,
 */
 }
 
-/*-------------------------- comparison -----------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 Node::Node(void) :
-    Inherited     (),
-    _parent       (),
-    _children     (),
-    _core         ()
+     Inherited(),
+    _parent   (),
+    _children (),
+    _core     ()
 {
 }
-
-/** \brief CopyConstructor, used only by the protoype mechanism
- */
 
 Node::Node(const Node &source) :
-    Inherited     (source),
-    _parent       (),
-    _children     (),
-    _core         ()
+     Inherited(source),
+    _parent   (),
+    _children (),
+    _core     ()
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
-Node::~Node (void )
+Node::~Node(void)
 {
-    // TODO Unlink Tree
 }
 
-/*------------------------------ access -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                           MT Construction                               */
 
 void Node::setParent(const NodePtr &parent)
 {
-    if ( parent != NullFC )
+    if(parent != NullFC)
         addRefCP(parent);
 
-    if ( _parent.getValue() != NullFC )
+    if(_parent.getValue() != NullFC)
         subRefCP(_parent.getValue());
-
+    
     _parent.setValue(parent);
 }
 
@@ -850,6 +797,9 @@ void Node::onCreate(const Node &source)
         fcI++;
     }
 }
+
+/*-------------------------------------------------------------------------*/
+/*                                Sync                                     */
 
 void Node::executeSync(      FieldContainer &other,
                        const BitVector      &whichField)
@@ -883,37 +833,11 @@ void Node::executeSyncImpl(      Node      *pOther,
     }
 }
 
+/*-------------------------------------------------------------------------*/
+/*                              Pointer                                    */
 
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-///---------------------------------------------------------------------------
-///  FUNCTION:
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters:
-//p:
-///
-//g: GlobalVars:
-//g:
-///
-//r: Return:
-//r:
-///
-//c: Caution:
-//c:
-///
-//a: Assumptions:
-//a:
-///
-//d: Description:
-//d:
-///
-//s: SeeAlso:
-//s:
-///---------------------------------------------------------------------------
+NodePtr Node::getPtr(void)
+{
+    return NodePtr(*this);
+}
 

@@ -47,10 +47,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup GeometryLoaderLib 
- *  \brief FieldTypeMapper, provides functions to map from system to 
- *  scanner types  
- */
+//! FieldTypeMapper, provides functions to map from system to scanner types  
+//! \ingroup GeometryLoaderLib 
 
 template <class BaseT>
 class OSG_SYSTEMLIB_DLLMAPPING ScanParseFieldTypeMapper : public BaseT 
@@ -125,10 +123,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseFieldTypeMapper : public BaseT
     /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const ScanParseFieldTypeMapper &source);
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
 
 OSG_END_NAMESPACE
 

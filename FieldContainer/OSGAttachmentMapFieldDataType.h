@@ -50,17 +50,24 @@ OSG_BEGIN_NAMESPACE
 
 typedef map<UInt32, AttachmentPtr>  AttachmentMap;
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief FieldContainerPtr field traits 
- */
+/*! \file OSGAttachmentMapFieldDataType.h
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+    \brief OpenSG AttachmentContainer Field Data Types  
+*/
+
+/*! \brief FieldContainerPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldTraitsRecurseMapper<AttachmentMap> : 
     public FieldTraitsRecurseBase<AttachmentMap>
 {
-    enum                        { bHasParent        = 0x00      };
+    enum                    { bHasParent        = 0x00   };
 
     static UInt32 getBinSize(const AttachmentMap &oObject)
     {
@@ -136,8 +143,11 @@ struct FieldTraitsRecurseMapper<AttachmentMap> :
         {
             pMem.get(&binding, sizeof(UInt16));
             pMem.get(&id,      sizeof(UInt32));
+
             fcp = FieldContainerFactory::the()->getMappedContainer(id);
+
             key = (UInt32 (fcp->getGroupId()) << 16) | binding;
+
             ((FieldContainerPtr &) pObject[key]) = fcp;
         }
     }

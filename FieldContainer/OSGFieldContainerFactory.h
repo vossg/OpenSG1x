@@ -49,7 +49,6 @@
 #include <map>
 #include <vector>
 
-
 OSG_BEGIN_NAMESPACE
 
 class Lock;
@@ -59,9 +58,8 @@ class FieldContainerType;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup FieldContainerLib
- *  \brief FieldContainerMapper
- */
+//! FieldContainerMapper
+//! \ingroup FieldContainerLib
 
 struct OSG_SYSTEMLIB_DLLMAPPING FieldContainerMapper
 {
@@ -72,120 +70,31 @@ struct OSG_SYSTEMLIB_DLLMAPPING FieldContainerMapper
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup FieldContainerLib
- *  \brief FieldContainerFactory
- */
+//!  \brief FieldContainerFactory
+//! \ingroup FieldContainerLib
 
 class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
 {
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    typedef map<UInt32,     FieldContainerType *>  TypeIdMap;
-    typedef map<IDStringLink, FieldContainerType *>  TypeNameMap;
-    typedef map<IDStringLink, UInt16              >  GroupMap;
-
-    typedef vector<FieldContainerType          *>  UninitializedTypeStore;
-    typedef vector<FieldContainerPtr            >  FieldContainerStore;
-
-    typedef TypeIdMap::iterator                    TypeIdMapIt;
-    typedef TypeNameMap::iterator                  TypeNameMapIt;
-    typedef GroupMap::iterator                     GroupMapIt;
-    typedef UninitializedTypeStore::iterator       UninitTypeStoreIt;
-    typedef FieldContainerStore::iterator          FieldContainerStoreIt;
-
-    typedef TypeIdMap::const_iterator              TypeIdMapConstIt;
-    typedef TypeNameMap::const_iterator            TypeNameMapCnstIt;
-    typedef GroupMap::const_iterator               GroupMapConstIt;
-
-
-    friend class FieldContainerType;
-    friend class FieldContainer;
-    friend class FieldContainerPtrBase;
-
-
-    /*!\brief prohibit default function (move to 'public' if needed) */
-
-    FieldContainerFactory(const FieldContainerFactory &source);
-
-    /*!\brief prohibit default function (move to 'public' if needed) */
-
-    void operator =(const FieldContainerFactory &source);
-
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    static FieldContainerFactory *_the;
+    typedef map<UInt32,       FieldContainerType *>  TypeIdMap;
+    typedef map<IDStringLink, FieldContainerType *>  TypeNameMap;
+    typedef map<IDStringLink, UInt16              >  GroupMap;
 
-    /*---------------------------------------------------------------------*/
-    /*! \name             Intialization / Termination                      */
-    /*! \{                                                                 */
+    typedef vector<FieldContainerType            *>  UninitializedTypeStore;
+    typedef vector<FieldContainerPtr              >  FieldContainerStore;
 
-    static Bool   initializeFactory (int &argc, char **argv);
-    static Bool   terminateFactory  (void                  );
+    typedef TypeIdMap::iterator                      TypeIdMapIt;
+    typedef TypeNameMap::iterator                    TypeNameMapIt;
+    typedef GroupMap::iterator                       GroupMapIt;
+    typedef UninitializedTypeStore::iterator         UninitTypeStoreIt;
+    typedef FieldContainerStore::iterator            FieldContainerStoreIt;
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Member                                  */
-    /*! \{                                                                 */
+    typedef TypeIdMap::const_iterator                TypeIdMapConstIt;
+    typedef TypeNameMap::const_iterator              TypeNameMapCnstIt;
+    typedef GroupMap::const_iterator                 GroupMapConstIt;
 
-    Bool                    _bInitialized;
-
-    TypeIdMap              *_pTypeIdMap;
-    TypeNameMap            *_pTypeNameMap;
-    GroupMap               *_pGroupMap;
-    UninitializedTypeStore *_pUnitTypesStore;
-    FieldContainerStore    *_pFieldContainerStore;
-
-    Lock                   *_pStoreLock;
-    Lock                   *_pMapLock;
-
-    FieldContainerMapper   *_pMapper;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    FieldContainerFactory(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
-
-    virtual ~FieldContainerFactory(void); 
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name         Instance Initialization / Termination                */
-    /*! \{                                                                 */
-
-    Bool   initialize            (int &argc, char **argv);
-    Bool   terminate             (void                  );
-
-    void   initTypeMap           (void                  );
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Register                                  */
-    /*! \{                                                                 */
-
-    void   unregisterFieldContainer(const FieldContainerPtr  &pFieldContainer);
-    UInt32   registerFieldContainer(const FieldContainerPtr  &pFieldContainer);
-
-    UInt32 registerType            (      FieldContainerType *pType          );
-    UInt16 registerGroup           (const Char8              *szName         );
-    void   unregisterType          (      FieldContainerType *pType          );
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                 Write FCD From Type                          */
-    /*! \{                                                                 */
-
-    void writeSingleTypeFCD(ostream &out, const FieldContainerType *type);
-
-    /*! \}                                                                 */
     /*==========================  PUBLIC  =================================*/
   public :
 
@@ -198,6 +107,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     FieldContainerType *findType    (      UInt32  uiTypeId) const;
     FieldContainerType *findType    (const Char8  *szName  ) const;
     UInt32              getNumTypes (void                  ) const;
+
 
     FieldContainerType *findUninitializedType (const Char8  *szName) const;
 
@@ -243,7 +153,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     /*! \name               Write FCD From Name                            */
     /*! \{                                                                 */
 
-    void writeFCD( char * name = NULL, ostream * out = NULL );
+    void writeFCD(Char8 *name = NULL, ostream *out = NULL);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,13 +163,92 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     const FieldContainerStore *getFieldContainerStore(void) const;
 
     /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    static FieldContainerFactory *_the;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name             Intialization / Termination                      */
+    /*! \{                                                                 */
+
+    static Bool initializeFactory (int &argc, char **argv);
+    static Bool terminateFactory  (void                  );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    Bool                    _bInitialized;
+
+    TypeIdMap              *_pTypeIdMap;
+    TypeNameMap            *_pTypeNameMap;
+    GroupMap               *_pGroupMap;
+    UninitializedTypeStore *_pUnitTypesStore;
+    FieldContainerStore    *_pFieldContainerStore;
+
+    Lock                   *_pStoreLock;
+    Lock                   *_pMapLock;
+
+    FieldContainerMapper   *_pMapper;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    FieldContainerFactory(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    virtual ~FieldContainerFactory(void); 
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name         Instance Initialization / Termination                */
+    /*! \{                                                                 */
+
+    Bool   initialize (int &argc, char **argv);
+    Bool   terminate  (void                  );
+
+    void   initTypeMap(void                  );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Register                                  */
+    /*! \{                                                                 */
+
+    void   unregisterFieldContainer(const FieldContainerPtr  &pFieldContainer);
+    UInt32   registerFieldContainer(const FieldContainerPtr  &pFieldContainer);
+
+    UInt32 registerType            (      FieldContainerType *pType          );
+    UInt16 registerGroup           (const Char8              *szName         );
+    void   unregisterType          (      FieldContainerType *pType          );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Write FCD From Type                          */
+    /*! \{                                                                 */
+
+    void writeSingleTypeFCD(ostream &out, const FieldContainerType *type);
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    friend class FieldContainerType;
+    friend class FieldContainer;
+    friend class FieldContainerPtrBase;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    FieldContainerFactory(const FieldContainerFactory &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const FieldContainerFactory &source);
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-typedef FieldContainerFactory *FieldContainerFactoryP;
 
 OSG_END_NAMESPACE
 

@@ -45,17 +45,24 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief FieldContainerPtr field traits 
- */
+/*! \file OSGFieldContainerFieldDataType.h
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+    \brief OpenSG FieldContainer Field Data Types  
+*/
+
+/*! \brief FieldContainerPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldTraitsRecurseMapper<FieldContainerPtr> : 
     public FieldTraitsRecurseBase<FieldContainerPtr>
 {
-    enum                           { bHasParent = 0x00 };
+    enum                    { bHasParent = 0x00       };
 
     static UInt32 getBinSize(const FieldContainerPtr &)
     {
@@ -124,11 +131,11 @@ struct FieldTraitsRecurseMapper<FieldContainerPtr> :
     }
 };
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief FieldContainerPtr field traits 
- */
+/*! \brief FieldContainerPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct OSG_SYSTEMLIB_DLLMAPPING FieldDataTraits<FieldContainerPtr> : 

@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -59,131 +55,81 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: $";
-    static char cvsid_hpp[] = OSGNODEPTR_HEADER_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGNODEPTR_HEADER_CVSID;
 }
 
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
 
-/** \typedef NodePtr::Inherited
- *  \brief Parent type
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/*! \class osg::NodePtr
  */
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-//const NodePtr NodePtr::NullPtr;
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 NodePtr::NodePtr(void) :
     Inherited()
 {
 }
 
-/** \brief Copy Constructor
- */
-
 NodePtr::NodePtr(const NodePtr &source) :
     Inherited(source)
 {
 }
-
-/** \brief NullPtr Constructor
- */
 
 NodePtr::NodePtr(const NullFieldContainerPtr &source) :
     Inherited(source)
 {
 }
 
-/** \brief Constructor from CNodePtr
- */
-
 NodePtr::NodePtr(const CNodePtr &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 NodePtr::~NodePtr(void)
 {
 }
 
-/*------------------------------- core access -------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Core                                     */
 
 NodeCore *NodePtr::getCore(void)
 {
-    return
-        ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
+    return ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
 }
 
 NodeCore *NodePtr::getCore(void) const
 {
-    return
-        ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
+    return ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
 }
 
-/*-------------------------- pointer operators ------------------------------*/
-
-/** \brief Arrow operator
- */
+/*-------------------------------------------------------------------------*/
+/*                           Container Access                              */
 
 Node *NodePtr::operator->(void)
 {
     return (Node *) getElemP(Thread::getAspect());
 }
 
-/** \brief Const arrow operator
- */
-
 Node *NodePtr::operator->(void) const
 {
     return (Node *) getElemP(Thread::getAspect());
 }
 
-/** \brief Dereference operator
- */
-
 Node &NodePtr::operator *(void)
 {
     return *((Node *) getElemP(Thread::getAspect()));
 }
-
-/** \brief Const dereference operator
- */
 
 Node &NodePtr::operator *(void) const
 {
@@ -200,10 +146,8 @@ Node *NodePtr::getCPtr(void) const
     return (Node *) getElemP(Thread::getAspect());
 }
 
-/*-------------------------- assignment -----------------------------------*/
-
-/** \brief assignment from CNodePtr
- */
+/*-------------------------------------------------------------------------*/
+/*                             Assignment                                  */
 
 void NodePtr::operator = (const CNodePtr &source)
 {
@@ -211,17 +155,11 @@ void NodePtr::operator = (const CNodePtr &source)
     *(static_cast<Inherited *>(this)) = source;
 }
 
-/** \brief assignment
- */
-
 void NodePtr::operator = (const NodePtr &source)
 {
     // copy parts inherited from parent
     *(static_cast<Inherited *>(this)) = source;
 }
-
-/** \brief assignment
- */
 
 void NodePtr::operator = (const NullFieldContainerPtr &source)
 {
@@ -229,12 +167,8 @@ void NodePtr::operator = (const NullFieldContainerPtr &source)
     *(static_cast<Inherited *>(this)) = source;
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Construct a pointer from a give node.
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 NodePtr::NodePtr(const Node &source) :
     Inherited(source)
@@ -254,85 +188,48 @@ NodePtr::NodePtr(const Node   *source,
 {
 }
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
-/** \typedef CNodePtr::Inherited
- *  \brief Parent type
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/*! \class osg::CNodePtr
  */
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 CNodePtr::CNodePtr(void) :
     Inherited()
 {
 }
 
-/** \brief Copy Constructor
- */
-
 CNodePtr::CNodePtr(const CNodePtr &source) :
     Inherited(source)
 {
 }
-
-/** \brief Copy Constructor
- */
 
 CNodePtr::CNodePtr(const NullFieldContainerPtr &source) :
     Inherited(source)
 {
 }
 
-/** \brief Constructor from NodePtr
- */
-
 CNodePtr::CNodePtr(const NodePtr &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 CNodePtr::~CNodePtr(void)
 {
 }
 
-/*-------------------------------- node access ------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Node                                     */
 
 Node *CNodePtr::getNode(void)
 {
@@ -344,60 +241,41 @@ Node *CNodePtr::getNode(void) const
     return (Node *) getElemP(Thread::getAspect());
 }
 
-/*-------------------------- pointer operators ------------------------------*/
-
-/** \brief Arrow operator
- */
+/*-------------------------------------------------------------------------*/
+/*                            Container Access                             */
 
 NodeCore *CNodePtr::operator->(void)
 {
-    return
-        ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
+    return ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
 }
-
-/** \brief Const arrow operator
- */
 
 NodeCore *CNodePtr::operator->(void) const
 {
-    return
-        ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
+    return ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
 }
-
-/** \brief Dereference operator
- */
 
 NodeCore &CNodePtr::operator *(void)
 {
-    return *(
-        ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr());
+    return *(((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr());
 }
-
-/** \brief Const dereference operator
- */
 
 NodeCore &CNodePtr::operator *(void) const
 {
-    return *(
-        ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr());
+    return *(((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr());
 }
 
 NodeCore *CNodePtr::getCPtr(void)
 {
-    return
-        ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
+    return ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
 }
 
 NodeCore *CNodePtr::getCPtr(void) const
 {
-    return
-        ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
+    return ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
 }
 
-/*-------------------------- assignment -----------------------------------*/
-
-/** \brief assignment from NodePtr
- */
+/*-------------------------------------------------------------------------*/
+/*                             Assignment                                  */
 
 void CNodePtr::operator = (const NodePtr &source)
 {
@@ -405,17 +283,11 @@ void CNodePtr::operator = (const NodePtr &source)
     *(static_cast<Inherited *>(this)) = source;
 }
 
-/** \brief assignment
- */
-
 void CNodePtr::operator = (const CNodePtr &source)
 {
     // copy parts inherited from parent
     *(static_cast<Inherited *>(this)) = source;
 }
-
-/** \brief assignment
- */
 
 void CNodePtr::operator = (const NullFieldContainerPtr &source)
 {
@@ -423,12 +295,8 @@ void CNodePtr::operator = (const NullFieldContainerPtr &source)
     *(static_cast<Inherited *>(this)) = source;
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Construct a pointer from a give node.
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 CNodePtr::CNodePtr(const Node &source) :
     Inherited(source)
@@ -447,12 +315,10 @@ CNodePtr::CNodePtr(const Node   *source,
 {
 }
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                               Functions                                 */
 
-/** \brief Write FC to the given stream
- */
+//! Write FC to the given stream
 
 OSG_SYSTEMLIB_DLLMAPPING
 ostream &OSG::operator <<(      ostream  &os,
@@ -472,8 +338,7 @@ ostream &OSG::operator <<(      ostream  &os,
     return os;
 }
 
-/** \brief Write FC to the given stream
- */
+//! Write FC to the given stream
 
 OSG_SYSTEMLIB_DLLMAPPING
 ostream &OSG::operator <<(      ostream  &os,
@@ -493,33 +358,6 @@ ostream &OSG::operator <<(      ostream  &os,
     return os;
 }
 
-///---------------------------------------------------------------------------
-///  FUNCTION:
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters:
-//p:
-///
-//g: GlobalVars:
-//g:
-///
-//r: Return:
-//r:
-///
-//c: Caution:
-//c:
-///
-//a: Assumptions:
-//a:
-///
-//d: Description:
-//d:
-///
-//s: SeeAlso:
-//s:
-///---------------------------------------------------------------------------
 
 
 

@@ -95,6 +95,8 @@ struct GenericAttDesc
 typedef DynFieldAttachment<GenericAttDesc>  GenericAtt;
 typedef GenericAtt::PtrType                 GenericAttPtr;
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+
 #ifndef OSG_COMPILEVRMLNODEDESCINST
 #if defined(__sgi)
 
@@ -108,6 +110,8 @@ OSG_ABSTR_FC_DLLEXPORT_DECL(DynFieldAttachment,
 
 #endif
 #endif
+
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 template <>
 struct FieldDataTraits<GenericAttPtr> : 
@@ -125,6 +129,8 @@ struct FieldDataTraits<GenericAttPtr> :
 
 typedef SField<GenericAttPtr>       SFGenericPtr;
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+
 #ifndef OSG_COMPILEVRMLNODEDESCINST
 #if defined(__sgi)
 
@@ -137,12 +143,13 @@ OSG_DLLEXPORT_DECL1(SField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 #endif
 
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
-/** \brief MFGenericAttrPtr
+/*! MFGenericAttrPtr
+    \ingroup MultiFields
  */
 
 typedef MField<GenericAttPtr>       MFGenericAttPtr;
-
 
 #ifndef OSG_COMPILEVRMLNODEDESCINST
 #if defined(__sgi)
@@ -160,9 +167,8 @@ OSG_DLLEXPORT_DECL1(MField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup GeometryLoaderLib
- *  \brief General VRML Node Desc
- */
+//! General VRML Node Desc
+//! \ingroup GeometryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc 
 {
@@ -178,6 +184,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
     static void   decIndent  (void);
     static void   resetIndent(void);
 
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -207,7 +214,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
     virtual       FieldContainerPtr getSaveFieldContainer(void);
 
 
-                  void              setOptions    (      UInt32 uiOpt );
+                  void              setOptions    (UInt32       uiOpt       );
                   void              setPathHandler(PathHandler *pPathHandler);
 
     /*! \}                                                                 */
@@ -318,9 +325,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup GeometryLoaderLib
- *  \brief VRML Shape Desc
- */
+//! VRML Shape Desc
+//! \ingroup GeometryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLShapeDesc : public VRMLNodeDesc 
 {
@@ -409,9 +415,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLShapeDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup GeometryLoaderLib
- *  \brief VRML Gemometry Desc
- */
+//! VRML Gemometry Desc
+//! \ingroup GeometryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryDesc : public VRMLNodeDesc
 {
@@ -486,10 +491,10 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryDesc : public VRMLNodeDesc
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    Bool          _bIsFaceSet;
+    Bool           _bIsFaceSet;
 
-    Bool          _bInIndex;
-    UInt32        _uiNumVertices;
+    Bool           _bInIndex;
+    UInt32         _uiNumVertices;
 
     GeoPTypesPtr   _pTypeField;
     GeoPLengthsPtr _pLengthField;
@@ -511,9 +516,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup GeometryLoaderLib
- *  \brief VRML Gemetry Part Desc 
- */
+//! VRML Gemetry Part Desc 
+//! \ingroup GeometryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryPartDesc : public VRMLNodeDesc
 {
@@ -601,16 +605,14 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryPartDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup GeometryLoaderLib
- *  \brief VRML Geometry Object Desc 
- */
+//! VRML Geometry Object Desc 
+//! \ingroup GeometryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryObjectDesc : public VRMLNodeDesc
 {
     /*==========================  PUBLIC  =================================*/
   public :
 
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -690,9 +692,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryObjectDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup GeometryLoaderLib
- *  \brief VRML Appearance Desc 
- */
+//! VRML Appearance Desc 
+//! \ingroup GeometryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLAppearanceDesc : public VRMLNodeDesc
 {
@@ -740,7 +741,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLAppearanceDesc : public VRMLNodeDesc
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Field                                   */
+    /*! \name                      Node                                    */
     /*! \{                                                                 */
 
     virtual FieldContainerPtr beginNode(const Char8             *szTypename,
@@ -790,9 +791,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLAppearanceDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup GeometryLoaderLib
- *  \brief VRML Material Desc 
- */
+//! VRML Material Desc 
+//! \ingroup GeometryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLMaterialDesc : public VRMLNodeDesc
 {
@@ -865,19 +865,19 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLMaterialDesc : public VRMLNodeDesc
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    SFReal32          _defaultAmbientIntensity;
-    SFColor3f         _defaultDiffuseColor;
-    SFColor3f         _defaultEmissiveColor;
-    SFReal32          _defaultShininess;
-    SFColor3f         _defaultSpecularColor;
-    SFReal32          _defaultTransparency;
+    SFReal32         _defaultAmbientIntensity;
+    SFColor3f        _defaultDiffuseColor;
+    SFColor3f        _defaultEmissiveColor;
+    SFReal32         _defaultShininess;
+    SFColor3f        _defaultSpecularColor;
+    SFReal32         _defaultTransparency;
 
-    SFReal32          _ambientIntensity;
-    SFColor3f         _diffuseColor;
-    SFColor3f         _emissiveColor;
-    SFReal32          _shininess;
-    SFColor3f         _specularColor;
-    SFReal32          _transparency;
+    SFReal32         _ambientIntensity;
+    SFColor3f        _diffuseColor;
+    SFColor3f        _emissiveColor;
+    SFReal32         _shininess;
+    SFColor3f        _specularColor;
+    SFReal32         _transparency;
 
     ChunkMaterialPtr _pDefMat;
     MaterialChunkPtr _pMat;
@@ -899,9 +899,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLMaterialDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup GeometryLoaderLib
- *  \brief VRML ImageTexture Desc 
- */
+//! VRML ImageTexture Desc 
+//! \ingroup GeometryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLImageTextureDesc : public VRMLNodeDesc
 {
@@ -997,9 +996,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLImageTextureDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup GeometryLoaderLib
- *  \brief VRML PixelTexture Desc 
- */
+//! VRML PixelTexture Desc 
+//! \ingroup GeometryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLPixelTextureDesc : public VRMLNodeDesc
 {
@@ -1103,9 +1101,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLPixelTextureDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup GeometryLoaderLib
- *  \brief VRML LOD Desc 
- */
+//! VRML LOD Desc 
+//! \ingroup GeometryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLLODDesc : public VRMLNodeDesc
 {
@@ -1186,9 +1183,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLLODDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup GeometryLoaderLib
- *  \brief VRML Switch Desc 
- */
+//! VRML Switch Desc 
+//! \ingroup GeometryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLSwitchDesc : public VRMLNodeDesc
 {
@@ -1269,9 +1265,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLSwitchDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup GeometryLoaderLib
- *  \brief VRML Group Desc 
- */
+//! VRML Group Desc 
+//! \ingroup GeometryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLGroupDesc : public VRMLNodeDesc
 {
@@ -1363,9 +1358,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGroupDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup GeometryLoaderLib
- *  \brief VRML Inline Desc 
- */
+//! VRML Inline Desc 
+//! \ingroup GeometryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLInlineDesc : public VRMLNodeDesc
 {
@@ -1456,9 +1450,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLInlineDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup GeometryLoaderLib
- *  \brief VRML Viewpoint Desc 
- */
+//! VRML Viewpoint Desc 
+//! \ingroup GeometryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLViewpointDesc : public VRMLNodeDesc
 {
@@ -1537,6 +1530,316 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLViewpointDesc : public VRMLNodeDesc
     /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const VRMLViewpointDesc &source);
 };
+
+#if 0
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+//! VRML DirectionalLight Desc 
+//! \ingroup GeometryLoaderLib
+
+class OSG_SYSTEMLIB_DLLMAPPING VRMLDirectionalLightDesc : public VRMLNodeDesc
+{
+    /*==========================  PUBLIC  =================================*/
+  public :
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    VRMLDirectionalLightDesc(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    virtual ~VRMLDirectionalLightDesc(void); 
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
+
+    virtual void init (const Char8 *szName);
+
+    virtual void reset(      void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Field                                    */
+    /*! \{                                                                 */
+
+    virtual Bool prototypeAddField(const Char8             * szFieldType,
+                                   const UInt32              uiFieldTypeId,
+                                   const Char8             * szFieldName); 
+
+    virtual void endProtoInterface(      void);
+
+    virtual void getFieldAndDesc  (      FieldContainerPtr   pFC,
+                                   const Char8             * szFieldname,
+                                         Field             *&pField,
+                                   const FieldDescription  *&pDesc);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Node                                    */
+    /*! \{                                                                 */
+
+    virtual FieldContainerPtr beginNode(const Char8             *szTypename,
+                                        const Char8             *szName,
+                                              FieldContainerPtr  pCurrentFC);
+
+    virtual void              endNode  (      FieldContainerPtr            );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
+
+    virtual void dump(const Char8 *szNodeName);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    SFReal32  _defaultAmbientIntensity;
+    SFColor3f _defaultDiffuseColor;
+    SFColor3f _defaultEmissiveColor;
+    SFReal32  _defaultShininess;
+    SFColor3f _defaultSpecularColor;
+    SFReal32  _defaultTransparency;
+
+    SFReal32  _ambientIntensity;
+    SFColor3f _diffuseColor;
+    SFColor3f _emissiveColor;
+    SFReal32  _shininess;
+    SFColor3f _specularColor;
+    SFReal32  _transparency;
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    typedef VRMLNodeDesc Inherited;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLDirectionalLightDesc(const VRMLDirectionalLightDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLDirectionalLightDesc &source);
+};
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+//! VRML DirectionalLight Desc 
+//! \ingroup GeometryLoaderLib
+
+class OSG_SYSTEMLIB_DLLMAPPING VRMLPointLightDesc : public VRMLNodeDesc
+{
+    /*==========================  PUBLIC  =================================*/
+  public :
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    VRMLPointLightDesc(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    virtual ~VRMLPointLightLightDesc(void); 
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
+
+    virtual void init (const Char8 *szName);
+
+    virtual void reset(      void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Field                                    */
+    /*! \{                                                                 */
+
+    virtual Bool prototypeAddField(const Char8             * szFieldType,
+                                   const UInt32              uiFieldTypeId,
+                                   const Char8             * szFieldName); 
+
+    virtual void endProtoInterface(      void);
+
+    virtual void getFieldAndDesc  (      FieldContainerPtr   pFC,
+                                   const Char8             * szFieldname,
+                                         Field             *&pField,
+                                   const FieldDescription  *&pDesc);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Node                                    */
+    /*! \{                                                                 */
+
+    virtual FieldContainerPtr beginNode(const Char8             *szTypename,
+                                        const Char8             *szName,
+                                              FieldContainerPtr  pCurrentFC);
+
+    virtual void              endNode  (      FieldContainerPtr            );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
+
+    virtual void dump(const Char8 *szNodeName);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    SFReal32  _defaultAmbientIntensity;
+    SFColor3f _defaultDiffuseColor;
+    SFColor3f _defaultEmissiveColor;
+    SFReal32  _defaultShininess;
+    SFColor3f _defaultSpecularColor;
+    SFReal32  _defaultTransparency;
+
+    SFReal32  _ambientIntensity;
+    SFColor3f _diffuseColor;
+    SFColor3f _emissiveColor;
+    SFReal32  _shininess;
+    SFColor3f _specularColor;
+    SFReal32  _transparency;
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    typedef VRMLNodeDesc Inherited;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLDirectionalLightDesc(const VRMLDirectionalLightDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLDirectionalLightDesc &source);
+};
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+//! VRML DirectionalLight Desc 
+//! \ingroup GeometryLoaderLib
+
+class OSG_SYSTEMLIB_DLLMAPPING VRMLDirectionalLightDesc : public VRMLNodeDesc
+{
+    /*==========================  PUBLIC  =================================*/
+  public :
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    VRMLDirectionalLightDesc(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    virtual ~VRMLDirectionalLightDesc(void); 
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
+
+    virtual void init (const Char8 *szName);
+
+    virtual void reset(      void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Field                                    */
+    /*! \{                                                                 */
+
+    virtual Bool prototypeAddField(const Char8             * szFieldType,
+                                   const UInt32              uiFieldTypeId,
+                                   const Char8             * szFieldName); 
+
+    virtual void endProtoInterface(      void);
+
+    virtual void getFieldAndDesc  (      FieldContainerPtr   pFC,
+                                   const Char8             * szFieldname,
+                                         Field             *&pField,
+                                   const FieldDescription  *&pDesc);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Node                                    */
+    /*! \{                                                                 */
+
+    virtual FieldContainerPtr beginNode(const Char8             *szTypename,
+                                        const Char8             *szName,
+                                              FieldContainerPtr  pCurrentFC);
+
+    virtual void              endNode  (      FieldContainerPtr            );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
+
+    virtual void dump(const Char8 *szNodeName);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    SFReal32  _defaultAmbientIntensity;
+    SFColor3f _defaultDiffuseColor;
+    SFColor3f _defaultEmissiveColor;
+    SFReal32  _defaultShininess;
+    SFColor3f _defaultSpecularColor;
+    SFReal32  _defaultTransparency;
+
+    SFReal32  _ambientIntensity;
+    SFColor3f _diffuseColor;
+    SFColor3f _emissiveColor;
+    SFReal32  _shininess;
+    SFColor3f _specularColor;
+    SFReal32  _transparency;
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    typedef VRMLNodeDesc Inherited;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLDirectionalLightDesc(const VRMLDirectionalLightDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLDirectionalLightDesc &source);
+};
+#endif
 
 OSG_END_NAMESPACE
 

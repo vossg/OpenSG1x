@@ -50,9 +50,8 @@ OSG_BEGIN_NAMESPACE
 
 class Attachment;
 
-/*! \ingroup FieldContainerLib
- *  \brief Pointer to an attachment 
- */
+//! Pointer to an attachment 
+//! \ingroup FieldContainerLib
 
 #ifdef __sgi
 #pragma set woff 1375,1424
@@ -91,7 +90,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentPtr : public FieldContainerPtr
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
+    /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
     ~AttachmentPtr(void); 
@@ -150,10 +149,6 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentPtr : public FieldContainerPtr
 #ifdef __sgi
 #pragma reset woff 1375,1424
 #endif
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
 
 OSG_SYSTEMLIB_DLLMAPPING
 ostream &operator <<(      ostream       &os,

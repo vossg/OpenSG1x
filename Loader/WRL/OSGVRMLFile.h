@@ -71,12 +71,12 @@ VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >;
 #endif
 #endif
 
-/*! \ingroup GeometryLoaderLib
- *  \brief VRML97 Loader (Geometry only)
- */
+//! VRML97 Loader (Geometry only)
+//! \ingroup GeometryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
 {
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
     typedef Parent Inherited;
@@ -202,14 +202,6 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const VRMLFile &source);
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-// class pointer
-
-typedef VRMLFile *VRMLFileP;
 
 OSG_END_NAMESPACE
 

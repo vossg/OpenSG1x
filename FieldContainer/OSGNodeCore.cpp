@@ -34,10 +34,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -55,24 +51,17 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: $";
-    static char cvsid_hpp[] = OSGNODECORE_HEADER_CVSID;
-    static char cvsid_inl[] = OSGNODECORE_INLINE_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGNODECORE_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGNODECORE_INLINE_CVSID;
 }
 
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
 
-//const NodeCorePtr OSG::NullNodeCore;
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+/*! \class osg::NodeCore
+ */
 
 const BitVector
     NodeCore::ParentsFieldMask     = (1 << NodeCore::ParentsFieldId    );
@@ -95,33 +84,10 @@ FieldContainerType NodeCore::_type("NodeCore",
                                    sizeof(_desc));
 
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 OSG_ABSTR_FIELD_CONTAINER_DEF(NodeCore, NodeCorePtr)
 
-/*------------------------------ access -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                              Parents                                    */
 
 MFNodePtr &NodeCore::getParents(void)
 {
@@ -138,32 +104,45 @@ MFNodePtr *NodeCore::getMFParents(void)
     return &_parents;
 }
 
-/*---------------------------- properties ---------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                         Binary Interface                                */
 
-NodeCorePtr NodeCore::getPtr(void)
+UInt32 NodeCore::getBinSize(const BitVector &whichField)
 {
-    return NodeCorePtr(*this);
-}
+    UInt32 returnValue = Inherited::getBinSize(whichField);
 
-/*-------------------------- your_category---------------------------------*/
-
-void NodeCore::accumulateMatrix(Matrix &)
-{
-}
-
-void NodeCore::adjustVolume(Volume &)
-{
-}
-
-void NodeCore::invalidateVolume( void)
-{
-    for(UInt32 i = 0; i < _parents.size(); i++)
+    if(FieldBits::NoField != (ParentsFieldMask & whichField))
     {
-        _parents[i]->invalidateVolume();
+        returnValue += _parents.getBinSize();
+    }
+
+    return returnValue;
+}
+
+void NodeCore::copyToBin(      BinaryDataHandler &pMem,
+                         const BitVector         &whichField)
+{
+    Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (ParentsFieldMask & whichField))
+    {
+        _parents.copyToBin(pMem);
     }
 }
 
-/*-------------------------- assignment -----------------------------------*/
+void NodeCore::copyFromBin(      BinaryDataHandler &pMem,
+                           const BitVector         &whichField)
+{
+    Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (ParentsFieldMask & whichField))
+    {
+        _parents.copyFromBin(pMem);
+    }
+}
+
+/*-------------------------------------------------------------------------*/
+/*                                Dump                                     */
 
 void NodeCore::dump(      UInt32    uiIndent,
                     const BitVector bvFlags) const
@@ -203,40 +182,30 @@ void NodeCore::dump(      UInt32    uiIndent,
     PLOG << "}" << endl;
 }
 
-/*-------------------------- comparison -----------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 NodeCore::NodeCore(void) :
-    Inherited     (),
-    _parents      ()
+     Inherited(),
+    _parents  ()
 {
-    return;
 }
-
-/** \brief Copy Constructor
- */
 
 NodeCore::NodeCore(const NodeCore &obj) :
-    Inherited     (obj),
-    _parents      ()
+     Inherited(obj),
+    _parents  (   )
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
-NodeCore::~NodeCore (void )
+NodeCore::~NodeCore(void)
 {
 }
+
+/*-------------------------------------------------------------------------*/
+/*                          MT Destruction                                 */
 
 void NodeCore::onDestroy(void)
 {
@@ -250,6 +219,9 @@ void NodeCore::onDestroy(void)
     }
 */
 }
+
+/*-------------------------------------------------------------------------*/
+/*                              Parents                                    */
 
 void NodeCore::addParent(const NodePtr &parent)
 {
@@ -268,39 +240,16 @@ void NodeCore::subParent(const NodePtr &parent)
     }
 }
 
-UInt32 NodeCore::getBinSize(const BitVector &whichField)
+/*-------------------------------------------------------------------------*/
+/*                              Pointer                                    */
+
+NodeCorePtr NodeCore::getPtr(void)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
-
-    if(FieldBits::NoField != (ParentsFieldMask & whichField))
-    {
-        returnValue += _parents.getBinSize();
-    }
-
-    return returnValue;
+    return NodeCorePtr(*this);
 }
 
-void NodeCore::copyToBin(      BinaryDataHandler &pMem,
-                         const BitVector         &whichField)
-{
-    Inherited::copyToBin(pMem, whichField);
-
-    if(FieldBits::NoField != (ParentsFieldMask & whichField))
-    {
-        _parents.copyToBin(pMem);
-    }
-}
-
-void NodeCore::copyFromBin(      BinaryDataHandler &pMem,
-                           const BitVector         &whichField)
-{
-    Inherited::copyFromBin(pMem, whichField);
-
-    if(FieldBits::NoField != (ParentsFieldMask & whichField))
-    {
-        _parents.copyFromBin(pMem);
-    }
-}
+/*-------------------------------------------------------------------------*/
+/*                                Sync                                     */
 
 void NodeCore::executeSync(      FieldContainer &other,
                            const BitVector      &whichField)
@@ -320,34 +269,26 @@ void NodeCore::executeSyncImpl(      NodeCore  *pOther,
     }
 }
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                              Matrix                                     */
 
-///---------------------------------------------------------------------------
-///  FUNCTION:
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters:
-//p:
-///
-//g: GlobalVars:
-//g:
-///
-//r: Return:
-//r:
-///
-//c: Caution:
-//c:
-///
-//a: Assumptions:
-//a:
-///
-//d: Description:
-//d:
-///
-//s: SeeAlso:
-//s:
-///---------------------------------------------------------------------------
+void NodeCore::accumulateMatrix(Matrix &)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                              Volume                                     */
+
+void NodeCore::adjustVolume(Volume &)
+{
+}
+
+void NodeCore::invalidateVolume(void)
+{
+    for(UInt32 i = 0; i < _parents.size(); i++)
+    {
+        _parents[i]->invalidateVolume();
+    }
+}
+
+

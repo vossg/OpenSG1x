@@ -46,19 +46,16 @@
 #include <OSGSField.h>
 #include <OSGNodeFieldDataType.h>
 
-/** \file OSGSFNodePtr.h
- *  \ingroup FieldLib
- *  \ingroup SingleFields
- *  \brief OpenSG field container single fields
- *
- * <UL>
- * <LI> osg::SFNodePtr
- * </UL>
- */
+/*! \file OSGSFNodePtr.h
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \brief OpenSG field container single fields
+*/
 
 OSG_BEGIN_NAMESPACE
 
-/** \brief SFNodePtr
+/*! \brief SFNodePtr
+    \ingroup SingleFields
  */
 
 typedef SField<NodePtr>           SFNodePtr;

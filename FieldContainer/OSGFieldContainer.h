@@ -51,10 +51,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Field;
 class FieldContainerPtr;
 class BinaryDataHandler;
@@ -141,18 +137,18 @@ void changedCP  (const FieldContainerPtr &objectP,
                        BitVector          whichField = FieldBits::AllFields);
 
 OSG_SYSTEMLIB_DLLMAPPING
-void endEditNotChangedCP(const FieldContainerPtr &objectP, 
-                         BitVector          whichField = FieldBits::AllFields);
+void endEditNotChangedCP(
+    const FieldContainerPtr &objectP, 
+          BitVector          whichField = FieldBits::AllFields);
 
 
-/** \defgroup FieldContainerLib OpenSG Field Container Library
- *  \brief This lib contains all field container elements like NodeCore's,
- *  Attachments.
- */
+/*! \defgroup FieldContainerLib OpenSG Field Container Library
+    \brief This lib contains all field container elements like NodeCore's,
+    Attachments.
+*/
 
-/*! \ingroup FieldContainerLib
- *  \brief FieldContainer
- */
+//! FieldContainer
+//! \ingroup FieldContainerLib
 
 class OSG_SYSTEMLIB_DLLMAPPING FieldContainer 
 {
@@ -178,7 +174,6 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     static       UInt32              getClassTypeId(void);
     static       UInt16              getClassGroupId(void);
 
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name             Get Instance Type Information                    */
@@ -197,15 +192,15 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     /*! \name                    Container Size                            */
     /*! \{                                                                 */
 
-    virtual UInt32            getContainerSize   (void) const = 0;
+    virtual UInt32  getContainerSize(void                  ) const = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                                                              */
     /*! \{                    Generic Field Access                         */
 
-            Field            *getField   (      UInt32 fieldId  );
-            Field            *getField   (const Char8 *fieldName);
+            Field  *getField        (      UInt32 fieldId  );
+            Field  *getField        (const Char8 *fieldName);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -260,7 +255,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
+    /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
     virtual ~FieldContainer (void);
@@ -468,7 +463,6 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     friend class FieldContainerPtr;
 
     /*!\brief prohibit default functions (move to 'public' if needed) */
-
     FieldContainer &operator = (const FieldContainer &other);
 };
 
@@ -1024,13 +1018,6 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
     {                                                                   \
         _##OSG_NAME.setValue( val );                                    \
     }                                                                   
-
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-typedef FieldContainer *FieldContainerP;
 
 OSG_END_NAMESPACE
 

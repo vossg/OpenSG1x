@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -57,60 +53,24 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: $";
-    static char cvsid_hpp[] = OSGATTACHMENTCONTAINERPTR_HEADER_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGATTACHMENTCONTAINERPTR_HEADER_CVSID;
 }
 
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
 
-/** \typedef AttachmentContainerPtr::Inherited
- *  \brief Parent type
+/*! \class osg::AttachmentContainerPtr
  */
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-//const AttachmentContainerPtr AttachmentContainerPtr::NullPtr;
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 AttachmentContainerPtr::AttachmentContainerPtr(void) :
     Inherited()
 {
 }
-
-/** \brief Copy Constructor
- */
 
 AttachmentContainerPtr::AttachmentContainerPtr(
     const AttachmentContainerPtr &source) :
@@ -119,9 +79,6 @@ AttachmentContainerPtr::AttachmentContainerPtr(
 {
 }
 
-/** \brief NullPtr Constructor
- */
-
 AttachmentContainerPtr::AttachmentContainerPtr(
     const NullFieldContainerPtr &source) :
 
@@ -129,41 +86,30 @@ AttachmentContainerPtr::AttachmentContainerPtr(
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 AttachmentContainerPtr::~AttachmentContainerPtr(void)
 {
 }
 
-/*-------------------------- pointer operators ------------------------------*/
-
-/** \brief Arrow operator
- */
+/*-------------------------------------------------------------------------*/
+/*                            Container Access                             */
 
 AttachmentContainer *AttachmentContainerPtr::operator->(void)
 {
     return (AttachmentContainer *) getElemP(Thread::getAspect());
 }
 
-/** \brief Const arrow operator
- */
-
 AttachmentContainer *AttachmentContainerPtr::operator->(void) const
 {
     return (AttachmentContainer *) getElemP(Thread::getAspect());
 }
 
-/** \brief Dereference operator
- */
-
 AttachmentContainer &AttachmentContainerPtr::operator *(void)
 {
     return *((AttachmentContainer *) getElemP(Thread::getAspect()));
 }
-
-/** \brief Const dereference operator
- */
 
 AttachmentContainer &AttachmentContainerPtr::operator *(void) const
 {
@@ -180,19 +126,14 @@ AttachmentContainer *AttachmentContainerPtr::getCPtr(void) const
     return (AttachmentContainer *) getElemP(Thread::getAspect());
 }
 
-/*-------------------------- assignment -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                             Assignment                                  */
 
-/** \brief assignment
- */
-
-void AttachmentContainerPtr::operator = (const AttachmentContainerPtr &source)
+void AttachmentContainerPtr::operator =(const AttachmentContainerPtr &source)
 {
     // copy parts inherited from parent
     *(static_cast<Inherited *>(this)) = source;
 }
-
-/** \brief NullPtr assignment
- */
 
 void AttachmentContainerPtr::operator = (const NullFieldContainerPtr &source)
 {
@@ -200,12 +141,8 @@ void AttachmentContainerPtr::operator = (const NullFieldContainerPtr &source)
     *(static_cast<Inherited *>(this)) = source;
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Construct a pointer from a give node.
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 AttachmentContainerPtr::AttachmentContainerPtr(
     const AttachmentContainer &source) :
@@ -230,13 +167,10 @@ AttachmentContainerPtr::AttachmentContainerPtr(
 {
 }
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                               Functions                                 */
 
-
-/** \brief Write FC to the given stream
- */
+//! Write FCPtr to the given stream
 
 OSG_SYSTEMLIB_DLLMAPPING
 ostream &OSG::operator <<(      ostream                 &os,
@@ -255,34 +189,6 @@ ostream &OSG::operator <<(      ostream                 &os,
 
     return os;
 }
-
-///---------------------------------------------------------------------------
-///  FUNCTION:
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters:
-//p:
-///
-//g: GlobalVars:
-//g:
-///
-//r: Return:
-//r:
-///
-//c: Caution:
-//c:
-///
-//a: Assumptions:
-//a:
-///
-//d: Description:
-//d:
-///
-//s: SeeAlso:
-//s:
-///---------------------------------------------------------------------------
 
 
 

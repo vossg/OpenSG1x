@@ -49,79 +49,18 @@
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+/*! \class SimpleAttachment
+ */
 
 OSG_FIELD_CONTAINER_INL_DEF(Attachment, AttachmentPtr)
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
 
 template <class AttachmentDescT>
 const BitVector SimpleAttachment<AttachmentDescT>::SimpleFieldMask =
     (1 << SimpleAttachment<AttachmentDescT>::SimpleFieldId);
 
 
-/** \brief Attachment field description
- */
+/*-------------------------------------------------------------------------*/
+/*                           Type Information                              */
 
 template <class AttachmentDescT>
 FieldDescription *SimpleAttachment<AttachmentDescT>::_desc[] =
@@ -134,10 +73,6 @@ FieldDescription *SimpleAttachment<AttachmentDescT>::_desc[] =
         (FieldAccessMethod) &SimpleAttachment::getFieldPtr,
         NULL)
 };
-
-/** \brief Attachment type
- */
-
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class AttachmentDescT>
@@ -164,41 +99,15 @@ FieldContainerType SimpleAttachment<AttachmentDescT>::_type(
     sizeof(FieldDescription *));
 #endif
 
-
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
 OSG_FIELD_CONTAINER_INL_TMPL_DEF(SimpleAttachment,
                                  AttachmentDescT,
                                  PtrType)
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
 
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-/** \brief Returns pointer to stored field
- */
+//! Returns pointer to stored field
 
 template <class AttachmentDescT> inline
 SimpleAttachment<AttachmentDescT>::StoredFieldType *
@@ -207,9 +116,8 @@ SimpleAttachment<AttachmentDescT>::StoredFieldType *
     return &_field;
 }
 
-/** \brief Returns reference to the stored field
- */
-
+//! Returns reference to the stored field
+ 
 template <class AttachmentDescT> inline
 SimpleAttachment<AttachmentDescT>::StoredFieldType &
     SimpleAttachment<AttachmentDescT>::getField(void)
@@ -217,8 +125,7 @@ SimpleAttachment<AttachmentDescT>::StoredFieldType &
     return _field;
 }
 
-/** \brief Returns const reference to the stored field
- */
+//! Returns const reference to the stored field
 
 template <class AttachmentDescT> inline
 const SimpleAttachment<AttachmentDescT>::StoredFieldType &
@@ -226,6 +133,9 @@ const SimpleAttachment<AttachmentDescT>::StoredFieldType &
 {
     return _field;
 }
+
+/*-------------------------------------------------------------------------*/
+/*                            Binary Access                                */
 
 template <class AttachmentDescT> inline
 UInt32 SimpleAttachment<AttachmentDescT>::getBinSize(
@@ -263,8 +173,8 @@ void SimpleAttachment<AttachmentDescT>::copyFromBin(
     }
 }
 
-
-/*------------------------------- dump ----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Dump                                     */
 
 template <class AttachmentDescT> inline
 void SimpleAttachment<AttachmentDescT>::dump(      UInt32    uiIndent,
@@ -273,48 +183,42 @@ void SimpleAttachment<AttachmentDescT>::dump(      UInt32    uiIndent,
     Inherited::dump(uiIndent, bvFlags);
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 template <class AttachmentDescT> inline
 SimpleAttachment<AttachmentDescT>::SimpleAttachment(void) :
-    Inherited(),
-    _field()
+     Inherited(),
+    _field    ()
 {
 }
-
-/** \brief Copy Constructor
- */
 
 template <class AttachmentDescT> inline
 SimpleAttachment<AttachmentDescT>::SimpleAttachment(
                       const SimpleAttachment &source) :
-    Inherited(source),
-    _field(source._field)
+     Inherited(source),
+    _field    (source._field)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 template <class AttachmentDescT> inline
 SimpleAttachment<AttachmentDescT>::~SimpleAttachment(void)
 {
 }
 
+/*-------------------------------------------------------------------------*/
+/*                               Sync                                      */
+
 template <class AttachmentDescT> inline
 void SimpleAttachment<AttachmentDescT>::executeSync(
           FieldContainer &other,
     const BitVector      &whichField)
 {
-    this->executeSyncImpl((SimpleAttachment *) &other,
-                          whichField);
+    this->executeSyncImpl(static_cast<SimpleAttachment *>(&other)    ,
+                                                           whichField);
 }
 
 template <class AttachmentDescT> inline
@@ -330,21 +234,10 @@ void SimpleAttachment<AttachmentDescT>::executeSyncImpl(
     }
 }
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-
-/*! \brief Attachment type
+/*! \class DynFieldAttachment
  */
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
@@ -372,36 +265,9 @@ FieldContainerType DynFieldAttachment<AttachmentDescT>::_type(
     true);
 #endif
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
 OSG_FIELD_CONTAINER_ST_INL_TMPL_DEF(DynFieldAttachment,
                                     AttachmentDescT,
                                     PtrType)
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
 
 template <class AttachmentDescT> inline
 FieldContainerType &DynFieldAttachment<AttachmentDescT>::getType(void)
@@ -415,6 +281,9 @@ const FieldContainerType&
 {
     return _localType;
 }
+
+/*-------------------------------------------------------------------------*/
+/*                            Field Access                                 */
 
 template <class AttachmentDescT> inline
 UInt32 DynFieldAttachment<AttachmentDescT>::addField(
@@ -476,6 +345,9 @@ Field *DynFieldAttachment<AttachmentDescT>::getDynamicField(
     return _dynFieldsV[index - Inherited::NextFieldId];
 }
 
+/*-------------------------------------------------------------------------*/
+/*                               Clone                                     */
+
 template <class AttachmentDescT> inline
 FieldContainerPtr DynFieldAttachment<AttachmentDescT>::emptyCopy(void)
 {
@@ -495,18 +367,18 @@ template <class AttachmentDescT> inline
 FieldContainerPtr DynFieldAttachment<AttachmentDescT>::clone(void)
 {
     PtrType returnValue = DynFieldAttachment<AttachmentDescT>::createEmpty();
-    UInt32 i;
+    UInt32  i;
 
-    for( i = Inherited::NextFieldId;
-         i <= _localType.getNumFieldDescs();
-         i++)
+    for(i  = Inherited::NextFieldId;
+        i <= _localType.getNumFieldDescs();
+        i++)
     {
         returnValue->addField(*(_localType.getFieldDescription(i)));
     }
 
-    for( i = Inherited::NextFieldId;
-         i <= _localType.getNumFieldDescs();
-         i++)
+    for(i  = Inherited::NextFieldId;
+        i <= _localType.getNumFieldDescs();
+        i++)
     {
         returnValue->getDynamicField(i)->setAbstrValue(
             *(_dynFieldsV[i - Inherited::NextFieldId]));
@@ -515,7 +387,8 @@ FieldContainerPtr DynFieldAttachment<AttachmentDescT>::clone(void)
     return returnValue;
 }
 
-/*------------------------------- dump ----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                               Dump                                      */
 
 template <class AttachmentDescT> inline
 void DynFieldAttachment<AttachmentDescT>::dump(      UInt32    uiIndent,
@@ -549,46 +422,34 @@ void DynFieldAttachment<AttachmentDescT>::dump(      UInt32    uiIndent,
     PLOG << "}" << endl;
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 template <class AttachmentDescT> inline
 DynFieldAttachment<AttachmentDescT>::DynFieldAttachment(void) :
-    Inherited(),
-    _localType(_type),
-    _dynFieldsV()
+     Inherited (     ),
+    _localType (_type),
+    _dynFieldsV(     )
 {
 }
-
-/** \brief Copy Constructor
- */
 
 template <class AttachmentDescT> inline
 DynFieldAttachment<AttachmentDescT>::DynFieldAttachment(
-                      const DynFieldAttachment &source) :
-    Inherited(source),
-    _localType(_type),
-    _dynFieldsV(source._dynFieldsV) // Do a real copy soon ;-)
+    const DynFieldAttachment &source) :
+
+     Inherited ( source            ),
+    _localType (_type              ),
+    _dynFieldsV( source._dynFieldsV) // Do a real copy soon ;-)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 template <class AttachmentDescT> inline
 DynFieldAttachment<AttachmentDescT>::~DynFieldAttachment(void)
 {
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 OSG_END_NAMESPACE
 

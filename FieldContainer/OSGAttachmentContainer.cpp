@@ -56,25 +56,16 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: $";
-    static char cvsid_hpp[] = OSGATTACHMENTCONTAINER_HEADER_CVSID;
-    static char cvsid_inl[] = OSGATTACHMENTCONTAINER_INLINE_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGATTACHMENTCONTAINER_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGATTACHMENTCONTAINER_INLINE_CVSID;
 }
 
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/* Could not put this in the class declaration, since MS interprets them there
- * as pure virtual functions :-( (GV)
+/*! \class osg::AttachmentContainer
  */
 
 const BitVector AttachmentContainer::AttachmentsFieldMask =
@@ -100,48 +91,10 @@ FieldContainerType AttachmentContainer::_type(
     sizeof(_desc));
 
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*! \fn FieldContainerType &AttachmentContainer::getClassType(void)
- *  \brief returns AttachmentContainer type
- */
-
-/*! \fn UInt32 AttachmentContainer::getClassTypeId(void)
- *  \brief returns AttachmentContainer type id
- */
-
 OSG_ABSTR_FIELD_CONTAINER_DEF(AttachmentContainer, AttachmentContainerPtr)
 
-/*------------------------------ access -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                          Handle Attachments                             */
 
 void AttachmentContainer::addAttachment(const AttachmentPtr &fieldContainerP,
                                               UInt16         binding)
@@ -212,22 +165,24 @@ AttachmentPtr AttachmentContainer::findAttachment(UInt32 groupId,
     return (fcI == _attachmentMap.getValue().end()) ? NullFC : (*fcI).second;
 }
 
-/*---------------------------- properties ---------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                            Field Access                                 */
 
 SFAttachmentMap *AttachmentContainer::getSFAttachments(void)
 {
     return &_attachmentMap;
 }
 
-AttachmentContainerPtr AttachmentContainer::getPtr(void)
-{
-    return AttachmentContainerPtr(*this);
-}
+/*-------------------------------------------------------------------------*/
+/*                             Changed                                     */
 
 void AttachmentContainer::changed(BitVector  ,
                                   ChangeMode )
 {
 }
+
+/*-------------------------------------------------------------------------*/
+/*                           Binary Access                                 */
 
 UInt32 AttachmentContainer::getBinSize(const BitVector &whichField)
 {
@@ -259,7 +214,8 @@ void AttachmentContainer::copyFromBin(      BinaryDataHandler &pMem,
     }
 }
 
-/*------------------------------- dump ----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Dump                                     */
 
 void AttachmentContainer::dump(      UInt32    uiIndent,
                                const BitVector bvFlags) const
@@ -275,29 +231,17 @@ void AttachmentContainer::dump(      UInt32    uiIndent,
     }
 }
 
-/*-------------------------- comparison -----------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 AttachmentContainer::AttachmentContainer(void) :
-    Inherited     (),
+     Inherited    (),
     _attachmentMap()
 {
 }
 
-/** \brief CopyConstructor, used only by the protoype mechanism
- */
-
 AttachmentContainer::AttachmentContainer(const AttachmentContainer &source) :
-    Inherited     (source),
+     Inherited    (source),
     _attachmentMap()
 {
     AttachmentMap::const_iterator fcI =
@@ -311,15 +255,16 @@ AttachmentContainer::AttachmentContainer(const AttachmentContainer &source) :
     }
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 AttachmentContainer::~AttachmentContainer(void)
 {
     // TODO Unlink Tree
 }
 
-/*------------------------------ access -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Sync                                     */
 
 void AttachmentContainer::executeSync(      FieldContainer &other,
                                       const BitVector      &whichField)
@@ -339,37 +284,11 @@ void AttachmentContainer::executeSyncImpl(
     }
 }
 
+/*-------------------------------------------------------------------------*/
+/*                                Pointer                                  */
 
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-///---------------------------------------------------------------------------
-///  FUNCTION:
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters:
-//p:
-///
-//g: GlobalVars:
-//g:
-///
-//r: Return:
-//r:
-///
-//c: Caution:
-//c:
-///
-//a: Assumptions:
-//a:
-///
-//d: Description:
-//d:
-///
-//s: SeeAlso:
-//s:
-///---------------------------------------------------------------------------
+AttachmentContainerPtr AttachmentContainer::getPtr(void)
+{
+    return AttachmentContainerPtr(*this);
+}
 

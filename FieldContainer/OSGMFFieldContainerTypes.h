@@ -42,10 +42,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGMFFieldContainerPtr.h>
 #include <OSGMFAttachmentContainerPtr.h>
 #include <OSGMFNodePtr.h>

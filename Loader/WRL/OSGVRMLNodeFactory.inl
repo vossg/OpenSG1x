@@ -36,11 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -54,138 +49,11 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-template <class BaseT> inline
-VRMLNodeDesc *VRMLNodeFactory<BaseT>::findNodeDesc(const Char8 *szNodeTypename)
-{
-    VRMLNodeDesc *returnValue = NULL;
-
-    NodeNameDescHash::iterator mNodeDescIt =
-        _mNodeDescHash.find(szNodeTypename);
-
-    if(mNodeDescIt != _mNodeDescHash.end())
-    {
-        indentLog(VRMLNodeDesc::getIndent(), PINFO);
-        PINFO << "Found Node "
-              << mNodeDescIt->first << " ("
-              << szNodeTypename     << ")" << endl;
-
-        returnValue = mNodeDescIt->second;
-    }
-
-    return returnValue;
-}
-
-template <class BaseT> inline
-void VRMLNodeFactory<BaseT>::addNodeDesc(const Char8        *szNodeTypename,
-                                               VRMLNodeDesc *pDesc)
-{
-    Char8 *szName = NULL;
-
-    if(szNodeTypename == NULL || pDesc == NULL)
-        return;
-
-    stringDup(szNodeTypename, szName);
-
-    _mNodeDescHash[szName] = pDesc;
-
-    _pCurrentNodeDesc = pDesc;
-}
-
-template <class BaseT> inline
-void VRMLNodeFactory<BaseT>::preStandardProtos (void)
-{
-}
-
-template <class BaseT> inline
-void VRMLNodeFactory<BaseT>::postStandardProtos(void)
-{
-    VRMLNodeDesc         *pNodeDesc         = NULL;
-    VRMLShapeDesc        *pShapeDesc        = NULL;
-    VRMLAppearanceDesc   *pAppearanceDesc   = NULL;
-    VRMLMaterialDesc     *pMaterialDesc     = NULL;
-
-    pNodeDesc = findNodeDesc("Shape");
-
-    if(pNodeDesc != NULL)
-    {
-        pShapeDesc = dynamic_cast<VRMLShapeDesc *>(pNodeDesc);
-    }
-
-    pNodeDesc = findNodeDesc("Appearance");
-
-    if(pNodeDesc != NULL)
-    {
-        pAppearanceDesc = dynamic_cast<VRMLAppearanceDesc *>(pNodeDesc);
-    }
-
-    pNodeDesc = findNodeDesc("Material");
-
-    if(pNodeDesc != NULL)
-    {
-        pMaterialDesc = dynamic_cast<VRMLMaterialDesc *>(pNodeDesc);
-    }
-
-    if(pShapeDesc != NULL)
-    {
-        pShapeDesc->setMaterialDesc(pMaterialDesc);
-    }
-
-    if(pAppearanceDesc != NULL)
-    {
-        pAppearanceDesc->setMaterialDesc(pMaterialDesc);
-    }
-}
-
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
+/*! \class osg::VRMLNodeFactory
  */
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 template <class BaseT> inline
 VRMLNodeFactory<BaseT>::VRMLNodeFactory(void) :
@@ -200,16 +68,16 @@ VRMLNodeFactory<BaseT>::VRMLNodeFactory(void) :
 {
 }
 
-
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 template <class BaseT> inline
 VRMLNodeFactory<BaseT>::~VRMLNodeFactory(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                            Skel Replacements                            */
 
 template <class BaseT> inline
 void VRMLNodeFactory<BaseT>::beginProtoInterface(
@@ -566,8 +434,6 @@ OSG::NodePtr VRMLNodeFactory<BaseT>::getNode(const Char8 *szNodename)
 }
 #endif
 
-/*---------------------------- properties ---------------------------------*/
-
 template <class BaseT> inline
 void VRMLNodeFactory<BaseT>::addFieldValue(const Char8 *szFieldVal)
 {
@@ -584,8 +450,8 @@ void VRMLNodeFactory<BaseT>::addFieldValue(const Char8 *szFieldVal)
     }
 }
 
-
-/*-------------------------- your_category---------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Dump                                     */
 
 template <class BaseT> inline
 void VRMLNodeFactory<BaseT>::dumpTable(void)
@@ -599,6 +465,91 @@ void VRMLNodeFactory<BaseT>::dumpTable(void)
         mNodeDescIt->second->dump(mNodeDescIt->first);
 
         mNodeDescIt++;
+    }
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Helper                                    */
+
+template <class BaseT> inline
+VRMLNodeDesc *VRMLNodeFactory<BaseT>::findNodeDesc(const Char8 *szNodeTypename)
+{
+    VRMLNodeDesc *returnValue = NULL;
+
+    NodeNameDescHash::iterator mNodeDescIt =
+        _mNodeDescHash.find(szNodeTypename);
+
+    if(mNodeDescIt != _mNodeDescHash.end())
+    {
+        indentLog(VRMLNodeDesc::getIndent(), PINFO);
+        PINFO << "Found Node "
+              << mNodeDescIt->first << " ("
+              << szNodeTypename     << ")" << endl;
+
+        returnValue = mNodeDescIt->second;
+    }
+
+    return returnValue;
+}
+
+template <class BaseT> inline
+void VRMLNodeFactory<BaseT>::addNodeDesc(const Char8        *szNodeTypename,
+                                               VRMLNodeDesc *pDesc)
+{
+    Char8 *szName = NULL;
+
+    if(szNodeTypename == NULL || pDesc == NULL)
+        return;
+
+    stringDup(szNodeTypename, szName);
+
+    _mNodeDescHash[szName] = pDesc;
+
+    _pCurrentNodeDesc = pDesc;
+}
+
+template <class BaseT> inline
+void VRMLNodeFactory<BaseT>::preStandardProtos (void)
+{
+}
+
+template <class BaseT> inline
+void VRMLNodeFactory<BaseT>::postStandardProtos(void)
+{
+    VRMLNodeDesc         *pNodeDesc         = NULL;
+    VRMLShapeDesc        *pShapeDesc        = NULL;
+    VRMLAppearanceDesc   *pAppearanceDesc   = NULL;
+    VRMLMaterialDesc     *pMaterialDesc     = NULL;
+
+    pNodeDesc = findNodeDesc("Shape");
+
+    if(pNodeDesc != NULL)
+    {
+        pShapeDesc = dynamic_cast<VRMLShapeDesc *>(pNodeDesc);
+    }
+
+    pNodeDesc = findNodeDesc("Appearance");
+
+    if(pNodeDesc != NULL)
+    {
+        pAppearanceDesc = dynamic_cast<VRMLAppearanceDesc *>(pNodeDesc);
+    }
+
+    pNodeDesc = findNodeDesc("Material");
+
+    if(pNodeDesc != NULL)
+    {
+        pMaterialDesc = dynamic_cast<VRMLMaterialDesc *>(pNodeDesc);
+    }
+
+    if(pShapeDesc != NULL)
+    {
+        pShapeDesc->setMaterialDesc(pMaterialDesc);
+    }
+
+    if(pAppearanceDesc != NULL)
+    {
+        pAppearanceDesc->setMaterialDesc(pMaterialDesc);
     }
 }
 

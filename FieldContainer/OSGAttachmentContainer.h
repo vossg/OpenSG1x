@@ -40,7 +40,6 @@
 #pragma once
 #endif
 
-
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGMatrix.h>
@@ -54,21 +53,19 @@ OSG_BEGIN_NAMESPACE
 
 class BinaryDataHandler;
 
-/*! \ingroup FieldContainerLib
- *  \brief AttachmentContainer provides the functionality to store
- *         attachments for derived FieldContainer classes.
- */
+//! AttachmentContainer provides the functionality to store
+//! attachments for derived FieldContainer classes.
+//! \ingroup FieldContainerLib
 
 class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainer : public FieldContainer 
 {
-    /*==========================  PRIVATE  ================================*/
-  private:
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
     typedef FieldContainer Inherited;
 
-  public:
-
     /*==========================  PUBLIC  =================================*/
+  public:
 
     enum 
     { 
@@ -162,7 +159,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainer : public FieldContainer
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
+    /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
     virtual ~AttachmentContainer (void);
@@ -193,15 +190,8 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainer : public FieldContainer
     friend class FieldContainerType;
 
     /*!\brief prohibit default functions (move to 'public' if needed) */
-
     void operator =(const AttachmentContainer &source);
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-typedef AttachmentContainer *AttachmentContainerP;
 
 OSG_END_NAMESPACE
 

@@ -42,27 +42,20 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGSystemDef.h>
 #include <OSGSField.h>
 #include <OSGAttachmentMapFieldDataType.h>
 
-/** \file OSGSFAttachmentMap.h
- *  \ingroup FieldLib
- *  \ingroup SingleFields
- *  \brief OpenSG field container single fields
- *
- * <UL>
- * <LI> osg::SFAttachmentMap;
- * </UL>
- */
+/*! \file OSGSFAttachmentMap.h
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \brief OpenSG field container single fields
+*/
 
 OSG_BEGIN_NAMESPACE
 
-/** \brief SFAttachmentMap
+/*! \brief SFAttachmentMap
+    \ingroup SingleFields
  */
 
 typedef SField<AttachmentMap>     SFAttachmentMap;

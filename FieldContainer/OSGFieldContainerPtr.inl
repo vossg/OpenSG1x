@@ -36,11 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -56,142 +51,11 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------------------------- cast ------------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
-
-
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/*
-template <class BasePtrTypeT, class FieldContainerTypeT>
-const FCPtr<BasePtrTypeT, FieldContainerTypeT>
-    FCPtr<BasePtrTypeT, FieldContainerTypeT>::NullPtr;
-    */
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Construct a pointer from a give node.
+/*! \class FCPtr
  */
 
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(
-    const FieldContainerTypeT &source) :
-
-    Inherited(source)
-{
-}
-
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(
-    const FieldContainerTypeT *source) :
-
-    Inherited(source)
-{
-}
-
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(
-    const FieldContainerTypeT *source,
-    const UInt16               uiSize,
-    const UInt16               uiParentEPos) :
-
-    Inherited(source, uiSize, uiParentEPos)
-{
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(void) :
@@ -199,48 +63,37 @@ FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(void) :
 {
 }
 
-/** \brief Copy Constructor
- */
-
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(const FCPtr &source):
     Inherited(source)
 {
 }
 
-/** \brief NullPtr Constructor
- */
-
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(
-    const NullFieldContainerPtr &source) :
+FCPtr<BasePtrTypeT, 
+      FieldContainerTypeT>::FCPtr(const NullFieldContainerPtr &source) :
 
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FCPtr<BasePtrTypeT, FieldContainerTypeT>::~FCPtr(void)
 {
 }
 
-/*-------------------------- pointer operators ------------------------------*/
-
-/** \brief Arrow operator
- */
+/*-------------------------------------------------------------------------*/
+/*                            Container Access                             */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-FieldContainerTypeT *FCPtr<BasePtrTypeT, FieldContainerTypeT>::operator ->(
-    void)
+FieldContainerTypeT *FCPtr<BasePtrTypeT, 
+                           FieldContainerTypeT>::operator ->(void)
 {
     return (FieldContainerTypeT *) getElemP(Thread::getAspect());
 }
-
-/** \brief Const arrow operator
- */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FieldContainerTypeT *FCPtr<BasePtrTypeT,
@@ -249,18 +102,12 @@ FieldContainerTypeT *FCPtr<BasePtrTypeT,
     return (FieldContainerTypeT *) getElemP(Thread::getAspect());
 }
 
-/** \brief Dereference operator
- */
-
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-FieldContainerTypeT &FCPtr<BasePtrTypeT, FieldContainerTypeT>::operator *(
-    void)
+FieldContainerTypeT &FCPtr<BasePtrTypeT, 
+                           FieldContainerTypeT>::operator *(void)
 {
     return *((FieldContainerTypeT *) getElemP(Thread::getAspect()));
 }
-
-/** \brief Const dereference operator
- */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FieldContainerTypeT &FCPtr<BasePtrTypeT,
@@ -284,21 +131,16 @@ FieldContainerTypeT *
     return (FieldContainerTypeT *) getElemP(Thread::getAspect());
 }
 
-/*-------------------------- assignment -----------------------------------*/
-
-/** \brief assignment
- */
+/*-------------------------------------------------------------------------*/
+/*                             Assignment                                  */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-void FCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
-    const FCPtr &source)
+void FCPtr<BasePtrTypeT, 
+           FieldContainerTypeT>::operator = (const FCPtr &source)
 {
     // copy parts inherited from parent
     *(static_cast<Inherited *>(this)) = source;
 }
-
-/** \brief NullPtr assignment
- */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 void FCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
@@ -308,137 +150,177 @@ void FCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
     *(static_cast<Inherited *>(this)) = source;
 }
 
-/*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
-
-
-
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------------------------- cast ------------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
-
-
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/*
-template <class BasePtrTypeT, class FieldContainerTypeT>
-const ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>
-    ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::NullPtr;
-    */
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Construct a pointer from a give node.
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
-    const FieldContainerTypeT &source) :
+FCPtr<BasePtrTypeT, 
+      FieldContainerTypeT>::FCPtr(const FieldContainerTypeT &source) :
 
     Inherited(source)
 {
 }
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
-    const FieldContainerTypeT *source) :
+FCPtr<BasePtrTypeT, 
+      FieldContainerTypeT>::FCPtr(const FieldContainerTypeT *source) :
+
+    Inherited(source)
+{
+}
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+FCPtr<BasePtrTypeT, 
+      FieldContainerTypeT>::FCPtr(const FieldContainerTypeT *source,
+                                  const UInt16               uiSize,
+                                  const UInt16               uiParentEPos) :
+
+    Inherited(source, uiSize, uiParentEPos)
+{
+}
+
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/*! \class ConstFCPtr
+ */
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(void) :
+    Inherited()
+{
+}
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+ConstFCPtr<BasePtrTypeT, 
+           FieldContainerTypeT>::ConstFCPtr(
+               const NullFieldContainerPtr &source) :
+
+    Inherited(source)
+{
+}
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+ConstFCPtr<BasePtrTypeT, 
+           FieldContainerTypeT>::ConstFCPtr(const NCFCPtr &source) :
+
+    Inherited(source)
+{
+}
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+ConstFCPtr<BasePtrTypeT, 
+           FieldContainerTypeT>::ConstFCPtr(const ConstFCPtr &source) :
+
+    Inherited(source)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::~ConstFCPtr(void)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                        Container Access                                 */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
+                                      FieldContainerTypeT>::operator ->(void)
+{
+    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
+}
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
+                                      FieldContainerTypeT>::operator ->(
+                                           void) const
+{
+    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
+}
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT,
+                                      FieldContainerTypeT>::operator *(void)
+{
+    return *((FieldContainerTypeT *) getElemP(Thread::getAspect()));
+}
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT,
+                                      FieldContainerTypeT>::operator *(
+                                           void) const
+{
+    return *((FieldContainerTypeT *) getElemP(Thread::getAspect()));
+}
+
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
+                                      FieldContainerTypeT>::getCPtr(void)
+
+{
+    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
+}
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+const FieldContainerTypeT *
+    ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::getCPtr(void) const
+{
+    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Assignment                                  */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+void ConstFCPtr<BasePtrTypeT, 
+                FieldContainerTypeT>::operator = (const NCFCPtr &source)
+{
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
+}
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+void ConstFCPtr<BasePtrTypeT, 
+                FieldContainerTypeT>::operator = (const ConstFCPtr &source)
+{
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
+}
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+void ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
+    const NullFieldContainerPtr &source)
+{
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+ConstFCPtr<BasePtrTypeT, 
+           FieldContainerTypeT>::ConstFCPtr(const FieldContainerTypeT &source):
+
+    Inherited(source)
+{
+}
+
+template <class BasePtrTypeT, class FieldContainerTypeT> inline
+ConstFCPtr<BasePtrTypeT, 
+           FieldContainerTypeT>::ConstFCPtr(const FieldContainerTypeT *source):
 
     Inherited(source)
 {
@@ -453,171 +335,6 @@ ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
     Inherited(source, uiSize, uiParentEPos)
 {
 }
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
-
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(void) :
-    Inherited()
-{
-}
-
-/** \brief Copy Constructor
- */
-
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
-    const NullFieldContainerPtr &source) :
-
-    Inherited(source)
-{
-}
-
-/** \brief Copy Constructor
- */
-
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
-    const NCFCPtr &source) :
-
-    Inherited(source)
-{
-}
-
-/** \brief Copy Constructor
- */
-
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
-    const ConstFCPtr &source) :
-
-    Inherited(source)
-{
-}
-
-/** \brief Destructor
- */
-
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::~ConstFCPtr(void)
-{
-}
-
-/*-------------------------- pointer operators ------------------------------*/
-
-/** \brief Arrow operator
- */
-
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
-                                       FieldContainerTypeT>::operator ->(void)
-{
-    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
-}
-
-/** \brief Const arrow operator
- */
-
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
-                                       FieldContainerTypeT>::operator ->(
-                                           void) const
-{
-    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
-}
-
-/** \brief Dereference operator
- */
-
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT,
-                                       FieldContainerTypeT>::operator *(void)
-{
-    return *((FieldContainerTypeT *) getElemP(Thread::getAspect()));
-}
-
-/** \brief Const dereference operator
- */
-
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT,
-                                       FieldContainerTypeT>::operator *(
-                                           void) const
-{
-    return *((FieldContainerTypeT *) getElemP(Thread::getAspect()));
-}
-
-
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
-                                       FieldContainerTypeT>::getCPtr(void)
-
-{
-    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
-}
-
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-const FieldContainerTypeT *
-    ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::getCPtr(void) const
-{
-    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
-}
-
-/*-------------------------- assignment -----------------------------------*/
-
-/** \brief assignment
- */
-
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-void ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
-    const NCFCPtr &source)
-{
-    // copy parts inherited from parent
-    *(static_cast<Inherited *>(this)) = source;
-}
-
-/** \brief assignment
- */
-
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-void ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
-    const ConstFCPtr &source)
-{
-    // copy parts inherited from parent
-    *(static_cast<Inherited *>(this)) = source;
-}
-
-/** \brief assignment
- */
-
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-void ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
-    const NullFieldContainerPtr &source)
-{
-    // copy parts inherited from parent
-    *(static_cast<Inherited *>(this)) = source;
-}
-
-/*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
-
-
-
 
 #if 0
 #ifdef __sgi

@@ -45,11 +45,18 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief AttachmentPtr field traits 
- */
+/*! \file OSGAttachmentFieldDataType.h
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+    \brief OpenSG Attachment Field Data Types  
+*/
+
+/*! \brief AttachmentPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<AttachmentPtr> : 

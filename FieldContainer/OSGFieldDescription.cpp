@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -57,83 +53,19 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: $";
-    static char cvsid_hpp[] = OSGFIELDDESCRIPTION_HEADER_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGFIELDDESCRIPTION_HEADER_CVSID;
 }
 
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
 
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-Field * FieldDescription::getField(FieldContainer &dataStore) const
-{
-    Field *pField = NULL;
-
-    if(_fAccessMethod != NULL)
-    {
-        pField = ( (&dataStore)->*_fAccessMethod) ();
-    }
-    else if(_fIndexedAccessMethod != NULL)
-    {
-        pField = ( (&dataStore)->*_fIndexedAccessMethod)(_uiFieldId);
-    }
-    else
-    {
-        SWARNING << "No accessMethod for " << _szName.str() << endl;
-    }
-
-    return pField;
-}
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
+/*! \class osg::FieldDescription
  */
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 FieldDescription::FieldDescription(const TypeBase          &elementType,
                                    const Char8             *szName,
@@ -143,22 +75,19 @@ FieldDescription::FieldDescription(const TypeBase          &elementType,
                                          FieldAccessMethod  fAccessMethod,
                                    const Char8             *defaultValue) :
 
-    _szName              (szName),
+    _szName              (szName       ),
 
-    _fieldType           (elementType),
-    _uiFieldId           (uiFieldId),
-    _vFieldMask          (vFieldMask),
+    _fieldType           (elementType  ),
+    _uiFieldId           (uiFieldId    ),
+    _vFieldMask          (vFieldMask   ),
 
-    _bInternal           (bInternal),
+    _bInternal           (bInternal    ),
 
     _fAccessMethod       (fAccessMethod),
-    _fIndexedAccessMethod(NULL),
-    _defaultValue        (defaultValue)
+    _fIndexedAccessMethod(NULL         ),
+    _defaultValue        (defaultValue )
 {
 }
-
-/** \brief Constructor
- */
 
 FieldDescription::FieldDescription(
     const TypeBase               &elementType,
@@ -169,49 +98,47 @@ FieldDescription::FieldDescription(
           FieldIndexAccessMethod  fIndexedAccessMethod,
     const Char8                  *defaultValue) :
 
-    _szName              (szName),
+    _szName              (szName              ),
 
-    _fieldType           (elementType),
-    _uiFieldId           (uiFieldId),
-    _vFieldMask          (vFieldMask),
+    _fieldType           (elementType         ),
+    _uiFieldId           (uiFieldId           ),
+    _vFieldMask          (vFieldMask          ),
 
-    _bInternal           (bInternal),
+    _bInternal           (bInternal           ),
 
-    _fAccessMethod       (NULL),
+    _fAccessMethod       (NULL                ),
     _fIndexedAccessMethod(fIndexedAccessMethod),
 
-    _defaultValue        (defaultValue)
+    _defaultValue        (defaultValue        )
 {
 }
 
 FieldDescription::FieldDescription(const FieldDescription &source) :
 
-    _szName              (source._szName),
+    _szName              (source._szName              ),
 
-    _fieldType           (source._fieldType),
-    _uiFieldId           (source._uiFieldId),
-    _vFieldMask          (source._vFieldMask),
+    _fieldType           (source._fieldType           ),
+    _uiFieldId           (source._uiFieldId           ),
+    _vFieldMask          (source._vFieldMask          ),
 
-    _bInternal           (source._bInternal),
+    _bInternal           (source._bInternal           ),
 
-    _fAccessMethod       (source._fAccessMethod),
+    _fAccessMethod       (source._fAccessMethod       ),
     _fIndexedAccessMethod(source._fIndexedAccessMethod),
 
-    _defaultValue        (source._defaultValue)
+    _defaultValue        (source._defaultValue        )
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 FieldDescription::~FieldDescription(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
-
-/*! \brief get method for attribute name
- */
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
 
 const Char8 *FieldDescription::getCName(void) const
 {
@@ -222,9 +149,6 @@ const IDString &FieldDescription::getName(void) const
 {
     return _szName;
 }
-
-/*! \brief get method for attribute dataType
- */
 
 UInt32 FieldDescription::getTypeId(void) const
 {
@@ -251,6 +175,19 @@ void FieldDescription::setFieldId(UInt32 uiFieldId)
     _uiFieldId = uiFieldId;
 }
 
+const Char8 *FieldDescription::getDefaultValue(void) const
+{
+    return _defaultValue.str();
+}
+
+const TypeBase &FieldDescription::getFieldType(void) const
+{
+    return _fieldType;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                                Is                                       */
+
 Bool FieldDescription::isInternal(void)  const
 {
     return _bInternal;
@@ -260,6 +197,9 @@ Bool FieldDescription::isValid(void)  const
 {
     return (_szName.length()) ? true : false;
 }
+
+/*-------------------------------------------------------------------------*/
+/*                                Set                                      */
 
 void FieldDescription::setAccessMethod(FieldAccessMethod fAccessMethod)
 {
@@ -272,43 +212,27 @@ void FieldDescription::setIndexAccessMethod(
     _fIndexedAccessMethod = fIndexedAccessMethod;
 }
 
-const Char8 *FieldDescription::getDefaultValue(void) const
+/*-------------------------------------------------------------------------*/
+/*                            Generic Field Access                         */
+
+Field * FieldDescription::getField(FieldContainer &dataStore) const
 {
-    return _defaultValue.str();
+    Field *pField = NULL;
+
+    if(_fAccessMethod != NULL)
+    {
+        pField = ( (&dataStore)->*_fAccessMethod) ();
+    }
+    else if(_fIndexedAccessMethod != NULL)
+    {
+        pField = ( (&dataStore)->*_fIndexedAccessMethod)(_uiFieldId);
+    }
+    else
+    {
+        SWARNING << "No accessMethod for " << _szName.str() << endl;
+    }
+
+    return pField;
 }
 
-const TypeBase &FieldDescription::getFieldType(void) const
-{
-    return _fieldType;
-}
-
-/*-------------------------- comparison -----------------------------------*/
-
-///---------------------------------------------------------------------------
-///  FUNCTION:
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters:
-//p:
-///
-//g: GlobalVars:
-//g:
-///
-//r: Return:
-//r:
-///
-//c: Caution:
-//c:
-///
-//a: Assumptions:
-//a:
-///
-//d: Description:
-//d:
-///
-//s: SeeAlso:
-//s:
-///---------------------------------------------------------------------------
 
