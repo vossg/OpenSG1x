@@ -35,7 +35,7 @@ DrawAction * dact;
 
 NodePtr plane,torus;
 ChunkMaterialPtr pm;
-SimpleMaterialPtr tm;	
+SimpleMaterialPtr tmat;	
 
 void 
 display(void)
@@ -130,12 +130,12 @@ int main (int argc, char **argv)
 	plane_geo->setMaterial( pm );
 	
 	
-	tm = SimpleMaterial::create();
+	tmat = SimpleMaterial::create();
 
-	tm->setDiffuse( Color3f( 0,1,0 ) );
-	tm->setAmbient( Color3f( 0,1,0 ) );
+	tmat->setDiffuse( Color3f( 0,1,0 ) );
+	tmat->setAmbient( Color3f( 0,1,0 ) );
 	
-	torus_geo->setMaterial( tm );
+	torus_geo->setMaterial( tmat );
 	
 	
 	dact = DrawAction::create();
