@@ -167,12 +167,14 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectActorBase : public ActorBase
     /*=========================  PROTECTED  ================================*/
   protected:
     /*----------------------------------------------------------------------*/
-    /*! \name    Types                                                      */
+    /*! \name    Types & Friends                                            */
     /*! \{                                                                  */
 
     class   IntersectActorBaseState;
+    friend  class OSG::IntersectActorBase::IntersectActorBaseState;
 
     typedef IntersectActorBaseState     StateType;
+    typedef ActorBase::StateType  ParentStateType;
     typedef MultiFunctorStore EnterStoreType;
     typedef MultiFunctorStore LeaveStoreType;
 
@@ -181,7 +183,7 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectActorBase : public ActorBase
     /*! \name    State Class                                                */
     /*! \{                                                                  */
 
-    class OSG_SYSTEMLIB_DLLMAPPING IntersectActorBaseState : public ActorBase::StateType
+    class OSG_SYSTEMLIB_DLLMAPPING IntersectActorBaseState : public ParentStateType
     {
       public:
         inline   IntersectActorBaseState(void                                );

@@ -86,7 +86,7 @@ inline
 IntersectActorBase::IntersectActorBaseState::IntersectActorBaseState(void) :
       _stateScaleFactor(1.0),
       _stateRay(),
-      Inherited::StateType()
+      ParentStateType()
 {
 }
 
@@ -98,7 +98,7 @@ IntersectActorBase::IntersectActorBaseState::IntersectActorBaseState(
     const IntersectActorBaseState &source) :
       _stateScaleFactor(source._stateScaleFactor),
       _stateRay(source._stateRay),
-      Inherited::StateType(source)
+      ParentStateType(source)
 {
 }
 
@@ -291,4 +291,4 @@ IntersectActorBase::setRay(const Line &stateVal)
 
 OSG_END_NAMESPACE
 
-#define OSGINTERSECTACTORBASE_INLINE_CVSID "@(#)$Id: OSGIntersectActorBase.inl,v 1.3 2004/04/20 13:47:08 neumannc Exp $"
+#define OSGINTERSECTACTORBASE_INLINE_CVSID "@(#)$Id: OSGIntersectActorBase.inl,v 1.4 2004/04/21 12:15:33 neumannc Exp $"

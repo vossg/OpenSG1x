@@ -81,8 +81,8 @@ DepthFirstAction::apply(const NodePtr &pRootNode, PriorityType priority)
         std::stable_sort(beginRootNodes(), endRootNodes(),
                          NodeList::value_type::LessCompare());
 
-        NodeList::const_reverse_iterator itRootNodes  = getRootNodes().rbegin();
-        NodeList::const_reverse_iterator endRootNodes = getRootNodes().rend  ();
+        NodeList::reverse_iterator itRootNodes  = getRootNodes().rbegin();
+        NodeList::reverse_iterator endRootNodes = getRootNodes().rend  ();
 
         for(; itRootNodes != endRootNodes; ++itRootNodes)
             _nodeStack.push_back(NodeStackEntry(itRootNodes->getNode()));
@@ -126,8 +126,8 @@ DepthFirstAction::apply(NodeListConstIt begin, NodeListConstIt end)
         std::stable_sort(beginRootNodes(), endRootNodes(),
                          NodeList::value_type::LessCompare());
 
-        NodeList::const_reverse_iterator itRootNodes  = getRootNodes().rbegin();
-        NodeList::const_reverse_iterator endRootNodes = getRootNodes().rend  ();
+        NodeList::reverse_iterator itRootNodes  = getRootNodes().rbegin();
+        NodeList::reverse_iterator endRootNodes = getRootNodes().rend  ();
 
         for(; itRootNodes != endRootNodes; ++itRootNodes)
             _nodeStack.push_back(NodeStackEntry(itRootNodes->getNode()));
@@ -336,7 +336,7 @@ DepthFirstAction::applyEnterLeave(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthFirstAction.cpp,v 1.1 2004/04/20 13:47:08 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthFirstAction.cpp,v 1.2 2004/04/21 12:15:15 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGDEPTHFIRSTACTION_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDEPTHFIRSTACTION_INLINE_CVSID;
 }

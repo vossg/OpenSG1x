@@ -39,76 +39,6 @@
 OSG_BEGIN_NAMESPACE
 
 /*-------------------------------------------------------------------------*/
-/*    PriorityAction::NodeQueueEntry                                       */
-
-inline
-PriorityAction::NodeQueueEntry::NodeQueueEntry(
-    const NodePtr &pNode, PriorityType priority, StateUseStoreIt itState)
-    : _pNode   (pNode   ),
-      _priority(priority),
-      _itState (itState )
-{
-}
-
-inline
-PriorityAction::NodeQueueEntry::NodeQueueEntry(
-    const NodePtr &pNode, PriorityType priority)
-    : _pNode   (pNode   ),
-      _priority(priority),
-      _itState (        )
-{
-}
-
-inline NodePtr
-PriorityAction::NodeQueueEntry::getNode(void) const
-{
-    return _pNode;
-}
-
-inline void
-PriorityAction::NodeQueueEntry::setNode(const NodePtr &pNode)
-{
-    _pNode = pNode;
-}
-
-inline PriorityAction::PriorityType
-PriorityAction::NodeQueueEntry::getPriority(void) const
-{
-    return _priority;
-}
-
-inline void
-PriorityAction::NodeQueueEntry::setPriority(PriorityType priority)
-{
-    _priority = priority;
-}
-
-inline PriorityAction::StateUseStoreIt
-PriorityAction::NodeQueueEntry::getState(void) const
-{
-    return _itState;
-}
-
-inline void
-PriorityAction::NodeQueueEntry::setState(StateUseStoreIt itState)
-{
-    _itState = itState;
-}
-
-/*-------------------------------------------------------------------------*/
-/*    PriorityAction::NodeQueueEntry::LessCompare                          */
-
-/*! STL function object to compare two NodeQueueEntry.
- */
-
-inline bool
-PriorityAction::NodeQueueEntry::LessCompare::operator()(
-    const NodeQueueEntry &lhs, const NodeQueueEntry &rhs)
-{
-    return (lhs.getPriority() < rhs.getPriority());
-}
-
-/*-------------------------------------------------------------------------*/
 /*    PriorityAction::StateUseCounter                                      */
 
 /*! Constructor.
@@ -181,6 +111,76 @@ inline void
 PriorityAction::StateUseCounter::subUse(Int32 iUse)
 {
     _iUseCount -= iUse;
+}
+
+/*-------------------------------------------------------------------------*/
+/*    PriorityAction::NodeQueueEntry                                       */
+
+inline
+PriorityAction::NodeQueueEntry::NodeQueueEntry(
+    const NodePtr &pNode, PriorityType priority, StateUseStoreIt itState)
+    : _pNode   (pNode   ),
+      _priority(priority),
+      _itState (itState )
+{
+}
+
+inline
+PriorityAction::NodeQueueEntry::NodeQueueEntry(
+    const NodePtr &pNode, PriorityType priority)
+    : _pNode   (pNode   ),
+      _priority(priority),
+      _itState (        )
+{
+}
+
+inline NodePtr
+PriorityAction::NodeQueueEntry::getNode(void) const
+{
+    return _pNode;
+}
+
+inline void
+PriorityAction::NodeQueueEntry::setNode(const NodePtr &pNode)
+{
+    _pNode = pNode;
+}
+
+inline PriorityAction::PriorityType
+PriorityAction::NodeQueueEntry::getPriority(void) const
+{
+    return _priority;
+}
+
+inline void
+PriorityAction::NodeQueueEntry::setPriority(PriorityType priority)
+{
+    _priority = priority;
+}
+
+inline PriorityAction::StateUseStoreIt
+PriorityAction::NodeQueueEntry::getState(void) const
+{
+    return _itState;
+}
+
+inline void
+PriorityAction::NodeQueueEntry::setState(StateUseStoreIt itState)
+{
+    _itState = itState;
+}
+
+/*-------------------------------------------------------------------------*/
+/*    PriorityAction::NodeQueueEntry::LessCompare                          */
+
+/*! STL function object to compare two NodeQueueEntry.
+ */
+
+inline bool
+PriorityAction::NodeQueueEntry::LessCompare::operator()(
+    const NodeQueueEntry &lhs, const NodeQueueEntry &rhs)
+{
+    return (lhs.getPriority() < rhs.getPriority());
 }
 
 /*-------------------------------------------------------------------------*/
@@ -377,4 +377,4 @@ PriorityAction::enqueueChildren(const NodePtr &pNode, ResultE result)
 
 OSG_END_NAMESPACE
 
-#define OSGPRIORITYACTION_INLINE_CVSID "@(#)$Id: OSGPriorityAction.inl,v 1.1 2004/04/20 13:47:08 neumannc Exp $"
+#define OSGPRIORITYACTION_INLINE_CVSID "@(#)$Id: OSGPriorityAction.inl,v 1.2 2004/04/21 12:15:20 neumannc Exp $"

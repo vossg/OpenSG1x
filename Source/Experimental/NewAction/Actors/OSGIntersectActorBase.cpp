@@ -478,7 +478,7 @@ IntersectActorBase::deleteState(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGIntersectActorBase.cpp,v 1.3 2004/04/20 13:47:08 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGIntersectActorBase.cpp,v 1.4 2004/04/21 12:15:21 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGINTERSECTACTORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGINTERSECTACTORBASE_INLINE_CVSID;
 }

@@ -121,6 +121,25 @@ class OSG_SYSTEMLIB_DLLMAPPING PriorityAction : public NewAction
     typedef StateUseStore::iterator       StateUseStoreIt;
     typedef StateUseStore::const_iterator StateUseStoreConstIt;
 
+    class StateUseCounter
+    {
+      public:
+        inline StateUseCounter(      StateStoreIt     itState,
+                                     Int32            iUseCount);
+        inline StateUseCounter(const StateUseCounter &source   );
+
+        inline StateStoreIt getState   (void                 ) const;
+        inline void         setState   (StateStoreIt itState );
+
+        inline Int32        getUseCount(void                 ) const;
+        inline void         addUse     (Int32        iUse = 1);
+        inline void         subUse     (Int32        iUse = 1);
+
+      private:
+        StateStoreIt _itState;
+        Int32        _iUseCount;
+    };
+
     class NodeQueueEntry
     {
       public:
@@ -155,25 +174,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PriorityAction : public NewAction
     typedef std::priority_queue<NodeQueueEntry,
                                 std::vector<NodeQueueEntry>,
                                 NodeQueueEntry::LessCompare > PriorityNodeQueue;
-
-    class StateUseCounter
-    {
-      public:
-        inline StateUseCounter(      StateStoreIt     itState,
-                                     Int32            iUseCount);
-        inline StateUseCounter(const StateUseCounter &source   );
-
-        inline StateStoreIt getState   (void                 ) const;
-        inline void         setState   (StateStoreIt itState );
-
-        inline Int32        getUseCount(void                 ) const;
-        inline void         addUse     (Int32        iUse = 1);
-        inline void         subUse     (Int32        iUse = 1);
-
-      private:
-        StateStoreIt _itState;
-        Int32        _iUseCount;
-    };
 
     /*!\brief prohibit default function (move to 'public' of needed) */
     PriorityAction (const PriorityAction &source);
@@ -222,6 +222,6 @@ OSG_END_NAMESPACE
 
 #include "OSGPriorityAction.inl"
 
-#define OSGPRIORITYACTION_HEADER_CVSID "@(#)$Id: OSGPriorityAction.h,v 1.1 2004/04/20 13:47:08 neumannc Exp $"
+#define OSGPRIORITYACTION_HEADER_CVSID "@(#)$Id: OSGPriorityAction.h,v 1.2 2004/04/21 12:15:16 neumannc Exp $"
 
 #endif /* _OSGPRIORITYACTION_H_ */
