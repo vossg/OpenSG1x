@@ -44,8 +44,8 @@
 
 #include <OSGConfig.h>
 
-#include <set>
 #include <string>
+#include <vector>
 
 #include "OSGDrawActionBase.h"
 #include "OSGWindow.h"
@@ -203,7 +203,23 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     void checkOSGParameters(void);
     void updateOSGParameters(DrawActionBase *action, GLuint program);
 
-    std::set<std::string> _osgParameters;
+    typedef GLint (OSG_APIENTRY * PFNGLGETUNIFORMLOCATIONARBPROC)
+            (GLuint programObj, const char *name);
+
+    static void updateCameraOrientation (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                         DrawActionBase *action, GLuint program);
+    static void updateCameraPosition    (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                         DrawActionBase *action, GLuint program);
+    static void updateViewMatrix        (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                         DrawActionBase *action, GLuint program);
+    static void updateInvViewMatrix     (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                         DrawActionBase *action, GLuint program);
+
+    typedef void (*paramtercbfp) (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                  DrawActionBase *action, GLuint program);
+    std::vector<paramtercbfp> _osgParametersCallbacks;
+
+    UInt32 _oldParameterSize;
 };
 
 typedef SHLChunk *SHLChunkP;
@@ -213,6 +229,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.13 2004/09/08 13:00:31 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.14 2004/09/09 15:04:04 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */

@@ -123,7 +123,7 @@ typedef void    (OSG_APIENTRY * PFNGLATTACHOBJECTARBPROC) (GLuint containerObj, 
 typedef void    (OSG_APIENTRY * PFNGLLINKPROGRAMARBPROC) (GLuint programObj);
 typedef void    (OSG_APIENTRY * PFNGLUSEPROGRAMOBJECTARBPROC) (GLuint programObj);
 
-typedef GLint   (OSG_APIENTRY * PFNGLGETUNIFORMLOCATIONARBPROC) (GLuint programObj, const char *name);
+//typedef GLint   (OSG_APIENTRY * PFNGLGETUNIFORMLOCATIONARBPROC) (GLuint programObj, const char *name);
 
 typedef void   (OSG_APIENTRY * PFNGLUNIFORM1IARBPROC) (GLint location, GLint value);
 typedef void   (OSG_APIENTRY * PFNGLUNIFORMIVARBPROC) (GLint location, GLsizei count, GLint *value);
@@ -158,13 +158,15 @@ void SHLChunk::initMethod (void)
 
 SHLChunk::SHLChunk(void) :
     Inherited(),
-    _osgParameters()
+    _osgParametersCallbacks(),
+    _oldParameterSize(0)
 {
 }
 
 SHLChunk::SHLChunk(const SHLChunk &source) :
     Inherited(source),
-    _osgParameters(source._osgParameters)
+    _osgParametersCallbacks(source._osgParametersCallbacks),
+    _oldParameterSize(source._oldParameterSize)
 {
     _shl_extension = Window::registerExtension("GL_ARB_shading_language_100");
     
@@ -321,7 +323,6 @@ void SHLChunk::changed(BitVector whichField, UInt32 origin)
 
     if(whichField & ParametersFieldMask)
     {
-        checkOSGParameters();
         Window::refreshGLObject(getGLId());
     }
 
@@ -545,9 +546,10 @@ void SHLChunk::updateParameters(Window *win,
     if(program == 0)
         return;
 
+    checkOSGParameters(win, program);
+
     if(parameters.empty())
         return;
-
 
     // get "glUseProgramObjectARB" function pointer
     PFNGLUSEPROGRAMOBJECTARBPROC useProgramObject = (PFNGLUSEPROGRAMOBJECTARBPROC)
@@ -711,7 +713,13 @@ void SHLChunk::updateParameters(Window *win,
 
 void SHLChunk::checkOSGParameters(void)
 {
-    _osgParameters.clear();
+    // ok this can go wrong if you sub and add a parameter
+    // between one begin/endEditCP ...
+    if(getParameters().getSize() == _oldParameterSize)
+        return;
+    _oldParameterSize = getParameters().getSize();
+
+    _osgParametersCallbacks.clear();
     const MFShaderParameterPtr &parameters = getParameters();
     for(UInt32 i = 0; i < parameters.size(); ++i)
     {
@@ -721,78 +729,101 @@ void SHLChunk::checkOSGParameters(void)
            parameter->getName()[1] == 'S' &&
            parameter->getName()[2] == 'G')
         {
-            _osgParameters.insert(parameter->getName());
+            if(parameter->getName() == "OSGCameraOrientation")
+            {
+                _osgParametersCallbacks.push_back(updateCameraOrientation);
+            }
+            else if(parameter->getName() == "OSGCameraPosition")
+            {
+                _osgParametersCallbacks.push_back(updateCameraPosition);
+            }
+            else if(parameter->getName() == "OSGViewMatrix")
+            {
+                _osgParametersCallbacks.push_back(updateViewMatrix);
+            }
+            else if(parameter->getName() == "OSGInvViewMatrix")
+            {
+                _osgParametersCallbacks.push_back(updateInvViewMatrix);
+            }
+            else
+            {
+                FWARNING(("SHLChunk::checkOSGParameters : unknown osg paramter '%s'\n",
+                         parameter->getName().c_str()));;
+            }
         }
     }
 }
 
 void SHLChunk::updateOSGParameters(DrawActionBase *action, GLuint program)
 {
-    if(_osgParameters.empty())
+    if(_osgParametersCallbacks.empty())
         return;
 
     // get "glGetUniformLocationARB" function pointer
     PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation = (PFNGLGETUNIFORMLOCATIONARBPROC)
         action->getWindow()->getFunction(_funcGetUniformLocation);
 
-    // update camera orientation
-    if(_osgParameters.count("OSGCameraOrientation") > 0)
-    {
-        Matrix m;
-        action->getCamera()->getBeacon()->getToWorld(m);
-        m[3].setValues(0,0,0,0);
-    
-        // get "glUniformMatrix4fvARB" function pointer
-        PFNGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = (PFNGLUNIFORMMATRIXFVARBPROC)
-            action->getWindow()->getFunction(_funcUniformMatrix4fv);
-        GLint location = getUniformLocation(program, "OSGCameraOrientation");
-        if(location != -1)
-            uniformMatrix4fv(location, 1, GL_FALSE, m.getValues());
-    }
+    for(UInt32 i=0;i<_osgParametersCallbacks.size();++i)
+        _osgParametersCallbacks[i](getUniformLocation, action, program);
+}
 
-    // update camera position
-    if(_osgParameters.count("OSGCameraPosition") > 0)
-    {
-        Matrix m;
-        action->getCamera()->getBeacon()->getToWorld(m);
-        Vec3f cameraPos(m[3][0], m[3][1], m[3][2]);
-    
-        // get "glUniform3fvARB" function pointer
-        PFNGLUNIFORMFVARBPROC uniform3fv = (PFNGLUNIFORMFVARBPROC)
-            action->getWindow()->getFunction(_funcUniform3fv);
-        GLint location = getUniformLocation(program, "OSGCameraPosition");
-        if(location != -1)
-            uniform3fv(location, 1, cameraPos.getValues());
-    }
+void SHLChunk::updateCameraOrientation(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                       DrawActionBase *action, GLuint program)
+{
+    Matrix m;
+    action->getCamera()->getBeacon()->getToWorld(m);
+    m[3].setValues(0,0,0,0);
 
-    // update viewing matrix
-    if(_osgParameters.count("OSGViewMatrix") > 0)
-    {
-        Matrix m;
-        action->getCamera()->getBeacon()->getToWorld(m);
-        m.invert();
+    // get "glUniformMatrix4fvARB" function pointer
+    PFNGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = (PFNGLUNIFORMMATRIXFVARBPROC)
+        action->getWindow()->getFunction(_funcUniformMatrix4fv);
+    GLint location = getUniformLocation(program, "OSGCameraOrientation");
+    if(location != -1)
+        uniformMatrix4fv(location, 1, GL_FALSE, m.getValues());
+}
 
-        // get "glUniformMatrix4fvARB" function pointer
-        PFNGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = (PFNGLUNIFORMMATRIXFVARBPROC)
-            action->getWindow()->getFunction(_funcUniformMatrix4fv);
-        GLint location = getUniformLocation(program, "OSGViewMatrix");
-        if(location != -1)
-            uniformMatrix4fv(location, 1, GL_FALSE, m.getValues());
-    }
+void SHLChunk::updateCameraPosition(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                    DrawActionBase *action, GLuint program)
+{
+    Matrix m;
+    action->getCamera()->getBeacon()->getToWorld(m);
+    Vec3f cameraPos(m[3][0], m[3][1], m[3][2]);
 
-    // update invert viewing matrix
-    if(_osgParameters.count("OSGInvViewMatrix") > 0)
-    {
-        Matrix m;
-        action->getCamera()->getBeacon()->getToWorld(m);
+    // get "glUniform3fvARB" function pointer
+    PFNGLUNIFORMFVARBPROC uniform3fv = (PFNGLUNIFORMFVARBPROC)
+        action->getWindow()->getFunction(_funcUniform3fv);
+    GLint location = getUniformLocation(program, "OSGCameraPosition");
+    if(location != -1)
+        uniform3fv(location, 1, cameraPos.getValues());
+}
 
-        // get "glUniformMatrix4fvARB" function pointer
-        PFNGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = (PFNGLUNIFORMMATRIXFVARBPROC)
-            action->getWindow()->getFunction(_funcUniformMatrix4fv);
-        GLint location = getUniformLocation(program, "OSGInvViewMatrix");
-        if(location != -1)
-            uniformMatrix4fv(location, 1, GL_FALSE, m.getValues());
-    }
+void SHLChunk::updateViewMatrix(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                DrawActionBase *action, GLuint program)
+{
+    Matrix m;
+    action->getCamera()->getBeacon()->getToWorld(m);
+    m.invert();
+
+    // get "glUniformMatrix4fvARB" function pointer
+    PFNGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = (PFNGLUNIFORMMATRIXFVARBPROC)
+        action->getWindow()->getFunction(_funcUniformMatrix4fv);
+    GLint location = getUniformLocation(program, "OSGViewMatrix");
+    if(location != -1)
+        uniformMatrix4fv(location, 1, GL_FALSE, m.getValues());
+}
+
+void SHLChunk::updateInvViewMatrix(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                   DrawActionBase *action, GLuint program)
+{
+    Matrix m;
+    action->getCamera()->getBeacon()->getToWorld(m);
+
+    // get "glUniformMatrix4fvARB" function pointer
+    PFNGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = (PFNGLUNIFORMMATRIXFVARBPROC)
+        action->getWindow()->getFunction(_funcUniformMatrix4fv);
+    GLint location = getUniformLocation(program, "OSGInvViewMatrix");
+    if(location != -1)
+        uniformMatrix4fv(location, 1, GL_FALSE, m.getValues());
 }
 
 /*------------------------------ State ------------------------------------*/
@@ -910,7 +941,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.24 2004/09/08 16:48:51 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.25 2004/09/09 15:04:04 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
