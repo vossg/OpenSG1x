@@ -514,6 +514,13 @@ VRMLFile::~VRMLFile(void)
 
 /*------------------------------ access -----------------------------------*/
 
+void VRMLFile::scanFile(const Char8 *szFilename, UInt32 uiOptions)
+{
+    _pRootNode = NullNode;
+
+    Inherited::scanFile(szFilename, uiOptions);
+}
+
 void VRMLFile::beginNode(
     const Char8 *szNodeTypename,
     const Char8 *szNodename)

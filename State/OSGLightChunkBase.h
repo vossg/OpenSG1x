@@ -122,7 +122,9 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
         CutoffFieldId = ExponentFieldId + 1,
         ConstantAttenuationFieldId = CutoffFieldId + 1,
         LinearAttenuationFieldId = ConstantAttenuationFieldId + 1,
-        QuadraticAttenuationFieldId = LinearAttenuationFieldId + 1
+        QuadraticAttenuationFieldId = LinearAttenuationFieldId + 1,
+        NextFieldId = QuadraticAttenuationFieldId + 1
+
     };
 
     static const osg::BitVector DiffuseFieldMask;

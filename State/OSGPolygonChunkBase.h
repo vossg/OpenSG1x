@@ -124,7 +124,9 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
         OffsetPointFieldId = OffsetBiasFieldId + 1,
         OffsetLineFieldId = OffsetPointFieldId + 1,
         OffsetFillFieldId = OffsetLineFieldId + 1,
-        StippleFieldId = OffsetFillFieldId + 1
+        StippleFieldId = OffsetFillFieldId + 1,
+        NextFieldId = StippleFieldId + 1
+
     };
 
     static const osg::BitVector CullFaceFieldMask;

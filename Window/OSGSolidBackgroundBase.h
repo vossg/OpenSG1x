@@ -104,7 +104,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
     
     enum
     {
-        ColorFieldId = Inherited::NextFieldId
+        ColorFieldId = Inherited::NextFieldId,
+        NextFieldId = ColorFieldId + 1
+
     };
 
     static const osg::BitVector ColorFieldMask;

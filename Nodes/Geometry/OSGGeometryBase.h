@@ -124,7 +124,9 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
         IndexMappingFieldId = IndexFieldId + 1,
         MaterialFieldId = IndexMappingFieldId + 1,
         DlistCacheFieldId = MaterialFieldId + 1,
-        GLIdFieldId = DlistCacheFieldId + 1
+        GLIdFieldId = DlistCacheFieldId + 1,
+        NextFieldId = GLIdFieldId + 1
+
     };
 
     static const osg::BitVector TypesFieldMask;

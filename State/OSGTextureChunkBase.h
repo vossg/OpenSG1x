@@ -138,7 +138,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
         GenFuncTPlaneFieldId = GenFuncSPlaneFieldId + 1,
         GenFuncRPlaneFieldId = GenFuncTPlaneFieldId + 1,
         GenFuncQPlaneFieldId = GenFuncRPlaneFieldId + 1,
-        GLIdFieldId = GenFuncQPlaneFieldId + 1
+        GLIdFieldId = GenFuncQPlaneFieldId + 1,
+        NextFieldId = GLIdFieldId + 1
+
     };
 
     static const osg::BitVector ImageFieldMask;

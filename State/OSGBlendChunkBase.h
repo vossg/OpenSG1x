@@ -108,7 +108,9 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     {
         SrcFactorFieldId = Inherited::NextFieldId,
         DestFactorFieldId = SrcFactorFieldId + 1,
-        ColorFieldId = DestFactorFieldId + 1
+        ColorFieldId = DestFactorFieldId + 1,
+        NextFieldId = ColorFieldId + 1
+
     };
 
     static const osg::BitVector SrcFactorFieldMask;

@@ -152,10 +152,30 @@ Color3f &GradientBackgroundBase::getColor( UInt32 index)
 	return _mfColor.getValue( index );
 }
 
+MFColor3f &GradientBackgroundBase::getColor(void)
+{
+	return _mfColor;
+}
+
+const MFColor3f &GradientBackgroundBase::getColor(void) const
+{
+	return _mfColor;
+}
+
 OSG_SYSTEMLIB_DLLMAPPING
 Real32 &GradientBackgroundBase::getPosition( UInt32 index)
 {
 	return _mfPosition.getValue( index );
+}
+
+MFReal32 &GradientBackgroundBase::getPosition(void)
+{
+	return _mfPosition;
+}
+
+const MFReal32 &GradientBackgroundBase::getPosition(void) const
+{
+	return _mfPosition;
 }
 
 

@@ -110,7 +110,9 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLightBase : public LightBase
         PositionFieldId = Inherited::NextFieldId,
         ConstantAttenuationFieldId = PositionFieldId + 1,
         LinearAttenuationFieldId = ConstantAttenuationFieldId + 1,
-        QuadraticAttenuationFieldId = LinearAttenuationFieldId + 1
+        QuadraticAttenuationFieldId = LinearAttenuationFieldId + 1,
+        NextFieldId = QuadraticAttenuationFieldId + 1
+
     };
 
     static const osg::BitVector PositionFieldMask;

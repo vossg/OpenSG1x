@@ -43,7 +43,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class DynamicBackground!
+ **     class Switch!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -93,32 +93,32 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-inline OSG::FieldContainerType &DynamicBackgroundBase::getClassType(void)
+inline OSG::FieldContainerType &SwitchBase::getClassType(void)
 {
     return _type; 
 } 
 
-inline OSG::UInt32 DynamicBackgroundBase::getClassTypeId(void) 
+inline OSG::UInt32 SwitchBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
-inline DynamicBackgroundPtr DynamicBackgroundBase::create(void) 
+inline SwitchPtr SwitchBase::create(void) 
 {
-    DynamicBackgroundPtr fc; 
+    SwitchPtr fc; 
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = DynamicBackgroundPtr::dcast(
+        fc = SwitchPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
     return fc; 
 }
 
-inline DynamicBackgroundPtr DynamicBackgroundBase::createEmpty(void) 
+inline SwitchPtr SwitchBase::createEmpty(void) 
 { 
-    DynamicBackgroundPtr returnValue; 
+    SwitchPtr returnValue; 
     
     newPtr(returnValue); 
 
@@ -133,50 +133,30 @@ inline DynamicBackgroundPtr DynamicBackgroundBase::createEmpty(void)
 /*------------------------------ access -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
-MFColor3f *DynamicBackgroundBase::getMFColor(void)
+SFInt32 *SwitchBase::getSFChoice(void)
 {
-	return &_mfColor;
+	return &_sfChoice;
 }
-
-OSG_SYSTEMLIB_DLLMAPPING
-MFReal32 *DynamicBackgroundBase::getMFAngle(void)
-{
-	return &_mfAngle;
-}
-
 
 
 OSG_SYSTEMLIB_DLLMAPPING
-Color3f &DynamicBackgroundBase::getColor( UInt32 index)
+Int32 &SwitchBase::getChoice(void)
 {
-	return _mfColor.getValue( index );
-}
-
-MFColor3f &DynamicBackgroundBase::getColor(void)
-{
-	return _mfColor;
-}
-
-const MFColor3f &DynamicBackgroundBase::getColor(void) const
-{
-	return _mfColor;
+	return _sfChoice.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Real32 &DynamicBackgroundBase::getAngle( UInt32 index)
+const Int32 &SwitchBase::getChoice(void) const
 {
-	return _mfAngle.getValue( index );
+	return _sfChoice.getValue();
 }
 
-MFReal32 &DynamicBackgroundBase::getAngle(void)
+OSG_SYSTEMLIB_DLLMAPPING
+void SwitchBase::setChoice( Int32 value )
 {
-	return _mfAngle;
+	_sfChoice.setValue(value);
 }
 
-const MFReal32 &DynamicBackgroundBase::getAngle(void) const
-{
-	return _mfAngle;
-}
 
 
 /*------------------------------ access -----------------------------------*/

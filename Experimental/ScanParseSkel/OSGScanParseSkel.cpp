@@ -150,7 +150,7 @@ extern void clearSkel(void);
 extern void abortParser(void);
 
 void ScanParseSkel::scanFile(const Char8 *szFilename, 
-                                      UInt32 uiOptions)
+                                   UInt32 uiOptions)
 {
     if(szFilename == NULL)
         return;

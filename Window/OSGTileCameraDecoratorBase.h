@@ -110,7 +110,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
         LeftFieldId = Inherited::NextFieldId,
         RightFieldId = LeftFieldId + 1,
         BottomFieldId = RightFieldId + 1,
-        TopFieldId = BottomFieldId + 1
+        TopFieldId = BottomFieldId + 1,
+        NextFieldId = TopFieldId + 1
+
     };
 
     static const osg::BitVector LeftFieldMask;

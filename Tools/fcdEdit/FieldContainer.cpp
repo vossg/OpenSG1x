@@ -793,19 +793,26 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 
 				out << "        " 
 				    << (char)toupper( name[0] ) << name + 1 << "FieldId"
-					<< " = Inherited::NextFieldId";
-
+					<< " = Inherited::NextFieldId"
+                    << "," << endl;
+                    
 				for(fieldIt++; fieldIt != _fieldList.end(); fieldIt++)
 				{
 					prevname = name;
 					name = fieldIt->name();
-                    out << "," << endl;
 					out << "        " 
 				    	<< (char)toupper(name[0]) << name + 1 << "FieldId"
 						<< " = " << (char)toupper(prevname[0]) 
-						<< prevname + 1 << "FieldId + 1";
+						<< prevname + 1 << "FieldId + 1"
+                        << "," << endl;
 				}
 
+                out << "        " 
+                    << "NextFieldId = "
+                    << (char)toupper(name[0]) 
+                    << name + 1 << "FieldId + 1"
+                    << endl;
+                
                 out << endl << "    };" << endl << endl;
 
 				for ( fieldIt = _fieldList.begin(); fieldIt != _fieldList.end(); fieldIt++ )

@@ -2,7 +2,9 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *                                                                           *
+ *                            www.opensg.org                                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -43,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class DynamicBackground!
+ **     class Switch!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -53,20 +55,75 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILESWITCHINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
 
-OSG_BEGIN_NAMESPACE
+#include "OSGSwitchBase.h"
+#include "OSGSwitch.h"
+
+
+OSG_USING_NAMESPACE
 
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
 
+OSG_BEGIN_NAMESPACE
+
+#if defined(__sgi)
+
+#pragma instantiate SField<SwitchPtr>::_fieldType
+#pragma instantiate MField<SwitchPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, SwitchPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, SwitchPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
+
+const OSG::BitVector	SwitchBase::ChoiceFieldMask = 
+    (1 << SwitchBase::ChoiceFieldId);
+
+
+
+char SwitchBase::cvsid[] = "@(#)$Id: $";
+
+/** \brief Group field description
+ */
+
+FieldDescription *SwitchBase::_desc[] = 
+{
+    new FieldDescription(SFInt32::getClassType(), 
+                     "choice", 
+                     ChoiceFieldId, ChoiceFieldMask,
+                     true,
+                     (FieldAccessMethod) &SwitchBase::getSFChoice)
+};
+
+/** \brief Switch type
+ */
+
+FieldContainerType SwitchBase::_type(
+    "Switch",
+    "NodeCore",
+    NULL,
+    (PrototypeCreateF) &SwitchBase::createEmpty,
+    Switch::initMethod,
+    _desc,
+    sizeof(_desc));
+
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -80,7 +137,6 @@ OSG_BEGIN_NAMESPACE
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
@@ -93,95 +149,108 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-inline OSG::FieldContainerType &DynamicBackgroundBase::getClassType(void)
+//OSG_FIELD_CONTAINER_DEF(SwitchBase, SwitchPtr)
+
+FieldContainerType &SwitchBase::getType(void) 
 {
     return _type; 
 } 
 
-inline OSG::UInt32 DynamicBackgroundBase::getClassTypeId(void) 
+const FieldContainerType &SwitchBase::getType(void) const 
 {
-    return _type.getId(); 
+    return _type;
 } 
 
-inline DynamicBackgroundPtr DynamicBackgroundBase::create(void) 
-{
-    DynamicBackgroundPtr fc; 
-
-    if(getClassType(). getPrototype() != osg::NullFC) 
-    {
-        fc = DynamicBackgroundPtr::dcast(
-            getClassType().getPrototype()-> shallowCopy()); 
-    }
-    
-    return fc; 
-}
-
-inline DynamicBackgroundPtr DynamicBackgroundBase::createEmpty(void) 
+FieldContainerPtr SwitchBase::shallowCopy(void) const 
 { 
-    DynamicBackgroundPtr returnValue; 
-    
-    newPtr(returnValue); 
+    SwitchPtr returnValue; 
+
+    newPtr(returnValue, dynamic_cast<const Switch *>(this)); 
 
     return returnValue; 
 }
 
+UInt32 SwitchBase::getSize(void) const 
+{ 
+    return sizeof(SwitchBase); 
+}
+
+
+void SwitchBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
+{
+    this->executeSyncImpl((SwitchBase *) &other, whichField);
+}
 
 /*------------- constructors & destructors --------------------------------*/
 
-/*--------------------------- type information-----------------------------*/
+/** \brief Constructor
+ */
+
+SwitchBase::SwitchBase(void) :
+	_sfChoice	(Int32(-1)), 
+	Inherited() 
+{
+}
+
+/** \brief Copy Constructor
+ */
+
+SwitchBase::SwitchBase(const SwitchBase &source) :
+	_sfChoice		(source._sfChoice), 
+	Inherited        (source)
+{
+}
+
+/** \brief Destructor
+ */
+
+SwitchBase::~SwitchBase(void)
+{
+}
 
 /*------------------------------ access -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
-MFColor3f *DynamicBackgroundBase::getMFColor(void)
+UInt32 SwitchBase::getBinSize(const BitVector &whichField)
 {
-	return &_mfColor;
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (ChoiceFieldMask & whichField))
+    {
+        returnValue += _sfChoice.getBinSize();
+    }
+
+
+    return returnValue;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
-MFReal32 *DynamicBackgroundBase::getMFAngle(void)
+MemoryHandle SwitchBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
 {
-	return &_mfAngle;
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (ChoiceFieldMask & whichField))
+    {
+        pMem = _sfChoice.copyToBin(pMem);
+    }
+
+
+    return pMem;
 }
 
-
-
-OSG_SYSTEMLIB_DLLMAPPING
-Color3f &DynamicBackgroundBase::getColor( UInt32 index)
+MemoryHandle SwitchBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
 {
-	return _mfColor.getValue( index );
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (ChoiceFieldMask & whichField))
+    {
+        pMem = _sfChoice.copyFromBin(pMem);
+    }
+
+
+    return pMem;
 }
-
-MFColor3f &DynamicBackgroundBase::getColor(void)
-{
-	return _mfColor;
-}
-
-const MFColor3f &DynamicBackgroundBase::getColor(void) const
-{
-	return _mfColor;
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-Real32 &DynamicBackgroundBase::getAngle( UInt32 index)
-{
-	return _mfAngle.getValue( index );
-}
-
-MFReal32 &DynamicBackgroundBase::getAngle(void)
-{
-	return _mfAngle;
-}
-
-const MFReal32 &DynamicBackgroundBase::getAngle(void) const
-{
-	return _mfAngle;
-}
-
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
 
 /*------------------------------- dump ----------------------------------*/
 
@@ -190,10 +259,21 @@ const MFReal32 &DynamicBackgroundBase::getAngle(void) const
 \*-------------------------------------------------------------------------*/
 
 
+void SwitchBase::executeSyncImpl(      SwitchBase *pOther,
+                                        const BitVector         &whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (ChoiceFieldMask & whichField))
+    {
+        _sfChoice.syncWith(pOther->_sfChoice);
+    }
+
+
+}
+
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-
-OSG_END_NAMESPACE
 

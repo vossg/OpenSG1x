@@ -104,7 +104,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLightBase : public LightBase
     
     enum
     {
-        DirectionFieldId = Inherited::NextFieldId
+        DirectionFieldId = Inherited::NextFieldId,
+        NextFieldId = DirectionFieldId + 1
+
     };
 
     static const osg::BitVector DirectionFieldMask;

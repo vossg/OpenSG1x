@@ -106,7 +106,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
     enum
     {
         ColorFieldId = Inherited::NextFieldId,
-        AngleFieldId = ColorFieldId + 1
+        AngleFieldId = ColorFieldId + 1,
+        NextFieldId = AngleFieldId + 1
+
     };
 
     static const osg::BitVector ColorFieldMask;

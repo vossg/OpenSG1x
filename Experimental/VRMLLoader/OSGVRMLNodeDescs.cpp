@@ -63,6 +63,8 @@
 #include <OSGTextureChunk.h>
 #include <OSGGeoFunctions.h>
 #include <OSGDistanceLOD.h>
+#include <OSGSwitch.h>
+#include <OSGInline.h>
 
 OSG_USING_NAMESPACE
 
@@ -3049,6 +3051,693 @@ void VRMLLODDesc::endNode(FieldContainerPtr pFC)
 /** \brief unequal
  */
 
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+char VRMLSwitchDesc::cvsid[] = "@(#)$Id: $";
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+/** \brief Constructor
+ */
+
+VRMLSwitchDesc::VRMLSwitchDesc(void) :
+    Inherited()
+{
+}
+
+/** \brief Destructor
+ */
+
+VRMLSwitchDesc::~VRMLSwitchDesc(void)
+{
+}
+
+/*------------------------------ access -----------------------------------*/
+
+void VRMLSwitchDesc::init(const Char8 *szName)
+{
+    fprintf(stderr, "Switch init : %s \n", szName);
+
+    _pNodeProto     = Node::create();
+    _pNodeCoreProto = Switch::create();
+
+    _pGenAtt        = GenericAtt::create();
+}
+
+/*---------------------------- properties ---------------------------------*/
+ 
+Bool VRMLSwitchDesc::prototypeAddField(const Char8  *szFieldType,
+                                       const UInt32  uiFieldTypeId,
+                                       const Char8  *szFieldname)
+{
+    Bool bFound;
+
+    _pCurrField = NULL;
+
+    if(stringcasecmp("choice", szFieldname) == 0)
+    {
+        bFound = true;
+    }
+    else if(stringcasecmp("whichChoice", szFieldname) == 0)
+    {
+        bFound = true;
+    }
+
+    if(bFound == true)
+    {
+        return true;
+    }
+    else
+    {
+        return Inherited::prototypeAddField(szFieldType,
+                                            uiFieldTypeId,
+                                            szFieldname);
+    }
+}
+
+void VRMLSwitchDesc::endProtoInterface(void)
+{
+}
+
+void VRMLSwitchDesc::getFieldAndDesc(      
+          FieldContainerPtr  pFC,
+    const Char8            * szFieldname,
+          Field            *&pField,
+    const FieldDescription *&pDesc)
+{
+    if(szFieldname == NULL)
+        return;
+
+    if(pFC == NullFC)
+        return;
+
+    NodePtr pNode = NodePtr::dcast(pFC);
+
+    if(pNode == NullFC)
+    {
+        fprintf(stderr, "No Node\n");
+        return;
+    }
+
+    NodeCorePtr pNodeCore = pNode->getCore();
+
+    SwitchPtr pSwitch      = SwitchPtr::dcast(pNodeCore);
+
+    if(pSwitch == NullFC)
+    {
+        fprintf(stderr, "No Switch\n");
+        return;
+    }
+
+    if(stringcasecmp("choice", szFieldname) == 0)
+    {
+        fprintf(stderr, "Request Switch : choice \n");
+
+        pField = pNode->getField("children");
+        
+        if(pField != NULL)
+            pDesc = pNode->getType().findFieldDescription("children");
+    }
+    else if(stringcasecmp("whichChoice", szFieldname) == 0)
+    {
+        fprintf(stderr, "Request Switch : whichChoice \n");
+
+        pField = pSwitch->getField("choice");
+        
+        if(pField != NULL)
+            pDesc = pSwitch->getType().findFieldDescription("whichChoice");
+    }
+    else
+    {
+        VRMLNodeDesc::getFieldAndDesc(pSwitch, 
+                                      szFieldname, 
+                                      pField,
+                                      pDesc);
+    }
+}
+
+/*-------------------------- your_category---------------------------------*/
+
+FieldContainerPtr VRMLSwitchDesc::beginNode(
+    const Char8       *,
+    const Char8       *,
+    FieldContainerPtr  pCurrentFC)
+{
+    FieldContainerPtr pFC         = NullFC;
+    NodePtr           pNode       = NullNode;
+    NodeCorePtr       pNodeCore   = NullNodeCore;
+    GenericAttPtr     pAtt        = GenericAttPtr::NullPtr;
+
+    if(_pNodeProto != NullNode)
+    {
+        FieldContainerPtr pAttClone = _pGenAtt->emptyCopy();
+        
+        pAtt = GenericAttPtr::dcast(pAttClone);
+
+        pFC = _pNodeProto->shallowCopy();
+
+        pNode = NodePtr::dcast(pFC);
+
+        pFC = _pNodeCoreProto->shallowCopy();
+
+        pNodeCore = NodeCorePtr::dcast(pFC);
+       
+        pNode    ->setCore      (pNodeCore);
+        pNodeCore->addAttachment(pAtt);
+    }
+
+    fprintf(stderr, "Begin Switch %x\n", &(*pNode));
+
+    return pNode;
+}
+
+void VRMLSwitchDesc::endNode(FieldContainerPtr pFC)
+{    
+}
+
+/*-------------------------- assignment -----------------------------------*/
+
+/** \brief assignment
+ */
+
+/*-------------------------- comparison -----------------------------------*/
+
+/** \brief assignment
+ */
+
+/** \brief equal
+ */
+
+/** \brief unequal
+ */
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+char VRMLGroupDesc::cvsid[] = "@(#)$Id: $";
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+/** \brief Constructor
+ */
+
+VRMLGroupDesc::VRMLGroupDesc(void) :
+    Inherited(),
+    
+    _defaultBoxCenter(),
+    _defaultBoxSize  (),
+
+    _boxCenter       (),
+    _boxSize         ()
+{
+}
+
+/** \brief Destructor
+ */
+
+VRMLGroupDesc::~VRMLGroupDesc(void)
+{
+}
+
+/*------------------------------ access -----------------------------------*/
+
+void VRMLGroupDesc::init(const Char8 *szName)
+{
+    fprintf(stderr, "Group init : %s \n", szName);
+
+    _pNodeProto     = Node::create();
+    _pNodeCoreProto = Group::create();
+
+    _pGenAtt        = GenericAtt::create();
+}
+
+/*---------------------------- properties ---------------------------------*/
+ 
+Bool VRMLGroupDesc::prototypeAddField(const Char8  *szFieldType,
+                                      const UInt32  uiFieldTypeId,
+                                      const Char8  *szFieldname)
+{
+    Bool bFound;
+
+    _pCurrField = NULL;
+
+    if(stringcasecmp("bboxCenter", szFieldname) == 0)
+    {
+        _pCurrField = &_defaultBoxCenter;
+        bFound = true;
+    }
+    else if(stringcasecmp("bboxSize", szFieldname) == 0)
+    {
+        _pCurrField = &_defaultBoxSize;
+        bFound = true;
+    }
+
+    if(bFound == true)
+    {
+        return true;
+    }
+    else
+    {
+        return Inherited::prototypeAddField(szFieldType,
+                                            uiFieldTypeId,
+                                            szFieldname);
+    }
+}
+
+void VRMLGroupDesc::endProtoInterface(void)
+{
+}
+
+void VRMLGroupDesc::getFieldAndDesc(      
+          FieldContainerPtr  pFC,
+    const Char8            * szFieldname,
+          Field            *&pField,
+    const FieldDescription *&pDesc)
+{
+    if(szFieldname == NULL)
+        return;
+
+    if(pFC == NullFC)
+        return;
+
+    NodePtr pNode = NodePtr::dcast(pFC);
+
+    if(pNode == NullFC)
+    {
+        fprintf(stderr, "No Node\n");
+        return;
+    }
+
+    NodeCorePtr pNodeCore = pNode->getCore();
+
+    GroupPtr pGroup       = GroupPtr::dcast(pNodeCore);
+
+    if(pGroup == NullFC)
+    {
+        fprintf(stderr, "No Group\n");
+        return;
+    }
+
+    if(stringcasecmp("bboxCenter", szFieldname) == 0)
+    {
+        fprintf(stderr, "Request Group : bboxCenter \n");
+
+        pField = &_boxCenter;
+        pDesc  = NULL;
+    }
+    else if(stringcasecmp("whichChoice", szFieldname) == 0)
+    {
+        fprintf(stderr, "Request Group : bboxSize \n");
+
+        pField = &_boxSize;
+        pDesc  = NULL;
+    }
+    else
+    {
+        VRMLNodeDesc::getFieldAndDesc(pGroup, 
+                                      szFieldname, 
+                                      pField,
+                                      pDesc);
+    }
+}
+
+/*-------------------------- your_category---------------------------------*/
+
+FieldContainerPtr VRMLGroupDesc::beginNode(
+    const Char8       *,
+    const Char8       *,
+    FieldContainerPtr  pCurrentFC)
+{
+    FieldContainerPtr pFC         = NullFC;
+    NodePtr           pNode       = NullNode;
+    NodeCorePtr       pNodeCore   = NullNodeCore;
+    GenericAttPtr     pAtt        = GenericAttPtr::NullPtr;
+
+    if(_pNodeProto != NullNode)
+    {
+        FieldContainerPtr pAttClone = _pGenAtt->emptyCopy();
+        
+        pAtt = GenericAttPtr::dcast(pAttClone);
+
+        pFC = _pNodeProto->shallowCopy();
+
+        pNode = NodePtr::dcast(pFC);
+
+        pFC = _pNodeCoreProto->shallowCopy();
+
+        pNodeCore = NodeCorePtr::dcast(pFC);
+       
+        pNode    ->setCore      (pNodeCore);
+        pNodeCore->addAttachment(pAtt);
+    }
+
+    fprintf(stderr, "Begin Group %x\n", &(*pNode));
+
+    return pNode;
+}
+
+void VRMLGroupDesc::endNode(FieldContainerPtr pFC)
+{    
+    
+}
+
+/*-------------------------- assignment -----------------------------------*/
+
+/** \brief assignment
+ */
+
+/*-------------------------- comparison -----------------------------------*/
+
+/** \brief assignment
+ */
+
+/** \brief equal
+ */
+
+/** \brief unequal
+ */
+
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+char VRMLInlineDesc::cvsid[] = "@(#)$Id: $";
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+/** \brief Constructor
+ */
+
+VRMLInlineDesc::VRMLInlineDesc(void) :
+    Inherited(),
+    
+    _defaultBoxCenter(),
+    _defaultBoxSize  (),
+
+    _boxCenter       (),
+    _boxSize         ()
+{
+}
+
+/** \brief Destructor
+ */
+
+VRMLInlineDesc::~VRMLInlineDesc(void)
+{
+}
+
+/*------------------------------ access -----------------------------------*/
+
+void VRMLInlineDesc::init(const Char8 *szName)
+{
+    fprintf(stderr, "Inline init : %s \n", szName);
+
+    _pNodeProto     = Node::create();
+    _pNodeCoreProto = Inline::create();
+
+    _pGenAtt        = GenericAtt::create();
+}
+
+/*---------------------------- properties ---------------------------------*/
+ 
+Bool VRMLInlineDesc::prototypeAddField(const Char8  *szFieldType,
+                                       const UInt32  uiFieldTypeId,
+                                       const Char8  *szFieldname)
+{
+    Bool bFound;
+
+    _pCurrField = NULL;
+
+    if(stringcasecmp("bboxCenter", szFieldname) == 0)
+    {
+        _pCurrField = &_defaultBoxCenter;
+        bFound = true;
+    }
+    else if(stringcasecmp("bboxSize", szFieldname) == 0)
+    {
+        _pCurrField = &_defaultBoxSize;
+        bFound = true;
+    }
+    else if(stringcasecmp("url", szFieldname) == 0)
+    {
+        bFound = true;
+    }
+
+    if(bFound == true)
+    {
+        return true;
+    }
+    else
+    {
+        return Inherited::prototypeAddField(szFieldType,
+                                            uiFieldTypeId,
+                                            szFieldname);
+    }
+}
+
+void VRMLInlineDesc::endProtoInterface(void)
+{
+}
+
+void VRMLInlineDesc::getFieldAndDesc(      
+          FieldContainerPtr  pFC,
+    const Char8            * szFieldname,
+          Field            *&pField,
+    const FieldDescription *&pDesc)
+{
+    if(szFieldname == NULL)
+        return;
+
+    if(pFC == NullFC)
+        return;
+
+    NodePtr pNode = NodePtr::dcast(pFC);
+
+    if(pNode == NullFC)
+    {
+        fprintf(stderr, "No Node\n");
+        return;
+    }
+
+    NodeCorePtr pNodeCore = pNode->getCore();
+
+    InlinePtr pInline     = InlinePtr::dcast(pNodeCore);
+
+    if(pInline == NullFC)
+    {
+        fprintf(stderr, "No Inline\n");
+        return;
+    }
+
+    if(stringcasecmp("bboxCenter", szFieldname) == 0)
+    {
+        fprintf(stderr, "Request Group : bboxCenter \n");
+
+        pField = &_boxCenter;
+        pDesc  = NULL;
+    }
+    else if(stringcasecmp("whichChoice", szFieldname) == 0)
+    {
+        fprintf(stderr, "Request Group : bboxSize \n");
+
+        pField = &_boxSize;
+        pDesc  = NULL;
+    }
+    else
+    {
+        VRMLNodeDesc::getFieldAndDesc(pInline, 
+                                      szFieldname, 
+                                      pField,
+                                      pDesc);
+    }
+}
+
+/*-------------------------- your_category---------------------------------*/
+
+FieldContainerPtr VRMLInlineDesc::beginNode(
+    const Char8       *,
+    const Char8       *,
+    FieldContainerPtr  pCurrentFC)
+{
+    FieldContainerPtr pFC         = NullFC;
+    NodePtr           pNode       = NullNode;
+    NodeCorePtr       pNodeCore   = NullNodeCore;
+    GenericAttPtr     pAtt        = GenericAttPtr::NullPtr;
+
+    if(_pNodeProto != NullNode)
+    {
+        FieldContainerPtr pAttClone = _pGenAtt->emptyCopy();
+        
+        pAtt = GenericAttPtr::dcast(pAttClone);
+
+        pFC = _pNodeProto->shallowCopy();
+
+        pNode = NodePtr::dcast(pFC);
+
+        pFC = _pNodeCoreProto->shallowCopy();
+
+        pNodeCore = NodeCorePtr::dcast(pFC);
+       
+        pNode    ->setCore      (pNodeCore);
+        pNodeCore->addAttachment(pAtt);
+    }
+
+    fprintf(stderr, "Begin Inline %x\n", &(*pNode));
+
+    return pNode;
+}
+
+void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
+{    
+    
+}
+
+/*-------------------------- assignment -----------------------------------*/
+
+/** \brief assignment
+ */
+
+/*-------------------------- comparison -----------------------------------*/
+
+/** \brief assignment
+ */
+
+/** \brief equal
+ */
+
+/** \brief unequal
+ */
 
 //---------------------------------------------------------------------------
 //  FUNCTION: 

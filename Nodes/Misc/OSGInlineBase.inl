@@ -43,7 +43,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class DynamicBackground!
+ **     class Inline!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -93,32 +93,32 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-inline OSG::FieldContainerType &DynamicBackgroundBase::getClassType(void)
+inline OSG::FieldContainerType &InlineBase::getClassType(void)
 {
     return _type; 
 } 
 
-inline OSG::UInt32 DynamicBackgroundBase::getClassTypeId(void) 
+inline OSG::UInt32 InlineBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
-inline DynamicBackgroundPtr DynamicBackgroundBase::create(void) 
+inline InlinePtr InlineBase::create(void) 
 {
-    DynamicBackgroundPtr fc; 
+    InlinePtr fc; 
 
     if(getClassType(). getPrototype() != osg::NullFC) 
     {
-        fc = DynamicBackgroundPtr::dcast(
+        fc = InlinePtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
     return fc; 
 }
 
-inline DynamicBackgroundPtr DynamicBackgroundBase::createEmpty(void) 
+inline InlinePtr InlineBase::createEmpty(void) 
 { 
-    DynamicBackgroundPtr returnValue; 
+    InlinePtr returnValue; 
     
     newPtr(returnValue); 
 
@@ -133,49 +133,27 @@ inline DynamicBackgroundPtr DynamicBackgroundBase::createEmpty(void)
 /*------------------------------ access -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
-MFColor3f *DynamicBackgroundBase::getMFColor(void)
+MFString *InlineBase::getMFUrl(void)
 {
-	return &_mfColor;
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-MFReal32 *DynamicBackgroundBase::getMFAngle(void)
-{
-	return &_mfAngle;
+	return &_mfUrl;
 }
 
 
 
 OSG_SYSTEMLIB_DLLMAPPING
-Color3f &DynamicBackgroundBase::getColor( UInt32 index)
+String &InlineBase::getUrl( UInt32 index)
 {
-	return _mfColor.getValue( index );
+	return _mfUrl.getValue( index );
 }
 
-MFColor3f &DynamicBackgroundBase::getColor(void)
+MFString &InlineBase::getUrl(void)
 {
-	return _mfColor;
+	return _mfUrl;
 }
 
-const MFColor3f &DynamicBackgroundBase::getColor(void) const
+const MFString &InlineBase::getUrl(void) const
 {
-	return _mfColor;
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-Real32 &DynamicBackgroundBase::getAngle( UInt32 index)
-{
-	return _mfAngle.getValue( index );
-}
-
-MFReal32 &DynamicBackgroundBase::getAngle(void)
-{
-	return _mfAngle;
-}
-
-const MFReal32 &DynamicBackgroundBase::getAngle(void) const
-{
-	return _mfAngle;
+	return _mfUrl;
 }
 
 

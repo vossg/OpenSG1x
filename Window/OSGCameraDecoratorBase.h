@@ -104,7 +104,9 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
     
     enum
     {
-        CameraFieldId = Inherited::NextFieldId
+        CameraFieldId = Inherited::NextFieldId,
+        NextFieldId = CameraFieldId + 1
+
     };
 
     static const osg::BitVector CameraFieldMask;

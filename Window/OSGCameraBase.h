@@ -108,7 +108,9 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraBase : public FieldContainer
     {
         BeaconFieldId = Inherited::NextFieldId,
         NearFieldId = BeaconFieldId + 1,
-        FarFieldId = NearFieldId + 1
+        FarFieldId = NearFieldId + 1,
+        NextFieldId = FarFieldId + 1
+
     };
 
     static const osg::BitVector BeaconFieldMask;

@@ -118,7 +118,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public FieldContainer
         ParentFieldId = TopFieldId + 1,
         CameraFieldId = ParentFieldId + 1,
         RootFieldId = CameraFieldId + 1,
-        BackgroundFieldId = RootFieldId + 1
+        BackgroundFieldId = RootFieldId + 1,
+        NextFieldId = BackgroundFieldId + 1
+
     };
 
     static const osg::BitVector LeftFieldMask;

@@ -112,7 +112,9 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public FieldContainer
         HeightFieldId = WidthFieldId + 1,
         PortFieldId = HeightFieldId + 1,
         ResizePendingFieldId = PortFieldId + 1,
-        GlObjectStatusFieldId = ResizePendingFieldId + 1
+        GlObjectStatusFieldId = ResizePendingFieldId + 1,
+        NextFieldId = GlObjectStatusFieldId + 1
+
     };
 
     static const osg::BitVector WidthFieldMask;

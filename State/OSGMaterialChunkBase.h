@@ -112,7 +112,9 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
         AmbientFieldId = DiffuseFieldId + 1,
         SpecularFieldId = AmbientFieldId + 1,
         EmissionFieldId = SpecularFieldId + 1,
-        ShininessFieldId = EmissionFieldId + 1
+        ShininessFieldId = EmissionFieldId + 1,
+        NextFieldId = ShininessFieldId + 1
+
     };
 
     static const osg::BitVector DiffuseFieldMask;

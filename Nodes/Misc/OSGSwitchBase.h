@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class SpotLight
+ **     class Switch
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGSPOTLIGHTBASE_H_
-#define _OSGSPOTLIGHTBASE_H_
+#ifndef _OSGSWITCHBASE_H_
+#define _OSGSWITCHBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -67,12 +67,10 @@
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
 #include <OSGSystemDef.h>
-#include <OSGPointLight.h>
-#include <OSGVec3fFields.h>	// Direction type
-#include <OSGReal32Fields.h>	// SpotExponent type
-#include <OSGReal32Fields.h>	// SpotCutOff type
+#include <OSGNodeCore.h>
+#include <OSGInt32Fields.h>	// Choice type
 
-#include <OSGSpotLightFields.h>
+#include <OSGSwitchFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -80,7 +78,7 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class SpotLight;
+class Switch;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -90,13 +88,13 @@ class SpotLight;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! SpotLight Base Class. */
+/*! Switch Base Class. */
 
-class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
+class OSG_SYSTEMLIB_DLLMAPPING SwitchBase : public NodeCore
 {
   private:
 
-    typedef PointLight Inherited;
+    typedef NodeCore Inherited;
 
   public:
 
@@ -106,16 +104,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
     
     enum
     {
-        DirectionFieldId = Inherited::NextFieldId,
-        SpotExponentFieldId = DirectionFieldId + 1,
-        SpotCutOffFieldId = SpotExponentFieldId + 1,
-        NextFieldId = SpotCutOffFieldId + 1
+        ChoiceFieldId = Inherited::NextFieldId,
+        NextFieldId = ChoiceFieldId + 1
 
     };
 
-    static const osg::BitVector DirectionFieldMask;
-    static const osg::BitVector SpotExponentFieldMask;
-    static const osg::BitVector SpotCutOffFieldMask;
+    static const osg::BitVector ChoiceFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -129,7 +123,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "SpotLightBase"; };
+    static const char *getClassname(void) { return "SwitchBase"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -142,8 +136,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
     
     static OSG::FieldContainerType &getClassType  (void); 
     static OSG::UInt32              getClassTypeId(void); 
-    static SpotLightPtr         create        (void); 
-    static SpotLightPtr         createEmpty   (void); 
+    static SwitchPtr         create        (void); 
+    static SwitchPtr         createEmpty   (void); 
 
     virtual OSG::FieldContainerPtr shallowCopy(void) const; 
     virtual OSG::UInt32            getSize    (void) const;
@@ -162,23 +156,15 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
 
     //! Return the fields.
 
-    inline SFVec3f	*getSFDirection(void);
-    inline SFReal32	*getSFSpotExponent(void);
-    inline SFReal32	*getSFSpotCutOff(void);
+    inline SFInt32	*getSFChoice(void);
 
     /*----------------------------- access ----------------------------------*/
 
     //!@{ Return the fields' values.
 
-    inline       Vec3f	&getDirection(void);
-    inline const Vec3f	&getDirection(void) const;
-    inline       void	             setDirection( Vec3f value );
-    inline       Real32	&getSpotExponent(void);
-    inline const Real32	&getSpotExponent(void) const;
-    inline       void	             setSpotExponent( Real32 value );
-    inline       Real32	&getSpotCutOff(void);
-    inline const Real32	&getSpotCutOff(void) const;
-    inline       void	             setSpotCutOff( Real32 value );
+    inline       Int32	&getChoice(void);
+    inline const Int32	&getChoice(void) const;
+    inline       void	             setChoice( Int32 value );
 
 
     //!@}
@@ -215,24 +201,18 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
 
     /*! 
      */
-    SFVec3f	_sfDirection;
-    /*! 
-     */
-    SFReal32	_sfSpotExponent;
-    /*! 
-     */
-    SFReal32	_sfSpotCutOff;
+    SFInt32	_sfChoice;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    SpotLightBase(void);
-    SpotLightBase(const SpotLightBase &source);
-    virtual ~SpotLightBase(void); 
+    SwitchBase(void);
+    SwitchBase(const SwitchBase &source);
+    virtual ~SwitchBase(void); 
     
 
-    void executeSyncImpl(      SpotLightBase *pOther,
+    void executeSyncImpl(      SwitchBase *pOther,
                          const BitVector         &whichField);
 
   private:
@@ -281,7 +261,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
 
     // prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const SpotLight &source);
+    void operator =(const Switch &source);
 };
 
 //---------------------------------------------------------------------------
@@ -291,8 +271,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
 
 /** \brief class pointer
  */
-typedef SpotLightBase *SpotLightBaseP;
+typedef SwitchBase *SwitchBaseP;
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGSPOTLIGHTBASE_H_ */
+#endif /* _OSGSWITCHBASE_H_ */

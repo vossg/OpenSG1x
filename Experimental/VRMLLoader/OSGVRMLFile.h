@@ -228,6 +228,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     VRMLFile(void);
     virtual ~VRMLFile(void); 
 
+    virtual void scanFile(const Char8 *szFilename, UInt32 uiOptions);
+
     /*------------------------- your_category -------------------------------*/
 
     virtual void  beginNode               (const Char8 *szNodeTypename,

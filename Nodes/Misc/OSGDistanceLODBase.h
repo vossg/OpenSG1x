@@ -106,7 +106,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public NodeCore
     enum
     {
         CenterFieldId = Inherited::NextFieldId,
-        RangeFieldId = CenterFieldId + 1
+        RangeFieldId = CenterFieldId + 1,
+        NextFieldId = RangeFieldId + 1
+
     };
 
     static const osg::BitVector CenterFieldMask;

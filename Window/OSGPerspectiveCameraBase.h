@@ -104,7 +104,9 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
     
     enum
     {
-        FovFieldId = Inherited::NextFieldId
+        FovFieldId = Inherited::NextFieldId,
+        NextFieldId = FovFieldId + 1
+
     };
 
     static const osg::BitVector FovFieldMask;

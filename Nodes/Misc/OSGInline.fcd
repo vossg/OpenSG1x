@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="Inline"
+	parent="NodeCore"
+	library="System"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+>
+	<Field
+		name="url"
+		type="String"
+		cardinality="multi"
+		visibility="internal"
+		access="public"
+	>
+	</Field>
+</FieldContainer>

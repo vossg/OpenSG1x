@@ -104,7 +104,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TransformBase : public NodeCore
     
     enum
     {
-        MatrixFieldId = Inherited::NextFieldId
+        MatrixFieldId = Inherited::NextFieldId,
+        NextFieldId = MatrixFieldId + 1
+
     };
 
     static const osg::BitVector MatrixFieldMask;

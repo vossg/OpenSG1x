@@ -112,7 +112,9 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
         DiffuseFieldId = AmbientFieldId + 1,
         SpecularFieldId = DiffuseFieldId + 1,
         BeaconFieldId = SpecularFieldId + 1,
-        OnFieldId = BeaconFieldId + 1
+        OnFieldId = BeaconFieldId + 1,
+        NextFieldId = OnFieldId + 1
+
     };
 
     static const osg::BitVector AmbientFieldMask;

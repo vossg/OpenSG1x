@@ -2,7 +2,9 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *                                                                           *
+ *                            www.opensg.org                                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -43,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class DynamicBackground!
+ **     class Inline!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -53,20 +55,75 @@
 //---------------------------------------------------------------------------
 
 
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILEINLINEINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
 
-OSG_BEGIN_NAMESPACE
+#include "OSGInlineBase.h"
+#include "OSGInline.h"
+
+
+OSG_USING_NAMESPACE
 
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
 
+OSG_BEGIN_NAMESPACE
+
+#if defined(__sgi)
+
+#pragma instantiate SField<InlinePtr>::_fieldType
+#pragma instantiate MField<InlinePtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
+
+const OSG::BitVector	InlineBase::UrlFieldMask = 
+    (1 << InlineBase::UrlFieldId);
+
+
+
+char InlineBase::cvsid[] = "@(#)$Id: $";
+
+/** \brief Group field description
+ */
+
+FieldDescription *InlineBase::_desc[] = 
+{
+    new FieldDescription(MFString::getClassType(), 
+                     "url", 
+                     UrlFieldId, UrlFieldMask,
+                     true,
+                     (FieldAccessMethod) &InlineBase::getMFUrl)
+};
+
+/** \brief Inline type
+ */
+
+FieldContainerType InlineBase::_type(
+    "Inline",
+    "NodeCore",
+    NULL,
+    (PrototypeCreateF) &InlineBase::createEmpty,
+    Inline::initMethod,
+    _desc,
+    sizeof(_desc));
+
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -80,7 +137,6 @@ OSG_BEGIN_NAMESPACE
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
@@ -93,95 +149,108 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-inline OSG::FieldContainerType &DynamicBackgroundBase::getClassType(void)
+//OSG_FIELD_CONTAINER_DEF(InlineBase, InlinePtr)
+
+FieldContainerType &InlineBase::getType(void) 
 {
     return _type; 
 } 
 
-inline OSG::UInt32 DynamicBackgroundBase::getClassTypeId(void) 
+const FieldContainerType &InlineBase::getType(void) const 
 {
-    return _type.getId(); 
+    return _type;
 } 
 
-inline DynamicBackgroundPtr DynamicBackgroundBase::create(void) 
-{
-    DynamicBackgroundPtr fc; 
-
-    if(getClassType(). getPrototype() != osg::NullFC) 
-    {
-        fc = DynamicBackgroundPtr::dcast(
-            getClassType().getPrototype()-> shallowCopy()); 
-    }
-    
-    return fc; 
-}
-
-inline DynamicBackgroundPtr DynamicBackgroundBase::createEmpty(void) 
+FieldContainerPtr InlineBase::shallowCopy(void) const 
 { 
-    DynamicBackgroundPtr returnValue; 
-    
-    newPtr(returnValue); 
+    InlinePtr returnValue; 
+
+    newPtr(returnValue, dynamic_cast<const Inline *>(this)); 
 
     return returnValue; 
 }
 
+UInt32 InlineBase::getSize(void) const 
+{ 
+    return sizeof(InlineBase); 
+}
+
+
+void InlineBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
+{
+    this->executeSyncImpl((InlineBase *) &other, whichField);
+}
 
 /*------------- constructors & destructors --------------------------------*/
 
-/*--------------------------- type information-----------------------------*/
+/** \brief Constructor
+ */
+
+InlineBase::InlineBase(void) :
+	_mfUrl	(), 
+	Inherited() 
+{
+}
+
+/** \brief Copy Constructor
+ */
+
+InlineBase::InlineBase(const InlineBase &source) :
+	_mfUrl		(source._mfUrl), 
+	Inherited        (source)
+{
+}
+
+/** \brief Destructor
+ */
+
+InlineBase::~InlineBase(void)
+{
+}
 
 /*------------------------------ access -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
-MFColor3f *DynamicBackgroundBase::getMFColor(void)
+UInt32 InlineBase::getBinSize(const BitVector &whichField)
 {
-	return &_mfColor;
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (UrlFieldMask & whichField))
+    {
+        returnValue += _mfUrl.getBinSize();
+    }
+
+
+    return returnValue;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
-MFReal32 *DynamicBackgroundBase::getMFAngle(void)
+MemoryHandle InlineBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
 {
-	return &_mfAngle;
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (UrlFieldMask & whichField))
+    {
+        pMem = _mfUrl.copyToBin(pMem);
+    }
+
+
+    return pMem;
 }
 
-
-
-OSG_SYSTEMLIB_DLLMAPPING
-Color3f &DynamicBackgroundBase::getColor( UInt32 index)
+MemoryHandle InlineBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
 {
-	return _mfColor.getValue( index );
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (UrlFieldMask & whichField))
+    {
+        pMem = _mfUrl.copyFromBin(pMem);
+    }
+
+
+    return pMem;
 }
-
-MFColor3f &DynamicBackgroundBase::getColor(void)
-{
-	return _mfColor;
-}
-
-const MFColor3f &DynamicBackgroundBase::getColor(void) const
-{
-	return _mfColor;
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-Real32 &DynamicBackgroundBase::getAngle( UInt32 index)
-{
-	return _mfAngle.getValue( index );
-}
-
-MFReal32 &DynamicBackgroundBase::getAngle(void)
-{
-	return _mfAngle;
-}
-
-const MFReal32 &DynamicBackgroundBase::getAngle(void) const
-{
-	return _mfAngle;
-}
-
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
 
 /*------------------------------- dump ----------------------------------*/
 
@@ -190,10 +259,21 @@ const MFReal32 &DynamicBackgroundBase::getAngle(void) const
 \*-------------------------------------------------------------------------*/
 
 
+void InlineBase::executeSyncImpl(      InlineBase *pOther,
+                                        const BitVector         &whichField)
+{
+
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (UrlFieldMask & whichField))
+    {
+        _mfUrl.syncWith(pOther->_mfUrl);
+    }
+
+
+}
+
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-
-OSG_END_NAMESPACE
 

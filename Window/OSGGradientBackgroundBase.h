@@ -106,7 +106,9 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
     enum
     {
         ColorFieldId = Inherited::NextFieldId,
-        PositionFieldId = ColorFieldId + 1
+        PositionFieldId = ColorFieldId + 1,
+        NextFieldId = PositionFieldId + 1
+
     };
 
     static const osg::BitVector ColorFieldMask;

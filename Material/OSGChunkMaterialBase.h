@@ -104,7 +104,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterialBase : public Material
     
     enum
     {
-        ChunksFieldId = Inherited::NextFieldId
+        ChunksFieldId = Inherited::NextFieldId,
+        NextFieldId = ChunksFieldId + 1
+
     };
 
     static const osg::BitVector ChunksFieldMask;

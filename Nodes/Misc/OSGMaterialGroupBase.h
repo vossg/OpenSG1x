@@ -104,7 +104,9 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroupBase : public NodeCore
     
     enum
     {
-        MaterialFieldId = Inherited::NextFieldId
+        MaterialFieldId = Inherited::NextFieldId,
+        NextFieldId = MaterialFieldId + 1
+
     };
 
     static const osg::BitVector MaterialFieldMask;

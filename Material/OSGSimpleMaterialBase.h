@@ -114,7 +114,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
         SpecularFieldId = DiffuseFieldId + 1,
         ShininessFieldId = SpecularFieldId + 1,
         EmissionFieldId = ShininessFieldId + 1,
-        TransparencyFieldId = EmissionFieldId + 1
+        TransparencyFieldId = EmissionFieldId + 1,
+        NextFieldId = TransparencyFieldId + 1
+
     };
 
     static const osg::BitVector AmbientFieldMask;

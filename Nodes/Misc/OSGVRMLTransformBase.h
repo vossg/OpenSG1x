@@ -112,7 +112,9 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransformBase : public Transform
         RotationFieldId = CenterFieldId + 1,
         ScaleFieldId = RotationFieldId + 1,
         ScaleOrientationFieldId = ScaleFieldId + 1,
-        TranslationFieldId = ScaleOrientationFieldId + 1
+        TranslationFieldId = ScaleOrientationFieldId + 1,
+        NextFieldId = TranslationFieldId + 1
+
     };
 
     static const osg::BitVector CenterFieldMask;

@@ -394,6 +394,36 @@ void VRMLNodeFactory<BaseT>::beginProtoInterface(
             
             _mNodeDescHash[szName] = _pCurrentNodeDesc; 
         }
+        else if(stringcasecmp("Switch", szProtoname) == 0)
+        {
+            stringDup(szProtoname, szName);
+            
+            _pCurrentNodeDesc = new VRMLSwitchDesc();
+            
+            _pCurrentNodeDesc->init(szProtoname);
+            
+            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+        }
+        else if(stringcasecmp("Group", szProtoname) == 0)
+        {
+            stringDup(szProtoname, szName);
+            
+            _pCurrentNodeDesc = new VRMLGroupDesc();
+            
+            _pCurrentNodeDesc->init(szProtoname);
+            
+            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+        }
+        else if(stringcasecmp("Inline", szProtoname) == 0)
+        {
+            stringDup(szProtoname, szName);
+            
+            _pCurrentNodeDesc = new VRMLInlineDesc();
+            
+            _pCurrentNodeDesc->init(szProtoname);
+            
+            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+        }
         else
         {
             stringDup(szProtoname, szName);
