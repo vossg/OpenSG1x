@@ -702,8 +702,6 @@ void animate(void)
         animation->setRelTime(globalTime);
     }
 
-    OSG::Thread::getCurrentChangeList()->clearAll();
-
     glutPostRedisplay();
 }
 

@@ -204,6 +204,7 @@ int main(int argc, char **argv)
     int     i;
     bool    runServer = false;
 
+    ChangeList::setReadWriteDefault();
     osgInit(argc, argv);
     aspect = new RemoteAspect();
     connection = ConnectionFactory::the().create("StreamSock");

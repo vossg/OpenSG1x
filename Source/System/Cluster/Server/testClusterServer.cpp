@@ -184,6 +184,7 @@ int main(int argc,char **argv)
 
     try
     {
+    	ChangeList::setReadWriteDefault();
         osgInit(argc, argv);
         glutInit(&argc, argv);
         if(doStereo)

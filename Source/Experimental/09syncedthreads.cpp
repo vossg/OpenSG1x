@@ -151,6 +151,7 @@ void *produce(void *arg)
 int main (int argc, char **argv)
 {
     // OSG init
+    ChangeList::setReadWriteDefault();
     osgInit(argc,argv);
 
     // GLUT init

@@ -424,6 +424,7 @@ void key(unsigned char key, int , int)
 
 int main (int argc, char **argv)
 {
+    OSG::ChangeList::setReadWriteDefault();
     OSG::osgInit(argc,argv);
 
     // GLUT init

@@ -557,6 +557,7 @@ void joinThreads()
 int main(int argc,char **argv)
 {
     TileLoadBalancer::ResultT   localRegion;
+    ChangeList::setReadWriteDefault();
     osgInit(argc, argv);
     readArgs(argc,argv);
     tileLoadBalancer=new TileLoadBalancer(false);

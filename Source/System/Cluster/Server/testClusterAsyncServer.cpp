@@ -214,6 +214,7 @@ int main(int argc,char **argv)
     //    exitOnError=true;
     try
     {
+        ChangeList::setReadWriteDefault();
         osgInit(argc, argv);
         glutInit(&argc, argv);
         glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);

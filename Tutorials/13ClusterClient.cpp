@@ -54,6 +54,7 @@ int main(int argc, char **argv)
     NodePtr   scene=NullFC;
 
     // OSG init
+    ChangeList::setReadWriteDefault();
     osgInit(argc,argv);
 
     // GLUT init

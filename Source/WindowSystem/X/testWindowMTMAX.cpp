@@ -170,7 +170,7 @@ int main (int argc, char **argv)
         dummy;
 
     // OSG init
-
+    ChangeList::setReadWriteDefault();
     osgInit(argc, argv);
     basetime = getSystemTime();
     gThreadManager = ThreadManager::the();  

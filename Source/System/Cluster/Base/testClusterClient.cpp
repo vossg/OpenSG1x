@@ -756,6 +756,7 @@ int main(int argc,char **argv)
                 }
             }
         }
+        ChangeList::setReadWriteDefault();
         osgInit(argc, argv);
         glutInit(&argc, argv);
         glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE );

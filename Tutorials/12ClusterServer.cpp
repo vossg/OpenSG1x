@@ -83,6 +83,8 @@ int main(int argc,char **argv)
     }
     try
     {
+        ChangeList::setReadWriteDefault();
+	
         // init OpenSG
         osgInit(argc, argv);
 

@@ -14,7 +14,6 @@
 #include <OSGAttachment.h>
 #include <OSGMFVecTypes.h>
 #include <OSGBaseFunctions.h>
-#include <OSGChangeList.h>
 #include <OSGFieldContainer.h>
 #include <OSGGroup.h>
 

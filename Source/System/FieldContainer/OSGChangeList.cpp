@@ -58,12 +58,14 @@
 
 OSG_USING_NAMESPACE
 
+bool ChangeList::_bReadWriteDefault = false;
+
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
 ChangeList::ChangeList(void) :
      Inherited                (                   ),
-    _bReadOnly                (false              ),
+    _bReadOnly                (!_bReadWriteDefault),
     _uiAspectId               (Thread::getAspect()),
     _listMode                 (Public             ),
     _vChangedFieldContainers  (                   ),
@@ -274,6 +276,22 @@ void ChangeList::setAspect(UInt32 uiAspectId)
 void ChangeList::setReadOnly(bool bReadOnly)
 {
     _bReadOnly = bReadOnly;
+}
+
+/*! Define whether ChangeLists are created read only by default or not. 
+Per default they are created read only, to not have a memory leak in applications that
+don't use multiple threads and don't clear the ChangeList. Thus if you want to use the
+ChangeLists, multiple threads and/or the cluster you have to call
+ChangeList::setReadOnlyDefault(true).
+
+This function should only be called before osgInit.
+*/
+void ChangeList::setReadWriteDefault(bool bReadWrite)
+{
+    if(GlobalSystemState != Startup)
+        FWARNING(("setReadWriteDefault: called after startup!\n"));
+        
+    _bReadWriteDefault = bReadWrite;
 }
 
 /*-------------------------------------------------------------------------*/

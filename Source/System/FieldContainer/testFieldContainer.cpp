@@ -17,6 +17,7 @@
 
 int main (int argc, char **argv)
 {
+    OSG::ChangeList::setReadWriteDefault();
     OSG::osgInit(argc, argv);
 
     OSG::Thread::getCurrent()->getChangeList()->dump();
