@@ -79,7 +79,7 @@ This Node manages the different levels of detail available for a Geometry and de
  *                           Class variables                               *
 \***************************************************************************/
 
-char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.1 2001/07/24 11:07:54 neumannc Exp $";
+char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.2 2001/07/24 11:27:55 neumannc Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -189,7 +189,6 @@ Action::ResultE DistanceLOD::draw(Action* action)
 						   (eyepos[1]-objpos[1])*(eyepos[1]-objpos[1]) +
 						   (eyepos[2]-objpos[2])*(eyepos[2]-objpos[2]) );
 	
-	std::cout << "Distance Camera - ObjCentre: " << dist<< endl;
 	if( dist < getMFRange()->getValue(0) )
 	{
 		da->addNode( getMFLevel()->getValue(0) );
