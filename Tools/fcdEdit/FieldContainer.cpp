@@ -1292,10 +1292,14 @@ bool FieldContainer::writeTempl(
 					s = new char [ strlen(fieldtype) + 
 										   1 + 
 										   strlen( fieldIt->defaultValue() ) +
-										   1 + 1];
+										   4];
 					strcpy( s, fieldtype );
 					strcat( s, "(" );
+                    if(!strcmp(fieldtype, "std::string"))
+                        strcat( s, "\"" );	
 					strcat( s, fieldIt->defaultValue() );
+                    if(!strcmp(fieldtype, "std::string"))
+                        strcat( s, "\"" );	
 					strcat( s, ")" );	
 					values[FieldTypedDefaultE] = s;		
 				}
