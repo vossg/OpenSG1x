@@ -377,9 +377,10 @@ void VRMLNodeFactory<BaseT>::endProto  (void)
 }
 
 template <class BaseT> inline
-void VRMLNodeFactory<BaseT>::addEventInDecl(
-    const Char8 *OSG_VRML_ARG(szEventType),
-    const Char8 *OSG_VRML_ARG(szEventName))
+void VRMLNodeFactory<BaseT>::beginEventInDecl(
+    const Char8  *OSG_VRML_ARG(szEventType),
+    const UInt32,
+    const Char8  *OSG_VRML_ARG(szEventName))
 {
     if(_bIgnoreProto == true)
         return;
@@ -391,9 +392,10 @@ void VRMLNodeFactory<BaseT>::addEventInDecl(
 }
 
 template <class BaseT> inline
-void VRMLNodeFactory<BaseT>::addEventOutDecl(
-    const Char8 *OSG_VRML_ARG(szEventType),
-    const Char8 *OSG_VRML_ARG(szEventName))
+void VRMLNodeFactory<BaseT>::beginEventOutDecl(
+    const Char8  *OSG_VRML_ARG(szEventType),
+    const UInt32,
+    const Char8  *OSG_VRML_ARG(szEventName))
 {
     if(_bIgnoreProto == true)
         return;

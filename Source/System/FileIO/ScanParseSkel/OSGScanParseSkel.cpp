@@ -242,6 +242,18 @@ void ScanParseSkel::endProto(void)
 {
 }
 
+void ScanParseSkel::beginExternProto(const Char8 *szProtoname)
+{
+}
+
+void ScanParseSkel::endExternProtoInterface(void)
+{
+}
+
+void ScanParseSkel::endExternProto(void)
+{
+}
+
 void ScanParseSkel::beginScript(const Char8 *)
 {
 }
@@ -250,13 +262,19 @@ void ScanParseSkel::endScript(void)
 {
 }
 
-void ScanParseSkel::addEventInDecl (const Char8 *,
-                                    const Char8 *)
+void ScanParseSkel::beginEventInDecl (const Char8  *,
+                                      const UInt32  ,
+                                      const Char8  *)
 {
 }
 
-void ScanParseSkel::addEventOutDecl(const Char8 *,
-                                    const Char8 *)
+void ScanParseSkel::beginEventOutDecl(const Char8  *,
+                                      const UInt32  ,
+                                      const Char8  *)
+{
+}
+
+void ScanParseSkel::endEventDecl(void)
 {
 }
 
@@ -277,6 +295,31 @@ void ScanParseSkel::beginExposedFieldDecl(const Char8  *,
 }
 
 void ScanParseSkel::endExposedFieldDecl(void)
+{
+}
+
+
+void ScanParseSkel::addExternEventInDecl (const Char8  *,
+                                          const UInt32  ,
+                                          const Char8  *)
+{
+}
+
+void ScanParseSkel::addExternEventOutDecl(const Char8  *,
+                                          const UInt32  ,
+                                          const Char8  *)
+{
+}
+
+void ScanParseSkel::addExternFieldDecl(const Char8  *,
+                                       const UInt32  ,
+                                       const Char8  *)
+{
+}
+
+void ScanParseSkel::addExternExposedFieldDecl(const Char8  *,
+                                              const UInt32  ,
+                                              const Char8  *)
 {
 }
 

@@ -791,8 +791,11 @@ PROTO Anchor [
  
  beginProto   ("Anchor"); 
  {
-     addEventInDecl       ("MFNode", "addChildren");
-     addEventInDecl       ("MFNode", "removeChildren");
+     beginEventInDecl     ("MFNode", Self::OSGmfNode, "addChildren");
+     endEventDecl         ();
+
+     beginEventInDecl     ("MFNode", Self::OSGmfNode, "removeChildren");
+     endEventDecl         ();
      
      beginExposedFieldDecl("MFNode",   Self::OSGmfNode,   "children");
      endExposedFieldDecl  ();
@@ -879,8 +882,11 @@ PROTO AudioClip [
      beginExposedFieldDecl("MFString", Self::OSGmfString, "url");
      endExposedFieldDecl  ();
 
-     addEventOutDecl      ("SFTime", "duration_changed");
-     addEventOutDecl      ("SFBool", "isActive");
+     beginEventOutDecl      ("SFTime", Self::OSGsfTime, "duration_changed");
+     endEventDecl           ();
+
+     beginEventOutDecl      ("SFBool", Self::OSGsfBool, "isActive");
+     endEventDecl           ();
  }
  endProto  ();
 
@@ -903,8 +909,9 @@ PROTO Background [
 
  beginProto("Background");
  {
-     addEventInDecl       ("SFBool", "set_bind");
-     
+     beginEventInDecl       ("SFBool", Self::OSGsfBool, "set_bind"); 
+     endEventDecl           ();
+    
      beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "groundAngle");
      endExposedFieldDecl  ();
 
@@ -936,7 +943,8 @@ PROTO Background [
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
-     addEventOutDecl      ("SFBool", "isBound");
+     beginEventOutDecl    ("SFBool", Self::OSGsfBool, "isBound");
+     endEventDecl         ();
  }
  endProto  ();
 
@@ -954,8 +962,11 @@ PROTO Billboard [
 
  beginProto("Billboard");
  {
-     addEventInDecl       ("MFNode", "addChildren");
-     addEventInDecl       ("MFNode", "removeChildren");
+     beginEventInDecl     ("MFNode", Self::OSGmfNode, "addChildren");
+     endEventDecl         ();
+
+     beginEventInDecl     ("MFNode", Self::OSGmfNode, "removeChildren");
+     endEventDecl         ();
      
      beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "axisOfRotation");
      addFieldValue        ("0 1 0");
@@ -1003,8 +1014,11 @@ PROTO Collision [
 
  beginProto("Collision");
  {
-     addEventInDecl      ("MFNode", "addChildren");
-     addEventInDecl      ("MFNode", "removeChildren");
+     beginEventInDecl      ("MFNode", Self::OSGmfNode, "addChildren");
+     endEventDecl          ();
+
+     beginEventInDecl      ("MFNode", Self::OSGmfNode, "removeChildren");
+     endEventDecl          ();
 
      beginExposedFieldDecl("MFNode", Self::OSGmfNode, "children");
      endExposedFieldDecl  ();
@@ -1024,7 +1038,8 @@ PROTO Collision [
      beginFieldDecl       ("SFNode", Self::OSGsfNode, "proxy");
      endFieldDecl         ();
      
-     addEventOutDecl      ("SFTime", "collideTime");
+     beginEventOutDecl      ("SFTime", OSGsfTime, "collideTime");
+     endEventDecl           ();
  }
  endProto  ();
 
@@ -1052,7 +1067,8 @@ PROTO ColorInterpolator [
 
  beginProto("ColorInterpolator");
  {
-     addEventInDecl       ("SFFloat", "set_fraction");
+     beginEventInDecl     ("SFFloat", OSGsfFloat, "set_fraction");
+     endEventDecl         ();
 
      beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "key");
      endExposedFieldDecl  ();
@@ -1060,7 +1076,8 @@ PROTO ColorInterpolator [
      beginExposedFieldDecl("MFColor", Self::OSGmfColor, "keyValue");
      endExposedFieldDecl  ();
 
-     addEventOutDecl      ("SFColor", "value_changed");
+     beginEventOutDecl    ("SFColor", Self::OSGsfColor, "value_changed");
+     endEventDecl         ();
  }
  endProto  ();
 
@@ -1117,15 +1134,17 @@ PROTO CoordinateInterpolator [
 
  beginProto("CoordinateInterpolator");
  {
-     addEventInDecl       ("SFFloat", "set_fraction");
-     
+     beginEventInDecl     ("SFFloat", Self::OSGsfFloat, "set_fraction");
+     endEventDecl         ();
+    
      beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "key");
      endExposedFieldDecl  ();
 
      beginExposedFieldDecl("MFVec3f", Self::OSGmfVec3f, "keyValue");
      endExposedFieldDecl  ();
 
-     addEventOutDecl      ("MFVec3f", "value_changed");
+     beginEventOutDecl    ("MFVec3f", Self::OSGmfVec3f, "value_changed");
+     endEventDecl         ();
  }
  endProto  ();
 
@@ -1203,9 +1222,16 @@ PROTO CylinderSensor [
      addFieldValue        ("0");
      endExposedFieldDecl  ();
      
-     addEventOutDecl      ("SFBool", "isActive");
-     addEventOutDecl      ("SFRotation", "rotation_changed");
-     addEventOutDecl      ("SFVec3f", "trackPoint_changed");
+     beginEventOutDecl    ("SFBool", Self::OSGsfBool, "isActive");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFRotation",
+                           Self::OSGsfRotation, 
+                           "rotation_changed");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFVec3f", Self::OSGsfVec3f, "trackPoint_changed");
+     endEventDecl         ();
  }
  endProto  ();
 
@@ -1265,7 +1291,8 @@ PROTO ElevationGrid [
 
  beginProto("ElevationGrid");
  {
-     addEventInDecl       ("MFFloat", "set_height");
+     beginEventInDecl     ("MFFloat", Self::OSGmfFloat, "set_height");
+     endEventDecl         ();
 
      beginExposedFieldDecl("SFNode", Self::OSGsfNode, "color");
 //     addFieldValue        ("NULL");
@@ -1341,10 +1368,16 @@ PROTO Extrusion [
 
  beginProto("Extrusion");
  {
-     addEventInDecl("MFVec2f", "set_crossSection");
-     addEventInDecl("MFRotation", "set_orientation");
-     addEventInDecl("MFVec2f", "set_scale");
-     addEventInDecl("MFVec3f", "set_spine");
+     beginEventInDecl("MFVec2f", Self::OSGmfVec2f, "set_crossSection");
+     endEventDecl    ();
+     beginEventInDecl("MFRotation", Self::OSGmfRotation, "set_orientation");
+     endEventDecl    ();
+
+     beginEventInDecl("MFVec2f", Self::OSGmfVec2f, "set_scale");
+     endEventDecl    ();
+
+     beginEventInDecl("MFVec3f", Self::OSGmfVec3f, "set_spine");
+     endEventDecl    ();
 
      beginFieldDecl("SFBool", Self::OSGsfBool, "beginCap");
      addFieldValue ("TRUE");
@@ -1408,8 +1441,11 @@ PROTO Fog [
      addFieldValue        ("0");
      endExposedFieldDecl  ();
 
-     addEventInDecl       ("SFBool", "set_bind");
-     addEventOutDecl      ("SFBool", "isBound");
+     beginEventInDecl     ("SFBool", Self::OSGsfBool, "set_bind");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFBool", Self::OSGsfBool, "isBound");
+     endEventDecl         ();
  }
  endProto  ();
 
@@ -1479,8 +1515,11 @@ PROTO Group [
 
  beginProto("Group");
  {
-     addEventInDecl    ("MFNode", "addChildren");
-     addEventInDecl    ("MFNode", "removeChildren");
+     beginEventInDecl     ("MFNode", Self::OSGmfNode, "addChildren");
+     endEventDecl         ();
+
+     beginEventInDecl     ("MFNode", Self::OSGmfNode, "removeChildren");
+     endEventDecl         ();
  
      beginExposedFieldDecl("MFNode", Self::OSGmfNode, "children");
      endExposedFieldDecl  ();
@@ -1543,10 +1582,17 @@ PROTO IndexedFaceSet [
 
  beginProto("IndexedFaceSet");
  { 
-     addEventInDecl       ("MFInt32", "set_colorIndex");
-     addEventInDecl       ("MFInt32", "set_coordIndex");
-     addEventInDecl       ("MFInt32", "set_normalIndex");
-     addEventInDecl       ("MFInt32", "set_texCoordIndex");
+     beginEventInDecl       ("MFInt32", Self::OSGmfInt32, "set_colorIndex");
+     endEventDecl           ();
+
+     beginEventInDecl       ("MFInt32", Self::OSGmfInt32, "set_coordIndex");
+     endEventDecl           ();
+
+     beginEventInDecl       ("MFInt32", Self::OSGmfInt32, "set_normalIndex");
+     endEventDecl           ();
+
+     beginEventInDecl       ("MFInt32", Self::OSGmfInt32, "set_texCoordIndex");
+     endEventDecl           ();
      
      beginExposedFieldDecl("SFNode", Self::OSGsfNode, "color");
 //     addFieldValue        ("NULL");
@@ -1616,8 +1662,11 @@ PROTO IndexedLineSet [
 
  beginProto("IndexedLineSet");
  {
-     addEventInDecl       ("MFInt32", "set_colorIndex");
-     addEventInDecl       ("MFInt32", "set_coordIndex");
+     beginEventInDecl     ("MFInt32", Self::OSGmfInt32, "set_colorIndex");
+     endEventDecl         ();
+
+     beginEventInDecl     ("MFInt32", Self::OSGmfInt32, "set_coordIndex");
+     endEventDecl         ();
 
      beginExposedFieldDecl("SFNode", Self::OSGsfNode, "color");
 //     addFieldValue        ("NULL");
@@ -1766,8 +1815,11 @@ PROTO MovieTexture [
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
-     addEventOutDecl      ("SFFloat", "duration_changed");
-     addEventOutDecl      ("SFBool", "isActive");
+     beginEventOutDecl    ("SFFloat", Self::OSGsfFloat, "duration_changed");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFBool",  Self::OSGsfBool,  "isActive");
+     endEventDecl         ();
  }
  endProto  ();
 
@@ -1785,7 +1837,8 @@ PROTO NavigationInfo [
 
  beginProto("NavigationInfo");
  {
-     addEventInDecl       ("SFBool", "set_bind");
+     beginEventInDecl     ("SFBool", Self::OSGsfBool, "set_bind");
+     endEventDecl         ();
      
      beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "avatarSize");
      addFieldValue        ("0.25");
@@ -1809,7 +1862,8 @@ PROTO NavigationInfo [
      addFieldValue        ("0.0");
      endExposedFieldDecl  ();
 
-     addEventOutDecl      ("SFBool", "isBound");
+     beginEventOutDecl      ("SFBool", Self::OSGsfBool, "isBound");
+     endEventDecl           ();
  }
  endProto  ();
 
@@ -1837,7 +1891,8 @@ PROTO NormalInterpolator [
 
  beginProto("NormalInterpolator");
  {
-     addEventInDecl       ("SFFloat", "set_fraction");
+     beginEventInDecl     ("SFFloat", Self::OSGsfFloat, "set_fraction");
+     endEventDecl         ();
      
      beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "key");
      endExposedFieldDecl  ();
@@ -1845,7 +1900,8 @@ PROTO NormalInterpolator [
      beginExposedFieldDecl("MFVec3f", Self::OSGmfVec3f, "keyValue");
      endExposedFieldDecl  ();
 
-     addEventOutDecl      ("MFVec3f",  "value_changed");
+     beginEventOutDecl    ("MFVec3f",  Self::OSGmfVec3f, "value_changed");
+     endEventDecl         ();
  }
  endProto  ();
 
@@ -1860,7 +1916,8 @@ PROTO OrientationInterpolator [
 
  beginProto("OrientationInterpolator");
  {
-     addEventInDecl       ("SFFloat", "set_fraction");
+     beginEventInDecl     ("SFFloat", Self::OSGsfFloat, "set_fraction");
+     endEventDecl         ();
 
      beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "key");
      endExposedFieldDecl  ();
@@ -1868,7 +1925,8 @@ PROTO OrientationInterpolator [
      beginExposedFieldDecl("MFRotation", Self::OSGmfRotation, "keyValue");
      endExposedFieldDecl  ();
      
-     addEventOutDecl      ("SFRotation", "value_changed");
+     beginEventOutDecl    ("SFRotation", Self::OSGsfRotation, "value_changed");
+     endEventDecl         ();
  }
  endProto  ();
 
@@ -1931,9 +1989,14 @@ PROTO PlaneSensor [
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
-     addEventOutDecl      ("SFBool", "isActive");
-     addEventOutDecl      ("SFVec3f", "trackPoint_changed");
-     addEventOutDecl      ("SFVec3f", "translation_changed");
+     beginEventOutDecl    ("SFBool", Self::OSGsfBool, "isActive");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFVec3f", Self::OSGsfVec3f, "trackPoint_changed");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFVec3f", Self::OSGsfVec3f, "translation_changed");
+     endEventDecl         ();
  }
  endProto  ();
 
@@ -2012,7 +2075,8 @@ PROTO PositionInterpolator [
 
  beginProto("PositionInterpolator");
  {
-     addEventInDecl       ("SFFloat", "set_fraction");
+     beginEventInDecl     ("SFFloat", Self::OSGsfFloat, "set_fraction");
+     endEventDecl         ();
      
      beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "key");
      endExposedFieldDecl();
@@ -2020,7 +2084,8 @@ PROTO PositionInterpolator [
      beginExposedFieldDecl("MFVec3f", Self::OSGmfVec3f, "keyValue");
      endExposedFieldDecl  ();
 
-     addEventOutDecl      ("SFVec3f", "value_changed");
+     beginEventOutDecl    ("SFVec3f", Self::OSGsfVec3f, "value_changed");
+     endEventDecl         ();
  }
  endProto  ();
 
@@ -2051,11 +2116,22 @@ PROTO ProximitySensor [
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
-     addEventOutDecl      ("SFBool", "isActive");
-     addEventOutDecl      ("SFVec3f", "position_changed");
-     addEventOutDecl      ("SFRotation", "orientation_changed");
-     addEventOutDecl      ("SFTime", "enterTime");
-     addEventOutDecl      ("SFTime", "exitTime");
+     beginEventOutDecl    ("SFBool", Self::OSGsfBool, "isActive");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFVec3f", Self::OSGsfVec3f, "position_changed");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFRotation", 
+                           Self::OSGsfRotation, 
+                           "orientation_changed");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFTime", Self::OSGsfTime, "enterTime");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFTime", Self::OSGsfTime, "exitTime");
+     endEventDecl         ();
  }
  endProto  ();
 
@@ -2070,7 +2146,8 @@ PROTO ScalarInterpolator [
 
  beginProto("ScalarInterpolator");
  {
-     addEventInDecl       ("SFFloat", "set_fraction");
+     beginEventInDecl     ("SFFloat", Self::OSGsfFloat, "set_fraction");
+     endEventDecl         ();
 
      beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "key");
      endExposedFieldDecl  ();
@@ -2078,7 +2155,8 @@ PROTO ScalarInterpolator [
      beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "keyValue");
      endExposedFieldDecl  ();
      
-     addEventOutDecl      ("SFFloat", "value_changed");
+     beginEventOutDecl    ("SFFloat", Self::OSGsfFloat, "value_changed");
+     endEventDecl         ();
  }
  endProto  ();
 
@@ -2222,9 +2300,16 @@ PROTO SphereSensor [
      addFieldValue        ("0 1 0 0");
      endExposedFieldDecl  ();
 
-     addEventOutDecl      ("SFBool", "isActive");
-     addEventOutDecl      ("SFRotation", "rotation_changed");
-     addEventOutDecl      ("SFVec3f", "trackPoint_changed");
+     beginEventOutDecl    ("SFBool", Self::OSGsfBool, "isActive");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFRotation", 
+                           Self::OSGsfRotation, 
+                           "rotation_changed");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFVec3f", Self::OSGsfVec3f, "trackPoint_changed");
+     endEventDecl         ();
  }
  endProto  ();
 
@@ -2410,10 +2495,17 @@ PROTO TimeSensor [
      addFieldValue        ("0");
      endExposedFieldDecl  ();
 
-     addEventOutDecl      ("SFTime", "cycleTime");
-     addEventOutDecl      ("SFFloat", "fraction_changed");
-     addEventOutDecl      ("SFBool", "isActive");
-     addEventOutDecl      ("SFTime", "time");
+     beginEventOutDecl    ("SFTime", Self::OSGsfTime, "cycleTime");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFFloat", Self::OSGsfFloat, "fraction_changed");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFBool", Self::OSGsfBool, "isActive");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFTime", Self::OSGsfTime, "time");
+     endEventDecl         ();
  }
  endProto  ();
  
@@ -2435,12 +2527,23 @@ PROTO TouchSensor [
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
-     addEventOutDecl      ("SFVec3f", "hitNormal_changed");
-     addEventOutDecl      ("SFVec3f", "hitPoint_changed");
-     addEventOutDecl      ("SFVec2f", "hitTexCoord_changed");
-     addEventOutDecl      ("SFBool", "isActive");
-     addEventOutDecl      ("SFBool", "isOver");
-     addEventOutDecl      ("SFTime", "touchTime");
+     beginEventOutDecl    ("SFVec3f", Self::OSGsfVec3f, "hitNormal_changed");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFVec3f", Self::OSGsfVec3f, "hitPoint_changed");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFVec2f", Self::OSGsfVec2f, "hitTexCoord_changed");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFBool", Self::OSGsfBool, "isActive");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFBool", Self::OSGsfBool, "isOver");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFTime", Self::OSGsfTime, "touchTime");
+     endEventDecl         ();
  }
  endProto  ();
 
@@ -2461,8 +2564,11 @@ PROTO Transform [
 
  beginProto("Transform");
  {
-     addEventInDecl       ("MFNode", "addChildren");
-     addEventInDecl       ("MFNode", "removeChildren");
+     beginEventInDecl     ("MFNode", Self::OSGsfNode, "addChildren");
+     endEventDecl         ();
+
+     beginEventInDecl     ("MFNode", Self::OSGsfNode, "removeChildren");
+     endEventDecl         ();
      
      beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "center");
      addFieldValue        ("0 0 0");
@@ -2512,7 +2618,8 @@ PROTO Viewpoint [
 
  beginProto("Viewpoint");
  {
-     addEventInDecl       ("SFBool", "set_bind");
+     beginEventInDecl     ("SFBool", Self::OSGsfBool, "set_bind");
+     endEventDecl         ();
      
      beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "fieldOfView");
      addFieldValue        ("0.785398");
@@ -2534,8 +2641,11 @@ PROTO Viewpoint [
      addFieldValue        ("");
      endFieldDecl         ();
 
-     addEventOutDecl      ("SFTime", "bindTime");
-     addEventOutDecl      ("SFBool", "isBound" );
+     beginEventOutDecl    ("SFTime", Self::OSGsfTime, "bindTime");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFBool", Self::OSGsfBool, "isBound" );
+     endEventDecl         ();
  }
  endProto  ();
 
@@ -2564,9 +2674,14 @@ PROTO VisibilitySensor [
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
-     addEventOutDecl      ("SFTime", "enterTime");
-     addEventOutDecl      ("SFTime", "exitTime" );
-     addEventOutDecl      ("SFBool", "isActive" );
+     beginEventOutDecl    ("SFTime", Self::OSGsfTime, "enterTime");
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFTime", Self::OSGsfTime, "exitTime" );
+     endEventDecl         ();
+
+     beginEventOutDecl    ("SFBool", Self::OSGsfBool, "isActive" );
+     endEventDecl         ();
  }
  endProto  ();
 

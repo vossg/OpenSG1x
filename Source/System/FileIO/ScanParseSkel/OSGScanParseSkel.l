@@ -228,7 +228,7 @@ header (#[^\n]*\n)
                     }
                   }
 
-<*>"IS" { BEGIN NODE; expectToken = 0; fprintf(stderr, "bar\n"); return IS; }
+<*>"IS" { BEGIN NODE; expectToken = 0; return IS; }
 
  /* Der Lexer ist im Zustand NODE, wenn Knosten gelesen werden. */
  /* Hierbei gibt es drei Moeglichkeiten: Wurzelknoten im der */

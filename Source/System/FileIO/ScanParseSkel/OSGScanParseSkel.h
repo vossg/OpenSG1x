@@ -151,31 +151,56 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     /*! \name                     Prototypes                               */
     /*! \{                                                                 */
 
-    virtual bool verifyHeader          (const Char8 *szHeader);
+    virtual bool verifyHeader             (const Char8 *szHeader);
 
-    virtual void beginProto            (const Char8 *szProtoname);
-    virtual void endProto              (void);
+    virtual void beginProto               (const Char8 *szProtoname);
+    virtual void endProto                 (void);
 
-    virtual void beginScript           (const Char8 *szProtoname);
-    virtual void endScript             (void);
+    virtual void beginExternProto         (const Char8 *szProtoname);
+    virtual void endExternProtoInterface  (void                    );
+    virtual void endExternProto           (void                    );
 
-    virtual void addEventInDecl        (const Char8 *szEventType,
-                                        const Char8 *szEventName); 
+    virtual void beginScript              (const Char8 *szProtoname);
+    virtual void endScript                (void);
 
-    virtual void addEventOutDecl       (const Char8 *szEventType,
-                                        const Char8 *szEventName); 
+    virtual void beginEventInDecl         (const Char8  *szEventType,
+                                           const UInt32  uiFieldTypeId,
+                                           const Char8  *szEventName); 
 
-    virtual void beginFieldDecl        (const Char8  *szFieldType,
-                                        const UInt32  uiFieldTypeId,
-                                        const Char8  *szFieldName); 
+    virtual void beginEventOutDecl        (const Char8  *szEventType,
+                                           const UInt32  uiFieldTypeId,
+                                           const Char8  *szEventName); 
 
-    virtual void endFieldDecl          (void);
+    virtual void endEventDecl             (void);
 
-    virtual void beginExposedFieldDecl (const Char8  *szFieldType,
-                                        const UInt32  uiFieldTypeId,
-                                        const Char8  *szFieldName); 
+    virtual void beginFieldDecl           (const Char8  *szFieldType,
+                                           const UInt32  uiFieldTypeId,
+                                           const Char8  *szFieldName); 
 
-    virtual void endExposedFieldDecl   (void);
+    virtual void endFieldDecl             (void);
+
+    virtual void beginExposedFieldDecl    (const Char8  *szFieldType,
+                                           const UInt32  uiFieldTypeId,
+                                           const Char8  *szFieldName); 
+
+    virtual void endExposedFieldDecl      (void);
+
+
+    virtual void addExternEventInDecl     (const Char8  *szEventType,
+                                           const UInt32  uiFieldTypeId,
+                                           const Char8  *szEventName); 
+
+    virtual void addExternEventOutDecl    (const Char8  *szEventType,
+                                           const UInt32  uiFieldTypeId,
+                                           const Char8  *szEventName); 
+
+    virtual void addExternFieldDecl       (const Char8  *szFieldType,
+                                           const UInt32  uiFieldTypeId,
+                                           const Char8  *szFieldName); 
+
+    virtual void addExternExposedFieldDecl(const Char8  *szFieldType,
+                                           const UInt32  uiFieldTypeId,
+                                           const Char8  *szFieldName); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -114,10 +114,12 @@ class VRMLNodeFactory : public BaseT
     virtual void beginProto            (const Char8 *szProtoname);
     virtual void endProto              (      void);
 
-    virtual void addEventInDecl        (const Char8 *szEventType,
+    virtual void beginEventInDecl      (const Char8 *szEventType,
+                                        const UInt32  uiFieldTypeId,
                                         const Char8 *szEventName); 
 
-    virtual void addEventOutDecl       (const Char8 *szEventType,
+    virtual void beginEventOutDecl     (const Char8 *szEventType,
+                                        const UInt32  uiFieldTypeId,
                                         const Char8 *szEventName); 
 
     virtual void beginFieldDecl        (const Char8  *szFieldType,

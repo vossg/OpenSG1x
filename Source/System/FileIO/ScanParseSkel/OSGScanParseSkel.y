@@ -273,17 +273,27 @@ restrictedInterfaceDeclaration : EVENTIN
                                  fieldType  { setName(szName1, 
                                                       OSGScanParseSkel_text); }
                                  eventInId  { if(_pSkel != NULL)
-                                               _pSkel->addEventInDecl(
+                                              {
+                                               _pSkel->beginEventInDecl(
                                                 szName1,
+                                                nextType,
                                                 OSGScanParseSkel_text); 
+
+                                               _pSkel->endEventDecl();
+                                              }
                                               freeName(szName1); }
                                | EVENTOUT 
                                  fieldType  { setName(szName1, 
                                                       OSGScanParseSkel_text); }
                                  eventOutId { if(_pSkel != NULL)
-                                               _pSkel->addEventOutDecl(
+                                              {
+                                               _pSkel->beginEventOutDecl(
                                                 szName1,
+                                                nextType,
                                                 OSGScanParseSkel_text); 
+
+                                               _pSkel->endEventDecl();
+                                              }
                                               freeName(szName1); }
                                | FIELD    
                                  fieldType  { setName(szName1, 
@@ -318,11 +328,22 @@ interfaceDeclaration : restrictedInterfaceDeclaration
 ;
 
 externproto : EXTERNPROTO 
-              nodeTypeId 
+              nodeTypeId { if(_pSkel != NULL) 
+                             _pSkel->beginExternProto(OSGScanParseSkel_text); }
               OPENBRACKET 
               externInterfaceDeclarationsORempty
               CLOSEBRACKET 
+              {
+                 if(_pSkel != NULL) 
+                     _pSkel->endExternProtoInterface(); 
+
+                 expectType(TOK_MFSTRING); 
+              }
               URLList 
+              {
+                 if(_pSkel != NULL) 
+                     _pSkel->endExternProto(); 
+              }
 ;
 
 externInterfaceDeclarationsORempty : externInterfaceDeclarations
@@ -334,10 +355,42 @@ externInterfaceDeclarations :
     |                               externInterfaceDeclaration
 ;
 
-externInterfaceDeclaration : EVENTIN      fieldType eventInId 
-                           | EVENTOUT     fieldType eventOutId 
-                           | FIELD        fieldType fieldId 
-                           | EXPOSEDFIELD fieldType fieldId 
+externInterfaceDeclaration : EVENTIN      
+                             fieldType { setName(szName1, 
+                                                 OSGScanParseSkel_text); }
+                             eventInId { if(_pSkel != NULL)
+                                               _pSkel->addExternEventInDecl(
+                                                szName1,
+                                                nextType,
+                                                OSGScanParseSkel_text); 
+                                         freeName(szName1); }
+                           | EVENTOUT     
+                             fieldType { setName(szName1, 
+                                                 OSGScanParseSkel_text); }
+                             eventOutId { if(_pSkel != NULL)
+                                               _pSkel->addExternEventOutDecl(
+                                                szName1,
+                                                nextType,
+                                                OSGScanParseSkel_text); 
+                                          freeName(szName1); }
+                           | FIELD        
+                             fieldType { setName(szName1, 
+                                                 OSGScanParseSkel_text); }
+                             fieldId   { if(_pSkel != NULL)
+                                               _pSkel->addExternFieldDecl(
+                                                szName1,
+                                                nextType,
+                                                OSGScanParseSkel_text); 
+                                         freeName(szName1); } 
+                           | EXPOSEDFIELD 
+                             fieldType { setName(szName1, 
+                                                 OSGScanParseSkel_text); }
+                             fieldId { if(_pSkel != NULL)
+                                             _pSkel->addExternExposedFieldDecl(
+                                                 szName1,
+                                                 nextType,
+                                                 OSGScanParseSkel_text); 
+                                       freeName(szName1); }
 ;
 
 routeStatement : ROUTE 
@@ -404,8 +457,9 @@ resInterfaceDeclarationScriptEvent : EVENTIN
                                      fieldType  { setName(szName1, 
                                                      OSGScanParseSkel_text); } 
                                      eventInId  { if(_pSkel != NULL)
-                                                     _pSkel->addEventInDecl(
+                                                     _pSkel->beginEventInDecl(
                                                        szName1,
+                                                       nextType,
                                                        OSGScanParseSkel_text); 
 
                                                  freeName(szName1); }
@@ -413,15 +467,29 @@ resInterfaceDeclarationScriptEvent : EVENTIN
                                      fieldType  { setName(szName1, 
                                                       OSGScanParseSkel_text); }
                                      eventOutId { if(_pSkel != NULL)
-                                                     _pSkel->addEventOutDecl(
+                                                     _pSkel->beginEventOutDecl(
                                                        szName1,
+                                                       nextType,
                                                        OSGScanParseSkel_text); 
 
                                                   freeName(szName1); }
 ;
 
 resInterfaceDeclarationScriptEventEnd : IS eventId 
+                                        { 
+                                          if(_pSkel != NULL)
+                                          {
+                                             _pSkel->is(OSGScanParseSkel_text);
+                                             _pSkel->endEventDecl(); 
+                                          }
+                                        }
                                       |
+                                        { 
+                                            if(_pSkel != NULL)
+                                            {
+                                                _pSkel->endEventDecl(); 
+                                            }
+                                        }
 ;
 
 resInterfaceDeclarationScriptField : FIELD     
@@ -623,11 +691,23 @@ fieldValue : TOK_SFBOOL
 
 sfnodeValue : nodeStatement 
             | IS generalId
+              {
+                  if(_pSkel != NULL)
+                  {
+                      _pSkel->is(OSGScanParseSkel_text);
+                  }
+              }
             | SFN_NULL
 ;
 
 mfnodeValue : nodeStatement   
             | IS generalId          
+              {
+                  if(_pSkel != NULL)
+                  {
+                      _pSkel->is(OSGScanParseSkel_text);
+                  }
+              }
             | OPENBRACKET nodeStatementsORempty CLOSEBRACKET
 ;
 
