@@ -461,14 +461,14 @@ ifeq ($(OS),IRIX64)
 endif
 #-- Linux -----------------------------------------------------------
 ifeq ($(OS),Linux)
-	GCC 		= $(GCCPATH)/bin/gcc
-	GCXX 		= $(GCCPATH)/bin/g++
+	GCC 		= gcc
+	GCXX 		= g++
   GCFLAGS = -c -o $@ -D$(OS)_OS -Wall -fPIC -ffast-math -funroll-loops -frtti -Wno-unknown-pragmas -I.
   ifeq ($(TEMPDB),YES)
 	  GCFLAGS += -fno-implicit-templates
   endif
-	GLD			= $(GCCPATH)/bin/gcc
-	GSO     = $(GCCHOME)/bin/gcc -shared
+	GLD			= gcc
+	GSO     = gcc -shared
 
 	NCC 		= gcc
 	NCXX 		= g++
