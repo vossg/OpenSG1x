@@ -2,6 +2,7 @@
 #include <GL/glut.h>
 #include <OSGLog.h>
 
+#include <OSGDrawAction.h>
 #include "OSGState.h"
 #include "OSGStateChunk.h"
 #include "OSGTransformChunk.h"
@@ -16,6 +17,8 @@ GLint dlid;
 
 StatePtr state1, state2;
 
+DrawAction * dact;
+
 void 
 display(void)
 {
@@ -23,7 +26,7 @@ display(void)
 
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	state1->activate();
+	state1->activate( dact );
 
 	glCallList( dlid );
 
@@ -31,11 +34,11 @@ display(void)
 	m.setTranslate( cos(t/1000), 0, sin(t/1000) );
 	tchunk2->setMatrix( m );
 
-	state2->changeFrom( state1.getCPtr() );
+	state2->changeFrom(  dact ,state1.getCPtr() );
 
 	glCallList( dlid );
 
-	state2->deactivate();
+	state2->deactivate( dact );
 
 	glutSwapBuffers();
 }
@@ -72,6 +75,8 @@ int main( int argc, char *argv[] )
 	glNewList( dlid, GL_COMPILE );
 	glutSolidSphere( .8, 8, 8 );
 	glEndList();
+
+	dact = DrawAction::create();
 
 	Matrix m;
 
