@@ -572,9 +572,12 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
         if(sortKey >= rsize)
         {
             _pTransMatRoots.resize(sortKey + 1);
-            for(UInt32 i=rsize;i<sortKey;++i)
+            for(UInt32 i=rsize;i<=sortKey;++i)
                 _pTransMatRoots[i] = NULL;
-
+        }
+        
+        if(_pTransMatRoots[sortKey] == NULL)
+        {
 #if defined(OSG_OPT_DRAWTREE)
             _pTransMatRoots[sortKey] = _pNodeFactory->create();
 #else
@@ -661,8 +664,12 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             if(sortKey >= rsize)
             {
                 _pMatRoots.resize(sortKey + 1);
-                for(UInt32 i=rsize;i<sortKey;++i)
+                for(UInt32 i=rsize;i<=sortKey;++i)
                     _pMatRoots[i] = NULL;
+            }
+
+            if(_pMatRoots[sortKey] == NULL)
+            {
 #if defined(OSG_OPT_DRAWTREE)
                 _pMatRoots[sortKey] = _pNodeFactory->create();
 #else
