@@ -147,6 +147,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                       Children                               */
+    /*! \{                                                                 */
+
+    NodePtr clone(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                     Access Fields                            */
     /*! \{                                                                 */
 
@@ -286,6 +293,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /* prohibit default function (move to 'public' if needed) */
     void operator =(const Node &source);
 };
+
+NodePtr cloneTree(NodePtr pRootNode);
 
 OSG_END_NAMESPACE
 

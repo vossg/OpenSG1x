@@ -157,8 +157,6 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     
     NodePtr getRoot                 (void);
     
-    NodePtr cloneTree               (NodePtr pRootNode);
-    
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:

@@ -455,6 +455,11 @@ MFNodePtr *Node::getMFChildren(void)
     return &_children;
 }
 
+NodePtr Node::clone(void)
+{
+    return cloneTree(getPtr());
+}
+
 /*-------------------------------------------------------------------------*/
 /*                           Get Transformation                            */
 
@@ -841,3 +846,31 @@ NodePtr Node::getPtr(void)
     return NodePtr(*this);
 }
 
+
+
+NodePtr OSG::cloneTree(NodePtr pRootNode)
+{
+    NodePtr returnValue = NullFC;
+
+    if(pRootNode != NullFC)
+    {
+        NodePtr pChildClone = NullFC;
+
+        returnValue = Node::create();
+
+        beginEditCP(returnValue);
+        {
+            returnValue->setCore(pRootNode->getCore());
+            
+            for(UInt32 i = 0; i < pRootNode->getNChildren(); i++)
+            {
+                pChildClone = cloneTree(pRootNode->getChild(i));
+                
+                returnValue->addChild(pChildClone);
+            }
+        }
+        endEditCP  (returnValue);
+    }
+
+    return returnValue;
+}

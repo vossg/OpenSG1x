@@ -2560,31 +2560,6 @@ NodePtr VRMLFile::getRoot(void)
     return _pSceneRootNode;
 }
 
-NodePtr VRMLFile::cloneTree(NodePtr pRootNode)
-{
-    NodePtr returnValue = NullFC;
-
-    if(pRootNode != NullFC)
-    {
-        NodePtr pChildClone = NullFC;
-
-        returnValue = Node::create();
-
-        beginEditCP(returnValue);
-        returnValue->setCore(pRootNode->getCore());
-
-        for(UInt32 i = 0; i < pRootNode->getNChildren(); i++)
-        {
-            pChildClone = cloneTree(pRootNode->getChild(i));
-            
-            returnValue->addChild(pChildClone);
-        }
-        endEditCP(returnValue);
-    }
-
-    return returnValue;
-}
-
 /*-------------------------------------------------------------------------*/
 /*                           Member                                        */
 
