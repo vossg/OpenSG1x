@@ -10,17 +10,17 @@ using namespace OSG;
 
 \section TutorialWhatIsOpenSG What is OpenSG
 
-OpenSG is an open source real-time rendering system based on a scenegraph metaphor on top of OpenGL. So 
-what is the difference compared to OpenGL? OpenGL is a state machine and that means it does not know 
-anything about the environment. OpenGL is only aware of the polygon just being calculated and drawn, it 
-does not know what was and what will come. Here comes the strength of a scenegraph system. OpenSG stores 
-the whole scene in a graph (now you get where the name is from) and thus can optimize the way data
-is passed to the graphics hardware. It is even possible (and extrem useful) to check if parts of
-the scene are not visible, like a desk behind a closed door. The rendering for these parts can be
+OpenSG is an open source real-time rendering system based on a scenegraph metaphor on top of OpenGL. But 
+what is actually the difference compared to OpenGL? OpenGL is a state machine which means it does not know 
+anything about the environment. OpenGL is only aware of the triangle just being calculated and drawn, it 
+has no knowledge about the past nor the future. Here comes the strength of a scenegraph system into play. 
+OpenSG stores the whole scene in a graph (now you get where the name is derived from) and thus can optimize 
+the way data is passed to the graphics hardware. With that it is possible (and extremly useful) to check if 
+parts of the scene are not visible, like a desk behind a closed door. The entire rendering for such parts can be
 skipped completely, resulting in a great increase of performance depending on the scene.
 
-Of course OpenSG is not the only scenegraph based system. Applications like Performer, OpenInventor and
-Java3D, to name a few, are using similar techniques. As always every system has its own advantages
+Of course OpenSG is not the only scenegraph based system. Libraries like Performer, OpenInventor and
+Java3D, to name a few, are all based on the same idea. As always every system has its own advantages
 and disadvantages. In case of OpenSG the biggest advantages are lieing in the ability to handle a cluster 
 and multithreaded data structures in a very easy and still efficient way. In addition it works seamlessly
 on heterogeneous networks, so multiple computers with different graphic cards can drive one and the
@@ -29,11 +29,11 @@ to the other scenegraph systems mentioned, OpenSG has only few disadvantages. So
 functionality due to their much earlier date of release, but this will vanish as OpenSG hits version
 1.3 and above. In my personal opinion the biggest problem with OpenSG was the lack of a good documentation,
 because the learning curve was very hard at the beginning. This makes it especially difficult for new
-users to get started. It is my goal to turn this disadvantage into the opposite ;-)
+users to get started. It is my goal to fight this disadvantage by writing this online tutorial ;-)
 
 Some last words in general : OpenSG runs on various Unix systems as well as on Windows. If you are
 using Windows you need the Microsdoft Visual Studio compiler version 7 or above, whereas on Unix you
-only need the gcc compiler and a few libraries like GLUT or Qt and some image libries which are 
+only need the gcc compiler (3.x +) and a few libraries like GLUT or Qt and some image libries which are 
 installed on most Unix systems by default. For more detailed instructions, see \ref TutorialInstallation
 
 \section TutorialWhatIsopenSGNot What is OpenSG not?
