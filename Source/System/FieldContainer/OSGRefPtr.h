@@ -56,7 +56,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 template< class Ref >
-class OSG_SYSTEMLIB_DLLMAPPING RefPtr
+class RefPtr
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -111,6 +111,6 @@ OSG_END_NAMESPACE
 
 #include "OSGRefPtr.inl"
 
-#define OSGREFPTR_HEADER_CVSID "@(#)$Id: OSGRefPtr.h,v 1.1 2003/11/07 20:52:23 dirk Exp $"
+#define OSGREFPTR_HEADER_CVSID "@(#)$Id: OSGRefPtr.h,v 1.2 2003/11/20 09:38:45 a-m-z Exp $"
 
 #endif /* _OSGCOREDNODEPTR_H_ */
