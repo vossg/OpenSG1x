@@ -80,6 +80,9 @@ namespace
 /*! \class osg::ThreadCommonBase
  */
 
+const UInt32 ThreadCommonBase::InvalidAspect = 
+    TypeConstants<UInt32>::getAllSet();
+
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */
 
@@ -644,14 +647,12 @@ MPThreadType Thread::_type("OSGThread",
                            (CreateThreadF)  Thread::create,
                            (InitThreadingF) Thread::initThreading);
 
-const UInt32 Thread::InvalidAspect = TypeConstants<UInt32>::getAllSet();
-
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */
 
-Thread  *Thread::getCurrent(void)
+ThreadBase *Thread::getCurrent(void)
 {
-    return static_cast<Thread *>(Inherited::getCurrent());
+    return static_cast<ThreadBase *>(Inherited::getCurrent());
 }
 
 Thread *Thread::get(const Char8 *szName)
@@ -733,6 +734,116 @@ Thread::Thread(const Char8 *szName, UInt32 uiId) :
 /*                             Destructor                                  */
 
 Thread::~Thread(void)
+{
+}
+
+
+/*! \class osg::ExternalThread
+ */
+
+MPThreadType ExternalThread::_type("OSGExternalThread", 
+                                   "OSGMPBase", 
+                                   (CreateThreadF)  ExternalThread::create,
+                                   NULL);
+
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
+
+ThreadBase *ExternalThread::getCurrent(void)
+{
+    return static_cast<ThreadBase *>(Inherited::getCurrent());
+}
+
+ExternalThread *ExternalThread::get(const Char8 *szName)
+{
+    BaseThread *pThread = ThreadManager::the()->getThread(szName, 
+                                                          "OSGExternalThread");
+
+    return dynamic_cast<ExternalThread *>(pThread);
+}
+
+ExternalThread *ExternalThread::find(const Char8 *szName)
+{
+    BaseThread *pThread = ThreadManager::the()->findThread(szName);
+
+    return dynamic_cast<ExternalThread *>(pThread);
+}
+
+void ExternalThread::initialize(UInt32 uiAspectId)
+{
+    Inherited::setAspect(uiAspectId);
+    
+    this->init();    
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Setup                                     */
+
+ExternalThread *ExternalThread::create(const Char8 *szName, 
+                                             UInt32 uiId)
+{
+    return new ExternalThread(szName, uiId);
+}
+
+#if 0
+void ExternalThread::initThreading(void)
+{
+    FINFO(("Thread::initThreading\n"))
+
+#ifdef OSG_ASPECT_USE_PTHREADKEY
+    int rc; 
+
+    rc = pthread_key_create(&(Thread::_aspectKey), 
+                              Thread::freeAspect);
+
+    FFASSERT((rc == 0), 1, ("Failed to create pthread aspect key\n");)
+
+    rc = pthread_key_create(&(Thread::_changeListKey), 
+                              Thread::freeChangeList);
+
+    FFASSERT((rc == 0), 1, ("Failed to create pthread changelist key\n");)
+#endif
+
+#ifdef OSG_ASPECT_USE_PTHREADSELF
+
+    Thread::_vAspects    .resize(16);
+    Thread::_vChangelists.resize(16);
+
+    for(UInt32 i = 0; i < 16; i++)
+    {
+        Thread::_vAspects[i]     = 0;
+        Thread::_vChangelists[i] = NULL;
+    }
+#endif
+
+#if defined (OSG_ASPECT_USE_LOCALSTORAGE)       
+    Thread::_aspectKey     = TlsAlloc();
+
+    FFASSERT((Thread::_aspectKey != 0xFFFFFFFF), 1, 
+             ("Failed to alloc aspect key local storage\n");)
+
+    Thread::_changeListKey = TlsAlloc();
+
+    FFASSERT((Thread::_changeListKey != 0xFFFFFFFF), 1, 
+             ("Failed to alloc changelist key local storage\n");)
+#endif
+
+    ThreadManager::setAppThreadType("OSGThread");
+}
+#endif
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
+
+ExternalThread::ExternalThread(const Char8 *szName, UInt32 uiId) :
+    Inherited(szName, uiId)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+ExternalThread::~ExternalThread(void)
 {
 }
 

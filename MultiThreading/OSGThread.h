@@ -74,6 +74,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ThreadCommonBase : public BaseThread
     /*==========================  PUBLIC  =================================*/
   public :
 
+    static const UInt32 InvalidAspect;
+
     /*---------------------------------------------------------------------*/
     /*! \name                      Get                                     */
     /*! \{                                                                 */
@@ -440,16 +442,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Thread : public ThreadBase
 
     typedef      MPThreadType Type;
 
-    static const UInt32       InvalidAspect;
-
     /*---------------------------------------------------------------------*/
     /*! \name                      Get                                     */
     /*! \{                                                                 */
     
-    static Thread *getCurrent(void);
+    static ThreadBase *getCurrent(void);
 
-    static Thread *get       (const Char8 *szName);
-    static Thread *find      (const Char8 *szName);
+    static Thread     *get       (const Char8 *szName);
+    static Thread     *find      (const Char8 *szName);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -497,6 +497,86 @@ class OSG_SYSTEMLIB_DLLMAPPING Thread : public ThreadBase
     Thread(const Thread &source);
     /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const Thread &source);
+};
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+//! ExternalThread
+//! \ingroup BaseThreading
+
+class OSG_SYSTEMLIB_DLLMAPPING ExternalThread : public ThreadBase
+{
+    /*==========================  PUBLIC  =================================*/
+  public :
+
+    typedef MPThreadType Type;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Get                                     */
+    /*! \{                                                                 */
+    
+    static ThreadBase     *getCurrent(void);
+
+    static ExternalThread *get       (const Char8 *szName);
+    static ExternalThread *find      (const Char8 *szName);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Get                                     */
+    /*! \{                                                                 */
+
+    void initialize(UInt32 uiAspectId);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    typedef ThreadBase Inherited;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    static MPThreadType _type;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Init                                    */
+    /*! \{                                                                 */
+
+    static ExternalThread *create       (const Char8 *szName, UInt32 uiId);
+
+//    static void            initThreading(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    ExternalThread(const Char8 *szName, UInt32 uiId);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    virtual ~ExternalThread(void);
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    friend class ThreadManager;
+    friend class MPFieldStore<BaseThread>;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    ExternalThread(const ExternalThread &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const ExternalThread &source);
 };
 
 OSG_END_NAMESPACE
