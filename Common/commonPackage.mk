@@ -7,6 +7,7 @@ INCL_$(OS_BASE) += $(call buildIncPath,$(INCL_DIR))
 
 else
 
+ifeq ($(MAKE_OLD_DOLLAR),1)
 INCL_DIR := $$
 
 ifeq ($(OS_BASE), cygwin)
@@ -17,6 +18,17 @@ INCL_DIR := "$(INCL_DIR)$(INCL_DIR)BD\$(shell cygpath -w $(SUB_DIR))"
 endif
 else
 INCL_DIR := $(INCL_DIR)$(INCL_DIR)BD/$(SUB_DIR)
+endif
+else
+ifeq ($(OS_BASE), cygwin)
+ifeq ($(OS_CMPLR),g++)
+INCL_DIR := $$BD/$(SUB_DIR)
+else
+INCL_DIR := "$$BD\$(shell cygpath -w $(SUB_DIR))"
+endif
+else
+INCL_DIR := $$BD/$(SUB_DIR)
+endif
 endif
 
 INCL_$(OS_BASE) += $(call buildIncPathPlain,$(INCL_DIR)) 

@@ -73,3 +73,36 @@ endif
 ifeq ($(DEBUG_MAKE),1)
 $(warning DBG=$(DBG))
 endif
+
+MAKEMAJOR := \
+	$(shell $(MAKE) --version | head -1 | cut -d' ' -f 4 | cut -d'.' -f 1)
+
+MAKEMINOR := \
+	$(shell $(MAKE) --version | head -1 | cut -d' ' -f 4 | cut -d'.' -f 2)
+
+ifeq ($(MAKEMAJOR),)
+MAKEMAJOR := \
+	$(shell $(MAKE) --version | head -1 | cut -d' ' -f 3 | cut -d'.' -f 1)
+
+MAKEMINOR := \
+	$(shell $(MAKE) --version | head -1 | cut -d' ' -f 3 | cut -d'.' -f 2)
+endif
+
+
+MAKEMAJOR := $(strip $(MAKEMAJOR))
+MAKEMINOR := $(strip $(MAKEMINOR))
+
+ifeq ($(MAKEMAJOR),3)
+
+MAKE_OLD_DOLLAR := 1
+
+ifeq ($(MAKEMINOR),80)
+MAKE_OLD_DOLLAR := 0
+endif
+
+else
+$(error Unknown GNU make major version $(MAKEMAJOR) please contact info@opensg.org)
+endif
+
+$(warning --$(MAKEMAJOR)--$(MAKEMINOR)--$(MAKE_OLD_DOLLAR))
+
