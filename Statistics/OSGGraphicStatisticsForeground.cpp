@@ -40,6 +40,8 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#ifndef WIN32
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
@@ -1407,7 +1409,7 @@ string GraphicStatisticsForeground::real2String(Real32 value, char* format)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.9 2002/07/31 07:15:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.10 2002/07/31 07:32:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 
@@ -1418,3 +1420,4 @@ namespace
 #pragma reset woff 1174
 #endif
 
+#endif
