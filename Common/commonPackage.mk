@@ -8,9 +8,18 @@ INCL_$(OS_BASE) += $(call buildIncPath,$(INCL_DIR))
 else
 
 INCL_DIR := $$
-INCL_DIR := $(INCL_DIR)$(INCL_DIR)BD/$(SUB_DIR)
 
-INCL_$(OS_BASE) += $(call buildIncPath,$(INCL_DIR)) 
+ifeq ($(OS_BASE), cygwin)
+ifeq ($(OS_CMPLR),g++)
+INCL_DIR := $(INCL_DIR)$(INCL_DIR)BD/$(SUB_DIR)
+else
+INCL_DIR := "$(INCL_DIR)$(INCL_DIR)BD\$(shell cygpath -w $(SUB_DIR))"
+endif
+else
+INCL_DIR := $(INCL_DIR)$(INCL_DIR)BD/$(SUB_DIR)
+endif
+
+INCL_$(OS_BASE) += $(call buildIncPathPlain,$(INCL_DIR)) 
 
 endif
 

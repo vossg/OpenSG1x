@@ -20,7 +20,16 @@ else
 LIB_CDEF = 
 endif
 
+ifeq ($(OS_BASE), cygwin)
+ifeq ($(OS_CMPLR),g++)
 BD := $(OSGPOOL)
+else
+BD := $(shell cygpath -w $(OSGPOOL))
+endif
+else
+BD := $(OSGPOOL)
+endif
+
 export BD
 
 ifeq ($(OS_BASE), cygwin)
