@@ -60,6 +60,9 @@ class DrawActionBase;
 class TriangleIterator;
 class PrimitiveIterator;
 class FaceIterator;
+class LineIterator;
+class EdgeIterator;
+
 
 /*! The Geometry class, see \ref PageSystemGeometry for a description.
 */
@@ -153,6 +156,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 
     FaceIterator       beginFaces       (void) const;
     FaceIterator       endFaces         (void) const;
+
+    LineIterator       beginLines       (void) const;
+    LineIterator       endLines         (void) const;
+
+    EdgeIterator       beginEdges       (void) const;
+    EdgeIterator       endEdges         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -332,12 +332,33 @@ splits the geometry into triangles or quads.
 
 \subsection PageSystemTriangleIterator Triangle Iterator
 
-The osg::TriangleIterator behaves like the FaceIterator, but it also splits
+The osg::TriangleIterator behaves like the osg::FaceIterator, but it also splits
 Quads into two triangles, thus it does an implicit triangulation. As OpenSG
 just like OpenGL doesn't support concave geometry that's not as hard as it
 sounds.
 
-The iterators can also be used to indicate a specific primitive/face/triangle.
+\subsection PageSystemLineIterator Line Iterator
+
+The osg::LineIterator only iterates over line geometry and ignores points,
+polygonal primitives and line primitives with less than two vertices. It
+splits line strips and loops into single lines.
+
+\subsection PageSystemEdgeIterator Edge Iterator
+
+The osg::EdgeIterator (currently) only iterates over line geometry and ignores
+points, polygonal primitives and line primitives with less than two
+vertices like the osg::LineIterator does, but it leaves line strips and loops
+as they are. This iterator will make more sense in a future version, where it
+returns the edges of the other primitives as single lines or line loops as
+well.
+
+\dev For all polygonal primitives probably except GL_POLYGON itself the edges
+could be returned as single lines conceptually similar to the implicit
+triangulation of the osg::TriangleIterator. For a polygon it seems reasonable
+to me to reinterpret it as line loop. Shouldn't we overload getType() to return
+the interpretation? \enddef
+
+The iterators can also be used to indicate a specific primitive/face/triangle/line.
 Each of these has an associated index that the iterator keeps and that can be
 accessed using getIndex(). A new iterator can be used to seek() a given
 primitive/face/triangle again and work on it. This is used for example in the

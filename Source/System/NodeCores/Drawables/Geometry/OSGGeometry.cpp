@@ -65,6 +65,8 @@
 #include "OSGPrimitiveIterator.h"
 #include "OSGTriangleIterator.h"
 #include "OSGFaceIterator.h"
+#include "OSGLineIterator.h"
+#include "OSGEdgeIterator.h"
 
 #include "OSGGeoPropPtrs.h"
 OSG_USING_NAMESPACE
@@ -1294,6 +1296,54 @@ FaceIterator Geometry::endFaces(void) const
 
     it.setToEnd();
 
+    return it;
+}
+
+/*---------------------------- Line Iterator ---------------------------------*/
+
+/*! Return a LineIterator poiting to the beginning of the Geometry.
+*/
+LineIterator Geometry::beginLines(void) const
+{
+    LineIterator it(this->getPtr());
+
+    it.setToBegin();
+    
+    return it;
+}
+
+/*! Return a LineIterator poiting to the end of the Geometry.
+*/
+LineIterator Geometry::endLines(void) const
+{
+    LineIterator it(this->getPtr());
+
+    it.setToEnd();
+    
+    return it;
+}
+
+/*---------------------------- Edge Iterator ---------------------------------*/
+
+/*! Return a EdgeIterator poiting to the beginning of the Geometry.
+*/
+EdgeIterator Geometry::beginEdges(void) const
+{
+    EdgeIterator it(this->getPtr());
+
+    it.setToBegin();
+    
+    return it;
+}
+
+/*! Return a EdgeIterator poiting to the end of the Geometry.
+*/
+EdgeIterator Geometry::endEdges(void) const
+{
+    EdgeIterator it(this->getPtr());
+
+    it.setToEnd();
+    
     return it;
 }
 
