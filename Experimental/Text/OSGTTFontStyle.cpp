@@ -281,8 +281,8 @@ bool TTFontStyle::createTXFMap(UChar8 *characters, Int32 gap)
                 for(j = i + 1; j < numCreated; j++)
                 {
                     if(createdIndices[j] &&
-                                           _imageGlyphs[createdIndices[j]]->getImageSize()
-                                               [0] < spaceLeft)
+                       _imageGlyphs[createdIndices[j]]->getImageSize()[0] < 
+                            spaceLeft)
                     {
                         current = createdIndices[j];
                         createdIndices[j] = 0;

@@ -883,7 +883,7 @@ bool Text::fillGeo(Geometry & mesh, vector<string> &lineVec,
                    creationMode == FILL_TEX_ALL_MCM)
         {
             mesh.getIndexMapping().push_back(Geometry::MapPosition | 
-                                             Geometry::MapTexcoords);
+                                             Geometry::MapTexCoords);
         }
         else
         {
