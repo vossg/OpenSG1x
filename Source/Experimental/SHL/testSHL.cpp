@@ -167,9 +167,6 @@ int main(int argc, char **argv)
         matc->setLit(true);
     endEditCP(matc);
 
-    // we use the glstate in the cg program so we force
-    // to use the CG_PROFILE_ARBVP1 and CG_PROFILE_ARBFP1 extensions.
-
     SHLChunkPtr shl = SHLChunk::create();
     beginEditCP(shl);
         shl->setVertexProgram(_vp_program);
