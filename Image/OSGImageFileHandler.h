@@ -53,6 +53,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+class PathHandler;
 
 class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
 
@@ -79,7 +80,15 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
 
     virtual Bool    write ( const Image &image,
                             const char *fileName, const char *mimeType = 0);
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   PathHandler                                */
+    /*! \{                                                                 */
 
+    virtual PathHandler* getPathHandler(void                     );
+    virtual void         setPathHandler(PathHandler *pPathHandler);
+    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Storage                                  */
@@ -145,6 +154,8 @@ private:
     map    <IDString, ImageFileType *>  _suffixTypeMap;
 
     static Bool addImageFileType (ImageFileType &fileType);
+    
+    PathHandler* _pPathHandler;
 
 };
 

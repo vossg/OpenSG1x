@@ -384,7 +384,8 @@ OSGLoader::OSGLoader(void) :
     _pCurrentField(NULL),
     _fcStack      (),
     _fStack       (),
-    _fdStack      ()
+    _fdStack      (),
+    _pathHandler  ()
 {
     setReferenceHeader("#OSG V1.0 ");
     initFieldTypeMapper();
@@ -398,6 +399,50 @@ OSGLoader::~OSGLoader(void)
 }
 
 /*------------------------------ access -----------------------------------*/
+
+void OSGLoader::scanFile(const Char8  *szFilename,
+                               UInt32  uiOptions)
+{
+    if( szFilename != NULL )
+    {
+        PathHandler *oldPathHandler = ImageFileHandler::the().getPathHandler();
+       
+        _pathHandler.clearPathList();
+        _pathHandler.clearBaseFile();
+        _pathHandler.push_frontCurrentDir();
+        _pathHandler.setBaseFile(szFilename);
+        
+        ImageFileHandler::the().setPathHandler(&_pathHandler);
+        
+        Inherited::scanFile(szFilename, uiOptions);
+        
+        ImageFileHandler::the().setPathHandler(oldPathHandler);
+    }
+}
+
+
+void OSGLoader::scanFile(const Char8   *szFilename, 
+                               UInt32  uiAddOptions, 
+                               UInt32  uiSubOptions)
+{
+    if( szFilename != NULL )
+    {
+        PathHandler *oldPathHandler = ImageFileHandler::the().getPathHandler();
+       
+        _pathHandler.clearPathList();
+        _pathHandler.clearBaseFile();
+        _pathHandler.push_frontCurrentDir();
+        _pathHandler.setBaseFile(szFilename);
+        
+        ImageFileHandler::the().setPathHandler(&_pathHandler);
+        
+        Inherited::scanFile(szFilename, uiAddOptions, uiSubOptions);
+        
+        ImageFileHandler::the().setPathHandler(oldPathHandler);
+    }
+}
+    
+
 
 void OSGLoader::beginNode(const Char8 *szNodeTypename,
                           const Char8 *szNodename)

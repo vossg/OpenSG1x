@@ -50,6 +50,7 @@
 #include <OSGNodePtr.h>
 #include <OSGField.h>
 #include <OSGFieldContainer.h>
+#include <OSGPathHandler.h>
 
 #include <stack>
 #include <map>
@@ -90,24 +91,31 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
     /*! \name                Skel replacements                             */
     /*! \{                                                                 */
 
-    virtual void    beginNode         (const Char8 *szNodeTypename,
-                                       const Char8 *szNodename    );
+    virtual void    scanFile          (const Char8   *szFilename, 
+                                             UInt32   uiReplaceOptions);
+
+    virtual void    scanFile          (const Char8   *szFilename, 
+                                             UInt32  uiAddOptions, 
+                                             UInt32  uiSubOptions     );
+                                         
+    virtual void    beginNode         (const Char8  *szNodeTypename,
+                                       const Char8  *szNodename       );
     
     virtual void    endNode           (void);
 
-    virtual void    use               (const Char8 *szName        );
+    virtual void    use               (const Char8  *szName           );
 
     virtual void    beginField        (const Char8  *szFieldname,
-                                       const UInt32  uiFieldTypeId);
+                                       const UInt32  uiFieldTypeId    );
 
-    virtual void    endField          (void);
+    virtual void    endField          (void                           );
 
-    virtual void    addFieldValue     (const Char8 *szFieldVal    );
+    virtual void    addFieldValue     (const Char8  *szFieldVal       );
 
-    virtual Int32   mapExtIntFieldType(const Char8 *szFieldname,
-                                       const Int32  iFieldTypeId  );
+    virtual Int32   mapExtIntFieldType(const Char8  *szFieldname,
+                                       const Int32   iFieldTypeId     );
 
-    virtual UInt32  getFieldType      (const Char8 *szFieldname   );
+    virtual UInt32  getFieldType      (const Char8  *szFieldname      );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -136,6 +144,8 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
           stack<      FieldContainerPtr >  _fcStack;
           stack<      Field            *>  _fStack;
           stack<const FieldDescription *>  _fdStack;
+          
+          PathHandler                      _pathHandler;
 
 
     void              initFieldTypeMapper   (      void                      );

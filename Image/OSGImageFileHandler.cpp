@@ -45,6 +45,7 @@
 
 #include <OSGLog.h>
 #include <OSGBaseTypes.h>
+#include <OSGPathHandler.h>
 
 #include "OSGImageFileHandler.h"
 
@@ -241,13 +242,24 @@ Bool ImageFileHandler::read(Image &image, const char *fileName,
                             const char *mimeType)
 {
     Bool            retCode = false;
-    ImageFileType   *type = getFileType(mimeType, fileName);
+    string          fullFilePath;
+    
+    if( _pPathHandler != NULL )
+    {
+        fullFilePath = _pPathHandler->findFile(fileName);
+    }
+    else
+    {
+        fullFilePath = fileName;
+    }
+    
+    ImageFileType   *type = getFileType(mimeType, fullFilePath.c_str());
 
     if(type)
     {
-        SINFO << "try to read " << fileName << " as " 
+        SINFO << "try to read " << fullFilePath << " as " 
               << type->getMimeType() << endl;
-        retCode = type->read(image, fileName);
+        retCode = type->read(image, fullFilePath.c_str());
         if(retCode)
         {
             SINFO << "image: " << image.getWidth() << "x" 
@@ -255,12 +267,12 @@ Bool ImageFileHandler::read(Image &image, const char *fileName,
         }
         else
         {
-            SWARNING << "could not read " << fileName << endl;
+            SWARNING << "could not read " << fullFilePath << endl;
         }
     }
     else
     {
-        SWARNING << "could not read " << fileName
+        SWARNING << "could not read " << fullFilePath
                  << "; unknown image format" << endl;
     }
 
@@ -328,6 +340,17 @@ Bool ImageFileHandler::write(const Image &image, const char *fileName,
 //s:
 //
 //------------------------------
+
+PathHandler* ImageFileHandler::getPathHandler(void)
+{
+    return _pPathHandler;
+}
+
+void ImageFileHandler::setPathHandler(PathHandler *pPathHandler)
+{
+    _pPathHandler = pPathHandler;
+}
+
 UInt64 ImageFileHandler::restore(Image &image, const UChar8 *buffer,
                                  UInt32 memSize)
 {
@@ -528,6 +551,7 @@ Bool ImageFileHandler::addImageFileType(ImageFileType &fileType)
 //------------------------------
 ImageFileHandler::ImageFileHandler(void)
 {
+    _pPathHandler = NULL;
     return;
 }
 
