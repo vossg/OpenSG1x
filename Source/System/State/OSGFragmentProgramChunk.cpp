@@ -94,12 +94,12 @@ void FragmentProgramChunk::initMethod (void)
 FragmentProgramChunk::FragmentProgramChunk(void) :
     Inherited()
 {
+    _arbFragmentProgram = Window::registerExtension("GL_ARB_fragment_program");
 }
 
 FragmentProgramChunk::FragmentProgramChunk(const FragmentProgramChunk &source) :
     Inherited(source)
 {
-    _arbFragmentProgram = Window::registerExtension("GL_ARB_fragment_program");
 }
 
 FragmentProgramChunk::~FragmentProgramChunk(void)

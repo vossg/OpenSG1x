@@ -94,12 +94,12 @@ void VertexProgramChunk::initMethod (void)
 VertexProgramChunk::VertexProgramChunk(void) :
     Inherited()
 {
+    _arbVertexProgram = Window::registerExtension("GL_ARB_vertex_program");
 }
 
 VertexProgramChunk::VertexProgramChunk(const VertexProgramChunk &source) :
     Inherited(source)
 {
-    _arbVertexProgram = Window::registerExtension("GL_ARB_vertex_program");
 }
 
 VertexProgramChunk::~VertexProgramChunk(void)

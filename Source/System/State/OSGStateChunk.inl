@@ -64,5 +64,11 @@ const StateChunkClass *StateChunk::getStaticClass(void)
     return NULL;
 }
 
+inline
+UInt32 StateChunkClass::getUsedSlots(void)
+{
+    return StateChunkClass::_numslots->size();
+}
+
 OSG_END_NAMESPACE
 
