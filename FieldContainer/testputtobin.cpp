@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <OSGContainerFieldDataType.h>
 #include <OSGVecFieldDataType.h>
+#include <OSGSysFieldDataType.h>
+
 #include <OSGGroup.h>
 
 void main(void)
@@ -11,4 +13,6 @@ void main(void)
     OSG::FieldDataTraits<OSG::FieldContainerPtr>::putToBin();
     OSG::FieldDataTraits<OSG::GroupPtr>::putToBin();
     OSG::FieldDataTraits<OSG::Vec3f>::putToBin();
+
+    OSG::FieldDataTraits<OSG::Real32>::putToBin();
 }
