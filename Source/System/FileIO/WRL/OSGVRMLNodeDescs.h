@@ -113,6 +113,7 @@ OSG_ABSTR_FC_DLLEXPORT_DECL(DynFieldAttachment,
                             GenericAttDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
+#endif
 
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
