@@ -242,6 +242,7 @@ void StreamSockConnection::writeBuffer(void)
 std::string StreamSockConnection::bind(const std::string &address)
 {
     char        localhost   [256];
+    char        localdomain [256];
     char        boundAddress[270];
     std::string host;
     UInt32      port = 0;
@@ -255,9 +256,15 @@ std::string StreamSockConnection::bind(const std::string &address)
     _acceptSocket.bind(SocketAddress(SocketAddress::ANY,port));
     _acceptSocket.listen();
     gethostname(localhost,255);
-    sprintf(boundAddress,"%s:%5d",
-            localhost,
-            _acceptSocket.getAddress().getPort());
+    if(getdomainname(localdomain,255)<0)
+        sprintf(boundAddress,"%s:%5d",
+                localhost,
+                _acceptSocket.getAddress().getPort());
+    else
+        sprintf(boundAddress,"%s.%s:%5d",
+                localhost,
+                localdomain,
+                _acceptSocket.getAddress().getPort());
     return boundAddress;
 }
 
