@@ -59,7 +59,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.13 2002/02/05 20:39:34 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.14 2002/06/29 15:23:03 jbehr Exp $";
     static Char8 cvsid_hpp[] = OSGQGLMANAGEDWIDGET_HEADER_CVSID;
 }
 
@@ -317,6 +317,25 @@ void OSGQGLManagedWidget::mouseMoveEvent ( QMouseEvent *me )
   
   _manager->mouseMove ( me->pos().x(), me->pos().y());
   
+  paintGL();
+}
+
+//----------------------------------------------------------------------
+// Method: mouseMoveEvent
+//----------------------------------------------------------------------
+void OSGQGLManagedWidget::wheelEvent ( QWheelEvent* we)
+{
+  int button;
+
+  FDEBUG (("OSGQGLManagedWidget::wheelEvent()\n"));
+
+  if (we->delta() > 0)
+    button = SimpleSceneManager::MouseUp;
+  else
+    button = SimpleSceneManager::MouseDown;
+
+  _manager->mouseButtonPress ( button, we->x(), we->y() );
+
   paintGL();
 }
 

@@ -122,6 +122,7 @@ class OSG_WINDOWQTLIB_DLLMAPPING OSGQGLManagedWidget : public OSGQGLWidget
     virtual void mousePressEvent ( QMouseEvent* );
     virtual void mouseReleaseEvent ( QMouseEvent* );
     virtual void mouseMoveEvent ( QMouseEvent* );
+    virtual void wheelEvent ( QWheelEvent* );
     virtual void keyPressEvent ( QKeyEvent* );
     virtual void closeEvent ( QCloseEvent * );
 
@@ -148,6 +149,6 @@ typedef OSGQGLManagedWidget *OSGQGLManagedWidgetP;
 
 OSG_END_NAMESPACE
 
-#define OSGQGLMANAGEDWIDGET_HEADER_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.7 2002/02/05 20:39:34 dirk Exp $"
+#define OSGQGLMANAGEDWIDGET_HEADER_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.8 2002/06/29 15:23:03 jbehr Exp $"
 
 #endif /* _OSGQGLManagedWidget_H_ */
