@@ -431,7 +431,7 @@ ThreadManager::ThreadManager(void) :
 
     _storePLock    (NULL)
 {
-#if defined(_OSG_USE_SPROC_)
+#if defined(OSG_USE_SPROC)
     _pArena = NULL;
 #endif
 }
