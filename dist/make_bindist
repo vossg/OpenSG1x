@@ -225,6 +225,7 @@ echo "Dist" $distname
 
 # Add QT to PATH for moc and uic
 export PATH=$qt_dir/bin:$PATH
+export LD_LIBRARY_PATH=$qt_dir/lib:$LD_LIBRARY_PATH
 
 # configure it
 
