@@ -123,6 +123,15 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name              Get Container C++ Pointer                       */
+    /*                 be sure you know what you are doing ;-)             */
+    /*! \{                                                                 */
+
+    FieldContainer *getBaseCPtr  (void             ) const;
+    FieldContainer *getAspectCPtr(UInt32 uiAspectId) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                    Assignment                                */
     /*! \{                                                                 */
 

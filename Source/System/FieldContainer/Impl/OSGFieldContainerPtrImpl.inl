@@ -212,11 +212,22 @@ UInt32 FieldContainerPtrBase::getFieldContainerId(void) const
 }
 
 inline
-UInt16  FieldContainerPtrBase::getContainerSize(void) const
+UInt16 FieldContainerPtrBase::getContainerSize(void) const
 {
     return _containerSize;
 }
 
+inline
+FieldContainer *FieldContainerPtrBase::getBaseCPtr(void) const
+{
+    return reinterpret_cast<FieldContainer *>(getFirstElemP());
+}
+
+inline
+FieldContainer *FieldContainerPtrBase::getAspectCPtr(UInt32 uiAspectId) const
+{
+    return reinterpret_cast<FieldContainer *>(getElemP(uiAspectId));
+}
 /*-------------------------------------------------------------------------*/
 /*                             Assignment                                  */
 
